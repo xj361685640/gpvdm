@@ -1,9 +1,9 @@
-#    Organic Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
-#    model for organic solar cells. 
+#    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
+#    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie
 #
 #	roderick.mackenzie@nottingham.ac.uk
-#	www.opvdm.com
+#	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -18,6 +18,7 @@
 #    You should have received a copy of the GNU General Public License along
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
 
 
 import gc
@@ -68,7 +69,7 @@ def tree_save_flat_list(sim_dir,flat_list):
 	return config
 
 def tree_load_program(program_list,sim_dir):
-	file_name=os.path.join(sim_dir,'opvdm_gui_config.inp')
+	file_name=os.path.join(sim_dir,'gpvdm_gui_config.inp')
 
 	if os.path.isfile(file_name)==True:
 		f=open(file_name)
@@ -193,7 +194,7 @@ def copy_simulation(base_dir,cur_dir):
 	for inpfile in f_list:
 		shutil.copy(inpfile, cur_dir)
 
-	shutil.copy(os.path.join(base_dir, "sim.opvdm"), cur_dir)
+	shutil.copy(os.path.join(base_dir, "sim.gpvdm"), cur_dir)
 
 def tree(flat_simulation_list,program_list,tree_items,base_dir,level,path,var_to_change,value_to_change):
 		param_list=scan_items_get_list()
@@ -217,7 +218,7 @@ def tree(flat_simulation_list,program_list,tree_items,base_dir,level,path,var_to
 				new_values=pass_value_to_change.split()
 				pos=pass_var_to_change.split()
 				
-				config_file=os.path.join(cur_dir,"sim.opvdm")
+				config_file=os.path.join(cur_dir,"sim.gpvdm")
 				if os.path.isfile(config_file)==False:	#Don't build a simulation over something that exists already
 					copy_simulation(base_dir,cur_dir)
 

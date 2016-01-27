@@ -1,9 +1,9 @@
-#    Organic Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
-#    model for organic solar cells. 
+#    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
+#    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie
 #
 #	roderick.mackenzie@nottingham.ac.uk
-#	www.opvdm.com
+#	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -18,6 +18,7 @@
 #    You should have received a copy of the GNU General Public License along
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
 
 
 import pygtk
@@ -38,7 +39,7 @@ import multiprocessing
 import time
 import glob
 from window_list import windows
-from util import opvdm_delete_file
+from util import gpvdm_delete_file
 from util import delete_second_level_link_tree
 from util import copy_scan_dir
 from search import return_file_list
@@ -120,7 +121,7 @@ class scan_class(gtk.Window):
 		return True
 
 	def callback_help(self, widget, data=None):
-		webbrowser.open('http://www.opvdm.com/man/index.html')
+		webbrowser.open('http://www.gpvdm.com/man/index.html')
 
 	def callback_add_page(self, widget, data=None):
 		new_sim_name=dlg_get_text( _("New simulation name:"), _("Simulation ")+str(self.number_of_tabs+1))
@@ -411,7 +412,7 @@ class scan_class(gtk.Window):
 			dir_name=os.path.dirname(results[i])
 			if os.path.isdir(dir_name):
 				print "delete:",dir_name
-				#opvdm_delete_file(dir_name)
+				#gpvdm_delete_file(dir_name)
 
 	def callback_wol(self, widget, data):
 		self.myserver.wake_nodes()
@@ -440,7 +441,7 @@ class scan_class(gtk.Window):
 		self.tooltips = gtk.Tooltips()
 
 		self.set_border_width(2)
-		self.set_title(_("Parameter scan - opvdm"))
+		self.set_title(_("Parameter scan - gpvdm"))
 
 		n=0
 

@@ -1,5 +1,5 @@
-//    Organic Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
-//    model for organic solar cells. 
+//    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
+//    model for 1st, 2nd and 3rd generation solar cells.
 //    Copyright (C) 2012 Roderick C. I. MacKenzie
 //
 //      roderick.mackenzie@nottingham.ac.uk
@@ -68,6 +68,8 @@ void exp_cal_emission(int number, struct device *in)
 	double pl_th_fe = 0.0;
 	double pl_ft_th = 0.0;
 	int pl_enabled = 0;
+	char snapshot_dir[200];
+	char sim_name[200];
 
 	double Vexternal = get_equiv_V(in);
 //char zip_file_name[400];
@@ -144,7 +146,11 @@ void exp_cal_emission(int number, struct device *in)
 	inter_mul(&fh_to_th, in->ylen / ((double)in->ymeshpoints));
 
 	sprintf(temp, "%d", number);
-	join_path(3, out_dir, in->outputpath, "snapshots", temp);
+
+	strextract_name(sim_name, in->simmode);
+	sprintf(snapshot_dir, "snapshots_%s", sim_name);
+
+	join_path(3, out_dir, in->outputpath, snapshot_dir, temp);
 
 //inter_dump(&fe_to_fh);
 //inter_sort(&fe_to_fh);

@@ -1,9 +1,9 @@
-#    Organic Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
-#    model for organic solar cells. 
+#    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
+#    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie
 #
 #	roderick.mackenzie@nottingham.ac.uk
-#	www.opvdm.com
+#	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -19,6 +19,7 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+
 import sys
 import os
 import glob
@@ -29,8 +30,8 @@ from gui_util import process_events
 from cal_path import remove_cwdfrompath
 
 def export_archive(target,everything):
-	if target.endswith(".opvdm")==False:
-		target=target+".opvdm"
+	if target.endswith(".gpvdm")==False:
+		target=target+".gpvdm"
 
 	file_list=[]
 
@@ -68,7 +69,7 @@ def export_archive(target,everything):
 			progress_window.set_text("Adding"+cur_file[len(os.getcwd()):])
 			process_events()
 
-	src_zf = zipfile.ZipFile(os.path.join(os.getcwd(),"sim.opvdm"), 'r')
+	src_zf = zipfile.ZipFile(os.path.join(os.getcwd(),"sim.gpvdm"), 'r')
 
 	for file_name in src_zf.namelist():
 		if file_name not in zf.namelist():

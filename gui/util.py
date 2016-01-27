@@ -1,9 +1,9 @@
-#    Organic Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
-#    model for organic solar cells. 
+#    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
+#    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie
 #
 #	roderick.mackenzie@nottingham.ac.uk
-#	www.opvdm.com
+#	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -113,11 +113,11 @@ def delete_second_level_link_tree(path):
 		full_name=os.path.join(path,filename)
 		if os.path.isdir(full_name):
 			print "Deleteing",full_name
-			opvdm_delete_file(full_name)
+			gpvdm_delete_file(full_name)
 
-	opvdm_delete_file(path)
+	gpvdm_delete_file(path)
 
-def opvdm_delete_file(path):
+def gpvdm_delete_file(path):
 	if os.path.islink(path):
 		real_path=os.path.realpath(path)
 		print "Deleting link:",path
@@ -272,7 +272,7 @@ def pango_to_gnuplot(data):
 	data.replace("<sub>", "_{")
 	data.replace("</sub>", "}")
 
-def opvdm_copy_src(new_dir):
+def gpvdm_copy_src(new_dir):
 	pwd=os.getcwd()
 	file_list=glob.glob(os.path.join(pwd,"*"))
 
@@ -280,7 +280,7 @@ def opvdm_copy_src(new_dir):
 		os.makedirs(new_dir)
 	print file_list
 	for name in file_list:
-		gui_file_name=os.path.join(name,"opvdm_gui_config.inp")
+		gui_file_name=os.path.join(name,"gpvdm_gui_config.inp")
 		
 		if os.path.isfile(gui_file_name)==False:
 			fname=os.path.basename(name)
@@ -293,29 +293,6 @@ def opvdm_copy_src(new_dir):
 		else:
 			print "I will not copy",name
 
-
-
-
-
-def opvdm_clone():
-	src=get_inp_file_path()
-	source = os.listdir(src)
-	pwd=os.getcwd()
-	destination=pwd
-	for files in source:
-		if files.endswith(".inp"):
-			print "copying",files,destination
-			shutil.copy(os.path.join(src,files),destination)
-
-	shutil.copy(os.path.join(src,"sim.opvdm"),destination)
-
-	if os.path.isdir(os.path.join(src,"plot")):
-		shutil.copytree(os.path.join(src,"plot"), os.path.join(pwd,"plot"))
-
-	if os.path.isdir(os.path.join(src,"exp")):
-		shutil.copytree(os.path.join(src,"exp"), os.path.join(pwd,"exp"))
-
-	shutil.copytree(os.path.join(src,"materials"), os.path.join(pwd,"materials"))
 
 
 def strextract_interger(val):

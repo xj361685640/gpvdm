@@ -1,9 +1,9 @@
-#    Organic Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
-#    model for organic solar cells. 
+#    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
+#    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie
 #
 #	roderick.mackenzie@nottingham.ac.uk
-#	www.opvdm.com
+#	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -25,8 +25,9 @@ import os
 from cal_path import find_data_file
 from cal_path import get_share_path
 from cal_path import get_bin_path
-
 from inp import inp_load_file
+from inp import inp_update
+from util_zip import read_lines_from_archive
 
 global core
 global gui
@@ -74,8 +75,42 @@ def ver_load_info():
 		mat=lines[5]
 		return True
 	else:
-		ver_error="I can not find the file sim.opvdm/ver.inp.\n\nI have tried looking in "+find_data_file("ver.inp")+"\n\nThe share path is"+get_share_path()+"\n\nThe bin path is"+get_bin_path()+"\n\nThe current working dir is "+os.getcwd()+"\n\nTry reinstalling a new version of opvdm and/or report the bug to me at  roderick.mackenzie@nottingham.ac.uk."
+		ver_error="I can not find the file sim.gpvdm/ver.inp.\n\nI have tried looking in "+find_data_file("ver.inp")+"\n\nThe share path is"+get_share_path()+"\n\nThe bin path is"+get_bin_path()+"\n\nThe current working dir is "+os.getcwd()+"\n\nTry reinstalling a new version of gpvdm and/or report the bug to me at  roderick.mackenzie@nottingham.ac.uk."
 		return False
 
+def ver_sync_ver():
+	file_name="version.h"
+	found=False
+
+	if os.path.isfile(file_name)==True:
+		f = open(file_name, "r")
+		lines = f.readlines()
+		f.close()
+		for l in range(0, len(lines)):
+			lines[l]=lines[l].rstrip()
+			if lines[l].startswith("#define")==True:
+				text=(lines[l].split("\t")[2].strip("\""))
+				found=True
+
+	if found==True:
+		inp_update("ver.inp","#core",text)
+	else:
+		print _("version.h not found")
+
+
+def ver_check_compatibility(file_name):
+	lines=[]
+	core=""
+	gui=""
+	mat=""
+
+	if read_lines_from_archive(lines,file_name,"ver.inp")==True:
+		core=lines[1]
+		if core==ver_core():
+			return True
+		else:
+			return False
+
+	return False
 
 

@@ -1,9 +1,9 @@
-#    Organic Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
-#    model for organic solar cells. 
+#    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
+#    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie
 #
 #	roderick.mackenzie@nottingham.ac.uk
-#	www.opvdm.com
+#	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -18,6 +18,7 @@
 #    You should have received a copy of the GNU General Public License along
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
 
 import pygtk
 pygtk.require('2.0')
@@ -40,11 +41,10 @@ import matplotlib.mlab as mlab
 from inp import inp_write_lines_to_file
 import webbrowser
 from util import fx_with_units
-from inp import inp_search_token_value
+from inp_util import inp_search_token_value
 from cal_path import get_image_file_path
 from scan_item import scan_remove_file
 from scan_item import scan_item_add
-from debug import debug_mode
 import i18n
 _ = i18n.language.gettext
 
@@ -256,7 +256,7 @@ class tab_fxmesh(gtk.VBox):
 		dialog.destroy()
 
 	def callback_help(self, widget, data=None):
-		webbrowser.open('http://www.opvdm.com/man/index.html')
+		webbrowser.open('http://www.gpvdm.com/man/index.html')
 
 	def create_model(self):
 		store = gtk.ListStore(str, str, str)

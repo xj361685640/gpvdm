@@ -1,9 +1,9 @@
-#    Organic Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
-#    model for organic solar cells. 
+#    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
+#    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie
 #
 #	roderick.mackenzie@nottingham.ac.uk
-#	www.opvdm.com
+#	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -18,6 +18,7 @@
 #    You should have received a copy of the GNU General Public License along
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
 
 import pygtk
 pygtk.require('2.0')
@@ -40,11 +41,11 @@ import matplotlib.mlab as mlab
 from inp import inp_write_lines_to_file
 import webbrowser
 from util import time_with_units
-from inp import inp_search_token_value
+from inp_util import inp_search_token_value
 from cal_path import get_image_file_path
 from scan_item import scan_remove_file
 from scan_item import scan_item_add
-from debug import debug_mode
+from debug import advanced_features
 import i18n
 _ = i18n.language.gettext
 
@@ -290,7 +291,7 @@ class tab_time_mesh(gtk.VBox):
 		#ax2.set_ylabel('Energy (eV)')
 
 		sun, = self.ax2.plot(time,self.sun, 'go-', linewidth=3 ,alpha=1.0)
-		if debug_mode()==True:
+		if advanced_features()==True:
 			laser, = self.ax2.plot(time,self.laser, 'bo-', linewidth=3 ,alpha=1.0)
 
 		fs_laser_enabled=False
@@ -307,7 +308,7 @@ class tab_time_mesh(gtk.VBox):
 				fs_laser_enabled=True
 				self.ax2.ticklabel_format(style='sci', axis='x', scilimits=(0,0))
 
-		if debug_mode()==True:
+		if advanced_features()==True:
 			if fs_laser_enabled==True:
 				self.fig.legend((voltage, sun, laser,fs_laser), (_("Voltage"), _("Sun"), _("CW laser"), _("fs laser")), 'upper right')
 			else:
@@ -351,7 +352,7 @@ class tab_time_mesh(gtk.VBox):
 		dialog.destroy()
 
 	def callback_help(self, widget, data=None):
-		webbrowser.open('http://www.opvdm.com/man/index.html')
+		webbrowser.open('http://www.gpvdm.com/man/index.html')
 
 	def create_model(self):
 		store = gtk.ListStore(str, str, str, str, str, str, str)
@@ -399,7 +400,7 @@ class tab_time_mesh(gtk.VBox):
 		column.set_sort_column_id(SEG_MUL)
 		treeview.append_column(column)
 
-		if debug_mode()==True:
+		if advanced_features()==True:
 			renderer = gtk.CellRendererText()
 			renderer.connect("edited", self.on_cell_edited_sun, model)
 			renderer.set_property('editable', True)
@@ -407,7 +408,7 @@ class tab_time_mesh(gtk.VBox):
 			column.set_sort_column_id(SEG_SUN)
 			treeview.append_column(column)
 
-		if debug_mode()==True:
+		if advanced_features()==True:
 			renderer = gtk.CellRendererText()
 			renderer.connect("edited", self.on_cell_edited_laser, model)
 			renderer.set_property('editable', True)
@@ -423,7 +424,7 @@ class tab_time_mesh(gtk.VBox):
 		self.list=[]
 
 		file_name="time_mesh_config"+str(self.index)+".inp"
-
+		print "loading",file_name
 		ret=inp_load_file(lines,file_name)
 		if ret==True:
 			if inp_search_token_value(lines, "#ver")=="1.1":
@@ -532,7 +533,7 @@ class tab_time_mesh(gtk.VBox):
 		gui_pos=0
 
 		self.list=[]
-
+		print "index=",index
 		self.load_data()
 		self.update_scan_tokens()
 

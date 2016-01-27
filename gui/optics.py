@@ -1,9 +1,9 @@
-#    Organic Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
-#    model for organic solar cells. 
+#    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
+#    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie
 #
 #	roderick.mackenzie@nottingham.ac.uk
-#	www.opvdm.com
+#	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -18,6 +18,7 @@
 #    You should have received a copy of the GNU General Public License along
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
 
 import pygtk
 pygtk.require('2.0')
@@ -52,7 +53,7 @@ from epitaxy import epitaxy_get_mat_file
 from epitaxy import epitaxy_get_electrical_layer
 from epitaxy import epitaxy_get_width
 from epitaxy import epitaxy_get_name
-from inp import inp_search_token_value
+from inp_util import inp_search_token_value
 from band_graph import band_graph
 
 def find_modes(path):
@@ -288,7 +289,7 @@ class class_optical(gtk.Window):
 		self.fig_photon_abs.draw_graph()
 
 		self.set_icon_from_file(os.path.join(get_image_file_path(),"image.jpg"))
-		self.set_title("Optical Model - (www.opvdm.com)")
+		self.set_title("Optical Model - (www.gpvdm.com)")
 		self.set_position(gtk.WIN_POS_CENTER)
 		self.progress_window.stop()
 
@@ -421,5 +422,5 @@ class class_optical(gtk.Window):
 		inp_update_token_value("optics.inp", "#sun", cb_text,1)
 
 	def callback_help(self, widget, data=None):
-		webbrowser.open('http://www.opvdm.com/man/index.html')
+		webbrowser.open('http://www.gpvdm.com/man/index.html')
 

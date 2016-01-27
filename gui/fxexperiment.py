@@ -1,9 +1,9 @@
-#    Organic Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
-#    model for organic solar cells. 
+#    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
+#    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie
 #
 #	roderick.mackenzie@nottingham.ac.uk
-#	www.opvdm.com
+#	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -18,6 +18,7 @@
 #    You should have received a copy of the GNU General Public License along
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
 
 
 import pygtk
@@ -52,6 +53,8 @@ from util import strextract_interger
 from global_objects import global_object_get
 from cal_path import get_image_file_path
 from global_objects import global_object_register
+from debug import advanced_features
+
 import i18n
 _ = i18n.language.gettext
 
@@ -73,7 +76,7 @@ class fxexperiment(gtk.Window):
 		item_factory = gtk.ItemFactory(gtk.MenuBar, "<main>", accel_group)
 
 		item_factory.create_items(self.menu_items)
-		if debug_mode()==False:
+		if advanced_features()==False:
 			item_factory.delete_item(_("/Advanced"))
 
 		window.add_accel_group(accel_group)
@@ -88,7 +91,7 @@ class fxexperiment(gtk.Window):
 		return True
 
 	def callback_help(self, widget, data=None):
-		webbrowser.open('http://www.opvdm.com/man/index.html')
+		webbrowser.open('http://www.gpvdm.com/man/index.html')
 
 	def callback_add_page(self, widget, data=None):
 		new_sim_name=dlg_get_text( _("New experiment name:"), _("experiment ")+str(len(self.notebook.get_children())+1))
@@ -177,7 +180,7 @@ class fxexperiment(gtk.Window):
 
 	def load_tabs(self):
 
-		file_list=zip_lsdir(os.path.join(os.getcwd(),"sim.opvdm"))
+		file_list=zip_lsdir(os.path.join(os.getcwd(),"sim.gpvdm"))
 		files=[]
 		for i in range(0,len(file_list)):
 			if file_list[i].startswith("fxdomain") and file_list[i].endswith(".inp"):
@@ -221,7 +224,7 @@ class fxexperiment(gtk.Window):
 		self.tooltips = gtk.Tooltips()
 
 		self.set_border_width(2)
-		self.set_title(_("Frequency domain experiment window - opvdm"))
+		self.set_title(_("Frequency domain experiment window - gpvdm"))
 
 		self.status_bar = gtk.Statusbar()      
 		self.status_bar.show()

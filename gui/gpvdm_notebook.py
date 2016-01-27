@@ -1,9 +1,9 @@
-#    Organic Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
-#    model for organic solar cells. 
+#    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
+#    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie
 #
 #	roderick.mackenzie@nottingham.ac.uk
-#	www.opvdm.com
+#	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -18,6 +18,7 @@
 #    You should have received a copy of the GNU General Public License along
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
 
 
 import os
@@ -48,7 +49,7 @@ from inp_description import inp_file_to_description
 import i18n
 _ = i18n.language.gettext
 
-class opvdm_notebook(gtk.Notebook):
+class gpvdm_notebook(gtk.Notebook):
 	progress=progress_class()
 	finished_loading=False
 	item_factory=None
@@ -130,7 +131,7 @@ class opvdm_notebook(gtk.Notebook):
 		self.clean_menu()
 		self.last_page=0
 		#print "paths",os.getcwd(),get_bin_path(),(os.path.normcase(os.getcwd())!=os.path.normcase(get_bin_path()))
-		if (os.path.exists("sim.opvdm")==True) and (os.path.normcase(os.getcwd())!=os.path.normcase(get_bin_path())):
+		if (os.path.exists("sim.gpvdm")==True) and (os.path.normcase(os.getcwd())!=os.path.normcase(get_bin_path())):
 			self.finished_loading=False
 			self.progress.init()
 			self.progress.show()

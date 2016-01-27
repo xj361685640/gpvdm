@@ -24,7 +24,7 @@ else
 endif
 
 llink=
-opt_normal+= -D disable_lock -D full_time_domain -D enable_fx
+opt_normal+= -D full_time_domain -D enable_fx
 #ifeq ($(wildcard secure.h),)
 #	opt_normal+= 
 #	llink=
@@ -36,7 +36,7 @@ opt_normal+= -D disable_lock -D full_time_domain -D enable_fx
 inc=
 link=
 
-ifeq ($(wildcard ~/.opvdm_hpc_flag),)
+ifeq ($(wildcard ~/.gpvdm_hpc_flag),)
 		ifndef windows
         inc+= `pkg-config --cflags dbus-1`
 		opt_normal+= -D dbus
@@ -81,31 +81,31 @@ install:
 	mkdir $(DESTDIR)/usr
 	mkdir $(DESTDIR)/usr/bin
 	mkdir $(DESTDIR)/usr/share
-	mkdir $(DESTDIR)/usr/share/opvdm
+	mkdir $(DESTDIR)/usr/share/gpvdm
 	mkdir $(DESTDIR)/usr/$(DEST_LIB)
-	mkdir $(DESTDIR)/usr/$(DEST_LIB)/opvdm
-	mkdir $(DESTDIR)/usr/$(DEST_LIB)/opvdm/light
+	mkdir $(DESTDIR)/usr/$(DEST_LIB)/gpvdm
+	mkdir $(DESTDIR)/usr/$(DEST_LIB)/gpvdm/light
 
-	cp sim.opvdm $(DESTDIR)/usr/share/opvdm/
-	cp README $(DESTDIR)/usr/share/opvdm/
-	cp ./light/*.so $(DESTDIR)/usr/$(DEST_LIB)/opvdm/light/
-	#cp ./exp $(DESTDIR)/usr/share/opvdm/ -r
-	cp plot $(DESTDIR)/usr/share/opvdm/ -rf
+	cp sim.gpvdm $(DESTDIR)/usr/share/gpvdm/
+	cp README $(DESTDIR)/usr/share/gpvdm/
+	cp ./light/*.so $(DESTDIR)/usr/$(DEST_LIB)/gpvdm/light/
+	#cp ./exp $(DESTDIR)/usr/share/gpvdm/ -r
+	cp plot $(DESTDIR)/usr/share/gpvdm/ -rf
 
-	cp go.o $(DESTDIR)/usr/bin/opvdm_core
+	cp go.o $(DESTDIR)/usr/bin/gpvdm_core
 
 
-	chmod 755 $(DESTDIR)/usr/bin/opvdm_core
-	chmod 0755 $(DESTDIR)/usr/share/opvdm/plot
-	chmod 0644 $(DESTDIR)/usr/share/opvdm/plot/*
+	chmod 755 $(DESTDIR)/usr/bin/gpvdm_core
+	chmod 0755 $(DESTDIR)/usr/share/gpvdm/plot
+	chmod 0644 $(DESTDIR)/usr/share/gpvdm/plot/*
 
-	#chmod 755 $(DESTDIR)/usr/share/opvdm/exp -R
+	#chmod 755 $(DESTDIR)/usr/share/gpvdm/exp -R
 
 	#now install the gui
 
 	mkdir $(DESTDIR)/usr/share/applications
-	mkdir $(DESTDIR)/usr/share/opvdm/gui
-	mkdir $(DESTDIR)/usr/share/opvdm/images
+	mkdir $(DESTDIR)/usr/share/gpvdm/gui
+	mkdir $(DESTDIR)/usr/share/gpvdm/images
 	mkdir $(DESTDIR)/usr/share/mime
 	mkdir $(DESTDIR)/usr/share/mime/packages 
 	mkdir $(DESTDIR)/usr/share/icons
@@ -113,40 +113,40 @@ install:
 	mkdir $(DESTDIR)/usr/share/icons/gnome/scalable
 	mkdir $(DESTDIR)/usr/share/icons/gnome/scalable/mimetypes
 
-	cp ./images/*.jpg $(DESTDIR)/usr/share/opvdm/images/
-	cp ./images/*.png $(DESTDIR)/usr/share/opvdm/images/
-	cp ./images/*.svg $(DESTDIR)/usr/share/opvdm/images/
-	cp ./gui/*.py $(DESTDIR)/usr/$(DEST_LIB)/opvdm/
-	cp ./gui/opvdm.desktop $(DESTDIR)/usr/share/applications/
-	cp ./gui/opvdm-opvdm.xml $(DESTDIR)/usr/share/mime/packages/
-	cp ./gui/application-opvdm.svg $(DESTDIR)/usr/share/icons/gnome/scalable/mimetypes/
+	cp ./images/*.jpg $(DESTDIR)/usr/share/gpvdm/images/
+	cp ./images/*.png $(DESTDIR)/usr/share/gpvdm/images/
+	cp ./images/*.svg $(DESTDIR)/usr/share/gpvdm/images/
+	cp ./gui/*.py $(DESTDIR)/usr/$(DEST_LIB)/gpvdm/
+	cp ./gui/gpvdm.desktop $(DESTDIR)/usr/share/applications/
+	cp ./gui/gpvdm-gpvdm.xml $(DESTDIR)/usr/share/mime/packages/
+	cp ./images/application-gpvdm.svg $(DESTDIR)/usr/share/icons/gnome/scalable/mimetypes/
 
-	cp ./lang $(DESTDIR)/usr/share/opvdm/ -rf
+	cp ./lang $(DESTDIR)/usr/share/gpvdm/ -rf
 
-	cp opvdm $(DESTDIR)/usr/bin/opvdm
+	cp gpvdm $(DESTDIR)/usr/bin/gpvdm
 
 	#man pages
 	mkdir $(DESTDIR)/usr/share/man
 	mkdir $(DESTDIR)/usr/share/man/man1
-	cp ./man_pages/opvdm.1.gz $(DESTDIR)/usr/share/man/man1/
-	cp ./man_pages/opvdm_core*.gz $(DESTDIR)/usr/share/man/man1/
+	cp ./man_pages/gpvdm.1.gz $(DESTDIR)/usr/share/man/man1/
+	cp ./man_pages/gpvdm_core*.gz $(DESTDIR)/usr/share/man/man1/
 
-	chmod 755 $(DESTDIR)/usr/bin/opvdm
+	chmod 755 $(DESTDIR)/usr/bin/gpvdm
 
-	chmod 0644 $(DESTDIR)/usr/share/opvdm/images/image.jpg
-	chmod 0644 $(DESTDIR)/usr/share/opvdm/images/icon.png
-	chmod 0644 $(DESTDIR)/usr/share/opvdm/*.opvdm
-	chmod 0644 $(DESTDIR)/usr/$(DEST_LIB)/opvdm/*.py
-	chmod 0644 $(DESTDIR)/usr/share/applications/opvdm.desktop
-	chmod 0644 $(DESTDIR)/usr/share/mime/packages/opvdm-opvdm.xml
-	chmod 0644 $(DESTDIR)/usr/share/icons/gnome/scalable/mimetypes/application-opvdm.svg
-	chmod 755 $(DESTDIR)/usr/$(DEST_LIB)/opvdm/opvdm.py
-	chmod 755 $(DESTDIR)/usr/$(DEST_LIB)/opvdm/opvdm_zip.py
+	chmod 0644 $(DESTDIR)/usr/share/gpvdm/images/image.jpg
+	chmod 0644 $(DESTDIR)/usr/share/gpvdm/images/icon.png
+	chmod 0644 $(DESTDIR)/usr/share/gpvdm/*.gpvdm
+	chmod 0644 $(DESTDIR)/usr/$(DEST_LIB)/gpvdm/*.py
+	chmod 0644 $(DESTDIR)/usr/share/applications/gpvdm.desktop
+	chmod 0644 $(DESTDIR)/usr/share/mime/packages/gpvdm-gpvdm.xml
+	chmod 0644 $(DESTDIR)/usr/share/icons/gnome/scalable/mimetypes/application-gpvdm.svg
+	chmod 755 $(DESTDIR)/usr/$(DEST_LIB)/gpvdm/gpvdm.py
+	chmod 755 $(DESTDIR)/usr/$(DEST_LIB)/gpvdm/gpvdm_zip.py
 
 	#material files
-	cp ./materials $(DESTDIR)/usr/share/opvdm/ -r
-	find $(DESTDIR)/usr/share/opvdm/materials -type f -exec chmod 644 {} +
-	#chmod 0644 $(DESTDIR)/usr/share/opvdm/materials -R
+	cp ./materials $(DESTDIR)/usr/share/gpvdm/ -r
+	find $(DESTDIR)/usr/share/gpvdm/materials -type f -exec chmod 644 {} +
+	#chmod 0644 $(DESTDIR)/usr/share/gpvdm/materials -R
 
 
 

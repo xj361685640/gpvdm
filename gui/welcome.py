@@ -1,9 +1,9 @@
-#    Organic Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
-#    model for organic solar cells. 
+#    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
+#    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie
 #
 #	roderick.mackenzie@nottingham.ac.uk
-#	www.opvdm.com
+#	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -58,7 +58,7 @@ os.environ['no_proxy'] = '127.0.0.1,localhost'
 linkRegex = re.compile('<a\s*href=[\'|"](.*?)[\'"].*?>')
 CRLF = "\r\n\r\n"
 
-#This is the welcome tab.  It sends a request to www.opvdm.com/update.php and then displays the text it fetches in the tab.  The idea of this is to tell people when updates are available.
+#This is the welcome tab.  It sends a request to www.gpvdm.com/update.php and then displays the text it fetches in the tab.  The idea of this is to tell people when updates are available.
 
 class web_thread(gtk.VBox):
 	def __init__(self):
@@ -87,7 +87,7 @@ class web_thread(gtk.VBox):
 			s = None
 
 		if s!=None:
-			s.send("GET http://www.opvdm.com/update.php?ver_core="+ver_core()+"&ver_gui="+ver_gui()+"&ver_mat="+ver_mat()+"&os="+platform.platform()+"&"+" HTTP/1.0" +CRLF)
+			s.send("GET http://www.gpvdm.com/update.php?ver_core="+ver_core()+"&ver_gui="+ver_gui()+"&ver_mat="+ver_mat()+"&os="+platform.platform()+"&"+" HTTP/1.0" +CRLF)
 			data = (s.recv(1000000))
 
 			s.shutdown(1)
@@ -97,7 +97,7 @@ class web_thread(gtk.VBox):
 			#self.emit("got-data")
 
 	def foo(self,n):
-		self.get_from_web('http://www.opvdm.com')
+		self.get_from_web('http://www.gpvdm.com')
 
 	def start(self):
 		p = Thread(target=self.foo, args=(10,))
@@ -126,7 +126,7 @@ class welcome_class(gtk.HBox,tab_base):
 		self.web=web_thread()
 		#self.web.connect("got-data", self.update)
 
-		self.text=_("<big><b>Organic photovoltaic device model</b>\n(<a href=\"http://www.opvdm.com\" title=\"Click to find out more\">www.opvdm.com</a>)\n\n To make a new simulation directory click <i>new</i> in the <i>file</i> menu\n or to open an existing simulation click on the <i>open</i> button.\n There is more help on the <a href=\"http://www.opvdm.com/man/index.html\">man pages</a>.  Please report bugs to\nroderick.mackenzie@nottingham.ac.uk.\n\n Rod\n18/10/13\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n\n\nChecking web for updates.....")
+		self.text=_("<big><b>General-purpose photovoltaic device model</b>\n(<a href=\"http://www.gpvdm.com\" title=\"Click to find out more\">www.gpvdm.com</a>)\n\n To make a new simulation directory click <i>new</i> in the <i>file</i> menu\n or to open an existing simulation click on the <i>open</i> button.\n There is more help on the <a href=\"http://www.gpvdm.com/man/index.html\">man pages</a>.  Please report bugs to\nroderick.mackenzie@nottingham.ac.uk.\n\n Rod\n18/10/13\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n\n\nChecking web for updates.....")
 		read_page=False
 
 
@@ -147,7 +147,7 @@ class welcome_class(gtk.HBox,tab_base):
 		#self.hide_all()
 
 	def help(self):
-		my_help_class.help_set_help(["icon.png",_("<big><b>Welcome to opvdm</b></big>\n The window will provide you with information about new versions and bugs in opvdm.")])
+		my_help_class.help_set_help(["icon.png",_("<big><b>Welcome to gpvdm</b></big>\n The window will provide you with information about new versions and bugs in gpvdm.")])
 
 gobject.type_register(web_thread)
 gobject.signal_new("got-data", web_thread, gobject.SIGNAL_RUN_FIRST,gobject.TYPE_NONE, ())

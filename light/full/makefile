@@ -25,8 +25,8 @@ interface.o: interface.c
 light.o: light.c
 	$(CC) $(lib_type) -c light.c -o light.o  $(inc) $(opt_normal)
 
-light_dll_fixup.o: ../../light_dll_fixup.c
-	$(CC) $(lib_type) -c ../../light_dll_fixup.c -o light_dll_fixup.o  $(inc) $(opt_normal)
+light_dll_fixup.o: light_dll_fixup.c
+	$(CC) $(lib_type) -c light_dll_fixup.c -o light_dll_fixup.o  $(inc) $(opt_normal)
 
 
 clean:

@@ -1,9 +1,9 @@
-#    Organic Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
-#    model for organic solar cells. 
+#    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
+#    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie
 #
 #	roderick.mackenzie@nottingham.ac.uk
-#	www.opvdm.com
+#	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -23,10 +23,10 @@
 import sys
 import os
 import shutil
-from util import opvdm_clone
+from clone import gpvdm_clone
 from export_as import export_as
 from import_archive import import_archive
-from util import opvdm_copy_src
+from util import gpvdm_copy_src
 import fnmatch
 import logging
 import time
@@ -48,83 +48,103 @@ from plot_io import plot_load_info
 from scan_plot import scan_gen_plot_data
 from server import server_find_simulations_to_run
 from clean_sim import clean_sim_dir
+from ver import ver_sync_ver
+
+import i18n
+_ = i18n.language.gettext
+
+def check_params(argv,token,values):
+	for i in range(0,len(argv)):
+			if argv[i]==token:
+				if (i+values)<len(argv):
+					return True
+				else:
+					print _("More parameters needed see --help for info")
+
+				sys.exit(0)
 
 def command_args(argc,argv):
 	if argc>=2:
 		if argv[1]=="--help":
-			print "Usage: opvdm [option] src_file dest_file"
-			print ""
-			print "Options:"
-			print "\t--version\tdisplays the current version"
-			print "\t--help\t\tdisplays the help"
-			print "\t--export\texport a simulation to a gz file"
-			print "\t--import\timport a simulation from a .opvdm file"
-			print "\t--patch\tpatch an .opvdm file with an older .opvdm file"
-			print "\t\t\tusage --import abc.opvdm ./path/to/output/ "
-			print "\t--clone\t\tgenerate a clean simulation in the current directory"
-			print "\t--clean\t\tcleans the current simulation directory deleting .dat files and scan dirs"
-			print "\t--dump-tab (output file)\t\tdumps simulation parameters as jpg"
-			print "\t--import-scandirs\t\tOnly imports the scan directories"
-			print "\t--clean-scandirs\t\tDeletes the content of all scan dirs"
-			print "\t--scan-plot\t\truns an oplot file"
-			print "\t\t\tusage --scan-plot /path/to/oplot/file.oplot "
-			print "\t--run-scan\t\truns a scan"
-			print "\t\t\tusage --run-scan /path/containing/base/files/ /path/to/scan/dir/ "
-
-			print ""
-			print "Additional information about opvdm is available at http://www.opvdm.com."
-			print ""
-			print "Report bugs to: roderick.mackenzie@nottingham.ac.uk"
+			print _("Usage: gpvdm [option] src_file dest_file")
+			print _("")
+			print _("Options:")
+			print _("\t--version\tdisplays the current version")
+			print _("\t--help\t\tdisplays the help")
+			print _("\t--export\texport a simulation to a gz file")
+			print _("\t--import\timport a simulation from a .gpvdm file")
+			print _("\t--patch\tpatch an .gpvdm file with an older .gpvdm file")
+			print _("\t\t\tusage --import abc.gpvdm ./path/to/output/ ")
+			print _("\t--clone\t\tgenerate a clean simulation in the current directory")
+			print _("\t--clean\t\tcleans the current simulation directory deleting .dat files and scan dirs")
+			print _("\t--dump-tab (output file)\t\tdumps simulation parameters as jpg")
+			print _("\t--import-scandirs\t\tOnly imports the scan directories")
+			print _("\t--clean-scandirs\t\tDeletes the content of all scan dirs")
+			print _("\t--scan-plot\t\truns an oplot file")
+			print _("\t\t\tusage --scan-plot /path/to/oplot/file.oplot ")
+			print _("\t--run-scan\t\truns a scan")
+			print _("\t\t\tusage --run-scan /path/containing/base/files/ /path/to/scan/dir/ ")
+			print _("\t--sync_ver\t\truns a scan")
+			print _("\t\t\tchanges the version of input file")
+			print _("")
+			print _("Additional information about gpvdm is available at http://www.gpvdm.com.")
+			print _("")
+			print _("Report bugs to: roderick.mackenzie@nottingham.ac.uk")
 			sys.exit(0)
-		if argv[1]=="--version":
+
+		if 	check_params(argv,"--version",0)==True:
 			print ver()
 			sys.exit(0)
-		if argv[1]=="--import-scandirs":
+		if check_params(argv,"--import-scandirs",1)==True:
 			import_scan_dirs(os.getcwd(),argv[2])
 			exit(0)
-		if argv[1]=="--export":
+		if check_params(argv,"--export",1)==True:
 			export_as(argv[2])
 			sys.exit(0)
-		if argv[1]=="--dump-tab":
+		if check_params(argv,"--dump-tab",1)==True:
 			export_as(argv[2])
 			sys.exit(0)
-		if argv[1]=="--import":
-			import_archive(argv[2],os.path.join(os.getcwd(),"sim.opvdm"),False)
+		if check_params(argv,"--import",1)==True:
+			import_archive(argv[2],os.path.join(os.getcwd(),"sim.gpvdm"),False)
 			sys.exit(0)
-		if argv[1]=="--patch":
+		if check_params(argv,"--patch",2)==True:
 			import_archive(argv[2],argv[3],True)
 			sys.exit(0)
-		if argv[1]=="--clone":
-			opvdm_clone()
+		if check_params(argv,"--clone",0)==True:
+			gpvdm_clone(os.getcwd(),True)
 			sys.exit(0)
-		if argv[1]=="--clone-src":
-			opvdm_copy_src(argv[2])
+		if check_params(argv,"--clone-src",1)==True:
+			gpvdm_copy_src(argv[2])
 			sys.exit(0)
 
-		if argv[1]=="--file_info":
+		if check_params(argv,"--file_info",0)==True:
 			data=plot_data()
 			data.dump_file()
 			sys.exit(0)
-		if argv[1]=="--clean":
+		if check_params(argv,"--clean",0)==True:
 			clean_sim_dir()
 			sys.exit(0)
-		if argv[1]=="--clean-scandirs":
+		if check_params(argv,"--clean-scandirs",0)==True:
 			clean_scan_dirs(os.getcwd())
 			sys.exit(0)
 
-		if argv[1]=="--server":
+		if check_params(argv,"--server",0)==True:
 			obj=udp_server()
 			obj.start()
 
-		if argv[1]=="--client":
+		if check_params(argv,"--client",0)==True:
 			client=udp_client()
 			client.init()
 
-		if argv[1]=="--make-man":
+		if check_params(argv,"--make-man",1)==True:
 			make_man()
 			sys.exit(0)
 
-		if argv[1]=="--run-scan":
+		if check_params(argv,"--sync-ver",0)==True:
+			ver_sync_ver()
+			sys.exit(0)
+
+		if check_params(argv,"--run-scan",2)==True:
 			scan_dir_path=argv[3]	#program file
 			program_list=[]
 			base_dir=argv[2]				#base dir
@@ -151,7 +171,8 @@ def command_args(argc,argv):
 			myserver.simple_run(exe_command)
 
 			sys.exit(0)
-		if argv[1]=="--scan-plot":
+
+		if check_params(argv,"--scan-plot",1)==True:
 			plot_token=plot_state()
 			oplot_file=argv[2]
 			if plot_load_info(plot_token,oplot_file)==True:

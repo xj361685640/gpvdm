@@ -1,9 +1,9 @@
-#    Organic Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
-#    model for organic solar cells. 
+#    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
+#    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie
 #
 #	roderick.mackenzie@nottingham.ac.uk
-#	www.opvdm.com
+#	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -31,11 +31,11 @@ from cal_path import get_image_file_path
 
 def about_dialog_show():
 	about = gtk.AboutDialog()
-	about.set_program_name("opvdm")
+	about.set_program_name("gpvdm")
 	about.set_version("")
 	about.set_copyright("Written by Roderick MacKenzie 2014, published under GPL v2.0")
 	about.set_comments(ver()+"\n"+notice())
-	about.set_website("http://www.opvdm.com")
+	about.set_website("http://www.gpvdm.com")
 
 	image=os.path.join(get_image_file_path(),"image.jpg")
 	about.set_logo(gtk.gdk.pixbuf_new_from_file(image))

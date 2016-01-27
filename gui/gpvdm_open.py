@@ -1,9 +1,9 @@
-#    Organic Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
-#    model for organic solar cells. 
+#    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
+#    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie
 #
 #	roderick.mackenzie@nottingham.ac.uk
-#	www.opvdm.com
+#	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -18,6 +18,7 @@
 #    You should have received a copy of the GNU General Public License along
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
 
 
 
@@ -37,14 +38,14 @@ COL_IS_DIRECTORY = 2
 import i18n
 _ = i18n.language.gettext
 
-class opvdm_open(gtk.Dialog): 
+class gpvdm_open(gtk.Dialog): 
 	show_inp_files=True
 	show_directories=True
 
 	def init(self,path):
 		self.file_path=""
 		self.set_default_response(gtk.RESPONSE_OK)
-		self.set_title(_("Open file - opvdm"))
+		self.set_title(_("Open file - gpvdm"))
 		self.set_flags(gtk.DIALOG_DESTROY_WITH_PARENT)
 		#self.add_buttons("OK",True,"Cancel",False)
 
@@ -139,7 +140,7 @@ class opvdm_open(gtk.Dialog):
 				if fl=="materials":
 					show_dir=False
 				
-				if os.path.isfile(os.path.join(file_name,"opvdm_gui_config.inp"))==True:
+				if os.path.isfile(os.path.join(file_name,"gpvdm_gui_config.inp"))==True:
 					show_dir=False
 
 				if show_dir==True:
@@ -152,7 +153,7 @@ class opvdm_open(gtk.Dialog):
 					f.close()
 					#print text
 					text=text.rstrip()
-					if text=="#opvdm":
+					if text=="#gpvdm":
 						self.store.append([fl, self.dat_icon, "dat"])
 
 				if (file_name.endswith(".inp")==True) and self.show_inp_files==True:

@@ -1,9 +1,9 @@
-#    Organic Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
-#    model for organic solar cells. 
+#    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
+#    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie
 #
 #	roderick.mackenzie@nottingham.ac.uk
-#	www.opvdm.com
+#	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -18,7 +18,6 @@
 #    You should have received a copy of the GNU General Public License along
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
 
 import sys
 import pygtk
@@ -35,122 +34,141 @@ import zipfile
 from util import copy_scan_dir
 from util import delete_second_level_link_tree
 from util_zip import read_lines_from_archive
-from inp import inp_search_token_value
-from inp import inp_merge
+from inp_util import inp_search_token_value
+from inp_util import inp_merge
 from util_zip import write_lines_to_archive
 import tempfile
 from util_zip import zip_lsdir
 from inp import inp_issequential_file
+from clone import gpvdm_clone
+from util_zip import zip_remove_file
+from util_zip import archive_copy_file
+from cal_path import get_inp_file_path
+from util_zip import archive_isfile
+from util_zip import archive_merge_file
+from util_zip import archive_get_file_ver
 
-def copy_check_ver(dest_archive,src_archive,file_name,only_over_write,clever):
-	if dest_archive==src_archive:
-		print "I can't opperate on the same .opvdm file"
-		return
-	#remove the dest file if both exist ready to copy
-	do_copy=True
-	src_ver=""
-	dest_ver=""
-	orig_exists=False
-	dest_exists=False
-	src_lines=[]
-	dest_lines=[]
+def update_simulaton_to_new_ver(file_name):
+	pre, ext = os.path.splitext(file_name)
+	back_file = pre + ".bak"
 
-	orig_exists=read_lines_from_archive(src_lines,src_archive,file_name)
 
-	if orig_exists==True:
-		src_ver=inp_search_token_value(src_lines, "#ver")
+	if os.path.isfile(back_file)==False:
+		os.rename(file_name, back_file)
+
+		dest_dir = os.path.dirname(file_name)
+
+		pre, ext = os.path.splitext(file_name)
+		dest_archive = pre + ".gpvdm"
+
+		gpvdm_clone(dest_dir,False)
+
+		merge_archives(back_file,dest_archive,False)
 	else:
-		print "Warning: ",src_archive,file_name," no origonal file to copy"
-		return
-
-	#read in the dest file where ever it may be
-	dest_exists=read_lines_from_archive(dest_lines,dest_archive,file_name)
-
-	if dest_exists==True:
-		dest_ver=inp_search_token_value(dest_lines, "#ver")
-
-		
-	#if we are only over writing only copy if dest file exists
-	if (only_over_write==True):
-		if dest_exists==True:
-			do_copy=True
-		else:
-			print "Warning: ", file_name," - only exists in the source"
-			do_copy=False
-			return
-
-	if dest_exists==True:
-		if src_ver!=dest_ver:
-			print "Warning: Verstion numbers do not match for files",dest_archive,src_archive,file_name
-			print "src_ver=",src_ver,"dest ver=",dest_ver
-
-			if clever==False:
-				print "Not copying that file you will have to deal that with by hand"
-				return
-
-	if clever==True and dest_exists==True:
-		errors=inp_merge(dest_lines,src_lines) 
-		if len(errors)!=0:
-			print "File ",file_name,errors
-	else:
-		dest_lines=src_lines
-
-	if (do_copy==True):
-		write_lines_to_archive(dest_archive,file_name,dest_lines)
+		print "Can't merge bak file already exists"
+	return True
 
 
-def import_archive(src_archive,dest_archive,only_over_write):
-	if src_archive.endswith('.opvdm')==False:
-		print "I can only import from .opvdm files"
-		return
+def remove_non_used_index_files(dest_archive,src_archive):
+	ls_dest=zip_lsdir(dest_archive)
+	ls_src=zip_lsdir(src_archive)
+	for my_file in ls_dest:
 
-	if dest_archive.endswith('.opvdm')==False:
-		print "I can only import to .opvdm files"
-		return
+		if my_file.endswith(".inp"):
+			if my_file.startswith("dos"):
+				if ls_src.count(my_file)==0:
+					zip_remove_file(dest_archive,my_file)
 
+			if my_file.startswith("pulse"):
+				if ls_src.count(my_file)==0:
+					zip_remove_file(dest_archive,my_file)
+
+			if my_file.startswith("pl"):
+				if ls_src.count(my_file)==0:
+					zip_remove_file(dest_archive,my_file)
+
+			if my_file.startswith("time_mesh_config"):
+				if ls_src.count(my_file)==0:
+					zip_remove_file(dest_archive,my_file)
+
+def merge_archives(src_archive,dest_archive,only_over_write):
 	src_dir=os.path.dirname(src_archive)
 	dest_dir=os.path.dirname(dest_archive)
-	files=[ "sim.inp", "device.inp", "stark.inp" ,"shg.inp"   ,"jv.inp" , "optics.inp", "math.inp",  "dump.inp" , "light.inp", "server.inp", "light_exp.inp" ]
+	template_archive=os.path.join(get_inp_file_path(),"sim.gpvdm")
 
-	for my_file in files:
-		print "Importing",my_file,"to",dest_archive
-		copy_check_ver(dest_archive,src_archive,my_file,only_over_write,True)
+	remove_non_used_index_files(dest_archive,src_archive)
 
-	files=["info.inp"]
+	files=[ "sim.inp", "device.inp", "stark.inp" ,"shg.inp"   ,"jv.inp" , "optics.inp", "math.inp",  "dump.inp" , "light.inp", "server.inp", "light_exp.inp","info.inp" ]
 
-	print src_archive
+	base_file=files[:]
+
 	ls=zip_lsdir(src_archive)
 	for i in range(0,len(ls)):
 		if inp_issequential_file(ls[i],"dos"):
 			files.append(ls[i])
+			base_file.append("dos0.inp")
 
 		if inp_issequential_file(ls[i],"pl"):
 			files.append(ls[i])
-
-		if inp_issequential_file(ls[i],"time_mesh_config"):
-			files.append(ls[i])
+			base_file.append("pl0.inp")
 
 		if inp_issequential_file(ls[i],"pulse"):
 			files.append(ls[i])
+			base_file.append("pulse0.inp")
 
-	for my_file in files:
-		print "Importing",my_file,"to",dest_archive
-		copy_check_ver(dest_archive,src_archive,my_file,False,True)
+
+	for i in range(0,len(files)):
+		print "Importing",files[i],"to",dest_archive
+		if only_over_write==False:
+			if archive_isfile(dest_archive,files[i])==False:
+				if archive_copy_file(dest_archive,files[i],template_archive,base_file[i])==False:
+					print "problem copying",template_archive,base_file[i]
+				print "made new file",dest_archive,files[i]
+
+		ret=archive_merge_file(dest_archive,src_archive,files[i])
+		print "merged",dest_archive,src_archive,files[i],ret
+
 
 	files=[ "epitaxy.inp", "fit.inp", "constraints.inp","duplicate.inp", "thermal.inp","mesh.inp" ]
+	base_file=files[:]
 
 	ls=zip_lsdir(src_archive)
 	for i in range(0,len(ls)):
 
+		if inp_issequential_file(ls[i],"time_mesh_config"):
+			files.append(ls[i])
+			base_file.append("time_mesh_config0.inp")
+
 		if inp_issequential_file(ls[i],"homo"):
 			files.append(ls[i])
+			base_file.append("homo0.inp")
 
 		if inp_issequential_file(ls[i],"lumo"):
 			files.append(ls[i])
+			base_file.append("lumo0.inp")
 
-	for my_file in files:
-		print "Importing",my_file
-		copy_check_ver(dest_archive,src_archive,my_file,only_over_write,False)
+	for i in range(0,len(files)):
+		print "Importing",files[i]
+		template_ver=archive_get_file_ver(template_archive,base_file[i])
+		src_ver=archive_get_file_ver(src_archive,files[i])
+		print template_ver,src_ver,template_ver==src_ver,template_archive,files[i],src_archive
+
+		if template_ver!="" and src_ver!="":
+			if template_ver==src_ver:
+				archive_copy_file(dest_archive,files[i],src_archive,files[i])
+				print "complex copy",dest_archive,files[i],src_archive,files[i]
+
+
+def import_archive(src_archive,dest_archive,only_over_write):
+	if src_archive.endswith('.gpvdm')==False:
+		print "I can only import from .gpvdm files"
+		return
+
+	if dest_archive.endswith('.gpvdm')==False:
+		print "I can only import to .gpvdm files"
+		return
+
+	merge_archives(src_archive,dest_archive,only_over_write)
 
 	import_scan_dirs(dest_dir,src_dir)
 

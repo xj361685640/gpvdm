@@ -1,5 +1,5 @@
-//    Organic Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
-//    model for organic solar cells. 
+//    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
+//    model for 1st, 2nd and 3rd generation solar cells.
 //    Copyright (C) 2012 Roderick C. I. MacKenzie
 //
 //      roderick.mackenzie@nottingham.ac.uk
@@ -1316,78 +1316,93 @@ void solver_realloc(struct device *in)
 			ewe("in->b - memory error\n");
 		}
 
-		dntrap = realloc(dntrap, in->srh_bands * sizeof(double));
-		if (dntrap == NULL) {
-			ewe("dntrap - memory error\n");
-		}
+		if (in->srh_bands > 0) {
+			dntrap =
+			    realloc(dntrap, in->srh_bands * sizeof(double));
+			if (dntrap == NULL) {
+				ewe("dntrap - memory error\n");
+			}
 
-		dntrapdntrap =
-		    realloc(dntrapdntrap, in->srh_bands * sizeof(double));
-		if (dntrapdntrap == NULL) {
-			ewe("dntrapdntrap - memory error\n");
-		}
+			dntrapdntrap =
+			    realloc(dntrapdntrap,
+				    in->srh_bands * sizeof(double));
+			if (dntrapdntrap == NULL) {
+				ewe("dntrapdntrap - memory error\n");
+			}
 
-		dntrapdn = realloc(dntrapdn, in->srh_bands * sizeof(double));
-		if (dntrapdn == NULL) {
-			ewe("dntrapdn - memory error\n");
-		}
+			dntrapdn =
+			    realloc(dntrapdn, in->srh_bands * sizeof(double));
+			if (dntrapdn == NULL) {
+				ewe("dntrapdn - memory error\n");
+			}
 
-		dntrapdp = realloc(dntrapdp, in->srh_bands * sizeof(double));
-		if (dntrapdp == NULL) {
-			ewe("dntrapdp - memory error\n");
-		}
+			dntrapdp =
+			    realloc(dntrapdp, in->srh_bands * sizeof(double));
+			if (dntrapdp == NULL) {
+				ewe("dntrapdp - memory error\n");
+			}
 
-		dJdtrapn = realloc(dJdtrapn, in->srh_bands * sizeof(double));
-		if (dJdtrapn == NULL) {
-			ewe("dJdtrapn - memory error\n");
-		}
+			dJdtrapn =
+			    realloc(dJdtrapn, in->srh_bands * sizeof(double));
+			if (dJdtrapn == NULL) {
+				ewe("dJdtrapn - memory error\n");
+			}
 
-		dJpdtrapn = realloc(dJpdtrapn, in->srh_bands * sizeof(double));
-		if (dJpdtrapn == NULL) {
-			ewe("dJpdtrapn - memory error\n");
-		}
+			dJpdtrapn =
+			    realloc(dJpdtrapn, in->srh_bands * sizeof(double));
+			if (dJpdtrapn == NULL) {
+				ewe("dJpdtrapn - memory error\n");
+			}
 
-		dphidntrap =
-		    realloc(dphidntrap, in->srh_bands * sizeof(double));
-		if (dphidntrap == NULL) {
-			ewe("dphidntrap - memory error\n");
-		}
+			dphidntrap =
+			    realloc(dphidntrap, in->srh_bands * sizeof(double));
+			if (dphidntrap == NULL) {
+				ewe("dphidntrap - memory error\n");
+			}
 
-		dptrapdp = realloc(dptrapdp, in->srh_bands * sizeof(double));
-		if (dptrapdp == NULL) {
-			ewe("dptrapdp - memory error\n");
-		}
+			dptrapdp =
+			    realloc(dptrapdp, in->srh_bands * sizeof(double));
+			if (dptrapdp == NULL) {
+				ewe("dptrapdp - memory error\n");
+			}
 
-		dptrapdptrap =
-		    realloc(dptrapdptrap, in->srh_bands * sizeof(double));
-		if (dptrapdptrap == NULL) {
-			ewe("dptrapdptrap - memory error\n");
-		}
+			dptrapdptrap =
+			    realloc(dptrapdptrap,
+				    in->srh_bands * sizeof(double));
+			if (dptrapdptrap == NULL) {
+				ewe("dptrapdptrap - memory error\n");
+			}
 
-		dptrap = realloc(dptrap, in->srh_bands * sizeof(double));
-		if (dptrap == NULL) {
-			ewe("dptrap - memory error\n");
-		}
+			dptrap =
+			    realloc(dptrap, in->srh_bands * sizeof(double));
+			if (dptrap == NULL) {
+				ewe("dptrap - memory error\n");
+			}
 
-		dptrapdn = realloc(dptrapdn, in->srh_bands * sizeof(double));
-		if (dptrapdn == NULL) {
-			ewe("dptrapdn - memory error\n");
-		}
+			dptrapdn =
+			    realloc(dptrapdn, in->srh_bands * sizeof(double));
+			if (dptrapdn == NULL) {
+				ewe("dptrapdn - memory error\n");
+			}
 
-		dJpdtrapp = realloc(dJpdtrapp, in->srh_bands * sizeof(double));
-		if (dJpdtrapp == NULL) {
-			ewe("dJpdtrapp - memory error\n");
-		}
+			dJpdtrapp =
+			    realloc(dJpdtrapp, in->srh_bands * sizeof(double));
+			if (dJpdtrapp == NULL) {
+				ewe("dJpdtrapp - memory error\n");
+			}
 
-		dJdtrapp = realloc(dJdtrapp, in->srh_bands * sizeof(double));
-		if (dJdtrapp == NULL) {
-			ewe("dJdtrapp - memory error\n");
-		}
+			dJdtrapp =
+			    realloc(dJdtrapp, in->srh_bands * sizeof(double));
+			if (dJdtrapp == NULL) {
+				ewe("dJdtrapp - memory error\n");
+			}
 
-		dphidptrap =
-		    realloc(dphidptrap, in->srh_bands * sizeof(double));
-		if (dphidptrap == NULL) {
-			ewe("dphidptrap - memory error\n");
+			dphidptrap =
+			    realloc(dphidptrap, in->srh_bands * sizeof(double));
+			if (dphidptrap == NULL) {
+				ewe("dphidptrap - memory error\n");
+			}
+
 		}
 
 	}
@@ -1396,44 +1411,47 @@ void solver_realloc(struct device *in)
 
 void solver_free_memory(struct device *in)
 {
+	if (in->srh_bands > 0) {
+		free(dntrap);
+		free(dntrapdntrap);
+		free(dntrapdn);
+		free(dntrapdp);
+		free(dJdtrapn);
+		free(dJpdtrapn);
+		free(dphidntrap);
+		free(dptrapdp);
+		free(dptrapdptrap);
+		free(dptrap);
+		free(dptrapdn);
+		free(dJpdtrapp);
+		free(dJdtrapp);
+		free(dphidptrap);
 
-	free(dntrap);
-	dntrap = NULL;
-	free(dntrapdntrap);
-	dntrapdntrap = NULL;
-	free(dntrapdn);
-	dntrapdn = NULL;
-	free(dntrapdp);
-	dntrapdp = NULL;
-	free(dJdtrapn);
-	dJdtrapn = NULL;
-	free(dJpdtrapn);
-	dJpdtrapn = NULL;
-	free(dphidntrap);
-	dphidntrap = NULL;
-
-	free(dptrapdp);
-	dptrapdp = NULL;
-	free(dptrapdptrap);
-	dptrapdptrap = NULL;
-	free(dptrap);
-	dptrap = NULL;
-	free(dptrapdn);
-	dptrapdn = NULL;
-	free(dJpdtrapp);
-	dJpdtrapp = NULL;
-	free(dJdtrapp);
-	dJdtrapp = NULL;
-	free(dphidptrap);
-	dphidptrap = NULL;
+	}
 
 	free(in->Ti);
-	in->Ti = NULL;
 	free(in->Tj);
-	in->Tj = NULL;
 	free(in->Tx);
-	in->Tx = NULL;
 	free(in->b);
+
+	dntrapdntrap = NULL;
+	dntrap = NULL;
+	dntrapdn = NULL;
+	dntrapdp = NULL;
+	dJdtrapn = NULL;
+	dJpdtrapn = NULL;
+	dphidntrap = NULL;
+	dptrapdp = NULL;
+	dptrapdptrap = NULL;
+	dptrap = NULL;
+	dptrapdn = NULL;
+	dJpdtrapp = NULL;
+	dJdtrapp = NULL;
+	dphidptrap = NULL;
+
+	in->Ti = NULL;
+	in->Tj = NULL;
+	in->Tx = NULL;
 	in->b = NULL;
 
 }

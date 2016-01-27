@@ -1,5 +1,5 @@
-//    Organic Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
-//    model for organic solar cells. 
+//    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
+//    model for 1st, 2nd and 3rd generation solar cells.
 //    Copyright (C) 2012 Roderick C. I. MacKenzie
 //
 //      roderick.mackenzie@nottingham.ac.uk
@@ -39,7 +39,7 @@ void log_clear()
 {
 	FILE *out;
 	out = fopen("log.dat", "w");
-	fprintf(out, "opvdm log file:\n");
+	fprintf(out, "gpvdm log file:\n");
 	fclose(out);
 }
 

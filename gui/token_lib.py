@@ -1,9 +1,9 @@
-#    Organic Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
-#    model for organic solar cells. 
+#    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
+#    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie
 #
 #	roderick.mackenzie@nottingham.ac.uk
-#	www.opvdm.com
+#	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -295,15 +295,9 @@ lib.append(my_data("#stark_subtracted_value","s","subtracted value",["text"],"e"
 lib.append(my_data("#light_energy","eV","Energy",["text"],"e",1.0))
 lib.append(my_data("#sim_id","au","sim id",["text"],"e",1.0))
 
-lib.append(my_data("#pulse_Vexternal","V","Bias voltage",["text"],"e",1.0))
-lib.append(my_data("#Rshort_pulse","Ohms","External short circuit",["text"],"e",1.0))
-lib.append(my_data("#pulse_light","au","Apply an optical pulse (1)\n or an electrical pulse (0)",["1","0"],"e",1.0))
-lib.append(my_data("#pulse_shift","s","Shift of TPC signal",["text"],"e",1.0))
-lib.append(my_data("#pulse_Vss","V","Magnitude of voltage pulse",["text"],"e",1.0))
 
-lib.append(my_data("#pulse_laser_on","s","Laser on time",["text"],"e",1.0))
-lib.append(my_data("#pulse_laser_width","s","Laser pulse width",["text"],"e",1.0))
-lib.append(my_data("#pulse_laser_power","Joules","Laser energy",["text"],"e",1.0))
+lib.append(my_data("#Rload","Ohms","External load resistor",["text"],"e",1.0))
+lib.append(my_data("#pulse_shift","s","Shift of TPC signal",["text"],"e",1.0))
 
 lib.append(my_data("#flip_field","au","Filp the opticl field",["text"],["1","0"],1.0))
 

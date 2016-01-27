@@ -1,9 +1,9 @@
-#    Organic Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
-#    model for organic solar cells. 
+#    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
+#    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie
 #
 #	roderick.mackenzie@nottingham.ac.uk
-#	www.opvdm.com
+#	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -18,6 +18,7 @@
 #    You should have received a copy of the GNU General Public License along
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
 
 import pygtk
 pygtk.require('2.0')
@@ -39,7 +40,7 @@ from electrical_mesh_editor import electrical_mesh_editor
 from inp import inp_load_file
 from inp import inp_sum_items
 from inp import inp_load_file
-from inp import inp_search_token_value
+from inp_util import inp_search_token_value
 from matplotlib.patches import Ellipse, PathPatch
 from epitaxy import epitaxy_get_dos_files
 
@@ -188,7 +189,7 @@ class tab_electrical_mesh(gtk.Window):
 		dialog.destroy()
 
 	def callback_help(self, widget, data=None):
-		webbrowser.open('http://www.opvdm.com/man/index.html')
+		webbrowser.open('http://www.gpvdm.com/man/index.html')
 
 	def init(self):
 		print "INIT!!"
@@ -282,7 +283,7 @@ class tab_electrical_mesh(gtk.Window):
 		window_main_vbox.add(self.hbox)
 
 		self.add(window_main_vbox)
-		self.set_title("Electrical Mesh Editor - (www.opvdm.com)")
+		self.set_title("Electrical Mesh Editor - (www.gpvdm.com)")
 		self.set_icon_from_file(os.path.join(get_image_file_path(),"mesh.png"))
 		self.connect("delete-event", self.callback_close)
 		self.set_position(gtk.WIN_POS_CENTER)

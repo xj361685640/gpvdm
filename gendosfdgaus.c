@@ -1,5 +1,5 @@
-//    Organic Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
-//    model for organic solar cells. 
+//    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
+//    model for 1st, 2nd and 3rd generation solar cells.
 //    Copyright (C) 2012 Roderick C. I. MacKenzie
 //
 //      roderick.mackenzie@nottingham.ac.uk
@@ -415,7 +415,12 @@ void gen_do(struct dosconfig *in, struct dosconfig *in2, char *outfile,
 	int i;
 	int band_pos = 0;
 	int cur_band = 0;
-	int points_per_band = in->Esteps / in->srh_bands;
+	int points_per_band = 0;
+
+	if (in->srh_bands > 0) {
+		points_per_band = in->Esteps / in->srh_bands;
+	}
+
 	double pos = in->srh_start;
 //printf("%d\n",points_per_band);
 //getchar();
@@ -1087,10 +1092,15 @@ void gen_dos_fd_gaus_n(int mat) {
 	 configh[mat].B = confige[mat].B;
 
 	int Esteps = 0;
-	 inp_search_int(&inp, &(Esteps), "#Esteps");
-	int Estep_div = (Esteps / bands) * bands;
-	if (Estep_div != Esteps) {
-		printf("Esteps wanted= %d, given= %d \n", Esteps, Estep_div);
+	int Estep_div = 0;
+
+	if (bands > 0) {
+		inp_search_int(&inp, &(Esteps), "#Esteps");
+		Estep_div = (Esteps / bands) * bands;
+		if (Estep_div != Esteps) {
+			printf("Esteps wanted= %d, given= %d \n", Esteps,
+			       Estep_div);
+		}
 	}
 
 	confige[mat].Esteps = Estep_div;

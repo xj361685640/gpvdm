@@ -1,9 +1,9 @@
-#    Organic Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
-#    model for organic solar cells. 
+#    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
+#    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie
 #
 #	roderick.mackenzie@nottingham.ac.uk
-#	www.opvdm.com
+#	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -18,6 +18,7 @@
 #    You should have received a copy of the GNU General Public License along
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
 
 import sys
 import os
@@ -43,10 +44,10 @@ def inp_issequential_file(data,search):
 		return False
 
 def inp_lsdir():
-	return zip_lsdir("sim.opvdm")
+	return zip_lsdir("sim.gpvdm")
 
 def inp_remove_file(file_name):
-	zip_remove_file("sim.opvdm",file_name)
+	zip_remove_file("sim.gpvdm",file_name)
 
 def inp_read_next_item(lines,pos):
 	token=lines[pos]
@@ -54,6 +55,9 @@ def inp_read_next_item(lines,pos):
 	value=lines[pos]
 	pos=pos+1
 	return token,value,pos
+
+def inp_update(file_path, token, replace):
+	inp_update_token_value(file_path, token, replace,1)
 
 def inp_update_token_value(file_path, token, replace,line_number):
 	lines=[]
@@ -68,7 +72,7 @@ def inp_update_token_value(file_path, token, replace,line_number):
 
 	path=os.path.dirname(file_path)
 
-	zip_file_name=os.path.join(path,"sim.opvdm")
+	zip_file_name=os.path.join(path,"sim.gpvdm")
 
 	read_lines_from_archive(lines,zip_file_name,os.path.basename(file_path))
 
@@ -98,7 +102,7 @@ def inp_update_token_value(file_path, token, replace,line_number):
 
 def inp_isfile(file_path):
 
-	zip_file_name=os.path.join(os.path.dirname(file_path),"sim.opvdm")
+	zip_file_name=os.path.join(os.path.dirname(file_path),"sim.gpvdm")
 	return archive_isfile(zip_file_name,os.path.basename(file_path))
 
 def inp_copy_file(dest,src):
@@ -110,12 +114,12 @@ def inp_copy_file(dest,src):
 		return False
 
 def inp_load_file(lines,file_path):
-	zip_file_path=os.path.join(os.path.dirname(file_path),"sim.opvdm")
+	zip_file_path=os.path.join(os.path.dirname(file_path),"sim.gpvdm")
 	file_name=os.path.basename(file_path)
 	return read_lines_from_archive(lines,zip_file_path,file_name)
 	
 def inp_write_lines_to_file(file_path,lines):
-	archive_path=os.path.join(os.path.dirname(file_path),"sim.opvdm")
+	archive_path=os.path.join(os.path.dirname(file_path),"sim.gpvdm")
 	file_name=os.path.basename(file_path)
 	write_lines_to_archive(archive_path,file_name,lines)
 
@@ -130,26 +134,6 @@ def inp_save_lines(file_path,lines):
 	lines = f.write(dump)
 	f.close()
 
-def inp_search_token_value(lines, token):
-
-	for i in range(0, len(lines)):
-		if lines[i]==token:
-			return lines[i+1]
-
-	return False
-
-def inp_search_token_value_multiline(lines, token):
-	ret=[]
-	for i in range(0, len(lines)):
-		if lines[i]==token:
-			pos=i+1
-			while (lines[pos][0]!="#"):
-				ret.append(lines[pos])
-				pos=pos+1
-
-			return ret
-
-	return False
 
 def inp_get_next_token_array(lines,pos):
 
@@ -197,21 +181,4 @@ def inp_sum_items(lines,token):
 			my_sum=my_sum+float(lines[i+1])
 
 	return my_sum
-
-def inp_merge(dest,src):
-	ret=[]
-	for i in range(0,len(dest)):
-		if dest[i].startswith("#") and dest[i]!="#ver" and dest[i]!="#end":
-			lookfor=dest[i]
-			found=False
-			for ii in range(0,len(src)):
-				if src[ii]==lookfor:
-					#print "Found",dest_lines[i],orig_lines[ii]
-					dest[i+1]=src[ii+1]
-					found=True
-					break
-			if found==False:
-				ret.append("Warning: token "+lookfor+" not found in archive")
-
-	return ret
 

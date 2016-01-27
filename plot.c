@@ -1,5 +1,5 @@
-//    Organic Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
-//    model for organic solar cells. 
+//    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
+//    model for 1st, 2nd and 3rd generation solar cells.
 //    Copyright (C) 2012 Roderick C. I. MacKenzie
 //
 //      roderick.mackenzie@nottingham.ac.uk
@@ -47,7 +47,7 @@ void plot_open(struct device *in)
 
 		in->gnuplot = popen("gnuplot -persist", "w");
 		fprintf(in->gnuplot,
-			"set terminal x11 title 'Organic Photovoltaic Device Model - www.opvdm.com' \n");
+			"set terminal x11 title 'General-purpose Photovoltaic Device Model - www.gpvdm.com' \n");
 		//fprintf(in->gnuplot, "clear\n");
 		//fprintf(in->gnuplot, "set multiplot\n");
 		//fprintf(in->gnuplot, "set data style lines\n");

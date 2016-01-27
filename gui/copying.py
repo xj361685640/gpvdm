@@ -1,9 +1,9 @@
-#    Organic Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
-#    model for organic solar cells. 
+#    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
+#    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie
 #
 #	roderick.mackenzie@nottingham.ac.uk
-#	www.opvdm.com
+#	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -19,6 +19,7 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+
 import pygtk
 pygtk.require('2.0')
 import gtk
@@ -31,18 +32,18 @@ class copying:
 	def __init__(self):
 		self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
 		self.window.set_position(gtk.WIN_POS_CENTER)
-		self.window.set_title('Organic Photovoltaic Device Model (www.opvdm.com) - activation')
+		self.window.set_title('General-purpose Photovoltaic Device Model (www.gpvdm.com) - activation')
 		#self.window.connect("delete_event", self.delete_event)
 		#self.window.connect("destroy", self.destroy)
 		self.window.set_border_width(10)
 		box = gtk.VBox()
 		label = gtk.Label()
-		label.set_markup("<big><b>Organic photovoltaic device model</b>\n"+
-				 "(<a href=\"http://www.opvdm.com\" "+
-                         "title=\"Click to find out more\">www.opvdm.com</a>)\n\n"
+		label.set_markup("<big><b>General-purpose photovoltaic device model</b>\n"+
+				 "(<a href=\"http://www.gpvdm.com\" "+
+                         "title=\"Click to find out more\">www.gpvdm.com</a>)\n\n"
 				+"Dear User,\n\n"
-				+"I distribute two versions of opvdm, an <b>open source version</b> which you can download at\n"
-				+"<a href=\"http://www.opvdm.com\" title=\"Click to find out more\">www.opvdm.com</a> and a <b>closed source version</b> with more features.\n"
+				+"I distribute two versions of gpvdm, an <b>open source version</b> which you can download at\n"
+				+"<a href=\"http://www.gpvdm.com\" title=\"Click to find out more\">www.gpvdm.com</a> and a <b>closed source version</b> with more features.\n"
 				+"It looks like you have the closed source version.\n"
 				+"\nTo activate it do the following:\n"
 				+"<b>1.</b> Click on the button below called \"Generate key\"\n"

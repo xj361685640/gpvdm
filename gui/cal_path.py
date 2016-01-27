@@ -1,9 +1,9 @@
-#    Organic Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
-#    model for organic solar cells. 
+#    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
+#    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie
 #
 #	roderick.mackenzie@nottingham.ac.uk
-#	www.opvdm.com
+#	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -58,17 +58,17 @@ def cal_share_path():
 		if os.path.isfile("main.c")==True:
 			share_path=os.getcwd()
 		else:
-			share_path="/usr/share/opvdm/"
+			share_path="/usr/share/gpvdm/"
 	else:
 		try:
-			registry_key = _winreg.OpenKey(_winreg.HKEY_CURRENT_USER, "Software\\opvdm", 0, _winreg.KEY_READ)
+			registry_key = _winreg.OpenKey(_winreg.HKEY_CURRENT_USER, "Software\\gpvdm", 0, _winreg.KEY_READ)
 			value, regtype = _winreg.QueryValueEx(registry_key, "installpath")
 			_winreg.CloseKey(registry_key)
 			print "Install path at", value
 			share_path=value
 		except WindowsError:
 			print "No registry key found using default"
-			share_path="c:\\opvdm"
+			share_path="c:\\gpvdm"
 
 def cal_lib_path():
 	global lib_path
@@ -76,17 +76,18 @@ def cal_lib_path():
 		if os.path.isfile("main.c")==True:
 			lib_path=os.getcwd()
 		else:
-			lib_path="/usr/lib64/opvdm/"
+			lib_path="/usr/lib64/gpvdm/"
+
 	else:
 		try:
-			registry_key = _winreg.OpenKey(_winreg.HKEY_CURRENT_USER, "Software\\opvdm", 0, _winreg.KEY_READ)
+			registry_key = _winreg.OpenKey(_winreg.HKEY_CURRENT_USER, "Software\\gpvdm", 0, _winreg.KEY_READ)
 			value, regtype = _winreg.QueryValueEx(registry_key, "installpath")
 			_winreg.CloseKey(registry_key)
 			print "Lib path at", value
 			lib_path=value
 		except WindowsError:
 			print "No registry key found using default"
-			lib_path="c:\\opvdm"
+			lib_path="c:\\gpvdm"
 
 def cal_bin_path():
 	global bin_path
@@ -94,19 +95,29 @@ def cal_bin_path():
 			bin_path="/bin/"
 	else:
 		try:
-			registry_key = _winreg.OpenKey(_winreg.HKEY_CURRENT_USER, "Software\\opvdm", 0, _winreg.KEY_READ)
+			registry_key = _winreg.OpenKey(_winreg.HKEY_CURRENT_USER, "Software\\gpvdm", 0, _winreg.KEY_READ)
 			value, regtype = _winreg.QueryValueEx(registry_key, "installpath")
 			_winreg.CloseKey(registry_key)
 			print "Lib path at", value
 			bin_path=value
 		except WindowsError:
 			print "No registry key found using default"
-			bin_path="c:\\opvdm"
+			bin_path="c:\\gpvdm"
+
+def calculate_material_path():
+	global lib_path
+	global materials_path
+
+	path=os.path.join(os.getcwd(),"materials")
+
+	if os.path.isdir(path)==True:
+		materials_path=path
+	else:
+		materials_path=os.path.join(share_path,"materials")
 
 def calculate_paths():
 	global share_path
 	global lib_path
-	global materials_path
 	global exe_command
 	global device_lib_path
 	global light_dll_path
@@ -114,21 +125,21 @@ def calculate_paths():
 	cal_share_path()
 	cal_lib_path()
 	cal_bin_path()
+	calculate_material_path()
 
 	device_lib_path=os.path.join(share_path,"device_lib")
-	materials_path=os.path.join(share_path,"materials")
 
 	if running_on_linux() == True:
 		if os.path.isfile("./main.c")==True:
 			exe_command=os.path.join(os.getcwd(), "go.o")
 		else:
-			exe_command="opvdm_core"
+			exe_command="gpvdm_core"
 
 	else:
-		if os.path.isfile("opvdm_core.exe")==True:
-			exe_command=os.path.join(os.getcwd(), "opvdm_core.exe")
+		if os.path.isfile("gpvdm_core.exe")==True:
+			exe_command=os.path.join(os.getcwd(), "gpvdm_core.exe")
 		else:
-			exe_command=os.path.join(share_path,"opvdm_core.exe")
+			exe_command=os.path.join(share_path,"gpvdm_core.exe")
 
 
 	light_dll_path=os.path.join(lib_path,"light")
@@ -165,10 +176,10 @@ def get_exe_name():
 		elif os.path.isfile("./main.c")==True:
 			exe_name="go.o"
 		else:
-			exe_name="opvdm_core"
+			exe_name="gpvdm_core"
 		return exe_name
 	else:
-		exe_name="opvdm_core.exe"
+		exe_name="gpvdm_core.exe"
 		return exe_name
 
 def get_inp_file_path():

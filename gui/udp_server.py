@@ -1,9 +1,9 @@
-#    Organic Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
-#    model for organic solar cells. 
+#    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
+#    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie
 #
 #	roderick.mackenzie@nottingham.ac.uk
-#	www.opvdm.com
+#	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -19,7 +19,8 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-#This is some code I wrote to make OPVDM run as part of a cluster. The server code sends data to the clients and tells them what to do, the server then reports back to the opvdm interface once jobs are finished.  It will only run if you invoke the --server or --client from the command line. It's super unstable/buggy and I only run it on a cluster with no route to the internet as there is authentication control. Use at your own risk!
+
+#This is some code I wrote to make gpvdm run as part of a cluster. The server code sends data to the clients and tells them what to do, the server then reports back to the gpvdm interface once jobs are finished.  It will only run if you invoke the --server or --client from the command line. It's super unstable/buggy and I only run it on a cluster with no route to the internet as there is authentication control. Use at your own risk!
 
 import socket, select
 import threading

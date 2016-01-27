@@ -1,5 +1,5 @@
-//    Organic Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
-//    model for organic solar cells. 
+//    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
+//    model for 1st, 2nd and 3rd generation solar cells.
 //    Copyright (C) 2012 Roderick C. I. MacKenzie
 //
 //      roderick.mackenzie@nottingham.ac.uk
@@ -90,7 +90,7 @@ void inp_listdir(struct inp_list *out)
 	out->names = (char **)malloc(sizeof(char *) * 2000);
 	out->len = 0;
 
-	struct zip *z = zip_open("sim.opvdm", 0, &err);
+	struct zip *z = zip_open("sim.gpvdm", 0, &err);
 
 	if (z != NULL) {
 		int files = zip_get_num_files(z);
@@ -155,7 +155,7 @@ int zip_is_in_archive(char *full_file_name)
 	char *file_path = get_dir_name_from_path(full_file_name);
 	char *file_name = get_file_name_from_path(full_file_name);
 
-	join_path(2, zip_path, file_path, "sim.opvdm");
+	join_path(2, zip_path, file_path, "sim.gpvdm");
 
 	int err = 0;
 	struct zip *z = zip_open(zip_path, 0, &err);
@@ -263,7 +263,7 @@ int inp_read_buffer(char **buf, long *len, char *full_file_name)
 		char *file_path = get_dir_name_from_path(full_file_name);
 		char *file_name = get_file_name_from_path(full_file_name);
 
-		join_path(2, zip_path, file_path, "sim.opvdm");
+		join_path(2, zip_path, file_path, "sim.gpvdm");
 		//printf("1>%s 2>%s 3>%s 4>%s\n",full_file_name,file_path,file_name,zip_path);
 		int err = 0;
 		struct zip *z = zip_open(zip_path, 0, &err);
@@ -407,7 +407,7 @@ int zip_write_buffer(char *full_file_name, char *buffer, int len)
 		char *file_path = get_dir_name_from_path(full_file_name);
 		char *file_name = get_file_name_from_path(full_file_name);
 
-		join_path(2, zip_path, file_path, "sim.opvdm");
+		join_path(2, zip_path, file_path, "sim.gpvdm");
 
 		int err = 0;
 		struct zip *z = zip_open(zip_path, 0, &err);

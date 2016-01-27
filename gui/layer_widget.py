@@ -1,9 +1,9 @@
-#    Organic Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
-#    model for organic solar cells. 
+#    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
+#    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie
 #
 #	roderick.mackenzie@nottingham.ac.uk
-#	www.opvdm.com
+#	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -19,6 +19,7 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+
 import pygtk
 pygtk.require('2.0')
 import gtk
@@ -31,13 +32,13 @@ from optics import find_materials
 from inp import inp_write_lines_to_file
 from inp import inp_load_file
 from util import str2bool
-from inp import inp_search_token_value
+from inp_util import inp_search_token_value
 from inp import inp_update_token_value
 from scan_item import scan_item_add
 from cal_path import get_image_file_path
 from emesh import tab_electrical_mesh
 from plot_gen import plot_gen
-from opvdm_open import opvdm_open
+from gpvdm_open import gpvdm_open
 from cal_path import get_materials_path
 from optics import class_optical
 from global_objects import global_object_get
@@ -126,7 +127,7 @@ class layer_widget(gtk.VBox):
 		self.active_layer.append([_("no")])
 
 	def callback_view_materials(self, widget, data=None):
-		dialog=opvdm_open()
+		dialog=gpvdm_open()
 
 		dialog.init(get_materials_path())
 		dialog.show_inp_files=False

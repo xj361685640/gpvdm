@@ -1,9 +1,9 @@
-#    Organic Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
-#    model for organic solar cells. 
+#    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
+#    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie
 #
 #	roderick.mackenzie@nottingham.ac.uk
-#	www.opvdm.com
+#	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -33,6 +33,24 @@ import hashlib
 import glob
 from win_lin import running_on_linux
 from cal_path import get_inp_file_path
+from inp_util import inp_merge
+from inp_util import inp_search_token_value
+
+def archive_copy_file(dest_archive,dest_file_name,src_archive,file_name):
+	lines=[]
+	if read_lines_from_archive(lines,src_archive,file_name)==False:
+		return False
+
+	write_lines_to_archive(dest_archive,dest_file_name,lines)
+	return True
+
+
+
+def archive_make_empty(archive_path):
+		zf = zipfile.ZipFile(archive_path, 'w')
+
+		zf.writestr("gpvdm.txt", "")
+		zf.close()
 
 def zip_lsdir(file_name):
 	my_list=[]
@@ -84,8 +102,8 @@ def check_is_config_file(name):
 	if os.path.isfile(name)==True:
 		found=True
 		return "file"
-	if os.path.isfile("sim.opvdm"):
-		zf = zipfile.ZipFile('sim.opvdm', 'r')
+	if os.path.isfile("sim.gpvdm"):
+		zf = zipfile.ZipFile('sim.gpvdm', 'r')
 		items=zf.namelist()
 		if items.count(name)>0:
 			found="archive"
@@ -237,3 +255,44 @@ def archive_isfile(zip_file_name,file_name):
 			ret=False
 	
 	return ret
+
+def archive_merge_file(dest_archive,src_archive,file_name):
+	if dest_archive==src_archive:
+		print "I can't opperate on the same .gpvdm file"
+		return
+
+	src_lines=[]
+	dest_lines=[]
+
+	orig_exists=read_lines_from_archive(src_lines,src_archive,file_name)
+
+	if orig_exists==False:
+		print "Warning: ",src_archive,file_name," no origonal file to copy"
+		return False
+
+	dest_exists=read_lines_from_archive(dest_lines,dest_archive,file_name)
+
+	if dest_exists==False:
+		print "Warning: ",dest_archive,file_name," no final copy found"
+		return False
+
+	errors=inp_merge(dest_lines,src_lines) 
+	if len(errors)!=0:
+		print "File ",file_name,errors
+
+	write_lines_to_archive(dest_archive,file_name,dest_lines)
+
+	return True
+
+
+
+def archive_get_file_ver(archive,file_name):
+	lines=[]
+	exists=read_lines_from_archive(lines,archive,file_name)
+
+	if exists==True:
+		ver=inp_search_token_value(lines, "#ver")
+	else:
+		return ""
+
+	return ver

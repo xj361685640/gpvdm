@@ -1,5 +1,5 @@
-//    Organic Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
-//    model for organic solar cells. 
+//    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
+//    model for 1st, 2nd and 3rd generation solar cells.
 //    Copyright (C) 2012 Roderick C. I. MacKenzie
 //
 //      roderick.mackenzie@nottingham.ac.uk
@@ -33,6 +33,7 @@
 #include "gui_hooks.h"
 #include "fit_sin.h"
 #include "i.h"
+#include "log.h"
 
 struct istruct out_i;
 struct istruct fit_data;
@@ -116,7 +117,8 @@ buffer_free(&buf);*/
 	inter_mod(&test_i);
 	e0 = inter_intergrate(&test_i);
 	inter_free(&test_i);
-	printf("error=%le mag=%le delta=%le fx=%le\n", e0, mag, delta, fit_fx);
+	printf_log("error=%le mag=%le delta=%le fx=%le\n", e0, mag, delta,
+		   fit_fx);
 	last_d = delta;
 	last_magnitude = mag;
 	return e0;
@@ -149,7 +151,7 @@ void fit_sin(double *ret_mag, double *ret_delta, struct istruct *in, double fx,
 	x = gsl_vector_alloc(fitvars);
 	ss = gsl_vector_alloc(fitvars);
 
-	printf("%le %le\n", mag, delta);
+//printf("%le %le\n",mag,delta);
 
 	int pos = 0;
 	gsl_vector_set(x, pos, mag);

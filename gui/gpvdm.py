@@ -1,10 +1,10 @@
 #!/usr/bin/env python
-#    Organic Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
-#    model for organic solar cells. 
+#    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
+#    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie
 #
 #	roderick.mackenzie@nottingham.ac.uk
-#	www.opvdm.com
+#	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -22,9 +22,10 @@
 
 
 
+
 import sys
 
-lib_dir='/usr/lib64/opvdm/'
+lib_dir='/usr/lib64/gpvdm/'
 sys.path.append('./gui/')
 sys.path.append(lib_dir)
 
@@ -33,6 +34,7 @@ from cal_path import get_exe_command
 from cal_path import get_exe_name
 from cal_path import get_image_file_path
 from cal_path import calculate_paths
+from cal_path import calculate_material_path
 calculate_paths()
 
 import i18n
@@ -59,7 +61,7 @@ from inp import inp_get_token_value
 from scan_item import scan_items_clear
 from scan import scan_class 
 from search import find_fit_error
-from util import opvdm_clone
+from clone import gpvdm_clone
 from export_as import export_as
 from experiment import experiment
 from fxexperiment import fxexperiment
@@ -88,11 +90,11 @@ from debug import debug_mode
 from qe import qe_window
 from tb_item_sun import tb_item_sun
 from tb_item_sim_mode import tb_item_sim_mode
-from opvdm_open import opvdm_open
+from gpvdm_open import gpvdm_open
 
 import glib
 from server import server
-from opvdm_notebook import opvdm_notebook
+from gpvdm_notebook import gpvdm_notebook
 from gui_util import process_events
 from epitaxy import epitaxy_load
 from global_objects import global_object_register
@@ -100,7 +102,8 @@ from global_objects import global_object_register
 from device_lib import device_lib_class
 from export_archive import export_archive
 from export_materials import export_materials
-
+from ver import ver_check_compatibility
+from import_archive import update_simulaton_to_new_ver
 if running_on_linux()==True:
 	import dbus
 	from dbus.mainloop.glib import DBusGMainLoop
@@ -125,14 +128,14 @@ def set_active_name(combobox, name):
         if liststore[i][0] == name:
             combobox.set_active(i)
 
-class opvdm_main_window(gobject.GObject):
+class gpvdm_main_window(gobject.GObject):
 
 	icon_theme = gtk.icon_theme_get_default()
 	plot_after_run=False
 	plot_after_run_file=""
 	scan_window=None
 
-	notebook=opvdm_notebook()
+	notebook=gpvdm_notebook()
 
 	def adbus(self,bus, message):
 		data=message.get_member()
@@ -164,8 +167,8 @@ class opvdm_main_window(gobject.GObject):
 
 		if running_on_linux()==True:
 			if message!="":
-				pynotify.init ("opvdm")
-				Hello=pynotify.Notification ("opvdm:",message,os.path.join(get_image_file_path(),"application-opvdm.svg"))
+				pynotify.init ("gpvdm")
+				Hello=pynotify.Notification ("gpvdm:",message,os.path.join(get_image_file_path(),"application-gpvdm.svg"))
 				Hello.set_timeout(2000)
 				Hello.show ()
 
@@ -224,7 +227,7 @@ class opvdm_main_window(gobject.GObject):
 		cmd = "cd "+os.getcwd()+" \n"
 		#self.terminal.feed_child(cmd)
 
-		cmd = "./opvdm --server &\n"
+		cmd = "./gpvdm --server &\n"
 
 		#self.terminal.feed_child(cmd)
 
@@ -267,7 +270,7 @@ class opvdm_main_window(gobject.GObject):
 	def callback_plot_select(self, widget, data=None):
 		my_help_class.help_set_help(["dat_file.png",_("<big>Select a file to plot</big>\nSingle clicking shows you the content of the file")])
 
-		dialog=opvdm_open()
+		dialog=gpvdm_open()
 		dialog.show_inp_files=False
 		dialog.show_directories=False
 
@@ -297,12 +300,18 @@ class opvdm_main_window(gobject.GObject):
 
 
 	def callback_import(self, widget, data=None):
-		dialog = gtk.FileChooserDialog(_("Import an old opvdm simulation"),
+		dialog = gtk.FileChooserDialog(_("Import an old gpvdm simulation"),
                                None,
                                gtk.FILE_CHOOSER_ACTION_OPEN,
                                (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
                                 gtk.STOCK_OPEN, gtk.RESPONSE_OK))
 		dialog.set_default_response(gtk.RESPONSE_OK)
+
+		filter = gtk.FileFilter()
+		filter.set_name(".gpvdm")
+		filter.add_pattern("*.gpvdm")
+		dialog.add_filter(filter)
+
 
 		filter = gtk.FileFilter()
 		filter.set_name(".opvdm")
@@ -311,7 +320,7 @@ class opvdm_main_window(gobject.GObject):
 
 		response = dialog.run()
 		if response == gtk.RESPONSE_OK:
-			import_archive(dialog.get_filename(),os.path.join(os.getcwd(),"sim.opvdm"),False)
+			import_archive(dialog.get_filename(),os.path.join(os.getcwd(),"sim.gpvdm"),False)
 			self.change_dir_and_refresh_interface(os.getcwd())
 		elif response == gtk.RESPONSE_CANCEL:
 		    print _("Closed, no files selected")
@@ -324,7 +333,7 @@ class opvdm_main_window(gobject.GObject):
 		path=device_lib.file_path
 		if response == True:
 			device_lib.destroy()
-			import_archive(path,os.path.join(os.getcwd(),"sim.opvdm"),False)
+			import_archive(path,os.path.join(os.getcwd(),"sim.gpvdm"),False)
 			self.change_dir_and_refresh_interface(os.getcwd())
 			print _("file opened"),path
 		elif response == False:
@@ -335,7 +344,7 @@ class opvdm_main_window(gobject.GObject):
 
 
 	def callback_new(self, widget, data=None):
-		dialog = gtk.FileChooserDialog(_("Make new opvdm simulation"),
+		dialog = gtk.FileChooserDialog(_("Make new gpvdm simulation"),
                                None,
                                gtk.FILE_CHOOSER_ACTION_OPEN,
                                (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
@@ -354,7 +363,7 @@ class opvdm_main_window(gobject.GObject):
 				os.makedirs(dialog.get_filename())
 
 			os.chdir(dialog.get_filename())
-			opvdm_clone()
+			gpvdm_clone(os.getcwd(),True)
 
 			self.change_dir_and_refresh_interface(dialog.get_filename())
 
@@ -366,7 +375,7 @@ class opvdm_main_window(gobject.GObject):
 		print "rod",os.getcwd(),new_dir
  		scan_items_clear()
 		os.chdir(new_dir)
-		calculate_paths()
+		calculate_material_path()
 		epitaxy_load()
 		self.config.load(os.getcwd())
 		print "rod",os.getcwd(),new_dir
@@ -471,7 +480,7 @@ class opvdm_main_window(gobject.GObject):
 		#myitem.set_active(self.config.get_value("#plot_after_simulation",False))
 
 	def callback_open(self, widget, data=None):
-		dialog = gtk.FileChooserDialog(_("Open an existing opvdm simulation"),
+		dialog = gtk.FileChooserDialog(_("Open an existing gpvdm simulation"),
                                None,
                                gtk.FILE_CHOOSER_ACTION_OPEN,
                                (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
@@ -480,14 +489,37 @@ class opvdm_main_window(gobject.GObject):
 		#dialog.set_action(gtk.FILE_CHOOSER_ACTION_SELECT_FILE)
 
 		filter = gtk.FileFilter()
-		filter.set_name("opvdm")
+		filter.set_name("gpvdm")
+		filter.add_pattern("*.gpvdm")
+		dialog.add_filter(filter)
+
+		filter = gtk.FileFilter()
+		filter.set_name(".opvdm")
 		filter.add_pattern("*.opvdm")
 		dialog.add_filter(filter)
 
 		response = dialog.run()
 		if response == gtk.RESPONSE_OK:
+
 			new_path=os.path.dirname(dialog.get_filename())
-			self.change_dir_and_refresh_interface(new_path)
+
+			if ver_check_compatibility(dialog.get_filename())==True:
+				self.change_dir_and_refresh_interface(new_path)
+			else:
+				import_md = gtk.MessageDialog(None, 0, gtk.MESSAGE_QUESTION,  gtk.BUTTONS_YES_NO, _("The file you are trying to load was made in an older version of opvdm, would you like me to try to import it?"))
+
+				import_response = import_md.run()
+
+				if import_response == gtk.RESPONSE_YES:
+					update_simulaton_to_new_ver(dialog.get_filename())
+					self.change_dir_and_refresh_interface(new_path)
+				elif import_response == gtk.RESPONSE_NO:
+					print _("Not importing the file.")
+
+
+				import_md.destroy()
+
+################
 
 		elif response == gtk.RESPONSE_CANCEL:
 		    print _("Closed, no files selected")
@@ -500,13 +532,13 @@ class opvdm_main_window(gobject.GObject):
 		dialog.set_default_response(gtk.RESPONSE_OK)
 
 		filter = gtk.FileFilter()
-		filter.set_name(_("opvdm archive input+output files"))
-		filter.add_pattern("*.opvdm")
+		filter.set_name(_("gpvdm archive input+output files"))
+		filter.add_pattern("*.gpvdm")
 		dialog.add_filter(filter)
 
 		filter = gtk.FileFilter()
-		filter.set_name(_("opvdm archive input files"))
-		filter.add_pattern("*.opvdm")
+		filter.set_name(_("gpvdm archive input files"))
+		filter.add_pattern("*.gpvdm")
 		dialog.add_filter(filter)
 
 		filter = gtk.FileFilter()
@@ -537,9 +569,9 @@ class opvdm_main_window(gobject.GObject):
 			dialog.destroy()
 			print "rod",filter.get_name()
 
-			if filter.get_name()==_("opvdm archive input+output files"):
+			if filter.get_name()==_("gpvdm archive input+output files"):
 				export_archive(file_name,True)
-			elif filter.get_name()==_("opvdm archive input files"):
+			elif filter.get_name()==_("gpvdm archive input files"):
 				export_archive(file_name,False)
 			elif filter.get_name()==_("optical materials database"):
 				export_materials(file_name)
@@ -561,7 +593,7 @@ class opvdm_main_window(gobject.GObject):
 		my_help_class.toggle_visible()
 
 	def callback_on_line_help(self, widget, data=None):
-		webbrowser.open('www.opvdm.com')
+		webbrowser.open('www.gpvdm.com')
 
 	def callback_new_window(self, widget, data=None):
 		if self.window2.get_property("visible")==True:
@@ -731,7 +763,7 @@ class opvdm_main_window(gobject.GObject):
 		if running_on_linux()==True:
 			DBusGMainLoop(set_as_default=True)
 			self.bus = dbus.SessionBus()
-			self.bus.add_match_string_non_blocking("type='signal',interface='org.my.opvdm'")
+			self.bus.add_match_string_non_blocking("type='signal',interface='org.my.gpvdm'")
 			self.bus.add_message_filter(self.adbus)
 
 		else:
@@ -742,7 +774,7 @@ class opvdm_main_window(gobject.GObject):
 		self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
 		#self.window.set_size_request(-1,1000)
 		self.window.set_border_width(10)
-		self.window.set_title(_("Organic Photovoltaic Device Model (www.opvdm.com)"))
+		self.window.set_title(_("General-purpose Photovoltaic Device Model (www.gpvdm.com)"))
 
 		splash=splash_window()
 		splash.init()
@@ -1051,7 +1083,7 @@ class opvdm_main_window(gobject.GObject):
 		self.window2 = gtk.Window(gtk.WINDOW_TOPLEVEL)
 		self.window2.set_border_width(10)
 
-		self.window2.set_title(_("Organic Photovoltaic Device Model (www.opvdm.com)"))
+		self.window2.set_title(_("General-purpose Photovoltaic Device Model (www.gpvdm.com)"))
 		self.window2.connect("delete-event", self.callback_close_window2)
 
 		self.window2.set_icon_from_file(os.path.join(get_image_file_path(),"image.jpg"))
@@ -1070,7 +1102,7 @@ class opvdm_main_window(gobject.GObject):
 		my_help_class.show()
 
 if __name__ == "__main__":
-	main=opvdm_main_window()
+	main=gpvdm_main_window()
 	random.seed()
 	gtk.main()
 

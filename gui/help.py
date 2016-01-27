@@ -1,9 +1,9 @@
-#    Organic Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
-#    model for organic solar cells. 
+#    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
+#    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie
 #
 #	roderick.mackenzie@nottingham.ac.uk
-#	www.opvdm.com
+#	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -18,6 +18,7 @@
 #    You should have received a copy of the GNU General Public License along
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
 
 import pygtk
 pygtk.require('2.0')
@@ -82,7 +83,7 @@ class help_class(gtk.Window):
 		self.help_lib=[]
 		self.help_lib.append(help_data("device.inp","tab.png","<big><b>Device tab</b></big>\nThis tab contains information about the device, such as width breadth, carrier density on the contacts, shunt and contact resistance."))
 		self.help_lib.append(help_data("jv.inp","tab.png","<big><b>JV tab</b></big>\nThis tab controls the JV curve simulation."))
-		self.help_lib.append(help_data("jv_simple.inp","tab.png","<big><b>JV simple tab</b></big>\nThe 'jv simple' model does not use opvdm's full device model instead it uses the diode equation to simulate a solar cell.  Sometimes for papers it is useful to do this."))
+		self.help_lib.append(help_data("jv_simple.inp","tab.png","<big><b>JV simple tab</b></big>\nThe 'jv simple' model does not use gpvdm's full device model instead it uses the diode equation to simulate a solar cell.  Sometimes for papers it is useful to do this."))
 		self.help_lib.append(help_data("dump.inp","tab.png","<big><b>Dump tab</b></big>\nThe dump tab controls what the simulation writes disk, generally writing to disk is a slow process so by default the model dumps relitavly little data."))
 		self.help_lib.append(help_data("celiv.inp","tab.png","<big><b>CELIV tab</b></big>\nThe CELIV tab controls the the parameters for a CELIV simulation."))
 		self.help_lib.append(help_data("thermal.inp","tab.png","<big><b>Thermal tab</b></big>\nUse this tab to set the simulation temperature."))
@@ -200,7 +201,7 @@ class help_class(gtk.Window):
 		self.update()
 
 	def on_line_help(self,widget):
-		webbrowser.open('http://www.opvdm.com/man/index.html')
+		webbrowser.open('http://www.gpvdm.com/man/index.html')
 
 	def update(self):
 		for i in range(0,5):

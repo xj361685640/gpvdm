@@ -1,9 +1,9 @@
-#    Organic Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
-#    model for organic solar cells. 
+#    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
+#    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie
 #
 #	roderick.mackenzie@nottingham.ac.uk
-#	www.opvdm.com
+#	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -39,7 +39,7 @@ class win_pipe(gobject.GObject):
 		self.__gobject_init__()
 
 	def foo(self,n):
-		p = win32pipe.CreateNamedPipe(r'\\.\pipe\opvdm_pipe',
+		p = win32pipe.CreateNamedPipe(r'\\.\pipe\gpvdm_pipe',
 			win32pipe.PIPE_ACCESS_INBOUND,
 			win32pipe.PIPE_TYPE_MESSAGE | win32pipe.PIPE_WAIT,
 			1, 65536, 65536,300,None)

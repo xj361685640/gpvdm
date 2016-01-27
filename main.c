@@ -1,5 +1,5 @@
-//    Organic Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
-//    model for organic solar cells. 
+//    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
+//    model for 1st, 2nd and 3rd generation solar cells.
 //    Copyright (C) 2012 Roderick C. I. MacKenzie
 //
 //      roderick.mackenzie@nottingham.ac.uk
@@ -75,8 +75,8 @@ int main(int argc, char *argv[])
 {
 	cal_path();
 	setlocale(LC_MESSAGES, "");
-	bindtextdomain("opvdm", get_lang_path());
-	textdomain("opvdm");
+	bindtextdomain("gpvdm", get_lang_path());
+	textdomain("gpvdm");
 
 	timer_init(0);
 	timer_init(1);
@@ -114,10 +114,11 @@ int main(int argc, char *argv[])
 
 //set_plot_script_dir(char * in)
 	if (scanarg(argv, argc, "--help") == TRUE) {
-		printf("opvdm_core - Organic Photovoltaic Device Model\n");
+		printf
+		    ("gpvdm_core - General-purpose Photovoltaic Device Model\n");
 		printf(copyright);
 		printf("\n");
-		printf("Usage: opvdm_core [options]\n");
+		printf("Usage: gpvdm_core [options]\n");
 		printf("\n");
 		printf("Options:\n");
 		printf("\n");
@@ -129,14 +130,14 @@ int main(int argc, char *argv[])
 		printf("\t--cpus\t sets the number of CPUs\n");
 		printf("\n");
 		printf
-		    ("Additional information about opvdm is available at www.opvdm.com.\n");
+		    ("Additional information about gpvdm is available at www.gpvdm.com.\n");
 		printf("\n");
 		printf
 		    ("Report bugs to: roderick.mackenzie@nottingham.ac.uk\n\n");
 		exit(0);
 	}
 	if (scanarg(argv, argc, "--version") == TRUE) {
-		printf("opvdm_core, Version %s\n", opvdm_ver);
+		printf("gpvdm_core, Version %s\n", gpvdm_ver);
 		printf(copyright);
 		printf(this_is_free_software);
 		printf
@@ -156,7 +157,8 @@ int main(int argc, char *argv[])
 	set_io_dump(FALSE);
 	srand(time(0));
 	textcolor(fg_green);
-	randomprint(_("Organic Photovoltaic Device Model (www.opvdm.com)\n"));
+	randomprint(_
+		    ("General-purpose Photovoltaic Device Model (www.gpvdm.com)\n"));
 	randomprint(_
 		    ("You should have received a copy of the GNU General Public License\n"));
 	randomprint(_
@@ -201,10 +203,10 @@ int main(int argc, char *argv[])
 	inp_search_string(&inp, name, "#core");
 	inp_free(&inp);
 
-	if (strcmp(name, opvdm_ver) != 0) {
+	if (strcmp(name, gpvdm_ver) != 0) {
 		printf
 		    ("Software is version %s and the input files are version %s\n",
-		     opvdm_ver, name);
+		     gpvdm_ver, name);
 		exit(0);
 	}
 

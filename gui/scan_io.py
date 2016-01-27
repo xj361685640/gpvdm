@@ -1,9 +1,9 @@
-#    Organic Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
-#    model for organic solar cells. 
+#    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
+#    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie
 #
 #	roderick.mackenzie@nottingham.ac.uk
-#	www.opvdm.com
+#	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -19,6 +19,7 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+
 import pygtk
 pygtk.require('2.0')
 import gc
@@ -26,7 +27,7 @@ import gtk
 import sys
 import os
 import shutil
-from util import opvdm_delete_file
+from util import gpvdm_delete_file
 from inp import inp_get_token_value
 from scan_tree import tree_load_flat_list
 from util import copy_scan_dir
@@ -37,14 +38,14 @@ from server import server_find_simulations_to_run
 
 def scan_delete_files(dirs_to_del):
 	for i in range(0, len(dirs_to_del)):
-		opvdm_delete_file(dirs_to_del[i])
+		gpvdm_delete_file(dirs_to_del[i])
 
 def scan_list_simulations(dir_to_search):
 	found_dirs=[]
 	for root, dirs, files in os.walk(dir_to_search):
 		for name in files:
 			full_name=os.path.join(root, name)
-			if name=="sim.opvdm":
+			if name=="sim.gpvdm":
 				found_dirs.append(root)
 	return found_dirs
 
@@ -53,7 +54,7 @@ def scan_list_unconverged_simulations(dir_to_search):
 	for root, dirs, files in os.walk(dir_to_search):
 		for name in files:
 			full_name=os.path.join(root, name)
-			if name=="sim.opvdm":
+			if name=="sim.gpvdm":
 				add=True
 				fit_log=os.path.join(root,'fitlog.dat')
 				if os.path.isfile(fit_log):
@@ -163,10 +164,10 @@ def clean_simulation(dir_to_clean,simulation_dirs):
 				if path.endswith("materials"):
 					delete=False
 
-				if path.endswith(".opvdm"):
+				if path.endswith(".gpvdm"):
 					delete=False
 
-				elif path.endswith(".opvdm"):
+				elif path.endswith(".gpvdm"):
 					delete=False
 
 				elif path.endswith("fitlog_time_error.dat"):
@@ -260,7 +261,7 @@ def get_scan_dirs(scan_dirs,sim_dir):
 
 	for i in range(0, len(ls)):
 		dir_name=os.path.join(sim_dir,ls[i])
-		full_name=os.path.join(sim_dir,ls[i],"opvdm_gui_config.inp")
+		full_name=os.path.join(sim_dir,ls[i],"gpvdm_gui_config.inp")
 		if os.path.isfile(full_name):
 			scan_dirs.append(dir_name)
 

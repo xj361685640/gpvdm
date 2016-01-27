@@ -1,9 +1,9 @@
-#    Organic Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
-#    model for organic solar cells. 
+#    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
+#    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie
 #
 #	roderick.mackenzie@nottingham.ac.uk
-#	www.opvdm.com
+#	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -18,6 +18,7 @@
 #    You should have received a copy of the GNU General Public License along
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
 
 import pygtk
 pygtk.require('2.0')
@@ -49,7 +50,7 @@ _ = i18n.language.gettext
 def server_find_simulations_to_run(commands,search_path):
 	for root, dirs, files in os.walk(search_path):
 		for my_file in files:
-			if my_file.endswith("sim.opvdm")==True:
+			if my_file.endswith("sim.gpvdm")==True:
 				full_name=os.path.join(root, my_file)
 				commands.append(root)
 
@@ -62,7 +63,7 @@ class server:
 		self.statusicon = gtk.StatusIcon()
 		self.statusicon.set_from_stock(gtk.STOCK_YES) 
 		#self.statusicon.connect("popup-menu", self.right_click_event)
-		self.statusicon.set_tooltip("opvdm")
+		self.statusicon.set_tooltip("gpvdm")
 
 
 	def init(self,sim_dir):
