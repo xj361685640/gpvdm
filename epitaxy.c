@@ -27,7 +27,7 @@
 #include "epitaxy.h"
 #include "inp.h"
 #include "util.h"
-#include "true_false.h"
+#include "const.h"
 
 void epitaxy_load(struct epitaxy *in, char *file)
 {
@@ -55,7 +55,7 @@ void epitaxy_load(struct epitaxy *in, char *file)
 	for (i = 0; i < in->layers; i++) {
 		inp_get_string(&inp);	//layer name
 		strcpy(in->name[i], inp_get_string(&inp));
-		sscanf(inp_get_string(&inp), "%le", &(in->width[i]));
+		sscanf(inp_get_string(&inp), "%Le", &(in->width[i]));
 		in->width[i] = fabs(in->width[i]);
 		strcpy(in->mat_file[i], inp_get_string(&inp));
 		strcpy(dos_file, inp_get_string(&inp));
@@ -93,10 +93,10 @@ void epitaxy_load(struct epitaxy *in, char *file)
 	inp_free(&inp);
 }
 
-double epitaxy_get_electrical_length(struct epitaxy *in)
+gdouble epitaxy_get_electrical_length(struct epitaxy *in)
 {
 	int i = 0;
-	double tot = 0.0;
+	gdouble tot = 0.0;
 
 	for (i = 0; i < in->layers; i++) {
 		if (in->electrical_layer[i] == TRUE) {
@@ -109,10 +109,10 @@ double epitaxy_get_electrical_length(struct epitaxy *in)
 	return tot;
 }
 
-double epitaxy_get_optical_length(struct epitaxy *in)
+gdouble epitaxy_get_optical_length(struct epitaxy * in)
 {
 	int i = 0;
-	double tot = 0.0;
+	gdouble tot = 0.0;
 
 	for (i = 0; i < in->layers; i++) {
 		tot += in->width[i];
@@ -121,10 +121,10 @@ double epitaxy_get_optical_length(struct epitaxy *in)
 	return tot;
 }
 
-int epitaxy_get_optical_material_layer(struct epitaxy *in, double pos)
+int epitaxy_get_optical_material_layer(struct epitaxy *in, gdouble pos)
 {
 	int i = 0;
-	double layer_end = 0.0;
+	gdouble layer_end = 0.0;
 	for (i = 0; i < in->layers; i++) {
 		layer_end += in->width[i];
 
@@ -137,10 +137,10 @@ int epitaxy_get_optical_material_layer(struct epitaxy *in, double pos)
 	return -1;
 }
 
-int epitaxy_get_electrical_material_layer(struct epitaxy *in, double pos)
+int epitaxy_get_electrical_material_layer(struct epitaxy *in, gdouble pos)
 {
 	int i = 0;
-	double layer_end = 0.0;
+	gdouble layer_end = 0.0;
 	int electrical_layer = 0;
 
 	for (i = 0; i < in->layers; i++) {
@@ -158,10 +158,10 @@ int epitaxy_get_electrical_material_layer(struct epitaxy *in, double pos)
 	return -1;
 }
 
-double epitaxy_get_device_start(struct epitaxy *in)
+gdouble epitaxy_get_device_start(struct epitaxy * in)
 {
 	int i = 0;
-	double pos = 0.0;
+	gdouble pos = 0.0;
 	for (i = 0; i < in->layers; i++) {
 
 		if (in->electrical_layer[i] == TRUE) {
@@ -174,7 +174,7 @@ double epitaxy_get_device_start(struct epitaxy *in)
 	return -1;
 }
 
-double epitaxy_get_device_start_i(struct epitaxy *in)
+gdouble epitaxy_get_device_start_i(struct epitaxy * in)
 {
 	int i = 0;
 	for (i = 0; i < in->layers; i++) {

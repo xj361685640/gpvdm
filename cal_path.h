@@ -24,6 +24,7 @@
 #define cal_path_h
 void cal_path();
 char *get_light_path();
+char *get_solver_path();
 char *get_lang_path();
 char *get_share_path();
 #endif

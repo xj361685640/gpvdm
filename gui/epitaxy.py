@@ -210,6 +210,10 @@ def epitaxy_get_pl_file(i):
 	global pl_file
 	return pl_file[i]
 
+def epitaxy_get_dos_file(i):
+	global electrical_layer
+	return electrical_layer[i]
+
 def epitaxy_get_name(i):
 	global name
 	return name[i]

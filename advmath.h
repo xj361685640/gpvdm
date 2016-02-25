@@ -22,6 +22,16 @@
 
 #ifndef advmath_h
 #define advmath_h
-double B(double x);
-double dB(double x);
+
+#define gdouble long double
+#define gpow powl
+#define gcabs cabsl
+#define gcreal creall
+#define gcimag cimagl
+#define gfabs fabsl
+#define gexp expl
+#define gsqrt sqrtl
+
+gdouble B(gdouble x);
+gdouble dB(gdouble x);
 #endif

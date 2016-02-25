@@ -28,32 +28,33 @@
 #include "pulse.h"
 #include "../../log.h"
 
-void newton_aux_pulse_voc(struct device *in, double V, double *i, double *didv,
-			  double *didphi, double *didxil, double *didxipl,
-			  double *didphir, double *didxir, double *didxipr)
+void newton_aux_pulse_voc(struct device *in, gdouble V, gdouble * i,
+			  gdouble * didv, gdouble * didphi, gdouble * didxil,
+			  gdouble * didxipl, gdouble * didphir,
+			  gdouble * didxir, gdouble * didxipr)
 {
 	return;
 }
 
-double pulse_newton_sim_voc_fast(struct device *in, int do_LC)
+gdouble pulse_newton_sim_voc_fast(struct device * in, int do_LC)
 {
 	pulse_newton_sim_voc(in);
 	return get_I(in) + in->C * (in->Vapplied - in->Vapplied_last) +
 	    in->Vapplied / in->Rshunt;
 }
 
-double pulse_newton_sim_voc(struct device *in)
+gdouble pulse_newton_sim_voc(struct device * in)
 {
 	printf_log("Looking for Voc\n");
-	double C = in->C;
-	double clamp = 0.1;
-	double step = 0.01;
-	double e0;
-	double e1;
-	double i0;
-	double i1;
-	double deriv;
-	double Rdrain = pulse_config.pulse_Rload + in->Rcontact;
+	gdouble C = in->C;
+	gdouble clamp = 0.1;
+	gdouble step = 0.01;
+	gdouble e0;
+	gdouble e1;
+	gdouble i0;
+	gdouble i1;
+	gdouble deriv;
+	gdouble Rdrain = pulse_config.pulse_Rload + in->Rcontact;
 
 	solve_all(in);
 	i0 = get_I(in);
@@ -85,7 +86,7 @@ double pulse_newton_sim_voc(struct device *in)
 		in->Vapplied += step;
 		if (get_dump_status(dump_print_text) == TRUE) {
 			printf_log
-			    ("%d pulse voc find Voc Vapplied=%lf step=%le error=%le\n",
+			    ("%d pulse voc find Voc Vapplied=%lf step=%Le error=%Le\n",
 			     count, in->Vapplied, step, e1);
 		}
 		if (count > max)
@@ -94,10 +95,10 @@ double pulse_newton_sim_voc(struct device *in)
 
 	} while (e1 > 1e-12);
 
-	double ret = in->Vapplied - C * (i1 - in->Ilast) / in->dt;
+	gdouble ret = in->Vapplied - C * (i1 - in->Ilast) / in->dt;
 	return ret;
 }
 
-void pulse_set_light_for_voc(struct device *in, double Voc)
+void pulse_set_light_for_voc(struct device *in, gdouble Voc)
 {
 }

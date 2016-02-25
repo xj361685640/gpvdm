@@ -62,7 +62,11 @@ class tb_item_sim_mode(gtk.ToolItem):
 
 
 			token=inp_get_token_value("sim.inp", "#simmode")
-			command,module=token.split("@")
+			if token.count("@")!=0:
+				command,module=token.split("@")
+			else:
+				command=token
+
 			liststore = self.sim_mode.get_model()
 			for i in xrange(len(liststore)):
 				if liststore[i][0] == command:

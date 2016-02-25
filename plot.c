@@ -42,9 +42,11 @@ void set_plot_script_dir(char *in)
 
 void plot_open(struct device *in)
 {
+	printf("here1\n");
 	if (get_dump_status(dump_plot) == TRUE) {
+		printf("here2\n");
 		gettimeofday(&last_time, NULL);
-
+		printf("here3\n");
 		in->gnuplot = popen("gnuplot -persist", "w");
 		fprintf(in->gnuplot,
 			"set terminal x11 title 'General-purpose Photovoltaic Device Model - www.gpvdm.com' \n");
@@ -52,8 +54,10 @@ void plot_open(struct device *in)
 		//fprintf(in->gnuplot, "set multiplot\n");
 		//fprintf(in->gnuplot, "set data style lines\n");
 		fflush(in->gnuplot);
-
+		printf("here4\n");
 	}
+	printf("here5\n");
+
 }
 
 void plot_now(struct device *in, char *name)

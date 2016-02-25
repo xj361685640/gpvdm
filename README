@@ -1,7 +1,7 @@
-What is opvdm?
+What is gpvdm?
 ~~~~~~~~~~~~~~
 
-Opvdm is a free organic solar cells model. It is specifically designed to simulate bulk-heterojuncton organic solar cells, such as those based on the P3HT:PCBM material system. The model contains both an electrical and an optical solver, enabling both current/voltage characteristics to be simulated as well as the optical modal profile within the device. The model and it's easy to use graphical interface is available for both Linux and Windows.
+Gpvdm is a free organic solar cells model. It is specifically designed to simulate bulk-heterojuncton organic solar cells, such as those based on the P3HT:PCBM material system. The model contains both an electrical and an optical solver, enabling both current/voltage characteristics to be simulated as well as the optical modal profile within the device. The model and it's easy to use graphical interface is available for both Linux and Windows.
 The model can simulate:
 
     *Dark JV curves

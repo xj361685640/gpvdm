@@ -122,8 +122,6 @@ class gpvdm_notebook(gtk.Notebook):
 	def add_welcome_page(self):
 		self.welcome=welcome_class()
 		self.welcome.init(os.path.join(get_image_file_path(),"image.jpg"))
-		self.welcome.web.connect("got-data", self.welcome.update)
-		self.welcome.get_data()
 		self.welcome.show()
 		self.append_page(self.welcome, gtk.Label(_("Information")))
 

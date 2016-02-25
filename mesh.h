@@ -27,4 +27,5 @@ void mesh_save(struct device *in);
 void mesh_load(struct device *in);
 void mesh_free(struct device *in);
 void mesh_remesh(struct device *in);
+void mesh_cal_layer_widths(struct device *in);
 #endif

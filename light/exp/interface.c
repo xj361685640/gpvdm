@@ -31,36 +31,42 @@
 #include "../../light.h"
 #include "../../light_interface.h"
 #include "../../functions.h"
+#include "../../dll_interface.h"
 
-static double last_Psun=-1000.0;
-static double last_laser_eff=-1000.0;
-static double last_wavelength_laser=-1000.0;
+static gdouble last_Psun=-1000.0;
+static gdouble last_laser_eff=-1000.0;
+static gdouble last_wavelength_laser=-1000.0;
+
+struct dll_interface *fun;
+
+EXPORT void set_interface(struct dll_interface *in)
+{
+fun=in;
+}
 
 EXPORT void light_dll_init()
 {
-l_printf_log("Light init\n");
+(fun->printf_log)("Light init\n");
 last_Psun=-1000.0;
 last_laser_eff=-1000.0;
 last_wavelength_laser=-1000.0;
 }
 
-EXPORT void light_dll_solve_and_update(struct device *cell,struct light *in,double Psun_in,double laser_eff_in,double pulse_width)
+EXPORT void light_dll_solve_and_update(struct device *cell,struct light *in,gdouble Psun_in,gdouble laser_eff_in,gdouble pulse_width)
 {
 in->Psun=Psun_in;
 in->laser_eff=laser_eff_in;
-
 if ((last_laser_eff!=in->laser_eff)||(last_Psun!=in->Psun)||(last_wavelength_laser!=in->laser_wavelength))
 {
-
-	l_light_solve_optical_problem(in);
+	(*fun->light_solve_optical_problem)(in);
 
 	last_laser_eff=in->laser_eff;
 	last_Psun=in->Psun;
 	last_wavelength_laser=in->laser_wavelength;
 }
 
-l_light_dump_1d(in, in->laser_pos,"");
+(*fun->light_dump_1d)(in, in->laser_pos,"");
 
-l_light_transfer_gen_rate_to_device(cell,in);
+(*fun->light_transfer_gen_rate_to_device)(cell,in);
 
 }

@@ -46,11 +46,11 @@ static int unused __attribute__ ((unused));
 #ifdef dos_debug
 #define test_dist
 
-double pick[1000];
-double pick_x[1000];
-double pick_start = -7;
-double pick_stop = 0;
-double pick_dx;
+gdouble pick[1000];
+gdouble pick_x[1000];
+gdouble pick_start = -7;
+gdouble pick_stop = 0;
+gdouble pick_dx;
 #endif
 
 static int gendos = TRUE;
@@ -59,14 +59,14 @@ static struct dosconfig configh[10];
 
 void dos_double_res()
 {
-/*double number;
+/*gdouble number;
 FILE *in=fopen("srhbandp.inp","r");
 FILE *out=fopen("srhbandp.new","w");
 do
 {
-unused=fscanf(in,"%le",&number);
-fprintf(out,"%le\n",number);
-fprintf(out,"%le\n",number);
+unused=fscanf(in,"%Le",&number);
+fprintf(out,"%Le\n",number);
+fprintf(out,"%Le\n",number);
 }while(!feof(in));
 fclose(in);
 fclose(out);
@@ -164,19 +164,19 @@ void dump_qe()
 	inter_load(&p, "dosoutp.dat");
 	inter_swap(&p);
 
-	double start = n.x[0];
-	double stop = n.x[n.len - 1];
-	double step = 5e-3;
-	double pos = 0.0;
-	double hf = 0.0;
-	double hf_step = 1e-2;
-	double re = 0.0;
-	double rh = 0.0;
-	double rhored = 0.0;
-	double rhored_tot = 0.0;
-//double Ef=Ec-0.5;
+	gdouble start = n.x[0];
+	gdouble stop = n.x[n.len - 1];
+	gdouble step = 5e-3;
+	gdouble pos = 0.0;
+	gdouble hf = 0.0;
+	gdouble hf_step = 1e-2;
+	gdouble re = 0.0;
+	gdouble rh = 0.0;
+	gdouble rhored = 0.0;
+	gdouble rhored_tot = 0.0;
+//gdouble Ef=Ec-0.5;
 	pos = start;
-	double max = 0.0;
+	gdouble max = 0.0;
 	FILE *qe = fopen("qe.dat", "w");
 	hf_step = 1e-1;
 	do {
@@ -186,7 +186,7 @@ void dump_qe()
 			re = inter_get(&n, pos + hf);
 			rh = inter_get(&p, pos);
 			rhored = re * rh;
-			//printf("%e %e %e %e\n",pos,rhored,re,rh);
+			//printf("%Le %Le %Le %Le\n",pos,rhored,re,rh);
 			rhored_tot += rhored;
 			pos += step;
 		} while (pos < stop);
@@ -195,7 +195,7 @@ void dump_qe()
 			max = rhored_tot;
 //getchar();
 		hf += hf_step;
-		printf("%e\n", hf);
+		printf("%Le\n", hf);
 	} while (hf < 2.0);
 
 	hf = 0;
@@ -213,9 +213,9 @@ void dump_qe()
 			pos += step;
 		} while (pos < stop);
 //getchar();
-		fprintf(qe, "%e %e\n", hf, rhored_tot / max);
+		fprintf(qe, "%Le %Le\n", hf, rhored_tot / max);
 		hf += hf_step;
-		printf("%e\n", hf);
+		printf("%Le\n", hf);
 	} while (hf < 2.0);
 
 	fclose(qe);
@@ -228,7 +228,7 @@ void pick_init()
 #ifdef dos_debug
 	int i;
 	pick_dx = (pick_stop - pick_start) / 1000.0;
-	double pos = pick_start;
+	gdouble pos = pick_start;
 	for (i = 0; i < 1000; i++) {
 		pick[i] = 0.0;
 		pick_x[i] = pos;
@@ -237,7 +237,7 @@ void pick_init()
 #endif
 }
 
-void pick_add(double x, double value)
+void pick_add(gdouble x, gdouble value)
 {
 #ifdef dos_debug
 	int pos;
@@ -260,9 +260,9 @@ void pick_dump()
 	int i;
 	FILE *out;
 	out = fopen("gaus.dat", "w");
-	double pos = pick_start;
+	gdouble pos = pick_start;
 	for (i = 0; i < 1000; i++) {
-		fprintf(out, "%e %e\n", pick_x[i], pick[i]);
+		fprintf(out, "%Le %Le\n", pick_x[i], pick[i]);
 		pos += pick_dx;
 	}
 	fclose(out);
@@ -274,6 +274,43 @@ void gen_do(struct dosconfig *in, struct dosconfig *in2, char *outfile,
 {
 	char name[100];
 	char temp[1000];
+	gdouble tstart = 0.0;
+	gdouble tstop = 0.0;
+	gdouble tsteps = 0.0;
+	gdouble dt = 0.0;
+	gdouble xpos = 0.0;
+	gdouble tpos = 0.0;
+	int t = 0;
+	int x = 0;
+	int band;
+	gdouble *srh_r1 = NULL;
+	gdouble *srh_r2 = NULL;
+	gdouble *srh_r3 = NULL;
+	gdouble *srh_r4 = NULL;
+	gdouble *srh_n = NULL;
+	gdouble *srh_den = NULL;
+	gdouble *srh_dE_sum = NULL;
+	gdouble *srh_read = NULL;
+
+	gdouble *srh_x = NULL;
+	gdouble *srh_mid = NULL;
+	gdouble *band_E_mesh = NULL;
+	int *band_i = NULL;
+
+	int e = 0;
+	gdouble E = 0.0;
+	gdouble dE = fabs(in->srh_start) / ((gdouble) in->Esteps);
+	gdouble rho = 0.0;
+	gdouble rho2 = 0.0;
+	gdouble sum = 0.0;
+	gdouble f = 0.0;
+	gdouble last_n0 = 0;
+	gdouble *xmesh = NULL;
+
+	int i;
+	int band_pos = 0;
+	int cur_band = 0;
+	int points_per_band = 0;
 
 #ifdef dos_test_stats
 	FILE *freetest;
@@ -288,45 +325,32 @@ void gen_do(struct dosconfig *in, struct dosconfig *in2, char *outfile,
 	}
 #endif
 
-	double tstart = 0.0;
-	double tstop = 0.0;
-	double tsteps = 0.0;
-	double dt = 0.0;
-	double xpos = 0.0;
-	double tpos = 0.0;
-	int t = 0;
-	int x = 0;
-	int band;
-	double *srh_r1 = (double *)malloc(sizeof(double) * in->srh_bands);
-	double *srh_r2 = (double *)malloc(sizeof(double) * in->srh_bands);
-	double *srh_r3 = (double *)malloc(sizeof(double) * in->srh_bands);
-	double *srh_r4 = (double *)malloc(sizeof(double) * in->srh_bands);
-	double *srh_n = (double *)malloc(sizeof(double) * in->srh_bands);
-	double *srh_den = (double *)malloc(sizeof(double) * in->srh_bands);
-	double *srh_dE_sum = (double *)malloc(sizeof(double) * in->srh_bands);
-	double *srh_read = (double *)malloc(sizeof(double) * in->srh_bands);
+	if (in->srh_bands != 0) {
+		srh_r1 = (gdouble *) malloc(sizeof(gdouble) * in->srh_bands);
+		srh_r2 = (gdouble *) malloc(sizeof(gdouble) * in->srh_bands);
+		srh_r3 = (gdouble *) malloc(sizeof(gdouble) * in->srh_bands);
+		srh_r4 = (gdouble *) malloc(sizeof(gdouble) * in->srh_bands);
+		srh_n = (gdouble *) malloc(sizeof(gdouble) * in->srh_bands);
+		srh_den = (gdouble *) malloc(sizeof(gdouble) * in->srh_bands);
+		srh_dE_sum =
+		    (gdouble *) malloc(sizeof(gdouble) * in->srh_bands);
+		srh_read = (gdouble *) malloc(sizeof(gdouble) * in->srh_bands);
+		srh_x = (gdouble *) malloc(sizeof(gdouble) * in->srh_bands);
+		srh_mid = (gdouble *) malloc(sizeof(gdouble) * in->srh_bands);
+	}
 
-	double *srh_x = (double *)malloc(sizeof(double) * in->srh_bands);
-	double *srh_mid = (double *)malloc(sizeof(double) * in->srh_bands);
-	double *band_E_mesh = (double *)malloc(sizeof(double) * in->Esteps);
-	int *band_i = (int *)malloc(sizeof(int) * in->Esteps);
+	if (in->Esteps != 0) {
+		band_E_mesh = (gdouble *) malloc(sizeof(gdouble) * in->Esteps);
+		band_i = (int *)malloc(sizeof(int) * in->Esteps);
+	}
 
-	int e = 0;
-	double E = 0.0;
-	double dE = fabs(in->srh_start) / ((double)in->Esteps);
-	double rho = 0.0;
-	double rho2 = 0.0;
-	double sum = 0.0;
-	double f = 0.0;
-	double last_n0 = 0;
-	double *xmesh = NULL;
 	tstart = in->Tstart;
 	tstop = in->Tstop;
 	tsteps = in->Tsteps;
 	dt = (tstop - tstart) / tsteps;
-//printf("%le %le\n",in->nstop,in->nstart);
+//printf("%Le %Le\n",in->nstop,in->nstart);
 //getchar();
-	double dxr = (in->nstop - in->nstart) / ((double)in->npoints);
+	gdouble dxr = (in->nstop - in->nstart) / ((gdouble) in->npoints);
 
 	xpos = in->nstart;
 	tpos = tstart;
@@ -334,7 +358,7 @@ void gen_do(struct dosconfig *in, struct dosconfig *in2, char *outfile,
 	x = 0;
 #ifdef dos_bin
 	int buf_len = 0;
-	buf_len += 18;
+	buf_len += 19;
 	buf_len += in->npoints;	//mesh
 	buf_len += tsteps;	//mesh
 	buf_len += in->srh_bands;	//mesh
@@ -343,45 +367,47 @@ void gen_do(struct dosconfig *in, struct dosconfig *in2, char *outfile,
 	buf_len += tsteps * in->npoints * 5 * in->srh_bands;	//data
 
 	int buf_pos = 0;
-	double *buf = (double *)malloc(buf_len * sizeof(double));
-	buf[buf_pos++] = (double)in->npoints;
-	buf[buf_pos++] = (double)tsteps;
-	buf[buf_pos++] = (double)in->srh_bands;
-	buf[buf_pos++] = (double)in->epsilonr;
-	buf[buf_pos++] = (double)in->doping;
-	buf[buf_pos++] = (double)in->mu;
-	buf[buf_pos++] = (double)in->srh_vth;
-	buf[buf_pos++] = (double)in->srh_sigman;
-	buf[buf_pos++] = (double)in->srh_sigmap;
-	buf[buf_pos++] = (double)in->Nc;
-	buf[buf_pos++] = (double)in->Nv;
-	buf[buf_pos++] = (double)in->Eg;
-	buf[buf_pos++] = (double)in->Xi;
-	buf[buf_pos++] = (double)in->pl_fe_fh;
-	buf[buf_pos++] = (double)in->pl_trap;
-	buf[buf_pos++] = (double)in->pl_recom;
-	buf[buf_pos++] = (double)in->pl_enabled;
-	buf[buf_pos++] = (double)in->B;
+	gdouble *buf = (gdouble *) malloc(buf_len * sizeof(gdouble));
+	buf[buf_pos++] = (gdouble) in->npoints;
+	buf[buf_pos++] = (gdouble) tsteps;
+	buf[buf_pos++] = (gdouble) in->srh_bands;
+	buf[buf_pos++] = (gdouble) in->epsilonr;
+	buf[buf_pos++] = (gdouble) in->doping_start;
+	buf[buf_pos++] = (gdouble) in->doping_stop;
+	buf[buf_pos++] = (gdouble) in->mu;
+	buf[buf_pos++] = (gdouble) in->srh_vth;
+	buf[buf_pos++] = (gdouble) in->srh_sigman;
+	buf[buf_pos++] = (gdouble) in->srh_sigmap;
+	buf[buf_pos++] = (gdouble) in->Nc;
+	buf[buf_pos++] = (gdouble) in->Nv;
+	buf[buf_pos++] = (gdouble) in->Eg;
+	buf[buf_pos++] = (gdouble) in->Xi;
+	buf[buf_pos++] = (gdouble) in->pl_fe_fh;
+	buf[buf_pos++] = (gdouble) in->pl_trap;
+	buf[buf_pos++] = (gdouble) in->pl_recom;
+	buf[buf_pos++] = (gdouble) in->pl_enabled;
+	buf[buf_pos++] = (gdouble) in->B;
 #else
 	FILE *out;
 	out = fopen(outfile, "w");
 	fprintf(out,
-		"%d %d %d %lf %le %le %le %le %le %le %le %le %le %le %le %le %d %le\n",
+		"%d %d %d %lf %Le %Le %Le %Le %Le %Le %Le %Le %Le %Le %Le %Le %Le %d %Le\n",
 		(int)in->npoints, (int)tsteps, in->srh_bands, in->epsilonr,
-		in->doping, in->mu, in->srh_vth, in->srh_sigman, in->srh_sigmap,
-		in->Nc, in->Nv, in->Eg, in->Xi, in->pl_fe_fh, in->pl_trap,
-		in->pl_recom, in->pl_enabled), in->B);
+		in->doping_start, in->doping_stop, in->mu, in->srh_vth,
+		in->srh_sigman, in->srh_sigmap, in->Nc, in->Nv, in->Eg, in->Xi,
+		in->pl_fe_fh, in->pl_trap, in->pl_recom, in->pl_enabled),
+	    in->B);
 #endif
 
-	double srh_pos = in->srh_start;
-	double srh_delta = fabs(in->srh_start) / (double)(in->srh_bands);
-	xmesh = (double *)malloc(sizeof(double) * in->npoints);
+	gdouble srh_pos = in->srh_start;
+	gdouble srh_delta = fabs(in->srh_start) / (gdouble) (in->srh_bands);
+	xmesh = (gdouble *) malloc(sizeof(gdouble) * in->npoints);
 
 	for (x = 0; x < in->npoints; x++) {
 #ifdef dos_bin
 		buf[buf_pos++] = xpos;
 #else
-		fprintf(out, "%e\n", xpos);
+		fprintf(out, "%Le\n", xpos);
 #endif
 		xmesh[x] = xpos;
 		xpos += dxr;
@@ -391,7 +417,7 @@ void gen_do(struct dosconfig *in, struct dosconfig *in2, char *outfile,
 #ifdef dos_bin
 		buf[buf_pos++] = tpos;
 #else
-		fprintf(out, "%e\n", tpos);
+		fprintf(out, "%Le\n", tpos);
 #endif
 		tpos += dt;
 	}
@@ -402,33 +428,28 @@ void gen_do(struct dosconfig *in, struct dosconfig *in2, char *outfile,
 #ifdef dos_bin
 		buf[buf_pos++] = srh_pos;
 #else
-		fprintf(out, "%e\n", srh_pos);
+		fprintf(out, "%Le\n", srh_pos);
 #endif
-		//printf("%le\n",srh_pos);
+		//printf("%Le\n",srh_pos);
 		//getchar();
 		srh_pos += srh_delta / 2.0;
 		srh_x[band] = srh_pos;
-		//printf("%d %le\n",band,srh_x[band]);
+		//printf("%d %Le\n",band,srh_x[band]);
 
 	}
-
-	int i;
-	int band_pos = 0;
-	int cur_band = 0;
-	int points_per_band = 0;
 
 	if (in->srh_bands > 0) {
 		points_per_band = in->Esteps / in->srh_bands;
 	}
 
-	double pos = in->srh_start;
+	gdouble pos = in->srh_start;
 //printf("%d\n",points_per_band);
 //getchar();
 //FILE *test4=fopen("test4.dat","w");
 	for (i = 0; i < in->Esteps; i++) {
 		band_E_mesh[i] = pos;
 		band_i[i] = cur_band;
-		//fprintf(test4,"%le %d\n",band_E_mesh[i],band_i[i]);
+		//fprintf(test4,"%Le %d\n",band_E_mesh[i],band_i[i]);
 		//getchar();
 		pos += dE;
 		band_pos++;
@@ -458,8 +479,8 @@ void gen_do(struct dosconfig *in, struct dosconfig *in2, char *outfile,
 		}
 
 		for (band = 0; band < in->srh_bands; band++) {
-			unused = fscanf(dosread, "%le", &(srh_read[band]));
-			printf("%le\n", srh_read[band]);
+			unused = fscanf(dosread, "%Le", &(srh_read[band]));
+			printf("%Le\n", srh_read[band]);
 			srh_read[band] = fabs(srh_read[band]);
 		}
 
@@ -519,10 +540,10 @@ void gen_do(struct dosconfig *in, struct dosconfig *in2, char *outfile,
 	}
 
 	int srh_band = 0;
-	double srh_E = srh_mid[0];
-	double srh_f = 0.0;
-	double f2 = 0.0;
-	double sum2 = 0.0;
+	gdouble srh_E = srh_mid[0];
+	gdouble srh_f = 0.0;
+	gdouble f2 = 0.0;
+	gdouble sum2 = 0.0;
 	for (t = 0; t < tsteps; t++) {
 		if (get_dump_status(dump_iodump) == TRUE)
 			printf("%d/%d\n", t, (int)tsteps);
@@ -557,13 +578,13 @@ void gen_do(struct dosconfig *in, struct dosconfig *in2, char *outfile,
 					    exp((E -
 						 (-1.0 * (in->Eg + xpos))) * Q /
 						(kb * tpos)));
-				//printf("%le %le %le %le\n",f2,-1.0*(in->Eg+xpos),in->Eg,xpos);
+				//printf("%Le %Le %Le %Le\n",f2,-1.0*(in->Eg+xpos),in->Eg,xpos);
 				//getchar();
 				srh_f =
 				    1.0 / (1.0 +
 					   exp((srh_E -
 						xpos) * Q / (kb * tpos)));
-				//printf("%le %le\n",xpos,E);
+				//printf("%Le %Le\n",xpos,E);
 				if (in->dostype == dos_fd) {
 					if (E > 0) {
 						rho =
@@ -607,7 +628,7 @@ void gen_do(struct dosconfig *in, struct dosconfig *in2, char *outfile,
 					rho = in->Nt * exp((E) / (in->Et));
 					rho2 = in2->Nt * exp((E) / (in2->Et));
 
-					//printf("%le %le\n",E,rho);
+					//printf("%Le %Le\n",E,rho);
 					//if (rho>1e40) rho=0.0;
 					//if (rho2>1e40)        rho2=0.0;
 
@@ -626,7 +647,7 @@ void gen_do(struct dosconfig *in, struct dosconfig *in2, char *outfile,
 						if (E > in->srh_start) {
 							if (electrons == TRUE) {
 								sprintf(temp,
-									"%le %le\n",
+									"%Le %Le\n",
 									E -
 									in->Xi,
 									rho);
@@ -635,7 +656,7 @@ void gen_do(struct dosconfig *in, struct dosconfig *in2, char *outfile,
 								     temp);
 							} else {
 								sprintf(temp,
-									"%le %le\n",
+									"%Le %Le\n",
 									-E -
 									in->Xi -
 									in->Eg,
@@ -652,9 +673,9 @@ void gen_do(struct dosconfig *in, struct dosconfig *in2, char *outfile,
 				if (E > 0) {
 					sum += rho * f * dE;
 					sum2 += rho2 * f2 * dE;
-					//printf("%le %le\n",rho2,f2);
+					//printf("%Le %Le\n",rho2,f2);
 				} else {
-					//printf("%le %le\n",rho,f);
+					//printf("%Le %Le\n",rho,f);
 					//rho=1e47;
 					if (electrons == TRUE) {
 						srh_r1[srh_band] +=
@@ -689,7 +710,7 @@ void gen_do(struct dosconfig *in, struct dosconfig *in2, char *outfile,
 					}
 				}
 
-				//printf("%le\n",E);
+				//printf("%Le\n",E);
 
 #ifdef test_dist
 				if (E >= 0.0) {
@@ -745,7 +766,7 @@ void gen_do(struct dosconfig *in, struct dosconfig *in2, char *outfile,
 #ifdef dos_bin
 					buf[buf_pos++] = srh_den[band];
 #else
-					fprintf(out, "%le\n", srh_den[band]);
+					fprintf(out, "%Le\n", srh_den[band]);
 #endif
 				}
 				//printf("%ld\n",get_dump_status(dump_band_structure));
@@ -760,7 +781,7 @@ void gen_do(struct dosconfig *in, struct dosconfig *in2, char *outfile,
 						     band < in->srh_bands;
 						     band++) {
 							fprintf(bandsdump,
-								"%le\n",
+								"%Le\n",
 								srh_den[band] /
 								srh_dE_sum
 								[band]);
@@ -773,7 +794,7 @@ void gen_do(struct dosconfig *in, struct dosconfig *in2, char *outfile,
 						     band < in->srh_bands;
 						     band++) {
 							fprintf(bandsdump,
-								"%le\n",
+								"%Le\n",
 								srh_den[band] /
 								srh_dE_sum
 								[band]);
@@ -806,7 +827,7 @@ void gen_do(struct dosconfig *in, struct dosconfig *in2, char *outfile,
 
 			}
 
-			double w0 = sum / ((sum - last_n0) / (dxr));
+			gdouble w0 = sum / ((sum - last_n0) / (dxr));
 			if (x == 0)
 				w0 = kb * tpos / Q;
 #ifdef dos_bin
@@ -857,7 +878,7 @@ void gen_do(struct dosconfig *in, struct dosconfig *in2, char *outfile,
 
 #ifdef test_dist
 			fprintf(rod, "\n");
-			//if (t==0) fprintf(munfile,"%le %le\n",n_tot,mu_tot/n_tot);
+			//if (t==0) fprintf(munfile,"%Le %Le\n",n_tot,mu_tot/n_tot);
 #endif
 
 		}
@@ -891,16 +912,16 @@ void gen_do(struct dosconfig *in, struct dosconfig *in2, char *outfile,
 	}
 	gzFile file;
 	file = gzopen(outfile, "w9b");
-	gzwrite(file, (char *)buf, buf_len * sizeof(double));
+	gzwrite(file, (char *)buf, buf_len * sizeof(gdouble));
 	gzclose(file);
 	FILE *yes;
 	yes = fopen(outfile, "ab");
-	int temp1 = buf_len * sizeof(double);
+	int temp1 = buf_len * sizeof(gdouble);
 	fwrite((char *)&temp1, sizeof(int), 1, yes);
 	fclose(yes);
 
 //out = fopen(outfile, "wb");
-//fwrite((char*)buf, buf_len*sizeof(double), 1, out);
+//fwrite((char*)buf, buf_len*sizeof(gdouble), 1, out);
 //fclose(out);
 	free(buf);
 #else
@@ -928,7 +949,7 @@ void gen_do(struct dosconfig *in, struct dosconfig *in2, char *outfile,
 //              FILE *test3=fopen("test3.dat","w");
 //              for (srh_band=0;srh_band<in->srh_bands;srh_band++)
 //              {
-//                      fprintf(test3,"%d %le\n",srh_band,srh_den[srh_band]);
+//                      fprintf(test3,"%d %Le\n",srh_band,srh_den[srh_band]);
 //              }
 //              fclose(test3);
 //              getchar();
@@ -959,17 +980,17 @@ void gen_dos_fd_gaus_n(int mat) {
 	struct inp_file inp;
 	 inp_init(&inp);
 	 inp_load(&inp, file_name);
-	 inp_check(&inp, 1.21);
+	 inp_check(&inp, 1.22);
 
 	 inp_search_string(&inp, temp, "#dostype");
 	 confige[mat].dostype = english_to_bin(temp);
 	 configh[mat].dostype = confige[mat].dostype;
 
-	 inp_search_double(&inp, &(confige[mat].m), "#me");
-	 inp_search_double(&inp, &(configh[mat].m), "#mh");
+	 inp_search_gdouble(&inp, &(confige[mat].m), "#me");
+	 inp_search_gdouble(&inp, &(configh[mat].m), "#mh");
 
-	 inp_search_double(&inp, &(confige[mat].Nt), "#Ntrape");
-	 inp_search_double(&inp, &(configh[mat].Nt), "#Ntraph");
+	 inp_search_gdouble(&inp, &(confige[mat].Nt), "#Ntrape");
+	 inp_search_gdouble(&inp, &(configh[mat].Nt), "#Ntraph");
 
 	 confige[mat].Nt = fabs(confige[mat].Nt);
 	 configh[mat].Nt = fabs(configh[mat].Nt);
@@ -979,8 +1000,8 @@ void gen_dos_fd_gaus_n(int mat) {
 	if (configh[mat].Nt < 1e7)
 		 configh[mat].Nt = 1e7;
 
-	 inp_search_double(&inp, &(confige[mat].Et), "#Etrape");
-	 inp_search_double(&inp, &(configh[mat].Et), "#Etraph");
+	 inp_search_gdouble(&inp, &(confige[mat].Et), "#Etrape");
+	 inp_search_gdouble(&inp, &(configh[mat].Et), "#Etraph");
 
 	 confige[mat].Et = fabs(confige[mat].Et);
 	 configh[mat].Et = fabs(configh[mat].Et);
@@ -997,86 +1018,90 @@ void gen_dos_fd_gaus_n(int mat) {
 
 	 inp_search_int(&inp, &(gendos), "#gendos");
 
-	 inp_search_double(&inp, &(confige[mat].mu), "#mueffe");
-	 inp_search_double(&inp, &(configh[mat].mu), "#mueffh");
+	 inp_search_gdouble(&inp, &(confige[mat].mu), "#mueffe");
+	 inp_search_gdouble(&inp, &(configh[mat].mu), "#mueffh");
 
 	 confige[mat].mu = fabs(confige[mat].mu);
 	 configh[mat].mu = fabs(configh[mat].mu);
 
-	 inp_search_double(&inp, &(confige[mat].epsilonr), "#epsilonr");
+	 inp_search_gdouble(&inp, &(confige[mat].epsilonr), "#epsilonr");
 	 confige[mat].epsilonr = fabs(confige[mat].epsilonr);
 	 hard_limit("#epsilonr", &(confige[mat].epsilonr));
 
 	 confige[mat].epsilonr = fabs(confige[mat].epsilonr);
 	 configh[mat].epsilonr = fabs(confige[mat].epsilonr);
 
-	 inp_search_double(&inp, &(confige[mat].doping), "#doping");
-	 configh[mat].doping = confige[mat].doping;
+	 inp_search_gdouble(&inp, &(confige[mat].doping_start),
+			    "#doping_start");
+	 configh[mat].doping_start = confige[mat].doping_start;
 
-	 inp_search_double(&inp, &(confige[mat].Tstart), "#Tstart");
-	 inp_search_double(&inp, &(confige[mat].Tstop), "#Tstop");
+	 inp_search_gdouble(&inp, &(confige[mat].doping_stop), "#doping_stop");
+	 configh[mat].doping_stop = confige[mat].doping_stop;
+
+	 inp_search_gdouble(&inp, &(confige[mat].Tstart), "#Tstart");
+	 inp_search_gdouble(&inp, &(confige[mat].Tstop), "#Tstop");
 	 inp_search_int(&inp, &(confige[mat].Tsteps), "#Tpoints");
 
 	 configh[mat].Tstart = confige[mat].Tstart;
 	 configh[mat].Tstop = confige[mat].Tstop;
 	 configh[mat].Tsteps = confige[mat].Tsteps;
 
-	 inp_search_double(&inp, &(confige[mat].nstart), "#nstart");
-	 inp_search_double(&inp, &(confige[mat].nstop), "#nstop");
+	 inp_search_gdouble(&inp, &(confige[mat].nstart), "#nstart");
+	 inp_search_gdouble(&inp, &(confige[mat].nstop), "#nstop");
 	 inp_search_int(&inp, &(confige[mat].npoints), "#npoints");
 
-	 inp_search_double(&inp, &(configh[mat].nstart), "#pstart");
-	 inp_search_double(&inp, &(configh[mat].nstop), "#pstop");
+	 inp_search_gdouble(&inp, &(configh[mat].nstart), "#pstart");
+	 inp_search_gdouble(&inp, &(configh[mat].nstop), "#pstop");
 	 inp_search_int(&inp, &(configh[mat].npoints), "#ppoints");
 	int bands = 0;
 	 inp_search_int(&inp, &(bands), "#srh_bands");
 	 confige[mat].srh_bands = bands;
 	 configh[mat].srh_bands = bands;
 
-	 inp_search_double(&inp, &(confige[mat].srh_start), "#srh_start");
+	 inp_search_gdouble(&inp, &(confige[mat].srh_start), "#srh_start");
 	 configh[mat].srh_start = confige[mat].srh_start;
 
-	 inp_search_double(&inp, &(confige[mat].srh_sigman), "#srhsigman_e");
+	 inp_search_gdouble(&inp, &(confige[mat].srh_sigman), "#srhsigman_e");
 	 confige[mat].srh_sigman = fabs(confige[mat].srh_sigman);
 
-	 inp_search_double(&inp, &(confige[mat].srh_sigmap), "#srhsigmap_e");
+	 inp_search_gdouble(&inp, &(confige[mat].srh_sigmap), "#srhsigmap_e");
 	 confige[mat].srh_sigmap = fabs(confige[mat].srh_sigmap);
 
-	 inp_search_double(&inp, &(confige[mat].srh_vth), "#srhvth_e");
+	 inp_search_gdouble(&inp, &(confige[mat].srh_vth), "#srhvth_e");
 	 confige[mat].srh_vth = fabs(confige[mat].srh_vth);
 	if (confige[mat].srh_vth < 1e2)
 		 confige[mat].srh_vth = 1e2;
 
-	 inp_search_double(&inp, &(configh[mat].srh_sigman), "#srhsigman_h");
+	 inp_search_gdouble(&inp, &(configh[mat].srh_sigman), "#srhsigman_h");
 	 configh[mat].srh_sigman = fabs(configh[mat].srh_sigman);
 
-	 inp_search_double(&inp, &(configh[mat].srh_sigmap), "#srhsigmap_h");
+	 inp_search_gdouble(&inp, &(configh[mat].srh_sigmap), "#srhsigmap_h");
 	 configh[mat].srh_sigmap = fabs(configh[mat].srh_sigmap);
 
-	 inp_search_double(&inp, &(configh[mat].srh_vth), "#srhvth_h");
+	 inp_search_gdouble(&inp, &(configh[mat].srh_vth), "#srhvth_h");
 	 configh[mat].srh_vth = fabs(configh[mat].srh_vth);
 	if (configh[mat].srh_vth < 1e2)
 		 configh[mat].srh_vth = 1e2;
 
-	 inp_search_double(&inp, &(confige[mat].Nc), "#Nc");
+	 inp_search_gdouble(&inp, &(confige[mat].Nc), "#Nc");
 
-	 inp_search_double(&inp, &(confige[mat].Nv), "#Nv");
+	 inp_search_gdouble(&inp, &(confige[mat].Nv), "#Nv");
 
-	 inp_search_double(&inp, &(confige[mat].srh_cut), "#srh_cut");
+	 inp_search_gdouble(&inp, &(confige[mat].srh_cut), "#srh_cut");
 	 confige[mat].srh_cut = -fabs(confige[mat].srh_cut);
 	 configh[mat].srh_cut = confige[mat].srh_cut;
 
-	 inp_search_double(&inp, &(confige[mat].del_start), "#lumodelstart");
+	 inp_search_gdouble(&inp, &(confige[mat].del_start), "#lumodelstart");
 
-	 inp_search_double(&inp, &(confige[mat].del_stop), "#lumodelstop");
+	 inp_search_gdouble(&inp, &(confige[mat].del_stop), "#lumodelstop");
 
-	 inp_search_double(&inp, &(configh[mat].del_start), "#homodelstart");
+	 inp_search_gdouble(&inp, &(configh[mat].del_start), "#homodelstart");
 
-	 inp_search_double(&inp, &(configh[mat].del_stop), "#homodelstop");
+	 inp_search_gdouble(&inp, &(configh[mat].del_stop), "#homodelstop");
 
-	 inp_search_double(&inp, &(confige[mat].Xi), "#Xi");
+	 inp_search_gdouble(&inp, &(confige[mat].Xi), "#Xi");
 
-	 inp_search_double(&inp, &(confige[mat].Eg), "#Eg");
+	 inp_search_gdouble(&inp, &(confige[mat].Eg), "#Eg");
 	 confige[mat].Eg = fabs(confige[mat].Eg);
 	 hard_limit("#Eg", &(confige[mat].Eg));
 
@@ -1084,11 +1109,11 @@ void gen_dos_fd_gaus_n(int mat) {
 //if (confige[mat].Eg<1.0) configh[mat].Eg=1.0;
 //if (confige[mat].Eg>1.8) configh[mat].Eg=1.8;
 
-	 inp_search_double(&inp, &(confige[mat].gaus_mull), "#gaus_mull");
+	 inp_search_gdouble(&inp, &(confige[mat].gaus_mull), "#gaus_mull");
 	 configh[mat].gaus_mull = confige[mat].gaus_mull;
 
-	 inp_search_double(&inp, &(confige[mat].B),
-			   "#free_to_free_recombination");
+	 inp_search_gdouble(&inp, &(confige[mat].B),
+			    "#free_to_free_recombination");
 	 configh[mat].B = confige[mat].B;
 
 	int Esteps = 0;
@@ -1126,29 +1151,29 @@ void gen_dos_fd_gaus_n(int mat) {
 	configh[mat].m =
 	    pow(confige[mat].Nv / 2.0,
 		2.0 / 3.0) * hp * hp / kb / 300.0 / m0 / 2.0 / PI;
-//printf("%le %le\n",confige[mat].m,configh[mat].m);
+//printf("%Le %Le\n",confige[mat].m,configh[mat].m);
 //getchar();
 //(sqrt(E)/(4.0*PI*PI))*pow((2.0*in->m*m0)/(hbar*hbar),3.0/2.0)
 
 	configh[mat].Nc = confige[mat].Nc;
 	configh[mat].Nv = confige[mat].Nv;
-//printf("%le\n",configh[mat].Nv);
+//printf("%Le\n",configh[mat].Nv);
 //getchar();
 
 	sprintf(file_name, "%s.inp", pl_name);
 	inp_init(&inp);
 	inp_load(&inp, file_name);
 
-	inp_search_double(&inp, &(confige[mat].pl_fe_fh), "#pl_fe_fh");
+	inp_search_gdouble(&inp, &(confige[mat].pl_fe_fh), "#pl_fe_fh");
 	configh[mat].pl_fe_fh = confige[mat].pl_fe_fh;
 
-	inp_search_double(&inp, &(confige[mat].pl_trap), "#pl_fe_te");
+	inp_search_gdouble(&inp, &(confige[mat].pl_trap), "#pl_fe_te");
 
-	inp_search_double(&inp, &(confige[mat].pl_recom), "#pl_te_fh");
+	inp_search_gdouble(&inp, &(confige[mat].pl_recom), "#pl_te_fh");
 
-	inp_search_double(&inp, &(configh[mat].pl_recom), "#pl_th_fe");
+	inp_search_gdouble(&inp, &(configh[mat].pl_recom), "#pl_th_fe");
 
-	inp_search_double(&inp, &(configh[mat].pl_trap), "#pl_fh_th");
+	inp_search_gdouble(&inp, &(configh[mat].pl_trap), "#pl_fh_th");
 
 	inp_search_string(&inp, temp, "#pl_enabled");
 	confige[mat].pl_enabled = english_to_bin(temp);

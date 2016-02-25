@@ -56,22 +56,22 @@ int time_run()
 	return 0;
 }
 
-double time_get_voltage()
+gdouble time_get_voltage()
 {
 	return 0.0;
 }
 
-double time_get_fs_laser()
+gdouble time_get_fs_laser()
 {
 	return 0.0;
 }
 
-double time_get_sun()
+gdouble time_get_sun()
 {
 	return 0.0;
 }
 
-double time_get_laser()
+gdouble time_get_laser()
 {
 	return 0.0;
 }

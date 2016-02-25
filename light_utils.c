@@ -25,9 +25,9 @@
 #include <math.h>
 #include <errno.h>
 #include <util.h>
-#include <true_false.h>
 #include <unistd.h>
 #include <dirent.h>
+#include "const.h"
 #include "light.h"
 #include "device.h"
 #include "const.h"
@@ -48,19 +48,19 @@ void light_solve_optical_problem(struct light *in)
 
 //if (get_dump_status(dump_iodump)==TRUE) printf("light_solve_optical_problem\n");
 
-	double Psun = in->Psun * pow(10.0, -in->ND);
+	gdouble Psun = in->Psun * gpow(10.0, -in->ND);
 	light_set_sun_power(in, Psun, in->laser_eff);
 	if ((in->laser_eff == 0) && (in->Psun == 0)) {
 
 		if (get_dump_status(dump_optics) == TRUE)
 			printf_log(_("It's dark I know what the answer is\n"));
 		for (i = 0; i < in->lpoints; i++) {
-			memset(in->En[i], 0.0, in->points * sizeof(double));
-			memset(in->Ep[i], 0.0, in->points * sizeof(double));
-			memset(in->Enz[i], 0.0, in->points * sizeof(double));
-			memset(in->Epz[i], 0.0, in->points * sizeof(double));
+			memset(in->En[i], 0.0, in->points * sizeof(gdouble));
+			memset(in->Ep[i], 0.0, in->points * sizeof(gdouble));
+			memset(in->Enz[i], 0.0, in->points * sizeof(gdouble));
+			memset(in->Epz[i], 0.0, in->points * sizeof(gdouble));
 		}
-
+		printf("dark\n");
 	} else {
 
 		light_solve_all(in);
@@ -76,15 +76,15 @@ void light_solve_optical_problem(struct light *in)
 
 }
 
-double light_cal_photon_density(struct light *in)
+gdouble light_cal_photon_density(struct light *in)
 {
 
 	int i;
 	int ii;
-	double tot = 0.0;
+	gdouble tot = 0.0;
 
-	double H_tot = 0.0;
-	double photons_tot = 0.0;
+	gdouble H_tot = 0.0;
+	gdouble photons_tot = 0.0;
 
 	for (ii = 0; ii < in->points; ii++) {
 		tot = 0.0;
@@ -95,8 +95,8 @@ double light_cal_photon_density(struct light *in)
 			in->E_tot_i[i][ii] = in->Enz[i][ii] + in->Epz[i][ii];
 			in->pointing_vector[i][ii] =
 			    0.5 * epsilon0 * cl * in->n[i][ii] *
-			    (pow(in->E_tot_r[i][ii], 2.0) +
-			     pow(in->E_tot_i[i][ii], 2.0));
+			    (gpow(in->E_tot_r[i][ii], 2.0) +
+			     gpow(in->E_tot_i[i][ii], 2.0));
 
 			if (strcmp(in->mode, "bleach") != 0) {
 				in->photons[i][ii] =
@@ -105,7 +105,7 @@ double light_cal_photon_density(struct light *in)
 				in->photons_asb[i][ii] =
 				    in->photons[i][ii] * in->alpha[i][ii];
 			}
-			double E = ((hp * cl) / in->l[i]) / Q - in->Eg;
+			gdouble E = ((hp * cl) / in->l[i]) / Q - in->Eg;
 
 			//getchar();
 			if (E > 0.0) {
@@ -114,28 +114,27 @@ double light_cal_photon_density(struct light *in)
 				in->H[i][ii] = 0.0;
 			}
 
-			//printf("%d %d %le %le %le\n",i,ii,E,in->H[i][ii],in->photons_asb[i][ii]);
+			//printf("%d %d %Le %Le %Le\n",i,ii,E,in->H[i][ii],in->photons_asb[i][ii]);
 			photons_tot += in->photons[i][ii] * in->dl;
 			tot += in->photons_asb[i][ii] * in->dl;
 			H_tot += in->H[i][ii] * in->dl;
-			//printf("%le %le\n",E,in->l[i]);
+			//printf("%Le %Le\n",E,in->l[i]);
 			//getchar();*/
 
 		}
 
 		in->Gn[ii] = tot;
 		in->Gp[ii] = tot;
-
 		in->H1d[ii] = H_tot;
 		in->photons_tot[ii] = photons_tot;
 
 		for (i = 0; i < in->lpoints; i++) {
 			in->reflect[i] =
-			    (pow(in->En[i][0], 2.0) +
-			     pow(in->Enz[i][0], 2.0)) / (pow(in->Ep[i][0],
-							     2.0) +
-							 pow(in->Epz[i][0],
-							     2.0));
+			    (gpow(in->En[i][0], 2.0) +
+			     gpow(in->Enz[i][0], 2.0)) / (gpow(in->Ep[i][0],
+							       2.0) +
+							  gpow(in->Epz[i][0],
+							       2.0));
 		}
 
 	}
@@ -242,8 +241,7 @@ void light_load_materials(struct light *in)
 		}
 
 		inp_check(&inp, 1.0);
-
-		strcpy(temp, inp_search(&inp, "#materialsdir"));
+		inp_search_string(&inp, temp, "#materialsdir");
 		inp_free(&inp);
 
 		theFolder = opendir(temp);
@@ -278,10 +276,10 @@ void light_load_materials(struct light *in)
 	in->mat_n =
 	    (struct istruct *)malloc(in->layers * sizeof(struct istruct));
 
-	double alpha_mul = 1.0;
-	double n_mul = 1.0;
-	double wavelength_shift_n = 0.0;
-	double wavelength_shift_alpha = 0.0;
+	gdouble alpha_mul = 1.0;
+	gdouble n_mul = 1.0;
+	gdouble wavelength_shift_n = 0.0;
+	gdouble wavelength_shift_alpha = 0.0;
 	int patch = FALSE;
 	int inter = FALSE;
 
@@ -290,9 +288,9 @@ void light_load_materials(struct light *in)
 	char out_file[400];
 	char token[400];
 	int ii = 0;
-	double b = 0.0;
-	double a = 0.0;
-	double c = 0.0;
+	gdouble b = 0.0;
+	gdouble a = 0.0;
+	gdouble c = 0.0;
 	char type[40];
 	int spectrum = FALSE;
 	for (i = 0; i < in->layers; i++) {
@@ -301,21 +299,21 @@ void light_load_materials(struct light *in)
 
 		inp_load(&inp, fit_file);
 
-		inp_search_double(&inp, &alpha_mul, "#alpha_mul");
+		inp_search_gdouble(&inp, &alpha_mul, "#alpha_mul");
 		alpha_mul = fabs(alpha_mul);
 		hard_limit("#alpha_mul", &alpha_mul);
 
-		inp_search_double(&inp, &n_mul, "#n_mul");
+		inp_search_gdouble(&inp, &n_mul, "#n_mul");
 		n_mul = fabs(n_mul);
 		hard_limit("#n_mul", &n_mul);
 
-		inp_search_double(&inp, &wavelength_shift_n,
-				  "#wavelength_shift_n");
+		inp_search_gdouble(&inp, &wavelength_shift_n,
+				   "#wavelength_shift_n");
 		wavelength_shift_n -= 40e-9;
 		hard_limit("#wavelength_shift_n", &wavelength_shift_n);
 
-		inp_search_double(&inp, &wavelength_shift_alpha,
-				  "#wavelength_shift_alpha");
+		inp_search_gdouble(&inp, &wavelength_shift_alpha,
+				   "#wavelength_shift_alpha");
 		wavelength_shift_alpha -= 40.0e-9;
 
 		hard_limit("#wavelength_shift_alpha", &wavelength_shift_alpha);
@@ -336,6 +334,10 @@ void light_load_materials(struct light *in)
 		join_path(3, file_path, materialsdir, in->material_dir_name[i],
 			  "n.omat");
 		inter_load(&(in->mat_n[i]), file_path);
+		//printf("%s\n",file_path);
+		//inter_dump(&in->mat_n[i]);
+		//getchar();
+
 		inter_sort(&(in->mat_n[i]));
 
 		//struct istruct den;
@@ -368,13 +370,13 @@ void light_load_materials(struct light *in)
 				unused = fscanf(patch_in, "%s", type);
 
 				unused = fscanf(patch_in, "%s", token);
-				unused = fscanf(patch_in, "%le", &a);
+				unused = fscanf(patch_in, "%Le", &a);
 
 				unused = fscanf(patch_in, "%s", token);
-				unused = fscanf(patch_in, "%le", &b);
+				unused = fscanf(patch_in, "%Le", &b);
 
 				unused = fscanf(patch_in, "%s", token);
-				unused = fscanf(patch_in, "%le", &c);
+				unused = fscanf(patch_in, "%Le", &c);
 
 				if (strcmp(type, "bar_n") == 0) {
 					hard_limit(token, &c);
@@ -401,11 +403,11 @@ void light_load_materials(struct light *in)
 				} else if (strcmp(type, "gaus") == 0) {
 					hard_limit(token, &c);
 					c = fabs(c);
-					double add = 0.0;
+					gdouble add = 0.0;
 					int max_pos =
 					    inter_search_pos(&(in->mat_n[i]),
 							     a);
-					double subtract =
+					gdouble subtract =
 					    in->mat_n[i].data[max_pos];
 					b = fabs(b);
 					for (ii = 0; ii < in->mat_n[i].len;
@@ -413,7 +415,7 @@ void light_load_materials(struct light *in)
 						add =
 						    (c -
 						     subtract) *
-						    exp(-pow
+						    exp(-gpow
 							(((in->mat_n[i].x[ii] -
 							   a) / (sqrt(2.0) *
 								 b)), 2.0));
@@ -422,18 +424,18 @@ void light_load_materials(struct light *in)
 					}
 				} else if (strcmp(type, "gaus_math") == 0) {
 					printf_log("gaus math\n");
-					double add = 0.0;
+					gdouble add = 0.0;
 					b = fabs(b);
 					for (ii = 0; ii < in->mat_n[i].len;
 					     ii++) {
 						add =
 						    c *
-						    exp(-pow
+						    exp(-gpow
 							(((in->mat_n[i].x[ii] -
 							   a) / (sqrt(2.0) *
 								 b)), 2.0));
 						in->mat_n[i].data[ii] += add;
-						//printf("add=%le %le\n",add,c);
+						//printf("add=%Le %Le\n",add,c);
 					}
 				}
 			} while (!feof(patch_in));
@@ -456,8 +458,8 @@ void light_load_materials(struct light *in)
 					ewe("file %s not found\n", patch_file);
 				}
 
-				double from = 0.0;
-				double to = 0.0;
+				gdouble from = 0.0;
+				gdouble to = 0.0;
 
 				do {
 					unused = fscanf(patch_in, "%s", token);
@@ -466,7 +468,7 @@ void light_load_materials(struct light *in)
 					}
 
 					unused =
-					    fscanf(patch_in, "%le %le", &from,
+					    fscanf(patch_in, "%Le %Le", &from,
 						   &to);
 
 					//for n
@@ -476,11 +478,11 @@ void light_load_materials(struct light *in)
 					int x1 =
 					    inter_search_pos(&(in->mat_n[i]),
 							     to);
-					double y0 = in->mat_n[i].data[x0];
-					double y1 = in->mat_n[i].data[x1];
-					double step =
-					    (y1 - y0) / ((double)(x1 - x0));
-					double pos = y0;
+					gdouble y0 = in->mat_n[i].data[x0];
+					gdouble y1 = in->mat_n[i].data[x1];
+					gdouble step =
+					    (y1 - y0) / ((gdouble) (x1 - x0));
+					gdouble pos = y0;
 					for (ii = x0; ii < x1; ii++) {
 						in->mat_n[i].data[ii] = pos;
 						pos += step;
@@ -492,7 +494,8 @@ void light_load_materials(struct light *in)
 							      to);
 					y0 = in->mat[i].data[x0];
 					y1 = in->mat[i].data[x1];
-					step = (y1 - y0) / ((double)(x1 - x0));
+					step =
+					    (y1 - y0) / ((gdouble) (x1 - x0));
 					pos = y0;
 					for (ii = x0; ii < x1; ii++) {
 						in->mat[i].data[ii] = pos;
@@ -532,19 +535,19 @@ void light_load_materials(struct light *in)
 			}
 
 			int n = 0;
-			double value = 0.0;
-			double start = 0.0;
-			double stop = 0.0;
+			gdouble value = 0.0;
+			gdouble start = 0.0;
+			gdouble stop = 0.0;
 			unused = fscanf(f_in, "%s", token);
-			unused = fscanf(f_in, "%le", &start);
+			unused = fscanf(f_in, "%Le", &start);
 			unused = fscanf(f_in, "%s", token);
-			unused = fscanf(f_in, "%le", &stop);
+			unused = fscanf(f_in, "%Le", &stop);
 			unused = fscanf(f_in, "%s", token);
 			unused = fscanf(f_in, "%d", &n);
 			unused = fscanf(f_in, "%s", token);
 			inter_init_mesh(&(in->mat_n[i]), n, start, stop);
 			for (ii = 0; ii < n; ii++) {
-				unused = fscanf(f_in, "%le", &value);
+				unused = fscanf(f_in, "%Le", &value);
 				in->mat_n[i].data[ii] = value;
 			}
 			fclose(f_in);
@@ -593,8 +596,8 @@ void light_load_epitaxy(struct light *in, char *epi_file)
 	int i = 0;
 
 	in->layers = my_epitaxy.layers;
-	in->thick = (double *)malloc(in->layers * sizeof(double));
-	in->G_percent = (double *)malloc(in->layers * sizeof(double));
+	in->thick = (gdouble *) malloc(in->layers * sizeof(gdouble));
+	in->G_percent = (gdouble *) malloc(in->layers * sizeof(gdouble));
 
 	in->material_dir_name = (char **)malloc(in->layers * sizeof(char *));
 	for (i = 0; i < in->layers; i++) {
@@ -623,13 +626,13 @@ void light_calculate_complex_n(struct light *in)
 {
 	int i = 0;
 	int ii = 0;
-	double nc = 0.0;
-	double kc = 0.0;
+	gdouble nc = 0.0;
+	gdouble kc = 0.0;
 
-	double nr = 0.0;
-	double kr = 0.0;
-	double complex n0 = 0.0 + 0.0 * I;
-	double complex n1 = 0.0 + 0.0 * I;
+	gdouble nr = 0.0;
+	gdouble kr = 0.0;
+	gdouble complex n0 = 0.0 + 0.0 * I;
+	gdouble complex n1 = 0.0 + 0.0 * I;
 
 	for (i = 0; i < in->lpoints; i++) {
 		for (ii = 0; ii < in->points; ii++) {
@@ -652,15 +655,15 @@ void light_calculate_complex_n(struct light *in)
 			in->r[i][ii] = (n0 - n1) / (n0 + n1);
 			in->t[i][ii] = (2.0 * n0) / (n0 + n1);
 
-			//printf("%le %le\n",cabs(in->r[i][ii]),1.0-cabs(in->r[i][ii]));
-			//printf("%le %le\n",cabs(in->t[i][ii]),1.0-cabs(in->t[i][ii]));
+			//printf("%Le %Le\n",cabs(in->r[i][ii]),1.0-cabs(in->r[i][ii]));
+			//printf("%Le %Le\n",cabs(in->t[i][ii]),1.0-cabs(in->t[i][ii]));
 			//getchar();
 
 		}
-		memset(in->En[i], 0.0, in->points * sizeof(double));
-		memset(in->Ep[i], 0.0, in->points * sizeof(double));
-		memset(in->Enz[i], 0.0, in->points * sizeof(double));
-		memset(in->Epz[i], 0.0, in->points * sizeof(double));
+		memset(in->En[i], 0.0, in->points * sizeof(gdouble));
+		memset(in->Ep[i], 0.0, in->points * sizeof(gdouble));
+		memset(in->Enz[i], 0.0, in->points * sizeof(gdouble));
+		memset(in->Epz[i], 0.0, in->points * sizeof(gdouble));
 
 	}
 }
@@ -671,8 +674,8 @@ void light_init_mesh(struct light *in)
 	join_path(2, temp, in->output_path, "light_dump");
 	remove_dir(temp);
 	int i;
-	double ver = 0.0;
-	double pos = 0.0;
+	gdouble ver = 0.0;
+	gdouble pos = 0.0;
 	struct inp_file inp;
 
 	join_path(2, in->config_file, in->output_path, "optics.inp");
@@ -693,80 +696,88 @@ void light_init_mesh(struct light *in)
 	inp_search_int(&inp, &in->flip_field, "#flip_field");
 
 	if (in->align_mesh == FALSE) {
-		in->dx = in->ylen / ((double)in->points);
+		in->dx = in->ylen / ((gdouble) in->points);
 	} else {
 		in->points = (int)(in->ylen / in->dx);
 	}
 
 	inp_search_int(&inp, &in->lpoints, "#lpoints");
 
-	in->x = (double *)malloc(in->points * sizeof(double));
-	in->H1d = (double *)malloc(in->points * sizeof(double));
-	in->l = (double *)malloc(in->lpoints * sizeof(double));
-	in->Gn = (double *)malloc(in->points * sizeof(double));
-	in->Gp = (double *)malloc(in->points * sizeof(double));
-	in->photons_tot = (double *)malloc(in->points * sizeof(double));
-	in->sun = (double *)malloc(in->lpoints * sizeof(double));
-	in->layer_end = (double *)malloc(in->points * sizeof(double));
-	in->sun_norm = (double *)malloc(in->lpoints * sizeof(double));
-	in->sun_photons = (double *)malloc(in->lpoints * sizeof(double));
-	in->sun_E = (double *)malloc(in->lpoints * sizeof(double));
-	in->En = (double **)malloc(in->lpoints * sizeof(double *));
-	in->Enz = (double **)malloc(in->lpoints * sizeof(double *));
-	in->Ep = (double **)malloc(in->lpoints * sizeof(double *));
-	in->Epz = (double **)malloc(in->lpoints * sizeof(double *));
-	in->photons_asb = (double **)malloc(in->lpoints * sizeof(double *));
-	in->H = (double **)malloc(in->lpoints * sizeof(double *));
-	in->alpha = (double **)malloc(in->lpoints * sizeof(double *));
-	in->alpha0 = (double **)malloc(in->lpoints * sizeof(double *));
-	in->photons = (double **)malloc(in->lpoints * sizeof(double *));
-	in->pointing_vector = (double **)malloc(in->lpoints * sizeof(double *));
-	in->E_tot_r = (double **)malloc(in->lpoints * sizeof(double *));
-	in->E_tot_i = (double **)malloc(in->lpoints * sizeof(double *));
-	in->n = (double **)malloc(in->lpoints * sizeof(double *));
+	in->x = (gdouble *) malloc(in->points * sizeof(gdouble));
+	in->H1d = (gdouble *) malloc(in->points * sizeof(gdouble));
+	in->l = (gdouble *) malloc(in->lpoints * sizeof(gdouble));
+	in->Gn = (gdouble *) malloc(in->points * sizeof(gdouble));
+	in->Gp = (gdouble *) malloc(in->points * sizeof(gdouble));
+	in->photons_tot = (gdouble *) malloc(in->points * sizeof(gdouble));
+	in->sun = (gdouble *) malloc(in->lpoints * sizeof(gdouble));
+	in->layer_end = (gdouble *) malloc(in->points * sizeof(gdouble));
+	in->sun_norm = (gdouble *) malloc(in->lpoints * sizeof(gdouble));
+	in->sun_photons = (gdouble *) malloc(in->lpoints * sizeof(gdouble));
+	in->sun_E = (gdouble *) malloc(in->lpoints * sizeof(gdouble));
+	in->En = (gdouble **) malloc(in->lpoints * sizeof(gdouble *));
+	in->Enz = (gdouble **) malloc(in->lpoints * sizeof(gdouble *));
+	in->Ep = (gdouble **) malloc(in->lpoints * sizeof(gdouble *));
+	in->Epz = (gdouble **) malloc(in->lpoints * sizeof(gdouble *));
+	in->photons_asb = (gdouble **) malloc(in->lpoints * sizeof(gdouble *));
+	in->H = (gdouble **) malloc(in->lpoints * sizeof(gdouble *));
+	in->alpha = (gdouble **) malloc(in->lpoints * sizeof(gdouble *));
+	in->alpha0 = (gdouble **) malloc(in->lpoints * sizeof(gdouble *));
+	in->photons = (gdouble **) malloc(in->lpoints * sizeof(gdouble *));
+	in->pointing_vector =
+	    (gdouble **) malloc(in->lpoints * sizeof(gdouble *));
+	in->E_tot_r = (gdouble **) malloc(in->lpoints * sizeof(gdouble *));
+	in->E_tot_i = (gdouble **) malloc(in->lpoints * sizeof(gdouble *));
+	in->n = (gdouble **) malloc(in->lpoints * sizeof(gdouble *));
 	in->t =
-	    (double complex **)malloc(in->lpoints * sizeof(double complex *));
+	    (gdouble complex **) malloc(in->lpoints *
+					sizeof(gdouble complex *));
 	in->r =
-	    (double complex **)malloc(in->lpoints * sizeof(double complex *));
+	    (gdouble complex **) malloc(in->lpoints *
+					sizeof(gdouble complex *));
 	in->nbar =
-	    (double complex **)malloc(in->lpoints * sizeof(double complex *));
+	    (gdouble complex **) malloc(in->lpoints *
+					sizeof(gdouble complex *));
 	for (i = 0; i < in->lpoints; i++) {
-		in->En[i] = (double *)malloc(in->points * sizeof(double));
-		in->Enz[i] = (double *)malloc(in->points * sizeof(double));
-		in->Ep[i] = (double *)malloc(in->points * sizeof(double));
-		in->Epz[i] = (double *)malloc(in->points * sizeof(double));
+		in->En[i] = (gdouble *) malloc(in->points * sizeof(gdouble));
+		in->Enz[i] = (gdouble *) malloc(in->points * sizeof(gdouble));
+		in->Ep[i] = (gdouble *) malloc(in->points * sizeof(gdouble));
+		in->Epz[i] = (gdouble *) malloc(in->points * sizeof(gdouble));
 		in->photons_asb[i] =
-		    (double *)malloc(in->points * sizeof(double));
-		in->alpha[i] = (double *)malloc(in->points * sizeof(double));
-		in->alpha0[i] = (double *)malloc(in->points * sizeof(double));
-		in->photons[i] = (double *)malloc(in->points * sizeof(double));
+		    (gdouble *) malloc(in->points * sizeof(gdouble));
+		in->alpha[i] = (gdouble *) malloc(in->points * sizeof(gdouble));
+		in->alpha0[i] =
+		    (gdouble *) malloc(in->points * sizeof(gdouble));
+		in->photons[i] =
+		    (gdouble *) malloc(in->points * sizeof(gdouble));
 		in->pointing_vector[i] =
-		    (double *)malloc(in->points * sizeof(double));
-		in->E_tot_r[i] = (double *)malloc(in->points * sizeof(double));
-		in->E_tot_i[i] = (double *)malloc(in->points * sizeof(double));
-		in->n[i] = (double *)malloc(in->points * sizeof(double));
+		    (gdouble *) malloc(in->points * sizeof(gdouble));
+		in->E_tot_r[i] =
+		    (gdouble *) malloc(in->points * sizeof(gdouble));
+		in->E_tot_i[i] =
+		    (gdouble *) malloc(in->points * sizeof(gdouble));
+		in->n[i] = (gdouble *) malloc(in->points * sizeof(gdouble));
 		in->t[i] =
-		    (double complex *)malloc(in->points *
-					     sizeof(double complex));
+		    (gdouble complex *) malloc(in->points *
+					       sizeof(gdouble complex));
 		in->r[i] =
-		    (double complex *)malloc(in->points *
-					     sizeof(double complex));
+		    (gdouble complex *) malloc(in->points *
+					       sizeof(gdouble complex));
 		in->nbar[i] =
-		    (double complex *)malloc(in->points *
-					     sizeof(double complex));
-		in->H[i] = (double *)malloc(in->points * sizeof(double));
+		    (gdouble complex *) malloc(in->points *
+					       sizeof(gdouble complex));
+		in->H[i] = (gdouble *) malloc(in->points * sizeof(gdouble));
 
 	}
 
-	in->reflect = (double *)malloc(in->lpoints * sizeof(double));
+	in->reflect = (gdouble *) malloc(in->lpoints * sizeof(gdouble));
 
 	in->layer = (int *)malloc(in->points * sizeof(int));
 
 	pos = in->dx;
 
 	int layer = 0;
-	double layer_end = in->thick[layer];
-	//printf("%le\n",layer_end);
+	gdouble layer_end = in->thick[layer];
+	//printf("%Le\n",layer_end);
 	for (i = 0; i < in->points; i++) {
 		in->x[i] = pos;
 		in->layer_end[i] = layer_end - pos;
@@ -777,7 +788,7 @@ void light_init_mesh(struct light *in)
 		pos += in->dx;
 
 		if (pos > layer_end) {
-			//printf("%le\n",in->thick[layer],la);
+			//printf("%Le\n",in->thick[layer],la);
 			//do
 			//{
 			if (layer < (in->layers - 1)) {
@@ -787,26 +798,26 @@ void light_init_mesh(struct light *in)
 				layer_end = layer_end + in->thick[layer];
 			}
 		}
-		//printf("%le %d %d %le\n",in->x[i],i,layer,in->thick[layer]);
+		//printf("%Le %d %d %Le\n",in->x[i],i,layer,in->thick[layer]);
 	}
 	in->device_start_i++;
 
-	inp_search_double(&inp, &in->lstart, "#lstart");
+	inp_search_gdouble(&inp, &in->lstart, "#lstart");
 
-	inp_search_double(&inp, &in->lstop, "#lstop");
+	inp_search_gdouble(&inp, &in->lstop, "#lstop");
 
-	in->dl = (in->lstop - in->lstart) / ((double)in->lpoints);
+	in->dl = (in->lstop - in->lstart) / ((gdouble) in->lpoints);
 
-	inp_search_double(&inp, &in->laser_wavelength, "#laserwavelength");
+	inp_search_gdouble(&inp, &in->laser_wavelength, "#laserwavelength");
 	in->laser_pos = (int)((in->laser_wavelength - in->lstart) / in->dl);
 
-	inp_search_double(&inp, &in->spotx, "#spotx");
+	inp_search_gdouble(&inp, &in->spotx, "#spotx");
 
-	inp_search_double(&inp, &in->spoty, "#spoty");
+	inp_search_gdouble(&inp, &in->spoty, "#spoty");
 
-	inp_search_double(&inp, &in->pulseJ, "#pulseJ");
+	inp_search_gdouble(&inp, &in->pulseJ, "#pulseJ");
 
-	inp_search_double(&inp, &in->pulse_width, "#laser_pulse_width");
+	inp_search_gdouble(&inp, &in->pulse_width, "#laser_pulse_width");
 
 	pos = in->lstart;
 	for (i = 0; i < in->lpoints; i++) {
@@ -834,7 +845,7 @@ void light_init_mesh(struct light *in)
 		in->sun_norm[i] = inter_get_noend(&(in->sun_read), in->l[i]);
 	}
 
-	double tot = 0.0;
+	gdouble tot = 0.0;
 	for (i = 0; i < in->lpoints; i++) {
 		tot += in->dl * in->sun_norm[i];
 	}
@@ -845,15 +856,15 @@ void light_init_mesh(struct light *in)
 
 	inp_search_int(&inp, &(in->gather), "#gather");
 
-	inp_search_double(&inp, &(in->Eg), "#Eg");
+	inp_search_gdouble(&inp, &(in->Eg), "#Eg");
 
-	inp_search_double(&inp, &(in->electron_eff), "#electron_eff");
+	inp_search_gdouble(&inp, &(in->electron_eff), "#electron_eff");
 	in->electron_eff = fabs(in->electron_eff);
 
-	inp_search_double(&inp, &(in->hole_eff), "#hole_eff");
+	inp_search_gdouble(&inp, &(in->hole_eff), "#hole_eff");
 	in->hole_eff = fabs(in->hole_eff);
 
-	inp_search_double(&inp, &(ver), "#ver");
+	inp_search_gdouble(&inp, &(ver), "#ver");
 
 	inp_free(&inp);
 
@@ -876,12 +887,12 @@ void light_init_mesh(struct light *in)
 
 }
 
-void light_set_sun_power(struct light *in, double power, double laser_eff)
+void light_set_sun_power(struct light *in, gdouble power, gdouble laser_eff)
 {
 	int i;
 
-	double E = 0.0;
-//double tot0=0.0;
+	gdouble E = 0.0;
+//gdouble tot0=0.0;
 	for (i = 0; i < in->lpoints; i++) {
 		in->sun[i] = in->sun_norm[i] * power * 1000.0;	//The 1000 is because it is 1000 W/m2
 
@@ -898,8 +909,8 @@ void light_set_sun_power(struct light *in, double power, double laser_eff)
 		}
 
 		in->sun_E[i] =
-		    pow(2.0 * (in->sun_photons[i] * E) /
-			(epsilon0 * cl * in->n[i][0]), 0.5);
+		    gpow(2.0 * (in->sun_photons[i] * E) /
+			 (epsilon0 * cl * in->n[i][0]), 0.5);
 
 	}
 
@@ -913,10 +924,10 @@ void light_solve_all(struct light *in)
 		if (in->sun_E[i] != 0.0) {
 			light_solve_lam_slice(in, i);
 		} else {
-			memset(in->En[i], 0.0, in->points * sizeof(double));
-			memset(in->Ep[i], 0.0, in->points * sizeof(double));
-			memset(in->Enz[i], 0.0, in->points * sizeof(double));
-			memset(in->Epz[i], 0.0, in->points * sizeof(double));
+			memset(in->En[i], 0.0, in->points * sizeof(gdouble));
+			memset(in->Ep[i], 0.0, in->points * sizeof(gdouble));
+			memset(in->Enz[i], 0.0, in->points * sizeof(gdouble));
+			memset(in->Epz[i], 0.0, in->points * sizeof(gdouble));
 		}
 	}
 }
@@ -925,7 +936,7 @@ void light_set_unity_power(struct light *in)
 {
 	int i;
 
-//double E=0.0;
+//gdouble E=0.0;
 
 	for (i = 0; i < in->lpoints; i++) {
 //      E=hp*cl/in->l[i];
@@ -938,9 +949,9 @@ void light_set_unity_power(struct light *in)
 
 void light_set_unity_laser_power(struct light *in, int lam)
 {
-	memset(in->sun, 0.0, in->lpoints * sizeof(double));
-	memset(in->sun_photons, 0.0, in->lpoints * sizeof(double));
-	memset(in->sun_E, 0.0, in->lpoints * sizeof(double));
+	memset(in->sun, 0.0, in->lpoints * sizeof(gdouble));
+	memset(in->sun_photons, 0.0, in->lpoints * sizeof(gdouble));
+	memset(in->sun_E, 0.0, in->lpoints * sizeof(gdouble));
 	in->sun_E[lam] = 1.0;
 }
 
@@ -956,12 +967,12 @@ void light_get_mode(struct istruct *mode, int lam, struct light *in)
 
 }
 
-void light_set_dx(struct light *in, double dx)
+void light_set_dx(struct light *in, gdouble dx)
 {
 	in->dx = dx;
 }
 
-int light_find_wavelength(struct light *in, double lam)
+int light_find_wavelength(struct light *in, gdouble lam)
 {
 	int i = 0;
 	int l = 0;
@@ -975,8 +986,8 @@ int light_find_wavelength(struct light *in, double lam)
 	return l;
 }
 
-double light_convert_density(struct device *in, double start, double width)
+gdouble light_convert_density(struct device * in, gdouble start, gdouble width)
 {
-	double ratio = 0.0;
+	gdouble ratio = 0.0;
 	return ratio;
 }

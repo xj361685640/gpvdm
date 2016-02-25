@@ -30,7 +30,7 @@
 #include <unistd.h>
 #include <dirent.h>
 #include <fcntl.h>
-#include "true_false.h"
+#include "../../const.h"
 #include "../../inp.h"
 
 struct inp_file hard_limit_inp;
@@ -46,16 +46,16 @@ void hard_limit_free()
 	inp_free(&hard_limit_inp);
 }
 
-void hard_limit(char *token, double *value)
+void hard_limit(char *token, gdouble * value)
 {
 	char token0[1000];
-	double ret = *value;
-	double min = 0.0;
-	double max = 0.0;
+	gdouble ret = *value;
+	gdouble min = 0.0;
+	gdouble max = 0.0;
 	char *text = inp_search_part(&hard_limit_inp, token);
 
 	if (text != NULL) {
-		sscanf(text, "%s %lf %lf", token0, &max, &min);
+		sscanf(text, "%s %Lf %Lf", token0, &max, &min);
 
 		if (strcmp(token0, token) == 0) {
 			if (ret > max) {

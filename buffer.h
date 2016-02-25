@@ -22,13 +22,14 @@
 
 #ifndef buffer_h
 #define buffer_h
+#include "advmath.h"
 //#include <zip.h>
 
 struct buffer {
 	char title[100];
 	char type[100];
-	double x_mul;
-	double y_mul;
+	gdouble x_mul;
+	gdouble y_mul;
 	char x_label[100];
 	char y_label[100];
 	char x_units[100];
@@ -40,8 +41,8 @@ struct buffer {
 	int write_to_zip;
 	int norm_x_axis;
 	int norm_y_axis;
-	double time;
-	double Vexternal;
+	gdouble time;
+	gdouble Vexternal;
 	char *buf;
 	int len;
 	int max_len;
@@ -52,13 +53,13 @@ struct buffer {
 void buffer_zip_set_name(struct buffer *in, char *name);
 void buffer_init(struct buffer *in);
 void buffer_malloc(struct buffer *in);
-void buffer_add_xy_data(struct buffer *in, double *x, double *y, int len);
+void buffer_add_xy_data(struct buffer *in, gdouble * x, gdouble * y, int len);
 void buffer_add_string(struct buffer *in, char *string);
 void buffer_add_info(struct buffer *in);
 void buffer_dump(char *file, struct buffer *in);
 void buffer_dump_path(char *path, char *file, struct buffer *in);
 void buffer_free(struct buffer *in);
 void buffer_dump_aes(char *path, char *file, struct buffer *in, char *key_text);
-void buffer_add_xy_data_z_label(struct buffer *in, double *x, double *y,
-				double *z, int len);
+void buffer_add_xy_data_z_label(struct buffer *in, gdouble * x, gdouble * y,
+				gdouble * z, int len);
 #endif

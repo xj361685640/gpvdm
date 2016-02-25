@@ -34,7 +34,7 @@
 #include <dirent.h>
 #include "inp.h"
 #include "light_interface.h"
-#include "true_false.h"
+#include "const.h"
 #include "device.h"
 #include "dump_ctrl.h"
 #include "config.h"
@@ -42,14 +42,15 @@
 #include "cal_path.h"
 #include "lang.h"
 #include "log.h"
+#include "dll_interface.h"
 
 static int unused __attribute__ ((unused));
 
 void light_transfer_gen_rate_to_device(struct device *cell, struct light *in)
 {
 	int i = 0;
-	double Gn = 0.0;
-	double Gp = 0.0;
+	gdouble Gn = 0.0;
+	gdouble Gp = 0.0;
 
 	if (in->align_mesh == FALSE) {
 		for (i = 0; i < cell->ymeshpoints; i++) {
@@ -85,29 +86,29 @@ void light_init(struct light *in, struct device *cell, char *output_path)
 	strcpy(in->input_path, cell->inputpath);
 
 	char lib_path[200];
-	double ver;
-	double temp;
+	gdouble ver;
+	gdouble temp;
 	in->disable_transfer_to_electrical_mesh = FALSE;
 	struct inp_file inp;
 	inp_init(&inp);
 	inp_load_from_path(&inp, cell->inputpath, "light.inp");
 	inp_check(&inp, 1.25);
 
-	inp_search_double(&inp, &(temp), "#Psun");
+	inp_search_gdouble(&inp, &(temp), "#Psun");
 	cell->Psun = fabs(temp);
 
 	inp_search_string(&inp, in->mode, "#light_model");
 
-	inp_search_double(&inp, &(in->Dphotoneff), "#Dphotoneff");
+	inp_search_gdouble(&inp, &(in->Dphotoneff), "#Dphotoneff");
 	in->Dphotoneff = fabs(in->Dphotoneff);
 
-	inp_search_double(&inp, &(in->ND), "#NDfilter");
+	inp_search_gdouble(&inp, &(in->ND), "#NDfilter");
 
-	inp_search_double(&inp, &(temp), "#high_sun_scale");
+	inp_search_gdouble(&inp, &(temp), "#high_sun_scale");
 
 	cell->Psun *= fabs(temp);
 
-	inp_search_double(&inp, &(ver), "#ver");
+	inp_search_gdouble(&inp, &(ver), "#ver");
 
 	inp_free(&inp);
 
@@ -159,28 +160,20 @@ void light_init(struct light *in, struct device *cell, char *output_path)
 		exit(0);
 	}
 
-	in->fn_fixup = dlsym(in->lib_handle, "light_dll_fixup");
+	in->fn_set_interface = dlsym(in->lib_handle, "set_interface");
 	if ((error = dlerror()) != NULL) {
 		fprintf(stderr, "%s\n", error);
 		exit(0);
 	}
 
-	(*in->fn_fixup) ("waveprint", &waveprint);
-	(*in->fn_fixup) ("get_dump_status", &get_dump_status);
-	(*in->fn_fixup) ("light_dump_1d", &light_dump_1d);
-	(*in->fn_fixup) ("light_solve_optical_problem",
-			 &light_solve_optical_problem);
-	(*in->fn_fixup) ("light_free_memory", &light_free_memory);
-	(*in->fn_fixup) ("light_transfer_gen_rate_to_device",
-			 &light_transfer_gen_rate_to_device);
-	(*in->fn_fixup) ("complex_solver", &complex_solver);
-	(*in->fn_fixup) ("printf_log", &printf_log);
+	dll_interface_fixup();
+	(*in->fn_set_interface) (dll_get_interface());
 	(*in->light_ver) ();
 	(*in->fn_init) ();
 }
 
 void light_solve_and_update(struct device *cell, struct light *in,
-			    double Psun_in, double laser_eff_in)
+			    gdouble Psun_in, gdouble laser_eff_in)
 {
 	int i = 0;
 
@@ -193,10 +186,10 @@ void light_solve_and_update(struct device *cell, struct light *in,
 	(*in->fn_solve_and_update) (cell, in, Psun_in, laser_eff_in);
 
 	if (in->flip_field == TRUE) {
-		double *Gn =
-		    (double *)malloc(cell->ymeshpoints * sizeof(double));
-		double *Gp =
-		    (double *)malloc(cell->ymeshpoints * sizeof(double));
+		gdouble *Gn =
+		    (gdouble *) malloc(cell->ymeshpoints * sizeof(gdouble));
+		gdouble *Gp =
+		    (gdouble *) malloc(cell->ymeshpoints * sizeof(gdouble));
 
 		for (i = 0; i < cell->ymeshpoints; i++) {
 			Gn[i] = cell->Gn[i];
@@ -204,6 +197,7 @@ void light_solve_and_update(struct device *cell, struct light *in,
 
 		}
 
+		getchar();
 		for (i = 0; i < cell->ymeshpoints; i++) {
 			cell->Gn[cell->ymeshpoints - i - 1] = Gn[i];
 			cell->Gp[cell->ymeshpoints - i - 1] = Gp[i];

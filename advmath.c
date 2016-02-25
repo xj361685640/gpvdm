@@ -25,33 +25,35 @@
 #include "advmath.h"
 
 //Taken from mathworld and wikipidia
-double dB(double x)
+gdouble dB(gdouble x)
 {
-	double ret;
-	if (fabs(x) > 1e-10) {
-		ret = (exp(x) - 1.0 - x * exp(x)) / (exp(x) - 1) / (exp(x) - 1);
+	gdouble ret;
+	if (gfabs(x) > 1e-40) {
+		ret =
+		    (gexp(x) - 1.0 - x * gexp(x)) / (gexp(x) - 1) / (gexp(x) -
+								     1);
 	} else {
 		ret =
-		    -1.0 / 2.0 + x / 6.0 - pow(x, 3.0) / 180.0 + pow(x,
-								     5.0) /
+		    -1.0 / 2.0 + x / 6.0 - gpow(x, 3.0) / 180.0 + gpow(x,
+								       5.0) /
 		    5040;
 	}
 
 	return ret;
 }
 
-double B(double x)
+gdouble B(gdouble x)
 {
-	double ret;
-	if (fabs(x) < 1e-16) {
+	gdouble ret;
+	if (gfabs(x) > 1e-40) {
+		ret = x / (gexp(x) - 1.0);
 //From mathworld and wikipidia
-		ret =
-		    1 - x / 2.0 + pow(x, 2.0) / 12.0 - pow(x,
-							   4.0) / 720.0 + pow(x,
-									      6.0)
-		    / 30240.0;
 	} else {
-		ret = x / (exp(x) - 1.0);
+		ret =
+		    1 - x / 2.0 + gpow(x, 2.0) / 12.0 - gpow(x,
+							     4.0) / 720.0 +
+		    gpow(x, 6.0) / 30240.0;
+
 	}
 	return ret;
 }

@@ -24,7 +24,7 @@ else
 endif
 
 llink=
-opt_normal+= -D full_time_domain -D enable_fx
+opt_normal+= -D full_time_domain -D enable_fx -D LONGDOUBLE
 #ifeq ($(wildcard secure.h),)
 #	opt_normal+= 
 #	llink=
@@ -60,19 +60,20 @@ else
 	CC=gcc
 	LD=ld
 	platform=linux
-	link+= -rdynamic -export-dynamic -lgsl -lgslcblas -lblas -ldl -lzip -lz -lamd -lmatheval
+	link+= -rdynamic -export-dynamic -lgsl -lgslcblas -lblas -ldl -lzip -lz -lmatheval
 endif
 
+        #inc+=-I$(HOME)/windll/umfpack/AMD/Include/ -I$(HOME)/windll/umfpack/UMFPACK/Include/ -I$(HOME)/windll/umfpack/UFconfig/
+		#link+=$(HOME)/windll/umfpack/UMFPACK/Lib/libumfpack.a $(HOME)/windll/umfpack/AMD/Lib/libamd.a
         flags=${debug_opt} -D dos_bin -D ${platform}
-        inc+=-I/usr/include/suitesparse/ -I ./plugins/i/
-
+        inc+= -I ./plugins/i/ -I/usr/include/suitesparse/
+		link+= -lumfpack
 .PHONY: clean
 
-main: main.c solver.o light_utils.o gui_hooks.o sim_find_n0.o sim_run.o newton_update.o dump_map.o dump_energy_slice.o pos.o inital.o advmath.o config.o plot.o timer.o memory.o dos.o gendosfdgaus.o exp.o pl.o time.o fast.o anal.o dump.o dump_config.o dump_1d_slice.o dump_dynamic.o ntricks.o ntricks_externalv.o dos_an.o startstop.o complex_solver.o thermal.o light_interface.o dump_ctrl.o light_dump.o light_test.o inp.o rand.o buffer.o hard_limit.o epitaxy.o mesh.o patch.o cal_path.o log.o fx.o fit_sin.o
+main: main.c solver_interface.o light_utils.o gui_hooks.o sim_find_n0.o sim_run.o newton_update.o dump_map.o dump_energy_slice.o pos.o inital.o advmath.o config.o plot.o timer.o memory.o dos.o gendosfdgaus.o exp.o pl.o time.o fast.o anal.o dump.o dump_config.o dump_1d_slice.o dump_dynamic.o ntricks.o ntricks_externalv.o dos_an.o startstop.o complex_solver.o thermal.o light_interface.o dump_ctrl.o light_dump.o light_test.o inp.o rand.o buffer.o hard_limit.o epitaxy.o mesh.o patch.o cal_path.o log.o fx.o fit_sin.o newton_interface.o dll_interface.o
 	./buildplugins.sh "$(opt_normal) $(debug_opt)" "$(platform)" "$(CC)" "$(LD)"
 	./build_fit_plugins.sh $(platform)
-	$(CC) main.c light_dump.o buffer.o light_utils.o light_test.o solver.o gui_hooks.o sim_find_n0.o sim_run.o newton_update.o pos.o inital.o advmath.o config.o plot.o timer.o memory.o dos.o dump_map.o dump_energy_slice.o gendosfdgaus.o exp.o pl.o time.o $(plugins) fast.o anal.o dump.o dump_config.o dump_1d_slice.o dump_dynamic.o ntricks.o ntricks_externalv.o dos_an.o startstop.o complex_solver.o thermal.o light_interface.o dump_ctrl.o inp.o rand.o hard_limit.o epitaxy.o mesh.o patch.o cal_path.o log.o fx.o fit_sin.o -o go.o -L. -lumfpack $(flags) $(link) $(inc)  -Wall -lm  -lcrypto $(opt_normal) $(llink)
-# -lefence
+	$(CC) main.c light_dump.o buffer.o light_utils.o light_test.o solver_interface.o gui_hooks.o sim_find_n0.o sim_run.o newton_update.o pos.o inital.o advmath.o config.o plot.o timer.o memory.o dos.o dump_map.o dump_energy_slice.o gendosfdgaus.o exp.o pl.o time.o $(plugins) fast.o anal.o dump.o dump_config.o dump_1d_slice.o dump_dynamic.o ntricks.o ntricks_externalv.o dos_an.o startstop.o complex_solver.o thermal.o light_interface.o dump_ctrl.o inp.o rand.o hard_limit.o epitaxy.o mesh.o patch.o cal_path.o log.o fx.o fit_sin.o newton_interface.o dll_interface.o -o go.o -L.  $(flags) $(link) $(inc)  -Wall -lm  -lcrypto $(opt_normal) $(llink) -lefence
 
 .PHONY: install
 
@@ -234,6 +235,9 @@ dump_energy_slice.o: dump_energy_slice.c
 dump_map.o: dump_map.c
 	$(CC) -c dump_map.c -o dump_map.o  $(inc) $(flags) $(opt_normal) $(warn)
 
+dll_interface.o: dll_interface.c
+	$(CC) -c dll_interface.c -o dll_interface.o  $(inc) $(flags) $(opt_normal) $(warn)
+
 anal.o: anal.c
 	$(CC) -c anal.c -o anal.o  $(inc) $(flags) $(opt_normal) $(warn)
 
@@ -246,6 +250,10 @@ fast.o: fast.c
 
 time.o: time.c
 	$(CC) -c time.c -o time.o  $(inc) $(flags) $(opt_normal) $(warn)
+
+newton_interface.o: newton_interface.c
+	$(CC) -c newton_interface.c -o newton_interface.o  $(inc) $(flags) $(opt_normal) $(warn)
+
 
 fx.o: fx.c
 	$(CC) -c fx.c -o fx.o  $(inc) $(flags) $(opt_normal) $(warn)
@@ -270,8 +278,8 @@ dos.o: dos.c
 excite.o: excite.c
 	$(CC) -c excite.c -o excite.o  $(inc) $(flags) $(opt_normal) $(warn)
 
-solver.o: solver.c
-	$(CC) -c solver.c -o solver.o  $(inc) $(flags) $(opt_normal) $(warn)
+solver_interface.o: solver_interface.c
+	$(CC) -c solver_interface.c -o solver_interface.o  $(inc) $(flags) $(opt_normal) $(warn)
 
 pos.o: pos.c
 	$(CC) -c pos.c -o pos.o  $(inc) $(flags) $(opt_normal) $(warn)

@@ -73,6 +73,10 @@ void device_init(struct device *in)
 
 int main(int argc, char *argv[])
 {
+//solver_test();
+//printf("rod\n");
+//solver_ld_test();
+//exit(0);
 	cal_path();
 	setlocale(LC_MESSAGES, "");
 	bindtextdomain("gpvdm", get_lang_path());
@@ -81,6 +85,7 @@ int main(int argc, char *argv[])
 	timer_init(0);
 	timer_init(1);
 	dbus_init();
+
 	set_ewe_lock_file("", "");
 	cell.onlypos = FALSE;
 
@@ -90,6 +95,8 @@ int main(int argc, char *argv[])
 	}
 
 	dump_init(&cell);
+	printf("rod\n");
+
 	dump_load_config(&cell);
 
 	remove("snapshots.zip");
@@ -266,10 +273,10 @@ int main(int argc, char *argv[])
 		set_dump_status(dump_lock, FALSE);
 		set_dump_status(dump_optics, TRUE);
 		set_dump_status(dump_optics_verbose, TRUE);
-		double Psun;
+		gdouble Psun;
 		inp_init(&inp);
 		inp_load_from_path(&inp, pwd, "light.inp");
-		inp_search_double(&inp, &(Psun), "#Psun");
+		inp_search_gdouble(&inp, &(Psun), "#Psun");
 		Psun = 1.0;	//fabs(Psun);
 		inp_free(&inp);
 

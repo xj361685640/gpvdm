@@ -20,33 +20,13 @@
 //    with this program; if not, write to the Free Software Foundation, Inc.,
 //    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-#ifndef sim_modes_h
-#define sim_modes_h
-/*#define sim_mode_jv	0
-#define sim_mode_tpv	1
-#define sim_mode_ce	2
-#define sim_mode_li_sc	3
-#define sim_mode_tpc	4
-#define sim_mode_li	5
-#define sim_mode_sun_voc 7
-#define sim_mode_jvone 	8
-#define sim_mode_tof 	11
-#define sim_mode_fft 	12
-#define sim_mode_celiv 	14
-#define sim_mode_otrace 	15
-#define sim_mode_stark	17
-#define sim_mode_findlight_for_voc 18
-#define sim_mode_qe 21
-#define sim_mode_pulse 	22
-#define sim_mode_shg	24
-#define sim_mode_imps 25
-#define sim_mode_pulse_voc	27
-#define sim_mode_jv_simple	28
-#define sim_mode_optics		33
-#define sim_mode_stark_spectrum 34*/
+#ifndef h_newton_interface
+#define h_newton_interface
 
-#define pulse_open_circuit 0
-#define pulse_load 1
-#define fxdomain_open_circuit 0
-#define fxdomain_load 1
+void newton_init(char *solver_name);
+int solve_cur(struct device *in);
+void newton_set_min_ittr(int ittr);
+void solver_realloc(struct device *in);
+void solver_free_memory(struct device *in);
+void newton_interface_free();
 #endif

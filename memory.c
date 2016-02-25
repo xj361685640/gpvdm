@@ -29,7 +29,7 @@
 #include <math.h>
 #include "log.h"
 
-void free_srh_bands(struct device *in, double **var)
+void free_srh_bands(struct device *in, gdouble ** var)
 {
 	int i;
 	for (i = 0; i < in->ymeshpoints; i++) {
@@ -39,18 +39,24 @@ void free_srh_bands(struct device *in, double **var)
 	free(var);
 }
 
-void malloc_srh_bands(struct device *in, double *(**var))
+void malloc_srh_bands(struct device *in, gdouble * (**var))
 {
-	*var = (double **)malloc(in->ymeshpoints * sizeof(double *));
+	*var = (gdouble **) malloc(in->ymeshpoints * sizeof(gdouble *));
 
 	int i;
 	for (i = 0; i < in->ymeshpoints; i++) {
-		(*var)[i] = (double *)malloc(in->srh_bands * sizeof(double));
+		if (in->srh_bands != 0) {
+			(*var)[i] =
+			    (gdouble *) malloc(in->srh_bands * sizeof(gdouble));
+		} else {
+			(*var)[i] = NULL;
+		}
 	}
 }
 
 void device_free(struct device *in)
 {
+
 	free(in->phi);
 	free(in->B);
 	free(in->Nad);
@@ -202,216 +208,222 @@ void device_get_memory(struct device *in)
 {
 	in->odes = 0;
 
-	in->nf_save = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->nf_save, 0, in->ymeshpoints * sizeof(double));
+	in->Ti = NULL;
+	in->Tj = NULL;
+	in->Tx = NULL;
+	in->b = NULL;
+	in->Tdebug = NULL;
 
-	in->pf_save = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->pf_save, 0, in->ymeshpoints * sizeof(double));
+	in->nf_save = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->nf_save, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->nt_save = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->nt_save, 0, in->ymeshpoints * sizeof(double));
+	in->pf_save = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->pf_save, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->pt_save = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->pt_save, 0, in->ymeshpoints * sizeof(double));
+	in->nt_save = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->nt_save, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->nfequlib = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->nfequlib, 0, in->ymeshpoints * sizeof(double));
+	in->pt_save = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->pt_save, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->pfequlib = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->pfequlib, 0, in->ymeshpoints * sizeof(double));
+	in->nfequlib = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->nfequlib, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->ntequlib = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->ntequlib, 0, in->ymeshpoints * sizeof(double));
+	in->pfequlib = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->pfequlib, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->ptequlib = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->ptequlib, 0, in->ymeshpoints * sizeof(double));
+	in->ntequlib = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->ntequlib, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->Habs = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->Habs, 0, in->ymeshpoints * sizeof(double));
+	in->ptequlib = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->ptequlib, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->phi = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->phi, 0, in->ymeshpoints * sizeof(double));
+	in->Habs = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->Habs, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->B = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->B, 0, in->ymeshpoints * sizeof(double));
+	in->phi = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->phi, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->Nad = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->Nad, 0, in->ymeshpoints * sizeof(double));
+	in->B = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->B, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->n = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->n, 0, in->ymeshpoints * sizeof(double));
+	in->Nad = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->Nad, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->p = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->p, 0, in->ymeshpoints * sizeof(double));
+	in->n = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->n, 0, in->ymeshpoints * sizeof(gdouble));
+
+	in->p = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->p, 0, in->ymeshpoints * sizeof(gdouble));
 	//malloc_srh_bands(in,&(in->n));
 	//malloc_srh_bands(in,&(in->p));
-	in->dn = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->dn, 0, in->ymeshpoints * sizeof(double));
+	in->dn = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->dn, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->dp = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->dp, 0, in->ymeshpoints * sizeof(double));
+	in->dp = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->dp, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->dndphi = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->dndphi, 0, in->ymeshpoints * sizeof(double));
+	in->dndphi = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->dndphi, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->dpdphi = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->dpdphi, 0, in->ymeshpoints * sizeof(double));
+	in->dpdphi = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->dpdphi, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->Eg = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->Eg, 0, in->ymeshpoints * sizeof(double));
+	in->Eg = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->Eg, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->Fn = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->Fn, 0, in->ymeshpoints * sizeof(double));
+	in->Fn = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->Fn, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->Fp = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->Fp, 0, in->ymeshpoints * sizeof(double));
+	in->Fp = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->Fp, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->Xi = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->Xi, 0, in->ymeshpoints * sizeof(double));
+	in->Xi = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->Xi, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->Ev = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->Ev, 0, in->ymeshpoints * sizeof(double));
+	in->Ev = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->Ev, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->Ec = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->Ec, 0, in->ymeshpoints * sizeof(double));
+	in->Ec = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->Ec, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->mun = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->mun, 0, in->ymeshpoints * sizeof(double));
+	in->mun = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->mun, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->mup = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->mup, 0, in->ymeshpoints * sizeof(double));
+	in->mup = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->mup, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->Dn = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->Dn, 0, in->ymeshpoints * sizeof(double));
+	in->Dn = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->Dn, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->Dp = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->Dp, 0, in->ymeshpoints * sizeof(double));
+	in->Dp = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->Dp, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->Nc = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->Nc, 0, in->ymeshpoints * sizeof(double));
+	in->Nc = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->Nc, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->Nv = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->Nv, 0, in->ymeshpoints * sizeof(double));
+	in->Nv = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->Nv, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->G = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->G, 0, in->ymeshpoints * sizeof(double));
+	in->G = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->G, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->Gn = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->Gn, 0, in->ymeshpoints * sizeof(double));
+	in->Gn = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->Gn, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->Gp = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->Gp, 0, in->ymeshpoints * sizeof(double));
+	in->Gp = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->Gp, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->Tl = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->Tl, 0, in->ymeshpoints * sizeof(double));
+	in->Tl = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->Tl, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->Te = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->Te, 0, in->ymeshpoints * sizeof(double));
+	in->Te = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->Te, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->Th = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->Th, 0, in->ymeshpoints * sizeof(double));
+	in->Th = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->Th, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->R = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->R, 0, in->ymeshpoints * sizeof(double));
+	in->R = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->R, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->Fi = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->Fi, 0, in->ymeshpoints * sizeof(double));
+	in->Fi = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->Fi, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->Jn = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->Jn, 0, in->ymeshpoints * sizeof(double));
+	in->Jn = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->Jn, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->Jp = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->Jp, 0, in->ymeshpoints * sizeof(double));
+	in->Jp = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->Jp, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->Jn_drift = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->Jn_drift, 0, in->ymeshpoints * sizeof(double));
+	in->Jn_drift = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->Jn_drift, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->Jn_diffusion = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->Jn_diffusion, 0, in->ymeshpoints * sizeof(double));
+	in->Jn_diffusion = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->Jn_diffusion, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->Jp_drift = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->Jp_drift, 0, in->ymeshpoints * sizeof(double));
+	in->Jp_drift = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->Jp_drift, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->Jp_diffusion = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->Jp_diffusion, 0, in->ymeshpoints * sizeof(double));
+	in->Jp_diffusion = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->Jp_diffusion, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->x = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->x, 0, in->ymeshpoints * sizeof(double));
+	in->x = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->x, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->t = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->t, 0, in->ymeshpoints * sizeof(double));
+	in->t = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->t, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->xp = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->xp, 0, in->ymeshpoints * sizeof(double));
+	in->xp = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->xp, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->tp = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->tp, 0, in->ymeshpoints * sizeof(double));
+	in->tp = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->tp, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->kf = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->kf, 0, in->ymeshpoints * sizeof(double));
+	in->kf = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->kf, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->kd = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->kd, 0, in->ymeshpoints * sizeof(double));
+	in->kd = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->kd, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->kr = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->kr, 0, in->ymeshpoints * sizeof(double));
+	in->kr = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->kr, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->Rfree = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->Rfree, 0, in->ymeshpoints * sizeof(double));
+	in->Rfree = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->Rfree, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->Rn = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->Rn, 0, in->ymeshpoints * sizeof(double));
+	in->Rn = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->Rn, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->Rp = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->Rp, 0, in->ymeshpoints * sizeof(double));
+	in->Rp = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->Rp, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->ex = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->ex, 0, in->ymeshpoints * sizeof(double));
+	in->ex = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->ex, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->Dex = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->Dex, 0, in->ymeshpoints * sizeof(double));
+	in->Dex = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->Dex, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->Hex = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->Hex, 0, in->ymeshpoints * sizeof(double));
+	in->Hex = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->Hex, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->epsilonr = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->epsilonr, 0, in->ymeshpoints * sizeof(double));
+	in->epsilonr = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->epsilonr, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->kl = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->kl, 0, in->ymeshpoints * sizeof(double));
+	in->kl = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->kl, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->ke = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->ke, 0, in->ymeshpoints * sizeof(double));
+	in->ke = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->ke, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->kh = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->kh, 0, in->ymeshpoints * sizeof(double));
+	in->kh = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->kh, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->Hl = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->Hl, 0, in->ymeshpoints * sizeof(double));
+	in->Hl = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->Hl, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->He = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->He, 0, in->ymeshpoints * sizeof(double));
+	in->He = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->He, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->Hh = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->Hh, 0, in->ymeshpoints * sizeof(double));
+	in->Hh = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->Hh, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->nlast = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->nlast, 0, in->ymeshpoints * sizeof(double));
+	in->nlast = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->nlast, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->plast = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->plast, 0, in->ymeshpoints * sizeof(double));
+	in->plast = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->plast, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->wn = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->wn, 0, in->ymeshpoints * sizeof(double));
+	in->wn = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->wn, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->wp = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->wp, 0, in->ymeshpoints * sizeof(double));
+	in->wp = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->wp, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->nt_all = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->nt_all, 0, in->ymeshpoints * sizeof(double));
+	in->nt_all = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->nt_all, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->phi_save = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->phi_save, 0, in->ymeshpoints * sizeof(double));
+	in->phi_save = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->phi_save, 0, in->ymeshpoints * sizeof(gdouble));
 
 	malloc_srh_bands(in, &(in->nt));
 	malloc_srh_bands(in, &(in->ntlast));
@@ -434,14 +446,14 @@ void device_get_memory(struct device *in)
 	malloc_srh_bands(in, &(in->nt_r3));
 	malloc_srh_bands(in, &(in->nt_r4));
 
-	in->tt = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->tt, 0, in->ymeshpoints * sizeof(double));
+	in->tt = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->tt, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->dostype = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->dostype, 0, in->ymeshpoints * sizeof(double));
+	in->dostype = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->dostype, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->pt_all = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->pt_all, 0, in->ymeshpoints * sizeof(double));
+	in->pt_all = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->pt_all, 0, in->ymeshpoints * sizeof(gdouble));
 
 	malloc_srh_bands(in, &(in->pt));
 	malloc_srh_bands(in, &(in->ptlast));
@@ -464,39 +476,39 @@ void device_get_memory(struct device *in)
 	malloc_srh_bands(in, &(in->pt_r3));
 	malloc_srh_bands(in, &(in->pt_r4));
 
-	in->tpt = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->tpt, 0, in->ymeshpoints * sizeof(double));
+	in->tpt = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->tpt, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->Rbi_k = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->Rbi_k, 0, in->ymeshpoints * sizeof(double));
+	in->Rbi_k = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->Rbi_k, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->nrelax = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->nrelax, 0, in->ymeshpoints * sizeof(double));
+	in->nrelax = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->nrelax, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->ntrap_to_p = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->ntrap_to_p, 0, in->ymeshpoints * sizeof(double));
+	in->ntrap_to_p = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->ntrap_to_p, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->prelax = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->prelax, 0, in->ymeshpoints * sizeof(double));
+	in->prelax = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->prelax, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->ptrap_to_n = malloc(in->ymeshpoints * sizeof(double));
-	memset(in->ptrap_to_n, 0, in->ymeshpoints * sizeof(double));
+	in->ptrap_to_n = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->ptrap_to_n, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->n_orig = (double *)malloc(sizeof(double) * in->ymeshpoints);
-	memset(in->n_orig, 0, in->ymeshpoints * sizeof(double));
+	in->n_orig = (gdouble *) malloc(sizeof(gdouble) * in->ymeshpoints);
+	memset(in->n_orig, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->p_orig = (double *)malloc(sizeof(double) * in->ymeshpoints);
-	memset(in->p_orig, 0, in->ymeshpoints * sizeof(double));
+	in->p_orig = (gdouble *) malloc(sizeof(gdouble) * in->ymeshpoints);
+	memset(in->p_orig, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->n_orig_f = (double *)malloc(sizeof(double) * in->ymeshpoints);
-	memset(in->n_orig_f, 0, in->ymeshpoints * sizeof(double));
+	in->n_orig_f = (gdouble *) malloc(sizeof(gdouble) * in->ymeshpoints);
+	memset(in->n_orig_f, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->p_orig_f = (double *)malloc(sizeof(double) * in->ymeshpoints);
-	memset(in->p_orig_f, 0, in->ymeshpoints * sizeof(double));
+	in->p_orig_f = (gdouble *) malloc(sizeof(gdouble) * in->ymeshpoints);
+	memset(in->p_orig_f, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->n_orig_t = (double *)malloc(sizeof(double) * in->ymeshpoints);
-	memset(in->n_orig_t, 0, in->ymeshpoints * sizeof(double));
+	in->n_orig_t = (gdouble *) malloc(sizeof(gdouble) * in->ymeshpoints);
+	memset(in->n_orig_t, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->p_orig_t = (double *)malloc(sizeof(double) * in->ymeshpoints);
-	memset(in->p_orig_t, 0, in->ymeshpoints * sizeof(double));
+	in->p_orig_t = (gdouble *) malloc(sizeof(gdouble) * in->ymeshpoints);
+	memset(in->p_orig_t, 0, in->ymeshpoints * sizeof(gdouble));
 }

@@ -15,8 +15,8 @@ language.install()
 
 def yes_no(a):
 	if a.lower() in ("ja","yes", "true", "t", "1"):
-		return "true"
+		return True
 	elif a.lower() in ("nein","no", "false", "f", "0"):
-		return "false"
+		return False
 	else:
 		return a

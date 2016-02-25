@@ -40,15 +40,15 @@ inter_load_a(&xrange,"timedata/CEVoccurrent_sane_axes.dat",0,0);
 inter_load_a(&time,"timedata/TIME_for_CE.txt",0,0);
 inter_load_a(&tau,"timedata/tpv/taulaser2nd_sane.csv",0,1);
 	inter_save(&tau,"tausave.dat");
-double charge[xrange.len];
-double tottime=time.x[time.len-1]-time.x[0];
-double dt=tottime/((double)time.len);
+gdouble charge[xrange.len];
+gdouble tottime=time.x[time.len-1]-time.x[0];
+gdouble dt=tottime/((gdouble)time.len);
 inter_rescale(&xrange,1e-3, 1.0);
 //for (i=0;i<xrange.len;i++)
 //{
 //	printf("%e\n",xrange.x[i]);
 //}
-double d=180e-9;
+gdouble d=180e-9;
 int x=0;
 int loop=0;
 
@@ -59,7 +59,7 @@ for (loop=0;loop<10;loop++)
 printf("Dooing Loop %d\n",loop);
 	for (x=0;x<xrange.len;x++)
 	{
-		double area=0.06/100.0/100.0;
+		gdouble area=0.06/100.0/100.0;
 		inter_load_a(&data,"timedata/CEVoccurrent_sane.dat",x,xrange.len);
 		inter_rescale(&data,1.0, 1.0/area);
 		inter_save(&data,"testsave.dat");
@@ -67,23 +67,23 @@ printf("Dooing Loop %d\n",loop);
 		inter_copy(&left,&data);
 		inter_copy(&loss,&data);
 
-		double tot=0.0;
+		gdouble tot=0.0;
 		for (i=0;i<intergrate.len;i++)
 		{
 		tot+=data.data[i]*dt;
 		intergrate.data[i]=tot;
 		}
 		inter_save(&intergrate,"testsaveintergrate.dat");
-		double cap=3.8*epsilon0*area/d;
-		double capq=(xrange.x[x]*cap)/1.6e-19;	//charge on capasitor
+		gdouble cap=3.8*epsilon0*area/d;
+		gdouble capq=(xrange.x[x]*cap)/1.6e-19;	//charge on capasitor
 		capq/=area;
 		capq/=d;
-		double charge=tot/d;
+		gdouble charge=tot/d;
 		charge*=1.0/1.6e-19;
 		tot=charge-capq;
 
 		//rewrite as total charge left in the device
-		double mytau=0.0;
+		gdouble mytau=0.0;
 		for (i=0;i<left.len;i++)
 		{
 
@@ -100,7 +100,7 @@ printf("Dooing Loop %d\n",loop);
 
 		tot-=data.data[i]*dt/d/1.6e-19;
 		}
-		double sum_lost=inter_sum(&loss);
+		gdouble sum_lost=inter_sum(&loss);
 
 		lookup.x[x]=charge-capq-sum_lost;
 		lookup.data[x]=inter_get_hard(&tau,xrange.x[x]);
@@ -130,15 +130,15 @@ void process_ce_data(int col, char *input, char *output)
 	int i;
 	struct istruct data;
 
-	double d =
+	gdouble d =
 	    read_value("device.inp", 0, 12) + read_value("device.inp", 0, 39);
-	double area =
+	gdouble area =
 	    read_value("device.inp", 0, 21) * read_value("device.inp", 0, 23);
 
-	double cap = read_value("blom_bulk.inp", 0, 84) * epsilon0 * area / d;
-	double capq = 0.0;
+	gdouble cap = read_value("blom_bulk.inp", 0, 84) * epsilon0 * area / d;
+	gdouble capq = 0.0;
 
-	double dt = 0.0;
+	gdouble dt = 0.0;
 
 	int x = 0;
 
@@ -148,7 +148,7 @@ void process_ce_data(int col, char *input, char *output)
 		printf("loading.... %d\n", x);
 		inter_load_by_col(&data, input, x);
 
-		double tot = 0.0;
+		gdouble tot = 0.0;
 
 		for (i = 1; i < data.len - 1; i++) {
 			//if ((data.x[i]>1e-6)&&(data.x[i]<1e-5))
@@ -166,7 +166,7 @@ void process_ce_data(int col, char *input, char *output)
 		tot /= d;
 		tot /= Q;
 
-		fprintf(out, "%e %e\n", data.data[0], tot - capq);
+		fprintf(out, "%Le %Le\n", data.data[0], tot - capq);
 		inter_free(&data);
 	}
 //getchar();

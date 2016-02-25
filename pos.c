@@ -25,11 +25,11 @@
 #include <string.h>
 #include <math.h>
 #include "sim.h"
-#include "solver.h"
+#include "solver_interface.h"
 #include "buffer.h"
 #include "log.h"
 
-double min_pos_error = 1e-4;
+gdouble min_pos_error = 1e-4;
 
 void pos_dump(struct device *in)
 {
@@ -44,14 +44,14 @@ void pos_dump(struct device *in)
 		FILE *out;
 		out = fopena(in->outputpath, "first_guess.dat", "w");
 		for (i = 0; i < in->ymeshpoints; i++) {
-			fprintf(out, "%e %e %e\n", in->ymesh[i], in->Fn[i],
+			fprintf(out, "%Le %Le %Le\n", in->ymesh[i], in->Fn[i],
 				in->Fp[i]);
 		}
 		fclose(out);
 
 		out = fopena(in->outputpath, "first_guess_Fi.dat", "w");
 		for (i = 0; i < in->ymeshpoints; i++) {
-			fprintf(out, "%e %e\n", in->ymesh[i], in->Fi[i]);
+			fprintf(out, "%Le %Le\n", in->ymesh[i], in->Fi[i]);
 		}
 		fclose(out);
 
@@ -91,34 +91,34 @@ void pos_dump(struct device *in)
 
 		out = fopena(in->outputpath, "first_guess_n.dat", "w");
 		for (i = 0; i < in->ymeshpoints; i++) {
-			fprintf(out, "%e %e\n", in->ymesh[i], in->n[i]);
+			fprintf(out, "%Le %Le\n", in->ymesh[i], in->n[i]);
 		}
 		fclose(out);
 
 		out = fopena(in->outputpath, "first_guess_p.dat", "w");
 		for (i = 0; i < in->ymeshpoints; i++) {
-			fprintf(out, "%e %e\n", in->ymesh[i], in->p[i]);
+			fprintf(out, "%Le %Le\n", in->ymesh[i], in->p[i]);
 		}
 		fclose(out);
 
 		out = fopena(in->outputpath, "first_guess_phi.dat", "w");
 		for (i = 0; i < in->ymeshpoints; i++) {
-			fprintf(out, "%e %e\n", in->ymesh[i], in->phi[i]);
+			fprintf(out, "%Le %Le\n", in->ymesh[i], in->phi[i]);
 		}
 		fclose(out);
 
 		out = fopena(in->outputpath, "first_guess_np.dat", "w");
 		for (i = 0; i < in->ymeshpoints; i++) {
-			fprintf(out, "%e %e %e\n", in->ymesh[i], in->n[i],
+			fprintf(out, "%Le %Le %Le\n", in->ymesh[i], in->n[i],
 				in->p[i]);
 		}
 		fclose(out);
 
 		out = fopena(in->outputpath, "first_guess_np_trap.dat", "w");
 		for (i = 0; i < in->ymeshpoints; i++) {
-			fprintf(out, "%e ", in->ymesh[i]);
+			fprintf(out, "%Le ", in->ymesh[i]);
 			for (band = 0; band < in->srh_bands; band++) {
-				fprintf(out, "%e %e ", in->nt[i][band],
+				fprintf(out, "%Le %Le ", in->nt[i][band],
 					in->pt[i][band]);
 			}
 			fprintf(out, "\n");
@@ -128,9 +128,9 @@ void pos_dump(struct device *in)
 	}
 }
 
-double get_p_error(struct device *in, double *b)
+double get_p_error(struct device *in, long double *b)
 {
-	double tot = 0.0;
+	gdouble tot = 0.0;
 	int i;
 	for (i = 0; i < in->ymeshpoints; i++) {
 		if ((in->interfaceleft == TRUE) && (i == 0)) {
@@ -138,7 +138,7 @@ double get_p_error(struct device *in, double *b)
 		    if ((in->interfaceright == TRUE)
 			&& (i == in->ymeshpoints - 1)) {
 		} else {
-			tot += fabs(b[i]);
+			tot += gfabs(b[i]);
 		}
 	}
 	return tot;
@@ -155,26 +155,26 @@ int solve_pos(struct device *in)
 	int M = in->ymeshpoints;
 	int *Ti = malloc(N * sizeof(int));
 	int *Tj = malloc(N * sizeof(int));
-	double *Tx = malloc(N * sizeof(double));
-	double *b = malloc(M * sizeof(double));
+	gdouble *Tx = malloc(N * sizeof(gdouble));
+	gdouble *b = malloc(M * sizeof(gdouble));
 
-	double phil;
-	double phic;
-	double phir;
-	double yl;
-	double yc;
-	double yr;
-	double dyl;
-	double dyr;
-	double dyc = 0.0;
+	gdouble phil;
+	gdouble phic;
+	gdouble phir;
+	gdouble yl;
+	gdouble yc;
+	gdouble yr;
+	gdouble dyl;
+	gdouble dyr;
+	gdouble dyc = 0.0;
 	int ittr = 0;
 	int pos = 0;
-	double error = 1000;
-	double el = 0.0;
-	double ec = 0.0;
-	double er = 0.0;
-	double e0 = 0.0;
-	double e1 = 0.0;
+	gdouble error = 1000;
+	gdouble el = 0.0;
+	gdouble ec = 0.0;
+	gdouble er = 0.0;
+	gdouble e0 = 0.0;
+	gdouble e1 = 0.0;
 	int pos_max_ittr = 250;
 
 	int quit = FALSE;
@@ -182,7 +182,7 @@ int solve_pos(struct device *in)
 	int adv = FALSE;
 	int band;
 
-	double kTq = (in->Te[0] * kb / Q);
+	gdouble kTq = (in->Te[0] * kb / Q);
 
 	do {
 
@@ -232,7 +232,7 @@ int solve_pos(struct device *in)
 			e1 = (ec + er) / 2.0;
 			phic = in->phi[i];
 
-			double dphidn = 0.0;
+			gdouble dphidn = 0.0;
 			if (adv == FALSE) {
 				dphidn =
 				    (Q / (kb * in->Tl[i])) * in->Nc[i] *
@@ -246,7 +246,7 @@ int solve_pos(struct device *in)
 
 			}
 
-			double dphidp = 0.0;
+			gdouble dphidp = 0.0;
 			if (adv == FALSE) {
 				dphidp =
 				    -(Q / (kb * in->Tl[i])) * in->Nv[i] *
@@ -257,13 +257,13 @@ int solve_pos(struct device *in)
 				    -get_dp_den(in->xp[i] - in->tp[i],
 						in->Tl[i], in->imat[i]);
 			}
-			double dphil = e0 / dyl / dyc;
-			double dphic = -(e0 / dyl / dyc + e1 / dyr / dyc);
-			double dphir = e1 / dyr / dyc;
+			gdouble dphil = e0 / dyl / dyc;
+			gdouble dphic = -(e0 / dyl / dyc + e1 / dyr / dyc);
+			gdouble dphir = e1 / dyr / dyc;
 
-			double dphil_d = dphil;
-			double dphic_d = dphic;
-			double dphir_d = dphir;
+			gdouble dphil_d = dphil;
+			gdouble dphic_d = dphic;
+			gdouble dphir_d = dphir;
 
 			if (in->interfaceleft == TRUE) {
 
@@ -297,7 +297,7 @@ int solve_pos(struct device *in)
 				}
 			}
 
-			double dphi =
+			gdouble dphi =
 			    dphil * phil + dphic * phic + dphir * phir;
 
 			dphic_d += -Q * (dphidn - dphidp);	// just put in the _d to get it working again.
@@ -363,17 +363,17 @@ int solve_pos(struct device *in)
 			    if ((in->interfaceright == TRUE)
 				&& (i == in->ymeshpoints - 1)) {
 			} else {
-				double update;
+				gdouble update;
 				//printf("%d\n",get_clamp_state());
 
-				double clamp_temp = 300.0;
+				gdouble clamp_temp = 300.0;
 				update =
 				    b[i] / (1.0 +
 					    fabs(b[i] / in->posclamp /
 						 (clamp_temp * kb / Q)));
 				in->phi[i] += update;
 
-				//printf("%le %le\n",i,b[i]);
+				//printf("%Le %Le\n",i,b[i]);
 			}
 		}
 
@@ -482,8 +482,8 @@ int solve_pos(struct device *in)
 		   fclose(in->converge); */
 #endif
 
-//double N=2.0*pow(((2.0*pi*kb*in->Tl[0]*in->me[0]*m0)/(hp*hp)),1.5);
-//double test=N*exp((-3.000000e-03*Q)/(kb*in->Tl[0]));
+//gdouble N=2.0*pow(((2.0*pi*kb*in->Tl[0]*in->me[0]*m0)/(hp*hp)),1.5);
+//gdouble test=N*exp((-3.000000e-03*Q)/(kb*in->Tl[0]));
 //printf("Check now %e %e\n",get_n_den(-3.000000e-03,in->Tl[0],in->me[0],in->dostype[0],dos_all),test);
 //getchar();
 
@@ -529,7 +529,7 @@ int solve_pos(struct device *in)
 	free(b);
 
 	printf_log("Solved pos\n");
-	printf_log("Vl=%le Vr=%le phi_mid=%le\n", in->Vl, in->Vr,
+	printf_log("Vl=%Le Vr=%Le phi_mid=%Le\n", in->Vl, in->Vr,
 		   in->phi[in->ymeshpoints / 2]);
 
 	return 0;

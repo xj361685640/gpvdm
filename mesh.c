@@ -28,7 +28,7 @@
 #include "mesh.h"
 #include "inp.h"
 #include "util.h"
-#include "true_false.h"
+#include "const.h"
 #include "hard_limit.h"
 
 void mesh_remesh(struct device *in)
@@ -57,7 +57,7 @@ void mesh_save(struct device *in)
 	for (i = 0; i < in->ymeshlayers; i++) {
 		strcat(buffer, "#mesh_layer_length0\n");
 
-		sprintf(temp, "%le\n", in->meshdata[i].len);
+		sprintf(temp, "%Le\n", in->meshdata[i].len);
 		strcat(buffer, temp);
 
 		strcat(buffer, "#mesh_layer_points0\n");
@@ -108,10 +108,10 @@ void mesh_load(struct device *in)
 
 	for (i = 0; i < in->ymeshlayers; i++) {
 		sscanf(inp_get_string(&inp), "%s", token0);
-		sscanf(inp_get_string(&inp), "%lf", &(in->meshdata[i].len));
+		sscanf(inp_get_string(&inp), "%Lf", &(in->meshdata[i].len));
 
 		sscanf(inp_get_string(&inp), "%s", token1);
-		sscanf(inp_get_string(&inp), "%lf", &(in->meshdata[i].number));
+		sscanf(inp_get_string(&inp), "%Lf", &(in->meshdata[i].number));
 
 		in->meshdata[i].len = fabs(in->meshdata[i].len);
 		hard_limit(token0, &(in->meshdata[i].len));
@@ -122,12 +122,12 @@ void mesh_load(struct device *in)
 
 	inp_free(&inp);
 
-	in->ymesh = malloc(in->ymeshpoints * sizeof(double));
+	in->ymesh = malloc(in->ymeshpoints * sizeof(gdouble));
 	in->imat = malloc(in->ymeshpoints * sizeof(int));
 
 	int pos = 0;
 	int ii;
-	double dpos = 0.0;
+	gdouble dpos = 0.0;
 	for (i = 0; i < in->ymeshlayers; i++) {
 
 		for (ii = 0; ii < in->meshdata[i].number; ii++) {
@@ -143,4 +143,26 @@ void mesh_load(struct device *in)
 		}
 	}
 
+}
+
+void mesh_cal_layer_widths(struct device *in)
+{
+	int i;
+	int cur_i = in->imat[0];
+
+	in->layer_start[cur_i] = 0.0;
+
+	for (i = 0; i < in->ymeshpoints; i++) {
+		if ((in->imat[i] != cur_i) || (i == (in->ymeshpoints - 1))) {
+			in->layer_stop[cur_i] = in->ymesh[i - 1];	//+(in->ymesh[i]-in->ymesh[i-1])/2;
+			in->layer_width[cur_i] =
+			    in->layer_stop[cur_i] - in->layer_start[cur_i];
+			if (i == (in->ymeshpoints - 1)) {
+				break;
+			}
+			cur_i = in->imat[i];
+			in->layer_start[cur_i] = in->ymesh[i];	//-(in->ymesh[i]-in->ymesh[i-1])/2;
+		}
+		printf("%d\n", in->imat[i]);
+	}
 }

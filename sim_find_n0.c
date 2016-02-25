@@ -40,8 +40,8 @@ void find_n0(struct device *in)
 {
 	int i;
 	printf_log("Finding n0\n");
-	double oldsun = in->Psun;
-	double oldv = in->Vapplied;
+	gdouble oldsun = in->Psun;
+	gdouble oldv = in->Vapplied;
 	in->Vapplied = 0;
 	in->Psun = 0;
 	char temp[200];
@@ -56,9 +56,9 @@ void find_n0(struct device *in)
 		in->B[i] = 0.0;
 	}
 
-	double save_clamp = in->electrical_clamp;
+	gdouble save_clamp = in->electrical_clamp;
 	int save_ittr = in->max_electrical_itt;
-	double save_electricalerror = in->min_cur_error;
+	gdouble save_electricalerror = in->min_cur_error;
 
 	in->electrical_clamp = in->electrical_clamp0;
 	in->max_electrical_itt = in->max_electrical_itt0;
@@ -81,11 +81,11 @@ void find_n0(struct device *in)
 
 	FILE *outfile;
 	outfile = fopena(in->outputpath, "voc_mue.dat", "w");
-	fprintf(outfile, "%le", get_avg_mue(in));
+	fprintf(outfile, "%Le", get_avg_mue(in));
 	fclose(outfile);
 
 	outfile = fopena(in->outputpath, "voc_muh.dat", "w");
-	fprintf(outfile, "%le", get_avg_muh(in));
+	fprintf(outfile, "%Le", get_avg_muh(in));
 	fclose(outfile);
 
 	in->Psun = oldsun;

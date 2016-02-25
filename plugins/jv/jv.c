@@ -40,6 +40,8 @@ static int unused __attribute__ ((unused));
 
 void sim_jv(struct device *in)
 {
+	FILE *outf = fopen("o.dat", "w");
+	fclose(outf);
 	printf_log(_("Running JV simulation\n"));
 	struct buffer buf;
 	buffer_init(&buf);
@@ -49,23 +51,29 @@ void sim_jv(struct device *in)
 
 	struct jv config;
 	jv_load_config(&config, in);
-	double V = 0.0;
-	double Vstop = config.Vstop;
-	double Vstep = config.Vstep;
+	gdouble V = 0.0;
+	gdouble Vstop = config.Vstop;
+	gdouble Vstep = config.Vstep;
 	int ittr = 0;
-	double J;
-	double Pden;
+	gdouble J;
+	gdouble Pden;
 	int first = TRUE;
-	double Vlast;
-	double Jlast;
-	double Pdenlast;
-	double Vexternal;
+	gdouble Vlast;
+	gdouble Jlast;
+	gdouble Pdenlast;
+	gdouble Vexternal;
 
 	struct istruct ivexternal;
 	inter_init(&ivexternal);
 
 	struct istruct jvexternal;
 	inter_init(&jvexternal);
+
+	struct istruct jv;
+	inter_init(&jv);
+
+	struct istruct jvavg;
+	inter_init(&jvavg);
 
 	struct istruct charge;
 	inter_init(&charge);
@@ -80,45 +88,49 @@ void sim_jv(struct device *in)
 	inter_init(&lv);
 
 	in->Vapplied = 0.0;
-	if (fabs(config.Vstart - in->Vapplied) > 0.2) {
-		ramp_externalv(in, 0.0, config.Vstart);
-	}
+/*if (gfabs(config.Vstart-in->Vapplied)>0.2)
+{
+	ramp_externalv(in,0.0,config.Vstart);
+}
 
-	in->Vapplied = config.Vstart;
+in->Vapplied=config.Vstart;
 
-	sim_externalv(in, in->Vapplied);
-
+sim_externalv(in,in->Vapplied);
+*/
 	remesh_reset(in, in->Vapplied);
-	if (in->remesh == TRUE) {
-		light_solve_and_update(in, &(in->mylight),
-				       in->Psun * config.jv_light_efficiency,
-				       0.0);
-	}
+//if (in->remesh==TRUE)
+//{
+//      
+//}
 
-	V = in->Vapplied;
+	light_solve_and_update(in, &(in->mylight),
+			       in->Psun * config.jv_light_efficiency, 0.0);
+
 	newton_set_min_ittr(30);
 	in->Vapplied = config.Vstart;
+	V = in->Vapplied;
 	newton_sim_jv(in);
 	newton_set_min_ittr(0);
 
-	double k_voc = 0.0;
-	double n_voc = 0.0;
-	double r_voc = 0.0;
-	double nsc = 0.0;
-	double n_trap_voc = 0.0;
-	double p_trap_voc = 0.0;
-	double n_free_voc = 0.0;
-	double p_free_voc = 0.0;
-	double np_voc_tot = 0.0;
-	double r_pmax = 0.0;
-	double n_pmax = 0.0;
+//gdouble k_voc=0.0;
+	gdouble n_voc = 0.0;
+	gdouble r_voc = 0.0;
+	gdouble nsc = 0.0;
+	gdouble n_trap_voc = 0.0;
+	gdouble p_trap_voc = 0.0;
+	gdouble n_free_voc = 0.0;
+	gdouble p_free_voc = 0.0;
+	gdouble np_voc_tot = 0.0;
+	gdouble r_pmax = 0.0;
+	gdouble n_pmax = 0.0;
+	int r;
 	do {
 
 		in->Vapplied = V;
-
 		newton_sim_jv(in);
 
 		J = get_equiv_J(in);
+
 		Vexternal = get_equiv_V(in);
 
 		gui_send_data("pulse");
@@ -127,6 +139,8 @@ void sim_jv(struct device *in)
 
 			inter_append(&jvexternal, get_equiv_V(in),
 				     get_equiv_J(in));
+			inter_append(&jvavg, V, get_avg_J(in));
+			inter_append(&jv, V, get_J(in));
 			inter_append(&ivexternal, get_equiv_V(in),
 				     get_equiv_I(in));
 
@@ -136,11 +150,24 @@ void sim_jv(struct device *in)
 
 		inter_append(&charge, get_equiv_V(in), get_extracted_np(in));
 		inter_append(&charge_tot, get_equiv_V(in), get_np_tot(in));
+/*
+		FILE *deriv=fopen("dfn.dat","w");
+		for (r=0;r<in->ymeshpoints-1;r++)
+		{
+			gdouble d=(in->Fn[r+1]-in->Fn[r])/(in->ymesh[r+1]-in->ymesh[r]);
+			d*=(in->n[r]+in->n[r+1])/2;
+			d*=(in->mun[r]+in->mun[r+1])/2;
 
-		Pden = fabs(J * Vexternal);
+			fprintf(deriv,"%Le %Le\n",in->ymesh[r],d);
+		}
+		fclose(deriv);
+		getchar();
+*/
+		Pden = gfabs(J * Vexternal);
 
 		//printf("Plotted\n");
 		plot_now(in, "jv.plot");
+		stop_start(in);
 		dump_dynamic_add_data(&store, in, get_equiv_V(in));
 
 		if (first == FALSE) {
@@ -151,8 +178,8 @@ void sim_jv(struct device *in)
 				    Jlast + (J - Jlast) * (0 - Vlast) / (V -
 									 Vlast);
 				nsc = get_extracted_np(in);
-				printf_log("nsc=%le\n", nsc);
-				printf_log("Jsc = %e\n", in->Jsc);
+				printf_log("nsc=%Le\n", nsc);
+				printf_log("Jsc = %Le\n", in->Jsc);
 			}
 
 			if ((Jlast <= 0) && (J >= 0.0)) {
@@ -160,10 +187,8 @@ void sim_jv(struct device *in)
 				    Vlast + (Vexternal - Vlast) * (0 -
 								   Jlast) / (J -
 									     Jlast);
-				printf_log("Voc = %e\n", in->Voc);
-				k_voc =
-				    get_avg_recom(in) /
-				    pow(get_extracted_np(in), 2.0);
+				printf_log("Voc = %Le\n", in->Voc);
+				//k_voc=get_avg_recom(in)/pow(get_extracted_np(in),2.0);
 				r_voc = get_avg_recom(in);
 				n_voc = get_extracted_np(in);
 				np_voc_tot = get_total_np(in);
@@ -187,9 +212,9 @@ void sim_jv(struct device *in)
 		}
 
 		if (get_dump_status(dump_print_converge) == TRUE) {
-			printf_log("V=%lf %lf current = %e mA (%e A/m^2) %le\n",
-				   V, Vexternal, get_I(in) / 1e-3, J,
-				   in->last_error);
+			printf_log
+			    ("V=%Lf %Lf current = %Le mA (%Le A/m^2) %Le\n", V,
+			     Vexternal, get_I(in) / 1e-3, J, in->last_error);
 		}
 
 		Jlast = J;
@@ -198,6 +223,10 @@ void sim_jv(struct device *in)
 		first = FALSE;
 
 		dump_write_to_disk(in);
+
+		outf = fopen("o.dat", "a");
+		fprintf(outf, "%le %le\n", V, J);
+		fclose(outf);
 
 		inter_append(&lv, get_equiv_V(in), pl_get_light_energy());
 
@@ -228,37 +257,38 @@ void sim_jv(struct device *in)
 	} while (1);
 //printf("exit\n");
 
-	in->FF = fabs(in->Pmax / (in->Jsc * in->Voc));
+	in->FF = gfabs(in->Pmax / (in->Jsc * in->Voc));
 
 	if (get_dump_status(dump_print_text) == TRUE) {
-		printf_log("Voc= %lf (V)\n", in->Voc);
-		printf_log("Jsc= %lf (A/m^2)\n", in->Jsc);
-		printf_log("Pmax= %lf (W/m^2)\n", in->Pmax);
-		printf_log("Voltage to get Pmax= %lf (V)\n", in->Pmax_voltage);
-		printf_log("FF= %lf\n", in->FF * 100.0);
-		printf_log("Efficiency= %lf percent\n",
-			   fabs(in->Pmax / in->Psun / 1000) * 100.0);
+		printf_log("Voc= %Lf (V)\n", in->Voc);
+		printf_log("Jsc= %Lf (A/m^2)\n", in->Jsc);
+		printf_log("Pmax= %Lf (W/m^2)\n", in->Pmax);
+		printf_log("Voltage to get Pmax= %Lf (V)\n", in->Pmax_voltage);
+		printf_log("FF= %Lf\n", in->FF * 100.0);
+		printf_log("Efficiency= %Lf percent\n",
+			   gfabs(in->Pmax / in->Psun / 1000) * 100.0);
 	}
 
 	FILE *out;
 	out = fopena(in->inputpath, "sim_info.dat", "w");
-	fprintf(out, "#ff\n%le\n", in->FF);
-	fprintf(out, "#pce\n%le\n", fabs(in->Pmax / (in->Psun / 1000)) * 100.0);
-	fprintf(out, "#voc\n%le\n", in->Voc);
-	fprintf(out, "#voc_tau\n%le\n", n_voc / r_voc);
-	fprintf(out, "#voc_R\n%le\n", r_voc);
-	fprintf(out, "#jv_voc_k\n%le\n", r_voc / n_voc);
-	fprintf(out, "#jv_pmax_n\n%le\n", n_pmax);
-	fprintf(out, "#jv_pmax_tau\n%le\n", n_pmax / r_pmax);
-	fprintf(out, "#voc_nt\n%le\n", n_trap_voc);
-	fprintf(out, "#voc_pt\n%le\n", p_trap_voc);
-	fprintf(out, "#voc_nf\n%le\n", n_free_voc);
-	fprintf(out, "#voc_pf\n%le\n", p_free_voc);
-	fprintf(out, "#jsc\n%le\n", in->Jsc);
-	fprintf(out, "#jv_jsc_n\n%le\n", nsc);
-	fprintf(out, "#jv_vbi\n%le\n", in->vbi);
-	fprintf(out, "#jv_gen\n%le\n", get_avg_gen(in));
-	fprintf(out, "#voc_np_tot\n%le\n", np_voc_tot);
+	fprintf(out, "#ff\n%Le\n", in->FF);
+	fprintf(out, "#pce\n%Le\n",
+		gfabs(in->Pmax / (in->Psun / 1000)) * 100.0);
+	fprintf(out, "#voc\n%Le\n", in->Voc);
+	fprintf(out, "#voc_tau\n%Le\n", n_voc / r_voc);
+	fprintf(out, "#voc_R\n%Le\n", r_voc);
+	fprintf(out, "#jv_voc_k\n%Le\n", r_voc / n_voc);
+	fprintf(out, "#jv_pmax_n\n%Le\n", n_pmax);
+	fprintf(out, "#jv_pmax_tau\n%Le\n", n_pmax / r_pmax);
+	fprintf(out, "#voc_nt\n%Le\n", n_trap_voc);
+	fprintf(out, "#voc_pt\n%Le\n", p_trap_voc);
+	fprintf(out, "#voc_nf\n%Le\n", n_free_voc);
+	fprintf(out, "#voc_pf\n%Le\n", p_free_voc);
+	fprintf(out, "#jsc\n%Le\n", in->Jsc);
+	fprintf(out, "#jv_jsc_n\n%Le\n", nsc);
+	fprintf(out, "#jv_vbi\n%Le\n", in->vbi);
+	fprintf(out, "#jv_gen\n%Le\n", get_avg_gen(in));
+	fprintf(out, "#voc_np_tot\n%Le\n", np_voc_tot);
 	fprintf(out, "#end");
 	fclose(out);
 
@@ -306,6 +336,38 @@ void sim_jv(struct device *in)
 	buffer_malloc(&buf);
 	buf.y_mul = 1.0;
 	buf.x_mul = 1.0;
+	strcpy(buf.title, "Current density - Applied voltage");
+	strcpy(buf.type, "xy");
+	strcpy(buf.x_label, "Applied Voltage");
+	strcpy(buf.y_label, "Current density");
+	strcpy(buf.x_units, "Volts");
+	strcpy(buf.y_units, "A m^{-2}");
+	buf.logscale_x = 0;
+	buf.logscale_y = 0;
+	buffer_add_info(&buf);
+	buffer_add_xy_data(&buf, jv.x, jv.data, jv.len);
+	buffer_dump_path(in->outputpath, "jv_internal.dat", &buf);
+	buffer_free(&buf);
+
+	buffer_malloc(&buf);
+	buf.y_mul = 1.0;
+	buf.x_mul = 1.0;
+	strcpy(buf.title, "Current density - Applied voltage");
+	strcpy(buf.type, "xy");
+	strcpy(buf.x_label, "Applied Voltage");
+	strcpy(buf.y_label, "Current density");
+	strcpy(buf.x_units, "Volts");
+	strcpy(buf.y_units, "A m^{-2}");
+	buf.logscale_x = 0;
+	buf.logscale_y = 0;
+	buffer_add_info(&buf);
+	buffer_add_xy_data(&buf, jvavg.x, jvavg.data, jvavg.len);
+	buffer_dump_path(in->outputpath, "jv_avg.dat", &buf);
+	buffer_free(&buf);
+
+	buffer_malloc(&buf);
+	buf.y_mul = 1.0;
+	buf.x_mul = 1.0;
 	strcpy(buf.title, "Current - Applied voltage");
 	strcpy(buf.type, "xy");
 	strcpy(buf.x_label, "Applied Voltage");
@@ -336,6 +398,8 @@ void sim_jv(struct device *in)
 	buffer_free(&buf);
 
 	inter_free(&jvexternal);
+	inter_free(&jv);
+	inter_free(&jvavg);
 	inter_free(&charge);
 	inter_free(&ivexternal);
 	inter_free(&lv);
@@ -350,14 +414,14 @@ void jv_load_config(struct jv *in, struct device *dev)
 	inp_init(&inp);
 	inp_load_from_path(&inp, dev->inputpath, "jv.inp");
 	inp_check(&inp, 1.21);
-	inp_search_double(&inp, &(in->Vstart), "#Vstart");
-	inp_search_double(&inp, &(in->Vstop), "#Vstop");
-	inp_search_double(&inp, &(in->Vstep), "#Vstep");
-	inp_search_double(&inp, &(in->jv_step_mul), "#jv_step_mul");
-	inp_search_double(&inp, &(in->jv_light_efficiency),
-			  "#jv_light_efficiency");
-	inp_search_double(&inp, &(in->jv_max_j), "#jv_max_j");
-	in->jv_light_efficiency = fabs(in->jv_light_efficiency);
+	inp_search_gdouble(&inp, &(in->Vstart), "#Vstart");
+	inp_search_gdouble(&inp, &(in->Vstop), "#Vstop");
+	inp_search_gdouble(&inp, &(in->Vstep), "#Vstep");
+	inp_search_gdouble(&inp, &(in->jv_step_mul), "#jv_step_mul");
+	inp_search_gdouble(&inp, &(in->jv_light_efficiency),
+			   "#jv_light_efficiency");
+	inp_search_gdouble(&inp, &(in->jv_max_j), "#jv_max_j");
+	in->jv_light_efficiency = gfabs(in->jv_light_efficiency);
 	inp_free(&inp);
 
 }

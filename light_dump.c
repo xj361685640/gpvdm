@@ -30,7 +30,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <dirent.h>
-#include <true_false.h>
+#include "const.h"
 #include "dump_ctrl.h"
 #include "light.h"
 #include "buffer.h"
@@ -55,10 +55,10 @@ void light_dump(struct light *in)
 		out = fopena(out_dir, "light_2d_Ep.dat", "w");
 		for (i = 0; i < in->lpoints; i++) {
 			for (ii = 0; ii < in->points; ii++) {
-				fprintf(out, "%le %le %le\n", in->l[i],
+				fprintf(out, "%Le %Le %Le\n", in->l[i],
 					in->x[ii],
-					pow(pow(in->Ep[i][ii], 2.0) +
-					    pow(in->Epz[i][ii], 2.0), 0.5));
+					gpow(gpow(in->Ep[i][ii], 2.0) +
+					     gpow(in->Epz[i][ii], 2.0), 0.5));
 
 			}
 
@@ -69,10 +69,10 @@ void light_dump(struct light *in)
 		out = fopena(out_dir, "light_2d_En.dat", "w");
 		for (i = 0; i < in->lpoints; i++) {
 			for (ii = 0; ii < in->points; ii++) {
-				fprintf(out, "%le %le %le\n", in->l[i],
+				fprintf(out, "%Le %Le %Le\n", in->l[i],
 					in->x[ii],
-					pow(pow(in->En[i][ii], 2.0) +
-					    pow(in->Enz[i][ii], 2.0), 0.5));
+					gpow(gpow(in->En[i][ii], 2.0) +
+					     gpow(in->Enz[i][ii], 2.0), 0.5));
 			}
 
 			fprintf(out, "\n");
@@ -82,13 +82,13 @@ void light_dump(struct light *in)
 		out = fopena(out_dir, "light_2d_E_mod.dat", "w");
 		for (i = 0; i < in->lpoints; i++) {
 			for (ii = 0; ii < in->points; ii++) {
-				fprintf(out, "%le %le %le\n", in->l[i],
+				fprintf(out, "%Le %Le %Le\n", in->l[i],
 					in->x[ii],
-					pow(pow
-					    (in->Ep[i][ii] + in->En[i][ii],
-					     2.0) + pow(in->Enz[i][ii] +
-							in->Epz[i][ii], 2.0),
-					    1.0));
+					gpow(gpow
+					     (in->Ep[i][ii] + in->En[i][ii],
+					      2.0) + gpow(in->Enz[i][ii] +
+							  in->Epz[i][ii], 2.0),
+					     1.0));
 			}
 
 			fprintf(out, "\n");
@@ -112,7 +112,7 @@ void light_dump(struct light *in)
 
 		for (i = 0; i < in->lpoints; i++) {
 			for (ii = 0; ii < in->points; ii++) {
-				sprintf(line, "%le %le %le\n", in->l[i],
+				sprintf(line, "%Le %Le %Le\n", in->l[i],
 					in->x[ii], in->photons[i][ii]);
 				buffer_add_string(&buf, line);
 			}
@@ -138,7 +138,7 @@ void light_dump(struct light *in)
 
 		for (i = 0; i < in->lpoints; i++) {
 			for (ii = 0; ii < in->points; ii++) {
-				sprintf(line, "%le %le %le\n", in->l[i],
+				sprintf(line, "%Le %Le %Le\n", in->l[i],
 					in->x[ii], in->photons_asb[i][ii]);
 				buffer_add_string(&buf, line);
 			}
@@ -152,7 +152,7 @@ void light_dump(struct light *in)
 		out = fopena(out_dir, "light_2d_n.dat", "w");
 		for (i = 0; i < in->lpoints; i++) {
 			for (ii = 0; ii < in->points; ii++) {
-				fprintf(out, "%le %le %le\n", in->l[i],
+				fprintf(out, "%Le %Le %Le\n", in->l[i],
 					in->x[ii], in->n[i][ii]);
 			}
 
@@ -162,19 +162,19 @@ void light_dump(struct light *in)
 
 		out = fopena(out_dir, "light_lambda_sun.dat", "w");
 		for (i = 0; i < in->lpoints; i++) {
-			fprintf(out, "%le %le\n", in->l[i], in->sun[i]);
+			fprintf(out, "%Le %Le\n", in->l[i], in->sun[i]);
 		}
 		fclose(out);
 
 		out = fopena(out_dir, "light_lambda_sun_norm.dat", "w");
 		for (i = 0; i < in->lpoints; i++) {
-			fprintf(out, "%le %le\n", in->l[i], in->sun_norm[i]);
+			fprintf(out, "%Le %Le\n", in->l[i], in->sun_norm[i]);
 		}
 		fclose(out);
 
 		out = fopena(out_dir, "light_lambda_sun_photons.dat", "w");
 		for (i = 0; i < in->lpoints; i++) {
-			fprintf(out, "%le %le\n", in->l[i], in->sun_photons[i]);
+			fprintf(out, "%Le %Le\n", in->l[i], in->sun_photons[i]);
 		}
 		fclose(out);
 
@@ -193,7 +193,7 @@ void light_dump(struct light *in)
 
 		for (i = 0; i < in->lpoints; i++) {
 			for (ii = 0; ii < in->points; ii++) {
-				sprintf(line, "%le %le %le\n", in->l[i],
+				sprintf(line, "%Le %Le %Le\n", in->l[i],
 					in->x[ii], in->alpha[i][ii]);
 				buffer_add_string(&buf, line);
 			}
@@ -225,7 +225,7 @@ void light_dump(struct light *in)
 
 //for (i=0;i<in->lpoints;i++)
 //{
-//              fprintf(out,"%le %le\n",in->l[i],in->reflect[i]);
+//              fprintf(out,"%Le %Le\n",in->l[i],in->reflect[i]);
 //}
 
 //fclose(out);
@@ -296,7 +296,7 @@ void light_dump_1d(struct light *in, int i, char *ext)
 			buffer_add_info(&buf);
 
 			for (ii = 0; ii < in->points; ii++) {
-				sprintf(line, "%le %le\n",
+				sprintf(line, "%Le %Le\n",
 					in->x[ii] - in->device_start,
 					in->photons_tot[ii] / max);
 				buffer_add_string(&buf, line);
@@ -310,7 +310,7 @@ void light_dump_1d(struct light *in, int i, char *ext)
 			sprintf(temp_name, "light_1d_photons_tot%s.dat", ext);
 
 			for (ii = 0; ii < in->points; ii++) {
-				sprintf(line, "%le %le\n",
+				sprintf(line, "%Le %Le\n",
 					in->x[ii] - in->device_start,
 					in->photons_tot[ii]);
 				buffer_add_string(&data_1d_photons_tot, line);
@@ -336,7 +336,7 @@ void light_dump_1d(struct light *in, int i, char *ext)
 			buffer_add_info(&buf);
 
 			for (ii = 0; ii < in->points; ii++) {
-				sprintf(line, "%le %le\n",
+				sprintf(line, "%Le %Le\n",
 					in->x[ii] - in->device_start,
 					in->Gn[ii] / max);
 				buffer_add_string(&buf, line);
@@ -367,59 +367,59 @@ void light_dump_1d(struct light *in, int i, char *ext)
 		char name_r[200];
 		char name_t[200];
 
-		sprintf(name_photons, "light_1d_%.0f_photons%s.dat",
+		sprintf(name_photons, "light_1d_%.0Lf_photons%s.dat",
 			in->l[i] * 1e9, ext);
-		sprintf(name_photons_norm, "light_1d_%.0f_photons%s_norm.dat",
+		sprintf(name_photons_norm, "light_1d_%.0Lf_photons%s_norm.dat",
 			in->l[i] * 1e9, ext);
-		sprintf(name_light_1d_Ep, "light_1d_%.0f_Ep%s.dat",
+		sprintf(name_light_1d_Ep, "light_1d_%.0Lf_Ep%s.dat",
 			in->l[i] * 1e9, ext);
-		sprintf(name_light_1d_En, "light_1d_%.0f_En%s.dat",
+		sprintf(name_light_1d_En, "light_1d_%.0Lf_En%s.dat",
 			in->l[i] * 1e9, ext);
-		sprintf(name_pointing, "light_1d_%.0f_pointing%s.dat",
+		sprintf(name_pointing, "light_1d_%.0Lf_pointing%s.dat",
 			in->l[i] * 1e9, ext);
-		sprintf(name_E_tot, "light_1d_%.0f_E_tot%s.dat", in->l[i] * 1e9,
-			ext);
-		sprintf(name_r, "light_1d_%.0f_r%s.dat", in->l[i] * 1e9, ext);
-		sprintf(name_t, "light_1d_%.0f_t%s.dat", in->l[i] * 1e9, ext);
+		sprintf(name_E_tot, "light_1d_%.0Lf_E_tot%s.dat",
+			in->l[i] * 1e9, ext);
+		sprintf(name_r, "light_1d_%.0Lf_r%s.dat", in->l[i] * 1e9, ext);
+		sprintf(name_t, "light_1d_%.0Lf_t%s.dat", in->l[i] * 1e9, ext);
 
 		max = inter_array_get_max(in->photons[i], in->points);
 		for (ii = 0; ii < in->points; ii++) {
-			sprintf(line, "%le %le\n", in->x[ii],
+			sprintf(line, "%Le %Le\n", in->x[ii],
 				in->photons[i][ii]);
 			buffer_add_string(&data_photons, line);
 
-			sprintf(line, "%le %le\n", in->x[ii] - in->device_start,
+			sprintf(line, "%Le %Le\n", in->x[ii] - in->device_start,
 				in->photons[i][ii] / max);
 			buffer_add_string(&data_photons_norm, line);
 
-			sprintf(line, "%le %le %le %le\n", in->x[ii],
-				pow(pow(in->Ep[i][ii], 2.0) +
-				    pow(in->Epz[i][ii], 2.0), 0.5),
+			sprintf(line, "%Le %Le %Le %Le\n", in->x[ii],
+				gpow(gpow(in->Ep[i][ii], 2.0) +
+				     gpow(in->Epz[i][ii], 2.0), 0.5),
 				in->Ep[i][ii], in->Epz[i][ii]);
 			buffer_add_string(&data_light_1d_Ep, line);
 
-			sprintf(line, "%le %le %le %le\n", in->x[ii],
-				pow(pow(in->En[i][ii], 2.0) +
-				    pow(in->Enz[i][ii], 2.0), 0.5),
+			sprintf(line, "%Le %Le %Le %Le\n", in->x[ii],
+				gpow(gpow(in->En[i][ii], 2.0) +
+				     gpow(in->Enz[i][ii], 2.0), 0.5),
 				in->En[i][ii], in->Enz[i][ii]);
 			buffer_add_string(&data_light_1d_En, line);
 
-			sprintf(line, "%le %le\n", in->x[ii],
+			sprintf(line, "%Le %Le\n", in->x[ii],
 				in->pointing_vector[i][ii]);
 			buffer_add_string(&data_pointing, line);
 
-			sprintf(line, "%le %le %le\n", in->x[ii],
+			sprintf(line, "%Le %Le %Le\n", in->x[ii],
 				in->E_tot_r[i][ii], in->E_tot_i[i][ii]);
 			buffer_add_string(&data_E_tot, line);
 
-			sprintf(line, "%le %le %le %le\n", in->x[ii],
-				cabs(in->r[i][ii]), creal(in->r[i][ii]),
-				cimag(in->r[i][ii]));
+			sprintf(line, "%Le %Le %Le %Le\n", in->x[ii],
+				gcabs(in->r[i][ii]), gcreal(in->r[i][ii]),
+				gcimag(in->r[i][ii]));
 			buffer_add_string(&data_r, line);
 
-			sprintf(line, "%le %le %le %le\n", in->x[ii],
-				cabs(in->t[i][ii]), creal(in->t[i][ii]),
-				cimag(in->t[i][ii]));
+			sprintf(line, "%Le %Le %Le %Le\n", in->x[ii],
+				gcabs(in->t[i][ii]), gcreal(in->t[i][ii]),
+				gcimag(in->t[i][ii]));
 			buffer_add_string(&data_t, line);
 		}
 
@@ -448,99 +448,99 @@ void light_dump_1d(struct light *in, int i, char *ext)
 		}
 
 		if (get_dump_status(dump_optics_verbose) == TRUE) {
-			sprintf(name, "%s/light_1d_%.0f_layer%s.dat", out_dir,
+			sprintf(name, "%s/light_1d_%.0Lf_layer%s.dat", out_dir,
 				in->l[i] * 1e9, ext);
 			out = fopen(name, "w");
 			for (ii = 0; ii < in->points; ii++) {
-				fprintf(out, "%le %d\n", in->x[ii],
+				fprintf(out, "%Le %d\n", in->x[ii],
 					in->layer[ii]);
 			}
 			fclose(out);
 
-			sprintf(name, "%s/light_1d_%.0f_Gn%s.dat", out_dir,
+			sprintf(name, "%s/light_1d_%.0Lf_Gn%s.dat", out_dir,
 				in->l[i] * 1e9, ext);
 			out = fopen(name, "w");
-			sprintf(name, "%s/light_1d_%.0f_Gn%s_norm.dat", out_dir,
-				in->l[i] * 1e9, ext);
+			sprintf(name, "%s/light_1d_%.0Lf_Gn%s_norm.dat",
+				out_dir, in->l[i] * 1e9, ext);
 			out2 = fopen(name, "w");
 			max = inter_array_get_max(in->Gn, in->points);
 			for (ii = 0; ii < in->points; ii++) {
-				fprintf(out, "%le %le\n",
+				fprintf(out, "%Le %Le\n",
 					in->x[ii] - in->device_start,
 					in->Gn[ii]);
-				fprintf(out2, "%le %le\n",
+				fprintf(out2, "%Le %Le\n",
 					in->x[ii] - in->device_start,
 					in->Gn[ii] / max);
 			}
 			fclose(out);
 			fclose(out2);
 
-			sprintf(name, "%s/light_1d_%.0f_Gp%s.dat", out_dir,
+			sprintf(name, "%s/light_1d_%.0Lf_Gp%s.dat", out_dir,
 				in->l[i] * 1e9, ext);
 			out = fopen(name, "w");
 			for (ii = 0; ii < in->points; ii++) {
-				fprintf(out, "%le %le\n", in->x[ii],
+				fprintf(out, "%Le %Le\n", in->x[ii],
 					in->Gp[ii]);
 			}
 			fclose(out);
 
-			sprintf(name, "%s/light_1d_%.0f_E%s.dat", out_dir,
+			sprintf(name, "%s/light_1d_%.0Lf_E%s.dat", out_dir,
 				in->l[i] * 1e9, ext);
 			out = fopen(name, "w");
 			for (ii = 0; ii < in->points; ii++) {
-				fprintf(out, "%le %le\n", in->x[ii],
-					pow(pow
-					    (in->Ep[i][ii] + in->En[i][ii],
-					     2.0) + pow(in->Enz[i][ii] +
-							in->Epz[i][ii], 2.0),
-					    0.5));
+				fprintf(out, "%Le %Le\n", in->x[ii],
+					gpow(gpow
+					     (in->Ep[i][ii] + in->En[i][ii],
+					      2.0) + gpow(in->Enz[i][ii] +
+							  in->Epz[i][ii], 2.0),
+					     0.5));
 			}
 			fclose(out);
 
-			sprintf(name, "%s/light_1d_%.0f_t%s.dat", out_dir,
+			sprintf(name, "%s/light_1d_%.0Lf_t%s.dat", out_dir,
 				in->l[i] * 1e9, ext);
 			out = fopen(name, "w");
 			for (ii = 0; ii < in->points; ii++) {
-				fprintf(out, "%le %le\n", in->x[ii],
-					cabs(in->t[i][ii]));
+				fprintf(out, "%Le %Le\n", in->x[ii],
+					gcabs(in->t[i][ii]));
 			}
 			fclose(out);
 
-			sprintf(name, "%s/light_1d_%.0f_r%s.dat", out_dir,
+			sprintf(name, "%s/light_1d_%.0Lf_r%s.dat", out_dir,
 				in->l[i] * 1e9, ext);
 			out = fopen(name, "w");
 			for (ii = 0; ii < in->points; ii++) {
-				fprintf(out, "%le %le\n", in->x[ii],
-					cabs(in->r[i][ii]));
+				fprintf(out, "%Le %Le\n", in->x[ii],
+					gcabs(in->r[i][ii]));
 			}
 			fclose(out);
 
-			sprintf(name, "%s/light_1d_%.0f_photons_abs%s.dat",
+			sprintf(name, "%s/light_1d_%.0Lf_photons_abs%s.dat",
 				out_dir, in->l[i] * 1e9, ext);
 			out = fopen(name, "w");
 			for (ii = 0; ii < in->points; ii++) {
-				fprintf(out, "%le %le\n", in->x[ii],
+				fprintf(out, "%Le %Le\n", in->x[ii],
 					in->photons_asb[i][ii]);
 			}
 			fclose(out);
 
-			sprintf(name, "%s/light_1d_%.0f_n%s.dat", out_dir,
+			sprintf(name, "%s/light_1d_%.0Lf_n%s.dat", out_dir,
 				in->l[i] * 1e9, ext);
 			out = fopen(name, "w");
 
 			for (ii = 0; ii < in->points; ii++) {
-				fprintf(out, "%le %le\n", in->x[ii],
+				fprintf(out, "%Le %Le\n", in->x[ii],
 					in->n[i][ii]);
 			}
 
 			fclose(out);
 
-			sprintf(name, "%s/light_1d_%.0f_alpha%s.dat", out_dir,
+			sprintf(name, "%s/light_1d_%.0Lf_alpha%s.dat", out_dir,
 				in->l[i] * 1e9, ext);
 			out = fopen(name, "w");
 
 			for (ii = 0; ii < in->points; ii++) {
-				fprintf(out, "%le %le\n", in->x[ii],
+				fprintf(out, "%Le %Le\n", in->x[ii],
 					in->alpha[i][ii]);
 			}
 
@@ -549,7 +549,7 @@ void light_dump_1d(struct light *in, int i, char *ext)
 			out =
 			    fopena(out_dir, "light_sun_wavelength_E.dat", "w");
 			for (ii = 0; ii < in->lpoints; ii++) {
-				fprintf(out, "%le %le\n", in->l[ii],
+				fprintf(out, "%Le %Le\n", in->l[ii],
 					in->sun_E[ii]);
 			}
 			fclose(out);

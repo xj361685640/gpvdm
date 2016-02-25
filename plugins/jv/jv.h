@@ -25,12 +25,12 @@
 #include "../../sim.h"
 
 struct jv {
-	double Vstart;
-	double Vstop;
-	double Vstep;
-	double jv_step_mul;
-	double jv_light_efficiency;
-	double jv_max_j;
+	gdouble Vstart;
+	gdouble Vstop;
+	gdouble Vstep;
+	gdouble jv_step_mul;
+	gdouble jv_light_efficiency;
+	gdouble jv_max_j;
 };
 
 void sim_jv(struct device *in);

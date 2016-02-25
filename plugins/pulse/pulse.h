@@ -25,9 +25,9 @@
 #include "../../sim.h"
 
 struct pulse {
-	double pulse_shift;
-	double pulse_L;
-	double pulse_Rload;
+	gdouble pulse_shift;
+	gdouble pulse_L;
+	gdouble pulse_Rload;
 	int pulse_sim_mode;
 };
 
@@ -35,16 +35,17 @@ void sim_pulse(struct device *in);
 extern struct pulse pulse_config;
 void pulse_load_config(struct pulse *in, struct device *dev,
 		       char *config_file_name);
-void newton_aux_pulse(struct device *in, double V, double *i, double *didv,
-		      double *didphi, double *didxil, double *didxipl,
-		      double *didphir, double *didxir, double *didxipr);
-double newton_pulse(struct device *in, double Vtot, int usecap);
+void newton_aux_pulse(struct device *in, gdouble V, gdouble * i, gdouble * didv,
+		      gdouble * didphi, gdouble * didxil, gdouble * didxipl,
+		      gdouble * didphir, gdouble * didxir, gdouble * didxipr);
+gdouble newton_pulse(struct device *in, gdouble Vtot, int usecap);
 
-void newton_aux_pulse_voc(struct device *in, double V, double *i, double *didv,
-			  double *didphi, double *didxil, double *didxipl,
-			  double *didphir, double *didxir, double *didxipr);
-double pulse_newton_sim_voc_fast(struct device *in, int do_LC);
-double pulse_newton_sim_voc(struct device *in);
-void pulse_set_light_for_voc(struct device *in, double Voc);
+void newton_aux_pulse_voc(struct device *in, gdouble V, gdouble * i,
+			  gdouble * didv, gdouble * didphi, gdouble * didxil,
+			  gdouble * didxipl, gdouble * didphir,
+			  gdouble * didxir, gdouble * didxipr);
+gdouble pulse_newton_sim_voc_fast(struct device *in, int do_LC);
+gdouble pulse_newton_sim_voc(struct device *in);
+void pulse_set_light_for_voc(struct device *in, gdouble Voc);
 
 #endif

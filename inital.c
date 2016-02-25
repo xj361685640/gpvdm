@@ -34,31 +34,31 @@ void init_dump(struct device *in)
 		FILE *out;
 		out = fopena(in->outputpath, "init_Fi.dat", "w");
 		for (i = 0; i < in->ymeshpoints; i++) {
-			fprintf(out, "%e %e\n", in->ymesh[i], in->Fi[i]);
+			fprintf(out, "%Le %Le\n", in->ymesh[i], in->Fi[i]);
 		}
 		fclose(out);
 
 		out = fopena(in->outputpath, "init_Ec.dat", "w");
 		for (i = 0; i < in->ymeshpoints; i++) {
-			fprintf(out, "%e %e\n", in->ymesh[i], in->Ec[i]);
+			fprintf(out, "%Le %Le\n", in->ymesh[i], in->Ec[i]);
 		}
 		fclose(out);
 
 		out = fopena(in->outputpath, "init_Ev.dat", "w");
 		for (i = 0; i < in->ymeshpoints; i++) {
-			fprintf(out, "%e %e\n", in->ymesh[i], in->Ev[i]);
+			fprintf(out, "%Le %Le\n", in->ymesh[i], in->Ev[i]);
 		}
 		fclose(out);
 
 		out = fopena(in->outputpath, "init_n.dat", "w");
 		for (i = 0; i < in->ymeshpoints; i++) {
-			fprintf(out, "%e %e\n", in->ymesh[i], in->n[i]);
+			fprintf(out, "%Le %Le\n", in->ymesh[i], in->n[i]);
 		}
 		fclose(out);
 
 		out = fopena(in->outputpath, "init_p.dat", "w");
 		for (i = 0; i < in->ymeshpoints; i++) {
-			fprintf(out, "%e %e\n", in->ymesh[i], in->p[i]);
+			fprintf(out, "%Le %Le\n", in->ymesh[i], in->p[i]);
 		}
 		fclose(out);
 	}
@@ -69,15 +69,15 @@ void my_guess(struct device *in)
 	int i;
 
 //getchar();
-	double Ef = 0.0;
-	double phi_ramp = 0.0;
-	double Eg = in->Eg[0];
-	double Xi = in->Xi[0];
-	double charge_left = in->lcharge;
-	double charge_right = in->rcharge;
+	gdouble Ef = 0.0;
+	gdouble phi_ramp = 0.0;
+	gdouble Eg = in->Eg[0];
+	gdouble Xi = in->Xi[0];
+	gdouble charge_left = in->lcharge;
+	gdouble charge_right = in->rcharge;
 
-	double top_l = 0.0;
-	double top_r = 0.0;
+	gdouble top_l = 0.0;
+	gdouble top_r = 0.0;
 	if (in->interfaceleft == TRUE) {
 		top_l = in->phibleft - Eg;
 	} else {
@@ -110,42 +110,42 @@ void my_guess(struct device *in)
 	}
 
 	if (get_dump_status(dump_iodump) == TRUE) {
-		printf_log("check1= %e %e\n",
+		printf_log("check1= %Le %Le\n",
 			   get_p_den(top_l, in->Te[0], in->imat[0]),
 			   charge_left);
-		printf_log("check2= %e %e\n",
+		printf_log("check2= %Le %Le\n",
 			   get_n_den(top_r, in->Te[in->ymeshpoints - 1],
 				     in->imat[in->ymeshpoints - 1]),
 			   charge_right);
 	}
 
-	double delta_phi =
+	gdouble delta_phi =
 	    top_l + top_r + in->Eg[0] + in->Xi[0] - in->Xi[in->ymeshpoints - 1];
-	double test_l = -in->Xi[0] + top_r;
-	double test_r = -in->Xi[0] - in->Eg[0] - top_l;
+	gdouble test_l = -in->Xi[0] + top_r;
+	gdouble test_r = -in->Xi[0] - in->Eg[0] - top_l;
 	in->vbi = delta_phi;
 	if (get_dump_status(dump_print_text) == TRUE) {
-		printf_log("delta=%le\n", delta_phi);
-		printf_log(">>>>top_l= %le\n", top_l + Eg);
-		printf_log(">>>>top_r= %le\n", -top_r);
-		printf_log("left= %le right = %le  %le %le\n", test_l, test_r,
+		printf_log("delta=%Le\n", delta_phi);
+		printf_log(">>>>top_l= %Le\n", top_l + Eg);
+		printf_log(">>>>top_r= %Le\n", -top_r);
+		printf_log("left= %Le right = %Le  %Le %Le\n", test_l, test_r,
 			   test_r - test_l, delta_phi);
-		printf_log("%le %le %le %le %le\n", top_l, top_r, Eg, delta_phi,
+		printf_log("%Le %Le %Le %Le %Le\n", top_l, top_r, Eg, delta_phi,
 			   in->phi[0]);
 	}
 
 	Ef = -(top_l + Xi + Eg);
 
-	double Lp =
+	gdouble Lp =
 	    get_p_den((-in->Xi[0] - in->phi[0] - Eg) - Ef, in->Th[0],
 		      in->imat[0]);
-	double Ln =
+	gdouble Ln =
 	    get_n_den(Ef - (-in->Xi[0] - in->phi[0]), in->Te[0], in->imat[0]);
-	double Rp =
+	gdouble Rp =
 	    get_p_den((-in->Xi[in->ymeshpoints - 1] - delta_phi - Eg) - Ef,
 		      in->Th[in->ymeshpoints - 1],
 		      in->imat[in->ymeshpoints - 1]);
-	double Rn =
+	gdouble Rn =
 	    get_n_den(Ef - (-in->Xi[in->ymeshpoints - 1] - delta_phi),
 		      in->Te[in->ymeshpoints - 1],
 		      in->imat[in->ymeshpoints - 1]);
@@ -156,19 +156,19 @@ void my_guess(struct device *in)
 	in->r_holes = Rp;
 
 	if (get_dump_status(dump_iodump) == TRUE) {
-		printf_log("Ef=%e\n", Ef);
-		printf_log("Holes on left contact = %e\n", Lp);
-		printf_log("Electrons on left contact = %e\n", Ln);
+		printf_log("Ef=%Le\n", Ef);
+		printf_log("Holes on left contact = %Le\n", Lp);
+		printf_log("Electrons on left contact = %Le\n", Ln);
 
-		printf_log("Holes on right contact = %e\n", Rp);
-		printf_log("Electrons on right contact = %e\n", Rn);
+		printf_log("Holes on right contact = %Le\n", Rp);
+		printf_log("Electrons on right contact = %Le\n", Rn);
 
 		FILE *contacts = fopena(in->outputpath, "contacts.dat", "w");
-		fprintf(contacts, "%le\n", Lp);
-		fprintf(contacts, "%le\n", Ln);
+		fprintf(contacts, "%Le\n", Lp);
+		fprintf(contacts, "%Le\n", Ln);
 
-		fprintf(contacts, "%le\n", Rp);
-		fprintf(contacts, "%le\n", Rn);
+		fprintf(contacts, "%Le\n", Rp);
+		fprintf(contacts, "%Le\n", Rn);
 		fclose(contacts);
 	}
 
@@ -201,13 +201,13 @@ void my_guess(struct device *in)
 			in->Ec[i] = -in->phi[i] - in->Xi[i];
 		}
 
-		double t = in->Fi[i] - in->Ec[i];
-		double tp = in->Ev[i] - in->Fi[i];
+		gdouble t = in->Fi[i] - in->Ec[i];
+		gdouble tp = in->Ev[i] - in->Fi[i];
 
 		in->n[i] = in->Nc[i] * exp(((t) * Q) / (kb * in->Te[i]));
 		in->p[i] = in->Nv[i] * exp(((tp) * Q) / (kb * in->Th[i]));
 
-//printf("%e %e\n",t,tp);
+//printf("%Le %Le\n",t,tp);
 //getchar();
 		in->mun[i] = get_n_mu(in->imat[i]);
 		in->mup[i] = get_p_mu(in->imat[i]);

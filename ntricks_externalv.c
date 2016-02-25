@@ -29,16 +29,16 @@
 
 static int glob_use_cap = 0;
 
-static double Rload;
+static gdouble Rload;
 
-void ntricks_externv_set_load(double R)
+void ntricks_externv_set_load(gdouble R)
 {
 	Rload = R;
 }
 
-double ntricks_externv_newton(struct device *in, double Vtot, int usecap)
+gdouble ntricks_externv_newton(struct device *in, gdouble Vtot, int usecap)
 {
-	double C = in->C;
+	gdouble C = in->C;
 	solve_all(in);
 	if (glob_use_cap == FALSE)
 		C = 0.0;

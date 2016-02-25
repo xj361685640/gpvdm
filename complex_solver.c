@@ -159,7 +159,7 @@ int complex_solver(int col, int nz, int *Ti, int *Tj, double *Tx, double *Txz,
 				      Az, NULL);
 
 	if (status != UMFPACK_OK) {
-		error_report(status, __FILE__, __func__, __LINE__);
+		complex_error_report(status, __FILE__, __func__, __LINE__);
 		return EXIT_FAILURE;
 	}
 // symbolic analysis
@@ -172,7 +172,7 @@ int complex_solver(int col, int nz, int *Ti, int *Tj, double *Tx, double *Txz,
 //printf("here3\n");
 
 	if (status != UMFPACK_OK) {
-		error_report(status, __FILE__, __func__, __LINE__);
+		complex_error_report(status, __FILE__, __func__, __LINE__);
 		return EXIT_FAILURE;
 	}
 // LU factorization 
@@ -180,7 +180,7 @@ int complex_solver(int col, int nz, int *Ti, int *Tj, double *Tx, double *Txz,
 	umfpack_zi_numeric(Ap, Ai, Ax, Az, Symbolic, &Numeric, Control, Info);
 
 	if (status != UMFPACK_OK) {
-		error_report(status, __FILE__, __func__, __LINE__);
+		complex_error_report(status, __FILE__, __func__, __LINE__);
 		return EXIT_FAILURE;
 	}
 // solve system
@@ -192,7 +192,7 @@ int complex_solver(int col, int nz, int *Ti, int *Tj, double *Tx, double *Txz,
 	    umfpack_zi_solve(UMFPACK_A, Ap, Ai, Ax, Az, x, xz, b, bz, Numeric,
 			     Control, Info);
 	if (status != UMFPACK_OK) {
-		error_report(status, __FILE__, __func__, __LINE__);
+		complex_error_report(status, __FILE__, __func__, __LINE__);
 		return EXIT_FAILURE;
 	}
 //printf ("\nx (solution of Ax=b): ") ;

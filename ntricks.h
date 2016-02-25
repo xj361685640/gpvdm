@@ -25,28 +25,29 @@
 
 struct newton_math_state {
 	int max_electrical_itt;
-	double min_cur_error;
+	gdouble min_cur_error;
 	int newton_min_itt;
-	double electrical_clamp;
+	gdouble electrical_clamp;
 	int newton_clever_exit;
 };
 
 void newton_push_state(struct device *in);
 void newton_pop_state(struct device *in);
-double sim_externalv(struct device *in, double wantedv);
-double sim_i(struct device *in, double wantedi);
-void save_state(struct device *in, double to);
-int load_state(struct device *in, double voltage);
-void ramp(struct device *in, double from, double to, double steps);
-void ramp_externalv(struct device *in, double from, double to);
+gdouble sim_externalv(struct device *in, gdouble wantedv);
+gdouble sim_i(struct device *in, gdouble wantedi);
+void save_state(struct device *in, gdouble to);
+int load_state(struct device *in, gdouble voltage);
+void ramp(struct device *in, gdouble from, gdouble to, gdouble steps);
+void ramp_externalv(struct device *in, gdouble from, gdouble to);
 void set_ntricks_fast(int val);
-double sim_voc(struct device *in);
+gdouble sim_voc(struct device *in);
 
-void ntricks_externv_set_load(double R);
-void ntricks_externv_newton_aux(struct device *in, double V, double *i,
-				double *didv, double *didphi, double *didxil,
-				double *didxipl, double *didphir,
-				double *didxir, double *didxipr);
-double ntricks_externv_newton(struct device *in, double Vtot, int usecap);
+void ntricks_externv_set_load(gdouble R);
+void ntricks_externv_newton_aux(struct device *in, gdouble V, gdouble * i,
+				gdouble * didv, gdouble * didphi,
+				gdouble * didxil, gdouble * didxipl,
+				gdouble * didphir, gdouble * didxir,
+				gdouble * didxipr);
+gdouble ntricks_externv_newton(struct device *in, gdouble Vtot, int usecap);
 
 #endif

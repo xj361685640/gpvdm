@@ -24,7 +24,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "sim.h"
-#include "newton.h"
 #include "dump.h"
 #include <math.h>
 

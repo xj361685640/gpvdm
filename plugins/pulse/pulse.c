@@ -92,7 +92,7 @@ void sim_pulse(struct device *in)
 	light_solve_and_update(in, &(in->mylight), time_get_sun(),
 			       time_get_laser());
 
-	double V = 0.0;
+	gdouble V = 0.0;
 
 	if (pulse_config.pulse_sim_mode == pulse_load) {
 		sim_externalv(in, time_get_voltage());
@@ -109,8 +109,8 @@ void sim_pulse(struct device *in)
 
 	in->go_time = TRUE;
 
-	double extracted_through_contacts = 0.0;
-	double i0 = 0;
+	gdouble extracted_through_contacts = 0.0;
+	gdouble i0 = 0;
 	carrier_count_reset(in);
 	reset_np_save(in);
 	do {
@@ -130,9 +130,9 @@ void sim_pulse(struct device *in)
 		}
 
 		if (get_dump_status(dump_print_text) == TRUE) {
-			printf_log("%s=%e %s=%d %.1e ", _("pulse time"),
+			printf_log("%s=%Le %s=%d %.1e ", _("pulse time"),
 				   in->time, _("step"), step, in->last_error);
-			printf_log("Vtot=%lf %s = %e mA (%e A/m^2)\n", V,
+			printf_log("Vtot=%lf %s = %Le mA (%Le A/m^2)\n", V,
 				   _("current"), get_I(in) / 1e-3, get_J(in));
 		}
 
@@ -255,10 +255,10 @@ void pulse_load_config(struct pulse *in, struct device *dev,
 	inp_load_from_path(&inp, dev->inputpath, config_file_name);
 	inp_check(&inp, 1.27);
 
-	inp_search_double(&inp, &(in->pulse_shift), "#pulse_shift");
+	inp_search_gdouble(&inp, &(in->pulse_shift), "#pulse_shift");
 	inp_search_string(&inp, name, "#pulse_sim_mode");
-	inp_search_double(&inp, &(in->pulse_L), "#pulse_L");
-	inp_search_double(&inp, &(in->pulse_Rload), "#Rload");
+	inp_search_gdouble(&inp, &(in->pulse_L), "#pulse_L");
+	inp_search_gdouble(&inp, &(in->pulse_Rload), "#Rload");
 
 	in->pulse_sim_mode = english_to_bin(name);
 

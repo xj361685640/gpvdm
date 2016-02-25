@@ -637,14 +637,14 @@ class scan_vbox(gtk.VBox):
 
 		pos=pos+1
 
-	        image = gtk.Image()
-   		image.set_from_file(self.icon_theme.lookup_icon("view-refresh", 32, 0).get_filename())
-		self.plot_open = gtk.ToolButton(image)
-		self.plot_open.connect("clicked", self.callback_plot_results)
-		self.plot_open.set_sensitive(False)
-		self.tooltips.set_tip(self.plot_open, "Replot the graph")
-		toolbar.insert(self.plot_open, pos)
-		pos=pos+1
+		#image = gtk.Image()
+   		#image.set_from_file(self.icon_theme.lookup_icon("view-refresh", 32, 0).get_filename())
+		#self.plot_open = gtk.ToolButton(image)
+		#self.plot_open.connect("clicked", self.callback_plot_results)
+		#self.plot_open.set_sensitive(False)
+		#self.tooltips.set_tip(self.plot_open, "Replot the graph")
+		#toolbar.insert(self.plot_open, pos)
+		#pos=pos+1
 
 		image = gtk.Image()
    		image.set_from_file(os.path.join(get_image_file_path(),"plot_time.png"))

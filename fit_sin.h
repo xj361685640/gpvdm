@@ -23,7 +23,7 @@
 #ifndef _fit_sin
 #define _fit_sin
 
-void fit_sin(double *ret_mag, double *ret_delta, struct istruct *in, double fx,
-	     char *prefix);
+void fit_sin(gdouble * ret_mag, gdouble * ret_delta, struct istruct *in,
+	     gdouble fx, char *prefix);
 
 #endif

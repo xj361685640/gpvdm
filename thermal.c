@@ -23,18 +23,19 @@
 #include <string.h>
 #include <math.h>
 #include "sim.h"
+#include "solver_interface.h"
 
-double min_thermal_error = 2e-11;
+gdouble min_thermal_error = 2e-11;
 
 static int thermal_N;
 static int thermal_M;
 static int *thermal_Ti;
 static int *thermal_Tj;
-static double *thermal_Tx;
-static double *thermal_b;
-static double last_theraml_error;
+static gdouble *thermal_Tx;
+static gdouble *thermal_b;
+static gdouble last_theraml_error;
 
-double get_last_thermal_error()
+gdouble get_last_thermal_error()
 {
 	return last_theraml_error;
 }
@@ -45,8 +46,8 @@ void thermal_init(struct device *in)
 	thermal_M = in->ymeshpoints;
 	thermal_Ti = malloc(thermal_N * sizeof(int));
 	thermal_Tj = malloc(thermal_N * sizeof(int));
-	thermal_Tx = malloc(thermal_N * sizeof(double));
-	thermal_b = malloc(thermal_M * sizeof(double));
+	thermal_Tx = malloc(thermal_N * sizeof(gdouble));
+	thermal_b = malloc(thermal_M * sizeof(gdouble));
 }
 
 void thermal_free(struct device *in)
@@ -60,15 +61,15 @@ void thermal_free(struct device *in)
 void update_heat(struct device *in)
 {
 	int i;
-	double Ecl = 0.0;
-	double Ecr = 0.0;
-	double Evl = 0.0;
-	double Evr = 0.0;
-	double yl = 0.0;
-	double yr = 0.0;
-	double dh = 0.0;
-	double Jn = 0.0;
-	double Jp = 0.0;
+	gdouble Ecl = 0.0;
+	gdouble Ecr = 0.0;
+	gdouble Evl = 0.0;
+	gdouble Evr = 0.0;
+	gdouble yl = 0.0;
+	gdouble yr = 0.0;
+	gdouble dh = 0.0;
+	gdouble Jn = 0.0;
+	gdouble Jp = 0.0;
 
 	for (i = 0; i < in->ymeshpoints; i++) {
 		if (i == 0) {
@@ -101,7 +102,7 @@ void update_heat(struct device *in)
 		in->Hh[i] =
 		    Q * (Evr - Evl) * Jp / dh + in->Habs[i] / 2.0 +
 		    Q * in->Eg[i] * (in->Rn[i] + in->Rp[i]) / 2.0 / 2.0;
-		//printf("%le %le\n",in->He[i],in->Hh[i]);
+		//printf("%Le %Le\n",in->He[i],in->Hh[i]);
 
 	}
 
@@ -113,43 +114,43 @@ void dump_thermal(struct device *in)
 	FILE *out;
 	out = fopena(in->outputpath, "Te.dat", "w");
 	for (i = 0; i < in->ymeshpoints; i++) {
-		fprintf(out, "%le ", in->ymesh[i]);
-		fprintf(out, "%le ", in->Te[i]);
+		fprintf(out, "%Le ", in->ymesh[i]);
+		fprintf(out, "%Le ", in->Te[i]);
 		fprintf(out, "\n");
 	}
 	fclose(out);
 
 	out = fopena(in->outputpath, "Th.dat", "w");
 	for (i = 0; i < in->ymeshpoints; i++) {
-		fprintf(out, "%le ", in->ymesh[i]);
-		fprintf(out, "%le ", in->Th[i]);
+		fprintf(out, "%Le ", in->ymesh[i]);
+		fprintf(out, "%Le ", in->Th[i]);
 		fprintf(out, "\n");
 	}
 	fclose(out);
 
 	out = fopena(in->outputpath, "Tl.dat", "w");
 	for (i = 0; i < in->ymeshpoints; i++) {
-		fprintf(out, "%le ", in->ymesh[i]);
-		fprintf(out, "%le ", in->Tl[i]);
+		fprintf(out, "%Le ", in->ymesh[i]);
+		fprintf(out, "%Le ", in->Tl[i]);
 		fprintf(out, "\n");
 	}
 	fclose(out);
 
 	out = fopena(in->outputpath, "H.dat", "w");
 	for (i = 0; i < in->ymeshpoints; i++) {
-		fprintf(out, "%le ", in->ymesh[i]);
-		fprintf(out, "%le ", in->He[i] + in->Hh[i]);
+		fprintf(out, "%Le ", in->ymesh[i]);
+		fprintf(out, "%Le ", in->He[i] + in->Hh[i]);
 		fprintf(out, "\n");
 	}
 	fclose(out);
 }
 
-double get_thermal_error(struct device *in)
+gdouble get_thermal_error(struct device *in)
 {
-	double tot = 0.0;
+	gdouble tot = 0.0;
 	int i;
 	for (i = 0; i < in->ymeshpoints; i++) {
-		tot += fabs(thermal_b[i]);
+		tot += gfabs(thermal_b[i]);
 	}
 	return tot;
 }
@@ -159,30 +160,30 @@ int solve_thermal(struct device *in)
 	update_heat(in);
 	int i;
 
-	double Tll;
-	double Tlc;
-	double Tlr;
-	double yl;
-	double yc;
-	double yr;
-	double dyl = 0.0;
-	double dyc = 0.0;
-	double dyr = 0.0;
+	gdouble Tll;
+	gdouble Tlc;
+	gdouble Tlr;
+	gdouble yl;
+	gdouble yc;
+	gdouble yr;
+	gdouble dyl = 0.0;
+	gdouble dyc = 0.0;
+	gdouble dyr = 0.0;
 	int ittr = 0;
 	int pos = 0;
-	double error;
-	double kll = 0.0;
-	double klc = 0.0;
-	double klr = 0.0;
-	double kl0 = 0.0;
-	double kl1 = 0.0;
-	double dTll = 0.0;
-	double dTlc = 0.0;
-	double dTlr = 0.0;
-	double dTl = 0.0;
+	gdouble error;
+	gdouble kll = 0.0;
+	gdouble klc = 0.0;
+	gdouble klr = 0.0;
+	gdouble kl0 = 0.0;
+	gdouble kl1 = 0.0;
+	gdouble dTll = 0.0;
+	gdouble dTlc = 0.0;
+	gdouble dTlr = 0.0;
+	gdouble dTl = 0.0;
 
-	double He = 0.0;
-	double Hh = 0.0;
+	gdouble He = 0.0;
+	gdouble Hh = 0.0;
 
 	do {
 
@@ -243,7 +244,7 @@ int solve_thermal(struct device *in)
 
 			dTl = dTll * Tll + dTlc * Tlc + dTlr * Tlr;
 
-			//printf("%le %le %le %le\n",dTll,dTlc,dTlr,dTl+He+Hh);
+			//printf("%Le %Le %Le %Le\n",dTll,dTlc,dTlr,dTl+He+Hh);
 			if (i != 0) {
 				thermal_Ti[pos] = i;
 				thermal_Tj[pos] = i - 1;
@@ -282,11 +283,11 @@ int solve_thermal(struct device *in)
 		error = get_thermal_error(in);
 
 		ittr++;
-		printf("Thermal error = %le ittr=%d\n", error, ittr);
+		printf("Thermal error = %Le ittr=%d\n", error, ittr);
 	} while ((ittr < 100) && (error > min_thermal_error));
 	last_theraml_error = error;
 //dump_thermal(in);
 
-//printf("Thermal error = %le ittr=%d\n",last_theraml_error,ittr);
+//printf("Thermal error = %Le ittr=%d\n",last_theraml_error,ittr);
 	return 0;
 }

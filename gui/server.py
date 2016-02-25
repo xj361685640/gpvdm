@@ -44,6 +44,8 @@ from copying import copying
 from cal_path import get_exe_command
 from global_objects import global_object_get
 from help import my_help_class
+from sim_warnings import sim_warnings
+
 import i18n
 _ = i18n.language.gettext
 
@@ -117,10 +119,10 @@ class server:
 		my_help_class.help_set_help(["plot.png",_("<big><b>Simulation finished!</b></big>\nClick on the plot icon to plot the results")])
 		print text
 		if len(text)!=0:
-			message = gtk.MessageDialog(type=gtk.MESSAGE_ERROR, buttons=gtk.BUTTONS_OK)
-			message.set_markup(text)
-			message.run()
-			message.destroy()
+			dialog=sim_warnings()
+			dialog.init(text)
+			response=dialog.run()
+			dialog.destroy()
 
 
 	def setup_gui(self,extern_gui_sim_start,extern_gui_sim_stop):
@@ -332,17 +334,26 @@ class server:
 							#sys.exit()
 	def check_warnings(self):
 		message=""
+		problem_found=False
 		for i in range(0,len(self.jobs)):
 			log_file=os.path.join(self.jobs[i],"log.dat")
 			if os.path.isfile(log_file):
 				f = open(log_file, "r")
 				lines = f.readlines()
 				f.close()
-	
+				found=""
 				for l in range(0, len(lines)):
 					lines[l]=lines[l].rstrip()
 					if lines[l].startswith("error:") or lines[l].startswith("warning:"):
-						message=message+lines[l]+"\n"
+						found=found+lines[l]+"\n"
+						problem_found=True
+				if len(found)!=0:
+					message=message+self.jobs[i]+":\n"+found+"\n"
+				else:
+					message=message+self.jobs[i]+":OK\n\n"
+		if problem_found==False:
+			message=""
+
 		return message
 		
 

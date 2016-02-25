@@ -25,7 +25,7 @@
 #include <string.h>
 #include <math.h>
 #include "dump_ctrl.h"
-#include "true_false.h"
+#include "const.h"
 
 static int dump_array[100];
 

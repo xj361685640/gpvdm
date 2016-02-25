@@ -34,6 +34,8 @@ void dump_load_config(struct device *in)
 	struct inp_file inp;
 	inp_init(&inp);
 	inp_load_from_path(&inp, in->inputpath, "dump.inp");
+	printf("rod2\n");
+
 	inp_check(&inp, 1.37);
 
 	dump = inp_search_english(&inp, "#plot");
@@ -51,7 +53,7 @@ void dump_load_config(struct device *in)
 
 	inp_search_string(&inp, in->plot_file, "#plotfile");
 
-	inp_search_double(&inp, &(in->start_stop_time), "#start_stop_time");
+	inp_search_gdouble(&inp, &(in->start_stop_time), "#start_stop_time");
 
 	inp_search_int(&inp, &(dump), "#dump_iodump");
 	set_dump_status(dump_iodump, dump);

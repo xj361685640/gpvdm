@@ -22,11 +22,12 @@
 
 #ifndef epitaxy_h
 #define epitaxy_h
+#include "advmath.h"
 
 struct epitaxy {
 	int layers;
 	int electrical_layers;
-	double width[20];
+	gdouble width[20];
 	char name[20][100];
 	char mat_file[20][100];
 	char dos_file[20][100];
@@ -35,10 +36,10 @@ struct epitaxy {
 };
 
 void epitaxy_load(struct epitaxy *in, char *file);
-double epitaxy_get_electrical_length(struct epitaxy *in);
-double epitaxy_get_optical_length(struct epitaxy *in);
-int epitaxy_get_optical_material_layer(struct epitaxy *in, double pos);
-int epitaxy_get_electrical_material_layer(struct epitaxy *in, double pos);
-double epitaxy_get_device_start(struct epitaxy *in);
-double epitaxy_get_device_start_i(struct epitaxy *in);
+gdouble epitaxy_get_electrical_length(struct epitaxy *in);
+gdouble epitaxy_get_optical_length(struct epitaxy *in);
+int epitaxy_get_optical_material_layer(struct epitaxy *in, gdouble pos);
+int epitaxy_get_electrical_material_layer(struct epitaxy *in, gdouble pos);
+gdouble epitaxy_get_device_start(struct epitaxy *in);
+gdouble epitaxy_get_device_start_i(struct epitaxy *in);
 #endif

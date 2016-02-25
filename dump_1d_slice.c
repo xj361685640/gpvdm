@@ -40,7 +40,7 @@ void dump_1d_slice(struct device *in, char *out_dir)
 	int band;
 	char name[100];
 	char temp[200];
-	double Vexternal = get_equiv_V(in);
+	gdouble Vexternal = get_equiv_V(in);
 	struct buffer buf;
 	buffer_init(&buf);
 
@@ -343,7 +343,7 @@ void dump_1d_slice(struct device *in, char *out_dir)
 	buf.Vexternal = Vexternal;
 	buffer_add_info(&buf);
 	for (i = 0; i < in->ymeshpoints; i++) {
-		sprintf(temp, "%e %e\n", in->ymesh[i],
+		sprintf(temp, "%Le %Le\n", in->ymesh[i],
 			(in->phi[i] - in->phi_save[i]));
 		buffer_add_string(&buf, temp);
 	}
@@ -409,13 +409,14 @@ void dump_1d_slice(struct device *in, char *out_dir)
 	buf.time = 0.0;
 	buf.Vexternal = Vexternal;
 	buffer_add_info(&buf);
-	sprintf(temp, "%e %e\n", in->ymesh[0] - in->ymesh[1] / 2,
+	sprintf(temp, "%Le %Le\n", in->ymesh[0] - in->ymesh[1] / 2,
 		get_J_left(in));
 	for (i = 0; i < in->ymeshpoints; i++) {
-		sprintf(temp, "%e %e\n", in->ymesh[i], (in->Jp[i] + in->Jn[i]));
+		sprintf(temp, "%Le %Le\n", in->ymesh[i],
+			(in->Jp[i] + in->Jn[i]));
 		buffer_add_string(&buf, temp);
 	}
-	sprintf(temp, "%e %e\n",
+	sprintf(temp, "%Le %Le\n",
 		in->ymesh[in->ymeshpoints - 1] - in->ymesh[1] / 2,
 		get_J_right(in));
 	buffer_dump_path(out_dir, name, &buf);
@@ -439,7 +440,7 @@ void dump_1d_slice(struct device *in, char *out_dir)
 	buf.Vexternal = Vexternal;
 	buffer_add_info(&buf);
 	for (i = 0; i < in->ymeshpoints; i++) {
-		sprintf(temp, "%e %e\n", in->ymesh[i],
+		sprintf(temp, "%Le %Le\n", in->ymesh[i],
 			(in->Jp_drift[i] + in->Jp_diffusion[i]));
 		buffer_add_string(&buf, temp);
 	}
@@ -548,7 +549,7 @@ void dump_1d_slice(struct device *in, char *out_dir)
 	buf.Vexternal = Vexternal;
 	buffer_add_info(&buf);
 	for (i = 0; i < in->ymeshpoints; i++) {
-		sprintf(temp, "%e %e\n", in->ymesh[i],
+		sprintf(temp, "%Le %Le\n", in->ymesh[i],
 			in->mun[i] * in->n[i] / (in->nt_all[i] + in->n[i]));
 		buffer_add_string(&buf, temp);
 	}
@@ -573,7 +574,7 @@ void dump_1d_slice(struct device *in, char *out_dir)
 	buf.Vexternal = Vexternal;
 	buffer_add_info(&buf);
 	for (i = 0; i < in->ymeshpoints; i++) {
-		sprintf(temp, "%e %e\n", in->ymesh[i],
+		sprintf(temp, "%Le %Le\n", in->ymesh[i],
 			in->mup[i] * in->p[i] / (in->pt_all[i] + in->p[i]));
 		buffer_add_string(&buf, temp);
 	}
@@ -682,7 +683,7 @@ void dump_1d_slice(struct device *in, char *out_dir)
 	buf.Vexternal = Vexternal;
 	buffer_add_info(&buf);
 	for (i = 0; i < in->ymeshpoints; i++) {
-		sprintf(temp, "%e %e\n", in->ymesh[i],
+		sprintf(temp, "%Le %Le\n", in->ymesh[i],
 			in->p[i] + in->pt_all[i]);
 		buffer_add_string(&buf, temp);
 	}
@@ -707,7 +708,7 @@ void dump_1d_slice(struct device *in, char *out_dir)
 	buf.Vexternal = Vexternal;
 	buffer_add_info(&buf);
 	for (i = 0; i < in->ymeshpoints; i++) {
-		sprintf(temp, "%e %e\n", in->ymesh[i],
+		sprintf(temp, "%Le %Le\n", in->ymesh[i],
 			in->n[i] + in->nt_all[i]);
 		buffer_add_string(&buf, temp);
 	}
@@ -732,7 +733,7 @@ void dump_1d_slice(struct device *in, char *out_dir)
 	buf.Vexternal = Vexternal;
 	buffer_add_info(&buf);
 	for (i = 0; i < in->ymeshpoints; i++) {
-		sprintf(temp, "%e %e\n", in->ymesh[i],
+		sprintf(temp, "%Le %Le\n", in->ymesh[i],
 			(in->n[i] + in->nt_all[i]) - (in->nf_save[i] +
 						      in->nt_save[i]));
 		buffer_add_string(&buf, temp);
@@ -758,7 +759,7 @@ void dump_1d_slice(struct device *in, char *out_dir)
 	buf.Vexternal = Vexternal;
 	buffer_add_info(&buf);
 	for (i = 0; i < in->ymeshpoints; i++) {
-		sprintf(temp, "%e %e\n", in->ymesh[i],
+		sprintf(temp, "%Le %Le\n", in->ymesh[i],
 			in->p[i] - in->n[i] + in->pt_all[i] - in->nt_all[i]);
 		buffer_add_string(&buf, temp);
 	}
@@ -783,7 +784,7 @@ void dump_1d_slice(struct device *in, char *out_dir)
 	buf.Vexternal = Vexternal;
 	buffer_add_info(&buf);
 	for (i = 0; i < in->ymeshpoints; i++) {
-		sprintf(temp, "%e %e\n", in->ymesh[i],
+		sprintf(temp, "%Le %Le\n", in->ymesh[i],
 			in->p[i] - in->n[i] + in->pt_all[i] - in->nt_all[i] -
 			(in->pt_save[i] - in->nf_save[i] + in->pf_save[i] -
 			 in->nt_save[i]));
@@ -810,7 +811,7 @@ void dump_1d_slice(struct device *in, char *out_dir)
 	buf.Vexternal = Vexternal;
 	buffer_add_info(&buf);
 	for (i = 0; i < in->ymeshpoints; i++) {
-		sprintf(temp, "%e %e\n", in->ymesh[i],
+		sprintf(temp, "%Le %Le\n", in->ymesh[i],
 			in->p[i] + in->pt_all[i] - in->pf_save[i] -
 			in->pt_save[i]);
 		buffer_add_string(&buf, temp);
@@ -836,7 +837,7 @@ void dump_1d_slice(struct device *in, char *out_dir)
 	buf.Vexternal = Vexternal;
 	buffer_add_info(&buf);
 	for (i = 0; i < in->ymeshpoints; i++) {
-		sprintf(temp, "%e %le", in->ymesh[i],
+		sprintf(temp, "%Le %Le", in->ymesh[i],
 			in->nt_all[i] - in->nt_save[i]);
 		buffer_add_string(&buf, temp);
 	}
@@ -861,7 +862,7 @@ void dump_1d_slice(struct device *in, char *out_dir)
 	buf.Vexternal = Vexternal;
 	buffer_add_info(&buf);
 	for (i = 0; i < in->ymeshpoints; i++) {
-		sprintf(temp, "%e %le", in->ymesh[i],
+		sprintf(temp, "%Le %Le", in->ymesh[i],
 			in->pt_all[i] - in->pt_save[i]);
 		buffer_add_string(&buf, temp);
 	}
@@ -970,10 +971,10 @@ void dump_1d_slice(struct device *in, char *out_dir)
 	buf.Vexternal = Vexternal;
 	buffer_add_info(&buf);
 	for (i = 0; i < in->ymeshpoints; i++) {
-		sprintf(temp, "%e ", in->ymesh[i]);
+		sprintf(temp, "%Le ", in->ymesh[i]);
 		buffer_add_string(&buf, temp);
 		for (band = 0; band < in->srh_bands; band++) {
-			sprintf(temp, "%e %e ", in->Fnt[i][band],
+			sprintf(temp, "%Le %Le ", in->Fnt[i][band],
 				-in->phi[i] - in->Xi[i] +
 				dos_srh_get_fermi_n(in->n[i], in->p[i], band,
 						    in->imat[i], in->Te[i]));
@@ -1003,10 +1004,10 @@ void dump_1d_slice(struct device *in, char *out_dir)
 	buf.Vexternal = Vexternal;
 	buffer_add_info(&buf);
 	for (i = 0; i < in->ymeshpoints; i++) {
-		sprintf(temp, "%e ", in->ymesh[i]);
+		sprintf(temp, "%Le ", in->ymesh[i]);
 		buffer_add_string(&buf, temp);
 		for (band = 0; band < in->srh_bands; band++) {
-			sprintf(temp, "%e %e ", in->Fpt[i][band],
+			sprintf(temp, "%Le %Le ", in->Fpt[i][band],
 				-in->phi[i] - in->Xi[i] - in->Eg[i] -
 				dos_srh_get_fermi_p(in->n[i], in->p[i], band,
 						    in->imat[i], in->Th[i]));
@@ -1036,7 +1037,7 @@ void dump_1d_slice(struct device *in, char *out_dir)
 	buf.Vexternal = Vexternal;
 	buffer_add_info(&buf);
 	for (i = 0; i < in->ymeshpoints; i++) {
-		sprintf(temp, "%e %d\n", in->ymesh[i], in->imat[i]);
+		sprintf(temp, "%Le %d\n", in->ymesh[i], in->imat[i]);
 		buffer_add_string(&buf, temp);
 	}
 	buffer_dump_path(out_dir, name, &buf);
@@ -1059,13 +1060,13 @@ void dump_1d_slice(struct device *in, char *out_dir)
 	buf.time = 0.0;
 	buf.Vexternal = Vexternal;
 	buffer_add_info(&buf);
-	double deriv = 0.0;
+	gdouble deriv = 0.0;
 	for (i = in->ymeshpoints - 1; i > 1; i--) {
 
 		deriv =
 		    -(in->phi[i] - in->phi[i - 1]) / (in->ymesh[i] -
 						      in->ymesh[i - 1]);
-		sprintf(temp, "%e %le\n", in->ymesh[i], deriv);
+		sprintf(temp, "%Le %Le\n", in->ymesh[i], deriv);
 		buffer_add_string(&buf, temp);
 	}
 

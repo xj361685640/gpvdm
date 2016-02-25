@@ -97,7 +97,8 @@ void dump_dynamic_init(struct dynamic_store *store, struct device *in)
 
 		inter_init(&(store->band_bend));
 
-		store->band_snapshot = malloc(sizeof(double) * in->ymeshpoints);
+		store->band_snapshot =
+		    malloc(sizeof(gdouble) * in->ymeshpoints);
 		for (i = 0; i < in->ymeshpoints; i++) {
 			store->band_snapshot[i] = in->phi[i];
 		}
@@ -165,7 +166,8 @@ void dump_dynamic_save(char *outputpath, struct dynamic_store *store)
 		buffer_add_info(&buf);
 
 		for (i = 0; i < (store->dynamic_jp_drift).len; i++) {
-			sprintf(temp, "%e %e\n", (store->dynamic_jp_drift).x[i],
+			sprintf(temp, "%Le %Le\n",
+				(store->dynamic_jp_drift).x[i],
 				(store->dynamic_jp_drift).data[i] +
 				(store->dynamic_jp_diffusion).data[i]);
 			buffer_add_string(&buf, temp);
@@ -187,7 +189,8 @@ void dump_dynamic_save(char *outputpath, struct dynamic_store *store)
 		buf.logscale_y = 0;
 		buffer_add_info(&buf);
 		for (i = 0; i < (store->dynamic_jn_drift).len; i++) {
-			sprintf(temp, "%e %e\n", (store->dynamic_jn_drift).x[i],
+			sprintf(temp, "%Le %Le\n",
+				(store->dynamic_jn_drift).x[i],
 				(store->dynamic_jn_drift).data[i] +
 				(store->dynamic_jn_diffusion).data[i]);
 			buffer_add_string(&buf, temp);
@@ -209,7 +212,8 @@ void dump_dynamic_save(char *outputpath, struct dynamic_store *store)
 		buf.logscale_y = 0;
 		buffer_add_info(&buf);
 		if (sub == TRUE) {
-			inter_sub_double(&(store->jout), (store->jout).data[0]);
+			inter_sub_gdouble(&(store->jout),
+					  (store->jout).data[0]);
 			inter_mul(&(store->jout), -1.0);
 		}
 		buffer_add_xy_data(&buf, (store->jout).x, (store->jout).data,
@@ -407,9 +411,9 @@ void dump_dynamic_save(char *outputpath, struct dynamic_store *store)
 		buffer_dump_path(out_dir, "dynamic_qe.dat", &buf);
 		buffer_free(&buf);
 
-		double sum = inter_intergrate(&(store->nfree_to_ptrap));
+		gdouble sum = inter_intergrate(&(store->nfree_to_ptrap));
 		FILE *out = fopen("dynamic_Rn_int.dat", "w");
-		fprintf(out, "%le", sum);
+		fprintf(out, "%Le", sum);
 		fclose(out);
 
 		buffer_malloc(&buf);
@@ -484,16 +488,16 @@ void dump_dynamic_save(char *outputpath, struct dynamic_store *store)
 
 		sum = inter_intergrate(&(store->pfree_to_ntrap));
 		out = fopen("dynamic_Rp_int.dat", "w");
-		fprintf(out, "%le", sum);
+		fprintf(out, "%Le", sum);
 		fclose(out);
 
 		inter_make_cumulative(&(store->nfree_to_ptrap));
-		//inter_div_double(&nfree_to_ptrap,in->stark_den);
+		//inter_div_gdouble(&nfree_to_ptrap,in->stark_den);
 		sprintf(outpath, "%s%s", out_dir, "dynamic_Rn_cumulative.dat");
 		inter_save(&(store->nfree_to_ptrap), outpath);
 
 		inter_make_cumulative(&(store->pfree_to_ntrap));
-		//inter_div_double(&pfree_to_ntrap,in->stark_den);
+		//inter_div_gdouble(&pfree_to_ntrap,in->stark_den);
 		sprintf(outpath, "%s%s", out_dir, "dynamic_Rp_cumulative.dat");
 		inter_save(&(store->pfree_to_ntrap), outpath);
 
@@ -693,7 +697,7 @@ void dump_dynamic_save(char *outputpath, struct dynamic_store *store)
 		buffer_dump_path(out_dir, "dynamic_p.dat", &buf);
 		buffer_free(&buf);
 
-		//inter_sub_double(&dynamic_np,dynamic_np.data[0]);
+		//inter_sub_gdouble(&dynamic_np,dynamic_np.data[0]);
 		sprintf(outpath, "%s%s", out_dir, "dynamic_np.dat");
 		inter_save(&(store->dynamic_np), outpath);
 
@@ -702,7 +706,7 @@ void dump_dynamic_save(char *outputpath, struct dynamic_store *store)
 		inter_save(&(store->dynamic_np), outpath);
 
 		sprintf(outpath, "%s%s", out_dir, "dynamic_E_field.dat");
-		inter_div_double(&(store->E_field), (store->E_field).data[0]);
+		inter_div_gdouble(&(store->E_field), (store->E_field).data[0]);
 		inter_save(&(store->E_field), outpath);
 
 		buffer_malloc(&buf);
@@ -724,8 +728,8 @@ void dump_dynamic_save(char *outputpath, struct dynamic_store *store)
 		buffer_free(&buf);
 
 		sprintf(outpath, "%s%s", out_dir, "dynamic_charge_tot.dat");
-		inter_sub_double(&(store->dynamic_charge_tot),
-				 (store->dynamic_charge_tot).data[0]);
+		inter_sub_gdouble(&(store->dynamic_charge_tot),
+				  (store->dynamic_charge_tot).data[0]);
 		inter_save(&(store->dynamic_charge_tot), outpath);
 
 		inter_chop(&(store->dynamic_pl), 1.0e-9, 1.0);
@@ -747,8 +751,8 @@ void dump_dynamic_save(char *outputpath, struct dynamic_store *store)
 		buffer_dump_path(out_dir, "dynamic_pl.dat", &buf);
 		buffer_free(&buf);
 
-		double max = inter_get_max(&(store->dynamic_pl));
-		inter_div_double(&(store->dynamic_pl), max);
+		gdouble max = inter_get_max(&(store->dynamic_pl));
+		inter_div_gdouble(&(store->dynamic_pl), max);
 		buffer_malloc(&buf);
 		buf.y_mul = 1.0;
 		buf.x_mul = 1.0;
@@ -933,7 +937,7 @@ void dump_dynamic_save(char *outputpath, struct dynamic_store *store)
 }
 
 void dump_dynamic_add_data(struct dynamic_store *store, struct device *in,
-			   double x_value)
+			   gdouble x_value)
 {
 }
 

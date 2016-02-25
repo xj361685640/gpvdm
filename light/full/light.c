@@ -35,8 +35,9 @@
 #include "../../light_interface.h"
 
 #include "../../functions.h"
+#include "../../dll_interface.h"
 
-//static double min_light_error=1e-10;
+//static gdouble min_light_error=1e-10;
 
 EXPORT void light_dll_ver()
 {
@@ -46,59 +47,59 @@ EXPORT void light_dll_ver()
 
 EXPORT void light_dll_free(struct light *in)
 {
-l_light_free_memory(in);
+(*fun->light_free_memory)(in);
 }
 
 
 EXPORT int light_dll_solve_lam_slice(struct light *in,int lam)
 {
-if (l_get_dump_status(dump_optics)==TRUE)
+if ((*fun->get_dump_status)(dump_optics)==TRUE)
 {
 	char one[100];
-	sprintf(one,"Solve light optical slice at %lf nm\n",in->l[lam]*1e9);
+	sprintf(one,"Solve light optical slice at %Lf nm\n",in->l[lam]*1e9);
 	//printf("%s\n",one);
-	l_waveprint(one,in->l[lam]*1e9);
+	(*fun->waveprint)(one,in->l[lam]*1e9);
 }
 int i;
 
-double complex Epl=0.0+0.0*I;
-//double complex Epc=0.0+0.0*I;
-//double complex Epr=0.0+0.0*I;
+gdouble complex Epl=0.0+0.0*I;
+//gdouble complex Epc=0.0+0.0*I;
+//gdouble complex Epr=0.0+0.0*I;
 
-//double complex Enl=0.0+0.0*I;
-//double complex Enc=0.0+0.0*I;
-//double complex Enr=0.0+0.0*I;
+//gdouble complex Enl=0.0+0.0*I;
+//gdouble complex Enc=0.0+0.0*I;
+//gdouble complex Enr=0.0+0.0*I;
 
-double complex rc=0.0+0.0*I;
-double complex tc=0.0+0.0*I;
-double complex rr=0.0+0.0*I;
-double complex tr=0.0+0.0*I;
+gdouble complex rc=0.0+0.0*I;
+gdouble complex tc=0.0+0.0*I;
+gdouble complex rr=0.0+0.0*I;
+gdouble complex tr=0.0+0.0*I;
 
-double complex nbar_c=0.0;
-double complex xi_c=0.0;
+gdouble complex nbar_c=0.0;
+gdouble complex xi_c=0.0;
 
-double complex nbar_r=0.0;
-double complex xi_r=0.0;
+gdouble complex nbar_r=0.0;
+gdouble complex xi_r=0.0;
 
-double complex rl=0.0+0.0*I;
-double complex tl=0.0+0.0*I;
-double complex nbar_l=0.0;
-double complex xi_l=0.0;
+gdouble complex rl=0.0+0.0*I;
+gdouble complex tl=0.0+0.0*I;
+gdouble complex nbar_l=0.0;
+gdouble complex xi_l=0.0;
 
-double complex fp=0.0;
-double complex fn=0.0;
+gdouble complex fp=0.0;
+gdouble complex fn=0.0;
 
 int ittr=0;
 int pos=0;
-//double error=1000;
-double l=in->l[lam];
+//gdouble error=1000;
+gdouble l=in->l[lam];
 
-//double nc;
+//gdouble nc;
 
-double tot_error=0.0;
+gdouble tot_error=0.0;
 int quit=FALSE;
-double test=FALSE;
-double dx=in->x[2]-in->x[1];
+gdouble test=FALSE;
+gdouble dx=in->x[2]-in->x[1];
 //for (i=0;i<in->points;i++)
 //{
 //printf("x=%le dx=%le\n",in->x[i],dx);
@@ -153,14 +154,14 @@ do
 		xi_c=((2*PI)/l)*nbar_c;
 		xi_r=((2*PI)/l)*nbar_r;
 
-		double complex pa=-tl;
-		double complex pbp=cexp(xi_c*dx*I);
+		gdouble complex pa=-tl;
+		gdouble complex pbp=cexp(xi_c*dx*I);
 
-		double complex pbn=rl*cexp(-xi_c*dx*I);
+		gdouble complex pbn=rl*cexp(-xi_c*dx*I);
 
-		double complex na=-tc;//Enc
-		double complex nbp=rc*cexp(xi_r*dx*I);//Enr*
-		double complex nbn=cexp(-xi_r*dx*I);
+		gdouble complex na=-tc;//Enc
+		gdouble complex nbp=rc*cexp(xi_r*dx*I);//Enr*
+		gdouble complex nbn=cexp(-xi_r*dx*I);
 
 
 		//getchar();
@@ -183,21 +184,21 @@ do
 		{
 			in->Ti[pos]=i;
 			in->Tj[pos]=i-1;
-			in->Tx[pos]=creal(pa);
-			in->Txz[pos]=cimag(pa);
+			in->Tx[pos]=(double)gcreal(pa);
+			in->Txz[pos]=(double)gcimag(pa);
 			pos++;
 		}
 
 		in->Ti[pos]=i;
 		in->Tj[pos]=i;
-		in->Tx[pos]=creal(pbp);
-		in->Txz[pos]=cimag(pbp);
+		in->Tx[pos]=(double)gcreal(pbp);
+		in->Txz[pos]=(double)gcimag(pbp);
 		pos++;
 
 		in->Ti[pos]=i;
 		in->Tj[pos]=in->points+i;
-		in->Tx[pos]=creal(pbn);
-		in->Txz[pos]=cimag(pbn);
+		in->Tx[pos]=(double)gcreal(pbn);
+		in->Txz[pos]=(double)gcimag(pbn);
 		pos++;
 
 
@@ -205,31 +206,31 @@ do
 		{
 			in->Ti[pos]=in->points+i;
 			in->Tj[pos]=i+1;
-			in->Tx[pos]=creal(nbp);
-			in->Txz[pos]=cimag(nbp);
+			in->Tx[pos]=(double)gcreal(nbp);
+			in->Txz[pos]=(double)gcimag(nbp);
 			pos++;
 		}
 
 		in->Ti[pos]=in->points+i;
 		in->Tj[pos]=in->points+i;
-		in->Tx[pos]=creal(na);
-		in->Txz[pos]=cimag(na);
+		in->Tx[pos]=(double)gcreal(na);
+		in->Txz[pos]=(double)gcimag(na);
 		pos++;
 
 		if (i!=in->points-1)
 		{
 			in->Ti[pos]=in->points+i;
 			in->Tj[pos]=in->points+i+1;
-			in->Tx[pos]=creal(nbn);
-			in->Txz[pos]=cimag(nbn);
+			in->Tx[pos]=(double)gcreal(nbn);
+			in->Txz[pos]=(double)gcimag(nbn);
 			pos++;
 		}
 
-		in->b[i]=creal(fp);
-		in->bz[i]=cimag(fp);
+		in->b[i]=(double)gcreal(fp);
+		in->bz[i]=(double)gcimag(fp);
 
-		in->b[in->points+i]=creal(fn);
-		in->bz[in->points+i]=cimag(fn);
+		in->b[in->points+i]=(double)gcreal(fn);
+		in->bz[in->points+i]=(double)gcimag(fn);
 
 		//printf("%d %le %le %d %d\n",i,in->b[i],in->b[i+in->points],pos,in->N);
 
@@ -245,23 +246,23 @@ do
 		exit(0);
 	}
 
-	l_complex_solver(in->M,in->N,in->Ti,in->Tj, in->Tx, in->Txz,in->b,in->bz);
+	(*fun->complex_solver)(in->M,in->N,in->Ti,in->Tj, in->Tx, in->Txz,in->b,in->bz);
 
 	for (i=0;i<in->points;i++)
 	{
-		double update;
+		gdouble update;
 
 		update=in->b[i];
-		in->Ep[lam][i]=update;
+		in->Ep[lam][i]=(gdouble)update;
 
 		update=in->bz[i];
-		in->Epz[lam][i]=update;
+		in->Epz[lam][i]=(gdouble)update;
 
 		update=in->b[in->points+i];
-		in->En[lam][i]=update;
+		in->En[lam][i]=(gdouble)update;
 
 		update=in->bz[in->points+i];
-		in->Enz[lam][i]=update;
+		in->Enz[lam][i]=(gdouble)update;
 	}
 
 	ittr++;
@@ -278,7 +279,7 @@ if (test==TRUE)
 
 if (test==TRUE)
 {
-	printf("Error in optical model tot error=%le\n",tot_error);
+	printf("Error in optical model tot error=%Le\n",tot_error);
 }
 
 //getchar();

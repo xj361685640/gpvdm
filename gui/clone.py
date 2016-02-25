@@ -28,8 +28,10 @@ from util_zip import zip_lsdir
 from util_zip import read_lines_from_archive
 from util_zip import write_lines_to_archive
 from util_zip import archive_make_empty
+from shutil import copyfile
+from inp_util import inp_search_token_value
 
-def gpvdm_clone(dest,copy_dirs):
+def gpvdm_clone(dest,copy_dirs,materials=["all"]):
 	src_dir=get_inp_file_path()
 	src_archive=os.path.join(src_dir,"sim.gpvdm")
 	dest_archive=os.path.join(dest,"sim.gpvdm")
@@ -55,4 +57,45 @@ def gpvdm_clone(dest,copy_dirs):
 		if os.path.isdir(os.path.join(src_dir,"materials")):
 			shutil.copytree(os.path.join(src_dir,"materials"), os.path.join(dest,"materials"))
 
+		clone_materials(dest,materials)
+
+def clone_materials(dest,materials=["all"]):
+	src_dir=os.path.join(get_inp_file_path(),"materials")
+	dest_dir=os.path.join(dest,"materials")
+	if os.path.isdir(dest_dir)==False:
+		os.mkdir(dest_dir)
+
+	files=os.listdir(src_dir)
+	for i in range(0,len(files)):
+		src_file=os.path.join(src_dir,files[i])
+		dest_file=os.path.join(dest_dir,files[i])
+
+		if files[i].endswith(".spectra"):
+			copyfile(src_file, dest_file)
+
+		if os.path.isdir(src_file)==True:
+			lines=[]
+			mat_sub_path=os.path.join("materials",files[i],"mat.inp")
+			if read_lines_from_archive(lines,os.path.join(get_inp_file_path(),"sim.gpvdm"),mat_sub_path)==True:
+				do_copy=False
+				mat_type=inp_search_token_value(lines, "#material_type")
+				if mat_type!=False:
+					if materials.count("all")!=0:
+						do_copy=True
+
+					if materials.count(mat_type)!=0:
+						do_copy=True
+
+
+				if do_copy==True:
+					print "copy",dest_file
+					if os.path.isdir(dest_file)==False:
+						os.mkdir(dest_file)
+
+					for copy_file in ["mat.inp","alpha.omat","n.omat","fit.inp","info.txt"]:
+						src_mat_file=os.path.join(src_file,copy_file)
+						if os.path.isfile(src_mat_file)==True:
+							copyfile(src_mat_file,os.path.join(dest_file,copy_file))
+				else:
+					print "not copy",dest_file
 

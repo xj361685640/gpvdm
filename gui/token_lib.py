@@ -69,7 +69,6 @@ lib.append(my_data("#imps_saturate","#imps_saturate",_("#imps_saturate"),["text"
 
 lib.append(my_data("#simplephotondensity","m^{-2}s^{-1}",_("Photon density"),["text"],"e",1.0))
 lib.append(my_data("#simple_alpha","m^{-1}",_("Absorption of material"),["text"],"e",1.0))
-lib.append(my_data("#doping","m^{-3}",_("Doping"),["text"],"e",1.0))
 lib.append(my_data("#simmode","au",_("#simmode"),["text"],"e",1.0))
 lib.append(my_data("#Nc","m^{-3}",_("Effective density of free electron states"),["text"],"e",1.0))
 lib.append(my_data("#Nv","m^{-3}",_("Effective density of free hole states"),["text"],"e",1.0))

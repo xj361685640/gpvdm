@@ -40,23 +40,23 @@ struct istruct fit_data;
 
 char *fit_file_prefix;
 
-double last_d = 0.0;
-double last_magnitude = 0.0;
+gdouble last_d = 0.0;
+gdouble last_magnitude = 0.0;
 
 double sin_f(const gsl_vector * v, void *params)
 {
 //struct buffer buf;
 //buffer_init(&buf);
 //buf.norm_x_axis=FALSE;
-	double e0;
-	double mag = gsl_vector_get(v, 0);
-	double delta = gsl_vector_get(v, 1);
-	double *p = (double *)params;
-	double fit_fx = p[0];
+	gdouble e0;
+	gdouble mag = gsl_vector_get(v, 0);
+	gdouble delta = gsl_vector_get(v, 1);
+	gdouble *p = (gdouble *) params;
+	gdouble fit_fx = p[0];
 	struct istruct test_i;
 	inter_copy(&test_i, &fit_data, TRUE);
-	double avg = inter_avg(&test_i);
-	inter_sub_double(&test_i, avg);
+	gdouble avg = inter_avg(&test_i);
+	inter_sub_gdouble(&test_i, avg);
 //char name[200];
 
 /*buffer_malloc(&buf);
@@ -121,30 +121,30 @@ buffer_free(&buf);*/
 		   fit_fx);
 	last_d = delta;
 	last_magnitude = mag;
-	return e0;
+	return (double)e0;
 }
 
-void fit_sin(double *ret_mag, double *ret_delta, struct istruct *in, double fx,
-	     char *prefix)
+void fit_sin(gdouble * ret_mag, gdouble * ret_delta, struct istruct *in,
+	     gdouble fx, char *prefix)
 {
-	double size = 0.0;
+	gdouble size = 0.0;
 	int status = 0;
 	int fitvars = 2;
-	double shift = 1.0;
+	gdouble shift = 1.0;
 	fit_file_prefix = prefix;
 	inter_copy(&fit_data, in, TRUE);
-	double avg = inter_avg(&fit_data);
-	inter_sub_double(&fit_data, avg);
+	gdouble avg = inter_avg(&fit_data);
+	inter_sub_gdouble(&fit_data, avg);
 
 	struct istruct peaks;
 	inter_init(&peaks);
 	inter_find_peaks(&peaks, &fit_data, TRUE);
-	double mag = peaks.data[0];
-	double time_quater = (1.0 / fx) / 4.0;
+	gdouble mag = peaks.data[0];
+	gdouble time_quater = (1.0 / fx) / 4.0;
 
-	double delta = peaks.x[0] - time_quater;
+	gdouble delta = peaks.x[0] - time_quater;
 	double par[5] = { 1.0, 2.0, 10.0, 20.0, 30.0 };
-	par[0] = fx;
+	par[0] = (double)fx;
 	gsl_vector *x;
 	gsl_vector *ss;
 

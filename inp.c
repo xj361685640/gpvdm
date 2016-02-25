@@ -31,7 +31,63 @@
 #include "inp.h"
 #include "util.h"
 #include "code_ctrl.h"
-#include "true_false.h"
+#include "const.h"
+
+int guess_whole_sim_name(char *ret, char *dir_name, char *search_name)
+{
+	int i = 0;
+	int found = FALSE;
+	int is_sim_file = FALSE;
+	char sim_name[256];
+	char name[200];
+	struct inp_file inp;
+	struct inp_list a;
+	inp_listdir(&a);
+
+	for (i = 0; i < a.len; i++) {
+		if ((strcmp(a.names[i], ".") != 0)
+		    && (strcmp(a.names[i], "..") != 0)) {
+			if (strcmp_end(a.names[i], ".inp") == 0) {
+				inp_init(&inp);
+				inp_load_from_path(&inp, dir_name, a.names[i]);
+				is_sim_file =
+				    inp_search(sim_name, &inp,
+					       "#sim_menu_name");
+				inp_free(&inp);
+
+				if (is_sim_file == 0) {
+					if (strextract_name(name, sim_name) !=
+					    -1) {
+						if (strcmp(name, search_name) ==
+						    0) {
+							strcpy(ret, sim_name);
+							found = TRUE;
+							break;
+						}
+					}
+				}
+				//if (strcmp(sim_name,search_name)==0)
+				//{
+				//      strcpy(ret,a.names[i]);
+				//      found=TRUE;
+				//      break;
+				//}
+
+			}
+		}
+	}
+
+	inp_list_free(&a);
+
+	if (found == TRUE) {
+		return 0;
+	} else {
+		strcpy(ret, "");
+		return -1;
+	}
+
+	return -1;
+}
 
 int find_config_file(char *ret, char *dir_name, char *search_name,
 		     char *start_of_name)
@@ -452,19 +508,32 @@ void inp_free(struct inp_file *in)
 	inp_init(in);
 }
 
-void inp_search_double(struct inp_file *in, double *out, char *token)
+void inp_search_gdouble(struct inp_file *in, gdouble * out, char *token)
 {
-	sscanf(inp_search(in, token), "%le", out);
+	char temp[200];
+	if (inp_search(temp, in, token) == 0) {
+		sscanf(temp, "%Le", out);
+		return;
+	}
+	ewe("token %s not found in file %s\n", token, in->full_name);
 }
 
 void inp_search_int(struct inp_file *in, int *out, char *token)
 {
-	sscanf(inp_search(in, token), "%d", out);
+	char temp[200];
+	if (inp_search(temp, in, token) == 0) {
+		sscanf(temp, "%d", out);
+		return;
+	}
+	ewe("token %s not found in file %s\n", token, in->full_name);
 }
 
 void inp_search_string(struct inp_file *in, char *out, char *token)
 {
-	strcpy(out, inp_search(in, token));
+	if (inp_search(out, in, token) == 0) {
+		return;
+	}
+	ewe("token %s not found in file %s\n", token, in->full_name);
 }
 
 void inp_check(struct inp_file *in, double ver)
@@ -476,7 +545,7 @@ void inp_check(struct inp_file *in, double ver)
 		if (strcmp(line, "#ver") == 0) {
 			line = inp_get_string(in);
 
-			sscanf(line, "%le", &read_ver);
+			sscanf(line, "%lf", &(read_ver));
 
 			if (ver != read_ver) {
 				ewe("File compatability problem %s\n",
@@ -493,6 +562,7 @@ void inp_check(struct inp_file *in, double ver)
 
 		line = inp_get_string(in);
 	}
+
 	ewe("Token #ver not found in %s\n", in->full_name);
 	return;
 }
@@ -513,7 +583,7 @@ char *inp_search_part(struct inp_file *in, char *token)
 	return NULL;
 }
 
-char *inp_search(struct inp_file *in, char *token)
+int inp_search(char *out, struct inp_file *in, char *token)
 {
 	inp_reset_read(in);
 	char *line = inp_get_string(in);
@@ -521,14 +591,14 @@ char *inp_search(struct inp_file *in, char *token)
 		//printf("'%s' '%s'\n", line,token);
 		if (strcmp(line, token) == 0) {
 			line = inp_get_string(in);
-			return line;
+			strcpy(out, line);
+			return 0;
 		}
 
 		line = inp_get_string(in);
 	}
-	ewe("Token %s not found in file %s", token, in->full_name);
-	exit(0);
-	return NULL;
+
+	return -1;
 }
 
 int inp_search_english(struct inp_file *in, char *token)

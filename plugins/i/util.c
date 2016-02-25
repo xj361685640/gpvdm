@@ -30,8 +30,7 @@
 #include <dirent.h>
 #include <fcntl.h>
 #include "util.h"
-#include "true_false.h"
-#include "../../sim_modes.h"
+#include "../../const.h"
 #include "../../dump_ctrl.h"
 #include "../../dos_types.h"
 #include "../../gui_hooks.h"
@@ -331,6 +330,20 @@ char *strextract_domain(char *in)
 		}
 	}
 	return (char *)-1;
+}
+
+int is_domain(char *in)
+{
+	int ret = FALSE;
+	char *domain = 0;
+	int i = 0;
+	for (i = 0; i < strlen(in) - 1; i++) {
+		if (in[i] == '@') {
+			return 0;
+		}
+	}
+
+	return -1;
 }
 
 int extract_str_number(char *in, char *cut)

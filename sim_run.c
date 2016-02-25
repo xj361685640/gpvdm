@@ -36,6 +36,10 @@
 #include "elec_plugins.h"
 #include "ntricks.h"
 #include "log.h"
+#include "inp.h"
+#include "solver_interface.h"
+#include "newton_interface.h"
+#include "mesh.h"
 
 struct device cell;
 
@@ -60,6 +64,8 @@ int run_simulation(char *outputpath, char *inputpath)
 
 	printf_log("Load config\n");
 	load_config(&cell);
+	solver_init(cell.solver_name);
+	newton_init(cell.newton_name);
 
 	if (strcmp(cell.simmode, "optics") != 0) {
 		printf_log("Loading DoS for %d layers\n",
@@ -105,10 +111,20 @@ int run_simulation(char *outputpath, char *inputpath)
 	join_path(2, temp, cell.outputpath, "frequency");
 	remove_dir(temp);
 
+	mesh_cal_layer_widths(&cell);
+
+	long double depth = 0.0;
+	long double percent = 0.0;
+
 	for (i = 0; i < cell.ymeshpoints; i++) {
-		cell.Nad[i] = get_dos_doping(cell.imat[i]);
+		depth = cell.ymesh[i] - cell.layer_start[cell.imat[i]];
+		percent = depth / cell.layer_width[cell.imat[i]];
+		cell.Nad[i] =
+		    get_dos_doping_start(cell.imat[i]) +
+		    (get_dos_doping_stop(cell.imat[i]) -
+		     get_dos_doping_start(cell.imat[i])) * percent;
+//      printf("%Le %Le %Le %d %Le\n",depth,percent,cell.Nad[i],cell.imat[i],cell.layer_width[cell.imat[i]]);
 	}
-//getchar();
 
 	init_mat_arrays(&cell);
 
@@ -124,7 +140,7 @@ int run_simulation(char *outputpath, char *inputpath)
 		    cell.xlen * cell.zlen * epsilon0 * cell.epsilonr[0] /
 		    (cell.ylen + cell.other_layers);
 		if (get_dump_status(dump_print_text) == TRUE)
-			printf_log("C=%le\n", cell.C);
+			printf_log("C=%Le\n", cell.C);
 		cell.A = cell.xlen * cell.zlen;
 		cell.Vol = cell.xlen * cell.zlen * cell.ylen;
 
@@ -167,6 +183,19 @@ int run_simulation(char *outputpath, char *inputpath)
 			return 0;
 		}
 	}
+
+	if (is_domain(cell.simmode) != 0) {
+		char gussed_full_mode[200];
+		if (guess_whole_sim_name
+		    (gussed_full_mode, cell.inputpath, cell.simmode) == 0) {
+			printf_log("I guess we are using running %s\n",
+				   gussed_full_mode);
+			strcpy(cell.simmode, gussed_full_mode);
+		} else {
+			ewe("I could not guess which simulation to run from the mode %s\n", cell.simmode);
+		}
+
+	}
 #include "run_list.c"
 
 	device_free(&cell);
@@ -182,6 +211,8 @@ int run_simulation(char *outputpath, char *inputpath)
 
 		light_free(&cell.mylight);
 	}
+	solver_interface_free();
+	newton_interface_free();
 
 	return cell.odes;
 }

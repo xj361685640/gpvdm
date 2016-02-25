@@ -26,13 +26,8 @@
 
 #define EXPORT
 
-EXPORT void light_dll_init();
-EXPORT void light_dll_free(struct light *in);
-EXPORT void light_dll_solve_and_update(struct device *cell, struct light *in,
-				       double Psun_in, double laser_eff_in,
-				       double pulse_width);
-EXPORT int light_dll_solve_lam_slice(struct light *in, int lam);
-double light_convert_density(struct device *in, double start, double width);
-EXPORT void light_dll_ver();
-EXPORT void light_fixup(char *name, void (*in));
+extern struct dll_interface *fun;
+
+gdouble light_convert_density(struct device *in, gdouble start, gdouble width);
+
 #endif

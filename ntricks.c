@@ -51,14 +51,14 @@ void newton_pop_state(struct device *in)
 	in->newton_clever_exit = math_save_state.newton_clever_exit;
 }
 
-void ramp_externalv(struct device *in, double from, double to)
+void ramp_externalv(struct device *in, gdouble from, gdouble to)
 {
-	double V = from;
-	double dV = 0.1;
+	gdouble V = from;
+	gdouble dV = 0.1;
 	if ((to - from) < 0.0)
 		dV *= -1.0;
-	printf("dV=%le\n", dV);
-	printf("Ramping: from=%e to=%e\n", from, to);
+	printf("dV=%Le\n", dV);
+	printf("Ramping: from=%Le to=%Le\n", from, to);
 
 	if (fabs(to - from) <= fabs(dV))
 		return;
@@ -66,7 +66,7 @@ void ramp_externalv(struct device *in, double from, double to)
 	do {
 		V += dV;
 		if (get_dump_status(dump_print_text) == TRUE)
-			printf("ramp: %lf %lf %d\n", V, to, in->kl_in_newton);
+			printf("ramp: %Lf %Lf %d\n", V, to, in->kl_in_newton);
 		sim_externalv(in, V);
 
 		plot_now(in, "jv.plot");
@@ -86,14 +86,14 @@ void ramp_externalv(struct device *in, double from, double to)
 	return;
 }
 
-void ramp(struct device *in, double from, double to, double steps)
+void ramp(struct device *in, gdouble from, gdouble to, gdouble steps)
 {
 	in->kl_in_newton = FALSE;
 	solver_realloc(in);
 
 	in->Vapplied = from;
 	newton_push_state(in);
-	double dV = 0.20;
+	gdouble dV = 0.20;
 	in->min_cur_error = 1e-5;
 	in->max_electrical_itt = 12;
 	in->newton_min_itt = 3;
@@ -101,8 +101,8 @@ void ramp(struct device *in, double from, double to, double steps)
 	in->newton_clever_exit = FALSE;
 	if ((to - from) < 0.0)
 		dV *= -1.0;
-	printf("dV=%le\n", dV);
-	printf("Ramping: from=%e to=%e\n", from, to);
+	printf("dV=%Le\n", dV);
+	printf("Ramping: from=%Le to=%Le\n", from, to);
 
 	if (fabs(to - from) <= fabs(dV))
 		return;
@@ -111,7 +111,7 @@ void ramp(struct device *in, double from, double to, double steps)
 		in->Vapplied += dV;
 //if (in->Vapplied<-4.0) dV=-0.3;
 		if (get_dump_status(dump_print_text) == TRUE)
-			printf("ramp: %lf %lf %d\n", in->Vapplied, to,
+			printf("ramp: %Lf %Lf %d\n", in->Vapplied, to,
 			       in->kl_in_newton);
 		solve_all(in);
 		plot_now(in, "jv_vars.plot");
@@ -135,7 +135,7 @@ void ramp(struct device *in, double from, double to, double steps)
 	return;
 }
 
-void save_state(struct device *in, double to)
+void save_state(struct device *in, gdouble to)
 {
 //<clean>
 	printf("Dumping state\n");
@@ -144,13 +144,13 @@ void save_state(struct device *in, double to)
 	FILE *state;
 	state = fopena(in->outputpath, "state.dat", "w");
 
-	fprintf(state, "%le ", to);
+	fprintf(state, "%Le ", to);
 
 	for (i = 0; i < in->ymeshpoints; i++) {
-		fprintf(state, "%le %le %le ", in->phi[i], in->x[i], in->xp[i]);
+		fprintf(state, "%Le %Le %Le ", in->phi[i], in->x[i], in->xp[i]);
 
 		for (band = 0; band < in->srh_bands; band++) {
-			fprintf(state, "%le %le ", in->xt[i][band],
+			fprintf(state, "%Le %Le ", in->xt[i][band],
 				in->xpt[i][band]);
 		}
 
@@ -159,13 +159,13 @@ void save_state(struct device *in, double to)
 //</clean>
 }
 
-int load_state(struct device *in, double voltage)
+int load_state(struct device *in, gdouble voltage)
 {
 //<clean>
 	printf("Load state\n");
 	int i;
 	int band;
-	double vtest;
+	gdouble vtest;
 	FILE *state;
 	state = fopena(in->outputpath, "state.dat", "r");
 	if (!state) {
@@ -173,8 +173,8 @@ int load_state(struct device *in, double voltage)
 		return FALSE;
 	}
 
-	unused = fscanf(state, "%le", &vtest);
-	printf("%le %le", voltage, vtest);
+	unused = fscanf(state, "%Le", &vtest);
+	printf("%Le %Le", voltage, vtest);
 	if (vtest != voltage) {
 		printf("State not found\n");
 		return FALSE;
@@ -185,12 +185,12 @@ int load_state(struct device *in, double voltage)
 
 	for (i = 0; i < in->ymeshpoints; i++) {
 		unused =
-		    fscanf(state, "%le %le %le ", &(in->phi[i]), &(in->x[i]),
+		    fscanf(state, "%Le %Le %Le ", &(in->phi[i]), &(in->x[i]),
 			   &(in->xp[i]));
 
 		for (band = 0; band < in->srh_bands; band++) {
 			unused =
-			    fscanf(state, "%le %le ", &(in->xt[i][band]),
+			    fscanf(state, "%Le %Le ", &(in->xt[i][band]),
 				   &(in->xpt[i][band]));
 		}
 
@@ -200,20 +200,20 @@ int load_state(struct device *in, double voltage)
 //</clean>
 }
 
-double sim_externalv_ittr(struct device *in, double wantedv)
+gdouble sim_externalv_ittr(struct device * in, gdouble wantedv)
 {
-	double clamp = 0.1;
-	double step = 0.01;
-	double e0;
-	double e1;
-	double i0;
-	double i1;
-	double deriv;
-	double Rs = in->Rcontact;
+	gdouble clamp = 0.1;
+	gdouble step = 0.01;
+	gdouble e0;
+	gdouble e1;
+	gdouble i0;
+	gdouble i1;
+	gdouble deriv;
+	gdouble Rs = in->Rcontact;
 	solve_all(in);
 	i0 = get_I(in);
 
-	double itot = i0 + in->Vapplied / in->Rshunt;
+	gdouble itot = i0 + in->Vapplied / in->Rshunt;
 
 	e0 = fabs(itot * Rs + in->Vapplied - wantedv);
 	in->Vapplied += step;
@@ -223,7 +223,7 @@ double sim_externalv_ittr(struct device *in, double wantedv)
 	itot = i1 + in->Vapplied / in->Rshunt;
 
 	e1 = fabs(itot * Rs + in->Vapplied - wantedv);
-//printf("%le\n",e1);
+//printf("%Le\n",e1);
 	deriv = (e1 - e0) / step;
 	step = -e1 / deriv;
 //step=step/(1.0+fabs(step/clamp));
@@ -235,10 +235,10 @@ double sim_externalv_ittr(struct device *in, double wantedv)
 		solve_all(in);
 		itot = i1 + in->Vapplied / in->Rshunt;
 		e1 = fabs(itot * Rs + in->Vapplied - wantedv);
-//printf("error=%le Vapplied=%le \n",e1,in->Vapplied);
+//printf("error=%Le Vapplied=%Le \n",e1,in->Vapplied);
 		deriv = (e1 - e0) / step;
 		step = -e1 / deriv;
-//double clamp=0.01;
+//gdouble clamp=0.01;
 //if (e1<clamp) clamp=e1/100.0;
 //step=step/(1.0+fabs(step/clamp));
 		step = step / (1.0 + fabs(step / clamp));
@@ -248,12 +248,12 @@ double sim_externalv_ittr(struct device *in, double wantedv)
 		count++;
 	} while (e1 > 1e-8);
 
-	double ret = get_I(in) + in->Vapplied / in->Rshunt;
+	gdouble ret = get_I(in) + in->Vapplied / in->Rshunt;
 //getchar();
 	return ret;
 }
 
-double sim_externalv(struct device *in, double wantedv)
+gdouble sim_externalv(struct device * in, gdouble wantedv)
 {
 	in->kl_in_newton = FALSE;
 	solver_realloc(in);

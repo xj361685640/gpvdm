@@ -34,37 +34,38 @@
 #include "../../light_interface.h"
 
 #include "../../functions.h"
+#include "../../dll_interface.h"
 
 EXPORT void light_dll_ver()
 {
-        printf("Exponential light model\n");
+        printf("Flat light model\n");
 }
 
 EXPORT void light_dll_free(struct light *in)
 {
-l_light_free_memory(in);
+(*fun->light_free_memory)(in);
 }
 
 EXPORT int light_dll_solve_lam_slice(struct light *in,int lam)
 {
-if (l_get_dump_status(dump_optics)==TRUE)
+if ((*fun->get_dump_status)(dump_optics)==TRUE)
 {
 	char one[100];
-	sprintf(one,"Solve light optical slice at %lf nm\n",in->l[lam]*1e9);
+	sprintf(one,"Solve light optical slice at %Lf nm\n",in->l[lam]*1e9);
 	//printf("%s\n",one);
-	l_waveprint(one,in->l[lam]*1e9);
+	(*fun->waveprint)(one,in->l[lam]*1e9);
 }
 
 int i;
 
-double complex n0=0.0+0.0*I;
+gdouble complex n0=0.0+0.0*I;
 
-//complex double r=0.0+0.0*I;
-complex double t=0.0+0.0*I;
-double complex beta0=0.0+0.0*I;
-complex double Ep=in->sun_E[lam]+0.0*I;
-complex double En=0.0+0.0*I;
-double dx=in->x[1]-in->x[0];
+//complex gdouble r=0.0+0.0*I;
+complex gdouble t=0.0+0.0*I;
+gdouble complex beta0=0.0+0.0*I;
+complex gdouble Ep=in->sun_E[lam]+0.0*I;
+complex gdouble En=0.0+0.0*I;
+gdouble dx=in->x[1]-in->x[0];
 
 for (i=0;i<in->points;i++)
 {

@@ -21,7 +21,7 @@
 //    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #ifndef hard_limit_h
-void hard_limit(char *token, double *value);
+void hard_limit(char *token, gdouble * value);
 void hard_limit_init();
 void hard_limit_free();
 #endif

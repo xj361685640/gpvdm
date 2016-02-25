@@ -30,7 +30,7 @@
 #include <sys/types.h>
 #include <dirent.h>
 #include "inp.h"
-#include "true_false.h"
+#include "const.h"
 #include "device.h"
 #include "dump_ctrl.h"
 #include "rand.h"

@@ -24,6 +24,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "advmath.h"
 
 struct inp_file {
 	char *data;
@@ -43,10 +44,10 @@ void inp_init(struct inp_file *in);
 int inp_aes_load(struct inp_file *in, char *path, char *file, char *key);
 int inp_load(struct inp_file *in, char *file);
 void inp_free(struct inp_file *in);
-void inp_search_double(struct inp_file *in, double *out, char *token);
+void inp_search_gdouble(struct inp_file *in, gdouble * out, char *token);
 void inp_search_int(struct inp_file *in, int *out, char *token);
 void inp_search_string(struct inp_file *in, char *out, char *token);
-char *inp_search(struct inp_file *in, char *token);
+int inp_search(char *out, struct inp_file *in, char *token);
 void inp_check(struct inp_file *in, double ver);
 int inp_read_buffer(char **buf, long *len, char *full_file_name);
 void inp_reset_read(struct inp_file *in);
@@ -64,4 +65,5 @@ int zip_write_buffer(char *full_file_name, char *buffer, int len);
 void inp_listdir(struct inp_list *out);
 void inp_list_free(struct inp_list *in);
 int inp_listcmp(struct inp_list *in, char *name);
+int guess_whole_sim_name(char *ret, char *dir_name, char *search_name);
 #endif

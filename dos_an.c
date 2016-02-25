@@ -23,7 +23,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-#include "true_false.h"
 #include "dos_an.h"
 #include "const.h"
 #include "code_ctrl.h"

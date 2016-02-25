@@ -104,6 +104,9 @@ from export_archive import export_archive
 from export_materials import export_materials
 from ver import ver_check_compatibility
 from import_archive import update_simulaton_to_new_ver
+from new_simulation import new_simulation
+from update import update_thread
+
 if running_on_linux()==True:
 	import dbus
 	from dbus.mainloop.glib import DBusGMainLoop
@@ -344,32 +347,18 @@ class gpvdm_main_window(gobject.GObject):
 
 
 	def callback_new(self, widget, data=None):
-		dialog = gtk.FileChooserDialog(_("Make new gpvdm simulation"),
-                               None,
-                               gtk.FILE_CHOOSER_ACTION_OPEN,
-                               (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
-                                gtk.STOCK_NEW, gtk.RESPONSE_OK))
-		dialog.set_default_response(gtk.RESPONSE_OK)
-		dialog.set_action(gtk.FILE_CHOOSER_ACTION_CREATE_FOLDER)
-
-		filter = gtk.FileFilter()
-		filter.set_name(_("All files"))
-		filter.add_pattern("*")
-		dialog.add_filter(filter)
-
+		dialog=new_simulation()
+		dialog.init()
 		response = dialog.run()
-		if response == gtk.RESPONSE_OK:
-			if not os.path.exists(dialog.get_filename()):
-				os.makedirs(dialog.get_filename())
-
-			os.chdir(dialog.get_filename())
-			gpvdm_clone(os.getcwd(),True)
-
-			self.change_dir_and_refresh_interface(dialog.get_filename())
+		if response == True:
+			self.change_dir_and_refresh_interface(dialog.get_return_path())
+			print _("OK")
 
 		elif response == gtk.RESPONSE_CANCEL:
-		    print _("Closed, no dir selected")
+			print _("Closed, no dir selected")
+
 		dialog.destroy()
+
 
 	def change_dir_and_refresh_interface(self,new_dir):
 		print "rod",os.getcwd(),new_dir
@@ -753,6 +742,9 @@ class gpvdm_main_window(gobject.GObject):
 
 	def __init__(self):
 
+
+
+
 		gobject.GObject.__init__(self)
 
 		self.my_server=server()
@@ -893,8 +885,8 @@ class gpvdm_main_window(gobject.GObject):
 		toolbar.insert(sep_lhs, pos)
 		pos=pos+1
 
-	        image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"play.png"))
+		image = gtk.Image()
+		image.set_from_file(os.path.join(get_image_file_path(),"play.png"))
 		self.play = gtk.ToolButton(image)
 		self.tooltips.set_tip(self.play, _("Run the simulation"))
 		toolbar.insert(self.play, pos)
@@ -1101,6 +1093,14 @@ class gpvdm_main_window(gobject.GObject):
 			self.window2.show()
 		my_help_class.show()
 
+		self.update=update_thread()
+		self.update.connect("got-data", self.got_help)
+		self.update.start()
+
+	def got_help(self,data):
+		if self.update.text!="":
+			my_help_class.help_append(["star.png",_("<big><b>Update available!</b></big>\n"+self.update.text)])
+			
 if __name__ == "__main__":
 	main=gpvdm_main_window()
 	random.seed()

@@ -55,6 +55,7 @@ from help import my_help_class
 from epitaxy import epitaxy_get_pl_file
 from epitaxy import epitay_get_next_pl
 from epitaxy import epitaxy_get_name
+from doping import doping_window
 
 import i18n
 _ = i18n.language.gettext
@@ -95,7 +96,9 @@ class layer_widget(gtk.VBox):
 	def active_layer_edit(self, widget, path, text, model):
 		old_text=self.model[path][COLUMN_DEVICE]
 		self.model[path][COLUMN_DEVICE]=text
+		print yes_no(old_text), yes_no(text),type(yes_no(text))
 		if yes_no(old_text)==False and yes_no(text)==True:
+			print "doing update"
 			self.model[path][COLUMN_DOS_LAYER]=epitay_get_next_dos()
 			self.model[path][COLUMN_PL_FILE]=epitay_get_next_pl()
 			new_file=self.model[path][COLUMN_DOS_LAYER]+".inp"
@@ -106,6 +109,7 @@ class layer_widget(gtk.VBox):
 			if inp_isfile(new_file)==False:
 				inp_copy_file(new_file,"pl0.inp")
 
+		print "rod",yes_no(text),self.model[path][COLUMN_DEVICE]
 		if yes_no(text)==False:
 			self.model[path][COLUMN_DOS_LAYER]="none"
 			self.model[path][COLUMN_PL_FILE]="none"
@@ -162,6 +166,7 @@ class layer_widget(gtk.VBox):
 	def __init__(self,tooltips):
 
 		self.optics_window=False
+		self.doping_window=False
 
 		self.electrical_mesh=tab_electrical_mesh()
 		self.electrical_mesh.init()
@@ -227,6 +232,16 @@ class layer_widget(gtk.VBox):
 		toolbar.insert(self.optics_button, pos)
 		self.optics_button.show_all()
 		pos=pos+1
+
+		image = gtk.Image()
+   		image.set_from_file(os.path.join(get_image_file_path(),"doping.png"))
+		self.doping_button = gtk.ToolButton(image)
+		tooltips.set_tip(self.doping_button, _("Doping"))
+		self.doping_button.connect("clicked", self.callback_doping)
+		toolbar.insert(self.doping_button, pos)
+		self.doping_button.show_all()
+		pos=pos+1
+
 
 		#image = gtk.Image()
    		#image.set_from_file(os.path.join(get_image_file_path(),"dir_file.png"))
@@ -481,6 +496,17 @@ class layer_widget(gtk.VBox):
 		else:
 			self.optics_window.show()
 
+	def callback_doping(self, widget, data=None):
+		my_help_class.help_set_help(["doping.png",_("<big><b>Doping window</b></big>\nUse this window to add doping to the simulation")])
+
+		if self.doping_window==False:
+			self.doping_window=doping_window()
+			self.doping_window.init()
+
+		if self.doping_window.get_property("visible")==True:
+			self.doping_window.hide()
+		else:
+			self.doping_window.show()
 
 gobject.type_register(layer_widget)
 gobject.signal_new("refresh", layer_widget, gobject.SIGNAL_RUN_FIRST,gobject.TYPE_NONE, ())

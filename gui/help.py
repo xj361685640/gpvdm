@@ -237,6 +237,11 @@ class help_class(gtk.Window):
 		self.resize(300, 150)
 		self.move_window()
 
+	def help_append(self,array):
+		self.last[self.pos-1]=self.last[self.pos-1] + array
+		self.update()
+		self.resize(300, 150)
+		self.move_window()
 
 my_help_class=help_class()
 my_help_class.init()

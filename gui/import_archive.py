@@ -102,6 +102,7 @@ def merge_archives(src_archive,dest_archive,only_over_write):
 
 	base_file=files[:]
 
+	print src_archive
 	ls=zip_lsdir(src_archive)
 	for i in range(0,len(ls)):
 		if inp_issequential_file(ls[i],"dos"):
@@ -112,13 +113,14 @@ def merge_archives(src_archive,dest_archive,only_over_write):
 			files.append(ls[i])
 			base_file.append("pl0.inp")
 
+		print "found",inp_issequential_file(ls[i],"pulse"),ls[i]
 		if inp_issequential_file(ls[i],"pulse"):
 			files.append(ls[i])
 			base_file.append("pulse0.inp")
 
 
 	for i in range(0,len(files)):
-		print "Importing",files[i],"to",dest_archive
+		print "Importing",files[i],"to",dest_archive,template_archive,base_file[i]
 		if only_over_write==False:
 			if archive_isfile(dest_archive,files[i])==False:
 				if archive_copy_file(dest_archive,files[i],template_archive,base_file[i])==False:
@@ -160,6 +162,9 @@ def merge_archives(src_archive,dest_archive,only_over_write):
 
 
 def import_archive(src_archive,dest_archive,only_over_write):
+	src_dir=os.path.dirname(src_archive)
+	dest_dir=os.path.dirname(dest_archive)
+
 	if src_archive.endswith('.gpvdm')==False:
 		print "I can only import from .gpvdm files"
 		return

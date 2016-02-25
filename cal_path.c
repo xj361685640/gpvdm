@@ -37,6 +37,7 @@
 
 static char share_path[400];
 static char light_path[400];
+static char solver_path[400];
 static char lang_path[400];
 
 void cal_path()
@@ -49,6 +50,7 @@ void cal_path()
 		strcpy(share_path, "/usr/lib64/gpvdm/");
 	}
 	join_path(2, light_path, share_path, "light");
+	join_path(2, solver_path, share_path, "solvers");
 	join_path(2, lang_path, share_path, "lang");
 
 }
@@ -56,6 +58,11 @@ void cal_path()
 char *get_light_path()
 {
 	return light_path;
+}
+
+char *get_solver_path()
+{
+	return solver_path;
 }
 
 char *get_lang_path()

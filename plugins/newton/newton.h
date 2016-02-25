@@ -20,12 +20,21 @@
 //    with this program; if not, write to the Free Software Foundation, Inc.,
 //    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-#ifndef newton_h
-#define newton_h
-void newton_set_min_ittr(int ittr);
-void fill_matrix(struct device *in);
+#ifndef h_newton
+#define h_newton
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include "../../device.h"
+
+void dllinternal_newton_set_min_ittr(int ittr);
 void update_solver_vars(struct device *in, int clamp);
-double get_cur_error(struct device *in);
+void fill_matrix(struct device *in);
+gdouble get_cur_error(struct device *in);
+gdouble get_abs_error(struct device *in);
 void solver_cal_memory(struct device *in, int *ret_N, int *ret_M);
-void solver_free_memory(struct device *in);
+void dllinternal_solver_free_memory(struct device *in);
+int dllinternal_solve_cur(struct device *in);
+void dllinternal_solver_realloc(struct device *in);
 #endif

@@ -28,7 +28,7 @@
 #include <util.h>
 //#include <zip.h>
 #include "buffer.h"
-#include "true_false.h"
+#include "const.h"
 #include "code_ctrl.h"
 
 void buffer_zip_set_name(struct buffer *in, char *name)
@@ -68,14 +68,14 @@ void buffer_malloc(struct buffer *in)
 	memset(in->buf, 0, in->max_len);
 }
 
-void buffer_add_xy_data(struct buffer *in, double *x, double *y, int len)
+void buffer_add_xy_data(struct buffer *in, gdouble * x, gdouble * y, int len)
 {
 	int i;
 	char string[200];
-	double x_out = 0.0;
-	double y_out = 0.0;
-	double max = 0.0;
-	double min = 0.0;
+	gdouble x_out = 0.0;
+	gdouble y_out = 0.0;
+	gdouble max = 0.0;
+	gdouble min = 0.0;
 
 	if (len > 0) {
 		max = y[0];
@@ -99,21 +99,21 @@ void buffer_add_xy_data(struct buffer *in, double *x, double *y, int len)
 				y_out = (y[i] - min) / (max - min);
 			}
 
-			sprintf(string, "%le %le\n", x_out, y_out);
+			sprintf(string, "%Le %Le\n", x_out, y_out);
 			buffer_add_string(in, string);
 		}
 	}
 }
 
-void buffer_add_xy_data_z_label(struct buffer *in, double *x, double *y,
-				double *z, int len)
+void buffer_add_xy_data_z_label(struct buffer *in, gdouble * x, gdouble * y,
+				gdouble * z, int len)
 {
 	int i;
 	char string[200];
-	double x_out = 0.0;
-	double y_out = 0.0;
-	double max = 0.0;
-	double min = 0.0;
+	gdouble x_out = 0.0;
+	gdouble y_out = 0.0;
+	gdouble max = 0.0;
+	gdouble min = 0.0;
 
 	if (len > 0) {
 		max = y[0];
@@ -137,7 +137,7 @@ void buffer_add_xy_data_z_label(struct buffer *in, double *x, double *y,
 				y_out = (y[i] - min) / (max - min);
 			}
 
-			sprintf(string, "%le %le %le\n", x_out, y_out, z[i]);
+			sprintf(string, "%Le %Le %Le\n", x_out, y_out, z[i]);
 			buffer_add_string(in, string);
 		}
 	}
@@ -170,10 +170,10 @@ void buffer_add_info(struct buffer *in)
 	sprintf(temp, "#type %s\n", in->type);
 	buffer_add_string(in, temp);
 
-	sprintf(temp, "#x_mul %lf\n", in->x_mul);
+	sprintf(temp, "#x_mul %Lf\n", in->x_mul);
 	buffer_add_string(in, temp);
 
-	sprintf(temp, "#y_mul %lf\n", in->y_mul);
+	sprintf(temp, "#y_mul %Lf\n", in->y_mul);
 	buffer_add_string(in, temp);
 
 	sprintf(temp, "#x_label %s\n", in->x_label);
@@ -200,10 +200,10 @@ void buffer_add_info(struct buffer *in)
 	sprintf(temp, "#section_two %s\n", in->section_two);
 	buffer_add_string(in, temp);
 
-	sprintf(temp, "#time %e\n", in->time);
+	sprintf(temp, "#time %Le\n", in->time);
 	buffer_add_string(in, temp);
 
-	sprintf(temp, "#Vexternal %e\n", in->Vexternal);
+	sprintf(temp, "#Vexternal %Le\n", in->Vexternal);
 	buffer_add_string(in, temp);
 }
 

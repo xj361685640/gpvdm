@@ -22,19 +22,13 @@
 
 #ifndef sim_h
 #define sim_h
+#include "advmath.h"
+
 #include <i.h>
 #include <true_false.h>
 #include "code_ctrl.h"
 #include "const.h"
-#include "true_false.h"
-#include "sim_modes.h"
 #include "version.h"
-
-#define srh_1	1
-#define srh_2	2
-#define srh_3	3
-#define srh_4	4
-#define interface_schottky	 1
 
 #include "device.h"
 #include "dos.h"
@@ -44,16 +38,14 @@
 #include "dump.h"
 #include "complex_solver.h"
 #include "config.h"
-#include "solver.h"
 #include "advmath.h"
 #include "light_interface.h"
-#include "newton.h"
+#include "newton_interface.h"
 #include "lang.h"
 
 char *sim_output_path();
 char *sim_input_path();
 //newtonsolver
-int solve_cur(struct device *in);
 int solve_cur_thermal(struct device *in, int thermal);
 int solve_pos(struct device *in);
 void get_initial(struct device *in);
@@ -69,18 +61,14 @@ void time_load_mesh(struct device *in, int number);
 void time_init(struct device *in);
 void device_timestep(struct device *in);
 int time_run();
-double time_get_voltage();
-double time_get_sun();
-double time_get_laser();
-double time_get_fs_laser();
+gdouble time_get_voltage();
+gdouble time_get_sun();
+gdouble time_get_laser();
+gdouble time_get_fs_laser();
 void time_memory_free();
 void time_enable_everything(int in);
 //
 int get_clamp_state();
-
-void antje0();
-int antje1();
-void antje2();
 
 void get_max_layers(int in);
 void lock_main(int argc, char *argv[]);
@@ -92,19 +80,18 @@ void load_config(struct device *in);
 void update(struct device *cell);
 int run_simulation(char *outputpath, char *inputpath);
 void solve_all(struct device *in);
-void solver_free_memory(struct device *in);
-void solver_realloc(struct device *in);
 void solver_free();
 
 //DOS model
 void gen_dos_fd_gaus_fd();
 //Light
-void solve_light(struct device *cell, struct light *in, double Psun_in,
-		 double Plaser_in);
+void solve_light(struct device *cell, struct light *in, gdouble Psun_in,
+		 gdouble Plaser_in);
 void light_init(struct light *in, struct device *cell, char *output_path);
 void light_transfer_gen_rate_to_device(struct device *cell, struct light *in);
 void light_solve_and_update(struct device *cell, struct light *in,
-			    double Psun_in, double laser_eff_in);
+			    gdouble Psun_in, gdouble laser_eff_in);
 //debug
 void stop_start(struct device *in);
+
 #endif

@@ -24,7 +24,7 @@
 #include <string.h>
 #include <stdarg.h>
 #include "util.h"
-#include "true_false.h"
+#include "const.h"
 #include "lang.h"
 #include "log.h"
 
