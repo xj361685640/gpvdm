@@ -24,6 +24,7 @@
 #include <string.h>
 #include <math.h>
 #include <errno.h>
+
 #include "../../util.h"
 #include "../../device.h"
 #include "../../dump_ctrl.h"
@@ -69,3 +70,4 @@ if ((last_laser_eff!=in->laser_eff)||(last_Psun!=in->Psun)||(last_wavelength_las
 (*fun->light_transfer_gen_rate_to_device)(cell,in);
 
 }
+

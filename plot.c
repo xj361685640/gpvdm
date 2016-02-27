@@ -25,10 +25,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <string.h>
 #include "sim.h"
 #include "dump.h"
 #include "plot.h"
-#include <string.h>
+#include "util.h"
 
 struct timeval last_time;
 

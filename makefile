@@ -3,7 +3,7 @@ plugins:=$(shell ./get_elec_plugins.sh)
 platform=linux
 
 DEST_LIB=lib64
-CFLAGS=-Werror -Wall -pg -ggdb -g -O2
+CFLAGS=-Werror -Wall -ggdb -g -O2
 
 ifeq ($(platform),"linux")
 	SERVER=-D enable_server
@@ -21,14 +21,14 @@ ifndef OPT_ARCH
 endif
 
 LDLIBS=-lumfpack -lcrypto -lm -lgsl -lgslcblas
-#LDLIBS= -lefence
+#LDLIBS+= -lefence
 inc=
 
 
 ifeq ($(platform),linux)
 	CC=gcc
 	LD=ld
-	LDLIBS+= -rdynamic -export-dynamic -lblas -ldl -lzip -lz -lmatheval
+	LDLIBS+= -rdynamic -export-dynamic -lblas -ldl -lzip -lz -lmatheval -pg
 
 	ifeq ($(wildcard ~/.gpvdm_hpc_flag),)
 

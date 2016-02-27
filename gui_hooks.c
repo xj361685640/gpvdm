@@ -23,6 +23,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
+#include <sys/time.h>
 #include "gui_hooks.h"
 #include "util.h"
 
@@ -30,13 +31,34 @@
 #include <dbus/dbus.h>
 #endif
 
+struct timeval last_time;
+
 int gui_send_data(char *tx_data_in)
 {
+
+	if (strcmp(tx_data_in, "pulse") == 0) {
+		struct timeval mytime;
+		struct timeval result;
+
+		gettimeofday(&mytime, NULL);
+
+		timersub(&mytime, &last_time, &result);
+		double diff = result.tv_sec + result.tv_usec / 1000000.0;
+
+		if (diff < 0.08) {
+			return 0;
+		}
+
+		last_time.tv_sec = mytime.tv_sec;
+		last_time.tv_usec = mytime.tv_usec;
+
+	}
+
 	char tx_data[1024];
 	char temp[1024];
 	string_to_hex(temp, tx_data_in);
 	sprintf(tx_data, "hex%s", temp);
-	//printf("tx: %s\n",tx_data);
+
 #ifdef dbus
 	DBusConnection *connection;
 	DBusError error;
@@ -60,18 +82,19 @@ int gui_send_data(char *tx_data_in)
 	//dbus_connection_close(connection);
 #endif
 
+	gettimeofday(&last_time, NULL);
 	return 0;
 }
 
 int dbus_init()
 {
-#ifdef dbus
-
-#endif
+	last_time.tv_sec = 0;
+	last_time.tv_usec = 0;
 	return 0;
 }
 
 void gui_start()
 {
+	gettimeofday(&last_time, NULL);
 	gui_send_data("start");
 }

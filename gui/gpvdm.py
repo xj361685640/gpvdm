@@ -852,20 +852,16 @@ class gpvdm_main_window(gobject.GObject):
 		toolbar.set_style(gtk.TOOLBAR_ICONS)
 		toolbar.set_size_request(-1, 50)
 
+		new_sim = gtk.ToolButton(gtk.STOCK_NEW)
+		self.tooltips.set_tip(new_sim, _("Make a new simulation"))
+		toolbar.insert(new_sim, pos)
+		pos=pos+1
+
 		open_sim = gtk.ToolButton(gtk.STOCK_OPEN)
 		self.tooltips.set_tip(open_sim, _("Open a simulation"))
 		toolbar.insert(open_sim, pos)
 		pos=pos+1
 
-		#self.save_sim = gtk.ToolButton(gtk.STOCK_SAVE)
-		#self.tooltips.set_tip(self.save_sim, "Save a simulation")
-		#toolbar.insert(self.save_sim, pos)
-		#pos=pos+1
-
-		new_sim = gtk.ToolButton(gtk.STOCK_NEW)
-		self.tooltips.set_tip(new_sim, _("Make a new simulation"))
-		toolbar.insert(new_sim, pos)
-		pos=pos+1
 
 		sep_lhs = gtk.SeparatorToolItem()
 		sep_lhs.set_draw(True)

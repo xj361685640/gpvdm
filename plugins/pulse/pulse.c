@@ -130,10 +130,13 @@ void sim_pulse(struct device *in)
 		}
 
 		if (get_dump_status(dump_print_text) == TRUE) {
+			printf("roderick\n");
 			printf_log("%s=%Le %s=%d %.1e ", _("pulse time"),
 				   in->time, _("step"), step, in->last_error);
-			printf_log("Vtot=%lf %s = %Le mA (%Le A/m^2)\n", V,
+			printf("roderick\n");
+			printf_log("Vtot=%Lf %s = %Le mA (%Le A/m^2)\n", V,
 				   _("current"), get_I(in) / 1e-3, get_J(in));
+
 		}
 
 		ittr++;

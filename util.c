@@ -29,6 +29,7 @@
 #include <unistd.h>
 #include <dirent.h>
 #include <fcntl.h>
+#include <sys/time.h>
 #include "util.h"
 #include "const.h"
 #include "dump_ctrl.h"

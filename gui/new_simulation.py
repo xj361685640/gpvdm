@@ -6,16 +6,19 @@ from clone import gpvdm_clone
 import os
 from cal_path import get_device_lib_path
 from import_archive import import_archive
+from window_list import windows
 
 class new_simulation(gtk.Dialog):
 
 	# close the window and quit
 	def delete_event(self, widget, event, data=None):
+		self.win_list.update(self,"new_simulation")
 		gtk.main_quit()
 		return False
 
 
 	def callback_close(self, widget, data=None):
+		self.win_list.update(self,"new_simulation")
 		self.response(False)
 
 	def callback_next(self, widget, data=None):
@@ -69,6 +72,10 @@ class new_simulation(gtk.Dialog):
 		self.set_title("New simulation - gpvdm.com")
 
 		self.set_size_request(-1, 500)
+
+		self.win_list=windows()
+		self.win_list.load()
+		self.win_list.set_window(self,"new_simulation")
 
 		#self.connect("delete-event", self.delete_event)
 

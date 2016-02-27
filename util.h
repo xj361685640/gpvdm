@@ -65,4 +65,5 @@ int find_config_file(char *ret, char *dir_name, char *search_name,
 		     char *start_of_name);
 void fx_with_units(char *out, double number);
 int is_domain(char *in);
+
 #endif
