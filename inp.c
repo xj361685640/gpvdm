@@ -518,6 +518,16 @@ void inp_search_gdouble(struct inp_file *in, gdouble * out, char *token)
 	ewe("token %s not found in file %s\n", token, in->full_name);
 }
 
+void inp_search_double(struct inp_file *in, double *out, char *token)
+{
+	char temp[200];
+	if (inp_search(temp, in, token) == 0) {
+		sscanf(temp, "%le", out);
+		return;
+	}
+	ewe("token %s not found in file %s\n", token, in->full_name);
+}
+
 void inp_search_int(struct inp_file *in, int *out, char *token)
 {
 	char temp[200];

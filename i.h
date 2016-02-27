@@ -25,7 +25,7 @@
 */
 #ifndef i_h
 #define i_h
-#include "../../advmath.h"
+#include "advmath.h"
 
 struct istruct {
 	gdouble *x;
@@ -109,7 +109,7 @@ void inter_save_backup(struct istruct *in, char *name, int backup);
 void inter_dft(gdouble * real, gdouble * imag, struct istruct *in, gdouble fx);
 int inter_get_max_pos(struct istruct *in);
 int inter_search_pos(struct istruct *in, gdouble x);
-gdouble inter_join_bins(struct istruct *in, gdouble delta);
+void inter_join_bins(struct istruct *in, gdouble delta);
 void inter_reset(struct istruct *in);
 void inter_find_peaks(struct istruct *out, struct istruct *in, int find_max);
 void inter_sin(struct istruct *in, gdouble mag, gdouble fx, gdouble delta);

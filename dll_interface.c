@@ -30,39 +30,39 @@
 #include "complex_solver.h"
 #include "sim.h"
 
-static struct dll_interface interface;
+static struct dll_interface pointers;
 
 void dll_interface_fixup()
 {
-	interface.printf_log = &printf_log;
-	interface.waveprint = &waveprint;
-	interface.get_dump_status = &get_dump_status;
-	interface.light_dump_1d = &light_dump_1d;
-	interface.light_solve_optical_problem = &light_solve_optical_problem;
-	interface.light_free_memory = &light_free_memory;
-	interface.light_transfer_gen_rate_to_device =
+	pointers.printf_log = &printf_log;
+	pointers.waveprint = &waveprint;
+	pointers.get_dump_status = &get_dump_status;
+	pointers.light_dump_1d = &light_dump_1d;
+	pointers.light_solve_optical_problem = &light_solve_optical_problem;
+	pointers.light_free_memory = &light_free_memory;
+	pointers.light_transfer_gen_rate_to_device =
 	    &light_transfer_gen_rate_to_device;
-	interface.complex_solver = &complex_solver;
-	interface.get_n_den = &get_n_den;
-	interface.get_dn_den = &get_dn_den;
-	interface.get_n_w = &get_n_w;
-	interface.get_p_den = &get_p_den;
-	interface.get_dp_den = &get_dp_den;
-	interface.get_p_w = &get_p_w;
-	interface.B = &B;
-	interface.dB = &dB;
-	interface.dump_matrix = &dump_matrix;
-	interface.ewe = &ewe;
-	interface.get_dump_status = &get_dump_status;
-	interface.solver = &solver;
-	interface.get_J = &get_J;
-	interface.get_I = &get_I;
-	interface.fopena = &fopena;
-	interface.dump_1d_slice = &dump_1d_slice;
-	interface.update_arrays = &update_arrays;
+	pointers.complex_solver = &complex_solver;
+	pointers.get_n_den = &get_n_den;
+	pointers.get_dn_den = &get_dn_den;
+	pointers.get_n_w = &get_n_w;
+	pointers.get_p_den = &get_p_den;
+	pointers.get_dp_den = &get_dp_den;
+	pointers.get_p_w = &get_p_w;
+	pointers.B = &B;
+	pointers.dB = &dB;
+	pointers.dump_matrix = &dump_matrix;
+	pointers.ewe = &ewe;
+	pointers.get_dump_status = &get_dump_status;
+	pointers.solver = &solver;
+	pointers.get_J = &get_J;
+	pointers.get_I = &get_I;
+	pointers.fopena = &fopena;
+	pointers.dump_1d_slice = &dump_1d_slice;
+	pointers.update_arrays = &update_arrays;
 }
 
 struct dll_interface *dll_get_interface()
 {
-	return &interface;
+	return &pointers;
 }

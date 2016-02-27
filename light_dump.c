@@ -25,11 +25,11 @@
 #include <string.h>
 #include <math.h>
 #include <errno.h>
-#include <util.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
 #include <dirent.h>
+#include "util.h"
 #include "const.h"
 #include "dump_ctrl.h"
 #include "light.h"

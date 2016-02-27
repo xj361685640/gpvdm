@@ -27,8 +27,8 @@
 #include <math.h>
 #include <time.h>
 #include <dirent.h>
-#include <util.h>
 #include <unistd.h>
+#include "util.h"
 #include "sim.h"
 #include "dos.h"
 #include "dump.h"
@@ -40,6 +40,7 @@
 #include "solver_interface.h"
 #include "newton_interface.h"
 #include "mesh.h"
+#include "remesh.h"
 
 struct device cell;
 

@@ -33,7 +33,7 @@
 
 #include "i.h"
 #include "util.h"
-#include "../../const.h"
+#include "const.h"
 
 static int unused __attribute__ ((unused));
 static char *unused_pchar __attribute__ ((unused));
@@ -1726,7 +1726,7 @@ gdouble inter_array_get_max(gdouble * data, int len)
 	return max;
 }
 
-gdouble inter_join_bins(struct istruct * in, gdouble delta)
+void inter_join_bins(struct istruct *in, gdouble delta)
 {
 	int i;
 	gdouble tot = 0.0;

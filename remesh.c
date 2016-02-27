@@ -1,10 +1,10 @@
-//    Organic Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
-//    model for organic solar cells. 
+//    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
+//    model for 1st, 2nd and 3rd generation solar cells.
 //    Copyright (C) 2012 Roderick C. I. MacKenzie
 //
-//	roderick.mackenzie@nottingham.ac.uk
-//	www.roderickmackenzie.eu
-//	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
+//      roderick.mackenzie@nottingham.ac.uk
+//      www.roderickmackenzie.eu
+//      Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //    This program is free software; you can redistribute it and/or modify
 //    it under the terms of the GNU General Public License as published by
@@ -19,9 +19,30 @@
 //    You should have received a copy of the GNU General Public License along
 //    with this program; if not, write to the Free Software Foundation, Inc.,
 //    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-#ifndef stubs_h
-#define stubs_h
-#include "../../sim.h"
 
-void lock_command_line(int argc, char *argv[]);
-#endif
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "sim.h"
+#include "dump.h"
+#include "remesh.h"
+#include "ntricks.h"
+#include <math.h>
+
+struct remesh my_mesh;
+
+void remesh_shrink(struct device *in)
+{
+}
+
+void remesh_expand_array_band(gdouble ** y, int band, struct device *in)
+{
+}
+
+void remesh_expand_array(gdouble * y, struct device *in)
+{
+}
+
+void remesh_reset(struct device *in, gdouble voltage)
+{
+}

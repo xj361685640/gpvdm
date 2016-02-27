@@ -132,8 +132,6 @@ void light_dump(struct light *in);
 int light_solve_lam_slice(struct light *in, int lam);
 void light_set_dx(struct light *in, gdouble dx);
 void light_dump_1d(struct light *in, int i, char *ext);
-int light_test_air_metal(struct light *in, int lam);
-int light_test_air_abs_interface(struct light *in, int lam);
 void light_get_mode(struct istruct *mode, int lam, struct light *in);
 int light_find_wavelength(struct light *in, gdouble lam);
 void light_set_unity_laser_power(struct light *in, int lam);

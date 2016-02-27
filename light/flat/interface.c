@@ -24,8 +24,7 @@
 #include <string.h>
 #include <math.h>
 #include <errno.h>
-#include <util.h>
-#include "true_false.h"
+#include "../../util.h"
 #include "../../device.h"
 #include "../../dump_ctrl.h"
 #include "../../light.h"

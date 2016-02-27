@@ -21,13 +21,4 @@
 //    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include "./plugins/pulse/pulse.h"
 #include "./plugins/jv/jv.h"
-#include "./plugins/stubs/stub.h"
-#include "./plugins/i/rnd.h"
-#include "./plugins/i/list.h"
-#include "./plugins/i/util.h"
-#include "./plugins/i/vec.h"
-#include "./plugins/i/frame.h"
-#include "./plugins/i/true_false.h"
-#include "./plugins/i/i.h"
-#include "./plugins/remesh_stub/remesh_stub.h"
 #include "./plugins/fxdomain/fxdomain.h"

@@ -24,7 +24,6 @@
 #include <string.h>
 #include <math.h>
 #include <errno.h>
-#include <util.h>
 #include "newton.h"
 #include "../../dll_interface.h"
 #include "../../solver_interface.h"

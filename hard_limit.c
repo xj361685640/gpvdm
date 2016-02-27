@@ -30,8 +30,8 @@
 #include <unistd.h>
 #include <dirent.h>
 #include <fcntl.h>
-#include "../../const.h"
-#include "../../inp.h"
+#include "const.h"
+#include "inp.h"
 
 struct inp_file hard_limit_inp;
 

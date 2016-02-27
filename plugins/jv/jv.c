@@ -35,6 +35,7 @@
 #include "../../pl.h"
 #include "../../log.h"
 #include "../../lang.h"
+#include "../../remesh.h"
 
 static int unused __attribute__ ((unused));
 
@@ -123,7 +124,6 @@ sim_externalv(in,in->Vapplied);
 	gdouble np_voc_tot = 0.0;
 	gdouble r_pmax = 0.0;
 	gdouble n_pmax = 0.0;
-	int r;
 	do {
 
 		in->Vapplied = V;
@@ -225,7 +225,7 @@ sim_externalv(in,in->Vapplied);
 		dump_write_to_disk(in);
 
 		outf = fopen("o.dat", "a");
-		fprintf(outf, "%le %le\n", V, J);
+		fprintf(outf, "%Le %Le\n", V, J);
 		fclose(outf);
 
 		inter_append(&lv, get_equiv_V(in), pl_get_light_energy());

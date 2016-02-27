@@ -24,11 +24,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-#include <util.h>
+#include "util.h"
 #include "patch.h"
-#include "../../dump_ctrl.h"
-#include "../../inp.h"
-#include "../../const.h"
+#include "dump_ctrl.h"
+#include "inp.h"
+#include "const.h"
 
 static int unused __attribute__ ((unused));
 

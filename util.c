@@ -30,13 +30,13 @@
 #include <dirent.h>
 #include <fcntl.h>
 #include "util.h"
-#include "../../const.h"
-#include "../../dump_ctrl.h"
-#include "../../dos_types.h"
-#include "../../gui_hooks.h"
-#include "../../server.h"
-#include "../../lang.h"
-#include "../../log.h"
+#include "const.h"
+#include "dump_ctrl.h"
+#include "dos_types.h"
+#include "gui_hooks.h"
+#include "server.h"
+#include "lang.h"
+#include "log.h"
 
 void fx_with_units(char *out, double number)
 {
@@ -52,13 +52,12 @@ void fx_with_units(char *out, double number)
 
 }
 
-void join_path(int args, ...)
+void join_path(int max, ...)
 {
-	int max = args + 1;
+	max = max + 1;
 	char temp[1000];
 	strcpy(temp, "");
 	va_list arguments;
-	double sum = 0;
 	int i;
 	va_start(arguments, max);
 	char *ret = va_arg(arguments, char *);
@@ -334,8 +333,6 @@ char *strextract_domain(char *in)
 
 int is_domain(char *in)
 {
-	int ret = FALSE;
-	char *domain = 0;
 	int i = 0;
 	for (i = 0; i < strlen(in) - 1; i++) {
 		if (in[i] == '@') {
@@ -368,7 +365,7 @@ int strextract_int(char *in)
 
 	}
 	temp[count] = 0;
-	sscanf(temp, "%ld", &ret);
+	sscanf(temp, "%d", &ret);
 	return ret;
 }
 
@@ -512,7 +509,7 @@ void edit_file_int(char *in_name, char *front, int line_to_edit, int value)
 			strcat(out_buf, line);
 			strcat(out_buf, "\n");
 		} else {
-			sprintf(temp, "%s%ld\n", front, value);
+			sprintf(temp, "%s%d\n", front, value);
 			strcat(out_buf, temp);
 		}
 		line = strtok(NULL, "\n");

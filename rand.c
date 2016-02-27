@@ -24,11 +24,11 @@
 #include <string.h>
 #include <math.h>
 #include <errno.h>
-#include <util.h>
 #include <unistd.h>
 
 #include <sys/types.h>
 #include <dirent.h>
+#include "util.h"
 #include "inp.h"
 #include "const.h"
 #include "device.h"

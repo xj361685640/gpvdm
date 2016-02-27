@@ -1,4 +1,4 @@
-inc=-I ../../plugins/i/
+inc=
 
 ifeq ($(platform),windows)
 	CC=i686-w64-mingw32-gcc

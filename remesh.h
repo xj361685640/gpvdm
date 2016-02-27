@@ -20,10 +20,16 @@
 //    with this program; if not, write to the Free Software Foundation, Inc.,
 //    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-#ifndef stubs_h
-#define stubs_h
-#include "../../sim.h"
+#ifndef h_remesh
+#define h_remesh
+#include "sim.h"
 
-void sim_jv(struct device *in);
-void newton_sim_jv(struct device *in);
+struct remesh {
+	gdouble *x;
+	int len;
+	gdouble new_dx;
+};
+
+void remesh_shrink(struct device *in);
+void remesh_reset(struct device *in, gdouble voltage);
 #endif
