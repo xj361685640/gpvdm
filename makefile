@@ -1,10 +1,17 @@
 plugins:=$(shell ./get_elec_plugins.sh)
 
-#windows=""
+platform=linux
 
 DEST_LIB=lib64
-CFLAGS=-Werror -Wall -pg -ggdb -g -O2 -D full_time_domain -D enable_fx -D LONGDOUBLE
-# -D enable_server
+CFLAGS=-Werror -Wall -pg -ggdb -g -O2
+
+ifeq ($(platform),"linux")
+	SERVER=-D enable_server
+else
+	SERVER=
+endif
+
+DEFINE_FLAGS=-D full_time_domain -D enable_fx -D LONGDOUBLE -D dos_bin -D ${platform} ${SERVER} 
 
 OBJS= solver_interface.o light_utils.o gui_hooks.o sim_find_n0.o sim_run.o newton_update.o dump_map.o dump_energy_slice.o pos.o inital.o advmath.o config.o plot.o timer.o memory.o dos.o gendosfdgaus.o exp.o pl.o time.o fast.o anal.o dump.o dump_config.o dump_1d_slice.o dump_dynamic.o ntricks.o ntricks_externalv.o dos_an.o startstop.o complex_solver.o thermal.o light_interface.o dump_ctrl.o light_dump.o inp.o rand.o buffer.o hard_limit.o epitaxy.o mesh.o patch.o cal_path.o log.o fx.o fit_sin.o newton_interface.o dll_interface.o i.o util.o server.o remesh.o
 
@@ -13,51 +20,47 @@ ifndef OPT_ARCH
 	OPT_ARCH=x86_64
 endif
 
-LDLIBS=-lumfpack -lefence -lcrypto -lm
-
+LDLIBS=-lumfpack -lcrypto -lm -lgsl -lgslcblas
+#LDLIBS= -lefence
 inc=
 
-ifeq ($(wildcard ~/.gpvdm_hpc_flag),)
-		ifndef windows
-        inc+= `pkg-config --cflags dbus-1`
-		CFLAGS+= -D dbus
-        LDLIBS+= `pkg-config --libs dbus-1`		
-		endif
-else
-        inc+= -I/home/steve/rm/build/libmatheval-1.1.11/lib/
-        LDLIBS+= -L/home/steve/rm/build/libmatheval-1.1.11/lib/.libs/
-        debug_opt=
-endif
 
-ifdef windows
-	CC=i686-w64-mingw32-gcc
-	LD=i686-w64-mingw32-ld
-	platform=windows
-	CFLAGS+=-posix
-	
-	inc+=-I$(HOME)/windll/zlib/include/ -I$(HOME)/windll/openssl-1.0.1j/include/ -I$(HOME)/windll/libzip/libzip-0.11.2/lib/ -I$(HOME)/windll/gsl-1.16/
-	 LDLIBS= -L$(HOME)/windll/gsl-1.16/.libs/ -L$(HOME)/windll/gsl-1.16/cblas/.libs/ ./images/res.o -lzip-2 -lgsl -lgslcblas
-else
+ifeq ($(platform),linux)
 	CC=gcc
 	LD=ld
-	platform=linux
-	LDLIBS+= -rdynamic -export-dynamic -lgsl -lgslcblas -lblas -ldl -lzip -lz -lmatheval
-endif
+	LDLIBS+= -rdynamic -export-dynamic -lblas -ldl -lzip -lz -lmatheval
 
-        flags=${debug_opt} -D dos_bin -D ${platform}
-        inc+= -I/usr/include/suitesparse/
+	ifeq ($(wildcard ~/.gpvdm_hpc_flag),)
+
+		inc+= `pkg-config --cflags dbus-1` -I/usr/include/suitesparse/
+		CFLAGS+= -D dbus
+		LDLIBS+= `pkg-config --libs dbus-1`	
+
+	else
+		    inc+= -I/home/steve/rm/build/libmatheval-1.1.11/lib/
+		    LDLIBS+= -L/home/steve/rm/build/libmatheval-1.1.11/lib/.libs/
+	endif
+else
+
+	CC=i686-w64-mingw32-gcc
+	LD=i686-w64-mingw32-ld
+	CFLAGS+=-posix
+	
+	inc+=-I$(HOME)/windll/zlib/include/ -I$(HOME)/windll/openssl-1.0.1j/include/ -I$(HOME)/windll/libzip/libzip-0.11.2/lib/ -I$(HOME)/windll/gsl-1.16/ -I$(HOME)/windll/umfpack/UFconfig/ -I$(HOME)/windll/umfpack/AMD/Include/ -I$(HOME)/windll/umfpack/UMFPACK/Include/
+	 LDLIBS+= -L$(HOME)/windll/gsl-1.16/.libs/ -L$(HOME)/windll/gsl-1.16/cblas/.libs/ ./images/res.o -lzip-2
+endif
 
 .PHONY: clean
 
 main: main.c $(OBJS)
-	./buildplugins.sh "$(CFLAGS) $(debug_opt)" "$(platform)" "$(CC)" "$(LD)"
+	./buildplugins.sh "$(CFLAGS)" "$(platform)" "$(CC)" "$(LD)"
 	./build_fit_plugins.sh $(platform)
-	$(CC) main.c $(OBJS) $(plugins) -o go.o -L.  $(flags) $(link) $(inc) $(CFLAGS) $(LDLIBS)
+	$(CC) main.c $(OBJS) $(plugins) -o go.o -L.  $(DEFINE_FLAGS) $(inc) $(CFLAGS) $(LDLIBS)
 
 .PHONY: install
 
 %.o : %.c
-	$(CC) -c $(flags) $(inc) $(CFLAGS) $(warn) $< -o $@
+	$(CC) -c $(DEFINE_FLAGS) $(inc) $(CFLAGS) $(warn) $< -o $@
 
 install:
 	

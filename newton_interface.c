@@ -105,13 +105,14 @@ void newton_init(char *solver_name)
 
 	dll_interface_fixup();
 	(*dll_set_interface) (dll_get_interface());
-
 }
 
 int solve_cur(struct device *in)
 {
 	printf("roderick\n");
 	return (*dll_solve_cur) (in);
+	printf("roderick_exit\n");
+
 }
 
 void newton_set_min_ittr(int ittr)

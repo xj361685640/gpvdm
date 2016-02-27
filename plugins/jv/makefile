@@ -1,8 +1,6 @@
 inc=-I ../i/
 
-ifndef opt_normal
-	opt_normal=-Wall
-endif
+CFLAGS=-Wall
 
 ifndef platform
 	platform=linux
@@ -12,7 +10,7 @@ main: jv.o
 	$(LD) -r jv.o -o plugin.o
 
 jv.o: jv.c
-	$(CC) -c jv.c  $(inc) -I ../../ -o jv.o $(opt_normal) -D $(platform)
+	$(CC) -c jv.c  $(inc) -I ../../ -o jv.o $(CFLAGS) -D $(platform)
 
 clean:
 	rm *.o

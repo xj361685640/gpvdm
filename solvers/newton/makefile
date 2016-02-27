@@ -1,4 +1,3 @@
-inc=-I ../../plugins/i/
 
 ifeq ($(platform),windows)
 	CC=i686-w64-mingw32-gcc
@@ -11,19 +10,16 @@ else
 	link_command=-shared -Wl,-soname,plugin.so plugin.o newton.o -o plugin.so -g
 endif
 
-
-ifndef opt_normal
-	opt_normal=-Wall -g
-endif
+CFLAGS=-Wall -g
 
 main: plugin.o newton.o
-	$(CC) $(link_command)
+	$(CC) $(link_command) $(CFLAGS) 
 
 plugin.o: plugin.c
-	$(CC) $(lib_type) -c plugin.c -o plugin.o  $(inc) $(opt_normal) 
+	$(CC) $(lib_type) -c plugin.c -o plugin.o  $(inc) $(CFLAGS) 
 
 newton.o: newton.c
-	$(CC) $(lib_type) -c newton.c -o newton.o  $(inc) $(opt_normal)
+	$(CC) $(lib_type) -c newton.c -o newton.o  $(inc) $(CFLAGS) -Wno-error=unused-but-set-variable -Wno-error=unused-variable
 
 
 clean:

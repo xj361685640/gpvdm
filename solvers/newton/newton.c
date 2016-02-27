@@ -1269,7 +1269,8 @@ gdouble get_cur_error(struct device *in)
 	if (isnan(tot)) {
 		printf("%Le %Le %Le %Le %Le %Le %Le %Le %Le\n", phi, n, p, x,
 		       te, th, tl, ttn, ttp);
-		dump_matrix(in->M, in->N, in->Ti, in->Tj, in->Tx, in->b, "");
+		(*fun->dump_matrix) (in->M, in->N, in->Ti, in->Tj, in->Tx,
+				     in->b, "");
 
 		(*fun->ewe) ("nan detected in newton solver\n");
 	}
@@ -1565,7 +1566,7 @@ int dllinternal_solve_cur(struct device *in)
 			break;
 		}
 
-		solver(in->M, in->N, in->Ti, in->Tj, in->Tx, in->b);
+		(*fun->solver) (in->M, in->N, in->Ti, in->Tj, in->Tx, in->b);
 
 		update_solver_vars(in, TRUE);
 		//printf("Going to clamp=%d\n",propper);

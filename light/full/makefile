@@ -1,5 +1,3 @@
-inc=
-
 ifeq ($(platform),windows)
 	CC=i686-w64-mingw32-gcc
 	lib_type=-DBUILDING_EXAMPLE_DLL
@@ -12,18 +10,17 @@ else
 endif
 
 
-ifndef opt_normal
-	opt_normal=-Wall
-endif
+CFLAGS=-Wall
+
 
 main: light.o interface.o
-	$(CC) $(link_command)
+	$(CC) $(link_command) $(CFLAGS)
 
 interface.o: interface.c
-	$(CC) $(lib_type) -c interface.c -o interface.o  $(inc) $(opt_normal)
+	$(CC) $(lib_type) -c interface.c -o interface.o  $(inc) $(CFLAGS)
 
 light.o: light.c
-	$(CC) $(lib_type) -c light.c -o light.o  $(inc) $(opt_normal)
+	$(CC) $(lib_type) -c light.c -o light.o  $(inc) $(CFLAGS) -Wno-unused-but-set-variable
 
 
 clean:
