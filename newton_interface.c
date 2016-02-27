@@ -109,31 +109,23 @@ void newton_init(char *solver_name)
 
 int solve_cur(struct device *in)
 {
-	printf("roderick\n");
 	return (*dll_solve_cur) (in);
-	printf("roderick_exit\n");
 
 }
 
 void newton_set_min_ittr(int ittr)
 {
-	printf("roderick2\n");
 
 	(*dll_newton_set_min_ittr) (ittr);
 }
 
 void solver_realloc(struct device *in)
 {
-	printf("roderick3\n");
-
 	(*dll_solver_realloc) (in);
-	printf("roderick4\n");
 }
 
 void solver_free_memory(struct device *in)
 {
-	printf("roderick4\n");
-
 	(*dll_solver_free_memory) (in);
 }
 

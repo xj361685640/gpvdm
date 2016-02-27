@@ -71,10 +71,13 @@ install:
 	mkdir $(DESTDIR)/usr/$(DEST_LIB)
 	mkdir $(DESTDIR)/usr/$(DEST_LIB)/gpvdm
 	mkdir $(DESTDIR)/usr/$(DEST_LIB)/gpvdm/light
+	mkdir $(DESTDIR)/usr/$(DEST_LIB)/gpvdm/solvers
 
 	cp sim.gpvdm $(DESTDIR)/usr/share/gpvdm/
 	cp README $(DESTDIR)/usr/share/gpvdm/
 	cp ./light/*.so $(DESTDIR)/usr/$(DEST_LIB)/gpvdm/light/
+	cp ./solvers/*.so $(DESTDIR)/usr/$(DEST_LIB)/gpvdm/solvers/
+
 	#cp ./exp $(DESTDIR)/usr/share/gpvdm/ -r
 	cp plot $(DESTDIR)/usr/share/gpvdm/ -rf
 
