@@ -86,7 +86,7 @@ gdouble pulse_newton_sim_voc(struct device * in)
 		in->Vapplied += step;
 		if (get_dump_status(dump_print_text) == TRUE) {
 			printf_log
-			    ("%d pulse voc find Voc Vapplied=%lf step=%Le error=%Le\n",
+			    ("%d pulse voc find Voc Vapplied=%Lf step=%Le error=%Le\n",
 			     count, in->Vapplied, step, e1);
 		}
 		if (count > max)

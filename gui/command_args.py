@@ -49,7 +49,7 @@ from scan_plot import scan_gen_plot_data
 from server import server_find_simulations_to_run
 from clean_sim import clean_sim_dir
 from ver import ver_sync_ver
-
+from device_lib import device_lib_replace
 import i18n
 _ = i18n.language.gettext
 
@@ -86,6 +86,8 @@ def command_args(argc,argv):
 			print _("\t\t\tusage --run-scan /path/containing/base/files/ /path/to/scan/dir/ ")
 			print _("\t--sync_ver\t\truns a scan")
 			print _("\t\t\tchanges the version of input file")
+			print _("\t--replace\t\treplaces file in device lib")
+			print _("\t\t\t")
 			print _("")
 			print _("Additional information about gpvdm is available at http://www.gpvdm.com.")
 			print _("")
@@ -97,6 +99,9 @@ def command_args(argc,argv):
 			sys.exit(0)
 		if check_params(argv,"--import-scandirs",1)==True:
 			import_scan_dirs(os.getcwd(),argv[2])
+			exit(0)
+		if check_params(argv,"--replace",1)==True:
+			device_lib_replace(argv[2])
 			exit(0)
 		if check_params(argv,"--export",1)==True:
 			export_as(argv[2])

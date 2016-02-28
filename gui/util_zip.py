@@ -46,6 +46,7 @@ def archive_copy_file(dest_archive,dest_file_name,src_archive,file_name):
 
 
 
+
 def archive_make_empty(archive_path):
 		zf = zipfile.ZipFile(archive_path, 'w')
 
@@ -191,6 +192,10 @@ def write_lines_to_archive(archive_path,file_name,lines):
 
 def archive_add_file(archive_path,file_name,base_dir):
 		lines=[]
+		name_of_file_in_archive=file_name[len(base_dir):]
+
+		zip_remove_file(archive_path,name_of_file_in_archive)
+
 		if os.path.isfile(file_name):
 			f=open(file_name, mode='rb')
 			lines = f.read()
@@ -200,7 +205,7 @@ def archive_add_file(archive_path,file_name,base_dir):
 
 		zf = zipfile.ZipFile(archive_path, 'a')
 
-		zf.writestr(file_name[len(base_dir):], lines)
+		zf.writestr(name_of_file_in_archive, lines)
 		zf.close()
 		return True
 

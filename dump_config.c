@@ -34,7 +34,6 @@ void dump_load_config(struct device *in)
 	struct inp_file inp;
 	inp_init(&inp);
 	inp_load_from_path(&inp, in->inputpath, "dump.inp");
-	printf("rod2\n");
 
 	inp_check(&inp, 1.37);
 

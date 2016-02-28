@@ -120,8 +120,8 @@ void sim_pulse(struct device *in)
 		dump_dynamic_add_data(&store, in, in->time);
 
 		if (pulse_config.pulse_sim_mode == pulse_load) {
-			i0 = ntricks_externv_newton(in, time_get_voltage(),
-						    TRUE);
+			V = time_get_voltage();
+			i0 = ntricks_externv_newton(in, V, TRUE);
 		} else if (pulse_config.pulse_sim_mode == pulse_open_circuit) {
 			V = in->Vapplied;
 			pulse_newton_sim_voc_fast(in, TRUE);
@@ -130,10 +130,8 @@ void sim_pulse(struct device *in)
 		}
 
 		if (get_dump_status(dump_print_text) == TRUE) {
-			printf("roderick\n");
-			printf_log("%s=%Le %s=%d %.1e ", _("pulse time"),
+			printf_log("%s=%Le %s=%d %.1Le ", _("pulse time"),
 				   in->time, _("step"), step, in->last_error);
-			printf("roderick\n");
 			printf_log("Vtot=%Lf %s = %Le mA (%Le A/m^2)\n", V,
 				   _("current"), get_I(in) / 1e-3, get_J(in));
 

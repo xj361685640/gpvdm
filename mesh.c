@@ -163,6 +163,6 @@ void mesh_cal_layer_widths(struct device *in)
 			cur_i = in->imat[i];
 			in->layer_start[cur_i] = in->ymesh[i];	//-(in->ymesh[i]-in->ymesh[i-1])/2;
 		}
-		printf("%d\n", in->imat[i]);
+//printf("%d\n",in->imat[i]);
 	}
 }

@@ -33,14 +33,6 @@ import urllib2
 import socket 
 from threading import Thread
 import time
-from socket import setdefaulttimeout
-from socket import socket
-from socket import error
-from socket import AF_INET
-from socket import SOCK_STREAM
-from socket import SOL_SOCKET
-from socket import SO_REUSEADDR
-from socket import getdefaulttimeout
 import urlparse
 import re
 import os
@@ -50,17 +42,69 @@ from ver import ver_gui
 import gobject
 import platform
 import getpass
-from tab_base import tab_base
 from help import my_help_class
+from http import get_data_from_web 
+from cal_path import get_share_path
+import hashlib
 
-socket.setdefaulttimeout = 1.0
-os.environ['no_proxy'] = '127.0.0.1,localhost'
-linkRegex = re.compile('<a\s*href=[\'|"](.*?)[\'"].*?>')
-CRLF = "\r\n\r\n"
+def sp(value):
+	return value.split(os.sep)
 
-#This is the welcome tab.  It sends a request to www.gpvdm.com/update.php and then displays the text it fetches in the tab.  The idea of this is to tell people when updates are available.
+def update_now():
+	print _("Checking web for updates")
+	disk_files=[]
+	web_src=[]
+	disk_dest=[]
 
+	update_path="http://www.gpvdm.com/update_windows/"
+	lines=get_data_from_web(update_path+"list.dat")
+	print "Got file list"
+	lines=lines.split('\n')
+	files=[]
+	md5=[]
+	web_md5=[]
+	for i in range(0,len(lines)):
+		if lines[i].count("  ")!=0:
+			m,f=lines[i].split("  ")
+			f=f[2:].split("/")
+			md5.append(m)
+			files.append(f)
 
+	for i in range(0,len(files)):
+
+		root=files[i][0]
+		if root=="device_lib":
+		#if root=="images" or root=="solvers" or root=="gpvdm_core.exe" or root=="device_lib" or root=="sim.gpvdm" or root=="lang" or root=="materials" or root=="light":
+			md5_web=md5[i]
+			md5_disk="none"
+			disk_path=os.path.join(get_share_path(),"/".join(files[i]))
+			web_path=update_path+"/".join(files[i])
+			if os.path.isfile(disk_path):
+				md5_disk=hashlib.md5(open(disk_path,'rb').read()).hexdigest()
+
+			#if md5_web!=md5_disk:
+			web_src.append(web_path)
+			disk_dest.append(disk_path)
+			web_md5.append(md5_web)
+
+	for i in range(0,len(web_src)):
+		print web_src[i],disk_dest[i]
+		a=get_data_from_web(web_src[i])
+		l=len(a)
+		if l>100:
+			l=100;
+		if a[:l].count("403 Forbidden")!=0:
+			print "Access to file "+web_src[i]+" forbiden"
+		else:
+			web_hash=hashlib.md5(a).hexdigest()
+			list_hash=web_md5[i]
+			if web_hash==list_hash:
+				print "updating file",disk_dest[i]
+				f=open(disk_dest[i], mode='wb')
+				lines = f.write(a)
+				f.close()
+			else:
+				print "Checksum error",disk_dest[i]		
 
 class update_thread(gtk.VBox):
 	def __init__(self):
@@ -68,33 +112,11 @@ class update_thread(gtk.VBox):
 		self.text=""
 
 	def get_from_web(self,url):
-		setdefaulttimeout(4.0)
-		url = urlparse.urlparse(url)
-		HOST = url.netloc
-		PORT = 80
-		try:
-			s = socket(AF_INET, SOCK_STREAM)
-		except error as msg:
-			s = None
+			page="http://www.gpvdm.com/download_windows/update.php?ver_core="+ver_core()+"&ver_gui="+ver_gui()+"&ver_mat="+ver_mat()+"&os="+platform.platform()
+			message=get_data_from_web(page)
 
-		s.settimeout(4.0)
-
-
-		s.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
-
-		try:
-			s.connect((HOST, PORT))
-		except error as msg:
-			s.close()
-			s = None
-		if s!=None:
-			s.send("GET http://www.gpvdm.com/download_windows/update.php?ver_core="+ver_core()+"&ver_gui="+ver_gui()+"&ver_mat="+ver_mat()+"&os="+platform.platform()+"&"+" HTTP/1.0" +CRLF)
-			data = (s.recv(1000000))
-
-			s.shutdown(1)
-			s.close()
-			message=data.split('charset=UTF-8\r\n\r\n', 1)[-1]
 			message=message.split("\n")
+			print message
 			self.text=""
 			if message[0].startswith("update"):
 				token,ver=message[0].split("#")

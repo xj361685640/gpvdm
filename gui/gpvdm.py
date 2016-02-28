@@ -106,6 +106,7 @@ from ver import ver_check_compatibility
 from import_archive import update_simulaton_to_new_ver
 from new_simulation import new_simulation
 from update import update_thread
+from update import update_now
 
 if running_on_linux()==True:
 	import dbus
@@ -117,8 +118,6 @@ if running_on_linux()==True:
 	
 else:
 	from windows_pipe import win_pipe
-
-
 
 print notice()
 
@@ -581,6 +580,9 @@ class gpvdm_main_window(gobject.GObject):
 	def callback_help(self, widget, data=None):
 		my_help_class.toggle_visible()
 
+	def callback_update(self, widget, data=None):
+		update_now()
+
 	def callback_on_line_help(self, widget, data=None):
 		webbrowser.open('www.gpvdm.com')
 
@@ -819,8 +821,7 @@ class gpvdm_main_window(gobject.GObject):
 		    ( _("/_Plots/"),     None, None, 0, "<Separator>" ),
 		    ( _("/_Help"),         None,         None, 0, "<LastBranch>" ),
 			( _("/_Help/Help Index"),   None,         self.callback_help, 0, "<StockItem>", "gtk-help"  ),
-			
-
+			( _("/_Help/Check for updates"),   None,         self.callback_update, 0, None  ),
 		    ( _("/_Help/About"),   None, self.callback_about_dialog, 0, "<StockItem>", "gtk-about" ),
 		    )
 		pos=0

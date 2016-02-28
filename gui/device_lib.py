@@ -33,12 +33,18 @@ from cal_path import get_device_lib_path
 from util_zip import read_lines_from_archive
 from inp_util import inp_search_token_value_multiline
 from util_zip import zip_lsdir
-
+from util_zip import archive_add_file
 (
   COLUMN_FILENAME,
   COLUMN_TYPE,
   COLUMN_INFO
 ) = range(3)
+
+def device_lib_replace(file_name):
+	archives=glob.glob(os.path.join(get_device_lib_path(),"*.gpvdm"))
+	for i in range(0,len(archives)):
+		print "replace ",archives[i],file_name
+		archive_add_file(archives[i],file_name,"")
 
 class device_lib_class(gtk.Dialog):
 
