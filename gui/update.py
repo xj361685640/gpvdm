@@ -46,12 +46,15 @@ from help import my_help_class
 from http import get_data_from_web 
 from cal_path import get_share_path
 import hashlib
+from sim_warnings import sim_warnings
 
 def sp(value):
 	return value.split(os.sep)
 
-def update_now():
-	print _("Checking web for updates")
+def update_fetch():
+	text=[]
+	text.append("Checking web for updates...")
+
 	disk_files=[]
 	web_src=[]
 	disk_dest=[]
@@ -73,8 +76,7 @@ def update_now():
 	for i in range(0,len(files)):
 
 		root=files[i][0]
-		if root=="device_lib":
-		#if root=="images" or root=="solvers" or root=="gpvdm_core.exe" or root=="device_lib" or root=="sim.gpvdm" or root=="lang" or root=="materials" or root=="light":
+		if root=="images" or root=="solvers" or root=="gpvdm_core.exe" or root=="device_lib" or root=="sim.gpvdm" or root=="lang" or root=="materials" or root=="light":
 			md5_web=md5[i]
 			md5_disk="none"
 			disk_path=os.path.join(get_share_path(),"/".join(files[i]))
@@ -88,23 +90,41 @@ def update_now():
 			web_md5.append(md5_web)
 
 	for i in range(0,len(web_src)):
-		print web_src[i],disk_dest[i]
+		text.append(web_src[i]+" "+disk_dest[i])
 		a=get_data_from_web(web_src[i])
 		l=len(a)
 		if l>100:
 			l=100;
 		if a[:l].count("403 Forbidden")!=0:
-			print "Access to file "+web_src[i]+" forbiden"
+			text.append("Access to file "+web_src[i]+" forbiden")
 		else:
 			web_hash=hashlib.md5(a).hexdigest()
 			list_hash=web_md5[i]
 			if web_hash==list_hash:
-				print "updating file",disk_dest[i]
-				f=open(disk_dest[i], mode='wb')
-				lines = f.write(a)
-				f.close()
+				text.append("updating file "+disk_dest[i])
+				if running_on_linux()==False:
+					f=open(disk_dest[i], mode='wb')
+					lines = f.write(a)
+					f.close()
 			else:
-				print "Checksum error",disk_dest[i]		
+				text.append("Checksum error "+disk_dest[i])
+	return text
+
+def update_now():
+	md = gtk.MessageDialog(None, 0, gtk.MESSAGE_QUESTION,  gtk.BUTTONS_YES_NO, _("This feature is sill under development.  It searches the gpvdm web page for updates then uses them to update gpvdm.  Use it at your own risk - I take no responsibility for any data loss!  Do you wish to continue?"))
+
+	response = md.run()
+
+	if response == gtk.RESPONSE_YES:
+		ret='\n'.join(update_fetch())
+		dialog=sim_warnings()
+		dialog.init(ret)
+		response=dialog.run()
+		dialog.destroy()
+	
+	md.destroy()
+
+	
 
 class update_thread(gtk.VBox):
 	def __init__(self):

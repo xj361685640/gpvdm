@@ -314,11 +314,23 @@ int strextract_name(char *out, char *in)
 
 int strcmp_end(char *str, char *end)
 {
-
 	if (strlen(str) < strlen(end))
 		return 1;
 	int pos = strlen(str) - strlen(end);
 	return strcmp((char *)(str + pos), end);
+}
+
+int strcmp_begin(char *str, char *begin)
+{
+	int i;
+	if (strlen(str) < strlen(begin))
+		return 1;
+	int lb = strlen(begin);
+	for (i = 0; i < lb; i++) {
+		if (str[i] != begin[i])
+			return 1;
+	}
+	return 0;
 }
 
 char *strextract_domain(char *in)

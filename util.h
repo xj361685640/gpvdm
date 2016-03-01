@@ -29,6 +29,7 @@
 #define fg_blue		34
 #define fg_purple	35
 
+int strcmp_begin(char *str, char *begin);
 void set_ewe_lock_file(char *lockname, char *data);
 void print_hex(unsigned char *data);
 void remove_dir(char *dir_name);

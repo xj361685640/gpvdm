@@ -103,9 +103,10 @@ gdouble epitaxy_get_electrical_length(struct epitaxy *in)
 			tot += in->width[i];
 		}
 	}
-	if (tot > 300e-9) {
-		ewe("Can't simulate structures bigger than 300 nm\n");
-	}
+//if (tot>300e-9)
+//{
+//      ewe("Can't simulate structures bigger than 300 nm\n");
+//}
 	return tot;
 }
 

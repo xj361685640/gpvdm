@@ -154,7 +154,7 @@ class doping_window(gtk.Window):
 
 
 		frequency, = self.ax1.plot(x_plot,self.doping, 'ro-', linewidth=3 ,alpha=1.0)
-		self.ax1.set_xlabel(_("Position"))
+		self.ax1.set_xlabel(_("Position (nm)"))
 
 
 

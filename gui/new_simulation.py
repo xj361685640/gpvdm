@@ -97,10 +97,10 @@ class new_simulation(gtk.Dialog):
 
 		self.liststore.append([gtk.gdk.pixbuf_new_from_file(os.path.join(get_image_file_path(),"icon.png")), 'Organic solar cell',"p3htpcbm.gpvdm"])
 		self.liststore.append([ gtk.gdk.pixbuf_new_from_file(os.path.join(get_image_file_path(),"oled.png")), "Organic LED","oled.gpvdm"])
-		self.liststore.append([ gtk.gdk.pixbuf_new_from_file(os.path.join(get_image_file_path(),"si.png")), 'Crystalline silicon solar cell',"silicon.gpvdm"])
-		self.liststore.append([ gtk.gdk.pixbuf_new_from_file(os.path.join(get_image_file_path(),"si.png")), 'CIGS Solar cell',"cigs.gpvdm"])
-		self.liststore.append([ gtk.gdk.pixbuf_new_from_file(os.path.join(get_image_file_path(),"asi.png")), 'a-Si solar cell',"a-silicon.gpvdm"])
-		self.liststore.append([ gtk.gdk.pixbuf_new_from_file(os.path.join(get_image_file_path(),"psi.png")), 'polycrystalline silicon',"silicon.gpvdm"])
+		self.liststore.append([ gtk.gdk.pixbuf_new_from_file(os.path.join(get_image_file_path(),"si.png")), 'Crystalline silicon solar cell (new/beta)',"silicon.gpvdm"])
+		self.liststore.append([ gtk.gdk.pixbuf_new_from_file(os.path.join(get_image_file_path(),"si.png")), 'CIGS Solar cell (new/beta)',"cigs.gpvdm"])
+		self.liststore.append([ gtk.gdk.pixbuf_new_from_file(os.path.join(get_image_file_path(),"asi.png")), 'a-Si solar cell (new/beta)',"a-silicon.gpvdm"])
+		self.liststore.append([ gtk.gdk.pixbuf_new_from_file(os.path.join(get_image_file_path(),"psi.png")), 'polycrystalline silicon (new/beta)',"silicon.gpvdm"])
 
 
 		# add columns to treeview

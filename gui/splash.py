@@ -46,7 +46,7 @@ class splash_window():
 		self.destroy()
 
 	def show_cb(self,widget, data=None):
-		glib.timeout_add(1500, self.timer_cb)
+		glib.timeout_add(15000, self.timer_cb)
 
 	def init(self):
 		self.window = gtk.Window()

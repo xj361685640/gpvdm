@@ -67,10 +67,20 @@ class tb_item_sim_mode(gtk.ToolItem):
 			else:
 				command=token
 
+			found=False
 			liststore = self.sim_mode.get_model()
 			for i in xrange(len(liststore)):
 				if liststore[i][0] == command:
 					self.sim_mode.set_active(i)
+					found=True
+
+			#if there is no known mode, just set it to jv mode
+			if found==False:
+				for i in range(0,len(self.store_list)):
+					if self.store_list[i].token=="jv":
+						self.sim_mode.set_active(i)
+						inp_update_token_value("sim.inp", "#simmode", mode+"@"+self.store_list[i].file,1)
+						break
 
 	def init(self):
 		self.sim_mode = gtk.combo_box_entry_new_text()

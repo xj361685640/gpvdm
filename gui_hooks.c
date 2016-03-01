@@ -36,7 +36,8 @@ struct timeval last_time;
 int gui_send_data(char *tx_data_in)
 {
 
-	if (strcmp(tx_data_in, "pulse") == 0) {
+	if ((strcmp_begin(tx_data_in, "pulse") == 0)
+	    || (strcmp_begin(tx_data_in, "percent") == 0)) {
 		struct timeval mytime;
 		struct timeval result;
 

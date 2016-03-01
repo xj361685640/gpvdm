@@ -84,7 +84,7 @@ def command_args(argc,argv):
 			print _("\t\t\tusage --scan-plot /path/to/oplot/file.oplot ")
 			print _("\t--run-scan\t\truns a scan")
 			print _("\t\t\tusage --run-scan /path/containing/base/files/ /path/to/scan/dir/ ")
-			print _("\t--sync_ver\t\truns a scan")
+			print _("\t--sync-ver\t\truns a scan")
 			print _("\t\t\tchanges the version of input file")
 			print _("\t--replace\t\treplaces file in device lib")
 			print _("\t\t\t")
