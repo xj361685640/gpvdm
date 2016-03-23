@@ -85,7 +85,6 @@ struct light {
 	gdouble complex **t;
 	gdouble complex **r;
 	gdouble complex **nbar;
-	int gather;
 	gdouble *layer_end;
 	gdouble device_start;
 	gdouble *G_percent;
@@ -117,7 +116,12 @@ struct light {
 	gdouble hole_eff;
 };
 
+void light_init(struct light *in);
+void light_memory(struct light *in);
+void light_load_materials(struct light *in);
 gdouble light_cal_photon_density(struct light *in);
+void light_load_config(struct light *in);
+void light_load_config_file(struct light *in);
 void light_init_mesh(struct light *in);
 void light_set_sun_power(struct light *in, gdouble power, gdouble laser_eff);
 void light_free_memory(struct light *in);
@@ -126,7 +130,6 @@ void light_set_unity_power(struct light *in);
 void light_solve_optical_problem(struct light *in);
 void light_solve_all(struct light *in);
 void light_set_dump(struct light *in, int dump);
-void light_load_config(struct light *in);
 void light_free(struct light *in);
 void light_dump(struct light *in);
 int light_solve_lam_slice(struct light *in, int lam);
@@ -139,4 +142,7 @@ void light_free_materials(struct light *in);
 void light_free_epitaxy(struct light *in);
 void light_load_epitaxy(struct light *in, char *epi_file);
 void light_calculate_complex_n(struct light *in);
+int light_load_laser(struct light *in, char *name);
+gdouble light_get_sun(struct light *in);
+void light_set_sun(struct light *in, gdouble Psun);
 #endif

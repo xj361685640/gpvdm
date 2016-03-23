@@ -67,4 +67,6 @@ void inp_listdir(struct inp_list *out);
 void inp_list_free(struct inp_list *in);
 int inp_listcmp(struct inp_list *in, char *name);
 int guess_whole_sim_name(char *ret, char *dir_name, char *search_name);
+int search_for_token(char *ret, char *dir_name, char *token,
+		     char *search_value);
 #endif

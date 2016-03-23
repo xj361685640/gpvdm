@@ -84,16 +84,11 @@ def find_modes(path):
 
 def find_models():
 	ret=[]
-	if running_on_linux()==True:
-		ext="so"
-	else:
-		ext="dll"
-
 	path=get_light_dll_path()
-
 	
-	for file in glob.glob(os.path.join(path,"*."+ext)):
-		ret.append(os.path.splitext(os.path.basename(file))[0])
+	for file in glob.glob(os.path.join(path,"*")):
+		if file.endswith(".dll") or file.endswith(".so"):
+			ret.append(os.path.splitext(os.path.basename(file))[0])
 
 	return ret
 
@@ -247,9 +242,9 @@ class class_optical(gtk.Window):
 		optics_config.show()
 		self.notebook.append_page(optics_config,gtk.Label("Optical setup"))
 		optics_config.visible=True
-		optics_config.init("optics.inp","Config")
+		optics_config.init("light.inp","Config")
 		optics_config.label_name="Optics config"
-		optics_config.file_name="optics.inp"
+		optics_config.file_name="light.inp"
 
 		#Photon distribution
 		photon_dist=photon_dist_class()
@@ -319,6 +314,11 @@ class class_optical(gtk.Window):
 
 	def update_cb_model(self):
 		models=find_models()
+		if len(models)==0:
+			md = gtk.MessageDialog(self,gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_ERROR, gtk.BUTTONS_CLOSE, "I can't find any optical plugins, I think the model is not installed properly.")
+			md.run()
+			md.destroy()
+
 		for i in range(0, len(models)):
 			self.cb_model.append_text(models[i])
 
@@ -326,22 +326,22 @@ class class_optical(gtk.Window):
 		if models.count(used_model)==0:
 			used_model="exp"
 			inp_update_token_value("light.inp", "#light_model","exp",1)
-
-		self.cb_model.set_active(models.index(used_model))
-		scan_item_add("light.inp","#light_model","Optical model",1)
+		else:
+			self.cb_model.set_active(models.index(used_model))
+			scan_item_add("light.inp","#light_model","Optical model",1)
 
 	def update_light_source_model(self):
 		models=find_light_source()
 		for i in range(0, len(models)):
 			self.light_source_model.append_text(models[i])
 
-		used_model=inp_get_token_value("optics.inp", "#sun")
+		used_model=inp_get_token_value("light.inp", "#sun")
 		if models.count(used_model)==0:
 			used_model="sun"
-			inp_update_token_value("optics.inp", "#sun","sun",1)
+			inp_update_token_value("light.inp", "#sun","sun",1)
 
 		self.light_source_model.set_active(models.index(used_model))
-		scan_item_add("optics.inp","#sun","Light source",1)
+		scan_item_add("light.inp","#sun","Light source",1)
 
 	def callback_close(self, widget, data=None):
 		self.hide()
@@ -419,7 +419,7 @@ class class_optical(gtk.Window):
 	def on_light_source_model_changed(self, widget):
 		cb_text=widget.get_active_text()
 		cb_text=cb_text+".spectra"
-		inp_update_token_value("optics.inp", "#sun", cb_text,1)
+		inp_update_token_value("light.inp", "#sun", cb_text,1)
 
 	def callback_help(self, widget, data=None):
 		webbrowser.open('http://www.gpvdm.com/man/index.html')

@@ -41,9 +41,6 @@ EXPORT void dll_matrix_solver_free();
 //Light
 EXPORT void light_dll_init();
 EXPORT void light_dll_free(struct light *in);
-EXPORT void light_dll_solve_and_update(struct device *cell, struct light *in,
-				       gdouble Psun_in, gdouble laser_eff_in,
-				       gdouble pulse_width);
 EXPORT int light_dll_solve_lam_slice(struct light *in, int lam);
 EXPORT void light_dll_ver();
 EXPORT void light_fixup(char *name, void (*in));

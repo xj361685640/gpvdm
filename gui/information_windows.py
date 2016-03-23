@@ -35,9 +35,9 @@ from ver import ver_mat
 from ver import ver_gui
 from tab_base import tab_base
 from help import my_help_class
+from cal_path import get_image_file_path
 
-
-class welcome_class(gtk.HBox,tab_base):
+class information(gtk.HBox,tab_base):
 	
 	lines=[]
 	edit_list=[]
@@ -46,12 +46,7 @@ class welcome_class(gtk.HBox,tab_base):
 	save_file_name=""
 	name="Welcome"
 
-	def delete_event(self, widget, event, data=None):
-		gtk.main_quit()
-		return False
-
-
-	def init(self,image_name):
+	def init(self):
 		self.label = gtk.Label()
 
 		self.text=_("<big><b>General-purpose photovoltaic device model</b>\n(<a href=\"http://www.gpvdm.com\" title=\"Click to find out more\">www.gpvdm.com</a>)\n\n To make a new simulation directory click <i>new</i> in the <i>file</i> menu\n or to open an existing simulation click on the <i>open</i> button.\n There is more help on the <a href=\"http://www.gpvdm.com/man/index.html\">man pages</a>.  Please report bugs to\nroderick.mackenzie@nottingham.ac.uk.\n\n Rod\n18/10/13\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n\n\n")
@@ -62,7 +57,7 @@ class welcome_class(gtk.HBox,tab_base):
 		self.label.set_alignment(0, 0.5)
 		self.pack_start(self.label, True, True, 0)
 		image = gtk.Image()
-   		image.set_from_file(image_name)
+   		image.set_from_file(os.path.join(get_image_file_path(),"cell.jpg"))
 		self.pack_start(image, False, False, 0)
 
    		image.show()

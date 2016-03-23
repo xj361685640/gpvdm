@@ -19,6 +19,9 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+#http.py
+#This is used to fetch http files from the web, mainly used for updates under windows.
+
 import pygtk
 pygtk.require('2.0')
 import sys
@@ -38,6 +41,7 @@ from socket import getdefaulttimeout
 import urlparse
 import re
 import os
+
 
 socket.setdefaulttimeout = 1.0
 os.environ['no_proxy'] = '127.0.0.1,localhost'

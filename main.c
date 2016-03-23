@@ -95,7 +95,6 @@ int main(int argc, char *argv[])
 	}
 
 	dump_init(&cell);
-	printf("rod\n");
 
 	dump_load_config(&cell);
 
@@ -266,9 +265,10 @@ int main(int argc, char *argv[])
 	if (scanarg(argv, argc, "--optics") == TRUE) {
 		gui_start();
 		struct light two;
-		light_init(&two, &cell, pwd);
-		//light_set_dx(&cell.mylight,cell.ymesh[1]-cell.ymesh[0]);
 		light_load_config(&two);
+		light_load_dlls(&two, &cell, pwd);
+		//light_set_dx(&cell.mylight,cell.ymesh[1]-cell.ymesh[0]);
+
 		two.disable_transfer_to_electrical_mesh = TRUE;
 		set_dump_status(dump_lock, FALSE);
 		set_dump_status(dump_optics, TRUE);
@@ -277,10 +277,9 @@ int main(int argc, char *argv[])
 		inp_init(&inp);
 		inp_load_from_path(&inp, pwd, "light.inp");
 		inp_search_gdouble(&inp, &(Psun), "#Psun");
-		Psun = 1.0;	//fabs(Psun);
 		inp_free(&inp);
-
-		light_solve_and_update(&cell, &two, Psun, 0.0);
+		light_set_sun(&two, 1.0);
+		light_solve_and_update(&cell, &two, 0.0);
 		light_dump(&two);
 		light_free(&two);
 		complex_solver_free();

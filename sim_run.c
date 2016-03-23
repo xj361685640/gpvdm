@@ -145,9 +145,10 @@ int run_simulation(char *outputpath, char *inputpath)
 		cell.A = cell.xlen * cell.zlen;
 		cell.Vol = cell.xlen * cell.zlen * cell.ylen;
 
-		light_init(&cell.mylight, &cell, cell.outputpath);
 		light_set_dx(&cell.mylight, cell.ymesh[1] - cell.ymesh[0]);
 		light_load_config(&cell.mylight);
+		light_load_dlls(&cell.mylight, &cell, cell.outputpath);
+
 		if (get_dump_status(dump_iodump) == FALSE)
 			set_dump_status(dump_optics, FALSE);
 

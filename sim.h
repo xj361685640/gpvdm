@@ -84,12 +84,13 @@ void solver_free();
 //DOS model
 void gen_dos_fd_gaus_fd();
 //Light
+void light_transfer_gen_rate_to_device(struct device *cell, struct light *in);
 void solve_light(struct device *cell, struct light *in, gdouble Psun_in,
 		 gdouble Plaser_in);
-void light_init(struct light *in, struct device *cell, char *output_path);
+void light_load_dlls(struct light *in, struct device *cell, char *output_path);
 void light_transfer_gen_rate_to_device(struct device *cell, struct light *in);
 void light_solve_and_update(struct device *cell, struct light *in,
-			    gdouble Psun_in, gdouble laser_eff_in);
+			    gdouble laser_eff_in);
 //debug
 void stop_start(struct device *in);
 

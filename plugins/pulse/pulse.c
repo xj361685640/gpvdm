@@ -88,9 +88,8 @@ void sim_pulse(struct device *in)
 	int ittr = 0;
 
 	int step = 0;
-	in->Psun = time_get_sun();
-	light_solve_and_update(in, &(in->mylight), time_get_sun(),
-			       time_get_laser());
+	light_set_sun(&(in->mylight), time_get_sun());
+	light_solve_and_update(in, &(in->mylight), time_get_laser());
 
 	gdouble V = 0.0;
 
@@ -114,8 +113,8 @@ void sim_pulse(struct device *in)
 	carrier_count_reset(in);
 	reset_np_save(in);
 	do {
-		in->Psun = time_get_sun();
-		light_solve_and_update(in, &(in->mylight), time_get_sun(),
+		light_set_sun(&(in->mylight), time_get_sun());
+		light_solve_and_update(in, &(in->mylight),
 				       time_get_laser() + time_get_fs_laser());
 		dump_dynamic_add_data(&store, in, in->time);
 
@@ -251,6 +250,7 @@ void pulse_load_config(struct pulse *in, struct device *dev,
 {
 
 	char name[200];
+	char laser_name[200];
 	struct inp_file inp;
 	inp_init(&inp);
 	inp_load_from_path(&inp, dev->inputpath, config_file_name);
@@ -260,7 +260,8 @@ void pulse_load_config(struct pulse *in, struct device *dev,
 	inp_search_string(&inp, name, "#pulse_sim_mode");
 	inp_search_gdouble(&inp, &(in->pulse_L), "#pulse_L");
 	inp_search_gdouble(&inp, &(in->pulse_Rload), "#Rload");
-
+	inp_search_string(&inp, laser_name, "#pump_laser");
+	light_load_laser((&dev->mylight), laser_name);
 	in->pulse_sim_mode = english_to_bin(name);
 
 	inp_free(&inp);

@@ -1,10 +1,10 @@
-//    Organic Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
-//    model for organic solar cells. 
+//    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
+//    model for 1st, 2nd and 3rd generation solar cells.
 //    Copyright (C) 2012 Roderick C. I. MacKenzie
 //
-//	roderick.mackenzie@nottingham.ac.uk
-//	www.roderickmackenzie.eu
-//	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
+//      roderick.mackenzie@nottingham.ac.uk
+//      www.roderickmackenzie.eu
+//      Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //    This program is free software; you can redistribute it and/or modify
 //    it under the terms of the GNU General Public License as published by
@@ -24,24 +24,39 @@
 #include <string.h>
 #include <math.h>
 #include <errno.h>
-#include "../../util.h"
-#include "../../device.h"
-#include "../../dump_ctrl.h"
-#include "../../light.h"
-#include "../../light_interface.h"
-#include "../../functions.h"
-#include "../../dll_interface.h"
+#include <unistd.h>
+#include <dirent.h>
+#include "util.h"
+#include "const.h"
+#include "light.h"
+#include "device.h"
+#include "const.h"
+#include "dump.h"
+#include "config.h"
+#include "inp.h"
+#include "util.h"
+#include "hard_limit.h"
+#include "epitaxy.h"
+#include "lang.h"
+#include "log.h"
 
-struct dll_interface *fun;
+static int unused __attribute__ ((unused));
 
-EXPORT void set_interface(struct dll_interface *in)
+struct istruct probe_mode;
+
+void probe_cal(gdouble * avg_mode, struct device *in)
 {
-fun=in;
 }
 
-EXPORT void light_dll_init()
+void probe_init()
 {
-printf("Light init\n");
 }
 
+void probe_load_config()
+{
+}
 
+void probe_free()
+{
+
+}

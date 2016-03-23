@@ -217,7 +217,7 @@ void update_solver_vars(struct device *in, int clamp)
 
 void fill_matrix(struct device *in)
 {
-//gdouble offset=-0.5;
+//gdouble offset= -0.5;
 	int band = 0;
 
 	(*fun->update_arrays) (in);
@@ -633,7 +633,7 @@ void fill_matrix(struct device *in)
 				    && (i == in->ymeshpoints - 1))
 					dphidptrap[band] = 0.0;
 
-				//dphidxipc+=-Q*(in->dpt[i]);
+				//dphidxipc+= -Q*(in->dpt[i]);
 			}
 		}
 
@@ -642,8 +642,8 @@ void fill_matrix(struct device *in)
 		xil = Q * 2.0 * (3.0 / 2.0) * (Ecc - Ecl) / ((wnc + wnl));
 		xir = Q * 2.0 * (3.0 / 2.0) * (Ecr - Ecc) / ((wnr + wnc));
 
-		//gdouble dxil=-Q*2.0*(3.0/2.0)*(Ecc-Ecl)/pow((wnc+wnl),2.0);
-		//gdouble dxir=-Q*2.0*(3.0/2.0)*(Ecr-Ecc)/pow((wnr+wnc),2.0);
+		//gdouble dxil= -Q*2.0*(3.0/2.0)*(Ecc-Ecl)/pow((wnc+wnl),2.0);
+		//gdouble dxir= -Q*2.0*(3.0/2.0)*(Ecr-Ecc)/pow((wnr+wnc),2.0);
 
 		xipl = Q * 2.0 * (3.0 / 2.0) * (Evc - Evl) / (wpc + wpl);
 		xipr = Q * 2.0 * (3.0 / 2.0) * (Evr - Evc) / (wpr + wpc);
@@ -1152,7 +1152,7 @@ void fill_matrix(struct device *in)
 				    -(-Q * (in->pt[i][band] - in->nt[i][band]));
 			}
 
-			//build+=-(-Q*in->Nad[i]);
+			//build+= -(-Q*in->Nad[i]);
 			//printf("n=%Le n0=%Le\n",in->n[i],in->n[i]);
 			//printf("p=%Le p0=%Le\n",in->p[i],in->p[i]);
 			//printf("Nad=%Le Nad0=%Le\n",in->Nad[i],in->Nad[i]);

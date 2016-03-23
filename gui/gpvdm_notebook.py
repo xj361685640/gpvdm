@@ -35,16 +35,21 @@ from inp import inp_update_token_value
 from tab_main import tab_main
 from tab import tab_class
 from tab_homo import tab_bands
-from welcome import welcome_class
+
 from win_lin import running_on_linux
-if running_on_linux()==True:
-	from tab_terminal import tab_terminal
+
 from dos_main import dos_main
 from pl_main import pl_main
 
 from cal_path import get_bin_path
 from cal_path import get_image_file_path
 from inp_description import inp_file_to_description
+
+if running_on_linux()==True:
+	from tab_terminal import tab_terminal
+	from information_linux import information
+else:
+	from information_linux import information
 
 import i18n
 _ = i18n.language.gettext
@@ -120,10 +125,10 @@ class gpvdm_notebook(gtk.Notebook):
 		myitem.set_active(visible)
 
 	def add_welcome_page(self):
-		self.welcome=welcome_class()
-		self.welcome.init(os.path.join(get_image_file_path(),"image.jpg"))
-		self.welcome.show()
-		self.append_page(self.welcome, gtk.Label(_("Information")))
+		browser=information()
+		browser.init()
+		browser.show()
+		self.append_page(browser, gtk.Label("Information"))
 
 	def load(self):
 		self.clean_menu()
@@ -261,7 +266,6 @@ class gpvdm_notebook(gtk.Notebook):
 			if self.terminal_widget!=None:
 				self.terminal_widget.show()
 				self.append_page(self.terminal_widget, gtk.Label(_("Terminal")))
-
 
 			self.add_welcome_page()
 

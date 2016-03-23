@@ -107,7 +107,6 @@ struct device {
 	gdouble *He;
 	gdouble *Hh;
 	gdouble *Habs;
-	gdouble Psun;
 	int excite_conv;
 	int thermal_conv;
 	int newton_enable_external_thermal;

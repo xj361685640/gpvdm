@@ -30,6 +30,5 @@
 #define enable_left_right_bias
 #define enable_dos_an
 #define enable_interface
-#define enable_direct_inp_file_read
 #define enable_lock
 #endif

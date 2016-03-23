@@ -2,10 +2,11 @@ plugins:=$(shell ./get_elec_plugins.sh)
 
 platform=linux
 
-DEST_LIB=lib64
-CFLAGS=-Werror -Wall -ggdb -g -O2
-
-ifeq ($(platform),"linux")
+DEST_LIB=lib
+#lib64
+CFLAGS=-Werror -Wall -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wl,-z,relro
+#-ggdb -g
+ifeq ($(platform),linux)
 	SERVER=-D enable_server
 else
 	SERVER=
@@ -13,7 +14,7 @@ endif
 
 DEFINE_FLAGS=-D full_time_domain -D enable_fx -D LONGDOUBLE -D dos_bin -D ${platform} ${SERVER} 
 
-OBJS= solver_interface.o light_utils.o gui_hooks.o sim_find_n0.o sim_run.o newton_update.o dump_map.o dump_energy_slice.o pos.o inital.o advmath.o config.o plot.o timer.o memory.o dos.o gendosfdgaus.o exp.o pl.o time.o fast.o anal.o dump.o dump_config.o dump_1d_slice.o dump_dynamic.o ntricks.o ntricks_externalv.o dos_an.o startstop.o complex_solver.o thermal.o light_interface.o dump_ctrl.o light_dump.o inp.o rand.o buffer.o hard_limit.o epitaxy.o mesh.o patch.o cal_path.o log.o fx.o fit_sin.o newton_interface.o dll_interface.o i.o util.o server.o remesh.o
+OBJS= solver_interface.o light_utils.o gui_hooks.o sim_find_n0.o sim_run.o newton_update.o dump_map.o dump_energy_slice.o pos.o inital.o advmath.o config.o plot.o timer.o memory.o dos.o gendosfdgaus.o exp.o pl.o time.o fast.o anal.o dump.o dump_config.o dump_1d_slice.o dump_dynamic.o ntricks.o ntricks_externalv.o dos_an.o startstop.o complex_solver.o thermal.o light_interface.o dump_ctrl.o light_dump.o inp.o rand.o buffer.o hard_limit.o epitaxy.o mesh.o patch.o cal_path.o log.o fx.o fit_sin.o newton_interface.o dll_interface.o i.o util.o server.o remesh.o light_laser.o light_config.o light_memory.o light_mesh.o light_materials.o checksum.o
 
 
 ifndef OPT_ARCH
@@ -28,7 +29,10 @@ inc=
 ifeq ($(platform),linux)
 	CC=gcc
 	LD=ld
-	LDLIBS+= -rdynamic -export-dynamic -lblas -ldl -lzip -lz -lmatheval -pg
+	LDLIBS+= -rdynamic -export-dynamic -ldl -lzip -lz -lmatheval
+	#-pg
+	
+	#-lblas blas removed for arch
 
 	ifeq ($(wildcard ~/.gpvdm_hpc_flag),)
 
@@ -46,7 +50,7 @@ else
 	LD=i686-w64-mingw32-ld
 	CFLAGS+=-posix
 	
-	inc+=-I$(HOME)/windll/zlib/include/ -I$(HOME)/windll/openssl-1.0.1j/include/ -I$(HOME)/windll/libzip/libzip-0.11.2/lib/ -I$(HOME)/windll/gsl-1.16/ -I$(HOME)/windll/umfpack/UFconfig/ -I$(HOME)/windll/umfpack/AMD/Include/ -I$(HOME)/windll/umfpack/UMFPACK/Include/
+	inc+=-I$(HOME)/windll/zlib/include/ -I$(HOME)/windll/libzip/libzip-0.11.2/lib/ -I$(HOME)/windll/gsl-1.16/ -I$(HOME)/windll/umfpack/UFconfig/ -I$(HOME)/windll/umfpack/AMD/Include/ -I$(HOME)/windll/umfpack/UMFPACK/Include/
 	 LDLIBS+= -L$(HOME)/windll/gsl-1.16/.libs/ -L$(HOME)/windll/gsl-1.16/cblas/.libs/ ./images/res.o -lzip-2
 endif
 
@@ -93,7 +97,6 @@ install:
 	#now install the gui
 
 	mkdir $(DESTDIR)/usr/share/applications
-	mkdir $(DESTDIR)/usr/share/gpvdm/gui
 	mkdir $(DESTDIR)/usr/share/gpvdm/images
 	mkdir $(DESTDIR)/usr/share/mime
 	mkdir $(DESTDIR)/usr/share/mime/packages 
@@ -101,10 +104,12 @@ install:
 	mkdir $(DESTDIR)/usr/share/icons/gnome
 	mkdir $(DESTDIR)/usr/share/icons/gnome/scalable
 	mkdir $(DESTDIR)/usr/share/icons/gnome/scalable/mimetypes
+	mkdir $(DESTDIR)/usr/share/gpvdm/device_lib
 
 	cp ./images/*.jpg $(DESTDIR)/usr/share/gpvdm/images/
 	cp ./images/*.png $(DESTDIR)/usr/share/gpvdm/images/
 	cp ./images/*.svg $(DESTDIR)/usr/share/gpvdm/images/
+	cp ./device_lib/* $(DESTDIR)/usr/share/gpvdm/device_lib/
 	cp ./gui/*.py $(DESTDIR)/usr/$(DEST_LIB)/gpvdm/
 	cp ./gui/gpvdm.desktop $(DESTDIR)/usr/share/applications/
 	cp ./gui/gpvdm-gpvdm.xml $(DESTDIR)/usr/share/mime/packages/

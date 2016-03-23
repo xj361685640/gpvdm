@@ -46,6 +46,8 @@ from cal_path import get_image_file_path
 from scan_item import scan_remove_file
 from scan_item import scan_item_add
 from debug import advanced_features
+from tb_lasers import tb_lasers
+
 import i18n
 _ = i18n.language.gettext
 
@@ -469,7 +471,7 @@ class tab_time_mesh(gtk.VBox):
 		pos=self.start_time
 		fired=False
 
-		laser_pulse_width=float(inp_get_token_value("optics.inp", "#laser_pulse_width"))
+		laser_pulse_width=float(inp_get_token_value("light.inp", "#laser_pulse_width"))
 
 		sun_steady_state=float(inp_get_token_value("light.inp", "#Psun"))
 
@@ -610,6 +612,11 @@ class tab_time_mesh(gtk.VBox):
 		toolbar.insert(tb_comboitem, tool_bar_pos)
 		tool_bar_pos=tool_bar_pos+1
 
+		self.lasers=tb_lasers()
+		self.lasers.init("pulse"+str(self.index)+".inp")
+		toolbar.insert(self.lasers, tool_bar_pos)
+		tool_bar_pos=tool_bar_pos+1
+
 		sep = gtk.SeparatorToolItem()
 		sep.set_draw(False)
 		sep.set_expand(True)
@@ -622,6 +629,7 @@ class tab_time_mesh(gtk.VBox):
 		help.connect("clicked", self.callback_help)
 		help.show()
 		tool_bar_pos=tool_bar_pos+1
+
 
 		toolbar.show_all()
 		self.pack_start(toolbar, False, True, 0)

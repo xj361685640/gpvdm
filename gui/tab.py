@@ -41,6 +41,7 @@ from inp import inp_load_file
 from help import my_help_class
 from util import latex_to_pygtk_subscript
 from i18n import yes_no
+from cal_path import get_image_file_path
 
 class tab_class(gtk.VBox,tab_base):
 	
@@ -63,10 +64,43 @@ class tab_class(gtk.VBox,tab_base):
 	def help(self):
 		my_help_class.get_help(self.file_name)
 
-	def init(self,filename,fullname):
+
+	def rename(self,tab_name):
+		self.tab_name=tab_name
+
+		mytext=tab_name
+		if len(mytext)<10:
+			for i in range(len(mytext),10):
+				mytext=mytext+" "
+		self.label.set_text(mytext)
+
+
+	def init(self,filename,tab_name):
+
+		self.title_hbox=gtk.HBox()
+		self.tab_name=tab_name
+		self.file_name=filename
+		self.title_hbox.set_size_request(-1, 25)
+		self.label=gtk.Label(self.tab_name)
+		self.label.set_justify(gtk.JUSTIFY_LEFT)
+		self.title_hbox.pack_start(self.label, False, True, 0)
+
+		self.close_button = gtk.Button()
+		close_image = gtk.Image()
+   		close_image.set_from_file(os.path.join(get_image_file_path(),"close.png"))
+		close_image.show()
+		self.close_button.add(close_image)
+		self.close_button.props.relief = gtk.RELIEF_NONE
+
+		self.close_button.set_size_request(25, 25)
+		self.close_button.show()
+
+		self.title_hbox.pack_end(self.close_button, False, False, 0)
+		self.title_hbox.show_all()
+
 		scan_remove_file(filename)
 		self.widget_type=[]
-		self.file_name=filename
+
 		self.edit_list=[]
 		self.line_number=[]
 		inp_load_file(self.lines,filename)

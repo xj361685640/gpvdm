@@ -22,61 +22,62 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <signal.h>
 #include <math.h>
-#include <time.h>
-#include <dirent.h>
-#include <sys/types.h>
+#include <errno.h>
 #include <unistd.h>
-#include <limits.h>
-#include <stdio.h>
-#include <sys/stat.h>
-#include "cal_path.h"
+#include <dirent.h>
 #include "util.h"
+#include "const.h"
+#include "light.h"
+#include "device.h"
+#include "const.h"
+#include "dump.h"
+#include "config.h"
 #include "inp.h"
+#include "util.h"
+#include "hard_limit.h"
+#include "epitaxy.h"
+#include "lang.h"
+#include "log.h"
 
-static char share_path[400];
-static char light_path[400];
-static char solver_path[400];
-static char lang_path[400];
+static int unused __attribute__ ((unused));
 
-void cal_path()
+int light_load_laser(struct light *in, char *name)
 {
-	if (isfile("main.c") == 0) {
-		if (getcwd(share_path, 1000) == NULL) {
-			ewe("IO error\n");
-		}
-	} else {
-		if (isdir("/usr/lib64/gpvdm/") == 0) {
-			strcpy(share_path, "/usr/lib64/gpvdm/");
-		} else if (isdir("/usr/lib/gpvdm/") == 0) {
-			strcpy(share_path, "/usr/lib/gpvdm/");
-		} else {
-			ewe("I don't know where the shared files are\n");
-		}
+	char pwd[1000];
+	char file_name[255];
+	struct inp_file inp;
+	int ret = 0;
+
+	if (getcwd(pwd, 1000) == NULL) {
+		ewe("IO error\n");
 	}
-	join_path(2, light_path, share_path, "light");
-	join_path(2, solver_path, share_path, "solvers");
-	join_path(2, lang_path, share_path, "lang");
 
-}
+	ret = search_for_token(file_name, pwd, "#laser_name", name);
 
-char *get_light_path()
-{
-	return light_path;
-}
+	if (ret == 0) {
+		inp_init(&inp);
+		inp_load_from_path(&inp, in->input_path, file_name);
+		inp_check(&inp, 1.0);
 
-char *get_solver_path()
-{
-	return solver_path;
-}
+		inp_search_gdouble(&inp, &in->laser_wavelength,
+				   "#laserwavelength");
+		in->laser_pos =
+		    (int)((in->laser_wavelength - in->lstart) / in->dl);
 
-char *get_lang_path()
-{
-	return lang_path;
-}
+		inp_search_gdouble(&inp, &in->spotx, "#spotx");
 
-char *get_share_path()
-{
-	return share_path;
+		inp_search_gdouble(&inp, &in->spoty, "#spoty");
+
+		inp_search_gdouble(&inp, &in->pulseJ, "#pulseJ");
+
+		inp_search_gdouble(&inp, &in->pulse_width,
+				   "#laser_pulse_width");
+
+		inp_free(&inp);
+		printf("Loaded laser\n");
+	} else {
+		ewe("laser name not found\n");
+	}
+	return 0;
 }

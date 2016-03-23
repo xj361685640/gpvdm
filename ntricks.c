@@ -109,7 +109,7 @@ void ramp(struct device *in, gdouble from, gdouble to, gdouble steps)
 
 	do {
 		in->Vapplied += dV;
-//if (in->Vapplied<-4.0) dV=-0.3;
+//if (in->Vapplied<-4.0) dV= -0.3;
 		if (get_dump_status(dump_print_text) == TRUE)
 			printf("ramp: %Lf %Lf %d\n", in->Vapplied, to,
 			       in->kl_in_newton);

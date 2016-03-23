@@ -71,7 +71,15 @@ def update_simulaton_to_new_ver(file_name):
 
 def remove_non_used_index_files(dest_archive,src_archive):
 	ls_dest=zip_lsdir(dest_archive)
+	if ls_dest==False:
+		print "File ",ls_dest, "not found"
+		return
+
 	ls_src=zip_lsdir(src_archive)
+	if ls_src==False:
+		print "File ",ls_src, "not found"
+	
+
 	for my_file in ls_dest:
 
 		if my_file.endswith(".inp"):
@@ -91,6 +99,10 @@ def remove_non_used_index_files(dest_archive,src_archive):
 				if ls_src.count(my_file)==0:
 					zip_remove_file(dest_archive,my_file)
 
+			if my_file.startswith("laser"):
+				if ls_src.count(my_file)==0:
+					zip_remove_file(dest_archive,my_file)
+
 def merge_archives(src_archive,dest_archive,only_over_write):
 	src_dir=os.path.dirname(src_archive)
 	dest_dir=os.path.dirname(dest_archive)
@@ -98,7 +110,7 @@ def merge_archives(src_archive,dest_archive,only_over_write):
 
 	remove_non_used_index_files(dest_archive,src_archive)
 
-	files=[ "sim.inp", "device.inp", "stark.inp" ,"shg.inp"   ,"jv.inp" , "optics.inp", "math.inp",  "dump.inp" , "light.inp", "server.inp", "light_exp.inp","info.inp" ]
+	files=[ "sim.inp", "device.inp", "stark.inp" ,"shg.inp"   ,"jv.inp" , "math.inp",  "dump.inp" , "light.inp", "server.inp", "light_exp.inp","info.inp" ]
 
 	base_file=files[:]
 
@@ -113,11 +125,13 @@ def merge_archives(src_archive,dest_archive,only_over_write):
 			files.append(ls[i])
 			base_file.append("pl0.inp")
 
-		print "found",inp_issequential_file(ls[i],"pulse"),ls[i]
 		if inp_issequential_file(ls[i],"pulse"):
 			files.append(ls[i])
 			base_file.append("pulse0.inp")
 
+		if inp_issequential_file(ls[i],"laser"):
+			files.append(ls[i])
+			base_file.append("laser0.inp")
 
 	for i in range(0,len(files)):
 		print "Importing",files[i],"to",dest_archive,template_archive,base_file[i]

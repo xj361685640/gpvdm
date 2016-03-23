@@ -103,9 +103,9 @@ sim_externalv(in,in->Vapplied);
 //{
 //      
 //}
-
-	light_solve_and_update(in, &(in->mylight),
-			       in->Psun * config.jv_light_efficiency, 0.0);
+	gdouble sun_orig = light_get_sun(&(in->mylight));
+	light_set_sun(&(in->mylight), sun_orig * config.jv_light_efficiency);
+	light_solve_and_update(in, &(in->mylight), 0.0);
 
 	newton_set_min_ittr(30);
 	in->Vapplied = config.Vstart;
@@ -266,14 +266,16 @@ sim_externalv(in,in->Vapplied);
 		printf_log("Voltage to get Pmax= %Lf (V)\n", in->Pmax_voltage);
 		printf_log("FF= %Lf\n", in->FF * 100.0);
 		printf_log("Efficiency= %Lf percent\n",
-			   gfabs(in->Pmax / in->Psun / 1000) * 100.0);
+			   gfabs(in->Pmax / light_get_sun(&(in->mylight)) /
+				 1000) * 100.0);
 	}
 
 	FILE *out;
 	out = fopena(in->inputpath, "sim_info.dat", "w");
 	fprintf(out, "#ff\n%Le\n", in->FF);
 	fprintf(out, "#pce\n%Le\n",
-		gfabs(in->Pmax / (in->Psun / 1000)) * 100.0);
+		gfabs(in->Pmax / (light_get_sun(&(in->mylight)) / 1000)) *
+		100.0);
 	fprintf(out, "#voc\n%Le\n", in->Voc);
 	fprintf(out, "#voc_tau\n%Le\n", n_voc / r_voc);
 	fprintf(out, "#voc_R\n%Le\n", r_voc);
@@ -406,6 +408,8 @@ sim_externalv(in,in->Vapplied);
 
 	dump_dynamic_save(in->outputpath, &store);
 	dump_dynamic_free(&store);
+
+	light_set_sun(&(in->mylight), sun_orig);
 }
 
 void jv_load_config(struct jv *in, struct device *dev)

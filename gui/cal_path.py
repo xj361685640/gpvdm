@@ -75,9 +75,13 @@ def cal_lib_path():
 	if running_on_linux()==True:
 		if os.path.isfile("main.c")==True:
 			lib_path=os.getcwd()
-		else:
+		elif os.path.isdir("/usr/lib64/gpvdm")==True:
 			lib_path="/usr/lib64/gpvdm/"
-
+		elif os.path.isdir("/usr/lib/gpvdm/")==True:
+			lib_path="/usr/lib/gpvdm/"
+		else:
+			print "I don't know where the shared files are"
+			sys.exit(0)
 	else:
 		try:
 			registry_key = _winreg.OpenKey(_winreg.HKEY_CURRENT_USER, "Software\\gpvdm", 0, _winreg.KEY_READ)

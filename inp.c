@@ -33,6 +33,51 @@
 #include "code_ctrl.h"
 #include "const.h"
 
+int search_for_token(char *ret, char *dir_name, char *token, char *search_value)
+{
+	int i = 0;
+	int found = FALSE;
+	int is_sim_file = FALSE;
+	char found_value[256];
+	struct inp_file inp;
+	struct inp_list a;
+	inp_listdir(&a);
+
+	for (i = 0; i < a.len; i++) {
+		if ((strcmp(a.names[i], ".") != 0)
+		    && (strcmp(a.names[i], "..") != 0)) {
+			if (strcmp_end(a.names[i], ".inp") == 0) {
+				inp_init(&inp);
+				inp_load_from_path(&inp, dir_name, a.names[i]);
+				is_sim_file =
+				    inp_search(found_value, &inp, token);
+				inp_free(&inp);
+
+				if (is_sim_file == 0) {
+					if (strcmp(found_value, search_value) ==
+					    0) {
+						strcpy(ret, a.names[i]);
+						found = TRUE;
+						break;
+					}
+				}
+
+			}
+		}
+	}
+
+	inp_list_free(&a);
+
+	if (found == TRUE) {
+		return 0;
+	} else {
+		strcpy(ret, "");
+		return -1;
+	}
+
+	return -1;
+}
+
 int guess_whole_sim_name(char *ret, char *dir_name, char *search_name)
 {
 	int i = 0;
@@ -163,6 +208,22 @@ void inp_listdir(struct inp_list *out)
 		}
 
 		zip_close(z);
+
+	}
+	struct dirent *next_file;
+	DIR *theFolder;
+
+	theFolder = opendir(pwd);
+	if (theFolder != NULL) {
+		while ((next_file = readdir(theFolder)) != NULL) {
+			mylen = strlen(next_file->d_name);
+			out->names[out->len] =
+			    (char *)malloc(sizeof(char) * (mylen + 1));
+			strcpy(out->names[out->len], next_file->d_name);
+			out->len++;
+		}
+
+		closedir(theFolder);
 
 	}
 

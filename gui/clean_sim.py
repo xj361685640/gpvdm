@@ -23,11 +23,34 @@ import sys
 import os
 import shutil
 import glob
-from scan_io import delete_scan_dirs
+
+def remove_bin(directory):
+	for root, dirs, files in os.walk(os.path.join(os.getcwd(),directory)):
+		for file in files:
+			if file.endswith(".o"):
+				del_file=os.path.join(root, file)
+				print "Deleteing "+del_file
+				os.remove(del_file)
+
+			if file.endswith(".so"):
+				del_file=os.path.join(root, file)
+				print "Deleteing "+del_file
+				os.remove(del_file)
+
+			if file.endswith(".a"):
+				del_file=os.path.join(root, file)
+				print "Deleteing "+del_file
+				os.remove(del_file)
+
+			if file.endswith(".dll"):
+				del_file=os.path.join(root, file)
+				print "Deleteing "+del_file
+				os.remove(del_file)
 
 def clean_sim_dir():
-	print "Deleting scan dirs"
-	delete_scan_dirs(os.getcwd())
+	remove_bin("light")
+	remove_bin("plugins")
+	remove_bin("solvers")
 
 	del_file=os.path.join(os.getcwd(),"pub")
 	if os.path.isdir(del_file):
@@ -43,6 +66,12 @@ def clean_sim_dir():
 	if os.path.isdir(del_file):
 		print "Deleteing "+del_file
 		shutil.rmtree(del_file)
+
+	files = os.listdir(os.getcwd())
+	for file in files:
+		if file.startswith("snapshots_"):
+			print "deleting dir",file
+			shutil.rmtree(file)
 
 	files = os.listdir(os.getcwd())
 	for file in files:

@@ -43,76 +43,24 @@
 #include "lang.h"
 #include "log.h"
 #include "dll_interface.h"
+#include "sim.h"
 
 static int unused __attribute__ ((unused));
 
-void light_transfer_gen_rate_to_device(struct device *cell, struct light *in)
+static gdouble last_Psun = -1000.0;
+static gdouble last_laser_eff = -1000.0;
+static gdouble last_wavelength_laser = -1000.0;
+
+void light_load_dlls(struct light *in, struct device *cell, char *output_path)
 {
-	int i = 0;
-	gdouble Gn = 0.0;
-	gdouble Gp = 0.0;
+	light_init(in);
+	char lib_path[200];
+	char lib_name[100];
 
-	if (in->align_mesh == FALSE) {
-		for (i = 0; i < cell->ymeshpoints; i++) {
-
-			Gn = inter_get_raw(in->x, in->Gn, in->points,
-					   in->device_start +
-					   cell->ymesh[i]) * in->Dphotoneff;
-			Gp = inter_get_raw(in->x, in->Gp, in->points,
-					   in->device_start +
-					   cell->ymesh[i]) * in->Dphotoneff;
-			cell->Gn[i] = Gn * in->electron_eff;
-			cell->Gp[i] = Gp * in->hole_eff;
-			cell->Habs[i] = 0.0;
-
-		}
-	} else {
-		for (i = 0; i < cell->ymeshpoints; i++) {
-			cell->Gn[i] =
-			    in->Gn[in->device_start_i + i] * in->Dphotoneff;
-			cell->Gp[i] =
-			    in->Gp[in->device_start_i + i] * in->Dphotoneff;
-		}
-
-	}
-
-}
-
-void light_init(struct light *in, struct device *cell, char *output_path)
-{
 	printf_log(_("Light initialization\n"));
-	in->pulse_width = 0.0;
 	strcpy(in->output_path, output_path);
 	strcpy(in->input_path, cell->inputpath);
 
-	char lib_path[200];
-	gdouble ver;
-	gdouble temp;
-	in->disable_transfer_to_electrical_mesh = FALSE;
-	struct inp_file inp;
-	inp_init(&inp);
-	inp_load_from_path(&inp, cell->inputpath, "light.inp");
-	inp_check(&inp, 1.25);
-
-	inp_search_gdouble(&inp, &(temp), "#Psun");
-	cell->Psun = fabs(temp);
-
-	inp_search_string(&inp, in->mode, "#light_model");
-
-	inp_search_gdouble(&inp, &(in->Dphotoneff), "#Dphotoneff");
-	in->Dphotoneff = fabs(in->Dphotoneff);
-
-	inp_search_gdouble(&inp, &(in->ND), "#NDfilter");
-
-	inp_search_gdouble(&inp, &(temp), "#high_sun_scale");
-
-	cell->Psun *= fabs(temp);
-
-	inp_search_gdouble(&inp, &(ver), "#ver");
-
-	inp_free(&inp);
-
-	char lib_name[100];
 	sprintf(lib_name, "%s.so", in->mode);
 
 	join_path(2, lib_path, get_light_path(), lib_name);
@@ -129,13 +77,6 @@ void light_init(struct light *in, struct device *cell, char *output_path)
 	}
 
 	in->fn_init = dlsym(in->lib_handle, "light_dll_init");
-	if ((error = dlerror()) != NULL) {
-		fprintf(stderr, "%s\n", error);
-		exit(0);
-	}
-
-	in->fn_solve_and_update =
-	    dlsym(in->lib_handle, "light_dll_solve_and_update");
 	if ((error = dlerror()) != NULL) {
 		fprintf(stderr, "%s\n", error);
 		exit(0);
@@ -173,7 +114,7 @@ void light_init(struct light *in, struct device *cell, char *output_path)
 }
 
 void light_solve_and_update(struct device *cell, struct light *in,
-			    gdouble Psun_in, gdouble laser_eff_in)
+			    gdouble laser_eff_in)
 {
 	int i = 0;
 
@@ -183,7 +124,19 @@ void light_solve_and_update(struct device *cell, struct light *in,
 		}
 	}
 
-	(*in->fn_solve_and_update) (cell, in, Psun_in, laser_eff_in);
+	in->laser_eff = laser_eff_in;
+
+	if ((last_laser_eff != in->laser_eff) || (last_Psun != in->Psun)
+	    || (last_wavelength_laser != in->laser_wavelength)) {
+		light_solve_optical_problem(in);
+		last_laser_eff = in->laser_eff;
+		last_Psun = in->Psun;
+		last_wavelength_laser = in->laser_wavelength;
+	}
+
+	light_dump_1d(in, in->laser_pos, "");
+
+	light_transfer_gen_rate_to_device(cell, in);
 
 	if (in->flip_field == TRUE) {
 		gdouble *Gn =
@@ -210,9 +163,27 @@ void light_solve_and_update(struct device *cell, struct light *in,
 
 }
 
+void light_init(struct light *in)
+{
+	last_Psun = -1000.0;
+	last_laser_eff = -1000.0;
+	last_wavelength_laser = -1000.0;
+	in->laser_wavelength = 532e-9;
+	in->laser_pos = 1;
+	in->laser_wavelength = 1.0;
+	in->lstart = 1.0;
+	in->spotx = 1.0;
+	in->spoty = 1.0;
+	in->pulseJ = 1.0;
+	in->pulse_width = 1.0;
+}
+
 void light_load_config(struct light *in)
 {
+	light_load_config_file(in);
 	light_load_epitaxy(in, "optics_epitaxy.inp");
+	light_load_materials(in);
+	light_memory(in);
 	light_init_mesh(in);
 }
 

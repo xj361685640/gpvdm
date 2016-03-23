@@ -29,7 +29,6 @@
 #include "util.h"
 
 #include <sys/socket.h>
-#include <openssl/md5.h>
 #include <sys/types.h>
 #include <sys/inotify.h>
 #include <sys/time.h>

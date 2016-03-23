@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie
@@ -25,9 +25,9 @@
 
 import sys
 
-lib_dir='/usr/lib64/gpvdm/'
 sys.path.append('./gui/')
-sys.path.append(lib_dir)
+sys.path.append('/usr/lib/gpvdm/')
+sys.path.append('/usr/lib64/gpvdm/')
 
 from win_lin import running_on_linux
 from cal_path import get_exe_command
@@ -91,7 +91,7 @@ from qe import qe_window
 from tb_item_sun import tb_item_sun
 from tb_item_sim_mode import tb_item_sim_mode
 from gpvdm_open import gpvdm_open
-
+from lasers import lasers
 import glib
 from server import server
 from gpvdm_notebook import gpvdm_notebook
@@ -108,10 +108,17 @@ from new_simulation import new_simulation
 from update import update_thread
 from update import update_now
 
+
+bubble=False
 if running_on_linux()==True:
 	import dbus
 	from dbus.mainloop.glib import DBusGMainLoop
-	import pynotify
+	
+	try:
+		import pynotify
+		bubble=True
+	except:
+		print "no pynotify"
 
 	if os.geteuid() == 0:
 		exit(_("Don't run me as root!!"))
@@ -169,10 +176,11 @@ class gpvdm_main_window(gobject.GObject):
 
 		if running_on_linux()==True:
 			if message!="":
-				pynotify.init ("gpvdm")
-				Hello=pynotify.Notification ("gpvdm:",message,os.path.join(get_image_file_path(),"application-gpvdm.svg"))
-				Hello.set_timeout(2000)
-				Hello.show ()
+				if bubble==True:
+					pynotify.init ("gpvdm")
+					Hello=pynotify.Notification ("gpvdm:",message,os.path.join(get_image_file_path(),"application-gpvdm.svg"))
+					Hello.set_timeout(2000)
+					Hello.show ()
 
 	def make_menu(self,event_button, event_time, data=None):
 		menu = gtk.Menu()
@@ -457,6 +465,9 @@ class gpvdm_main_window(gobject.GObject):
 			del self.fxexperiment_window
 			self.fxexperiment_window=None
 
+		if self.lasers_window!=None:
+			del self.lasers_window
+			self.lasers_window=None
 
 		if self.qe_window!=None:
 			del self.qe_window
@@ -636,6 +647,17 @@ class gpvdm_main_window(gobject.GObject):
 		else:
 			self.fxexperiment_window.show_all()
 
+	def callback_configure_lasers(self, widget, data=None):
+
+		if self.lasers_window==None:
+			self.lasers_window=lasers()
+			self.lasers_window.init()
+
+		my_help_class.help_set_help(["lasers.png",_("<big><b>Laser setup</b></big>\n Use this window to set up your lasers.")])
+		if self.lasers_window.get_property("visible")==True:
+			self.lasers_window.hide_all()
+		else:
+			self.lasers_window.show_all()
 
 	def callback_undo(self, widget, data=None):
 		l=self.undo_list.get_list()
@@ -788,6 +810,8 @@ class gpvdm_main_window(gobject.GObject):
 
 		self.fxexperiment_window=None
 
+		self.lasers_window=None
+
 		self.qe_window=None
 
 		self.win_list=windows()
@@ -821,16 +845,15 @@ class gpvdm_main_window(gobject.GObject):
 		    ( _("/_Plots/"),     None, None, 0, "<Separator>" ),
 		    ( _("/_Help"),         None,         None, 0, "<LastBranch>" ),
 			( _("/_Help/Help Index"),   None,         self.callback_help, 0, "<StockItem>", "gtk-help"  ),
-			( _("/_Help/Check for updates"),   None,         self.callback_update, 0, None  ),
 		    ( _("/_Help/About"),   None, self.callback_about_dialog, 0, "<StockItem>", "gtk-about" ),
 		    )
 		pos=0
 
 		self.menubar = self.get_main_menu(self.window)
 
-		#a = (( "/Plots/Plot after simulation",  None, self.callback_plot_after_run_toggle, 0, "<ToggleItem>" ),   )
-		#self.item_factory.create_items( a, )
-
+		if running_on_linux()==False:
+			update_menu = (( "/_Help/Check for updates",  None, self.callback_update, 0, "<ToggleItem>" ),   )
+			self.item_factory.create_items( update_menu, )
 
 		#a = (( "/Plots/One plot window",  None, self.callback_set_plot_auto_close, 0, "<ToggleItem>" ),   )
 		#self.item_factory.create_items( a, )
@@ -988,6 +1011,14 @@ class gpvdm_main_window(gobject.GObject):
 		toolbar.insert(self.examine, pos)
 		pos=pos+1
 
+		image = gtk.Image()
+   		image.set_from_file(os.path.join(get_image_file_path(),"lasers.png"))
+		self.examine = gtk.ToolButton(image)
+		self.tooltips.set_tip(self.examine, _("Configure lasers"))
+		self.examine.connect("clicked", self.callback_configure_lasers)
+		toolbar.insert(self.examine, pos)
+		pos=pos+1
+
 		sep2 = gtk.SeparatorToolItem()
 		sep2.set_draw(False)
 		sep2.set_expand(True)
@@ -1091,8 +1122,11 @@ class gpvdm_main_window(gobject.GObject):
 		my_help_class.show()
 
 		self.update=update_thread()
-		self.update.connect("got-data", self.got_help)
-		self.update.start()
+
+		if running_on_linux()==False:
+			print "Looking for updates"
+			self.update.connect("got-data", self.got_help)
+			self.update.start()
 
 	def got_help(self,data):
 		if self.update.text!="":

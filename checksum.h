@@ -1,10 +1,10 @@
-//    Organic Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
-//    model for organic solar cells. 
+//    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
+//    model for 1st, 2nd and 3rd generation solar cells.
 //    Copyright (C) 2012 Roderick C. I. MacKenzie
 //
-//	roderick.mackenzie@nottingham.ac.uk
-//	www.roderickmackenzie.eu
-//	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
+//      roderick.mackenzie@nottingham.ac.uk
+//      www.roderickmackenzie.eu
+//      Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //    This program is free software; you can redistribute it and/or modify
 //    it under the terms of the GNU General Public License as published by
@@ -19,29 +19,16 @@
 //    with this program; if not, write to the Free Software Foundation, Inc.,
 //    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-#include <stdio.h>
-#include <stdlib.h>
+#ifndef checksum_h
+#define checksum_h
 #include <string.h>
-#include <math.h>
-#include <errno.h>
-#include "../../util.h"
-#include "../../device.h"
-#include "../../dump_ctrl.h"
-#include "../../light.h"
-#include "../../light_interface.h"
-#include "../../functions.h"
-#include "../../dll_interface.h"
+#include <stdint.h>
+#include <stdlib.h>
+#include <stdio.h>
 
-struct dll_interface *fun;
+uint32_t leftrotate(uint32_t x, uint32_t c);
+void checksum(char *out, char *data, int len);
+void checksum_write(char *file_name);
+int checksum_check(char *file_name);
 
-EXPORT void set_interface(struct dll_interface *in)
-{
-fun=in;
-}
-
-EXPORT void light_dll_init()
-{
-printf("Light init\n");
-}
-
-
+#endif

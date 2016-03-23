@@ -48,6 +48,8 @@ from cal_path import get_share_path
 import hashlib
 from sim_warnings import sim_warnings
 
+#Under windows, this class will connect to gpvdm.com and look for updates, a user prompt will be displayed if any are found.  It can also download updates if the user asks it to.  It's not called under linux because linux has it's own package management system.
+
 def sp(value):
 	return value.split(os.sep)
 

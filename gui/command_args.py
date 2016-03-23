@@ -76,7 +76,7 @@ def command_args(argc,argv):
 			print _("\t--patch\tpatch an .gpvdm file with an older .gpvdm file")
 			print _("\t\t\tusage --import abc.gpvdm ./path/to/output/ ")
 			print _("\t--clone\t\tgenerate a clean simulation in the current directory")
-			print _("\t--clean\t\tcleans the current simulation directory deleting .dat files and scan dirs")
+			print _("\t--clean\t\tcleans the current simulation directory deleting .dat files but not  scan dirs")
 			print _("\t--dump-tab (output file)\t\tdumps simulation parameters as jpg")
 			print _("\t--import-scandirs\t\tOnly imports the scan directories")
 			print _("\t--clean-scandirs\t\tDeletes the content of all scan dirs")

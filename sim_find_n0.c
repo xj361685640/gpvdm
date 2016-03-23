@@ -40,12 +40,12 @@ void find_n0(struct device *in)
 {
 	int i;
 	printf_log("Finding n0\n");
-	gdouble oldsun = in->Psun;
+	gdouble oldsun = light_get_sun(&(in->mylight));
 	gdouble oldv = in->Vapplied;
 	in->Vapplied = 0;
-	in->Psun = 0;
 	char temp[200];
-	light_solve_and_update(in, &(in->mylight), in->Psun, 0.0);
+	light_set_sun(&(in->mylight), 0);
+	light_solve_and_update(in, &(in->mylight), 0.0);
 
 	if (get_dump_status(dump_equilibrium) == TRUE) {
 		join_path(2, temp, in->outputpath, "equilibrium");
@@ -88,8 +88,8 @@ void find_n0(struct device *in)
 	fprintf(outfile, "%Le", get_avg_muh(in));
 	fclose(outfile);
 
-	in->Psun = oldsun;
+	light_set_sun(&(in->mylight), oldsun);
 	in->Vapplied = oldv;
-	light_solve_and_update(in, &(in->mylight), in->Psun, 0.0);
+	light_solve_and_update(in, &(in->mylight), 0.0);
 	printf_log("Exit finding n0\n");
 }

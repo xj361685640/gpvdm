@@ -23,7 +23,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-#include <openssl/md5.h>
 #include <sys/types.h>
 #include <unistd.h>
 
@@ -42,6 +41,7 @@ static int unused __attribute__ ((unused));
 #include "server.h"
 #include "dump.h"
 #include "log.h"
+#include "checksum.h"
 
 #ifdef dos_debug
 #define test_dist
@@ -75,84 +75,6 @@ fclose(out);
 	for (i = 1; i <= 80; i++) {
 		printf("p srhbandp.inp %d 1\n", i);
 	}
-}
-
-void md5write(char *file_name)
-{
-
-	FILE *file;
-	char *buffer;
-	unsigned long len;
-	long l;
-	char chkfile[100];
-	char temp_path[1000];
-	join_path(2, temp_path, sim_input_path(), file_name);
-
-	sprintf(chkfile, "md5.%s.dat", file_name);
-
-	inp_read_buffer(&buffer, &l, temp_path);
-	len = (unsigned int)l;
-
-	unsigned char md5[16];
-	MD5((const unsigned char *)buffer, len, md5);
-	char temp[100];
-	sprintf(temp, "%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x", md5[0], md5[1],
-		md5[2], md5[3], md5[4], md5[5], md5[6], md5[7], md5[8], md5[9],
-		md5[10], md5[11], md5[12], md5[13], md5[14], md5[15]);
-
-	free(buffer);
-
-	file = fopen(chkfile, "w");
-	if (file == NULL) {
-		ewe("File %s not found\n", chkfile);
-	}
-	fprintf(file, "%s\n", temp);
-	fclose(file);
-}
-
-int md5check(char *file_name)
-{
-
-	FILE *file;
-	char *buffer;
-	unsigned long len;
-	unsigned char md5[100];
-	char chkfile[100];
-	char newcheck[100];
-	char fromfile[100];
-	char temp_path[1000];
-	join_path(2, temp_path, sim_input_path(), file_name);
-
-	sprintf(chkfile, "md5.%s.dat", file_name);
-	long l;
-	inp_read_buffer(&buffer, &l, temp_path);
-
-	len = (unsigned int)l;
-	MD5((const unsigned char *)buffer, len, md5);
-	free(buffer);
-
-	strcpy(newcheck, "hello");
-
-	sprintf(newcheck, "%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x", md5[0], md5[1],
-		md5[2], md5[3], md5[4], md5[5], md5[6], md5[7], md5[8], md5[9],
-		md5[10], md5[11], md5[12], md5[13], md5[14], md5[15]);
-
-	file = fopen(chkfile, "r");
-
-	if (!file) {
-		return FALSE;
-	}
-
-	unused = fscanf(file, "%s\n", fromfile);
-	fclose(file);
-
-	if (strcmp(newcheck, fromfile) == 0) {
-		return TRUE;
-	} else {
-		return FALSE;
-	}
-
-	return 0;
 }
 
 void dump_qe()
@@ -1217,17 +1139,17 @@ void gen_dos_fd_gaus_fd() {
 		problem_with_dos = FALSE;
 		sprintf(name, "%s.inp", my_epitaxy.dos_file[mat]);
 
-		if (md5check(name) == FALSE)
+		if (checksum_check(name) == FALSE)
 			problem_with_dos = TRUE;
 
-		sprintf(name, "%s_n.dat", my_epitaxy.dos_file[mat]);
+		sprintf(name, "%s_dosn.dat", my_epitaxy.dos_file[mat]);
 		file = fopen(name, "r");
 		if (!file) {
 			problem_with_dos = TRUE;
 		} else {
 			fclose(file);
 		}
-		sprintf(name, "%s_p.dat", my_epitaxy.dos_file[mat]);
+		sprintf(name, "%s_dosp.dat", my_epitaxy.dos_file[mat]);
 		file = fopen(name, "r");
 		if (!file) {
 			problem_with_dos = TRUE;
@@ -1244,7 +1166,7 @@ void gen_dos_fd_gaus_fd() {
 
 		sprintf(pl_name, "%s.inp", my_epitaxy.pl_file[mat]);
 
-		if (md5check(pl_name) == FALSE) {
+		if (checksum_check(pl_name) == FALSE) {
 			file_pl = TRUE;
 			file_bandn = TRUE;
 			file_bandp = TRUE;
@@ -1254,14 +1176,14 @@ void gen_dos_fd_gaus_fd() {
 		if (confige[mat].dostype == dos_read) {
 			sprintf(name, "%s_srhbandn.inp",
 				my_epitaxy.dos_file[mat]);
-			if (md5check(name) == FALSE) {
+			if (checksum_check(name) == FALSE) {
 				file_bandn = TRUE;
 				launch_server = TRUE;
 			}
 
 			sprintf(name, "%s_srhbandp.inp",
 				my_epitaxy.dos_file[mat]);
-			if (md5check(name) == FALSE) {
+			if (checksum_check(name) == FALSE) {
 				file_bandp = TRUE;
 				launch_server = TRUE;
 			}
@@ -1279,10 +1201,10 @@ void gen_dos_fd_gaus_fd() {
 			pick_dump();
 			sprintf(name, "%s.inp", my_epitaxy.dos_file[mat]);
 			if (file_dos == TRUE)
-				md5write(name);
+				checksum_write(name);
 
 			if (file_pl == TRUE) {
-				md5write(pl_name);
+				checksum_write(pl_name);
 			}
 
 			if (confige[mat].dostype == dos_read) {
@@ -1290,21 +1212,23 @@ void gen_dos_fd_gaus_fd() {
 					my_epitaxy.dos_file[mat]);
 				safe_file(name);
 				if (file_bandn == TRUE)
-					md5write(name);
+					checksum_write(name);
 
 				sprintf(name, "%s_srhbandp.inp",
 					my_epitaxy.dos_file[mat]);
 				safe_file(name);
 				if (file_bandp == TRUE)
-					md5write(name);
+					checksum_write(name);
 			}
 
+			print_jobs(&globalserver);
+
+			server_run_jobs(&globalserver);
+			printf_log(_("Finished generating DoS....\n"));
+
+		} else {
+			printf_log(_("DoS not changed\n"));
 		}
 	}
-
-	print_jobs(&globalserver);
-
-	server_run_jobs(&globalserver);
-	printf_log(_("Finished generating DoS....\n"));
 
 }

@@ -20,7 +20,7 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-#This is some code I wrote to make gpvdm run as part of a cluster. The server code sends data to the clients and tells them what to do, the server then reports back to the gpvdm interface once jobs are finished.  It will only run if you invoke the --server or --client from the command line. It's super unstable/buggy and I only run it on a cluster with no route to the internet as there is authentication control. Use at your own risk!
+#This is some code I wrote to make gpvdm run as part of a cluster. The server code sends data to the clients and tells them what to do, the server then reports back to the gpvdm interface once jobs are finished.  It will only run if you invoke the --server or --client from the command line. It's super unstable/buggy and I only run it on a cluster with no route to the internet as there is no authentication control. Use at your own risk!
 
 import socket, select, string, sys
 import os

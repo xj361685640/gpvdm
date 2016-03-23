@@ -33,10 +33,6 @@
 #include "../../functions.h"
 #include "../../dll_interface.h"
 
-static gdouble last_Psun=-1000.0;
-static gdouble last_laser_eff=-1000.0;
-static gdouble last_wavelength_laser=-1000.0;
-
 struct dll_interface *fun;
 
 EXPORT void set_interface(struct dll_interface *in)
@@ -47,27 +43,7 @@ fun=in;
 EXPORT void light_dll_init()
 {
 (fun->printf_log)("Light init\n");
-last_Psun=-1000.0;
-last_laser_eff=-1000.0;
-last_wavelength_laser=-1000.0;
 }
 
-EXPORT void light_dll_solve_and_update(struct device *cell,struct light *in,gdouble Psun_in,gdouble laser_eff_in,gdouble pulse_width)
-{
-in->Psun=Psun_in;
-in->laser_eff=laser_eff_in;
-if ((last_laser_eff!=in->laser_eff)||(last_Psun!=in->Psun)||(last_wavelength_laser!=in->laser_wavelength))
-{
-	(*fun->light_solve_optical_problem)(in);
 
-	last_laser_eff=in->laser_eff;
-	last_Psun=in->Psun;
-	last_wavelength_laser=in->laser_wavelength;
-}
-
-(*fun->light_dump_1d)(in, in->laser_pos,"");
-
-(*fun->light_transfer_gen_rate_to_device)(cell,in);
-
-}
 
