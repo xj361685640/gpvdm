@@ -33,7 +33,6 @@
 #include "dos.h"
 #include "dump.h"
 #include "complex_solver.h"
-#include "elec_plugins.h"
 #include "ntricks.h"
 #include "log.h"
 #include "inp.h"
@@ -46,6 +45,7 @@ struct device cell;
 
 int run_simulation(char *outputpath, char *inputpath)
 {
+
 	char temp[1000];
 	printf_log("Run_simulation\n");
 
@@ -145,9 +145,10 @@ int run_simulation(char *outputpath, char *inputpath)
 		cell.A = cell.xlen * cell.zlen;
 		cell.Vol = cell.xlen * cell.zlen * cell.ylen;
 
+		light_init(&cell.mylight, &cell);
 		light_set_dx(&cell.mylight, cell.ymesh[1] - cell.ymesh[0]);
 		light_load_config(&cell.mylight);
-		light_load_dlls(&cell.mylight, &cell, cell.outputpath);
+		light_load_dlls(&cell.mylight, &cell);
 
 		if (get_dump_status(dump_iodump) == FALSE)
 			set_dump_status(dump_optics, FALSE);
@@ -198,7 +199,8 @@ int run_simulation(char *outputpath, char *inputpath)
 		}
 
 	}
-#include "run_list.c"
+
+	run_electrical_dll(&cell, strextract_domain(cell.simmode));
 
 	device_free(&cell);
 
@@ -211,10 +213,10 @@ int run_simulation(char *outputpath, char *inputpath)
 
 		solver_free_memory(&cell);
 
-		light_free(&cell.mylight);
 	}
 	solver_interface_free();
 	newton_interface_free();
+	light_free(&cell.mylight);
 
 	return cell.odes;
 }

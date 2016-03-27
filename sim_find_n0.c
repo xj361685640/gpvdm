@@ -32,7 +32,6 @@
 #include "sim.h"
 #include "dos.h"
 #include "dump.h"
-#include "elec_plugins.h"
 #include "complex_solver.h"
 #include "log.h"
 

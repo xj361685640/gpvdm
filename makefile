@@ -1,27 +1,29 @@
-plugins:=$(shell ./get_elec_plugins.sh)
 
 platform=linux
+#windows
 
 DEST_LIB=lib
 #lib64
-CFLAGS=-Werror -Wall -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wl,-z,relro
-#-ggdb -g
+CFLAGS=-Werror -Wall -ggdb
+# -g
+#
 ifeq ($(platform),linux)
 	SERVER=-D enable_server
+	CLFAGS+=-O2 -fstack-protector-strong -Wformat -Werror=format-security -Wl,-z,relro
 else
 	SERVER=
 endif
 
-DEFINE_FLAGS=-D full_time_domain -D enable_fx -D LONGDOUBLE -D dos_bin -D ${platform} ${SERVER} 
+DEFINE_FLAGS=-D full_time_domain -D enable_fx -D LONGDOUBLE -D ${platform} ${SERVER} 
 
-OBJS= solver_interface.o light_utils.o gui_hooks.o sim_find_n0.o sim_run.o newton_update.o dump_map.o dump_energy_slice.o pos.o inital.o advmath.o config.o plot.o timer.o memory.o dos.o gendosfdgaus.o exp.o pl.o time.o fast.o anal.o dump.o dump_config.o dump_1d_slice.o dump_dynamic.o ntricks.o ntricks_externalv.o dos_an.o startstop.o complex_solver.o thermal.o light_interface.o dump_ctrl.o light_dump.o inp.o rand.o buffer.o hard_limit.o epitaxy.o mesh.o patch.o cal_path.o log.o fx.o fit_sin.o newton_interface.o dll_interface.o i.o util.o server.o remesh.o light_laser.o light_config.o light_memory.o light_mesh.o light_materials.o checksum.o
+OBJS= solver_interface.o sim_find_n0.o sim_run.o newton_update.o pos.o inital.o config.o memory.o anal.o ntricks.o ntricks_externalv.o complex_solver.o thermal.o mesh.o newton_interface.o dll_interface.o remesh.o run_electrical_dll.c
 
 
 ifndef OPT_ARCH
 	OPT_ARCH=x86_64
 endif
 
-LDLIBS=-lumfpack -lcrypto -lm -lgsl -lgslcblas
+LDLIBS=-lumfpack -lcrypto -lm -lgsl -lgslcblas 
 #LDLIBS+= -lefence
 inc=
 
@@ -50,16 +52,20 @@ else
 	LD=i686-w64-mingw32-ld
 	CFLAGS+=-posix
 	
-	inc+=-I$(HOME)/windll/zlib/include/ -I$(HOME)/windll/libzip/libzip-0.11.2/lib/ -I$(HOME)/windll/gsl-1.16/ -I$(HOME)/windll/umfpack/UFconfig/ -I$(HOME)/windll/umfpack/AMD/Include/ -I$(HOME)/windll/umfpack/UMFPACK/Include/
+	inc+=-I$(HOME)/windll/zlib/include/ -I$(HOME)/windll/gsl-1.16/ -I$(HOME)/windll/umfpack/UFconfig/ -I$(HOME)/windll/umfpack/AMD/Include/ -I$(HOME)/windll/umfpack/UMFPACK/Include/
 	 LDLIBS+= -L$(HOME)/windll/gsl-1.16/.libs/ -L$(HOME)/windll/gsl-1.16/cblas/.libs/ ./images/res.o -lzip-2
 endif
+
+LDLIBS+=-L./lib/ -L./libdump/ -L./liblight/ -L./libmeasure/ -L./libserver/  -L./libdos/ -L./libmesh/
+LDLIBS+= 
+inc+=-I./include/
 
 .PHONY: clean
 
 main: main.c $(OBJS)
 	./buildplugins.sh "$(CFLAGS)" "$(platform)" "$(CC)" "$(LD)"
 	./build_fit_plugins.sh $(platform)
-	$(CC) main.c $(OBJS) $(plugins) -o go.o -L.  $(DEFINE_FLAGS) $(inc) $(CFLAGS) $(LDLIBS)
+	$(CC) main.c $(OBJS) -o go.o -L.  $(DEFINE_FLAGS) $(inc) $(CFLAGS) $(LDLIBS) -lgpvdm_dos -lgpvdm_lib -lgpvdm_dump -lgpvdm_light  -lgpvdm_measure -lgpvdm_server -lgpvdm_mesh 
 
 .PHONY: install
 

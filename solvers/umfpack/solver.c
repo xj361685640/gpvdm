@@ -24,8 +24,8 @@
 #include <string.h>
 #include <math.h>
 #include <errno.h>
-#include "../../solver_interface.h"
-#include "../../dll_export.h"
+#include <solver_interface.h>
+#include <dll_export.h>
 #include "lib.h"
 
 struct dll_interface *fun;

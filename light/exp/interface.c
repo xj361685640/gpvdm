@@ -25,24 +25,26 @@
 #include <math.h>
 #include <errno.h>
 
-#include "../../util.h"
-#include "../../device.h"
-#include "../../dump_ctrl.h"
-#include "../../light.h"
-#include "../../light_interface.h"
-#include "../../functions.h"
-#include "../../dll_interface.h"
+#include <util.h>
+#include <device.h>
+#include <dump_ctrl.h>
+#include <light.h>
+#include <light_interface.h>
+#include <functions.h>
+#include <dll_interface.h>
+#include "log.h"
 
 struct dll_interface *fun;
 
 EXPORT void set_interface(struct dll_interface *in)
 {
 fun=in;
+log_init(in->in);
 }
 
 EXPORT void light_dll_init()
 {
-(fun->printf_log)("Light init\n");
+printf_log("Light init\n");
 }
 
 

@@ -14,15 +14,16 @@ endif
 
 CFLAGS=-Wall
 
+lib+=-I../../include/
 
 main: solver.o lib.o
 	$(CC) $(link_command) -lumfpack $(CFLAGS)
 
 solver.o: solver.c
-	$(CC) $(lib_type) -c solver.c -o solver.o  $(inc) $(CFLAGS)
+	$(CC) $(lib_type) -c solver.c -o solver.o  $(inc) $(CFLAGS) $(lib)
 
 lib.o: lib.c
-	$(CC) $(lib_type) -c lib.c -o lib.o  $(inc) $(CFLAGS)
+	$(CC) $(lib_type) -c lib.c -o lib.o  $(inc) $(CFLAGS) $(lib)
 
 
 clean:

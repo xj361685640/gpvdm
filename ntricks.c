@@ -265,11 +265,3 @@ void solve_all(struct device *in)
 {
 	solve_cur(in);
 }
-
-void newton_sim_jv(struct device *in)
-{
-	in->kl_in_newton = FALSE;
-	solver_realloc(in);
-
-	solve_all(in);
-}

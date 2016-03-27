@@ -29,13 +29,13 @@
 #include "log.h"
 #include "complex_solver.h"
 #include "sim.h"
+#include <remesh.h>
+#include <ntricks.h>
 
 static struct dll_interface pointers;
 
-void dll_interface_fixup()
+void dll_interface_fixup(struct device *in)
 {
-	pointers.printf_log = &printf_log;
-	pointers.waveprint = &waveprint;
 	pointers.get_dump_status = &get_dump_status;
 	pointers.light_dump_1d = &light_dump_1d;
 	pointers.light_solve_optical_problem = &light_solve_optical_problem;
@@ -49,17 +49,25 @@ void dll_interface_fixup()
 	pointers.get_p_den = &get_p_den;
 	pointers.get_dp_den = &get_dp_den;
 	pointers.get_p_w = &get_p_w;
-	pointers.B = &B;
-	pointers.dB = &dB;
 	pointers.dump_matrix = &dump_matrix;
 	pointers.ewe = &ewe;
 	pointers.get_dump_status = &get_dump_status;
 	pointers.solver = &solver;
-	pointers.get_J = &get_J;
-	pointers.get_I = &get_I;
-	pointers.fopena = &fopena;
 	pointers.dump_1d_slice = &dump_1d_slice;
 	pointers.update_arrays = &update_arrays;
+	pointers.remesh_reset = &remesh_reset;
+	pointers.newton_set_min_ittr = &newton_set_min_ittr;
+	pointers.solver_realloc = &solver_realloc;
+	pointers.solve_all = &solve_all;
+	pointers.in = in;
+
+	pointers.ntricks_externv_set_load = &ntricks_externv_set_load;
+	pointers.sim_externalv = &sim_externalv;
+	pointers.ntricks_externv_newton = &ntricks_externv_newton;
+	pointers.device_timestep = &device_timestep;
+	pointers.ntricks_externv_newton = &ntricks_externv_newton;
+	pointers.device_timestep = &device_timestep;
+	pointers.sim_i = &sim_i;
 }
 
 struct dll_interface *dll_get_interface()

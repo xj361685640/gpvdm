@@ -24,13 +24,13 @@
 #include <string.h>
 #include <math.h>
 #include <errno.h>
-#include "../../util.h"
-#include "../../device.h"
-#include "../../dump_ctrl.h"
-#include "../../light.h"
-#include "../../light_interface.h"
-#include "../../functions.h"
-#include "../../dll_interface.h"
+#include <util.h>
+#include <device.h>
+#include <dump_ctrl.h>
+#include <light.h>
+#include <light_interface.h>
+#include <functions.h>
+#include <dll_interface.h>
 
 struct dll_interface *fun;
 

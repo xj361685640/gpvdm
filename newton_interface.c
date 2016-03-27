@@ -103,7 +103,6 @@ void newton_init(char *solver_name)
 		exit(0);
 	}
 
-	dll_interface_fixup();
 	(*dll_set_interface) (dll_get_interface());
 }
 

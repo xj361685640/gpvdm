@@ -40,7 +40,7 @@
 #include "complex_solver.h"
 #include "cal_path.h"
 #include "lang.h"
-#include "log.h"
+#include <log.h>
 #include "dll_interface.h"
 
 static int unused __attribute__ ((unused));
@@ -95,9 +95,7 @@ void solver_init(char *solver_name)
 		exit(0);
 	}
 
-	dll_interface_fixup();
 	(*dll_set_interface) (dll_get_interface());
-
 }
 
 void solver(int col, int nz, int *Ti, int *Tj, long double *Tx, long double *b)

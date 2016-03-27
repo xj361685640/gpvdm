@@ -25,25 +25,23 @@
 #include <math.h>
 #include <errno.h>
 
-#include "../../util.h"
-#include "../../dump_ctrl.h"
-#include "../../complex_solver.h"
-#include "../../const.h"
-#include "../../light.h"
-#include "../../device.h"
-#include "../../light_interface.h"
+#include <util.h>
+#include <dump_ctrl.h>
+#include <complex_solver.h>
+#include <const.h>
+#include <light.h>
+#include <device.h>
+#include <light_interface.h>
 
-#include "../../functions.h"
-#include "../../dll_interface.h"
+#include <functions.h>
+#include <dll_interface.h>
+#include <log.h>
+
 
 EXPORT void light_dll_ver()
 {
-        (*fun->printf_log)("Exponential light model\n");
-}
-
-EXPORT void light_dll_free(struct light *in)
-{
-(*fun->light_free_memory)(in);
+		printf("here");
+        printf_log("Exponential light model\n");
 }
 
 EXPORT int light_dll_solve_lam_slice(struct light *in,int lam)
@@ -54,7 +52,7 @@ if ((*fun->get_dump_status)(dump_optics)==TRUE)
 	char one[100];
 	sprintf(one,"Solve light optical slice at %Lf nm\n",in->l[lam]*1e9);
 	//printf("%s\n",one);
-	((*fun->waveprint))(one,in->l[lam]*1e9);
+	waveprint(one,in->l[lam]*1e9);
 }
 
 int i;

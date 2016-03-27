@@ -25,9 +25,9 @@
 #include <math.h>
 #include <errno.h>
 #include "newton.h"
-#include "../../dll_interface.h"
-#include "../../solver_interface.h"
-#include "../../dll_export.h"
+#include <dll_interface.h>
+#include <solver_interface.h>
+#include <dll_export.h>
 
 struct dll_interface *fun;
 

@@ -23,9 +23,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-#include "../../const.h"
+#include <log.h>
+#include <const.h>
 #include "newton.h"
-#include "../../dll_export.h"
+#include <dll_export.h>
+#include <util.h>
+#include <exp.h>
 
 static gdouble Jnl = 0.0;
 static gdouble Jnr = 0.0;
@@ -664,57 +667,41 @@ void fill_matrix(struct device *in)
 		dJpdphic = 0.0;
 		dJpdphir = 0.0;
 
-		Jnl =
-		    (Dnl / dyl) * ((*fun->B) (-xil) * nc -
-				   (*fun->B) (xil) * nl);
-		dJnldxil_l = -(Dnl / dyl) * ((*fun->B) (xil) * dnl);
-		dJnldxil_c = (Dnl / dyl) * (*fun->B) (-xil) * dnc;
+		Jnl = (Dnl / dyl) * (B(-xil) * nc - B(xil) * nl);
+		dJnldxil_l = -(Dnl / dyl) * (B(xil) * dnl);
+		dJnldxil_c = (Dnl / dyl) * B(-xil) * dnc;
 
 		gdouble dJnldphi_l =
-		    -(munl / dyl) * ((*fun->dB) (-xil) * nc +
-				     (*fun->dB) (xil) * nl);
+		    -(munl / dyl) * (dB(-xil) * nc + dB(xil) * nl);
 		gdouble dJnldphi_c =
-		    (munl / dyl) * ((*fun->dB) (-xil) * nc +
-				    (*fun->dB) (xil) * nl);
+		    (munl / dyl) * (dB(-xil) * nc + dB(xil) * nl);
 
-		Jnr =
-		    (Dnr / dyr) * ((*fun->B) (-xir) * nr -
-				   (*fun->B) (xir) * nc);
-		dJnrdxir_c = -(Dnr / dyr) * ((*fun->B) (xir) * dnc);
-		dJnrdxir_r = (Dnr / dyr) * ((*fun->B) (-xir) * dnr);
+		Jnr = (Dnr / dyr) * (B(-xir) * nr - B(xir) * nc);
+		dJnrdxir_c = -(Dnr / dyr) * (B(xir) * dnc);
+		dJnrdxir_r = (Dnr / dyr) * (B(-xir) * dnr);
 
 		gdouble dJnrdphi_c =
-		    (munr / dyr) * (-(*fun->dB) (-xir) * nr -
-				    (*fun->dB) (xir) * nc);
+		    (munr / dyr) * (-dB(-xir) * nr - dB(xir) * nc);
 		gdouble dJnrdphi_r =
-		    (munr / dyr) * ((*fun->dB) (-xir) * nr +
-				    (*fun->dB) (xir) * nc);
+		    (munr / dyr) * (dB(-xir) * nr + dB(xir) * nc);
 
-		Jpl =
-		    (Dpl / dyl) * ((*fun->B) (-xipl) * pl -
-				   (*fun->B) (xipl) * pc);
-		dJpldxipl_l = (Dpl / dyl) * ((*fun->B) (-xipl) * dpl);
-		dJpldxipl_c = -(Dpl / dyl) * (*fun->B) (xipl) * dpc;
+		Jpl = (Dpl / dyl) * (B(-xipl) * pl - B(xipl) * pc);
+		dJpldxipl_l = (Dpl / dyl) * (B(-xipl) * dpl);
+		dJpldxipl_c = -(Dpl / dyl) * B(xipl) * dpc;
 
 		gdouble dJpldphi_l =
-		    -((mupl) / dyl) * ((*fun->dB) (-xipl) * pl +
-				       (*fun->dB) (xipl) * pc);
+		    -((mupl) / dyl) * (dB(-xipl) * pl + dB(xipl) * pc);
 		gdouble dJpldphi_c =
-		    ((mupl) / dyl) * ((*fun->dB) (-xipl) * pl +
-				      (*fun->dB) (xipl) * pc);
+		    ((mupl) / dyl) * (dB(-xipl) * pl + dB(xipl) * pc);
 
-		Jpr =
-		    (Dpr / dyr) * ((*fun->B) (-xipr) * pc -
-				   (*fun->B) (xipr) * pr);
-		dJprdxipr_c = (Dpr / dyr) * ((*fun->B) (-xipr) * dpc);
-		dJprdxipr_r = -(Dpr / dyr) * ((*fun->B) (xipr) * dpr);
+		Jpr = (Dpr / dyr) * (B(-xipr) * pc - B(xipr) * pr);
+		dJprdxipr_c = (Dpr / dyr) * (B(-xipr) * dpc);
+		dJprdxipr_r = -(Dpr / dyr) * (B(xipr) * dpr);
 
 		gdouble dJprdphi_c =
-		    -(mupr / dyr) * ((*fun->dB) (-xipr) * pc +
-				     (*fun->dB) (xipr) * pr);
+		    -(mupr / dyr) * (dB(-xipr) * pc + dB(xipr) * pr);
 		gdouble dJprdphi_r =
-		    (mupr / dyr) * ((*fun->dB) (-xipr) * pc +
-				    (*fun->dB) (xipr) * pr);
+		    (mupr / dyr) * (dB(-xipr) * pc + dB(xipr) * pr);
 
 		if (i == 0) {
 			//printf("%le %le %le %le\n",in->vl*(nc-nc0_l),Jnl,-in->vl*(pc-pc0_l),Jpl);
@@ -1271,7 +1258,6 @@ gdouble get_cur_error(struct device *in)
 		       te, th, tl, ttn, ttp);
 		(*fun->dump_matrix) (in->M, in->N, in->Ti, in->Tj, in->Tx,
 				     in->b, "");
-
 		(*fun->ewe) ("nan detected in newton solver\n");
 	}
 
@@ -1552,9 +1538,7 @@ int dllinternal_solve_cur(struct device *in)
 //{
 //      printf("Rod ------- nt= %d %le\n",i,in->Gn[i]);
 //}
-
 	do {
-
 		fill_matrix(in);
 
 //dump_for_plot(in);
@@ -1584,7 +1568,7 @@ int dllinternal_solve_cur(struct device *in)
 
 		if ((*fun->get_dump_status) (dump_print_newtonerror) == TRUE) {
 			printf("%d Cur error = %Le %Le I=%Le", ittr, error,
-			       in->Vapplied, (*fun->get_I) (in));
+			       in->Vapplied, get_I(in));
 
 			printf("\n");
 		}
@@ -1595,8 +1579,7 @@ int dllinternal_solve_cur(struct device *in)
 
 		if ((*fun->get_dump_status) (dump_write_converge) == TRUE) {
 			in->converge =
-			    (*fun->fopena) (in->outputpath, "converge.dat",
-					    "a");
+			    fopena(in->outputpath, "converge.dat", "a");
 			fprintf(in->converge, "%Le\n", error);
 			fclose(in->converge);
 		}
@@ -1633,9 +1616,8 @@ int dllinternal_solve_cur(struct device *in)
 	in->newton_last_ittr = ittr;
 
 	if (error > 1e-3) {
-		(*fun->
-		 printf_log)
-	      ("warning: The solver has not converged very well.\n");
+		printf_log
+		    ("warning: The solver has not converged very well.\n");
 	}
 //getchar();
 	if ((*fun->get_dump_status) (dump_newton) == TRUE) {

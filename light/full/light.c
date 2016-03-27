@@ -24,29 +24,23 @@
 #include <string.h>
 #include <math.h>
 #include <errno.h>
-#include "../../util.h"
-#include "../../dump_ctrl.h"
-#include "../../complex_solver.h"
-#include "../../const.h"
-#include "../../light.h"
+#include <util.h>
+#include <dump_ctrl.h>
+#include <complex_solver.h>
+#include <const.h>
+#include <light.h>
 
-#include "../../device.h"
-#include "../../light_interface.h"
+#include <device.h>
+#include <light_interface.h>
 
-#include "../../functions.h"
-#include "../../dll_interface.h"
+#include <functions.h>
+#include <dll_interface.h>
 
 //static gdouble min_light_error=1e-10;
 
 EXPORT void light_dll_ver()
 {
         printf("Full transfer matrix based light model\n");
-}
-
-
-EXPORT void light_dll_free(struct light *in)
-{
-(*fun->light_free_memory)(in);
 }
 
 
@@ -57,7 +51,7 @@ if ((*fun->get_dump_status)(dump_optics)==TRUE)
 	char one[100];
 	sprintf(one,"Solve light optical slice at %Lf nm\n",in->l[lam]*1e9);
 	//printf("%s\n",one);
-	(*fun->waveprint)(one,in->l[lam]*1e9);
+	waveprint(one,in->l[lam]*1e9);
 }
 int i;
 

@@ -26,7 +26,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include "../../device.h"
+#include <device.h>
 
 void dllinternal_newton_set_min_ittr(int ittr);
 void update_solver_vars(struct device *in, int clamp);

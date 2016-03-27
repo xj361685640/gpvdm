@@ -1,5 +1,5 @@
-//    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
-//    model for 1st, 2nd and 3rd generation solar cells.
+//    Organic Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
+//    model for organic solar cells. 
 //    Copyright (C) 2012 Roderick C. I. MacKenzie
 //
 //      roderick.mackenzie@nottingham.ac.uk
@@ -8,8 +8,7 @@
 //
 //    This program is free software; you can redistribute it and/or modify
 //    it under the terms of the GNU General Public License as published by
-//    the Free Software Foundation; either version 2 of the License, or
-//    (at your option) any later version.
+//    the Free Software Foundation; version 2 of the License
 //
 //    This program is distributed in the hope that it will be useful,
 //    but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -22,39 +21,30 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <signal.h>
 
-#include <pwd.h>
-
-#include <math.h>
 #include <time.h>
-#include <dirent.h>
-#include <sys/types.h>
 #include <unistd.h>
-#include <limits.h>
-#include <stdio.h>
-#include <sys/stat.h>
 
-#include "util.h"
+#include <util.h>
 
-#include "sim.h"
-#include "dos.h"
-#include "server.h"
-#include "elec_plugins.h"
-#include "light_interface.h"
-#include "dump.h"
-#include "complex_solver.h"
-#include "elec_plugins.h"
-#include "license.h"
-#include "inp.h"
-#include "gui_hooks.h"
-#include "timer.h"
-#include "rand.h"
-#include "hard_limit.h"
-#include "patch.h"
-#include "cal_path.h"
-#include "lang.h"
+#include <sim.h>
+#include <dos.h>
+#include <server.h>
+#include <light_interface.h>
+#include <dump.h>
+#include <complex_solver.h>
+#include <license.h>
+#include <inp.h>
+#include <gui_hooks.h>
+#include <timer.h>
+#include <rand.h>
+#include <hard_limit.h>
+#include <patch.h>
+#include <cal_path.h>
+#include <lang.h>
+#include <dll_interface.h>
+#include <log.h>
+#include <device.h>
 
 static int unused __attribute__ ((unused));
 
@@ -73,11 +63,16 @@ void device_init(struct device *in)
 
 int main(int argc, char *argv[])
 {
+	device_init(&cell);
+	dll_interface_fixup(&cell);
+	log_init(&cell);
+	dump_ctrl_init(&cell);
+
 //solver_test();
 //printf("rod\n");
 //solver_ld_test();
 //exit(0);
-	cal_path();
+	cal_path(&cell);
 	setlocale(LC_MESSAGES, "");
 	bindtextdomain("gpvdm", get_lang_path());
 	textdomain("gpvdm");
@@ -88,7 +83,7 @@ int main(int argc, char *argv[])
 
 	set_ewe_lock_file("", "");
 	cell.onlypos = FALSE;
-
+	cell.root_dll_interface = dll_get_interface();
 	char pwd[1000];
 	if (getcwd(pwd, 1000) == NULL) {
 		ewe("IO error\n");
@@ -160,7 +155,6 @@ int main(int argc, char *argv[])
 	set_dump_status(dump_stop_plot, FALSE);
 	set_dump_status(dump_print_text, TRUE);
 
-	set_io_dump(FALSE);
 	srand(time(0));
 	textcolor(fg_green);
 	randomprint(_
@@ -182,17 +176,15 @@ int main(int argc, char *argv[])
 	globalserver.readconfig = TRUE;
 
 	if (scanarg(argv, argc, "--outputpath") == TRUE) {
-		strcpy(sim_output_path(),
-		       get_arg_plusone(argv, argc, "--outputpath"));
+		set_output_path(get_arg_plusone(argv, argc, "--outputpath"));
 	} else {
-		strcpy(sim_output_path(), pwd);
+		set_output_path(pwd);
 	}
 
 	if (scanarg(argv, argc, "--inputpath") == TRUE) {
-		strcpy(sim_input_path(),
-		       get_arg_plusone(argv, argc, "--inputpath"));
+		set_input_path(get_arg_plusone(argv, argc, "--inputpath"));
 	} else {
-		strcpy(sim_input_path(), sim_output_path());
+		set_input_path(get_output_path());
 	}
 
 	dump_load_config(&cell);
@@ -204,7 +196,7 @@ int main(int argc, char *argv[])
 	char name[200];
 	struct inp_file inp;
 	inp_init(&inp);
-	inp_load_from_path(&inp, sim_input_path(), "ver.inp");
+	inp_load_from_path(&inp, get_input_path(), "ver.inp");
 	inp_check(&inp, 1.0);
 	inp_search_string(&inp, name, "#core");
 	inp_free(&inp);
@@ -261,12 +253,13 @@ int main(int argc, char *argv[])
 		set_dump_status(dump_print_pos_error, FALSE);
 		set_dump_status(dump_lock, TRUE);
 	}
-#include "main_args.c"
+
 	if (scanarg(argv, argc, "--optics") == TRUE) {
 		gui_start();
 		struct light two;
+		light_init(&two, &cell);
 		light_load_config(&two);
-		light_load_dlls(&two, &cell, pwd);
+		light_load_dlls(&two, &cell);
 		//light_set_dx(&cell.mylight,cell.ymesh[1]-cell.ymesh[0]);
 
 		two.disable_transfer_to_electrical_mesh = TRUE;
@@ -284,10 +277,12 @@ int main(int argc, char *argv[])
 		light_free(&two);
 		complex_solver_free();
 	} else {
+
 		gen_dos_fd_gaus_fd();
 
 		server_add_job(&globalserver, cell.outputpath, cell.inputpath);
 		print_jobs(&globalserver);
+
 		ret = server_run_jobs(&globalserver);
 
 	}

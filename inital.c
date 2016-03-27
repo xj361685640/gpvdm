@@ -75,7 +75,6 @@ void my_guess(struct device *in)
 	gdouble Xi = in->Xi[0];
 	gdouble charge_left = in->lcharge;
 	gdouble charge_right = in->rcharge;
-
 	gdouble top_l = 0.0;
 	gdouble top_r = 0.0;
 	if (in->interfaceleft == TRUE) {

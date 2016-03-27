@@ -117,6 +117,7 @@ void load_config(struct device *in)
 	inp_init(&inp);
 	inp_load_from_path(&inp, in->inputpath, "device.inp");
 	inp_check(&inp, 1.19);
+	printf("%s\n", inp.data);
 	inp_search_string(&inp, temp, "#lr_bias");
 	in->lr_bias = english_to_bin(temp);
 
@@ -140,7 +141,8 @@ void load_config(struct device *in)
 	in->Rshort = fabs(in->Rshort);
 
 	inp_search_gdouble(&inp, &(in->lcharge), "#lcharge");
-	in->lcharge = fabs(in->lcharge);
+	in->lcharge = gfabs(in->lcharge);
+
 //if (in->lcharge<1e4) in->lcharge=1e4;
 
 	inp_search_gdouble(&inp, &(in->rcharge), "#rcharge");

@@ -1,7 +1,7 @@
 ifeq ($(platform),windows)
 	CC=i686-w64-mingw32-gcc
 	lib_type=-DBUILDING_EXAMPLE_DLL
-	link_command=-shared interface.o light.o -o plugin.dll -Wl,--out-implib,plugin.a
+	link_command=-shared interface.o light.o -o plugin.dll -lgpvdm_lib -Wl,--out-implib,plugin.a
 
 else
 	CC=gcc
@@ -11,10 +11,11 @@ endif
 
 
 CFLAGS=-Wall
-
+inc+=-I../../include/
+link+=-L../../lib/ -L../../libserver/
 
 main: light.o interface.o
-	$(CC) $(link_command) $(CFLAGS)
+	$(CC) $(link_command) $(CFLAGS) $(link)
 
 interface.o: interface.c
 	$(CC) $(lib_type) -c interface.c -o interface.o  $(inc) $(CFLAGS)
