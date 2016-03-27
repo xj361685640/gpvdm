@@ -45,6 +45,7 @@
 #include <dll_interface.h>
 #include <log.h>
 #include <device.h>
+#include <fit.h>
 
 static int unused __attribute__ ((unused));
 
@@ -254,7 +255,60 @@ int main(int argc, char *argv[])
 		set_dump_status(dump_lock, TRUE);
 	}
 
-	if (scanarg(argv, argc, "--optics") == TRUE) {
+	static struct fitvars fitconfig;
+	int fit_file_found = 0;
+	fit_file_found = fit_read_config(&fitconfig);
+
+	if (scanarg(argv, argc, "--1fit") == TRUE) {
+		if (fit_file_found == 0) {
+			set_dump_status(dump_lock, FALSE);
+			set_dump_status(dump_print_text, FALSE);
+			set_dump_status(dump_iodump, TRUE);
+			set_dump_status(dump_optics, FALSE);
+			set_dump_status(dump_newton, FALSE);
+			set_dump_status(dump_plot, FALSE);
+			set_dump_status(dump_stop_plot, FALSE);
+			set_dump_status(dump_opt_for_fit, FALSE);
+			set_dump_status(dump_lock, TRUE);
+
+			fit_run_sims(&fitconfig, &globalserver);
+
+			FILE *signal_out = fopen("signal_plot.dat", "w");
+			fclose(signal_out);
+		}
+	} else if (do_fit == TRUE) {
+		if (fit_file_found == 0) {
+
+			int cont = TRUE;
+
+			FILE *out = fopen("fitlog.dat", "w");
+			fclose(out);
+
+			out = fopen("fitlog_time_error.dat", "w");
+			fclose(out);
+
+			out = fopen("fitlog_time_speed.dat", "w");
+			fclose(out);
+
+			out = fopen("fitlog_time_odes.dat", "w");
+			fclose(out);
+
+			out = fopen("fitlog_time_random_reset_flag.dat", "w");
+			fclose(out);
+
+			if (fitconfig.randomize == TRUE) {
+				randomize_input_files();
+			}
+
+			int opp_count = 0;
+			do {
+
+				cont = fit_now(&opp_count);
+				printf("cont2=%d\n", cont);
+			} while (cont);
+		}
+
+	} else if (scanarg(argv, argc, "--optics") == TRUE) {
 		gui_start();
 		struct light two;
 		light_init(&two, &cell);

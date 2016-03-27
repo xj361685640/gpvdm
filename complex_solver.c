@@ -127,13 +127,52 @@ int complex_solver(int col, int nz, int *Ti, int *Tj, double *Tx, double *Txz,
 	void *Symbolic, *Numeric;
 	int status;
 //printf("here1\n");
+	double *dtemp = NULL;
+	int *itemp = NULL;
 	if ((last_col != col) || (last_nz != nz)) {
-		x = realloc(x, col * sizeof(double));
-		xz = realloc(xz, col * sizeof(double));
-		Ap = realloc(Ap, (col + 1) * sizeof(int));
-		Ai = realloc(Ai, (nz) * sizeof(int));
-		Ax = realloc(Ax, (nz) * sizeof(double));
-		Az = realloc(Az, (nz) * sizeof(double));
+
+		dtemp = realloc(x, col * sizeof(double));
+		if (x == NULL) {
+			ewe(_("realloc memory error"));
+		} else {
+			x = dtemp;
+		}
+
+		dtemp = realloc(xz, col * sizeof(double));
+		if (dtemp == NULL) {
+			ewe(_("realloc memory error"));
+		} else {
+			xz = dtemp;
+		}
+
+		itemp = realloc(Ap, (col + 1) * sizeof(int));
+		if (itemp == NULL) {
+			ewe(_("realloc memory error"));
+		} else {
+			Ap = itemp;
+		}
+
+		itemp = realloc(Ai, (nz) * sizeof(int));
+		if (itemp == NULL) {
+			ewe(_("realloc memory error"));
+		} else {
+			Ai = itemp;
+		}
+
+		dtemp = realloc(Ax, (nz) * sizeof(double));
+		if (dtemp == NULL) {
+			ewe(_("realloc memory error"));
+		} else {
+			Ax = dtemp;
+		}
+
+		dtemp = realloc(Az, (nz) * sizeof(double));
+		if (x == NULL) {
+			ewe(_("realloc memory error"));
+		} else {
+			Az = dtemp;
+		}
+
 		last_col = col;
 		last_nz = nz;
 	}

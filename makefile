@@ -56,7 +56,7 @@ else
 	 LDLIBS+= -L$(HOME)/windll/gsl-1.16/.libs/ -L$(HOME)/windll/gsl-1.16/cblas/.libs/ ./images/res.o -lzip-2
 endif
 
-LDLIBS+=-L./lib/ -L./libdump/ -L./liblight/ -L./libmeasure/ -L./libserver/  -L./libdos/ -L./libmesh/
+LDLIBS+=-L./lib/ -L./libdump/ -L./liblight/ -L./libmeasure/ -L./libserver/  -L./libdos/ -L./libmesh/ -L./libfit/
 LDLIBS+= 
 inc+=-I./include/
 
@@ -65,7 +65,7 @@ inc+=-I./include/
 main: main.c $(OBJS)
 	./buildplugins.sh "$(CFLAGS)" "$(platform)" "$(CC)" "$(LD)"
 	./build_fit_plugins.sh $(platform)
-	$(CC) main.c $(OBJS) -o go.o -L.  $(DEFINE_FLAGS) $(inc) $(CFLAGS) $(LDLIBS) -lgpvdm_dos -lgpvdm_lib -lgpvdm_dump -lgpvdm_light  -lgpvdm_measure -lgpvdm_server -lgpvdm_mesh 
+	$(CC) main.c $(OBJS) -o go.o -L.  $(DEFINE_FLAGS) $(inc) $(CFLAGS) $(LDLIBS) -lgpvdm_dos -lgpvdm_lib -lgpvdm_dump -lgpvdm_light  -lgpvdm_measure -lgpvdm_server -lgpvdm_mesh -lgpvdm_fit
 
 .PHONY: install
 

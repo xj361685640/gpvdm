@@ -31,10 +31,12 @@ i686-w64-mingw32-windres ./images/gpvdm.rc -o ./images/res.o
 fi
 
 mydir=`pwd`
-for i in lib libdos libdump liblight libserver libmeasure libmesh; do
+for i in lib libdos libdump liblight libserver libmeasure libmesh libfit; do
+	if [ -d "$i" ]; then
 	cd $i
 	make platform="$2" CC="$3" LD="$4" -j4
 	cd $mydir
+	fi
 done
 
 

@@ -1322,6 +1322,8 @@ void dllinternal_solver_realloc(struct device *in)
 {
 	int N = 0;
 	int M = 0;
+	gdouble *dtemp = NULL;
+	int *itemp = NULL;
 
 	solver_cal_memory(in, &N, &M);
 
@@ -1338,18 +1340,21 @@ void dllinternal_solver_realloc(struct device *in)
 
 	if (alloc == TRUE) {
 
-		in->Ti = realloc(in->Ti, in->N * sizeof(int));
-		if (in->Ti == NULL) {
+		itemp = realloc(in->Ti, in->N * sizeof(int));
+		if (itemp == NULL) {
 			(*fun->ewe) ("in->Ti - memory error\n");
+		} else {
+			in->Ti = itemp;
 		}
 
-		in->Tj = realloc(in->Tj, in->N * sizeof(int));
-		if (in->Tj == NULL) {
+		itemp = realloc(in->Tj, in->N * sizeof(int));
+		if (itemp == NULL) {
 			(*fun->ewe) ("in->Tj - memory error\n");
+		} else {
+			in->Tj = itemp;
 		}
 
-		in->Tx = realloc(in->Tx, in->N * sizeof(long double));
-
+		in->Tx = realloc(in->Tx, in->N * sizeof(gdouble));
 		if (in->Tx == NULL) {
 			(*fun->ewe) ("in->Tx - memory error\n");
 		}
@@ -1362,7 +1367,7 @@ void dllinternal_solver_realloc(struct device *in)
 			strcpy(in->Tdebug[i], "");
 		}
 
-		in->b = realloc(in->b, in->M * sizeof(long double));
+		in->b = realloc(in->b, in->M * sizeof(gdouble));
 
 		if (in->b == NULL) {
 			(*fun->ewe) ("in->b - memory error\n");
