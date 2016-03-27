@@ -26,8 +26,8 @@ plot 'j.dat' using ($1*1e6):($2) with lp title 'Je',\
 set origin 0.5,0.0
 set size 0.5,0.25
 set logscale y
-plot 'n.dat' using ($1*1e6):($2) with lp title 'n',\
-'p.dat' using ($1*1e6):($2) with lp title 'p',\
+plot 'nf.dat' using ($1*1e6):($2) with lp title 'n',\
+'pf.dat' using ($1*1e6):($2) with lp title 'p',\
 'nt.dat' using ($1*1e6):($2) with l title 'ntrap',\
 'pt.dat' using ($1*1e6):($2) with l title 'ptrap'
 

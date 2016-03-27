@@ -1,7 +1,28 @@
-#!/bin/bash -x
-unzip -p sim.opvdm ver.inp >data.dat
+#!/bin/bash
+#    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
+#    model for 1st, 2nd and 3rd generation solar cells.
+#    Copyright (C) 2012 Roderick C. I. MacKenzie
+#
+#	roderick.mackenzie@nottingham.ac.uk
+#	www.gpvdm.com
+#	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
+#
+#    This program is free software; you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License v2.0, as published by
+#    the Free Software Foundation.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License along
+#    with this program; if not, write to the Free Software Foundation, Inc.,
+#    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+unzip -p sim.gpvdm ver.inp >data.dat
 ver=`cat data.dat|sed -n 2p`
-dist=fc21
+dist=fc22
 mydir=`pwd`
 rpmdir=~/rpmbuild
 mytarget=x86_64
@@ -13,63 +34,40 @@ mkdir ${rpmdir}
 cd ${rpmdir} 
 mkdir BUILD RPMS SOURCES SPECS SRPMS
 cd $mydir
-mkdir opvdm-core-${ver}
-cp ./sim.opvdm ./opvdm-core-${ver}/
-cp ./plot ./opvdm-core-${ver}/ -rf
-cp ./buildplugins.sh ./opvdm-core-${ver}/ 
-cp ./build_fit_plugins.sh ./opvdm-core-${ver}/ 
-cp ./get_elec_plugins.sh ./opvdm-core-${ver}/
-cp ./license.txt ./opvdm-core-${ver}/
-cp ./README ./opvdm-core-${ver}/
+mkdir gpvdm-${ver}
 
-mkdir ./opvdm-core-${ver}/man_pages
-cp ./man_pages/opvdm_core.1.gz ./opvdm-core-${ver}/man_pages/
+cp ./* ./gpvdm-${ver}/ -rf
 
-mkdir ./opvdm-core-${ver}/gui
-cp ./exp ./opvdm-core-${ver}/ -r
-
-mkdir ./opvdm-core-${ver}/light
-cp ./light/*.so ./opvdm-core-${ver}/light/
-
-cp ./opvdm ./opvdm-core-${ver}/opvdm
-cp ./*.c ./opvdm-core-${ver}/
-cp ./*.h ./opvdm-core-${ver}/
-cp ./makefile ./opvdm-core-${ver}/
-cp ./plugins ./opvdm-core-${ver}/ -r
-mkdir ./opvdm-core-${ver}/license
-
-#cp ./opvdm-${ver}/* ./rpm/SOURCES/ -rf
-
-tar -cf  ${rpmdir}/SOURCES/opvdm-core-${ver}.tar ./opvdm-core-${ver}/
+tar -cf  ${rpmdir}/SOURCES/gpvdm-${ver}.tar ./gpvdm-${ver}/
 
 rm ${rpmdir}/BUILDROOT -rf
 mkdir ${rpmdir}/BUILDROOT
 
-cat > ${rpmdir}/SPECS/opvdm-core.spec << EOF
-# spec file for opvdm-core
+cat > ${rpmdir}/SPECS/gpvdm.spec << EOF
+# spec file for gpvdm
 
-Summary:		Organic solar cell device model (OPVDM)
-License:		GPLv2+
-Name:			opvdm-core
+Summary:		General-purpose  solar cell device model (gpvdm)
+License:		GPLv2
+Name:			gpvdm
 Version:		${ver}
 Release:		3%{dist}
-Source:			http://www.roderickmackenzie.eu/opvdm-core-${ver}.tar
-Url:			http://www.opvdm.com
+Source:			http://www.roderickmackenzie.eu/gpvdm-${ver}.tar
+Url:			http://www.gpvdm.com
 Group:			Development/Tools
 
 
-BuildRequires: suitesparse-devel, zlib-devel, openssl-devel, gsl-devel, blas-devel, libcurl-devel
+BuildRequires: suitesparse-devel, zlib-devel, gsl-devel, blas-devel, libcurl-devel, gnuplot, numpy, python-matplotlib, texlive, ghostscript, ImageMagick, vte  ,pywebkitgtk, python-crypto, awake, python-awake, notify-python
 
 #rpmbuild does not pick up gnuplot because it's called using popen
 #there is no arch requirement is it is callued using popen
 Requires: gnuplot
 
 %description
-Organic solar cell device model, is a drift-diffusion/Shockley-Read-Hall
-solar cell simulator specifically developed for the simulation of organic
-solar cells.  It can simulate light/dark JV curves, charge extraction data
-and provide information on average recombination rates (tau) as would be
-measured from transient photo-voltage experiments.
+General-purpose solar cell device model, is a drift-diffusion/Shockley-Read-Hall
+solar cell simulator specifically developed for the simulation of 1st, 2nd and
+3rd generation solar cells.  It can simulate light/dark JV curves, charge
+extraction data and provide information on average recombination rates (tau)
+as would be measured from transient photo-voltage experiments.
 
 
 
@@ -80,22 +78,26 @@ measured from transient photo-voltage experiments.
 make %{?_smp_mflags} OPT_FLAGS="%{optflags}" OPT_ARCH=%{_arch}
 
 %install
-make  DEST_DIR=%{buildroot} DEST_LIB=%{_lib} install
+make  DESTDIR=%{buildroot} DESTLIB=%{_lib} install
 
 
 %files
-%{_bindir}/opvdm_core
-%{_libdir}/opvdm/
+%{_bindir}/gpvdm
+%{_bindir}/gpvdm_core
+%{_libdir}/gpvdm/
+%{_datadir}/applications/gpvdm.desktop
+%{_datadir}/mime/packages/gpvdm-gpvdm.xml
+%{_datadir}/icons/gnome/scalable/mimetypes/application-gpvdm.svg
 
-%{_datadir}/opvdm/
-%{_mandir}/man1/opvdm*
+%{_datadir}/gpvdm/
+%{_mandir}/man1/gpvdm*
 
 %doc README
 %doc license.txt
 
 %changelog
 * Sun Nov 16 2014 Roderick MacKenzie <roderick.mackenzie@nottingham.ac.uk> - 2.70-10
-  - Added cluster support to opvdm python script
+  - Added cluster support to gpvdm python script
   - Ported to windows 
   - There have been lots of changes since May but I have not kept track of them.
 * Sat May 31 2014 Roderick MacKenzie <roderick.mackenzie@nottingham.ac.uk> - 2.70-9
@@ -103,7 +105,7 @@ make  DEST_DIR=%{buildroot} DEST_LIB=%{_lib} install
   - homo0.inp lumo0.inp now have version numbers
 * Tue May 20 2014 Roderick MacKenzie <roderick.mackenzie@nottingham.ac.uk> - 2.70-8
   - Rewrote optical model to account for non relfecting back contact.
-  - Replaced plotting code in opvdm to used matplot lib instead of gnuplot
+  - Replaced plotting code in gpvdm to used matplot lib instead of gnuplot
   - Fixed bugs in printing of carrier distributions
   - Plot information now written to file with data
   - Removed code to handle 2D data from i.c
@@ -129,7 +131,7 @@ make  DEST_DIR=%{buildroot} DEST_LIB=%{_lib} install
 * Mon Mar 31 2014 Roderick MacKenzie <roderick.mackenzie@nottingham.ac.uk> - 2.70-4
   - Fixed more bugs in rpm build scripts.
   - Model fails nicly if it can't find the correct optical model by defaulting to the exponential model.
-  - Made opvdm --import also import scan directories
+  - Made gpvdm --import also import scan directories
   - Fixed rpm so it also requires vte
 * Sun Mar 30 2014 Roderick MacKenzie <roderick.mackenzie@nottingham.ac.uk> - 2.70-3
   - tab.py can now do comboboxes
@@ -137,7 +139,7 @@ make  DEST_DIR=%{buildroot} DEST_LIB=%{_lib} install
 * Sat Mar 29 2014 Roderick MacKenzie <roderick.mackenzie@nottingham.ac.uk> - 2.70-2
   - Added virtual terminal tab
   - Consolidated gui functions startting and stopping the simulation
-  - Added the –lock command line option to opvdm_core
+  - Added the –lock command line option to gpvdm_core
   - move the gui_hooks to main and out of the plugins
   - Auto switching to terminal tab when running
 * Sat Mar 22 2014 Roderick MacKenzie <roderick.mackenzie@nottingham.ac.uk> - 2.70-1
@@ -145,7 +147,7 @@ make  DEST_DIR=%{buildroot} DEST_LIB=%{_lib} install
 * Fri Mar 21 2014 Roderick MacKenzie <roderick.mackenzie@nottingham.ac.uk> - 2.59-1
   - Optical model now dumps to a zip file to save inodes.
 * Thu Mar 20 2014 Roderick MacKenzie <roderick.mackenzie@nottingham.ac.uk> - 2.58-1
-  - Removed the GUI from this rpm leaving just opvdm_core and the input files.
+  - Removed the GUI from this rpm leaving just gpvdm_core and the input files.
 * Sun Mar 16 2014 Roderick MacKenzie <roderick.mackenzie@nottingham.ac.uk> - 2.57-1
   - Fixed broken find_voc function
 * Mon Feb 10 2014 Roderick MacKenzie <roderick.mackenzie@nottingham.ac.uk> - 2.56-1
@@ -159,14 +161,14 @@ make  DEST_DIR=%{buildroot} DEST_LIB=%{_lib} install
 * Mon Jan 20 2014 Roderick MacKenzie <roderick.mackenzie@nottingham.ac.uk> - 2.54-1
   - Fixed bug in the close tab button reported by Simon Schmeisser.
   - Fixed bug in rpm_build script which damaged the optical model code
-  - removed opvdm_import
+  - removed gpvdm_import
 * Sun Jan 19 2014 Roderick MacKenzie <roderick.mackenzie@nottingham.ac.uk> - 2.53-1
   - Made the about window display the correct version number
-  - removed simulation_dir variable from opvdm, fixed more
-  - removed opvdm_clone replaced with opvdm --clone
+  - removed simulation_dir variable from gpvdm, fixed more
+  - removed gpvdm_clone replaced with gpvdm --clone
   - Fixed missing icon in optical simulation window
 * Fri Jan 17 2014 Roderick MacKenzie <roderick.mackenzie@nottingham.ac.uk> - 2.52-1
-  - removed bash script opvdm_dump and added option --dump-tab to opvdm
+  - removed bash script gpvdm_dump and added option --dump-tab to gpvdm
   - made tool bar show before material parameter window
   - disabled menu callbacks during load
   - improved the import function so it tries to import a simulation even if it an old version
@@ -196,7 +198,7 @@ make  DEST_DIR=%{buildroot} DEST_LIB=%{_lib} install
   - Better error handeling
   - Fixed rpm installer bugs
 * Fri Oct 18 2013 Roderick MacKenzie <roderick.mackenzie@nottingham.ac.uk> - 2.1-1
-  - Fixed memory leeks in opvdm_core
+  - Fixed memory leeks in gpvdm_core
   - Fixed bugs in free-free recombination calculation that made solver crash wheh it was turned off
   - Made structure of input files more logical  
   - Improved gui
@@ -209,17 +211,13 @@ EOF
 
 cd ${rpmdir}
 
-rpmbuild -v --target ${mytarget} -ba --clean ./SPECS/opvdm-core.spec
+rpmbuild -v --target ${mytarget} -ba --clean ./SPECS/gpvdm.spec
 
 cp ./SRPMS/*.rpm ~/webpage/
 cp ./RPMS/${mytarget}/*.rpm ~/webpage/
 cp ./SOURCES/*.tar ~/webpage/
 #cp ./SPECS/* ~/webpage/
 
-mkdir ~/yum
-mkdir ~/yum/repo
-cp ./RPMS/${mytarget}/* ~/yum/repo/
-cp ./SRPMS/* ~/yum/repo/
 cd $mydir
 
-cp ~/rpmbuild/RPMS/${mytarget}/opvdm-core-*.rpm ../
+cp ~/rpmbuild/RPMS/${mytarget}/gpvdm-*.rpm ../
