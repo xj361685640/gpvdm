@@ -65,7 +65,7 @@ inc+=-I./include/
 main: main.c $(OBJS)
 	./buildplugins.sh "$(CFLAGS)" "$(platform)" "$(CC)" "$(LD)"
 	./build_fit_plugins.sh $(platform)
-	$(CC) main.c $(OBJS) -o go.o -L.  $(DEFINE_FLAGS) $(inc) $(CFLAGS) $(LDLIBS) -lgpvdm_dos -lgpvdm_lib -lgpvdm_dump -lgpvdm_light  -lgpvdm_measure -lgpvdm_server -lgpvdm_mesh -lgpvdm_fit
+	$(CC) main.c $(OBJS) -o go.o -L.  $(DEFINE_FLAGS) $(inc) $(CFLAGS) $(LDLIBS) -Wl,--whole-archive -lgpvdm_dos -lgpvdm_lib -lgpvdm_dump -lgpvdm_light  -lgpvdm_measure -lgpvdm_server -lgpvdm_mesh -lgpvdm_fit -Wl,--no-whole-archive
 
 .PHONY: install
 

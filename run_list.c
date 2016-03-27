@@ -1,3 +1,0 @@
-{
-	ewe("Mode not recognized");
-}

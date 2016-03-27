@@ -7,7 +7,7 @@ ifeq ($(platform),windows)
 else
 	CC=gcc
 	lib_type=-fPIC
-	link_command=-shared -Wl,-soname,plugin.so plugin.o newton.o -o plugin.so -g
+	link_command=-shared -lgpvdm_lib -Wl,-soname,plugin.so plugin.o newton.o -o plugin.so -g
 endif
 
 CFLAGS+=-Wall -g
@@ -15,13 +15,13 @@ lib=-L../../lib/ -L../../libmeasure/
 inc=-I../../include/
 
 main: plugin.o newton.o
-	$(CC) $(link_command) $(CFLAGS) $(lib)
+	$(CC)  $(lib) $(link_command) $(CFLAGS)
 
 plugin.o: plugin.c
 	$(CC) $(lib_type) -c plugin.c -o plugin.o  $(inc) $(CFLAGS) 
 
 newton.o: newton.c
-	$(CC) $(lib_type) -c newton.c -o newton.o  $(inc) $(CFLAGS) -Wno-error=unused-but-set-variable -Wno-error=unused-variable
+	$(CC) $(lib_type) -c newton.c -o newton.o  $(inc) $(CFLAGS)
 
 
 clean:

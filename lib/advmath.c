@@ -1,40 +1,38 @@
-//    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
-//    model for 1st, 2nd and 3rd generation solar cells.
-//    Copyright (C) 2012 Roderick C. I. MacKenzie
+//
+//  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
+//  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
+// 
+//  Copyright (C) 2012 Roderick C. I. MacKenzie
 //
 //      roderick.mackenzie@nottingham.ac.uk
 //      www.roderickmackenzie.eu
 //      Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
-//    This program is free software; you can redistribute it and/or modify
-//    it under the terms of the GNU General Public License as published by
-//    the Free Software Foundation; either version 2 of the License, or
-//    (at your option) any later version.
 //
-//    This program is distributed in the hope that it will be useful,
-//    but WITHOUT ANY WARRANTY; without even the implied warranty of
-//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-//    GNU General Public License for more details.
+// This program is free software; you can redistribute it and/or modify it
+// under the terms and conditions of the GNU General Public License,
+// version 2, as published by the Free Software Foundation.
 //
-//    You should have received a copy of the GNU General Public License along
-//    with this program; if not, write to the Free Software Foundation, Inc.,
-//    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+// This program is distributed in the hope it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+// FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+// more details.
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include "advmath.h"
 
 //Taken from mathworld and wikipidia
-gdouble dB(gdouble x)
+long double dB(long double x)
 {
-	gdouble ret;
-	if (gfabs(x) > 1e-40) {
+	long double ret;
+	if (fabsl(x) > 1e-40) {
 		ret =
-		    (gexp(x) - 1.0 - x * gexp(x)) / (gexp(x) - 1) / (gexp(x) -
+		    (expl(x) - 1.0 - x * expl(x)) / (expl(x) - 1) / (expl(x) -
 								     1);
 	} else {
 		ret =
-		    -1.0 / 2.0 + x / 6.0 - gpow(x, 3.0) / 180.0 + gpow(x,
+		    -1.0 / 2.0 + x / 6.0 - powl(x, 3.0) / 180.0 + powl(x,
 								       5.0) /
 		    5040;
 	}
@@ -42,17 +40,17 @@ gdouble dB(gdouble x)
 	return ret;
 }
 
-gdouble B(gdouble x)
+long double B(long double x)
 {
-	gdouble ret;
-	if (gfabs(x) > 1e-40) {
-		ret = x / (gexp(x) - 1.0);
+	long double ret;
+	if (fabsl(x) > 1e-40) {
+		ret = x / (expl(x) - 1.0);
 //From mathworld and wikipidia
 	} else {
 		ret =
-		    1 - x / 2.0 + gpow(x, 2.0) / 12.0 - gpow(x,
+		    1 - x / 2.0 + powl(x, 2.0) / 12.0 - powl(x,
 							     4.0) / 720.0 +
-		    gpow(x, 6.0) / 30240.0;
+		    powl(x, 6.0) / 30240.0;
 
 	}
 	return ret;
