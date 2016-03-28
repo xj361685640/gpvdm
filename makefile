@@ -3,6 +3,7 @@ platform=linux
 #windows
 
 DEST_LIB=lib
+HELP2MAN=help2man
 #lib64
 CFLAGS=-Werror -Wall -ggdb
 # -g
@@ -62,7 +63,7 @@ inc+=-I./include/
 
 .PHONY: clean
 
-main: main.c $(OBJS)
+main: main.c $(OBJS) gpvdm.1 gpvdm_core.1
 	./buildplugins.sh "$(CFLAGS)" "$(platform)" "$(CC)" "$(LD)"
 	./build_fit_plugins.sh $(platform)
 	$(CC) main.c $(OBJS) -o go.o -L.  $(DEFINE_FLAGS) $(inc) $(CFLAGS) $(LDLIBS) -Wl,--whole-archive -lgpvdm_dos -lgpvdm_lib -lgpvdm_dump -lgpvdm_light  -lgpvdm_measure -lgpvdm_server -lgpvdm_mesh -lgpvdm_fit -Wl,--no-whole-archive
@@ -71,6 +72,12 @@ main: main.c $(OBJS)
 
 %.o : %.c
 	$(CC) -c $(DEFINE_FLAGS) $(inc) $(CFLAGS) $(warn) $< -o $@
+
+gpvdm.1: gpvdm
+	-$(HELP2MAN) --output=./man/gpvdm.1 --name="GUI for gpvdm_core, a solar cell device model" ./gpvdm
+
+gpvdm_core.1: main.c
+	-$(HELP2MAN) --output=./man/gpvdm_core.1 --name="A solar cell device model" ./go.o
 
 install:
 	

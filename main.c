@@ -64,6 +64,40 @@ void device_init(struct device *in)
 
 int main(int argc, char *argv[])
 {
+	if (scanarg(argv, argc, "--help") == TRUE) {
+		printf
+		    ("gpvdm_core - General-purpose Photovoltaic Device Model\n");
+		printf(copyright);
+		printf("\n");
+		printf("Usage: gpvdm_core [options]\n");
+		printf("\n");
+		printf("Options:\n");
+		printf("\n");
+		printf("\t--outputpath\toutput data path");
+		printf("\t--inputpath\t sets the input path\n");
+		printf("\t--version\tdisplays the current version\n");
+		printf("\t--zip_results\t zip the results\n");
+		printf("\t--optics\t runs only optical simulation\n");
+		printf("\t--cpus\t sets the number of CPUs\n");
+		printf("\n");
+		printf
+		    ("Additional information about gpvdm is available at www.gpvdm.com.\n");
+		printf("\n");
+		printf
+		    ("Report bugs to: roderick.mackenzie@nottingham.ac.uk\n\n");
+		exit(0);
+	}
+	if (scanarg(argv, argc, "--version") == TRUE) {
+		printf("gpvdm_core, Version %s\n", gpvdm_ver);
+		printf(copyright);
+		printf(this_is_free_software);
+		printf
+		    ("There is ABSOLUTELY NO WARRANTY; not even for MERCHANTABILITY or\n");
+		printf("FITNESS FOR A PARTICULAR PURPOSE.\n");
+		printf("\n");
+		exit(0);
+	}
+
 	device_init(&cell);
 	dll_interface_fixup(&cell);
 	log_init(&cell);
@@ -115,39 +149,6 @@ int main(int argc, char *argv[])
 	set_plot_script_dir(pwd);
 
 //set_plot_script_dir(char * in)
-	if (scanarg(argv, argc, "--help") == TRUE) {
-		printf
-		    ("gpvdm_core - General-purpose Photovoltaic Device Model\n");
-		printf(copyright);
-		printf("\n");
-		printf("Usage: gpvdm_core [options]\n");
-		printf("\n");
-		printf("Options:\n");
-		printf("\n");
-		printf("\t--outputpath\toutput data path");
-		printf("\t--inputpath\t sets the input path\n");
-		printf("\t--version\tdisplays the current version\n");
-		printf("\t--zip_results\t zip the results\n");
-		printf("\t--optics\t runs only optical simulation\n");
-		printf("\t--cpus\t sets the number of CPUs\n");
-		printf("\n");
-		printf
-		    ("Additional information about gpvdm is available at www.gpvdm.com.\n");
-		printf("\n");
-		printf
-		    ("Report bugs to: roderick.mackenzie@nottingham.ac.uk\n\n");
-		exit(0);
-	}
-	if (scanarg(argv, argc, "--version") == TRUE) {
-		printf("gpvdm_core, Version %s\n", gpvdm_ver);
-		printf(copyright);
-		printf(this_is_free_software);
-		printf
-		    ("There is ABSOLUTELY NO WARRANTY; not even for MERCHANTABILITY or\n");
-		printf("FITNESS FOR A PARTICULAR PURPOSE.\n");
-		printf("\n");
-		exit(0);
-	}
 
 	if (geteuid() == 0) {
 		ewe("Don't run me as root!\n");
