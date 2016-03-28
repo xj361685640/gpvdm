@@ -969,13 +969,13 @@ void fill_matrix(struct device *in)
 		in->Ti[pos] = i;
 		in->Tj[pos] = i + in->ymeshpoints * (1);
 		in->Tx[pos] = dphidxic;
-		strcpy(in->Tdebug[pos], "dphidxic");
+		//strcpy(in->Tdebug[pos],"dphidxic");
 		pos++;
 
 		in->Ti[pos] = i;
 		in->Tj[pos] = i + in->ymeshpoints * (1 + 1);
 		in->Tx[pos] = dphidxipc;
-		strcpy(in->Tdebug[pos], "dphidxipc");
+		//strcpy(in->Tdebug[pos],"dphidxipc");
 		pos++;
 
 		//electron
@@ -983,19 +983,19 @@ void fill_matrix(struct device *in)
 		in->Ti[pos] = in->ymeshpoints * (1) + i;
 		in->Tj[pos] = in->ymeshpoints * (1) + i;
 		in->Tx[pos] = dJdxic;
-		strcpy(in->Tdebug[pos], "dJdxic");
+		//strcpy(in->Tdebug[pos],"dJdxic");
 		pos++;
 
 		in->Ti[pos] = in->ymeshpoints * (1) + i;
 		in->Tj[pos] = in->ymeshpoints * (1 + 1) + i;
 		in->Tx[pos] = dJdxipc;
-		strcpy(in->Tdebug[pos], "dJdxipc");
+		//strcpy(in->Tdebug[pos],"dJdxipc");
 		pos++;
 
 		in->Ti[pos] = in->ymeshpoints * (1) + i;
 		in->Tj[pos] = i;
 		in->Tx[pos] = dJdphic;
-		strcpy(in->Tdebug[pos], "dJdphic");
+		//strcpy(in->Tdebug[pos],"dJdphic");
 		pos++;
 
 		//hole
@@ -1386,10 +1386,11 @@ void dllinternal_solver_free_memory(struct device *in)
 	free(in->Tx);
 	free(in->b);
 
-	for (i = 0; i < in->N; i++) {
-		free(in->Tdebug[i]);
-	}
-	free(in->Tdebug);
+//for (i=0;i<in->N;i++)
+//{
+//      free(in->Tdebug[i]);
+//}
+//free(in->Tdebug);
 
 	dntrapdntrap = NULL;
 	dntrap = NULL;
@@ -1546,8 +1547,8 @@ void dllinternal_solver_realloc(struct device *in)
 {
 	int N = 0;
 	int M = 0;
-	long double *dtemp;
-	int *itemp;
+	long double *dtemp = NULL;
+	int *itemp = NULL;
 
 	solver_cal_memory(in, &N, &M);
 
@@ -1565,14 +1566,14 @@ void dllinternal_solver_realloc(struct device *in)
 	if (alloc == TRUE) {
 
 		itemp = realloc(in->Ti, in->N * sizeof(int));
-		if (dtemp == NULL) {
+		if (itemp == NULL) {
 			(*fun->ewe) ("memory error\n");
 		} else {
 			in->Ti = itemp;
 		}
 
 		itemp = realloc(in->Tj, in->N * sizeof(int));
-		if (dtemp == NULL) {
+		if (itemp == NULL) {
 			(*fun->ewe) ("memory error\n");
 		} else {
 			in->Tj = itemp;
