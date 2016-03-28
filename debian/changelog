@@ -1,0 +1,5 @@
+gpvdm (4.40-1) UNRELEASED; urgency=low
+
+  * Initial release. (Closes: #818871)
+
+ -- Roderick MacKenzie <r.c.i.mackenzie@googlemail.com>  Mon, 21 Mar 2016 05:33:09 -0400
