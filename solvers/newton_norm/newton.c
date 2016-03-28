@@ -1546,6 +1546,8 @@ void dllinternal_solver_realloc(struct device *in)
 {
 	int N = 0;
 	int M = 0;
+	long double *dtemp;
+	int *itemp;
 
 	solver_cal_memory(in, &N, &M);
 
@@ -1562,123 +1564,158 @@ void dllinternal_solver_realloc(struct device *in)
 
 	if (alloc == TRUE) {
 
-		in->Ti = realloc(in->Ti, in->N * sizeof(int));
-		if (in->Ti == NULL) {
-			(*fun->ewe) ("in->Ti - memory error\n");
+		itemp = realloc(in->Ti, in->N * sizeof(int));
+		if (dtemp == NULL) {
+			(*fun->ewe) ("memory error\n");
+		} else {
+			in->Ti = itemp;
 		}
 
-		in->Tj = realloc(in->Tj, in->N * sizeof(int));
-		if (in->Tj == NULL) {
-			(*fun->ewe) ("in->Tj - memory error\n");
+		itemp = realloc(in->Tj, in->N * sizeof(int));
+		if (dtemp == NULL) {
+			(*fun->ewe) ("memory error\n");
+		} else {
+			in->Tj = itemp;
 		}
 
-		in->Tx = realloc(in->Tx, in->N * sizeof(long double));
-
-		if (in->Tx == NULL) {
-			(*fun->ewe) ("in->Tx - memory error\n");
+		dtemp = realloc(in->Tx, in->N * sizeof(long double));
+		if (dtemp == NULL) {
+			(*fun->ewe) ("memory error\n");
+		} else {
+			in->Tx = dtemp;
 		}
 
 		int i = 0;
-		in->Tdebug = (char **)malloc(in->N * sizeof(char *));
+		//in->Tdebug = (char**)malloc(in->N*sizeof(char*));
 
-		for (i = 0; i < in->N; i++) {
-			in->Tdebug[i] = (char *)malloc(20 * sizeof(char));
-			strcpy(in->Tdebug[i], "");
-		}
+		//for (i=0;i<in->N;i++)
+		//{
+		//      in->Tdebug[i]= (char*)malloc(20*sizeof(char));
+		//      strcpy(in->Tdebug[i],"");
+		//}
 
-		in->b = realloc(in->b, in->M * sizeof(long double));
-
-		if (in->b == NULL) {
-			(*fun->ewe) ("in->b - memory error\n");
+		dtemp = realloc(in->b, in->M * sizeof(long double));
+		if (dtemp == NULL) {
+			(*fun->ewe) ("memory error\n");
+		} else {
+			in->b = dtemp;
 		}
 
 		if (in->srh_bands > 0) {
-			dntrap =
+			dtemp =
 			    realloc(dntrap, in->srh_bands * sizeof(gdouble));
-			if (dntrap == NULL) {
-				(*fun->ewe) ("dntrap - memory error\n");
+			if (dtemp == NULL) {
+				(*fun->ewe) ("memory error\n");
+			} else {
+				dntrap = dtemp;
 			}
 
-			dntrapdntrap =
+			dtemp =
 			    realloc(dntrapdntrap,
 				    in->srh_bands * sizeof(gdouble));
-			if (dntrapdntrap == NULL) {
-				(*fun->ewe) ("dntrapdntrap - memory error\n");
+			if (dtemp == NULL) {
+				(*fun->ewe) ("memory error\n");
+			} else {
+				dntrapdntrap = dtemp;
 			}
 
-			dntrapdn =
+			dtemp =
 			    realloc(dntrapdn, in->srh_bands * sizeof(gdouble));
-			if (dntrapdn == NULL) {
-				(*fun->ewe) ("dntrapdn - memory error\n");
+			if (dtemp == NULL) {
+				(*fun->ewe) ("memory error\n");
+			} else {
+				dntrapdn = dtemp;
 			}
 
-			dntrapdp =
+			dtemp =
 			    realloc(dntrapdp, in->srh_bands * sizeof(gdouble));
-			if (dntrapdp == NULL) {
-				(*fun->ewe) ("dntrapdp - memory error\n");
+			if (dtemp == NULL) {
+				(*fun->ewe) ("memory error\n");
+			} else {
+				dntrapdp = dtemp;
 			}
 
-			dJdtrapn =
+			dtemp =
 			    realloc(dJdtrapn, in->srh_bands * sizeof(gdouble));
-			if (dJdtrapn == NULL) {
-				(*fun->ewe) ("dJdtrapn - memory error\n");
+			if (dtemp == NULL) {
+				(*fun->ewe) ("memory error\n");
+			} else {
+				dJdtrapn = dtemp;
 			}
 
-			dJpdtrapn =
+			dtemp =
 			    realloc(dJpdtrapn, in->srh_bands * sizeof(gdouble));
-			if (dJpdtrapn == NULL) {
-				(*fun->ewe) ("dJpdtrapn - memory error\n");
+			if (dtemp == NULL) {
+				(*fun->ewe) ("memory error\n");
+			} else {
+				dJpdtrapn = dtemp;
 			}
 
-			dphidntrap =
+			dtemp =
 			    realloc(dphidntrap,
 				    in->srh_bands * sizeof(gdouble));
-			if (dphidntrap == NULL) {
-				(*fun->ewe) ("dphidntrap - memory error\n");
+			if (dtemp == NULL) {
+				(*fun->ewe) ("memory error\n");
+			} else {
+				dphidntrap = dtemp;
 			}
 
-			dptrapdp =
+			dtemp =
 			    realloc(dptrapdp, in->srh_bands * sizeof(gdouble));
-			if (dptrapdp == NULL) {
-				(*fun->ewe) ("dptrapdp - memory error\n");
+			if (dtemp == NULL) {
+				(*fun->ewe) ("memory error\n");
+			} else {
+				dptrapdp = dtemp;
 			}
 
-			dptrapdptrap =
+			dtemp =
 			    realloc(dptrapdptrap,
 				    in->srh_bands * sizeof(gdouble));
-			if (dptrapdptrap == NULL) {
-				(*fun->ewe) ("dptrapdptrap - memory error\n");
+			if (dtemp == NULL) {
+				(*fun->ewe) ("memory error\n");
+			} else {
+				dptrapdptrap = dtemp;
 			}
 
-			dptrap =
+			dtemp =
 			    realloc(dptrap, in->srh_bands * sizeof(gdouble));
-			if (dptrap == NULL) {
-				(*fun->ewe) ("dptrap - memory error\n");
+			if (dtemp == NULL) {
+				(*fun->ewe) ("memory error\n");
+			} else {
+				dptrap = dtemp;
 			}
 
-			dptrapdn =
+			dtemp =
 			    realloc(dptrapdn, in->srh_bands * sizeof(gdouble));
-			if (dptrapdn == NULL) {
-				(*fun->ewe) ("dptrapdn - memory error\n");
+			if (dtemp == NULL) {
+				(*fun->ewe) ("memory error\n");
+			} else {
+				dptrapdn = dtemp;
 			}
 
-			dJpdtrapp =
+			dtemp =
 			    realloc(dJpdtrapp, in->srh_bands * sizeof(gdouble));
-			if (dJpdtrapp == NULL) {
-				(*fun->ewe) ("dJpdtrapp - memory error\n");
+			if (dtemp == NULL) {
+				(*fun->ewe) ("memory error\n");
+			} else {
+				dJpdtrapp = dtemp;
 			}
 
-			dJdtrapp =
+			dtemp =
 			    realloc(dJdtrapp, in->srh_bands * sizeof(gdouble));
-			if (dJdtrapp == NULL) {
-				(*fun->ewe) ("dJdtrapp - memory error\n");
+			if (dtemp == NULL) {
+				(*fun->ewe) ("memory error\n");
+			} else {
+				dJdtrapp = dtemp;
 			}
 
-			dphidptrap =
+			dtemp =
 			    realloc(dphidptrap,
 				    in->srh_bands * sizeof(gdouble));
-			if (dphidptrap == NULL) {
-				(*fun->ewe) ("dphidptrap - memory error\n");
+			if (dtemp == NULL) {
+				(*fun->ewe) ("memory error\n");
+			} else {
+				dphidptrap = dtemp;
 			}
 
 		}
