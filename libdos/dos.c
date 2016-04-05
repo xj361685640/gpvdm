@@ -20,6 +20,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <dos.h>
 
 #include <zlib.h>
 #include "code_ctrl.h"
@@ -30,17 +31,17 @@
 #include "log.h"
 
 #define dos_warn
-gdouble max = -1000;
-gdouble min = 1000;
+long double max = -1000;
+long double min = 1000;
 static struct dos dosn[10];
 static struct dos dosp[10];
 
-gdouble get_dos_filled_n(struct device *in)
+long double get_dos_filled_n(struct device *in)
 {
 	int i;
 	int band;
-	gdouble n_tot = 0.0;
-	gdouble n_tot_den = 0.0;
+	long double n_tot = 0.0;
+	long double n_tot_den = 0.0;
 	for (i = 0; i < in->ymeshpoints; i++) {
 		for (band = 0; band < in->srh_bands; band++) {
 			n_tot += in->nt[i][band];
@@ -51,12 +52,12 @@ gdouble get_dos_filled_n(struct device *in)
 	return n_tot;
 }
 
-gdouble get_dos_filled_p(struct device * in)
+long double get_dos_filled_p(struct device *in)
 {
 	int i;
 	int band;
-	gdouble p_tot = 0.0;
-	gdouble p_tot_den = 0.0;
+	long double p_tot = 0.0;
+	long double p_tot_den = 0.0;
 	for (i = 0; i < in->ymeshpoints; i++) {
 		for (band = 0; band < in->srh_bands; band++) {
 			p_tot += in->pt[i][band];
@@ -67,50 +68,52 @@ gdouble get_dos_filled_p(struct device * in)
 	return p_tot;
 }
 
-gdouble dos_srh_get_fermi_n(gdouble n, gdouble p, int band, int mat, gdouble T)
+long double dos_srh_get_fermi_n(long double n, long double p, int band, int mat,
+				long double T)
 {
-	gdouble srh_sigman = dosn[mat].config.srh_sigman;
-	gdouble srh_sigmap = dosn[mat].config.srh_sigmap;
-	gdouble Nc = dosn[mat].config.Nc;
-	gdouble Nv = dosn[mat].config.Nv;
-	gdouble srh_vth = dosn[mat].config.srh_vth;
-//gdouble srh_Nt=dosn[mat].srh_den[band];
-	gdouble srh_en =
+	long double srh_sigman = dosn[mat].config.srh_sigman;
+	long double srh_sigmap = dosn[mat].config.srh_sigmap;
+	long double Nc = dosn[mat].config.Nc;
+	long double Nv = dosn[mat].config.Nv;
+	long double srh_vth = dosn[mat].config.srh_vth;
+//long double srh_Nt=dosn[mat].srh_den[band];
+	long double srh_en =
 	    srh_vth * srh_sigman * Nc * gexp((Q * dosn[mat].srh_E[band]) /
 					     (T * kb));
-	gdouble srh_ep =
+	long double srh_ep =
 	    srh_vth * srh_sigmap * Nv *
 	    gexp((Q * (-1.0 - dosn[mat].srh_E[band])) / (T * kb));
 //printf("%le\n",dosn[mat].srh_E[band]);
 //getchar();
-	gdouble f = 0.0;
+	long double f = 0.0;
 	f = (n * srh_vth * srh_sigman + srh_ep) / (n * srh_vth * srh_sigman +
 						   p * srh_vth * srh_sigmap +
 						   srh_en + srh_ep);
-	gdouble level = 0.0;
+	long double level = 0.0;
 	level = dosn[mat].srh_E[band] - T * kb * log((1.0 / f) - 1.0) / Q;
 	return level;
 }
 
-gdouble dos_srh_get_fermi_p(gdouble n, gdouble p, int band, int mat, gdouble T)
+long double dos_srh_get_fermi_p(long double n, long double p, int band, int mat,
+				long double T)
 {
-	gdouble srh_sigmap = dosp[mat].config.srh_sigmap;
-	gdouble srh_sigman = dosp[mat].config.srh_sigman;
-	gdouble Nc = dosp[mat].config.Nc;
-	gdouble Nv = dosp[mat].config.Nv;
-	gdouble srh_vth = dosp[mat].config.srh_vth;
-//gdouble srh_Nt=dosn[mat].srh_den[band];
-	gdouble srh_ep =
+	long double srh_sigmap = dosp[mat].config.srh_sigmap;
+	long double srh_sigman = dosp[mat].config.srh_sigman;
+	long double Nc = dosp[mat].config.Nc;
+	long double Nv = dosp[mat].config.Nv;
+	long double srh_vth = dosp[mat].config.srh_vth;
+//long double srh_Nt=dosn[mat].srh_den[band];
+	long double srh_ep =
 	    srh_vth * srh_sigmap * Nv * gexp((Q * dosp[mat].srh_E[band]) /
 					     (T * kb));
-	gdouble srh_en =
+	long double srh_en =
 	    srh_vth * srh_sigman * Nc *
 	    gexp((Q * (-1.0 - dosp[mat].srh_E[band])) / (T * kb));
-	gdouble f = 0.0;
+	long double f = 0.0;
 	f = (p * srh_vth * srh_sigmap + srh_en) / (p * srh_vth * srh_sigmap +
 						   n * srh_vth * srh_sigman +
 						   srh_ep + srh_en);
-	gdouble level = 0.0;
+	long double level = 0.0;
 	level = dosp[mat].srh_E[band] - T * kb * log((1.0 / f) - 1.0) / Q;
 	return level;
 }
@@ -172,13 +175,13 @@ void dos_free(int mat)
 	dos_free_now(&dosp[mat]);
 }
 
-gdouble get_Nc_free(int mat)
+long double get_Nc_free(int mat)
 {
 	return dosn[mat].config.Nc;
 
 }
 
-gdouble get_Nv_free(int mat)
+long double get_Nv_free(int mat)
 {
 	return dosp[mat].config.Nv;
 }
@@ -186,13 +189,13 @@ gdouble get_Nv_free(int mat)
 void load_dos_file(struct dos *mydos, char *file)
 {
 #ifndef dos_bin
-	gdouble srh_r1 = 0.0;
-	gdouble srh_r2 = 0.0;
-	gdouble srh_r3 = 0.0;
-	gdouble srh_r4 = 0.0;
-	gdouble srh_c = 0.0;
-	gdouble w0;
-	gdouble n;
+	long double srh_r1 = 0.0;
+	long double srh_r2 = 0.0;
+	long double srh_r3 = 0.0;
+	long double srh_r4 = 0.0;
+	long double srh_c = 0.0;
+	long double w0;
+	long double n;
 #endif
 	mydos->used = TRUE;
 	mydos->used = TRUE;
@@ -253,9 +256,9 @@ void load_dos_file(struct dos *mydos, char *file)
 	//getchar();
 	//gzseek(in, 0, SEEK_SET);
 
-	int buf_len = len / sizeof(gdouble);
+	int buf_len = len / sizeof(long double);
 
-	gdouble *buf = (gdouble *) malloc(sizeof(gdouble) * buf_len);
+	long double *buf = (long double *)malloc(sizeof(long double) * buf_len);
 
 	int buf_pos = 0;
 	gzread(in, (char *)buf, len);
@@ -305,65 +308,74 @@ void load_dos_file(struct dos *mydos, char *file)
 	       &(mydos->config.B));
 #endif
 	//fprintf(rt,"%d %d %d %lf %Le %Le %Le %Le %Le %Le\n",(mydos->xlen),(mydos->tlen),(mydos->srh_bands),(mydos->config.sigma),(mydos->config.mu),(mydos->config.srh_vth),(mydos->config.srh_sigman),(mydos->config.srh_sigmap),(mydos->config.Nc),(mydos->config.Nv));
-	gdouble xsteps = mydos->xlen;
-	gdouble tsteps = mydos->tlen;
-	mydos->x = (gdouble *) malloc(sizeof(gdouble) * (int)xsteps);
-	mydos->t = (gdouble *) malloc(sizeof(gdouble) * (int)tsteps);
+	long double xsteps = mydos->xlen;
+	long double tsteps = mydos->tlen;
+	mydos->x = (long double *)malloc(sizeof(long double) * (int)xsteps);
+	mydos->t = (long double *)malloc(sizeof(long double) * (int)tsteps);
 
 	if (mydos->srh_bands != 0) {
 		mydos->srh_E =
-		    (gdouble *) malloc(sizeof(gdouble) *
-				       (int)(mydos->srh_bands));
+		    (long double *)malloc(sizeof(long double) *
+					  (int)(mydos->srh_bands));
 		mydos->srh_den =
-		    (gdouble *) malloc(sizeof(gdouble) *
-				       (int)(mydos->srh_bands));
+		    (long double *)malloc(sizeof(long double) *
+					  (int)(mydos->srh_bands));
 	}
 
 	mydos->srh_r1 =
-	    (gdouble ***) malloc(sizeof(gdouble **) * (int)mydos->tlen);
+	    (long double ***)malloc(sizeof(long double **) * (int)mydos->tlen);
 	mydos->srh_r2 =
-	    (gdouble ***) malloc(sizeof(gdouble **) * (int)mydos->tlen);
+	    (long double ***)malloc(sizeof(long double **) * (int)mydos->tlen);
 	mydos->srh_r3 =
-	    (gdouble ***) malloc(sizeof(gdouble **) * (int)mydos->tlen);
+	    (long double ***)malloc(sizeof(long double **) * (int)mydos->tlen);
 	mydos->srh_r4 =
-	    (gdouble ***) malloc(sizeof(gdouble **) * (int)mydos->tlen);
+	    (long double ***)malloc(sizeof(long double **) * (int)mydos->tlen);
 	mydos->srh_c =
-	    (gdouble ***) malloc(sizeof(gdouble **) * (int)mydos->tlen);
+	    (long double ***)malloc(sizeof(long double **) * (int)mydos->tlen);
 
-	mydos->w = (gdouble **) malloc(sizeof(gdouble **) * (int)mydos->tlen);
-	mydos->c = (gdouble **) malloc(sizeof(gdouble *) * (int)mydos->tlen);
+	mydos->w =
+	    (long double **)malloc(sizeof(long double **) * (int)mydos->tlen);
+	mydos->c =
+	    (long double **)malloc(sizeof(long double *) * (int)mydos->tlen);
 
 	for (t = 0; t < tsteps; t++) {
-		mydos->c[t] = (gdouble *) malloc(sizeof(gdouble) * (int)xsteps);
-		mydos->w[t] = (gdouble *) malloc(sizeof(gdouble) * (int)xsteps);
+		mydos->c[t] =
+		    (long double *)malloc(sizeof(long double) * (int)xsteps);
+		mydos->w[t] =
+		    (long double *)malloc(sizeof(long double) * (int)xsteps);
 		mydos->srh_r1[t] =
-		    (gdouble **) malloc(sizeof(gdouble *) * (int)xsteps);
+		    (long double **)malloc(sizeof(long double *) * (int)xsteps);
 		mydos->srh_r2[t] =
-		    (gdouble **) malloc(sizeof(gdouble *) * (int)xsteps);
+		    (long double **)malloc(sizeof(long double *) * (int)xsteps);
 		mydos->srh_r3[t] =
-		    (gdouble **) malloc(sizeof(gdouble *) * (int)xsteps);
+		    (long double **)malloc(sizeof(long double *) * (int)xsteps);
 		mydos->srh_r4[t] =
-		    (gdouble **) malloc(sizeof(gdouble *) * (int)xsteps);
+		    (long double **)malloc(sizeof(long double *) * (int)xsteps);
 		mydos->srh_c[t] =
-		    (gdouble **) malloc(sizeof(gdouble *) * (int)xsteps);
+		    (long double **)malloc(sizeof(long double *) * (int)xsteps);
 
 		for (x = 0; x < xsteps; x++) {
 			if (mydos->srh_bands != 0) {
 				mydos->srh_r1[t][x] =
-				    (gdouble *) malloc(sizeof(gdouble) *
-						       (int)(mydos->srh_bands));
+				    (long double *)malloc(sizeof(long double) *
+							  (int)(mydos->
+								srh_bands));
 				mydos->srh_r2[t][x] =
-				    (gdouble *) malloc(sizeof(gdouble) *
-						       (int)(mydos->srh_bands));
+				    (long double *)malloc(sizeof(long double) *
+							  (int)(mydos->
+								srh_bands));
 				mydos->srh_r3[t][x] =
-				    (gdouble *) malloc(sizeof(gdouble) *
-						       (int)(mydos->srh_bands));
+				    (long double *)malloc(sizeof(long double) *
+							  (int)(mydos->
+								srh_bands));
 				mydos->srh_r4[t][x] =
-				    (gdouble *) malloc(sizeof(gdouble) *
-						       (int)(mydos->srh_bands));
+				    (long double *)malloc(sizeof(long double) *
+							  (int)(mydos->
+								srh_bands));
 				mydos->srh_c[t][x] =
-				    (gdouble *) malloc(sizeof(gdouble) *
-						       (int)(mydos->srh_bands));
+				    (long double *)malloc(sizeof(long double) *
+							  (int)(mydos->
+								srh_bands));
 			} else {
 				mydos->srh_r1[t][x] = NULL;
 				mydos->srh_r2[t][x] = NULL;
@@ -459,42 +471,42 @@ void load_dos_file(struct dos *mydos, char *file)
 
 }
 
-gdouble get_dos_doping_start(int mat)
+long double get_dos_doping_start(int mat)
 {
 	return dosn[mat].config.doping_start;
 }
 
-gdouble get_dos_doping_stop(int mat)
+long double get_dos_doping_stop(int mat)
 {
 	return dosn[mat].config.doping_stop;
 }
 
-gdouble get_dos_epsilonr(int mat)
+long double get_dos_epsilonr(int mat)
 {
 	return dosn[mat].config.epsilonr;
 }
 
-gdouble dos_get_band_energy_n(int band, int mat)
+long double dos_get_band_energy_n(int band, int mat)
 {
 	return dosn[mat].srh_E[band];
 }
 
-gdouble dos_get_band_energy_p(int band, int mat)
+long double dos_get_band_energy_p(int band, int mat)
 {
 	return dosp[mat].srh_E[band];
 }
 
-gdouble get_dos_Eg(int mat)
+long double get_dos_Eg(int mat)
 {
 	return dosn[mat].config.Eg;
 }
 
-gdouble get_dos_Xi(int mat)
+long double get_dos_Xi(int mat)
 {
 	return dosn[mat].config.Xi;
 }
 
-gdouble get_dos_B(int mat)
+long double get_dos_B(int mat)
 {
 	return dosn[mat].config.B;
 }
@@ -506,117 +518,117 @@ void load_dos(struct device *dev, char *namen, char *namep, int mat)
 	dev->srh_bands = dosn[mat].srh_bands;
 }
 
-gdouble get_dos_E_n(int band, int mat)
+long double get_dos_E_n(int band, int mat)
 {
 	return dosn[mat].srh_E[band];
 }
 
-gdouble get_dos_E_p(int band, int mat)
+long double get_dos_E_p(int band, int mat)
 {
 	return dosp[mat].srh_E[band];
 }
 
-gdouble get_n_w(gdouble top, gdouble T, int mat)
+long double get_n_w(long double top, long double T, int mat)
 {
-	gdouble ret = (3.0 / 2.0) * kb * T;
+	long double ret = (3.0 / 2.0) * kb * T;
 	return ret;
 }
 
-gdouble get_p_w(gdouble top, gdouble T, int mat)
+long double get_p_w(long double top, long double T, int mat)
 {
-	gdouble ret = (3.0 / 2.0) * kb * T;
+	long double ret = (3.0 / 2.0) * kb * T;
 	return ret;
 }
 
-gdouble get_dpdT_den(gdouble top, gdouble T, int mat)
+long double get_dpdT_den(long double top, long double T, int mat)
 {
-	gdouble ret = 0.0;
-	gdouble N = dosp[mat].config.Nv;
+	long double ret = 0.0;
+	long double N = dosp[mat].config.Nv;
 	ret =
 	    -((top * Q) / kb) * N * gexp((top * Q) / (kb * T)) * gpow(T, -2.0);
 	return ret;
 }
 
-gdouble get_dndT_den(gdouble top, gdouble T, int mat)
+long double get_dndT_den(long double top, long double T, int mat)
 {
-	gdouble ret = 0.0;
-	gdouble N = dosn[mat].config.Nc;
+	long double ret = 0.0;
+	long double N = dosn[mat].config.Nc;
 	ret =
 	    -((top * Q) / kb) * N * gexp((top * Q) / (kb * T)) * gpow(T, -2.0);
 	return ret;
 }
 
-gdouble get_top_from_n(gdouble n, gdouble T, int mat)
+long double get_top_from_n(long double n, long double T, int mat)
 {
-	gdouble ret = (kb * T / Q) * log((fabs(n)) / dosn[mat].config.Nc);
+	long double ret = (kb * T / Q) * log((fabs(n)) / dosn[mat].config.Nc);
 	return ret;
 }
 
-gdouble get_top_from_p(gdouble p, gdouble T, int mat)
+long double get_top_from_p(long double p, long double T, int mat)
 {
-	gdouble ret = (kb * T / Q) * log((fabs(p)) / dosp[mat].config.Nv);
+	long double ret = (kb * T / Q) * log((fabs(p)) / dosp[mat].config.Nv);
 	return ret;
 }
 
-gdouble get_n_den(gdouble top, gdouble T, int mat)
+long double get_n_den(long double top, long double T, int mat)
 {
-	gdouble ret = dosn[mat].config.Nc * gexp((Q * top) / (T * kb));
+	long double ret = dosn[mat].config.Nc * gexp((Q * top) / (T * kb));
 	return ret;
 }
 
-gdouble get_p_den(gdouble top, gdouble T, int mat)
+long double get_p_den(long double top, long double T, int mat)
 {
-	gdouble ret = dosp[mat].config.Nv * gexp((Q * top) / (T * kb));
+	long double ret = dosp[mat].config.Nv * gexp((Q * top) / (T * kb));
 	return ret;
 }
 
-gdouble get_n_mu(int mat)
+long double get_n_mu(int mat)
 {
 	return dosn[mat].config.mu;
 }
 
-gdouble get_p_mu(int mat)
+long double get_p_mu(int mat)
 {
 	return dosp[mat].config.mu;
 }
 
-gdouble get_dn_den(gdouble top, gdouble T, int mat)
+long double get_dn_den(long double top, long double T, int mat)
 {
-	gdouble ret =
+	long double ret =
 	    (Q / (T * kb)) * dosn[mat].config.Nc * gexp((Q * top) / (T * kb));
 	return ret;
 }
 
-gdouble get_dp_den(gdouble top, gdouble T, int mat)
+long double get_dp_den(long double top, long double T, int mat)
 {
-	gdouble ret =
+	long double ret =
 	    (Q / (T * kb)) * dosp[mat].config.Nv * gexp((Q * top) / (T * kb));
 	return ret;
 }
 
-gdouble get_pl_fe_fh(int mat)
+long double get_pl_fe_fh(int mat)
 {
 	return dosn[mat].config.pl_fe_fh;
 }
 
-gdouble get_pl_fe_te(int mat)
+long double get_pl_fe_te(int mat)
 {
 	return dosn[mat].config.pl_trap;
 }
 
-gdouble get_pl_te_fh(int mat)
+long double get_pl_te_fh(int mat)
 {
 
 	return dosn[mat].config.pl_recom;
 }
 
-gdouble get_pl_th_fe(int mat)
+long double get_pl_th_fe(int mat)
 {
 
 	return dosp[mat].config.pl_recom;
 }
 
-gdouble get_pl_ft_th(int mat)
+long double get_pl_ft_th(int mat)
 {
 	return dosp[mat].config.pl_trap;
 }
@@ -626,22 +638,22 @@ int get_pl_enabled(int mat)
 	return dosp[mat].config.pl_enabled;
 }
 
-gdouble get_n_srh(gdouble top, gdouble T, int trap, int r, int mat)
+long double get_n_srh(long double top, long double T, int trap, int r, int mat)
 {
-	gdouble ret = 0.0;
-	gdouble c0 = 0.0;
-	gdouble c1 = 0.0;
-	gdouble x0 = 0.0;
-	gdouble x1 = 0.0;
-	gdouble t0 = 0.0;
-	gdouble t1 = 0.0;
-	gdouble c = 0.0;
-	gdouble xr = 0.0;
-	gdouble tr = 0.0;
-	gdouble c00 = 0.0;
-	gdouble c01 = 0.0;
-	gdouble c10 = 0.0;
-	gdouble c11 = 0.0;
+	long double ret = 0.0;
+	long double c0 = 0.0;
+	long double c1 = 0.0;
+	long double x0 = 0.0;
+	long double x1 = 0.0;
+	long double t0 = 0.0;
+	long double t1 = 0.0;
+	long double c = 0.0;
+	long double xr = 0.0;
+	long double tr = 0.0;
+	long double c00 = 0.0;
+	long double c01 = 0.0;
+	long double c10 = 0.0;
+	long double c11 = 0.0;
 	int t = 0;
 	int x = 0;
 
@@ -731,22 +743,22 @@ gdouble get_n_srh(gdouble top, gdouble T, int trap, int r, int mat)
 	return ret;
 }
 
-gdouble get_p_srh(gdouble top, gdouble T, int trap, int r, int mat)
+long double get_p_srh(long double top, long double T, int trap, int r, int mat)
 {
-	gdouble ret = 0.0;
-	gdouble c0 = 0.0;
-	gdouble c1 = 0.0;
-	gdouble x0 = 0.0;
-	gdouble x1 = 0.0;
-	gdouble t0 = 0.0;
-	gdouble t1 = 0.0;
-	gdouble c = 0.0;
-	gdouble xr = 0.0;
-	gdouble tr = 0.0;
-	gdouble c00 = 0.0;
-	gdouble c01 = 0.0;
-	gdouble c10 = 0.0;
-	gdouble c11 = 0.0;
+	long double ret = 0.0;
+	long double c0 = 0.0;
+	long double c1 = 0.0;
+	long double x0 = 0.0;
+	long double x1 = 0.0;
+	long double t0 = 0.0;
+	long double t1 = 0.0;
+	long double c = 0.0;
+	long double xr = 0.0;
+	long double tr = 0.0;
+	long double c00 = 0.0;
+	long double c01 = 0.0;
+	long double c10 = 0.0;
+	long double c11 = 0.0;
 	int t = 0;
 	int x = 0;
 
@@ -834,22 +846,22 @@ gdouble get_p_srh(gdouble top, gdouble T, int trap, int r, int mat)
 	return ret;
 }
 
-gdouble get_dn_srh(gdouble top, gdouble T, int trap, int r, int mat)
+long double get_dn_srh(long double top, long double T, int trap, int r, int mat)
 {
-	gdouble ret = 0.0;
-	gdouble c0 = 0.0;
-	gdouble c1 = 0.0;
-	gdouble x0 = 0.0;
-	gdouble x1 = 0.0;
-	gdouble t0 = 0.0;
-	gdouble t1 = 0.0;
-	gdouble c = 0.0;
-	gdouble xr = 0.0;
-	gdouble tr = 0.0;
-	gdouble c00 = 0.0;
-	gdouble c01 = 0.0;
-	gdouble c10 = 0.0;
-	gdouble c11 = 0.0;
+	long double ret = 0.0;
+	long double c0 = 0.0;
+	long double c1 = 0.0;
+	long double x0 = 0.0;
+	long double x1 = 0.0;
+	long double t0 = 0.0;
+	long double t1 = 0.0;
+	long double c = 0.0;
+	long double xr = 0.0;
+	long double tr = 0.0;
+	long double c00 = 0.0;
+	long double c01 = 0.0;
+	long double c10 = 0.0;
+	long double c11 = 0.0;
 
 	int t = 0;
 	int x;
@@ -936,22 +948,22 @@ gdouble get_dn_srh(gdouble top, gdouble T, int trap, int r, int mat)
 	return ret;
 }
 
-gdouble get_dp_srh(gdouble top, gdouble T, int trap, int r, int mat)
+long double get_dp_srh(long double top, long double T, int trap, int r, int mat)
 {
-	gdouble ret = 0.0;
-	gdouble c0 = 0.0;
-	gdouble c1 = 0.0;
-	gdouble x0 = 0.0;
-	gdouble x1 = 0.0;
-	gdouble t0 = 0.0;
-	gdouble t1 = 0.0;
-	gdouble c = 0.0;
-	gdouble xr = 0.0;
-	gdouble tr = 0.0;
-	gdouble c00 = 0.0;
-	gdouble c01 = 0.0;
-	gdouble c10 = 0.0;
-	gdouble c11 = 0.0;
+	long double ret = 0.0;
+	long double c0 = 0.0;
+	long double c1 = 0.0;
+	long double x0 = 0.0;
+	long double x1 = 0.0;
+	long double t0 = 0.0;
+	long double t1 = 0.0;
+	long double c = 0.0;
+	long double xr = 0.0;
+	long double tr = 0.0;
+	long double c00 = 0.0;
+	long double c01 = 0.0;
+	long double c10 = 0.0;
+	long double c11 = 0.0;
 
 	int t = 0;
 	int x;
@@ -1039,22 +1051,22 @@ gdouble get_dp_srh(gdouble top, gdouble T, int trap, int r, int mat)
 
 /////////////////////////////////////////////////////trap
 
-gdouble get_n_pop_srh(gdouble top, gdouble T, int trap, int mat)
+long double get_n_pop_srh(long double top, long double T, int trap, int mat)
 {
-	gdouble ret = 0.0;
-	gdouble c0 = 0.0;
-	gdouble c1 = 0.0;
-	gdouble x0 = 0.0;
-	gdouble x1 = 0.0;
-	gdouble t0 = 0.0;
-	gdouble t1 = 0.0;
-	gdouble c = 0.0;
-	gdouble xr = 0.0;
-	gdouble tr = 0.0;
-	gdouble c00 = 0.0;
-	gdouble c01 = 0.0;
-	gdouble c10 = 0.0;
-	gdouble c11 = 0.0;
+	long double ret = 0.0;
+	long double c0 = 0.0;
+	long double c1 = 0.0;
+	long double x0 = 0.0;
+	long double x1 = 0.0;
+	long double t0 = 0.0;
+	long double t1 = 0.0;
+	long double c = 0.0;
+	long double xr = 0.0;
+	long double tr = 0.0;
+	long double c00 = 0.0;
+	long double c01 = 0.0;
+	long double c10 = 0.0;
+	long double c11 = 0.0;
 	int t = 0;
 	int x = 0;
 
@@ -1098,22 +1110,22 @@ gdouble get_n_pop_srh(gdouble top, gdouble T, int trap, int mat)
 	return ret;
 }
 
-gdouble get_p_pop_srh(gdouble top, gdouble T, int trap, int mat)
+long double get_p_pop_srh(long double top, long double T, int trap, int mat)
 {
-	gdouble ret = 0.0;
-	gdouble c0 = 0.0;
-	gdouble c1 = 0.0;
-	gdouble x0 = 0.0;
-	gdouble x1 = 0.0;
-	gdouble t0 = 0.0;
-	gdouble t1 = 0.0;
-	gdouble c = 0.0;
-	gdouble xr = 0.0;
-	gdouble tr = 0.0;
-	gdouble c00 = 0.0;
-	gdouble c01 = 0.0;
-	gdouble c10 = 0.0;
-	gdouble c11 = 0.0;
+	long double ret = 0.0;
+	long double c0 = 0.0;
+	long double c1 = 0.0;
+	long double x0 = 0.0;
+	long double x1 = 0.0;
+	long double t0 = 0.0;
+	long double t1 = 0.0;
+	long double c = 0.0;
+	long double xr = 0.0;
+	long double tr = 0.0;
+	long double c00 = 0.0;
+	long double c01 = 0.0;
+	long double c10 = 0.0;
+	long double c11 = 0.0;
 	int t = 0;
 	int x = 0;
 
@@ -1156,22 +1168,22 @@ gdouble get_p_pop_srh(gdouble top, gdouble T, int trap, int mat)
 	return ret;
 }
 
-gdouble get_dn_pop_srh(gdouble top, gdouble T, int trap, int mat)
+long double get_dn_pop_srh(long double top, long double T, int trap, int mat)
 {
-	gdouble ret = 0.0;
-	gdouble c0 = 0.0;
-	gdouble c1 = 0.0;
-	gdouble x0 = 0.0;
-	gdouble x1 = 0.0;
-	gdouble t0 = 0.0;
-	gdouble t1 = 0.0;
-	gdouble c = 0.0;
-	gdouble xr = 0.0;
-	gdouble tr = 0.0;
-	gdouble c00 = 0.0;
-	gdouble c01 = 0.0;
-	gdouble c10 = 0.0;
-	gdouble c11 = 0.0;
+	long double ret = 0.0;
+	long double c0 = 0.0;
+	long double c1 = 0.0;
+	long double x0 = 0.0;
+	long double x1 = 0.0;
+	long double t0 = 0.0;
+	long double t1 = 0.0;
+	long double c = 0.0;
+	long double xr = 0.0;
+	long double tr = 0.0;
+	long double c00 = 0.0;
+	long double c01 = 0.0;
+	long double c10 = 0.0;
+	long double c11 = 0.0;
 
 	int t = 0;
 	int x;
@@ -1217,22 +1229,22 @@ gdouble get_dn_pop_srh(gdouble top, gdouble T, int trap, int mat)
 	return ret;
 }
 
-gdouble get_dp_pop_srh(gdouble top, gdouble T, int trap, int mat)
+long double get_dp_pop_srh(long double top, long double T, int trap, int mat)
 {
-	gdouble ret = 0.0;
-	gdouble c0 = 0.0;
-	gdouble c1 = 0.0;
-	gdouble x0 = 0.0;
-	gdouble x1 = 0.0;
-	gdouble t0 = 0.0;
-	gdouble t1 = 0.0;
-	gdouble c = 0.0;
-	gdouble xr = 0.0;
-	gdouble tr = 0.0;
-	gdouble c00 = 0.0;
-	gdouble c01 = 0.0;
-	gdouble c10 = 0.0;
-	gdouble c11 = 0.0;
+	long double ret = 0.0;
+	long double c0 = 0.0;
+	long double c1 = 0.0;
+	long double x0 = 0.0;
+	long double x1 = 0.0;
+	long double t0 = 0.0;
+	long double t1 = 0.0;
+	long double c = 0.0;
+	long double xr = 0.0;
+	long double tr = 0.0;
+	long double c00 = 0.0;
+	long double c01 = 0.0;
+	long double c10 = 0.0;
+	long double c11 = 0.0;
 
 	int t = 0;
 	int x;
@@ -1284,15 +1296,15 @@ void draw_gaus(struct device *in)
 {
 /*
 FILE *out=fopen("gaus.dat","w");
-gdouble dE=1e-3;
-gdouble E=in->Ev[0]-1;
-gdouble Ev=in->Ev[0];
-gdouble Ec=in->Ec[0];
-gdouble Estop=in->Ec[0]+1;
-gdouble gauEv;
-gdouble gauEc;
-gdouble sigmae=dosn[mat][1].config.sigma;
-gdouble sigmah=dosp[mat][1].config.sigma;
+long double dE=1e-3;
+long double E=in->Ev[0]-1;
+long double Ev=in->Ev[0];
+long double Ec=in->Ec[0];
+long double Estop=in->Ec[0]+1;
+long double gauEv;
+long double gauEc;
+long double sigmae=dosn[mat][1].config.sigma;
+long double sigmah=dosp[mat][1].config.sigma;
 //printf("sigmas %e %e\n",fabs(dos_get_Ev_edge(in->dostype[0])),fabs(dos_get_Ec_edge(in->dostype[0])));
 //getchar();
 //getchar();

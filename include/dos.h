@@ -21,149 +21,151 @@
 #ifndef dos_h
 #define dos_h
 
+#include <device.h>
+
 struct dosconfig
 {
 char dos_name[20];
-gdouble edge;
-gdouble m;
+long double edge;
+long double m;
 int dostype;
-gdouble Nt;
-gdouble Et;
-gdouble Nt2;
-gdouble Et2;
-gdouble Eshift;
-gdouble nstart;
-gdouble nstop;
-gdouble base1;
-gdouble base2;
+long double Nt;
+long double Et;
+long double Nt2;
+long double Et2;
+long double Eshift;
+long double nstart;
+long double nstop;
+long double base1;
+long double base2;
 int npoints;
 int expan_len;
-gdouble expan_N[20];
-gdouble expan_E[20];
-gdouble mu;
-gdouble tau0;
-gdouble tau1;
-gdouble Tstart;
-gdouble Tstop;
-gdouble Ngaus;
+long double expan_N[20];
+long double expan_E[20];
+long double mu;
+long double tau0;
+long double tau1;
+long double Tstart;
+long double Tstop;
+long double Ngaus;
 int Tsteps;
 int traps;
-gdouble dband;
-gdouble detrap;
+long double dband;
+long double detrap;
 int srh_bands;
-gdouble srh_start;
+long double srh_start;
 
-gdouble srh_sigman;
-gdouble srh_sigmap;
-gdouble srh_vth;
-gdouble Nc;
-gdouble Nv;
-gdouble srh_cut;
+long double srh_sigman;
+long double srh_sigmap;
+long double srh_vth;
+long double Nc;
+long double Nv;
+long double srh_cut;
 
-gdouble del_start;
-gdouble del_stop;
-gdouble Eg;
-gdouble epsilonr;
-gdouble doping_start;
-gdouble doping_stop;
-gdouble Xi;
-gdouble gaus_mull;
+long double del_start;
+long double del_stop;
+long double Eg;
+long double epsilonr;
+long double doping_start;
+long double doping_stop;
+long double Xi;
+long double gaus_mull;
 
-gdouble pl_fe_fh;
-gdouble pl_trap;
-gdouble pl_recom;
+long double pl_fe_fh;
+long double pl_trap;
+long double pl_recom;
 int pl_enabled;
 
 int Esteps;
-gdouble B;
+long double B;
 };
 
 struct dos
 {
 int used;
-gdouble *x;
+long double *x;
 int xlen;
 int tlen;
 int srh_bands;
-gdouble *t;
-gdouble *srh_E;
-gdouble *srh_den;
-gdouble **c;
-gdouble **w;
-gdouble ***srh_r1;
-gdouble ***srh_r2;
-gdouble ***srh_r3;
-gdouble ***srh_r4;
-gdouble ***srh_c;
+long double *t;
+long double *srh_E;
+long double *srh_den;
+long double **c;
+long double **w;
+long double ***srh_r1;
+long double ***srh_r2;
+long double ***srh_r3;
+long double ***srh_r4;
+long double ***srh_c;
 struct dosconfig config;
 };
 
 void dos_init();
 void dos_free();
-gdouble get_dos_epsilonr(int mat);
-gdouble get_dos_doping_start(int mat);
-gdouble get_dos_doping_stop(int mat);
-gdouble get_dos_E_n(int band,int mat);
-gdouble get_dos_E_p(int band,int mat);
+long double get_dos_epsilonr(int mat);
+long double get_dos_doping_start(int mat);
+long double get_dos_doping_stop(int mat);
+long double get_dos_E_n(int band,int mat);
+long double get_dos_E_p(int band,int mat);
 void dos_free_now(struct dos *mydos);
 
-gdouble get_n_pop_srh(gdouble top,gdouble T,int trap, int mat);
-gdouble get_p_pop_srh(gdouble top,gdouble T,int trap, int mat);
-gdouble get_dn_pop_srh(gdouble top,gdouble T,int trap, int mat);
-gdouble get_dp_pop_srh(gdouble top,gdouble T,int trap, int mat);
+long double get_n_pop_srh(long double top,long double T,int trap, int mat);
+long double get_p_pop_srh(long double top,long double T,int trap, int mat);
+long double get_dn_pop_srh(long double top,long double T,int trap, int mat);
+long double get_dp_pop_srh(long double top,long double T,int trap, int mat);
 
 void load_dos(struct device *dev,char *namen, char *namep,int mat);
-gdouble get_dn_trap_den(gdouble top,gdouble T,int type,int band, int mat);
-gdouble get_dp_trap_den(gdouble top,gdouble T,int type, int mat);
-int search(gdouble *x,int N,gdouble find);
-gdouble get_n_srh(gdouble top,gdouble T,int trap,int r, int mat);
-gdouble get_dn_srh(gdouble top,gdouble T,int trap,int r, int mat);
-gdouble get_p_srh(gdouble top,gdouble T,int trap,int r, int mat);
-gdouble get_dp_srh(gdouble top,gdouble T,int trap,int r, int mat);
-gdouble dos_get_band_energy_n(int band, int mat);
-gdouble dos_get_band_energy_p(int band, int mat);
-gdouble dos_srh_get_fermi_p(gdouble n, gdouble p,int band, int mat, gdouble T);
-gdouble dos_srh_get_fermi_n(gdouble n, gdouble p,int band, int mat, gdouble T);
-gdouble get_Nc_free(int mat);
-gdouble get_Nv_free(int mat);
-gdouble get_n_mu(int mat);
-gdouble get_p_mu(int mat);
-gdouble get_dos_Eg(int mat);
-gdouble get_dos_Xi(int mat);
+long double get_dn_trap_den(long double top,long double T,int type,int band, int mat);
+long double get_dp_trap_den(long double top,long double T,int type, int mat);
+int search(long double *x,int N,long double find);
+long double get_n_srh(long double top,long double T,int trap,int r, int mat);
+long double get_dn_srh(long double top,long double T,int trap,int r, int mat);
+long double get_p_srh(long double top,long double T,int trap,int r, int mat);
+long double get_dp_srh(long double top,long double T,int trap,int r, int mat);
+long double dos_get_band_energy_n(int band, int mat);
+long double dos_get_band_energy_p(int band, int mat);
+long double dos_srh_get_fermi_p(long double n, long double p,int band, int mat, long double T);
+long double dos_srh_get_fermi_n(long double n, long double p,int band, int mat, long double T);
+long double get_Nc_free(int mat);
+long double get_Nv_free(int mat);
+long double get_n_mu(int mat);
+long double get_p_mu(int mat);
+long double get_dos_Eg(int mat);
+long double get_dos_Xi(int mat);
 
 
-gdouble get_dos_E_n(int band,int mat);
-gdouble get_dos_E_p(int band,int mat);
-gdouble get_n_w(gdouble top,gdouble T,int mat);
-gdouble get_p_w(gdouble top,gdouble T,int mat);
-gdouble get_top_from_n(gdouble n,gdouble T,int mat);
-gdouble get_top_from_p(gdouble p,gdouble T,int mat);
-gdouble get_n_den(gdouble top,gdouble T, int mat);
-gdouble get_p_den(gdouble top,gdouble T, int mat);
-gdouble get_n_mu(int mat);
-gdouble get_p_mu(int mat);
-gdouble get_dn_den(gdouble top,gdouble T, int mat);
-gdouble get_dp_den(gdouble top,gdouble T, int mat);
-gdouble get_dpdT_den(gdouble top,gdouble T,int mat);
-gdouble get_dndT_den(gdouble top,gdouble T,int mat);
-gdouble get_dos_filled_n(struct device *in);
-gdouble get_dos_filled_p(struct device *in);
+long double get_dos_E_n(int band,int mat);
+long double get_dos_E_p(int band,int mat);
+long double get_n_w(long double top,long double T,int mat);
+long double get_p_w(long double top,long double T,int mat);
+long double get_top_from_n(long double n,long double T,int mat);
+long double get_top_from_p(long double p,long double T,int mat);
+long double get_n_den(long double top,long double T, int mat);
+long double get_p_den(long double top,long double T, int mat);
+long double get_n_mu(int mat);
+long double get_p_mu(int mat);
+long double get_dn_den(long double top,long double T, int mat);
+long double get_dp_den(long double top,long double T, int mat);
+long double get_dpdT_den(long double top,long double T,int mat);
+long double get_dndT_den(long double top,long double T,int mat);
+long double get_dos_filled_n(struct device *in);
+long double get_dos_filled_p(struct device *in);
 void gen_dos_fd_gaus_n();
 void gen_dos_fd_gaus_p();
-int hashget(gdouble *x,int N,gdouble find);
+int hashget(long double *x,int N,long double find);
 void draw_gaus(struct device *in);
 
-gdouble get_dos_filled_n(struct device *in);
-gdouble get_dos_filled_p(struct device *in);
+long double get_dos_filled_n(struct device *in);
+long double get_dos_filled_p(struct device *in);
 void safe_file(char *name);
 
-gdouble get_pl_fe_fh(int mat);
-gdouble get_pl_fe_te(int mat);
-gdouble get_pl_te_fh(int mat);
-gdouble get_pl_th_fe(int mat);
-gdouble get_pl_ft_th(int mat);
+long double get_pl_fe_fh(int mat);
+long double get_pl_fe_te(int mat);
+long double get_pl_te_fh(int mat);
+long double get_pl_th_fe(int mat);
+long double get_pl_ft_th(int mat);
 int get_pl_enabled(int mat);
 
-gdouble get_dos_B(int mat);
+long double get_dos_B(int mat);
 
 #endif

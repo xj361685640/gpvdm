@@ -31,6 +31,7 @@
 #include <lang.h>
 #include <i.h>
 #include <exp.h>
+#include <dos.h>
 
 void dump_1d_slice(struct device *in, char *out_dir)
 {

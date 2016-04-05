@@ -22,6 +22,7 @@
 #include <dump.h>
 #include <string.h>
 #include <exp.h>
+#include <dos.h>
 #include "sim.h"
 #include "i.h"
 #include "buffer.h"

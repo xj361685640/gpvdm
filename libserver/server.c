@@ -23,6 +23,7 @@
 #include <time.h>
 #include <dump.h>
 #include <unistd.h>
+#include <dos.h>
 #include "util.h"
 
 #include <sys/inotify.h>

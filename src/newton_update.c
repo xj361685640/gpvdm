@@ -20,6 +20,7 @@
 
 #include "sim.h"
 #include "dump.h"
+#include <dos.h>
 
 void update_arrays(struct device *in)
 {

@@ -21,6 +21,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <dump.h>
+#include <dos.h>
 #include "sim.h"
 #include "solver_interface.h"
 #include "buffer.h"

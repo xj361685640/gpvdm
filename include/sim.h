@@ -20,17 +20,12 @@
 
 #ifndef sim_h
 #define sim_h
-#include "advmath.h"
 
-#include "i.h"
 #include "code_ctrl.h"
 #include "const.h"
 #include "version.h"
-
 #include "device.h"
-#include "dos.h"
 #include <util.h>
-#include "config.h"
 #include "light_interface.h"
 #include "newton_interface.h"
 

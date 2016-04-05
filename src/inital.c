@@ -19,6 +19,7 @@
 // more details.
 
 #include <stdlib.h>
+#include <dos.h>
 #include "sim.h"
 #include "dump.h"
 #include "log.h"

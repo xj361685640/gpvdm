@@ -27,6 +27,7 @@
 #include <remesh.h>
 #include <ntricks.h>
 #include <dump.h>
+#include <dos.h>
 
 static struct dll_interface pointers;
 
