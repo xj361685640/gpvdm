@@ -768,7 +768,8 @@ uninstall-am:
 
 
 clean-local:
-	rm *.dat *.o ./plugins/*.so ./plugins/*.dll *.log -f 
+	rm *.dat *.o ./plugins/*.so ./plugins/*.dll *.log -f
+	rm autom4te.cache -rf 
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
