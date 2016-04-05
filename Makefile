@@ -768,7 +768,7 @@ uninstall-am:
 
 
 clean-local:
-	rm *.dat *.o -f
+	rm *.dat *.o ./plugins/*.so ./plugins/*.dll -f 
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

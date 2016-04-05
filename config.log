@@ -291,7 +291,7 @@ configure:5290: gcc -o conftest -g -O2   conftest.c  >&5
 conftest.c:47:6: warning: conflicting types for built-in function 'sqrt'
  char sqrt ();
       ^
-/tmp/ccFz6XEq.o: In function `main':
+/tmp/ccYSDG49.o: In function `main':
 /home/rod/gpvdm/050416/pub/gpvdm-4.40/conftest.c:58: undefined reference to `sqrt'
 collect2: error: ld returned 1 exit status
 configure:5290: $? = 1
