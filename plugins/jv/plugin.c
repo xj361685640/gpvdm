@@ -27,6 +27,7 @@
 #include <solver_interface.h>
 #include <dll_export.h>
 #include <log.h>
+#include <dump.h>
 #include "jv.h"
 
 struct dll_interface *fun;

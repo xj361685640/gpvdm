@@ -18,6 +18,7 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+#include <exp.h>
 #include "dump.h"
 #include "sim.h"
 #include "ntricks.h"

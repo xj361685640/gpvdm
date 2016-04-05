@@ -22,10 +22,12 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <exp.h>
 #include "sim.h"
 #include "dump.h"
 #include "ntricks.h"
 #include "gui_hooks.h"
+#include <plot.h>
 
 static int unused __attribute__ ((unused));
 

@@ -20,6 +20,7 @@
 
 #ifndef exp_h
 #define exp_h
+#include <device.h>
 
 gdouble get_jn_avg(struct device *in);
 gdouble get_jp_avg(struct device *in);

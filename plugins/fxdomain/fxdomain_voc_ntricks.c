@@ -24,6 +24,7 @@
 #include <math.h>
 #include <dump.h>
 #include <sim.h>
+#include <exp.h>
 #include "fxdomain.h"
 #include <dll_interface.h>
 

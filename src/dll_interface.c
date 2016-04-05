@@ -18,9 +18,6 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "device.h"
 #include "light.h"
 #include "dll_interface.h"
@@ -29,6 +26,7 @@
 #include "sim.h"
 #include <remesh.h>
 #include <ntricks.h>
+#include <dump.h>
 
 static struct dll_interface pointers;
 

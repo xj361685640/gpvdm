@@ -18,6 +18,8 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+#include <sys/types.h>
+#include <dirent.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -46,6 +48,7 @@
 #include <device.h>
 #include <fit.h>
 #include <advmath.h>
+#include <plot.h>
 
 static int unused __attribute__ ((unused));
 

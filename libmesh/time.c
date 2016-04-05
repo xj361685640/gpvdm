@@ -22,6 +22,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <lang.h>
+#include <exp.h>
 #include "sim.h"
 #include "inp.h"
 

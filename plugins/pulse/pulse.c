@@ -26,12 +26,15 @@
 #include <dump.h>
 #include <ntricks.h>
 #include <dynamic_store.h>
+#include <i.h>
+#include <exp.h>
 #include "pulse.h"
 #include <inp.h>
 #include <buffer.h>
 #include <gui_hooks.h>
 #include <lang.h>
 #include <log.h>
+#include <plot.h>
 #include <dll_interface.h>
 
 static int unused __attribute__ ((unused));

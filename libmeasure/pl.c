@@ -19,6 +19,9 @@
 // more details.
 
 #include <stdio.h>
+#include <dump.h>
+#include <string.h>
+#include <exp.h>
 #include "sim.h"
 #include "i.h"
 #include "buffer.h"

@@ -19,6 +19,7 @@
 // more details.
 
 #include <sim.h>
+#include <exp.h>
 #include "jv.h"
 #include <dump.h>
 #include <dynamic_store.h>
@@ -31,6 +32,7 @@
 #include <lang.h>
 #include <remesh.h>
 #include <dll_interface.h>
+#include <plot.h>
 
 static int unused __attribute__ ((unused));
 

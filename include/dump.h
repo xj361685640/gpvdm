@@ -21,7 +21,7 @@
 #ifndef h_dump
 #define h_dump
 #include "frame.h"
-#include "sim.h"
+#include "device.h"
 #include "dump_ctrl.h"
 #include "dynamic_store.h"
 

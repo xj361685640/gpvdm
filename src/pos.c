@@ -18,7 +18,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+#include <string.h>
 #include <stdlib.h>
+#include <dump.h>
 #include "sim.h"
 #include "solver_interface.h"
 #include "buffer.h"

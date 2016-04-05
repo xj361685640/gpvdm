@@ -19,6 +19,7 @@
 // more details.
 
 #include <sys/time.h>
+#include <string.h>
 #include "sim.h"
 #include "dump.h"
 #include "plot.h"

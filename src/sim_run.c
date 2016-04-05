@@ -30,6 +30,7 @@
 #include "newton_interface.h"
 #include "mesh.h"
 #include "remesh.h"
+#include <plot.h>
 
 struct device cell;
 

@@ -29,16 +29,10 @@
 
 #include "device.h"
 #include "dos.h"
-#include "exp.h"
-#include "plot.h"
 #include <util.h>
-#include "dump.h"
-#include "complex_solver.h"
 #include "config.h"
-#include "advmath.h"
 #include "light_interface.h"
 #include "newton_interface.h"
-#include "lang.h"
 
 //newtonsolver
 int solve_cur_thermal(struct device *in,int thermal);

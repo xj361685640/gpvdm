@@ -21,6 +21,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <lang.h>
+#include <complex_solver.h>
 #include "sim.h"
 #include "dump.h"
 #include "mesh.h"

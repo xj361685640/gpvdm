@@ -18,6 +18,10 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <exp.h>
 #include "sim.h"
 #include "dump.h"
 

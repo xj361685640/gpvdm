@@ -20,17 +20,7 @@
 
 #ifndef dynamic_store_h
 #define dynamic_store_h
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <math.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <unistd.h>
-#include <dirent.h>
-#include "sim.h"
-#include "dump.h"
-#include "buffer.h"
+#include "i.h"
 
 struct dynamic_store
 {

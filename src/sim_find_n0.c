@@ -19,6 +19,7 @@
 // more details.
 
 #include <stdio.h>
+#include <exp.h>
 #include "util.h"
 #include "sim.h"
 #include "dos.h"

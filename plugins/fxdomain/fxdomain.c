@@ -26,6 +26,8 @@
 #include <dump.h>
 #include <ntricks.h>
 #include <dynamic_store.h>
+#include <sys/stat.h>
+#include <exp.h>
 #include "fxdomain.h"
 #include <inp.h>
 #include <buffer.h>

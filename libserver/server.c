@@ -21,6 +21,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <dump.h>
+#include <unistd.h>
 #include "util.h"
 
 #include <sys/inotify.h>

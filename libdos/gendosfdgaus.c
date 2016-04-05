@@ -30,6 +30,7 @@
 #include <buffer.h>
 #include <hard_limit.h>
 #include <epitaxy.h>
+#include <lang.h>
 
 static int unused __attribute__ ((unused));
 

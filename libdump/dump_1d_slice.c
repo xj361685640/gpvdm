@@ -19,12 +19,18 @@
 // more details.
 
 #include <stdio.h>
+#include <string.h>
 #include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <fcntl.h>
 #include <sim.h>
 #include <dump.h>
 #include <buffer.h>
 #include <util.h>
 #include <lang.h>
+#include <i.h>
+#include <exp.h>
 
 void dump_1d_slice(struct device *in, char *out_dir)
 {
