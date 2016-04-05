@@ -19,12 +19,10 @@
 // more details.
 
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 #include "sim.h"
 #include "dump.h"
 #include "config.h"
-#include <math.h>
 #include "inp.h"
 #include "util.h"
 #include "hard_limit.h"

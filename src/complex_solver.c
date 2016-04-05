@@ -25,7 +25,6 @@
 #include "complex_solver.h"
 #include <math.h>
 #include "buffer.h"
-#include <string.h>
 #include "lang.h"
 #include "log.h"
 

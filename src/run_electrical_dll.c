@@ -20,9 +20,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <math.h>
-#include <errno.h>
 #include <dll_interface.h>
 #include <solver_interface.h>
 #include <dll_export.h>
