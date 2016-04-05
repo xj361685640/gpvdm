@@ -55,7 +55,7 @@ def join_path(one,two):
 def cal_share_path():
 	global share_path
 	if running_on_linux()==True:
-		if os.path.isfile("main.c")==True:
+		if os.path.isfile("configure.ac")==True:
 			share_path=os.getcwd()
 		else:
 			share_path="/usr/share/gpvdm/"
@@ -73,7 +73,7 @@ def cal_share_path():
 def cal_lib_path():
 	global lib_path
 	if running_on_linux()==True:
-		if os.path.isfile("main.c")==True:
+		if os.path.isfile("configure.ac")==True:
 			lib_path=os.getcwd()
 		elif os.path.isdir("/usr/lib64/gpvdm")==True:
 			lib_path="/usr/lib64/gpvdm/"
@@ -134,7 +134,7 @@ def calculate_paths():
 	device_lib_path=os.path.join(share_path,"device_lib")
 
 	if running_on_linux() == True:
-		if os.path.isfile("./main.c")==True:
+		if os.path.isfile("configure.ac")==True:
 			exe_command=os.path.join(os.getcwd(), "go.o")
 		else:
 			exe_command="gpvdm_core"
@@ -146,7 +146,7 @@ def calculate_paths():
 			exe_command=os.path.join(share_path,"gpvdm_core.exe")
 
 
-	light_dll_path=os.path.join(lib_path,"light")
+	light_dll_path=os.path.join(lib_path,"plugins")
 
 
 def get_share_path():
@@ -177,7 +177,7 @@ def get_exe_name():
 	if running_on_linux() == True:
 		if os.path.isfile("./go.o")==True:
 			exe_name="go.o"
-		elif os.path.isfile("./main.c")==True:
+		elif os.path.isfile("configure.ac")==True:
 			exe_name="go.o"
 		else:
 			exe_name="gpvdm_core"

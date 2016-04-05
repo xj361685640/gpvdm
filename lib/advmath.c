@@ -18,8 +18,6 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
-#include <stdio.h>
-#include <stdlib.h>
 #include <math.h>
 
 //Taken from mathworld and wikipidia

@@ -19,11 +19,6 @@
 // more details.
 
 #include <sys/time.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
-#include <string.h>
 #include "sim.h"
 #include "dump.h"
 #include "plot.h"

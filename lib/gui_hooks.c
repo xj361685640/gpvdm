@@ -19,10 +19,7 @@
 // more details.
 
 #define _DEFAULT_SOURCE
-#include <string.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <errno.h>
 #include <sys/time.h>
 #include <gui_hooks.h>
 #include <util.h>

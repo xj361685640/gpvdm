@@ -19,17 +19,8 @@
 // more details.
 
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
-#include <signal.h>
-#include <math.h>
-#include <time.h>
-#include <dirent.h>
-#include <sys/types.h>
 #include <unistd.h>
-#include <limits.h>
-#include <stdio.h>
-#include <sys/stat.h>
 #include "cal_path.h"
 #include "util.h"
 #include "inp.h"
@@ -55,7 +46,7 @@ void cal_path(struct device *in)
 {
 	cal_path_init(in);
 
-	if (isfile("main.c") == 0) {
+	if (isfile("configure.ac") == 0) {
 		if (getcwd(share_path, 1000) == NULL) {
 			ewe("IO error\n");
 		}
@@ -68,8 +59,8 @@ void cal_path(struct device *in)
 			ewe("I don't know where the shared files are\n");
 		}
 	}
-	join_path(2, light_path, share_path, "light");
-	join_path(2, solver_path, share_path, "solvers");
+	join_path(2, light_path, share_path, "plugins");
+	join_path(2, solver_path, share_path, "plugins");
 	join_path(2, lang_path, share_path, "lang");
 
 }

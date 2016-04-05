@@ -19,10 +19,7 @@
 // more details.
 
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "sim.h"
-#include <math.h>
 
 int hashget(gdouble * x, int N, gdouble find)
 {

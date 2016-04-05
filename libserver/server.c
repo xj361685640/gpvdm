@@ -18,26 +18,14 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
-#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <errno.h>
 #include <time.h>
-#include <math.h>
 #include "util.h"
 
-#include <sys/socket.h>
-#include <sys/types.h>
 #include <sys/inotify.h>
 #include <sys/time.h>
-#include <unistd.h>
 #include <signal.h>
-#include <sys/ioctl.h>
-#include <net/if.h>
-#include <unistd.h>
-#include <netinet/in.h>
-#include <sys/types.h>
-#include <sys/stat.h>
 #define EVENT_SIZE  ( sizeof (struct inotify_event) )
 #define EVENT_BUF_LEN     ( 1024 * ( EVENT_SIZE + 16 ) )
 #include "sim.h"

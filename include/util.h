@@ -20,8 +20,10 @@
 
 #ifndef h_util
 #define h_util
+#include <stdio.h>
 #ifdef windows
 #include <windows.h>
+
 #define fg_reset	15
 #define fg_red		12
 #define fg_green	10

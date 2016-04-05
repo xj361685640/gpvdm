@@ -24,9 +24,8 @@
 #define _FILE_OFFSET_BITS 64
 #define _LARGEFILE_SOURCE
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include <device.h>
+#include <string.h>
 
 static int unused __attribute__ ((unused));
 static char *unused_pchar __attribute__ ((unused));

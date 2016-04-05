@@ -20,6 +20,7 @@
 
 #ifndef device_h
 #define device_h
+#include <stdio.h>
 #include "code_ctrl.h"
 #include "light.h"
 #include "epitaxy.h"

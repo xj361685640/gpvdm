@@ -18,12 +18,8 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
-#include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 #include <string.h>
-#include <unistd.h>
-#include <stdlib.h>
 #include "util.h"
 #include "buffer.h"
 #include "const.h"
