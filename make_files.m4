@@ -1,1 +1,1 @@
-AC_SUBST(BUILD_DIRS," lib libdos liblight libmeasure libdump libserver libmesh libfit plugins/flat plugins/pulse plugins/newton_norm plugins/jv plugins/full plugins/umfpack plugins/exp plugins/newton plugins/fxdomain src images man ")
+AC_SUBST(BUILD_DIRS," lib libdos liblight libmeasure libdump libserver libmesh plugins/flat plugins/pulse plugins/newton_norm plugins/jv plugins/full plugins/umfpack plugins/exp plugins/newton plugins/fxdomain src images man ")

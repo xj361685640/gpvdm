@@ -9,7 +9,9 @@ config_files.append("libmeasure")
 config_files.append("libdump")
 config_files.append("libserver")
 config_files.append("libmesh")
-config_files.append("libfit")
+
+if os.path.isdir("libfit"):
+	config_files.append("libfit")
 
 for root, dirs, files in os.walk("./plugins"):
     for file in files:
@@ -22,7 +24,7 @@ for root, dirs, files in os.walk("./exp"):
         if file.endswith("Makefile.am"):
 			name=os.path.join(root, file)[2:-12]
 			config_files.append(name)
-
+	
 config_files.append("src")
 config_files.append("images")
 config_files.append("man")

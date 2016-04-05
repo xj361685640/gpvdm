@@ -4806,7 +4806,7 @@ esac
 #i?86
 #x86_64
 
-BUILD_DIRS=" lib libdos liblight libmeasure libdump libserver libmesh libfit plugins/flat plugins/pulse plugins/newton_norm plugins/jv plugins/full plugins/umfpack plugins/exp plugins/newton plugins/fxdomain src images man "
+BUILD_DIRS=" lib libdos liblight libmeasure libdump libserver libmesh plugins/flat plugins/pulse plugins/newton_norm plugins/jv plugins/full plugins/umfpack plugins/exp plugins/newton plugins/fxdomain src images man "
 
 
 ac_ext=c
@@ -5316,8 +5316,6 @@ ac_config_files="$ac_config_files libdump/Makefile"
 ac_config_files="$ac_config_files libserver/Makefile"
 
 ac_config_files="$ac_config_files libmesh/Makefile"
-
-ac_config_files="$ac_config_files libfit/Makefile"
 
 ac_config_files="$ac_config_files plugins/flat/Makefile"
 
@@ -6095,7 +6093,6 @@ do
     "libdump/Makefile") CONFIG_FILES="$CONFIG_FILES libdump/Makefile" ;;
     "libserver/Makefile") CONFIG_FILES="$CONFIG_FILES libserver/Makefile" ;;
     "libmesh/Makefile") CONFIG_FILES="$CONFIG_FILES libmesh/Makefile" ;;
-    "libfit/Makefile") CONFIG_FILES="$CONFIG_FILES libfit/Makefile" ;;
     "plugins/flat/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/flat/Makefile" ;;
     "plugins/pulse/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/pulse/Makefile" ;;
     "plugins/newton_norm/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/newton_norm/Makefile" ;;

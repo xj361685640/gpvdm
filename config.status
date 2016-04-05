@@ -393,7 +393,7 @@ on `(hostname || uname -n) 2>/dev/null | sed 1q`
 "
 
 # Files that config.status was made for.
-config_files=" Makefile lib/Makefile libdos/Makefile liblight/Makefile libmeasure/Makefile libdump/Makefile libserver/Makefile libmesh/Makefile libfit/Makefile plugins/flat/Makefile plugins/pulse/Makefile plugins/newton_norm/Makefile plugins/jv/Makefile plugins/full/Makefile plugins/umfpack/Makefile plugins/exp/Makefile plugins/newton/Makefile plugins/fxdomain/Makefile src/Makefile images/Makefile man/Makefile"
+config_files=" Makefile lib/Makefile libdos/Makefile liblight/Makefile libmeasure/Makefile libdump/Makefile libserver/Makefile libmesh/Makefile plugins/flat/Makefile plugins/pulse/Makefile plugins/newton_norm/Makefile plugins/jv/Makefile plugins/full/Makefile plugins/umfpack/Makefile plugins/exp/Makefile plugins/newton/Makefile plugins/fxdomain/Makefile src/Makefile images/Makefile man/Makefile"
 config_commands=" depfiles"
 
 ac_cs_usage="\
@@ -538,7 +538,6 @@ do
     "libdump/Makefile") CONFIG_FILES="$CONFIG_FILES libdump/Makefile" ;;
     "libserver/Makefile") CONFIG_FILES="$CONFIG_FILES libserver/Makefile" ;;
     "libmesh/Makefile") CONFIG_FILES="$CONFIG_FILES libmesh/Makefile" ;;
-    "libfit/Makefile") CONFIG_FILES="$CONFIG_FILES libfit/Makefile" ;;
     "plugins/flat/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/flat/Makefile" ;;
     "plugins/pulse/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/pulse/Makefile" ;;
     "plugins/newton_norm/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/newton_norm/Makefile" ;;
@@ -622,8 +621,8 @@ S["LIBOBJS"]=""
 S["EGREP"]="/usr/bin/grep -E"
 S["GREP"]="/usr/bin/grep"
 S["CPP"]="gcc -E"
-S["BUILD_DIRS"]=" lib libdos liblight libmeasure libdump libserver libmesh libfit plugins/flat plugins/pulse plugins/newton_norm plugins/jv plugins/full plugins/umfp"\
-"ack plugins/exp plugins/newton plugins/fxdomain src images man "
+S["BUILD_DIRS"]=" lib libdos liblight libmeasure libdump libserver libmesh plugins/flat plugins/pulse plugins/newton_norm plugins/jv plugins/full plugins/umfpack plu"\
+"gins/exp plugins/newton plugins/fxdomain src images man "
 S["COMPILE_FLAG"]="-I/usr/include/dbus-1.0 -I/usr/lib64/dbus-1.0/include  -D enable_server"
 S["LINK_FLAG"]=""
 S["WIN_LINK_FLAGS"]="-D roderick"
