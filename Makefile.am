@@ -5,4 +5,4 @@ SUBDIRS = @BUILD_DIRS@
 CFLAGS=-D dbus -D roderick
 
 clean-local:
-	rm *.dat *.o ./plugins/*.so ./plugins/*.dll -f 
+	rm *.dat *.o ./plugins/*.so ./plugins/*.dll *.log -f 
