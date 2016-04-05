@@ -23,13 +23,8 @@
 */
 #define _FILE_OFFSET_BITS 64
 #define _LARGEFILE_SOURCE
-//<clean=none></clean>
 #include <stdio.h>
-#include <stdlib.h>
 #include <math.h>
-#include <string.h>
-#include <unistd.h>
-#include <stdlib.h>
 #include "vec.h"
 
 /** @brief Basic vector manipulation routines

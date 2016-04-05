@@ -18,14 +18,7 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
-#include <string.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <errno.h>
-#include <sys/types.h>
-#include <sys/time.h>
-#include <unistd.h>
-#include <signal.h>
 #include <time.h>
 #include "sim.h"
 
