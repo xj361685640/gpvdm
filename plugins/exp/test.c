@@ -18,9 +18,6 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
-#include <stdio.h>
-#include <string.h>
-#include <dlfcn.h>
 #include <i.h>
 #include "light.h"
 

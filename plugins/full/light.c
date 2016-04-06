@@ -20,9 +20,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <math.h>
-#include <errno.h>
 #include <util.h>
 #include <dump_ctrl.h>
 #include <complex_solver.h>
