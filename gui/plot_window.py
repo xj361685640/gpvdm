@@ -24,10 +24,10 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
-import sys
+#import sys
 import os
-import shutil
-from token_lib import tokens
+#import shutil
+#from token_lib import tokens
 from plot_widget import plot_widget
 
 class plot_window():

@@ -23,28 +23,27 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
-import sys
+#import sys
 import os
-import shutil
+#import shutil
 from numpy import *
 from matplotlib.figure import Figure
-from numpy import arange, sin, pi
+#from numpy import arange, sin, pi
 from matplotlib.backends.backend_gtkagg import FigureCanvasGTKAgg as FigureCanvas
 from matplotlib.backends.backend_gtkagg import NavigationToolbar2GTKAgg as NavigationToolbar
-import gobject
+#import gobject
 from scan_item import scan_item_add
 from inp import inp_load_file
 from inp import inp_read_next_item
 from gui_util import dlg_get_text
 from inp import inp_get_token_value
-import matplotlib.mlab as mlab
+#import matplotlib.mlab as mlab
 from inp import inp_write_lines_to_file
 import webbrowser
 from util import time_with_units
 from inp_util import inp_search_token_value
 from cal_path import get_image_file_path
 from scan_item import scan_remove_file
-from scan_item import scan_item_add
 from debug import advanced_features
 from tb_lasers import tb_lasers
 
@@ -159,7 +158,7 @@ class tab_time_mesh(gtk.VBox):
 		model, iter = selection.get_selected()
 
 		if iter:
-			path = model.get_path(iter)[0]
+			#path = model.get_path(iter)[0]
 			model.remove(iter)
 
 		self.build_mesh()
@@ -174,7 +173,7 @@ class tab_time_mesh(gtk.VBox):
 		model, iter = selection.get_selected()
 
 		if iter:
-			path = model.get_path(iter)[0]
+			#path = model.get_path(iter)[0]
  			self.store.move_after( iter,self.store.iter_next(iter))
 
 		self.build_mesh()
@@ -263,7 +262,7 @@ class tab_time_mesh(gtk.VBox):
 
 	def draw_graph(self):
 
-		n=0
+		#n=0
 		if (len(self.time)>0):
 			mul,unit=time_with_units(float(self.time[len(self.time)-1]-self.time[0]))
 		else:
@@ -279,9 +278,9 @@ class tab_time_mesh(gtk.VBox):
 		self.ax1 = self.fig.add_subplot(111)
 		self.ax1.ticklabel_format(useOffset=False)
 		#ax2 = ax1.twinx()
-		x_pos=0.0
-		layer=0
-		color =['r','g','b','y','o','r','g','b','y','o']
+		#x_pos=0.0
+		#layer=0
+		#color =['r','g','b','y','o','r','g','b','y','o']
 
 		self.ax1.set_ylabel(_("Voltage (Volts)"))
 

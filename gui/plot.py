@@ -20,11 +20,11 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-import sys
+#import sys
 import os
-import shutil
+#import shutil
 from token_lib import tokens
-from util import pango_to_gnuplot
+#from util import pango_to_gnuplot
 from plot_io import plot_load_info
 
 def load_graph(path):

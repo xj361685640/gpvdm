@@ -22,14 +22,17 @@
 
 #This is some code I wrote to make gpvdm run as part of a cluster. The server code sends data to the clients and tells them what to do, the server then reports back to the gpvdm interface once jobs are finished.  It will only run if you invoke the --server or --client from the command line. It's super unstable/buggy and I only run it on a cluster with no route to the internet as there is no authentication control. Use at your own risk!
 
-import socket, select, string, sys
-import os
 import socket
-import sys
-import multiprocessing
+#import select
+#import string
+#import sys
+import os
+#import socket
+#import sys
+#import multiprocessing
 import threading
-from inp import inp_get_token_value
-from time import sleep
+#from inp import inp_get_token_value
+#from time import sleep
 import SocketServer
 from cal_path import join_path
 
@@ -77,7 +80,7 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
 		pos=pos+200
 		n=0
 		frag_error=False
-		frag_error_text=""
+		#frag_error_text=""
 		while True:
 			if pos+200<len(buf):
 				name=buf[pos:pos+200].rstrip()
@@ -105,7 +108,7 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
 			output_file=join_path(output_path,name)
 			#print "Writing file:"+output_file+"<"
 			#print "Output path:"+output_path+"<"
-			path=os.path.dirname(output_file)
+			#path=os.path.dirname(output_file)
 			#print "name:"+name+"<"
 			#print "test:"+os.path.join(output_path,name)+"<"
 			ensure_dir(output_file)
@@ -136,8 +139,6 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
 		#sleep(0.5)
 		if job_name!="":
 			if respond_ip!="":
-				#print os.path.isdir("/home/rod/liz/orig/otest//home/rod/liz/orig/high_recombination_mobility/1e-8/200")
-				#print "Ready!!!!!!!!"
 				s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 				s.sendto("iwanttorun#"+job_name, (respond_ip, respond_port))
 				s.close()

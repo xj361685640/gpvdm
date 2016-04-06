@@ -118,8 +118,8 @@ def find_fits():
 	text_file.close()
 
 def find_fit_error():
-	path='./'
-	result = []
+	#path='./'
+	#result = []
 	string="plot \\\n"
 	i=0
 	for name in glob.glob('error_*exp*.dat'):

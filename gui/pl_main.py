@@ -23,22 +23,22 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
-import sys
-import os
-import shutil
-import commands
-import subprocess
-from win_lin import running_on_linux
-from cal_path import get_exe_command
-import os
-import gobject
+#import sys
+#import os
+#import shutil
+#import commands
+#import subprocess
+#from win_lin import running_on_linux
+#from cal_path import get_exe_command
+#import os
+#import gobject
 from tab_base import tab_base
 from epitaxy import epitaxy_get_dos_files
 from tab import tab_class
 from epitaxy import epitaxy_get_layers
-from epitaxy import epitaxy_get_electrical_layer
+#from epitaxy import epitaxy_get_electrical_layer
 from epitaxy import epitaxy_get_pl_file
-from epitaxy import epitaxy_get_mat_file
+#from epitaxy import epitaxy_get_mat_file
 from global_objects import global_object_register
 from help import my_help_class
 from epitaxy import epitaxy_get_name
@@ -56,7 +56,7 @@ class pl_main(gtk.HBox,tab_base):
 	def init(self):
 		self.notebook = gtk.Notebook()
 		print "Welcome"
-		read_page=False
+#		read_page=False
 		self.pack_start(self.notebook, True, True, 0)
 		self.notebook.set_tab_pos(gtk.POS_LEFT)
 		self.notebook.show()
@@ -73,7 +73,7 @@ class pl_main(gtk.HBox,tab_base):
 		for i in range(0,epitaxy_get_layers()):
 			pl_file=epitaxy_get_pl_file(i)
 			if pl_file!="none":
-				add_to_widget=True
+#				add_to_widget=True
 				tab=tab_class()
 				tab.show()
 				tab.visible=True

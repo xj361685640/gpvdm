@@ -24,10 +24,10 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
-import sys
+#import sys
 import os
-import shutil
-import time
+#import shutil
+#import time
 import glob
 from cal_path import get_device_lib_path
 from util_zip import read_lines_from_archive
@@ -50,7 +50,7 @@ class device_lib_class(gtk.Dialog):
 
 	def __add_columns(self, treeview):
 
-		model = treeview.get_model()
+#		model = treeview.get_model()
 
 		renderer = gtk.CellRendererText()
 		#renderer.connect("edited", self.on_cell_edited, model)

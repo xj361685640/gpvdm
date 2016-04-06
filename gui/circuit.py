@@ -22,25 +22,25 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
-import sys
-import math
-import random
-from layer_widget import layer_widget
-from util import read_xyz_data
+#import sys
+#import math
+#import random
+#from layer_widget import layer_widget
+#from util import read_xyz_data
 import os
-from cal_path import get_materials_path
-from inp import inp_load_file
-from inp_util import inp_search_token_value
-from util import str2bool
-from tab_base import tab_base
-from epitaxy import epitaxy_get_layers
-from epitaxy import epitaxy_get_width
-from epitaxy import epitaxy_get_mat_file
-from epitaxy import epitaxy_get_electrical_layer
-from help import my_help_class
+#from cal_path import get_materials_path
+#from inp import inp_load_file
+#from inp_util import inp_search_token_value
+#from util import str2bool
+#from tab_base import tab_base
+#from epitaxy import epitaxy_get_layers
+#from epitaxy import epitaxy_get_width
+#from epitaxy import epitaxy_get_mat_file
+#from epitaxy import epitaxy_get_electrical_layer
+#from help import my_help_class
 from cal_path import get_image_file_path
-from epitaxy import epitaxy_get_pl_file
-from epitaxy import epitaxy_get_name
+#from epitaxy import epitaxy_get_pl_file
+#from epitaxy import epitaxy_get_name
 from tb_pulse_load_type import tb_pulse_load_type
 
 class circuit(gtk.VBox):

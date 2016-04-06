@@ -22,9 +22,9 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
-import sys
+#import sys
 import os
-import shutil
+#import shutil
 from ver import ver
 from notice import notice
 from cal_path import get_image_file_path

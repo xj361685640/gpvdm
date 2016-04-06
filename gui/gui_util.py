@@ -23,18 +23,18 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
-import sys
-import os
-import shutil
-import signal
-import subprocess
-from tempfile import mkstemp
-import logging
-import zipfile
-import re
-import hashlib
-import glob
-from win_lin import running_on_linux
+#import sys
+#import os
+#import shutil
+#import signal
+#import subprocess
+#from tempfile import mkstemp
+#import logging
+#import zipfile
+#import re
+#import hashlib
+#import glob
+#from win_lin import running_on_linux
 
 def dlg_get_text( message, default=''):
 

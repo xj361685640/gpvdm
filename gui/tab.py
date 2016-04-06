@@ -23,17 +23,17 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
-import sys
+#import sys
 import os
-import shutil
+#import shutil
 from scan_item import scan_item_add
 from token_lib import tokens
-from util_zip import check_is_config_file
+#from util_zip import check_is_config_file
 from inp import inp_update_token_value
 from inp import inp_get_token_value
 from undo import undo_list_class
-import zipfile
-import base64
+#import zipfile
+#import base64
 from tab_base import tab_base
 from util import str2bool
 from scan_item import scan_remove_file
@@ -42,6 +42,10 @@ from help import my_help_class
 from util import latex_to_pygtk_subscript
 from i18n import yes_no
 from cal_path import get_image_file_path
+
+
+import i18n
+_ = i18n.language.gettext
 
 class tab_class(gtk.VBox,tab_base):
 	

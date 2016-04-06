@@ -23,32 +23,32 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
-import sys
+#import sys
 import os
-import shutil
+#import shutil
 from numpy import *
 from matplotlib.figure import Figure
-from numpy import arange, sin, pi
+#from numpy import arange, sin, pi
 from matplotlib.backends.backend_gtkagg import FigureCanvasGTKAgg as FigureCanvas
 from matplotlib.backends.backend_gtkagg import NavigationToolbar2GTKAgg as NavigationToolbar
-import gobject
+#import gobject
 from inp import inp_load_file
-from inp import inp_get_token_value
-import matplotlib.mlab as mlab
+#from inp import inp_get_token_value
+#import matplotlib.mlab as mlab
 import webbrowser
 from inp_util import inp_search_token_value
 from cal_path import get_image_file_path
 from window_list import windows
 
-from epitaxy import epitaxy_get_dos_files
-from tab import tab_class
+#from epitaxy import epitaxy_get_dos_files
+#from tab import tab_class
 from epitaxy import epitaxy_get_layers
-from epitaxy import epitaxy_get_electrical_layer
-from epitaxy import epitaxy_get_pl_file
-from epitaxy import epitaxy_get_mat_file
-from global_objects import global_object_register
-from help import my_help_class
-from epitaxy import epitaxy_get_name
+#from epitaxy import epitaxy_get_electrical_layer
+#from epitaxy import epitaxy_get_pl_file
+#from epitaxy import epitaxy_get_mat_file
+#from global_objects import global_object_register
+#from help import my_help_class
+#from epitaxy import epitaxy_get_name
 from epitaxy import epitaxy_get_dos_file
 from epitaxy import epitaxy_get_width
 from inp import inp_update
@@ -135,7 +135,7 @@ class doping_window(gtk.Window):
 
 	def draw_graph(self):
 
-		n=0
+#		n=0
 
 		self.fig.clf()
 		self.fig.subplots_adjust(bottom=0.2)
@@ -143,9 +143,9 @@ class doping_window(gtk.Window):
 		self.ax1 = self.fig.add_subplot(111)
 		self.ax1.ticklabel_format(useOffset=False)
 		#ax2 = ax1.twinx()
-		x_pos=0.0
-		layer=0
-		color =['r','g','b','y','o','r','g','b','y','o']
+#		x_pos=0.0
+#		layer=0
+#		color =['r','g','b','y','o','r','g','b','y','o']
 
 		self.ax1.set_ylabel(_("Doping (m^{-3})"))
 		x_plot=[]
@@ -194,7 +194,7 @@ class doping_window(gtk.Window):
 	def create_model(self):
 		store = gtk.ListStore(str, str, str,str)
 
-		files=epitaxy_get_dos_files()
+#		files=epitaxy_get_dos_files()
 		for i in range(0,epitaxy_get_layers()):
 			dos_file=epitaxy_get_dos_file(i)
 			width=epitaxy_get_width(i)
@@ -204,7 +204,7 @@ class doping_window(gtk.Window):
 				if inp_load_file(lines,dos_file+".inp")==True:
 					doping_start=float(inp_search_token_value(lines, "#doping_start"))
 					doping_stop=float(inp_search_token_value(lines, "#doping_stop"))
-					doping_width=epitaxy_get_width(i)
+#					doping_width=epitaxy_get_width(i)
 					print "add",dos_file
 					store.append([str(dos_file), str(width), str(doping_start),str(doping_stop)])
 		return store
@@ -243,7 +243,7 @@ class doping_window(gtk.Window):
 
 
 	def build_mesh(self):
-		lines=[]
+#		lines=[]
 		self.doping=[]
 		self.x_pos=[]
 		pos=0.0

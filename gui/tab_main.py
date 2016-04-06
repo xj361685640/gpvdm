@@ -23,9 +23,9 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
-import sys
+#import sys
 import math
-import random
+#import random
 from layer_widget import layer_widget
 from util import read_xyz_data
 import os
@@ -235,8 +235,8 @@ class tab_main(gtk.VBox,tab_base):
 		self.cr.set_line_width(9)
 		self.cr.set_source_rgb(0.7, 0.2, 0.0)
 		        
-		w = self.allocation.width
-		h = self.allocation.height
+#		w = self.allocation.width
+#		h = self.allocation.height
 
 		#self.cr.translate(w/2, h/2)
 

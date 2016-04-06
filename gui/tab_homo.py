@@ -23,15 +23,15 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
-import sys
+#import sys
 import os
-import shutil
+#import shutil
 from inp import inp_isfile
 from inp import inp_load_file
 from inp import inp_write_lines_to_file
 from numpy import *
 from matplotlib.figure import Figure
-from numpy import arange, sin, pi
+#from numpy import arange, sin, pi
 from matplotlib.backends.backend_gtkagg import FigureCanvasGTKAgg as FigureCanvas
 import gobject
 from scan_item import scan_item_add
@@ -390,7 +390,7 @@ class tab_bands(gtk.HBox,tab_base):
 
 	def draw_graph_lumo(self):
 
-		n=0
+#		n=0
 
 		ax1 = self.LUMO_fig.add_subplot(111)
 
@@ -398,8 +398,8 @@ class tab_bands(gtk.HBox,tab_base):
 		ax1.set_xlabel('Energy (eV)')
 
 		#ax2 = ax1.twinx()
-		x_pos=0.0
-		layer=0
+		#x_pos=0.0
+		#layer=0
 		color =['r','g','b','y','o','r','g','b','y','o']
 		ax1.set_yscale('log')
 		ax1.set_ylim(ymin=1e17,ymax=1e28)
@@ -478,7 +478,7 @@ class tab_bands(gtk.HBox,tab_base):
 
 		inp_load_file(self.lines,"./lumo0.inp")
 
-		n=0
+#		n=0
 		pos=0
 
 		while True:
@@ -527,7 +527,7 @@ class tab_bands(gtk.HBox,tab_base):
 		self.save_file_name="homo0.inp"
 
 		inp_load_file(self.lines,"./homo0.inp")
-		n=0
+		#n=0
 		pos=0
 
 		while True:

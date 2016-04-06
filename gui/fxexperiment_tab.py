@@ -23,24 +23,24 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
-import sys
+#import sys
 import os
-import shutil
+#import shutil
 from numpy import *
-from matplotlib.figure import Figure
-from numpy import arange, sin, pi
-from matplotlib.backends.backend_gtkagg import FigureCanvasGTKAgg as FigureCanvas
-from matplotlib.backends.backend_gtkagg import NavigationToolbar2GTKAgg as NavigationToolbar
-import gobject
-from scan_item import scan_item_add
+#from matplotlib.figure import Figure
+#from numpy import arange, sin, pi
+#from matplotlib.backends.backend_gtkagg import FigureCanvasGTKAgg as FigureCanvas
+#from matplotlib.backends.backend_gtkagg import NavigationToolbar2GTKAgg as NavigationToolbar
+#import gobject
+#from scan_item import scan_item_add
 from inp import inp_load_file
-from inp import inp_read_next_item
-from gui_util import dlg_get_text
-from inp import inp_get_token_value
-import matplotlib.mlab as mlab
-from inp import inp_write_lines_to_file
-import webbrowser
-from util import time_with_units
+#from inp import inp_read_next_item
+#from gui_util import dlg_get_text
+#from inp import inp_get_token_value
+#import matplotlib.mlab as mlab
+#from inp import inp_write_lines_to_file
+#import webbrowser
+#from util import time_with_units
 from inp_util import inp_search_token_value
 from fxmesh import tab_fxmesh
 from circuit import circuit

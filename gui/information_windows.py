@@ -22,20 +22,23 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
-import sys
+#import sys
 import os
-import shutil
-import commands
-import subprocess
-import time
-import re
-import os
-from ver import ver_core
-from ver import ver_mat
-from ver import ver_gui
+#import shutil
+#import commands
+#import subprocess
+#import time
+#import re
+#import os
+#from ver import ver_core
+#from ver import ver_mat
+#from ver import ver_gui
 from tab_base import tab_base
 from help import my_help_class
 from cal_path import get_image_file_path
+
+import i18n
+_ = i18n.language.gettext
 
 class information(gtk.HBox,tab_base):
 	
@@ -50,7 +53,7 @@ class information(gtk.HBox,tab_base):
 		self.label = gtk.Label()
 
 		self.text=_("<big><b>General-purpose photovoltaic device model</b>\n(<a href=\"http://www.gpvdm.com\" title=\"Click to find out more\">www.gpvdm.com</a>)\n\n To make a new simulation directory click <i>new</i> in the <i>file</i> menu\n or to open an existing simulation click on the <i>open</i> button.\n There is more help on the <a href=\"http://www.gpvdm.com/man/index.html\">man pages</a>.  Please report bugs to\nroderick.mackenzie@nottingham.ac.uk.\n\n Rod\n18/10/13\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n\n\n")
-		read_page=False
+		#read_page=False
 
 
 		self.label.set_markup(self.text+"</big>")

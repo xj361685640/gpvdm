@@ -22,27 +22,30 @@
 
 import pygtk
 pygtk.require('2.0')
-import gc
+#import gc
 import gtk
-import sys
+#import sys
 import os
-import shutil
-from inp import inp_update_token_value
-from inp import inp_get_token_value
-from search import return_file_list
-from plot import check_info_file
-from about import about_dialog_show
-from used_files_menu import used_files_menu
-from server import server
-from plot_dlg import plot_dlg_class
-import threading
-import gobject
+#import shutil
+#from inp import inp_update_token_value
+#from inp import inp_get_token_value
+#from search import return_file_list
+#from plot import check_info_file
+#from about import about_dialog_show
+#from used_files_menu import used_files_menu
+#from server import server
+#from plot_dlg import plot_dlg_class
+#import threading
+#import gobject
 #import pyinotify
-import multiprocessing
-import time
-import glob
+#import multiprocessing
+#import time
+#import glob
 from window_list import windows
 from scan_item import scan_items_get_list
+
+import i18n
+_ = i18n.language.gettext
 
 class select_param(gtk.Window):
 	def init(self,liststore_combobox,dest_treeview):

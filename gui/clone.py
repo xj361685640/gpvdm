@@ -19,10 +19,10 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-import sys
+#import sys
 import os
 import shutil
-import glob
+#import glob
 from cal_path import get_inp_file_path
 from util_zip import zip_lsdir
 from util_zip import read_lines_from_archive

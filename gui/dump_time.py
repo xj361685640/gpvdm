@@ -23,9 +23,9 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
-import sys
-import os
-import shutil
+#import sys
+#import os
+#import shutil
 from scan_item import scan_item
 
 class tab_class(gtk.Table):

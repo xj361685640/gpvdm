@@ -22,12 +22,12 @@
 
 
 import os
-import pygtk
+#import pygtk
 import gtk
 from progress import progress_class
 from gui_util import process_events
-from inp import inp_get_token_value
-from inp import inp_write_lines_to_file
+#from inp import inp_get_token_value
+#from inp import inp_write_lines_to_file
 from inp import inp_load_file
 from inp import inp_get_next_token_array
 from inp import inp_isfile
@@ -145,7 +145,7 @@ class gpvdm_notebook(gtk.Notebook):
 			for child in self.get_children():
 					self.remove(child)
 
-			dos_files=inp_get_token_value("device_epitaxy.inp", "#layers")
+#			dos_files=inp_get_token_value("device_epitaxy.inp", "#layers")
 
 			self.main_tab=tab_main()
 			self.main_tab.init()

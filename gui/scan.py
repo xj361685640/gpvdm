@@ -24,26 +24,26 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
-import sys
+#import sys
 import os
 import shutil
 from cal_path import get_image_file_path
 from about import about_dialog_show
-from used_files_menu import used_files_menu
-from server import server
+#from used_files_menu import used_files_menu
+#from server import server
 from scan_tab import scan_vbox
 from gui_util import dlg_get_text
-import threading
-import gobject
-import multiprocessing
-import time
-import glob
+#import threading
+#import gobject
+#import multiprocessing
+#import time
+#import glob
 from window_list import windows
-from util import gpvdm_delete_file
+#from util import gpvdm_delete_file
 from util import delete_second_level_link_tree
 from util import copy_scan_dir
 from search import return_file_list
-from win_lin import running_on_linux
+#from win_lin import running_on_linux
 import webbrowser
 from search import find_fit_log
 from scan_io import get_scan_dirs
@@ -443,12 +443,12 @@ class scan_class(gtk.Window):
 		self.set_border_width(2)
 		self.set_title(_("Parameter scan - gpvdm"))
 
-		n=0
+#		n=0
 
 		self.hpc_root_dir= os.path.abspath(os.getcwd()+'/../')
 
 		self.number_of_tabs=0
-		items=0
+#		items=0
 
 		self.status_bar = gtk.Statusbar()      
 

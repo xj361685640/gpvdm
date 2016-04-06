@@ -22,10 +22,13 @@
 
 #This is some code I wrote to make gpvdm run as part of a cluster. The server code sends data to the clients and tells them what to do, the server then reports back to the gpvdm interface once jobs are finished.  It will only run if you invoke the --server or --client from the command line. It's super unstable/buggy and I only run it on a cluster with no route to the internet as there is authentication control. Use at your own risk!
 
-import socket, select, string, sys
-import os
 import socket
+#import select
+#import string
 import sys
+import os
+#import socket
+#import sys
 import multiprocessing
 import shutil
 from inp import inp_get_token_value
@@ -110,9 +113,6 @@ class udp_client():
 		if not os.path.exists(otest_path):
 			os.makedirs(otest_path)
 
-		#with open("/home/rod/share/orig/debug.dat", "w") as myfile:
-		#	myfile.write("debug info")
-
 
 		net_files=listen_for_files_on_network()
 		net_files.init(otest_path,10000)
@@ -154,15 +154,8 @@ class udp_client():
 					#cmd=exe_name
 					path=join_path(otest_path,job_name)
 					print "RUNNING NOW",path
-					#f = open("/home/rod/one.dat", "w")
-					#f.write( exe_name+"\n"  )
-					#f.write( path+"\n"  )
-					#f.close()
 
 					os.chdir(path)
-
-					#with open("/home/rod/share/orig/debug.dat", "a") as myfile:
-					#	myfile.write("RUNNING NOW'"+cmd+"' '"+path+"'")
 
 
 					os.system("./go.o")

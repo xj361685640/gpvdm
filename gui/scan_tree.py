@@ -21,13 +21,13 @@
 
 
 
-import gc
-import sys
+#import gc
+#import sys
 import os
 import shutil
 import glob
-import random
-from random import randint
+#import random
+#from random import randint
 
 from inp import inp_update_token_value
 from scan_item import scan_items_get_list
@@ -35,6 +35,7 @@ from scan_item import scan_items_index_item
 from inp import inp_get_token_value
 from inp import inp_get_token_array
 from util import str2bool
+from util import get_cache_path
 
 def tree_load_flat_list(sim_dir):
 	config=[]
@@ -156,12 +157,12 @@ def tree_apply_python_script(program_list):
 			print "Replace",param_list[pos_mirror_dest].filename,param_list[pos_mirror_dest].token,program_list[i][1],ret
 
 def copy_simulation(base_dir,cur_dir):
-	param_list=scan_items_get_list()
+#	param_list=scan_items_get_list()
 	cache=int(inp_get_token_value("server.inp","#use_cache"))
 
 	if cache==True:
 		cache_path=get_cache_path(cur_dir)
-		d = os.path.dirname(cache_path)
+#		d = os.path.dirname(cache_path)
 
 		if os.path.isdir(cache_path)==True:
 			shutil.rmtree(cache_path)		#if there is something in the cache with this name remove it

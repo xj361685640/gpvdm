@@ -1,8 +1,8 @@
 [Desktop Entry]
-	Name=gpvdm
-	Icon=/usr/share/gpvdm/gui/image.jpg
-	Type=Application
-	MimeType=application/gpvdm
-	Exec=gpvdm %F
-	Terminal=true
-	Categories=GTK;GNOME;Education;Science;
+Name=gpvdm
+Icon=/usr/share/gpvdm/gui/image.jpg
+Type=Application
+MimeType=application/gpvdm;
+Exec=gpvdm %F
+Terminal=true
+Categories=GTK;GNOME;Science;

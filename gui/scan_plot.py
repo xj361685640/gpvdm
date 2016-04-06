@@ -23,17 +23,17 @@
 
 import pygtk
 pygtk.require('2.0')
-import gc
+#import gc
 import gtk
 import sys
 import os
-import shutil
+#import shutil
 from search import return_file_list
 from plot import check_info_file
-from token_lib import tokens
+#from token_lib import tokens
 from win_lin import running_on_linux
 from inp import inp_get_token_value
-from plot_state import plot_state
+#from plot_state import plot_state
 from plot import plot_populate_plot_token
 
 def gen_plot_line(dirname,plot_token):

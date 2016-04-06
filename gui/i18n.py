@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
  
-import os, sys
+#import os, sys
 import locale
 import gettext
 from cal_path import get_lang_path

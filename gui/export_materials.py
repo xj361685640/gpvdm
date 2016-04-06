@@ -20,11 +20,11 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-import sys
+#import sys
 import os
-import glob
+#import glob
 import zipfile
-from util_zip import archive_add_file
+#from util_zip import archive_add_file
 from progress import progress_class
 from gui_util import process_events
 from cal_path import remove_cwdfrompath

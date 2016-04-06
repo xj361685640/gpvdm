@@ -23,26 +23,26 @@
 
 import pygtk
 pygtk.require('2.0')
-import gtk
-import sys
+#import gtk
+#import sys
 import os
-import shutil
-from inp import inp_update_token_value
+#import shutil
+#from inp import inp_update_token_value
 from inp import inp_write_lines_to_file
 from inp import inp_load_file
-from inp_util import inp_search_token_value
-from scan_item import scan_item
-from scan_item import scan_item_add
-import glob
-from util import time_with_units
-from plot_widget import plot_widget
-from util_zip import zip_get_data_file
-from window_list import windows
-from plot_state import plot_state
-from plot_io import plot_load_info
-from cal_path import get_exe_command
+#from inp_util import inp_search_token_value
+#from scan_item import scan_item
+#from scan_item import scan_item_add
+#import glob
+#from util import time_with_units
+#from plot_widget import plot_widget
+#from util_zip import zip_get_data_file
+#from window_list import windows
+#from plot_state import plot_state
+#from plot_io import plot_load_info
+#from cal_path import get_exe_command
 
-from i18n import yes_no
+#from i18n import yes_no
 
 layers=0
 electrical_layers=0
@@ -114,7 +114,7 @@ def epitay_get_next_pl():
 			return name
 
 def epitaxy_load_from_arrays(in_name,in_width,in_material,in_dos_layer,in_pl_file):
-	lines=[]
+	#lines=[]
 	global layers
 	global electrical_layers
 	global width
@@ -158,7 +158,7 @@ def epitaxy_save():
 	global pl_file
 	global name
 
-	dos_text=""
+	#dos_text=""
 	lines=[]
 	lines.append("#layers")
 	lines.append(str(layers))

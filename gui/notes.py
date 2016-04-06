@@ -23,13 +23,13 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
-import sys
+#import sys
 import os
-import shutil
-from numpy import *
-from matplotlib.figure import Figure
-from numpy import arange, sin, pi
-import gobject
+#import shutil
+#from numpy import *
+#from matplotlib.figure import Figure
+#from numpy import arange, sin, pi
+#import gobject
 
 
 articles = []

@@ -25,24 +25,24 @@ pygtk.require('2.0')
 import gtk
 import sys
 import os
-import shutil
-from search import return_file_list
+#import shutil
+#from search import return_file_list
 from util import str2bool
 from inp import inp_get_token_value
 import threading
-import gobject
+#import gobject
 import multiprocessing
 import time
-import glob
+#import glob
 import socket
 from time import sleep
 from win_lin import running_on_linux
 import subprocess
 from util import gui_print_path
 from progress import progress_class
-from copying import copying
+#from copying import copying
 from cal_path import get_exe_command
-from global_objects import global_object_get
+#from global_objects import global_object_get
 from help import my_help_class
 from sim_warnings import sim_warnings
 
@@ -53,7 +53,7 @@ def server_find_simulations_to_run(commands,search_path):
 	for root, dirs, files in os.walk(search_path):
 		for my_file in files:
 			if my_file.endswith("sim.gpvdm")==True:
-				full_name=os.path.join(root, my_file)
+#				full_name=os.path.join(root, my_file)
 				commands.append(root)
 
 class server:
@@ -121,7 +121,7 @@ class server:
 		if len(text)!=0:
 			dialog=sim_warnings()
 			dialog.init(text)
-			response=dialog.run()
+#			response=dialog.run()
 			dialog.destroy()
 
 
@@ -189,7 +189,7 @@ class server:
 		while(1):
 			d = self.socket.recvfrom(1024)
 			data = d[0]
-			addr = d[1]
+#			addr = d[1]
 			print data
 			print "command=",data
 			if data.startswith("percent"):
@@ -212,7 +212,7 @@ class server:
 			if data.startswith("load"):
 				if data.count("#")>1:
 					command=data.split("#")
-					items=len(command)
+#					items=len(command)
 					height=50
 					for i in range(1,len(command)):
 						print command[i]
@@ -238,6 +238,12 @@ class server:
 		for i in range(0, len(self.jobs)):
 			print self.jobs[i],self.status[i]
 
+		#if self.cluster==True:
+		#	s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+		#	port = 8888;
+		#	s.sendto("print_jobs", (self.server_ip, port))
+		#	s.close()
+
 	def killall(self):
 		if self.cluster==True:
 			s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -245,18 +251,12 @@ class server:
 			s.sendto("killall", (self.server_ip, port))
 			s.close()
 		else:
-			exe_name=os.path.basename(get_exe_command())
-			cmd = 'killall '+exe_name
-			ret= os.system(cmd)
+			print "stop jobs"
+			#exe_name=os.path.basename(get_exe_command())
+			#cmd = 'killall '+exe_name
+			#ret= os.system(cmd)
 
 		self.stop()
-
-	def print_jobs(self):
-		if self.cluster==True:
-			s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-			port = 8888;
-			s.sendto("print_jobs", (self.server_ip, port))
-			s.close()
 
 
 	def sleep(self):
@@ -408,7 +408,7 @@ class server:
 					if test=="lock":
 						if self.finished_jobs.count(data)==0:
 							self.finished_jobs.append(data)
-							rest=data[4:]
+#							rest=data[4:]
 							self.jobs_run=self.jobs_run+1
 							self.jobs_running=self.jobs_running-1
 							self.progress_window.set_fraction(float(self.jobs_run)/float(len(self.jobs)))

@@ -24,15 +24,15 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
-import sys
-import os
-import shutil
-from gui_util import dlg_get_text
-import threading
-import gobject
-import multiprocessing
-import time
-import glob
+#import sys
+#import os
+#import shutil
+#from gui_util import dlg_get_text
+#import threading
+#import gobject
+#import multiprocessing
+#import time
+#import glob
 from help import my_help_class
 
 class progress_class(gtk.Window):

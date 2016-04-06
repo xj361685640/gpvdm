@@ -23,37 +23,37 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
-import sys
+#import sys
 import os
-import shutil
-from numpy import *
+#import shutil
+#from numpy import *
 from inp import inp_update_token_value
 from inp import inp_get_token_value
-import gobject
-import os, fnmatch
+#import gobject
+#import os, fnmatch
 from plot_gen import plot_gen
 from cal_path import get_image_file_path
 import zipfile
 import glob
 from scan_item import scan_item_add
 from tab import tab_class
-from win_lin import running_on_linux
+#from win_lin import running_on_linux
 from photon_dist import photon_dist_class
 from plot_widget import plot_widget
-from plot_state import plot_state
-from plot_io import plot_load_info
+#from plot_state import plot_state
+#from plot_io import plot_load_info
 import webbrowser
 from progress import progress_class
 from cal_path import get_materials_path
 from cal_path import get_light_dll_path
 from cal_path import get_exe_command
-from inp import inp_load_file
-from epitaxy import epitaxy_get_layers
-from epitaxy import epitaxy_get_mat_file
-from epitaxy import epitaxy_get_electrical_layer
-from epitaxy import epitaxy_get_width
-from epitaxy import epitaxy_get_name
-from inp_util import inp_search_token_value
+#from inp import inp_load_file
+#from epitaxy import epitaxy_get_layers
+#from epitaxy import epitaxy_get_mat_file
+#from epitaxy import epitaxy_get_electrical_layer
+#from epitaxy import epitaxy_get_width
+#from epitaxy import epitaxy_get_name
+#from inp_util import inp_search_token_value
 from band_graph import band_graph
 
 def find_modes(path):
@@ -382,7 +382,7 @@ class class_optical(gtk.Window):
 	def update_graph(self):
 		cmd = get_exe_command()+' --optics'
 		print cmd
-		ret= os.system(cmd)
+#		ret= os.system(cmd)
 		self.fig_photon_density.my_figure.clf()
 		self.fig_photon_density.draw_graph()
 		self.fig_photon_density.canvas.draw()

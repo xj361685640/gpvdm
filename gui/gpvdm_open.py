@@ -24,7 +24,7 @@
 
 import gtk
 import os
-from global_objects import global_object_get
+#from global_objects import global_object_get
 from plot_io import get_plot_file_info
 from plot_state import plot_state
 from util import latex_to_pygtk_subscript
@@ -146,7 +146,7 @@ class gpvdm_open(gtk.Dialog):
 				if show_dir==True:
 					self.store.append([fl, self.dir_icon, "dir"])
 			else:
-				append=False
+				#append=False
 				if (file_name.endswith(".dat")==True):
 					f = open(file_name, 'r')
 					text = f.readline()

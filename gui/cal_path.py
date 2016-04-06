@@ -21,7 +21,7 @@
 
 import sys
 import os
-import shutil
+#import shutil
 from win_lin import running_on_linux
 
 if running_on_linux()==False:

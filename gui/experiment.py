@@ -24,26 +24,26 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
-import sys
+#import sys
 import os
-import shutil
+#import shutil
 from about import about_dialog_show
-from used_files_menu import used_files_menu
-from server import server
-from scan_tab import scan_vbox
+#from used_files_menu import used_files_menu
+#from server import server
+#from scan_tab import scan_vbox
 from gui_util import dlg_get_text
-import threading
-import gobject
-import multiprocessing
-import time
-import glob
+#import threading
+#import gobject
+#import multiprocessing
+#import time
+#import glob
 from window_list import windows
-from search import return_file_list
-from win_lin import running_on_linux
+#from search import return_file_list
+#from win_lin import running_on_linux
 import webbrowser
 from debug import advanced_features
 from inp import inp_update_token_value
-from inp import inp_get_token_value
+#from inp import inp_get_token_value
 from experiment_tab import experiment_tab
 from util_zip import zip_lsdir
 from inp import inp_isfile

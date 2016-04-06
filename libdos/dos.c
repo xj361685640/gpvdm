@@ -430,7 +430,7 @@ void load_dos_file(struct dos *mydos, char *file)
 			mydos->c[t][x] = buf[buf_pos++];
 			mydos->w[t][x] = buf[buf_pos++];
 #else
-			fscanf(in, "%le %le ", &n, &w0);
+			fscanf(in, "%Le %Le ", &n, &w0);
 			mydos->c[t][x] = n;
 			mydos->w[t][x] = w0;
 #endif
@@ -446,7 +446,7 @@ void load_dos_file(struct dos *mydos, char *file)
 				mydos->srh_c[t][x][srh_band] = buf[buf_pos++];
 				//printf("%le\n",mydos->srh_c[t][x][srh_band]);
 #else
-				fscanf(in, "%le %le %le %le %le ", &srh_r1,
+				fscanf(in, "%Le %Le %Le %Le %Le ", &srh_r1,
 				       &srh_r2, &srh_r3, &srh_r4, &srh_c);
 				mydos->srh_r1[t][x][srh_band] = srh_r1;
 				mydos->srh_r2[t][x][srh_band] = srh_r2;

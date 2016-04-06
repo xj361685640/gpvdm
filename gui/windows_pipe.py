@@ -21,17 +21,17 @@
 
 import pygtk
 pygtk.require('2.0')
-import gtk
-import sys
-import os
-import time
-import re
+#import gtk
+#import sys
+#import os
+#import time
+#import re
 import gobject
 import win32pipe
 import win32file
 import winerror
 from threading import Thread
-import threading
+#import threading
 
 
 class win_pipe(gobject.GObject):

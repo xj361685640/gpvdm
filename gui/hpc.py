@@ -23,10 +23,10 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
-import sys
+#import sys
 import os
-import shutil
-import commands
+#import shutil
+#import commands
 from cal_path import get_image_file_path
 from search import find_fit_log
 from search import find_fit_speed_log

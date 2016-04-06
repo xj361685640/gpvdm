@@ -23,24 +23,24 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
-import sys
+#import sys
 import os
-import shutil
-import commands
-import subprocess
-from win_lin import running_on_linux
-from cal_path import get_exe_command
-import socket 
-import time
-import urlparse
-import re
-import os
-from ver import ver_core
-from ver import ver_mat
-from ver import ver_gui
-import gobject
+#import shutil
+#import commands
+#import subprocess
+#from win_lin import running_on_linux
+#from cal_path import get_exe_command
+#import socket 
+#import time
+#import urlparse
+#import re
+#import os
+#from ver import ver_core
+#from ver import ver_mat
+#from ver import ver_gui
+#import gobject
 from cal_path import get_image_file_path
-from global_objects import global_object_register
+#from global_objects import global_object_register
 import webbrowser
 
 

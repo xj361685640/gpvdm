@@ -48,43 +48,43 @@ from command_args import command_args
 command_args(len(sys.argv),sys.argv)
 
 
-import pdb
+#import pdb
 import pygtk
 import gtk
 pygtk.require('2.0')
 import os
-import shutil
-import signal
+#import shutil
+#import signal
 import subprocess
 from inp import inp_get_token_value
 
 from scan_item import scan_items_clear
 from scan import scan_class 
-from search import find_fit_error
-from clone import gpvdm_clone
+#from search import find_fit_error
+#from clone import gpvdm_clone
 from export_as import export_as
 from experiment import experiment
 from fxexperiment import fxexperiment
-from copying import copying
+#from copying import copying
 from plot_gen import plot_gen
 from plot_gen import set_plot_auto_close
 from import_archive import import_archive
 from about import about_dialog_show
 from help import my_help_class
 from notice import notice
-import os
+#import os
 import gobject
 from used_files_menu import used_files_menu
-from plot import load_graph
+#from plot import load_graph
 from scan_item import scan_item_add
 from cmp_class import cmp_class
-from plot_state import plot_state
+#from plot_state import plot_state
 from window_list import windows
 from config import config
 import random
 from undo import undo_list_class
 from splash import splash_window
-from ver import ver
+#from ver import ver
 import webbrowser
 from debug import debug_mode
 from qe import qe_window
@@ -92,7 +92,7 @@ from tb_item_sun import tb_item_sun
 from tb_item_sim_mode import tb_item_sim_mode
 from gpvdm_open import gpvdm_open
 from lasers import lasers
-import glib
+#import glib
 from server import server
 from gpvdm_notebook import gpvdm_notebook
 from gui_util import process_events
@@ -221,11 +221,11 @@ class gpvdm_main_window(gobject.GObject):
 
 	def callback_simulate(self, widget, data=None):
 
-		if self.plot_after_run==True:
-			try:
-				ret= os.system("cp "+self.plot_after_run_file+" old.dat")
-			except:
-				pass
+#		if self.plot_after_run==True:
+#			try:
+#				ret= os.system("cp "+self.plot_after_run_file+" old.dat")
+#			except:
+#				pass
 
 		self.my_server.clear_cache()
 		self.my_server.add_job(os.getcwd())
@@ -234,10 +234,10 @@ class gpvdm_main_window(gobject.GObject):
 	def callback_start_cluster_server(self, widget, data=None):
 		self.goto_page("Terminal")
 
-		cmd = "cd "+os.getcwd()+" \n"
+		#cmd = "cd "+os.getcwd()+" \n"
 		#self.terminal.feed_child(cmd)
 
-		cmd = "./gpvdm --server &\n"
+#		cmd = "./gpvdm --server &\n"
 
 		#self.terminal.feed_child(cmd)
 
@@ -246,7 +246,8 @@ class gpvdm_main_window(gobject.GObject):
 
 	def callback_simulate_stop(self, widget, data=None):
 		cmd = 'killall '+get_exe_name()
-		ret= os.system(cmd)
+		print cmd
+#		ret= os.system(cmd)
 		self.spin.stop()
 
 	def callback_run_fit(self, widget, data=None):
@@ -288,7 +289,7 @@ class gpvdm_main_window(gobject.GObject):
 		response=dialog.run()
 
 		if response == True:
-			full_file_name=dialog.get_filename()
+#			full_file_name=dialog.get_filename()
 			#self.plot_open.set_sensitive(True)
 
 			plot_gen([dialog.get_filename()],[],"auto")

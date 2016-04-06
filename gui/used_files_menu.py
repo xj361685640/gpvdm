@@ -23,17 +23,17 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
-import sys
+#import sys
 import os
-import shutil
-import copy
-import pdb
-import logging
+#import shutil
+#import copy
+#import pdb
+#import logging
 from plot_state import plot_state
 import glob
-from inp import inp_load_file
+#from inp import inp_load_file
 from plot_io import plot_load_info
-from plot_io import plot_save_oplot_file
+#from plot_io import plot_save_oplot_file
 class used_files_menu:
 	def __init__(self):
 		self.menu=gtk.Menu()
@@ -62,7 +62,6 @@ class used_files_menu:
 		self.refresh()
 
 	def append(self,file_name):
-		lines=[]
 		plot_token=plot_state()
 		if plot_load_info(plot_token,file_name)==True:
 			menu_item = gtk.MenuItem(os.path.basename(file_name).split(".")[0])		   

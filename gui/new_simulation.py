@@ -8,6 +8,9 @@ from cal_path import get_device_lib_path
 from import_archive import import_archive
 from window_list import windows
 
+import i18n
+_ = i18n.language.gettext
+
 class new_simulation(gtk.Dialog):
 
 	# close the window and quit

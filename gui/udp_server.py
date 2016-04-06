@@ -22,16 +22,17 @@
 
 #This is some code I wrote to make gpvdm run as part of a cluster. The server code sends data to the clients and tells them what to do, the server then reports back to the gpvdm interface once jobs are finished.  It will only run if you invoke the --server or --client from the command line. It's super unstable/buggy and I only run it on a cluster with no route to the internet as there is authentication control. Use at your own risk!
 
-import socket, select
+import socket
+#import select
 import threading
 from threading import Thread
-import gobject
+#import gobject
 #import pyinotify
-import multiprocessing
-import time
-import glob
+#import multiprocessing
+#import time
+#import glob
 import os
-import socket
+#import socket
 import sys
 from time import sleep
 import random
@@ -219,7 +220,6 @@ class udp_server:
 
 	def command_to_all_nodes(self,command):
 		print "sending to all nodes:",command 
-		node=0
 		for i in range(0, len(self.nodes)):
 			self.s.sendto(command , (self.nodes[i].ip_address,self.tx_port))
 
@@ -227,7 +227,6 @@ class udp_server:
 		if running_on_linux()==True:
 			if get_distro=="Fedora":
 				print "waking all nodes:" 
-				node=0
 				for i in range(0, len(self.nodes)):
 					print "waking", self.nodes[i].mac
 					wol.send_magic_packet(self.nodes[i].mac)

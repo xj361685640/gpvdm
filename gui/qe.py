@@ -23,18 +23,18 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
-import sys
+#import sys
 import os
-import shutil
+#import shutil
 from cal_path import get_exe_command
 from numpy import *
 from matplotlib.figure import Figure
-from numpy import arange, sin, pi
+#from numpy import arange, sin, pi
 from matplotlib.backends.backend_gtkagg import FigureCanvasGTKAgg as FigureCanvas
 from matplotlib.backends.backend_gtkagg import NavigationToolbar2GTKAgg as NavigationToolbar
-import gobject
+#import gobject
 from cal_path import get_image_file_path
-from scan_item import scan_item_add
+#from scan_item import scan_item_add
 
 class qe_window(gtk.Window):
 	visible=1
@@ -42,14 +42,14 @@ class qe_window(gtk.Window):
 
 	def update_graph(self):
 		cmd = self.exe_command+' --onlypos'
-		ret= os.system(cmd)
+#		ret= os.system(cmd)
 		self.fig.clf()
 		self.draw_graph()
 		self.fig.canvas.draw()
 
 	def draw_graph(self):
 
-		n=0
+#		n=0
 		
 		self.fig.clf()
 		self.fig.subplots_adjust(bottom=0.2)
@@ -57,9 +57,9 @@ class qe_window(gtk.Window):
 		self.ax1 = self.fig.add_subplot(111)
 
 		#ax2 = ax1.twinx()
-		x_pos=0.0
-		layer=0
-		color =['r','g','b','y','o','r','g','b','y','o']
+#		x_pos=0.0
+#		layer=0
+#		color =['r','g','b','y','o','r','g','b','y','o']
 
 		self.ax1.set_ylabel('Energy (eV)')
 		#ax2.set_ylabel('Energy (eV)')

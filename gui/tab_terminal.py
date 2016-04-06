@@ -23,10 +23,10 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
-import sys
-import os
-import shutil
-from scan_item import scan_item
+#import sys
+#import os
+#import shutil
+#from scan_item import scan_item
 import vte
 from tab_base import tab_base
 from help import my_help_class

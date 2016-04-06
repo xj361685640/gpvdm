@@ -24,12 +24,12 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
-import sys
+#import sys
 import os
-import shutil
-import signal
-import subprocess
-from tempfile import mkstemp
+#import shutil
+#import signal
+#import subprocess
+#from tempfile import mkstemp
 
 
 class plot_dlg_class(gtk.Window):

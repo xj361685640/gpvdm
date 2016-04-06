@@ -19,20 +19,20 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-import sys
+#import sys
 import os
 import shutil
-import signal
-import subprocess
+#import signal
+#import subprocess
 from tempfile import mkstemp
-import logging
+#import logging
 import zipfile
-import re
-from numpy import zeros
-import hashlib
-import glob
-from win_lin import running_on_linux
-from cal_path import get_inp_file_path
+#import re
+#from numpy import zeros
+#import hashlib
+#import glob
+#from win_lin import running_on_linux
+#from cal_path import get_inp_file_path
 from inp_util import inp_merge
 from inp_util import inp_search_token_value
 

@@ -23,13 +23,13 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
-import sys
-import math
-import random
+#import sys
+#import math
+#import random
 import gobject
 import os
 from optics import find_materials
-from inp import inp_write_lines_to_file
+#from inp import inp_write_lines_to_file
 from inp import inp_load_file
 from util import str2bool
 from inp_util import inp_search_token_value
@@ -139,7 +139,7 @@ class layer_widget(gtk.VBox):
 
 
 		if response == True:
-			full_file_name=dialog.get_filename()
+			#full_file_name=dialog.get_filename()
 			plot_gen([dialog.get_filename()],[],"auto")
 
 		elif response == gtk.RESPONSE_CANCEL:
@@ -152,7 +152,7 @@ class layer_widget(gtk.VBox):
 		model, iter = selection.get_selected()
 
 		if iter:
-			path = model.get_path(iter)[0]
+			#path = model.get_path(iter)[0]
  			model.move_after( iter,model.iter_next(iter))
 			self.save_model()
 			self.refresh(True)
@@ -315,7 +315,7 @@ class layer_widget(gtk.VBox):
 		model, iter = selection.get_selected()
 
 		if iter:
-			path = model.get_path(iter)[0]
+			#path = model.get_path(iter)[0]
 			model.remove(iter)
 
 			self.save_model()
@@ -399,7 +399,7 @@ class layer_widget(gtk.VBox):
 
 	def on_cell_edited(self, cell, path_string, new_text, model):
 		iter = model.get_iter_from_string(path_string)
-		path = model.get_path(iter)[0]
+		#path = model.get_path(iter)[0]
 		column = cell.get_data("column")
 
 		model.set(iter, column, new_text)
@@ -410,7 +410,7 @@ class layer_widget(gtk.VBox):
 	def on_dos_layer_edited(self, cell, path_string, new_text, model):
 
 		iter = model.get_iter_from_string(path_string)
-		path = model.get_path(iter)[0]
+		#path = model.get_path(iter)[0]
 		column = cell.get_data("column")
 
 		model.set(iter, column, new_text)

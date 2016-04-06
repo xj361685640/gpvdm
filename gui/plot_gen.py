@@ -23,17 +23,17 @@
 
 import pygtk
 pygtk.require('2.0')
-import gtk
-import sys
+#import gtk
+#import sys
 import os
-import shutil
-from token_lib import tokens
-from numpy import *
-from util import pango_to_gnuplot
+#import shutil
+#from token_lib import tokens
+#from numpy import *
+#from util import pango_to_gnuplot
 from plot_window import plot_window
-from matplotlib.widgets import Cursor
-from inp import inp_load_file
-from inp_util import inp_search_token_value
+#from matplotlib.widgets import Cursor
+#from inp import inp_load_file
+#from inp_util import inp_search_token_value
 
 window=None
 

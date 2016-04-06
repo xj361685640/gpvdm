@@ -21,7 +21,7 @@
 
 
 
-import os
+#import os
 
 import i18n
 _ = i18n.language.gettext

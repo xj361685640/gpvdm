@@ -22,14 +22,15 @@
 
 import pygtk
 pygtk.require('2.0')
-import gtk
-import sys
+#import gtk
+#import sys
 import os
-import shutil
+#import shutil
 
 check_list=[]
 
 def scan_items_clear():
+	global check_list
 	check_list=[]
 
 class scan_item:
@@ -75,7 +76,7 @@ def scan_item_load(file_name):
 	f = open(file_name)
 	lines = f.readlines()
 	f.close()
-	pos=0
+#	pos=0
 	for i in range(0, len(lines)):
 		lines[i]=lines[i].rstrip()
 

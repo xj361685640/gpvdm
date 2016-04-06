@@ -23,8 +23,8 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
-import sys
-import os
+#import sys
+#import os
 import gobject
 from inp import inp_load_file
 from inp import inp_sum_items

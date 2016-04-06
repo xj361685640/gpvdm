@@ -22,14 +22,14 @@
 
 import sys
 import os
-import shutil
+#import shutil
 from clone import gpvdm_clone
 from export_as import export_as
 from import_archive import import_archive
 from util import gpvdm_copy_src
-import fnmatch
-import logging
-import time
+#import fnmatch
+#import logging
+#import time
 from import_archive import clean_scan_dirs
 from ver import ver
 from import_archive import import_scan_dirs
@@ -39,10 +39,10 @@ from make_man import make_man
 from scan_tree import tree_load_program
 from scan_tree import tree_gen
 from scan_item import scan_item_load
-from scan_item import scan_items_index_item
+#from scan_item import scan_items_index_item
 from server import server
 from cal_path import get_exe_command
-import gtk
+#import gtk
 from plot_state import plot_state
 from plot_io import plot_load_info
 from scan_plot import scan_gen_plot_data
@@ -122,10 +122,10 @@ def command_args(argc,argv):
 			gpvdm_copy_src(argv[2])
 			sys.exit(0)
 
-		if check_params(argv,"--file_info",0)==True:
-			data=plot_data()
-			data.dump_file()
-			sys.exit(0)
+		#if check_params(argv,"--file_info",0)==True:
+		#	data=plot_data()
+		#	data.dump_file()
+		#	sys.exit(0)
 		if check_params(argv,"--clean",0)==True:
 			clean_sim_dir()
 			sys.exit(0)

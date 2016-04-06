@@ -1,3 +1,4 @@
+#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie
@@ -19,18 +20,36 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-#import sys
-import platform
+import subprocess
+import shutil
+import sys
 
-def running_on_linux():
-	if platform.system()=="Linux":
-		return True
+if len(sys.argv)==1:
+	print "argument needed"
+	sys.exit(0)
+
+file_name=sys.argv[1]
+lines=[]
+output = subprocess.Popen(["pyflakes", file_name], stdout=subprocess.PIPE).communicate()[0]
+a=output.split("\n")
+for i in range(0,len(a)):
+	s=a[i].split(":")
+	if len(s)==3:
+		lines.append(int(s[1]))
+
+print lines
+
+f = open(file_name, "r")
+copy = open("out.dat", "w")
+pos=1
+for line in f:
+	if lines.count(pos)==0:
+		copy.write(line)
 	else:
-		return False
+		copy.write("#"+line)		
+	pos=pos+1
 
-def get_distro():
-	if platform.system()=="Linux":
-		return platform.dist()[0]
-	else:
-		return ""
+f.close()
+copy.close()
 
+shutil.move("out.dat", file_name)

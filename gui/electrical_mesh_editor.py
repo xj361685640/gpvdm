@@ -23,9 +23,9 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
-import sys
+#import sys
 import os
-import shutil
+#import shutil
 import gobject
 from inp import inp_write_lines_to_file
 from inp import inp_load_file
@@ -48,19 +48,19 @@ class electrical_mesh_editor(gtk.VBox):
 		# Layer tag
 		render = gtk.CellRendererText()
 		render.connect("edited", self.on_cell_edited, model)
-		render.set_data("column", COLUMN_LAYER)
+		render.set_data("column", MESH_POINTS)
 		render.set_property("editable", True)
 
-		column = gtk.TreeViewColumn("Layer", render, text=COLUMN_LAYER,editable=True)
+		column = gtk.TreeViewColumn("Layer", render, text=MESH_POINTS,editable=True)
 		treeview.append_column(column)
 
 		# Thicknes
 		render = gtk.CellRendererText()
 		render.connect("edited", self.on_cell_edited, model)
-		render.set_data("column", COLUMN_THICKNES)
+		render.set_data("column", MESH_THICKNES)
 		render.set_property("editable", True)
 
-		column = gtk.TreeViewColumn("Thicknes", render, text=COLUMN_THICKNES,editable=True)
+		column = gtk.TreeViewColumn("Thicknes", render, text=MESH_THICKNES,editable=True)
 
 		treeview.append_column(column)
 
@@ -95,9 +95,10 @@ class electrical_mesh_editor(gtk.VBox):
 
 		iter = model.append()
 		model.set (iter,
-		    COLUMN_LAYER, new_item[COLUMN_LAYER],
-		    COLUMN_THICKNES, new_item[COLUMN_THICKNES]
+		    MESH_THICKNES, new_item[MESH_THICKNES],
+		    MESH_POINTS, new_item[MESH_POINTS]
 		)
+
 
 	def on_add_mesh_clicked(self, button, model):
 		new_item = ["0e-9","0" ]
@@ -130,7 +131,7 @@ class electrical_mesh_editor(gtk.VBox):
 		model, iter = selection.get_selected()
 
 		if iter:
-			path = model.get_path(iter)[0]
+			#path = model.get_path(iter)[0]
 			model.remove(iter)
 
 
@@ -142,7 +143,7 @@ class electrical_mesh_editor(gtk.VBox):
 		model, iter = selection.get_selected()
 
 		if iter:
-			path = model.get_path(iter)[0]
+			#path = model.get_path(iter)[0]
 			model.remove(iter)
 
 		self.save_model()
@@ -151,13 +152,13 @@ class electrical_mesh_editor(gtk.VBox):
 	def on_cell_edited(self, cell, path_string, new_text, model):
 
 		iter = model.get_iter_from_string(path_string)
-		path = model.get_path(iter)[0]
+		#path = model.get_path(iter)[0]
 		column = cell.get_data("column")
 
-		if column == COLUMN_LAYER:
+		if column == MESH_POINTS:
 			model.set(iter, column, new_text)
 
-		if column == COLUMN_THICKNES:
+		if column == MESH_THICKNES:
 			#old_text = model.get_value(iter, column)
 
 			model.set(iter, column, new_text)
@@ -169,7 +170,7 @@ class electrical_mesh_editor(gtk.VBox):
 	def on_mesh_edited(self, cell, path_string, new_text, model):
 
 		iter = model.get_iter_from_string(path_string)
-		path = model.get_path(iter)[0]
+		#path = model.get_path(iter)[0]
 		column = cell.get_data("column")
 		print "update=",new_text,column
 

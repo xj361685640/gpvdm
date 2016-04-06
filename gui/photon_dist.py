@@ -23,14 +23,14 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
-import sys
-import os
-import shutil
-from scan_item import scan_item_add
-from token_lib import tokens
-from inp import inp_update_token_value
-from inp import inp_get_token_value
-from undo import undo_list_class
+#import sys
+#import os
+#import shutil
+#from scan_item import scan_item_add
+#from token_lib import tokens
+#from inp import inp_update_token_value
+#from inp import inp_get_token_value
+#from undo import undo_list_class
 
 class photon_dist_class(gtk.VBox):
 

@@ -20,9 +20,9 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-import sys
+#import sys
 import os
-from os.path import expanduser
+#from os.path import expanduser
 from cal_path import get_share_path
 
 def debug_mode():

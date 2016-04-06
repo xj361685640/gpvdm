@@ -23,9 +23,9 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
-import sys
-import math
-import gobject
+#import sys
+#import math
+#import gobject
 from inp import inp_update_token_value
 from inp import inp_get_token_value
 from inp import inp_load_file
@@ -64,7 +64,7 @@ class tb_lasers(gtk.ToolItem):
 			for i in xrange(len(liststore)):
 				if liststore[i][0] == token:
 					self.sim_mode.set_active(i)
-					found=True
+#					found=True
 
 			#if there is no known mode, just set it to jv mode
 			#if found==False:

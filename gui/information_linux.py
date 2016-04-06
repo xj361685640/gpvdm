@@ -23,11 +23,11 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
-import sys
-import os
-import shutil
+#import sys
+#import os
+#import shutil
 from tab_base import tab_base
-import commands
+#import commands
 import webkit
 
 class information(gtk.HBox,tab_base):

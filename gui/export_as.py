@@ -21,21 +21,21 @@
 
 
 
-import sys
-import pygtk
+#import sys
+#import pygtk
 import os
-import shutil
-import signal
-import subprocess
-from inp import inp_get_token_value
+#import shutil
+#import signal
+#import subprocess
+#from inp import inp_get_token_value
 from inp import inp_load_file
 from inp_util import inp_search_token_value
-import os, fnmatch
-import stat
+#import os, fnmatch
+#import stat
 from token_lib import tokens
 from util import pygtk_to_latex_subscript
 import glob
-from export_archive import export_archive
+#from export_archive import export_archive
 
 def to_exp(data):
 	ret=data
@@ -136,7 +136,7 @@ def export_as(output):
 
 		config_lines=[]
 		cur_file=0
-		inp_load_file(config_lines,"/home/rod/juan/hpc/j17/orig/latex_export_info.inp")
+		inp_load_file(config_lines,"latex_export_info.inp")
 		for cur_file in range(0,len(files)):
 
 

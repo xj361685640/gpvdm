@@ -22,19 +22,19 @@
 
 import pygtk
 pygtk.require('2.0')
-import gtk
+#import gtk
 import sys
 import os
-import shutil
+#import shutil
 import threading
 import gobject
-import multiprocessing
-import glob
-import socket
-from time import sleep
+#import multiprocessing
+#import glob
+#import socket
+#from time import sleep
 from win_lin import running_on_linux
-import subprocess
-from util import gui_print_path
+#import subprocess
+#from util import gui_print_path
 
 if running_on_linux()==True:
 	import pyinotify

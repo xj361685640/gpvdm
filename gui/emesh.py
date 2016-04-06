@@ -23,25 +23,25 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
-import sys
+#import sys
 import os
-import shutil
+#import shutil
 from cal_path import get_exe_command
 from numpy import *
 from matplotlib.figure import Figure
-from numpy import arange, sin, pi
+#from numpy import arange, sin, pi
 from matplotlib.backends.backend_gtkagg import FigureCanvasGTKAgg as FigureCanvas
 from matplotlib.backends.backend_gtkagg import NavigationToolbar2GTKAgg as NavigationToolbar
-import gobject
+#import gobject
 from cal_path import get_image_file_path
-from scan_item import scan_item_add
+#from scan_item import scan_item_add
 import webbrowser
 from electrical_mesh_editor import electrical_mesh_editor
 from inp import inp_load_file
 from inp import inp_sum_items
-from inp import inp_load_file
+#from inp import inp_load_file
 from inp_util import inp_search_token_value
-from matplotlib.patches import Ellipse, PathPatch
+#from matplotlib.patches import Ellipse, PathPatch
 from epitaxy import epitaxy_get_dos_files
 
 class tab_electrical_mesh(gtk.Window):
@@ -86,7 +86,7 @@ class tab_electrical_mesh(gtk.Window):
 			if inp_load_file(lines,files[0])==True:
 				bands=int(inp_search_token_value(lines, "#srh_bands"))
 
-		n=0
+		#n=0
 		
 		self.fig.clf()
 		
@@ -95,8 +95,8 @@ class tab_electrical_mesh(gtk.Window):
 		self.ax1 = self.fig.add_subplot(111)
 		#ax2 = ax1.twinx()
 		x_pos=0.0
-		layer=0
-		color =['r','g','b','y','o','r','g','b','y','o']
+		#layer=0
+		#color =['r','g','b','y','o','r','g','b','y','o']
 
 		self.ax1.set_ylabel('Energy (eV)')
 		#ax2.set_ylabel('Energy (eV)')

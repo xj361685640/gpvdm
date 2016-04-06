@@ -24,35 +24,35 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
-import re
-import sys
+#import re
+#import sys
 import os
-import shutil
-from token_lib import tokens
+#import shutil
+#from token_lib import tokens
 from numpy import *
-from util import pango_to_gnuplot
+#from util import pango_to_gnuplot
 from util import read_data_2d
 from plot_io import plot_load_info
 import matplotlib.pyplot as plt
-from matplotlib.widgets import Cursor
+#from matplotlib.widgets import Cursor
 from plot_export import plot_export 
-from numpy import arange, sin, pi, zeros
+#from numpy import arange, sin, pi, zeros
 from matplotlib.backends.backend_gtkagg import FigureCanvasGTKAgg as FigureCanvas
 from matplotlib.backends.backend_gtkagg import NavigationToolbar2GTKAgg
 from matplotlib.figure import Figure
 from util import read_xyz_data
 import matplotlib.ticker as ticker
 from gui_util import dlg_get_text
-from inp import inp_load_file
-from inp import inp_write_lines_to_file
-from inp_util import inp_search_token_value
+#from inp import inp_load_file
+#from inp import inp_write_lines_to_file
+#from inp_util import inp_search_token_value
 from util import numbers_to_latex
 from util import pygtk_to_latex_subscript
 from util import fx_with_units
 from plot_state import plot_state
-from plot import plot_populate_plot_token
+#from plot import plot_populate_plot_token
 from plot_io import plot_save_oplot_file
-from plot_state import plot_state
+#from plot_state import plot_state
 from gui_util import dlg_get_multi_text
 from util import time_with_units
 
@@ -218,10 +218,10 @@ class plot_widget(gtk.VBox):
 			if self.plot_token.type=="heat":
 				number_of_plots=1
 
-			if number_of_plots>1:
-				yloc = plt.MaxNLocator(4)
-			else:
-				yloc = plt.MaxNLocator(10)
+#			if number_of_plots>1:
+#				yloc = plt.MaxNLocator(4)
+#			else:
+#				yloc = plt.MaxNLocator(10)
 
 
 
@@ -262,7 +262,7 @@ class plot_widget(gtk.VBox):
 
 				all_max=1.0
 				if self.plot_token.norm_to_peak_of_all_data==True:
-					m=[]
+#					m=[]
 					my_max=-1e40
 					for i in range(0, len(self.input_files)):
 						t=[]
@@ -313,8 +313,8 @@ class plot_widget(gtk.VBox):
 				self.ly = None
 				if self.plot_token.legend_pos=="No key":
 					self.ax[plot_number].legend_ = None
-				else:
-					legend=self.fig.legend(lines, files, self.plot_token.legend_pos)
+				#else:
+#					legend=self.fig.legend(lines, files, self.plot_token.legend_pos)
 			elif self.plot_token.type=="3d":
 				x=[]
 				y=[]
@@ -500,9 +500,9 @@ class plot_widget(gtk.VBox):
 			#print "Rod",input_files
 			title=self.plot_token.title
 			self.win.set_title(title+" - www.gpvdm.com")
-			lines=[]
+#			lines=[]
 
-			ret=plot_load_info(self.plot_token,input_files[0])
+#			ret=plot_load_info(self.plot_token,input_files[0])
 			myitem=self.item_factory.get_item("/Math/Subtract first point")
 			myitem.set_active(self.plot_token.subtract_first_point)
 
@@ -532,7 +532,7 @@ class plot_widget(gtk.VBox):
 	def gen_colors_black(self,repeat_lines):
 		#make 100 black colors
 		marker_base=["","x","o"]
-		c_tot=[]
+#		c_tot=[]
 		base=[[0.0,0.0,0.0]]
 		self.marker=[]
 		self.color=[]

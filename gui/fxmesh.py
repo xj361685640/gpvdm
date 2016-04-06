@@ -23,28 +23,28 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
-import sys
+#import sys
 import os
-import shutil
-from numpy import *
+#import shutil
+#from numpy import *
 from matplotlib.figure import Figure
-from numpy import arange, sin, pi
+#from numpy import arange, sin, pi
 from matplotlib.backends.backend_gtkagg import FigureCanvasGTKAgg as FigureCanvas
 from matplotlib.backends.backend_gtkagg import NavigationToolbar2GTKAgg as NavigationToolbar
-import gobject
+#import gobject
 from scan_item import scan_item_add
 from inp import inp_load_file
 from inp import inp_read_next_item
 from gui_util import dlg_get_text
-from inp import inp_get_token_value
-import matplotlib.mlab as mlab
+#from inp import inp_get_token_value
+#import matplotlib.mlab as mlab
 from inp import inp_write_lines_to_file
 import webbrowser
 from util import fx_with_units
 from inp_util import inp_search_token_value
 from cal_path import get_image_file_path
 from scan_item import scan_remove_file
-from scan_item import scan_item_add
+#from scan_item import scan_item_add
 import i18n
 _ = i18n.language.gettext
 
@@ -130,7 +130,7 @@ class tab_fxmesh(gtk.VBox):
 		model, iter = selection.get_selected()
 
 		if iter:
-			path = model.get_path(iter)[0]
+#			path = model.get_path(iter)[0]
 			model.remove(iter)
 
 		self.build_mesh()
@@ -145,7 +145,7 @@ class tab_fxmesh(gtk.VBox):
 		model, iter = selection.get_selected()
 
 		if iter:
-			path = model.get_path(iter)[0]
+#			path = model.get_path(iter)[0]
  			self.store.move_after( iter,self.store.iter_next(iter))
 
 		self.build_mesh()
@@ -190,12 +190,12 @@ class tab_fxmesh(gtk.VBox):
 		self.fig.canvas.draw()
 		self.save_data()
 
-	def gaussian(self,x, mu, sig):
-		return exp(-power(x - mu, 2.) / (2 * power(sig, 2.)))
+	#def gaussian(self,x, mu, sig):
+	#	return exp(-power(x - mu, 2.) / (2 * power(sig, 2.)))
 
 	def draw_graph(self):
 
-		n=0
+#		n=0
 		if (len(self.fx)>0):
 			mul,unit=fx_with_units(float(self.fx[len(self.fx)-1]-self.fx[0]))
 		else:
@@ -212,9 +212,9 @@ class tab_fxmesh(gtk.VBox):
 		self.ax1 = self.fig.add_subplot(111)
 		self.ax1.ticklabel_format(useOffset=False)
 		#ax2 = ax1.twinx()
-		x_pos=0.0
-		layer=0
-		color =['r','g','b','y','o','r','g','b','y','o']
+#		x_pos=0.0
+#		layer=0
+#		color =['r','g','b','y','o','r','g','b','y','o']
 
 		self.ax1.set_ylabel(_("Magnitude (Volts)"))
 

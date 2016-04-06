@@ -19,20 +19,20 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-import sys
+#import sys
 import os
 import shutil
-import signal
-import subprocess
-from tempfile import mkstemp
-import logging
-import zipfile
+#import signal
+#import subprocess
+#from tempfile import mkstemp
+#import logging
+#import zipfile
 import re
-from numpy import zeros
+#from numpy import zeros
 import hashlib
 import glob
-from win_lin import running_on_linux
-from cal_path import get_inp_file_path
+#from win_lin import running_on_linux
+#from cal_path import get_inp_file_path
 from util_zip import zip_get_data_file
 
 def gui_print_path(text,path,length):
@@ -128,8 +128,8 @@ def gpvdm_delete_file(path):
 			if os.path.isdir(real_path)==True:
 				print "Delete",real_path
 				if real_path!="/":
-					if real_path!="/home/rod":
-						if real_path!="/home/rod/":
+					#a bit of paranoia - don't ever delete the home directory.
+					if os.path.normpath(real_path)!=os.path.normpath(os.path.expanduser('~')):
 							shutil.rmtree(real_path)
 
 			elif os.path.isfile(real_path)==True:
@@ -268,7 +268,7 @@ def fx_with_units(fx):
 
 
 def pango_to_gnuplot(data):
-	one=""
+#	one=""
 	data.replace("<sub>", "_{")
 	data.replace("</sub>", "}")
 

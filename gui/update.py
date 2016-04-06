@@ -22,31 +22,34 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
-import sys
+#import sys
 import os
-import shutil
-import commands
-import subprocess
+#import shutil
+#import commands
+#import subprocess
 from win_lin import running_on_linux
-from cal_path import get_exe_command
-import urllib2
-import socket 
+#from cal_path import get_exe_command
+#import urllib2
+#import socket 
 from threading import Thread
-import time
-import urlparse
-import re
-import os
+#import time
+#import urlparse
+#import re
+#import os
 from ver import ver_core
 from ver import ver_mat
 from ver import ver_gui
 import gobject
 import platform
-import getpass
-from help import my_help_class
+#import getpass
+#from help import my_help_class
 from http import get_data_from_web 
 from cal_path import get_share_path
 import hashlib
 from sim_warnings import sim_warnings
+
+import i18n
+_ = i18n.language.gettext
 
 #Under windows, this class will connect to gpvdm.com and look for updates, a user prompt will be displayed if any are found.  It can also download updates if the user asks it to.  It's not called under linux because linux has it's own package management system.
 
@@ -57,7 +60,7 @@ def update_fetch():
 	text=[]
 	text.append("Checking web for updates...")
 
-	disk_files=[]
+#	disk_files=[]
 	web_src=[]
 	disk_dest=[]
 
@@ -86,10 +89,10 @@ def update_fetch():
 			if os.path.isfile(disk_path):
 				md5_disk=hashlib.md5(open(disk_path,'rb').read()).hexdigest()
 
-			#if md5_web!=md5_disk:
-			web_src.append(web_path)
-			disk_dest.append(disk_path)
-			web_md5.append(md5_web)
+			if md5_web!=md5_disk:
+				web_src.append(web_path)
+				disk_dest.append(disk_path)
+				web_md5.append(md5_web)
 
 	for i in range(0,len(web_src)):
 		text.append(web_src[i]+" "+disk_dest[i])

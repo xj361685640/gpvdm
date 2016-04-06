@@ -19,25 +19,25 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-import sys
-import pygtk
-from win_lin import running_on_linux
+#import sys
+#import pygtk
+#from win_lin import running_on_linux
 import os
 import shutil
-import signal
-import subprocess
+#import signal
+#import subprocess
 from scan_io import get_scan_dirs 
-from inp import inp_update_token_value
-import os, fnmatch
-import stat 
-import zipfile
+#from inp import inp_update_token_value
+#import os, fnmatch
+#import stat 
+#import zipfile
 from util import copy_scan_dir
 from util import delete_second_level_link_tree
-from util_zip import read_lines_from_archive
-from inp_util import inp_search_token_value
-from inp_util import inp_merge
-from util_zip import write_lines_to_archive
-import tempfile
+#from util_zip import read_lines_from_archive
+#from inp_util import inp_search_token_value
+#from inp_util import inp_merge
+#from util_zip import write_lines_to_archive
+#import tempfile
 from util_zip import zip_lsdir
 from inp import inp_issequential_file
 from clone import gpvdm_clone
@@ -104,8 +104,8 @@ def remove_non_used_index_files(dest_archive,src_archive):
 					zip_remove_file(dest_archive,my_file)
 
 def merge_archives(src_archive,dest_archive,only_over_write):
-	src_dir=os.path.dirname(src_archive)
-	dest_dir=os.path.dirname(dest_archive)
+#	src_dir=os.path.dirname(src_archive)
+#	dest_dir=os.path.dirname(dest_archive)
 	template_archive=os.path.join(get_inp_file_path(),"sim.gpvdm")
 
 	remove_non_used_index_files(dest_archive,src_archive)

@@ -25,33 +25,33 @@ import pygtk
 pygtk.require('2.0')
 import gc
 import gtk
-import sys
+#import sys
 import os
-import shutil
-from inp import inp_update_token_value
-from inp import inp_get_token_value
-from search import return_file_list
+#import shutil
+#from inp import inp_update_token_value
+#from inp import inp_get_token_value
+#from search import return_file_list
 from plot import check_info_file
-from about import about_dialog_show
+#from about import about_dialog_show
 from used_files_menu import used_files_menu
-from server import server
+#from server import server
 from plot_dlg import plot_dlg_class
 from plot_gen import plot_gen
 from plot_state import plot_state
-import threading
-import gobject
+#import threading
+#import gobject
 
-import multiprocessing
-import time
-from util import get_cache_path
+#import multiprocessing
+#import time
+#from util import get_cache_path
 from cmp_class import cmp_class
 from scan_select import select_param
 from config import config
-import hashlib
-from os.path import expanduser
+#import hashlib
+#from os.path import expanduser
 from token_lib import tokens
 from scan_item import scan_items_get_list
-from win_lin import running_on_linux
+#from win_lin import running_on_linux
 from scan_tree import tree_gen
 from scan_tree import tree_load_program
 from scan_item import scan_item_save
@@ -62,16 +62,19 @@ from scan_io import scan_clean_simulation_output
 from scan_io import scan_nested_simulation
 from server import server_find_simulations_to_run
 from plot_io import plot_save_oplot_file
-from scan_io import scan_list_simulations
+#from scan_io import scan_list_simulations
 from notes import notes
 from scan_io import scan_push_to_hpc
 from scan_io import scan_import_from_hpc
 from gpvdm_open import gpvdm_open
-from scan_tree import tree_load_flat_list
+#from scan_tree import tree_load_flat_list
 from scan_tree import tree_save_flat_list
 from cal_path import get_exe_command
 from help import my_help_class
 from cal_path import get_image_file_path
+
+import i18n
+_ = i18n.language.gettext
 
 class scan_vbox(gtk.VBox):
 
@@ -98,7 +101,7 @@ class scan_vbox(gtk.VBox):
 		model, iter = selection.get_selected()
 
 		if iter:
-			path = model.get_path(iter)[0]
+#			path = model.get_path(iter)[0]
  			self.liststore_combobox.move_after( iter,self.liststore_combobox.iter_next(iter))
 			#self.liststore_combobox.swap(path+1,path)
 
@@ -228,7 +231,7 @@ class scan_vbox(gtk.VBox):
 		scan_push_to_hpc(self.sim_dir,True)
 
 	def nested_simulation(self):
-		commands=scan_nested_simulation(self.sim_dir,"/home/rod/juan/hpc/final_graphs/orig/probe")
+		commands=scan_nested_simulation(self.sim_dir,os.path.join(os.path.expanduser('~'),"juan/hpc/final_graphs/orig/probe"))
 		self.send_commands_to_server(commands)
 
 	def simulate(self,run_simulation,generate_simulations):

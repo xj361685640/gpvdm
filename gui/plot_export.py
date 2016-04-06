@@ -22,15 +22,15 @@
 
 import pygtk
 pygtk.require('2.0')
-import gtk
-import sys
+#import gtk
+#import sys
 import os
-import shutil
-from token_lib import tokens
-from numpy import *
-from util import pango_to_gnuplot
+#import shutil
+#from token_lib import tokens
+#from numpy import *
+#from util import pango_to_gnuplot
 from util_text import gkt_title_to_gnu_plot_title
-from plot_state import plot_state
+#from plot_state import plot_state
 
 def plot_export(dest_dir,input_files,state,fig):
 	file_ext=os.path.splitext(dest_dir)[1]

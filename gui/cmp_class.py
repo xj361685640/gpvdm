@@ -23,24 +23,25 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
-import sys
+#import sys
 import os
-import shutil
+#import shutil
 from inp import inp_update_token_value
 from inp import inp_write_lines_to_file
 from inp import inp_load_file
 from inp_util import inp_search_token_value
-from scan_item import scan_item
-from scan_item import scan_item_add
-import glob
-from util import time_with_units
+#from scan_item import scan_item
+#from scan_item import scan_item_add
+#import glob
+#from util import time_with_units
 from plot_widget import plot_widget
-from util_zip import zip_get_data_file
+#from util_zip import zip_get_data_file
 from window_list import windows
 from plot_state import plot_state
 from plot_io import plot_load_info
 from cal_path import get_exe_command
 from cal_path import get_image_file_path
+import webbrowser
 
 class cmp_class(gtk.Window):
 	mix_y=None
@@ -84,14 +85,14 @@ class cmp_class(gtk.Window):
 
 
 	def on_key_press_event(self,widget, event):
-		keyname = gtk.gdk.keyval_name(event.keyval)
+		#keyname = gtk.gdk.keyval_name(event.keyval)
 		if gtk.gdk.keyval_name(event.keyval) == "c":
 			if event.state == gtk.gdk.CONTROL_MASK:
 				self.do_clip()
 
 	def callback_set_min_max(self, data, widget):
 
-		path0=self.entry0.get_active_text()
+		#path0=self.entry0.get_active_text()
 		my_max=-1e40
 		my_min=1e40
 		#print "Rod",self.file_names
@@ -314,8 +315,8 @@ class cmp_class(gtk.Window):
 		self.plot=plot_widget()
 		self.plot.init(self)
 
-		accel_group = gtk.AccelGroup()
-		item_factory = gtk.ItemFactory(gtk.MenuBar, "<main>", accel_group)
+		#accel_group = gtk.AccelGroup()
+		#item_factory = gtk.ItemFactory(gtk.MenuBar, "<main>", accel_group)
 
 		menu_items = (
 		    ( "/_Options",         None,         None, 0, "<Branch>" ),
@@ -448,7 +449,7 @@ class cmp_class(gtk.Window):
 
 			if response == gtk.RESPONSE_YES:
 				inp_update_token_value("dump.inp", "#dump_1d_slices", "1",1)
-				ret= os.system(get_exe_command())
+				os.system(get_exe_command())
 
 			md.destroy()
 

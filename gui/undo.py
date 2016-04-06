@@ -19,13 +19,13 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-import sys
-import pdb
+#import sys
+#import pdb
 import pygtk
 pygtk.require('2.0')
-import gtk
+#import gtk
 
-import os
+#import os
 
 undo=[]
 undo_enabled=True

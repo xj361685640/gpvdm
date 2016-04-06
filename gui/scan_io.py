@@ -22,9 +22,9 @@
 
 import pygtk
 pygtk.require('2.0')
-import gc
+#import gc
 import gtk
-import sys
+#import sys
 import os
 import shutil
 from util import gpvdm_delete_file
@@ -36,6 +36,9 @@ from scan_tree import tree_gen
 from scan_item import scan_item_load
 from server import server_find_simulations_to_run
 
+import i18n
+_ = i18n.language.gettext
+
 def scan_delete_files(dirs_to_del):
 	for i in range(0, len(dirs_to_del)):
 		gpvdm_delete_file(dirs_to_del[i])
@@ -44,7 +47,7 @@ def scan_list_simulations(dir_to_search):
 	found_dirs=[]
 	for root, dirs, files in os.walk(dir_to_search):
 		for name in files:
-			full_name=os.path.join(root, name)
+#			full_name=os.path.join(root, name)
 			if name=="sim.gpvdm":
 				found_dirs.append(root)
 	return found_dirs
@@ -53,7 +56,7 @@ def scan_list_unconverged_simulations(dir_to_search):
 	found_dirs=[]
 	for root, dirs, files in os.walk(dir_to_search):
 		for name in files:
-			full_name=os.path.join(root, name)
+#			full_name=os.path.join(root, name)
 			if name=="sim.gpvdm":
 				add=True
 				fit_log=os.path.join(root,'fitlog.dat')
@@ -82,12 +85,12 @@ def scan_ask_to_delete(dirs_to_del):
 		settings.set_property('gtk-alternative-button-order', True)
 
 		dialog = gtk.Dialog()
-		cancel_button = dialog.add_button(gtk.STOCK_YES, gtk.RESPONSE_YES)
+#		cancel_button = dialog.add_button(gtk.STOCK_YES, gtk.RESPONSE_YES)
 
 		ok_button = dialog.add_button(gtk.STOCK_NO, gtk.RESPONSE_NO)
 		ok_button.grab_default()
 
-		help_button = dialog.add_button(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL)
+#		help_button = dialog.add_button(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL)
 
 		text_del_dirs=""
 		if len(dirs_to_del)>30:
@@ -113,13 +116,13 @@ def scan_ask_to_delete(dirs_to_del):
 		elif response == gtk.RESPONSE_NO:
 			print "Not deleting"
 		elif response == gtk.RESPONSE_CANCEL:
-			run=False
+			#run=False
 			print "Cancel"
 
 		dialog.destroy()
 
 def scan_clean_simulation_output(dir_to_clean):
-		dirs_to_del=[]
+		#dirs_to_del=[]
 		simulation_dirs=scan_list_simulations(dir_to_clean)
 
 		clean_simulation(dir_to_clean,simulation_dirs)

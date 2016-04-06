@@ -23,8 +23,8 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
-import sys
-import math
+#import sys
+#import math
 import gobject
 from cal_path import find_data_file
 from inp import inp_update_token_value

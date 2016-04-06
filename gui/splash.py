@@ -23,13 +23,13 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
-import sys
+#import sys
 import os
-import shutil
+#import shutil
 import glib
-from token_lib import tokens
-from numpy import *
-from util import pango_to_gnuplot
+#from token_lib import tokens
+#from numpy import *
+#from util import pango_to_gnuplot
 from cal_path import get_image_file_path
 from ver import ver
 from notice import notice

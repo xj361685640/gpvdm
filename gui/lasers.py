@@ -24,21 +24,21 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
-import sys
+#import sys
 import os
-import shutil
+#import shutil
 from about import about_dialog_show
-from used_files_menu import used_files_menu
-from server import server
-from scan_tab import scan_vbox
+#from used_files_menu import used_files_menu
+#from server import server
+#from scan_tab import scan_vbox
 from gui_util import dlg_get_text
-import gobject
-import glob
+#import gobject
+#import glob
 from window_list import windows
-from search import return_file_list
-from win_lin import running_on_linux
+#from search import return_file_list
+#from win_lin import running_on_linux
 import webbrowser
-from debug import advanced_features
+#from debug import advanced_features
 from inp import inp_update
 from inp import inp_update_token_value
 from inp import inp_get_token_value
@@ -48,7 +48,7 @@ from inp import inp_isfile
 from inp import inp_copy_file
 from inp import inp_remove_file
 from util import strextract_interger
-from global_objects import global_object_get
+#from global_objects import global_object_get
 from cal_path import get_image_file_path
 import i18n
 _ = i18n.language.gettext
@@ -187,7 +187,7 @@ class lasers(gtk.Window):
 
 	def switch_page(self,page, page_num, user_param1):
 		pageNum = self.notebook.get_current_page()
-		tab = self.notebook.get_nth_page(pageNum)
+#		tab = self.notebook.get_nth_page(pageNum)
 		self.status_bar.push(self.context_id, "Laser "+str(pageNum))
 
 	def init(self):

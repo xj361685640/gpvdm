@@ -20,10 +20,10 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-import sys
-import os
-import shutil
-import signal
+#import sys
+#import os
+#import shutil
+#import signal
 
 def inp_search_token_value(lines, token):
 

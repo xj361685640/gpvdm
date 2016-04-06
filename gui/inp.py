@@ -20,15 +20,15 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-import sys
+#import sys
 import os
 import shutil
-import signal
+#import signal
 from util_zip import replace_file_in_zip_archive
-import subprocess
+#import subprocess
 from tempfile import mkstemp
-import logging
-import zipfile
+#import logging
+#import zipfile
 from util_zip import zip_remove_file
 from util_zip import write_lines_to_archive
 from util_zip import read_lines_from_archive

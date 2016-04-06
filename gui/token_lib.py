@@ -19,12 +19,15 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-import sys
-import os
-import shutil
-import signal
-import subprocess
-from util import latex_to_pygtk_subscript
+#import sys
+#import os
+#import shutil
+#import signal
+#import subprocess
+#from util import latex_to_pygtk_subscript
+
+import i18n
+_ = i18n.language.gettext
 
 class my_data():
 	token=""

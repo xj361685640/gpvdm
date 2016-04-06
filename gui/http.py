@@ -24,23 +24,23 @@
 
 import pygtk
 pygtk.require('2.0')
-import sys
+#import sys
 import os
-import shutil
-import commands
-import urllib2
+#import shutil
+#import commands
+#import urllib2
 import socket 
 from socket import setdefaulttimeout
-from socket import socket
-from socket import error
+#from socket import socket
+#from socket import error
 from socket import AF_INET
 from socket import SOCK_STREAM
 from socket import SOL_SOCKET
 from socket import SO_REUSEADDR
-from socket import getdefaulttimeout
+#from socket import getdefaulttimeout
 import urlparse
 import re
-import os
+#import os
 
 
 socket.setdefaulttimeout = 1.0
@@ -58,7 +58,7 @@ def get_data_from_web(address):
 
 	try:
 		s = socket(AF_INET, SOCK_STREAM)
-	except error as msg:
+	except:
 		s = None
 
 	s.settimeout(4.0)
@@ -67,7 +67,7 @@ def get_data_from_web(address):
 
 	try:
 		s.connect((HOST, PORT))
-	except error as msg:
+	except:
 		s.close()
 		s = None
 	if s!=None:

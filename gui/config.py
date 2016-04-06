@@ -19,11 +19,11 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-import sys
-import pdb
+#import sys
+#import pdb
 import pygtk
 pygtk.require('2.0')
-import gtk
+#import gtk
 
 import os
 
@@ -49,7 +49,7 @@ class config():
 			a.tag=tag
 			a.value=value
 			self.tag_list.append(a)
-			pos=len(self.tag_list)-1
+#			pos=len(self.tag_list)-1
 
 		print "Saved as",os.path.join(self.path,"config.inp")
 		a = open(os.path.join(self.path,"config.inp"), "w")

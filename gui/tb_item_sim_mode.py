@@ -23,9 +23,9 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
-import sys
-import math
-import gobject
+#import sys
+#import math
+#import gobject
 from inp import inp_update_token_value
 from inp import inp_get_token_value
 from inp import inp_load_file
@@ -79,7 +79,7 @@ class tb_item_sim_mode(gtk.ToolItem):
 				for i in range(0,len(self.store_list)):
 					if self.store_list[i].token=="jv":
 						self.sim_mode.set_active(i)
-						inp_update_token_value("sim.inp", "#simmode", mode+"@"+self.store_list[i].file,1)
+						inp_update_token_value("sim.inp", "#simmode", "jv@jv",1)
 						break
 
 	def init(self):
