@@ -20,9 +20,6 @@
 
 #ifndef inp_h
 #define inp_h
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include "advmath.h"
 #include "inp_struct.h"
 

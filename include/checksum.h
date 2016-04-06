@@ -20,10 +20,7 @@
 
 #ifndef checksum_h
 #define checksum_h
-#include <string.h>
 #include <stdint.h>
-#include <stdlib.h>
-#include <stdio.h>
 
 uint32_t leftrotate (uint32_t x, uint32_t c);
 void checksum(char *out,char *data,int len);

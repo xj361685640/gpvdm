@@ -18,17 +18,8 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <math.h>
-#include <errno.h>
-#include <unistd.h>
-
 #include <dlfcn.h>
 
-#include <sys/types.h>
-#include <dirent.h>
 #include "util.h"
 #include "inp.h"
 #include "light_interface.h"
@@ -36,7 +27,6 @@
 #include "device.h"
 #include "dump_ctrl.h"
 #include "config.h"
-#include "complex_solver.h"
 #include "cal_path.h"
 #include "lang.h"
 #include "log.h"

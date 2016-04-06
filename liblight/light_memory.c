@@ -18,24 +18,13 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
-#include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <math.h>
-#include <errno.h>
-#include <unistd.h>
-#include <dirent.h>
 #include "util.h"
 #include "const.h"
 #include "light.h"
 #include "device.h"
-#include "const.h"
-#include "dump.h"
 #include "config.h"
-#include "inp.h"
 #include "util.h"
-#include "hard_limit.h"
-#include "epitaxy.h"
 #include "lang.h"
 #include "log.h"
 
