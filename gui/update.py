@@ -101,7 +101,7 @@ def update_fetch():
 		if l>100:
 			l=100;
 		if a[:l].count("403 Forbidden")!=0:
-			text.append("Access to file "+web_src[i]+" forbiden")
+			text.append("Access to file "+web_src[i]+" forbidden")
 		else:
 			web_hash=hashlib.md5(a).hexdigest()
 			list_hash=web_md5[i]
@@ -145,7 +145,7 @@ class update_thread(gtk.VBox):
 			self.text=""
 			if message[0].startswith("update"):
 				token,ver=message[0].split("#")
-				self.text="Version "+ver+" of opvdm is now avaliable."
+				self.text="Version "+ver+" of opvdm is now available."
 			gobject.idle_add(gobject.GObject.emit,self,"got-data")
 			#self.emit("got-data")
 

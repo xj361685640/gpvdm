@@ -64,7 +64,6 @@ void dll_interface_fixup(struct device *in)
 	pointers.device_timestep = &device_timestep;
 	pointers.ntricks_externv_newton = &ntricks_externv_newton;
 	pointers.device_timestep = &device_timestep;
-	pointers.sim_i = &sim_i;
 }
 
 struct dll_interface *dll_get_interface()

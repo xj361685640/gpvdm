@@ -70,7 +70,7 @@ class MyTCPHandler(SocketServer.BaseRequestHandler):
 			#print len(buf)
 		print "buffer len",len(buf)
 		if len(buf)==0:
-			print "I have recived a zero length buffer"
+			print "I have received a zero length buffer"
 
 		#self.request.close()
 

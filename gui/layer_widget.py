@@ -177,9 +177,6 @@ class layer_widget(gtk.VBox):
 
 		self.__gobject_init__()
 
-		add_button = gtk.Button(_("Add layer"),gtk.STOCK_ADD)
-		add_button.show()
-
 		delete_button = gtk.Button(_("Delete layer"),gtk.STOCK_DELETE)
 		delete_button.show()
 
@@ -196,7 +193,9 @@ class layer_widget(gtk.VBox):
 		toolbar.set_size_request(-1, 50)
 		pos=0
 
-		add = gtk.ToolButton(gtk.STOCK_ADD)
+		image = gtk.Image()
+   		image.set_from_file(os.path.join(get_image_file_path(),"add.png"))
+		add = gtk.ToolButton(image)
 		add.connect("clicked", self.on_add_item_clicked)
 		tooltips.set_tip(add, _("Add device layer"))
 		toolbar.insert(add, pos)

@@ -395,7 +395,7 @@ void dump_dynamic_save(char *outputpath, struct dynamic_store *store)
 		buffer_malloc(&buf);
 		buf.y_mul = 1.0;
 		buf.x_mul = 1e6;
-		strcpy(buf.title, "Dynamic quantum efficency");
+		strcpy(buf.title, "Dynamic quantum efficiency");
 		strcpy(buf.type, "xy");
 		strcpy(buf.x_label, "Time");
 		strcpy(buf.y_label, "Percent");

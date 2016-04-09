@@ -9,6 +9,7 @@ OBJS=dump_1d_slice.o dump.o dump_config.o dump_ctrl.o dump_dynamic.o dump_energy
 
 all: $(OBJS)
 	$(AR) rcs libgpvdm_dump.a $(OBJS)
+	ln -s -f ./libdump/libgpvdm_dump.a ../libgpvdm_dump.a
 #-cvq
 
 %.o : %.c

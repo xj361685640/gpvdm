@@ -626,6 +626,7 @@ LIB@&t@OBJS
 EGREP
 GREP
 CPP
+LOCAL_LINK
 BUILD_DIRS
 COMPILE_FLAG
 LINK_FLAG
@@ -4806,7 +4807,9 @@ esac
 #i?86
 #x86_64
 
-BUILD_DIRS=" lib libdos liblight libmeasure libdump libserver libmesh plugins/flat plugins/pulse plugins/newton_norm plugins/jv plugins/full plugins/umfpack plugins/exp plugins/newton plugins/fxdomain src images man "
+BUILD_DIRS=" lang lib libdos liblight libmeasure libdump libserver libmesh plugins/flat plugins/pulse plugins/newton_norm plugins/jv plugins/full plugins/umfpack plugins/exp plugins/newton plugins/fxdomain src images man "
+
+LOCAL_LINK=" -lgpvdm_lib -lgpvdm_dos -lgpvdm_light -lgpvdm_measure -lgpvdm_dump -lgpvdm_server -lgpvdm_mesh"
 
 
 ac_ext=c
@@ -5302,6 +5305,8 @@ done
 #images/Makefile
 
 ac_config_files="$ac_config_files Makefile"
+
+ac_config_files="$ac_config_files lang/Makefile"
 
 ac_config_files="$ac_config_files lib/Makefile"
 
@@ -6086,6 +6091,7 @@ do
   case $ac_config_target in
     "depfiles") CONFIG_COMMANDS="$CONFIG_COMMANDS depfiles" ;;
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
+    "lang/Makefile") CONFIG_FILES="$CONFIG_FILES lang/Makefile" ;;
     "lib/Makefile") CONFIG_FILES="$CONFIG_FILES lib/Makefile" ;;
     "libdos/Makefile") CONFIG_FILES="$CONFIG_FILES libdos/Makefile" ;;
     "liblight/Makefile") CONFIG_FILES="$CONFIG_FILES liblight/Makefile" ;;

@@ -8,6 +8,7 @@ OBJS=exp.o pl.o
 
 all: $(OBJS)
 	$(AR) rcs libgpvdm_measure.a $(OBJS)
+	ln -s -f ./libmeasure/libgpvdm_measure.a ../libgpvdm_measure.a
 #-cvq
 
 %.o : %.c

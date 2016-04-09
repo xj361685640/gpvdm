@@ -6,6 +6,7 @@ LINK_FLAG=@LINK_FLAG@
 
 all: $(OBJS)
 	$(AR) rcs libgpvdm_server.a $(OBJS)
+	ln -s -f ./libserver/libgpvdm_server.a ../libgpvdm_server.a
 #-cvq
 
 %.o : %.c

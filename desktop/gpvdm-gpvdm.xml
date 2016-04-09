@@ -1,0 +1,9 @@
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+   <mime-type type="application/gpvdm">
+     <comment>Example file type </comment>
+     <magic priority="50">
+       <match value="gpvdm" type="string" offset="10:140"/>
+     </magic>
+     <glob pattern="*.gpvdm"/>
+   </mime-type>
+</mime-info>

@@ -18,6 +18,7 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+
 #ifndef device_h
 #define device_h
 #include <stdio.h>

@@ -91,7 +91,8 @@ target_triplet = @target@
 subdir = plugins/jv
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/make_files.m4 \
-	$(top_srcdir)/config_files.m4 $(top_srcdir)/configure.ac
+	$(top_srcdir)/local_link.m4 $(top_srcdir)/config_files.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
@@ -153,6 +154,7 @@ LDFLAGS = @LDFLAGS@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
 LINK_FLAG = @LINK_FLAG@
+LOCAL_LINK = @LOCAL_LINK@
 LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
 MKDIR_P = @MKDIR_P@
@@ -228,7 +230,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 OBJS = plugin.o jv.o jv_ntricks.o
 link_command = -shared -Wl,-soname,plugin.so $(OBJS) -o plugin.so -g
-lib = -L../../lib/ -L../../liblight/ -L../../libdump/ -L../../libmeasure/  -L../../libserver/ -L../../libdos/ -L$(HOME)/windll/compiled_dlls/
+lib = -L../../ -L$(HOME)/windll/compiled_dlls/
 inc = -I../../include/
 all: all-am
 

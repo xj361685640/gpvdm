@@ -18,6 +18,7 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+
 #ifndef patch_h
 #define patch_h
 void patch(char *dest,char * patch_file);

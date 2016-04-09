@@ -18,6 +18,7 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+
 #ifndef dump_ctrl_h
 #define dump_ctrl_h
 #include <device.h>

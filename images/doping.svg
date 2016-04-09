@@ -14,7 +14,7 @@
    height="48px"
    id="svg3885"
    version="1.1"
-   inkscape:version="0.91 r13725"
+   inkscape:version="0.48.5 r10040"
    sodipodi:docname="doping.svg"
    inkscape:export-filename="/home/rod/gpvdm/translate/images/doping.png"
    inkscape:export-xdpi="90"
@@ -204,35 +204,26 @@
          offset="1"
          id="stop3814-6-9" />
     </linearGradient>
-    <filter
-       inkscape:collect="always"
-       style="color-interpolation-filters:sRGB"
-       id="filter6212">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="0.017703124"
-         id="feGaussianBlur6214" />
-    </filter>
   </defs>
   <sodipodi:namedview
      id="base"
      pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0.0"
+     bordercolor="#000000"
+     borderopacity="1"
+     inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="11.313709"
-     inkscape:cx="-17.937464"
-     inkscape:cy="32.726592"
+     inkscape:zoom="5.6568545"
+     inkscape:cx="-29.842814"
+     inkscape:cy="34.08587"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:grid-bbox="true"
      inkscape:document-units="px"
-     inkscape:window-width="1920"
-     inkscape:window-height="953"
-     inkscape:window-x="0"
-     inkscape:window-y="49"
-     inkscape:window-maximized="1" />
+     inkscape:window-width="1082"
+     inkscape:window-height="708"
+     inkscape:window-x="706"
+     inkscape:window-y="97"
+     inkscape:window-maximized="0" />
   <metadata
      id="metadata3890">
     <rdf:RDF>
@@ -266,11 +257,6 @@
        id="path3045-0"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccc" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter6212)"
-       d="m 35.416499,8.5997594 0,-6.437499"
-       id="path5718"
-       inkscape:connector-curvature="0" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="m 8.5055186,8.4001281 0,28.4374979"

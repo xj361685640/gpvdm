@@ -67,7 +67,7 @@ def command_args(argc,argv):
 	if argc>=2:
 		if argv[1]=="--help":
 			print _("Usage: gpvdm [option] src_file dest_file")
-			print _("")
+			print ""
 			print _("Options:")
 			print _("\t--version\tdisplays the current version")
 			print _("\t--help\t\tdisplays the help")
@@ -87,10 +87,10 @@ def command_args(argc,argv):
 			print _("\t--sync-ver\t\truns a scan")
 			print _("\t\t\tchanges the version of input file")
 			print _("\t--replace\t\treplaces file in device lib")
-			print _("\t\t\t")
-			print _("")
+			print "\t\t\t"
+			print ""
 			print _("Additional information about gpvdm is available at http://www.gpvdm.com.")
-			print _("")
+			print ""
 			print _("Report bugs to: roderick.mackenzie@nottingham.ac.uk")
 			sys.exit(0)
 

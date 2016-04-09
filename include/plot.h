@@ -18,6 +18,7 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+
 #ifndef plot_h
 #define plot_h
 void plot_now_excite(struct device *in);

@@ -4,7 +4,7 @@ CFLAGS=-fPIC
 link_command=-shared -Wl,-soname,plugin.so $(OBJS) -o plugin.so -g
 
 CFLAGS+= -Wall -g
-lib=-L../../lib/ -L../../libmesh/ -L../../liblight/ -L../../libdump/ -L../../libmeasure/  -L../../libserver/ -L../../libdos/ -L$(HOME)/windll/compiled_dlls/
+lib=-L../../ -L$(HOME)/windll/compiled_dlls/
 inc=-I../../include/
 
 all: $(OBJS)

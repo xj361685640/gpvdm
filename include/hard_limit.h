@@ -18,6 +18,7 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+
 #ifndef hard_limit_h
 void hard_limit(char *token,gdouble *value);
 void hard_limit_init();

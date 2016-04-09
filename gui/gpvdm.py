@@ -877,7 +877,9 @@ class gpvdm_main_window(gobject.GObject):
 		toolbar.set_style(gtk.TOOLBAR_ICONS)
 		toolbar.set_size_request(-1, 50)
 
-		new_sim = gtk.ToolButton(gtk.STOCK_NEW)
+		image = gtk.Image()
+		image.set_from_file(os.path.join(get_image_file_path(),"new.png"))
+		new_sim = gtk.ToolButton(image)
 		self.tooltips.set_tip(new_sim, _("Make a new simulation"))
 		toolbar.insert(new_sim, pos)
 		pos=pos+1

@@ -231,7 +231,7 @@ class qe_window(gtk.Window):
 		vbox.show()
 		window_main_vbox.add(self.hbox)
 		self.add(window_main_vbox)
-		self.set_title("Quantum Efficency calculator - (www.gpvdm.com)")
+		self.set_title("Quantum Efficiency calculator - (www.gpvdm.com)")
 		self.set_icon_from_file(os.path.join(get_image_file_path(),"qe.png"))
 		self.connect("delete-event", self.callback_close)
 		self.set_position(gtk.WIN_POS_CENTER)

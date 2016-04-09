@@ -617,7 +617,7 @@ void inp_check(struct inp_file *in, double ver)
 			sscanf(line, "%lf", &(read_ver));
 
 			if (ver != read_ver) {
-				ewe("File compatability problem %s\n",
+				ewe("File compatibility problem %s\n",
 				    in->full_name);
 			}
 			line = inp_get_string(in);

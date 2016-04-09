@@ -1589,7 +1589,7 @@ int dllinternal_solve_cur(struct device *in)
 		(*fun->solver) (in->M, in->N, in->Ti, in->Tj, in->Tx, in->b);
 
 		update_solver_vars(in, TRUE);
-		//printf("Going to clamp=%d\n",propper);
+		//printf("Going to clamp=%d\n",proper);
 		//solver_dump_matrix(in->M,in->N,in->Ti,in->Tj, in->Tx,in->b);
 		//printf("%d\n");
 		//getchar();    

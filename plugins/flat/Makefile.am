@@ -2,7 +2,7 @@ lib_type=-fPIC
 link_command=-shared -Wl,-soname,plugin.so interface.o light.o -o plugin.so
 CFLAGS=-Wall
 inc=-I../../include/
-link=-L../../lib/ -L../../libserver/
+link=-L../../
 
 all: light.o interface.o
 	$(CC) $(link_command) $(CFLAGS) $(link)

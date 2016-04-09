@@ -1,7 +1,7 @@
 lib_type=-fPIC
 link_command=-shared -Wl,-soname,plugin.so plugin.o newton.o -o plugin.so -g
 lib=-I../../include/
-link=-L../../lib/ -L../../libmeasure/
+link=-L../../
 CFLAG=-Wall -g
 
 all: plugin.o newton.o

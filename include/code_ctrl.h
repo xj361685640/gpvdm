@@ -18,8 +18,10 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+
 #ifndef code_ctrl_h
 #define code_ctrl_h
+#define enable_fit
 #define enable_time
 #define enable_multi_layers
 #define private

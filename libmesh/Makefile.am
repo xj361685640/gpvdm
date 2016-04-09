@@ -9,6 +9,7 @@ OBJS=time.o
 
 all: $(OBJS)
 	$(AR) rcs libgpvdm_mesh.a $(OBJS)
+	ln -s -f ./libmesh/libgpvdm_mesh.a ../libgpvdm_mesh.a
 #-cvq
 
 %.o : %.c

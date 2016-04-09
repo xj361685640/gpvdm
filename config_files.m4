@@ -1,4 +1,5 @@
 AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([lang/Makefile])
 AC_CONFIG_FILES([lib/Makefile])
 AC_CONFIG_FILES([libdos/Makefile])
 AC_CONFIG_FILES([liblight/Makefile])

@@ -18,6 +18,7 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+
 #ifndef config_h
 #define config_h
 void config_read_line_to_string(char *data,FILE *in,char *id);

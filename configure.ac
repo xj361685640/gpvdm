@@ -26,6 +26,7 @@ AC_SUBST(COMPILE_FLAG, "`pkg-config --cflags dbus-1` -D enable_server")
 #x86_64
 
 m4_include([make_files.m4])
+m4_include([local_link.m4])
 
 AC_CHECK_HEADERS(math.h)
 AC_FUNC_MALLOC

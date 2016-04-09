@@ -91,7 +91,8 @@ target_triplet = @target@
 subdir = src
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/make_files.m4 \
-	$(top_srcdir)/config_files.m4 $(top_srcdir)/configure.ac
+	$(top_srcdir)/local_link.m4 $(top_srcdir)/config_files.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
@@ -153,6 +154,7 @@ LDFLAGS = @LDFLAGS@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
 LINK_FLAG = @LINK_FLAG@
+LOCAL_LINK = @LOCAL_LINK@
 LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
 MKDIR_P = @MKDIR_P@
@@ -227,12 +229,11 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 AROPT = 
+local_link = @LOCAL_LINK@
 inc = -I../include/ `pkg-config --cflags dbus-1` \
 	-I/usr/include/suitesparse/
-OBJS = solver_interface.o sim_find_n0.o sim_run.o newton_update.o pos.o inital.o config.o memory.o anal.o ntricks.o ntricks_externalv.o complex_solver.o thermal.o mesh.o newton_interface.o dll_interface.o remesh.o run_electrical_dll.o
-LDLIBS = -L../lib/ -L../libdump/ -L../liblight/ -L../libmeasure/ \
-	-L../libserver/ -L../libdos/ -L../libmesh/ -L../libfit/ \
-	`pkg-config --libs dbus-1` -lumfpack -lcrypto -lm -lgsl \
+OBJS = solver_interface.o sim_find_n0.o sim_run.o newton_update.o pos.o initial.o config.o memory.o anal.o ntricks.o ntricks_externalv.o complex_solver.o thermal.o mesh.o newton_interface.o dll_interface.o remesh.o run_electrical_dll.o
+LDLIBS = -L../ `pkg-config --libs dbus-1` -lumfpack -lm -lgsl \
 	-lgslcblas -rdynamic -export-dynamic -ldl -lzip -lz -lmatheval
 all: all-am
 
@@ -418,7 +419,8 @@ uninstall-am:
 
 
 all: main.c $(OBJS)
-	$(CC) main.c $(OBJS) -o ../go.o $(inc) -L.  $(DEFINE_FLAGS) $(CFLAGS) $(LDLIBS) -Wl,--whole-archive -lgpvdm_dos -lgpvdm_lib -lgpvdm_dump -lgpvdm_light  -lgpvdm_measure -lgpvdm_server -lgpvdm_mesh -lgpvdm_fit -Wl,--no-whole-archive
+	$(CC) main.c $(OBJS) -o ../gpvdm_core $(inc) -L.  $(DEFINE_FLAGS) $(CFLAGS) $(LDLIBS) -Wl,--whole-archive $(local_link) -Wl,--no-whole-archive
+	ln -s -f gpvdm_core ../go.o
 
 %.o : %.c
 	$(CC) -c $(DEFINE_FLAGS) $(inc) $(CFLAGS) $(warn) $< -o $@

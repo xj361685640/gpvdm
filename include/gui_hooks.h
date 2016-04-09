@@ -18,6 +18,7 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+
 #ifndef hgui_hooks
 int gui_send_data (char *tx_data_in);
 int dbus_init();

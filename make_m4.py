@@ -1,17 +1,34 @@
 #!/usr/bin/env python2.7
 import os
 config_files=[]
+link_libs=""
 config_files.append("")
+config_files.append("lang")
+
 config_files.append("lib")
+link_libs=link_libs+" -lgpvdm_lib"
+
 config_files.append("libdos")
+link_libs=link_libs+" -lgpvdm_dos"
+
 config_files.append("liblight")
+link_libs=link_libs+" -lgpvdm_light"
+
 config_files.append("libmeasure")
+link_libs=link_libs+" -lgpvdm_measure"
+
 config_files.append("libdump")
+link_libs=link_libs+" -lgpvdm_dump"
+
 config_files.append("libserver")
+link_libs=link_libs+" -lgpvdm_server"
+
 config_files.append("libmesh")
+link_libs=link_libs+" -lgpvdm_mesh"
 
 if os.path.isdir("libfit"):
 	config_files.append("libfit")
+	link_libs=link_libs+" -lgpvdm_fit"
 
 for root, dirs, files in os.walk("./plugins"):
     for file in files:
@@ -40,6 +57,14 @@ f.write( "AC_SUBST(BUILD_DIRS,\"")
 for i in range(0,len(config_files)):
 	f.write(config_files[i]+" ")
 
+f.write("\")")
+
+f.close()
+
+
+f = open("local_link.m4", "w")
+f.write( "AC_SUBST(LOCAL_LINK,\"")
+f.write(link_libs)
 f.write("\")")
 
 f.close()

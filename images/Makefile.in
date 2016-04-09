@@ -91,7 +91,8 @@ target_triplet = @target@
 subdir = images
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/make_files.m4 \
-	$(top_srcdir)/config_files.m4 $(top_srcdir)/configure.ac
+	$(top_srcdir)/local_link.m4 $(top_srcdir)/config_files.m4 \
+	$(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
@@ -153,6 +154,7 @@ LDFLAGS = @LDFLAGS@
 LIBOBJS = @LIBOBJS@
 LIBS = @LIBS@
 LINK_FLAG = @LINK_FLAG@
+LOCAL_LINK = @LOCAL_LINK@
 LTLIBOBJS = @LTLIBOBJS@
 MAKEINFO = @MAKEINFO@
 MKDIR_P = @MKDIR_P@
@@ -226,7 +228,7 @@ target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-OBJS = fit.png refresh.png asi.png forward2.png oled.png star.png book.png forward.png optics.png scale.png start.png close.png pause.png scan2.png command.png inp_file.png pen.png scan.png time.png dat_file.png laser.png play.png select.png video.png device.png lasers.png plot.png server.png plot_time.png  si.png www.png dir_file.png psi.png spectra_file.png doping.png mesh.png qe.png icon.png spectrum.png tab.png
+OBJS = fit.png refresh.png asi.png forward2.png oled.png star.png book.png forward.png optics.png scale.png start.png close.png pause.png scan2.png command.png inp_file.png pen.png scan.png time.png dat_file.png laser.png play.png select.png video.png device.png lasers.png plot.png server.png plot_time.png  si.png www.png dir_file.png psi.png spectra_file.png doping.png mesh.png qe.png icon.png spectrum.png tab.png add.png save.png new.png
 all: all-am
 
 .SUFFIXES:
@@ -414,7 +416,7 @@ all: $(OBJS)
 	echo $(OBJS)
 
 %.png : %.svg
-	convert -background none $< $@
+	convert -transparent white  $< $@
 
 clean:
 	rm $(OBJS) -f

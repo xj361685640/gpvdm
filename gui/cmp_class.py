@@ -232,7 +232,7 @@ class cmp_class(gtk.Window):
 			os.system("mencoder "+jpgs+" -mf type=jpg:fps=1.0 -o "+file_name+" -ovc lavc -lavcopts vcodec=mpeg1video:vbitrate=800")
 			#msmpeg4v2
 		else:
-			print "Unknown file extention"
+			print "Unknown file extension"
 
 	def callback_save(self, widget, data=None):
 		dialog = gtk.FileChooserDialog("Save as..",

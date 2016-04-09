@@ -10,6 +10,7 @@ OBJS=light_config.o light_dump.o light_interface.o light_laser.o light_materials
 
 all: $(OBJS)
 	$(AR) rcs libgpvdm_light.a $(OBJS)
+	ln -s -f ./liblight/libgpvdm_light.a ../libgpvdm_light.a
 #-cvq
 
 %.o : %.c
