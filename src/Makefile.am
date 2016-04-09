@@ -16,7 +16,7 @@ LDLIBS+=-lumfpack -lm -lgsl -lgslcblas
 LDLIBS+= -rdynamic -export-dynamic -ldl -lzip -lz -lmatheval
 
 all: main.c $(OBJS)
-	$(CC) main.c $(OBJS) -o ../gpvdm_core $(inc) -L.  $(DEFINE_FLAGS) $(CFLAGS) $(LDLIBS) -Wl,--whole-archive $(local_link) -Wl,--no-whole-archive
+	$(CC) main.c $(OBJS) -o ../gpvdm_core $(inc) -L.  $(DEFINE_FLAGS) $(CFLAGS) $(LDLIBS) -Wl,--whole-archive $(local_link) -Wl,--no-whole-archive @LDFLAGS@
 	ln -s -f gpvdm_core ../go.o
 
 

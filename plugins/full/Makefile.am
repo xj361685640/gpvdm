@@ -5,7 +5,7 @@ inc=-I../../include/
 link=-L../../
 
 all: light.o interface.o
-	$(CC) $(link_command) $(CFLAGS) $(link)
+	$(CC) $(link_command) $(CFLAGS) $(link) @LDFLAGS@
 	mv plugin.so ../full.so
 
 interface.o: interface.c

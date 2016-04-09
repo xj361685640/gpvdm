@@ -5,7 +5,7 @@ link=-L../../
 CFLAG=-Wall -g
 
 all: plugin.o newton.o
-	$(CC) $(link_command) $(CFLAGS) $(link)
+	$(CC) $(link_command) $(CFLAGS) $(link) @LDFLAGS@
 	mv plugin.so ../newton_norm.so
 
 plugin.o: plugin.c

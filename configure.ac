@@ -19,6 +19,7 @@ AC_SUBST(COMPILE_FLAG, "-I\$(HOME)/windll/libzip/libzip-0.11.2/lib/ -D windows -
   [linux-gnu], [
 AC_SUBST(LINK_FLAG, "")
 AC_SUBST(COMPILE_FLAG, "`pkg-config --cflags dbus-1` -D enable_server")
+AC_SUBST(LDFLAGS, "`dpkg-buildflags --get LDFLAGS`")
 ],
   [AC_MSG_ERROR("No assembler code for CPU $target_os")]
 )

@@ -416,7 +416,7 @@ uninstall-am:
 
 
 all: $(OBJS)
-	$(CC) $(link_command) $(CFLAGS) $(lib)
+	$(CC) $(link_command) $(CFLAGS) $(lib) @LDFLAGS@
 	mv plugin.so ../pulse.so
 
 %.o : %.c

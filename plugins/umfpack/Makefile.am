@@ -8,7 +8,7 @@ CFLAGS=-Wall
 lib=-I../../include/
 
 all: solver.o lib.o
-	$(CC) $(link_command) -lumfpack $(CFLAGS)
+	$(CC) $(link_command) -lumfpack $(CFLAGS) @LDFLAGS@
 	mv plugin.so ../umfpack.so
 
 solver.o: solver.c

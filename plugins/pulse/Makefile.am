@@ -7,7 +7,7 @@ lib=-L../../ -L$(HOME)/windll/compiled_dlls/
 inc=-I../../include/
 
 all: $(OBJS)
-	$(CC) $(link_command) $(CFLAGS) $(lib)
+	$(CC) $(link_command) $(CFLAGS) $(lib) @LDFLAGS@
 	mv plugin.so ../pulse.so
 
 %.o : %.c

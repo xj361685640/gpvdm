@@ -15,7 +15,6 @@
 @SET_MAKE@
 
 
-
 VPATH = @srcdir@
 am__is_gnu_make = { \
   if test -z '$(MAKELEVEL)'; then \
@@ -107,76 +106,11 @@ am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
 mkinstalldirs = $(install_sh) -d
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
-am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
-am__vpath_adj = case $$p in \
-    $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
-    *) f=$$p;; \
-  esac;
-am__strip_dir = f=`echo $$p | sed -e 's|^.*/||'`;
-am__install_max = 40
-am__nobase_strip_setup = \
-  srcdirstrip=`echo "$(srcdir)" | sed 's/[].[^$$\\*|]/\\\\&/g'`
-am__nobase_strip = \
-  for p in $$list; do echo "$$p"; done | sed -e "s|$$srcdirstrip/||"
-am__nobase_list = $(am__nobase_strip_setup); \
-  for p in $$list; do echo "$$p $$p"; done | \
-  sed "s| $$srcdirstrip/| |;"' / .*\//!s/ .*/ ./; s,\( .*\)/[^/]*$$,\1,' | \
-  $(AWK) 'BEGIN { files["."] = "" } { files[$$2] = files[$$2] " " $$1; \
-    if (++n[$$2] == $(am__install_max)) \
-      { print $$2, files[$$2]; n[$$2] = 0; files[$$2] = "" } } \
-    END { for (dir in files) print dir, files[dir] }'
-am__base_list = \
-  sed '$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;s/\n/ /g' | \
-  sed '$$!N;$$!N;$$!N;$$!N;s/\n/ /g'
-am__uninstall_files_from_dir = { \
-  test -z "$$files" \
-    || { test ! -d "$$dir" && test ! -f "$$dir" && test ! -r "$$dir"; } \
-    || { echo " ( cd '$$dir' && rm -f" $$files ")"; \
-         $(am__cd) "$$dir" && rm -f $$files; }; \
-  }
-am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(bindir)" \
-	"$(DESTDIR)$(man1dir)" "$(DESTDIR)$(device_libdir)" \
-	"$(DESTDIR)$(docdir)" "$(DESTDIR)$(pkgdatadir)" \
-	"$(DESTDIR)$(guidir)" "$(DESTDIR)$(imagedir)" \
-	"$(DESTDIR)$(plotdir)" "$(DESTDIR)$(pluginsdir)"
-LIBRARIES = $(lib_LIBRARIES)
-ARFLAGS = cru
-AM_V_AR = $(am__v_AR_@AM_V@)
-am__v_AR_ = $(am__v_AR_@AM_DEFAULT_V@)
-am__v_AR_0 = @echo "  AR      " $@;
-am__v_AR_1 = 
-libgpvdm_dos_a_AR = $(AR) $(ARFLAGS)
-libgpvdm_dos_a_LIBADD =
-am_libgpvdm_dos_a_OBJECTS =
-libgpvdm_dos_a_OBJECTS = $(am_libgpvdm_dos_a_OBJECTS)
-libgpvdm_dump_a_AR = $(AR) $(ARFLAGS)
-libgpvdm_dump_a_LIBADD =
-am_libgpvdm_dump_a_OBJECTS =
-libgpvdm_dump_a_OBJECTS = $(am_libgpvdm_dump_a_OBJECTS)
-libgpvdm_fit_a_AR = $(AR) $(ARFLAGS)
-libgpvdm_fit_a_LIBADD =
-am_libgpvdm_fit_a_OBJECTS =
-libgpvdm_fit_a_OBJECTS = $(am_libgpvdm_fit_a_OBJECTS)
-libgpvdm_lib_a_AR = $(AR) $(ARFLAGS)
-libgpvdm_lib_a_LIBADD =
-am_libgpvdm_lib_a_OBJECTS =
-libgpvdm_lib_a_OBJECTS = $(am_libgpvdm_lib_a_OBJECTS)
-libgpvdm_light_a_AR = $(AR) $(ARFLAGS)
-libgpvdm_light_a_LIBADD =
-am_libgpvdm_light_a_OBJECTS =
-libgpvdm_light_a_OBJECTS = $(am_libgpvdm_light_a_OBJECTS)
-libgpvdm_measure_a_AR = $(AR) $(ARFLAGS)
-libgpvdm_measure_a_LIBADD =
-am_libgpvdm_measure_a_OBJECTS =
-libgpvdm_measure_a_OBJECTS = $(am_libgpvdm_measure_a_OBJECTS)
-libgpvdm_mesh_a_AR = $(AR) $(ARFLAGS)
-libgpvdm_mesh_a_LIBADD =
-am_libgpvdm_mesh_a_OBJECTS =
-libgpvdm_mesh_a_OBJECTS = $(am_libgpvdm_mesh_a_OBJECTS)
-libgpvdm_server_a_AR = $(AR) $(ARFLAGS)
-libgpvdm_server_a_LIBADD =
-am_libgpvdm_server_a_OBJECTS =
-libgpvdm_server_a_OBJECTS = $(am_libgpvdm_server_a_OBJECTS)
+am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(man1dir)" \
+	"$(DESTDIR)$(device_libdir)" "$(DESTDIR)$(docdir)" \
+	"$(DESTDIR)$(pkgdatadir)" "$(DESTDIR)$(guidir)" \
+	"$(DESTDIR)$(imagedir)" "$(DESTDIR)$(plotdir)" \
+	"$(DESTDIR)$(pluginsdir)"
 PROGRAMS = $(bin_PROGRAMS)
 am_gpvdm_core_OBJECTS =
 gpvdm_core_OBJECTS = $(am_gpvdm_core_OBJECTS)
@@ -206,16 +140,8 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(libgpvdm_dos_a_SOURCES) $(libgpvdm_dump_a_SOURCES) \
-	$(libgpvdm_fit_a_SOURCES) $(libgpvdm_lib_a_SOURCES) \
-	$(libgpvdm_light_a_SOURCES) $(libgpvdm_measure_a_SOURCES) \
-	$(libgpvdm_mesh_a_SOURCES) $(libgpvdm_server_a_SOURCES) \
-	$(gpvdm_core_SOURCES)
-DIST_SOURCES = $(libgpvdm_dos_a_SOURCES) $(libgpvdm_dump_a_SOURCES) \
-	$(libgpvdm_fit_a_SOURCES) $(libgpvdm_lib_a_SOURCES) \
-	$(libgpvdm_light_a_SOURCES) $(libgpvdm_measure_a_SOURCES) \
-	$(libgpvdm_mesh_a_SOURCES) $(libgpvdm_server_a_SOURCES) \
-	$(gpvdm_core_SOURCES)
+SOURCES = $(gpvdm_core_SOURCES)
+DIST_SOURCES = $(gpvdm_core_SOURCES)
 RECURSIVE_TARGETS = all-recursive check-recursive cscopelist-recursive \
 	ctags-recursive dvi-recursive html-recursive info-recursive \
 	install-data-recursive install-dvi-recursive \
@@ -229,6 +155,33 @@ am__can_run_installinfo = \
     n|no|NO) false;; \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
+am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
+am__vpath_adj = case $$p in \
+    $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
+    *) f=$$p;; \
+  esac;
+am__strip_dir = f=`echo $$p | sed -e 's|^.*/||'`;
+am__install_max = 40
+am__nobase_strip_setup = \
+  srcdirstrip=`echo "$(srcdir)" | sed 's/[].[^$$\\*|]/\\\\&/g'`
+am__nobase_strip = \
+  for p in $$list; do echo "$$p"; done | sed -e "s|$$srcdirstrip/||"
+am__nobase_list = $(am__nobase_strip_setup); \
+  for p in $$list; do echo "$$p $$p"; done | \
+  sed "s| $$srcdirstrip/| |;"' / .*\//!s/ .*/ ./; s,\( .*\)/[^/]*$$,\1,' | \
+  $(AWK) 'BEGIN { files["."] = "" } { files[$$2] = files[$$2] " " $$1; \
+    if (++n[$$2] == $(am__install_max)) \
+      { print $$2, files[$$2]; n[$$2] = 0; files[$$2] = "" } } \
+    END { for (dir in files) print dir, files[dir] }'
+am__base_list = \
+  sed '$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;s/\n/ /g' | \
+  sed '$$!N;$$!N;$$!N;$$!N;s/\n/ /g'
+am__uninstall_files_from_dir = { \
+  test -z "$$files" \
+    || { test ! -d "$$dir" && test ! -f "$$dir" && test ! -r "$$dir"; } \
+    || { echo " ( cd '$$dir' && rm -f" $$files ")"; \
+         $(am__cd) "$$dir" && rm -f $$files; }; \
+  }
 man1dir = $(mandir)/man1
 NROFF = nroff
 MANS = $(man1_MANS)
@@ -263,10 +216,8 @@ ETAGS = etags
 CTAGS = ctags
 CSCOPE = cscope
 DIST_SUBDIRS = $(SUBDIRS)
-am__DIST_COMMON = $(srcdir)/Makefile.in $(top_srcdir)/../../ar-lib \
-	$(top_srcdir)/../../compile $(top_srcdir)/../../config.guess \
-	$(top_srcdir)/../../config.sub $(top_srcdir)/../../install-sh \
-	$(top_srcdir)/../../missing COPYING README
+am__DIST_COMMON = $(srcdir)/Makefile.in COPYING README ar-lib compile \
+	config.guess config.sub install-sh missing
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
 top_distdir = $(distdir)
@@ -420,7 +371,6 @@ AUTOMAKE_OPTIONS = foreign
 EXTRA_DIST = materials
 SUBDIRS = @BUILD_DIRS@
 gpvdm_core_SOURCES = src 
-lib_LIBRARIES = libgpvdm_lib.a libgpvdm_measure.a libgpvdm_dump.a libgpvdm_light.a libgpvdm_fit.a libgpvdm_server.a libgpvdm_mesh.a libgpvdm_dos.a
 man1_MANS = man/gpvdm.1 man/gpvdm_core.1
 imagedir = $(pkgdatadir)/images
 image_DATA = images/*.jpg images/*.png
@@ -429,21 +379,11 @@ device_libdir = $(pkgdatadir)/device_lib
 device_lib_DATA = device_lib/*.gpvdm
 plotdir = $(pkgdatadir)/plot
 plot_DATA = plot/*.plot
-pluginsdir = $(pkgdatadir)/plugins
+pluginsdir = $(pkglibdir)/plugins
 plugins_DATA = plugins/*.so
 guidir = $(pkgdatadir)/gui
 gui_DATA = gui/*.py
-dist_doc_DATA = README COPYING
-libgpvdm_lib_a_SOURCES = lib
-libgpvdm_measure_a_SOURCES = libmeasure
-libgpvdm_dump_a_SOURCES = libdump
-libgpvdm_light_a_SOURCES = liblight
-libgpvdm_fit_a_SOURCES = libfit
-libgpvdm_server_a_SOURCES = libserver
-libgpvdm_mesh_a_SOURCES = libmesh
-libgpvdm_dos_a_SOURCES = libdos
-man_gpvdm.1_SOURCES = man
-man_gpvdm_core.1_SOURCES = man
+dist_doc_DATA = README
 all: all-recursive
 
 .SUFFIXES:
@@ -480,77 +420,6 @@ $(top_srcdir)/configure:  $(am__configure_deps)
 $(ACLOCAL_M4):  $(am__aclocal_m4_deps)
 	$(am__cd) $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
 $(am__aclocal_m4_deps):
-install-libLIBRARIES: $(lib_LIBRARIES)
-	@$(NORMAL_INSTALL)
-	@list='$(lib_LIBRARIES)'; test -n "$(libdir)" || list=; \
-	list2=; for p in $$list; do \
-	  if test -f $$p; then \
-	    list2="$$list2 $$p"; \
-	  else :; fi; \
-	done; \
-	test -z "$$list2" || { \
-	  echo " $(MKDIR_P) '$(DESTDIR)$(libdir)'"; \
-	  $(MKDIR_P) "$(DESTDIR)$(libdir)" || exit 1; \
-	  echo " $(INSTALL_DATA) $$list2 '$(DESTDIR)$(libdir)'"; \
-	  $(INSTALL_DATA) $$list2 "$(DESTDIR)$(libdir)" || exit $$?; }
-	@$(POST_INSTALL)
-	@list='$(lib_LIBRARIES)'; test -n "$(libdir)" || list=; \
-	for p in $$list; do \
-	  if test -f $$p; then \
-	    $(am__strip_dir) \
-	    echo " ( cd '$(DESTDIR)$(libdir)' && $(RANLIB) $$f )"; \
-	    ( cd "$(DESTDIR)$(libdir)" && $(RANLIB) $$f ) || exit $$?; \
-	  else :; fi; \
-	done
-
-uninstall-libLIBRARIES:
-	@$(NORMAL_UNINSTALL)
-	@list='$(lib_LIBRARIES)'; test -n "$(libdir)" || list=; \
-	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
-	dir='$(DESTDIR)$(libdir)'; $(am__uninstall_files_from_dir)
-
-clean-libLIBRARIES:
-	-test -z "$(lib_LIBRARIES)" || rm -f $(lib_LIBRARIES)
-
-libgpvdm_dos.a: $(libgpvdm_dos_a_OBJECTS) $(libgpvdm_dos_a_DEPENDENCIES) $(EXTRA_libgpvdm_dos_a_DEPENDENCIES) 
-	$(AM_V_at)-rm -f libgpvdm_dos.a
-	$(AM_V_AR)$(libgpvdm_dos_a_AR) libgpvdm_dos.a $(libgpvdm_dos_a_OBJECTS) $(libgpvdm_dos_a_LIBADD)
-	$(AM_V_at)$(RANLIB) libgpvdm_dos.a
-
-libgpvdm_dump.a: $(libgpvdm_dump_a_OBJECTS) $(libgpvdm_dump_a_DEPENDENCIES) $(EXTRA_libgpvdm_dump_a_DEPENDENCIES) 
-	$(AM_V_at)-rm -f libgpvdm_dump.a
-	$(AM_V_AR)$(libgpvdm_dump_a_AR) libgpvdm_dump.a $(libgpvdm_dump_a_OBJECTS) $(libgpvdm_dump_a_LIBADD)
-	$(AM_V_at)$(RANLIB) libgpvdm_dump.a
-
-libgpvdm_fit.a: $(libgpvdm_fit_a_OBJECTS) $(libgpvdm_fit_a_DEPENDENCIES) $(EXTRA_libgpvdm_fit_a_DEPENDENCIES) 
-	$(AM_V_at)-rm -f libgpvdm_fit.a
-	$(AM_V_AR)$(libgpvdm_fit_a_AR) libgpvdm_fit.a $(libgpvdm_fit_a_OBJECTS) $(libgpvdm_fit_a_LIBADD)
-	$(AM_V_at)$(RANLIB) libgpvdm_fit.a
-
-libgpvdm_lib.a: $(libgpvdm_lib_a_OBJECTS) $(libgpvdm_lib_a_DEPENDENCIES) $(EXTRA_libgpvdm_lib_a_DEPENDENCIES) 
-	$(AM_V_at)-rm -f libgpvdm_lib.a
-	$(AM_V_AR)$(libgpvdm_lib_a_AR) libgpvdm_lib.a $(libgpvdm_lib_a_OBJECTS) $(libgpvdm_lib_a_LIBADD)
-	$(AM_V_at)$(RANLIB) libgpvdm_lib.a
-
-libgpvdm_light.a: $(libgpvdm_light_a_OBJECTS) $(libgpvdm_light_a_DEPENDENCIES) $(EXTRA_libgpvdm_light_a_DEPENDENCIES) 
-	$(AM_V_at)-rm -f libgpvdm_light.a
-	$(AM_V_AR)$(libgpvdm_light_a_AR) libgpvdm_light.a $(libgpvdm_light_a_OBJECTS) $(libgpvdm_light_a_LIBADD)
-	$(AM_V_at)$(RANLIB) libgpvdm_light.a
-
-libgpvdm_measure.a: $(libgpvdm_measure_a_OBJECTS) $(libgpvdm_measure_a_DEPENDENCIES) $(EXTRA_libgpvdm_measure_a_DEPENDENCIES) 
-	$(AM_V_at)-rm -f libgpvdm_measure.a
-	$(AM_V_AR)$(libgpvdm_measure_a_AR) libgpvdm_measure.a $(libgpvdm_measure_a_OBJECTS) $(libgpvdm_measure_a_LIBADD)
-	$(AM_V_at)$(RANLIB) libgpvdm_measure.a
-
-libgpvdm_mesh.a: $(libgpvdm_mesh_a_OBJECTS) $(libgpvdm_mesh_a_DEPENDENCIES) $(EXTRA_libgpvdm_mesh_a_DEPENDENCIES) 
-	$(AM_V_at)-rm -f libgpvdm_mesh.a
-	$(AM_V_AR)$(libgpvdm_mesh_a_AR) libgpvdm_mesh.a $(libgpvdm_mesh_a_OBJECTS) $(libgpvdm_mesh_a_LIBADD)
-	$(AM_V_at)$(RANLIB) libgpvdm_mesh.a
-
-libgpvdm_server.a: $(libgpvdm_server_a_OBJECTS) $(libgpvdm_server_a_DEPENDENCIES) $(EXTRA_libgpvdm_server_a_DEPENDENCIES) 
-	$(AM_V_at)-rm -f libgpvdm_server.a
-	$(AM_V_AR)$(libgpvdm_server_a_AR) libgpvdm_server.a $(libgpvdm_server_a_OBJECTS) $(libgpvdm_server_a_LIBADD)
-	$(AM_V_at)$(RANLIB) libgpvdm_server.a
 install-binPROGRAMS: $(bin_PROGRAMS)
 	@$(NORMAL_INSTALL)
 	@list='$(bin_PROGRAMS)'; test -n "$(bindir)" || list=; \
@@ -1088,10 +957,10 @@ distcleancheck: distclean
 	       exit 1; } >&2
 check-am: all-am
 check: check-recursive
-all-am: Makefile $(LIBRARIES) $(PROGRAMS) $(MANS) $(DATA)
+all-am: Makefile $(PROGRAMS) $(MANS) $(DATA)
 installdirs: installdirs-recursive
 installdirs-am:
-	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(bindir)" "$(DESTDIR)$(man1dir)" "$(DESTDIR)$(device_libdir)" "$(DESTDIR)$(docdir)" "$(DESTDIR)$(pkgdatadir)" "$(DESTDIR)$(guidir)" "$(DESTDIR)$(imagedir)" "$(DESTDIR)$(plotdir)" "$(DESTDIR)$(pluginsdir)"; do \
+	for dir in "$(DESTDIR)$(bindir)" "$(DESTDIR)$(man1dir)" "$(DESTDIR)$(device_libdir)" "$(DESTDIR)$(docdir)" "$(DESTDIR)$(pkgdatadir)" "$(DESTDIR)$(guidir)" "$(DESTDIR)$(imagedir)" "$(DESTDIR)$(plotdir)" "$(DESTDIR)$(pluginsdir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-recursive
@@ -1126,8 +995,7 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-recursive
 
-clean-am: clean-binPROGRAMS clean-generic clean-libLIBRARIES \
-	clean-local mostlyclean-am
+clean-am: clean-binPROGRAMS clean-generic clean-local mostlyclean-am
 
 distclean: distclean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
@@ -1156,7 +1024,7 @@ install-dvi: install-dvi-recursive
 
 install-dvi-am:
 
-install-exec-am: install-binPROGRAMS install-libLIBRARIES
+install-exec-am: install-binPROGRAMS
 
 install-html: install-html-recursive
 
@@ -1198,8 +1066,8 @@ ps-am:
 
 uninstall-am: uninstall-binPROGRAMS uninstall-device_libDATA \
 	uninstall-dist_docDATA uninstall-dist_pkgdataDATA \
-	uninstall-guiDATA uninstall-imageDATA uninstall-libLIBRARIES \
-	uninstall-man uninstall-plotDATA uninstall-pluginsDATA
+	uninstall-guiDATA uninstall-imageDATA uninstall-man \
+	uninstall-plotDATA uninstall-pluginsDATA
 
 uninstall-man: uninstall-man1
 
@@ -1208,28 +1076,27 @@ uninstall-man: uninstall-man1
 
 .PHONY: $(am__recursive_targets) CTAGS GTAGS TAGS all all-am \
 	am--refresh check check-am clean clean-binPROGRAMS \
-	clean-cscope clean-generic clean-libLIBRARIES clean-local \
-	cscope cscopelist-am ctags ctags-am dist dist-all dist-bzip2 \
-	dist-gzip dist-lzip dist-shar dist-tarZ dist-xz dist-zip \
-	distcheck distclean distclean-compile distclean-generic \
-	distclean-tags distcleancheck distdir distuninstallcheck dvi \
-	dvi-am html html-am info info-am install install-am \
-	install-binPROGRAMS install-data install-data-am \
-	install-data-hook install-device_libDATA install-dist_docDATA \
+	clean-cscope clean-generic clean-local cscope cscopelist-am \
+	ctags ctags-am dist dist-all dist-bzip2 dist-gzip dist-lzip \
+	dist-shar dist-tarZ dist-xz dist-zip distcheck distclean \
+	distclean-compile distclean-generic distclean-tags \
+	distcleancheck distdir distuninstallcheck dvi dvi-am html \
+	html-am info info-am install install-am install-binPROGRAMS \
+	install-data install-data-am install-data-hook \
+	install-device_libDATA install-dist_docDATA \
 	install-dist_pkgdataDATA install-dvi install-dvi-am \
 	install-exec install-exec-am install-guiDATA install-html \
 	install-html-am install-imageDATA install-info install-info-am \
-	install-libLIBRARIES install-man install-man1 install-pdf \
-	install-pdf-am install-plotDATA install-pluginsDATA install-ps \
-	install-ps-am install-strip installcheck installcheck-am \
-	installdirs installdirs-am maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-compile \
-	mostlyclean-generic pdf pdf-am ps ps-am tags tags-am uninstall \
-	uninstall-am uninstall-binPROGRAMS uninstall-device_libDATA \
+	install-man install-man1 install-pdf install-pdf-am \
+	install-plotDATA install-pluginsDATA install-ps install-ps-am \
+	install-strip installcheck installcheck-am installdirs \
+	installdirs-am maintainer-clean maintainer-clean-generic \
+	mostlyclean mostlyclean-compile mostlyclean-generic pdf pdf-am \
+	ps ps-am tags tags-am uninstall uninstall-am \
+	uninstall-binPROGRAMS uninstall-device_libDATA \
 	uninstall-dist_docDATA uninstall-dist_pkgdataDATA \
-	uninstall-guiDATA uninstall-imageDATA uninstall-libLIBRARIES \
-	uninstall-man uninstall-man1 uninstall-plotDATA \
-	uninstall-pluginsDATA
+	uninstall-guiDATA uninstall-imageDATA uninstall-man \
+	uninstall-man1 uninstall-plotDATA uninstall-pluginsDATA
 
 .PRECIOUS: Makefile
 

@@ -7,7 +7,7 @@ lib=-L../../lib/ -L../../libmeasure/
 inc=-I../../include/
 
 all: plugin.o newton.o
-	$(CC)  $(lib) $(link_command) $(CFLAGS)
+	$(CC)  $(lib) $(link_command) $(CFLAGS) @LDFLAGS@
 	mv plugin.so ../newton.so
 
 plugin.o: plugin.c

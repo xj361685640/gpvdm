@@ -4799,6 +4799,8 @@ LINK_FLAG=""
 
 COMPILE_FLAG="`pkg-config --cflags dbus-1` -D enable_server"
 
+LDFLAGS="`dpkg-buildflags --get LDFLAGS`"
+
  ;; @%:@(
   *) :
     as_fn_error $? "\"No assembler code for CPU $target_os\"" "$LINENO" 5
