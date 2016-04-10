@@ -10,7 +10,7 @@ all: $(OBJS)
 	$(CC) $(link_command) $(CFLAGS) $(lib) @LDFLAGS@
 	mv plugin.so ../pulse.so
 
-%.o : %.c
+.c.o :
 	$(CC) $(inc) $(CFLAGS) -Wno-error=unused-but-set-variable -Wno-error=unused-variable -c $< -o $@
 
 clean:

@@ -5,6 +5,8 @@ SUBDIRS = @BUILD_DIRS@
 bin_PROGRAMS=gpvdm_core
 gpvdm_core_SOURCES=src 
 
+bin_SCRIPTS = gui/gpvdm
+
 man1_MANS = man/gpvdm.1 man/gpvdm_core.1
 
 imagedir = $(pkgdatadir)/images
@@ -22,17 +24,21 @@ plot_DATA=plot/*.plot
 pluginsdir = $(pkglibdir)/plugins
 plugins_DATA=plugins/*.so
 
-guidir = $(pkgdatadir)/gui
-gui_DATA=gui/*.py
+pythondir = $(pkgdatadir)/gui
+python_PYTHON=gui/*.py
 
 dist_doc_DATA = README
-
 
 CFLAGS=-D dbus -D roderick
 
 clean-local:
 	rm *.dat *.o ./plugins/*.so ./plugins/*.dll *.log *.a -f
 	rm autom4te.cache -rf 
+
+#ln -s -f $(datadir)/gpvdm/gui/gpvdm.py $(DESTDIR)$(bindir)/gpvdm
+#chmod 755 $(DESTDIR)$(datadir)/gpvdm/gui/gpvdm.py
+#ln -s $(DESTDIR)$(datadir)/gpvdm/gui/gpvdm.py
+
 
 install-data-hook:
 	cp materials $(DESTDIR)$(datadir)/gpvdm/materials -rf
@@ -47,6 +53,4 @@ install-data-hook:
 	mkdir --parents $(DESTDIR)/usr/share/icons/gnome/scalable/mimetypes
 	cp --parents ./desktop/application-gpvdm.svg $(DESTDIR)/usr/share/icons/gnome/scalable/mimetypes
 
-	echo chmod 755 $(DESTDIR)$(datadir)/gpvdm/gui/gpvdm.py
-	ln -s -f $(datadir)/gpvdm/gui/gpvdm.py $(DESTDIR)$(bindir)/gpvdm
 

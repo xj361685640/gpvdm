@@ -20,7 +20,7 @@ all: main.c $(OBJS)
 	ln -s -f gpvdm_core ../go.o
 
 
-%.o : %.c
+.c.o : 
 	$(CC) -c $(DEFINE_FLAGS) $(inc) $(CFLAGS) $(warn) $< -o $@
 
 clean:

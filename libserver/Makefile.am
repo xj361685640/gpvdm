@@ -9,7 +9,7 @@ all: $(OBJS)
 	ln -s -f ./libserver/libgpvdm_server.a ../libgpvdm_server.a
 #-cvq
 
-%.o : %.c
+.c.o:
 	$(CC) -c $(lib_type) $(COMPILE_FLAG) $< -o $@  $(inc)
 
 clean:

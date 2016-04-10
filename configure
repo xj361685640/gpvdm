@@ -623,11 +623,23 @@ ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
 LIBOBJS
+LOCAL_LINK
+BUILD_DIRS
+PKG_IMAGEMAGICK
+PKG_HELP2MAN
+PKG_CONFIG
 EGREP
 GREP
 CPP
-LOCAL_LINK
-BUILD_DIRS
+pkgpyexecdir
+pyexecdir
+pkgpythondir
+pythondir
+PYTHON_PLATFORM
+PYTHON_EXEC_PREFIX
+PYTHON_PREFIX
+PYTHON_VERSION
+PYTHON
 COMPILE_FLAG
 LINK_FLAG
 WIN_LINK_FLAGS
@@ -709,6 +721,7 @@ infodir
 docdir
 oldincludedir
 includedir
+runstatedir
 localstatedir
 sharedstatedir
 sysconfdir
@@ -742,6 +755,7 @@ CFLAGS
 LDFLAGS
 LIBS
 CPPFLAGS
+PYTHON
 CPP'
 
 
@@ -781,6 +795,7 @@ datadir='${datarootdir}'
 sysconfdir='${prefix}/etc'
 sharedstatedir='${prefix}/com'
 localstatedir='${prefix}/var'
+runstatedir='${localstatedir}/run'
 includedir='${prefix}/include'
 oldincludedir='/usr/include'
 docdir='${datarootdir}/doc/${PACKAGE_TARNAME}'
@@ -1033,6 +1048,15 @@ do
   | -silent | --silent | --silen | --sile | --sil)
     silent=yes ;;
 
+  -runstatedir | --runstatedir | --runstatedi | --runstated \
+  | --runstate | --runstat | --runsta | --runst | --runs \
+  | --run | --ru | --r)
+    ac_prev=runstatedir ;;
+  -runstatedir=* | --runstatedir=* | --runstatedi=* | --runstated=* \
+  | --runstate=* | --runstat=* | --runsta=* | --runst=* | --runs=* \
+  | --run=* | --ru=* | --r=*)
+    runstatedir=$ac_optarg ;;
+
   -sbindir | --sbindir | --sbindi | --sbind | --sbin | --sbi | --sb)
     ac_prev=sbindir ;;
   -sbindir=* | --sbindir=* | --sbindi=* | --sbind=* | --sbin=* \
@@ -1170,7 +1194,7 @@ fi
 for ac_var in	exec_prefix prefix bindir sbindir libexecdir datarootdir \
 		datadir sysconfdir sharedstatedir localstatedir includedir \
 		oldincludedir docdir infodir htmldir dvidir pdfdir psdir \
-		libdir localedir mandir
+		libdir localedir mandir runstatedir
 do
   eval ac_val=\$$ac_var
   # Remove trailing slashes.
@@ -1323,6 +1347,7 @@ Fine tuning of the installation directories:
   --sysconfdir=DIR        read-only single-machine data [PREFIX/etc]
   --sharedstatedir=DIR    modifiable architecture-independent data [PREFIX/com]
   --localstatedir=DIR     modifiable single-machine data [PREFIX/var]
+  --runstatedir=DIR       modifiable per-process data [LOCALSTATEDIR/run]
   --libdir=DIR            object code libraries [EPREFIX/lib]
   --includedir=DIR        C header files [PREFIX/include]
   --oldincludedir=DIR     C header files for non-gcc [/usr/include]
@@ -1377,6 +1402,7 @@ Some influential environment variables:
   LIBS        libraries to pass to the linker, e.g. -l<library>
   CPPFLAGS    (Objective) C/C++ preprocessor flags, e.g. -I<include dir> if
               you have headers in a nonstandard directory <include dir>
+  PYTHON      the Python interpreter
   CPP         C preprocessor
 
 Use these variables to override the choices made by `configure' or to help
@@ -2298,6 +2324,7 @@ test -n "$target_alias" &&
   test "$program_prefix$program_suffix$program_transform_name" = \
     NONENONEs,x,x, &&
   program_prefix=${target_alias}-
+
 
 
 if test -n "$ac_tool_prefix"; then
@@ -4806,12 +4833,267 @@ LDFLAGS="`dpkg-buildflags --get LDFLAGS`"
     as_fn_error $? "\"No assembler code for CPU $target_os\"" "$LINENO" 5
  ;;
 esac
-#i?86
-#x86_64
 
-BUILD_DIRS=" lang lib libdos liblight libmeasure libdump libserver libmesh plugins/flat plugins/pulse plugins/newton_norm plugins/jv plugins/full plugins/umfpack plugins/exp plugins/newton plugins/fxdomain src images man "
 
-LOCAL_LINK=" -lgpvdm_lib -lgpvdm_dos -lgpvdm_light -lgpvdm_measure -lgpvdm_dump -lgpvdm_server -lgpvdm_mesh"
+
+
+
+
+
+        if test -n "$PYTHON"; then
+      # If the user set $PYTHON, use it and don't search something else.
+      { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether $PYTHON version is >= 2.7" >&5
+$as_echo_n "checking whether $PYTHON version is >= 2.7... " >&6; }
+      prog="import sys
+# split strings by '.' and convert to numeric.  Append some zeros
+# because we need at least 4 digits for the hex conversion.
+# map returns an iterator in Python 3.0 and a list in 2.x
+minver = list(map(int, '2.7'.split('.'))) + [0, 0, 0]
+minverhex = 0
+# xrange is not present in Python 3.0 and range returns an iterator
+for i in list(range(0, 4)): minverhex = (minverhex << 8) + minver[i]
+sys.exit(sys.hexversion < minverhex)"
+  if { echo "$as_me:$LINENO: $PYTHON -c "$prog"" >&5
+   ($PYTHON -c "$prog") >&5 2>&5
+   ac_status=$?
+   echo "$as_me:$LINENO: \$? = $ac_status" >&5
+   (exit $ac_status); }; then :
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
+$as_echo "yes" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+			       as_fn_error $? "Python interpreter is too old" "$LINENO" 5
+fi
+      am_display_PYTHON=$PYTHON
+    else
+      # Otherwise, try each interpreter until we find one that satisfies
+      # VERSION.
+      { $as_echo "$as_me:${as_lineno-$LINENO}: checking for a Python interpreter with version >= 2.7" >&5
+$as_echo_n "checking for a Python interpreter with version >= 2.7... " >&6; }
+if ${am_cv_pathless_PYTHON+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+
+	for am_cv_pathless_PYTHON in python python2 python3 python3.3 python3.2 python3.1 python3.0 python2.7  python2.6 python2.5 python2.4 python2.3 python2.2 python2.1 python2.0 none; do
+	  test "$am_cv_pathless_PYTHON" = none && break
+	  prog="import sys
+# split strings by '.' and convert to numeric.  Append some zeros
+# because we need at least 4 digits for the hex conversion.
+# map returns an iterator in Python 3.0 and a list in 2.x
+minver = list(map(int, '2.7'.split('.'))) + [0, 0, 0]
+minverhex = 0
+# xrange is not present in Python 3.0 and range returns an iterator
+for i in list(range(0, 4)): minverhex = (minverhex << 8) + minver[i]
+sys.exit(sys.hexversion < minverhex)"
+  if { echo "$as_me:$LINENO: $am_cv_pathless_PYTHON -c "$prog"" >&5
+   ($am_cv_pathless_PYTHON -c "$prog") >&5 2>&5
+   ac_status=$?
+   echo "$as_me:$LINENO: \$? = $ac_status" >&5
+   (exit $ac_status); }; then :
+  break
+fi
+	done
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $am_cv_pathless_PYTHON" >&5
+$as_echo "$am_cv_pathless_PYTHON" >&6; }
+      # Set $PYTHON to the absolute path of $am_cv_pathless_PYTHON.
+      if test "$am_cv_pathless_PYTHON" = none; then
+	PYTHON=:
+      else
+        # Extract the first word of "$am_cv_pathless_PYTHON", so it can be a program name with args.
+set dummy $am_cv_pathless_PYTHON; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_path_PYTHON+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  case $PYTHON in
+  [\\/]* | ?:[\\/]*)
+  ac_cv_path_PYTHON="$PYTHON" # Let the user override the test with a path.
+  ;;
+  *)
+  as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_path_PYTHON="$as_dir/$ac_word$ac_exec_ext"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+  ;;
+esac
+fi
+PYTHON=$ac_cv_path_PYTHON
+if test -n "$PYTHON"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $PYTHON" >&5
+$as_echo "$PYTHON" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+      fi
+      am_display_PYTHON=$am_cv_pathless_PYTHON
+    fi
+
+
+  if test "$PYTHON" = :; then
+      as_fn_error $? "You need python installed" "$LINENO" 5
+  else
+
+
+  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $am_display_PYTHON version" >&5
+$as_echo_n "checking for $am_display_PYTHON version... " >&6; }
+if ${am_cv_python_version+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  am_cv_python_version=`$PYTHON -c "import sys; sys.stdout.write(sys.version[:3])"`
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $am_cv_python_version" >&5
+$as_echo "$am_cv_python_version" >&6; }
+  PYTHON_VERSION=$am_cv_python_version
+
+
+
+  PYTHON_PREFIX='${prefix}'
+
+  PYTHON_EXEC_PREFIX='${exec_prefix}'
+
+
+
+  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $am_display_PYTHON platform" >&5
+$as_echo_n "checking for $am_display_PYTHON platform... " >&6; }
+if ${am_cv_python_platform+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  am_cv_python_platform=`$PYTHON -c "import sys; sys.stdout.write(sys.platform)"`
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $am_cv_python_platform" >&5
+$as_echo "$am_cv_python_platform" >&6; }
+  PYTHON_PLATFORM=$am_cv_python_platform
+
+
+  # Just factor out some code duplication.
+  am_python_setup_sysconfig="\
+import sys
+# Prefer sysconfig over distutils.sysconfig, for better compatibility
+# with python 3.x.  See automake bug#10227.
+try:
+    import sysconfig
+except ImportError:
+    can_use_sysconfig = 0
+else:
+    can_use_sysconfig = 1
+# Can't use sysconfig in CPython 2.7, since it's broken in virtualenvs:
+# <https://github.com/pypa/virtualenv/issues/118>
+try:
+    from platform import python_implementation
+    if python_implementation() == 'CPython' and sys.version[:3] == '2.7':
+        can_use_sysconfig = 0
+except ImportError:
+    pass"
+
+
+            { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $am_display_PYTHON script directory" >&5
+$as_echo_n "checking for $am_display_PYTHON script directory... " >&6; }
+if ${am_cv_python_pythondir+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  if test "x$prefix" = xNONE
+     then
+       am_py_prefix=$ac_default_prefix
+     else
+       am_py_prefix=$prefix
+     fi
+     am_cv_python_pythondir=`$PYTHON -c "
+$am_python_setup_sysconfig
+if can_use_sysconfig:
+    sitedir = sysconfig.get_path('purelib', vars={'base':'$am_py_prefix'})
+else:
+    from distutils import sysconfig
+    sitedir = sysconfig.get_python_lib(0, 0, prefix='$am_py_prefix')
+sys.stdout.write(sitedir)"`
+     case $am_cv_python_pythondir in
+     $am_py_prefix*)
+       am__strip_prefix=`echo "$am_py_prefix" | sed 's|.|.|g'`
+       am_cv_python_pythondir=`echo "$am_cv_python_pythondir" | sed "s,^$am__strip_prefix,$PYTHON_PREFIX,"`
+       ;;
+     *)
+       case $am_py_prefix in
+         /usr|/System*) ;;
+         *)
+	  am_cv_python_pythondir=$PYTHON_PREFIX/lib/python$PYTHON_VERSION/site-packages
+	  ;;
+       esac
+       ;;
+     esac
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $am_cv_python_pythondir" >&5
+$as_echo "$am_cv_python_pythondir" >&6; }
+  pythondir=$am_cv_python_pythondir
+
+
+
+  pkgpythondir=\${pythondir}/$PACKAGE
+
+
+        { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $am_display_PYTHON extension module directory" >&5
+$as_echo_n "checking for $am_display_PYTHON extension module directory... " >&6; }
+if ${am_cv_python_pyexecdir+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  if test "x$exec_prefix" = xNONE
+     then
+       am_py_exec_prefix=$am_py_prefix
+     else
+       am_py_exec_prefix=$exec_prefix
+     fi
+     am_cv_python_pyexecdir=`$PYTHON -c "
+$am_python_setup_sysconfig
+if can_use_sysconfig:
+    sitedir = sysconfig.get_path('platlib', vars={'platbase':'$am_py_prefix'})
+else:
+    from distutils import sysconfig
+    sitedir = sysconfig.get_python_lib(1, 0, prefix='$am_py_prefix')
+sys.stdout.write(sitedir)"`
+     case $am_cv_python_pyexecdir in
+     $am_py_exec_prefix*)
+       am__strip_prefix=`echo "$am_py_exec_prefix" | sed 's|.|.|g'`
+       am_cv_python_pyexecdir=`echo "$am_cv_python_pyexecdir" | sed "s,^$am__strip_prefix,$PYTHON_EXEC_PREFIX,"`
+       ;;
+     *)
+       case $am_py_exec_prefix in
+         /usr|/System*) ;;
+         *)
+	   am_cv_python_pyexecdir=$PYTHON_EXEC_PREFIX/lib/python$PYTHON_VERSION/site-packages
+	   ;;
+       esac
+       ;;
+     esac
+
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $am_cv_python_pyexecdir" >&5
+$as_echo "$am_cv_python_pyexecdir" >&6; }
+  pyexecdir=$am_cv_python_pyexecdir
+
+
+
+  pkgpyexecdir=\${pyexecdir}/$PACKAGE
+
+
+
+  fi
+
 
 
 ac_ext=c
@@ -5211,6 +5493,268 @@ fi
 done
 
 
+for ac_header in zip.h
+do :
+  ac_fn_c_check_header_mongrel "$LINENO" "zip.h" "ac_cv_header_zip_h" "$ac_includes_default"
+if test "x$ac_cv_header_zip_h" = xyes; then :
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_ZIP_H 1
+_ACEOF
+
+else
+  as_fn_error $? "zip.h is needed but not found" "$LINENO" 5
+fi
+
+done
+
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for main in -lzip" >&5
+$as_echo_n "checking for main in -lzip... " >&6; }
+if ${ac_cv_lib_zip_main+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lzip  $LIBS"
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+
+int
+main ()
+{
+return main ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  ac_cv_lib_zip_main=yes
+else
+  ac_cv_lib_zip_main=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_zip_main" >&5
+$as_echo "$ac_cv_lib_zip_main" >&6; }
+if test "x$ac_cv_lib_zip_main" = xyes; then :
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_LIBZIP 1
+_ACEOF
+
+  LIBS="-lzip $LIBS"
+
+else
+  as_fn_error $? "libzip is needed but not found." "$LINENO" 5
+fi
+
+
+
+for ac_header in suitesparse/umfpack.h
+do :
+  ac_fn_c_check_header_mongrel "$LINENO" "suitesparse/umfpack.h" "ac_cv_header_suitesparse_umfpack_h" "$ac_includes_default"
+if test "x$ac_cv_header_suitesparse_umfpack_h" = xyes; then :
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_SUITESPARSE_UMFPACK_H 1
+_ACEOF
+
+else
+  as_fn_error $? "suitesparse/umfpack.h is needed but not found" "$LINENO" 5
+fi
+
+done
+
+for ac_header in gsl/gsl_multimin.h
+do :
+  ac_fn_c_check_header_mongrel "$LINENO" "gsl/gsl_multimin.h" "ac_cv_header_gsl_gsl_multimin_h" "$ac_includes_default"
+if test "x$ac_cv_header_gsl_gsl_multimin_h" = xyes; then :
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_GSL_GSL_MULTIMIN_H 1
+_ACEOF
+
+else
+  as_fn_error $? "gsl/gsl_multimin.h is needed but not found" "$LINENO" 5
+fi
+
+done
+
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for main in -lmatheval" >&5
+$as_echo_n "checking for main in -lmatheval... " >&6; }
+if ${ac_cv_lib_matheval_main+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  ac_check_lib_save_LIBS=$LIBS
+LIBS="-lmatheval  $LIBS"
+cat confdefs.h - <<_ACEOF >conftest.$ac_ext
+/* end confdefs.h.  */
+
+
+int
+main ()
+{
+return main ();
+  ;
+  return 0;
+}
+_ACEOF
+if ac_fn_c_try_link "$LINENO"; then :
+  ac_cv_lib_matheval_main=yes
+else
+  ac_cv_lib_matheval_main=no
+fi
+rm -f core conftest.err conftest.$ac_objext \
+    conftest$ac_exeext conftest.$ac_ext
+LIBS=$ac_check_lib_save_LIBS
+fi
+{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_matheval_main" >&5
+$as_echo "$ac_cv_lib_matheval_main" >&6; }
+if test "x$ac_cv_lib_matheval_main" = xyes; then :
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_LIBMATHEVAL 1
+_ACEOF
+
+  LIBS="-lmatheval $LIBS"
+
+else
+  as_fn_error $? "matheval is needed but not found." "$LINENO" 5
+fi
+
+
+# Extract the first word of "pkg-config", so it can be a program name with args.
+set dummy pkg-config; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_prog_PKG_CONFIG+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  if test -n "$PKG_CONFIG"; then
+  ac_cv_prog_PKG_CONFIG="$PKG_CONFIG" # Let the user override the test.
+else
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_prog_PKG_CONFIG="pkg-config"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+  test -z "$ac_cv_prog_PKG_CONFIG" && ac_cv_prog_PKG_CONFIG="no"
+fi
+fi
+PKG_CONFIG=$ac_cv_prog_PKG_CONFIG
+if test -n "$PKG_CONFIG"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $PKG_CONFIG" >&5
+$as_echo "$PKG_CONFIG" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+if test "$PKG_CONFIG" = "no"; then
+	as_fn_error $? "pkg-config is not installed." "$LINENO" 5
+fi
+
+# Extract the first word of "help2man", so it can be a program name with args.
+set dummy help2man; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_prog_PKG_HELP2MAN+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  if test -n "$PKG_HELP2MAN"; then
+  ac_cv_prog_PKG_HELP2MAN="$PKG_HELP2MAN" # Let the user override the test.
+else
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_prog_PKG_HELP2MAN="help2man"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+  test -z "$ac_cv_prog_PKG_HELP2MAN" && ac_cv_prog_PKG_HELP2MAN="no"
+fi
+fi
+PKG_HELP2MAN=$ac_cv_prog_PKG_HELP2MAN
+if test -n "$PKG_HELP2MAN"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $PKG_HELP2MAN" >&5
+$as_echo "$PKG_HELP2MAN" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+if test "$PKG_HELP2MAN" = "no"; then
+	as_fn_error $? "help2man is not installed." "$LINENO" 5
+fi
+
+# Extract the first word of "convert", so it can be a program name with args.
+set dummy convert; ac_word=$2
+{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
+$as_echo_n "checking for $ac_word... " >&6; }
+if ${ac_cv_prog_PKG_IMAGEMAGICK+:} false; then :
+  $as_echo_n "(cached) " >&6
+else
+  if test -n "$PKG_IMAGEMAGICK"; then
+  ac_cv_prog_PKG_IMAGEMAGICK="$PKG_IMAGEMAGICK" # Let the user override the test.
+else
+as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
+for as_dir in $PATH
+do
+  IFS=$as_save_IFS
+  test -z "$as_dir" && as_dir=.
+    for ac_exec_ext in '' $ac_executable_extensions; do
+  if as_fn_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
+    ac_cv_prog_PKG_IMAGEMAGICK="convert"
+    $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
+    break 2
+  fi
+done
+  done
+IFS=$as_save_IFS
+
+  test -z "$ac_cv_prog_PKG_IMAGEMAGICK" && ac_cv_prog_PKG_IMAGEMAGICK="no"
+fi
+fi
+PKG_IMAGEMAGICK=$ac_cv_prog_PKG_IMAGEMAGICK
+if test -n "$PKG_IMAGEMAGICK"; then
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: $PKG_IMAGEMAGICK" >&5
+$as_echo "$PKG_IMAGEMAGICK" >&6; }
+else
+  { $as_echo "$as_me:${as_lineno-$LINENO}: result: no" >&5
+$as_echo "no" >&6; }
+fi
+
+
+if test "$PKG_IMAGEMAGICK" = "no"; then
+	as_fn_error $? "imagemagick is not installed." "$LINENO" 5
+fi
+
+#i?86
+#x86_64
+
+BUILD_DIRS=" lang lib libdos liblight libmeasure libdump libserver libmesh libfit plugins/flat plugins/jv_simple plugins/jv_one_point plugins/umfpack plugins/qe plugins/pulse plugins/nr_d plugins/nr_ld plugins/fxdomain plugins/jv plugins/full plugins/optics plugins/newton_norm plugins/exp plugins/sun_voc plugins/newton plugins/li exp/stark500 src images man "
+
+LOCAL_LINK=" -lgpvdm_lib -lgpvdm_dos -lgpvdm_light -lgpvdm_measure -lgpvdm_dump -lgpvdm_server -lgpvdm_mesh -lgpvdm_fit"
+
+
 for ac_header in math.h
 do :
   ac_fn_c_check_header_mongrel "$LINENO" "math.h" "ac_cv_header_math_h" "$ac_includes_default"
@@ -5324,23 +5868,43 @@ ac_config_files="$ac_config_files libserver/Makefile"
 
 ac_config_files="$ac_config_files libmesh/Makefile"
 
+ac_config_files="$ac_config_files libfit/Makefile"
+
 ac_config_files="$ac_config_files plugins/flat/Makefile"
+
+ac_config_files="$ac_config_files plugins/jv_simple/Makefile"
+
+ac_config_files="$ac_config_files plugins/jv_one_point/Makefile"
+
+ac_config_files="$ac_config_files plugins/umfpack/Makefile"
+
+ac_config_files="$ac_config_files plugins/qe/Makefile"
 
 ac_config_files="$ac_config_files plugins/pulse/Makefile"
 
-ac_config_files="$ac_config_files plugins/newton_norm/Makefile"
+ac_config_files="$ac_config_files plugins/nr_d/Makefile"
+
+ac_config_files="$ac_config_files plugins/nr_ld/Makefile"
+
+ac_config_files="$ac_config_files plugins/fxdomain/Makefile"
 
 ac_config_files="$ac_config_files plugins/jv/Makefile"
 
 ac_config_files="$ac_config_files plugins/full/Makefile"
 
-ac_config_files="$ac_config_files plugins/umfpack/Makefile"
+ac_config_files="$ac_config_files plugins/optics/Makefile"
+
+ac_config_files="$ac_config_files plugins/newton_norm/Makefile"
 
 ac_config_files="$ac_config_files plugins/exp/Makefile"
 
+ac_config_files="$ac_config_files plugins/sun_voc/Makefile"
+
 ac_config_files="$ac_config_files plugins/newton/Makefile"
 
-ac_config_files="$ac_config_files plugins/fxdomain/Makefile"
+ac_config_files="$ac_config_files plugins/li/Makefile"
+
+ac_config_files="$ac_config_files exp/stark500/Makefile"
 
 ac_config_files="$ac_config_files src/Makefile"
 
@@ -6101,15 +6665,25 @@ do
     "libdump/Makefile") CONFIG_FILES="$CONFIG_FILES libdump/Makefile" ;;
     "libserver/Makefile") CONFIG_FILES="$CONFIG_FILES libserver/Makefile" ;;
     "libmesh/Makefile") CONFIG_FILES="$CONFIG_FILES libmesh/Makefile" ;;
+    "libfit/Makefile") CONFIG_FILES="$CONFIG_FILES libfit/Makefile" ;;
     "plugins/flat/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/flat/Makefile" ;;
+    "plugins/jv_simple/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/jv_simple/Makefile" ;;
+    "plugins/jv_one_point/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/jv_one_point/Makefile" ;;
+    "plugins/umfpack/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/umfpack/Makefile" ;;
+    "plugins/qe/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/qe/Makefile" ;;
     "plugins/pulse/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/pulse/Makefile" ;;
-    "plugins/newton_norm/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/newton_norm/Makefile" ;;
+    "plugins/nr_d/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/nr_d/Makefile" ;;
+    "plugins/nr_ld/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/nr_ld/Makefile" ;;
+    "plugins/fxdomain/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/fxdomain/Makefile" ;;
     "plugins/jv/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/jv/Makefile" ;;
     "plugins/full/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/full/Makefile" ;;
-    "plugins/umfpack/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/umfpack/Makefile" ;;
+    "plugins/optics/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/optics/Makefile" ;;
+    "plugins/newton_norm/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/newton_norm/Makefile" ;;
     "plugins/exp/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/exp/Makefile" ;;
+    "plugins/sun_voc/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/sun_voc/Makefile" ;;
     "plugins/newton/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/newton/Makefile" ;;
-    "plugins/fxdomain/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/fxdomain/Makefile" ;;
+    "plugins/li/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/li/Makefile" ;;
+    "exp/stark500/Makefile") CONFIG_FILES="$CONFIG_FILES exp/stark500/Makefile" ;;
     "src/Makefile") CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
     "images/Makefile") CONFIG_FILES="$CONFIG_FILES images/Makefile" ;;
     "man/Makefile") CONFIG_FILES="$CONFIG_FILES man/Makefile" ;;

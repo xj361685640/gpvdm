@@ -12,7 +12,7 @@ all: $(OBJS)
 	ln -s -f ./libmesh/libgpvdm_mesh.a ../libgpvdm_mesh.a
 #-cvq
 
-%.o : %.c
+.c.o : 
 	$(CC) -c $(lib_type) $(CFLAGS) $(COMPILE_FLAG) $< -o $@  $(inc)
 
 clean:

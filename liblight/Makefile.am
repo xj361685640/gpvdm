@@ -13,7 +13,7 @@ all: $(OBJS)
 	ln -s -f ./liblight/libgpvdm_light.a ../libgpvdm_light.a
 #-cvq
 
-%.o : %.c
+.c.o : 
 	$(CC) -c $(lib_type) $(CFLAGS) $(COMPILE_FLAG) $< -o $@  $(inc)
 
 clean:

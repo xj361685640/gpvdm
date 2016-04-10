@@ -3,7 +3,7 @@ OBJS = fit.png refresh.png asi.png forward2.png oled.png star.png book.png forwa
 all: $(OBJS)
 	echo $(OBJS)
 
-%.png : %.svg
+.svg.png:
 	convert -transparent white  $< $@
 
 clean:

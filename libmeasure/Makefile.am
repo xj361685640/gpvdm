@@ -11,7 +11,7 @@ all: $(OBJS)
 	ln -s -f ./libmeasure/libgpvdm_measure.a ../libgpvdm_measure.a
 #-cvq
 
-%.o : %.c
+.c.o:
 	$(CC) -c $(lib_type) $(COMPILE_FLAG) $< -o $@  $(inc)
 
 clean:
