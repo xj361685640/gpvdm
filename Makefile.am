@@ -32,7 +32,7 @@ dist_doc_DATA = README
 CFLAGS=-D dbus -D roderick
 
 clean-local:
-	rm *.dat *.o ./plugins/*.so ./plugins/*.dll *.log *.a -f
+	rm *.dat *.o ./plugins/*.so ./plugins/*.dll *.log *.a  *.lib -f
 	rm autom4te.cache -rf 
 
 #ln -s -f $(datadir)/gpvdm/gui/gpvdm.py $(DESTDIR)$(bindir)/gpvdm

@@ -1,4 +1,3 @@
-CFLAGS=-Wall -g -D dos_bin
 AROPT=
 
 COMPILE_FLAG=@COMPILE_FLAG@
@@ -8,13 +7,13 @@ inc=-I../include/
 OBJS=dos_an.o dos.o gendosfdgaus.o checksum.o hash.o
 
 all: $(OBJS)
-	$(AR) rcs libgpvdm_dos.a $(OBJS)
-	ln -s -f ./libdos/libgpvdm_dos.a ../libgpvdm_dos.a
+	$(AR) rcs libgpvdm_dos.@SLIB_EXT@ $(OBJS)
+	ln -s -f ./libdos/libgpvdm_dos.@SLIB_EXT@ ../libgpvdm_dos.@SLIB_EXT@
 #-cvq
 
 .c.o:
-	$(CC) -c $(lib_type) $(CFLAGS) $(COMPILE_FLAG) $< -o $@  $(inc)
+	$(CC) -c $(lib_type) $(CPPFLAGS) -D dos_bin $(COMPILE_FLAG) $< -o $@  $(inc)
 
 clean:
-	rm *.o *.dll *.so *.a -f
+	rm *.o *.dll *.so *.a *.lib -f
 

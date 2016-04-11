@@ -1,5 +1,5 @@
 lib_type=-fPIC
-link_command=-shared -lgpvdm_lib -Wl,-soname,plugin.so plugin.o newton.o -o plugin.so -g
+link_command=-shared -lgpvdm_lib -Wl,-soname,plugin.so plugin.o newton.o -o plugin.@DLIB_EXT@ -g
 
 
 CFLAGS=-Wall -g
@@ -8,7 +8,7 @@ inc=-I../../include/
 
 all: plugin.o newton.o
 	$(CC)  $(lib) $(link_command) $(CFLAGS) @LDFLAGS@
-	mv plugin.so ../newton.so
+	mv plugin.@DLIB_EXT@ ../newton.@DLIB_EXT@
 
 plugin.o: plugin.c
 	$(CC) $(lib_type) -c plugin.c -o plugin.o  $(inc) $(CFLAGS) 

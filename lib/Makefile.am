@@ -5,12 +5,12 @@ COMPILE_FLAG=@COMPILE_FLAG@
 LINK_FLAG=@LINK_FLAG@
 
 all: $(OBJS)
-	$(AR) cr libgpvdm_lib.a $(OBJS)
-	ln -s -f ./lib/libgpvdm_lib.a ../libgpvdm_lib.a
+	$(AR) cr libgpvdm_lib.@SLIB_EXT@ $(OBJS)
+	ln -s -f ./lib/libgpvdm_lib.@SLIB_EXT@ ../libgpvdm_lib.@SLIB_EXT@
 #-cvq
 
 .c.o:
-	$(CC) -c $(lib_type) $(CFLAGS) $(COMPILE_FLAG) $(inc) $< -o $@  
+	$(CC) -c $(lib_type) $(CPPFLAGS) $(COMPILE_FLAG) $(inc) $< -o $@  
 
 clean:
-	rm *.o *.dll *.so *.a -f
+	rm *.o *.dll *.so *.a *.lib -f

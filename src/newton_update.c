@@ -27,7 +27,6 @@ void update_arrays(struct device *in)
 
 	int i;
 	int band = 0;
-
 	for (i = 0; i < in->ymeshpoints; i++) {
 		in->Fn[i] = in->x[i] - in->phi[i];
 		in->Fp[i] = -in->xp[i] - in->phi[i];

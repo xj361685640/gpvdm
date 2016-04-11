@@ -1,19 +1,14 @@
-lib_type=-fPIC
-link_command=-shared -Wl,-soname,plugin.so interface.o light.o -o plugin.so
+OBJS=interface.o light.o
 CFLAGS=-Wall
 inc=-I../../include/
-link=-L../../
+lib=-L../../
 
-all: light.o interface.o
-	$(CC) $(link_command) $(CFLAGS) $(link) @LDFLAGS@
-	mv plugin.so ../full.so
+all: $(OBJS)
+	$(CC) -shared $(OBJS) @DLL_LINKER@ $(lib) @DLL_DEBUG@ @LDFLAGS@ -o plugin.@DLIB_EXT@
+	mv plugin.@DLIB_EXT@ ../full.@DLIB_EXT@
 
-interface.o: interface.c
-	$(CC) $(lib_type) -c interface.c -o interface.o  $(inc) $(CFLAGS)
-
-light.o: light.c
-	$(CC) $(lib_type) -c light.c -o light.o  $(inc) $(CFLAGS) -Wno-unused-but-set-variable
-
+.c.o : 
+	$(CC) $(inc) $(CFLAGS) @DLL_COMPILE@ @COMPILE_FLAG@ -c $< -o $@ -Wno-unused-but-set-variable
 
 clean:
 	rm *.o *.dll *.so -f

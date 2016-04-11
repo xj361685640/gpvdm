@@ -1,8 +1,5 @@
-CC=gcc
-lib_type=-fPIC
 HELP2MAN=help2man
 
-CFLAGS=-Wall -g
 lib=-L../../
 inc=-I../../include/
 

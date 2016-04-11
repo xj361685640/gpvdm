@@ -1,22 +1,14 @@
-inc=-I/usr/include/suitesparse/
-lib_type=-fPIC
-link_command= -shared -Wl,-soname,plugin.so solver.o lib.o -o plugin.so
-
-
+OBJS=solver.o lib.o
 CFLAGS=-Wall
+inc=-I../../include/
+lib=-L../../
 
-lib=-I../../include/
+all: $(OBJS)
+	$(CC) -shared $(OBJS) @DLL_LINKER@ $(lib) @DLL_DEBUG@ @LDFLAGS@ -o plugin.@DLIB_EXT@
+	mv plugin.@DLIB_EXT@ ../umfpack.@DLIB_EXT@
 
-all: solver.o lib.o
-	$(CC) $(link_command) -lumfpack $(CFLAGS) @LDFLAGS@
-	mv plugin.so ../umfpack.so
-
-solver.o: solver.c
-	$(CC) $(lib_type) -c solver.c -o solver.o  $(inc) $(CFLAGS) $(lib)
-
-lib.o: lib.c
-	$(CC) $(lib_type) -c lib.c -o lib.o  $(inc) $(CFLAGS) $(lib)
-
+.c.o : 
+	$(CC) -Wall -g $(inc) $(CPPFLAGS) @DLL_COMPILE@ @COMPILE_FLAG@ -c $< -o $@
 
 clean:
 	rm *.o *.dll *.so -f

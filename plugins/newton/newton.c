@@ -577,7 +577,6 @@ void fill_matrix(struct device *in)
 //      R=in->R[i];
 		Gn = in->Gn[i];
 		Gp = in->Gp[i];
-
 		e0 = (epl + epc) / 2.0;
 		e1 = (epc + epr) / 2.0;
 
@@ -1144,7 +1143,7 @@ void fill_matrix(struct device *in)
 		}
 		in->b[i] = build;
 		//getchar();
-		//printf("%le\n",in->b[i]);
+		//printf("%Le %Le\n",pc,nc);
 		//getchar();
 		build = 0.0;
 		build = -((Jnr - Jnl) / (dylh + dyrh) - Rtrapn - Rfree);

@@ -5,12 +5,12 @@ COMPILE_FLAG=@COMPILE_FLAG@
 LINK_FLAG=@LINK_FLAG@
 
 all: $(OBJS)
-	$(AR) rcs libgpvdm_server.a $(OBJS)
-	ln -s -f ./libserver/libgpvdm_server.a ../libgpvdm_server.a
+	$(AR) rcs libgpvdm_server.@SLIB_EXT@ $(OBJS)
+	ln -s -f ./libserver/libgpvdm_server.@SLIB_EXT@ ../libgpvdm_server.@SLIB_EXT@
 #-cvq
 
 .c.o:
 	$(CC) -c $(lib_type) $(COMPILE_FLAG) $< -o $@  $(inc)
 
 clean:
-	rm *.o *.dll *.so *.a -f
+	rm *.o *.dll *.so *.a *.lib -f

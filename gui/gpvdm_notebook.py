@@ -47,9 +47,9 @@ from inp_description import inp_file_to_description
 
 if running_on_linux()==True:
 	from tab_terminal import tab_terminal
-	from information_linux import information
-else:
-	from information_linux import information
+	#from information_linux import information
+#else:
+	#from information_linux import information
 
 import i18n
 _ = i18n.language.gettext
@@ -124,11 +124,11 @@ class gpvdm_notebook(gtk.Notebook):
 		self.menu_items.append(path)
 		myitem.set_active(visible)
 
-	def add_welcome_page(self):
-		browser=information()
-		browser.init()
-		browser.show()
-		self.append_page(browser, gtk.Label("Information"))
+	#def add_welcome_page(self):
+	#	browser=information()
+	#	browser.init()
+	#	browser.show()
+	#	self.append_page(browser, gtk.Label("Information"))
 
 	def load(self):
 		self.clean_menu()
@@ -267,7 +267,7 @@ class gpvdm_notebook(gtk.Notebook):
 				self.terminal_widget.show()
 				self.append_page(self.terminal_widget, gtk.Label(_("Terminal")))
 
-			self.add_welcome_page()
+			#self.add_welcome_page()
 
 			self.finished_loading=True
 			self.progress.stop()
@@ -279,7 +279,7 @@ class gpvdm_notebook(gtk.Notebook):
 
 			return True
 		else:
-			self.add_welcome_page()
+			#self.add_welcome_page()
 			self.goto_page(_("Welcome"))
 			return False
 

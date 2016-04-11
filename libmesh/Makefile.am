@@ -8,12 +8,12 @@ inc=-I../include/
 OBJS=time.o
 
 all: $(OBJS)
-	$(AR) rcs libgpvdm_mesh.a $(OBJS)
-	ln -s -f ./libmesh/libgpvdm_mesh.a ../libgpvdm_mesh.a
+	$(AR) rcs libgpvdm_mesh.@SLIB_EXT@ $(OBJS)
+	ln -s -f ./libmesh/libgpvdm_mesh.@SLIB_EXT@ ../libgpvdm_mesh.@SLIB_EXT@
 #-cvq
 
 .c.o : 
 	$(CC) -c $(lib_type) $(CFLAGS) $(COMPILE_FLAG) $< -o $@  $(inc)
 
 clean:
-	rm *.o *.dll *.so *.a -f
+	rm *.o *.dll *.so *.a *.lib -f

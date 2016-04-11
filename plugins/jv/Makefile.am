@@ -1,17 +1,14 @@
 OBJS=plugin.o jv.o jv_ntricks.o
-CFLAGS=-fPIC
-link_command=-shared -Wl,-soname,plugin.so $(OBJS) -o plugin.so -g
 
-CFLAGS+= -Wall -g
-lib=-L../../ -L$(HOME)/windll/compiled_dlls/
+lib=-L../../
 inc=-I../../include/
 
 all: $(OBJS)
-	$(CC) $(link_command) $(CFLAGS) $(lib) @LDFLAGS@
-	mv plugin.so ../jv.so
+	$(CC) -shared $(OBJS) @DLL_LINKER@ $(lib) @DLL_DEBUG@ @LDFLAGS@ -o plugin.@DLIB_EXT@
+	mv plugin.@DLIB_EXT@ ../jv.@DLIB_EXT@
 
 .c.o : 
-	$(CC) $(inc) $(CFLAGS) -Wno-error=unused-but-set-variable -Wno-error=unused-variable -c $< -o $@
+	$(CC) -Wall -g $(inc) @DLL_COMPILE@ @COMPILE_FLAG@ -Wno-error=unused-but-set-variable -Wno-error=unused-variable -c $< -o $@
 
 clean:
 	rm *.o *.dll *.so -f
