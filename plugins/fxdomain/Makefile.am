@@ -4,15 +4,15 @@ CFLAGS=-fPIC
 link_command=-shared -Wl,-soname,plugin.so $(OBJS) -o plugin.@DLIB_EXT@ -g
 
 CFLAGS+= -Wall -g
-lib=-L../../ -L$(HOME)/windll/compiled_dlls/
+lib=-L../../
 inc=-I../../include/
 
 all: $(OBJS)
-	$(CC) $(link_command) $(CFLAGS) $(lib) @LDFLAGS@
-	mv plugin.@DLIB_EXT@ ../fxdomain.@DLIB_EXT@
+	$(CC) -shared $(OBJS) @DLL_LINKER@ $(lib) @DLL_DEBUG@ -o plugin.@DLIB_EXT@ -lgsl -lgslcblas
+	mv plugin.@DLIB_EXT@ ../fx_domain.@DLIB_EXT@  $(LDFLAGS)
 
 .c.o : 
-	$(CC) $(inc) $(CFLAGS) -Wno-error=unused-but-set-variable -Wno-error=unused-variable -c $< -o $@
+	$(CC) -Wall -g $(inc) $(CPPFLAGS) @DLL_COMPILE@ @COMPILE_FLAG@ -c $< -o $@
 
 clean:
 	rm *.o *.dll *.so -f

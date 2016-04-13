@@ -1,21 +1,13 @@
-lib_type=-fPIC
-link_command=-shared -lgpvdm_lib -Wl,-soname,plugin.so plugin.o newton.o -o plugin.@DLIB_EXT@ -g
-
-
-CFLAGS=-Wall -g
-lib=-L../../lib/ -L../../libmeasure/
+OBJS=plugin.o newton.o
+lib=-L../../
 inc=-I../../include/
 
-all: plugin.o newton.o
-	$(CC)  $(lib) $(link_command) $(CFLAGS) @LDFLAGS@
-	mv plugin.@DLIB_EXT@ ../newton.@DLIB_EXT@
+all: $(OBJS)
+	$(CC) -shared $(OBJS) @DLL_LINKER@ $(lib) @DLL_DEBUG@ -o plugin.@DLIB_EXT@
+	mv plugin.@DLIB_EXT@ ../newton.@DLIB_EXT@ $(LDFLAGS)
 
-plugin.o: plugin.c
-	$(CC) $(lib_type) -c plugin.c -o plugin.o  $(inc) $(CFLAGS) 
-
-newton.o: newton.c
-	$(CC) $(lib_type) -c newton.c -o newton.o  $(inc) $(CFLAGS)
-
+.c.o : 
+	$(CC) -Wall -g $(inc) $(CPPFLAGS) @DLL_COMPILE@ @COMPILE_FLAG@ -c $< -o $@
 
 clean:
 	rm *.o *.dll *.so -f

@@ -1,18 +1,14 @@
-lib_type=-fPIC
-link_command=-shared -Wl,-soname,plugin.so plugin.o newton.o -o plugin.@DLIB_EXT@ -g
-lib=-I../../include/
-link=-L../../
+OBJS=plugin.o newton.o
+inc=-I../../include/
+lib=-L../../
 CFLAG=-Wall -g
 
-all: plugin.o newton.o
-	$(CC) $(link_command) $(CFLAGS) $(link) @LDFLAGS@
+all: $(OBJS)
+	$(CC) -shared $(OBJS) @DLL_LINKER@ $(lib) @DLL_DEBUG@ $(LDFLAGS) -o plugin.@DLIB_EXT@
 	mv plugin.@DLIB_EXT@ ../newton_norm.@DLIB_EXT@
 
-plugin.o: plugin.c
-	$(CC) $(lib_type) -c plugin.c -o plugin.o $(CFLAGS) $(lib)
-
-newton.o: newton.c
-	$(CC) $(lib_type) -c newton.c -o newton.o $(CFLAGS) $(lib) -Wno-unused-but-set-variable -Wno-error=unused-variable
+.c.o : 
+	$(CC) -Wall -g $(inc) $(CPPFLAGS) @DLL_COMPILE@ @COMPILE_FLAG@ -c $< -o $@
 
 
 clean:

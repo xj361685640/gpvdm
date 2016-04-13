@@ -1360,7 +1360,6 @@ void solver_cal_memory(struct device *in, int *ret_N, int *ret_M)
 
 void dllinternal_solver_free_memory(struct device *in)
 {
-	int i = 0;
 	if (in->srh_bands > 0) {
 		free(dntrap);
 		free(dntrapdntrap);
@@ -1584,7 +1583,7 @@ void dllinternal_solver_realloc(struct device *in)
 			in->Tx = dtemp;
 		}
 
-		int i = 0;
+		//int i=0;
 		//in->Tdebug = (char**)malloc(in->N*sizeof(char*));
 
 		//for (i=0;i<in->N;i++)

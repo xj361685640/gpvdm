@@ -10,7 +10,7 @@ all: $(OBJS)
 #-cvq
 
 .c.o:
-	$(CC) -c $(lib_type) $(CPPFLAGS) $(COMPILE_FLAG) $(inc) $< -o $@  
+	$(CC) -c $(CPPFLAGS) $(COMPILE_FLAG) $(inc) $< -o $@  
 
 clean:
 	rm *.o *.dll *.so *.a *.lib -f

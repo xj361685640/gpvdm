@@ -677,6 +677,7 @@ INSTALL_PROGRAM
 ac_ct_AR
 AR
 RANLIB
+EXE_LINK
 DLL_DEBUG
 DLL_COMPILE
 DLL_LINKER
@@ -3603,12 +3604,13 @@ fi
 
 done
 
-DLL_LINKER="-Wl,--out-implib,plugin.a -lgpvdm_light -lgpvdm_lib -lgpvdm_dump -lgpvdm_measure -lgpvdm_dos  -lgpvdm_light -lzip-2 -lumfpack"
+DLL_LINKER="-L/home/rod/windll/compiled_dlls/ -Wl,--out-implib,plugin.a -lgpvdm_light -lgpvdm_lib -lgpvdm_dump -lgpvdm_measure -lgpvdm_dos  -lgpvdm_light -lzip-2 -lumfpack -lgpvdm_mesh "
 
 DLL_COMPILE="-DBUILDING_EXAMPLE_DLL"
 
 DLL_DEBUG="-Wall"
 
+EXE_LINK="-L/home/rod/windll/compiled_dlls/ -lumfpack -lzip-2"
 
 
  ;; #(
@@ -3625,8 +3627,6 @@ LINK_FLAG=""
 
 
 COMPILE_FLAG="`pkg-config --cflags dbus-1` -D enable_server -D dbus"
-
-LDFLAGS="`dpkg-buildflags --get LDFLAGS`"
 
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for main in -lzip" >&5
 $as_echo_n "checking for main in -lzip... " >&6; }
@@ -3730,10 +3730,11 @@ DLIB_EXT="so"
 
 EXE_EXT="o"
 
+EXE_LINK="`pkg-config --libs dbus-1` -lumfpack -lm -lgsl -lgslcblas -rdynamic -export-dynamic -ldl -lzip -lz -lmatheval"
 
 
 
-DLL_LINKER="-Wl,-soname,plugin.so"
+DLL_LINKER="`dpkg-buildflags --get LDFLAGS` -Wl,-soname,plugin.so"
 
 DLL_COMPILE="-fPIC"
 

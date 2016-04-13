@@ -22,7 +22,7 @@ plotdir = $(pkgdatadir)/plot
 plot_DATA=plot/*.plot
 
 pluginsdir = $(pkglibdir)/plugins
-plugins_DATA=plugins/*.so
+plugins_DATA=plugins/*.@DLIB_EXT@
 
 pythondir = $(pkgdatadir)/gui
 python_PYTHON=gui/*.py

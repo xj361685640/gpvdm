@@ -4,7 +4,7 @@ inc=-I../../include/
 lib=-L../../
 
 all: $(OBJS)
-	$(CC) -shared $(OBJS) @DLL_LINKER@ $(lib) @DLL_DEBUG@ @LDFLAGS@ -o plugin.@DLIB_EXT@
+	$(CC) -shared $(OBJS) @DLL_LINKER@ $(lib) @DLL_DEBUG@ $(LDFLAGS) -o plugin.@DLIB_EXT@
 	mv plugin.@DLIB_EXT@ ../exp.@DLIB_EXT@
 
 .c.o : 

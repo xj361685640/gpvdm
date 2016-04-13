@@ -16,10 +16,10 @@ AC_SUBST(DLIB_EXT, "dll")
 AC_SUBST(EXE_EXT, "exe")
 
 AC_CHECK_HEADERS([umfpack.h],[],[AC_MSG_ERROR([umfpack.h is needed but not found])])
-AC_SUBST(DLL_LINKER, ["-Wl,--out-implib,plugin.a -lgpvdm_light -lgpvdm_lib -lgpvdm_dump -lgpvdm_measure -lgpvdm_dos  -lgpvdm_light -lzip-2 -lumfpack"])
+AC_SUBST(DLL_LINKER, ["-L/home/rod/windll/compiled_dlls/ -Wl,--out-implib,plugin.a -lgpvdm_light -lgpvdm_lib -lgpvdm_dump -lgpvdm_measure -lgpvdm_dos  -lgpvdm_light -lzip-2 -lumfpack -lgpvdm_mesh "])
 AC_SUBST(DLL_COMPILE, ["-DBUILDING_EXAMPLE_DLL"])
 AC_SUBST(DLL_DEBUG, ["-Wall"])
-
+AC_SUBST(EXE_LINK,["-L/home/rod/windll/compiled_dlls/ -lumfpack -lzip-2"])
 
 ],
   [linux-gnu], [
@@ -30,17 +30,16 @@ AC_MSG_NOTICE([*****************************])
 AC_SUBST(LINK_FLAG, "")
 
 AC_SUBST(COMPILE_FLAG, "`pkg-config --cflags dbus-1` -D enable_server -D dbus")
-AC_SUBST(LDFLAGS, "`dpkg-buildflags --get LDFLAGS`")
 AC_CHECK_LIB(zip, [main], [], [AC_MSG_ERROR([libzip is needed but not found.])])
 AC_CHECK_HEADERS([suitesparse/umfpack.h],[],[AC_MSG_ERROR([suitesparse/umfpack.h is needed but not found])])
 AC_CHECK_LIB(matheval, [main], [], [AC_MSG_ERROR([matheval is needed but not found.])])
 AC_SUBST(SLIB_EXT, "a")
 AC_SUBST(DLIB_EXT, "so")
 AC_SUBST(EXE_EXT, "o")
+AC_SUBST(EXE_LINK,["`pkg-config --libs dbus-1` -lumfpack -lm -lgsl -lgslcblas -rdynamic -export-dynamic -ldl -lzip -lz -lmatheval"])
 
 
-
-AC_SUBST(DLL_LINKER, ["-Wl,-soname,plugin.so"])
+AC_SUBST(DLL_LINKER, ["`dpkg-buildflags --get LDFLAGS` -Wl,-soname,plugin.so"])
 AC_SUBST(DLL_COMPILE, ["-fPIC"])
 AC_SUBST(DLL_DEBUG, ["-Wall -g"])
 
