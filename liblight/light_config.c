@@ -101,7 +101,7 @@ void light_load_config_file(struct light *in)
 	inp_init(&inp);
 	inp_load_from_path(&inp, in->input_path, "light.inp");
 
-	printf("%s\n", inp.data);
+	//printf("%s\n",inp.data);
 	inp_check(&inp, 1.28);
 
 	inp_search_string(&inp, in->suns_spectrum_file, "#sun");

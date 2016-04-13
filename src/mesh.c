@@ -71,9 +71,9 @@ void mesh_save(struct device *in)
 
 void mesh_free(struct device *in)
 {
+	device_free(in);
 	in->ymeshpoints = 0;
 	free(in->meshdata);
-	free(in->imat);
 }
 
 void mesh_load(struct device *in)
@@ -116,8 +116,7 @@ void mesh_load(struct device *in)
 
 	inp_free(&inp);
 
-	in->ymesh = malloc(in->ymeshpoints * sizeof(gdouble));
-	in->imat = malloc(in->ymeshpoints * sizeof(int));
+	device_get_memory(in);
 
 	int pos = 0;
 	int ii;

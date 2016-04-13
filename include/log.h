@@ -21,16 +21,14 @@
 
 #ifndef _log
 #define _log
-#include <device.h>
 
 #define log_level_none 0
 #define log_level_screen 1
 #define log_level_disk 2
 #define log_level_screen_and_disk 3
 
-void log_init(struct device *in);
 void set_logging_level(int value);
 void log_clear();
 void printf_log( const char *format, ...);
-void log_init(struct device *in);
+void log_init(int *level);
 #endif

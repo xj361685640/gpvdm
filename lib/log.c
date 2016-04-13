@@ -24,9 +24,9 @@
 
 static int *log_level;
 
-void log_init(struct device *in)
+void log_init(int *level)
 {
-	log_level = &(in->log_level);
+	log_level = level;
 }
 
 void set_logging_level(int value)

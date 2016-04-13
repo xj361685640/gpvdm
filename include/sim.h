@@ -34,8 +34,6 @@
 int solve_cur_thermal(struct device *in,int thermal);
 int solve_pos(struct device *in);
 void get_initial(struct device *in);
-void device_get_memory(struct device *in);
-void device_free(struct device *in);
 void update_arrays(struct device *in);
 void device_timestep(struct device *in);
 void find_n0(struct device *in);
@@ -62,7 +60,6 @@ void init_mat_arrays(struct device *in);
 
 
 
-void device_init(struct device *in);
 void load_config(struct device *in);
 void update(struct device *cell);
 int run_simulation(char *outputpath,char *inputpath);

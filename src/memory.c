@@ -54,6 +54,98 @@ void malloc_srh_bands(struct device *in, gdouble * (**var))
 	}
 }
 
+void device_alloc_traps(struct device *in)
+{
+
+	malloc_srh_bands(in, &(in->nt));
+	malloc_srh_bands(in, &(in->ntlast));
+
+	malloc_srh_bands(in, &(in->xt));
+	malloc_srh_bands(in, &(in->dnt));
+	malloc_srh_bands(in, &(in->srh_n_r1));
+	malloc_srh_bands(in, &(in->srh_n_r2));
+	malloc_srh_bands(in, &(in->srh_n_r3));
+	malloc_srh_bands(in, &(in->srh_n_r4));
+	malloc_srh_bands(in, &(in->dsrh_n_r1));
+	malloc_srh_bands(in, &(in->dsrh_n_r2));
+	malloc_srh_bands(in, &(in->dsrh_n_r3));
+	malloc_srh_bands(in, &(in->dsrh_n_r4));
+	malloc_srh_bands(in, &(in->Fnt));
+	malloc_srh_bands(in, &(in->ntb_save));
+
+	malloc_srh_bands(in, &(in->nt_r1));
+	malloc_srh_bands(in, &(in->nt_r2));
+	malloc_srh_bands(in, &(in->nt_r3));
+	malloc_srh_bands(in, &(in->nt_r4));
+
+	malloc_srh_bands(in, &(in->pt));
+	malloc_srh_bands(in, &(in->ptlast));
+
+	malloc_srh_bands(in, &(in->xpt));
+	malloc_srh_bands(in, &(in->dpt));
+	malloc_srh_bands(in, &(in->srh_p_r1));
+	malloc_srh_bands(in, &(in->srh_p_r2));
+	malloc_srh_bands(in, &(in->srh_p_r3));
+	malloc_srh_bands(in, &(in->srh_p_r4));
+	malloc_srh_bands(in, &(in->dsrh_p_r1));
+	malloc_srh_bands(in, &(in->dsrh_p_r2));
+	malloc_srh_bands(in, &(in->dsrh_p_r3));
+	malloc_srh_bands(in, &(in->dsrh_p_r4));
+	malloc_srh_bands(in, &(in->ptb_save));
+	malloc_srh_bands(in, &(in->Fpt));
+
+	malloc_srh_bands(in, &(in->pt_r1));
+	malloc_srh_bands(in, &(in->pt_r2));
+	malloc_srh_bands(in, &(in->pt_r3));
+	malloc_srh_bands(in, &(in->pt_r4));
+}
+
+void device_free_traps(struct device *in)
+{
+	free_srh_bands(in, in->nt);
+	free_srh_bands(in, in->xt);
+	free_srh_bands(in, in->dnt);
+	free_srh_bands(in, in->srh_n_r1);
+	free_srh_bands(in, in->srh_n_r2);
+	free_srh_bands(in, in->srh_n_r3);
+	free_srh_bands(in, in->srh_n_r4);
+	free_srh_bands(in, in->dsrh_n_r1);
+	free_srh_bands(in, in->dsrh_n_r2);
+	free_srh_bands(in, in->dsrh_n_r3);
+	free_srh_bands(in, in->dsrh_n_r4);
+	free_srh_bands(in, in->Fnt);
+	free_srh_bands(in, in->ntb_save);
+
+	free_srh_bands(in, in->nt_r1);
+	free_srh_bands(in, in->nt_r2);
+	free_srh_bands(in, in->nt_r3);
+	free_srh_bands(in, in->nt_r4);
+
+	free_srh_bands(in, in->ntlast);
+
+	free_srh_bands(in, in->pt);
+	free_srh_bands(in, in->dpt);
+	free_srh_bands(in, in->xpt);
+	free_srh_bands(in, in->srh_p_r1);
+	free_srh_bands(in, in->srh_p_r2);
+	free_srh_bands(in, in->srh_p_r3);
+	free_srh_bands(in, in->srh_p_r4);
+	free_srh_bands(in, in->dsrh_p_r1);
+	free_srh_bands(in, in->dsrh_p_r2);
+	free_srh_bands(in, in->dsrh_p_r3);
+	free_srh_bands(in, in->dsrh_p_r4);
+	free_srh_bands(in, in->Fpt);
+	free_srh_bands(in, in->ptb_save);
+
+	free_srh_bands(in, in->pt_r1);
+	free_srh_bands(in, in->pt_r2);
+	free_srh_bands(in, in->pt_r3);
+	free_srh_bands(in, in->pt_r4);
+
+	free_srh_bands(in, in->ptlast);
+
+}
+
 void device_free(struct device *in)
 {
 
@@ -123,52 +215,12 @@ void device_free(struct device *in)
 	free(in->wp);
 
 	free(in->nt_all);
-	free_srh_bands(in, in->nt);
-	free_srh_bands(in, in->xt);
-	free_srh_bands(in, in->dnt);
-	free_srh_bands(in, in->srh_n_r1);
-	free_srh_bands(in, in->srh_n_r2);
-	free_srh_bands(in, in->srh_n_r3);
-	free_srh_bands(in, in->srh_n_r4);
-	free_srh_bands(in, in->dsrh_n_r1);
-	free_srh_bands(in, in->dsrh_n_r2);
-	free_srh_bands(in, in->dsrh_n_r3);
-	free_srh_bands(in, in->dsrh_n_r4);
-	free_srh_bands(in, in->Fnt);
-	free_srh_bands(in, in->ntb_save);
-
-	free_srh_bands(in, in->nt_r1);
-	free_srh_bands(in, in->nt_r2);
-	free_srh_bands(in, in->nt_r3);
-	free_srh_bands(in, in->nt_r4);
-
-	free_srh_bands(in, in->ntlast);
 
 	free(in->tt);
 	free(in->dostype);
 	free(in->Rbi_k);
 
 	free(in->pt_all);
-	free_srh_bands(in, in->pt);
-	free_srh_bands(in, in->dpt);
-	free_srh_bands(in, in->xpt);
-	free_srh_bands(in, in->srh_p_r1);
-	free_srh_bands(in, in->srh_p_r2);
-	free_srh_bands(in, in->srh_p_r3);
-	free_srh_bands(in, in->srh_p_r4);
-	free_srh_bands(in, in->dsrh_p_r1);
-	free_srh_bands(in, in->dsrh_p_r2);
-	free_srh_bands(in, in->dsrh_p_r3);
-	free_srh_bands(in, in->dsrh_p_r4);
-	free_srh_bands(in, in->Fpt);
-	free_srh_bands(in, in->ptb_save);
-
-	free_srh_bands(in, in->pt_r1);
-	free_srh_bands(in, in->pt_r2);
-	free_srh_bands(in, in->pt_r3);
-	free_srh_bands(in, in->pt_r4);
-
-	free_srh_bands(in, in->ptlast);
 
 	free(in->tpt);
 
@@ -181,8 +233,6 @@ void device_free(struct device *in)
 	free(in->pfequlib);
 	free(in->ntequlib);
 	free(in->ptequlib);
-
-	mesh_free(in);
 
 	solver_free();
 	complex_solver_free();
@@ -201,12 +251,26 @@ void device_free(struct device *in)
 
 	free(in->phi_save);
 
+	free(in->imat);
+
+	device_free_traps(in);
+
 	printf_log("%s %i %s\n", _("Solved"), in->odes, _("Equations"));
 }
 
 void device_get_memory(struct device *in)
 {
 	in->odes = 0;
+
+	if (in->ymeshpoints < 1) {
+		ewe(_
+		    ("I can't allocate a device with less than 1 mesh point.\n"));
+	}
+
+	if (in->ymeshpoints > 50000) {
+		ewe(_
+		    ("You are asking me to simulate a device with more than 50000 mesh points, although I could do this I am not going to because it seems a bad idea to me.\n"));
+	}
 
 	in->Ti = NULL;
 	in->Tj = NULL;
@@ -425,27 +489,6 @@ void device_get_memory(struct device *in)
 	in->phi_save = malloc(in->ymeshpoints * sizeof(gdouble));
 	memset(in->phi_save, 0, in->ymeshpoints * sizeof(gdouble));
 
-	malloc_srh_bands(in, &(in->nt));
-	malloc_srh_bands(in, &(in->ntlast));
-
-	malloc_srh_bands(in, &(in->xt));
-	malloc_srh_bands(in, &(in->dnt));
-	malloc_srh_bands(in, &(in->srh_n_r1));
-	malloc_srh_bands(in, &(in->srh_n_r2));
-	malloc_srh_bands(in, &(in->srh_n_r3));
-	malloc_srh_bands(in, &(in->srh_n_r4));
-	malloc_srh_bands(in, &(in->dsrh_n_r1));
-	malloc_srh_bands(in, &(in->dsrh_n_r2));
-	malloc_srh_bands(in, &(in->dsrh_n_r3));
-	malloc_srh_bands(in, &(in->dsrh_n_r4));
-	malloc_srh_bands(in, &(in->Fnt));
-	malloc_srh_bands(in, &(in->ntb_save));
-
-	malloc_srh_bands(in, &(in->nt_r1));
-	malloc_srh_bands(in, &(in->nt_r2));
-	malloc_srh_bands(in, &(in->nt_r3));
-	malloc_srh_bands(in, &(in->nt_r4));
-
 	in->tt = malloc(in->ymeshpoints * sizeof(gdouble));
 	memset(in->tt, 0, in->ymeshpoints * sizeof(gdouble));
 
@@ -454,27 +497,6 @@ void device_get_memory(struct device *in)
 
 	in->pt_all = malloc(in->ymeshpoints * sizeof(gdouble));
 	memset(in->pt_all, 0, in->ymeshpoints * sizeof(gdouble));
-
-	malloc_srh_bands(in, &(in->pt));
-	malloc_srh_bands(in, &(in->ptlast));
-
-	malloc_srh_bands(in, &(in->xpt));
-	malloc_srh_bands(in, &(in->dpt));
-	malloc_srh_bands(in, &(in->srh_p_r1));
-	malloc_srh_bands(in, &(in->srh_p_r2));
-	malloc_srh_bands(in, &(in->srh_p_r3));
-	malloc_srh_bands(in, &(in->srh_p_r4));
-	malloc_srh_bands(in, &(in->dsrh_p_r1));
-	malloc_srh_bands(in, &(in->dsrh_p_r2));
-	malloc_srh_bands(in, &(in->dsrh_p_r3));
-	malloc_srh_bands(in, &(in->dsrh_p_r4));
-	malloc_srh_bands(in, &(in->ptb_save));
-	malloc_srh_bands(in, &(in->Fpt));
-
-	malloc_srh_bands(in, &(in->pt_r1));
-	malloc_srh_bands(in, &(in->pt_r2));
-	malloc_srh_bands(in, &(in->pt_r3));
-	malloc_srh_bands(in, &(in->pt_r4));
 
 	in->tpt = malloc(in->ymeshpoints * sizeof(gdouble));
 	memset(in->tpt, 0, in->ymeshpoints * sizeof(gdouble));
@@ -511,4 +533,11 @@ void device_get_memory(struct device *in)
 
 	in->p_orig_t = (gdouble *) malloc(sizeof(gdouble) * in->ymeshpoints);
 	memset(in->p_orig_t, 0, in->ymeshpoints * sizeof(gdouble));
+
+	in->ymesh = malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->ymesh, 0, in->ymeshpoints * sizeof(gdouble));
+
+	in->imat = malloc(in->ymeshpoints * sizeof(int));
+	memset(in->imat, 0, in->ymeshpoints * sizeof(int));
+
 }

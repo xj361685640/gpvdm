@@ -268,9 +268,7 @@ struct device
 	gdouble Vapplied_last;
 	gdouble Ilast;
 	int timedumpcount;
-	char share_path[400];
-	char light_path[400];
-	char solver_path[400];
+	char plugins_path[400];
 	char lang_path[400];
 	char inputpath[400];
 	char outputpath[400];
@@ -354,4 +352,9 @@ struct device
 };
 
 void device_init(struct device *in);
+void device_alloc_traps(struct device *in);
+void device_free_traps(struct device *in);
+void device_get_memory(struct device *in);
+void device_free(struct device *in);
+
 #endif

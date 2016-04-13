@@ -3,7 +3,7 @@ EXTRA_DIST = materials
 SUBDIRS = @BUILD_DIRS@
 
 bin_PROGRAMS=gpvdm_core
-gpvdm_core_SOURCES=src 
+gpvdm_core_SOURCES=
 
 bin_SCRIPTS = gui/gpvdm
 
@@ -25,15 +25,16 @@ pluginsdir = $(pkglibdir)/plugins
 plugins_DATA=plugins/*.@DLIB_EXT@
 
 pythondir = $(pkgdatadir)/gui
-python_PYTHON=gui/*.py
+python_PYTHON=gui/*.plocal targets ally
 
 dist_doc_DATA = README
 
-CFLAGS=-D dbus -D roderick
-
 clean-local:
-	rm *.dat *.o ./plugins/*.so ./plugins/*.dll *.log *.a  *.lib -f
+	rm *.dat *.o ./plugins/*.so ./plugins/*.dll *.log *.a  *.lib *.exe -f
 	rm autom4te.cache -rf 
+
+gpvdm_core:
+	@printf ""
 
 #ln -s -f $(datadir)/gpvdm/gui/gpvdm.py $(DESTDIR)$(bindir)/gpvdm
 #chmod 755 $(DESTDIR)$(datadir)/gpvdm/gui/gpvdm.py

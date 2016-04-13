@@ -30,15 +30,33 @@
 #include "newton_interface.h"
 #include "mesh.h"
 #include "remesh.h"
+#include "lang.h"
 #include <plot.h>
+#include "device.h"
+#include <dll_interface.h>
+#include <cal_path.h>
 
 struct device cell;
 
 int run_simulation(char *outputpath, char *inputpath)
 {
+	printf_log(_("Run_simulation\n"));
+
+	device_init(&cell);
+	cell.onlypos = FALSE;
+
+	log_init(&cell.log_level);
+	set_logging_level(log_level_screen);
+
+	cell.root_dll_interface = dll_get_interface();
+	cal_path(&cell);
+
+	dump_init(&cell);
+
+	set_dump_status(dump_stop_plot, FALSE);
+	set_dump_status(dump_print_text, TRUE);
 
 	char temp[1000];
-	printf_log("Run_simulation\n");
 
 	cell.kl_in_newton = FALSE;
 
@@ -48,19 +66,20 @@ int run_simulation(char *outputpath, char *inputpath)
 	if (strcmp(inputpath, "") != 0)
 		strcpy(cell.inputpath, inputpath);
 
-	dump_init(&cell);
 	dump_load_config(&cell);
+
 //printf("%d %s\n",get_dump_status(dump_iodump),runpath);
 //getchar();
 	int i;
 
 	printf_log("Load config\n");
 	load_config(&cell);
+
 	solver_init(cell.solver_name);
 	newton_init(cell.newton_name);
 
 	if (strcmp(cell.simmode, "optics") != 0) {
-		printf_log("Loading DoS for %d layers\n",
+		printf_log(_("Loading DoS for %d layers\n"),
 			   cell.my_epitaxy.electrical_layers);
 		char tempn[100];
 		char tempp[100];
@@ -76,6 +95,10 @@ int run_simulation(char *outputpath, char *inputpath)
 			load_dos(&cell, tempn, tempp, i);
 		}
 
+		printf("%ld\n", cell.srh_bands);
+		getchar();
+		device_alloc_traps(&cell);
+
 		if (get_dump_status(dump_write_converge) == TRUE) {
 			cell.converge =
 			    fopena(cell.outputpath, "converge.dat", "w");
@@ -86,7 +109,6 @@ int run_simulation(char *outputpath, char *inputpath)
 			fclose(cell.tconverge);
 		}
 	}
-	device_init(&cell);
 
 	join_path(2, temp, cell.outputpath, "equilibrium");
 	remove_dir(temp);
@@ -102,6 +124,9 @@ int run_simulation(char *outputpath, char *inputpath)
 
 	join_path(2, temp, cell.outputpath, "frequency");
 	remove_dir(temp);
+
+	printf("load %ld\n", cell.ymeshpoints);
+	getchar();
 
 	mesh_cal_layer_widths(&cell);
 
@@ -173,7 +198,7 @@ int run_simulation(char *outputpath, char *inputpath)
 		if (cell.onlypos == TRUE) {
 			join_path(2, temp, cell.outputpath, "equilibrium");
 			dump_1d_slice(&cell, temp);
-			device_free(&cell);
+			mesh_free(&cell);
 			return 0;
 		}
 	}
@@ -193,7 +218,7 @@ int run_simulation(char *outputpath, char *inputpath)
 
 	run_electrical_dll(&cell, strextract_domain(cell.simmode));
 
-	device_free(&cell);
+	mesh_free(&cell);
 
 	if (strcmp(cell.simmode, "optics") != 0) {
 		plot_close(&cell);

@@ -93,7 +93,6 @@ void load_config(struct device *in)
 	epitaxy_load(&(in->my_epitaxy), device_file_path);
 
 	mesh_load(in);
-
 ///////////////////////////////
 
 	in->ylen = 0.0;

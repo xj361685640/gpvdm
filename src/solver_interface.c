@@ -50,8 +50,8 @@ void solver_init(char *solver_name)
 	char lib_path[1000];
 	sprintf(lib_name, "%s.so", solver_name);
 
-	join_path(2, lib_path, get_solver_path(), lib_name);
-	printf_log("I want to open %s %s %s\n", lib_path, get_solver_path(),
+	join_path(2, lib_path, get_plugins_path(), lib_name);
+	printf_log("I want to open %s %s %s\n", lib_path, get_plugins_path(),
 		   lib_name);
 
 	char *error;

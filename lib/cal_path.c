@@ -25,18 +25,14 @@
 #include "util.h"
 #include "inp.h"
 
-static char *share_path;
-static char *light_path;
-static char *solver_path;
+static char *plugins_path;
 static char *lang_path;
 static char *input_path;
 static char *output_path;
 
 void cal_path_init(struct device *in)
 {
-	share_path = in->share_path;
-	light_path = in->light_path;
-	solver_path = in->solver_path;
+	plugins_path = in->plugins_path;
 	lang_path = in->lang_path;
 	input_path = in->inputpath;
 	output_path = in->outputpath;
@@ -44,45 +40,56 @@ void cal_path_init(struct device *in)
 
 void cal_path(struct device *in)
 {
+	char share_path[1000];
+	char cwd[1000];
+	strcpy(cwd, "");
+	strcpy(share_path, "");
+
 	cal_path_init(in);
 
-	if (isfile("configure.ac") == 0) {
-		if (getcwd(share_path, 1000) == NULL) {
-			ewe("IO error\n");
-		}
+	if (getcwd(cwd, 1000) == NULL) {
+		ewe("IO error\n");
+	}
+
+	if (isdir("/usr/lib64/gpvdm/") == 0) {
+		strcpy(share_path, "/usr/lib64/gpvdm/");
+	} else if (isdir("/usr/lib/gpvdm/") == 0) {
+		strcpy(share_path, "/usr/lib/gpvdm/");
 	} else {
-		if (isdir("/usr/lib64/gpvdm/") == 0) {
-			strcpy(share_path, "/usr/lib64/gpvdm/");
-		} else if (isdir("/usr/lib/gpvdm/") == 0) {
-			strcpy(share_path, "/usr/lib/gpvdm/");
-		} else {
-			ewe("I don't know where the shared files are\n");
+		printf("I don't know where the shared files are\n");
+	}
+
+	if (isdir("plugins") == 0) {
+		join_path(2, plugins_path, cwd, "plugins");
+	} else {
+		join_path(2, plugins_path, share_path, "plugins");
+
+		if (isdir(plugins_path) != 0) {
+			ewe("I can't find the plugins\n");
 		}
 	}
-	join_path(2, light_path, share_path, "plugins");
-	join_path(2, solver_path, share_path, "plugins");
-	join_path(2, lang_path, share_path, "lang");
+
+	if (isdir("lang") == 0) {
+		join_path(2, lang_path, cwd, "lang");
+	} else {
+		join_path(2, lang_path, share_path, "lang");
+
+		if (isdir(lang_path) != 0) {
+			ewe("I can't find the language database.\n");
+		}
+
+	}
 
 }
 
-char *get_light_path()
+char *get_plugins_path()
 {
-	return light_path;
-}
-
-char *get_solver_path()
-{
-	return solver_path;
+	return plugins_path;
 }
 
 char *get_lang_path()
 {
 	return lang_path;
-}
-
-char *get_share_path()
-{
-	return share_path;
 }
 
 char *get_input_path()

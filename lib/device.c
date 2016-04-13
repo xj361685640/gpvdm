@@ -26,11 +26,13 @@
 #include <stdio.h>
 #include <device.h>
 #include <string.h>
+#include <dll_interface.h>
+#include <dump.h>
 
 static int unused __attribute__ ((unused));
 static char *unused_pchar __attribute__ ((unused));
 
-void deice_init(struct device *in)
+void device_init(struct device *in)
 {
 	in->remesh = -1;
 	in->newmeshsize = -1;
@@ -260,9 +262,7 @@ void deice_init(struct device *in)
 	in->Vapplied_last = -1.0;
 	in->Ilast = -1.0;
 	in->timedumpcount = -1;
-	strcpy(in->share_path, "");
-	strcpy(in->light_path, "");
-	strcpy(in->solver_path, "");
+	strcpy(in->plugins_path, "");
 	strcpy(in->lang_path, "");
 	strcpy(in->inputpath, "");
 	strcpy(in->outputpath, "");
@@ -332,5 +332,8 @@ void deice_init(struct device *in)
 
 	in->log_level = -1;
 	in->root_dll_interface = NULL;
+
+	dll_interface_fixup(in);
+	dump_ctrl_init(in);
 
 }

@@ -44,8 +44,8 @@ void run_electrical_dll(struct device *in, char *dll_name)
 
 	sprintf(lib_name, "%s.so", dll_name);
 
-	join_path(2, lib_path, get_solver_path(), lib_name);
-	printf_log("I want to open %s %s %s\n", lib_path, get_solver_path(),
+	join_path(2, lib_path, get_plugins_path(), lib_name);
+	printf_log("I want to open %s %s %s\n", lib_path, get_plugins_path(),
 		   lib_name);
 
 	char *error;

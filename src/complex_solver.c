@@ -132,43 +132,43 @@ int complex_solver(int col, int nz, int *Ti, int *Tj, double *Tx, double *Txz,
 	if ((last_col != col) || (last_nz != nz)) {
 
 		dtemp = realloc(x, col * sizeof(double));
-		if (x == NULL) {
-			ewe(_("realloc memory error"));
+		if (dtemp == NULL) {
+			ewe(_("complex_solver realloc memory error"));
 		} else {
 			x = dtemp;
 		}
 
 		dtemp = realloc(xz, col * sizeof(double));
 		if (dtemp == NULL) {
-			ewe(_("realloc memory error"));
+			ewe(_("complex_solver realloc memory error"));
 		} else {
 			xz = dtemp;
 		}
 
 		itemp = realloc(Ap, (col + 1) * sizeof(int));
 		if (itemp == NULL) {
-			ewe(_("realloc memory error"));
+			ewe(_("complex_solver realloc memory error"));
 		} else {
 			Ap = itemp;
 		}
 
 		itemp = realloc(Ai, (nz) * sizeof(int));
 		if (itemp == NULL) {
-			ewe(_("realloc memory error"));
+			ewe(_("complex_solver realloc memory error"));
 		} else {
 			Ai = itemp;
 		}
 
 		dtemp = realloc(Ax, (nz) * sizeof(double));
 		if (dtemp == NULL) {
-			ewe(_("realloc memory error"));
+			ewe(_("complex_solver realloc memory error"));
 		} else {
 			Ax = dtemp;
 		}
 
 		dtemp = realloc(Az, (nz) * sizeof(double));
 		if (x == NULL) {
-			ewe(_("realloc memory error"));
+			ewe(_("complex_solver realloc memory error"));
 		} else {
 			Az = dtemp;
 		}

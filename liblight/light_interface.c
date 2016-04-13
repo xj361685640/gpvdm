@@ -48,8 +48,8 @@ void light_load_dlls(struct light *in, struct device *cell)
 
 	sprintf(lib_name, "%s.so", in->mode);
 
-	join_path(2, lib_path, get_light_path(), lib_name);
-	printf_log("I want to open %s %s %s\n", lib_path, get_light_path(),
+	join_path(2, lib_path, get_plugins_path(), lib_name);
+	printf_log("I want to open %s %s %s\n", lib_path, get_plugins_path(),
 		   lib_name);
 
 	char *error;

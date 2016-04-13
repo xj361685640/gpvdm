@@ -3626,7 +3626,7 @@ $as_echo "$as_me: *****************************" >&6;}
 LINK_FLAG=""
 
 
-COMPILE_FLAG="`pkg-config --cflags dbus-1` -D enable_server -D dbus"
+COMPILE_FLAG="`pkg-config --cflags dbus-1` -D enable_server -D dbus -g"
 
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for main in -lzip" >&5
 $as_echo_n "checking for main in -lzip... " >&6; }
@@ -3730,7 +3730,7 @@ DLIB_EXT="so"
 
 EXE_EXT="o"
 
-EXE_LINK="`pkg-config --libs dbus-1` -lumfpack -lm -lgsl -lgslcblas -rdynamic -export-dynamic -ldl -lzip -lz -lmatheval"
+EXE_LINK="`pkg-config --libs dbus-1` -lumfpack -lm -lgsl -lgslcblas -rdynamic -export-dynamic -ldl -lzip -lz -lmatheval -lefence -g"
 
 
 

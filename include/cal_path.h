@@ -26,10 +26,8 @@
 
 void cal_path_init(struct device *in);
 void cal_path(struct device *in);
-char *get_light_path();
-char *get_solver_path();
+char *get_plugins_path();
 char *get_lang_path();
-char *get_share_path();
 char *get_input_path();
 char *get_output_path();
 void set_input_path(char *in);

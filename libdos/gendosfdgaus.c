@@ -984,7 +984,8 @@ void gen_load_dos(int mat, char *dos_name, char *pl_name)
 	inp_search_int(&inp, &(bands), "#srh_bands");
 	confige[mat].srh_bands = bands;
 	configh[mat].srh_bands = bands;
-
+	printf("rod=%ld\n", bands);
+	getchar();
 	inp_search_gdouble(&inp, &(confige[mat].srh_start), "#srh_start");
 	configh[mat].srh_start = confige[mat].srh_start;
 

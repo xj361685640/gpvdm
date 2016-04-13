@@ -29,14 +29,14 @@ AC_MSG_NOTICE([*Setting up config for linux*])
 AC_MSG_NOTICE([*****************************])
 AC_SUBST(LINK_FLAG, "")
 
-AC_SUBST(COMPILE_FLAG, "`pkg-config --cflags dbus-1` -D enable_server -D dbus")
+AC_SUBST(COMPILE_FLAG, "`pkg-config --cflags dbus-1` -D enable_server -D dbus -g")
 AC_CHECK_LIB(zip, [main], [], [AC_MSG_ERROR([libzip is needed but not found.])])
 AC_CHECK_HEADERS([suitesparse/umfpack.h],[],[AC_MSG_ERROR([suitesparse/umfpack.h is needed but not found])])
 AC_CHECK_LIB(matheval, [main], [], [AC_MSG_ERROR([matheval is needed but not found.])])
 AC_SUBST(SLIB_EXT, "a")
 AC_SUBST(DLIB_EXT, "so")
 AC_SUBST(EXE_EXT, "o")
-AC_SUBST(EXE_LINK,["`pkg-config --libs dbus-1` -lumfpack -lm -lgsl -lgslcblas -rdynamic -export-dynamic -ldl -lzip -lz -lmatheval"])
+AC_SUBST(EXE_LINK,["`pkg-config --libs dbus-1` -lumfpack -lm -lgsl -lgslcblas -rdynamic -export-dynamic -ldl -lzip -lz -lmatheval -lefence -g"])
 
 
 AC_SUBST(DLL_LINKER, ["`dpkg-buildflags --get LDFLAGS` -Wl,-soname,plugin.so"])

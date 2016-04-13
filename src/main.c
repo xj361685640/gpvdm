@@ -52,21 +52,12 @@
 
 static int unused __attribute__ ((unused));
 
-struct device cell;
-
-void device_init(struct device *in)
-{
-	in->Voc = 0.0;
-	in->Jsc = 0.0;
-	in->FF = 0.0;
-	in->Pmax = 0.0;
-	in->Pmax_voltage = 0.0;
-	device_get_memory(in);
-
-}
-
 int main(int argc, char *argv[])
 {
+	int log_level = 0;
+	log_init(&log_level);
+	set_logging_level(log_level_screen);
+
 	if (scanarg(argv, argc, "--help") == TRUE) {
 		printf
 		    ("gpvdm_core - General-purpose Photovoltaic Device Model\n");
@@ -101,16 +92,10 @@ int main(int argc, char *argv[])
 		exit(0);
 	}
 
-	device_init(&cell);
-	dll_interface_fixup(&cell);
-	log_init(&cell);
-	dump_ctrl_init(&cell);
-
 //solver_test();
 //printf("rod\n");
 //solver_ld_test();
 //exit(0);
-	cal_path(&cell);
 	setlocale(LC_MESSAGES, "");
 	bindtextdomain("gpvdm", get_lang_path());
 	textdomain("gpvdm");
@@ -120,35 +105,17 @@ int main(int argc, char *argv[])
 	dbus_init();
 
 	set_ewe_lock_file("", "");
-	cell.onlypos = FALSE;
-	cell.root_dll_interface = dll_get_interface();
+
 	char pwd[1000];
 	if (getcwd(pwd, 1000) == NULL) {
 		ewe("IO error\n");
 	}
-
-	dump_init(&cell);
-
-	dump_load_config(&cell);
 
 	remove("snapshots.zip");
 	remove("light_dump.zip");
 
 	hard_limit_init();
 
-//char path[PATH_MAX];
-//char dest[PATH_MAX];
-//pid_t pid = getpid();
-//sprintf(path, "/proc/%d/exe", pid);
-
-//if (readlink(path, dest, PATH_MAX) == -1)
-//{
-//      printf("error\n");
-//      exit(1);
-//}
-//  char *base = strrchr(dest, '/');
-//*base='/';
-//*(base+1)=0;
 	set_plot_script_dir(pwd);
 
 //set_plot_script_dir(char * in)
@@ -156,9 +123,6 @@ int main(int argc, char *argv[])
 	if (geteuid() == 0) {
 		ewe("Don't run me as root!\n");
 	}
-
-	set_dump_status(dump_stop_plot, FALSE);
-	set_dump_status(dump_print_text, TRUE);
 
 	srand(time(0));
 	textcolor(fg_green);
@@ -180,28 +144,26 @@ int main(int argc, char *argv[])
 	globalserver.cpus = 1;
 	globalserver.readconfig = TRUE;
 
+	char output_path[200];
+	char input_path[200];
+
 	if (scanarg(argv, argc, "--outputpath") == TRUE) {
-		set_output_path(get_arg_plusone(argv, argc, "--outputpath"));
+		strcpy(output_path,
+		       get_arg_plusone(argv, argc, "--outputpath"));
 	} else {
-		set_output_path(pwd);
+		strcpy(output_path, pwd);
 	}
 
 	if (scanarg(argv, argc, "--inputpath") == TRUE) {
-		set_input_path(get_arg_plusone(argv, argc, "--inputpath"));
+		strcpy(input_path, get_arg_plusone(argv, argc, "--inputpath"));
 	} else {
-		set_input_path(get_output_path());
-	}
-
-	dump_load_config(&cell);
-
-	if (scanarg(argv, argc, "--onlypos") == TRUE) {
-		cell.onlypos = TRUE;
+		strcpy(input_path, pwd);
 	}
 
 	char name[200];
 	struct inp_file inp;
 	inp_init(&inp);
-	inp_load_from_path(&inp, get_input_path(), "ver.inp");
+	inp_load_from_path(&inp, input_path, "ver.inp");
 	inp_check(&inp, 1.0);
 	inp_search_string(&inp, name, "#core");
 	inp_free(&inp);
@@ -225,75 +187,14 @@ int main(int argc, char *argv[])
 
 	int ret = 0;
 
-	if (scanarg(argv, argc, "--optics") == TRUE) {
-		gui_start();
-		struct light two;
-		light_init(&two, &cell);
-		light_load_config(&two);
-		light_load_dlls(&two, &cell);
-		//light_set_dx(&cell.mylight,cell.ymesh[1]-cell.ymesh[0]);
+	gen_dos_fd_gaus_fd();
 
-		two.disable_transfer_to_electrical_mesh = TRUE;
-		set_dump_status(dump_lock, FALSE);
-		set_dump_status(dump_optics, TRUE);
-		set_dump_status(dump_optics_verbose, TRUE);
-		gdouble Psun;
-		inp_init(&inp);
-		inp_load_from_path(&inp, pwd, "light.inp");
-		inp_search_gdouble(&inp, &(Psun), "#Psun");
-		inp_free(&inp);
-		light_set_sun(&two, 1.0);
-		light_solve_and_update(&cell, &two, 0.0);
-		light_dump(&two);
-		light_free(&two);
-		complex_solver_free();
-	} else {
+	server_add_job(&globalserver, output_path, input_path);
+	print_jobs(&globalserver);
 
-		gen_dos_fd_gaus_fd();
-
-		server_add_job(&globalserver, cell.outputpath, cell.inputpath);
-		print_jobs(&globalserver);
-
-		ret = server_run_jobs(&globalserver);
-
-	}
+	ret = server_run_jobs(&globalserver);
 
 	server_shut_down(&globalserver);
-
-	if (scanarg(argv, argc, "--zip_results") == TRUE) {
-		printf("zipping results\n");
-		int ret;
-		char temp[200];
-		DIR *dir = opendir("snapshots");
-		if (dir) {
-			closedir(dir);
-			ret =
-			    system("zip -r -j -q snapshots.zip ./snapshots/*");
-			if (ret == -1) {
-				printf("tar returned error\n");
-			}
-
-			join_path(2, temp, cell.outputpath, "snapshots");
-			remove_dir(temp);
-
-		}
-
-		dir = opendir("light_dump");
-		if (dir) {
-			closedir(dir);
-			ret =
-			    system
-			    ("zip -r -j -q light_dump.zip ./light_dump/*");
-			if (ret == -1) {
-				printf("tar returned error\n");
-			}
-
-			join_path(2, temp, cell.outputpath, "light_dump");
-			remove_dir(temp);
-
-		}
-
-	}
 
 	hard_limit_free();
 	if (ret != 0) {
