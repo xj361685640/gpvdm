@@ -34,6 +34,7 @@
 #endif
 
 #include "dll_interface.h"
+#include <sim_struct.h>
 
 extern struct dll_interface *fun;
 
@@ -46,7 +47,7 @@ EXPORT void dll_matrix_solver_free();
 
 //Light
 EXPORT void light_dll_init();
-EXPORT int light_dll_solve_lam_slice(struct light *in,int lam);
+EXPORT int light_dll_solve_lam_slice(struct simulation *sim,struct light *in,int lam);
 EXPORT void light_dll_ver();
 EXPORT void light_fixup(char *name,void (*in));
 

@@ -23,10 +23,11 @@
 #ifndef checksum_h
 #define checksum_h
 #include <stdint.h>
+#include <sim_struct.h>
 
 uint32_t leftrotate (uint32_t x, uint32_t c);
 void checksum(char *out,char *data,int len);
-void checksum_write(char *file_name);
-int checksum_check(char *file_name);
+void checksum_write(struct simulation *sim,char *file_name);
+int checksum_check(struct simulation *sim,char *file_name);
 
 #endif

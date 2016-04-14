@@ -48,11 +48,12 @@ void light_free_epitaxy(struct light *in)
 
 }
 
-void light_load_epitaxy(struct light *in, char *epi_file)
+void light_load_epitaxy(struct simulation *sim, struct light *in,
+			char *epi_file)
 {
 	struct epitaxy my_epitaxy;
 
-	epitaxy_load(&my_epitaxy, "epitaxy.inp");
+	epitaxy_load(sim, &my_epitaxy, "epitaxy.inp");
 
 	int i = 0;
 
@@ -83,7 +84,7 @@ void light_load_epitaxy(struct light *in, char *epi_file)
 
 }
 
-void light_load_config_file(struct light *in)
+void light_load_config_file(struct simulation *sim, struct light *in)
 {
 	char path_temp[1000];
 	gdouble temp = 0.0;
@@ -92,54 +93,54 @@ void light_load_config_file(struct light *in)
 	in->disable_transfer_to_electrical_mesh = FALSE;
 
 	join_path(2, path_temp, in->output_path, "light_dump");
-	remove_dir(path_temp);
+	remove_dir(sim, path_temp);
 
 	join_path(2, in->config_file, in->output_path, "light.inp");
 
-	printf_log("Load optics config %s\n", in->config_file);
+	printf_log(sim, "Load optics config %s\n", in->config_file);
 
-	inp_init(&inp);
-	inp_load_from_path(&inp, in->input_path, "light.inp");
+	inp_init(sim, &inp);
+	inp_load_from_path(sim, &inp, in->input_path, "light.inp");
 
 	//printf("%s\n",inp.data);
-	inp_check(&inp, 1.28);
+	inp_check(sim, &inp, 1.28);
 
-	inp_search_string(&inp, in->suns_spectrum_file, "#sun");
+	inp_search_string(sim, &inp, in->suns_spectrum_file, "#sun");
 
-	inp_search_int(&inp, &in->align_mesh, "#alignmesh");
+	inp_search_int(sim, &inp, &in->align_mesh, "#alignmesh");
 
-	inp_search_int(&inp, &in->points, "#meshpoints");
+	inp_search_int(sim, &inp, &in->points, "#meshpoints");
 
-	inp_search_int(&inp, &in->flip_field, "#flip_field");
+	inp_search_int(sim, &inp, &in->flip_field, "#flip_field");
 
-	inp_search_int(&inp, &in->lpoints, "#lpoints");
+	inp_search_int(sim, &inp, &in->lpoints, "#lpoints");
 
-	inp_search_gdouble(&inp, &in->lstart, "#lstart");
+	inp_search_gdouble(sim, &inp, &in->lstart, "#lstart");
 
-	inp_search_gdouble(&inp, &in->lstop, "#lstop");
+	inp_search_gdouble(sim, &inp, &in->lstop, "#lstop");
 
-	inp_search_gdouble(&inp, &(in->Eg), "#Eg");
+	inp_search_gdouble(sim, &inp, &(in->Eg), "#Eg");
 
-	inp_search_gdouble(&inp, &(in->electron_eff), "#electron_eff");
+	inp_search_gdouble(sim, &inp, &(in->electron_eff), "#electron_eff");
 	in->electron_eff = fabs(in->electron_eff);
 
-	inp_search_gdouble(&inp, &(in->hole_eff), "#hole_eff");
+	inp_search_gdouble(sim, &inp, &(in->hole_eff), "#hole_eff");
 	in->hole_eff = fabs(in->hole_eff);
 
-	inp_search_gdouble(&inp, &(temp), "#Psun");
+	inp_search_gdouble(sim, &inp, &(temp), "#Psun");
 	in->Psun = fabs(temp);
 
-	inp_search_string(&inp, in->mode, "#light_model");
+	inp_search_string(sim, &inp, in->mode, "#light_model");
 
-	inp_search_gdouble(&inp, &(in->Dphotoneff), "#Dphotoneff");
+	inp_search_gdouble(sim, &inp, &(in->Dphotoneff), "#Dphotoneff");
 	in->Dphotoneff = fabs(in->Dphotoneff);
 
-	inp_search_gdouble(&inp, &(in->ND), "#NDfilter");
+	inp_search_gdouble(sim, &inp, &(in->ND), "#NDfilter");
 
-	inp_search_gdouble(&inp, &(temp), "#high_sun_scale");
+	inp_search_gdouble(sim, &inp, &(temp), "#high_sun_scale");
 
 	in->Psun *= fabs(temp);
 
-	inp_free(&inp);
+	inp_free(sim, &inp);
 
 }

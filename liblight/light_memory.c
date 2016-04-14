@@ -128,7 +128,7 @@ void light_memory(struct light *in)
 	in->bz = malloc(in->M * sizeof(double));
 }
 
-void light_free_memory(struct light *in)
+void light_free_memory(struct simulation *sim, struct light *in)
 {
 
 	light_free_epitaxy(in);
@@ -193,5 +193,5 @@ void light_free_memory(struct light *in)
 	free(in->l);
 	inter_free(&(in->sun_read));
 
-	printf_log(_("Light free memory\n"));
+	printf_log(sim, _("Light free memory\n"));
 }

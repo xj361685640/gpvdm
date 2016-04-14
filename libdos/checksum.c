@@ -30,7 +30,7 @@
 
 static int unused __attribute__ ((unused));
 
-void checksum_write(char *file_name)
+void checksum_write(struct simulation *sim, char *file_name)
 {
 
 	FILE *file;
@@ -41,7 +41,7 @@ void checksum_write(char *file_name)
 
 	sprintf(chkfile, "checksum.%s.dat", get_file_name_from_path(file_name));
 
-	inp_read_buffer(&buffer, &l, file_name);
+	inp_read_buffer(sim, &buffer, &l, file_name);
 	len = (unsigned int)l;
 
 	char temp[100];
@@ -52,13 +52,13 @@ void checksum_write(char *file_name)
 
 	file = fopen(chkfile, "w");
 	if (file == NULL) {
-		ewe("File %s not found\n", chkfile);
+		ewe(sim, "File %s not found\n", chkfile);
 	}
 	fprintf(file, "%s\n", temp);
 	fclose(file);
 }
 
-int checksum_check(char *file_name)
+int checksum_check(struct simulation *sim, char *file_name)
 {
 
 	FILE *file;
@@ -73,7 +73,7 @@ int checksum_check(char *file_name)
 	sprintf(chkfile, "checksum.%s.dat", file_name);
 
 	long l;
-	inp_read_buffer(&buffer, &l, file_name);
+	inp_read_buffer(sim, &buffer, &l, file_name);
 
 	len = (unsigned int)l;
 	checksum(newcheck, buffer, len);

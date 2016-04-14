@@ -27,6 +27,7 @@
 #define server_job_running 2
 
 #include <time.h>
+#include <sim_struct.h>
 
 struct server globalserver;
 
@@ -57,17 +58,17 @@ time_t end_time;
 time_t start_time;
 };
 void server_stop_and_exit();
-void server_shut_down(struct server *myserver);
+void server_shut_down(struct simulation *sim,struct server *myserver);
 void server_add_job(struct simulation *sim,struct server *myserver,char *command,char *output);
-void print_jobs(struct server *myserver);
-void server_init(struct server *myserver);
+void print_jobs(struct simulation *sim,struct server *myserver);
+void server_init(struct simulation *sim,struct server *myserver);
 void server_exe_jobs(struct simulation *sim, struct server *myserver);
 void server_job_finished(struct server *myserver,char *job);
 int server_run_jobs(struct simulation *sim,struct server *myserver);
 double server_get_odes_per_s();
 double server_get_jobs_per_s();
-void change_cpus(struct server *myserver);
-void server_check_wall_clock(struct server *myserver);
+void change_cpus(struct simulation *sim,struct server *myserver);
+void server_check_wall_clock(struct simulation *sim,struct server *myserver);
 void server_update_last_job_time();
 void server_set_dbus_finish_signal(struct server *myserver, char *signal);
 void server_send_finished_to_gui(struct server *myserver);

@@ -39,18 +39,19 @@ static gdouble last_Psun = -1000.0;
 static gdouble last_laser_eff = -1000.0;
 static gdouble last_wavelength_laser = -1000.0;
 
-void light_load_dlls(struct light *in, struct device *cell)
+void light_load_dlls(struct simulation *sim, struct light *in,
+		     struct device *cell)
 {
 	char lib_path[200];
 	char lib_name[100];
 
-	printf_log(_("Light initialization\n"));
+	printf_log(sim, _("Light initialization\n"));
 
 	sprintf(lib_name, "%s.so", in->mode);
 
 	join_path(2, lib_path, get_plugins_path(), lib_name);
-	printf_log("I want to open %s %s %s\n", lib_path, get_plugins_path(),
-		   lib_name);
+	printf_log(sim, "I want to open %s %s %s\n", lib_path,
+		   get_plugins_path(), lib_name);
 
 	char *error;
 
@@ -98,7 +99,9 @@ void light_solve_and_update(struct simulation *sim, struct device *cell,
 
 	if (in->disable_transfer_to_electrical_mesh == FALSE) {
 		if (fabs(in->device_ylen - cell->ylen) > 0.01e-9) {
-			ewe("The electrical mesh (%.9le) and the optical mesh (%.9le) don't match. %le", cell->ylen, in->device_ylen);
+			ewe(sim,
+			    "The electrical mesh (%.9le) and the optical mesh (%.9le) don't match. %le",
+			    cell->ylen, in->device_ylen);
 		}
 	}
 
@@ -158,11 +161,11 @@ void light_init(struct light *in, struct device *cell)
 	in->pulse_width = -1.0;
 }
 
-void light_load_config(struct light *in)
+void light_load_config(struct simulation *sim, struct light *in)
 {
-	light_load_config_file(in);
-	light_load_epitaxy(in, "optics_epitaxy.inp");
-	light_load_materials(in);
+	light_load_config_file(sim, in);
+	light_load_epitaxy(sim, in, "optics_epitaxy.inp");
+	light_load_materials(sim, in);
 	light_memory(in);
 	light_init_mesh(in);
 }
@@ -172,8 +175,8 @@ int light_solve_lam_slice(struct light *in, int lam)
 	return (*in->fn_solve_lam_slice) (in, lam);
 }
 
-void light_free(struct light *in)
+void light_free(struct simulation *sim, struct light *in)
 {
-	light_free_memory(in);
+	light_free_memory(sim, in);
 	dlclose(in->lib_handle);
 }

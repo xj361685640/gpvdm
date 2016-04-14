@@ -110,19 +110,19 @@ long double get_dos_E_n(int band,int mat);
 long double get_dos_E_p(int band,int mat);
 void dos_free_now(struct dos *mydos);
 
-long double get_n_pop_srh(long double top,long double T,int trap, int mat);
-long double get_p_pop_srh(long double top,long double T,int trap, int mat);
-long double get_dn_pop_srh(long double top,long double T,int trap, int mat);
-long double get_dp_pop_srh(long double top,long double T,int trap, int mat);
+long double get_n_pop_srh(struct simulation *sim,long double top,long double T,int trap, int mat);
+long double get_p_pop_srh(struct simulation *sim,long double top,long double T,int trap, int mat);
+long double get_dn_pop_srh(struct simulation *sim,long double top,long double T,int trap, int mat);
+long double get_dp_pop_srh(struct simulation *sim,long double top,long double T,int trap, int mat);
 
 void load_dos(struct simulation *sim,struct device *dev,char *namen, char *namep,int mat);
 long double get_dn_trap_den(long double top,long double T,int type,int band, int mat);
 long double get_dp_trap_den(long double top,long double T,int type, int mat);
 int search(long double *x,int N,long double find);
-long double get_n_srh(long double top,long double T,int trap,int r, int mat);
-long double get_dn_srh(long double top,long double T,int trap,int r, int mat);
-long double get_p_srh(long double top,long double T,int trap,int r, int mat);
-long double get_dp_srh(long double top,long double T,int trap,int r, int mat);
+long double get_n_srh(struct simulation *sim,long double top,long double T,int trap,int r, int mat);
+long double get_dn_srh(struct simulation *sim,long double top,long double T,int trap,int r, int mat);
+long double get_p_srh(struct simulation *sim,long double top,long double T,int trap,int r, int mat);
+long double get_dp_srh(struct simulation *sim,long double top,long double T,int trap,int r, int mat);
 long double dos_get_band_energy_n(int band, int mat);
 long double dos_get_band_energy_p(int band, int mat);
 long double dos_srh_get_fermi_p(long double n, long double p,int band, int mat, long double T);

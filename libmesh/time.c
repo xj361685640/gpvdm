@@ -33,11 +33,11 @@ void time_enable_everything(int in)
 	enable_everything = in;
 }
 
-void time_mesh_save()
+void time_mesh_save(struct simulation *sim)
 {
 }
 
-void time_load_mesh(struct device *in, int number)
+void time_load_mesh(struct simulation *sim, struct device *in, int number)
 {
 }
 
@@ -45,7 +45,7 @@ void time_init(struct device *in)
 {
 }
 
-void device_timestep(struct device *in)
+void device_timestep(struct simulation *sim, struct device *in)
 {
 }
 

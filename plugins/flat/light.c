@@ -34,9 +34,10 @@ EXPORT void light_dll_ver()
 	printf("Flat light model\n");
 }
 
-EXPORT int light_dll_solve_lam_slice(struct light *in, int lam)
+EXPORT int light_dll_solve_lam_slice(struct simulation *sim, struct light *in,
+				     int lam)
 {
-	if ((*fun->get_dump_status) (dump_optics) == TRUE) {
+	if (get_dump_status(sim, dump_optics) == TRUE) {
 		char one[100];
 		sprintf(one, "Solve light optical slice at %Lf nm\n",
 			in->l[lam] * 1e9);

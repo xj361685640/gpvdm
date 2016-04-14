@@ -41,6 +41,8 @@
 
 static int unused __attribute__ ((unused));
 
+struct simulation *local_sim;
+
 static double server_jobs_per_s = 0.0;
 static double server_odes_per_s = 0.0;
 
@@ -51,7 +53,7 @@ void server_update_last_job_time()
 	last_job_ended_at = time(NULL);
 }
 
-void change_cpus(struct server *myserver)
+void change_cpus(struct simulation *sim, struct server *myserver)
 {
 }
 
@@ -69,7 +71,7 @@ void server_set_dbus_finish_signal(struct server *myserver, char *signal)
 	strcpy(myserver->dbus_finish_signal, signal);
 }
 
-void server_shut_down(struct server *myserver)
+void server_shut_down(struct simulation *sim, struct server *myserver)
 {
 	server_send_finished_to_gui(&globalserver);
 }
@@ -81,7 +83,7 @@ void server_send_finished_to_gui(struct server *myserver)
 	}
 }
 
-void print_jobs(struct server *myserver)
+void print_jobs(struct simulation *sim, struct server *myserver)
 {
 }
 
@@ -95,8 +97,9 @@ double server_get_jobs_per_s()
 	return server_jobs_per_s;
 }
 
-void server_init(struct server *myserver)
+void server_init(struct simulation *sim, struct server *myserver)
 {
+	local_sim = sim;
 	strcpy(myserver->dbus_finish_signal, "");
 
 }
@@ -119,7 +122,7 @@ void server_add_job(struct simulation *sim, struct server *myserver,
 	} else {
 		odes = run_simulation(command, output);
 	}
-	printf_log("Solved %d ODEs\n", odes);
+	printf_log(sim, "Solved %d ODEs\n", odes);
 }
 
 void server_exe_jobs(struct simulation *sim, struct server *myserver)
@@ -137,18 +140,19 @@ int server_run_jobs(struct simulation *sim, struct server *myserver)
 	return 0;
 }
 
-void server_check_wall_clock(struct server *myserver)
+void server_check_wall_clock(struct simulation *sim, struct server *myserver)
 {
 	time_t now = time(NULL);
 	if (now > myserver->end_time) {
 		struct tm tm = *localtime(&now);
 
-		printf_log
-		    ("Server quit due to wall clock at: %d-%d-%d %d:%d:%d\n",
-		     tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour,
-		     tm.tm_min, tm.tm_sec);
+		printf_log(sim,
+			   "Server quit due to wall clock at: %d-%d-%d %d:%d:%d\n",
+			   tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday,
+			   tm.tm_hour, tm.tm_min, tm.tm_sec);
 		now -= myserver->start_time;
-		printf_log("I have run for: %lf hours\n", now / 60.0 / 60.0);
+		printf_log(sim, "I have run for: %lf hours\n",
+			   now / 60.0 / 60.0);
 		exit(0);
 	}
 }

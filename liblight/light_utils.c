@@ -55,7 +55,8 @@ void light_solve_optical_problem(struct simulation *sim, struct light *in)
 	if ((in->laser_eff == 0) && (in->Psun == 0)) {
 
 		if (get_dump_status(sim, dump_optics) == TRUE)
-			printf_log(_("It's dark I know what the answer is\n"));
+			printf_log(sim,
+				   _("It's dark I know what the answer is\n"));
 		for (i = 0; i < in->lpoints; i++) {
 			memset(in->En[i], 0.0, in->points * sizeof(gdouble));
 			memset(in->Ep[i], 0.0, in->points * sizeof(gdouble));

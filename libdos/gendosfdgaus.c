@@ -394,7 +394,7 @@ void gen_do(struct simulation *sim, struct dosconfig *in, struct dosconfig *in2,
 		}
 
 		if (dosread == NULL) {
-			ewe("can not open srhband file\n");
+			ewe(sim, "can not open srhband file\n");
 		}
 
 		for (band = 0; band < in->srh_bands; band++) {
@@ -828,7 +828,7 @@ void gen_do(struct simulation *sim, struct dosconfig *in, struct dosconfig *in2,
 	}
 #ifdef dos_bin
 	if (buf_len != buf_pos) {
-		ewe(_("Expected dos size is different from generated\n"));
+		ewe(sim, _("Expected dos size is different from generated\n"));
 	}
 	gzFile file;
 	file = gzopen(outfile, "w9b");
@@ -883,7 +883,7 @@ void gen_dos_fd_gaus_n(struct simulation *sim, int mat)
 
 	char temp[100];
 	if (get_dump_status(sim, dump_iodump) == TRUE)
-		printf_log("Electrons.... %s\n", confige[mat].dos_name);
+		printf_log(sim, "Electrons.... %s\n", confige[mat].dos_name);
 
 	sprintf(temp, "%s_dosn.dat", confige[mat].dos_name);
 	gen_do(sim, &confige[mat], &configh[mat], temp, TRUE, mat);
@@ -893,7 +893,7 @@ void gen_dos_fd_gaus_p(struct simulation *sim, int mat)
 {
 	char temp[100];
 	if (get_dump_status(sim, dump_iodump) == TRUE)
-		printf_log("Holes.... %s\n", configh[mat].dos_name);
+		printf_log(sim, "Holes.... %s\n", configh[mat].dos_name);
 	sprintf(temp, "%s_dosp.dat", configh[mat].dos_name);
 	gen_do(sim, &configh[mat], &confige[mat], temp, FALSE, mat);
 }
@@ -908,19 +908,19 @@ void gen_load_dos(struct simulation *sim, int mat, char *dos_name,
 
 	sprintf(file_name, "%s.inp", dos_name);
 	struct inp_file inp;
-	inp_init(&inp);
-	inp_load(&inp, file_name);
-	inp_check(&inp, 1.22);
+	inp_init(sim, &inp);
+	inp_load(sim, &inp, file_name);
+	inp_check(sim, &inp, 1.22);
 
-	inp_search_string(&inp, temp, "#dostype");
-	confige[mat].dostype = english_to_bin(temp);
+	inp_search_string(sim, &inp, temp, "#dostype");
+	confige[mat].dostype = english_to_bin(sim, temp);
 	configh[mat].dostype = confige[mat].dostype;
 
-	inp_search_gdouble(&inp, &(confige[mat].m), "#me");
-	inp_search_gdouble(&inp, &(configh[mat].m), "#mh");
+	inp_search_gdouble(sim, &inp, &(confige[mat].m), "#me");
+	inp_search_gdouble(sim, &inp, &(configh[mat].m), "#mh");
 
-	inp_search_gdouble(&inp, &(confige[mat].Nt), "#Ntrape");
-	inp_search_gdouble(&inp, &(configh[mat].Nt), "#Ntraph");
+	inp_search_gdouble(sim, &inp, &(confige[mat].Nt), "#Ntrape");
+	inp_search_gdouble(sim, &inp, &(configh[mat].Nt), "#Ntraph");
 
 	confige[mat].Nt = fabs(confige[mat].Nt);
 	configh[mat].Nt = fabs(configh[mat].Nt);
@@ -930,8 +930,8 @@ void gen_load_dos(struct simulation *sim, int mat, char *dos_name,
 	if (configh[mat].Nt < 1e7)
 		configh[mat].Nt = 1e7;
 
-	inp_search_gdouble(&inp, &(confige[mat].Et), "#Etrape");
-	inp_search_gdouble(&inp, &(configh[mat].Et), "#Etraph");
+	inp_search_gdouble(sim, &inp, &(confige[mat].Et), "#Etrape");
+	inp_search_gdouble(sim, &inp, &(configh[mat].Et), "#Etraph");
 
 	confige[mat].Et = fabs(confige[mat].Et);
 	configh[mat].Et = fabs(configh[mat].Et);
@@ -946,103 +946,111 @@ void gen_load_dos(struct simulation *sim, int mat, char *dos_name,
 	if (configh[mat].Et > 200e-3)
 		configh[mat].Et = 200e-3;
 
-	inp_search_int(&inp, &(gendos), "#gendos");
+	inp_search_int(sim, &inp, &(gendos), "#gendos");
 
-	inp_search_gdouble(&inp, &(confige[mat].mu), "#mueffe");
-	inp_search_gdouble(&inp, &(configh[mat].mu), "#mueffh");
+	inp_search_gdouble(sim, &inp, &(confige[mat].mu), "#mueffe");
+	inp_search_gdouble(sim, &inp, &(configh[mat].mu), "#mueffh");
 
 	confige[mat].mu = fabs(confige[mat].mu);
 	configh[mat].mu = fabs(configh[mat].mu);
 
-	inp_search_gdouble(&inp, &(confige[mat].epsilonr), "#epsilonr");
+	inp_search_gdouble(sim, &inp, &(confige[mat].epsilonr), "#epsilonr");
 	confige[mat].epsilonr = fabs(confige[mat].epsilonr);
-	hard_limit("#epsilonr", &(confige[mat].epsilonr));
+	hard_limit(sim, "#epsilonr", &(confige[mat].epsilonr));
 
 	confige[mat].epsilonr = fabs(confige[mat].epsilonr);
 	configh[mat].epsilonr = fabs(confige[mat].epsilonr);
 
-	inp_search_gdouble(&inp, &(confige[mat].doping_start), "#doping_start");
+	inp_search_gdouble(sim, &inp, &(confige[mat].doping_start),
+			   "#doping_start");
 	configh[mat].doping_start = confige[mat].doping_start;
 
-	inp_search_gdouble(&inp, &(confige[mat].doping_stop), "#doping_stop");
+	inp_search_gdouble(sim, &inp, &(confige[mat].doping_stop),
+			   "#doping_stop");
 	configh[mat].doping_stop = confige[mat].doping_stop;
 
-	inp_search_gdouble(&inp, &(confige[mat].Tstart), "#Tstart");
-	inp_search_gdouble(&inp, &(confige[mat].Tstop), "#Tstop");
-	inp_search_int(&inp, &(confige[mat].Tsteps), "#Tpoints");
+	inp_search_gdouble(sim, &inp, &(confige[mat].Tstart), "#Tstart");
+	inp_search_gdouble(sim, &inp, &(confige[mat].Tstop), "#Tstop");
+	inp_search_int(sim, &inp, &(confige[mat].Tsteps), "#Tpoints");
 
 	configh[mat].Tstart = confige[mat].Tstart;
 	configh[mat].Tstop = confige[mat].Tstop;
 	configh[mat].Tsteps = confige[mat].Tsteps;
 
-	inp_search_gdouble(&inp, &(confige[mat].nstart), "#nstart");
-	inp_search_gdouble(&inp, &(confige[mat].nstop), "#nstop");
-	inp_search_int(&inp, &(confige[mat].npoints), "#npoints");
+	inp_search_gdouble(sim, &inp, &(confige[mat].nstart), "#nstart");
+	inp_search_gdouble(sim, &inp, &(confige[mat].nstop), "#nstop");
+	inp_search_int(sim, &inp, &(confige[mat].npoints), "#npoints");
 
-	inp_search_gdouble(&inp, &(configh[mat].nstart), "#pstart");
-	inp_search_gdouble(&inp, &(configh[mat].nstop), "#pstop");
-	inp_search_int(&inp, &(configh[mat].npoints), "#ppoints");
+	inp_search_gdouble(sim, &inp, &(configh[mat].nstart), "#pstart");
+	inp_search_gdouble(sim, &inp, &(configh[mat].nstop), "#pstop");
+	inp_search_int(sim, &inp, &(configh[mat].npoints), "#ppoints");
 	int bands = 0;
-	inp_search_int(&inp, &(bands), "#srh_bands");
+	inp_search_int(sim, &inp, &(bands), "#srh_bands");
 	confige[mat].srh_bands = bands;
 	configh[mat].srh_bands = bands;
 	printf("rod=%ld\n", bands);
 	getchar();
-	inp_search_gdouble(&inp, &(confige[mat].srh_start), "#srh_start");
+	inp_search_gdouble(sim, &inp, &(confige[mat].srh_start), "#srh_start");
 	configh[mat].srh_start = confige[mat].srh_start;
 
-	inp_search_gdouble(&inp, &(confige[mat].srh_sigman), "#srhsigman_e");
+	inp_search_gdouble(sim, &inp, &(confige[mat].srh_sigman),
+			   "#srhsigman_e");
 	confige[mat].srh_sigman = fabs(confige[mat].srh_sigman);
 
-	inp_search_gdouble(&inp, &(confige[mat].srh_sigmap), "#srhsigmap_e");
+	inp_search_gdouble(sim, &inp, &(confige[mat].srh_sigmap),
+			   "#srhsigmap_e");
 	confige[mat].srh_sigmap = fabs(confige[mat].srh_sigmap);
 
-	inp_search_gdouble(&inp, &(confige[mat].srh_vth), "#srhvth_e");
+	inp_search_gdouble(sim, &inp, &(confige[mat].srh_vth), "#srhvth_e");
 	confige[mat].srh_vth = fabs(confige[mat].srh_vth);
 	if (confige[mat].srh_vth < 1e2)
 		confige[mat].srh_vth = 1e2;
 
-	inp_search_gdouble(&inp, &(configh[mat].srh_sigman), "#srhsigman_h");
+	inp_search_gdouble(sim, &inp, &(configh[mat].srh_sigman),
+			   "#srhsigman_h");
 	configh[mat].srh_sigman = fabs(configh[mat].srh_sigman);
 
-	inp_search_gdouble(&inp, &(configh[mat].srh_sigmap), "#srhsigmap_h");
+	inp_search_gdouble(sim, &inp, &(configh[mat].srh_sigmap),
+			   "#srhsigmap_h");
 	configh[mat].srh_sigmap = fabs(configh[mat].srh_sigmap);
 
-	inp_search_gdouble(&inp, &(configh[mat].srh_vth), "#srhvth_h");
+	inp_search_gdouble(sim, &inp, &(configh[mat].srh_vth), "#srhvth_h");
 	configh[mat].srh_vth = fabs(configh[mat].srh_vth);
 	if (configh[mat].srh_vth < 1e2)
 		configh[mat].srh_vth = 1e2;
 
-	inp_search_gdouble(&inp, &(confige[mat].Nc), "#Nc");
+	inp_search_gdouble(sim, &inp, &(confige[mat].Nc), "#Nc");
 
-	inp_search_gdouble(&inp, &(confige[mat].Nv), "#Nv");
+	inp_search_gdouble(sim, &inp, &(confige[mat].Nv), "#Nv");
 
-	inp_search_gdouble(&inp, &(confige[mat].srh_cut), "#srh_cut");
+	inp_search_gdouble(sim, &inp, &(confige[mat].srh_cut), "#srh_cut");
 	confige[mat].srh_cut = -fabs(confige[mat].srh_cut);
 	configh[mat].srh_cut = confige[mat].srh_cut;
 
-	inp_search_gdouble(&inp, &(confige[mat].del_start), "#lumodelstart");
+	inp_search_gdouble(sim, &inp, &(confige[mat].del_start),
+			   "#lumodelstart");
 
-	inp_search_gdouble(&inp, &(confige[mat].del_stop), "#lumodelstop");
+	inp_search_gdouble(sim, &inp, &(confige[mat].del_stop), "#lumodelstop");
 
-	inp_search_gdouble(&inp, &(configh[mat].del_start), "#homodelstart");
+	inp_search_gdouble(sim, &inp, &(configh[mat].del_start),
+			   "#homodelstart");
 
-	inp_search_gdouble(&inp, &(configh[mat].del_stop), "#homodelstop");
+	inp_search_gdouble(sim, &inp, &(configh[mat].del_stop), "#homodelstop");
 
-	inp_search_gdouble(&inp, &(confige[mat].Xi), "#Xi");
+	inp_search_gdouble(sim, &inp, &(confige[mat].Xi), "#Xi");
 
-	inp_search_gdouble(&inp, &(confige[mat].Eg), "#Eg");
+	inp_search_gdouble(sim, &inp, &(confige[mat].Eg), "#Eg");
 	confige[mat].Eg = fabs(confige[mat].Eg);
-	hard_limit("#Eg", &(confige[mat].Eg));
+	hard_limit(sim, "#Eg", &(confige[mat].Eg));
 
 //confige[mat].Eg=fabs(confige[mat].Eg);
 //if (confige[mat].Eg<1.0) configh[mat].Eg=1.0;
 //if (confige[mat].Eg>1.8) configh[mat].Eg=1.8;
 
-	inp_search_gdouble(&inp, &(confige[mat].gaus_mull), "#gaus_mull");
+	inp_search_gdouble(sim, &inp, &(confige[mat].gaus_mull), "#gaus_mull");
 	configh[mat].gaus_mull = confige[mat].gaus_mull;
 
-	inp_search_gdouble(&inp, &(confige[mat].B),
+	inp_search_gdouble(sim, &inp, &(confige[mat].B),
 			   "#free_to_free_recombination");
 	configh[mat].B = confige[mat].B;
 
@@ -1050,7 +1058,7 @@ void gen_load_dos(struct simulation *sim, int mat, char *dos_name,
 	int Estep_div = 0;
 
 	if (bands > 0) {
-		inp_search_int(&inp, &(Esteps), "#Esteps");
+		inp_search_int(sim, &inp, &(Esteps), "#Esteps");
 		Estep_div = (Esteps / bands) * bands;
 		if (Estep_div != Esteps) {
 			printf("Esteps wanted= %d, given= %d \n", Esteps,
@@ -1061,10 +1069,10 @@ void gen_load_dos(struct simulation *sim, int mat, char *dos_name,
 	confige[mat].Esteps = Estep_div;
 	configh[mat].Esteps = Estep_div;
 	int dump;
-	inp_search_int(&inp, &dump, "#dump_band_structure");
+	inp_search_int(sim, &inp, &dump, "#dump_band_structure");
 	set_dump_status(sim, dump_band_structure, dump);
 
-	inp_free(&inp);
+	inp_free(sim, &inp);
 
 	configh[mat].Xi = confige[mat].Xi;
 	configh[mat].Eg = confige[mat].Eg;
@@ -1091,27 +1099,27 @@ void gen_load_dos(struct simulation *sim, int mat, char *dos_name,
 //getchar();
 
 	sprintf(file_name, "%s.inp", pl_name);
-	inp_init(&inp);
-	inp_load(&inp, file_name);
+	inp_init(sim, &inp);
+	inp_load(sim, &inp, file_name);
 
-	inp_search_gdouble(&inp, &(confige[mat].pl_fe_fh), "#pl_fe_fh");
+	inp_search_gdouble(sim, &inp, &(confige[mat].pl_fe_fh), "#pl_fe_fh");
 	configh[mat].pl_fe_fh = confige[mat].pl_fe_fh;
 
-	inp_search_gdouble(&inp, &(confige[mat].pl_trap), "#pl_fe_te");
+	inp_search_gdouble(sim, &inp, &(confige[mat].pl_trap), "#pl_fe_te");
 
-	inp_search_gdouble(&inp, &(confige[mat].pl_recom), "#pl_te_fh");
+	inp_search_gdouble(sim, &inp, &(confige[mat].pl_recom), "#pl_te_fh");
 
-	inp_search_gdouble(&inp, &(configh[mat].pl_recom), "#pl_th_fe");
+	inp_search_gdouble(sim, &inp, &(configh[mat].pl_recom), "#pl_th_fe");
 
-	inp_search_gdouble(&inp, &(configh[mat].pl_trap), "#pl_fh_th");
+	inp_search_gdouble(sim, &inp, &(configh[mat].pl_trap), "#pl_fh_th");
 
-	inp_search_string(&inp, temp, "#pl_enabled");
-	confige[mat].pl_enabled = english_to_bin(temp);
+	inp_search_string(sim, &inp, temp, "#pl_enabled");
+	confige[mat].pl_enabled = english_to_bin(sim, temp);
 	configh[mat].pl_enabled = confige[mat].pl_enabled;
 
-	inp_check(&inp, 1.0);
+	inp_check(sim, &inp, 1.0);
 
-	inp_free(&inp);
+	inp_free(sim, &inp);
 }
 
 void gen_dos_fd_gaus_fd(struct simulation *sim)
@@ -1124,7 +1132,7 @@ void gen_dos_fd_gaus_fd(struct simulation *sim)
 	int matnumber = 0;
 
 	struct epitaxy my_epitaxy;
-	epitaxy_load(&my_epitaxy, "epitaxy.inp");
+	epitaxy_load(sim, &my_epitaxy, "epitaxy.inp");
 	matnumber = my_epitaxy.electrical_layers;
 	int file_bandn = FALSE;
 	int file_bandp = FALSE;
@@ -1151,7 +1159,7 @@ void gen_dos_fd_gaus_fd(struct simulation *sim)
 		sprintf(name, "%s.inp", my_epitaxy.dos_file[mat]);
 		join_path(2, full_name, get_input_path(), name);
 
-		if (checksum_check(full_name) == FALSE)
+		if (checksum_check(sim, full_name) == FALSE)
 			problem_with_dos = TRUE;
 
 		sprintf(name, "%s_dosn.dat", my_epitaxy.dos_file[mat]);
@@ -1179,7 +1187,7 @@ void gen_dos_fd_gaus_fd(struct simulation *sim)
 		sprintf(pl_name, "%s.inp", my_epitaxy.pl_file[mat]);
 		join_path(2, pl_full_name, get_input_path(), pl_name);
 
-		if (checksum_check(pl_full_name) == FALSE) {
+		if (checksum_check(sim, pl_full_name) == FALSE) {
 			file_pl = TRUE;
 			file_bandn = TRUE;
 			file_bandp = TRUE;
@@ -1190,7 +1198,7 @@ void gen_dos_fd_gaus_fd(struct simulation *sim)
 			sprintf(name, "%s_srhbandn.inp",
 				my_epitaxy.dos_file[mat]);
 			join_path(2, full_name, get_input_path(), name);
-			if (checksum_check(full_name) == FALSE) {
+			if (checksum_check(sim, full_name) == FALSE) {
 				file_bandn = TRUE;
 				launch_server = TRUE;
 			}
@@ -1198,7 +1206,7 @@ void gen_dos_fd_gaus_fd(struct simulation *sim)
 			sprintf(name, "%s_srhbandp.inp",
 				my_epitaxy.dos_file[mat]);
 			join_path(2, full_name, get_input_path(), name);
-			if (checksum_check(full_name) == FALSE) {
+			if (checksum_check(sim, full_name) == FALSE) {
 				file_bandp = TRUE;
 				launch_server = TRUE;
 			}
@@ -1207,20 +1215,20 @@ void gen_dos_fd_gaus_fd(struct simulation *sim)
 		if ((gendos == TRUE) && (launch_server == TRUE)) {
 			sprintf(name, "gendosn_%d", mat);
 			if (file_bandn == TRUE)
-				server_add_job(&globalserver, name, name);
+				server_add_job(sim, &globalserver, name, name);
 
 			sprintf(name, "gendosp_%d", mat);
 			if (file_bandp == TRUE)
-				server_add_job(&globalserver, name, name);
+				server_add_job(sim, &globalserver, name, name);
 
 			pick_dump();
 			sprintf(name, "%s.inp", my_epitaxy.dos_file[mat]);
 			join_path(2, full_name, get_input_path(), name);
 			if (file_dos == TRUE)
-				checksum_write(full_name);
+				checksum_write(sim, full_name);
 
 			if (file_pl == TRUE) {
-				checksum_write(pl_full_name);
+				checksum_write(sim, pl_full_name);
 			}
 
 			if (confige[mat].dostype == dos_read) {
@@ -1229,23 +1237,23 @@ void gen_dos_fd_gaus_fd(struct simulation *sim)
 				safe_file(name);
 				join_path(2, full_name, get_input_path(), name);
 				if (file_bandn == TRUE)
-					checksum_write(full_name);
+					checksum_write(sim, full_name);
 
 				sprintf(name, "%s_srhbandp.inp",
 					my_epitaxy.dos_file[mat]);
 				safe_file(name);
 				join_path(2, full_name, get_input_path(), name);
 				if (file_bandp == TRUE)
-					checksum_write(full_name);
+					checksum_write(sim, full_name);
 			}
 
-			print_jobs(&globalserver);
+			print_jobs(sim, &globalserver);
 
-			server_run_jobs(&globalserver);
-			printf_log(_("Finished generating DoS....\n"));
+			server_run_jobs(sim, &globalserver);
+			printf_log(sim, _("Finished generating DoS....\n"));
 
 		} else {
-			printf_log(_("DoS not changed\n"));
+			printf_log(sim, _("DoS not changed\n"));
 		}
 	}
 

@@ -38,14 +38,13 @@ int solve_cur_thermal(struct device *in,int thermal);
 int solve_pos(struct simulation *sim,struct device *in);
 void get_initial(struct simulation *sim,struct device *in);
 void update_arrays(struct device *in);
-void device_timestep(struct device *in);
 void find_n0(struct simulation *sim,struct device *in);
 
 //from time.c
-void time_mesh_save();
-void time_load_mesh(struct device *in,int number);
+void time_mesh_save(struct simulation *sim);
+void time_load_mesh(struct simulation *sim,struct device *in,int number);
 void time_init(struct device *in);
-void device_timestep(struct device *in);
+void device_timestep(struct simulation *sim,struct device *in);
 int time_run();
 gdouble time_get_voltage();
 gdouble time_get_sun();
@@ -72,7 +71,7 @@ void solver_free();
 //Light
 void light_transfer_gen_rate_to_device(struct device *cell,struct light *in);
 void solve_light(struct device *cell,struct light *in,gdouble Psun_in,gdouble Plaser_in);
-void light_load_dlls(struct light *in,struct device *cell);
+void light_load_dlls(struct simulation *sim,struct light *in,struct device *cell);
 void light_transfer_gen_rate_to_device(struct device *cell,struct light *in);
 void light_solve_and_update(struct simulation *sim,struct device *cell,struct light *in,gdouble laser_eff_in);
 void light_init(struct light *in,struct device *cell);

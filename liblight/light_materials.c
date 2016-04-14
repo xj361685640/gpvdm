@@ -38,7 +38,7 @@
 
 static int unused __attribute__ ((unused));
 
-void light_load_materials(struct light *in)
+void light_load_materials(struct simulation *sim, struct light *in)
 {
 	int i = 0;
 	char fit_file[1000];
@@ -49,7 +49,7 @@ void light_load_materials(struct light *in)
 	char pwd[1000];
 	char temp[1000];
 	if (getcwd(pwd, 1000) == NULL) {
-		ewe("Error getting directory path\n");
+		ewe(sim, "Error getting directory path\n");
 	}
 	struct inp_file inp;
 
@@ -63,14 +63,14 @@ void light_load_materials(struct light *in)
 	}
 
 	if (found == FALSE) {
-		inp_init(&inp);
-		if (inp_load(&inp, "materialsdir.inp") != 0) {
-			ewe("File materialsdir.inp not found in %s", pwd);
+		inp_init(sim, &inp);
+		if (inp_load(sim, &inp, "materialsdir.inp") != 0) {
+			ewe(sim, "File materialsdir.inp not found in %s", pwd);
 		}
 
-		inp_check(&inp, 1.0);
-		inp_search_string(&inp, temp, "#materialsdir");
-		inp_free(&inp);
+		inp_check(sim, &inp, 1.0);
+		inp_search_string(sim, &inp, temp, "#materialsdir");
+		inp_free(sim, &inp);
 
 		theFolder = opendir(temp);
 		if (theFolder != NULL) {
@@ -92,7 +92,7 @@ void light_load_materials(struct light *in)
 	}
 
 	if (found == FALSE) {
-		ewe(_("No optical materials found\n"));
+		ewe(sim, _("No optical materials found\n"));
 	}
 
 	join_path(2, file_path, materialsdir, in->suns_spectrum_file);
@@ -111,7 +111,7 @@ void light_load_materials(struct light *in)
 	int patch = FALSE;
 	int inter = FALSE;
 
-	inp_init(&inp);
+	inp_init(sim, &inp);
 	char patch_file[400];
 	char out_file[400];
 	char token[400];
@@ -125,34 +125,35 @@ void light_load_materials(struct light *in)
 		join_path(3, fit_file, materialsdir, in->material_dir_name[i],
 			  "fit.inp");
 
-		inp_load(&inp, fit_file);
+		inp_load(sim, &inp, fit_file);
 
-		inp_search_gdouble(&inp, &alpha_mul, "#alpha_mul");
+		inp_search_gdouble(sim, &inp, &alpha_mul, "#alpha_mul");
 		alpha_mul = fabs(alpha_mul);
-		hard_limit("#alpha_mul", &alpha_mul);
+		hard_limit(sim, "#alpha_mul", &alpha_mul);
 
-		inp_search_gdouble(&inp, &n_mul, "#n_mul");
+		inp_search_gdouble(sim, &inp, &n_mul, "#n_mul");
 		n_mul = fabs(n_mul);
-		hard_limit("#n_mul", &n_mul);
+		hard_limit(sim, "#n_mul", &n_mul);
 
-		inp_search_gdouble(&inp, &wavelength_shift_n,
+		inp_search_gdouble(sim, &inp, &wavelength_shift_n,
 				   "#wavelength_shift_n");
 		wavelength_shift_n -= 40e-9;
-		hard_limit("#wavelength_shift_n", &wavelength_shift_n);
+		hard_limit(sim, "#wavelength_shift_n", &wavelength_shift_n);
 
-		inp_search_gdouble(&inp, &wavelength_shift_alpha,
+		inp_search_gdouble(sim, &inp, &wavelength_shift_alpha,
 				   "#wavelength_shift_alpha");
 		wavelength_shift_alpha -= 40.0e-9;
 
-		hard_limit("#wavelength_shift_alpha", &wavelength_shift_alpha);
+		hard_limit(sim, "#wavelength_shift_alpha",
+			   &wavelength_shift_alpha);
 
-		inp_search_int(&inp, &patch, "#patch");
+		inp_search_int(sim, &inp, &patch, "#patch");
 
-		inp_search_int(&inp, &inter, "#inter");
+		inp_search_int(sim, &inp, &inter, "#inter");
 
-		inp_search_int(&inp, &spectrum, "#spectrum");
+		inp_search_int(sim, &inp, &spectrum, "#spectrum");
 
-		inp_free(&inp);
+		inp_free(sim, &inp);
 
 		join_path(3, file_path, materialsdir, in->material_dir_name[i],
 			  "alpha.omat");
@@ -187,7 +188,7 @@ void light_load_materials(struct light *in)
 
 			FILE *patch_in = fopen(patch_file, "r");
 			if (in == NULL) {
-				ewe("file %s not found\n", patch_file);
+				ewe(sim, "file %s not found\n", patch_file);
 			}
 
 			do {
@@ -207,7 +208,7 @@ void light_load_materials(struct light *in)
 				unused = fscanf(patch_in, "%Le", &c);
 
 				if (strcmp(type, "bar_n") == 0) {
-					hard_limit(token, &c);
+					hard_limit(sim, token, &c);
 					c = fabs(c);
 					for (ii = 0; ii < in->mat_n[i].len;
 					     ii++) {
@@ -219,7 +220,7 @@ void light_load_materials(struct light *in)
 						}
 					}
 				} else if (strcmp(type, "bar_alpha") == 0) {
-					hard_limit(token, &c);
+					hard_limit(sim, token, &c);
 					c = fabs(c);
 					for (ii = 0; ii < in->mat[i].len; ii++) {
 						if ((in->mat[i].x[ii] >= a)
@@ -229,7 +230,7 @@ void light_load_materials(struct light *in)
 						}
 					}
 				} else if (strcmp(type, "gaus") == 0) {
-					hard_limit(token, &c);
+					hard_limit(sim, token, &c);
 					c = fabs(c);
 					gdouble add = 0.0;
 					int max_pos =
@@ -251,7 +252,7 @@ void light_load_materials(struct light *in)
 						//printf("add=%le\n",add);
 					}
 				} else if (strcmp(type, "gaus_math") == 0) {
-					printf_log("gaus math\n");
+					printf_log(sim, "gaus math\n");
 					gdouble add = 0.0;
 					b = fabs(b);
 					for (ii = 0; ii < in->mat_n[i].len;
@@ -269,7 +270,8 @@ void light_load_materials(struct light *in)
 			} while (!feof(patch_in));
 
 			if (strcmp(token, "#end") != 0) {
-				printf_log(_("Error at end of patch file\n"));
+				printf_log(sim,
+					   _("Error at end of patch file\n"));
 				exit(0);
 			}
 
@@ -283,7 +285,8 @@ void light_load_materials(struct light *in)
 
 				patch_in = fopen(patch_file, "r");
 				if (in == NULL) {
-					ewe("file %s not found\n", patch_file);
+					ewe(sim, "file %s not found\n",
+					    patch_file);
 				}
 
 				gdouble from = 0.0;
@@ -333,8 +336,8 @@ void light_load_materials(struct light *in)
 				} while (!feof(patch_in));
 
 				if (strcmp(token, "#end") != 0) {
-					printf_log
-					    ("Error at end of inter file\n");
+					printf_log(sim,
+						   "Error at end of inter file\n");
 					exit(0);
 				}
 
@@ -359,7 +362,7 @@ void light_load_materials(struct light *in)
 			FILE *f_in = fopen(patch_file, "r");
 
 			if (f_in == NULL) {
-				ewe("file %s not found\n", patch_file);
+				ewe(sim, "file %s not found\n", patch_file);
 			}
 
 			int n = 0;

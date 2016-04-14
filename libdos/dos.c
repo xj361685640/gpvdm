@@ -203,7 +203,7 @@ void load_dos_file(struct simulation *sim, struct dos *mydos, char *file)
 	mydos->srh_den = NULL;
 
 	if (get_dump_status(sim, dump_print_text) == TRUE)
-		printf_log("%s %s\n", _("Loading file"), file);
+		printf_log(sim, "%s %s\n", _("Loading file"), file);
 
 #ifdef dos_bin
 	gzFile in;
@@ -639,7 +639,8 @@ int get_pl_enabled(int mat)
 	return dosp[mat].config.pl_enabled;
 }
 
-long double get_n_srh(long double top, long double T, int trap, int r, int mat)
+long double get_n_srh(struct simulation *sim, long double top, long double T,
+		      int trap, int r, int mat)
 {
 	long double ret = 0.0;
 	long double c0 = 0.0;
@@ -660,7 +661,7 @@ long double get_n_srh(long double top, long double T, int trap, int r, int mat)
 
 #ifdef dos_warn
 	if ((dosn[mat].x[0] > top) || (dosn[mat].x[dosn[mat].xlen - 1] < top)) {
-		ewe("Electrons asking for %e but range %e %e\n", top,
+		ewe(sim, "Electrons asking for %e but range %e %e\n", top,
 		    dosn[mat].x[0], dosn[mat].x[dosn[mat].xlen - 1]);
 		//if (get_dump_status(dump_exit_on_dos_error)==TRUE)
 		//{
@@ -744,7 +745,8 @@ long double get_n_srh(long double top, long double T, int trap, int r, int mat)
 	return ret;
 }
 
-long double get_p_srh(long double top, long double T, int trap, int r, int mat)
+long double get_p_srh(struct simulation *sim, long double top, long double T,
+		      int trap, int r, int mat)
 {
 	long double ret = 0.0;
 	long double c0 = 0.0;
@@ -765,7 +767,7 @@ long double get_p_srh(long double top, long double T, int trap, int r, int mat)
 
 #ifdef dos_warn
 	if ((dosp[mat].x[0] > top) || (dosp[mat].x[dosp[mat].xlen - 1] < top)) {
-		ewe("Holes asking for %e but range %e %e\n", top,
+		ewe(sim, "Holes asking for %e but range %e %e\n", top,
 		    dosp[mat].x[0], dosp[mat].x[dosp[mat].xlen - 1]);
 		//if (get_dump_status(dump_exit_on_dos_error)==TRUE) server_stop_and_exit();
 		//exit(0);
@@ -847,7 +849,8 @@ long double get_p_srh(long double top, long double T, int trap, int r, int mat)
 	return ret;
 }
 
-long double get_dn_srh(long double top, long double T, int trap, int r, int mat)
+long double get_dn_srh(struct simulation *sim, long double top, long double T,
+		       int trap, int r, int mat)
 {
 	long double ret = 0.0;
 	long double c0 = 0.0;
@@ -869,7 +872,7 @@ long double get_dn_srh(long double top, long double T, int trap, int r, int mat)
 
 #ifdef dos_warn
 	if ((dosn[mat].x[0] > top) || (dosn[mat].x[dosn[mat].xlen - 1] < top)) {
-		ewe("Electrons asking for %e but range %e %e\n", top,
+		ewe(sim, "Electrons asking for %e but range %e %e\n", top,
 		    dosn[mat].x[0], dosn[mat].x[dosn[mat].xlen - 1]);
 		//if (get_dump_status(dump_exit_on_dos_error)==TRUE) server_stop_and_exit();
 		//exit(0);
@@ -949,7 +952,8 @@ long double get_dn_srh(long double top, long double T, int trap, int r, int mat)
 	return ret;
 }
 
-long double get_dp_srh(long double top, long double T, int trap, int r, int mat)
+long double get_dp_srh(struct simulation *sim, long double top, long double T,
+		       int trap, int r, int mat)
 {
 	long double ret = 0.0;
 	long double c0 = 0.0;
@@ -971,7 +975,7 @@ long double get_dp_srh(long double top, long double T, int trap, int r, int mat)
 
 #ifdef dos_warn
 	if ((dosp[mat].x[0] > top) || (dosp[mat].x[dosp[mat].xlen - 1] < top)) {
-		ewe("Holes asking for %e but range %e %e\n", top,
+		ewe(sim, "Holes asking for %e but range %e %e\n", top,
 		    dosp[mat].x[0], dosp[mat].x[dosp[mat].xlen - 1]);
 		//if (get_dump_status(dump_exit_on_dos_error)==TRUE) server_stop_and_exit();
 		//exit(0);
@@ -1052,7 +1056,8 @@ long double get_dp_srh(long double top, long double T, int trap, int r, int mat)
 
 /////////////////////////////////////////////////////trap
 
-long double get_n_pop_srh(long double top, long double T, int trap, int mat)
+long double get_n_pop_srh(struct simulation *sim, long double top,
+			  long double T, int trap, int mat)
 {
 	long double ret = 0.0;
 	long double c0 = 0.0;
@@ -1073,7 +1078,7 @@ long double get_n_pop_srh(long double top, long double T, int trap, int mat)
 
 #ifdef dos_warn
 	if ((dosn[mat].x[0] > top) || (dosn[mat].x[dosn[mat].xlen - 1] < top)) {
-		ewe("Electrons asking for %e but range %e %e\n", top,
+		ewe(sim, "Electrons asking for %e but range %e %e\n", top,
 		    dosn[mat].x[0], dosn[mat].x[dosn[mat].xlen - 1]);
 		//if (get_dump_status(dump_exit_on_dos_error)==TRUE) server_stop_and_exit();
 		//exit(0);
@@ -1111,7 +1116,8 @@ long double get_n_pop_srh(long double top, long double T, int trap, int mat)
 	return ret;
 }
 
-long double get_p_pop_srh(long double top, long double T, int trap, int mat)
+long double get_p_pop_srh(struct simulation *sim, long double top,
+			  long double T, int trap, int mat)
 {
 	long double ret = 0.0;
 	long double c0 = 0.0;
@@ -1132,7 +1138,7 @@ long double get_p_pop_srh(long double top, long double T, int trap, int mat)
 
 #ifdef dos_warn
 	if ((dosp[mat].x[0] > top) || (dosp[mat].x[dosp[mat].xlen - 1] < top)) {
-		ewe("Holes asking for %e but range %e %e\n", top,
+		ewe(sim, "Holes asking for %e but range %e %e\n", top,
 		    dosp[mat].x[0], dosp[mat].x[dosp[mat].xlen - 1]);
 		//if (get_dump_status(dump_exit_on_dos_error)==TRUE) server_stop_and_exit();
 		//exit(0);
@@ -1169,7 +1175,8 @@ long double get_p_pop_srh(long double top, long double T, int trap, int mat)
 	return ret;
 }
 
-long double get_dn_pop_srh(long double top, long double T, int trap, int mat)
+long double get_dn_pop_srh(struct simulation *sim, long double top,
+			   long double T, int trap, int mat)
 {
 	long double ret = 0.0;
 	long double c0 = 0.0;
@@ -1191,7 +1198,7 @@ long double get_dn_pop_srh(long double top, long double T, int trap, int mat)
 
 #ifdef dos_warn
 	if ((dosn[mat].x[0] > top) || (dosn[mat].x[dosn[mat].xlen - 1] < top)) {
-		ewe("Electrons asking for %e but range %e %e\n", top,
+		ewe(sim, "Electrons asking for %e but range %e %e\n", top,
 		    dosn[mat].x[0], dosn[mat].x[dosn[mat].xlen - 1]);
 		//if (get_dump_status(dump_exit_on_dos_error)==TRUE) server_stop_and_exit();
 		//exit(0);
@@ -1230,7 +1237,8 @@ long double get_dn_pop_srh(long double top, long double T, int trap, int mat)
 	return ret;
 }
 
-long double get_dp_pop_srh(long double top, long double T, int trap, int mat)
+long double get_dp_pop_srh(struct simulation *sim, long double top,
+			   long double T, int trap, int mat)
 {
 	long double ret = 0.0;
 	long double c0 = 0.0;
@@ -1252,7 +1260,7 @@ long double get_dp_pop_srh(long double top, long double T, int trap, int mat)
 
 #ifdef dos_warn
 	if ((dosp[mat].x[0] > top) || (dosp[mat].x[dosp[mat].xlen - 1] < top)) {
-		ewe("Holes asking for %e but range %e %e\n", top,
+		ewe(sim, "Holes asking for %e but range %e %e\n", top,
 		    dosp[mat].x[0], dosp[mat].x[dosp[mat].xlen - 1]);
 		//if (get_dump_status(dump_exit_on_dos_error)==TRUE) server_stop_and_exit();
 		//exit(0);
