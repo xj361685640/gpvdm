@@ -28,7 +28,7 @@
 
 static int unused __attribute__ ((unused));
 
-void patch(char *dest, char *patch_file)
+void patch(struct simulation *sim, char *dest, char *patch_file)
 {
 	FILE *in;
 	char token[100];
@@ -36,15 +36,15 @@ void patch(char *dest, char *patch_file)
 	char newtext[100];
 
 	if ((in = fopen(patch_file, "r")) == NULL) {
-		ewe("Error opening file: %s\n", patch_file);
+		ewe(sim, "Error opening file: %s\n", patch_file);
 	}
 	char filetoedit[200];
-	if (get_dump_status(dump_iodump) == TRUE)
+	if (get_dump_status(sim, dump_iodump) == TRUE)
 		printf("Patch %s\n", patch_file);
 	int found = FALSE;
 
 	struct inp_file ifile;
-	inp_init(&ifile);
+	inp_init(sim, &ifile);
 
 	do {
 		unused = fscanf(in, "%s", token);
@@ -53,29 +53,29 @@ void patch(char *dest, char *patch_file)
 			break;
 		}
 		if (token[0] != '#') {
-			ewe("error token does not begin with #\n", token);
+			ewe(sim, "error token does not begin with #\n", token);
 		} else {
 			found = TRUE;
 			unused = fscanf(in, "%s", file);
 			unused = fscanf(in, "%s", newtext);
 			join_path(2, filetoedit, dest, file);
-			inp_load(&ifile, filetoedit);
-			inp_replace(&ifile, token, newtext);
+			inp_load(sim, &ifile, filetoedit);
+			inp_replace(sim, &ifile, token, newtext);
 			//edit_file_by_var(filetoedit,token,newtext);
 		}
 
 	} while (!feof(in));
 
-	inp_free(&ifile);
+	inp_free(sim, &ifile);
 
 	if (strcmp(token, "#end") != 0) {
-		ewe("Error at end of patch file\n");
+		ewe(sim, "Error at end of patch file\n");
 	}
 
 	fclose(in);
 
 	if (found == FALSE) {
-		ewe("Token not found\n");
+		ewe(sim, "Token not found\n");
 	}
 
 	return;

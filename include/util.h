@@ -22,6 +22,8 @@
 #ifndef h_util
 #define h_util
 #include <stdio.h>
+#include <sim_struct.h>
+
 #ifdef windows
 #include <windows.h>
 
@@ -45,9 +47,9 @@
 int strcmp_begin(char * str,char *begin);
 void set_ewe_lock_file(char *lockname,char *data);
 void print_hex(unsigned char *data);
-void remove_dir(char* dir_name);
-int ewe( const char *format, ...);
-double read_value(char *file,int skip,int line);
+void remove_dir(struct simulation *sim,char* dir_name);
+int ewe(struct simulation *sim, const char *format, ...);
+double read_value(struct simulation *sim,char *file,int skip,int line);
 int strcmp_end(char * str,char *end);
 int extract_str_number(char * in,char *cut);
 void randomprint(char *in);
@@ -58,24 +60,24 @@ int get_arg_plusone_pos( char* in[],int count,char * find);
 char * get_arg_plusone( char* in[],int count,char * find);
 FILE *fopena(char *path,char *name,const char *mode);
 
-void edit_file_int(char *in_name,char *front,int line,int value);
-void edit_file(char *in_name,char *front,int line,double value);
-void edit_file_by_var(char *in_name,char *token,char *newtext);
-void copy_file(char *output,char *input);
+void edit_file_int(struct simulation *sim,char *in_name,char *front,int line,int value);
+void edit_file(struct simulation *sim,char *in_name,char *front,int line,double value);
+void edit_file_by_var(struct simulation *sim,char *in_name,char *token,char *newtext);
+void copy_file(struct simulation *sim,char *output,char *input);
 int get_file_len(char *file_name);
 int cmpstr_min(char * in1,char *in2);
-int english_to_bin(char * in);
-void write_x_y_to_file(char *name,double *x,double *y,int len);
-void write_x_y_z_to_file(char *name,double *x,double *y,double *z,int len);
+int english_to_bin(struct simulation *sim,char * in);
+void write_x_y_to_file(struct simulation *sim,char *name,double *x,double *y,int len);
+void write_x_y_z_to_file(struct simulation *sim,char *name,double *x,double *y,double *z,int len);
 void join_path(int max, ...);
 char *get_dir_name_from_path(char *in);
 char *get_file_name_from_path(char *in);
-void mass_copy_file(char **output,char *input,int n);
+void mass_copy_file(struct simulation *sim,char **output,char *input,int n);
 void string_to_hex(char* out,char* in);
 int strextract_name(char *out,char * in);
 int strextract_int(char * in);
 char* strextract_domain(char * in);
-int find_config_file(char *ret,char *dir_name,char* search_name,char *start_of_name);
+int find_config_file(struct simulation *sim,char *ret,char *dir_name,char* search_name,char *start_of_name);
 void fx_with_units(char *out,double number);
 int is_domain(char * in);
 int isdir(const char *path);

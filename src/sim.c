@@ -18,21 +18,15 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <unistd.h>
-#include <exp.h>
-#include "sim.h"
-#include "dump.h"
+#include <sim.h>
 
-static int unused __attribute__ ((unused));
-static int dump_number;
-void dump_init(struct simulation *sim, struct device *in)
+void sim_init(struct simulation *sim)
 {
-	dump_number = 0;
-	set_dump_status(sim, dump_lock, FALSE);
-}
+//plotting
+	sim->gnuplot = NULL;
+	sim->gnuplot_time = NULL;
+	sim->converge = NULL;
+	sim->tconverge = NULL;
+	sim->log_level = -1;
 
-void dump_write_to_disk(struct simulation *sim, struct device *in)
-{
 }

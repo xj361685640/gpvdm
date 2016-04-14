@@ -54,8 +54,10 @@ static int unused __attribute__ ((unused));
 
 int main(int argc, char *argv[])
 {
+	struct simulation sim;
+	sim_init(&sim);
 	int log_level = 0;
-	log_init(&log_level);
+	log_init(&sim);
 	set_logging_level(log_level_screen);
 
 	if (scanarg(argv, argc, "--help") == TRUE) {
@@ -187,12 +189,12 @@ int main(int argc, char *argv[])
 
 	int ret = 0;
 
-	gen_dos_fd_gaus_fd();
+	gen_dos_fd_gaus_fd(&sim);
 
-	server_add_job(&globalserver, output_path, input_path);
+	server_add_job(&sim, &globalserver, output_path, input_path);
 	print_jobs(&globalserver);
 
-	ret = server_run_jobs(&globalserver);
+	ret = server_run_jobs(&sim, &globalserver);
 
 	server_shut_down(&globalserver);
 

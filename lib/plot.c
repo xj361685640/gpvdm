@@ -35,27 +35,24 @@ void set_plot_script_dir(char *in)
 	strcat(plot_script_dir, "/plot/");
 }
 
-void plot_open(struct device *in)
+void plot_open(struct simulation *sim)
 {
 	printf("here1\n");
-	if (get_dump_status(dump_plot) == TRUE) {
+	if (get_dump_status(sim, dump_plot) == TRUE) {
 		printf("here2\n");
 		gettimeofday(&last_time, NULL);
 		printf("here3\n");
-		in->gnuplot = popen("gnuplot -persist", "w");
-		fprintf(in->gnuplot,
+		sim->gnuplot = popen("gnuplot -persist", "w");
+		fprintf(sim->gnuplot,
 			"set terminal x11 title 'General-purpose Photovoltaic Device Model - www.gpvdm.com' \n");
-		//fprintf(in->gnuplot, "clear\n");
-		//fprintf(in->gnuplot, "set multiplot\n");
-		//fprintf(in->gnuplot, "set data style lines\n");
-		fflush(in->gnuplot);
+		fflush(sim->gnuplot);
 		printf("here4\n");
 	}
 	printf("here5\n");
 
 }
 
-void plot_now(struct device *in, char *name)
+void plot_now(struct simulation *sim, char *name)
 {
 	struct timeval mytime;
 	struct timeval result;
@@ -71,39 +68,39 @@ void plot_now(struct device *in, char *name)
 	last_time.tv_sec = mytime.tv_sec;
 	last_time.tv_usec = mytime.tv_usec;
 
-	if (get_dump_status(dump_plot) == TRUE) {
-		fprintf(in->gnuplot, "load '%s%s'\n", plot_script_dir, name);
-		fflush(in->gnuplot);
+	if (get_dump_status(sim, dump_plot) == TRUE) {
+		fprintf(sim->gnuplot, "load '%s%s'\n", plot_script_dir, name);
+		fflush(sim->gnuplot);
 	}
 }
 
-void plot_now_excite(struct device *in)
+void plot_now_excite(struct simulation *sim)
 {
-	if (get_dump_status(dump_plot) == TRUE) {
+	if (get_dump_status(sim, dump_plot) == TRUE) {
 
-		fprintf(in->gnuplot, "load 'plot_excite'\n");
-		fflush(in->gnuplot);
-
-	}
-}
-
-void plot_replot(struct device *in)
-{
-	if (get_dump_status(dump_plot) == TRUE) {
-
-		fprintf(in->gnuplot, "replot\n");
-		fflush(in->gnuplot);
+		fprintf(sim->gnuplot, "load 'plot_excite'\n");
+		fflush(sim->gnuplot);
 
 	}
 }
 
-void plot_close(struct device *in)
+void plot_replot(struct simulation *sim)
 {
-	if (get_dump_status(dump_plot) == TRUE) {
+	if (get_dump_status(sim, dump_plot) == TRUE) {
 
-		fprintf(in->gnuplot, "exit\n");
-		fflush(in->gnuplot_time);
-		pclose(in->gnuplot);
+		fprintf(sim->gnuplot, "replot\n");
+		fflush(sim->gnuplot);
+
+	}
+}
+
+void plot_close(struct simulation *sim)
+{
+	if (get_dump_status(sim, dump_plot) == TRUE) {
+
+		fprintf(sim->gnuplot, "exit\n");
+		fflush(sim->gnuplot_time);
+		pclose(sim->gnuplot);
 
 	}
 }

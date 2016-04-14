@@ -25,24 +25,24 @@
 
 struct inp_file hard_limit_inp;
 
-void hard_limit_init()
+void hard_limit_init(struct simulation *sim)
 {
-	inp_init(&hard_limit_inp);
-	inp_load(&hard_limit_inp, "hard_limit.inp");
+	inp_init(sim, &hard_limit_inp);
+	inp_load(sim, &hard_limit_inp, "hard_limit.inp");
 }
 
-void hard_limit_free()
+void hard_limit_free(struct simulation *sim)
 {
-	inp_free(&hard_limit_inp);
+	inp_free(sim, &hard_limit_inp);
 }
 
-void hard_limit(char *token, gdouble * value)
+void hard_limit(struct simulation *sim, char *token, gdouble * value)
 {
 	char token0[1000];
 	gdouble ret = *value;
 	gdouble min = 0.0;
 	gdouble max = 0.0;
-	char *text = inp_search_part(&hard_limit_inp, token);
+	char *text = inp_search_part(sim, &hard_limit_inp, token);
 
 	if (text != NULL) {
 		sscanf(text, "%s %Lf %Lf", token0, &max, &min);

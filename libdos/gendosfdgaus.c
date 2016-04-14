@@ -189,8 +189,8 @@ void pick_dump()
 #endif
 }
 
-void gen_do(struct dosconfig *in, struct dosconfig *in2, char *outfile,
-	    int electrons, int mat)
+void gen_do(struct simulation *sim, struct dosconfig *in, struct dosconfig *in2,
+	    char *outfile, int electrons, int mat)
 {
 	char name[100];
 	char temp[1000];
@@ -428,7 +428,7 @@ void gen_do(struct dosconfig *in, struct dosconfig *in2, char *outfile,
 	struct buffer dos_out;
 	buffer_init(&dos_out);
 
-	if (get_dump_status(dump_write_out_band_structure) == TRUE) {
+	if (get_dump_status(sim, dump_write_out_band_structure) == TRUE) {
 		if (electrons == TRUE) {
 			buffer_malloc(&dos_out);
 			dos_out.y_mul = 1.0;
@@ -464,7 +464,7 @@ void gen_do(struct dosconfig *in, struct dosconfig *in2, char *outfile,
 	gdouble f2 = 0.0;
 	gdouble sum2 = 0.0;
 	for (t = 0; t < tsteps; t++) {
-		if (get_dump_status(dump_iodump) == TRUE)
+		if (get_dump_status(sim, dump_iodump) == TRUE)
 			printf("%d/%d\n", t, (int)tsteps);
 
 		for (x = 0; x < in->npoints; x++) {
@@ -561,7 +561,8 @@ void gen_do(struct dosconfig *in, struct dosconfig *in2, char *outfile,
 				if (x == 0) {
 					pick_add(E - in->Xi, rho);
 					if (get_dump_status
-					    (dump_write_out_band_structure) ==
+					    (sim,
+					     dump_write_out_band_structure) ==
 					    TRUE) {
 						if (E > in->srh_start) {
 							if (electrons == TRUE) {
@@ -688,9 +689,9 @@ void gen_do(struct dosconfig *in, struct dosconfig *in2, char *outfile,
 					fprintf(out, "%Le\n", srh_den[band]);
 #endif
 				}
-				//printf("%ld\n",get_dump_status(dump_band_structure));
+				//printf("%ld\n",get_dump_status(sim,dump_band_structure));
 				//getchar();
-				if (get_dump_status(dump_band_structure) ==
+				if (get_dump_status(sim, dump_band_structure) ==
 				    TRUE) {
 					FILE *bandsdump;
 					if (electrons == TRUE) {
@@ -814,7 +815,7 @@ void gen_do(struct dosconfig *in, struct dosconfig *in2, char *outfile,
 	fclose(munfile);
 #endif
 
-	if (get_dump_status(dump_write_out_band_structure) == TRUE) {
+	if (get_dump_status(sim, dump_write_out_band_structure) == TRUE) {
 		if (electrons == TRUE) {
 			sprintf(name, "%s_dosoutn.dat", confige[mat].dos_name);
 		} else {
@@ -877,27 +878,28 @@ void gen_do(struct dosconfig *in, struct dosconfig *in2, char *outfile,
 	return;
 }
 
-void gen_dos_fd_gaus_n(int mat)
+void gen_dos_fd_gaus_n(struct simulation *sim, int mat)
 {
 
 	char temp[100];
-	if (get_dump_status(dump_iodump) == TRUE)
+	if (get_dump_status(sim, dump_iodump) == TRUE)
 		printf_log("Electrons.... %s\n", confige[mat].dos_name);
 
 	sprintf(temp, "%s_dosn.dat", confige[mat].dos_name);
-	gen_do(&confige[mat], &configh[mat], temp, TRUE, mat);
+	gen_do(sim, &confige[mat], &configh[mat], temp, TRUE, mat);
 }
 
-void gen_dos_fd_gaus_p(int mat)
+void gen_dos_fd_gaus_p(struct simulation *sim, int mat)
 {
 	char temp[100];
-	if (get_dump_status(dump_iodump) == TRUE)
+	if (get_dump_status(sim, dump_iodump) == TRUE)
 		printf_log("Holes.... %s\n", configh[mat].dos_name);
 	sprintf(temp, "%s_dosp.dat", configh[mat].dos_name);
-	gen_do(&configh[mat], &confige[mat], temp, FALSE, mat);
+	gen_do(sim, &configh[mat], &confige[mat], temp, FALSE, mat);
 }
 
-void gen_load_dos(int mat, char *dos_name, char *pl_name)
+void gen_load_dos(struct simulation *sim, int mat, char *dos_name,
+		  char *pl_name)
 {
 	char file_name[100];
 	char temp[100];
@@ -1060,7 +1062,7 @@ void gen_load_dos(int mat, char *dos_name, char *pl_name)
 	configh[mat].Esteps = Estep_div;
 	int dump;
 	inp_search_int(&inp, &dump, "#dump_band_structure");
-	set_dump_status(dump_band_structure, dump);
+	set_dump_status(sim, dump_band_structure, dump);
 
 	inp_free(&inp);
 
@@ -1112,7 +1114,7 @@ void gen_load_dos(int mat, char *dos_name, char *pl_name)
 	inp_free(&inp);
 }
 
-void gen_dos_fd_gaus_fd()
+void gen_dos_fd_gaus_fd(struct simulation *sim)
 {
 
 	char name[100];
@@ -1141,7 +1143,7 @@ void gen_dos_fd_gaus_fd()
 		file_pl = FALSE;
 
 		pick_init(mat);
-		gen_load_dos(mat, my_epitaxy.dos_file[mat],
+		gen_load_dos(sim, mat, my_epitaxy.dos_file[mat],
 			     my_epitaxy.pl_file[mat]);
 
 		problem_with_dos = FALSE;

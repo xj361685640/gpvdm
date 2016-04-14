@@ -93,14 +93,15 @@ void print_hex(unsigned char *data)
 	printf("\n");
 }
 
-void write_x_y_to_file(char *name, double *x, double *y, int len)
+void write_x_y_to_file(struct simulation *sim, char *name, double *x, double *y,
+		       int len)
 {
 	int i;
 	FILE *out;
 
 	out = fopen(name, "w");
 	if (out == NULL) {
-		ewe("Error writing file %s\n", name);
+		ewe(sim, "Error writing file %s\n", name);
 	}
 
 	for (i = 0; i < len; i++) {
@@ -109,14 +110,15 @@ void write_x_y_to_file(char *name, double *x, double *y, int len)
 	fclose(out);
 }
 
-void write_x_y_z_to_file(char *name, double *x, double *y, double *z, int len)
+void write_x_y_z_to_file(struct simulation *sim, char *name, double *x,
+			 double *y, double *z, int len)
 {
 	int i;
 	FILE *out;
 
 	out = fopen(name, "w");
 	if (out == NULL) {
-		ewe("Error writing file %s\n", name);
+		ewe(sim, "Error writing file %s\n", name);
 	}
 
 	for (i = 0; i < len; i++) {
@@ -140,7 +142,7 @@ int check_int(char *in)
 
 static int unused __attribute__ ((unused));
 
-int english_to_bin(char *in)
+int english_to_bin(struct simulation *sim, char *in)
 {
 	int ret = 0;
 	if (check_int(in) == TRUE) {
@@ -195,18 +197,18 @@ int english_to_bin(char *in)
 		return log_level_screen_and_disk;
 	}
 
-	ewe("I don't understand the command %s\n", in);
+	ewe(sim, "I don't understand the command %s\n", in);
 	return 0;
 }
 
-double read_value(char *file, int skip, int line)
+double read_value(struct simulation *sim, char *file, int skip, int line)
 {
 	FILE *in;
 	char buf[1000];
 	double value;
 	in = fopen(file, "r");
 	if (in == NULL) {
-		ewe("Can not read file %s\n", file);
+		ewe(sim, "Can not read file %s\n", file);
 	}
 	int l = 0;
 
@@ -226,13 +228,13 @@ double read_value(char *file, int skip, int line)
 	return value;
 }
 
-void safe_file(char *name)
+void safe_file(struct simulation *sim, char *name)
 {
 	FILE *file;
 	file = fopen(name, "rb");
 
 	if (!file) {
-		ewe("File %s not found\n", name);
+		ewe(sim, "File %s not found\n", name);
 	}
 
 	fclose(file);
@@ -439,7 +441,8 @@ char *get_arg_plusone(char *in[], int count, char *find)
 	return no;
 }
 
-void edit_file_int(char *in_name, char *front, int line_to_edit, int value)
+void edit_file_int(struct simulation *sim, char *in_name, char *front,
+		   int line_to_edit, int value)
 {
 
 	FILE *in;
@@ -450,7 +453,7 @@ void edit_file_int(char *in_name, char *front, int line_to_edit, int value)
 	int pos = 0;
 	char temp[200];
 	if (in == NULL) {
-		ewe("edit_file_by_var: File %s not found\n", in_name);
+		ewe(sim, "edit_file_by_var: File %s not found\n", in_name);
 	}
 	fseek(in, 0, SEEK_END);
 	file_size = ftell(in);
@@ -483,7 +486,7 @@ void edit_file_int(char *in_name, char *front, int line_to_edit, int value)
 
 	out = fopen(in_name, "w");
 	if (in == NULL) {
-		ewe("edit_file_by_var: Can not write file %s \n", in_name);
+		ewe(sim, "edit_file_by_var: Can not write file %s \n", in_name);
 	}
 	fwrite(out_buf, strlen(out_buf), 1, out);
 	free(out_buf);
@@ -491,7 +494,8 @@ void edit_file_int(char *in_name, char *front, int line_to_edit, int value)
 
 }
 
-void edit_file(char *in_name, char *front, int line_to_edit, double value)
+void edit_file(struct simulation *sim, char *in_name, char *front,
+	       int line_to_edit, double value)
 {
 
 	FILE *in;
@@ -502,7 +506,7 @@ void edit_file(char *in_name, char *front, int line_to_edit, double value)
 	int pos = 0;
 	char temp[200];
 	if (in == NULL) {
-		ewe("edit_file_by_var: File %s not found\n", in_name);
+		ewe(sim, "edit_file_by_var: File %s not found\n", in_name);
 	}
 	fseek(in, 0, SEEK_END);
 	file_size = ftell(in);
@@ -535,7 +539,7 @@ void edit_file(char *in_name, char *front, int line_to_edit, double value)
 
 	out = fopen(in_name, "w");
 	if (in == NULL) {
-		ewe("edit_file_by_var: Can not write file %s \n", in_name);
+		ewe(sim, "edit_file_by_var: Can not write file %s \n", in_name);
 	}
 	fwrite(out_buf, strlen(out_buf), 1, out);
 	free(out_buf);
@@ -543,7 +547,7 @@ void edit_file(char *in_name, char *front, int line_to_edit, double value)
 
 }
 
-void mass_copy_file(char **output, char *input, int n)
+void mass_copy_file(struct simulation *sim, char **output, char *input, int n)
 {
 //printf ("%s %s",input,output);
 	char buf[8192];
@@ -552,7 +556,7 @@ void mass_copy_file(char **output, char *input, int n)
 	int in_fd = open(input, O_RDONLY);
 
 	if (in_fd == -1) {
-		ewe("File %s can not be opened\n", input);
+		ewe(sim, "File %s can not be opened\n", input);
 	}
 
 	stat(input, &results);
@@ -564,7 +568,7 @@ void mass_copy_file(char **output, char *input, int n)
 		    open(output[i], O_WRONLY | O_CREAT | O_TRUNC,
 			 results.st_mode);
 		if (out_fd[i] == -1) {
-			ewe("File %s can not be opened\n", output);
+			ewe(sim, "File %s can not be opened\n", output);
 		}
 	}
 
@@ -586,14 +590,14 @@ void mass_copy_file(char **output, char *input, int n)
 	}
 }
 
-void copy_file(char *output, char *input)
+void copy_file(struct simulation *sim, char *output, char *input)
 {
 //printf ("%s %s",input,output);
 	char buf[8192];
 	struct stat results;
 	int in_fd = open(input, O_RDONLY);
 	if (in_fd == -1) {
-		ewe("File %s can not be opened\n", input);
+		ewe(sim, "File %s can not be opened\n", input);
 	}
 
 	stat(input, &results);
@@ -601,7 +605,7 @@ void copy_file(char *output, char *input)
 	int out_fd =
 	    open(output, O_WRONLY | O_CREAT | O_TRUNC, results.st_mode);
 	if (in_fd == -1) {
-		ewe("File %s can not be opened\n", output);
+		ewe(sim, "File %s can not be opened\n", output);
 	}
 
 	while (1) {
@@ -619,7 +623,8 @@ void copy_file(char *output, char *input)
 	close(out_fd);
 }
 
-void edit_file_by_var(char *in_name, char *token, char *newtext)
+void edit_file_by_var(struct simulation *sim, char *in_name, char *token,
+		      char *newtext)
 {
 	FILE *in;
 	FILE *out;
@@ -628,7 +633,7 @@ void edit_file_by_var(char *in_name, char *token, char *newtext)
 	int file_size = 0;
 	in = fopen(in_name, "r");
 	if (in == NULL) {
-		ewe("edit_file_by_var: File %s not found\n", in_name);
+		ewe(sim, "edit_file_by_var: File %s not found\n", in_name);
 	}
 	fseek(in, 0, SEEK_END);
 	file_size = ftell(in);
@@ -662,14 +667,15 @@ void edit_file_by_var(char *in_name, char *token, char *newtext)
 	}
 
 	if (found == FALSE) {
-		ewe("edit_file_by_var: Token not found in file %s\n", token);
+		ewe(sim, "edit_file_by_var: Token not found in file %s\n",
+		    token);
 	}
 
 	free(in_buf);
 
 	out = fopen(in_name, "w");
 	if (in == NULL) {
-		ewe("edit_file_by_var: Can not write file %s \n", in_name);
+		ewe(sim, "edit_file_by_var: Can not write file %s \n", in_name);
 	}
 	fwrite(out_buf, strlen(out_buf), 1, out);
 	free(out_buf);
@@ -719,7 +725,7 @@ int isdir(const char *path)
 	}
 }
 
-void remove_dir(char *dir_name)
+void remove_dir(struct simulation *sim, char *dir_name)
 {
 
 	struct dirent *next_file;
@@ -737,8 +743,8 @@ void remove_dir(char *dir_name)
 				join_path(2, filepath, dir_name,
 					  next_file->d_name);
 				if (isdir(filepath) == 0) {
-					remove_dir(filepath);
-					printf_log(_("Deleting dir =%s\n"),
+					remove_dir(sim, filepath);
+					printf_log(sim, _("Deleting dir =%s\n"),
 						   filepath);
 					remove(filepath);
 				} else {

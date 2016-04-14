@@ -27,7 +27,7 @@
 #include <const.h>
 #include "rand.h"
 
-int random_int_range(int start_in, int stop_in)
+int random_int_range(struct simulation *sim, int start_in, int stop_in)
 {
 	int start = start_in;
 	int stop = stop_in;
@@ -42,12 +42,12 @@ int random_int_range(int start_in, int stop_in)
 	int ret = 0;
 	int delta = (stop - start);
 
-	ret = random_int(delta);
+	ret = random_int(sim, delta);
 
 	return start + ret;
 }
 
-int random_int(int in)
+int random_int(struct simulation *sim, int in)
 {
 	if (in == 0)
 		return 0;
@@ -55,7 +55,7 @@ int random_int(int in)
 	int random;
 	FILE *fp = fopen("/dev/urandom", "r");
 	if (fread(&random, sizeof(int), 1, fp) == 0) {
-		ewe("No data read from urandom\n");
+		ewe(sim, "No data read from urandom\n");
 	}
 	random = fabs(random);
 	out = random % (in + 1);
@@ -64,17 +64,17 @@ int random_int(int in)
 	return out;
 }
 
-void randomize_input_files()
+void randomize_input_files(struct simulation *sim)
 {
 	struct inp_file inp;
-	inp_init(&inp);
+	inp_init(sim, &inp);
 
 	struct inp_file ifile;
-	inp_init(&ifile);
+	inp_init(sim, &ifile);
 
-	inp_load(&inp, "random.inp");
-	inp_check(&inp, 1.0);
-	inp_reset_read(&inp);
+	inp_load(sim, &inp, "random.inp");
+	inp_check(sim, &inp, 1.0);
+	inp_reset_read(sim, &inp);
 	char *data;
 	char file[100];
 	char token[100];
@@ -87,7 +87,7 @@ void randomize_input_files()
 	double value = 0.0;
 	char value_string[100];
 	do {
-		data = inp_get_string(&inp);
+		data = inp_get_string(sim, &inp);
 
 		if (strcmp(data, "#ver") == 0) {
 			break;
@@ -96,18 +96,18 @@ void randomize_input_files()
 		sscanf(data, "%s %s %le %le %le %le", file, token, &man_min,
 		       &man_max, &exp_min, &exp_max);
 		//printf("%s '%s' %f %f %f %f\n",file,token,man_min,man_max,exp_min,exp_max);
-		a = (double)random_int_range(man_min, man_max);
-		b = (double)random_int_range(exp_min, exp_max);
+		a = (double)random_int_range(sim, man_min, man_max);
+		b = (double)random_int_range(sim, exp_min, exp_max);
 		value = a * pow(10, b);
 		sprintf(value_string, "%le", value);
-		inp_load(&ifile, file);
-		inp_replace(&ifile, token, value_string);
-		inp_free(&ifile);
+		inp_load(sim, &ifile, file);
+		inp_replace(sim, &ifile, token, value_string);
+		inp_free(sim, &ifile);
 
 		//printf("%f %f %le\n",a,b,value);
 
 	} while (1);
 
-	inp_free(&inp);
+	inp_free(sim, &inp);
 
 }

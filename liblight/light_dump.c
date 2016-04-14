@@ -26,7 +26,7 @@
 #include "light.h"
 #include "buffer.h"
 
-void light_dump(struct light *in)
+void light_dump(struct simulation *sim, struct light *in)
 {
 	FILE *out;
 	int i;
@@ -34,7 +34,7 @@ void light_dump(struct light *in)
 	struct buffer buf;
 	char out_dir[1024];
 	char line[1024];
-	if ((get_dump_status(dump_optics_verbose) == TRUE)
+	if ((get_dump_status(sim, dump_optics_verbose) == TRUE)
 	    && (in->Gn[0] != 0.0)) {
 		sprintf(out_dir, "%s/light_dump/", in->output_path);
 		struct stat st = { 0 };
@@ -223,7 +223,7 @@ void light_dump(struct light *in)
 
 }
 
-void light_dump_1d(struct light *in, int i, char *ext)
+void light_dump_1d(struct simulation *sim, struct light *in, int i, char *ext)
 {
 	char out_dir[1024];
 	char line[1024];
@@ -254,7 +254,8 @@ void light_dump_1d(struct light *in, int i, char *ext)
 	buffer_init(&data_t);
 	buffer_init(&buf);
 
-	if ((get_dump_status(dump_optics) == TRUE) && (in->sun_E[i] != 0.0)) {
+	if ((get_dump_status(sim, dump_optics) == TRUE)
+	    && (in->sun_E[i] != 0.0)) {
 
 		sprintf(out_dir, "%s/light_dump/", in->output_path);
 		struct stat st = { 0 };
@@ -438,7 +439,7 @@ void light_dump_1d(struct light *in, int i, char *ext)
 			buffer_free(&data_1d_photons_tot_abs);
 		}
 
-		if (get_dump_status(dump_optics_verbose) == TRUE) {
+		if (get_dump_status(sim, dump_optics_verbose) == TRUE) {
 			sprintf(name, "%s/light_1d_%.0Lf_layer%s.dat", out_dir,
 				in->l[i] * 1e9, ext);
 			out = fopen(name, "w");

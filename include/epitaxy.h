@@ -23,6 +23,7 @@
 #ifndef epitaxy_h
 #define epitaxy_h
 #include "advmath.h"
+#include <sim_struct.h>
 
 struct epitaxy
 {
@@ -36,7 +37,7 @@ struct epitaxy
 	char electrical_layer[20];
 };
 
-void epitaxy_load(struct epitaxy *in, char *file);
+void epitaxy_load(struct simulation *sim,struct epitaxy *in, char *file);
 gdouble epitaxy_get_electrical_length(struct epitaxy *in);
 gdouble epitaxy_get_optical_length(struct epitaxy *in);
 int epitaxy_get_optical_material_layer(struct epitaxy *in,gdouble pos);

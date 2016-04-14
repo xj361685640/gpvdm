@@ -24,10 +24,10 @@
 #include "dump.h"
 #include "log.h"
 
-void init_dump(struct device *in)
+void init_dump(struct simulation *sim, struct device *in)
 {
 	int i = 0;
-	if (get_dump_status(dump_iodump) == TRUE) {
+	if (get_dump_status(sim, dump_iodump) == TRUE) {
 		FILE *out;
 		out = fopena(in->outputpath, "init_Fi.dat", "w");
 		for (i = 0; i < in->ymeshpoints; i++) {
@@ -61,7 +61,7 @@ void init_dump(struct device *in)
 	}
 }
 
-void my_guess(struct device *in)
+void get_initial(struct simulation *sim, struct device *in)
 {
 	int i;
 
@@ -105,7 +105,7 @@ void my_guess(struct device *in)
 		}
 	}
 
-	if (get_dump_status(dump_iodump) == TRUE) {
+	if (get_dump_status(sim, dump_iodump) == TRUE) {
 		printf_log("check1= %Le %Le\n",
 			   get_p_den(top_l, in->Te[0], in->imat[0]),
 			   charge_left);
@@ -120,7 +120,7 @@ void my_guess(struct device *in)
 	gdouble test_l = -in->Xi[0] + top_r;
 	gdouble test_r = -in->Xi[0] - in->Eg[0] - top_l;
 	in->vbi = delta_phi;
-	if (get_dump_status(dump_print_text) == TRUE) {
+	if (get_dump_status(sim, dump_print_text) == TRUE) {
 		printf_log("delta=%Le\n", delta_phi);
 		printf_log(">>>>top_l= %Le\n", top_l + Eg);
 		printf_log(">>>>top_r= %Le\n", -top_r);
@@ -151,7 +151,7 @@ void my_guess(struct device *in)
 	in->r_electrons = Rn;
 	in->r_holes = Rp;
 
-	if (get_dump_status(dump_iodump) == TRUE) {
+	if (get_dump_status(sim, dump_iodump) == TRUE) {
 		printf_log("Ef=%Le\n", Ef);
 		printf_log("Holes on left contact = %Le\n", Lp);
 		printf_log("Electrons on left contact = %Le\n", Ln);
@@ -240,14 +240,9 @@ void my_guess(struct device *in)
 	in->Vl = 0.0;
 	in->Vr = delta_phi;
 	in->Vbi = delta_phi;
-	init_dump(in);
+	init_dump(sim, in);
 //getchar();
 	if (in->stoppoint == 1)
 		exit(0);
-}
-
-void get_initial(struct device *in)
-{
-	my_guess(in);
 	return;
 }

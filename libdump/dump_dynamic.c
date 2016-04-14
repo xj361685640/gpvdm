@@ -32,11 +32,12 @@
 #include "dynamic_store.h"
 static int unused __attribute__ ((unused));
 
-void dump_dynamic_init(struct dynamic_store *store, struct device *in)
+void dump_dynamic_init(struct simulation *sim, struct dynamic_store *store,
+		       struct device *in)
 {
 	int i = 0;
 
-	if (get_dump_status(dump_dynamic) == TRUE) {
+	if (get_dump_status(sim, dump_dynamic) == TRUE) {
 		inter_init(&(store->charge_change));
 		inter_init(&(store->jout));
 		inter_init(&(store->jn_avg));
@@ -104,7 +105,8 @@ void dump_dynamic_init(struct dynamic_store *store, struct device *in)
 	}
 }
 
-void dump_dynamic_save(char *outputpath, struct dynamic_store *store)
+void dump_dynamic_save(struct simulation *sim, char *outputpath,
+		       struct dynamic_store *store)
 {
 	int i;
 	int sub = TRUE;
@@ -112,13 +114,13 @@ void dump_dynamic_save(char *outputpath, struct dynamic_store *store)
 	struct buffer buf;
 	buffer_init(&buf);
 
-	if (get_dump_status(dump_dynamic) == TRUE) {
+	if (get_dump_status(sim, dump_dynamic) == TRUE) {
 
-		if (get_dump_status(dump_norm_time_to_one) == TRUE) {
+		if (get_dump_status(sim, dump_norm_time_to_one) == TRUE) {
 			buf.norm_x_axis = TRUE;
 		}
 
-		if (get_dump_status(dump_norm_y_axis) == TRUE) {
+		if (get_dump_status(sim, dump_norm_y_axis) == TRUE) {
 			buf.norm_y_axis = TRUE;
 		}
 
@@ -935,14 +937,14 @@ void dump_dynamic_save(char *outputpath, struct dynamic_store *store)
 
 }
 
-void dump_dynamic_add_data(struct dynamic_store *store, struct device *in,
-			   gdouble x_value)
+void dump_dynamic_add_data(struct simulation *sim, struct dynamic_store *store,
+			   struct device *in, gdouble x_value)
 {
 }
 
-void dump_dynamic_free(struct dynamic_store *store)
+void dump_dynamic_free(struct simulation *sim, struct dynamic_store *store)
 {
-	if (get_dump_status(dump_dynamic) == TRUE) {
+	if (get_dump_status(sim, dump_dynamic) == TRUE) {
 		inter_free(&(store->charge_change));
 		inter_free(&(store->jout));
 		inter_free(&(store->jn_avg));

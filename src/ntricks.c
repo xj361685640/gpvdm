@@ -48,7 +48,8 @@ void newton_pop_state(struct device *in)
 	in->newton_clever_exit = math_save_state.newton_clever_exit;
 }
 
-void ramp_externalv(struct device *in, gdouble from, gdouble to)
+void ramp_externalv(struct simulation *sim, struct device *in, gdouble from,
+		    gdouble to)
 {
 	gdouble V = from;
 	gdouble dV = 0.1;
@@ -62,11 +63,11 @@ void ramp_externalv(struct device *in, gdouble from, gdouble to)
 
 	do {
 		V += dV;
-		if (get_dump_status(dump_print_text) == TRUE)
+		if (get_dump_status(sim, dump_print_text) == TRUE)
 			printf("ramp: %Lf %Lf %d\n", V, to, in->kl_in_newton);
 		sim_externalv(in, V);
 
-		plot_now(in, "jv.plot");
+		plot_now(sim, "jv.plot");
 		gui_send_data("pulse");
 
 		if (fabs(in->Vapplied - to) < fabs(dV)) {
@@ -83,7 +84,8 @@ void ramp_externalv(struct device *in, gdouble from, gdouble to)
 	return;
 }
 
-void ramp(struct device *in, gdouble from, gdouble to, gdouble steps)
+void ramp(struct simulation *sim, struct device *in, gdouble from, gdouble to,
+	  gdouble steps)
 {
 	in->kl_in_newton = FALSE;
 	solver_realloc(in);
@@ -107,11 +109,11 @@ void ramp(struct device *in, gdouble from, gdouble to, gdouble steps)
 	do {
 		in->Vapplied += dV;
 //if (in->Vapplied<-4.0) dV= -0.3;
-		if (get_dump_status(dump_print_text) == TRUE)
+		if (get_dump_status(sim, dump_print_text) == TRUE)
 			printf("ramp: %Lf %Lf %d\n", in->Vapplied, to,
 			       in->kl_in_newton);
 		solve_all(in);
-		plot_now(in, "jv_vars.plot");
+		plot_now(sim, "jv_vars.plot");
 //sim_externalv(in,in->cevoltage);
 
 		if (fabs(in->Vapplied - to) < fabs(dV)) {

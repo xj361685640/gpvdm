@@ -186,7 +186,7 @@ long double get_Nv_free(int mat)
 	return dosp[mat].config.Nv;
 }
 
-void load_dos_file(struct dos *mydos, char *file)
+void load_dos_file(struct simulation *sim, struct dos *mydos, char *file)
 {
 #ifndef dos_bin
 	long double srh_r1 = 0.0;
@@ -202,7 +202,7 @@ void load_dos_file(struct dos *mydos, char *file)
 	mydos->srh_E = NULL;
 	mydos->srh_den = NULL;
 
-	if (get_dump_status(dump_print_text) == TRUE)
+	if (get_dump_status(sim, dump_print_text) == TRUE)
 		printf_log("%s %s\n", _("Loading file"), file);
 
 #ifdef dos_bin
@@ -235,7 +235,7 @@ void load_dos_file(struct dos *mydos, char *file)
 	FILE *tl = fopen(file, "rb");
 	fseek(tl, -4, SEEK_END);
 	if (fread((char *)&len, 4, 1, tl) == 0) {
-		ewe("Error in reading file\n");
+		ewe(sim, "Error in reading file\n");
 	}
 	//fscanf(tl,"%x",&a);//=ftell(in);
 	fclose(tl);
@@ -244,7 +244,7 @@ void load_dos_file(struct dos *mydos, char *file)
 
 	in = gzopen(file, "rb");
 	if (in == Z_NULL) {
-		ewe(_("DOS file not found\n"));
+		ewe(sim, _("DOS file not found\n"));
 	}
 
 	//fseek(in, 0, SEEK_END);
@@ -267,7 +267,7 @@ void load_dos_file(struct dos *mydos, char *file)
 #else
 	in = fopen(file, "r");
 	if (in == NULL) {
-		ewe(_("DoS n file not found\n"));
+		ewe(sim, _("DoS n file not found\n"));
 	}
 #endif
 
@@ -511,10 +511,11 @@ long double get_dos_B(int mat)
 	return dosn[mat].config.B;
 }
 
-void load_dos(struct device *dev, char *namen, char *namep, int mat)
+void load_dos(struct simulation *sim, struct device *dev, char *namen,
+	      char *namep, int mat)
 {
-	load_dos_file(&(dosn[mat]), namen);
-	load_dos_file(&(dosp[mat]), namep);
+	load_dos_file(sim, &(dosn[mat]), namen);
+	load_dos_file(sim, &(dosp[mat]), namep);
 	dev->srh_bands = dosn[mat].srh_bands;
 }
 

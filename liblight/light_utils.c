@@ -44,17 +44,17 @@ void light_set_sun(struct light *in, gdouble Psun)
 	in->Psun = Psun;
 }
 
-void light_solve_optical_problem(struct light *in)
+void light_solve_optical_problem(struct simulation *sim, struct light *in)
 {
 	int i;
 
-//if (get_dump_status(dump_iodump)==TRUE) printf("light_solve_optical_problem\n");
+//if (get_dump_status(sim,dump_iodump)==TRUE) printf("light_solve_optical_problem\n");
 
 	gdouble Psun = in->Psun * gpow(10.0, -in->ND);
 	light_set_sun_power(in, Psun, in->laser_eff);
 	if ((in->laser_eff == 0) && (in->Psun == 0)) {
 
-		if (get_dump_status(dump_optics) == TRUE)
+		if (get_dump_status(sim, dump_optics) == TRUE)
 			printf_log(_("It's dark I know what the answer is\n"));
 		for (i = 0; i < in->lpoints; i++) {
 			memset(in->En[i], 0.0, in->points * sizeof(gdouble));
@@ -73,7 +73,7 @@ void light_solve_optical_problem(struct light *in)
 	//light_dump(in);
 
 	for (i = 0; i < in->lpoints; i++) {
-		light_dump_1d(in, i, "");
+		light_dump_1d(sim, in, i, "");
 	}
 
 }

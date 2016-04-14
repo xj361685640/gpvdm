@@ -24,6 +24,9 @@
 
 #include "code_ctrl.h"
 #include "const.h"
+#include <stdio.h>
+#include <sim_struct.h>
+
 #include "version.h"
 #include "device.h"
 #include <util.h>
@@ -32,11 +35,11 @@
 
 //newtonsolver
 int solve_cur_thermal(struct device *in,int thermal);
-int solve_pos(struct device *in);
-void get_initial(struct device *in);
+int solve_pos(struct simulation *sim,struct device *in);
+void get_initial(struct simulation *sim,struct device *in);
 void update_arrays(struct device *in);
 void device_timestep(struct device *in);
-void find_n0(struct device *in);
+void find_n0(struct simulation *sim,struct device *in);
 
 //from time.c
 void time_mesh_save();
@@ -62,22 +65,21 @@ void init_mat_arrays(struct device *in);
 
 void load_config(struct device *in);
 void update(struct device *cell);
-int run_simulation(char *outputpath,char *inputpath);
+int run_simulation(struct simulation *sim,char *outputpath,char *inputpath);
 void solve_all(struct device *in);
 void solver_free();
 
-//DOS model
-void gen_dos_fd_gaus_fd();
 //Light
 void light_transfer_gen_rate_to_device(struct device *cell,struct light *in);
 void solve_light(struct device *cell,struct light *in,gdouble Psun_in,gdouble Plaser_in);
 void light_load_dlls(struct light *in,struct device *cell);
 void light_transfer_gen_rate_to_device(struct device *cell,struct light *in);
-void light_solve_and_update(struct device *cell,struct light *in,gdouble laser_eff_in);
+void light_solve_and_update(struct simulation *sim,struct device *cell,struct light *in,gdouble laser_eff_in);
 void light_init(struct light *in,struct device *cell);
 //debug
-void stop_start(struct device *in);
+void stop_start(struct simulation *sim,struct device *in);
 void run_electrical_dll(struct device *in,char *dll_name);
-
+void gen_dos_fd_gaus_fd(struct simulation *sim);
+void sim_init(struct simulation *sim);
 #endif
 

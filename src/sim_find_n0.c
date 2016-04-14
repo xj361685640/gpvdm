@@ -27,7 +27,7 @@
 #include "complex_solver.h"
 #include "log.h"
 
-void find_n0(struct device *in)
+void find_n0(struct simulation *sim, struct device *in)
 {
 	int i;
 	printf_log("Finding n0\n");
@@ -36,9 +36,9 @@ void find_n0(struct device *in)
 	in->Vapplied = 0;
 	char temp[200];
 	light_set_sun(&(in->mylight), 0);
-	light_solve_and_update(in, &(in->mylight), 0.0);
+	light_solve_and_update(sim, in, &(in->mylight), 0.0);
 
-	if (get_dump_status(dump_equilibrium) == TRUE) {
+	if (get_dump_status(sim, dump_equilibrium) == TRUE) {
 		join_path(2, temp, in->outputpath, "equilibrium");
 		dump_1d_slice(in, temp);
 	}
@@ -81,6 +81,6 @@ void find_n0(struct device *in)
 
 	light_set_sun(&(in->mylight), oldsun);
 	in->Vapplied = oldv;
-	light_solve_and_update(in, &(in->mylight), 0.0);
+	light_solve_and_update(sim, in, &(in->mylight), 0.0);
 	printf_log("Exit finding n0\n");
 }

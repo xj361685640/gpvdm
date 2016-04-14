@@ -20,7 +20,9 @@
 
 
 #ifndef hard_limit_h
-void hard_limit(char *token,gdouble *value);
-void hard_limit_init();
-void hard_limit_free();
+#include <sim_struct.h>
+
+void hard_limit(struct simulation *sim,char *token,gdouble *value);
+void hard_limit_init(struct simulation *sim);
+void hard_limit_free(struct simulation *sim);
 #endif

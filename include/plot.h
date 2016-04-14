@@ -21,10 +21,10 @@
 
 #ifndef plot_h
 #define plot_h
-void plot_now_excite(struct device *in);
-void plot_open(struct device *in);
-void plot_now(struct device *in,char *name);
-void plot_close(struct device *in);
-void plot_replot(struct device *in);
+void plot_now_excite(struct simulation *sim);
+void plot_open(struct simulation *sim);
+void plot_now(struct simulation *sim,char *name);
+void plot_close(struct simulation *sim);
+void plot_replot(struct simulation *sim);
 void set_plot_script_dir(char * in);
 #endif

@@ -39,7 +39,7 @@ void set_ewe_lock_file(char *lockname, char *data)
 	strcpy(lock_data, data);
 }
 
-int ewe(const char *format, ...)
+int ewe(struct simulation *sim, const char *format, ...)
 {
 	FILE *out;
 	char temp[1000];
@@ -50,7 +50,7 @@ int ewe(const char *format, ...)
 
 	sprintf(temp2, "error:%s", temp);
 
-	printf_log("%s\n", temp2);
+	printf_log(sim, "%s\n", temp2);
 
 	//gui_send_data(temp2);
 

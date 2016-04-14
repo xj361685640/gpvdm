@@ -115,7 +115,7 @@ long double get_p_pop_srh(long double top,long double T,int trap, int mat);
 long double get_dn_pop_srh(long double top,long double T,int trap, int mat);
 long double get_dp_pop_srh(long double top,long double T,int trap, int mat);
 
-void load_dos(struct device *dev,char *namen, char *namep,int mat);
+void load_dos(struct simulation *sim,struct device *dev,char *namen, char *namep,int mat);
 long double get_dn_trap_den(long double top,long double T,int type,int band, int mat);
 long double get_dp_trap_den(long double top,long double T,int type, int mat);
 int search(long double *x,int N,long double find);
@@ -151,8 +151,8 @@ long double get_dpdT_den(long double top,long double T,int mat);
 long double get_dndT_den(long double top,long double T,int mat);
 long double get_dos_filled_n(struct device *in);
 long double get_dos_filled_p(struct device *in);
-void gen_dos_fd_gaus_n();
-void gen_dos_fd_gaus_p();
+void gen_dos_fd_gaus_n(struct simulation *sim,int mat);
+void gen_dos_fd_gaus_p(struct simulation *sim,int mat);
 int hashget(long double *x,int N,long double find);
 void draw_gaus(struct device *in);
 

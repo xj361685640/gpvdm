@@ -27,9 +27,9 @@
 
 struct dll_interface
 {
-	int (*get_dump_status)(int);
-	void (*light_dump_1d)(struct light *, int , char * );
-	void (*light_solve_optical_problem)(struct light *);
+	int (*get_dump_status)(struct simulation*,int);
+	void (*light_dump_1d)(struct simulation*,struct light *, int , char * );
+	void (*light_solve_optical_problem)(struct simulation*,struct light *);
 	void (*light_free_memory)(struct light *);
 	void (*light_transfer_gen_rate_to_device)(struct device *,struct light *);
 	int (*complex_solver)(int col,int nz,int *Ti,int *Tj, double *Tx, double *Txz,double *b,double *bz);

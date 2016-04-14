@@ -23,6 +23,7 @@
 #include <complex.h>
 #include "advmath.h"
 #include "i.h"
+#include <sim_struct.h>
 
 struct light
 {
@@ -124,14 +125,14 @@ void light_set_sun_power(struct light *in,gdouble power, gdouble laser_eff);
 void light_free_memory(struct light *in);
 void light_get_mode(struct istruct *mode,int lam,struct light *in);
 void light_set_unity_power(struct light *in);
-void light_solve_optical_problem(struct light *in);
+void light_solve_optical_problem(struct simulation *sim,struct light *in);
 void light_solve_all(struct light *in);
 void light_set_dump(struct light *in,int dump);
 void light_free(struct light *in);
-void light_dump(struct light *in);
+void light_dump(struct simulation *sim,struct light *in);
 int light_solve_lam_slice(struct light *in,int lam);
 void light_set_dx(struct light *in,gdouble dx);
-void light_dump_1d(struct light *in, int i, char * ext);
+void light_dump_1d(struct simulation *sim,struct light *in, int i,char *ext);
 void light_get_mode(struct istruct *mode,int lam,struct light *in);
 int light_find_wavelength(struct light *in,gdouble lam);
 void light_set_unity_laser_power(struct light *in,int lam);

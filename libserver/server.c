@@ -101,13 +101,14 @@ void server_init(struct server *myserver)
 
 }
 
-int server_decode(char *command, char *output)
+int server_decode(struct simulation *sim, char *command, char *output)
 {
 	int odes = 0;
 	return odes;
 }
 
-void server_add_job(struct server *myserver, char *command, char *output)
+void server_add_job(struct simulation *sim, struct server *myserver,
+		    char *command, char *output)
 {
 	int odes = 0;
 
@@ -121,7 +122,7 @@ void server_add_job(struct server *myserver, char *command, char *output)
 	printf_log("Solved %d ODEs\n", odes);
 }
 
-void server_exe_jobs(struct server *myserver)
+void server_exe_jobs(struct simulation *sim, struct server *myserver)
 {
 	if (myserver->jobs == 0)
 		return;
@@ -131,7 +132,7 @@ void server_job_finished(struct server *myserver, char *job)
 {
 }
 
-int server_run_jobs(struct server *myserver)
+int server_run_jobs(struct simulation *sim, struct server *myserver)
 {
 	return 0;
 }

@@ -36,25 +36,25 @@
 #include <dll_interface.h>
 #include <cal_path.h>
 
-struct device cell;
-
-int run_simulation(char *outputpath, char *inputpath)
+int run_simulation(struct simulation *sim, char *outputpath, char *inputpath)
 {
+	struct device cell;
+
 	printf_log(_("Run_simulation\n"));
 
 	device_init(&cell);
 	cell.onlypos = FALSE;
 
-	log_init(&cell.log_level);
+	log_init(sim);
 	set_logging_level(log_level_screen);
 
 	cell.root_dll_interface = dll_get_interface();
 	cal_path(&cell);
 
-	dump_init(&cell);
+	dump_init(sim, &cell);
 
-	set_dump_status(dump_stop_plot, FALSE);
-	set_dump_status(dump_print_text, TRUE);
+	set_dump_status(sim, dump_stop_plot, FALSE);
+	set_dump_status(sim, dump_print_text, TRUE);
 
 	char temp[1000];
 
@@ -66,9 +66,9 @@ int run_simulation(char *outputpath, char *inputpath)
 	if (strcmp(inputpath, "") != 0)
 		strcpy(cell.inputpath, inputpath);
 
-	dump_load_config(&cell);
+	dump_load_config(sim, &cell);
 
-//printf("%d %s\n",get_dump_status(dump_iodump),runpath);
+//printf("%d %s\n",get_dump_status(sim,dump_iodump),runpath);
 //getchar();
 	int i;
 
@@ -92,21 +92,21 @@ int run_simulation(char *outputpath, char *inputpath)
 				cell.my_epitaxy.dos_file[i]);
 			sprintf(tempp, "%s_dosp.dat",
 				cell.my_epitaxy.dos_file[i]);
-			load_dos(&cell, tempn, tempp, i);
+			load_dos(sim, &cell, tempn, tempp, i);
 		}
 
 		printf("%ld\n", cell.srh_bands);
 		getchar();
 		device_alloc_traps(&cell);
 
-		if (get_dump_status(dump_write_converge) == TRUE) {
-			cell.converge =
+		if (get_dump_status(sim, dump_write_converge) == TRUE) {
+			sim->converge =
 			    fopena(cell.outputpath, "converge.dat", "w");
-			fclose(cell.converge);
+			fclose(sim->converge);
 
-			cell.tconverge =
+			sim->tconverge =
 			    fopena(cell.outputpath, "tconverge.dat", "w");
-			fclose(cell.tconverge);
+			fclose(sim->tconverge);
 		}
 	}
 
@@ -156,7 +156,7 @@ int run_simulation(char *outputpath, char *inputpath)
 		cell.C =
 		    cell.xlen * cell.zlen * epsilon0 * cell.epsilonr[0] /
 		    (cell.ylen + cell.other_layers);
-		if (get_dump_status(dump_print_text) == TRUE)
+		if (get_dump_status(sim, dump_print_text) == TRUE)
 			printf_log("C=%Le\n", cell.C);
 		cell.A = cell.xlen * cell.zlen;
 		cell.Vol = cell.xlen * cell.zlen * cell.ylen;
@@ -166,18 +166,18 @@ int run_simulation(char *outputpath, char *inputpath)
 		light_load_config(&cell.mylight);
 		light_load_dlls(&cell.mylight, &cell);
 
-		if (get_dump_status(dump_iodump) == FALSE)
-			set_dump_status(dump_optics, FALSE);
+		if (get_dump_status(sim, dump_iodump) == FALSE)
+			set_dump_status(sim, dump_optics, FALSE);
 
 		//update_arrays(&cell);
 
 		cell.Vapplied = 0.0;
-		get_initial(&cell);
+		get_initial(sim, &cell);
 
 		remesh_shrink(&cell);
 
 		if (cell.math_enable_pos_solver == TRUE)
-			solve_pos(&cell);
+			solve_pos(sim, &cell);
 
 		time_init(&cell);
 
@@ -186,12 +186,12 @@ int run_simulation(char *outputpath, char *inputpath)
 
 		solver_realloc(&cell);
 
-		plot_open(&cell);
+		plot_open(sim);
 
-		plot_now(&cell, "plot");
+		plot_now(sim, "plot");
 		//set_solver_dump_every_matrix(1);
 
-		find_n0(&cell);
+		find_n0(sim, &cell);
 		//set_solver_dump_every_matrix(0);
 		draw_gaus(&cell);
 
@@ -221,7 +221,7 @@ int run_simulation(char *outputpath, char *inputpath)
 	mesh_free(&cell);
 
 	if (strcmp(cell.simmode, "optics") != 0) {
-		plot_close(&cell);
+		plot_close(sim);
 
 		for (i = 0; i < cell.my_epitaxy.electrical_layers; i++) {
 			dos_free(i);
@@ -235,14 +235,4 @@ int run_simulation(char *outputpath, char *inputpath)
 	light_free(&cell.mylight);
 
 	return cell.odes;
-}
-
-char *sim_output_path()
-{
-	return cell.outputpath;
-}
-
-char *sim_input_path()
-{
-	return cell.inputpath;
 }

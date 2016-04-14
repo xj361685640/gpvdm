@@ -25,7 +25,7 @@ pluginsdir = $(pkglibdir)/plugins
 plugins_DATA=plugins/*.@DLIB_EXT@
 
 pythondir = $(pkgdatadir)/gui
-python_PYTHON=gui/*.plocal targets ally
+python_PYTHON=gui/*.py
 
 dist_doc_DATA = README
 

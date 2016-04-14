@@ -151,11 +151,6 @@ void device_init(struct device *in)
 	in->lr_pcontact = -1;
 	in->invert_applied_bias = -1;
 
-//plotting
-	in->gnuplot = NULL;
-	in->gnuplot_time = NULL;
-	in->converge = NULL;
-	in->tconverge = NULL;
 //math
 	in->max_electrical_itt = -1;
 	in->electrical_clamp = -1.0;
@@ -330,10 +325,8 @@ void device_init(struct device *in)
 	in->newton_last_ittr = -1;
 	in->phi_mul = -1.0;
 
-	in->log_level = -1;
 	in->root_dll_interface = NULL;
 
 	dll_interface_fixup(in);
-	dump_ctrl_init(in);
 
 }

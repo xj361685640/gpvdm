@@ -24,7 +24,7 @@
 #include "util.h"
 #include "const.h"
 
-void epitaxy_load(struct epitaxy *in, char *file)
+void epitaxy_load(struct simulation *sim, struct epitaxy *in, char *file)
 {
 	int i;
 	char dos_file[20];
@@ -32,44 +32,44 @@ void epitaxy_load(struct epitaxy *in, char *file)
 	struct inp_file inp;
 	in->electrical_layers = 0;
 
-	inp_init(&inp);
-	inp_load(&inp, file);
-	inp_check(&inp, 1.2);
-	inp_reset_read(&inp);
-	inp_get_string(&inp);
-	sscanf(inp_get_string(&inp), "%d", &(in->layers));
+	inp_init(sim, &inp);
+	inp_load(sim, &inp, file);
+	inp_check(sim, &inp, 1.2);
+	inp_reset_read(sim, &inp);
+	inp_get_string(sim, &inp);
+	sscanf(inp_get_string(sim, &inp), "%d", &(in->layers));
 
 	if (in->layers > 20) {
-		ewe("Too many material layers\n");
+		ewe(sim, "Too many material layers\n");
 	}
 
 	if (in->layers < 1) {
-		ewe("No material layers\n");
+		ewe(sim, "No material layers\n");
 	}
 
 	for (i = 0; i < in->layers; i++) {
-		inp_get_string(&inp);	//layer name
-		strcpy(in->name[i], inp_get_string(&inp));
-		sscanf(inp_get_string(&inp), "%Le", &(in->width[i]));
+		inp_get_string(sim, &inp);	//layer name
+		strcpy(in->name[i], inp_get_string(sim, &inp));
+		sscanf(inp_get_string(sim, &inp), "%Le", &(in->width[i]));
 		in->width[i] = fabs(in->width[i]);
-		strcpy(in->mat_file[i], inp_get_string(&inp));
-		strcpy(dos_file, inp_get_string(&inp));
-		strcpy(pl_file, inp_get_string(&inp));
+		strcpy(in->mat_file[i], inp_get_string(sim, &inp));
+		strcpy(dos_file, inp_get_string(sim, &inp));
+		strcpy(pl_file, inp_get_string(sim, &inp));
 
 		char temp[20];
 		if (strcmp(dos_file, "none") != 0) {
 			strcpy(temp, dos_file);
 			strcat(temp, ".inp");
 			in->electrical_layer[i] = TRUE;
-			if (inp_isfile(temp) != 0) {
-				ewe("dos file %s does not exist", temp);
+			if (inp_isfile(sim, temp) != 0) {
+				ewe(sim, "dos file %s does not exist", temp);
 			}
 			strcpy(in->dos_file[in->electrical_layers], dos_file);
 
 			strcpy(temp, pl_file);
 			strcat(temp, ".inp");
-			if (inp_isfile(temp) != 0) {
-				ewe("pl file %s does not exist", temp);
+			if (inp_isfile(sim, temp) != 0) {
+				ewe(sim, "pl file %s does not exist", temp);
 			}
 			strcpy(in->pl_file[in->electrical_layers], pl_file);
 
@@ -80,12 +80,12 @@ void epitaxy_load(struct epitaxy *in, char *file)
 
 	}
 
-	char *ver = inp_get_string(&inp);
+	char *ver = inp_get_string(sim, &inp);
 	if (strcmp(ver, "#ver") != 0) {
-		ewe("No #ver tag found in file\n");
+		ewe(sim, "No #ver tag found in file\n");
 	}
 
-	inp_free(&inp);
+	inp_free(sim, &inp);
 }
 
 gdouble epitaxy_get_electrical_length(struct epitaxy *in)
@@ -100,7 +100,7 @@ gdouble epitaxy_get_electrical_length(struct epitaxy *in)
 	}
 //if (tot>300e-9)
 //{
-//      ewe("Can't simulate structures bigger than 300 nm\n");
+//      ewe(sim,"Can't simulate structures bigger than 300 nm\n");
 //}
 	return tot;
 }

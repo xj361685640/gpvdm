@@ -36,8 +36,8 @@ gdouble sim_externalv(struct device *in,gdouble wantedv);
 gdouble sim_i(struct device *in,gdouble wantedi);
 void save_state(struct device *in,gdouble to);
 int load_state(struct device *in,gdouble voltage);
-void ramp(struct device *in,gdouble from,gdouble to,gdouble steps);
-void ramp_externalv(struct device *in,gdouble from,gdouble to);
+void ramp(struct simulation *sim,struct device *in,gdouble from,gdouble to,gdouble steps);
+void ramp_externalv(struct simulation *sim,struct device *in,gdouble from,gdouble to);
 void set_ntricks_fast(int val);
 gdouble sim_voc(struct device *in);
 

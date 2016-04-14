@@ -21,6 +21,7 @@
 
 #ifndef patch_h
 #define patch_h
-void patch(char *dest,char * patch_file);
+#include <sim.h>
+void patch(struct simulation *sim,char *dest,char * patch_file);
 
 #endif

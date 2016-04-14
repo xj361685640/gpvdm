@@ -29,9 +29,9 @@
 
 gdouble min_pos_error = 1e-4;
 
-void pos_dump(struct device *in)
+void pos_dump(struct simulation *sim, struct device *in)
 {
-	if (get_dump_status(dump_first_guess) == TRUE) {
+	if (get_dump_status(sim, dump_first_guess) == TRUE) {
 		char out_dir[1000];
 		join_path(2, out_dir, in->outputpath, "equilibrium");
 		struct buffer buf;
@@ -142,9 +142,9 @@ double get_p_error(struct device *in, long double *b)
 	return tot;
 }
 
-int solve_pos(struct device *in)
+int solve_pos(struct simulation *sim, struct device *in)
 {
-	if (get_dump_status(dump_iodump) == TRUE)
+	if (get_dump_status(sim, dump_iodump) == TRUE)
 		printf_log("Solve pos\n");
 	int i;
 
@@ -469,7 +469,7 @@ int solve_pos(struct device *in)
 		}
 		//#ifdef print_newtonerror
 
-		if (get_dump_status(dump_print_pos_error) == TRUE)
+		if (get_dump_status(sim, dump_print_pos_error) == TRUE)
 			printf_log("%d Pos error = %e %d\n", ittr, error, adv);
 		//#endif
 
@@ -503,7 +503,7 @@ int solve_pos(struct device *in)
 	} while (quit == FALSE);
 	//getchar();
 
-	pos_dump(in);
+	pos_dump(sim, in);
 
 	update_arrays(in);
 

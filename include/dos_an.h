@@ -20,6 +20,9 @@
 
 #ifndef dos_an_h
 #define dos_an_h
+
+#include <sim_struct.h>
+
 struct dos_an_data{
 int items;
 char file[100];
@@ -30,6 +33,6 @@ double b[100];
 double c[100];
 };
 
-void dos_an_load(struct dos_an_data *in,char *name);
+void dos_an_load(struct simulation *sim,struct dos_an_data *in,char *name);
 double dos_an_get_value(struct dos_an_data *in,double E);
 #endif

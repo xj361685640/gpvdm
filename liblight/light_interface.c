@@ -91,8 +91,8 @@ void light_load_dlls(struct light *in, struct device *cell)
 	(*in->fn_init) ();
 }
 
-void light_solve_and_update(struct device *cell, struct light *in,
-			    gdouble laser_eff_in)
+void light_solve_and_update(struct simulation *sim, struct device *cell,
+			    struct light *in, gdouble laser_eff_in)
 {
 	int i = 0;
 
@@ -106,13 +106,13 @@ void light_solve_and_update(struct device *cell, struct light *in,
 
 	if ((last_laser_eff != in->laser_eff) || (last_Psun != in->Psun)
 	    || (last_wavelength_laser != in->laser_wavelength)) {
-		light_solve_optical_problem(in);
+		light_solve_optical_problem(sim, in);
 		last_laser_eff = in->laser_eff;
 		last_Psun = in->Psun;
 		last_wavelength_laser = in->laser_wavelength;
 	}
 
-	light_dump_1d(in, in->laser_pos, "");
+	light_dump_1d(sim, in, in->laser_pos, "");
 
 	light_transfer_gen_rate_to_device(cell, in);
 

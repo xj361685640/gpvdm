@@ -155,11 +155,6 @@ struct device
 	int lr_pcontact;
 	int invert_applied_bias;
 
-//plotting
-	FILE *gnuplot;
-	FILE *gnuplot_time;
-	FILE *converge;
-	FILE *tconverge;
 //math
 	int max_electrical_itt;
 	gdouble electrical_clamp;
@@ -345,9 +340,7 @@ struct device
 	long double layer_start[100];
 	long double layer_stop[100];
 	long double layer_width[100];
-	int log_level;
 	void *root_dll_interface;
-	int dump_array[100];
 
 };
 

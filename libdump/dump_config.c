@@ -23,98 +23,100 @@
 #include "inp.h"
 #include "log.h"
 
-void dump_load_config(struct device *in)
+void dump_load_config(struct simulation *sim, struct device *in)
 {
 	int dump;
 	struct inp_file inp;
-	inp_init(&inp);
-	inp_load_from_path(&inp, in->inputpath, "dump.inp");
+	inp_init(sim, &inp);
+	inp_load_from_path(sim, &inp, in->inputpath, "dump.inp");
 
-	inp_check(&inp, 1.37);
+	inp_check(sim, &inp, 1.37);
 
-	dump = inp_search_english(&inp, "#plot");
-	set_dump_status(dump_plot, dump);
+	dump = inp_search_english(sim, &inp, "#plot");
+	set_dump_status(sim, dump_plot, dump);
 
-	dump = inp_search_english(&inp, "#newton_dump");
-	set_dump_status(dump_newton, dump);
+	dump = inp_search_english(sim, &inp, "#newton_dump");
+	set_dump_status(sim, dump_newton, dump);
 
-	dump = inp_search_english(&inp, "#dump_dynamic");
-	set_dump_status(dump_dynamic, dump);
+	dump = inp_search_english(sim, &inp, "#dump_dynamic");
+	set_dump_status(sim, dump_dynamic, dump);
 
-	in->stop_start = inp_search_english(&inp, "#startstop");
+	in->stop_start = inp_search_english(sim, &inp, "#startstop");
 
-	in->dumpitdos = inp_search_english(&inp, "#dumpitdos");
+	in->dumpitdos = inp_search_english(sim, &inp, "#dumpitdos");
 
-	inp_search_string(&inp, in->plot_file, "#plotfile");
+	inp_search_string(sim, &inp, in->plot_file, "#plotfile");
 
-	inp_search_gdouble(&inp, &(in->start_stop_time), "#start_stop_time");
+	inp_search_gdouble(sim, &inp, &(in->start_stop_time),
+			   "#start_stop_time");
 
-	inp_search_int(&inp, &(dump), "#dump_iodump");
-	set_dump_status(dump_iodump, dump);
+	inp_search_int(sim, &inp, &(dump), "#dump_iodump");
+	set_dump_status(sim, dump_iodump, dump);
 
-	in->dump_movie = inp_search_english(&inp, "#dump_movie");
+	in->dump_movie = inp_search_english(sim, &inp, "#dump_movie");
 
-	dump = inp_search_english(&inp, "#dump_optics");
-	set_dump_status(dump_optics, dump);
+	dump = inp_search_english(sim, &inp, "#dump_optics");
+	set_dump_status(sim, dump_optics, dump);
 
-	dump = inp_search_english(&inp, "#dump_optics_verbose");
-	set_dump_status(dump_optics_verbose, dump);
+	dump = inp_search_english(sim, &inp, "#dump_optics_verbose");
+	set_dump_status(sim, dump_optics_verbose, dump);
 
-	dump = inp_search_english(&inp, "#dump_norm_time_to_one");
-	set_dump_status(dump_norm_time_to_one, dump);
+	dump = inp_search_english(sim, &inp, "#dump_norm_time_to_one");
+	set_dump_status(sim, dump_norm_time_to_one, dump);
 
-	dump = inp_search_english(&inp, "#dump_norm_y_axis");
-	set_dump_status(dump_norm_y_axis, dump);
+	dump = inp_search_english(sim, &inp, "#dump_norm_y_axis");
+	set_dump_status(sim, dump_norm_y_axis, dump);
 
-	dump = inp_search_english(&inp, "#dump_1d_slices");
-	set_dump_status(dump_1d_slices, dump);
+	dump = inp_search_english(sim, &inp, "#dump_1d_slices");
+	set_dump_status(sim, dump_1d_slices, dump);
 
-	dump = inp_search_english(&inp, "#dump_energy_slice_switch");
-	set_dump_status(dump_energy_slice_switch, dump);
+	dump = inp_search_english(sim, &inp, "#dump_energy_slice_switch");
+	set_dump_status(sim, dump_energy_slice_switch, dump);
 
-	inp_search_int(&inp, &(in->dump_slicepos), "#dump_energy_slice_pos");
+	inp_search_int(sim, &inp, &(in->dump_slicepos),
+		       "#dump_energy_slice_pos");
 	if (in->dump_slicepos >= in->ymeshpoints)
 		in->dump_slicepos = 0;
 
-	dump = inp_search_english(&inp, "#dump_print_newtonerror");
-	set_dump_status(dump_print_newtonerror, dump);
+	dump = inp_search_english(sim, &inp, "#dump_print_newtonerror");
+	set_dump_status(sim, dump_print_newtonerror, dump);
 
-	dump = inp_search_english(&inp, "#dump_write_converge");
-	set_dump_status(dump_write_converge, dump);
+	dump = inp_search_english(sim, &inp, "#dump_write_converge");
+	set_dump_status(sim, dump_write_converge, dump);
 
-	dump = inp_search_english(&inp, "#dump_print_converge");
-	set_dump_status(dump_print_converge, dump);
+	dump = inp_search_english(sim, &inp, "#dump_print_converge");
+	set_dump_status(sim, dump_print_converge, dump);
 
-	dump = inp_search_english(&inp, "#dump_print_pos_error");
-	set_dump_status(dump_print_pos_error, dump);
+	dump = inp_search_english(sim, &inp, "#dump_print_pos_error");
+	set_dump_status(sim, dump_print_pos_error, dump);
 
-	dump = inp_search_english(&inp, "#dump_pl");
-	set_dump_status(dump_pl, dump);
+	dump = inp_search_english(sim, &inp, "#dump_pl");
+	set_dump_status(sim, dump_pl, dump);
 
-	dump = inp_search_english(&inp, "#dump_zip_files");
-	set_dump_status(dump_zip_files, dump);
+	dump = inp_search_english(sim, &inp, "#dump_zip_files");
+	set_dump_status(sim, dump_zip_files, dump);
 
-	dump = inp_search_english(&inp, "#dump_print_hardware_info");
-	set_dump_status(dump_print_hardware_info, dump);
+	dump = inp_search_english(sim, &inp, "#dump_print_hardware_info");
+	set_dump_status(sim, dump_print_hardware_info, dump);
 
-	dump = inp_search_english(&inp, "#dump_write_out_band_structure");
-	set_dump_status(dump_write_out_band_structure, dump);
+	dump = inp_search_english(sim, &inp, "#dump_write_out_band_structure");
+	set_dump_status(sim, dump_write_out_band_structure, dump);
 
-	dump = inp_search_english(&inp, "#dump_equilibrium");
-	set_dump_status(dump_equilibrium, dump);
+	dump = inp_search_english(sim, &inp, "#dump_equilibrium");
+	set_dump_status(sim, dump_equilibrium, dump);
 
-	dump = inp_search_english(&inp, "#dump_first_guess");
-	set_dump_status(dump_first_guess, dump);
+	dump = inp_search_english(sim, &inp, "#dump_first_guess");
+	set_dump_status(sim, dump_first_guess, dump);
 
-	in->log_level = inp_search_english(&inp, "#dump_log_level");
+	sim->log_level = inp_search_english(sim, &inp, "#dump_log_level");
 
 	log_clear();
 
-	inp_free(&inp);
+	inp_free(sim, &inp);
 
-	if (get_dump_status(dump_iodump) == FALSE) {
+	if (get_dump_status(sim, dump_iodump) == FALSE) {
 		in->dumpitdos = FALSE;
-		set_dump_status(dump_optics, FALSE);
+		set_dump_status(sim, dump_optics, FALSE);
 	}
 
 }

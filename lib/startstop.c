@@ -24,7 +24,7 @@
 
 static int unused __attribute__ ((unused));
 
-void stop_start(struct device *in)
+void stop_start(struct simulation *sim, struct device *in)
 {
 	struct timespec delay;
 
@@ -40,7 +40,7 @@ void stop_start(struct device *in)
 		//printf("here1 %lf\n",);
 		//delay.tv_nsec=(long)(*1e9);
 		if (nanosleep(&delay, NULL) < 0) {
-			ewe("Nano sleep failed \n");
+			ewe(sim, "Nano sleep failed \n");
 		}
 	}
 

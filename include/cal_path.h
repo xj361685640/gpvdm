@@ -25,7 +25,7 @@
 #include <device.h>
 
 void cal_path_init(struct device *in);
-void cal_path(struct device *in);
+void cal_path(struct simulation *sim,struct device *in);
 char *get_plugins_path();
 char *get_lang_path();
 char *get_input_path();

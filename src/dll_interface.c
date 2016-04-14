@@ -48,7 +48,6 @@ void dll_interface_fixup(struct device *in)
 	pointers.get_p_w = &get_p_w;
 	pointers.dump_matrix = &dump_matrix;
 	pointers.ewe = &ewe;
-	pointers.get_dump_status = &get_dump_status;
 	pointers.solver = &solver;
 	pointers.dump_1d_slice = &dump_1d_slice;
 	pointers.update_arrays = &update_arrays;

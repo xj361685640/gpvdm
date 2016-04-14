@@ -38,7 +38,7 @@ void cal_path_init(struct device *in)
 	output_path = in->outputpath;
 }
 
-void cal_path(struct device *in)
+void cal_path(struct simulation *sim, struct device *in)
 {
 	char share_path[1000];
 	char cwd[1000];
@@ -48,7 +48,7 @@ void cal_path(struct device *in)
 	cal_path_init(in);
 
 	if (getcwd(cwd, 1000) == NULL) {
-		ewe("IO error\n");
+		ewe(sim, "IO error\n");
 	}
 
 	if (isdir("/usr/lib64/gpvdm/") == 0) {
@@ -65,7 +65,7 @@ void cal_path(struct device *in)
 		join_path(2, plugins_path, share_path, "plugins");
 
 		if (isdir(plugins_path) != 0) {
-			ewe("I can't find the plugins\n");
+			ewe(sim, "I can't find the plugins\n");
 		}
 	}
 
@@ -75,7 +75,7 @@ void cal_path(struct device *in)
 		join_path(2, lang_path, share_path, "lang");
 
 		if (isdir(lang_path) != 0) {
-			ewe("I can't find the language database.\n");
+			ewe(sim, "I can't find the language database.\n");
 		}
 
 	}

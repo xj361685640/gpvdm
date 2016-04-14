@@ -21,10 +21,9 @@
 
 #ifndef dump_ctrl_h
 #define dump_ctrl_h
-#include <device.h>
+#include <sim_struct.h>
 
-void dump_ctrl_init(struct device *in);
-int get_dump_status(int a);
-void set_dump_status(int name, int a);
+int get_dump_status(struct simulation *sim,int a);
+void set_dump_status(struct simulation *sim,int name, int a);
 
 #endif

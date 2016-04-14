@@ -4,9 +4,9 @@
 // 
 //  Copyright (C) 2012 Roderick C. I. MacKenzie
 //
-//      roderick.mackenzie@nottingham.ac.uk
-//      www.roderickmackenzie.eu
-//      Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
+//	roderick.mackenzie@nottingham.ac.uk
+//	www.roderickmackenzie.eu
+//	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
 // This program is free software; you can redistribute it and/or modify it
@@ -18,21 +18,23 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <unistd.h>
-#include <exp.h>
-#include "sim.h"
-#include "dump.h"
 
-static int unused __attribute__ ((unused));
-static int dump_number;
-void dump_init(struct simulation *sim, struct device *in)
-{
-	dump_number = 0;
-	set_dump_status(sim, dump_lock, FALSE);
-}
+#ifndef sim_struct_h
+#define sim_struct_h
 
-void dump_write_to_disk(struct simulation *sim, struct device *in)
+#include <stdio.h>
+
+struct simulation
 {
-}
+	//plotting
+	FILE *gnuplot;
+	FILE *gnuplot_time;
+	FILE *converge;
+	FILE *tconverge;
+	//dump
+	int dump_array[100];
+	int log_level;
+};
+
+#endif
+

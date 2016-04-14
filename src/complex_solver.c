@@ -23,7 +23,6 @@
 #include <stdlib.h>
 #include <dump.h>
 #include "umfpack.h"
-#include "sim.h"
 #include "complex_solver.h"
 #include <math.h>
 #include "buffer.h"

@@ -22,18 +22,6 @@
 #include <stdarg.h>
 #include "log.h"
 
-static int *log_level;
-
-void log_init(int *level)
-{
-	log_level = level;
-}
-
-void set_logging_level(int value)
-{
-	(*log_level) = value;
-}
-
 void log_clear()
 {
 	FILE *out;
@@ -42,20 +30,20 @@ void log_clear()
 	fclose(out);
 }
 
-void printf_log(const char *format, ...)
+void printf_log(struct simulation *sim, const char *format, ...)
 {
 	FILE *out;
 	char data[1000];
 	va_list args;
 	va_start(args, format);
 	vsprintf(data, format, args);
-	if ((*log_level == log_level_screen)
-	    || (*log_level == log_level_screen_and_disk)) {
+	if ((sim->log_level == log_level_screen)
+	    || (sim->log_level == log_level_screen_and_disk)) {
 		printf("%s", data);
 	}
 
-	if ((*log_level == log_level_disk)
-	    || (*log_level == log_level_screen_and_disk)) {
+	if ((sim->log_level == log_level_disk)
+	    || (sim->log_level == log_level_screen_and_disk)) {
 		out = fopen("log.dat", "a");
 		fprintf(out, "%s", data);
 		fclose(out);

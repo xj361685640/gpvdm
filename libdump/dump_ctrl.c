@@ -20,21 +20,15 @@
 
 #include <dump_ctrl.h>
 #include <const.h>
+#include <sim.h>
 
-static int *dump_array;
-
-void dump_ctrl_init(struct device *in)
+int get_dump_status(struct simulation *sim, int a)
 {
-	dump_array = in->dump_array;
+	return sim->dump_array[a];
 }
 
-int get_dump_status(int a)
+void set_dump_status(struct simulation *sim, int name, int a)
 {
-	return dump_array[a];
-}
-
-void set_dump_status(int name, int a)
-{
-	if ((dump_array[dump_lock] == FALSE) || (name == dump_lock))
-		dump_array[name] = a;
+	if ((sim->dump_array[dump_lock] == FALSE) || (name == dump_lock))
+		sim->dump_array[name] = a;
 }
