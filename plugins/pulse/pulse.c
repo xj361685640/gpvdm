@@ -32,6 +32,7 @@
 #include <log.h>
 #include <plot.h>
 #include <dll_interface.h>
+#include <cal_path.h>
 
 static int unused __attribute__ ((unused));
 
@@ -60,9 +61,10 @@ void sim_pulse(struct simulation *sim, struct device *in)
 	char config_file_name[200];
 
 	if (find_config_file
-	    (sim, config_file_name, in->inputpath, in->simmode, "pulse") != 0) {
+	    (sim, config_file_name, get_input_path(sim), in->simmode,
+	     "pulse") != 0) {
 		ewe(sim, "%s %s %s\n", _("no pulse config file found"),
-		    in->inputpath, in->simmode);
+		    get_input_path(sim), in->simmode);
 	}
 
 	printf("%s\n", config_file_name);
@@ -161,7 +163,7 @@ void sim_pulse(struct simulation *sim, struct device *in)
 
 	struct istruct out_flip;
 
-	dump_dynamic_save(sim, in->outputpath, &store);
+	dump_dynamic_save(sim, get_output_path(sim), &store);
 	dump_dynamic_free(sim, &store);
 
 	buffer_malloc(&buf);
@@ -177,7 +179,7 @@ void sim_pulse(struct simulation *sim, struct device *in)
 	buf.logscale_y = 0;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf, out_i.x, out_i.data, out_i.len);
-	buffer_dump_path(in->outputpath, "pulse_i.dat", &buf);
+	buffer_dump_path(get_output_path(sim), "pulse_i.dat", &buf);
 	buffer_free(&buf);
 
 	inter_copy(&out_flip, &out_i, TRUE);
@@ -196,7 +198,7 @@ void sim_pulse(struct simulation *sim, struct device *in)
 	buf.logscale_y = 0;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf, out_flip.x, out_flip.data, out_flip.len);
-	buffer_dump_path(in->outputpath, "pulse_i_pos.dat", &buf);
+	buffer_dump_path(get_output_path(sim), "pulse_i_pos.dat", &buf);
 	buffer_free(&buf);
 
 	inter_free(&out_flip);
@@ -214,7 +216,7 @@ void sim_pulse(struct simulation *sim, struct device *in)
 	buf.logscale_y = 0;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf, out_v.x, out_v.data, out_v.len);
-	buffer_dump_path(in->outputpath, "pulse_v.dat", &buf);
+	buffer_dump_path(get_output_path(sim), "pulse_v.dat", &buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -230,10 +232,10 @@ void sim_pulse(struct simulation *sim, struct device *in)
 	buf.logscale_y = 0;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf, out_G.x, out_G.data, out_G.len);
-	buffer_dump_path(in->outputpath, "pulse_G.dat", &buf);
+	buffer_dump_path(get_output_path(sim), "pulse_G.dat", &buf);
 	buffer_free(&buf);
 
-//sprintf(outpath,"%s%s",in->outputpath,"pulse_lost_charge.dat");
+//sprintf(outpath,"%s%s",get_output_path(sim),"pulse_lost_charge.dat");
 //inter_save(&lost_charge,outpath);
 
 	in->go_time = FALSE;
@@ -252,7 +254,7 @@ void pulse_load_config(struct simulation *sim, struct pulse *in,
 	char laser_name[200];
 	struct inp_file inp;
 	inp_init(sim, &inp);
-	inp_load_from_path(sim, &inp, dev->inputpath, config_file_name);
+	inp_load_from_path(sim, &inp, get_input_path(sim), config_file_name);
 	inp_check(sim, &inp, 1.28);
 
 	inp_search_gdouble(sim, &inp, &(in->pulse_shift), "#pulse_shift");

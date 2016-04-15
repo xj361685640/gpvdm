@@ -23,6 +23,7 @@
 #include <exp.h>
 #include "sim.h"
 #include "inp.h"
+#include <cal_path.h>
 
 static int unused __attribute__ ((unused));
 

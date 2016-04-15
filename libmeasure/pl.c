@@ -27,6 +27,7 @@
 #include "i.h"
 #include "buffer.h"
 #include "pl.h"
+#include <cal_path.h>
 
 static double light_energy = 0.0;
 
@@ -42,7 +43,7 @@ double calculate_photon_energy(struct istruct *in)
 	return tot;
 }
 
-void exp_cal_emission(int number, struct device *in)
+void exp_cal_emission(struct simulation *sim, int number, struct device *in)
 {
 
 	double Re_h = 0.0;
@@ -74,7 +75,7 @@ void exp_cal_emission(int number, struct device *in)
 //char zip_file_name[400];
 
 	buffer_init(&buf);
-//sprintf(zip_file_name,"%s/snapshots.zip",in->outputpath);
+//sprintf(zip_file_name,"%s/snapshots.zip",get_output_path(sim));
 //buffer_zip_set_name(&buf,zip_file_name);
 
 	struct istruct fe_to_fh;
@@ -149,7 +150,7 @@ void exp_cal_emission(int number, struct device *in)
 	strextract_name(sim_name, in->simmode);
 	sprintf(snapshot_dir, "snapshots_%s", sim_name);
 
-	join_path(3, out_dir, in->outputpath, snapshot_dir, temp);
+	join_path(3, out_dir, get_output_path(sim), snapshot_dir, temp);
 
 //inter_dump(&fe_to_fh);
 //inter_sort(&fe_to_fh);

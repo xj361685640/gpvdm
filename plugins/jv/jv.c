@@ -33,6 +33,7 @@
 #include <remesh.h>
 #include <dll_interface.h>
 #include <plot.h>
+#include <cal_path.h>
 
 static int unused __attribute__ ((unused));
 
@@ -270,7 +271,7 @@ sim_externalv(in,in->Vapplied);
 	}
 
 	FILE *out;
-	out = fopena(in->inputpath, "sim_info.dat", "w");
+	out = fopena(get_input_path(sim), "sim_info.dat", "w");
 	fprintf(out, "#ff\n%Le\n", in->FF);
 	fprintf(out, "#pce\n%Le\n",
 		gfabs(in->Pmax / (light_get_sun(&(in->mylight)) / 1000)) *
@@ -295,7 +296,7 @@ sim_externalv(in,in->Vapplied);
 
 	if (get_dump_status(sim, dump_iodump) == TRUE) {
 
-		inter_save_a(&klist, in->outputpath, "k.dat");
+		inter_save_a(&klist, get_output_path(sim), "k.dat");
 		inter_free(&klist);
 	}
 
@@ -312,10 +313,10 @@ sim_externalv(in,in->Vapplied);
 	buf.logscale_y = 0;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf, charge.x, charge.data, charge.len);
-	buffer_dump_path(in->outputpath, "charge.dat", &buf);
+	buffer_dump_path(get_output_path(sim), "charge.dat", &buf);
 	buffer_free(&buf);
 
-	inter_save_a(&charge_tot, in->outputpath, "charge_tot.dat");
+	inter_save_a(&charge_tot, get_output_path(sim), "charge_tot.dat");
 	inter_free(&charge_tot);
 
 	buffer_malloc(&buf);
@@ -331,7 +332,7 @@ sim_externalv(in,in->Vapplied);
 	buf.logscale_y = 0;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf, jvexternal.x, jvexternal.data, jvexternal.len);
-	buffer_dump_path(in->outputpath, "jv.dat", &buf);
+	buffer_dump_path(get_output_path(sim), "jv.dat", &buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -347,7 +348,7 @@ sim_externalv(in,in->Vapplied);
 	buf.logscale_y = 0;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf, jv.x, jv.data, jv.len);
-	buffer_dump_path(in->outputpath, "jv_internal.dat", &buf);
+	buffer_dump_path(get_output_path(sim), "jv_internal.dat", &buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -363,7 +364,7 @@ sim_externalv(in,in->Vapplied);
 	buf.logscale_y = 0;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf, jvavg.x, jvavg.data, jvavg.len);
-	buffer_dump_path(in->outputpath, "jv_avg.dat", &buf);
+	buffer_dump_path(get_output_path(sim), "jv_avg.dat", &buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -379,7 +380,7 @@ sim_externalv(in,in->Vapplied);
 	buf.logscale_y = 0;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf, jvexternal.x, jvexternal.data, jvexternal.len);
-	buffer_dump_path(in->outputpath, "iv.dat", &buf);
+	buffer_dump_path(get_output_path(sim), "iv.dat", &buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -395,7 +396,7 @@ sim_externalv(in,in->Vapplied);
 	buf.logscale_y = 0;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf, lv.x, lv.data, lv.len);
-	buffer_dump_path(in->outputpath, "lv.dat", &buf);
+	buffer_dump_path(get_output_path(sim), "lv.dat", &buf);
 	buffer_free(&buf);
 
 	inter_free(&jvexternal);
@@ -405,7 +406,7 @@ sim_externalv(in,in->Vapplied);
 	inter_free(&ivexternal);
 	inter_free(&lv);
 
-	dump_dynamic_save(sim, in->outputpath, &store);
+	dump_dynamic_save(sim, get_output_path(sim), &store);
 	dump_dynamic_free(sim, &store);
 
 	light_set_sun(&(in->mylight), sun_orig);
@@ -415,7 +416,7 @@ void jv_load_config(struct simulation *sim, struct jv *in, struct device *dev)
 {
 	struct inp_file inp;
 	inp_init(sim, &inp);
-	inp_load_from_path(sim, &inp, dev->inputpath, "jv.inp");
+	inp_load_from_path(sim, &inp, get_input_path(sim), "jv.inp");
 	inp_check(sim, &inp, 1.21);
 	inp_search_gdouble(sim, &inp, &(in->Vstart), "#Vstart");
 	inp_search_gdouble(sim, &inp, &(in->Vstop), "#Vstop");

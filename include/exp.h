@@ -31,7 +31,6 @@ gdouble get_Jn_diffusion(struct device *in);
 gdouble get_Jn_drift(struct device *in);
 gdouble get_Jp_diffusion(struct device *in);
 gdouble get_Jp_drift(struct device *in);
-void exp_cal_emission(int number,struct device *in);
 gdouble get_avg_field(struct device *in);
 gdouble get_np_tot(struct device *in);
 void reset_npequlib(struct device *in);

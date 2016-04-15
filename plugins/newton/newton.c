@@ -27,6 +27,7 @@
 #include <exp.h>
 #include <advmath.h>
 #include <dump.h>
+#include <cal_path.h>
 
 static gdouble Jnl = 0.0;
 static gdouble Jnr = 0.0;
@@ -1615,7 +1616,7 @@ int dllinternal_solve_cur(struct simulation *sim, struct device *in)
 
 		if (get_dump_status(sim, dump_write_converge) == TRUE) {
 			sim->converge =
-			    fopena(in->outputpath, "converge.dat", "a");
+			    fopena(get_output_path(sim), "converge.dat", "a");
 			fprintf(sim->converge, "%Le\n", error);
 			fclose(sim->converge);
 		}
@@ -1657,7 +1658,7 @@ int dllinternal_solve_cur(struct simulation *sim, struct device *in)
 	}
 //getchar();
 	if (get_dump_status(sim, dump_newton) == TRUE) {
-		dump_1d_slice(sim, in, in->outputpath);
+		dump_1d_slice(sim, in, get_output_path(sim));
 	}
 //plot_now(in,"plot");
 //getchar();

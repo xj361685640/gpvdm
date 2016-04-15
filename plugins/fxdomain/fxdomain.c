@@ -33,6 +33,7 @@
 #include <fit_sin.h>
 #include <log.h>
 #include <dll_interface.h>
+#include <cal_path.h>
 
 static int unused __attribute__ ((unused));
 
@@ -60,7 +61,7 @@ void sim_fxdomain(struct simulation *sim, struct device *in)
 
 	struct stat st = { 0 };
 	char out_dir[1000];
-	join_path(2, out_dir, in->outputpath, "frequency");
+	join_path(2, out_dir, get_output_path(sim), "frequency");
 
 	if (stat(out_dir, &st) == -1) {
 		mkdir(out_dir, 0700);
@@ -72,10 +73,10 @@ void sim_fxdomain(struct simulation *sim, struct device *in)
 	gdouble stop_time = 0.0;
 
 	if (find_config_file
-	    (sim, config_file_name, in->inputpath, in->simmode,
+	    (sim, config_file_name, get_input_path(sim), in->simmode,
 	     "fxdomain") != 0) {
 		ewe(sim, "%s %s %s\n", _("no fxdomain config file found"),
-		    in->inputpath, in->simmode);
+		    get_input_path(sim), in->simmode);
 	}
 
 	fxdomain_load_config(sim, &fxdomain_config, in, config_file_name);
@@ -308,7 +309,7 @@ void sim_fxdomain(struct simulation *sim, struct device *in)
 	buffer_add_info(&buf);
 	buffer_add_xy_data_z_label(&buf, real_imag.x, real_imag.data, out_fx.x,
 				   real_imag.len);
-	buffer_dump_path(in->outputpath, "fxdomain_real_imag.dat", &buf);
+	buffer_dump_path(get_output_path(sim), "fxdomain_real_imag.dat", &buf);
 	buffer_free(&buf);
 
 	in->go_time = FALSE;
@@ -327,7 +328,7 @@ void fxdomain_load_config(struct simulation *sim, struct fxdomain *in,
 	char name[200];
 	struct inp_file inp;
 	inp_init(sim, &inp);
-	inp_load_from_path(sim, &inp, dev->inputpath, config_file_name);
+	inp_load_from_path(sim, &inp, get_input_path(sim), config_file_name);
 	inp_check(sim, &inp, 1.0);
 
 	inp_search_string(sim, &inp, name, "#fxdomain_sim_mode");

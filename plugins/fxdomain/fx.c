@@ -21,6 +21,7 @@
 #include "sim.h"
 #include "inp.h"
 #include "fx.h"
+#include <cal_path.h>
 
 static int unused __attribute__ ((unused));
 
@@ -69,7 +70,7 @@ void fx_load_mesh(struct simulation *sim, struct device *in, int number)
 	sprintf(mesh_file, "fxmesh%d.inp", number);
 
 	inp_init(sim, &inp);
-	inp_load_from_path(sim, &inp, in->inputpath, mesh_file);
+	inp_load_from_path(sim, &inp, get_input_path(sim), mesh_file);
 	inp_check(sim, &inp, 1.0);
 
 	inp_reset_read(sim, &inp);
