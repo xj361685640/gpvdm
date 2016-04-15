@@ -35,14 +35,14 @@ EXPORT void dll_newton_set_min_ittr(int ittr)
 	dllinternal_newton_set_min_ittr(ittr);
 }
 
-EXPORT int dll_solve_cur(struct device *in)
+EXPORT int dll_solve_cur(struct simulation *sim, struct device *in)
 {
-	return dllinternal_solve_cur(in);
+	return dllinternal_solve_cur(sim, in);
 }
 
-EXPORT void dll_solver_realloc(struct device *in)
+EXPORT void dll_solver_realloc(struct simulation *sim, struct device *in)
 {
-	dllinternal_solver_realloc(in);
+	dllinternal_solver_realloc(sim, in);
 }
 
 EXPORT void dll_solver_free_memory(struct device *in)

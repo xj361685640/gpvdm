@@ -38,13 +38,13 @@ static int unused __attribute__ ((unused));
 
 struct fxdomain fxdomain_config;
 
-void sim_fxdomain(struct device *in)
+void sim_fxdomain(struct simulation *sim, struct device *in)
 {
 	time_enable_everything(TRUE);
 	struct buffer buf;
 	buffer_init(&buf);
 	struct dynamic_store store;
-	dump_dynamic_init(&store, in);
+	dump_dynamic_init(sim, &store, in);
 
 	struct istruct out_i;
 	inter_init(&out_i);
@@ -72,17 +72,18 @@ void sim_fxdomain(struct device *in)
 	gdouble stop_time = 0.0;
 
 	if (find_config_file
-	    (config_file_name, in->inputpath, in->simmode, "fxdomain") != 0) {
-		ewe("%s %s %s\n", _("no fxdomain config file found"),
+	    (sim, config_file_name, in->inputpath, in->simmode,
+	     "fxdomain") != 0) {
+		ewe(sim, "%s %s %s\n", _("no fxdomain config file found"),
 		    in->inputpath, in->simmode);
 	}
 
-	fxdomain_load_config(&fxdomain_config, in, config_file_name);
+	fxdomain_load_config(sim, &fxdomain_config, in, config_file_name);
 
 	int number = strextract_int(config_file_name);
 
 	(*fun->ntricks_externv_set_load) (fxdomain_config.fxdomain_Rload);
-	fx_load_mesh(in, number);
+	fx_load_mesh(sim, in, number);
 	gdouble fx = 0.0;
 	gdouble i0 = 0;
 	gdouble Plight = 0.0;
@@ -103,7 +104,7 @@ void sim_fxdomain(struct device *in)
 
 		fx = fx_get_fx();
 
-		printf_log("Running frequency %Lf\n", fx);
+		printf_log(sim, "Running frequency %Lf\n", fx);
 
 		in->go_time = FALSE;
 
@@ -115,7 +116,7 @@ void sim_fxdomain(struct device *in)
 		in->dt = lambda / ((gdouble) fxdomain_config.fxdomain_points);
 		stop_time = lambda * fxdomain_config.fxdomain_n;
 
-		light_solve_and_update(in, &(in->mylight), 0.0);
+		light_solve_and_update(sim, in, &(in->mylight), 0.0);
 		step = 0;
 
 		if (fxdomain_config.fxdomain_sim_mode == fxdomain_load) {
@@ -125,13 +126,13 @@ void sim_fxdomain(struct device *in)
 		    if (fxdomain_config.fxdomain_sim_mode ==
 			fxdomain_open_circuit) {
 			in->Vapplied = in->Vbi;
-			fxdomain_newton_sim_voc(in);
-			fxdomain_newton_sim_voc_fast(in, FALSE);
+			fxdomain_newton_sim_voc(sim, in);
+			fxdomain_newton_sim_voc_fast(sim, in, FALSE);
 		} else {
-			ewe(_("fxdomain mode not known\n"));
+			ewe(sim, _("fxdomain mode not known\n"));
 		}
 
-		device_timestep(in);
+		device_timestep(sim, in);
 
 		in->go_time = TRUE;
 
@@ -161,7 +162,7 @@ void sim_fxdomain(struct device *in)
 									time);
 			}
 			light_set_sun((&in->mylight), Plight);
-			light_solve_and_update(in, &(in->mylight), 0.0);
+			light_solve_and_update(sim, in, &(in->mylight), 0.0);
 
 			if (fxdomain_config.fxdomain_sim_mode == fxdomain_load) {
 				i0 = (*fun->ntricks_externv_newton) (in, V,
@@ -169,21 +170,23 @@ void sim_fxdomain(struct device *in)
 			} else if (fxdomain_config.fxdomain_sim_mode ==
 				   fxdomain_open_circuit) {
 				V = in->Vapplied;
-				i0 = fxdomain_newton_sim_voc_fast(in, TRUE);
+				i0 = fxdomain_newton_sim_voc_fast(sim, in,
+								  TRUE);
 			} else {
-				ewe(_("fxdomain mode not known\n"));
+				ewe(sim, _("fxdomain mode not known\n"));
 			}
 
-			if (get_dump_status(dump_print_text) == TRUE) {
-				printf_log("%s=%Le %s=%d %.1Le ",
+			if (get_dump_status(sim, dump_print_text) == TRUE) {
+				printf_log(sim, "%s=%Le %s=%d %.1Le ",
 					   _("fxdomain time"), in->time,
 					   _("step"), step, in->last_error);
-				printf_log("Vtot=%Lf %s = %Le mA (%Le A/m^2)\n",
+				printf_log(sim,
+					   "Vtot=%Lf %s = %Le mA (%Le A/m^2)\n",
 					   V, _("current"), get_I(in) / 1e-3,
 					   get_J(in));
 			}
 
-			dump_dynamic_add_data(&store, in, in->time);
+			dump_dynamic_add_data(sim, &store, in, in->time);
 
 			sprintf(send_data, "percent:%Lf",
 				(gdouble) (cur_total_step) /
@@ -201,7 +204,7 @@ void sim_fxdomain(struct device *in)
 			//inter_append(&out_i,in->time,i0);
 			//inter_append(&out_v,in->time,V);
 
-			device_timestep(in);
+			device_timestep(sim, in);
 
 			step++;
 
@@ -231,11 +234,11 @@ void sim_fxdomain(struct device *in)
 		gdouble real = 0.0;
 		gdouble imag = 0.0;
 
-		fit_sin(&i_mag, &i_delta, &out_i, fx, "i");
-		fit_sin(&v_mag, &v_delta, &out_v, fx, "v");
-		printf_log("v_delta=%Le i_delta=%Le\n", v_delta, i_delta);
+		fit_sin(sim, &i_mag, &i_delta, &out_i, fx, "i");
+		fit_sin(sim, &v_mag, &v_delta, &out_v, fx, "v");
+		printf_log(sim, "v_delta=%Le i_delta=%Le\n", v_delta, i_delta);
 		gdouble dphi = 2 * PI * fx * (i_delta - v_delta);
-		printf_log("delta_phi=%Lf\n", dphi);
+		printf_log(sim, "delta_phi=%Lf\n", dphi);
 
 		gdouble mag = i_mag;
 		real = mag * cosl(dphi);
@@ -245,7 +248,7 @@ void sim_fxdomain(struct device *in)
 
 		inter_append(&out_fx, fx, fx);
 
-		printf_log("%Lf %Lf\n", real, imag);
+		printf_log(sim, "%Lf %Lf\n", real, imag);
 		char temp[2000];
 		buffer_malloc(&buf);
 		buf.y_mul = 1e3;
@@ -288,8 +291,8 @@ void sim_fxdomain(struct device *in)
 
 	} while (fx_run() == TRUE);
 
-	dump_dynamic_save(out_dir, &store);
-	dump_dynamic_free(&store);
+	dump_dynamic_save(sim, out_dir, &store);
+	dump_dynamic_free(sim, &store);
 
 	buffer_malloc(&buf);
 	buf.y_mul = 1e3;
@@ -317,35 +320,35 @@ void sim_fxdomain(struct device *in)
 	time_memory_free();
 }
 
-void fxdomain_load_config(struct fxdomain *in, struct device *dev,
-			  char *config_file_name)
+void fxdomain_load_config(struct simulation *sim, struct fxdomain *in,
+			  struct device *dev, char *config_file_name)
 {
 
 	char name[200];
 	struct inp_file inp;
-	inp_init(&inp);
-	inp_load_from_path(&inp, dev->inputpath, config_file_name);
-	inp_check(&inp, 1.0);
+	inp_init(sim, &inp);
+	inp_load_from_path(sim, &inp, dev->inputpath, config_file_name);
+	inp_check(sim, &inp, 1.0);
 
-	inp_search_string(&inp, name, "#fxdomain_sim_mode");
-	in->fxdomain_sim_mode = english_to_bin(name);
+	inp_search_string(sim, &inp, name, "#fxdomain_sim_mode");
+	in->fxdomain_sim_mode = english_to_bin(sim, name);
 
-	inp_search_gdouble(&inp, &(in->fxdomain_Rload), "#fxdomain_Rload");
-	inp_search_int(&inp, &(in->fxdomain_points), "#fxdomain_points");
-	inp_search_int(&inp, &(in->fxdomain_n), "#fxdomain_n");
-	inp_search_gdouble(&inp, &(in->fxdomain_Vexternal),
+	inp_search_gdouble(sim, &inp, &(in->fxdomain_Rload), "#fxdomain_Rload");
+	inp_search_int(sim, &inp, &(in->fxdomain_points), "#fxdomain_points");
+	inp_search_int(sim, &inp, &(in->fxdomain_n), "#fxdomain_n");
+	inp_search_gdouble(sim, &inp, &(in->fxdomain_Vexternal),
 			   "#fxdomain_Vexternal");
-	inp_search_gdouble(&inp, &(in->fxdomain_voltage_modulation_max),
+	inp_search_gdouble(sim, &inp, &(in->fxdomain_voltage_modulation_max),
 			   "#fxdomain_voltage_modulation_max");
-	inp_search_gdouble(&inp, &(in->fxdomain_light_modulation_max),
+	inp_search_gdouble(sim, &inp, &(in->fxdomain_light_modulation_max),
 			   "#fxdomain_light_modulation_max");
-	inp_search_int(&inp, &(in->fxdomain_voltage_modulation),
+	inp_search_int(sim, &inp, &(in->fxdomain_voltage_modulation),
 		       "#fxdomain_voltage_modulation");
-	inp_search_int(&inp, &(in->periods_to_fit), "#periods_to_fit");
+	inp_search_int(sim, &inp, &(in->periods_to_fit), "#periods_to_fit");
 
-	inp_search_int(&inp, &(in->fxdomain_do_fit), "#fxdomain_do_fit");
-	inp_search_gdouble(&inp, &(in->fxdomain_L), "#fxdomain_L");
+	inp_search_int(sim, &inp, &(in->fxdomain_do_fit), "#fxdomain_do_fit");
+	inp_search_gdouble(sim, &inp, &(in->fxdomain_L), "#fxdomain_L");
 
-	inp_free(&inp);
+	inp_free(sim, &inp);
 
 }

@@ -31,7 +31,8 @@
 
 #include <cal_path.h>
 
-void run_electrical_dll(struct device *in, char *dll_name)
+void run_electrical_dll(struct simulation *sim, struct device *in,
+			char *dll_name)
 {
 	void *lib_handle;
 	void (*init) ();
@@ -40,13 +41,13 @@ void run_electrical_dll(struct device *in, char *dll_name)
 	char lib_path[200];
 	char lib_name[100];
 
-	printf_log(_("Loading electrical dll\n"));
+	printf_log(sim, _("Loading electrical dll\n"));
 
 	sprintf(lib_name, "%s.so", dll_name);
 
-	join_path(2, lib_path, get_plugins_path(), lib_name);
-	printf_log("I want to open %s %s %s\n", lib_path, get_plugins_path(),
-		   lib_name);
+	join_path(2, lib_path, get_plugins_path(sim), lib_name);
+	printf_log(sim, "I want to open %s %s %s\n", lib_path,
+		   get_plugins_path(sim), lib_name);
 
 	char *error;
 

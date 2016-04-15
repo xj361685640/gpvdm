@@ -121,17 +121,20 @@ exit(0);
 
 */
 
-void process_ce_data(int col, char *input, char *output)
+void process_ce_data(struct simulation *sim, int col, char *input, char *output)
 {
 	int i;
 	struct istruct data;
 
 	gdouble d =
-	    read_value("device.inp", 0, 12) + read_value("device.inp", 0, 39);
+	    read_value(sim, "device.inp", 0, 12) + read_value(sim, "device.inp",
+							      0, 39);
 	gdouble area =
-	    read_value("device.inp", 0, 21) * read_value("device.inp", 0, 23);
+	    read_value(sim, "device.inp", 0, 21) * read_value(sim, "device.inp",
+							      0, 23);
 
-	gdouble cap = read_value("blom_bulk.inp", 0, 84) * epsilon0 * area / d;
+	gdouble cap =
+	    read_value(sim, "blom_bulk.inp", 0, 84) * epsilon0 * area / d;
 	gdouble capq = 0.0;
 
 	gdouble dt = 0.0;

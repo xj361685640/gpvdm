@@ -40,9 +40,9 @@ gdouble pulse_newton_sim_voc_fast(struct device * in, int do_LC)
 	    in->Vapplied / in->Rshunt;
 }
 
-gdouble pulse_newton_sim_voc(struct device * in)
+gdouble pulse_newton_sim_voc(struct simulation * sim, struct device * in)
 {
-	printf_log("Looking for Voc\n");
+	printf_log(sim, "Looking for Voc\n");
 	gdouble C = in->C;
 	gdouble clamp = 0.1;
 	gdouble step = 0.01;
@@ -81,10 +81,10 @@ gdouble pulse_newton_sim_voc(struct device * in)
 
 		step = step / (1.0 + fabs(step / clamp));
 		in->Vapplied += step;
-		if (get_dump_status(dump_print_text) == TRUE) {
-			printf_log
-			    ("%d pulse voc find Voc Vapplied=%Lf step=%Le error=%Le\n",
-			     count, in->Vapplied, step, e1);
+		if (get_dump_status(sim, dump_print_text) == TRUE) {
+			printf_log(sim,
+				   "%d pulse voc find Voc Vapplied=%Lf step=%Le error=%Le\n",
+				   count, in->Vapplied, step, e1);
 		}
 		if (count > max)
 			break;
@@ -96,6 +96,7 @@ gdouble pulse_newton_sim_voc(struct device * in)
 	return ret;
 }
 
-void pulse_set_light_for_voc(struct device *in, gdouble Voc)
+void pulse_set_light_for_voc(struct simulation *sim, struct device *in,
+			     gdouble Voc)
 {
 }

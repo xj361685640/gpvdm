@@ -33,7 +33,7 @@
 #include <exp.h>
 #include <dos.h>
 
-void dump_1d_slice(struct device *in, char *out_dir)
+void dump_1d_slice(struct simulation *sim, struct device *in, char *out_dir)
 {
 	int i;
 	int band;

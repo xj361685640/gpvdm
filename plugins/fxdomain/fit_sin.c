@@ -131,8 +131,8 @@ double sin_f(const gsl_vector * v, void *params)
 	return (double)e0;
 }
 
-void fit_sin(gdouble * ret_mag, gdouble * ret_delta, struct istruct *in,
-	     gdouble fx, char *prefix)
+void fit_sin(struct simulation *sim, gdouble * ret_mag, gdouble * ret_delta,
+	     struct istruct *in, gdouble fx, char *prefix)
 {
 	gdouble size = 0.0;
 	int status = 0;
@@ -195,8 +195,8 @@ void fit_sin(gdouble * ret_mag, gdouble * ret_delta, struct istruct *in,
 		//{
 		//      printf ("converged to minimum at\n");
 		//}
-		printf_log("step=%d error=%Le mag=%le delta=%le fx=%Le\n", ittr,
-			   last_error, mag, delta, fx);
+		printf_log(sim, "step=%d error=%Le mag=%le delta=%le fx=%Le\n",
+			   ittr, last_error, mag, delta, fx);
 
 		if (status != GSL_CONTINUE) {
 			printf("Fitting stopped\n");

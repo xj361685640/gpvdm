@@ -37,13 +37,13 @@ static int unused __attribute__ ((unused));
 
 struct pulse pulse_config;
 
-void sim_pulse(struct device *in)
+void sim_pulse(struct simulation *sim, struct device *in)
 {
 	struct buffer buf;
 	buffer_init(&buf);
 
 	struct dynamic_store store;
-	dump_dynamic_init(&store, in);
+	dump_dynamic_init(sim, &store, in);
 
 	struct istruct out_i;
 	inter_init(&out_i);
@@ -60,14 +60,14 @@ void sim_pulse(struct device *in)
 	char config_file_name[200];
 
 	if (find_config_file
-	    (config_file_name, in->inputpath, in->simmode, "pulse") != 0) {
-		ewe("%s %s %s\n", _("no pulse config file found"),
+	    (sim, config_file_name, in->inputpath, in->simmode, "pulse") != 0) {
+		ewe(sim, "%s %s %s\n", _("no pulse config file found"),
 		    in->inputpath, in->simmode);
 	}
 
 	printf("%s\n", config_file_name);
 
-	pulse_load_config(&pulse_config, in, config_file_name);
+	pulse_load_config(sim, &pulse_config, in, config_file_name);
 	int number = strextract_int(config_file_name);
 	(*fun->ntricks_externv_set_load) (pulse_config.pulse_Rload);
 
@@ -78,7 +78,7 @@ void sim_pulse(struct device *in)
 	time_init(in);
 //time_load_mesh(in,number);
 
-	time_load_mesh(in, number);
+	time_load_mesh(sim, in, number);
 //time_mesh_save();
 //getchar();
 //struct istruct pulseout;
@@ -88,7 +88,7 @@ void sim_pulse(struct device *in)
 
 	int step = 0;
 	light_set_sun(&(in->mylight), time_get_sun());
-	light_solve_and_update(in, &(in->mylight), time_get_laser());
+	light_solve_and_update(sim, in, &(in->mylight), time_get_laser());
 
 	gdouble V = 0.0;
 
@@ -97,13 +97,13 @@ void sim_pulse(struct device *in)
 		(*fun->ntricks_externv_newton) (in, time_get_voltage(), FALSE);
 	} else if (pulse_config.pulse_sim_mode == pulse_open_circuit) {
 		in->Vapplied = in->Vbi;
-		pulse_newton_sim_voc(in);
+		pulse_newton_sim_voc(sim, in);
 		pulse_newton_sim_voc_fast(in, FALSE);
 	} else {
-		ewe(_("pulse mode not known\n"));
+		ewe(sim, _("pulse mode not known\n"));
 	}
 
-	device_timestep(in);
+	device_timestep(sim, in);
 
 	in->go_time = TRUE;
 
@@ -113,9 +113,9 @@ void sim_pulse(struct device *in)
 	reset_np_save(in);
 	do {
 		light_set_sun(&(in->mylight), time_get_sun());
-		light_solve_and_update(in, &(in->mylight),
+		light_solve_and_update(sim, in, &(in->mylight),
 				       time_get_laser() + time_get_fs_laser());
-		dump_dynamic_add_data(&store, in, in->time);
+		dump_dynamic_add_data(sim, &store, in, in->time);
 
 		if (pulse_config.pulse_sim_mode == pulse_load) {
 			V = time_get_voltage();
@@ -124,13 +124,13 @@ void sim_pulse(struct device *in)
 			V = in->Vapplied;
 			pulse_newton_sim_voc_fast(in, TRUE);
 		} else {
-			ewe(_("pulse mode not known\n"));
+			ewe(sim, _("pulse mode not known\n"));
 		}
 
-		if (get_dump_status(dump_print_text) == TRUE) {
-			printf_log("%s=%Le %s=%d %.1Le ", _("pulse time"),
+		if (get_dump_status(sim, dump_print_text) == TRUE) {
+			printf_log(sim, "%s=%Le %s=%d %.1Le ", _("pulse time"),
 				   in->time, _("step"), step, in->last_error);
-			printf_log("Vtot=%Lf %s = %Le mA (%Le A/m^2)\n", V,
+			printf_log(sim, "Vtot=%Lf %s = %Le mA (%Le A/m^2)\n", V,
 				   _("current"), get_I(in) / 1e-3, get_J(in));
 
 		}
@@ -138,9 +138,9 @@ void sim_pulse(struct device *in)
 		ittr++;
 
 		gui_send_data("pulse");
-		dump_write_to_disk(in);
+		dump_write_to_disk(sim, in);
 
-		plot_now(in, "pulse.plot");
+		plot_now(sim, "pulse.plot");
 
 		inter_append(&out_i, in->time, i0);
 		inter_append(&out_v, in->time, V);
@@ -150,7 +150,7 @@ void sim_pulse(struct device *in)
 			     fabs(get_extracted_n(in) +
 				  get_extracted_p(in)) / 2.0);
 
-		device_timestep(in);
+		device_timestep(sim, in);
 		step++;
 
 		if (time_run() == FALSE)
@@ -161,8 +161,8 @@ void sim_pulse(struct device *in)
 
 	struct istruct out_flip;
 
-	dump_dynamic_save(in->outputpath, &store);
-	dump_dynamic_free(&store);
+	dump_dynamic_save(sim, in->outputpath, &store);
+	dump_dynamic_free(sim, &store);
 
 	buffer_malloc(&buf);
 	buf.y_mul = 1e3;
@@ -244,25 +244,25 @@ void sim_pulse(struct device *in)
 	time_memory_free();
 }
 
-void pulse_load_config(struct pulse *in, struct device *dev,
-		       char *config_file_name)
+void pulse_load_config(struct simulation *sim, struct pulse *in,
+		       struct device *dev, char *config_file_name)
 {
 
 	char name[200];
 	char laser_name[200];
 	struct inp_file inp;
-	inp_init(&inp);
-	inp_load_from_path(&inp, dev->inputpath, config_file_name);
-	inp_check(&inp, 1.28);
+	inp_init(sim, &inp);
+	inp_load_from_path(sim, &inp, dev->inputpath, config_file_name);
+	inp_check(sim, &inp, 1.28);
 
-	inp_search_gdouble(&inp, &(in->pulse_shift), "#pulse_shift");
-	inp_search_string(&inp, name, "#pulse_sim_mode");
-	inp_search_gdouble(&inp, &(in->pulse_L), "#pulse_L");
-	inp_search_gdouble(&inp, &(in->pulse_Rload), "#Rload");
-	inp_search_string(&inp, laser_name, "#pump_laser");
-	light_load_laser((&dev->mylight), laser_name);
-	in->pulse_sim_mode = english_to_bin(name);
+	inp_search_gdouble(sim, &inp, &(in->pulse_shift), "#pulse_shift");
+	inp_search_string(sim, &inp, name, "#pulse_sim_mode");
+	inp_search_gdouble(sim, &inp, &(in->pulse_L), "#pulse_L");
+	inp_search_gdouble(sim, &inp, &(in->pulse_Rload), "#Rload");
+	inp_search_string(sim, &inp, laser_name, "#pump_laser");
+	light_load_laser(sim, (&dev->mylight), laser_name);
+	in->pulse_sim_mode = english_to_bin(sim, name);
 
-	inp_free(&inp);
+	inp_free(sim, &inp);
 
 }

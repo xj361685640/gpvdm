@@ -41,23 +41,23 @@ extern struct dll_interface *fun;
 EXPORT void set_interface(struct dll_interface *in);
 
 //Matrix solver
-EXPORT void dll_matrix_solve(int col,int nz,int *Ti,int *Tj, long double *Tx,long double *b);
+EXPORT void dll_matrix_solve(struct simulation *sim,int col,int nz,int *Ti,int *Tj, long double *Tx,long double *b);
 EXPORT void dll_matrix_dump(int col,int nz,int *Ti,int *Tj, long double *Tx,long double *b,char *index);
 EXPORT void dll_matrix_solver_free();
 
 //Light
-EXPORT void light_dll_init();
+EXPORT void light_dll_init(struct simulation *sim);
 EXPORT int light_dll_solve_lam_slice(struct simulation *sim,struct light *in,int lam);
-EXPORT void light_dll_ver();
+EXPORT void light_dll_ver(struct simulation *sim);
 EXPORT void light_fixup(char *name,void (*in));
 
 //Newton solver
 EXPORT void dll_newton_set_min_ittr(int ittr);
-EXPORT int dll_solve_cur(struct device *in);
-EXPORT void dll_solver_realloc(struct device *in);
+EXPORT int dll_solve_cur(struct simulation *sim,struct device *in);
+EXPORT void dll_solver_realloc(struct simulation *sim,struct device *in);
 EXPORT void dll_solver_free_memory(struct device *in);
 
 //electrical plugin
-EXPORT void dll_run_simulation(struct device *in);
+EXPORT void dll_run_simulation(struct simulation *sim,struct device *in);
 
 #endif

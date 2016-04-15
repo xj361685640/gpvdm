@@ -263,10 +263,6 @@ struct device
 	gdouble Vapplied_last;
 	gdouble Ilast;
 	int timedumpcount;
-	char plugins_path[400];
-	char lang_path[400];
-	char inputpath[400];
-	char outputpath[400];
 	char simmode[200];
 	gdouble area;
 
@@ -347,7 +343,6 @@ struct device
 void device_init(struct device *in);
 void device_alloc_traps(struct device *in);
 void device_free_traps(struct device *in);
-void device_get_memory(struct device *in);
-void device_free(struct device *in);
-
+void device_get_memory(struct simulation *sim,struct device *in);
+void device_free(struct simulation *sim,struct device *in);
 #endif

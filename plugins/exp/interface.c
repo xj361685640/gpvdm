@@ -32,10 +32,9 @@ struct dll_interface *fun;
 EXPORT void set_interface(struct dll_interface *in)
 {
 	fun = in;
-	log_init(&(in->in->log_level));
 }
 
-EXPORT void light_dll_init()
+EXPORT void light_dll_init(struct simulation *sim)
 {
-	printf_log("Light init\n");
+	printf_log(sim, "Light init\n");
 }

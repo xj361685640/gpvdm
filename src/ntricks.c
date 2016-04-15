@@ -25,6 +25,7 @@
 #include "ntricks.h"
 #include "gui_hooks.h"
 #include <plot.h>
+#include <cal_path.h>
 
 static int unused __attribute__ ((unused));
 
@@ -134,14 +135,14 @@ void ramp(struct simulation *sim, struct device *in, gdouble from, gdouble to,
 	return;
 }
 
-void save_state(struct device *in, gdouble to)
+void save_state(struct simulation *sim, struct device *in, gdouble to)
 {
 //<clean>
 	printf("Dumping state\n");
 	int i;
 	int band;
 	FILE *state;
-	state = fopena(in->outputpath, "state.dat", "w");
+	state = fopena(get_output_path(sim), "state.dat", "w");
 
 	fprintf(state, "%Le ", to);
 
@@ -158,7 +159,7 @@ void save_state(struct device *in, gdouble to)
 //</clean>
 }
 
-int load_state(struct device *in, gdouble voltage)
+int load_state(struct simulation *sim, struct device *in, gdouble voltage)
 {
 //<clean>
 	printf("Load state\n");
@@ -166,7 +167,7 @@ int load_state(struct device *in, gdouble voltage)
 	int band;
 	gdouble vtest;
 	FILE *state;
-	state = fopena(in->outputpath, "state.dat", "r");
+	state = fopena(get_output_path(sim), "state.dat", "r");
 	if (!state) {
 		printf("State not found\n");
 		return FALSE;

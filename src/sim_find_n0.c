@@ -26,11 +26,12 @@
 #include "dump.h"
 #include "complex_solver.h"
 #include "log.h"
+#include <cal_path.h>
 
 void find_n0(struct simulation *sim, struct device *in)
 {
 	int i;
-	printf_log("Finding n0\n");
+	printf_log(sim, "Finding n0\n");
 	gdouble oldsun = light_get_sun(&(in->mylight));
 	gdouble oldv = in->Vapplied;
 	in->Vapplied = 0;
@@ -39,8 +40,8 @@ void find_n0(struct simulation *sim, struct device *in)
 	light_solve_and_update(sim, in, &(in->mylight), 0.0);
 
 	if (get_dump_status(sim, dump_equilibrium) == TRUE) {
-		join_path(2, temp, in->outputpath, "equilibrium");
-		dump_1d_slice(in, temp);
+		join_path(2, temp, get_output_path(sim), "equilibrium");
+		dump_1d_slice(sim, in, temp);
 	}
 
 	for (i = 0; i < in->ymeshpoints; i++) {
@@ -71,16 +72,16 @@ void find_n0(struct simulation *sim, struct device *in)
 	reset_npequlib(in);
 
 	FILE *outfile;
-	outfile = fopena(in->outputpath, "voc_mue.dat", "w");
+	outfile = fopena(get_output_path(sim), "voc_mue.dat", "w");
 	fprintf(outfile, "%Le", get_avg_mue(in));
 	fclose(outfile);
 
-	outfile = fopena(in->outputpath, "voc_muh.dat", "w");
+	outfile = fopena(get_output_path(sim), "voc_muh.dat", "w");
 	fprintf(outfile, "%Le", get_avg_muh(in));
 	fclose(outfile);
 
 	light_set_sun(&(in->mylight), oldsun);
 	in->Vapplied = oldv;
 	light_solve_and_update(sim, in, &(in->mylight), 0.0);
-	printf_log("Exit finding n0\n");
+	printf_log(sim, "Exit finding n0\n");
 }

@@ -28,6 +28,7 @@
 #include "buffer.h"
 #include "lang.h"
 #include "log.h"
+#include <util.h>
 
 static int last_col = 0;
 static int last_nz = 0;
@@ -84,7 +85,7 @@ void complex_solver_dump_matrix(int col, int nz, int *Ti, int *Tj, double *Tx,
 	printf(_("Matrix dumped\n"));
 }
 
-void complex_solver_free()
+void complex_solver_free(struct simulation *sim)
 {
 	free(x);
 	free(xz);
@@ -100,7 +101,7 @@ void complex_solver_free()
 	Az = NULL;
 	last_col = 0;
 	last_nz = 0;
-	printf_log(_("Complex solver free\n"));
+	printf_log(sim, _("Complex solver free\n"));
 }
 
 void complex_solver_print(int col, int nz, int *Ti, int *Tj, double *Tx,
@@ -117,8 +118,8 @@ void complex_solver_print(int col, int nz, int *Ti, int *Tj, double *Tx,
 
 }
 
-int complex_solver(int col, int nz, int *Ti, int *Tj, double *Tx, double *Txz,
-		   double *b, double *bz)
+int complex_solver(struct simulation *sim, int col, int nz, int *Ti, int *Tj,
+		   double *Tx, double *Txz, double *b, double *bz)
 {
 
 //getchar();
@@ -132,42 +133,42 @@ int complex_solver(int col, int nz, int *Ti, int *Tj, double *Tx, double *Txz,
 
 		dtemp = realloc(x, col * sizeof(double));
 		if (dtemp == NULL) {
-			ewe(_("complex_solver realloc memory error"));
+			ewe(sim, _("complex_solver realloc memory error"));
 		} else {
 			x = dtemp;
 		}
 
 		dtemp = realloc(xz, col * sizeof(double));
 		if (dtemp == NULL) {
-			ewe(_("complex_solver realloc memory error"));
+			ewe(sim, _("complex_solver realloc memory error"));
 		} else {
 			xz = dtemp;
 		}
 
 		itemp = realloc(Ap, (col + 1) * sizeof(int));
 		if (itemp == NULL) {
-			ewe(_("complex_solver realloc memory error"));
+			ewe(sim, _("complex_solver realloc memory error"));
 		} else {
 			Ap = itemp;
 		}
 
 		itemp = realloc(Ai, (nz) * sizeof(int));
 		if (itemp == NULL) {
-			ewe(_("complex_solver realloc memory error"));
+			ewe(sim, _("complex_solver realloc memory error"));
 		} else {
 			Ai = itemp;
 		}
 
 		dtemp = realloc(Ax, (nz) * sizeof(double));
 		if (dtemp == NULL) {
-			ewe(_("complex_solver realloc memory error"));
+			ewe(sim, _("complex_solver realloc memory error"));
 		} else {
 			Ax = dtemp;
 		}
 
 		dtemp = realloc(Az, (nz) * sizeof(double));
 		if (x == NULL) {
-			ewe(_("complex_solver realloc memory error"));
+			ewe(sim, _("complex_solver realloc memory error"));
 		} else {
 			Az = dtemp;
 		}

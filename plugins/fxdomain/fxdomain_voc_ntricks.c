@@ -32,14 +32,15 @@ void newton_aux_fxdomain_voc(struct device *in, gdouble V, gdouble * i,
 	return;
 }
 
-gdouble fxdomain_newton_sim_voc_fast(struct device * in, int do_LC)
+gdouble fxdomain_newton_sim_voc_fast(struct simulation * sim,
+				     struct device * in, int do_LC)
 {
-	fxdomain_newton_sim_voc(in);
+	fxdomain_newton_sim_voc(sim, in);
 	return get_I(in) + in->C * (in->Vapplied - in->Vapplied_last) +
 	    in->Vapplied / in->Rshunt;
 }
 
-gdouble fxdomain_newton_sim_voc(struct device * in)
+gdouble fxdomain_newton_sim_voc(struct simulation * sim, struct device * in)
 {
 	printf("Looking for Voc\n");
 	gdouble C = in->C;
@@ -80,7 +81,7 @@ gdouble fxdomain_newton_sim_voc(struct device * in)
 
 		step = step / (1.0 + fabs(step / clamp));
 		in->Vapplied += step;
-		if (get_dump_status(dump_print_text) == TRUE) {
+		if (get_dump_status(sim, dump_print_text) == TRUE) {
 			printf
 			    ("%d fxdomain voc find Voc Vapplied=%Lf step=%Le error=%Le\n",
 			     count, in->Vapplied, step, e1);
@@ -95,6 +96,7 @@ gdouble fxdomain_newton_sim_voc(struct device * in)
 	return ret;
 }
 
-void fxdomain_set_light_for_voc(struct device *in, gdouble Voc)
+void fxdomain_set_light_for_voc(struct simulation *sim, struct device *in,
+				gdouble Voc)
 {
 }

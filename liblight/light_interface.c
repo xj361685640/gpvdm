@@ -49,9 +49,9 @@ void light_load_dlls(struct simulation *sim, struct light *in,
 
 	sprintf(lib_name, "%s.so", in->mode);
 
-	join_path(2, lib_path, get_plugins_path(), lib_name);
+	join_path(2, lib_path, get_plugins_path(sim), lib_name);
 	printf_log(sim, "I want to open %s %s %s\n", lib_path,
-		   get_plugins_path(), lib_name);
+		   get_plugins_path(sim), lib_name);
 
 	char *error;
 
@@ -146,8 +146,6 @@ void light_solve_and_update(struct simulation *sim, struct device *cell,
 
 void light_init(struct light *in, struct device *cell)
 {
-	strcpy(in->output_path, cell->outputpath);
-	strcpy(in->input_path, cell->inputpath);
 	last_Psun = -1.0;
 	last_laser_eff = -1.0;
 	last_wavelength_laser = -1.0;

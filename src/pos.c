@@ -26,6 +26,7 @@
 #include "solver_interface.h"
 #include "buffer.h"
 #include "log.h"
+#include <cal_path.h>
 
 gdouble min_pos_error = 1e-4;
 
@@ -33,21 +34,21 @@ void pos_dump(struct simulation *sim, struct device *in)
 {
 	if (get_dump_status(sim, dump_first_guess) == TRUE) {
 		char out_dir[1000];
-		join_path(2, out_dir, in->outputpath, "equilibrium");
+		join_path(2, out_dir, get_output_path(sim), "equilibrium");
 		struct buffer buf;
 		buffer_init(&buf);
 		char name[200];
 		int band = 0;
 		int i = 0;
 		FILE *out;
-		out = fopena(in->outputpath, "first_guess.dat", "w");
+		out = fopena(get_output_path(sim), "first_guess.dat", "w");
 		for (i = 0; i < in->ymeshpoints; i++) {
 			fprintf(out, "%Le %Le %Le\n", in->ymesh[i], in->Fn[i],
 				in->Fp[i]);
 		}
 		fclose(out);
 
-		out = fopena(in->outputpath, "first_guess_Fi.dat", "w");
+		out = fopena(get_output_path(sim), "first_guess_Fi.dat", "w");
 		for (i = 0; i < in->ymeshpoints; i++) {
 			fprintf(out, "%Le %Le\n", in->ymesh[i], in->Fi[i]);
 		}
@@ -87,32 +88,34 @@ void pos_dump(struct simulation *sim, struct device *in)
 		buffer_dump_path(out_dir, name, &buf);
 		buffer_free(&buf);
 
-		out = fopena(in->outputpath, "first_guess_n.dat", "w");
+		out = fopena(get_output_path(sim), "first_guess_n.dat", "w");
 		for (i = 0; i < in->ymeshpoints; i++) {
 			fprintf(out, "%Le %Le\n", in->ymesh[i], in->n[i]);
 		}
 		fclose(out);
 
-		out = fopena(in->outputpath, "first_guess_p.dat", "w");
+		out = fopena(get_output_path(sim), "first_guess_p.dat", "w");
 		for (i = 0; i < in->ymeshpoints; i++) {
 			fprintf(out, "%Le %Le\n", in->ymesh[i], in->p[i]);
 		}
 		fclose(out);
 
-		out = fopena(in->outputpath, "first_guess_phi.dat", "w");
+		out = fopena(get_output_path(sim), "first_guess_phi.dat", "w");
 		for (i = 0; i < in->ymeshpoints; i++) {
 			fprintf(out, "%Le %Le\n", in->ymesh[i], in->phi[i]);
 		}
 		fclose(out);
 
-		out = fopena(in->outputpath, "first_guess_np.dat", "w");
+		out = fopena(get_output_path(sim), "first_guess_np.dat", "w");
 		for (i = 0; i < in->ymeshpoints; i++) {
 			fprintf(out, "%Le %Le %Le\n", in->ymesh[i], in->n[i],
 				in->p[i]);
 		}
 		fclose(out);
 
-		out = fopena(in->outputpath, "first_guess_np_trap.dat", "w");
+		out =
+		    fopena(get_output_path(sim), "first_guess_np_trap.dat",
+			   "w");
 		for (i = 0; i < in->ymeshpoints; i++) {
 			fprintf(out, "%Le ", in->ymesh[i]);
 			for (band = 0; band < in->srh_bands; band++) {
@@ -145,7 +148,7 @@ double get_p_error(struct device *in, long double *b)
 int solve_pos(struct simulation *sim, struct device *in)
 {
 	if (get_dump_status(sim, dump_iodump) == TRUE)
-		printf_log("Solve pos\n");
+		printf_log(sim, "Solve pos\n");
 	int i;
 
 	int N = in->ymeshpoints * 3 - 2;
@@ -440,27 +443,31 @@ int solve_pos(struct simulation *sim, struct device *in)
 
 				in->xt[i][band] = in->phi[i] + in->Fnt[i][band];
 				in->nt[i][band] =
-				    get_n_pop_srh(in->xt[i][band] + in->tt[i],
+				    get_n_pop_srh(sim,
+						  in->xt[i][band] + in->tt[i],
 						  in->Te[i], band, in->imat[i]);
 				in->dnt[i][band] =
-				    get_dn_pop_srh(in->xt[i][band] + in->tt[i],
+				    get_dn_pop_srh(sim,
+						   in->xt[i][band] + in->tt[i],
 						   in->Te[i], band,
 						   in->imat[i]);
 
 				in->xpt[i][band] =
 				    -(in->phi[i] + in->Fpt[i][band]);
 				in->pt[i][band] =
-				    get_p_pop_srh(in->xpt[i][band] - in->tpt[i],
+				    get_p_pop_srh(sim,
+						  in->xpt[i][band] - in->tpt[i],
 						  in->Th[i], band, in->imat[i]);
 				in->dpt[i][band] =
-				    get_dp_pop_srh(in->xpt[i][band] -
+				    get_dp_pop_srh(sim,
+						   in->xpt[i][band] -
 						   in->tpt[i], in->Th[i], band,
 						   in->imat[i]);
 			}
 
 		}
 
-		update_arrays(in);
+		update_arrays(sim, in);
 		in->xnl_left = in->x[0];
 		in->xpl_left = in->xp[0];
 
@@ -470,12 +477,13 @@ int solve_pos(struct simulation *sim, struct device *in)
 		//#ifdef print_newtonerror
 
 		if (get_dump_status(sim, dump_print_pos_error) == TRUE)
-			printf_log("%d Pos error = %e %d\n", ittr, error, adv);
+			printf_log(sim, "%d Pos error = %e %d\n", ittr, error,
+				   adv);
 		//#endif
 
 #ifdef dump_converge
 
-		/*in->converge=fopena(in->outputpath,"converge.dat","a");
+		/*in->converge=fopena(get_output_path(sim),"converge.dat","a");
 		   fprintf(in->converge,"%e\n",error);
 		   fclose(in->converge); */
 #endif
@@ -505,7 +513,7 @@ int solve_pos(struct simulation *sim, struct device *in)
 
 	pos_dump(sim, in);
 
-	update_arrays(in);
+	update_arrays(sim, in);
 
 	if (in->srh_sim == TRUE) {
 		time_init(in);
@@ -526,8 +534,8 @@ int solve_pos(struct simulation *sim, struct device *in)
 	free(Tx);
 	free(b);
 
-	printf_log("Solved pos\n");
-	printf_log("Vl=%Le Vr=%Le phi_mid=%Le\n", in->Vl, in->Vr,
+	printf_log(sim, "Solved pos\n");
+	printf_log(sim, "Vl=%Le Vr=%Le phi_mid=%Le\n", in->Vl, in->Vr,
 		   in->phi[in->ymeshpoints / 2]);
 
 	return 0;

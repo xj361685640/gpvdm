@@ -21,7 +21,7 @@
 #ifndef _fit_sin
 #define _fit_sin
 
-void fit_sin(gdouble *ret_mag,gdouble *ret_delta,struct istruct *in,gdouble fx,char * prefix);
+void fit_sin(struct simulation *sim,gdouble *ret_mag,gdouble *ret_delta,struct istruct *in,gdouble fx,char * prefix);
 
 #endif
 

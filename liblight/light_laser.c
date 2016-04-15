@@ -31,6 +31,7 @@
 #include "epitaxy.h"
 #include "lang.h"
 #include "log.h"
+#include <cal_path.h>
 
 static int unused __attribute__ ((unused));
 
@@ -49,7 +50,7 @@ int light_load_laser(struct simulation *sim, struct light *in, char *name)
 
 	if (ret == 0) {
 		inp_init(sim, &inp);
-		inp_load_from_path(sim, &inp, in->input_path, file_name);
+		inp_load_from_path(sim, &inp, get_input_path(sim), file_name);
 		inp_check(sim, &inp, 1.0);
 
 		inp_search_gdouble(sim, &inp, &in->laser_wavelength,

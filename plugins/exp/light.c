@@ -30,16 +30,16 @@
 #include <dll_interface.h>
 #include <log.h>
 
-EXPORT void light_dll_ver()
+EXPORT void light_dll_ver(struct simulation *sim)
 {
-	printf("here");
-	printf_log("Exponential light model\n");
+	printf_log(sim, "Exponential light model\n");
 }
 
-EXPORT int light_dll_solve_lam_slice(struct light *in, int lam)
+EXPORT int light_dll_solve_lam_slice(struct simulation *sim, struct light *in,
+				     int lam)
 {
 
-	if ((*fun->get_dump_status) (dump_optics) == TRUE) {
+	if (get_dump_status(sim, dump_optics) == TRUE) {
 		char one[100];
 		sprintf(one, "Solve light optical slice at %Lf nm\n",
 			in->l[lam] * 1e9);

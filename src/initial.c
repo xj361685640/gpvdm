@@ -23,37 +23,38 @@
 #include "sim.h"
 #include "dump.h"
 #include "log.h"
+#include <cal_path.h>
 
 void init_dump(struct simulation *sim, struct device *in)
 {
 	int i = 0;
 	if (get_dump_status(sim, dump_iodump) == TRUE) {
 		FILE *out;
-		out = fopena(in->outputpath, "init_Fi.dat", "w");
+		out = fopena(get_output_path(sim), "init_Fi.dat", "w");
 		for (i = 0; i < in->ymeshpoints; i++) {
 			fprintf(out, "%Le %Le\n", in->ymesh[i], in->Fi[i]);
 		}
 		fclose(out);
 
-		out = fopena(in->outputpath, "init_Ec.dat", "w");
+		out = fopena(get_output_path(sim), "init_Ec.dat", "w");
 		for (i = 0; i < in->ymeshpoints; i++) {
 			fprintf(out, "%Le %Le\n", in->ymesh[i], in->Ec[i]);
 		}
 		fclose(out);
 
-		out = fopena(in->outputpath, "init_Ev.dat", "w");
+		out = fopena(get_output_path(sim), "init_Ev.dat", "w");
 		for (i = 0; i < in->ymeshpoints; i++) {
 			fprintf(out, "%Le %Le\n", in->ymesh[i], in->Ev[i]);
 		}
 		fclose(out);
 
-		out = fopena(in->outputpath, "init_n.dat", "w");
+		out = fopena(get_output_path(sim), "init_n.dat", "w");
 		for (i = 0; i < in->ymeshpoints; i++) {
 			fprintf(out, "%Le %Le\n", in->ymesh[i], in->n[i]);
 		}
 		fclose(out);
 
-		out = fopena(in->outputpath, "init_p.dat", "w");
+		out = fopena(get_output_path(sim), "init_p.dat", "w");
 		for (i = 0; i < in->ymeshpoints; i++) {
 			fprintf(out, "%Le %Le\n", in->ymesh[i], in->p[i]);
 		}
@@ -106,10 +107,10 @@ void get_initial(struct simulation *sim, struct device *in)
 	}
 
 	if (get_dump_status(sim, dump_iodump) == TRUE) {
-		printf_log("check1= %Le %Le\n",
+		printf_log(sim, "check1= %Le %Le\n",
 			   get_p_den(top_l, in->Te[0], in->imat[0]),
 			   charge_left);
-		printf_log("check2= %Le %Le\n",
+		printf_log(sim, "check2= %Le %Le\n",
 			   get_n_den(top_r, in->Te[in->ymeshpoints - 1],
 				     in->imat[in->ymeshpoints - 1]),
 			   charge_right);
@@ -121,13 +122,13 @@ void get_initial(struct simulation *sim, struct device *in)
 	gdouble test_r = -in->Xi[0] - in->Eg[0] - top_l;
 	in->vbi = delta_phi;
 	if (get_dump_status(sim, dump_print_text) == TRUE) {
-		printf_log("delta=%Le\n", delta_phi);
-		printf_log(">>>>top_l= %Le\n", top_l + Eg);
-		printf_log(">>>>top_r= %Le\n", -top_r);
-		printf_log("left= %Le right = %Le  %Le %Le\n", test_l, test_r,
-			   test_r - test_l, delta_phi);
-		printf_log("%Le %Le %Le %Le %Le\n", top_l, top_r, Eg, delta_phi,
-			   in->phi[0]);
+		printf_log(sim, "delta=%Le\n", delta_phi);
+		printf_log(sim, ">>>>top_l= %Le\n", top_l + Eg);
+		printf_log(sim, ">>>>top_r= %Le\n", -top_r);
+		printf_log(sim, "left= %Le right = %Le  %Le %Le\n", test_l,
+			   test_r, test_r - test_l, delta_phi);
+		printf_log(sim, "%Le %Le %Le %Le %Le\n", top_l, top_r, Eg,
+			   delta_phi, in->phi[0]);
 	}
 
 	Ef = -(top_l + Xi + Eg);
@@ -152,14 +153,15 @@ void get_initial(struct simulation *sim, struct device *in)
 	in->r_holes = Rp;
 
 	if (get_dump_status(sim, dump_iodump) == TRUE) {
-		printf_log("Ef=%Le\n", Ef);
-		printf_log("Holes on left contact = %Le\n", Lp);
-		printf_log("Electrons on left contact = %Le\n", Ln);
+		printf_log(sim, "Ef=%Le\n", Ef);
+		printf_log(sim, "Holes on left contact = %Le\n", Lp);
+		printf_log(sim, "Electrons on left contact = %Le\n", Ln);
 
-		printf_log("Holes on right contact = %Le\n", Rp);
-		printf_log("Electrons on right contact = %Le\n", Rn);
+		printf_log(sim, "Holes on right contact = %Le\n", Rp);
+		printf_log(sim, "Electrons on right contact = %Le\n", Rn);
 
-		FILE *contacts = fopena(in->outputpath, "contacts.dat", "w");
+		FILE *contacts =
+		    fopena(get_output_path(sim), "contacts.dat", "w");
 		fprintf(contacts, "%Le\n", Lp);
 		fprintf(contacts, "%Le\n", Ln);
 
@@ -220,18 +222,18 @@ void get_initial(struct simulation *sim, struct device *in)
 
 			in->xt[i][band] = in->phi[i] + in->Fnt[i][band];
 			in->nt[i][band] =
-			    get_n_pop_srh(in->xt[i][band] + in->tt[i],
+			    get_n_pop_srh(sim, in->xt[i][band] + in->tt[i],
 					  in->Te[i], band, in->imat[i]);
 			in->dnt[i][band] =
-			    get_dn_pop_srh(in->xt[i][band] + in->tt[i],
+			    get_dn_pop_srh(sim, in->xt[i][band] + in->tt[i],
 					   in->Te[i], band, in->imat[i]);
 
 			in->xpt[i][band] = -(in->phi[i] + in->Fpt[i][band]);
 			in->pt[i][band] =
-			    get_p_pop_srh(in->xpt[i][band] - in->tpt[i],
+			    get_p_pop_srh(sim, in->xpt[i][band] - in->tpt[i],
 					  in->Th[i], band, in->imat[i]);
 			in->dpt[i][band] =
-			    get_dp_pop_srh(in->xpt[i][band] - in->tpt[i],
+			    get_dp_pop_srh(sim, in->xpt[i][band] - in->tpt[i],
 					   in->Th[i], band, in->imat[i]);
 		}
 

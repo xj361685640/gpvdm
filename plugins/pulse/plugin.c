@@ -30,11 +30,9 @@ struct dll_interface *fun;
 EXPORT void set_interface(struct dll_interface *in)
 {
 	fun = in;
-	log_init(&(in->in->log_level));
-	dump_ctrl_init(in->in);
 }
 
-EXPORT void dll_run_simulation(struct device *in)
+EXPORT void dll_run_simulation(struct simulation *sim, struct device *in)
 {
-	sim_pulse(in);
+	sim_pulse(sim, in);
 }

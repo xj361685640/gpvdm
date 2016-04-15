@@ -31,6 +31,7 @@
 #include "epitaxy.h"
 #include "lang.h"
 #include "log.h"
+#include <cal_path.h>
 
 static int unused __attribute__ ((unused));
 
@@ -92,15 +93,15 @@ void light_load_config_file(struct simulation *sim, struct light *in)
 
 	in->disable_transfer_to_electrical_mesh = FALSE;
 
-	join_path(2, path_temp, in->output_path, "light_dump");
+	join_path(2, path_temp, get_output_path(sim), "light_dump");
 	remove_dir(sim, path_temp);
 
-	join_path(2, in->config_file, in->output_path, "light.inp");
+	join_path(2, in->config_file, get_output_path(sim), "light.inp");
 
 	printf_log(sim, "Load optics config %s\n", in->config_file);
 
 	inp_init(sim, &inp);
-	inp_load_from_path(sim, &inp, in->input_path, "light.inp");
+	inp_load_from_path(sim, &inp, get_input_path(sim), "light.inp");
 
 	//printf("%s\n",inp.data);
 	inp_check(sim, &inp, 1.28);

@@ -43,16 +43,16 @@ static void (*dll_matrix_solver_free) ();
 
 static void *dll_handle;
 
-void solver_init(char *solver_name)
+void solver_init(struct simulation *sim, char *solver_name)
 {
-	printf_log(_("Solver initialization\n"));
+	printf_log(sim, _("Solver initialization\n"));
 	char lib_name[100];
 	char lib_path[1000];
 	sprintf(lib_name, "%s.so", solver_name);
 
-	join_path(2, lib_path, get_plugins_path(), lib_name);
-	printf_log("I want to open %s %s %s\n", lib_path, get_plugins_path(),
-		   lib_name);
+	join_path(2, lib_path, get_plugins_path(sim), lib_name);
+	printf_log(sim, "I want to open %s %s %s\n", lib_path,
+		   get_plugins_path(sim), lib_name);
 
 	char *error;
 

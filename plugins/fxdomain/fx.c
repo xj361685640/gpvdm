@@ -28,13 +28,13 @@ static double *fx_mesh;
 static int mesh_len = 0;
 static int mesh_pos = 0;
 
-void fx_mesh_save()
+void fx_mesh_save(struct simulation *sim)
 {
 	int i;
 	FILE *out;
 	out = fopen("fxmesh_save.dat", "w");
 	if (out == NULL) {
-		ewe("can not save fx mesh file\n");
+		ewe(sim, "can not save fx mesh file\n");
 	}
 
 	fprintf(out, "%d\n", mesh_len);
@@ -49,7 +49,7 @@ void fx_mesh_save()
 	fclose(out);
 }
 
-void fx_load_mesh(struct device *in, int number)
+void fx_load_mesh(struct simulation *sim, struct device *in, int number)
 {
 	int i;
 	struct inp_file inp;
@@ -68,28 +68,28 @@ void fx_load_mesh(struct device *in, int number)
 
 	sprintf(mesh_file, "fxmesh%d.inp", number);
 
-	inp_init(&inp);
-	inp_load_from_path(&inp, in->inputpath, mesh_file);
-	inp_check(&inp, 1.0);
+	inp_init(sim, &inp);
+	inp_load_from_path(sim, &inp, in->inputpath, mesh_file);
+	inp_check(sim, &inp, 1.0);
 
-	inp_reset_read(&inp);
+	inp_reset_read(sim, &inp);
 
-	inp_get_string(&inp);
-	sscanf(inp_get_string(&inp), "%le", &fx_start);
+	inp_get_string(sim, &inp);
+	sscanf(inp_get_string(sim, &inp), "%le", &fx_start);
 	fx = fx_start;
 
-	inp_get_string(&inp);
-	sscanf(inp_get_string(&inp), "%d", &segments);
+	inp_get_string(sim, &inp);
+	sscanf(inp_get_string(sim, &inp), "%d", &segments);
 
 	for (i = 0; i < segments; i++) {
-		inp_get_string(&inp);
-		sscanf(inp_get_string(&inp), "%le", &read_len);
+		inp_get_string(sim, &inp);
+		sscanf(inp_get_string(sim, &inp), "%le", &read_len);
 
-		inp_get_string(&inp);
-		sscanf(inp_get_string(&inp), "%le", &dfx);
+		inp_get_string(sim, &inp);
+		sscanf(inp_get_string(sim, &inp), "%le", &dfx);
 
-		inp_get_string(&inp);
-		sscanf(inp_get_string(&inp), "%le", &mul);
+		inp_get_string(sim, &inp);
+		sscanf(inp_get_string(sim, &inp), "%le", &mul);
 
 		if ((dfx != 0.0) && (mul != 0.0)) {
 			end_fx = fx + read_len;
@@ -105,7 +105,7 @@ void fx_load_mesh(struct device *in, int number)
 
 	mesh_len = ii;
 	mesh_pos = 0;
-	inp_free(&inp);
+	inp_free(sim, &inp);
 
 }
 

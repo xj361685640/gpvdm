@@ -257,10 +257,6 @@ void device_init(struct device *in)
 	in->Vapplied_last = -1.0;
 	in->Ilast = -1.0;
 	in->timedumpcount = -1;
-	strcpy(in->plugins_path, "");
-	strcpy(in->lang_path, "");
-	strcpy(in->inputpath, "");
-	strcpy(in->outputpath, "");
 	strcpy(in->simmode, "");
 	in->area = -1.0;
 

@@ -95,8 +95,6 @@ int device_start_i;
 int disable_transfer_to_electrical_mesh;
 gdouble device_ylen;
 gdouble Eg;
-char output_path[300];
-char input_path[300];
 gdouble Psun;
 gdouble laser_eff;
 gdouble simplephotondensity;

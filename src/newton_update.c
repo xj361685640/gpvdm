@@ -22,7 +22,7 @@
 #include "dump.h"
 #include <dos.h>
 
-void update_arrays(struct device *in)
+void update_arrays(struct simulation *sim, struct device *in)
 {
 
 	int i;
@@ -61,43 +61,45 @@ void update_arrays(struct device *in)
 				in->Fnt[i][band] = in->xt[i][band] - in->phi[i];
 
 				in->srh_n_r1[i][band] =
-				    get_n_srh(in->xt[i][band] + in->tt[i],
+				    get_n_srh(sim, in->xt[i][band] + in->tt[i],
 					      in->Te[i], band, srh_1,
 					      in->imat[i]);
 				in->srh_n_r2[i][band] =
-				    get_n_srh(in->xt[i][band] + in->tt[i],
+				    get_n_srh(sim, in->xt[i][band] + in->tt[i],
 					      in->Te[i], band, srh_2,
 					      in->imat[i]);
 				in->srh_n_r3[i][band] =
-				    get_n_srh(in->xt[i][band] + in->tt[i],
+				    get_n_srh(sim, in->xt[i][band] + in->tt[i],
 					      in->Te[i], band, srh_3,
 					      in->imat[i]);
 				in->srh_n_r4[i][band] =
-				    get_n_srh(in->xt[i][band] + in->tt[i],
+				    get_n_srh(sim, in->xt[i][band] + in->tt[i],
 					      in->Te[i], band, srh_4,
 					      in->imat[i]);
 				in->dsrh_n_r1[i][band] =
-				    get_dn_srh(in->xt[i][band] + in->tt[i],
+				    get_dn_srh(sim, in->xt[i][band] + in->tt[i],
 					       in->Te[i], band, srh_1,
 					       in->imat[i]);
 				in->dsrh_n_r2[i][band] =
-				    get_dn_srh(in->xt[i][band] + in->tt[i],
+				    get_dn_srh(sim, in->xt[i][band] + in->tt[i],
 					       in->Te[i], band, srh_2,
 					       in->imat[i]);
 				in->dsrh_n_r3[i][band] =
-				    get_dn_srh(in->xt[i][band] + in->tt[i],
+				    get_dn_srh(sim, in->xt[i][band] + in->tt[i],
 					       in->Te[i], band, srh_3,
 					       in->imat[i]);
 				in->dsrh_n_r4[i][band] =
-				    get_dn_srh(in->xt[i][band] + in->tt[i],
+				    get_dn_srh(sim, in->xt[i][band] + in->tt[i],
 					       in->Te[i], band, srh_4,
 					       in->imat[i]);
 
 				in->nt[i][band] =
-				    get_n_pop_srh(in->xt[i][band] + in->tt[i],
+				    get_n_pop_srh(sim,
+						  in->xt[i][band] + in->tt[i],
 						  in->Te[i], band, in->imat[i]);
 				in->dnt[i][band] =
-				    get_dn_pop_srh(in->xt[i][band] + in->tt[i],
+				    get_dn_pop_srh(sim,
+						   in->xt[i][band] + in->tt[i],
 						   in->Te[i], band,
 						   in->imat[i]);
 				in->nt_all[i] += in->nt[i][band];
@@ -112,43 +114,53 @@ void update_arrays(struct device *in)
 				    -in->xpt[i][band] - in->phi[i];
 
 				in->srh_p_r1[i][band] =
-				    get_p_srh(in->xpt[i][band] - in->tpt[i],
+				    get_p_srh(sim,
+					      in->xpt[i][band] - in->tpt[i],
 					      in->Th[i], band, srh_1,
 					      in->imat[i]);
 				in->srh_p_r2[i][band] =
-				    get_p_srh(in->xpt[i][band] - in->tpt[i],
+				    get_p_srh(sim,
+					      in->xpt[i][band] - in->tpt[i],
 					      in->Th[i], band, srh_2,
 					      in->imat[i]);
 				in->srh_p_r3[i][band] =
-				    get_p_srh(in->xpt[i][band] - in->tpt[i],
+				    get_p_srh(sim,
+					      in->xpt[i][band] - in->tpt[i],
 					      in->Th[i], band, srh_3,
 					      in->imat[i]);
 				in->srh_p_r4[i][band] =
-				    get_p_srh(in->xpt[i][band] - in->tpt[i],
+				    get_p_srh(sim,
+					      in->xpt[i][band] - in->tpt[i],
 					      in->Th[i], band, srh_4,
 					      in->imat[i]);
 				in->dsrh_p_r1[i][band] =
-				    get_dp_srh(in->xpt[i][band] - in->tpt[i],
+				    get_dp_srh(sim,
+					       in->xpt[i][band] - in->tpt[i],
 					       in->Th[i], band, srh_1,
 					       in->imat[i]);
 				in->dsrh_p_r2[i][band] =
-				    get_dp_srh(in->xpt[i][band] - in->tpt[i],
+				    get_dp_srh(sim,
+					       in->xpt[i][band] - in->tpt[i],
 					       in->Th[i], band, srh_2,
 					       in->imat[i]);
 				in->dsrh_p_r3[i][band] =
-				    get_dp_srh(in->xpt[i][band] - in->tpt[i],
+				    get_dp_srh(sim,
+					       in->xpt[i][band] - in->tpt[i],
 					       in->Th[i], band, srh_3,
 					       in->imat[i]);
 				in->dsrh_p_r4[i][band] =
-				    get_dp_srh(in->xpt[i][band] - in->tpt[i],
+				    get_dp_srh(sim,
+					       in->xpt[i][band] - in->tpt[i],
 					       in->Th[i], band, srh_4,
 					       in->imat[i]);
 
 				in->pt[i][band] =
-				    get_p_pop_srh(in->xpt[i][band] - in->tpt[i],
+				    get_p_pop_srh(sim,
+						  in->xpt[i][band] - in->tpt[i],
 						  in->Th[i], band, in->imat[i]);
 				in->dpt[i][band] =
-				    get_dp_pop_srh(in->xpt[i][band] -
+				    get_dp_pop_srh(sim,
+						   in->xpt[i][band] -
 						   in->tpt[i], in->Th[i], band,
 						   in->imat[i]);
 				in->pt_all[i] += in->pt[i][band];

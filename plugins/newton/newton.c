@@ -26,6 +26,7 @@
 #include <util.h>
 #include <exp.h>
 #include <advmath.h>
+#include <dump.h>
 
 static gdouble Jnl = 0.0;
 static gdouble Jnr = 0.0;
@@ -117,7 +118,7 @@ void dllinternal_newton_set_min_ittr(int ittr)
 	newton_min_ittr = ittr;
 }
 
-void update_solver_vars(struct device *in, int clamp)
+void update_solver_vars(struct simulation *sim, struct device *in, int clamp)
 {
 	int i;
 	int band = 0;
@@ -211,16 +212,16 @@ void update_solver_vars(struct device *in, int clamp)
 
 	}
 
-	(*fun->update_arrays) (in);
+	(*fun->update_arrays) (sim, in);
 
 }
 
-void fill_matrix(struct device *in)
+void fill_matrix(struct simulation *sim, struct device *in)
 {
 //gdouble offset= -0.5;
 	int band = 0;
 
-	(*fun->update_arrays) (in);
+	(*fun->update_arrays) (sim, in);
 
 //FILE *file_j =fopen("myj.dat","w");
 //getchar();
@@ -1189,7 +1190,7 @@ void fill_matrix(struct device *in)
 	}
 
 	if (pos > in->N) {
-		(*fun->ewe) ("Error %d %d %d\n", pos, in->N, in->kl_in_newton);
+		ewe(sim, "Error %d %d %d\n", pos, in->N, in->kl_in_newton);
 	}
 //solver_dump_matrix_comments(in->M,pos,in->Tdebug,in->Ti,in->Tj, in->Tx,in->b,"");
 //getchar();
@@ -1199,7 +1200,7 @@ void fill_matrix(struct device *in)
 
 }
 
-gdouble get_cur_error(struct device *in)
+gdouble get_cur_error(struct simulation *sim, struct device *in)
 {
 	int i;
 	gdouble phi = 0.0;
@@ -1254,7 +1255,7 @@ gdouble get_cur_error(struct device *in)
 		       te, th, tl, ttn, ttp);
 		(*fun->dump_matrix) (in->M, in->N, in->Ti, in->Tj, in->Tx,
 				     in->b, "");
-		(*fun->ewe) ("nan detected in newton solver\n");
+		ewe(sim, "nan detected in newton solver\n");
 	}
 
 	return tot;
@@ -1314,7 +1315,7 @@ void solver_cal_memory(struct device *in, int *ret_N, int *ret_M)
 	*ret_M = M;
 }
 
-void dllinternal_solver_realloc(struct device *in)
+void dllinternal_solver_realloc(struct simulation *sim, struct device *in)
 {
 	int N = 0;
 	int M = 0;
@@ -1338,21 +1339,21 @@ void dllinternal_solver_realloc(struct device *in)
 
 		itemp = realloc(in->Ti, in->N * sizeof(int));
 		if (itemp == NULL) {
-			(*fun->ewe) ("in->Ti - memory error\n");
+			ewe(sim, "in->Ti - memory error\n");
 		} else {
 			in->Ti = itemp;
 		}
 
 		itemp = realloc(in->Tj, in->N * sizeof(int));
 		if (itemp == NULL) {
-			(*fun->ewe) ("in->Tj - memory error\n");
+			ewe(sim, "in->Tj - memory error\n");
 		} else {
 			in->Tj = itemp;
 		}
 
 		dtemp = realloc(in->Tx, in->N * sizeof(gdouble));
 		if (dtemp == NULL) {
-			(*fun->ewe) ("in->Tx - memory error\n");
+			ewe(sim, "in->Tx - memory error\n");
 		} else {
 			in->Tx = dtemp;
 		}
@@ -1369,7 +1370,7 @@ void dllinternal_solver_realloc(struct device *in)
 		dtemp = realloc(in->b, in->M * sizeof(gdouble));
 
 		if (dtemp == NULL) {
-			(*fun->ewe) ("in->b - memory error\n");
+			ewe(sim, "in->b - memory error\n");
 		} else {
 			in->b = dtemp;
 		}
@@ -1378,7 +1379,7 @@ void dllinternal_solver_realloc(struct device *in)
 			dtemp =
 			    realloc(dntrap, in->srh_bands * sizeof(gdouble));
 			if (dtemp == NULL) {
-				(*fun->ewe) ("memory error\n");
+				ewe(sim, "memory error\n");
 			} else {
 				dntrap = dtemp;
 			}
@@ -1387,7 +1388,7 @@ void dllinternal_solver_realloc(struct device *in)
 			    realloc(dntrapdntrap,
 				    in->srh_bands * sizeof(gdouble));
 			if (dtemp == NULL) {
-				(*fun->ewe) ("memory error\n");
+				ewe(sim, "memory error\n");
 			} else {
 				dntrapdntrap = dtemp;
 			}
@@ -1395,7 +1396,7 @@ void dllinternal_solver_realloc(struct device *in)
 			dtemp =
 			    realloc(dntrapdn, in->srh_bands * sizeof(gdouble));
 			if (dtemp == NULL) {
-				(*fun->ewe) ("memory error\n");
+				ewe(sim, "memory error\n");
 			} else {
 				dntrapdn = dtemp;
 			}
@@ -1403,7 +1404,7 @@ void dllinternal_solver_realloc(struct device *in)
 			dtemp =
 			    realloc(dntrapdp, in->srh_bands * sizeof(gdouble));
 			if (dtemp == NULL) {
-				(*fun->ewe) ("memory error\n");
+				ewe(sim, "memory error\n");
 			} else {
 				dntrapdp = dtemp;
 			}
@@ -1411,7 +1412,7 @@ void dllinternal_solver_realloc(struct device *in)
 			dtemp =
 			    realloc(dJdtrapn, in->srh_bands * sizeof(gdouble));
 			if (dtemp == NULL) {
-				(*fun->ewe) ("memory error\n");
+				ewe(sim, "memory error\n");
 			} else {
 				dJdtrapn = dtemp;
 			}
@@ -1419,7 +1420,7 @@ void dllinternal_solver_realloc(struct device *in)
 			dtemp =
 			    realloc(dJpdtrapn, in->srh_bands * sizeof(gdouble));
 			if (dtemp == NULL) {
-				(*fun->ewe) ("memory error\n");
+				ewe(sim, "memory error\n");
 			} else {
 				dJpdtrapn = dtemp;
 			}
@@ -1428,7 +1429,7 @@ void dllinternal_solver_realloc(struct device *in)
 			    realloc(dphidntrap,
 				    in->srh_bands * sizeof(gdouble));
 			if (dtemp == NULL) {
-				(*fun->ewe) ("memory error\n");
+				ewe(sim, "memory error\n");
 			} else {
 				dphidntrap = dtemp;
 			}
@@ -1436,7 +1437,7 @@ void dllinternal_solver_realloc(struct device *in)
 			dtemp =
 			    realloc(dptrapdp, in->srh_bands * sizeof(gdouble));
 			if (dtemp == NULL) {
-				(*fun->ewe) ("memory error\n");
+				ewe(sim, "memory error\n");
 			} else {
 				dptrapdp = dtemp;
 			}
@@ -1445,7 +1446,7 @@ void dllinternal_solver_realloc(struct device *in)
 			    realloc(dptrapdptrap,
 				    in->srh_bands * sizeof(gdouble));
 			if (dtemp == NULL) {
-				(*fun->ewe) ("memory error\n");
+				ewe(sim, "memory error\n");
 			} else {
 				dptrapdptrap = dtemp;
 			}
@@ -1453,7 +1454,7 @@ void dllinternal_solver_realloc(struct device *in)
 			dtemp =
 			    realloc(dptrap, in->srh_bands * sizeof(gdouble));
 			if (dtemp == NULL) {
-				(*fun->ewe) ("memory error\n");
+				ewe(sim, "memory error\n");
 			} else {
 				dptrap = dtemp;
 			}
@@ -1461,7 +1462,7 @@ void dllinternal_solver_realloc(struct device *in)
 			dtemp =
 			    realloc(dptrapdn, in->srh_bands * sizeof(gdouble));
 			if (dtemp == NULL) {
-				(*fun->ewe) ("memory error\n");
+				ewe(sim, "memory error\n");
 			} else {
 				dptrapdn = dtemp;
 			}
@@ -1469,7 +1470,7 @@ void dllinternal_solver_realloc(struct device *in)
 			dtemp =
 			    realloc(dJpdtrapp, in->srh_bands * sizeof(gdouble));
 			if (dtemp == NULL) {
-				(*fun->ewe) ("memory error\n");
+				ewe(sim, "memory error\n");
 			} else {
 				dJpdtrapp = dtemp;
 			}
@@ -1477,7 +1478,7 @@ void dllinternal_solver_realloc(struct device *in)
 			dtemp =
 			    realloc(dJdtrapp, in->srh_bands * sizeof(gdouble));
 			if (dtemp == NULL) {
-				(*fun->ewe) ("memory error\n");
+				ewe(sim, "memory error\n");
 			} else {
 				dJdtrapp = dtemp;
 			}
@@ -1486,7 +1487,7 @@ void dllinternal_solver_realloc(struct device *in)
 			    realloc(dphidptrap,
 				    in->srh_bands * sizeof(gdouble));
 			if (dtemp == NULL) {
-				(*fun->ewe) ("memory error\n");
+				ewe(sim, "memory error\n");
 			} else {
 				dphidptrap = dtemp;
 			}
@@ -1553,11 +1554,11 @@ void dllinternal_solver_free_memory(struct device *in)
 
 }
 
-int dllinternal_solve_cur(struct device *in)
+int dllinternal_solve_cur(struct simulation *sim, struct device *in)
 {
 	gdouble error = 0.0;
 	int ittr = 0;
-	if ((*fun->get_dump_status) (dump_print_newtonerror) == TRUE) {
+	if (get_dump_status(sim, dump_print_newtonerror) == TRUE) {
 		printf("Solve cur\n");
 	}
 
@@ -1574,7 +1575,7 @@ int dllinternal_solve_cur(struct device *in)
 //      printf("Rod ------- nt= %d %le\n",i,in->Gn[i]);
 //}
 	do {
-		fill_matrix(in);
+		fill_matrix(sim, in);
 
 //dump_for_plot(in);
 //plot_now(in,"plot");
@@ -1587,13 +1588,13 @@ int dllinternal_solve_cur(struct device *in)
 
 		(*fun->solver) (in->M, in->N, in->Ti, in->Tj, in->Tx, in->b);
 
-		update_solver_vars(in, TRUE);
+		update_solver_vars(sim, in, TRUE);
 		//printf("Going to clamp=%d\n",proper);
 		//solver_dump_matrix(in->M,in->N,in->Ti,in->Tj, in->Tx,in->b);
 		//printf("%d\n");
 		//getchar();    
 
-		error = get_cur_error(in);
+		error = get_cur_error(sim, in);
 
 		//thermalrun++;
 		if (thermalrun == 40)
@@ -1601,7 +1602,7 @@ int dllinternal_solve_cur(struct device *in)
 		//update(in);
 //getchar();
 
-		if ((*fun->get_dump_status) (dump_print_newtonerror) == TRUE) {
+		if (get_dump_status(sim, dump_print_newtonerror) == TRUE) {
 			printf("%d Cur error = %Le %Le I=%Le", ittr, error,
 			       in->Vapplied, get_I(in));
 
@@ -1612,11 +1613,11 @@ int dllinternal_solve_cur(struct device *in)
 		in->last_ittr = ittr;
 		ittr++;
 
-		if ((*fun->get_dump_status) (dump_write_converge) == TRUE) {
-			in->converge =
+		if (get_dump_status(sim, dump_write_converge) == TRUE) {
+			sim->converge =
 			    fopena(in->outputpath, "converge.dat", "a");
-			fprintf(in->converge, "%Le\n", error);
-			fclose(in->converge);
+			fprintf(sim->converge, "%Le\n", error);
+			fclose(sim->converge);
 		}
 
 		stop = TRUE;
@@ -1651,12 +1652,12 @@ int dllinternal_solve_cur(struct device *in)
 	in->newton_last_ittr = ittr;
 
 	if (error > 1e-3) {
-		printf_log
-		    ("warning: The solver has not converged very well.\n");
+		printf_log(sim,
+			   "warning: The solver has not converged very well.\n");
 	}
 //getchar();
-	if ((*fun->get_dump_status) (dump_newton) == TRUE) {
-		(*fun->dump_1d_slice) (in, in->outputpath);
+	if (get_dump_status(sim, dump_newton) == TRUE) {
+		dump_1d_slice(sim, in, in->outputpath);
 	}
 //plot_now(in,"plot");
 //getchar();

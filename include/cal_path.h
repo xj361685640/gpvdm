@@ -24,12 +24,11 @@
 #define cal_path_h
 #include <device.h>
 
-void cal_path_init(struct device *in);
-void cal_path(struct simulation *sim,struct device *in);
-char *get_plugins_path();
-char *get_lang_path();
-char *get_input_path();
-char *get_output_path();
-void set_input_path(char *in);
-void set_output_path(char *in);
+void cal_path(struct simulation *sim);
+char *get_plugins_path(struct simulation *sim);
+char *get_lang_path(struct simulation *sim);
+char *get_input_path(struct simulation *sim);
+char *get_output_path(struct simulation *sim);
+void set_input_path(struct simulation *sim,char *in);
+void set_output_path(struct simulation *sim,char *in);
 #endif

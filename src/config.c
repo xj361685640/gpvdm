@@ -28,40 +28,11 @@
 #include "hard_limit.h"
 #include "epitaxy.h"
 #include "mesh.h"
+#include <cal_path.h>
 
 static int unused __attribute__ ((unused));
 
-void config_read_line_to_gdouble(gdouble * data, FILE * in, char *id)
-{
-	char name[100];
-	unused = fscanf(in, "%s", name);
-	unused = fscanf(in, "%Le", data);
-	if (strcmp(name, id) != 0) {
-		ewe("Error read %s but expected %s\n", name, id);
-	}
-}
-
-void config_read_line_to_int(int *data, FILE * in, char *id)
-{
-	char name[100];
-	unused = fscanf(in, "%s", name);
-	unused = fscanf(in, "%d", data);
-	if (strcmp(name, id) != 0) {
-		ewe("Error read %s but expected %s\n", name, id);
-	}
-}
-
-void config_read_line_to_string(char *data, FILE * in, char *id)
-{
-	char name[100];
-	unused = fscanf(in, "%s", name);
-	unused = fscanf(in, "%s", data);
-	if (strcmp(name, id) != 0) {
-		ewe("Error read %s but expected %s\n", name, id);
-	}
-}
-
-void load_config(struct device *in)
+void load_config(struct simulation *sim, struct device *in)
 {
 	int i;
 	char temp[100];
@@ -69,30 +40,30 @@ void load_config(struct device *in)
 	char device_epitaxy[100];
 
 	struct inp_file inp;
-	inp_init(&inp);
-	inp_load_from_path(&inp, in->inputpath, "sim.inp");
-	inp_check(&inp, 1.2);
+	inp_init(sim, &inp);
+	inp_load_from_path(sim, &inp, get_input_path(sim), "sim.inp");
+	inp_check(sim, &inp, 1.2);
 
-	inp_search_string(&inp, in->simmode, "#simmode");
+	inp_search_string(sim, &inp, in->simmode, "#simmode");
 
-	inp_search_int(&inp, &(in->stoppoint), "#stoppoint");
-	inp_search_string(&inp, device_epitaxy, "#epitaxy");
+	inp_search_int(sim, &inp, &(in->stoppoint), "#stoppoint");
+	inp_search_string(sim, &inp, device_epitaxy, "#epitaxy");
 
 	in->srh_sim = TRUE;
 	in->ntrapnewton = TRUE;
 	in->ptrapnewton = TRUE;
 
-	inp_free(&inp);
+	inp_free(sim, &inp);
 
 /////////////////////////////////////////
 
 	char device_file_path[1000];
 
-	join_path(2, device_file_path, in->inputpath, "epitaxy.inp");
+	join_path(2, device_file_path, get_input_path(sim), "epitaxy.inp");
 
-	epitaxy_load(&(in->my_epitaxy), device_file_path);
+	epitaxy_load(sim, &(in->my_epitaxy), device_file_path);
 
-	mesh_load(in);
+	mesh_load(sim, in);
 ///////////////////////////////
 
 	in->ylen = 0.0;
@@ -105,100 +76,104 @@ void load_config(struct device *in)
 	}
 
 	if (fabs(in->ylen - mesh_len) > 1e-14) {
-		mesh_remesh(in);
+		mesh_remesh(sim, in);
 		printf
 		    ("Warning: Length of epitaxy and computational mesh did not match, so I remesshed the device.\n");
 	}
 
-	inp_init(&inp);
-	inp_load_from_path(&inp, in->inputpath, "device.inp");
-	inp_check(&inp, 1.19);
+	inp_init(sim, &inp);
+	inp_load_from_path(sim, &inp, get_input_path(sim), "device.inp");
+	inp_check(sim, &inp, 1.19);
 	printf("%s\n", inp.data);
-	inp_search_string(&inp, temp, "#lr_bias");
-	in->lr_bias = english_to_bin(temp);
+	inp_search_string(sim, &inp, temp, "#lr_bias");
+	in->lr_bias = english_to_bin(sim, temp);
 
-	inp_search_string(&inp, temp, "#lr_pcontact");
-	in->lr_pcontact = english_to_bin(temp);
+	inp_search_string(sim, &inp, temp, "#lr_pcontact");
+	in->lr_pcontact = english_to_bin(sim, temp);
 
-	inp_search_string(&inp, temp, "#invert_applied_bias");
-	in->invert_applied_bias = english_to_bin(temp);
+	inp_search_string(sim, &inp, temp, "#invert_applied_bias");
+	in->invert_applied_bias = english_to_bin(sim, temp);
 
-	inp_search_gdouble(&inp, &(in->xlen), "#xlen");
-	inp_search_gdouble(&inp, &(in->zlen), "#zlen");
+	inp_search_gdouble(sim, &inp, &(in->xlen), "#xlen");
+	inp_search_gdouble(sim, &inp, &(in->zlen), "#zlen");
 	in->area = in->xlen * in->zlen;
 
-	inp_search_gdouble(&inp, &(in->Rshunt), "#Rshunt");
+	inp_search_gdouble(sim, &inp, &(in->Rshunt), "#Rshunt");
 	in->Rshunt = fabs(in->Rshunt);
 
-	inp_search_gdouble(&inp, &(in->Rcontact), "#Rcontact");
+	inp_search_gdouble(sim, &inp, &(in->Rcontact), "#Rcontact");
 	in->Rcontact = fabs(in->Rcontact);
 
-	inp_search_gdouble(&inp, &(in->Rshort), "#Rshort");
+	inp_search_gdouble(sim, &inp, &(in->Rshort), "#Rshort");
 	in->Rshort = fabs(in->Rshort);
 
-	inp_search_gdouble(&inp, &(in->lcharge), "#lcharge");
+	inp_search_gdouble(sim, &inp, &(in->lcharge), "#lcharge");
 	in->lcharge = gfabs(in->lcharge);
 
 //if (in->lcharge<1e4) in->lcharge=1e4;
 
-	inp_search_gdouble(&inp, &(in->rcharge), "#rcharge");
+	inp_search_gdouble(sim, &inp, &(in->rcharge), "#rcharge");
 	in->rcharge = fabs(in->rcharge);
 //if (in->rcharge<1e4) in->rcharge=1e4;
 
-	inp_search_gdouble(&inp, &(in->other_layers), "#otherlayers");
+	inp_search_gdouble(sim, &inp, &(in->other_layers), "#otherlayers");
 
-	inp_search_int(&inp, &(in->interfaceleft), "#interfaceleft");
-	inp_search_int(&inp, &(in->interfaceright), "#interfaceright");
-	inp_search_gdouble(&inp, &(in->phibleft), "#phibleft");
-	inp_search_gdouble(&inp, &(in->phibright), "#phibright");
+	inp_search_int(sim, &inp, &(in->interfaceleft), "#interfaceleft");
+	inp_search_int(sim, &inp, &(in->interfaceright), "#interfaceright");
+	inp_search_gdouble(sim, &inp, &(in->phibleft), "#phibleft");
+	inp_search_gdouble(sim, &inp, &(in->phibright), "#phibright");
 
-	inp_search_gdouble(&inp, &(in->vl_e), "#vl_e");
+	inp_search_gdouble(sim, &inp, &(in->vl_e), "#vl_e");
 	in->vl_e = fabs(in->vl_e);
 
-	inp_search_gdouble(&inp, &(in->vl_h), "#vl_h");
+	inp_search_gdouble(sim, &inp, &(in->vl_h), "#vl_h");
 	in->vl_h = fabs(in->vl_h);
 
-	inp_search_gdouble(&inp, &(in->vr_e), "#vr_e");
+	inp_search_gdouble(sim, &inp, &(in->vr_e), "#vr_e");
 	in->vr_e = fabs(in->vr_e);
 
-	inp_search_gdouble(&inp, &(in->vr_h), "#vr_h");
+	inp_search_gdouble(sim, &inp, &(in->vr_h), "#vr_h");
 	in->vr_h = fabs(in->vr_h);
 
-	inp_free(&inp);
+	inp_free(sim, &inp);
 
-	inp_init(&inp);
-	inp_load_from_path(&inp, in->inputpath, "math.inp");
-	inp_check(&inp, 1.48);
-	inp_search_int(&inp, &(in->max_electrical_itt0),
+	inp_init(sim, &inp);
+	inp_load_from_path(sim, &inp, get_input_path(sim), "math.inp");
+	inp_check(sim, &inp, 1.48);
+	inp_search_int(sim, &inp, &(in->max_electrical_itt0),
 		       "#maxelectricalitt_first");
-	inp_search_gdouble(&inp, &(in->electrical_clamp0),
+	inp_search_gdouble(sim, &inp, &(in->electrical_clamp0),
 			   "#electricalclamp_first");
-	inp_search_gdouble(&inp, &(in->electrical_error0),
+	inp_search_gdouble(sim, &inp, &(in->electrical_error0),
 			   "#math_electrical_error_first");
-	inp_search_int(&inp, &(in->math_enable_pos_solver),
+	inp_search_int(sim, &inp, &(in->math_enable_pos_solver),
 		       "#math_enable_pos_solver");
-	inp_search_int(&inp, &(in->max_electrical_itt), "#maxelectricalitt");
-	inp_search_gdouble(&inp, &(in->electrical_clamp), "#electricalclamp");
-	inp_search_gdouble(&inp, &(in->posclamp), "#posclamp");
-	inp_search_gdouble(&inp, &(in->min_cur_error), "#electricalerror");
-	inp_search_int(&inp, &(in->newton_clever_exit), "#newton_clever_exit");
-	inp_search_int(&inp, &(in->newton_min_itt), "#newton_min_itt");
-	inp_search_int(&inp, &(in->remesh), "#remesh");
-	inp_search_int(&inp, &(in->newmeshsize), "#newmeshsize");
-	inp_search_int(&inp, &(in->pos_max_ittr), "#pos_max_ittr");
-	inp_search_int(&inp, &(in->config_kl_in_newton), "#kl_in_newton");
-	inp_search_string(&inp, in->solver_name, "#solver_name");
-	inp_search_string(&inp, in->newton_name, "#newton_name");
+	inp_search_int(sim, &inp, &(in->max_electrical_itt),
+		       "#maxelectricalitt");
+	inp_search_gdouble(sim, &inp, &(in->electrical_clamp),
+			   "#electricalclamp");
+	inp_search_gdouble(sim, &inp, &(in->posclamp), "#posclamp");
+	inp_search_gdouble(sim, &inp, &(in->min_cur_error), "#electricalerror");
+	inp_search_int(sim, &inp, &(in->newton_clever_exit),
+		       "#newton_clever_exit");
+	inp_search_int(sim, &inp, &(in->newton_min_itt), "#newton_min_itt");
+	inp_search_int(sim, &inp, &(in->remesh), "#remesh");
+	inp_search_int(sim, &inp, &(in->newmeshsize), "#newmeshsize");
+	inp_search_int(sim, &inp, &(in->pos_max_ittr), "#pos_max_ittr");
+	inp_search_int(sim, &inp, &(in->config_kl_in_newton), "#kl_in_newton");
+	inp_search_string(sim, &inp, in->solver_name, "#solver_name");
+	inp_search_string(sim, &inp, in->newton_name, "#newton_name");
 
-	inp_free(&inp);
+	inp_free(sim, &inp);
 
-	inp_init(&inp);
-	inp_load_from_path(&inp, in->inputpath, "thermal.inp");
-	inp_check(&inp, 1.0);
-	inp_search_int(&inp, &(in->newton_enable_external_thermal), "#thermal");
-	inp_search_int(&inp, &(in->nofluxl), "#nofluxl");
-	inp_search_gdouble(&inp, &(in->Tll), "#Tll");
-	inp_search_gdouble(&inp, &(in->Tlr), "#Tlr");
-	inp_free(&inp);
+	inp_init(sim, &inp);
+	inp_load_from_path(sim, &inp, get_input_path(sim), "thermal.inp");
+	inp_check(sim, &inp, 1.0);
+	inp_search_int(sim, &inp, &(in->newton_enable_external_thermal),
+		       "#thermal");
+	inp_search_int(sim, &inp, &(in->nofluxl), "#nofluxl");
+	inp_search_gdouble(sim, &inp, &(in->Tll), "#Tll");
+	inp_search_gdouble(sim, &inp, &(in->Tlr), "#Tlr");
+	inp_free(sim, &inp);
 
 }

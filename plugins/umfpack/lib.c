@@ -48,8 +48,8 @@ void error_report(int status, const char *file, const char *func, int line)
 	}
 }
 
-int umfpack_solver(int col, int nz, int *Ti, int *Tj, long double *lTx,
-		   long double *lb)
+int umfpack_solver(struct simulation *sim, int col, int nz, int *Ti, int *Tj,
+		   long double *lTx, long double *lb)
 {
 	int i;
 	void *Symbolic, *Numeric;
@@ -60,42 +60,42 @@ int umfpack_solver(int col, int nz, int *Ti, int *Tj, long double *lTx,
 	if ((last_col != col) || (last_nz != nz)) {
 		dtemp = realloc(x, col * sizeof(double));
 		if (dtemp == NULL) {
-			ewe("realloc failed\n");
+			ewe(sim, "realloc failed\n");
 		} else {
 			x = dtemp;
 		}
 
 		dtemp = realloc(b, col * sizeof(double));
 		if (dtemp == NULL) {
-			ewe("realloc failed\n");
+			ewe(sim, "realloc failed\n");
 		} else {
 			b = dtemp;
 		}
 
 		itemp = realloc(Ap, (col + 1) * sizeof(int));
 		if (itemp == NULL) {
-			ewe("realloc failed\n");
+			ewe(sim, "realloc failed\n");
 		} else {
 			Ap = itemp;
 		}
 
 		itemp = realloc(Ai, (nz) * sizeof(int));
 		if (itemp == NULL) {
-			ewe("realloc failed\n");
+			ewe(sim, "realloc failed\n");
 		} else {
 			Ai = itemp;
 		}
 
 		dtemp = realloc(Ax, (nz) * sizeof(double));
 		if (dtemp == NULL) {
-			ewe("realloc failed\n");
+			ewe(sim, "realloc failed\n");
 		} else {
 			Ax = dtemp;
 		}
 
 		dtemp = realloc(Tx, (nz) * sizeof(double));
 		if (dtemp == NULL) {
-			ewe("realloc failed\n");
+			ewe(sim, "realloc failed\n");
 		} else {
 			Tx = dtemp;
 		}

@@ -34,6 +34,12 @@ struct simulation
 	//dump
 	int dump_array[100];
 	int log_level;
+	//paths
+	char plugins_path[400];
+	char lang_path[400];
+	char input_path[400];
+	char output_path[400];
+	char share_path[400];
 };
 
 #endif

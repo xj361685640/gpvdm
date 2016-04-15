@@ -30,6 +30,11 @@ void log_clear()
 	fclose(out);
 }
 
+void set_logging_level(struct simulation *sim, int value)
+{
+	sim->log_level = value;
+}
+
 void printf_log(struct simulation *sim, const char *format, ...)
 {
 	FILE *out;

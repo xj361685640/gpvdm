@@ -37,7 +37,7 @@
 int solve_cur_thermal(struct device *in,int thermal);
 int solve_pos(struct simulation *sim,struct device *in);
 void get_initial(struct simulation *sim,struct device *in);
-void update_arrays(struct device *in);
+void update_arrays(struct simulation *sim,struct device *in);
 void find_n0(struct simulation *sim,struct device *in);
 
 //from time.c
@@ -62,7 +62,7 @@ void init_mat_arrays(struct device *in);
 
 
 
-void load_config(struct device *in);
+void load_config(struct simulation *sim,struct device *in);
 void update(struct device *cell);
 int run_simulation(struct simulation *sim,char *outputpath,char *inputpath);
 void solve_all(struct device *in);
@@ -77,7 +77,7 @@ void light_solve_and_update(struct simulation *sim,struct device *cell,struct li
 void light_init(struct light *in,struct device *cell);
 //debug
 void stop_start(struct simulation *sim,struct device *in);
-void run_electrical_dll(struct device *in,char *dll_name);
+void run_electrical_dll(struct simulation *sim,struct device *in,char *dll_name);
 void gen_dos_fd_gaus_fd(struct simulation *sim);
 void sim_init(struct simulation *sim);
 #endif

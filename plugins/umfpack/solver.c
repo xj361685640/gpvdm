@@ -31,10 +31,10 @@ EXPORT void set_interface(struct dll_interface *in)
 	fun = in;
 }
 
-EXPORT void dll_matrix_solve(int col, int nz, int *Ti, int *Tj, long double *Tx,
-			     long double *b)
+EXPORT void dll_matrix_solve(struct simulation *sim, int col, int nz, int *Ti,
+			     int *Tj, long double *Tx, long double *b)
 {
-	umfpack_solver(col, nz, Ti, Tj, Tx, b);
+	umfpack_solver(sim, col, nz, Ti, Tj, Tx, b);
 }
 
 EXPORT void dll_matrix_dump(int col, int nz, int *Ti, int *Tj, long double *Tx,

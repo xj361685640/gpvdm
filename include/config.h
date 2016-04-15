@@ -21,8 +21,7 @@
 
 #ifndef config_h
 #define config_h
-void config_read_line_to_string(char *data,FILE *in,char *id);
-void config_read_line_to_int(int *data,FILE *in,char *id);
-void config_read_line_to_double(double *data,FILE *in,char *id);
+#include <device.h>
+void load_config(struct simulation *sim,struct device *in);
 void config_read_line_string_decode_to_int(int *data,FILE *in,char *id);
 #endif

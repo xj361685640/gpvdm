@@ -27,12 +27,12 @@
 #include <device.h>
 
 void dllinternal_newton_set_min_ittr(int ittr);
-void update_solver_vars(struct device *in, int clamp);
-void fill_matrix(struct device *in);
-gdouble get_cur_error(struct device *in);
+void update_solver_vars(struct simulation *sim, struct device *in, int clamp);
+void fill_matrix(struct simulation *sim, struct device *in);
+gdouble get_cur_error(struct simulation *sim, struct device *in);
 gdouble get_abs_error(struct device *in);
 void solver_cal_memory(struct device *in, int *ret_N, int *ret_M);
 void dllinternal_solver_free_memory(struct device *in);
-int dllinternal_solve_cur(struct device *in);
-void dllinternal_solver_realloc(struct device *in);
+int dllinternal_solve_cur(struct simulation *sim, struct device *in);
+void dllinternal_solver_realloc(struct simulation *sim, struct device *in);
 #endif

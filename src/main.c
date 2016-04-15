@@ -57,8 +57,7 @@ int main(int argc, char *argv[])
 	struct simulation sim;
 	sim_init(&sim);
 	int log_level = 0;
-	log_init(&sim);
-	set_logging_level(log_level_screen);
+	set_logging_level(&sim, log_level_screen);
 
 	if (scanarg(argv, argc, "--help") == TRUE) {
 		printf
@@ -99,7 +98,7 @@ int main(int argc, char *argv[])
 //solver_ld_test();
 //exit(0);
 	setlocale(LC_MESSAGES, "");
-	bindtextdomain("gpvdm", get_lang_path());
+	bindtextdomain("gpvdm", get_lang_path(&sim));
 	textdomain("gpvdm");
 
 	timer_init(0);
@@ -110,20 +109,20 @@ int main(int argc, char *argv[])
 
 	char pwd[1000];
 	if (getcwd(pwd, 1000) == NULL) {
-		ewe("IO error\n");
+		ewe(&sim, "IO error\n");
 	}
 
 	remove("snapshots.zip");
 	remove("light_dump.zip");
 
-	hard_limit_init();
+	hard_limit_init(&sim);
 
 	set_plot_script_dir(pwd);
 
 //set_plot_script_dir(char * in)
 
 	if (geteuid() == 0) {
-		ewe("Don't run me as root!\n");
+		ewe(&sim, "Don't run me as root!\n");
 	}
 
 	srand(time(0));
@@ -164,11 +163,11 @@ int main(int argc, char *argv[])
 
 	char name[200];
 	struct inp_file inp;
-	inp_init(&inp);
-	inp_load_from_path(&inp, input_path, "ver.inp");
-	inp_check(&inp, 1.0);
-	inp_search_string(&inp, name, "#core");
-	inp_free(&inp);
+	inp_init(&sim, &inp);
+	inp_load_from_path(&sim, &inp, input_path, "ver.inp");
+	inp_check(&sim, &inp, 1.0);
+	inp_search_string(&sim, &inp, name, "#core");
+	inp_free(&sim, &inp);
 
 	if (strcmp(name, gpvdm_ver) != 0) {
 		printf
@@ -179,7 +178,7 @@ int main(int argc, char *argv[])
 
 	gui_start();
 	if (scanarg(argv, argc, "--optics") == FALSE)
-		server_init(&globalserver);
+		server_init(&sim, &globalserver);
 
 	if (scanarg(argv, argc, "--lock") == TRUE) {
 		server_set_dbus_finish_signal(&globalserver,
@@ -192,13 +191,13 @@ int main(int argc, char *argv[])
 	gen_dos_fd_gaus_fd(&sim);
 
 	server_add_job(&sim, &globalserver, output_path, input_path);
-	print_jobs(&globalserver);
+	print_jobs(&sim, &globalserver);
 
 	ret = server_run_jobs(&sim, &globalserver);
 
-	server_shut_down(&globalserver);
+	server_shut_down(&sim, &globalserver);
 
-	hard_limit_free();
+	hard_limit_free(&sim);
 	if (ret != 0) {
 		return 1;
 	}

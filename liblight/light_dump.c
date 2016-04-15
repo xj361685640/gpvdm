@@ -25,6 +25,7 @@
 #include "dump_ctrl.h"
 #include "light.h"
 #include "buffer.h"
+#include <cal_path.h>
 
 void light_dump(struct simulation *sim, struct light *in)
 {
@@ -36,7 +37,7 @@ void light_dump(struct simulation *sim, struct light *in)
 	char line[1024];
 	if ((get_dump_status(sim, dump_optics_verbose) == TRUE)
 	    && (in->Gn[0] != 0.0)) {
-		sprintf(out_dir, "%s/light_dump/", in->output_path);
+		sprintf(out_dir, "%s/light_dump/", get_output_path(sim));
 		struct stat st = { 0 };
 
 		if (stat(out_dir, &st) == -1) {
@@ -257,7 +258,7 @@ void light_dump_1d(struct simulation *sim, struct light *in, int i, char *ext)
 	if ((get_dump_status(sim, dump_optics) == TRUE)
 	    && (in->sun_E[i] != 0.0)) {
 
-		sprintf(out_dir, "%s/light_dump/", in->output_path);
+		sprintf(out_dir, "%s/light_dump/", get_output_path(sim));
 		struct stat st = { 0 };
 
 		if (stat(out_dir, &st) == -1) {

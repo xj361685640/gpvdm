@@ -21,8 +21,10 @@
 
 #ifndef _fx
 #define _fx
-void fx_mesh_save();
-void fx_load_mesh(struct device *in,int number);
+#include <sim_struct.h>
+
+void fx_mesh_save(struct simulation *sim);
+void fx_load_mesh(struct simulation *sim,struct device *in,int number);
 void fx_step();
 int fx_run();
 double fx_get_fx();

@@ -36,19 +36,19 @@
 
 static int unused __attribute__ ((unused));
 
-void sim_jv(struct device *in)
+void sim_jv(struct simulation *sim, struct device *in)
 {
 	FILE *outf = fopen("o.dat", "w");
 	fclose(outf);
-	printf_log(_("Running JV simulation\n"));
+	printf_log(sim, _("Running JV simulation\n"));
 	struct buffer buf;
 	buffer_init(&buf);
 
 	struct dynamic_store store;
-	dump_dynamic_init(&store, in);
+	dump_dynamic_init(sim, &store, in);
 
 	struct jv config;
-	jv_load_config(&config, in);
+	jv_load_config(sim, &config, in);
 	gdouble V = 0.0;
 	gdouble Vstop = config.Vstop;
 	gdouble Vstep = config.Vstep;
@@ -102,7 +102,7 @@ sim_externalv(in,in->Vapplied);
 //}
 	gdouble sun_orig = light_get_sun(&(in->mylight));
 	light_set_sun(&(in->mylight), sun_orig * config.jv_light_efficiency);
-	light_solve_and_update(in, &(in->mylight), 0.0);
+	light_solve_and_update(sim, in, &(in->mylight), 0.0);
 
 	(*fun->newton_set_min_ittr) (30);
 	in->Vapplied = config.Vstart;
@@ -163,9 +163,9 @@ sim_externalv(in,in->Vapplied);
 		Pden = gfabs(J * Vexternal);
 
 		//printf("Plotted\n");
-		plot_now(in, "jv.plot");
-		stop_start(in);
-		dump_dynamic_add_data(&store, in, get_equiv_V(in));
+		plot_now(sim, "jv.plot");
+		stop_start(sim, in);
+		dump_dynamic_add_data(sim, &store, in, get_equiv_V(in));
 
 		if (first == FALSE) {
 
@@ -175,8 +175,8 @@ sim_externalv(in,in->Vapplied);
 				    Jlast + (J - Jlast) * (0 - Vlast) / (V -
 									 Vlast);
 				nsc = get_extracted_np(in);
-				printf_log("nsc=%Le\n", nsc);
-				printf_log("Jsc = %Le\n", in->Jsc);
+				printf_log(sim, "nsc=%Le\n", nsc);
+				printf_log(sim, "Jsc = %Le\n", in->Jsc);
 			}
 
 			if ((Jlast <= 0) && (J >= 0.0)) {
@@ -184,7 +184,7 @@ sim_externalv(in,in->Vapplied);
 				    Vlast + (Vexternal - Vlast) * (0 -
 								   Jlast) / (J -
 									     Jlast);
-				printf_log("Voc = %Le\n", in->Voc);
+				printf_log(sim, "Voc = %Le\n", in->Voc);
 				//k_voc=get_avg_recom(in)/pow(get_extracted_np(in),2.0);
 				r_voc = get_avg_recom(in);
 				n_voc = get_extracted_np(in);
@@ -208,10 +208,11 @@ sim_externalv(in,in->Vapplied);
 
 		}
 
-		if (get_dump_status(dump_print_converge) == TRUE) {
-			printf_log
-			    ("V=%Lf %Lf current = %Le mA (%Le A/m^2) %Le\n", V,
-			     Vexternal, get_I(in) / 1e-3, J, in->last_error);
+		if (get_dump_status(sim, dump_print_converge) == TRUE) {
+			printf_log(sim,
+				   "V=%Lf %Lf current = %Le mA (%Le A/m^2) %Le\n",
+				   V, Vexternal, get_I(in) / 1e-3, J,
+				   in->last_error);
 		}
 
 		Jlast = J;
@@ -219,7 +220,7 @@ sim_externalv(in,in->Vapplied);
 		Pdenlast = Pden;
 		first = FALSE;
 
-		dump_write_to_disk(in);
+		dump_write_to_disk(sim, in);
 
 		outf = fopen("o.dat", "a");
 		fprintf(outf, "%Le %Le\n", V, J);
@@ -249,20 +250,21 @@ sim_externalv(in,in->Vapplied);
 			     get_avg_recom(in) /
 			     (pow(get_extracted_np(in), 2.0)));
 
-		stop_start(in);
+		stop_start(sim, in);
 
 	} while (1);
 //printf("exit\n");
 
 	in->FF = gfabs(in->Pmax / (in->Jsc * in->Voc));
 
-	if (get_dump_status(dump_print_text) == TRUE) {
-		printf_log("Voc= %Lf (V)\n", in->Voc);
-		printf_log("Jsc= %Lf (A/m^2)\n", in->Jsc);
-		printf_log("Pmax= %Lf (W/m^2)\n", in->Pmax);
-		printf_log("Voltage to get Pmax= %Lf (V)\n", in->Pmax_voltage);
-		printf_log("FF= %Lf\n", in->FF * 100.0);
-		printf_log("Efficiency= %Lf percent\n",
+	if (get_dump_status(sim, dump_print_text) == TRUE) {
+		printf_log(sim, "Voc= %Lf (V)\n", in->Voc);
+		printf_log(sim, "Jsc= %Lf (A/m^2)\n", in->Jsc);
+		printf_log(sim, "Pmax= %Lf (W/m^2)\n", in->Pmax);
+		printf_log(sim, "Voltage to get Pmax= %Lf (V)\n",
+			   in->Pmax_voltage);
+		printf_log(sim, "FF= %Lf\n", in->FF * 100.0);
+		printf_log(sim, "Efficiency= %Lf percent\n",
 			   gfabs(in->Pmax / light_get_sun(&(in->mylight)) /
 				 1000) * 100.0);
 	}
@@ -291,7 +293,7 @@ sim_externalv(in,in->Vapplied);
 	fprintf(out, "#end");
 	fclose(out);
 
-	if (get_dump_status(dump_iodump) == TRUE) {
+	if (get_dump_status(sim, dump_iodump) == TRUE) {
 
 		inter_save_a(&klist, in->outputpath, "k.dat");
 		inter_free(&klist);
@@ -403,26 +405,26 @@ sim_externalv(in,in->Vapplied);
 	inter_free(&ivexternal);
 	inter_free(&lv);
 
-	dump_dynamic_save(in->outputpath, &store);
-	dump_dynamic_free(&store);
+	dump_dynamic_save(sim, in->outputpath, &store);
+	dump_dynamic_free(sim, &store);
 
 	light_set_sun(&(in->mylight), sun_orig);
 }
 
-void jv_load_config(struct jv *in, struct device *dev)
+void jv_load_config(struct simulation *sim, struct jv *in, struct device *dev)
 {
 	struct inp_file inp;
-	inp_init(&inp);
-	inp_load_from_path(&inp, dev->inputpath, "jv.inp");
-	inp_check(&inp, 1.21);
-	inp_search_gdouble(&inp, &(in->Vstart), "#Vstart");
-	inp_search_gdouble(&inp, &(in->Vstop), "#Vstop");
-	inp_search_gdouble(&inp, &(in->Vstep), "#Vstep");
-	inp_search_gdouble(&inp, &(in->jv_step_mul), "#jv_step_mul");
-	inp_search_gdouble(&inp, &(in->jv_light_efficiency),
+	inp_init(sim, &inp);
+	inp_load_from_path(sim, &inp, dev->inputpath, "jv.inp");
+	inp_check(sim, &inp, 1.21);
+	inp_search_gdouble(sim, &inp, &(in->Vstart), "#Vstart");
+	inp_search_gdouble(sim, &inp, &(in->Vstop), "#Vstop");
+	inp_search_gdouble(sim, &inp, &(in->Vstep), "#Vstep");
+	inp_search_gdouble(sim, &inp, &(in->jv_step_mul), "#jv_step_mul");
+	inp_search_gdouble(sim, &inp, &(in->jv_light_efficiency),
 			   "#jv_light_efficiency");
-	inp_search_gdouble(&inp, &(in->jv_max_j), "#jv_max_j");
+	inp_search_gdouble(sim, &inp, &(in->jv_max_j), "#jv_max_j");
 	in->jv_light_efficiency = gfabs(in->jv_light_efficiency);
-	inp_free(&inp);
+	inp_free(sim, &inp);
 
 }

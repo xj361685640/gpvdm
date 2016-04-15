@@ -24,57 +24,48 @@
 #include "cal_path.h"
 #include "util.h"
 #include "inp.h"
+#include <log.h>
 
-static char *plugins_path;
-static char *lang_path;
-static char *input_path;
-static char *output_path;
-
-void cal_path_init(struct device *in)
-{
-	plugins_path = in->plugins_path;
-	lang_path = in->lang_path;
-	input_path = in->inputpath;
-	output_path = in->outputpath;
-}
-
-void cal_path(struct simulation *sim, struct device *in)
+void cal_path(struct simulation *sim)
 {
 	char share_path[1000];
 	char cwd[1000];
 	strcpy(cwd, "");
 	strcpy(share_path, "");
 
-	cal_path_init(in);
+	strcpy(sim->plugins_path, "");
+	strcpy(sim->lang_path, "");
+	strcpy(sim->input_path, "");
+	strcpy(sim->output_path, "");
 
 	if (getcwd(cwd, 1000) == NULL) {
 		ewe(sim, "IO error\n");
 	}
 
 	if (isdir("/usr/lib64/gpvdm/") == 0) {
-		strcpy(share_path, "/usr/lib64/gpvdm/");
+		strcpy(sim->share_path, "/usr/lib64/gpvdm/");
 	} else if (isdir("/usr/lib/gpvdm/") == 0) {
-		strcpy(share_path, "/usr/lib/gpvdm/");
+		strcpy(sim->share_path, "/usr/lib/gpvdm/");
 	} else {
-		printf("I don't know where the shared files are\n");
+		printf_log(sim, "I don't know where the shared files are\n");
 	}
 
 	if (isdir("plugins") == 0) {
-		join_path(2, plugins_path, cwd, "plugins");
+		join_path(2, sim->plugins_path, cwd, "plugins");
 	} else {
-		join_path(2, plugins_path, share_path, "plugins");
+		join_path(2, sim->plugins_path, sim->share_path, "plugins");
 
-		if (isdir(plugins_path) != 0) {
+		if (isdir(sim->plugins_path) != 0) {
 			ewe(sim, "I can't find the plugins\n");
 		}
 	}
 
 	if (isdir("lang") == 0) {
-		join_path(2, lang_path, cwd, "lang");
+		join_path(2, sim->lang_path, cwd, "lang");
 	} else {
-		join_path(2, lang_path, share_path, "lang");
+		join_path(2, sim->lang_path, share_path, "lang");
 
-		if (isdir(lang_path) != 0) {
+		if (isdir(sim->lang_path) != 0) {
 			ewe(sim, "I can't find the language database.\n");
 		}
 
@@ -82,32 +73,32 @@ void cal_path(struct simulation *sim, struct device *in)
 
 }
 
-char *get_plugins_path()
+char *get_plugins_path(struct simulation *sim)
 {
-	return plugins_path;
+	return sim->plugins_path;
 }
 
-char *get_lang_path()
+char *get_lang_path(struct simulation *sim)
 {
-	return lang_path;
+	return sim->lang_path;
 }
 
-char *get_input_path()
+char *get_input_path(struct simulation *sim)
 {
-	return input_path;
+	return sim->input_path;
 }
 
-char *get_output_path()
+char *get_output_path(struct simulation *sim)
 {
-	return output_path;
+	return sim->output_path;
 }
 
-void set_output_path(char *in)
+void set_output_path(struct simulation *sim, char *in)
 {
-	strcpy(output_path, in);
+	strcpy(sim->output_path, in);
 }
 
-void set_input_path(char *in)
+void set_input_path(struct simulation *sim, char *in)
 {
-	strcpy(input_path, in);
+	strcpy(sim->input_path, in);
 }

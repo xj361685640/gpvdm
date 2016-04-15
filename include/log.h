@@ -28,6 +28,7 @@
 #define log_level_disk 2
 #define log_level_screen_and_disk 3
 
+void set_logging_level(struct simulation *sim,int value);
 void log_clear();
 void printf_log(struct simulation *sim, const char *format, ...);
 #endif

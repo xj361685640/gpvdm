@@ -22,6 +22,7 @@
 #include <stdlib.h>
 #include "sim.h"
 #include "solver_interface.h"
+#include <cal_path.h>
 
 gdouble min_thermal_error = 2e-11;
 
@@ -106,11 +107,11 @@ void update_heat(struct device *in)
 
 }
 
-void dump_thermal(struct device *in)
+void dump_thermal(struct simulation *sim, struct device *in)
 {
 	int i;
 	FILE *out;
-	out = fopena(in->outputpath, "Te.dat", "w");
+	out = fopena(get_output_path(sim), "Te.dat", "w");
 	for (i = 0; i < in->ymeshpoints; i++) {
 		fprintf(out, "%Le ", in->ymesh[i]);
 		fprintf(out, "%Le ", in->Te[i]);
@@ -118,7 +119,7 @@ void dump_thermal(struct device *in)
 	}
 	fclose(out);
 
-	out = fopena(in->outputpath, "Th.dat", "w");
+	out = fopena(get_output_path(sim), "Th.dat", "w");
 	for (i = 0; i < in->ymeshpoints; i++) {
 		fprintf(out, "%Le ", in->ymesh[i]);
 		fprintf(out, "%Le ", in->Th[i]);
@@ -126,7 +127,7 @@ void dump_thermal(struct device *in)
 	}
 	fclose(out);
 
-	out = fopena(in->outputpath, "Tl.dat", "w");
+	out = fopena(get_output_path(sim), "Tl.dat", "w");
 	for (i = 0; i < in->ymeshpoints; i++) {
 		fprintf(out, "%Le ", in->ymesh[i]);
 		fprintf(out, "%Le ", in->Tl[i]);
@@ -134,7 +135,7 @@ void dump_thermal(struct device *in)
 	}
 	fclose(out);
 
-	out = fopena(in->outputpath, "H.dat", "w");
+	out = fopena(get_output_path(sim), "H.dat", "w");
 	for (i = 0; i < in->ymeshpoints; i++) {
 		fprintf(out, "%Le ", in->ymesh[i]);
 		fprintf(out, "%Le ", in->He[i] + in->Hh[i]);

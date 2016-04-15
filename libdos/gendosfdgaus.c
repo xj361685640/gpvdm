@@ -1157,7 +1157,7 @@ void gen_dos_fd_gaus_fd(struct simulation *sim)
 		problem_with_dos = FALSE;
 
 		sprintf(name, "%s.inp", my_epitaxy.dos_file[mat]);
-		join_path(2, full_name, get_input_path(), name);
+		join_path(2, full_name, get_input_path(sim), name);
 
 		if (checksum_check(sim, full_name) == FALSE)
 			problem_with_dos = TRUE;
@@ -1185,7 +1185,7 @@ void gen_dos_fd_gaus_fd(struct simulation *sim)
 		}
 
 		sprintf(pl_name, "%s.inp", my_epitaxy.pl_file[mat]);
-		join_path(2, pl_full_name, get_input_path(), pl_name);
+		join_path(2, pl_full_name, get_input_path(sim), pl_name);
 
 		if (checksum_check(sim, pl_full_name) == FALSE) {
 			file_pl = TRUE;
@@ -1197,7 +1197,7 @@ void gen_dos_fd_gaus_fd(struct simulation *sim)
 		if (confige[mat].dostype == dos_read) {
 			sprintf(name, "%s_srhbandn.inp",
 				my_epitaxy.dos_file[mat]);
-			join_path(2, full_name, get_input_path(), name);
+			join_path(2, full_name, get_input_path(sim), name);
 			if (checksum_check(sim, full_name) == FALSE) {
 				file_bandn = TRUE;
 				launch_server = TRUE;
@@ -1205,7 +1205,7 @@ void gen_dos_fd_gaus_fd(struct simulation *sim)
 
 			sprintf(name, "%s_srhbandp.inp",
 				my_epitaxy.dos_file[mat]);
-			join_path(2, full_name, get_input_path(), name);
+			join_path(2, full_name, get_input_path(sim), name);
 			if (checksum_check(sim, full_name) == FALSE) {
 				file_bandp = TRUE;
 				launch_server = TRUE;
@@ -1223,7 +1223,7 @@ void gen_dos_fd_gaus_fd(struct simulation *sim)
 
 			pick_dump();
 			sprintf(name, "%s.inp", my_epitaxy.dos_file[mat]);
-			join_path(2, full_name, get_input_path(), name);
+			join_path(2, full_name, get_input_path(sim), name);
 			if (file_dos == TRUE)
 				checksum_write(sim, full_name);
 
@@ -1235,14 +1235,16 @@ void gen_dos_fd_gaus_fd(struct simulation *sim)
 				sprintf(name, "%s_srhbandn.inp",
 					my_epitaxy.dos_file[mat]);
 				safe_file(name);
-				join_path(2, full_name, get_input_path(), name);
+				join_path(2, full_name, get_input_path(sim),
+					  name);
 				if (file_bandn == TRUE)
 					checksum_write(sim, full_name);
 
 				sprintf(name, "%s_srhbandp.inp",
 					my_epitaxy.dos_file[mat]);
 				safe_file(name);
-				join_path(2, full_name, get_input_path(), name);
+				join_path(2, full_name, get_input_path(sim),
+					  name);
 				if (file_bandp == TRUE)
 					checksum_write(sim, full_name);
 			}

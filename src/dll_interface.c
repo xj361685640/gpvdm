@@ -33,7 +33,6 @@ static struct dll_interface pointers;
 
 void dll_interface_fixup(struct device *in)
 {
-	pointers.get_dump_status = &get_dump_status;
 	pointers.light_dump_1d = &light_dump_1d;
 	pointers.light_solve_optical_problem = &light_solve_optical_problem;
 	pointers.light_free_memory = &light_free_memory;

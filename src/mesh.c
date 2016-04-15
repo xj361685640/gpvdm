@@ -24,18 +24,19 @@
 #include "util.h"
 #include "const.h"
 #include "hard_limit.h"
+#include <cal_path.h>
 
-void mesh_remesh(struct device *in)
+void mesh_remesh(struct simulation *sim, struct device *in)
 {
 	in->ymeshlayers = 1;
 	in->meshdata[0].len = in->ylen;
 	in->meshdata[0].number = 40;
-	mesh_save(in);
-	mesh_free(in);
-	mesh_load(in);
+	mesh_save(sim, in);
+	mesh_free(sim, in);
+	mesh_load(sim, in);
 }
 
-void mesh_save(struct device *in)
+void mesh_save(struct simulation *sim, struct device *in)
 {
 	int i = 0;
 	char buffer[2000];
@@ -65,34 +66,34 @@ void mesh_save(struct device *in)
 	strcat(buffer, "#end\n");
 
 	strcpy(full_file_name, "mesh.inp");
-	zip_write_buffer(full_file_name, buffer, strlen(buffer));
+	zip_write_buffer(sim, full_file_name, buffer, strlen(buffer));
 
 }
 
-void mesh_free(struct device *in)
+void mesh_free(struct simulation *sim, struct device *in)
 {
-	device_free(in);
+	device_free(sim, in);
 	in->ymeshpoints = 0;
 	free(in->meshdata);
 }
 
-void mesh_load(struct device *in)
+void mesh_load(struct simulation *sim, struct device *in)
 {
 	int i;
 	struct inp_file inp;
 	char token0[200];
 	char token1[200];
 
-	inp_init(&inp);
-	inp_load_from_path(&inp, in->inputpath, "mesh.inp");
+	inp_init(sim, &inp);
+	inp_load_from_path(sim, &inp, get_input_path(sim), "mesh.inp");
 
-	inp_check(&inp, 1.0);
+	inp_check(sim, &inp, 1.0);
 
-	inp_reset_read(&inp);
+	inp_reset_read(sim, &inp);
 
-	inp_get_string(&inp);	//"#mesh_layers"
+	inp_get_string(sim, &inp);	//"#mesh_layers"
 
-	sscanf(inp_get_string(&inp), "%d", &(in->ymeshlayers));
+	sscanf(inp_get_string(sim, &inp), "%d", &(in->ymeshlayers));
 
 	//config_read_line_to_int(&(in->ymeshlayers),config,"#mesh_layers");
 
@@ -101,22 +102,24 @@ void mesh_load(struct device *in)
 	in->ymeshpoints = 0;
 
 	for (i = 0; i < in->ymeshlayers; i++) {
-		sscanf(inp_get_string(&inp), "%s", token0);
-		sscanf(inp_get_string(&inp), "%Lf", &(in->meshdata[i].len));
+		sscanf(inp_get_string(sim, &inp), "%s", token0);
+		sscanf(inp_get_string(sim, &inp), "%Lf",
+		       &(in->meshdata[i].len));
 
-		sscanf(inp_get_string(&inp), "%s", token1);
-		sscanf(inp_get_string(&inp), "%Lf", &(in->meshdata[i].number));
+		sscanf(inp_get_string(sim, &inp), "%s", token1);
+		sscanf(inp_get_string(sim, &inp), "%Lf",
+		       &(in->meshdata[i].number));
 
 		in->meshdata[i].len = fabs(in->meshdata[i].len);
-		hard_limit(token0, &(in->meshdata[i].len));
+		hard_limit(sim, token0, &(in->meshdata[i].len));
 		in->meshdata[i].den =
 		    in->meshdata[i].len / in->meshdata[i].number;
 		in->ymeshpoints += in->meshdata[i].number;
 	}
 
-	inp_free(&inp);
+	inp_free(sim, &inp);
 
-	device_get_memory(in);
+	device_get_memory(sim, in);
 
 	int pos = 0;
 	int ii;

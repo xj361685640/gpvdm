@@ -146,7 +146,7 @@ void device_free_traps(struct device *in)
 
 }
 
-void device_free(struct device *in)
+void device_free(struct simulation *sim, struct device *in)
 {
 
 	free(in->phi);
@@ -235,7 +235,7 @@ void device_free(struct device *in)
 	free(in->ptequlib);
 
 	solver_free();
-	complex_solver_free();
+	complex_solver_free(sim);
 
 	free(in->nrelax);
 	free(in->ntrap_to_p);
@@ -255,20 +255,22 @@ void device_free(struct device *in)
 
 	device_free_traps(in);
 
-	printf_log("%s %i %s\n", _("Solved"), in->odes, _("Equations"));
+	printf_log(sim, "%s %i %s\n", _("Solved"), in->odes, _("Equations"));
 }
 
-void device_get_memory(struct device *in)
+void device_get_memory(struct simulation *sim, struct device *in)
 {
 	in->odes = 0;
 
 	if (in->ymeshpoints < 1) {
-		ewe(_
+		ewe(sim,
+		    _
 		    ("I can't allocate a device with less than 1 mesh point.\n"));
 	}
 
 	if (in->ymeshpoints > 50000) {
-		ewe(_
+		ewe(sim,
+		    _
 		    ("You are asking me to simulate a device with more than 50000 mesh points, although I could do this I am not going to because it seems a bad idea to me.\n"));
 	}
 

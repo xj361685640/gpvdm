@@ -24,9 +24,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <sim_struct.h>
 
-int umfpack_solver(int col, int nz, int *Ti, int *Tj, long double *lTx,
-		   long double *lb);
+int umfpack_solver(struct simulation *sim, int col, int nz, int *Ti, int *Tj,
+		   long double *lTx, long double *lb);
 void umfpack_solver_free();
 
 #endif

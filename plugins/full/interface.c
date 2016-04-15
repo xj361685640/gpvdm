@@ -26,6 +26,7 @@
 #include <light_interface.h>
 #include <functions.h>
 #include <dll_interface.h>
+#include <log.h>
 
 struct dll_interface *fun;
 
@@ -34,7 +35,7 @@ EXPORT void set_interface(struct dll_interface *in)
 	fun = in;
 }
 
-EXPORT void light_dll_init()
+EXPORT void light_dll_init(struct simulation *sim)
 {
-	printf("Light init\n");
+	printf_log(sim, "Light init\n");
 }

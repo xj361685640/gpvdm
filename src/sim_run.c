@@ -40,16 +40,13 @@ int run_simulation(struct simulation *sim, char *outputpath, char *inputpath)
 {
 	struct device cell;
 
-	printf_log(_("Run_simulation\n"));
+	printf_log(sim, _("Run_simulation\n"));
 
 	device_init(&cell);
 	cell.onlypos = FALSE;
 
-	log_init(sim);
-	set_logging_level(log_level_screen);
-
 	cell.root_dll_interface = dll_get_interface();
-	cal_path(&cell);
+	cal_path(sim);
 
 	dump_init(sim, &cell);
 
@@ -61,10 +58,10 @@ int run_simulation(struct simulation *sim, char *outputpath, char *inputpath)
 	cell.kl_in_newton = FALSE;
 
 	if (strcmp(outputpath, "") != 0)
-		strcpy(cell.outputpath, outputpath);
+		strcpy(get_output_path(sim), outputpath);
 
 	if (strcmp(inputpath, "") != 0)
-		strcpy(cell.inputpath, inputpath);
+		strcpy(get_input_path(sim), inputpath);
 
 	dump_load_config(sim, &cell);
 
@@ -72,21 +69,21 @@ int run_simulation(struct simulation *sim, char *outputpath, char *inputpath)
 //getchar();
 	int i;
 
-	printf_log("Load config\n");
-	load_config(&cell);
+	printf_log(sim, "Load config\n");
+	load_config(sim, &cell);
 
-	solver_init(cell.solver_name);
-	newton_init(cell.newton_name);
+	solver_init(sim, cell.solver_name);
+	newton_init(sim, cell.newton_name);
 
 	if (strcmp(cell.simmode, "optics") != 0) {
-		printf_log(_("Loading DoS for %d layers\n"),
+		printf_log(sim, _("Loading DoS for %d layers\n"),
 			   cell.my_epitaxy.electrical_layers);
 		char tempn[100];
 		char tempp[100];
 		i = 0;
 		for (i = 0; i < cell.my_epitaxy.electrical_layers; i++) {
 			dos_init(i);
-			printf_log("Load DoS %d/%d\n", i,
+			printf_log(sim, "Load DoS %d/%d\n", i,
 				   cell.my_epitaxy.electrical_layers);
 			sprintf(tempn, "%s_dosn.dat",
 				cell.my_epitaxy.dos_file[i]);
@@ -101,29 +98,29 @@ int run_simulation(struct simulation *sim, char *outputpath, char *inputpath)
 
 		if (get_dump_status(sim, dump_write_converge) == TRUE) {
 			sim->converge =
-			    fopena(cell.outputpath, "converge.dat", "w");
+			    fopena(get_output_path(sim), "converge.dat", "w");
 			fclose(sim->converge);
 
 			sim->tconverge =
-			    fopena(cell.outputpath, "tconverge.dat", "w");
+			    fopena(get_output_path(sim), "tconverge.dat", "w");
 			fclose(sim->tconverge);
 		}
 	}
 
-	join_path(2, temp, cell.outputpath, "equilibrium");
-	remove_dir(temp);
+	join_path(2, temp, get_output_path(sim), "equilibrium");
+	remove_dir(sim, temp);
 
-	join_path(2, temp, cell.outputpath, "snapshots");
-	remove_dir(temp);
+	join_path(2, temp, get_output_path(sim), "snapshots");
+	remove_dir(sim, temp);
 
-	join_path(2, temp, cell.outputpath, "light_dump");
-	remove_dir(temp);
+	join_path(2, temp, get_output_path(sim), "light_dump");
+	remove_dir(sim, temp);
 
-	join_path(2, temp, cell.outputpath, "dynamic");
-	remove_dir(temp);
+	join_path(2, temp, get_output_path(sim), "dynamic");
+	remove_dir(sim, temp);
 
-	join_path(2, temp, cell.outputpath, "frequency");
-	remove_dir(temp);
+	join_path(2, temp, get_output_path(sim), "frequency");
+	remove_dir(sim, temp);
 
 	printf("load %ld\n", cell.ymeshpoints);
 	getchar();
@@ -157,14 +154,14 @@ int run_simulation(struct simulation *sim, char *outputpath, char *inputpath)
 		    cell.xlen * cell.zlen * epsilon0 * cell.epsilonr[0] /
 		    (cell.ylen + cell.other_layers);
 		if (get_dump_status(sim, dump_print_text) == TRUE)
-			printf_log("C=%Le\n", cell.C);
+			printf_log(sim, "C=%Le\n", cell.C);
 		cell.A = cell.xlen * cell.zlen;
 		cell.Vol = cell.xlen * cell.zlen * cell.ylen;
 
 		light_init(&cell.mylight, &cell);
 		light_set_dx(&cell.mylight, cell.ymesh[1] - cell.ymesh[0]);
-		light_load_config(&cell.mylight);
-		light_load_dlls(&cell.mylight, &cell);
+		light_load_config(sim, &cell.mylight);
+		light_load_dlls(sim, &cell.mylight, &cell);
 
 		if (get_dump_status(sim, dump_iodump) == FALSE)
 			set_dump_status(sim, dump_optics, FALSE);
@@ -196,9 +193,9 @@ int run_simulation(struct simulation *sim, char *outputpath, char *inputpath)
 		draw_gaus(&cell);
 
 		if (cell.onlypos == TRUE) {
-			join_path(2, temp, cell.outputpath, "equilibrium");
-			dump_1d_slice(&cell, temp);
-			mesh_free(&cell);
+			join_path(2, temp, get_output_path(sim), "equilibrium");
+			dump_1d_slice(sim, &cell, temp);
+			mesh_free(sim, &cell);
 			return 0;
 		}
 	}
@@ -206,19 +203,22 @@ int run_simulation(struct simulation *sim, char *outputpath, char *inputpath)
 	if (is_domain(cell.simmode) != 0) {
 		char gussed_full_mode[200];
 		if (guess_whole_sim_name
-		    (gussed_full_mode, cell.inputpath, cell.simmode) == 0) {
-			printf_log("I guess we are using running %s\n",
+		    (sim, gussed_full_mode, get_input_path(sim),
+		     cell.simmode) == 0) {
+			printf_log(sim, "I guess we are using running %s\n",
 				   gussed_full_mode);
 			strcpy(cell.simmode, gussed_full_mode);
 		} else {
-			ewe("I could not guess which simulation to run from the mode %s\n", cell.simmode);
+			ewe(sim,
+			    "I could not guess which simulation to run from the mode %s\n",
+			    cell.simmode);
 		}
 
 	}
 
-	run_electrical_dll(&cell, strextract_domain(cell.simmode));
+	run_electrical_dll(sim, &cell, strextract_domain(cell.simmode));
 
-	mesh_free(&cell);
+	mesh_free(sim, &cell);
 
 	if (strcmp(cell.simmode, "optics") != 0) {
 		plot_close(sim);
@@ -232,7 +232,7 @@ int run_simulation(struct simulation *sim, char *outputpath, char *inputpath)
 	}
 	solver_interface_free();
 	newton_interface_free();
-	light_free(&cell.mylight);
+	light_free(sim, &cell.mylight);
 
 	return cell.odes;
 }
