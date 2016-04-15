@@ -34,10 +34,10 @@
 
 static int unused __attribute__ ((unused));
 
-void newton_sim_jv(struct device *in)
+void newton_sim_jv(struct simulation *sim, struct device *in)
 {
 	in->kl_in_newton = FALSE;
-	(*fun->solver_realloc) (in);
+	(*fun->solver_realloc) (sim, in);
 
-	(*fun->solve_all) (in);
+	(*fun->solve_all) (sim, in);
 }

@@ -181,7 +181,7 @@ int run_simulation(struct simulation *sim, char *outputpath, char *inputpath)
 		cell.N = 0;
 		cell.M = 0;
 
-		solver_realloc(&cell);
+		solver_realloc(sim, &cell);
 
 		plot_open(sim);
 

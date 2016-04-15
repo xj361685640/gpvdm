@@ -356,7 +356,7 @@ int solve_pos(struct simulation *sim, struct device *in)
 
 		error = get_p_error(in, b);
 
-		solver(M, N, Ti, Tj, Tx, b);
+		solver(sim, M, N, Ti, Tj, Tx, b);
 
 		for (i = 0; i < in->ymeshpoints; i++) {
 			if ((in->interfaceleft == TRUE) && (i == 0)) {

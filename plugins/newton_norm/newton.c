@@ -1453,7 +1453,8 @@ int dllinternal_solve_cur(struct simulation *sim, struct device *in)
 			break;
 		}
 
-		(*fun->solver) (in->M, in->N, in->Ti, in->Tj, in->Tx, in->b);
+		(*fun->solver) (sim, in->M, in->N, in->Ti, in->Tj, in->Tx,
+				in->b);
 
 		update_solver_vars(sim, in, TRUE);
 		//printf("Going to clamp=%d\n",proper);

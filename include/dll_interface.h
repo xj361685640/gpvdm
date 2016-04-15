@@ -40,20 +40,20 @@ struct dll_interface
 	gdouble (*get_p_w)(gdouble top,gdouble T,int mat);
 	void (*dump_matrix)(int col,int nz,int *Ti,int *Tj, long double *Tx,long double *b,char *index);
 	int (*ewe)(struct simulation*, const char *format, ...);
-	void (*solver)(int col,int nz,int *Ti,int *Tj, long double *Tx,long double *b);
+	void (*solver)(struct simulation*,int col,int nz,int *Ti,int *Tj, long double *Tx,long double *b);
 	void (*dump_1d_slice)(struct simulation*,struct device *in,char *out_dir);
 
 	void (*update_arrays)(struct simulation*,struct device *in);
 	void (*remesh_reset)(struct device *in,gdouble voltage);
 	void (*newton_set_min_ittr)(int ittr);
-	void (*solver_realloc)(struct device * in);
-	void (*solve_all)(struct device *in);
+	void (*solver_realloc)(struct simulation*,struct device * in);
+	void (*solve_all)(struct simulation*,struct device *in);
 
 	void (*ntricks_externv_set_load)(gdouble R);
-	gdouble (*sim_externalv)(struct device *in,gdouble wantedv);
-	gdouble (*ntricks_externv_newton)(struct device *in,gdouble Vtot,int usecap);
+	gdouble (*sim_externalv)(struct simulation*,struct device *in,gdouble wantedv);
+	gdouble (*ntricks_externv_newton)(struct simulation*,struct device *in,gdouble Vtot,int usecap);
 	void (*device_timestep)(struct simulation*,struct device *in);
-	gdouble (*sim_i)(struct device *in,gdouble wantedi);
+	gdouble (*sim_i)(struct simulation*,struct device *in,gdouble wantedi);
 	struct device *in;
 };
 

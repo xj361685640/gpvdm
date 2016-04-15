@@ -65,7 +65,7 @@ void init_mat_arrays(struct device *in);
 void load_config(struct simulation *sim,struct device *in);
 void update(struct device *cell);
 int run_simulation(struct simulation *sim,char *outputpath,char *inputpath);
-void solve_all(struct device *in);
+void solve_all(struct simulation *sim,struct device *in);
 void solver_free();
 
 //Light

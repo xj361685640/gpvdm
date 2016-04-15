@@ -21,10 +21,12 @@
 
 #ifndef solver_h
 #define solver_h
+#include <sim_struct.h>
+
 void solver_test();
 void set_solver_dump_every_matrix(int dump);
 void solver_precon(int col,int nz,int *Ti,int *Tj, double *Tx,double *b);
-int solver(int col,int nz,int *Ti,int *Tj, double *Tx,double *b);
+int solver(struct simulation *sim,int col,int nz,int *Ti,int *Tj, double *Tx,double *b);
 void solver_dump_matrix(int col,int nz,int *Ti,int *Tj, double *Tx,double *b,char *index);
 void solver_dump_matrix_ld(int col,int nz,char **Tdebug,int *Ti,int *Tj, long double *Tx,long double *b,char *index);
 void solver_print_time();

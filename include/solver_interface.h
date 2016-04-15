@@ -22,7 +22,7 @@
 #define h_solver_interface
 #include <sim_struct.h>
 void solver_init(struct simulation *sim,char *solver_name);
-void solver(int col,int nz,int *Ti,int *Tj, long double *Tx,long double *b);
+void solver(struct simulation *sim,int col,int nz,int *Ti,int *Tj, long double *Tx,long double *b);
 void dump_matrix(int col,int nz,int *Ti,int *Tj, long double *Tx,long double *b,char *index);
 void solver_free();
 void solver_interface_free();

@@ -154,7 +154,7 @@ gdouble get_thermal_error(struct device *in)
 	return tot;
 }
 
-int solve_thermal(struct device *in)
+int solve_thermal(struct simulation *sim, struct device *in)
 {
 	update_heat(in);
 	int i;
@@ -269,8 +269,8 @@ int solve_thermal(struct device *in)
 
 		}
 
-		solver(thermal_M, thermal_N, thermal_Ti, thermal_Tj, thermal_Tx,
-		       thermal_b);
+		solver(sim, thermal_M, thermal_N, thermal_Ti, thermal_Tj,
+		       thermal_Tx, thermal_b);
 
 		for (i = 0; i < in->ymeshpoints; i++) {
 			in->Tl[i] += thermal_b[i];

@@ -36,17 +36,22 @@ void find_n0(struct simulation *sim, struct device *in)
 	gdouble oldv = in->Vapplied;
 	in->Vapplied = 0;
 	char temp[200];
+	printf("1\n");
 	light_set_sun(&(in->mylight), 0);
+	printf("2\n");
 	light_solve_and_update(sim, in, &(in->mylight), 0.0);
-
+	printf("3\n");
 	if (get_dump_status(sim, dump_equilibrium) == TRUE) {
 		join_path(2, temp, get_output_path(sim), "equilibrium");
 		dump_1d_slice(sim, in, temp);
 	}
 
+	printf("4\n");
+
 	for (i = 0; i < in->ymeshpoints; i++) {
 		in->B[i] = 0.0;
 	}
+	printf("5\n");
 
 	gdouble save_clamp = in->electrical_clamp;
 	int save_ittr = in->max_electrical_itt;
@@ -56,13 +61,17 @@ void find_n0(struct simulation *sim, struct device *in)
 	in->max_electrical_itt = in->max_electrical_itt0;
 	in->min_cur_error = in->electrical_error0;
 
-	solve_all(in);
+	printf("6\n");
+
+	solve_all(sim, in);
+	printf("7\n");
 
 	in->max_electrical_itt = save_ittr;
 	in->electrical_clamp = save_clamp;
 	in->min_cur_error = save_electricalerror;
 
-	solve_all(in);
+	solve_all(sim, in);
+	printf("8\n");
 
 	for (i = 0; i < in->ymeshpoints; i++) {
 		in->B[i] = get_dos_B(in->imat[i]);

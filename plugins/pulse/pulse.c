@@ -95,12 +95,13 @@ void sim_pulse(struct simulation *sim, struct device *in)
 	gdouble V = 0.0;
 
 	if (pulse_config.pulse_sim_mode == pulse_load) {
-		(*fun->sim_externalv) (in, time_get_voltage());
-		(*fun->ntricks_externv_newton) (in, time_get_voltage(), FALSE);
+		(*fun->sim_externalv) (sim, in, time_get_voltage());
+		(*fun->ntricks_externv_newton) (sim, in, time_get_voltage(),
+						FALSE);
 	} else if (pulse_config.pulse_sim_mode == pulse_open_circuit) {
 		in->Vapplied = in->Vbi;
 		pulse_newton_sim_voc(sim, in);
-		pulse_newton_sim_voc_fast(in, FALSE);
+		pulse_newton_sim_voc_fast(sim, in, FALSE);
 	} else {
 		ewe(sim, _("pulse mode not known\n"));
 	}
@@ -121,10 +122,10 @@ void sim_pulse(struct simulation *sim, struct device *in)
 
 		if (pulse_config.pulse_sim_mode == pulse_load) {
 			V = time_get_voltage();
-			i0 = (*fun->ntricks_externv_newton) (in, V, TRUE);
+			i0 = (*fun->ntricks_externv_newton) (sim, in, V, TRUE);
 		} else if (pulse_config.pulse_sim_mode == pulse_open_circuit) {
 			V = in->Vapplied;
-			pulse_newton_sim_voc_fast(in, TRUE);
+			pulse_newton_sim_voc_fast(sim, in, TRUE);
 		} else {
 			ewe(sim, _("pulse mode not known\n"));
 		}

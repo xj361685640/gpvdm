@@ -66,7 +66,7 @@ void ramp_externalv(struct simulation *sim, struct device *in, gdouble from,
 		V += dV;
 		if (get_dump_status(sim, dump_print_text) == TRUE)
 			printf("ramp: %Lf %Lf %d\n", V, to, in->kl_in_newton);
-		sim_externalv(in, V);
+		sim_externalv(sim, in, V);
 
 		plot_now(sim, "jv.plot");
 		gui_send_data("pulse");
@@ -79,7 +79,7 @@ void ramp_externalv(struct simulation *sim, struct device *in, gdouble from,
 
 	if (V != to) {
 		V = to;
-		sim_externalv(in, V);
+		sim_externalv(sim, in, V);
 	}
 
 	return;
@@ -89,7 +89,7 @@ void ramp(struct simulation *sim, struct device *in, gdouble from, gdouble to,
 	  gdouble steps)
 {
 	in->kl_in_newton = FALSE;
-	solver_realloc(in);
+	solver_realloc(sim, in);
 
 	in->Vapplied = from;
 	newton_push_state(in);
@@ -113,7 +113,7 @@ void ramp(struct simulation *sim, struct device *in, gdouble from, gdouble to,
 		if (get_dump_status(sim, dump_print_text) == TRUE)
 			printf("ramp: %Lf %Lf %d\n", in->Vapplied, to,
 			       in->kl_in_newton);
-		solve_all(in);
+		solve_all(sim, in);
 		plot_now(sim, "jv_vars.plot");
 //sim_externalv(in,in->cevoltage);
 
@@ -128,7 +128,7 @@ void ramp(struct simulation *sim, struct device *in, gdouble from, gdouble to,
 
 	if (in->Vapplied != to) {
 		in->Vapplied = to;
-		solve_all(in);
+		solve_all(sim, in);
 	}
 
 	printf("Finished with ramp\n");
@@ -200,7 +200,8 @@ int load_state(struct simulation *sim, struct device *in, gdouble voltage)
 //</clean>
 }
 
-gdouble sim_externalv_ittr(struct device * in, gdouble wantedv)
+gdouble sim_externalv_ittr(struct simulation * sim, struct device * in,
+			   gdouble wantedv)
 {
 	gdouble clamp = 0.1;
 	gdouble step = 0.01;
@@ -210,14 +211,14 @@ gdouble sim_externalv_ittr(struct device * in, gdouble wantedv)
 	gdouble i1;
 	gdouble deriv;
 	gdouble Rs = in->Rcontact;
-	solve_all(in);
+	solve_all(sim, in);
 	i0 = get_I(in);
 
 	gdouble itot = i0 + in->Vapplied / in->Rshunt;
 
 	e0 = fabs(itot * Rs + in->Vapplied - wantedv);
 	in->Vapplied += step;
-	solve_all(in);
+	solve_all(sim, in);
 
 	i1 = get_I(in);
 	itot = i1 + in->Vapplied / in->Rshunt;
@@ -232,7 +233,7 @@ gdouble sim_externalv_ittr(struct device * in, gdouble wantedv)
 	int max = 1000;
 	do {
 		e0 = e1;
-		solve_all(in);
+		solve_all(sim, in);
 		itot = i1 + in->Vapplied / in->Rshunt;
 		e1 = fabs(itot * Rs + in->Vapplied - wantedv);
 //printf("error=%Le Vapplied=%Le \n",e1,in->Vapplied);
@@ -253,15 +254,16 @@ gdouble sim_externalv_ittr(struct device * in, gdouble wantedv)
 	return ret;
 }
 
-gdouble sim_externalv(struct device * in, gdouble wantedv)
+gdouble sim_externalv(struct simulation * sim, struct device * in,
+		      gdouble wantedv)
 {
 	in->kl_in_newton = FALSE;
-	solver_realloc(in);
-	sim_externalv_ittr(in, wantedv);
+	solver_realloc(sim, in);
+	sim_externalv_ittr(sim, in, wantedv);
 	return 0.0;
 }
 
-void solve_all(struct device *in)
+void solve_all(struct simulation *sim, struct device *in)
 {
-	solve_cur(in);
+	solve_cur(sim, in);
 }

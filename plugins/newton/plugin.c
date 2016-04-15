@@ -33,11 +33,13 @@ EXPORT void set_interface(struct dll_interface *in)
 
 EXPORT void dll_newton_set_min_ittr(int ittr)
 {
+	printf("call solvingxxx!!!!!!!!!!\n");
 	dllinternal_newton_set_min_ittr(ittr);
 }
 
 EXPORT int dll_solve_cur(struct simulation *sim, struct device *in)
 {
+	printf("call solvingxxx roderick\n");
 	return dllinternal_solve_cur(sim, in);
 }
 

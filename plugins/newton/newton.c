@@ -221,9 +221,7 @@ void fill_matrix(struct simulation *sim, struct device *in)
 {
 //gdouble offset= -0.5;
 	int band = 0;
-
 	(*fun->update_arrays) (sim, in);
-
 //FILE *file_j =fopen("myj.dat","w");
 //getchar();
 	gdouble phil;
@@ -1587,7 +1585,8 @@ int dllinternal_solve_cur(struct simulation *sim, struct device *in)
 			break;
 		}
 
-		(*fun->solver) (in->M, in->N, in->Ti, in->Tj, in->Tx, in->b);
+		(*fun->solver) (sim, in->M, in->N, in->Ti, in->Tj, in->Tx,
+				in->b);
 
 		update_solver_vars(sim, in, TRUE);
 		//printf("Going to clamp=%d\n",proper);
@@ -1660,6 +1659,7 @@ int dllinternal_solve_cur(struct simulation *sim, struct device *in)
 	if (get_dump_status(sim, dump_newton) == TRUE) {
 		dump_1d_slice(sim, in, get_output_path(sim));
 	}
+	printf("james\n");
 //plot_now(in,"plot");
 //getchar();
 	in->odes += in->M;

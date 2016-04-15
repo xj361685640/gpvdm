@@ -108,7 +108,7 @@ sim_externalv(in,in->Vapplied);
 	(*fun->newton_set_min_ittr) (30);
 	in->Vapplied = config.Vstart;
 	V = in->Vapplied;
-	newton_sim_jv(in);
+	newton_sim_jv(sim, in);
 	(*fun->newton_set_min_ittr) (0);
 
 //gdouble k_voc=0.0;
@@ -125,7 +125,7 @@ sim_externalv(in,in->Vapplied);
 	do {
 
 		in->Vapplied = V;
-		newton_sim_jv(in);
+		newton_sim_jv(sim, in);
 
 		J = get_equiv_J(in);
 

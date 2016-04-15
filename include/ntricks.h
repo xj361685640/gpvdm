@@ -32,8 +32,8 @@ int newton_clever_exit;
 
 void newton_push_state(struct device *in);
 void newton_pop_state(struct device *in);
-gdouble sim_externalv(struct device *in,gdouble wantedv);
-gdouble sim_i(struct device *in,gdouble wantedi);
+gdouble sim_externalv(struct simulation *sim,struct device *in,gdouble wantedv);
+gdouble sim_i(struct simulation *sim,struct device *in,gdouble wantedi);
 void save_state(struct simulation *sim,struct device *in,gdouble to);
 int load_state(struct simulation *sim,struct device *in,gdouble voltage);
 void ramp(struct simulation *sim,struct device *in,gdouble from,gdouble to,gdouble steps);
@@ -43,6 +43,6 @@ gdouble sim_voc(struct device *in);
 
 void ntricks_externv_set_load(gdouble R);
 void ntricks_externv_newton_aux(struct device *in,gdouble V,gdouble* i,gdouble* didv,gdouble* didphi,gdouble* didxil,gdouble* didxipl,gdouble* didphir,gdouble* didxir,gdouble* didxipr);
-gdouble ntricks_externv_newton(struct device *in,gdouble Vtot,int usecap);
+gdouble ntricks_externv_newton(struct simulation *sim,struct device *in,gdouble Vtot,int usecap);
 
 #endif

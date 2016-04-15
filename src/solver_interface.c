@@ -90,9 +90,10 @@ void solver_init(struct simulation *sim, char *solver_name)
 	(*dll_set_interface) (dll_get_interface());
 }
 
-void solver(int col, int nz, int *Ti, int *Tj, long double *Tx, long double *b)
+void solver(struct simulation *sim, int col, int nz, int *Ti, int *Tj,
+	    long double *Tx, long double *b)
 {
-	(*dll_matrix_solve) (col, nz, Ti, Tj, Tx, b);
+	(*dll_matrix_solve) (sim, col, nz, Ti, Tj, Tx, b);
 }
 
 void dump_matrix(int col, int nz, int *Ti, int *Tj, long double *Tx,

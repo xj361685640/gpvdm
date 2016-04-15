@@ -121,8 +121,8 @@ void sim_fxdomain(struct simulation *sim, struct device *in)
 		step = 0;
 
 		if (fxdomain_config.fxdomain_sim_mode == fxdomain_load) {
-			(*fun->sim_externalv) (in, V);
-			(*fun->ntricks_externv_newton) (in, V, FALSE);
+			(*fun->sim_externalv) (sim, in, V);
+			(*fun->ntricks_externv_newton) (sim, in, V, FALSE);
 		} else
 		    if (fxdomain_config.fxdomain_sim_mode ==
 			fxdomain_open_circuit) {
@@ -166,7 +166,7 @@ void sim_fxdomain(struct simulation *sim, struct device *in)
 			light_solve_and_update(sim, in, &(in->mylight), 0.0);
 
 			if (fxdomain_config.fxdomain_sim_mode == fxdomain_load) {
-				i0 = (*fun->ntricks_externv_newton) (in, V,
+				i0 = (*fun->ntricks_externv_newton) (sim, in, V,
 								     TRUE);
 			} else if (fxdomain_config.fxdomain_sim_mode ==
 				   fxdomain_open_circuit) {
