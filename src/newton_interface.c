@@ -71,7 +71,6 @@ void newton_init(struct simulation *sim, char *solver_name)
 		fprintf(stderr, "%s\n", error);
 		exit(0);
 	}
-	printf("calling %p\n", dll_solve_cur);
 
 	dll_newton_set_min_ittr = dlsym(dll_handle, "dll_newton_set_min_ittr");
 	if ((error = dlerror()) != NULL) {
@@ -104,7 +103,6 @@ void newton_init(struct simulation *sim, char *solver_name)
 
 int solve_cur(struct simulation *sim, struct device *in)
 {
-	printf("calling %p\n", dll_solve_cur);
 	return (*dll_solve_cur) (sim, in);
 }
 
@@ -126,6 +124,5 @@ void solver_free_memory(struct device *in)
 
 void newton_interface_free()
 {
-	printf("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
 	dlclose(dll_handle);
 }

@@ -84,7 +84,6 @@ void load_config(struct simulation *sim, struct device *in)
 	inp_init(sim, &inp);
 	inp_load_from_path(sim, &inp, get_input_path(sim), "device.inp");
 	inp_check(sim, &inp, 1.19);
-	printf("%s\n", inp.data);
 	inp_search_string(sim, &inp, temp, "#lr_bias");
 	in->lr_bias = english_to_bin(sim, temp);
 

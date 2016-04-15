@@ -92,8 +92,6 @@ int run_simulation(struct simulation *sim, char *outputpath, char *inputpath)
 			load_dos(sim, &cell, tempn, tempp, i);
 		}
 
-		printf("%ld\n", cell.srh_bands);
-		getchar();
 		device_alloc_traps(&cell);
 
 		if (get_dump_status(sim, dump_write_converge) == TRUE) {
@@ -121,9 +119,6 @@ int run_simulation(struct simulation *sim, char *outputpath, char *inputpath)
 
 	join_path(2, temp, get_output_path(sim), "frequency");
 	remove_dir(sim, temp);
-
-	printf("load %ld\n", cell.ymeshpoints);
-	getchar();
 
 	mesh_cal_layer_widths(&cell);
 

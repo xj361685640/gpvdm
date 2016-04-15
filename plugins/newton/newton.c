@@ -1659,7 +1659,6 @@ int dllinternal_solve_cur(struct simulation *sim, struct device *in)
 	if (get_dump_status(sim, dump_newton) == TRUE) {
 		dump_1d_slice(sim, in, get_output_path(sim));
 	}
-	printf("james\n");
 //plot_now(in,"plot");
 //getchar();
 	in->odes += in->M;

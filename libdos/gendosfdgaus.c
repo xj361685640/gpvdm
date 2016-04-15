@@ -988,8 +988,6 @@ void gen_load_dos(struct simulation *sim, int mat, char *dos_name,
 	inp_search_int(sim, &inp, &(bands), "#srh_bands");
 	confige[mat].srh_bands = bands;
 	configh[mat].srh_bands = bands;
-	printf("rod=%ld\n", bands);
-	getchar();
 	inp_search_gdouble(sim, &inp, &(confige[mat].srh_start), "#srh_start");
 	configh[mat].srh_start = confige[mat].srh_start;
 

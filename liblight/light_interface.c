@@ -131,7 +131,6 @@ void light_solve_and_update(struct simulation *sim, struct device *cell,
 
 		}
 
-		getchar();
 		for (i = 0; i < cell->ymeshpoints; i++) {
 			cell->Gn[cell->ymeshpoints - i - 1] = Gn[i];
 			cell->Gp[cell->ymeshpoints - i - 1] = Gp[i];
@@ -168,9 +167,9 @@ void light_load_config(struct simulation *sim, struct light *in)
 	light_init_mesh(in);
 }
 
-int light_solve_lam_slice(struct light *in, int lam)
+int light_solve_lam_slice(struct simulation *sim, struct light *in, int lam)
 {
-	return (*in->fn_solve_lam_slice) (in, lam);
+	return (*in->fn_solve_lam_slice) (sim, in, lam);
 }
 
 void light_free(struct simulation *sim, struct light *in)

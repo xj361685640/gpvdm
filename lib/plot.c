@@ -37,18 +37,13 @@ void set_plot_script_dir(char *in)
 
 void plot_open(struct simulation *sim)
 {
-	printf("here1\n");
 	if (get_dump_status(sim, dump_plot) == TRUE) {
-		printf("here2\n");
 		gettimeofday(&last_time, NULL);
-		printf("here3\n");
 		sim->gnuplot = popen("gnuplot -persist", "w");
 		fprintf(sim->gnuplot,
 			"set terminal x11 title 'General-purpose Photovoltaic Device Model - www.gpvdm.com' \n");
 		fflush(sim->gnuplot);
-		printf("here4\n");
 	}
-	printf("here5\n");
 
 }
 

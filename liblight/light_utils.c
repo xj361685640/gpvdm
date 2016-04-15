@@ -66,7 +66,7 @@ void light_solve_optical_problem(struct simulation *sim, struct light *in)
 		printf("dark\n");
 	} else {
 
-		light_solve_all(in);
+		light_solve_all(sim, in);
 	}
 
 	light_cal_photon_density(in);
@@ -220,13 +220,13 @@ void light_set_sun_power(struct light *in, gdouble power, gdouble laser_eff)
 
 }
 
-void light_solve_all(struct light *in)
+void light_solve_all(struct simulation *sim, struct light *in)
 {
 	int i;
 	for (i = 0; i < in->lpoints; i++) {
 
 		if (in->sun_E[i] != 0.0) {
-			light_solve_lam_slice(in, i);
+			light_solve_lam_slice(sim, in, i);
 		} else {
 			memset(in->En[i], 0.0, in->points * sizeof(gdouble));
 			memset(in->Ep[i], 0.0, in->points * sizeof(gdouble));
