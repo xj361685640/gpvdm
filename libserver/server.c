@@ -116,11 +116,11 @@ void server_add_job(struct simulation *sim, struct server *myserver,
 	int odes = 0;
 
 	if (cmpstr_min(command, "gendosn") == 0) {
-		gen_dos_fd_gaus_n(extract_str_number(command, "gendosn_"));
+		gen_dos_fd_gaus_n(sim, extract_str_number(command, "gendosn_"));
 	} else if (cmpstr_min(command, "gendosp") == 0) {
-		gen_dos_fd_gaus_p(extract_str_number(command, "gendosp_"));
+		gen_dos_fd_gaus_p(sim, extract_str_number(command, "gendosp_"));
 	} else {
-		odes = run_simulation(command, output);
+		odes = run_simulation(sim, command, output);
 	}
 	printf_log(sim, "Solved %d ODEs\n", odes);
 }
