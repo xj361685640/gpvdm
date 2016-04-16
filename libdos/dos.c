@@ -33,8 +33,6 @@
 #define dos_warn
 long double max = -1000;
 long double min = 1000;
-static struct dos dosn[10];
-static struct dos dosp[10];
 
 long double get_dos_filled_n(struct device *in)
 {
@@ -45,7 +43,7 @@ long double get_dos_filled_n(struct device *in)
 	for (i = 0; i < in->ymeshpoints; i++) {
 		for (band = 0; band < in->srh_bands; band++) {
 			n_tot += in->nt[i][band];
-			n_tot_den += dosn[in->imat[i]].srh_den[band];
+			n_tot_den += in->dosn[in->imat[i]].srh_den[band];
 		}
 	}
 	n_tot = (n_tot) / (n_tot_den);
@@ -61,67 +59,67 @@ long double get_dos_filled_p(struct device *in)
 	for (i = 0; i < in->ymeshpoints; i++) {
 		for (band = 0; band < in->srh_bands; band++) {
 			p_tot += in->pt[i][band];
-			p_tot_den += dosp[in->imat[i]].srh_den[band];
+			p_tot_den += in->dosp[in->imat[i]].srh_den[band];
 		}
 	}
 	p_tot = (p_tot) / (p_tot_den);
 	return p_tot;
 }
 
-long double dos_srh_get_fermi_n(long double n, long double p, int band, int mat,
-				long double T)
+long double dos_srh_get_fermi_n(struct device *in, long double n, long double p,
+				int band, int mat, long double T)
 {
-	long double srh_sigman = dosn[mat].config.srh_sigman;
-	long double srh_sigmap = dosn[mat].config.srh_sigmap;
-	long double Nc = dosn[mat].config.Nc;
-	long double Nv = dosn[mat].config.Nv;
-	long double srh_vth = dosn[mat].config.srh_vth;
-//long double srh_Nt=dosn[mat].srh_den[band];
+	long double srh_sigman = in->dosn[mat].config.srh_sigman;
+	long double srh_sigmap = in->dosn[mat].config.srh_sigmap;
+	long double Nc = in->dosn[mat].config.Nc;
+	long double Nv = in->dosn[mat].config.Nv;
+	long double srh_vth = in->dosn[mat].config.srh_vth;
+//long double srh_Nt=in->dosn[mat].srh_den[band];
 	long double srh_en =
-	    srh_vth * srh_sigman * Nc * gexp((Q * dosn[mat].srh_E[band]) /
+	    srh_vth * srh_sigman * Nc * gexp((Q * in->dosn[mat].srh_E[band]) /
 					     (T * kb));
 	long double srh_ep =
 	    srh_vth * srh_sigmap * Nv *
-	    gexp((Q * (-1.0 - dosn[mat].srh_E[band])) / (T * kb));
-//printf("%le\n",dosn[mat].srh_E[band]);
+	    gexp((Q * (-1.0 - in->dosn[mat].srh_E[band])) / (T * kb));
+//printf("%le\n",in->dosn[mat].srh_E[band]);
 //getchar();
 	long double f = 0.0;
 	f = (n * srh_vth * srh_sigman + srh_ep) / (n * srh_vth * srh_sigman +
 						   p * srh_vth * srh_sigmap +
 						   srh_en + srh_ep);
 	long double level = 0.0;
-	level = dosn[mat].srh_E[band] - T * kb * log((1.0 / f) - 1.0) / Q;
+	level = in->dosn[mat].srh_E[band] - T * kb * log((1.0 / f) - 1.0) / Q;
 	return level;
 }
 
-long double dos_srh_get_fermi_p(long double n, long double p, int band, int mat,
-				long double T)
+long double dos_srh_get_fermi_p(struct device *in, long double n, long double p,
+				int band, int mat, long double T)
 {
-	long double srh_sigmap = dosp[mat].config.srh_sigmap;
-	long double srh_sigman = dosp[mat].config.srh_sigman;
-	long double Nc = dosp[mat].config.Nc;
-	long double Nv = dosp[mat].config.Nv;
-	long double srh_vth = dosp[mat].config.srh_vth;
-//long double srh_Nt=dosn[mat].srh_den[band];
+	long double srh_sigmap = in->dosp[mat].config.srh_sigmap;
+	long double srh_sigman = in->dosp[mat].config.srh_sigman;
+	long double Nc = in->dosp[mat].config.Nc;
+	long double Nv = in->dosp[mat].config.Nv;
+	long double srh_vth = in->dosp[mat].config.srh_vth;
+//long double srh_Nt=in->dosn[mat].srh_den[band];
 	long double srh_ep =
-	    srh_vth * srh_sigmap * Nv * gexp((Q * dosp[mat].srh_E[band]) /
+	    srh_vth * srh_sigmap * Nv * gexp((Q * in->dosp[mat].srh_E[band]) /
 					     (T * kb));
 	long double srh_en =
 	    srh_vth * srh_sigman * Nc *
-	    gexp((Q * (-1.0 - dosp[mat].srh_E[band])) / (T * kb));
+	    gexp((Q * (-1.0 - in->dosp[mat].srh_E[band])) / (T * kb));
 	long double f = 0.0;
 	f = (p * srh_vth * srh_sigmap + srh_en) / (p * srh_vth * srh_sigmap +
 						   n * srh_vth * srh_sigman +
 						   srh_ep + srh_en);
 	long double level = 0.0;
-	level = dosp[mat].srh_E[band] - T * kb * log((1.0 / f) - 1.0) / Q;
+	level = in->dosp[mat].srh_E[band] - T * kb * log((1.0 / f) - 1.0) / Q;
 	return level;
 }
 
-void dos_init(int mat)
+void dos_init(struct device *in, int mat)
 {
-	dosn[mat].used = FALSE;
-	dosp[mat].used = FALSE;
+	in->dosn[mat].used = FALSE;
+	in->dosp[mat].used = FALSE;
 }
 
 void dos_free_now(struct dos *mydos)
@@ -169,24 +167,25 @@ void dos_free_now(struct dos *mydos)
 
 }
 
-void dos_free(int mat)
+void dos_free(struct device *in, int mat)
 {
-	dos_free_now(&dosn[mat]);
-	dos_free_now(&dosp[mat]);
+	dos_free_now(&in->dosn[mat]);
+	dos_free_now(&in->dosp[mat]);
 }
 
-long double get_Nc_free(int mat)
+long double get_Nc_free(struct device *in, int mat)
 {
-	return dosn[mat].config.Nc;
+	return in->dosn[mat].config.Nc;
 
 }
 
-long double get_Nv_free(int mat)
+long double get_Nv_free(struct device *in, int mat)
 {
-	return dosp[mat].config.Nv;
+	return in->dosp[mat].config.Nv;
 }
 
-void load_dos_file(struct simulation *sim, struct dos *mydos, char *file)
+void load_dos_file(struct simulation *sim, struct device *in, struct dos *mydos,
+		   char *file)
 {
 #ifndef dos_bin
 	long double srh_r1 = 0.0;
@@ -206,7 +205,7 @@ void load_dos_file(struct simulation *sim, struct dos *mydos, char *file)
 		printf_log(sim, "%s %s\n", _("Loading file"), file);
 
 #ifdef dos_bin
-	gzFile in;
+	gzFile file_in;
 #else
 	FILE *in;
 #endif
@@ -231,42 +230,42 @@ void load_dos_file(struct simulation *sim, struct dos *mydos, char *file)
 #ifdef dos_bin
 
 	int len;
-	//in = fopen(file, "rb");
+	//file_in = fopen(file, "rb");
 	FILE *tl = fopen(file, "rb");
 	fseek(tl, -4, SEEK_END);
 	if (fread((char *)&len, 4, 1, tl) == 0) {
 		ewe(sim, "Error in reading file\n");
 	}
-	//fscanf(tl,"%x",&a);//=ftell(in);
+	//fscanf(tl,"%x",&a);//=ftell(file_in);
 	fclose(tl);
 	//printf("here '%ld'\n",len);
 	//getchar();
 
-	in = gzopen(file, "rb");
-	if (in == Z_NULL) {
+	file_in = gzopen(file, "rb");
+	if (file_in == Z_NULL) {
 		ewe(sim, _("DOS file not found\n"));
 	}
 
-	//fseek(in, 0, SEEK_END);
-	//len=ftell(in);
-	//fseek(in, 0, SEEK_SET);
-	//long moved=gzseek(in, 0, SEEK_END);
-	//len = (long)gztell(in);       //z_off_t fileSize
-	//printf("here %ld %s %ld %ld\n",len,file,moved,in);
+	//fseek(file_in, 0, SEEK_END);
+	//len=ftell(file_in);
+	//fseek(file_in, 0, SEEK_SET);
+	//long moved=gzseek(file_in, 0, SEEK_END);
+	//len = (long)gztell(file_in);  //z_off_t fileSize
+	//prfile_intf("here %ld %s %ld %ld\n",len,file,moved,file_in);
 	//getchar();
-	//gzseek(in, 0, SEEK_SET);
+	//gzseek(file_in, 0, SEEK_SET);
 
 	int buf_len = len / sizeof(long double);
 
 	long double *buf = (long double *)malloc(sizeof(long double) * buf_len);
 
 	int buf_pos = 0;
-	gzread(in, (char *)buf, len);
-	gzclose(in);
+	gzread(file_in, (char *)buf, len);
+	gzclose(file_in);
 
 #else
-	in = fopen(file, "r");
-	if (in == NULL) {
+	file_in = fopen(file, "r");
+	if (file_in == NULL) {
 		ewe(sim, _("DoS n file not found\n"));
 	}
 #endif
@@ -295,7 +294,7 @@ void load_dos_file(struct simulation *sim, struct dos *mydos, char *file)
 	mydos->config.pl_enabled = (int)buf[buf_pos++];
 	mydos->config.B = buf[buf_pos++];
 #else
-	fscanf(in,
+	fscanf(file_in,
 	       "%d %d %d %Le %Le %Le %Le %Le %Le %Le %Le %Le %Le %Le %Le %Le %Le %d %Le\n",
 	       &(mydos->xlen), &(mydos->tlen), &(mydos->srh_bands),
 	       &(mydos->config.epsilonr), &(mydos->config.doping_start),
@@ -391,7 +390,7 @@ void load_dos_file(struct simulation *sim, struct dos *mydos, char *file)
 #ifdef dos_bin
 		mydos->x[x] = buf[buf_pos++];
 #else
-		fscanf(in, "%le", &(mydos->x[x]));
+		fscanf(file_in, "%le", &(mydos->x[x]));
 #endif
 		//fprintf(rt,"%le\n",(mydos->x[x]));
 	}
@@ -400,7 +399,7 @@ void load_dos_file(struct simulation *sim, struct dos *mydos, char *file)
 #ifdef dos_bin
 		mydos->t[t] = buf[buf_pos++];
 #else
-		fscanf(in, "%le", &(mydos->t[t]));
+		fscanf(file_in, "%le", &(mydos->t[t]));
 #endif
 		//fprintf(rt,"%le\n",(mydos->t[t]));
 	}
@@ -409,7 +408,7 @@ void load_dos_file(struct simulation *sim, struct dos *mydos, char *file)
 #ifdef dos_bin
 		mydos->srh_E[srh_band] = buf[buf_pos++];
 #else
-		fscanf(in, "%le", &(mydos->srh_E[srh_band]));
+		fscanf(file_in, "%le", &(mydos->srh_E[srh_band]));
 #endif
 		//fprintf(rt,"%le\n",(mydos->srh_E[srh_band]));
 	}
@@ -418,7 +417,7 @@ void load_dos_file(struct simulation *sim, struct dos *mydos, char *file)
 #ifdef dos_bin
 		mydos->srh_den[srh_band] = buf[buf_pos++];
 #else
-		fscanf(in, "%le", &(mydos->srh_den[srh_band]));
+		fscanf(file_in, "%le", &(mydos->srh_den[srh_band]));
 #endif
 		//fprintf(rt,"%le\n",(mydos->srh_den[srh_band]));
 	}
@@ -430,7 +429,7 @@ void load_dos_file(struct simulation *sim, struct dos *mydos, char *file)
 			mydos->c[t][x] = buf[buf_pos++];
 			mydos->w[t][x] = buf[buf_pos++];
 #else
-			fscanf(in, "%Le %Le ", &n, &w0);
+			fscanf(file_in, "%Le %Le ", &n, &w0);
 			mydos->c[t][x] = n;
 			mydos->w[t][x] = w0;
 #endif
@@ -446,7 +445,7 @@ void load_dos_file(struct simulation *sim, struct dos *mydos, char *file)
 				mydos->srh_c[t][x][srh_band] = buf[buf_pos++];
 				//printf("%le\n",mydos->srh_c[t][x][srh_band]);
 #else
-				fscanf(in, "%Le %Le %Le %Le %Le ", &srh_r1,
+				fscanf(file_in, "%Le %Le %Le %Le %Le ", &srh_r1,
 				       &srh_r2, &srh_r3, &srh_r4, &srh_c);
 				mydos->srh_r1[t][x][srh_band] = srh_r1;
 				mydos->srh_r2[t][x][srh_band] = srh_r2;
@@ -464,183 +463,195 @@ void load_dos_file(struct simulation *sim, struct dos *mydos, char *file)
 #ifdef dos_bin
 	free(buf);
 #else
-	fclose(in);
+	fclose(file_in);
 #endif
 
 //fclose(rt);
 
 }
 
-long double get_dos_doping_start(int mat)
+long double get_dos_doping_start(struct device *in, int mat)
 {
-	return dosn[mat].config.doping_start;
+	return in->dosn[mat].config.doping_start;
 }
 
-long double get_dos_doping_stop(int mat)
+long double get_dos_doping_stop(struct device *in, int mat)
 {
-	return dosn[mat].config.doping_stop;
+	return in->dosn[mat].config.doping_stop;
 }
 
-long double get_dos_epsilonr(int mat)
+long double get_dos_epsilonr(struct device *in, int mat)
 {
-	return dosn[mat].config.epsilonr;
+	return in->dosn[mat].config.epsilonr;
 }
 
-long double dos_get_band_energy_n(int band, int mat)
+long double dos_get_band_energy_n(struct device *in, int band, int mat)
 {
-	return dosn[mat].srh_E[band];
+	return in->dosn[mat].srh_E[band];
 }
 
-long double dos_get_band_energy_p(int band, int mat)
+long double dos_get_band_energy_p(struct device *in, int band, int mat)
 {
-	return dosp[mat].srh_E[band];
+	return in->dosp[mat].srh_E[band];
 }
 
-long double get_dos_Eg(int mat)
+long double get_dos_Eg(struct device *in, int mat)
 {
-	return dosn[mat].config.Eg;
+	return in->dosn[mat].config.Eg;
 }
 
-long double get_dos_Xi(int mat)
+long double get_dos_Xi(struct device *in, int mat)
 {
-	return dosn[mat].config.Xi;
+	return in->dosn[mat].config.Xi;
 }
 
-long double get_dos_B(int mat)
+long double get_dos_B(struct device *in, int mat)
 {
-	return dosn[mat].config.B;
+	return in->dosn[mat].config.B;
 }
 
-void load_dos(struct simulation *sim, struct device *dev, char *namen,
+void load_dos(struct simulation *sim, struct device *in, char *namen,
 	      char *namep, int mat)
 {
-	load_dos_file(sim, &(dosn[mat]), namen);
-	load_dos_file(sim, &(dosp[mat]), namep);
-	dev->srh_bands = dosn[mat].srh_bands;
+	load_dos_file(sim, in, &(in->dosn[mat]), namen);
+	load_dos_file(sim, in, &(in->dosp[mat]), namep);
+	in->srh_bands = in->dosn[mat].srh_bands;
 }
 
-long double get_dos_E_n(int band, int mat)
+long double get_dos_E_n(struct device *in, int band, int mat)
 {
-	return dosn[mat].srh_E[band];
+	return in->dosn[mat].srh_E[band];
 }
 
-long double get_dos_E_p(int band, int mat)
+long double get_dos_E_p(struct device *in, int band, int mat)
 {
-	return dosp[mat].srh_E[band];
+	return in->dosp[mat].srh_E[band];
 }
 
-long double get_n_w(long double top, long double T, int mat)
-{
-	long double ret = (3.0 / 2.0) * kb * T;
-	return ret;
-}
-
-long double get_p_w(long double top, long double T, int mat)
+long double get_n_w(struct device *in, long double top, long double T, int mat)
 {
 	long double ret = (3.0 / 2.0) * kb * T;
 	return ret;
 }
 
-long double get_dpdT_den(long double top, long double T, int mat)
+long double get_p_w(struct device *in, long double top, long double T, int mat)
+{
+	long double ret = (3.0 / 2.0) * kb * T;
+	return ret;
+}
+
+long double get_dpdT_den(struct device *in, long double top, long double T,
+			 int mat)
 {
 	long double ret = 0.0;
-	long double N = dosp[mat].config.Nv;
+	long double N = in->dosp[mat].config.Nv;
 	ret =
 	    -((top * Q) / kb) * N * gexp((top * Q) / (kb * T)) * gpow(T, -2.0);
 	return ret;
 }
 
-long double get_dndT_den(long double top, long double T, int mat)
+long double get_dndT_den(struct device *in, long double top, long double T,
+			 int mat)
 {
 	long double ret = 0.0;
-	long double N = dosn[mat].config.Nc;
+	long double N = in->dosn[mat].config.Nc;
 	ret =
 	    -((top * Q) / kb) * N * gexp((top * Q) / (kb * T)) * gpow(T, -2.0);
 	return ret;
 }
 
-long double get_top_from_n(long double n, long double T, int mat)
-{
-	long double ret = (kb * T / Q) * log((fabs(n)) / dosn[mat].config.Nc);
-	return ret;
-}
-
-long double get_top_from_p(long double p, long double T, int mat)
-{
-	long double ret = (kb * T / Q) * log((fabs(p)) / dosp[mat].config.Nv);
-	return ret;
-}
-
-long double get_n_den(long double top, long double T, int mat)
-{
-	long double ret = dosn[mat].config.Nc * gexp((Q * top) / (T * kb));
-	return ret;
-}
-
-long double get_p_den(long double top, long double T, int mat)
-{
-	long double ret = dosp[mat].config.Nv * gexp((Q * top) / (T * kb));
-	return ret;
-}
-
-long double get_n_mu(int mat)
-{
-	return dosn[mat].config.mu;
-}
-
-long double get_p_mu(int mat)
-{
-	return dosp[mat].config.mu;
-}
-
-long double get_dn_den(long double top, long double T, int mat)
+long double get_top_from_n(struct device *in, long double n, long double T,
+			   int mat)
 {
 	long double ret =
-	    (Q / (T * kb)) * dosn[mat].config.Nc * gexp((Q * top) / (T * kb));
+	    (kb * T / Q) * log((fabs(n)) / in->dosn[mat].config.Nc);
 	return ret;
 }
 
-long double get_dp_den(long double top, long double T, int mat)
+long double get_top_from_p(struct device *in, long double p, long double T,
+			   int mat)
 {
 	long double ret =
-	    (Q / (T * kb)) * dosp[mat].config.Nv * gexp((Q * top) / (T * kb));
+	    (kb * T / Q) * log((fabs(p)) / in->dosp[mat].config.Nv);
 	return ret;
 }
 
-long double get_pl_fe_fh(int mat)
+long double get_n_den(struct device *in, long double top, long double T,
+		      int mat)
 {
-	return dosn[mat].config.pl_fe_fh;
+	long double ret = in->dosn[mat].config.Nc * gexp((Q * top) / (T * kb));
+	return ret;
 }
 
-long double get_pl_fe_te(int mat)
+long double get_p_den(struct device *in, long double top, long double T,
+		      int mat)
 {
-	return dosn[mat].config.pl_trap;
+	long double ret = in->dosp[mat].config.Nv * gexp((Q * top) / (T * kb));
+	return ret;
 }
 
-long double get_pl_te_fh(int mat)
+long double get_n_mu(struct device *in, int mat)
 {
-
-	return dosn[mat].config.pl_recom;
+	return in->dosn[mat].config.mu;
 }
 
-long double get_pl_th_fe(int mat)
+long double get_p_mu(struct device *in, int mat)
 {
-
-	return dosp[mat].config.pl_recom;
+	return in->dosp[mat].config.mu;
 }
 
-long double get_pl_ft_th(int mat)
+long double get_dn_den(struct device *in, long double top, long double T,
+		       int mat)
 {
-	return dosp[mat].config.pl_trap;
+	long double ret =
+	    (Q / (T * kb)) * in->dosn[mat].config.Nc * gexp((Q * top) /
+							    (T * kb));
+	return ret;
 }
 
-int get_pl_enabled(int mat)
+long double get_dp_den(struct device *in, long double top, long double T,
+		       int mat)
 {
-	return dosp[mat].config.pl_enabled;
+	long double ret =
+	    (Q / (T * kb)) * in->dosp[mat].config.Nv * gexp((Q * top) /
+							    (T * kb));
+	return ret;
 }
 
-long double get_n_srh(struct simulation *sim, long double top, long double T,
-		      int trap, int r, int mat)
+long double get_pl_fe_fh(struct device *in, int mat)
+{
+	return in->dosn[mat].config.pl_fe_fh;
+}
+
+long double get_pl_fe_te(struct device *in, int mat)
+{
+	return in->dosn[mat].config.pl_trap;
+}
+
+long double get_pl_te_fh(struct device *in, int mat)
+{
+
+	return in->dosn[mat].config.pl_recom;
+}
+
+long double get_pl_th_fe(struct device *in, int mat)
+{
+
+	return in->dosp[mat].config.pl_recom;
+}
+
+long double get_pl_ft_th(struct device *in, int mat)
+{
+	return in->dosp[mat].config.pl_trap;
+}
+
+int get_pl_enabled(struct device *in, int mat)
+{
+	return in->dosp[mat].config.pl_enabled;
+}
+
+long double get_n_srh(struct simulation *sim, struct device *in,
+		      long double top, long double T, int trap, int r, int mat)
 {
 	long double ret = 0.0;
 	long double c0 = 0.0;
@@ -660,9 +671,11 @@ long double get_n_srh(struct simulation *sim, long double top, long double T,
 	int x = 0;
 
 #ifdef dos_warn
-	if ((dosn[mat].x[0] > top) || (dosn[mat].x[dosn[mat].xlen - 1] < top)) {
+	if ((in->dosn[mat].x[0] > top)
+	    || (in->dosn[mat].x[in->dosn[mat].xlen - 1] < top)) {
 		ewe(sim, "Electrons asking for %e but range %e %e\n", top,
-		    dosn[mat].x[0], dosn[mat].x[dosn[mat].xlen - 1]);
+		    in->dosn[mat].x[0],
+		    in->dosn[mat].x[in->dosn[mat].xlen - 1]);
 		//if (get_dump_status(dump_exit_on_dos_error)==TRUE)
 		//{
 		//server_stop_and_exit();
@@ -670,20 +683,20 @@ long double get_n_srh(struct simulation *sim, long double top, long double T,
 	}
 #endif
 
-	x = hashget(dosn[mat].x, dosn[mat].xlen, top);
+	x = hashget(in->dosn[mat].x, in->dosn[mat].xlen, top);
 //if (x<0) x=0;
 
-	x0 = dosn[mat].x[x];
-	x1 = dosn[mat].x[x + 1];
+	x0 = in->dosn[mat].x[x];
+	x1 = in->dosn[mat].x[x + 1];
 	xr = (top - x0) / (x1 - x0);
 
-	if (dosn[mat].tlen > 1) {
-		t = hashget(dosn[mat].t, dosn[mat].tlen, T);
+	if (in->dosn[mat].tlen > 1) {
+		t = hashget(in->dosn[mat].t, in->dosn[mat].tlen, T);
 		if (t < 0)
 			t = 0;
 
-		t0 = dosn[mat].t[t];
-		t1 = dosn[mat].t[t + 1];
+		t0 = in->dosn[mat].t[t];
+		t1 = in->dosn[mat].t[t + 1];
 		tr = (T - t0) / (t1 - t0);
 	} else {
 		tr = 0.0;
@@ -691,49 +704,49 @@ long double get_n_srh(struct simulation *sim, long double top, long double T,
 
 	switch (r) {
 	case 1:
-		c00 = dosn[mat].srh_r1[t][x][trap];
-		c01 = dosn[mat].srh_r1[t][x + 1][trap];
+		c00 = in->dosn[mat].srh_r1[t][x][trap];
+		c01 = in->dosn[mat].srh_r1[t][x + 1][trap];
 		c0 = c00 + xr * (c01 - c00);
 
-		if (dosn[mat].tlen > 1) {
-			c10 = dosn[mat].srh_r1[t + 1][x][trap];
-			c11 = dosn[mat].srh_r1[t + 1][x + 1][trap];
+		if (in->dosn[mat].tlen > 1) {
+			c10 = in->dosn[mat].srh_r1[t + 1][x][trap];
+			c11 = in->dosn[mat].srh_r1[t + 1][x + 1][trap];
 			c1 = c10 + xr * (c11 - c10);
 		}
 		break;
 
 	case 2:
-		c00 = dosn[mat].srh_r2[t][x][trap];
-		c01 = dosn[mat].srh_r2[t][x + 1][trap];
+		c00 = in->dosn[mat].srh_r2[t][x][trap];
+		c01 = in->dosn[mat].srh_r2[t][x + 1][trap];
 		c0 = c00 + xr * (c01 - c00);
 
-		if (dosn[mat].tlen > 1) {
-			c10 = dosn[mat].srh_r2[t + 1][x][trap];
-			c11 = dosn[mat].srh_r2[t + 1][x + 1][trap];
+		if (in->dosn[mat].tlen > 1) {
+			c10 = in->dosn[mat].srh_r2[t + 1][x][trap];
+			c11 = in->dosn[mat].srh_r2[t + 1][x + 1][trap];
 			c1 = c10 + xr * (c11 - c10);
 		}
 		break;
 
 	case 3:
-		c00 = dosn[mat].srh_r3[t][x][trap];
-		c01 = dosn[mat].srh_r3[t][x + 1][trap];
+		c00 = in->dosn[mat].srh_r3[t][x][trap];
+		c01 = in->dosn[mat].srh_r3[t][x + 1][trap];
 		c0 = c00 + xr * (c01 - c00);
 
-		if (dosn[mat].tlen > 1) {
-			c10 = dosn[mat].srh_r3[t + 1][x][trap];
-			c11 = dosn[mat].srh_r3[t + 1][x + 1][trap];
+		if (in->dosn[mat].tlen > 1) {
+			c10 = in->dosn[mat].srh_r3[t + 1][x][trap];
+			c11 = in->dosn[mat].srh_r3[t + 1][x + 1][trap];
 			c1 = c10 + xr * (c11 - c10);
 		}
 		break;
 
 	case 4:
-		c00 = dosn[mat].srh_r4[t][x][trap];
-		c01 = dosn[mat].srh_r4[t][x + 1][trap];
+		c00 = in->dosn[mat].srh_r4[t][x][trap];
+		c01 = in->dosn[mat].srh_r4[t][x + 1][trap];
 		c0 = c00 + xr * (c01 - c00);
 
-		if (dosn[mat].tlen > 1) {
-			c10 = dosn[mat].srh_r4[t + 1][x][trap];
-			c11 = dosn[mat].srh_r4[t + 1][x + 1][trap];
+		if (in->dosn[mat].tlen > 1) {
+			c10 = in->dosn[mat].srh_r4[t + 1][x][trap];
+			c11 = in->dosn[mat].srh_r4[t + 1][x + 1][trap];
 			c1 = c10 + xr * (c11 - c10);
 		}
 		break;
@@ -745,8 +758,8 @@ long double get_n_srh(struct simulation *sim, long double top, long double T,
 	return ret;
 }
 
-long double get_p_srh(struct simulation *sim, long double top, long double T,
-		      int trap, int r, int mat)
+long double get_p_srh(struct simulation *sim, struct device *in,
+		      long double top, long double T, int trap, int r, int mat)
 {
 	long double ret = 0.0;
 	long double c0 = 0.0;
@@ -766,28 +779,30 @@ long double get_p_srh(struct simulation *sim, long double top, long double T,
 	int x = 0;
 
 #ifdef dos_warn
-	if ((dosp[mat].x[0] > top) || (dosp[mat].x[dosp[mat].xlen - 1] < top)) {
+	if ((in->dosp[mat].x[0] > top)
+	    || (in->dosp[mat].x[in->dosp[mat].xlen - 1] < top)) {
 		ewe(sim, "Holes asking for %e but range %e %e\n", top,
-		    dosp[mat].x[0], dosp[mat].x[dosp[mat].xlen - 1]);
+		    in->dosp[mat].x[0],
+		    in->dosp[mat].x[in->dosp[mat].xlen - 1]);
 		//if (get_dump_status(dump_exit_on_dos_error)==TRUE) server_stop_and_exit();
 		//exit(0);
 	}
 #endif
 
-	x = hashget(dosp[mat].x, dosp[mat].xlen, top);
+	x = hashget(in->dosp[mat].x, in->dosp[mat].xlen, top);
 //if (x<0) x=0;
 
-	x0 = dosp[mat].x[x];
-	x1 = dosp[mat].x[x + 1];
+	x0 = in->dosp[mat].x[x];
+	x1 = in->dosp[mat].x[x + 1];
 	xr = (top - x0) / (x1 - x0);
 
-	if (dosp[mat].tlen > 1) {
-		t = hashget(dosp[mat].t, dosp[mat].tlen, T);
+	if (in->dosp[mat].tlen > 1) {
+		t = hashget(in->dosp[mat].t, in->dosp[mat].tlen, T);
 		if (t < 0)
 			t = 0;
 
-		t0 = dosp[mat].t[t];
-		t1 = dosp[mat].t[t + 1];
+		t0 = in->dosp[mat].t[t];
+		t1 = in->dosp[mat].t[t + 1];
 		tr = (T - t0) / (t1 - t0);
 	} else {
 		tr = 0.0;
@@ -795,49 +810,49 @@ long double get_p_srh(struct simulation *sim, long double top, long double T,
 
 	switch (r) {
 	case 1:
-		c00 = dosp[mat].srh_r1[t][x][trap];
-		c01 = dosp[mat].srh_r1[t][x + 1][trap];
+		c00 = in->dosp[mat].srh_r1[t][x][trap];
+		c01 = in->dosp[mat].srh_r1[t][x + 1][trap];
 		c0 = c00 + xr * (c01 - c00);
 
-		if (dosp[mat].tlen > 1) {
-			c10 = dosp[mat].srh_r1[t + 1][x][trap];
-			c11 = dosp[mat].srh_r1[t + 1][x + 1][trap];
+		if (in->dosp[mat].tlen > 1) {
+			c10 = in->dosp[mat].srh_r1[t + 1][x][trap];
+			c11 = in->dosp[mat].srh_r1[t + 1][x + 1][trap];
 			c1 = c10 + xr * (c11 - c10);
 		}
 		break;
 
 	case 2:
-		c00 = dosp[mat].srh_r2[t][x][trap];
-		c01 = dosp[mat].srh_r2[t][x + 1][trap];
+		c00 = in->dosp[mat].srh_r2[t][x][trap];
+		c01 = in->dosp[mat].srh_r2[t][x + 1][trap];
 		c0 = c00 + xr * (c01 - c00);
 
-		if (dosp[mat].tlen > 1) {
-			c10 = dosp[mat].srh_r2[t + 1][x][trap];
-			c11 = dosp[mat].srh_r2[t + 1][x + 1][trap];
+		if (in->dosp[mat].tlen > 1) {
+			c10 = in->dosp[mat].srh_r2[t + 1][x][trap];
+			c11 = in->dosp[mat].srh_r2[t + 1][x + 1][trap];
 			c1 = c10 + xr * (c11 - c10);
 		}
 		break;
 
 	case 3:
-		c00 = dosp[mat].srh_r3[t][x][trap];
-		c01 = dosp[mat].srh_r3[t][x + 1][trap];
+		c00 = in->dosp[mat].srh_r3[t][x][trap];
+		c01 = in->dosp[mat].srh_r3[t][x + 1][trap];
 		c0 = c00 + xr * (c01 - c00);
 
-		if (dosp[mat].tlen > 1) {
-			c10 = dosp[mat].srh_r3[t + 1][x][trap];
-			c11 = dosp[mat].srh_r3[t + 1][x + 1][trap];
+		if (in->dosp[mat].tlen > 1) {
+			c10 = in->dosp[mat].srh_r3[t + 1][x][trap];
+			c11 = in->dosp[mat].srh_r3[t + 1][x + 1][trap];
 			c1 = c10 + xr * (c11 - c10);
 		}
 		break;
 
 	case 4:
-		c00 = dosp[mat].srh_r4[t][x][trap];
-		c01 = dosp[mat].srh_r4[t][x + 1][trap];
+		c00 = in->dosp[mat].srh_r4[t][x][trap];
+		c01 = in->dosp[mat].srh_r4[t][x + 1][trap];
 		c0 = c00 + xr * (c01 - c00);
 
-		if (dosp[mat].tlen > 1) {
-			c10 = dosp[mat].srh_r4[t + 1][x][trap];
-			c11 = dosp[mat].srh_r4[t + 1][x + 1][trap];
+		if (in->dosp[mat].tlen > 1) {
+			c10 = in->dosp[mat].srh_r4[t + 1][x][trap];
+			c11 = in->dosp[mat].srh_r4[t + 1][x + 1][trap];
 			c1 = c10 + xr * (c11 - c10);
 		}
 		break;
@@ -849,8 +864,8 @@ long double get_p_srh(struct simulation *sim, long double top, long double T,
 	return ret;
 }
 
-long double get_dn_srh(struct simulation *sim, long double top, long double T,
-		       int trap, int r, int mat)
+long double get_dn_srh(struct simulation *sim, struct device *in,
+		       long double top, long double T, int trap, int r, int mat)
 {
 	long double ret = 0.0;
 	long double c0 = 0.0;
@@ -871,24 +886,26 @@ long double get_dn_srh(struct simulation *sim, long double top, long double T,
 	int x;
 
 #ifdef dos_warn
-	if ((dosn[mat].x[0] > top) || (dosn[mat].x[dosn[mat].xlen - 1] < top)) {
+	if ((in->dosn[mat].x[0] > top)
+	    || (in->dosn[mat].x[in->dosn[mat].xlen - 1] < top)) {
 		ewe(sim, "Electrons asking for %e but range %e %e\n", top,
-		    dosn[mat].x[0], dosn[mat].x[dosn[mat].xlen - 1]);
+		    in->dosn[mat].x[0],
+		    in->dosn[mat].x[in->dosn[mat].xlen - 1]);
 		//if (get_dump_status(dump_exit_on_dos_error)==TRUE) server_stop_and_exit();
 		//exit(0);
 	}
 #endif
 
-	x = hashget(dosn[mat].x, dosn[mat].xlen, top);
+	x = hashget(in->dosn[mat].x, in->dosn[mat].xlen, top);
 
-	x0 = dosn[mat].x[x];
-	x1 = dosn[mat].x[x + 1];
+	x0 = in->dosn[mat].x[x];
+	x1 = in->dosn[mat].x[x + 1];
 	xr = 1.0 / (x1 - x0);
 
-	if (dosn[mat].tlen > 1) {
-		t = hashget(dosn[mat].t, dosn[mat].tlen, T);
-		t0 = dosn[mat].t[t];
-		t1 = dosn[mat].t[t + 1];
+	if (in->dosn[mat].tlen > 1) {
+		t = hashget(in->dosn[mat].t, in->dosn[mat].tlen, T);
+		t0 = in->dosn[mat].t[t];
+		t1 = in->dosn[mat].t[t + 1];
 		tr = (T - t0) / (t1 - t0);
 	} else {
 		tr = 0.0;
@@ -897,49 +914,49 @@ long double get_dn_srh(struct simulation *sim, long double top, long double T,
 	switch (r) {
 
 	case 1:
-		c00 = dosn[mat].srh_r1[t][x][trap];
-		c01 = dosn[mat].srh_r1[t][x + 1][trap];
+		c00 = in->dosn[mat].srh_r1[t][x][trap];
+		c01 = in->dosn[mat].srh_r1[t][x + 1][trap];
 		c0 = xr * (c01 - c00);
 
-		if (dosn[mat].tlen > 1) {
-			c10 = dosn[mat].srh_r1[t + 1][x][trap];
-			c11 = dosn[mat].srh_r1[t + 1][x + 1][trap];
+		if (in->dosn[mat].tlen > 1) {
+			c10 = in->dosn[mat].srh_r1[t + 1][x][trap];
+			c11 = in->dosn[mat].srh_r1[t + 1][x + 1][trap];
 			c1 = xr * (c11 - c10);
 		}
 		break;
 
 	case 2:
-		c00 = dosn[mat].srh_r2[t][x][trap];
-		c01 = dosn[mat].srh_r2[t][x + 1][trap];
+		c00 = in->dosn[mat].srh_r2[t][x][trap];
+		c01 = in->dosn[mat].srh_r2[t][x + 1][trap];
 		c0 = xr * (c01 - c00);
 
-		if (dosn[mat].tlen > 1) {
-			c10 = dosn[mat].srh_r2[t + 1][x][trap];
-			c11 = dosn[mat].srh_r2[t + 1][x + 1][trap];
+		if (in->dosn[mat].tlen > 1) {
+			c10 = in->dosn[mat].srh_r2[t + 1][x][trap];
+			c11 = in->dosn[mat].srh_r2[t + 1][x + 1][trap];
 			c1 = xr * (c11 - c10);
 		}
 		break;
 
 	case 3:
-		c00 = dosn[mat].srh_r3[t][x][trap];
-		c01 = dosn[mat].srh_r3[t][x + 1][trap];
+		c00 = in->dosn[mat].srh_r3[t][x][trap];
+		c01 = in->dosn[mat].srh_r3[t][x + 1][trap];
 		c0 = xr * (c01 - c00);
 
-		if (dosn[mat].tlen > 1) {
-			c10 = dosn[mat].srh_r3[t + 1][x][trap];
-			c11 = dosn[mat].srh_r3[t + 1][x + 1][trap];
+		if (in->dosn[mat].tlen > 1) {
+			c10 = in->dosn[mat].srh_r3[t + 1][x][trap];
+			c11 = in->dosn[mat].srh_r3[t + 1][x + 1][trap];
 			c1 = xr * (c11 - c10);
 		}
 		break;
 
 	case 4:
-		c00 = dosn[mat].srh_r4[t][x][trap];
-		c01 = dosn[mat].srh_r4[t][x + 1][trap];
+		c00 = in->dosn[mat].srh_r4[t][x][trap];
+		c01 = in->dosn[mat].srh_r4[t][x + 1][trap];
 		c0 = xr * (c01 - c00);
 
-		if (dosn[mat].tlen > 1) {
-			c10 = dosn[mat].srh_r4[t + 1][x][trap];
-			c11 = dosn[mat].srh_r4[t + 1][x + 1][trap];
+		if (in->dosn[mat].tlen > 1) {
+			c10 = in->dosn[mat].srh_r4[t + 1][x][trap];
+			c11 = in->dosn[mat].srh_r4[t + 1][x + 1][trap];
 			c1 = xr * (c11 - c10);
 		}
 		break;
@@ -952,8 +969,8 @@ long double get_dn_srh(struct simulation *sim, long double top, long double T,
 	return ret;
 }
 
-long double get_dp_srh(struct simulation *sim, long double top, long double T,
-		       int trap, int r, int mat)
+long double get_dp_srh(struct simulation *sim, struct device *in,
+		       long double top, long double T, int trap, int r, int mat)
 {
 	long double ret = 0.0;
 	long double c0 = 0.0;
@@ -974,24 +991,26 @@ long double get_dp_srh(struct simulation *sim, long double top, long double T,
 	int x;
 
 #ifdef dos_warn
-	if ((dosp[mat].x[0] > top) || (dosp[mat].x[dosp[mat].xlen - 1] < top)) {
+	if ((in->dosp[mat].x[0] > top)
+	    || (in->dosp[mat].x[in->dosp[mat].xlen - 1] < top)) {
 		ewe(sim, "Holes asking for %e but range %e %e\n", top,
-		    dosp[mat].x[0], dosp[mat].x[dosp[mat].xlen - 1]);
+		    in->dosp[mat].x[0],
+		    in->dosp[mat].x[in->dosp[mat].xlen - 1]);
 		//if (get_dump_status(dump_exit_on_dos_error)==TRUE) server_stop_and_exit();
 		//exit(0);
 	}
 #endif
 
-	x = hashget(dosp[mat].x, dosp[mat].xlen, top);
+	x = hashget(in->dosp[mat].x, in->dosp[mat].xlen, top);
 
-	x0 = dosp[mat].x[x];
-	x1 = dosp[mat].x[x + 1];
+	x0 = in->dosp[mat].x[x];
+	x1 = in->dosp[mat].x[x + 1];
 	xr = 1.0 / (x1 - x0);
 
-	if (dosp[mat].tlen > 1) {
-		t = hashget(dosp[mat].t, dosp[mat].tlen, T);
-		t0 = dosp[mat].t[t];
-		t1 = dosp[mat].t[t + 1];
+	if (in->dosp[mat].tlen > 1) {
+		t = hashget(in->dosp[mat].t, in->dosp[mat].tlen, T);
+		t0 = in->dosp[mat].t[t];
+		t1 = in->dosp[mat].t[t + 1];
 		tr = (T - t0) / (t1 - t0);
 	} else {
 		tr = 0.0;
@@ -999,49 +1018,49 @@ long double get_dp_srh(struct simulation *sim, long double top, long double T,
 
 	switch (r) {
 	case 1:
-		c00 = dosp[mat].srh_r1[t][x][trap];
-		c01 = dosp[mat].srh_r1[t][x + 1][trap];
+		c00 = in->dosp[mat].srh_r1[t][x][trap];
+		c01 = in->dosp[mat].srh_r1[t][x + 1][trap];
 		c0 = xr * (c01 - c00);
 
-		if (dosp[mat].tlen > 1) {
-			c10 = dosp[mat].srh_r1[t + 1][x][trap];
-			c11 = dosp[mat].srh_r1[t + 1][x + 1][trap];
+		if (in->dosp[mat].tlen > 1) {
+			c10 = in->dosp[mat].srh_r1[t + 1][x][trap];
+			c11 = in->dosp[mat].srh_r1[t + 1][x + 1][trap];
 			c1 = xr * (c11 - c10);
 		}
 		break;
 
 	case 2:
-		c00 = dosp[mat].srh_r2[t][x][trap];
-		c01 = dosp[mat].srh_r2[t][x + 1][trap];
+		c00 = in->dosp[mat].srh_r2[t][x][trap];
+		c01 = in->dosp[mat].srh_r2[t][x + 1][trap];
 		c0 = xr * (c01 - c00);
 
-		if (dosp[mat].tlen > 1) {
-			c10 = dosp[mat].srh_r2[t + 1][x][trap];
-			c11 = dosp[mat].srh_r2[t + 1][x + 1][trap];
+		if (in->dosp[mat].tlen > 1) {
+			c10 = in->dosp[mat].srh_r2[t + 1][x][trap];
+			c11 = in->dosp[mat].srh_r2[t + 1][x + 1][trap];
 			c1 = xr * (c11 - c10);
 		}
 		break;
 
 	case 3:
-		c00 = dosp[mat].srh_r3[t][x][trap];
-		c01 = dosp[mat].srh_r3[t][x + 1][trap];
+		c00 = in->dosp[mat].srh_r3[t][x][trap];
+		c01 = in->dosp[mat].srh_r3[t][x + 1][trap];
 		c0 = xr * (c01 - c00);
 
-		if (dosp[mat].tlen > 1) {
-			c10 = dosp[mat].srh_r3[t + 1][x][trap];
-			c11 = dosp[mat].srh_r3[t + 1][x + 1][trap];
+		if (in->dosp[mat].tlen > 1) {
+			c10 = in->dosp[mat].srh_r3[t + 1][x][trap];
+			c11 = in->dosp[mat].srh_r3[t + 1][x + 1][trap];
 			c1 = xr * (c11 - c10);
 		}
 		break;
 
 	case 4:
-		c00 = dosp[mat].srh_r4[t][x][trap];
-		c01 = dosp[mat].srh_r4[t][x + 1][trap];
+		c00 = in->dosp[mat].srh_r4[t][x][trap];
+		c01 = in->dosp[mat].srh_r4[t][x + 1][trap];
 		c0 = xr * (c01 - c00);
 
-		if (dosp[mat].tlen > 1) {
-			c10 = dosp[mat].srh_r4[t + 1][x][trap];
-			c11 = dosp[mat].srh_r4[t + 1][x + 1][trap];
+		if (in->dosp[mat].tlen > 1) {
+			c10 = in->dosp[mat].srh_r4[t + 1][x][trap];
+			c11 = in->dosp[mat].srh_r4[t + 1][x + 1][trap];
 			c1 = xr * (c11 - c10);
 		}
 		break;
@@ -1056,8 +1075,8 @@ long double get_dp_srh(struct simulation *sim, long double top, long double T,
 
 /////////////////////////////////////////////////////trap
 
-long double get_n_pop_srh(struct simulation *sim, long double top,
-			  long double T, int trap, int mat)
+long double get_n_pop_srh(struct simulation *sim, struct device *in,
+			  long double top, long double T, int trap, int mat)
 {
 	long double ret = 0.0;
 	long double c0 = 0.0;
@@ -1077,36 +1096,38 @@ long double get_n_pop_srh(struct simulation *sim, long double top,
 	int x = 0;
 
 #ifdef dos_warn
-	if ((dosn[mat].x[0] > top) || (dosn[mat].x[dosn[mat].xlen - 1] < top)) {
+	if ((in->dosn[mat].x[0] > top)
+	    || (in->dosn[mat].x[in->dosn[mat].xlen - 1] < top)) {
 		ewe(sim, "Electrons asking for %e but range %e %e\n", top,
-		    dosn[mat].x[0], dosn[mat].x[dosn[mat].xlen - 1]);
+		    in->dosn[mat].x[0],
+		    in->dosn[mat].x[in->dosn[mat].xlen - 1]);
 		//if (get_dump_status(dump_exit_on_dos_error)==TRUE) server_stop_and_exit();
 		//exit(0);
 	}
 #endif
 
-	x = hashget(dosn[mat].x, dosn[mat].xlen, top);
+	x = hashget(in->dosn[mat].x, in->dosn[mat].xlen, top);
 
-	x0 = dosn[mat].x[x];
-	x1 = dosn[mat].x[x + 1];
+	x0 = in->dosn[mat].x[x];
+	x1 = in->dosn[mat].x[x + 1];
 	xr = (top - x0) / (x1 - x0);
-	if (dosn[mat].tlen > 1) {
-		t = hashget(dosn[mat].t, dosn[mat].tlen, T);
+	if (in->dosn[mat].tlen > 1) {
+		t = hashget(in->dosn[mat].t, in->dosn[mat].tlen, T);
 
-		t0 = dosn[mat].t[t];
-		t1 = dosn[mat].t[t + 1];
+		t0 = in->dosn[mat].t[t];
+		t1 = in->dosn[mat].t[t + 1];
 		tr = (T - t0) / (t1 - t0);
 	} else {
 		tr = 0.0;
 	}
 
-	c00 = dosn[mat].srh_c[t][x][trap];
-	c01 = dosn[mat].srh_c[t][x + 1][trap];
+	c00 = in->dosn[mat].srh_c[t][x][trap];
+	c01 = in->dosn[mat].srh_c[t][x + 1][trap];
 	c0 = c00 + xr * (c01 - c00);
 
-	if (dosn[mat].tlen > 1) {
-		c10 = dosn[mat].srh_c[t + 1][x][trap];
-		c11 = dosn[mat].srh_c[t + 1][x + 1][trap];
+	if (in->dosn[mat].tlen > 1) {
+		c10 = in->dosn[mat].srh_c[t + 1][x][trap];
+		c11 = in->dosn[mat].srh_c[t + 1][x + 1][trap];
 		c1 = c10 + xr * (c11 - c10);
 	}
 
@@ -1116,8 +1137,8 @@ long double get_n_pop_srh(struct simulation *sim, long double top,
 	return ret;
 }
 
-long double get_p_pop_srh(struct simulation *sim, long double top,
-			  long double T, int trap, int mat)
+long double get_p_pop_srh(struct simulation *sim, struct device *in,
+			  long double top, long double T, int trap, int mat)
 {
 	long double ret = 0.0;
 	long double c0 = 0.0;
@@ -1137,35 +1158,37 @@ long double get_p_pop_srh(struct simulation *sim, long double top,
 	int x = 0;
 
 #ifdef dos_warn
-	if ((dosp[mat].x[0] > top) || (dosp[mat].x[dosp[mat].xlen - 1] < top)) {
+	if ((in->dosp[mat].x[0] > top)
+	    || (in->dosp[mat].x[in->dosp[mat].xlen - 1] < top)) {
 		ewe(sim, "Holes asking for %e but range %e %e\n", top,
-		    dosp[mat].x[0], dosp[mat].x[dosp[mat].xlen - 1]);
+		    in->dosp[mat].x[0],
+		    in->dosp[mat].x[in->dosp[mat].xlen - 1]);
 		//if (get_dump_status(dump_exit_on_dos_error)==TRUE) server_stop_and_exit();
 		//exit(0);
 	}
 #endif
 
-	x = hashget(dosp[mat].x, dosp[mat].xlen, top);
+	x = hashget(in->dosp[mat].x, in->dosp[mat].xlen, top);
 
-	x0 = dosp[mat].x[x];
-	x1 = dosp[mat].x[x + 1];
+	x0 = in->dosp[mat].x[x];
+	x1 = in->dosp[mat].x[x + 1];
 	xr = (top - x0) / (x1 - x0);
-	if (dosp[mat].tlen > 1) {
-		t = hashget(dosp[mat].t, dosp[mat].tlen, T);
-		t0 = dosp[mat].t[t];
-		t1 = dosp[mat].t[t + 1];
+	if (in->dosp[mat].tlen > 1) {
+		t = hashget(in->dosp[mat].t, in->dosp[mat].tlen, T);
+		t0 = in->dosp[mat].t[t];
+		t1 = in->dosp[mat].t[t + 1];
 		tr = (T - t0) / (t1 - t0);
 	} else {
 		tr = 0.0;
 	}
 
-	c00 = dosp[mat].srh_c[t][x][trap];
-	c01 = dosp[mat].srh_c[t][x + 1][trap];
+	c00 = in->dosp[mat].srh_c[t][x][trap];
+	c01 = in->dosp[mat].srh_c[t][x + 1][trap];
 	c0 = c00 + xr * (c01 - c00);
 
-	if (dosp[mat].tlen > 1) {
-		c10 = dosp[mat].srh_c[t + 1][x][trap];
-		c11 = dosp[mat].srh_c[t + 1][x + 1][trap];
+	if (in->dosp[mat].tlen > 1) {
+		c10 = in->dosp[mat].srh_c[t + 1][x][trap];
+		c11 = in->dosp[mat].srh_c[t + 1][x + 1][trap];
 		c1 = c10 + xr * (c11 - c10);
 	}
 
@@ -1175,8 +1198,8 @@ long double get_p_pop_srh(struct simulation *sim, long double top,
 	return ret;
 }
 
-long double get_dn_pop_srh(struct simulation *sim, long double top,
-			   long double T, int trap, int mat)
+long double get_dn_pop_srh(struct simulation *sim, struct device *in,
+			   long double top, long double T, int trap, int mat)
 {
 	long double ret = 0.0;
 	long double c0 = 0.0;
@@ -1197,36 +1220,38 @@ long double get_dn_pop_srh(struct simulation *sim, long double top,
 	int x;
 
 #ifdef dos_warn
-	if ((dosn[mat].x[0] > top) || (dosn[mat].x[dosn[mat].xlen - 1] < top)) {
+	if ((in->dosn[mat].x[0] > top)
+	    || (in->dosn[mat].x[in->dosn[mat].xlen - 1] < top)) {
 		ewe(sim, "Electrons asking for %e but range %e %e\n", top,
-		    dosn[mat].x[0], dosn[mat].x[dosn[mat].xlen - 1]);
+		    in->dosn[mat].x[0],
+		    in->dosn[mat].x[in->dosn[mat].xlen - 1]);
 		//if (get_dump_status(dump_exit_on_dos_error)==TRUE) server_stop_and_exit();
 		//exit(0);
 	}
 #endif
 
-	x = hashget(dosn[mat].x, dosn[mat].xlen, top);
+	x = hashget(in->dosn[mat].x, in->dosn[mat].xlen, top);
 
-	x0 = dosn[mat].x[x];
-	x1 = dosn[mat].x[x + 1];
+	x0 = in->dosn[mat].x[x];
+	x1 = in->dosn[mat].x[x + 1];
 	xr = 1.0 / (x1 - x0);
 
-	if (dosn[mat].tlen > 1) {
-		t = hashget(dosn[mat].t, dosn[mat].tlen, T);
-		t0 = dosn[mat].t[t];
-		t1 = dosn[mat].t[t + 1];
+	if (in->dosn[mat].tlen > 1) {
+		t = hashget(in->dosn[mat].t, in->dosn[mat].tlen, T);
+		t0 = in->dosn[mat].t[t];
+		t1 = in->dosn[mat].t[t + 1];
 		tr = (T - t0) / (t1 - t0);
 	} else {
 		tr = 0.0;
 	}
 
-	c00 = dosn[mat].srh_c[t][x][trap];
-	c01 = dosn[mat].srh_c[t][x + 1][trap];
+	c00 = in->dosn[mat].srh_c[t][x][trap];
+	c01 = in->dosn[mat].srh_c[t][x + 1][trap];
 	c0 = xr * (c01 - c00);
 
-	if (dosn[mat].tlen > 1) {
-		c10 = dosn[mat].srh_c[t + 1][x][trap];
-		c11 = dosn[mat].srh_c[t + 1][x + 1][trap];
+	if (in->dosn[mat].tlen > 1) {
+		c10 = in->dosn[mat].srh_c[t + 1][x][trap];
+		c11 = in->dosn[mat].srh_c[t + 1][x + 1][trap];
 		c1 = xr * (c11 - c10);
 	}
 
@@ -1237,8 +1262,8 @@ long double get_dn_pop_srh(struct simulation *sim, long double top,
 	return ret;
 }
 
-long double get_dp_pop_srh(struct simulation *sim, long double top,
-			   long double T, int trap, int mat)
+long double get_dp_pop_srh(struct simulation *sim, struct device *in,
+			   long double top, long double T, int trap, int mat)
 {
 	long double ret = 0.0;
 	long double c0 = 0.0;
@@ -1259,36 +1284,38 @@ long double get_dp_pop_srh(struct simulation *sim, long double top,
 	int x;
 
 #ifdef dos_warn
-	if ((dosp[mat].x[0] > top) || (dosp[mat].x[dosp[mat].xlen - 1] < top)) {
+	if ((in->dosp[mat].x[0] > top)
+	    || (in->dosp[mat].x[in->dosp[mat].xlen - 1] < top)) {
 		ewe(sim, "Holes asking for %e but range %e %e\n", top,
-		    dosp[mat].x[0], dosp[mat].x[dosp[mat].xlen - 1]);
+		    in->dosp[mat].x[0],
+		    in->dosp[mat].x[in->dosp[mat].xlen - 1]);
 		//if (get_dump_status(dump_exit_on_dos_error)==TRUE) server_stop_and_exit();
 		//exit(0);
 	}
 #endif
 
-	x = hashget(dosp[mat].x, dosp[mat].xlen, top);
+	x = hashget(in->dosp[mat].x, in->dosp[mat].xlen, top);
 
-	x0 = dosp[mat].x[x];
-	x1 = dosp[mat].x[x + 1];
+	x0 = in->dosp[mat].x[x];
+	x1 = in->dosp[mat].x[x + 1];
 	xr = 1.0 / (x1 - x0);
 
-	if (dosp[mat].tlen > 1) {
-		t = hashget(dosp[mat].t, dosp[mat].tlen, T);
-		t0 = dosp[mat].t[t];
-		t1 = dosp[mat].t[t + 1];
+	if (in->dosp[mat].tlen > 1) {
+		t = hashget(in->dosp[mat].t, in->dosp[mat].tlen, T);
+		t0 = in->dosp[mat].t[t];
+		t1 = in->dosp[mat].t[t + 1];
 		tr = (T - t0) / (t1 - t0);
 	} else {
 		tr = 0.0;
 	}
 
-	c00 = dosp[mat].srh_c[t][x][trap];
-	c01 = dosp[mat].srh_c[t][x + 1][trap];
+	c00 = in->dosp[mat].srh_c[t][x][trap];
+	c01 = in->dosp[mat].srh_c[t][x + 1][trap];
 	c0 = xr * (c01 - c00);
 
-	if (dosp[mat].tlen > 1) {
-		c10 = dosp[mat].srh_c[t + 1][x][trap];
-		c11 = dosp[mat].srh_c[t + 1][x + 1][trap];
+	if (in->dosp[mat].tlen > 1) {
+		c10 = in->dosp[mat].srh_c[t + 1][x][trap];
+		c11 = in->dosp[mat].srh_c[t + 1][x + 1][trap];
 		c1 = xr * (c11 - c10);
 	}
 
@@ -1312,8 +1339,8 @@ long double Ec=in->Ec[0];
 long double Estop=in->Ec[0]+1;
 long double gauEv;
 long double gauEc;
-long double sigmae=dosn[mat][1].config.sigma;
-long double sigmah=dosp[mat][1].config.sigma;
+long double sigmae=in->dosn[mat][1].config.sigma;
+long double sigmah=in->dosp[mat][1].config.sigma;
 //printf("sigmas %e %e\n",fabs(dos_get_Ev_edge(in->dostype[0])),fabs(dos_get_Ec_edge(in->dostype[0])));
 //getchar();
 //getchar();

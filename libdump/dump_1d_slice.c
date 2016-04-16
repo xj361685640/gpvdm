@@ -975,8 +975,9 @@ void dump_1d_slice(struct simulation *sim, struct device *in, char *out_dir)
 		for (band = 0; band < in->srh_bands; band++) {
 			sprintf(temp, "%Le %Le ", in->Fnt[i][band],
 				-in->phi[i] - in->Xi[i] +
-				dos_srh_get_fermi_n(in->n[i], in->p[i], band,
-						    in->imat[i], in->Te[i]));
+				dos_srh_get_fermi_n(in, in->n[i], in->p[i],
+						    band, in->imat[i],
+						    in->Te[i]));
 			buffer_add_string(&buf, temp);
 		}
 		buffer_add_string(&buf, "\n");
@@ -1008,8 +1009,9 @@ void dump_1d_slice(struct simulation *sim, struct device *in, char *out_dir)
 		for (band = 0; band < in->srh_bands; band++) {
 			sprintf(temp, "%Le %Le ", in->Fpt[i][band],
 				-in->phi[i] - in->Xi[i] - in->Eg[i] -
-				dos_srh_get_fermi_p(in->n[i], in->p[i], band,
-						    in->imat[i], in->Th[i]));
+				dos_srh_get_fermi_p(in, in->n[i], in->p[i],
+						    band, in->imat[i],
+						    in->Th[i]));
 			buffer_add_string(&buf, temp);
 		}
 		buffer_add_string(&buf, "\n");

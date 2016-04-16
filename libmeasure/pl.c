@@ -103,12 +103,12 @@ void exp_cal_emission(struct simulation *sim, int number, struct device *in)
 
 	for (i = 0; i < in->ymeshpoints; i++) {
 		mat = in->imat[i];
-		pl_fe_fh = get_pl_fe_fh(mat);
-		pl_fe_te = get_pl_fe_te(mat);
-		pl_te_fh = get_pl_te_fh(mat);
-		pl_th_fe = get_pl_th_fe(mat);
-		pl_ft_th = get_pl_ft_th(mat);
-		pl_enabled = get_pl_enabled(mat);
+		pl_fe_fh = get_pl_fe_fh(in, mat);
+		pl_fe_te = get_pl_fe_te(in, mat);
+		pl_te_fh = get_pl_te_fh(in, mat);
+		pl_th_fe = get_pl_th_fe(in, mat);
+		pl_ft_th = get_pl_ft_th(in, mat);
+		pl_enabled = get_pl_enabled(in, mat);
 
 		if (pl_enabled == TRUE) {
 
@@ -117,20 +117,20 @@ void exp_cal_emission(struct simulation *sim, int number, struct device *in)
 
 			for (band = 0; band < in->srh_bands; band++) {
 				//electrons
-				dEe_e = -dos_get_band_energy_n(band, mat);
+				dEe_e = -dos_get_band_energy_n(in, band, mat);
 				Re_e = (in->nt_r1[i][band] - in->nt_r2[i][band]) * pl_fe_te;	//electron capture - electron emission for an electron trap
 				inter_append(&fe_to_te, dEe_e, Re_e);
 
-				dEe_h = get_dos_Eg(mat) - dEe_e;
+				dEe_h = get_dos_Eg(in, mat) - dEe_e;
 				Re_h = (in->nt_r3[i][band] - in->nt_r4[i][band]) * pl_te_fh;	//hole capture-hole emission for an electron trap
 				inter_append(&te_to_fh, dEe_h, Re_h);
 
 				//holes
-				dEh_e = get_dos_Eg(mat) - dEh_h;
+				dEh_e = get_dos_Eg(in, mat) - dEh_h;
 				Rh_e = (in->pt_r3[i][band] - in->pt_r4[i][band]) * pl_th_fe;	//electron capture - electron emission for a hole trap
 				inter_append(&th_to_fe, dEh_e, Rh_e);
 
-				dEh_h = -dos_get_band_energy_p(band, mat);
+				dEh_h = -dos_get_band_energy_p(in, band, mat);
 				Rh_h = (in->pt_r1[i][band] - in->pt_r2[i][band]) * pl_ft_th;	//hole capture - hole emission for a hole trap
 				inter_append(&fh_to_th, dEh_h, Rh_h);
 

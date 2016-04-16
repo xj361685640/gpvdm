@@ -28,6 +28,7 @@ void update_arrays(struct simulation *sim, struct device *in)
 	int i;
 	int band = 0;
 	for (i = 0; i < in->ymeshpoints; i++) {
+		printf("here\n");
 		in->Fn[i] = in->x[i] - in->phi[i];
 		in->Fp[i] = -in->xp[i] - in->phi[i];
 
@@ -35,70 +36,83 @@ void update_arrays(struct simulation *sim, struct device *in)
 		in->Ev[i] = -in->phi[i] - in->Xi[i] - in->Eg[i];
 
 		in->dn[i] =
-		    get_dn_den(in->x[i] + in->t[i], in->Te[i], in->imat[i]);
+		    get_dn_den(in, in->x[i] + in->t[i], in->Te[i], in->imat[i]);
 		in->n[i] =
-		    get_n_den(in->x[i] + in->t[i], in->Te[i], in->imat[i]);
+		    get_n_den(in, in->x[i] + in->t[i], in->Te[i], in->imat[i]);
 		in->dndphi[i] =
-		    get_dn_den(in->x[i] + in->t[i], in->Te[i], in->imat[i]);
+		    get_dn_den(in, in->x[i] + in->t[i], in->Te[i], in->imat[i]);
 		in->dp[i] =
-		    get_dp_den(in->xp[i] - in->tp[i], in->Th[i], in->imat[i]);
+		    get_dp_den(in, in->xp[i] - in->tp[i], in->Th[i],
+			       in->imat[i]);
 		in->p[i] =
-		    get_p_den(in->xp[i] - in->tp[i], in->Th[i], in->imat[i]);
+		    get_p_den(in, in->xp[i] - in->tp[i], in->Th[i],
+			      in->imat[i]);
 		in->dpdphi[i] =
-		    -get_dp_den(in->xp[i] - in->tp[i], in->Th[i], in->imat[i]);
+		    -get_dp_den(in, in->xp[i] - in->tp[i], in->Th[i],
+				in->imat[i]);
 //printf("%d one %d\n",i,in->imat[i]);
 
 		in->wn[i] =
-		    get_n_w(in->x[i] + in->t[i], in->Te[i], in->imat[i]);
+		    get_n_w(in, in->x[i] + in->t[i], in->Te[i], in->imat[i]);
 		in->wp[i] =
-		    get_p_w(in->xp[i] - in->tp[i], in->Th[i], in->imat[i]);
+		    get_p_w(in, in->xp[i] - in->tp[i], in->Th[i], in->imat[i]);
 
-		in->mun[i] = get_n_mu(in->imat[i]);
-		in->mup[i] = get_p_mu(in->imat[i]);
+		in->mun[i] = get_n_mu(in, in->imat[i]);
+		in->mup[i] = get_p_mu(in, in->imat[i]);
+		printf("here2\n");
+
 		if (in->ntrapnewton) {
 			in->nt_all[i] = 0.0;
 			for (band = 0; band < in->srh_bands; band++) {
 				in->Fnt[i][band] = in->xt[i][band] - in->phi[i];
 
 				in->srh_n_r1[i][band] =
-				    get_n_srh(sim, in->xt[i][band] + in->tt[i],
+				    get_n_srh(sim, in,
+					      in->xt[i][band] + in->tt[i],
 					      in->Te[i], band, srh_1,
 					      in->imat[i]);
 				in->srh_n_r2[i][band] =
-				    get_n_srh(sim, in->xt[i][band] + in->tt[i],
+				    get_n_srh(sim, in,
+					      in->xt[i][band] + in->tt[i],
 					      in->Te[i], band, srh_2,
 					      in->imat[i]);
 				in->srh_n_r3[i][band] =
-				    get_n_srh(sim, in->xt[i][band] + in->tt[i],
+				    get_n_srh(sim, in,
+					      in->xt[i][band] + in->tt[i],
 					      in->Te[i], band, srh_3,
 					      in->imat[i]);
 				in->srh_n_r4[i][band] =
-				    get_n_srh(sim, in->xt[i][band] + in->tt[i],
+				    get_n_srh(sim, in,
+					      in->xt[i][band] + in->tt[i],
 					      in->Te[i], band, srh_4,
 					      in->imat[i]);
 				in->dsrh_n_r1[i][band] =
-				    get_dn_srh(sim, in->xt[i][band] + in->tt[i],
+				    get_dn_srh(sim, in,
+					       in->xt[i][band] + in->tt[i],
 					       in->Te[i], band, srh_1,
 					       in->imat[i]);
 				in->dsrh_n_r2[i][band] =
-				    get_dn_srh(sim, in->xt[i][band] + in->tt[i],
+				    get_dn_srh(sim, in,
+					       in->xt[i][band] + in->tt[i],
 					       in->Te[i], band, srh_2,
 					       in->imat[i]);
 				in->dsrh_n_r3[i][band] =
-				    get_dn_srh(sim, in->xt[i][band] + in->tt[i],
+				    get_dn_srh(sim, in,
+					       in->xt[i][band] + in->tt[i],
 					       in->Te[i], band, srh_3,
 					       in->imat[i]);
 				in->dsrh_n_r4[i][band] =
-				    get_dn_srh(sim, in->xt[i][band] + in->tt[i],
+				    get_dn_srh(sim, in,
+					       in->xt[i][band] + in->tt[i],
 					       in->Te[i], band, srh_4,
 					       in->imat[i]);
 
 				in->nt[i][band] =
-				    get_n_pop_srh(sim,
+				    get_n_pop_srh(sim, in,
 						  in->xt[i][band] + in->tt[i],
 						  in->Te[i], band, in->imat[i]);
 				in->dnt[i][band] =
-				    get_dn_pop_srh(sim,
+				    get_dn_pop_srh(sim, in,
 						   in->xt[i][band] + in->tt[i],
 						   in->Te[i], band,
 						   in->imat[i]);
@@ -114,52 +128,52 @@ void update_arrays(struct simulation *sim, struct device *in)
 				    -in->xpt[i][band] - in->phi[i];
 
 				in->srh_p_r1[i][band] =
-				    get_p_srh(sim,
+				    get_p_srh(sim, in,
 					      in->xpt[i][band] - in->tpt[i],
 					      in->Th[i], band, srh_1,
 					      in->imat[i]);
 				in->srh_p_r2[i][band] =
-				    get_p_srh(sim,
+				    get_p_srh(sim, in,
 					      in->xpt[i][band] - in->tpt[i],
 					      in->Th[i], band, srh_2,
 					      in->imat[i]);
 				in->srh_p_r3[i][band] =
-				    get_p_srh(sim,
+				    get_p_srh(sim, in,
 					      in->xpt[i][band] - in->tpt[i],
 					      in->Th[i], band, srh_3,
 					      in->imat[i]);
 				in->srh_p_r4[i][band] =
-				    get_p_srh(sim,
+				    get_p_srh(sim, in,
 					      in->xpt[i][band] - in->tpt[i],
 					      in->Th[i], band, srh_4,
 					      in->imat[i]);
 				in->dsrh_p_r1[i][band] =
-				    get_dp_srh(sim,
+				    get_dp_srh(sim, in,
 					       in->xpt[i][band] - in->tpt[i],
 					       in->Th[i], band, srh_1,
 					       in->imat[i]);
 				in->dsrh_p_r2[i][band] =
-				    get_dp_srh(sim,
+				    get_dp_srh(sim, in,
 					       in->xpt[i][band] - in->tpt[i],
 					       in->Th[i], band, srh_2,
 					       in->imat[i]);
 				in->dsrh_p_r3[i][band] =
-				    get_dp_srh(sim,
+				    get_dp_srh(sim, in,
 					       in->xpt[i][band] - in->tpt[i],
 					       in->Th[i], band, srh_3,
 					       in->imat[i]);
 				in->dsrh_p_r4[i][band] =
-				    get_dp_srh(sim,
+				    get_dp_srh(sim, in,
 					       in->xpt[i][band] - in->tpt[i],
 					       in->Th[i], band, srh_4,
 					       in->imat[i]);
 
 				in->pt[i][band] =
-				    get_p_pop_srh(sim,
+				    get_p_pop_srh(sim, in,
 						  in->xpt[i][band] - in->tpt[i],
 						  in->Th[i], band, in->imat[i]);
 				in->dpt[i][band] =
-				    get_dp_pop_srh(sim,
+				    get_dp_pop_srh(sim, in,
 						   in->xpt[i][band] -
 						   in->tpt[i], in->Th[i], band,
 						   in->imat[i]);
@@ -170,6 +184,7 @@ void update_arrays(struct simulation *sim, struct device *in)
 
 	}
 
+	printf("exit\n");
 }
 
 void init_mat_arrays(struct device *in)
@@ -185,15 +200,15 @@ void init_mat_arrays(struct device *in)
 		in->ex[i] = 0.0;
 		in->Hex[i] = 0.0;
 		//if ((i>in->ymeshpoints/2)&&(i<in->ymeshpoints/2+10)) in->Hex[i]=1e9;
-		in->epsilonr[i] = get_dos_epsilonr(in->imat[i]);
+		in->epsilonr[i] = get_dos_epsilonr(in, in->imat[i]);
 		in->dostype[i] = 0;	//(int)get_mat_param(&(in->mat.l[in->imat[i]]),mat_dostype);
 
 		//printf("ended\n");
-		in->Eg[i] = get_dos_Eg(in->imat[i]);
-		in->B[i] = get_dos_B(in->imat[i]);
+		in->Eg[i] = get_dos_Eg(in, in->imat[i]);
+		in->B[i] = get_dos_B(in, in->imat[i]);
 		in->Dex[i] = 0.0;	//get_mat_param(&(in->mat.l[in->imat[i]]),mat_Dex);
 
-		in->Xi[i] = get_dos_Xi(in->imat[i]);
+		in->Xi[i] = get_dos_Xi(in, in->imat[i]);
 
 		in->Ec[i] = -in->Xi[i];
 
@@ -201,17 +216,17 @@ void init_mat_arrays(struct device *in)
 
 		//printf("%d %e %e\n",i,in->mun[i],in->mup[i]);
 
-		in->Nc[i] = get_Nc_free(in->imat[i]);
+		in->Nc[i] = get_Nc_free(in, in->imat[i]);
 
-		in->Nv[i] = get_Nv_free(in->imat[i]);
+		in->Nv[i] = get_Nv_free(in, in->imat[i]);
 
-		in->mun[i] = get_n_mu(in->imat[i]);
-		in->mup[i] = get_p_mu(in->imat[i]);
+		in->mun[i] = get_n_mu(in, in->imat[i]);
+		in->mup[i] = get_p_mu(in, in->imat[i]);
 
 		in->kf[i] = 0.0;	//get_mat_param(&(in->mat.l[in->imat[i]]),mat_kf);
 		in->kl[i] = 0.0;	//get_mat_param(&(in->mat.l[in->imat[i]]),mat_kl);
-		in->ke[i] = get_n_mu(in->imat[i]);
-		in->kh[i] = get_p_mu(in->imat[i]);
+		in->ke[i] = get_n_mu(in, in->imat[i]);
+		in->kh[i] = get_p_mu(in, in->imat[i]);
 
 		in->Hl[i] = 0.0;
 		in->He[i] = 0.0;

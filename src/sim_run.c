@@ -80,7 +80,7 @@ int run_simulation(struct simulation *sim, char *outputpath, char *inputpath)
 		char tempp[100];
 		i = 0;
 		for (i = 0; i < cell.my_epitaxy.electrical_layers; i++) {
-			dos_init(i);
+			dos_init(&cell, i);
 			printf_log(sim, "Load DoS %d/%d\n", i,
 				   cell.my_epitaxy.electrical_layers);
 			sprintf(tempn, "%s_dosn.dat",
@@ -127,9 +127,10 @@ int run_simulation(struct simulation *sim, char *outputpath, char *inputpath)
 		depth = cell.ymesh[i] - cell.layer_start[cell.imat[i]];
 		percent = depth / cell.layer_width[cell.imat[i]];
 		cell.Nad[i] =
-		    get_dos_doping_start(cell.imat[i]) +
-		    (get_dos_doping_stop(cell.imat[i]) -
-		     get_dos_doping_start(cell.imat[i])) * percent;
+		    get_dos_doping_start(&cell,
+					 cell.imat[i]) +
+		    (get_dos_doping_stop(&cell, cell.imat[i]) -
+		     get_dos_doping_start(&cell, cell.imat[i])) * percent;
 //      printf("%Le %Le %Le %d %Le\n",depth,percent,cell.Nad[i],cell.imat[i],cell.layer_width[cell.imat[i]]);
 	}
 

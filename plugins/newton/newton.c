@@ -208,6 +208,7 @@ void update_solver_vars(struct simulation *sim, struct device *in, int clamp)
 void fill_matrix(struct simulation *sim, struct device *in)
 {
 //gdouble offset= -0.5;
+	printf("fill\n");
 	int band = 0;
 	update_arrays(sim, in);
 //FILE *file_j =fopen("myj.dat","w");
@@ -374,9 +375,9 @@ void fill_matrix(struct simulation *sim, struct device *in)
 			tnl = in->Xi[0];
 			one = xnl + tnl;
 
-			nl = get_n_den(one, Tel, in->imat[i]);
-			dnl = get_dn_den(one, Tel, in->imat[i]);
-			wnl = get_n_w(one, Tel, in->imat[i]);
+			nl = get_n_den(in, one, Tel, in->imat[i]);
+			dnl = get_dn_den(in, one, Tel, in->imat[i]);
+			wnl = get_n_w(in, one, Tel, in->imat[i]);
 
 			munl = in->mun[0];
 
@@ -384,9 +385,9 @@ void fill_matrix(struct simulation *sim, struct device *in)
 			tpl = (in->Xi[0] + in->Eg[0]);
 			one = xpl - tpl;
 
-			pl = get_p_den(one, Thl, in->imat[i]);
-			dpl = get_dp_den(one, Thl, in->imat[i]);
-			wpl = get_p_w(one, Thl, in->imat[i]);
+			pl = get_p_den(in, one, Thl, in->imat[i]);
+			dpl = get_dp_den(in, one, Thl, in->imat[i]);
+			wpl = get_p_w(in, one, Thl, in->imat[i]);
 
 			mupl = in->mup[0];
 
@@ -445,18 +446,18 @@ void fill_matrix(struct simulation *sim, struct device *in)
 
 			one = xnr + tnr;
 
-			nr = get_n_den(one, Ter, in->imat[i]);
-			dnr = get_dn_den(one, Ter, in->imat[i]);
-			wnr = get_n_w(one, Ter, in->imat[i]);
+			nr = get_n_den(in, one, Ter, in->imat[i]);
+			dnr = get_dn_den(in, one, Ter, in->imat[i]);
+			wnr = get_n_w(in, one, Ter, in->imat[i]);
 
 			xpr = -(in->Vr + in->Fi[i]);
 			tpr = (in->Xi[i] + in->Eg[i]);
 
 			one = xpr - tpr;
 
-			pr = get_p_den(one, Thr, in->imat[i]);
-			dpr = get_dp_den(one, Thr, in->imat[i]);
-			wpr = get_p_w(one, Thr, in->imat[i]);
+			pr = get_p_den(in, one, Thr, in->imat[i]);
+			dpr = get_dp_den(in, one, Thr, in->imat[i]);
+			wpr = get_p_w(in, one, Thr, in->imat[i]);
 
 			munr = in->mun[i];
 			mupr = in->mup[i];
@@ -1578,6 +1579,7 @@ int dllinternal_solve_cur(struct simulation *sim, struct device *in)
 //}
 	do {
 		fill_matrix(sim, in);
+		printf("done fill\n");
 
 //dump_for_plot(in);
 //plot_now(in,"plot");
@@ -1588,9 +1590,13 @@ int dllinternal_solve_cur(struct simulation *sim, struct device *in)
 			break;
 		}
 
+		printf("s1\n");
 		solver(sim, in->M, in->N, in->Ti, in->Tj, in->Tx, in->b);
+		printf("s2\n");
 
 		update_solver_vars(sim, in, TRUE);
+		printf("s3\n");
+
 		//printf("Going to clamp=%d\n",proper);
 		//solver_dump_matrix(in->M,in->N,in->Ti,in->Tj, in->Tx,in->b);
 		//printf("%d\n");

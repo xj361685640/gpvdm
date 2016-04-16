@@ -67,7 +67,7 @@ void find_n0(struct simulation *sim, struct device *in)
 	solve_all(sim, in);
 
 	for (i = 0; i < in->ymeshpoints; i++) {
-		in->B[i] = get_dos_B(in->imat[i]);
+		in->B[i] = get_dos_B(in, in->imat[i]);
 	}
 
 	reset_np_save(in);

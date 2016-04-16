@@ -23,132 +23,54 @@
 #define dos_h
 
 #include <device.h>
+#include <dos_struct.h>
 
-struct dosconfig
-{
-char dos_name[20];
-long double edge;
-long double m;
-int dostype;
-long double Nt;
-long double Et;
-long double Nt2;
-long double Et2;
-long double Eshift;
-long double nstart;
-long double nstop;
-long double base1;
-long double base2;
-int npoints;
-int expan_len;
-long double expan_N[20];
-long double expan_E[20];
-long double mu;
-long double tau0;
-long double tau1;
-long double Tstart;
-long double Tstop;
-long double Ngaus;
-int Tsteps;
-int traps;
-long double dband;
-long double detrap;
-int srh_bands;
-long double srh_start;
-
-long double srh_sigman;
-long double srh_sigmap;
-long double srh_vth;
-long double Nc;
-long double Nv;
-long double srh_cut;
-
-long double del_start;
-long double del_stop;
-long double Eg;
-long double epsilonr;
-long double doping_start;
-long double doping_stop;
-long double Xi;
-long double gaus_mull;
-
-long double pl_fe_fh;
-long double pl_trap;
-long double pl_recom;
-int pl_enabled;
-
-int Esteps;
-long double B;
-};
-
-struct dos
-{
-int used;
-long double *x;
-int xlen;
-int tlen;
-int srh_bands;
-long double *t;
-long double *srh_E;
-long double *srh_den;
-long double **c;
-long double **w;
-long double ***srh_r1;
-long double ***srh_r2;
-long double ***srh_r3;
-long double ***srh_r4;
-long double ***srh_c;
-struct dosconfig config;
-};
-
-void dos_init();
+void dos_init(struct device *in,int mat);
 void dos_free();
-long double get_dos_epsilonr(int mat);
-long double get_dos_doping_start(int mat);
-long double get_dos_doping_stop(int mat);
-long double get_dos_E_n(int band,int mat);
-long double get_dos_E_p(int band,int mat);
+long double get_dos_epsilonr(struct device *in,int mat);
+long double get_dos_doping_start(struct device *in,int mat);
+long double get_dos_doping_stop(struct device *in,int mat);
 void dos_free_now(struct dos *mydos);
 
-long double get_n_pop_srh(struct simulation *sim,long double top,long double T,int trap, int mat);
-long double get_p_pop_srh(struct simulation *sim,long double top,long double T,int trap, int mat);
-long double get_dn_pop_srh(struct simulation *sim,long double top,long double T,int trap, int mat);
-long double get_dp_pop_srh(struct simulation *sim,long double top,long double T,int trap, int mat);
+long double get_n_pop_srh(struct simulation *sim,struct device *in,long double top,long double T,int trap, int mat);
+long double get_p_pop_srh(struct simulation *sim,struct device *in,long double top,long double T,int trap, int mat);
+long double get_dn_pop_srh(struct simulation *sim,struct device *in,long double top,long double T,int trap, int mat);
+long double get_dp_pop_srh(struct simulation *sim,struct device *in,long double top,long double T,int trap, int mat);
 
 void load_dos(struct simulation *sim,struct device *dev,char *namen, char *namep,int mat);
 long double get_dn_trap_den(long double top,long double T,int type,int band, int mat);
 long double get_dp_trap_den(long double top,long double T,int type, int mat);
 int search(long double *x,int N,long double find);
-long double get_n_srh(struct simulation *sim,long double top,long double T,int trap,int r, int mat);
-long double get_dn_srh(struct simulation *sim,long double top,long double T,int trap,int r, int mat);
-long double get_p_srh(struct simulation *sim,long double top,long double T,int trap,int r, int mat);
-long double get_dp_srh(struct simulation *sim,long double top,long double T,int trap,int r, int mat);
-long double dos_get_band_energy_n(int band, int mat);
-long double dos_get_band_energy_p(int band, int mat);
-long double dos_srh_get_fermi_p(long double n, long double p,int band, int mat, long double T);
-long double dos_srh_get_fermi_n(long double n, long double p,int band, int mat, long double T);
-long double get_Nc_free(int mat);
-long double get_Nv_free(int mat);
-long double get_n_mu(int mat);
-long double get_p_mu(int mat);
-long double get_dos_Eg(int mat);
-long double get_dos_Xi(int mat);
+long double get_n_srh(struct simulation *sim,struct device *in,long double top,long double T,int trap,int r, int mat);
+long double get_dn_srh(struct simulation *sim,struct device *in,long double top,long double T,int trap,int r, int mat);
+long double get_p_srh(struct simulation *sim,struct device *in,long double top,long double T,int trap,int r, int mat);
+long double get_dp_srh(struct simulation *sim,struct device *in,long double top,long double T,int trap,int r, int mat);
+long double dos_get_band_energy_n(struct device *in,int band, int mat);
+long double dos_get_band_energy_p(struct device *in,int band, int mat);
+long double dos_srh_get_fermi_p(struct device *in,long double n, long double p,int band, int mat, long double T);
+long double dos_srh_get_fermi_n(struct device *in,long double n, long double p,int band, int mat, long double T);
+long double get_Nc_free(struct device *in,int mat);
+long double get_Nv_free(struct device *in,int mat);
+long double get_n_mu(struct device *in,int mat);
+long double get_p_mu(struct device *in,int mat);
+long double get_dos_Eg(struct device *in,int mat);
+long double get_dos_Xi(struct device *in,int mat);
 
 
-long double get_dos_E_n(int band,int mat);
-long double get_dos_E_p(int band,int mat);
-long double get_n_w(long double top,long double T,int mat);
-long double get_p_w(long double top,long double T,int mat);
-long double get_top_from_n(long double n,long double T,int mat);
-long double get_top_from_p(long double p,long double T,int mat);
-long double get_n_den(long double top,long double T, int mat);
-long double get_p_den(long double top,long double T, int mat);
-long double get_n_mu(int mat);
-long double get_p_mu(int mat);
-long double get_dn_den(long double top,long double T, int mat);
-long double get_dp_den(long double top,long double T, int mat);
-long double get_dpdT_den(long double top,long double T,int mat);
-long double get_dndT_den(long double top,long double T,int mat);
+long double get_dos_E_n(struct device *in,int band,int mat);
+long double get_dos_E_p(struct device *in,int band,int mat);
+long double get_n_w(struct device *in,long double top,long double T,int mat);
+long double get_p_w(struct device *in,long double top,long double T,int mat);
+long double get_top_from_n(struct device *in,long double n,long double T,int mat);
+long double get_top_from_p(struct device *in,long double p,long double T,int mat);
+long double get_n_den(struct device *in,long double top,long double T, int mat);
+long double get_p_den(struct device *in,long double top,long double T, int mat);
+long double get_n_mu(struct device *in,int mat);
+long double get_p_mu(struct device *in,int mat);
+long double get_dn_den(struct device *in,long double top,long double T, int mat);
+long double get_dp_den(struct device *in,long double top,long double T, int mat);
+long double get_dpdT_den(struct device *in,long double top,long double T,int mat);
+long double get_dndT_den(struct device *in,long double top,long double T,int mat);
 long double get_dos_filled_n(struct device *in);
 long double get_dos_filled_p(struct device *in);
 void gen_dos_fd_gaus_n(struct simulation *sim,int mat);
@@ -160,13 +82,13 @@ long double get_dos_filled_n(struct device *in);
 long double get_dos_filled_p(struct device *in);
 void safe_file(char *name);
 
-long double get_pl_fe_fh(int mat);
-long double get_pl_fe_te(int mat);
-long double get_pl_te_fh(int mat);
-long double get_pl_th_fe(int mat);
-long double get_pl_ft_th(int mat);
-int get_pl_enabled(int mat);
+long double get_pl_fe_fh(struct device *in,int mat);
+long double get_pl_fe_te(struct device *in,int mat);
+long double get_pl_te_fh(struct device *in,int mat);
+long double get_pl_th_fe(struct device *in,int mat);
+long double get_pl_ft_th(struct device *in,int mat);
+int get_pl_enabled(struct device *in,int mat);
 
-long double get_dos_B(int mat);
+long double get_dos_B(struct device *in,int mat);
 
 #endif

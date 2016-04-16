@@ -53,7 +53,7 @@ void dump_device_map(char *out_dir, struct device *in)
 	for (i = 0; i < in->ymeshpoints; i++) {
 		for (band = 0; band < in->srh_bands; band++) {
 			sprintf(temp, "%Le %Le %Le\n", in->ymesh[i],
-				in->Ec[i] + dos_get_band_energy_n(band,
+				in->Ec[i] + dos_get_band_energy_n(in, band,
 								  in->imat[i]),
 				in->nt[i][band]);
 			buffer_add_string(&buf, temp);
@@ -79,7 +79,7 @@ void dump_device_map(char *out_dir, struct device *in)
 	for (i = 0; i < in->ymeshpoints; i++) {
 		for (band = 0; band < in->srh_bands; band++) {
 			sprintf(temp, "%Le %Le %Le\n", in->ymesh[i],
-				in->Ev[i] - dos_get_band_energy_p(band,
+				in->Ev[i] - dos_get_band_energy_p(in, band,
 								  in->imat[i]),
 				in->pt[i][band]);
 			buffer_add_string(&buf, temp);

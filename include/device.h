@@ -26,6 +26,7 @@
 #include "light.h"
 #include "epitaxy.h"
 #include "advmath.h"
+#include <dos_struct.h>
 
 struct mesh
 {
@@ -356,6 +357,14 @@ struct device
 	#ifdef enable_time
 	gdouble *newton_ntlast;
 	gdouble *newton_ptlast;
+	#endif
+
+	#ifdef enable_multi_layers
+	struct dos dosn[10];
+	struct dos dosp[10];
+	#else
+	struct dos dosn[1];
+	struct dos dosp[1];
 	#endif
 };
 

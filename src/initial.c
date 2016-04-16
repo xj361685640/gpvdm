@@ -80,11 +80,12 @@ void get_initial(struct simulation *sim, struct device *in)
 	} else {
 		if (in->lr_pcontact == LEFT) {
 			top_l =
-			    get_top_from_p(charge_left, in->Te[0], in->imat[0]);
+			    get_top_from_p(in, charge_left, in->Te[0],
+					   in->imat[0]);
 		} else {
 			top_l =
 			    -(in->Eg[0] +
-			      get_top_from_n(charge_left, in->Te[0],
+			      get_top_from_n(in, charge_left, in->Te[0],
 					     in->imat[0]));
 		}
 	}
@@ -94,13 +95,13 @@ void get_initial(struct simulation *sim, struct device *in)
 	} else {
 		if (in->lr_pcontact == LEFT) {
 			top_r =
-			    get_top_from_n(charge_right,
+			    get_top_from_n(in, charge_right,
 					   in->Te[in->ymeshpoints - 1],
 					   in->imat[in->ymeshpoints - 1]);
 		} else {
 			top_r =
 			    -(Eg +
-			      get_top_from_p(charge_right,
+			      get_top_from_p(in, charge_right,
 					     in->Te[in->ymeshpoints - 1],
 					     in->imat[in->ymeshpoints - 1]));
 		}
@@ -108,10 +109,10 @@ void get_initial(struct simulation *sim, struct device *in)
 
 	if (get_dump_status(sim, dump_iodump) == TRUE) {
 		printf_log(sim, "check1= %Le %Le\n",
-			   get_p_den(top_l, in->Te[0], in->imat[0]),
+			   get_p_den(in, top_l, in->Te[0], in->imat[0]),
 			   charge_left);
 		printf_log(sim, "check2= %Le %Le\n",
-			   get_n_den(top_r, in->Te[in->ymeshpoints - 1],
+			   get_n_den(in, top_r, in->Te[in->ymeshpoints - 1],
 				     in->imat[in->ymeshpoints - 1]),
 			   charge_right);
 	}
@@ -134,16 +135,17 @@ void get_initial(struct simulation *sim, struct device *in)
 	Ef = -(top_l + Xi + Eg);
 
 	gdouble Lp =
-	    get_p_den((-in->Xi[0] - in->phi[0] - Eg) - Ef, in->Th[0],
+	    get_p_den(in, (-in->Xi[0] - in->phi[0] - Eg) - Ef, in->Th[0],
 		      in->imat[0]);
 	gdouble Ln =
-	    get_n_den(Ef - (-in->Xi[0] - in->phi[0]), in->Te[0], in->imat[0]);
+	    get_n_den(in, Ef - (-in->Xi[0] - in->phi[0]), in->Te[0],
+		      in->imat[0]);
 	gdouble Rp =
-	    get_p_den((-in->Xi[in->ymeshpoints - 1] - delta_phi - Eg) - Ef,
+	    get_p_den(in, (-in->Xi[in->ymeshpoints - 1] - delta_phi - Eg) - Ef,
 		      in->Th[in->ymeshpoints - 1],
 		      in->imat[in->ymeshpoints - 1]);
 	gdouble Rn =
-	    get_n_den(Ef - (-in->Xi[in->ymeshpoints - 1] - delta_phi),
+	    get_n_den(in, Ef - (-in->Xi[in->ymeshpoints - 1] - delta_phi),
 		      in->Te[in->ymeshpoints - 1],
 		      in->imat[in->ymeshpoints - 1]);
 
@@ -207,33 +209,44 @@ void get_initial(struct simulation *sim, struct device *in)
 
 //printf("%Le %Le\n",t,tp);
 //getchar();
-		in->mun[i] = get_n_mu(in->imat[i]);
-		in->mup[i] = get_p_mu(in->imat[i]);
+		in->mun[i] = get_n_mu(in, in->imat[i]);
+		in->mup[i] = get_p_mu(in, in->imat[i]);
 
 		for (band = 0; band < in->srh_bands; band++) {
 			in->Fnt[i][band] =
-			    -in->phi[i] - in->Xi[i] +
-			    dos_srh_get_fermi_n(in->n[i], in->p[i], band,
-						in->imat[i], in->Te[i]);
+			    -in->phi[i] - in->Xi[i] + dos_srh_get_fermi_n(in,
+									  in->
+									  n[i],
+									  in->
+									  p[i],
+									  band,
+									  in->
+									  imat
+									  [i],
+									  in->
+									  Te
+									  [i]);
 			in->Fpt[i][band] =
 			    -in->phi[i] - in->Xi[i] - in->Eg[i] -
-			    dos_srh_get_fermi_p(in->n[i], in->p[i], band,
+			    dos_srh_get_fermi_p(in, in->n[i], in->p[i], band,
 						in->imat[i], in->Th[i]);
 
 			in->xt[i][band] = in->phi[i] + in->Fnt[i][band];
 			in->nt[i][band] =
-			    get_n_pop_srh(sim, in->xt[i][band] + in->tt[i],
+			    get_n_pop_srh(sim, in, in->xt[i][band] + in->tt[i],
 					  in->Te[i], band, in->imat[i]);
 			in->dnt[i][band] =
-			    get_dn_pop_srh(sim, in->xt[i][band] + in->tt[i],
+			    get_dn_pop_srh(sim, in, in->xt[i][band] + in->tt[i],
 					   in->Te[i], band, in->imat[i]);
 
 			in->xpt[i][band] = -(in->phi[i] + in->Fpt[i][band]);
 			in->pt[i][band] =
-			    get_p_pop_srh(sim, in->xpt[i][band] - in->tpt[i],
+			    get_p_pop_srh(sim, in,
+					  in->xpt[i][band] - in->tpt[i],
 					  in->Th[i], band, in->imat[i]);
 			in->dpt[i][band] =
-			    get_dp_pop_srh(sim, in->xpt[i][band] - in->tpt[i],
+			    get_dp_pop_srh(sim, in,
+					   in->xpt[i][band] - in->tpt[i],
 					   in->Th[i], band, in->imat[i]);
 		}
 

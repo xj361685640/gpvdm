@@ -67,26 +67,30 @@ void dump_energy_slice(char *out_dir, struct device *in)
 
 	int mat = in->imat[in->ymeshpoints / 2];
 	for (band = 0; band < in->srh_bands; band++) {
-		inter_append(&dump1, get_dos_E_n(band, mat),
+		inter_append(&dump1, get_dos_E_n(in, band, mat),
 			     in->n[i] * in->srh_n_r1[i][band] -
 			     in->srh_n_r2[i][band]);
-		inter_append(&dump2, get_dos_E_p(band, mat),
+		inter_append(&dump2, get_dos_E_p(in, band, mat),
 			     in->p[i] * in->srh_p_r1[i][band] -
 			     in->srh_p_r2[i][band]);
-		inter_append(&dump3, get_dos_E_n(band, mat),
+		inter_append(&dump3, get_dos_E_n(in, band, mat),
 			     in->nt[i][band] - in->ntb_save[i][band]);
-		inter_append(&dump4, get_dos_E_p(band, mat),
+		inter_append(&dump4, get_dos_E_p(in, band, mat),
 			     in->pt[i][band] - in->ptb_save[i][band]);
-		inter_append(&dump5, get_dos_E_n(band, mat),
+		inter_append(&dump5, get_dos_E_n(in, band, mat),
 			     in->p[i] * in->srh_n_r3[i][band] -
 			     in->srh_n_r4[i][band]);
-		inter_append(&dump6, get_dos_E_p(band, mat),
+		inter_append(&dump6, get_dos_E_p(in, band, mat),
 			     in->n[i] * in->srh_p_r3[i][band] -
 			     in->srh_p_r4[i][band]);
-		inter_append(&dump9, get_dos_E_n(band, mat), in->Fnt[i][band]);
-		inter_append(&dump10, get_dos_E_p(band, mat), in->Fpt[i][band]);
-		inter_append(&dump_nt, get_dos_E_n(band, mat), in->nt[i][band]);
-		inter_append(&dump_pt, get_dos_E_p(band, mat), in->pt[i][band]);
+		inter_append(&dump9, get_dos_E_n(in, band, mat),
+			     in->Fnt[i][band]);
+		inter_append(&dump10, get_dos_E_p(in, band, mat),
+			     in->Fpt[i][band]);
+		inter_append(&dump_nt, get_dos_E_n(in, band, mat),
+			     in->nt[i][band]);
+		inter_append(&dump_pt, get_dos_E_p(in, band, mat),
+			     in->pt[i][band]);
 
 	}
 

@@ -386,11 +386,11 @@ void fill_matrix(struct simulation *sim, struct device *in)
 			tnl = in->Xi[0] / phi0;
 			one = xnl + tnl;
 
-			nl = get_n_den(one * phi0, Tel, in->imat[i]) / n0;
+			nl = get_n_den(in, one * phi0, Tel, in->imat[i]) / n0;
 			dnl =
-			    get_dn_den(one * phi0, Tel,
+			    get_dn_den(in, one * phi0, Tel,
 				       in->imat[i]) * phi0 / n0;
-			wnl = get_n_w(one * phi0, Tel, in->imat[i]);
+			wnl = get_n_w(in, one * phi0, Tel, in->imat[i]);
 
 			munl = in->mun[0];
 
@@ -398,11 +398,11 @@ void fill_matrix(struct simulation *sim, struct device *in)
 			tpl = (in->Xi[0] / phi0 + in->Eg[0] / phi0);
 			one = xpl - tpl;
 
-			pl = get_p_den(one * phi0, Thl, in->imat[i]) / n0;
+			pl = get_p_den(in, one * phi0, Thl, in->imat[i]) / n0;
 			dpl =
-			    get_dp_den(one * phi0, Thl,
+			    get_dp_den(in, one * phi0, Thl,
 				       in->imat[i]) * phi0 / n0;
-			wpl = get_p_w(one * phi0, Thl, in->imat[i]);
+			wpl = get_p_w(in, one * phi0, Thl, in->imat[i]);
 
 			mupl = in->mup[0];
 
@@ -463,22 +463,22 @@ void fill_matrix(struct simulation *sim, struct device *in)
 
 			one = xnr + tnr;
 
-			nr = get_n_den(one * phi0, Ter, in->imat[i]) / n0;
+			nr = get_n_den(in, one * phi0, Ter, in->imat[i]) / n0;
 			dnr =
-			    get_dn_den(one * phi0, Ter,
+			    get_dn_den(in, one * phi0, Ter,
 				       in->imat[i]) * phi0 / n0;
-			wnr = get_n_w(one * phi0, Ter, in->imat[i]);
+			wnr = get_n_w(in, one * phi0, Ter, in->imat[i]);
 
 			xpr = -(in->Vr / phi0 + in->Fi[i] / phi0);
 			tpr = (in->Xi[i] / phi0 + in->Eg[i] / phi0);
 
 			one = xpr - tpr;
 
-			pr = get_p_den(one * phi0, Thr, in->imat[i]) / n0;
+			pr = get_p_den(in, one * phi0, Thr, in->imat[i]) / n0;
 			dpr =
-			    get_dp_den(one * phi0, Thr,
+			    get_dp_den(in, one * phi0, Thr,
 				       in->imat[i]) * phi0 / n0;
-			wpr = get_p_w(one * phi0, Thr, in->imat[i]);
+			wpr = get_p_w(in, one * phi0, Thr, in->imat[i]);
 
 			munr = in->mun[i];
 			mupr = in->mup[i];

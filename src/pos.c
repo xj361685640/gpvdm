@@ -242,8 +242,8 @@ int solve_pos(struct simulation *sim, struct device *in)
 
 			} else {
 				dphidn =
-				    get_dn_den(in->Fi[i] - in->Ec[i], in->Tl[i],
-					       in->imat[i]);
+				    get_dn_den(in, in->Fi[i] - in->Ec[i],
+					       in->Tl[i], in->imat[i]);
 
 			}
 
@@ -255,7 +255,7 @@ int solve_pos(struct simulation *sim, struct device *in)
 					   in->Eg[i]) - in->Fi[i])) / (kTq));
 			} else {
 				dphidp =
-				    -get_dp_den(in->xp[i] - in->tp[i],
+				    -get_dp_den(in, in->xp[i] - in->tp[i],
 						in->Tl[i], in->imat[i]);
 			}
 			gdouble dphil = e0 / dyl / dyc;
@@ -395,11 +395,11 @@ int solve_pos(struct simulation *sim, struct device *in)
 					(kb * in->Tl[i]));
 			} else {
 				in->n[i] =
-				    get_n_den(in->Fi[i] - in->Ec[i], in->Tl[i],
-					      in->imat[i]);
+				    get_n_den(in, in->Fi[i] - in->Ec[i],
+					      in->Tl[i], in->imat[i]);
 				in->dn[i] =
-				    get_dn_den(in->Fi[i] - in->Ec[i], in->Tl[i],
-					       in->imat[i]);
+				    get_dn_den(in, in->Fi[i] - in->Ec[i],
+					       in->Tl[i], in->imat[i]);
 			}
 
 			in->Fn[i] = in->Fi[i];
@@ -419,11 +419,11 @@ int solve_pos(struct simulation *sim, struct device *in)
 					  in->tp[i]) * Q) / (kb * in->Tl[i]));
 			} else {
 				in->p[i] =
-				    get_p_den(in->xp[i] - in->tp[i], in->Tl[i],
-					      in->imat[i]);
+				    get_p_den(in, in->xp[i] - in->tp[i],
+					      in->Tl[i], in->imat[i]);
 				in->dp[i] =
-				    get_dp_den(in->xp[i] - in->tp[i], in->Tl[i],
-					       in->imat[i]);
+				    get_dp_den(in, in->xp[i] - in->tp[i],
+					       in->Tl[i], in->imat[i]);
 			}
 
 			for (band = 0; band < in->srh_bands; band++) {
@@ -432,22 +432,22 @@ int solve_pos(struct simulation *sim, struct device *in)
 
 				in->Fnt[i][band] =
 				    -in->phi[i] - in->Xi[i] +
-				    dos_srh_get_fermi_n(in->n[i], in->p[i],
+				    dos_srh_get_fermi_n(in, in->n[i], in->p[i],
 							band, in->imat[i],
 							in->Te[i]);
 				in->Fpt[i][band] =
 				    -in->phi[i] - in->Xi[i] - in->Eg[i] -
-				    dos_srh_get_fermi_p(in->n[i], in->p[i],
+				    dos_srh_get_fermi_p(in, in->n[i], in->p[i],
 							band, in->imat[i],
 							in->Th[i]);
 
 				in->xt[i][band] = in->phi[i] + in->Fnt[i][band];
 				in->nt[i][band] =
-				    get_n_pop_srh(sim,
+				    get_n_pop_srh(sim, in,
 						  in->xt[i][band] + in->tt[i],
 						  in->Te[i], band, in->imat[i]);
 				in->dnt[i][band] =
-				    get_dn_pop_srh(sim,
+				    get_dn_pop_srh(sim, in,
 						   in->xt[i][band] + in->tt[i],
 						   in->Te[i], band,
 						   in->imat[i]);
@@ -455,11 +455,11 @@ int solve_pos(struct simulation *sim, struct device *in)
 				in->xpt[i][band] =
 				    -(in->phi[i] + in->Fpt[i][band]);
 				in->pt[i][band] =
-				    get_p_pop_srh(sim,
+				    get_p_pop_srh(sim, in,
 						  in->xpt[i][band] - in->tpt[i],
 						  in->Th[i], band, in->imat[i]);
 				in->dpt[i][band] =
-				    get_dp_pop_srh(sim,
+				    get_dp_pop_srh(sim, in,
 						   in->xpt[i][band] -
 						   in->tpt[i], in->Th[i], band,
 						   in->imat[i]);
