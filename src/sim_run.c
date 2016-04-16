@@ -218,14 +218,14 @@ int run_simulation(struct simulation *sim, char *outputpath, char *inputpath)
 		plot_close(sim);
 
 		for (i = 0; i < cell.my_epitaxy.electrical_layers; i++) {
-			dos_free(i);
+			dos_free(&cell, i);
 		}
-
-		solver_free_memory(&cell);
+		solver_free_memory(sim, &cell);
 
 	}
-	solver_interface_free();
-	newton_interface_free();
+
+	solver_interface_free(sim);
+	newton_interface_free(sim);
 	light_free(sim, &cell.mylight);
 
 	return cell.odes;

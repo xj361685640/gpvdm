@@ -35,12 +35,6 @@
 #include <log.h>
 
 static int unused __attribute__ ((unused));
-static void (*dll_matrix_solve) ();
-static void (*dll_matrix_dump) ();
-static void (*dll_set_interface) ();
-static void (*dll_matrix_solver_free) ();
-
-static void *dll_handle;
 
 void solver_init(struct simulation *sim, char *solver_name)
 {
@@ -55,32 +49,34 @@ void solver_init(struct simulation *sim, char *solver_name)
 
 	char *error;
 
-	dll_handle = dlopen(lib_path, RTLD_LAZY);
+	sim->dll_matrix_handle = dlopen(lib_path, RTLD_LAZY);
 
-	if (!dll_handle) {
+	if (!cv) {
 		fprintf(stderr, "%s\n", dlerror());
 		exit(0);
 	}
 
-	dll_matrix_solve = dlsym(dll_handle, "dll_matrix_solve");
+	sim->dll_matrix_solve =
+	    dlsym(sim->dll_matrix_handle, "dll_matrix_solve");
 	if ((error = dlerror()) != NULL) {
 		fprintf(stderr, "%s\n", error);
 		exit(0);
 	}
 
-	dll_matrix_dump = dlsym(dll_handle, "dll_matrix_dump");
+	sim->dll_matrix_dump = dlsym(sim->dll_matrix_handle, "dll_matrix_dump");
 	if ((error = dlerror()) != NULL) {
 		fprintf(stderr, "%s\n", error);
 		exit(0);
 	}
 
-	dll_set_interface = dlsym(dll_handle, "set_interface");
+	sim->dll_set_interface = dlsym(sim->dll_matrix_handle, "set_interface");
 	if ((error = dlerror()) != NULL) {
 		fprintf(stderr, "%s\n", error);
 		exit(0);
 	}
 
-	dll_matrix_solver_free = dlsym(dll_handle, "dll_matrix_solver_free");
+	sim->dll_matrix_solver_free =
+	    dlsym(sim->dll_matrix_handle, "dll_matrix_solver_free");
 	if ((error = dlerror()) != NULL) {
 		fprintf(stderr, "%s\n", error);
 		exit(0);
@@ -91,21 +87,21 @@ void solver_init(struct simulation *sim, char *solver_name)
 void solver(struct simulation *sim, int col, int nz, int *Ti, int *Tj,
 	    long double *Tx, long double *b)
 {
-	(*dll_matrix_solve) (sim, col, nz, Ti, Tj, Tx, b);
+	(*sim->dll_matrix_solve) (sim, col, nz, Ti, Tj, Tx, b);
 }
 
-void dump_matrix(int col, int nz, int *Ti, int *Tj, long double *Tx,
-		 long double *b, char *index)
+void dump_matrix(struct simulation *sim, int col, int nz, int *Ti, int *Tj,
+		 long double *Tx, long double *b, char *index)
 {
-	(*dll_matrix_dump) (col, nz, Ti, Tj, Tx, b, index);
+	(*sim->dll_matrix_dump) (sim, col, nz, Ti, Tj, Tx, b, index);
 }
 
 void solver_free(struct simulation *sim)
 {
-	(*dll_matrix_solver_free) (sim);
+	(*sim->dll_matrix_solver_free) (sim);
 }
 
-void solver_interface_free()
+void solver_interface_free(struct simulation *sim)
 {
-	dlclose(dll_handle);
+	dlclose(sim->dll_matrix_handle);
 }

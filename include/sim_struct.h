@@ -58,6 +58,19 @@ struct simulation
 	int *complex_Ai;
 	double *complex_Ax;
 	double *complex_Az;
+	
+	//Matrix solver dlls	
+	void (*dll_matrix_solve)();
+	void (*dll_matrix_dump)();
+	void (*dll_set_interface)();
+	void (*dll_matrix_solver_free)();
+	void *dll_matrix_handle;
+
+	//Solve dlls
+	int (*dll_solve_cur)();
+	int (*dll_solver_realloc)();
+	int (*dll_solver_free_memory)();
+	void *dll_solver_handle;
 };
 
 #endif

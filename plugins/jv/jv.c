@@ -100,15 +100,17 @@ sim_externalv(in,in->Vapplied);
 //{
 //      
 //}
+
 	gdouble sun_orig = light_get_sun(&(in->mylight));
 	light_set_sun(&(in->mylight), sun_orig * config.jv_light_efficiency);
 	light_solve_and_update(sim, in, &(in->mylight), 0.0);
+	printf("rod\n");
 
-	newton_set_min_ittr(30);
+	newton_set_min_ittr(in, 30);
 	in->Vapplied = config.Vstart;
 	V = in->Vapplied;
 	newton_sim_jv(sim, in);
-	newton_set_min_ittr(0);
+	newton_set_min_ittr(in, 0);
 
 //gdouble k_voc=0.0;
 	gdouble n_voc = 0.0;
@@ -121,6 +123,8 @@ sim_externalv(in,in->Vapplied);
 	gdouble np_voc_tot = 0.0;
 	gdouble r_pmax = 0.0;
 	gdouble n_pmax = 0.0;
+	printf("rod2\n");
+
 	do {
 
 		in->Vapplied = V;

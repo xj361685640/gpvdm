@@ -47,4 +47,9 @@ void sim_init(struct simulation *sim)
 	sim->complex_Ax = NULL;
 	sim->complex_Az = NULL;
 
+	sim->dll_solve_cur = NULL;
+	sim->dll_solver_realloc = NULL;
+	sim->dll_solver_free_memory = NULL;
+	sim->dll_solver_handle = NULL;
+
 }

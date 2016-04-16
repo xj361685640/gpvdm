@@ -24,11 +24,9 @@
 
 void update_arrays(struct simulation *sim, struct device *in)
 {
-	printf("update arrays\n");
 	int i;
 	int band = 0;
 	for (i = 0; i < in->ymeshpoints; i++) {
-		printf("here\n");
 		in->Fn[i] = in->x[i] - in->phi[i];
 		in->Fp[i] = -in->xp[i] - in->phi[i];
 
@@ -59,7 +57,6 @@ void update_arrays(struct simulation *sim, struct device *in)
 
 		in->mun[i] = get_n_mu(in, in->imat[i]);
 		in->mup[i] = get_p_mu(in, in->imat[i]);
-		printf("here2\n");
 
 		if (in->ntrapnewton) {
 			in->nt_all[i] = 0.0;
@@ -184,7 +181,6 @@ void update_arrays(struct simulation *sim, struct device *in)
 
 	}
 
-	printf("exit\n");
 }
 
 void init_mat_arrays(struct device *in)

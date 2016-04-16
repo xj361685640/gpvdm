@@ -23,15 +23,6 @@
 #include <dll_export.h>
 #include <log.h>
 
-EXPORT void set_interface()
-{
-}
-
-EXPORT void dll_newton_set_min_ittr(int ittr)
-{
-	dllinternal_newton_set_min_ittr(ittr);
-}
-
 EXPORT int dll_solve_cur(struct simulation *sim, struct device *in)
 {
 	return dllinternal_solve_cur(sim, in);

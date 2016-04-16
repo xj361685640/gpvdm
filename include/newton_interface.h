@@ -23,10 +23,10 @@
 #define h_newton_interface
 #include <sim_struct.h>
 
+void newton_set_min_ittr(struct device *in,int ittr);
 void newton_init(struct simulation *sim,char *solver_name);
 int solve_cur(struct simulation *sim,struct device *in);
-void newton_set_min_ittr(int ittr);
 void solver_realloc(struct simulation *sim,struct device * in);
-void solver_free_memory(struct device * in);
-void newton_interface_free();
+void solver_free_memory(struct simulation *sim,struct device * in);
+void newton_interface_free(struct simulation *sim);
 #endif

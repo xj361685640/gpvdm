@@ -100,13 +100,6 @@ static gdouble dJpdphir = 0.0;
 static gdouble dphidxic = 0.0;
 static gdouble dphidxipc = 0.0;
 
-static int newton_min_ittr;
-
-void dllinternal_newton_set_min_ittr(int ittr)
-{
-	newton_min_ittr = ittr;
-}
-
 void update_solver_vars(struct simulation *sim, struct device *in, int clamp)
 {
 	int i;
@@ -208,7 +201,6 @@ void update_solver_vars(struct simulation *sim, struct device *in, int clamp)
 void fill_matrix(struct simulation *sim, struct device *in)
 {
 //gdouble offset= -0.5;
-	printf("fill\n");
 	int band = 0;
 	update_arrays(sim, in);
 //FILE *file_j =fopen("myj.dat","w");
@@ -1247,7 +1239,8 @@ gdouble get_cur_error(struct simulation *sim, struct device *in)
 	if (isnan(tot)) {
 		printf("%Le %Le %Le %Le %Le %Le %Le %Le %Le\n", phi, n, p, x,
 		       te, th, tl, ttn, ttp);
-		dump_matrix(in->M, in->N, in->Ti, in->Tj, in->Tx, in->b, "");
+		dump_matrix(sim, in->M, in->N, in->Ti, in->Tj, in->Tx, in->b,
+			    "");
 		ewe(sim, "nan detected in newton solver\n");
 	}
 
@@ -1579,7 +1572,6 @@ int dllinternal_solve_cur(struct simulation *sim, struct device *in)
 //}
 	do {
 		fill_matrix(sim, in);
-		printf("done fill\n");
 
 //dump_for_plot(in);
 //plot_now(in,"plot");
@@ -1590,12 +1582,9 @@ int dllinternal_solve_cur(struct simulation *sim, struct device *in)
 			break;
 		}
 
-		printf("s1\n");
 		solver(sim, in->M, in->N, in->Ti, in->Tj, in->Tx, in->b);
-		printf("s2\n");
 
 		update_solver_vars(sim, in, TRUE);
-		printf("s3\n");
 
 		//printf("Going to clamp=%d\n",proper);
 		//solver_dump_matrix(in->M,in->N,in->Ti,in->Tj, in->Tx,in->b);

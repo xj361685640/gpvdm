@@ -100,19 +100,12 @@ static gdouble dJpdphir = 0.0;
 static gdouble dphidxic = 0.0;
 static gdouble dphidxipc = 0.0;
 
-static int newton_min_ittr;
-
 #define D0 (gdouble)243.75
 #define n0 (gdouble)1e27
 #define phi0 (gdouble)(kb*300e4/Q)
 #define l0 ((gdouble)sqrtl(epsilon0*kb*300e4/Q/Q/n0))
 #define r0 ((gdouble)n0*D0/l0/l0)
 #define r_bi0 ((gdouble)(D0/(n0*l0*l0)))
-
-void dllinternal_newton_set_min_ittr(int ittr)
-{
-	newton_min_ittr = ittr;
-}
 
 void update_solver_vars(struct simulation *sim, struct device *in, int clamp)
 {
@@ -1275,7 +1268,8 @@ gdouble get_cur_error(struct simulation *sim, struct device *in)
 	if (isnan(tot)) {
 		printf("%Le %Le %Le %Le %Le %Le %Le %Le %Le\n", phi, n, p, x,
 		       te, th, tl, ttn, ttp);
-		dump_matrix(in->M, in->N, in->Ti, in->Tj, in->Tx, in->b, "");
+		dump_matrix(sim, in->M, in->N, in->Ti, in->Tj, in->Tx, in->b,
+			    "");
 
 		ewe(sim, "nan detected in newton solver\n");
 	}

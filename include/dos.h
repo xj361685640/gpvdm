@@ -26,7 +26,7 @@
 #include <dos_struct.h>
 
 void dos_init(struct device *in,int mat);
-void dos_free();
+void dos_free(struct device *in,int mat);
 long double get_dos_epsilonr(struct device *in,int mat);
 long double get_dos_doping_start(struct device *in,int mat);
 long double get_dos_doping_stop(struct device *in,int mat);

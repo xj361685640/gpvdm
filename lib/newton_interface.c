@@ -37,13 +37,6 @@
 #include "newton_interface.h"
 
 static int unused __attribute__ ((unused));
-static void (*dll_set_interface) () = NULL;
-static void (*dll_newton_set_min_ittr) () = NULL;
-static int (*dll_solve_cur) () = NULL;
-static int (*dll_solver_realloc) () = NULL;
-static int (*dll_solver_free_memory) () = NULL;
-
-static void *dll_handle;
 
 void newton_init(struct simulation *sim, char *solver_name)
 {
@@ -58,69 +51,56 @@ void newton_init(struct simulation *sim, char *solver_name)
 
 	char *error;
 
-	dll_handle = dlopen(lib_path, RTLD_LAZY);
+	sim->dll_solver_handle = dlopen(lib_path, RTLD_LAZY);
 
-	if (!dll_handle) {
+	if (!sim->dll_solver_handle) {
 		fprintf(stderr, "%s\n", dlerror());
 		exit(0);
 	}
 
-	dll_solve_cur = dlsym(dll_handle, "dll_solve_cur");
+	sim->dll_solve_cur = dlsym(sim->dll_solver_handle, "dll_solve_cur");
 	if ((error = dlerror()) != NULL) {
 		fprintf(stderr, "%s\n", error);
 		exit(0);
 	}
 
-	dll_newton_set_min_ittr = dlsym(dll_handle, "dll_newton_set_min_ittr");
+	sim->dll_solver_realloc =
+	    dlsym(sim->dll_solver_handle, "dll_solver_realloc");
 	if ((error = dlerror()) != NULL) {
 		fprintf(stderr, "%s\n", error);
 		exit(0);
 	}
 
-	dll_set_interface = dlsym(dll_handle, "set_interface");
+	sim->dll_solver_free_memory =
+	    dlsym(sim->dll_solver_handle, "dll_solver_free_memory");
 	if ((error = dlerror()) != NULL) {
 		fprintf(stderr, "%s\n", error);
 		exit(0);
 	}
-
-	dll_solver_realloc = dlsym(dll_handle, "dll_solver_realloc");
-	if ((error = dlerror()) != NULL) {
-		fprintf(stderr, "%s\n", error);
-		exit(0);
-	}
-
-	dll_solver_free_memory = dlsym(dll_handle, "dll_solver_free_memory");
-	if ((error = dlerror()) != NULL) {
-		fprintf(stderr, "%s\n", error);
-		exit(0);
-	}
-
-	(*dll_newton_set_min_ittr) (0);
 
 }
 
 int solve_cur(struct simulation *sim, struct device *in)
 {
-	return (*dll_solve_cur) (sim, in);
+	return (*sim->dll_solve_cur) (sim, in);
 }
 
-void newton_set_min_ittr(int ittr)
+void newton_set_min_ittr(struct device *in, int ittr)
 {
-
-	(*dll_newton_set_min_ittr) (ittr);
+	in->newton_min_itt = ittr;
 }
 
 void solver_realloc(struct simulation *sim, struct device *in)
 {
-	(*dll_solver_realloc) (sim, in);
+	(*sim->dll_solver_realloc) (sim, in);
 }
 
-void solver_free_memory(struct device *in)
+void solver_free_memory(struct simulation *sim, struct device *in)
 {
-	(*dll_solver_free_memory) (in);
+	(*sim->dll_solver_free_memory) (in);
 }
 
-void newton_interface_free()
+void newton_interface_free(struct simulation *sim)
 {
-	dlclose(dll_handle);
+	dlclose(sim->dll_solver_handle);
 }

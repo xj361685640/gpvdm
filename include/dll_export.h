@@ -43,7 +43,7 @@ EXPORT void set_interface();
 
 //Matrix solver
 EXPORT void dll_matrix_solve(struct simulation *sim,int col,int nz,int *Ti,int *Tj, long double *Tx,long double *b);
-EXPORT void dll_matrix_dump(int col,int nz,int *Ti,int *Tj, long double *Tx,long double *b,char *index);
+EXPORT void dll_matrix_dump(struct simulation *sim,int col,int nz,int *Ti,int *Tj, long double *Tx,long double *b,char *index);
 EXPORT void dll_matrix_solver_free(struct simulation *sim);
 
 //Light
