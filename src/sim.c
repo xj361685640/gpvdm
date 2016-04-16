@@ -37,4 +37,14 @@ void sim_init(struct simulation *sim)
 	sim->b = NULL;
 	sim->Tx = NULL;
 
+	//complex solver
+	sim->complex_last_col = 0;
+	sim->complex_last_nz = 0;
+	sim->complex_x = NULL;
+	sim->complex_xz = NULL;
+	sim->complex_Ap = NULL;
+	sim->complex_Ai = NULL;
+	sim->complex_Ax = NULL;
+	sim->complex_Az = NULL;
+
 }

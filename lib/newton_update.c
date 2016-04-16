@@ -24,7 +24,7 @@
 
 void update_arrays(struct simulation *sim, struct device *in)
 {
-
+	printf("update arrays\n");
 	int i;
 	int band = 0;
 	for (i = 0; i < in->ymeshpoints; i++) {

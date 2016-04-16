@@ -100,21 +100,6 @@ static gdouble dJpdphir = 0.0;
 static gdouble dphidxic = 0.0;
 static gdouble dphidxipc = 0.0;
 
-static gdouble *dntrap = NULL;
-static gdouble *dntrapdntrap = NULL;
-static gdouble *dntrapdn = NULL;
-static gdouble *dntrapdp = NULL;
-static gdouble *dJdtrapn = NULL;
-static gdouble *dJpdtrapn = NULL;
-
-static gdouble *dptrapdp = NULL;
-static gdouble *dptrapdptrap = NULL;
-static gdouble *dptrap = NULL;
-static gdouble *dptrapdn = NULL;
-static gdouble *dJpdtrapp = NULL;
-static gdouble *dJdtrapp = NULL;
-static gdouble *dphidntrap = NULL;
-static gdouble *dphidptrap = NULL;
 static int newton_min_ittr;
 
 void dllinternal_newton_set_min_ittr(int ittr)
@@ -617,23 +602,25 @@ void fill_matrix(struct simulation *sim, struct device *in)
 
 		if (in->ntrapnewton == TRUE) {
 			for (band = 0; band < in->srh_bands; band++) {
-				dphidntrap[band] = Q * (in->dnt[i][band]);
+				in->newton_dphidntrap[band] =
+				    Q * (in->dnt[i][band]);
 				if ((in->interfaceleft == TRUE) && (i == 0))
-					dphidntrap[band] = 0.0;
+					in->newton_dphidntrap[band] = 0.0;
 				if ((in->interfaceright == TRUE)
 				    && (i == in->ymeshpoints - 1))
-					dphidntrap[band] = 0.0;
+					in->newton_dphidntrap[band] = 0.0;
 			}
 		}
 
 		if (in->ptrapnewton == TRUE) {
 			for (band = 0; band < in->srh_bands; band++) {
-				dphidptrap[band] = -Q * (in->dpt[i][band]);
+				in->newton_dphidptrap[band] =
+				    -Q * (in->dpt[i][band]);
 				if ((in->interfaceleft == TRUE) && (i == 0))
-					dphidptrap[band] = 0.0;
+					in->newton_dphidptrap[band] = 0.0;
 				if ((in->interfaceright == TRUE)
 				    && (i == in->ymeshpoints - 1))
-					dphidptrap[band] = 0.0;
+					in->newton_dphidptrap[band] = 0.0;
 
 				//dphidxipc+= -Q*(in->dpt[i]);
 			}
@@ -787,32 +774,34 @@ void fill_matrix(struct simulation *sim, struct device *in)
 
 		if (in->ntrapnewton == TRUE) {
 			for (band = 0; band < in->srh_bands; band++) {
-				dJdtrapn[band] = 0.0;
-				dJpdtrapn[band] = 0.0;
-				dntrap[band] =
+				in->newton_dJdtrapn[band] = 0.0;
+				in->newton_dJpdtrapn[band] = 0.0;
+				in->newton_dntrap[band] =
 				    nc * in->srh_n_r1[i][band] -
 				    in->srh_n_r2[i][band] -
 				    pc * in->srh_n_r3[i][band] +
 				    in->srh_n_r4[i][band];
-				dntrapdntrap[band] =
+				in->newton_dntrapdntrap[band] =
 				    nc * in->dsrh_n_r1[i][band] -
 				    in->dsrh_n_r2[i][band] -
 				    pc * in->dsrh_n_r3[i][band] +
 				    in->dsrh_n_r4[i][band];
-				dntrapdn[band] = dnc * in->srh_n_r1[i][band];
-				dntrapdp[band] = -dpc * in->srh_n_r3[i][band];
+				in->newton_dntrapdn[band] =
+				    dnc * in->srh_n_r1[i][band];
+				in->newton_dntrapdp[band] =
+				    -dpc * in->srh_n_r3[i][band];
 				Rtrapn +=
 				    nc * in->srh_n_r1[i][band] -
 				    in->srh_n_r2[i][band];
 				dJdxic -= dnc * in->srh_n_r1[i][band];
-				dJdtrapn[band] -=
+				in->newton_dJdtrapn[band] -=
 				    nc * in->dsrh_n_r1[i][band] -
 				    in->dsrh_n_r2[i][band];
 				Rtrapp +=
 				    -(-pc * in->srh_n_r3[i][band] +
 				      in->srh_n_r4[i][band]);
 				dJpdxipc += -(-dpc * in->srh_n_r3[i][band]);
-				dJpdtrapn[band] =
+				in->newton_dJpdtrapn[band] =
 				    -(-pc * in->dsrh_n_r3[i][band] +
 				      in->dsrh_n_r4[i][band]);
 
@@ -837,26 +826,28 @@ void fill_matrix(struct simulation *sim, struct device *in)
 
 			for (band = 0; band < in->srh_bands; band++) {
 				//dJdtrapn[band]=0.0;
-				dJpdtrapp[band] = 0.0;
-				dJdtrapp[band] = 0.0;
-				dptrap[band] =
+				in->newton_dJpdtrapp[band] = 0.0;
+				in->newton_dJdtrapp[band] = 0.0;
+				in->newton_dptrap[band] =
 				    pc * in->srh_p_r1[i][band] -
 				    in->srh_p_r2[i][band] -
 				    nc * in->srh_p_r3[i][band] +
 				    in->srh_p_r4[i][band];
-				dptrapdptrap[band] =
+				in->newton_dptrapdptrap[band] =
 				    pc * in->dsrh_p_r1[i][band] -
 				    in->dsrh_p_r2[i][band] -
 				    nc * in->dsrh_p_r3[i][band] +
 				    in->dsrh_p_r4[i][band];
-				dptrapdp[band] = dpc * in->srh_p_r1[i][band];
-				dptrapdn[band] = -dnc * in->srh_p_r3[i][band];
+				in->newton_dptrapdp[band] =
+				    dpc * in->srh_p_r1[i][band];
+				in->newton_dptrapdn[band] =
+				    -dnc * in->srh_p_r3[i][band];
 
 				Rtrapp +=
 				    pc * in->srh_p_r1[i][band] -
 				    in->srh_p_r2[i][band];
 				dJpdxipc += dpc * in->srh_p_r1[i][band];
-				dJpdtrapp[band] +=
+				in->newton_dJpdtrapp[band] +=
 				    pc * in->dsrh_p_r1[i][band] -
 				    in->dsrh_p_r2[i][band];
 
@@ -864,7 +855,7 @@ void fill_matrix(struct simulation *sim, struct device *in)
 				    -(-nc * in->srh_p_r3[i][band] +
 				      in->srh_p_r4[i][band]);
 				dJdxic -= -(-dnc * in->srh_p_r3[i][band]);
-				dJdtrapp[band] -=
+				in->newton_dJdtrapp[band] -=
 				    -(-nc * in->dsrh_p_r3[i][band] +
 				      in->dsrh_p_r4[i][band]);
 
@@ -990,37 +981,37 @@ void fill_matrix(struct simulation *sim, struct device *in)
 				    in->ymeshpoints * (1 + 1 + 1 + band) + i;
 				in->Tj[pos] =
 				    in->ymeshpoints * (1 + 1 + 1 + band) + i;
-				in->Tx[pos] = dntrapdntrap[band];
+				in->Tx[pos] = in->newton_dntrapdntrap[band];
 				pos++;
 
 				in->Ti[pos] =
 				    in->ymeshpoints * (1 + 1 + 1 + band) + i;
 				in->Tj[pos] = in->ymeshpoints * 1 + i;
-				in->Tx[pos] = dntrapdn[band];
+				in->Tx[pos] = in->newton_dntrapdn[band];
 				pos++;
 
 				in->Ti[pos] =
 				    in->ymeshpoints * (1 + 1 + 1 + band) + i;
 				in->Tj[pos] = in->ymeshpoints * (1 + 1) + i;
-				in->Tx[pos] = dntrapdp[band];
+				in->Tx[pos] = in->newton_dntrapdp[band];
 				pos++;
 
 				in->Ti[pos] = in->ymeshpoints * (1) + i;
 				in->Tj[pos] =
 				    in->ymeshpoints * (1 + 1 + 1 + band) + i;
-				in->Tx[pos] = dJdtrapn[band];
+				in->Tx[pos] = in->newton_dJdtrapn[band];
 				pos++;
 
 				in->Ti[pos] = in->ymeshpoints * (1 + 1) + i;
 				in->Tj[pos] =
 				    in->ymeshpoints * (1 + 1 + 1 + band) + i;
-				in->Tx[pos] = dJpdtrapn[band];
+				in->Tx[pos] = in->newton_dJpdtrapn[band];
 				pos++;
 
 				in->Ti[pos] = i;
 				in->Tj[pos] =
 				    in->ymeshpoints * (1 + 1 + 1 + band) + i;
-				in->Tx[pos] = dphidntrap[band];
+				in->Tx[pos] = in->newton_dphidntrap[band];
 				pos++;
 
 			}
@@ -1037,7 +1028,7 @@ void fill_matrix(struct simulation *sim, struct device *in)
 				    in->ymeshpoints * (1 + 1 + 1 +
 						       in->srh_bands + band) +
 				    i;
-				in->Tx[pos] = dptrapdptrap[band];
+				in->Tx[pos] = in->newton_dptrapdptrap[band];
 				pos++;
 
 				in->Ti[pos] =
@@ -1045,7 +1036,7 @@ void fill_matrix(struct simulation *sim, struct device *in)
 						       in->srh_bands + band) +
 				    i;
 				in->Tj[pos] = in->ymeshpoints * (1 + 1) + i;
-				in->Tx[pos] = dptrapdp[band];
+				in->Tx[pos] = in->newton_dptrapdp[band];
 				pos++;
 
 				in->Ti[pos] =
@@ -1053,7 +1044,7 @@ void fill_matrix(struct simulation *sim, struct device *in)
 						       in->srh_bands + band) +
 				    i;
 				in->Tj[pos] = in->ymeshpoints * (1) + i;
-				in->Tx[pos] = dptrapdn[band];
+				in->Tx[pos] = in->newton_dptrapdn[band];
 				pos++;
 
 				in->Ti[pos] = in->ymeshpoints * (1 + 1) + i;
@@ -1061,7 +1052,7 @@ void fill_matrix(struct simulation *sim, struct device *in)
 				    in->ymeshpoints * (1 + 1 + 1 +
 						       in->srh_bands + band) +
 				    i;
-				in->Tx[pos] = dJpdtrapp[band];
+				in->Tx[pos] = in->newton_dJpdtrapp[band];
 				pos++;
 
 				in->Ti[pos] = in->ymeshpoints * (1) + i;
@@ -1069,7 +1060,7 @@ void fill_matrix(struct simulation *sim, struct device *in)
 				    in->ymeshpoints * (1 + 1 + 1 +
 						       in->srh_bands + band) +
 				    i;
-				in->Tx[pos] = dJdtrapp[band];
+				in->Tx[pos] = in->newton_dJdtrapp[band];
 				pos++;
 
 				in->Ti[pos] = i;
@@ -1077,7 +1068,7 @@ void fill_matrix(struct simulation *sim, struct device *in)
 				    in->ymeshpoints * (1 + 1 + 1 +
 						       in->srh_bands + band) +
 				    i;
-				in->Tx[pos] = dphidptrap[band];
+				in->Tx[pos] = in->newton_dphidptrap[band];
 				pos++;
 			}
 
@@ -1176,7 +1167,7 @@ void fill_matrix(struct simulation *sim, struct device *in)
 		if (in->ntrapnewton == TRUE) {
 			for (band = 0; band < in->srh_bands; band++) {
 				in->b[in->ymeshpoints * (1 + 1 + 1 + band) +
-				      i] = -(dntrap[band]);
+				      i] = -(in->newton_dntrap[band]);
 			}
 		}
 
@@ -1184,7 +1175,7 @@ void fill_matrix(struct simulation *sim, struct device *in)
 			for (band = 0; band < in->srh_bands; band++) {
 				in->b[in->ymeshpoints *
 				      (1 + 1 + 1 + in->srh_bands + band) + i] =
-				    -(dptrap[band]);
+				    -(in->newton_dptrap[band]);
 			}
 
 		}
@@ -1378,119 +1369,129 @@ void dllinternal_solver_realloc(struct simulation *sim, struct device *in)
 
 		if (in->srh_bands > 0) {
 			dtemp =
-			    realloc(dntrap, in->srh_bands * sizeof(gdouble));
-			if (dtemp == NULL) {
-				ewe(sim, "memory error\n");
-			} else {
-				dntrap = dtemp;
-			}
-
-			dtemp =
-			    realloc(dntrapdntrap,
+			    realloc(in->newton_dntrap,
 				    in->srh_bands * sizeof(gdouble));
 			if (dtemp == NULL) {
 				ewe(sim, "memory error\n");
 			} else {
-				dntrapdntrap = dtemp;
+				in->newton_dntrap = dtemp;
 			}
 
 			dtemp =
-			    realloc(dntrapdn, in->srh_bands * sizeof(gdouble));
-			if (dtemp == NULL) {
-				ewe(sim, "memory error\n");
-			} else {
-				dntrapdn = dtemp;
-			}
-
-			dtemp =
-			    realloc(dntrapdp, in->srh_bands * sizeof(gdouble));
-			if (dtemp == NULL) {
-				ewe(sim, "memory error\n");
-			} else {
-				dntrapdp = dtemp;
-			}
-
-			dtemp =
-			    realloc(dJdtrapn, in->srh_bands * sizeof(gdouble));
-			if (dtemp == NULL) {
-				ewe(sim, "memory error\n");
-			} else {
-				dJdtrapn = dtemp;
-			}
-
-			dtemp =
-			    realloc(dJpdtrapn, in->srh_bands * sizeof(gdouble));
-			if (dtemp == NULL) {
-				ewe(sim, "memory error\n");
-			} else {
-				dJpdtrapn = dtemp;
-			}
-
-			dtemp =
-			    realloc(dphidntrap,
+			    realloc(in->newton_dntrapdntrap,
 				    in->srh_bands * sizeof(gdouble));
 			if (dtemp == NULL) {
 				ewe(sim, "memory error\n");
 			} else {
-				dphidntrap = dtemp;
+				in->newton_dntrapdntrap = dtemp;
 			}
 
 			dtemp =
-			    realloc(dptrapdp, in->srh_bands * sizeof(gdouble));
-			if (dtemp == NULL) {
-				ewe(sim, "memory error\n");
-			} else {
-				dptrapdp = dtemp;
-			}
-
-			dtemp =
-			    realloc(dptrapdptrap,
+			    realloc(in->newton_dntrapdn,
 				    in->srh_bands * sizeof(gdouble));
 			if (dtemp == NULL) {
 				ewe(sim, "memory error\n");
 			} else {
-				dptrapdptrap = dtemp;
+				in->newton_dntrapdn = dtemp;
 			}
 
 			dtemp =
-			    realloc(dptrap, in->srh_bands * sizeof(gdouble));
-			if (dtemp == NULL) {
-				ewe(sim, "memory error\n");
-			} else {
-				dptrap = dtemp;
-			}
-
-			dtemp =
-			    realloc(dptrapdn, in->srh_bands * sizeof(gdouble));
-			if (dtemp == NULL) {
-				ewe(sim, "memory error\n");
-			} else {
-				dptrapdn = dtemp;
-			}
-
-			dtemp =
-			    realloc(dJpdtrapp, in->srh_bands * sizeof(gdouble));
-			if (dtemp == NULL) {
-				ewe(sim, "memory error\n");
-			} else {
-				dJpdtrapp = dtemp;
-			}
-
-			dtemp =
-			    realloc(dJdtrapp, in->srh_bands * sizeof(gdouble));
-			if (dtemp == NULL) {
-				ewe(sim, "memory error\n");
-			} else {
-				dJdtrapp = dtemp;
-			}
-
-			dtemp =
-			    realloc(dphidptrap,
+			    realloc(in->newton_dntrapdp,
 				    in->srh_bands * sizeof(gdouble));
 			if (dtemp == NULL) {
 				ewe(sim, "memory error\n");
 			} else {
-				dphidptrap = dtemp;
+				in->newton_dntrapdp = dtemp;
+			}
+
+			dtemp =
+			    realloc(in->newton_dJdtrapn,
+				    in->srh_bands * sizeof(gdouble));
+			if (dtemp == NULL) {
+				ewe(sim, "memory error\n");
+			} else {
+				in->newton_dJdtrapn = dtemp;
+			}
+
+			dtemp =
+			    realloc(in->newton_dJpdtrapn,
+				    in->srh_bands * sizeof(gdouble));
+			if (dtemp == NULL) {
+				ewe(sim, "memory error\n");
+			} else {
+				in->newton_dJpdtrapn = dtemp;
+			}
+
+			dtemp =
+			    realloc(in->newton_dphidntrap,
+				    in->srh_bands * sizeof(gdouble));
+			if (dtemp == NULL) {
+				ewe(sim, "memory error\n");
+			} else {
+				in->newton_dphidntrap = dtemp;
+			}
+
+			dtemp =
+			    realloc(in->newton_dptrapdp,
+				    in->srh_bands * sizeof(gdouble));
+			if (dtemp == NULL) {
+				ewe(sim, "memory error\n");
+			} else {
+				in->newton_dptrapdp = dtemp;
+			}
+
+			dtemp =
+			    realloc(in->newton_dptrapdptrap,
+				    in->srh_bands * sizeof(gdouble));
+			if (dtemp == NULL) {
+				ewe(sim, "memory error\n");
+			} else {
+				in->newton_dptrapdptrap = dtemp;
+			}
+
+			dtemp =
+			    realloc(in->newton_dptrap,
+				    in->srh_bands * sizeof(gdouble));
+			if (dtemp == NULL) {
+				ewe(sim, "memory error\n");
+			} else {
+				in->newton_dptrap = dtemp;
+			}
+
+			dtemp =
+			    realloc(in->newton_dptrapdn,
+				    in->srh_bands * sizeof(gdouble));
+			if (dtemp == NULL) {
+				ewe(sim, "memory error\n");
+			} else {
+				in->newton_dptrapdn = dtemp;
+			}
+
+			dtemp =
+			    realloc(in->newton_dJpdtrapp,
+				    in->srh_bands * sizeof(gdouble));
+			if (dtemp == NULL) {
+				ewe(sim, "memory error\n");
+			} else {
+				in->newton_dJpdtrapp = dtemp;
+			}
+
+			dtemp =
+			    realloc(in->newton_dJdtrapp,
+				    in->srh_bands * sizeof(gdouble));
+			if (dtemp == NULL) {
+				ewe(sim, "memory error\n");
+			} else {
+				in->newton_dJdtrapp = dtemp;
+			}
+
+			dtemp =
+			    realloc(in->newton_dphidptrap,
+				    in->srh_bands * sizeof(gdouble));
+			if (dtemp == NULL) {
+				ewe(sim, "memory error\n");
+			} else {
+				in->newton_dphidptrap = dtemp;
 			}
 
 		}
@@ -1504,20 +1505,20 @@ void dllinternal_solver_free_memory(struct device *in)
 //int i=0;
 
 	if (in->srh_bands > 0) {
-		free(dntrap);
-		free(dntrapdntrap);
-		free(dntrapdn);
-		free(dntrapdp);
-		free(dJdtrapn);
-		free(dJpdtrapn);
-		free(dphidntrap);
-		free(dptrapdp);
-		free(dptrapdptrap);
-		free(dptrap);
-		free(dptrapdn);
-		free(dJpdtrapp);
-		free(dJdtrapp);
-		free(dphidptrap);
+		free(in->newton_dntrap);
+		free(in->newton_dntrapdntrap);
+		free(in->newton_dntrapdn);
+		free(in->newton_dntrapdp);
+		free(in->newton_dJdtrapn);
+		free(in->newton_dJpdtrapn);
+		free(in->newton_dphidntrap);
+		free(in->newton_dptrapdp);
+		free(in->newton_dptrapdptrap);
+		free(in->newton_dptrap);
+		free(in->newton_dptrapdn);
+		free(in->newton_dJpdtrapp);
+		free(in->newton_dJdtrapp);
+		free(in->newton_dphidptrap);
 
 	}
 
@@ -1532,20 +1533,20 @@ void dllinternal_solver_free_memory(struct device *in)
 //}
 //free(in->Tdebug);
 
-	dntrapdntrap = NULL;
-	dntrap = NULL;
-	dntrapdn = NULL;
-	dntrapdp = NULL;
-	dJdtrapn = NULL;
-	dJpdtrapn = NULL;
-	dphidntrap = NULL;
-	dptrapdp = NULL;
-	dptrapdptrap = NULL;
-	dptrap = NULL;
-	dptrapdn = NULL;
-	dJpdtrapp = NULL;
-	dJdtrapp = NULL;
-	dphidptrap = NULL;
+	in->newton_dntrapdntrap = NULL;
+	in->newton_dntrap = NULL;
+	in->newton_dntrapdn = NULL;
+	in->newton_dntrapdp = NULL;
+	in->newton_dJdtrapn = NULL;
+	in->newton_dJpdtrapn = NULL;
+	in->newton_dphidntrap = NULL;
+	in->newton_dptrapdp = NULL;
+	in->newton_dptrapdptrap = NULL;
+	in->newton_dptrap = NULL;
+	in->newton_dptrapdn = NULL;
+	in->newton_dJpdtrapp = NULL;
+	in->newton_dJdtrapp = NULL;
+	in->newton_dphidptrap = NULL;
 
 	in->Ti = NULL;
 	in->Tj = NULL;

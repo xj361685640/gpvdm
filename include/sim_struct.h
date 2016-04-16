@@ -49,6 +49,15 @@ struct simulation
 	double *Ax;
 	double *b;
 	double *Tx;
+	//complex solver
+	int complex_last_col;
+	int complex_last_nz;
+	double *complex_x;
+	double *complex_xz;
+	int *complex_Ap;
+	int *complex_Ai;
+	double *complex_Ax;
+	double *complex_Az;
 };
 
 #endif

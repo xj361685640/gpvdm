@@ -337,7 +337,26 @@ struct device
 	long double layer_stop[100];
 	long double layer_width[100];
 	void *root_dll_interface;
+	//Arrays used by newton solver
+	gdouble *newton_dntrap;
+	gdouble *newton_dntrapdntrap;
+	gdouble *newton_dntrapdn;
+	gdouble *newton_dntrapdp;
+	gdouble *newton_dJdtrapn;
+	gdouble *newton_dJpdtrapn;
 
+	gdouble *newton_dptrapdp;
+	gdouble *newton_dptrapdptrap;
+	gdouble *newton_dptrap;
+	gdouble *newton_dptrapdn;
+	gdouble *newton_dJpdtrapp;
+	gdouble *newton_dJdtrapp;
+	gdouble *newton_dphidntrap;
+	gdouble *newton_dphidptrap;
+	#ifdef enable_time
+	gdouble *newton_ntlast;
+	gdouble *newton_ptlast;
+	#endif
 };
 
 void device_init(struct device *in);

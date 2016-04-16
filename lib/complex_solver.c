@@ -30,15 +30,6 @@
 #include "log.h"
 #include <util.h>
 
-static int last_col = 0;
-static int last_nz = 0;
-static double *x = NULL;
-static double *xz = NULL;
-static int *Ap = NULL;
-static int *Ai = NULL;
-static double *Ax = NULL;
-static double *Az = NULL;
-
 void complex_error_report(int status, const char *file, const char *func,
 			  int line)
 {
@@ -87,20 +78,20 @@ void complex_solver_dump_matrix(int col, int nz, int *Ti, int *Tj, double *Tx,
 
 void complex_solver_free(struct simulation *sim)
 {
-	free(x);
-	free(xz);
-	free(Ap);
-	free(Ai);
-	free(Ax);
-	free(Az);
-	x = NULL;
-	xz = NULL;
-	Ap = NULL;
-	Ai = NULL;
-	Ax = NULL;
-	Az = NULL;
-	last_col = 0;
-	last_nz = 0;
+	free(sim->complex_x);
+	free(sim->complex_xz);
+	free(sim->complex_Ap);
+	free(sim->complex_Ai);
+	free(sim->complex_Ax);
+	free(sim->complex_Az);
+	sim->complex_x = NULL;
+	sim->complex_xz = NULL;
+	sim->complex_Ap = NULL;
+	sim->complex_Ai = NULL;
+	sim->complex_Ax = NULL;
+	sim->complex_Az = NULL;
+	sim->complex_last_col = 0;
+	sim->complex_last_nz = 0;
 	printf_log(sim, _("Complex solver free\n"));
 }
 
@@ -129,52 +120,52 @@ int complex_solver(struct simulation *sim, int col, int nz, int *Ti, int *Tj,
 //printf("here1\n");
 	double *dtemp = NULL;
 	int *itemp = NULL;
-	if ((last_col != col) || (last_nz != nz)) {
+	if ((sim->complex_last_col != col) || (sim->complex_last_nz != nz)) {
 
-		dtemp = realloc(x, col * sizeof(double));
+		dtemp = realloc(sim->complex_x, col * sizeof(double));
 		if (dtemp == NULL) {
 			ewe(sim, _("complex_solver realloc memory error"));
 		} else {
-			x = dtemp;
+			sim->complex_x = dtemp;
 		}
 
-		dtemp = realloc(xz, col * sizeof(double));
+		dtemp = realloc(sim->complex_xz, col * sizeof(double));
 		if (dtemp == NULL) {
 			ewe(sim, _("complex_solver realloc memory error"));
 		} else {
-			xz = dtemp;
+			sim->complex_xz = dtemp;
 		}
 
-		itemp = realloc(Ap, (col + 1) * sizeof(int));
+		itemp = realloc(sim->complex_Ap, (col + 1) * sizeof(int));
 		if (itemp == NULL) {
 			ewe(sim, _("complex_solver realloc memory error"));
 		} else {
-			Ap = itemp;
+			sim->complex_Ap = itemp;
 		}
 
-		itemp = realloc(Ai, (nz) * sizeof(int));
+		itemp = realloc(sim->complex_Ai, (nz) * sizeof(int));
 		if (itemp == NULL) {
 			ewe(sim, _("complex_solver realloc memory error"));
 		} else {
-			Ai = itemp;
+			sim->complex_Ai = itemp;
 		}
 
-		dtemp = realloc(Ax, (nz) * sizeof(double));
+		dtemp = realloc(sim->complex_Ax, (nz) * sizeof(double));
 		if (dtemp == NULL) {
 			ewe(sim, _("complex_solver realloc memory error"));
 		} else {
-			Ax = dtemp;
+			sim->complex_Ax = dtemp;
 		}
 
-		dtemp = realloc(Az, (nz) * sizeof(double));
-		if (x == NULL) {
+		dtemp = realloc(sim->complex_Az, (nz) * sizeof(double));
+		if (dtemp == NULL) {
 			ewe(sim, _("complex_solver realloc memory error"));
 		} else {
-			Az = dtemp;
+			sim->complex_Az = dtemp;
 		}
 
-		last_col = col;
-		last_nz = nz;
+		sim->complex_last_col = col;
+		sim->complex_last_nz = nz;
 	}
 
 	double Info[UMFPACK_INFO], Control[UMFPACK_CONTROL];
@@ -194,8 +185,9 @@ int complex_solver(struct simulation *sim, int col, int nz, int *Ti, int *Tj,
 	umfpack_zi_report_control(Control);
 
 	status =
-	    umfpack_zi_triplet_to_col(col, col, nz, Ti, Tj, Tx, Txz, Ap, Ai, Ax,
-				      Az, NULL);
+	    umfpack_zi_triplet_to_col(col, col, nz, Ti, Tj, Tx, Txz,
+				      sim->complex_Ap, sim->complex_Ai,
+				      sim->complex_Ax, sim->complex_Az, NULL);
 
 	if (status != UMFPACK_OK) {
 		complex_error_report(status, __FILE__, __func__, __LINE__);
@@ -203,10 +195,11 @@ int complex_solver(struct simulation *sim, int col, int nz, int *Ti, int *Tj,
 	}
 // symbolic analysis
 //printf("here2 %d\n",col);
-//status = umfpack_di_symbolic(col, col, Ap, Ai, Ax, &Symbolic, NULL, NULL);
+//status = umfpack_di_symbolic(col, col, sim->complex_Ap, sim->complex_Ai, Ax, &Symbolic, NULL, NULL);
 	status =
-	    umfpack_zi_symbolic(col, col, Ap, Ai, Ax, Az, &Symbolic, Control,
-				Info);
+	    umfpack_zi_symbolic(col, col, sim->complex_Ap, sim->complex_Ai,
+				sim->complex_Ax, sim->complex_Az, &Symbolic,
+				Control, Info);
 	umfpack_zi_report_status(Control, status);
 //printf("here3\n");
 
@@ -215,8 +208,9 @@ int complex_solver(struct simulation *sim, int col, int nz, int *Ti, int *Tj,
 		return EXIT_FAILURE;
 	}
 // LU factorization 
-//umfpack_di_numeric(Ap, Ai, Ax, Symbolic, &Numeric, NULL, NULL);
-	umfpack_zi_numeric(Ap, Ai, Ax, Az, Symbolic, &Numeric, Control, Info);
+//umfpack_di_numeric(sim->complex_Ap, sim->complex_Ai, sim->complex_Ax, Symbolic, &Numeric, NULL, NULL);
+	umfpack_zi_numeric(sim->complex_Ap, sim->complex_Ai, sim->complex_Ax,
+			   sim->complex_Az, Symbolic, &Numeric, Control, Info);
 
 	if (status != UMFPACK_OK) {
 		complex_error_report(status, __FILE__, __func__, __LINE__);
@@ -226,23 +220,25 @@ int complex_solver(struct simulation *sim, int col, int nz, int *Ti, int *Tj,
 
 //umfpack_di_free_symbolic(&Symbolic);
 
-	// umfpack_di_solve(UMFPACK_A, Ap, Ai, Ax, x, b, Numeric, NULL, NULL);
+	// umfpack_di_solve(UMFPACK_A, sim->complex_Ap, sim->complex_Ai, sim->complex_Ax, x, b, Numeric, NULL, NULL);
 	status =
-	    umfpack_zi_solve(UMFPACK_A, Ap, Ai, Ax, Az, x, xz, b, bz, Numeric,
-			     Control, Info);
+	    umfpack_zi_solve(UMFPACK_A, sim->complex_Ap, sim->complex_Ai,
+			     sim->complex_Ax, sim->complex_Az, sim->complex_x,
+			     sim->complex_xz, b, bz, Numeric, Control, Info);
 	if (status != UMFPACK_OK) {
 		complex_error_report(status, __FILE__, __func__, __LINE__);
 		return EXIT_FAILURE;
 	}
 //printf ("\nx (solution of Ax=b): ") ;
-	(void)umfpack_zi_report_vector(col, x, xz, Control);
+	(void)umfpack_zi_report_vector(col, sim->complex_x, sim->complex_xz,
+				       Control);
 
 	umfpack_zi_free_symbolic(&Symbolic);
 	umfpack_di_free_numeric(&Numeric);
 
 	for (i = 0; i < col; i++) {
-		b[i] = x[i];
-		bz[i] = xz[i];
+		b[i] = sim->complex_x[i];
+		bz[i] = sim->complex_xz[i];
 	}
 
 	return 0;

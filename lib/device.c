@@ -322,4 +322,20 @@ void device_init(struct device *in)
 
 	in->root_dll_interface = NULL;
 
+	//Newton        
+	in->newton_dntrap = NULL;
+	in->newton_dntrapdntrap = NULL;
+	in->newton_dntrapdn = NULL;
+	in->newton_dntrapdp = NULL;
+	in->newton_dJdtrapn = NULL;
+	in->newton_dJpdtrapn = NULL;
+
+	in->newton_dptrapdp = NULL;
+	in->newton_dptrapdptrap = NULL;
+	in->newton_dptrap = NULL;
+	in->newton_dptrapdn = NULL;
+	in->newton_dJpdtrapp = NULL;
+	in->newton_dJdtrapp = NULL;
+	in->newton_dphidntrap = NULL;
+	in->newton_dphidptrap = NULL;
 }
