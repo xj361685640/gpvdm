@@ -28,6 +28,7 @@
 #include "mesh.h"
 #include <math.h>
 #include "log.h"
+#include <solver_interface.h>
 
 void free_srh_bands(struct device *in, gdouble ** var)
 {
@@ -234,7 +235,7 @@ void device_free(struct simulation *sim, struct device *in)
 	free(in->ntequlib);
 	free(in->ptequlib);
 
-	solver_free();
+	solver_free(sim);
 	complex_solver_free(sim);
 
 	free(in->nrelax);

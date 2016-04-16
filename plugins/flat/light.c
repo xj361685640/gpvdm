@@ -27,7 +27,6 @@
 #include <light_interface.h>
 
 #include <functions.h>
-#include <dll_interface.h>
 
 EXPORT void light_dll_ver()
 {

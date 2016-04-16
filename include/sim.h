@@ -66,7 +66,6 @@ void load_config(struct simulation *sim,struct device *in);
 void update(struct device *cell);
 int run_simulation(struct simulation *sim,char *outputpath,char *inputpath);
 void solve_all(struct simulation *sim,struct device *in);
-void solver_free();
 
 //Light
 void light_transfer_gen_rate_to_device(struct device *cell,struct light *in);

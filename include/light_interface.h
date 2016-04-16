@@ -32,7 +32,6 @@
 	#define EXPORT
 #endif
 
-extern struct dll_interface *fun;
 
 gdouble light_convert_density(struct device *in,gdouble start, gdouble width);
 

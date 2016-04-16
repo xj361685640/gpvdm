@@ -28,6 +28,6 @@
 
 int umfpack_solver(struct simulation *sim, int col, int nz, int *Ti, int *Tj,
 		   long double *lTx, long double *lb);
-void umfpack_solver_free();
+void umfpack_solver_free(struct simulation *sim);
 
 #endif

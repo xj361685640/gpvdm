@@ -24,14 +24,10 @@
 #include <light.h>
 #include <light_interface.h>
 #include <functions.h>
-#include <dll_interface.h>
 #include "log.h"
 
-struct dll_interface *fun;
-
-EXPORT void set_interface(struct dll_interface *in)
+EXPORT void set_interface()
 {
-	fun = in;
 }
 
 EXPORT void light_dll_init(struct simulation *sim)

@@ -20,8 +20,6 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <dll_interface.h>
-#include <solver_interface.h>
 #include <dll_export.h>
 #include <log.h>
 #include <lang.h>
@@ -70,6 +68,5 @@ void run_electrical_dll(struct simulation *sim, struct device *in,
 		exit(0);
 	}
 
-	(*init) (dll_get_interface());
 	(*dll_sim_run) (sim, in);
 }

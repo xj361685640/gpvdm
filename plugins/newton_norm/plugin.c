@@ -19,15 +19,13 @@
 // more details.
 
 #include "newton.h"
-#include <dll_interface.h>
 #include <solver_interface.h>
 #include <dll_export.h>
 
 struct dll_interface *fun;
 
-EXPORT void set_interface(struct dll_interface *in)
+EXPORT void set_interface()
 {
-	fun = in;
 }
 
 EXPORT void dll_newton_set_min_ittr(int ittr)

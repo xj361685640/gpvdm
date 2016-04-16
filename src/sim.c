@@ -28,5 +28,13 @@ void sim_init(struct simulation *sim)
 	sim->converge = NULL;
 	sim->tconverge = NULL;
 	sim->log_level = -1;
+	sim->last_col = 0;
+	sim->last_nz = 0;
+	sim->x = NULL;
+	sim->Ap = NULL;
+	sim->Ai = NULL;
+	sim->Ax = NULL;
+	sim->b = NULL;
+	sim->Tx = NULL;
 
 }

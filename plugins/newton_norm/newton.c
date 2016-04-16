@@ -28,6 +28,9 @@
 #include <util.h>
 #include <dump.h>
 #include <cal_path.h>
+#include <dos.h>
+#include <sim.h>
+#include <solver_interface.h>
 
 static gdouble Jnl = 0.0;
 static gdouble Jnr = 0.0;
@@ -222,7 +225,7 @@ void update_solver_vars(struct simulation *sim, struct device *in, int clamp)
 
 	}
 
-	(*fun->update_arrays) (sim, in);
+	update_arrays(sim, in);
 
 }
 
@@ -231,7 +234,7 @@ void fill_matrix(struct simulation *sim, struct device *in)
 //gdouble offset= -0.5;
 	int band = 0;
 
-	(*fun->update_arrays) (sim, in);
+	update_arrays(sim, in);
 
 //FILE *file_j =fopen("myj.dat","w");
 //getchar();
@@ -398,12 +401,11 @@ void fill_matrix(struct simulation *sim, struct device *in)
 			tnl = in->Xi[0] / phi0;
 			one = xnl + tnl;
 
-			nl = (*fun->get_n_den) (one * phi0, Tel,
-						in->imat[i]) / n0;
+			nl = get_n_den(one * phi0, Tel, in->imat[i]) / n0;
 			dnl =
-			    (*fun->get_dn_den) (one * phi0, Tel,
-						in->imat[i]) * phi0 / n0;
-			wnl = (*fun->get_n_w) (one * phi0, Tel, in->imat[i]);
+			    get_dn_den(one * phi0, Tel,
+				       in->imat[i]) * phi0 / n0;
+			wnl = get_n_w(one * phi0, Tel, in->imat[i]);
 
 			munl = in->mun[0];
 
@@ -411,12 +413,11 @@ void fill_matrix(struct simulation *sim, struct device *in)
 			tpl = (in->Xi[0] / phi0 + in->Eg[0] / phi0);
 			one = xpl - tpl;
 
-			pl = (*fun->get_p_den) (one * phi0, Thl,
-						in->imat[i]) / n0;
+			pl = get_p_den(one * phi0, Thl, in->imat[i]) / n0;
 			dpl =
-			    (*fun->get_dp_den) (one * phi0, Thl,
-						in->imat[i]) * phi0 / n0;
-			wpl = (*fun->get_p_w) (one * phi0, Thl, in->imat[i]);
+			    get_dp_den(one * phi0, Thl,
+				       in->imat[i]) * phi0 / n0;
+			wpl = get_p_w(one * phi0, Thl, in->imat[i]);
 
 			mupl = in->mup[0];
 
@@ -477,24 +478,22 @@ void fill_matrix(struct simulation *sim, struct device *in)
 
 			one = xnr + tnr;
 
-			nr = (*fun->get_n_den) (one * phi0, Ter,
-						in->imat[i]) / n0;
+			nr = get_n_den(one * phi0, Ter, in->imat[i]) / n0;
 			dnr =
-			    (*fun->get_dn_den) (one * phi0, Ter,
-						in->imat[i]) * phi0 / n0;
-			wnr = (*fun->get_n_w) (one * phi0, Ter, in->imat[i]);
+			    get_dn_den(one * phi0, Ter,
+				       in->imat[i]) * phi0 / n0;
+			wnr = get_n_w(one * phi0, Ter, in->imat[i]);
 
 			xpr = -(in->Vr / phi0 + in->Fi[i] / phi0);
 			tpr = (in->Xi[i] / phi0 + in->Eg[i] / phi0);
 
 			one = xpr - tpr;
 
-			pr = (*fun->get_p_den) (one * phi0, Thr,
-						in->imat[i]) / n0;
+			pr = get_p_den(one * phi0, Thr, in->imat[i]) / n0;
 			dpr =
-			    (*fun->get_dp_den) (one * phi0, Thr,
-						in->imat[i]) * phi0 / n0;
-			wpr = (*fun->get_p_w) (one * phi0, Thr, in->imat[i]);
+			    get_dp_den(one * phi0, Thr,
+				       in->imat[i]) * phi0 / n0;
+			wpr = get_p_w(one * phi0, Thr, in->imat[i]);
 
 			munr = in->mun[i];
 			mupr = in->mup[i];
@@ -1285,8 +1284,7 @@ gdouble get_cur_error(struct simulation *sim, struct device *in)
 	if (isnan(tot)) {
 		printf("%Le %Le %Le %Le %Le %Le %Le %Le %Le\n", phi, n, p, x,
 		       te, th, tl, ttn, ttp);
-		(*fun->dump_matrix) (in->M, in->N, in->Ti, in->Tj, in->Tx,
-				     in->b, "");
+		dump_matrix(in->M, in->N, in->Ti, in->Tj, in->Tx, in->b, "");
 
 		ewe(sim, "nan detected in newton solver\n");
 	}
@@ -1453,8 +1451,7 @@ int dllinternal_solve_cur(struct simulation *sim, struct device *in)
 			break;
 		}
 
-		(*fun->solver) (sim, in->M, in->N, in->Ti, in->Tj, in->Tx,
-				in->b);
+		solver(sim, in->M, in->N, in->Ti, in->Tj, in->Tx, in->b);
 
 		update_solver_vars(sim, in, TRUE);
 		//printf("Going to clamp=%d\n",proper);
@@ -1533,7 +1530,7 @@ int dllinternal_solve_cur(struct simulation *sim, struct device *in)
 	}
 //getchar();
 	if (get_dump_status(sim, dump_newton) == TRUE) {
-		(*fun->dump_1d_slice) (sim, in, get_output_path(sim));
+		dump_1d_slice(sim, in, get_output_path(sim));
 	}
 //plot_now(in,"plot");
 //getchar();

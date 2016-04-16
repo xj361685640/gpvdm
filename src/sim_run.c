@@ -33,7 +33,6 @@
 #include "lang.h"
 #include <plot.h>
 #include "device.h"
-#include <dll_interface.h>
 #include <cal_path.h>
 
 int run_simulation(struct simulation *sim, char *outputpath, char *inputpath)
@@ -45,7 +44,6 @@ int run_simulation(struct simulation *sim, char *outputpath, char *inputpath)
 	device_init(&cell);
 	cell.onlypos = FALSE;
 
-	cell.root_dll_interface = dll_get_interface();
 	cal_path(sim);
 
 	dump_init(sim, &cell);

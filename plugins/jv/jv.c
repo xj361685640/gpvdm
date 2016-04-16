@@ -31,7 +31,6 @@
 #include <log.h>
 #include <lang.h>
 #include <remesh.h>
-#include <dll_interface.h>
 #include <plot.h>
 #include <cal_path.h>
 
@@ -96,7 +95,7 @@ in->Vapplied=config.Vstart;
 
 sim_externalv(in,in->Vapplied);
 */
-	(*fun->remesh_reset) (in, in->Vapplied);
+	remesh_reset(in, in->Vapplied);
 //if (in->remesh==TRUE)
 //{
 //      
@@ -105,11 +104,11 @@ sim_externalv(in,in->Vapplied);
 	light_set_sun(&(in->mylight), sun_orig * config.jv_light_efficiency);
 	light_solve_and_update(sim, in, &(in->mylight), 0.0);
 
-	(*fun->newton_set_min_ittr) (30);
+	newton_set_min_ittr(30);
 	in->Vapplied = config.Vstart;
 	V = in->Vapplied;
 	newton_sim_jv(sim, in);
-	(*fun->newton_set_min_ittr) (0);
+	newton_set_min_ittr(0);
 
 //gdouble k_voc=0.0;
 	gdouble n_voc = 0.0;

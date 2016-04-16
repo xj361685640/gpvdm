@@ -22,7 +22,6 @@
 #include <sim.h>
 #include <exp.h>
 #include "fxdomain.h"
-#include <dll_interface.h>
 
 void newton_aux_fxdomain_voc(struct device *in, gdouble V, gdouble * i,
 			     gdouble * didv, gdouble * didphi, gdouble * didxil,
@@ -53,12 +52,12 @@ gdouble fxdomain_newton_sim_voc(struct simulation * sim, struct device * in)
 	gdouble deriv;
 	gdouble Rdrain = fxdomain_config.fxdomain_Rload + in->Rcontact;
 
-	(*fun->solve_all) (sim, in);
+	solve_all(sim, in);
 	i0 = get_I(in);
 	e0 = fabs(i0 + in->Vapplied * (1.0 / in->Rshunt - 1.0 / Rdrain));
 
 	in->Vapplied += step;
-	(*fun->solve_all) (sim, in);
+	solve_all(sim, in);
 	i1 = get_I(in);
 	e1 = fabs(i1 + in->Vapplied * (1.0 / in->Rshunt - 1.0 / Rdrain));
 
@@ -72,7 +71,7 @@ gdouble fxdomain_newton_sim_voc(struct simulation * sim, struct device * in)
 	int max = 200;
 	do {
 		e0 = e1;
-		(*fun->solve_all) (sim, in);
+		solve_all(sim, in);
 		i1 = get_I(in);
 		e1 = fabs(i1 +
 			  in->Vapplied * (1.0 / in->Rshunt - 1.0 / Rdrain));

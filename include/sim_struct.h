@@ -40,6 +40,15 @@ struct simulation
 	char input_path[400];
 	char output_path[400];
 	char share_path[400];
+	//Matrix solver
+	int last_col;
+	int last_nz;
+	double *x;
+	int *Ap;
+	int *Ai;
+	double *Ax;
+	double *b;
+	double *Tx;
 };
 
 #endif

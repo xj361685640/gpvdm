@@ -1,4 +1,4 @@
-OBJS= solver_interface.o sim_find_n0.o sim_run.o newton_update.o pos.o initial.o config.o memory.o anal.o ntricks.o ntricks_externalv.o complex_solver.o thermal.o mesh.o newton_interface.o dll_interface.o remesh.o run_electrical_dll.o sim.o
+OBJS= solver_interface.o sim_find_n0.o sim_run.o newton_update.o pos.o initial.o config.o memory.o anal.o ntricks.o ntricks_externalv.o complex_solver.o thermal.o mesh.o newton_interface.o remesh.o run_electrical_dll.o sim.o
 
 AROPT=
 

@@ -33,7 +33,6 @@
 #include "cal_path.h"
 #include "lang.h"
 #include <log.h>
-#include "dll_interface.h"
 
 static int unused __attribute__ ((unused));
 static void (*dll_matrix_solve) ();
@@ -87,7 +86,6 @@ void solver_init(struct simulation *sim, char *solver_name)
 		exit(0);
 	}
 
-	(*dll_set_interface) (dll_get_interface());
 }
 
 void solver(struct simulation *sim, int col, int nz, int *Ti, int *Tj,
@@ -102,9 +100,9 @@ void dump_matrix(int col, int nz, int *Ti, int *Tj, long double *Tx,
 	(*dll_matrix_dump) (col, nz, Ti, Tj, Tx, b, index);
 }
 
-void solver_free()
+void solver_free(struct simulation *sim)
 {
-	(*dll_matrix_solver_free) ();
+	(*dll_matrix_solver_free) (sim);
 }
 
 void solver_interface_free()

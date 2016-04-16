@@ -30,7 +30,6 @@
 #include "cal_path.h"
 #include "lang.h"
 #include "log.h"
-#include "dll_interface.h"
 #include "sim.h"
 
 static int unused __attribute__ ((unused));

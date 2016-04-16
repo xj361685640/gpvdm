@@ -23,15 +23,6 @@
 #include <umfpack.h>
 #include <util.h>
 
-static int last_col = 0;
-static int last_nz = 0;
-static double *x = NULL;
-static int *Ap = NULL;
-static int *Ai = NULL;
-static double *Ax = NULL;
-static double *b = NULL;
-static double *Tx = NULL;
-
 void error_report(int status, const char *file, const char *func, int line)
 {
 	fprintf(stderr, "in %s: file %s, line %d: ", func, file, line);
@@ -57,59 +48,59 @@ int umfpack_solver(struct simulation *sim, int col, int nz, int *Ti, int *Tj,
 	double *dtemp;
 	int *itemp;
 
-	if ((last_col != col) || (last_nz != nz)) {
-		dtemp = realloc(x, col * sizeof(double));
+	if ((sim->last_col != col) || (sim->last_nz != nz)) {
+		dtemp = realloc(sim->x, col * sizeof(double));
 		if (dtemp == NULL) {
 			ewe(sim, "realloc failed\n");
 		} else {
-			x = dtemp;
+			sim->x = dtemp;
 		}
 
-		dtemp = realloc(b, col * sizeof(double));
+		dtemp = realloc(sim->b, col * sizeof(double));
 		if (dtemp == NULL) {
 			ewe(sim, "realloc failed\n");
 		} else {
-			b = dtemp;
+			sim->b = dtemp;
 		}
 
-		itemp = realloc(Ap, (col + 1) * sizeof(int));
+		itemp = realloc(sim->Ap, (col + 1) * sizeof(int));
 		if (itemp == NULL) {
 			ewe(sim, "realloc failed\n");
 		} else {
-			Ap = itemp;
+			sim->Ap = itemp;
 		}
 
-		itemp = realloc(Ai, (nz) * sizeof(int));
+		itemp = realloc(sim->Ai, (nz) * sizeof(int));
 		if (itemp == NULL) {
 			ewe(sim, "realloc failed\n");
 		} else {
-			Ai = itemp;
+			sim->Ai = itemp;
 		}
 
-		dtemp = realloc(Ax, (nz) * sizeof(double));
+		dtemp = realloc(sim->Ax, (nz) * sizeof(double));
 		if (dtemp == NULL) {
 			ewe(sim, "realloc failed\n");
 		} else {
-			Ax = dtemp;
+			sim->Ax = dtemp;
 		}
 
-		dtemp = realloc(Tx, (nz) * sizeof(double));
+		dtemp = realloc(sim->Tx, (nz) * sizeof(double));
 		if (dtemp == NULL) {
 			ewe(sim, "realloc failed\n");
 		} else {
-			Tx = dtemp;
+			sim->Tx = dtemp;
 		}
 
-		last_col = col;
-		last_nz = nz;
+		sim->last_col = col;
+		sim->last_nz = nz;
 	}
 
 	for (i = 0; i < col; i++) {
-		b[i] = (double)lb[i];
+		sim->b[i] = (double)lb[i];
 	}
 
 	for (i = 0; i < nz; i++) {
-		Tx[i] = (double)lTx[i];
+		sim->Tx[i] = (double)lTx[i];
 	}
 
 	double Control[UMFPACK_CONTROL], Info[UMFPACK_INFO];
@@ -123,8 +114,8 @@ int umfpack_solver(struct simulation *sim, int col, int nz, int *Ti, int *Tj,
 //Control[UMFPACK_SINGLETONS]=1;
 //Control[UMFPACK_SCALE]=3;
 	status =
-	    umfpack_di_triplet_to_col(col, col, nz, Ti, Tj, Tx, Ap, Ai, Ax,
-				      NULL);
+	    umfpack_di_triplet_to_col(col, col, nz, Ti, Tj, sim->Tx, sim->Ap,
+				      sim->Ai, sim->Ax, NULL);
 //printf("rod1\n");
 //getchar();
 
@@ -135,7 +126,8 @@ int umfpack_solver(struct simulation *sim, int col, int nz, int *Ti, int *Tj,
 // symbolic analysis
 //printf("here2 %d\n",col);
 	status =
-	    umfpack_di_symbolic(col, col, Ap, Ai, Ax, &Symbolic, Control, Info);
+	    umfpack_di_symbolic(col, col, sim->Ap, sim->Ai, sim->Ax, &Symbolic,
+				Control, Info);
 //printf("rod2\n");
 //getchar();
 
@@ -146,7 +138,8 @@ int umfpack_solver(struct simulation *sim, int col, int nz, int *Ti, int *Tj,
 		return EXIT_FAILURE;
 	}
 // LU factorization
-	umfpack_di_numeric(Ap, Ai, Ax, Symbolic, &Numeric, Control, Info);
+	umfpack_di_numeric(sim->Ap, sim->Ai, sim->Ax, Symbolic, &Numeric,
+			   Control, Info);
 //printf("rod5\n");
 //getchar();
 
@@ -160,7 +153,8 @@ int umfpack_solver(struct simulation *sim, int col, int nz, int *Ti, int *Tj,
 //printf("rod a\n");
 //getchar();
 
-	umfpack_di_solve(UMFPACK_A, Ap, Ai, Ax, x, b, Numeric, Control, Info);
+	umfpack_di_solve(UMFPACK_A, sim->Ap, sim->Ai, sim->Ax, sim->x, sim->b,
+			 Numeric, Control, Info);
 
 //printf("rod b\n");
 //getchar();
@@ -177,7 +171,7 @@ int umfpack_solver(struct simulation *sim, int col, int nz, int *Ti, int *Tj,
 //getchar();
 
 	for (i = 0; i < col; i++) {
-		lb[i] = (long double)x[i];
+		lb[i] = (long double)sim->x[i];
 	}
 
 //memcpy(b, x, col*sizeof(double));
@@ -186,16 +180,16 @@ int umfpack_solver(struct simulation *sim, int col, int nz, int *Ti, int *Tj,
 	return 0;
 }
 
-void umfpack_solver_free()
+void umfpack_solver_free(struct simulation *sim)
 {
-	free(x);
-	free(Ap);
-	free(Ai);
-	free(Ax);
-	x = NULL;
-	Ap = NULL;
-	Ai = NULL;
-	Ax = NULL;
-	last_col = 0;
-	last_nz = 0;
+	free(sim->x);
+	free(sim->Ap);
+	free(sim->Ai);
+	free(sim->Ax);
+	sim->x = NULL;
+	sim->Ap = NULL;
+	sim->Ai = NULL;
+	sim->Ax = NULL;
+	sim->last_col = 0;
+	sim->last_nz = 0;
 }

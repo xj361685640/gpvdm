@@ -18,7 +18,6 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
-#include <dll_interface.h>
 #include <solver_interface.h>
 #include <dll_export.h>
 #include <log.h>
@@ -27,9 +26,8 @@
 
 struct dll_interface *fun;
 
-EXPORT void set_interface(struct dll_interface *in)
+EXPORT void set_interface()
 {
-	fun = in;
 }
 
 EXPORT void dll_run_simulation(struct simulation *sim, struct device *in)

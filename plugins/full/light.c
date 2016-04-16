@@ -30,7 +30,6 @@
 #include <light_interface.h>
 
 #include <functions.h>
-#include <dll_interface.h>
 
 //static gdouble min_light_error=1e-10;
 
@@ -217,8 +216,8 @@ EXPORT int light_dll_solve_lam_slice(struct simulation *sim, struct light *in,
 			exit(0);
 		}
 
-		(*fun->complex_solver) (sim, in->M, in->N, in->Ti, in->Tj,
-					in->Tx, in->Txz, in->b, in->bz);
+		complex_solver(sim, in->M, in->N, in->Ti, in->Tj, in->Tx,
+			       in->Txz, in->b, in->bz);
 
 		for (i = 0; i < in->points; i++) {
 			gdouble update;

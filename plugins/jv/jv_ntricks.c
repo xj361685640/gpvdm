@@ -30,14 +30,13 @@
 #include <log.h>
 #include <lang.h>
 #include <remesh.h>
-#include <dll_interface.h>
 
 static int unused __attribute__ ((unused));
 
 void newton_sim_jv(struct simulation *sim, struct device *in)
 {
 	in->kl_in_newton = FALSE;
-	(*fun->solver_realloc) (sim, in);
+	solver_realloc(sim, in);
 
-	(*fun->solve_all) (sim, in);
+	solve_all(sim, in);
 }

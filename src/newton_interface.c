@@ -34,7 +34,6 @@
 #include "cal_path.h"
 #include "lang.h"
 #include "log.h"
-#include "dll_interface.h"
 #include "newton_interface.h"
 
 static int unused __attribute__ ((unused));
@@ -98,7 +97,6 @@ void newton_init(struct simulation *sim, char *solver_name)
 
 	(*dll_newton_set_min_ittr) (0);
 
-	(*dll_set_interface) (dll_get_interface());
 }
 
 int solve_cur(struct simulation *sim, struct device *in)

@@ -33,17 +33,18 @@
 	#define EXPORT
 #endif
 
-#include "dll_interface.h"
 #include <sim_struct.h>
+#include <light.h>
+#include <device.h>
 
 extern struct dll_interface *fun;
 
-EXPORT void set_interface(struct dll_interface *in);
+EXPORT void set_interface();
 
 //Matrix solver
 EXPORT void dll_matrix_solve(struct simulation *sim,int col,int nz,int *Ti,int *Tj, long double *Tx,long double *b);
 EXPORT void dll_matrix_dump(int col,int nz,int *Ti,int *Tj, long double *Tx,long double *b,char *index);
-EXPORT void dll_matrix_solver_free();
+EXPORT void dll_matrix_solver_free(struct simulation *sim);
 
 //Light
 EXPORT void light_dll_init(struct simulation *sim);

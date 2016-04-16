@@ -32,7 +32,6 @@
 #include <fx.h>
 #include <fit_sin.h>
 #include <log.h>
-#include <dll_interface.h>
 #include <cal_path.h>
 
 static int unused __attribute__ ((unused));
@@ -83,7 +82,7 @@ void sim_fxdomain(struct simulation *sim, struct device *in)
 
 	int number = strextract_int(config_file_name);
 
-	(*fun->ntricks_externv_set_load) (fxdomain_config.fxdomain_Rload);
+	ntricks_externv_set_load(fxdomain_config.fxdomain_Rload);
 	fx_load_mesh(sim, in, number);
 	gdouble fx = 0.0;
 	gdouble i0 = 0;
@@ -121,8 +120,8 @@ void sim_fxdomain(struct simulation *sim, struct device *in)
 		step = 0;
 
 		if (fxdomain_config.fxdomain_sim_mode == fxdomain_load) {
-			(*fun->sim_externalv) (sim, in, V);
-			(*fun->ntricks_externv_newton) (sim, in, V, FALSE);
+			sim_externalv(sim, in, V);
+			ntricks_externv_newton(sim, in, V, FALSE);
 		} else
 		    if (fxdomain_config.fxdomain_sim_mode ==
 			fxdomain_open_circuit) {
@@ -166,10 +165,10 @@ void sim_fxdomain(struct simulation *sim, struct device *in)
 			light_solve_and_update(sim, in, &(in->mylight), 0.0);
 
 			if (fxdomain_config.fxdomain_sim_mode == fxdomain_load) {
-				i0 = (*fun->ntricks_externv_newton) (sim, in, V,
-								     TRUE);
-			} else if (fxdomain_config.fxdomain_sim_mode ==
-				   fxdomain_open_circuit) {
+				i0 = ntricks_externv_newton(sim, in, V, TRUE);
+			} else
+			    if (fxdomain_config.fxdomain_sim_mode ==
+				fxdomain_open_circuit) {
 				V = in->Vapplied;
 				i0 = fxdomain_newton_sim_voc_fast(sim, in,
 								  TRUE);

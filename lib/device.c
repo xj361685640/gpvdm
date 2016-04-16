@@ -26,7 +26,6 @@
 #include <stdio.h>
 #include <device.h>
 #include <string.h>
-#include <dll_interface.h>
 #include <dump.h>
 
 static int unused __attribute__ ((unused));
@@ -322,7 +321,5 @@ void device_init(struct device *in)
 	in->phi_mul = -1.0;
 
 	in->root_dll_interface = NULL;
-
-	dll_interface_fixup(in);
 
 }

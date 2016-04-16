@@ -24,7 +24,7 @@
 void solver_init(struct simulation *sim,char *solver_name);
 void solver(struct simulation *sim,int col,int nz,int *Ti,int *Tj, long double *Tx,long double *b);
 void dump_matrix(int col,int nz,int *Ti,int *Tj, long double *Tx,long double *b,char *index);
-void solver_free();
+void solver_free(struct simulation *sim);
 void solver_interface_free();
 
 #endif

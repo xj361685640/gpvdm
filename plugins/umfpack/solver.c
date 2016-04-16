@@ -43,7 +43,7 @@ EXPORT void dll_matrix_dump(int col, int nz, int *Ti, int *Tj, long double *Tx,
 	printf("hello\n");
 }
 
-EXPORT void dll_matrix_solver_free()
+EXPORT void dll_matrix_solver_free(struct simulation *sim)
 {
-	umfpack_solver_free();
+	umfpack_solver_free(sim);
 }

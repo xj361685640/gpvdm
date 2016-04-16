@@ -31,7 +31,6 @@
 #include <lang.h>
 #include <log.h>
 #include <plot.h>
-#include <dll_interface.h>
 #include <cal_path.h>
 
 static int unused __attribute__ ((unused));
@@ -71,7 +70,7 @@ void sim_pulse(struct simulation *sim, struct device *in)
 
 	pulse_load_config(sim, &pulse_config, in, config_file_name);
 	int number = strextract_int(config_file_name);
-	(*fun->ntricks_externv_set_load) (pulse_config.pulse_Rload);
+	ntricks_externv_set_load(pulse_config.pulse_Rload);
 
 	in->go_time = FALSE;
 
@@ -95,9 +94,8 @@ void sim_pulse(struct simulation *sim, struct device *in)
 	gdouble V = 0.0;
 
 	if (pulse_config.pulse_sim_mode == pulse_load) {
-		(*fun->sim_externalv) (sim, in, time_get_voltage());
-		(*fun->ntricks_externv_newton) (sim, in, time_get_voltage(),
-						FALSE);
+		sim_externalv(sim, in, time_get_voltage());
+		ntricks_externv_newton(sim, in, time_get_voltage(), FALSE);
 	} else if (pulse_config.pulse_sim_mode == pulse_open_circuit) {
 		in->Vapplied = in->Vbi;
 		pulse_newton_sim_voc(sim, in);
@@ -122,7 +120,7 @@ void sim_pulse(struct simulation *sim, struct device *in)
 
 		if (pulse_config.pulse_sim_mode == pulse_load) {
 			V = time_get_voltage();
-			i0 = (*fun->ntricks_externv_newton) (sim, in, V, TRUE);
+			i0 = ntricks_externv_newton(sim, in, V, TRUE);
 		} else if (pulse_config.pulse_sim_mode == pulse_open_circuit) {
 			V = in->Vapplied;
 			pulse_newton_sim_voc_fast(sim, in, TRUE);

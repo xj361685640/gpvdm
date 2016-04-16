@@ -43,7 +43,6 @@
 #include <patch.h>
 #include <cal_path.h>
 #include <lang.h>
-#include <dll_interface.h>
 #include <log.h>
 #include <device.h>
 #include <fit.h>
