@@ -33,7 +33,7 @@ clean-local:
 	rm *.dat *.o ./plugins/*.so ./plugins/*.dll *.log *.a  *.lib *.exe -f
 	rm autom4te.cache -rf 
 
-gpvdm_core:
+gpvdm_core$(EXEEXT):
 	@printf ""
 
 #ln -s -f $(datadir)/gpvdm/gui/gpvdm.py $(DESTDIR)$(bindir)/gpvdm

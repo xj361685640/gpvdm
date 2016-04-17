@@ -116,7 +116,7 @@ class gpvdm_notebook(gtk.Notebook):
 					inp_update_token_value("gui_config.inp", "#"+child.file_name, str(int(child.visible)),1)
 
 	def add_to_menu(self,name,visible):
-		print _("/View/")+name
+		#print _("/View/")+name
 		a = (( _("/View/")+name,  None, self.callback_view_toggle, 0, "<ToggleItem>" ),   )
 		self.item_factory.create_items( a, )
 		path=_("/View/")+name
@@ -231,7 +231,6 @@ class gpvdm_notebook(gtk.Notebook):
 						button = gtk.Button()
 						close_image = gtk.Image()
 						close_image.set_from_file(os.path.join(get_image_file_path(),"close.png"))
-						print os.path.join(get_image_file_path(),"close.png")
 						close_image.show()
 						button = gtk.Button()
 						button.add(close_image)

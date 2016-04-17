@@ -119,6 +119,7 @@ class help_class(gtk.Window):
 
 		pos=0
 		image = gtk.Image()
+		print get_image_file_path()
    		image.set_from_file(os.path.join(get_image_file_path(),"qe.png"))
 
 		self.back = gtk.ToolButton(gtk.STOCK_GO_BACK)

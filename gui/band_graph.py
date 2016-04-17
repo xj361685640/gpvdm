@@ -45,7 +45,6 @@ from plot_state import plot_state
 #from plot_io import plot_load_info
 #from progress import progress_class
 #from cal_path import get_materials_path
-#from cal_path import get_light_dll_path
 #from cal_path import get_exe_command
 from inp import inp_load_file
 from epitaxy import epitaxy_get_layers

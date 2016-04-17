@@ -31,13 +31,13 @@ import os
 #import urllib2
 import socket 
 from socket import setdefaulttimeout
-#from socket import socket
-#from socket import error
+from socket import socket
+from socket import error
 from socket import AF_INET
 from socket import SOCK_STREAM
 from socket import SOL_SOCKET
 from socket import SO_REUSEADDR
-#from socket import getdefaulttimeout
+from socket import getdefaulttimeout
 import urlparse
 import re
 #import os

@@ -51,7 +51,7 @@ void solver_init(struct simulation *sim, char *solver_name)
 
 	sim->dll_matrix_handle = dlopen(lib_path, RTLD_LAZY);
 
-	if (!cv) {
+	if (!sim->dll_matrix_handle) {
 		fprintf(stderr, "%s\n", dlerror());
 		exit(0);
 	}

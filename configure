@@ -5796,7 +5796,7 @@ fi
 #i?86
 #x86_64
 
-BUILD_DIRS=" lang lib libdos liblight libmeasure libdump libserver libmesh libfit plugins/flat plugins/jv_simple plugins/jv_one_point plugins/umfpack plugins/qe plugins/pulse plugins/nr_d plugins/nr_ld plugins/fxdomain plugins/jv plugins/full plugins/optics plugins/newton_norm plugins/exp plugins/sun_voc plugins/newton plugins/li exp/stark500 src images man "
+BUILD_DIRS=" lang lib libdos liblight libmeasure libdump libserver libmesh libfit plugins/optics plugins/newton plugins/nr_d plugins/pulse plugins/fxdomain plugins/light_flat plugins/li plugins/light_full plugins/nr_ld plugins/jv plugins/light_exp plugins/qe plugins/umfpack plugins/jv_one_point plugins/jv_simple plugins/sun_voc plugins/newton_norm exp/stark500 src images man "
 
 LOCAL_LINK=" -lgpvdm_lib -lgpvdm_dos -lgpvdm_light -lgpvdm_measure -lgpvdm_dump -lgpvdm_server -lgpvdm_mesh -lgpvdm_fit"
 
@@ -5916,39 +5916,39 @@ ac_config_files="$ac_config_files libmesh/Makefile"
 
 ac_config_files="$ac_config_files libfit/Makefile"
 
-ac_config_files="$ac_config_files plugins/flat/Makefile"
-
-ac_config_files="$ac_config_files plugins/jv_simple/Makefile"
-
-ac_config_files="$ac_config_files plugins/jv_one_point/Makefile"
-
-ac_config_files="$ac_config_files plugins/umfpack/Makefile"
-
-ac_config_files="$ac_config_files plugins/qe/Makefile"
-
-ac_config_files="$ac_config_files plugins/pulse/Makefile"
-
-ac_config_files="$ac_config_files plugins/nr_d/Makefile"
-
-ac_config_files="$ac_config_files plugins/nr_ld/Makefile"
-
-ac_config_files="$ac_config_files plugins/fxdomain/Makefile"
-
-ac_config_files="$ac_config_files plugins/jv/Makefile"
-
-ac_config_files="$ac_config_files plugins/full/Makefile"
-
 ac_config_files="$ac_config_files plugins/optics/Makefile"
-
-ac_config_files="$ac_config_files plugins/newton_norm/Makefile"
-
-ac_config_files="$ac_config_files plugins/exp/Makefile"
-
-ac_config_files="$ac_config_files plugins/sun_voc/Makefile"
 
 ac_config_files="$ac_config_files plugins/newton/Makefile"
 
+ac_config_files="$ac_config_files plugins/nr_d/Makefile"
+
+ac_config_files="$ac_config_files plugins/pulse/Makefile"
+
+ac_config_files="$ac_config_files plugins/fxdomain/Makefile"
+
+ac_config_files="$ac_config_files plugins/light_flat/Makefile"
+
 ac_config_files="$ac_config_files plugins/li/Makefile"
+
+ac_config_files="$ac_config_files plugins/light_full/Makefile"
+
+ac_config_files="$ac_config_files plugins/nr_ld/Makefile"
+
+ac_config_files="$ac_config_files plugins/jv/Makefile"
+
+ac_config_files="$ac_config_files plugins/light_exp/Makefile"
+
+ac_config_files="$ac_config_files plugins/qe/Makefile"
+
+ac_config_files="$ac_config_files plugins/umfpack/Makefile"
+
+ac_config_files="$ac_config_files plugins/jv_one_point/Makefile"
+
+ac_config_files="$ac_config_files plugins/jv_simple/Makefile"
+
+ac_config_files="$ac_config_files plugins/sun_voc/Makefile"
+
+ac_config_files="$ac_config_files plugins/newton_norm/Makefile"
 
 ac_config_files="$ac_config_files exp/stark500/Makefile"
 
@@ -6712,23 +6712,23 @@ do
     "libserver/Makefile") CONFIG_FILES="$CONFIG_FILES libserver/Makefile" ;;
     "libmesh/Makefile") CONFIG_FILES="$CONFIG_FILES libmesh/Makefile" ;;
     "libfit/Makefile") CONFIG_FILES="$CONFIG_FILES libfit/Makefile" ;;
-    "plugins/flat/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/flat/Makefile" ;;
-    "plugins/jv_simple/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/jv_simple/Makefile" ;;
-    "plugins/jv_one_point/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/jv_one_point/Makefile" ;;
-    "plugins/umfpack/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/umfpack/Makefile" ;;
-    "plugins/qe/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/qe/Makefile" ;;
-    "plugins/pulse/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/pulse/Makefile" ;;
-    "plugins/nr_d/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/nr_d/Makefile" ;;
-    "plugins/nr_ld/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/nr_ld/Makefile" ;;
-    "plugins/fxdomain/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/fxdomain/Makefile" ;;
-    "plugins/jv/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/jv/Makefile" ;;
-    "plugins/full/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/full/Makefile" ;;
     "plugins/optics/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/optics/Makefile" ;;
-    "plugins/newton_norm/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/newton_norm/Makefile" ;;
-    "plugins/exp/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/exp/Makefile" ;;
-    "plugins/sun_voc/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/sun_voc/Makefile" ;;
     "plugins/newton/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/newton/Makefile" ;;
+    "plugins/nr_d/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/nr_d/Makefile" ;;
+    "plugins/pulse/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/pulse/Makefile" ;;
+    "plugins/fxdomain/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/fxdomain/Makefile" ;;
+    "plugins/light_flat/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/light_flat/Makefile" ;;
     "plugins/li/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/li/Makefile" ;;
+    "plugins/light_full/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/light_full/Makefile" ;;
+    "plugins/nr_ld/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/nr_ld/Makefile" ;;
+    "plugins/jv/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/jv/Makefile" ;;
+    "plugins/light_exp/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/light_exp/Makefile" ;;
+    "plugins/qe/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/qe/Makefile" ;;
+    "plugins/umfpack/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/umfpack/Makefile" ;;
+    "plugins/jv_one_point/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/jv_one_point/Makefile" ;;
+    "plugins/jv_simple/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/jv_simple/Makefile" ;;
+    "plugins/sun_voc/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/sun_voc/Makefile" ;;
+    "plugins/newton_norm/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/newton_norm/Makefile" ;;
     "exp/stark500/Makefile") CONFIG_FILES="$CONFIG_FILES exp/stark500/Makefile" ;;
     "src/Makefile") CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
     "images/Makefile") CONFIG_FILES="$CONFIG_FILES images/Makefile" ;;

@@ -45,7 +45,7 @@ from plot_widget import plot_widget
 import webbrowser
 from progress import progress_class
 from cal_path import get_materials_path
-from cal_path import get_light_dll_path
+from cal_path import get_plugins_path
 from cal_path import get_exe_command
 #from inp import inp_load_file
 #from epitaxy import epitaxy_get_layers
@@ -84,11 +84,13 @@ def find_modes(path):
 
 def find_models():
 	ret=[]
-	path=get_light_dll_path()
+	path=get_plugins_path()
 	
 	for file in glob.glob(os.path.join(path,"*")):
-		if file.endswith(".dll") or file.endswith(".so"):
-			ret.append(os.path.splitext(os.path.basename(file))[0])
+		file_name=os.path.basename(file)
+		if file_name.startswith("light_"):
+			if file_name.endswith(".dll") or file_name.endswith(".so"):
+				ret.append(os.path.splitext(os.path.basename(file_name[6:]))[0])
 
 	return ret
 

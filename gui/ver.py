@@ -20,7 +20,7 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 import os
-from cal_path import find_data_file
+from cal_path import get_inp_file_path
 from cal_path import get_share_path
 from cal_path import get_bin_path
 from inp import inp_load_file
@@ -67,17 +67,19 @@ def ver_load_info():
 	mat=""
 	ver_error=""
 
-	if inp_load_file(lines,find_data_file("ver.inp"))==True:
+	ver_file_path=os.path.join(get_inp_file_path(),"ver.inp")
+
+	if inp_load_file(lines,ver_file_path)==True:
 		core=lines[1]
 		gui=lines[3]
 		mat=lines[5]
 		return True
 	else:
-		ver_error="I can not find the file sim.gpvdm/ver.inp.\n\nI have tried looking in "+find_data_file("ver.inp")+"\n\nThe share path is"+get_share_path()+"\n\nThe bin path is"+get_bin_path()+"\n\nThe current working dir is "+os.getcwd()+"\n\nTry reinstalling a new version of gpvdm and/or report the bug to me at  roderick.mackenzie@nottingham.ac.uk."
+		ver_error="I can not find the file sim.gpvdm/ver.inp.\n\nI have tried looking in "+ver_file_path+"\n\nThe share path is"+get_share_path()+"\n\nThe bin path is"+get_bin_path()+"\n\nThe current working dir is "+os.getcwd()+"\n\nTry reinstalling a new version of gpvdm and/or report the bug to me at  roderick.mackenzie@nottingham.ac.uk."
 		return False
 
 def ver_sync_ver():
-	file_name="version.h"
+	file_name=os.path.join(os.getcwd(),"include","version.h")
 	found=False
 
 	if os.path.isfile(file_name)==True:
@@ -91,6 +93,7 @@ def ver_sync_ver():
 				found=True
 
 	if found==True:
+		print "seting ver to: ",text
 		inp_update("ver.inp","#core",text)
 	else:
 		print _("version.h not found")

@@ -26,10 +26,10 @@ import gtk
 #import sys
 #import math
 import gobject
-from cal_path import find_data_file
 from inp import inp_update_token_value
 from inp import inp_get_token_value
 from inp import inp_load_file
+from cal_path import get_inp_file_path
 
 class tb_pulse_load_type(gtk.ToolItem):
 
@@ -39,7 +39,7 @@ class tb_pulse_load_type(gtk.ToolItem):
 		self.sim_mode.set_size_request(-1, 20)
 
 		lines=[]
-		inp_load_file(lines,find_data_file("pulse"+str(self.index)+".inp"))
+		inp_load_file(lines,os.path.join(get_inp_file_path(),"pulse"+str(self.index)+".inp"))
 
 		self.sim_mode.append_text("open_circuit")
 		self.sim_mode.append_text("load")

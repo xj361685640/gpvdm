@@ -28,13 +28,14 @@ if running_on_linux()==False:
 	import _winreg
 
 materials_path=None
-light_dll_path=None
+plugins_path=None
 exe_command=None
 share_path=None
 device_lib_path=None
 bin_path=None
 lib_path=None
-
+image_path=None
+lang_path=None
 
 def remove_cwdfrompath(path):
 	tmp=path
@@ -54,99 +55,79 @@ def join_path(one,two):
 
 def cal_share_path():
 	global share_path
-	if running_on_linux()==True:
-		if os.path.isfile("configure.ac")==True:
-			share_path=os.getcwd()
-		else:
-			share_path="/usr/share/gpvdm/"
-	else:
+
+	if os.path.isfile("configure.ac"):
+		share_path=os.getcwd()
+		return
+
+	if os.path.isfile("ver.py"):
+		share_path=os.path.abspath(os.path.join(os.getcwd(), os.pardir))
+		return
+
+	if running_on_linux()==False:
 		try:
 			registry_key = _winreg.OpenKey(_winreg.HKEY_CURRENT_USER, "Software\\gpvdm", 0, _winreg.KEY_READ)
 			value, regtype = _winreg.QueryValueEx(registry_key, "installpath")
 			_winreg.CloseKey(registry_key)
-			print "Install path at", value
 			share_path=value
 		except WindowsError:
-			print "No registry key found using default"
 			share_path="c:\\gpvdm"
-
-def cal_lib_path():
-	global lib_path
-	if running_on_linux()==True:
-		if os.path.isfile("configure.ac")==True:
-			lib_path=os.getcwd()
-		elif os.path.isdir("/usr/lib64/gpvdm")==True:
-			lib_path="/usr/lib64/gpvdm/"
-		elif os.path.isdir("/usr/lib/gpvdm/")==True:
-			lib_path="/usr/lib/gpvdm/"
-		else:
-			print "I don't know where the shared files are"
-			sys.exit(0)
+			print "No registry key found using default",share_path
 	else:
-		try:
-			registry_key = _winreg.OpenKey(_winreg.HKEY_CURRENT_USER, "Software\\gpvdm", 0, _winreg.KEY_READ)
-			value, regtype = _winreg.QueryValueEx(registry_key, "installpath")
-			_winreg.CloseKey(registry_key)
-			print "Lib path at", value
-			lib_path=value
-		except WindowsError:
-			print "No registry key found using default"
-			lib_path="c:\\gpvdm"
+		if os.path.isdir("/usr/lib64/gpvdm"):
+			share_path="/usr/lib64/gpvdm/"
+		elif os.path.isdir("/usr/lib/gpvdm"):
+			share_path="/usr/lib/gpvdm/"
+		else:
+			share_path="/usr/lib64/gpvdm/"
+			print "I don't know where the shared files are assuming ",share_path
+
+def search_known_paths(file_or_dir_to_find,ext):
+	global share_path
+	global bin_path
+	#check cwd
+	paths=[]
+	for ex in ext:
+		paths.append(os.path.join(os.getcwd(),file_or_dir_to_find)+ex)
+		paths.append(os.path.join(os.path.abspath(os.path.join(os.getcwd(), os.pardir)),file_or_dir_to_find)+ex)
+		paths.append(os.path.join(share_path,file_or_dir_to_find)+ex)
+		paths.append(os.path.join(bin_path,file_or_dir_to_find)+ex)
+
+	for item in paths:
+		if os.path.isdir(item) or os.path.isfile(item):
+			print "found",item
+			return item
+
+	print "Can't find",file_or_dir_to_find, "setting it to",paths[0]
+	return paths[2]
 
 def cal_bin_path():
 	global bin_path
 	if running_on_linux()==True:
 			bin_path="/bin/"
 	else:
-		try:
-			registry_key = _winreg.OpenKey(_winreg.HKEY_CURRENT_USER, "Software\\gpvdm", 0, _winreg.KEY_READ)
-			value, regtype = _winreg.QueryValueEx(registry_key, "installpath")
-			_winreg.CloseKey(registry_key)
-			print "Lib path at", value
-			bin_path=value
-		except WindowsError:
-			print "No registry key found using default"
-			bin_path="c:\\gpvdm"
+			bin_path=share_path
 
-def calculate_material_path():
-	global lib_path
-	global materials_path
 
-	path=os.path.join(os.getcwd(),"materials")
-
-	if os.path.isdir(path)==True:
-		materials_path=path
-	else:
-		materials_path=os.path.join(share_path,"materials")
+def calculate_paths_init():
+	cal_share_path()
+	cal_bin_path()
 
 def calculate_paths():
 	global share_path
 	global lib_path
 	global exe_command
 	global device_lib_path
-	global light_dll_path
+	global materials_path
+	global image_path
+	global plugins_path
 
-	cal_share_path()
-	cal_lib_path()
-	cal_bin_path()
-	calculate_material_path()
-
-	device_lib_path=os.path.join(share_path,"device_lib")
-
-	if running_on_linux() == True:
-		if os.path.isfile("configure.ac")==True:
-			exe_command=os.path.join(os.getcwd(), "go.o")
-		else:
-			exe_command="gpvdm_core"
-
-	else:
-		if os.path.isfile("gpvdm_core.exe")==True:
-			exe_command=os.path.join(os.getcwd(), "gpvdm_core.exe")
-		else:
-			exe_command=os.path.join(share_path,"gpvdm_core.exe")
-
-
-	light_dll_path=os.path.join(lib_path,"plugins")
+	materials_path=search_known_paths("materials",[""])
+	device_lib_path=search_known_paths("device_lib",[""])
+	plugins_path=search_known_paths("plugins",[""])
+	image_path=search_known_paths("images",[""])
+	lang_path=search_known_paths("lang",[""])
+	exe_command=search_known_paths("gpvdm_core",[".o",".exe"])
 
 
 def get_share_path():
@@ -165,40 +146,27 @@ def get_bin_path():
 	global bin_path
 	return bin_path
 
-def get_light_dll_path():
-	global light_dll_path
-	return light_dll_path
+def get_plugins_path():
+	global plugins_path
+	return plugins_path
 
 def get_exe_command():
 	global exe_command
 	return exe_command
 
 def get_exe_name():
-	if running_on_linux() == True:
-		if os.path.isfile("./go.o")==True:
-			exe_name="go.o"
-		elif os.path.isfile("configure.ac")==True:
-			exe_name="go.o"
-		else:
-			exe_name="gpvdm_core"
-		return exe_name
-	else:
-		exe_name="gpvdm_core.exe"
-		return exe_name
+	global exe_command
+	return os.path.basename(exe_command)
 
 def get_inp_file_path():
 	global share_path
 	return share_path
 
 def get_image_file_path():
-	global share_path
-	return os.path.join(share_path,"images")
+	global image_path
+	return image_path
 
 def get_lang_path():
-	global share_path
-	return os.path.join(share_path,"lang")
-
-def find_data_file(name):
-	global share_path
-	return os.path.join(share_path,name)
+	global lang_path
+	return lang_path
 

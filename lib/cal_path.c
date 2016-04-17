@@ -28,10 +28,9 @@
 
 void cal_path(struct simulation *sim)
 {
-	char share_path[1000];
 	char cwd[1000];
 	strcpy(cwd, "");
-	strcpy(share_path, "");
+	strcpy(sim->share_path, "nopath");
 
 	strcpy(sim->plugins_path, "");
 	strcpy(sim->lang_path, "");
@@ -47,7 +46,10 @@ void cal_path(struct simulation *sim)
 	} else if (isdir("/usr/lib/gpvdm/") == 0) {
 		strcpy(sim->share_path, "/usr/lib/gpvdm/");
 	} else {
-		printf_log(sim, "I don't know where the shared files are\n");
+		strcpy(sim->share_path, "/usr/lib/gpvdm/");
+		printf_log(sim,
+			   "I don't know where the shared files are assuming %s\n",
+			   sim->share_path);
 	}
 
 	if (isdir("plugins") == 0) {
@@ -63,7 +65,7 @@ void cal_path(struct simulation *sim)
 	if (isdir("lang") == 0) {
 		join_path(2, sim->lang_path, cwd, "lang");
 	} else {
-		join_path(2, sim->lang_path, share_path, "lang");
+		join_path(2, sim->lang_path, sim->share_path, "lang");
 
 		if (isdir(sim->lang_path) != 0) {
 			ewe(sim, "I can't find the language database.\n");
