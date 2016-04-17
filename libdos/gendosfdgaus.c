@@ -903,13 +903,16 @@ void gen_load_dos(struct simulation *sim, int mat, char *dos_name,
 {
 	char file_name[100];
 	char temp[100];
+	char full_name[100];
 	strcpy(confige[mat].dos_name, dos_name);
 	strcpy(configh[mat].dos_name, dos_name);
 
 	sprintf(file_name, "%s.inp", dos_name);
+	join_path(2, full_name, get_input_path(sim), file_name);
+
 	struct inp_file inp;
 	inp_init(sim, &inp);
-	inp_load(sim, &inp, file_name);
+	inp_load(sim, &inp, full_name);
 	inp_check(sim, &inp, 1.22);
 
 	inp_search_string(sim, &inp, temp, "#dostype");
@@ -1097,8 +1100,11 @@ void gen_load_dos(struct simulation *sim, int mat, char *dos_name,
 //getchar();
 
 	sprintf(file_name, "%s.inp", pl_name);
+
+	join_path(2, full_name, get_input_path(sim), file_name);
+
 	inp_init(sim, &inp);
-	inp_load(sim, &inp, file_name);
+	inp_load(sim, &inp, full_name);
 
 	inp_search_gdouble(sim, &inp, &(confige[mat].pl_fe_fh), "#pl_fe_fh");
 	configh[mat].pl_fe_fh = confige[mat].pl_fe_fh;
@@ -1130,7 +1136,9 @@ void gen_dos_fd_gaus_fd(struct simulation *sim)
 	int matnumber = 0;
 
 	struct epitaxy my_epitaxy;
-	epitaxy_load(sim, &my_epitaxy, "epitaxy.inp");
+	join_path(2, full_name, get_input_path(sim), "epitaxy.inp");
+	epitaxy_load(sim, &my_epitaxy, full_name);
+
 	matnumber = my_epitaxy.electrical_layers;
 	int file_bandn = FALSE;
 	int file_bandp = FALSE;

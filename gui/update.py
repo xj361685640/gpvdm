@@ -38,7 +38,6 @@ from threading import Thread
 #import os
 from ver import ver_core
 from ver import ver_mat
-from ver import ver_gui
 import gobject
 import platform
 #import getpass
@@ -137,7 +136,7 @@ class update_thread(gtk.VBox):
 		self.text=""
 
 	def get_from_web(self,url):
-			page="http://www.gpvdm.com/download_windows/update.php?ver_core="+ver_core()+"&ver_gui="+ver_gui()+"&ver_mat="+ver_mat()+"&os="+platform.platform()
+			page="http://www.gpvdm.com/download_windows/update.php?ver_core="+ver_core()+"&ver_mat="+ver_mat()+"&os="+platform.platform()
 			message=get_data_from_web(page)
 
 			message=message.split("\n")

@@ -33,6 +33,7 @@ import gtk
 #import multiprocessing
 #import time
 #import glob
+
 from help import my_help_class
 
 class progress_class(gtk.Window):

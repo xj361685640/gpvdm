@@ -31,7 +31,7 @@ import glib
 #from numpy import *
 #from util import pango_to_gnuplot
 from cal_path import get_image_file_path
-from ver import ver
+from ver import version
 from notice import notice
 
 class splash_window():
@@ -69,7 +69,7 @@ class splash_window():
 
 		label = gtk.Label()
 		label.set_use_markup(gtk.TRUE)
-		label.set_markup(notice()+"\n"+ver())
+		label.set_markup(notice()+"\n"+version())
 		label.show()
 
 		fixed.put(label,40,200)

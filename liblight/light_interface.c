@@ -87,7 +87,7 @@ void light_load_dlls(struct simulation *sim, struct light *in,
 	}
 
 	(*in->fn_set_interface) (cell->root_dll_interface);
-	(*in->light_ver) ();
+	(*in->light_ver) (sim);
 	(*in->fn_init) (sim);
 }
 

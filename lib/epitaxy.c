@@ -23,6 +23,7 @@
 #include "inp.h"
 #include "util.h"
 #include "const.h"
+#include <cal_path.h>
 
 void epitaxy_load(struct simulation *sim, struct epitaxy *in, char *file)
 {
@@ -34,6 +35,7 @@ void epitaxy_load(struct simulation *sim, struct epitaxy *in, char *file)
 
 	inp_init(sim, &inp);
 	inp_load(sim, &inp, file);
+
 	inp_check(sim, &inp, 1.2);
 	inp_reset_read(sim, &inp);
 	inp_get_string(sim, &inp);
@@ -57,19 +59,24 @@ void epitaxy_load(struct simulation *sim, struct epitaxy *in, char *file)
 		strcpy(pl_file, inp_get_string(sim, &inp));
 
 		char temp[20];
+		char full_path[200];
 		if (strcmp(dos_file, "none") != 0) {
 			strcpy(temp, dos_file);
 			strcat(temp, ".inp");
+			join_path(2, full_path, get_input_path(sim), temp);
 			in->electrical_layer[i] = TRUE;
-			if (inp_isfile(sim, temp) != 0) {
-				ewe(sim, "dos file %s does not exist", temp);
+			if (inp_isfile(sim, full_path) != 0) {
+				ewe(sim, "dos file %s does not exist",
+				    full_path);
 			}
 			strcpy(in->dos_file[in->electrical_layers], dos_file);
 
 			strcpy(temp, pl_file);
 			strcat(temp, ".inp");
-			if (inp_isfile(sim, temp) != 0) {
-				ewe(sim, "pl file %s does not exist", temp);
+			join_path(2, full_path, get_input_path(sim), temp);
+			if (inp_isfile(sim, full_path) != 0) {
+				ewe(sim, "pl file %s does not exist",
+				    full_path);
 			}
 			strcpy(in->pl_file[in->electrical_layers], pl_file);
 

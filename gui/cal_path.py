@@ -95,7 +95,7 @@ def search_known_paths(file_or_dir_to_find,ext):
 
 	for item in paths:
 		if os.path.isdir(item) or os.path.isfile(item):
-			print "found",item
+			#print "found",item
 			return item
 
 	print "Can't find",file_or_dir_to_find, "setting it to",paths[0]

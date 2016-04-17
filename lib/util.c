@@ -683,6 +683,45 @@ void edit_file_by_var(struct simulation *sim, char *in_name, char *token,
 
 }
 
+int path_up_level(char *out, char *in)
+{
+	int i = 0;
+	strcpy(out, in);
+	int len = strlen(out);
+	if (len < 1) {
+		return -1;
+	}
+
+	if (len != 3) {
+		if (out[len - 1] == '\\') {
+			out[len - 1] = 0;
+			len = strlen(out);
+		}
+	}
+
+	if (len != 1) {
+		if (out[len - 1] == '/') {
+			out[len - 1] = 0;
+			len = strlen(out);
+		}
+	}
+
+	for (i = len; i >= 0; i--) {
+
+		if (out[i] == '\\') {
+			out[i + 1] = 0;
+			break;
+		}
+
+		if (out[i] == '/') {
+			out[i + 1] = 0;
+			break;
+		}
+	}
+
+	return 0;
+}
+
 char *get_file_name_from_path(char *in)
 {
 	int i = 0;
@@ -694,21 +733,19 @@ char *get_file_name_from_path(char *in)
 	return in;
 }
 
-char *get_dir_name_from_path(char *in)
+int get_dir_name_from_path(char *out, char *in)
 {
-	static char ret[1000];
-	strcpy(ret, in);
+	strcpy(out, in);
 
 	int i = 0;
 	for (i = strlen(in); i > 0; i--) {
 		if (in[i] == '/') {
-			ret[i] = 0;
-			return ret;
+			out[i] = 0;
+			return 0;
 		}
 	}
 
-	strcpy(ret, "");
-	return ret;
+	return -1;
 }
 
 int isdir(const char *path)

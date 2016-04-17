@@ -26,9 +26,70 @@
 #include "inp.h"
 #include <log.h>
 
+#include <limits.h>
+
+void set_plugins_path(struct simulation *sim)
+{
+	char cwd[1000];
+	char temp[1000];
+
+	if (getcwd(cwd, 1000) == NULL) {
+		ewe(sim, "IO error\n");
+	}
+
+	join_path(2, temp, cwd, "plugins");
+
+	if (isdir(temp) == 0) {
+		strcpy(sim->plugins_path, temp);
+		return;
+	}
+
+	join_path(2, temp, sim->exe_path, "plugins");
+	if (isdir(temp) == 0) {
+		strcpy(sim->plugins_path, temp);
+		return;
+	}
+
+	join_path(2, sim->plugins_path, sim->share_path, "plugins");
+
+	if (isdir(sim->plugins_path) != 0) {
+		ewe(sim, "I can't find the plugins\n");
+	}
+}
+
+void set_lang_path(struct simulation *sim)
+{
+	char cwd[1000];
+	char temp[1000];
+
+	if (getcwd(cwd, 1000) == NULL) {
+		ewe(sim, "IO error\n");
+	}
+
+	join_path(2, temp, cwd, "lang");
+
+	if (isdir(temp) == 0) {
+		strcpy(sim->lang_path, temp);
+		return;
+	}
+
+	join_path(2, temp, sim->exe_path, "plugins");
+	if (isdir(temp) == 0) {
+		strcpy(sim->lang_path, temp);
+		return;
+	}
+
+	join_path(2, sim->lang_path, sim->share_path, "plugins");
+
+	if (isdir(sim->lang_path) != 0) {
+		ewe(sim, "I can't find the plugins\n");
+	}
+}
+
 void cal_path(struct simulation *sim)
 {
 	char cwd[1000];
+	char temp[1000];
 	strcpy(cwd, "");
 	strcpy(sim->share_path, "nopath");
 
@@ -36,42 +97,50 @@ void cal_path(struct simulation *sim)
 	strcpy(sim->lang_path, "");
 	strcpy(sim->input_path, "");
 	strcpy(sim->output_path, "");
+	strcpy(sim->output_path, "");
+
+	char buff[PATH_MAX];
+	int len = readlink("/proc/self/exe", temp, 1000);
+	if (len == -1) {
+		ewe(sim, "IO error\n");
+	}
+
+	get_dir_name_from_path(sim->exe_path, temp);
+
+	printf("I'm in %s\n", sim->exe_path);
+
+	if (isfile("configure.ac") == 0) {
+		strcpy(sim->share_path, cwd);
+		printf("share path: %s\n", sim->share_path);
+	} else if (isfile("ver.py") == 0) {
+		path_up_level(temp, cwd);
+		strcpy(sim->share_path, temp);
+		printf("share path: %s\n", sim->share_path);
+	} else {
+
+		if (isdir("/usr/lib64/gpvdm/") == 0) {
+			strcpy(sim->share_path, "/usr/lib64/gpvdm/");
+		} else if (isdir("/usr/lib/gpvdm/") == 0) {
+			strcpy(sim->share_path, "/usr/lib/gpvdm/");
+		} else {
+			strcpy(sim->share_path, "/usr/lib/gpvdm/");
+			printf_log(sim,
+				   "I don't know where the shared files are assuming %s\n",
+				   sim->share_path);
+		}
+
+	}
 
 	if (getcwd(cwd, 1000) == NULL) {
 		ewe(sim, "IO error\n");
 	}
 
-	if (isdir("/usr/lib64/gpvdm/") == 0) {
-		strcpy(sim->share_path, "/usr/lib64/gpvdm/");
-	} else if (isdir("/usr/lib/gpvdm/") == 0) {
-		strcpy(sim->share_path, "/usr/lib/gpvdm/");
-	} else {
-		strcpy(sim->share_path, "/usr/lib/gpvdm/");
-		printf_log(sim,
-			   "I don't know where the shared files are assuming %s\n",
-			   sim->share_path);
-	}
+	strcpy(sim->output_path, cwd);
+	strcpy(sim->input_path, cwd);
 
-	if (isdir("plugins") == 0) {
-		join_path(2, sim->plugins_path, cwd, "plugins");
-	} else {
-		join_path(2, sim->plugins_path, sim->share_path, "plugins");
+	set_plugins_path(sim);
 
-		if (isdir(sim->plugins_path) != 0) {
-			ewe(sim, "I can't find the plugins\n");
-		}
-	}
-
-	if (isdir("lang") == 0) {
-		join_path(2, sim->lang_path, cwd, "lang");
-	} else {
-		join_path(2, sim->lang_path, sim->share_path, "lang");
-
-		if (isdir(sim->lang_path) != 0) {
-			ewe(sim, "I can't find the language database.\n");
-		}
-
-	}
+	set_lang_path(sim);
 
 }
 

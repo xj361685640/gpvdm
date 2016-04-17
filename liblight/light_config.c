@@ -52,9 +52,10 @@ void light_free_epitaxy(struct light *in)
 void light_load_epitaxy(struct simulation *sim, struct light *in,
 			char *epi_file)
 {
+	char full_name[200];
 	struct epitaxy my_epitaxy;
-
-	epitaxy_load(sim, &my_epitaxy, "epitaxy.inp");
+	join_path(2, full_name, get_input_path(sim), "epitaxy.inp");
+	epitaxy_load(sim, &my_epitaxy, full_name);
 
 	int i = 0;
 

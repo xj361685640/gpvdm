@@ -272,7 +272,8 @@ int isfile(char *in)
 int zip_is_in_archive(char *full_file_name)
 {
 	char zip_path[1000];
-	char *file_path = get_dir_name_from_path(full_file_name);
+	char file_path[1000];
+	get_dir_name_from_path(file_path, full_file_name);
 	char *file_name = get_file_name_from_path(full_file_name);
 
 	join_path(2, zip_path, file_path, "sim.gpvdm");
@@ -381,7 +382,8 @@ int inp_read_buffer(struct simulation *sim, char **buf, long *len,
 
 	} else {
 		char zip_path[1000];
-		char *file_path = get_dir_name_from_path(full_file_name);
+		char file_path[1000];
+		get_dir_name_from_path(file_path, full_file_name);
 		char *file_name = get_file_name_from_path(full_file_name);
 
 		join_path(2, zip_path, file_path, "sim.gpvdm");
@@ -528,7 +530,8 @@ int zip_write_buffer(struct simulation *sim, char *full_file_name, char *buffer,
 		close(out_fd);
 	} else {
 		char zip_path[1000];
-		char *file_path = get_dir_name_from_path(full_file_name);
+		char file_path[1000];
+		get_dir_name_from_path(file_path, full_file_name);
 		char *file_name = get_file_name_from_path(full_file_name);
 
 		join_path(2, zip_path, file_path, "sim.gpvdm");

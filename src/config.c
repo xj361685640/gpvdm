@@ -58,7 +58,7 @@ void load_config(struct simulation *sim, struct device *in)
 /////////////////////////////////////////
 
 	char device_file_path[1000];
-
+	printf("here\n");
 	join_path(2, device_file_path, get_input_path(sim), "epitaxy.inp");
 
 	epitaxy_load(sim, &(in->my_epitaxy), device_file_path);

@@ -57,6 +57,7 @@ int main(int argc, char *argv[])
 	sim_init(&sim);
 	int log_level = 0;
 	set_logging_level(&sim, log_level_screen);
+	cal_path(&sim);
 
 	if (scanarg(argv, argc, "--help") == TRUE) {
 		printf
@@ -144,26 +145,20 @@ int main(int argc, char *argv[])
 	globalserver.cpus = 1;
 	globalserver.readconfig = TRUE;
 
-	char output_path[200];
-	char input_path[200];
-
 	if (scanarg(argv, argc, "--outputpath") == TRUE) {
-		strcpy(output_path,
+		strcpy(sim.output_path,
 		       get_arg_plusone(argv, argc, "--outputpath"));
-	} else {
-		strcpy(output_path, pwd);
 	}
 
 	if (scanarg(argv, argc, "--inputpath") == TRUE) {
-		strcpy(input_path, get_arg_plusone(argv, argc, "--inputpath"));
-	} else {
-		strcpy(input_path, pwd);
+		strcpy(sim.input_path,
+		       get_arg_plusone(argv, argc, "--inputpath"));
 	}
 
 	char name[200];
 	struct inp_file inp;
 	inp_init(&sim, &inp);
-	inp_load_from_path(&sim, &inp, input_path, "ver.inp");
+	inp_load_from_path(&sim, &inp, sim.input_path, "ver.inp");
 	inp_check(&sim, &inp, 1.0);
 	inp_search_string(&sim, &inp, name, "#core");
 	inp_free(&sim, &inp);
@@ -189,7 +184,7 @@ int main(int argc, char *argv[])
 
 	gen_dos_fd_gaus_fd(&sim);
 
-	server_add_job(&sim, &globalserver, output_path, input_path);
+	server_add_job(&sim, &globalserver, sim.output_path, sim.input_path);
 	print_jobs(&sim, &globalserver);
 
 	ret = server_run_jobs(&sim, &globalserver);

@@ -44,9 +44,11 @@ _ = i18n.language.gettext
 
 from ver import ver_load_info
 from ver import ver_error
+
 ver_load_info()
 
 from command_args import command_args
+
 command_args(len(sys.argv),sys.argv)
 
 

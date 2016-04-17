@@ -28,7 +28,6 @@ from inp import inp_update
 from util_zip import read_lines_from_archive
 
 global core
-global gui
 global mat
 global ver_error
 
@@ -40,30 +39,27 @@ def ver_core():
 	global core
 	return core
 
-def ver_gui():
-	global gui
-	return gui
-
 def ver_mat():
 	global mat
 	return mat
 
+def version():
+	global core
+	global mat
+	string="core: Version "+core+" materials: Version "+mat
+	return string
+
 def ver():
 	global core
-	global gui
-	global mat
-	string="core: Version "+core+", gui: Version "+gui+", materials: Version "+mat
-	return string
+	return str(core)
 
 def ver_load_info():
 	lines=[]
 	global core
-	global gui
 	global mat
 	global ver_error
 
 	core=""
-	gui=""
 	mat=""
 	ver_error=""
 
@@ -71,7 +67,6 @@ def ver_load_info():
 
 	if inp_load_file(lines,ver_file_path)==True:
 		core=lines[1]
-		gui=lines[3]
 		mat=lines[5]
 		return True
 	else:
@@ -102,7 +97,6 @@ def ver_sync_ver():
 def ver_check_compatibility(file_name):
 	lines=[]
 	core=""
-	gui=""
 	mat=""
 
 	if read_lines_from_archive(lines,file_name,"ver.inp")==True:

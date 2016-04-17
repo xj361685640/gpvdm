@@ -20,6 +20,7 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
+
 import sys
 import os
 #import shutil
@@ -30,8 +31,10 @@ from util import gpvdm_copy_src
 #import fnmatch
 #import logging
 #import time
+
 from import_archive import clean_scan_dirs
 from ver import ver
+from ver import version
 from import_archive import import_scan_dirs
 from udp_server import udp_server
 from udp_client import udp_client
@@ -39,6 +42,7 @@ from make_man import make_man
 from scan_tree import tree_load_program
 from scan_tree import tree_gen
 from scan_item import scan_item_load
+
 #from scan_item import scan_items_index_item
 from server import server
 from cal_path import get_exe_command
@@ -95,6 +99,9 @@ def command_args(argc,argv):
 			sys.exit(0)
 
 		if 	check_params(argv,"--version",0)==True:
+			print version()
+			sys.exit(0)
+		if 	check_params(argv,"--ver",0)==True:
 			print ver()
 			sys.exit(0)
 		if check_params(argv,"--import-scandirs",1)==True:

@@ -44,8 +44,6 @@ int run_simulation(struct simulation *sim, char *outputpath, char *inputpath)
 	device_init(&cell);
 	cell.onlypos = FALSE;
 
-	cal_path(sim);
-
 	dump_init(sim, &cell);
 
 	set_dump_status(sim, dump_stop_plot, FALSE);

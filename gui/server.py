@@ -35,16 +35,19 @@ import multiprocessing
 import time
 #import glob
 import socket
+
 from time import sleep
 from win_lin import running_on_linux
 import subprocess
 from util import gui_print_path
 from progress import progress_class
+
 #from copying import copying
 from cal_path import get_exe_command
 #from global_objects import global_object_get
 from help import my_help_class
 from sim_warnings import sim_warnings
+
 
 import i18n
 _ = i18n.language.gettext
