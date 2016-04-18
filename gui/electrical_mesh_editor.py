@@ -29,7 +29,7 @@ import os
 import gobject
 from inp import inp_write_lines_to_file
 from inp import inp_load_file
-from debug import advanced_features
+from code_ctrl import enable_betafeatures
 from scan_item import scan_item_add
 from mesh_dump_ctl import mesh_dump_ctl
 
@@ -76,7 +76,7 @@ class electrical_mesh_editor(gtk.VBox):
 		render.set_property("editable", True)
 
 		column = gtk.TreeViewColumn("Thicknes", render, text=MESH_THICKNES, editable=True)
-		if advanced_features()==False:
+		if enable_betafeatures()==False:
 			column.set_visible(False)
 		treeview.append_column(column)
 
@@ -241,7 +241,7 @@ class electrical_mesh_editor(gtk.VBox):
 		self.__add_columns_mesh(treeview)
 		vbox_mesh.pack_start(treeview, False, False, 0)
 
-		if advanced_features()==True:
+		if enable_betafeatures()==True:
 			add_button = gtk.Button("Add",gtk.STOCK_ADD)
 			add_button.connect("clicked", self.on_add_mesh_clicked, self.mesh_model)
 

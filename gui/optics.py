@@ -55,6 +55,8 @@ from cal_path import get_exe_command
 #from epitaxy import epitaxy_get_name
 #from inp_util import inp_search_token_value
 from band_graph import band_graph
+from lasers import lasers
+from help import my_help_class
 
 def find_modes(path):
 	result = []
@@ -130,6 +132,8 @@ class class_optical(gtk.Window):
 	visible=1
 
 	def init(self):
+		self.tooltips = gtk.Tooltips()
+		self.lasers_window=None
 		self.progress_window=progress_class()
 		self.progress_window.init()
 
@@ -221,6 +225,16 @@ class class_optical(gtk.Window):
 		ti_hbox.pack_start(self.light_source_model, False, False, 0)
 		self.cb_model.show()
 
+		image = gtk.Image()
+   		image.set_from_file(os.path.join(get_image_file_path(),"lasers.png"))
+   		#image.set_from_file(self.icon_theme.lookup_icon("media-playback-start", 32, 0).get_filename())
+		self.lasers_button = gtk.ToolButton(image)
+		self.lasers_button.connect("clicked", self.callback_configure_lasers)
+		self.tooltips.set_tip(self.lasers_button, _("Configure lasers"))
+		toolbar.insert(self.lasers_button, tool_bar_pos)
+		toolbar.show_all()
+		tool_bar_pos=tool_bar_pos+1
+
 		sep = gtk.SeparatorToolItem()
 		sep.set_draw(False)
 		sep.set_expand(True)
@@ -290,7 +304,18 @@ class class_optical(gtk.Window):
 		self.set_position(gtk.WIN_POS_CENTER)
 		self.progress_window.stop()
 
-		
+	def callback_configure_lasers(self, widget, data=None):
+
+		if self.lasers_window==None:
+			self.lasers_window=lasers()
+			self.lasers_window.init()
+
+		my_help_class.help_set_help(["lasers.png",_("<big><b>Laser setup</b></big>\n Use this window to set up your lasers.")])
+		if self.lasers_window.get_property("visible")==True:
+			self.lasers_window.hide_all()
+		else:
+			self.lasers_window.show_all()
+
 	def onclick(self, event):
 		print 'button=%d, x=%d, y=%d, xdata=%f, ydata=%f'%(
 		event.button, event.x, event.y, event.xdata, event.ydata)

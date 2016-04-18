@@ -20,7 +20,35 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-#This is some code I wrote to make gpvdm run as part of a cluster. The server code sends data to the clients and tells them what to do, the server then reports back to the gpvdm interface once jobs are finished.  It will only run if you invoke the --server or --client from the command line. It's super unstable/buggy and I only run it on a cluster with no route to the internet as there is authentication control. Use at your own risk!
+########################################################################
+#
+# Clustering code for gpvdm
+#
+########################################################################
+#
+# This is some code I wrote to make gpvdm run as part of a cluster,
+# it is useful for doing frequency domain calculations where lots
+# of simulations are needed.  The code is very unstable/buggy/insecure,
+# if you want to use it, I recommend getting the latest copy from
+# github (as you are going to have to hack it arround to make it work,
+# on your system/network) Then to enable it you will have to turn the value
+# #enable_cluster in the file sim.gpvdm/ver.inp from \"no\" to \"yes\".
+# Start gpvdm with the \"--client\" option on each node, and with the
+# \"--server\" option on the head node.  Use at your own risk!
+# 
+# The server code sends data to the clients and tells them what to do,
+# the server then reports back to the gpvdm interface once jobs are
+# finished.  You will also have to set the \"#cluster\" to \"1\" and set
+# the IP of the server in the sim.gpvdm/server.inp file for the interface
+# to connect to the server.
+#
+# There is also *no* security on the networking code so I recommend
+# running it somewhere where there is no route to the internet. The clients
+# can execute code, delete files etc etc.. as you would
+# expect from any clustering software.  Therefore if you want to run it
+# run it on a system with *no internet access*.
+#
+#########################################################################
 
 import socket
 #import select

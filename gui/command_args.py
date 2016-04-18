@@ -54,6 +54,10 @@ from server import server_find_simulations_to_run
 from clean_sim import clean_sim_dir
 from ver import ver_sync_ver
 from device_lib import device_lib_replace
+from cluster import print_cluster_warning
+from code_ctrl import enable_cluster
+from win_lin import running_on_linux
+
 import i18n
 _ = i18n.language.gettext
 
@@ -89,6 +93,10 @@ def command_args(argc,argv):
 			print _("\t--run-scan\t\truns a scan")
 			print _("\t\t\tusage --run-scan /path/containing/base/files/ /path/to/scan/dir/ ")
 			print _("\t--sync-ver\t\truns a scan")
+			if enable_cluster()==True:
+				print _("\t--server\t\tRun as server node for cluster")
+				print _("\t--server\t\tRun as client node for cluster")
+
 			print _("\t\t\tchanges the version of input file")
 			print _("\t--replace\t\treplaces file in device lib")
 			print "\t\t\t"
@@ -141,12 +149,25 @@ def command_args(argc,argv):
 			sys.exit(0)
 
 		if check_params(argv,"--server",0)==True:
-			obj=udp_server()
-			obj.start()
+			if running_on_linux()==True and enable_cluster()==True:
+				print_cluster_warning()
+				obj=udp_server()
+				obj.start()
+			else:
+				print "a) The clustering code will now work on windows."
+				print "b) The flag #enable_cluster in sim.gpvdm/ver.inp must be set for it to start."
+				sys.exit(0)
 
 		if check_params(argv,"--client",0)==True:
-			client=udp_client()
-			client.init()
+			if running_on_linux()==True and enable_cluster()==True:
+				print_cluster_warning()
+				client=udp_client()
+				client.init()
+			else:
+				print "a) The clustering code will now work on windows."
+				print "b) The flag #enable_cluster in sim.gpvdm/ver.inp must be set for it to start."
+			sys.exit(0)
+			
 
 		if check_params(argv,"--make-man",1)==True:
 			make_man()

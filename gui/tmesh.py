@@ -44,7 +44,7 @@ from util import time_with_units
 from inp_util import inp_search_token_value
 from cal_path import get_image_file_path
 from scan_item import scan_remove_file
-from debug import advanced_features
+from code_ctrl import enable_betafeatures
 from tb_lasers import tb_lasers
 
 import i18n
@@ -292,7 +292,7 @@ class tab_time_mesh(gtk.VBox):
 		#ax2.set_ylabel('Energy (eV)')
 
 		sun, = self.ax2.plot(time,self.sun, 'go-', linewidth=3 ,alpha=1.0)
-		if advanced_features()==True:
+		if enable_betafeatures()==True:
 			laser, = self.ax2.plot(time,self.laser, 'bo-', linewidth=3 ,alpha=1.0)
 
 		fs_laser_enabled=False
@@ -309,7 +309,7 @@ class tab_time_mesh(gtk.VBox):
 				fs_laser_enabled=True
 				self.ax2.ticklabel_format(style='sci', axis='x', scilimits=(0,0))
 
-		if advanced_features()==True:
+		if enable_betafeatures()==True:
 			if fs_laser_enabled==True:
 				self.fig.legend((voltage, sun, laser,fs_laser), (_("Voltage"), _("Sun"), _("CW laser"), _("fs laser")), 'upper right')
 			else:
@@ -401,7 +401,7 @@ class tab_time_mesh(gtk.VBox):
 		column.set_sort_column_id(SEG_MUL)
 		treeview.append_column(column)
 
-		if advanced_features()==True:
+		if enable_betafeatures()==True:
 			renderer = gtk.CellRendererText()
 			renderer.connect("edited", self.on_cell_edited_sun, model)
 			renderer.set_property('editable', True)
@@ -409,7 +409,7 @@ class tab_time_mesh(gtk.VBox):
 			column.set_sort_column_id(SEG_SUN)
 			treeview.append_column(column)
 
-		if advanced_features()==True:
+		if enable_betafeatures()==True:
 			renderer = gtk.CellRendererText()
 			renderer.connect("edited", self.on_cell_edited_laser, model)
 			renderer.set_property('editable', True)

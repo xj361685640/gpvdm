@@ -44,12 +44,16 @@ from pl_main import pl_main
 from cal_path import get_bin_path
 from cal_path import get_image_file_path
 from inp_description import inp_file_to_description
+from code_ctrl import enable_webbrowser
 
 if running_on_linux()==True:
 	from tab_terminal import tab_terminal
-	#from information_linux import information
-#else:
-	#from information_linux import information
+	if enable_webbrowser()==True:
+		from information_webkit import information
+	else:
+		from information_noweb import information
+else:
+	from information_noweb import information
 
 import i18n
 _ = i18n.language.gettext
@@ -124,11 +128,11 @@ class gpvdm_notebook(gtk.Notebook):
 		self.menu_items.append(path)
 		myitem.set_active(visible)
 
-	#def add_welcome_page(self):
-	#	browser=information()
-	#	browser.init()
-	#	browser.show()
-	#	self.append_page(browser, gtk.Label("Information"))
+	def add_info_page(self):
+		browser=information()
+		browser.init()
+		browser.show()
+		self.append_page(browser, gtk.Label("Information"))
 
 	def load(self):
 		self.clean_menu()
@@ -266,7 +270,7 @@ class gpvdm_notebook(gtk.Notebook):
 				self.terminal_widget.show()
 				self.append_page(self.terminal_widget, gtk.Label(_("Terminal")))
 
-			#self.add_welcome_page()
+			self.add_info_page()
 
 			self.finished_loading=True
 			self.progress.stop()
@@ -278,8 +282,8 @@ class gpvdm_notebook(gtk.Notebook):
 
 			return True
 		else:
-			#self.add_welcome_page()
-			self.goto_page(_("Welcome"))
+			self.add_info_page()
+			self.goto_page(_("Information"))
 			return False
 
 

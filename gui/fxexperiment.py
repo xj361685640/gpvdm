@@ -41,7 +41,6 @@ from window_list import windows
 #from search import return_file_list
 #from win_lin import running_on_linux
 import webbrowser
-#from debug import debug_mode
 from inp import inp_update_token_value
 #from inp import inp_get_token_value
 from fxexperiment_tab import fxexperiment_tab
@@ -53,7 +52,7 @@ from util import strextract_interger
 from global_objects import global_object_get
 from cal_path import get_image_file_path
 from global_objects import global_object_register
-from debug import advanced_features
+from code_ctrl import enable_betafeatures
 
 import i18n
 _ = i18n.language.gettext
@@ -76,7 +75,7 @@ class fxexperiment(gtk.Window):
 		item_factory = gtk.ItemFactory(gtk.MenuBar, "<main>", accel_group)
 
 		item_factory.create_items(self.menu_items)
-		if advanced_features()==False:
+		if enable_betafeatures()==False:
 			item_factory.delete_item(_("/Advanced"))
 
 		window.add_accel_group(accel_group)

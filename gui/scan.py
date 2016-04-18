@@ -48,7 +48,7 @@ import webbrowser
 from search import find_fit_log
 from scan_io import get_scan_dirs
 from hpc import hpc_class
-from debug import debug_mode
+from code_ctrl import enable_betafeatures
 from inp import inp_update_token_value
 from inp import inp_get_token_value
 
@@ -77,7 +77,7 @@ class scan_class(gtk.Window):
 
 
 		item_factory.create_items(self.menu_items)
-		if debug_mode()==False:
+		if enable_betafeatures()==False:
 			item_factory.delete_item(_("/Advanced"))
 
 		window.add_accel_group(accel_group)
@@ -558,7 +558,7 @@ class scan_class(gtk.Window):
 		toolbar.insert(tb_simulate, pos)
 		pos=pos+1
 
-		if debug_mode()==True:
+		if enable_betafeatures()==True:
 			sep = gtk.SeparatorToolItem()
 			sep.set_draw(True)
 			sep.set_expand(False)

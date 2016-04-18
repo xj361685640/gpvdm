@@ -23,6 +23,7 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
+import os
 #import sys
 #import math
 import gobject

@@ -38,7 +38,6 @@ from window_list import windows
 #from search import return_file_list
 #from win_lin import running_on_linux
 import webbrowser
-#from debug import advanced_features
 from inp import inp_update
 from inp import inp_update_token_value
 from inp import inp_get_token_value

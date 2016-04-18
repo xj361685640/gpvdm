@@ -41,7 +41,7 @@ from window_list import windows
 #from search import return_file_list
 #from win_lin import running_on_linux
 import webbrowser
-from debug import advanced_features
+from code_ctrl import enable_betafeatures
 from inp import inp_update_token_value
 #from inp import inp_get_token_value
 from experiment_tab import experiment_tab
@@ -74,7 +74,7 @@ class experiment(gtk.Window):
 		item_factory = gtk.ItemFactory(gtk.MenuBar, "<main>", accel_group)
 
 		item_factory.create_items(self.menu_items)
-		if advanced_features()==False:
+		if enable_betafeatures()==False:
 			item_factory.delete_item(_("/Advanced"))
 
 		window.add_accel_group(accel_group)
