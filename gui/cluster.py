@@ -59,7 +59,7 @@ def print_cluster_warning():
 	print "# it is useful for doing frequency domain calculations where lots"
 	print "# of simulations are needed.  The code is very unstable/buggy/insecure,"
 	print "# if you want to use it, I recommend getting the latest copy from"
-	print "# github (as you are going to have to hack it arround to make it work."
+	print "# github (as you are going to have to hack it around to make it work."
 	print "# on your system/network) Then to enable it you will have to turn the value"
 	print "# #enable_cluster in the file sim.gpvdm/ver.inp from \"no\" to \"yes\"."
 	print "# Start gpvdm with the \"--client\" option on each node, and with the"

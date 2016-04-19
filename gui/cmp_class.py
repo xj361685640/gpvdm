@@ -68,10 +68,11 @@ class cmp_class(gtk.Window):
 	def count_dumps(self):
 		dirs=0
 		path=self.entry0.get_active_text()
-		for name in os.listdir(path):
-			if name!="." and name!= "..":
-				if os.path.isdir(os.path.join(path, name)):
-					dirs=dirs+1
+		if os.path.isdir(path)==True:
+			for name in os.listdir(path):
+				if name!="." and name!= "..":
+					if os.path.isdir(os.path.join(path, name)):
+						dirs=dirs+1
 
 		self.adj1.set_upper(dirs)
 		self.dumps=dirs
@@ -284,18 +285,18 @@ class cmp_class(gtk.Window):
 		else:
 			self.multi_plot=False
 		self.update(self.adj1.value)
-		print "CONVERTi!!!!!!!!!!!",type(self.plot.plot_token.key_units)
 		self.plot.do_plot()
 
-	def update_snapshots_dir(self):
+	def find_snapshots(self):
 
 		matches = []
 		for root, dirnames, filenames in os.walk(os.getcwd(), followlinks=True):
-			for filename in dirnames:
-				mydir=os.path.join(root,filename)
-				if mydir.endswith("snapshots")==True:
-					matches.append(os.path.join(root, filename))
+			for filename in filenames:
+				my_file=os.path.join(root,filename)
+				if my_file.endswith("snapshots.inp")==True:
+					matches.append( os.path.dirname(my_file))
 
+		print matches
 		return matches
 
 	def init(self):
@@ -305,7 +306,7 @@ class cmp_class(gtk.Window):
 		self.win_list.load()
 		self.win_list.set_window(self,"cmp_class")
 
-		self.snapshot_list=self.update_snapshots_dir()
+		self.snapshot_list=self.find_snapshots()
 		vbox=gtk.VBox()
 
 		self.multi_plot=False

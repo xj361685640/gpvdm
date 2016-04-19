@@ -4,9 +4,9 @@
 // 
 //  Copyright (C) 2012 Roderick C. I. MacKenzie
 //
-//      roderick.mackenzie@nottingham.ac.uk
-//      www.roderickmackenzie.eu
-//      Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
+//	roderick.mackenzie@nottingham.ac.uk
+//	www.roderickmackenzie.eu
+//	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
 // This program is free software; you can redistribute it and/or modify it
@@ -18,6 +18,7 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+
 #ifndef h_solver_lib
 #define h_solver_lib
 
@@ -26,8 +27,7 @@
 #include <math.h>
 #include <sim_struct.h>
 
-int umfpack_solver(struct simulation *sim, int col, int nz, int *Ti, int *Tj,
-		   long double *lTx, long double *lb);
+int umfpack_solver(struct simulation *sim,int col,int nz,int *Ti,int *Tj, long double *lTx,long double *lb);
 void umfpack_solver_free(struct simulation *sim);
 
 #endif

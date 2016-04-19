@@ -4,9 +4,9 @@
 // 
 //  Copyright (C) 2012 Roderick C. I. MacKenzie
 //
-//      roderick.mackenzie@nottingham.ac.uk
-//      www.roderickmackenzie.eu
-//      Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
+//	roderick.mackenzie@nottingham.ac.uk
+//	www.roderickmackenzie.eu
+//	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
 // This program is free software; you can redistribute it and/or modify it
@@ -21,28 +21,25 @@
 #include <stdio.h>
 #include "sim.h"
 
-int hashget(gdouble * x, int N, gdouble find)
+int hashget(gdouble *x,int N,gdouble find)
 {
-	static gdouble *x_ = NULL;
-	static gdouble find_ = 0.0;
-	static int steps_ = 0.0;
-	if (N == 1)
-		return 0;
-	if ((x_ == x) && (find_ == find))
-		return steps_;
-	gdouble x0 = x[0];
-	gdouble x1 = x[1];
-	gdouble delta = find - x0;
-	gdouble step = x1 - x0;
-	int steps = delta / step;
+static gdouble *x_=NULL;
+static gdouble find_=0.0;
+static int steps_=0.0;
+if (N==1) return 0;
+if ((x_==x)&&(find_==find)) return steps_;
+gdouble x0=x[0];
+gdouble x1=x[1];
+gdouble delta=find-x0;
+gdouble step=x1-x0;
+int steps=delta/step;
 
-	if (steps > (N - 2))
-		steps = N - 2;
-	if (steps < 0)
-		steps = 0;
+if (steps>(N-2)) steps=N-2;
+if (steps<0) steps=0;
 //printf("%ld\n",steps);
-	x_ = x;
-	find_ = find;
-	steps_ = steps;
-	return steps;
+x_=x;
+find_=find;
+steps_=steps;
+return steps;
 }
+

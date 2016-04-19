@@ -30,7 +30,7 @@ python_PYTHON=gui/*.py
 dist_doc_DATA = README
 
 clean-local:
-	rm *.dat *.o ./plugins/*.so ./plugins/*.dll *.log *.a  *.lib *.exe -f
+	rm gpvdm_core *.dat *.o ./plugins/*.so ./plugins/*.dll *.log *.a  *.lib *.exe -f
 	rm autom4te.cache -rf 
 
 gpvdm_core$(EXEEXT):

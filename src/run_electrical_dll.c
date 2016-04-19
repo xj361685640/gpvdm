@@ -4,9 +4,9 @@
 // 
 //  Copyright (C) 2012 Roderick C. I. MacKenzie
 //
-//      roderick.mackenzie@nottingham.ac.uk
-//      www.roderickmackenzie.eu
-//      Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
+//	roderick.mackenzie@nottingham.ac.uk
+//	www.roderickmackenzie.eu
+//	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
 // This program is free software; you can redistribute it and/or modify it
@@ -18,6 +18,7 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <dll_export.h>
@@ -25,48 +26,52 @@
 #include <lang.h>
 #include <util.h>
 
-#include <dlfcn.h>
+	#include <dlfcn.h>
 
 #include <cal_path.h>
 
-void run_electrical_dll(struct simulation *sim, struct device *in,
-			char *dll_name)
+void run_electrical_dll(struct simulation *sim,struct device *in,char *dll_name)
 {
 	void *lib_handle;
-	void (*init) ();
-	void (*dll_sim_run) ();
+	void (*init)();
+	void (*dll_sim_run)();
+
 
 	char lib_path[200];
 	char lib_name[100];
 
-	printf_log(sim, _("Loading electrical dll\n"));
+	printf_log(sim,_("Loading electrical dll\n"));
 
-	sprintf(lib_name, "%s.so", dll_name);
+	sprintf(lib_name,"%s.so",dll_name);
 
-	join_path(2, lib_path, get_plugins_path(sim), lib_name);
-	printf_log(sim, "I want to open %s %s %s\n", lib_path,
-		   get_plugins_path(sim), lib_name);
+	join_path(2,lib_path,get_plugins_path(sim),lib_name);
+	printf_log(sim,"I want to open %s %s %s\n",lib_path,get_plugins_path(sim),lib_name);
+
 
 	char *error;
 
 	lib_handle = dlopen(lib_path, RTLD_LAZY);
 
-	if (!lib_handle) {
+	if (!lib_handle) 
+	{
 		fprintf(stderr, "%s\n", dlerror());
 		exit(0);
 	}
 
 	init = dlsym(lib_handle, "set_interface");
-	if ((error = dlerror()) != NULL) {
+	if ((error = dlerror()) != NULL)  
+	{
 		fprintf(stderr, "%s\n", error);
 		exit(0);
 	}
 
 	dll_sim_run = dlsym(lib_handle, "dll_run_simulation");
-	if ((error = dlerror()) != NULL) {
+	if ((error = dlerror()) != NULL)  
+	{
 		fprintf(stderr, "%s\n", error);
 		exit(0);
 	}
 
-	(*dll_sim_run) (sim, in);
+
+(*dll_sim_run)(sim,in);
 }

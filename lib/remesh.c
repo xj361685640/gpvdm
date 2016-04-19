@@ -4,9 +4,9 @@
 // 
 //  Copyright (C) 2012 Roderick C. I. MacKenzie
 //
-//      roderick.mackenzie@nottingham.ac.uk
-//      www.roderickmackenzie.eu
-//      Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
+//	roderick.mackenzie@nottingham.ac.uk
+//	www.roderickmackenzie.eu
+//	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
 // This program is free software; you can redistribute it and/or modify it
@@ -18,10 +18,12 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+
 #include "sim.h"
 #include "dump.h"
 #include "remesh.h"
 #include "ntricks.h"
+
 
 struct remesh my_mesh;
 
@@ -29,14 +31,14 @@ void remesh_shrink(struct device *in)
 {
 }
 
-void remesh_expand_array_band(gdouble ** y, int band, struct device *in)
+void remesh_expand_array_band(gdouble **y,int band,struct device *in)
 {
 }
 
-void remesh_expand_array(gdouble * y, struct device *in)
+void remesh_expand_array(gdouble *y,struct device *in)
 {
 }
 
-void remesh_reset(struct device *in, gdouble voltage)
+void remesh_reset(struct device *in,gdouble voltage)
 {
 }

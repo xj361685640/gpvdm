@@ -147,7 +147,7 @@ void device_free_traps(struct device *in)
 
 }
 
-void device_free(struct simulation *sim, struct device *in)
+void device_free(struct simulation *sim,struct device *in)
 {
 
 	free(in->phi);
@@ -223,6 +223,7 @@ void device_free(struct simulation *sim, struct device *in)
 
 	free(in->pt_all);
 
+
 	free(in->tpt);
 
 	free(in->nf_save);
@@ -256,23 +257,21 @@ void device_free(struct simulation *sim, struct device *in)
 
 	device_free_traps(in);
 
-	printf_log(sim, "%s %i %s\n", _("Solved"), in->odes, _("Equations"));
+	printf_log(sim,"%s %i %s\n", _("Solved"), in->odes, _("Equations"));
 }
 
-void device_get_memory(struct simulation *sim, struct device *in)
+void device_get_memory(struct simulation *sim,struct device *in)
 {
 	in->odes = 0;
 
-	if (in->ymeshpoints < 1) {
-		ewe(sim,
-		    _
-		    ("I can't allocate a device with less than 1 mesh point.\n"));
+	if (in->ymeshpoints<1)
+	{
+		ewe(sim,_("I can't allocate a device with less than 1 mesh point.\n"));
 	}
 
-	if (in->ymeshpoints > 50000) {
-		ewe(sim,
-		    _
-		    ("You are asking me to simulate a device with more than 50000 mesh points, although I could do this I am not going to because it seems a bad idea to me.\n"));
+	if (in->ymeshpoints>50000)
+	{
+		ewe(sim,_("You are asking me to simulate a device with more than 50000 mesh points, although I could do this I am not going to because it seems a bad idea to me.\n"));
 	}
 
 	in->Ti = NULL;
@@ -537,10 +536,10 @@ void device_get_memory(struct simulation *sim, struct device *in)
 	in->p_orig_t = (gdouble *) malloc(sizeof(gdouble) * in->ymeshpoints);
 	memset(in->p_orig_t, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->ymesh = malloc(in->ymeshpoints * sizeof(gdouble));
+	in->ymesh = malloc (in->ymeshpoints * sizeof(gdouble));
 	memset(in->ymesh, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->imat = malloc(in->ymeshpoints * sizeof(int));
+	in->imat=malloc (in->ymeshpoints * sizeof(int));
 	memset(in->imat, 0, in->ymeshpoints * sizeof(int));
 
 }

@@ -4,9 +4,9 @@
 // 
 //  Copyright (C) 2012 Roderick C. I. MacKenzie
 //
-//      roderick.mackenzie@nottingham.ac.uk
-//      www.roderickmackenzie.eu
-//      Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
+//	roderick.mackenzie@nottingham.ac.uk
+//	www.roderickmackenzie.eu
+//	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
 // This program is free software; you can redistribute it and/or modify it
@@ -18,11 +18,13 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+
 #ifndef jv_h
 #define jv_h
 #include <sim.h>
 
-struct jv {
+struct jv
+{
 	gdouble Vstart;
 	gdouble Vstop;
 	gdouble Vstep;
@@ -31,7 +33,7 @@ struct jv {
 	gdouble jv_max_j;
 };
 
-void sim_jv(struct simulation *sim, struct device *in);
-void jv_load_config(struct simulation *sim, struct jv *in, struct device *dev);
-void newton_sim_jv(struct simulation *sim, struct device *in);
+void sim_jv(struct simulation *sim,struct device *in);
+void jv_load_config(struct simulation *sim,struct jv* in,struct device *dev);
+void newton_sim_jv(struct simulation  *sim,struct device *in);
 #endif

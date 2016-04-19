@@ -56,7 +56,7 @@ def code_ctrl_load():
 	global store_enable_cluster
 	global store_enable_betafeatures
 
-	if inp_load_file(lines,os.path.join(get_share_path(),"ver.inp"))==True:
+	if inp_load_file(lines,os.path.join(get_inp_file_path(),"ver.inp"))==True:
 		store_enable_webupdates=yes_no(inp_search_token_value(lines, "#enable_webupdates"))
 		store_enable_webbrowser=yes_no(inp_search_token_value(lines, "#enable_webbrowser"))
 		store_enable_cluster=yes_no(inp_search_token_value(lines, "#enable_cluster"))

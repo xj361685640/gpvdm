@@ -4,9 +4,9 @@
 // 
 //  Copyright (C) 2012 Roderick C. I. MacKenzie
 //
-//      roderick.mackenzie@nottingham.ac.uk
-//      www.roderickmackenzie.eu
-//      Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
+//	roderick.mackenzie@nottingham.ac.uk
+//	www.roderickmackenzie.eu
+//	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
 // This program is free software; you can redistribute it and/or modify it
@@ -25,15 +25,16 @@ static double start_times[10];
 
 void timer_init(int timer)
 {
-	struct timeval result;
-	gettimeofday(&result, NULL);
-	start_times[timer] = result.tv_sec + result.tv_usec / 1000000.0;
+struct timeval result;
+gettimeofday (&result, NULL);
+start_times[timer]=result.tv_sec + result.tv_usec/1000000.0;
 }
 
 double timer_get_time(int timer)
 {
-	struct timeval result;
-	gettimeofday(&result, NULL);
-	double cur_time = result.tv_sec + result.tv_usec / 1000000.0;
-	return cur_time - start_times[timer];
+struct timeval result;
+gettimeofday (&result, NULL);
+double cur_time=result.tv_sec + result.tv_usec/1000000.0;
+return cur_time-start_times[timer];
 }
+

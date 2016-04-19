@@ -4,9 +4,9 @@
 // 
 //  Copyright (C) 2012 Roderick C. I. MacKenzie
 //
-//      roderick.mackenzie@nottingham.ac.uk
-//      www.roderickmackenzie.eu
-//      Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
+//	roderick.mackenzie@nottingham.ac.uk
+//	www.roderickmackenzie.eu
+//	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
 // This program is free software; you can redistribute it and/or modify it
@@ -31,12 +31,13 @@
 #include <lang.h>
 #include <remesh.h>
 
-static int unused __attribute__ ((unused));
+static int unused __attribute__((unused));
 
-void newton_sim_jv(struct simulation *sim, struct device *in)
+void newton_sim_jv(struct simulation  *sim,struct device *in)
 {
-	in->kl_in_newton = FALSE;
-	solver_realloc(sim, in);
+in->kl_in_newton=FALSE;
+solver_realloc(sim,in);
 
-	solve_all(sim, in);
+solve_all(sim,in);
 }
+

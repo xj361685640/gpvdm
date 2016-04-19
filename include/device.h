@@ -354,10 +354,8 @@ struct device
 	gdouble *newton_dJdtrapp;
 	gdouble *newton_dphidntrap;
 	gdouble *newton_dphidptrap;
-	#ifdef enable_time
 	gdouble *newton_ntlast;
 	gdouble *newton_ptlast;
-	#endif
 
 	#ifdef enable_multi_layers
 	struct dos dosn[10];

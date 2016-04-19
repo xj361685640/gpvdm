@@ -1,7 +1,7 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# The po file for gpvdm
+# Copyright (C) 2016 Roderick C. I. MacKenzie
+# This file is distributed under the same license as the GPL V2.0 .
+# Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com, 2016.
 #
 msgid ""
 msgstr ""
@@ -962,7 +962,7 @@ msgstr "Datei Öffnen - hgpvdm"
 
 #: gui/gpvdm_open.py:199
 msgid "title: "
-msgstr "Titel:"
+msgstr "Titel: "
 
 #: gui/gpvdm_open.py:199
 msgid ""
@@ -1085,7 +1085,7 @@ msgid ""
 msgstr ""
 "<big> <b> Hi! </b> </big>\n"
 "  Ich bin der Online-Hilfe-System :). Wenn Sie irgendwelche Fehler finden "
-"melden Sie diese bitte an roderick.mackenzie@nottingham.ac.uk"
+"melden Sie diese bitte an roderick.mackenzie@nottingham.ac.uk."
 
 #: gui/gpvdm.py:424
 msgid "Click on the new icon to make a new simulation directory."

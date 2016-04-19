@@ -4,9 +4,9 @@
 // 
 //  Copyright (C) 2012 Roderick C. I. MacKenzie
 //
-//      roderick.mackenzie@nottingham.ac.uk
-//      www.roderickmackenzie.eu
-//      Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
+//	roderick.mackenzie@nottingham.ac.uk
+//	www.roderickmackenzie.eu
+//	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
 // This program is free software; you can redistribute it and/or modify it
@@ -23,96 +23,105 @@
 #include "fx.h"
 #include <cal_path.h>
 
-static int unused __attribute__ ((unused));
+static int unused __attribute__((unused));
 
 static double *fx_mesh;
-static int mesh_len = 0;
-static int mesh_pos = 0;
+static int mesh_len=0;
+static int mesh_pos=0;
 
 void fx_mesh_save(struct simulation *sim)
 {
-	int i;
-	FILE *out;
-	out = fopen("fxmesh_save.dat", "w");
-	if (out == NULL) {
-		ewe(sim, "can not save fx mesh file\n");
-	}
-
-	fprintf(out, "%d\n", mesh_len);
-
-	for (i = 0; i < mesh_len; i++) {
-		fprintf(out, "%le\n", fx_mesh[i]);
-	}
-	fprintf(out, "#ver\n");
-	fprintf(out, "1.0\n");
-	fprintf(out, "#end\n");
-
-	fclose(out);
+int i;
+FILE *out;
+out=fopen("fxmesh_save.dat","w");
+if (out==NULL)
+{
+	ewe(sim,"can not save fx mesh file\n");
 }
 
-void fx_load_mesh(struct simulation *sim, struct device *in, int number)
+fprintf(out, "%d\n",mesh_len);
+
+for (i=0;i<mesh_len;i++)
 {
-	int i;
-	struct inp_file inp;
-	char mesh_file[200];
-	int segments = 0;
-	double end_fx = 0.0;
-	double fx_start = 0.0;
-	double read_len = 0.0;
-	double dfx = 0.0;
-	double mul = 0.0;
-	int buffer_len = 2000;
-	double fx = 0.0;
-	int ii = 0;
+	fprintf(out, "%le\n",fx_mesh[i]);
+}
+fprintf(out, "#ver\n");
+fprintf(out, "1.0\n");
+fprintf(out, "#end\n");
 
-	fx_mesh = (double *)malloc(buffer_len * sizeof(double));
+fclose(out);
+}
 
-	sprintf(mesh_file, "fxmesh%d.inp", number);
+void fx_load_mesh(struct simulation *sim,struct device *in,int number)
+{
+int i;
+struct inp_file inp;
+char mesh_file[200];
+int segments=0;
+double end_fx=0.0;
+double fx_start=0.0;
+double read_len=0.0;
+double dfx=0.0;
+double mul=0.0;
+int buffer_len=2000;
+double fx=0.0;
+int ii=0;
 
-	inp_init(sim, &inp);
-	inp_load_from_path(sim, &inp, get_input_path(sim), mesh_file);
-	inp_check(sim, &inp, 1.0);
+fx_mesh=(double *)malloc(buffer_len*sizeof(double));
 
-	inp_reset_read(sim, &inp);
+sprintf(mesh_file,"fxmesh%d.inp",number);
 
-	inp_get_string(sim, &inp);
-	sscanf(inp_get_string(sim, &inp), "%le", &fx_start);
-	fx = fx_start;
+inp_init(sim,&inp);
+inp_load_from_path(sim,&inp,get_input_path(sim),mesh_file);
+inp_check(sim,&inp,1.0);
 
-	inp_get_string(sim, &inp);
-	sscanf(inp_get_string(sim, &inp), "%d", &segments);
+inp_reset_read(sim,&inp);
 
-	for (i = 0; i < segments; i++) {
-		inp_get_string(sim, &inp);
-		sscanf(inp_get_string(sim, &inp), "%le", &read_len);
 
-		inp_get_string(sim, &inp);
-		sscanf(inp_get_string(sim, &inp), "%le", &dfx);
+inp_get_string(sim,&inp);
+sscanf(inp_get_string(sim,&inp),"%le",&fx_start);
+fx=fx_start;
 
-		inp_get_string(sim, &inp);
-		sscanf(inp_get_string(sim, &inp), "%le", &mul);
+inp_get_string(sim,&inp);
+sscanf(inp_get_string(sim,&inp),"%d",&segments);
 
-		if ((dfx != 0.0) && (mul != 0.0)) {
-			end_fx = fx + read_len;
 
-			while (fx < end_fx) {
-				fx_mesh[ii] = fx;
-				fx = fx + dfx;
-				ii++;
-				dfx = dfx * mul;
-			}
+
+for (i=0;i<segments;i++)
+{
+	inp_get_string(sim,&inp);
+	sscanf(inp_get_string(sim,&inp),"%le",&read_len);
+
+	inp_get_string(sim,&inp);
+	sscanf(inp_get_string(sim,&inp),"%le",&dfx);
+
+	inp_get_string(sim,&inp);
+	sscanf(inp_get_string(sim,&inp),"%le",&mul);
+
+
+	if ((dfx!=0.0)&&(mul!=0.0))
+	{			
+		end_fx=fx+read_len;
+
+		while(fx<end_fx)
+		{
+			fx_mesh[ii]=fx;
+			fx=fx+dfx;
+			ii++;
+			dfx=dfx*mul;
 		}
 	}
+}
 
-	mesh_len = ii;
-	mesh_pos = 0;
-	inp_free(sim, &inp);
+mesh_len=ii;
+mesh_pos=0;
+inp_free(sim,&inp);
 
 }
 
 void fx_step()
 {
-	mesh_pos++;
+mesh_pos++;
 }
 
 int fx_points()
@@ -122,13 +131,15 @@ int fx_points()
 
 int fx_run()
 {
-	if (mesh_pos < (mesh_len - 1)) {
+	if (mesh_pos<(mesh_len-1))
+	{
 		return TRUE;
-	} else {
+	}else
+	{
 		return FALSE;
 	}
 }
-
+ 
 double fx_get_fx()
 {
 	return fx_mesh[mesh_pos];
@@ -138,3 +149,4 @@ void fx_memory_free()
 {
 	free(fx_mesh);
 }
+

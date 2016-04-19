@@ -4,9 +4,9 @@
 // 
 //  Copyright (C) 2012 Roderick C. I. MacKenzie
 //
-//      roderick.mackenzie@nottingham.ac.uk
-//      www.roderickmackenzie.eu
-//      Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
+//	roderick.mackenzie@nottingham.ac.uk
+//	www.roderickmackenzie.eu
+//	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
 // This program is free software; you can redistribute it and/or modify it
@@ -23,10 +23,10 @@
 
 int main()
 {
-	struct light two;
-	light_load_config(&two);
-	light_free_memory(&two);
-	return 0;
+struct light two;
+light_load_config(&two);
+light_free_memory(&two);
+return 0;
 /*int ext=0;
 struct fitvars config;
 void *lib_handle;

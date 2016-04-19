@@ -4,9 +4,9 @@
 // 
 //  Copyright (C) 2012 Roderick C. I. MacKenzie
 //
-//      roderick.mackenzie@nottingham.ac.uk
-//      www.roderickmackenzie.eu
-//      Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
+//	roderick.mackenzie@nottingham.ac.uk
+//	www.roderickmackenzie.eu
+//	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
 // This program is free software; you can redistribute it and/or modify it
@@ -78,10 +78,12 @@ printf("Dooing Loop %d\n",loop);
 		charge*=1.0/1.6e-19;
 		tot=charge-capq;
 
+
 		//rewrite as total charge left in the device
 		gdouble mytau=0.0;
 		for (i=0;i<left.len;i++)
 		{
+
 
 		//printf("%e\n",xrange.x[x]);
 		left.data[i]=tot;
@@ -100,6 +102,7 @@ printf("Dooing Loop %d\n",loop);
 
 		lookup.x[x]=charge-capq-sum_lost;
 		lookup.data[x]=inter_get_hard(&tau,xrange.x[x]);
+
 
 		printf("%e %e %e %e %e %e\n",xrange.x[x],charge,capq,charge-capq,inter_get_hard(&tau,xrange.x[x]),sum_lost);
 		inter_save(&left,"left.dat");
@@ -121,55 +124,57 @@ exit(0);
 
 */
 
-void process_ce_data(struct simulation *sim, int col, char *input, char *output)
+
+void process_ce_data(struct simulation *sim,int col,char *input,char *output)
 {
-	int i;
-	struct istruct data;
+int i;
+struct istruct data;
 
-	gdouble d =
-	    read_value(sim, "device.inp", 0, 12) + read_value(sim, "device.inp",
-							      0, 39);
-	gdouble area =
-	    read_value(sim, "device.inp", 0, 21) * read_value(sim, "device.inp",
-							      0, 23);
+gdouble d=read_value(sim,"device.inp",0,12)+read_value(sim,"device.inp",0,39);
+gdouble area=read_value(sim,"device.inp",0,21)*read_value(sim,"device.inp",0,23);
 
-	gdouble cap =
-	    read_value(sim, "blom_bulk.inp", 0, 84) * epsilon0 * area / d;
-	gdouble capq = 0.0;
+gdouble cap=read_value(sim,"blom_bulk.inp",0,84)*epsilon0*area/d;
+gdouble capq=0.0;
 
-	gdouble dt = 0.0;
+gdouble dt=0.0;
 
-	int x = 0;
+int x=0;
 
-	FILE *out = fopen(output, "w");
+FILE *out=fopen(output,"w");
 
-	for (x = 0; x < col; x++) {
-		printf("loading.... %d\n", x);
-		inter_load_by_col(&data, input, x);
+	for (x=0;x<col;x++)
+	{
+		printf("loading.... %d\n",x);
+		inter_load_by_col(&data,input,x);
 
-		gdouble tot = 0.0;
 
-		for (i = 1; i < data.len - 1; i++) {
+		gdouble tot=0.0;
+
+		for (i=1;i<data.len-1;i++)
+		{
 			//if ((data.x[i]>1e-6)&&(data.x[i]<1e-5))
 			{
-				dt = (data.x[i + 1] - data.x[i - 1]) / 2.0;
-				tot += data.data[i] * dt;
+				dt=(data.x[i+1]-data.x[i-1])/2.0;
+				tot+=data.data[i]*dt;
 			}
 		}
 
-		capq = (data.x[0] * cap) / Q;	//charge on capasitor
-		capq /= area;
-		capq /= d;
 
-		tot /= area;
-		tot /= d;
-		tot /= Q;
+		capq=(data.x[0]*cap)/Q;	//charge on capasitor
+		capq/=area;
+		capq/=d;
 
-		fprintf(out, "%Le %Le\n", data.data[0], tot - capq);
+		tot/=area;
+		tot/=d;
+		tot/=Q;
+
+		fprintf(out,"%Le %Le\n",data.data[0],tot-capq);
 		inter_free(&data);
 	}
 //getchar();
 
-	fclose(out);
+fclose(out);
 
 }
+
+

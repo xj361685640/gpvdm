@@ -4,9 +4,9 @@
 // 
 //  Copyright (C) 2012 Roderick C. I. MacKenzie
 //
-//      roderick.mackenzie@nottingham.ac.uk
-//      www.roderickmackenzie.eu
-//      Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
+//	roderick.mackenzie@nottingham.ac.uk
+//	www.roderickmackenzie.eu
+//	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
 // This program is free software; you can redistribute it and/or modify it
@@ -18,41 +18,45 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+
+
 #include <stdio.h>
 #include <stdarg.h>
 #include "log.h"
 
 void log_clear()
 {
-	FILE *out;
-	out = fopen("log.dat", "w");
-	fprintf(out, "gpvdm log file:\n");
+	FILE* out;
+	out=fopen("log.dat","w");
+	fprintf(out,"gpvdm log file:\n");
 	fclose(out);
 }
 
-void set_logging_level(struct simulation *sim, int value)
+void set_logging_level(struct simulation *sim,int value)
 {
-	sim->log_level = value;
+	sim->log_level=value;
 }
 
 void printf_log(struct simulation *sim, const char *format, ...)
 {
-	FILE *out;
+	FILE* out;
 	char data[1000];
 	va_list args;
 	va_start(args, format);
-	vsprintf(data, format, args);
-	if ((sim->log_level == log_level_screen)
-	    || (sim->log_level == log_level_screen_and_disk)) {
-		printf("%s", data);
+	vsprintf(data,format, args);
+	if ((sim->log_level==log_level_screen)||(sim->log_level==log_level_screen_and_disk))
+	{
+		printf("%s",data);
 	}
 
-	if ((sim->log_level == log_level_disk)
-	    || (sim->log_level == log_level_screen_and_disk)) {
-		out = fopen("log.dat", "a");
-		fprintf(out, "%s", data);
+	if ((sim->log_level==log_level_disk)||(sim->log_level==log_level_screen_and_disk))
+	{
+		out=fopen("log.dat","a");
+		fprintf(out,"%s",data);
 		fclose(out);
 	}
 
 	va_end(args);
 }
+
+

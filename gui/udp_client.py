@@ -30,7 +30,7 @@
 # it is useful for doing frequency domain calculations where lots
 # of simulations are needed.  The code is very unstable/buggy/insecure,
 # if you want to use it, I recommend getting the latest copy from
-# github (as you are going to have to hack it arround to make it work,
+# github (as you are going to have to hack it around to make it work,
 # on your system/network) Then to enable it you will have to turn the value
 # #enable_cluster in the file sim.gpvdm/ver.inp from \"no\" to \"yes\".
 # Start gpvdm with the \"--client\" option on each node, and with the

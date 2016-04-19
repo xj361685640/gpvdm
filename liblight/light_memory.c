@@ -4,9 +4,9 @@
 // 
 //  Copyright (C) 2012 Roderick C. I. MacKenzie
 //
-//      roderick.mackenzie@nottingham.ac.uk
-//      www.roderickmackenzie.eu
-//      Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
+//	roderick.mackenzie@nottingham.ac.uk
+//	www.roderickmackenzie.eu
+//	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
 // This program is free software; you can redistribute it and/or modify it
@@ -28,107 +28,93 @@
 #include "lang.h"
 #include "log.h"
 
-static int unused __attribute__ ((unused));
+static int unused __attribute__((unused));
 
 void light_memory(struct light *in)
 {
-	int i;
+int i;
 
-	if (in->align_mesh == FALSE) {
-		in->dx = in->ylen / ((gdouble) in->points);
-	} else {
-		in->points = (int)(in->ylen / in->dx);
+	if (in->align_mesh==FALSE)
+	{
+		in->dx=in->ylen/((gdouble)in->points);
+	}else
+	{
+		in->points=(int)(in->ylen/in->dx);
 	}
 
-	in->x = (gdouble *) malloc(in->points * sizeof(gdouble));
-	in->H1d = (gdouble *) malloc(in->points * sizeof(gdouble));
-	in->l = (gdouble *) malloc(in->lpoints * sizeof(gdouble));
-	in->Gn = (gdouble *) malloc(in->points * sizeof(gdouble));
-	in->Gp = (gdouble *) malloc(in->points * sizeof(gdouble));
-	in->photons_tot = (gdouble *) malloc(in->points * sizeof(gdouble));
-	in->sun = (gdouble *) malloc(in->lpoints * sizeof(gdouble));
-	in->layer_end = (gdouble *) malloc(in->points * sizeof(gdouble));
-	in->sun_norm = (gdouble *) malloc(in->lpoints * sizeof(gdouble));
-	in->sun_photons = (gdouble *) malloc(in->lpoints * sizeof(gdouble));
-	in->sun_E = (gdouble *) malloc(in->lpoints * sizeof(gdouble));
-	in->En = (gdouble **) malloc(in->lpoints * sizeof(gdouble *));
-	in->Enz = (gdouble **) malloc(in->lpoints * sizeof(gdouble *));
-	in->Ep = (gdouble **) malloc(in->lpoints * sizeof(gdouble *));
-	in->Epz = (gdouble **) malloc(in->lpoints * sizeof(gdouble *));
-	in->photons_asb = (gdouble **) malloc(in->lpoints * sizeof(gdouble *));
-	in->H = (gdouble **) malloc(in->lpoints * sizeof(gdouble *));
-	in->alpha = (gdouble **) malloc(in->lpoints * sizeof(gdouble *));
-	in->alpha0 = (gdouble **) malloc(in->lpoints * sizeof(gdouble *));
-	in->photons = (gdouble **) malloc(in->lpoints * sizeof(gdouble *));
-	in->pointing_vector =
-	    (gdouble **) malloc(in->lpoints * sizeof(gdouble *));
-	in->E_tot_r = (gdouble **) malloc(in->lpoints * sizeof(gdouble *));
-	in->E_tot_i = (gdouble **) malloc(in->lpoints * sizeof(gdouble *));
-	in->n = (gdouble **) malloc(in->lpoints * sizeof(gdouble *));
-	in->t =
-	    (gdouble complex **) malloc(in->lpoints *
-					sizeof(gdouble complex *));
-	in->r =
-	    (gdouble complex **) malloc(in->lpoints *
-					sizeof(gdouble complex *));
-	in->nbar =
-	    (gdouble complex **) malloc(in->lpoints *
-					sizeof(gdouble complex *));
-	for (i = 0; i < in->lpoints; i++) {
-		in->En[i] = (gdouble *) malloc(in->points * sizeof(gdouble));
-		in->Enz[i] = (gdouble *) malloc(in->points * sizeof(gdouble));
-		in->Ep[i] = (gdouble *) malloc(in->points * sizeof(gdouble));
-		in->Epz[i] = (gdouble *) malloc(in->points * sizeof(gdouble));
-		in->photons_asb[i] =
-		    (gdouble *) malloc(in->points * sizeof(gdouble));
-		in->alpha[i] = (gdouble *) malloc(in->points * sizeof(gdouble));
-		in->alpha0[i] =
-		    (gdouble *) malloc(in->points * sizeof(gdouble));
-		in->photons[i] =
-		    (gdouble *) malloc(in->points * sizeof(gdouble));
-		in->pointing_vector[i] =
-		    (gdouble *) malloc(in->points * sizeof(gdouble));
-		in->E_tot_r[i] =
-		    (gdouble *) malloc(in->points * sizeof(gdouble));
-		in->E_tot_i[i] =
-		    (gdouble *) malloc(in->points * sizeof(gdouble));
-		in->n[i] = (gdouble *) malloc(in->points * sizeof(gdouble));
-		in->t[i] =
-		    (gdouble complex *) malloc(in->points *
-					       sizeof(gdouble complex));
-		in->r[i] =
-		    (gdouble complex *) malloc(in->points *
-					       sizeof(gdouble complex));
-		in->nbar[i] =
-		    (gdouble complex *) malloc(in->points *
-					       sizeof(gdouble complex));
-		in->H[i] = (gdouble *) malloc(in->points * sizeof(gdouble));
+	in->x=(gdouble *)malloc(in->points*sizeof(gdouble));
+	in->H1d=(gdouble *)malloc(in->points*sizeof(gdouble));
+	in->l=(gdouble *)malloc(in->lpoints*sizeof(gdouble));
+	in->Gn=(gdouble *)malloc(in->points*sizeof(gdouble));
+	in->Gp=(gdouble *)malloc(in->points*sizeof(gdouble));
+	in->photons_tot=(gdouble *)malloc(in->points*sizeof(gdouble));
+	in->sun=(gdouble *)malloc(in->lpoints*sizeof(gdouble));
+	in->layer_end=(gdouble *)malloc(in->points*sizeof(gdouble));
+	in->sun_norm=(gdouble *)malloc(in->lpoints*sizeof(gdouble));
+	in->sun_photons=(gdouble *)malloc(in->lpoints*sizeof(gdouble));
+	in->sun_E=(gdouble *)malloc(in->lpoints*sizeof(gdouble));
+	in->En=(gdouble **)malloc(in->lpoints*sizeof(gdouble*));
+	in->Enz=(gdouble **)malloc(in->lpoints*sizeof(gdouble*));
+	in->Ep=(gdouble **)malloc(in->lpoints*sizeof(gdouble*));
+	in->Epz=(gdouble **)malloc(in->lpoints*sizeof(gdouble*));
+	in->photons_asb=(gdouble **)malloc(in->lpoints*sizeof(gdouble*));
+	in->H=(gdouble **)malloc(in->lpoints*sizeof(gdouble*));
+	in->alpha=(gdouble **)malloc(in->lpoints*sizeof(gdouble*));
+	in->alpha0=(gdouble **)malloc(in->lpoints*sizeof(gdouble*));
+	in->photons=(gdouble **)malloc(in->lpoints*sizeof(gdouble*));
+	in->pointing_vector=(gdouble **)malloc(in->lpoints*sizeof(gdouble*));
+	in->E_tot_r=(gdouble **)malloc(in->lpoints*sizeof(gdouble*));
+	in->E_tot_i=(gdouble **)malloc(in->lpoints*sizeof(gdouble*));
+	in->n=(gdouble **)malloc(in->lpoints*sizeof(gdouble*));
+	in->t=(gdouble complex **)malloc(in->lpoints*sizeof(gdouble complex *));
+	in->r=(gdouble complex **)malloc(in->lpoints*sizeof(gdouble complex *));
+	in->nbar=(gdouble complex **)malloc(in->lpoints*sizeof(gdouble complex *));
+	for (i=0;i<in->lpoints;i++)
+	{
+		in->En[i]=(gdouble *)malloc(in->points*sizeof(gdouble));
+		in->Enz[i]=(gdouble *)malloc(in->points*sizeof(gdouble));
+		in->Ep[i]=(gdouble *)malloc(in->points*sizeof(gdouble));
+		in->Epz[i]=(gdouble *)malloc(in->points*sizeof(gdouble));
+		in->photons_asb[i]=(gdouble *)malloc(in->points*sizeof(gdouble));
+		in->alpha[i]=(gdouble *)malloc(in->points*sizeof(gdouble));
+		in->alpha0[i]=(gdouble *)malloc(in->points*sizeof(gdouble));
+		in->photons[i]=(gdouble *)malloc(in->points*sizeof(gdouble));
+		in->pointing_vector[i]=(gdouble *)malloc(in->points*sizeof(gdouble));
+		in->E_tot_r[i]=(gdouble *)malloc(in->points*sizeof(gdouble));
+		in->E_tot_i[i]=(gdouble *)malloc(in->points*sizeof(gdouble));
+		in->n[i]=(gdouble *)malloc(in->points*sizeof(gdouble));
+		in->t[i]=(gdouble complex *)malloc(in->points*sizeof(gdouble complex));
+		in->r[i]=(gdouble complex *)malloc(in->points*sizeof(gdouble complex));
+		in->nbar[i]=(gdouble complex *)malloc(in->points*sizeof(gdouble complex));
+		in->H[i]=(gdouble *)malloc(in->points*sizeof(gdouble));
 
 	}
 
-	in->reflect = (gdouble *) malloc(in->lpoints * sizeof(gdouble));
+	in->reflect=(gdouble *)malloc(in->lpoints*sizeof(gdouble));
 
-	in->layer = (int *)malloc(in->points * sizeof(int));
+	in->layer=(int *)malloc(in->points*sizeof(int));
 
-	in->N = 0.0;
-	in->N += in->points;
-	in->N += in->points - 1;
-	in->N += in->points;
+	in->N=0.0;
+	in->N+=in->points;
+	in->N+=in->points-1;
+	in->N+=in->points;
 
-	in->N += in->points - 1;
-	in->N += in->points;	//t
-	in->N += in->points - 1;
+	in->N+=in->points-1;
+	in->N+=in->points; //t
+	in->N+=in->points-1;
 	//in->N+=1;
-	in->M = in->points + in->points;
-	in->Ti = malloc(in->N * sizeof(int));
-	in->Tj = malloc(in->N * sizeof(int));
-	in->Tx = malloc(in->N * sizeof(double));
-	in->Txz = malloc(in->N * sizeof(double));
-	in->b = malloc(in->M * sizeof(double));
-	in->bz = malloc(in->M * sizeof(double));
+	in->M=in->points+in->points;
+	in->Ti=malloc(in->N*sizeof(int));
+	in->Tj= malloc(in->N*sizeof(int));
+	in->Tx=malloc(in->N*sizeof(double));
+	in->Txz=malloc(in->N*sizeof(double));
+	in->b=malloc(in->M*sizeof(double));
+	in->bz=malloc(in->M*sizeof(double));
 }
 
-void light_free_memory(struct simulation *sim, struct light *in)
+
+
+void light_free_memory(struct simulation *sim,struct light *in)
 {
 
 	light_free_epitaxy(in);
@@ -138,7 +124,8 @@ void light_free_memory(struct simulation *sim, struct light *in)
 	free(in->x);
 	free(in->layer_end);
 
-	for (i = 0; i < in->lpoints; i++) {
+	for (i=0;i<in->lpoints;i++)
+	{
 		free(in->En[i]);
 		free(in->Enz[i]);
 		free(in->Ep[i]);
@@ -157,6 +144,7 @@ void light_free_memory(struct simulation *sim, struct light *in)
 		free(in->nbar[i]);
 		free(in->H[i]);
 	}
+
 
 	free(in->t);
 	free(in->r);
@@ -193,5 +181,5 @@ void light_free_memory(struct simulation *sim, struct light *in)
 	free(in->l);
 	inter_free(&(in->sun_read));
 
-	printf_log(sim, _("Light free memory\n"));
+	printf_log(sim,_("Light free memory\n"));
 }

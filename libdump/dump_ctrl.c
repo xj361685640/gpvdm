@@ -4,9 +4,9 @@
 // 
 //  Copyright (C) 2012 Roderick C. I. MacKenzie
 //
-//      roderick.mackenzie@nottingham.ac.uk
-//      www.roderickmackenzie.eu
-//      Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
+//	roderick.mackenzie@nottingham.ac.uk
+//	www.roderickmackenzie.eu
+//	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
 // This program is free software; you can redistribute it and/or modify it
@@ -22,13 +22,13 @@
 #include <const.h>
 #include <sim.h>
 
-int get_dump_status(struct simulation *sim, int a)
+int get_dump_status(struct simulation *sim,int a)
 {
 	return sim->dump_array[a];
 }
 
-void set_dump_status(struct simulation *sim, int name, int a)
+void set_dump_status(struct simulation *sim,int name, int a)
 {
-	if ((sim->dump_array[dump_lock] == FALSE) || (name == dump_lock))
-		sim->dump_array[name] = a;
+if ((sim->dump_array[dump_lock]==FALSE)||(name==dump_lock)) sim->dump_array[name]=a;
 }
+

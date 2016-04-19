@@ -4,9 +4,9 @@
 // 
 //  Copyright (C) 2012 Roderick C. I. MacKenzie
 //
-//      roderick.mackenzie@nottingham.ac.uk
-//      www.roderickmackenzie.eu
-//      Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
+//	roderick.mackenzie@nottingham.ac.uk
+//	www.roderickmackenzie.eu
+//	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
 // This program is free software; you can redistribute it and/or modify it
@@ -18,11 +18,13 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+
 #ifndef fxdomain_h
 #define fxdomain_h
 #include <sim.h>
 
-struct fxdomain {
+struct fxdomain 
+{
 	int fxdomain_sim_mode;
 	gdouble fxdomain_Rload;
 	int fxdomain_points;
@@ -37,24 +39,20 @@ struct fxdomain {
 
 };
 
-void sim_fxdomain(struct simulation *sim, struct device *in);
-extern struct fxdomain fxdomain_config;
-void fxdomain_load_config(struct simulation *sim, struct fxdomain *in,
-			  struct device *dev, char *config_file_name);
-void newton_aux_fxdomain(struct device *in, gdouble V, gdouble * i,
-			 gdouble * didv, gdouble * didphi, gdouble * didxil,
-			 gdouble * didxipl, gdouble * didphir, gdouble * didxir,
-			 gdouble * didxipr);
-gdouble newton_fxdomain(struct device *in, gdouble Vtot, int usecap);
 
-void newton_aux_fxdomain_voc(struct device *in, gdouble V, gdouble * i,
-			     gdouble * didv, gdouble * didphi, gdouble * didxil,
-			     gdouble * didxipl, gdouble * didphir,
-			     gdouble * didxir, gdouble * didxipr);
-gdouble fxdomain_newton_sim_voc_fast(struct simulation *sim, struct device *in,
-				     int do_LC);
-gdouble fxdomain_newton_sim_voc(struct simulation *sim, struct device *in);
-void fxdomain_set_light_for_voc(struct simulation *sim, struct device *in,
-				gdouble Voc);
+void sim_fxdomain(struct simulation *sim,struct device *in);
+extern struct fxdomain fxdomain_config;
+void fxdomain_load_config(struct simulation *sim,struct fxdomain *in,struct device *dev,char *config_file_name);
+void newton_aux_fxdomain(struct device *in,gdouble V,gdouble* i,gdouble* didv,gdouble* didphi,gdouble* didxil,gdouble* didxipl,gdouble* didphir,gdouble* didxir,gdouble* didxipr);
+gdouble newton_fxdomain(struct device *in,gdouble Vtot,int usecap);
+
+void newton_aux_fxdomain_voc(struct device *in,gdouble V,gdouble* i,gdouble* didv,gdouble* didphi,gdouble* didxil,gdouble* didxipl,gdouble* didphir,gdouble* didxir,gdouble* didxipr);
+gdouble fxdomain_newton_sim_voc_fast(struct simulation *sim,struct device *in,int do_LC);
+gdouble fxdomain_newton_sim_voc(struct simulation *sim,struct device *in);
+void fxdomain_set_light_for_voc(struct simulation *sim,struct device *in,gdouble Voc);
 
 #endif
+
+
+
+

@@ -4,9 +4,9 @@
 // 
 //  Copyright (C) 2012 Roderick C. I. MacKenzie
 //
-//      roderick.mackenzie@nottingham.ac.uk
-//      www.roderickmackenzie.eu
-//      Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
+//	roderick.mackenzie@nottingham.ac.uk
+//	www.roderickmackenzie.eu
+//	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
 // This program is free software; you can redistribute it and/or modify it
@@ -18,6 +18,8 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+
+
 #ifndef h_newton
 #define h_newton
 
@@ -27,12 +29,12 @@
 #include <device.h>
 
 void dllinternal_newton_set_min_ittr(int ittr);
-void update_solver_vars(struct simulation *sim, struct device *in, int clamp);
-void fill_matrix(struct simulation *sim, struct device *in);
+void update_solver_vars(struct simulation *sim,struct device *in,int clamp);
+void fill_matrix(struct simulation *sim,struct device *in);
 gdouble get_cur_error(struct simulation *sim, struct device *in);
 gdouble get_abs_error(struct device *in);
-void solver_cal_memory(struct device *in, int *ret_N, int *ret_M);
+void solver_cal_memory(struct device *in,int *ret_N,int *ret_M);
 void dllinternal_solver_free_memory(struct device *in);
-int dllinternal_solve_cur(struct simulation *sim, struct device *in);
-void dllinternal_solver_realloc(struct simulation *sim, struct device *in);
+int dllinternal_solve_cur(struct simulation *sim,struct device *in);
+void dllinternal_solver_realloc(struct simulation *sim,struct device *in);
 #endif

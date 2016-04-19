@@ -4,9 +4,9 @@
 // 
 //  Copyright (C) 2012 Roderick C. I. MacKenzie
 //
-//      roderick.mackenzie@nottingham.ac.uk
-//      www.roderickmackenzie.eu
-//      Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
+//	roderick.mackenzie@nottingham.ac.uk
+//	www.roderickmackenzie.eu
+//	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
 // This program is free software; you can redistribute it and/or modify it
@@ -30,7 +30,9 @@ EXPORT void set_interface()
 {
 }
 
-EXPORT void dll_run_simulation(struct simulation *sim, struct device *in)
+EXPORT void dll_run_simulation(struct simulation *sim,struct device *in)
 {
-	sim_jv(sim, in);
+sim_jv(sim,in);
 }
+
+

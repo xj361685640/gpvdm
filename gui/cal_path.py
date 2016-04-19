@@ -36,6 +36,7 @@ bin_path=None
 lib_path=None
 image_path=None
 lang_path=None
+inp_file_path=None
 
 def remove_cwdfrompath(path):
 	tmp=path
@@ -92,6 +93,10 @@ def search_known_paths(file_or_dir_to_find,ext):
 		paths.append(os.path.join(os.path.abspath(os.path.join(os.getcwd(), os.pardir)),file_or_dir_to_find)+ex)
 		paths.append(os.path.join(share_path,file_or_dir_to_find)+ex)
 		paths.append(os.path.join(bin_path,file_or_dir_to_find)+ex)
+		if running_on_linux()==True:
+			paths.append(os.path.join("/usr/share/gpvdm/",file_or_dir_to_find)+ex)
+			paths.append(os.path.join("/usr/local/bin/",file_or_dir_to_find)+ex)
+			paths.append(os.path.join("/usr/bin/",file_or_dir_to_find)+ex)
 
 	for item in paths:
 		if os.path.isdir(item) or os.path.isfile(item):
@@ -121,13 +126,15 @@ def calculate_paths():
 	global materials_path
 	global image_path
 	global plugins_path
+	global inp_file_path
 
 	materials_path=search_known_paths("materials",[""])
 	device_lib_path=search_known_paths("device_lib",[""])
 	plugins_path=search_known_paths("plugins",[""])
 	image_path=search_known_paths("images",[""])
 	lang_path=search_known_paths("lang",[""])
-	exe_command=search_known_paths("gpvdm_core",[".o",".exe"])
+	exe_command=search_known_paths("gpvdm_core",["",".exe",".o"])
+	inp_file_path=os.path.dirname(search_known_paths("sim",[".gpvdm"]))
 
 
 def get_share_path():
@@ -159,8 +166,8 @@ def get_exe_name():
 	return os.path.basename(exe_command)
 
 def get_inp_file_path():
-	global share_path
-	return share_path
+	global inp_file_path
+	return inp_file_path
 
 def get_image_file_path():
 	global image_path

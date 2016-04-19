@@ -57,6 +57,7 @@ from device_lib import device_lib_replace
 from cluster import print_cluster_warning
 from code_ctrl import enable_cluster
 from win_lin import running_on_linux
+from inp import inp_update
 
 import i18n
 _ = i18n.language.gettext
@@ -77,28 +78,32 @@ def command_args(argc,argv):
 			print _("Usage: gpvdm [option] src_file dest_file")
 			print ""
 			print _("Options:")
-			print _("\t--version\tdisplays the current version")
-			print _("\t--help\t\tdisplays the help")
-			print _("\t--export\texport a simulation to a gz file")
-			print _("\t--import\timport a simulation from a .gpvdm file")
-			print _("\t--patch\tpatch an .gpvdm file with an older .gpvdm file")
-			print _("\t\t\tusage --import abc.gpvdm ./path/to/output/ ")
-			print _("\t--clone\t\tgenerate a clean simulation in the current directory")
-			print _("\t--clean\t\tcleans the current simulation directory deleting .dat files but not  scan dirs")
-			print _("\t--dump-tab (output file)\t\tdumps simulation parameters as jpg")
-			print _("\t--import-scandirs\t\tOnly imports the scan directories")
-			print _("\t--clean-scandirs\t\tDeletes the content of all scan dirs")
+			print _("\t--version\t\tdisplays the current version")
+			print _("\t--help\t\t\tdisplays the help")
+			print _("\t--export\t\texport a simulation to a gz file")
+			print _("\t--import\t\timport a simulation from a .gpvdm file")
+			print _("\t--patch\t\t\tpatch an .gpvdm file with an older .gpvdm file")
+			print _("\t\t\t\tusage --import abc.gpvdm ./path/to/output/ ")
+			print _("\t--clone\t\t\tgenerate a clean simulation in the current directory")
+			print _("\t--clean\t\t\tcleans the current simulation directory deleting .dat files but not  scan dirs")
+			print _("\t--dump-tab\t\tdumps simulation parameters as jpg")
+			print _("\t\t\t\tusage --dump-tab output_path ")
+			print _("\t--import-scandirs\tOnly imports the scan directories")
+			print _("\t--clean-scandirs\tDeletes the content of all scan dirs")
 			print _("\t--scan-plot\t\truns an oplot file")
-			print _("\t\t\tusage --scan-plot /path/to/oplot/file.oplot ")
+			print _("\t\t\t\tusage --scan-plot /path/to/oplot/file.oplot ")
 			print _("\t--run-scan\t\truns a scan")
-			print _("\t\t\tusage --run-scan /path/containing/base/files/ /path/to/scan/dir/ ")
+			print _("\t\t\t\tusage --run-scan /path/containing/base/files/ /path/to/scan/dir/ ")
 			print _("\t--sync-ver\t\truns a scan")
+			print _("\t--edit-value\t\tedits a value in a .gpvdm archive")
+			print _("\t\t\t\tusage --edit-value /path/to/sim.gpvdm #token_to_change new_value ")
+			print _("\t\t\t\tchanges the version of input file")
+			print _("\t--replace\t\treplaces file in device lib")
 			if enable_cluster()==True:
 				print _("\t--server\t\tRun as server node for cluster")
 				print _("\t--server\t\tRun as client node for cluster")
 
-			print _("\t\t\tchanges the version of input file")
-			print _("\t--replace\t\treplaces file in device lib")
+
 			print "\t\t\t"
 			print ""
 			print _("Additional information about gpvdm is available at http://www.gpvdm.com.")
@@ -135,6 +140,9 @@ def command_args(argc,argv):
 			sys.exit(0)
 		if check_params(argv,"--clone-src",1)==True:
 			gpvdm_copy_src(argv[2])
+			sys.exit(0)
+		if check_params(argv,"--edit-value",3)==True:
+			inp_update(argv[2], argv[3], argv[4])
 			sys.exit(0)
 
 		#if check_params(argv,"--file_info",0)==True:

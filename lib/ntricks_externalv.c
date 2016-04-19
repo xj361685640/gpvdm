@@ -4,9 +4,9 @@
 // 
 //  Copyright (C) 2012 Roderick C. I. MacKenzie
 //
-//      roderick.mackenzie@nottingham.ac.uk
-//      www.roderickmackenzie.eu
-//      Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
+//	roderick.mackenzie@nottingham.ac.uk
+//	www.roderickmackenzie.eu
+//	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
 // This program is free software; you can redistribute it and/or modify it
@@ -18,28 +18,28 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+
 #include <exp.h>
 #include "dump.h"
 #include "sim.h"
 #include "ntricks.h"
 
-static int glob_use_cap = 0;
+static int glob_use_cap=0;
+
 
 static gdouble Rload;
 
 void ntricks_externv_set_load(gdouble R)
 {
-	Rload = R;
+	Rload=R;
 }
 
-gdouble ntricks_externv_newton(struct simulation *sim, struct device *in,
-			       gdouble Vtot, int usecap)
+
+
+gdouble ntricks_externv_newton(struct simulation *sim,struct device *in,gdouble Vtot,int usecap)
 {
-	gdouble C = in->C;
-	solve_all(sim, in);
-	if (glob_use_cap == FALSE)
-		C = 0.0;
-	return get_I(in) + in->Vapplied / in->Rshunt + C * (in->Vapplied -
-							    in->Vapplied_last) /
-	    in->dt;
+gdouble C=in->C;
+solve_all(sim,in);
+if (glob_use_cap==FALSE) C=0.0;
+return get_I(in)+in->Vapplied/in->Rshunt+C*(in->Vapplied-in->Vapplied_last)/in->dt;
 }
