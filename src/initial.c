@@ -112,11 +112,11 @@ if (in->interfaceright==TRUE)
 	}
 }
 
-if (get_dump_status(sim,dump_iodump)==TRUE)
-{
+//if (get_dump_status(sim,dump_iodump)==TRUE)
+//{
 printf_log(sim,"check1= %Le %Le\n",get_p_den(in,top_l,in->Te[0],in->imat[0]),charge_left);
 printf_log(sim,"check2= %Le %Le\n",get_n_den(in,top_r,in->Te[in->ymeshpoints-1],in->imat[in->ymeshpoints-1]),charge_right);
-}
+//}
 
 gdouble delta_phi=top_l+top_r+in->Eg[0]+in->Xi[0]-in->Xi[in->ymeshpoints-1];
 gdouble test_l= -in->Xi[0]+top_r;

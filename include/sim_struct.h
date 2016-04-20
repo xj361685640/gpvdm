@@ -72,6 +72,7 @@ struct simulation
 	int (*dll_solver_realloc)();
 	int (*dll_solver_free_memory)();
 	void *dll_solver_handle;
+	char force_sim_mode[100];
 };
 
 #endif

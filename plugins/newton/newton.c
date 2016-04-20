@@ -542,6 +542,7 @@ if (in->interfaceright==TRUE)
 				munc=in->mun[i];
 				mupc=in->mup[i];
 
+
 				wnc=in->wn[i];
 				wpc=in->wp[i];
 
@@ -927,6 +928,7 @@ if (in->interfaceright==TRUE)
 				in->Ti[pos]=i;
 				in->Tj[pos]=i-1;
 				in->Tx[pos]=dphil_d;
+
 				pos++;
 				//electron
 					in->Ti[pos]=in->ymeshpoints*(1)+i;
@@ -995,16 +997,14 @@ if (in->interfaceright==TRUE)
 			in->Ti[pos]=in->ymeshpoints*(1)+i;
 			in->Tj[pos]=in->ymeshpoints*(1+1)+i;
 			in->Tx[pos]=dJdxipc;
-			//strcpy(in->Tdebug[pos],"dJdxipc");
+			//printf("dJdxipc %Le\n",dJdxipc);
 			pos++;
 
 			in->Ti[pos]=in->ymeshpoints*(1)+i;
 			in->Tj[pos]=i;
 			in->Tx[pos]=dJdphic;
-			//strcpy(in->Tdebug[pos],"dJdphic");
+			//printf("dJdphic %Le",dJdphic);
 			pos++;
-
-
 
 
 
@@ -1212,6 +1212,7 @@ if (in->interfaceright==TRUE)
 				build-=(pc-plast)/dt;
 			}			
 
+
 			in->b[in->ymeshpoints*(1+1)+i]=build;
 
 			if (in->ntrapnewton==TRUE)
@@ -1239,8 +1240,6 @@ if (pos>in->N)
 	ewe(sim,"Error %d %d %d\n",pos,in->N,in->kl_in_newton);
 }
 
-//solver_dump_matrix_comments(in->M,pos,in->Tdebug,in->Ti,in->Tj, in->Tx,in->b,"");
-//getchar();
 //fclose(file_j);
 //printf("Check J file\n");
 //getchar();
@@ -1301,7 +1300,7 @@ gdouble tot=phi+n+p+x+te+th+tl+ttn+ttp+i0;
 if (isnan( tot))
 {
 	printf("%Le %Le %Le %Le %Le %Le %Le %Le %Le\n",phi,n,p,x,te,th,tl,ttn,ttp);
-	dump_matrix(sim,in->M,in->N,in->Ti,in->Tj, in->Tx,in->b,"");
+	dump_matrix(in);
 	ewe(sim,"nan detected in newton solver\n");
 }
 

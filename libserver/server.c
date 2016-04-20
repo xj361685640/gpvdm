@@ -110,7 +110,7 @@ local_sim=sim;
 }
 
 
-int server_decode(struct simulation *sim,char *command,char *output)
+int server_decode(struct simulation *sim,char *command)
 {
 int odes=0;
 return odes;
@@ -129,7 +129,7 @@ void server_add_job(struct simulation *sim,struct server *myserver,char *command
 		gen_dos_fd_gaus_p(sim,extract_str_number(command,"gendosp_"));
 	}else
 	{
-		odes=run_simulation(sim,command,output);
+		odes=run_simulation(sim);
 	}
 	printf_log(sim,"Solved %d ODEs\n",odes);
 }

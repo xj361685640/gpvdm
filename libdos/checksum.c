@@ -39,7 +39,7 @@ unsigned long len;
 long l;
 char chkfile[100];
 
-sprintf(chkfile,"checksum.%s.dat",get_file_name_from_path(file_name));
+sprintf(chkfile,"%s.chk",get_file_name_from_path(file_name));
 
 inp_read_buffer(sim,&buffer, &l,file_name);
 len=(unsigned int)l;
@@ -71,8 +71,7 @@ char fromfile[100];
 
 strcpy(newcheck,"hello");
 
-sprintf(chkfile,"checksum.%s.dat",file_name);
-
+sprintf(chkfile,"%s.chk",file_name);
 long l;
 inp_read_buffer(sim,&buffer, &l,file_name);
 

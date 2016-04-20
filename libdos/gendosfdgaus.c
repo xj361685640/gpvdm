@@ -1117,26 +1117,21 @@ for (mat=0;mat<matnumber;mat++)
 	sprintf(name,"%s.inp",my_epitaxy.dos_file[mat]);
 	join_path(2, full_name,get_input_path(sim),name);
 
-	if (checksum_check(sim,full_name)==FALSE) problem_with_dos=TRUE;
-
+	if (checksum_check(sim,full_name)==FALSE)
+	{
+		problem_with_dos=TRUE;
+	}
 
 	sprintf(name,"%s_dosn.dat",my_epitaxy.dos_file[mat]);
-	file=fopen(name,"r");
-	if (!file)
+	if (isfile(name)!=0)
 	{
 		problem_with_dos=TRUE;
-	}else
-	{
-		fclose(file);
 	}
+
 	sprintf(name,"%s_dosp.dat",my_epitaxy.dos_file[mat]);
-	file=fopen(name,"r");
-	if (!file)
+	if (isfile(name)!=0)
 	{
 		problem_with_dos=TRUE;
-	}else
-	{
-		fclose(file);
 	}
 
 

@@ -63,6 +63,7 @@ in->min_cur_error=in->electrical_error0;
 
 solve_all(sim,in);
 
+
 in->max_electrical_itt=save_ittr;
 in->electrical_clamp=save_clamp;
 in->min_cur_error=save_electricalerror;

@@ -965,7 +965,7 @@ if (in->interfaceright==TRUE)
 
 			}
 
-			//getchar();
+
 			if ((in->kl_in_newton==TRUE)&&(in->interfaceleft==TRUE)&&(i==0))
 			{
 				//printf("%d\n",i);
@@ -1310,7 +1310,7 @@ gdouble tot=phi+n+p+x+te+th+tl+ttn+ttp+i0;
 if (isnan( tot))
 {
 	printf("%Le %Le %Le %Le %Le %Le %Le %Le %Le\n",phi,n,p,x,te,th,tl,ttn,ttp);
-	dump_matrix(sim,in->M,in->N,in->Ti,in->Tj, in->Tx,in->b,"");
+	//dump_matrix(sim,in->M,in->N,in->Ti,in->Tj, in->Tx,in->b,"");
 
 	ewe(sim,"nan detected in newton solver\n");
 }

@@ -119,7 +119,10 @@ void light_solve_and_update(struct simulation *sim,struct device *cell,struct li
 		last_wavelength_laser=in->laser_wavelength;
 	}
 
-	light_dump_1d(sim,in, in->laser_pos,"");
+	if (in->laser_pos!=-1)
+	{
+		light_dump_1d(sim,in, in->laser_pos,"");
+	}
 
 	light_transfer_gen_rate_to_device(cell,in);
 

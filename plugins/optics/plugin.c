@@ -18,43 +18,21 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+#include <dll_export.h>
+#include <log.h>
+#include <cal_path.h>
+#include <dump.h>
+#include "optics_plugin.h"
 
+struct dll_interface *fun;
 
-#include <sim.h>
-#include <string.h>
-
-void sim_init(struct simulation *sim)
+EXPORT void set_interface()
 {
-//plotting
-	sim->gnuplot= NULL;
-	sim->gnuplot_time= NULL;
-	sim->converge= NULL;
-	sim->tconverge= NULL;
-	sim->log_level= -1;
-	sim->last_col=0;
-	sim->last_nz=0;
-	sim->x=NULL;
-	sim->Ap=NULL;
-	sim->Ai=NULL;
-	sim->Ax=NULL;
-	sim->b=NULL;
-	sim->Tx=NULL;
-
-	//complex solver
-	sim->complex_last_col=0;
-	sim->complex_last_nz=0;
-	sim->complex_x=NULL;
-	sim->complex_xz=NULL;
-	sim->complex_Ap=NULL;
-	sim->complex_Ai=NULL;
-	sim->complex_Ax=NULL;
-	sim->complex_Az=NULL;
-
-	sim->dll_solve_cur=NULL;
-	sim->dll_solver_realloc=NULL;
-	sim->dll_solver_free_memory=NULL;
-	sim->dll_solver_handle=NULL;
-	strcpy(sim->force_sim_mode,"");
-
 }
+
+EXPORT void dll_run_simulation(struct simulation *sim,struct device *in)
+{
+sim_optics(sim,in);
+}
+
 

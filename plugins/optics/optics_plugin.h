@@ -19,42 +19,11 @@
 // more details.
 
 
-
+#ifndef optics_plugin_h
+#define optics_plugin_h
 #include <sim.h>
-#include <string.h>
+#include <sim_struct.h>
 
-void sim_init(struct simulation *sim)
-{
-//plotting
-	sim->gnuplot= NULL;
-	sim->gnuplot_time= NULL;
-	sim->converge= NULL;
-	sim->tconverge= NULL;
-	sim->log_level= -1;
-	sim->last_col=0;
-	sim->last_nz=0;
-	sim->x=NULL;
-	sim->Ap=NULL;
-	sim->Ai=NULL;
-	sim->Ax=NULL;
-	sim->b=NULL;
-	sim->Tx=NULL;
+void sim_optics(struct simulation *sim,struct device *in);
 
-	//complex solver
-	sim->complex_last_col=0;
-	sim->complex_last_nz=0;
-	sim->complex_x=NULL;
-	sim->complex_xz=NULL;
-	sim->complex_Ap=NULL;
-	sim->complex_Ai=NULL;
-	sim->complex_Ax=NULL;
-	sim->complex_Az=NULL;
-
-	sim->dll_solve_cur=NULL;
-	sim->dll_solver_realloc=NULL;
-	sim->dll_solver_free_memory=NULL;
-	sim->dll_solver_handle=NULL;
-	strcpy(sim->force_sim_mode,"");
-
-}
-
+#endif

@@ -76,7 +76,7 @@ if (scanarg( argv,argc,"--help")==TRUE)
 	printf("\t--inputpath\t sets the input path\n");
 	printf("\t--version\tdisplays the current version\n");
 	printf("\t--zip_results\t zip the results\n");
-	printf("\t--optics\t runs only optical simulation\n");
+	printf("\t--simmode\t forces a simulation mode.\n");
 	printf("\t--cpus\t sets the number of CPUs\n");
 	printf("\n");
 	printf("Additional information about gpvdm is available at www.gpvdm.com.\n");
@@ -179,7 +179,7 @@ exit(0);
 }
 
 gui_start();
-if (scanarg( argv,argc,"--optics")==FALSE) server_init(&sim,&globalserver);
+server_init(&sim,&globalserver);
 
 if (scanarg( argv,argc,"--lock")==TRUE)
 {
@@ -190,8 +190,13 @@ if (scanarg( argv,argc,"--lock")==TRUE)
 int ret=0;
 
 
-gen_dos_fd_gaus_fd(&sim);
+if (scanarg( argv,argc,"--simmode")==TRUE)
+{
+	strcpy(sim.force_sim_mode,get_arg_plusone( argv,argc,"--simmode"));
+}
 
+gen_dos_fd_gaus_fd(&sim);
+printf("here\n");
 server_add_job(&sim,&globalserver,sim.output_path,sim.input_path);
 print_jobs(&sim,&globalserver);
 

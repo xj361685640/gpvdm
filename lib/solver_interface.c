@@ -94,9 +94,14 @@ void solver(struct simulation *sim,int col,int nz,int *Ti,int *Tj, long double *
 (*sim->dll_matrix_solve)(sim,col,nz,Ti,Tj,Tx,b);
 }
 
-void dump_matrix(struct simulation *sim,int col,int nz,int *Ti,int *Tj, long double *Tx,long double *b,char *index)
+void dump_matrix(struct device *in)
 {
-(*sim->dll_matrix_dump)(sim,col,nz,Ti,Tj, Tx,b,index);
+int i;
+	for (i=0;i<in->N;i++)
+	{
+		printf("%ld %ld %Le\n",in->Ti[i],in->Tj[i],in->Tx[i]);
+	}
+	//(*sim->dll_matrix_dump)(sim,col,nz,Ti,Tj, Tx,b,index);
 }
 
 void solver_free(struct simulation *sim)

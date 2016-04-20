@@ -36,7 +36,7 @@ AC_CHECK_LIB(matheval, [main], [], [AC_MSG_ERROR([matheval is needed but not fou
 AC_SUBST(SLIB_EXT, "a")
 AC_SUBST(DLIB_EXT, "so")
 AC_SUBST(EXE_EXT, "o")
-AC_SUBST(EXE_LINK,["`pkg-config --libs dbus-1` -lumfpack -lm -lgsl -lgslcblas -rdynamic -export-dynamic -ldl -lzip -lz -lmatheval -g"])
+AC_SUBST(EXE_LINK,["`pkg-config --libs dbus-1` -lumfpack -lm -lgsl -lgslcblas -rdynamic -export-dynamic -ldl -lzip -lz -lmatheval -g -efence"])
 
 AC_SUBST(DLL_LINKER, ["`dpkg-buildflags --get LDFLAGS` -Wl,-soname,plugin.so"])
 AC_SUBST(DLL_COMPILE, ["-fPIC"])

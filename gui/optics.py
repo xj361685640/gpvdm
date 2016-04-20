@@ -407,9 +407,9 @@ class class_optical(gtk.Window):
 
 
 	def update_graph(self):
-		cmd = get_exe_command()+' --sim-mode optics'
+		cmd = get_exe_command()+' --simmode opticalmodel@optics'
 		print cmd
-#		ret= os.system(cmd)
+		ret= os.system(cmd)
 		self.fig_photon_density.my_figure.clf()
 		self.fig_photon_density.draw_graph()
 		self.fig_photon_density.canvas.draw()
