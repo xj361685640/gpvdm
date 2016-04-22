@@ -99,6 +99,7 @@ if (pulse_config.pulse_sim_mode==pulse_load)
 if (pulse_config.pulse_sim_mode==pulse_open_circuit)
 {
 	in->Vapplied=in->Vbi;
+	pulse_config.pulse_Rload=1e6;
 	pulse_newton_sim_voc(sim,in);
 	pulse_newton_sim_voc_fast(sim,in,FALSE);
 }else

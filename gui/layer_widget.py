@@ -202,7 +202,9 @@ class layer_widget(gtk.VBox):
 		pos=pos+1
 
 
-		remove = gtk.ToolButton(gtk.STOCK_CLEAR)
+		image = gtk.Image()
+   		image.set_from_file(os.path.join(get_image_file_path(),"minus.png"))
+		remove = gtk.ToolButton(image)
 		remove.connect("clicked", self.on_remove_item_clicked)
 		tooltips.set_tip(remove, _("Delete device layer"))
 		toolbar.insert(remove, pos)

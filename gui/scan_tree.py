@@ -232,8 +232,6 @@ def tree(flat_simulation_list,program_list,tree_items,base_dir,level,path,var_to
 					tree_apply_python_script(program_list)
 					tree_apply_mirror(program_list)
 
-				
-					inp_update_token_value("materialsdir.inp", "#materialsdir", os.path.join(base_dir,"materials"),1)
 					inp_update_token_value("dump.inp", "#plot", "0",1)
 
 			if level==0:

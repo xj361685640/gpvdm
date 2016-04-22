@@ -49,7 +49,7 @@ class plot_window():
 		self.plot.init(self.window)
 
 		print "here1"
-		print plot_labels
+		print "labels",plot_labels
 		if len(plot_labels)==0:
 			for i in range(0,len(input_files)):
 				plot_labels.append(os.path.basename(input_files[i]).replace("_","\_"))

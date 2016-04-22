@@ -103,7 +103,7 @@ def search_known_paths(file_or_dir_to_find,ext):
 			#print "found",item
 			return item
 
-	print "Can't find",file_or_dir_to_find, "setting it to",paths[0]
+	#print "Can't find",file_or_dir_to_find, "setting it to",paths[0]
 	return paths[2]
 
 def cal_bin_path():

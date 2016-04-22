@@ -202,6 +202,9 @@ def scan_gen_plot_data(plot_token,base_path):
 			if text.endswith("light_dump"):
 				text=text[:-10]
 
+			if text[0]=="/" or "\\":
+				text=text[1:]
+
 			plot_labels.append(str(text))
 
 		save_file=os.path.join(base_path,os.path.splitext(os.path.basename(plot_files[0]))[0])+".oplot"

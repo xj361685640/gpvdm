@@ -29,6 +29,7 @@ char *get_plugins_path(struct simulation *sim);
 char *get_lang_path(struct simulation *sim);
 char *get_input_path(struct simulation *sim);
 char *get_output_path(struct simulation *sim);
+char *get_materials_path(struct simulation *sim);
 void set_input_path(struct simulation *sim,char *in);
 void set_output_path(struct simulation *sim,char *in);
 #endif

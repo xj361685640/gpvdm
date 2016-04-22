@@ -29,7 +29,8 @@
 
 #include <limits.h>
 
-void set_plugins_path(struct simulation *sim)
+
+void set_path(struct simulation *sim,char *out, char *name)
 {
 char cwd[1000];
 char temp[1000];
@@ -39,56 +40,24 @@ char temp[1000];
 		ewe(sim,"IO error\n");
 	}
 
-
-	join_path(2,temp,cwd,"plugins");
-	if (isdir(temp)==0)
-	{
-		strcpy(sim->plugins_path,temp);
-		return;
-	}
-
-	join_path(2,temp,sim->exe_path,"plugins");
-	if (isdir(temp)==0)
-	{
-		strcpy(sim->plugins_path,temp);
-		return;
-	}
-
-	join_path(2,sim->plugins_path,sim->share_path,"plugins");	
-	if (isdir(sim->plugins_path)!=0)
-	{
-		ewe(sim,"I can't find the plugins\n");
-	}
-}
-
-void set_lang_path(struct simulation *sim)
-{
-char cwd[1000];
-char temp[1000];
-
-	if (getcwd(cwd,1000)==NULL)
-	{
-		ewe(sim,"IO error\n");
-	}
-
-	join_path(2,temp,cwd,"lang");
+	join_path(2,temp,cwd,name);
 
 	if (isdir(temp)==0)
 	{
-		strcpy(sim->lang_path,temp);
+		strcpy(out,temp);
 		return;
 	}
 
-	join_path(2,temp,sim->exe_path,"plugins");
+	join_path(2,temp,sim->exe_path,name);
 	if (isdir(temp)==0)
 	{
-		strcpy(sim->lang_path,temp);
+		strcpy(out,temp);
 		return;
 	}
 
-	join_path(2,sim->lang_path,sim->share_path,"plugins");	
+	join_path(2,sim->lang_path,sim->share_path,name);	
 
-	if (isdir(sim->lang_path)!=0)
+	if (isdir(out)!=0)
 	{
 		ewe(sim,"I can't find the plugins\n");
 	}
@@ -155,11 +124,16 @@ if (getcwd(cwd,1000)==NULL)
 strcpy(sim->output_path,cwd);
 strcpy(sim->input_path,cwd);
 
-set_plugins_path(sim);
+set_path(sim,sim->plugins_path, "plugins");
+set_path(sim,sim->lang_path, "lang");
+set_path(sim,sim->materials_path, "materials");
 
-set_lang_path(sim);
 
+}
 
+char *get_materials_path(struct simulation *sim)
+{
+return sim->materials_path;
 }
 
 char *get_plugins_path(struct simulation *sim)

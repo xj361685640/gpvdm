@@ -29,6 +29,15 @@ python_PYTHON=gui/*.py
 
 dist_doc_DATA = README
 
+appicondir=$(pkgdatadir)/images
+appicon_DATA=$(srcdir)/desktop/application-gpvdm.svg
+
+desktopdir = $(pkgdatadir)/applications
+desktop_DATA = $(srcdir)/desktop/gpvdm.desktop
+
+packagesdir = $(datadir)/mime/packages
+packages_DATA = $(srcdir)/desktop/gpvdm-gpvdm.xml
+
 clean-local:
 	rm gpvdm_core *.dat *.o ./plugins/*.so ./plugins/*.dll *.log *.a  *.lib *.exe *.chk -f
 	rm autom4te.cache -rf 
@@ -36,22 +45,9 @@ clean-local:
 gpvdm_core$(EXEEXT):
 	@printf ""
 
-#ln -s -f $(datadir)/gpvdm/gui/gpvdm.py $(DESTDIR)$(bindir)/gpvdm
-#chmod 755 $(DESTDIR)$(datadir)/gpvdm/gui/gpvdm.py
-#ln -s $(DESTDIR)$(datadir)/gpvdm/gui/gpvdm.py
-
 
 install-data-hook:
 	cp materials $(DESTDIR)$(datadir)/gpvdm/materials -rf
 	find lang -name "*.mo" -exec cp --parents {} $(DESTDIR)$(datadir)/gpvdm/ ";"
-
-	mkdir --parents $(DESTDIR)/usr/share/applications
-	cp --parents ./desktop/gpvdm.desktop $(DESTDIR)/usr/share/applications
-
-	mkdir --parents $(DESTDIR)/usr/share/mime/packages
-	cp --parents ./desktop/gpvdm-gpvdm.xml $(DESTDIR)/usr/share/mime/packages
-
-	mkdir --parents $(DESTDIR)/usr/share/icons/gnome/scalable/mimetypes
-	cp --parents ./desktop/application-gpvdm.svg $(DESTDIR)/usr/share/icons/gnome/scalable/mimetypes
 
 

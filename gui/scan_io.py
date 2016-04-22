@@ -86,10 +86,10 @@ def scan_ask_to_delete(dirs_to_del):
 		settings.set_property('gtk-alternative-button-order', True)
 
 		dialog = gtk.Dialog()
-#		cancel_button = dialog.add_button(gtk.STOCK_YES, gtk.RESPONSE_YES)
+		yes_button = dialog.add_button(gtk.STOCK_YES, gtk.RESPONSE_YES)
 
-		ok_button = dialog.add_button(gtk.STOCK_NO, gtk.RESPONSE_NO)
-		ok_button.grab_default()
+		no_button = dialog.add_button(gtk.STOCK_NO, gtk.RESPONSE_NO)
+		no_button.grab_default()
 
 #		help_button = dialog.add_button(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL)
 
@@ -106,8 +106,7 @@ def scan_ask_to_delete(dirs_to_del):
 		dialog.vbox.pack_start(label, True, True, 0)
 		label.show()
 
-		dialog.set_alternative_button_order([gtk.RESPONSE_YES, gtk.RESPONSE_NO,
-					       gtk.RESPONSE_CANCEL])
+		dialog.set_alternative_button_order([gtk.RESPONSE_YES, gtk.RESPONSE_NO,  gtk.RESPONSE_CANCEL])
 
 		#dialog = gtk.MessageDialog(None, 0, gtk.MESSAGE_QUESTION,  gtk.BUTTONS_YES_NO, str("Should I delete the old simualtions first?:\n"+"\n".join(dirs_to_del)))
 		response = dialog.run()

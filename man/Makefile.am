@@ -10,8 +10,8 @@ all: gpvdm.1 gpvdm_core.1
 gpvdm.1: ../gpvdm
 	cd ..; $(HELP2MAN) --output=./man/gpvdm.1 --name="GUI for gpvdm_core, a solar cell device model" ./gpvdm
 
-gpvdm_core.1: ../gpvdm_core
-	cd ..; $(HELP2MAN) --output=./man/gpvdm_core.1 --name="A solar cell device model" ./gpvdm_core
+gpvdm_core.1: ../gpvdm_core@EXE_EXT@
+	cd ..; $(HELP2MAN) --output=./man/gpvdm_core.1 --name="A solar cell device model" ./gpvdm_core@EXE_EXT@
 
 clean:
 	rm *.1 -f

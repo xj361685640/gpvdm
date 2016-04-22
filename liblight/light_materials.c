@@ -36,6 +36,7 @@
 #include "epitaxy.h"
 #include "lang.h"
 #include "log.h"
+#include <cal_path.h>
 
 static int unused __attribute__((unused));
 
@@ -43,69 +44,21 @@ void light_load_materials(struct simulation *sim,struct light *in)
 {
 int i=0;
 char fit_file[1000];
-char materialsdir[200];
 char file_path[400];
 
 DIR *theFolder;
-char pwd[1000];
-char temp[1000];
-if (getcwd(pwd,1000)==NULL)
-{
-	ewe(sim,"Error getting directory path\n");
-}
+
 struct inp_file inp;
 
-join_path(2,temp,pwd,"materials");
-int found=FALSE;
-theFolder = opendir(temp);
-if (theFolder!=NULL)
-{
-	closedir (theFolder);
-	strcpy(materialsdir,temp);
-	found=TRUE;
-}
-
-
-if (found==FALSE)
-{
-	inp_init(sim,&inp);
-	if (inp_load(sim,&inp,"materialsdir.inp")!=0)
-	{
-		ewe(sim,"File materialsdir.inp not found in %s",pwd);
-	}
-
-	inp_check(sim,&inp,1.0);
-	inp_search_string(sim,&inp,temp,"#materialsdir");
-	inp_free(sim,&inp);
-
-	theFolder = opendir(temp);
-	if (theFolder!=NULL)
-	{
-		closedir (theFolder);
-		strcpy(materialsdir,temp);
-		found=TRUE;
-	}
-}
-
-if (found==FALSE)
-{
-	strcpy(temp,"/usr/share/gpvdm/materials");
-
-	theFolder = opendir(temp);
-	if (theFolder!=NULL)
-	{
-		closedir (theFolder);
-		strcpy(materialsdir,temp);
-		found=TRUE;
-	}
-}
-
-if (found==FALSE)
+theFolder = opendir(get_materials_path(sim));
+if (theFolder==NULL)
 {
 	ewe(sim,_("No optical materials found\n"));
 }
+closedir (theFolder);
 
-join_path(2,file_path,materialsdir,in->suns_spectrum_file);
+
+join_path(2,file_path,get_materials_path(sim),in->suns_spectrum_file);
 
 inter_load(&(in->sun_read),file_path);
 inter_sort(&(in->sun_read));
@@ -132,7 +85,7 @@ char type[40];
 int spectrum=FALSE;
 for (i=0;i<in->layers;i++)
 {
-	join_path(3, fit_file,materialsdir,in->material_dir_name[i],"fit.inp");
+	join_path(3, fit_file,get_materials_path(sim),in->material_dir_name[i],"fit.inp");
 
 	inp_load(sim,&inp,fit_file);
 
@@ -161,11 +114,11 @@ for (i=0;i<in->layers;i++)
 
 	inp_free(sim,&inp);
 
-	join_path(3, file_path,materialsdir,in->material_dir_name[i],"alpha.omat");
+	join_path(3, file_path,get_materials_path(sim),in->material_dir_name[i],"alpha.omat");
 	inter_load(&(in->mat[i]),file_path);
 	inter_sort(&(in->mat[i]));
 
-	join_path(3,file_path,materialsdir,in->material_dir_name[i],"n.omat");
+	join_path(3,file_path,get_materials_path(sim),in->material_dir_name[i],"n.omat");
 	inter_load(&(in->mat_n[i]),file_path);
 	//printf("%s\n",file_path);
 	//inter_dump(&in->mat_n[i]);
@@ -176,7 +129,7 @@ for (i=0;i<in->layers;i++)
 	//struct istruct den;
 	//inter_init_mesh(&den,1000,2e-7,7e-7);
 	//inter_to_new_mesh(&(in->mat[i]),&den);
-	//join_path(3, out_file,materialsdir,in->material_dir_name[i],"inter_n.dat");
+	//join_path(3, out_file,get_materials_path(sim),in->material_dir_name[i],"inter_n.dat");
 	//inter_save(&den,out_file);
 	//inter_free(&den);
 
@@ -188,7 +141,7 @@ for (i=0;i<in->layers;i++)
 
 	if (patch==TRUE)
 	{
-		join_path(3, patch_file,materialsdir,in->material_dir_name[i],"patch.inp");
+		join_path(3, patch_file,get_materials_path(sim),in->material_dir_name[i],"patch.inp");
 		
 		FILE* patch_in=fopen(patch_file,"r");
 		if (in==NULL)
@@ -278,7 +231,7 @@ for (i=0;i<in->layers;i++)
 		if (inter==TRUE)
 		{
 
-			join_path(3, patch_file,materialsdir,in->material_dir_name[i],"inter.inp");
+			join_path(3, patch_file,get_materials_path(sim),in->material_dir_name[i],"inter.inp");
 
 			patch_in=fopen(patch_file,"r");
 			if (in==NULL)
@@ -336,10 +289,10 @@ for (i=0;i<in->layers;i++)
 			fclose(patch_in);
 		}
 
-		join_path(3, out_file,materialsdir,in->material_dir_name[i],"n_out.dat");
+		join_path(3, out_file,get_materials_path(sim),in->material_dir_name[i],"n_out.dat");
 		inter_save(&(in->mat_n[i]),out_file);
 
-		join_path(3, out_file,materialsdir,in->material_dir_name[i],"alpha_out.dat");
+		join_path(3, out_file,get_materials_path(sim),in->material_dir_name[i],"alpha_out.dat");
 		inter_save(&(in->mat[i]),out_file);
 	}
 
@@ -347,7 +300,7 @@ for (i=0;i<in->layers;i++)
 	{
 		inter_free(&(in->mat_n[i]));
 
-		join_path(3, patch_file,materialsdir,in->material_dir_name[i],"n_spectrum.inp");
+		join_path(3, patch_file,get_materials_path(sim),in->material_dir_name[i],"n_spectrum.inp");
 
 		FILE *f_in=fopen(patch_file,"r");
 
@@ -375,7 +328,7 @@ for (i=0;i<in->layers;i++)
 		}
 		fclose(f_in);
 
-		join_path(3, out_file,materialsdir,in->material_dir_name[i],"n_out.dat");
+		join_path(3, out_file,get_materials_path(sim),in->material_dir_name[i],"n_out.dat");
 		inter_save(&(in->mat_n[i]),out_file);
 
 	}

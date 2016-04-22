@@ -504,12 +504,14 @@ class scan_class(gtk.Window):
 
 		toolbar = gtk.Toolbar()
 		toolbar.set_style(gtk.TOOLBAR_ICONS)
-		toolbar.set_size_request(-1, 50)
+		toolbar.set_size_request(-1, 70)
 		pos=0
 
 		#image = gtk.Image()
 		#image.set_from_file(os.path.join(get_image_file_path(),"new-tab.png"))
-		tb_new_scan = gtk.MenuToolButton(gtk.STOCK_NEW)
+		image = gtk.Image()
+		image.set_from_file(os.path.join(get_image_file_path(),"new.png"))
+		tb_new_scan = gtk.MenuToolButton(image,"")
 		tb_new_scan.connect("clicked", self.callback_add_page)
 		self.tooltips.set_tip(tb_new_scan, _("New simulation"))
 

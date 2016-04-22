@@ -313,8 +313,9 @@ class plot_widget(gtk.VBox):
 				self.ly = None
 				if self.plot_token.legend_pos=="No key":
 					self.ax[plot_number].legend_ = None
-				#else:
-#					legend=self.fig.legend(lines, files, self.plot_token.legend_pos)
+				else:
+					self.fig.legend(lines, files, self.plot_token.legend_pos)
+
 			elif self.plot_token.type=="3d":
 				x=[]
 				y=[]

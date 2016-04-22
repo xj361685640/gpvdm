@@ -573,7 +573,9 @@ class scan_vbox(gtk.VBox):
 		pos=pos+1
 
 
-		remove = gtk.ToolButton(gtk.STOCK_CLEAR)
+		image = gtk.Image()
+   		image.set_from_file(os.path.join(get_image_file_path(),"minus.png"))
+		remove = gtk.ToolButton(image)
 		remove.connect("clicked", self.callback_delete_item)
 		self.tooltips.set_tip(remove, _("Delete item"))
 		toolbar.insert(remove, pos)

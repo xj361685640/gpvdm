@@ -186,7 +186,7 @@ class gpvdm_main_window(gobject.GObject):
 			if message!="":
 				if bubble==True:
 					pynotify.init ("gpvdm")
-					Hello=pynotify.Notification ("gpvdm:",message,os.path.join(get_image_file_path(),"application-gpvdm.svg"))
+					Hello=pynotify.Notification ("gpvdm:",message,os.path.join(get_image_file_path(),"icon.svg"))
 					Hello.set_timeout(2000)
 					Hello.show ()
 

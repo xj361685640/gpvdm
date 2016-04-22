@@ -49,6 +49,7 @@ from sim_warnings import sim_warnings
 from code_ctrl import enable_webupdates
 import i18n
 _ = i18n.language.gettext
+from ver import ver
 
 #Under windows, this class will connect to gpvdm.com and look for updates, a user prompt will be displayed if any are found.  It can also download updates if the user asks it to.  It's not called under linux because linux has it's own package management system.
 
@@ -63,7 +64,7 @@ def update_fetch():
 	web_src=[]
 	disk_dest=[]
 
-	update_path="http://www.gpvdm.com/update_windows/"
+	update_path="http://www.gpvdm.com/update_windows/"+ver()+"/"
 	lines=get_data_from_web(update_path+"list.dat")
 	print "Got file list"
 	lines=lines.split('\n')
