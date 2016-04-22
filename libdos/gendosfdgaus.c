@@ -2,9 +2,8 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 Roderick C. I. MacKenzie
+//  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 //
-//	roderick.mackenzie@nottingham.ac.uk
 //	www.roderickmackenzie.eu
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
@@ -17,6 +16,7 @@
 // ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
+
 
 
 #include <stdio.h>
@@ -447,7 +447,7 @@ plotbandsfree=fopen("plotbandsfreen.dat","w");
 
 FILE *rod=fopen("gau_test_n.dat","w");
 
-#endif 
+#endif
 
 
 #ifdef test_dist
@@ -494,7 +494,7 @@ int srh_band=0;
 gdouble srh_E=0.0;
 gdouble srh_f=0.0;
 gdouble f2=0.0;
-gdouble sum2=0.0;	
+gdouble sum2=0.0;
 for (t=0;t<tsteps;t++)
 {
 if (get_dump_status(sim,dump_iodump)==TRUE) printf("%d/%d\n",t,(int)tsteps);
@@ -627,14 +627,14 @@ if (get_dump_status(sim,dump_iodump)==TRUE) printf("%d/%d\n",t,(int)tsteps);
 					srh_dE_sum[srh_band]+=dE;
 				}
 			}
-			
+
 			//printf("%Le\n",E);
 
 			#ifdef test_dist
 			if (E>=0.0)
 			{
 
-				
+
 				if (t==0)
 				if ((x%10)==0)
 				if ((e%2)==0)
@@ -697,7 +697,7 @@ if (get_dump_status(sim,dump_iodump)==TRUE) printf("%d/%d\n",t,(int)tsteps);
 					}
 					fclose(bandsdump);
 				}
-			}	
+			}
 		}
 
 		if ((in->dostype==dos_exp)||(in->dostype==dos_read)||(in->dostype==dos_an))
@@ -711,7 +711,7 @@ if (get_dump_status(sim,dump_iodump)==TRUE) printf("%d/%d\n",t,(int)tsteps);
 				sum=in->Nv*exp((xpos*Q)/(kb*tpos));
 				sum2=in->Nc*exp((-(in->Eg+xpos)*Q)/(kb*tpos));
 			}
-			
+
 		}
 
 		gdouble w0=sum/((sum-last_n0)/(dxr));

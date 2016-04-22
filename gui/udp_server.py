@@ -1,8 +1,8 @@
+#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie
+#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	roderick.mackenzie@nottingham.ac.uk
 #	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
@@ -20,6 +20,7 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
+
 ########################################################################
 #
 # Clustering code for gpvdm
@@ -35,7 +36,7 @@
 # #enable_cluster in the file sim.gpvdm/ver.inp from \"no\" to \"yes\".
 # Start gpvdm with the \"--client\" option on each node, and with the
 # \"--server\" option on the head node.  Use at your own risk!
-# 
+#
 # The server code sends data to the clients and tells them what to do,
 # the server then reports back to the gpvdm interface once jobs are
 # finished.  You will also have to set the \"#cluster\" to \"1\" and set
@@ -148,7 +149,7 @@ class udp_server:
 
 
 		for path, dirs, files in os.walk(directory):
-			
+
 			for file_name in files:
 				whole_file_name=os.path.join(path,file_name)
 				#print whole_file_name,"rod",self.ip_address[node]
@@ -242,19 +243,19 @@ class udp_server:
 						#if ret==False:
 						#	print "Can not find go.o"
 						#	self.tx_master("node_error#No go.o file")
-			
+
 		self.print_nodes()
 		self.print_jobs()
 
 	def command_to_all_nodes(self,command):
-		print "sending to all nodes:",command 
+		print "sending to all nodes:",command
 		for i in range(0, len(self.nodes)):
 			self.s.sendto(command , (self.nodes[i].ip_address,self.tx_port))
 
 	def wake_nodes(self):
 		if running_on_linux()==True:
 			if get_distro=="Fedora":
-				print "waking all nodes:" 
+				print "waking all nodes:"
 				for i in range(0, len(self.nodes)):
 					print "waking", self.nodes[i].mac
 					wol.send_magic_packet(self.nodes[i].mac)
@@ -275,7 +276,7 @@ class udp_server:
 	def set_all_nodes_busy(self):
 		for i in range(0,len(self.nodes)):
 			self.set_node_busy(i)
-			
+
 
 		self.print_bussy_state()
 
@@ -283,7 +284,7 @@ class udp_server:
 		while 1:
 			self.rx_command()
 
-			finished=True			
+			finished=True
 			for i in range(0,len(self.nodes)):
 				if self.nodes[i].busy==True:
 					finished=False
@@ -428,7 +429,7 @@ class udp_server:
 			else:
 				self.nodes[node].load=my_load
 
-				
+
 
 	def rx_command(self):
 		#print "Waiting for command"
@@ -437,14 +438,14 @@ class udp_server:
 		data = d[0]
 		addr = d[1]
 
-		if not data: 
+		if not data:
 			return False
 
 		if data:
 			client_ip_address=addr[0]
 			self.decode(data,client_ip_address)
 
-		return True 
+		return True
 
 	def goodbye(self):
 		print "Goodbye!"
@@ -494,7 +495,7 @@ class udp_server:
 			   	else:
 					print >>sys.stderr, 'no more data from', client_address
 					break
-		
+
 			connection.close()
 
 	def start(self):

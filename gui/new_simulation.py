@@ -1,3 +1,24 @@
+#!/usr/bin/env python2.7
+#    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
+#    model for 1st, 2nd and 3rd generation solar cells.
+#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#
+#	www.gpvdm.com
+#	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
+#
+#    This program is free software; you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License v2.0, as published by
+#    the Free Software Foundation.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License along
+#    with this program; if not, write to the Free Software Foundation, Inc.,
+#    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
 import pygtk
 pygtk.require('2.0')
 import gtk
@@ -31,7 +52,7 @@ class new_simulation(gtk.Dialog):
 		if iter:
 			path = model.get_path(iter)[0]
 			print path
-			print 
+			print
 
 		dialog = gtk.FileChooserDialog(_("Make new simulation directory"),
                                None,
@@ -52,7 +73,7 @@ class new_simulation(gtk.Dialog):
 			if not os.path.exists(dialog.get_filename()):
 				os.makedirs(dialog.get_filename())
 
-			self.ret_path=dialog.get_filename()			
+			self.ret_path=dialog.get_filename()
 			os.chdir(self.ret_path)
 			gpvdm_clone(os.getcwd(),True)
 			import_archive(os.path.join(get_device_lib_path(),self.liststore[path][2]),os.path.join(os.getcwd(),"sim.gpvdm"),False)

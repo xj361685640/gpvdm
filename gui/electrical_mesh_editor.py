@@ -1,8 +1,8 @@
+#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie
+#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	roderick.mackenzie@nottingham.ac.uk
 #	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
@@ -18,6 +18,7 @@
 #    You should have received a copy of the GNU General Public License along
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
 
 
 import pygtk
@@ -120,9 +121,9 @@ class electrical_mesh_editor(gtk.VBox):
 			lines.append("#mesh_layer_points"+str(i))
 			lines.append(item[MESH_POINTS])
 			i=i+1
-		lines.append("#ver")			
-		lines.append("1.0")			
-		lines.append("#end")			
+		lines.append("#ver")
+		lines.append("1.0")
+		lines.append("#end")
 		inp_write_lines_to_file(os.path.join(os.getcwd(),"mesh.inp"),lines)
 
 	def on_remove_item_clicked(self, button, treeview):
@@ -249,7 +250,7 @@ class electrical_mesh_editor(gtk.VBox):
 			delete_button.connect("clicked", self.on_remove_from_mesh_click, treeview)
 
 			hbox = gtk.HBox(False, 2)
-			
+
 			hbox.pack_start(add_button, False, False, 0)
 			hbox.pack_start(delete_button, False, False, 0)
 

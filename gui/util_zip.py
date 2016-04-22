@@ -1,8 +1,8 @@
+#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie
+#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	roderick.mackenzie@nottingham.ac.uk
 #	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
@@ -18,6 +18,7 @@
 #    You should have received a copy of the GNU General Public License along
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
 
 #import sys
 import os
@@ -141,7 +142,7 @@ def zip_search_file(source,target):
 		if file.filename==target:
 			return True
 	return False
-	
+
 def zip_remove_file(zip_file_name,target):
 	file_path=os.path.join(os.path.dirname(zip_file_name),target)
 
@@ -258,7 +259,7 @@ def archive_isfile(zip_file_name,file_name):
 			zf.close()
 		else:
 			ret=False
-	
+
 	return ret
 
 def archive_merge_file(dest_archive,src_archive,file_name):
@@ -281,7 +282,7 @@ def archive_merge_file(dest_archive,src_archive,file_name):
 		print "Warning: ",dest_archive,file_name," no final copy found"
 		return False
 
-	errors=inp_merge(dest_lines,src_lines) 
+	errors=inp_merge(dest_lines,src_lines)
 	if len(errors)!=0:
 		print "File ",file_name,errors
 

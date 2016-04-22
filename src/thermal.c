@@ -2,9 +2,8 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 Roderick C. I. MacKenzie
+//  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 //
-//	roderick.mackenzie@nottingham.ac.uk
 //	www.roderickmackenzie.eu
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
@@ -17,6 +16,7 @@
 // ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
+
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -88,7 +88,7 @@ for (i=0;i<in->ymeshpoints;i++)
 		Ecr= -in->Xi[i]-in->Vr;
 		Evr= -in->Xi[i]-in->Vr-in->Eg[i];
 		yr=in->ymesh[i]+(in->ymesh[i]-in->ymesh[i-1]);
-		
+
 	}else
 	{
 		Ecr=in->Ec[i];
@@ -234,7 +234,7 @@ gdouble Hh=0.0;
 			yc=in->ymesh[i];
 			dyl=yc-yl;
 			dyr=yr-yc;
-			
+
 			dyc=(dyl+dyr)/2.0;
 
 			klc=in->kl[i];

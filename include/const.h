@@ -2,9 +2,8 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 Roderick C. I. MacKenzie
+//  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 //
-//	roderick.mackenzie@nottingham.ac.uk
 //	www.roderickmackenzie.eu
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
@@ -19,6 +18,7 @@
 // more details.
 
 
+
 #ifndef h_const
 #define h_const
 
@@ -31,7 +31,7 @@
 #define kb (gdouble)1.3806504e-23			//J K-1 Wiki
 #define Q (gdouble)1.602176487e-19			//C Wikipeda
 #define m0 (gdouble)9.10938215e-31 			//Kg Wikipeda
-#define cl  (gdouble)2.99792458e8			//m/s Wikipieda 
+#define cl  (gdouble)2.99792458e8			//m/s Wikipieda
 
 //SRH constants
 #define srh_1	1

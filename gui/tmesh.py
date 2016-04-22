@@ -1,8 +1,8 @@
+#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie
+#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	roderick.mackenzie@nottingham.ac.uk
 #	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
@@ -18,6 +18,7 @@
 #    You should have received a copy of the GNU General Public License along
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
 
 
 import pygtk
@@ -118,7 +119,7 @@ class tab_time_mesh(gtk.VBox):
 		out_text.append("#ver")
 		out_text.append("1.1")
 		out_text.append("#end")
-		
+
 		inp_write_lines_to_file(os.path.join(os.getcwd(),file_name),out_text)
 		self.update_scan_tokens()
 
@@ -347,7 +348,7 @@ class tab_time_mesh(gtk.VBox):
 			else:
 				filter=dialog.get_filter()
 				self.save_image(file_name+filter.get_name())
-			
+
 		elif response == gtk.RESPONSE_CANCEL:
 		    print _("Closed, no files selected")
 		dialog.destroy()
@@ -510,10 +511,10 @@ class tab_time_mesh(gtk.VBox):
 		#print self.voltage
 
 		self.statusbar.push(0, str(len(self.time))+_(" mesh points"))
-		
+
 	#def save_mesh(self):
 	#	lines=[]
-		
+
 	#	lines.append(str(len(self.time)))
 	#	for i in range(0,len(self.time)):
 	#		lines.append(str(format(self.time[i],'.6e'))+" "+str(format(self.laser[i],'.6e'))+" "+str(format(self.sun[i],'.6e'))+" "+str(format(self.voltage[i],'.6e'))+" "+str(format(self.fs_laser[i],'.6e')))

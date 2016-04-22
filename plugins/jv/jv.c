@@ -2,9 +2,8 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 Roderick C. I. MacKenzie
+//  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 //
-//	roderick.mackenzie@nottingham.ac.uk
 //	www.roderickmackenzie.eu
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
@@ -17,6 +16,7 @@
 // ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
+
 
 #include <sim.h>
 #include <exp.h>
@@ -60,7 +60,7 @@ gdouble Vlast;
 gdouble Jlast;
 gdouble Pdenlast;
 gdouble Vexternal;
-	
+
 struct istruct ivexternal;
 inter_init(&ivexternal);
 
@@ -99,7 +99,7 @@ sim_externalv(in,in->Vapplied);
 remesh_reset(in,in->Vapplied);
 //if (in->remesh==TRUE)
 //{
-//	
+//
 //}
 
 gdouble sun_orig=light_get_sun(&(in->mylight));
@@ -138,7 +138,7 @@ printf("rod2\n");
 		Vexternal=get_equiv_V(in);
 
 		gui_send_data("pulse");
-		
+
 		if (ittr>0)
 		{
 

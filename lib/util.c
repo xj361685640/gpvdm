@@ -2,9 +2,8 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 Roderick C. I. MacKenzie
+//  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 //
-//	roderick.mackenzie@nottingham.ac.uk
 //	www.roderickmackenzie.eu
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
@@ -17,6 +16,7 @@
 // ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
+
 
 
 
@@ -67,19 +67,19 @@ void join_path(int max, ...)
 	max=max+1;
 	char temp[1000];
 	strcpy(temp,"");
-	va_list arguments;                     
+	va_list arguments;
 	int i;
-	va_start ( arguments, max );           
+	va_start ( arguments, max );
 	char *ret=va_arg ( arguments, char * );
 	strcpy(ret,"");
-	for (i = 1; i < max; i++ )        
+	for (i = 1; i < max; i++ )
 	{
 		if ((i!=1)&&(strcmp(temp,"")!=0))
 		{
 			strcat(ret,"/");
 		}
 		strcpy(temp,va_arg ( arguments, char * ));
-		strcat(ret,temp); 
+		strcat(ret,temp);
 	}
 	va_end ( arguments );                  // Cleans up the list
 
@@ -286,7 +286,7 @@ do
 l++;
 	unused=fscanf(in,"%s",buf);
 
-	if (l==line) 
+	if (l==line)
 	{
 		sscanf((buf+skip),"%le\n",&value);
 		break;
@@ -569,7 +569,7 @@ line = strtok(in_buf, "\n");
 while(line)
 {
 pos++;
-	if (pos!=line_to_edit) 
+	if (pos!=line_to_edit)
 	{
 		strcat(out_buf,line);
 		strcat(out_buf,"\n");
@@ -629,7 +629,7 @@ line = strtok(in_buf, "\n");
 while(line)
 {
 pos++;
-	if (pos!=line_to_edit) 
+	if (pos!=line_to_edit)
 	{
 		strcat(out_buf,line);
 		strcat(out_buf,"\n");
@@ -659,7 +659,7 @@ void mass_copy_file(struct simulation *sim,char **output,char *input,int n)
 //printf ("%s %s",input,output);
 char buf[8192];
 int i;
-struct stat results;  
+struct stat results;
 int in_fd = open(input, O_RDONLY);
 
 if (in_fd== -1)
@@ -707,7 +707,7 @@ void copy_file(struct simulation *sim,char *output,char *input)
 {
 //printf ("%s %s",input,output);
 char buf[8192];
-struct stat results;  
+struct stat results;
 int in_fd = open(input, O_RDONLY);
 if (in_fd== -1)
 {
@@ -770,7 +770,7 @@ memset(out_buf, 0, (file_size+strlen(newtext)+10)*sizeof(char));
 line = strtok(in_buf, "\n");
 while(line)
 {
-	if (strcmp(line,token)!=0) 
+	if (strcmp(line,token)!=0)
 	{
 		strcat(out_buf,line);
 		strcat(out_buf,"\n");

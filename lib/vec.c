@@ -2,9 +2,8 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 Roderick C. I. MacKenzie
+//  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 //
-//	roderick.mackenzie@nottingham.ac.uk
 //	www.roderickmackenzie.eu
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
@@ -17,6 +16,7 @@
 // ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
+
 
 
 
@@ -33,9 +33,9 @@
 this function needs four points and will calculate the dihedral angle
 
  a            d
-  \          / 
-   \        /  
-    b------c   
+  \          /
+   \        /
+    b------c
 */
 double vec_get_dihedral(struct vec *a,struct vec *b,struct vec *c,struct vec *d)
 {
@@ -51,13 +51,13 @@ double cos_;
 
 	cpy_vec(&b2,c);
 	sub_vec(&b2,b);
-	
+
 	cpy_vec(&b3,d);
 	sub_vec(&b3,c);
 
 	cros_vec(&b23,&b2,&b3);
 	cros_vec(&b12,&b1,&b2);
-	
+
 	double mb2=mod_vec(&b2);
 	double aa=dot_vec(&b1,&b23);
 

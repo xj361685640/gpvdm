@@ -1,8 +1,8 @@
+#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie
+#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	roderick.mackenzie@nottingham.ac.uk
 #	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
@@ -20,6 +20,7 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
+
 import pygtk
 pygtk.require('2.0')
 import gtk
@@ -30,7 +31,7 @@ import os
 #import subprocess
 #from win_lin import running_on_linux
 #from cal_path import get_exe_command
-#import socket 
+#import socket
 #import time
 #import urlparse
 #import re
@@ -75,7 +76,7 @@ class help_class(gtk.Window):
 		for i in range(0,len(self.help_lib)):
 			if self.help_lib[i].token==token:
 				self.help_set_help([self.help_lib[i].icon,self.help_lib[i].text])
-		return False 
+		return False
 
 	def init(self):
 		self.last=[]
@@ -159,7 +160,7 @@ class help_class(gtk.Window):
 		close.show_all()
 		pos=pos+1
 
-		self.status_bar = gtk.Statusbar()      
+		self.status_bar = gtk.Statusbar()
 		self.context_id = self.status_bar.get_context_id("Statusbar example")
 		self.status_bar.show()
 		#self.tooltips.set_tip(self.qe_button, "Quantum efficiency")
@@ -247,4 +248,4 @@ class help_class(gtk.Window):
 my_help_class=help_class()
 my_help_class.init()
 
-		
+

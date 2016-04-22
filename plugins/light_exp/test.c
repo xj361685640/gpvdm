@@ -2,9 +2,8 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 Roderick C. I. MacKenzie
+//  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 //
-//	roderick.mackenzie@nottingham.ac.uk
 //	www.roderickmackenzie.eu
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
@@ -17,6 +16,7 @@
 // ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
+
 
 #include <i.h>
 #include "light.h"
@@ -38,13 +38,13 @@ char libname[100];
 sprintf(libname,"./error_plugin.so");
 
    lib_handle = dlopen(libname, RTLD_LAZY);
-   if (!lib_handle) 
+   if (!lib_handle)
    {
       fprintf(stderr, "%s\n", dlerror());
    }
 
    fn = dlsym(lib_handle, "lib_error");
-   if ((error = dlerror()) != NULL)  
+   if ((error = dlerror()) != NULL)
    {
       fprintf(stderr, "%s\n", error);
    }

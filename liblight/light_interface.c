@@ -2,9 +2,8 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 Roderick C. I. MacKenzie
+//  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 //
-//	roderick.mackenzie@nottingham.ac.uk
 //	www.roderickmackenzie.eu
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
@@ -17,6 +16,7 @@
 // ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
+
 
 
 	#include <dlfcn.h>
@@ -56,35 +56,35 @@ void light_load_dlls(struct simulation *sim,struct light *in,struct device *cell
 
 	in->lib_handle = dlopen(lib_path, RTLD_LAZY);
 
-	if (!in->lib_handle) 
+	if (!in->lib_handle)
 	{
 		fprintf(stderr, "%s\n", dlerror());
 		exit(0);
 	}
 
 	in->fn_init = dlsym(in->lib_handle, "light_dll_init");
-	if ((error = dlerror()) != NULL)  
+	if ((error = dlerror()) != NULL)
 	{
 		fprintf(stderr, "%s\n", error);
 		exit(0);
 	}
 
 	in->fn_solve_lam_slice = dlsym(in->lib_handle, "light_dll_solve_lam_slice");
-	if ((error = dlerror()) != NULL)  
+	if ((error = dlerror()) != NULL)
 	{
 		fprintf(stderr, "%s\n", error);
 		exit(0);
 	}
 
 	in->light_ver = dlsym(in->lib_handle, "light_dll_ver");
-	if ((error = dlerror()) != NULL)  
+	if ((error = dlerror()) != NULL)
 	{
 		fprintf(stderr, "%s\n", error);
 		exit(0);
 	}
 
 	in->fn_set_interface = dlsym(in->lib_handle, "set_interface");
-	if ((error = dlerror()) != NULL)  
+	if ((error = dlerror()) != NULL)
 	{
 		fprintf(stderr, "%s\n", error);
 		exit(0);

@@ -1,8 +1,8 @@
+#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie
+#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	roderick.mackenzie@nottingham.ac.uk
 #	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
@@ -18,6 +18,7 @@
 #    You should have received a copy of the GNU General Public License along
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
 
 
 import pygtk
@@ -65,7 +66,7 @@ def scan_list_unconverged_simulations(dir_to_search):
 					f = open(fit_log, "r")
 					lines = f.readlines()
 					f.close()
-				
+
 					for l in range(0, len(lines)):
 						lines[l]=lines[l].rstrip()
 
@@ -110,7 +111,7 @@ def scan_ask_to_delete(dirs_to_del):
 
 		#dialog = gtk.MessageDialog(None, 0, gtk.MESSAGE_QUESTION,  gtk.BUTTONS_YES_NO, str("Should I delete the old simualtions first?:\n"+"\n".join(dirs_to_del)))
 		response = dialog.run()
-		
+
 		if response == gtk.RESPONSE_YES:
 				scan_delete_files(dirs_to_del)
 		elif response == gtk.RESPONSE_NO:
@@ -192,7 +193,7 @@ def clean_simulation(dir_to_clean,simulation_dirs):
 					delete=False
 
 				if delete==True:
-					print "delete",path		
+					print "delete",path
 					files_to_delete.append(path)
 
 	scan_ask_to_delete(files_to_delete)

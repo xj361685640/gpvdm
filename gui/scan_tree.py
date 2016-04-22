@@ -1,8 +1,8 @@
+#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie
+#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	roderick.mackenzie@nottingham.ac.uk
 #	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
@@ -18,6 +18,7 @@
 #    You should have received a copy of the GNU General Public License along
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
 
 
 
@@ -83,7 +84,7 @@ def tree_load_program(program_list,sim_dir):
 		pos=0
 		mylen=int(config[0])
 		pos=pos+1
-		
+
 		for i in range(0, mylen):
 			program_list.append([config[pos], config[pos+1], config[pos+2], str2bool(config[pos+3])])
 			pos=pos+4
@@ -97,7 +98,7 @@ def tree_gen(flat_simulation_list,program_list,base_dir,sim_dir):
 		if program_list[i][2]=="scan":
 			tree_items[0].append(program_list[i][0])
 			values=program_list[i][1]
-			#This expands a [ start stop step ] command. 
+			#This expands a [ start stop step ] command.
 			if len(values)>0:
 				if values[0]=='[' and values[len(values)-1]==']':
 					values=values[1:len(values)-1]
@@ -111,7 +112,7 @@ def tree_gen(flat_simulation_list,program_list,base_dir,sim_dir):
 						while pos<b:
 							values=values+str(pos)+" "
 							pos=pos+c
-						values=values[0:len(values)-1]			
+						values=values[0:len(values)-1]
 
 			tree_items[1].append(values)
 			tree_items[2].append(program_list[i][2])
@@ -218,16 +219,16 @@ def tree(flat_simulation_list,program_list,tree_items,base_dir,level,path,var_to
 				flat_simulation_list.append(cur_dir)
 				new_values=pass_value_to_change.split()
 				pos=pass_var_to_change.split()
-				
+
 				config_file=os.path.join(cur_dir,"sim.gpvdm")
 				if os.path.isfile(config_file)==False:	#Don't build a simulation over something that exists already
 					copy_simulation(base_dir,cur_dir)
 
 					os.chdir(cur_dir)
-				
+
 					for i in range(0, len(pos)):
 						inp_update_token_value(param_list[int(pos[i])].filename, param_list[int(pos[i])].token, new_values[i],param_list[int(pos[i])].line)
-				
+
 					tree_apply_constant(program_list)
 					tree_apply_python_script(program_list)
 					tree_apply_mirror(program_list)

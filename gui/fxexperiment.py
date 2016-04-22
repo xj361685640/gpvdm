@@ -1,8 +1,8 @@
+#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie
+#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	roderick.mackenzie@nottingham.ac.uk
 #	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
@@ -18,6 +18,7 @@
 #    You should have received a copy of the GNU General Public License along
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
 
 
 
@@ -162,7 +163,7 @@ class fxexperiment(gtk.Window):
 			inp_remove_file("fxmesh"+str(tab.index)+".inp")
 			self.notebook.remove_page(pageNum)
 			global_object_get("tb_item_sim_mode_update")()
-			
+
 		elif response == gtk.RESPONSE_NO:
 			print _("Not deleting")
 			#edit
@@ -225,7 +226,7 @@ class fxexperiment(gtk.Window):
 		self.set_border_width(2)
 		self.set_title(_("Frequency domain experiment window - gpvdm"))
 
-		self.status_bar = gtk.Statusbar()      
+		self.status_bar = gtk.Statusbar()
 		self.status_bar.show()
 		self.context_id = self.status_bar.get_context_id("Statusbar example")
 
@@ -310,7 +311,7 @@ class fxexperiment(gtk.Window):
 		main_vbox.set_border_width(1)
 		self.add(main_vbox)
 		main_vbox.show()
-	
+
 
 		self.notebook = gtk.Notebook()
 		self.notebook.show()

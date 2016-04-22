@@ -1,8 +1,8 @@
+#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie
+#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	roderick.mackenzie@nottingham.ac.uk
 #	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
@@ -18,6 +18,7 @@
 #    You should have received a copy of the GNU General Public License along
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
 
 
 import pygtk
@@ -53,7 +54,7 @@ class select_param(gtk.Window):
 		self.liststore_combobox=liststore_combobox
 		self.dest_treeview=dest_treeview
 		self.set_title(_("Select simulation parameter"))
-		self.set_size_request (300,700) 
+		self.set_size_request (300,700)
 		self.treestore = gtk.TreeStore(str)
 		self.win_list.set_window(self,"scan_select")
 
@@ -82,14 +83,14 @@ class select_param(gtk.Window):
 
 		button_hbox=gtk.HBox()
 		self.tree_apply = gtk.Button(stock=gtk.STOCK_APPLY)
-		self.tree_apply.set_size_request (-1,40) 
+		self.tree_apply.set_size_request (-1,40)
 		self.tree_apply.connect("clicked", self.tree_apply_click, None)
 		self.tree_apply.show()
 		button_hbox.add(self.tree_apply)
 
 		self.tree_close = gtk.Button(stock=gtk.STOCK_CLOSE)
 		self.tree_close.set_size_request (-1,40)
-		self.tree_close.connect("clicked", self.tree_close_click, None) 
+		self.tree_close.connect("clicked", self.tree_close_click, None)
 		self.tree_close.show()
 		button_hbox.add(self.tree_close)
 

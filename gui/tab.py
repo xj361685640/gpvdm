@@ -1,8 +1,8 @@
+#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie
+#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	roderick.mackenzie@nottingham.ac.uk
 #	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
@@ -18,6 +18,7 @@
 #    You should have received a copy of the GNU General Public License along
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
 
 
 import pygtk
@@ -48,7 +49,7 @@ import i18n
 _ = i18n.language.gettext
 
 class tab_class(gtk.VBox,tab_base):
-	
+
 	lines=[]
 	edit_list=[]
 
@@ -163,7 +164,7 @@ class tab_class(gtk.VBox,tab_base):
 								index=1
 
 					edit_box.set_active(index);
-					
+
 					edit_box.connect("changed", self.callback_edit, token)
 					edit_box.show()
 					self.widget_type.append("combo")
@@ -182,7 +183,7 @@ class tab_class(gtk.VBox,tab_base):
 				#self.add()
 				line=1
 				scan_item_add(filename,token,text_info,line)
-				
+
 				n=n+1
 
 			pos=pos+1

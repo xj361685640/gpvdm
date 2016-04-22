@@ -2,9 +2,8 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 Roderick C. I. MacKenzie
+//  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 //
-//	roderick.mackenzie@nottingham.ac.uk
 //	www.roderickmackenzie.eu
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
@@ -17,6 +16,7 @@
 // ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
+
 
 /** @file i.c
 	@brief Simple functions to read in scientific data from text files and perform simple maths on the data.
@@ -138,7 +138,7 @@ void device_init(struct device *in)
 	in->xlen= -1.0;
 	in->ylen= -1.0;
 	in->zlen= -1.0;
-	
+
 	in->N= -1;
 	in->M= -1;
 	in->Ti= NULL;
@@ -242,7 +242,7 @@ void device_init(struct device *in)
 	in->Rcontact= -1.0;
 
 	in->lr_bias= -1;
-	
+
 	in->interfaceleft= -1;
 	in->interfaceright= -1;
 	in->phibleft= -1.0;
@@ -327,7 +327,7 @@ void device_init(struct device *in)
 
 	in->root_dll_interface= NULL;
 
-	//Newton	
+	//Newton
 	in->newton_dntrap=NULL;
 	in->newton_dntrapdntrap=NULL;
 	in->newton_dntrapdn=NULL;

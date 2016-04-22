@@ -1,8 +1,8 @@
+#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie
+#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	roderick.mackenzie@nottingham.ac.uk
 #	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
@@ -18,6 +18,7 @@
 #    You should have received a copy of the GNU General Public License along
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
 
 
 
@@ -272,7 +273,7 @@ class scan_class(gtk.Window):
 
 		md = gtk.MessageDialog(None, 0, gtk.MESSAGE_QUESTION,  gtk.BUTTONS_YES_NO, _("Should I remove the simulation directory ")+dir_to_del)
 
-#gtk.MessageDialog(self, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_QUESTION, 
+#gtk.MessageDialog(self, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_QUESTION,
 		# gtk.BUTTONS_CLOSE, "Should I remove the simulation directory "+dir_to_del)
 		response = md.run()
 
@@ -340,7 +341,7 @@ class scan_class(gtk.Window):
 		get_scan_dirs(sim_dirs,self.sim_dir)
 
 		print sim_dirs,self.sim_dir
-		
+
 		if len(sim_dirs)==0:
 			sim_dirs.append("scan1")
 		else:
@@ -387,7 +388,7 @@ class scan_class(gtk.Window):
 		self.notebook.append_page(self.rod[len(self.rod)-1],hbox)
 		self.notebook.set_tab_reorderable(self.rod[len(self.rod)-1],True)
 
-		menu_item = gtk.CheckMenuItem(sim_name)		   
+		menu_item = gtk.CheckMenuItem(sim_name)
 		menu_item.set_active(True)
 		self.tab_menu.append(menu_item)
 		menu_item.show()
@@ -450,7 +451,7 @@ class scan_class(gtk.Window):
 		self.number_of_tabs=0
 #		items=0
 
-		self.status_bar = gtk.Statusbar()      
+		self.status_bar = gtk.Statusbar()
 
 		self.status_bar.show()
 
@@ -495,7 +496,7 @@ class scan_class(gtk.Window):
 		    )
 
 
-		
+
 		main_vbox = gtk.VBox(False, 3)
 
 		menubar = self.get_main_menu(self)
@@ -597,7 +598,7 @@ class scan_class(gtk.Window):
 		self.add(main_vbox)
 		main_vbox.show()
 		self.myserver=my_server
-		
+
 
 		self.notebook = gtk.Notebook()
 		self.notebook.show()

@@ -1,8 +1,8 @@
+#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie
+#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	roderick.mackenzie@nottingham.ac.uk
 #	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
@@ -18,6 +18,7 @@
 #    You should have received a copy of the GNU General Public License along
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
 
 
 
@@ -88,7 +89,7 @@ class scan_vbox(gtk.VBox):
 		#self.tab_label.set_text(os.path.basename(new_name))
 		self.reload_liststore()
 		self.plotted_graphs.init(self.sim_dir,self.callback_last_menu_click)
-		
+
 	def callback_notes(self, widget, data=None):
 
 		note=notes()
@@ -135,7 +136,7 @@ class scan_vbox(gtk.VBox):
 
 	def callback_add_item(self, widget, data=None):
 		self.add_line([_("Select parameter"), "0.0 0.0", "scan",True])
-		
+
 
 	def callback_copy_item(self, widget, data=None):
 		selection = self.treeview.get_selection()
@@ -185,7 +186,7 @@ class scan_vbox(gtk.VBox):
 
 		self.last_plot_data=plot_token
 
-		return 
+		return
 
 	def get_units(self):
 		token=""
@@ -226,7 +227,7 @@ class scan_vbox(gtk.VBox):
 
 	def push_to_hpc(self):
 		scan_push_to_hpc(self.sim_dir,False)
- 
+
 	def push_unconverged_to_hpc(self):
 		scan_push_to_hpc(self.sim_dir,True)
 
@@ -267,8 +268,8 @@ class scan_vbox(gtk.VBox):
 			if found==False:
 				run=False
 
-				md = gtk.MessageDialog(None, 
-				0, gtk.MESSAGE_ERROR, 
+				md = gtk.MessageDialog(None,
+				0, gtk.MESSAGE_ERROR,
 				gtk.BUTTONS_CLOSE, self.liststore_combobox[i][2]+"Not valid")
 				md.run()
 				md.destroy()
@@ -408,7 +409,7 @@ class scan_vbox(gtk.VBox):
 		for item in self.liststore_combobox:
 			a.write(item[0]+"\n")
 			a.write(item[1]+"\n")
-			a.write(item[2]+"\n")	
+			a.write(item[2]+"\n")
 			a.write(str(item[3])+"\n")
 		a.close()
 
@@ -743,7 +744,7 @@ class scan_vbox(gtk.VBox):
 		column_enable = gtk.TreeViewColumn(_("Enabled"),renderer_enable)
 		column_enable.set_max_width(50)
 		column_enable.set_visible(False)
-	
+
 		column_enable.add_attribute(renderer_enable, "active", 3)
 		column_enable.pack_start(renderer_enable, False)
 

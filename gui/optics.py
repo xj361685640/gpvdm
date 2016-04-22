@@ -1,8 +1,8 @@
+#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie
+#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	roderick.mackenzie@nottingham.ac.uk
 #	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
@@ -18,6 +18,7 @@
 #    You should have received a copy of the GNU General Public License along
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
 
 
 import pygtk
@@ -87,7 +88,7 @@ def find_modes(path):
 def find_models():
 	ret=[]
 	path=get_plugins_path()
-	
+
 	for file in glob.glob(os.path.join(path,"*")):
 		file_name=os.path.basename(file)
 		if file_name.startswith("light_"):
@@ -101,7 +102,7 @@ def find_light_source():
 
 	path=get_materials_path()
 
-	
+
 	for file in glob.glob(os.path.join(path,"*.spectra")):
 		ret.append(os.path.splitext(os.path.basename(file))[0])
 
@@ -121,7 +122,7 @@ def find_materials():
 class class_optical(gtk.Window):
 
 	icon_theme = gtk.icon_theme_get_default()
-	
+
 
 	edit_list=[]
 
@@ -147,7 +148,7 @@ class class_optical(gtk.Window):
 		toolbar.set_style(gtk.TOOLBAR_ICONS)
 		toolbar.set_size_request(-1, 50)
 		self.main_vbox.pack_start(toolbar, False, False, 0)
-		
+
 		self.edit_list=[]
 		self.line_number=[]
 
@@ -194,7 +195,7 @@ class class_optical(gtk.Window):
 		lable.show()
 		ti_hbox = gtk.HBox(False, 2)
 		ti_hbox.show()
-        
+
 		ti_hbox.pack_start(lable, False, False, 0)
 		ti_hbox.pack_start(self.cb, False, False, 0)
 		self.cb.show()
@@ -204,7 +205,7 @@ class class_optical(gtk.Window):
 	        ti_hbox.pack_start(lable, False, False, 0)
 		ti_hbox.pack_start(self.cb_model, False, False, 0)
 		self.cb_model.show()
-		
+
 
 		ti_light.add(ti_hbox);
 		toolbar.insert(ti_light, tool_bar_pos)
@@ -290,7 +291,7 @@ class class_optical(gtk.Window):
 
 			self.notebook.append_page(self.plot_widgets[i],gtk.Label(plot_labels[i]))
 
-		self.connect("delete-event", self.callback_close) 
+		self.connect("delete-event", self.callback_close)
 
 		self.add(self.main_vbox)
 		self.set_size_request(850,-1)

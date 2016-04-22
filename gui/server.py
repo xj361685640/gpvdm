@@ -1,8 +1,8 @@
+#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie
+#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	roderick.mackenzie@nottingham.ac.uk
 #	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
@@ -18,6 +18,7 @@
 #    You should have received a copy of the GNU General Public License along
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
 
 
 import pygtk
@@ -66,7 +67,7 @@ class server:
 		self.enable_gui=False
 
 		self.statusicon = gtk.StatusIcon()
-		self.statusicon.set_from_stock(gtk.STOCK_YES) 
+		self.statusicon.set_from_stock(gtk.STOCK_YES)
 		#self.statusicon.connect("popup-menu", self.right_click_event)
 		self.statusicon.set_tooltip("gpvdm")
 
@@ -172,7 +173,7 @@ class server:
 		if self.enable_gui==True:
 			self.progress_window.show()
 			self.gui_sim_start()
-		#self.statusicon.set_from_stock(gtk.STOCK_NO) 
+		#self.statusicon.set_from_stock(gtk.STOCK_NO)
 		self.running=True
 		self.run_jobs()
 
@@ -236,7 +237,7 @@ class server:
 	def set_wait_bit(self):
 		self.opp_finished=False
 
-	
+
 	def print_jobs(self):
 		for i in range(0, len(self.jobs)):
 			print self.jobs[i],self.status[i]
@@ -267,21 +268,21 @@ class server:
 			s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 			port = 8888;
 			s.sendto("sleep", (self.server_ip, port))
-			s.close()	
+			s.close()
 
 	def poweroff(self):
 		if self.cluster==True:
 			s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 			port = 8888;
 			s.sendto("poweroff", (self.server_ip, port))
-			s.close()	
+			s.close()
 
 	def get_data(self):
 		if self.cluster==True:
 			s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 			port = 8888;
 			s.sendto("get_data", (self.server_ip, port))
-			s.close()	
+			s.close()
 
 
 	def wait_lock(self):
@@ -320,14 +321,14 @@ class server:
 						self.jobs_running=self.jobs_running+1
 						if running_on_linux()==True:
 							cmd="cd "+self.jobs[i]+";"
-							cmd=cmd+get_exe_command()+" --lock "+"lock"+str(i)+" &\n"							
+							cmd=cmd+get_exe_command()+" --lock "+"lock"+str(i)+" &\n"
 							print "command="+cmd
 							if self.enable_gui==True:
 								self.terminal.feed_child(cmd)
 							else:
 								print cmd
 								os.system(cmd)
-							
+
 						else:
 							cmd=get_exe_command()+" --lock "+"lock"+str(i)+" &\n"
 							print cmd,self.jobs[i]
@@ -358,14 +359,14 @@ class server:
 			message=""
 
 		return message
-		
+
 
 	def stop(self):
 		if self.cluster==True:
 			self.socket.close()
 			self.tcp_sock.close()
 
-		self.progress_window.set_fraction(0.0) 
+		self.progress_window.set_fraction(0.0)
 		self.running=False
 
 		self.gui_sim_stop()
@@ -432,7 +433,7 @@ class server:
 					splitup=data.split(":")
 					if len(splitup)>1:
 						frac=float(data.split(":")[1])
-						self.progress_window.set_fraction(frac)	
+						self.progress_window.set_fraction(frac)
 			elif (data.startswith("text")):
 				if len(self.jobs)==1:
 					splitup=data.split(":")

@@ -2,9 +2,8 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 Roderick C. I. MacKenzie
+//  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 //
-//	roderick.mackenzie@nottingham.ac.uk
 //	www.roderickmackenzie.eu
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
@@ -17,6 +16,7 @@
 // ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
+
 
 
 #include <stdio.h>
@@ -142,7 +142,7 @@ for (i=0;i<in->layers;i++)
 	if (patch==TRUE)
 	{
 		join_path(3, patch_file,get_materials_path(sim),in->material_dir_name[i],"patch.inp");
-		
+
 		FILE* patch_in=fopen(patch_file,"r");
 		if (in==NULL)
 		{
@@ -160,7 +160,7 @@ for (i=0;i<in->layers;i++)
 
 				unused=fscanf(patch_in,"%s",token);
 				unused=fscanf(patch_in,"%Le",&a);
-	
+
 				unused=fscanf(patch_in,"%s",token);
 				unused=fscanf(patch_in,"%Le",&b);
 
@@ -241,7 +241,7 @@ for (i=0;i<in->layers;i++)
 
 			gdouble from=0.0;
 			gdouble to=0.0;
-	
+
 			do
 			{
 				unused=fscanf(patch_in,"%s",token);

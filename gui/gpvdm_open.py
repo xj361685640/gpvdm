@@ -1,8 +1,8 @@
+#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie
+#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	roderick.mackenzie@nottingham.ac.uk
 #	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
@@ -18,6 +18,7 @@
 #    You should have received a copy of the GNU General Public License along
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
 
 
 
@@ -38,7 +39,7 @@ COL_IS_DIRECTORY = 2
 import i18n
 _ = i18n.language.gettext
 
-class gpvdm_open(gtk.Dialog): 
+class gpvdm_open(gtk.Dialog):
 	show_inp_files=True
 	show_directories=True
 
@@ -119,7 +120,7 @@ class gpvdm_open(gtk.Dialog):
 
 	def get_icon(self, name):
 		return gtk.gdk.pixbuf_new_from_file(os.path.join(get_image_file_path(),name+"_file.png"))
-    
+
 
 	def create_store(self):
 		store = gtk.ListStore(str, gtk.gdk.Pixbuf, str)
@@ -139,7 +140,7 @@ class gpvdm_open(gtk.Dialog):
 
 				if fl=="materials":
 					show_dir=False
-				
+
 				if os.path.isfile(os.path.join(file_name,"gpvdm_gui_config.inp"))==True:
 					show_dir=False
 
@@ -170,8 +171,8 @@ class gpvdm_open(gtk.Dialog):
 	def on_home_clicked(self, widget):
 		self.dir = self.root_dir
 		self.fill_store()
-        
-    
+
+
 	def on_item_activated(self, widget, item):
 
 		model = widget.get_model()
@@ -182,7 +183,7 @@ class gpvdm_open(gtk.Dialog):
 			self.file_path=os.path.join(self.dir, path)
 			self.response(True)
 		    	return
-		    
+
 		self.dir = os.path.join(self.dir, path)
 		self.change_path()
 

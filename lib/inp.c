@@ -2,9 +2,8 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 Roderick C. I. MacKenzie
+//  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 //
-//	roderick.mackenzie@nottingham.ac.uk
 //	www.roderickmackenzie.eu
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
@@ -17,6 +16,7 @@
 // ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
+
 
 
 #include <stdio.h>
@@ -211,7 +211,7 @@ struct zip *z = zip_open("sim.gpvdm", 0, &err);
 if (z!=NULL)
 {
 	int files=zip_get_num_files(z);
-	for (i=0;i<files;i++) 
+	for (i=0;i<files;i++)
 	{
 		strcpy(temp,zip_get_name(z, i, ZIP_FL_UNCHANGED));
 		if (inp_listcmp(out,temp)!=0)
@@ -352,7 +352,7 @@ int inp_search_pos(struct simulation *sim,struct inp_file *in,char *token)
 		}
 
 		pos++;
-		
+
 	}while(line!=NULL);
 
 return -1;
@@ -701,7 +701,7 @@ double read_ver=0.0;
 
 			if ((line==NULL)||(strcmp(line,"#end")!=0))
 			{
-				ewe(sim,"#end token missing %s\n",in->full_name);	
+				ewe(sim,"#end token missing %s\n",in->full_name);
 			}
 
 			return;

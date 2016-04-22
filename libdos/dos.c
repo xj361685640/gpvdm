@@ -2,9 +2,8 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 Roderick C. I. MacKenzie
+//  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 //
-//	roderick.mackenzie@nottingham.ac.uk
 //	www.roderickmackenzie.eu
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
@@ -17,6 +16,7 @@
 // ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
+
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -192,7 +192,7 @@ long double n;
 mydos->used=TRUE;
 mydos->used=TRUE;
 mydos->srh_E=NULL;
-mydos->srh_den=NULL;	
+mydos->srh_den=NULL;
 
 if (get_dump_status(sim,dump_print_text)==TRUE) printf_log(sim,"%s %s\n",_("Loading file"),file);
 
@@ -220,7 +220,7 @@ if (get_dump_status(sim,dump_print_text)==TRUE) printf_log(sim,"%s %s\n",_("Load
 		}
 		#endif*/
 	#ifdef dos_bin
-	
+
 	int len;
 	//file_in = fopen(file, "rb");
 	FILE *tl=fopen(file,"rb");
@@ -306,7 +306,7 @@ if (get_dump_status(sim,dump_print_text)==TRUE) printf_log(sim,"%s %s\n",_("Load
 	if (mydos->srh_bands!=0)
 	{
 		mydos->srh_E=(long double *)malloc(sizeof(long double)*(int)(mydos->srh_bands));
-		mydos->srh_den=(long double *)malloc(sizeof(long double)*(int)(mydos->srh_bands));	
+		mydos->srh_den=(long double *)malloc(sizeof(long double)*(int)(mydos->srh_bands));
 	}
 
 	mydos->srh_r1=(long double ***)malloc(sizeof(long double **)*(int)mydos->tlen);
@@ -510,7 +510,7 @@ return ret;
 long double get_dpdT_den(struct device *in,long double top,long double T,int mat)
 {
 long double ret=0.0;
-long double N=in->dosp[mat].config.Nv;	
+long double N=in->dosp[mat].config.Nv;
 ret= -((top*Q)/kb)*N*gexp((top*Q)/(kb*T))*gpow(T,-2.0);
 return ret;
 }
@@ -518,7 +518,7 @@ return ret;
 long double get_dndT_den(struct device *in,long double top,long double T,int mat)
 {
 long double ret=0.0;
-long double N=in->dosn[mat].config.Nc;	
+long double N=in->dosn[mat].config.Nc;
 ret= -((top*Q)/kb)*N*gexp((top*Q)/(kb*T))*gpow(T,-2.0);
 return ret;
 }

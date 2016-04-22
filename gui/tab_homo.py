@@ -1,8 +1,8 @@
+#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie
+#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	roderick.mackenzie@nottingham.ac.uk
 #	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
@@ -18,6 +18,7 @@
 #    You should have received a copy of the GNU General Public License along
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
 
 
 import pygtk
@@ -281,8 +282,8 @@ class tab_bands(gtk.HBox,tab_base):
 			lines.append(item[HOMO_C])
 			function=function+1
 		lines.append("#ver")
-		lines.append("#1.0")		
-		lines.append("#end")			
+		lines.append("#1.0")
+		lines.append("#end")
 		inp_write_lines_to_file("./homo0.inp",lines)
 
 	def on_remove_item_from_lumo_clicked(self, button, treeview):
@@ -413,7 +414,7 @@ class tab_bands(gtk.HBox,tab_base):
 
 				line, = ax1.plot(x,y , '-', linewidth=3)
 			if item[LUMO_FUNCTION]=="gaus":
-	
+
 				y = float(item[LUMO_A])*exp(-pow(((float(item[LUMO_B])+x)/(sqrt(2.0)*float(item[LUMO_C])*1.0)),2.0))
 
 				line, = ax1.plot(x,y , color[pos], linewidth=3)
@@ -463,7 +464,7 @@ class tab_bands(gtk.HBox,tab_base):
 			else:
 				filter=dialog.get_filter()
 				self.save_image(file_name+filter.get_name())
-			
+
 		elif response == gtk.RESPONSE_CANCEL:
 		    print 'Closed, no files selected'
 		dialog.destroy()
@@ -500,7 +501,7 @@ class tab_bands(gtk.HBox,tab_base):
 
 			enabled=self.lines[pos] 	#read value
 			pos=pos+1
-			
+
 			tag=self.lines[pos]
 			scan_item_add("lumo0.inp",tag,tag,1)
 			pos=pos+1	#skip hash tag
@@ -552,7 +553,7 @@ class tab_bands(gtk.HBox,tab_base):
 			pos=pos+1
 
 			tag=self.lines[pos]
-			scan_item_add("homo0.inp",tag,tag,1)			
+			scan_item_add("homo0.inp",tag,tag,1)
 			pos=pos+1	#skip hash tag
 
 			a=self.lines[pos] 	#read value
@@ -601,7 +602,7 @@ class tab_bands(gtk.HBox,tab_base):
 		self.canvas_lumo.figure.patch.set_facecolor('white')
 		self.canvas_lumo.show()
 		vbox.pack_start(self.canvas_lumo, True, True, 1)
-		
+
 		self.pack_start(vbox, True, True, 0)
 		#self.attach(vbox, 0, 3, 0, 2)
 		vbox.show()
@@ -610,7 +611,7 @@ class tab_bands(gtk.HBox,tab_base):
 		self.LUMO_fig.tight_layout(pad=0.5)
 
 	        vbox = gtk.VBox(False, 2)
-		
+
 
 		frame = gtk.Frame()
 		frame.set_label("LUMO")
@@ -632,7 +633,7 @@ class tab_bands(gtk.HBox,tab_base):
 		delete_button.show()
 
 	        hbox = gtk.HBox(False, 2)
-        
+
 	        hbox.pack_start(add_button, False, False, 0)
 	        hbox.pack_start(delete_button, False, False, 0)
 		hbox.show()
@@ -674,7 +675,7 @@ class tab_bands(gtk.HBox,tab_base):
 		delete_button.show()
 
 	        hbox = gtk.HBox(False, 2)
-        
+
 	        hbox.pack_start(add_button, False, False, 0)
 	        hbox.pack_start(delete_button, False, False, 0)
 		vbox_mesh.pack_start(hbox, False, False, 0)

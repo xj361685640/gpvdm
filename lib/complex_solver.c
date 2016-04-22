@@ -2,9 +2,8 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 Roderick C. I. MacKenzie
+//  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 //
-//	roderick.mackenzie@nottingham.ac.uk
 //	www.roderickmackenzie.eu
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
@@ -17,6 +16,7 @@
 // ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
+
 
 #include <string.h>
 #include <stdio.h>
@@ -188,15 +188,15 @@ double Info [UMFPACK_INFO], Control [UMFPACK_CONTROL];
 // get the default control parameters
 umfpack_zi_defaults (Control) ;
 
-//change the default print level for this demo 
-//(otherwise, nothing will print) 
+//change the default print level for this demo
+//(otherwise, nothing will print)
 Control [UMFPACK_PRL] = 1 ;
 
-//print the license agreement 
+//print the license agreement
 //umfpack_zi_report_status (Control, UMFPACK_OK) ;
 Control [UMFPACK_PRL] = 0 ;
 
-// print the control parameters 
+// print the control parameters
 umfpack_zi_report_control (Control) ;
 
 status = umfpack_zi_triplet_to_col (col, col, nz, Ti, Tj, Tx, Txz, sim->complex_Ap, sim->complex_Ai, sim->complex_Ax, sim->complex_Az, NULL) ;
@@ -219,7 +219,7 @@ if (status != UMFPACK_OK) {
 	return EXIT_FAILURE;
 }
 
-// LU factorization 
+// LU factorization
 //umfpack_di_numeric(sim->complex_Ap, sim->complex_Ai, sim->complex_Ax, Symbolic, &Numeric, NULL, NULL);
 umfpack_zi_numeric (sim->complex_Ap, sim->complex_Ai, sim->complex_Ax, sim->complex_Az, Symbolic, &Numeric, Control, Info) ;
 

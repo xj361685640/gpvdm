@@ -1,8 +1,8 @@
+#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie
+#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	roderick.mackenzie@nottingham.ac.uk
 #	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
@@ -19,6 +19,7 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+
 import pygtk
 pygtk.require('2.0')
 import gtk
@@ -30,7 +31,7 @@ import os
 from win_lin import running_on_linux
 #from cal_path import get_exe_command
 #import urllib2
-#import socket 
+#import socket
 from threading import Thread
 #import time
 #import urlparse
@@ -42,7 +43,7 @@ import gobject
 import platform
 #import getpass
 #from help import my_help_class
-from http import get_data_from_web 
+from http import get_data_from_web
 from cal_path import get_share_path
 import hashlib
 from sim_warnings import sim_warnings
@@ -126,10 +127,10 @@ def update_now():
 		dialog.init(ret)
 		response=dialog.run()
 		dialog.destroy()
-	
+
 	md.destroy()
 
-	
+
 
 class update_thread(gtk.VBox):
 	def __init__(self):

@@ -2,9 +2,8 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 Roderick C. I. MacKenzie
+//  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 //
-//	roderick.mackenzie@nottingham.ac.uk
 //	www.roderickmackenzie.eu
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
@@ -17,6 +16,7 @@
 // ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
+
 
 
 #include <stdio.h>
@@ -55,7 +55,7 @@ char temp[1000];
 		return;
 	}
 
-	join_path(2,sim->lang_path,sim->share_path,name);	
+	join_path(2,sim->lang_path,sim->share_path,name);
 
 	if (isdir(out)!=0)
 	{
@@ -111,7 +111,7 @@ if (isfile("ver.py")==0)
 	}else
 	{
 		strcpy(sim->share_path,"/usr/lib/gpvdm/");
-		printf_log(sim,"I don't know where the shared files are assuming %s\n",sim->share_path);		
+		printf_log(sim,"I don't know where the shared files are assuming %s\n",sim->share_path);
 	}
 
 }

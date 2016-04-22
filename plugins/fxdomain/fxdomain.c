@@ -2,9 +2,8 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 Roderick C. I. MacKenzie
+//  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 //
-//	roderick.mackenzie@nottingham.ac.uk
 //	www.roderickmackenzie.eu
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
@@ -17,6 +16,7 @@
 // ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
+
 
 #include <sim.h>
 #include <dump.h>
@@ -97,7 +97,7 @@ char send_data[200];
 V=fxdomain_config.fxdomain_Vexternal;
 Plight=light_get_sun((&in->mylight));
 int total_steps=fxdomain_config.fxdomain_points*fxdomain_config.fxdomain_n*fx_points();
-int cur_total_step=0; 
+int cur_total_step=0;
 do
 {
 	V=fxdomain_config.fxdomain_Vexternal;
@@ -198,7 +198,7 @@ do
 		device_timestep(sim,in);
 
 		step++;
-	
+
 
 		if (period>=(fxdomain_config.fxdomain_n-fxdomain_config.periods_to_fit))
 		{

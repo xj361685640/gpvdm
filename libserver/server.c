@@ -2,9 +2,8 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 Roderick C. I. MacKenzie
+//  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 //
-//	roderick.mackenzie@nottingham.ac.uk
 //	www.roderickmackenzie.eu
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
@@ -67,7 +66,7 @@ void alarm_wakeup (int i)
 
 int cmp_lock(char *in)
 {
-return -1; 
+return -1;
 }
 
 void server_set_dbus_finish_signal(struct server *myserver, char *signal)
@@ -144,7 +143,7 @@ if (myserver->jobs==0) return;
 void server_job_finished(struct server *myserver,char *job)
 {
 }
- 
+
 int server_run_jobs(struct simulation *sim,struct server *myserver)
 {
 	return 0;
@@ -158,7 +157,7 @@ if (now>myserver->end_time)
 struct tm tm = *localtime(&now);
 
 printf_log(sim,"Server quit due to wall clock at: %d-%d-%d %d:%d:%d\n", tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday, tm.tm_hour, tm.tm_min, tm.tm_sec);
-now-=myserver->start_time; 
+now-=myserver->start_time;
 printf_log(sim,"I have run for: %lf hours\n",now/60.0/60.0);
 exit(0);
 }

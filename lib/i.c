@@ -2,9 +2,8 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 Roderick C. I. MacKenzie
+//  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 //
-//	roderick.mackenzie@nottingham.ac.uk
 //	www.roderickmackenzie.eu
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
@@ -17,6 +16,7 @@
 // ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
+
 
 
 
@@ -80,7 +80,7 @@ gdouble btm=0.0;
 int ii;
 for (ii=i-delta;ii<i+delta;ii++)
 {
-top+=in->x[ii]*in->data[ii];	
+top+=in->x[ii]*in->data[ii];
 btm+=in->data[ii];
 }
 return top/btm;
@@ -128,7 +128,7 @@ for (i=0;i<in->len;i++)
 			{
 				min++;
 			}else
-			if ((grad_l==1) && (grad_r== -1))  
+			if ((grad_l==1) && (grad_r== -1))
 			{
 				max++;
 			}
@@ -271,8 +271,8 @@ do
 	if (buffer[0]=='#')
 	{
 		i--;
-	}else	
-	{	
+	}else
+	{
 		//Check for empty line
 		while(*p==' ' || *p=='\t') p++;
 		if ((*p=='\r')||(*p=='\n')||(*p==0)) i--;
@@ -346,7 +346,7 @@ return 0.0;
 }
 
 /**Add together istruct structures
-@param out output structure 
+@param out output structure
 @param in structure to add
 */
 void inter_add(struct istruct* out,struct istruct* in)
@@ -359,7 +359,7 @@ int i;
 
 }
 
-/**Allocate istruct as a 2D array 
+/**Allocate istruct as a 2D array
 @param in the array to allocate
 @param m number of coloums
 @param len length of data to store in the array
@@ -371,7 +371,7 @@ in->data=(gdouble *)malloc (len*sizeof(gdouble));
 }
 
 /**Translate the input istruct to a log struct
-@param in inout istruct 
+@param in inout istruct
 @param out output istruct
 */
 void inter_to_log_mesh(struct istruct* out,struct istruct* in)
@@ -392,7 +392,7 @@ pos+=step;
 }
 
 /**Use linear interpolation to project an istruct array to a new linear mesh
-@param in input istruct 
+@param in input istruct
 @param out output istruct
 */
 void inter_to_new_mesh(struct istruct* in,struct istruct* out)
@@ -423,7 +423,7 @@ return;
 }
 
 /**Change the size of an allocated istruct
-@param in inout istruct 
+@param in inout istruct
 @param len new length
 */
 void inter_realloc(struct istruct* in,int len)
@@ -433,7 +433,7 @@ in->data=(gdouble *)realloc (in->data,len*sizeof(gdouble));
 }
 
 /**Allocate a new 1D istruct
-@param in input istruct 
+@param in input istruct
 @param len new length
 */
 void inter_new(struct istruct* in,int len)
@@ -453,8 +453,8 @@ for  (i=0;i<in->len;i++)
 
 }
 
-/**Sum a 1D istruct whilst taking the modulus of the data. 
-@param in input istruct 
+/**Sum a 1D istruct whilst taking the modulus of the data.
+@param in input istruct
 */
 gdouble inter_sum_mod(struct istruct* in)
 {
@@ -490,8 +490,8 @@ for (i=0;i<in->len;i++)
 return sum/points;
 }
 
-/**Get the average value of the data in a 1D istruct 
-@param in input istruct 
+/**Get the average value of the data in a 1D istruct
+@param in input istruct
 */
 gdouble inter_avg(struct istruct* in)
 {
@@ -505,8 +505,8 @@ for (i=0;i<in->len;i++)
 return sum/((gdouble)(in->len));
 }
 
-/**Sum a 1D istruct (no modulus) 
-@param in input istruct 
+/**Sum a 1D istruct (no modulus)
+@param in input istruct
 */
 gdouble inter_sum(struct istruct* in)
 {
@@ -520,7 +520,7 @@ for (i=0;i<in->len;i++)
 return sum;
 }
 
-/**Convolve two istructs  
+/**Convolve two istructs
 @param one input/output istruct
 @param two input istruct
 */
@@ -535,8 +535,8 @@ for (i=0;i<one->len;i++)
 }
 }
 
-/**Multiply the data in a 1D istruct by a number   
-@param in input istruct 
+/**Multiply the data in a 1D istruct by a number
+@param in input istruct
 */
 void inter_mul(struct istruct* in,gdouble mul)
 {
@@ -699,8 +699,8 @@ in->data[i]/=max;
 return max;
 }
 
-/**Get maximum value of an istruct   
-@param in input istruct 
+/**Get maximum value of an istruct
+@param in input istruct
 */
 gdouble inter_get_max(struct istruct* in)
 {
@@ -747,8 +747,8 @@ for (i=0;i<in->len;i++)
 return pos;
 }
 
-/**Get maximum value of an istruct   
-@param in input istruct 
+/**Get maximum value of an istruct
+@param in input istruct
 */
 gdouble inter_get_fabs_max(struct istruct* in)
 {
@@ -762,8 +762,8 @@ if (fabs(in->data[i])>max) max=fabs(in->data[i]);
 
 return max;
 }
-/**Norm istruct to max value   
-@param in input istruct 
+/**Norm istruct to max value
+@param in input istruct
 */
 gdouble inter_norm(struct istruct* in,gdouble mul)
 {
@@ -783,8 +783,8 @@ in->data[i]*=mul/max;
 return max;
 }
 
-/**Perform log10 on data in istruct   
-@param in input istruct 
+/**Perform log10 on data in istruct
+@param in input istruct
 */
 void inter_log_y_m(struct istruct* in)
 {
@@ -799,8 +799,8 @@ for (i=0;i<in->len;i++)
 }
 }
 
-/**Perform log10 on data in istruct   
-@param in input istruct 
+/**Perform log10 on data in istruct
+@param in input istruct
 */
 void inter_log_y(struct istruct* in)
 {
@@ -810,8 +810,8 @@ for (i=0;i<in->len;i++)
 	in->data[i]=log10(sqrt(in->data[i]*in->data[i]));
 }
 }
-/**Perform log10 on x axis in istruct   
-@param in input istruct 
+/**Perform log10 on x axis in istruct
+@param in input istruct
 */
 void inter_log_x(struct istruct* in)
 {
@@ -822,8 +822,8 @@ for (i=0;i<in->len;i++)
 }
 }
 
-/**Smooth istruct with a window 
-@param points input istruct 
+/**Smooth istruct with a window
+@param points input istruct
 */
 void inter_smooth_range(struct istruct* out,struct istruct* in,int points,gdouble x)
 {
@@ -858,8 +858,8 @@ gdouble tot=0;
 	}
 }
 
-/**Smooth istruct with a window   
-@param points input istruct 
+/**Smooth istruct with a window
+@param points input istruct
 */
 void inter_smooth(struct istruct* out,struct istruct* in,int points)
 {
@@ -889,7 +889,7 @@ gdouble tot=0;
 }
 
 /**Remove zeros from the data stored in istruct
-@param in input istruct 
+@param in input istruct
 */
 void inter_purge_zero(struct istruct* in)
 {
@@ -916,7 +916,7 @@ inter_realloc(in,in->len);
 }
 
 /**Get the smallest data stored in an istruct array
-@param in input istruct 
+@param in input istruct
 */
 gdouble inter_get_min(struct istruct* in)
 {
@@ -932,7 +932,7 @@ return min;
 }
 
 /**Get the smallest data stored in an istruct array
-@param in input istruct 
+@param in input istruct
 */
 gdouble inter_get_min_range(struct istruct* in,gdouble min, gdouble max)
 {
@@ -949,9 +949,9 @@ for (i=0;i<in->len;i++)
 return ret;
 }
 
-/**Chop an istruct array between two points 
+/**Chop an istruct array between two points
 @param min min point
-@param min max point 
+@param min max point
 */
 void inter_chop(struct istruct* in,gdouble min, gdouble max)
 {
@@ -968,11 +968,11 @@ for (i=0;i<in->len;i++)
 		write--;
 	}
 
-	if (in->x[read]>max) break; 
+	if (in->x[read]>max) break;
 	read++;
 
 
-	
+
 
 }
 in->len=write;
@@ -1023,7 +1023,7 @@ if (in->data[i]<0.0) in->data[i]*= -1.0;
 
 }
 
-/**Raise the data in an istruct by a power  
+/**Raise the data in an istruct by a power
 @param p power to raise the data by
 */
 void inter_pow(struct istruct* in,gdouble p)
@@ -1036,8 +1036,8 @@ in->data[i]=pow(in->data[i],p);
 
 }
 
-/**Add a value from every x element in the array  
-@param value value to subtract from data 
+/**Add a value from every x element in the array
+@param value value to subtract from data
 */
 void inter_add_x(struct istruct* in,gdouble value)
 {
@@ -1049,8 +1049,8 @@ in->x[i]+=value;
 
 }
 
-/**Subtract a value from every data element in the array  
-@param value value to subtract from data 
+/**Subtract a value from every data element in the array
+@param value value to subtract from data
 */
 void inter_sub_gdouble(struct istruct* in,gdouble value)
 {
@@ -1065,7 +1065,7 @@ in->data[i]-=value;
 /**Divide one array by the other they must be of the same length/x-asis
 @param in opperand one, then result
 @param in opperand two
- 
+
 */
 void inter_div(struct istruct* one,struct istruct* two)
 {
@@ -1091,7 +1091,7 @@ for  (i=0;i<one->len;i++)
 /**Subtract two arrays they must be of the same length/x-asis
 @param in opperand one, then result
 @param in opperand two
- 
+
 */
 void inter_sub(struct istruct* one,struct istruct* two)
 {
@@ -1114,7 +1114,7 @@ for  (i=0;i<one->len;i++)
 
 }
 
-/**Add a number to an istruct  
+/**Add a number to an istruct
 @param in input istruct
 @param value value to add to istruct
 */
@@ -1229,7 +1229,7 @@ do
 	const char s[2] = " ";
 	for (i=0;i<strlen(temp);i++)
 	{
-		if (temp[i]=='\t') temp[i]=' '; 
+		if (temp[i]=='\t') temp[i]=' ';
 	}
 
 	if ((temp[0]!='#')&&(temp[0]!='\n')&&(temp[0]!='\r')&&(temp[0]!=0))
@@ -1261,7 +1261,7 @@ void inter_load_by_col(struct istruct* in,char *name,int col)
 int i=0;
 char temp[1000];
 gdouble x;
-gdouble y; 
+gdouble y;
 char *token;
 int icol=0;
 strcpy(in->name,name);
@@ -1282,7 +1282,7 @@ do
 	const char s[2] = " ";
 	for (i=0;i<strlen(temp);i++)
 	{
-		if (temp[i]=='\t') temp[i]=' '; 
+		if (temp[i]=='\t') temp[i]=' ';
 	}
 
 	//printf("read=%s\n",temp);
@@ -1290,12 +1290,12 @@ do
 	{
 		token = strtok(temp, s);
 
-		sscanf(token,"%Le",&(x));	   
+		sscanf(token,"%Le",&(x));
 		if (token != NULL)
 		{
 			icol=0;
 			int ret=0;
-			while( token != NULL ) 
+			while( token != NULL )
 			{
 				if (col==icol)
 				{
@@ -1440,7 +1440,7 @@ void inter_load(struct istruct* in,char *name)
 {
 char temp[1000];
 gdouble x;
-gdouble y; 
+gdouble y;
 
 strcpy(in->name,name);
 
@@ -1583,8 +1583,8 @@ if (backup==FALSE)
 	if( access( wholename, F_OK ) != -1 )
 	{
 	remove(backup_file);
-	rename(wholename,backup_file);    
-	} 
+	rename(wholename,backup_file);
+	}
 	inter_save(in,wholename);
 }
 

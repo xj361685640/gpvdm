@@ -1,8 +1,8 @@
+#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie
+#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	roderick.mackenzie@nottingham.ac.uk
 #	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
@@ -18,6 +18,7 @@
 #    You should have received a copy of the GNU General Public License along
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
 
 
 import pygtk
@@ -87,9 +88,9 @@ class tab_electrical_mesh(gtk.Window):
 				bands=int(inp_search_token_value(lines, "#srh_bands"))
 
 		#n=0
-		
+
 		self.fig.clf()
-		
+
 		self.fig.subplots_adjust(bottom=0.2)
 		self.fig.subplots_adjust(left=0.1)
 		self.ax1 = self.fig.add_subplot(111)
@@ -140,18 +141,18 @@ class tab_electrical_mesh(gtk.Window):
 			else:
 				self.ax1.legend_ = None
 			#self.fig.canvas.draw()
-		
+
 		except:
 			print "No mode file\n"
 
-		
+
 	def save_image(self,file_name):
-		self.fig.savefig(file_name)	
+		self.fig.savefig(file_name)
 
 	def refresh(self):
 		self.emesh_editor.refresh()
 		self.update_graph()
-		
+
 
 	def callback_close(self, widget, data=None):
 		self.hide()
@@ -183,7 +184,7 @@ class tab_electrical_mesh(gtk.Window):
 			else:
 				filter=dialog.get_filter()
 				self.save_image(file_name+filter.get_name())
-			
+
 		elif response == gtk.RESPONSE_CANCEL:
 		    print 'Closed, no files selected'
 		dialog.destroy()
@@ -276,7 +277,7 @@ class tab_electrical_mesh(gtk.Window):
 
 
 		self.hbox.pack_start(canvas, True, True, 0)
-	
+
 		self.emesh_editor.show()
 		self.hbox.pack_start(self.emesh_editor, True, True, 0)
 		self.emesh_editor.mesh_dump_ctl.connect("update", self.callback_update)

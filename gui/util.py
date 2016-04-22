@@ -1,8 +1,8 @@
+#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie
+#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	roderick.mackenzie@nottingham.ac.uk
 #	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
@@ -18,6 +18,7 @@
 #    You should have received a copy of the GNU General Public License along
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
 
 #import sys
 import os
@@ -45,7 +46,7 @@ def gui_print_path(text,path,length):
 	return ret
 
 
-	
+
 def read_data_2d(x_scale,y_scale,z,file_name):
 	found,lines=zip_get_data_file(file_name)
 	if found==True:
@@ -123,7 +124,7 @@ def gpvdm_delete_file(path):
 		print "Deleting link:",path
 		os.unlink(path)
 		print "check",real_path,get_cache_path(path)
-		if real_path==get_cache_path(path):	#only delete the cache directory if it is the one we are intending to delete 
+		if real_path==get_cache_path(path):	#only delete the cache directory if it is the one we are intending to delete
 
 			if os.path.isdir(real_path)==True:
 				print "Delete",real_path
@@ -157,12 +158,12 @@ def numbers_to_latex(data):
 
 			if number==True:
 				if data[i]=="e":
-					add="\\times10^{" 
+					add="\\times10^{"
 					open_ten=True
 				if str.isdigit(data[i])==True:
 					add=data[i]
 				else:
-					if data[i]!="e" and data[i]!="-" and data[i]!="+" and data[i]!=".": 
+					if data[i]!="e" and data[i]!="-" and data[i]!="+" and data[i]!=".":
 						number=False
 						add=""+data[i] #$
 						if open_ten==True:
@@ -281,7 +282,7 @@ def gpvdm_copy_src(new_dir):
 	print file_list
 	for name in file_list:
 		gui_file_name=os.path.join(name,"gpvdm_gui_config.inp")
-		
+
 		if os.path.isfile(gui_file_name)==False:
 			fname=os.path.basename(name)
 			out=os.path.join(new_dir,fname)

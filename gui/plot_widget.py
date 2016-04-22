@@ -1,8 +1,8 @@
+#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie
+#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	roderick.mackenzie@nottingham.ac.uk
 #	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
@@ -21,6 +21,7 @@
 
 
 
+
 import pygtk
 pygtk.require('2.0')
 import gtk
@@ -35,7 +36,7 @@ from util import read_data_2d
 from plot_io import plot_load_info
 import matplotlib.pyplot as plt
 #from matplotlib.widgets import Cursor
-from plot_export import plot_export 
+from plot_export import plot_export
 #from numpy import arange, sin, pi, zeros
 from matplotlib.backends.backend_gtkagg import FigureCanvasGTKAgg as FigureCanvas
 from matplotlib.backends.backend_gtkagg import NavigationToolbar2GTKAgg
@@ -111,7 +112,9 @@ class plot_widget(gtk.VBox):
 			self.win.destroy()
 
 		if keyname == "c":
-			if event.state == gtk.gdk.CONTROL_MASK:
+			#print "clip",event.state,event.state& gtk.gdk.CONTROL_MASK
+			if event.state & gtk.gdk.CONTROL_MASK==gtk.gdk.CONTROL_MASK:
+				#print "yes"
 				self.do_clip()
 
 		self.fig.canvas.draw()
@@ -129,7 +132,7 @@ class plot_widget(gtk.VBox):
 		#print event.xdata, event.ydata
 		self.xdata=event.xdata
 		self.ydata=event.ydata
-	
+
 		#self.fig.canvas.draw()
 
 		#except:
@@ -150,21 +153,21 @@ class plot_widget(gtk.VBox):
 		if read_xyz_data(t,s,z,self.input_files[index])==True:
 			self.sub_zero_frame(t,s,index)
 			my_min=0.0;
-				
+
 
 			for ii in range(0,len(t)):
 				t[ii]=t[ii]*self.plot_token.x_mul
 				s[ii]=s[ii]*self.plot_token.y_mul
 
 				if self.plot_token.invert_y==True:
-					s[ii]=-s[ii]					
+					s[ii]=-s[ii]
 
 				if self.plot_token.subtract_first_point==True:
 					if ii==0:
 						val=s[0]
 					s[ii]=s[ii]-val
 
-	
+
 			if self.plot_token.add_min==True:
 				my_min=min(s)
 				for ii in range(0,len(t)):
@@ -232,7 +235,7 @@ class plot_widget(gtk.VBox):
 				if i==number_of_plots-1:
 					print self.plot_token.x_label,self.plot_token.x_units
 					self.ax[i].set_xlabel(self.plot_token.x_label+" ("+self.plot_token.x_units+")")
-					
+
 				else:
 					self.ax[i].tick_params(axis='x', which='both', bottom='off', top='off',labelbottom='off') # labels along the bottom edge are off
 
@@ -467,7 +470,7 @@ class plot_widget(gtk.VBox):
 		if config_file=="":
 			config_file=os.path.splitext(input_files[0])[0]+".oplot"
 
-		loaded=False		
+		loaded=False
 		self.plot_token=plot_state()
 
 		#Try and get the data from the config file
@@ -487,7 +490,7 @@ class plot_widget(gtk.VBox):
 			if len(self.plot_id)==0:
 				for i in range(0,len(input_files)):
 					self.plot_id.append(0)
-		
+
 			self.plot_token.path=os.path.dirname(config_file)
 			if self.plot_token.tag0=="":
 				self.plot_token.file0=os.path.basename(input_files[0])
@@ -735,7 +738,7 @@ class plot_widget(gtk.VBox):
 		menubar.show_all()
 		self.pack_start(menubar, False, True, 0)
 
-		self.pack_start(self.toolbar, False, True, 0)	
+		self.pack_start(self.toolbar, False, True, 0)
 
 		pos=0
 
@@ -769,7 +772,7 @@ class plot_widget(gtk.VBox):
 
 		self.canvas.figure.patch.set_facecolor('white')
 		self.canvas.set_size_request(650, 400)
-		self.pack_start(self.canvas, True, True, 0)	
+		self.pack_start(self.canvas, True, True, 0)
 
 		#self.fig.canvas.draw()
 

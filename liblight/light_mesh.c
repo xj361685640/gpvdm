@@ -2,9 +2,8 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 Roderick C. I. MacKenzie
+//  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 //
-//	roderick.mackenzie@nottingham.ac.uk
 //	www.roderickmackenzie.eu
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
@@ -17,6 +16,7 @@
 // ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
+
 
 
 #include "util.h"
@@ -52,7 +52,7 @@ void light_init_mesh(struct light *in)
 		in->layer[i]=layer;
 		if (in->device_start_layer>=layer) in->device_start_i=i;
 		//printf("%d %d %d %d\n",in->device_start_i,in->points,in->device_start_layer,layer);
-		pos+=in->dx;	
+		pos+=in->dx;
 
 		if (pos>layer_end)
 		{

@@ -1,8 +1,8 @@
+#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie
+#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	roderick.mackenzie@nottingham.ac.uk
 #	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
@@ -18,6 +18,7 @@
 #    You should have received a copy of the GNU General Public License along
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
 
 
 
@@ -71,7 +72,7 @@ def gen_infofile_plot(file_list_in,base_dir,plot_token):
 
 	#pull out first item
 	ittr_path=os.path.dirname(result[0])
-	
+
 	start_of_sim_dir_path_pos=len(base_dir)+1
 	ittr_path=ittr_path[start_of_sim_dir_path_pos:]
 	#check it's depth
@@ -79,7 +80,7 @@ def gen_infofile_plot(file_list_in,base_dir,plot_token):
 		depth=ittr_path.count('/')
 	else:
 		depth=ittr_path.count('\\')
-		
+
 	#print "DEPTHDEPTHDEPTHDEPTH:"
 	#print result
 	#print ittr_path
@@ -98,7 +99,7 @@ def gen_infofile_plot(file_list_in,base_dir,plot_token):
 			if mydirs.count(ittr_path[0])==0:
 				mydirs.append(ittr_path[0])
 
-	
+
 
 	data=["" for x in range(len(mydirs))]
 
@@ -118,7 +119,7 @@ def gen_infofile_plot(file_list_in,base_dir,plot_token):
 				pos=mydirs.index(ittr_path[0])
 
 			#print pos
-			
+
 			data[pos]=data[pos]+values
 			#print data[pos]
 	plot_files=[]
@@ -181,7 +182,7 @@ def scan_gen_plot_data(plot_token,base_path):
 		#print "Rod",plot_files,self.sim_dir
 
 		print plot_files,"r",plot_labels,"r",save_file,"r",plot_files,"r",base_path,"r",plot_token
-		
+
 		plot_files, plot_labels, save_file = gen_infofile_plot(plot_files,base_path,plot_token)
 
 	else:
@@ -208,6 +209,6 @@ def scan_gen_plot_data(plot_token,base_path):
 			plot_labels.append(str(text))
 
 		save_file=os.path.join(base_path,os.path.splitext(os.path.basename(plot_files[0]))[0])+".oplot"
-		
+
 
 	return plot_files, plot_labels, save_file

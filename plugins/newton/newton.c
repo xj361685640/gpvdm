@@ -2,9 +2,8 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 Roderick C. I. MacKenzie
+//  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 //
-//	roderick.mackenzie@nottingham.ac.uk
 //	www.roderickmackenzie.eu
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
@@ -17,6 +16,7 @@
 // ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
+
 
 
 
@@ -385,7 +385,7 @@ if (in->interfaceright==TRUE)
 				nl=get_n_den(in,one,Tel,in->imat[i]);
 				dnl=get_dn_den(in,one,Tel,in->imat[i]);
 				wnl=get_n_w(in,one,Tel,in->imat[i]);
-				
+
 				munl=in->mun[0];
 
 
@@ -396,10 +396,10 @@ if (in->interfaceright==TRUE)
 				pl=get_p_den(in,one,Thl,in->imat[i]);
 				dpl=get_dp_den(in,one,Thl,in->imat[i]);
 				wpl=get_p_w(in,one,Thl,in->imat[i]);
-				
+
 
 				mupl=in->mup[0];
-			
+
 				//printf("left n= %Le p= %Le \n",nl,pl);
 
 
@@ -408,7 +408,7 @@ if (in->interfaceright==TRUE)
 			}else
 			{
 //				Dexl=in->Dex[i-1];
-//				exl=in->ex[i-1];				
+//				exl=in->ex[i-1];
 				phil=in->phi[i-1];
 				yl=in->ymesh[i-1];
 //				Tll=in->Tl[i-1];
@@ -444,7 +444,7 @@ if (in->interfaceright==TRUE)
 			{
 
 //				Dexr=in->Dex[i];
-//				exr=0.0;			
+//				exr=0.0;
 				//phir=in->Vr;
 
 					phir=in->Vr;
@@ -491,7 +491,7 @@ if (in->interfaceright==TRUE)
 			{
 
 //				Dexr=in->Dex[i+1];
-//				exr=in->ex[i+1];				
+//				exr=in->ex[i+1];
 				phir=in->phi[i+1];
 				yr=in->ymesh[i+1];
 //				Tlr=in->Tl[i+1];
@@ -571,7 +571,7 @@ if (in->interfaceright==TRUE)
 				mupl=(mupl+mupc)/2.0;
 				mupr=(mupr+mupc)/2.0;
 
-	
+
 
 				nc=in->n[i];
 				pc=in->p[i];
@@ -697,7 +697,7 @@ if (in->interfaceright==TRUE)
 			dJpdphic=0.0;
 			dJpdphir=0.0;
 
-	
+
 			Jnl=(Dnl/dyl)*(B(-xil)*nc-B(xil)*nl);
 			dJnldxil_l= -(Dnl/dyl)*(B(xil)*dnl);
 			dJnldxil_c=(Dnl/dyl)*B(-xil)*dnc;
@@ -857,7 +857,7 @@ if (in->interfaceright==TRUE)
 						in->newton_dntrap[band]+= -(in->nt[i][band]-in->newton_ntlast[band])/dt;
 						in->newton_dntrapdntrap[band]+= -(in->dnt[i][band])/dt;
 					}
-					
+
 					in->nrelax[i]+=nc*in->srh_n_r1[i][band]-in->srh_n_r2[i][band];
 					in->ntrap_to_p[i]+= -(-pc*in->srh_n_r3[i][band]+in->srh_n_r4[i][band]);
 
@@ -914,7 +914,7 @@ if (in->interfaceright==TRUE)
 			//band=0;
 			//printf("hereh %le %le %le %le\n",in->Vapplied,pc*in->srh_p_r1[i][band]-in->srh_p_r2[i][band]-nc*in->srh_p_r3[i][band]+in->srh_p_r4[i][band],pc*in->srh_p_r1[i][band]-in->srh_p_r2[i][band],-nc*in->srh_p_r3[i][band]+in->srh_p_r4[i][band]);
 
-			
+
 			in->Rn[i]=Rtrapn;
 			in->Rp[i]=Rtrapp;
 			//Rtrapp=1e24;
@@ -978,13 +978,13 @@ if (in->interfaceright==TRUE)
 			in->Tx[pos]=dphidxic;
 			//strcpy(in->Tdebug[pos],"dphidxic");
 			pos++;
-			
+
 			in->Ti[pos]=i;
 			in->Tj[pos]=i+in->ymeshpoints*(1+1);
 			in->Tx[pos]=dphidxipc;
 			//strcpy(in->Tdebug[pos],"dphidxipc");
 			pos++;
-			
+
 
 			//electron
 
@@ -1162,7 +1162,7 @@ if (in->interfaceright==TRUE)
 				build= -(deriv);
 
 				build+= -(-(pc-nc-Nad)*Q);
-		
+
 				for (band=0;band<in->srh_bands;band++)
 				{
 					build+= -(-Q*(in->pt[i][band]-in->nt[i][band]));
@@ -1210,7 +1210,7 @@ if (in->interfaceright==TRUE)
 			if (in->go_time==TRUE)
 			{
 				build-=(pc-plast)/dt;
-			}			
+			}
 
 
 			in->b[in->ymeshpoints*(1+1)+i]=build;
@@ -1698,15 +1698,15 @@ int cpos=0;
 				break;
 			}
 
-			solver(sim,in->M,in->N,in->Ti,in->Tj, in->Tx,in->b);			
+			solver(sim,in->M,in->N,in->Ti,in->Tj, in->Tx,in->b);
 
 			update_solver_vars(sim,in,TRUE);
 
 			//printf("Going to clamp=%d\n",proper);
 			//solver_dump_matrix(in->M,in->N,in->Ti,in->Tj, in->Tx,in->b);
 			//printf("%d\n");
-			//getchar();	
-		
+			//getchar();
+
 
 		error=get_cur_error(sim,in);
 
@@ -1718,7 +1718,7 @@ int cpos=0;
 		if (get_dump_status(sim,dump_print_newtonerror)==TRUE)
 		{
 			printf("%d Cur error = %Le %Le I=%Le",ittr,error,in->Vapplied,get_I(in));
-		
+
 			printf("\n");
 		}
 
@@ -1764,7 +1764,7 @@ int cpos=0;
 					if ((check[0]<error)||(check[1]<error))
 					{
 						stop=TRUE;
-					}	
+					}
 			}
 		}
 
