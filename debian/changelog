@@ -1,5 +1,9 @@
-gpvdm (4.40-1) UNRELEASED; urgency=low
+gpvdm (4.42-1) UNRELEASED; urgency=low
 
+  [ Roderick C. I. MacKenzie ]
   * Initial release. (Closes: #818871)
+    
+  [ Roderick C. I. MacKenzie ]
+  * Switch to dpkg-source 3.0 (quilt) format
 
- -- Roderick MacKenzie <r.c.i.mackenzie@googlemail.com>  Mon, 21 Mar 2016 05:33:09 -0400
+ -- Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>  Mon, 21 Mar 2016 05:33:09 -0400
