@@ -1,5 +1,8 @@
 Source: gpvdm
+Section: science
+Priority: optional
 Maintainer: Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+Standards-Version: 3.9.7
 Build-Depends: autoconf,
                automake,
                autotools-dev,
@@ -15,10 +18,7 @@ Build-Depends: autoconf,
                libzip-dev,
                pkg-config,
                python
-Section: science
-Priority: optional
 Homepage: http://www.gpvdm.com
-Standards-Version: 3.9.7
 
 Package: gpvdm
 Architecture: any
