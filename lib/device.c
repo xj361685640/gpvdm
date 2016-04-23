@@ -240,6 +240,9 @@ void device_init(struct device *in)
 
 	in->Rshunt= -1.0;
 	in->Rcontact= -1.0;
+	in->Rload= -1.0;
+	in->L= -1.0;
+
 
 	in->lr_bias= -1;
 
@@ -324,8 +327,6 @@ void device_init(struct device *in)
 	in->VCext= -1.0;
 	in->newton_last_ittr= -1;
 	in->phi_mul= -1.0;
-
-	in->root_dll_interface= NULL;
 
 	//Newton
 	in->newton_dntrap=NULL;

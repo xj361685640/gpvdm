@@ -1,4 +1,4 @@
-OBJS=plugin.o pulse.o pulse_voc_ntricks.o
+OBJS=plugin.o pulse.o
 
 lib=-L../../ -L$(HOME)/windll/compiled_dlls/
 inc=-I../../include/

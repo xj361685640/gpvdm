@@ -32,6 +32,9 @@
 #include <log.h>
 #include <plot.h>
 #include <cal_path.h>
+#include <probe.h>
+#include <newton_voc.h>
+#include <newton_externalv.h>
 
 static int unused __attribute__((unused));
 
@@ -68,7 +71,6 @@ printf("%s\n",config_file_name);
 
 pulse_load_config(sim,&pulse_config,in,config_file_name);
 int number=strextract_int(config_file_name);
-ntricks_externv_set_load(pulse_config.pulse_Rload);
 
 in->go_time=FALSE;
 
@@ -90,18 +92,24 @@ light_set_sun(&(in->mylight),time_get_sun());
 light_solve_and_update(sim,in,&(in->mylight), time_get_laser());
 
 gdouble V=0.0;
+probe_init(sim,in);
 
 if (pulse_config.pulse_sim_mode==pulse_load)
 {
 	sim_externalv(sim,in,time_get_voltage());
-	ntricks_externv_newton(sim,in,time_get_voltage(),FALSE);
+	newton_externv(sim,in,time_get_voltage(),FALSE);
 }else
+if (pulse_config.pulse_sim_mode==pulse_ideal_diode_ideal_load)
+{
+	newton_externalv_simple(sim,in,time_get_voltage());
+}
+else
 if (pulse_config.pulse_sim_mode==pulse_open_circuit)
 {
 	in->Vapplied=in->Vbi;
-	pulse_config.pulse_Rload=1e6;
-	pulse_newton_sim_voc(sim,in);
-	pulse_newton_sim_voc_fast(sim,in,FALSE);
+	in->Rload=1e6;
+	newton_sim_voc(sim,in);
+	newton_sim_voc_fast(sim,in,FALSE);
 }else
 {
 	ewe(sim,_("pulse mode not known\n"));
@@ -117,6 +125,9 @@ carrier_count_reset(in);
 reset_np_save(in);
 do
 {
+
+	printf("%Le\n",probe_cal(sim,in));
+
 	light_set_sun(&(in->mylight),time_get_sun());
 	light_solve_and_update(sim,in,&(in->mylight), time_get_laser()+time_get_fs_laser());
 	dump_dynamic_add_data(sim,&store,in,in->time);
@@ -124,12 +135,17 @@ do
 	if (pulse_config.pulse_sim_mode==pulse_load)
 	{
 		V=time_get_voltage();
-		i0=ntricks_externv_newton(sim,in,V,TRUE);
+		i0=newton_externv(sim,in,V,TRUE);
+	}else
+	if (pulse_config.pulse_sim_mode==pulse_ideal_diode_ideal_load)
+	{
+		V=time_get_voltage();
+		i0=newton_externalv_simple(sim,in,V);
 	}else
 	if (pulse_config.pulse_sim_mode==pulse_open_circuit)
 	{
 		V=in->Vapplied;
-		pulse_newton_sim_voc_fast(sim,in,TRUE);
+		newton_sim_voc_fast(sim,in,TRUE);
 	}else
 	{
 		ewe(sim,_("pulse mode not known\n"));
@@ -140,8 +156,6 @@ do
 	{
 		printf_log(sim,"%s=%Le %s=%d %.1Le ",_("pulse time"),in->time,_("step"),step,in->last_error);
 		printf_log(sim,"Vtot=%Lf %s = %Le mA (%Le A/m^2)\n",V,_("current"),get_I(in)/1e-3,get_J(in));
-
-
 	}
 
 	ittr++;
@@ -253,6 +267,8 @@ inter_free(&out_G);
 inter_free(&out_i);
 inter_free(&out_v);
 time_memory_free();
+probe_free(sim);
+
 }
 
 void pulse_load_config(struct simulation *sim,struct pulse *in,struct device *dev,char *config_file_name)
@@ -267,8 +283,8 @@ inp_check(sim,&inp,1.28);
 
 inp_search_gdouble(sim,&inp,&(in->pulse_shift),"#pulse_shift");
 inp_search_string(sim,&inp,name,"#pulse_sim_mode");
-inp_search_gdouble(sim,&inp,&(in->pulse_L),"#pulse_L");
-inp_search_gdouble(sim,&inp,&(in->pulse_Rload),"#Rload");
+inp_search_gdouble(sim,&inp,&(dev->L),"#pulse_L");
+inp_search_gdouble(sim,&inp,&(dev->Rload),"#Rload");
 inp_search_string(sim,&inp,laser_name,"#pump_laser");
 light_load_laser(sim,(&dev->mylight),laser_name);
 in->pulse_sim_mode=english_to_bin(sim,name);

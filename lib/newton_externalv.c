@@ -19,20 +19,29 @@
 
 
 
-#include <util.h>
-#include <device.h>
-#include <dump_ctrl.h>
-#include <light.h>
-#include <light_interface.h>
-#include <functions.h>
-#include "log.h"
+#include <exp.h>
+#include "dump.h"
+#include "sim.h"
+#include <newton_externalv.h>
+
+static int glob_use_cap=0;
 
 
 
-EXPORT void light_dll_init(struct simulation *sim)
+
+gdouble newton_externv(struct simulation *sim,struct device *in,gdouble Vtot,int usecap)
 {
-printf_log(sim,"Light init\n");
+gdouble C=in->C;
+solve_all(sim,in);
+if (glob_use_cap==FALSE) C=0.0;
+return get_I(in)+in->Vapplied/in->Rshunt+C*(in->Vapplied-in->Vapplied_last)/in->dt;
 }
 
-
-
+gdouble newton_externalv_simple(struct simulation *sim,struct device *in,gdouble V)
+{
+in->Vapplied=V;
+in->kl_in_newton=FALSE;
+solver_realloc(sim,in);
+solve_all(sim,in);
+return get_I(in);
+}

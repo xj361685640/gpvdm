@@ -45,7 +45,7 @@ class tb_pulse_load_type(gtk.ToolItem):
 
 		self.sim_mode.append_text("open_circuit")
 		self.sim_mode.append_text("load")
-
+		self.sim_mode.append_text("ideal_diode_ideal_load")
 
 		self.sim_mode.child.connect('changed', self.call_back_sim_mode_changed)
 		token=inp_get_token_value("pulse"+str(self.index)+".inp", "#pulse_sim_mode")

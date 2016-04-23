@@ -70,10 +70,10 @@ void solve_all(struct simulation *sim,struct device *in);
 //Light
 void light_transfer_gen_rate_to_device(struct device *cell,struct light *in);
 void solve_light(struct device *cell,struct light *in,gdouble Psun_in,gdouble Plaser_in);
-void light_load_dlls(struct simulation *sim,struct light *in,struct device *cell);
+void light_load_dlls(struct simulation *sim,struct light *in);
 void light_transfer_gen_rate_to_device(struct device *cell,struct light *in);
 void light_solve_and_update(struct simulation *sim,struct device *cell,struct light *in,gdouble laser_eff_in);
-void light_init(struct light *in,struct device *cell);
+void light_init(struct light *in);
 //debug
 void stop_start(struct simulation *sim,struct device *in);
 void run_electrical_dll(struct simulation *sim,struct device *in,char *dll_name);

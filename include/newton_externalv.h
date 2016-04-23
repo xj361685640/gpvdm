@@ -18,28 +18,11 @@
 // more details.
 
 
-
-#include <exp.h>
-#include "dump.h"
-#include "sim.h"
-#include "ntricks.h"
-
-static int glob_use_cap=0;
+#ifndef newton_externalv_h
+#define newton_externalv_h
 
 
-static gdouble Rload;
-
-void ntricks_externv_set_load(gdouble R)
-{
-	Rload=R;
-}
-
-
-
-gdouble ntricks_externv_newton(struct simulation *sim,struct device *in,gdouble Vtot,int usecap)
-{
-gdouble C=in->C;
-solve_all(sim,in);
-if (glob_use_cap==FALSE) C=0.0;
-return get_I(in)+in->Vapplied/in->Rshunt+C*(in->Vapplied-in->Vapplied_last)/in->dt;
-}
+void newton_externv_aux(struct device *in,gdouble V,gdouble* i,gdouble* didv,gdouble* didphi,gdouble* didxil,gdouble* didxipl,gdouble* didphir,gdouble* didxir,gdouble* didxipr);
+gdouble newton_externv(struct simulation *sim,struct device *in,gdouble Vtot,int usecap);
+gdouble newton_externalv_simple(struct simulation *sim,struct device *in,gdouble V);
+#endif

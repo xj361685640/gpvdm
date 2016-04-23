@@ -25,9 +25,6 @@
 #include <light_interface.h>
 #include <functions.h>
 
-EXPORT void set_interface()
-{
-}
 
 EXPORT void light_dll_init()
 {

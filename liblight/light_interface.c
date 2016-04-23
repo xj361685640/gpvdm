@@ -39,7 +39,7 @@ static gdouble last_Psun= -1000.0;
 static gdouble last_laser_eff= -1000.0;
 static gdouble last_wavelength_laser= -1000.0;
 
-void light_load_dlls(struct simulation *sim,struct light *in,struct device *cell)
+void light_load_dlls(struct simulation *sim,struct light *in)
 {
 	char lib_path[200];
 	char lib_name[100];
@@ -83,15 +83,8 @@ void light_load_dlls(struct simulation *sim,struct light *in,struct device *cell
 		exit(0);
 	}
 
-	in->fn_set_interface = dlsym(in->lib_handle, "set_interface");
-	if ((error = dlerror()) != NULL)
-	{
-		fprintf(stderr, "%s\n", error);
-		exit(0);
-	}
 
 
-(*in->fn_set_interface)(cell->root_dll_interface);
 (*in->light_ver)(sim);
 (*in->fn_init)(sim);
 }
@@ -152,7 +145,7 @@ void light_solve_and_update(struct simulation *sim,struct device *cell,struct li
 
 }
 
-void light_init(struct light *in,struct device *cell)
+void light_init(struct light *in)
 {
 	last_Psun= -1.0;
 	last_laser_eff= -1.0;

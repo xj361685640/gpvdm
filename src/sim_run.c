@@ -146,10 +146,10 @@ if (strcmp(cell.simmode,"opticalmodel@optics")!=0)
 	cell.A=cell.xlen*cell.zlen;
 	cell.Vol=cell.xlen*cell.zlen*cell.ylen;
 
-	light_init(&cell.mylight,&cell);
+	light_init(&cell.mylight);
 	light_set_dx(&cell.mylight,cell.ymesh[1]-cell.ymesh[0]);
 	light_load_config(sim,&cell.mylight);
-	light_load_dlls(sim,&cell.mylight,&cell);
+	light_load_dlls(sim,&cell.mylight);
 
 
 	if (get_dump_status(sim,dump_iodump)==FALSE) set_dump_status(sim,dump_optics,FALSE);

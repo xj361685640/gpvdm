@@ -72,7 +72,9 @@ class circuit(gtk.VBox):
 		self.pack_start(self.darea, True, True, 0)
 
 		self.diode = gtk.gdk.pixbuf_new_from_file(os.path.join(get_image_file_path(),"diode.png"))
+		self.ideal_diode = gtk.gdk.pixbuf_new_from_file(os.path.join(get_image_file_path(),"ideal_diode.png"))
 		self.load = gtk.gdk.pixbuf_new_from_file(os.path.join(get_image_file_path(),"load.png"))
+		self.ideal_load = gtk.gdk.pixbuf_new_from_file(os.path.join(get_image_file_path(),"ideal_load.png"))
 		self.voc = gtk.gdk.pixbuf_new_from_file(os.path.join(get_image_file_path(),"voc.png"))
 
 		self.show_all()
@@ -88,25 +90,42 @@ class circuit(gtk.VBox):
 		self.cr.set_source_rgb(0.0,0.0,0.0)
 		self.cr.set_font_size(14)
 
-		self.cr.move_to(x+130, y+120)
-
-		self.cr.show_text("C=")
-
-		self.cr.move_to(x+250, y+120)
-		self.cr.show_text("Rshunt=")
-
-		self.cr.move_to(x+250, y+25)
-		self.cr.show_text("Rcontact=")
-
-		self.cr.set_source_pixbuf(self.diode, x, y)
-		self.cr.paint()
 
 		if self.load_type.sim_mode.get_active_text()=="load":
+			self.cr.move_to(x+130, y+120)
+			self.cr.show_text("C=")
+
+			self.cr.move_to(x+250, y+120)
+			self.cr.show_text("Rshunt=")
+
+			self.cr.move_to(x+250, y+25)
+			self.cr.show_text("Rcontact=")
+
+
+			self.cr.set_source_pixbuf(self.diode, x, y)
+			self.cr.paint()
+
 			self.cr.set_source_pixbuf(self.load, x+610, y+67)
 			self.cr.paint()
 			self.cr.move_to(x+550, y+150)
 			self.cr.show_text("Rload=")
+		elif self.load_type.sim_mode.get_active_text()=="ideal_diode_ideal_load":
+			self.cr.set_source_pixbuf(self.ideal_diode, x, y)
+			self.cr.paint()
+			self.cr.set_source_pixbuf(self.ideal_load, x+610, y+67)
+			self.cr.paint()
 		else:
+			self.cr.move_to(x+130, y+120)
+			self.cr.show_text("C=")
+
+			self.cr.move_to(x+250, y+120)
+			self.cr.show_text("Rshunt=")
+
+			self.cr.move_to(x+250, y+25)
+			self.cr.show_text("Rcontact=")
+
+			self.cr.set_source_pixbuf(self.diode, x, y)
+			self.cr.paint()
 			self.cr.set_source_pixbuf(self.voc, x+610, y+57)
 			self.cr.paint()
 

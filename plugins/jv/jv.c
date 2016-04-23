@@ -124,11 +124,10 @@ gdouble p_free_voc=0.0;
 gdouble np_voc_tot=0.0;
 gdouble r_pmax=0.0;
 gdouble n_pmax=0.0;
-printf("rod2\n");
+
 
 	do
 	{
-
 
 		in->Vapplied=V;
 		newton_sim_jv(sim,in);

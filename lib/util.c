@@ -246,6 +246,10 @@ if (strcmp(in,"load")==0)
 {
 	return pulse_load;
 }else
+if (strcmp(in,"ideal_diode_ideal_load")==0)
+{
+	return pulse_ideal_diode_ideal_load;
+}else
 if (strcmp(in,"none")==0)
 {
 	return log_level_none;

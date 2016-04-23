@@ -43,7 +43,7 @@ void sim_optics(struct simulation *sim,struct device *in)
 	set_dump_status(sim,dump_optics_verbose, TRUE);
 
 	struct light two;
-	light_init(&two,in);
+	light_init(&two);
 
 	struct buffer buf;
 	buffer_init(&buf);
@@ -53,7 +53,7 @@ void sim_optics(struct simulation *sim,struct device *in)
 
 	light_load_config(sim,&two);
 
-	light_load_dlls(sim,&two,in);
+	light_load_dlls(sim,&two);
 	//light_set_dx(&cell.mylight,cell.ymesh[1]-cell.ymesh[0]);
 
 

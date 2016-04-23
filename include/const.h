@@ -55,6 +55,7 @@
 //sim modes
 #define pulse_open_circuit 0
 #define pulse_load 1
+#define pulse_ideal_diode_ideal_load 2
 #define fxdomain_open_circuit 0
 #define fxdomain_load 1
 

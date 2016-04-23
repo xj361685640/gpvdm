@@ -246,6 +246,9 @@ struct device
 
 	gdouble Rshunt;
 	gdouble Rcontact;
+	gdouble Rload;
+	gdouble L;
+	gdouble C;
 
 	int lr_bias;
 
@@ -288,7 +291,6 @@ struct device
 
 	gdouble t_big_offset;
 
-	gdouble C;
 	gdouble other_layers;
 	int last_ittr;
 
@@ -337,7 +339,6 @@ struct device
 	long double layer_start[100];
 	long double layer_stop[100];
 	long double layer_width[100];
-	void *root_dll_interface;
 	//Arrays used by newton solver
 	gdouble *newton_dntrap;
 	gdouble *newton_dntrapdntrap;

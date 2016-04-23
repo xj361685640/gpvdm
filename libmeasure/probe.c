@@ -27,29 +27,26 @@
 #include "config.h"
 #include "inp.h"
 #include "util.h"
-#include "hard_limit.h"
-#include "epitaxy.h"
+#include "cal_path.h"
 #include "lang.h"
 #include "log.h"
+#include <probe.h>
 
 static int unused __attribute__((unused));
 
 struct istruct probe_mode;
+struct probe_config config;
+struct light probe_modes;
 
-void probe_cal(gdouble *avg_mode,struct device *in)
+gdouble probe_cal(struct simulation *sim,struct device *in)
 {
 }
 
-void probe_init()
+void probe_init(struct simulation *sim,struct device *in)
 {
 }
 
-void probe_load_config()
+void probe_free(struct simulation *sim)
 {
-}
-
-void probe_free()
-{
-
 }
 

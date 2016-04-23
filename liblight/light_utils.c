@@ -44,6 +44,11 @@ void light_set_sun(struct light *in,gdouble Psun)
 in->Psun=Psun;
 }
 
+void light_set_model(struct light *in,char *model)
+{
+strcpy(in->mode,model);
+}
+
 void light_solve_optical_problem(struct simulation *sim,struct light *in)
 {
 int i;
@@ -144,6 +149,39 @@ return 0.0;
 }
 
 
+void light_norm_photon_density(struct light *in)
+{
+
+int i;
+int ii;
+gdouble max=0.0;
+for (i=0;i<in->lpoints;i++)
+{
+
+	max=0.0;
+
+	for (ii=0;ii<in->points;ii++)
+	{
+			if (in->photons[i][ii]>max)
+			{
+				max=in->photons[i][ii];
+			}
+	}
+
+	if (max>0.0)
+	{
+		for (ii=0;ii<in->points;ii++)
+		{
+
+				in->photons[i][ii]/=max;
+		}
+	}
+
+
+}
+
+
+}
 
 
 void light_calculate_complex_n(struct light *in)

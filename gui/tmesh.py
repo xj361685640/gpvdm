@@ -353,9 +353,6 @@ class tab_time_mesh(gtk.VBox):
 		    print _("Closed, no files selected")
 		dialog.destroy()
 
-	def callback_help(self, widget, data=None):
-		webbrowser.open('http://www.gpvdm.com/man/index.html')
-
 	def create_model(self):
 		store = gtk.ListStore(str, str, str, str, str, str, str)
 
@@ -566,24 +563,6 @@ class tab_time_mesh(gtk.VBox):
 		toolbar.insert(save, tool_bar_pos)
 		tool_bar_pos=tool_bar_pos+1
 
-		add_section = gtk.ToolButton(gtk.STOCK_ADD)
-		tooltips.set_tip(add_section, _("Add section"))
-		add_section.connect("clicked", self.callback_add_section,treeview)
-		toolbar.insert(add_section, tool_bar_pos)
-		tool_bar_pos=tool_bar_pos+1
-
-		add_section = gtk.ToolButton(gtk.STOCK_CLEAR)
-		tooltips.set_tip(add_section, _("Delete section"))
-		add_section.connect("clicked", self.callback_remove_item,treeview)
-		toolbar.insert(add_section, tool_bar_pos)
-		tool_bar_pos=tool_bar_pos+1
-
-		move_down = gtk.ToolButton(gtk.STOCK_GO_DOWN)
-		tooltips.set_tip(move_down, _("Move down"))
-		move_down.connect("clicked", self.callback_move_down,treeview)
-		toolbar.insert(move_down, tool_bar_pos)
-		tool_bar_pos=tool_bar_pos+1
-
 		image = gtk.Image()
    		image.set_from_file(os.path.join(get_image_file_path(),"laser.png"))
 		laser = gtk.ToolButton(image)
@@ -624,12 +603,6 @@ class tab_time_mesh(gtk.VBox):
 		sep.show()
 		tool_bar_pos=tool_bar_pos+1
 
-		help = gtk.ToolButton(gtk.STOCK_HELP)
-		toolbar.insert(help, tool_bar_pos)
-		help.connect("clicked", self.callback_help)
-		help.show()
-		tool_bar_pos=tool_bar_pos+1
-
 
 		toolbar.show_all()
 		self.pack_start(toolbar, False, True, 0)
@@ -640,6 +613,35 @@ class tab_time_mesh(gtk.VBox):
 
 		canvas.set_size_request(700,400)
 		self.pack_start(canvas, True, True, 0)
+
+
+		list_toolbar = gtk.Toolbar()
+		#toolbar.set_orientation(gtk.ORIENTATION_VERTICAL)
+		list_toolbar.set_style(gtk.TOOLBAR_ICONS)
+		list_toolbar.set_size_request(-1, 50)
+
+		image = gtk.Image()
+   		image.set_from_file(os.path.join(get_image_file_path(),"add.png"))
+		add_section = gtk.ToolButton(image)
+		tooltips.set_tip(add_section, _("Add section"))
+		add_section.connect("clicked", self.callback_add_section,treeview)
+		list_toolbar.insert(add_section, -1)
+
+		image = gtk.Image()
+   		image.set_from_file(os.path.join(get_image_file_path(),"minus.png"))
+		remove = gtk.ToolButton(image)
+		tooltips.set_tip(remove, _("Delete section"))
+		remove.connect("clicked", self.callback_remove_item,treeview)
+		list_toolbar.insert(remove, -1)
+
+		move_down = gtk.ToolButton(gtk.STOCK_GO_DOWN)
+		tooltips.set_tip(move_down, _("Move down"))
+		move_down.connect("clicked", self.callback_move_down,treeview)
+		list_toolbar.insert(move_down, -1)
+
+		list_toolbar.show_all()
+
+		self.pack_start(list_toolbar, False, False, 0)
 
 
 		treeview.set_rules_hint(True)

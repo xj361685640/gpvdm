@@ -28,10 +28,6 @@
 #include <log.h>
 
 
-EXPORT void set_interface()
-{
-}
-
 EXPORT void light_dll_init(struct simulation *sim)
 {
 printf_log(sim,"Light init\n");

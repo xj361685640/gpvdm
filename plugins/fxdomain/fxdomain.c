@@ -33,6 +33,9 @@
 #include <fit_sin.h>
 #include <log.h>
 #include <cal_path.h>
+#include <newton_externalv.h>
+#include <newton_voc.h>
+
 
 static int unused __attribute__((unused));
 
@@ -83,7 +86,6 @@ fxdomain_load_config(sim,&fxdomain_config,in,config_file_name);
 int number=strextract_int(config_file_name);
 
 
-ntricks_externv_set_load(fxdomain_config.fxdomain_Rload);
 fx_load_mesh(sim,in,number);
 gdouble fx=0.0;
 gdouble i0=0;
@@ -123,13 +125,13 @@ do
 	if (fxdomain_config.fxdomain_sim_mode==fxdomain_load)
 	{
 		sim_externalv(sim,in,V);
-		ntricks_externv_newton(sim,in,V,FALSE);
+		newton_externv(sim,in,V,FALSE);
 	}else
 	if (fxdomain_config.fxdomain_sim_mode==fxdomain_open_circuit)
 	{
 		in->Vapplied=in->Vbi;
-		fxdomain_newton_sim_voc(sim,in);
-		fxdomain_newton_sim_voc_fast(sim,in,FALSE);
+		newton_sim_voc(sim,in);
+		newton_sim_voc_fast(sim,in,FALSE);
 	}else
 	{
 		ewe(sim,_("fxdomain mode not known\n"));
@@ -160,12 +162,12 @@ do
 
 		if (fxdomain_config.fxdomain_sim_mode==fxdomain_load)
 		{
-			i0=ntricks_externv_newton(sim,in,V,TRUE);
+			i0=newton_externv(sim,in,V,TRUE);
 		}else
 		if (fxdomain_config.fxdomain_sim_mode==fxdomain_open_circuit)
 		{
 			V=in->Vapplied;
-			i0=fxdomain_newton_sim_voc_fast(sim,in,TRUE);
+			i0=newton_sim_voc_fast(sim,in,TRUE);
 		}else
 		{
 			ewe(sim,_("fxdomain mode not known\n"));
@@ -328,7 +330,7 @@ inp_check(sim,&inp,1.0);
 inp_search_string(sim,&inp,name,"#fxdomain_sim_mode");
 in->fxdomain_sim_mode=english_to_bin(sim,name);
 
-inp_search_gdouble(sim,&inp,&(in->fxdomain_Rload),"#fxdomain_Rload");
+inp_search_gdouble(sim,&inp,&(dev->Rload),"#fxdomain_Rload");
 inp_search_int(sim,&inp,&(in->fxdomain_points),"#fxdomain_points");
 inp_search_int(sim,&inp,&(in->fxdomain_n),"#fxdomain_n");
 inp_search_gdouble(sim,&inp,&(in->fxdomain_Vexternal),"#fxdomain_Vexternal");

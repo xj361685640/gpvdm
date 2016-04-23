@@ -1,4 +1,4 @@
-OBJS=plugin.o fxdomain.o fxdomain_voc_ntricks.o fx.o fit_sin.o
+OBJS=plugin.o fxdomain.o fx.o fit_sin.o
 
 CFLAGS=-fPIC
 link_command=-shared -Wl,-soname,plugin.so $(OBJS) -o plugin.@DLIB_EXT@ -g

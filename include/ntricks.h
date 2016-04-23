@@ -41,8 +41,4 @@ void ramp_externalv(struct simulation *sim,struct device *in,gdouble from,gdoubl
 void set_ntricks_fast(int val);
 gdouble sim_voc(struct device *in);
 
-void ntricks_externv_set_load(gdouble R);
-void ntricks_externv_newton_aux(struct device *in,gdouble V,gdouble* i,gdouble* didv,gdouble* didphi,gdouble* didxil,gdouble* didxipl,gdouble* didphir,gdouble* didxir,gdouble* didxipr);
-gdouble ntricks_externv_newton(struct simulation *sim,struct device *in,gdouble Vtot,int usecap);
-
 #endif

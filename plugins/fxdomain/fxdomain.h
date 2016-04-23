@@ -26,7 +26,6 @@
 struct fxdomain
 {
 	int fxdomain_sim_mode;
-	gdouble fxdomain_Rload;
 	int fxdomain_points;
 	int fxdomain_n;
 	gdouble fxdomain_Vexternal;

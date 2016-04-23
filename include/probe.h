@@ -19,20 +19,20 @@
 
 
 
-#include <util.h>
+#ifndef _probe
+#define _probe
+#include <sim.h>
 #include <device.h>
-#include <dump_ctrl.h>
-#include <light.h>
-#include <light_interface.h>
-#include <functions.h>
-#include "log.h"
 
-
-
-EXPORT void light_dll_init(struct simulation *sim)
+struct probe_config
 {
-printf_log(sim,"Light init\n");
-}
+gdouble probe_wavelength;
+gdouble stark_mul;
 
+};
 
+gdouble probe_cal(struct simulation *sim,struct device *in);
+void probe_init(struct simulation *sim,struct device *in);
+void probe_free(struct simulation *sim);
 
+#endif

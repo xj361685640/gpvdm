@@ -106,13 +106,13 @@ int (*fn_solve_lam_slice)();
 gdouble (*fn_cal_photon_density)();
 void (*light_ver)();
 void *lib_handle;
-void (*fn_set_interface)();
 char mode[20];
 
 gdouble electron_eff;
 gdouble hole_eff;
 };
 
+void light_norm_photon_density(struct light *in);
 void light_memory(struct light *in);
 void light_load_materials(struct simulation *sim,struct light *in);
 gdouble light_cal_photon_density(struct light *in);
@@ -141,4 +141,5 @@ void light_calculate_complex_n(struct light *in);
 int light_load_laser(struct simulation *sim, struct light *in,char *name);
 gdouble light_get_sun(struct light *in);
 void light_set_sun(struct light *in,gdouble Psun);
+void light_set_model(struct light *in,char *model);
 #endif

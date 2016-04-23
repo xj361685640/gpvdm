@@ -26,8 +26,6 @@
 struct pulse
 {
 	gdouble pulse_shift;
-	gdouble pulse_L;
-	gdouble pulse_Rload;
 	int pulse_sim_mode;
 };
 
