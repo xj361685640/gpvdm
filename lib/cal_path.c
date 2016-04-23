@@ -55,11 +55,25 @@ char temp[1000];
 		return;
 	}
 
+	join_path(2,temp,"/usr/lib/gpvdm/",name);
+	if (isdir(temp)==0)
+	{
+		strcpy(out,temp);
+		return;
+	}
+
+	join_path(2,temp,"/usr/share/gpvdm/",name);
+	if (isdir(temp)==0)
+	{
+		strcpy(out,temp);
+		return;
+	}
+
 	join_path(2,sim->lang_path,sim->share_path,name);
 
 	if (isdir(out)!=0)
 	{
-		ewe(sim,"I can't find the plugins\n");
+		ewe(sim,"I can't find the %s\n",name);
 	}
 }
 
@@ -86,7 +100,7 @@ if (len == -1)
 
 get_dir_name_from_path(sim->exe_path, temp);
 
-printf("I'm in %s\n",sim->exe_path);
+//printf("I'm in %s\n",sim->exe_path);
 
 if (isfile("configure.ac")==0)
 {
@@ -100,20 +114,7 @@ if (isfile("ver.py")==0)
 	printf("share path: %s\n",sim->share_path);
 }else
 {
-
-	if (isdir("/usr/lib64/gpvdm/")==0)
-	{
-		strcpy(sim->share_path,"/usr/lib64/gpvdm/");
-	}else
-	if (isdir("/usr/lib/gpvdm/")==0)
-	{
-		strcpy(sim->share_path,"/usr/lib/gpvdm/");
-	}else
-	{
-		strcpy(sim->share_path,"/usr/lib/gpvdm/");
-		printf_log(sim,"I don't know where the shared files are assuming %s\n",sim->share_path);
-	}
-
+	strcpy(sim->share_path,"/usr/lib64/gpvdm/");
 }
 
 if (getcwd(cwd,1000)==NULL)

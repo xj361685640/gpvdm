@@ -32,7 +32,7 @@ dist_doc_DATA = README
 appicondir=$(pkgdatadir)/images
 appicon_DATA=$(srcdir)/desktop/application-gpvdm.svg
 
-desktopdir = $(pkgdatadir)/applications
+desktopdir = $(datadir)/applications
 desktop_DATA = $(srcdir)/desktop/gpvdm.desktop
 
 packagesdir = $(datadir)/mime/packages

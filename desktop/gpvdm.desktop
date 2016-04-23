@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=gpvdm
-Icon=/application-gpvdm.svg
+Icon=/usr/share/gpvdm/images/application-gpvdm.svg
 Type=Application
 MimeType=application/gpvdm;
 Exec=gpvdm %F
