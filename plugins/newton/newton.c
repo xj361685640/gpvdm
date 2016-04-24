@@ -1300,7 +1300,7 @@ gdouble tot=phi+n+p+x+te+th+tl+ttn+ttp+i0;
 if (isnan( tot))
 {
 	printf("%Le %Le %Le %Le %Le %Le %Le %Le %Le\n",phi,n,p,x,te,th,tl,ttn,ttp);
-	dump_matrix(in);
+	//dump_matrix(in);
 	ewe(sim,"nan detected in newton solver\n");
 }
 

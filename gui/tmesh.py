@@ -550,14 +550,16 @@ class tab_time_mesh(gtk.VBox):
 		toolbar = gtk.Toolbar()
 		#toolbar.set_orientation(gtk.ORIENTATION_VERTICAL)
 		toolbar.set_style(gtk.TOOLBAR_ICONS)
-		toolbar.set_size_request(-1, 50)
+		toolbar.set_size_request(-1, 70)
 
 		self.store = self.create_model()
 		treeview = gtk.TreeView(self.store)
 		treeview.show()
 		tool_bar_pos=0
 
-		save = gtk.ToolButton(gtk.STOCK_SAVE)
+		image = gtk.Image()
+   		image.set_from_file(os.path.join(get_image_file_path(),"save.png"))
+		save = gtk.ToolButton(image)
 		tooltips.set_tip(save, _("Save image"))
 		save.connect("clicked", self.callback_save)
 		toolbar.insert(save, tool_bar_pos)
@@ -634,7 +636,9 @@ class tab_time_mesh(gtk.VBox):
 		remove.connect("clicked", self.callback_remove_item,treeview)
 		list_toolbar.insert(remove, -1)
 
-		move_down = gtk.ToolButton(gtk.STOCK_GO_DOWN)
+		image = gtk.Image()
+   		image.set_from_file(os.path.join(get_image_file_path(),"down.png"))
+		move_down = gtk.ToolButton(image)
 		tooltips.set_tip(move_down, _("Move down"))
 		move_down.connect("clicked", self.callback_move_down,treeview)
 		list_toolbar.insert(move_down, -1)

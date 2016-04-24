@@ -32,7 +32,7 @@ void dump_load_config(struct simulation* sim,struct device *in)
 	inp_init(sim,&inp);
 	inp_load_from_path(sim,&inp,get_input_path(sim),"dump.inp");
 
-	inp_check(sim,&inp,1.37);
+	inp_check(sim,&inp,1.38);
 
 	dump=inp_search_english(sim,&inp,"#plot");
 	set_dump_status(sim,dump_plot,dump);
@@ -107,6 +107,9 @@ void dump_load_config(struct simulation* sim,struct device *in)
 	dump=inp_search_english(sim,&inp,"#dump_first_guess");
 	set_dump_status(sim,dump_first_guess, dump);
 
+	dump=inp_search_english(sim,&inp,"#dump_optical_probe");
+	set_dump_status(sim,dump_optical_probe, dump);
+
 	sim->log_level=inp_search_english(sim,&inp,"#dump_log_level");
 
 	log_clear();
@@ -114,10 +117,6 @@ void dump_load_config(struct simulation* sim,struct device *in)
 
 	inp_free(sim,&inp);
 
-	if (get_dump_status(sim,dump_iodump)==FALSE)
-	{
-		in->dumpitdos=FALSE;
-		set_dump_status(sim,dump_optics,FALSE);
-	}
+
 
 }

@@ -250,6 +250,8 @@ struct buffer data_1d_photons_tot;
 struct buffer data_1d_photons_tot_abs;
 struct buffer data_r;
 struct buffer data_t;
+struct buffer data_n;
+struct buffer data_alpha;
 struct buffer buf;
 
 buffer_init(&data_photons);
@@ -262,8 +264,9 @@ buffer_init(&data_1d_photons_tot);
 buffer_init(&data_1d_photons_tot_abs);
 buffer_init(&data_r);
 buffer_init(&data_t);
+buffer_init(&data_n);
+buffer_init(&data_alpha);
 buffer_init(&buf);
-
 if ((get_dump_status(sim,dump_optics)==TRUE)&&(in->sun_E[i]!=0.0))
 {
 
@@ -361,6 +364,8 @@ if ((get_dump_status(sim,dump_optics)==TRUE)&&(in->sun_E[i]!=0.0))
 	buffer_malloc(&data_E_tot);
 	buffer_malloc(&data_r);
 	buffer_malloc(&data_t);
+	buffer_malloc(&data_n);
+	buffer_malloc(&data_alpha);
 
 	char name_photons[200];
 	char name_photons_norm[200];
@@ -370,6 +375,8 @@ if ((get_dump_status(sim,dump_optics)==TRUE)&&(in->sun_E[i]!=0.0))
 	char name_E_tot[200];
 	char name_r[200];
 	char name_t[200];
+	char name_n[200];
+	char name_alpha[200];
 
 	sprintf(name_photons,"light_1d_%.0Lf_photons%s.dat",in->l[i]*1e9,ext);
 	sprintf(name_photons_norm,"light_1d_%.0Lf_photons%s_norm.dat",in->l[i]*1e9,ext);
@@ -379,6 +386,8 @@ if ((get_dump_status(sim,dump_optics)==TRUE)&&(in->sun_E[i]!=0.0))
 	sprintf(name_E_tot,"light_1d_%.0Lf_E_tot%s.dat",in->l[i]*1e9,ext);
 	sprintf(name_r,"light_1d_%.0Lf_r%s.dat",in->l[i]*1e9,ext);
 	sprintf(name_t,"light_1d_%.0Lf_t%s.dat",in->l[i]*1e9,ext);
+	sprintf(name_n,"light_1d_%.0Lf_n%s.dat",in->l[i]*1e9,ext);
+	sprintf(name_alpha,"light_1d_%.0Lf_alpha%s.dat",in->l[i]*1e9,ext);
 
 	max=inter_array_get_max(in->photons[i],in->points);
 	for (ii=0;ii<in->points;ii++)
@@ -406,6 +415,12 @@ if ((get_dump_status(sim,dump_optics)==TRUE)&&(in->sun_E[i]!=0.0))
 
 		sprintf(line,"%Le %Le %Le %Le\n",in->x[ii],gcabs(in->t[i][ii]),gcreal(in->t[i][ii]),gcimag(in->t[i][ii]));
 		buffer_add_string(&data_t,line);
+
+		sprintf(line,"%Le %Le\n",in->x[ii]-in->device_start,in->n[i][ii]);
+		buffer_add_string(&data_n,line);
+
+		sprintf(line,"%Le %Le\n",in->x[ii]-in->device_start,in->alpha[i][ii]);
+		buffer_add_string(&data_alpha,line);
 	}
 
 	buffer_dump_path(out_dir,name_photons,&data_photons);
@@ -416,7 +431,8 @@ if ((get_dump_status(sim,dump_optics)==TRUE)&&(in->sun_E[i]!=0.0))
 	buffer_dump_path(out_dir,name_E_tot,&data_E_tot);
 	buffer_dump_path(out_dir,name_r,&data_r);
 	buffer_dump_path(out_dir,name_t,&data_t);
-
+	buffer_dump_path(out_dir,name_n,&data_n);
+	buffer_dump_path(out_dir,name_alpha,&data_alpha);
 
 
 
@@ -428,6 +444,8 @@ if ((get_dump_status(sim,dump_optics)==TRUE)&&(in->sun_E[i]!=0.0))
 	buffer_free(&data_E_tot);
 	buffer_free(&data_r);
 	buffer_free(&data_t);
+	buffer_free(&data_n);
+	buffer_free(&data_alpha);
 
 	if (i==0)
 	{

@@ -28,7 +28,7 @@ struct probe_config
 {
 gdouble probe_wavelength;
 gdouble stark_mul;
-
+gdouble probe_exp_multiply;
 };
 
 gdouble probe_cal(struct simulation *sim,struct device *in);

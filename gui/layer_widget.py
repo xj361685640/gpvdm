@@ -211,7 +211,9 @@ class layer_widget(gtk.VBox):
 		toolbar.insert(remove, pos)
 		pos=pos+1
 
-		move = gtk.ToolButton(gtk.STOCK_GO_DOWN)
+		image = gtk.Image()
+   		image.set_from_file(os.path.join(get_image_file_path(),"down.png"))
+		move = gtk.ToolButton(image)
 		move.connect("clicked", self.callback_move_down)
 		tooltips.set_tip(move, _("Move device layer"))
 		toolbar.insert(move, pos)

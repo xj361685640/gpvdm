@@ -522,26 +522,26 @@ class scan_class(gtk.Window):
 		toolbar.insert(tb_new_scan, pos)
 		pos=pos+1
 
-		sep = gtk.SeparatorToolItem()
-		sep.set_draw(True)
-		sep.set_expand(False)
-		toolbar.insert(sep, pos)
-		pos=pos+1
-
-		delete = gtk.ToolButton(gtk.STOCK_DELETE)
+		image = gtk.Image()
+		image.set_from_file(os.path.join(get_image_file_path(),"delete.png"))
+		delete = gtk.ToolButton(image)
 		delete.connect("clicked", self.callback_delete_page,None)
 		self.tooltips.set_tip(delete, _("Delete simulation"))
 		toolbar.insert(delete, pos)
 		pos=pos+1
 
-		copy = gtk.ToolButton(gtk.STOCK_COPY)
+		image = gtk.Image()
+		image.set_from_file(os.path.join(get_image_file_path(),"clone.png"))
+		copy = gtk.ToolButton(image)
 		copy.connect("clicked", self.callback_copy_page,None)
 		self.tooltips.set_tip(copy, _("Clone simulation"))
 		toolbar.insert(copy, pos)
 		pos=pos+1
 
 
-		rename = gtk.ToolButton(gtk.STOCK_EDIT)
+		image = gtk.Image()
+		image.set_from_file(os.path.join(get_image_file_path(),"rename.png"))
+		rename = gtk.ToolButton(image)
 		rename.connect("clicked", self.callback_rename_page,None)
 		self.tooltips.set_tip(rename, _("Rename simulation"))
 		toolbar.insert(rename, pos)

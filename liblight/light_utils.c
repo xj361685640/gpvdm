@@ -162,9 +162,12 @@ for (i=0;i<in->lpoints;i++)
 
 	for (ii=0;ii<in->points;ii++)
 	{
-			if (in->photons[i][ii]>max)
+			if ((in->x[ii]>in->device_start)&&(in->x[ii]<in->device_start+in->device_ylen))
 			{
-				max=in->photons[i][ii];
+				if (in->photons[i][ii]>max)
+				{
+					max=in->photons[i][ii];
+				}
 			}
 	}
 

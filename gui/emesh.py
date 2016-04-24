@@ -221,10 +221,12 @@ class tab_electrical_mesh(gtk.Window):
 		toolbar = gtk.Toolbar()
 		#toolbar.set_orientation(gtk.ORIENTATION_VERTICAL)
 		toolbar.set_style(gtk.TOOLBAR_ICONS)
-		toolbar.set_size_request(-1, 50)
+		toolbar.set_size_request(-1, 70)
 
 		tool_bar_pos=0
-		save = gtk.ToolButton(gtk.STOCK_SAVE)
+		image = gtk.Image()
+   		image.set_from_file(os.path.join(get_image_file_path(),"save.png"))
+		save = gtk.ToolButton(image)
 		tooltips.set_tip(save, "Save image")
 		save.connect("clicked", self.callback_save)
 		toolbar.insert(save, tool_bar_pos)

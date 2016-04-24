@@ -159,10 +159,12 @@ for (i=0;i<segments;i++)
 		v=v_start;
 		end_time=time+read_len;
 
+
 		while(time<end_time)
 		{
 			dv=(v_stop-v_start)*dt/read_len;
 			time_mesh[ii]=time;
+			//printf("%Le %d\n",time,ii);
 			laser[ii]=read_laser;
 			sun[ii]=read_sun+light_get_sun(&(in->mylight));
 			voltage[ii]=v;
@@ -187,6 +189,7 @@ for (i=0;i<segments;i++)
 }
 
 mesh_len=ii;
+
 
 in->time=time_mesh[0];
 in->dt=time_mesh[1]-time_mesh[0];
@@ -218,6 +221,7 @@ in->plast[i]=in->p[i];
 
 }
 
+in->time=0.0;
 }
 
 void device_timestep(struct simulation *sim,struct device *in)
@@ -245,9 +249,15 @@ if (use_mesh==TRUE)
 {
 	if (mesh_pos<(mesh_len-1))
 	{
-		in->time=time_mesh[mesh_pos];
-		in->dt=(time_mesh[mesh_pos+1]-time_mesh[mesh_pos]);
 		mesh_pos++;
+		in->time=time_mesh[mesh_pos];
+		if (mesh_pos==(mesh_len-1))
+		{
+			in->dt=(time_mesh[mesh_pos]-time_mesh[mesh_pos-1]);
+		}else
+		{
+			in->dt=(time_mesh[mesh_pos+1]-time_mesh[mesh_pos]);
+		}
 
 	}
 }else
@@ -257,15 +267,14 @@ if (use_mesh==TRUE)
 
 }
 
-int time_run()
+int time_test_last_point()
 {
-
 	if (mesh_pos<(mesh_len-1))
 	{
-		return TRUE;
+		return FALSE;
 	}else
 	{
-		return FALSE;
+		return TRUE;
 	}
 }
 

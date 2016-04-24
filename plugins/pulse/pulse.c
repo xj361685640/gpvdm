@@ -42,6 +42,7 @@ struct pulse pulse_config;
 
 void sim_pulse(struct simulation *sim,struct device *in)
 {
+
 struct buffer buf;
 buffer_init(&buf);
 
@@ -56,6 +57,7 @@ inter_init(&out_v);
 
 struct istruct out_G;
 inter_init(&out_G);
+
 
 struct istruct lost_charge;
 inter_init(&lost_charge);
@@ -74,8 +76,6 @@ int number=strextract_int(config_file_name);
 
 in->go_time=FALSE;
 
-in->time=0.0;
-
 time_init(in);
 //time_load_mesh(in,number);
 
@@ -92,7 +92,10 @@ light_set_sun(&(in->mylight),time_get_sun());
 light_solve_and_update(sim,in,&(in->mylight), time_get_laser());
 
 gdouble V=0.0;
-probe_init(sim,in);
+if (get_dump_status(sim,dump_optical_probe)==TRUE)
+{
+	probe_init(sim,in);
+}
 
 if (pulse_config.pulse_sim_mode==pulse_load)
 {
@@ -115,7 +118,7 @@ if (pulse_config.pulse_sim_mode==pulse_open_circuit)
 	ewe(sim,_("pulse mode not known\n"));
 }
 
-device_timestep(sim,in);
+//device_timestep(sim,in);
 
 in->go_time=TRUE;
 
@@ -123,13 +126,21 @@ gdouble extracted_through_contacts=0.0;
 gdouble i0=0;
 carrier_count_reset(in);
 reset_np_save(in);
+printf("Vapplied=%Le\n",in->Vapplied);
 do
 {
 
-	printf("%Le\n",probe_cal(sim,in));
 
 	light_set_sun(&(in->mylight),time_get_sun());
 	light_solve_and_update(sim,in,&(in->mylight), time_get_laser()+time_get_fs_laser());
+	//int i;
+	//FILE *t=fopen("t.dat","w");
+	//for (i=0;i<in->ymeshpoints;i++)
+	//{
+	//	fprintf(t,"%Le %Le\n",in->ymesh[i],in->Gn[i]);
+	//	printf("%Le %Le\n",in->ymesh[i],in->Gn[i]);
+	//}
+	//fclose(t);
 	dump_dynamic_add_data(sim,&store,in,in->time);
 
 	if (pulse_config.pulse_sim_mode==pulse_load)
@@ -170,10 +181,11 @@ do
 	inter_append(&out_G,in->time,in->Gn[0]);
 	inter_append(&lost_charge,in->time,extracted_through_contacts-fabs(get_extracted_n(in)+get_extracted_p(in))/2.0);
 
+	//printf("%Le %d %Le\n",in->time,time_test_last_point(),in->dt);
+	if (time_test_last_point()==TRUE) break;
+
 	device_timestep(sim,in);
 	step++;
-
-	if (time_run()==FALSE) break;
 	//getchar();
 
 }while(1);
@@ -267,7 +279,8 @@ inter_free(&out_G);
 inter_free(&out_i);
 inter_free(&out_v);
 time_memory_free();
-probe_free(sim);
+
+
 
 }
 

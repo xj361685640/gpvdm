@@ -152,9 +152,6 @@ if (strcmp(cell.simmode,"opticalmodel@optics")!=0)
 	light_load_dlls(sim,&cell.mylight);
 
 
-	if (get_dump_status(sim,dump_iodump)==FALSE) set_dump_status(sim,dump_optics,FALSE);
-
-
 	//update_arrays(&cell);
 
 	cell.Vapplied=0.0;

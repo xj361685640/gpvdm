@@ -45,7 +45,7 @@ void time_mesh_save(struct simulation *sim);
 void time_load_mesh(struct simulation *sim,struct device *in,int number);
 void time_init(struct device *in);
 void device_timestep(struct simulation *sim,struct device *in);
-int time_run();
+int time_test_last_point();
 gdouble time_get_voltage();
 gdouble time_get_sun();
 gdouble time_get_laser();
