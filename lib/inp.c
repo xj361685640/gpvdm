@@ -345,6 +345,10 @@ int inp_search_pos(struct simulation *sim,struct inp_file *in,char *token)
 	do
 	{
 		line  = inp_get_string(sim,in);
+		if (line==NULL)
+		{
+			break;
+		}
 		//printf("'%s' '%s'\n", line,token);
 		if (strcmp(line,token)==0)
 		{
@@ -353,7 +357,7 @@ int inp_search_pos(struct simulation *sim,struct inp_file *in,char *token)
 
 		pos++;
 
-	}while(line!=NULL);
+	}while(1);
 
 return -1;
 }
@@ -422,6 +426,7 @@ if (f!=NULL)
 	char *file_name=get_file_name_from_path(full_file_name);
 
 	join_path(2,zip_path,file_path,"sim.gpvdm");
+	printf("I want to open %s\n",zip_path);
 	//printf("1>%s 2>%s 3>%s 4>%s\n",full_file_name,file_path,file_name,zip_path);
 	int err = 0;
 	struct zip *z = zip_open(zip_path, 0, &err);
@@ -435,7 +440,7 @@ if (f!=NULL)
 
 		if (ret==0)
 		{
-			//printf ("Read zip file!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
+			printf ("Read zip file!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
 
 			//Alloc memory for its uncompressed contents
 			*len=st.size*sizeof(char);
@@ -443,12 +448,22 @@ if (f!=NULL)
 
 			//Read the compressed file
 			struct zip_file *f = zip_fopen(z, file_name, 0);
-			zip_fread(f, *buf, st.size);
+			if (f==NULL)
+			{
+				return -1;
+			}
+
+			ret=zip_fread(f, *buf, st.size);
+			if (ret==-1)
+			{
+				return -1;
+			}
 			zip_fclose(f);
 
 		}else
 		{
-		 	ewe(sim,"File %s not found\n", file_name);
+			printf("can't find rod");
+		 	return -1;
 		}
 		zip_close(z);
 		return 0;
@@ -500,6 +515,13 @@ if (strcmp(in->full_name,file)!=0)
 }
 
 return ret;
+}
+
+void inp_replace_double(struct simulation *sim,struct inp_file *in,char *token, double value)
+{
+	char temp[100];
+	sprintf(temp,"%le",value);
+	inp_replace(sim,in,token,temp);
 }
 
 void inp_replace(struct simulation *sim,struct inp_file *in,char *token, char *text)
@@ -751,6 +773,80 @@ int inp_search(struct simulation *sim,char* out,struct inp_file *in,char *token)
 	}
 
 return -1;
+}
+
+int inp_get_array_len(struct simulation *sim,struct inp_file *in,char *token)
+{
+	int ret=-1;
+	inp_reset_read(sim,in);
+	char * line = inp_get_string(sim,in);
+	while(line!=NULL)
+	{
+		if (strcmp(line,token)==0)
+		{
+			ret=0;
+			do
+			{
+				line  = inp_get_string(sim,in);
+				if (line==NULL)
+				{
+					break;
+				}
+
+				if (line[0]=='#')
+				{
+					break;
+				}
+				ret++;
+
+			}while(1);
+
+			return ret;
+		}
+
+		line  = inp_get_string(sim,in);
+	}
+
+return ret;
+}
+
+int inp_get_array(struct simulation *sim,char ** out,struct inp_file *in,char *token)
+{
+	int ret=-1;
+	inp_reset_read(sim,in);
+	char * line = inp_get_string(sim,in);
+	while(line!=NULL)
+	{
+		if (strcmp(line,token)==0)
+		{
+			ret=0;
+			do
+			{
+				line  = inp_get_string(sim,in);
+
+				if (line==NULL)
+				{
+					break;
+				}
+
+				if (line[0]=='#')
+				{
+					break;
+				}
+
+				strcpy(out[ret],line);
+
+				ret++;
+
+			}while(1);
+
+			return ret;
+		}
+
+		line  = inp_get_string(sim,in);
+	}
+
+return ret;
 }
 
 int inp_search_english(struct simulation *sim,struct inp_file *in,char *token)

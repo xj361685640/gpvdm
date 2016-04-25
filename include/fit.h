@@ -26,15 +26,16 @@
 
 struct fitvars
 {
-int fit_names_len;
-char **fit_names;
-double fit_names_error[100];
+int fit_enabled[10];
+double fit_names_error[10];
+char fit_name[200][100];
+char fit_path[200][100];
 double simplexmul;
 int simplexreset;
 int fitvars;
 char fit_file[200][100];
-int fit_pos[200];
-int newton;
+char fit_token[200][100];
+char fit_plugin[200][100];
 int randomize;
 int random_reset_time;
 double disable_reset_at;
@@ -43,11 +44,12 @@ double converge_error;
 
 int fit_simplex(struct simulation *sim,int *oppcount);
 int fit_newton(struct simulation *sim,int *oppcount);
-void fit_build_jobs(struct simulation *sim,struct server *myserver,char **name,int n);
+void fit_build_jobs(struct simulation *sim,struct server *myserver,struct fitvars *fitconfig);
 double get_all_error(struct simulation *sim,struct fitvars *myfit);
 double get_constraints_error(struct simulation *sim,struct fitvars *config);
 int fit_read_config(struct simulation *sim,struct fitvars *fitconfig);
 double fit_run_sims(struct simulation *fit,struct fitvars *fitconfig,struct server *myserver);
 int fit_now(struct simulation *sim,int *oppcount);
-double fit_load_plugin(struct fitvars *config,char *name);
+double fit_load_plugin(struct simulation *sim,struct fitvars *config,int i);
+void duplicate(struct simulation *sim);
 #endif

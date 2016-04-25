@@ -658,55 +658,6 @@ fclose(out);
 
 }
 
-void mass_copy_file(struct simulation *sim,char **output,char *input,int n)
-{
-//printf ("%s %s",input,output);
-char buf[8192];
-int i;
-struct stat results;
-int in_fd = open(input, O_RDONLY);
-
-if (in_fd== -1)
-{
-	ewe(sim,"File %s can not be opened\n",input);
-}
-
-stat(input, &results);
-
-int out_fd[10];
-
-for (i=0;i<n;i++)
-{
-	out_fd[i] = open(output[i], O_WRONLY | O_CREAT | O_TRUNC,results.st_mode);
-	if (out_fd[i] == -1)
-	{
-		ewe(sim,"File %s can not be opened\n",output);
-	}
-}
-
-while (1)
-{
-	memset(buf, 0, (8192)*sizeof(char));
-    ssize_t result = read(in_fd, buf, 8192*sizeof(char));
-    if (result==0)
-	{
-		break;
-	}
-
-	//printf("mas copy %s %s %d\n",input,buf,result,strlen(buf));
-	for (i=0;i<n;i++)
-	{
-    	write(out_fd[i], buf, result*sizeof(char));
-	}
-}
-
-close(in_fd);
-for (i=0;i<n;i++)
-{
-	close(out_fd[i]);
-}
-}
-
 void copy_file(struct simulation *sim,char *output,char *input)
 {
 //printf ("%s %s",input,output);

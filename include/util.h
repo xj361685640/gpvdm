@@ -72,7 +72,6 @@ void write_x_y_z_to_file(struct simulation *sim,char *name,double *x,double *y,d
 void join_path(int max, ...);
 int get_dir_name_from_path(char *out, char *in);
 char *get_file_name_from_path(char *in);
-void mass_copy_file(struct simulation *sim,char **output,char *input,int n);
 void string_to_hex(char* out,char* in);
 int strextract_name(char *out,char * in);
 int strextract_int(char * in);

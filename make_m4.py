@@ -56,12 +56,6 @@ for root, dirs, files in os.walk("./plugins"):
 			name=os.path.join(root, file)[2:-12]
 			config_files.append(name)
 
-for root, dirs, files in os.walk("./exp"):
-    for file in files:
-        if file.endswith("Makefile.am"):
-			name=os.path.join(root, file)[2:-12]
-			config_files.append(name)
-
 config_files.append("src")
 config_files.append("images")
 config_files.append("man")

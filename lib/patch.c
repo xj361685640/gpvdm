@@ -31,15 +31,19 @@ static int unused __attribute__((unused));
 
 void patch(struct simulation *sim,char *dest,char * patch_file)
 {
-FILE *in;
+char *temp;
 char token[100];
 char file[100];
 char newtext[100];
 
-if ((in=fopen(patch_file,"r"))==NULL)
+struct inp_file config_file;
+inp_init(sim,&config_file);
+if (inp_load(sim,&config_file,patch_file)!=0)
 {
-    ewe(sim,"Error opening file: %s\n",patch_file);
+	ewe(sim,"patch file %s not found\n",patch_file);
 }
+
+
 char filetoedit[200];
 if (get_dump_status(sim,dump_iodump)==TRUE) printf("Patch %s\n",patch_file);
 int found=FALSE;
@@ -49,42 +53,43 @@ inp_init(sim,&ifile);
 
 do
 {
-	unused=fscanf(in,"%s",token);
-
-
-	if (strcmp(token,"#end")==0)
+	temp = inp_get_string(sim,&config_file);
+	if (temp==NULL)
 	{
 		break;
-	}if (token[0]!='#')
+	}
+
+	if (strcmp(temp,"#end")==0)
+	{
+		break;
+	}
+
+	strcpy(token,temp);
+
+	if (token[0]!='#')
 	{
 		ewe(sim,"error token does not begin with #\n",token);
 	}
 	else
 	{
 		found=TRUE;
-		unused=fscanf(in,"%s",file);
-		unused=fscanf(in,"%s",newtext);
-		join_path(2, filetoedit,dest,file);
-		inp_load(sim,&ifile,filetoedit);
+		strcpy(file,inp_get_string(sim,&config_file));
+		strcpy(newtext,inp_get_string(sim,&config_file));
+
+		printf("File %s %s\n",dest,file);
+		if (inp_load_from_path(sim,&ifile,dest,file)!=0)
+		{
+			ewe(sim,"File %s %s not found to patch.\n",dest,file);
+		}
+
 		inp_replace(sim,&ifile,token,newtext);
-		//edit_file_by_var(filetoedit,token,newtext);
+
 	}
 
-}while(!feof(in));
+}while(1);
 
 inp_free(sim,&ifile);
-
-if (strcmp(token,"#end")!=0)
-{
-	ewe(sim,"Error at end of patch file\n");
-}
-
-fclose(in);
-
-if (found==FALSE)
-{
-	ewe(sim,"Token not found\n");
-}
+inp_free(sim,&config_file);
 
 return;
 }

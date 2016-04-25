@@ -727,7 +727,6 @@ infodir
 docdir
 oldincludedir
 includedir
-runstatedir
 localstatedir
 sharedstatedir
 sysconfdir
@@ -801,7 +800,6 @@ datadir='${datarootdir}'
 sysconfdir='${prefix}/etc'
 sharedstatedir='${prefix}/com'
 localstatedir='${prefix}/var'
-runstatedir='${localstatedir}/run'
 includedir='${prefix}/include'
 oldincludedir='/usr/include'
 docdir='${datarootdir}/doc/${PACKAGE_TARNAME}'
@@ -1054,15 +1052,6 @@ do
   | -silent | --silent | --silen | --sile | --sil)
     silent=yes ;;
 
-  -runstatedir | --runstatedir | --runstatedi | --runstated \
-  | --runstate | --runstat | --runsta | --runst | --runs \
-  | --run | --ru | --r)
-    ac_prev=runstatedir ;;
-  -runstatedir=* | --runstatedir=* | --runstatedi=* | --runstated=* \
-  | --runstate=* | --runstat=* | --runsta=* | --runst=* | --runs=* \
-  | --run=* | --ru=* | --r=*)
-    runstatedir=$ac_optarg ;;
-
   -sbindir | --sbindir | --sbindi | --sbind | --sbin | --sbi | --sb)
     ac_prev=sbindir ;;
   -sbindir=* | --sbindir=* | --sbindi=* | --sbind=* | --sbin=* \
@@ -1200,7 +1189,7 @@ fi
 for ac_var in	exec_prefix prefix bindir sbindir libexecdir datarootdir \
 		datadir sysconfdir sharedstatedir localstatedir includedir \
 		oldincludedir docdir infodir htmldir dvidir pdfdir psdir \
-		libdir localedir mandir runstatedir
+		libdir localedir mandir
 do
   eval ac_val=\$$ac_var
   # Remove trailing slashes.
@@ -1353,7 +1342,6 @@ Fine tuning of the installation directories:
   --sysconfdir=DIR        read-only single-machine data [PREFIX/etc]
   --sharedstatedir=DIR    modifiable architecture-independent data [PREFIX/com]
   --localstatedir=DIR     modifiable single-machine data [PREFIX/var]
-  --runstatedir=DIR       modifiable per-process data [LOCALSTATEDIR/run]
   --libdir=DIR            object code libraries [EPREFIX/lib]
   --includedir=DIR        C header files [PREFIX/include]
   --oldincludedir=DIR     C header files for non-gcc [/usr/include]
@@ -5807,7 +5795,7 @@ fi
 #i?86
 #x86_64
 
-BUILD_DIRS=" lang lib libdos liblight libmeasure libdump libserver libmesh libfit plugins/optics plugins/newton plugins/nr_d plugins/pulse plugins/fxdomain plugins/light_flat plugins/li plugins/light_full plugins/nr_ld plugins/jv plugins/light_exp plugins/qe plugins/umfpack plugins/jv_one_point plugins/jv_simple plugins/sun_voc plugins/newton_norm exp/stark500 src images man "
+BUILD_DIRS=" lang lib libdos liblight libmeasure libdump libserver libmesh libfit plugins/optics plugins/newton plugins/nr_d plugins/pulse plugins/fxdomain plugins/light_flat plugins/li plugins/light_full plugins/fit_stark plugins/nr_ld plugins/jv plugins/light_exp plugins/qe plugins/umfpack plugins/jv_one_point plugins/jv_simple plugins/sun_voc plugins/newton_norm src images man "
 
 LOCAL_LINK=" -lgpvdm_lib -lgpvdm_dos -lgpvdm_light -lgpvdm_measure -lgpvdm_dump -lgpvdm_server -lgpvdm_mesh -lgpvdm_fit"
 
@@ -5943,6 +5931,8 @@ ac_config_files="$ac_config_files plugins/li/Makefile"
 
 ac_config_files="$ac_config_files plugins/light_full/Makefile"
 
+ac_config_files="$ac_config_files plugins/fit_stark/Makefile"
+
 ac_config_files="$ac_config_files plugins/nr_ld/Makefile"
 
 ac_config_files="$ac_config_files plugins/jv/Makefile"
@@ -5960,8 +5950,6 @@ ac_config_files="$ac_config_files plugins/jv_simple/Makefile"
 ac_config_files="$ac_config_files plugins/sun_voc/Makefile"
 
 ac_config_files="$ac_config_files plugins/newton_norm/Makefile"
-
-ac_config_files="$ac_config_files exp/stark500/Makefile"
 
 ac_config_files="$ac_config_files src/Makefile"
 
@@ -6731,6 +6719,7 @@ do
     "plugins/light_flat/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/light_flat/Makefile" ;;
     "plugins/li/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/li/Makefile" ;;
     "plugins/light_full/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/light_full/Makefile" ;;
+    "plugins/fit_stark/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/fit_stark/Makefile" ;;
     "plugins/nr_ld/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/nr_ld/Makefile" ;;
     "plugins/jv/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/jv/Makefile" ;;
     "plugins/light_exp/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/light_exp/Makefile" ;;
@@ -6740,7 +6729,6 @@ do
     "plugins/jv_simple/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/jv_simple/Makefile" ;;
     "plugins/sun_voc/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/sun_voc/Makefile" ;;
     "plugins/newton_norm/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/newton_norm/Makefile" ;;
-    "exp/stark500/Makefile") CONFIG_FILES="$CONFIG_FILES exp/stark500/Makefile" ;;
     "src/Makefile") CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
     "images/Makefile") CONFIG_FILES="$CONFIG_FILES images/Makefile" ;;
     "man/Makefile") CONFIG_FILES="$CONFIG_FILES man/Makefile" ;;

@@ -24,6 +24,9 @@
 #include "inp_struct.h"
 #include <sim_struct.h>
 
+void inp_replace_double(struct simulation *sim,struct inp_file *in,char *token, double value);
+int inp_get_array_len(struct simulation *sim,struct inp_file *in,char *token);
+int inp_get_array(struct simulation *sim,char ** out,struct inp_file *in,char *token);
 int inp_save(struct simulation *sim,struct inp_file *in);
 void inp_init(struct simulation *sim,struct inp_file *in);
 int inp_aes_load(struct inp_file *in,char *path,char *file,char *key);
