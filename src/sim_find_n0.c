@@ -79,16 +79,6 @@ for (i=0;i<in->ymeshpoints;i++)
 reset_np_save(in);
 reset_npequlib(in);
 
-FILE *outfile;
-outfile=fopena(get_output_path(sim),"voc_mue.dat","w");
-fprintf(outfile,"%Le",get_avg_mue(in));
-fclose(outfile);
-
-outfile=fopena(get_output_path(sim),"voc_muh.dat","w");
-fprintf(outfile,"%Le",get_avg_muh(in));
-fclose(outfile);
-
-
 light_set_sun(&(in->mylight),oldsun);
 in->Vapplied=oldv;
 light_solve_and_update(sim,in,&(in->mylight),0.0);

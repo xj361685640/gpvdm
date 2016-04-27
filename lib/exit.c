@@ -31,6 +31,7 @@
 //#include "dos_types.h"
 #include "gui_hooks.h"
 #include "lang.h"
+#include <signal.h>
 
 static char lock_name[100];
 static char lock_data[100];
@@ -77,5 +78,6 @@ int ewe( struct simulation *sim, const char *format, ...)
 		fclose(out);
 	}
 
+	raise(SIGSEGV);
 exit(1);
 }

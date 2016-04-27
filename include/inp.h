@@ -51,7 +51,7 @@ int zip_is_in_archive(char *full_file_name);
 int isfile(char *in);
 int zip_write_buffer(struct simulation *sim,char *full_file_name,char *buffer, int len);
 
-void inp_listdir(struct simulation *sim,struct inp_list *out);
+void inp_listdir(struct simulation *sim, char *dir_name,struct inp_list *out);
 void inp_list_free(struct inp_list *in);
 int inp_listcmp(struct inp_list *in,char *name);
 int guess_whole_sim_name(struct simulation *sim,char *ret,char *dir_name,char* search_name);

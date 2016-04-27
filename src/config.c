@@ -31,6 +31,7 @@
 #include "epitaxy.h"
 #include "mesh.h"
 #include <cal_path.h>
+#include <log.h>
 
 static int unused __attribute__((unused));
 
@@ -38,6 +39,10 @@ static int unused __attribute__((unused));
 
 void load_config(struct simulation *sim,struct device *in)
 {
+if (get_dump_status(sim,dump_info_text)==TRUE)
+{
+	printf_log(sim,"load: config files\n");
+}
 int i;
 char temp[100];
 
@@ -62,7 +67,7 @@ inp_free(sim,&inp);
 /////////////////////////////////////////
 
 char device_file_path[1000];
-printf("here\n");
+
 join_path(2,device_file_path,get_input_path(sim),"epitaxy.inp");
 
 epitaxy_load(sim,&(in->my_epitaxy),device_file_path);

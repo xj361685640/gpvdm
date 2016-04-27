@@ -33,6 +33,6 @@ gdouble probe_exp_multiply;
 
 gdouble probe_cal(struct simulation *sim,struct device *in);
 void probe_init(struct simulation *sim,struct device *in);
-void probe_free(struct simulation *sim);
+void probe_free(struct simulation *sim,struct device *in);
 
 #endif

@@ -32,6 +32,7 @@ static int unused __attribute__((unused));
 
 void light_memory(struct light *in)
 {
+printf("alloc: light_memory\n");
 int i;
 
 	if (in->align_mesh==FALSE)

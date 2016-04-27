@@ -68,7 +68,7 @@ int i;
 			memset(in->Enz[i], 0.0, in->points*sizeof(gdouble));
 			memset(in->Epz[i], 0.0, in->points*sizeof(gdouble));
 		}
-		printf("dark\n");
+		//printf("dark\n");
 	}else
 	{
 

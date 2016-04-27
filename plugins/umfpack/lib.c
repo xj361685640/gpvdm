@@ -52,64 +52,64 @@ int *itemp;
 
 if ((sim->last_col!=col)||(sim->last_nz!=nz))
 {
-dtemp = realloc(sim->x,col*sizeof(double));
-if (dtemp==NULL)
-{
-	ewe(sim,"realloc failed\n");
-}else
-{
-	sim->x=dtemp;
-}
+	dtemp = realloc(sim->x,col*sizeof(double));
+	if (dtemp==NULL)
+	{
+		ewe(sim,"realloc failed\n");
+	}else
+	{
+		sim->x=dtemp;
+	}
 
 
-dtemp = realloc(sim->b,col*sizeof(double));
-if (dtemp==NULL)
-{
-	ewe(sim,"realloc failed\n");
-}else
-{
-	sim->b=dtemp;
-}
+	dtemp = realloc(sim->b,col*sizeof(double));
+	if (dtemp==NULL)
+	{
+		ewe(sim,"realloc failed\n");
+	}else
+	{
+		sim->b=dtemp;
+	}
 
-itemp = realloc(sim->Ap,(col+1)*sizeof(int));
-if (itemp==NULL)
-{
-	ewe(sim,"realloc failed\n");
-}else
-{
-	sim->Ap=itemp;
-}
+	itemp = realloc(sim->Ap,(col+1)*sizeof(int));
+	if (itemp==NULL)
+	{
+		ewe(sim,"realloc failed\n");
+	}else
+	{
+		sim->Ap=itemp;
+	}
 
-itemp = realloc(sim->Ai,(nz)*sizeof(int));
-if (itemp==NULL)
-{
-	ewe(sim,"realloc failed\n");
-}else
-{
-	sim->Ai=itemp;
-}
+	itemp = realloc(sim->Ai,(nz)*sizeof(int));
+	if (itemp==NULL)
+	{
+		ewe(sim,"realloc failed\n");
+	}else
+	{
+		sim->Ai=itemp;
+	}
 
-dtemp  = realloc(sim->Ax,(nz)*sizeof(double));
-if (dtemp==NULL)
-{
-	ewe(sim,"realloc failed\n");
-}else
-{
-	sim->Ax=dtemp;
-}
+	dtemp  = realloc(sim->Ax,(nz)*sizeof(double));
+	if (dtemp==NULL)
+	{
+		ewe(sim,"realloc failed\n");
+	}else
+	{
+		sim->Ax=dtemp;
+	}
 
-dtemp  = realloc(sim->Tx,(nz)*sizeof(double));
-if (dtemp==NULL)
-{
-	ewe(sim,"realloc failed\n");
-}else
-{
-	sim->Tx=dtemp;
-}
+	dtemp  = realloc(sim->Tx,(nz)*sizeof(double));
+	if (dtemp==NULL)
+	{
+		ewe(sim,"realloc failed\n");
+	}else
+	{
+		sim->Tx=dtemp;
+	}
 
 
-sim->last_col=col;
-sim->last_nz=nz;
+	sim->last_col=col;
+	sim->last_nz=nz;
 }
 
 for (i=0;i<col;i++)
@@ -203,20 +203,18 @@ return 0;
 void umfpack_solver_free(struct simulation *sim)
 {
 free(sim->x);
+free(sim->b);
 free(sim->Ap);
 free(sim->Ai);
 free(sim->Ax);
+free(sim->Tx);
 sim->x=NULL;
+sim->b=NULL;
 sim->Ap=NULL;
 sim->Ai=NULL;
 sim->Ax=NULL;
+sim->Tx=NULL;
 sim->last_col=0;
 sim->last_nz=0;
 }
-
-
-
-
-
-
 

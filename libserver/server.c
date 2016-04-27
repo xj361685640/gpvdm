@@ -71,7 +71,7 @@ return -1;
 
 void server_set_dbus_finish_signal(struct server *myserver, char *signal)
 {
-strcpy(myserver->dbus_finish_signal,signal);
+	strcpy(myserver->dbus_finish_signal,signal);
 }
 
 void server_shut_down(struct simulation *sim,struct server *myserver)

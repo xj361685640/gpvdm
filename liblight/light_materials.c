@@ -42,6 +42,7 @@ static int unused __attribute__((unused));
 
 void light_load_materials(struct simulation *sim,struct light *in)
 {
+printf("load: materials");
 int i=0;
 char fit_file[1000];
 char file_path[400];

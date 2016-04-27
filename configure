@@ -3604,7 +3604,7 @@ fi
 
 done
 
-DLL_LINKER="-L/home/rod/windll/compiled_dlls/ -Wl,--out-implib,plugin.a -lgpvdm_light -lgpvdm_lib -lgpvdm_dump -lgpvdm_measure -lgpvdm_dos  -lgpvdm_light -lzip-2 -lumfpack -lgpvdm_mesh "
+DLL_LINKER="-L/home/rod/windll/compiled_dlls/ -Wl,--out-implib,plugin.a -lgpvdm_light -lgpvdm_lib -lgpvdm_dump -lgpvdm_measure -lgpvdm_dos  -lgpvdm_light -lzip-2 -lumfpack -lgpvdm_mesh"
 
 DLL_COMPILE="-DBUILDING_EXAMPLE_DLL"
 

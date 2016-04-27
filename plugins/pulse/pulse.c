@@ -59,8 +59,6 @@ struct istruct out_G;
 inter_init(&out_G);
 
 
-struct istruct lost_charge;
-inter_init(&lost_charge);
 
 char config_file_name[200];
 
@@ -88,8 +86,8 @@ time_load_mesh(sim,in,number);
 int ittr=0;
 
 int step=0;
-light_set_sun(&(in->mylight),time_get_sun());
-light_solve_and_update(sim,in,&(in->mylight), time_get_laser());
+light_set_sun(&(in->mylight),time_get_sun(in));
+light_solve_and_update(sim,in,&(in->mylight), time_get_laser(in));
 
 gdouble V=0.0;
 if (get_dump_status(sim,dump_optical_probe)==TRUE)
@@ -99,12 +97,12 @@ if (get_dump_status(sim,dump_optical_probe)==TRUE)
 
 if (pulse_config.pulse_sim_mode==pulse_load)
 {
-	sim_externalv(sim,in,time_get_voltage());
-	newton_externv(sim,in,time_get_voltage(),FALSE);
+	sim_externalv(sim,in,time_get_voltage(in));
+	newton_externv(sim,in,time_get_voltage(in),FALSE);
 }else
 if (pulse_config.pulse_sim_mode==pulse_ideal_diode_ideal_load)
 {
-	newton_externalv_simple(sim,in,time_get_voltage());
+	newton_externalv_simple(sim,in,time_get_voltage(in));
 }
 else
 if (pulse_config.pulse_sim_mode==pulse_open_circuit)
@@ -131,8 +129,8 @@ do
 {
 
 
-	light_set_sun(&(in->mylight),time_get_sun());
-	light_solve_and_update(sim,in,&(in->mylight), time_get_laser()+time_get_fs_laser());
+	light_set_sun(&(in->mylight),time_get_sun(in));
+	light_solve_and_update(sim,in,&(in->mylight), time_get_laser(in)+time_get_fs_laser(in));
 	//int i;
 	//FILE *t=fopen("t.dat","w");
 	//for (i=0;i<in->ymeshpoints;i++)
@@ -145,12 +143,12 @@ do
 
 	if (pulse_config.pulse_sim_mode==pulse_load)
 	{
-		V=time_get_voltage();
+		V=time_get_voltage(in);
 		i0=newton_externv(sim,in,V,TRUE);
 	}else
 	if (pulse_config.pulse_sim_mode==pulse_ideal_diode_ideal_load)
 	{
-		V=time_get_voltage();
+		V=time_get_voltage(in);
 		i0=newton_externalv_simple(sim,in,V);
 	}else
 	if (pulse_config.pulse_sim_mode==pulse_open_circuit)
@@ -170,21 +168,25 @@ do
 	}
 
 	ittr++;
-
+	printf("here1\n");
 	gui_send_data("pulse");
+	printf("here2\n");
 	dump_write_to_disk(sim,in);
-
+	printf("here3\n");
 	plot_now(sim,"pulse.plot");
-
+	printf("here4\n");
 	inter_append(&out_i,in->time,i0);
+	printf("here5\n");
 	inter_append(&out_v,in->time,V);
+	printf("here6\n");
 	inter_append(&out_G,in->time,in->Gn[0]);
-	inter_append(&lost_charge,in->time,extracted_through_contacts-fabs(get_extracted_n(in)+get_extracted_p(in))/2.0);
-
-	//printf("%Le %d %Le\n",in->time,time_test_last_point(),in->dt);
-	if (time_test_last_point()==TRUE) break;
-
+	printf("here7\n");
+	printf("here8\n");
+	//printf("%Le %d %Le\n",in->time,time_test_last_point(in),in->dt);
+	if (time_test_last_point(in)==TRUE) break;
+	printf("here9\n");
 	device_timestep(sim,in);
+	printf("here10\n");
 	step++;
 	//getchar();
 
@@ -268,8 +270,6 @@ buffer_dump_path(get_output_path(sim),"pulse_G.dat",&buf);
 buffer_free(&buf);
 
 
-//sprintf(outpath,"%s%s",get_output_path(sim),"pulse_lost_charge.dat");
-//inter_save(&lost_charge,outpath);
 
 
 
@@ -278,7 +278,7 @@ in->go_time=FALSE;
 inter_free(&out_G);
 inter_free(&out_i);
 inter_free(&out_v);
-time_memory_free();
+time_memory_free(in);
 
 
 

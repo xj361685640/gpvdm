@@ -26,7 +26,7 @@
 #include "dump.h"
 #include <cal_path.h>
 #include <pl.h>
-
+#include <linux/limits.h>
 
 static int unused __attribute__((unused));
 static int dump_number;
@@ -40,11 +40,11 @@ void dump_write_to_disk(struct simulation *sim,struct device* in)
 {
 char temp[200];
 char postfix[100];
-char snapshots_dir[200];
-char out_dir[200];
-char slice_info_file[200];
-char snapshot_dir[200];
-char sim_name[200];
+char snapshots_dir[PATH_MAX];
+char out_dir[PATH_MAX];
+char slice_info_file[PATH_MAX];
+char snapshot_dir[PATH_MAX];
+char sim_name[PATH_MAX];
 
 strextract_name(sim_name,in->simmode);
 
@@ -56,41 +56,45 @@ struct stat st = {0};
 
 	sprintf(postfix,"%d",dump_number);
 
-	join_path(2,snapshots_dir,get_output_path(sim),snapshot_dir);
-
-	if (stat(snapshots_dir, &st) == -1)
+	if ((get_dump_status(sim,dump_pl)==TRUE)||(get_dump_status(sim,dump_energy_slice_switch)==TRUE)||(get_dump_status(sim,dump_1d_slices)==TRUE))
 	{
-			mkdir(snapshots_dir, 0700);
+		join_path(2,snapshots_dir,get_output_path(sim),snapshot_dir);
 
-		join_path(2,temp,snapshots_dir,"snapshots.inp");
-		out=fopen(temp,"w");
-		fprintf(out,"#end");
-		fclose(out);
-	}
+		if (stat(snapshots_dir, &st) == -1)
+		{
+				mkdir(snapshots_dir, 0700);
 
-	join_path(2,out_dir,snapshots_dir,postfix);
+			join_path(2,temp,snapshots_dir,"snapshots.inp");
+			out=fopen(temp,"w");
+			fprintf(out,"#end");
+			fclose(out);
+		}
 
-	if (stat(out_dir, &st) == -1)
-	{
-		mkdir(out_dir, 0700);
-	}
+		join_path(2,out_dir,snapshots_dir,postfix);
 
-	join_path(2,slice_info_file,out_dir,"snapshot_info.dat");
+		if (stat(out_dir, &st) == -1)
+		{
+			mkdir(out_dir, 0700);
+		}
 
-	out=fopen(slice_info_file,"w");
-	if (out!=NULL)
-	{
-		fprintf(out,"#dump_voltage\n");
-		fprintf(out,"%Lf\n",get_equiv_V(in));
-		fprintf(out,"#dump_time\n");
-		fprintf(out,"%Lf\n",in->time);
-		fprintf(out,"#ver\n");
-		fprintf(out,"1.0\n");
-		fprintf(out,"#end\n");
-		fclose(out);
-	}else
-	{
-		ewe(sim,"Can't write to file %s\n",slice_info_file);
+		join_path(2,slice_info_file,out_dir,"snapshot_info.dat");
+
+		out=fopen(slice_info_file,"w");
+		if (out!=NULL)
+		{
+			fprintf(out,"#dump_voltage\n");
+			fprintf(out,"%Lf\n",get_equiv_V(in));
+			fprintf(out,"#dump_time\n");
+			fprintf(out,"%Lf\n",in->time);
+			fprintf(out,"#ver\n");
+			fprintf(out,"1.0\n");
+			fprintf(out,"#end\n");
+			fclose(out);
+		}else
+		{
+			ewe(sim,"Can't write to file %s\n",slice_info_file);
+		}
+
 	}
 
 	if (get_dump_status(sim,dump_1d_slices)==TRUE)

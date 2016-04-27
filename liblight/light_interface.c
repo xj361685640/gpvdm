@@ -49,7 +49,7 @@ void light_load_dlls(struct simulation *sim,struct light *in)
 	sprintf(lib_name,"light_%s.so",in->mode);
 
 	join_path(2,lib_path,get_plugins_path(sim),lib_name);
-	printf_log(sim,"I want to open %s %s %s\n",lib_path,get_plugins_path(sim),lib_name);
+	//printf_log(sim,"I want to open %s %s %s\n",lib_path,get_plugins_path(sim),lib_name);
 
 
 	char *error;
@@ -58,29 +58,25 @@ void light_load_dlls(struct simulation *sim,struct light *in)
 
 	if (!in->lib_handle)
 	{
-		fprintf(stderr, "%s\n", dlerror());
-		exit(0);
+		ewe(sim, "%s\n", dlerror());
 	}
 
 	in->fn_init = dlsym(in->lib_handle, "light_dll_init");
 	if ((error = dlerror()) != NULL)
 	{
-		fprintf(stderr, "%s\n", error);
-		exit(0);
+		ewe(sim, "%s\n", error);
 	}
 
 	in->fn_solve_lam_slice = dlsym(in->lib_handle, "light_dll_solve_lam_slice");
 	if ((error = dlerror()) != NULL)
 	{
-		fprintf(stderr, "%s\n", error);
-		exit(0);
+		ewe(sim, "%s\n", error);
 	}
 
 	in->light_ver = dlsym(in->lib_handle, "light_dll_ver");
 	if ((error = dlerror()) != NULL)
 	{
-		fprintf(stderr, "%s\n", error);
-		exit(0);
+		ewe(sim, "%s\n", error);
 	}
 
 
@@ -158,12 +154,20 @@ void light_init(struct light *in)
 	in->spoty= -1.0;
 	in->pulseJ= -1.0;
 	in->pulse_width= -1.0;
+	in->layers=-1;
+	in->thick=NULL;
+	in->G_percent=NULL;
+	in->material_dir_name=NULL;
+
 }
 
 void light_load_config(struct simulation *sim,struct light *in)
 {
 	light_load_config_file(sim,in);
+	printf("rod\n");
+
 	light_load_epitaxy(sim,in,"optics_epitaxy.inp");
+	printf("rod\n");
 	light_load_materials(sim,in);
 	light_memory(in);
 	light_init_mesh(in);

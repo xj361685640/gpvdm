@@ -28,27 +28,9 @@
 
 static int unused __attribute__((unused));
 
-static gdouble *sun;
-static gdouble *voltage;
-static gdouble *laser;
-static gdouble *time_mesh;
-static gdouble *fs_laser;
-static int mesh_len=0;
-static int use_mesh=FALSE;
-static int mesh_pos=0;
 
 
-static int enable_everything=FALSE;
-
-
-void time_enable_everything(int in)
-{
-
-enable_everything=in;
-
-}
-
-void time_mesh_save(struct simulation *sim)
+void time_mesh_save(struct simulation *sim,struct device *in)
 {
 
 int i;
@@ -59,11 +41,11 @@ if (out==NULL)
 	ewe(sim,"can not save time mesh file\n");
 }
 
-fprintf(out, "%d\n",mesh_len);
+fprintf(out, "%d\n",in->tm_mesh_len);
 
-for (i=0;i<mesh_len;i++)
+for (i=0;i<in->tm_mesh_len;i++)
 {
-	fprintf(out, "%Le %Le %Le %Le %Le\n",time_mesh[i],laser[i],sun[i],voltage[i],fs_laser[i]);
+	fprintf(out, "%Le %Le %Le %Le %Le\n",in->tm_time_mesh[i],in->tm_laser[i],in->tm_sun[i],in->tm_voltage[i],in->tm_fs_laser[i]);
 }
 fprintf(out, "#ver\n");
 fprintf(out, "1.0\n");
@@ -98,11 +80,13 @@ int fired=FALSE;
 gdouble v=0.0;
 gdouble dv=0.0;
 
-time_mesh=(gdouble *)malloc(buffer_len*sizeof(gdouble));
-sun=(gdouble *)malloc(buffer_len*sizeof(gdouble));
-voltage=(gdouble *)malloc(buffer_len*sizeof(gdouble));
-laser=(gdouble *)malloc(buffer_len*sizeof(gdouble));
-fs_laser=(gdouble *)malloc(buffer_len*sizeof(gdouble));
+in->tm_time_mesh=(gdouble *)malloc(buffer_len*sizeof(gdouble));
+in->tm_sun=(gdouble *)malloc(buffer_len*sizeof(gdouble));
+in->tm_voltage=(gdouble *)malloc(buffer_len*sizeof(gdouble));
+in->tm_laser=(gdouble *)malloc(buffer_len*sizeof(gdouble));
+in->tm_fs_laser=(gdouble *)malloc(buffer_len*sizeof(gdouble));
+
+in->tm_mesh_pos=0;
 
 if (in->mylight.pulse_width==-1)
 {
@@ -163,12 +147,12 @@ for (i=0;i<segments;i++)
 		while(time<end_time)
 		{
 			dv=(v_stop-v_start)*dt/read_len;
-			time_mesh[ii]=time;
+			in->tm_time_mesh[ii]=time;
 			//printf("%Le %d\n",time,ii);
-			laser[ii]=read_laser;
-			sun[ii]=read_sun+light_get_sun(&(in->mylight));
-			voltage[ii]=v;
-			fs_laser[ii]=0.0;
+			in->tm_laser[ii]=read_laser;
+			in->tm_sun[ii]=read_sun+light_get_sun(&(in->mylight));
+			in->tm_voltage[ii]=v;
+			in->tm_fs_laser[ii]=0.0;
 			time=time+dt;
 			v=v+dv;
 
@@ -178,7 +162,7 @@ for (i=0;i<segments;i++)
 				if ((time>fs_laser_time)&&(fs_laser_time!= -1.0))
 				{
 					fired=TRUE;
-					fs_laser[ii]=laser_pulse_width/dt;
+					in->tm_fs_laser[ii]=laser_pulse_width/dt;
 				}
 			}
 
@@ -188,15 +172,15 @@ for (i=0;i<segments;i++)
 	}
 }
 
-mesh_len=ii;
+in->tm_mesh_len=ii;
 
 
-in->time=time_mesh[0];
-in->dt=time_mesh[1]-time_mesh[0];
+in->time=in->tm_time_mesh[0];
+in->dt=in->tm_time_mesh[1]-in->tm_time_mesh[0];
 
 inp_free(sim,&inp);
 
-use_mesh=TRUE;
+in->tm_use_mesh=TRUE;
 
 }
 
@@ -245,18 +229,18 @@ in->Vapplied_last=in->Vapplied;
 in->VCext_last=in->VCext;
 in->Ilast=get_I(in);
 
-if (use_mesh==TRUE)
+if (in->tm_use_mesh==TRUE)
 {
-	if (mesh_pos<(mesh_len-1))
+	if (in->tm_mesh_pos<(in->tm_mesh_len-1))
 	{
-		mesh_pos++;
-		in->time=time_mesh[mesh_pos];
-		if (mesh_pos==(mesh_len-1))
+		in->tm_mesh_pos++;
+		in->time=in->tm_time_mesh[in->tm_mesh_pos];
+		if (in->tm_mesh_pos==(in->tm_mesh_len-1))
 		{
-			in->dt=(time_mesh[mesh_pos]-time_mesh[mesh_pos-1]);
+			in->dt=(in->tm_time_mesh[in->tm_mesh_pos]-in->tm_time_mesh[in->tm_mesh_pos-1]);
 		}else
 		{
-			in->dt=(time_mesh[mesh_pos+1]-time_mesh[mesh_pos]);
+			in->dt=(in->tm_time_mesh[in->tm_mesh_pos+1]-in->tm_time_mesh[in->tm_mesh_pos]);
 		}
 
 	}
@@ -267,9 +251,9 @@ if (use_mesh==TRUE)
 
 }
 
-int time_test_last_point()
+int time_test_last_point(struct device *in)
 {
-	if (mesh_pos<(mesh_len-1))
+	if (in->tm_mesh_pos<(in->tm_mesh_len-1))
 	{
 		return FALSE;
 	}else
@@ -278,34 +262,42 @@ int time_test_last_point()
 	}
 }
 
-gdouble time_get_voltage()
+gdouble time_get_voltage(struct device *in)
 {
-	return voltage[mesh_pos];
+	return in->tm_voltage[in->tm_mesh_pos];
 }
 
-gdouble time_get_fs_laser()
+gdouble time_get_fs_laser(struct device *in)
 {
 
-	return fs_laser[mesh_pos];
+	return in->tm_fs_laser[in->tm_mesh_pos];
 }
 
-gdouble time_get_sun()
+gdouble time_get_sun(struct device *in)
 {
-	return sun[mesh_pos];
+	return in->tm_sun[in->tm_mesh_pos];
 }
 
-gdouble time_get_laser()
+gdouble time_get_laser(struct device *in)
 {
-	return laser[mesh_pos];
+	return in->tm_laser[in->tm_mesh_pos];
 }
 
-void time_memory_free()
+void time_memory_free(struct device *in)
 {
 
-	free(time_mesh);
-	free(sun);
-	free(voltage);
-	free(laser);
-	free(fs_laser);
+	free(in->tm_time_mesh);
+	free(in->tm_sun);
+	free(in->tm_voltage);
+	free(in->tm_laser);
+	free(in->tm_fs_laser);
+	in->tm_time_mesh=NULL;
+	in->tm_sun=NULL;
+	in->tm_voltage=NULL;
+	in->tm_laser=NULL;
+	in->tm_fs_laser=NULL;
+	in->tm_mesh_len=-1;
+	in->tm_use_mesh=-1;
+	in->tm_mesh_pos=-1;
 }
 

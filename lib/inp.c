@@ -31,7 +31,7 @@
 #include "util.h"
 #include "code_ctrl.h"
 #include "const.h"
-
+#include <linux/limits.h>
 
 int search_for_token(struct simulation *sim,char *ret,char *dir_name,char* token,char *search_value)
 {
@@ -41,7 +41,7 @@ int is_sim_file=FALSE;
 char found_value[256];
 struct inp_file inp;
 struct inp_list a;
-inp_listdir(sim,&a);
+inp_listdir(sim,dir_name,&a);
 
 
 	for (i=0;i<a.len;i++)
@@ -93,7 +93,7 @@ char sim_name[256];
 char name[200];
 struct inp_file inp;
 struct inp_list a;
-inp_listdir(sim,&a);
+inp_listdir(sim,dir_name,&a);
 
 
 	for (i=0;i<a.len;i++)
@@ -151,23 +151,25 @@ int found=FALSE;
 char sim_name[256];
 struct inp_file inp;
 struct inp_list a;
-inp_listdir(sim,&a);
+inp_listdir(sim,dir_name,&a);
 
 
 	for (i=0;i<a.len;i++)
 	{
 		if ((strcmp(a.names[i],".")!=0)&&(strcmp(a.names[i],"..")!=0))
 		{
+			//printf("%s\n",a.names[i]);
 			if ((cmpstr_min(a.names[i],start_of_name)==0)&&(strcmp_end(a.names[i],".inp")==0))
 			{
 				inp_init(sim,&inp);
 				inp_load_from_path(sim,&inp,dir_name,a.names[i]);
 				inp_search_string(sim,&inp,sim_name,"#sim_menu_name");
 				inp_free(sim,&inp);
-
+				//printf(">>>>%s<<<%s<< %d\n",sim_name,search_name,strcmp(sim_name,search_name));
 				if (strcmp(sim_name,search_name)==0)
 				{
 					strcpy(ret,a.names[i]);
+					//printf("FOUND!!!\n");
 					found=TRUE;
 					break;
 				}
@@ -191,22 +193,20 @@ return -1;
 }
 
 
-void inp_listdir(struct simulation *sim, struct inp_list *out)
+void inp_listdir(struct simulation *sim, char *dir_name,struct inp_list *out)
 {
-char pwd[1000];
+char sim_file[PATH_MAX];
 int mylen=0;
 int i=0;
 int err = 0;
 char temp[200];
-if (getcwd(pwd,1000)==NULL)
-{
-	ewe(sim,"IO error\n");
-}
+
+join_path(2,sim_file,dir_name,"sim.gpvdm");
 
 out->names=(char**)malloc(sizeof(char*)*2000);
 out->len=0;
 
-struct zip *z = zip_open("sim.gpvdm", 0, &err);
+struct zip *z = zip_open(sim_file, 0, &err);
 
 if (z!=NULL)
 {
@@ -230,7 +230,7 @@ if (z!=NULL)
 struct dirent *next_file;
 DIR *theFolder;
 
-theFolder = opendir(pwd);
+theFolder = opendir(dir_name);
 if (theFolder!=NULL)
 {
 	while((next_file=readdir(theFolder))!=NULL)
@@ -306,15 +306,13 @@ int zip_is_in_archive(char *full_file_name)
 		struct zip_stat st;
 		zip_stat_init(&st);
 		int ret=zip_stat(z, file_name, 0, &st);
+		zip_close(z);
 
-		if (ret==0)
-		{
-			return 0;
-		}else
+		if (ret!=0)
 		{
 		 	return -1;
 		}
-		zip_close(z);
+		
 		return 0;
 	}else
 	{
@@ -402,6 +400,7 @@ return ret;
 int inp_read_buffer(struct simulation *sim,char **buf, long *len,char *full_file_name)
 {
 FILE *f = fopen(full_file_name, "rb");
+
 if (f!=NULL)
 {
 	int err=0;
@@ -409,12 +408,13 @@ if (f!=NULL)
 	*len = ftell(f);
 	fseek(f, 0, SEEK_SET);
 
-	*buf = malloc(((*len) + 2)*sizeof(char));
-	memset(*buf, 0, ((*len) + 2)*sizeof(char));
+	*buf = malloc(((*len) + 1)*sizeof(char));
+	//memset(*buf, 0, ((*len) + 1)*sizeof(char));
 	if (fread(*buf, *len, 1, f)==0)
 	{
 		err= -1;
 	}
+	(*buf)[*len]=0;
 	fclose(f);
 	return err;
 
@@ -423,11 +423,12 @@ if (f!=NULL)
 	char zip_path[1000];
 	char file_path[1000];
 	get_dir_name_from_path(file_path,full_file_name);
+
 	char *file_name=get_file_name_from_path(full_file_name);
 
 	join_path(2,zip_path,file_path,"sim.gpvdm");
-	printf("I want to open %s\n",zip_path);
-	//printf("1>%s 2>%s 3>%s 4>%s\n",full_file_name,file_path,file_name,zip_path);
+
+	printf("1>%s 2>%s 3>%s 4>%s\n",full_file_name,file_path,file_name,zip_path);
 	int err = 0;
 	struct zip *z = zip_open(zip_path, 0, &err);
 
@@ -440,11 +441,9 @@ if (f!=NULL)
 
 		if (ret==0)
 		{
-			printf ("Read zip file!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!\n");
-
 			//Alloc memory for its uncompressed contents
 			*len=st.size*sizeof(char);
-			*buf = (char *)malloc(*len);
+			*buf = (char *)malloc((*len+1)*sizeof(char));
 
 			//Read the compressed file
 			struct zip_file *f = zip_fopen(z, file_name, 0);
@@ -459,13 +458,14 @@ if (f!=NULL)
 				return -1;
 			}
 			zip_fclose(f);
-
+			(*buf)[*len]=0;
 		}else
 		{
 			printf("can't find rod");
 		 	return -1;
 		}
 		zip_close(z);
+
 		return 0;
 	}else
 	{
@@ -473,7 +473,6 @@ if (f!=NULL)
 	}
 
 }
-
 
 }
 
@@ -488,9 +487,11 @@ in->edited=FALSE;
 
 int inp_load_from_path(struct simulation *sim,struct inp_file *in,char *path,char *file)
 {
+int ret=0;
 char full_path[1000];
 join_path(2,full_path,path,file);
-return inp_load(sim,in,full_path);
+ret=inp_load(sim,in,full_path);
+return ret;
 }
 
 int inp_load(struct simulation *sim,struct inp_file *in,char *file)
@@ -706,6 +707,7 @@ void inp_check(struct simulation *sim,struct inp_file *in,double ver)
 {
 double read_ver=0.0;
 	inp_reset_read(sim,in);
+	//printf("%s\nname=%s\n",in->data,in->full_name);
 	char *line=inp_get_string(sim,in);
 	while(line!=NULL)
 	{

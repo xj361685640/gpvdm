@@ -41,17 +41,16 @@ void update_arrays(struct simulation *sim,struct device *in);
 void find_n0(struct simulation *sim,struct device *in);
 
 //from time.c
-void time_mesh_save(struct simulation *sim);
+void time_mesh_save(struct simulation *sim,struct device *in);
 void time_load_mesh(struct simulation *sim,struct device *in,int number);
 void time_init(struct device *in);
 void device_timestep(struct simulation *sim,struct device *in);
-int time_test_last_point();
-gdouble time_get_voltage();
-gdouble time_get_sun();
-gdouble time_get_laser();
-gdouble time_get_fs_laser();
-void time_memory_free();
-void time_enable_everything(int in);
+int time_test_last_point(struct device *in);
+gdouble time_get_voltage(struct device *in);
+gdouble time_get_sun(struct device *in);
+gdouble time_get_laser(struct device *in);
+gdouble time_get_fs_laser(struct device *in);
+void time_memory_free(struct device *in);
 //
 int get_clamp_state();
 

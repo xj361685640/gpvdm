@@ -78,7 +78,8 @@ remove_dir(sim,temp);
 join_path(2,temp,get_output_path(sim),"frequency");
 remove_dir(sim,temp);
 
-printf_log(sim,"Load config\n");
+
+
 load_config(sim,&cell);
 
 if (strcmp(sim->force_sim_mode,"")!=0)

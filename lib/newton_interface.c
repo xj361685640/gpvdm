@@ -42,13 +42,13 @@ static int unused __attribute__((unused));
 
 void newton_init(struct simulation *sim,char *solver_name)
 {
-printf_log(sim,_("Solver initialization\n"));
+//printf_log(sim,_("Solver initialization\n"));
 char lib_name[100];
 char lib_path[1000];
 sprintf(lib_name,"%s.so",solver_name);
 
 join_path(2,lib_path,get_plugins_path(sim),lib_name);
-printf_log(sim,"I want to open %s %s %s\n",lib_path,get_plugins_path(sim),lib_name);
+//printf_log(sim,"I want to open %s %s %s\n",lib_path,get_plugins_path(sim),lib_name);
 
 char *error;
 
@@ -56,29 +56,25 @@ char *error;
 
 	if (!sim->dll_solver_handle)
 	{
-		fprintf(stderr, "%s\n", dlerror());
-		exit(0);
+		ewe(sim,"%s\n", dlerror());
 	}
 
 	sim->dll_solve_cur = dlsym(sim->dll_solver_handle, "dll_solve_cur");
 	if ((error = dlerror()) != NULL)
 	{
-		fprintf(stderr, "%s\n", error);
-		exit(0);
+		ewe(sim, "%s\n", error);
 	}
 
 	sim->dll_solver_realloc = dlsym(sim->dll_solver_handle, "dll_solver_realloc");
 	if ((error = dlerror()) != NULL)
 	{
-		fprintf(stderr, "%s\n", error);
-		exit(0);
+		ewe(sim, "%s\n", error);
 	}
 
 	sim->dll_solver_free_memory = dlsym(sim->dll_solver_handle, "dll_solver_free_memory");
 	if ((error = dlerror()) != NULL)
 	{
-		fprintf(stderr, "%s\n", error);
-		exit(0);
+		ewe(sim, "%s\n", error);
 	}
 
 

@@ -45,7 +45,7 @@ void run_electrical_dll(struct simulation *sim,struct device *in,char *dll_name)
 	sprintf(lib_name,"%s.so",dll_name);
 
 	join_path(2,lib_path,get_plugins_path(sim),lib_name);
-	printf_log(sim,"I want to open %s %s %s\n",lib_path,get_plugins_path(sim),lib_name);
+	//printf_log(sim,"I want to open %s %s %s\n",lib_path,get_plugins_path(sim),lib_name);
 
 
 	char *error;
@@ -54,22 +54,19 @@ void run_electrical_dll(struct simulation *sim,struct device *in,char *dll_name)
 
 	if (!lib_handle)
 	{
-		fprintf(stderr, "%s\n", dlerror());
-		exit(0);
+		ewe(sim, "%s\n", dlerror());
 	}
 
 	init = dlsym(lib_handle, "set_interface");
 	if ((error = dlerror()) != NULL)
 	{
-		fprintf(stderr, "%s\n", error);
-		exit(0);
+		ewe(sim, "%s\n", error);
 	}
 
 	dll_sim_run = dlsym(lib_handle, "dll_run_simulation");
 	if ((error = dlerror()) != NULL)
 	{
-		fprintf(stderr, "%s\n", error);
-		exit(0);
+		ewe(sim, "%s\n", error);
 	}
 
 

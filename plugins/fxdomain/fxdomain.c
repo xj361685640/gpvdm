@@ -43,7 +43,6 @@ struct fxdomain fxdomain_config;
 
 void sim_fxdomain(struct simulation *sim,struct device *in)
 {
-time_enable_everything(TRUE);
 struct buffer buf;
 buffer_init(&buf);
 struct dynamic_store store;
@@ -315,7 +314,7 @@ inter_free(&out_i);
 inter_free(&out_v);
 inter_free(&out_fx);
 inter_free(&real_imag);
-time_memory_free();
+time_memory_free(in);
 }
 
 void fxdomain_load_config(struct simulation *sim,struct fxdomain *in,struct device *dev,char *config_file_name)

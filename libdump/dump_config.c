@@ -30,6 +30,7 @@ void dump_load_config(struct simulation* sim,struct device *in)
 	int dump;
 	struct inp_file inp;
 	inp_init(sim,&inp);
+
 	inp_load_from_path(sim,&inp,get_input_path(sim),"dump.inp");
 
 	inp_check(sim,&inp,1.38);
@@ -111,6 +112,12 @@ void dump_load_config(struct simulation* sim,struct device *in)
 	set_dump_status(sim,dump_optical_probe, dump);
 
 	sim->log_level=inp_search_english(sim,&inp,"#dump_log_level");
+
+	dump=inp_search_english(sim,&inp,"#dump_print_text");
+	set_dump_status(sim,dump_print_text, dump);
+
+	dump=inp_search_english(sim,&inp,"#dump_info_text");
+	set_dump_status(sim,dump_info_text, dump);
 
 	log_clear();
 

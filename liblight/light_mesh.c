@@ -38,6 +38,7 @@ static int unused __attribute__((unused));
 
 void light_init_mesh(struct light *in)
 {
+printf("init: mesh\n");
 	int i;
 	gdouble pos=0.0;
 	pos=in->dx;

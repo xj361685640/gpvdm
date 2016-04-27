@@ -87,6 +87,7 @@
 #define dump_norm_y_axis 24
 #define dump_write_out_band_structure 25
 #define dump_optical_probe 27
+#define dump_info_text 28
 
 //dos types
 #define dos_exp		0

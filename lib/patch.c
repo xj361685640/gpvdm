@@ -76,7 +76,7 @@ do
 		strcpy(file,inp_get_string(sim,&config_file));
 		strcpy(newtext,inp_get_string(sim,&config_file));
 
-		printf("File %s %s\n",dest,file);
+		//printf("File %s %s\n",dest,file);
 		if (inp_load_from_path(sim,&ifile,dest,file)!=0)
 		{
 			ewe(sim,"File %s %s not found to patch.\n",dest,file);

@@ -167,7 +167,11 @@ if (scanarg( argv,argc,"--inputpath")==TRUE)
 char name[200];
 struct inp_file inp;
 inp_init(&sim,&inp);
-inp_load_from_path(&sim,&inp,sim.input_path,"ver.inp");
+if (inp_load_from_path(&sim,&inp,sim.input_path,"ver.inp")!=0)
+{
+	printf("can't find file %s ver.inp",sim.input_path);
+	exit(0);
+}
 inp_check(&sim,&inp,1.0);
 inp_search_string(&sim,&inp,name,"#core");
 inp_free(&sim,&inp);
@@ -196,7 +200,7 @@ if (scanarg( argv,argc,"--simmode")==TRUE)
 }
 
 gen_dos_fd_gaus_fd(&sim);
-printf("here\n");
+
 server_add_job(&sim,&globalserver,sim.output_path,sim.input_path);
 print_jobs(&sim,&globalserver);
 

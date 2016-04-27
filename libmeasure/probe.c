@@ -34,10 +34,7 @@
 
 static int unused __attribute__((unused));
 
-struct istruct probe_mode;
 struct probe_config config;
-struct light probe_modes;
-struct istruct steady_stark;
 
 
 gdouble probe_cal(struct simulation *sim,struct device *in)
@@ -48,7 +45,7 @@ void probe_init(struct simulation *sim,struct device *in)
 {
 }
 
-void probe_free(struct simulation *sim)
+void probe_free(struct simulation *sim,struct device *in)
 {
 }
 

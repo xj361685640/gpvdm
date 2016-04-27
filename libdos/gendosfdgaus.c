@@ -1015,10 +1015,10 @@ if (bands>0)
 {
 	inp_search_int(sim,&inp,&(Esteps),"#Esteps");
 	Estep_div=(Esteps/bands)*bands;
-	if (Estep_div!=Esteps)
-	{
-		printf("Esteps wanted= %d, given= %d \n",Esteps,Estep_div);
-	}
+	//if (Estep_div!=Esteps)
+	//{
+	//	printf("Esteps wanted= %d, given= %d \n",Esteps,Estep_div);
+	//}
 }
 
 confige[mat].Esteps=Estep_div;
@@ -1053,6 +1053,7 @@ join_path(2, full_name, get_input_path(sim), file_name);
 
 inp_init(sim,&inp);
 inp_load(sim,&inp,full_name);
+inp_check(sim,&inp,1.0);
 
 inp_search_gdouble(sim,&inp,&(confige[mat].pl_fe_fh),"#pl_fe_fh");
 configh[mat].pl_fe_fh=confige[mat].pl_fe_fh;
@@ -1069,7 +1070,7 @@ inp_search_string(sim,&inp,temp,"#pl_enabled");
 confige[mat].pl_enabled=english_to_bin(sim,temp);
 configh[mat].pl_enabled=confige[mat].pl_enabled;
 
-inp_check(sim,&inp,1.0);
+
 
 inp_free(sim,&inp);
 }
@@ -1213,10 +1214,8 @@ for (mat=0;mat<matnumber;mat++)
 	server_run_jobs(sim,&globalserver);
 	printf_log(sim,_("Finished generating DoS....\n"));
 
-	}else
-	{
-		printf_log(sim,_("DoS not changed\n"));
 	}
+
 }
 
 

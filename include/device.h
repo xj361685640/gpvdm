@@ -365,6 +365,21 @@ struct device
 	struct dos dosn[1];
 	struct dos dosp[1];
 	#endif
+
+	gdouble *tm_sun;
+	gdouble *tm_voltage;
+	gdouble *tm_laser;
+	gdouble *tm_time_mesh;
+	gdouble *tm_fs_laser;
+	int tm_mesh_len;
+	int tm_use_mesh;
+	int tm_mesh_pos;
+
+	struct istruct probe_mode;
+	struct light probe_modes;
+	struct istruct steady_stark;
+
+
 };
 
 void device_init(struct device *in);

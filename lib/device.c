@@ -346,6 +346,15 @@ void device_init(struct device *in)
 	in->newton_dphidptrap=NULL;
 	in->newton_ntlast=NULL;
 	in->newton_ptlast=NULL;
+
+	in->tm_sun=NULL;
+	in->tm_voltage=NULL;
+	in->tm_laser=NULL;
+	in->tm_time_mesh=NULL;
+	in->tm_fs_laser=NULL;
+	in->tm_mesh_len=-1;
+	in->tm_use_mesh=-1;
+	in->tm_mesh_pos=-1;
 }
 
 
