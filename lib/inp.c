@@ -428,7 +428,7 @@ if (f!=NULL)
 
 	join_path(2,zip_path,file_path,"sim.gpvdm");
 
-	printf("1>%s 2>%s 3>%s 4>%s\n",full_file_name,file_path,file_name,zip_path);
+	//printf("1>%s 2>%s 3>%s 4>%s\n",full_file_name,file_path,file_name,zip_path);
 	int err = 0;
 	struct zip *z = zip_open(zip_path, 0, &err);
 
@@ -461,7 +461,7 @@ if (f!=NULL)
 			(*buf)[*len]=0;
 		}else
 		{
-			printf("can't find rod");
+			//printf("can't find rod");
 		 	return -1;
 		}
 		zip_close(z);
@@ -567,7 +567,7 @@ memcpy(in->data, temp, (len+1)*sizeof(char));
 
 if (in->data[len]!=0)
 {
-	printf("%s %d\n",in->data,len);
+	//printf("%s %d\n",in->data,len);
 	ewe(sim,"String not ended\n");
 }
 free(temp);

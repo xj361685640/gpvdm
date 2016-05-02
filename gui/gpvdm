@@ -462,6 +462,7 @@ class gpvdm_main_window(gobject.GObject):
 		scan_item_add("sim.inp","#simmode","sim mode",1)
 		scan_item_add("light.inp","#Psun","light intensity",1)
 
+		self.notebook_active_page=self.notebook.get_current_page()
 
 		if self.scan_window!=None:
 			del self.scan_window
@@ -655,6 +656,9 @@ class gpvdm_main_window(gobject.GObject):
 		else:
 			self.fxexperiment_window.show_all()
 
+	def callback_cluster(self, widget, data=None):
+		self.my_server.connect()
+		
 
 
 	def callback_undo(self, widget, data=None):
@@ -845,7 +849,6 @@ class gpvdm_main_window(gobject.GObject):
 			( _("/_Help/Help Index"),   None,         self.callback_help, 0, "<StockItem>", "gtk-help"  ),
 		    ( _("/_Help/About"),   None, self.callback_about_dialog, 0, "<StockItem>", "gtk-about" ),
 		    )
-		pos=0
 
 		self.menubar = self.get_main_menu(self.window)
 
@@ -875,53 +878,46 @@ class gpvdm_main_window(gobject.GObject):
 		image.set_from_file(os.path.join(get_image_file_path(),"new.png"))
 		new_sim = gtk.ToolButton(image)
 		self.tooltips.set_tip(new_sim, _("Make a new simulation"))
-		toolbar.insert(new_sim, pos)
-		pos=pos+1
+		toolbar.insert(new_sim, -1)
 
 		image = gtk.Image()
 		image.set_from_file(os.path.join(get_image_file_path(),"open.png"))
 		open_sim = gtk.ToolButton(image)
 		self.tooltips.set_tip(open_sim, _("Open a simulation"))
-		toolbar.insert(open_sim, pos)
-		pos=pos+1
+		toolbar.insert(open_sim, -1)
 
 
 		sep_lhs = gtk.SeparatorToolItem()
 		sep_lhs.set_draw(True)
 		sep_lhs.set_expand(False)
-		toolbar.insert(sep_lhs, pos)
-		pos=pos+1
+		toolbar.insert(sep_lhs, -1)
 
 		image = gtk.Image()
 		image.set_from_file(os.path.join(get_image_file_path(),"undo.png"))
 		self.undo = gtk.ToolButton(image)
 		self.tooltips.set_tip(self.undo, "Undo")
-		toolbar.insert(self.undo, pos)
+		toolbar.insert(self.undo, -1)
 		self.undo.connect("clicked", self.callback_undo)
-		pos=pos+1
 
 		sep_lhs = gtk.SeparatorToolItem()
 		sep_lhs.set_draw(True)
 		sep_lhs.set_expand(False)
-		toolbar.insert(sep_lhs, pos)
-		pos=pos+1
+		toolbar.insert(sep_lhs, -1)
 
 		image = gtk.Image()
 		image.set_from_file(os.path.join(get_image_file_path(),"play.png"))
 		self.play = gtk.ToolButton(image)
 		self.tooltips.set_tip(self.play, _("Run the simulation"))
-		toolbar.insert(self.play, pos)
+		toolbar.insert(self.play, -1)
 		self.play.connect("clicked", self.callback_simulate)
-		pos=pos+1
 
 		image = gtk.Image()
    		image.set_from_file(os.path.join(get_image_file_path(),"forward.png"))
 		self.tb_run_scan = gtk.ToolButton(image)
 		self.tb_run_scan.connect("clicked", self.callback_run_scan)
 		self.tooltips.set_tip(self.tb_run_scan, _("Run parameter scan"))
-		toolbar.insert(self.tb_run_scan, pos)
+		toolbar.insert(self.tb_run_scan, -1)
 		self.tb_run_scan.set_sensitive(False)
-		pos=pos+1
 
 		if enable_betafeatures()==True:
 			image = gtk.Image()
@@ -929,37 +925,32 @@ class gpvdm_main_window(gobject.GObject):
 			self.tb_run_fit = gtk.ToolButton(image)
 			self.tb_run_fit.connect("clicked", self.callback_run_fit)
 			self.tooltips.set_tip(self.tb_run_fit, _("Run a fit command"))
-			toolbar.insert(self.tb_run_fit, pos)
+			toolbar.insert(self.tb_run_fit, -1)
 			self.tb_run_fit.set_sensitive(True)
-			pos=pos+1
 
 	        image = gtk.Image()
    		image.set_from_file(os.path.join(get_image_file_path(),"pause.png"))
 		self.stop = gtk.ToolButton(image )
 		self.tooltips.set_tip(self.stop, _("Stop the simulation"))
 		self.stop.connect("clicked", self.callback_simulate_stop)
-		toolbar.insert(self.stop, pos)
-		pos=pos+1
+		toolbar.insert(self.stop, -1)
 
 		sep = gtk.SeparatorToolItem()
 		sep.set_draw(True)
 		sep.set_expand(False)
-		toolbar.insert(sep, pos)
-		pos=pos+1
+		toolbar.insert(sep, -1)
 
 		image = gtk.Image()
    		image.set_from_file(os.path.join(get_image_file_path(),"scan.png"))
 		self.param_scan = gtk.ToolButton(image)
 		self.param_scan.connect("clicked", self.callback_scan)
 		self.tooltips.set_tip(self.param_scan, _("Parameter scan"))
-		toolbar.insert(self.param_scan, pos)
-		pos=pos+1
+		toolbar.insert(self.param_scan, -1)
 
 		sep = gtk.SeparatorToolItem()
 		sep.set_draw(True)
 		sep.set_expand(False)
-		toolbar.insert(sep, pos)
-		pos=pos+1
+		toolbar.insert(sep, -1)
 
 	        image = gtk.Image()
    		image.set_from_file(os.path.join(get_image_file_path(),"plot.png"))
@@ -967,32 +958,29 @@ class gpvdm_main_window(gobject.GObject):
 		self.tooltips.set_tip(self.plot_select, _("Find a file to plot"))
 		self.plotted_graphs = used_files_menu()
 		self.plot_select.set_menu(self.plotted_graphs.menu)
-		toolbar.insert(self.plot_select, pos)
+		toolbar.insert(self.plot_select, -1)
 		self.plot_select.connect("clicked", self.callback_plot_select)
 		self.plot_select.set_sensitive(False)
-		pos=pos+1
 
 		#image = gtk.Image()
    		#image.set_from_file(os.path.join(get_image_file_path(),"refresh.png"))
 		#self.plot_open = gtk.ToolButton(image)
 		#self.tooltips.set_tip(self.plot_open, "Replot the graph")
-		#toolbar.insert(self.plot_open, pos)
+		#toolbar.insert(self.plot_open, -1)
 		#self.plot_open.set_sensitive(False)
-		#os=pos+1
 
 		image = gtk.Image()
    		image.set_from_file(os.path.join(get_image_file_path(),"plot_time.png"))
 		self.examine = gtk.ToolButton(image)
 		self.tooltips.set_tip(self.examine, _("Examine results in time domain"))
 		self.examine.connect("clicked", self.callback_examine)
-		toolbar.insert(self.examine, pos)
-		pos=pos+1
+		toolbar.insert(self.examine, -1)
 
 		sep = gtk.SeparatorToolItem()
 		sep.set_draw(True)
 		sep.set_expand(False)
-		toolbar.insert(sep, pos)
-		pos=pos+1
+		toolbar.insert(sep, -1)
+
 
 
 
@@ -1001,36 +989,37 @@ class gpvdm_main_window(gobject.GObject):
 		self.experiment_window_button = gtk.ToolButton(image)
 		self.tooltips.set_tip(self.experiment_window_button, _("Edit the time mesh"))
 		self.experiment_window_button.connect("clicked", self.callback_edit_experiment_window)
-		toolbar.insert(self.experiment_window_button, pos)
-		pos=pos+1
+		toolbar.insert(self.experiment_window_button, -1)
 
 		image = gtk.Image()
    		image.set_from_file(os.path.join(get_image_file_path(),"spectrum.png"))
 		self.spectrum_button = gtk.ToolButton(image)
 		self.tooltips.set_tip(self.spectrum_button, _("Frequency domain mesh editor"))
 		self.spectrum_button.connect("clicked", self.callback_fxexperiment_window)
-		toolbar.insert(self.spectrum_button, pos)
-		pos=pos+1
+		toolbar.insert(self.spectrum_button, -1)
+
+
+		self.cluster_button = gtk.ToolButton(gtk.STOCK_CONNECT)
+		self.tooltips.set_tip(self.cluster_button, _("Connect to cluster"))
+		self.cluster_button.connect("clicked", self.callback_cluster)
+		toolbar.insert(self.cluster_button, -1)
 
 		sep2 = gtk.SeparatorToolItem()
 		sep2.set_draw(False)
 		sep2.set_expand(True)
-		toolbar.insert(sep2, pos)
-		pos=pos+1
+		toolbar.insert(sep2, -1)
 
 
 		help = gtk.ToolButton(gtk.STOCK_HELP)
 		self.tooltips.set_tip(help, "Help")
 		help.connect("clicked", self.callback_help)
-		toolbar.insert(help, pos)
-		pos=pos+1
+		toolbar.insert(help, -1)
 
 
 		#quittb = gtk.ToolButton(gtk.STOCK_QUIT)
 		#self.tooltips.set_tip(quittb, "Quit")
-		#toolbar.insert(quittb, pos)
+		#toolbar.insert(quittb, -1)
 		#quittb.connect("clicked", gtk.main_quit)
-		#pos=pos+1
 
 		new_sim.connect("clicked", self.callback_new)
 		open_sim.connect("clicked", self.callback_open)

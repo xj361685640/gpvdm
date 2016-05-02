@@ -168,25 +168,15 @@ do
 	}
 
 	ittr++;
-	printf("here1\n");
 	gui_send_data("pulse");
-	printf("here2\n");
 	dump_write_to_disk(sim,in);
-	printf("here3\n");
 	plot_now(sim,"pulse.plot");
-	printf("here4\n");
 	inter_append(&out_i,in->time,i0);
-	printf("here5\n");
 	inter_append(&out_v,in->time,V);
-	printf("here6\n");
 	inter_append(&out_G,in->time,in->Gn[0]);
-	printf("here7\n");
-	printf("here8\n");
 	//printf("%Le %d %Le\n",in->time,time_test_last_point(in),in->dt);
 	if (time_test_last_point(in)==TRUE) break;
-	printf("here9\n");
 	device_timestep(sim,in);
-	printf("here10\n");
 	step++;
 	//getchar();
 

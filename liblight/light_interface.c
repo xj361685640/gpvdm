@@ -164,10 +164,7 @@ void light_init(struct light *in)
 void light_load_config(struct simulation *sim,struct light *in)
 {
 	light_load_config_file(sim,in);
-	printf("rod\n");
-
 	light_load_epitaxy(sim,in,"optics_epitaxy.inp");
-	printf("rod\n");
 	light_load_materials(sim,in);
 	light_memory(in);
 	light_init_mesh(in);

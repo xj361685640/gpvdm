@@ -180,17 +180,17 @@ def copy_simulation(base_dir,cur_dir):
 
 
 	#copy fit dirs
-	fit_file=os.path.join(base_dir, "fit.inp")
-	if os.path.isfile(fit_file):
-		fit_array=inp_get_token_array(fit_file, "#fitnames")
-		do_fit=inp_get_token_array(fit_file, "#do_fit")
-		if (int(fit_array[0])>0) and (do_fit==1):
-			exp_dir=os.path.join(cur_dir,"exp")
-			if not os.path.exists(exp_dir):
-				os.makedirs(exp_dir)
-
-			for i in range(1,len(fit_array)):
-				shutil.copytree(os.path.join(base_dir,"exp",fit_array[i]), os.path.join(exp_dir,fit_array[i]))
+	#fit_file=os.path.join(base_dir, "fit.inp")
+	#if os.path.isfile(fit_file):
+	#	fit_array=inp_get_token_array(fit_file, "#fitnames")
+	#	do_fit=inp_get_token_array(fit_file, "#do_fit")
+	#	if (int(fit_array[0])>0) and (do_fit==1):
+	#		exp_dir=os.path.join(cur_dir,"exp")
+	#		if not os.path.exists(exp_dir):
+	#			os.makedirs(exp_dir)
+	#
+	#		for i in range(1,len(fit_array)):
+	#			shutil.copytree(os.path.join(base_dir,"exp",fit_array[i]), os.path.join(exp_dir,fit_array[i]))
 
 	f_list=glob.iglob(os.path.join(base_dir, "*.inp"))
 	for inpfile in f_list:

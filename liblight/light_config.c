@@ -59,25 +59,21 @@ struct epitaxy my_epitaxy;
 join_path(2, full_name, get_input_path(sim), "epitaxy.inp");
 printf("load: %s\n",full_name);
 epitaxy_load(sim,&my_epitaxy,full_name);
-printf("1\n");
+
 int i=0;
 
 	in->layers=my_epitaxy.layers;
 	in->thick=(gdouble *)malloc(in->layers*sizeof(gdouble));
 	in->G_percent=(gdouble *)malloc(in->layers*sizeof(gdouble));
-	printf("2 %d %p\n",in->layers,in->material_dir_name);
 
 	in->material_dir_name=(char **)malloc(in->layers*sizeof(char *));
 	for (i=0;i<in->layers;i++)
 	{
-		printf("a\n");
 		in->material_dir_name[i]=(char *)malloc(300*sizeof(char));
 	}
-printf("3\n");
 
 	in->ylen=0.0;
 	in->device_ylen=0.0;
-printf("4\n");
 
 	for (i=0;i<my_epitaxy.layers;i++)
 	{
@@ -88,12 +84,10 @@ printf("4\n");
 
 		in->ylen+=in->thick[i];
 	}
-printf("5\n");
 
 in->device_start=epitaxy_get_device_start(&my_epitaxy);
 in->device_start_layer=epitaxy_get_device_start_i(&my_epitaxy);
 in->device_ylen=epitaxy_get_electrical_length(&my_epitaxy);
-printf("6\n");
 
 }
 

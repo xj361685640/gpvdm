@@ -302,22 +302,14 @@ class scan_vbox(gtk.VBox):
 		gc.collect()
 
 	def send_commands_to_server(self,commands):
-		self.myserver.init(self.sim_dir)
+#		self.myserver.init(self.sim_dir)
 
-		if self.myserver.start_threads()==0:
-			self.myserver.clear_cache()
-			for i in range(0, len(commands)):
-				self.myserver.add_job(commands[i])
-				print "Adding job"+commands[i]
+		self.myserver.clear_cache()
+		for i in range(0, len(commands)):
+			self.myserver.add_job(commands[i])
+			print "Adding job"+commands[i]
 
-			self.myserver.start()
-
-
-		else:
-			message = gtk.MessageDialog(type=gtk.MESSAGE_ERROR, buttons=gtk.BUTTONS_OK)
-			message.set_markup(_("I can't connect to the server"))
-			message.run()
-			message.destroy()
+		self.myserver.start()
 
 	def callback_plot_results(self, widget, data=None):
 		self.plot_results(self.last_plot_data)

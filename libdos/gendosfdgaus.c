@@ -1179,10 +1179,10 @@ for (mat=0;mat<matnumber;mat++)
 	if ((gendos==TRUE)&&(launch_server==TRUE))
 	{
 		sprintf(name,"gendosn_%d",mat);
-		if (file_bandn==TRUE) server_add_job(sim,&globalserver,name,name);
+		if (file_bandn==TRUE) server_add_job(sim,&globalserver,name,get_input_path(sim));
 
 		sprintf(name,"gendosp_%d",mat);
-		if (file_bandp==TRUE) server_add_job(sim,&globalserver,name,name);
+		if (file_bandp==TRUE) server_add_job(sim,&globalserver,name,get_input_path(sim));
 
 
 		pick_dump();

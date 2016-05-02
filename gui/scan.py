@@ -70,6 +70,12 @@ class scan_class(gtk.Window):
 		else:
 			self.cluster_window.show()
 
+	def callback_cluster_get_data(self, widget, data=None):
+		self.myserver.cluster_get_data()
+
+	def callback_cluster_get_info(self, widget, data=None):
+		self.myserver.cluster_get_info()
+
 	def get_main_menu(self, window):
 		accel_group = gtk.AccelGroup()
 
@@ -142,9 +148,6 @@ class scan_class(gtk.Window):
 
 	def callback_cluster_poweroff(self,widget,data):
 		self.myserver.poweroff()
-
-	def callback_cluster_get_data(self,widget):
-		self.myserver.get_data()
 
 	def callback_cluster_print_jobs(self,widget):
 		self.myserver.print_jobs()
@@ -506,7 +509,6 @@ class scan_class(gtk.Window):
 		toolbar = gtk.Toolbar()
 		toolbar.set_style(gtk.TOOLBAR_ICONS)
 		toolbar.set_size_request(-1, 70)
-		pos=0
 
 		#image = gtk.Image()
 		#image.set_from_file(os.path.join(get_image_file_path(),"new-tab.png"))
@@ -519,24 +521,21 @@ class scan_class(gtk.Window):
 		self.tab_menu=gtk.Menu()
 		tb_new_scan.set_menu(self.tab_menu)
 
-		toolbar.insert(tb_new_scan, pos)
-		pos=pos+1
+		toolbar.insert(tb_new_scan, -1)
 
 		image = gtk.Image()
 		image.set_from_file(os.path.join(get_image_file_path(),"delete.png"))
 		delete = gtk.ToolButton(image)
 		delete.connect("clicked", self.callback_delete_page,None)
 		self.tooltips.set_tip(delete, _("Delete simulation"))
-		toolbar.insert(delete, pos)
-		pos=pos+1
+		toolbar.insert(delete, -1)
 
 		image = gtk.Image()
 		image.set_from_file(os.path.join(get_image_file_path(),"clone.png"))
 		copy = gtk.ToolButton(image)
 		copy.connect("clicked", self.callback_copy_page,None)
 		self.tooltips.set_tip(copy, _("Clone simulation"))
-		toolbar.insert(copy, pos)
-		pos=pos+1
+		toolbar.insert(copy, -1)
 
 
 		image = gtk.Image()
@@ -544,50 +543,59 @@ class scan_class(gtk.Window):
 		rename = gtk.ToolButton(image)
 		rename.connect("clicked", self.callback_rename_page,None)
 		self.tooltips.set_tip(rename, _("Rename simulation"))
-		toolbar.insert(rename, pos)
-		pos=pos+1
+		toolbar.insert(rename, -1)
 
 		sep = gtk.SeparatorToolItem()
 		sep.set_draw(True)
 		sep.set_expand(False)
-		toolbar.insert(sep, pos)
-		pos=pos+1
+		toolbar.insert(sep, -1)
 
 		image = gtk.Image()
 		image.set_from_file(os.path.join(get_image_file_path(),"forward2.png"))
 		tb_simulate = gtk.ToolButton(image)
 		tb_simulate.connect("clicked", self.callback_run_all_simulations)
 		self.tooltips.set_tip(tb_simulate, _("Run all simulation"))
-		toolbar.insert(tb_simulate, pos)
-		pos=pos+1
+		toolbar.insert(tb_simulate, -1)
 
 		if enable_betafeatures()==True:
 			sep = gtk.SeparatorToolItem()
 			sep.set_draw(True)
 			sep.set_expand(False)
-			toolbar.insert(sep, pos)
-			pos=pos+1
+			toolbar.insert(sep, -1)
 
 			image = gtk.Image()
 	   		image.set_from_file(os.path.join(get_image_file_path(),"server.png"))
 			cluster = gtk.ToolButton(image)
 			cluster.connect("clicked", self.callback_cluster)
 			self.tooltips.set_tip(cluster, _("Configure cluster"))
-			toolbar.insert(cluster, pos)
+			toolbar.insert(cluster, -1)
 			cluster.show()
-			pos=pos+1
+
+			image = gtk.Image()
+	   		image.set_from_file(os.path.join(get_image_file_path(),"server_get_data.png"))
+			cluster_get_data = gtk.ToolButton(image)
+			cluster_get_data.connect("clicked", self.callback_cluster_get_data)
+			self.tooltips.set_tip(cluster_get_data, _("Cluster get data"))
+			toolbar.insert(cluster_get_data, -1)
+			cluster.show()
+
+			image = gtk.Image()
+	   		image.set_from_file(os.path.join(get_image_file_path(),"server_get_info.png"))
+			cluster_get_info = gtk.ToolButton(image)
+			cluster_get_info.connect("clicked", self.callback_cluster_get_info)
+			self.tooltips.set_tip(cluster_get_info, _("Cluster get data"))
+			toolbar.insert(cluster_get_info, -1)
+			cluster.show()
 
 		sep = gtk.SeparatorToolItem()
 		sep.set_draw(False)
 		sep.set_expand(True)
-		toolbar.insert(sep, pos)
-		pos=pos+1
+		toolbar.insert(sep, -1)
 
 		tb_help = gtk.ToolButton(gtk.STOCK_HELP)
 		tb_help.connect("clicked", self.callback_help)
 		self.tooltips.set_tip(tb_help, _("Help"))
-		toolbar.insert(tb_help, pos)
-		pos=pos+1
+		toolbar.insert(tb_help, -1)
 
 
 		toolbar.show_all()
@@ -598,7 +606,7 @@ class scan_class(gtk.Window):
 		self.add(main_vbox)
 		main_vbox.show()
 		self.myserver=my_server
-
+		print ">>>>>>>>>>>>>>>>>>>>>>>>>",self.myserver.cluster
 
 		self.notebook = gtk.Notebook()
 		self.notebook.show()
