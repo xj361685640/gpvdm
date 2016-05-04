@@ -88,7 +88,6 @@ strcpy(sim->plugins_path,"");
 strcpy(sim->lang_path,"");
 strcpy(sim->input_path,"");
 strcpy(sim->output_path,"");
-strcpy(sim->output_path,"");
 
 char buff[PATH_MAX];
 int len = readlink("/proc/self/exe", temp, 1000);
@@ -124,7 +123,6 @@ if (getcwd(cwd,1000)==NULL)
 
 strcpy(sim->output_path,cwd);
 strcpy(sim->input_path,cwd);
-
 set_path(sim,sim->plugins_path, "plugins");
 set_path(sim,sim->lang_path, "lang");
 set_path(sim,sim->materials_path, "materials");

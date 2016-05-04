@@ -73,8 +73,17 @@ class scan_class(gtk.Window):
 	def callback_cluster_get_data(self, widget, data=None):
 		self.myserver.cluster_get_data()
 
+	def callback_cluster_copy_src(self, widget, data=None):
+		self.myserver.copy_src_to_cluster()
+
 	def callback_cluster_get_info(self, widget, data=None):
 		self.myserver.cluster_get_info()
+
+	def callback_cluster_make(self, widget, data=None):
+		self.myserver.cluster_make()
+
+	def callback_cluster_clean(self, widget, data=None):
+		self.myserver.cluster_clean()
 
 	def get_main_menu(self, window):
 		accel_group = gtk.AccelGroup()
@@ -421,6 +430,14 @@ class scan_class(gtk.Window):
 	def callback_wol(self, widget, data):
 		self.myserver.wake_nodes()
 
+	def callback_cluster_connect(self, widget, data=None):
+		self.cluster_clean.set_sensitive(True)
+		self.cluster_make.set_sensitive(True)
+		self.cluster_copy_src.set_sensitive(True)
+		self.cluster_get_info.set_sensitive(True)
+		self.cluster_get_data.set_sensitive(True)
+		self.myserver.connect()
+
 	def init(self,my_server):
 		self.cluster_window=None
 		self.win_list=windows()
@@ -563,29 +580,65 @@ class scan_class(gtk.Window):
 			sep.set_expand(False)
 			toolbar.insert(sep, -1)
 
+			self.cluster_button = gtk.ToolButton(gtk.STOCK_CONNECT)
+			self.tooltips.set_tip(self.cluster_button, _("Connect to cluster"))
+			self.cluster_button.connect("clicked", self.callback_cluster_connect)
+			toolbar.insert(self.cluster_button, -1)
+
 			image = gtk.Image()
 	   		image.set_from_file(os.path.join(get_image_file_path(),"server.png"))
-			cluster = gtk.ToolButton(image)
-			cluster.connect("clicked", self.callback_cluster)
-			self.tooltips.set_tip(cluster, _("Configure cluster"))
-			toolbar.insert(cluster, -1)
-			cluster.show()
+			self.cluster = gtk.ToolButton(image)
+			self.cluster.connect("clicked", self.callback_cluster)
+			self.tooltips.set_tip(self.cluster, _("Configure cluster"))
+			toolbar.insert(self.cluster, -1)
+			self.cluster.show()
 
 			image = gtk.Image()
 	   		image.set_from_file(os.path.join(get_image_file_path(),"server_get_data.png"))
-			cluster_get_data = gtk.ToolButton(image)
-			cluster_get_data.connect("clicked", self.callback_cluster_get_data)
-			self.tooltips.set_tip(cluster_get_data, _("Cluster get data"))
-			toolbar.insert(cluster_get_data, -1)
-			cluster.show()
+			self.cluster_get_data = gtk.ToolButton(image)
+			self.cluster_get_data.connect("clicked", self.callback_cluster_get_data)
+			self.tooltips.set_tip(self.cluster_get_data, _("Cluster get data"))
+			toolbar.insert(self.cluster_get_data, -1)
+			self.cluster_get_data.set_sensitive(False)
+			self.cluster_get_data.show()
 
 			image = gtk.Image()
 	   		image.set_from_file(os.path.join(get_image_file_path(),"server_get_info.png"))
-			cluster_get_info = gtk.ToolButton(image)
-			cluster_get_info.connect("clicked", self.callback_cluster_get_info)
-			self.tooltips.set_tip(cluster_get_info, _("Cluster get data"))
-			toolbar.insert(cluster_get_info, -1)
-			cluster.show()
+			self.cluster_get_info = gtk.ToolButton(image)
+			self.cluster_get_info.connect("clicked", self.callback_cluster_get_info)
+			self.tooltips.set_tip(self.cluster_get_info, _("Cluster get data"))
+			toolbar.insert(self.cluster_get_info, -1)
+			self.cluster_get_info.set_sensitive(False)
+			self.cluster_get_info.show()
+
+			image = gtk.Image()
+	   		image.set_from_file(os.path.join(get_image_file_path(),"server_copy_src.png"))
+			self.cluster_copy_src = gtk.ToolButton(image)
+			self.cluster_copy_src.connect("clicked", self.callback_cluster_copy_src)
+			self.tooltips.set_tip(self.cluster_copy_src, _("Copy src to cluster"))
+			toolbar.insert(self.cluster_copy_src, -1)
+			self.cluster_copy_src.set_sensitive(False)
+			self.cluster_copy_src.show()
+
+			image = gtk.Image()
+	   		image.set_from_file(os.path.join(get_image_file_path(),"server_make.png"))
+			self.cluster_make = gtk.ToolButton(image)
+			self.cluster_make.connect("clicked", self.callback_cluster_make)
+			self.tooltips.set_tip(self.cluster_make, _("Copy src to cluster"))
+			self.cluster_make.set_sensitive(False)
+			toolbar.insert(self.cluster_make, -1)
+			self.cluster_make.show()
+
+			image = gtk.Image()
+	   		image.set_from_file(os.path.join(get_image_file_path(),"server_clean.png"))
+			self.cluster_clean = gtk.ToolButton(image)
+			self.cluster_clean.connect("clicked", self.callback_cluster_clean)
+			self.tooltips.set_tip(self.cluster_clean, _("Copy src to cluster"))
+			self.cluster_clean.set_sensitive(False)
+			toolbar.insert(self.cluster_clean, -1)
+			self.cluster_clean.show()
+
+
 
 		sep = gtk.SeparatorToolItem()
 		sep.set_draw(False)

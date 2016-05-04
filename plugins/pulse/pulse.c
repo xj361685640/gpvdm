@@ -42,7 +42,7 @@ struct pulse pulse_config;
 
 void sim_pulse(struct simulation *sim,struct device *in)
 {
-
+printf("the pwd is 4: %s\n",get_output_path(sim));
 struct buffer buf;
 buffer_init(&buf);
 
@@ -186,6 +186,8 @@ struct istruct out_flip;
 
 dump_dynamic_save(sim,get_output_path(sim),&store);
 dump_dynamic_free(sim,&store);
+
+printf("the pwd is 5: %s\n",get_output_path(sim));
 
 buffer_malloc(&buf);
 buf.y_mul=1e3;

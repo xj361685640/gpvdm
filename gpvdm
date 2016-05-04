@@ -655,9 +655,6 @@ class gpvdm_main_window(gobject.GObject):
 			self.fxexperiment_window.hide_all()
 		else:
 			self.fxexperiment_window.show_all()
-
-	def callback_cluster(self, widget, data=None):
-		self.my_server.connect()
 		
 
 
@@ -997,12 +994,6 @@ class gpvdm_main_window(gobject.GObject):
 		self.tooltips.set_tip(self.spectrum_button, _("Frequency domain mesh editor"))
 		self.spectrum_button.connect("clicked", self.callback_fxexperiment_window)
 		toolbar.insert(self.spectrum_button, -1)
-
-
-		self.cluster_button = gtk.ToolButton(gtk.STOCK_CONNECT)
-		self.tooltips.set_tip(self.cluster_button, _("Connect to cluster"))
-		self.cluster_button.connect("clicked", self.callback_cluster)
-		toolbar.insert(self.cluster_button, -1)
 
 		sep2 = gtk.SeparatorToolItem()
 		sep2.set_draw(False)

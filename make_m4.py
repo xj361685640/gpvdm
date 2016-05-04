@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/python
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
@@ -20,8 +20,14 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 import os
+import sys
 config_files=[]
 link_libs=""
+hpc=False
+if len(sys.argv)>1:
+	if sys.argv[1]=="hpc":
+		hpc=True
+
 config_files.append("")
 config_files.append("lang")
 
@@ -57,8 +63,9 @@ for root, dirs, files in os.walk("./plugins"):
 			config_files.append(name)
 
 config_files.append("src")
-config_files.append("images")
-config_files.append("man")
+if hpc==False:
+	config_files.append("images")
+	config_files.append("man")
 
 f = open("config_files.m4", "w")
 for i in range(0,len(config_files)):

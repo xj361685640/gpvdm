@@ -7,7 +7,9 @@ gpvdm_core_SOURCES=
 
 bin_SCRIPTS = gui/gpvdm
 
-man1_MANS = man/gpvdm.1 man/gpvdm_core.1
+
+@HPC@
+
 
 imagedir = $(pkgdatadir)/images
 image_DATA=images/*.jpg images/*.png

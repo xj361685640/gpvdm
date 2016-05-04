@@ -49,6 +49,7 @@ from cal_path import get_exe_command
 from help import my_help_class
 from sim_warnings import sim_warnings
 from inp_util import inp_search_token_value
+from stat import *
 
 import i18n
 _ = i18n.language.gettext
@@ -73,9 +74,10 @@ class server:
 
 	def connect(self):
 		if self.socket==False:
-
+			print "conecting to:",self.server_ip
 			self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-			self.socket.connect((self.server_ip, 50002))
+			port=int(inp_get_token_value("server.inp","#port"))
+			self.socket.connect((self.server_ip, port))
 			self.cluster=True
 
 			buf=bytearray(512)
@@ -83,7 +85,7 @@ class server:
 			for i in range(0,len(header)):
 				buf[i]=header[i]
 
-			self.socket.send(buf)
+			self.socket.sendall(buf)
 
 
 			if self.running==False:
@@ -109,7 +111,7 @@ class server:
 		self.jobs_run=0
 		self.sim_dir=sim_dir
 		#self.cluster=str2bool(inp_get_token_value("server.inp","#cluster"))
-		self.server_ip=inp_get_token_value("server.inp","#server_ip");
+		self.server_ip=inp_get_token_value("server.inp","#server_ip")
 		self.finished_jobs=[]
 		self.socket = False
 		self.cluster=False
@@ -150,11 +152,14 @@ class server:
 			self.status.append(0)
 		else:
 			self.add_remote_job(path)
-			self.send_dir(path)
-			#s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-			#port = 8888;
-			#s.sendto("addjobs#"+command, (self.server_ip, port))
-			#s.close()
+			self.send_dir(path,"")
+
+	def copy_src_to_cluster(self):
+		if self.cluster==True:
+			path=inp_get_token_value("server.inp","#path_to_src")
+			self.send_dir(path,"src")
+			path=inp_get_token_value("server.inp","#path_to_libs")
+			self.send_dir(path,"src")
 
 	def wake_nodes(self):
 		if self.cluster==True:
@@ -187,7 +192,7 @@ class server:
 		self.run_jobs()
 
 	def process_node_list(self,data):
-		data = self.socket.recv(512)
+		data = self.recvall(512)
 		print data
 
 	def rx_file(self,data):
@@ -200,58 +205,74 @@ class server:
 		target=target+name
 		print "write to",target
 		if target.startswith(pwd):
-			written=0
-			LENGTH=512
+			packet_len=int(int(size)/int(512)+1)*512
+
+			data = self.recvall(packet_len)
+			if len(data)!=packet_len:
+				print "packet mismatch",len(data),packet_len
+
+			my_dir=os.path.dirname(target)
+
+			if os.path.isdir(my_dir)==False:
+				os.makedirs(my_dir)
+
 			f = open(target, "wb")
-
-			while(1):
-				data = self.socket.recv(512)
-
-
-				#if (left<LENGTH):
-				#	write_block_size=left
-				#else:
-				#	write_block_size=LENGTH
-
-				f.write(data)
-				written=written+512;
-
-				if written>=size:
-					break;
+			f.write(data)
 			f.close()
-		else:
-			print "target mismatch",pwd,target
-		
+
+
+	def recvall(self,n):
+		data = ''
+		while len(data) < n:
+			packet = self.socket.recv(n - len(data))
+			if not packet:
+				print "not packet"
+				return None
+			data += packet
+		return data
+
 	def listen(self):
 		#print "thread !!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
 		self.running=True
 
 		while(1):
-			#print "wait"
-			data = self.socket.recv(512)
+			print "waiting for next command"
+			understood=False
+			data = self.recvall(512)
+			
 			#print "command=",data,len(data)
 			if data.startswith("gpvdmfile"):
 				self.rx_file(data)
+				understood=True
 
 			if data.startswith("gpvdmpercent"):
 				lines=data.split("\n")
 				percent=float(inp_search_token_value(lines, "#percent"))
 				self.progress_window.set_fraction(percent/100.0)
+				understood=True
 
 			if data.startswith("gpvdmjobfinished"):
 				lines=data.split("\n")
 				name=inp_search_token_value(lines, "#job_name")
 				self.label.set_text(gui_print_path("Finished:  ",name,60))
+				understood=True
+
 			if data.startswith("gpvdmfinished"):
 				self.stop()
-				sys.exit()
+				understood=True
 
 			if data.startswith("gpvdmheadquit"):
 				self.stop()
 				print "Server quit!"
+				understood=True
 
 			if data.startswith("gpvdmnodelist"):
 				self.process_node_list(data)
+				understood=True
+
+			if understood==False:
+				print "Command ",data, "not understood"
+				sys.exit()
 
 	def set_wait_bit(self):
 		self.opp_finished=False
@@ -275,7 +296,7 @@ class server:
 				buf[i]=header[i]
 
 			print header
-			self.socket.send(buf)
+			self.socket.sendall(buf)
 
 	def cluster_get_info(self):
 		if self.cluster==True:
@@ -285,7 +306,7 @@ class server:
 				buf[i]=header[i]
 
 			print header
-			self.socket.send(buf)
+			self.socket.sendall(buf)
 
 	def killall(self):
 		if self.cluster==True:
@@ -294,7 +315,7 @@ class server:
 			for i in range(0,len(header)):
 				buf[i]=header[i]
 
-			self.socket.send(buf)
+			self.socket.sendall(buf)
 
 
 
@@ -315,7 +336,7 @@ class server:
 			for i in range(0,len(header)):
 				buf[i]=header[i]
 
-			self.socket.send(buf)
+			self.socket.sendall(buf)
 
 	def poweroff(self):
 		if self.cluster==True:
@@ -324,7 +345,7 @@ class server:
 			for i in range(0,len(header)):
 				buf[i]=header[i]
 
-			self.socket.send(buf)
+			self.socket.sendall(buf)
 
 
 	def wait_lock(self):
@@ -338,45 +359,94 @@ class server:
 		for i in range(0,len(header)):
 			buf[i]=header[i]
 
-		self.socket.send(buf)
+		self.socket.sendall(buf)
 
-	def send_dir(self,path):
+	def cluster_clean(self):
+		buf=bytearray(512)
+		header="gpvdmclean\n"
+		for i in range(0,len(header)):
+			buf[i]=header[i]
 
+		self.socket.sendall(buf)
+
+	def cluster_make(self):
+		buf=bytearray(512)
+		my_dir="src"
+		cmd=inp_get_token_value("server.inp","#make_command")
+		header="gpvdmheadexe\n#dir\n"+my_dir+"\n#command\n"+cmd+"\n#end"
+		for i in range(0,len(header)):
+			buf[i]=header[i]
+
+		self.socket.sendall(buf)
+
+	def mysend(self, msg):
+		totalsent = 0
+		msglen=len(msg)
+		while totalsent < msglen:
+			sent = self.socket.sendall(msg[totalsent:])
+			if sent == 0:
+				raise RuntimeError("socket connection broken")
+			totalsent = totalsent + sent
+			print totalsent,msglen
+
+	def send_dir(self,path,target):
+		count=0
 		for root, dirs, files in os.walk(path):
 			for name in files:
 				fname=os.path.join(root, name)
 
-				print "sending", fname
+				stat=os.stat(fname)[ST_MODE]
+
+				print fname
 				f = open(fname, 'rb')   
 				bytes = f.read()
 				size=len(bytes)
 				f.close()
 
+				expand=((int(size)/int(512))+1)*512-size
+				bytes+= "\0" * expand
+
 				#build header
-				tx_name= os.path.normpath(fname[len(path)+1:])
+				tx_name= os.path.normpath(fname[len(path):])
+
+				#don't send strings starting in /
+				start=0
+				for i in range(0,len(tx_name)):
+					if tx_name[i]=='\\':
+						start=start+1
+					else:
+						break
+				tx_name= tx_name[start:]
 
 				buf=bytearray(512)
-				header="gpvdmfile\n#file_name\n"+tx_name+"\n#file_size\n"+str(size)+"\n#target\n"+path+"\n#end"
+				if target=="":
+					target=path
+
+
+				header="gpvdmfile\n#file_name\n"+tx_name+"\n#file_size\n"+str(size)+"\n#target\n"+target+"\n#stat\n"+str(stat)+"\n#end"
 				for i in range(0,len(header)):
 					buf[i]=header[i]
 
-				self.socket.send(buf)
+				buf=buf+bytes
 
-				expand=((int(size)/int(512))+1)*512-size
-				bytes+= "\0" * expand
-				self.socket.send(bytes)
+				#self.mysend(buf)
+				#time.sleep(1)
+				self.socket.sendall(buf)
+				count=count+1
+		print "total=",count
 
 
 	def run_jobs(self):
 		print ">>>>>>>>>>>>>>>>>>>>>>>>>",self.cluster
 
 		if self.cluster==True:
+			exe_name=inp_get_token_value("server.inp","#exe_name")
 			buf=bytearray(512)
-			header="gpvdmrunjobs"
+			header="gpvdmrunjobs\n#exe_name\n"+exe_name+"\n#end"
 			for i in range(0,len(header)):
 				buf[i]=header[i]
 
-			self.socket.send(buf)
+			self.socket.sendall(buf)
 
 		else:
 			if (len(self.jobs)==0):
