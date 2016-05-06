@@ -40,7 +40,6 @@ class hpc_class(gtk.Window):
 	file_name=""
 	name=""
 	visible=1
-	hpc_root_dir=""
 	enabled=os.path.exists("./hpc.inp")
 	cpus=[]
 
@@ -69,167 +68,194 @@ class hpc_class(gtk.Window):
 
 		os.chdir(now_dir)
 
-	def callback_hpc_check_load(self, widget, data=None):
-		curdir=os.getcwd()
-		os.chdir(self.hpc_root_dir)
-		cmd = './hpc_check_load.sh'
-		data=os.popen(cmd).readlines()#os.system(cmd)
+	def callback_cluster_get_data(self, widget, data=None):
+		self.myserver.cluster_get_data()
+
+	def callback_cluster_copy_src(self, widget, data=None):
+		self.myserver.copy_src_to_cluster()
+
+	def callback_cluster_get_info(self, widget, data=None):
+		self.myserver.cluster_get_info()
 		self.name=[]
+		self.ip=[]
+		self.cpus=[]
+		self.load=[]
 
+		for i in range(0, len(self.myserver.nodes)):
+			self.name.append(self.myserver.nodes[i][0])
+			self.ip.append(self.myserver.nodes[i][1])
+			self.cpus.append(self.myserver.nodes[i][2])
+			self.load.append(self.myserver.nodes[i][4])
 
-		f = open("./hpc/allowed_nodes")
-		lines = f.readlines()
-		f.close()
+		if len(self.myserver.nodes)>len(self.button):
+			needed=len(self.myserver.nodes)-len(self.button)
+			for i in range(0,needed):
+				hbox=gtk.HBox(False, 0)
+				hbox.show()
 
-		for i in range(0, len(lines)):
-			lines[i]=lines[i].rstrip()
-
-		print "out=",data
-
-		for i in range(0, len(data)):
-			data[i]=data[i].rstrip()
-			self.name.append(data[i].split(':')[0].strip())
-			self.cpus.append(data[i].split(':')[1].strip())
-			data[i]=data[i].split('load average: ')[1].split(',')
-
-		if len(self.bar)==0:
-			for i in range(0, len(data)):
 				self.button.append(gtk.ToggleButton())
-				a=gtk.HBox(False, 0)
-				a.show()
 				self.button[i].set_mode(True)
-				self.button[i].show()
 				self.button[i].set_size_request(-1, 40)
+				self.button[i].show()
+
 				self.bar.append(gtk.ProgressBar())
 				self.bar[i].set_size_request(-1, 40)
-				if lines.count(self.name[i])!=0:
-					self.button[i].set_active(True)
-				b = gtk.Label(str(self.name[i]))
-				b.show()
-				a.pack_start(b, False, False, 3)
-				a.pack_start(self.bar[i], False, False, 3)
-				self.button[i].add(a)
 				self.bar[i].set_orientation(gtk.PROGRESS_LEFT_TO_RIGHT)
 				self.bar[i].show()
-				self.prog_hbox.pack_start(self.button[i], False, False, 0)
 
-			for i in range(0, len(data)):
-				self.button[i].connect("clicked", self.callback_node, None)
+				self.label.append(gtk.Label("text"))
+				self.label[i].show()
 
-		for i in range(0, len(data)):
-			self.bar[i].set_text(str(self.cpus[i])+"cpus, "+data[i][0]+" "+data[i][1]+" "+data[i][2])
-			prog=float(data[i][0])/float(self.cpus[i])
-			if prog>1.0:
-				prog=1.0
-			self.bar[i].set_fraction(prog)
+				hbox.pack_start(self.label[i], False, False, 3)
+				hbox.pack_start(self.bar[i], False, False, 3)
+				self.button[i].add(hbox)
 
-		os.chdir(curdir)
+				self.prog_hbox.pack_start(self.button[i], False, False, 3)
 
-	def callback_hpc_get_data(self, widget, data=None):
-		curdir=os.getcwd()
-		#os.chdir(self.hpc_root_dir)
-		self.terminal.feed_child("cd "+self.hpc_root_dir+"\n")
-		self.terminal.feed_child("./hpc_pull_data.sh\n")
-		self.terminal.feed_child("cd "+curdir+"\n")
+		if len(self.button)>len(self.myserver.nodes):
+			for i in range(len(self.myserver.nodes), len(self.button)):
+				self.button[i].hide()
 
-		#cmd = './from_hpc.sh'
-		#os.system(cmd)
-		#os.chdir(curdir)
+		for i in range(0, len(self.myserver.nodes)):
+			self.button[i].show()
+			self.label[i].set_text(self.name[i])
+			if self.ip[i]!="none":
+				self.bar[i].set_text(self.ip[i]+" "+self.load[i]+":"+self.cpus[i])
+				if float(self.cpus[i])!=0.0:
+					prog=float(self.load[i])/float(self.cpus[i])
+				else:
+					prog=0.0
+
+				if prog>1.0:
+					prog=1.0
+				self.bar[i].set_fraction(prog)
+			else:
+				self.bar[i].set_text("node down?????")
+
+	def callback_cluster_make(self, widget, data=None):
+		self.myserver.cluster_make()
+
+	def callback_cluster_clean(self, widget, data=None):
+		self.myserver.cluster_clean()
+
+	def callback_cluster_off(self, widget, data=None):
+		self.myserver.cluster_quit()
+		self.cluster_gui_update()
+
+	def callback_cluster_sleep(self,widget,data):
+		self.myserver.sleep()
+
+	def callback_cluster_poweroff(self,widget,data):
+		self.myserver.poweroff()
+
+	def callback_cluster_print_jobs(self,widget):
+		self.myserver.print_jobs()
+
+	def callback_wol(self, widget, data):
+		self.myserver.wake_nodes()
+
+	def callback_cluster_connect(self, widget, data=None):
+		self.cluster_gui_update()
+		self.myserver.connect()
+
+
+	def cluster_gui_update(self):
+		if self.myserver.cluster==False:
+			self.cluster_button.set_stock_id(gtk.STOCK_DISCONNECT)
+			self.cluster_clean.set_sensitive(True)
+			self.cluster_make.set_sensitive(True)
+			self.cluster_copy_src.set_sensitive(True)
+			self.cluster_get_info.set_sensitive(True)
+			self.cluster_get_data.set_sensitive(True)
+			self.cluster_off.set_sensitive(True)
+		else:
+			self.cluster_button.set_stock_id(gtk.STOCK_CONNECT)
+			self.cluster_clean.set_sensitive(False)
+			self.cluster_make.set_sensitive(False)
+			self.cluster_copy_src.set_sensitive(False)
+			self.cluster_get_info.set_sensitive(False)
+			self.cluster_get_data.set_sensitive(False)
+			self.cluster_off.set_sensitive(False)
+
 
 	def callback_close_window(self, widget, event, data=None):
 		self.win_list.update(self,"hpc_window")
 		#gtk.main_quit()
 		return False
 
-	def callback_hpc_build_job_local(self, widget, data=None):
-		curdir=os.getcwd()
-
-		self.terminal.feed_child("cd "+self.hpc_root_dir+"\n")
-		self.terminal.feed_child("./buildforhpc.sh scan\n")
-		self.terminal.feed_child("cd "+curdir+"\n")
-
-		print "Build job"
-
-	def callback_hpc_send_to_hpc(self, widget, data=None):
-		curdir=os.getcwd()
-		self.terminal.feed_child("cd "+self.hpc_root_dir+"\n")
-		self.terminal.feed_child("./to_hpc.sh\n")
-		self.terminal.feed_child("cd "+curdir+"\n")
-
-	def callback_hpc_build_jobs(self, widget, data=None):
-		curdir=os.getcwd()
-		self.terminal.feed_child("cd "+self.hpc_root_dir+"\n")
-		self.terminal.feed_child("./hpc_make_sim.sh\n")
-		self.terminal.feed_child("cd "+curdir+"\n")
 
 
-	def callback_hpc_clean_nodes(self, widget, data=None):
-		curdir=os.getcwd()
-		self.terminal.feed_child("cd "+self.hpc_root_dir+"\n")
-		self.terminal.feed_child("./hpc_remove_from_nodes.sh\n")
-		self.terminal.feed_child("cd "+curdir+"\n")
-
-	def callback_hpc_copy_to_nodes(self, widget, data=None):
-		curdir=os.getcwd()
-		self.terminal.feed_child("cd "+self.hpc_root_dir+"\n")
-		self.terminal.feed_child("./hpc_copy_to_nodes.sh\n")
-		self.terminal.feed_child("cd "+curdir+"\n")
-
-	def callback_hpc_kill_jobs(self, widget, data=None):
-		curdir=os.getcwd()
-		self.terminal.feed_child("cd "+self.hpc_root_dir+"\n")
-		self.terminal.feed_child("./hpc_kill_jobs.sh\n")
-		self.terminal.feed_child("cd "+curdir+"\n")
-
-	def callback_hpc_make_images(self, widget, data=None):
-		curdir=os.getcwd()
-		self.terminal.feed_child("cd "+self.hpc_root_dir+"\n")
-		self.terminal.feed_child("./makeimages.sh\n")
-		self.terminal.feed_child("cd "+curdir+"\n")
-
-	def callback_hpc_view_images(self, widget, data=None):
-		cmd = 'gnome-open '+os.getcwd()+'../'
-		os.system(cmd)
-
-	def callback_hpc_run_jobs(self, widget, data=None):
-		curdir=os.getcwd()
-		self.terminal.feed_child("cd "+self.hpc_root_dir+"\n")
-		self.terminal.feed_child("./hpc_run_jobs.sh\n")
-		self.terminal.feed_child("cd "+curdir+"\n")
-
-
-	def callback_hpc_fitlog_plot(self, widget, data=None):
-		plot_script_file=os.path.join(os.getcwd(),"plot","hpc_fitlog.plot")
-		print plot_script_file
-		find_fit_log(plot_script_file,"../hpc/")
-		self.terminal.feed_child("gnuplot -persist "+plot_script_file+"\n")
-
-	def callback_hpc_fit_speed_log_plot(self, widget, data=None):
-		plot_script_file=os.path.join(os.getcwd(),"plot","hpc_fit_speed_log.plot")
-		print plot_script_file
-		find_fit_speed_log(plot_script_file,"../hpc/")
-		self.terminal.feed_child("gnuplot -persist "+plot_script_file+"\n")
-
-		#cmd = 'gnuplot -persist '+os.getcwd()+'plot/hpc_fitlog.plot'
-		#os.system(cmd)
-
-
-	def callback_hpc_run_once(self, widget, data=None):
-		curdir=os.getcwd()
-		self.terminal.feed_child("cd "+self.hpc_root_dir+"\n")
-		self.terminal.feed_child("./autoonefit.sh\n")
-		self.terminal.feed_child("cd "+curdir+"\n")
-
-
-	def init(self, root_dir,terminal):
-		print "ROOT=",root_dir
+	def init(self, server):
+		self.myserver=server
 		self.win_list=windows()
-		self.terminal=terminal
-		main_box=gtk.HBox()
-		self.hpc_root_dir=root_dir
-		vbox_l=gtk.VBox(False, 2)
-		vbox_l.show()
-		main_box.pack_start(vbox_l, False, False, 0)
+		main_box=gtk.VBox()
+
+		self.tooltips = gtk.Tooltips()
+
+		toolbar = gtk.Toolbar()
+		toolbar.set_style(gtk.TOOLBAR_ICONS)
+		toolbar.set_size_request(-1, 70)
+		main_box.pack_start(toolbar, False, False, 0)
+
+		self.cluster_button = gtk.ToolButton(gtk.STOCK_CONNECT)
+		self.tooltips.set_tip(self.cluster_button, _("Connect to cluster"))
+		self.cluster_button.connect("clicked", self.callback_cluster_connect)
+		toolbar.insert(self.cluster_button, -1)
+
+		image = gtk.Image()
+   		image.set_from_file(os.path.join(get_image_file_path(),"server_get_data.png"))
+		self.cluster_get_data = gtk.ToolButton(image)
+		self.cluster_get_data.connect("clicked", self.callback_cluster_get_data)
+		self.tooltips.set_tip(self.cluster_get_data, _("Cluster get data"))
+		toolbar.insert(self.cluster_get_data, -1)
+		self.cluster_get_data.set_sensitive(False)
+		self.cluster_get_data.show()
+
+		image = gtk.Image()
+   		image.set_from_file(os.path.join(get_image_file_path(),"server_get_info.png"))
+		self.cluster_get_info = gtk.ToolButton(image)
+		self.cluster_get_info.connect("clicked", self.callback_cluster_get_info)
+		self.tooltips.set_tip(self.cluster_get_info, _("Cluster get data"))
+		toolbar.insert(self.cluster_get_info, -1)
+		self.cluster_get_info.set_sensitive(False)
+		self.cluster_get_info.show()
+
+		image = gtk.Image()
+   		image.set_from_file(os.path.join(get_image_file_path(),"server_copy_src.png"))
+		self.cluster_copy_src = gtk.ToolButton(image)
+		self.cluster_copy_src.connect("clicked", self.callback_cluster_copy_src)
+		self.tooltips.set_tip(self.cluster_copy_src, _("Copy src to cluster"))
+		toolbar.insert(self.cluster_copy_src, -1)
+		self.cluster_copy_src.set_sensitive(False)
+		self.cluster_copy_src.show()
+
+		image = gtk.Image()
+   		image.set_from_file(os.path.join(get_image_file_path(),"server_make.png"))
+		self.cluster_make = gtk.ToolButton(image)
+		self.cluster_make.connect("clicked", self.callback_cluster_make)
+		self.tooltips.set_tip(self.cluster_make, _("Copy src to cluster"))
+		self.cluster_make.set_sensitive(False)
+		toolbar.insert(self.cluster_make, -1)
+		self.cluster_make.show()
+
+		image = gtk.Image()
+   		image.set_from_file(os.path.join(get_image_file_path(),"server_clean.png"))
+		self.cluster_clean = gtk.ToolButton(image)
+		self.cluster_clean.connect("clicked", self.callback_cluster_clean)
+		self.tooltips.set_tip(self.cluster_clean, _("Copy src to cluster"))
+		self.cluster_clean.set_sensitive(False)
+		toolbar.insert(self.cluster_clean, -1)
+		self.cluster_clean.show()
+
+		image = gtk.Image()
+   		image.set_from_file(os.path.join(get_image_file_path(),"off.png"))
+		self.cluster_off = gtk.ToolButton(image)
+		self.cluster_off.connect("clicked", self.callback_cluster_off)
+		self.tooltips.set_tip(self.cluster_off, _("Copy src to cluster"))
+		self.cluster_off.set_sensitive(False)
+		toolbar.insert(self.cluster_off, -1)
+		self.cluster_off.show()
+
 		vbox_r=gtk.VBox(False, 2)
 		vbox_r.show()
 		main_box.pack_start(vbox_r, False, False, 0)
@@ -240,139 +266,7 @@ class hpc_class(gtk.Window):
 		main_box.show_all()
 		self.add(main_box)
 		#check load
-		button = gtk.Button("Check load")
-		image = gtk.Image()
-		image.set_from_stock(gtk.STOCK_ZOOM_FIT, gtk.ICON_SIZE_BUTTON)
-		button.set_image(image)
-		button.connect("clicked", self.callback_hpc_check_load)
-		button.set_size_request(-1, 50)
-		button.show()
-		vbox_l.pack_start(button, False, False, 0)
-		#vbox_l.add(button)
 
-
-		button = gtk.Button("Get data")
-		image = gtk.Image()
-		image.set_from_stock(gtk.STOCK_FLOPPY, gtk.ICON_SIZE_BUTTON)
-		button.set_image(image)
-		button.connect("clicked", self.callback_hpc_get_data)
-		button.set_size_request(-1, 50)
-		button.show()
-		vbox_l.pack_start(button, False, False, 0)
-
-		button = gtk.Button("Fit log")
-		image = gtk.Image()
-		image.set_from_stock(gtk.STOCK_FIND, gtk.ICON_SIZE_BUTTON)
-		button.set_image(image)
-		button.connect("clicked", self.callback_hpc_fitlog_plot)
-		button.set_size_request(-1, 50)
-		button.show()
-		vbox_l.pack_start(button, False, False, 0)
-
-		button = gtk.Button("Fit speed")
-		image = gtk.Image()
-		image.set_from_stock(gtk.STOCK_FIND, gtk.ICON_SIZE_BUTTON)
-		button.set_image(image)
-		button.connect("clicked", self.callback_hpc_fit_speed_log_plot)
-		button.set_size_request(-1, 50)
-		button.show()
-		vbox_l.pack_start(button, False, False, 0)
-
-		button = gtk.Button("Run local sims")
-		image = gtk.Image()
-		image.set_from_stock(gtk.STOCK_MEDIA_FORWARD, gtk.ICON_SIZE_BUTTON)
-		button.set_image(image)
-		button.connect("clicked", self.callback_hpc_run_once)
-		button.set_size_request(-1, 50)
-		button.show()
-		vbox_l.pack_start(button, False, False, 0)
-
-
-
-		button = gtk.Button("Make images")
-		image = gtk.Image()
-		image.set_from_stock(gtk.STOCK_CONVERT, gtk.ICON_SIZE_BUTTON)
-		button.set_image(image)
-		button.connect("clicked", self.callback_hpc_make_images)
-		button.set_size_request(-1, 50)
-		button.show()
-		vbox_l.pack_start(button, False, False, 0)
-
-		button = gtk.Button("View images")
-		image = gtk.Image()
-		image.set_from_stock(gtk.STOCK_COLOR_PICKER, gtk.ICON_SIZE_BUTTON)
-		button.set_image(image)
-		button.connect("clicked", self.callback_hpc_view_images)
-		button.set_size_request(-1, 50)
-		button.show()
-		vbox_l.pack_start(button, False, False, 0)
-
-
-
-########
-
-		button = gtk.Button("Build local job")
-		image = gtk.Image()
-		image.set_from_stock(gtk.STOCK_EXECUTE, gtk.ICON_SIZE_BUTTON)
-		button.set_image(image)
-		button.connect("clicked", self.callback_hpc_build_job_local)
-		button.set_size_request(-1, 50)
-		button.show()
-		vbox_r.pack_start(button, False, False, 0)
-
-		button = gtk.Button("Send to hpc")
-		image = gtk.Image()
-		image.set_from_stock(gtk.STOCK_JUMP_TO, gtk.ICON_SIZE_BUTTON)
-		button.set_image(image)
-		button.connect("clicked", self.callback_hpc_send_to_hpc)
-		button.set_size_request(-1, 50)
-		button.show()
-		vbox_r.pack_start(button, False, False, 0)
-
-		button = gtk.Button("Build jobs on HPC")
-		image = gtk.Image()
-		image.set_from_stock(gtk.STOCK_EXECUTE, gtk.ICON_SIZE_BUTTON)
-		button.set_image(image)
-		button.connect("clicked", self.callback_hpc_build_jobs)
-		button.set_size_request(-1, 50)
-		button.show()
-		vbox_r.pack_start(button, False, False, 0)
-
-		button = gtk.Button("Copy to nodes")
-		image = gtk.Image()
-		image.set_from_stock(gtk.STOCK_NETWORK, gtk.ICON_SIZE_BUTTON)
-		button.set_image(image)
-		button.connect("clicked", self.callback_hpc_copy_to_nodes)
-		button.set_size_request(-1, 50)
-		button.show()
-		vbox_r.pack_start(button, False, False, 0)
-
-		button = gtk.Button("Run jobs")
-		image = gtk.Image()
-		image.set_from_stock(gtk.STOCK_MEDIA_FORWARD, gtk.ICON_SIZE_BUTTON)
-		button.set_image(image)
-		button.connect("clicked", self.callback_hpc_run_jobs)
-		button.set_size_request(-1, 50)
-		button.show()
-		vbox_r.pack_start(button, False, False, 0)
-
-		button = gtk.Button("Clean nodes")
-		image = gtk.Image()
-		image.set_from_stock(gtk.STOCK_CLEAR, gtk.ICON_SIZE_BUTTON)
-		button.set_image(image)
-		button.connect("clicked", self.callback_hpc_clean_nodes)
-		button.set_size_request(-1, 50)
-		button.show()
-		vbox_r.pack_start(button, False, False, 0)
-
-		button = gtk.Button("Kill jobs")
-		image = gtk.Image()
-		image.set_from_stock(gtk.STOCK_MEDIA_STOP, gtk.ICON_SIZE_BUTTON)
-		button.set_image(image)
-		button.connect("clicked", self.callback_hpc_kill_jobs)
-		button.set_size_request(-1, 50)
-		button.show()
-		vbox_r.pack_start(button, False, False, 0)
 		self.win_list.set_window(self,"hpc_window")
 		self.set_icon_from_file(os.path.join(get_image_file_path(),"server.png"))
 		self.set_size_request(700,-1)
@@ -380,4 +274,5 @@ class hpc_class(gtk.Window):
 		self.connect("delete-event", self.callback_close_window)
 		self.bar=[]
 		self.button=[]
+		self.label=[]
 

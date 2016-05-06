@@ -61,6 +61,11 @@ def server_find_simulations_to_run(commands,search_path):
 #				full_name=os.path.join(root, my_file)
 				commands.append(root)
 
+class node:
+	ip=""
+	load=""
+	cpus=""
+
 class server:
 	def __init__(self):
 		self.running=False
@@ -71,6 +76,7 @@ class server:
 		self.statusicon.set_from_stock(gtk.STOCK_YES)
 		#self.statusicon.connect("popup-menu", self.right_click_event)
 		self.statusicon.set_tooltip("gpvdm")
+		self.nodes=[]
 
 	def connect(self):
 		if self.socket==False:
@@ -192,8 +198,12 @@ class server:
 		self.run_jobs()
 
 	def process_node_list(self,data):
+		self.nodes=[]
 		data = self.recvall(512)
-		print data
+		data=data.split("\n")
+		for i in range(0,len(data)-1):
+			self.nodes.append(data[i].split(":"))
+		print self.nodes
 
 	def rx_file(self,data):
 		pwd=os.getcwd()
@@ -308,6 +318,17 @@ class server:
 			print header
 			self.socket.sendall(buf)
 
+	def cluster_quit(self):
+		if self.cluster==True:
+			buf=bytearray(512)
+			header="gpvdmquit\n"
+			for i in range(0,len(header)):
+				buf[i]=header[i]
+
+			self.socket.sendall(buf)
+			self.cluster=True
+
+
 	def killall(self):
 		if self.cluster==True:
 			buf=bytearray(512)
@@ -316,8 +337,6 @@ class server:
 				buf[i]=header[i]
 
 			self.socket.sendall(buf)
-
-
 
 		else:
 			print "stop jobs"

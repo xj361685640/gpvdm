@@ -61,7 +61,7 @@ class scan_class(gtk.Window):
 	def callback_cluster(self, widget, data=None):
 		if self.cluster_window==None:
 			self.cluster_window=hpc_class()
-			self.cluster_window.init(self.hpc_root_dir,self.myserver.terminal)
+			self.cluster_window.init(self.myserver)
 
 		print self.cluster_window.get_property("visible")
 
@@ -69,21 +69,6 @@ class scan_class(gtk.Window):
 			self.cluster_window.hide()
 		else:
 			self.cluster_window.show()
-
-	def callback_cluster_get_data(self, widget, data=None):
-		self.myserver.cluster_get_data()
-
-	def callback_cluster_copy_src(self, widget, data=None):
-		self.myserver.copy_src_to_cluster()
-
-	def callback_cluster_get_info(self, widget, data=None):
-		self.myserver.cluster_get_info()
-
-	def callback_cluster_make(self, widget, data=None):
-		self.myserver.cluster_make()
-
-	def callback_cluster_clean(self, widget, data=None):
-		self.myserver.cluster_clean()
 
 	def get_main_menu(self, window):
 		accel_group = gtk.AccelGroup()
@@ -152,14 +137,6 @@ class scan_class(gtk.Window):
 		tab = self.notebook.get_nth_page(pageNum)
 		self.toggle_tab_visible(tab.tab_name)
 
-	def callback_cluster_sleep(self,widget,data):
-		self.myserver.sleep()
-
-	def callback_cluster_poweroff(self,widget,data):
-		self.myserver.poweroff()
-
-	def callback_cluster_print_jobs(self,widget):
-		self.myserver.print_jobs()
 
 	def callback_cluster_fit_log(self,widget):
 		pageNum = self.notebook.get_current_page()
@@ -220,46 +197,11 @@ class scan_class(gtk.Window):
 		tab = self.notebook.get_nth_page(pageNum)
 		tab.scan_clean_simulation_output()
 
-	def callback_import_from_hpc(self,widget,data):
-		pageNum = self.notebook.get_current_page()
-		tab = self.notebook.get_nth_page(pageNum)
-		tab.import_from_hpc()
-
-	def callback_push_to_hpc(self,widget,data):
-		pageNum = self.notebook.get_current_page()
-		tab = self.notebook.get_nth_page(pageNum)
-		tab.push_to_hpc()
 
 	def callback_push_unconverged_to_hpc(self,widget,data):
 		pageNum = self.notebook.get_current_page()
 		tab = self.notebook.get_nth_page(pageNum)
 		tab.push_unconverged_to_hpc()
-
-	def callback_set_hpc_dir(self,widget,data):
-		config_file=os.path.join(self.sim_dir,"server.inp")
-		hpc_path=inp_get_token_value(config_file, "#hpc_dir")
-
-		dialog = gtk.FileChooserDialog(_("Select HPC dir"),
-                               None,
-                               gtk.FILE_CHOOSER_ACTION_OPEN,
-                               (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
-                                gtk.STOCK_OK, gtk.RESPONSE_OK))
-		dialog.set_default_response(gtk.RESPONSE_OK)
-		dialog.set_action(gtk.FILE_CHOOSER_ACTION_SELECT_FOLDER)
-		if os.path.isdir(hpc_path):
-			dialog.set_current_folder(hpc_path)
-
-		filter = gtk.FileFilter()
-		filter.set_name(_("All files"))
-		filter.add_pattern("*")
-		dialog.add_filter(filter)
-
-
-		response = dialog.run()
-		if response == gtk.RESPONSE_OK:
-			inp_update_token_value(config_file, "#hpc_dir", dialog.get_filename(),1)
-
-		dialog.destroy()
 
 	def remove_invalid(self,input_name):
 		return input_name.replace (" ", "_")
@@ -427,16 +369,7 @@ class scan_class(gtk.Window):
 				print "delete:",dir_name
 				#gpvdm_delete_file(dir_name)
 
-	def callback_wol(self, widget, data):
-		self.myserver.wake_nodes()
 
-	def callback_cluster_connect(self, widget, data=None):
-		self.cluster_clean.set_sensitive(True)
-		self.cluster_make.set_sensitive(True)
-		self.cluster_copy_src.set_sensitive(True)
-		self.cluster_get_info.set_sensitive(True)
-		self.cluster_get_data.set_sensitive(True)
-		self.myserver.connect()
 
 	def init(self,my_server):
 		self.cluster_window=None
@@ -466,7 +399,6 @@ class scan_class(gtk.Window):
 
 #		n=0
 
-		self.hpc_root_dir= os.path.abspath(os.getcwd()+'/../')
 
 		self.number_of_tabs=0
 #		items=0
@@ -500,14 +432,8 @@ class scan_class(gtk.Window):
 			( _("/Advanced/_Clean unconverged simulation"),     None, self.callback_clean_unconverged_simulation, 0, "<StockItem>", "gtk-clear" ),
 			( _("/Advanced/_Clean simulation output"),     None, self.callback_clean_simulation_output, 0, "<StockItem>", "gtk-clear" ),
 			( _("/Advanced/sep2"),     None, None, 0, "<Separator>" ),
-			( _("/Advanced/_Import from hpc"),     None, self.callback_import_from_hpc, 0, "<StockItem>", "gtk-open" ),
-			( _("/Advanced/_Push to hpc"),     None, self.callback_push_to_hpc, 0, "<StockItem>", "gtk-save" ),
 			( _("/Advanced/_Push unconverged to hpc"),     None, self.callback_push_unconverged_to_hpc, 0, "<StockItem>", "gtk-save" ),
-			( _("/Advanced/_Set hpc dir"),     None, self.callback_set_hpc_dir, 0, "<StockItem>", "gtk-open" ),
 
-		    ( _("/Advanced/_Cluster sleep"),     None, self.callback_cluster_sleep, 0, "<StockItem>", "gtk-copy" ),
-		    ( _("/Advanced/_Cluster poweroff"),     None, self.callback_cluster_poweroff, 0, "<StockItem>", "gtk-copy" ),
-		    ( _("/Advanced/_Cluster wake"),     None, self.callback_wol, 0, "<StockItem>", "gtk-copy" ),
 
 		    ( _("/Advanced/_Remove all results"),     None, self.callback_remove_all_results, 0, "<StockItem>", "gtk-copy" ),
 		    ( _("/_Help"),         None,         None, 0, "<LastBranch>" ),
@@ -580,11 +506,6 @@ class scan_class(gtk.Window):
 			sep.set_expand(False)
 			toolbar.insert(sep, -1)
 
-			self.cluster_button = gtk.ToolButton(gtk.STOCK_CONNECT)
-			self.tooltips.set_tip(self.cluster_button, _("Connect to cluster"))
-			self.cluster_button.connect("clicked", self.callback_cluster_connect)
-			toolbar.insert(self.cluster_button, -1)
-
 			image = gtk.Image()
 	   		image.set_from_file(os.path.join(get_image_file_path(),"server.png"))
 			self.cluster = gtk.ToolButton(image)
@@ -592,53 +513,6 @@ class scan_class(gtk.Window):
 			self.tooltips.set_tip(self.cluster, _("Configure cluster"))
 			toolbar.insert(self.cluster, -1)
 			self.cluster.show()
-
-			image = gtk.Image()
-	   		image.set_from_file(os.path.join(get_image_file_path(),"server_get_data.png"))
-			self.cluster_get_data = gtk.ToolButton(image)
-			self.cluster_get_data.connect("clicked", self.callback_cluster_get_data)
-			self.tooltips.set_tip(self.cluster_get_data, _("Cluster get data"))
-			toolbar.insert(self.cluster_get_data, -1)
-			self.cluster_get_data.set_sensitive(False)
-			self.cluster_get_data.show()
-
-			image = gtk.Image()
-	   		image.set_from_file(os.path.join(get_image_file_path(),"server_get_info.png"))
-			self.cluster_get_info = gtk.ToolButton(image)
-			self.cluster_get_info.connect("clicked", self.callback_cluster_get_info)
-			self.tooltips.set_tip(self.cluster_get_info, _("Cluster get data"))
-			toolbar.insert(self.cluster_get_info, -1)
-			self.cluster_get_info.set_sensitive(False)
-			self.cluster_get_info.show()
-
-			image = gtk.Image()
-	   		image.set_from_file(os.path.join(get_image_file_path(),"server_copy_src.png"))
-			self.cluster_copy_src = gtk.ToolButton(image)
-			self.cluster_copy_src.connect("clicked", self.callback_cluster_copy_src)
-			self.tooltips.set_tip(self.cluster_copy_src, _("Copy src to cluster"))
-			toolbar.insert(self.cluster_copy_src, -1)
-			self.cluster_copy_src.set_sensitive(False)
-			self.cluster_copy_src.show()
-
-			image = gtk.Image()
-	   		image.set_from_file(os.path.join(get_image_file_path(),"server_make.png"))
-			self.cluster_make = gtk.ToolButton(image)
-			self.cluster_make.connect("clicked", self.callback_cluster_make)
-			self.tooltips.set_tip(self.cluster_make, _("Copy src to cluster"))
-			self.cluster_make.set_sensitive(False)
-			toolbar.insert(self.cluster_make, -1)
-			self.cluster_make.show()
-
-			image = gtk.Image()
-	   		image.set_from_file(os.path.join(get_image_file_path(),"server_clean.png"))
-			self.cluster_clean = gtk.ToolButton(image)
-			self.cluster_clean.connect("clicked", self.callback_cluster_clean)
-			self.tooltips.set_tip(self.cluster_clean, _("Copy src to cluster"))
-			self.cluster_clean.set_sensitive(False)
-			toolbar.insert(self.cluster_clean, -1)
-			self.cluster_clean.show()
-
-
 
 		sep = gtk.SeparatorToolItem()
 		sep.set_draw(False)
