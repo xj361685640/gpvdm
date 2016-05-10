@@ -27,8 +27,8 @@
 import os
 import shutil
 import glob
-#import random
-#from random import randint
+import random
+from random import randint
 
 from inp import inp_update_token_value
 from scan_item import scan_items_get_list

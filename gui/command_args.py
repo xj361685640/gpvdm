@@ -37,8 +37,6 @@ from import_archive import clean_scan_dirs
 from ver import ver
 from ver import version
 from import_archive import import_scan_dirs
-from udp_server import udp_server
-from udp_client import udp_client
 from make_man import make_man
 from scan_tree import tree_load_program
 from scan_tree import tree_gen
@@ -55,7 +53,6 @@ from server import server_find_simulations_to_run
 from clean_sim import clean_sim_dir
 from ver import ver_sync_ver
 from device_lib import device_lib_replace
-from cluster import print_cluster_warning
 from code_ctrl import enable_cluster
 from win_lin import running_on_linux
 from inp import inp_update
@@ -156,27 +153,6 @@ def command_args(argc,argv):
 		if check_params(argv,"--clean-scandirs",0)==True:
 			clean_scan_dirs(os.getcwd())
 			sys.exit(0)
-
-		if check_params(argv,"--server",0)==True:
-			if running_on_linux()==True and enable_cluster()==True:
-				print_cluster_warning()
-				obj=udp_server()
-				obj.start()
-			else:
-				print "a) The clustering code will now work on windows."
-				print "b) The flag #enable_cluster in sim.gpvdm/ver.inp must be set for it to start."
-				sys.exit(0)
-
-		if check_params(argv,"--client",0)==True:
-			if running_on_linux()==True and enable_cluster()==True:
-				print_cluster_warning()
-				client=udp_client()
-				client.init()
-			else:
-				print "a) The clustering code will now work on windows."
-				print "b) The flag #enable_cluster in sim.gpvdm/ver.inp must be set for it to start."
-			sys.exit(0)
-
 
 		if check_params(argv,"--make-man",1)==True:
 			make_man()

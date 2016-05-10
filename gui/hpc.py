@@ -74,41 +74,61 @@ class hpc_class(gtk.Window):
 	def callback_cluster_copy_src(self, widget, data=None):
 		self.myserver.copy_src_to_cluster()
 
+	def on_changed(self, widget):
+		packet="gpvdmsetmaxloads"
+		for i in range(0,len(self.slider)):
+			ip = self.ip[i]
+			max_cpus = self.slider[i].get_value()
+			packet=packet+"\n"+ip+"\n"+str(max_cpus)
+		print packet
+		self.myserver.send_command(packet)
+
 	def callback_cluster_get_info(self, widget, data=None):
 		self.myserver.cluster_get_info()
 		self.name=[]
 		self.ip=[]
 		self.cpus=[]
 		self.load=[]
+		self.max_cpus=[]
+		self.last_seen=[]
 
 		for i in range(0, len(self.myserver.nodes)):
 			self.name.append(self.myserver.nodes[i][0])
 			self.ip.append(self.myserver.nodes[i][1])
 			self.cpus.append(self.myserver.nodes[i][2])
 			self.load.append(self.myserver.nodes[i][4])
+			self.max_cpus.append(self.myserver.nodes[i][5])
+			self.last_seen.append(self.myserver.nodes[i][6])
 
 		if len(self.myserver.nodes)>len(self.button):
 			needed=len(self.myserver.nodes)-len(self.button)
 			for i in range(0,needed):
-				hbox=gtk.HBox(False, 0)
-				hbox.show()
 
-				self.button.append(gtk.ToggleButton())
-				self.button[i].set_mode(True)
-				self.button[i].set_size_request(-1, 40)
+				self.button.append(gtk.HBox(False, 0))
+				self.button[i].set_size_request(-1, 70)
 				self.button[i].show()
 
 				self.bar.append(gtk.ProgressBar())
-				self.bar[i].set_size_request(-1, 40)
+				self.bar[i].set_size_request(-1, 70)
 				self.bar[i].set_orientation(gtk.PROGRESS_LEFT_TO_RIGHT)
 				self.bar[i].show()
 
 				self.label.append(gtk.Label("text"))
 				self.label[i].show()
 
-				hbox.pack_start(self.label[i], False, False, 3)
-				hbox.pack_start(self.bar[i], False, False, 3)
-				self.button[i].add(hbox)
+				self.slider.append(gtk.HScale())
+				self.slider[i].set_range(0, int(self.cpus[i]))
+				#self.slider[i].set_increments(1, 100)
+				self.slider[i].set_digits(0)
+				self.slider[i].set_value(int(self.max_cpus[i]))
+				self.slider[i].set_size_request(200, -1)
+				self.slider[i].connect("value-changed", self.on_changed)
+				self.slider[i].show()
+
+				self.button[i].pack_start(self.label[i], False, False, 3)
+				self.button[i].pack_start(self.bar[i], False, False, 3)
+				self.button[i].pack_start(self.slider[i], False, False, 3)
+				#self.button[i].add(hbox)
 
 				self.prog_hbox.pack_start(self.button[i], False, False, 3)
 
@@ -120,7 +140,7 @@ class hpc_class(gtk.Window):
 			self.button[i].show()
 			self.label[i].set_text(self.name[i])
 			if self.ip[i]!="none":
-				self.bar[i].set_text(self.ip[i]+" "+self.load[i]+":"+self.cpus[i])
+				self.bar[i].set_text(self.ip[i]+" "+self.load[i]+":"+self.cpus[i]+":seen="+self.last_seen[i])
 				if float(self.cpus[i])!=0.0:
 					prog=float(self.load[i])/float(self.cpus[i])
 				else:
@@ -155,12 +175,15 @@ class hpc_class(gtk.Window):
 		self.myserver.wake_nodes()
 
 	def callback_cluster_connect(self, widget, data=None):
-		self.cluster_gui_update()
-		self.myserver.connect()
+		if self.myserver.connect()==False:
+			md = gtk.MessageDialog(None, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_INFO, gtk.BUTTONS_CLOSE, "Can not connect to cluster.")
+			md.run()
+			md.destroy()
 
+		self.cluster_gui_update()
 
 	def cluster_gui_update(self):
-		if self.myserver.cluster==False:
+		if self.myserver.cluster==True:
 			self.cluster_button.set_stock_id(gtk.STOCK_DISCONNECT)
 			self.cluster_clean.set_sensitive(True)
 			self.cluster_make.set_sensitive(True)
@@ -274,5 +297,6 @@ class hpc_class(gtk.Window):
 		self.connect("delete-event", self.callback_close_window)
 		self.bar=[]
 		self.button=[]
+		self.slider=[]
 		self.label=[]
 
