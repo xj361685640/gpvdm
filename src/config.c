@@ -153,7 +153,10 @@ inp_check(sim,&inp,1.48);
 inp_search_int(sim,&inp,&(in->max_electrical_itt0),"#maxelectricalitt_first");
 inp_search_gdouble(sim,&inp,&(in->electrical_clamp0),"#electricalclamp_first");
 inp_search_gdouble(sim,&inp,&(in->electrical_error0),"#math_electrical_error_first");
-inp_search_int(sim,&inp,&(in->math_enable_pos_solver),"#math_enable_pos_solver");
+
+inp_search_string(sim,&inp,temp,"#math_enable_pos_solver");
+in->math_enable_pos_solver=english_to_bin(sim,temp);
+
 inp_search_int(sim,&inp,&(in->max_electrical_itt),"#maxelectricalitt");
 inp_search_gdouble(sim,&inp,&(in->electrical_clamp),"#electricalclamp");
 inp_search_gdouble(sim,&inp,&(in->posclamp),"#posclamp");

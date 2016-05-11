@@ -48,7 +48,6 @@ from search import return_file_list
 import webbrowser
 from search import find_fit_log
 from scan_io import get_scan_dirs
-from hpc import hpc_class
 from code_ctrl import enable_betafeatures
 from inp import inp_update_token_value
 from inp import inp_get_token_value
@@ -57,18 +56,6 @@ import i18n
 _ = i18n.language.gettext
 
 class scan_class(gtk.Window):
-
-	def callback_cluster(self, widget, data=None):
-		if self.cluster_window==None:
-			self.cluster_window=hpc_class()
-			self.cluster_window.init(self.myserver)
-
-		print self.cluster_window.get_property("visible")
-
-		if self.cluster_window.get_property("visible")==True:
-			self.cluster_window.hide()
-		else:
-			self.cluster_window.show()
 
 	def get_main_menu(self, window):
 		accel_group = gtk.AccelGroup()
@@ -164,17 +151,12 @@ class scan_class(gtk.Window):
 	def callback_run_simulation(self,widget,data):
 		pageNum = self.notebook.get_current_page()
 		tab = self.notebook.get_nth_page(pageNum)
-		tab.simulate(True,True)
+		tab.simulate(True,False,"")
 
-	def callback_build_simulation(self,widget,data):
+	def callback_run_single_fit(self,widget,data):
 		pageNum = self.notebook.get_current_page()
 		tab = self.notebook.get_nth_page(pageNum)
-		tab.simulate(False,True)
-
-	def callback_run_simulation_no_build(self,widget,data):
-		pageNum = self.notebook.get_current_page()
-		tab = self.notebook.get_nth_page(pageNum)
-		tab.simulate(True,False)
+		tab.simulate(True,False,"--1fit")
 
 	def callback_nested_simulation(self,widget,data):
 		pageNum = self.notebook.get_current_page()
@@ -372,7 +354,7 @@ class scan_class(gtk.Window):
 
 
 	def init(self,my_server):
-		self.cluster_window=None
+
 		self.win_list=windows()
 		self.win_list.load()
 		self.win_list.set_window(self,"scan_window")
@@ -425,9 +407,8 @@ class scan_class(gtk.Window):
 		    ( _("/Simulations/_Clone simulation"),     None, self.callback_copy_page, 0, "<StockItem>", "gtk-copy" ),
 			( _("/Simulations/sep1"),     None, None, 0, "<Separator>" ),
 		    ( _("/Simulations/_Run simulation"),     None, self.callback_run_simulation, 0, "<StockItem>", "gtk-media-play" ),
-		    ( _("/Advanced/_Build simulation"),     None, self.callback_build_simulation, 0, "<StockItem>", "gtk-cdrom" ),
-			( _("/Advanced/_Run (no build)"),     None, self.callback_run_simulation_no_build, 0, "<StockItem>", "gtk-media-play" ),
 			( _("/Advanced/_Run nested simulation"),     None, self.callback_nested_simulation, 0, "<StockItem>", "gtk-media-play" ),
+		    ( _("/Advanced/_Run single fit"),     None, self.callback_run_single_fit, 0, "<StockItem>", "gtk-media-play" ),
 			( _("/Advanced/_Clean simulation"),     None, self.callback_clean_simulation, 0, "<StockItem>", "gtk-clear" ),
 			( _("/Advanced/_Clean unconverged simulation"),     None, self.callback_clean_unconverged_simulation, 0, "<StockItem>", "gtk-clear" ),
 			( _("/Advanced/_Clean simulation output"),     None, self.callback_clean_simulation_output, 0, "<StockItem>", "gtk-clear" ),
@@ -500,20 +481,6 @@ class scan_class(gtk.Window):
 		self.tooltips.set_tip(tb_simulate, _("Run all simulation"))
 		toolbar.insert(tb_simulate, -1)
 
-		if enable_betafeatures()==True:
-			sep = gtk.SeparatorToolItem()
-			sep.set_draw(True)
-			sep.set_expand(False)
-			toolbar.insert(sep, -1)
-
-			image = gtk.Image()
-	   		image.set_from_file(os.path.join(get_image_file_path(),"server.png"))
-			self.cluster = gtk.ToolButton(image)
-			self.cluster.connect("clicked", self.callback_cluster)
-			self.tooltips.set_tip(self.cluster, _("Configure cluster"))
-			toolbar.insert(self.cluster, -1)
-			self.cluster.show()
-
 		sep = gtk.SeparatorToolItem()
 		sep.set_draw(False)
 		sep.set_expand(True)
@@ -533,7 +500,7 @@ class scan_class(gtk.Window):
 		self.add(main_vbox)
 		main_vbox.show()
 		self.myserver=my_server
-		print ">>>>>>>>>>>>>>>>>>>>>>>>>",self.myserver.cluster
+
 
 		self.notebook = gtk.Notebook()
 		self.notebook.show()

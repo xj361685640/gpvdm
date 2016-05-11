@@ -184,7 +184,7 @@ def command_args(argc,argv):
 			myserver.init(watch_dir)
 			myserver.clear_cache()
 			for i in range(0, len(commands)):
-				myserver.add_job(commands[i])
+				myserver.add_job(commands[i],"")
 				print "Adding job"+commands[i]
 			myserver.simple_run(exe_command)
 

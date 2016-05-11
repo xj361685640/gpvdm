@@ -112,6 +112,7 @@ from import_archive import update_simulaton_to_new_ver
 from new_simulation import new_simulation
 from update import update_thread
 from update import update_now
+from hpc import hpc_class
 
 
 bubble=False
@@ -233,7 +234,7 @@ class gpvdm_main_window(gobject.GObject):
 #				pass
 
 		self.my_server.clear_cache()
-		self.my_server.add_job(os.getcwd())
+		self.my_server.add_job(os.getcwd(),"")
 		self.my_server.start()
 	
 	def callback_start_cluster_server(self, widget, data=None):
@@ -763,6 +764,18 @@ class gpvdm_main_window(gobject.GObject):
 		ti_progress.show()
 		return toolbar
 
+	def callback_cluster(self, widget, data=None):
+		if self.cluster_window==None:
+			self.cluster_window=hpc_class()
+			self.cluster_window.init(self.my_server)
+
+		print self.cluster_window.get_property("visible")
+
+		if self.cluster_window.get_property("visible")==True:
+			self.cluster_window.hide()
+		else:
+			self.cluster_window.show()
+
 	def __init__(self):
 
 
@@ -821,6 +834,7 @@ class gpvdm_main_window(gobject.GObject):
 
 		self.window.set_icon_from_file(os.path.join(get_image_file_path(),"image.jpg"))
 
+		self.cluster_window=None
 		
 
 		self.show_tabs = True
@@ -994,6 +1008,20 @@ class gpvdm_main_window(gobject.GObject):
 		self.tooltips.set_tip(self.spectrum_button, _("Frequency domain mesh editor"))
 		self.spectrum_button.connect("clicked", self.callback_fxexperiment_window)
 		toolbar.insert(self.spectrum_button, -1)
+
+		if enable_betafeatures()==True:
+			sep = gtk.SeparatorToolItem()
+			sep.set_draw(True)
+			sep.set_expand(False)
+			toolbar.insert(sep, -1)
+
+			image = gtk.Image()
+	   		image.set_from_file(os.path.join(get_image_file_path(),"server.png"))
+			self.cluster = gtk.ToolButton(image)
+			self.cluster.connect("clicked", self.callback_cluster)
+			self.tooltips.set_tip(self.cluster, _("Configure cluster"))
+			toolbar.insert(self.cluster, -1)
+			self.cluster.show()
 
 		sep2 = gtk.SeparatorToolItem()
 		sep2.set_draw(False)

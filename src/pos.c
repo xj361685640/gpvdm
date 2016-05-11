@@ -27,6 +27,8 @@
 #include "buffer.h"
 #include "log.h"
 #include <cal_path.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 
 gdouble min_pos_error=1e-4;
 
@@ -34,8 +36,16 @@ void pos_dump(struct simulation *sim,struct device *in)
 {
 if (get_dump_status(sim,dump_first_guess)==TRUE)
 {
+	struct stat st = {0};
+
 	char out_dir[1000];
 	join_path(2,out_dir,get_output_path(sim),"equilibrium");
+
+	if (stat(out_dir, &st) == -1)
+	{
+		mkdir(out_dir, 0700);
+	}
+
 	struct buffer buf;
 	buffer_init(&buf);
 	char name[200];
@@ -134,7 +144,7 @@ if (get_dump_status(sim,dump_first_guess)==TRUE)
 }
 }
 
-double get_p_error(struct device *in,long double *b)
+long double get_p_error(struct device *in,long double *b)
 {
 gdouble tot=0.0;
 int i;
@@ -463,7 +473,8 @@ gdouble kTq=(in->Te[0]*kb/Q);
 
 		}
 
-update_arrays(sim,in);
+		update_arrays(sim,in);
+
 		in->xnl_left=in->x[0];
 		in->xpl_left=in->xp[0];
 
@@ -473,7 +484,10 @@ update_arrays(sim,in);
 		}
 		//#ifdef print_newtonerror
 
-		if (get_dump_status(sim,dump_print_pos_error)==TRUE) printf_log(sim,"%d Pos error = %e %d\n",ittr,error,adv);
+		if (get_dump_status(sim,dump_print_pos_error)==TRUE)
+		{
+			printf_log(sim,"%d Pos error = %Le %d\n",ittr,error,adv);
+		}
 		//#endif
 
 		#ifdef dump_converge

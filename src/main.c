@@ -50,6 +50,7 @@
 #include <fit.h>
 #include <advmath.h>
 #include <plot.h>
+#include <buffer.h>
 
 static int unused __attribute__((unused));
 
@@ -145,9 +146,9 @@ randomprint(_("www.roderickmackenzie.eu/contact.html\n"));
 randomprint("\n");
 textcolor(fg_reset);
 
-globalserver.on=FALSE;
-globalserver.cpus=1;
-globalserver.readconfig=TRUE;
+sim.server.on=FALSE;
+sim.server.cpus=1;
+sim.server.readconfig=TRUE;
 
 if (scanarg( argv,argc,"--outputpath")==TRUE)
 {
@@ -166,6 +167,9 @@ if (scanarg( argv,argc,"--inputpath")==TRUE)
 
 char name[200];
 struct inp_file inp;
+struct buffer buf;
+buffer_init(&buf);
+
 inp_init(&sim,&inp);
 if (inp_load_from_path(&sim,&inp,sim.input_path,"ver.inp")!=0)
 {
@@ -183,11 +187,11 @@ exit(0);
 }
 
 gui_start();
-server_init(&sim,&globalserver);
+server_init(&sim);
 
 if (scanarg( argv,argc,"--lock")==TRUE)
 {
-	server_set_dbus_finish_signal(&globalserver, get_arg_plusone( argv,argc,"--lock"));
+	server_set_dbus_finish_signal(&(sim.server), get_arg_plusone( argv,argc,"--lock"));
 }
 
 
@@ -201,12 +205,12 @@ if (scanarg( argv,argc,"--simmode")==TRUE)
 
 gen_dos_fd_gaus_fd(&sim);
 
-server_add_job(&sim,&globalserver,sim.output_path,sim.input_path);
-print_jobs(&sim,&globalserver);
+server_add_job(&sim,sim.output_path,sim.input_path);
+print_jobs(&sim);
 
-ret=server_run_jobs(&sim,&globalserver);
+ret=server_run_jobs(&sim,&(sim.server));
 
-server_shut_down(&sim,&globalserver);
+server_shut_down(&sim,&(sim.server));
 
 hard_limit_free(&sim);
 if (ret!=0)

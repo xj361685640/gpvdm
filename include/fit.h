@@ -20,7 +20,6 @@
 
 #ifndef fith
 #define fith
-#include <server.h>
 #include <advmath.h>
 #include <sim_struct.h>
 
@@ -44,11 +43,11 @@ double converge_error;
 
 int fit_simplex(struct simulation *sim,int *oppcount);
 int fit_newton(struct simulation *sim,int *oppcount);
-void fit_build_jobs(struct simulation *sim,struct server *myserver,struct fitvars *fitconfig);
+void fit_build_jobs(struct simulation *sim,struct fitvars *fitconfig);
 double get_all_error(struct simulation *sim,struct fitvars *myfit);
 double get_constraints_error(struct simulation *sim,struct fitvars *config);
 int fit_read_config(struct simulation *sim,struct fitvars *fitconfig);
-double fit_run_sims(struct simulation *fit,struct fitvars *fitconfig,struct server *myserver);
+double fit_run_sims(struct simulation *fit,struct fitvars *fitconfig);
 int fit_now(struct simulation *sim,int *oppcount);
 double fit_load_plugin(struct simulation *sim,struct fitvars *config,int i);
 void duplicate(struct simulation *sim);

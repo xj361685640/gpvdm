@@ -68,7 +68,7 @@ from notes import notes
 from scan_io import scan_push_to_hpc
 from scan_io import scan_import_from_hpc
 from gpvdm_open import gpvdm_open
-#from scan_tree import tree_load_flat_list
+from scan_tree import tree_load_flat_list
 from scan_tree import tree_save_flat_list
 from cal_path import get_exe_command
 from help import my_help_class
@@ -233,9 +233,9 @@ class scan_vbox(gtk.VBox):
 
 	def nested_simulation(self):
 		commands=scan_nested_simulation(self.sim_dir,os.path.join(os.path.expanduser('~'),"juan/hpc/final_graphs/orig/probe"))
-		self.send_commands_to_server(commands)
+		self.send_commands_to_server(commands,"")
 
-	def simulate(self,run_simulation,generate_simulations):
+	def simulate(self,run_simulation,generate_simulations,arg):
 
 		base_dir=os.getcwd()
 		run=True
@@ -291,22 +291,21 @@ class scan_vbox(gtk.VBox):
 				print "flat list",flat_simulation_list
 				tree_save_flat_list(self.sim_dir,flat_simulation_list)
 
-			commands=[]
-			server_find_simulations_to_run(commands,self.sim_dir)
+			commands=tree_load_flat_list(self.sim_dir)
 
 			if run_simulation==True:
-				self.send_commands_to_server(commands)
+				self.send_commands_to_server(commands,arg)
 
 		self.save_combo()
 		os.chdir(base_dir)
 		gc.collect()
 
-	def send_commands_to_server(self,commands):
+	def send_commands_to_server(self,commands,arg):
 #		self.myserver.init(self.sim_dir)
 
 		self.myserver.clear_cache()
 		for i in range(0, len(commands)):
-			self.myserver.add_job(commands[i])
+			self.myserver.add_job(commands[i],arg)
 			print "Adding job"+commands[i]
 
 		self.myserver.start()
@@ -472,7 +471,7 @@ class scan_vbox(gtk.VBox):
 			self.hide()
 
 	def callback_run_simulation(self,widget):
-		self.simulate(True,True)
+		self.simulate(True,True,"")
 
 
 	def callback_stop_simulation(self,widget):

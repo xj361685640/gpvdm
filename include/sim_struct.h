@@ -23,6 +23,7 @@
 #define sim_struct_h
 
 #include <stdio.h>
+#include <server_struct.h>
 
 struct simulation
 {
@@ -77,6 +78,8 @@ struct simulation
 
 	//Fitting vars
 	double last_total_error;
+
+	struct server_struct server;
 };
 
 #endif

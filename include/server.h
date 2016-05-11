@@ -21,55 +21,27 @@
 #ifndef serverh
 #define serverh
 
-#define server_max 100
-#define server_no_job 0
-#define server_job_ready 1
-#define server_job_running 2
-
-#include <time.h>
 #include <sim_struct.h>
-
-struct server globalserver;
-
+#include <server_struct.h>
 struct my_msgbuf {
     long mtype;
     char mtext[200];
 };
 
 
-struct server
-{
-
-char command[server_max][200];
-char output[server_max][200];
-int state[server_max];
-char dbus_finish_signal[200];
-int jobs;
-int jobs_running;
-int cpus;
-int fd;
-int wd;
-int on;
-int readconfig;
-int min_cpus;
-int steel;
-int max_run_time;
-time_t end_time;
-time_t start_time;
-};
 void server_stop_and_exit();
-void server_shut_down(struct simulation *sim,struct server *myserver);
-void server_add_job(struct simulation *sim,struct server *myserver,char *command,char *output);
-void print_jobs(struct simulation *sim,struct server *myserver);
-void server_init(struct simulation *sim,struct server *myserver);
-void server_exe_jobs(struct simulation *sim, struct server *myserver);
-void server_job_finished(struct server *myserver,char *job);
-int server_run_jobs(struct simulation *sim,struct server *myserver);
+void server_shut_down(struct simulation *sim,struct server_struct *myserver);
+void server_add_job(struct simulation *sim,char *command,char *output);
+void print_jobs(struct simulation *sim);
+void server_init(struct simulation *sim);
+void server_exe_jobs(struct simulation *sim, struct server_struct *myserver);
+void server_job_finished(struct server_struct *myserver,char *job);
+int server_run_jobs(struct simulation *sim,struct server_struct *myserver);
 double server_get_odes_per_s();
 double server_get_jobs_per_s();
-void change_cpus(struct simulation *sim,struct server *myserver);
-void server_check_wall_clock(struct simulation *sim,struct server *myserver);
+void change_cpus(struct simulation *sim,struct server_struct *myserver);
+void server_check_wall_clock(struct simulation *sim,struct server_struct *myserver);
 void server_update_last_job_time();
-void server_set_dbus_finish_signal(struct server *myserver, char *signal);
-void server_send_finished_to_gui(struct server *myserver);
+void server_set_dbus_finish_signal(struct server_struct *myserver, char *signal);
+void server_send_finished_to_gui(struct simulation *sim);
 #endif

@@ -1077,7 +1077,6 @@ inp_free(sim,&inp);
 
 void gen_dos_fd_gaus_fd(struct simulation *sim)
 {
-printf("the pwd is a: %s\n",get_output_path(sim));
 char name[100];
 char pl_name[100];
 char full_name[1000];
@@ -1112,9 +1111,6 @@ for (mat=0;mat<matnumber;mat++)
 	problem_with_dos=FALSE;
 
 
-
-printf("the pwd is b: %s\n",get_output_path(sim));
-
 	sprintf(name,"%s.inp",my_epitaxy.dos_file[mat]);
 	join_path(2, full_name,get_input_path(sim),name);
 
@@ -1134,7 +1130,6 @@ printf("the pwd is b: %s\n",get_output_path(sim));
 	{
 		problem_with_dos=TRUE;
 	}
-printf("the pwd is c: %s\n",get_output_path(sim));
 
 	if (problem_with_dos==TRUE)
 	{
@@ -1143,7 +1138,7 @@ printf("the pwd is c: %s\n",get_output_path(sim));
 		file_bandp=TRUE;
 		launch_server=TRUE;
 	}
-printf("the pwd is ca: %s\n",get_output_path(sim));
+
 	sprintf(pl_name,"%s.inp",my_epitaxy.pl_file[mat]);
 	join_path(2, pl_full_name,get_input_path(sim),pl_name);
 
@@ -1154,7 +1149,6 @@ printf("the pwd is ca: %s\n",get_output_path(sim));
 		file_bandp=TRUE;
 		launch_server=TRUE;
 	}
-printf("the pwd is cb: %s\n",get_output_path(sim));
 
 	if (confige[mat].dostype==dos_read)
 	{
@@ -1174,19 +1168,19 @@ printf("the pwd is cb: %s\n",get_output_path(sim));
 			launch_server=TRUE;
 		}
 	}
-printf("the pwd is cc: %s\n",get_output_path(sim));
-printf("the pwd is cd: %s\n",get_output_path(sim));
+
+
 	if ((gendos==TRUE)&&(launch_server==TRUE))
 	{
 		sprintf(name,"gendosn_%d",mat);
-		if (file_bandn==TRUE) server_add_job(sim,&globalserver,name,get_output_path(sim));
+		if (file_bandn==TRUE) server_add_job(sim,name,get_output_path(sim));
 
 		sprintf(name,"gendosp_%d",mat);
-		if (file_bandp==TRUE) server_add_job(sim,&globalserver,name,get_output_path(sim));
+		if (file_bandp==TRUE) server_add_job(sim,name,get_output_path(sim));
 
-printf("the pwd is cdd: %s\n",get_output_path(sim));
+
 		pick_dump();
-printf("the pwd is ce: %s\n",get_output_path(sim));
+
 		sprintf(name,"%s.inp",my_epitaxy.dos_file[mat]);
 		join_path(2, full_name,get_input_path(sim),name);
 		if (file_dos==TRUE) checksum_write(sim,full_name);
@@ -1208,13 +1202,13 @@ printf("the pwd is ce: %s\n",get_output_path(sim));
 			join_path(2, full_name,get_input_path(sim),name);
 			if (file_bandp==TRUE) checksum_write(sim,full_name);
 		}
-printf("the pwd is cf: %s\n",get_output_path(sim));
-printf("the pwd is d: %s\n",get_output_path(sim));
-	print_jobs(sim,&globalserver);
 
-	server_run_jobs(sim,&globalserver);
+
+	print_jobs(sim);
+
+	server_run_jobs(sim,&(sim->server));
 	printf_log(sim,_("Finished generating DoS....\n"));
-printf("the pwd is e: %s\n",get_output_path(sim));
+
 	}
 
 }

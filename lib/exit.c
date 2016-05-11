@@ -32,6 +32,7 @@
 #include "gui_hooks.h"
 #include "lang.h"
 #include <signal.h>
+#include <server.h>
 
 static char lock_name[100];
 static char lock_data[100];
@@ -64,12 +65,8 @@ int ewe( struct simulation *sim, const char *format, ...)
 
 
 
-	//server_send_finished_to_gui(&globalserver);
+	server_send_finished_to_gui(sim);
 
-
-	out=fopen("server_stop.dat","w");
-	fprintf(out,"solver\n");
-	fclose(out);
 
 	if (strcmp(lock_name,"")!=0)
 	{

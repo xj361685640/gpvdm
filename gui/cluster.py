@@ -56,13 +56,6 @@ from encrypt import encrypt_load
 import i18n
 _ = i18n.language.gettext
 
-def server_find_simulations_to_run(commands,search_path):
-	for root, dirs, files in os.walk(search_path):
-		for my_file in files:
-			if my_file.endswith("sim.gpvdm")==True:
-#				full_name=os.path.join(root, my_file)
-				commands.append(root)
-
 class node:
 	ip=""
 	load=""
@@ -156,46 +149,58 @@ class cluster:
 
 	def send_dir(self,path,target):
 		count=0
+		banned=[]
 		for root, dirs, files in os.walk(path):
+			tx=True
+
 			for name in files:
-				fname=os.path.join(root, name)
+				if name=="flat_list.inp":
+					banned.append(root)
 
-				stat=os.stat(fname)[ST_MODE]
+			for i in range(0,len(banned)):
+				if root.startswith(banned[i]):
+					tx=False
+					break
 
-				print fname
-				f = open(fname, 'rb')   
-				bytes = f.read()
-				size=len(bytes)
-				f.close()
+			if tx==True:
+				for name in files:
+					fname=os.path.join(root, name)
+					stat=os.stat(fname)[ST_MODE]
 
-				expand=((int(size)/int(512))+1)*512-size
-				bytes+= "\0" * expand
+					print fname
+					f = open(fname, 'rb')   
+					bytes = f.read()
+					size=len(bytes)
+					f.close()
 
-				#build header
-				tx_name= os.path.normpath(fname[len(path):])
+					expand=((int(size)/int(512))+1)*512-size
+					bytes+= "\0" * expand
 
-				#don't send strings starting in /
-				start=0
-				for i in range(0,len(tx_name)):
-					if tx_name[i]=='\\':
-						start=start+1
-					else:
-						break
-				tx_name= tx_name[start:]
+					#build header
+					tx_name= os.path.normpath(fname[len(path):])
 
-				buf=bytearray(512)
-				if target=="":
-					target=path
+					#don't send strings starting in /
+					start=0
+					for i in range(0,len(tx_name)):
+						if tx_name[i]=='\\':
+							start=start+1
+						else:
+							break
+					tx_name= tx_name[start:]
+
+					buf=bytearray(512)
+					if target=="":
+						target=path
 
 
-				header="gpvdmfile\n#file_name\n"+tx_name+"\n#file_size\n"+str(size)+"\n#target\n"+target+"\n#stat\n"+str(stat)+"\n#end"
-				for i in range(0,len(header)):
-					buf[i]=header[i]
+					header="gpvdmfile\n#file_name\n"+tx_name+"\n#file_size\n"+str(size)+"\n#target\n"+target+"\n#stat\n"+str(stat)+"\n#end"
+					for i in range(0,len(header)):
+						buf[i]=header[i]
 
-				buf=buf+bytes
-				buf=encrypt(buf)
-				self.socket.sendall(buf)
-				count=count+1
+					buf=buf+bytes
+					buf=encrypt(buf)
+					self.socket.sendall(buf)
+					count=count+1
 		print "total=",count
 
 	def process_node_list(self,data):
@@ -214,11 +219,12 @@ class cluster:
 		target=inp_search_token_value(lines, "#target")
 		#print target,name
 		target=target+name
-		print "write to",target
-		if target.startswith(pwd):
-			packet_len=int(int(size)/int(512)+1)*512
 
-			data = self.recvall(packet_len)
+		packet_len=int(int(size)/int(512)+1)*512
+		data = self.recvall(packet_len)
+
+		if target.startswith(pwd):
+			print "write to",target,len(data),packet_len
 			if len(data)!=packet_len:
 				print "packet mismatch",len(data),packet_len
 
@@ -228,8 +234,10 @@ class cluster:
 				os.makedirs(my_dir)
 
 			f = open(target, "wb")
-			f.write(data)
+			f.write(data[0:size])
 			f.close()
+		else:
+			print "not writing target",pwd,target
 
 
 	def send_command(self,header):
@@ -306,9 +314,7 @@ class cluster:
 		self.send_command(header)
 
 	def cluster_clean(self):
-		header="gpvdmclean\n"
-
-		self.send_command(header)
+		self.send_command("gpvdm_master_clean\n")
 
 	def listen(self):
 		#print "thread !!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
@@ -319,6 +325,9 @@ class cluster:
 			understood=False
 			data = self.recvall(512)
 			
+			if data==None:
+				break
+
 			#print "command=",data,len(data)
 			if data.startswith("gpvdmfile"):
 				self.rx_file(data)
@@ -351,4 +360,4 @@ class cluster:
 
 			if understood==False:
 				print "Command ",data, "not understood"
-				sys.exit()
+				

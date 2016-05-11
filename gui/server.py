@@ -88,6 +88,7 @@ class server(cluster):
 		self.mylock=False
 		self.cpus=multiprocessing.cpu_count()
 		self.jobs=[]
+		self.args=[]
 		self.status=[]
 		self.jobs_running=0
 		self.jobs_run=0
@@ -127,9 +128,10 @@ class server(cluster):
 		self.progress_window.init()
 
 
-	def add_job(self,path):
+	def add_job(self,path,arg):
 		if self.cluster==False:
 			self.jobs.append(path)
+			self.args.append(arg)
 			self.status.append(0)
 		else:
 			self.add_remote_job(path)
@@ -149,7 +151,7 @@ class server(cluster):
 
 	def print_jobs(self):
 		for i in range(0, len(self.jobs)):
-			print self.jobs[i],self.status[i]
+			print self.jobs[i],self.arg[i],self.status[i]
 
 		#if self.cluster==True:
 		#	s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -174,13 +176,13 @@ class server(cluster):
 				if (self.jobs_running<self.cpus):
 					if self.status[i]==0:
 						self.status[i]=1
-						print "Running job",self.jobs[i]
+						print "Running job",self.jobs[i],self.args[i]
 						if self.enable_gui==True:
-							self.progress_window.set_text("Running job"+self.jobs[i])
+							self.progress_window.set_text("Running job "+self.jobs[i])
 						self.jobs_running=self.jobs_running+1
 						if running_on_linux()==True:
 							cmd="cd "+self.jobs[i]+";"
-							cmd=cmd+get_exe_command()+" --lock "+"lock"+str(i)+" &\n"
+							cmd=cmd+get_exe_command()+" --lock "+"lock"+str(i)+" "+self.args[i]+" &\n"
 							print "command="+cmd
 							if self.enable_gui==True:
 								self.terminal.feed_child(cmd)
@@ -189,12 +191,13 @@ class server(cluster):
 								os.system(cmd)
 
 						else:
-							cmd=get_exe_command()+" --lock "+"lock"+str(i)+" &\n"
-							print cmd,self.jobs[i]
+							cmd=get_exe_command()+" --lock "+"lock"+str(i)+" "+self.args[i]+"&\n"
+							print cmd,self.jobs[i],self.args[i]
 							subprocess.Popen(cmd,cwd=self.jobs[i])
 							#os.system(cmd)
 
 							#sys.exit()
+
 	def check_warnings(self):
 		message=""
 		problem_found=False
@@ -228,6 +231,7 @@ class server(cluster):
 		self.gui_sim_stop()
 
 		self.jobs=[]
+		self.args=[]
 		self.status=[]
 		self.jobs_running=0
 		self.jobs_run=0

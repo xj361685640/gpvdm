@@ -55,7 +55,7 @@ void server_update_last_job_time()
 last_job_ended_at=time(NULL);
 }
 
-void change_cpus(struct simulation *sim,struct server *myserver)
+void change_cpus(struct simulation *sim,struct server_struct *myserver)
 {
 }
 
@@ -69,25 +69,26 @@ int cmp_lock(char *in)
 return -1;
 }
 
-void server_set_dbus_finish_signal(struct server *myserver, char *signal)
+void server_set_dbus_finish_signal(struct server_struct *myserver, char *signal)
 {
 	strcpy(myserver->dbus_finish_signal,signal);
 }
 
-void server_shut_down(struct simulation *sim,struct server *myserver)
+void server_shut_down(struct simulation *sim,struct server_struct *myserver)
 {
-	server_send_finished_to_gui(&globalserver);
+	server_send_finished_to_gui(sim);
 }
 
-void server_send_finished_to_gui(struct server *myserver)
+void server_send_finished_to_gui(struct simulation *sim)
 {
-if (strcmp(myserver->dbus_finish_signal,"")!=0)
+printf("finished signal=%s\n",sim->server.dbus_finish_signal);
+if (strcmp(sim->server.dbus_finish_signal,"")!=0)
 {
-	gui_send_data(myserver->dbus_finish_signal);
+	gui_send_data(sim->server.dbus_finish_signal);
 }
 }
 
-void print_jobs(struct simulation *sim,struct server *myserver)
+void print_jobs(struct simulation *sim)
 {
 }
 
@@ -101,10 +102,11 @@ double server_get_jobs_per_s()
 return server_jobs_per_s;
 }
 
-void server_init(struct simulation *sim,struct server *myserver)
+void server_init(struct simulation *sim)
 {
 local_sim=sim;
-	strcpy(myserver->dbus_finish_signal,"");
+
+	strcpy(sim->server.dbus_finish_signal,"");
 
 }
 
@@ -115,7 +117,7 @@ int odes=0;
 return odes;
 }
 
-void server_add_job(struct simulation *sim,struct server *myserver,char *command,char *output)
+void server_add_job(struct simulation *sim,char *command,char *output)
 {
 	int odes=0;
 
@@ -134,22 +136,22 @@ void server_add_job(struct simulation *sim,struct server *myserver,char *command
 }
 
 
-void server_exe_jobs(struct simulation *sim, struct server *myserver)
+void server_exe_jobs(struct simulation *sim, struct server_struct *myserver)
 {
 if (myserver->jobs==0) return;
 }
 
 
-void server_job_finished(struct server *myserver,char *job)
+void server_job_finished(struct server_struct *myserver,char *job)
 {
 }
 
-int server_run_jobs(struct simulation *sim,struct server *myserver)
+int server_run_jobs(struct simulation *sim,struct server_struct *myserver)
 {
 	return 0;
 }
 
-void server_check_wall_clock(struct simulation *sim,struct server *myserver)
+void server_check_wall_clock(struct simulation *sim,struct server_struct *myserver)
 {
 time_t now = time(NULL);
 if (now>myserver->end_time)

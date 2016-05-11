@@ -52,6 +52,7 @@ def tree_load_flat_list(sim_dir):
 	number=int(lines[0])
 
 	for i in range(1,number):
+		lines[i]=os.path.join(sim_dir,lines[i])
 		if os.path.isdir(lines[i]):
 			config.append(lines[i])
 
@@ -64,7 +65,15 @@ def tree_save_flat_list(sim_dir,flat_list):
 	a = open(file_name, "w")
 	a.write(str(len(flat_list))+"\n")
 	for i in range(0,len(flat_list)):
-		a.write(flat_list[i]+"\n")
+		rel_dir=flat_list[i][len(sim_dir):]
+
+		if rel_dir[0]=="/":
+			rel_dir=rel_dir[1:]
+
+		if rel_dir[0]=="\\":
+			rel_dir=rel_dir[1:]
+
+		a.write(rel_dir+"\n")
 
 	a.close()
 
