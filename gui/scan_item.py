@@ -26,6 +26,9 @@ pygtk.require('2.0')
 #import gtk
 #import sys
 import os
+from inp import inp_load_file
+from token_lib import tokens
+
 #import shutil
 
 check_list=[]
@@ -102,9 +105,20 @@ def scan_items_index_item(item):
 		if check_list[i].name==item:
 			return i
 
-	print "Item not found",item
-
 	return -1
 
+def scan_populate_from_file(filename):
+	lines=[]
+	inp_load_file(lines,filename)
 
+	my_token_lib=tokens()
+
+	for i in range(0, len(lines)):
+		token=lines[i]
+		if len(token)>0:
+			if token[0]=="#":
+				result=my_token_lib.find(token)
+				if result!=False:
+					if scan_items_index_item(token)==-1:
+						scan_item_add(filename,token,result.info,1)
 

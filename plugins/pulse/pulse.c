@@ -42,7 +42,7 @@ struct pulse pulse_config;
 
 void sim_pulse(struct simulation *sim,struct device *in)
 {
-printf("the pwd is 4: %s\n",get_output_path(sim));
+
 struct buffer buf;
 buffer_init(&buf);
 
@@ -67,7 +67,7 @@ if (find_config_file(sim,config_file_name,get_input_path(sim),in->simmode,"pulse
 	ewe(sim,"%s %s %s\n",_("no pulse config file found"),get_input_path(sim),in->simmode);
 }
 
-printf("%s\n",config_file_name);
+printf_log(sim,"%s\n",config_file_name);
 
 pulse_load_config(sim,&pulse_config,in,config_file_name);
 int number=strextract_int(config_file_name);
@@ -124,7 +124,7 @@ gdouble extracted_through_contacts=0.0;
 gdouble i0=0;
 carrier_count_reset(in);
 reset_np_save(in);
-printf("Vapplied=%Le\n",in->Vapplied);
+printf_log(sim,"Vapplied=%Le\n",in->Vapplied);
 do
 {
 
@@ -136,7 +136,7 @@ do
 	//for (i=0;i<in->ymeshpoints;i++)
 	//{
 	//	fprintf(t,"%Le %Le\n",in->ymesh[i],in->Gn[i]);
-	//	printf("%Le %Le\n",in->ymesh[i],in->Gn[i]);
+	//	printf_log(sim,"%Le %Le\n",in->ymesh[i],in->Gn[i]);
 	//}
 	//fclose(t);
 	dump_dynamic_add_data(sim,&store,in,in->time);
@@ -187,7 +187,6 @@ struct istruct out_flip;
 dump_dynamic_save(sim,get_output_path(sim),&store);
 dump_dynamic_free(sim,&store);
 
-printf("the pwd is 5: %s\n",get_output_path(sim));
 
 buffer_malloc(&buf);
 buf.y_mul=1e3;

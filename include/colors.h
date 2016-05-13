@@ -17,22 +17,27 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+#ifndef colors_h
+#define colors_h
+
+#ifdef windows
 
 
-#ifndef _log
-#define _log
-#include <sim_struct.h>
+#define fg_reset	15
+#define fg_red		12
+#define fg_green	10
+#define fg_yellow	14
+#define fg_blue		9
+#define fg_purple	13
 
-#define log_level_none 0
-#define log_level_screen 1
-#define log_level_disk 2
-#define log_level_screen_and_disk 3
+#else
+#define fg_reset	0
+#define fg_red		31
+#define fg_green	32
+#define fg_yellow	33
+#define fg_blue		34
+#define fg_purple	35
 
-void textcolor(int color);
-void set_logging_level(struct simulation *sim,int value);
-void log_clear(struct simulation *sim);
-void printf_log(struct simulation *sim, const char *format, ...);
-void waveprint(struct simulation *sim, char *in,double wavelength);
-void log_time_stamp(struct simulation *sim);
-int log_search_error(char *path);
+#endif
+
 #endif

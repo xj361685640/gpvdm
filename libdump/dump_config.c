@@ -119,8 +119,6 @@ void dump_load_config(struct simulation* sim,struct device *in)
 	dump=inp_search_english(sim,&inp,"#dump_info_text");
 	set_dump_status(sim,dump_info_text, dump);
 
-	log_clear();
-
 
 	inp_free(sim,&inp);
 

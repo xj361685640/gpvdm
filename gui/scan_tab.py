@@ -287,7 +287,12 @@ class scan_vbox(gtk.VBox):
 
 			if generate_simulations==True:
 				flat_simulation_list=[]
-				tree_gen(flat_simulation_list,program_list,base_dir,self.sim_dir)
+				if tree_gen(flat_simulation_list,program_list,base_dir,self.sim_dir)==False:
+					md = gtk.MessageDialog(None, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_WARNING,  gtk.BUTTONS_CLOSE, _("Problem generating tree."))
+					md.run()
+					md.destroy()
+					return
+
 				print "flat list",flat_simulation_list
 				tree_save_flat_list(self.sim_dir,flat_simulation_list)
 

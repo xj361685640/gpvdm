@@ -30,12 +30,13 @@
 #include <light_interface.h>
 
 #include <functions.h>
+#include <log.h>
 
 //static gdouble min_light_error=1e-10;
 
-EXPORT void light_dll_ver()
+EXPORT void light_dll_ver(struct simulation *sim)
 {
-        printf("Full transfer matrix based light model\n");
+        printf_log(sim,"Full transfer matrix based light model\n");
 }
 
 
@@ -45,8 +46,7 @@ if (get_dump_status(sim,dump_optics)==TRUE)
 {
 	char one[100];
 	sprintf(one,"Solve light optical slice at %Lf nm\n",in->l[lam]*1e9);
-	//printf("%s\n",one);
-	waveprint(one,in->l[lam]*1e9);
+	waveprint(sim,one,in->l[lam]*1e9);
 }
 int i;
 

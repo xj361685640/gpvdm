@@ -74,7 +74,9 @@ int ewe( struct simulation *sim, const char *format, ...)
 		fprintf(out,"%s",lock_data);
 		fclose(out);
 	}
-
-	raise(SIGSEGV);
+	//printf_log(sim,"Raising segmentation fault\n");
+	//raise(SIGSEGV);
 exit(1);
 }
+
+

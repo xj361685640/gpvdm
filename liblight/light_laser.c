@@ -68,7 +68,7 @@ int light_load_laser(struct simulation *sim, struct light *in,char *name)
 		inp_search_gdouble(sim,&inp,&in->pulse_width,"#laser_pulse_width");
 
 		inp_free(sim,&inp);
-		printf("Loaded laser\n");
+		printf_log(sim,"Loaded laser\n");
 	}else
 	{
 		ewe(sim,"laser name not found\n");

@@ -60,46 +60,47 @@ int main (int argc, char *argv[])
 {
 struct simulation sim;
 sim_init(&sim);
+
 int log_level=0;
 set_logging_level(&sim,log_level_screen);
 cal_path(&sim);
 
 if (scanarg( argv,argc,"--help")==TRUE)
 {
-	printf("gpvdm_core - General-purpose Photovoltaic Device Model\n");
-	printf(copyright);
-	printf("\n");
-	printf("Usage: gpvdm_core [options]\n");
-	printf("\n");
-	printf("Options:\n");
-	printf("\n");
-	printf("\t--outputpath\toutput data path");
-	printf("\t--inputpath\t sets the input path\n");
-	printf("\t--version\tdisplays the current version\n");
-	printf("\t--zip_results\t zip the results\n");
-	printf("\t--simmode\t forces a simulation mode.\n");
-	printf("\t--cpus\t sets the number of CPUs\n");
-	printf("\n");
-	printf("Additional information about gpvdm is available at www.gpvdm.com.\n");
-	printf("\n");
-	printf("Report bugs to: roderick.mackenzie@nottingham.ac.uk\n\n");
+	printf_log(&sim,"gpvdm_core - General-purpose Photovoltaic Device Model\n");
+	printf_log(&sim,copyright);
+	printf_log(&sim,"\n");
+	printf_log(&sim,"Usage: gpvdm_core [options]\n");
+	printf_log(&sim,"\n");
+	printf_log(&sim,"Options:\n");
+	printf_log(&sim,"\n");
+	printf_log(&sim,"\t--outputpath\toutput data path");
+	printf_log(&sim,"\t--inputpath\t sets the input path\n");
+	printf_log(&sim,"\t--version\tdisplays the current version\n");
+	printf_log(&sim,"\t--zip_results\t zip the results\n");
+	printf_log(&sim,"\t--simmode\t forces a simulation mode.\n");
+	printf_log(&sim,"\t--cpus\t sets the number of CPUs\n");
+	printf_log(&sim,"\n");
+	printf_log(&sim,"Additional information about gpvdm is available at www.gpvdm.com.\n");
+	printf_log(&sim,"\n");
+	printf_log(&sim,"Report bugs to: roderick.mackenzie@nottingham.ac.uk\n\n");
 	exit(0);
 }
 if (scanarg( argv,argc,"--version")==TRUE)
 {
-	printf("gpvdm_core, Version %s\n",gpvdm_ver);
-	printf(copyright);
-	printf(this_is_free_software);
-	printf("There is ABSOLUTELY NO WARRANTY; not even for MERCHANTABILITY or\n");
-	printf("FITNESS FOR A PARTICULAR PURPOSE.\n");
-	printf("\n");
+	printf_log(&sim,"gpvdm_core, Version %s\n",gpvdm_ver);
+	printf_log(&sim,copyright);
+	printf_log(&sim,this_is_free_software);
+	printf_log(&sim,"There is ABSOLUTELY NO WARRANTY; not even for MERCHANTABILITY or\n");
+	printf_log(&sim,"FITNESS FOR A PARTICULAR PURPOSE.\n");
+	printf_log(&sim,"\n");
 	exit(0);
 }
 
 
 
 //solver_test();
-//printf("rod\n");
+//printf_log(&sim,"rod\n");
 //solver_ld_test();
 //exit(0);
 setlocale(LC_MESSAGES,"");
@@ -121,6 +122,7 @@ if (getcwd(pwd,1000)==NULL)
 
 remove("snapshots.zip");
 remove("light_dump.zip");
+log_clear(&sim);
 
 hard_limit_init(&sim);
 
@@ -173,7 +175,7 @@ buffer_init(&buf);
 inp_init(&sim,&inp);
 if (inp_load_from_path(&sim,&inp,sim.input_path,"ver.inp")!=0)
 {
-	printf("can't find file %s ver.inp",sim.input_path);
+	printf_log(&sim,"can't find file %s ver.inp",sim.input_path);
 	exit(0);
 }
 inp_check(&sim,&inp,1.0);
@@ -182,7 +184,7 @@ inp_free(&sim,&inp);
 
 if (strcmp(name,gpvdm_ver)!=0)
 {
-printf("Software is version %s and the input files are version %s\n",gpvdm_ver,name);
+printf_log(&sim,"Software is version %s and the input files are version %s\n",gpvdm_ver,name);
 exit(0);
 }
 

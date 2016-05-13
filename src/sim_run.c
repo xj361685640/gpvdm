@@ -63,6 +63,9 @@ dump_load_config(sim,&cell);
 
 int i;
 
+join_path(2,temp,get_output_path(sim),"error.dat");
+remove(temp);
+
 join_path(2,temp,get_output_path(sim),"equilibrium");
 remove_dir(sim,temp);
 

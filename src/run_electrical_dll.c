@@ -32,7 +32,6 @@
 
 void run_electrical_dll(struct simulation *sim,struct device *in,char *dll_name)
 {
-printf("the pwd is 2: %s\n",get_output_path(sim));
 	void *lib_handle;
 	void (*init)();
 	void (*dll_sim_run)();
@@ -70,6 +69,6 @@ printf("the pwd is 2: %s\n",get_output_path(sim));
 		ewe(sim, "%s\n", error);
 	}
 
-printf("the pwd is 3: %s\n",get_output_path(sim));
+
 (*dll_sim_run)(sim,in);
 }

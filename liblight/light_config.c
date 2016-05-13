@@ -57,7 +57,7 @@ void light_load_epitaxy(struct simulation *sim,struct light *in,char *epi_file)
 char full_name[200];
 struct epitaxy my_epitaxy;
 join_path(2, full_name, get_input_path(sim), "epitaxy.inp");
-printf("load: %s\n",full_name);
+printf_log(sim,"load: %s\n",full_name);
 epitaxy_load(sim,&my_epitaxy,full_name);
 
 int i=0;

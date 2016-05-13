@@ -552,7 +552,7 @@ class plot_widget(gtk.VBox):
 		marker_base=["","x","o"]
 		mul=1.0
 		self.color=[]
-		for rounds in range(0,10):
+		for rounds in range(0,20):
 			for i in range(0,len(base)):
 				for n in range(0,repeat_lines):
 					c_tot.append([base[i][0]*mul,base[i][1]*mul,base[i][2]*mul])

@@ -51,4 +51,5 @@ double fit_run_sims(struct simulation *fit,struct fitvars *fitconfig);
 int fit_now(struct simulation *sim,int *oppcount);
 double fit_load_plugin(struct simulation *sim,struct fitvars *config,int i);
 void duplicate(struct simulation *sim);
+int get_fit_crashes(struct simulation *sim,struct fitvars *fitconfig);
 #endif

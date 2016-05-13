@@ -26,23 +26,9 @@
 
 #ifdef windows
 #include <windows.h>
-
-#define fg_reset	15
-#define fg_red		12
-#define fg_green	10
-#define fg_yellow	14
-#define fg_blue		9
-#define fg_purple	13
-
-#else
-#define fg_reset	0
-#define fg_red		31
-#define fg_green	32
-#define fg_yellow	33
-#define fg_blue		34
-#define fg_purple	35
-
 #endif
+
+#include <colors.h>
 
 int strcmp_begin(char * str,char *begin);
 void set_ewe_lock_file(char *lockname,char *data);
@@ -53,8 +39,6 @@ double read_value(struct simulation *sim,char *file,int skip,int line);
 int strcmp_end(char * str,char *end);
 int extract_str_number(char * in,char *cut);
 void randomprint(char *in);
-void waveprint(char *in,double wavelength);
-void textcolor(int color);
 int scanarg( char* in[],int count,char * find);
 int get_arg_plusone_pos( char* in[],int count,char * find);
 char * get_arg_plusone( char* in[],int count,char * find);

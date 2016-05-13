@@ -56,28 +56,28 @@ def scan_list_simulations(dir_to_search):
 
 def scan_list_unconverged_simulations(dir_to_search):
 	found_dirs=[]
-	for root, dirs, files in os.walk(dir_to_search):
-		for name in files:
-#			full_name=os.path.join(root, name)
-			if name=="sim.gpvdm":
-				add=True
-				fit_log=os.path.join(root,'fitlog.dat')
-				if os.path.isfile(fit_log):
-					f = open(fit_log, "r")
-					lines = f.readlines()
-					f.close()
+	sim_dirs=tree_load_flat_list(dir_to_search)
+	
+	for i in range(0,len(sim_dirs)):
+		add=True
+		fit_log=os.path.join(sim_dirs[i],'fitlog.dat')
+		if os.path.isfile(fit_log):
+			f = open(fit_log, "r")
+			lines = f.readlines()
+			f.close()
 
-					for l in range(0, len(lines)):
-						lines[l]=lines[l].rstrip()
+			for l in range(0, len(lines)):
+				lines[l]=lines[l].rstrip()
 
-					if len(lines)>4:
-						error=float(lines[len(lines)-2].split()[1])
-						if error<0.1:
-							print fit_log,error
-							add=False
+			if len(lines)>4:
+				error=float(lines[len(lines)-2].split()[1])
+				if error<0.1:
+					print fit_log,error
+					add=False
 
-				if add==True:
-					found_dirs.append(root)
+		if add==True:
+			found_dirs.append(sim_dirs[i])
+
 	return found_dirs
 
 def scan_ask_to_delete(dirs_to_del):

@@ -423,33 +423,6 @@ return ret;
 }
 
 
-void waveprint(char *in,double wavelength)
-{
-if (wavelength<400.0)
-{
-	textcolor(fg_purple);
-}else
-if (wavelength<500.0)
-{
-	textcolor(fg_blue);
-}else
-if (wavelength<575.0)
-{
-	textcolor(fg_green);
-}else
-if (wavelength<600.0)
-{
-	textcolor(fg_yellow);
-}else
-{
-	textcolor(fg_red);
-}
-
-printf("%s",in);
-textcolor(fg_reset);
-
-}
-
 
 void randomprint(char *in)
 {
@@ -466,13 +439,6 @@ void randomprint(char *in)
 		printf("%c",in[i]);
 	}
 
-}
-
-void textcolor(int color)
-{
-char command[13];
-sprintf(command, "\e[%dm", color);
-printf("%s", command);
 }
 
 FILE *fopena(char *path,char *name,const char *mode)

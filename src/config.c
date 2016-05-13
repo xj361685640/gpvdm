@@ -89,7 +89,7 @@ for (i=0;i<in->ymeshlayers;i++)
 if (fabs(in->ylen-mesh_len)>1e-14)
 {
 	mesh_remesh(sim,in);
-	printf("Warning: Length of epitaxy and computational mesh did not match, so I remesshed the device.\n");
+	printf_log(sim,"Warning: Length of epitaxy and computational mesh did not match, so I remesshed the device.\n");
 }
 
 inp_init(sim,&inp);
@@ -119,12 +119,12 @@ in->Rshort=fabs(in->Rshort);
 
 inp_search_gdouble(sim,&inp,&(in->lcharge),"#lcharge");
 in->lcharge=gfabs(in->lcharge);
+hard_limit(sim,"#lcharge",&(in->lcharge));
 
-//if (in->lcharge<1e4) in->lcharge=1e4;
 
 inp_search_gdouble(sim,&inp,&(in->rcharge),"#rcharge");
 in->rcharge=fabs(in->rcharge);
-//if (in->rcharge<1e4) in->rcharge=1e4;
+hard_limit(sim,"#rcharge",&(in->rcharge));
 
 inp_search_gdouble(sim,&inp,&(in->other_layers),"#otherlayers");
 

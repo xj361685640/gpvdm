@@ -53,7 +53,7 @@ void light_solve_optical_problem(struct simulation *sim,struct light *in)
 {
 int i;
 
-//if (get_dump_status(sim,dump_iodump)==TRUE) printf("light_solve_optical_problem\n");
+//if (get_dump_status(sim,dump_iodump)==TRUE) printf(sim,"light_solve_optical_problem\n");
 
 	gdouble Psun=in->Psun*gpow(10.0,-in->ND);
 	light_set_sun_power(in,Psun,in->laser_eff);
@@ -68,7 +68,7 @@ int i;
 			memset(in->Enz[i], 0.0, in->points*sizeof(gdouble));
 			memset(in->Epz[i], 0.0, in->points*sizeof(gdouble));
 		}
-		//printf("dark\n");
+		//printf(sim,"dark\n");
 	}else
 	{
 
@@ -123,11 +123,11 @@ for (ii=0;ii<in->points;ii++)
 		in->H[i][ii]=0.0;
 		}
 
-		//printf("%d %d %Le %Le %Le\n",i,ii,E,in->H[i][ii],in->photons_asb[i][ii]);
+		//printf(sim,"%d %d %Le %Le %Le\n",i,ii,E,in->H[i][ii],in->photons_asb[i][ii]);
 		photons_tot+=in->photons[i][ii]*in->dl;
 		tot+=in->photons_asb[i][ii]*in->dl;
 		H_tot+=in->H[i][ii]*in->dl;
-		//printf("%Le %Le\n",E,in->l[i]);
+		//printf(sim,"%Le %Le\n",E,in->l[i]);
 		//getchar();*/
 
 	}
@@ -223,8 +223,8 @@ gdouble complex n1=0.0+0.0*I;
 			in->r[i][ii]=(n0-n1)/(n0+n1);
 			in->t[i][ii]=(2.0*n0)/(n0+n1);
 
-			//printf("%Le %Le\n",cabs(in->r[i][ii]),1.0-cabs(in->r[i][ii]));
-			//printf("%Le %Le\n",cabs(in->t[i][ii]),1.0-cabs(in->t[i][ii]));
+			//printf(sim,"%Le %Le\n",cabs(in->r[i][ii]),1.0-cabs(in->r[i][ii]));
+			//printf(sim,"%Le %Le\n",cabs(in->t[i][ii]),1.0-cabs(in->t[i][ii]));
 			//getchar();
 
 		}

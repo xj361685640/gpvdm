@@ -113,12 +113,12 @@ gdouble hole_eff;
 };
 
 void light_norm_photon_density(struct light *in);
-void light_memory(struct light *in);
+void light_memory(struct simulation *sim,struct light *in);
 void light_load_materials(struct simulation *sim,struct light *in);
 gdouble light_cal_photon_density(struct light *in);
 void light_load_config(struct simulation *sim,struct light *in);
 void light_load_config_file(struct simulation *sim,struct light *in);
-void light_init_mesh(struct light *in);
+void light_init_mesh(struct simulation *sim,struct light *in);
 void light_set_sun_power(struct light *in,gdouble power, gdouble laser_eff);
 void light_free_memory(struct simulation *sim,struct light *in);
 void light_get_mode(struct istruct *mode,int lam,struct light *in);

@@ -127,8 +127,9 @@ def tree_gen(flat_simulation_list,program_list,base_dir,sim_dir):
 			tree_items[2].append(program_list[i][2])
 
 	print "tree items=",tree_items
-	tree(flat_simulation_list,program_list,tree_items,base_dir,0,sim_dir,"","")
-	return True
+	ret=tree(flat_simulation_list,program_list,tree_items,base_dir,0,sim_dir,"","")
+
+	return ret
 
 def tree_apply_mirror(program_list):
 	param_list=scan_items_get_list()
@@ -137,7 +138,11 @@ def tree_apply_mirror(program_list):
 			if program_list[i][2]==program_list[ii][0]:
 				#I have found two matching IDs
 				pos_mirror_src=scan_items_index_item(program_list[i][2])
+				if pos_mirror_src==-1:
+					return False
 				pos_mirror_dest=scan_items_index_item(program_list[i][0])
+				if pos_mirror_dest==-1:
+					return False
 				src_value=inp_get_token_value(param_list[pos_mirror_src].filename, param_list[pos_mirror_src].token)
 				#pull out of the file the value
 				if program_list[i][1]!="mirror":
@@ -147,24 +152,33 @@ def tree_apply_mirror(program_list):
 					src_value=orig_list[look_up.index(src_value.rstrip())]
 
 				inp_update_token_value(param_list[pos_mirror_dest].filename, param_list[pos_mirror_dest].token, src_value,param_list[pos_mirror_dest].line)
+	return True
 
 def tree_apply_constant(program_list):
 	param_list=scan_items_get_list()
 	for i in range(0, len(program_list)):
 		if program_list[i][2]=="constant":
 			pos_mirror_dest=scan_items_index_item(program_list[i][0])
+			if pos_mirror_dest==-1:
+				return False
 			inp_update_token_value(param_list[pos_mirror_dest].filename, param_list[pos_mirror_dest].token, program_list[i][1],param_list[pos_mirror_dest].line)
+
+	return True
 
 def tree_apply_python_script(program_list):
 	param_list=scan_items_get_list()
 	for i in range(0, len(program_list)):
 		if program_list[i][2]=="python_code":
 			pos_mirror_dest=scan_items_index_item(program_list[i][0])
+			if pos_mirror_dest==-1:
+				return False
 			ret=""
 			exec(program_list[i][1])
 			inp_update_token_value(param_list[pos_mirror_dest].filename, param_list[pos_mirror_dest].token, ret,param_list[pos_mirror_dest].line)
 			print os.getcwd()
 			print "Replace",param_list[pos_mirror_dest].filename,param_list[pos_mirror_dest].token,program_list[i][1],ret
+
+	return True
 
 def copy_simulation(base_dir,cur_dir):
 #	param_list=scan_items_get_list()
@@ -208,43 +222,53 @@ def copy_simulation(base_dir,cur_dir):
 	shutil.copy(os.path.join(base_dir, "sim.gpvdm"), cur_dir)
 
 def tree(flat_simulation_list,program_list,tree_items,base_dir,level,path,var_to_change,value_to_change):
-		param_list=scan_items_get_list()
-		print level,tree_items
-		i=tree_items[1][level]
-		words=i.split()
-		pass_var_to_change=var_to_change+" "+str(scan_items_index_item(tree_items[0][level]))
-		print pass_var_to_change
-		for ii in words:
-			cur_dir=os.path.join(path,ii)
+	param_list=scan_items_get_list()
+	print level,tree_items
+	i=tree_items[1][level]
+	words=i.split()
+	val=scan_items_index_item(tree_items[0][level])
+	if val==False:
+		return False
+	pass_var_to_change=var_to_change+" "+str(val)
+	print pass_var_to_change
+	for ii in words:
+		cur_dir=os.path.join(path,ii)
 
-			if not os.path.exists(cur_dir):
-				os.makedirs(cur_dir)
+		if not os.path.exists(cur_dir):
+			os.makedirs(cur_dir)
 
-			pass_value_to_change=value_to_change+" "+ii
+		pass_value_to_change=value_to_change+" "+ii
 
-			if ((level+1)<len(tree_items[0])):
-					tree(flat_simulation_list,program_list,tree_items,base_dir,level+1,cur_dir,pass_var_to_change,pass_value_to_change)
-			else:
-				flat_simulation_list.append(cur_dir)
-				new_values=pass_value_to_change.split()
-				pos=pass_var_to_change.split()
+		if ((level+1)<len(tree_items[0])):
+				ret=tree(flat_simulation_list,program_list,tree_items,base_dir,level+1,cur_dir,pass_var_to_change,pass_value_to_change)
+				if ret==False:
+					return False
+		else:
+			flat_simulation_list.append(cur_dir)
+			new_values=pass_value_to_change.split()
+			pos=pass_var_to_change.split()
 
-				config_file=os.path.join(cur_dir,"sim.gpvdm")
-				if os.path.isfile(config_file)==False:	#Don't build a simulation over something that exists already
-					copy_simulation(base_dir,cur_dir)
+			config_file=os.path.join(cur_dir,"sim.gpvdm")
+			if os.path.isfile(config_file)==False:	#Don't build a simulation over something that exists already
+				copy_simulation(base_dir,cur_dir)
 
-					os.chdir(cur_dir)
+				os.chdir(cur_dir)
 
-					for i in range(0, len(pos)):
-						inp_update_token_value(param_list[int(pos[i])].filename, param_list[int(pos[i])].token, new_values[i],param_list[int(pos[i])].line)
+				for i in range(0, len(pos)):
+					inp_update_token_value(param_list[int(pos[i])].filename, param_list[int(pos[i])].token, new_values[i],param_list[int(pos[i])].line)
 
-					tree_apply_constant(program_list)
-					tree_apply_python_script(program_list)
-					tree_apply_mirror(program_list)
+				if tree_apply_constant(program_list)==False:
+					return False
 
-					inp_update_token_value("dump.inp", "#plot", "0",1)
+				if tree_apply_python_script(program_list)==False:
+					return False
 
-			if level==0:
-				f = open(os.path.join(cur_dir,'scan.inp'),'w')
-				f.write("data")
-				f.close()
+				tree_apply_mirror(program_list)
+
+				inp_update_token_value("dump.inp", "#plot", "0",1)
+
+		if level==0:
+			f = open(os.path.join(cur_dir,'scan.inp'),'w')
+			f.write("data")
+			f.close()
+	return True

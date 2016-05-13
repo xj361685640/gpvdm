@@ -81,7 +81,7 @@ void server_shut_down(struct simulation *sim,struct server_struct *myserver)
 
 void server_send_finished_to_gui(struct simulation *sim)
 {
-printf("finished signal=%s\n",sim->server.dbus_finish_signal);
+printf_log(sim,"finished signal=%s\n",sim->server.dbus_finish_signal);
 if (strcmp(sim->server.dbus_finish_signal,"")!=0)
 {
 	gui_send_data(sim->server.dbus_finish_signal);

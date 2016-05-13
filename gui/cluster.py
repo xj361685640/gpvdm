@@ -146,6 +146,55 @@ class cluster:
 
 		self.send_command(header)
 
+#	def sync_dir(self,path,target):
+#		count=0
+#		banned=[]
+#		sums=""
+#		for root, dirs, files in os.walk(path):
+#			for name in files:
+#				fname=os.path.join(root, name)
+
+#				f = open(fname, 'rb')   
+#				bytes = f.read()
+#				size=len(bytes)
+#				f.close()
+
+#				m = hashlib.md5()
+#				m.update(bytes)
+#				key_hash=m.digest()
+
+#				sums=sums+fname+"\n"+key_hash+"\n"
+
+#				expand=((int(size)/int(512))+1)*512-size
+#				bytes+= "\0" * expand
+
+				#build header
+#				tx_name= os.path.normpath(fname[len(path):])
+
+				#don't send strings starting in /
+#				start=0
+#				for i in range(0,len(tx_name)):
+#					if tx_name[i]=='\\':
+#						start=start+1
+#					else:
+#						break
+#				tx_name= tx_name[start:]
+
+#				buf=bytearray(512)
+#				if target=="":
+#					target=path
+
+
+#				header="gpvdmfile\n#file_name\n"+tx_name+"\n#file_size\n"+str(size)+"\n#target\n"+target+"\n#stat\n"+str(stat)+"\n#end"
+#				for i in range(0,len(header)):
+#					buf[i]=header[i]
+
+#				buf=buf+bytes
+#				buf=encrypt(buf)
+#				self.socket.sendall(buf)
+#				count=count+1
+
+#		print "total=",count
 
 	def send_dir(self,path,target):
 		count=0

@@ -27,10 +27,11 @@
 #include <light_interface.h>
 
 #include <functions.h>
+#include <log.h>
 
-EXPORT void light_dll_ver()
+EXPORT void light_dll_ver(struct simulation *sim)
 {
-        printf("Flat light model\n");
+        printf_log(sim,"Flat light model\n");
 }
 
 EXPORT int light_dll_solve_lam_slice(struct simulation *sim,struct light *in,int lam)
@@ -40,7 +41,7 @@ if (get_dump_status(sim,dump_optics)==TRUE)
 	char one[100];
 	sprintf(one,"Solve light optical slice at %Lf nm\n",in->l[lam]*1e9);
 	//printf("%s\n",one);
-	waveprint(one,in->l[lam]*1e9);
+	waveprint(sim,one,in->l[lam]*1e9);
 }
 
 int i;

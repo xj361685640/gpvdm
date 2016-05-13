@@ -42,7 +42,7 @@ static int unused __attribute__((unused));
 
 void light_load_materials(struct simulation *sim,struct light *in)
 {
-printf("load: materials");
+printf_log(sim,"load: materials");
 int i=0;
 char fit_file[1000];
 char file_path[400];
@@ -121,7 +121,7 @@ for (i=0;i<in->layers;i++)
 
 	join_path(3,file_path,get_materials_path(sim),in->material_dir_name[i],"n.omat");
 	inter_load(&(in->mat_n[i]),file_path);
-	//printf("%s\n",file_path);
+	//printf_log(sim,"%s\n",file_path);
 	//inter_dump(&in->mat_n[i]);
 	//getchar();
 
@@ -204,7 +204,7 @@ for (i=0;i<in->layers;i++)
 					{
 							add=(c-subtract)*exp(-gpow(((in->mat_n[i].x[ii]-a)/(sqrt(2.0)*b)),2.0));
 							in->mat_n[i].data[ii]+=add;
-							//printf("add=%le\n",add);
+							//printf_log(sim,"add=%le\n",add);
 					}
 				}else
 				if (strcmp(type,"gaus_math")==0)
@@ -216,7 +216,7 @@ for (i=0;i<in->layers;i++)
 					{
 							add=c*exp(-gpow(((in->mat_n[i].x[ii]-a)/(sqrt(2.0)*b)),2.0));
 							in->mat_n[i].data[ii]+=add;
-							//printf("add=%Le %Le\n",add,c);
+							//printf_log(sim,"add=%Le %Le\n",add,c);
 					}
 				}
 		}while(!feof(patch_in));

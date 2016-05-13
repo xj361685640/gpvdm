@@ -254,9 +254,8 @@ lib.append(my_data("#voc_J_to_Jr","au","Ratio of conduction current to recombina
 lib.append(my_data("#voc_i","au","Current",["text"],"e",1.0))
 lib.append(my_data("#kl_in_newton","1/0","KCL in Newton solver",["1","0"],"e",1.0))
 
-lib.append(my_data("#do_fit","1/0","Do fit",["1","0"],"e",1.0))
 lib.append(my_data("#simplexmul","au","simplex mull",["text"],"e",1.0))
-lib.append(my_data("#reset","au","Reset steps",["text"],"e",1.0))
+lib.append(my_data("#simplex_reset","au","Reset steps",["text"],"e",1.0))
 
 lib.append(my_data("#max_nfree_to_ptrap","m^{-3}s^{-1}","nfree_to_ptrap",["text"],"e",1.0))
 lib.append(my_data("#max_pfree_to_ntrap","m^{-3}s^{-1}","max_pfree_to_ntrap",["text"],"e",1.0))
