@@ -162,6 +162,13 @@ class hpc_class(gtk.Window):
 		self.myserver.cluster_quit()
 		self.cluster_gui_update()
 
+	def callback_cluster_sync(self, widget, data=None):
+		self.myserver.copy_src_to_cluster_fast()
+
+
+	def callback_cluster_jobs(self, widget, data=None):
+		self.myserver.cluster_list_jobs()
+
 	def callback_cluster_sleep(self,widget,data):
 		self.myserver.sleep()
 
@@ -191,6 +198,8 @@ class hpc_class(gtk.Window):
 			self.cluster_get_info.set_sensitive(True)
 			self.cluster_get_data.set_sensitive(True)
 			self.cluster_off.set_sensitive(True)
+			self.cluster_sync.set_sensitive(True)
+			self.cluster_jobs.set_sensitive(True)
 		else:
 			self.cluster_button.set_stock_id(gtk.STOCK_CONNECT)
 			self.cluster_clean.set_sensitive(False)
@@ -199,7 +208,8 @@ class hpc_class(gtk.Window):
 			self.cluster_get_info.set_sensitive(False)
 			self.cluster_get_data.set_sensitive(False)
 			self.cluster_off.set_sensitive(False)
-
+			self.cluster_sync.set_sensitive(False)
+			self.cluster_jobs.set_sensitive(False)
 
 	def callback_close_window(self, widget, event, data=None):
 		self.win_list.update(self,"hpc_window")
@@ -278,6 +288,24 @@ class hpc_class(gtk.Window):
 		self.cluster_off.set_sensitive(False)
 		toolbar.insert(self.cluster_off, -1)
 		self.cluster_off.show()
+
+		image = gtk.Image()
+   		image.set_from_file(os.path.join(get_image_file_path(),"sync.png"))
+		self.cluster_sync = gtk.ToolButton(image)
+		self.cluster_sync.connect("clicked", self.callback_cluster_sync)
+		self.tooltips.set_tip(self.cluster_sync, _("Sync"))
+		self.cluster_sync.set_sensitive(False)
+		toolbar.insert(self.cluster_sync, -1)
+		self.cluster_sync.show()
+
+		image = gtk.Image()
+   		image.set_from_file(os.path.join(get_image_file_path(),"server_jobs.png"))
+		self.cluster_jobs = gtk.ToolButton(image)
+		self.cluster_jobs.connect("clicked", self.callback_cluster_jobs)
+		self.tooltips.set_tip(self.cluster_jobs, _("Sync"))
+		self.cluster_jobs.set_sensitive(False)
+		toolbar.insert(self.cluster_jobs, -1)
+		self.cluster_jobs.show()
 
 		vbox_r=gtk.VBox(False, 2)
 		vbox_r.show()

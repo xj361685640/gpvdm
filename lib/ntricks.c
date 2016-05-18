@@ -68,7 +68,7 @@ do
 	sim_externalv(sim,in,V);
 
 	plot_now(sim,"jv.plot");
-	gui_send_data("pulse");
+	gui_send_data(sim,"pulse");
 
 	if (fabs(in->Vapplied-to)<fabs(dV))
 	{

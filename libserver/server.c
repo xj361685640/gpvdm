@@ -84,7 +84,7 @@ void server_send_finished_to_gui(struct simulation *sim)
 printf_log(sim,"finished signal=%s\n",sim->server.dbus_finish_signal);
 if (strcmp(sim->server.dbus_finish_signal,"")!=0)
 {
-	gui_send_data(sim->server.dbus_finish_signal);
+	gui_send_data(sim,sim->server.dbus_finish_signal);
 }
 }
 

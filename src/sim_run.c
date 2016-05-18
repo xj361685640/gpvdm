@@ -39,6 +39,7 @@
 int run_simulation(struct simulation *sim)
 {
 struct device cell;
+log_clear(sim);
 
 printf_log(sim,_("Run_simulation\n"));
 
@@ -230,7 +231,6 @@ if (strcmp(cell.simmode,"opticalmodel@optics")!=0)
 	}
 	solver_free_memory(sim,&cell);
 
-	solver_interface_free(sim);
 	newton_interface_free(sim);
 	light_free(sim,&cell.mylight);
 }

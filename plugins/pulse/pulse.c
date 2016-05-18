@@ -168,7 +168,7 @@ do
 	}
 
 	ittr++;
-	gui_send_data("pulse");
+	gui_send_data(sim,"pulse");
 	dump_write_to_disk(sim,in);
 	plot_now(sim,"pulse.plot");
 	inter_append(&out_i,in->time,i0);

@@ -71,4 +71,7 @@ void run_electrical_dll(struct simulation *sim,struct device *in,char *dll_name)
 
 
 (*dll_sim_run)(sim,in);
+
+	dlclose(lib_handle);
+
 }

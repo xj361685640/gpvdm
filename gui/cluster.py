@@ -53,13 +53,34 @@ from stat import *
 from encrypt import encrypt
 from encrypt import decrypt
 from encrypt import encrypt_load
+import hashlib
 import i18n
 _ = i18n.language.gettext
+
+def strip_slash(tx_name):
+	start=0
+	for i in range(0,len(tx_name)):
+		if tx_name[i]=='\\' or tx_name[i]=='/':
+			start=start+1
+		else:
+			break
+
+	return tx_name[start:]
 
 class node:
 	ip=""
 	load=""
 	cpus=""
+
+class tx_struct:
+	id=0
+	src=""
+	file_name=""
+	size=0
+	target=""
+	stat=0
+	compressed=False
+	data=""
 
 class cluster:
 	def cluster_init(self):
@@ -146,110 +167,119 @@ class cluster:
 
 		self.send_command(header)
 
-#	def sync_dir(self,path,target):
-#		count=0
-#		banned=[]
-#		sums=""
-#		for root, dirs, files in os.walk(path):
-#			for name in files:
-#				fname=os.path.join(root, name)
-
-#				f = open(fname, 'rb')   
-#				bytes = f.read()
-#				size=len(bytes)
-#				f.close()
-
-#				m = hashlib.md5()
-#				m.update(bytes)
-#				key_hash=m.digest()
-
-#				sums=sums+fname+"\n"+key_hash+"\n"
-
-#				expand=((int(size)/int(512))+1)*512-size
-#				bytes+= "\0" * expand
-
-				#build header
-#				tx_name= os.path.normpath(fname[len(path):])
-
-				#don't send strings starting in /
-#				start=0
-#				for i in range(0,len(tx_name)):
-#					if tx_name[i]=='\\':
-#						start=start+1
-#					else:
-#						break
-#				tx_name= tx_name[start:]
-
-#				buf=bytearray(512)
-#				if target=="":
-#					target=path
-
-
-#				header="gpvdmfile\n#file_name\n"+tx_name+"\n#file_size\n"+str(size)+"\n#target\n"+target+"\n#stat\n"+str(stat)+"\n#end"
-#				for i in range(0,len(header)):
-#					buf[i]=header[i]
-
-#				buf=buf+bytes
-#				buf=encrypt(buf)
-#				self.socket.sendall(buf)
-#				count=count+1
-
-#		print "total=",count
-
-	def send_dir(self,path,target):
+	def sync_dir(self,path,target):
 		count=0
 		banned=[]
+		sums=""
+
+		files=self.gen_dir_list(path)
+		for fname in files:
+			f = open(fname, 'rb')   
+			bytes = f.read()
+			size=len(bytes)
+			f.close()
+
+			m = hashlib.md5()
+			m.update(bytes)
+			bin=m.digest()
+			key_hash=""
+			for i in range(0,m.digest_size):
+				key_hash=key_hash+format(ord(bin[i]), '02x')
+			sums=sums+fname+"\n"+key_hash+"\n"
+
+
+		sums=sums[0:len(sums)-1]
+		#print "sending",sums
+		size=len(sums)
+
+		tx_size=((int(size)/int(512))+1)*512
+
+
+		data=bytearray(tx_size)
+		for i in range(0,size):
+			data[i]=sums[i]
+
+		
+		head="gpvdm_sync_packet_one\n#size\n"+str(size)+"\n#target\n"+target+"\n#src\n"+path+"\n#end"
+
+		start_len=len(head)
+
+		head_buf=bytearray(512)
+		for i in range(0,len(head)):
+			head_buf[i]=head[i]
+
+		buf=head_buf+data
+
+		buf=encrypt(buf)
+		self.socket.sendall(buf)
+
+
+	def gen_dir_list(self,path):
+
+		file_list=[]
+
 		for root, dirs, files in os.walk(path):
-			tx=True
-
 			for name in files:
-				if name=="flat_list.inp":
-					banned.append(root)
 
-			for i in range(0,len(banned)):
-				if root.startswith(banned[i]):
+				fname=os.path.join(root, name)
+
+				tx=True
+
+				if name.count("snapshots")>0:
 					tx=False
-					break
 
-			if tx==True:
-				for name in files:
-					fname=os.path.join(root, name)
-					stat=os.stat(fname)[ST_MODE]
+				if name.endswith(".pdf") or name.endswith(".png") or name.endswith(".dll"):
+					tx=False
 
-					print fname
-					f = open(fname, 'rb')   
-					bytes = f.read()
-					size=len(bytes)
-					f.close()
+				if tx==True:
+					fname=fname[len(path):]
 
-					expand=((int(size)/int(512))+1)*512-size
-					bytes+= "\0" * expand
+					fname=strip_slash(fname)
+					file_list.append(fname)
 
-					#build header
-					tx_name= os.path.normpath(fname[len(path):])
+		#print file_list
+		return file_list
 
-					#don't send strings starting in /
-					start=0
-					for i in range(0,len(tx_name)):
-						if tx_name[i]=='\\':
-							start=start+1
-						else:
-							break
-					tx_name= tx_name[start:]
+	def send_dir(self,src,target):
+		print "Sending dir",src,target
+		files=self.gen_dir_list(src)
+		self.send_files(target,src,files)
 
-					buf=bytearray(512)
-					if target=="":
-						target=path
+	def send_files(self,target,src,files):
+		count=0
+		banned=[]
+
+		for fname in files:
+			full_path=os.path.normpath(os.path.join(src,fname))
+
+			stat=os.stat(full_path)[ST_MODE]
+			#print full_path
+			f = open(full_path, 'rb')   
+			bytes = f.read()
+			size=len(bytes)
+			f.close()
+
+			expand=((int(size)/int(512))+1)*512-size
+			bytes+= "\0" * expand
 
 
-					header="gpvdmfile\n#file_name\n"+tx_name+"\n#file_size\n"+str(size)+"\n#target\n"+target+"\n#stat\n"+str(stat)+"\n#end"
-					for i in range(0,len(header)):
-						buf[i]=header[i]
+			#don't send strings starting in /
+			tx_name=strip_slash(fname)
 
-					buf=buf+bytes
-					buf=encrypt(buf)
-					self.socket.sendall(buf)
-					count=count+1
+			buf=bytearray(512)
+			if target=="":
+				target=src
+
+			#print "tx_name=",tx_name
+			header="gpvdmfile\n#file_name\n"+tx_name+"\n#file_size\n"+str(size)+"\n#target\n"+target+"\n#stat\n"+str(stat)+"\n#end"
+			for i in range(0,len(header)):
+				buf[i]=header[i]
+
+			buf=buf+bytes
+			buf=encrypt(buf)
+			self.socket.sendall(buf)
+			count=count+1
+			print "sending",full_path
 		print "total=",count
 
 	def process_node_list(self,data):
@@ -260,7 +290,53 @@ class cluster:
 			self.nodes.append(data[i].split(":"))
 		print self.nodes
 
+	def process_job_list(self,data):
+		ret=self.rx_packet(data)
+		print ret.data
+
+	def process_sync_packet_two(self,data):
+		lines=data.split("\n")
+		target=inp_search_token_value(lines, "#target")
+		src=inp_search_token_value(lines, "#src")
+		size=int(inp_search_token_value(lines, "#size"))
+
+		packet_len=int(int(size)/int(512)+1)*512
+		data = self.recvall(packet_len)
+		data = data[0:size]
+		lines=data.split("\n")
+		pos=0
+		copy_list=[]
+		#print lines
+		for i in range(0,len(lines)):
+			fname=lines[pos]
+			pos=pos+1
+			if fname!="":
+				copy_list.append(fname)
+
+		self.send_files(target,src,copy_list)
+
+	def process_sync_packet_one(self,data):
+		print data
+
+
+	def rx_packet(self,data):
+		ret=tx_struct()
+
+		lines=data.split("\n")
+		ret.file_name=inp_search_token_value(lines, "#file_name")
+		ret.size=int(inp_search_token_value(lines, "#file_size"))
+		ret.target=inp_search_token_value(lines, "#target")
+
+
+		if ret.size!=0:
+			packet_len=int(int(ret.size)/int(512)+1)*512
+			ret.data = self.recvall(packet_len)
+			ret.data=ret.data[0:ret.size]
+
+		return ret
+
 	def rx_file(self,data):
+		print data
 		pwd=os.getcwd()
 		lines=data.split("\n")
 		name=inp_search_token_value(lines, "#file_name")
@@ -269,24 +345,28 @@ class cluster:
 		#print target,name
 		target=target+name
 
-		packet_len=int(int(size)/int(512)+1)*512
-		data = self.recvall(packet_len)
+		if size!=0:
+			packet_len=int(int(size)/int(512)+1)*512
+			data = self.recvall(packet_len)
 
-		if target.startswith(pwd):
-			print "write to",target,len(data),packet_len
-			if len(data)!=packet_len:
-				print "packet mismatch",len(data),packet_len
+			if target.startswith(pwd):
+				print "write to",target,len(data),packet_len
+				if len(data)!=packet_len:
+					print "packet mismatch",len(data),packet_len
 
-			my_dir=os.path.dirname(target)
+				my_dir=os.path.dirname(target)
 
-			if os.path.isdir(my_dir)==False:
-				os.makedirs(my_dir)
+				if os.path.isdir(my_dir)==False:
+					os.makedirs(my_dir)
 
-			f = open(target, "wb")
-			f.write(data[0:size])
-			f.close()
+				f = open(target, "wb")
+				f.write(data[0:size])
+				f.close()
+			else:
+				print "not writing target",pwd,target
 		else:
-			print "not writing target",pwd,target
+				f = open(target, "wb")
+				f.close()
 
 
 	def send_command(self,header):
@@ -296,6 +376,13 @@ class cluster:
 		buf=encrypt(buf)
 		self.socket.sendall(buf)
 
+	def copy_src_to_cluster_fast(self):
+		if self.cluster==True:
+			path=inp_get_token_value("server.inp","#path_to_src")
+			self.sync_dir(path,"src")
+			path=inp_get_token_value("server.inp","#path_to_libs")
+			self.sync_dir(path,"src")
+		
 	def copy_src_to_cluster(self):
 		if self.cluster==True:
 			path=inp_get_token_value("server.inp","#path_to_src")
@@ -365,6 +452,10 @@ class cluster:
 	def cluster_clean(self):
 		self.send_command("gpvdm_master_clean\n")
 
+
+	def cluster_list_jobs(self):
+		self.send_command("gpvdm_send_job_list\n")
+
 	def listen(self):
 		#print "thread !!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
 		self.running=True
@@ -405,6 +496,18 @@ class cluster:
 
 			if data.startswith("gpvdmnodelist"):
 				self.process_node_list(data)
+				understood=True
+
+			if data.startswith("gpvdm_sync_packet_two"):
+				self.process_sync_packet_two(data)
+				understood=True
+
+			if data.startswith("gpvdm_sync_packet_one"):
+				self.process_sync_packet_one(data)
+				understood=True
+
+			if data.startswith("gpvdm_job_list"):
+				self.process_job_list(data)
 				understood=True
 
 			if understood==False:

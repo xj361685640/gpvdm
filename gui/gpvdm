@@ -673,13 +673,6 @@ class gpvdm_main_window(gobject.GObject):
 			l.pop()
 
 
-	def callback_make(self, widget, data=None):
-		cmd = 'make clean'
-		os.system(cmd)
-
-		cmd = 'make'
-		os.system(cmd)
-
 	def get_main_menu(self, window):
 		accel_group = gtk.AccelGroup()
 

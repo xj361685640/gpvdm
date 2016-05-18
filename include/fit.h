@@ -39,6 +39,7 @@ int randomize;
 int random_reset_time;
 double disable_reset_at;
 double converge_error;
+int enable_simple_reset;
 };
 
 int fit_simplex(struct simulation *sim,int *oppcount);

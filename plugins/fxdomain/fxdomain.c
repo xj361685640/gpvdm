@@ -182,12 +182,12 @@ do
 		dump_dynamic_add_data(sim,&store,in,in->time);
 
 		sprintf(send_data,"percent:%Lf",(gdouble)(cur_total_step)/(gdouble)(total_steps));
-		gui_send_data(send_data);
+		gui_send_data(sim,send_data);
 
 		char temp[200];
 		fx_with_units(temp,fx);
 		sprintf(send_data,"text:%s",temp);
-		gui_send_data(send_data);
+		gui_send_data(sim,send_data);
 
 
 		cur_total_step++;

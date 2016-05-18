@@ -449,21 +449,29 @@ if (f!=NULL)
 			struct zip_file *f = zip_fopen(z, file_name, 0);
 			if (f==NULL)
 			{
+				free(buf);
+				zip_close(z);
 				return -1;
 			}
 
 			ret=zip_fread(f, *buf, st.size);
 			if (ret==-1)
 			{
+				free(buf);
+				zip_fclose(f);
+				zip_close(z);
 				return -1;
 			}
+
 			zip_fclose(f);
 			(*buf)[*len]=0;
 		}else
 		{
 			//printf("can't find rod");
+			zip_close(z);
 		 	return -1;
 		}
+
 		zip_close(z);
 
 		return 0;

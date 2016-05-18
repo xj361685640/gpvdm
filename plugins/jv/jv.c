@@ -136,7 +136,7 @@ gdouble n_pmax=0.0;
 
 		Vexternal=get_equiv_V(in);
 
-		gui_send_data("pulse");
+		gui_send_data(sim,"pulse");
 
 		if (ittr>0)
 		{

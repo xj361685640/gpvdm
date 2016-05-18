@@ -80,6 +80,8 @@ struct simulation
 	double last_total_error;
 
 	struct server_struct server;
+
+	int gui;
 };
 
 #endif

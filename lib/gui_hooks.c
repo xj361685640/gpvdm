@@ -24,6 +24,7 @@
 #include <sys/time.h>
 #include <gui_hooks.h>
 #include <util.h>
+#include <const.h>
 
 #ifdef dbus
 	#include <dbus/dbus.h>
@@ -32,62 +33,63 @@
 
 struct timeval last_time;
 
-int gui_send_data (char *tx_data_in)
+int gui_send_data (struct simulation *sim,char *tx_data_in)
 {
-
-
-if ((strcmp_begin(tx_data_in,"pulse")==0)||(strcmp_begin(tx_data_in,"percent")==0))
+if (sim->gui==TRUE)
 {
-	struct timeval mytime;
-	struct timeval result;
-
-	gettimeofday (&mytime, NULL);
-
-	timersub(&mytime,&last_time,&result);
-	double diff=result.tv_sec + result.tv_usec/1000000.0;
-
-	if (diff<0.08)
+	if ((strcmp_begin(tx_data_in,"pulse")==0)||(strcmp_begin(tx_data_in,"percent")==0))
 	{
-		return 0;
+		struct timeval mytime;
+		struct timeval result;
+
+		gettimeofday (&mytime, NULL);
+
+		timersub(&mytime,&last_time,&result);
+		double diff=result.tv_sec + result.tv_usec/1000000.0;
+
+		if (diff<0.08)
+		{
+			return 0;
+		}
+
+		last_time.tv_sec=mytime.tv_sec;
+		last_time.tv_usec=mytime.tv_usec;
+
 	}
 
-	last_time.tv_sec=mytime.tv_sec;
-	last_time.tv_usec=mytime.tv_usec;
 
+
+		char tx_data[1024];
+		char temp[1024];
+		string_to_hex(temp,tx_data_in);
+		sprintf(tx_data,"hex%s",temp);
+
+		#ifdef dbus
+		DBusConnection *connection;
+		DBusError error;
+		dbus_error_init (&error);
+		connection = dbus_bus_get (DBUS_BUS_SESSION, &error);
+
+
+		if (!connection)
+		{
+			printf ("Failed to connect to the D-BUS daemon: %s", error.message);
+			dbus_error_free (&error);
+			return 1;
+		}
+
+		DBusMessage *message;
+		message = dbus_message_new_signal ("/org/my/test","org.my.gpvdm",tx_data);
+		/* Send the signal */
+		dbus_connection_send (connection, message, NULL);
+		dbus_connection_flush(connection);
+		dbus_message_unref (message);
+		//dbus_connection_close(connection);
+		#endif
+
+
+	gettimeofday (&last_time, NULL);
 }
-
-
-
-	char tx_data[1024];
-	char temp[1024];
-	string_to_hex(temp,tx_data_in);
-	sprintf(tx_data,"hex%s",temp);
-
-	#ifdef dbus
-	DBusConnection *connection;
-	DBusError error;
-	dbus_error_init (&error);
-	connection = dbus_bus_get (DBUS_BUS_SESSION, &error);
-
-
-	if (!connection)
-	{
-		printf ("Failed to connect to the D-BUS daemon: %s", error.message);
-		dbus_error_free (&error);
-		return 1;
-	}
-
-	DBusMessage *message;
-	message = dbus_message_new_signal ("/org/my/test","org.my.gpvdm",tx_data);
-	/* Send the signal */
-	dbus_connection_send (connection, message, NULL);
-	dbus_connection_flush(connection);
-	dbus_message_unref (message);
-	//dbus_connection_close(connection);
-	#endif
-
-
-gettimeofday (&last_time, NULL);
 return 0;
 }
 
@@ -98,9 +100,9 @@ last_time.tv_usec=0;
 return 0;
 }
 
-void gui_start()
+void gui_start(struct simulation *sim)
 {
 	gettimeofday (&last_time, NULL);
-	gui_send_data("start");
+	gui_send_data(sim,"start");
 }
 

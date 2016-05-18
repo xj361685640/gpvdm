@@ -51,6 +51,7 @@
 #include <advmath.h>
 #include <plot.h>
 #include <buffer.h>
+#include <assert.h>
 
 static int unused __attribute__((unused));
 
@@ -60,6 +61,10 @@ int main (int argc, char *argv[])
 {
 struct simulation sim;
 sim_init(&sim);
+if (scanarg( argv,argc,"--gui")==TRUE)
+{
+	sim.gui=TRUE;
+}
 
 int log_level=0;
 set_logging_level(&sim,log_level_screen);
@@ -122,7 +127,6 @@ if (getcwd(pwd,1000)==NULL)
 
 remove("snapshots.zip");
 remove("light_dump.zip");
-log_clear(&sim);
 
 hard_limit_init(&sim);
 
@@ -188,7 +192,12 @@ printf_log(&sim,"Software is version %s and the input files are version %s\n",gp
 exit(0);
 }
 
-gui_start();
+if (scanarg( argv,argc,"--gui")==TRUE)
+{
+	sim.gui=TRUE;
+}
+
+gui_start(&sim);
 server_init(&sim);
 
 if (scanarg( argv,argc,"--lock")==TRUE)

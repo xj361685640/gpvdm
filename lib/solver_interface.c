@@ -49,7 +49,7 @@ join_path(2,lib_path,get_plugins_path(sim),lib_name);
 char *error;
 
 	sim->dll_matrix_handle = dlopen(lib_path, RTLD_LAZY);
-
+	printf("ALLOC=%p\n",sim->dll_matrix_handle);
 	if (!sim->dll_matrix_handle)
 	{
 		ewe(sim, "%s\n", dlerror());
@@ -102,9 +102,12 @@ int i;
 void solver_free(struct simulation *sim)
 {
 (*sim->dll_matrix_solver_free)(sim);
+
+printf("DEALLOC=%p\n",sim->dll_matrix_handle);
+
+if (dlclose(sim->dll_matrix_handle)!=0)
+{
+	printf("Error closing dll\n");
+}
 }
 
-void solver_interface_free(struct simulation *sim)
-{
-dlclose(sim->dll_matrix_handle);
-}
