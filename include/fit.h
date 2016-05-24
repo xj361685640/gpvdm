@@ -23,6 +23,14 @@
 #include <advmath.h>
 #include <sim_struct.h>
 
+#ifndef windows
+	#include <gsl/gsl_multimin.h>
+#endif
+
+#define FIT_RUN 0
+#define FIT_FINISH 1
+#define FIT_RESET 2
+
 struct fitvars
 {
 int fit_enabled[10];
@@ -36,21 +44,29 @@ char fit_file[200][100];
 char fit_token[200][100];
 char fit_plugin[200][100];
 int randomize;
-int random_reset_time;
+int random_reset_ittr;
 double disable_reset_at;
 double converge_error;
 int enable_simple_reset;
+double constraints_error[100];
+int n_constraints;
+int iterations;
+int sub_iterations;
+
 };
 
-int fit_simplex(struct simulation *sim,int *oppcount);
-int fit_newton(struct simulation *sim,int *oppcount);
+int fit_simplex(struct simulation *sim,struct fitvars *fitconfig);
 void fit_build_jobs(struct simulation *sim,struct fitvars *fitconfig);
 double get_all_error(struct simulation *sim,struct fitvars *myfit);
 double get_constraints_error(struct simulation *sim,struct fitvars *config);
 int fit_read_config(struct simulation *sim,struct fitvars *fitconfig);
 double fit_run_sims(struct simulation *fit,struct fitvars *fitconfig);
-int fit_now(struct simulation *sim,int *oppcount);
+int fit_now(struct simulation *sim,struct fitvars *fitconfig);
 double fit_load_plugin(struct simulation *sim,struct fitvars *config,int i);
 void duplicate(struct simulation *sim);
 int get_fit_crashes(struct simulation *sim,struct fitvars *fitconfig);
+void fit_dump_log(struct simulation *sim,struct fitvars *fitconfig,double error,double size,gsl_vector *old_vector,gsl_vector *old_shift,gsl_vector *ss,gsl_vector *x);
+void fit_init(struct fitvars *fitconfig);
+void my_f_set_globals(struct simulation *sim, struct fitvars *config);
+double my_f (const gsl_vector *v, void *params);
 #endif

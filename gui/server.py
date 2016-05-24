@@ -164,10 +164,8 @@ class server(cluster):
 		print ">>>>>>>>>>>>>>>>>>>>>>>>>",self.cluster
 
 		if self.cluster==True:
-			exe_name=inp_get_token_value("server.inp","#exe_name")
-			header="gpvdmrunjobs\n#exe_name\n"+exe_name+"\n#end"
+			self.cluster_run_jobs()
 
-			self.send_command(header)
 
 		else:
 			if (len(self.jobs)==0):

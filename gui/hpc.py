@@ -75,13 +75,13 @@ class hpc_class(gtk.Window):
 		self.myserver.copy_src_to_cluster()
 
 	def on_changed(self, widget):
-		packet="gpvdmsetmaxloads"
+		ip=[]
+		loads=[]
+
 		for i in range(0,len(self.slider)):
-			ip = self.ip[i]
-			max_cpus = self.slider[i].get_value()
-			packet=packet+"\n"+ip+"\n"+str(max_cpus)
-		print packet
-		self.myserver.send_command(packet)
+			ip.append(self.ip[i])
+			loads.append(self.slider[i].get_value())
+		self.myserver.set_cluster_loads(ip,loads)
 
 	def callback_cluster_get_info(self, widget, data=None):
 		self.myserver.cluster_get_info()
@@ -155,6 +155,9 @@ class hpc_class(gtk.Window):
 	def callback_cluster_make(self, widget, data=None):
 		self.myserver.cluster_make()
 
+	def callback_cluster_stop(self, widget, data=None):
+		self.myserver.killall()
+
 	def callback_cluster_clean(self, widget, data=None):
 		self.myserver.cluster_clean()
 
@@ -200,6 +203,7 @@ class hpc_class(gtk.Window):
 			self.cluster_off.set_sensitive(True)
 			self.cluster_sync.set_sensitive(True)
 			self.cluster_jobs.set_sensitive(True)
+			self.cluster_stop.set_sensitive(True)
 		else:
 			self.cluster_button.set_stock_id(gtk.STOCK_CONNECT)
 			self.cluster_clean.set_sensitive(False)
@@ -210,6 +214,8 @@ class hpc_class(gtk.Window):
 			self.cluster_off.set_sensitive(False)
 			self.cluster_sync.set_sensitive(False)
 			self.cluster_jobs.set_sensitive(False)
+			self.cluster_stop.set_sensitive(False)
+
 
 	def callback_close_window(self, widget, event, data=None):
 		self.win_list.update(self,"hpc_window")
@@ -297,6 +303,15 @@ class hpc_class(gtk.Window):
 		self.cluster_sync.set_sensitive(False)
 		toolbar.insert(self.cluster_sync, -1)
 		self.cluster_sync.show()
+
+		image = gtk.Image()
+   		image.set_from_file(os.path.join(get_image_file_path(),"pause.png"))
+		self.cluster_stop = gtk.ToolButton(image)
+		self.cluster_stop.connect("clicked", self.callback_cluster_stop)
+		self.tooltips.set_tip(self.cluster_stop, _("Sync"))
+		self.cluster_stop.set_sensitive(False)
+		toolbar.insert(self.cluster_stop, -1)
+		self.cluster_stop.show()
 
 		image = gtk.Image()
    		image.set_from_file(os.path.join(get_image_file_path(),"server_jobs.png"))

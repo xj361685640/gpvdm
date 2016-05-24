@@ -56,6 +56,7 @@ from encrypt import encrypt_load
 import hashlib
 import i18n
 _ = i18n.language.gettext
+import zlib
 
 def strip_slash(tx_name):
 	start=0
@@ -75,12 +76,17 @@ class node:
 class tx_struct:
 	id=0
 	src=""
+	dir=""
+	command=""
 	file_name=""
 	size=0
 	target=""
 	stat=0
 	compressed=False
 	data=""
+	exe_name=""
+	zip=0
+	uzipsize=0
 
 class cluster:
 	def cluster_init(self):
@@ -103,10 +109,9 @@ class cluster:
 
 			self.cluster=True
 
-			header="gpvdmregistermaster\n"
-
-			self.send_command(header)
-
+			data=tx_struct()
+			data.id="gpvdmregistermaster"
+			self.tx_packet(data)
 
 			if self.running==False:
 				self.mylock=False
@@ -156,16 +161,15 @@ class cluster:
 				print "not packet"
 				return None
 			data += packet
-		print "rx total=",len(data)
 		data=decrypt(data)
 		return data
 
 	def cluster_make(self):
-		my_dir="src"
-		cmd=inp_get_token_value("server.inp","#make_command")
-		header="gpvdmheadexe\n#dir\n"+my_dir+"\n#command\n"+cmd+"\n#end"
-
-		self.send_command(header)
+		data=tx_struct()
+		data.id="gpvdmheadexe"
+		data.dir="src"
+		data.command=inp_get_token_value("server.inp","#make_command")
+		self.tx_packet(data)
 
 	def sync_dir(self,path,target):
 		count=0
@@ -216,6 +220,9 @@ class cluster:
 
 	def gen_dir_list(self,path):
 
+		banned_types=[".pdf",".png",".dll",".o",".so",".so",".a",".dat",".aprox",".ods",".mo"]
+		banned_dirs=["equilibrium","man_src","snapshots", "plot","pub"]
+
 		file_list=[]
 
 		for root, dirs, files in os.walk(path):
@@ -225,11 +232,11 @@ class cluster:
 
 				tx=True
 
-				if name.count("snapshots")>0:
-					tx=False
-
-				if name.endswith(".pdf") or name.endswith(".png") or name.endswith(".dll"):
-					tx=False
+				ext=os.path.splitext(name)
+				if len(ext)>0:
+					ext=ext[1]
+					if ext in banned_types:
+						tx=False
 
 				if tx==True:
 					fname=fname[len(path):]
@@ -237,49 +244,104 @@ class cluster:
 					fname=strip_slash(fname)
 					file_list.append(fname)
 
-		#print file_list
-		return file_list
+
+		f=[]
+		for i in range(0,len(file_list)):
+			if file_list[i].endswith("gpvdm_gui_config.inp"):
+				banned_dirs.append(os.path.dirname(file_list[i]))
+
+		for i in range(0,len(file_list)):
+			add=True
+			for ii in range(0,len(banned_dirs)):
+				if file_list[i].startswith(banned_dirs[ii])==True:
+					add=False
+					break
+
+			if add==True:
+				f.append(file_list[i])
+
+		return f
 
 	def send_dir(self,src,target):
 		print "Sending dir",src,target
 		files=self.gen_dir_list(src)
 		self.send_files(target,src,files)
 
+	def tx_packet(self,data):
+		bytes=data.data
+		if data.zip==True:
+			bytes = zlib.compress(bytes)
+
+		tx_size=len(bytes)
+
+		expand=((int(tx_size)/int(512))+1)*512-tx_size
+		bytes+= "\0" * expand
+
+
+
+		header=data.id+"\n"
+
+		header=header+"#file_name\n"+data.file_name+"\n"
+
+		header=header+"#size\n"+str(tx_size)+"\n"
+
+		header=header+"#target\n"+data.target+"\n"
+
+		header=header+"#stat\n"+str(data.stat)+"\n"
+
+		if data.dir!="":
+			header=header+"#dir\n"+data.dir+"\n"
+
+		if data.exe_name!="":
+			header=header+"#exe_name\n"+data.exe_name+"\n"
+
+		if data.command!="":
+			header=header+"#command\n"+data.command+"\n"
+
+		if data.zip==True:
+			header=header+"#zip\n"+"1"+"\n#uzipsize\n"+str(data.uzipsize)+"\n"
+
+		header=header+"#end"
+
+		buf=bytearray(512)
+
+		for i in range(0,len(header)):
+			buf[i]=header[i]
+
+		buf=buf+bytes
+		buf=encrypt(buf)
+		self.socket.sendall(buf)
+
 	def send_files(self,target,src,files):
 		count=0
 		banned=[]
 
 		for fname in files:
+			data=tx_struct()
 			full_path=os.path.normpath(os.path.join(src,fname))
 
-			stat=os.stat(full_path)[ST_MODE]
-			#print full_path
+			data.stat=os.stat(full_path)[ST_MODE]
+
 			f = open(full_path, 'rb')   
 			bytes = f.read()
-			size=len(bytes)
 			f.close()
+			orig_size=len(bytes)
 
-			expand=((int(size)/int(512))+1)*512-size
-			bytes+= "\0" * expand
+			print "tx file:",full_path
 
-
-			#don't send strings starting in /
-			tx_name=strip_slash(fname)
-
-			buf=bytearray(512)
 			if target=="":
-				target=src
+				data.target=src
+			else:
+				data.target=target
 
-			#print "tx_name=",tx_name
-			header="gpvdmfile\n#file_name\n"+tx_name+"\n#file_size\n"+str(size)+"\n#target\n"+target+"\n#stat\n"+str(stat)+"\n#end"
-			for i in range(0,len(header)):
-				buf[i]=header[i]
-
-			buf=buf+bytes
-			buf=encrypt(buf)
-			self.socket.sendall(buf)
+			data.id="gpvdmfile"
+			data.uzipsize=len(bytes)
+			data.data=bytes
+			data.zip=True
+			data.file_name=strip_slash(fname)
 			count=count+1
-			print "sending",full_path
+			self.tx_packet(data)
+
 		print "total=",count
 
 	def process_node_list(self,data):
@@ -324,57 +386,58 @@ class cluster:
 
 		lines=data.split("\n")
 		ret.file_name=inp_search_token_value(lines, "#file_name")
-		ret.size=int(inp_search_token_value(lines, "#file_size"))
+		ret.size=int(inp_search_token_value(lines, "#size"))
 		ret.target=inp_search_token_value(lines, "#target")
+		ret.zip=int(inp_search_token_value(lines, "#zip"))
+		ret.uzipsize=int(inp_search_token_value(lines, "#uzipsize"))
 
 
 		if ret.size!=0:
 			packet_len=int(int(ret.size)/int(512)+1)*512
 			ret.data = self.recvall(packet_len)
 			ret.data=ret.data[0:ret.size]
+			if ret.zip==1:
+				ret.data = zlib.decompress(ret.data)
+				ret.size=len(ret.data)
 
 		return ret
 
 	def rx_file(self,data):
-		print data
 		pwd=os.getcwd()
-		lines=data.split("\n")
-		name=inp_search_token_value(lines, "#file_name")
-		size=int(inp_search_token_value(lines, "#file_size"))
-		target=inp_search_token_value(lines, "#target")
-		#print target,name
-		target=target+name
+		ret=self.rx_packet(data)
 
-		if size!=0:
-			packet_len=int(int(size)/int(512)+1)*512
-			data = self.recvall(packet_len)
+		target=ret.target+ret.file_name
 
-			if target.startswith(pwd):
-				print "write to",target,len(data),packet_len
-				if len(data)!=packet_len:
-					print "packet mismatch",len(data),packet_len
+		if target.startswith(pwd):
+			if ret.size>0:
 
 				my_dir=os.path.dirname(target)
 
 				if os.path.isdir(my_dir)==False:
 					os.makedirs(my_dir)
 
+				print "write:",target
 				f = open(target, "wb")
-				f.write(data[0:size])
+				f.write(ret.data[0:ret.size])
 				f.close()
 			else:
-				print "not writing target",pwd,target
-		else:
 				f = open(target, "wb")
 				f.close()
+		else:
+			print "not writing target",pwd,target
 
+	def set_cluster_loads(self,ip,loads):
 
-	def send_command(self,header):
-		buf=bytearray(512)
-		for i in range(0,len(header)):
-			buf[i]=header[i]
-		buf=encrypt(buf)
-		self.socket.sendall(buf)
+		packet=""
+		for i in range(0,len(ip)):
+			packet=packet+ip[i]+"\n"+str(loads[i])+"\n"
+
+		packet=packet[:-1]
+		data=tx_struct()
+		data.id="gpvdm_set_max_loads"
+		data.data=packet
+		data.size=len(packet)
+		self.tx_packet(data)
 
 	def copy_src_to_cluster_fast(self):
 		if self.cluster==True:
@@ -393,28 +456,38 @@ class cluster:
 
 	def cluster_get_data(self):
 		if self.cluster==True:
-			header="gpvdmgetdata\n"
+			data=tx_struct()
+			data.id="gpvdmgetdata"
+			self.tx_packet(data)
 
-			self.send_command(header)
 
 	def cluster_get_info(self):
 		if self.cluster==True:
-			header="gpvdmsendnodelist\n"
-
-			self.send_command(header)
+			data=tx_struct()
+			data.id="gpvdmsendnodelist"
+			self.tx_packet(data)
 
 	def cluster_quit(self):
 		if self.cluster==True:
-			header="gpvdmquit\n"
-
-			self.send_command(header)
+			data=tx_struct()
+			data.id="gpvdmquit"
+			self.tx_packet(data)
 
 
 	def killall(self):
 		if self.cluster==True:
-			header="gpvdmkillall\n"
+			data=tx_struct()
 
-			self.send_command(header)
+			data.id="stop_all_jobs"
+			self.tx_packet(data)
+
+			data.id="gpvdmkillall"
+			self.tx_packet(data)
+
+			sleep(1)
+
+			data.id="delete_all_jobs"
+			self.tx_packet(data)
 
 		else:
 			print "stop jobs"
@@ -425,43 +498,49 @@ class cluster:
 
 		self.stop()
 
+	def cluster_run_jobs(self):
+		exe_name=inp_get_token_value("server.inp","#exe_name")
+		data=tx_struct()
+		data.id="gpvdmrunjobs"
+		data.exe_name=exe_name
+		self.tx_packet(data)
+
 
 	def sleep(self):
 		if self.cluster==True:
-			header="gpvdmsleep"
+			data=tx_struct()
+			data.id="gpvdmsleep"
+			self.tx_packet(data)
 
-			self.send_command(header)
 
 	def poweroff(self):
 		if self.cluster==True:
-			header="gpvdmpoweroff"
-
-			self.send_command(header)
-
-
-	def wait_lock(self):
-		print "Waiting for cluster..."
-		while(self.mylock==True):
-			sleep(0.1)
+			data=tx_struct()
+			data.id="gpvdmpoweroff"
+			self.tx_packet(data)
 
 	def add_remote_job(self,job_orig_path):
-		header="gpvdmaddjob\n#target\n"+job_orig_path+"\n#end"
-
-		self.send_command(header)
+		data=tx_struct()
+		data.id="gpvdmaddjob"
+		data.target=job_orig_path
+		self.tx_packet(data)
 
 	def cluster_clean(self):
-		self.send_command("gpvdm_master_clean\n")
+		data=tx_struct()
+		data.id="gpvdm_master_clean"
+		self.tx_packet(data)
 
 
 	def cluster_list_jobs(self):
-		self.send_command("gpvdm_send_job_list\n")
+		data=tx_struct()
+		data.id="gpvdm_send_job_list"
+		self.tx_packet(data)
 
 	def listen(self):
 		#print "thread !!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
 		self.running=True
 
 		while(1):
-			print "waiting for next command"
 			understood=False
 			data = self.recvall(512)
 			
@@ -508,6 +587,10 @@ class cluster:
 
 			if data.startswith("gpvdm_job_list"):
 				self.process_job_list(data)
+				understood=True
+
+			if data.startswith("gpvdm_message"):
+				print data
 				understood=True
 
 			if understood==False:

@@ -50,7 +50,6 @@
 #include <fit.h>
 #include <advmath.h>
 #include <plot.h>
-#include <buffer.h>
 #include <assert.h>
 
 static int unused __attribute__((unused));
@@ -173,8 +172,6 @@ if (scanarg( argv,argc,"--inputpath")==TRUE)
 
 char name[200];
 struct inp_file inp;
-struct buffer buf;
-buffer_init(&buf);
 
 inp_init(&sim,&inp);
 if (inp_load_from_path(&sim,&inp,sim.input_path,"ver.inp")!=0)

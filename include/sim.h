@@ -78,5 +78,6 @@ void stop_start(struct simulation *sim,struct device *in);
 void run_electrical_dll(struct simulation *sim,struct device *in,char *dll_name);
 void gen_dos_fd_gaus_fd(struct simulation *sim);
 void sim_init(struct simulation *sim);
+void fit_log_init(struct simulation *sim);
 #endif
 
