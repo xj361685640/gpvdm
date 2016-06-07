@@ -114,6 +114,7 @@ from update import update_thread
 from update import update_now
 from hpc import hpc_class
 from scan_item import scan_populate_from_file
+from status_icon import status_icon_get
 
 bubble=False
 if running_on_linux()==True:
@@ -778,7 +779,7 @@ class gpvdm_main_window(gobject.GObject):
 
 		self.my_server=server()
 		self.my_server.init(os.getcwd())
-		self.my_server.statusicon.connect('popup-menu', self.on_status_icon_right_click)
+		status_icon_get().connect('popup-menu', self.on_status_icon_right_click)
 		self.my_server.setup_gui(self.gui_sim_start,self.gui_sim_stop)
 
 		if running_on_linux()==True:
@@ -1051,17 +1052,23 @@ class gpvdm_main_window(gobject.GObject):
 		handlebox.set_snap_edge(gtk.POS_LEFT)
 		handlebox.show()
 
+		handlebox1 = gtk.HandleBox()
+		handlebox1.set_snap_edge(gtk.POS_LEFT)
+		handlebox1.show()
+
 		toolbar.set_size_request(1000, -1)
 
-		tb_vbox=gtk.VBox()
-		tb_vbox.add(toolbar)
-		tb_vbox.add(toolbar1)
-		tb_vbox.show()
+		#tb_vbox=gtk.VBox()
+		#tb_vbox.add(toolbar)
+		#tb_vbox.add(toolbar1)
+		#tb_vbox.show()
 
 
 
-		handlebox.add(tb_vbox)
+		handlebox1.add(toolbar)
+		handlebox.add(toolbar1)
 
+		main_vbox.pack_start(handlebox1, False, False, 0)
 		main_vbox.pack_start(handlebox, False, False, 0)
 
 		self.window.connect("delete-event", self.callback_close_window) 

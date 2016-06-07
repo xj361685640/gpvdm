@@ -526,6 +526,13 @@ if (strcmp(in->full_name,file)!=0)
 return ret;
 }
 
+void inp_replace_double_offset(struct simulation *sim,struct inp_file *in,char *token, double value,int offset)
+{
+	char temp[100];
+	sprintf(temp,"%le",value);
+	inp_replace_offset(sim,in,token,temp,offset);
+}
+
 void inp_replace_double(struct simulation *sim,struct inp_file *in,char *token, double value)
 {
 	char temp[100];
@@ -535,6 +542,12 @@ void inp_replace_double(struct simulation *sim,struct inp_file *in,char *token, 
 
 void inp_replace(struct simulation *sim,struct inp_file *in,char *token, char *text)
 {
+inp_replace_offset(sim,in,token, text,0);
+}
+
+void inp_replace_offset(struct simulation *sim,struct inp_file *in,char *token, char *text,int offset)
+{
+int i=0;
 char *temp = malloc(in->fsize + 100);
 memset(temp, 0, in->fsize + 100);
 char *line;
@@ -553,6 +566,14 @@ while(line)
 	{
 		strcat(temp,line);
 		strcat(temp,"\n");
+
+		for (i=0;i<offset;i++)
+		{
+			line  = strtok(NULL, "\n");
+			strcat(temp,line);
+			strcat(temp,"\n");
+		}
+
 		strcat(temp,text);
 		strcat(temp,"\n");
 		line  = strtok(NULL, "\n");
@@ -580,7 +601,6 @@ if (in->data[len]!=0)
 }
 free(temp);
 }
-
 int zip_write_buffer(struct simulation *sim,char *full_file_name,char *buffer, int len)
 {
 int	in_zip_file= -1;
@@ -690,6 +710,16 @@ if (inp_search(sim,temp,in,token)==0)
 ewe(sim,"token %s not found in file %s\n",token,in->full_name);
 }
 
+void inp_search_double_offset(struct simulation *sim,struct inp_file *in,double* out,char* token,int offset)
+{
+char temp[200];
+if (inp_search_offset(sim,temp,in,token,offset)==0)
+{
+	sscanf(temp,"%le",out);
+	return;
+}
+ewe(sim,"token %s not found in file %s\n",token,in->full_name);
+}
 
 void inp_search_int(struct simulation *sim,struct inp_file *in,int* out,char* token)
 {
@@ -767,6 +797,12 @@ return NULL;
 
 int inp_search(struct simulation *sim,char* out,struct inp_file *in,char *token)
 {
+return inp_search_offset(sim,out,in,token,0);
+}
+
+int inp_search_offset(struct simulation *sim,char* out,struct inp_file *in,char *token,int offset)
+{
+	int i;
 	inp_reset_read(sim,in);
 	char * line = inp_get_string(sim,in);
 	while(line!=NULL)
@@ -774,6 +810,15 @@ int inp_search(struct simulation *sim,char* out,struct inp_file *in,char *token)
 		//printf("'%s' '%s'\n", line,token);
 		if (strcmp(line,token)==0)
 		{
+			for (i=0;i<offset;i++)
+			{
+				line  = inp_get_string(sim,in);
+				if (line==NULL)
+				{
+					ewe(sim,"inp_search_offset error");
+				}
+			}
+
 			line  = inp_get_string(sim,in);
 			strcpy(out,line);
 			return 0;

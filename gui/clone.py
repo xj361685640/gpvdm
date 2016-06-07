@@ -31,6 +31,7 @@ from util_zip import write_lines_to_archive
 from util_zip import archive_make_empty
 from shutil import copyfile
 from inp_util import inp_search_token_value
+from cal_path import get_materials_path
 
 def gpvdm_clone(dest,copy_dirs,materials=["all"]):
 	src_dir=get_inp_file_path()
@@ -61,7 +62,7 @@ def gpvdm_clone(dest,copy_dirs,materials=["all"]):
 		clone_materials(dest,materials)
 
 def clone_materials(dest,materials=["all"]):
-	src_dir=os.path.join(get_inp_file_path(),"materials")
+	src_dir=os.path.join(get_materials_path())
 	dest_dir=os.path.join(dest,"materials")
 	if os.path.isdir(dest_dir)==False:
 		os.mkdir(dest_dir)
@@ -93,7 +94,7 @@ def clone_materials(dest,materials=["all"]):
 					if os.path.isdir(dest_file)==False:
 						os.mkdir(dest_file)
 
-					for copy_file in ["mat.inp","alpha.omat","n.omat","fit.inp","info.txt"]:
+					for copy_file in ["mat.inp","alpha.omat","n.omat","fit.inp","info.txt","n_spectrum.inp"]:
 						src_mat_file=os.path.join(src_file,copy_file)
 						if os.path.isfile(src_mat_file)==True:
 							copyfile(src_mat_file,os.path.join(dest_file,copy_file))

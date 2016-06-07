@@ -37,12 +37,14 @@
 #include "lang.h"
 #include "log.h"
 #include <cal_path.h>
+#include <buffer.h>
 
 static int unused __attribute__((unused));
 
 void light_load_materials(struct simulation *sim,struct light *in)
 {
 printf_log(sim,"load: materials");
+struct buffer buf;
 int i=0;
 char fit_file[1000];
 char file_path[400];
@@ -84,6 +86,8 @@ gdouble a=0.0;
 gdouble c=0.0;
 char type[40];
 int spectrum=FALSE;
+int spectrum_alpha=FALSE;
+
 for (i=0;i<in->layers;i++)
 {
 	join_path(3, fit_file,get_materials_path(sim),in->material_dir_name[i],"fit.inp");
@@ -99,19 +103,23 @@ for (i=0;i<in->layers;i++)
 	hard_limit(sim,"#n_mul",&n_mul);
 
 	inp_search_gdouble(sim,&inp,&wavelength_shift_n,"#wavelength_shift_n");
-	wavelength_shift_n-=40e-9;
 	hard_limit(sim,"#wavelength_shift_n",&wavelength_shift_n);
 
+	wavelength_shift_n-=40e-9;
+
 	inp_search_gdouble(sim,&inp,&wavelength_shift_alpha,"#wavelength_shift_alpha");
+	hard_limit(sim,"#wavelength_shift_alpha",&wavelength_shift_alpha);
+
 	wavelength_shift_alpha-=40.0e-9;
 
-	hard_limit(sim,"#wavelength_shift_alpha",&wavelength_shift_alpha);
 
 	inp_search_int(sim,&inp,&patch,"#patch");
 
 	inp_search_int(sim,&inp,&inter,"#inter");
 
 	inp_search_int(sim,&inp,&spectrum,"#spectrum");
+
+	inp_search_int(sim,&inp,&spectrum_alpha,"#spectrum_alpha");
 
 	inp_free(sim,&inp);
 
@@ -290,11 +298,7 @@ for (i=0;i<in->layers;i++)
 			fclose(patch_in);
 		}
 
-		join_path(3, out_file,get_materials_path(sim),in->material_dir_name[i],"n_out.dat");
-		inter_save(&(in->mat_n[i]),out_file);
 
-		join_path(3, out_file,get_materials_path(sim),in->material_dir_name[i],"alpha_out.dat");
-		inter_save(&(in->mat[i]),out_file);
 	}
 
 	if (spectrum==TRUE)
@@ -329,11 +333,77 @@ for (i=0;i<in->layers;i++)
 		}
 		fclose(f_in);
 
-		join_path(3, out_file,get_materials_path(sim),in->material_dir_name[i],"n_out.dat");
-		inter_save(&(in->mat_n[i]),out_file);
+		join_path(2, out_file,get_materials_path(sim),in->material_dir_name[i]);
+
+		buffer_malloc(&buf);
+		buf.y_mul=1.0;
+		buf.x_mul=1e9;
+		strcpy(buf.title,"Wavelength - Reflected light");
+		strcpy(buf.type,"xy");
+		strcpy(buf.x_label,"Wavelength");
+		strcpy(buf.y_label,"n");
+		strcpy(buf.x_units,"nm");
+		strcpy(buf.y_units,"a.u.");
+		buf.logscale_x=0;
+		buf.logscale_y=0;
+		buffer_add_info(&buf);
+		buffer_add_xy_data(&buf,in->mat_n[i].x, in->mat_n[i].data, in->mat_n[i].len);
+		buffer_dump_path(out_file,"n_out.dat",&buf);
+		buffer_free(&buf);
 
 	}
 
+	if (spectrum_alpha==TRUE)
+	{
+		inter_free(&(in->mat[i]));
+
+		join_path(3, patch_file,get_materials_path(sim),in->material_dir_name[i],"alpha_spectrum.inp");
+
+		FILE *f_in=fopen(patch_file,"r");
+
+		if (f_in==NULL)
+		{
+			ewe(sim,"file %s not found\n",patch_file);
+		}
+
+		int n=0;
+		gdouble value=0.0;
+		gdouble start=0.0;
+		gdouble stop=0.0;
+		unused=fscanf(f_in,"%s",token);
+		unused=fscanf(f_in,"%Le",&start);
+		unused=fscanf(f_in,"%s",token);
+		unused=fscanf(f_in,"%Le",&stop);
+		unused=fscanf(f_in,"%s",token);
+		unused=fscanf(f_in,"%d",&n);
+		unused=fscanf(f_in,"%s",token);
+		inter_init_mesh(&(in->mat[i]),n,start,stop);
+		for (ii=0;ii<n;ii++)
+		{
+			unused=fscanf(f_in,"%Le",&value);
+			in->mat[i].data[ii]=value;
+		}
+		fclose(f_in);
+
+		join_path(2, out_file,get_materials_path(sim),in->material_dir_name[i]);
+
+		buffer_malloc(&buf);
+		buf.y_mul=1.0;
+		buf.x_mul=1e9;
+		strcpy(buf.title,"Wavelength - Reflected light");
+		strcpy(buf.type,"xy");
+		strcpy(buf.x_label,"Wavelength");
+		strcpy(buf.y_label,"alpha");
+		strcpy(buf.x_units,"nm");
+		strcpy(buf.y_units,"a.u.");
+		buf.logscale_x=0;
+		buf.logscale_y=0;
+		buffer_add_info(&buf);
+		buffer_add_xy_data(&buf,in->mat[i].x, in->mat[i].data, in->mat[i].len);
+		buffer_dump_path(out_file,"alpha_out.dat",&buf);
+		buffer_free(&buf);
+
+	}
 }
 
 }

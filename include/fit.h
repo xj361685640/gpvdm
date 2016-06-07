@@ -42,6 +42,8 @@ int simplexreset;
 int fitvars;
 char fit_file[200][100];
 char fit_token[200][100];
+int fit_line[200];
+
 char fit_plugin[200][100];
 int randomize;
 int random_reset_ittr;
@@ -52,7 +54,9 @@ double constraints_error[100];
 int n_constraints;
 int iterations;
 int sub_iterations;
-
+int sub_iterations_two;
+int stall_steps;
+int fit_method;
 };
 
 int fit_simplex(struct simulation *sim,struct fitvars *fitconfig);
@@ -69,4 +73,5 @@ void fit_dump_log(struct simulation *sim,struct fitvars *fitconfig,double error,
 void fit_init(struct fitvars *fitconfig);
 void my_f_set_globals(struct simulation *sim, struct fitvars *config);
 double my_f (const gsl_vector *v, void *params);
+int fit_newton(struct simulation *sim,struct fitvars *fitconfig);
 #endif

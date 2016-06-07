@@ -56,7 +56,7 @@ struct stat st = {0};
 
 	sprintf(postfix,"%d",dump_number);
 
-	if ((get_dump_status(sim,dump_pl)==TRUE)||(get_dump_status(sim,dump_energy_slice_switch)==TRUE)||(get_dump_status(sim,dump_1d_slices)==TRUE))
+	if ((get_dump_status(sim,dump_pl)==TRUE)||(get_dump_status(sim,dump_energy_slice_switch)==TRUE)||(get_dump_status(sim,dump_1d_slices)==TRUE)||(get_dump_status(sim,dump_optical_probe_spectrum)==TRUE))
 	{
 		join_path(2,snapshots_dir,get_output_path(sim),snapshot_dir);
 
@@ -97,6 +97,11 @@ struct stat st = {0};
 
 	}
 
+	if (get_dump_status(sim,dump_optical_probe_spectrum)==TRUE)
+	{
+		dump_probe_spectrum(sim,in,out_dir,dump_number);
+		dumped=TRUE;
+	}
 	if (get_dump_status(sim,dump_1d_slices)==TRUE)
 	{
 		dump_1d_slice(sim,in,out_dir);

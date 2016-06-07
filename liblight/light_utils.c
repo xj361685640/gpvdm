@@ -228,6 +228,8 @@ gdouble complex n1=0.0+0.0*I;
 			//getchar();
 
 		}
+
+
 		memset(in->En[i], 0.0, in->points*sizeof(gdouble));
 		memset(in->Ep[i], 0.0, in->points*sizeof(gdouble));
 		memset(in->Enz[i], 0.0, in->points*sizeof(gdouble));

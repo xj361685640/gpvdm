@@ -34,7 +34,6 @@ from scan_tree import tree_load_flat_list
 from util import copy_scan_dir
 from scan_tree import tree_load_program
 from scan_tree import tree_gen
-from scan_item import scan_item_load
 
 from server import server_find_simulations_to_run
 
@@ -137,7 +136,6 @@ def scan_nested_simulation(root_simulation,nest_simulation):
 
 		program_list=[]
 		flat_list=[]
-		scan_item_load(os.path.join(dest_name,"scan_items.inp"))
 		tree_load_program(program_list,dest_name)
 		print "call=",names[i],dest_name
 		tree_gen(flat_list,program_list,names[i],dest_name)

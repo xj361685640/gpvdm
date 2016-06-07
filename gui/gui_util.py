@@ -24,8 +24,9 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
+from cal_path import get_image_file_path
 #import sys
-#import os
+import os
 #import shutil
 #import signal
 #import subprocess
@@ -37,16 +38,25 @@ import gtk
 #import glob
 #from win_lin import running_on_linux
 
-def dlg_get_text( message, default=''):
+def dlg_get_text( message, default='',image_name=""):
 
 	d = gtk.MessageDialog(None,
 	          gtk.DIALOG_MODAL ,
 	          gtk.MESSAGE_QUESTION,
 	          gtk.BUTTONS_OK_CANCEL,
 	          message)
+
+	if image_name!="":
+		image = gtk.Image()
+	   	image.set_from_file(os.path.join(get_image_file_path(),image_name))
+		image.show()
+		print image_name
+		d.set_image(image)
+
 	entry = gtk.Entry()
 	entry.set_text(default)
 	entry.show()
+
 	d.vbox.pack_end(entry)
 	entry.connect('activate', lambda _: d.response(gtk.RESPONSE_OK))
 	d.set_default_response(gtk.RESPONSE_OK)

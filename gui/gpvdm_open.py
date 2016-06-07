@@ -138,8 +138,8 @@ class gpvdm_open(gtk.Dialog):
 			if os.path.isdir(file_name):
 				show_dir=True
 
-				if fl=="materials":
-					show_dir=False
+				#if fl=="materials":
+				#	show_dir=False
 
 				if os.path.isfile(os.path.join(file_name,"gpvdm_gui_config.inp"))==True:
 					show_dir=False

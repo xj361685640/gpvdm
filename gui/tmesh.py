@@ -472,6 +472,9 @@ class tab_time_mesh(gtk.VBox):
 
 		sun_steady_state=float(inp_get_token_value("light.inp", "#Psun"))
 
+		voltage_bias=float(inp_get_token_value("pulse"+str(self.index)+".inp", "#pulse_bias"))
+
+
 		seg=0
 		for line in self.store:
 			end_time=pos+float(line[SEG_LENGTH])
@@ -490,7 +493,7 @@ class tab_time_mesh(gtk.VBox):
 					self.time.append(pos)
 					self.laser.append(laser)
 					self.sun.append(sun+sun_steady_state)
-					self.voltage.append(voltage)
+					self.voltage.append(voltage+voltage_bias)
 					#print seg,voltage
 					self.fs_laser.append(0.0)
 					pos=pos+dt

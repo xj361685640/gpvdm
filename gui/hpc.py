@@ -34,6 +34,7 @@ from search import find_fit_speed_log
 from window_list import windows
 from inp import inp_load_file
 from inp_util import inp_search_token_value
+from status_icon import status_icon_stop
 
 class hpc_class(gtk.Window):
 
@@ -191,6 +192,10 @@ class hpc_class(gtk.Window):
 			md.destroy()
 
 		self.cluster_gui_update()
+		if self.myserver.cluster==True:
+			status_icon_stop(True)
+		else:
+			status_icon_stop(False)
 
 	def cluster_gui_update(self):
 		if self.myserver.cluster==True:

@@ -265,6 +265,14 @@ if (strcmp(in,"disk")==0)
 if (strcmp(in,"screen_and_disk")==0)
 {
 	return log_level_screen_and_disk;
+}else
+if (strcmp(in,"newton")==0)
+{
+	return FIT_NEWTON;
+}else
+if (strcmp(in,"simplex")==0)
+{
+	return FIT_SIMPLEX;
 }
 
 

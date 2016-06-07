@@ -205,6 +205,56 @@ if ((get_dump_status(sim,dump_optics_verbose)==TRUE)&&(in->Gn[0]!=0.0))
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
+	buf.y_mul=1e9;
+	buf.x_mul=1e9;
+	strcpy(buf.title,"Optical absorption coefficient");
+	strcpy(buf.type,"3d");
+	strcpy(buf.x_label,"Position");
+	strcpy(buf.y_label,"Wavelength");
+	strcpy(buf.x_units,"$nm$");
+	strcpy(buf.y_units,"$nm$");
+	buf.logscale_x=0;
+	buf.logscale_y=0;
+	buffer_add_info(&buf);
+
+	for (i=0;i<in->lpoints;i++)
+	{
+		for (ii=0;ii<in->points;ii++)
+		{
+			sprintf(line,"%Le %Le %Le\n",in->l[i],in->x[ii],in->n[i][ii]);
+			buffer_add_string(&buf,line);
+		}
+
+	buffer_add_string(&buf,"\n");
+	}
+
+	buffer_dump_path(out_dir,"light_lambda_n.dat",&buf);
+	buffer_free(&buf);
+
+
+}
+
+
+
+}
+
+
+void light_dump_summary(struct simulation *sim,struct light *in)
+{
+struct buffer buf;
+char out_dir[1024];
+if ((get_dump_status(sim,dump_optics_summary)==TRUE)&&(in->Gn[0]!=0.0))
+{
+	sprintf(out_dir,"%s/light_dump/",get_output_path(sim));
+	struct stat st = {0};
+
+	if (stat(out_dir, &st) == -1)
+	{
+		mkdir(out_dir, 0700);
+	}
+
+
+	buffer_malloc(&buf);
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,"Wavelength - Reflected light");
@@ -219,20 +269,11 @@ if ((get_dump_status(sim,dump_optics_verbose)==TRUE)&&(in->Gn[0]!=0.0))
 	buffer_add_xy_data(&buf,in->l, in->reflect, in->lpoints);
 	buffer_dump_path(out_dir,"reflect.dat",&buf);
 	buffer_free(&buf);
-
 }
 
-//out=fopen("reflect.dat","w");
 
-//for (i=0;i<in->lpoints;i++)
-//{
-//		fprintf(out,"%Le %Le\n",in->l[i],in->reflect[i]);
-//}
-
-//fclose(out);
 
 }
-
 void light_dump_1d(struct simulation *sim,struct light *in, int i,char *ext)
 {
 char out_dir[1024];

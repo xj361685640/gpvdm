@@ -30,7 +30,7 @@ import gtk
 import os
 #import shutil
 #from inp import inp_update_token_value
-#from inp import inp_get_token_value
+from inp import inp_get_token_value
 #from search import return_file_list
 from plot import check_info_file
 #from about import about_dialog_show
@@ -55,6 +55,8 @@ from scan_item import scan_items_get_list
 #from win_lin import running_on_linux
 from scan_tree import tree_gen
 from scan_tree import tree_load_program
+from scan_tree import tree_load_model
+
 from scan_item import scan_item_save
 from scan_plot import scan_gen_plot_data
 from scan_io import scan_clean_dir
@@ -73,6 +75,8 @@ from scan_tree import tree_save_flat_list
 from cal_path import get_exe_command
 from help import my_help_class
 from cal_path import get_image_file_path
+from scan_item import scan_items_get_file
+from scan_item import scan_items_get_token
 
 import i18n
 _ = i18n.language.gettext
@@ -135,7 +139,7 @@ class scan_vbox(gtk.VBox):
 		self.rebuild_liststore_op_type()
 
 	def callback_add_item(self, widget, data=None):
-		self.add_line([_("Select parameter"), "0.0 0.0", "scan",True])
+		self.add_line(["File","token",_("Select parameter"), "0.0 0.0", "scan",True])
 
 
 	def callback_copy_item(self, widget, data=None):
@@ -235,7 +239,7 @@ class scan_vbox(gtk.VBox):
 		commands=scan_nested_simulation(self.sim_dir,os.path.join(os.path.expanduser('~'),"juan/hpc/final_graphs/orig/probe"))
 		self.send_commands_to_server(commands,"")
 
-	def simulate(self,run_simulation,generate_simulations,arg):
+	def simulate(self,run_simulation,generate_simulations,args):
 
 		base_dir=os.getcwd()
 		run=True
@@ -263,14 +267,14 @@ class scan_vbox(gtk.VBox):
 		for i in range(0,len(self.liststore_combobox)):
 			found=False
 			for ii in range(0,len(self.liststore_op_type)):
-				if self.liststore_combobox[i][2]==self.liststore_op_type[ii][0]:
+				if self.liststore_combobox[i][4]==self.liststore_op_type[ii][0]:
 					found=True
 			if found==False:
 				run=False
 
 				md = gtk.MessageDialog(None,
 				0, gtk.MESSAGE_ERROR,
-				gtk.BUTTONS_CLOSE, self.liststore_combobox[i][2]+"Not valid")
+				gtk.BUTTONS_CLOSE, self.liststore_combobox[i][4]+"Not valid")
 				md.run()
 				md.destroy()
 				break
@@ -281,7 +285,7 @@ class scan_vbox(gtk.VBox):
 			print "Running"
 			program_list=[]
 			for i in range(0,len(self.liststore_combobox)):
-				program_list.append([self.liststore_combobox[i][0],self.liststore_combobox[i][1],self.liststore_combobox[i][2],self.liststore_combobox[i][3]])
+				program_list.append([self.liststore_combobox[i][0],self.liststore_combobox[i][1],self.liststore_combobox[i][3],self.liststore_combobox[i][4]])
 
 			print program_list
 
@@ -297,20 +301,19 @@ class scan_vbox(gtk.VBox):
 				tree_save_flat_list(self.sim_dir,flat_simulation_list)
 
 			commands=tree_load_flat_list(self.sim_dir)
-
+			print "loaded commands",commands
 			if run_simulation==True:
-				self.send_commands_to_server(commands,arg)
+				self.send_commands_to_server(commands,args)
 
 		self.save_combo()
 		os.chdir(base_dir)
 		gc.collect()
 
-	def send_commands_to_server(self,commands,arg):
+	def send_commands_to_server(self,commands,args):
 #		self.myserver.init(self.sim_dir)
 
-		self.myserver.clear_cache()
 		for i in range(0, len(commands)):
-			self.myserver.add_job(commands[i],arg)
+			self.myserver.add_job(commands[i],args)
 			print "Adding job"+commands[i]
 
 		self.myserver.start()
@@ -406,27 +409,37 @@ class scan_vbox(gtk.VBox):
 			a.write(item[0]+"\n")
 			a.write(item[1]+"\n")
 			a.write(item[2]+"\n")
-			a.write(str(item[3])+"\n")
+			a.write(item[3]+"\n")
+			a.write(item[4]+"\n")
+			a.write(str(item[5])+"\n")
 		a.close()
 
-		scan_item_save(os.path.join(self.sim_dir,"scan_items.inp"))
-
 	def combo_changed(self, widget, path, text, model):
-		model[path][0] = text
+		model[path][2] = text
+		model[path][0] = scan_items_get_file(text)
+		model[path][1] = scan_items_get_token(text)
 		self.rebuild_liststore_op_type()
 		self.save_combo()
 
 	def combo_mirror_changed(self, widget, path, text, model):
-		model[path][2] = text
-		if model[path][2]!="constant":
-			if model[path][2]!="scan":
-				if model[path][2]!="python_code":
-					model[path][1] = "mirror"
+		model[path][4] = text
+		if model[path][4]!="constant":
+			if model[path][4]!="scan":
+				if model[path][4]!="python_code":
+					model[path][3] = "mirror"
 		self.save_combo()
 
 
-	def text_changed(self, widget, path, text, model):
+	def text_changed_file(self, widget, path, text, model):
+		model[path][0] = text
+		self.save_combo()
+
+	def text_changed_token(self, widget, path, text, model):
 		model[path][1] = text
+		self.save_combo()
+
+	def text_changed_value(self, widget, path, text, model):
+		model[path][3] = text
 		self.save_combo()
 
 	def toggled_cb( self, cell, path, model ):
@@ -437,7 +450,7 @@ class scan_vbox(gtk.VBox):
 
 	def reload_liststore(self):
 		self.liststore_combobox.clear()
-		tree_load_program(self.liststore_combobox,self.sim_dir)
+		tree_load_model(self.liststore_combobox,self.sim_dir)
 
 
 
@@ -476,7 +489,8 @@ class scan_vbox(gtk.VBox):
 			self.hide()
 
 	def callback_run_simulation(self,widget):
-		self.simulate(True,True,"")
+		args=inp_get_token_value("scan_settings.inp","#args")
+		self.simulate(True,True,args)
 
 
 	def callback_stop_simulation(self,widget):
@@ -682,7 +696,7 @@ class scan_vbox(gtk.VBox):
 		for i in range(0,len(self.param_list)):
 		    liststore_manufacturers.append([self.param_list[i].name])
 
-		self.liststore_combobox = gtk.ListStore(str, str, str, bool)
+		self.liststore_combobox = gtk.ListStore(str, str,str, str, str, bool)
 
 		self.config.load(self.sim_dir)
 		self.visible=self.config.get_value("#visible",True)
@@ -697,9 +711,26 @@ class scan_vbox(gtk.VBox):
 		self.select_param_window=select_param()
 		self.select_param_window.init(self.liststore_combobox,self.treeview)
 
-		column_text = gtk.TreeViewColumn(_("Values"))
+		column_file = gtk.TreeViewColumn(_("File"))
+		column_token = gtk.TreeViewColumn(_("Token"))
 		column_combo = gtk.TreeViewColumn(_("Parameter to change"))
+		column_text = gtk.TreeViewColumn(_("Values"))
 		column_mirror = gtk.TreeViewColumn(_("Opperation"))
+
+		cellrenderer_file = gtk.CellRendererText()
+		cellrenderer_file.set_property("editable", True)
+		cellrenderer_file.connect("edited", self.text_changed_file, self.liststore_combobox)
+		column_file.pack_start(cellrenderer_file, False)
+		column_file.set_min_width(100)
+		column_file.add_attribute(cellrenderer_file, "text", 0)
+
+		cellrenderer_token = gtk.CellRendererText()
+		cellrenderer_token.set_property("editable", True)
+		cellrenderer_token.connect("edited", self.text_changed_token, self.liststore_combobox)
+		column_token.pack_start(cellrenderer_token, False)
+		column_token.set_min_width(100)
+		column_token.add_attribute(cellrenderer_token, "text", 1)
+
 
 		cellrenderer_combo = gtk.CellRendererCombo()
 		cellrenderer_combo.set_property("editable", True)
@@ -709,7 +740,7 @@ class scan_vbox(gtk.VBox):
 
 		column_combo.pack_start(cellrenderer_combo, False)
 		column_combo.set_min_width(240)
-		column_combo.add_attribute(cellrenderer_combo, "text", 0)
+		column_combo.add_attribute(cellrenderer_combo, "text", 2)
 
 		cellrenderer_mirror = gtk.CellRendererCombo()
 		cellrenderer_mirror.set_property("editable", True)
@@ -721,17 +752,17 @@ class scan_vbox(gtk.VBox):
 
 		column_mirror.pack_start(cellrenderer_mirror, True)
 		column_mirror.set_min_width(200)
-		column_mirror.add_attribute(cellrenderer_mirror, "text", 2)
+		column_mirror.add_attribute(cellrenderer_mirror, "text", 4)
 
 		cellrenderer_text = gtk.CellRendererText()
 		cellrenderer_text.set_property("editable", True)
-		cellrenderer_text.connect("edited", self.text_changed, self.liststore_combobox)
+		cellrenderer_text.connect("edited", self.text_changed_value, self.liststore_combobox)
 		cellrenderer_text.props.wrap_width = 400
 		cellrenderer_text.props.wrap_mode = gtk.WRAP_WORD
 
 		column_text.pack_start(cellrenderer_text, False)
 		column_text.set_min_width(400)
-		column_text.add_attribute(cellrenderer_text, "text", 1)
+		column_text.add_attribute(cellrenderer_text, "text", 3)
 
 		renderer_enable = gtk.CellRendererToggle()
 		#renderer_enable.set_property("activatable", True)
@@ -741,9 +772,11 @@ class scan_vbox(gtk.VBox):
 		column_enable.set_max_width(50)
 		column_enable.set_visible(False)
 
-		column_enable.add_attribute(renderer_enable, "active", 3)
+		column_enable.add_attribute(renderer_enable, "active", 5)
 		column_enable.pack_start(renderer_enable, False)
 
+		self.treeview.append_column(column_file)
+		self.treeview.append_column(column_token)
 		self.treeview.append_column(column_combo)
 		self.treeview.append_column(column_text)
 		self.treeview.append_column(column_mirror)

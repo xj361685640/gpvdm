@@ -112,7 +112,7 @@ class scan_class(gtk.Window):
 		webbrowser.open('http://www.gpvdm.com/man/index.html')
 
 	def callback_add_page(self, widget, data=None):
-		new_sim_name=dlg_get_text( _("New simulation name:"), _("Simulation ")+str(self.number_of_tabs+1))
+		new_sim_name=dlg_get_text( _("New simulation name:"), _("Simulation ")+str(self.number_of_tabs+1),image_name="new.png")
 
 		if new_sim_name!=None:
 			new_sim_name=self.remove_invalid(new_sim_name)
@@ -139,7 +139,7 @@ class scan_class(gtk.Window):
 		tab = self.notebook.get_nth_page(pageNum)
 		name=tab.tab_name
 		old_dir=os.path.join(self.sim_dir,name)
-		new_sim_name=dlg_get_text( _("Clone the current simulation to a new simulation called:"), name)
+		new_sim_name=dlg_get_text( _("Clone the current simulation to a new simulation called:"), name,image_name="clone.png")
 		if new_sim_name!=None:
 			new_sim_name=self.remove_invalid(new_sim_name)
 			new_dir=os.path.join(self.sim_dir,new_sim_name)
@@ -193,7 +193,7 @@ class scan_class(gtk.Window):
 		tab = self.notebook.get_nth_page(pageNum)
 		name=tab.tab_name
 		old_dir=os.path.join(self.sim_dir,name)
-		new_sim_name=dlg_get_text( _("Rename the simulation to be called:"), name)
+		new_sim_name=dlg_get_text( _("Rename the simulation to be called:"), name,image_name="rename.png")
 
 		if new_sim_name!=None:
 			new_sim_name=self.remove_invalid(new_sim_name)

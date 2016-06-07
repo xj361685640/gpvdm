@@ -70,7 +70,7 @@ do
 	plot_now(sim,"jv.plot");
 	gui_send_data(sim,"pulse");
 
-	if (fabs(in->Vapplied-to)<fabs(dV))
+	if (fabs(V-to)<fabs(dV))
 	{
 		break;
 	}

@@ -36,6 +36,7 @@ import multiprocessing
 import time
 #import glob
 import socket
+from cal_path import get_image_file_path
 
 from time import sleep
 from win_lin import running_on_linux
@@ -57,6 +58,11 @@ import i18n
 _ = i18n.language.gettext
 from cluster import cluster
 
+
+from status_icon import status_icon_init
+from status_icon import status_icon_run
+from status_icon import status_icon_stop
+
 def server_find_simulations_to_run(commands,search_path):
 	for root, dirs, files in os.walk(search_path):
 		for my_file in files:
@@ -74,14 +80,7 @@ class server(cluster):
 	def __init__(self):
 		self.running=False
 		self.enable_gui=False
-
-		self.statusicon = gtk.StatusIcon()
-		self.statusicon.set_from_stock(gtk.STOCK_YES)
-		#self.statusicon.connect("popup-menu", self.right_click_event)
-		self.statusicon.set_tooltip("gpvdm")
-
-
-
+		status_icon_init()
 
 	def init(self,sim_dir):
 		self.terminate_on_finish=False
@@ -103,13 +102,14 @@ class server(cluster):
 
 	def gui_sim_start(self):
 		self.progress_window.start()
-		self.statusicon.set_from_stock(gtk.STOCK_NO)
+		status_icon_run(self.cluster)
 		self.extern_gui_sim_start()
 
 	def gui_sim_stop(self):
 		text=self.check_warnings()
 		self.progress_window.stop()
-		self.statusicon.set_from_stock(gtk.STOCK_YES)
+		status_icon_stop(self.cluster)
+
 		self.extern_gui_sim_stop("Finished simulation")
 		my_help_class.help_set_help(["plot.png",_("<big><b>Simulation finished!</b></big>\nClick on the plot icon to plot the results")])
 		print text
@@ -144,7 +144,7 @@ class server(cluster):
 		if self.enable_gui==True:
 			self.progress_window.show()
 			self.gui_sim_start()
-		#self.statusicon.set_from_stock(gtk.STOCK_NO)
+
 		self.running=True
 		self.run_jobs()
 

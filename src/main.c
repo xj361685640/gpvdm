@@ -58,6 +58,7 @@ static int unused __attribute__((unused));
 
 int main (int argc, char *argv[])
 {
+int run=FALSE;
 struct simulation sim;
 sim_init(&sim);
 if (scanarg( argv,argc,"--gui")==TRUE)
@@ -211,12 +212,16 @@ if (scanarg( argv,argc,"--simmode")==TRUE)
 	strcpy(sim.force_sim_mode,get_arg_plusone( argv,argc,"--simmode"));
 }
 
-gen_dos_fd_gaus_fd(&sim);
+if (run==FALSE)
+{
+	gen_dos_fd_gaus_fd(&sim);
 
-server_add_job(&sim,sim.output_path,sim.input_path);
-print_jobs(&sim);
+	server_add_job(&sim,sim.output_path,sim.input_path);
+	print_jobs(&sim);
 
-ret=server_run_jobs(&sim,&(sim.server));
+	ret=server_run_jobs(&sim,&(sim.server));
+
+}
 
 server_shut_down(&sim,&(sim.server));
 

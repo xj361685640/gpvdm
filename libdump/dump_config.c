@@ -111,10 +111,17 @@ void dump_load_config(struct simulation* sim,struct device *in)
 	dump=inp_search_english(sim,&inp,"#dump_optical_probe");
 	set_dump_status(sim,dump_optical_probe, dump);
 
+	dump=inp_search_english(sim,&inp,"#dump_optical_probe_spectrum");
+	set_dump_status(sim,dump_optical_probe_spectrum, dump);
+
+
 	sim->log_level=inp_search_english(sim,&inp,"#dump_log_level");
 
 	dump=inp_search_english(sim,&inp,"#dump_print_text");
 	set_dump_status(sim,dump_print_text, dump);
+
+	dump=inp_search_english(sim,&inp,"#dump_optics_summary");
+	set_dump_status(sim,dump_optics_summary, dump);
 
 	dump=inp_search_english(sim,&inp,"#dump_info_text");
 	set_dump_status(sim,dump_info_text, dump);

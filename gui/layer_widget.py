@@ -36,6 +36,7 @@ from util import str2bool
 from inp_util import inp_search_token_value
 from inp import inp_update_token_value
 from scan_item import scan_item_add
+from scan_item import scan_remove_file
 from cal_path import get_image_file_path
 from emesh import tab_electrical_mesh
 from plot_gen import plot_gen
@@ -127,7 +128,8 @@ class layer_widget(gtk.VBox):
 		print mat
 		for i in range(0,len(mat)):
 			self.material_files.append([mat[i]])
-
+			scan_remove_file(os.path.join(get_materials_path(),mat[i]))			
+			scan_item_add(os.path.join("materials",mat[i],"fit.inp"),"#wavelength_shift_alpha","Alpha shift",1)
 		self.active_layer.append([_("yes")])
 		self.active_layer.append([_("no")])
 

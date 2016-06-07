@@ -56,4 +56,11 @@ void inp_list_free(struct inp_list *in);
 int inp_listcmp(struct inp_list *in,char *name);
 int guess_whole_sim_name(struct simulation *sim,char *ret,char *dir_name,char* search_name);
 int search_for_token(struct simulation *sim,char *ret,char *dir_name,char* token,char *search_value);
+
+void inp_replace_offset(struct simulation *sim,struct inp_file *in,char *token, char *text,int offset);
+void inp_replace_double_offset(struct simulation *sim,struct inp_file *in,char *token, double value,int offset);
+int inp_search_offset(struct simulation *sim,char* out,struct inp_file *in,char *token,int offset);
+void inp_search_double_offset(struct simulation *sim,struct inp_file *in,double* out,char* token,int offset);
+
+
 #endif

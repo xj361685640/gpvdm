@@ -40,7 +40,6 @@ from import_archive import import_scan_dirs
 from make_man import make_man
 from scan_tree import tree_load_program
 from scan_tree import tree_gen
-from scan_item import scan_item_load
 
 #from scan_item import scan_items_index_item
 from server import server
@@ -167,7 +166,6 @@ def command_args(argc,argv):
 			program_list=[]
 			base_dir=argv[2]				#base dir
 			exe_command   =  get_exe_command()
-			scan_item_load(os.path.join(scan_dir_path,"scan_items.inp"))
 			tree_load_program(program_list,scan_dir_path)
 
 			watch_dir=os.path.join(os.getcwd(),scan_dir_path)

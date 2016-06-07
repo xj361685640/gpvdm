@@ -142,4 +142,5 @@ int light_load_laser(struct simulation *sim, struct light *in,char *name);
 gdouble light_get_sun(struct light *in);
 void light_set_sun(struct light *in,gdouble Psun);
 void light_set_model(struct light *in,char *model);
+void light_dump_summary(struct simulation *sim,struct light *in);
 #endif

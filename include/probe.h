@@ -31,7 +31,8 @@ gdouble stark_mul;
 gdouble probe_exp_multiply;
 };
 
-gdouble probe_cal(struct simulation *sim,struct device *in);
+gdouble probe_cal(struct simulation *sim,struct device *in,	struct istruct *probe_mode);
+void dump_probe_spectrum(struct simulation *sim,struct device *in,char *out_dir, int dump_number);
 void probe_init(struct simulation *sim,struct device *in);
 void probe_free(struct simulation *sim,struct device *in);
 

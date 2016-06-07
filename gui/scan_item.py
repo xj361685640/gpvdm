@@ -74,26 +74,22 @@ def scan_remove_file(file_name):
 
 	check_list=new_list
 
-def scan_item_load(file_name):
+
+def scan_items_get_file(item):
 	global check_list
-	check_list=[]
-	f = open(file_name)
-	lines = f.readlines()
-	f.close()
-#	pos=0
-	for i in range(0, len(lines)):
-		lines[i]=lines[i].rstrip()
+	for i in range(0,len(check_list)):
+		if check_list[i].name==item:
+			return check_list[i].filename
 
-	length=int(lines[0])
-	lines.pop(0)
+	return "notknown"
 
-	for i in range(0, length):
-		check_list.append(scan_item())
-		listpos=len(check_list)-1
-		check_list[listpos].name=lines[i*4]
-		check_list[listpos].filename=lines[(i*4)+1]
-		check_list[listpos].token=lines[(i*4)+2]
-		check_list[listpos].line=int(lines[(i*4)+3])
+def scan_items_get_token(item):
+	global check_list
+	for i in range(0,len(check_list)):
+		if check_list[i].name==item:
+			return check_list[i].token
+
+	return "notknown"
 
 def scan_items_get_list():
 	global check_list

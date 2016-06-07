@@ -221,6 +221,10 @@ void buffer_dump_path(char *path,char * file,struct buffer *in)
 {
 	FILE *out;
 	out = fopena(path,file, "wb");
+	if (out==NULL)
+	{
+		printf("Fopen error on %s %s\n",path,file);
+	}
 	fwrite(in->buf, in->len, 1, out);
 	fclose(out);
 

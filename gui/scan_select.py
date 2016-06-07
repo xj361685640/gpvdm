@@ -44,6 +44,8 @@ import os
 #import glob
 from window_list import windows
 from scan_item import scan_items_get_list
+from scan_item import scan_items_get_file
+from scan_item import scan_items_get_token
 
 import i18n
 _ = i18n.language.gettext
@@ -150,7 +152,12 @@ class select_param(gtk.Window):
 
 			dest_tree_selection=self.dest_treeview.get_selection()
 			(dest_model, dest_pathlist) = dest_tree_selection.get_selected_rows()
-			self.liststore_combobox[dest_pathlist[0][0]][0]=ret
+			self.liststore_combobox[dest_pathlist[0][0]][2]=ret
+			self.liststore_combobox[dest_pathlist[0][0]][0]=scan_items_get_file(ret)
+			self.liststore_combobox[dest_pathlist[0][0]][1]=scan_items_get_token(ret)
+
+
+
 
 	def tree_close_click(self, widget, data=None):
 		self.hide()

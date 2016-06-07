@@ -76,7 +76,7 @@ class node:
 class tx_struct:
 	id=0
 	src=""
-	dir=""
+	dir_name=""
 	command=""
 	file_name=""
 	size=0
@@ -167,7 +167,7 @@ class cluster:
 	def cluster_make(self):
 		data=tx_struct()
 		data.id="gpvdmheadexe"
-		data.dir="src"
+		data.dir_name="src"
 		data.command=inp_get_token_value("server.inp","#make_command")
 		self.tx_packet(data)
 
@@ -220,7 +220,7 @@ class cluster:
 
 	def gen_dir_list(self,path):
 
-		banned_types=[".pdf",".png",".dll",".o",".so",".so",".a",".dat",".aprox",".ods",".mo"]
+		banned_types=[".pdf",".png",".dll",".o",".so",".so",".a",".dat",".aprox",".ods"]
 		banned_dirs=["equilibrium","man_src","snapshots", "plot","pub"]
 
 		file_list=[]
@@ -289,8 +289,8 @@ class cluster:
 
 		header=header+"#stat\n"+str(data.stat)+"\n"
 
-		if data.dir!="":
-			header=header+"#dir\n"+data.dir+"\n"
+		if data.dir_name!="":
+			header=header+"#dir_name\n"+data.dir_name+"\n"
 
 		if data.exe_name!="":
 			header=header+"#exe_name\n"+data.exe_name+"\n"

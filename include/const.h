@@ -46,6 +46,10 @@
 #define LEFT 0
 #define RIGHT 1
 
+#define FIT_SIMPLEX 0
+#define FIT_NEWTON 1
+
+
 //tpv light
 #define tpv_set_light 0
 #define tpv_set_voltage 1
@@ -86,8 +90,10 @@
 #define dump_print_hardware_info 23
 #define dump_norm_y_axis 24
 #define dump_write_out_band_structure 25
+#define dump_optics_summary 26
 #define dump_optical_probe 27
 #define dump_info_text 28
+#define dump_optical_probe_spectrum 29
 
 //dos types
 #define dos_exp		0

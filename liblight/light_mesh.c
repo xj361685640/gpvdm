@@ -91,6 +91,7 @@ printf_log(sim,"init: mesh\n");
 			in->alpha[i][ii]=inter_get_noend(&(in->mat[in->layer[ii]]),in->l[i]);
 			in->alpha0[i][ii]=in->alpha[i][ii];
 			in->n[i][ii]=inter_get_noend(&(in->mat_n[in->layer[ii]]),in->l[i]);
+
 		}
 	}
 

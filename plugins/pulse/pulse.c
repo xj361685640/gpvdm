@@ -97,12 +97,13 @@ if (get_dump_status(sim,dump_optical_probe)==TRUE)
 
 if (pulse_config.pulse_sim_mode==pulse_load)
 {
-	sim_externalv(sim,in,time_get_voltage(in));
-	newton_externv(sim,in,time_get_voltage(in),FALSE);
+	sim_externalv(sim,in,time_get_voltage(in)+pulse_config.pulse_bias);
+	newton_externv(sim,in,time_get_voltage(in)+pulse_config.pulse_bias,FALSE);
 }else
 if (pulse_config.pulse_sim_mode==pulse_ideal_diode_ideal_load)
 {
-	newton_externalv_simple(sim,in,time_get_voltage(in));
+	ramp_externalv(sim,in,V,time_get_voltage(in)+pulse_config.pulse_bias);
+	newton_externalv_simple(sim,in,time_get_voltage(in)+pulse_config.pulse_bias);
 }
 else
 if (pulse_config.pulse_sim_mode==pulse_open_circuit)
@@ -143,12 +144,12 @@ do
 
 	if (pulse_config.pulse_sim_mode==pulse_load)
 	{
-		V=time_get_voltage(in);
+		V=time_get_voltage(in)+pulse_config.pulse_bias;
 		i0=newton_externv(sim,in,V,TRUE);
 	}else
 	if (pulse_config.pulse_sim_mode==pulse_ideal_diode_ideal_load)
 	{
-		V=time_get_voltage(in);
+		V=time_get_voltage(in)+pulse_config.pulse_bias;
 		i0=newton_externalv_simple(sim,in,V);
 	}else
 	if (pulse_config.pulse_sim_mode==pulse_open_circuit)
@@ -283,12 +284,13 @@ char laser_name[200];
 struct inp_file inp;
 inp_init(sim,&inp);
 inp_load_from_path(sim,&inp,get_input_path(sim),config_file_name);
-inp_check(sim,&inp,1.28);
+inp_check(sim,&inp,1.29);
 
 inp_search_gdouble(sim,&inp,&(in->pulse_shift),"#pulse_shift");
 inp_search_string(sim,&inp,name,"#pulse_sim_mode");
 inp_search_gdouble(sim,&inp,&(dev->L),"#pulse_L");
 inp_search_gdouble(sim,&inp,&(dev->Rload),"#Rload");
+inp_search_gdouble(sim,&inp,&(in->pulse_bias),"#pulse_bias");
 inp_search_string(sim,&inp,laser_name,"#pump_laser");
 light_load_laser(sim,(&dev->mylight),laser_name);
 in->pulse_sim_mode=english_to_bin(sim,name);

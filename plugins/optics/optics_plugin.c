@@ -39,8 +39,9 @@ void sim_optics(struct simulation *sim,struct device *in)
 {
 
 	set_dump_status(sim,dump_lock, FALSE);
-	set_dump_status(sim,dump_optics, TRUE);
-	set_dump_status(sim,dump_optics_verbose, TRUE);
+	//set_dump_status(sim,dump_optics, TRUE);
+	//set_dump_status(sim,dump_optics_verbose, TRUE);
+	set_dump_status(sim,dump_optics_summary, TRUE);
 
 	struct light two;
 	light_init(&two);
@@ -52,7 +53,7 @@ void sim_optics(struct simulation *sim,struct device *in)
 
 
 	light_load_config(sim,&two);
-
+	//two.Psun=1.0;
 	light_load_dlls(sim,&two);
 	//light_set_dx(&cell.mylight,cell.ymesh[1]-cell.ymesh[0]);
 
@@ -64,14 +65,14 @@ void sim_optics(struct simulation *sim,struct device *in)
 	//inp_load_from_path(sim,&inp,get_input_path(sim),"light.inp");
 	//inp_search_gdouble(sim,&inp,&(Psun),"#Psun");
 	//Psun=fabs(Psun);
-	light_set_sun(&(in->mylight),1.0);
+	light_set_sun(&two,1.0);
 	//inp_free(sim,&inp);
 
 
 	light_solve_and_update(sim,in,&two,0.0);
 	//light_dump(&two);
 	light_dump(sim,&two);
-
+	light_dump_summary(sim,&two);
 
 	/*buffer_malloc(&buf);
 	buf.y_mul=1.0;
