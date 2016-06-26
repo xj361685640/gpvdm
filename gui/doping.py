@@ -31,7 +31,7 @@ from numpy import *
 from matplotlib.figure import Figure
 #from numpy import arange, sin, pi
 from matplotlib.backends.backend_gtkagg import FigureCanvasGTKAgg as FigureCanvas
-from matplotlib.backends.backend_gtkagg import NavigationToolbar2GTKAgg as NavigationToolbar
+from matplotlib_toolbar import NavigationToolbar
 #import gobject
 from inp import inp_load_file
 #from inp import inp_get_token_value
@@ -306,8 +306,8 @@ class doping_window(gtk.Window):
 		tool_bar_pos=0
 
 		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"save.png"))
-		save = gtk.ToolButton(save)
+   		image.set_from_file(os.path.join(get_image_file_path(),"32_save.png"))
+		save = gtk.ToolButton(image)
 		tooltips.set_tip(save, _("Save image"))
 		save.connect("clicked", self.callback_save)
 		toolbar.insert(save, tool_bar_pos)
@@ -333,7 +333,9 @@ class doping_window(gtk.Window):
 		sep.show()
 		tool_bar_pos=tool_bar_pos+1
 
-		help = gtk.ToolButton(gtk.STOCK_HELP)
+		image = gtk.Image()
+		image.set_from_file(os.path.join(get_image_file_path(),"help.png"))
+		help = gtk.ToolButton(image)
 		toolbar.insert(help, tool_bar_pos)
 		help.connect("clicked", self.callback_help)
 		help.show()

@@ -53,6 +53,18 @@ def scan_list_simulations(dir_to_search):
 				found_dirs.append(root)
 	return found_dirs
 
+def scan_plot_fits(dir_to_search):
+
+	sim_dirs=tree_load_flat_list(dir_to_search)
+	
+	for i in range(0,len(sim_dirs)):
+		os.chdir(sim_dirs[i])
+		name=sim_dirs[i].replace("/","_")
+		
+		os.system("gnuplot fit.plot >plot.eps")
+		os.system("gs -dNOPAUSE -r600 -dEPSCrop -sDEVICE=jpeg -sOutputFile="+os.path.join(dir_to_search,name+".jpg")+" plot.eps -c quit")
+	os.chdir(dir_to_search)
+
 def scan_list_unconverged_simulations(dir_to_search):
 	found_dirs=[]
 	sim_dirs=tree_load_flat_list(dir_to_search)

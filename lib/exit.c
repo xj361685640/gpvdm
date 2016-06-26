@@ -65,7 +65,7 @@ int ewe( struct simulation *sim, const char *format, ...)
 
 
 
-	server_send_finished_to_gui(sim);
+	gui_send_finished_to_gui(sim);
 
 
 	if (strcmp(lock_name,"")!=0)

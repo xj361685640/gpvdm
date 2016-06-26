@@ -195,7 +195,7 @@ class lasers(gtk.Window):
 		self.win_list.load()
 		self.win_list.set_window(self,"laser_window")
 
-		self.set_size_request(900, 300)
+		self.set_size_request(900, 500)
 
 		self.tooltips = gtk.Tooltips()
 
@@ -280,7 +280,9 @@ class lasers(gtk.Window):
 		toolbar.insert(sep, pos)
 		pos=pos+1
 
-		tb_help = gtk.ToolButton(gtk.STOCK_HELP)
+		image = gtk.Image()
+		image.set_from_file(os.path.join(get_image_file_path(),"help.png"))
+		tb_help = gtk.ToolButton(image)
 		tb_help.connect("clicked", self.callback_help)
 		self.tooltips.set_tip(tb_help, "Help")
 		toolbar.insert(tb_help, pos)

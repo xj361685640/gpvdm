@@ -26,14 +26,17 @@
 
 struct probe_config
 {
-gdouble probe_wavelength;
+struct istruct *time_stark;
+gdouble *probe_wavelength;
+int n_probe_wavelength;
 gdouble stark_mul;
-gdouble probe_exp_multiply;
+int use_ss_spectra;
 };
 
-gdouble probe_cal(struct simulation *sim,struct device *in,	struct istruct *probe_mode);
+gdouble probe_cal(struct simulation *sim,struct device *in,	gdouble wavelength);
 void dump_probe_spectrum(struct simulation *sim,struct device *in,char *out_dir, int dump_number);
 void probe_init(struct simulation *sim,struct device *in);
 void probe_free(struct simulation *sim,struct device *in);
-
+void probe_record_step(struct simulation *sim,struct device *in);
+void probe_dump(struct simulation *sim,struct device *in);
 #endif

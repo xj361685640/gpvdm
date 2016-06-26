@@ -69,9 +69,16 @@ int fit_now(struct simulation *sim,struct fitvars *fitconfig);
 double fit_load_plugin(struct simulation *sim,struct fitvars *config,int i);
 void duplicate(struct simulation *sim);
 int get_fit_crashes(struct simulation *sim,struct fitvars *fitconfig);
-void fit_dump_log(struct simulation *sim,struct fitvars *fitconfig,double error,double size,gsl_vector *old_vector,gsl_vector *old_shift,gsl_vector *ss,gsl_vector *x);
 void fit_init(struct fitvars *fitconfig);
 void my_f_set_globals(struct simulation *sim, struct fitvars *config);
-double my_f (const gsl_vector *v, void *params);
 int fit_newton(struct simulation *sim,struct fitvars *fitconfig);
+
+#ifndef windows
+	double my_f (const gsl_vector *v, void *params);
+	void  my_df (const gsl_vector *v, void *params,  gsl_vector *df);
+	void my_fdf (const gsl_vector *x, void *params, double *f, gsl_vector *df) ;
+	void fit_dump_log(struct simulation *sim,struct fitvars *fitconfig,double error,double size,gsl_vector *old_vector,gsl_vector *old_shift,gsl_vector *ss,gsl_vector *x);
+
+#endif
+
 #endif

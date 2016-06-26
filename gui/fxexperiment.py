@@ -94,7 +94,7 @@ class fxexperiment(gtk.Window):
 		webbrowser.open('http://www.gpvdm.com/man/index.html')
 
 	def callback_add_page(self, widget, data=None):
-		new_sim_name=dlg_get_text( _("New experiment name:"), _("experiment ")+str(len(self.notebook.get_children())+1))
+		new_sim_name=dlg_get_text( _("New experiment name:"), _("experiment ")+str(len(self.notebook.get_children())+1),image_name="new.png")
 
 		if new_sim_name!=None:
 			index=experiment_new_filename()
@@ -113,7 +113,7 @@ class fxexperiment(gtk.Window):
 		pageNum = self.notebook.get_current_page()
 		tab = self.notebook.get_nth_page(pageNum)
 		old_index=tab.index
-		new_sim_name=dlg_get_text( _("Clone the current experiment to a new experiment called:"), tab.tab_name.split("@")[0])
+		new_sim_name=dlg_get_text( _("Clone the current experiment to a new experiment called:"), tab.tab_name.split("@")[0],image_name="clone.png")
 		if new_sim_name!=None:
 			new_sim_name=new_sim_name+"@"+tab.tab_name.split("@")[1]
 			index=experiment_new_filename()
@@ -140,7 +140,7 @@ class fxexperiment(gtk.Window):
 	def callback_rename_page(self,widget,data):
 		pageNum = self.notebook.get_current_page()
 		tab = self.notebook.get_nth_page(pageNum)
-		new_sim_name=dlg_get_text( _("Rename the experiment to be called:"), tab.tab_name.split("@")[0])
+		new_sim_name=dlg_get_text( _("Rename the experiment to be called:"), tab.tab_name.split("@")[0],image_name="rename.png")
 
 		if new_sim_name!=None:
 			#new_sim_name=self.remove_invalid(new_sim_name)
@@ -306,7 +306,9 @@ class fxexperiment(gtk.Window):
 		toolbar.insert(sep, pos)
 		pos=pos+1
 
-		tb_help = gtk.ToolButton(gtk.STOCK_HELP)
+		image = gtk.Image()
+		image.set_from_file(os.path.join(get_image_file_path(),"help.png"))
+		tb_help = gtk.ToolButton(image)
 		tb_help.connect("clicked", self.callback_help)
 		self.tooltips.set_tip(tb_help, "Help")
 		toolbar.insert(tb_help, pos)

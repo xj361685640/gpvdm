@@ -265,7 +265,9 @@ class tab_electrical_mesh(gtk.Window):
 		sep.show()
 		tool_bar_pos=tool_bar_pos+1
 
-		help = gtk.ToolButton(gtk.STOCK_HELP)
+		image = gtk.Image()
+		image.set_from_file(os.path.join(get_image_file_path(),"help.png"))
+		help = gtk.ToolButton(image)
 		toolbar.insert(help, tool_bar_pos)
 		help.connect("clicked", self.callback_help)
 		help.show()

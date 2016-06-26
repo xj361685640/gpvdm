@@ -26,7 +26,6 @@
 #include "dump.h"
 #include <cal_path.h>
 #include <pl.h>
-#include <linux/limits.h>
 
 static int unused __attribute__((unused));
 static int dump_number;

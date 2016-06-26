@@ -59,7 +59,6 @@ struct istruct out_G;
 inter_init(&out_G);
 
 
-
 char config_file_name[200];
 
 if (find_config_file(sim,config_file_name,get_input_path(sim),in->simmode,"pulse")!=0)
@@ -141,6 +140,7 @@ do
 	//}
 	//fclose(t);
 	dump_dynamic_add_data(sim,&store,in,in->time);
+	dump_write_to_disk(sim,in);
 
 	if (pulse_config.pulse_sim_mode==pulse_load)
 	{
@@ -170,7 +170,7 @@ do
 
 	ittr++;
 	gui_send_data(sim,"pulse");
-	dump_write_to_disk(sim,in);
+
 	plot_now(sim,"pulse.plot");
 	inter_append(&out_i,in->time,i0);
 	inter_append(&out_v,in->time,V);
@@ -262,7 +262,7 @@ buffer_dump_path(get_output_path(sim),"pulse_G.dat",&buf);
 buffer_free(&buf);
 
 
-
+probe_dump(sim,in);
 
 
 in->go_time=FALSE;
@@ -270,6 +270,7 @@ in->go_time=FALSE;
 inter_free(&out_G);
 inter_free(&out_i);
 inter_free(&out_v);
+
 time_memory_free(in);
 
 

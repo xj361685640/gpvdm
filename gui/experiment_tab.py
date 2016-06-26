@@ -31,7 +31,6 @@ import os
 #from matplotlib.figure import Figure
 #from numpy import arange, sin, pi
 #from matplotlib.backends.backend_gtkagg import FigureCanvasGTKAgg as FigureCanvas
-#from matplotlib.backends.backend_gtkagg import NavigationToolbar2GTKAgg as NavigationToolbar
 #import gobject
 #from scan_item import scan_item_add
 from inp import inp_load_file

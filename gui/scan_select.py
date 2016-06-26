@@ -118,19 +118,31 @@ class select_param(gtk.Window):
 		self.update()
 
 	def update(self):
+ 
 		old=""
 		self.treestore.clear()
 		param_list=scan_items_get_list()
 		for item in range(0, len(param_list)):
-			split=os.path.split(param_list[item].name)
-			main=split[0]
-			sub=split[1]
-			if main!=old:
-				piter = self.treestore.append(None, [main])
-				old=main
+			div_str=param_list[item].name.replace("\\", "/")
+			div_str=div_str.split("/")
+			piter=None
+			iter = self.treestore.get_iter_first()
+			for level in range(0,len(div_str)):
+				found=False
+				while iter != None:
+					val=self.treestore.get_value(iter, 0)
+					if val==div_str[level]:
+						found=True
+						piter=iter
+						iter=self.treestore.iter_children(iter)
+						break
+					iter = self.treestore.iter_next(iter)
+				if found==False:
+					piter = self.treestore.append(piter, [div_str[level]])
 
-			if main==old:
-				self.treestore.append(piter, [sub])
+				#self.treestore.append(piter, [sub])
+
+	 
 
 	def on_destroy(self, widget, data=None):
 		self.win_list.update(self,"scan_select")
@@ -138,25 +150,27 @@ class select_param(gtk.Window):
 		return True
 
 	def tree_apply_click(self, widget, data=None):
+		path=[]
 		tree_selection=self.treeview.get_selection()
-		tree_selection.set_mode(gtk.SELECTION_MULTIPLE)
 		(model, pathlist) = tree_selection.get_selected_rows()
-		print "model=",model
-		print "pathlist",pathlist
-		for path in pathlist :
-			tree_iter = model.get_iter(path)
-			parent=model.iter_parent(tree_iter)
+		tree_iter = model.get_iter(pathlist[0])
+		value = model.get_value(tree_iter,0)
+		path.append(value)
+		while tree_iter!=None:
+			tree_iter=self.treestore.iter_parent(tree_iter)
+			if tree_iter==None:
+				break
 			value = model.get_value(tree_iter,0)
-			ret=os.path.join(model.get_value(parent,0),value)
-			print ret
-
-			dest_tree_selection=self.dest_treeview.get_selection()
-			(dest_model, dest_pathlist) = dest_tree_selection.get_selected_rows()
-			self.liststore_combobox[dest_pathlist[0][0]][2]=ret
-			self.liststore_combobox[dest_pathlist[0][0]][0]=scan_items_get_file(ret)
-			self.liststore_combobox[dest_pathlist[0][0]][1]=scan_items_get_token(ret)
+			path.append(value)
+		path.reverse()
+		path="/".join(path)
 
 
+		dest_tree_selection=self.dest_treeview.get_selection()
+		(dest_model, dest_pathlist) = dest_tree_selection.get_selected_rows()
+		self.liststore_combobox[dest_pathlist[0][0]][0]=scan_items_get_file(path)
+		self.liststore_combobox[dest_pathlist[0][0]][1]=scan_items_get_token(path)
+		self.liststore_combobox[dest_pathlist[0][0]][2]=path
 
 
 	def tree_close_click(self, widget, data=None):

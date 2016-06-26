@@ -25,4 +25,5 @@
 int gui_send_data (struct simulation *sim, char *tx_data_in);
 int dbus_init();
 void gui_start(struct simulation *sim);
+void gui_send_finished_to_gui(struct simulation *sim);
 #endif

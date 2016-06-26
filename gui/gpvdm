@@ -68,7 +68,7 @@ from scan_item import scan_items_clear
 from scan import scan_class 
 #from search import find_fit_error
 #from clone import gpvdm_clone
-from export_as import export_as
+from dlg_export import dlg_export
 from experiment import experiment
 from fxexperiment import fxexperiment
 #from copying import copying
@@ -105,7 +105,6 @@ from epitaxy import epitaxy_load
 from global_objects import global_object_register
 
 from device_lib import device_lib_class
-from export_archive import export_archive
 from export_materials import export_materials
 from ver import ver_check_compatibility
 from import_archive import update_simulaton_to_new_ver
@@ -115,6 +114,10 @@ from update import update_now
 from hpc import hpc_class
 from scan_item import scan_populate_from_file
 from status_icon import status_icon_get
+from jv import jv
+from config_window import class_config_window
+from optics import class_optical
+from lasers import lasers
 
 bubble=False
 if running_on_linux()==True:
@@ -165,12 +168,10 @@ class gpvdm_main_window(gobject.GObject):
 	def gui_sim_start(self):
 		self.notebook_active_page=self.notebook.get_current_page()
 		self.notebook.goto_page("Terminal")
-		self.spin.start()
 
 	def gui_sim_stop(self,text):
 		message=""
 		self.notebook.set_current_page(self.notebook_active_page)
-		self.spin.stop()
 
 		if os.path.isfile("signal_stop.dat")==True:
 			f = open('signal_stop.dat')
@@ -237,25 +238,12 @@ class gpvdm_main_window(gobject.GObject):
 		self.my_server.clear_cache()
 		self.my_server.add_job(os.getcwd(),"")
 		self.my_server.start()
-	
-	def callback_start_cluster_server(self, widget, data=None):
-		self.goto_page("Terminal")
 
-		#cmd = "cd "+os.getcwd()+" \n"
-		#self.terminal.feed_child(cmd)
-
-#		cmd = "./gpvdm --server &\n"
-
-		#self.terminal.feed_child(cmd)
-
-
-		#self.spin.stop()
 
 	def callback_simulate_stop(self, widget, data=None):
 		cmd = 'killall '+get_exe_name()
 		print cmd
 #		ret= os.system(cmd)
-		self.spin.stop()
 
 	def callback_run_fit(self, widget, data=None):
 		if running_on_linux()==True:
@@ -396,6 +384,8 @@ class gpvdm_main_window(gobject.GObject):
 			self.param_scan.set_sensitive(True)
 			self.plot_select.set_sensitive(True)
 			self.undo.set_sensitive(True)
+			self.jv_button.set_sensitive(True)
+			self.optics_button.set_sensitive(True)
 
 			self.spectrum_button.set_sensitive(True)
 			#self.save_sim.set_sensitive(True)
@@ -414,10 +404,10 @@ class gpvdm_main_window(gobject.GObject):
 			my_item=self.item_factory.get_item(_("/File/Import from library"))
 			if my_item!=None:
 				my_item.set_sensitive(True)
-			my_item=self.item_factory.get_item(_("/Simulate/Run"))
+			my_item=self.item_factory.get_item(_("/Simulation/Run"))
 			if my_item!=None:
 				my_item.set_sensitive(True)
-			my_item=self.item_factory.get_item(_("/Simulate/Parameter scan"))
+			my_item=self.item_factory.get_item(_("/Simulation/Parameter scan"))
 			if my_item!=None:
 				my_item.set_sensitive(True)
 
@@ -428,6 +418,8 @@ class gpvdm_main_window(gobject.GObject):
 			self.param_scan.set_sensitive(False)
 			self.plot_select.set_sensitive(False)
 			self.undo.set_sensitive(False)
+			self.jv_button.set_sensitive(False)
+			self.optics_button.set_sensitive(False)
 			#self.save_sim.set_sensitive(False)
 			self.experiment_window_button.set_sensitive(False)
 
@@ -446,10 +438,10 @@ class gpvdm_main_window(gobject.GObject):
 			my_item=self.item_factory.get_item(_("/File/Import from library"))
 			if my_item!=None:
 				my_item.set_sensitive(False)
-			my_item=self.item_factory.get_item(_("/Simulate/Run"))
+			my_item=self.item_factory.get_item(_("/Simulation/Run"))
 			if my_item!=None:
 				my_item.set_sensitive(False)
-			my_item=self.item_factory.get_item(_("/Simulate/Parameter scan"))
+			my_item=self.item_factory.get_item(_("/Simulation/Parameter scan"))
 			if my_item!=None:
 				my_item.set_sensitive(False)
 
@@ -478,7 +470,17 @@ class gpvdm_main_window(gobject.GObject):
 			del self.fxexperiment_window
 			self.fxexperiment_window=None
 
+		if self.jvexperiment_window!=None:
+			del self.jvexperiment_window
+			self.jvexperiment_window=None
 
+		if self.lasers_window!=None:
+			del self.lasers_window
+			self.lasers_window=None
+
+		if self.config_window!=None:
+			del self.config_window
+			self.config_window=None
 
 		if self.qe_window!=None:
 			del self.qe_window
@@ -536,65 +538,7 @@ class gpvdm_main_window(gobject.GObject):
 		dialog.destroy()
 
 	def callback_export(self, widget, data=None):
-		dialog = gtk.FileChooserDialog(_("Export the simulation as"), None, gtk.FILE_CHOOSER_ACTION_SAVE,
-                               (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_SAVE, gtk.RESPONSE_OK))
-
-		dialog.set_default_response(gtk.RESPONSE_OK)
-
-		filter = gtk.FileFilter()
-		filter.set_name(_("gpvdm archive input+output files"))
-		filter.add_pattern("*.gpvdm")
-		dialog.add_filter(filter)
-
-		filter = gtk.FileFilter()
-		filter.set_name(_("gpvdm archive input files"))
-		filter.add_pattern("*.gpvdm")
-		dialog.add_filter(filter)
-
-		filter = gtk.FileFilter()
-		filter.set_name(_("pdf file"))
-		filter.add_pattern("*.pdf")
-		dialog.add_filter(filter)
-
-		filter = gtk.FileFilter()
-		filter.set_name(_("jpg image"))
-		filter.add_pattern("*.jpg")
-		dialog.add_filter(filter)
-
-		filter = gtk.FileFilter()
-		filter.set_name(_("tex file"))
-		filter.add_pattern("*.tex")
-		dialog.add_filter(filter)
-
-		filter = gtk.FileFilter()
-		filter.set_name(_("optical materials database"))
-		filter.add_pattern("*.zip")
-		dialog.add_filter(filter)
-
-
-		response = dialog.run()
-		if response == gtk.RESPONSE_OK:
-			file_name=dialog.get_filename()
-			filter=dialog.get_filter()
-			dialog.destroy()
-			print "rod",filter.get_name()
-
-			if filter.get_name()==_("gpvdm archive input+output files"):
-				export_archive(file_name,True)
-			elif filter.get_name()==_("gpvdm archive input files"):
-				export_archive(file_name,False)
-			elif filter.get_name()==_("optical materials database"):
-				export_materials(file_name)
-			elif filter.get_name()==_("pdf file") or _("jpg image") or _("tex file"):
-				if os.path.splitext(file_name)[1]=="":
-					export_as(file_name)
-				else:
-					export_as(file_name+filter.get_name())
-
-		
-		elif response == gtk.RESPONSE_CANCEL:
-			print _("Closed, no files selected")
-			dialog.destroy()
+		dlg_export()
 
 	def callback_about_dialog(self, widget, data=None):
 		about_dialog_show()
@@ -658,7 +602,41 @@ class gpvdm_main_window(gobject.GObject):
 		else:
 			self.fxexperiment_window.show_all()
 		
+	def callback_configure_lasers(self, widget, data=None):
 
+		if self.lasers_window==None:
+			self.lasers_window=lasers()
+			self.lasers_window.init()
+
+		my_help_class.help_set_help(["lasers.png",_("<big><b>Laser setup</b></big>\n Use this window to set up your lasers.")])
+		if self.lasers_window.get_property("visible")==True:
+			self.lasers_window.hide_all()
+		else:
+			self.lasers_window.show_all()
+
+	def callback_jvexperiment_window(self, widget, data=None):
+
+		if self.jvexperiment_window==None:
+			self.jvexperiment_window=jv()
+			self.jvexperiment_window.init()
+
+		my_help_class.help_set_help(["jv.png",_("<big><b>JV simulation editor</b></big>\n Use this window to select the step size and parameters of the JV simulations.")])
+		if self.jvexperiment_window.get_property("visible")==True:
+			self.jvexperiment_window.hide_all()
+		else:
+			self.jvexperiment_window.show_all()
+
+	def callback_config_window(self, widget, data=None):
+
+		if self.config_window==None:
+			self.config_window=class_config_window()
+			self.config_window.init()
+
+		my_help_class.help_set_help(["cog.png",_("<big><b>Configuration editor</b></big>\n Use this window to control advanced simulation parameters.")])
+		if self.config_window.get_property("visible")==True:
+			self.config_window.hide_all()
+		else:
+			self.config_window.show_all()
 
 	def callback_undo(self, widget, data=None):
 		l=self.undo_list.get_list()
@@ -685,7 +663,7 @@ class gpvdm_main_window(gobject.GObject):
 
 		if enable_betafeatures()==False:
 			item_factory.delete_item(_("/Advanced"))
-			item_factory.delete_item(_("/Simulate/Start cluster server"))
+			item_factory.delete_item(_("/Simulation/Start cluster server"))
 
 
 		window.add_accel_group(accel_group)
@@ -736,16 +714,9 @@ class gpvdm_main_window(gobject.GObject):
 		toolbar.insert(sep, pos)
 		pos=pos+1
 
-		self.spin=gtk.Spinner()
-		self.spin.set_size_request(32, 32)
-		self.spin.show()
-		self.spin.stop()
-
 
 		gap=gtk.Label(" ")
 		hbox.add(gap)
-		hbox.add(self.spin)	
-		hbox.set_child_packing(self.spin, False, False, 0, 0)
 
 
 		gap.show()
@@ -758,17 +729,17 @@ class gpvdm_main_window(gobject.GObject):
 		ti_progress.show()
 		return toolbar
 
-	def callback_cluster(self, widget, data=None):
-		if self.cluster_window==None:
-			self.cluster_window=hpc_class()
-			self.cluster_window.init(self.my_server)
+	def callback_optics_sim(self, widget, data=None):
+		my_help_class.help_set_help(["optics.png",_("<big><b>The optical simulation window</b></big>\nUse this window to perform optical simulations.  Click on the play button to run a simulation."),"play.png",_("Click on the play button to run an optical simulation.  The results will be displayed in the tabs to the right.")])
 
-		print self.cluster_window.get_property("visible")
+		if self.optics_window==False:
+			self.optics_window=class_optical()
+			self.optics_window.init()
 
-		if self.cluster_window.get_property("visible")==True:
-			self.cluster_window.hide()
+		if self.optics_window.get_property("visible")==True:
+			self.optics_window.hide()
 		else:
-			self.cluster_window.show()
+			self.optics_window.show()
 
 	def __init__(self):
 
@@ -816,9 +787,15 @@ class gpvdm_main_window(gobject.GObject):
 
 		self.fxexperiment_window=None
 
+		self.jvexperiment_window=None
 
+		self.config_window=None
+
+		self.optics_window=False
 
 		self.qe_window=None
+
+		self.lasers_window=None
 
 		self.win_list=windows()
 		self.win_list.load()
@@ -837,15 +814,17 @@ class gpvdm_main_window(gobject.GObject):
 		self.menu_items = (
 		    ( _("/_File"),         None,         None, 0, "<Branch>" ),
 			(_("/File/_New simulation"), "<control>N", self.callback_new, 0, "<StockItem>", "gtk-new" ),
+			(_("/File/_New optical material"), "<control>N", self.callback_new, 0, "<StockItem>", "gtk-new" ),
 			(_("/File/_Open simulation"), "<control>O", self.callback_open, 0, "<StockItem>", "gtk-open" ),
 		    ( _("/File/_Export data"),     None, self.callback_export, 0, "<StockItem>", "gtk-save" ),
 		    ( _("/File/Import data"),     None, self.callback_import, 0 , "<StockItem>", "gtk-harddisk"),
 		    ( _("/File/Import from library"),     None, self.callback_import_from_lib, 0 , "<StockItem>", "gtk-harddisk"),
 		    ( _("/File/Quit"),     "<control>Q", gtk.main_quit, 0, "<StockItem>", "gtk-quit" ),
-		    ( _("/_Simulate"),      None,         None, 0, "<Branch>" ),
-		    ( _("/Simulate/Run"),  None,         self.callback_simulate, 0, "<StockItem>", "gtk-media-play" ),
-		    ( _("/Simulate/Parameter scan"),  None,         self.callback_scan , 0, None ),
-		    ( _("/Simulate/Start cluster server"),  None,         self.callback_start_cluster_server , 0, None ),
+		    ( _("/_Simulation"),      None,         None, 0, "<Branch>" ),
+		    ( _("/Simulation/Run"),  None,         self.callback_simulate, 0, "<StockItem>", "gtk-media-play" ),
+		    ( _("/Simulation/Stop"),  None,         self.callback_simulate_stop, 0, "<StockItem>", "gtk-media-stop" ),
+		    ( _("/Simulation/Parameter scan"),  None,         self.callback_scan , 0, None ),
+		    ( _("/Simulation/Configure"),  None,         self.callback_config_window, 0, "<StockItem>", "gtk-preferences" ),
 		    ( _("/_View"),      None,         None, 0, "<Branch>" ),
 		    ( _("/_Plots"),      None,         None, 0, "<Branch>" ),
 		    ( _("/Plots/Plot simulation result"),  None,         self.callback_plot_select, 0, "<StockItem>", "gtk-open"),
@@ -867,7 +846,7 @@ class gpvdm_main_window(gobject.GObject):
 
 		self.tooltips = gtk.Tooltips()
 
-		self.window.set_size_request(-1, 780)
+		self.window.set_size_request(1100, 780)
 		main_vbox = gtk.VBox(False, 5)
 		main_vbox.set_border_width(1)
 		self.window.add(main_vbox)
@@ -992,16 +971,38 @@ class gpvdm_main_window(gobject.GObject):
 		image = gtk.Image()
 	   	image.set_from_file(os.path.join(get_image_file_path(),"time.png"))
 		self.experiment_window_button = gtk.ToolButton(image)
-		self.tooltips.set_tip(self.experiment_window_button, _("Edit the time mesh"))
+		self.tooltips.set_tip(self.experiment_window_button, _("Time domain simulation editor."))
 		self.experiment_window_button.connect("clicked", self.callback_edit_experiment_window)
 		toolbar.insert(self.experiment_window_button, -1)
 
 		image = gtk.Image()
    		image.set_from_file(os.path.join(get_image_file_path(),"spectrum.png"))
 		self.spectrum_button = gtk.ToolButton(image)
-		self.tooltips.set_tip(self.spectrum_button, _("Frequency domain mesh editor"))
+		self.tooltips.set_tip(self.spectrum_button, _("Frequency domain simulation editor"))
 		self.spectrum_button.connect("clicked", self.callback_fxexperiment_window)
 		toolbar.insert(self.spectrum_button, -1)
+
+		image = gtk.Image()
+   		image.set_from_file(os.path.join(get_image_file_path(),"jv.png"))
+		self.jv_button = gtk.ToolButton(image)
+		self.tooltips.set_tip(self.jv_button, _("Steady state simulation editor."))
+		self.jv_button.connect("clicked", self.callback_jvexperiment_window)
+		toolbar.insert(self.jv_button, -1)
+
+		image = gtk.Image()
+   		image.set_from_file(os.path.join(get_image_file_path(),"optics.png"))
+		self.optics_button = gtk.ToolButton(image)
+		self.tooltips.set_tip(self.optics_button, _("Optical simulation"))
+		self.optics_button.connect("clicked", self.callback_optics_sim)
+		toolbar.insert(self.optics_button, -1)
+
+		image = gtk.Image()
+   		image.set_from_file(os.path.join(get_image_file_path(),"lasers.png"))
+		self.lasers_button = gtk.ToolButton(image)
+		self.lasers_button.connect("clicked", self.callback_configure_lasers)
+		self.tooltips.set_tip(self.lasers_button, _("Lasers editor"))
+		toolbar.insert(self.lasers_button, -1)
+		toolbar.show_all()
 
 		if enable_betafeatures()==True:
 			sep = gtk.SeparatorToolItem()
@@ -1009,21 +1010,15 @@ class gpvdm_main_window(gobject.GObject):
 			sep.set_expand(False)
 			toolbar.insert(sep, -1)
 
-			image = gtk.Image()
-	   		image.set_from_file(os.path.join(get_image_file_path(),"server.png"))
-			self.cluster = gtk.ToolButton(image)
-			self.cluster.connect("clicked", self.callback_cluster)
-			self.tooltips.set_tip(self.cluster, _("Configure cluster"))
-			toolbar.insert(self.cluster, -1)
-			self.cluster.show()
-
 		sep2 = gtk.SeparatorToolItem()
 		sep2.set_draw(False)
 		sep2.set_expand(True)
 		toolbar.insert(sep2, -1)
 
 
-		help = gtk.ToolButton(gtk.STOCK_HELP)
+		image = gtk.Image()
+   		image.set_from_file(os.path.join(get_image_file_path(),"help.png"))
+		help = gtk.ToolButton(image)
 		self.tooltips.set_tip(help, "Help")
 		help.connect("clicked", self.callback_help)
 		toolbar.insert(help, -1)
@@ -1049,12 +1044,14 @@ class gpvdm_main_window(gobject.GObject):
 
 		main_vbox.pack_start(self.menubar, False, True, 0)
 		handlebox = gtk.HandleBox()
-		handlebox.set_snap_edge(gtk.POS_LEFT)
+		handlebox.set_snap_edge(-1)
 		handlebox.show()
 
 		handlebox1 = gtk.HandleBox()
-		handlebox1.set_snap_edge(gtk.POS_LEFT)
+		handlebox1.set_snap_edge(-1)
 		handlebox1.show()
+
+
 
 		toolbar.set_size_request(1000, -1)
 
@@ -1071,6 +1068,17 @@ class gpvdm_main_window(gobject.GObject):
 		main_vbox.pack_start(handlebox1, False, False, 0)
 		main_vbox.pack_start(handlebox, False, False, 0)
 
+		if enable_betafeatures()==True:
+			handlebox2 = gtk.HandleBox()
+			handlebox2.set_snap_edge(-1)
+			handlebox2.show()
+			self.hpc_toolbar=hpc_class()
+			self.hpc_toolbar.init(self.my_server)
+			self.hpc_toolbar.show_all()
+			handlebox2.add(self.hpc_toolbar)
+			main_vbox.pack_start(handlebox2, False, False, 0)
+
+	
 		self.window.connect("delete-event", self.callback_close_window) 
 
 		self.win_list.set_window(self.window,"main_window")
@@ -1100,7 +1108,7 @@ class gpvdm_main_window(gobject.GObject):
 		self.window2_box.add(self.notebook)
 		self.window2_box.add(box)
 		self.window2_box.set_child_packing(box, False, False, 0, 0)
-		self.window2_box.set_size_request(-1, 550)
+		self.window2_box.set_size_request(-1, 700)
 		self.window2 = gtk.Window(gtk.WINDOW_TOPLEVEL)
 		self.window2.set_border_width(10)
 

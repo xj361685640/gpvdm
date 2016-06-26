@@ -34,6 +34,8 @@ import glib
 from cal_path import get_image_file_path
 from ver import version
 from notice import notice
+import random
+import time
 
 class splash_window():
 	def timer_cb(self):
@@ -57,14 +59,36 @@ class splash_window():
 		self.window.set_border_width(0)
 		self.window.set_keep_above(True)
 		fixed = gtk.Fixed()
+		#image = gtk.Image()
+		image_file=os.path.join(get_image_file_path(),"splash2.png")
+
+		# Create an Image object for a PNG file.
+		#file_name = "/home/rod/test/jn15/images/splash2.png"
+		pixbuf = gtk.gdk.pixbuf_new_from_file(image_file)
+		w=pixbuf.get_width()
+		dw=494
+		xpos=w-dw
+
+		h=float(time.strftime("%H"))*60
+		m=float(time.strftime("%m"))
+		tot=h+m
+		my_max=float(24*60)
+		value=tot/my_max
+
+		xpos=int(xpos*value)
+
+		cropped_buffer=pixbuf.subpixbuf(xpos,0,dw,pixbuf.get_height())
+		pixmap, mask = cropped_buffer.render_pixmap_and_mask()
 		image = gtk.Image()
-		image_file=os.path.join(get_image_file_path(),"splash.png")
+		image.set_from_pixmap(pixmap, mask)
+		image.show()
+
+
 		label = gtk.Label()
 		label.set_use_markup(gtk.TRUE)
 		label.set_markup('<span color="black" size="88000"><b>gpvdm</b></span>')
 		label.show()
-		image.set_from_file(image_file)
-		image.show()
+		#image.set_from_file(image_file)
 		fixed.put(image, 0, 0)
 		fixed.put(label,40,40)
 

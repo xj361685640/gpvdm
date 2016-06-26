@@ -50,13 +50,16 @@ for file in glob.glob("z:\\auto_dep\\*"):
 		shutil.copy(file, dest)
 
 includes =['cairo', 'pango', 'pangocairo','atk', 'gobject', 'gio',"matplotlib.backends",  "matplotlib.backends.backend_tkagg"]
+
+dll_excludes = [ "OLEAUT32.dll","USER32.dll","IMM32.DLL","SHELL32.DLL","OLE32.dll","SHLWAPI.DLL","MSVCP90.dll","MSVCP90.dll","COMDLG32.dll","ADVAPI32.dll","ADVAPI32.dll","msvcrt.dll","WS2_32.dll","WINSPOOL.DRV","GDI32.dll","VERSION.dll","KERNEL32.dll","COMCTL32.dll","gdiplus.dll","api-ms-win-core-processthreads-l1-1-2.dll","api-ms-win-core-sysinfo-l1-2-1.dll","api-ms-win-core-errorhandling-l1-1-1.dll","api-ms-win-core-profile-l1-1-0.dll","api-ms-win-core-libraryloader-l1-2-0.dll"]
 pack  =[  'gtk','gtk.keysyms']
 setup(
 		console=['gpvdm.py'],
         options={
 				"py2exe":{
 				'packages': pack,
-				"includes": includes}
+				"includes": includes,
+				"dll_excludes": dll_excludes}
 				},
 		data_files=matplotlib.get_py2exe_datafiles()
 )

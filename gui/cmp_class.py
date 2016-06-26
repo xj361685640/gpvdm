@@ -350,7 +350,9 @@ class cmp_class(gtk.Window):
 		sep.show()
 
 
-		help = gtk.ToolButton(gtk.STOCK_HELP)
+		image = gtk.Image()
+		image.set_from_file(os.path.join(get_image_file_path(),"help.png"))
+		help = gtk.ToolButton(image)
 		self.plot.toolbar.add(help)
 		help.connect("clicked", self.callback_help)
 		help.show()

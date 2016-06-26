@@ -375,7 +375,6 @@ struct device
 	int tm_use_mesh;
 	int tm_mesh_pos;
 
-	struct istruct probe_mode;
 	struct light probe_modes;
 	struct istruct steady_stark;
 

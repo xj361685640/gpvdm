@@ -915,6 +915,30 @@ inter_realloc(in,in->len);
 
 }
 
+void inter_purge_x_zero(struct istruct* in)
+{
+int i;
+int write=0;
+int read=0;
+for (i=0;i<in->len;i++)
+{
+	in->data[write]=in->data[read];
+	in->x[write]=in->x[read];
+	//if (in->len==24) printf("%Le\n",in->data[read]);
+	if (in->x[read]==0.0)
+	{
+		write--;
+	}
+	read++;
+	write++;
+}
+//printf("%ld set to %ld\n",in->len,write);
+in->len=write;
+
+inter_realloc(in,in->len);
+
+}
+
 /**Get the smallest data stored in an istruct array
 @param in input istruct
 */

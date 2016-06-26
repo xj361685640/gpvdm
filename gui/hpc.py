@@ -35,39 +35,19 @@ from window_list import windows
 from inp import inp_load_file
 from inp_util import inp_search_token_value
 from status_icon import status_icon_stop
+from jobs import jobs_view
 
-class hpc_class(gtk.Window):
+class hpc_class(gtk.Toolbar):
 
-	file_name=""
 	name=""
-	visible=1
-	enabled=os.path.exists("./hpc.inp")
 	cpus=[]
 
-	def callback_node(self, widget, data=None):
-		lines=[]
-		a = open("../hpc/allowed_nodes", "w")
+	def callback_cluster_view_button(self, widget, data=None):
 
-		if inp_load_file(lines,"./server.inp")==True:
-			cpus_per_job=int(inp_search_token_value(lines, "#server_cpus"))
-			print "CPUs per job=",cpus_per_job
-
-		a.write(str(cpus_per_job)+"\n")
-
-		for i in range(0, len(self.button)):
-			print "cpus=",self.name[i]
-			if self.button[i].get_active()==True:
-				print "active=",self.name[i]
-				a.write(self.name[i]+"\n")
-				a.write(str(self.cpus[i])+"\n")
-		a.close()
-
-		now_dir=os.getcwd()
-
-		os.chdir("../hpc")
-		os.system("./make_node_list.py")
-
-		os.chdir(now_dir)
+		if self.hpc_window.get_property("visible")==True:
+			self.hpc_window.hide()
+		else:
+			self.hpc_window.show()
 
 	def callback_cluster_get_data(self, widget, data=None):
 		self.myserver.cluster_get_data()
@@ -209,6 +189,8 @@ class hpc_class(gtk.Window):
 			self.cluster_sync.set_sensitive(True)
 			self.cluster_jobs.set_sensitive(True)
 			self.cluster_stop.set_sensitive(True)
+			self.cluster_view_button.set_sensitive(True)
+
 		else:
 			self.cluster_button.set_stock_id(gtk.STOCK_CONNECT)
 			self.cluster_clean.set_sensitive(False)
@@ -220,38 +202,38 @@ class hpc_class(gtk.Window):
 			self.cluster_sync.set_sensitive(False)
 			self.cluster_jobs.set_sensitive(False)
 			self.cluster_stop.set_sensitive(False)
-
+			self.cluster_view_button.set_sensitive(False)
 
 	def callback_close_window(self, widget, event, data=None):
-		self.win_list.update(self,"hpc_window")
+		self.win_list.update(self.hpc_window,"hpc_window")
 		#gtk.main_quit()
 		return False
 
 
 
 	def init(self, server):
+		self.hpc_window = gtk.Window(gtk.WINDOW_TOPLEVEL)
+		#self.hpc_window.show()
+
 		self.myserver=server
 		self.win_list=windows()
-		main_box=gtk.VBox()
 
 		self.tooltips = gtk.Tooltips()
 
-		toolbar = gtk.Toolbar()
-		toolbar.set_style(gtk.TOOLBAR_ICONS)
-		toolbar.set_size_request(-1, 70)
-		main_box.pack_start(toolbar, False, False, 0)
+		self.set_style(gtk.TOOLBAR_ICONS)
+		self.set_size_request(-1, 70)
 
 		self.cluster_button = gtk.ToolButton(gtk.STOCK_CONNECT)
 		self.tooltips.set_tip(self.cluster_button, _("Connect to cluster"))
 		self.cluster_button.connect("clicked", self.callback_cluster_connect)
-		toolbar.insert(self.cluster_button, -1)
+		self.insert(self.cluster_button, -1)
 
 		image = gtk.Image()
    		image.set_from_file(os.path.join(get_image_file_path(),"server_get_data.png"))
 		self.cluster_get_data = gtk.ToolButton(image)
 		self.cluster_get_data.connect("clicked", self.callback_cluster_get_data)
 		self.tooltips.set_tip(self.cluster_get_data, _("Cluster get data"))
-		toolbar.insert(self.cluster_get_data, -1)
+		self.insert(self.cluster_get_data, -1)
 		self.cluster_get_data.set_sensitive(False)
 		self.cluster_get_data.show()
 
@@ -260,7 +242,7 @@ class hpc_class(gtk.Window):
 		self.cluster_get_info = gtk.ToolButton(image)
 		self.cluster_get_info.connect("clicked", self.callback_cluster_get_info)
 		self.tooltips.set_tip(self.cluster_get_info, _("Cluster get data"))
-		toolbar.insert(self.cluster_get_info, -1)
+		self.insert(self.cluster_get_info, -1)
 		self.cluster_get_info.set_sensitive(False)
 		self.cluster_get_info.show()
 
@@ -269,7 +251,7 @@ class hpc_class(gtk.Window):
 		self.cluster_copy_src = gtk.ToolButton(image)
 		self.cluster_copy_src.connect("clicked", self.callback_cluster_copy_src)
 		self.tooltips.set_tip(self.cluster_copy_src, _("Copy src to cluster"))
-		toolbar.insert(self.cluster_copy_src, -1)
+		self.insert(self.cluster_copy_src, -1)
 		self.cluster_copy_src.set_sensitive(False)
 		self.cluster_copy_src.show()
 
@@ -279,7 +261,7 @@ class hpc_class(gtk.Window):
 		self.cluster_make.connect("clicked", self.callback_cluster_make)
 		self.tooltips.set_tip(self.cluster_make, _("Copy src to cluster"))
 		self.cluster_make.set_sensitive(False)
-		toolbar.insert(self.cluster_make, -1)
+		self.insert(self.cluster_make, -1)
 		self.cluster_make.show()
 
 		image = gtk.Image()
@@ -288,7 +270,7 @@ class hpc_class(gtk.Window):
 		self.cluster_clean.connect("clicked", self.callback_cluster_clean)
 		self.tooltips.set_tip(self.cluster_clean, _("Clean cluster"))
 		self.cluster_clean.set_sensitive(False)
-		toolbar.insert(self.cluster_clean, -1)
+		self.insert(self.cluster_clean, -1)
 		self.cluster_clean.show()
 
 		image = gtk.Image()
@@ -297,7 +279,7 @@ class hpc_class(gtk.Window):
 		self.cluster_off.connect("clicked", self.callback_cluster_off)
 		self.tooltips.set_tip(self.cluster_off, _("Kill all cluster code"))
 		self.cluster_off.set_sensitive(False)
-		toolbar.insert(self.cluster_off, -1)
+		self.insert(self.cluster_off, -1)
 		self.cluster_off.show()
 
 		image = gtk.Image()
@@ -306,7 +288,7 @@ class hpc_class(gtk.Window):
 		self.cluster_sync.connect("clicked", self.callback_cluster_sync)
 		self.tooltips.set_tip(self.cluster_sync, _("Sync"))
 		self.cluster_sync.set_sensitive(False)
-		toolbar.insert(self.cluster_sync, -1)
+		self.insert(self.cluster_sync, -1)
 		self.cluster_sync.show()
 
 		image = gtk.Image()
@@ -315,7 +297,7 @@ class hpc_class(gtk.Window):
 		self.cluster_stop.connect("clicked", self.callback_cluster_stop)
 		self.tooltips.set_tip(self.cluster_stop, _("Sync"))
 		self.cluster_stop.set_sensitive(False)
-		toolbar.insert(self.cluster_stop, -1)
+		self.insert(self.cluster_stop, -1)
 		self.cluster_stop.show()
 
 		image = gtk.Image()
@@ -324,25 +306,45 @@ class hpc_class(gtk.Window):
 		self.cluster_jobs.connect("clicked", self.callback_cluster_jobs)
 		self.tooltips.set_tip(self.cluster_jobs, _("Sync"))
 		self.cluster_jobs.set_sensitive(False)
-		toolbar.insert(self.cluster_jobs, -1)
+		self.insert(self.cluster_jobs, -1)
 		self.cluster_jobs.show()
 
-		vbox_r=gtk.VBox(False, 2)
-		vbox_r.show()
-		main_box.pack_start(vbox_r, False, False, 0)
+		image = gtk.Image()
+   		image.set_from_file(os.path.join(get_image_file_path(),"server.png"))
+		self.cluster_view_button = gtk.ToolButton(image)
+		self.cluster_view_button.connect("clicked", self.callback_cluster_view_button)
+		self.tooltips.set_tip(self.cluster_view_button, _("Configure cluster"))
+		self.insert(self.cluster_view_button, -1)
+		self.cluster_view_button.set_sensitive(False)
+		self.cluster_view_button.show()
+
 
 		self.prog_hbox=gtk.VBox(False, 2)
 		self.prog_hbox.show()
-		main_box.pack_start(self.prog_hbox, True, True, 0)
-		main_box.show_all()
-		self.add(main_box)
+		self.notebook = gtk.Notebook()
+		self.notebook.set_tab_pos(gtk.POS_TOP)
+		self.notebook.show()
+		label = gtk.Label("Nodes")
+		self.notebook.append_page(self.prog_hbox, label)
+
+
+		self.jview=jobs_view()
+		self.jview.init(self.myserver.jobs_list)
+		self.jview.show()
+		label = gtk.Label("Jobs")
+		self.notebook.append_page(self.jview, label)
+
+
+		self.hpc_window.add(self.notebook)
+
+		self.show_all()
 		#check load
 
-		self.win_list.set_window(self,"hpc_window")
-		self.set_icon_from_file(os.path.join(get_image_file_path(),"server.png"))
-		self.set_size_request(700,-1)
-		self.set_title("General-purpose Photovoltaic Device Model (www.gpvdm.com)")
-		self.connect("delete-event", self.callback_close_window)
+		self.win_list.set_window(self.hpc_window,"hpc_window")
+		self.hpc_window.set_icon_from_file(os.path.join(get_image_file_path(),"server.png"))
+		self.hpc_window.set_size_request(700,-1)
+		self.hpc_window.set_title("General-purpose Photovoltaic Device Model (www.gpvdm.com)")
+		self.hpc_window.connect("delete-event", self.callback_close_window)
 		self.bar=[]
 		self.button=[]
 		self.slider=[]

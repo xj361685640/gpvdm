@@ -42,7 +42,6 @@ from emesh import tab_electrical_mesh
 from plot_gen import plot_gen
 from gpvdm_open import gpvdm_open
 from cal_path import get_materials_path
-from optics import class_optical
 from global_objects import global_object_get
 from epitaxy import epitaxy_get_width
 from epitaxy import epitaxy_get_mat_file
@@ -129,7 +128,10 @@ class layer_widget(gtk.VBox):
 		for i in range(0,len(mat)):
 			self.material_files.append([mat[i]])
 			scan_remove_file(os.path.join(get_materials_path(),mat[i]))			
-			scan_item_add(os.path.join("materials",mat[i],"fit.inp"),"#wavelength_shift_alpha","Alpha shift",1)
+			scan_item_add(os.path.join("materials",mat[i],"fit.inp"),"#wavelength_shift_alpha","Absorption spectrum wavelength shift",1)
+			scan_item_add(os.path.join("materials",mat[i],"fit.inp"),"#n_mul","Refractive index spectrum multiplier",1)
+			scan_item_add(os.path.join("materials",mat[i],"fit.inp"),"#alpha_mul","Absorption spectrum multiplier",1)
+
 		self.active_layer.append([_("yes")])
 		self.active_layer.append([_("no")])
 
@@ -168,7 +170,6 @@ class layer_widget(gtk.VBox):
 
 	def __init__(self,tooltips):
 
-		self.optics_window=False
 		self.doping_window=False
 
 		self.electrical_mesh=tab_electrical_mesh()
@@ -228,15 +229,6 @@ class layer_widget(gtk.VBox):
 		tooltips.set_tip(self.mesh, _("Edit the electrical mesh"))
 		self.mesh.connect("clicked", self.callback_edit_mesh)
 		toolbar.insert(self.mesh, pos)
-		pos=pos+1
-
-		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"optics.png"))
-		self.optics_button = gtk.ToolButton(image)
-		tooltips.set_tip(self.optics_button, _("Optical simulation"))
-		self.optics_button.connect("clicked", self.callback_optics_sim)
-		toolbar.insert(self.optics_button, pos)
-		self.optics_button.show_all()
 		pos=pos+1
 
 		image = gtk.Image()
@@ -489,18 +481,6 @@ class layer_widget(gtk.VBox):
 
 		epitaxy_save()
 		self.sync_to_electrical_mesh()
-
-	def callback_optics_sim(self, widget, data=None):
-		my_help_class.help_set_help(["optics.png",_("<big><b>The optical simulation window</b></big>\nUse this window to perform optical simulations.  Click on the play button to run a simulation."),"play.png",_("Click on the play button to run an optical simulation.  The results will be displayed in the tabs to the right.")])
-
-		if self.optics_window==False:
-			self.optics_window=class_optical()
-			self.optics_window.init()
-
-		if self.optics_window.get_property("visible")==True:
-			self.optics_window.hide()
-		else:
-			self.optics_window.show()
 
 	def callback_doping(self, widget, data=None):
 		my_help_class.help_set_help(["doping.png",_("<big><b>Doping window</b></big>\nUse this window to add doping to the simulation")])

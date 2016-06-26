@@ -71,6 +71,10 @@ void printf_log(struct simulation *sim, const char *format, ...)
 	{
 		join_path(2,temp,get_output_path(sim),"log.dat");
 		out=fopen(temp,"a");
+		if (out==NULL)
+		{
+			printf("error: opening file %s\n",temp);
+		}
 		fprintf(out,"%s",data);
 		fclose(out);
 	}
@@ -120,11 +124,11 @@ printf("%s", command);
 
 int log_search_error(char *path)
 {
+	int ret=-1;
     FILE * fp;
     char * line = NULL;
     ssize_t read;
 	size_t len = 0;
-	int ret=-1;
     fp = fopen(path, "r");
 
     if (fp == NULL)

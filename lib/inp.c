@@ -31,7 +31,6 @@
 #include "util.h"
 #include "code_ctrl.h"
 #include "const.h"
-#include <linux/limits.h>
 
 int search_for_token(struct simulation *sim,char *ret,char *dir_name,char* token,char *search_value)
 {
@@ -852,6 +851,47 @@ int inp_get_array_len(struct simulation *sim,struct inp_file *in,char *token)
 				{
 					break;
 				}
+				ret++;
+
+			}while(1);
+
+			return ret;
+		}
+
+		line  = inp_get_string(sim,in);
+	}
+
+return ret;
+}
+
+int inp_get_array_gdouble(struct simulation *sim,long double * out,struct inp_file *in,char *token)
+{
+	int ret=-1;
+	inp_reset_read(sim,in);
+	char * line = inp_get_string(sim,in);
+	gdouble value;
+	while(line!=NULL)
+	{
+		if (strcmp(line,token)==0)
+		{
+			ret=0;
+			do
+			{
+				line  = inp_get_string(sim,in);
+
+				if (line==NULL)
+				{
+					break;
+				}
+
+				if (line[0]=='#')
+				{
+					break;
+				}
+
+				sscanf(line,"%Le",&value);
+				out[ret]=value;
+
 				ret++;
 
 			}while(1);

@@ -109,4 +109,5 @@ void inter_join_bins(struct istruct* in,gdouble delta);
 void inter_reset(struct istruct* in);
 void inter_find_peaks(struct istruct* out,struct istruct* in,int find_max);
 void inter_sin(struct istruct *in,gdouble mag,gdouble fx,gdouble delta);
+void inter_purge_x_zero(struct istruct* in);
 #endif

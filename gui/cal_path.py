@@ -38,6 +38,7 @@ lib_path=None
 image_path=None
 lang_path=None
 inp_file_path=None
+src_path=None
 
 def remove_cwdfrompath(path):
 	tmp=path
@@ -128,6 +129,7 @@ def calculate_paths():
 	global image_path
 	global plugins_path
 	global inp_file_path
+	global src_path
 
 	materials_path=search_known_paths("materials",[""])
 	device_lib_path=search_known_paths("device_lib",[""])
@@ -136,11 +138,16 @@ def calculate_paths():
 	lang_path=search_known_paths("lang",[""])
 	exe_command=search_known_paths("gpvdm_core",["",".exe",".o"])
 	inp_file_path=os.path.dirname(search_known_paths("sim",[".gpvdm"]))
+	src_path=os.path.dirname(search_known_paths("Makefile",[".am"]))
 
 
 def get_share_path():
 	global share_path
 	return share_path
+
+def get_src_path():
+	global src_path
+	return src_path
 
 def get_materials_path():
 	global materials_path

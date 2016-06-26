@@ -33,6 +33,15 @@
 
 struct timeval last_time;
 
+void gui_send_finished_to_gui(struct simulation *sim)
+{
+printf_log(sim,"finished signal=%s\n",sim->server.dbus_finish_signal);
+if (strcmp(sim->server.dbus_finish_signal,"")!=0)
+{
+	gui_send_data(sim,sim->server.dbus_finish_signal);
+}
+}
+
 int gui_send_data (struct simulation *sim,char *tx_data_in)
 {
 if (sim->gui==TRUE)

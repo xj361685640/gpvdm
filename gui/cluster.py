@@ -57,6 +57,8 @@ import hashlib
 import i18n
 _ = i18n.language.gettext
 import zlib
+from cal_path import get_src_path
+
 
 def strip_slash(tx_name):
 	start=0
@@ -94,6 +96,7 @@ class cluster:
 		self.cluster=False
 		self.nodes=[]
 		self.server_ip=inp_get_token_value("server.inp","#server_ip")
+		self.jobs_list = gtk.ListStore(str, str, str,str, str, str,str, str)
 
 	def connect(self):
 		if self.cluster==False:
@@ -273,19 +276,20 @@ class cluster:
 			bytes = zlib.compress(bytes)
 
 		tx_size=len(bytes)
-
-		expand=((int(tx_size)/int(512))+1)*512-tx_size
-		bytes+= "\0" * expand
-
+		if tx_size!=0:
+			expand=((int(tx_size)/int(512))+1)*512-tx_size
+			bytes+= "\0" * expand
 
 
 		header=data.id+"\n"
 
-		header=header+"#file_name\n"+data.file_name+"\n"
+		if data.file_name!="":
+			header=header+"#file_name\n"+data.file_name+"\n"
 
 		header=header+"#size\n"+str(tx_size)+"\n"
 
-		header=header+"#target\n"+data.target+"\n"
+		if data.target!="":
+			header=header+"#target\n"+data.target+"\n"
 
 		header=header+"#stat\n"+str(data.stat)+"\n"
 
@@ -309,7 +313,9 @@ class cluster:
 			buf[i]=header[i]
 
 		buf=buf+bytes
+		print "I am sending",len(buf),data.id
 		buf=encrypt(buf)
+		print "I am sending",len(buf),data.id
 		self.socket.sendall(buf)
 
 	def send_files(self,target,src,files):
@@ -354,6 +360,13 @@ class cluster:
 
 	def process_job_list(self,data):
 		ret=self.rx_packet(data)
+		self.jobs_list.clear()
+		for line in ret.data.split("\n"):
+			act=line.split()
+			print len(act),act
+			if len(act)==9:
+				self.jobs_list.append([act[0], act[1], act[2], act[3],act[4], act[5], act[6], act[7]])
+
 		print ret.data
 
 	def process_sync_packet_two(self,data):
@@ -441,14 +454,18 @@ class cluster:
 
 	def copy_src_to_cluster_fast(self):
 		if self.cluster==True:
-			path=inp_get_token_value("server.inp","#path_to_src")
+			path=get_src_path()
+			if path==None:
+				return
 			self.sync_dir(path,"src")
 			path=inp_get_token_value("server.inp","#path_to_libs")
 			self.sync_dir(path,"src")
 		
 	def copy_src_to_cluster(self):
 		if self.cluster==True:
-			path=inp_get_token_value("server.inp","#path_to_src")
+			path=get_src_path()
+			if path==None:
+				return
 			self.send_dir(path,"src")
 			path=inp_get_token_value("server.inp","#path_to_libs")
 			self.send_dir(path,"src")
@@ -478,7 +495,7 @@ class cluster:
 		if self.cluster==True:
 			data=tx_struct()
 
-			data.id="stop_all_jobs"
+			data.id="gpvdm_stop_all_jobs"
 			self.tx_packet(data)
 
 			data.id="gpvdmkillall"
@@ -486,7 +503,7 @@ class cluster:
 
 			sleep(1)
 
-			data.id="delete_all_jobs"
+			data.id="gpvdm_delete_all_jobs"
 			self.tx_packet(data)
 
 		else:

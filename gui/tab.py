@@ -64,7 +64,7 @@ class tab_class(gtk.VBox,tab_base):
 		else:
 			inp_update_token_value(self.file_name, data, widget.get_active_text(),1)
 
-		my_help_class.help_set_help(["save.png","<big><b>Saved to disk</b></big>\n"])
+		my_help_class.help_set_help(["32_save.png","<big><b>Saved to disk</b></big>\n"])
 
 	def help(self):
 		my_help_class.get_help(self.file_name)

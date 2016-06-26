@@ -31,7 +31,6 @@ from numpy import *
 from matplotlib.figure import Figure
 #from numpy import arange, sin, pi
 from matplotlib.backends.backend_gtkagg import FigureCanvasGTKAgg as FigureCanvas
-from matplotlib.backends.backend_gtkagg import NavigationToolbar2GTKAgg as NavigationToolbar
 #import gobject
 from scan_item import scan_item_add
 from inp import inp_load_file
@@ -47,6 +46,7 @@ from cal_path import get_image_file_path
 from scan_item import scan_remove_file
 from code_ctrl import enable_betafeatures
 from tb_lasers import tb_lasers
+from matplotlib_toolbar import NavigationToolbar
 
 import i18n
 _ = i18n.language.gettext
@@ -62,6 +62,7 @@ SEG_LASER
 ) = range(7)
 
 mesh_articles = []
+
 
 class tab_time_mesh(gtk.VBox):
 	lines=[]
@@ -561,7 +562,7 @@ class tab_time_mesh(gtk.VBox):
 		tool_bar_pos=0
 
 		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"save.png"))
+   		image.set_from_file(os.path.join(get_image_file_path(),"32_save.png"))
 		save = gtk.ToolButton(image)
 		tooltips.set_tip(save, _("Save image"))
 		save.connect("clicked", self.callback_save)

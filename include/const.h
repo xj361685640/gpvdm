@@ -48,7 +48,7 @@
 
 #define FIT_SIMPLEX 0
 #define FIT_NEWTON 1
-
+#define FIT_BFGS 2
 
 //tpv light
 #define tpv_set_light 0
@@ -101,4 +101,10 @@
 #define dos_fd		2
 #define dos_exp_fd 	3
 #define dos_read 	5
+
+
+	#ifndef windows
+		#include <linux/limits.h>
+	#endif
+
 #endif

@@ -2,6 +2,7 @@ AC_INIT([gpvdm], [4.40])
 AC_CONFIG_SRCDIR([./src/main.c])
 AC_CANONICAL_TARGET
 AC_CANONICAL_HOST
+AM_PROG_AR([No ar tool])
 
 AS_CASE([$target_os],
   [mingw32], [

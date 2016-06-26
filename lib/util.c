@@ -273,6 +273,10 @@ if (strcmp(in,"newton")==0)
 if (strcmp(in,"simplex")==0)
 {
 	return FIT_SIMPLEX;
+}else
+if (strcmp(in,"bfgs")==0)
+{
+	return FIT_BFGS;
 }
 
 

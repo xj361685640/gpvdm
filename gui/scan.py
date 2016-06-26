@@ -158,6 +158,11 @@ class scan_class(gtk.Window):
 		tab = self.notebook.get_nth_page(pageNum)
 		tab.simulate(True,False,"--1fit")
 
+	def callback_plot_fits(self,widget,data):
+		pageNum = self.notebook.get_current_page()
+		tab = self.notebook.get_nth_page(pageNum)
+		tab.plot_fits()
+
 	def callback_nested_simulation(self,widget,data):
 		pageNum = self.notebook.get_current_page()
 		tab = self.notebook.get_nth_page(pageNum)
@@ -407,6 +412,7 @@ class scan_class(gtk.Window):
 		    ( _("/Simulations/_Clone simulation"),     None, self.callback_copy_page, 0, "<StockItem>", "gtk-copy" ),
 			( _("/Simulations/sep1"),     None, None, 0, "<Separator>" ),
 		    ( _("/Simulations/_Run simulation"),     None, self.callback_run_simulation, 0, "<StockItem>", "gtk-media-play" ),
+			( _("/Advanced/_Plot fits"),     None, self.callback_plot_fits, 0, "<StockItem>", "gtk-media-play" ),
 			( _("/Advanced/_Run nested simulation"),     None, self.callback_nested_simulation, 0, "<StockItem>", "gtk-media-play" ),
 		    ( _("/Advanced/_Run single fit"),     None, self.callback_run_single_fit, 0, "<StockItem>", "gtk-media-play" ),
 			( _("/Advanced/_Clean simulation"),     None, self.callback_clean_simulation, 0, "<StockItem>", "gtk-clear" ),
@@ -431,7 +437,7 @@ class scan_class(gtk.Window):
 		menubar.show()
 
 		toolbar = gtk.Toolbar()
-		toolbar.set_style(gtk.TOOLBAR_ICONS)
+		toolbar.set_style(gtk.TOOLBAR_BOTH_HORIZ)
 		toolbar.set_size_request(-1, 70)
 
 		#image = gtk.Image()
@@ -449,9 +455,14 @@ class scan_class(gtk.Window):
 
 		image = gtk.Image()
 		image.set_from_file(os.path.join(get_image_file_path(),"delete.png"))
-		delete = gtk.ToolButton(image)
+		delete = gtk.ToolButton()
+		delete.set_label("Delete")
+		delete.set_icon_widget(image)
+		delete.set_is_important(True)
+
 		delete.connect("clicked", self.callback_delete_page,None)
 		self.tooltips.set_tip(delete, _("Delete simulation"))
+		self.show_all()
 		toolbar.insert(delete, -1)
 
 		image = gtk.Image()
@@ -475,7 +486,7 @@ class scan_class(gtk.Window):
 		toolbar.insert(sep, -1)
 
 		image = gtk.Image()
-		image.set_from_file(os.path.join(get_image_file_path(),"forward2.png"))
+		image.set_from_file(os.path.join(get_image_file_path(),"32_forward2.png"))
 		tb_simulate = gtk.ToolButton(image)
 		tb_simulate.connect("clicked", self.callback_run_all_simulations)
 		self.tooltips.set_tip(tb_simulate, _("Run all simulation"))
@@ -486,7 +497,9 @@ class scan_class(gtk.Window):
 		sep.set_expand(True)
 		toolbar.insert(sep, -1)
 
-		tb_help = gtk.ToolButton(gtk.STOCK_HELP)
+		image = gtk.Image()
+		image.set_from_file(os.path.join(get_image_file_path(),"32_help.png"))
+		tb_help = gtk.ToolButton(image)
 		tb_help.connect("clicked", self.callback_help)
 		self.tooltips.set_tip(tb_help, _("Help"))
 		toolbar.insert(tb_help, -1)

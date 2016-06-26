@@ -43,5 +43,4 @@ void change_cpus(struct simulation *sim,struct server_struct *myserver);
 void server_check_wall_clock(struct simulation *sim,struct server_struct *myserver);
 void server_update_last_job_time();
 void server_set_dbus_finish_signal(struct server_struct *myserver, char *signal);
-void server_send_finished_to_gui(struct simulation *sim);
 #endif

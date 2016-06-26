@@ -27,17 +27,17 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="21.854488"
-     inkscape:cx="17.528925"
-     inkscape:cy="22.145643"
+     inkscape:zoom="5.463622"
+     inkscape:cx="-20.670154"
+     inkscape:cy="12.888239"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:grid-bbox="true"
      inkscape:document-units="px"
-     inkscape:window-width="1440"
-     inkscape:window-height="818"
+     inkscape:window-width="1920"
+     inkscape:window-height="953"
      inkscape:window-x="0"
-     inkscape:window-y="29"
+     inkscape:window-y="49"
      inkscape:window-maximized="1" />
   <metadata
      id="metadata3890">
@@ -47,7 +47,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
         <dc:creator>
           <cc:Agent>
             <dc:title>Roderick C. I. MacKenzie</dc:title>
@@ -85,5 +85,40 @@
        id="path3785"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc" />
+    <rect
+       style="fill:#000000;fill-opacity:1;stroke:none"
+       id="rect3805-4"
+       width="31.53108"
+       height="0.79812104"
+       x="7.9086623"
+       y="38.993065" />
+    <ellipse
+       style="fill:#ff0000;fill-opacity:1;stroke:none"
+       id="path3807"
+       cx="9.813715"
+       cy="39.450676"
+       rx="2.0320356"
+       ry="2.2263024" />
+    <ellipse
+       style="fill:#ff0000;fill-opacity:1;stroke:none"
+       id="path3807-0"
+       cx="37.392464"
+       cy="39.34462"
+       rx="2.0320356"
+       ry="2.2263024" />
+    <ellipse
+       style="fill:#ff0000;fill-opacity:1;stroke:none"
+       id="path3807-0-0"
+       cx="27.957788"
+       cy="39.425308"
+       rx="2.0320356"
+       ry="2.2263024" />
+    <ellipse
+       style="fill:#ff0000;fill-opacity:1;stroke:none"
+       id="path3807-0-0-4"
+       cx="18.678419"
+       cy="39.369408"
+       rx="2.0320356"
+       ry="2.2263024" />
   </g>
 </svg>

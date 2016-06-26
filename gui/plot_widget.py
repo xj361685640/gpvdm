@@ -39,7 +39,7 @@ import matplotlib.pyplot as plt
 from plot_export import plot_export
 #from numpy import arange, sin, pi, zeros
 from matplotlib.backends.backend_gtkagg import FigureCanvasGTKAgg as FigureCanvas
-from matplotlib.backends.backend_gtkagg import NavigationToolbar2GTKAgg
+from matplotlib_toolbar import NavigationToolbar
 from matplotlib.figure import Figure
 from util import read_xyz_data
 import matplotlib.ticker as ticker
@@ -56,11 +56,6 @@ from plot_io import plot_save_oplot_file
 #from plot_state import plot_state
 from gui_util import dlg_get_multi_text
 from util import time_with_units
-
-class NavigationToolbar(NavigationToolbar2GTKAgg):
-    # only display the buttons we need
-    toolitems = [t for t in NavigationToolbar2GTKAgg.toolitems if
-                 t[0] in ('Home', 'Pan', 'Zoom', 'Subplots')]
 
 
 class plot_widget(gtk.VBox):

@@ -64,6 +64,8 @@ from scan_io import scan_clean_unconverged
 from scan_io import scan_clean_simulation_output
 from scan_io import scan_nested_simulation
 from server import server_find_simulations_to_run
+from scan_io import scan_plot_fits
+
 from plot_io import plot_save_oplot_file
 #from scan_io import scan_list_simulations
 from notes import notes
@@ -77,6 +79,7 @@ from help import my_help_class
 from cal_path import get_image_file_path
 from scan_item import scan_items_get_file
 from scan_item import scan_items_get_token
+from util import str2bool
 
 import i18n
 _ = i18n.language.gettext
@@ -149,21 +152,21 @@ class scan_vbox(gtk.VBox):
 		for path in pathlist:
 			tree_iter = model.get_iter(path)
 			print "path=",tree_iter
-			build=build+model.get_value(tree_iter,0)+"\n"+model.get_value(tree_iter,1)+"\n"+model.get_value(tree_iter,2)+"\n"+str(model.get_value(tree_iter,3))
+			build=build+model.get_value(tree_iter,0)+","+model.get_value(tree_iter,1)+","+model.get_value(tree_iter,2)+","+str(model.get_value(tree_iter,3))+","+str(model.get_value(tree_iter,4))+","+str(str(model.get_value(tree_iter,5)))+"\n"
 			print build
+		build=build[:-1]
 		self.clipboard.set_text(build, -1)
 
 	def callback_paste_item(self, widget, data=None):
-		selection = self.treeview.get_selection()
-		model, iter = selection.get_selected()
-
-		if iter:
-			text = self.clipboard.wait_for_text()
-			if text != None:
-				array=text.rstrip().split('\n')
+		text = self.clipboard.wait_for_text()
+		if text != None:
+			lines=text.rstrip().split('\n')
+			for line in lines:
+				array=line.rstrip().split(',')
+				array[5]=str2bool(array[5])
+				print array
 				self.add_line(array)
-				#build=model[0][0]+"\n"+model[0][1]+"\n"+model[0][2]
-				#self.clipboard.set_text(build, -1)
+
 	def callback_show_list(self, widget, data=None):
 		self.select_param_window.update()
 		self.select_param_window.show()
@@ -228,6 +231,9 @@ class scan_vbox(gtk.VBox):
 
 	def import_from_hpc(self):
 		scan_import_from_hpc(self.sim_dir)
+
+	def plot_fits(self):
+		scan_plot_fits(self.sim_dir)
 
 	def push_to_hpc(self):
 		scan_push_to_hpc(self.sim_dir,False)
@@ -457,7 +463,8 @@ class scan_vbox(gtk.VBox):
 	def on_treeview_button_press_event(self, treeview, event):
 		if event.type == gtk.gdk.BUTTON_PRESS and event.button == 3:
 			self.popup_menu.popup(None, None, None, event.button, event.time)
-			pass
+			return True
+		
 
 	def callback_close(self,widget):
 		self.hide()
@@ -712,7 +719,11 @@ class scan_vbox(gtk.VBox):
 		self.select_param_window.init(self.liststore_combobox,self.treeview)
 
 		column_file = gtk.TreeViewColumn(_("File"))
+		column_file.set_visible(False)
+
 		column_token = gtk.TreeViewColumn(_("Token"))
+		column_token.set_visible(False)
+
 		column_combo = gtk.TreeViewColumn(_("Parameter to change"))
 		column_text = gtk.TreeViewColumn(_("Values"))
 		column_mirror = gtk.TreeViewColumn(_("Opperation"))
