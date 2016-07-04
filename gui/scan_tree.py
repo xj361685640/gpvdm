@@ -38,6 +38,8 @@ from util import str2bool
 from util import get_cache_path
 from cal_path import get_materials_path
 from clone import clone_materials
+from scan_item import scan_items_get_file
+from scan_item import scan_items_get_token
 
 copy_materials=False
 
@@ -164,19 +166,13 @@ def tree_gen(flat_simulation_list,program_list,base_dir,sim_dir):
 	return ret
 
 def tree_apply_mirror(program_list):
+	print program_list
 	for i in range(0, len(program_list)):
-		for ii in range(0, len(program_list)):
-			if program_list[i][0]+program_list[i][1]==program_list[ii][0]+program_list[ii][1]:
-
-				src_value=inp_get_token_value(program_list[i][0], program_list[i][1])
-				inp_update_token_value(program_list[ii][0], program_list[ii][1], src_value,1)
-
-				#pull out of the file the value
-				#if program_list[i][3]!="mirror":
-					#find value in list
-				#	orig_list=program_list[i][1].split()
-				#	look_up=program_list[ii][1].split()
-				#	src_value=orig_list[look_up.index(src_value.rstrip())]
+		if program_list[i][2]=="mirror":
+			f=scan_items_get_file(program_list[i][3])
+			t=scan_items_get_token(program_list[i][3])
+			src_value=inp_get_token_value(f, t)
+			inp_update_token_value(program_list[i][0], program_list[i][1], src_value,1)
 
 	return True
 
