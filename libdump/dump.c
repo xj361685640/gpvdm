@@ -26,6 +26,8 @@
 #include "dump.h"
 #include <cal_path.h>
 #include <pl.h>
+#include <probe.h>
+
 
 static int unused __attribute__((unused));
 static int dump_number;

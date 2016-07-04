@@ -304,7 +304,6 @@ void device_init(struct device *in)
 	in->Is= -1.0;
 	in->n_id= -1.0;
 	in->Igen= -1.0;
-	in->dump_movie= -1;
 
 	in->n_orig= NULL;
 	in->p_orig= NULL;

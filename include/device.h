@@ -313,7 +313,6 @@ struct device
 	gdouble n_id;
 	gdouble Igen;
 	struct light mylight;
-	int dump_movie;
 
 	gdouble *n_orig;
 	gdouble *p_orig;

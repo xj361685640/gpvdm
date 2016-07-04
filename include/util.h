@@ -62,6 +62,7 @@ int strextract_int(char * in);
 char* strextract_domain(char * in);
 int find_config_file(struct simulation *sim,char *ret,char *dir_name,char* search_name,char *start_of_name);
 void fx_with_units(char *out,double number);
+void time_with_units(char *out,double number);
 int is_domain(char * in);
 int isdir(const char *path);
 int path_up_level(char *out, char *in);

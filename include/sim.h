@@ -43,7 +43,8 @@ void find_n0(struct simulation *sim,struct device *in);
 //from time.c
 void time_mesh_save(struct simulation *sim,struct device *in);
 void time_load_mesh(struct simulation *sim,struct device *in,int number);
-void time_init(struct device *in);
+void time_init(struct simulation *sim,struct device *in);
+void time_store(struct simulation *sim,struct device *in);
 void device_timestep(struct simulation *sim,struct device *in);
 int time_test_last_point(struct device *in);
 gdouble time_get_voltage(struct device *in);

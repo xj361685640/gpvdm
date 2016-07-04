@@ -111,7 +111,7 @@ do
 
 	in->time=0.0;
 
-	time_init(in);
+	time_init(sim,in);
 
 	lambda=(1.0/fx);
 	in->dt=lambda/((gdouble)fxdomain_config.fxdomain_points);

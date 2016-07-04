@@ -185,32 +185,16 @@ in->tm_use_mesh=TRUE;
 }
 
 
-void time_init(struct device *in)
+void time_init(struct simulation *sim,struct device *in)
 {
 
-int i;
-int band;
-
-for (i=0;i<in->ymeshpoints;i++)
-{
-
-	for (band=0;band<in->srh_bands;band++)
-	{
-		in->ntlast[i][band]=in->nt[i][band];
-		in->ptlast[i][band]=in->pt[i][band];
-	}
-
-in->nlast[i]=in->n[i];
-in->plast[i]=in->p[i];
-
-}
+time_store(sim,in);
 
 in->time=0.0;
 }
 
-void device_timestep(struct simulation *sim,struct device *in)
+void time_store(struct simulation *sim,struct device *in)
 {
-
 int i;
 int band;
 
@@ -228,6 +212,12 @@ for (i=0;i<in->ymeshpoints;i++)
 in->Vapplied_last=in->Vapplied;
 in->VCext_last=in->VCext;
 in->Ilast=get_I(in);
+}
+
+void device_timestep(struct simulation *sim,struct device *in)
+{
+
+time_store(sim,in);
 
 if (in->tm_use_mesh==TRUE)
 {

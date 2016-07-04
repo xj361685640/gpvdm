@@ -158,6 +158,11 @@ class scan_class(gtk.Window):
 		tab = self.notebook.get_nth_page(pageNum)
 		tab.simulate(True,False,"--1fit")
 
+	def callback_run_simulation_nogen(self,widget,data):
+		pageNum = self.notebook.get_current_page()
+		tab = self.notebook.get_nth_page(pageNum)
+		tab.simulate(True,False,"")
+
 	def callback_plot_fits(self,widget,data):
 		pageNum = self.notebook.get_current_page()
 		tab = self.notebook.get_nth_page(pageNum)
@@ -412,8 +417,10 @@ class scan_class(gtk.Window):
 		    ( _("/Simulations/_Clone simulation"),     None, self.callback_copy_page, 0, "<StockItem>", "gtk-copy" ),
 			( _("/Simulations/sep1"),     None, None, 0, "<Separator>" ),
 		    ( _("/Simulations/_Run simulation"),     None, self.callback_run_simulation, 0, "<StockItem>", "gtk-media-play" ),
+
 			( _("/Advanced/_Plot fits"),     None, self.callback_plot_fits, 0, "<StockItem>", "gtk-media-play" ),
 			( _("/Advanced/_Run nested simulation"),     None, self.callback_nested_simulation, 0, "<StockItem>", "gtk-media-play" ),
+		    ( _("/Advanced/_Run simulation no generation"),     None, self.callback_run_simulation_nogen, 0, "<StockItem>", "gtk-media-play" ),
 		    ( _("/Advanced/_Run single fit"),     None, self.callback_run_single_fit, 0, "<StockItem>", "gtk-media-play" ),
 			( _("/Advanced/_Clean simulation"),     None, self.callback_clean_simulation, 0, "<StockItem>", "gtk-clear" ),
 			( _("/Advanced/_Clean unconverged simulation"),     None, self.callback_clean_unconverged_simulation, 0, "<StockItem>", "gtk-clear" ),
@@ -462,7 +469,7 @@ class scan_class(gtk.Window):
 
 		delete.connect("clicked", self.callback_delete_page,None)
 		self.tooltips.set_tip(delete, _("Delete simulation"))
-		self.show_all()
+
 		toolbar.insert(delete, -1)
 
 		image = gtk.Image()

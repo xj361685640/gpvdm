@@ -80,6 +80,7 @@ from cal_path import get_image_file_path
 from scan_item import scan_items_get_file
 from scan_item import scan_items_get_token
 from util import str2bool
+from scan_tree import tree_load_config
 
 import i18n
 _ = i18n.language.gettext
@@ -294,7 +295,7 @@ class scan_vbox(gtk.VBox):
 				program_list.append([self.liststore_combobox[i][0],self.liststore_combobox[i][1],self.liststore_combobox[i][3],self.liststore_combobox[i][4]])
 
 			print program_list
-
+			tree_load_config(self.sim_dir)
 			if generate_simulations==True:
 				flat_simulation_list=[]
 				if tree_gen(flat_simulation_list,program_list,base_dir,self.sim_dir)==False:
@@ -420,6 +421,14 @@ class scan_vbox(gtk.VBox):
 			a.write(str(item[5])+"\n")
 		a.close()
 
+		if os.path.isfile(os.path.join(self.sim_dir,"scan_config.inp"))==False:
+			a = open(os.path.join(self.sim_dir,"scan_config.inp"), "w")
+			a.write("#args\n")
+			a.write("\n")
+			a.write("#end\n")
+
+			a.close()
+
 	def combo_changed(self, widget, path, text, model):
 		model[path][2] = text
 		model[path][0] = scan_items_get_file(text)
@@ -477,7 +486,8 @@ class scan_vbox(gtk.VBox):
 
 		for i in range(0,len(self.liststore_combobox)):
 			if self.liststore_combobox[i][0]!=_("Select parameter"):
-				self.liststore_op_type.append([self.liststore_combobox[i][0]])
+				self.liststore_op_type.append([self.liststore_combobox[i][2]])
+
 	def set_tab_caption(self,name):
 		mytext=name
 		if len(mytext)<10:
@@ -496,7 +506,9 @@ class scan_vbox(gtk.VBox):
 			self.hide()
 
 	def callback_run_simulation(self,widget):
-		args=inp_get_token_value("scan_settings.inp","#args")
+		args=inp_get_token_value(os.path.join("scan_config.inp",self.sim_dir),"#args")
+		if args==None:
+			args=""
 		self.simulate(True,True,args)
 
 

@@ -25,6 +25,13 @@
 #include <stdio.h>
 #include <server_struct.h>
 
+struct dumpfiles_struct
+{
+char filename[100];
+int dump;
+int ynorm;
+};
+
 struct simulation
 {
 	//plotting
@@ -34,6 +41,9 @@ struct simulation
 	FILE *tconverge;
 	//dump
 	int dump_array[100];
+	int dumpfiles;
+	struct dumpfiles_struct *dumpfile;
+
 	int log_level;
 	//paths
 	char plugins_path[400];

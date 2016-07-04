@@ -173,7 +173,7 @@ def inp_get_token_value(file_path, token):
 		if lines[i]==token:
 			return lines[i+1]
 
-	return "0"
+	return None
 
 def inp_sum_items(lines,token):
 	my_sum=0.0

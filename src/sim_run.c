@@ -168,7 +168,7 @@ if (strcmp(cell.simmode,"opticalmodel@optics")!=0)
 
 
 
-	time_init(&cell);
+	time_init(sim,&cell);
 
 	cell.N=0;
 	cell.M=0;

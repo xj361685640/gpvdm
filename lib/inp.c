@@ -905,6 +905,37 @@ int inp_get_array_gdouble(struct simulation *sim,long double * out,struct inp_fi
 return ret;
 }
 
+int inp_count_hash_tags(struct simulation *sim,struct inp_file *in)
+{
+	int count=0;
+	inp_reset_read(sim,in);
+	char *line;
+	do
+	{
+		line  = inp_get_string(sim,in);
+
+		if (line==NULL)
+		{
+			break;
+		}
+
+		if (strlen(line)>0)
+		{
+
+			if (line[0]=='#')
+			{
+				count++;
+			}
+
+		}
+
+	}while(1);
+
+
+
+return count;
+}
+
 int inp_get_array(struct simulation *sim,char ** out,struct inp_file *in,char *token)
 {
 	int ret=-1;

@@ -39,6 +39,8 @@ from util import get_cache_path
 from cal_path import get_materials_path
 from clone import clone_materials
 
+copy_materials=False
+
 def tree_load_flat_list(sim_dir):
 	config=[]
 	file_name=os.path.join(sim_dir,'flat_list.inp')
@@ -81,6 +83,7 @@ def tree_save_flat_list(sim_dir,flat_list):
 	return config
 
 def tree_load_program(program_list,sim_dir):
+
 	file_name=os.path.join(sim_dir,'gpvdm_gui_config.inp')
 
 	if os.path.isfile(file_name)==True:
@@ -98,6 +101,14 @@ def tree_load_program(program_list,sim_dir):
 		for i in range(0, mylen):
 			program_list.append([config[pos],config[pos+1],config[pos+3], config[pos+4]])
 			pos=pos+6
+
+def tree_load_config(sim_dir):
+	global copy_materials
+
+	copy_materials=inp_get_token_value(os.path.join(sim_dir,"scan_config.inp"),"#copy_materials")
+	if copy_materials==None:
+		copy_materials="False"
+	copy_materials=str2bool(copy_materials)
 
 def tree_load_model(model,sim_dir):
 	file_name=os.path.join(sim_dir,'gpvdm_gui_config.inp')
@@ -189,7 +200,7 @@ def tree_apply_python_script(program_list):
 	return True
 
 def copy_simulation(base_dir,cur_dir):
-	copy_materials=str2bool(inp_get_token_value("scan_settings.inp","#copy_materials"))
+	global copy_materials
 
 	f_list=glob.iglob(os.path.join(base_dir, "*.inp"))
 	for inpfile in f_list:
@@ -197,6 +208,7 @@ def copy_simulation(base_dir,cur_dir):
 
 	shutil.copy(os.path.join(base_dir, "sim.gpvdm"), cur_dir)
 
+	print ">>>>>>>>>>>>>>>>>>>>>>>materials>>>>>>>>",copy_materials
 	if copy_materials==True:
 		clone_materials(cur_dir)
 

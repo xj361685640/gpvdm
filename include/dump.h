@@ -44,4 +44,9 @@ void dump_build_2d_charge_single_frame(struct map *mapin,struct device *in);
 void dump_device_map(char* out_dir,struct device *in);
 void dump_1d_slice(struct simulation *sim,struct device *in,char *out_dir);
 void dump_write_to_disk(struct simulation *sim,struct device* in);
+
+void dumpfiles_load(struct simulation* sim);
+void dumpfiles_free(struct simulation* sim);
+int dumpfiles_should_dump(struct simulation* sim,char *name);
+void dumpfiles_process(struct simulation* sim,struct istruct *in,char *name);
 #endif

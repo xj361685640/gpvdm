@@ -469,7 +469,8 @@ class tab_time_mesh(gtk.VBox):
 		pos=self.start_time
 		fired=False
 
-		laser_pulse_width=float(inp_get_token_value("light.inp", "#laser_pulse_width"))
+		laser_pulse_width=0.0
+
 
 		sun_steady_state=float(inp_get_token_value("light.inp", "#Psun"))
 

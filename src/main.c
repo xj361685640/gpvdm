@@ -130,6 +130,7 @@ remove("light_dump.zip");
 
 hard_limit_init(&sim);
 
+dumpfiles_load(&sim);
 set_plot_script_dir(pwd);
 
 //set_plot_script_dir(char * in)
@@ -226,6 +227,8 @@ if (run==FALSE)
 server_shut_down(&sim,&(sim.server));
 
 hard_limit_free(&sim);
+dumpfiles_free(&sim);
+
 if (ret!=0)
 {
 	return 1;

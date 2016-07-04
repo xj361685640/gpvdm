@@ -533,7 +533,7 @@ pos_dump(sim,in);
 
 	if (in->srh_sim==TRUE)
 	{
-		time_init(in);
+		time_init(sim,in);
 
 	}
 

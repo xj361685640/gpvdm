@@ -42,7 +42,7 @@ struct pulse pulse_config;
 
 void sim_pulse(struct simulation *sim,struct device *in)
 {
-
+char tunits[100];
 struct buffer buf;
 buffer_init(&buf);
 
@@ -73,7 +73,7 @@ int number=strextract_int(config_file_name);
 
 in->go_time=FALSE;
 
-time_init(in);
+time_init(sim,in);
 //time_load_mesh(in,number);
 
 time_load_mesh(sim,in,number);
@@ -117,10 +117,10 @@ if (pulse_config.pulse_sim_mode==pulse_open_circuit)
 }
 
 //device_timestep(sim,in);
+time_store(sim,in);
 
 in->go_time=TRUE;
 
-gdouble extracted_through_contacts=0.0;
 gdouble i0=0;
 carrier_count_reset(in);
 reset_np_save(in);
@@ -164,7 +164,8 @@ do
 
 	if (get_dump_status(sim,dump_print_text)==TRUE)
 	{
-		printf_log(sim,"%s=%Le %s=%d %.1Le ",_("pulse time"),in->time,_("step"),step,in->last_error);
+		time_with_units(tunits,in->time);
+		printf_log(sim,"%s=%Le (%s) %s=%d %.1Le ",_("pulse time"),in->time,tunits,_("step"),step,in->last_error);
 		printf_log(sim,"Vtot=%Lf %s = %Le mA (%Le A/m^2)\n",V,_("current"),get_I(in)/1e-3,get_J(in));
 	}
 

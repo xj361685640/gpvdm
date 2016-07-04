@@ -43,6 +43,7 @@ from help import my_help_class
 from util import latex_to_pygtk_subscript
 from i18n import yes_no
 from cal_path import get_image_file_path
+from gtkswitch import gtkswitch
 
 
 import i18n
@@ -104,7 +105,6 @@ class tab_class(gtk.VBox,tab_base):
 		self.title_hbox.show_all()
 
 		scan_remove_file(filename)
-		self.widget_type=[]
 
 		self.edit_list=[]
 		self.line_number=[]
@@ -143,7 +143,12 @@ class tab_class(gtk.VBox,tab_base):
 					edit_box.set_text(self.lines[pos]);
 					edit_box.connect("changed", self.callback_edit, token)
 					edit_box.show()
-					self.widget_type.append("edit")
+				elif result.opt[0]=="switch":
+					edit_box=gtkswitch()
+					edit_box.init()
+					edit_box.set_value(str2bool(self.lines[pos]))
+					edit_box.connect("changed", self.callback_edit, token)
+					edit_box.show_all()
 				else:
 					edit_box=gtk.combo_box_new_text()
 					index=0
@@ -167,7 +172,7 @@ class tab_class(gtk.VBox,tab_base):
 
 					edit_box.connect("changed", self.callback_edit, token)
 					edit_box.show()
-					self.widget_type.append("combo")
+
 				edit_box.set_size_request(300,height)
 				self.edit_list.append(edit_box)
 				hbox.pack_start(edit_box, False, False, padding=1)

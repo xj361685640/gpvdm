@@ -59,5 +59,9 @@ void sim_init(struct simulation *sim)
 	//fit vars
 	sim->last_total_error=-1.0;
 	sim->gui=FALSE;
+
+	sim->dumpfile=NULL;
+	sim->dumpfiles=-1;
+
 }
 

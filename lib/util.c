@@ -36,6 +36,7 @@
 //#include "gui_hooks.h"
 //#include "server.h"
 #include <lang.h>
+#include <math.h>
 
 
 void fx_with_units(char *out,double number)
@@ -62,6 +63,43 @@ void fx_with_units(char *out,double number)
 
 }
 
+void time_with_units(char *out,double number)
+{
+	double val=fabs(number);
+	if (val>=1.0)
+	{
+		sprintf(out,"%.3lf s",number);
+	}else
+	if (val>=1e-3)
+	{
+		sprintf(out,"%.3lf ms",number/1e-3);
+	}else
+	if (val>=1e-6)
+	{
+		sprintf(out,"%.3lf us",number/1e-6);
+	}else
+	if (val>=1e-9)
+	{
+		sprintf(out,"%.3lf ns",number/1e-9);
+	}else
+	if (val>=1e-12)
+	{
+		sprintf(out,"%.3lf ps",number/1e-12);
+	}else
+	if (val>=1e-15)
+	{
+		sprintf(out,"%.3lf fs",number/1e-15);
+	}else
+	if (val>=1e-18)
+	{
+		sprintf(out,"%.3lf as",number/1e-18);
+	}else
+	{
+		sprintf(out,"%.3lf s",number);
+	}
+
+
+}
 void join_path(int max, ...)
 {
 	max=max+1;

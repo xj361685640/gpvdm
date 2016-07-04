@@ -62,5 +62,5 @@ void inp_replace_double_offset(struct simulation *sim,struct inp_file *in,char *
 int inp_search_offset(struct simulation *sim,char* out,struct inp_file *in,char *token,int offset);
 void inp_search_double_offset(struct simulation *sim,struct inp_file *in,double* out,char* token,int offset);
 int inp_get_array_gdouble(struct simulation *sim,long double * out,struct inp_file *in,char *token);
-
+int inp_count_hash_tags(struct simulation *sim,struct inp_file *in);
 #endif

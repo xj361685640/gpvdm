@@ -42,7 +42,7 @@ class class_config_window(gtk.Window):
 
 
 	def init(self):
-		self.set_size_request(900, 500)
+		self.set_size_request(900, 600)
 		self.set_icon_from_file(os.path.join(get_image_file_path(),"cog.png"))
 		self.set_title("Configure")
 
@@ -68,7 +68,7 @@ class class_config_window(gtk.Window):
 		main_vbox.pack_start(toolbar, False, True, 0)
 
 		self.notebook = gtk.Notebook()
-		main_vbox.pack_start(self.notebook, False, True, 0)
+		main_vbox.pack_start(self.notebook, True, True, 0)
 		self.notebook.set_tab_pos(gtk.POS_TOP)
 		self.notebook.show()
 

@@ -25,6 +25,8 @@
 #include <gui_hooks.h>
 #include <util.h>
 #include <const.h>
+#include <log.h>
+#include <string.h>
 
 #ifdef dbus
 	#include <dbus/dbus.h>
