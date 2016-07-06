@@ -66,6 +66,7 @@ void time_with_units(char *out,double number);
 int is_domain(char * in);
 int isdir(const char *path);
 int path_up_level(char *out, char *in);
+int fnmatch2(char *pat,char *in);
 
 #ifdef windows
 void timersub(struct timeval *a,struct timeval *b,struct timeval *r);

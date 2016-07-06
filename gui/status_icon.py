@@ -42,10 +42,11 @@ import i18n
 _ = i18n.language.gettext
 from cluster import cluster
 
-statusicon = gtk.StatusIcon()
+statusicon = None
 
 def status_icon_init():
 	global statusicon
+	statusicon=gtk.StatusIcon()
 	statusicon.set_from_file(os.path.join(get_image_file_path(),"ball_green.png"))
 	#self.statusicon.set_from_stock(gtk.STOCK_YES)
 	#self.statusicon.connect("popup-menu", self.right_click_event)

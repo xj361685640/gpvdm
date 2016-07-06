@@ -20,11 +20,9 @@
 
 
 #include "sim.h"
-#include "dump.h"
 #include "inp.h"
 #include "log.h"
 #include <cal_path.h>
-#include <fnmatch.h>
 
 int dumpfiles_should_dump(struct simulation* sim,char *name)
 {
@@ -32,7 +30,7 @@ int dumpfiles_should_dump(struct simulation* sim,char *name)
 	for (i=0;i<sim->dumpfiles;i++)
 	{
  	
-		if (fnmatch(sim->dumpfile[i].filename, name, FNM_PATHNAME)==0)
+		if (fnmatch2(sim->dumpfile[i].filename, name)==0)
 		{
 			if (sim->dumpfile[i].dump==TRUE)
 			{
@@ -53,7 +51,7 @@ void dumpfiles_process(struct simulation* sim,struct istruct *in,char *name)
 	for (i=0;i<sim->dumpfiles;i++)
 	{
 
-		if (fnmatch(sim->dumpfile[i].filename, name, FNM_PATHNAME)==0)
+		if (fnmatch2(sim->dumpfile[i].filename, name)==0)
 		{
 			if (sim->dumpfile[i].ynorm==TRUE)
 			{
@@ -62,6 +60,8 @@ void dumpfiles_process(struct simulation* sim,struct istruct *in,char *name)
 
 			return;
 		}
+
+
 	}
 
 }

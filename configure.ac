@@ -17,7 +17,7 @@ AC_SUBST(DLIB_EXT, "dll")
 AC_SUBST(EXE_EXT, ".exe")
 
 AC_CHECK_HEADERS([umfpack.h],[],[AC_MSG_ERROR([umfpack.h is needed but not found])])
-AC_SUBST(DLL_LINKER, ["-L/home/rod/windll/compiled_dlls/ -Wl,--out-implib,plugin.a -lgpvdm_light -lgpvdm_lib -lgpvdm_dump -lgpvdm_measure -lgpvdm_dos  -lgpvdm_light -lzip-2 -lumfpack -lgpvdm_mesh"])
+AC_SUBST(DLL_LINKER, ["-L/home/rod/windll/compiled_dlls/ -Wl,--out-implib,plugin.a -lgpvdm_light -lgpvdm_lib -lgpvdm_dump -lgpvdm_measure -lgpvdm_dos -lgpvdm_dumpctrl -lgpvdm_light -lzip-2 -lumfpack -lgpvdm_mesh"])
 AC_SUBST(DLL_COMPILE, ["-DBUILDING_EXAMPLE_DLL"])
 AC_SUBST(DLL_DEBUG, ["-Wall"])
 AC_SUBST(EXE_LINK,["-L/home/rod/windll/compiled_dlls/ -lumfpack -lzip-2"])

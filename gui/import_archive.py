@@ -20,26 +20,15 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-#import sys
-#import pygtk
-#from win_lin import running_on_linux
+import sys
 import os
 import shutil
-#import signal
-#import subprocess
 from scan_io import get_scan_dirs
-#from inp import inp_update_token_value
-#import os, fnmatch
-#import stat
-#import zipfile
+
 from util import copy_scan_dir
 
 from util import delete_second_level_link_tree
-#from util_zip import read_lines_from_archive
-#from inp_util import inp_search_token_value
-#from inp_util import inp_merge
-#from util_zip import write_lines_to_archive
-#import tempfile
+
 
 from util_zip import zip_lsdir
 from inp import inp_issequential_file

@@ -124,19 +124,7 @@ void join_path(int max, ...)
 	return;
 }
 
-void string_to_hex(char* out,char* in)
-{
-int i;
-char temp[8];
-strcpy(out,"");
 
-for (i=0;i<strlen(in);i++)
-{
-	sprintf(temp,"%02x",in[i]);
-	strcat(out,temp);
-}
-
-}
 
 void print_hex(unsigned char *data)
 {
@@ -368,109 +356,6 @@ if (!file)
 fclose(file);
 }
 
-int cmpstr_min(char * in1,char *in2)
-{
-int i;
-int max=strlen(in1);
-if (strlen(in2)<max) max=strlen(in2);
-for (i=0;i<max;i++)
-{
-	if (in1[i]!=in2[i]) return 1;
-}
-return 0;
-}
-
-int strextract_name(char *out,char * in)
-{
-int i;
-for (i=0;i<strlen(in);i++)
-{
-	if (in[i]=='@')
-	{
-		out[i]=0;
-		return strlen(out);
-	}
-	out[i]=in[i];
-
-}
-strcpy(out,"");
-return -1;
-}
-
-int strcmp_end(char * str,char *end)
-{
-if (strlen(str)<strlen(end)) return 1;
-int pos=strlen(str)-strlen(end);
-return strcmp((char *)(str+pos),end);
-}
-
-int strcmp_begin(char * str,char *begin)
-{
-int i;
-if (strlen(str)<strlen(begin)) return 1;
-int lb=strlen(begin);
-for (i=0;i<lb;i++)
-{
-	if (str[i]!=begin[i]) return 1;
-}
-return 0;
-}
-
-char* strextract_domain(char * in)
-{
-int i=0;
-for (i=0;i<strlen(in)-1;i++)
-{
-	if (in[i]=='@')
-	{
-		return (char *)(&in[i+1]);
-	}
-}
-return (char *)-1;
-}
-
-int is_domain(char * in)
-{
-int i=0;
-for (i=0;i<strlen(in)-1;i++)
-{
-	if (in[i]=='@')
-	{
-		return 0;
-	}
-}
-
-
-return -1;
-}
-
-int extract_str_number(char * in,char *cut)
-{
-int out;
-int len=strlen(cut);
-sscanf((in+len),"%d",&out);
-return out;
-}
-
-int strextract_int(char * in)
-{
-char temp[200];
-int i=0;
-int ret=0.0;
-int count=0;
-for (i=0;i<strlen(in);i++)
-{
-	if ((in[i]>47)&&(in[i]<58))
-	{
-		temp[count]=in[i];
-		count++;
-	}
-
-}
-temp[count]=0;
-sscanf(temp,"%d",&ret);
-return ret;
-}
 
 
 

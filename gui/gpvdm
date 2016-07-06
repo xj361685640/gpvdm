@@ -46,6 +46,7 @@ _ = i18n.language.gettext
 from ver import ver_load_info
 from ver import ver_error
 
+
 ver_load_info()
 code_ctrl_load()
 

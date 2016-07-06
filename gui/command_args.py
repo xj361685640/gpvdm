@@ -25,13 +25,11 @@
 import sys
 import os
 #import shutil
+
 from clone import gpvdm_clone
 from export_as import export_as
 from import_archive import import_archive
 from util import gpvdm_copy_src
-#import fnmatch
-#import logging
-#import time
 
 from import_archive import clean_scan_dirs
 from ver import ver

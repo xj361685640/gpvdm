@@ -3778,7 +3778,7 @@ fi
 
 done
 
-DLL_LINKER="-L/home/rod/windll/compiled_dlls/ -Wl,--out-implib,plugin.a -lgpvdm_light -lgpvdm_lib -lgpvdm_dump -lgpvdm_measure -lgpvdm_dos  -lgpvdm_light -lzip-2 -lumfpack -lgpvdm_mesh"
+DLL_LINKER="-L/home/rod/windll/compiled_dlls/ -Wl,--out-implib,plugin.a -lgpvdm_light -lgpvdm_lib -lgpvdm_dump -lgpvdm_measure -lgpvdm_dos -lgpvdm_dumpctrl -lgpvdm_light -lzip-2 -lumfpack -lgpvdm_mesh"
 
 DLL_COMPILE="-DBUILDING_EXAMPLE_DLL"
 
@@ -5836,9 +5836,9 @@ fi
 #i?86
 #x86_64
 
-BUILD_DIRS=" lang lib libdos liblight libmeasure libdump libserver libmesh libfit plugins/optics plugins/newton plugins/nr_d plugins/pulse plugins/fxdomain plugins/light_flat plugins/li plugins/light_full plugins/fit_stark plugins/nr_ld plugins/jv plugins/light_exp plugins/qe plugins/umfpack plugins/jv_one_point plugins/jv_simple plugins/sun_voc plugins/newton_norm src images man "
+BUILD_DIRS=" lang lib libdos liblight libmeasure libdump libdumpctrl libserver libmesh libfit plugins/optics plugins/newton plugins/nr_d plugins/pulse plugins/fxdomain plugins/light_flat plugins/li plugins/light_full plugins/fit_stark plugins/nr_ld plugins/jv plugins/light_exp plugins/qe plugins/umfpack plugins/jv_one_point plugins/jv_simple plugins/sun_voc plugins/newton_norm src images man "
 
-LOCAL_LINK=" -lgpvdm_lib -lgpvdm_dos -lgpvdm_light -lgpvdm_measure -lgpvdm_dump -lgpvdm_server -lgpvdm_mesh -lgpvdm_fit"
+LOCAL_LINK=" -lgpvdm_lib -lgpvdm_dos -lgpvdm_light -lgpvdm_measure -lgpvdm_dump -lgpvdm_dumpctrl -lgpvdm_server -lgpvdm_mesh -lgpvdm_fit"
 
 
 for ac_header in math.h
@@ -5949,6 +5949,8 @@ ac_config_files="$ac_config_files liblight/Makefile"
 ac_config_files="$ac_config_files libmeasure/Makefile"
 
 ac_config_files="$ac_config_files libdump/Makefile"
+
+ac_config_files="$ac_config_files libdumpctrl/Makefile"
 
 ac_config_files="$ac_config_files libserver/Makefile"
 
@@ -6749,6 +6751,7 @@ do
     "liblight/Makefile") CONFIG_FILES="$CONFIG_FILES liblight/Makefile" ;;
     "libmeasure/Makefile") CONFIG_FILES="$CONFIG_FILES libmeasure/Makefile" ;;
     "libdump/Makefile") CONFIG_FILES="$CONFIG_FILES libdump/Makefile" ;;
+    "libdumpctrl/Makefile") CONFIG_FILES="$CONFIG_FILES libdumpctrl/Makefile" ;;
     "libserver/Makefile") CONFIG_FILES="$CONFIG_FILES libserver/Makefile" ;;
     "libmesh/Makefile") CONFIG_FILES="$CONFIG_FILES libmesh/Makefile" ;;
     "libfit/Makefile") CONFIG_FILES="$CONFIG_FILES libfit/Makefile" ;;

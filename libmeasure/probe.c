@@ -23,7 +23,7 @@
 #include "light.h"
 #include "device.h"
 #include "const.h"
-#include "dump.h"
+#include <dump.h>
 #include "config.h"
 #include "inp.h"
 #include "util.h"

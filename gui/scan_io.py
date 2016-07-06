@@ -25,13 +25,15 @@ import pygtk
 pygtk.require('2.0')
 #import gc
 import gtk
-#import sys
+import sys
 import os
 import shutil
+
 from util import gpvdm_delete_file
 from inp import inp_get_token_value
 from scan_tree import tree_load_flat_list
 from util import copy_scan_dir
+
 from scan_tree import tree_load_program
 from scan_tree import tree_gen
 

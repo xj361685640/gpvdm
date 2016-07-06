@@ -46,6 +46,9 @@ link_libs=link_libs+" -lgpvdm_measure"
 config_files.append("libdump")
 link_libs=link_libs+" -lgpvdm_dump"
 
+config_files.append("libdumpctrl")
+link_libs=link_libs+" -lgpvdm_dumpctrl"
+
 config_files.append("libserver")
 link_libs=link_libs+" -lgpvdm_server"
 

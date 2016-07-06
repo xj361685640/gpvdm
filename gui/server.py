@@ -26,8 +26,6 @@ pygtk.require('2.0')
 import gtk
 import sys
 import os
-#import shutil
-#from search import return_file_list
 from util import str2bool
 from inp import inp_get_token_value
 import threading
