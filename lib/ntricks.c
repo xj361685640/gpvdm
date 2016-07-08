@@ -27,6 +27,8 @@
 #include "gui_hooks.h"
 #include <plot.h>
 #include <cal_path.h>
+#include <thermal.h>
+
 
 static int unused __attribute__((unused));
 
@@ -270,7 +272,32 @@ return 0.0;
 
 void solve_all(struct simulation *sim,struct device *in)
 {
-solve_cur(sim,in);
+int ittr=0;
+int cont=TRUE;
+
+if (in->newton_enable_external_thermal==FALSE)
+{
+	solve_cur(sim,in);
+}else
+{
+	do
+	{
+		solve_cur(sim,in);
+		//plot_now(sim,"thermal.plot");
+		//getchar();
+		solve_thermal(sim,in);
+		//plot_now(sim,"thermal.plot");
+		//getchar();
+
+		//printf("ii=%d\n",ii);
+		//plot_now(in);
+		///getchar();
+		if (((in->thermal_conv==TRUE)&&(in->dd_conv==TRUE))||(ittr>10)) cont=FALSE;
+		//printf("%d %d %d\n",in->thermal_conv,in->dd_conv,ii);
+		//getchar();
+		ittr++;
+	}while(cont==TRUE);
+}
 }
 
 

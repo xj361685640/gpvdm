@@ -23,7 +23,7 @@
 #include "sim.h"
 void update_heat(struct device *in);
 void dump_thermal(struct simulation *sim,struct device *in);
-int solve_thermal(struct device *in);
+int solve_thermal(struct simulation *sim,struct device *in);
 void thermal_init(struct device *in);
 void thermal_free(struct device *in);
 double get_thermal_error(struct device *in);

@@ -135,7 +135,7 @@ int i;
 		in->mup[i]=get_p_mu(in,in->imat[i]);
 
 		in->kf[i]=0.0;//get_mat_param(&(in->mat.l[in->imat[i]]),mat_kf);
-		in->kl[i]=0.0;//get_mat_param(&(in->mat.l[in->imat[i]]),mat_kl);
+		in->kl[i]=in->thermal_kl;//get_mat_param(&(in->mat.l[in->imat[i]]),mat_kl);
 		in->ke[i]=get_n_mu(in,in->imat[i]);
 		in->kh[i]=get_p_mu(in,in->imat[i]);
 

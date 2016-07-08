@@ -181,6 +181,27 @@ if (stat(out_dir, &st) == -1)
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
+	sprintf(name,"%s","Tl.dat");
+	buf.y_mul=1.0;
+	buf.x_mul=1e9;
+	strcpy(buf.title,_("Lattice temperature - position"));
+	strcpy(buf.type,_("xy"));
+	strcpy(buf.x_label,_("Position"));
+	strcpy(buf.y_label,_("Temperature (K)"));
+	strcpy(buf.x_units,_("nm"));
+	strcpy(buf.y_units,_("K"));
+	strcpy(buf.section_one,_("1D position space output"));
+	strcpy(buf.section_two,_("Transport"));
+	buf.logscale_x=0;
+	buf.logscale_y=0;
+	buf.time=in->time;
+	buf.Vexternal=Vexternal;
+	buffer_add_info(&buf);
+	buffer_add_xy_data(&buf,in->ymesh, in->Tl, in->ymeshpoints);
+	buffer_dump_path(out_dir,name,&buf);
+	buffer_free(&buf);
+
+	buffer_malloc(&buf);
 	sprintf(name,"%s","Te.dat");
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;

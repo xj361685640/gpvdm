@@ -53,7 +53,6 @@ void plot_now(struct simulation *sim,char *name)
 struct timeval mytime;
 struct timeval result;
 gettimeofday (&mytime, NULL);
-
 timersub(&mytime,&last_time,&result);
 double diff=result.tv_sec + result.tv_usec/1000000.0;
 
@@ -67,7 +66,7 @@ last_time.tv_usec=mytime.tv_usec;
 
 if (get_dump_status(sim,dump_plot)==TRUE)
 {
-	fprintf(sim->gnuplot, "load '%s%s'\n",plot_script_dir,name);
+	fprintf(sim->gnuplot, " load '%s%s'\n",plot_script_dir,name);
 	fflush(sim->gnuplot);
 }
 }

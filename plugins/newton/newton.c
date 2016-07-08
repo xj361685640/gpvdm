@@ -1768,7 +1768,13 @@ int cpos=0;
 			}
 		}
 
-
+		if ((ittr<2)&&(error<in->min_cur_error))
+		{
+			in->dd_conv=TRUE;
+		}else
+		{
+			in->dd_conv=FALSE;
+		}
 
 	}while(stop==FALSE);
 

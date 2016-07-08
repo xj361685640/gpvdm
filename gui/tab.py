@@ -44,6 +44,8 @@ from util import latex_to_pygtk_subscript
 from i18n import yes_no
 from cal_path import get_image_file_path
 from gtkswitch import gtkswitch
+from leftright import leftright
+
 
 
 import i18n
@@ -145,6 +147,12 @@ class tab_class(gtk.VBox,tab_base):
 					edit_box.show()
 				elif result.opt[0]=="switch":
 					edit_box=gtkswitch()
+					edit_box.init()
+					edit_box.set_value(str2bool(self.lines[pos]))
+					edit_box.connect("changed", self.callback_edit, token)
+					edit_box.show_all()
+				elif result.opt[0]=="leftright":
+					edit_box=leftright()
 					edit_box.init()
 					edit_box.set_value(str2bool(self.lines[pos]))
 					edit_box.connect("changed", self.callback_edit, token)

@@ -174,9 +174,7 @@ struct device
 	gdouble Jsc;
 	gdouble FF;
 	gdouble Pmax;
-	gdouble Tll;
-	gdouble Tlr;
-	int Tliso;
+
 	gdouble dt;
 	int srh_sim;
 	int go_time;
@@ -373,7 +371,19 @@ struct device
 	int tm_mesh_len;
 	int tm_use_mesh;
 	int tm_mesh_pos;
+	int dd_conv;
 
+	//thermal
+	int thermal_l;
+	int thermal_e;
+	int thermal_h;
+	long double thermal_kl;
+	gdouble Tll;
+	gdouble Tlr;
+	int Tliso;
+	int Triso;
+	long double thermal_tau_e;
+	long double thermal_tau_h;
 	struct light probe_modes;
 	struct istruct steady_stark;
 

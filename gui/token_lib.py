@@ -94,7 +94,7 @@ lib.append(my_data("#laser_pulse_width","s",_("Length of pulse"),["text"],"e",1.
 lib.append(my_data("#electron_eff","0-1",_("Electron generation efficiency"),["text"],"e",1.0))
 lib.append(my_data("#hole_eff","0-1",_("Hole generation efficiency"),["text"],"e",1.0))
 lib.append(my_data("#function","au",_("#function"),["text"],"e",1.0))
-lib.append(my_data("#lr_pcontact",_("left/right"),_("P contact on left or right"),[_("left"),_("right")],"s",1.0))
+lib.append(my_data("#lr_pcontact",_("left/right"),_("Hole majority contact on left/right of device."),[("leftright")],"s",1.0))
 lib.append(my_data("#Vexternal","V",_("start voltage"),["text"],"e",1.0))
 lib.append(my_data("#Vmax","V",_("Max voltage"),["text"],"e",1.0))
 lib.append(my_data("#Eg","eV",_("Eg"),["text"],"e",1.0))
@@ -102,7 +102,7 @@ lib.append(my_data("#Xi","eV",_("Xi"),["text"],"e",1.0))
 lib.append(my_data("#start_stop_time","s",_("Time of pause"),["text"],"e",1.0))
 lib.append(my_data("#stopstart","1/0",_("Pause between iterations"),["1","0"],"e",1.0))
 lib.append(my_data("#invert_current",_("True/False"),_("Invert output"),["text"],"e",1.0))
-lib.append(my_data("#lr_bias",_("left/right"),_("Bias left or right"),[_("left"),_("right")],"s",1.0))
+lib.append(my_data("#lr_bias",_("left/right"),_("Apply potential to  left/right of device"),[("leftright")],"s",1.0))
 lib.append(my_data("#otherlayers","m",_("Other layers"),["text"],"e",1.0))
 
 lib.append(my_data("#use_capacitor","1/0",_("Use capacitor"),["1","0"],"e",1.0))
@@ -282,7 +282,19 @@ lib.append(my_data("#srh_p_r4","m^{-3}s^{-1}","srh hole rate 4",["text"],"e",1.0
 
 lib.append(my_data("#band_bend_max","percent","band bend max",["text"],"e",1.0))
 
-lib.append(my_data("#Tll","Kelvin","Device temperature",["text"],"e",1.0))
+#Thermal
+lib.append(my_data("#Tll","Kelvin","Device temperature on left",["text"],"e",1.0))
+lib.append(my_data("#Tlr","Kelvin","Device temperature on right",["text"],"e",1.0))
+lib.append(my_data("#thermal",_("True/False"),_("Enable thermal solver"),[("switch")],"e",1.0))
+lib.append(my_data("#thermal_l",_("True/False"),_("Lattice heat model"),[("switch")],"e",1.0))
+lib.append(my_data("#thermal_e",_("True/False"),_("Electron heat model"),[("switch")],"e",1.0))
+lib.append(my_data("#thermal_h",_("True/False"),_("Hole heat model"),[("switch")],"e",1.0))
+lib.append(my_data("#thermal_kl","W m^{-1} C^{-1}","Thermal conductivity",["text"],"e",1.0))
+lib.append(my_data("#Tliso",_("True/False"),_("Isothermal boundry on left"),[("switch")],"e",1.0))
+lib.append(my_data("#Triso",_("True/False"),_("Isothermal boundry on right"),[("switch")],"e",1.0))
+lib.append(my_data("#thermal_tau_e","s","Electron relaxation time",["text"],"e",1.0))
+lib.append(my_data("#thermal_tau_h","s","Hole relaxation time",["text"],"e",1.0))
+#
 lib.append(my_data("#layer0","m","Active layer width",["text"],"e",1.0))
 lib.append(my_data("#stark_saturate","au","Stark saturate",["text"],"e",1.0))
 
