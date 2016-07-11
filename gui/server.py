@@ -61,6 +61,8 @@ from status_icon import status_icon_init
 from status_icon import status_icon_run
 from status_icon import status_icon_stop
 
+my_server=False
+
 def server_find_simulations_to_run(commands,search_path):
 	for root, dirs, files in os.walk(search_path):
 		for my_file in files:
@@ -78,6 +80,7 @@ class server(cluster):
 	def __init__(self):
 		self.running=False
 		self.enable_gui=False
+		self.callback_when_done=False
 		status_icon_init()
 
 	def init(self,sim_dir):
@@ -103,6 +106,9 @@ class server(cluster):
 		status_icon_run(self.cluster)
 		self.extern_gui_sim_start()
 
+	def set_callback_when_done(self,proc):
+		self.callback_when_done=proc
+
 	def gui_sim_stop(self):
 		text=self.check_warnings()
 		self.progress_window.stop()
@@ -117,6 +123,9 @@ class server(cluster):
 #			response=dialog.run()
 			dialog.destroy()
 
+		if 	self.callback_when_done!=False:
+			self.callback_when_done()
+			self.callback_when_done=False
 
 	def setup_gui(self,extern_gui_sim_start,extern_gui_sim_stop):
 		self.enable_gui=True
@@ -297,5 +306,11 @@ class server(cluster):
 						self.progress_window.set_text(data.split(":")[1])
 
 
+def server_init():
+	global my_server
+	my_server=server()
 
+def server_get():
+	global my_server
+	return my_server
 

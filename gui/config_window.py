@@ -75,8 +75,8 @@ class class_config_window(gtk.Window):
 		for child in self.notebook.get_children():
 				self.notebook.remove(child)
 
-		files=["math.inp","dump.inp"]
-		description=["Math","Dump"]
+		files=["math.inp","dump.inp","thermal.inp"]
+		description=["Math","Dump","Thermal"]
 
 
 		for i in range(0,len(files)):

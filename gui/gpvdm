@@ -119,6 +119,9 @@ from jv import jv
 from config_window import class_config_window
 from optics import class_optical
 from lasers import lasers
+from fit_window import fit_window
+from server import server_init
+from server import server_get
 
 bubble=False
 if running_on_linux()==True:
@@ -230,12 +233,6 @@ class gpvdm_main_window(gobject.GObject):
 
 	def callback_simulate(self, widget, data=None):
 
-#		if self.plot_after_run==True:
-#			try:
-#				ret= os.system("cp "+self.plot_after_run_file+" old.dat")
-#			except:
-#				pass
-
 		self.my_server.clear_cache()
 		self.my_server.add_job(os.getcwd(),"")
 		self.my_server.start()
@@ -247,15 +244,15 @@ class gpvdm_main_window(gobject.GObject):
 #		ret= os.system(cmd)
 
 	def callback_run_fit(self, widget, data=None):
-		if running_on_linux()==True:
-			cmd = "cd "+os.getcwd()+" \n"
-			self.terminal.feed_child(cmd)
+		if self.fit_window==None:
+			self.fit_window=fit_window()
+			self.fit_window.init()
 
-			cmd = get_exe_command()+" --1fit&\n"
-			self.terminal.feed_child(cmd)
+		my_help_class.help_set_help(["fit.png",_("<big><b>Fit window</b></big>\n Use this window to fit the simulation to experimental data.")])
+		if self.fit_window.get_property("visible")==True:
+			self.fit_window.hide_all()
 		else:
-			cmd = get_exe_command()+" --1fit"
-			subprocess.Popen([cmd])
+			self.fit_window.show_all()
 
 
 	def callback_scan(self, widget, data=None):
@@ -474,6 +471,10 @@ class gpvdm_main_window(gobject.GObject):
 		if self.jvexperiment_window!=None:
 			del self.jvexperiment_window
 			self.jvexperiment_window=None
+
+		if self.fit_window!=None:
+			del self.fit_window
+			self.fit_window=None
 
 		if self.lasers_window!=None:
 			del self.lasers_window
@@ -748,8 +749,8 @@ class gpvdm_main_window(gobject.GObject):
 
 
 		gobject.GObject.__init__(self)
-
-		self.my_server=server()
+		server_init()
+		self.my_server=server_get()
 		self.my_server.init(os.getcwd())
 		status_icon_get().connect('popup-menu', self.on_status_icon_right_click)
 		self.my_server.setup_gui(self.gui_sim_start,self.gui_sim_stop)
@@ -789,6 +790,8 @@ class gpvdm_main_window(gobject.GObject):
 		self.fxexperiment_window=None
 
 		self.jvexperiment_window=None
+
+		self.fit_window=None
 
 		self.config_window=None
 
@@ -904,16 +907,8 @@ class gpvdm_main_window(gobject.GObject):
 		toolbar.insert(self.tb_run_scan, -1)
 		self.tb_run_scan.set_sensitive(False)
 
-		if enable_betafeatures()==True:
-			image = gtk.Image()
-	   		image.set_from_file(os.path.join(get_image_file_path(),"fit.png"))
-			self.tb_run_fit = gtk.ToolButton(image)
-			self.tb_run_fit.connect("clicked", self.callback_run_fit)
-			self.tooltips.set_tip(self.tb_run_fit, _("Run a fit command"))
-			toolbar.insert(self.tb_run_fit, -1)
-			self.tb_run_fit.set_sensitive(True)
 
-	        image = gtk.Image()
+		image = gtk.Image()
    		image.set_from_file(os.path.join(get_image_file_path(),"pause.png"))
 		self.stop = gtk.ToolButton(image )
 		self.tooltips.set_tip(self.stop, _("Stop the simulation"))
@@ -931,6 +926,16 @@ class gpvdm_main_window(gobject.GObject):
 		self.param_scan.connect("clicked", self.callback_scan)
 		self.tooltips.set_tip(self.param_scan, _("Parameter scan"))
 		toolbar.insert(self.param_scan, -1)
+
+		if enable_betafeatures()==True:
+			image = gtk.Image()
+	   		image.set_from_file(os.path.join(get_image_file_path(),"fit.png"))
+			self.tb_run_fit = gtk.ToolButton(image)
+			self.tb_run_fit.connect("clicked", self.callback_run_fit)
+			self.tooltips.set_tip(self.tb_run_fit, _("Run a fit command"))
+			toolbar.insert(self.tb_run_fit, -1)
+			self.tb_run_fit.set_sensitive(True)
+
 
 		sep = gtk.SeparatorToolItem()
 		sep.set_draw(True)

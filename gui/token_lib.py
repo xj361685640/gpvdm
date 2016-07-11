@@ -282,6 +282,18 @@ lib.append(my_data("#srh_p_r4","m^{-3}s^{-1}","srh hole rate 4",["text"],"e",1.0
 
 lib.append(my_data("#band_bend_max","percent","band bend max",["text"],"e",1.0))
 
+#fit
+lib.append(my_data("#enabled",_("True/False"),_("Enable fit"),[("switch")],"e",1.0))
+lib.append(my_data("#time_shift","s","time shift",["text"],"e",1.0))
+lib.append(my_data("#start","s","start",["text"],"e",1.0))
+lib.append(my_data("#stop","s","stop",["text"],"e",1.0))
+lib.append(my_data("#log_x",_("True/False"),_("log x"),[("switch")],"e",1.0))
+lib.append(my_data("#sim_data","filename","Fit file name",["text"],"e",1.0))
+lib.append(my_data("#fit_error_mul","au","Fit error multiplyer",["text"],"e",1.0))
+
+lib.append(my_data("#fit_invert_simulation_y",_("True/False"),_("Invert simulated data (y)"),[("switch")],"e",1.0))
+
+
 #Thermal
 lib.append(my_data("#Tll","Kelvin","Device temperature on left",["text"],"e",1.0))
 lib.append(my_data("#Tlr","Kelvin","Device temperature on right",["text"],"e",1.0))

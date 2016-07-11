@@ -480,6 +480,7 @@ class plot_widget(gtk.VBox):
 
 		print "the config file is",config_file
 		print input_files,loaded
+		loaded=True
 		if loaded==True:
 
 			if len(self.plot_id)==0:
@@ -498,7 +499,8 @@ class plot_widget(gtk.VBox):
 			#if ret==True:
 			#print "Rod",input_files
 			title=self.plot_token.title
-			self.win.set_title(title+" - www.gpvdm.com")
+			if  type(self.win)==gtk.Window:
+				self.win.set_title(title+" - www.gpvdm.com")
 #			lines=[]
 
 #			ret=plot_load_info(self.plot_token,input_files[0])

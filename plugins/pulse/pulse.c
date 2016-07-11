@@ -185,6 +185,8 @@ do
 }while(1);
 
 struct istruct out_flip;
+struct istruct out_j;
+
 
 dump_dynamic_save(sim,get_output_path(sim),&store);
 dump_dynamic_free(sim,&store);
@@ -205,6 +207,28 @@ buffer_add_info(&buf);
 buffer_add_xy_data(&buf,out_i.x, out_i.data, out_i.len);
 buffer_dump_path(get_output_path(sim),"pulse_i.dat",&buf);
 buffer_free(&buf);
+
+
+inter_copy(&out_j,&out_i,TRUE);
+inter_mul(&out_j,1.0/(in->xlen*in->zlen));
+
+buffer_malloc(&buf);
+buf.y_mul=1e3;
+buf.x_mul=1e6;
+strcpy(buf.title,_("Time - current density"));
+strcpy(buf.type,_("xy"));
+strcpy(buf.x_label,_("Time"));
+strcpy(buf.y_label,_("Current density"));
+strcpy(buf.x_units,_("us"));
+strcpy(buf.y_units,_("m"));
+buf.logscale_x=0;
+buf.logscale_y=0;
+buffer_add_info(&buf);
+buffer_add_xy_data(&buf,out_j.x, out_j.data, out_j.len);
+buffer_dump_path(get_output_path(sim),"pulse_j.dat",&buf);
+buffer_free(&buf);
+
+inter_free(&out_j);
 
 inter_copy(&out_flip,&out_i,TRUE);
 inter_mul(&out_flip,-1.0);
