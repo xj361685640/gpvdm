@@ -373,32 +373,43 @@ return ratio;
 
 void light_transfer_gen_rate_to_device(struct device *cell,struct light *in)
 {
-int i=0;
+int z=0;
+int x=0;
+int y=0;
+
 gdouble Gn=0.0;
 gdouble Gp=0.0;
 
 	if (in->align_mesh==FALSE)
 	{
-		for (i=0;i<cell->ymeshpoints;i++)
+		for (y=0;y<cell->ymeshpoints;y++)
 		{
 
-
-
-			Gn=inter_get_raw(in->x,in->Gn,in->points,in->device_start+cell->ymesh[i])*in->Dphotoneff;
-			Gp=inter_get_raw(in->x,in->Gp,in->points,in->device_start+cell->ymesh[i])*in->Dphotoneff;
-			cell->Gn[i]=Gn*in->electron_eff;
-			cell->Gp[i]=Gp*in->hole_eff;
-			cell->Habs[i]=0.0;
-
+			Gn=inter_get_raw(in->x,in->Gn,in->points,in->device_start+cell->ymesh[y])*in->Dphotoneff;
+			Gp=inter_get_raw(in->x,in->Gp,in->points,in->device_start+cell->ymesh[y])*in->Dphotoneff;
+			for (z=0;z<cell->zmeshpoints;z++)
+			{
+				for (x=0;x<cell->xmeshpoints;x++)
+				{
+					cell->Gn[z][x][y]=Gn*in->electron_eff;
+					cell->Gp[z][x][y]=Gp*in->hole_eff;
+					cell->Habs[z][x][y]=0.0;
+				}
+			}
 		}
 	}else
 	{
-		for (i=0;i<cell->ymeshpoints;i++)
+		for (z=0;z<cell->zmeshpoints;z++)
 		{
-			cell->Gn[i]=in->Gn[in->device_start_i+i]*in->Dphotoneff;
-			cell->Gp[i]=in->Gp[in->device_start_i+i]*in->Dphotoneff;
+			for (x=0;x<cell->xmeshpoints;x++)
+			{
+				for (y=0;y<cell->ymeshpoints;y++)
+				{
+					cell->Gn[z][x][y]=in->Gn[in->device_start_i+y]*in->Dphotoneff;
+					cell->Gp[z][x][y]=in->Gp[in->device_start_i+y]*in->Dphotoneff;
+				}
+			}
 		}
-
 	}
 
 }

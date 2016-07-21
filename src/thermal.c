@@ -577,7 +577,7 @@ update_heat(in);
 
 		for (i=0;i<in->ymeshpoints;i++)
 		{
-			long double clamp=100.0;
+			/*long double clamp=200.0;
 			in->Tl[i]+=b[i]/(1.0+fabs(b[i]/clamp/(300.0*kb/Q)));
 
 			if (in->thermal_e==TRUE)
@@ -594,13 +594,13 @@ update_heat(in);
 			}else
 			{
 				in->Th[i]=in->Tl[i];
-			}
+			}*/
 
 
 
-			/*in->Tl[i]+=b[i];
+			in->Tl[i]+=b[i];
 			in->Te[i]+=b[i+in->ymeshpoints];
-			in->Th[i]+=b[i+2*in->ymeshpoints];*/
+			in->Th[i]+=b[i+2*in->ymeshpoints];
 		}
 
 

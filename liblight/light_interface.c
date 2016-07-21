@@ -32,6 +32,7 @@
 #include "lang.h"
 #include "log.h"
 #include "sim.h"
+#include "memory.h"
 
 static int unused __attribute__((unused));
 
@@ -87,7 +88,9 @@ void light_load_dlls(struct simulation *sim,struct light *in)
 
 void light_solve_and_update(struct simulation *sim,struct device *cell,struct light *in,gdouble laser_eff_in)
 {
-	int i=0;
+	int x=0;
+	int y=0;
+	int z=0;
 
 	if (in->disable_transfer_to_electrical_mesh==FALSE)
 	{
@@ -118,25 +121,42 @@ void light_solve_and_update(struct simulation *sim,struct device *cell,struct li
 
 	if (in->flip_field==TRUE)
 	{
-		gdouble *Gn=(gdouble*)malloc(cell->ymeshpoints*sizeof(gdouble));
-		gdouble *Gp=(gdouble*)malloc(cell->ymeshpoints*sizeof(gdouble));
+		gdouble ***Gn;
+		gdouble ***Gp;
 
-		for (i=0;i<cell->ymeshpoints;i++)
+		malloc_3d_gdouble(cell, &Gn);
+		malloc_3d_gdouble(cell, &Gp);
+
+		for (z=0;z<cell->zmeshpoints;z++)
 		{
-			Gn[i]=cell->Gn[i];
-			Gp[i]=cell->Gp[i];
 
+			for (x=0;x<cell->xmeshpoints;x++)
+			{
+
+				for (y=0;y<cell->ymeshpoints;y++)
+				{
+					Gn[z][x][y]=cell->Gn[z][x][y];
+					Gp[z][x][y]=cell->Gp[z][x][y];
+				}
+
+			}
 		}
 
-		for (i=0;i<cell->ymeshpoints;i++)
+		for (z=0;z<cell->zmeshpoints;z++)
 		{
-			cell->Gn[cell->ymeshpoints-i-1]=Gn[i];
-			cell->Gp[cell->ymeshpoints-i-1]=Gp[i];
+			for (x=0;x<cell->xmeshpoints;x++)
+			{
+				for (y=0;y<cell->ymeshpoints;y++)
+				{
+					cell->Gn[z][x][cell->ymeshpoints-y-1]=Gn[z][x][y];
+					cell->Gp[z][x][cell->ymeshpoints-y-1]=Gp[z][x][y];
 
+				}
+			}
 		}
 
-		free(Gn);
-		free(Gp);
+		free_3d_gdouble(cell, Gn);
+		free_3d_gdouble(cell, Gp);
 	}
 
 }

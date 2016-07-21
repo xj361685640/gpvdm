@@ -39,112 +39,199 @@ gdouble den;
 struct device
 {
 	struct epitaxy my_epitaxy;
-	int remesh;
-	int newmeshsize;
-	gdouble Jnleft;
-	gdouble Jnright;
-	gdouble Jpleft;
-	gdouble Jpright;
-	gdouble *phi;
-	gdouble *Nad;
-	gdouble *G;
-	gdouble *Gn;
-	gdouble *Gp;
-	gdouble *n;
-	gdouble *p;
-	gdouble *dn;
-	gdouble *dndphi;
-	gdouble *dp;
-	gdouble *dpdphi;
-	gdouble *Eg;
-	gdouble *Xi;
-	gdouble *Ev;
-	gdouble *Ec;
-	gdouble *Rfree;
+	//Device state
+		//0D arrays
+		gdouble Vapplied;
+		//mesh points
+			int zmeshpoints;
+			int xmeshpoints;
+			int ymeshpoints;
 
-	gdouble *mun;
-	gdouble *mup;
+		int remesh;
+		int newmeshsize;
+		gdouble Jnleft;
+		gdouble Jnright;
+		gdouble Jpleft;
+		gdouble Jpright;
+		gdouble Vl;
+		gdouble Vr;
+		int excite_conv;
+		int thermal_conv;
+		int newton_enable_external_thermal;
+		int lr_pcontact;
+		int invert_applied_bias;
 
-	gdouble *Dn;
-	gdouble *Dp;
+		gdouble deltaFln;
+		gdouble deltaFlp;
+		gdouble deltaFrn;
+		gdouble deltaFrp;
 
-	gdouble *epsilonr;
+		gdouble xlen;
+		gdouble ylen;
+		gdouble zlen;
 
-	gdouble *Fn;
-	gdouble *Fp;
-	gdouble *Nc;
-	gdouble *Nv;
-	gdouble *Tl;
-	gdouble *Te;
-	gdouble *Th;
-	gdouble *ymesh;
-	gdouble *R;
-	gdouble *Fi;
-	int *imat;
-	gdouble *Jn;
-	gdouble *Jp;
+		//1D arrays
+		gdouble *ymesh;
 
-	gdouble *Jn_diffusion;
-	gdouble *Jn_drift;
+		//3D arrays zxy
+		gdouble ***phi;
+		gdouble ***Nad;
+		gdouble ***G;
+		gdouble ***Gn;
+		gdouble ***Gp;
+		gdouble ***n;
+		gdouble ***p;
+		gdouble ***dn;
+		gdouble ***dndphi;
+		gdouble ***dp;
+		gdouble ***dpdphi;
+		gdouble ***Eg;
+		gdouble ***Xi;
+		gdouble ***Ev;
+		gdouble ***Ec;
+		gdouble ***Rfree;
 
-	gdouble *Jp_diffusion;
-	gdouble *Jp_drift;
+		gdouble ***mun;
+		gdouble ***mup;
 
-	gdouble Vapplied;
-	int ymeshpoints;
-	gdouble Vl;
-	gdouble Vr;
-	gdouble *x;
-	gdouble *t;
-	gdouble *xp;
-	gdouble *tp;
-	gdouble *kf;
-	gdouble *kd;
-	gdouble *kr;
+		gdouble ***Dn;
+		gdouble ***Dp;
 
-	gdouble *Rn;
-	gdouble *Rp;
-	gdouble *kl;
-	gdouble *ke;
-	gdouble *kh;
-	gdouble *Hl;
-	gdouble *He;
-	gdouble *Hh;
-	gdouble *Habs;
-	int excite_conv;
-	int thermal_conv;
-	int newton_enable_external_thermal;
+		gdouble ***epsilonr;
 
-	gdouble deltaFln;
-	gdouble deltaFlp;
-	gdouble deltaFrn;
-	gdouble deltaFrp;
+		gdouble ***Fn;
+		gdouble ***Fp;
+		gdouble ***Nc;
+		gdouble ***Nv;
+		gdouble ***Tl;
+		gdouble ***Te;
+		gdouble ***Th;
 
-	gdouble *Rbi_k;
+		gdouble ***R;
+		gdouble ***Fi;
+		int ***imat;
+		gdouble ***Jn;
+		gdouble ***Jp;
 
-	gdouble *ex;
-	gdouble *Dex;
-	gdouble *Hex;
+		gdouble ***Jn_diffusion;
+		gdouble ***Jn_drift;
 
-	gdouble *nf_save;
-	gdouble *pf_save;
-	gdouble *nt_save;
-	gdouble *pt_save;
+		gdouble ***Jp_diffusion;
+		gdouble ***Jp_drift;
 
-	gdouble *nfequlib;
-	gdouble *pfequlib;
-	gdouble *ntequlib;
-	gdouble *ptequlib;
 
-	gdouble **ntb_save;
-	gdouble **ptb_save;
+		gdouble ***x;
+		gdouble ***t;
+		gdouble ***xp;
+		gdouble ***tp;
+		gdouble ***kf;
+		gdouble ***kd;
+		gdouble ***kr;
 
-	gdouble *phi_save;
+		gdouble ***Rn;
+		gdouble ***Rp;
+		gdouble ***kl;
+		gdouble ***ke;
+		gdouble ***kh;
+		gdouble ***Hl;
+		gdouble ***He;
+		gdouble ***Hh;
+		gdouble ***Habs;
 
-	gdouble xlen;
-	gdouble ylen;
-	gdouble zlen;
+		gdouble ***Rbi_k;
 
+		gdouble ***ex;
+		gdouble ***Dex;
+		gdouble ***Hex;
+
+		gdouble ***nf_save;
+		gdouble ***pf_save;
+		gdouble ***nt_save;
+		gdouble ***pt_save;
+
+		gdouble ***nfequlib;
+		gdouble ***pfequlib;
+		gdouble ***ntequlib;
+		gdouble ***ptequlib;
+
+		gdouble ***phi_save;
+
+		gdouble ***nlast;
+		gdouble ***plast;
+
+		gdouble ***wn;
+		gdouble ***wp;
+
+		//n traps
+			gdouble ***nt_all;
+			gdouble ***tt;
+
+		//p traps
+			gdouble ***pt_all;
+			gdouble ***tpt;
+
+
+		gdouble ***nrelax;
+		gdouble ***ntrap_to_p;
+		gdouble ***prelax;
+		gdouble ***ptrap_to_n;
+
+		gdouble ***n_orig;
+		gdouble ***p_orig;
+		gdouble ***n_orig_f;
+		gdouble ***p_orig_f;
+		gdouble ***n_orig_t;
+		gdouble ***p_orig_t;
+
+		gdouble ***B;
+
+		//4D arrays
+		gdouble ****ntb_save;
+		gdouble ****ptb_save;
+
+
+		//n traps
+			gdouble ****nt;
+			gdouble ****ntlast;
+			gdouble ****dnt;
+			gdouble ****srh_n_r1;
+			gdouble ****srh_n_r2;
+			gdouble ****srh_n_r3;
+			gdouble ****srh_n_r4;
+			gdouble ****dsrh_n_r1;
+			gdouble ****dsrh_n_r2;
+			gdouble ****dsrh_n_r3;
+			gdouble ****dsrh_n_r4;
+			gdouble ****Fnt;
+			gdouble ****xt;
+
+
+			gdouble ****nt_r1;
+			gdouble ****nt_r2;
+			gdouble ****nt_r3;
+			gdouble ****nt_r4;
+		//p traps
+			gdouble ****pt;
+			gdouble ****ptlast;
+			gdouble ****dpt;
+			gdouble ****srh_p_r1;
+			gdouble ****srh_p_r2;
+			gdouble ****srh_p_r3;
+			gdouble ****srh_p_r4;
+			gdouble ****dsrh_p_r1;
+			gdouble ****dsrh_p_r2;
+			gdouble ****dsrh_p_r3;
+			gdouble ****dsrh_p_r4;
+			gdouble ****Fpt;
+			gdouble ****xpt;
+
+
+			gdouble ****pt_r1;
+			gdouble ****pt_r2;
+			gdouble ****pt_r3;
+			gdouble ****pt_r4;
+
+	//solver
 	int N;
 	int M;
 	int *Ti;	//row
@@ -153,10 +240,26 @@ struct device
 	long double *b;
 	char** Tdebug;
 
-	int lr_pcontact;
-	int invert_applied_bias;
+	//Arrays used by newton solver
+	gdouble *newton_dntrap;
+	gdouble *newton_dntrapdntrap;
+	gdouble *newton_dntrapdn;
+	gdouble *newton_dntrapdp;
+	gdouble *newton_dJdtrapn;
+	gdouble *newton_dJpdtrapn;
 
-//math
+	gdouble *newton_dptrapdp;
+	gdouble *newton_dptrapdptrap;
+	gdouble *newton_dptrap;
+	gdouble *newton_dptrapdn;
+	gdouble *newton_dJpdtrapp;
+	gdouble *newton_dJdtrapp;
+	gdouble *newton_dphidntrap;
+	gdouble *newton_dphidptrap;
+	gdouble *newton_ntlast;
+	gdouble *newton_ptlast;
+
+	//math
 	int max_electrical_itt;
 	gdouble electrical_clamp;
 	int max_electrical_itt0;
@@ -179,8 +282,7 @@ struct device
 	int srh_sim;
 	int go_time;
 	gdouble time;
-	gdouble *nlast;
-	gdouble *plast;
+
 	int ntrapnewton;
 	int ptrapnewton;
 
@@ -193,51 +295,6 @@ struct device
 	gdouble last_error;
 	gdouble posclamp;
 	int srh_bands;
-	gdouble *wn;
-	gdouble *wp;
-
-//n traps
-	gdouble *nt_all;
-	gdouble **nt;
-	gdouble **ntlast;
-	gdouble **dnt;
-	gdouble **srh_n_r1;
-	gdouble **srh_n_r2;
-	gdouble **srh_n_r3;
-	gdouble **srh_n_r4;
-	gdouble **dsrh_n_r1;
-	gdouble **dsrh_n_r2;
-	gdouble **dsrh_n_r3;
-	gdouble **dsrh_n_r4;
-	gdouble **Fnt;
-	gdouble **xt;
-	gdouble *tt;
-
-	gdouble **nt_r1;
-	gdouble **nt_r2;
-	gdouble **nt_r3;
-	gdouble **nt_r4;
-//p traps
-	gdouble *pt_all;
-	gdouble **pt;
-	gdouble **ptlast;
-	gdouble **dpt;
-	gdouble **srh_p_r1;
-	gdouble **srh_p_r2;
-	gdouble **srh_p_r3;
-	gdouble **srh_p_r4;
-	gdouble **dsrh_p_r1;
-	gdouble **dsrh_p_r2;
-	gdouble **dsrh_p_r3;
-	gdouble **dsrh_p_r4;
-	gdouble **Fpt;
-	gdouble **xpt;
-	gdouble *tpt;
-
-	gdouble **pt_r1;
-	gdouble **pt_r2;
-	gdouble **pt_r3;
-	gdouble **pt_r4;
 
 	gdouble A;
 	gdouble Vol;
@@ -249,8 +306,6 @@ struct device
 	gdouble C;
 
 	int lr_bias;
-
-	int *dostype;
 
 	int interfaceleft;
 	int interfaceright;
@@ -267,12 +322,6 @@ struct device
 	int timedumpcount;
 	char simmode[200];
 	gdouble area;
-
-	gdouble *nrelax;
-	gdouble *ntrap_to_p;
-	gdouble *prelax;
-	gdouble *ptrap_to_n;
-
 
 
 	gdouble lcharge;
@@ -295,7 +344,6 @@ struct device
 	int kl_in_newton;
 	int config_kl_in_newton;
 	void (*newton_aux)(struct device* ,gdouble ,gdouble* ,gdouble* ,gdouble* ,gdouble* ,gdouble* ,gdouble* ,gdouble* ,gdouble*);
-	gdouble *B;
 	gdouble xnl_left;
 	gdouble xpl_left;
 	int stoppoint;
@@ -312,12 +360,7 @@ struct device
 	gdouble Igen;
 	struct light mylight;
 
-	gdouble *n_orig;
-	gdouble *p_orig;
-	gdouble *n_orig_f;
-	gdouble *p_orig_f;
-	gdouble *n_orig_t;
-	gdouble *p_orig_t;
+
 	int nofluxl;
 
 	gdouble Vbi;
@@ -336,24 +379,7 @@ struct device
 	long double layer_start[100];
 	long double layer_stop[100];
 	long double layer_width[100];
-	//Arrays used by newton solver
-	gdouble *newton_dntrap;
-	gdouble *newton_dntrapdntrap;
-	gdouble *newton_dntrapdn;
-	gdouble *newton_dntrapdp;
-	gdouble *newton_dJdtrapn;
-	gdouble *newton_dJpdtrapn;
 
-	gdouble *newton_dptrapdp;
-	gdouble *newton_dptrapdptrap;
-	gdouble *newton_dptrap;
-	gdouble *newton_dptrapdn;
-	gdouble *newton_dJpdtrapp;
-	gdouble *newton_dJdtrapp;
-	gdouble *newton_dphidntrap;
-	gdouble *newton_dphidptrap;
-	gdouble *newton_ntlast;
-	gdouble *newton_ptlast;
 
 	#ifdef enable_multi_layers
 	struct dos dosn[10];

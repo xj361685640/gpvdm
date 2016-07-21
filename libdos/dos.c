@@ -37,34 +37,54 @@ long double min=1000;
 
 long double get_dos_filled_n(struct device *in)
 {
-int i;
+int x=0;
+int y=0;
+int z=0;
+
 int band;
 long double n_tot=0.0;
 long double n_tot_den=0.0;
-for (i=0;i<in->ymeshpoints;i++)
+
+for (z=0;z<in->zmeshpoints;z++)
 {
-	for (band=0;band<in->srh_bands;band++)
+	for (x=0;x<in->xmeshpoints;x++)
 	{
-		n_tot+=in->nt[i][band];
-		n_tot_den+=in->dosn[in->imat[i]].srh_den[band];
+		for (y=0;y<in->ymeshpoints;y++)
+		{
+			for (band=0;band<in->srh_bands;band++)
+			{
+				n_tot+=in->nt[z][x][y][band];
+				n_tot_den+=in->dosn[in->imat[z][x][y]].srh_den[band];
+			}
+		}
 	}
 }
+
 n_tot=(n_tot)/(n_tot_den);
 return n_tot;
 }
 
 long double get_dos_filled_p(struct device *in)
 {
-int i;
+int x=0;
+int y=0;
+int z=0;
+
 int band;
 long double p_tot=0.0;
 long double p_tot_den=0.0;
-for (i=0;i<in->ymeshpoints;i++)
+for (z=0;z<in->zmeshpoints;z++)
 {
-	for (band=0;band<in->srh_bands;band++)
+	for (x=0;x<in->xmeshpoints;x++)
 	{
-		p_tot+=in->pt[i][band];
-		p_tot_den+=in->dosp[in->imat[i]].srh_den[band];
+		for (y=0;y<in->ymeshpoints;y++)
+		{
+			for (band=0;band<in->srh_bands;band++)
+			{
+				p_tot+=in->pt[z][x][y][band];
+				p_tot_den+=in->dosp[in->imat[z][x][y]].srh_den[band];
+			}
+		}
 	}
 }
 p_tot=(p_tot)/(p_tot_den);

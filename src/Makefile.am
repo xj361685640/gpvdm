@@ -1,4 +1,4 @@
-OBJS=  sim_find_n0.o sim_run.o pos.o initial.o config.o memory.o anal.o thermal.o mesh.o run_electrical_dll.o sim.o
+OBJS=  sim_find_n0.o sim_run.o pos.o initial.o config.o memory.o memory_basic.o anal.o thermal.o mesh.o run_electrical_dll.o sim.o
 
 AROPT=
 

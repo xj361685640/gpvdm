@@ -98,7 +98,6 @@ class fit_patch(gtk.VBox):
 			model.remove(iter)
 
 		self.save_combo()
-		self.rebuild_liststore_op_type()
 
 	def save_combo(self):
 		a = open(self.file_name, "w")
@@ -117,7 +116,6 @@ class fit_patch(gtk.VBox):
 		model[path][2] = text
 		model[path][0] = scan_items_get_file(text)
 		model[path][1] = scan_items_get_token(text)
-		self.rebuild_liststore_op_type()
 		self.save_combo()
 
 

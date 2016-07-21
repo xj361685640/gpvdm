@@ -283,6 +283,7 @@ if (in->newton_enable_external_thermal==FALSE)
 	do
 	{
 		solve_cur(sim,in);
+		
 		//plot_now(sim,"thermal.plot");
 		//getchar();
 		solve_thermal(sim,in);

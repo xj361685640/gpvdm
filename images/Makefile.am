@@ -11,5 +11,5 @@ all: $(OBJS)
 
 
 clean:
-	rm $(OBJS) -f
+	rm 16_*.png 32_*.png -f
 

@@ -29,31 +29,7 @@
 #include <math.h>
 #include "log.h"
 #include <solver_interface.h>
-
-void free_srh_bands(struct device *in, gdouble ** var)
-{
-	int i;
-	for (i = 0; i < in->ymeshpoints; i++) {
-		free(var[i]);
-	}
-
-	free(var);
-}
-
-void malloc_srh_bands(struct device *in, gdouble * (**var))
-{
-	*var = (gdouble **) malloc(in->ymeshpoints * sizeof(gdouble *));
-
-	int i;
-	for (i = 0; i < in->ymeshpoints; i++) {
-		if (in->srh_bands != 0) {
-			(*var)[i] =
-			    (gdouble *) malloc(in->srh_bands * sizeof(gdouble));
-		} else {
-			(*var)[i] = NULL;
-		}
-	}
-}
+#include "memory.h"
 
 void device_alloc_traps(struct device *in)
 {
@@ -150,110 +126,109 @@ void device_free_traps(struct device *in)
 void device_free(struct simulation *sim,struct device *in)
 {
 
-	free(in->phi);
-	free(in->B);
-	free(in->Nad);
-	free(in->n);
-	free(in->p);
-	free(in->dn);
-	free(in->dp);
-	free(in->dndphi);
-	free(in->dpdphi);
-	free(in->Eg);
-	free(in->Xi);
-	free(in->Ev);
-	free(in->Ec);
-	free(in->mun);
-	free(in->mup);
-	free(in->Dn);
-	free(in->Dp);
-	free(in->ymesh);
-	free(in->Fn);
-	free(in->Fp);
+	free_3d_gdouble(in,in->phi);
+	free_3d_gdouble(in,in->B);
+	free_3d_gdouble(in,in->Nad);
+	free_3d_gdouble(in,in->n);
+	free_3d_gdouble(in,in->p);
+	free_3d_gdouble(in,in->dn);
+	free_3d_gdouble(in,in->dp);
+	free_3d_gdouble(in,in->dndphi);
+	free_3d_gdouble(in,in->dpdphi);
+	free_3d_gdouble(in,in->Eg);
+	free_3d_gdouble(in,in->Xi);
+	free_3d_gdouble(in,in->Ev);
+	free_3d_gdouble(in,in->Ec);
+	free_3d_gdouble(in,in->mun);
+	free_3d_gdouble(in,in->mup);
+	free_3d_gdouble(in,in->Dn);
+	free_3d_gdouble(in,in->Dp);
+	free_3d_gdouble(in,in->ymesh);
+	free_3d_gdouble(in,in->Fn);
+	free_3d_gdouble(in,in->Fp);
 
-	free(in->Nc);
-	free(in->Nv);
-	free(in->G);
-	free(in->Gn);
-	free(in->Gp);
-	free(in->Tl);
-	free(in->Te);
-	free(in->Th);
-	free(in->R);
-	free(in->Fi);
-	free(in->Jn);
-	free(in->Jp);
-	free(in->Jn_drift);
-	free(in->Jn_diffusion);
-	free(in->Jp_drift);
-	free(in->Jp_diffusion);
-	free(in->x);
-	free(in->t);
-	free(in->xp);
-	free(in->tp);
-	free(in->ex);
-	free(in->Dex);
-	free(in->Hex);
-	free(in->epsilonr);
+	free_3d_gdouble(in,in->Nc);
+	free_3d_gdouble(in,in->Nv);
+	free_3d_gdouble(in,in->G);
+	free_3d_gdouble(in,in->Gn);
+	free_3d_gdouble(in,in->Gp);
+	free_3d_gdouble(in,in->Tl);
+	free_3d_gdouble(in,in->Te);
+	free_3d_gdouble(in,in->Th);
+	free_3d_gdouble(in,in->R);
+	free_3d_gdouble(in,in->Fi);
+	free_3d_gdouble(in,in->Jn);
+	free_3d_gdouble(in,in->Jp);
+	free_3d_gdouble(in,in->Jn_drift);
+	free_3d_gdouble(in,in->Jn_diffusion);
+	free_3d_gdouble(in,in->Jp_drift);
+	free_3d_gdouble(in,in->Jp_diffusion);
+	free_3d_gdouble(in,in->x);
+	free_3d_gdouble(in,in->t);
+	free_3d_gdouble(in,in->xp);
+	free_3d_gdouble(in,in->tp);
+	free_3d_gdouble(in,in->ex);
+	free_3d_gdouble(in,in->Dex);
+	free_3d_gdouble(in,in->Hex);
+	free_3d_gdouble(in,in->epsilonr);
 
-	free(in->kf);
-	free(in->kd);
-	free(in->kr);
-	free(in->Rfree);
-	free(in->Rn);
-	free(in->Rp);
-	free(in->kl);
-	free(in->ke);
-	free(in->kh);
-	free(in->Hl);
-	free(in->He);
-	free(in->Hh);
-	free(in->Habs);
-	free(in->nlast);
-	free(in->plast);
+	free_3d_gdouble(in,in->kf);
+	free_3d_gdouble(in,in->kd);
+	free_3d_gdouble(in,in->kr);
+	free_3d_gdouble(in,in->Rfree);
+	free_3d_gdouble(in,in->Rn);
+	free_3d_gdouble(in,in->Rp);
+	free_3d_gdouble(in,in->kl);
+	free_3d_gdouble(in,in->ke);
+	free_3d_gdouble(in,in->kh);
+	free_3d_gdouble(in,in->Hl);
+	free_3d_gdouble(in,in->He);
+	free_3d_gdouble(in,in->Hh);
+	free_3d_gdouble(in,in->Habs);
+	free_3d_gdouble(in,in->nlast);
+	free_3d_gdouble(in,in->plast);
 
-	free(in->wn);
-	free(in->wp);
+	free_3d_gdouble(in,in->wn);
+	free_3d_gdouble(in,in->wp);
 
-	free(in->nt_all);
+	free_3d_gdouble(in,in->nt_all);
 
-	free(in->tt);
-	free(in->dostype);
-	free(in->Rbi_k);
+	free_3d_gdouble(in,in->tt);
+	free_3d_gdouble(in,in->Rbi_k);
 
-	free(in->pt_all);
+	free_3d_gdouble(in,in->pt_all);
 
 
-	free(in->tpt);
+	free_3d_gdouble(in,in->tpt);
 
-	free(in->nf_save);
-	free(in->pf_save);
-	free(in->nt_save);
-	free(in->pt_save);
+	free_3d_gdouble(in,in->nf_save);
+	free_3d_gdouble(in,in->pf_save);
+	free_3d_gdouble(in,in->nt_save);
+	free_3d_gdouble(in,in->pt_save);
 
-	free(in->nfequlib);
-	free(in->pfequlib);
-	free(in->ntequlib);
-	free(in->ptequlib);
+	free_3d_gdouble(in,in->nfequlib);
+	free_3d_gdouble(in,in->pfequlib);
+	free_3d_gdouble(in,in->ntequlib);
+	free_3d_gdouble(in,in->ptequlib);
 
 	solver_free(sim);
 	complex_solver_free(sim);
 
-	free(in->nrelax);
-	free(in->ntrap_to_p);
-	free(in->prelax);
-	free(in->ptrap_to_n);
+	free_3d_gdouble(in,in->nrelax);
+	free_3d_gdouble(in,in->ntrap_to_p);
+	free_3d_gdouble(in,in->prelax);
+	free_3d_gdouble(in,in->ptrap_to_n);
 
-	free(in->n_orig);
-	free(in->p_orig);
-	free(in->n_orig_f);
-	free(in->p_orig_f);
-	free(in->n_orig_t);
-	free(in->p_orig_t);
+	free_3d_gdouble(in,in->n_orig);
+	free_3d_gdouble(in,in->p_orig);
+	free_3d_gdouble(in,in->n_orig_f);
+	free_3d_gdouble(in,in->p_orig_f);
+	free_3d_gdouble(in,in->n_orig_t);
+	free_3d_gdouble(in,in->p_orig_t);
 
-	free(in->phi_save);
+	free_3d_gdouble(in,in->phi_save);
 
-	free(in->imat);
+	free_3d_int(in,in->imat);
 
 	device_free_traps(in);
 
@@ -264,12 +239,12 @@ void device_get_memory(struct simulation *sim,struct device *in)
 {
 	in->odes = 0;
 
-	if (in->ymeshpoints<1)
+	if ((in->ymeshpoints<1)||(in->xmeshpoints<1)||(in->zmeshpoints<1))
 	{
 		ewe(sim,_("I can't allocate a device with less than 1 mesh point.\n"));
 	}
 
-	if (in->ymeshpoints>50000)
+	if ((in->ymeshpoints>50000)||(in->xmeshpoints>50000)||(in->zmeshpoints>50000))
 	{
 		ewe(sim,_("You are asking me to simulate a device with more than 50000 mesh points, although I could do this I am not going to because it seems a bad idea to me.\n"));
 	}
@@ -280,266 +255,177 @@ void device_get_memory(struct simulation *sim,struct device *in)
 	in->b = NULL;
 	in->Tdebug = NULL;
 
-	in->nf_save = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->nf_save, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->nf_save));
 
-	in->pf_save = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->pf_save, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->pf_save));
 
-	in->nt_save = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->nt_save, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->nt_save));
 
-	in->pt_save = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->pt_save, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->pt_save));
 
-	in->nfequlib = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->nfequlib, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->nfequlib));
 
-	in->pfequlib = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->pfequlib, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->pfequlib));
 
-	in->ntequlib = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->ntequlib, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->ntequlib));
 
-	in->ptequlib = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->ptequlib, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->ptequlib));
 
-	in->Habs = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->Habs, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->Habs));
 
-	in->phi = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->phi, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->phi));
 
-	in->B = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->B, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->B));
 
-	in->Nad = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->Nad, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->Nad));
 
-	in->n = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->n, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->n));
 
-	in->p = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->p, 0, in->ymeshpoints * sizeof(gdouble));
-	//malloc_srh_bands(in,&(in->n));
-	//malloc_srh_bands(in,&(in->p));
-	in->dn = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->dn, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->p));
 
-	in->dp = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->dp, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->dn));
 
-	in->dndphi = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->dndphi, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->dp));
 
-	in->dpdphi = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->dpdphi, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->dndphi));
 
-	in->Eg = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->Eg, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->dpdphi));
 
-	in->Fn = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->Fn, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->Eg));
 
-	in->Fp = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->Fp, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->Fn));
 
-	in->Xi = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->Xi, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->Fp));
 
-	in->Ev = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->Ev, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->Xi));
 
-	in->Ec = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->Ec, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->Ev));
 
-	in->mun = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->mun, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->Ec));
 
-	in->mup = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->mup, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->mun));
 
-	in->Dn = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->Dn, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->mup));
 
-	in->Dp = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->Dp, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->Dn));
 
-	in->Nc = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->Nc, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->Dp));
 
-	in->Nv = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->Nv, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->Nc));
 
-	in->G = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->G, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->Nv));
 
-	in->Gn = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->Gn, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->G));
 
-	in->Gp = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->Gp, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->Gn));
 
-	in->Tl = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->Tl, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->Gp));
 
-	in->Te = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->Te, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->Tl));
 
-	in->Th = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->Th, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->Te));
 
-	in->R = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->R, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->Th));
 
-	in->Fi = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->Fi, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->R));
 
-	in->Jn = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->Jn, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->Fi));
 
-	in->Jp = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->Jp, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->Jn));
 
-	in->Jn_drift = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->Jn_drift, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->Jp));
 
-	in->Jn_diffusion = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->Jn_diffusion, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->Jn_drift));
 
-	in->Jp_drift = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->Jp_drift, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->Jn_diffusion));
 
-	in->Jp_diffusion = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->Jp_diffusion, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->Jp_drift));
 
-	in->x = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->x, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->Jp_diffusion));
 
-	in->t = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->t, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->x));
 
-	in->xp = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->xp, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->t));
 
-	in->tp = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->tp, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->xp));
 
-	in->kf = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->kf, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->tp));
 
-	in->kd = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->kd, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->kf));
 
-	in->kr = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->kr, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->kd));
 
-	in->Rfree = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->Rfree, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->kr));
 
-	in->Rn = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->Rn, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->Rfree));
 
-	in->Rp = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->Rp, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->Rn));
 
-	in->ex = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->ex, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->Rp));
 
-	in->Dex = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->Dex, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->ex));
 
-	in->Hex = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->Hex, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->Dex));
 
-	in->epsilonr = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->epsilonr, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->Hex));
 
-	in->kl = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->kl, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->epsilonr));
 
-	in->ke = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->ke, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->kl));
 
-	in->kh = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->kh, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->ke));
 
-	in->Hl = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->Hl, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->kh));
 
-	in->He = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->He, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->Hl));
 
-	in->Hh = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->Hh, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->He));
 
-	in->nlast = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->nlast, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->Hh));
 
-	in->plast = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->plast, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->nlast));
 
-	in->wn = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->wn, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->plast));
 
-	in->wp = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->wp, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->wn));
 
-	in->nt_all = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->nt_all, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->wp));
 
-	in->phi_save = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->phi_save, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->nt_all));
 
-	in->tt = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->tt, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->phi_save));
 
-	in->dostype = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->dostype, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->tt));
 
-	in->pt_all = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->pt_all, 0, in->ymeshpoints * sizeof(gdouble));
 
-	in->tpt = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->tpt, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->pt_all));
 
-	in->Rbi_k = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->Rbi_k, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->tpt));
 
-	in->nrelax = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->nrelax, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->Rbi_k));
 
-	in->ntrap_to_p = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->ntrap_to_p, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->nrelax));
 
-	in->prelax = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->prelax, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->ntrap_to_p));
 
-	in->ptrap_to_n = malloc(in->ymeshpoints * sizeof(gdouble));
-	memset(in->ptrap_to_n, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->prelax));
 
-	in->n_orig = (gdouble *) malloc(sizeof(gdouble) * in->ymeshpoints);
-	memset(in->n_orig, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->ptrap_to_n));
 
-	in->p_orig = (gdouble *) malloc(sizeof(gdouble) * in->ymeshpoints);
-	memset(in->p_orig, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->n_orig));
 
-	in->n_orig_f = (gdouble *) malloc(sizeof(gdouble) * in->ymeshpoints);
-	memset(in->n_orig_f, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->p_orig));
 
-	in->p_orig_f = (gdouble *) malloc(sizeof(gdouble) * in->ymeshpoints);
-	memset(in->p_orig_f, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->n_orig_f));
 
-	in->n_orig_t = (gdouble *) malloc(sizeof(gdouble) * in->ymeshpoints);
-	memset(in->n_orig_t, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->p_orig_f));
 
-	in->p_orig_t = (gdouble *) malloc(sizeof(gdouble) * in->ymeshpoints);
-	memset(in->p_orig_t, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->n_orig_t));
 
-	in->ymesh = malloc (in->ymeshpoints * sizeof(gdouble));
-	memset(in->ymesh, 0, in->ymeshpoints * sizeof(gdouble));
+	malloc_3d_gdouble(in,&(in->p_orig_t));
 
-	in->imat=malloc (in->ymeshpoints * sizeof(int));
-	memset(in->imat, 0, in->ymeshpoints * sizeof(int));
+	malloc_3d_gdouble(in,&(in->ymesh));
+
+	malloc_3d_gdouble(in,&(in->imat));
 
 }

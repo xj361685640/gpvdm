@@ -85,8 +85,8 @@ time_load_mesh(sim,in,number);
 int ittr=0;
 
 int step=0;
-light_set_sun(&(in->mylight),time_get_sun(in));
-light_solve_and_update(sim,in,&(in->mylight), time_get_laser(in));
+light_set_sun(&(in->mylight),time_get_sun(in)*pulse_config.pulse_light_efficiency);
+light_solve_and_update(sim,in,&(in->mylight), time_get_laser(in)*pulse_config.pulse_light_efficiency);
 
 gdouble V=0.0;
 if (get_dump_status(sim,dump_optical_probe)==TRUE)
@@ -129,8 +129,8 @@ do
 {
 
 
-	light_set_sun(&(in->mylight),time_get_sun(in));
-	light_solve_and_update(sim,in,&(in->mylight), time_get_laser(in)+time_get_fs_laser(in));
+	light_set_sun(&(in->mylight),time_get_sun(in)*pulse_config.pulse_light_efficiency);
+	light_solve_and_update(sim,in,&(in->mylight), (time_get_laser(in)+time_get_fs_laser(in))*pulse_config.pulse_light_efficiency);
 	//int i;
 	//FILE *t=fopen("t.dat","w");
 	//for (i=0;i<in->ymeshpoints;i++)
@@ -318,6 +318,10 @@ inp_search_gdouble(sim,&inp,&(dev->L),"#pulse_L");
 inp_search_gdouble(sim,&inp,&(dev->Rload),"#Rload");
 inp_search_gdouble(sim,&inp,&(in->pulse_bias),"#pulse_bias");
 inp_search_string(sim,&inp,laser_name,"#pump_laser");
+
+inp_search_gdouble(sim,&inp,&(in->pulse_light_efficiency),"#pulse_light_efficiency");
+in->pulse_light_efficiency=gfabs(in->pulse_light_efficiency);
+
 light_load_laser(sim,(&dev->mylight),laser_name);
 in->pulse_sim_mode=english_to_bin(sim,name);
 

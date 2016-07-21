@@ -2,13 +2,15 @@ AC_INIT([gpvdm], [4.40])
 AC_CONFIG_SRCDIR([./src/main.c])
 AC_CANONICAL_TARGET
 AC_CANONICAL_HOST
-AM_PROG_AR([No ar tool])
+
 
 AS_CASE([$target_os],
   [mingw32], [
 AC_MSG_NOTICE([********************************])
 AC_MSG_NOTICE([*Setting up config for windows *])
 AC_MSG_NOTICE([********************************])
+
+AM_PROG_AR
 
 AC_SUBST(LINK_FLAG, "-posix")
 AC_SUBST(COMPILE_FLAG, " -D windows -posix")
@@ -49,6 +51,7 @@ AC_SUBST(COMPILE_FLAG, " -D enable_server -g -fPIC " )
 AC_SUBST(EXE_LINK, "-lumfpack -lm -lgsl -lgslcblas -rdynamic -export-dynamic -ldl -lzip -lz -lmatheval -g -L/home/steve/rm/build/libmatheval-1.1.11/lib/.libs/ -L/home/steve/rm/lib/")
 AC_SUBST(HPC, "" )
 ],[
+	AM_PROG_AR
 	AC_SUBST(COMPILE_FLAG, " -D enable_server -g -fPIC `pkg-config --cflags dbus-1` -D dbus " )
 	AC_SUBST(EXE_LINK, "-lumfpack -lm -lgsl -lgslcblas -rdynamic -export-dynamic -ldl -lzip -lz -lmatheval -g `pkg-config --libs dbus-1`")
 	AC_SUBST(HPC, "man1_MANS = man/gpvdm.1 man/gpvdm_core.1" )

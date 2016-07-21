@@ -27,6 +27,7 @@ struct pulse
 {
 	gdouble pulse_shift;
 	gdouble pulse_bias;
+	gdouble pulse_light_efficiency;
 	int pulse_sim_mode;
 };
 

@@ -23,75 +23,76 @@
 #include "dump.h"
 #include <dos.h>
 
-void update_arrays(struct simulation *sim,struct device *in)
+void update_y_array(struct simulation *sim,int z,int x,struct device *in)
 {
-int i;
+int y=0;
 int band=0;
-	for (i=0;i<in->ymeshpoints;i++)
+
+	for (y=0;y<in->ymeshpoints;y++)
 	{
-		in->Fn[i]=in->x[i]-in->phi[i];
-		in->Fp[i]= -in->xp[i]-in->phi[i];
+		in->Fn[z][x][y]=in->x[z][x][y]-in->phi[z][x][y];
+		in->Fp[z][x][y]= -in->xp[z][x][y]-in->phi[z][x][y];
 
-		in->Ec[i]= -in->phi[i]-in->Xi[i];
-		in->Ev[i]= -in->phi[i]-in->Xi[i]-in->Eg[i];
+		in->Ec[z][x][y]= -in->phi[z][x][y]-in->Xi[z][x][y];
+		in->Ev[z][x][y]= -in->phi[z][x][y]-in->Xi[z][x][y]-in->Eg[z][x][y];
 
-		in->dn[i]=get_dn_den(in,in->x[i]+in->t[i],in->Te[i],in->imat[i]);
-		in->n[i]=get_n_den(in,in->x[i]+in->t[i],in->Te[i],in->imat[i]);
-		in->dndphi[i]=get_dn_den(in,in->x[i]+in->t[i],in->Te[i],in->imat[i]);
-		in->dp[i]=get_dp_den(in,in->xp[i]-in->tp[i],in->Th[i],in->imat[i]);
-		in->p[i]=get_p_den(in,in->xp[i]-in->tp[i],in->Th[i],in->imat[i]);
-		in->dpdphi[i]= -get_dp_den(in,in->xp[i]-in->tp[i],in->Th[i],in->imat[i]);
-//printf("%d one %d\n",i,in->imat[i]);
+		in->dn[z][x][y]=get_dn_den(in,in->x[z][x][y]+in->t[z][x][y],in->Te[z][x][y],in->imat[z][x][y]);
+		in->n[z][x][y]=get_n_den(in,in->x[z][x][y]+in->t[z][x][y],in->Te[z][x][y],in->imat[z][x][y]);
+		in->dndphi[z][x][y]=get_dn_den(in,in->x[z][x][y]+in->t[z][x][y],in->Te[z][x][y],in->imat[z][x][y]);
+		in->dp[z][x][y]=get_dp_den(in,in->xp[z][x][y]-in->tp[z][x][y],in->Th[z][x][y],in->imat[z][x][y]);
+		in->p[z][x][y]=get_p_den(in,in->xp[z][x][y]-in->tp[z][x][y],in->Th[z][x][y],in->imat[z][x][y]);
+		in->dpdphi[z][x][y]= -get_dp_den(in,in->xp[z][x][y]-in->tp[z][x][y],in->Th[z][x][y],in->imat[z][x][y]);
+//printf("%d one %d\n",i,in->imat[y]);
 
-		in->wn[i]=get_n_w(in,in->x[i]+in->t[i],in->Te[i],in->imat[i]);
-		in->wp[i]=get_p_w(in,in->xp[i]-in->tp[i],in->Th[i],in->imat[i]);
+		in->wn[z][x][y]=get_n_w(in,in->x[z][x][y]+in->t[z][x][y],in->Te[z][x][y],in->imat[z][x][y]);
+		in->wp[z][x][y]=get_p_w(in,in->xp[z][x][y]-in->tp[z][x][y],in->Th[z][x][y],in->imat[z][x][y]);
 
-		in->mun[i]=get_n_mu(in,in->imat[i]);
-		in->mup[i]=get_p_mu(in,in->imat[i]);
+		in->mun[z][x][y]=get_n_mu(in,in->imat[z][x][y]);
+		in->mup[z][x][y]=get_p_mu(in,in->imat[z][x][y]);
 
 		if (in->ntrapnewton)
 		{
-			in->nt_all[i]=0.0;
+			in->nt_all[z][x][y]=0.0;
 			for (band=0;band<in->srh_bands;band++)
 			{
-				in->Fnt[i][band]=in->xt[i][band]-in->phi[i];
+				in->Fnt[z][x][y][band]=in->xt[z][x][y][band]-in->phi[z][x][y];
 
-				in->srh_n_r1[i][band]=get_n_srh(sim,in,in->xt[i][band]+in->tt[i],in->Te[i],band,srh_1,in->imat[i]);
-				in->srh_n_r2[i][band]=get_n_srh(sim,in,in->xt[i][band]+in->tt[i],in->Te[i],band,srh_2,in->imat[i]);
-				in->srh_n_r3[i][band]=get_n_srh(sim,in,in->xt[i][band]+in->tt[i],in->Te[i],band,srh_3,in->imat[i]);
-				in->srh_n_r4[i][band]=get_n_srh(sim,in,in->xt[i][band]+in->tt[i],in->Te[i],band,srh_4,in->imat[i]);
-				in->dsrh_n_r1[i][band]=get_dn_srh(sim,in,in->xt[i][band]+in->tt[i],in->Te[i],band,srh_1,in->imat[i]);
-				in->dsrh_n_r2[i][band]=get_dn_srh(sim,in,in->xt[i][band]+in->tt[i],in->Te[i],band,srh_2,in->imat[i]);
-				in->dsrh_n_r3[i][band]=get_dn_srh(sim,in,in->xt[i][band]+in->tt[i],in->Te[i],band,srh_3,in->imat[i]);
-				in->dsrh_n_r4[i][band]=get_dn_srh(sim,in,in->xt[i][band]+in->tt[i],in->Te[i],band,srh_4,in->imat[i]);
+				in->srh_n_r1[z][x][y][band]=get_n_srh(sim,in,in->xt[z][x][y][band]+in->tt[z][x][y],in->Te[z][x][y],band,srh_1,in->imat[z][x][y]);
+				in->srh_n_r2[z][x][y][band]=get_n_srh(sim,in,in->xt[z][x][y][band]+in->tt[z][x][y],in->Te[z][x][y],band,srh_2,in->imat[z][x][y]);
+				in->srh_n_r3[z][x][y][band]=get_n_srh(sim,in,in->xt[z][x][y][band]+in->tt[z][x][y],in->Te[z][x][y],band,srh_3,in->imat[z][x][y]);
+				in->srh_n_r4[z][x][y][band]=get_n_srh(sim,in,in->xt[z][x][y][band]+in->tt[z][x][y],in->Te[z][x][y],band,srh_4,in->imat[z][x][y]);
+				in->dsrh_n_r1[z][x][y][band]=get_dn_srh(sim,in,in->xt[z][x][y][band]+in->tt[z][x][y],in->Te[z][x][y],band,srh_1,in->imat[z][x][y]);
+				in->dsrh_n_r2[z][x][y][band]=get_dn_srh(sim,in,in->xt[z][x][y][band]+in->tt[z][x][y],in->Te[z][x][y],band,srh_2,in->imat[z][x][y]);
+				in->dsrh_n_r3[z][x][y][band]=get_dn_srh(sim,in,in->xt[z][x][y][band]+in->tt[z][x][y],in->Te[z][x][y],band,srh_3,in->imat[z][x][y]);
+				in->dsrh_n_r4[z][x][y][band]=get_dn_srh(sim,in,in->xt[z][x][y][band]+in->tt[z][x][y],in->Te[z][x][y],band,srh_4,in->imat[z][x][y]);
 
-				in->nt[i][band]=get_n_pop_srh(sim,in,in->xt[i][band]+in->tt[i],in->Te[i],band,in->imat[i]);
-				in->dnt[i][band]=get_dn_pop_srh(sim,in,in->xt[i][band]+in->tt[i],in->Te[i],band,in->imat[i]);
-				in->nt_all[i]+=in->nt[i][band];
+				in->nt[z][x][y][band]=get_n_pop_srh(sim,in,in->xt[z][x][y][band]+in->tt[z][x][y],in->Te[z][x][y],band,in->imat[z][x][y]);
+				in->dnt[z][x][y][band]=get_dn_pop_srh(sim,in,in->xt[z][x][y][band]+in->tt[z][x][y],in->Te[z][x][y],band,in->imat[z][x][y]);
+				in->nt_all[z][x][y]+=in->nt[z][x][y][band];
 
 			}
 		}
 
 		if (in->ptrapnewton)
 		{
-			in->pt_all[i]=0.0;
+			in->pt_all[z][x][y]=0.0;
 			for (band=0;band<in->srh_bands;band++)
 			{
-				in->Fpt[i][band]= -in->xpt[i][band]-in->phi[i];
+				in->Fpt[z][x][y][band]= -in->xpt[z][x][y][band]-in->phi[z][x][y];
 
-				in->srh_p_r1[i][band]=get_p_srh(sim,in,in->xpt[i][band]-in->tpt[i],in->Th[i],band,srh_1,in->imat[i]);
-				in->srh_p_r2[i][band]=get_p_srh(sim,in,in->xpt[i][band]-in->tpt[i],in->Th[i],band,srh_2,in->imat[i]);
-				in->srh_p_r3[i][band]=get_p_srh(sim,in,in->xpt[i][band]-in->tpt[i],in->Th[i],band,srh_3,in->imat[i]);
-				in->srh_p_r4[i][band]=get_p_srh(sim,in,in->xpt[i][band]-in->tpt[i],in->Th[i],band,srh_4,in->imat[i]);
-				in->dsrh_p_r1[i][band]=get_dp_srh(sim,in,in->xpt[i][band]-in->tpt[i],in->Th[i],band,srh_1,in->imat[i]);
-				in->dsrh_p_r2[i][band]=get_dp_srh(sim,in,in->xpt[i][band]-in->tpt[i],in->Th[i],band,srh_2,in->imat[i]);
-				in->dsrh_p_r3[i][band]=get_dp_srh(sim,in,in->xpt[i][band]-in->tpt[i],in->Th[i],band,srh_3,in->imat[i]);
-				in->dsrh_p_r4[i][band]=get_dp_srh(sim,in,in->xpt[i][band]-in->tpt[i],in->Th[i],band,srh_4,in->imat[i]);
+				in->srh_p_r1[z][x][y][band]=get_p_srh(sim,in,in->xpt[z][x][y][band]-in->tpt[z][x][y],in->Th[z][x][y],band,srh_1,in->imat[z][x][y]);
+				in->srh_p_r2[z][x][y][band]=get_p_srh(sim,in,in->xpt[z][x][y][band]-in->tpt[z][x][y],in->Th[z][x][y],band,srh_2,in->imat[z][x][y]);
+				in->srh_p_r3[z][x][y][band]=get_p_srh(sim,in,in->xpt[z][x][y][band]-in->tpt[z][x][y],in->Th[z][x][y],band,srh_3,in->imat[z][x][y]);
+				in->srh_p_r4[z][x][y][band]=get_p_srh(sim,in,in->xpt[z][x][y][band]-in->tpt[z][x][y],in->Th[z][x][y],band,srh_4,in->imat[z][x][y]);
+				in->dsrh_p_r1[z][x][y][band]=get_dp_srh(sim,in,in->xpt[z][x][y][band]-in->tpt[z][x][y],in->Th[z][x][y],band,srh_1,in->imat[z][x][y]);
+				in->dsrh_p_r2[z][x][y][band]=get_dp_srh(sim,in,in->xpt[z][x][y][band]-in->tpt[z][x][y],in->Th[z][x][y],band,srh_2,in->imat[z][x][y]);
+				in->dsrh_p_r3[z][x][y][band]=get_dp_srh(sim,in,in->xpt[z][x][y][band]-in->tpt[z][x][y],in->Th[z][x][y],band,srh_3,in->imat[z][x][y]);
+				in->dsrh_p_r4[z][x][y][band]=get_dp_srh(sim,in,in->xpt[z][x][y][band]-in->tpt[z][x][y],in->Th[z][x][y],band,srh_4,in->imat[z][x][y]);
 
-				in->pt[i][band]=get_p_pop_srh(sim,in,in->xpt[i][band]-in->tpt[i],in->Th[i],band,in->imat[i]);
-				in->dpt[i][band]=get_dp_pop_srh(sim,in,in->xpt[i][band]-in->tpt[i],in->Th[i],band,in->imat[i]);
-				in->pt_all[i]+=in->pt[i][band];
-				//printf("%le\n",in->pt[i][band]);
+				in->pt[z][x][y][band]=get_p_pop_srh(sim,in,in->xpt[z][x][y][band]-in->tpt[z][x][y],in->Th[z][x][y],band,in->imat[z][x][y]);
+				in->dpt[z][x][y][band]=get_dp_pop_srh(sim,in,in->xpt[z][x][y][band]-in->tpt[z][x][y],in->Th[z][x][y],band,in->imat[z][x][y]);
+				in->pt_all[z][x][y]+=in->pt[z][x][y][band];
+				//printf("%le\n",in->pt[z][x][y][band]);
 			}
 		}
 
@@ -102,54 +103,64 @@ int band=0;
 
 void init_mat_arrays(struct device *in)
 {
-int i;
-	for (i=0;i<in->ymeshpoints;i++)
+int x=0;
+int y=0;
+int z=0;
+
+	for (z=0;z<in->xmeshpoints;z++)
 	{
-		in->Tl[i]=in->Tll+in->ymesh[i]*(in->Tlr-in->Tll)/in->ylen;
-		in->Te[i]=in->Tll+in->ymesh[i]*(in->Tlr-in->Tll)/in->ylen;
-		in->Th[i]=in->Tll+in->ymesh[i]*(in->Tlr-in->Tll)/in->ylen;
-		in->ex[i]=0.0;
-		in->Hex[i]=0.0;
-		//if ((i>in->ymeshpoints/2)&&(i<in->ymeshpoints/2+10)) in->Hex[i]=1e9;
-		in->epsilonr[i]=get_dos_epsilonr(in,in->imat[i]);
-		in->dostype[i]=0;//(int)get_mat_param(&(in->mat.l[in->imat[i]]),mat_dostype);
 
-		//printf("ended\n");
-		in->Eg[i]=get_dos_Eg(in,in->imat[i]);
-		in->B[i]=get_dos_B(in,in->imat[i]);
-		in->Dex[i]=0.0;//get_mat_param(&(in->mat.l[in->imat[i]]),mat_Dex);
+		for (x=0;x<in->xmeshpoints;x++)
+		{
 
-		in->Xi[i]=get_dos_Xi(in,in->imat[i]);
+			for (y=0;y<in->ymeshpoints;y++)
+			{
+				in->Tl[z][x][y]=in->Tll+in->ymesh[y]*(in->Tlr-in->Tll)/in->ylen;
+				in->Te[z][x][y]=in->Tll+in->ymesh[y]*(in->Tlr-in->Tll)/in->ylen;
+				in->Th[z][x][y]=in->Tll+in->ymesh[y]*(in->Tlr-in->Tll)/in->ylen;
+				in->ex[z][x][y]=0.0;
+				in->Hex[z][x][y]=0.0;
+				//if ((i>in->ymeshpoints/2)&&(i<in->ymeshpoints/2+10)) in->Hex[z][x][y]=1e9;
+				in->epsilonr[z][x][y]=get_dos_epsilonr(in,in->imat[z][x][y]);
 
-		in->Ec[i]= -in->Xi[i];
+				//printf("ended\n");
+				in->Eg[z][x][y]=get_dos_Eg(in,in->imat[z][x][y]);
+				in->B[z][x][y]=get_dos_B(in,in->imat[z][x][y]);
+				in->Dex[z][x][y]=0.0;//get_mat_param(&(in->mat.l[in->imat[z][x][y]]),mat_Dex);
 
-		in->Ev[i]= -in->Xi[i]-in->Eg[i];
+				in->Xi[z][x][y]=get_dos_Xi(in,in->imat[z][x][y]);
 
-		//printf("%d %e %e\n",i,in->mun[i],in->mup[i]);
+				in->Ec[z][x][y]= -in->Xi[z][x][y];
 
-		in->Nc[i]=get_Nc_free(in,in->imat[i]);
+				in->Ev[z][x][y]= -in->Xi[z][x][y]-in->Eg[z][x][y];
 
-		in->Nv[i]=get_Nv_free(in,in->imat[i]);
+				//printf("%d %e %e\n",i,in->mun[z][x][y],in->mup[z][x][y]);
 
-		in->mun[i]=get_n_mu(in,in->imat[i]);
-		in->mup[i]=get_p_mu(in,in->imat[i]);
+				in->Nc[z][x][y]=get_Nc_free(in,in->imat[z][x][y]);
 
-		in->kf[i]=0.0;//get_mat_param(&(in->mat.l[in->imat[i]]),mat_kf);
-		in->kl[i]=in->thermal_kl;//get_mat_param(&(in->mat.l[in->imat[i]]),mat_kl);
-		in->ke[i]=get_n_mu(in,in->imat[i]);
-		in->kh[i]=get_p_mu(in,in->imat[i]);
+				in->Nv[z][x][y]=get_Nv_free(in,in->imat[z][x][y]);
 
-		in->Hl[i]=0.0;
-		in->He[i]=0.0;
-		in->Hh[i]=0.0;
-		in->Habs[i]=0.0;
+				in->mun[z][x][y]=get_n_mu(in,in->imat[z][x][y]);
+				in->mup[z][x][y]=get_p_mu(in,in->imat[z][x][y]);
 
-		in->t[i]=in->Xi[i];
-		in->tp[i]=in->Xi[i]+in->Eg[i];
+				in->kf[z][x][y]=0.0;//get_mat_param(&(in->mat.l[in->imat[z][x][y]]),mat_kf);
+				in->kl[z][x][y]=in->thermal_kl;//get_mat_param(&(in->mat.l[in->imat[z][x][y]]),mat_kl);
+				in->ke[z][x][y]=get_n_mu(in,in->imat[z][x][y]);
+				in->kh[z][x][y]=get_p_mu(in,in->imat[z][x][y]);
 
-		in->tt[i]=in->Xi[i];
-		in->tpt[i]=in->Xi[i]+in->Eg[i];
+				in->Hl[z][x][y]=0.0;
+				in->He[z][x][y]=0.0;
+				in->Hh[z][x][y]=0.0;
+				in->Habs[z][x][y]=0.0;
 
+				in->t[z][x][y]=in->Xi[z][x][y];
+				in->tp[z][x][y]=in->Xi[z][x][y]+in->Eg[z][x][y];
+
+				in->tt[z][x][y]=in->Xi[z][x][y];
+				in->tpt[z][x][y]=in->Xi[z][x][y]+in->Eg[z][x][y];
+
+			}
+		}
 	}
 }
 
