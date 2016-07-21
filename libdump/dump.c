@@ -37,6 +37,58 @@ dump_number=0;
 set_dump_status(sim,dump_lock, FALSE);
 }
 
+void buffer_add_3d_device_data(struct buffer *buf,struct device *in,gdouble ***data)
+{
+int x=0;
+int y=0;
+int z=0;
+
+gdouble xpos=0.0;
+gdouble ypos=0.0;
+gdouble zpos=0.0;
+
+char string[200];
+
+if ((in->xmeshpoints>1)&&(in->ymeshpoints>1)&&(in->zmeshpoints>1))
+{
+	for (z=0;z<in->zmeshpoints;z++)
+	{
+		for (x=0;x<in->xmeshpoints;x++)
+		{
+			for (y=0;y<in->ymeshpoints;y++)
+			{
+				sprintf(string,"%Le %Le %Le %Le\n",in->xmesh[x],in->ymesh[y],in->zmesh[z],data[x][y][z]);
+				buffer_add_string(buf,string);
+			}
+		}
+	}
+}else
+if ((in->xmeshpoints>1)&&(in->ymeshpoints>1))
+{
+	z=0;
+	for (x=0;x<in->xmeshpoints;x++)
+	{
+		for (y=0;y<in->ymeshpoints;y++)
+		{
+			sprintf(string,"%Le %Le %Le\n",in->xmesh[x],in->ymesh[y],data[x][y][z]);
+			buffer_add_string(buf,string);
+		}
+	}
+}else
+{
+	x=0;
+	z=0;
+
+	for (y=0;y<in->ymeshpoints;y++)
+	{
+		sprintf(string,"%Le %Le\n",in->ymesh[y],data[x][y][z]);
+		buffer_add_string(buf,string);
+	}
+}
+
+
+}
+
 void dump_write_to_disk(struct simulation *sim,struct device* in)
 {
 char temp[200];

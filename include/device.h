@@ -72,6 +72,9 @@ struct device
 
 		//1D arrays
 		gdouble *ymesh;
+		gdouble *xmesh;
+		gdouble *ymesh;
+
 
 		//3D arrays zxy
 		gdouble ***phi;

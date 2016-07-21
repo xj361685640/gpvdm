@@ -58,7 +58,11 @@ double dEh_e=0.0;
 double dEh_h=0.0;
 char name[100];
 char out_dir[400];
-int i;
+
+int x;
+int y;
+int z;
+
 int band;
 struct buffer buf;
 char temp[200];
@@ -86,11 +90,18 @@ struct istruct fh_to_th;
 struct istruct th_to_fe;
 
 double max_Eg=0.0;
-for (i=0;i<in->ymeshpoints;i++)
+for (z=0;z<in->zmeshpoints;z++)
 {
-	if (in->Eg[i]>max_Eg)
+	for (x=0;x<in->xmeshpoints;x++)
 	{
-		max_Eg=in->Eg[i];
+		for (y=0;y<in->ymeshpoints;y++)
+		{
+
+			if (in->Eg[z][x][y]>max_Eg)
+			{
+				max_Eg=in->Eg[z][x][y];
+			}
+		}
 	}
 }
 
@@ -106,47 +117,52 @@ inter_init(&th_to_fe);
 //double Re_e=0.0;
 
 
-for (i=0;i<in->ymeshpoints;i++)
+for (z=0;z<in->zmeshpoints;z++)
 {
-mat=in->imat[i];
-pl_fe_fh=get_pl_fe_fh(in,mat);
-pl_fe_te=get_pl_fe_te(in,mat);
-pl_te_fh=get_pl_te_fh(in,mat);
-pl_th_fe=get_pl_th_fe(in,mat);
-pl_ft_th=get_pl_ft_th(in,mat);
-pl_enabled=get_pl_enabled(in,mat);
-
-	if (pl_enabled==TRUE)
+	for (x=0;x<in->xmeshpoints;x++)
 	{
-
-		inter_append(&fe_to_fh,in->Eg[i],in->Rfree[i]*pl_fe_fh);
-
-		for (band=0;band<in->srh_bands;band++)
+		for (y=0;y<in->ymeshpoints;y++)
 		{
-			//electrons
-			dEe_e= -dos_get_band_energy_n(in,band,mat);
-			Re_e=(in->nt_r1[i][band]-in->nt_r2[i][band])*pl_fe_te;	//electron capture - electron emission for an electron trap
-			inter_append(&fe_to_te,dEe_e,Re_e);
+			mat=in->imat[z][x][y];
+			pl_fe_fh=get_pl_fe_fh(in,mat);
+			pl_fe_te=get_pl_fe_te(in,mat);
+			pl_te_fh=get_pl_te_fh(in,mat);
+			pl_th_fe=get_pl_th_fe(in,mat);
+			pl_ft_th=get_pl_ft_th(in,mat);
+			pl_enabled=get_pl_enabled(in,mat);
 
-			dEe_h=get_dos_Eg(in,mat)-dEe_e;
-			Re_h=(in->nt_r3[i][band]-in->nt_r4[i][band])*pl_te_fh;	//hole capture-hole emission for an electron trap
-			inter_append(&te_to_fh,dEe_h,Re_h);
+				if (pl_enabled==TRUE)
+				{
 
-			//holes
-			dEh_e=get_dos_Eg(in,mat)-dEh_h;
-			Rh_e=(in->pt_r3[i][band]-in->pt_r4[i][band])*pl_th_fe;	//electron capture - electron emission for a hole trap
-			inter_append(&th_to_fe,dEh_e,Rh_e);
+					inter_append(&fe_to_fh,in->Eg[z][x][y],in->Rfree[z][x][y]*pl_fe_fh);
 
-			dEh_h= -dos_get_band_energy_p(in,band,mat);
-			Rh_h=(in->pt_r1[i][band]-in->pt_r2[i][band])*pl_ft_th;	//hole capture - hole emission for a hole trap
-			inter_append(&fh_to_th,dEh_h,Rh_h);
+					for (band=0;band<in->srh_bands;band++)
+					{
+						//electrons
+						dEe_e= -dos_get_band_energy_n(in,band,mat);
+						Re_e=(in->nt_r1[z][x][y][band]-in->nt_r2[z][x][y][band])*pl_fe_te;	//electron capture - electron emission for an electron trap
+						inter_append(&fe_to_te,dEe_e,Re_e);
+
+						dEe_h=get_dos_Eg(in,mat)-dEe_e;
+						Re_h=(in->nt_r3[z][x][y][band]-in->nt_r4[z][x][y][band])*pl_te_fh;	//hole capture-hole emission for an electron trap
+						inter_append(&te_to_fh,dEe_h,Re_h);
+
+						//holes
+						dEh_e=get_dos_Eg(in,mat)-dEh_h;
+						Rh_e=(in->pt_r3[z][x][y][band]-in->pt_r4[z][x][y][band])*pl_th_fe;	//electron capture - electron emission for a hole trap
+						inter_append(&th_to_fe,dEh_e,Rh_e);
+
+						dEh_h= -dos_get_band_energy_p(in,band,mat);
+						Rh_h=(in->pt_r1[z][x][y][band]-in->pt_r2[z][x][y][band])*pl_ft_th;	//hole capture - hole emission for a hole trap
+						inter_append(&fh_to_th,dEh_h,Rh_h);
 
 
+					}
+
+				}
 		}
-
 	}
 }
-
 
 inter_mul(&fe_to_fh,in->ylen/((double)in->ymeshpoints));
 inter_mul(&fe_to_te,in->ylen/((double)in->ymeshpoints));

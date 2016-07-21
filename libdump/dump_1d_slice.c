@@ -37,7 +37,10 @@
 
 void dump_1d_slice(struct simulation *sim,struct device *in,char *out_dir)
 {
-int i;
+int x;
+int y;
+int z;
+
 int band;
 char name[100];
 char temp[200];
@@ -71,7 +74,7 @@ if (stat(out_dir, &st) == -1)
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
-	buffer_add_xy_data(&buf,in->ymesh, in->Jn_drift, in->ymeshpoints);
+	buffer_add_3d_device_data(&buf,in,  in->Jn_drift);
 	buffer_dump_path(out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -92,7 +95,7 @@ if (stat(out_dir, &st) == -1)
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
-	buffer_add_xy_data(&buf,in->ymesh, in->Jn_diffusion, in->ymeshpoints);
+	buffer_add_3d_device_data(&buf,in,  in->Jn_diffusion);
 	buffer_dump_path(out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -113,7 +116,7 @@ if (stat(out_dir, &st) == -1)
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
-	buffer_add_xy_data(&buf,in->ymesh, in->Jp_drift, in->ymeshpoints);
+	buffer_add_3d_device_data(&buf,in,  in->Jp_drift);
 	buffer_dump_path(out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -134,7 +137,7 @@ if (stat(out_dir, &st) == -1)
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
-	buffer_add_xy_data(&buf,in->ymesh, in->Jp_diffusion, in->ymeshpoints);
+	buffer_add_3d_device_data(&buf,in,  in->Jp_diffusion);
 	buffer_dump_path(out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -155,7 +158,7 @@ if (stat(out_dir, &st) == -1)
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
-	buffer_add_xy_data(&buf,in->ymesh, in->Ec, in->ymeshpoints);
+	buffer_add_3d_device_data(&buf,in,  in->Ec);
 	buffer_dump_path(out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -176,7 +179,7 @@ if (stat(out_dir, &st) == -1)
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
-	buffer_add_xy_data(&buf,in->ymesh, in->Ev, in->ymeshpoints);
+	buffer_add_3d_device_data(&buf,in,  in->Ev);
 	buffer_dump_path(out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -197,7 +200,7 @@ if (stat(out_dir, &st) == -1)
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
-	buffer_add_xy_data(&buf,in->ymesh, in->Tl, in->ymeshpoints);
+	buffer_add_3d_device_data(&buf,in,  in->Tl);
 	buffer_dump_path(out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -218,7 +221,7 @@ if (stat(out_dir, &st) == -1)
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
-	buffer_add_xy_data(&buf,in->ymesh, in->Te, in->ymeshpoints);
+	buffer_add_3d_device_data(&buf,in,  in->Te);
 	buffer_dump_path(out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -239,7 +242,7 @@ if (stat(out_dir, &st) == -1)
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
-	buffer_add_xy_data(&buf,in->ymesh, in->Te, in->ymeshpoints);
+	buffer_add_3d_device_data(&buf,in,  in->Te);
 	buffer_dump_path(out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -261,7 +264,7 @@ if (stat(out_dir, &st) == -1)
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
-	buffer_add_xy_data(&buf,in->ymesh, in->Nad, in->ymeshpoints);
+	buffer_add_3d_device_data(&buf,in,  in->Nad);
 	buffer_dump_path(out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -282,7 +285,7 @@ if (stat(out_dir, &st) == -1)
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
-	buffer_add_xy_data(&buf,in->ymesh, in->Eg, in->ymeshpoints);
+	buffer_add_3d_device_data(&buf,in,  in->Eg);
 	buffer_dump_path(out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -303,7 +306,7 @@ if (stat(out_dir, &st) == -1)
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
-	buffer_add_xy_data(&buf,in->ymesh, in->Fn, in->ymeshpoints);
+	buffer_add_3d_device_data(&buf,in,  in->Fn);
 	buffer_dump_path(out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -324,7 +327,7 @@ if (stat(out_dir, &st) == -1)
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
-	buffer_add_xy_data(&buf,in->ymesh, in->Fp, in->ymeshpoints);
+	buffer_add_3d_device_data(&buf,in,  in->Fp);
 	buffer_dump_path(out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -346,7 +349,7 @@ if (stat(out_dir, &st) == -1)
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
-	buffer_add_xy_data(&buf,in->ymesh, in->phi, in->ymeshpoints);
+	buffer_add_3d_device_data(&buf,in,  in->phi);
 	buffer_dump_path(out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -367,9 +370,12 @@ if (stat(out_dir, &st) == -1)
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
-	for (i=0;i<in->ymeshpoints;i++)
+	x=0;
+	y=0;
+	z=0;
+	for (y=0;y<in->ymeshpoints;y++)
 	{
-		sprintf(temp,"%Le %Le\n",in->ymesh[i],(in->phi[i]-in->phi_save[i]));
+		sprintf(temp,"%Le %Le\n",in->ymesh[y],(in->phi[z][x][y]-in->phi_save[z][x][y]));
 		buffer_add_string(&buf,temp);
 	}
 	buffer_dump_path(out_dir,name,&buf);
@@ -392,7 +398,7 @@ if (stat(out_dir, &st) == -1)
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
-	buffer_add_xy_data(&buf,in->ymesh, in->Jn, in->ymeshpoints);
+	buffer_add_3d_device_data(&buf,in,  in->Jn);
 	buffer_dump_path(out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -414,7 +420,7 @@ if (stat(out_dir, &st) == -1)
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
-	buffer_add_xy_data(&buf,in->ymesh, in->Jp, in->ymeshpoints);
+	buffer_add_3d_device_data(&buf,in,  in->Jp);
 	buffer_dump_path(out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -437,11 +443,17 @@ if (stat(out_dir, &st) == -1)
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
 	sprintf(temp,"%Le %Le\n",in->ymesh[0]-in->ymesh[1]/2,get_J_left(in));
-	for (i=0;i<in->ymeshpoints;i++)
+
+	x=0;
+	y=0;
+	z=0;
+
+	for (y=0;y<in->ymeshpoints;y++)
 	{
-		sprintf(temp,"%Le %Le\n",in->ymesh[i],(in->Jp[i]+in->Jn[i]));
+		sprintf(temp,"%Le %Le\n",in->ymesh[y],(in->Jp[z][x][y]+in->Jn[z][x][y]));
 		buffer_add_string(&buf,temp);
 	}
+
 	sprintf(temp,"%Le %Le\n",in->ymesh[in->ymeshpoints-1]-in->ymesh[1]/2,get_J_right(in));
 	buffer_dump_path(out_dir,name,&buf);
 	buffer_free(&buf);
@@ -463,11 +475,16 @@ if (stat(out_dir, &st) == -1)
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
-	for (i=0;i<in->ymeshpoints;i++)
+	x=0;
+	y=0;
+	z=0;
+
+	for (y=0;y<in->ymeshpoints;y++)
 	{
-		sprintf(temp,"%Le %Le\n",in->ymesh[i],(in->Jp_drift[i]+in->Jp_diffusion[i]));
+		sprintf(temp,"%Le %Le\n",in->ymesh[y],(in->Jp_drift[z][x][y]+in->Jp_diffusion[z][x][y]));
 		buffer_add_string(&buf,temp);
 	}
+
 	buffer_dump_path(out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -488,7 +505,7 @@ if (stat(out_dir, &st) == -1)
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
-	buffer_add_xy_data(&buf,in->ymesh, in->Fi, in->ymeshpoints);
+	buffer_add_3d_device_data(&buf,in,  in->Fi);
 	buffer_dump_path(out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -509,7 +526,7 @@ if (stat(out_dir, &st) == -1)
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
-	buffer_add_xy_data(&buf,in->ymesh, in->epsilonr, in->ymeshpoints);
+	buffer_add_3d_device_data(&buf,in,  in->epsilonr);
 	buffer_dump_path(out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -531,7 +548,7 @@ if (stat(out_dir, &st) == -1)
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
-	buffer_add_xy_data(&buf,in->ymesh, in->mun, in->ymeshpoints);
+	buffer_add_3d_device_data(&buf,in,  in->mun);
 	buffer_dump_path(out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -552,7 +569,7 @@ if (stat(out_dir, &st) == -1)
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
-	buffer_add_xy_data(&buf,in->ymesh, in->mup, in->ymeshpoints);
+	buffer_add_3d_device_data(&buf,in,  in->mup);
 	buffer_dump_path(out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -573,9 +590,14 @@ if (stat(out_dir, &st) == -1)
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
-	for (i=0;i<in->ymeshpoints;i++)
+
+	x=0;
+	y=0;
+	z=0;
+
+	for (y=0;y<in->ymeshpoints;y++)
 	{
-		sprintf(temp,"%Le %Le\n",in->ymesh[i],in->mun[i]*in->n[i]/(in->nt_all[i]+in->n[i]));
+		sprintf(temp,"%Le %Le\n",in->ymesh[y],in->mun[z][x][y]*in->n[z][x][y]/(in->nt_all[z][x][y]+in->n[z][x][y]));
 		buffer_add_string(&buf,temp);
 	}
 	buffer_dump_path(out_dir,name,&buf);
@@ -598,9 +620,9 @@ if (stat(out_dir, &st) == -1)
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
-	for (i=0;i<in->ymeshpoints;i++)
+	for (y=0;y<in->ymeshpoints;y++)
 	{
-		sprintf(temp,"%Le %Le\n",in->ymesh[i],in->mup[i]*in->p[i]/(in->pt_all[i]+in->p[i]));
+		sprintf(temp,"%Le %Le\n",in->ymesh[y],in->mup[z][x][y]*in->p[z][x][y]/(in->pt_all[z][x][y]+in->p[z][x][y]));
 		buffer_add_string(&buf,temp);
 	}
 	buffer_dump_path(out_dir,name,&buf);
@@ -624,7 +646,7 @@ if (stat(out_dir, &st) == -1)
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
-	buffer_add_xy_data(&buf,in->ymesh, in->n, in->ymeshpoints);
+	buffer_add_3d_device_data(&buf,in,  in->n);
 	buffer_dump_path(out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -645,7 +667,7 @@ if (stat(out_dir, &st) == -1)
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
-	buffer_add_xy_data(&buf,in->ymesh, in->p, in->ymeshpoints);
+	buffer_add_3d_device_data(&buf,in,  in->p);
 	buffer_dump_path(out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -666,7 +688,7 @@ if (stat(out_dir, &st) == -1)
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
-	buffer_add_xy_data(&buf,in->ymesh, in->nt_all, in->ymeshpoints);
+	buffer_add_3d_device_data(&buf,in,  in->nt_all);
 	buffer_dump_path(out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -687,7 +709,7 @@ if (stat(out_dir, &st) == -1)
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
-	buffer_add_xy_data(&buf,in->ymesh, in->pt_all, in->ymeshpoints);
+	buffer_add_3d_device_data(&buf,in,  in->pt_all);
 	buffer_dump_path(out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -708,9 +730,12 @@ if (stat(out_dir, &st) == -1)
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
-	for (i=0;i<in->ymeshpoints;i++)
+	x=0;
+	y=0;
+	z=0;
+	for (y=0;y<in->ymeshpoints;y++)
 	{
-		sprintf(temp,"%Le %Le\n",in->ymesh[i],in->p[i]+in->pt_all[i]);
+		sprintf(temp,"%Le %Le\n",in->ymesh[y],in->p[z][x][y]+in->pt_all[z][x][y]);
 		buffer_add_string(&buf,temp);
 	}
 	buffer_dump_path(out_dir,name,&buf);
@@ -734,9 +759,9 @@ if (stat(out_dir, &st) == -1)
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
-	for (i=0;i<in->ymeshpoints;i++)
+	for (y=0;y<in->ymeshpoints;y++)
 	{
-		sprintf(temp,"%Le %Le\n",in->ymesh[i],in->n[i]+in->nt_all[i]);
+		sprintf(temp,"%Le %Le\n",in->ymesh[y],in->n[z][x][y]+in->nt_all[z][x][y]);
 		buffer_add_string(&buf,temp);
 	}
 	buffer_dump_path(out_dir,name,&buf);
@@ -759,9 +784,9 @@ if (stat(out_dir, &st) == -1)
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
-	for (i=0;i<in->ymeshpoints;i++)
+	for (y=0;y<in->ymeshpoints;y++)
 	{
-		sprintf(temp,"%Le %Le\n",in->ymesh[i],(in->n[i]+in->nt_all[i])-(in->nf_save[i]+in->nt_save[i]));
+		sprintf(temp,"%Le %Le\n",in->ymesh[y],(in->n[z][x][y]+in->nt_all[z][x][y])-(in->nf_save[z][x][y]+in->nt_save[z][x][y]));
 		buffer_add_string(&buf,temp);
 	}
 	buffer_dump_path(out_dir,name,&buf);
@@ -784,9 +809,9 @@ if (stat(out_dir, &st) == -1)
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
-	for (i=0;i<in->ymeshpoints;i++)
+	for (y=0;y<in->ymeshpoints;y++)
 	{
-		sprintf(temp,"%Le %Le\n",in->ymesh[i],in->p[i]-in->n[i]+in->pt_all[i]-in->nt_all[i]);
+		sprintf(temp,"%Le %Le\n",in->ymesh[y],in->p[z][x][y]-in->n[z][x][y]+in->pt_all[z][x][y]-in->nt_all[z][x][y]);
 		buffer_add_string(&buf,temp);
 	}
 	buffer_dump_path(out_dir,name,&buf);
@@ -809,9 +834,9 @@ if (stat(out_dir, &st) == -1)
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
-	for (i=0;i<in->ymeshpoints;i++)
+	for (y=0;y<in->ymeshpoints;y++)
 	{
-		sprintf(temp,"%Le %Le\n",in->ymesh[i],in->p[i]-in->n[i]+in->pt_all[i]-in->nt_all[i]-(in->pt_save[i]-in->nf_save[i]+in->pf_save[i]-in->nt_save[i]));
+		sprintf(temp,"%Le %Le\n",in->ymesh[y],in->p[z][x][y]-in->n[z][x][y]+in->pt_all[z][x][y]-in->nt_all[z][x][y]-(in->pt_save[z][x][y]-in->nf_save[z][x][y]+in->pf_save[z][x][y]-in->nt_save[z][x][y]));
 		buffer_add_string(&buf,temp);
 	}
 	buffer_dump_path(out_dir,name,&buf);
@@ -834,9 +859,9 @@ if (stat(out_dir, &st) == -1)
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
-	for (i=0;i<in->ymeshpoints;i++)
+	for (y=0;y<in->ymeshpoints;y++)
 	{
-		sprintf(temp,"%Le %Le\n",in->ymesh[i],in->p[i]+in->pt_all[i]-in->pf_save[i]-in->pt_save[i]);
+		sprintf(temp,"%Le %Le\n",in->ymesh[y],in->p[z][x][y]+in->pt_all[z][x][y]-in->pf_save[z][x][y]-in->pt_save[z][x][y]);
 		buffer_add_string(&buf,temp);
 	}
 	buffer_dump_path(out_dir,name,&buf);
@@ -859,9 +884,9 @@ if (stat(out_dir, &st) == -1)
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
-	for (i=0;i<in->ymeshpoints;i++)
+	for (y=0;y<in->ymeshpoints;y++)
 	{
-		sprintf(temp,"%Le %Le",in->ymesh[i], in->nt_all[i]-in->nt_save[i]);
+		sprintf(temp,"%Le %Le",in->ymesh[y], in->nt_all[z][x][y]-in->nt_save[z][x][y]);
 		buffer_add_string(&buf,temp);
 	}
 	buffer_dump_path(out_dir,name,&buf);
@@ -884,9 +909,9 @@ if (stat(out_dir, &st) == -1)
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
-	for (i=0;i<in->ymeshpoints;i++)
+	for (y=0;y<in->ymeshpoints;y++)
 	{
-		sprintf(temp,"%Le %Le",in->ymesh[i], in->pt_all[i]-in->pt_save[i]);
+		sprintf(temp,"%Le %Le",in->ymesh[y], in->pt_all[z][x][y]-in->pt_save[z][x][y]);
 		buffer_add_string(&buf,temp);
 	}
 	buffer_dump_path(out_dir,name,&buf);
@@ -909,7 +934,7 @@ if (stat(out_dir, &st) == -1)
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
-	buffer_add_xy_data(&buf,in->ymesh, in->Gn, in->ymeshpoints);
+	buffer_add_3d_device_data(&buf,in,  in->Gn);
 	buffer_dump_path(out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -930,7 +955,7 @@ if (stat(out_dir, &st) == -1)
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
-	buffer_add_xy_data(&buf,in->ymesh, in->Gp, in->ymeshpoints);
+	buffer_add_3d_device_data(&buf,in,  in->Gp);
 	buffer_dump_path(out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -952,7 +977,7 @@ if (stat(out_dir, &st) == -1)
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
-	buffer_add_xy_data(&buf,in->ymesh, in->Rn, in->ymeshpoints);
+	buffer_add_3d_device_data(&buf,in,  in->Rn);
 	buffer_dump_path(out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -973,7 +998,7 @@ if (stat(out_dir, &st) == -1)
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
-	buffer_add_xy_data(&buf,in->ymesh, in->Rp, in->ymeshpoints);
+	buffer_add_3d_device_data(&buf,in,  in->Rp);
 	buffer_dump_path(out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -995,13 +1020,13 @@ if (stat(out_dir, &st) == -1)
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
-	for (i=0;i<in->ymeshpoints;i++)
+	for (y=0;y<in->ymeshpoints;y++)
 	{
-		sprintf(temp,"%Le ",in->ymesh[i]);
+		sprintf(temp,"%Le ",in->ymesh[y]);
 		buffer_add_string(&buf,temp);
 		for (band=0;band<in->srh_bands;band++)
 		{
-			sprintf(temp,"%Le %Le ",in->Fnt[i][band],-in->phi[i]-in->Xi[i]+dos_srh_get_fermi_n(in,in->n[i], in->p[i],band,in->imat[i],in->Te[i]));
+			sprintf(temp,"%Le %Le ",in->Fnt[z][x][y][band],-in->phi[z][x][y]-in->Xi[z][x][y]+dos_srh_get_fermi_n(in,in->n[z][x][y], in->p[z][x][y],band,in->imat[z][x][y],in->Te[z][x][y]));
 			buffer_add_string(&buf,temp);
 		}
 		buffer_add_string(&buf,"\n");
@@ -1028,13 +1053,13 @@ if (stat(out_dir, &st) == -1)
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
-	for (i=0;i<in->ymeshpoints;i++)
+	for (y=0;y<in->ymeshpoints;y++)
 	{
-		sprintf(temp,"%Le ",in->ymesh[i]);
+		sprintf(temp,"%Le ",in->ymesh[y]);
 		buffer_add_string(&buf,temp);
 		for (band=0;band<in->srh_bands;band++)
 		{
-			sprintf(temp,"%Le %Le ",in->Fpt[i][band],-in->phi[i]-in->Xi[i]-in->Eg[i]-dos_srh_get_fermi_p(in,in->n[i], in->p[i],band,in->imat[i],in->Th[i]));
+			sprintf(temp,"%Le %Le ",in->Fpt[z][x][y][band],-in->phi[z][x][y]-in->Xi[z][x][y]-in->Eg[z][x][y]-dos_srh_get_fermi_p(in,in->n[z][x][y], in->p[z][x][y],band,in->imat[z][x][y],in->Th[z][x][y]));
 			buffer_add_string(&buf,temp);
 		}
 		buffer_add_string(&buf,"\n");
@@ -1061,9 +1086,9 @@ if (stat(out_dir, &st) == -1)
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
-	for (i=0;i<in->ymeshpoints;i++)
+	for (y=0;y<in->ymeshpoints;y++)
 	{
-		sprintf(temp,"%Le %d\n",in->ymesh[i], in->imat[i]);
+		sprintf(temp,"%Le %d\n",in->ymesh[y], in->imat[z][x][y]);
 		buffer_add_string(&buf,temp);
 	}
 	buffer_dump_path(out_dir,name,&buf);
@@ -1088,11 +1113,11 @@ if (stat(out_dir, &st) == -1)
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
 	gdouble deriv=0.0;
-	for (i=in->ymeshpoints-1;i>1;i--)
+	for (y=in->ymeshpoints-1;y>1;y--)
 	{
 
-		deriv= -(in->phi[i]-in->phi[i-1])/(in->ymesh[i]-in->ymesh[i-1]);
-		sprintf(temp,"%Le %Le\n",in->ymesh[i], deriv);
+		deriv= -(in->phi[z][x][y]-in->phi[z][x][y-1])/(in->ymesh[y]-in->ymesh[y-1]);
+		sprintf(temp,"%Le %Le\n",in->ymesh[y], deriv);
 		buffer_add_string(&buf,temp);
 	}
 
@@ -1117,7 +1142,7 @@ if (stat(out_dir, &st) == -1)
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
-	buffer_add_xy_data(&buf,in->ymesh, in->ntrap_to_p, in->ymeshpoints);
+	buffer_add_3d_device_data(&buf,in,  in->ntrap_to_p);
 	buffer_dump_path(out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -1139,7 +1164,7 @@ if (stat(out_dir, &st) == -1)
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
-	buffer_add_xy_data(&buf,in->ymesh, in->ptrap_to_n, in->ymeshpoints);
+	buffer_add_3d_device_data(&buf,in,  in->ptrap_to_n);
 	buffer_dump_path(out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -1160,7 +1185,7 @@ if (stat(out_dir, &st) == -1)
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
-	buffer_add_xy_data(&buf,in->ymesh, in->prelax, in->ymeshpoints);
+	buffer_add_3d_device_data(&buf,in,  in->prelax);
 	buffer_dump_path(out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -1181,7 +1206,7 @@ if (stat(out_dir, &st) == -1)
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
-	buffer_add_xy_data(&buf,in->ymesh, in->nrelax, in->ymeshpoints);
+	buffer_add_3d_device_data(&buf,in, in->nrelax);
 	buffer_dump_path(out_dir,name,&buf);
 	buffer_free(&buf);
 
