@@ -24,9 +24,9 @@
 
 struct dll_interface *fun;
 
-EXPORT int dll_solve_cur(struct simulation *sim,struct device *in)
+EXPORT int dll_solve_cur(struct simulation *sim,struct device *in, int z, int x)
 {
-return dllinternal_solve_cur(sim,in);
+return dllinternal_solve_cur(sim,in,z,x);
 }
 
 EXPORT void dll_solver_realloc(struct simulation *sim,struct device *in)

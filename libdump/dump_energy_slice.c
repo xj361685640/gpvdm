@@ -65,7 +65,7 @@ inter_init(&dump_nt);
 struct istruct dump_pt;
 inter_init(&dump_pt);
 
-int mat=in->imat[in->ymeshpoints/2];
+int mat=in->imat[0][0][in->ymeshpoints/2];
 for (band=0;band<in->srh_bands;band++)
 {
 	inter_append(&dump1,get_dos_E_n(in,band,mat),in->n[0][0][i]*in->srh_n_r1[0][0][i][band]-in->srh_n_r2[0][0][i][band]);

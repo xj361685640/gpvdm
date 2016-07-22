@@ -30,7 +30,10 @@
 
 void find_n0(struct simulation *sim,struct device *in)
 {
-int i;
+int x;
+int y;
+int z;
+
 printf_log(sim,"Finding n0\n");
 gdouble oldsun=light_get_sun(&(in->mylight));
 gdouble oldv=in->Vapplied;
@@ -48,9 +51,15 @@ if (get_dump_status(sim,dump_equilibrium)==TRUE)
 }
 
 
-for (i=0;i<in->ymeshpoints;i++)
+for (z=0;z<in->zmeshpoints;z++)
 {
-	in->B[i]=0.0;
+	for (x=0;x<in->xmeshpoints;x++)
+	{
+		for (y=0;y<in->ymeshpoints;y++)
+		{
+			in->B[z][x][y]=0.0;
+		}
+	}
 }
 
 gdouble save_clamp=in->electrical_clamp;
@@ -71,9 +80,15 @@ in->min_cur_error=save_electricalerror;
 
 solve_all(sim,in);
 
-for (i=0;i<in->ymeshpoints;i++)
+for (z=0;z<in->zmeshpoints;z++)
 {
-	in->B[i]=get_dos_B(in,in->imat[i]);
+	for (x=0;x<in->xmeshpoints;x++)
+	{
+		for (y=0;y<in->ymeshpoints;y++)
+		{
+			in->B[z][x][y]=get_dos_B(in,in->imat[z][x][y]);
+		}
+	}
 }
 
 reset_np_save(in);

@@ -110,7 +110,7 @@ static gdouble dphidxipc=0.0;
 #define r_bi0 ((gdouble)(D0/(n0*l0*l0)))
 
 
-void update_solver_vars(struct simulation *sim,struct device *in,int clamp)
+void update_solver_vars(struct simulation *sim,struct device *in,int clamp, int z, int x)
 {
 int i;
 int band=0;
@@ -132,10 +132,10 @@ gdouble update=0.0;
 		{
 			if (clamp==TRUE)
 			{
-				in->phi[i]+=update/(1.0+gfabs(update/in->electrical_clamp/(clamp_temp*kb/Q)));
+				in->phi[z][x][i]+=update/(1.0+gfabs(update/in->electrical_clamp/(clamp_temp*kb/Q)));
 			}else
 			{
-				in->phi[i]+=update;
+				in->phi[z][x][i]+=update;
 
 			}
 		}
@@ -144,20 +144,20 @@ gdouble update=0.0;
 		update=(gdouble)(in->b[in->ymeshpoints*(1)+i])*phi0;
 		if (clamp==TRUE)
 		{
-			in->x[i]+=update/(1.0+gfabs(update/in->electrical_clamp/(clamp_temp*kb/Q)));
+			in->x[z][x][i]+=update/(1.0+gfabs(update/in->electrical_clamp/(clamp_temp*kb/Q)));
 		}else
 		{
-			in->x[i]+=update;
+			in->x[z][x][i]+=update;
 		}
 
 
 		update=(gdouble)(in->b[in->ymeshpoints*(1+1)+i])*phi0;
 		if (clamp==TRUE)
 		{
-			in->xp[i]+=update/(1.0+gfabs(update/in->electrical_clamp/(clamp_temp*kb/Q)));
+			in->xp[z][x][i]+=update/(1.0+gfabs(update/in->electrical_clamp/(clamp_temp*kb/Q)));
 		}else
 		{
-			in->xp[i]+=update;
+			in->xp[z][x][i]+=update;
 
 		}
 
@@ -169,11 +169,11 @@ gdouble update=0.0;
 				update=(gdouble)(in->b[in->ymeshpoints*(1+1+1+band)+i]);
 				if (clamp==TRUE)
 				{
-					in->xt[i][band]+=update/(1.0+gfabs(update/in->electrical_clamp/(clamp_temp*kb/Q)));
+					in->xt[z][x][i][band]+=update/(1.0+gfabs(update/in->electrical_clamp/(clamp_temp*kb/Q)));
 
 				}else
 				{
-					in->xt[i][band]+=update;
+					in->xt[z][x][i][band]+=update;
 				}
 			}
 		}
@@ -185,10 +185,10 @@ gdouble update=0.0;
 				update=(gdouble)(in->b[in->ymeshpoints*(1+1+1+in->srh_bands+band)+i]);
 				if (clamp==TRUE)
 				{
-					in->xpt[i][band]+=update/(1.0+gfabs(update/in->electrical_clamp/(clamp_temp*kb/Q)));
+					in->xpt[z][x][i][band]+=update/(1.0+gfabs(update/in->electrical_clamp/(clamp_temp*kb/Q)));
 				}else
 				{
-					in->xpt[i][band]+=update;
+					in->xpt[z][x][i][band]+=update;
 
 				}
 			}
@@ -198,16 +198,16 @@ gdouble update=0.0;
 		}
 
 
-update_arrays(sim,in);
+update_y_array(sim,in,z,x);
 
 }
 
-void fill_matrix(struct simulation *sim,struct device *in)
+void fill_matrix(struct simulation *sim,struct device *in, int z, int x)
 {
 //gdouble offset= -0.5;
 int band=0;
 
-update_arrays(sim,in);
+update_y_array(sim,in,z,x);
 
 //FILE *file_j =fopen("myj.dat","w");
 //getchar();
@@ -351,13 +351,13 @@ if (in->kl_in_newton==FALSE)
 {
 	if (in->interfaceleft==TRUE)
 	{
-			in->phi[0]=in->Vapplied;
+			in->phi[z][x][0]=in->Vapplied;
 	}
 }
 
 if (in->interfaceright==TRUE)
 {
-		in->phi[in->ymeshpoints-1]=in->Vr;
+		in->phi[z][x][in->ymeshpoints-1]=in->Vr;
 }
 
 		pos=0;
@@ -379,32 +379,32 @@ if (in->interfaceright==TRUE)
 
 
 
-				Ecl= -in->Xi[0]/phi0-phil;
-				Evl= -in->Xi[0]/phi0-phil-in->Eg[0]/phi0;
-				epl=in->epsilonr[0];//*epsilon0;
+				Ecl= -in->Xi[z][x][0]/phi0-phil;
+				Evl= -in->Xi[z][x][0]/phi0-phil-in->Eg[z][x][0]/phi0;
+				epl=in->epsilonr[z][x][0];//*epsilon0;
 
 
-				xnl=in->Fi[0]/phi0;
-				tnl=in->Xi[0]/phi0;
+				xnl=in->Fi[z][x][0]/phi0;
+				tnl=in->Xi[z][x][0]/phi0;
 				one=xnl+tnl;
 
-				nl=get_n_den(in,one*phi0,Tel,in->imat[i])/n0;
-				dnl=get_dn_den(in,one*phi0,Tel,in->imat[i])*phi0/n0;
-				wnl=get_n_w(in,one*phi0,Tel,in->imat[i]);
+				nl=get_n_den(in,one*phi0,Tel,in->imat[z][x][i])/n0;
+				dnl=get_dn_den(in,one*phi0,Tel,in->imat[z][x][i])*phi0/n0;
+				wnl=get_n_w(in,one*phi0,Tel,in->imat[z][x][i]);
 
-				munl=in->mun[0];
+				munl=in->mun[z][x][0];
 
 
-				xpl= -in->Fi[0]/phi0;
-				tpl=(in->Xi[0]/phi0+in->Eg[0]/phi0);
+				xpl= -in->Fi[z][x][0]/phi0;
+				tpl=(in->Xi[z][x][0]/phi0+in->Eg[z][x][0]/phi0);
 				one=xpl-tpl;
 
-				pl=get_p_den(in,one*phi0,Thl,in->imat[i])/n0;
-				dpl=get_dp_den(in,one*phi0,Thl,in->imat[i])*phi0/n0;
-				wpl=get_p_w(in,one*phi0,Thl,in->imat[i]);
+				pl=get_p_den(in,one*phi0,Thl,in->imat[z][x][i])/n0;
+				dpl=get_dp_den(in,one*phi0,Thl,in->imat[z][x][i])*phi0/n0;
+				wpl=get_p_w(in,one*phi0,Thl,in->imat[z][x][i]);
 
 
-				mupl=in->mup[0];
+				mupl=in->mup[z][x][0];
 
 				//printf("left n= %Le p= %Le \n",nl,pl);
 
@@ -415,41 +415,41 @@ if (in->interfaceright==TRUE)
 			{
 //				Dexl=in->Dex[i-1];
 //				exl=in->ex[i-1];
-				phil=in->phi[i-1]/phi0;
+				phil=in->phi[z][x][i-1]/phi0;
 				yl=in->ymesh[i-1]/l0;
-//				Tll=in->Tl[i-1];
-				Tel=in->Te[i-1];
-				Thl=in->Th[i-1];
-				Ecl=in->Ec[i-1]/phi0;
-				Evl=in->Ev[i-1]/phi0;
+//				Tll=in->Tl[z][x][i-1];
+				Tel=in->Te[z][x][i-1];
+				Thl=in->Th[z][x][i-1];
+				Ecl=in->Ec[z][x][i-1]/phi0;
+				Evl=in->Ev[z][x][i-1]/phi0;
 
 
-				nl=in->n[i-1]/n0;
-				dnl=in->dn[i-1]*phi0/n0;
+				nl=in->n[z][x][i-1]/n0;
+				dnl=in->dn[z][x][i-1]*phi0/n0;
 
 
-				wnl=in->wn[i-1];
-				wpl=in->wp[i-1];
+				wnl=in->wn[z][x][i-1];
+				wpl=in->wp[z][x][i-1];
 
-				pl=in->p[i-1]/n0;
-				dpl=in->dp[i-1]*phi0/n0;
-				munl=in->mun[i-1];
-				mupl=in->mup[i-1];
-
-
-				epl=in->epsilonr[i-1];//*epsilon0;
+				pl=in->p[z][x][i-1]/n0;
+				dpl=in->dp[z][x][i-1]*phi0/n0;
+				munl=in->mun[z][x][i-1];
+				mupl=in->mup[z][x][i-1];
 
 
-//				kll=in->kl[i-1];
+				epl=in->epsilonr[z][x][i-1];//*epsilon0;
+
+
+//				kll=in->kl[z][x][i-1];
 			}
 
-			Ecc=(-in->Xi[i]/phi0-in->phi[i]/phi0);
-			Evc=(-in->Xi[i]/phi0-in->phi[i]/phi0-in->Eg[i]/phi0);
+			Ecc=(-in->Xi[z][x][i]/phi0-in->phi[z][x][i]/phi0);
+			Evc=(-in->Xi[z][x][i]/phi0-in->phi[z][x][i]/phi0-in->Eg[z][x][i]/phi0);
 
 			if (i==(in->ymeshpoints-1))
 			{
 
-//				Dexr=in->Dex[i];
+//				Dexr=in->Dex[z][x][i];
 //				exr=0.0;
 				//phir=in->Vr;
 
@@ -461,77 +461,77 @@ if (in->interfaceright==TRUE)
 				Thr=in->Tlr;
 
 
-				Ecr= -in->Xi[i]/phi0-phir;
-				Evr= -in->Xi[i]/phi0-phir-in->Eg[i]/phi0;
+				Ecr= -in->Xi[z][x][i]/phi0-phir;
+				Evr= -in->Xi[z][x][i]/phi0-phir-in->Eg[z][x][i]/phi0;
 
 
-				xnr=(in->Vr/phi0+in->Fi[i]/phi0);
-				tnr=(in->Xi[i]/phi0);
+				xnr=(in->Vr/phi0+in->Fi[z][x][i]/phi0);
+				tnr=(in->Xi[z][x][i]/phi0);
 
 				one=xnr+tnr;
 
-				nr=get_n_den(in,one*phi0,Ter,in->imat[i])/n0;
-				dnr=get_dn_den(in,one*phi0,Ter,in->imat[i])*phi0/n0;
-				wnr=get_n_w(in,one*phi0,Ter,in->imat[i]);
+				nr=get_n_den(in,one*phi0,Ter,in->imat[z][x][i])/n0;
+				dnr=get_dn_den(in,one*phi0,Ter,in->imat[z][x][i])*phi0/n0;
+				wnr=get_n_w(in,one*phi0,Ter,in->imat[z][x][i]);
 
 
 
-				xpr= -(in->Vr/phi0+in->Fi[i]/phi0);
-				tpr=(in->Xi[i]/phi0+in->Eg[i]/phi0);
+				xpr= -(in->Vr/phi0+in->Fi[z][x][i]/phi0);
+				tpr=(in->Xi[z][x][i]/phi0+in->Eg[z][x][i]/phi0);
 
 				one=xpr-tpr;
 
-				pr=get_p_den(in,one*phi0,Thr,in->imat[i])/n0;
-				dpr=get_dp_den(in,one*phi0,Thr,in->imat[i])*phi0/n0;
-				wpr=get_p_w(in,one*phi0,Thr,in->imat[i]);
+				pr=get_p_den(in,one*phi0,Thr,in->imat[z][x][i])/n0;
+				dpr=get_dp_den(in,one*phi0,Thr,in->imat[z][x][i])*phi0/n0;
+				wpr=get_p_w(in,one*phi0,Thr,in->imat[z][x][i]);
 
-				munr=in->mun[i];
-				mupr=in->mup[i];
+				munr=in->mun[z][x][i];
+				mupr=in->mup[z][x][i];
 
 				//printf("right n= %Le p= %Le \n",nr,pr);
 
-				epr=in->epsilonr[i];//*epsilon0;
-//				klr=in->kl[i];
+				epr=in->epsilonr[z][x][i];//*epsilon0;
+//				klr=in->kl[z][x][i];
 
 			}else
 			{
 
-//				Dexr=in->Dex[i+1];
-//				exr=in->ex[i+1];
-				phir=in->phi[i+1]/phi0;
+//				Dexr=in->Dex[z][x][i+1];
+//				exr=in->ex[z][x][i+1];
+				phir=in->phi[z][x][i+1]/phi0;
 				yr=in->ymesh[i+1]/l0;
-//				Tlr=in->Tl[i+1];
-				Ter=in->Te[i+1];
-				Thr=in->Th[i+1];
+//				Tlr=in->Tl[z][x][i+1];
+				Ter=in->Te[z][x][i+1];
+				Thr=in->Th[z][x][i+1];
 
-				Ecr=in->Ec[i+1]/phi0;
-				Evr=in->Ev[i+1]/phi0;
+				Ecr=in->Ec[z][x][i+1]/phi0;
+				Evr=in->Ev[z][x][i+1]/phi0;
 
 
-				nr=in->n[i+1]/n0;
-				dnr=in->dn[i+1]*phi0/n0;
+				nr=in->n[z][x][i+1]/n0;
+				dnr=in->dn[z][x][i+1]*phi0/n0;
 
-				wnr=in->wn[i+1];
-				wpr=in->wp[i+1];
+				wnr=in->wn[z][x][i+1];
+				wpr=in->wp[z][x][i+1];
 
-				pr=in->p[i+1]/n0;
-				dpr=in->dp[i+1]*phi0/n0;
-				munr=in->mun[i+1];
-				mupr=in->mup[i+1];
+				pr=in->p[z][x][i+1]/n0;
+				dpr=in->dp[z][x][i+1]*phi0/n0;
+				munr=in->mun[z][x][i+1];
+				mupr=in->mup[z][x][i+1];
 
-				epr=in->epsilonr[i+1];//*epsilon0;
-//				klr=in->kl[i+1];
+				epr=in->epsilonr[z][x][i+1];//*epsilon0;
+//				klr=in->kl[z][x][i+1];
 
 			}
 
 			dJdxipc=0.0;
 			dJpdxic=0.0;
 
-			epc=in->epsilonr[i];//*epsilon0;
+			epc=in->epsilonr[z][x][i];//*epsilon0;
 
 
-//			exc=in->ex[i];
-//			Dexc=in->Dex[i];
+//			exc=in->ex[z][x][i];
+//			Dexc=in->Dex[z][x][i];
 			yc=in->ymesh[i]/l0;
 			dyl=yc-yl;
 			dyr=yr-yc;
@@ -540,24 +540,24 @@ if (in->interfaceright==TRUE)
 			gdouble dyrh=dyr/2.0;
 
 //			dh=(dyl+dyr);
-			phic=in->phi[i]/phi0;
-//			Tlc=in->Tl[i];
-//			Tec=in->Te[i];
-//			Thc=in->Th[i];
+			phic=in->phi[z][x][i]/phi0;
+//			Tlc=in->Tl[z][x][i];
+//			Tec=in->Te[z][x][i];
+//			Thc=in->Th[z][x][i];
 
-				munc=in->mun[i];
-				mupc=in->mup[i];
+				munc=in->mun[z][x][i];
+				mupc=in->mup[z][x][i];
 
-				wnc=in->wn[i];
-				wpc=in->wp[i];
+				wnc=in->wn[z][x][i];
+				wpc=in->wp[z][x][i];
 
 				Dnl=munl*(2.0/3.0)*wnl/Q;
 				Dpl=mupl*(2.0/3.0)*wpl/Q;
 
 				Dnc=munc*(2.0/3.0)*wnc/Q;
 				Dpc=mupc*(2.0/3.0)*wpc/Q;
-				in->Dn[i]=Dnc;
-				in->Dp[i]=Dnc;
+				in->Dn[z][x][i]=Dnc;
+				in->Dp[z][x][i]=Dnc;
 
 
 				Dnr=munr*(2.0/3.0)*wnr/Q;
@@ -578,37 +578,37 @@ if (in->interfaceright==TRUE)
 
 
 
-				nc=in->n[i]/n0;
-				pc=in->p[i]/n0;
+				nc=in->n[z][x][i]/n0;
+				pc=in->p[z][x][i]/n0;
 
-				dnc=in->dn[i]*phi0/n0;
-				dpc=in->dp[i]*phi0/n0;
+				dnc=in->dn[z][x][i]*phi0/n0;
+				dpc=in->dp[z][x][i]*phi0/n0;
 //				dncdphic=in->dndphi[i];
 //				dpcdphic=in->dpdphi[i];
 
-				Bfree=in->B[i]/r_bi0;
-				Nad=in->Nad[i]/n0;
-				nceq=in->nfequlib[i]/n0;
-				pceq=in->pfequlib[i]/n0;
+				Bfree=in->B[z][x][i]/r_bi0;
+				Nad=in->Nad[z][x][i]/n0;
+				nceq=in->nfequlib[z][x][i]/n0;
+				pceq=in->pfequlib[z][x][i]/n0;
 				Rfree=Bfree*(nc*pc-nceq*pceq);
-				in->Rfree[i]=Rfree*r_bi0;
+				in->Rfree[z][x][i]=Rfree*r_bi0;
 				//if (in->ymeshpoints*(1)+i==31) printf("Rod -- %d %le %le %le \n",in->ymeshpoints*(1)+i,Rfree,nceq,pceq);
 
 //			klc=in->kl[i];
-			nlast=in->nlast[i]/n0;
-			plast=in->plast[i]/n0;
+			nlast=in->nlast[z][x][i]/n0;
+			plast=in->plast[z][x][i]/n0;
 
 			for (band=0;band<in->srh_bands;band++)
 			{
-				in->newton_ntlast[band]=in->ntlast[i][band];
-				in->newton_ptlast[band]=in->ptlast[i][band];
+				in->newton_ntlast[band]=in->ntlast[z][x][i][band];
+				in->newton_ptlast[band]=in->ptlast[z][x][i][band];
 			}
 
 			dt=in->dt;
 
-//	R=in->R[i];
-	Gn=in->Gn[i]/r0;
-	Gp=in->Gp[i]/r0;
+//	R=in->R[z][x][i];
+	Gn=in->Gn[z][x][i]/r0;
+	Gp=in->Gp[z][x][i]/r0;
 
 	e0=(epl+epc)/2.0;
 	e1=(epc+epr)/2.0;
@@ -651,7 +651,7 @@ if (in->interfaceright==TRUE)
 	{
 		for (band=0;band<in->srh_bands;band++)
 		{
-			in->newton_dphidntrap[band]=Q*(in->dnt[i][band]);
+			in->newton_dphidntrap[band]=Q*(in->dnt[z][x][i][band]);
 			if ((in->interfaceleft==TRUE)&&(i==0)) in->newton_dphidntrap[band]=0.0;
 			if ((in->interfaceright==TRUE)&&(i==in->ymeshpoints-1)) in->newton_dphidntrap[band]=0.0;
 		}
@@ -661,7 +661,7 @@ if (in->interfaceright==TRUE)
 	{
 		for (band=0;band<in->srh_bands;band++)
 		{
-			in->newton_dphidptrap[band]= -Q*(in->dpt[i][band]);
+			in->newton_dphidptrap[band]= -Q*(in->dpt[z][x][i][band]);
 			if ((in->interfaceleft==TRUE)&&(i==0)) in->newton_dphidptrap[band]=0.0;
 			if ((in->interfaceright==TRUE)&&(i==in->ymeshpoints-1)) in->newton_dphidptrap[band]=0.0;
 
@@ -752,8 +752,8 @@ if (in->interfaceright==TRUE)
 			//printf("%le %le\n",Jnl,Jpl);
 			//printf("%le %le\n",Jnr,Jpr);
 
-			in->Jn[i]=Q*(Jnl+Jnr)*D0*n0/l0/2.0;
-			in->Jp[i]=Q*(Jpl+Jpr)*D0*n0/l0/2.0;
+			in->Jn[z][x][i]=Q*(Jnl+Jnr)*D0*n0/l0/2.0;
+			in->Jp[z][x][i]=Q*(Jpl+Jpr)*D0*n0/l0/2.0;
 
 			dJdxil+= -dJnldxil_l/(dylh+dyrh);
 			dJdxic+=(-dJnldxil_c+dJnrdxir_c)/(dylh+dyrh);
@@ -835,10 +835,10 @@ if (in->interfaceright==TRUE)
 
 
 
-			in->nrelax[i]=0.0;
-			in->ntrap_to_p[i]=0.0;
-			in->prelax[i]=0.0;
-			in->ptrap_to_n[i]=0.0;
+			in->nrelax[z][x][i]=0.0;
+			in->ntrap_to_p[z][x][i]=0.0;
+			in->prelax[z][x][i]=0.0;
+			in->ptrap_to_n[z][x][i]=0.0;
 
 
 			if (in->ntrapnewton==TRUE)
@@ -847,30 +847,30 @@ if (in->interfaceright==TRUE)
 				{
 					in->newton_dJdtrapn[band]=0.0;
 					in->newton_dJpdtrapn[band]=0.0;
-					in->newton_dntrap[band]=nc*in->srh_n_r1[i][band]-in->srh_n_r2[i][band]-pc*in->srh_n_r3[i][band]+in->srh_n_r4[i][band];
-					in->newton_dntrapdntrap[band]=nc*in->dsrh_n_r1[i][band]-in->dsrh_n_r2[i][band]-pc*in->dsrh_n_r3[i][band]+in->dsrh_n_r4[i][band];
-					in->newton_dntrapdn[band]=dnc*in->srh_n_r1[i][band];
-					in->newton_dntrapdp[band]= -dpc*in->srh_n_r3[i][band];
-					Rtrapn+=nc*in->srh_n_r1[i][band]-in->srh_n_r2[i][band];
-					dJdxic-=dnc*in->srh_n_r1[i][band];
-					in->newton_dJdtrapn[band]-=nc*in->dsrh_n_r1[i][band]-in->dsrh_n_r2[i][band];
-					Rtrapp+= -(-pc*in->srh_n_r3[i][band]+in->srh_n_r4[i][band]);
-					dJpdxipc+= -(-dpc*in->srh_n_r3[i][band]);
-					in->newton_dJpdtrapn[band]= -(-pc*in->dsrh_n_r3[i][band]+in->dsrh_n_r4[i][band]);
+					in->newton_dntrap[band]=nc*in->srh_n_r1[z][x][i][band]-in->srh_n_r2[z][x][i][band]-pc*in->srh_n_r3[z][x][i][band]+in->srh_n_r4[z][x][i][band];
+					in->newton_dntrapdntrap[band]=nc*in->dsrh_n_r1[z][x][i][band]-in->dsrh_n_r2[z][x][i][band]-pc*in->dsrh_n_r3[z][x][i][band]+in->dsrh_n_r4[z][x][i][band];
+					in->newton_dntrapdn[band]=dnc*in->srh_n_r1[z][x][i][band];
+					in->newton_dntrapdp[band]= -dpc*in->srh_n_r3[z][x][i][band];
+					Rtrapn+=nc*in->srh_n_r1[z][x][i][band]-in->srh_n_r2[z][x][i][band];
+					dJdxic-=dnc*in->srh_n_r1[z][x][i][band];
+					in->newton_dJdtrapn[band]-=nc*in->dsrh_n_r1[z][x][i][band]-in->dsrh_n_r2[z][x][i][band];
+					Rtrapp+= -(-pc*in->srh_n_r3[z][x][i][band]+in->srh_n_r4[z][x][i][band]);
+					dJpdxipc+= -(-dpc*in->srh_n_r3[z][x][i][band]);
+					in->newton_dJpdtrapn[band]= -(-pc*in->dsrh_n_r3[z][x][i][band]+in->dsrh_n_r4[z][x][i][band]);
 
 					if (in->go_time==TRUE)
 					{
-						in->newton_dntrap[band]+= -(in->nt[i][band]-in->newton_ntlast[band])/dt;
-						in->newton_dntrapdntrap[band]+= -(in->dnt[i][band])/dt;
+						in->newton_dntrap[band]+= -(in->nt[z][x][i][band]-in->newton_ntlast[band])/dt;
+						in->newton_dntrapdntrap[band]+= -(in->dnt[z][x][i][band])/dt;
 					}
 
-					in->nrelax[i]+=nc*in->srh_n_r1[i][band]-in->srh_n_r2[i][band];
-					in->ntrap_to_p[i]+= -(-pc*in->srh_n_r3[i][band]+in->srh_n_r4[i][band]);
+					in->nrelax[z][x][i]+=nc*in->srh_n_r1[z][x][i][band]-in->srh_n_r2[z][x][i][band];
+					in->ntrap_to_p[z][x][i]+= -(-pc*in->srh_n_r3[z][x][i][band]+in->srh_n_r4[z][x][i][band]);
 
-					in->nt_r1[i][band]=nc*in->srh_n_r1[i][band];
-					in->nt_r2[i][band]=in->srh_n_r2[i][band];
-					in->nt_r3[i][band]=pc*in->srh_n_r3[i][band];
-					in->nt_r4[i][band]=in->srh_n_r4[i][band];
+					in->nt_r1[z][x][i][band]=nc*in->srh_n_r1[z][x][i][band];
+					in->nt_r2[z][x][i][band]=in->srh_n_r2[z][x][i][band];
+					in->nt_r3[z][x][i][band]=pc*in->srh_n_r3[z][x][i][band];
+					in->nt_r4[z][x][i][band]=in->srh_n_r4[z][x][i][band];
 
 				}
 			}
@@ -886,32 +886,32 @@ if (in->interfaceright==TRUE)
 					//dJdtrapn[band]=0.0;
 					in->newton_dJpdtrapp[band]=0.0;
 					in->newton_dJdtrapp[band]=0.0;
-					in->newton_dptrap[band]=pc*in->srh_p_r1[i][band]-in->srh_p_r2[i][band]-nc*in->srh_p_r3[i][band]+in->srh_p_r4[i][band];
-					in->newton_dptrapdptrap[band]=pc*in->dsrh_p_r1[i][band]-in->dsrh_p_r2[i][band]-nc*in->dsrh_p_r3[i][band]+in->dsrh_p_r4[i][band];
-					in->newton_dptrapdp[band]=dpc*in->srh_p_r1[i][band];
-					in->newton_dptrapdn[band]= -dnc*in->srh_p_r3[i][band];
+					in->newton_dptrap[band]=pc*in->srh_p_r1[z][x][i][band]-in->srh_p_r2[z][x][i][band]-nc*in->srh_p_r3[z][x][i][band]+in->srh_p_r4[z][x][i][band];
+					in->newton_dptrapdptrap[band]=pc*in->dsrh_p_r1[z][x][i][band]-in->dsrh_p_r2[z][x][i][band]-nc*in->dsrh_p_r3[z][x][i][band]+in->dsrh_p_r4[z][x][i][band];
+					in->newton_dptrapdp[band]=dpc*in->srh_p_r1[z][x][i][band];
+					in->newton_dptrapdn[band]= -dnc*in->srh_p_r3[z][x][i][band];
 
-					Rtrapp+=pc*in->srh_p_r1[i][band]-in->srh_p_r2[i][band];
-					dJpdxipc+=dpc*in->srh_p_r1[i][band];
-					in->newton_dJpdtrapp[band]+=pc*in->dsrh_p_r1[i][band]-in->dsrh_p_r2[i][band];
+					Rtrapp+=pc*in->srh_p_r1[z][x][i][band]-in->srh_p_r2[z][x][i][band];
+					dJpdxipc+=dpc*in->srh_p_r1[z][x][i][band];
+					in->newton_dJpdtrapp[band]+=pc*in->dsrh_p_r1[z][x][i][band]-in->dsrh_p_r2[z][x][i][band];
 
-					Rtrapn+= -(-nc*in->srh_p_r3[i][band]+in->srh_p_r4[i][band]);
-					dJdxic-= -(-dnc*in->srh_p_r3[i][band]);
-					in->newton_dJdtrapp[band]-= -(-nc*in->dsrh_p_r3[i][band]+in->dsrh_p_r4[i][band]);
+					Rtrapn+= -(-nc*in->srh_p_r3[z][x][i][band]+in->srh_p_r4[z][x][i][band]);
+					dJdxic-= -(-dnc*in->srh_p_r3[z][x][i][band]);
+					in->newton_dJdtrapp[band]-= -(-nc*in->dsrh_p_r3[z][x][i][band]+in->dsrh_p_r4[z][x][i][band]);
 
 					if (in->go_time==TRUE)
 					{
-						in->newton_dptrap[band]+= -(in->pt[i][band]-in->newton_ptlast[band])/dt;
-						in->newton_dptrapdptrap[band]+= -(in->dpt[i][band])/dt;
+						in->newton_dptrap[band]+= -(in->pt[z][x][i][band]-in->newton_ptlast[band])/dt;
+						in->newton_dptrapdptrap[band]+= -(in->dpt[z][x][i][band])/dt;
 					}
 
-					in->prelax[i]+=pc*in->srh_p_r1[i][band]-in->srh_p_r2[i][band];
-					in->ptrap_to_n[i]+= -(-nc*in->srh_p_r3[i][band]+in->srh_p_r4[i][band]);
+					in->prelax[z][x][i]+=pc*in->srh_p_r1[z][x][i][band]-in->srh_p_r2[z][x][i][band];
+					in->ptrap_to_n[z][x][i]+= -(-nc*in->srh_p_r3[z][x][i][band]+in->srh_p_r4[z][x][i][band]);
 
-					in->pt_r1[i][band]=pc*in->srh_p_r1[i][band];
-					in->pt_r2[i][band]=in->srh_p_r2[i][band];
-					in->pt_r3[i][band]=nc*in->srh_p_r3[i][band];
-					in->pt_r4[i][band]=in->srh_p_r4[i][band];
+					in->pt_r1[z][x][i][band]=pc*in->srh_p_r1[z][x][i][band];
+					in->pt_r2[z][x][i][band]=in->srh_p_r2[z][x][i][band];
+					in->pt_r3[z][x][i][band]=nc*in->srh_p_r3[z][x][i][band];
+					in->pt_r4[z][x][i][band]=in->srh_p_r4[z][x][i][band];
 
 				}
 
@@ -922,8 +922,8 @@ if (in->interfaceright==TRUE)
 
 
 
-			in->Rn[i]=Rtrapn;
-			in->Rp[i]=Rtrapp;
+			in->Rn[z][x][i]=Rtrapn;
+			in->Rp[z][x][i]=Rtrapp;
 
 			//Rtrapp=1e24;
 			//Rtrapn=1e24;
@@ -1174,7 +1174,7 @@ if (in->interfaceright==TRUE)
 
 				for (band=0;band<in->srh_bands;band++)
 				{
-					build+= -(-Q*(in->pt[i][band]-in->nt[i][band]));
+					build+= -(-Q*(in->pt[z][x][i][band]-in->nt[z][x][i][band]));
 				}
 
 				//build+= -(-Q*in->Nad[i]);
@@ -1450,7 +1450,7 @@ in->Tdebug=NULL;
 
 }
 
-int dllinternal_solve_cur(struct simulation *sim,struct device *in)
+int dllinternal_solve_cur(struct simulation *sim,struct device *in,int z, int x)
 {
 gdouble last_J=get_J(in);
 gdouble delta_J=0.0;
@@ -1483,7 +1483,7 @@ int e0=0;
 	do
 	{
 
-		fill_matrix(sim,in);
+		fill_matrix(sim,in,z,x);
 		abs_error=get_abs_error(in);
 
 //dump_for_plot(in);
@@ -1498,7 +1498,7 @@ int e0=0;
 
 			solver(sim,in->M,in->N,in->Ti,in->Tj, in->Tx,in->b);
 
-			update_solver_vars(sim,in,TRUE);
+			update_solver_vars(sim,in,TRUE,z,x);
 			//printf("Going to clamp=%d\n",proper);
 			//solver_dump_matrix(in->M,in->N,in->Ti,in->Tj, in->Tx,in->b);
 			//printf("%d\n");

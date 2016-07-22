@@ -51,20 +51,23 @@ if (get_dump_status(sim,dump_first_guess)==TRUE)
 	char name[200];
 	int band=0;
 	int i=0;
-	FILE *out;
-	out=fopena(get_output_path(sim),"first_guess.dat","w");
-	for (i=0;i<in->ymeshpoints;i++)
-	{
-		fprintf(out,"%Le %Le %Le\n",in->ymesh[i],in->Fn[i],in->Fp[i]);
-	}
-	fclose(out);
 
-	out=fopena(get_output_path(sim),"first_guess_Fi.dat","w");
-	for (i=0;i<in->ymeshpoints;i++)
-	{
-		fprintf(out,"%Le %Le\n",in->ymesh[i],in->Fi[i]);
-	}
-	fclose(out);
+
+	sprintf(name,"%s%s","first_guess_Fi",".dat");
+	buf.y_mul=1.0;
+	buf.x_mul=1e9;
+	strcpy(buf.title,"Intrinsic Fermi - position");
+	strcpy(buf.type,"xy");
+	strcpy(buf.x_label,"Position");
+	strcpy(buf.y_label,"Fi");
+	strcpy(buf.x_units,"nm");
+	strcpy(buf.y_units,"$E_{LUMO}$");
+	buf.logscale_x=0;
+	buf.logscale_y=0;
+	buffer_add_info(&buf);
+	buffer_add_3d_device_data(&buf,in, in->Fi);
+	buffer_dump_path(out_dir,name,&buf);
+	buffer_free(&buf);
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s%s","first_guess_Ec",".dat");
@@ -79,7 +82,7 @@ if (get_dump_status(sim,dump_first_guess)==TRUE)
 	buf.logscale_x=0;
 	buf.logscale_y=0;
 	buffer_add_info(&buf);
-	buffer_add_xy_data(&buf,in->ymesh, in->Ec, in->ymeshpoints);
+	buffer_add_3d_device_data(&buf,in, in->Ec);
 	buffer_dump_path(out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -96,40 +99,64 @@ if (get_dump_status(sim,dump_first_guess)==TRUE)
 	buf.logscale_x=0;
 	buf.logscale_y=0;
 	buffer_add_info(&buf);
-	buffer_add_xy_data(&buf,in->ymesh, in->Ev, in->ymeshpoints);
+	buffer_add_3d_device_data(&buf,in, in->Ev);
 	buffer_dump_path(out_dir,name,&buf);
 	buffer_free(&buf);
 
-	out=fopena(get_output_path(sim),"first_guess_n.dat","w");
-	for (i=0;i<in->ymeshpoints;i++)
-	{
-		fprintf(out,"%Le %Le\n",in->ymesh[i],in->n[i]);
-	}
-	fclose(out);
 
-	out=fopena(get_output_path(sim),"first_guess_p.dat","w");
-	for (i=0;i<in->ymeshpoints;i++)
-	{
-		fprintf(out,"%Le %Le\n",in->ymesh[i],in->p[i]);
-	}
-	fclose(out);
-
-	out=fopena(get_output_path(sim),"first_guess_phi.dat","w");
-	for (i=0;i<in->ymeshpoints;i++)
-	{
-		fprintf(out,"%Le %Le\n",in->ymesh[i],in->phi[i]);
-	}
-	fclose(out);
+	sprintf(name,"%s%s","first_guess_n",".dat");
+	buf.y_mul=1.0;
+	buf.x_mul=1e9;
+	strcpy(buf.title,"Electron density - position");
+	strcpy(buf.type,"xy");
+	strcpy(buf.x_label,"Position");
+	strcpy(buf.y_label,"Electron density");
+	strcpy(buf.x_units,"nm");
+	strcpy(buf.y_units,"m^{-3}");
+	buf.logscale_x=0;
+	buf.logscale_y=0;
+	buffer_add_info(&buf);
+	buffer_add_3d_device_data(&buf,in, in->n);
+	buffer_dump_path(out_dir,name,&buf);
+	buffer_free(&buf);
 
 
-	out=fopena(get_output_path(sim),"first_guess_np.dat","w");
-	for (i=0;i<in->ymeshpoints;i++)
-	{
-		fprintf(out,"%Le %Le %Le\n",in->ymesh[i],in->n[i],in->p[i]);
-	}
-	fclose(out);
+	sprintf(name,"%s%s","first_guess_p",".dat");
+	buf.y_mul=1.0;
+	buf.x_mul=1e9;
+	strcpy(buf.title,"Hole density - position");
+	strcpy(buf.type,"xy");
+	strcpy(buf.x_label,"Position");
+	strcpy(buf.y_label,"Hole density");
+	strcpy(buf.x_units,"nm");
+	strcpy(buf.y_units,"m^{-3}");
+	buf.logscale_x=0;
+	buf.logscale_y=0;
+	buffer_add_info(&buf);
+	buffer_add_3d_device_data(&buf,in, in->p);
+	buffer_dump_path(out_dir,name,&buf);
+	buffer_free(&buf);
 
-	out=fopena(get_output_path(sim),"first_guess_np_trap.dat","w");
+
+	sprintf(name,"%s%s","first_guess_phi",".dat");
+	buf.y_mul=1.0;
+	buf.x_mul=1e9;
+	strcpy(buf.title,"Potential - position");
+	strcpy(buf.type,"xy");
+	strcpy(buf.x_label,"Position");
+	strcpy(buf.y_label,"Potential");
+	strcpy(buf.x_units,"nm");
+	strcpy(buf.y_units,"V");
+	buf.logscale_x=0;
+	buf.logscale_y=0;
+	buffer_add_info(&buf);
+	buffer_add_3d_device_data(&buf,in, in->phi);
+	buffer_dump_path(out_dir,name,&buf);
+	buffer_free(&buf);
+
+
+
+	/*out=fopena(get_output_path(sim),"first_guess_np_trap.dat","w");
 	for (i=0;i<in->ymeshpoints;i++)
 	{
 		fprintf(out,"%Le ",in->ymesh[i]);
@@ -139,7 +166,7 @@ if (get_dump_status(sim,dump_first_guess)==TRUE)
 		}
 		fprintf(out,"\n");
 	}
-	fclose(out);
+	fclose(out);*/
 
 }
 }
@@ -164,10 +191,11 @@ return tot;
 }
 
 
-int solve_pos(struct simulation *sim,struct device *in)
+int solve_pos(struct simulation *sim,struct device *in, int z, int x)
 {
 if (get_dump_status(sim,dump_iodump)==TRUE) printf_log(sim,"Solve pos\n");
 int i;
+int y;
 
 int N=in->ymeshpoints*3-2;
 
@@ -204,19 +232,19 @@ int adv=FALSE;
 int band;
 
 
-gdouble kTq=(in->Te[0]*kb/Q);
+gdouble kTq=(in->Te[z][x][0]*kb/Q);
 
 	do
 	{
 
 		if (in->interfaceleft==TRUE)
 		{
-			in->phi[0]=in->Vl;
+			in->phi[z][x][0]=in->Vl;
 		}
 
 		if (in->interfaceright==TRUE)
 		{
-			in->phi[in->ymeshpoints-1]=in->Vr;
+			in->phi[z][x][in->ymeshpoints-1]=in->Vr;
 		}
 
 		pos=0;
@@ -228,26 +256,26 @@ gdouble kTq=(in->Te[0]*kb/Q);
 			if (i==0)
 			{
 				phil=in->Vl;
-				el=in->epsilonr[0]*epsilon0;
+				el=in->epsilonr[z][x][0]*epsilon0;
 				yl=in->ymesh[0]-(in->ymesh[1]-in->ymesh[0]);
 
 
 			}else
 			{
-				el=in->epsilonr[i-1]*epsilon0;
-				phil=in->phi[i-1];
+				el=in->epsilonr[z][x][i-1]*epsilon0;
+				phil=in->phi[z][x][i-1];
 				yl=in->ymesh[i-1];
 			}
 
 			if (i==(in->ymeshpoints-1))
 			{
 				phir=in->Vr;
-				er=in->epsilonr[i]*epsilon0;
+				er=in->epsilonr[z][x][i]*epsilon0;
 				yr=in->ymesh[i]+(in->ymesh[i]-in->ymesh[i-1]);
 			}else
 			{
-				er=in->epsilonr[i+1]*epsilon0;
-				phir=in->phi[i+1];
+				er=in->epsilonr[z][x][i+1]*epsilon0;
+				phir=in->phi[z][x][i+1];
 				yr=in->ymesh[i+1];
 
 			}
@@ -258,21 +286,21 @@ gdouble kTq=(in->Te[0]*kb/Q);
 			dyr=yr-yc;
 			dyc=(dyl+dyr)/2.0;
 
-			ec=in->epsilonr[i]*epsilon0;
+			ec=in->epsilonr[z][x][i]*epsilon0;
 			e0=(el+ec)/2.0;
 			e1=(ec+er)/2.0;
-			phic=in->phi[i];
+			phic=in->phi[z][x][i];
 
 
 
 			gdouble dphidn=0.0;
 			if (adv==FALSE)
 			{
-				dphidn=(Q/(kb*in->Tl[i]))*in->Nc[i]*exp(((in->Fi[i]-(-in->phi[i]-in->Xi[i])))/(kTq));
+				dphidn=(Q/(kb*in->Tl[z][x][i]))*in->Nc[z][x][i]*exp(((in->Fi[z][x][i]-(-in->phi[z][x][i]-in->Xi[z][x][i])))/(kTq));
 
 			}else
 			{
-				dphidn=get_dn_den(in,in->Fi[i]-in->Ec[i],in->Tl[i],in->imat[i]);
+				dphidn=get_dn_den(in,in->Fi[z][x][i]-in->Ec[z][x][i],in->Tl[z][x][i],in->imat[z][x][i]);
 
 			}
 
@@ -280,10 +308,10 @@ gdouble kTq=(in->Te[0]*kb/Q);
 			gdouble dphidp=0.0;
 			if (adv==FALSE)
 			{
-				dphidp= -(Q/(kb*in->Tl[i]))*in->Nv[i]*exp((((-in->phi[i]-in->Xi[i]-in->Eg[i])-in->Fi[i]))/(kTq));
+				dphidp= -(Q/(kb*in->Tl[z][x][i]))*in->Nv[z][x][i]*exp((((-in->phi[z][x][i]-in->Xi[z][x][i]-in->Eg[z][x][i])-in->Fi[z][x][i]))/(kTq));
 			}else
 			{
-				dphidp= -get_dp_den(in,in->xp[i]-in->tp[i],in->Tl[i],in->imat[i]);
+				dphidp= -get_dp_den(in,in->xp[z][x][i]-in->tp[z][x][i],in->Tl[z][x][i],in->imat[z][x][i]);
 			}
 			gdouble dphil=e0/dyl/dyc;
 			gdouble dphic= -(e0/dyl/dyc+e1/dyr/dyc);
@@ -380,16 +408,16 @@ gdouble kTq=(in->Te[0]*kb/Q);
 				b[i]= -0.0;
 			}else
 			{
-				b[i]= -(dphi-Q*(in->n[i]-in->p[i]-in->Nad[i])); //
+				b[i]= -(dphi-Q*(in->n[z][x][i]-in->p[z][x][i]-in->Nad[z][x][i])); //
 				if (adv==TRUE)
 				{
 					for (band=0;band<in->srh_bands;band++)
 					{
-						b[i]+= -(-Q*(in->nt[i][band]-in->pt[i][band]));
+						b[i]+= -(-Q*(in->nt[z][x][i][band]-in->pt[z][x][i][band]));
 					}
 				}
 			}
-			//in->n[i]=in->Nc[i]*exp(((in->Fi[i]-in->Ec[i])*q)/(kb*in->Tl[i]));
+			//in->n[i]=in->Nc[z][x][i]*exp(((in->Fi[z][x][i]-in->Ec[z][x][i])*q)/(kb*in->Tl[z][x][i]));
 
 		}
 
@@ -412,7 +440,7 @@ gdouble kTq=(in->Te[0]*kb/Q);
 
 			gdouble clamp_temp=300.0;
 			update=b[i]/(1.0+fabs(b[i]/in->posclamp/(clamp_temp*kb/Q)));
-			in->phi[i]+=update;
+			in->phi[z][x][i]+=update;
 
 			//printf("%Le %Le\n",i,b[i]);
 			}
@@ -422,34 +450,34 @@ gdouble kTq=(in->Te[0]*kb/Q);
 
 		for (i=0;i<in->ymeshpoints;i++)
 		{
-			in->Ec[i]= -in->phi[i]-in->Xi[i];
-			in->Ev[i]= -in->phi[i]-in->Xi[i]-in->Eg[i];
+			in->Ec[z][x][i]= -in->phi[z][x][i]-in->Xi[z][x][i];
+			in->Ev[z][x][i]= -in->phi[z][x][i]-in->Xi[z][x][i]-in->Eg[z][x][i];
 
 				if (adv==FALSE)
 				{
-					in->n[i]=in->Nc[i]*exp(((in->Fi[i]-in->Ec[i])*Q)/(kb*in->Tl[i]));
-					in->dn[i]=(Q/(kb*in->Tl[i]))*in->Nc[i]*exp((Q*(in->Fi[i]-in->Ec[i]))/(kb*in->Tl[i]));
+					in->n[z][x][i]=in->Nc[z][x][i]*exp(((in->Fi[z][x][i]-in->Ec[z][x][i])*Q)/(kb*in->Tl[z][x][i]));
+					in->dn[z][x][i]=(Q/(kb*in->Tl[z][x][i]))*in->Nc[z][x][i]*exp((Q*(in->Fi[z][x][i]-in->Ec[z][x][i]))/(kb*in->Tl[z][x][i]));
 				}else
 				{
-					in->n[i]=get_n_den(in,in->Fi[i]-in->Ec[i],in->Tl[i],in->imat[i]);
-					in->dn[i]=get_dn_den(in,in->Fi[i]-in->Ec[i],in->Tl[i],in->imat[i]);
+					in->n[z][x][i]=get_n_den(in,in->Fi[z][x][i]-in->Ec[z][x][i],in->Tl[z][x][i],in->imat[z][x][i]);
+					in->dn[z][x][i]=get_dn_den(in,in->Fi[z][x][i]-in->Ec[z][x][i],in->Tl[z][x][i],in->imat[z][x][i]);
 				}
 
-				in->Fn[i]=in->Fi[i];
-				in->Fp[i]=in->Fi[i];
+				in->Fn[z][x][i]=in->Fi[z][x][i];
+				in->Fp[z][x][i]=in->Fi[z][x][i];
 
-				in->x[i]=in->phi[i]+in->Fn[i];
-				in->xp[i]= -(in->phi[i]+in->Fp[i]);
+				in->x[z][x][i]=in->phi[z][x][i]+in->Fn[z][x][i];
+				in->xp[z][x][i]= -(in->phi[z][x][i]+in->Fp[z][x][i]);
 
 
 				if (adv==FALSE)
 				{
-					in->p[i]=in->Nv[i]*exp(((in->xp[i]-in->tp[i])*Q)/(kb*in->Tl[i]));
-					in->dp[i]=(Q/(kb*in->Tl[i]))*in->Nv[i]*exp(((in->xp[i]-in->tp[i])*Q)/(kb*in->Tl[i]));
+					in->p[z][x][i]=in->Nv[z][x][i]*exp(((in->xp[z][x][i]-in->tp[z][x][i])*Q)/(kb*in->Tl[z][x][i]));
+					in->dp[z][x][i]=(Q/(kb*in->Tl[z][x][i]))*in->Nv[z][x][i]*exp(((in->xp[z][x][i]-in->tp[z][x][i])*Q)/(kb*in->Tl[z][x][i]));
 				}else
 				{
-					in->p[i]=get_p_den(in,in->xp[i]-in->tp[i],in->Tl[i],in->imat[i]);
-					in->dp[i]=get_dp_den(in,in->xp[i]-in->tp[i],in->Tl[i],in->imat[i]);
+					in->p[z][x][i]=get_p_den(in,in->xp[z][x][i]-in->tp[z][x][i],in->Tl[z][x][i],in->imat[z][x][i]);
+					in->dp[z][x][i]=get_dp_den(in,in->xp[z][x][i]-in->tp[z][x][i],in->Tl[z][x][i],in->imat[z][x][i]);
 				}
 
 
@@ -458,25 +486,25 @@ gdouble kTq=(in->Te[0]*kb/Q);
 					//printf("%lf %lf\n",in->xpt[i][band],in->Fpt[i][band]);
 					//getchar();
 
-					in->Fnt[i][band]= -in->phi[i]-in->Xi[i]+dos_srh_get_fermi_n(in,in->n[i], in->p[i],band,in->imat[i],in->Te[i]);
-					in->Fpt[i][band]= -in->phi[i]-in->Xi[i]-in->Eg[i]-dos_srh_get_fermi_p(in,in->n[i], in->p[i],band,in->imat[i],in->Th[i]);
+					in->Fnt[z][x][i][band]= -in->phi[z][x][i]-in->Xi[z][x][i]+dos_srh_get_fermi_n(in,in->n[z][x][i], in->p[z][x][i],band,in->imat[z][x][i],in->Te[z][x][i]);
+					in->Fpt[z][x][i][band]= -in->phi[z][x][i]-in->Xi[z][x][i]-in->Eg[z][x][i]-dos_srh_get_fermi_p(in,in->n[z][x][i], in->p[z][x][i],band,in->imat[z][x][i],in->Th[z][x][i]);
 
-					in->xt[i][band]=in->phi[i]+in->Fnt[i][band];
-					in->nt[i][band]=get_n_pop_srh(sim,in,in->xt[i][band]+in->tt[i],in->Te[i],band,in->imat[i]);
-					in->dnt[i][band]=get_dn_pop_srh(sim,in,in->xt[i][band]+in->tt[i],in->Te[i],band,in->imat[i]);
+					in->xt[z][x][i][band]=in->phi[z][x][i]+in->Fnt[z][x][i][band];
+					in->nt[z][x][i][band]=get_n_pop_srh(sim,in,in->xt[z][x][i][band]+in->tt[z][x][i],in->Te[z][x][i],band,in->imat[z][x][i]);
+					in->dnt[z][x][i][band]=get_dn_pop_srh(sim,in,in->xt[z][x][i][band]+in->tt[z][x][i],in->Te[z][x][i],band,in->imat[z][x][i]);
 
 
-					in->xpt[i][band]= -(in->phi[i]+in->Fpt[i][band]);
-					in->pt[i][band]=get_p_pop_srh(sim,in,in->xpt[i][band]-in->tpt[i],in->Th[i],band,in->imat[i]);
-					in->dpt[i][band]=get_dp_pop_srh(sim,in,in->xpt[i][band]-in->tpt[i],in->Th[i],band,in->imat[i]);
+					in->xpt[z][x][i][band]= -(in->phi[z][x][i]+in->Fpt[z][x][i][band]);
+					in->pt[z][x][i][band]=get_p_pop_srh(sim,in,in->xpt[z][x][i][band]-in->tpt[z][x][i],in->Th[z][x][i],band,in->imat[z][x][i]);
+					in->dpt[z][x][i][band]=get_dp_pop_srh(sim,in,in->xpt[z][x][i][band]-in->tpt[z][x][i],in->Th[z][x][i],band,in->imat[z][x][i]);
 				}
 
 		}
 
-		update_arrays(sim,in);
+		update_y_array(sim,in,z,x);
 
-		in->xnl_left=in->x[0];
-		in->xpl_left=in->xp[0];
+		in->xnl_left=in->x[z][x][0];
+		in->xpl_left=in->xp[z][x][0];
 
 		if (error<1)
 		{
@@ -529,7 +557,7 @@ gdouble kTq=(in->Te[0]*kb/Q);
 
 pos_dump(sim,in);
 
-	update_arrays(sim,in);
+	update_y_array(sim,in,z,x);
 
 	if (in->srh_sim==TRUE)
 	{
@@ -543,12 +571,14 @@ pos_dump(sim,in);
 in->odes+=in->ymeshpoints;
 
 
-for (i=0;i<in->ymeshpoints;i++)
+
+for (y=0;y<in->ymeshpoints;y++)
 {
-	in->nf_save[i]=in->n[i];
-	in->pf_save[i]=in->p[i];
-	in->nt_save[i]=0.0;//in->nt[i];
-	in->pt_save[i]=0.0;//in->pt[i];
+
+	in->nf_save[z][x][y]=in->n[z][x][y];
+	in->pf_save[z][x][y]=in->p[z][x][y];
+	in->nt_save[z][x][y]=0.0;
+	in->pt_save[z][x][y]=0.0;
 }
 
 
@@ -562,7 +592,7 @@ free(b);
 
 
 printf_log(sim,"Solved pos\n");
-printf_log(sim,"Vl=%Le Vr=%Le phi_mid=%Le\n",in->Vl,in->Vr, in->phi[in->ymeshpoints/2]);
+printf_log(sim,"Vl=%Le Vr=%Le phi_mid=%Le\n",in->Vl,in->Vr, in->phi[z][x][in->ymeshpoints/2]);
 
 return 0;
 }

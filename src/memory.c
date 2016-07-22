@@ -127,9 +127,9 @@ void device_free(struct simulation *sim,struct device *in)
 {
 
 	//1d
-	free(in,in->xmesh);
-	free(in,in->ymesh);
-	free(in,in->zmesh);
+	free(in->xmesh);
+	free(in->ymesh);
+	free(in->zmesh);
 	//2d
 	
 	//3d
@@ -263,14 +263,14 @@ void device_get_memory(struct simulation *sim,struct device *in)
 	in->Tdebug = NULL;
 
 	//1d
-	in->zmesh = (int *) malloc(in->zmeshpoints * sizeof(int));
-	memset(in->zmesh, 0, in->zmeshpoints * sizeof(int));
+	in->zmesh = (gdouble *) malloc(in->zmeshpoints * sizeof(gdouble));
+	memset(in->zmesh, 0, in->zmeshpoints * sizeof(gdouble));
 
-	in->xmesh = (int *) malloc(in->xmeshpoints * sizeof(int));
-	memset(in->xmesh, 0, in->xmeshpoints * sizeof(int));
+	in->xmesh = (gdouble *) malloc(in->xmeshpoints * sizeof(gdouble));
+	memset(in->xmesh, 0, in->xmeshpoints * sizeof(gdouble));
 
-	in->ymesh = (int *) malloc(in->ymeshpoints * sizeof(int));
-	memset(in->ymesh, 0, in->ymeshpoints * sizeof(int));
+	in->ymesh = (gdouble *) malloc(in->ymeshpoints * sizeof(gdouble));
+	memset(in->ymesh, 0, in->ymeshpoints * sizeof(gdouble));
 
 
 	//3d
@@ -443,6 +443,6 @@ void device_get_memory(struct simulation *sim,struct device *in)
 
 	malloc_3d_gdouble(in,&(in->p_orig_t));
 
-	malloc_3d_gdouble(in,&(in->imat));
+	malloc_3d_int(in,&(in->imat));
 
 }

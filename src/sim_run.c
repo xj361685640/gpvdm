@@ -63,6 +63,10 @@ cell.kl_in_newton=FALSE;
 dump_load_config(sim,&cell);
 
 int i;
+int z;
+int x;
+int y;
+
 
 join_path(2,temp,get_output_path(sim),"error.dat");
 remove(temp);
@@ -124,13 +128,20 @@ if (strcmp(cell.simmode,"opticalmodel@optics")!=0)
 
 	long double depth=0.0;
 	long double percent=0.0;
-
-	for (i=0;i<cell.ymeshpoints;i++)
+	long double value=0.0;
+	for (z=0;z<cell.zmeshpoints;z++)
 	{
-		depth=cell.ymesh[i]-cell.layer_start[cell.imat[i]];
-		percent=depth/cell.layer_width[cell.imat[i]];
-		cell.Nad[i]=get_dos_doping_start(&cell,cell.imat[i])+(get_dos_doping_stop(&cell,cell.imat[i])-get_dos_doping_start(&cell,cell.imat[i]))*percent;
-		//printf("%Le\n",cell.Nad[i]);
+		for (x=0;x<cell.xmeshpoints;x++)
+		{
+			for (y=0;y<cell.ymeshpoints;y++)
+			{
+
+				depth=cell.ymesh[y]-cell.layer_start[cell.imat[z][x][y]];
+				percent=depth/cell.layer_width[cell.imat[z][x][y]];
+				cell.Nad[z][x][y]=get_dos_doping_start(&cell,cell.imat[z][x][y])+(get_dos_doping_stop(&cell,cell.imat[z][x][y])-get_dos_doping_start(&cell,cell.imat[z][x][y]))*percent;
+			}
+		}		
+		
 	}
 
 	init_mat_arrays(&cell);
@@ -138,15 +149,21 @@ if (strcmp(cell.simmode,"opticalmodel@optics")!=0)
 
 
 
-	for (i=0;i<cell.ymeshpoints;i++)
+	for (z=0;z<cell.zmeshpoints;z++)
 	{
-		cell.phi[i]=0.0;
-		cell.R[i]=0.0;
-		cell.n[i]=0.0;
+		for (x=0;x<cell.xmeshpoints;x++)
+		{
+			for (y=0;y<cell.ymeshpoints;y++)
+			{
+				cell.phi[z][x][y]=0.0;
+				cell.R[z][x][y]=0.0;
+				cell.n[z][x][y]=0.0;
+			}
+		}
 	}
 
 
-	cell.C=cell.xlen*cell.zlen*epsilon0*cell.epsilonr[0]/(cell.ylen+cell.other_layers);
+	cell.C=cell.xlen*cell.zlen*epsilon0*cell.epsilonr[0][0][0]/(cell.ylen+cell.other_layers);
 	if (get_dump_status(sim,dump_print_text)==TRUE) printf_log(sim,"C=%Le\n",cell.C);
 	cell.A=cell.xlen*cell.zlen;
 	cell.Vol=cell.xlen*cell.zlen*cell.ylen;
@@ -164,8 +181,16 @@ if (strcmp(cell.simmode,"opticalmodel@optics")!=0)
 
 	remesh_shrink(&cell);
 
-	if (cell.math_enable_pos_solver==TRUE) solve_pos(sim,&cell);
-
+	if (cell.math_enable_pos_solver==TRUE)
+	{
+		for (z=0;z<cell.zmeshpoints;z++)
+		{
+			for (x=0;x<cell.xmeshpoints;x++)
+			{
+				solve_pos(sim,&cell,z,x);
+			}
+		}
+	}
 
 
 	time_init(sim,&cell);

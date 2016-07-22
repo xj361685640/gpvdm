@@ -25,7 +25,7 @@
 
 long double min_thermal_error=2e-11;
 
-void update_heat(struct device *in)
+void update_heat(struct device *in,int z, int x)
 {
 int i;
 long double Ecl=0.0;
@@ -42,39 +42,39 @@ for (i=0;i<in->ymeshpoints;i++)
 {
 	if (i==0)
 	{
-		Ecl=-in->Xi[0]-in->Vapplied;
-		Evl=-in->Xi[0]-in->Vapplied-in->Eg[0];
+		Ecl=-in->Xi[z][x][0]-in->Vapplied;
+		Evl=-in->Xi[z][x][0]-in->Vapplied-in->Eg[z][x][0];
 		yl=in->ymesh[0]-(in->ymesh[1]-in->ymesh[0]);
 	}else
 	{
-		Ecl=in->Ec[i-1];
-		Evl=in->Ev[i-1];
+		Ecl=in->Ec[z][x][i-1];
+		Evl=in->Ev[z][x][i-1];
 		yl=in->ymesh[i-1];
 	}
 
 	if (i==in->ymeshpoints-1)
 	{
-		Ecr=-in->Xi[i]-in->Vr;
-		Evr=-in->Xi[i]-in->Vr-in->Eg[i];
+		Ecr=-in->Xi[z][x][i]-in->Vr;
+		Evr=-in->Xi[z][x][i]-in->Vr-in->Eg[z][x][i];
 		yr=in->ymesh[i]+(in->ymesh[i]-in->ymesh[i-1]);
 		
 	}else
 	{
-		Ecr=in->Ec[i];
-		Evr=in->Ev[i];
+		Ecr=in->Ec[z][x][i];
+		Evr=in->Ev[z][x][i];
 		yr=in->ymesh[i];
 	}
 
 	dh=yr-yl;
-	Jn=in->Jn[i];
-	Jp=in->Jp[i];
+	Jn=in->Jn[z][x][i];
+	Jp=in->Jp[z][x][i];
 	
-	in->He[i]=(Ecr-Ecl)*Jn/dh;//+in->Hasorb[i]/2.0;
-	in->Hh[i]=(Evr-Evl)*Jp/dh;//+in->Hasorb[i]/2.0;
+	in->He[z][x][i]=(Ecr-Ecl)*Jn/dh;//+in->Hasorb[i]/2.0;
+	in->Hh[z][x][i]=(Evr-Evl)*Jp/dh;//+in->Hasorb[i]/2.0;
 	//printf("%Le\n",in->Hasorb[i]);
 	//getchar();
-	in->ke[i]=(5/2+1.5)*kb*(kb/Q)*in->Te[i]*in->mun[i]*in->n[i];
-	in->kh[i]=(5/2+1.5)*kb*(kb/Q)*in->Th[i]*in->mup[i]*in->p[i];
+	in->ke[z][x][i]=(5/2+1.5)*kb*(kb/Q)*in->Te[z][x][i]*in->mun[z][x][i]*in->n[z][x][i];
+	in->kh[z][x][i]=(5/2+1.5)*kb*(kb/Q)*in->Th[z][x][i]*in->mup[z][x][i]*in->p[z][x][i];
 	
 	//printf("%Le\n",in->He[i]);
 	//getchar();
@@ -82,17 +82,15 @@ for (i=0;i<in->ymeshpoints;i++)
 
 }
 
-void dump_thermal(struct device *in)
+void dump_thermal(struct device *in, int z, int x)
 {
 int i;
-FILE *out;
-out=fopen("./thermal.dat","w");
+
 for (i=0;i<in->ymeshpoints;i++)
 {
-	printf("%Le Tl=%Lf Te=%Lf Th=%Lf %Le %Le %Le %Le \n",in->ymesh[i],in->Tl[i],in->Te[i],in->Th[i],in->Hl[i],in->He[i],in->Hh[i],in->kl[i]);
+	printf("%Le Tl=%Lf Te=%Lf Th=%Lf %Le %Le %Le %Le \n",in->ymesh[i],in->Tl[z][x][i],in->Te[z][x][i],in->Th[z][x][i],in->Hl[z][x][i],in->He[z][x][i],in->Hh[z][x][i],in->kl[z][x][i]);
 }
 
-fclose(out);
 }
 
 long double get_thermal_error(struct device *in,long double *b)
@@ -120,7 +118,7 @@ return tot;
 }
 
 
-int solve_thermal(struct simulation *sim,struct device *in)
+int solve_thermal(struct simulation *sim,struct device *in, int z, int x)
 {
 printf("Solve thermal l=%d e=%d h=%d\n",in->thermal_l,in->thermal_e,in->thermal_h);
 
@@ -242,7 +240,7 @@ b=malloc(M*sizeof(long double));
 
 
 in->thermal_conv=FALSE;
-update_heat(in);
+update_heat(in,z,x);
 
 	do
 	{
@@ -254,9 +252,9 @@ update_heat(in);
 
 			if (i==0)
 			{
-				kll=in->kl[0];
-				kel=in->ke[0];
-				khl=in->kh[0];
+				kll=in->kl[z][x][0];
+				kel=in->ke[z][x][0];
+				khl=in->kh[z][x][0];
 				//printf("%d\n",in->Tliso);
 				//getchar();
 				if (in->Tliso==FALSE)
@@ -266,35 +264,35 @@ update_heat(in);
 					Tll=in->Tll;
 				}else
 				{
-					Tll=in->Tl[0];
-					Tel=in->Tl[0];
-					Thl=in->Tl[0];
+					Tll=in->Tl[z][x][0];
+					Tel=in->Tl[z][x][0];
+					Thl=in->Tl[z][x][0];
 				}
 
 
 				yl=in->ymesh[0]-(in->ymesh[1]-in->ymesh[0]);
-				Jnl=in->Jn[0];
-				Jpl=in->Jp[0];
+				Jnl=in->Jn[z][x][0];
+				Jpl=in->Jp[z][x][0];
 			}else
 			{
-				kll=in->kl[i-1];
-				kel=in->ke[i-1];
-				khl=in->kh[i-1];
-				Tll=in->Tl[i-1];
-				Tel=in->Te[i-1];
-				Thl=in->Th[i-1];
+				kll=in->kl[z][x][i-1];
+				kel=in->ke[z][x][i-1];
+				khl=in->kh[z][x][i-1];
+				Tll=in->Tl[z][x][i-1];
+				Tel=in->Te[z][x][i-1];
+				Thl=in->Th[z][x][i-1];
 				yl=in->ymesh[i-1];
-				Jnl=in->Jn[i-1];
-				Jpl=in->Jp[i-1];
+				Jnl=in->Jn[z][x][i-1];
+				Jpl=in->Jp[z][x][i-1];
 			}
 
 			if (i==(in->ymeshpoints-1))
 			{
-				klr=in->kl[in->ymeshpoints-1];
-				ker=in->ke[in->ymeshpoints-1];
-				khr=in->kh[in->ymeshpoints-1];
-				Jnr=in->Jn[in->ymeshpoints-1];
-				Jpr=in->Jp[in->ymeshpoints-1];
+				klr=in->kl[z][x][in->ymeshpoints-1];
+				ker=in->ke[z][x][in->ymeshpoints-1];
+				khr=in->kh[z][x][in->ymeshpoints-1];
+				Jnr=in->Jn[z][x][in->ymeshpoints-1];
+				Jpr=in->Jp[z][x][in->ymeshpoints-1];
 
 				yr=in->ymesh[i]+(in->ymesh[i]-in->ymesh[i-1]);
 
@@ -305,20 +303,20 @@ update_heat(in);
 					Tlr=in->Tlr;
 				}else
 				{
-					Tlr=in->Tl[in->ymeshpoints-1];
-					Ter=in->Tl[in->ymeshpoints-1];
-					Thr=in->Tl[in->ymeshpoints-1];
+					Tlr=in->Tl[z][x][in->ymeshpoints-1];
+					Ter=in->Tl[z][x][in->ymeshpoints-1];
+					Thr=in->Tl[z][x][in->ymeshpoints-1];
 				}
 			}else
 			{
-				klr=in->kl[i+1];
-				ker=in->ke[i+1];
-				khr=in->kh[i+1];
-				Tlr=in->Tl[i+1];
-				Ter=in->Te[i+1];
-				Thr=in->Th[i+1];
-				Jnr=in->Jn[i+1];
-				Jpr=in->Jp[i+1];
+				klr=in->kl[z][x][i+1];
+				ker=in->ke[z][x][i+1];
+				khr=in->kh[z][x][i+1];
+				Tlr=in->Tl[z][x][i+1];
+				Ter=in->Te[z][x][i+1];
+				Thr=in->Th[z][x][i+1];
+				Jnr=in->Jn[z][x][i+1];
+				Jpr=in->Jp[z][x][i+1];
 				yr=in->ymesh[i+1];
 			}
 
@@ -329,9 +327,9 @@ update_heat(in);
 			
 			dyc=(dyl+dyr)/2.0;
 
-			klc=in->kl[i];
-			kec=in->ke[i];
-			khc=in->kh[i];
+			klc=in->kl[z][x][i];
+			kec=in->ke[z][x][i];
+			khc=in->kh[z][x][i];
 
 
 			kl0=(kll+klc)/2.0;
@@ -344,18 +342,18 @@ update_heat(in);
 			kh1=(khc+khr)/2.0;
 
 
-			Tlc=in->Tl[i];
-			Tec=in->Te[i];
-			Thc=in->Th[i];
-			Hl=in->Hl[i];
-			He=in->He[i];
-			Hh=in->Hh[i];
+			Tlc=in->Tl[z][x][i];
+			Tec=in->Te[z][x][i];
+			Thc=in->Th[z][x][i];
+			Hl=in->Hl[z][x][i];
+			He=in->He[z][x][i];
+			Hh=in->Hh[z][x][i];
 
-			n=in->n[i];
-			p=in->p[i];
+			n=in->n[z][x][i];
+			p=in->p[z][x][i];
 
-			Jnc=in->Jn[i];
-			Jpc=in->Jp[i];
+			Jnc=in->Jn[z][x][i];
+			Jpc=in->Jp[z][x][i];
 
 
 			if (in->thermal_l==TRUE)
@@ -582,25 +580,25 @@ update_heat(in);
 
 			if (in->thermal_e==TRUE)
 			{
-				in->Te[i]+=b[i+in->ymeshpoints]/(1.0+fabs(b[i+in->ymeshpoints]/clamp/(300.0*kb/Q)));
+				in->Te[z][x][i]+=b[i+in->ymeshpoints]/(1.0+fabs(b[i+in->ymeshpoints]/clamp/(300.0*kb/Q)));
 			}else
 			{
-				in->Te[i]=in->Tl[i];
+				in->Te[z][x][i]=in->Tl[i];
 			}
 
 			if (in->thermal_h==TRUE)
 			{
-				in->Th[i]+=b[i+2*in->ymeshpoints]/(1.0+fabs(b[i+2*in->ymeshpoints]/clamp/(300.0*kb/Q)));
+				in->Th[z][x][i]+=b[i+2*in->ymeshpoints]/(1.0+fabs(b[i+2*in->ymeshpoints]/clamp/(300.0*kb/Q)));
 			}else
 			{
-				in->Th[i]=in->Tl[i];
+				in->Th[z][x][i]=in->Tl[i];
 			}*/
 
 
 
-			in->Tl[i]+=b[i];
-			in->Te[i]+=b[i+in->ymeshpoints];
-			in->Th[i]+=b[i+2*in->ymeshpoints];
+			in->Tl[z][x][i]+=b[i];
+			in->Te[z][x][i]+=b[i+in->ymeshpoints];
+			in->Th[z][x][i]+=b[i+2*in->ymeshpoints];
 		}
 
 
@@ -611,7 +609,7 @@ update_heat(in);
 		
 	}while((ittr<200)&&(error>min_thermal_error));
 
-dump_thermal(in);
+dump_thermal(in,z,x);
 /*
 for (i=0;i<in->ymeshpoints;i++)
 {
