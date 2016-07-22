@@ -34,7 +34,7 @@ void dump_remove_snapshots(struct device *in);
 void dump_dynamic_init(struct simulation *sim,struct dynamic_store *store,struct device *in);
 void dump_dynamic_save(struct simulation *sim,char *outputpath,struct dynamic_store *store);
 void dump_dynamic_add_data(struct simulation *sim,struct dynamic_store *store,struct device *in, gdouble x_value);
-void dump_dynamic_free(struct simulation *sim,struct dynamic_store *store);
+void dump_dynamic_free(struct simulation *sim,struct device *in,struct dynamic_store *store);
 void dump_build_2d_charge_frame(struct map *mapin_e,struct map *mapin_h,struct device *in);
 void dump_write_2d_charge_map(struct map *in_e,struct map *in_h,struct device *dev);
 void frame_add_data(struct map *in,gdouble x,gdouble y,gdouble data);

@@ -287,7 +287,7 @@ inter_reset(&out_v);
 
 
 dump_dynamic_save(sim,out_dir,&store);
-dump_dynamic_free(sim,&store);
+dump_dynamic_free(sim,in,&store);
 
 
 

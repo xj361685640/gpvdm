@@ -175,7 +175,7 @@ do
 	plot_now(sim,"pulse.plot");
 	inter_append(&out_i,in->time,i0);
 	inter_append(&out_v,in->time,V);
-	inter_append(&out_G,in->time,in->Gn[0]);
+	inter_append(&out_G,in->time,in->Gn[0][0][0]);
 	//printf("%Le %d %Le\n",in->time,time_test_last_point(in),in->dt);
 	if (time_test_last_point(in)==TRUE) break;
 	device_timestep(sim,in);
@@ -189,7 +189,7 @@ struct istruct out_j;
 
 
 dump_dynamic_save(sim,get_output_path(sim),&store);
-dump_dynamic_free(sim,&store);
+dump_dynamic_free(sim,in,&store);
 
 
 buffer_malloc(&buf);

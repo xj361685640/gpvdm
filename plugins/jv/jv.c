@@ -414,7 +414,7 @@ inter_free(&lv);
 
 
 dump_dynamic_save(sim,get_output_path(sim),&store);
-dump_dynamic_free(sim,&store);
+dump_dynamic_free(sim,in,&store);
 
 light_set_sun(&(in->mylight),sun_orig);
 }

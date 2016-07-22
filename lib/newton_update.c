@@ -23,7 +23,7 @@
 #include "dump.h"
 #include <dos.h>
 
-void update_y_array(struct simulation *sim,int z,int x,struct device *in)
+void update_y_array(struct simulation *sim,struct device *in,int z,int x)
 {
 int y=0;
 int band=0;

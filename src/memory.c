@@ -126,6 +126,13 @@ void device_free_traps(struct device *in)
 void device_free(struct simulation *sim,struct device *in)
 {
 
+	//1d
+	free(in,in->xmesh);
+	free(in,in->ymesh);
+	free(in,in->zmesh);
+	//2d
+	
+	//3d
 	free_3d_gdouble(in,in->phi);
 	free_3d_gdouble(in,in->B);
 	free_3d_gdouble(in,in->Nad);
@@ -143,7 +150,6 @@ void device_free(struct simulation *sim,struct device *in)
 	free_3d_gdouble(in,in->mup);
 	free_3d_gdouble(in,in->Dn);
 	free_3d_gdouble(in,in->Dp);
-	free_3d_gdouble(in,in->ymesh);
 	free_3d_gdouble(in,in->Fn);
 	free_3d_gdouble(in,in->Fp);
 
@@ -230,6 +236,7 @@ void device_free(struct simulation *sim,struct device *in)
 
 	free_3d_int(in,in->imat);
 
+	//4d
 	device_free_traps(in);
 
 	printf_log(sim,"%s %i %s\n", _("Solved"), in->odes, _("Equations"));
@@ -255,6 +262,18 @@ void device_get_memory(struct simulation *sim,struct device *in)
 	in->b = NULL;
 	in->Tdebug = NULL;
 
+	//1d
+	in->zmesh = (int *) malloc(in->zmeshpoints * sizeof(int));
+	memset(in->zmesh, 0, in->zmeshpoints * sizeof(int));
+
+	in->xmesh = (int *) malloc(in->xmeshpoints * sizeof(int));
+	memset(in->xmesh, 0, in->xmeshpoints * sizeof(int));
+
+	in->ymesh = (int *) malloc(in->ymeshpoints * sizeof(int));
+	memset(in->ymesh, 0, in->ymeshpoints * sizeof(int));
+
+
+	//3d
 	malloc_3d_gdouble(in,&(in->nf_save));
 
 	malloc_3d_gdouble(in,&(in->pf_save));
@@ -423,8 +442,6 @@ void device_get_memory(struct simulation *sim,struct device *in)
 	malloc_3d_gdouble(in,&(in->n_orig_t));
 
 	malloc_3d_gdouble(in,&(in->p_orig_t));
-
-	malloc_3d_gdouble(in,&(in->ymesh));
 
 	malloc_3d_gdouble(in,&(in->imat));
 

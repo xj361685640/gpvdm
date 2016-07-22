@@ -272,33 +272,43 @@ return 0.0;
 
 void solve_all(struct simulation *sim,struct device *in)
 {
+int z=0;
+int x=0;
 int ittr=0;
 int cont=TRUE;
 
-if (in->newton_enable_external_thermal==FALSE)
+for (z=0;z<in->zmeshpoints;z++)
 {
-	solve_cur(sim,in);
-}else
-{
-	do
+	for (x=0;x<in->xmeshpoints;x++)
 	{
-		solve_cur(sim,in);
-		
-		//plot_now(sim,"thermal.plot");
-		//getchar();
-		solve_thermal(sim,in);
-		//plot_now(sim,"thermal.plot");
-		//getchar();
 
-		//printf("ii=%d\n",ii);
-		//plot_now(in);
-		///getchar();
-		if (((in->thermal_conv==TRUE)&&(in->dd_conv==TRUE))||(ittr>10)) cont=FALSE;
-		//printf("%d %d %d\n",in->thermal_conv,in->dd_conv,ii);
-		//getchar();
-		ittr++;
-	}while(cont==TRUE);
+		if (in->newton_enable_external_thermal==FALSE)
+		{
+			solve_cur(sim,in,z,x);
+		}else
+		{
+			do
+			{
+				solve_cur(sim,in,z,x);
+		
+				//plot_now(sim,"thermal.plot");
+				//getchar();
+				solve_thermal(sim,in);
+				//plot_now(sim,"thermal.plot");
+				//getchar();
+
+				//printf("ii=%d\n",ii);
+				//plot_now(in);
+				///getchar();
+				if (((in->thermal_conv==TRUE)&&(in->dd_conv==TRUE))||(ittr>10)) cont=FALSE;
+				//printf("%d %d %d\n",in->thermal_conv,in->dd_conv,ii);
+				//getchar();
+				ittr++;
+			}while(cont==TRUE);
+		}
+	}
 }
+
 }
 
 

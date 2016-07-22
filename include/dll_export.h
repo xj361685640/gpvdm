@@ -54,7 +54,7 @@ EXPORT void light_fixup(char *name,void (*in));
 
 //Newton solver
 EXPORT void dll_newton_set_min_ittr(int ittr);
-EXPORT int dll_solve_cur(struct simulation *sim,struct device *in);
+EXPORT int dll_solve_cur(struct simulation *sim,struct device *in, int z, int x);
 EXPORT void dll_solver_realloc(struct simulation *sim,struct device *in);
 EXPORT void dll_solver_free_memory(struct device *in);
 

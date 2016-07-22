@@ -57,7 +57,7 @@ for (i=0;i<in->ymeshpoints;i++)
 {
 	for (band=0;band<in->srh_bands;band++)
 	{
-		sprintf(temp,"%Le %Le %Le\n",in->ymesh[i],in->Ec[i]+dos_get_band_energy_n(in,band,in->imat[i]),in->nt[i][band]);
+		sprintf(temp,"%Le %Le %Le\n",in->ymesh[i],in->Ec[0][0][i]+dos_get_band_energy_n(in,band,in->imat[0][0][i]),in->nt[0][0][i][band]);
 		buffer_add_string(&buf,temp);
 	}
 }
@@ -83,7 +83,7 @@ for (i=0;i<in->ymeshpoints;i++)
 {
 	for (band=0;band<in->srh_bands;band++)
 	{
-		sprintf(temp,"%Le %Le %Le\n",in->ymesh[i],in->Ev[i]-dos_get_band_energy_p(in,band,in->imat[i]),in->pt[i][band]);
+		sprintf(temp,"%Le %Le %Le\n",in->ymesh[i],in->Ev[0][0][i]-dos_get_band_energy_p(in,band,in->imat[0][0][i]),in->pt[0][0][i][band]);
 		buffer_add_string(&buf,temp);
 	}
 }

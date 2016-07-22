@@ -83,6 +83,6 @@ struct dynamic_store
 
 	struct istruct band_bend;
 
-	double *band_snapshot;
+	gdouble ***band_snapshot;
 };
 #endif

@@ -68,16 +68,16 @@ inter_init(&dump_pt);
 int mat=in->imat[in->ymeshpoints/2];
 for (band=0;band<in->srh_bands;band++)
 {
-	inter_append(&dump1,get_dos_E_n(in,band,mat),in->n[i]*in->srh_n_r1[i][band]-in->srh_n_r2[i][band]);
-	inter_append(&dump2,get_dos_E_p(in,band,mat),in->p[i]*in->srh_p_r1[i][band]-in->srh_p_r2[i][band]);
-	inter_append(&dump3,get_dos_E_n(in,band,mat),in->nt[i][band]-in->ntb_save[i][band]);
-	inter_append(&dump4,get_dos_E_p(in,band,mat),in->pt[i][band]-in->ptb_save[i][band]);
-	inter_append(&dump5,get_dos_E_n(in,band,mat),in->p[i]*in->srh_n_r3[i][band]-in->srh_n_r4[i][band]);
-	inter_append(&dump6,get_dos_E_p(in,band,mat),in->n[i]*in->srh_p_r3[i][band]-in->srh_p_r4[i][band]);
-	inter_append(&dump9,get_dos_E_n(in,band,mat),in->Fnt[i][band]);
-	inter_append(&dump10,get_dos_E_p(in,band,mat),in->Fpt[i][band]);
-	inter_append(&dump_nt,get_dos_E_n(in,band,mat),in->nt[i][band]);
-	inter_append(&dump_pt,get_dos_E_p(in,band,mat),in->pt[i][band]);
+	inter_append(&dump1,get_dos_E_n(in,band,mat),in->n[0][0][i]*in->srh_n_r1[0][0][i][band]-in->srh_n_r2[0][0][i][band]);
+	inter_append(&dump2,get_dos_E_p(in,band,mat),in->p[0][0][i]*in->srh_p_r1[0][0][i][band]-in->srh_p_r2[0][0][i][band]);
+	inter_append(&dump3,get_dos_E_n(in,band,mat),in->nt[0][0][i][band]-in->ntb_save[0][0][i][band]);
+	inter_append(&dump4,get_dos_E_p(in,band,mat),in->pt[0][0][i][band]-in->ptb_save[0][0][i][band]);
+	inter_append(&dump5,get_dos_E_n(in,band,mat),in->p[0][0][i]*in->srh_n_r3[0][0][i][band]-in->srh_n_r4[0][0][i][band]);
+	inter_append(&dump6,get_dos_E_p(in,band,mat),in->n[0][0][i]*in->srh_p_r3[0][0][i][band]-in->srh_p_r4[0][0][i][band]);
+	inter_append(&dump9,get_dos_E_n(in,band,mat),in->Fnt[0][0][i][band]);
+	inter_append(&dump10,get_dos_E_p(in,band,mat),in->Fpt[0][0][i][band]);
+	inter_append(&dump_nt,get_dos_E_n(in,band,mat),in->nt[0][0][i][band]);
+	inter_append(&dump_pt,get_dos_E_p(in,band,mat),in->pt[0][0][i][band]);
 
 }
 

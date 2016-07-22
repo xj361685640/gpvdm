@@ -30,11 +30,15 @@
 #include "dump.h"
 #include "buffer.h"
 #include "dynamic_store.h"
+#include "memory.h"
 static int unused __attribute__((unused));
 
 void dump_dynamic_init(struct simulation *sim,struct dynamic_store *store,struct device *in)
 {
-int i=0;
+int x=0;
+int y=0;
+int z=0;
+
 
 if (get_dump_status(sim,dump_dynamic)==TRUE)
 {
@@ -97,10 +101,16 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 
 	inter_init(&(store->band_bend));
 
-	store->band_snapshot=malloc(sizeof(gdouble)*in->ymeshpoints);
-	for (i=0;i<in->ymeshpoints;i++)
+	malloc_3d_gdouble(in,&(store->band_snapshot));
+	for (z=0;z<in->zmeshpoints;z++)
 	{
-		store->band_snapshot[i]=in->phi[i];
+		for (x=0;x<in->xmeshpoints;x++)
+		{
+			for (y=0;y<in->ymeshpoints;y++)
+			{
+				store->band_snapshot[z][x][y]=in->phi[z][x][y];
+			}
+		}
 	}
 }
 }
@@ -885,6 +895,9 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 
 void dump_dynamic_add_data(struct simulation *sim,struct dynamic_store *store,struct device *in, gdouble x_value)
 {
+int x=0;
+int y=0;
+int z=0;
 if (get_dump_status(sim,dump_dynamic)==TRUE)
 {
 
@@ -903,9 +916,9 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	inter_append(&(store->dynamic_jp_drift),x_value,get_Jp_drift(in));
 	inter_append(&(store->dynamic_jp_diffusion),x_value,get_Jp_diffusion(in));
 
-	inter_append(&(store->jnout_mid),x_value,in->Jn[in->ymeshpoints/2]);//Q*in->A*(in->Jnleft+in->Jnright)/2.0
+	inter_append(&(store->jnout_mid),x_value,in->Jn[in->zmeshpoints/2][in->xmeshpoints/2][in->ymeshpoints/2]);
 
-	inter_append(&(store->jpout_mid),x_value,in->Jp[in->ymeshpoints/2]);//Q*in->A*(in->Jpleft+in->Jpright)/2.0
+	inter_append(&(store->jpout_mid),x_value,in->Jp[in->zmeshpoints/2][in->xmeshpoints/2][in->ymeshpoints/2]);
 
 	inter_append(&(store->iout),x_value,get_equiv_I(in));
 
@@ -913,7 +926,7 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 
 	inter_append(&(store->iout_right),x_value,(get_J_right(in))*(in->xlen*in->zlen)/2.0);
 
-	inter_append(&(store->gexout),x_value,in->Gn[0]);
+	inter_append(&(store->gexout),x_value,in->Gn[0][0][0]);
 
 	inter_append(&(store->nfree_to_ptrap),x_value,get_avg_recom_n(in));
 	inter_append(&(store->pfree_to_ntrap),x_value,get_avg_recom_p(in));
@@ -977,19 +990,25 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	gdouble srh_p_r3=0.0;
 	gdouble srh_p_r4=0.0;
 
-	for (i=0;i<in->ymeshpoints;i++)
+	for (z=0;z<in->zmeshpoints;z++)
 	{
-		for (band=0;band<in->srh_bands;band++)
+		for (x=0;x<in->xmeshpoints;x++)
 		{
-			srh_n_r1+=in->n[i]*in->srh_n_r1[i][band];
-			srh_n_r2+=in->srh_n_r2[i][band];
-			srh_n_r3+=in->p[i]*in->srh_n_r3[i][band];
-			srh_n_r4+=in->srh_n_r4[i][band];
+			for (y=0;y<in->ymeshpoints;y++)
+			{
+				for (band=0;band<in->srh_bands;band++)
+				{
+					srh_n_r1+=in->n[z][x][y]*in->srh_n_r1[z][x][y][band];
+					srh_n_r2+=in->srh_n_r2[z][x][y][band];
+					srh_n_r3+=in->p[z][x][y]*in->srh_n_r3[z][x][y][band];
+					srh_n_r4+=in->srh_n_r4[z][x][y][band];
 
-			srh_p_r1+=in->p[i]*in->srh_p_r1[i][band];
-			srh_p_r2+=in->srh_p_r2[i][band];
-			srh_p_r3+=in->n[i]*in->srh_p_r3[i][band];
-			srh_p_r4+=in->srh_p_r4[i][band];
+					srh_p_r1+=in->p[z][x][y]*in->srh_p_r1[z][x][y][band];
+					srh_p_r2+=in->srh_p_r2[z][x][y][band];
+					srh_p_r3+=in->n[z][x][y]*in->srh_p_r3[z][x][y][band];
+					srh_p_r4+=in->srh_p_r4[z][x][y][band];
+				}
+			}
 		}
 	}
 
@@ -1004,10 +1023,18 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	inter_append(&(store->srh_p_r4),x_value,srh_p_r4/((gdouble)(in->ymeshpoints*in->srh_bands)));
 
 	gdouble tot=0.0;
-	for (i=0;i<in->ymeshpoints;i++)
+
+	for (z=0;z<in->zmeshpoints;z++)
 	{
-		tot+=fabs(store->band_snapshot[i]-in->phi[i])/fabs(in->phi[i]);
+		for (x=0;x<in->xmeshpoints;x++)
+		{
+			for (y=0;y<in->ymeshpoints;y++)
+			{
+				tot+=fabs(store->band_snapshot[z][x][y]-in->phi[z][x][y])/fabs(in->phi[z][x][y]);
+			}
+		}
 	}
+
 	tot/=(gdouble)(in->ymeshpoints);
 	inter_append(&(store->band_bend),x_value,tot);
 
@@ -1015,7 +1042,7 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 
 }
 
-void dump_dynamic_free(struct simulation *sim,struct dynamic_store *store)
+void dump_dynamic_free(struct simulation *sim,struct device *in,struct dynamic_store *store)
 {
 if (get_dump_status(sim,dump_dynamic)==TRUE)
 {
@@ -1076,7 +1103,7 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 
 	inter_free(&(store->band_bend));
 
-	free(store->band_snapshot);
+	free_3d_gdouble(in,store->band_snapshot);
 }
 }
 
