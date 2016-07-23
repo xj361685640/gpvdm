@@ -220,6 +220,7 @@ if (strcmp(cell.simmode,"opticalmodel@optics")!=0)
 		join_path(2,temp,get_output_path(sim),"equilibrium");
 		dump_1d_slice(sim,&cell,temp);
 		device_free(sim,&cell);
+		device_free_traps(&cell);
 		mesh_free(sim,&cell);
 		return 0;
 	}
@@ -248,6 +249,7 @@ run_electrical_dll(sim,&cell,strextract_domain(cell.simmode));
 if (strcmp(cell.simmode,"opticalmodel@optics")!=0)
 {
 	device_free(sim,&cell);
+	device_free_traps(&cell);
 	mesh_free(sim,&cell);
 	plot_close(sim);
 

@@ -31,11 +31,11 @@ plot 'nf.dat' using ($1*1e6):($2) with lp title 'n',\
 'nt.dat' using ($1*1e6):($2) with l title 'ntrap',\
 'pt.dat' using ($1*1e6):($2) with l title 'ptrap'
 
-set origin 0.5,0.25
-unset logscale y
-plot 'Tl.dat' using ($1*1e6):($2) with l title 'Tl',\
-'Te.dat' using ($1*1e6):($2) with l title 'Te',\
-'Th.dat' using ($1*1e6):($2) with l title 'Th'
+#set origin 0.5,0.25
+#unset logscale y
+#plot 'Tl.dat' using ($1*1e6):($2) with l title 'Tl',\
+#'Te.dat' using ($1*1e6):($2) with l title 'Te',\
+#'Th.dat' using ($1*1e6):($2) with l title 'Th'
 #$2>0?log10($2):-log10(-$2)
 set origin 0.0,0.5
 set size 0.5,0.5

@@ -181,7 +181,6 @@ void device_init(struct device *in)
 
 	in->stop= -1;
 	in->Rshort= -1.0;
-	in->ymeshlayers= -1;
 	in->onlypos= -1;
 	in->odes= -1;
 	in->last_error= -1.0;
@@ -197,6 +196,10 @@ void device_init(struct device *in)
 	in->zmeshpoints= -1;
 	in->xmeshpoints= -1;
 	in->ymeshpoints= -1;
+
+	in->zmeshlayers= -1;
+	in->xmeshlayers= -1;
+	in->ymeshlayers= -1;
 
 //n traps
 	in->nt_all= NULL;

@@ -1072,7 +1072,6 @@ return ret;
 gdouble get_I(struct device *in)
 {
 gdouble ret=0.0;
-
 ret+=(get_J_left(in)+get_J_right(in))*(in->xlen*in->zlen)/2.0;
 
 return ret;

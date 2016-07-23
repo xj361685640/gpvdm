@@ -33,7 +33,6 @@
 
 void device_alloc_traps(struct device *in)
 {
-
 	malloc_srh_bands(in, &(in->nt));
 	malloc_srh_bands(in, &(in->ntlast));
 
@@ -217,9 +216,6 @@ void device_free(struct simulation *sim,struct device *in)
 	free_3d_gdouble(in,in->ntequlib);
 	free_3d_gdouble(in,in->ptequlib);
 
-	solver_free(sim);
-	complex_solver_free(sim);
-
 	free_3d_gdouble(in,in->nrelax);
 	free_3d_gdouble(in,in->ntrap_to_p);
 	free_3d_gdouble(in,in->prelax);
@@ -236,9 +232,9 @@ void device_free(struct simulation *sim,struct device *in)
 
 	free_3d_int(in,in->imat);
 
-	//4d
-	device_free_traps(in);
-
+	//Free solvers
+	solver_free(sim);
+	complex_solver_free(sim);
 	printf_log(sim,"%s %i %s\n", _("Solved"), in->odes, _("Equations"));
 }
 

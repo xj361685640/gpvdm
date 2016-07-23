@@ -110,7 +110,7 @@ static gdouble dphidxipc=0.0;
 #define r_bi0 ((gdouble)(D0/(n0*l0*l0)))
 
 
-void update_solver_vars(struct simulation *sim,struct device *in,int clamp, int z, int x)
+void update_solver_vars(struct simulation *sim,struct device *in, int z, int x,int clamp)
 {
 int i;
 int band=0;
@@ -1498,7 +1498,7 @@ int e0=0;
 
 			solver(sim,in->M,in->N,in->Ti,in->Tj, in->Tx,in->b);
 
-			update_solver_vars(sim,in,TRUE,z,x);
+			update_solver_vars(sim,in,z,x,TRUE);
 			//printf("Going to clamp=%d\n",proper);
 			//solver_dump_matrix(in->M,in->N,in->Ti,in->Tj, in->Tx,in->b);
 			//printf("%d\n");

@@ -208,6 +208,7 @@ free(sim->Ap);
 free(sim->Ai);
 free(sim->Ax);
 free(sim->Tx);
+
 sim->x=NULL;
 sim->b=NULL;
 sim->Ap=NULL;

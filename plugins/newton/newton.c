@@ -733,6 +733,7 @@ if (in->interfaceright==TRUE)
 				//getchar();
 				in->Jnleft=Jnl;
 				in->Jpleft=Jpl;
+				//printf("%Le\n",in->Jpleft);
 			}
 
 			if (i==in->ymeshpoints-1)
@@ -1599,7 +1600,7 @@ if (alloc==TRUE)
 void dllinternal_solver_free_memory(struct device *in)
 {
 //int i=0;
-
+printf("here1\n");
 if (in->srh_bands>0)
 {
 	free(in->newton_dntrap);
@@ -1619,12 +1620,15 @@ if (in->srh_bands>0)
 
 	free(in->newton_ntlast);
 	free(in->newton_ptlast);
+	printf("here2\n");
+
 }
 
 free(in->Ti);
 free(in->Tj);
 free(in->Tx);
 free(in->b);
+printf("here3\n");
 
 //for (i=0;i<in->N;i++)
 //{
@@ -1700,7 +1704,7 @@ int cpos=0;
 
 			solver(sim,in->M,in->N,in->Ti,in->Tj, in->Tx,in->b);
 
-			update_solver_vars(sim,in,TRUE,z,x);
+			update_solver_vars(sim,in,z,x,TRUE);
 
 			//printf("Going to clamp=%d\n",proper);
 			//solver_dump_matrix(in->M,in->N,in->Ti,in->Tj, in->Tx,in->b);

@@ -244,7 +244,7 @@ void mesh_build(struct simulation *sim,struct device *in)
 		}
 	}
 
-	in->zlen=dpos;
+	in->xlen=dpos;
 
 
 	//y
@@ -261,8 +261,9 @@ void mesh_build(struct simulation *sim,struct device *in)
 
 			for (z=0;z<in->zmeshlayers;z++)
 			{
-				for (x=0;i<in->xmeshlayers;x++)
+				for (x=0;x<in->xmeshlayers;x++)
 				{
+					//printf("%ld %ld %d\n",z,x,pos);
 					in->imat[z][x][pos]=in->imat[0][0][pos];
 				}
 			}

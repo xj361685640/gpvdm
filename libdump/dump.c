@@ -57,7 +57,7 @@ if ((in->xmeshpoints>1)&&(in->ymeshpoints>1)&&(in->zmeshpoints>1))
 		{
 			for (y=0;y<in->ymeshpoints;y++)
 			{
-				sprintf(string,"%Le %Le %Le %Le\n",in->xmesh[x],in->ymesh[y],in->zmesh[z],data[x][y][z]);
+				sprintf(string,"%Le %Le %Le %Le\n",in->xmesh[x],in->ymesh[y],in->zmesh[z],data[z][x][y]);
 				buffer_add_string(buf,string);
 			}
 		}
@@ -70,7 +70,7 @@ if ((in->xmeshpoints>1)&&(in->ymeshpoints>1))
 	{
 		for (y=0;y<in->ymeshpoints;y++)
 		{
-			sprintf(string,"%Le %Le %Le\n",in->xmesh[x],in->ymesh[y],data[x][y][z]);
+			sprintf(string,"%Le %Le %Le\n",in->xmesh[x],in->ymesh[y],data[z][x][y]);
 			buffer_add_string(buf,string);
 		}
 	}
@@ -81,7 +81,7 @@ if ((in->xmeshpoints>1)&&(in->ymeshpoints>1))
 
 	for (y=0;y<in->ymeshpoints;y++)
 	{
-		sprintf(string,"%Le %Le\n",in->ymesh[y],data[x][y][z]);
+		sprintf(string,"%Le %Le\n",in->ymesh[y],data[z][x][y]);
 		buffer_add_string(buf,string);
 	}
 }

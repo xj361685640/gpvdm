@@ -195,18 +195,26 @@ in->time=0.0;
 
 void time_store(struct simulation *sim,struct device *in)
 {
-int i;
+int x;
+int y;
+int z;
 int band;
 
-for (i=0;i<in->ymeshpoints;i++)
+for (z=0;z<in->zmeshpoints;z++)
 {
-	in->nlast[i]=in->n[i];
-	in->plast[i]=in->p[i];
-
-	for (band=0;band<in->srh_bands;band++)
+	for (x=0;x<in->xmeshpoints;x++)
 	{
-		in->ntlast[i][band]=in->nt[i][band];
-		in->ptlast[i][band]=in->pt[i][band];
+		for (y=0;y<in->ymeshpoints;y++)
+		{
+			in->nlast[z][x][y]=in->n[z][x][y];
+			in->plast[z][x][y]=in->p[z][x][y];
+
+			for (band=0;band<in->srh_bands;band++)
+			{
+				in->ntlast[z][x][y][band]=in->nt[z][x][y][band];
+				in->ptlast[z][x][y][band]=in->pt[z][x][y][band];
+			}
+		}
 	}
 }
 in->Vapplied_last=in->Vapplied;

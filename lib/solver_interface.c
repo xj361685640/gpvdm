@@ -101,13 +101,16 @@ int i;
 
 void solver_free(struct simulation *sim)
 {
-(*sim->dll_matrix_solver_free)(sim);
+if (sim->dll_matrix_solver_free!=NULL)
+{ 
+	(*sim->dll_matrix_solver_free)(sim);
 
-printf("DEALLOC=%p\n",sim->dll_matrix_handle);
+	printf("DEALLOC=%p\n",sim->dll_matrix_handle);
 
-if (dlclose(sim->dll_matrix_handle)!=0)
-{
-	printf("Error closing dll\n");
+	if (dlclose(sim->dll_matrix_handle)!=0)
+	{
+		printf("Error closing dll\n");
+	}
 }
 }
 
