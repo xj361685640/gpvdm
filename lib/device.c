@@ -85,7 +85,6 @@ void device_init(struct device *in)
 	in->Jp_drift= NULL;
 
 	in->Vapplied= -1.0;
-	in->ymeshpoints= -1;
 	in->Vl= -1.0;
 	in->Vr= -1.0;
 	in->x= NULL;
@@ -182,7 +181,6 @@ void device_init(struct device *in)
 
 	in->stop= -1;
 	in->Rshort= -1.0;
-	in->meshdata= NULL;
 	in->ymeshlayers= -1;
 	in->onlypos= -1;
 	in->odes= -1;
@@ -191,6 +189,14 @@ void device_init(struct device *in)
 	in->srh_bands= -1;
 	in->wn= NULL;
 	in->wp= NULL;
+//mesh
+	in->meshdata_z= NULL;
+	in->meshdata_x= NULL;
+	in->meshdata_y= NULL;
+
+	in->zmeshpoints= -1;
+	in->xmeshpoints= -1;
+	in->ymeshpoints= -1;
 
 //n traps
 	in->nt_all= NULL;

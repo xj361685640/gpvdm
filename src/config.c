@@ -74,27 +74,20 @@ epitaxy_load(sim,&(in->my_epitaxy),device_file_path);
 
 
 mesh_load(sim,in);
+device_get_memory(sim,in);
+mesh_build(sim,in);
+
 ///////////////////////////////
 
 in->ylen=0.0;
-gdouble mesh_len=0.0;
 
 in->ylen=epitaxy_get_electrical_length(&(in->my_epitaxy));
 
-for (i=0;i<in->ymeshlayers;i++)
-{
-	mesh_len+=in->meshdata[i].len;
-}
-
-if (fabs(in->ylen-mesh_len)>1e-14)
-{
-	mesh_remesh(sim,in);
-	printf_log(sim,"Warning: Length of epitaxy and computational mesh did not match, so I remesshed the device.\n");
-}
+mesh_check_y(sim,in);
 
 inp_init(sim,&inp);
 inp_load_from_path(sim,&inp,get_input_path(sim),"device.inp");
-inp_check(sim,&inp,1.19);
+inp_check(sim,&inp,1.20);
 inp_search_string(sim,&inp,temp,"#lr_bias");
 in->lr_bias=english_to_bin(sim,temp);
 
@@ -104,8 +97,6 @@ in->lr_pcontact=english_to_bin(sim,temp);
 inp_search_string(sim,&inp,temp,"#invert_applied_bias");
 in->invert_applied_bias=english_to_bin(sim,temp);
 
-inp_search_gdouble(sim,&inp,&(in->xlen),"#xlen");
-inp_search_gdouble(sim,&inp,&(in->zlen),"#zlen");
 in->area=in->xlen*in->zlen;
 
 inp_search_gdouble(sim,&inp,&(in->Rshunt),"#Rshunt");

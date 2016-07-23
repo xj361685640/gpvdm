@@ -21,9 +21,11 @@
 #ifndef mesh_h
 #define mesh_h
 
-void mesh_save(struct simulation *sim,struct device *in);
-void mesh_load(struct simulation *sim,struct device *in);
+void mesh_check_y(struct simulation *sim,struct device *in);
+void mesh_remesh_y(struct simulation *sim,struct device *in);
+void mesh_save_y(struct simulation *sim,struct device *in);
 void mesh_free(struct simulation *sim,struct device *in);
-void mesh_remesh(struct simulation *sim,struct device *in);
+void mesh_load(struct simulation *sim,struct device *in);
+void mesh_build(struct simulation *sim,struct device *in);
 void mesh_cal_layer_widths(struct device *in);
 #endif

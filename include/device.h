@@ -275,6 +275,15 @@ struct device
 	char solver_name[20];
 	char newton_name[20];
 
+	//meshing
+	struct mesh *meshdata_x;
+	struct mesh *meshdata_y;
+	struct mesh *meshdata_z;
+
+	int xmeshlayers;
+	int ymeshlayers;
+	int zmeshlayers;
+
 //Device characterisation
 	gdouble Voc;
 	gdouble Jsc;
@@ -291,8 +300,8 @@ struct device
 
 	int stop;
 	gdouble Rshort;
-	struct mesh *meshdata;
-	int ymeshlayers;
+
+
 	int onlypos;
 	int odes;
 	gdouble last_error;
