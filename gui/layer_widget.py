@@ -178,7 +178,7 @@ class layer_widget(gtk.VBox):
 		self.electrical_mesh=tab_electrical_mesh()
 		self.electrical_mesh.init()
 
-		self.electrical_mesh.emesh_editor.connect("refresh", self.change_active_layer_thickness)
+		self.electrical_mesh.emesh_editor_y.connect("refresh", self.change_active_layer_thickness)
 
 		self.frame=gtk.Frame()
 

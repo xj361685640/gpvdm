@@ -31,8 +31,8 @@ from cal_path import get_exe_command
 from numpy import *
 from matplotlib.figure import Figure
 #from numpy import arange, sin, pi
-from matplotlib.backends.backend_gtkagg import FigureCanvasGTKAgg as FigureCanvas
-from matplotlib.backends.backend_gtkagg import NavigationToolbar2GTKAgg as NavigationToolbar
+#from matplotlib.backends.backend_gtkagg import FigureCanvasGTKAgg as FigureCanvas
+#from matplotlib.backends.backend_gtkagg import NavigationToolbar2GTKAgg as NavigationToolbar
 #import gobject
 from cal_path import get_image_file_path
 #from scan_item import scan_item_add
@@ -44,6 +44,7 @@ from inp import inp_sum_items
 from inp_util import inp_search_token_value
 #from matplotlib.patches import Ellipse, PathPatch
 from epitaxy import epitaxy_get_dos_files
+from mesh_dump_ctl import mesh_dump_ctl
 
 class tab_electrical_mesh(gtk.Window):
 	lines=[]
@@ -55,18 +56,18 @@ class tab_electrical_mesh(gtk.Window):
 	name=""
 	visible=1
 
-	def run_simulation(self,data):
-		cmd = get_exe_command()+' --onlypos'
-		os.system(cmd)
-		self.update_graph()
+	#def run_simulation(self,data):
+	#	cmd = get_exe_command()+' --onlypos'
+	#	os.system(cmd)
+	#	self.update_graph()
 
-	def callback_update(self,data):
-		self.update_graph()
+	#def callback_update(self,data):
+	#	self.update_graph()
 
-	def update_graph(self):
-		self.fig.clf()
-		self.draw_graph()
-		self.fig.canvas.draw()
+	#def update_graph(self):
+	#	self.fig.clf()
+	#	self.draw_graph()
+	#	self.fig.canvas.draw()
 
 	def draw_graph(self):
 		lines=[]
@@ -113,7 +114,7 @@ class tab_electrical_mesh(gtk.Window):
 			Ev,=self.ax1.plot(t,Ev_data, 'go-', linewidth=3 ,alpha=0.5)
 
 			if len(files)>0:
-				if self.emesh_editor.mesh_dump_ctl.enable==True:
+				if self.mesh_dump_ctl.enable==True:
 
 					Ec_max=max(Ec_data)
 					Ev_min=min(Ev_data)
@@ -150,8 +151,8 @@ class tab_electrical_mesh(gtk.Window):
 		self.fig.savefig(file_name)
 
 	def refresh(self):
-		self.emesh_editor.refresh()
-		self.update_graph()
+		self.emesh_editor_y.refresh()
+		#self.update_graph()
 
 
 	def callback_close(self, widget, data=None):
@@ -192,105 +193,179 @@ class tab_electrical_mesh(gtk.Window):
 	def callback_help(self, widget, data=None):
 		webbrowser.open('http://www.gpvdm.com/man/index.html')
 
-	def init(self):
-		print "INIT!!"
+	def callback_dim_1d(self, widget, data=None):
+		self.emesh_editor_y.enable_dim()
+		self.emesh_editor_x.disable_dim()
+		self.emesh_editor_z.disable_dim()
 
-		self.emesh_editor=electrical_mesh_editor()
-		self.emesh_editor.init()
+		self.update_dim()
+
+	def callback_dim_2d(self, widget, data=None):
+		self.emesh_editor_y.enable_dim()
+		self.emesh_editor_x.enable_dim()
+		self.emesh_editor_z.disable_dim()
+		self.update_dim()
+
+	def callback_dim_3d(self, widget, data=None):
+		self.emesh_editor_y.enable_dim()
+		self.emesh_editor_x.enable_dim()
+		self.emesh_editor_z.enable_dim()
+		self.update_dim()
+
+
+	def update_dim(self):
+		if self.emesh_editor_x.mesh_points==1 and self.emesh_editor_z.mesh_points==1:
+			self.one_d.set_sensitive(False)
+			self.two_d.set_sensitive(True)
+			self.three_d.set_sensitive(True)
+			self.emesh_editor_y.set_sensitive(True)
+			self.emesh_editor_x.set_sensitive(False)
+			self.emesh_editor_z.set_sensitive(False)
+
+
+		if self.emesh_editor_x.mesh_points>1 and self.emesh_editor_z.mesh_points==1:
+			self.one_d.set_sensitive(True)
+			self.two_d.set_sensitive(False)
+			self.three_d.set_sensitive(True)
+			self.emesh_editor_y.set_sensitive(True)
+			self.emesh_editor_x.set_sensitive(True)
+			self.emesh_editor_z.set_sensitive(False)
+
+
+		if self.emesh_editor_x.mesh_points>1 and self.emesh_editor_z.mesh_points>1:
+			self.one_d.set_sensitive(True)
+			self.two_d.set_sensitive(True)
+			self.three_d.set_sensitive(False)
+			self.emesh_editor_y.set_sensitive(True)
+			self.emesh_editor_x.set_sensitive(True)
+			self.emesh_editor_z.set_sensitive(True)
+
+
+	def init(self):
+		self.emesh_editor_x=electrical_mesh_editor()
+		self.emesh_editor_x.init("x")
+
+		self.emesh_editor_y=electrical_mesh_editor()
+		self.emesh_editor_y.init("y")
+
+		self.emesh_editor_z=electrical_mesh_editor()
+		self.emesh_editor_z.init("z")
+
 
 		self.fig = Figure(figsize=(5,4), dpi=100)
 		self.ax1=None
 		self.show_key=True
-		self.hbox=gtk.HBox()
+		mesh_hbox=gtk.HBox()
 		self.edit_list=[]
 		self.line_number=[]
-		gui_pos=0
 
-		gui_pos=gui_pos+1
-
-		self.draw_graph()
-		canvas = FigureCanvas(self.fig)  # a gtk.DrawingArea
+		#self.draw_graph()
+		#canvas = FigureCanvas(self.fig)  # a gtk.DrawingArea
 		#canvas.set_background('white')
 		#canvas.set_facecolor('white')
-		canvas.figure.patch.set_facecolor('white')
-		canvas.set_size_request(500, 150)
-		canvas.show()
+		#canvas.figure.patch.set_facecolor('white')
+		#canvas.set_size_request(500, 400)
+		#canvas.show()
 
 		tooltips = gtk.Tooltips()
 
 		toolbar = gtk.Toolbar()
-		#toolbar.set_orientation(gtk.ORIENTATION_VERTICAL)
 		toolbar.set_style(gtk.TOOLBAR_ICONS)
 		toolbar.set_size_request(-1, 70)
 
-		tool_bar_pos=0
 		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"save.png"))
-		save = gtk.ToolButton(image)
-		tooltips.set_tip(save, "Save image")
-		save.connect("clicked", self.callback_save)
-		toolbar.insert(save, tool_bar_pos)
-		tool_bar_pos=tool_bar_pos+1
-
-		hide_key = gtk.ToolButton(gtk.STOCK_INFO)
-		tooltips.set_tip(hide_key, "Hide key")
-		hide_key.connect("clicked", self.callback_hide_key)
-		toolbar.insert(hide_key, tool_bar_pos)
-		tool_bar_pos=tool_bar_pos+1
+   		image.set_from_file(os.path.join(get_image_file_path(),"1d.png"))
+		self.one_d = gtk.ToolButton(image)
+		tooltips.set_tip(self.one_d, "1D simulation")
+		self.one_d.connect("clicked", self.callback_dim_1d)
+		toolbar.insert(self.one_d, -1)
 
 		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"play.png"))
-		save = gtk.ToolButton(image)
-		tooltips.set_tip(save, "Run simulation")
-		save.connect("clicked", self.run_simulation)
-		toolbar.insert(save, tool_bar_pos)
-		tool_bar_pos=tool_bar_pos+1
+   		image.set_from_file(os.path.join(get_image_file_path(),"2d.png"))
+		self.two_d = gtk.ToolButton(image)
+		tooltips.set_tip(self.two_d, "2D simulation")
+		self.two_d.connect("clicked", self.callback_dim_2d)
+		toolbar.insert(self.two_d, -1)
 
-		plot_toolbar = NavigationToolbar(canvas, self)
-		plot_toolbar.show()
-		box=gtk.HBox(True, 1)
-		box.set_size_request(500,-1)
-		box.show()
-		box.pack_start(plot_toolbar, True, True, 0)
-		tb_comboitem = gtk.ToolItem();
-		tb_comboitem.add(box);
-		tb_comboitem.show()
-		toolbar.insert(tb_comboitem, tool_bar_pos)
-		tool_bar_pos=tool_bar_pos+1
+		image = gtk.Image()
+   		image.set_from_file(os.path.join(get_image_file_path(),"3d.png"))
+		self.three_d = gtk.ToolButton(image)
+		tooltips.set_tip(self.three_d, "3D simulation")
+		self.three_d.connect("clicked", self.callback_dim_3d)
+		toolbar.insert(self.three_d, -1)
+
+
+		#hide_key = gtk.ToolButton(gtk.STOCK_INFO)
+		#tooltips.set_tip(hide_key, "Hide key")
+		#hide_key.connect("clicked", self.callback_hide_key)
+		#toolbar.insert(hide_key, -1)
+
+		#image = gtk.Image()
+   		#image.set_from_file(os.path.join(get_image_file_path(),"play.png"))
+		#save = gtk.ToolButton(image)
+		#tooltips.set_tip(save, "Run simulation")
+		#save.connect("clicked", self.run_simulation)
+		#toolbar.insert(save, -1)
+
+		#plot_toolbar = NavigationToolbar(canvas, self)
+		#plot_toolbar.show()
+		#box=gtk.HBox(True, 1)
+		#box.set_size_request(500,-1)
+		#box.show()
+		#box.pack_start(plot_toolbar, True, True, 0)
+		#tb_comboitem = gtk.ToolItem();
+		#tb_comboitem.add(box);
+		#tb_comboitem.show()
+		#toolbar.insert(tb_comboitem, -1)
 
 		sep = gtk.SeparatorToolItem()
 		sep.set_draw(False)
 		sep.set_expand(True)
-		toolbar.insert(sep, tool_bar_pos)
+		toolbar.insert(sep, -1)
 		sep.show()
-		tool_bar_pos=tool_bar_pos+1
 
 		image = gtk.Image()
 		image.set_from_file(os.path.join(get_image_file_path(),"help.png"))
 		help = gtk.ToolButton(image)
-		toolbar.insert(help, tool_bar_pos)
+		toolbar.insert(help, -1)
 		help.connect("clicked", self.callback_help)
 		help.show()
-		tool_bar_pos=tool_bar_pos+1
 
 		toolbar.show_all()
 		window_main_vbox=gtk.VBox()
-		window_main_vbox.pack_start(toolbar, False, True, 0)
+		window_main_vbox.pack_start(toolbar, False, False, 0)
 		#self.attach(toolbar, 0, 1, 0, 1)
-		tool_bar_pos=tool_bar_pos+1
 
 
-		self.hbox.pack_start(canvas, True, True, 0)
+		#window_main_vbox.pack_start(canvas, True, True, 0)
 
-		self.emesh_editor.show()
-		self.hbox.pack_start(self.emesh_editor, True, True, 0)
-		self.emesh_editor.mesh_dump_ctl.connect("update", self.callback_update)
-		window_main_vbox.add(self.hbox)
+		self.emesh_editor_x.show()
+		mesh_hbox.pack_start(self.emesh_editor_x, True, True, 0)
+
+		self.emesh_editor_y.show()
+		mesh_hbox.pack_start(self.emesh_editor_y, True, True, 0)
+
+		self.emesh_editor_z.show()
+		mesh_hbox.pack_start(self.emesh_editor_z, True, True, 0)
+
+		window_main_vbox.pack_start(mesh_hbox, True, True, 0)
+
+		self.mesh_dump_ctl=mesh_dump_ctl()
+		self.mesh_dump_ctl.init()
+		self.mesh_dump_ctl.show()
+		window_main_vbox.pack_start(self.mesh_dump_ctl, True, True, 0)
+
+		#self.mesh_dump_ctl.connect("update", self.callback_update)
+
+		self.statusbar = gtk.Statusbar()
+		self.statusbar.show()
+		window_main_vbox.pack_start(self.statusbar, False, False, 0)
 
 		self.add(window_main_vbox)
 		self.set_title("Electrical Mesh Editor - (www.gpvdm.com)")
 		self.set_icon_from_file(os.path.join(get_image_file_path(),"mesh.png"))
 		self.connect("delete-event", self.callback_close)
 		self.set_position(gtk.WIN_POS_CENTER)
+		self.update_dim()
 
 

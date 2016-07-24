@@ -32,7 +32,8 @@ from inp import inp_write_lines_to_file
 from inp import inp_load_file
 from code_ctrl import enable_betafeatures
 from scan_item import scan_item_add
-from mesh_dump_ctl import mesh_dump_ctl
+from cal_path import get_image_file_path
+
 
 (
   MESH_THICKNES,
@@ -76,7 +77,7 @@ class electrical_mesh_editor(gtk.VBox):
 		render.set_data("column", MESH_THICKNES)
 		render.set_property("editable", True)
 
-		column = gtk.TreeViewColumn("Thicknes", render, text=MESH_THICKNES, editable=True)
+		column = gtk.TreeViewColumn(self.xyz+" thicknes", render, text=MESH_THICKNES, editable=True)
 		if enable_betafeatures()==False:
 			column.set_visible(False)
 		treeview.append_column(column)
@@ -88,7 +89,7 @@ class electrical_mesh_editor(gtk.VBox):
 		render.set_data("column", MESH_POINTS)
 		render.set_property("editable", True)
 
-		column = gtk.TreeViewColumn("Points", render, text=MESH_POINTS, editable=True)
+		column = gtk.TreeViewColumn("Mesh points", render, text=MESH_POINTS, editable=True)
 		treeview.append_column(column)
 
 	def on_add_item_clicked(self, button, model):
@@ -110,7 +111,7 @@ class electrical_mesh_editor(gtk.VBox):
 		    MESH_POINTS, new_item[MESH_POINTS]
 		)
 
-	def save_model(self):
+	def save(self):
 		lines=[]
 		lines.append("#mesh_layers")
 		lines.append(str(len(self.mesh_model)))
@@ -124,7 +125,7 @@ class electrical_mesh_editor(gtk.VBox):
 		lines.append("#ver")
 		lines.append("1.0")
 		lines.append("#end")
-		inp_write_lines_to_file(os.path.join(os.getcwd(),"mesh_y.inp"),lines)
+		inp_write_lines_to_file(os.path.join(os.getcwd(),"mesh_"+self.xyz+".inp"),lines)
 
 	def on_remove_item_clicked(self, button, treeview):
 
@@ -136,7 +137,7 @@ class electrical_mesh_editor(gtk.VBox):
 			model.remove(iter)
 
 
-		self.save_model()
+		self.save()
 
 	def on_remove_from_mesh_click(self, button, treeview):
 
@@ -147,7 +148,7 @@ class electrical_mesh_editor(gtk.VBox):
 			#path = model.get_path(iter)[0]
 			model.remove(iter)
 
-		self.save_model()
+		self.save()
 
 
 	def on_cell_edited(self, cell, path_string, new_text, model):
@@ -164,7 +165,7 @@ class electrical_mesh_editor(gtk.VBox):
 
 			model.set(iter, column, new_text)
 
-		self.save_model()
+		self.save()
 		self.set_data("refresh",float(new_text))
 		self.emit("refresh")
 
@@ -181,30 +182,43 @@ class electrical_mesh_editor(gtk.VBox):
 		if column == MESH_POINTS:
 			self.mesh_model.set(iter, column, new_text)
 
-		self.save_model()
+		self.save()
 		#self.emit("refresh")
 
 	def refresh(self):
 		self.load()
 
+	def disable_dim(self):
+		self.mesh_model[0][1]=str(1)
+		self.save()
+		self.load()
+
+	def enable_dim(self):
+		if int(self.mesh_model[0][1])==1:
+			self.mesh_model[0][1]=str(10)
+			self.save()
+			self.load()
+
+
 	def load(self):
+		self.mesh_points=0
 		self.mesh_model.clear()
 		lines=[]
 		pos=0
-		if inp_load_file(lines,os.path.join(os.getcwd(),"mesh_y.inp"))==True:
+		if inp_load_file(lines,os.path.join(os.getcwd(),"mesh_"+self.xyz+".inp"))==True:
 			pos=pos+1	#first comment
 			mesh_layers=int(lines[pos])
 
 			for i in range(0, mesh_layers):
 				pos=pos+1					#token
 				token=lines[pos]
-				scan_item_add("mesh_y.inp",token,"Mesh width"+str(i),1)
+				scan_item_add("mesh_"+self.xyz+".inp",token,self.xyz+"mesh width"+str(i),1)
 				pos=pos+1
 				thicknes=lines[pos]	#read value
 
 				pos=pos+1					#token
 				token=lines[pos]
-				scan_item_add("mesh_y.inp",token,"Mesh points"+str(i),1)
+				scan_item_add("mesh_"+self.xyz+".inp",token,self.xyz+"mesh points"+str(i),1)
 
 				pos=pos+1
 				points=lines[pos] 		#read value
@@ -215,9 +229,12 @@ class electrical_mesh_editor(gtk.VBox):
 				  MESH_THICKNES, str(thicknes),
 				  MESH_POINTS, str(points)
 				)
+				self.mesh_points=self.mesh_points+int(points)
 
 
-	def init(self):
+	def init(self,xyz):
+		self.xyz=xyz
+		self.mesh_points=0
 		self.__gobject_init__()
 
 		self.mesh_model = gtk.ListStore(str,str)
@@ -233,37 +250,42 @@ class electrical_mesh_editor(gtk.VBox):
 
 		#mesh editor
 		frame = gtk.Frame()
-		frame.set_label("Mesh")
+		frame.set_label(self.xyz+" mesh")
 		vbox_mesh = gtk.VBox(False, 2)
+		#tool box
+
+		tooltips = gtk.Tooltips()
+
+		toolbar = gtk.Toolbar()
+		toolbar.set_style(gtk.TOOLBAR_ICONS)
+		toolbar.set_size_request(-1, 40)
+
+		image = gtk.Image()
+   		image.set_from_file(os.path.join(get_image_file_path(),"16_add.png"))
+		add = gtk.ToolButton(image)
+		add.connect("clicked", self.on_add_mesh_clicked)
+		tooltips.set_tip(add, _("Add "+self.xyz+" mesh layer"))
+		toolbar.insert(add, -1)
+
+		image = gtk.Image()
+   		image.set_from_file(os.path.join(get_image_file_path(),"16_minus.png"))
+		add = gtk.ToolButton(image)
+		add.connect("clicked", self.on_remove_from_mesh_click)
+		tooltips.set_tip(add, _("Remove "+self.xyz+" mesh layer"))
+		toolbar.insert(add, -1)
+		vbox_mesh.pack_start(toolbar, False, False, 0)
+
+		#Tree view
 		treeview = gtk.TreeView(self.mesh_model)
 		treeview.set_size_request(200, 100)
 		treeview.set_rules_hint(True)
 		treeview.get_selection().set_mode(gtk.SELECTION_SINGLE)
 		self.__add_columns_mesh(treeview)
-		vbox_mesh.pack_start(treeview, False, False, 0)
-
-		if enable_betafeatures()==True:
-			add_button = gtk.Button("Add",gtk.STOCK_ADD)
-			add_button.connect("clicked", self.on_add_mesh_clicked, self.mesh_model)
-
-			delete_button = gtk.Button("Delete",gtk.STOCK_DELETE)
-			delete_button.connect("clicked", self.on_remove_from_mesh_click, treeview)
-
-			hbox = gtk.HBox(False, 2)
-
-			hbox.pack_start(add_button, False, False, 0)
-			hbox.pack_start(delete_button, False, False, 0)
-
-			vbox_mesh.pack_start(hbox, False, False, 0)
+		vbox_mesh.pack_start(treeview, True, True, 0)
 
 		frame.add(vbox_mesh)
 
 		self.pack_start(frame, True, True, 0)
-
-		self.mesh_dump_ctl=mesh_dump_ctl()
-		self.mesh_dump_ctl.init()
-		self.mesh_dump_ctl.show()
-		self.pack_start(self.mesh_dump_ctl, True, True, 0)
 
 		self.show_all()
 
