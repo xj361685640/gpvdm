@@ -27,6 +27,7 @@
 #include "epitaxy.h"
 #include "advmath.h"
 #include <dos_struct.h>
+#include "contact_struct.h"
 
 struct mesh
 {
@@ -425,6 +426,8 @@ struct device
 	struct light probe_modes;
 	struct istruct steady_stark;
 
+	struct contact contacts[10];
+	int ncontacts;
 
 };
 

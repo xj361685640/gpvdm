@@ -363,6 +363,7 @@ void device_init(struct device *in)
 	in->tm_mesh_len=-1;
 	in->tm_use_mesh=-1;
 	in->tm_mesh_pos=-1;
+	in->ncontacts=-1;
 }
 
 

@@ -43,8 +43,9 @@ _ = i18n.language.gettext
 
 (
 CONTACT_WIDTH,
-CONTACT_DEPTH
-) = range(2)
+CONTACT_DEPTH,
+CONTACT_VOLTAGE
+) = range(3)
 
 class contacts_window(gtk.Window):
 
@@ -85,6 +86,8 @@ class contacts_window(gtk.Window):
 			lines.append(item[CONTACT_THICKNES])
 			lines.append("#contact_depth"+str(i))
 			lines.append(item[CONTACT_POINTS])
+			lines.append("#contact_voltage"+str(i))
+			lines.append(item[CONTACT_VOLTAGE])
 			i=i+1
 		lines.append("#ver")
 		lines.append("1.0")
@@ -103,11 +106,15 @@ class contacts_window(gtk.Window):
 		model[path][CONTACT_DEPTH] = new_text
 		self.save_data()
 
+	def on_cell_edited_voltage(self, cell, path, new_text, model):
+		model[path][CONTACT_VOLTAGE] = new_text
+		self.save_data()
+
 	def callback_help(self, widget, data=None):
 		webbrowser.open('http://www.gpvdm.com/man/index.html')
 
 	def create_model(self):
-		store = gtk.ListStore(str,str)
+		store = gtk.ListStore(str,str,str)
 
 		store.clear()
 		lines=[]
@@ -117,12 +124,14 @@ class contacts_window(gtk.Window):
 			layers=int(lines[pos])
 
 			for i in range(0, layers):
+				#width
 				pos=pos+1					#token
 				token=lines[pos]
 				scan_item_add("contacts.inp",token,"Contact width"+str(i),1)
 				pos=pos+1
 				thicknes=lines[pos]	#read value
 
+				#depth
 				pos=pos+1					#token
 				token=lines[pos]
 				scan_item_add("contacts.inp",token,"Contact depth"+str(i),1)
@@ -130,11 +139,21 @@ class contacts_window(gtk.Window):
 				pos=pos+1
 				depth=lines[pos] 		#read value
 
+				#voltage
+				pos=pos+1					#token
+				token=lines[pos]
+				scan_item_add("contacts.inp",token,"Contact voltage"+str(i),1)
+
+				pos=pos+1
+				voltage=lines[pos] 		#read value
+
+
 				iter = store.append()
 
 				store.set (iter,
 				  CONTACT_WIDTH, str(thicknes),
-				  CONTACT_DEPTH, str(depth)
+				  CONTACT_DEPTH, str(depth),
+				  CONTACT_VOLTAGE, str(voltage)
 				)
 
 		return store
@@ -157,6 +176,12 @@ class contacts_window(gtk.Window):
 		column.set_sort_column_id(CONTACT_DEPTH)
 		treeview.append_column(column)
 
+		renderer = gtk.CellRendererText()
+		renderer.connect("edited", self.on_cell_edited_voltage, model)
+		column = gtk.TreeViewColumn("Voltage", renderer, text=CONTACT_VOLTAGE)
+		renderer.set_property('editable', False)
+		column.set_sort_column_id(CONTACT_VOLTAGE)
+		treeview.append_column(column)
 
 
 	def callback_close(self, widget, data=None):

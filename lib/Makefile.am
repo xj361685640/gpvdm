@@ -1,5 +1,5 @@
 inc=-I../include/
-OBJS=log.o util.o advmath.o i.o inp.o rand.o cal_path.o list.o vec.o patch.o newton_interface.o timer.o gui_hooks.o startstop.o hard_limit.o epitaxy.o exit.o plot.o device.o ntricks.o newton_externalv.o remesh.o complex_solver.o newton_update.o solver_interface.o newton_voc.o util_str.o
+OBJS=log.o util.o advmath.o i.o inp.o rand.o cal_path.o list.o vec.o patch.o newton_interface.o timer.o gui_hooks.o startstop.o hard_limit.o epitaxy.o exit.o plot.o device.o ntricks.o newton_externalv.o remesh.o complex_solver.o newton_update.o solver_interface.o newton_voc.o util_str.o contacts.o
 
 COMPILE_FLAG=@COMPILE_FLAG@
 LINK_FLAG=@LINK_FLAG@

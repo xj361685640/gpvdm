@@ -35,6 +35,7 @@
 #include "device.h"
 #include <cal_path.h>
 #include <string.h>
+#include <contacts.h>
 
 int run_simulation(struct simulation *sim)
 {
@@ -162,6 +163,7 @@ if (strcmp(cell.simmode,"opticalmodel@optics")!=0)
 		}
 	}
 
+	contacts_load(sim,&cell);
 
 	cell.C=cell.xlen*cell.zlen*epsilon0*cell.epsilonr[0][0][0]/(cell.ylen+cell.other_layers);
 	if (get_dump_status(sim,dump_print_text)==TRUE) printf_log(sim,"C=%Le\n",cell.C);
