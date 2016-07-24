@@ -49,7 +49,7 @@ class mesh_dump_ctl(gtk.VBox):
 		total=0
 		self.pos=0
 		lines=[]
-		if inp_load_file(lines,"mesh.inp")==True:
+		if inp_load_file(lines,"mesh_y.inp")==True:
 			total=inp_sum_items(lines, "#mesh_layer_points0")
 
 		if inp_load_file(lines,"dump.inp")==True:

@@ -57,6 +57,7 @@ from epitaxy import epitaxy_get_pl_file
 from epitaxy import epitay_get_next_pl
 from epitaxy import epitaxy_get_name
 from doping import doping_window
+from contacts import contacts_window
 
 import i18n
 _ = i18n.language.gettext
@@ -89,10 +90,10 @@ class layer_widget(gtk.VBox):
 				tot=tot+float(self.model[i][COLUMN_THICKNES])
 
 		lines=[]
-		if inp_load_file(lines,os.path.join(os.getcwd(),"mesh.inp"))==True:
+		if inp_load_file(lines,os.path.join(os.getcwd(),"mesh_y.inp"))==True:
 			mesh_layers=int(inp_search_token_value(lines, "#mesh_layers"))
 			if mesh_layers==1:
-				inp_update_token_value(os.path.join(os.getcwd(),"mesh.inp"), "#mesh_layer_length0", str(tot),1)
+				inp_update_token_value(os.path.join(os.getcwd(),"mesh_y.inp"), "#mesh_layer_length0", str(tot),1)
 
 	def active_layer_edit(self, widget, path, text, model):
 		old_text=self.model[path][COLUMN_DEVICE]
@@ -172,6 +173,8 @@ class layer_widget(gtk.VBox):
 
 		self.doping_window=False
 
+		self.contacts_window=False
+
 		self.electrical_mesh=tab_electrical_mesh()
 		self.electrical_mesh.init()
 
@@ -195,15 +198,13 @@ class layer_widget(gtk.VBox):
 		toolbar = gtk.Toolbar()
 		toolbar.set_style(gtk.TOOLBAR_ICONS)
 		toolbar.set_size_request(-1, 50)
-		pos=0
 
 		image = gtk.Image()
    		image.set_from_file(os.path.join(get_image_file_path(),"add.png"))
 		add = gtk.ToolButton(image)
 		add.connect("clicked", self.on_add_item_clicked)
 		tooltips.set_tip(add, _("Add device layer"))
-		toolbar.insert(add, pos)
-		pos=pos+1
+		toolbar.insert(add, -1)
 
 
 		image = gtk.Image()
@@ -211,16 +212,14 @@ class layer_widget(gtk.VBox):
 		remove = gtk.ToolButton(image)
 		remove.connect("clicked", self.on_remove_item_clicked)
 		tooltips.set_tip(remove, _("Delete device layer"))
-		toolbar.insert(remove, pos)
-		pos=pos+1
+		toolbar.insert(remove, -1)
 
 		image = gtk.Image()
    		image.set_from_file(os.path.join(get_image_file_path(),"down.png"))
 		move = gtk.ToolButton(image)
 		move.connect("clicked", self.callback_move_down)
 		tooltips.set_tip(move, _("Move device layer"))
-		toolbar.insert(move, pos)
-		pos=pos+1
+		toolbar.insert(move, -1)
 
 
 		image = gtk.Image()
@@ -228,18 +227,23 @@ class layer_widget(gtk.VBox):
 		self.mesh = gtk.ToolButton(image)
 		tooltips.set_tip(self.mesh, _("Edit the electrical mesh"))
 		self.mesh.connect("clicked", self.callback_edit_mesh)
-		toolbar.insert(self.mesh, pos)
-		pos=pos+1
+		toolbar.insert(self.mesh, -1)
 
 		image = gtk.Image()
    		image.set_from_file(os.path.join(get_image_file_path(),"doping.png"))
 		self.doping_button = gtk.ToolButton(image)
 		tooltips.set_tip(self.doping_button, _("Doping"))
 		self.doping_button.connect("clicked", self.callback_doping)
-		toolbar.insert(self.doping_button, pos)
+		toolbar.insert(self.doping_button, -1)
 		self.doping_button.show_all()
-		pos=pos+1
 
+		image = gtk.Image()
+   		image.set_from_file(os.path.join(get_image_file_path(),"contact.png"))
+		self.contacts_button = gtk.ToolButton(image)
+		tooltips.set_tip(self.contacts_button, _("Contacts"))
+		self.contacts_button.connect("clicked", self.callback_contacts)
+		toolbar.insert(self.contacts_button, -1)
+		self.contacts_button.show_all()
 
 		#image = gtk.Image()
    		#image.set_from_file(os.path.join(get_image_file_path(),"dir_file.png"))
@@ -247,8 +251,7 @@ class layer_widget(gtk.VBox):
 		self.mesh = gtk.ToolButton(gtk.STOCK_OPEN)
 		tooltips.set_tip(self.mesh, _("Look at the materials database"))
 		self.mesh.connect("clicked", self.callback_view_materials)
-		toolbar.insert(self.mesh, pos)
-		pos=pos+1
+		toolbar.insert(self.mesh, -1)
 
 		hbox0=gtk.HBox()
 
@@ -493,6 +496,18 @@ class layer_widget(gtk.VBox):
 			self.doping_window.hide()
 		else:
 			self.doping_window.show()
+
+	def callback_contacts(self, widget, data=None):
+		my_help_class.help_set_help(["contact.png",_("<big><b>Contacts window</b></big>\nUse this window to change the layout of the contacts on the device")])
+
+		if self.contacts_window==False:
+			self.contacts_window=contacts_window()
+			self.contacts_window.init()
+
+		if self.contacts_window.get_property("visible")==True:
+			self.contacts_window.hide()
+		else:
+			self.contacts_window.show()
 
 gobject.type_register(layer_widget)
 gobject.signal_new("refresh", layer_widget, gobject.SIGNAL_RUN_FIRST,gobject.TYPE_NONE, ())

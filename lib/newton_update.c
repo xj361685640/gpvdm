@@ -115,7 +115,6 @@ int z=0;
 
 			for (y=0;y<in->ymeshpoints;y++)
 			{
-				printf("%d %d %d\n",z,x,y);
 				in->Tl[z][x][y]=in->Tll+in->ymesh[y]*(in->Tlr-in->Tll)/in->ylen;
 				in->Te[z][x][y]=in->Tll+in->ymesh[y]*(in->Tlr-in->Tll)/in->ylen;
 				in->Th[z][x][y]=in->Tll+in->ymesh[y]*(in->Tlr-in->Tll)/in->ylen;

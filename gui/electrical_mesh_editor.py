@@ -124,7 +124,7 @@ class electrical_mesh_editor(gtk.VBox):
 		lines.append("#ver")
 		lines.append("1.0")
 		lines.append("#end")
-		inp_write_lines_to_file(os.path.join(os.getcwd(),"mesh.inp"),lines)
+		inp_write_lines_to_file(os.path.join(os.getcwd(),"mesh_y.inp"),lines)
 
 	def on_remove_item_clicked(self, button, treeview):
 
@@ -191,20 +191,20 @@ class electrical_mesh_editor(gtk.VBox):
 		self.mesh_model.clear()
 		lines=[]
 		pos=0
-		if inp_load_file(lines,os.path.join(os.getcwd(),"mesh.inp"))==True:
+		if inp_load_file(lines,os.path.join(os.getcwd(),"mesh_y.inp"))==True:
 			pos=pos+1	#first comment
 			mesh_layers=int(lines[pos])
 
 			for i in range(0, mesh_layers):
 				pos=pos+1					#token
 				token=lines[pos]
-				scan_item_add("mesh.inp",token,"Mesh width"+str(i),1)
+				scan_item_add("mesh_y.inp",token,"Mesh width"+str(i),1)
 				pos=pos+1
 				thicknes=lines[pos]	#read value
 
 				pos=pos+1					#token
 				token=lines[pos]
-				scan_item_add("mesh.inp",token,"Mesh points"+str(i),1)
+				scan_item_add("mesh_y.inp",token,"Mesh points"+str(i),1)
 
 				pos=pos+1
 				points=lines[pos] 		#read value
