@@ -94,6 +94,33 @@ void free_3d_gdouble(struct device *in, gdouble ***var)
 
 }
 
+void malloc_zx_gdouble(struct device *in, gdouble * (**var))
+{
+	int z=0;
+
+	*var = (gdouble **) malloc(in->zmeshpoints * sizeof(gdouble *));
+
+	for (z = 0; z < in->zmeshpoints; z++)
+	{
+		(*var)[z] = (gdouble *) malloc(in->xmeshpoints * sizeof(gdouble));
+		memset((*var)[z], 0, in->xmeshpoints * sizeof(gdouble));
+	}
+
+}
+
+void free_zx_gdouble(struct device *in, gdouble **var)
+{
+	int z=0;
+
+	for (z = 0; z < in->zmeshpoints; z++)
+	{
+		free(var[z]);
+	}
+
+	free(var);
+}
+
+
 void malloc_3d_int(struct device *in, int * (***var))
 {
 	int x=0;

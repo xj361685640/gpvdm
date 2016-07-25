@@ -26,5 +26,9 @@
 #include "contact_struct.h"
 
 void contacts_load(struct simulation *sim,struct device *in);
-
+void contacts_update(struct simulation *sim,struct device *in);
+gdouble contact_get_voltage(struct simulation *sim,struct device *in,int contact);
+void contact_set_voltage(struct simulation *sim,struct device *in,int contact,gdouble voltage);
+gdouble contact_get_voltage_last(struct simulation *sim,struct device *in,int contact);
+void contacts_time_step(struct simulation *sim,struct device *in);
 #endif

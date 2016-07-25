@@ -42,7 +42,7 @@ struct device
 	struct epitaxy my_epitaxy;
 	//Device state
 		//0D arrays
-		gdouble Vapplied;
+
 		//mesh points
 			int zmeshpoints;
 			int xmeshpoints;
@@ -75,6 +75,9 @@ struct device
 		gdouble *ymesh;
 		gdouble *xmesh;
 		gdouble *zmesh;
+
+		//2D arrays
+		gdouble **Vapplied;
 
 
 		//3D arrays zxy
@@ -330,7 +333,6 @@ struct device
 	gdouble vr_h;
 	int stop_start;
 	gdouble externalv;
-	gdouble Vapplied_last;
 	gdouble Ilast;
 	int timedumpcount;
 	char simmode[200];
@@ -356,7 +358,7 @@ struct device
 
 	int kl_in_newton;
 	int config_kl_in_newton;
-	void (*newton_aux)(struct device* ,gdouble ,gdouble* ,gdouble* ,gdouble* ,gdouble* ,gdouble* ,gdouble* ,gdouble* ,gdouble*);
+	void (*newton_aux)(struct simulation *sim, struct device* ,gdouble ,gdouble* ,gdouble* ,gdouble* ,gdouble* ,gdouble* ,gdouble* ,gdouble* ,gdouble*);
 	gdouble xnl_left;
 	gdouble xpl_left;
 	int stoppoint;

@@ -23,6 +23,7 @@
 #include "dump.h"
 #include "sim.h"
 #include <newton_externalv.h>
+#include <contacts.h>
 
 static int glob_use_cap=0;
 
@@ -34,12 +35,12 @@ gdouble newton_externv(struct simulation *sim,struct device *in,gdouble Vtot,int
 gdouble C=in->C;
 solve_all(sim,in);
 if (glob_use_cap==FALSE) C=0.0;
-return get_I(in)+in->Vapplied/in->Rshunt+C*(in->Vapplied-in->Vapplied_last)/in->dt;
+return get_I(in)+Vapplied/in->Rshunt+C*(Vapplied-Vapplied_last)/in->dt;
 }
 
 gdouble newton_externalv_simple(struct simulation *sim,struct device *in,gdouble V)
 {
-in->Vapplied=V;
+contact_set_voltage(sim,in,0,V);
 in->kl_in_newton=FALSE;
 solver_realloc(sim,in);
 solve_all(sim,in);

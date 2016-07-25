@@ -22,7 +22,7 @@
 #define newton_externalv_h
 
 
-void newton_externv_aux(struct device *in,gdouble V,gdouble* i,gdouble* didv,gdouble* didphi,gdouble* didxil,gdouble* didxipl,gdouble* didphir,gdouble* didxir,gdouble* didxipr);
+void newton_externv_aux(struct simulation *sim,struct device *in,gdouble V,gdouble* i,gdouble* didv,gdouble* didphi,gdouble* didxil,gdouble* didxipl,gdouble* didphir,gdouble* didxir,gdouble* didxipr);
 gdouble newton_externv(struct simulation *sim,struct device *in,gdouble Vtot,int usecap);
 gdouble newton_externalv_simple(struct simulation *sim,struct device *in,gdouble V);
 #endif

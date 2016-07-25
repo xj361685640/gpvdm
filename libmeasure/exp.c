@@ -22,6 +22,7 @@
 #include "sim.h"
 #include "i.h"
 #include "buffer.h"
+#include "contacts.h"
 
 static gdouble n_count=0.0;
 static gdouble p_count=0.0;
@@ -1100,29 +1101,34 @@ ret*=(in->xlen*in->zlen)/((gdouble)(in->xmeshpoints*in->ymeshpoints*in->zmeshpoi
 return ret;
 }
 
-gdouble get_equiv_I(struct device *in)
+gdouble get_equiv_I(struct simulation *sim,struct device *in)
 {
 gdouble Iout=0.0;
-Iout=get_equiv_J(in)*(in->xlen*in->zlen);
+Iout=get_equiv_J(sim,in)*(in->xlen*in->zlen);
 return Iout;
 }
 
-gdouble get_equiv_J(struct device *in)
+gdouble get_equiv_J(struct simulation *sim,struct device *in)
 {
+gdouble Vapplied=0.0;
+Vapplied=contact_get_voltage(sim,in,0);
 gdouble J=0.0;
 J=get_J(in);
 if (in->lr_pcontact==RIGHT) J*= -1.0;
-J+=in->Vapplied/in->Rshunt/in->area;
+J+=Vapplied/in->Rshunt/in->area;
 //printf("%e %e %e\n",(in->xlen*in->zlen),in->Rshunt,in->area);
 return J;
 }
 
-gdouble get_I_ce(struct device *in)
+gdouble get_I_ce(struct simulation *sim,struct device *in)
 {
-gdouble ret=in->Vapplied/(in->Rcontact+in->Rshort);
+gdouble Vapplied=0.0;
+Vapplied=contact_get_voltage(sim,in,0);
+
+gdouble ret=Vapplied/(in->Rcontact+in->Rshort);
 if (in->time<0.0)
 {
-ret=0.0;
+	ret=0.0;
 }
 return ret;
 }
@@ -1283,18 +1289,20 @@ for (z=0;z<in->zmeshpoints;z++)
 return J;
 }
 
-gdouble get_equiv_V(struct device *in)
+gdouble get_equiv_V(struct simulation *sim,struct device *in)
 {
 gdouble J=0.0;
+gdouble Vapplied=0.0;
+Vapplied=contact_get_voltage(sim,in,0);
 //if (in->adv_sim==FALSE)
 //{
 //J=get_J_recom(in);
 //}else
 //{
-J=get_equiv_J(in);
+J=get_equiv_J(sim,in);
 //}
 //printf("%e\n",in->Rcontact);
-gdouble V=J*in->Rcontact*in->area+in->Vapplied;
+gdouble V=J*in->Rcontact*in->area+Vapplied;
 return V;
 }
 

@@ -35,7 +35,7 @@
 #include <cal_path.h>
 #include <newton_externalv.h>
 #include <newton_voc.h>
-
+#include <contacts.h>
 
 static int unused __attribute__((unused));
 
@@ -43,6 +43,7 @@ struct fxdomain fxdomain_config;
 
 void sim_fxdomain(struct simulation *sim,struct device *in)
 {
+
 struct buffer buf;
 buffer_init(&buf);
 struct dynamic_store store;
@@ -128,7 +129,7 @@ do
 	}else
 	if (fxdomain_config.fxdomain_sim_mode==fxdomain_open_circuit)
 	{
-		in->Vapplied=in->Vbi;
+		contact_set_voltage(sim,in,0,in->Vbi);
 		newton_sim_voc(sim,in);
 		newton_sim_voc_fast(sim,in,FALSE);
 	}else
@@ -165,7 +166,7 @@ do
 		}else
 		if (fxdomain_config.fxdomain_sim_mode==fxdomain_open_circuit)
 		{
-			V=in->Vapplied;
+			V=contact_get_voltage(sim,in,0);
 			i0=newton_sim_voc_fast(sim,in,TRUE);
 		}else
 		{

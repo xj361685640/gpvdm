@@ -26,6 +26,16 @@
 #include <cal_path.h>
 #include "contacts.h"
 
+void contacts_time_step(struct simulation *sim,struct device *in)
+{
+	int i;
+
+	for (i=0;i<in->ncontacts;i++)
+	{
+		in->contacts[i].voltage_last=in->contacts[i].voltage;
+	}
+}
+
 void contacts_load(struct simulation *sim,struct device *in)
 {
 	int i;
@@ -50,6 +60,7 @@ void contacts_load(struct simulation *sim,struct device *in)
 		ewe(sim,"No contacts\n");
 	}
 
+	gdouble pos=0.0;
 	for (i=0;i<in->ncontacts;i++)
 	{
 		inp_get_string(sim,&inp);	//width
@@ -61,7 +72,8 @@ void contacts_load(struct simulation *sim,struct device *in)
 		inp_get_string(sim,&inp);	//voltage
 		sscanf(inp_get_string(sim,&inp),"%Le",&(in->contacts[i].voltage));
 		in->contacts[i].voltage_last=in->contacts[i].voltage;
-
+		in->contacts[i].start=pos;
+		pos+=in->contacts[i].width;
 	}
 
 	char * ver = inp_get_string(sim,&inp);
@@ -71,5 +83,58 @@ void contacts_load(struct simulation *sim,struct device *in)
 	}
 
 	inp_free(sim,&inp);
+
+	contacts_update(sim,in);
+}
+
+void contacts_update(struct simulation *sim,struct device *in)
+{
+int i;
+int x;
+int z;
+int found=FALSE;
+
+gdouble value=0.0;
+
+for (x=0;x<in->xmeshpoints;x++)
+{
+	found=FALSE;
+	for (i=0;i<in->ncontacts;i++)
+	{
+		if ((in->xmesh[x]>=in->contacts[i].start)&&(in->xmesh[x]<in->contacts[i].start+in->contacts[i].width))
+		{
+			value=in->contacts[i].voltage;
+			found=TRUE;
+			break;
+		}
+	}
+
+	if (found==FALSE)
+	{
+		ewe(sim,"contact does not extend over whole device\n");
+	}
+
+	for (z=0;z<in->zmeshpoints;z++)
+	{
+		in->Vapplied[z][x]=value;
+	}
+}
+
+}
+
+gdouble contact_get_voltage_last(struct simulation *sim,struct device *in,int contact)
+{
+	return in->contacts[contact].voltage_last;
+}
+
+gdouble contact_get_voltage(struct simulation *sim,struct device *in,int contact)
+{
+	return in->contacts[contact].voltage;
+}
+
+void contact_set_voltage(struct simulation *sim,struct device *in,int contact,gdouble voltage)
+{
+	in->contacts[contact].voltage=voltage;
+	contacts_update(sim,in);
 }
 

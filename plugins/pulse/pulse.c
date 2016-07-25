@@ -35,6 +35,8 @@
 #include <probe.h>
 #include <newton_voc.h>
 #include <newton_externalv.h>
+#include <contacts.h>
+
 
 static int unused __attribute__((unused));
 
@@ -107,7 +109,7 @@ if (pulse_config.pulse_sim_mode==pulse_ideal_diode_ideal_load)
 else
 if (pulse_config.pulse_sim_mode==pulse_open_circuit)
 {
-	in->Vapplied=in->Vbi;
+	contact_set_voltage(sim,in,0,in->Vbi);
 	in->Rload=1e6;
 	newton_sim_voc(sim,in);
 	newton_sim_voc_fast(sim,in,FALSE);
@@ -124,7 +126,9 @@ in->go_time=TRUE;
 gdouble i0=0;
 carrier_count_reset(in);
 reset_np_save(in);
-printf_log(sim,"Vapplied=%Le\n",in->Vapplied);
+gdouble Vapplied=0.0;
+Vapplied=contact_get_voltage(sim,in,0);
+printf_log(sim,"Vapplied=%Le\n",Vapplied);
 do
 {
 
@@ -154,7 +158,7 @@ do
 	}else
 	if (pulse_config.pulse_sim_mode==pulse_open_circuit)
 	{
-		V=in->Vapplied;
+		V=Vapplied;
 		newton_sim_voc_fast(sim,in,TRUE);
 	}else
 	{

@@ -31,6 +31,7 @@
 #include <dos.h>
 #include <sim.h>
 #include <solver_interface.h>
+#include <contacts.h>
 
 static gdouble Jnl=0.0;
 static gdouble Jnr=0.0;
@@ -101,6 +102,8 @@ static gdouble dJpdphir=0.0;
 
 static gdouble dphidxic=0.0;
 static gdouble dphidxipc=0.0;
+
+gdouble Vapplied=0.0;
 
 #define D0 (gdouble)243.75
 #define n0 (gdouble)1e27
@@ -351,7 +354,7 @@ if (in->kl_in_newton==FALSE)
 {
 	if (in->interfaceleft==TRUE)
 	{
-			in->phi[z][x][0]=in->Vapplied;
+			in->phi[z][x][0]=in->Vapplied[z][x];
 	}
 }
 
@@ -368,8 +371,8 @@ if (in->interfaceright==TRUE)
 //				exl=0.0;
 //				Dexl=in->Dex[0];
 
-					phil=(in->Vapplied/phi0);
-					//printf("setr=%Lf %Lf\n",phil,in->Vapplied);
+					phil=(in->Vapplied[z][x]/phi0);
+					//printf("setr=%Lf %Lf\n",phil,in->Vapplied[z][x]);
 
 				yl=in->ymesh[0]/l0-(in->ymesh[1]-in->ymesh[0])/l0;
 //				Tll=in->Tll;
@@ -633,7 +636,7 @@ if (in->interfaceright==TRUE)
 //
 	//}
 	deriv=phil*dphil+phic*dphic+phir*dphir;
-	//if (in->Vapplied>0.1)
+	//if (in->Vapplied[z][x]>0.1)
 	//{
 	//	printf("%Le %Le %Le %Le %Le\n",phil,phic,phir,nc,pc);
 	//	getchar();
@@ -876,7 +879,7 @@ if (in->interfaceright==TRUE)
 			}
 
 			//band=0;
-			//printf("heren %le %le %le %le\n",in->Vapplied,nc*in->srh_n_r1[i][band]-in->srh_n_r2[i][band]-pc*in->srh_n_r3[i][band]+in->srh_n_r4[i][band],nc*in->srh_n_r1[i][band]-in->srh_n_r2[i][band],-pc*in->srh_n_r3[i][band]+in->srh_n_r4[i][band]);
+			//printf("heren %le %le %le %le\n",in->Vapplied[z][x],nc*in->srh_n_r1[i][band]-in->srh_n_r2[i][band]-pc*in->srh_n_r3[i][band]+in->srh_n_r4[i][band],nc*in->srh_n_r1[i][band]-in->srh_n_r2[i][band],-pc*in->srh_n_r3[i][band]+in->srh_n_r4[i][band]);
 
 			if (in->ptrapnewton==TRUE)
 			{
@@ -918,7 +921,7 @@ if (in->interfaceright==TRUE)
 			}
 
 			//band=0;
-			//printf("hereh %le %le %le %le\n",in->Vapplied,pc*in->srh_p_r1[i][band]-in->srh_p_r2[i][band]-nc*in->srh_p_r3[i][band]+in->srh_p_r4[i][band],pc*in->srh_p_r1[i][band]-in->srh_p_r2[i][band],-nc*in->srh_p_r3[i][band]+in->srh_p_r4[i][band]);
+			//printf("hereh %le %le %le %le\n",in->Vapplied[z][x],pc*in->srh_p_r1[i][band]-in->srh_p_r2[i][band]-nc*in->srh_p_r3[i][band]+in->srh_p_r4[i][band],pc*in->srh_p_r1[i][band]-in->srh_p_r2[i][band],-nc*in->srh_p_r3[i][band]+in->srh_p_r4[i][band]);
 
 
 
@@ -1514,7 +1517,7 @@ int e0=0;
 
 		if (get_dump_status(sim,dump_print_newtonerror)==TRUE)
 		{
-			printf("%d error = %Le  abs_error = %Le dJ=%Le %Le I=%Le",ittr,error,abs_error,delta_J,in->Vapplied,get_J(in));
+			printf("%d error = %Le  abs_error = %Le dJ=%Le %Le I=%Le",ittr,error,abs_error,delta_J,in->Vapplied[z][x],get_J(in));
 
 			printf("\n");
 		}

@@ -31,6 +31,8 @@
 #include "buffer.h"
 #include "dynamic_store.h"
 #include "memory.h"
+#include "contacts.h"
+
 static int unused __attribute__((unused));
 
 void dump_dynamic_init(struct simulation *sim,struct dynamic_store *store,struct device *in)
@@ -898,6 +900,8 @@ void dump_dynamic_add_data(struct simulation *sim,struct dynamic_store *store,st
 int x=0;
 int y=0;
 int z=0;
+gdouble Vapplied=0.0;
+
 if (get_dump_status(sim,dump_dynamic)==TRUE)
 {
 
@@ -920,7 +924,7 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 
 	inter_append(&(store->jpout_mid),x_value,in->Jp[in->zmeshpoints/2][in->xmeshpoints/2][in->ymeshpoints/2]);
 
-	inter_append(&(store->iout),x_value,get_equiv_I(in));
+	inter_append(&(store->iout),x_value,get_equiv_I(sim,in));
 
 	inter_append(&(store->iout_left),x_value,(get_J_left(in))*(in->xlen*in->zlen)/2.0);
 
@@ -944,7 +948,8 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 
 	inter_append(&(store->E_field),x_value,(in->phi[(in->ymeshpoints/2)+1]-in->phi[(in->ymeshpoints/2)])/(in->ymesh[(in->ymeshpoints/2)+1]-in->ymesh[(in->ymeshpoints/2)]));
 
-	inter_append(&(store->dynamic_Vapplied),x_value,in->Vapplied);
+	Vapplied=contact_get_voltage(sim,in,0);
+	inter_append(&(store->dynamic_Vapplied),x_value,Vapplied);
 
 	inter_append(&(store->dynamic_charge_tot),x_value,get_charge_tot(in));
 

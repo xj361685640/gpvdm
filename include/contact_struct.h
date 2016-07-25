@@ -29,6 +29,7 @@ struct contact
 	gdouble depth;
 	gdouble voltage;
 	gdouble voltage_last;
+	gdouble start;
 
 };
 

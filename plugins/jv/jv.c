@@ -33,6 +33,7 @@
 #include <remesh.h>
 #include <plot.h>
 #include <cal_path.h>
+#include <contacts.h>
 
 static int unused __attribute__((unused));
 
@@ -86,7 +87,9 @@ struct istruct lv;
 inter_init(&lv);
 
 
-in->Vapplied=0.0;
+gdouble Vapplied=0.0;
+contact_set_voltage(sim,in,0,Vapplied);
+
 /*if (gfabs(config.Vstart-in->Vapplied)>0.2)
 {
 	ramp_externalv(in,0.0,config.Vstart);
@@ -96,7 +99,8 @@ in->Vapplied=config.Vstart;
 
 sim_externalv(in,in->Vapplied);
 */
-remesh_reset(in,in->Vapplied);
+
+remesh_reset(in,Vapplied);
 //if (in->remesh==TRUE)
 //{
 //
@@ -108,8 +112,10 @@ light_solve_and_update(sim,in,&(in->mylight),0.0);
 printf("rod\n");
 
 newton_set_min_ittr(in,30);
-in->Vapplied=config.Vstart;
-V=in->Vapplied;
+
+Vapplied=config.Vstart;
+contact_set_voltage(sim,in,0,Vapplied);
+V=Vapplied;
 newton_sim_jv(sim,in);
 newton_set_min_ittr(in,0);
 
@@ -129,29 +135,30 @@ gdouble n_pmax=0.0;
 	do
 	{
 
-		in->Vapplied=V;
+		Vapplied=V;
+		contact_set_voltage(sim,in,0,Vapplied);
 		newton_sim_jv(sim,in);
 
-		J=get_equiv_J(in);
+		J=get_equiv_J(sim,in);
 
-		Vexternal=get_equiv_V(in);
+		Vexternal=get_equiv_V(sim,in);
 
 		gui_send_data(sim,"pulse");
 
 		if (ittr>0)
 		{
 
-			inter_append(&jvexternal,get_equiv_V(in),get_equiv_J(in));
+			inter_append(&jvexternal,get_equiv_V(sim,in),get_equiv_J(sim,in));
 			inter_append(&jvavg,V,get_avg_J(in));
 			inter_append(&jv,V,get_J(in));
-			inter_append(&ivexternal,get_equiv_V(in),get_equiv_I(in));
+			inter_append(&ivexternal,get_equiv_V(sim,in),get_equiv_I(sim,in));
 
 		}
 
 		ittr++;
 
-		inter_append(&charge,get_equiv_V(in),get_extracted_np(in));
-		inter_append(&charge_tot,get_equiv_V(in),get_np_tot(in));
+		inter_append(&charge,get_equiv_V(sim,in),get_extracted_np(in));
+		inter_append(&charge_tot,get_equiv_V(sim,in),get_np_tot(in));
 /*
 		FILE *deriv=fopen("dfn.dat","w");
 		for (r=0;r<in->ymeshpoints-1;r++)
@@ -170,7 +177,7 @@ gdouble n_pmax=0.0;
 			//printf("Plotted\n");
 			plot_now(sim,"jv.plot");
 			stop_start(sim,in);
-			dump_dynamic_add_data(sim,&store,in,get_equiv_V(in));
+			dump_dynamic_add_data(sim,&store,in,get_equiv_V(sim,in));
 
 			if (first==FALSE)
 			{
@@ -230,7 +237,7 @@ gdouble n_pmax=0.0;
 			fprintf(outf,"%Le %Le\n",V,J);
 			fclose(outf);
 
-			inter_append(&lv,get_equiv_V(in),pl_get_light_energy());
+			inter_append(&lv,get_equiv_V(sim,in),pl_get_light_energy());
 
 			V+=Vstep;
 			Vstep*=config.jv_step_mul;
@@ -245,7 +252,7 @@ gdouble n_pmax=0.0;
 				in->stop=TRUE;
 			}
 
-			if (get_equiv_J(in)>config.jv_max_j)
+			if (get_equiv_J(sim,in)>config.jv_max_j)
 			{
 				in->stop=TRUE;
 			}

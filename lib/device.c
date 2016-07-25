@@ -84,7 +84,7 @@ void device_init(struct device *in)
 	in->Jp_diffusion= NULL;
 	in->Jp_drift= NULL;
 
-	in->Vapplied= -1.0;
+	in->Vapplied=NULL;
 	in->Vl= -1.0;
 	in->Vr= -1.0;
 	in->x= NULL;
@@ -265,7 +265,6 @@ void device_init(struct device *in)
 	in->vr_h= -1.0;
 	in->stop_start= -1;
 	in->externalv= -1.0;
-	in->Vapplied_last= -1.0;
 	in->Ilast= -1.0;
 	in->timedumpcount= -1;
 	strcpy(in->simmode,"");

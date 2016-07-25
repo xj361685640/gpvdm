@@ -129,7 +129,9 @@ void device_free(struct simulation *sim,struct device *in)
 	free(in->xmesh);
 	free(in->ymesh);
 	free(in->zmesh);
+
 	//2d
+	free_zx_gdouble(in,in->Vapplied);
 	
 	//3d
 	free_3d_gdouble(in,in->phi);
@@ -268,6 +270,8 @@ void device_get_memory(struct simulation *sim,struct device *in)
 	in->ymesh = (gdouble *) malloc(in->ymeshpoints * sizeof(gdouble));
 	memset(in->ymesh, 0, in->ymeshpoints * sizeof(gdouble));
 
+	//2d
+	malloc_zx_gdouble(in,&(in->Vapplied));
 
 	//3d
 	malloc_3d_gdouble(in,&(in->nf_save));

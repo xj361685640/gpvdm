@@ -44,7 +44,7 @@ int z;
 int band;
 char name[100];
 char temp[200];
-gdouble Vexternal=get_equiv_V(in);
+gdouble Vexternal=get_equiv_V(sim,in);
 struct buffer buf;
 buffer_init(&buf);
 

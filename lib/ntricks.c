@@ -28,7 +28,7 @@
 #include <plot.h>
 #include <cal_path.h>
 #include <thermal.h>
-
+#include <contacts.h>
 
 static int unused __attribute__((unused));
 
@@ -90,10 +90,13 @@ return;
 
 void ramp(struct simulation *sim,struct device *in,gdouble from,gdouble to,gdouble steps)
 {
+gdouble Vapplied=0.0;
 in->kl_in_newton=FALSE;
 solver_realloc(sim,in);
 
-in->Vapplied=from;
+Vapplied=from;
+contact_set_voltage(sim,in,0,Vapplied);
+
 newton_push_state(in);
 gdouble dV=0.20;
 in->min_cur_error=1e-5;
@@ -109,26 +112,33 @@ if (fabs(to-from)<=fabs(dV)) return;
 
 do
 {
-in->Vapplied+=dV;
-//if (in->Vapplied<-4.0) dV= -0.3;
-if (get_dump_status(sim,dump_print_text)==TRUE) printf("ramp: %Lf %Lf %d\n",in->Vapplied,to,in->kl_in_newton);
-solve_all(sim,in);
-plot_now(sim,"jv_vars.plot");
-//sim_externalv(in,in->cevoltage);
+	Vapplied+=dV;
+	contact_set_voltage(sim,in,0,Vapplied);
+	//if (in->Vapplied<-4.0) dV= -0.3;
 
-if (fabs(in->Vapplied-to)<fabs(dV))
-{
-//save_state(in,to);
-	break;
-}
+	if (get_dump_status(sim,dump_print_text)==TRUE)
+	{
+		printf("ramp: %Lf %Lf %d\n",Vapplied,to,in->kl_in_newton);
+	}
+
+	solve_all(sim,in);
+	plot_now(sim,"jv_vars.plot");
+	//sim_externalv(in,in->cevoltage);
+
+	if (fabs(Vapplied-to)<fabs(dV))
+	{
+	//save_state(in,to);
+		break;
+	}
 
 }while(1);
 
 newton_pop_state(in);
 
-if (in->Vapplied!=to)
+if (Vapplied!=to)
 {
-	in->Vapplied=to;
+	Vapplied=to;
+	contact_set_voltage(sim,in,0,Vapplied);
 	solve_all(sim,in);
 }
 
@@ -188,7 +198,7 @@ return FALSE;
 }
 printf("Loading state\n");
 
-in->Vapplied=vtest;
+contact_set_voltage(sim,in,0,vtest);
 
 for (i=0;i<in->ymeshpoints;i++)
 {
@@ -208,6 +218,7 @@ return TRUE;
 
 gdouble sim_externalv_ittr(struct simulation *sim,struct device *in,gdouble wantedv)
 {
+gdouble Vapplied=0.0;
 gdouble clamp=0.1;
 gdouble step=0.01;
 gdouble e0;
@@ -219,43 +230,48 @@ gdouble Rs=in->Rcontact;
 solve_all(sim,in);
 i0=get_I(in);
 
-gdouble itot=i0+in->Vapplied/in->Rshunt;
+Vapplied=contact_get_voltage(sim,in,0);
+gdouble itot=i0+Vapplied/in->Rshunt;
 
-e0=fabs(itot*Rs+in->Vapplied-wantedv);
-in->Vapplied+=step;
+e0=fabs(itot*Rs+Vapplied-wantedv);
+Vapplied+=step;
+contact_set_voltage(sim,in,0,Vapplied);
+
 solve_all(sim,in);
 
 i1=get_I(in);
-itot=i1+in->Vapplied/in->Rshunt;
+itot=i1+Vapplied/in->Rshunt;
 
-e1=fabs(itot*Rs+in->Vapplied-wantedv);
+e1=fabs(itot*Rs+Vapplied-wantedv);
 //printf("%Le\n",e1);
 deriv=(e1-e0)/step;
 step= -e1/deriv;
 //step=step/(1.0+fabs(step/clamp));
-in->Vapplied+=step;
+Vapplied+=step;
+contact_set_voltage(sim,in,0,Vapplied);
 int count=0;
 int max=1000;
 do
 {
 e0=e1;
 solve_all(sim,in);
-itot=i1+in->Vapplied/in->Rshunt;
-e1=fabs(itot*Rs+in->Vapplied-wantedv);
-//printf("error=%Le Vapplied=%Le \n",e1,in->Vapplied);
+itot=i1+Vapplied/in->Rshunt;
+e1=fabs(itot*Rs+Vapplied-wantedv);
+//printf("error=%Le Vapplied=%Le \n",e1,Vapplied);
 deriv=(e1-e0)/step;
 step= -e1/deriv;
 //gdouble clamp=0.01;
 //if (e1<clamp) clamp=e1/100.0;
 //step=step/(1.0+fabs(step/clamp));
 step=step/(1.0+fabs(step/clamp));
-in->Vapplied+=step;
+Vapplied+=step;
+contact_set_voltage(sim,in,0,Vapplied);
 if (count>max) break;
 count++;
 }while(e1>1e-8);
 
 
-gdouble ret=get_I(in)+in->Vapplied/in->Rshunt;
+gdouble ret=get_I(in)+Vapplied/in->Rshunt;
 //getchar();
 return ret;
 }

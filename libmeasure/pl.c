@@ -76,7 +76,7 @@ int pl_enabled=0;
 char snapshot_dir[200];
 char sim_name[200];
 
-double Vexternal=get_equiv_V(in);
+double Vexternal=get_equiv_V(sim,in);
 //char zip_file_name[400];
 
 buffer_init(&buf);

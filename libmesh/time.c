@@ -25,6 +25,7 @@
 #include "sim.h"
 #include "inp.h"
 #include <cal_path.h>
+#include <contacts.h>
 
 static int unused __attribute__((unused));
 
@@ -217,7 +218,8 @@ for (z=0;z<in->zmeshpoints;z++)
 		}
 	}
 }
-in->Vapplied_last=in->Vapplied;
+
+contacts_time_step(sim,in);
 in->VCext_last=in->VCext;
 in->Ilast=get_I(in);
 }

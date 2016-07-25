@@ -136,7 +136,7 @@ struct stat st = {0};
 		if (out!=NULL)
 		{
 			fprintf(out,"#dump_voltage\n");
-			fprintf(out,"%Lf\n",get_equiv_V(in));
+			fprintf(out,"%Lf\n",get_equiv_V(sim,in));
 			fprintf(out,"#dump_time\n");
 			fprintf(out,"%Lf\n",in->time);
 			fprintf(out,"#ver\n");
