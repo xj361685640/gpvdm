@@ -908,8 +908,8 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	inter_append(&(store->jn_avg),x_value,get_jn_avg(in));
 	inter_append(&(store->jp_avg),x_value,get_jp_avg(in));
 
-	inter_append(&(store->dynamic_jn),x_value,(in->Jnleft+in->Jnright)/2.0);
-	inter_append(&(store->dynamic_jp),x_value,(in->Jpleft+in->Jpright)/2.0);
+	inter_append(&(store->dynamic_jn),x_value,(in->Jnleft[0][0]+in->Jnright[0][0])/2.0);
+	inter_append(&(store->dynamic_jp),x_value,(in->Jpleft[0][0]+in->Jpright[0][0])/2.0);
 
 	inter_append(&(store->charge_change),x_value,get_charge_change(in));
 	inter_append(&(store->jout),x_value,get_J(in));

@@ -63,6 +63,9 @@ void contacts_load(struct simulation *sim,struct device *in)
 	gdouble pos=0.0;
 	for (i=0;i<in->ncontacts;i++)
 	{
+		inp_get_string(sim,&inp);	//start
+		sscanf(inp_get_string(sim,&inp),"%Le",&(in->contacts[i].start));
+
 		inp_get_string(sim,&inp);	//width
 		sscanf(inp_get_string(sim,&inp),"%Le",&(in->contacts[i].width));
 
@@ -72,7 +75,7 @@ void contacts_load(struct simulation *sim,struct device *in)
 		inp_get_string(sim,&inp);	//voltage
 		sscanf(inp_get_string(sim,&inp),"%Le",&(in->contacts[i].voltage));
 		in->contacts[i].voltage_last=in->contacts[i].voltage;
-		in->contacts[i].start=pos;
+
 		pos+=in->contacts[i].width;
 	}
 
@@ -87,14 +90,41 @@ void contacts_load(struct simulation *sim,struct device *in)
 	contacts_update(sim,in);
 }
 
+void contacts_force_value(struct simulation *sim,struct device *in,gdouble value)
+{
+int x;
+int z;
+
+for (x=0;x<in->xmeshpoints;x++)
+{
+	for (z=0;z<in->zmeshpoints;z++)
+	{
+		in->Vapplied[z][x]=value;
+	}
+
+}
+
+}
+
 void contacts_update(struct simulation *sim,struct device *in)
 {
 int i;
 int x;
 int z;
+int n;
 int found=FALSE;
 
 gdouble value=0.0;
+
+if (in->xmeshpoints==1)
+{
+	for (z=0;z<in->zmeshpoints;z++)
+	{
+		in->Vapplied[z][0]=in->contacts[0].voltage;
+	}
+
+	return;
+}
 
 for (x=0;x<in->xmeshpoints;x++)
 {
@@ -104,6 +134,7 @@ for (x=0;x<in->xmeshpoints;x++)
 		if ((in->xmesh[x]>=in->contacts[i].start)&&(in->xmesh[x]<in->contacts[i].start+in->contacts[i].width))
 		{
 			value=in->contacts[i].voltage;
+			n=i;
 			found=TRUE;
 			break;
 		}
@@ -117,6 +148,7 @@ for (x=0;x<in->xmeshpoints;x++)
 	for (z=0;z<in->zmeshpoints;z++)
 	{
 		in->Vapplied[z][x]=value;
+		in->n_contact[z][x]=n;
 	}
 }
 
@@ -138,3 +170,13 @@ void contact_set_voltage(struct simulation *sim,struct device *in,int contact,gd
 	contacts_update(sim,in);
 }
 
+void contact_set_all_voltages(struct simulation *sim,struct device *in,gdouble voltage)
+{
+int i;
+	for (i=0;i<in->ncontacts;i++)
+	{
+		in->contacts[i].voltage=voltage;
+	}
+
+	contacts_update(sim,in);
+}

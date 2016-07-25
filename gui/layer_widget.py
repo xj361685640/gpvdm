@@ -164,6 +164,8 @@ class layer_widget(gtk.VBox):
 			self.refresh(True)
 
 	def callback_edit_mesh(self, widget, data=None):
+		my_help_class.help_set_help(["mesh.png",_("<big><b>Mesh editor</b></big>\nUse this window to setup the mesh, the window can also be used to change the dimensionality of the simulation.")])
+
 		if self.electrical_mesh.get_property("visible")==True:
 			self.electrical_mesh.hide_all()
 		else:

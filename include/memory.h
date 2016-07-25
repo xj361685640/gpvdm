@@ -30,5 +30,7 @@ void free_3d_gdouble(struct device *in, gdouble ***var);
 void malloc_3d_int(struct device *in, int * (***var));
 void free_3d_int(struct device *in, int ***var);
 void malloc_srh_bands(struct device *in, gdouble * (****var));
+void malloc_zx_int(struct device *in, int * (**var));
+void free_zx_int(struct device *in, int **var);
 
 #endif

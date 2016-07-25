@@ -31,4 +31,6 @@ gdouble contact_get_voltage(struct simulation *sim,struct device *in,int contact
 void contact_set_voltage(struct simulation *sim,struct device *in,int contact,gdouble voltage);
 gdouble contact_get_voltage_last(struct simulation *sim,struct device *in,int contact);
 void contacts_time_step(struct simulation *sim,struct device *in);
+void contacts_force_value(struct simulation *sim,struct device *in,gdouble value);
+void contact_set_all_voltages(struct simulation *sim,struct device *in,gdouble voltage);
 #endif

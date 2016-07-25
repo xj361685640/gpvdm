@@ -732,16 +732,16 @@ if (in->interfaceright==TRUE)
 			{
 				//printf("%le %le %le %le\n",in->vl*(nc-nc0_l),Jnl,-in->vl*(pc-pc0_l),Jpl);
 				//getchar();
-				in->Jnleft=Jnl;
-				in->Jpleft=Jpl;
+				in->Jnleft[z][x]=Jnl;
+				in->Jpleft[z][x]=Jpl;
 				//printf("%Le\n",in->Jpleft);
 			}
 
 			if (i==in->ymeshpoints-1)
 			{
 				//printf("%le %le %le %le\n",in->vr*(nc-nc0_r),Jnr,in->vr*(pc-pc0_r),Jpr);
-				in->Jnright=Jnr;
-				in->Jpright=Jpr;
+				in->Jnright[z][x]=Jnr;
+				in->Jpright[z][x]=Jpr;
 			}
 
 			//printf("----------\n");

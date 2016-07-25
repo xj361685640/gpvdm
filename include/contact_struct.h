@@ -30,6 +30,7 @@ struct contact
 	gdouble voltage;
 	gdouble voltage_last;
 	gdouble start;
+	gdouble store;
 
 };
 

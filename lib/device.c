@@ -35,10 +35,12 @@ void device_init(struct device *in)
 {
 	in->remesh= -1;
 	in->newmeshsize= -1;
-	in->Jnleft= -1.0;
-	in->Jnright= -1.0;
-	in->Jpleft= -1.0;
-	in->Jpright= -1.0;
+	in->Jnleft=NULL;
+	in->Jnright=NULL;
+	in->Jpleft=NULL;
+	in->Jpright=NULL;
+	in->n_contact=NULL;
+
 	in->phi= NULL;
 	in->Nad= NULL;
 	in->G= NULL;

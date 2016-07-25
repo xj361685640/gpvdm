@@ -27,6 +27,8 @@
 #include <cal_path.h>
 #include <pl.h>
 #include <probe.h>
+#include <string.h>
+
 
 
 static int unused __attribute__((unused));
@@ -73,12 +75,12 @@ if ((in->xmeshpoints>1)&&(in->ymeshpoints>1))
 			sprintf(string,"%Le %Le %Le\n",in->xmesh[x],in->ymesh[y],data[z][x][y]);
 			buffer_add_string(buf,string);
 		}
+		buffer_add_string(buf,"\n");
 	}
 }else
 {
 	x=0;
 	z=0;
-
 	for (y=0;y<in->ymeshpoints;y++)
 	{
 		sprintf(string,"%Le %Le\n",in->ymesh[y],data[z][x][y]);
@@ -87,6 +89,21 @@ if ((in->xmeshpoints>1)&&(in->ymeshpoints>1))
 }
 
 
+}
+
+void buffer_set_graph_type(struct buffer *buf,struct device *in)
+{
+	if ((in->xmeshpoints>1)&&(in->ymeshpoints>1)&&(in->zmeshpoints>1))
+	{
+		strcpy(buf->type,"4d");
+	}else
+	if ((in->xmeshpoints>1)&&(in->ymeshpoints>1))
+	{
+		strcpy(buf->type,"3d");
+	}else
+	{
+		strcpy(buf->type,"xy");
+	}
 }
 
 void dump_write_to_disk(struct simulation *sim,struct device* in)

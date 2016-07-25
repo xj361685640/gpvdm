@@ -50,10 +50,6 @@ struct device
 
 		int remesh;
 		int newmeshsize;
-		gdouble Jnleft;
-		gdouble Jnright;
-		gdouble Jpleft;
-		gdouble Jpright;
 		gdouble Vl;
 		gdouble Vr;
 		int excite_conv;
@@ -78,6 +74,11 @@ struct device
 
 		//2D arrays
 		gdouble **Vapplied;
+		int **n_contact;
+		gdouble **Jnleft;
+		gdouble **Jnright;
+		gdouble **Jpleft;
+		gdouble **Jpright;
 
 
 		//3D arrays zxy

@@ -740,15 +740,15 @@ if (in->interfaceright==TRUE)
 			{
 				//printf("%le %le %le %le\n",in->vl*(nc-nc0_l),Jnl,-in->vl*(pc-pc0_l),Jpl);
 				//getchar();
-				in->Jnleft=Jnl*D0*n0/l0;
-				in->Jpleft=Jpl*D0*n0/l0;
+				in->Jnleft[z][x]=Jnl*D0*n0/l0;
+				in->Jpleft[z][x]=Jpl*D0*n0/l0;
 			}
 
 			if (i==in->ymeshpoints-1)
 			{
 				//printf("%le %le %le %le\n",in->vr*(nc-nc0_r),Jnr,in->vr*(pc-pc0_r),Jpr);
-				in->Jnright=Jnr*D0*n0/l0;
-				in->Jpright=Jpr*D0*n0/l0;
+				in->Jnright[z][x]=Jnr*D0*n0/l0;
+				in->Jpright[z][x]=Jpr*D0*n0/l0;
 			}
 
 			//printf("----------\n");

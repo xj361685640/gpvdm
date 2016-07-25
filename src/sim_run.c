@@ -178,7 +178,7 @@ if (strcmp(cell.simmode,"opticalmodel@optics")!=0)
 
 	//update_arrays(&cell);
 
-	cell.Vapplied=0.0;
+	contact_set_all_voltages(sim,&cell,0.0);
 	get_initial(sim,&cell);
 
 	remesh_shrink(&cell);

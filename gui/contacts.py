@@ -42,17 +42,18 @@ import i18n
 _ = i18n.language.gettext
 
 (
+CONTACT_START,
 CONTACT_WIDTH,
 CONTACT_DEPTH,
 CONTACT_VOLTAGE
-) = range(3)
+) = range(4)
 
 class contacts_window(gtk.Window):
 
 	visible=1
 
 	def on_add_item_clicked(self, button):
-		new_item = [_("Width"),"100e-9"]
+		new_item = [_("start"),_("width"),"depth","voltage"]
 
 		selection = self.treeview.get_selection()
 		model, iter = selection.get_selected()
@@ -95,7 +96,9 @@ class contacts_window(gtk.Window):
 		inp_write_lines_to_file(os.path.join(os.getcwd(),"contacts.inp"),lines)
 
 
-
+	def on_cell_edited_start(self, cell, path, new_text, model):
+		model[path][CONTACT_START] = new_text
+		self.save_data()
 
 	def on_cell_edited_width(self, cell, path, new_text, model):
 		model[path][CONTACT_WIDTH] = new_text
@@ -114,7 +117,7 @@ class contacts_window(gtk.Window):
 		webbrowser.open('http://www.gpvdm.com/man/index.html')
 
 	def create_model(self):
-		store = gtk.ListStore(str,str,str)
+		store = gtk.ListStore(str,str,str,str)
 
 		store.clear()
 		lines=[]
@@ -124,6 +127,13 @@ class contacts_window(gtk.Window):
 			layers=int(lines[pos])
 
 			for i in range(0, layers):
+				#start
+				pos=pos+1					#token
+				token=lines[pos]
+				scan_item_add("contacts.inp",token,"Contact start"+str(i),1)
+				pos=pos+1
+				start=lines[pos]	#read value
+
 				#width
 				pos=pos+1					#token
 				token=lines[pos]
@@ -151,6 +161,7 @@ class contacts_window(gtk.Window):
 				iter = store.append()
 
 				store.set (iter,
+				  CONTACT_START, str(start),
 				  CONTACT_WIDTH, str(thicknes),
 				  CONTACT_DEPTH, str(depth),
 				  CONTACT_VOLTAGE, str(voltage)
@@ -162,6 +173,14 @@ class contacts_window(gtk.Window):
 
 
 		model=treeview.get_model()
+
+		renderer = gtk.CellRendererText()
+		renderer.connect("edited", self.on_cell_edited_start, model)
+		renderer.set_property('editable', False)
+		column = gtk.TreeViewColumn(_("Start"), renderer, text=CONTACT_START)
+		column.set_sort_column_id(CONTACT_START)
+		treeview.append_column(column)
+
 		renderer = gtk.CellRendererText()
 		renderer.connect("edited", self.on_cell_edited_width, model)
 		renderer.set_property('editable', False)

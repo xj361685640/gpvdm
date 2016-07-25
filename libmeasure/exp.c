@@ -1318,18 +1318,47 @@ return ret;
 
 gdouble get_J_left(struct device *in)
 {
-
+int z=0;
+int x=0;
 gdouble ret=0.0;
-ret=in->Jpleft+in->Jnleft;
+gdouble count=0.0;
+
+for (z=0;z<in->zmeshpoints;z++)
+{
+	for (x=0;x<in->xmeshpoints;x++)
+	{
+		if (in->n_contact[z][x]==0)
+		{
+			ret+=in->Jpleft[z][x]+in->Jnleft[z][x];
+			count=count+1.0;
+		}
+	}
+}
+ret/=count;
+
 //printf("%le %le\n",in->Jpleft,in->Jnleft);
 return ret*Q;
 }
 
 gdouble get_J_right(struct device *in)
 {
-
+int z=0;
+int x=0;
 gdouble ret=0.0;
-ret=in->Jnright+in->Jpright;
+gdouble count=0.0;
+
+for (z=0;z<in->zmeshpoints;z++)
+{
+	for (x=0;x<in->xmeshpoints;x++)
+	{
+		if (in->n_contact[z][x]==0)
+		{
+			ret+=in->Jnright[z][x]+in->Jpright[z][x];
+			count=count+1.0;
+		}
+	}
+}
+ret/=count;
 //printf("%e %e\n",in->Jn[0][0],in->Jn[0][in->ymeshpoints-2]);
 //getchar();
 return ret*Q;

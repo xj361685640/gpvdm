@@ -62,7 +62,7 @@ if (stat(out_dir, &st) == -1)
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,_("Drift current density - position"));
-	strcpy(buf.type,_("xy"));
+	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Electron current density (drift)"));
 	strcpy(buf.x_units,_("nm"));
@@ -83,7 +83,7 @@ if (stat(out_dir, &st) == -1)
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,_("Diffusion current density - position"));
-	strcpy(buf.type,_("xy"));
+	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Electron current density (diffusion)"));
 	strcpy(buf.x_units,_("nm"));
@@ -104,7 +104,7 @@ if (stat(out_dir, &st) == -1)
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,_("Drift current density - position"));
-	strcpy(buf.type,_("xy"));
+	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Hole current density (drift)"));
 	strcpy(buf.x_units,_("nm"));
@@ -125,7 +125,7 @@ if (stat(out_dir, &st) == -1)
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,_("Diffusion current density - position"));
-	strcpy(buf.type,_("xy"));
+	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Hole current density (diffusion)"));
 	strcpy(buf.x_units,_("nm"));
@@ -146,7 +146,7 @@ if (stat(out_dir, &st) == -1)
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,_("LUMO-position"));
-	strcpy(buf.type,_("xy"));
+	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Electron Energy"));
 	strcpy(buf.x_units,_("nm"));
@@ -167,7 +167,7 @@ if (stat(out_dir, &st) == -1)
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,_("HOMO-position"));
-	strcpy(buf.type,_("xy"));
+	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Electron Energy"));
 	strcpy(buf.x_units,_("nm"));
@@ -188,7 +188,7 @@ if (stat(out_dir, &st) == -1)
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,_("Lattice temperature - position"));
-	strcpy(buf.type,_("xy"));
+	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Temperature (K)"));
 	strcpy(buf.x_units,_("nm"));
@@ -209,7 +209,7 @@ if (stat(out_dir, &st) == -1)
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,_("Electron temperature - position"));
-	strcpy(buf.type,_("xy"));
+	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Temperature (K)"));
 	strcpy(buf.x_units,_("nm"));
@@ -230,7 +230,7 @@ if (stat(out_dir, &st) == -1)
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,_("Hole temperature - position"));
-	strcpy(buf.type,_("xy"));
+	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Temperature (K)"));
 	strcpy(buf.x_units,_("nm"));
@@ -252,7 +252,7 @@ if (stat(out_dir, &st) == -1)
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,_("Doping - position"));
-	strcpy(buf.type,_("xy"));
+	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Doping density"));
 	strcpy(buf.x_units,_("nm"));
@@ -273,7 +273,7 @@ if (stat(out_dir, &st) == -1)
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,_("Band gap-position"));
-	strcpy(buf.type,_("xy"));
+	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Electron Energy"));
 	strcpy(buf.x_units,_("nm"));
@@ -294,7 +294,7 @@ if (stat(out_dir, &st) == -1)
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,_("Electron quasi Fermi-level position"));
-	strcpy(buf.type,_("xy"));
+	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Electron Energy"));
 	strcpy(buf.x_units,_("nm"));
@@ -315,7 +315,7 @@ if (stat(out_dir, &st) == -1)
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,_("Hole quasi Fermi-level position"));
-	strcpy(buf.type,_("xy"));
+	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Electron Energy"));
 	strcpy(buf.x_units,_("nm"));
@@ -337,7 +337,7 @@ if (stat(out_dir, &st) == -1)
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,_("Potential"));
-	strcpy(buf.type,_("xy"));
+	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Potential"));
 	strcpy(buf.x_units,_("nm"));
@@ -358,7 +358,7 @@ if (stat(out_dir, &st) == -1)
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,_("Potential"));
-	strcpy(buf.type,_("xy"));
+	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Potential"));
 	strcpy(buf.x_units,_("nm"));
@@ -386,7 +386,7 @@ if (stat(out_dir, &st) == -1)
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,_("Current density - position"));
-	strcpy(buf.type,_("xy"));
+	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Electron current density"));
 	strcpy(buf.x_units,_("nm"));
@@ -408,7 +408,7 @@ if (stat(out_dir, &st) == -1)
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,_("Current density - position"));
-	strcpy(buf.type,_("xy"));
+	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Hole current density"));
 	strcpy(buf.x_units,_("nm"));
@@ -430,7 +430,7 @@ if (stat(out_dir, &st) == -1)
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,_("Total current density (Jn+Jp) - position"));
-	strcpy(buf.type,_("xy"));
+	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Total current density (Jn+Jp)"));
 	strcpy(buf.x_units,_("nm"));
@@ -463,7 +463,7 @@ if (stat(out_dir, &st) == -1)
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,_("Total current density (Jn+Jp) - position"));
-	strcpy(buf.type,_("xy"));
+	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Total current density (Jn+Jp)"));
 	strcpy(buf.x_units,_("nm"));
@@ -493,7 +493,7 @@ if (stat(out_dir, &st) == -1)
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,_("Equlibrium Fermi-level - position"));
-	strcpy(buf.type,_("xy"));
+	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Energy"));
 	strcpy(buf.x_units,_("nm"));
@@ -514,7 +514,7 @@ if (stat(out_dir, &st) == -1)
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,_("Relative permittivity - position"));
-	strcpy(buf.type,_("xy"));
+	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Relative permittivity"));
 	strcpy(buf.x_units,_("nm"));
@@ -536,7 +536,7 @@ if (stat(out_dir, &st) == -1)
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,_("Electron mobility - position"));
-	strcpy(buf.type,_("xy"));
+	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Electron mobility"));
 	strcpy(buf.x_units,_("nm"));
@@ -557,7 +557,7 @@ if (stat(out_dir, &st) == -1)
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,_("Hole mobility - position"));
-	strcpy(buf.type,_("xy"));
+	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Hole mobility"));
 	strcpy(buf.x_units,_("nm"));
@@ -578,7 +578,7 @@ if (stat(out_dir, &st) == -1)
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,_("Average electron mobility free mu0*nf/nall"));
-	strcpy(buf.type,_("xy"));
+	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Mobility"));
 	strcpy(buf.x_units,_("nm"));
@@ -608,7 +608,7 @@ if (stat(out_dir, &st) == -1)
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,_("Average electron mobility free mu0*nf/nall"));
-	strcpy(buf.type,_("xy"));
+	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Mobility"));
 	strcpy(buf.x_units,_("nm"));
@@ -634,7 +634,7 @@ if (stat(out_dir, &st) == -1)
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,_("Free electron carrier density - position"));
-	strcpy(buf.type,_("xy"));
+	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Carrier density"));
 	strcpy(buf.x_units,_("nm"));
@@ -655,7 +655,7 @@ if (stat(out_dir, &st) == -1)
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,_("Free hole carrier density - position"));
-	strcpy(buf.type,_("xy"));
+	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Carrier density"));
 	strcpy(buf.x_units,_("nm"));
@@ -676,7 +676,7 @@ if (stat(out_dir, &st) == -1)
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,_("Trapped electron carrier density - position"));
-	strcpy(buf.type,_("xy"));
+	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Carrier density"));
 	strcpy(buf.x_units,_("nm"));
@@ -697,7 +697,7 @@ if (stat(out_dir, &st) == -1)
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,_("Trapped hole carrier density - position"));
-	strcpy(buf.type,_("xy"));
+	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Carrier density"));
 	strcpy(buf.x_units,_("nm"));
@@ -718,7 +718,7 @@ if (stat(out_dir, &st) == -1)
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,_("Total hole density - position"));
-	strcpy(buf.type,_("xy"));
+	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Carrier density"));
 	strcpy(buf.x_units,_("nm"));
@@ -747,7 +747,7 @@ if (stat(out_dir, &st) == -1)
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,_("Total hole density - position"));
-	strcpy(buf.type,_("xy"));
+	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Carrier density"));
 	strcpy(buf.x_units,_("nm"));
@@ -772,7 +772,7 @@ if (stat(out_dir, &st) == -1)
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,_("Change in electron population - position"));
-	strcpy(buf.type,_("xy"));
+	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Carrier density"));
 	strcpy(buf.x_units,_("nm"));
@@ -797,7 +797,7 @@ if (stat(out_dir, &st) == -1)
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,_("Total charge - position"));
-	strcpy(buf.type,_("xy"));
+	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Carrier density"));
 	strcpy(buf.x_units,_("nm"));
@@ -822,7 +822,7 @@ if (stat(out_dir, &st) == -1)
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,_("Change in total charge - position"));
-	strcpy(buf.type,_("xy"));
+	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Carrier density"));
 	strcpy(buf.x_units,_("nm"));
@@ -847,7 +847,7 @@ if (stat(out_dir, &st) == -1)
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,_("Change in hole population - position"));
-	strcpy(buf.type,_("xy"));
+	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Carrier density"));
 	strcpy(buf.x_units,_("nm"));
@@ -872,7 +872,7 @@ if (stat(out_dir, &st) == -1)
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,_("Excess electron density - position"));
-	strcpy(buf.type,_("xy"));
+	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Electron density"));
 	strcpy(buf.x_units,_("nm"));
@@ -897,7 +897,7 @@ if (stat(out_dir, &st) == -1)
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,_("Excess electron density - position"));
-	strcpy(buf.type,_("xy"));
+	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Hole density"));
 	strcpy(buf.x_units,_("nm"));
@@ -922,7 +922,7 @@ if (stat(out_dir, &st) == -1)
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,_("Free electron generation rate - position"));
-	strcpy(buf.type,_("xy"));
+	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Generation rate"));
 	strcpy(buf.x_units,_("nm"));
@@ -943,7 +943,7 @@ if (stat(out_dir, &st) == -1)
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,_("Free hole generation rate - position"));
-	strcpy(buf.type,_("xy"));
+	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Generation rate"));
 	strcpy(buf.x_units,_("nm"));
@@ -965,7 +965,7 @@ if (stat(out_dir, &st) == -1)
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,_("Electron recombination rate - position"));
-	strcpy(buf.type,_("xy"));
+	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Recombination rate"));
 	strcpy(buf.x_units,_("nm"));
@@ -986,7 +986,7 @@ if (stat(out_dir, &st) == -1)
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,_("Hole recombination rate - position"));
-	strcpy(buf.type,_("xy"));
+	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Recombination rate"));
 	strcpy(buf.x_units,_("nm"));
@@ -1008,7 +1008,7 @@ if (stat(out_dir, &st) == -1)
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,_("Trap fermi level - position"));
-	strcpy(buf.type,_("xy"));
+	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Electron Fermi level"));
 	strcpy(buf.x_units,_("nm"));
@@ -1041,7 +1041,7 @@ if (stat(out_dir, &st) == -1)
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,_("Trap fermi level - position"));
-	strcpy(buf.type,_("xy"));
+	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Electron Fermi level"));
 	strcpy(buf.x_units,_("nm"));
@@ -1074,7 +1074,7 @@ if (stat(out_dir, &st) == -1)
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,_("Material number - position"));
-	strcpy(buf.type,_("xy"));
+	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Number"));
 	strcpy(buf.x_units,_("nm"));
@@ -1100,7 +1100,7 @@ if (stat(out_dir, &st) == -1)
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,_("Material number - position"));
-	strcpy(buf.type,_("xy"));
+	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Number"));
 	strcpy(buf.x_units,_("nm"));
@@ -1130,7 +1130,7 @@ if (stat(out_dir, &st) == -1)
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,_("Free hole to trapped electron - position"));
-	strcpy(buf.type,_("xy"));
+	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Rate"));
 	strcpy(buf.x_units,_("nm"));
@@ -1152,7 +1152,7 @@ if (stat(out_dir, &st) == -1)
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,_("Free electron to trapped hole - position"));
-	strcpy(buf.type,_("xy"));
+	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Rate"));
 	strcpy(buf.x_units,_("nm"));
@@ -1173,7 +1173,7 @@ if (stat(out_dir, &st) == -1)
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,_("Hole relaxation rate - position"));
-	strcpy(buf.type,_("xy"));
+	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Rate"));
 	strcpy(buf.x_units,_("nm"));
@@ -1194,7 +1194,7 @@ if (stat(out_dir, &st) == -1)
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
 	strcpy(buf.title,_("Electron relaxation rate - position"));
-	strcpy(buf.type,_("xy"));
+	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Rate"));
 	strcpy(buf.x_units,_("nm"));

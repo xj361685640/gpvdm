@@ -42,8 +42,8 @@ for (i=0;i<in->ymeshpoints;i++)
 {
 	if (i==0)
 	{
-		Ecl=-in->Xi[z][x][0]-in->Vapplied;
-		Evl=-in->Xi[z][x][0]-in->Vapplied-in->Eg[z][x][0];
+		Ecl=-in->Xi[z][x][0]-in->Vapplied[z][x];
+		Evl=-in->Xi[z][x][0]-in->Vapplied[z][x]-in->Eg[z][x][0];
 		yl=in->ymesh[0]-(in->ymesh[1]-in->ymesh[0]);
 	}else
 	{
