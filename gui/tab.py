@@ -36,8 +36,8 @@ from inp import inp_get_token_value
 from util import latex_to_pygtk_subscript
 from i18n import yes_no
 from cal_path import get_image_file_path
-#from gtkswitch import gtkswitch
-#from leftright import leftright
+from gtkswitch import gtkswitch
+from leftright import leftright
 
 from PyQt5.QtWidgets import QGridLayout,QPushButton,QLabel,QLineEdit
 
@@ -101,11 +101,21 @@ class tab_class(QGridLayout,tab_base):
 				#label.set_markup(latex_to_pygtk_subscript(text_info))
 
 
-				#if result.opt[0]=="text":
-				edit_box=QLineEdit()
-				edit_box.setText(self.lines[pos])
+				if result.opt[0]=="switch":
+					edit_box=gtkswitch()
+					edit_box.set_value(str2bool(self.lines[pos]))
+					#edit_box.connect("changed", self.callback_edit, token)
+					#edit_box.show_all()
+				if result.opt[0]=="leftright":
+					edit_box=leftright()
+					edit_box.set_value(str2bool(self.lines[pos]))
+					#edit_box.connect("changed", self.callback_edit, token)
+					#edit_box.show_all()
+				else: #result.opt[0]=="text":
+					edit_box=QLineEdit()
+					edit_box.setText(self.lines[pos])
 					#edit_box.set_text(self.lines[pos]);
-				edit_box.textChanged.connect(lambda: self.callback_edit(filename,token,edit_box.text()))
+					edit_box.textChanged.connect(lambda: self.callback_edit(filename,token,edit_box.text()))
 					#edit_box.show()
 
 				unit=QLabel()
@@ -115,46 +125,35 @@ class tab_class(QGridLayout,tab_base):
 				self.addWidget(description,i,0)
 				self.addWidget(edit_box,i,1)
 				self.addWidget(unit,i,2)
+
 		return
 		if show == True :
 			if show == True :
 
 
-				if result.opt[0]=="switch":
-					edit_box=gtkswitch()
-					edit_box.init()
-					edit_box.set_value(str2bool(self.lines[pos]))
-					edit_box.connect("changed", self.callback_edit, token)
-					edit_box.show_all()
-				elif result.opt[0]=="leftright":
-					edit_box=leftright()
-					edit_box.init()
-					edit_box.set_value(str2bool(self.lines[pos]))
-					edit_box.connect("changed", self.callback_edit, token)
-					edit_box.show_all()
-				else:
-					edit_box=gtk.combo_box_new_text()
-					index=0
-					true_false=False
-					if len(result.opt)==2:
-						if result.opt[0]==_("true") and result.opt[1]==_("false"):
-							true_false=True
+				
+				edit_box=gtk.combo_box_new_text()
+				index=0
+				true_false=False
+				if len(result.opt)==2:
+					if result.opt[0]==_("true") and result.opt[1]==_("false"):
+						true_false=True
 
-					for i in range(0,len(result.opt)):
-						edit_box.append_text(result.opt[i])
-						if true_false==False:
-							if yes_no(self.lines[pos])==yes_no(result.opt[i]):
-								index=i
+				for i in range(0,len(result.opt)):
+					edit_box.append_text(result.opt[i])
+					if true_false==False:
+						if yes_no(self.lines[pos])==yes_no(result.opt[i]):
+							index=i
+					else:
+						if str2bool(self.lines[pos])==True:
+							index=0
 						else:
-							if str2bool(self.lines[pos])==True:
-								index=0
-							else:
-								index=1
+							index=1
 
-					edit_box.set_active(index);
+				edit_box.set_active(index);
 
-					edit_box.connect("changed", self.callback_edit, token)
-					edit_box.show()
+				edit_box.connect("changed", self.callback_edit, token)
+				edit_box.show()
 
 				line=1
 				scan_item_add(filename,token,text_info,line)

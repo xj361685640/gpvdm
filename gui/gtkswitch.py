@@ -1,92 +1,78 @@
+#    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
+#    model for 1st, 2nd and 3rd generation solar cells.
+#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#
+#	www.gpvdm.com
+#	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
+#
+#    This program is free software; you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License v2.0, as published by
+#    the Free Software Foundation.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License along
+#    with this program; if not, write to the Free Software Foundation, Inc.,
+#    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+
 import math
+from PyQt5.QtCore import QSize, Qt 
+from PyQt5.QtWidgets import QWidget
+from PyQt5.QtGui import QPainter,QFont,QColor,QPen
+
+class gtkswitch(QWidget):
+
+	def __init__(self):      
+		super(gtkswitch, self).__init__()
+		self.setMaximumSize(85,30)
+		self.initUI()
+
+	def initUI(self):
+
+		#self.setMinimumSize(1, 30)
+		self.value = False
 
 
-class gtkswitch(gtk.DrawingArea):
-	def init(self):
-		self.connect("expose-event", self.expose)
-		self.set_events(gtk.gdk.BUTTON_PRESS_MASK)
-		self.connect('button-press-event', self.on_drawing_area_button_press)
-		col = gtk.gdk.Color('#fff')
-		self.modify_bg(gtk.STATE_NORMAL, col)
-		self.value=False
-		self.h=20
-		self.set_size_request(25,self.h)
+	def set_value(self, value):
 
-	def rounded_rectangle(self,cr, x, y, w, h, r=20):
-		cr.move_to(x+r,y)
-		cr.line_to(x+w-r,y)
-		cr.curve_to(x+w,y,x+w,y,x+w,y+r)
-		cr.line_to(x+w,y+h-r)
-		cr.curve_to(x+w,y+h,x+w,y+h,x+w-r,y+h)
-		cr.line_to(x+r,y+h)
-		cr.curve_to(x,y+h,x,y+h,x,y+h-r)
-		cr.line_to(x,y+r)
-		cr.curve_to(x,y,x,y,x+r,y)
+		self.value = value
 
-	def expose(self, widget, event):
 
-		cr = widget.window.cairo_create()
-		self.style.set_background(widget.window, gtk.STATE_NORMAL)
-		self.rounded_rectangle(cr, 5, 5, 100, 100, r=4)
-		cr.set_source_rgba(0.0,0.0,0.0,0)
-		cr.fill()
-		cr.set_line_width(3)
-				
-		w = self.allocation.width
-		h = self.allocation.height
-		cr.translate(1, 1)
+	def paintEvent(self, e):
+		qp = QPainter()
+		qp.begin(self)
+		self.drawWidget(qp)
+		qp.end()
 
-		cr.set_source_rgb(0.1, 0.1, 0.1)
-		self.rounded_rectangle(cr, 5, 5, 70, self.h, r=4)
-		cr.stroke_preserve()
+
+	def drawWidget(self, qp):
+		font = QFont('Sans', 11, QFont.Normal)
+		qp.setFont(font)
+
+		pen = QPen(QColor(20, 20, 20), 1, Qt.SolidLine)
+		
+		qp.setPen(pen)
+		qp.setBrush(Qt.NoBrush)
+
 		if self.value==True:
-			cr.set_source_rgb(95.0/255.0, 163.0/255.0, 235.0/255.0)
+			qp.setBrush(QColor(95,163,235))
+			qp.drawRoundedRect(0, 0.0, 80.0,22.0,5.0,5.0)
+			qp.setBrush(QColor(230,230,230))
+			qp.drawRoundedRect(40, 2, 38,18.0,5.0,5.0)
+
+			qp.drawText(8, 17, "ON")
 		else:
-			cr.set_source_rgb(0.7, 0.7, 0.7)
-		cr.fill()
+			qp.setBrush(QColor(180,180,180))
+			qp.drawRoundedRect(0, 0.0, 80.0,22.0,5.0,5.0)			
+			qp.setBrush(QColor(230,230,230))
+			qp.drawRoundedRect(2, 2, 38,18.0,5.0,5.0)
+			qp.drawText(44, 17, "OFF")
 
-		cr.set_font_size(14)
-		if self.value==True:
-			cr.set_line_width(1)
-			cr.set_source_rgb(0.1, 0.1, 0.1)
-			self.rounded_rectangle(cr, 38, 7, 35, self.h-4, r=4)
-			cr.stroke_preserve()
-			cr.set_source_rgb(0.9, 0.9, 0.9)
-			cr.fill()
-			cr.set_source_rgb(1.0, 1.0, 1.0)
-			cr.move_to(10, self.h-1)
-			cr.show_text("ON")
-			#cr.paint()
-
-		else:
-
-			cr.set_line_width(1)
-			cr.set_source_rgb(0.1, 0.1, 0.1)
-			self.rounded_rectangle(cr, 7, 7, 35, self.h-4, r=4)
-			cr.stroke_preserve()
-			cr.set_source_rgb(0.9, 0.9, 0.9)
-			cr.fill()
-			cr.set_source_rgb(0.0, 0.0, 0.0)
-			cr.move_to(46, self.h-1)
-			cr.show_text("OFF")
-
-	def get_active_text(self):
-		if self.value==True:
-			return "true"
-		else:
-			return "false"
-
-	def set_value(self,value):
-		self.value=value
-		self.queue_draw()
-
-	def on_drawing_area_button_press(self, widget, event):
-		if event.type == gtk.gdk.BUTTON_PRESS:
-			if event.x<80 and event.y<35:
-				self.value= not self.value
-				self.queue_draw()
-				self.emit("changed")
-		return True
-
-gobject.type_register(gtkswitch)
-gobject.signal_new("changed", gtkswitch, gobject.SIGNAL_RUN_FIRST, gobject.TYPE_NONE, ())
+	def mouseReleaseEvent(self, QMouseEvent):
+		if QMouseEvent.x()<80:
+			self.value= not self.value
+			self.repaint()

@@ -20,12 +20,6 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-#import sys
-#import pdb
-import pygtk
-pygtk.require('2.0')
-import gtk
-#import os
 from inp import inp_load_file
 from inp import inp_write_lines_to_file
 
