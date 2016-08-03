@@ -76,7 +76,7 @@ from i18n import yes_no
 class layer_widget(gtk.VBox):
 
 	material_files=gtk.ListStore(str)
-	active_layer=gtk.ListStore(str)
+	layer_type=gtk.ListStore(str)
 	def combo_changed(self, widget, path, text, model):
 		#print model[path][1]
 		self.model[path][COLUMN_MATERIAL] = text
@@ -95,11 +95,11 @@ class layer_widget(gtk.VBox):
 			if mesh_layers==1:
 				inp_update_token_value(os.path.join(os.getcwd(),"mesh_y.inp"), "#mesh_layer_length0", str(tot),1)
 
-	def active_layer_edit(self, widget, path, text, model):
+	def layer_type_edit(self, widget, path, text, model):
 		old_text=self.model[path][COLUMN_DEVICE]
 		self.model[path][COLUMN_DEVICE]=text
-		print yes_no(old_text), yes_no(text),type(yes_no(text))
-		if yes_no(old_text)==False and yes_no(text)==True:
+#		print yes_no(old_text), yes_no(text),type(yes_no(text))
+		if old_text!="Active layer" and text=="Active layer":
 			print "doing update"
 			self.model[path][COLUMN_DOS_LAYER]=epitay_get_next_dos()
 			self.model[path][COLUMN_PL_FILE]=epitay_get_next_pl()
@@ -110,10 +110,8 @@ class layer_widget(gtk.VBox):
 			new_file=self.model[path][COLUMN_PL_FILE]+".inp"
 			if inp_isfile(new_file)==False:
 				inp_copy_file(new_file,"pl0.inp")
-
-		print "rod",yes_no(text),self.model[path][COLUMN_DEVICE]
-		if yes_no(text)==False:
-			self.model[path][COLUMN_DOS_LAYER]="none"
+		else:
+			self.model[path][COLUMN_DOS_LAYER]=text
 			self.model[path][COLUMN_PL_FILE]="none"
 
 		self.save_model()
@@ -123,7 +121,7 @@ class layer_widget(gtk.VBox):
 
 	def rebuild_mat_list(self):
 		self.material_files.clear()
-		self.active_layer.clear()
+		self.layer_type.clear()
 		mat=find_materials()
 		print mat
 		for i in range(0,len(mat)):
@@ -133,8 +131,10 @@ class layer_widget(gtk.VBox):
 			scan_item_add(os.path.join("materials",mat[i],"fit.inp"),"#n_mul","Refractive index spectrum multiplier",1)
 			scan_item_add(os.path.join("materials",mat[i],"fit.inp"),"#alpha_mul","Absorption spectrum multiplier",1)
 
-		self.active_layer.append([_("yes")])
-		self.active_layer.append([_("no")])
+		self.layer_type.append([_("Active layer")])
+		self.layer_type.append([_("Contact")])
+		self.layer_type.append([_("Other")])
+
 
 	def callback_view_materials(self, widget, data=None):
 		dialog=gpvdm_open()
@@ -292,10 +292,12 @@ class layer_widget(gtk.VBox):
 
 			dos_file=""
 
-			if dos_layer=="none":
-				dos_file=_("no")
+			print ">>>>>>>>>>>>>>rod file",dos_layer
+			
+			if dos_layer.startswith("dos")==True:
+				dos_file="Active layer"
 			else:
-				dos_file=_("yes")
+				dos_file=dos_layer
 
 			scan_item_add("epitaxy.inp","#layer"+str(i),_("Material for ")+str(material),2)
 			scan_item_add("epitaxy.inp","#layer"+str(i),_("Layer width ")+str(material),1)
@@ -364,12 +366,12 @@ class layer_widget(gtk.VBox):
 		#renderer.set_property("editable", True)
 		#column = gtk.TreeViewColumn("Active layer", renderer, text=COLUMN_DEVICE,editable=True)
 
-		column = gtk.TreeViewColumn(_("Active layer"))
+		column = gtk.TreeViewColumn(_("Layer type"))
 		render = gtk.CellRendererCombo()
 		render.set_property("editable", True)
-		render.set_property("model", self.active_layer)
+		render.set_property("model", self.layer_type)
 		render.set_property("text-column", 0)
-		render.connect("edited", self.active_layer_edit, self.active_layer)
+		render.connect("edited", self.layer_type_edit, self.layer_type)
 		column.pack_start(render, False)
 		column.add_attribute(render, "text", COLUMN_DEVICE)
 		treeview.append_column(column)
@@ -438,7 +440,7 @@ class layer_widget(gtk.VBox):
 					return
 
 	def on_add_item_clicked(self, button):
-		new_item = [_("layer name"),"100e-9", "pcbm",_("no"),"none",False]
+		new_item = [_("layer name"),"100e-9", "pcbm",_("Other"),"none",False]
 
 		selection = self.treeview.get_selection()
 		model, iter = selection.get_selected()

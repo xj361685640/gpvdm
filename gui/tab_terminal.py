@@ -21,33 +21,45 @@
 
 
 
-import pygtk
-pygtk.require('2.0')
-import gtk
 #import sys
 #import os
 #import shutil
 #from scan_item import scan_item
-import vte
 from tab_base import tab_base
-from help import my_help_class
+#from help import my_help_class
 
-class tab_terminal(gtk.VBox,tab_base):
+from PyQt5.QtWidgets import QTabWidget,QTextEdit
+from PyQt5.QtCore import QProcess
+from PyQt5.QtGui import QPalette,QColor,QFont
 
-	label_name="Terminal"
+class tab_terminal(QTextEdit,tab_base):
+
+	def dataReady(self):
+		cursor = self.textCursor()
+		cursor.movePosition(cursor.End)
+		cursor.insertText(str(self.process.readAll()))
+		self.ensureCursorVisible()
+
+	def run(self,command,args):
+		self.process.start(command,args)
 
 	def init(self):
-		self.main_box=gtk.VBox()
+		self.font = QFont()
+		self.font.setFamily('Monospace')
+		self.font.setStyleHint(QFont.Monospace)
+		self.font.setFixedPitch(True)
+		self.font.setPointSize(int(12))
 
-		self.terminal     = vte.Terminal()
-		self.terminal.fork_command("/bin/sh")
-		self.terminal.feed_child('gpvdm --version\n')
-		self.terminal.set_scrollback_lines(10000)
-		self.terminal.show()
-		self.main_box.add(self.terminal)
+		self.setFont(self.font)
 
-		self.add(self.main_box)
-		self.main_box.show()
+		pal = QPalette()
+		bgc = QColor(0, 0, 0)
+		pal.setColor(QPalette.Base, bgc)
+		textc = QColor(230, 230, 230)
+		pal.setColor(QPalette.Text, textc)
+		self.setPalette(pal)
+		self.process = QProcess(self)
+		self.process.readyRead.connect(self.dataReady)
 
 	def help(self):
 		my_help_class.help_set_help(["command.png","<big><b>The terminal window</b></big>\nThe model will run in this window.  You can also use it to enter bash commands."])

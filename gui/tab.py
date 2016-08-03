@@ -21,53 +21,41 @@
 
 
 
-import pygtk
-pygtk.require('2.0')
-import gtk
-#import sys
 import os
-#import shutil
-from scan_item import scan_item_add
+
+#from scan_item import scan_item_add
 from token_lib import tokens
-#from util_zip import check_is_config_file
-from inp import inp_update_token_value
-from inp import inp_get_token_value
-from undo import undo_list_class
-#import zipfile
-#import base64
+#from undo import undo_list_class
 from tab_base import tab_base
 from util import str2bool
 from scan_item import scan_remove_file
 from inp import inp_load_file
-from help import my_help_class
+from inp import inp_update_token_value
+from inp import inp_get_token_value
+#from help import my_help_class
 from util import latex_to_pygtk_subscript
 from i18n import yes_no
 from cal_path import get_image_file_path
-from gtkswitch import gtkswitch
-from leftright import leftright
+#from gtkswitch import gtkswitch
+#from leftright import leftright
 
-
+from PyQt5.QtWidgets import QGridLayout,QPushButton,QLabel,QLineEdit
 
 import i18n
 _ = i18n.language.gettext
 
-class tab_class(gtk.VBox,tab_base):
+class tab_class(QGridLayout,tab_base):
 
 	lines=[]
 	edit_list=[]
 
-	line_number=[]
 
 
-	def callback_edit(self, widget, data=None):
-		if type(widget)==gtk.Entry:
-			a=undo_list_class()
-			a.add([self.file_name, data, inp_get_token_value(self.file_name, data),widget])
-			inp_update_token_value(self.file_name, data, widget.get_text(),1)
-		else:
-			inp_update_token_value(self.file_name, data, widget.get_active_text(),1)
+	def callback_edit(self, file_name,token,data):
+		print file_name, token, data
+		inp_update_token_value(file_name, token, data,1)
 
-		my_help_class.help_set_help(["32_save.png","<big><b>Saved to disk</b></big>\n"])
+		#my_help_class.help_set_help(["32_save.png","<big><b>Saved to disk</b></big>\n"])
 
 	def help(self):
 		my_help_class.get_help(self.file_name)
@@ -85,37 +73,16 @@ class tab_class(gtk.VBox,tab_base):
 
 	def init(self,filename,tab_name):
 
-		self.title_hbox=gtk.HBox()
-		self.tab_name=tab_name
-		self.file_name=filename
-		self.title_hbox.set_size_request(-1, 25)
-		self.label=gtk.Label(self.tab_name)
-		self.label.set_justify(gtk.JUSTIFY_LEFT)
-		self.title_hbox.pack_start(self.label, False, True, 0)
-
-		self.close_button = gtk.Button()
-		close_image = gtk.Image()
-   		close_image.set_from_file(os.path.join(get_image_file_path(),"close.png"))
-		close_image.show()
-		self.close_button.add(close_image)
-		self.close_button.props.relief = gtk.RELIEF_NONE
-
-		self.close_button.set_size_request(25, 25)
-		self.close_button.show()
-
-		self.title_hbox.pack_end(self.close_button, False, False, 0)
-		self.title_hbox.show_all()
-
 		scan_remove_file(filename)
 
 		self.edit_list=[]
-		self.line_number=[]
 		inp_load_file(self.lines,filename)
 
 		n=0
 		pos=0
 		my_token_lib=tokens()
 		height=27
+
 		for i in range(0, len(self.lines)/2):
 
 			show=False
@@ -127,25 +94,33 @@ class tab_class(gtk.VBox,tab_base):
 				text_info=result.info
 				show=True
 			pos=pos+1
-			self.set_size_request(600,-1)
+			#self.set_size_request(600,-1)
 			if show == True :
-				hbox=gtk.HBox()
-				hbox.show()
-				label = gtk.Label()
-				label.set_size_request(400,height)
-				label.set_markup(latex_to_pygtk_subscript(text_info))
-				label.set_use_markup(True)
-				hbox.pack_start(label, False, False, padding=1)
-				label.show()
+				description=QLabel()
+				description.setText(text_info)
+				#label.set_markup(latex_to_pygtk_subscript(text_info))
 
-				self.line_number.append(pos)
 
-				if result.opt[0]=="text":
-					edit_box=gtk.Entry(max=0)
-					edit_box.set_text(self.lines[pos]);
-					edit_box.connect("changed", self.callback_edit, token)
-					edit_box.show()
-				elif result.opt[0]=="switch":
+				#if result.opt[0]=="text":
+				edit_box=QLineEdit()
+				edit_box.setText(self.lines[pos])
+					#edit_box.set_text(self.lines[pos]);
+				edit_box.textChanged.connect(lambda: self.callback_edit(filename,token,edit_box.text()))
+					#edit_box.show()
+
+				unit=QLabel()
+				unit.setText(units)
+
+
+				self.addWidget(description,i,0)
+				self.addWidget(edit_box,i,1)
+				self.addWidget(unit,i,2)
+		return
+		if show == True :
+			if show == True :
+
+
+				if result.opt[0]=="switch":
 					edit_box=gtkswitch()
 					edit_box.init()
 					edit_box.set_value(str2bool(self.lines[pos]))
@@ -181,19 +156,6 @@ class tab_class(gtk.VBox,tab_base):
 					edit_box.connect("changed", self.callback_edit, token)
 					edit_box.show()
 
-				edit_box.set_size_request(300,height)
-				self.edit_list.append(edit_box)
-				hbox.pack_start(edit_box, False, False, padding=1)
-
-				label = gtk.Label()
-				label.set_markup(latex_to_pygtk_subscript(units))
-				label.set_use_markup(True)
-				label.set_size_request(200,height)
-				label.show()
-				hbox.pack_start(label, False, False, padding=1)
-				label.show()
-				self.pack_start(hbox, False, False, padding=1)
-				#self.add()
 				line=1
 				scan_item_add(filename,token,text_info,line)
 

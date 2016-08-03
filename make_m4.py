@@ -31,6 +31,9 @@ if len(sys.argv)>1:
 config_files.append("")
 config_files.append("lang")
 
+config_files.append("libi")
+link_libs=link_libs+" -lgpvdm_i"
+
 config_files.append("lib")
 link_libs=link_libs+" -lgpvdm_lib"
 

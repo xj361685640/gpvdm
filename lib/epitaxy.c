@@ -63,7 +63,7 @@ void epitaxy_load(struct simulation *sim,struct epitaxy *in, char *file)
 
 		char temp[20];
 		char full_path[200];
-		if (strcmp(dos_file,"none")!=0)
+		if (strcmp_begin(dos_file,"dos")==0)
 		{
 			strcpy(temp,dos_file);
 			strcat(temp,".inp");

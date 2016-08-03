@@ -38,6 +38,12 @@ from epitaxy import epitaxy_get_width
 from inp import inp_update
 from scan_item import scan_item_add
 
+from contacts_io import segment
+from contacts_io import contacts_save
+from contacts_io import contacts_get_array
+from contacts_io import contacts_clear
+from contacts_io import contacts_print
+
 import i18n
 _ = i18n.language.gettext
 
@@ -48,9 +54,18 @@ CONTACT_DEPTH,
 CONTACT_VOLTAGE
 ) = range(4)
 
+from contacts_io import contacts_load
+from contacts_io import contacts_print
+
 class contacts_window(gtk.Window):
 
 	visible=1
+
+	def update_contact_db(self):
+		contacts_clear()
+		for item in self.mesh_model:
+			contacts_append(float(item[CONTACT_START]),float(item[CONTACT_WIDTH]),float(item[CONTACT_DEPTH]),float(item[CONTACT_VOLTAGE]))	
+
 
 	def on_add_item_clicked(self, button):
 		new_item = [_("start"),_("width"),"depth","voltage"]
@@ -78,22 +93,8 @@ class contacts_window(gtk.Window):
 			self.save_data()
 
 	def save_data(self):
-		lines=[]
-		lines.append("#contacts")
-		lines.append(str(len(self.store)))
-		i=0
-		for item in self.mesh_model:
-			lines.append("#contact_width"+str(i))
-			lines.append(item[CONTACT_THICKNES])
-			lines.append("#contact_depth"+str(i))
-			lines.append(item[CONTACT_POINTS])
-			lines.append("#contact_voltage"+str(i))
-			lines.append(item[CONTACT_VOLTAGE])
-			i=i+1
-		lines.append("#ver")
-		lines.append("1.0")
-		lines.append("#end")
-		inp_write_lines_to_file(os.path.join(os.getcwd(),"contacts.inp"),lines)
+		self.update_contact_db()
+		contacts_save()
 
 
 	def on_cell_edited_start(self, cell, path, new_text, model):
@@ -116,56 +117,26 @@ class contacts_window(gtk.Window):
 	def callback_help(self, widget, data=None):
 		webbrowser.open('http://www.gpvdm.com/man/index.html')
 
+
 	def create_model(self):
 		store = gtk.ListStore(str,str,str,str)
 
 		store.clear()
-		lines=[]
-		pos=0
-		if inp_load_file(lines,os.path.join(os.getcwd(),"contacts.inp"))==True:
-			pos=pos+1	#first comment
-			layers=int(lines[pos])
+		contacts_load()
+		contacts_print()
 
-			for i in range(0, layers):
-				#start
-				pos=pos+1					#token
-				token=lines[pos]
-				scan_item_add("contacts.inp",token,"Contact start"+str(i),1)
-				pos=pos+1
-				start=lines[pos]	#read value
+		for c in contacts_get_array():
+			iter = store.append()
 
-				#width
-				pos=pos+1					#token
-				token=lines[pos]
-				scan_item_add("contacts.inp",token,"Contact width"+str(i),1)
-				pos=pos+1
-				thicknes=lines[pos]	#read value
+			print ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",c.start
 
-				#depth
-				pos=pos+1					#token
-				token=lines[pos]
-				scan_item_add("contacts.inp",token,"Contact depth"+str(i),1)
+			store.set (iter,
+			  CONTACT_START, str(c.start),
+			  CONTACT_WIDTH, str(c.width),
+			  CONTACT_DEPTH, str(c.depth),
+			  CONTACT_VOLTAGE, str(c.voltage)
+			)
 
-				pos=pos+1
-				depth=lines[pos] 		#read value
-
-				#voltage
-				pos=pos+1					#token
-				token=lines[pos]
-				scan_item_add("contacts.inp",token,"Contact voltage"+str(i),1)
-
-				pos=pos+1
-				voltage=lines[pos] 		#read value
-
-
-				iter = store.append()
-
-				store.set (iter,
-				  CONTACT_START, str(start),
-				  CONTACT_WIDTH, str(thicknes),
-				  CONTACT_DEPTH, str(depth),
-				  CONTACT_VOLTAGE, str(voltage)
-				)
 
 		return store
 

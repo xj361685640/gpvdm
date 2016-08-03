@@ -20,52 +20,45 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-
-import pygtk
-pygtk.require('2.0')
-import gtk
-#import sys
 import os
-#import shutil
-import glib
-#from token_lib import tokens
-#from numpy import *
-#from util import pango_to_gnuplot
 from cal_path import get_image_file_path
 from ver import version
 from notice import notice
 import random
 import time
 
+from PyQt5.QtGui import QIcon
+from PyQt5.QtCore import QSize, Qt, QTimer
+from PyQt5.uic import loadUi
+from PyQt5.QtWidgets import QApplication,QGraphicsScene
+from PyQt5.QtGui import QPixmap
+
 class splash_window():
-	def timer_cb(self):
-		self.window.destroy()
-		return False
 
-	def destroy(self):
-		self.window.destroy()
+	def center(self):
+		frameGm = self.window.frameGeometry()
+		screen = QApplication.desktop().screenNumber(QApplication.desktop().cursor().pos())
+		centerPoint = QApplication.desktop().screenGeometry(screen).center()
+		frameGm.moveCenter(centerPoint)
+		self.window.move(frameGm.topLeft())
 
-	def callback_destroy(self,widget):
-		self.destroy()
+	def callback_destroy(self):
+		self.window.close()
 
-	def show_cb(self,widget, data=None):
-		glib.timeout_add(1500, self.timer_cb)
 
 	def init(self):
-		self.window = gtk.Window()
-		self.window.connect("show", self.show_cb)
+		self.window = loadUi('./gui/splash.ui')
+		self.window.setWindowFlags(Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint)
+		self.center()
+		self.window.li.setText(notice()+"\n"+version())
+		self.window.setModal(Qt.WindowModal)
+		self.window.image.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+		self.window.image.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
 
-		self.window.set_decorated(False)
-		self.window.set_border_width(0)
-		self.window.set_keep_above(True)
-		fixed = gtk.Fixed()
-		#image = gtk.Image()
-		image_file=os.path.join(get_image_file_path(),"splash2.png")
 
-		# Create an Image object for a PNG file.
-		#file_name = "/home/rod/test/jn15/images/splash2.png"
-		pixbuf = gtk.gdk.pixbuf_new_from_file(image_file)
-		w=pixbuf.get_width()
+		image=QPixmap(os.path.join(get_image_file_path(),"splash2.png"))
+
+		w=image.width()
 		dw=494
 		xpos=w-dw
 
@@ -77,31 +70,11 @@ class splash_window():
 
 		xpos=int(xpos*value)
 
-		cropped_buffer=pixbuf.subpixbuf(xpos,0,dw,pixbuf.get_height())
-		pixmap, mask = cropped_buffer.render_pixmap_and_mask()
-		image = gtk.Image()
-		image.set_from_pixmap(pixmap, mask)
-		image.show()
+		scene=QGraphicsScene();
+		scene.addPixmap(image);
+		scene.setSceneRect(0, 0, 0, 0)
+		self.window.image.setScene(scene)
+		self.window.show()
 
-
-		label = gtk.Label()
-		label.set_use_markup(gtk.TRUE)
-		label.set_markup('<span color="black" size="88000"><b>gpvdm</b></span>')
-		label.show()
-		#image.set_from_file(image_file)
-		fixed.put(image, 0, 0)
-		fixed.put(label,40,40)
-
-		label = gtk.Label()
-		label.set_use_markup(gtk.TRUE)
-		label.set_markup(notice()+"\n"+version())
-		label.show()
-
-		fixed.put(label,40,200)
-
-		self.window.add(fixed)
-		self.window.set_position(gtk.WIN_POS_CENTER)
-		self.window.show_all()
-		self.window.connect("destroy", self.callback_destroy)
-
+		QTimer.singleShot(1500, self.callback_destroy)
 

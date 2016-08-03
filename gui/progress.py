@@ -21,94 +21,74 @@
 
 
 
+from PyQt5.QtCore import QSize, Qt
+from PyQt5.QtWidgets import QWidget, QVBoxLayout,QProgressBar,QLabel,QDesktopWidget
 
-import pygtk
-pygtk.require('2.0')
-import gtk
-#import sys
-#import os
-#import shutil
-#from gui_util import dlg_get_text
-#import threading
-#import gobject
-#import multiprocessing
-#import time
-#import glob
+#from help import my_help_class
 
-from help import my_help_class
+class progress_class(QWidget):
 
-class progress_class(gtk.Window):
+	def __init__(self):
+		QWidget.__init__(self)
+		self.setWindowFlags(Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint)
+		self.setFixedSize(400, 50)
 
-	def init(self):
-		self.set_decorated(False)
-		self.set_title("gpvdm progress")
-		self.set_size_request(400, 50)
-		self.set_position(gtk.WIN_POS_CENTER)
-		self.set_keep_above(True)
+		main_vbox = QVBoxLayout()
 
-		main_hbox = gtk.HBox(False, 5)
-		main_hbox.set_border_width(1)
-		main_hbox.show()
+		self.progress = QProgressBar(self)
+		main_vbox.addWidget(self.progress)
 
-		self.progress = gtk.ProgressBar(adjustment=None)
-		self.progress.show()
+		#self.spin=gtk.Spinner()
+		#self.spin.set_size_request(32, 32)
+		#self.spin.show()
+		#self.spin.stop()
 
-		main_hbox.pack_start(self.progress, True, True, 0)
-
-		self.spin=gtk.Spinner()
-		self.spin.set_size_request(32, 32)
-		self.spin.show()
-		self.spin.stop()
-
-		main_hbox.pack_start(self.spin, False, False, 0)
+		#main_hbox.pack_start(self.spin, False, False, 0)
 
 
-		main_vbox = gtk.VBox(False, 5)
-		main_vbox.show()
-		main_vbox.pack_start(main_hbox, True, True, 0)
+		#main_vbox = gtk.VBox(False, 5)
+		#main_vbox.show()
+		#main_vbox.pack_start(main_hbox, True, True, 0)
 
-		self.progress_array = []
-		for i in range(0,10):
-			self.progress_array.append(gtk.ProgressBar(adjustment=None))
-			self.progress_array[i].hide()
-			self.progress_array[i].set_size_request(-1, 15)
-			self.progress_array[i].modify_bg(gtk.STATE_PRELIGHT, gtk.gdk.color_parse("green"))
-			main_vbox.pack_end(self.progress_array[i], True, False, 0)
+		#self.progress_array = []
+		#for i in range(0,10):
+		#	self.progress_array.append(gtk.ProgressBar(adjustment=None))
+		#	self.progress_array[i].hide()
+		#	self.progress_array[i].set_size_request(-1, 15)
+		#	self.progress_array[i].modify_bg(gtk.STATE_PRELIGHT, gtk.gdk.color_parse("green"))
+		#	main_vbox.pack_end(self.progress_array[i], True, False, 0)
 
-		self.label=gtk.Label("Running...")
-		#label.set_justify(gtk.JUSTIFY_LEFT)
-		self.label.show()
+		self.label=QLabel()
+		self.label.setText("Running...")
 
-		main_vbox.pack_start(main_hbox, True, True, 0)
-		main_vbox.pack_start(self.label, True, True, 4)
+		main_vbox.addWidget(self.label)
 
+		self.setLayout(main_vbox)
 
-		self.add(main_vbox)
 
 	def set_fraction(self,fraction):
-		self.progress.set_fraction(fraction)
+		self.progress.setValue(fraction*100.0)
 
 	def pulse(self):
 		self.progress.pulse()
 
 	def start(self):
-		my_help_class.hide()
+		shape=QDesktopWidget().screenGeometry()
 
-		s=gtk.gdk.screen_get_default()
-		w,h=self.get_size()
+		w=shape.width()
+		h=shape.height()
+		win_w=self.frameGeometry().width()
+		win_h=self.frameGeometry().height()
 
-		x=s.get_width()-w
+		x=w-win_w
 		y=0
-
 		self.move(x,y)
-
 		self.show()
-		self.spin.start()
 
 	def stop(self):
 		self.hide()
-		self.spin.stop()
-		my_help_class.help_show()
+		#self.spin.stop()
+		#my_help_class.help_show()
 
 	def set_text(self,text):
 		text=text
@@ -117,5 +97,5 @@ class progress_class(gtk.Window):
 			l=l-50
 			text=text[l:]
 
-		self.label.set_text(text)
+		self.label.setText(text)
 

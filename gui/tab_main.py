@@ -21,13 +21,8 @@
 
 
 
-import pygtk
-pygtk.require('2.0')
-import gtk
-#import sys
 import math
-#import random
-from layer_widget import layer_widget
+#from layer_widget import layer_widget
 from util import read_xyz_data
 import os
 from cal_path import get_materials_path
@@ -39,36 +34,50 @@ from epitaxy import epitaxy_get_layers
 from epitaxy import epitaxy_get_width
 from epitaxy import epitaxy_get_mat_file
 from epitaxy import epitaxy_get_electrical_layer
-from help import my_help_class
+#from help import my_help_class
 from epitaxy import epitaxy_get_pl_file
 from epitaxy import epitaxy_get_name
+from gl import glWidget
+
+from PyQt5.QtWidgets import QWidget,QHBoxLayout
 
 import i18n
 _ = i18n.language.gettext
 
-class tab_main(gtk.VBox,tab_base):
+class tab_main(QWidget,tab_base):
 
 	label_name="tab_main"
 
 	def update(self,object):
-		self.darea.queue_draw()
+		print "update gl"
+		#self.darea.queue_draw()
 
-	def init(self):
+	def __init__(self):
+		QHBoxLayout.__init__(self)
 		self.sun=1
-		main_hbox=gtk.HBox()
-		self.darea = gtk.DrawingArea()
-		self.darea.connect("expose-event", self.expose)
+		#main_hbox=gtk.HBox()
+		#self.darea = gtk.DrawingArea()
+		#self.darea.connect("expose-event", self.expose)
 		#darea.show()
+		mainLayout = QHBoxLayout()
 
-		self.tooltips=gtk.Tooltips()
-		self.frame=layer_widget(self.tooltips)
-		main_hbox.pack_start(self.frame, False, False, 0)
-		main_hbox.pack_start(self.darea, True, True, 0)
+		self.three_d=glWidget(self)
+		self.three_d.show()
+		mainLayout.addWidget(self.three_d)
 
-		self.frame.connect("refresh", self.update)
+		self.setLayout(mainLayout)
 
-		self.add(main_hbox)
-		self.show_all()
+
+		#self.tooltips=gtk.Tooltips()
+		#self.frame=layer_widget(self.tooltips)
+		#main_hbox.pack_start(self.frame, False, False, 0)
+		#main_hbox.pack_start(self.darea, True, True, 0)
+		#main_hbox.pack_start(three_d,False,False,0)
+
+		#self.frame.connect("refresh", self.update)
+
+		#self.add(main_hbox)
+		#self.show_all()
 
 	def draw_photon(self,x_start,y_start):
 		x=x_start

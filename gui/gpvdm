@@ -22,6 +22,7 @@
 
 import sys
 
+#paths
 sys.path.append('./gui/')
 sys.path.append('/usr/lib/gpvdm/')
 sys.path.append('/usr/lib64/gpvdm/')
@@ -40,12 +41,16 @@ from code_ctrl import enable_betafeatures
 from code_ctrl import code_ctrl_load
 from code_ctrl import enable_webupdates
 
+#translate
 import i18n
 _ = i18n.language.gettext
 
+
+#ver
 from ver import ver_load_info
 from ver import ver_error
 
+from gl import glWidget
 
 ver_load_info()
 code_ctrl_load()
@@ -55,73 +60,80 @@ from command_args import command_args
 command_args(len(sys.argv),sys.argv)
 
 
-#import pdb
-import pygtk
-import gtk
-pygtk.require('2.0')
+
+#import pygtk
+#import gtk
+#pygtk.require('2.0')
 import os
-#import shutil
-#import signal
-import subprocess
+#import subprocess
 from inp import inp_get_token_value
 
-from scan_item import scan_items_clear
-from scan import scan_class 
-#from search import find_fit_error
-#from clone import gpvdm_clone
-from dlg_export import dlg_export
-from experiment import experiment
-from fxexperiment import fxexperiment
-#from copying import copying
-from plot_gen import plot_gen
-from plot_gen import set_plot_auto_close
-from import_archive import import_archive
-from about import about_dialog_show
-from help import my_help_class
+#from scan_item import scan_items_clear
+#from scan import scan_class 
+#from dlg_export import dlg_export
+#from experiment import experiment
+#from fxexperiment import fxexperiment
+#from plot_gen import plot_gen
+#from plot_gen import set_plot_auto_close
+#from import_archive import import_archive
+#from help import my_help_class
 from notice import notice
-#import os
-import gobject
-from used_files_menu import used_files_menu
-#from plot import load_graph
-from scan_item import scan_item_add
-from cmp_class import cmp_class
-#from plot_state import plot_state
-from window_list import windows
-from config import config
-import random
-from undo import undo_list_class
-from splash import splash_window
-#from ver import ver
-import webbrowser
-from qe import qe_window
-from tb_item_sun import tb_item_sun
-from tb_item_sim_mode import tb_item_sim_mode
-from gpvdm_open import gpvdm_open
+#import gobject
+#from used_files_menu import used_files_menu
+#from scan_item import scan_item_add
+#from cmp_class import cmp_class
+#from window_list import windows
+#from config import config
+#import random
+#from undo import undo_list_class
+#from qe import qe_window
+#from tb_item_sun import tb_item_sun
+#from tb_item_sim_mode import tb_item_sim_mode
+#from gpvdm_open import gpvdm_open
 
-#import glib
-from server import server
+
 from gpvdm_notebook import gpvdm_notebook
-from gui_util import process_events
+#from gui_util import process_events
 from epitaxy import epitaxy_load
-from global_objects import global_object_register
+#from global_objects import global_object_register
 
-from device_lib import device_lib_class
-from export_materials import export_materials
-from ver import ver_check_compatibility
-from import_archive import update_simulaton_to_new_ver
-from new_simulation import new_simulation
-from update import update_thread
-from update import update_now
-from hpc import hpc_class
-from scan_item import scan_populate_from_file
-from status_icon import status_icon_get
-from jv import jv
-from config_window import class_config_window
-from optics import class_optical
-from lasers import lasers
-from fit_window import fit_window
+#from device_lib import device_lib_class
+#from export_materials import export_materials
+#from ver import ver_check_compatibility
+#from import_archive import update_simulaton_to_new_ver
+#from new_simulation import new_simulation
+#from update import update_thread
+#from update import update_now
+#from hpc import hpc_class
+#from scan_item import scan_populate_from_file
+#from status_icon import status_icon_get
+#from jv import jv
+#from config_window import class_config_window
+#from optics import class_optical
+#from lasers import lasers
+#from fit_window import fit_window
+#from contacts_io import contacts_load
+
+#server
+from server import server
 from server import server_init
 from server import server_get
+
+#mesh
+from mesh import mesh_load_all
+
+#gui
+from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication
+from PyQt5.QtGui import QIcon
+from PyQt5.QtCore import QSize, Qt 
+from PyQt5.QtWidgets import QWidget,QSizePolicy,QHBoxLayout,QPushButton
+from about import about_dlg
+
+#windows
+from splash import splash_window
+
+#python modules
+import webbrowser
 
 bubble=False
 if running_on_linux()==True:
@@ -142,7 +154,7 @@ else:
 
 print notice()
 
-gobject.threads_init()
+#gobject.threads_init()
 
 
 def set_active_name(combobox, name):
@@ -151,14 +163,12 @@ def set_active_name(combobox, name):
         if liststore[i][0] == name:
             combobox.set_active(i)
 
-class gpvdm_main_window(gobject.GObject):
+class gpvdm_main_window(QMainWindow):
 
-	icon_theme = gtk.icon_theme_get_default()
+	#icon_theme = gtk.icon_theme_get_default()
 	plot_after_run=False
 	plot_after_run_file=""
 	scan_window=None
-
-	notebook=gpvdm_notebook()
 
 	def adbus(self,bus, message):
 		data=message.get_member()
@@ -231,14 +241,14 @@ class gpvdm_main_window(gobject.GObject):
 		if self.scan_window!=None:
 			self.scan_window.callback_run_simulation(None)
 
-	def callback_simulate(self, widget, data=None):
+	def callback_simulate(self):
 
 		self.my_server.clear_cache()
 		self.my_server.add_job(os.getcwd(),"")
 		self.my_server.start()
 
 
-	def callback_simulate_stop(self, widget, data=None):
+	def callback_simulate_stop(self):
 		cmd = 'killall '+get_exe_name()
 		print cmd
 #		ret= os.system(cmd)
@@ -363,16 +373,21 @@ class gpvdm_main_window(gobject.GObject):
 
 	def change_dir_and_refresh_interface(self,new_dir):
 		print "rod",os.getcwd(),new_dir
- 		scan_items_clear()
+ 		#scan_items_clear()
 		os.chdir(new_dir)
 		calculate_paths()
 		epitaxy_load()
-		self.config.load(os.getcwd())
-		print "rod",os.getcwd(),new_dir
-		self.status_bar.push(self.context_id, os.getcwd())
+		#contacts_load()
+		mesh_load_all()
+		#self.config.load(os.getcwd())
+		#print "rod",os.getcwd(),new_dir
+		#self.status_bar.push(self.context_id, os.getcwd())
 		#self.plot_open.set_sensitive(False)
 
-		self.notebook.set_item_factory(self.item_factory)
+		#self.notebook.set_item_factory(self.item_factory)
+		if self.notebook.load()==True:
+			return
+		return
 		if self.notebook.load()==True:
 			self.sim_mode.update()
 			self.ti_light.connect('refresh', self.notebook.main_tab.update)
@@ -542,8 +557,9 @@ class gpvdm_main_window(gobject.GObject):
 	def callback_export(self, widget, data=None):
 		dlg_export()
 
-	def callback_about_dialog(self, widget, data=None):
-		about_dialog_show()
+	def callback_about_dialog(self):
+		dlg=about_dlg()
+		dlg.ui.exec_()
 
 	def callback_help(self, widget, data=None):
 		my_help_class.toggle_visible()
@@ -551,7 +567,7 @@ class gpvdm_main_window(gobject.GObject):
 	def callback_update(self, widget, data=None):
 		update_now()
 
-	def callback_on_line_help(self, widget, data=None):
+	def callback_on_line_help(self):
 		webbrowser.open('www.gpvdm.com')
 
 	def callback_new_window(self, widget, data=None):
@@ -744,16 +760,15 @@ class gpvdm_main_window(gobject.GObject):
 			self.optics_window.show()
 
 	def __init__(self):
+		super(gpvdm_main_window,self).__init__()
 
-
-
-
-		gobject.GObject.__init__(self)
+		#super(gpvdm_main_window, self).__init__(parent, QtCore.Qt.FramelessWindowHint)
+		#gobject.GObject.__init__(self)
 		server_init()
 		self.my_server=server_get()
 		self.my_server.init(os.getcwd())
-		status_icon_get().connect('popup-menu', self.on_status_icon_right_click)
-		self.my_server.setup_gui(self.gui_sim_start,self.gui_sim_stop)
+		#status_icon_get().connect('popup-menu', self.on_status_icon_right_click)
+		#self.my_server.setup_gui(self.gui_sim_start,self.gui_sim_stop)
 
 		if running_on_linux()==True:
 			DBusGMainLoop(set_as_default=True)
@@ -766,13 +781,23 @@ class gpvdm_main_window(gobject.GObject):
 			self.win_pipe.connect('new-data', self.win_dbus)
 			self.win_pipe.start()
 
-		self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
-		#self.window.set_size_request(-1,1000)
-		self.window.set_border_width(10)
-		self.window.set_title(_("General-purpose Photovoltaic Device Model (www.gpvdm.com)"))
+		self.notebook=gpvdm_notebook()
+		self.setCentralWidget(self.notebook)
+		self.show()
 
-		splash=splash_window()
-		splash.init()
+		self.statusBar()
+
+		toolbar = self.addToolBar('Exit')
+		toolbar.setIconSize(QSize(42, 42))
+
+
+		#self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
+		#self.window.set_size_request(-1,1000)
+		#self.window.set_border_width(10)
+		#self.window.set_title(_("General-purpose Photovoltaic Device Model (www.gpvdm.com)"))
+
+		self.splash=splash_window()
+		self.splash.init()
 
 		temp_error=ver_error()
 		print temp_error
@@ -781,8 +806,8 @@ class gpvdm_main_window(gobject.GObject):
 				md.run()
 				md.destroy()
 
-		self.undo_list=undo_list_class()
-		self.undo_list.init()
+		#self.undo_list=undo_list_class()
+		#self.undo_list.init()
 
 
 		self.experiment_window=None
@@ -801,13 +826,15 @@ class gpvdm_main_window(gobject.GObject):
 
 		self.lasers_window=None
 
-		self.win_list=windows()
-		self.win_list.load()
+		#self.win_list=windows()
+		#self.win_list.load()
 
-		self.config=config()
+		#self.config=config()
 		#table = gtk.Table(3,6,False)
 
-		self.window.set_icon_from_file(os.path.join(get_image_file_path(),"image.jpg"))
+		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"image.jpg")))
+
+		#self.window.set_icon_from_file()
 
 		self.cluster_window=None
 		
@@ -815,251 +842,239 @@ class gpvdm_main_window(gobject.GObject):
 		self.show_tabs = True
 		self.show_border = True
 
-		self.menu_items = (
-		    ( _("/_File"),         None,         None, 0, "<Branch>" ),
-			(_("/File/_New simulation"), "<control>N", self.callback_new, 0, "<StockItem>", "gtk-new" ),
-			(_("/File/_New optical material"), "<control>N", self.callback_new, 0, "<StockItem>", "gtk-new" ),
-			(_("/File/_Open simulation"), "<control>O", self.callback_open, 0, "<StockItem>", "gtk-open" ),
-		    ( _("/File/_Export data"),     None, self.callback_export, 0, "<StockItem>", "gtk-save" ),
-		    ( _("/File/Import data"),     None, self.callback_import, 0 , "<StockItem>", "gtk-harddisk"),
-		    ( _("/File/Import from library"),     None, self.callback_import_from_lib, 0 , "<StockItem>", "gtk-harddisk"),
-		    ( _("/File/Quit"),     "<control>Q", gtk.main_quit, 0, "<StockItem>", "gtk-quit" ),
-		    ( _("/_Simulation"),      None,         None, 0, "<Branch>" ),
-		    ( _("/Simulation/Run"),  None,         self.callback_simulate, 0, "<StockItem>", "gtk-media-play" ),
-		    ( _("/Simulation/Stop"),  None,         self.callback_simulate_stop, 0, "<StockItem>", "gtk-media-stop" ),
-		    ( _("/Simulation/Parameter scan"),  None,         self.callback_scan , 0, None ),
-		    ( _("/Simulation/Configure"),  None,         self.callback_config_window, 0, "<StockItem>", "gtk-preferences" ),
-		    ( _("/_View"),      None,         None, 0, "<Branch>" ),
-		    ( _("/_Plots"),      None,         None, 0, "<Branch>" ),
-		    ( _("/Plots/Plot simulation result"),  None,         self.callback_plot_select, 0, "<StockItem>", "gtk-open"),
-		    ( _("/_Plots/"),     None, None, 0, "<Separator>" ),
-		    ( _("/_Help"),         None,         None, 0, "<LastBranch>" ),
-			( _("/_Help/Help Index"),   None,         self.callback_help, 0, "<StockItem>", "gtk-help"  ),
-		    ( _("/_Help/About"),   None, self.callback_about_dialog, 0, "<StockItem>", "gtk-about" ),
-		    )
+		menubar = self.menuBar()
 
-		self.menubar = self.get_main_menu(self.window)
+		#    ( _("/_File"),         None,         None, 0, "<Branch>" ),
+		#	(_("/File/_New simulation"), "<control>N", self.callback_new, 0, "<StockItem>", "gtk-new" ),
+		#	(_("/File/_New optical material"), "<control>N", self.callback_new, 0, "<StockItem>", "gtk-new" ),
+		#	(_("/File/_Open simulation"), "<control>O", self.callback_open, 0, "<StockItem>", "gtk-open" ),
+		#    ( _("/File/_Export data"),     None, self.callback_export, 0, "<StockItem>", "gtk-save" ),
+		#    ( _("/File/Import data"),     None, self.callback_import, 0 , "<StockItem>", "gtk-harddisk"),
+		#    ( _("/File/Import from library"),     None, self.callback_import_from_lib, 0 , "<StockItem>", "gtk-harddisk"),
+		#    ( _("/File/Quit"),     "<control>Q", gtk.main_quit, 0, "<StockItem>", "gtk-quit" ),
+
+		file_menu = menubar.addMenu('&File')
+		file_menu.addAction(_("&New simulation"))
+		file_menu.addAction(_("New optical material"))
+		file_menu.addAction(_("&Open simulation"))
+		file_menu.addAction(_("&Export data"))
+		file_menu.addAction(_("&Import data"))
+		file_menu.addAction(_("Import from library"))
+		file_menu.addAction(_("&Quit"))
+
+
+
+		#    ( _("/_Simulation"),      None,         None, 0, "<Branch>" ),
+		#    ( _("/Simulation/Run"),  None,         self.callback_simulate, 0, "<StockItem>", "gtk-media-play" ),
+		#    ( _("/Simulation/Stop"),  None,         self.callback_simulate_stop, 0, "<StockItem>", "gtk-media-stop" ),
+		#    ( _("/Simulation/Parameter scan"),  None,         self.callback_scan , 0, None ),
+		#    ( _("/Simulation/Configure"),  None,         self.callback_config_window, 0, "<StockItem>", "gtk-preferences" ),
+		simulation_menu = menubar.addMenu('&Simulation')
+		simulation_menu.addAction(_("&Run"))
+		simulation_menu.addAction(_("&Stop"))
+		simulation_menu.addAction(_("&Parameter scan"))
+		simulation_menu.addAction(_("&Configure"))
+
+
+		#    ( _("/_View"),      None,         None, 0, "<Branch>" ),
+		view_menu = menubar.addMenu('&View')
+		view_menu.addAction(_("&None"))
+
+
+		#    ( _("/_Plots"),      None,         None, 0, "<Branch>" ),
+		#    ( _("/Plots/Plot simulation result"),  None,         self.callback_plot_select, 0, "<StockItem>", "gtk-open"),
+		#    ( _("/_Plots/"),     None, None, 0, "<Separator>" ),
+		plot_menu = menubar.addMenu('&Plot')
+		plot_menu.addAction(_("&Plot simulation result"))
+
+
+		#    ( _("/_Help"),         None,         None, 0, "<LastBranch>" ),
+		#	( _("/_Help/Help Index"),   None,         self.callback_help, 0, "<StockItem>", "gtk-help"  ),
+		#    ( _("/_Help/About"),   None, self.callback_about_dialog, 0, "<StockItem>", "gtk-about" ),
+		#    )
+		help_menu = menubar.addMenu('Help')
+		help_web=help_menu.addAction(_("&Help Index"))
+		help_web.triggered.connect(self.callback_on_line_help)
+
+		about=help_menu.addAction(_("&About"))
+		about.triggered.connect(self.callback_about_dialog)
+
+
+
 
 		if enable_webupdates()==False:
-			update_menu = (( "/_Help/Check for updates",  None, self.callback_update, 0, "<ToggleItem>" ),   )
-			self.item_factory.create_items( update_menu, )
+			help_menu.addAction(_("&Check for updates"))
+		#	update_menu = (( "/_Help/Check for updates",  None, self.callback_update, 0, "<ToggleItem>" ),   )
+		#	self.item_factory.create_items( update_menu, )
 
 
 		#table.show()
-		self.window.connect("destroy", gtk.main_quit)
+		#self.window.connect("destroy", gtk.main_quit)
 
-		self.tooltips = gtk.Tooltips()
-
-		self.window.set_size_request(1100, 780)
-		main_vbox = gtk.VBox(False, 5)
-		main_vbox.set_border_width(1)
-		self.window.add(main_vbox)
+		#main_vbox = gtk.VBox(False, 5)
+		#main_vbox.set_border_width(1)
+		#self.window.add(main_vbox)
 		#window.add(table)
-		main_vbox.show()
+		#main_vbox.show()
 
 
-		toolbar = gtk.Toolbar()
-		toolbar.set_style(gtk.TOOLBAR_ICONS)
-		toolbar.set_size_request(-1, 50)
-
-		image = gtk.Image()
-		image.set_from_file(os.path.join(get_image_file_path(),"new.png"))
-		new_sim = gtk.ToolButton(image)
-		self.tooltips.set_tip(new_sim, _("Make a new simulation"))
-		toolbar.insert(new_sim, -1)
-
-		image = gtk.Image()
-		image.set_from_file(os.path.join(get_image_file_path(),"open.png"))
-		open_sim = gtk.ToolButton(image)
-		self.tooltips.set_tip(open_sim, _("Open a simulation"))
-		toolbar.insert(open_sim, -1)
 
 
-		sep_lhs = gtk.SeparatorToolItem()
-		sep_lhs.set_draw(True)
-		sep_lhs.set_expand(False)
-		toolbar.insert(sep_lhs, -1)
+		new_sim = QAction(QIcon(os.path.join(get_image_file_path(),"new.png")), 'Exit', self)
+		new_sim.setStatusTip(_("Make a new simulation"))
+		new_sim.triggered.connect(self.callback_new)
+		toolbar.addAction(new_sim)
 
-		image = gtk.Image()
-		image.set_from_file(os.path.join(get_image_file_path(),"undo.png"))
-		self.undo = gtk.ToolButton(image)
-		self.tooltips.set_tip(self.undo, "Undo")
-		toolbar.insert(self.undo, -1)
-		self.undo.connect("clicked", self.callback_undo)
-
-		sep_lhs = gtk.SeparatorToolItem()
-		sep_lhs.set_draw(True)
-		sep_lhs.set_expand(False)
-		toolbar.insert(sep_lhs, -1)
-
-		image = gtk.Image()
-		image.set_from_file(os.path.join(get_image_file_path(),"play.png"))
-		self.play = gtk.ToolButton(image)
-		self.tooltips.set_tip(self.play, _("Run the simulation"))
-		toolbar.insert(self.play, -1)
-		self.play.connect("clicked", self.callback_simulate)
-
-		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"forward.png"))
-		self.tb_run_scan = gtk.ToolButton(image)
-		self.tb_run_scan.connect("clicked", self.callback_run_scan)
-		self.tooltips.set_tip(self.tb_run_scan, _("Run parameter scan"))
-		toolbar.insert(self.tb_run_scan, -1)
-		self.tb_run_scan.set_sensitive(False)
+		open_sim = QAction(QIcon(os.path.join(get_image_file_path(),"open.png")), 'Exit', self)
+		open_sim.setStatusTip(_("Open a simulation"))
+		open_sim.triggered.connect(self.callback_open)
+		toolbar.addAction(open_sim)
 
 
-		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"pause.png"))
-		self.stop = gtk.ToolButton(image )
-		self.tooltips.set_tip(self.stop, _("Stop the simulation"))
-		self.stop.connect("clicked", self.callback_simulate_stop)
-		toolbar.insert(self.stop, -1)
+		toolbar.addSeparator()
 
-		sep = gtk.SeparatorToolItem()
-		sep.set_draw(True)
-		sep.set_expand(False)
-		toolbar.insert(sep, -1)
+		self.undo = QAction(QIcon(os.path.join(get_image_file_path(),"undo.png")), 'Exit', self)
+		self.undo.setStatusTip(_("Undo"))
+		self.undo.triggered.connect(self.callback_undo)
+		toolbar.addAction(self.undo)
+		#seperator
 
-		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"scan.png"))
-		self.param_scan = gtk.ToolButton(image)
-		self.param_scan.connect("clicked", self.callback_scan)
-		self.tooltips.set_tip(self.param_scan, _("Parameter scan"))
-		toolbar.insert(self.param_scan, -1)
+
+		self.run = QAction(QIcon(os.path.join(get_image_file_path(),"play.png")), 'Exit', self)
+		self.run.setStatusTip(_("Run the simulation"))
+		self.run.triggered.connect(self.callback_simulate)
+		toolbar.addAction(self.run)
+
+		self.tb_run_scan = QAction(QIcon(os.path.join(get_image_file_path(),"forward.png")), 'Exit', self)
+		self.tb_run_scan.setStatusTip(_("Run parameter scan"))
+		self.tb_run_scan.triggered.connect(self.callback_run_scan)
+		self.tb_run_scan.setEnabled(False)
+		toolbar.addAction(self.tb_run_scan)
+
+		self.tb_stop = QAction(QIcon(os.path.join(get_image_file_path(),"pause.png")), 'Exit', self)
+		self.tb_stop.setStatusTip(_("Stop the simulation"))
+		self.tb_stop.triggered.connect(self.callback_simulate_stop)
+		toolbar.addAction(self.tb_stop)
+		self.tb_stop.setEnabled(False)
+
+
+		toolbar.addSeparator()
+
+		self.param_scan = QAction(QIcon(os.path.join(get_image_file_path(),"scan.png")), 'Exit', self)
+		self.param_scan.setStatusTip(_("Parameter scan"))
+		self.param_scan.triggered.connect(self.callback_scan)
+		toolbar.addAction(self.param_scan)
+		self.param_scan.setEnabled(False)
+
 
 		if enable_betafeatures()==True:
-			image = gtk.Image()
-	   		image.set_from_file(os.path.join(get_image_file_path(),"fit.png"))
-			self.tb_run_fit = gtk.ToolButton(image)
-			self.tb_run_fit.connect("clicked", self.callback_run_fit)
-			self.tooltips.set_tip(self.tb_run_fit, _("Run a fit command"))
-			toolbar.insert(self.tb_run_fit, -1)
-			self.tb_run_fit.set_sensitive(True)
+			self.tb_run_fit = QAction(QIcon(os.path.join(get_image_file_path(),"fit.png")), 'Exit', self)
+			self.tb_run_fit.setStatusTip(_("Run a fit command"))
+			self.tb_run_fit.triggered.connect(self.callback_run_fit)
+			toolbar.addAction(self.tb_run_fit)
+			self.tb_run_fit.setEnabled(True)
 
 
-		sep = gtk.SeparatorToolItem()
-		sep.set_draw(True)
-		sep.set_expand(False)
-		toolbar.insert(sep, -1)
+		toolbar.addSeparator()
 
-	        image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"plot.png"))
-		self.plot_select = gtk.MenuToolButton(image,"hello")
-		self.tooltips.set_tip(self.plot_select, _("Find a file to plot"))
-		self.plotted_graphs = used_files_menu()
-		self.plot_select.set_menu(self.plotted_graphs.menu)
-		toolbar.insert(self.plot_select, -1)
-		self.plot_select.connect("clicked", self.callback_plot_select)
-		self.plot_select.set_sensitive(False)
 
 		#image = gtk.Image()
-   		#image.set_from_file(os.path.join(get_image_file_path(),"refresh.png"))
-		#self.plot_open = gtk.ToolButton(image)
-		#self.tooltips.set_tip(self.plot_open, "Replot the graph")
-		#toolbar.insert(self.plot_open, -1)
-		#self.plot_open.set_sensitive(False)
-
-		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"plot_time.png"))
-		self.examine = gtk.ToolButton(image)
-		self.tooltips.set_tip(self.examine, _("Examine results in time domain"))
-		self.examine.connect("clicked", self.callback_examine)
-		toolbar.insert(self.examine, -1)
-
-		sep = gtk.SeparatorToolItem()
-		sep.set_draw(True)
-		sep.set_expand(False)
-		toolbar.insert(sep, -1)
+   		#image.set_from_file(os.path.join(get_image_file_path(),"plot.png"))
+		#self.plot_select = gtk.MenuToolButton(image,"hello")
+		#self.tooltips.set_tip(self.plot_select, _("Find a file to plot"))
+		#self.plotted_graphs = used_files_menu()
+		#self.plot_select.set_menu(self.plotted_graphs.menu)
+		#toolbar.insert(self.plot_select, -1)
+		#self.plot_select.connect("clicked", self.callback_plot_select)
+		#self.plot_select.set_sensitive(False)
 
 
+		self.examine = QAction(QIcon(os.path.join(get_image_file_path(),"plot_time.png")), 'Exit', self)
+		self.examine.setStatusTip(_("Examine results in time domain"))
+		self.examine.triggered.connect(self.callback_examine)
+		toolbar.addAction(self.examine)
+
+		toolbar.addSeparator()
+
+		self.experiment_window_button = QAction(QIcon(os.path.join(get_image_file_path(),"time.png")), 'Exit', self)
+		self.experiment_window_button.setStatusTip(_("Time domain simulation editor."))
+		self.experiment_window_button.triggered.connect(self.callback_edit_experiment_window)
+		toolbar.addAction(self.experiment_window_button)
 
 
-		image = gtk.Image()
-	   	image.set_from_file(os.path.join(get_image_file_path(),"time.png"))
-		self.experiment_window_button = gtk.ToolButton(image)
-		self.tooltips.set_tip(self.experiment_window_button, _("Time domain simulation editor."))
-		self.experiment_window_button.connect("clicked", self.callback_edit_experiment_window)
-		toolbar.insert(self.experiment_window_button, -1)
-
-		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"spectrum.png"))
-		self.spectrum_button = gtk.ToolButton(image)
-		self.tooltips.set_tip(self.spectrum_button, _("Frequency domain simulation editor"))
-		self.spectrum_button.connect("clicked", self.callback_fxexperiment_window)
-		toolbar.insert(self.spectrum_button, -1)
-
-		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"jv.png"))
-		self.jv_button = gtk.ToolButton(image)
-		self.tooltips.set_tip(self.jv_button, _("Steady state simulation editor."))
-		self.jv_button.connect("clicked", self.callback_jvexperiment_window)
-		toolbar.insert(self.jv_button, -1)
-
-		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"optics.png"))
-		self.optics_button = gtk.ToolButton(image)
-		self.tooltips.set_tip(self.optics_button, _("Optical simulation"))
-		self.optics_button.connect("clicked", self.callback_optics_sim)
-		toolbar.insert(self.optics_button, -1)
-
-		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"lasers.png"))
-		self.lasers_button = gtk.ToolButton(image)
-		self.lasers_button.connect("clicked", self.callback_configure_lasers)
-		self.tooltips.set_tip(self.lasers_button, _("Lasers editor"))
-		toolbar.insert(self.lasers_button, -1)
-		toolbar.show_all()
-
-		if enable_betafeatures()==True:
-			sep = gtk.SeparatorToolItem()
-			sep.set_draw(True)
-			sep.set_expand(False)
-			toolbar.insert(sep, -1)
-
-		sep2 = gtk.SeparatorToolItem()
-		sep2.set_draw(False)
-		sep2.set_expand(True)
-		toolbar.insert(sep2, -1)
+		self.experiment_window_button = QAction(QIcon(os.path.join(get_image_file_path(),"spectrum.png")), 'Exit', self)
+		self.experiment_window_button.setStatusTip(_("Frequency domain simulation editor"))
+		self.experiment_window_button.triggered.connect(self.callback_fxexperiment_window)
+		toolbar.addAction(self.experiment_window_button)
 
 
-		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"help.png"))
-		help = gtk.ToolButton(image)
-		self.tooltips.set_tip(help, "Help")
-		help.connect("clicked", self.callback_help)
-		toolbar.insert(help, -1)
+		self.jv_button = QAction(QIcon(os.path.join(get_image_file_path(),"jv.png")), 'Exit', self)
+		self.jv_button.setStatusTip(_("Frequency domain simulation editor"))
+		self.jv_button.triggered.connect(self.callback_fxexperiment_window)
+		toolbar.addAction(self.jv_button)
+
+		self.optics_button = QAction(QIcon(os.path.join(get_image_file_path(),"optics.png")), 'Exit', self)
+		self.optics_button.setStatusTip(_("Optical simulation"))
+		self.optics_button.triggered.connect(self.callback_optics_sim)
+		toolbar.addAction(self.optics_button)
 
 
-		#quittb = gtk.ToolButton(gtk.STOCK_QUIT)
-		#self.tooltips.set_tip(quittb, "Quit")
-		#toolbar.insert(quittb, -1)
-		#quittb.connect("clicked", gtk.main_quit)
+		self.lasers_button = QAction(QIcon(os.path.join(get_image_file_path(),"lasers.png")), 'Exit', self)
+		self.lasers_button.setStatusTip(_("Lasers editor"))
+		self.lasers_button.triggered.connect(self.callback_optics_sim)
+		toolbar.addAction(self.lasers_button)
 
-		new_sim.connect("clicked", self.callback_new)
-		open_sim.connect("clicked", self.callback_open)
+
+#		if enable_betafeatures()==True:
+#			sep = gtk.SeparatorToolItem()
+#			sep.set_draw(True)
+#			sep.set_expand(False)
+#			toolbar.insert(sep, -1)
+
+#		sep2 = gtk.SeparatorToolItem()
+#		sep2.set_draw(False)
+#		sep2.set_expand(True)
+#		toolbar.insert(sep2, -1)
+
+
+		self.lasers_button = QAction(QIcon(os.path.join(get_image_file_path(),"lasers.png")), 'Exit', self)
+		self.lasers_button.setStatusTip(_("Lasers editor"))
+		self.lasers_button.triggered.connect(self.callback_optics_sim)
+		toolbar.addAction(self.lasers_button)
+
+		spacer = QWidget()
+		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+		toolbar.addWidget(spacer)
+
+
+		self.help = QAction(QIcon(os.path.join(get_image_file_path(),"help.png")), 'Exit', self)
+		self.help.setStatusTip(_("Help"))
+		self.help.triggered.connect(self.callback_on_line_help)
+		toolbar.addAction(self.help)
+
 		#self.save_sim.connect("clicked", self.callback_export)
 
 		#self.plot_open.connect("clicked", self.callback_plot_open)
 
-		toolbar1=self.make_tool_box1()
+#		toolbar1=self.make_tool_box1()
 
 
-		toolbar.show_all()
-
-
-
-		main_vbox.pack_start(self.menubar, False, True, 0)
-		handlebox = gtk.HandleBox()
-		handlebox.set_snap_edge(-1)
-		handlebox.show()
-
-		handlebox1 = gtk.HandleBox()
-		handlebox1.set_snap_edge(-1)
-		handlebox1.show()
+#		toolbar.show_all()
 
 
 
-		toolbar.set_size_request(1000, -1)
+#		main_vbox.pack_start(self.menubar, False, True, 0)
+#		handlebox = gtk.HandleBox()
+#		handlebox.set_snap_edge(-1)
+#		handlebox.show()
+
+#		handlebox1 = gtk.HandleBox()
+#		handlebox1.set_snap_edge(-1)
+#		handlebox1.show()
+
+
+
+#		toolbar.set_size_request(1000, -1)
 
 		#tb_vbox=gtk.VBox()
 		#tb_vbox.add(toolbar)
@@ -1068,73 +1083,35 @@ class gpvdm_main_window(gobject.GObject):
 
 
 
-		handlebox1.add(toolbar)
-		handlebox.add(toolbar1)
+#		handlebox1.add(toolbar)
+#		handlebox.add(toolbar1)
 
-		main_vbox.pack_start(handlebox1, False, False, 0)
-		main_vbox.pack_start(handlebox, False, False, 0)
+#		main_vbox.pack_start(handlebox1, False, False, 0)
+#		main_vbox.pack_start(handlebox, False, False, 0)
 
-		if enable_betafeatures()==True:
-			handlebox2 = gtk.HandleBox()
-			handlebox2.set_snap_edge(-1)
-			handlebox2.show()
-			self.hpc_toolbar=hpc_class()
-			self.hpc_toolbar.init(self.my_server)
-			self.hpc_toolbar.show_all()
-			handlebox2.add(self.hpc_toolbar)
-			main_vbox.pack_start(handlebox2, False, False, 0)
+#		if enable_betafeatures()==True:
+#			handlebox2 = gtk.HandleBox()
+#			handlebox2.set_snap_edge(-1)
+#			handlebox2.show()
+#			self.hpc_toolbar=hpc_class()
+#			self.hpc_toolbar.init(self.my_server)
+#			self.hpc_toolbar.show_all()
+#			handlebox2.add(self.hpc_toolbar)
+#			main_vbox.pack_start(handlebox2, False, False, 0)
 
 	
-		self.window.connect("delete-event", self.callback_close_window) 
+#		self.window.connect("delete-event", self.callback_close_window) 
 
-		self.win_list.set_window(self.window,"main_window")
-
-
-
-		self.menubar.show()
-
-		self.make_window2(main_vbox)
-
-		self.window.show()
+#		self.win_list.set_window(self.window,"main_window")
 
 
-		process_events()
 
+#		self.menubar.show()
 
-	def make_window2(self,main_vbox):
-
-		box=gtk.HBox()
-		self.status_bar = gtk.Statusbar()      
-		self.context_id = self.status_bar.get_context_id("Statusbar example")
-		self.status_bar.push(self.context_id, os.getcwd())
-
-		box.add(self.status_bar)
-
-		self.window2_box=gtk.VBox()
-		self.window2_box.add(self.notebook)
-		self.window2_box.add(box)
-		self.window2_box.set_child_packing(box, False, False, 0, 0)
-		self.window2_box.set_size_request(-1, 700)
-		self.window2 = gtk.Window(gtk.WINDOW_TOPLEVEL)
-		self.window2.set_border_width(10)
-
-		self.window2.set_title(_("General-purpose Photovoltaic Device Model (www.gpvdm.com)"))
-		self.window2.connect("delete-event", self.callback_close_window2)
-
-		self.window2.set_icon_from_file(os.path.join(get_image_file_path(),"image.jpg"))
-		if main_vbox==None:
-			self.window2.add(self.window2_box)
-		else:
-			main_vbox.add(self.window2_box)			
-
-		box.show()
-		self.status_bar.show()
-		self.window2_box.show()
+#		self.make_window2(main_vbox)
 
 		self.change_dir_and_refresh_interface(os.getcwd())
-		if main_vbox==None:
-			self.window2.show()
-		my_help_class.show()
+		#my_help_class.show()
 
 
 
@@ -1144,13 +1121,23 @@ class gpvdm_main_window(gobject.GObject):
 			self.update.connect("got-data", self.got_help)
 			self.update.start()
 
+#		self.window.show()
+
+
+#		process_events()
+
+		self.setGeometry(300, 300, 1000, 600)
+		self.setWindowTitle('Main window')    
+		self.show()
+
+
 	def got_help(self,data):
 		if self.update.text!="":
 			my_help_class.help_append(["star.png",_("<big><b>Update available!</b></big>\n"+self.update.text)])
 			
-if __name__ == "__main__":
-	main=gpvdm_main_window()
-	random.seed()
-	gtk.main()
+if __name__ == '__main__':
+	app = QApplication(sys.argv)
+	ex = gpvdm_main_window()
+	sys.exit(app.exec_())
 
 

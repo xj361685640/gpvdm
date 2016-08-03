@@ -20,25 +20,27 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-import pygtk
-pygtk.require('2.0')
-import gtk
-#import sys
+
 import os
-#import shutil
 from ver import ver
 from notice import notice
 from cal_path import get_image_file_path
 
-def about_dialog_show():
-	about = gtk.AboutDialog()
-	about.set_program_name("gpvdm")
-	about.set_version("")
-	about.set_copyright("Written by Roderick MacKenzie 2014, published under GPL v2.0")
-	about.set_comments(ver()+"\n"+notice())
-	about.set_website("http://www.gpvdm.com")
+import sys
 
-	image=os.path.join(get_image_file_path(),"image.jpg")
-	about.set_logo(gtk.gdk.pixbuf_new_from_file(image))
-	about.run()
-	about.destroy()
+from PyQt5.uic import loadUi
+from PyQt5.QtWidgets import QDialog
+from PyQt5.QtGui import QPixmap
+
+class about_dlg():
+	def __init__(self):
+		#QDialog.__init__(self)
+		self.ui = loadUi('./gui/about.ui')
+		self.ui.ver.setText(ver()+"\n"+notice())
+		self.ui.li.setText("Written by Roderick MacKenzie 2014, published under GPL v2.0")
+		self.ui.show()
+		pixmap = QPixmap(os.path.join(get_image_file_path(),"image.jpg"))
+		self.ui.image.setPixmap(pixmap)
+
+
+

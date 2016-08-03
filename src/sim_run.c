@@ -105,6 +105,7 @@ if (strcmp(cell.simmode,"opticalmodel@optics")!=0)
 	char tempn[100];
 	char tempp[100];
 	i=0;
+
 	for (i=0;i<cell.my_epitaxy.electrical_layers;i++)
 	{
 		dos_init(&cell,i);

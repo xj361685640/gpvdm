@@ -21,13 +21,6 @@
 
 
 
-import pygtk
-pygtk.require('2.0')
-#import gtk
-#import sys
-#import os
-#import shutil
-
 def notice():
 	ret="gpvdm (General-purpose Photovoltaic Device Model GUI)\n"
 	ret=ret+"Roderick MacKenzie, released under GPL 2012\n"

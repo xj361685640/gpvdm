@@ -20,10 +20,6 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-
-import pygtk
-pygtk.require('2.0')
-import gtk
 import sys
 import os
 from util import str2bool
@@ -57,9 +53,9 @@ _ = i18n.language.gettext
 from cluster import cluster
 
 
-from status_icon import status_icon_init
-from status_icon import status_icon_run
-from status_icon import status_icon_stop
+#from status_icon import status_icon_init
+#from status_icon import status_icon_run
+#from status_icon import status_icon_stop
 
 my_server=False
 
@@ -81,7 +77,7 @@ class server(cluster):
 		self.running=False
 		self.enable_gui=False
 		self.callback_when_done=False
-		status_icon_init()
+		#status_icon_init()
 
 	def init(self,sim_dir):
 		self.terminate_on_finish=False
@@ -103,7 +99,7 @@ class server(cluster):
 
 	def gui_sim_start(self):
 		self.progress_window.start()
-		status_icon_run(self.cluster)
+		#status_icon_run(self.cluster)
 		self.extern_gui_sim_start()
 
 	def set_callback_when_done(self,proc):
@@ -112,7 +108,7 @@ class server(cluster):
 	def gui_sim_stop(self):
 		text=self.check_warnings()
 		self.progress_window.stop()
-		status_icon_stop(self.cluster)
+		#status_icon_stop(self.cluster)
 
 		self.extern_gui_sim_stop("Finished simulation")
 		my_help_class.help_set_help(["plot.png",_("<big><b>Simulation finished!</b></big>\nClick on the plot icon to plot the results")])

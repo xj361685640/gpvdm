@@ -19,31 +19,12 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-
-
-import pygtk
-pygtk.require('2.0')
-import gtk
-#import sys
 import os
-#import shutil
-#import commands
-#import subprocess
-#from win_lin import running_on_linux
-#from cal_path import get_exe_command
-#import socket
-#import time
-#import urlparse
-#import re
-#import os
-#from ver import ver_core
-#from ver import ver_mat
-#from ver import ver_gui
-#import gobject
 from cal_path import get_image_file_path
-#from global_objects import global_object_register
 import webbrowser
 
+from PyQt5.QtCore import QSize, Qt
+from PyQt5.QtWidgets import QWidget, QVBoxLayout,QProgressBar,QLabel,QDesktopWidget
 
 class help_data():
 	def __init__(self,token,icon,text):
@@ -51,44 +32,37 @@ class help_data():
 		self.icon=icon
 		self.text=text
 
-class help_class(gtk.Window):
+class help_class(QWidget):
 	def move_window(self):
-		s=gtk.gdk.screen_get_default()
-		w,h=self.get_size()
+		shape=QDesktopWidget().screenGeometry()
 
-		x=s.get_width()-w-50
+		w=shape.width()
+		h=shape.height()
+		win_w=self.frameGeometry().width()
+		win_h=self.frameGeometry().height()
+
+		x=w-win_w
 		y=0
-
 		self.move(x,y)
 
 	def help_show(self):
-		self.show_all()
+		self.show()
 		self.move_window()
 
 	def toggle_visible(self):
-		if self.get_visible()==True:
-			self.hide()
+		if self.isVisible()==True:
+			#self.hide()
+			self.setVisible(self, False)
 		else:
-			self.show()
+#			self.show()
+			self.setVisible(self, True)
+
 		self.move_window()
 
-	def get_help(self,token):
-		for i in range(0,len(self.help_lib)):
-			if self.help_lib[i].token==token:
-				self.help_set_help([self.help_lib[i].icon,self.help_lib[i].text])
-		return False
-
-	def init(self):
+	def __init__(self):
+		QWidget.__init__(self)
 		self.last=[]
 		self.pos=-1
-		self.help_lib=[]
-		self.help_lib.append(help_data("device.inp","tab.png","<big><b>Device tab</b></big>\nThis tab contains information about the device, such as width breadth, carrier density on the contacts, shunt and contact resistance."))
-		self.help_lib.append(help_data("jv.inp","tab.png","<big><b>JV tab</b></big>\nThis tab controls the JV curve simulation."))
-		self.help_lib.append(help_data("jv_simple.inp","tab.png","<big><b>JV simple tab</b></big>\nThe 'jv simple' model does not use gpvdm's full device model instead it uses the diode equation to simulate a solar cell.  Sometimes for papers it is useful to do this."))
-		self.help_lib.append(help_data("dump.inp","tab.png","<big><b>Dump tab</b></big>\nThe dump tab controls what the simulation writes disk, generally writing to disk is a slow process so by default the model dumps relitavly little data."))
-		self.help_lib.append(help_data("celiv.inp","tab.png","<big><b>CELIV tab</b></big>\nThe CELIV tab controls the the parameters for a CELIV simulation."))
-		self.help_lib.append(help_data("thermal.inp","tab.png","<big><b>Thermal tab</b></big>\nUse this tab to set the simulation temperature."))
-		self.help_lib.append(help_data("tof.inp","tab.png","<big><b>ToF tab</b></big>\nUse this to configure the time of flight simulation."))
 
 		self.move_window()
 		self.vbox=gtk.VBox()
@@ -110,7 +84,6 @@ class help_class(gtk.Window):
 
 			self.box[i].pack_start(self.image[i], False, False, 0)
 			self.box[i].pack_start(self.label[i], True, True, 0)
-
 
 
 		toolbar = gtk.Toolbar()

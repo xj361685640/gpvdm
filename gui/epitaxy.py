@@ -20,30 +20,10 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-
-
-import pygtk
-pygtk.require('2.0')
-#import gtk
-#import sys
 import os
-#import shutil
-#from inp import inp_update_token_value
 from inp import inp_write_lines_to_file
 from inp import inp_load_file
-#from inp_util import inp_search_token_value
-#from scan_item import scan_item
-#from scan_item import scan_item_add
-#import glob
-#from util import time_with_units
-#from plot_widget import plot_widget
-#from util_zip import zip_get_data_file
-#from window_list import windows
-#from plot_state import plot_state
-#from plot_io import plot_load_info
-#from cal_path import get_exe_command
 
-#from i18n import yes_no
 
 layers=0
 electrical_layers=0
@@ -92,7 +72,9 @@ def epitaxy_load():
 
 			electrical_layer.append(lines[pos])		#value
 
-			if lines[pos]!="none":
+			print ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",lines[pos]
+
+			if lines[pos].startswith("dos")==True:
 				electrical_layers=electrical_layers+1
 
 			pos=pos+1
@@ -144,7 +126,7 @@ def epitaxy_load_from_arrays(in_name,in_width,in_material,in_dos_layer,in_pl_fil
 
 		pl_file.append(in_pl_file[i])			#value
 
-		if in_dos_layer[i]!="none":
+		if in_dos_layer[i].startswith("dos")==True:
 			electrical_layers=electrical_layers+1
 
 
@@ -185,7 +167,7 @@ def epitaxy_get_dos_files():
 	global electrical_layer
 	dos_file=[]
 	for i in range(0,len(electrical_layer)):
-		if electrical_layer[i]!="none":
+		if electrical_layer[i].startswith("dos")==True:
 			dos_file.append(electrical_layer[i])
 
 	return dos_file

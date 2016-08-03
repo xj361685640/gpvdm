@@ -19,59 +19,52 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-
-
-
 import os
-#import pygtk
-import gtk
-from progress import progress_class
-from gui_util import process_events
-#from inp import inp_get_token_value
-#from inp import inp_write_lines_to_file
+#from progress import progress_class
+#from gui_util import process_events
+
+#inp files
 from inp import inp_load_file
 from inp import inp_get_next_token_array
 from inp import inp_isfile
 from inp import inp_update_token_value
+from inp_description import inp_file_to_description
+
+#tabs
 from tab_main import tab_main
 from tab import tab_class
 from tab_homo import tab_bands
-
-from win_lin import running_on_linux
-
 from dos_main import dos_main
 from pl_main import pl_main
 
+#util
+from win_lin import running_on_linux
+
+#paths
 from cal_path import get_bin_path
 from cal_path import get_image_file_path
-from inp_description import inp_file_to_description
 from code_ctrl import enable_webbrowser
+
+#qt
+from PyQt5.QtWidgets import QTabWidget,QWidget
 
 if running_on_linux()==True:
 	from tab_terminal import tab_terminal
-	if enable_webbrowser()==True:
-		from information_webkit import information
-	else:
-		from information_noweb import information
-else:
-	from information_noweb import information
+#	if enable_webbrowser()==True:
+#		from information_webkit import information
+#	else:
+#		from information_noweb import information
+#else:
+#	from information_noweb import information
 
 import i18n
 _ = i18n.language.gettext
 
-class gpvdm_notebook(gtk.Notebook):
-	progress=progress_class()
+class gpvdm_notebook(QTabWidget):
+	#progress=progress_class()
 	finished_loading=False
 	item_factory=None
 	menu_items=[]
-
-	if running_on_linux()==True:
-		terminal_widget=tab_terminal()
-		terminal_widget.init()
-		terminal=terminal_widget.terminal
-	else:
-		terminal_widget=None
-		terminal=None
 
 	def goto_page(self,page):
 		for i in range(0,len(self.get_children())):
@@ -79,8 +72,9 @@ class gpvdm_notebook(gtk.Notebook):
 					self.set_current_page(i)
 					break
 
-	def callback_close_button(self, widget, data):
-		self.toggle_tab_visible(data)
+	def callback_close_button(self,index):
+		print "close_handler called, index = %s" % index
+		self.removeTab(index)
 
 	def callback_switch_page(self, notebook, page, page_num):
 		if self.last_page!=page_num:
@@ -138,25 +132,30 @@ class gpvdm_notebook(gtk.Notebook):
 	def load(self):
 		self.clean_menu()
 		self.last_page=0
-		#print "paths",os.getcwd(),get_bin_path(),(os.path.normcase(os.getcwd())!=os.path.normcase(get_bin_path()))
+
+		self.setTabsClosable(True)
+		self.setMovable(True)
+		self.tabCloseRequested.connect(self.callback_close_button)
 		if (os.path.exists("sim.gpvdm")==True) and (os.path.normcase(os.getcwd())!=os.path.normcase(get_bin_path())):
 			self.finished_loading=False
-			self.progress.init()
-			self.progress.show()
-			self.progress.start()
-			self.progress.set_text("Loading..")
-			process_events()
+			#self.progress.init()
+			#self.progress.show()
+			#self.progress.start()
+			#self.progress.set_text("Loading..")
+			#process_events()
 
-			for child in self.get_children():
-					self.remove(child)
+			self.clear()
 
 #			dos_files=inp_get_token_value("device_epitaxy.inp", "#layers")
 
-			self.main_tab=tab_main()
-			self.main_tab.init()
-			self.main_tab.show()
-			self.append_page(self.main_tab, gtk.Label(_("Device structure")))
+			widget=tab_main()
+			#tab.show()
+			#tab.init(file_name,name)
 
+			self.addTab(widget,_("Device structure"))
+			#self.main_tab.show()
+			#self.append_page(self.main_tab, gtk.Label(_("Device structure")))
+	
 			lines=[]
 			pos=0
 			if inp_load_file(lines,"gui_config.inp")==True:
@@ -180,96 +179,109 @@ class gpvdm_notebook(gtk.Notebook):
 						break
 					visible=bool(int(ret[1]))
 
-					self.progress.set_fraction(float(tab_number)/float(tabs))
+					#self.progress.set_fraction(float(tab_number)/float(tabs))
 
 					tab_number=tab_number+1
-					self.progress.set_text(_("Loading ")+name)
-					process_events()
-					if file_name=="pl0.inp":
-						tab=pl_main()
-						tab.init()
-						tab.update()
-						add_to_widget=True
-						tab.visible=visible
-						tab.label_name=name
-						tab.file_name=file_name
-					elif file_name=="epitaxy.inp":
-						tab=dos_main()
-						tab.init()
-						tab.update()
-						add_to_widget=True
-						tab.visible=visible
-						tab.label_name=name
-						tab.file_name=file_name
-					elif file_name=="lumo0.inp":
-						tab=tab_bands()
-						tab.update()
-						if tab.enabled==True:
-							add_to_widget=True
-							tab.visible=visible
-							tab.wow()
-							tab.label_name=name
-							tab.file_name=file_name
+					#self.progress.set_text(_("Loading ")+name)
+					#process_events()
+					#if file_name=="pl0.inp":
+					#	tab=pl_main()
+					#	tab.init()
+					#	tab.update()
+					#	add_to_widget=True
+					#	tab.visible=visible
+					#	tab.label_name=name
+					#	tab.file_name=file_name
+					#elif file_name=="epitaxy.inp":
+					#	tab=dos_main()
+					#	tab.init()
+					#	tab.update()
+					#	add_to_widget=True
+					#	tab.visible=visible
+					#	tab.label_name=name
+					#	tab.file_name=file_name
+					#elif file_name=="lumo0.inp":
+					#	tab=tab_bands()
+					#	tab.update()
+					#	if tab.enabled==True:
+					#		add_to_widget=True
+					#		tab.visible=visible
+					#		tab.wow()
+					#		tab.label_name=name
+					#		tab.file_name=file_name
 
-					elif inp_isfile(file_name)==True:
-						add_to_widget=True
+					#el
+					if inp_isfile(file_name)==True:
+						widget	= QWidget()
 						tab=tab_class()
-						tab.visible=visible
 						tab.init(file_name,name)
-						tab.label_name=name
-						tab.file_name=file_name
+						widget.setLayout(tab) 
+						self.addTab(widget,name)
 
-					if add_to_widget==True:
-						#print file_name,name,visible,type(tab)
-						hbox=gtk.HBox()
-						hbox.set_size_request(-1, 25)
-						mytext=name
-						if len(mytext)<10:
-							for i in range(len(mytext),10):
-								mytext=mytext+" "
+					#	add_to_widget=True
+					#	tab=
+					#	tab.visible=visible
+					#	tab.init(file_name,name)
+					#	tab.label_name=name
+					#	tab.file_name=file_name
 
-						label=gtk.Label(mytext)
-						label.set_justify(gtk.JUSTIFY_LEFT)
-						self.connect("switch-page", self.callback_switch_page)
-						hbox.pack_start(label, False, True, 0)
+					#if add_to_widget==True:
+					#	#print file_name,name,visible,type(tab)
+					#	hbox=gtk.HBox()
+					#	hbox.set_size_request(-1, 25)
+					#	mytext=name
+					#	if len(mytext)<10:
+					#		for i in range(len(mytext),10):
+					#			mytext=mytext+" "
 
-						button = gtk.Button()
-						close_image = gtk.Image()
-						close_image.set_from_file(os.path.join(get_image_file_path(),"close.png"))
-						close_image.show()
-						button = gtk.Button()
-						button.add(close_image)
+					#	label=gtk.Label(mytext)
+					#	label.set_justify(gtk.JUSTIFY_LEFT)
+					#	self.connect("switch-page", self.callback_switch_page)
+					#	hbox.pack_start(label, False, True, 0)
 
-
-						button.props.relief = gtk.RELIEF_NONE
-						button.connect("clicked", self.callback_close_button,name)
-						button.set_size_request(25, 25)
-						button.show()
-
-
-						hbox.pack_end(button, False, False, 0)
-						hbox.show_all()
-
-						if (visible==True):
-							tab.show()
-
-						self.append_page(tab,hbox)
+					#	button = gtk.Button()
+					#	close_image = gtk.Image()
+					#	close_image.set_from_file(os.path.join(get_image_file_path(),"close.png"))
+					#	close_image.show()
+					#	button = gtk.Button()
+					#	button.add(close_image)
 
 
+					#	button.props.relief = gtk.RELIEF_NONE
+					#	button.connect("clicked", self.callback_close_button,name)
+					#	button.set_size_request(25, 25)
+					#	button.show()
 
-						self.set_tab_reorderable(tab,True)
 
-						self.add_to_menu(name,visible)
+					#	hbox.pack_end(button, False, False, 0)
+					#	hbox.show_all()
 
-			else:
-				print _("No gui_config.inp file found\n")
+					#	if (visible==True):
+					#		tab.show()
+
+					#	self.append_page(tab,hbox)
+
+
+
+					#	self.set_tab_reorderable(tab,True)
+
+					#	self.add_to_menu(name,visible)
+			#else:
+			#	print _("No gui_config.inp file found\n")
 
 			#for child in self.get_children():
 			#		print type(child)
 
-			if self.terminal_widget!=None:
-				self.terminal_widget.show()
-				self.append_page(self.terminal_widget, gtk.Label(_("Terminal")))
+			if running_on_linux()==True:
+				#widget	= QWidget()
+				tab=tab_terminal()
+				tab.init()
+				#widget.setLayout(tab) 
+				self.addTab(tab,"Terminal")
+				tab.run('ls',['./'])
+
+			return 
+
 
 			self.add_info_page()
 
