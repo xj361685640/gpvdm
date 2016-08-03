@@ -33,9 +33,9 @@ from inp_description import inp_file_to_description
 #tabs
 from tab_main import tab_main
 from tab import tab_class
-from tab_homo import tab_bands
-from dos_main import dos_main
-from pl_main import pl_main
+#from tab_homo import tab_bands
+#from dos_main import dos_main
+#from pl_main import pl_main
 
 #util
 from win_lin import running_on_linux

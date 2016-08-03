@@ -23,7 +23,6 @@
 #import sys
 import os
 #import shutil
-import gobject
 from inp import inp_write_lines_to_file
 from inp import inp_load_file
 from code_ctrl import enable_betafeatures

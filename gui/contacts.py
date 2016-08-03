@@ -21,9 +21,6 @@
 
 
 
-import pygtk
-pygtk.require('2.0')
-import gtk
 import os
 from numpy import *
 from inp import inp_load_file

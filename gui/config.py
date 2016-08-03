@@ -22,9 +22,6 @@
 
 #import sys
 #import pdb
-import pygtk
-pygtk.require('2.0')
-#import gtk
 
 import os
 

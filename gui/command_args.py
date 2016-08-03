@@ -49,7 +49,7 @@ from scan_plot import scan_gen_plot_data
 from server import server_find_simulations_to_run
 from clean_sim import clean_sim_dir
 from ver import ver_sync_ver
-from device_lib import device_lib_replace
+#from device_lib import device_lib_replace
 from code_ctrl import enable_cluster
 from win_lin import running_on_linux
 from inp import inp_update

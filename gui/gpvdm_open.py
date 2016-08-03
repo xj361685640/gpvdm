@@ -23,7 +23,6 @@
 
 
 
-import gtk
 import os
 #from global_objects import global_object_get
 from plot_io import get_plot_file_info

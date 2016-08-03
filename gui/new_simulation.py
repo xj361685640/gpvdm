@@ -19,9 +19,6 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-import pygtk
-pygtk.require('2.0')
-import gtk
 from cal_path import get_image_file_path
 from clone import gpvdm_clone
 import os

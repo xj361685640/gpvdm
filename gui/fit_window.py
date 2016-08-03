@@ -21,10 +21,6 @@
 
 
 
-
-import pygtk
-pygtk.require('2.0')
-import gtk
 import os
 import shutil
 from about import about_dialog_show

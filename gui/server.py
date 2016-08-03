@@ -41,7 +41,7 @@ from progress import progress_class
 #from copying import copying
 from cal_path import get_exe_command
 #from global_objects import global_object_get
-from help import my_help_class
+#from help import my_help_class
 from sim_warnings import sim_warnings
 from inp_util import inp_search_token_value
 from stat import *
@@ -111,7 +111,7 @@ class server(cluster):
 		#status_icon_stop(self.cluster)
 
 		self.extern_gui_sim_stop("Finished simulation")
-		my_help_class.help_set_help(["plot.png",_("<big><b>Simulation finished!</b></big>\nClick on the plot icon to plot the results")])
+		#my_help_class.help_set_help(["plot.png",_("<big><b>Simulation finished!</b></big>\nClick on the plot icon to plot the results")])
 		print text
 		if len(text)!=0:
 			dialog=sim_warnings()

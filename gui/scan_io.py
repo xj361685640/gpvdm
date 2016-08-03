@@ -21,10 +21,6 @@
 
 
 
-import pygtk
-pygtk.require('2.0')
-#import gc
-import gtk
 import sys
 import os
 import shutil

@@ -1,6 +1,4 @@
-import gtk
 import math
-import gobject
 
 class leftright(gtk.DrawingArea):
 	def init(self):

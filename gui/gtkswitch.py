@@ -1,6 +1,5 @@
-import gtk
 import math
-import gobject
+
 
 class gtkswitch(gtk.DrawingArea):
 	def init(self):

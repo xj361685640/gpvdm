@@ -21,9 +21,6 @@
 
 
 
-import pygtk
-pygtk.require('2.0')
-import gtk
 import sys
 import os
 #import shutil
@@ -46,7 +43,7 @@ from progress import progress_class
 #from copying import copying
 from cal_path import get_exe_command
 #from global_objects import global_object_get
-from help import my_help_class
+#from help import my_help_class
 from sim_warnings import sim_warnings
 from inp_util import inp_search_token_value
 from stat import *
@@ -96,7 +93,7 @@ class cluster:
 		self.cluster=False
 		self.nodes=[]
 		self.server_ip=inp_get_token_value("server.inp","#server_ip")
-		self.jobs_list = gtk.ListStore(str, str, str,str, str, str,str, str)
+		#self.jobs_list = gtk.ListStore(str, str, str,str, str, str,str, str)
 
 	def connect(self):
 		if self.cluster==False:

@@ -21,9 +21,6 @@
 
 
 
-import pygtk
-pygtk.require('2.0')
-import gtk
 import os
 from inp import inp_load_file
 from inp_util import inp_search_token_value

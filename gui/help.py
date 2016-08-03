@@ -24,7 +24,11 @@ from cal_path import get_image_file_path
 import webbrowser
 
 from PyQt5.QtCore import QSize, Qt
-from PyQt5.QtWidgets import QWidget, QVBoxLayout,QProgressBar,QLabel,QDesktopWidget
+from PyQt5.QtGui import QIcon
+from PyQt5.QtWidgets import QWidget, QVBoxLayout,QProgressBar,QLabel,QDesktopWidget,QToolBar,QHBoxLayout,QAction,QSizePolicy
+from PyQt5.QtGui import QPixmap
+
+my_help_class=None
 
 class help_data():
 	def __init__(self,token,icon,text):
@@ -42,7 +46,7 @@ class help_class(QWidget):
 		win_h=self.frameGeometry().height()
 
 		x=w-win_w
-		y=0
+		y=50
 		self.move(x,y)
 
 	def help_show(self):
@@ -59,102 +63,79 @@ class help_class(QWidget):
 
 		self.move_window()
 
-	def __init__(self):
+	def init(self):
 		QWidget.__init__(self)
+		self.setWindowFlags(Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint)
+		self.setFixedSize(400,140)
+
 		self.last=[]
 		self.pos=-1
 
 		self.move_window()
-		self.vbox=gtk.VBox()
-		self.vbox.show()
-		self.add(self.vbox)
-
+		self.vbox = QVBoxLayout()
+		#self.vbox.setAlignment(Qt.AlignTop)
 		self.box=[]
 		self.image=[]
 		self.label=[]
 		for i in range(0,5):
-			self.box.append(gtk.HBox())
-			self.image.append(gtk.Image())
-			self.label.append(gtk.Label())
+			l=QHBoxLayout()
+			label=QLabel()
+			image=QLabel()
+			image.setFixedWidth(48)
 
-			self.label[i].set_line_wrap(True)
-			self.label[i].set_justify(gtk.JUSTIFY_LEFT)
-			self.label[i].set_width_chars(30)
-			self.label[i].set_alignment(0.1, 0)
+			self.box.append( QWidget())
+			self.image.append(image)
+			label.setAlignment(Qt.AlignLeft | Qt.AlignTop)
+			self.label.append(label)
 
-			self.box[i].pack_start(self.image[i], False, False, 0)
-			self.box[i].pack_start(self.label[i], True, True, 0)
+			self.box[i].setLayout(l)
+			self.box[i].setFixedSize(298,60)
+			l.addWidget(self.image[i])
+			l.addWidget(self.label[i])
+
+		toolbar=QToolBar()
+		toolbar.setIconSize(QSize(48, 48))
+
+		new_sim = QAction(QIcon(os.path.join(get_image_file_path(),"left.png")), 'Back', self)
+		new_sim.setStatusTip(_("Make a new simulation"))
+		new_sim.triggered.connect(self.callback_back)
+		toolbar.addAction(new_sim)
+
+		open_sim = QAction(QIcon(os.path.join(get_image_file_path(),"right.png")), 'Next', self)
+		open_sim.setStatusTip(_("Open a simulation"))
+		open_sim.triggered.connect(self.callback_forward)
+		toolbar.addAction(open_sim)
 
 
-		toolbar = gtk.Toolbar()
-		toolbar.set_style(gtk.TOOLBAR_ICONS)
-		toolbar.set_size_request(100, 50)
-		toolbar.show()
+		spacer = QWidget()
+		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+		toolbar.addWidget(spacer)
 
-		pos=0
-		image = gtk.Image()
-		#print get_image_file_path()
-   		image.set_from_file(os.path.join(get_image_file_path(),"qe.png"))
 
-		self.back = gtk.ToolButton(gtk.STOCK_GO_BACK)
-		toolbar.insert(self.back, pos)
-		self.back.show_all()
-		self.back.set_sensitive(False)
-		self.back.connect("clicked", self.callback_back)
-		pos=pos+1
+		self.undo = QAction(QIcon(os.path.join(get_image_file_path(),"www.png")), 'Online help', self)
+		self.undo.setStatusTip(_("On line help"))
+		self.undo.triggered.connect(self.on_line_help)
+		toolbar.addAction(self.undo)
 
-		self.forward = gtk.ToolButton(gtk.STOCK_GO_FORWARD)
-		toolbar.insert(self.forward, pos)
-		self.forward.set_sensitive(False)
-		self.forward.show_all()
-		self.forward.connect("clicked", self.callback_forward)
-		pos=pos+1
+		self.undo = QAction(QIcon(os.path.join(get_image_file_path(),"close.png")), 'Hide', self)
+		self.undo.setStatusTip(_("Close"))
+		self.undo.triggered.connect(self.callback_close)
+		toolbar.addAction(self.undo)
 
-		sep = gtk.SeparatorToolItem()
-		sep.set_draw(False)
-		sep.set_expand(True)
-		sep.show()
-		toolbar.insert(sep, pos)
-		pos=pos+1
-
-		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"www.png"))
-		self.play = gtk.ToolButton(image)
-
-		help_book = gtk.ToolButton(image)
-		toolbar.insert(help_book, pos)
-		help_book.connect("clicked", self.on_line_help)
-		help_book.show_all()
-		pos=pos+1
-
-		close = gtk.ToolButton(gtk.STOCK_CLOSE)
-		toolbar.insert(close, pos)
-		close.connect("clicked", self.callback_close)
-		close.show_all()
-		pos=pos+1
-
-		self.status_bar = gtk.Statusbar()
-		self.context_id = self.status_bar.get_context_id("Statusbar example")
-		self.status_bar.show()
+		#self.status_bar = gtk.Statusbar()
+		#self.context_id = self.status_bar.get_context_id("Statusbar example")
+		#self.status_bar.show()
 		#self.tooltips.set_tip(self.qe_button, "Quantum efficiency")
 
 
-		self.vbox.pack_start(toolbar, False, False, 0)
+		self.vbox.addWidget(toolbar)
 
 		for i in range(0,5):
-			self.vbox.pack_start(self.box[i], True, True, 0)
+			self.vbox.addWidget(self.box[i])
 
-		self.vbox.pack_start(self.status_bar, False, False, 0)
+		self.vbox.addStretch()
 
-
-
-
-		self.set_border_width(10)
-		self.set_title("Help")
-		self.resize(300,100)
-		self.set_decorated(False)
-		self.set_border_width(0)
-
+		self.setLayout(self.vbox)
 		self.show()
 
 
@@ -180,24 +161,25 @@ class help_class(QWidget):
 
 	def update(self):
 		for i in range(0,5):
-			self.box[i].hide_all()
+			self.box[i].hide()
 
 		for i in range(0,len(self.last[self.pos])/2):
-			self.image[i].set_from_file(os.path.join(get_image_file_path(),self.last[self.pos][i*2]))
-			self.label[i].set_markup(self.last[self.pos][i*2+1]+"\n")
-			self.box[i].show_all()
-			self.image[i].show()
+			pixmap = QPixmap(os.path.join(get_image_file_path(),self.last[self.pos][i*2]))
+			self.image[i].setPixmap(pixmap)
+			self.label[i].setText(self.last[self.pos][i*2+1]+"\n")
+			self.box[i].show()
+			#self.image[i].show()
 
-		self.forward.set_sensitive(True)
-		self.back.set_sensitive(True)
+		#self.forward.set_sensitive(True)
+		#self.back.set_sensitive(True)
 
-		if self.pos==0:
-			self.back.set_sensitive(False)
+		#if self.pos==0:
+		#	self.back.set_sensitive(False)
 
-		if self.pos==len(self.last)-1:
-			self.forward.set_sensitive(False)
+		#if self.pos==len(self.last)-1:
+		#	self.forward.set_sensitive(False)
 
-		self.status_bar.push(self.context_id, str(self.pos)+"/"+str(len(self.last)-1))
+		#self.status_bar.push(self.context_id, str(self.pos)+"/"+str(len(self.last)-1))
 
 	def help_set_help(self,array):
 		add=True
@@ -218,7 +200,14 @@ class help_class(QWidget):
 		self.resize(300, 150)
 		self.move_window()
 
-my_help_class=help_class()
-my_help_class.init()
+
+def help_init():
+	global my_help_class
+	my_help_class=help_class()
+	my_help_class.init()
+
+def help_window():
+	global my_help_class
+	return my_help_class
 
 

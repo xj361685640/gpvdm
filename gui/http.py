@@ -23,8 +23,6 @@
 #http.py
 #This is used to fetch http files from the web, mainly used for updates under windows.
 
-import pygtk
-pygtk.require('2.0')
 #import sys
 import os
 #import shutil
