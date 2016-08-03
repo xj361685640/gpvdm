@@ -109,7 +109,6 @@ from epitaxy import epitaxy_load
 #from scan_item import scan_populate_from_file
 #from status_icon import status_icon_get
 #from jv import jv
-#from config_window import class_config_window
 #from optics import class_optical
 #from lasers import lasers
 #from fit_window import fit_window
@@ -132,6 +131,7 @@ from about import about_dlg
 
 #windows
 from splash import splash_window
+from config_window import class_config_window
 
 #python modules
 import webbrowser
@@ -228,7 +228,7 @@ class gpvdm_main_window(QMainWindow):
 			self.qe_window=qe_window()
 			self.qe_window.init()
 
-		if self.qe_window.get_property("visible")==True:
+		if self.qe_window.isVisible()==True:
 			self.qe_window.hide_all()
 		else:
 			self.qe_window.show_all()
@@ -260,7 +260,7 @@ class gpvdm_main_window(QMainWindow):
 			self.fit_window.init()
 
 		help_window().help_set_help(["fit.png",_("<big><b>Fit window</b></big><br> Use this window to fit the simulation to experimental data.")])
-		if self.fit_window.get_property("visible")==True:
+		if self.fit_window.isVisible()==True:
 			self.fit_window.hide_all()
 		else:
 			self.fit_window.show_all()
@@ -275,7 +275,7 @@ class gpvdm_main_window(QMainWindow):
 			self.scan_window.init(self.my_server)
 
 
-		if self.scan_window.get_property("visible")==True:
+		if self.scan_window.isVisible()==True:
 			self.scan_window.hide()
 		else:
 			self.scan_window.show()
@@ -575,7 +575,7 @@ class gpvdm_main_window(QMainWindow):
 		webbrowser.open('www.gpvdm.com')
 
 	def callback_new_window(self, widget, data=None):
-		if self.window2.get_property("visible")==True:
+		if self.window2.isVisible()==True:
 			self.window2.hide()
 		else:
 			self.window2.show()
@@ -602,7 +602,7 @@ class gpvdm_main_window(QMainWindow):
 			self.experiment_window.init()
 
 		help_window().help_set_help(["time.png",_("<big><b>The time mesh editor</b></big><br> To do time domain simulations one must define how voltage the light vary as a function of time.  This can be done in this window.  Also use this window to define the simulation length and time step.")])
-		if self.experiment_window.get_property("visible")==True:
+		if self.experiment_window.isVisible()==True:
 			self.experiment_window.hide_all()
 		else:
 			self.experiment_window.show_all()
@@ -614,7 +614,7 @@ class gpvdm_main_window(QMainWindow):
 			self.fxexperiment_window.init()
 
 		help_window().help_set_help(["spectrum.png",_("<big><b>Frequency domain mesh editor</b></big><br> Some times it is useful to do frequency domain simulations such as when simulating impedance spectroscopy.  This window will allow you to choose which frequencies will be simulated.")])
-		if self.fxexperiment_window.get_property("visible")==True:
+		if self.fxexperiment_window.isVisible()==True:
 			self.fxexperiment_window.hide_all()
 		else:
 			self.fxexperiment_window.show_all()
@@ -626,7 +626,7 @@ class gpvdm_main_window(QMainWindow):
 			self.lasers_window.init()
 
 		help_window().help_set_help(["lasers.png",_("<big><b>Laser setup</b></big><br> Use this window to set up your lasers.")])
-		if self.lasers_window.get_property("visible")==True:
+		if self.lasers_window.isVisible()==True:
 			self.lasers_window.hide_all()
 		else:
 			self.lasers_window.show_all()
@@ -638,22 +638,22 @@ class gpvdm_main_window(QMainWindow):
 			self.jvexperiment_window.init()
 
 		help_window().help_set_help(["jv.png",_("<big><b>JV simulation editor</b></big><br> Use this window to select the step size and parameters of the JV simulations.")])
-		if self.jvexperiment_window.get_property("visible")==True:
+		if self.jvexperiment_window.isVisible()==True:
 			self.jvexperiment_window.hide_all()
 		else:
 			self.jvexperiment_window.show_all()
 
-	def callback_config_window(self, widget, data=None):
+	def callback_config_window(self):
 
 		if self.config_window==None:
 			self.config_window=class_config_window()
 			self.config_window.init()
 
 		help_window().help_set_help(["cog.png",_("<big><b>Configuration editor</b></big><br> Use this window to control advanced simulation parameters.")])
-		if self.config_window.get_property("visible")==True:
-			self.config_window.hide_all()
+		if self.config_window.isVisible()==True:
+			self.config_window.hide()
 		else:
-			self.config_window.show_all()
+			self.config_window.show()
 
 	def callback_undo(self, widget, data=None):
 		l=self.undo_list.get_list()
@@ -753,7 +753,7 @@ class gpvdm_main_window(QMainWindow):
 			self.optics_window=class_optical()
 			self.optics_window.init()
 
-		if self.optics_window.get_property("visible")==True:
+		if self.optics_window.isVisible()==True:
 			self.optics_window.hide()
 		else:
 			self.optics_window.show()
@@ -790,12 +790,6 @@ class gpvdm_main_window(QMainWindow):
 
 		toolbar = self.addToolBar('Exit')
 		toolbar.setIconSize(QSize(42, 42))
-
-
-		#self.window = gtk.Window(gtk.WINDOW_TOPLEVEL)
-		#self.window.set_size_request(-1,1000)
-		#self.window.set_border_width(10)
-		#self.window.set_title(_("General-purpose Photovoltaic Device Model (www.gpvdm.com)"))
 
 		self.splash=splash_window()
 		self.splash.init()
@@ -868,12 +862,13 @@ class gpvdm_main_window(QMainWindow):
 		#    ( _("/Simulation/Run"),  None,         self.callback_simulate, 0, "<StockItem>", "gtk-media-play" ),
 		#    ( _("/Simulation/Stop"),  None,         self.callback_simulate_stop, 0, "<StockItem>", "gtk-media-stop" ),
 		#    ( _("/Simulation/Parameter scan"),  None,         self.callback_scan , 0, None ),
-		#    ( _("/Simulation/Configure"),  None,         self.callback_config_window, 0, "<StockItem>", "gtk-preferences" ),
 		simulation_menu = menubar.addMenu('&Simulation')
 		simulation_menu.addAction(_("&Run"))
 		simulation_menu.addAction(_("&Stop"))
 		simulation_menu.addAction(_("&Parameter scan"))
-		simulation_menu.addAction(_("&Configure"))
+
+		config_menu_item=simulation_menu.addAction(_("&Configure"))
+		config_menu_item.triggered.connect(self.callback_config_window)
 
 
 		#    ( _("/_View"),      None,         None, 0, "<Branch>" ),
@@ -1097,7 +1092,7 @@ class gpvdm_main_window(QMainWindow):
 #		process_events()
 
 		self.setGeometry(300, 300, 1000, 600)
-		self.setWindowTitle('Main window')    
+		self.setWindowTitle(_("General-purpose Photovoltaic Device Model (www.gpvdm.com)"))    
 		self.show()
 
 

@@ -1,4 +1,3 @@
-#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
@@ -21,28 +20,27 @@
 
 
 
-#import sys
 import os
-#import shutil
-#from numpy import *
-#from matplotlib.figure import Figure
-#from numpy import arange, sin, pi
-#import gobject
 from tab import tab_class
 from window_list import windows
 from cal_path import get_image_file_path
 
+from PyQt5.QtCore import QSize, Qt 
+from PyQt5.QtWidgets import QWidget
+from PyQt5.QtGui import QPainter,QFont,QColor,QPen,QIcon
+
 articles = []
 mesh_articles = []
 
-class class_config_window(gtk.Window):
+class class_config_window(QWidget):
 
 
 	def init(self):
-		self.set_size_request(900, 600)
-		self.set_icon_from_file(os.path.join(get_image_file_path(),"cog.png"))
-		self.set_title("Configure")
+		self.setFixedSize(900, 600)
+		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"cog.png")))
 
+		self.setWindowTitle(_("Configure (www.gpvdm.com)")) 
+		return
 		main_vbox = gtk.VBox(False, 3)
 
 		toolbar = gtk.Toolbar()
