@@ -19,52 +19,54 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-
-
-import pygtk
-pygtk.require('2.0')
-import gtk
 import sys
 import os
-from inp import inp_get_token_value
 from cal_path import get_image_file_path
 
 from win_lin import running_on_linux
-import subprocess
-from util import gui_print_path
-
-from cal_path import get_exe_command
-from help import my_help_class
-from sim_warnings import sim_warnings
-from inp_util import inp_search_token_value
 
 import i18n
 _ = i18n.language.gettext
+
+#qt
+from PyQt5.QtCore import QSize, Qt 
+from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QSystemTrayIcon,QMenu
+from PyQt5.QtGui import QIcon
+
 from cluster import cluster
 
 statusicon = None
 
+class tray_icon(QSystemTrayIcon):
+
+    def __init__(self,  parent=None):
+        QSystemTrayIcon.__init__(self, QIcon(os.path.join(get_image_file_path(),"ball_green.png")), parent)
+        menu = QMenu(parent)
+        exitAction = menu.addAction("Exit")
+        self.setContextMenu(menu)
+
+
+
 def status_icon_init():
 	global statusicon
-	statusicon=gtk.StatusIcon()
-	statusicon.set_from_file(os.path.join(get_image_file_path(),"ball_green.png"))
-	#self.statusicon.set_from_stock(gtk.STOCK_YES)
-	#self.statusicon.connect("popup-menu", self.right_click_event)
-	statusicon.set_tooltip("gpvdm")
+	statusicon=tray_icon()
+	statusicon.show()
+
 
 def status_icon_run(cluster):
 	global statusicon
 	if cluster==False:
-		statusicon.set_from_file(os.path.join(get_image_file_path(),"ball_red.png"))
+		statusicon.setIcon(QIcon(os.path.join(get_image_file_path(),"ball_red.png")))
 	else:
-		statusicon.set_from_file(os.path.join(get_image_file_path(),"ball_red4.png"))	
+		statusicon.setIcon(QIcon(os.path.join(get_image_file_path(),"ball_red4.png")))	
 
 def status_icon_stop(cluster):
 	global statusicon
 	if cluster==False:
-		statusicon.set_from_file(os.path.join(get_image_file_path(),"ball_green.png"))
+		statusicon.setIcon(QIcon(os.path.join(get_image_file_path(),"ball_green.png")))
 	else:
-		statusicon.set_from_file(os.path.join(get_image_file_path(),"ball_green4.png"))
+		statusicon.setIcon(QIcon(os.path.join(get_image_file_path(),"ball_green4.png")))
+
 def status_icon_get():
 	global statusicon
 	return statusicon
