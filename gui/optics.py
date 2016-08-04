@@ -20,39 +20,30 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-#import sys
 import os
-#import shutil
-#from numpy import *
 from inp import inp_update_token_value
 from inp import inp_get_token_value
-#import gobject
-#import os, fnmatch
 from plot_gen import plot_gen
 from cal_path import get_image_file_path
 import zipfile
 import glob
 from scan_item import scan_item_add
 from tab import tab_class
-#from win_lin import running_on_linux
-from photon_dist import photon_dist_class
-from plot_widget import plot_widget
-#from plot_state import plot_state
-#from plot_io import plot_load_info
+#from plot_widget import plot_widget
 import webbrowser
 from progress import progress_class
+#from band_graph import band_graph
+from help import my_help_class
+
+#path
 from cal_path import get_materials_path
 from cal_path import get_plugins_path
 from cal_path import get_exe_command
-#from inp import inp_load_file
-#from epitaxy import epitaxy_get_layers
-#from epitaxy import epitaxy_get_mat_file
-#from epitaxy import epitaxy_get_electrical_layer
-#from epitaxy import epitaxy_get_width
-#from epitaxy import epitaxy_get_name
-#from inp_util import inp_search_token_value
-from band_graph import band_graph
-from help import my_help_class
+
+#qt
+from PyQt5.QtCore import QSize, Qt 
+from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QSystemTrayIcon,QMenu
+from PyQt5.QtGui import QIcon
 
 def find_modes(path):
 	result = []
@@ -114,10 +105,7 @@ def find_materials():
 
 	return ret
 
-class class_optical(gtk.Window):
-
-	icon_theme = gtk.icon_theme_get_default()
-
+class class_optical(QWidget):
 
 	edit_list=[]
 
@@ -127,7 +115,9 @@ class class_optical(gtk.Window):
 	name=""
 	visible=1
 
-	def init(self):
+	def __init__(self):
+		QWidget.__init__(self)
+		return
 		self.tooltips = gtk.Tooltips()
 		self.progress_window=progress_class()
 		self.progress_window.init()
@@ -249,9 +239,6 @@ class class_optical(gtk.Window):
 		optics_config.label_name="Optics config"
 		optics_config.file_name="light.inp"
 
-		#Photon distribution
-		photon_dist=photon_dist_class()
-		photon_dist.show()
 
 ##################
 		input_files=[]

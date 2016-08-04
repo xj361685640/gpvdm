@@ -20,30 +20,13 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-#import sys
+
 import os
-#import shutil
 from numpy import *
-#from inp import inp_update_token_value
-#from inp import inp_get_token_value
-#from numpy import arange, sin, pi
 from matplotlib.backends.backend_gtkagg import FigureCanvasGTKAgg as FigureCanvas
-#import gobject
-#import os, fnmatch
-#from plot_gen import plot_gen
 import zipfile
-#import glob
-#from scan_item import scan_item_add
 from util import lines_to_xyz
-#from tab import tab_class
-#from win_lin import running_on_linux
-#from photon_dist import photon_dist_class
-#from plot_widget import plot_widget
 from plot_state import plot_state
-#from plot_io import plot_load_info
-#from progress import progress_class
-#from cal_path import get_materials_path
-#from cal_path import get_exe_command
 from inp import inp_load_file
 from epitaxy import epitaxy_get_layers
 from epitaxy import epitaxy_get_mat_file
@@ -54,7 +37,12 @@ from inp_util import inp_search_token_value
 from matplotlib.figure import Figure
 from plot_io import get_plot_file_info
 
-class band_graph(gtk.VBox):
+#qt
+from PyQt5.QtCore import QSize, Qt 
+from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QSystemTrayIcon,QMenu
+from PyQt5.QtGui import QIcon
+
+class band_graph(QWidget):
 	def init(self):
 
 		toolbar = gtk.Toolbar()

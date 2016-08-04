@@ -100,14 +100,11 @@ from epitaxy import epitaxy_load
 #from export_materials import export_materials
 #from ver import ver_check_compatibility
 #from import_archive import update_simulaton_to_new_ver
-#from new_simulation import new_simulation
 #from update import update_thread
 #from update import update_now
 #from hpc import hpc_class
 #from scan_item import scan_populate_from_file
 #from status_icon import status_icon_get
-from jv import jv
-#from optics import class_optical
 #from lasers import lasers
 #from fit_window import fit_window
 from contacts_io import contacts_load
@@ -124,13 +121,16 @@ from mesh import mesh_load_all
 from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSize, Qt 
-from PyQt5.QtWidgets import QWidget,QSizePolicy,QHBoxLayout,QPushButton,QDialog
+from PyQt5.QtWidgets import QWidget,QSizePolicy,QHBoxLayout,QPushButton,QDialog,QFileDialog
 from about import about_dlg
 
 #windows
 from splash import splash_window
 from config_window import class_config_window
 from gpvdm_open import gpvdm_open
+from jv import jv
+from optics import class_optical
+from new_simulation import new_simulation
 
 #python modules
 import webbrowser
@@ -279,10 +279,13 @@ class gpvdm_main_window(QMainWindow):
 		else:
 			self.scan_window.show()
 
-
-	def closeEvent(self, event):
+	def close_now(self):
 		self.win_list.update(self,"main_window")
 		QApplication.quit()
+		
+
+	def closeEvent(self, event):
+		self.close_now()
 		event.accept()
 
 
@@ -353,18 +356,12 @@ class gpvdm_main_window(QMainWindow):
 		
 
 
-	def callback_new(self, widget, data=None):
+	def callback_new(self):
+
 		dialog=new_simulation()
-		dialog.init()
-		response = dialog.run()
-		if response == True:
+		ret=dialog.window.exec_()
+		if ret==QDialog.Accepted:
 			self.change_dir_and_refresh_interface(dialog.get_return_path())
-			print _("OK")
-
-		elif response == gtk.RESPONSE_CANCEL:
-			print _("Closed, no dir selected")
-
-		dialog.destroy()
 
 
 	def change_dir_and_refresh_interface(self,new_dir):
@@ -485,6 +482,10 @@ class gpvdm_main_window(QMainWindow):
 		#myitem.set_active(self.config.get_value("#plot_after_simulation",False))
 
 	def callback_open(self, widget, data=None):
+		fname = QFileDialog.getOpenFileName(self, 'Open file',os.getcwd())
+		if fname:
+			print fname
+		return
 		dialog = gtk.FileChooserDialog(_("Open an existing gpvdm simulation"),
                                None,
                                gtk.FILE_CHOOSER_ACTION_OPEN,
@@ -722,7 +723,6 @@ class gpvdm_main_window(QMainWindow):
 
 		if self.optics_window==False:
 			self.optics_window=class_optical()
-			self.optics_window.init()
 
 		if self.optics_window.isVisible()==True:
 			self.optics_window.hide()
@@ -810,8 +810,6 @@ class gpvdm_main_window(QMainWindow):
 
 		menubar = self.menuBar()
 
-		#    ( _("/_File"),         None,         None, 0, "<Branch>" ),
-		#	(_("/File/_New simulation"), "<control>N", self.callback_new, 0, "<StockItem>", "gtk-new" ),
 		#	(_("/File/_New optical material"), "<control>N", self.callback_new, 0, "<StockItem>", "gtk-new" ),
 		#	(_("/File/_Open simulation"), "<control>O", self.callback_open, 0, "<StockItem>", "gtk-open" ),
 		#    ( _("/File/_Export data"),     None, self.callback_export, 0, "<StockItem>", "gtk-save" ),
@@ -819,17 +817,19 @@ class gpvdm_main_window(QMainWindow):
 		#    ( _("/File/Import from library"),     None, self.callback_import_from_lib, 0 , "<StockItem>", "gtk-harddisk"),
 
 		file_menu = menubar.addMenu('&File')
-		file_menu.addAction(_("&New simulation"))
+		self.menu_new=file_menu.addAction(_("&New simulation"))
+		self.menu_new.triggered.connect(self.callback_new)
+
 		self.menu_new_optical_material=file_menu.addAction(_("New optical material"))
 		file_menu.addAction(_("&Open simulation"))
 		self.menu_export_data=file_menu.addAction(_("&Export data"))
 		self.menu_import_data=file_menu.addAction(_("&Import data"))
 		self.menu_import_lib=file_menu.addAction(_("Import from library"))
-		file_menu.addAction(_("&Quit"))
+
+		self.menu_quit=file_menu.addAction(_("&Quit"))
+		self.menu_quit.triggered.connect(self.close_now)
 
 
-
-		#    ( _("/_Simulation"),      None,         None, 0, "<Branch>" ),
 		#    ( _("/Simulation/Run"),  None,         self.callback_simulate, 0, "<StockItem>", "gtk-media-play" ),
 		#    ( _("/Simulation/Stop"),  None,         self.callback_simulate_stop, 0, "<StockItem>", "gtk-media-stop" ),
 		#    ( _("/Simulation/Parameter scan"),  None,         self.callback_scan , 0, None ),
@@ -842,12 +842,10 @@ class gpvdm_main_window(QMainWindow):
 		self.menu_configure.triggered.connect(self.callback_config_window)
 
 
-		#    ( _("/_View"),      None,         None, 0, "<Branch>" ),
 		view_menu = menubar.addMenu('&View')
 		view_menu.addAction(_("&None"))
 
 
-		#    ( _("/_Plots"),      None,         None, 0, "<Branch>" ),
 		#    ( _("/Plots/Plot simulation result"),  None,         self.callback_plot_select, 0, "<StockItem>", "gtk-open"),
 		#    ( _("/_Plots/"),     None, None, 0, "<Separator>" ),
 		plot_menu = menubar.addMenu('&Plot')
