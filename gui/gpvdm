@@ -106,7 +106,7 @@ from epitaxy import epitaxy_load
 #from hpc import hpc_class
 #from scan_item import scan_populate_from_file
 #from status_icon import status_icon_get
-#from jv import jv
+from jv import jv
 #from optics import class_optical
 #from lasers import lasers
 #from fit_window import fit_window
@@ -398,24 +398,15 @@ class gpvdm_main_window(QMainWindow):
 			self.experiment_window_button.setEnabled(True)
 			help_window().help_set_help(["play.png",_("<big><b>Now run the simulation</b></big><br> Click on the play icon to start a simulation.")])
 
-			#my_item=self.item_factory.get_item(_("/File/Import data"))
-			#if my_item!=None:
-			#	my_item.setEnabled(True)
-			#my_item=self.item_factory.get_item(_("/File/Export data"))
-			#if my_item!=None:
-			#	my_item.setEnabled(True)
-			#my_item=self.item_factory.get_item(_("/File/Import data"))
-			#if my_item!=None:
-			#	my_item.setEnabled(True)
-			#my_item=self.item_factory.get_item(_("/File/Import from library"))
-			#if my_item!=None:
-			#	my_item.setEnabled(True)
-			#my_item=self.item_factory.get_item(_("/Simulation/Run"))
-			#if my_item!=None:
-			#	my_item.setEnabled(True)
-			#my_item=self.item_factory.get_item(_("/Simulation/Parameter scan"))
-			#if my_item!=None:
-			#	my_item.setEnabled(True)
+			self.menu_new_optical_material.setEnabled(True)
+			self.menu_export_data.setEnabled(True)
+			self.menu_import_data.setEnabled(True)
+			self.menu_import_lib.setEnabled(True)
+			self.menu_run.setEnabled(True)
+			self.menu_stop.setEnabled(True)
+			self.menu_scan.setEnabled(True)
+			self.menu_configure.setEnabled(True)
+
 
 		else:
 			self.run.setEnabled(False)
@@ -434,24 +425,15 @@ class gpvdm_main_window(QMainWindow):
 			self.tb_time_domain.setEnabled(False)
 			help_window().help_set_help(["icon.png",_("<big><b>Hi!</b></big><br> I'm the on-line help system :).  If you find any bugs please report them to roderick.mackenzie@nottingham.ac.uk."),"new.png",_("Click on the new icon to make a new simulation directory.")])
 
-			#my_item=self.item_factory.get_item(_("/File/Import data"))
-			#if my_item!=None:
-			#	my_item.set_sensitive(False)
-			#my_item=self.item_factory.get_item(_("/File/Export data"))
-			#if my_item!=None:
-			#	my_item.set_sensitive(False)
-			#my_item=self.item_factory.get_item(_("/File/Import data"))
-			#if my_item!=None:
-			#	my_item.set_sensitive(False)
-			#my_item=self.item_factory.get_item(_("/File/Import from library"))
-			#if my_item!=None:
-			#	my_item.set_sensitive(False)
-			#my_item=self.item_factory.get_item(_("/Simulation/Run"))
-			#if my_item!=None:
-			#	my_item.set_sensitive(False)
-			#my_item=self.item_factory.get_item(_("/Simulation/Parameter scan"))
-			#if my_item!=None:
-			#	my_item.set_sensitive(False)
+			self.menu_new_optical_material.setEnabled(False)
+			self.menu_export_data.setEnabled(False)
+			self.menu_import_data.setEnabled(False)
+			self.menu_import_lib.setEnabled(False)
+			self.menu_run.setEnabled(False)
+			self.menu_stop.setEnabled(False)
+			self.menu_scan.setEnabled(False)
+			self.menu_configure.setEnabled(False)
+
 
 		#if self.notebook.terminal!=None:
 		#	self.my_server.set_terminal(self.notebook.terminal)
@@ -585,7 +567,7 @@ class gpvdm_main_window(QMainWindow):
         		md.destroy()
 			return
 
-	def callback_edit_experiment_window(self, widget, data=None):
+	def callback_edit_experiment_window(self):
 
 		if self.experiment_window==None:
 			self.experiment_window=experiment()
@@ -597,7 +579,7 @@ class gpvdm_main_window(QMainWindow):
 		else:
 			self.experiment_window.show_all()
 
-	def callback_fxexperiment_window(self, widget, data=None):
+	def callback_fxexperiment_window(self):
 
 		if self.fxexperiment_window==None:
 			self.fxexperiment_window=fxexperiment()
@@ -609,7 +591,7 @@ class gpvdm_main_window(QMainWindow):
 		else:
 			self.fxexperiment_window.show_all()
 		
-	def callback_configure_lasers(self, widget, data=None):
+	def callback_configure_lasers(self):
 
 		if self.lasers_window==None:
 			self.lasers_window=lasers()
@@ -621,17 +603,16 @@ class gpvdm_main_window(QMainWindow):
 		else:
 			self.lasers_window.show_all()
 
-	def callback_jvexperiment_window(self, widget, data=None):
+	def callback_jv_window(self):
 
 		if self.jvexperiment_window==None:
 			self.jvexperiment_window=jv()
-			self.jvexperiment_window.init()
 
 		help_window().help_set_help(["jv.png",_("<big><b>JV simulation editor</b></big><br> Use this window to select the step size and parameters of the JV simulations.")])
 		if self.jvexperiment_window.isVisible()==True:
-			self.jvexperiment_window.hide_all()
+			self.jvexperiment_window.hide()
 		else:
-			self.jvexperiment_window.show_all()
+			self.jvexperiment_window.show()
 
 	def callback_config_window(self):
 
@@ -839,11 +820,11 @@ class gpvdm_main_window(QMainWindow):
 
 		file_menu = menubar.addMenu('&File')
 		file_menu.addAction(_("&New simulation"))
-		file_menu.addAction(_("New optical material"))
+		self.menu_new_optical_material=file_menu.addAction(_("New optical material"))
 		file_menu.addAction(_("&Open simulation"))
-		file_menu.addAction(_("&Export data"))
-		file_menu.addAction(_("&Import data"))
-		file_menu.addAction(_("Import from library"))
+		self.menu_export_data=file_menu.addAction(_("&Export data"))
+		self.menu_import_data=file_menu.addAction(_("&Import data"))
+		self.menu_import_lib=file_menu.addAction(_("Import from library"))
 		file_menu.addAction(_("&Quit"))
 
 
@@ -853,12 +834,12 @@ class gpvdm_main_window(QMainWindow):
 		#    ( _("/Simulation/Stop"),  None,         self.callback_simulate_stop, 0, "<StockItem>", "gtk-media-stop" ),
 		#    ( _("/Simulation/Parameter scan"),  None,         self.callback_scan , 0, None ),
 		simulation_menu = menubar.addMenu('&Simulation')
-		simulation_menu.addAction(_("&Run"))
-		simulation_menu.addAction(_("&Stop"))
-		simulation_menu.addAction(_("&Parameter scan"))
+		self.menu_run=simulation_menu.addAction(_("&Run"))
+		self.menu_stop=simulation_menu.addAction(_("&Stop"))
+		self.menu_scan=simulation_menu.addAction(_("&Parameter scan"))
 
-		config_menu_item=simulation_menu.addAction(_("&Configure"))
-		config_menu_item.triggered.connect(self.callback_config_window)
+		self.menu_configure=simulation_menu.addAction(_("&Configure"))
+		self.menu_configure.triggered.connect(self.callback_config_window)
 
 
 		#    ( _("/_View"),      None,         None, 0, "<Branch>" ),
@@ -984,8 +965,8 @@ class gpvdm_main_window(QMainWindow):
 		toolbar.addAction(self.experiment_window_button)
 
 
-		self.jv_button = QAction(QIcon(os.path.join(get_image_file_path(),"jv.png")), _("Frequency domain simulation editor"), self)
-		self.jv_button.triggered.connect(self.callback_fxexperiment_window)
+		self.jv_button = QAction(QIcon(os.path.join(get_image_file_path(),"jv.png")), _("Steady state simulation editor"), self)
+		self.jv_button.triggered.connect(self.callback_jv_window)
 		toolbar.addAction(self.jv_button)
 
 		self.optics_button = QAction(QIcon(os.path.join(get_image_file_path(),"optics.png")), _("Optical simulation"), self)

@@ -20,100 +20,85 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-#import sys
 import os
-#import shutil
-#from numpy import *
-#from matplotlib.figure import Figure
-#from numpy import arange, sin, pi
-#import gobject
 from tab import tab_class
 from window_list import windows
 from cal_path import get_image_file_path
 
+#qt
+from PyQt5.QtCore import QSize, Qt 
+from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget
+from PyQt5.QtGui import QPainter,QIcon
+
+#python modules
+import webbrowser
+
 articles = []
 mesh_articles = []
 
-class jv(gtk.Window):
+class jv(QWidget):
 
 
 	def callback_close(self, widget, data=None):
 		self.hide()
 		return True
 
-	def callback_help(self, widget, data=None):
-		cmd = 'firefox http://www.roderickmackenzie.eu/gpvdm_wiki.html'
-		os.system(cmd)
+	def callback_help(self):
+		webbrowser.open('http://www.gpvdm.com/man/index.html')
 
-	def enter_callback(self, widget, entry):
-		print "edit"
-		#entry_text = self.entry.get_buffer()
-		entry_text=self.buf.get_text(*self.buf.get_bounds())
-		a = open(os.path.join(self.sim_dir,"notes.inp"), "w")
-		a.write(entry_text)
-		a.close()
+	def __init__(self):
+		QWidget.__init__(self)
+		self.setFixedSize(900, 600)
+		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"jv.png")))
 
-	def init(self):
-		self.set_size_request(900, 500)
-		self.set_icon_from_file(os.path.join(get_image_file_path(),"jv.png"))
-		self.set_title("Steady state simulation")
+		self.setWindowTitle(_("Steady state simulation (www.gpvdm.com)")) 
+		
 
-		main_vbox = gtk.VBox(False, 3)
+		self.main_vbox = QVBoxLayout()
 
-		toolbar = gtk.Toolbar()
-		toolbar.set_style(gtk.TOOLBAR_ICONS)
-		toolbar.set_size_request(-1, 70)
+		toolbar=QToolBar()
+		toolbar.setIconSize(QSize(48, 48))
 
-		sep = gtk.SeparatorToolItem()
-		sep.set_draw(False)
-		sep.set_expand(True)
-		toolbar.insert(sep, -1)
-
-		image = gtk.Image()
-		image.set_from_file(os.path.join(get_image_file_path(),"help.png"))
-		delete = gtk.ToolButton(image)
-		#delete.connect("clicked", self.callback_delete_page,None)
-		#self.tooltips.set_tip(delete, _("Delete simulation"))
-		toolbar.insert(delete, -1)
+		spacer = QWidget()
+		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+		toolbar.addWidget(spacer)
 
 
-		main_vbox.pack_start(toolbar, False, True, 0)
+		self.undo = QAction(QIcon(os.path.join(get_image_file_path(),"help.png")), 'Hide', self)
+		self.undo.setStatusTip(_("Close"))
+		self.undo.triggered.connect(self.callback_help)
+		toolbar.addAction(self.undo)
+
+		self.main_vbox.addWidget(toolbar)
 
 
-		self.notebook = gtk.Notebook()
-		self.notebook.set_tab_pos(gtk.POS_TOP)
-		self.notebook.show()
+		self.notebook = QTabWidget()
 
-		for child in self.notebook.get_children():
-				self.notebook.remove(child)
+		self.notebook.setTabsClosable(True)
+		self.notebook.setMovable(True)
+
+		self.main_vbox.addWidget(self.notebook)
+
 
 		files=["jv.inp","jv_simple.inp","sun_voc.inp"]
 		description=["JV simulation","Diode equation","Suns v.s. Voc"]
 
 
 		for i in range(0,len(files)):
+			widget	= QWidget()
 			tab=tab_class()
-			tab.show()
-			tab.visible=True
-
 			tab.init(files[i],description[i])
-			tab.label_name=description[i]
-			self.notebook.append_page(tab, gtk.Label(description[i]))
+			widget.setLayout(tab)
+			self.notebook.addTab(widget,description[i])
 
+
+		self.setLayout(self.main_vbox)
 		self.win_list=windows()
 		self.win_list.load()
-		self.win_list.set_window(self,"jv_window")
-
-		self.connect("delete-event", self.callback_close_window) 
-
-		main_vbox.pack_start(self.notebook, True, True, 0)
+		self.win_list.set_window(self,"config_window")
 
 
-		self.add(main_vbox)
-
-		self.hide()
-
-	def callback_close_window(self, widget, data=None):
+	def callback_close_window(self):
 		self.win_list.update(self,"jv_window")
 		self.hide()
 		return True
