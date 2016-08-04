@@ -101,12 +101,13 @@ class tab_class(QGridLayout,tab_base):
 				#label.set_markup(latex_to_pygtk_subscript(text_info))
 
 
+				print result.opt[0]
 				if result.opt[0]=="switch":
 					edit_box=gtkswitch()
 					edit_box.set_value(str2bool(self.lines[pos]))
 					#edit_box.connect("changed", self.callback_edit, token)
 					#edit_box.show_all()
-				if result.opt[0]=="leftright":
+				elif result.opt[0]=="leftright":
 					edit_box=leftright()
 					edit_box.set_value(str2bool(self.lines[pos]))
 					#edit_box.connect("changed", self.callback_edit, token)

@@ -1,4 +1,3 @@
-#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
@@ -23,6 +22,8 @@
 from inp import inp_load_file
 from inp import inp_write_lines_to_file
 
+from PyQt5.QtWidgets import QWidget, QDesktopWidget
+
 class window_item:
 	name=""
 	x=0.0
@@ -34,7 +35,8 @@ class windows():
 	def update(self,window,name):
 		global wlist
 		pos=-1
-		x,y=window.get_position()
+		x=window.x()
+		y=window.y()
 
 		for i in range(0,len(wlist)):
 			if wlist[i].name==name:
@@ -66,14 +68,20 @@ class windows():
 		global wlist
 		for i in range(0,len(wlist)):
 			if wlist[i].name==name:
-				s=gtk.gdk.screen_get_default()
-				w,h=window.get_size()
+				shape=QDesktopWidget().screenGeometry()
+
+				desktop_w=shape.width()
+				desktop_h=shape.height()
+
+				w=window.width()
+				h=window.height()
+
 				x=int(wlist[i].x)
 				y=int(wlist[i].y)
-				if (x+w>s.get_width()):
+				if (x+w>desktop_w):
 					x=0
 					print "Reset with"
-				if (y+h>s.get_height()):
+				if (y+h>desktop_h):
 					y=0
 					print "Reset height"
 

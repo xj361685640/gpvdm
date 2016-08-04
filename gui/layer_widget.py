@@ -21,25 +21,33 @@
 
 
 
-#import sys
-#import math
-#import random
-import gobject
 import os
-from optics import find_materials
+#from optics import find_materials
 #from inp import inp_write_lines_to_file
-from inp import inp_load_file
 from util import str2bool
 from inp_util import inp_search_token_value
-from inp import inp_update_token_value
 from scan_item import scan_item_add
 from scan_item import scan_remove_file
 from cal_path import get_image_file_path
-from emesh import tab_electrical_mesh
+#from emesh import tab_electrical_mesh
 from plot_gen import plot_gen
 from gpvdm_open import gpvdm_open
 from cal_path import get_materials_path
 from global_objects import global_object_get
+from help import my_help_class
+#from doping import doping_window
+
+#inp
+from inp import inp_isfile
+from inp import inp_copy_file
+from inp import inp_update_token_value
+from inp import inp_load_file
+
+
+#epitaxy
+from epitaxy import epitaxy_get_pl_file
+from epitaxy import epitay_get_next_pl
+from epitaxy import epitaxy_get_name
 from epitaxy import epitaxy_get_width
 from epitaxy import epitaxy_get_mat_file
 from epitaxy import epitaxy_get_electrical_layer
@@ -47,14 +55,16 @@ from epitaxy import epitaxy_get_layers
 from epitaxy import epitaxy_save
 from epitaxy import epitaxy_load_from_arrays
 from epitaxy import epitay_get_next_dos
-from inp import inp_isfile
-from inp import inp_copy_file
-from help import my_help_class
-from epitaxy import epitaxy_get_pl_file
-from epitaxy import epitay_get_next_pl
-from epitaxy import epitaxy_get_name
-from doping import doping_window
-from contacts import contacts_window
+
+#windows
+#from contacts import contacts_window
+
+#qt
+from PyQt5.QtCore import QSize, Qt
+from PyQt5.QtGui import QIcon
+from PyQt5.QtWidgets import QWidget, QVBoxLayout,QProgressBar,QLabel,QDesktopWidget,QToolBar,QHBoxLayout,QAction, QSizePolicy, QTableWidget, QTableWidgetItem,QComboBox,QDialog
+
+from PyQt5.QtGui import QPixmap
 
 import i18n
 _ = i18n.language.gettext
@@ -70,10 +80,12 @@ from i18n import yes_no
   COLUMN_PL_FILE
 ) = range(6)
 
-class layer_widget(gtk.VBox):
+from PyQt5.QtWidgets import QWidget
 
-	material_files=gtk.ListStore(str)
-	layer_type=gtk.ListStore(str)
+class layer_widget(QWidget):
+
+	#material_files=gtk.ListStore(str)
+	#layer_type=gtk.ListStore(str)
 	def combo_changed(self, widget, path, text, model):
 		#print model[path][1]
 		self.model[path][COLUMN_MATERIAL] = text
@@ -133,21 +145,13 @@ class layer_widget(gtk.VBox):
 		self.layer_type.append([_("Other")])
 
 
-	def callback_view_materials(self, widget, data=None):
-		dialog=gpvdm_open()
-
-		dialog.init(get_materials_path())
+	def callback_view_materials(self):
+		dialog=gpvdm_open(get_materials_path())
 		dialog.show_inp_files=False
-		response=dialog.run()
+		ret=dialog.window.exec_()
 
-
-		if response == True:
-			#full_file_name=dialog.get_filename()
+		if ret==QDialog.Accepted:
 			plot_gen([dialog.get_filename()],[],"auto")
-
-		elif response == gtk.RESPONSE_CANCEL:
-		    print _("Closed, no files selected")
-		dialog.destroy()
 
 	def callback_move_down(self, widget, data=None):
 
@@ -168,117 +172,86 @@ class layer_widget(gtk.VBox):
 		else:
 			self.electrical_mesh.show_all()
 
-	def __init__(self,tooltips):
-
+	def __init__(self):
+		QWidget.__init__(self)
 		self.doping_window=False
-
 		self.contacts_window=False
+
+		self.main_vbox=QVBoxLayout()
+
+		self.toolbar=QToolBar()
+		self.toolbar.setIconSize(QSize(32, 32))
+
+		self.tb_add = QAction(QIcon(os.path.join(get_image_file_path(),"add.png")), _("Add device layer"), self)
+		self.tb_add.triggered.connect(self.on_add_item_clicked)
+		self.toolbar.addAction(self.tb_add)
+
+		self.tb_remove = QAction(QIcon(os.path.join(get_image_file_path(),"minus.png")), _("Delete device layer"), self)
+		self.tb_remove.triggered.connect(self.on_remove_item_clicked)
+		self.toolbar.addAction(self.tb_remove)
+
+
+		self.tb_remove= QAction(QIcon(os.path.join(get_image_file_path(),"down.png")), _("Move device layer"), self)
+		self.tb_remove.triggered.connect(self.on_remove_item_clicked)
+		self.toolbar.addAction(self.tb_remove)
+
+		self.tb_mesh = QAction(QIcon(os.path.join(get_image_file_path(),"mesh.png")), _("Edit the electrical mesh"), self)
+		self.tb_mesh.triggered.connect(self.callback_edit_mesh)
+		self.toolbar.addAction(self.tb_mesh)
+
+		self.tb_doping = QAction(QIcon(os.path.join(get_image_file_path(),"doping.png")), _("Doping"), self)
+		self.tb_doping.triggered.connect(self.callback_doping)
+		self.toolbar.addAction(self.tb_doping)
+
+		self.tb_contact = QAction(QIcon(os.path.join(get_image_file_path(),"contact.png")), _("Contacts"), self)
+		self.tb_contact.triggered.connect(self.callback_contacts)
+		self.toolbar.addAction(self.tb_contact)
+
+		self.tb_open = QAction(QIcon(os.path.join(get_image_file_path(),"open.png")), _("Look at the materials database"), self)
+		self.tb_open.triggered.connect(self.callback_view_materials)
+		self.toolbar.addAction(self.tb_open)
+
+		self.main_vbox.addWidget(self.toolbar)
+	
+
+		self.tab = QTableWidget()
+		self.tab.resizeColumnsToContents()
+
+		self.tab.verticalHeader().setVisible(False)
+		self.create_model()
+
+		self.main_vbox.addWidget(self.tab)
+
+		self.setLayout(self.main_vbox)
+
+
+		return
+
+
 
 		self.electrical_mesh=tab_electrical_mesh()
 		self.electrical_mesh.init()
 
 		self.electrical_mesh.emesh_editor_y.connect("refresh", self.change_active_layer_thickness)
 
-		self.frame=gtk.Frame()
-
-		self.__gobject_init__()
-
-		delete_button = gtk.Button(_("Delete layer"),gtk.STOCK_DELETE)
-		delete_button.show()
-
-		# create tree view
-		self.model = self.__create_model()
-
-		self.treeview = gtk.TreeView(self.model)
-		self.treeview.set_size_request(400, 150)
-		self.treeview.set_rules_hint(True)
-		self.treeview.get_selection().set_mode(gtk.SELECTION_SINGLE)
-
-		toolbar = gtk.Toolbar()
-		toolbar.set_style(gtk.TOOLBAR_ICONS)
-		toolbar.set_size_request(-1, 50)
-
-		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"add.png"))
-		add = gtk.ToolButton(image)
-		add.connect("clicked", self.on_add_item_clicked)
-		tooltips.set_tip(add, _("Add device layer"))
-		toolbar.insert(add, -1)
-
-
-		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"minus.png"))
-		remove = gtk.ToolButton(image)
-		remove.connect("clicked", self.on_remove_item_clicked)
-		tooltips.set_tip(remove, _("Delete device layer"))
-		toolbar.insert(remove, -1)
-
-		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"down.png"))
-		move = gtk.ToolButton(image)
-		move.connect("clicked", self.callback_move_down)
-		tooltips.set_tip(move, _("Move device layer"))
-		toolbar.insert(move, -1)
-
-
-		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"mesh.png"))
-		self.mesh = gtk.ToolButton(image)
-		tooltips.set_tip(self.mesh, _("Edit the electrical mesh"))
-		self.mesh.connect("clicked", self.callback_edit_mesh)
-		toolbar.insert(self.mesh, -1)
-
-		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"doping.png"))
-		self.doping_button = gtk.ToolButton(image)
-		tooltips.set_tip(self.doping_button, _("Doping"))
-		self.doping_button.connect("clicked", self.callback_doping)
-		toolbar.insert(self.doping_button, -1)
-		self.doping_button.show_all()
-
-		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"contact.png"))
-		self.contacts_button = gtk.ToolButton(image)
-		tooltips.set_tip(self.contacts_button, _("Contacts"))
-		self.contacts_button.connect("clicked", self.callback_contacts)
-		toolbar.insert(self.contacts_button, -1)
-		self.contacts_button.show_all()
-
-		#image = gtk.Image()
-   		#image.set_from_file(os.path.join(get_image_file_path(),"dir_file.png"))
-		#self.mesh = gtk.ToolButton(image)
-		self.mesh = gtk.ToolButton(gtk.STOCK_OPEN)
-		tooltips.set_tip(self.mesh, _("Look at the materials database"))
-		self.mesh.connect("clicked", self.callback_view_materials)
-		toolbar.insert(self.mesh, -1)
-
-		hbox0=gtk.HBox()
 
 		self.frame.set_label(_("Device layers"))
-		self.frame.set_label_align(0.0, 0.0)
-		self.frame.set_shadow_type(gtk.SHADOW_ETCHED_OUT)
-		hbox0.show()
-
-		self.pack_start(toolbar, False, False, 0)
-		self.frame.add(self.treeview)
-		self.pack_start(self.frame, True, True, 0)
-
-		self.__add_columns(self.treeview)
-
-
-		self.show_all()
 
 
 
+	def create_model(self):
+		#self.rebuild_mat_list()
+		self.tab.clear()
+		self.tab.setColumnCount(6)
+		self.tab.setColumnHidden(5, True)
+		self.tab.setColumnHidden(4, True)
+		self.tab.setHorizontalHeaderLabels([_("Layer name"), _("Thicknes"), _("Optical material"), _("Layer type"), _("DoS Layer"),_("PL Layer")])
 
-	def __create_model(self):
+		data1 = ['row1','row2','row3','row4']
+		data2 = ['1','2.0','3.00000001','3.9999999']
+		combo_box_options = ["Option 1","Option 2","Option 3"]
 
-		# create list store
-		model = gtk.ListStore(str,str,str,str,str,str,str)
-
-		# add items
-
-		self.rebuild_mat_list()
+		self.tab.setRowCount(epitaxy_get_layers())
 
 		for i in range(0,epitaxy_get_layers()):
 			thick=epitaxy_get_width(i)
@@ -288,28 +261,43 @@ class layer_widget(gtk.VBox):
 			name=epitaxy_get_name(i)
 
 			dos_file=""
-
-			print ">>>>>>>>>>>>>>rod file",dos_layer
 			
 			if dos_layer.startswith("dos")==True:
 				dos_file="Active layer"
 			else:
 				dos_file=dos_layer
 
+			item1 = QTableWidgetItem(str(name))
+			self.tab.setItem(i,0,item1)
+
+			item2 = QTableWidgetItem(str(thick))
+			self.tab.setItem(i,1,item2)
+
+			item3 = QTableWidgetItem(str(material))
+			self.tab.setItem(i,2,item3)
+
+			item3 = QTableWidgetItem(str(dos_file))
+			self.tab.setItem(i,3,item3)
+
+
+			item3 = QTableWidgetItem(str(dos_layer))
+			self.tab.setItem(i,4,item3)
+
+			item3 = QTableWidgetItem(str(pl_file))
+			self.tab.setItem(i,5,item3)
+
+
+			#combo = QComboBox()
+			#for t in combo_box_options:
+			#	combo.addItem(t)
+			#self.tab.setCellWidget(index,2,combo)
+
 			scan_item_add("epitaxy.inp","#layer"+str(i),_("Material for ")+str(material),2)
 			scan_item_add("epitaxy.inp","#layer"+str(i),_("Layer width ")+str(material),1)
 
-			iter = model.append()
+		return
 
-			model.set (iter,
-			  COLUMN_NAME, str(name),
-			  COLUMN_THICKNES, str(thick),
-			  COLUMN_MATERIAL, str(material),
-			  COLUMN_DEVICE, str(dos_file),
-			  COLUMN_DOS_LAYER, str(dos_layer),
-			  COLUMN_PL_FILE, str(pl_file)
-			)
-		return model
+
 
 	def on_remove_item_clicked(self, button):
 
@@ -325,79 +313,7 @@ class layer_widget(gtk.VBox):
 
 
 
-	def __add_columns(self, treeview):
 
-		model = treeview.get_model()
-
-		# Name
-		renderer = gtk.CellRendererText()
-		renderer.connect("edited", self.on_cell_edited, model)
-		renderer.set_data("column", COLUMN_NAME)
-		renderer.set_property("editable", True)
-		column = gtk.TreeViewColumn(_("Layer name"), renderer, text=COLUMN_NAME,editable=True)
-		treeview.append_column(column)
-
-		# Thicknes
-		renderer = gtk.CellRendererText()
-		renderer.connect("edited", self.on_cell_edited, model)
-		renderer.set_data("column", COLUMN_THICKNES)
-		renderer.set_property("editable", True)
-		column = gtk.TreeViewColumn(_("Thicknes"), renderer, text=COLUMN_THICKNES,editable=True)
-		treeview.append_column(column)
-
-		# Material file
-		column = gtk.TreeViewColumn(_("Optical material"))
-		cellrenderer_combo = gtk.CellRendererCombo()
-		cellrenderer_combo.set_property("editable", True)
-		cellrenderer_combo.set_property("model", self.material_files)
-		cellrenderer_combo.set_property("text-column", 0)
-		cellrenderer_combo.connect("edited", self.combo_changed, self.material_files)
-		column.pack_start(cellrenderer_combo, False)
-		column.add_attribute(cellrenderer_combo, "text", COLUMN_MATERIAL)
-		treeview.append_column(column)
-
-		# Device
-		#renderer = gtk.CellRendererText()
-		#renderer.connect("edited", self.on_cell_edited, model)
-		#renderer.set_data("column", COLUMN_DEVICE)
-		#renderer.set_property("editable", True)
-		#column = gtk.TreeViewColumn("Active layer", renderer, text=COLUMN_DEVICE,editable=True)
-
-		column = gtk.TreeViewColumn(_("Layer type"))
-		render = gtk.CellRendererCombo()
-		render.set_property("editable", True)
-		render.set_property("model", self.layer_type)
-		render.set_property("text-column", 0)
-		render.connect("edited", self.layer_type_edit, self.layer_type)
-		column.pack_start(render, False)
-		column.add_attribute(render, "text", COLUMN_DEVICE)
-		treeview.append_column(column)
-
-		#column = gtk.TreeViewColumn("DoS Layer")
-		#render = gtk.CellRendererCombo()
-		#render.set_property("editable", True)
-		#render.set_property("text-column", 0)
-		#renderer.connect("edited", self.on_dos_layer_edited, model)
-		#column.pack_start(render, False)
-		#column.add_attribute(render, "text", COLUMN_DOS_LAYER)
-		#treeview.append_column(column)
-
-
-		renderer = gtk.CellRendererText()
-		renderer.connect("edited", self.on_dos_layer_edited, model)
-		renderer.set_data("column", COLUMN_DOS_LAYER)
-		renderer.set_property("editable", True)
-		column = gtk.TreeViewColumn(_("DoS Layer"), renderer, text=COLUMN_DOS_LAYER,editable=True)
-		column.set_visible(False)
-		treeview.append_column(column)
-
-		renderer = gtk.CellRendererText()
-		renderer.connect("edited", self.on_dos_layer_edited, model)
-		renderer.set_data("column", COLUMN_PL_FILE)
-		renderer.set_property("editable", True)
-		column = gtk.TreeViewColumn(_("DoS Layer"), renderer, text=COLUMN_PL_FILE,editable=True)
-		column.set_visible(False)
-		treeview.append_column(column)
 
 	def on_cell_edited(self, cell, path_string, new_text, model):
 		iter = model.get_iter_from_string(path_string)
@@ -510,6 +426,6 @@ class layer_widget(gtk.VBox):
 		else:
 			self.contacts_window.show()
 
-gobject.type_register(layer_widget)
-gobject.signal_new("refresh", layer_widget, gobject.SIGNAL_RUN_FIRST,gobject.TYPE_NONE, ())
+#gobject.type_register(layer_widget)
+#gobject.signal_new("refresh", layer_widget, gobject.SIGNAL_RUN_FIRST,gobject.TYPE_NONE, ())
 

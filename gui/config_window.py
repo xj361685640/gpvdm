@@ -25,9 +25,16 @@ from tab import tab_class
 from window_list import windows
 from cal_path import get_image_file_path
 
+#qt
 from PyQt5.QtCore import QSize, Qt 
-from PyQt5.QtWidgets import QWidget
-from PyQt5.QtGui import QPainter,QFont,QColor,QPen,QIcon
+from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget
+from PyQt5.QtGui import QPainter,QIcon
+
+#python modules
+import webbrowser
+
+#windows
+from tab import tab_class
 
 articles = []
 mesh_articles = []
@@ -40,63 +47,66 @@ class class_config_window(QWidget):
 		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"cog.png")))
 
 		self.setWindowTitle(_("Configure (www.gpvdm.com)")) 
-		return
-		main_vbox = gtk.VBox(False, 3)
+		
 
-		toolbar = gtk.Toolbar()
-		toolbar.set_style(gtk.TOOLBAR_ICONS)
-		toolbar.set_size_request(-1, 70)
+		self.main_vbox = QVBoxLayout()
 
-		sep = gtk.SeparatorToolItem()
-		sep.set_draw(False)
-		sep.set_expand(True)
-		toolbar.insert(sep, -1)
+		toolbar=QToolBar()
+		toolbar.setIconSize(QSize(48, 48))
 
-		image = gtk.Image()
-		image.set_from_file(os.path.join(get_image_file_path(),"help.png"))
-		delete = gtk.ToolButton(image)
-		#delete.connect("clicked", self.callback_delete_page,None)
-		#self.tooltips.set_tip(delete, _("Delete simulation"))
-		toolbar.insert(delete, -1)
+		spacer = QWidget()
+		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+		toolbar.addWidget(spacer)
 
 
-		main_vbox.pack_start(toolbar, False, True, 0)
+		self.undo = QAction(QIcon(os.path.join(get_image_file_path(),"help.png")), 'Hide', self)
+		self.undo.setStatusTip(_("Close"))
+		self.undo.triggered.connect(self.callback_help)
+		toolbar.addAction(self.undo)
 
-		self.notebook = gtk.Notebook()
-		main_vbox.pack_start(self.notebook, True, True, 0)
-		self.notebook.set_tab_pos(gtk.POS_TOP)
-		self.notebook.show()
+		#self.status_bar = gtk.Statusbar()
+		#self.context_id = self.status_bar.get_context_id("Statusbar example")
+		#self.status_bar.show()
+		#self.tooltips.set_tip(self.qe_button, "Quantum efficiency")
 
-		for child in self.notebook.get_children():
-				self.notebook.remove(child)
+
+		self.main_vbox.addWidget(toolbar)
+
+		
+
+		self.notebook = QTabWidget()
+
+		self.notebook.setTabsClosable(True)
+		self.notebook.setMovable(True)
+
+		self.main_vbox.addWidget(self.notebook)
 
 		files=["math.inp","dump.inp","thermal.inp"]
 		description=["Math","Dump","Thermal"]
 
-
 		for i in range(0,len(files)):
+			widget	= QWidget()
 			tab=tab_class()
-			tab.show()
-			tab.visible=True
-
 			tab.init(files[i],description[i])
-			tab.label_name=description[i]
-			self.notebook.append_page(tab, gtk.Label(description[i]))
+			widget.setLayout(tab)
+			self.notebook.addTab(widget,description[i])
 
+
+		self.setLayout(self.main_vbox)
 		self.win_list=windows()
 		self.win_list.load()
 		self.win_list.set_window(self,"config_window")
 
-		self.add(main_vbox)
+		#self.connect("delete-event", self.callback_close_window) 
 
-		self.connect("delete-event", self.callback_close_window) 
+		#self.hide()
 
-		self.hide()
+	def callback_help(self,widget):
+		webbrowser.open('http://www.gpvdm.com/man/index.html')
 
-	def callback_close_window(self, widget, data=None):
+	def closeEvent(self, event):
 		self.win_list.update(self,"config_window")
-		self.hide()
-		return True
+		#self.hide()
 
 
 

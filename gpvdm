@@ -19,7 +19,6 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-
 import sys
 
 #paths
@@ -73,7 +72,7 @@ from scan_item import scan_items_clear
 #from dlg_export import dlg_export
 #from experiment import experiment
 #from fxexperiment import fxexperiment
-#from plot_gen import plot_gen
+from plot_gen import plot_gen
 #from plot_gen import set_plot_auto_close
 #from import_archive import import_archive
 from help import help_window
@@ -83,14 +82,13 @@ from notice import notice
 #from used_files_menu import used_files_menu
 #from scan_item import scan_item_add
 #from cmp_class import cmp_class
-#from window_list import windows
+from window_list import windows
 #from config import config
 #import random
 #from undo import undo_list_class
 #from qe import qe_window
 #from tb_item_sun import tb_item_sun
 #from tb_item_sim_mode import tb_item_sim_mode
-#from gpvdm_open import gpvdm_open
 
 
 from gpvdm_notebook import gpvdm_notebook
@@ -126,12 +124,13 @@ from mesh import mesh_load_all
 from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSize, Qt 
-from PyQt5.QtWidgets import QWidget,QSizePolicy,QHBoxLayout,QPushButton
+from PyQt5.QtWidgets import QWidget,QSizePolicy,QHBoxLayout,QPushButton,QDialog
 from about import about_dlg
 
 #windows
 from splash import splash_window
 from config_window import class_config_window
+from gpvdm_open import gpvdm_open
 
 #python modules
 import webbrowser
@@ -282,7 +281,7 @@ class gpvdm_main_window(QMainWindow):
 
 
 	def closeEvent(self, event):
-		#self.win_list.update(self.window,"main_window")
+		self.win_list.update(self,"main_window")
 		QApplication.quit()
 		event.accept()
 
@@ -290,24 +289,15 @@ class gpvdm_main_window(QMainWindow):
 	def callback_plot_select(self):
 		help_window().help_set_help(["dat_file.png",_("<big>Select a file to plot</big><br>Single clicking shows you the content of the file")])
 
-		dialog=gpvdm_open()
+		dialog=gpvdm_open(os.getcwd())
 		dialog.show_inp_files=False
 		dialog.show_directories=False
-
-		dialog.init(os.getcwd())
-		response=dialog.run()
-
-		if response == True:
-#			full_file_name=dialog.get_filename()
-			#self.plot_open.set_sensitive(True)
-
+		ret=dialog.window.exec_()
+		if ret==QDialog.Accepted:
 			plot_gen([dialog.get_filename()],[],"auto")
 
-			self.plotted_graphs.refresh()
-			self.plot_after_run_file=dialog.get_filename()
-		elif response == gtk.RESPONSE_CANCEL:
-		    print _("Closed, no files selected")
-		dialog.destroy()
+			#self.plotted_graphs.refresh()
+			#self.plot_after_run_file=dialog.get_filename()
 
 	def callback_plot_open(self, widget, data=None):
 		plot_gen([self.plot_after_run_file],[],"")
@@ -821,8 +811,8 @@ class gpvdm_main_window(QMainWindow):
 
 		self.lasers_window=None
 
-		#self.win_list=windows()
-		#self.win_list.load()
+		self.win_list=windows()
+		self.win_list.load()
 
 		#self.config=config()
 		#table = gtk.Table(3,6,False)
@@ -1067,7 +1057,7 @@ class gpvdm_main_window(QMainWindow):
 	
 #		self.window.connect("delete-event", self.callback_close_window) 
 
-#		self.win_list.set_window(self.window,"main_window")
+		self.win_list.set_window(self,"main_window")
 
 
 

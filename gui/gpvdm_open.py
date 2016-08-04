@@ -28,8 +28,15 @@ import os
 from plot_io import get_plot_file_info
 from plot_state import plot_state
 from util import latex_to_pygtk_subscript
-from help import my_help_class
 from cal_path import get_image_file_path
+
+from PyQt5.QtGui import QIcon
+from PyQt5.QtCore import QSize, Qt, QTimer
+from PyQt5.uic import loadUi
+from PyQt5.QtWidgets import QApplication,QGraphicsScene,QListWidgetItem,QListView
+from PyQt5.QtGui import QPixmap
+
+from help import help_window
 
 COL_PATH = 0
 COL_PIXBUF = 1
@@ -38,87 +45,54 @@ COL_IS_DIRECTORY = 2
 import i18n
 _ = i18n.language.gettext
 
-class gpvdm_open(gtk.Dialog):
+class gpvdm_open():
 	show_inp_files=True
 	show_directories=True
 
-	def init(self,path):
+	def __init__(self,path):
 		self.file_path=""
-		self.set_default_response(gtk.RESPONSE_OK)
-		self.set_title(_("Open file - gpvdm"))
-		self.set_flags(gtk.DIALOG_DESTROY_WITH_PARENT)
-		#self.add_buttons("OK",True,"Cancel",False)
+		self.window = loadUi('./gui/open.ui')
+		#self.window.center()
 
-		self.set_size_request(800, 400)
-		self.set_position(gtk.WIN_POS_CENTER)
+		icon = QPixmap(os.path.join(get_image_file_path(),"up.png"));
+		self.window.up.setIcon(QIcon(icon))
+		self.window.up.clicked.connect(self.on_up_clicked)
+
+
+		icon = QPixmap(os.path.join(get_image_file_path(),"home.png"));
+		self.window.home.setIcon(QIcon(icon))
+		self.window.home.clicked.connect(self.on_home_clicked)
+
 
 		self.dir = path
 		self.root_dir= path
 
-		vbox = gtk.VBox(False, 0);
-
-		toolbar = gtk.Toolbar()
-		vbox.pack_start(toolbar, False, False, 0)
-
-		self.up_button = gtk.ToolButton(gtk.STOCK_GO_UP);
-		self.up_button.set_is_important(True)
-		self.up_button.set_sensitive(False)
-		toolbar.insert(self.up_button, -1)
-
-		home_button = gtk.ToolButton(gtk.STOCK_HOME)
-		home_button.set_is_important(True)
-		toolbar.insert(home_button, -1)
-
-
-
-		self.text= gtk.Entry()
-		self.text.show()
-		self.text.set_text(self.dir)
-		self.text.set_size_request(500, -1)
-		tb_path = gtk.ToolItem()
-		tb_path.add(self.text)
-		tb_path.show_all()
-		toolbar.insert(tb_path, -1)
-
-
+		self.window.path.setText(path)
 
 		self.dir_icon = self.get_icon("dir")
 		self.dat_icon = self.get_icon("dat")
 		self.inp_icon = self.get_icon("inp")
 		self.spectra_icon = self.get_icon("spectra")
 		self.mat_icon = self.get_icon("material")
-		sw = gtk.ScrolledWindow()
-		sw.set_shadow_type(gtk.SHADOW_ETCHED_IN)
-		sw.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
-		vbox.pack_start(sw, True, True, 0)
 
-		self.store = self.create_store()
+		self.window.listwidget.setIconSize(QSize(48,48))
+		self.window.listwidget.setViewMode(QListView.IconMode)
+		self.window.listwidget.setSpacing(8)
+		self.window.listwidget.setWordWrap(True)
+		gridsize=self.window.listwidget.size()
+		gridsize.setWidth(80)
+		gridsize.setHeight(80)
+
+		self.window.listwidget.setGridSize(gridsize)
+
 		self.fill_store()
 
-		self.icon_view = gtk.IconView(self.store)
-		self.icon_view.set_selection_mode(gtk.SELECTION_MULTIPLE)
+		self.window.listwidget.itemDoubleClicked.connect(self.on_item_activated)
+		self.window.listwidget.itemClicked.connect(self.on_selection_changed)
 
-		self.up_button.connect("clicked", self.on_up_clicked)
-		home_button.connect("clicked", self.on_home_clicked)
-
-		self.icon_view.set_text_column(COL_PATH)
-		self.icon_view.set_pixbuf_column(COL_PIXBUF)
-
-		self.icon_view.connect("item-activated", self.on_item_activated)
-		self.icon_view.connect("selection-changed", self.on_selection_changed)
-
-
-		sw.add(self.icon_view)
-		self.icon_view.grab_focus()
-		self.icon_view.set_spacing(0)
-		self.icon_view.set_row_spacing(0)
-		self.icon_view.set_column_spacing(0)
-
-		self.vbox.pack_start( vbox)
-		self.show_all()
 
 	def get_icon(self, name):
-		return gtk.gdk.pixbuf_new_from_file(os.path.join(get_image_file_path(),name+"_file.png"))
+		return QIcon(QPixmap(os.path.join(get_image_file_path(),name+"_file.png")))
 
 
 	def create_store(self):
@@ -130,7 +104,7 @@ class gpvdm_open(gtk.Dialog):
 		return self.file_path
 
 	def fill_store(self):
-		self.store.clear()
+		self.window.listwidget.clear()
 
 		for fl in os.listdir(self.dir):
 			file_name=os.path.join(self.dir, fl)
@@ -144,7 +118,10 @@ class gpvdm_open(gtk.Dialog):
 					show_dir=False
 
 				if show_dir==True:
-					self.store.append([fl, self.dir_icon, "dir"])
+					itm = QListWidgetItem( fl )
+					itm.setIcon(self.dir_icon)
+					self.window.listwidget.addItem(itm)
+
 			else:
 				#append=False
 				if (file_name.endswith(".dat")==True):
@@ -154,60 +131,61 @@ class gpvdm_open(gtk.Dialog):
 					#print text
 					text=text.rstrip()
 					if text=="#gpvdm":
-						self.store.append([fl, self.dat_icon, "dat"])
+						itm = QListWidgetItem( fl )
+						itm.setIcon(self.dat_icon)
+						self.window.listwidget.addItem(itm)
 
 				if (file_name.endswith(".inp")==True) and self.show_inp_files==True:
-					#print self.show_inp_files
-					self.store.append([fl, self.inp_icon, "inp"])
+					itm = QListWidgetItem( fl )
+					itm.setIcon(self.inp_icon)
+					self.window.listwidget.addItem(itm)
 
 				if (file_name.endswith(".spectra")==True):
-					#print self.show_inp_files
-					self.store.append([fl, self.spectra_icon, "spectra"])
+					itm = QListWidgetItem( fl )
+					itm.setIcon(self.spectra_icon)
+					self.window.listwidget.addItem(itm)
 
 				if (file_name.endswith(".omat")==True):
-					#print self.show_inp_files
-					self.store.append([fl, self.mat_icon, "mat"])
+					itm = QListWidgetItem( fl )
+					itm.setIcon(self.mat_icon)
+					self.window.listwidget.addItem(itm)
+
 	def on_home_clicked(self, widget):
 		self.dir = self.root_dir
 		self.fill_store()
 
 
-	def on_item_activated(self, widget, item):
+	def on_item_activated(self,item):
+		full_path=os.path.join(self.dir, item.text())
 
-		model = widget.get_model()
-		path = model[item][COL_PATH]
-		file_type = model[item][COL_IS_DIRECTORY]
+		print full_path,os.path.isfile(full_path)
+		if os.path.isfile(full_path)==True:
+			self.file_path=full_path
+			self.window.accept()
+		else:
+			self.dir = full_path
+			self.change_path()
 
-		if file_type!="dir":
-			self.file_path=os.path.join(self.dir, path)
-			self.response(True)
-		    	return
-
-		self.dir = os.path.join(self.dir, path)
-		self.change_path()
-
-	def on_selection_changed(self, widget):
-		selected=self.icon_view.get_selected_items()
-		if len(selected)!=0:
-			icon_pos=selected[0][0]
-			icon_name=self.store[icon_pos][0]
-			icon_type=self.store[icon_pos][COL_IS_DIRECTORY]
-			full_path=os.path.join(self.dir,icon_name)
-			if icon_type=="dat":
+	def on_selection_changed(self,item):
+		if type(item)!=None:
+			file_name=item.text()
+			print file_name
+			full_path=os.path.join(self.dir, file_name)
+			if (file_name.endswith(".dat")==True):
 				state=plot_state()
 				get_plot_file_info(state,full_path)
-				summary="<big><b>"+self.store[icon_pos][0]+"</b></big>\n"+_("\ntitle: ")+state.title+_("\nx axis: ")+state.x_label+" ("+latex_to_pygtk_subscript(state.x_units)+_(")\ny axis: ")+state.y_label+" ("+latex_to_pygtk_subscript(state.y_units)+_(")\n\n<big><b>Double click to open</b></big>")
-				my_help_class.help_set_help(["dat_file.png",summary])
+				summary="<big><b>"+file_name+"</b></big><br>"+_("<br>title: ")+state.title+_("<br>x axis: ")+state.x_label+" ("+latex_to_pygtk_subscript(state.x_units)+_(")<br>y axis: ")+state.y_label+" ("+latex_to_pygtk_subscript(state.y_units)+_(")<br><br><big><b>Double click to open</b></big>")
+				help_window().help_set_help(["dat_file.png",summary])
 
-			if icon_name.endswith("equilibrium"):
+			if file_name.endswith("equilibrium"):
 				state=plot_state()
 				get_plot_file_info(state,full_path)
-				summary="<big><b>equilibrium</b></big>\n"+_("\nThis contains the simulation output at 0V in the dark.")
-				my_help_class.help_set_help(["dir_file.png",summary])
+				summary="<big><b>equilibrium</b></big><br>"+_("<br>This contains the simulation output at 0V in the dark.")
+				help_window().help_set_help(["dir_file.png",summary])
 
 
 	def change_path(self):
-		self.text.set_text(self.dir)
+		self.window.path.setText(self.dir)
 
 		self.fill_store()
 		sensitive = True
@@ -215,7 +193,7 @@ class gpvdm_open(gtk.Dialog):
 		if self.dir == self.root_dir:
 			sensitive = False
 
-		self.up_button.set_sensitive(sensitive)
+		self.window.up.setEnabled(sensitive)
 
 	def on_up_clicked(self, widget):
 		self.dir = os.path.dirname(self.dir)

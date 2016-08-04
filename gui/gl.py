@@ -167,7 +167,7 @@ class glWidget(QGLWidget):
 
 	def __init__(self, parent):
 		QGLWidget.__init__(self, parent)
-		self.setMinimumSize(640, 480)
+		self.setMinimumSize(550, 480)
 
 
 	def paintGL(self):

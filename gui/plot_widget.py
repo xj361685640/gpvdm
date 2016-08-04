@@ -29,16 +29,23 @@ from numpy import *
 #from util import pango_to_gnuplot
 from util import read_data_2d
 from plot_io import plot_load_info
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 #from matplotlib.widgets import Cursor
 from plot_export import plot_export
 #from numpy import arange, sin, pi, zeros
-from matplotlib.backends.backend_gtkagg import FigureCanvasGTKAgg as FigureCanvas
-from matplotlib_toolbar import NavigationToolbar
+
+#matplotlib
+import matplotlib
+matplotlib.use('Qt5Agg')
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
+
+#from matplotlib_toolbar import NavigationToolbar
+
+
 from util import read_xyz_data
-import matplotlib.ticker as ticker
-from gui_util import dlg_get_text
+#import matplotlib.ticker as ticker
+#from gui_util import dlg_get_text
 #from inp import inp_load_file
 #from inp import inp_write_lines_to_file
 #from inp_util import inp_search_token_value
@@ -49,11 +56,13 @@ from plot_state import plot_state
 #from plot import plot_populate_plot_token
 from plot_io import plot_save_oplot_file
 #from plot_state import plot_state
-from gui_util import dlg_get_multi_text
+#from gui_util import dlg_get_multi_text
 from util import time_with_units
 
+#qt
+from PyQt5.QtWidgets import QWidget,QVBoxLayout
 
-class plot_widget(gtk.VBox):
+class plot_widget(QVBoxLayout):
 
 	def on_key_press_event(self,widget, event):
 		keyname = gtk.gdk.keyval_name(event.keyval)
@@ -494,25 +503,25 @@ class plot_widget(gtk.VBox):
 			#if ret==True:
 			#print "Rod",input_files
 			title=self.plot_token.title
-			if  type(self.win)==gtk.Window:
-				self.win.set_title(title+" - www.gpvdm.com")
+			if  type(self.win)==QWidget:
+				self.win.setWindowTitle(title+" - www.gpvdm.com")
 #			lines=[]
 
 #			ret=plot_load_info(self.plot_token,input_files[0])
-			myitem=self.item_factory.get_item("/Math/Subtract first point")
-			myitem.set_active(self.plot_token.subtract_first_point)
+			#myitem=self.item_factory.get_item("/Math/Subtract first point")
+			#myitem.set_active(self.plot_token.subtract_first_point)
 
-			myitem=self.item_factory.get_item("/Math/Add min point")
-			myitem.set_active(self.plot_token.add_min)
+			#myitem=self.item_factory.get_item("/Math/Add min point")
+			#myitem.set_active(self.plot_token.add_min)
 
-			myitem=self.item_factory.get_item("/Math/Invert y-axis")
-			myitem.set_active(self.plot_token.invert_y)
+			#myitem=self.item_factory.get_item("/Math/Invert y-axis")
+			#myitem.set_active(self.plot_token.invert_y)
 
-			myitem=self.item_factory.get_item("/Math/Norm to 1.0 y")
-			myitem.set_active(self.plot_token.normalize)
+			#myitem=self.item_factory.get_item("/Math/Norm to 1.0 y")
+			#myitem.set_active(self.plot_token.normalize)
 
-			myitem=self.item_factory.get_item("/Math/Norm to peak of all data")
-			myitem.set_active(self.plot_token.norm_to_peak_of_all_data)
+			#myitem=self.item_factory.get_item("/Math/Norm to peak of all data")
+			#myitem.set_active(self.plot_token.norm_to_peak_of_all_data)
 
 			print "Loaded OK",self.config_file
 
@@ -671,15 +680,15 @@ class plot_widget(gtk.VBox):
 	def init(self,in_window):
 		self.zero_frame_enable=False
 		self.zero_frame_list=[]
-		#print type(in_window)
 		self.plot_title=""
 		self.gen_colors(1)
-		#self.color =['r','g','b','y','o','r','g','b','y','o']
 		self.win=in_window
-		self.toolbar = gtk.Toolbar()
-		self.toolbar.set_style(gtk.TOOLBAR_ICONS)
-		self.toolbar.set_size_request(-1, 50)
-		self.toolbar.show()
+
+		#self.toolbar = gtk.Toolbar()
+		#self.toolbar.set_style(gtk.TOOLBAR_ICONS)
+		#self.toolbar.set_size_request(-1, 50)
+		#self.toolbar.show()
+
 		self.config_file=""
 		self.plot_token=None
 		self.labels=[]
@@ -689,85 +698,85 @@ class plot_widget(gtk.VBox):
 
 		self.fig.canvas.mpl_connect('motion_notify_event', self.mouse_move)
 
-		self.item_factory = gtk.ItemFactory(gtk.MenuBar, "<main>", None)
+		#self.item_factory = gtk.ItemFactory(gtk.MenuBar, "<main>", None)
 
-		menu_items = (
-		    ( "/_File",         None,         None, 0, "<Branch>" ),
-		    ( "/_File/Save",  None,         self.callback_save , 0, None ),
-		    ( "/_File/Save As...",  None,         self.callback_plot_save , 0, None ),
-		    ( "/_Key",         None,         None, 0, "<Branch>" ),
-		    ( "/_Key/No key",  None,         self.callback_key , 0, "<RadioItem>", "gtk-save" ),
-		    ( "/_Key/upper right",  None,         self.callback_key , 0, "<RadioItem>", "gtk-save" ),
-		    ( "/_Key/upper left",  None,         self.callback_key , 0, "<RadioItem>", "gtk-save" ),
-		    ( "/_Key/lower left",  None,         self.callback_key , 0, "<RadioItem>", "gtk-save" ),
-		    ( "/_Key/lower right",  None,         self.callback_key , 0, "<RadioItem>", "gtk-save" ),
-		    ( "/_Key/right",  None,         self.callback_key , 0, "<RadioItem>", "gtk-save" ),
-		    ( "/_Key/center right",  None,         self.callback_key , 0, "<RadioItem>", "gtk-save" ),
-		    ( "/_Key/lower center",  None,         self.callback_key , 0, "<RadioItem>", "gtk-save" ),
-		    ( "/_Key/upper center",  None,         self.callback_key , 0, "<RadioItem>", "gtk-save" ),
-		    ( "/_Key/center",  None,         self.callback_key , 0, "<RadioItem>", "gtk-save" ),
-		    ( "/_Key/Units",  None,         self.callback_units , 0, None ),
-		    ( "/_Color/Black",  None,         self.callback_black , 0, None ),
-		    ( "/_Color/Rainbow",  None,         self.callback_rainbow , 0, None ),
-		    ( "/_Axis/_Autoscale y",     None, self.callback_autoscale_y, 0, "<ToggleItem>", "gtk-save" ),
-		    ( "/_Axis/_Set log scale y",     None, self.callback_toggle_log_scale_y, 0, "<ToggleItem>", "gtk-save" ),
-		    ( "/_Axis/_Set log scale x",     None, self.callback_toggle_log_scale_x, 0, "<ToggleItem>", "gtk-save" ),
-		    ( "/_Axis/_Label data",     None, self.callback_toggle_label_data, 0, "<ToggleItem>", "gtk-save" ),
-		    ( "/_Math/_Subtract first point",     None, self.callback_toggle_subtract_first_point, 0, "<ToggleItem>", "gtk-save" ),
-		    ( "/_Math/_Add min point",     None, self.callback_toggle_add_min, 0, "<ToggleItem>", "gtk-save" ),
-		    ( "/_Math/_Invert y-axis",     None, self.callback_toggle_invert_y, 0, "<ToggleItem>", "gtk-save" ),
-		    ( "/_Math/_Norm to 1.0 y",     None, self.callback_normtoone_y, 0, "<ToggleItem>", "gtk-save" ),
-		    ( "/_Math/_Norm to peak of all data",     None, self.callback_norm_to_peak_of_all_data, 0, "<ToggleItem>", "gtk-save" ),
-		    ( "/_Math/_Heat map",     None, self.callback_set_heat_map, 0, "<ToggleItem>", "gtk-save" ),
-		    ( "/_Math/_Heat map edit",     None, self.callback_heat_map_edit, 0, "<ToggleItem>", "gtk-save" ),
-		    ( "/_Math/_xy plot",     None, self.callback_set_xy_plot, 0, "<ToggleItem>", "gtk-save" ),
-		    )
+		#menu_items = (
+		#    ( "/_File",         None,         None, 0, "<Branch>" ),
+		#    ( "/_File/Save",  None,         self.callback_save , 0, None ),
+		#    ( "/_File/Save As...",  None,         self.callback_plot_save , 0, None ),
+		#    ( "/_Key",         None,         None, 0, "<Branch>" ),
+		#    ( "/_Key/No key",  None,         self.callback_key , 0, "<RadioItem>", "gtk-save" ),
+		#    ( "/_Key/upper right",  None,         self.callback_key , 0, "<RadioItem>", "gtk-save" ),
+		#   ( "/_Key/upper left",  None,         self.callback_key , 0, "<RadioItem>", "gtk-save" ),
+		#    ( "/_Key/lower left",  None,         self.callback_key , 0, "<RadioItem>", "gtk-save" ),
+		#    ( "/_Key/lower right",  None,         self.callback_key , 0, "<RadioItem>", "gtk-save" ),
+		#    ( "/_Key/right",  None,         self.callback_key , 0, "<RadioItem>", "gtk-save" ),
+		#    ( "/_Key/center right",  None,         self.callback_key , 0, "<RadioItem>", "gtk-save" ),
+		#    ( "/_Key/lower center",  None,         self.callback_key , 0, "<RadioItem>", "gtk-save" ),
+		#    ( "/_Key/upper center",  None,         self.callback_key , 0, "<RadioItem>", "gtk-save" ),
+		#    ( "/_Key/center",  None,         self.callback_key , 0, "<RadioItem>", "gtk-save" ),
+		#    ( "/_Key/Units",  None,         self.callback_units , 0, None ),
+		#    ( "/_Color/Black",  None,         self.callback_black , 0, None ),
+		#    ( "/_Color/Rainbow",  None,         self.callback_rainbow , 0, None ),
+		#    ( "/_Axis/_Autoscale y",     None, self.callback_autoscale_y, 0, "<ToggleItem>", "gtk-save" ),
+		#    ( "/_Axis/_Set log scale y",     None, self.callback_toggle_log_scale_y, 0, "<ToggleItem>", "gtk-save" ),
+		#    ( "/_Axis/_Set log scale x",     None, self.callback_toggle_log_scale_x, 0, "<ToggleItem>", "gtk-save" ),
+		#    ( "/_Axis/_Label data",     None, self.callback_toggle_label_data, 0, "<ToggleItem>", "gtk-save" ),
+		#    ( "/_Math/_Subtract first point",     None, self.callback_toggle_subtract_first_point, 0, "<ToggleItem>", "gtk-save" ),
+		#    ( "/_Math/_Add min point",     None, self.callback_toggle_add_min, 0, "<ToggleItem>", "gtk-save" ),
+		#    ( "/_Math/_Invert y-axis",     None, self.callback_toggle_invert_y, 0, "<ToggleItem>", "gtk-save" ),
+		#    ( "/_Math/_Norm to 1.0 y",     None, self.callback_normtoone_y, 0, "<ToggleItem>", "gtk-save" ),
+		#    ( "/_Math/_Norm to peak of all data",     None, self.callback_norm_to_peak_of_all_data, 0, "<ToggleItem>", "gtk-save" ),
+		#    ( "/_Math/_Heat map",     None, self.callback_set_heat_map, 0, "<ToggleItem>", "gtk-save" ),
+		#    ( "/_Math/_Heat map edit",     None, self.callback_heat_map_edit, 0, "<ToggleItem>", "gtk-save" ),
+		#    ( "/_Math/_xy plot",     None, self.callback_set_xy_plot, 0, "<ToggleItem>", "gtk-save" ),
+		#    )
 
-		self.item_factory.create_items(menu_items)
-
-
-		menubar=self.item_factory.get_widget("<main>")
-		menubar.show_all()
-		self.pack_start(menubar, False, True, 0)
-
-		self.pack_start(self.toolbar, False, True, 0)
-
-		pos=0
-
-		self.plot_save = gtk.ToolButton(gtk.STOCK_SAVE)
-		self.plot_save.connect("clicked", self.callback_plot_save)
-		self.toolbar.add(self.plot_save)
-		pos=pos+1
-
-		refresh = gtk.ToolButton(gtk.STOCK_REFRESH)
-		refresh.connect("clicked", self.callback_refresh)
-		self.toolbar.insert(refresh, pos)
-		pos=pos+1
-
-		plot_toolbar = NavigationToolbar(self.canvas, self.win)
-		plot_toolbar.show()
-		box=gtk.HBox(True, 1)
-		box.set_size_request(400,-1)
-		box.show()
-		box.pack_start(plot_toolbar, True, True, 0)
-		tb_comboitem = gtk.ToolItem();
-		tb_comboitem.add(box);
-		tb_comboitem.show_all()
-
-		self.toolbar.add(tb_comboitem)
-		pos=pos+1
+		#self.item_factory.create_items(menu_items)
 
 
+		#menubar=self.item_factory.get_widget("<main>")
+		#menubar.show_all()
+		#self.pack_start(menubar, False, True, 0)
 
-		self.toolbar.show_all()
+		#self.pack_start(self.toolbar, False, True, 0)
+
+		#pos=0
+
+		#self.plot_save = gtk.ToolButton(gtk.STOCK_SAVE)
+		#self.plot_save.connect("clicked", self.callback_plot_save)
+		#self.toolbar.add(self.plot_save)
+		#pos=pos+1
+
+		#refresh = gtk.ToolButton(gtk.STOCK_REFRESH)
+		#refresh.connect("clicked", self.callback_refresh)
+		#self.toolbar.insert(refresh, pos)
+		#pos=pos+1
+
+		#plot_toolbar = NavigationToolbar(self.canvas, self.win)
+		#plot_toolbar.show()
+		#box=gtk.HBox(True, 1)
+		#box.set_size_request(400,-1)
+		#box.show()
+		#box.pack_start(plot_toolbar, True, True, 0)
+		#tb_comboitem = gtk.ToolItem();
+		#tb_comboitem.add(box);
+		#tb_comboitem.show_all()
+
+		#self.toolbar.add(tb_comboitem)
+		#pos=pos+1
+
+
+
+		#self.toolbar.show_all()
 
 
 		self.canvas.figure.patch.set_facecolor('white')
-		self.canvas.set_size_request(650, 400)
-		self.pack_start(self.canvas, True, True, 0)
+		#self.canvas.set_size_request(650, 400)
+		self.addWidget(self.canvas)
 
 		#self.fig.canvas.draw()
 
 		self.canvas.show()
 
-		self.win.connect('key_press_event', self.on_key_press_event)
+		#self.win.connect('key_press_event', self.on_key_press_event)

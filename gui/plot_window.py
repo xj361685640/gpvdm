@@ -21,11 +21,11 @@
 
 
 
-#import sys
 import os
 #import shutil
 #from token_lib import tokens
 from plot_widget import plot_widget
+from PyQt5.QtWidgets import QWidget
 
 class plot_window():
 	def __init__(self):
@@ -40,10 +40,12 @@ class plot_window():
 
 	def init(self,input_files,plot_labels,config_file):
 		self.shown=True
-		self.window = gtk.Window()
-		self.window.set_border_width(10)
+		self.window = QWidget()
+		self.window.resize(800, 600)
+
 		self.plot=plot_widget()
 		self.plot.init(self.window)
+		self.window.setLayout(self.plot)
 
 		print "here1"
 		print "labels",plot_labels
@@ -62,10 +64,10 @@ class plot_window():
 		self.plot.load_data(input_files,config_file)
 
 		self.plot.do_plot()
-		self.plot.show()
-		self.window.add(self.plot)
 
-		self.window.show_all()
-		self.window.connect("destroy", self.callback_destroy)
+		#self.window.add(self.plot)
+		self.window.show()
+		#self.window.show_all()
+		#self.window.connect("destroy", self.callback_destroy)
 
 

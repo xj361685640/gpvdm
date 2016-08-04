@@ -22,7 +22,7 @@
 
 
 import math
-#from layer_widget import layer_widget
+from layer_widget import layer_widget
 from util import read_xyz_data
 import os
 from cal_path import get_materials_path
@@ -34,7 +34,7 @@ from epitaxy import epitaxy_get_layers
 from epitaxy import epitaxy_get_width
 from epitaxy import epitaxy_get_mat_file
 from epitaxy import epitaxy_get_electrical_layer
-#from help import my_help_class
+from help import help_window
 from epitaxy import epitaxy_get_pl_file
 from epitaxy import epitaxy_get_name
 from gl import glWidget
@@ -63,13 +63,13 @@ class tab_main(QWidget,tab_base):
 
 		self.three_d=glWidget(self)
 		self.three_d.show()
-		mainLayout.addWidget(self.three_d)
 
-		self.setLayout(mainLayout)
+
+
 
 
 		#self.tooltips=gtk.Tooltips()
-		#self.frame=layer_widget(self.tooltips)
+		self.frame=layer_widget()
 		#main_hbox.pack_start(self.frame, False, False, 0)
 		#main_hbox.pack_start(self.darea, True, True, 0)
 		#main_hbox.pack_start(three_d,False,False,0)
@@ -78,6 +78,12 @@ class tab_main(QWidget,tab_base):
 
 		#self.add(main_hbox)
 		#self.show_all()
+
+		mainLayout.addWidget(self.frame)
+		mainLayout.addWidget(self.three_d)
+
+
+		self.setLayout(mainLayout)
 
 	def draw_photon(self,x_start,y_start):
 		x=x_start
@@ -253,4 +259,4 @@ class tab_main(QWidget,tab_base):
 		self.draw()
 
 	def help(self):
-		my_help_class.help_set_help(["device.png",_("<big><b>The device structure tab</b></big>\n Use this tab to change the structure of the device, the layer thicknesses and to perform optical simulations.  You can also browse the materials data base and  edit the electrical mesh.")])
+		help_window().help_set_help(["device.png",_("<big><b>The device structure tab</b></big>\n Use this tab to change the structure of the device, the layer thicknesses and to perform optical simulations.  You can also browse the materials data base and  edit the electrical mesh.")])
