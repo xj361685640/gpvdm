@@ -59,12 +59,7 @@ from command_args import command_args
 command_args(len(sys.argv),sys.argv)
 
 
-
-#import pygtk
-#import gtk
-#pygtk.require('2.0')
 import os
-#import subprocess
 from inp import inp_get_token_value
 
 from scan_item import scan_items_clear
@@ -109,11 +104,11 @@ from server import server_get
 #mesh
 from mesh import mesh_load_all
 
-#gui
+#qt
 from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSize, Qt 
-from PyQt5.QtWidgets import QWidget,QSizePolicy,QHBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar
+from PyQt5.QtWidgets import QWidget,QSizePolicy,QHBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QMessageBox
 from about import about_dlg
 
 #windows
@@ -166,7 +161,6 @@ def set_active_name(combobox, name):
 
 class gpvdm_main_window(QMainWindow):
 
-	#icon_theme = gtk.icon_theme_get_default()
 	plot_after_run=False
 	plot_after_run_file=""
 	scan_window=None
@@ -204,19 +198,6 @@ class gpvdm_main_window(QMainWindow):
 					Hello=pynotify.Notification ("gpvdm:",message,os.path.join(get_image_file_path(),"icon.svg"))
 					Hello.set_timeout(2000)
 					Hello.show ()
-
-	def make_menu(self,event_button, event_time, data=None):
-		menu = gtk.Menu()
-		close_item = gtk.MenuItem(_("Quit"))
-		menu.append(close_item)
-
-		close_item.connect_object("activate", self.callback_close_window, "Quit")
-
-		close_item.show()
-		menu.popup(None, None, None, event_button, event_time)
-
-	def on_status_icon_right_click(self,data, event_button, event_time):
-		self.make_menu(event_button, event_time)
 
 
 	def callback_plot_after_run_toggle(self, widget, data):
@@ -313,31 +294,15 @@ class gpvdm_main_window(QMainWindow):
 
 
 	def callback_import(self, widget, data=None):
-		dialog = gtk.FileChooserDialog(_("Import an old gpvdm simulation"),
-                               None,
-                               gtk.FILE_CHOOSER_ACTION_OPEN,
-                               (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
-                                gtk.STOCK_OPEN, gtk.RESPONSE_OK))
-		dialog.set_default_response(gtk.RESPONSE_OK)
+		dialog = QFileDialog(self)
+		dialog.setWindowTitle(_("Import an old gpvdm simulation"))
+		dialog.setNameFilter('Simulations - gpvdm (*.gpvdm *.opvdm)')
+		dialog.setFileMode(QFileDialog.ExistingFile)
+		if dialog.exec_() == QDialog.Accepted:
+			filename = dialog.selectedFiles()[0]
 
-		filter = gtk.FileFilter()
-		filter.set_name(".gpvdm")
-		filter.add_pattern("*.gpvdm")
-		dialog.add_filter(filter)
-
-
-		filter = gtk.FileFilter()
-		filter.set_name(".opvdm")
-		filter.add_pattern("*.opvdm")
-		dialog.add_filter(filter)
-
-		response = dialog.run()
-		if response == gtk.RESPONSE_OK:
-			import_archive(dialog.get_filename(),os.path.join(os.getcwd(),"sim.gpvdm"),False)
+			import_archive(filename,os.path.join(os.getcwd(),"sim.gpvdm"),False)
 			self.change_dir_and_refresh_interface(os.getcwd())
-		elif response == gtk.RESPONSE_CANCEL:
-		    print _("Closed, no files selected")
-		dialog.destroy()
 
 	def callback_import_from_lib(self, widget, data=None):
 		device_lib=device_lib_class()
@@ -488,54 +453,23 @@ class gpvdm_main_window(QMainWindow):
 		#myitem.set_active(self.config.get_value("#plot_after_simulation",False))
 
 	def callback_open(self, widget, data=None):
-		fname = QFileDialog.getOpenFileName(self, 'Open file',os.getcwd())
-		if fname:
-			print fname
-		return
-		dialog = gtk.FileChooserDialog(_("Open an existing gpvdm simulation"),
-                               None,
-                               gtk.FILE_CHOOSER_ACTION_OPEN,
-                               (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
-                                gtk.STOCK_OPEN, gtk.RESPONSE_OK))
-		dialog.set_default_response(gtk.RESPONSE_OK)
-		#dialog.set_action(gtk.FILE_CHOOSER_ACTION_SELECT_FILE)
+		dialog = QFileDialog(self)
+		dialog.setWindowTitle(_("Open an existing gpvdm simulation"))
+		dialog.setNameFilter('Simulations - gpvdm (*.gpvdm *.opvdm)')
+		dialog.setFileMode(QFileDialog.ExistingFile)
+		if dialog.exec_() == QDialog.Accepted:
+			filename = dialog.selectedFiles()[0]
 
-		filter = gtk.FileFilter()
-		filter.set_name("gpvdm")
-		filter.add_pattern("*.gpvdm")
-		dialog.add_filter(filter)
-
-		filter = gtk.FileFilter()
-		filter.set_name(".opvdm")
-		filter.add_pattern("*.opvdm")
-		dialog.add_filter(filter)
-
-		response = dialog.run()
-		if response == gtk.RESPONSE_OK:
-
-			new_path=os.path.dirname(dialog.get_filename())
+			new_path=os.path.dirname(filename)
 
 			if ver_check_compatibility(dialog.get_filename())==True:
 				self.change_dir_and_refresh_interface(new_path)
 			else:
-				import_md = gtk.MessageDialog(None, 0, gtk.MESSAGE_QUESTION,  gtk.BUTTONS_YES_NO, _("The file you are trying to load was made in an older version of opvdm, would you like me to try to import it?"))
+				reply = QMessageBox.question(self, 'Message',"Are you sure to quit?", QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
 
-				import_response = import_md.run()
-
-				if import_response == gtk.RESPONSE_YES:
+				if reply == QMessageBox.Yes:
 					update_simulaton_to_new_ver(dialog.get_filename())
 					self.change_dir_and_refresh_interface(new_path)
-				elif import_response == gtk.RESPONSE_NO:
-					print _("Not importing the file.")
-
-
-				import_md.destroy()
-
-################
-
-		elif response == gtk.RESPONSE_CANCEL:
-		    print _("Closed, no files selected")
-		dialog.destroy()
 
 	def callback_export(self, widget, data=None):
 		dlg_export()
@@ -646,26 +580,6 @@ class gpvdm_main_window(QMainWindow):
 			l.pop()
 
 
-	def get_main_menu(self, window):
-		accel_group = gtk.AccelGroup()
-
-
-		item_factory = gtk.ItemFactory(gtk.MenuBar, "<main>", accel_group)
-
-		item_factory.create_items(self.menu_items)
-
-
-		if enable_betafeatures()==False:
-			item_factory.delete_item(_("/Advanced"))
-			item_factory.delete_item(_("/Simulation/Start cluster server"))
-
-
-		window.add_accel_group(accel_group)
-
-		self.item_factory = item_factory
-
-		return item_factory.get_widget("<main>")
-
 
 	def make_tool_box1(self):
 		toolbar=QToolBar()
@@ -767,12 +681,8 @@ class gpvdm_main_window(QMainWindow):
 		self.win_list=windows()
 		self.win_list.load()
 
-		#self.config=config()
-		#table = gtk.Table(3,6,False)
-
 		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"image.jpg")))
 
-		#self.window.set_icon_from_file()
 
 		self.cluster_window=None
 		
@@ -782,33 +692,39 @@ class gpvdm_main_window(QMainWindow):
 
 		menubar = self.menuBar()
 
-		#	(_("/File/_New optical material"), "<control>N", self.callback_new, 0, "<StockItem>", "gtk-new" ),
-		#	(_("/File/_Open simulation"), "<control>O", self.callback_open, 0, "<StockItem>", "gtk-open" ),
-		#    ( _("/File/_Export data"),     None, self.callback_export, 0, "<StockItem>", "gtk-save" ),
-		#    ( _("/File/Import data"),     None, self.callback_import, 0 , "<StockItem>", "gtk-harddisk"),
-		#    ( _("/File/Import from library"),     None, self.callback_import_from_lib, 0 , "<StockItem>", "gtk-harddisk"),
 
 		file_menu = menubar.addMenu('&File')
 		self.menu_new=file_menu.addAction(_("&New simulation"))
 		self.menu_new.triggered.connect(self.callback_new)
 
 		self.menu_new_optical_material=file_menu.addAction(_("New optical material"))
-		file_menu.addAction(_("&Open simulation"))
+
+		self.menu_export_open=file_menu.addAction(_("&Open simulation"))
+		self.menu_export_open.triggered.connect(self.callback_open)
+
 		self.menu_export_data=file_menu.addAction(_("&Export data"))
+		self.menu_export_data.triggered.connect(self.callback_export)
+
 		self.menu_import_data=file_menu.addAction(_("&Import data"))
+		self.menu_import_data.triggered.connect(self.callback_import)
+
 		self.menu_import_lib=file_menu.addAction(_("Import from library"))
+		self.menu_import_lib.triggered.connect(self.callback_import_from_lib)
 
 		self.menu_quit=file_menu.addAction(_("&Quit"))
 		self.menu_quit.triggered.connect(self.close_now)
 
 
-		#    ( _("/Simulation/Run"),  None,         self.callback_simulate, 0, "<StockItem>", "gtk-media-play" ),
-		#    ( _("/Simulation/Stop"),  None,         self.callback_simulate_stop, 0, "<StockItem>", "gtk-media-stop" ),
-		#    ( _("/Simulation/Parameter scan"),  None,         self.callback_scan , 0, None ),
 		simulation_menu = menubar.addMenu('&Simulation')
+
 		self.menu_run=simulation_menu.addAction(_("&Run"))
+		self.menu_run.triggered.connect(self.callback_simulate)
+
 		self.menu_stop=simulation_menu.addAction(_("&Stop"))
+		self.menu_stop.triggered.connect(self.callback_simulate_stop)
+
 		self.menu_scan=simulation_menu.addAction(_("&Parameter scan"))
+		self.menu_scan.triggered.connect(self.callback_scan)
 
 		self.menu_configure=simulation_menu.addAction(_("&Configure"))
 		self.menu_configure.triggered.connect(self.callback_config_window)
@@ -818,16 +734,11 @@ class gpvdm_main_window(QMainWindow):
 		view_menu.addAction(_("&None"))
 
 
-		#    ( _("/Plots/Plot simulation result"),  None,         self.callback_plot_select, 0, "<StockItem>", "gtk-open"),
-		#    ( _("/_Plots/"),     None, None, 0, "<Separator>" ),
 		plot_menu = menubar.addMenu('&Plot')
-		plot_menu.addAction(_("&Plot simulation result"))
+		self.plot_menu_plot=plot_menu.addAction(_("&Plot simulation result"))
+		self.plot_menu_plot.triggered.connect(self.callback_plot_select)
 
 
-		#    ( _("/_Help"),         None,         None, 0, "<LastBranch>" ),
-		#	( _("/_Help/Help Index"),   None,         self.callback_help, 0, "<StockItem>", "gtk-help"  ),
-		#    ( _("/_Help/About"),   None, self.callback_about_dialog, 0, "<StockItem>", "gtk-about" ),
-		#    )
 		help_menu = menubar.addMenu('Help')
 		help_web=help_menu.addAction(_("&Help Index"))
 		help_web.triggered.connect(self.callback_on_line_help)
@@ -839,20 +750,8 @@ class gpvdm_main_window(QMainWindow):
 
 
 		if enable_webupdates()==False:
-			help_menu.addAction(_("&Check for updates"))
-		#	update_menu = (( "/_Help/Check for updates",  None, self.callback_update, 0, "<ToggleItem>" ),   )
-		#	self.item_factory.create_items( update_menu, )
-
-
-		#table.show()
-
-		#main_vbox = gtk.VBox(False, 5)
-		#main_vbox.set_border_width(1)
-		#self.window.add(main_vbox)
-		#window.add(table)
-		#main_vbox.show()
-
-
+			self.help_menu_update=help_menu.addAction(_("&Check for updates"))
+			self.help_menu_update.triggered.connect(self.callback_update)
 
 
 		new_sim = QAction(QIcon(os.path.join(get_image_file_path(),"new.png")), _("Make a new simulation"), self)

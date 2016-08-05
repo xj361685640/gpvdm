@@ -1,4 +1,3 @@
-#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
@@ -34,8 +33,12 @@ from tab import tab_class
 import i18n
 _ = i18n.language.gettext
 
+#qt
+from PyQt5.QtCore import QSize, Qt 
+from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget
+from PyQt5.QtGui import QPainter,QIcon
 
-class experiment_tab(gtk.VBox):
+class experiment_tab(QWidget):
 
 	def update(self):
 		self.tmesh.update()
@@ -52,11 +55,11 @@ class experiment_tab(gtk.VBox):
 		else:
 			self.tab_name=""
 
-
+#
 		self.title_hbox=gtk.HBox()
 
 		self.title_hbox.set_size_request(-1, 25)
-		self.label=gtk.Label(self.tab_name.split("@")[0])
+		self.label=gtk.Label()
 		self.label.set_justify(gtk.JUSTIFY_LEFT)
 		self.title_hbox.pack_start(self.label, False, True, 0)
 

@@ -30,7 +30,7 @@ _ = i18n.language.gettext
 
 #qt
 from PyQt5.QtCore import QSize, Qt 
-from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QSystemTrayIcon,QMenu
+from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QSystemTrayIcon,QMenu,QApplication
 from PyQt5.QtGui import QIcon
 
 from cluster import cluster
@@ -39,13 +39,15 @@ statusicon = None
 
 class tray_icon(QSystemTrayIcon):
 
-    def __init__(self,  parent=None):
-        QSystemTrayIcon.__init__(self, QIcon(os.path.join(get_image_file_path(),"ball_green.png")), parent)
-        menu = QMenu(parent)
-        exitAction = menu.addAction("Exit")
-        self.setContextMenu(menu)
+	def __init__(self,  parent=None):
+		QSystemTrayIcon.__init__(self, QIcon(os.path.join(get_image_file_path(),"ball_green.png")), parent)
+		menu = QMenu(parent)
+		self.exitAction = menu.addAction("Exit")
+		self.exitAction.triggered.connect(self.callback_exit)
+		self.setContextMenu(menu)
 
-
+	def callback_exit(self):
+		QApplication.quit()
 
 def status_icon_init():
 	global statusicon

@@ -33,8 +33,6 @@ from inp_description import inp_file_to_description
 from tab_main import tab_main
 from tab import tab_class
 #from tab_homo import tab_bands
-#from dos_main import dos_main
-#from pl_main import pl_main
 
 #util
 from win_lin import running_on_linux
@@ -46,6 +44,10 @@ from code_ctrl import enable_webbrowser
 
 #qt
 from PyQt5.QtWidgets import QTabWidget,QWidget
+
+#window
+from dos_main import dos_main
+from pl_main import pl_main
 
 if running_on_linux()==True:
 	from tab_terminal import tab_terminal
@@ -183,22 +185,7 @@ class gpvdm_notebook(QTabWidget):
 					tab_number=tab_number+1
 					#self.progress.set_text(_("Loading ")+name)
 					#process_events()
-					#if file_name=="pl0.inp":
-					#	tab=pl_main()
-					#	tab.init()
-					#	tab.update()
-					#	add_to_widget=True
-					#	tab.visible=visible
-					#	tab.label_name=name
-					#	tab.file_name=file_name
-					#elif file_name=="epitaxy.inp":
-					#	tab=dos_main()
-					#	tab.init()
-					#	tab.update()
-					#	add_to_widget=True
-					#	tab.visible=visible
-					#	tab.label_name=name
-					#	tab.file_name=file_name
+
 					#elif file_name=="lumo0.inp":
 					#	tab=tab_bands()
 					#	tab.update()
@@ -210,12 +197,27 @@ class gpvdm_notebook(QTabWidget):
 					#		tab.file_name=file_name
 
 					#el
-					if inp_isfile(file_name)==True:
+					if file_name=="epitaxy.inp":
+						widget=dos_main()
+						widget.update()
+						add_to_widget=True
+						widget.visible=visible
+						widget.label_name=name
+						widget.file_name=file_name
+					elif file_name=="pl0.inp":
+						widget=pl_main()
+						widget.update()
+						add_to_widget=True
+						widget.visible=visible
+						widget.label_name=name
+						widget.file_name=file_name
+					elif inp_isfile(file_name)==True:
+						add_to_widget=True
 						widget	= QWidget()
 						tab=tab_class()
 						tab.init(file_name,name)
 						widget.setLayout(tab) 
-						self.addTab(widget,name)
+
 
 					#	add_to_widget=True
 					#	tab=
@@ -224,45 +226,17 @@ class gpvdm_notebook(QTabWidget):
 					#	tab.label_name=name
 					#	tab.file_name=file_name
 
-					#if add_to_widget==True:
-					#	#print file_name,name,visible,type(tab)
-					#	hbox=gtk.HBox()
-					#	hbox.set_size_request(-1, 25)
-					#	mytext=name
-					#	if len(mytext)<10:
-					#		for i in range(len(mytext),10):
-					#			mytext=mytext+" "
+					if add_to_widget==True:
+						mytext=name
+						if len(mytext)<10:
+							for i in range(len(mytext),10):
+								mytext=mytext+" "
+						self.addTab(widget,mytext)
 
-					#	label=gtk.Label(mytext)
-					#	label.set_justify(gtk.JUSTIFY_LEFT)
-					#	self.connect("switch-page", self.callback_switch_page)
-					#	hbox.pack_start(label, False, True, 0)
-
-					#	button = gtk.Button()
-					#	close_image = gtk.Image()
-					#	close_image.set_from_file(os.path.join(get_image_file_path(),"close.png"))
-					#	close_image.show()
-					#	button = gtk.Button()
-					#	button.add(close_image)
-
-
-					#	button.props.relief = gtk.RELIEF_NONE
-					#	button.connect("clicked", self.callback_close_button,name)
-					#	button.set_size_request(25, 25)
-					#	button.show()
-
-
-					#	hbox.pack_end(button, False, False, 0)
-					#	hbox.show_all()
 
 					#	if (visible==True):
 					#		tab.show()
 
-					#	self.append_page(tab,hbox)
-
-
-
-					#	self.set_tab_reorderable(tab,True)
 
 					#	self.add_to_menu(name,visible)
 			#else:
