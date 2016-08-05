@@ -157,6 +157,11 @@ def box(x,y,z,w,h,d,r,g,b):
 
 	glEnd()
 
+class color():
+	def __init__(self,r,g,b):
+		self.r=r
+		self.g=g
+		self.b=b
 
 class glWidget(QGLWidget):
 
@@ -164,7 +169,7 @@ class glWidget(QGLWidget):
 	y_rot = 0.0
 	z_rot = 0.0
 	tet_rotate = 0.0
-
+	colors=[]
 	def __init__(self, parent):
 		QGLWidget.__init__(self, parent)
 		self.setMinimumSize(550, 480)
@@ -200,22 +205,13 @@ class glWidget(QGLWidget):
 		xpoints=int(mesh_get_xpoints())
 		ypoints=int(mesh_get_ypoints())
 		zpoints=int(mesh_get_zpoints())
-		print "layer",epitaxy_get_layers()
 		for i in range(0,epitaxy_get_layers()):
 
 			thick=1.5*epitaxy_get_width(l-i)/tot
 			print thick
-			path=os.path.join(get_materials_path(),epitaxy_get_mat_file(l-i),"mat.inp")
-			print path
-			if inp_load_file(lines,path)==True:
-				red=float(inp_search_token_value(lines, "#Red"))
-				green=float(inp_search_token_value(lines, "#Green"))
-				blue=float(inp_search_token_value(lines, "#Blue"))
-			else:
-				print "Could not load",path
-				red=0.0
-				green=0.0
-				blue=0.0
+			red=self.colors[l-i].r
+			green=self.colors[l-i].g
+			blue=self.colors[l-i].b
 
 			if epitaxy_get_electrical_layer(l-i).startswith("dos")==True:
 				dy=thick/float(ypoints)
@@ -250,8 +246,26 @@ class glWidget(QGLWidget):
 
 
 
-
 	def initializeGL(self):
+
+		self.colors=[]
+		l=epitaxy_get_layers()-1
+		for i in range(0,epitaxy_get_layers()):
+			path=os.path.join(get_materials_path(),epitaxy_get_mat_file(l-i),"mat.inp")
+			lines=[]
+
+			if inp_load_file(lines,path)==True:
+				red=float(inp_search_token_value(lines, "#Red"))
+				green=float(inp_search_token_value(lines, "#Green"))
+				blue=float(inp_search_token_value(lines, "#Blue"))
+			else:
+				print "Could not load",path
+				red=0.0
+				green=0.0
+				blue=0.0
+
+			self.colors.append(color(red,green,blue))
+
 		glClearDepth(1.0)              
 		glDepthFunc(GL_LESS)
 		glEnable(GL_DEPTH_TEST)

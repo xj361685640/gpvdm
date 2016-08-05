@@ -21,27 +21,13 @@
 
 
 
-#import sys
 import os
-#import shutil
-from about import about_dialog_show
-#from used_files_menu import used_files_menu
-#from server import server
-#from scan_tab import scan_vbox
 from gui_util import dlg_get_text
-#import threading
-#import gobject
-#import multiprocessing
-#import time
-#import glob
 from window_list import windows
-#from search import return_file_list
-#from win_lin import running_on_linux
 import webbrowser
 from code_ctrl import enable_betafeatures
 from inp import inp_update_token_value
-#from inp import inp_get_token_value
-from experiment_tab import experiment_tab
+#from experiment_tab import experiment_tab
 from util_zip import zip_lsdir
 from inp import inp_isfile
 from inp import inp_copy_file
@@ -53,6 +39,11 @@ from global_objects import global_object_register
 import i18n
 _ = i18n.language.gettext
 
+#qt
+from PyQt5.QtCore import QSize, Qt 
+from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget
+from PyQt5.QtGui import QPainter,QIcon
+
 def experiment_new_filename():
 	for i in range(0,20):
 		pulse_name="pulse"+str(i)+".inp"
@@ -60,7 +51,7 @@ def experiment_new_filename():
 			return i
 	return -1
 
-class experiment(gtk.Window):
+class experiment(QWidget):
 
 	def update(self):
 		for item in self.notebook.get_children():
@@ -209,7 +200,9 @@ class experiment(gtk.Window):
 		tab = self.notebook.get_nth_page(pageNum)
 		self.status_bar.push(self.context_id, tab.tab_name)
 
-	def init(self):
+	def __init__(self):
+		QWidget.__init__(self)
+		return
 		self.win_list=windows()
 		self.win_list.load()
 		self.win_list.set_window(self,"experiment_window")

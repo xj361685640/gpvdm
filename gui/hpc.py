@@ -20,10 +20,7 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-#import sys
 import os
-#import shutil
-#import commands
 from cal_path import get_image_file_path
 from search import find_fit_log
 from search import find_fit_speed_log
@@ -31,9 +28,16 @@ from window_list import windows
 from inp import inp_load_file
 from inp_util import inp_search_token_value
 from status_icon import status_icon_stop
-from jobs import jobs_view
+#from jobs import jobs_view
 
-class hpc_class(gtk.Toolbar):
+#qt
+from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication
+from PyQt5.QtGui import QIcon
+from PyQt5.QtCore import QSize, Qt 
+from PyQt5.QtWidgets import QWidget,QSizePolicy,QHBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar
+from about import about_dlg
+
+class hpc_class(QToolBar):
 
 	name=""
 	cpus=[]
@@ -207,112 +211,76 @@ class hpc_class(gtk.Toolbar):
 
 
 
-	def init(self, server):
-		self.hpc_window = gtk.Window(gtk.WINDOW_TOPLEVEL)
+	def __init__(self, server):
+		QToolBar.__init__(self)
+		self.hpc_window = QWidget()
 		#self.hpc_window.show()
 
 		self.myserver=server
 		self.win_list=windows()
 
-		self.tooltips = gtk.Tooltips()
 
-		self.set_style(gtk.TOOLBAR_ICONS)
-		self.set_size_request(-1, 70)
+		self.setIconSize(QSize(42, 42))
 
-		self.cluster_button = gtk.ToolButton(gtk.STOCK_CONNECT)
-		self.tooltips.set_tip(self.cluster_button, _("Connect to cluster"))
-		self.cluster_button.connect("clicked", self.callback_cluster_connect)
-		self.insert(self.cluster_button, -1)
+		self.cluster_button = QAction(QIcon(os.path.join(get_image_file_path(),"lasers.png")), _("Connect to cluster"), self)
+		self.cluster_button.triggered.connect(self.callback_cluster_connect)
+		self.addAction(self.cluster_button)
 
-		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"server_get_data.png"))
-		self.cluster_get_data = gtk.ToolButton(image)
-		self.cluster_get_data.connect("clicked", self.callback_cluster_get_data)
-		self.tooltips.set_tip(self.cluster_get_data, _("Cluster get data"))
-		self.insert(self.cluster_get_data, -1)
-		self.cluster_get_data.set_sensitive(False)
-		self.cluster_get_data.show()
+		self.cluster_get_data = QAction(QIcon(os.path.join(get_image_file_path(),"server_get_data.png")), _("Cluster get data"), self)
+		self.cluster_get_data.triggered.connect(self.callback_cluster_get_data)
+		self.addAction(self.cluster_get_data)
+		self.cluster_get_data.setEnabled(False)
 
-		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"server_get_info.png"))
-		self.cluster_get_info = gtk.ToolButton(image)
-		self.cluster_get_info.connect("clicked", self.callback_cluster_get_info)
-		self.tooltips.set_tip(self.cluster_get_info, _("Cluster get data"))
-		self.insert(self.cluster_get_info, -1)
-		self.cluster_get_info.set_sensitive(False)
-		self.cluster_get_info.show()
+		self.cluster_get_info = QAction(QIcon(os.path.join(get_image_file_path(),"server_get_info.png")), _("Cluster get info"), self)
+		self.cluster_get_info.triggered.connect(self.callback_cluster_get_info)
+		self.addAction(self.cluster_get_info)
+		self.cluster_get_info.setEnabled(False)
 
-		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"server_copy_src.png"))
-		self.cluster_copy_src = gtk.ToolButton(image)
-		self.cluster_copy_src.connect("clicked", self.callback_cluster_copy_src)
-		self.tooltips.set_tip(self.cluster_copy_src, _("Copy src to cluster"))
-		self.insert(self.cluster_copy_src, -1)
-		self.cluster_copy_src.set_sensitive(False)
-		self.cluster_copy_src.show()
 
-		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"server_make.png"))
-		self.cluster_make = gtk.ToolButton(image)
-		self.cluster_make.connect("clicked", self.callback_cluster_make)
-		self.tooltips.set_tip(self.cluster_make, _("Copy src to cluster"))
-		self.cluster_make.set_sensitive(False)
-		self.insert(self.cluster_make, -1)
-		self.cluster_make.show()
+		self.cluster_copy_src = QAction(QIcon(os.path.join(get_image_file_path(),"server_copy_src.png")), _("Copy src to cluster"), self)
+		self.cluster_copy_src.triggered.connect(self.callback_cluster_copy_src)
+		self.addAction(self.cluster_copy_src)
+		self.cluster_copy_src.setEnabled(False)
 
-		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"server_clean.png"))
-		self.cluster_clean = gtk.ToolButton(image)
-		self.cluster_clean.connect("clicked", self.callback_cluster_clean)
-		self.tooltips.set_tip(self.cluster_clean, _("Clean cluster"))
-		self.cluster_clean.set_sensitive(False)
-		self.insert(self.cluster_clean, -1)
-		self.cluster_clean.show()
+		self.cluster_make = QAction(QIcon(os.path.join(get_image_file_path(),"server_make.png")), _("Make on cluster"), self)
+		self.cluster_make.triggered.connect(self.callback_cluster_make)
+		self.addAction(self.cluster_make)
+		self.cluster_make.setEnabled(False)
 
-		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"off.png"))
-		self.cluster_off = gtk.ToolButton(image)
-		self.cluster_off.connect("clicked", self.callback_cluster_off)
-		self.tooltips.set_tip(self.cluster_off, _("Kill all cluster code"))
-		self.cluster_off.set_sensitive(False)
-		self.insert(self.cluster_off, -1)
-		self.cluster_off.show()
+		self.cluster_clean = QAction(QIcon(os.path.join(get_image_file_path(),"server_clean.png")), _("Clean cluster"), self)
+		self.cluster_clean.triggered.connect(self.callback_cluster_clean)
+		self.addAction(self.cluster_clean)
+		self.cluster_clean.setEnabled(False)
 
-		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"sync.png"))
-		self.cluster_sync = gtk.ToolButton(image)
-		self.cluster_sync.connect("clicked", self.callback_cluster_sync)
-		self.tooltips.set_tip(self.cluster_sync, _("Sync"))
-		self.cluster_sync.set_sensitive(False)
-		self.insert(self.cluster_sync, -1)
-		self.cluster_sync.show()
+		self.cluster_off = QAction(QIcon(os.path.join(get_image_file_path(),"off.png")), _("Kill all cluster code"), self)
+		self.cluster_off.triggered.connect(self.callback_cluster_off)
+		self.addAction(self.cluster_off)
+		self.cluster_off.setEnabled(False)
 
-		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"pause.png"))
-		self.cluster_stop = gtk.ToolButton(image)
-		self.cluster_stop.connect("clicked", self.callback_cluster_stop)
-		self.tooltips.set_tip(self.cluster_stop, _("Sync"))
-		self.cluster_stop.set_sensitive(False)
-		self.insert(self.cluster_stop, -1)
-		self.cluster_stop.show()
 
-		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"server_jobs.png"))
-		self.cluster_jobs = gtk.ToolButton(image)
-		self.cluster_jobs.connect("clicked", self.callback_cluster_jobs)
-		self.tooltips.set_tip(self.cluster_jobs, _("Sync"))
-		self.cluster_jobs.set_sensitive(False)
-		self.insert(self.cluster_jobs, -1)
-		self.cluster_jobs.show()
+		self.cluster_sync = QAction(QIcon(os.path.join(get_image_file_path(),"sync.png")),  _("Sync"), self)
+		self.cluster_sync.triggered.connect(self.callback_cluster_sync)
+		self.addAction(self.cluster_sync)
+		self.cluster_sync.setEnabled(False)
 
-		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"server.png"))
-		self.cluster_view_button = gtk.ToolButton(image)
-		self.cluster_view_button.connect("clicked", self.callback_cluster_view_button)
-		self.tooltips.set_tip(self.cluster_view_button, _("Configure cluster"))
-		self.insert(self.cluster_view_button, -1)
-		self.cluster_view_button.set_sensitive(False)
-		self.cluster_view_button.show()
+		self.cluster_stop = QAction(QIcon(os.path.join(get_image_file_path(),"pause.png")),  _("Stop"), self)
+		self.cluster_stop.triggered.connect(self.callback_cluster_stop)
+		self.addAction(self.cluster_stop)
+		self.cluster_stop.setEnabled(False)
+
+
+		self.cluster_jobs = QAction(QIcon(os.path.join(get_image_file_path(),"server_jobs.png")),  _("Get jobs"), self)
+		self.cluster_jobs.triggered.connect(self.callback_cluster_jobs)
+		self.addAction(self.cluster_jobs)
+		self.cluster_jobs.setEnabled(False)
+
+		self.cluster_view_button = QAction(QIcon(os.path.join(get_image_file_path(),"server.png")),  _("Configure cluster"), self)
+		self.cluster_view_button.triggered.connect(self.callback_cluster_view_button)
+		self.addAction(self.cluster_view_button)
+		self.cluster_view_button.setEnabled(False)
+
+		return
+
 
 
 		self.prog_hbox=gtk.VBox(False, 2)

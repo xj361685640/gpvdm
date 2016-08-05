@@ -24,10 +24,10 @@
 import os
 import shutil
 from cal_path import get_image_file_path
-from about import about_dialog_show
+#from about import about_dialog_show
 #from used_files_menu import used_files_menu
 #from server import server
-from scan_tab import scan_vbox
+#from scan_tab import scan_vbox
 from gui_util import dlg_get_text
 #import threading
 #import gobject
@@ -50,7 +50,12 @@ from inp import inp_get_token_value
 import i18n
 _ = i18n.language.gettext
 
-class scan_class(gtk.Window):
+#qt
+from PyQt5.QtCore import QSize, Qt 
+from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget
+from PyQt5.QtGui import QPainter,QIcon
+
+class scan_class(QWidget):
 
 	def get_main_menu(self, window):
 		accel_group = gtk.AccelGroup()
@@ -358,8 +363,9 @@ class scan_class(gtk.Window):
 
 
 
-	def init(self,my_server):
-
+	def __init__(self,my_server):
+		QWidget.__init__(self)
+		return
 		self.win_list=windows()
 		self.win_list.load()
 		self.win_list.set_window(self,"scan_window")

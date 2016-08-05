@@ -21,19 +21,12 @@
 
 
 
-#import sys
 import os
-#import shutil
 from inp import inp_update_token_value
 from inp import inp_write_lines_to_file
 from inp import inp_load_file
 from inp_util import inp_search_token_value
-#from scan_item import scan_item
-#from scan_item import scan_item_add
-#import glob
-#from util import time_with_units
 from plot_widget import plot_widget
-#from util_zip import zip_get_data_file
 from window_list import windows
 from plot_state import plot_state
 from plot_io import plot_load_info
@@ -41,7 +34,12 @@ from cal_path import get_exe_command
 from cal_path import get_image_file_path
 import webbrowser
 
-class cmp_class(gtk.Window):
+#qt
+from PyQt5.QtCore import QSize, Qt 
+from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget
+from PyQt5.QtGui import QPainter,QIcon
+
+class cmp_class(QWidget):
 	mix_y=None
 	max_y=None
 	max_z=1e24
@@ -297,7 +295,11 @@ class cmp_class(gtk.Window):
 		print matches
 		return matches
 
+	def __init__(self):
+		QWidget.__init__(self)
+
 	def init(self):
+		return False
 		self.dumps=0
 		self.plot_token=plot_state()
 		self.win_list=windows()

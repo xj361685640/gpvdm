@@ -23,17 +23,17 @@
 
 import os
 from numpy import *
-from matplotlib.backends.backend_gtkagg import FigureCanvasGTKAgg as FigureCanvas
+
+#matplotlib
+import matplotlib
+matplotlib.use('Qt5Agg')
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.figure import Figure
+
 import zipfile
 from util import lines_to_xyz
 from plot_state import plot_state
-from inp import inp_load_file
-from epitaxy import epitaxy_get_layers
-from epitaxy import epitaxy_get_mat_file
-from epitaxy import epitaxy_get_electrical_layer
-from epitaxy import epitaxy_get_width
-from epitaxy import epitaxy_get_name
-from inp_util import inp_search_token_value
+
 from matplotlib.figure import Figure
 from plot_io import get_plot_file_info
 
@@ -42,32 +42,48 @@ from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QSystemTrayIcon,QMenu
 from PyQt5.QtGui import QIcon
 
+#epitaxy
+from epitaxy import epitaxy_get_layers
+from epitaxy import epitaxy_get_mat_file
+from epitaxy import epitaxy_get_electrical_layer
+from epitaxy import epitaxy_get_width
+from epitaxy import epitaxy_get_name
+
+#inp
+from inp import inp_load_file
+from inp_util import inp_search_token_value
+
+#calpath
+from cal_path import get_image_file_path
+
 class band_graph(QWidget):
 	def init(self):
 
-		toolbar = gtk.Toolbar()
+		self.main_vbox = QVBoxLayout()
 
-		toolbar.set_style(gtk.TOOLBAR_ICONS)
-		toolbar.set_size_request(-1, 50)
-		self.pack_start(toolbar, False, False, 0)
+		toolbar=QToolBar()
+		toolbar.setIconSize(QSize(32, 32))
 
-		tool_bar_pos=0
-		save = gtk.ToolButton(gtk.STOCK_SAVE)
-		save.connect("clicked", self.callback_save_image)
-		toolbar.insert(save, tool_bar_pos)
-		toolbar.show_all()
-		tool_bar_pos=tool_bar_pos+1
+		self.tb_save = QAction(QIcon(os.path.join(get_image_file_path(),"save.svg")), 'Hide', self)
+		self.tb_save.setStatusTip(_("Close"))
+		self.tb_save.triggered.connect(self.callback_save_image)
+		toolbar.addAction(self.tb_save)
+
+		self.main_vbox.addWidget(toolbar)
 
 		self.my_figure=Figure(figsize=(5,4), dpi=100)
-		self.canvas = FigureCanvas(self.my_figure)  # a gtk.DrawingArea
+		self.canvas = FigureCanvas(self.my_figure)
 		self.canvas.figure.patch.set_facecolor('white')
-		self.canvas.set_size_request(600, 400)
+		#self.canvas.set_size_request(600, 400)
 		self.canvas.show()
-		self.pack_start(self.canvas, False, False, 0)
 
-		self.canvas.connect('key_press_event', self.on_key_press_event)
+		self.main_vbox.addWidget(self.canvas)
 
-		self.show_all()
+		#self.canvas.connect('key_press_event', self.on_key_press_event)
+
+
+		self.setLayout(self.main_vbox)
+
 
 	def on_key_press_event(self,widget, event):
 		keyname = gtk.gdk.keyval_name(event.keyval)
@@ -77,6 +93,7 @@ class band_graph(QWidget):
 
 		self.canvas.draw()
 
+
 	def do_clip(self):
 		print "doing clip"
 		snap = self.my_figure.canvas.get_snapshot()
@@ -84,7 +101,7 @@ class band_graph(QWidget):
 		clip = gtk.Clipboard()
 		clip.set_image(pixbuf)
 
-	def callback_save_image(self, widget):
+	def callback_save_image(self):
 		dialog = gtk.FileChooserDialog("Save plot",
                                None,
                                gtk.FILE_CHOOSER_ACTION_SAVE,
@@ -138,7 +155,8 @@ class band_graph(QWidget):
 			layer_material=epitaxy_get_mat_file(i)
 
 			delta=float(layer_ticknes)*1e9
-			if epitaxy_get_electrical_layer(i)=="none":
+			print epitaxy_get_electrical_layer(i)
+			if epitaxy_get_electrical_layer(i).startswith("dos")==False:
 				mat_file=os.path.join(os.getcwd(),'materials',layer_material,'mat.inp')
 				myfile = open(mat_file)
 				self.mat_file_lines = myfile.readlines()

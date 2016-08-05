@@ -68,10 +68,7 @@ import os
 from inp import inp_get_token_value
 
 from scan_item import scan_items_clear
-#from scan import scan_class 
 #from dlg_export import dlg_export
-#from experiment import experiment
-#from fxexperiment import fxexperiment
 from plot_gen import plot_gen
 #from plot_gen import set_plot_auto_close
 #from import_archive import import_archive
@@ -81,14 +78,11 @@ from notice import notice
 #import gobject
 #from used_files_menu import used_files_menu
 #from scan_item import scan_item_add
-#from cmp_class import cmp_class
 from window_list import windows
 #from config import config
 #import random
 #from undo import undo_list_class
 #from qe import qe_window
-#from tb_item_sun import tb_item_sun
-#from tb_item_sim_mode import tb_item_sim_mode
 
 
 from gpvdm_notebook import gpvdm_notebook
@@ -102,10 +96,8 @@ from epitaxy import epitaxy_load
 #from import_archive import update_simulaton_to_new_ver
 #from update import update_thread
 #from update import update_now
-#from hpc import hpc_class
 #from scan_item import scan_populate_from_file
 #from status_icon import status_icon_get
-#from lasers import lasers
 #from fit_window import fit_window
 from contacts_io import contacts_load
 
@@ -121,7 +113,7 @@ from mesh import mesh_load_all
 from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSize, Qt 
-from PyQt5.QtWidgets import QWidget,QSizePolicy,QHBoxLayout,QPushButton,QDialog,QFileDialog
+from PyQt5.QtWidgets import QWidget,QSizePolicy,QHBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar
 from about import about_dlg
 
 #windows
@@ -131,6 +123,15 @@ from gpvdm_open import gpvdm_open
 from jv import jv
 from optics import class_optical
 from new_simulation import new_simulation
+from tb_item_sim_mode import tb_item_sim_mode
+from tb_item_sun import tb_item_sun
+from hpc import hpc_class
+from lasers import lasers
+from experiment import experiment
+from fxexperiment import fxexperiment
+from scan import scan_class 
+from cmp_class import cmp_class
+
 
 #python modules
 import webbrowser
@@ -267,11 +268,10 @@ class gpvdm_main_window(QMainWindow):
 
 	def callback_scan(self, widget, data=None):
 		help_window().help_set_help(["scan.png",_("<big><b>The scan window</b></big><br> Very often it is useful to be able to systematically very a device parameter such as mobility or density of trap states.  This window allows you to do just that."),"add.png",_("Use the plus icon to add a new scan line to the list.")])
-		self.tb_run_scan.set_sensitive(True)
+		self.tb_run_scan.setEnabled(True)
 
 		if self.scan_window==None:
-			self.scan_window=scan_class(gtk.WINDOW_TOPLEVEL)
-			self.scan_window.init(self.my_server)
+			self.scan_window=scan_class(self.my_server)
 
 
 		if self.scan_window.isVisible()==True:
@@ -393,6 +393,8 @@ class gpvdm_main_window(QMainWindow):
 			self.tb_time_domain.setEnabled(True)
 			#self.save_sim.setEnabled(True)
 			self.experiment_window_button.setEnabled(True)
+			self.qe_button.setEnabled(True)
+			self.light_button.setEnabled(True)
 			help_window().help_set_help(["play.png",_("<big><b>Now run the simulation</b></big><br> Click on the play icon to start a simulation.")])
 
 			self.menu_new_optical_material.setEnabled(True)
@@ -403,7 +405,7 @@ class gpvdm_main_window(QMainWindow):
 			self.menu_stop.setEnabled(True)
 			self.menu_scan.setEnabled(True)
 			self.menu_configure.setEnabled(True)
-
+			self.sim_mode_button.setEnabled(True)
 
 		else:
 			self.run.setEnabled(False)
@@ -420,6 +422,10 @@ class gpvdm_main_window(QMainWindow):
 
 			self.laser_button.setEnabled(False)
 			self.tb_time_domain.setEnabled(False)
+			self.qe_button.setEnabled(False)
+			self.sim_mode_button.setEnabled(False)
+			self.light_button.setEnabled(False)
+
 			help_window().help_set_help(["icon.png",_("<big><b>Hi!</b></big><br> I'm the on-line help system :).  If you find any bugs please report them to roderick.mackenzie@nottingham.ac.uk."),"new.png",_("Click on the new icon to make a new simulation directory.")])
 
 			self.menu_new_optical_material.setEnabled(False)
@@ -561,6 +567,8 @@ class gpvdm_main_window(QMainWindow):
 	def callback_examine(self, widget, data=None):
 		help_window().help_set_help(["plot_time.png",_("<big><b>Examine the results in time domain</b></big><br> After you have run a simulation in time domain, if is often nice to be able to step through the simulation and look at the results.  This is what this window does.  Use the slider bar to move through the simulation.  When you are simulating a JV curve, the slider sill step through voltage points rather than time points.")])
 		mycmp=cmp_class()
+		mycmp.show()
+		return
 		ret=mycmp.init()
 		if ret==False:
 			md = gtk.MessageDialog(None, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_WARNING,  gtk.BUTTONS_CLOSE, _("Re-run the simulation with 'dump all slices' set to one to use this tool."))
@@ -572,37 +580,34 @@ class gpvdm_main_window(QMainWindow):
 
 		if self.experiment_window==None:
 			self.experiment_window=experiment()
-			self.experiment_window.init()
 
 		help_window().help_set_help(["time.png",_("<big><b>The time mesh editor</b></big><br> To do time domain simulations one must define how voltage the light vary as a function of time.  This can be done in this window.  Also use this window to define the simulation length and time step.")])
 		if self.experiment_window.isVisible()==True:
-			self.experiment_window.hide_all()
+			self.experiment_window.hide()
 		else:
-			self.experiment_window.show_all()
+			self.experiment_window.show()
 
 	def callback_fxexperiment_window(self):
 
 		if self.fxexperiment_window==None:
 			self.fxexperiment_window=fxexperiment()
-			self.fxexperiment_window.init()
 
 		help_window().help_set_help(["spectrum.png",_("<big><b>Frequency domain mesh editor</b></big><br> Some times it is useful to do frequency domain simulations such as when simulating impedance spectroscopy.  This window will allow you to choose which frequencies will be simulated.")])
 		if self.fxexperiment_window.isVisible()==True:
-			self.fxexperiment_window.hide_all()
+			self.fxexperiment_window.hide()
 		else:
-			self.fxexperiment_window.show_all()
+			self.fxexperiment_window.show()
 		
 	def callback_configure_lasers(self):
 
 		if self.lasers_window==None:
 			self.lasers_window=lasers()
-			self.lasers_window.init()
 
 		help_window().help_set_help(["lasers.png",_("<big><b>Laser setup</b></big><br> Use this window to set up your lasers.")])
 		if self.lasers_window.isVisible()==True:
-			self.lasers_window.hide_all()
+			self.lasers_window.hide()
 		else:
-			self.lasers_window.show_all()
+			self.lasers_window.show()
 
 	def callback_jv_window(self):
 
@@ -663,60 +668,27 @@ class gpvdm_main_window(QMainWindow):
 
 
 	def make_tool_box1(self):
-		pos=0
-		toolbar = gtk.Toolbar()
-		toolbar.set_style(gtk.TOOLBAR_ICONS)
-		toolbar.set_size_request(900, 50)
-		toolbar.show()
-
+		toolbar=QToolBar()
+		toolbar.setIconSize(QSize(42, 42))
 		if enable_betafeatures()==True:
-			image = gtk.Image()
-	   		image.set_from_file(os.path.join(get_image_file_path(),"qe.png"))
-			self.qe_button = gtk.ToolButton(image)
-			self.tooltips.set_tip(self.qe_button, _("Quantum efficiency"))
-			self.qe_button.connect("clicked", self.callback_qe_window)
-			toolbar.insert(self.qe_button, pos)
-			self.qe_button.show_all()
-			pos=pos+1
+			self.qe_button = QAction(QIcon(os.path.join(get_image_file_path(),"qe.png")), _("Quantum efficiency"), self)
+			self.qe_button.triggered.connect(self.callback_qe_window)
+			toolbar.addAction(self.qe_button)
+			self.qe_button.setEnabled(False)
 
-		self.sim_mode=tb_item_sim_mode()
-		self.sim_mode.init()
-		global_object_register("tb_item_sim_mode_update",self.sim_mode.update)
-		toolbar.insert(self.sim_mode, pos)
-		pos=pos+1
-
-		self.ti_light=tb_item_sun()
-		self.light=self.ti_light.light
-
-		toolbar.insert(self.ti_light, pos)
-		pos=pos+1
-
-		ti_progress = gtk.ToolItem()
-		hbox = gtk.HBox(False, 2)
-
-		sep = gtk.SeparatorToolItem()
-
-		sep.set_draw(False)
-		sep.set_expand(True)
-		sep.show_all()
-
-		toolbar.insert(sep, pos)
-		pos=pos+1
+		self.sim_mode_button=tb_item_sim_mode()
+		toolbar.addWidget(self.sim_mode_button)
+		self.sim_mode_button.setEnabled(False)
 
 
-		gap=gtk.Label(" ")
-		hbox.add(gap)
+		self.light_button=tb_item_sun()
+		toolbar.addWidget(self.light_button)
+		self.light_button.setEnabled(False)
 
-
-		gap.show()
-		hbox.show()
-
-		ti_progress.add(hbox)
-
-		toolbar.insert(ti_progress, pos)
-		pos=pos+1
-		ti_progress.show()
 		return toolbar
+
+
+
 
 	def callback_optics_sim(self, widget, data=None):
 		help_window().help_set_help(["optics.png",_("<big><b>The optical simulation window</b></big><br>Use this window to perform optical simulations.  Click on the play button to run a simulation."),"play.png",_("Click on the play button to run an optical simulation.  The results will be displayed in the tabs to the right.")])
@@ -973,7 +945,7 @@ class gpvdm_main_window(QMainWindow):
 
 
 		self.laser_button = QAction(QIcon(os.path.join(get_image_file_path(),"lasers.png")), _("Lasers editor"), self)
-		self.laser_button.triggered.connect(self.callback_optics_sim)
+		self.laser_button.triggered.connect(self.callback_configure_lasers)
 		toolbar.addAction(self.laser_button)
 
 
@@ -986,56 +958,18 @@ class gpvdm_main_window(QMainWindow):
 		self.help.triggered.connect(self.callback_on_line_help)
 		toolbar.addAction(self.help)
 
-		#self.save_sim.connect("clicked", self.callback_export)
-
-		#self.plot_open.connect("clicked", self.callback_plot_open)
-
-#		toolbar1=self.make_tool_box1()
 
 
-#		toolbar.show_all()
+		self.addToolBarBreak()
+		toolbar1=self.make_tool_box1()
+		self.addToolBar(toolbar1)
 
 
-
-#		main_vbox.pack_start(self.menubar, False, True, 0)
-#		handlebox = gtk.HandleBox()
-#		handlebox.set_snap_edge(-1)
-#		handlebox.show()
-
-#		handlebox1 = gtk.HandleBox()
-#		handlebox1.set_snap_edge(-1)
-#		handlebox1.show()
-
-
-
-#		toolbar.set_size_request(1000, -1)
-
-		#tb_vbox=gtk.VBox()
-		#tb_vbox.add(toolbar)
-		#tb_vbox.add(toolbar1)
-		#tb_vbox.show()
-
-
-
-#		handlebox1.add(toolbar)
-#		handlebox.add(toolbar1)
-
-#		main_vbox.pack_start(handlebox1, False, False, 0)
-#		main_vbox.pack_start(handlebox, False, False, 0)
-
-#		if enable_betafeatures()==True:
-#			handlebox2 = gtk.HandleBox()
-#			handlebox2.set_snap_edge(-1)
-#			handlebox2.show()
-#			self.hpc_toolbar=hpc_class()
-#			self.hpc_toolbar.init(self.my_server)
-#			self.hpc_toolbar.show_all()
-#			handlebox2.add(self.hpc_toolbar)
-#			main_vbox.pack_start(handlebox2, False, False, 0)
-
+		if enable_betafeatures()==True:
+			self.hpc_toolbar=hpc_class(self.my_server)
+			self.addToolBarBreak()
+			toolbar_hpc = self.addToolBar(self.hpc_toolbar)
 	
-#		self.window.connect("delete-event", self.callback_close_window) 
-
 		self.win_list.set_window(self,"main_window")
 
 

@@ -1,4 +1,3 @@
-#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
@@ -20,26 +19,14 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-#import sys
+
 import os
-#import shutil
-from about import about_dialog_show
-#from used_files_menu import used_files_menu
-#from server import server
-#from scan_tab import scan_vbox
+#from about import about_dialog_show
 from gui_util import dlg_get_text
-#import threading
-#import gobject
-#import multiprocessing
-#import time
-#import glob
 from window_list import windows
-#from search import return_file_list
-#from win_lin import running_on_linux
 import webbrowser
 from inp import inp_update_token_value
-#from inp import inp_get_token_value
-from fxexperiment_tab import fxexperiment_tab
+#from fxexperiment_tab import fxexperiment_tab
 from util_zip import zip_lsdir
 from inp import inp_isfile
 from inp import inp_copy_file
@@ -53,6 +40,11 @@ from code_ctrl import enable_betafeatures
 import i18n
 _ = i18n.language.gettext
 
+#qt
+from PyQt5.QtCore import QSize, Qt 
+from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget
+from PyQt5.QtGui import QPainter,QIcon
+
 def experiment_new_filename():
 	for i in range(0,20):
 		name="fxdomain"+str(i)+".inp"
@@ -60,7 +52,7 @@ def experiment_new_filename():
 			return i
 	return -1
 
-class fxexperiment(gtk.Window):
+class fxexperiment(QWidget):
 
 	def update(self):
 		for item in self.notebook.get_children():
@@ -209,7 +201,10 @@ class fxexperiment(gtk.Window):
 		tab = self.notebook.get_nth_page(pageNum)
 		self.status_bar.push(self.context_id, tab.tab_name)
 
-	def init(self):
+	def __init__(self):
+		QWidget.__init__(self)
+		return
+
 		self.win_list=windows()
 		self.win_list.load()
 		self.win_list.set_window(self,"experiment_window")

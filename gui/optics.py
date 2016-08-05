@@ -29,10 +29,8 @@ import zipfile
 import glob
 from scan_item import scan_item_add
 from tab import tab_class
-#from plot_widget import plot_widget
 import webbrowser
 from progress import progress_class
-#from band_graph import band_graph
 from help import my_help_class
 
 #path
@@ -44,6 +42,10 @@ from cal_path import get_exe_command
 from PyQt5.QtCore import QSize, Qt 
 from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QSystemTrayIcon,QMenu
 from PyQt5.QtGui import QIcon
+
+#windows
+from band_graph import band_graph
+from plot_widget import plot_widget
 
 def find_modes(path):
 	result = []
@@ -117,24 +119,107 @@ class class_optical(QWidget):
 
 	def __init__(self):
 		QWidget.__init__(self)
-		return
-		self.tooltips = gtk.Tooltips()
-		self.progress_window=progress_class()
-		self.progress_window.init()
 
-		self.articles=[]
-		self.dump_dir=os.path.join(os.getcwd(),"light_dump")
-		find_models()
-		self.main_vbox=gtk.VBox()
-		self.gen_main_menu(self,self.main_vbox)
-		toolbar = gtk.Toolbar()
+		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"image.png")))
 
-		toolbar.set_style(gtk.TOOLBAR_ICONS)
-		toolbar.set_size_request(-1, 70)
-		self.main_vbox.pack_start(toolbar, False, False, 0)
+		self.setFixedSize(1000, 600)
 
 		self.edit_list=[]
 		self.line_number=[]
+		self.articles=[]
+		input_files=[]
+		input_files.append("./light_dump/light_2d_photons.dat")
+		input_files.append("./light_dump/light_2d_photons_asb.dat")
+		input_files.append("./light_dump/reflect.dat")
+
+		plot_labels=[]
+		plot_labels.append("Photon distribution")
+		plot_labels.append("Photon distribution absorbed")
+		plot_labels.append("Reflection")
+
+
+		self.setGeometry(300, 300, 600, 600)
+		self.setWindowTitle(_("Optical simulation editor (www.gpvdm.com)"))    
+
+		self.main_vbox=QVBoxLayout()
+		toolbar=QToolBar()
+
+		toolbar.setIconSize(QSize(48, 48))
+
+		spacer = QWidget()
+		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+		toolbar.addWidget(spacer)
+
+
+		self.help = QAction(QIcon(os.path.join(get_image_file_path(),"help.png")), 'Help', self)
+		self.help.setStatusTip(_("Close"))
+		self.help.triggered.connect(self.callback_help)
+		toolbar.addAction(self.help)
+
+		self.main_vbox.addWidget(toolbar)
+
+
+		self.dump_dir=os.path.join(os.getcwd(),"light_dump")
+		find_models()
+
+		self.progress_window=progress_class()
+
+		self.notebook = QTabWidget()
+
+		self.notebook.setTabsClosable(True)
+		self.notebook.setMovable(True)
+
+
+		self.fig_photon_density = band_graph()
+		self.fig_photon_density.set_data_file("light_1d_photons_tot_norm.dat")
+		self.fig_photon_density.init()
+		self.notebook.addTab(self.fig_photon_density,"Photon density")
+
+		self.fig_photon_abs = band_graph()
+		self.fig_photon_abs.set_data_file("light_1d_photons_tot_abs_norm.dat")
+		self.fig_photon_abs.init()
+		self.notebook.addTab(self.fig_photon_abs,"Photon absorbed")
+
+		widget	= QWidget()
+		tab=tab_class()
+		tab.init("light.inp","Optical setup")
+		widget.setLayout(tab)
+		self.notebook.addTab(widget,"Optical setup")
+
+
+		self.plot_widgets=[]
+		self.progress_window.start()
+		for i in range(0,len(input_files)):
+			self.plot_widgets.append(plot_widget())
+			self.plot_widgets[i].init(self)
+			self.plot_widgets[i].set_labels([plot_labels[0]])
+			self.plot_widgets[i].load_data([input_files[i]],os.path.splitext(input_files[i])[0]+".oplot")
+
+			self.plot_widgets[i].do_plot()
+			#self.plot_widgets[i].show()
+			widget=QWidget()
+			widget.setLayout(self.plot_widgets[i])
+			self.notebook.addTab(widget,plot_labels[i])
+
+
+		self.fig_photon_density.draw_graph()
+		self.fig_photon_abs.draw_graph()
+
+		self.progress_window.stop()
+
+
+		self.main_vbox.addWidget(self.notebook)
+
+
+		self.setLayout(self.main_vbox)
+
+		return
+
+
+		self.gen_main_menu(self,self.main_vbox)
+
+
+
 
 
 		self.cb = gtk.combo_box_new_text()
@@ -154,25 +239,9 @@ class class_optical(QWidget):
 		self.update_light_source_model()
 		self.light_source_model.show()
 
-		self.fig_photon_density = band_graph()
-		self.fig_photon_density.set_data_file("light_1d_photons_tot_norm.dat")
-		self.fig_photon_density.init()
-
-		self.fig_photon_abs = band_graph()
-		self.fig_photon_abs.set_data_file("light_1d_photons_tot_abs_norm.dat")
-		self.fig_photon_abs.init()
 
 		tool_bar_pos=0
 
-		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"play.png"))
-		self.play = gtk.ToolButton(image)
-   		#image.set_from_file(self.icon_theme.lookup_icon("media-playback-start", 32, 0).get_filename())
-		refresh = gtk.ToolButton(image)
-		refresh.connect("clicked", self.callback_refresh)
-		toolbar.insert(refresh, tool_bar_pos)
-		toolbar.show_all()
-		tool_bar_pos=tool_bar_pos+1
 
 		ti_light = gtk.ToolItem()
 		lable=gtk.Label("Optical mode:")
@@ -210,73 +279,11 @@ class class_optical(QWidget):
 		ti_hbox.pack_start(self.light_source_model, False, False, 0)
 		self.cb_model.show()
 
-		sep = gtk.SeparatorToolItem()
-		sep.set_draw(False)
-		sep.set_expand(True)
-		toolbar.insert(sep, tool_bar_pos)
-		sep.show()
-		tool_bar_pos=tool_bar_pos+1
 
-		image = gtk.Image()
-		image.set_from_file(os.path.join(get_image_file_path(),"help.png"))
-		help = gtk.ToolButton(image)
-		toolbar.insert(help, tool_bar_pos)
-		help.connect("clicked", self.callback_help)
-		help.show_all()
-		tool_bar_pos=tool_bar_pos+1
-
-
-		self.notebook.append_page(self.fig_photon_density,gtk.Label("Photon density") )
-		self.notebook.append_page(self.fig_photon_abs,gtk.Label("Photon absorbed") )
-
-		self.main_vbox.pack_start(self.notebook, False, False, 0)
-
-		optics_config=tab_class()
-		optics_config.show()
-		self.notebook.append_page(optics_config,gtk.Label("Optical setup"))
-		optics_config.visible=True
-		optics_config.init("light.inp","Config")
-		optics_config.label_name="Optics config"
-		optics_config.file_name="light.inp"
 
 
 ##################
-		input_files=[]
-		input_files.append("./light_dump/light_2d_photons.dat")
-		input_files.append("./light_dump/light_2d_photons_asb.dat")
-		input_files.append("./light_dump/reflect.dat")
 
-		plot_labels=[]
-		plot_labels.append("Photon distribution")
-		plot_labels.append("Photon distribution absorbed")
-		plot_labels.append("Reflection")
-
-		self.plot_widgets=[]
-		self.progress_window.start()
-		for i in range(0,len(input_files)):
-			self.plot_widgets.append(plot_widget())
-			self.plot_widgets[i].init(self)
-			self.plot_widgets[i].set_labels([plot_labels[0]])
-			self.plot_widgets[i].load_data([input_files[i]],os.path.splitext(input_files[i])[0]+".oplot")
-
-			self.plot_widgets[i].do_plot()
-			self.plot_widgets[i].show()
-
-			self.notebook.append_page(self.plot_widgets[i],gtk.Label(plot_labels[i]))
-
-		self.connect("delete-event", self.callback_close)
-
-		self.add(self.main_vbox)
-		self.set_size_request(850,-1)
-		self.main_vbox.show()
-
-		self.fig_photon_density.draw_graph()
-		self.fig_photon_abs.draw_graph()
-
-		self.set_icon_from_file(os.path.join(get_image_file_path(),"image.jpg"))
-		self.set_title("Optical Model - (www.gpvdm.com)")
-		self.set_position(gtk.WIN_POS_CENTER)
-		self.progress_window.stop()
 
 	def onclick(self, event):
 		print 'button=%d, x=%d, y=%d, xdata=%f, ydata=%f'%(
