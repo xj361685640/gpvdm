@@ -29,12 +29,11 @@ from inp_util import inp_search_token_value
 from scan_item import scan_item_add
 from scan_item import scan_remove_file
 from cal_path import get_image_file_path
-#from emesh import tab_electrical_mesh
 from plot_gen import plot_gen
 from gpvdm_open import gpvdm_open
 from cal_path import get_materials_path
 from global_objects import global_object_get
-from help import my_help_class
+from help import help_window
 #from doping import doping_window
 
 #inp
@@ -58,6 +57,7 @@ from epitaxy import epitay_get_next_dos
 
 #windows
 #from contacts import contacts_window
+from emesh import tab_electrical_mesh
 
 #qt
 from PyQt5.QtCore import QSize, Qt
@@ -86,7 +86,7 @@ class layer_widget(QWidget):
 
 	def tab_changed(self, x,y):
 		print x,y
-		#self.save_model()
+		self.save_model()
 		#self.refresh(True)
 
 	def sync_to_electrical_mesh(self):
@@ -162,12 +162,12 @@ class layer_widget(QWidget):
 			self.refresh(True)
 
 	def callback_edit_mesh(self, widget, data=None):
-		my_help_class.help_set_help(["mesh.png",_("<big><b>Mesh editor</b></big>\nUse this window to setup the mesh, the window can also be used to change the dimensionality of the simulation.")])
+		help_window().help_set_help(["mesh.png",_("<big><b>Mesh editor</b></big>\nUse this window to setup the mesh, the window can also be used to change the dimensionality of the simulation.")])
 
-		if self.electrical_mesh.get_property("visible")==True:
-			self.electrical_mesh.hide_all()
+		if self.electrical_mesh.isVisible()==True:
+			self.electrical_mesh.hide()
 		else:
-			self.electrical_mesh.show_all()
+			self.electrical_mesh.show()
 
 	def __init__(self):
 		QWidget.__init__(self)
@@ -221,6 +221,8 @@ class layer_widget(QWidget):
 
 		self.main_vbox.addWidget(self.tab)
 
+		self.electrical_mesh=tab_electrical_mesh()
+
 		self.setLayout(self.main_vbox)
 
 
@@ -228,8 +230,6 @@ class layer_widget(QWidget):
 
 
 
-		self.electrical_mesh=tab_electrical_mesh()
-		self.electrical_mesh.init()
 
 		self.electrical_mesh.emesh_editor_y.connect("refresh", self.change_active_layer_thickness)
 
@@ -374,7 +374,7 @@ class layer_widget(QWidget):
 		self.tab.setItem(pos,5,QTableWidgetItem("none"))
 
 
-		#self.save_model()
+		self.save_model()
 		#self.refresh(True)
 
 
@@ -395,19 +395,22 @@ class layer_widget(QWidget):
 		pl_file=[]
 		name=[]
 
-		for item in self.model:
-			name.append(item[COLUMN_NAME])
-			thick.append(item[COLUMN_THICKNES])
-			mat_file.append(item[COLUMN_MATERIAL])
-			dos_file.append(item[COLUMN_DOS_LAYER])
-			pl_file.append(item[COLUMN_PL_FILE])
+		for i in range(0,self.tab.rowCount()):
+			name.append(str(self.tab.item(i, 0).text()))
+			thick.append(str(self.tab.item(i, 1).text()))
+			mat_file.append(str(self.tab.item(i, 2).text()))
+			dos_file.append(str(self.tab.item(i, 4).text()))
+			pl_file.append(str(self.tab.item(i, 5).text()))
+
 		epitaxy_load_from_arrays(name,thick,mat_file,dos_file,pl_file)
 
+		print thick
+
 		epitaxy_save()
-		self.sync_to_electrical_mesh()
+		#self.sync_to_electrical_mesh()
 
 	def callback_doping(self, widget, data=None):
-		my_help_class.help_set_help(["doping.png",_("<big><b>Doping window</b></big>\nUse this window to add doping to the simulation")])
+		help_window().help_set_help(["doping.png",_("<big><b>Doping window</b></big>\nUse this window to add doping to the simulation")])
 
 		if self.doping_window==False:
 			self.doping_window=doping_window()
@@ -419,7 +422,7 @@ class layer_widget(QWidget):
 			self.doping_window.show()
 
 	def callback_contacts(self, widget, data=None):
-		my_help_class.help_set_help(["contact.png",_("<big><b>Contacts window</b></big>\nUse this window to change the layout of the contacts on the device")])
+		help_window().help_set_help(["contact.png",_("<big><b>Contacts window</b></big>\nUse this window to change the layout of the contacts on the device")])
 
 		if self.contacts_window==False:
 			self.contacts_window=contacts_window()

@@ -95,7 +95,7 @@ class jv(QWidget):
 		self.setLayout(self.main_vbox)
 		self.win_list=windows()
 		self.win_list.load()
-		self.win_list.set_window(self,"config_window")
+		self.win_list.set_window(self,"jv_window")
 
 
 	def callback_close_window(self):
