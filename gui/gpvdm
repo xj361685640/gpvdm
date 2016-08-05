@@ -63,7 +63,6 @@ import os
 from inp import inp_get_token_value
 
 from scan_item import scan_items_clear
-#from dlg_export import dlg_export
 from plot_gen import plot_gen
 #from plot_gen import set_plot_auto_close
 #from import_archive import import_archive
@@ -109,7 +108,6 @@ from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSize, Qt 
 from PyQt5.QtWidgets import QWidget,QSizePolicy,QHBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QMessageBox
-from about import about_dlg
 
 #windows
 from splash import splash_window
@@ -126,7 +124,8 @@ from experiment import experiment
 from fxexperiment import fxexperiment
 from scan import scan_class 
 from cmp_class import cmp_class
-
+from about import about_dlg
+from dlg_export import dlg_export
 
 #python modules
 import webbrowser
@@ -472,7 +471,7 @@ class gpvdm_main_window(QMainWindow):
 					self.change_dir_and_refresh_interface(new_path)
 
 	def callback_export(self, widget, data=None):
-		dlg_export()
+		dlg_export(self)
 
 	def callback_about_dialog(self):
 		dlg=about_dlg()
@@ -505,10 +504,15 @@ class gpvdm_main_window(QMainWindow):
 		return
 		ret=mycmp.init()
 		if ret==False:
-			md = gtk.MessageDialog(None, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_WARNING,  gtk.BUTTONS_CLOSE, _("Re-run the simulation with 'dump all slices' set to one to use this tool."))
-        		md.run()
-        		md.destroy()
+			msgBox = QMessageBox(self)
+			msgBox.setIcon(QMessageBox.Critical)
+			msgBox.setText(self.tr("gpvdm"))
+			msgBox.setInformativeText(_("Re-run the simulation with 'dump all slices' set to one to use this tool."))
+			msgBox.setStandardButtons(QMessageBox.Ok )
+			msgBox.setDefaultButton(QMessageBox.Ok)
+			reply = msgBox.exec_()
 			return
+
 
 	def callback_edit_experiment_window(self):
 
@@ -654,12 +658,15 @@ class gpvdm_main_window(QMainWindow):
 		temp_error=ver_error()
 		print temp_error
 		if len(temp_error)>0:
-				md = gtk.MessageDialog(self.window,gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_ERROR, gtk.BUTTONS_CLOSE, temp_error)
-				md.run()
-				md.destroy()
+			msgBox = QMessageBox(self)
+			msgBox.setIcon(QMessageBox.Critical)
+			msgBox.setText(self.tr("gpvdm"))
+			msgBox.setInformativeText(temp_error)
+			msgBox.setStandardButtons(QMessageBox.Ok )
+			msgBox.setDefaultButton(QMessageBox.Ok)
+			reply = msgBox.exec_()
+			return
 
-		#self.undo_list=undo_list_class()
-		#self.undo_list.init()
 
 
 		self.experiment_window=None

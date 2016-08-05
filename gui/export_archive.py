@@ -37,7 +37,6 @@ def export_archive(target,everything):
 	file_list=[]
 
 	progress_window=progress_class()
-	progress_window.init()
 	progress_window.show()
 	progress_window.start()
 	process_events()

@@ -21,7 +21,6 @@
 
 
 import os
-#from global_objects import global_object_get
 from plot_io import get_plot_file_info
 from plot_state import plot_state
 from util import latex_to_pygtk_subscript
@@ -30,71 +29,45 @@ from cal_path import get_image_file_path
 from export_as import export_as
 from export_archive import export_archive
 
-
-COL_PATH = 0
-COL_PIXBUF = 1
-COL_IS_DIRECTORY = 2
+#qt
+from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication
+from PyQt5.QtGui import QIcon
+from PyQt5.QtCore import QSize, Qt 
+from PyQt5.QtWidgets import QWidget,QSizePolicy,QHBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QMessageBox
 
 import i18n
 _ = i18n.language.gettext
 
-def dlg_export():
-	dialog = gtk.FileChooserDialog(_("Export the simulation as"), None, gtk.FILE_CHOOSER_ACTION_SAVE,
-                           (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_SAVE, gtk.RESPONSE_OK))
+def dlg_export(parent):
 
-	dialog.set_default_response(gtk.RESPONSE_OK)
-
-	filter = gtk.FileFilter()
-	filter.set_name(_("gpvdm archive input+output files"))
-	filter.add_pattern("*.gpvdm")
-	dialog.add_filter(filter)
-
-	filter = gtk.FileFilter()
-	filter.set_name(_("gpvdm archive input files"))
-	filter.add_pattern("*.gpvdm")
-	dialog.add_filter(filter)
-
-	filter = gtk.FileFilter()
-	filter.set_name(_("pdf file"))
-	filter.add_pattern("*.pdf")
-	dialog.add_filter(filter)
-
-	filter = gtk.FileFilter()
-	filter.set_name(_("jpg image"))
-	filter.add_pattern("*.jpg")
-	dialog.add_filter(filter)
-
-	filter = gtk.FileFilter()
-	filter.set_name(_("tex file"))
-	filter.add_pattern("*.tex")
-	dialog.add_filter(filter)
-
-	filter = gtk.FileFilter()
-	filter.set_name(_("optical materials database"))
-	filter.add_pattern("*.zip")
-	dialog.add_filter(filter)
+	dialog = QFileDialog(parent)
+	dialog.setWindowTitle(_("Export the simulation as"))
+	dialog.setAcceptMode(QFileDialog.AcceptSave)
+	types=[]
+	types.append(_("gpvdm archive input+output files (*.gpvdm)"))
+	types.append(_("gpvdm archive input files (*.gpvdm)"))
+	types.append(_("optical materials database (*.zip)"))
+	types.append(_("pdf file (*.pdf)"))
+	types.append(_("jpg image (*.jpg)"))
+	types.append(_("tex file (*.tex)"))
 
 
-	response = dialog.run()
-	if response == gtk.RESPONSE_OK:
-		file_name=dialog.get_filename()
-		filter=dialog.get_filter()
-		dialog.destroy()
-		print "rod",filter.get_name()
+	dialog.setNameFilters(types)
+	dialog.setFileMode(QFileDialog.ExistingFile)
+	dialog.setAcceptMode(QFileDialog.AcceptSave)
 
-		if filter.get_name()==_("gpvdm archive input+output files"):
+	if dialog.exec_() == QDialog.Accepted:
+		file_name = dialog.selectedFiles()[0]
+
+		if dialog.selectedNameFilter()==_("gpvdm archive input+output files (*.gpvdm)"):
 			export_archive(file_name,True)
-		elif filter.get_name()==_("gpvdm archive input files"):
+		elif dialog.selectedNameFilter()==_("gpvdm archive input files (*.gpvdm)"):
 			export_archive(file_name,False)
-		elif filter.get_name()==_("optical materials database"):
+		elif dialog.selectedNameFilter()==_("optical materials database (*.zip)"):
 			export_materials(file_name)
-		elif filter.get_name()==_("pdf file") or _("jpg image") or _("tex file"):
+		elif dialog.selectedNameFilter()==_("pdf file (*.pdf)") or _("jpg image (*.jpg)") or _("tex file (*.tex)"):
 			if os.path.splitext(file_name)[1]=="":
 				export_as(file_name)
 			else:
 				export_as(file_name+filter.get_name())
 
-	
-	elif response == gtk.RESPONSE_CANCEL:
-		print _("Closed, no files selected")
-		dialog.destroy()

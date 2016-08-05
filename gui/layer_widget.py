@@ -62,7 +62,7 @@ from epitaxy import epitay_get_next_dos
 #qt
 from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QWidget, QVBoxLayout,QProgressBar,QLabel,QDesktopWidget,QToolBar,QHBoxLayout,QAction, QSizePolicy, QTableWidget, QTableWidgetItem,QComboBox,QDialog
+from PyQt5.QtWidgets import QWidget, QVBoxLayout,QProgressBar,QLabel,QDesktopWidget,QToolBar,QHBoxLayout,QAction, QSizePolicy, QTableWidget, QTableWidgetItem,QComboBox,QDialog,QAbstractItemView
 
 from PyQt5.QtGui import QPixmap
 
@@ -84,13 +84,10 @@ from PyQt5.QtWidgets import QWidget
 
 class layer_widget(QWidget):
 
-	#material_files=gtk.ListStore(str)
-	#layer_type=gtk.ListStore(str)
-	def combo_changed(self, widget, path, text, model):
-		#print model[path][1]
-		self.model[path][COLUMN_MATERIAL] = text
-		self.save_model()
-		self.refresh(True)
+	def tab_changed(self, x,y):
+		print x,y
+		#self.save_model()
+		#self.refresh(True)
 
 	def sync_to_electrical_mesh(self):
 		tot=0
@@ -220,6 +217,8 @@ class layer_widget(QWidget):
 		self.tab.verticalHeader().setVisible(False)
 		self.create_model()
 
+		self.tab.cellChanged.connect(self.tab_changed)
+
 		self.main_vbox.addWidget(self.tab)
 
 		self.setLayout(self.main_vbox)
@@ -245,6 +244,7 @@ class layer_widget(QWidget):
 		self.tab.setColumnCount(6)
 		self.tab.setColumnHidden(5, True)
 		self.tab.setColumnHidden(4, True)
+		self.tab.setSelectionBehavior(QAbstractItemView.SelectRows)
 		self.tab.setHorizontalHeaderLabels([_("Layer name"), _("Thicknes"), _("Optical material"), _("Layer type"), _("DoS Layer"),_("PL Layer")])
 
 		data1 = ['row1','row2','row3','row4']
@@ -300,16 +300,14 @@ class layer_widget(QWidget):
 
 
 	def on_remove_item_clicked(self, button):
+		index = self.tab.selectionModel().selectedRows()
 
-		selection = self.treeview.get_selection()
-		model, iter = selection.get_selected()
-
-		if iter:
-			#path = model.get_path(iter)[0]
-			model.remove(iter)
-
-			self.save_model()
-			self.refresh(True)
+		print index
+		if len(index)>0:
+			pos=index[0].row()
+			self.tab.removeRow(pos)
+#			self.save_model()
+#			self.refresh(True)
 
 
 
@@ -352,26 +350,32 @@ class layer_widget(QWidget):
 					self.refresh(False)
 					return
 
-	def on_add_item_clicked(self, button):
-		new_item = [_("layer name"),"100e-9", "pcbm",_("Other"),"none",False]
+	def on_add_item_clicked(self):
+		index = self.tab.selectionModel().selectedRows()
 
-		selection = self.treeview.get_selection()
-		model, iter = selection.get_selected()
+		print index
+		if len(index)>0:
+			pos=index[0].row()+1
+		else:
+			pos = self.tab.rowCount()
 
-		path = model.get_path(iter)[0]
+		self.tab.insertRow(pos)
 
-		iter = model.insert(path)
-		model.set (iter,
-		    COLUMN_NAME, new_item[COLUMN_NAME],
-		    COLUMN_THICKNES, new_item[COLUMN_THICKNES],
-		    COLUMN_MATERIAL, new_item[COLUMN_MATERIAL],
-		    COLUMN_DEVICE, new_item[COLUMN_DEVICE],
-		    COLUMN_DOS_LAYER, new_item[COLUMN_DOS_LAYER],
-		    COLUMN_PL_FILE, new_item[COLUMN_PL_FILE],
+		self.tab.setItem(pos,0,QTableWidgetItem("layer name"))
 
-		)
-		self.save_model()
-		self.refresh(True)
+		self.tab.setItem(pos,1,QTableWidgetItem("100e-9"))
+
+		self.tab.setItem(pos,2,QTableWidgetItem("pcbm"))
+
+		self.tab.setItem(pos,3,QTableWidgetItem(_("Other")))
+
+		self.tab.setItem(pos,4,QTableWidgetItem("none"))
+
+		self.tab.setItem(pos,5,QTableWidgetItem("none"))
+
+
+		#self.save_model()
+		#self.refresh(True)
 
 
 	def refresh(self,emit):
