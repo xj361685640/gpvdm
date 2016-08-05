@@ -41,7 +41,7 @@ _ = i18n.language.gettext
 from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSize, Qt 
-from PyQt5.QtWidgets import QWidget,QSizePolicy,QVBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QLabel,QComboBox,QTabWidget,QStatusBar
+from PyQt5.QtWidgets import QWidget,QSizePolicy,QVBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QLabel,QComboBox, QTabWidget,QStatusBar,QMenuBar
 
 
 def laser_new_filename():
@@ -189,6 +189,37 @@ class lasers(QWidget):
 
 		self.main_vbox = QVBoxLayout()
 
+		menubar = QMenuBar()
+
+		file_menu = menubar.addMenu('&File')
+		self.menu_close=file_menu.addAction(_("Close"))
+		self.menu_close.triggered.connect(self.callback_close)
+
+
+		self.menu_lasers=menubar.addMenu(_("Lasers"))
+		self.menu_lasers_new=self.menu_lasers.addAction(_("&New"))
+		self.menu_lasers_new.triggered.connect(self.callback_add_page)
+
+		self.menu_lasers_delete=self.menu_lasers.addAction(_("&Delete laser"))
+		self.menu_lasers_delete.triggered.connect(self.callback_delete_page)
+
+		self.menu_lasers_rename=self.menu_lasers.addAction(_("&Rename laser"))
+		self.menu_lasers_rename.triggered.connect(self.callback_rename_page)
+
+		self.menu_lasers_rename=self.menu_lasers.addAction(_("&Rename laser"))
+		self.menu_lasers_rename.triggered.connect(self.callback_rename_page)
+
+		self.menu_lasers_clone=self.menu_lasers.addAction(_("&Clone laser"))
+		self.menu_lasers_clone.triggered.connect(self.callback_copy_page)
+
+
+		self.menu_help=menubar.addMenu(_("Help"))
+		self.menu_help_help=self.menu_help.addAction(_("Help"))
+		self.menu_help_help.triggered.connect(self.callback_help)
+
+
+		self.main_vbox.addWidget(menubar)
+
 		self.setFixedSize(900, 500)
 		self.setWindowTitle(_("Laser configuration window - gpvdm"))   
 		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"lasers.png")))
@@ -241,36 +272,4 @@ class lasers(QWidget):
 
 		self.setLayout(self.main_vbox)
 
-		return
-
-
-
-		box=gtk.HBox()
-		box.add(self.status_bar)
-		box.set_child_packing(self.status_bar, True, True, 0, 0)
-		box.show()
-
-
-		self.menu_items = (
-		    ( _("/_File"),         None,         None, 0, "<Branch>" ),
-		    ( _("/File/Close"),     None, self.callback_close, 0, None ),
-		    ( _("/Lasers/_New"),     None, self.callback_add_page, 0, "<StockItem>", "gtk-new" ),
-		    ( _("/Lasers/_Delete laser"),     None, self.callback_delete_page, 0, "<StockItem>", "gtk-delete" ),
-		    ( _("/Lasers/_Rename laser"),     None, self.callback_rename_page, 0, "<StockItem>", "gtk-edit" ),
-		    ( _("/Lasers/_Clone laser"),     None, self.callback_copy_page, 0, "<StockItem>", "gtk-copy" ),
-		    ( _("/_Help"),         None,         None, 0, "<LastBranch>" ),
-		    ( _("/_Help/Help"),   None,         self.callback_help, 0, None ),
-		    ( _("/_Help/About"),   None,         about_dialog_show, 0, "<StockItem>", "gtk-about" ),
-		    )
-
-
-
-		main_vbox.pack_start(self.notebook, True, True, 0)
-		main_vbox.pack_start(box, False, False, 0)
-
-		self.connect("delete-event", self.callback_close)
-		self.notebook.connect("switch-page",self.switch_page)
-		self.set_icon_from_file(os.path.join(get_image_file_path(),"laser.png"))
-
-		self.hide()
 

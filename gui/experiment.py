@@ -41,7 +41,7 @@ _ = i18n.language.gettext
 
 #qt
 from PyQt5.QtCore import QSize, Qt 
-from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget
+from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QMenuBar,QStatusBar
 from PyQt5.QtGui import QPainter,QIcon
 
 def experiment_new_filename():
@@ -169,7 +169,7 @@ class experiment(QWidget):
 		file_list=zip_lsdir(os.path.join(os.getcwd(),"sim.gpvdm"))
 		files=[]
 		for i in range(0,len(file_list)):
-			if file_list[i].startswith("pulse") and file_list[i].endswith(".inp"):
+			if file_list[i].startswith("laser") and file_list[i].endswith(".inp"):
 				files.append(file_list[i])
 
 		print "load tabs",files
@@ -178,6 +178,7 @@ class experiment(QWidget):
 			value=strextract_interger(files[i])
 			if value!=-1:
 				self.add_page(value)
+
 
 	def clear_pages(self):
 		for items in self.tab_menu.get_children():
@@ -188,12 +189,11 @@ class experiment(QWidget):
 
 
 	def add_page(self,index):
-		new_tab=experiment_tab()
-		new_tab.init(index)
-		new_tab.close_button.connect("clicked", self.callback_view_toggle_tab,new_tab.tab_name)
-
-		self.notebook.append_page(new_tab,new_tab.title_hbox)
-		self.notebook.set_tab_reorderable(new_tab,True)
+		widget	= QWidget()
+		tab=experiment_tab()
+		tab.init(index)
+		widget.setLayout(tab)
+		self.notebook.addTab(widget,tab.title)
 
 	def switch_page(self,page, page_num, user_param1):
 		pageNum = self.notebook.get_current_page()
@@ -202,126 +202,97 @@ class experiment(QWidget):
 
 	def __init__(self):
 		QWidget.__init__(self)
-		return
+
 		self.win_list=windows()
 		self.win_list.load()
-		self.win_list.set_window(self,"experiment_window")
-		global_object_register("experiment_graph_update",self.update)
-		print "constructur"
+		self.win_list.set_window(self,"experiments_window")
 
-		self.tooltips = gtk.Tooltips()
+		self.main_vbox = QVBoxLayout()
 
-		self.set_border_width(2)
-		self.set_title(_("Time domain experiment window - gpvdm"))
+		menubar = QMenuBar()
 
-		self.status_bar = gtk.Statusbar()
-		self.status_bar.show()
-		self.context_id = self.status_bar.get_context_id("Statusbar example")
-
-		box=gtk.HBox()
-		box.add(self.status_bar)
-		box.set_child_packing(self.status_bar, True, True, 0, 0)
-		box.show()
+		file_menu = menubar.addMenu('&File')
+		self.menu_close=file_menu.addAction(_("Close"))
+		self.menu_close.triggered.connect(self.callback_close)
 
 
-		self.menu_items = (
-		    ( _("/_File"),         None,         None, 0, "<Branch>" ),
-		    ( _("/File/Close"),     None, self.callback_close, 0, None ),
-		    ( _("/Experiments/_New"),     None, self.callback_add_page, 0, "<StockItem>", "gtk-new" ),
-		    ( _("/Experiments/_Delete experiment"),     None, self.callback_delete_page, 0, "<StockItem>", "gtk-delete" ),
-		    ( _("/Experiments/_Rename experiment"),     None, self.callback_rename_page, 0, "<StockItem>", "gtk-edit" ),
-		    ( _("/Experiments/_Clone experiment"),     None, self.callback_copy_page, 0, "<StockItem>", "gtk-copy" ),
-		    ( _("/_Help"),         None,         None, 0, "<LastBranch>" ),
-		    ( _("/_Help/Help"),   None,         self.callback_help, 0, None ),
-		    ( _("/_Help/About"),   None,         about_dialog_show, 0, "<StockItem>", "gtk-about" ),
-		    )
+		self.menu_experiment=menubar.addMenu(_("Experiments"))
+		self.menu_experiment_new=self.menu_experiment.addAction(_("&New"))
+		self.menu_experiment_new.triggered.connect(self.callback_add_page)
+
+		self.menu_experiment_delete=self.menu_experiment.addAction(_("&Delete experiment"))
+		self.menu_experiment_delete.triggered.connect(self.callback_delete_page)
+
+		self.menu_experiment_rename=self.menu_experiment.addAction(_("&Rename experiment"))
+		self.menu_experiment_rename.triggered.connect(self.callback_rename_page)
+
+		self.menu_experiment_rename=self.menu_experiment.addAction(_("&Rename experiment"))
+		self.menu_experiment_rename.triggered.connect(self.callback_rename_page)
+
+		self.menu_experiment_clone=self.menu_experiment.addAction(_("&Clone experiment"))
+		self.menu_experiment_clone.triggered.connect(self.callback_copy_page)
 
 
-		main_vbox = gtk.VBox(False, 3)
-
-		menubar = self.get_main_menu(self)
-		main_vbox.pack_start(menubar, False, False, 0)
-		menubar.show()
-
-		toolbar = gtk.Toolbar()
-		toolbar.set_style(gtk.TOOLBAR_ICONS)
-		toolbar.set_size_request(-1, 70)
-		pos=0
-
-		image = gtk.Image()
-		image.set_from_file(os.path.join(get_image_file_path(),"new.png"))
-		tb_new_scan = gtk.ToolButton(image)
-		tb_new_scan.connect("clicked", self.callback_add_page)
-		self.tooltips.set_tip(tb_new_scan, _("New experiment"))
-
-		toolbar.insert(tb_new_scan, pos)
-		pos=pos+1
-
-		image = gtk.Image()
-		image.set_from_file(os.path.join(get_image_file_path(),"delete.png"))
-		delete = gtk.ToolButton(image)
-		delete.connect("clicked", self.callback_delete_page,None)
-		self.tooltips.set_tip(delete, _("Delete experiment"))
-		toolbar.insert(delete, pos)
-		pos=pos+1
-
-		image = gtk.Image()
-		image.set_from_file(os.path.join(get_image_file_path(),"clone.png"))
-		copy = gtk.ToolButton(image)
-		copy.connect("clicked", self.callback_copy_page,None)
-		self.tooltips.set_tip(copy, _("Clone experiment"))
-		toolbar.insert(copy, pos)
-		pos=pos+1
+		self.menu_help=menubar.addMenu(_("Help"))
+		self.menu_help_help=self.menu_help.addAction(_("Help"))
+		self.menu_help_help.triggered.connect(self.callback_help)
 
 
-		image = gtk.Image()
-		image.set_from_file(os.path.join(get_image_file_path(),"rename.png"))
-		rename = gtk.ToolButton(image)
-		rename.connect("clicked", self.callback_rename_page,None)
-		self.tooltips.set_tip(rename, _("Rename experiment"))
-		toolbar.insert(rename, pos)
-		pos=pos+1
+		self.main_vbox.addWidget(menubar)
 
-		sep = gtk.SeparatorToolItem()
-		sep.set_draw(True)
-		sep.set_expand(False)
-		toolbar.insert(sep, pos)
-		pos=pos+1
+		self.setFixedSize(900, 500)
+		self.setWindowTitle(_("Time domain experiment window - gpvdm")) 
+		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"image.png")))
 
-		sep = gtk.SeparatorToolItem()
-		sep.set_draw(False)
-		sep.set_expand(True)
-		toolbar.insert(sep, pos)
-		pos=pos+1
+		toolbar=QToolBar()
+		toolbar.setIconSize(QSize(48, 48))
 
-		image = gtk.Image()
-		image.set_from_file(os.path.join(get_image_file_path(),"help.png"))
-		tb_help = gtk.ToolButton(image)
-		tb_help.connect("clicked", self.callback_help)
-		self.tooltips.set_tip(tb_help, "Help")
-		toolbar.insert(tb_help, pos)
-		pos=pos+1
+		self.new = QAction(QIcon(os.path.join(get_image_file_path(),"new.png")), _("New experiment"), self)
+		self.new.triggered.connect(self.callback_add_page)
+		toolbar.addAction(self.new)
 
+		self.new = QAction(QIcon(os.path.join(get_image_file_path(),"delete.png")), _("Delete experiment"), self)
+		self.new.triggered.connect(self.callback_delete_page)
+		toolbar.addAction(self.new)
 
-		toolbar.show_all()
-		main_vbox.pack_start(toolbar, False, False, 0)
+		self.clone = QAction(QIcon(os.path.join(get_image_file_path(),"clone.png")), _("Clone experiment"), self)
+		self.clone.triggered.connect(self.callback_copy_page)
+		toolbar.addAction(self.clone)
 
-		main_vbox.set_border_width(1)
-		self.add(main_vbox)
-		main_vbox.show()
+		self.clone = QAction(QIcon(os.path.join(get_image_file_path(),"rename.png")), _("Rename experiment"), self)
+		self.clone.triggered.connect(self.callback_rename_page)
+		toolbar.addAction(self.clone)
+
+		spacer = QWidget()
+		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+		toolbar.addWidget(spacer)
 
 
-		self.notebook = gtk.Notebook()
-		self.notebook.show()
-		self.notebook.set_tab_pos(gtk.POS_LEFT)
+		self.help = QAction(QIcon(os.path.join(get_image_file_path(),"help.png")), 'Hide', self)
+		self.help.setStatusTip(_("Close"))
+		self.help.triggered.connect(self.callback_help)
+		toolbar.addAction(self.help)
 
-		self.load_tabs()
-		main_vbox.pack_start(self.notebook, True, True, 0)
-		main_vbox.pack_start(box, False, False, 0)
+		self.main_vbox.addWidget(toolbar)
 
-		self.connect("delete-event", self.callback_close)
-		self.notebook.connect("switch-page",self.switch_page)
-		self.set_icon_from_file(os.path.join(get_image_file_path(),"image.jpg"))
 
-		self.hide()
+		self.notebook = QTabWidget()
+
+		self.notebook.setTabsClosable(True)
+		self.notebook.setMovable(True)
+
+		#self.load_tabs()
+
+		self.main_vbox.addWidget(self.notebook)
+
+
+		self.status_bar=QStatusBar()
+		self.main_vbox.addWidget(self.status_bar)
+
+
+		self.setLayout(self.main_vbox)
+
+		return
+
+
 

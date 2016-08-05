@@ -20,23 +20,9 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-#import sys
+
 import os
-#import shutil
-#from numpy import *
-#from matplotlib.figure import Figure
-#from numpy import arange, sin, pi
-#from matplotlib.backends.backend_gtkagg import FigureCanvasGTKAgg as FigureCanvas
-#import gobject
-#from scan_item import scan_item_add
 from inp import inp_load_file
-#from inp import inp_read_next_item
-#from gui_util import dlg_get_text
-#from inp import inp_get_token_value
-#import matplotlib.mlab as mlab
-#from inp import inp_write_lines_to_file
-#import webbrowser
-#from util import time_with_units
 from inp_util import inp_search_token_value
 from tmesh import tab_time_mesh
 from circuit import circuit
@@ -48,17 +34,6 @@ from tab import tab_class
 import i18n
 _ = i18n.language.gettext
 
-(
-SEG_LENGTH,
-SEG_DT,
-SEG_VOLTAGE_START,
-SEG_VOLTAGE_STOP,
-SEG_MUL,
-SEG_SUN,
-SEG_LASER
-) = range(7)
-
-mesh_articles = []
 
 class experiment_tab(gtk.VBox):
 
