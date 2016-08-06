@@ -46,7 +46,7 @@ from matplotlib.figure import Figure
 
 #qt
 from PyQt5.QtCore import QSize, Qt 
-from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget
+from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QTableWidget,QAbstractItemView
 from PyQt5.QtGui import QPainter,QIcon
 
 import i18n
@@ -217,44 +217,10 @@ class tab_time_mesh(QWidget):
 		self.draw_graph()
 		self.fig.canvas.draw()
 
-	def on_cell_edited_dt(self, cell, path, new_text, model):
-		#print "Rod",path
+	def on_cell_edited(self, x,y):
+		print "Cell edited",x,y
+		return 
 		model[path][SEG_DT] = new_text
-		self.build_mesh()
-		self.draw_graph()
-		self.fig.canvas.draw()
-		self.save_data()
-
-	def on_cell_edited_voltage_start(self, cell, path, new_text, model):
-		model[path][SEG_VOLTAGE_START] = new_text
-		self.build_mesh()
-		self.draw_graph()
-		self.fig.canvas.draw()
-		self.save_data()
-
-	def on_cell_edited_voltage_stop(self, cell, path, new_text, model):
-		model[path][SEG_VOLTAGE_STOP] = new_text
-		self.build_mesh()
-		self.draw_graph()
-		self.fig.canvas.draw()
-		self.save_data()
-
-	def on_cell_edited_sun(self, cell, path, new_text, model):
-		model[path][SEG_SUN] = new_text
-		self.build_mesh()
-		self.draw_graph()
-		self.fig.canvas.draw()
-		self.save_data()
-
-	def on_cell_edited_laser(self, cell, path, new_text, model):
-		model[path][SEG_LASER] = new_text
-		self.build_mesh()
-		self.draw_graph()
-		self.fig.canvas.draw()
-		self.save_data()
-
-	def on_cell_edited_mul(self, cell, path, new_text, model):
-		model[path][SEG_MUL] = new_text
 		self.build_mesh()
 		self.draw_graph()
 		self.fig.canvas.draw()
@@ -264,8 +230,6 @@ class tab_time_mesh(QWidget):
 		return exp(-power(x - mu, 2.) / (2 * power(sig, 2.)))
 
 	def draw_graph(self):
-
-		#n=0
 		if (len(self.time)>0):
 			mul,unit=time_with_units(float(self.time[len(self.time)-1]-self.time[0]))
 		else:
@@ -363,59 +327,12 @@ class tab_time_mesh(QWidget):
 
 		return store
 
-	def create_columns(self, treeview):
+	def create_columns(self):
+		self.tab.clear()
+		self.tab.setColumnCount(7)
+		self.tab.setSelectionBehavior(QAbstractItemView.SelectRows)
+		self.tab.setHorizontalHeaderLabels([_("Length"), _("dt"), _("Start Voltage"), _("Stop Voltage"), _("Multiply"),_("Sun"),_("CW Laser")])
 
-		model=treeview.get_model()
-		renderer = gtk.CellRendererText()
-		renderer.connect("edited", self.on_cell_edited_length, model)
-		renderer.set_property('editable', True)
-		column = gtk.TreeViewColumn(_("Length"), renderer, text=SEG_LENGTH)
-		column.set_sort_column_id(SEG_LENGTH)
-		treeview.append_column(column)
-
-		renderer = gtk.CellRendererText()
-		renderer.connect("edited", self.on_cell_edited_dt, model)
-		column = gtk.TreeViewColumn("dt", renderer, text=SEG_DT)
-		renderer.set_property('editable', True)
-		column.set_sort_column_id(SEG_DT)
-		treeview.append_column(column)
-
-		renderer = gtk.CellRendererText()
-		renderer.connect("edited", self.on_cell_edited_voltage_start, model)
-		column = gtk.TreeViewColumn(_("Start Voltage"), renderer, text=SEG_VOLTAGE_START)
-		renderer.set_property('editable', True)
-		column.set_sort_column_id(SEG_VOLTAGE_START)
-		treeview.append_column(column)
-
-		renderer = gtk.CellRendererText()
-		renderer.connect("edited", self.on_cell_edited_voltage_stop, model)
-		column = gtk.TreeViewColumn(_("Stop Voltage"), renderer, text=SEG_VOLTAGE_STOP)
-		renderer.set_property('editable', True)
-		column.set_sort_column_id(SEG_VOLTAGE_STOP)
-		treeview.append_column(column)
-
-		renderer = gtk.CellRendererText()
-		renderer.connect("edited", self.on_cell_edited_mul, model)
-		renderer.set_property('editable', True)
-		column = gtk.TreeViewColumn(_("Multiply"), renderer, text=SEG_MUL)
-		column.set_sort_column_id(SEG_MUL)
-		treeview.append_column(column)
-
-		if enable_betafeatures()==True:
-			renderer = gtk.CellRendererText()
-			renderer.connect("edited", self.on_cell_edited_sun, model)
-			renderer.set_property('editable', True)
-			column = gtk.TreeViewColumn(_("Sun"), renderer, text=SEG_SUN)
-			column.set_sort_column_id(SEG_SUN)
-			treeview.append_column(column)
-
-		if enable_betafeatures()==True:
-			renderer = gtk.CellRendererText()
-			renderer.connect("edited", self.on_cell_edited_laser, model)
-			renderer.set_property('editable', True)
-			column = gtk.TreeViewColumn(_("CW laser"), renderer, text=SEG_LASER)
-			column.set_sort_column_id(SEG_LASER)
-			treeview.append_column(column)
 
 	def load_data(self):
 
@@ -517,6 +434,9 @@ class tab_time_mesh(QWidget):
 
 
 	def __init__(self,index):
+		self.index=index
+		print "index=",index
+
 		QWidget.__init__(self)
 		self.main_vbox = QVBoxLayout()
 		self.time=[]
@@ -541,10 +461,8 @@ class tab_time_mesh(QWidget):
 		toolbar.addAction(self.tb_save)
 
 
-		#self.lasers=tb_lasers()
-		#self.lasers.init("pulse"+str(self.index)+".inp")
-		#toolbar.insert(self.lasers, tool_bar_pos)
-		#tool_bar_pos=tool_bar_pos+1
+		self.lasers=tb_lasers("pulse"+str(self.index)+".inp")
+		toolbar.addWidget(self.lasers)
 
 		self.tb_start = QAction(QIcon(os.path.join(get_image_file_path(),"start.png")), _("Simulation start time"), self)
 		self.tb_start.triggered.connect(self.callback_start_time)
@@ -553,11 +471,10 @@ class tab_time_mesh(QWidget):
 		self.main_vbox.addWidget(toolbar)
 
 
-		print "index=",index
 		gui_pos=0
 
 
-		self.index=index
+
 		self.fig = Figure(figsize=(5,4), dpi=100)
 		self.canvas = FigureCanvas(self.fig)  # a gtk.DrawingArea
 		#self.canvas.figure.patch.set_facecolor('white')
@@ -575,63 +492,44 @@ class tab_time_mesh(QWidget):
 		self.main_vbox.addWidget(self.canvas)
 
 		self.canvas.show()
+
+		#toolbar 2
+
+		toolbar2=QToolBar()
+		toolbar2.setIconSize(QSize(48, 48))
+
+		self.tb_add = QAction(QIcon(os.path.join(get_image_file_path(),"add.png")), _("Add section"), self)
+		self.tb_add.triggered.connect(self.callback_add_section)
+		toolbar2.addAction(self.tb_add)
+
+		self.tb_remove = QAction(QIcon(os.path.join(get_image_file_path(),"minus.png")), _("Delete section"), self)
+		self.tb_remove.triggered.connect(self.callback_remove_item)
+		toolbar2.addAction(self.tb_remove)
+
+		self.tb_move = QAction(QIcon(os.path.join(get_image_file_path(),"down.png")), _("Move down"), self)
+		self.tb_move.triggered.connect(self.callback_move_down)
+		toolbar2.addAction(self.tb_move)
+
+		self.main_vbox.addWidget(toolbar2)
+
+
+
+		self.tab = QTableWidget()
+		self.tab.resizeColumnsToContents()
+
+		self.tab.verticalHeader().setVisible(False)
+
+		self.create_columns()
+
+		self.tab.cellChanged.connect(self.on_cell_edited)
+
+		self.main_vbox.addWidget(self.tab)
+
+
 		self.setLayout(self.main_vbox)
+
 		return
 
 
 
-
-
-		self.store = self.create_model()
-		treeview = gtk.TreeView(self.store)
-		treeview.show()
-		tool_bar_pos=0
-
-
-
-
-		list_toolbar = gtk.Toolbar()
-		#toolbar.set_orientation(gtk.ORIENTATION_VERTICAL)
-		list_toolbar.set_style(gtk.TOOLBAR_ICONS)
-		list_toolbar.set_size_request(-1, 50)
-
-		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"add.png"))
-		add_section = gtk.ToolButton(image)
-		tooltips.set_tip(add_section, _("Add section"))
-		add_section.connect("clicked", self.callback_add_section,treeview)
-		list_toolbar.insert(add_section, -1)
-
-		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"minus.png"))
-		remove = gtk.ToolButton(image)
-		tooltips.set_tip(remove, _("Delete section"))
-		remove.connect("clicked", self.callback_remove_item,treeview)
-		list_toolbar.insert(remove, -1)
-
-		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"down.png"))
-		move_down = gtk.ToolButton(image)
-		tooltips.set_tip(move_down, _("Move down"))
-		move_down.connect("clicked", self.callback_move_down,treeview)
-		list_toolbar.insert(move_down, -1)
-
-		list_toolbar.show_all()
-
-		self.pack_start(list_toolbar, False, False, 0)
-
-
-		treeview.set_rules_hint(True)
-
-		self.create_columns(treeview)
-
-		self.pack_start(treeview, False, False, 0)
-
-		self.statusbar = gtk.Statusbar()
-		self.statusbar.show()
-		self.pack_start(self.statusbar, False, False, 0)
-
-
-
-		self.show()
 
