@@ -56,7 +56,7 @@ from epitaxy import epitaxy_load_from_arrays
 from epitaxy import epitay_get_next_dos
 
 #windows
-#from contacts import contacts_window
+from contacts import contacts_window
 from emesh import tab_electrical_mesh
 
 #qt
@@ -426,9 +426,8 @@ class layer_widget(QWidget):
 
 		if self.contacts_window==False:
 			self.contacts_window=contacts_window()
-			self.contacts_window.init()
 
-		if self.contacts_window.get_property("visible")==True:
+		if self.contacts_window.isVisible()==True:
 			self.contacts_window.hide()
 		else:
 			self.contacts_window.show()
