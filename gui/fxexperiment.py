@@ -26,7 +26,7 @@ from gui_util import dlg_get_text
 from window_list import windows
 import webbrowser
 from inp import inp_update_token_value
-#from fxexperiment_tab import fxexperiment_tab
+from fxexperiment_tab import fxexperiment_tab
 from util_zip import zip_lsdir
 from inp import inp_isfile
 from inp import inp_copy_file
@@ -189,11 +189,9 @@ class fxexperiment(QWidget):
 
 
 	def add_page(self,index):
-		widget	= QWidget()
 		tab=fxexperiment_tab()
 		tab.init(index)
-		widget.setLayout(tab)
-		self.notebook.addTab(widget,tab.title)
+		self.notebook.addTab(tab,tab.tab_name)
 
 	def switch_page(self,page, page_num, user_param1):
 		pageNum = self.notebook.get_current_page()
@@ -281,7 +279,7 @@ class fxexperiment(QWidget):
 		self.notebook.setTabsClosable(True)
 		self.notebook.setMovable(True)
 
-		#self.load_tabs()
+		self.load_tabs()
 
 		self.main_vbox.addWidget(self.notebook)
 

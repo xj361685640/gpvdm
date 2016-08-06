@@ -1,4 +1,3 @@
-#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
@@ -19,31 +18,35 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-
-#import sys
 import os
-#import shutil
-#from numpy import *
-from matplotlib.figure import Figure
-#from numpy import arange, sin, pi
-from matplotlib.backends.backend_gtkagg import FigureCanvasGTKAgg as FigureCanvas
-from matplotlib_toolbar import NavigationToolbar
-#import gobject
 from scan_item import scan_item_add
-from inp import inp_load_file
-from inp import inp_read_next_item
 from gui_util import dlg_get_text
-#from inp import inp_get_token_value
-#import matplotlib.mlab as mlab
 from inp import inp_write_lines_to_file
 import webbrowser
 from util import fx_with_units
-from inp_util import inp_search_token_value
 from cal_path import get_image_file_path
 from scan_item import scan_remove_file
-#from scan_item import scan_item_add
+
 import i18n
 _ = i18n.language.gettext
+
+#inp
+from inp_util import inp_search_token_value
+from inp import inp_load_file
+from inp import inp_read_next_item
+
+#matplotlib
+import matplotlib
+matplotlib.use('Qt5Agg')
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.figure import Figure
+
+#qt
+from PyQt5.QtCore import QSize, Qt 
+from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QTableWidget,QAbstractItemView
+from PyQt5.QtGui import QPainter,QIcon
+
+
 
 (
 SEG_LENGTH,
@@ -53,7 +56,7 @@ SEG_MUL
 
 mesh_articles = []
 
-class tab_fxmesh(gtk.VBox):
+class tab_fxmesh(QWidget):
 	lines=[]
 	edit_list=[]
 
@@ -263,29 +266,12 @@ class tab_fxmesh(gtk.VBox):
 
 		return store
 
-	def create_columns(self, treeview):
+	def create_columns(self):
+		self.tab.clear()
+		self.tab.setColumnCount(3)
+		self.tab.setSelectionBehavior(QAbstractItemView.SelectRows)
+		self.tab.setHorizontalHeaderLabels([_("Frequency"), _("dfx"), _("Multiply")])
 
-		model=treeview.get_model()
-		renderer = gtk.CellRendererText()
-		renderer.connect("edited", self.on_cell_edited_length, model)
-		renderer.set_property('editable', True)
-		column = gtk.TreeViewColumn(_("Frequency"), renderer, text=SEG_LENGTH)
-		column.set_sort_column_id(SEG_LENGTH)
-		treeview.append_column(column)
-
-		renderer = gtk.CellRendererText()
-		renderer.connect("edited", self.on_cell_edited_dfx, model)
-		column = gtk.TreeViewColumn("dfx", renderer, text=SEG_DFX)
-		renderer.set_property('editable', True)
-		column.set_sort_column_id(SEG_DFX)
-		treeview.append_column(column)
-
-		renderer = gtk.CellRendererText()
-		renderer.connect("edited", self.on_cell_edited_mul, model)
-		renderer.set_property('editable', True)
-		column = gtk.TreeViewColumn(_("Multiply"), renderer, text=SEG_MUL)
-		column.set_sort_column_id(SEG_MUL)
-		treeview.append_column(column)
 
 	def load_data(self):
 
@@ -347,126 +333,94 @@ class tab_fxmesh(gtk.VBox):
 
 		self.statusbar.push(0, str(len(self.fx))+_(" mesh points"))
 
+	def on_cell_edited(self, x,y):
+		print "Cell edited",x,y
+		return 
+		model[path][SEG_DT] = new_text
+		self.build_mesh()
+		self.draw_graph()
+		self.fig.canvas.draw()
+		self.save_data()
 
-	def init(self,index):
+	def __init__(self,index):
+		QWidget.__init__(self)
+
 		self.index=index
-		self.fig = Figure(figsize=(5,4), dpi=100)
 		self.ax1=None
 		self.show_key=True
-		self.hbox=gtk.HBox()
 		self.edit_list=[]
 		self.line_number=[]
+		self.list=[]
+
 		gui_pos=0
 
-		self.list=[]
+		print "index=",index
+
+		self.main_vbox = QVBoxLayout()
 
 		self.load_data()
 		self.update_scan_tokens()
 
-		gui_pos=gui_pos+1
 
-		canvas = FigureCanvas(self.fig)  # a gtk.DrawingArea
-		#canvas.set_background('white')
-		#canvas.set_facecolor('white')
-		canvas.figure.patch.set_facecolor('white')
-		canvas.set_size_request(500, 150)
-		canvas.show()
+		toolbar=QToolBar()
+		toolbar.setIconSize(QSize(48, 48))
 
-		tooltips = gtk.Tooltips()
+		self.tb_save = QAction(QIcon(os.path.join(get_image_file_path(),"32_save.png")), _("Save image"), self)
+		self.tb_save.triggered.connect(self.callback_save)
+		toolbar.addAction(self.tb_save)
 
-		toolbar = gtk.Toolbar()
-		#toolbar.set_orientation(gtk.ORIENTATION_VERTICAL)
-		toolbar.set_style(gtk.TOOLBAR_ICONS)
-		toolbar.set_size_request(-1, 50)
-
-		self.store = self.create_model()
-		treeview = gtk.TreeView(self.store)
-		treeview.show()
-		tool_bar_pos=0
-
-		save = gtk.ToolButton(gtk.STOCK_SAVE)
-		tooltips.set_tip(save, _("Save image"))
-		save.connect("clicked", self.callback_save)
-		toolbar.insert(save, tool_bar_pos)
-		tool_bar_pos=tool_bar_pos+1
-
-		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"start.png"))
-		start = gtk.ToolButton(image)
-		tooltips.set_tip(start, _("Simulation start frequency"))
-		start.connect("clicked", self.callback_start_fx,treeview)
-		toolbar.insert(start, tool_bar_pos)
-		tool_bar_pos=tool_bar_pos+1
-
-		plot_toolbar = NavigationToolbar(self.fig.canvas, self)
-		plot_toolbar.show()
-		box=gtk.HBox(True, 1)
-		box.set_size_request(300,-1)
-		box.show()
-		box.pack_start(plot_toolbar, True, True, 0)
-		tb_comboitem = gtk.ToolItem();
-		tb_comboitem.add(box);
-		tb_comboitem.show()
-		toolbar.insert(tb_comboitem, tool_bar_pos)
-		tool_bar_pos=tool_bar_pos+1
-
-		sep = gtk.SeparatorToolItem()
-		sep.set_draw(False)
-		sep.set_expand(True)
-		toolbar.insert(sep, tool_bar_pos)
-		sep.show()
-		tool_bar_pos=tool_bar_pos+1
+		self.tb_startfx = QAction(QIcon(os.path.join(get_image_file_path(),"start.png")), _("Simulation start frequency"), self)
+		self.tb_startfx.triggered.connect(self.callback_start_fx)
+		toolbar.addAction(self.tb_startfx)
 
 
-		toolbar.show_all()
-		self.pack_start(toolbar, False, True, 0)
-		self.pack_start(toolbar, True, True, 0)
-		tool_bar_pos=tool_bar_pos+1
+		self.main_vbox.addWidget(toolbar)
+
+		self.fig = Figure(figsize=(5,4), dpi=100)
+		self.canvas = FigureCanvas(self.fig)
+		self.canvas.figure.patch.set_facecolor('white')
+
+
+		self.canvas.show()
+		self.main_vbox.addWidget(self.canvas)
 
 
 
-		canvas.set_size_request(700,400)
-		self.pack_start(canvas, True, True, 0)
 
+		#toolbar 2
 
-		list_toolbar = gtk.Toolbar()
-		#toolbar.set_orientation(gtk.ORIENTATION_VERTICAL)
-		list_toolbar.set_style(gtk.TOOLBAR_ICONS)
-		list_toolbar.set_size_request(-1, 50)
+		toolbar2=QToolBar()
+		toolbar2.setIconSize(QSize(48, 48))
 
-		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"add.png"))
-		add_section = gtk.ToolButton(image)
-		tooltips.set_tip(add_section, _("Add section"))
-		add_section.connect("clicked", self.callback_add_section,treeview)
-		list_toolbar.insert(add_section, -1)
+		self.tb_add = QAction(QIcon(os.path.join(get_image_file_path(),"add.png")), _("Add section"), self)
+		self.tb_add.triggered.connect(self.callback_add_section)
+		toolbar2.addAction(self.tb_add)
 
-		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"minus.png"))
-		remove = gtk.ToolButton(image)
-		tooltips.set_tip(remove, _("Delete section"))
-		remove.connect("clicked", self.callback_remove_item,treeview)
-		list_toolbar.insert(remove, -1)
+		self.tb_remove = QAction(QIcon(os.path.join(get_image_file_path(),"minus.png")), _("Delete section"), self)
+		self.tb_remove.triggered.connect(self.callback_remove_item)
+		toolbar2.addAction(self.tb_remove)
 
-		move_down = gtk.ToolButton(gtk.STOCK_GO_DOWN)
-		tooltips.set_tip(move_down, _("Move down"))
-		move_down.connect("clicked", self.callback_move_down,treeview)
-		list_toolbar.insert(move_down, -1)
+		self.tb_move = QAction(QIcon(os.path.join(get_image_file_path(),"down.png")), _("Move down"), self)
+		self.tb_move.triggered.connect(self.callback_move_down)
+		toolbar2.addAction(self.tb_move)
 
-		self.pack_start(list_toolbar, True, True, 0)
+		self.main_vbox.addWidget(toolbar2)
 
-		treeview.set_rules_hint(True)
+		self.tab = QTableWidget()
+		self.tab.resizeColumnsToContents()
 
-		self.create_columns(treeview)
+		self.tab.verticalHeader().setVisible(False)
 
-		self.pack_start(treeview, False, False, 0)
+		self.create_columns()
 
-		self.statusbar = gtk.Statusbar()
-		self.statusbar.show()
-		self.pack_start(self.statusbar, False, False, 0)
+		self.tab.cellChanged.connect(self.on_cell_edited)
+
+		self.main_vbox.addWidget(self.tab)
+
+		self.setLayout(self.main_vbox)
+
+		return
 
 		self.build_mesh()
 		self.draw_graph()
-
-		self.show()
 

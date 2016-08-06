@@ -19,50 +19,31 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-#import sys
+
 import os
-#import shutil
 from numpy import *
-#from matplotlib.figure import Figure
-#from numpy import arange, sin, pi
-#from matplotlib.backends.backend_gtkagg import FigureCanvasGTKAgg as FigureCanvas
-#from matplotlib.backends.backend_gtkagg import NavigationToolbar2GTKAgg as NavigationToolbar
-#import gobject
-#from scan_item import scan_item_add
 from inp import inp_load_file
-#from inp import inp_read_next_item
-#from gui_util import dlg_get_text
-#from inp import inp_get_token_value
-#import matplotlib.mlab as mlab
-#from inp import inp_write_lines_to_file
-#import webbrowser
-#from util import time_with_units
 from inp_util import inp_search_token_value
 from fxmesh import tab_fxmesh
 from circuit import circuit
 from inp import inp_update_token_value
 from cal_path import get_image_file_path
 
-(
-SEG_LENGTH,
-SEG_DT,
-SEG_VOLTAGE_START,
-SEG_VOLTAGE_STOP,
-SEG_MUL,
-SEG_SUN,
-SEG_LASER
-) = range(7)
+import i18n
+_ = i18n.language.gettext
 
-mesh_articles = []
+#qt
+from PyQt5.QtCore import QSize, Qt 
+from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QTabWidget
+from PyQt5.QtGui import QPainter,QIcon
 
-class fxexperiment_tab(gtk.VBox):
+class fxexperiment_tab(QTabWidget):
 
 	def update(self):
 		self.fxmesh.update()
 
 	def init(self,index):
-		self.tab_label=None
-
+		QTabWidget.__init__(self)
 
 		self.index=index
 		lines=[]
@@ -73,41 +54,18 @@ class fxexperiment_tab(gtk.VBox):
 			self.tab_name=""
 
 
-		self.title_hbox=gtk.HBox()
+		self.setTabsClosable(True)
+		self.setMovable(True)
 
-		self.title_hbox.set_size_request(-1, 25)
-		self.label=gtk.Label(self.tab_name.split("@")[0])
-		self.label.set_justify(gtk.JUSTIFY_LEFT)
-		self.title_hbox.pack_start(self.label, False, True, 0)
+		self.tmesh = tab_fxmesh(self.index)
+		self.addTab(self.tmesh,_("Frequency mesh"))
 
-		self.close_button = gtk.Button()
-		close_image = gtk.Image()
-   		close_image.set_from_file(os.path.join(get_image_file_path(),"close.png"))
-		close_image.show()
-		self.close_button.add(close_image)
-		self.close_button.props.relief = gtk.RELIEF_NONE
 
-		self.close_button.set_size_request(25, 25)
-		self.close_button.show()
+		self.circuit=circuit(self.index)
 
-		self.title_hbox.pack_end(self.close_button, False, False, 0)
-		self.title_hbox.show_all()
+		self.addTab(self.circuit,_("Circuit"))
 
-		self.notebook=gtk.Notebook()
-		self.notebook.show()
-		self.fxmesh = tab_fxmesh()
-		self.fxmesh.init(self.index)
 
-		self.notebook.append_page(self.fxmesh, gtk.Label(_("Frequency mesh")))
-
-		self.pack_start(self.notebook, False, False, 0)
-
-		self.circuit=circuit()
-		self.circuit.init(self.index)
-
-		self.notebook.append_page(self.circuit, gtk.Label(_("Circuit")))
-
-		self.show()
 
 	def set_tab_caption(self,name):
 		mytext=name
