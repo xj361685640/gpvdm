@@ -27,7 +27,7 @@ from numpy import *
 from matplotlib.figure import Figure
 from cal_path import get_image_file_path
 import webbrowser
-#from electrical_mesh_editor import electrical_mesh_editor
+from electrical_mesh_editor import electrical_mesh_editor
 from inp_util import inp_search_token_value
 from epitaxy import epitaxy_get_dos_files
 #from mesh_dump_ctl import mesh_dump_ctl
@@ -155,36 +155,29 @@ class tab_electrical_mesh(QWidget):
 
 		self.main_vbox.addWidget(toolbar)
 		
-		self.setLayout(self.main_vbox)
 		self.win_list=windows()
 		self.win_list.load()
 		self.win_list.set_window(self,"emesh_window")
 
-		#self.update_dim()
+		widget=QWidget()
+		mesh_hbox=QHBoxLayout()
+		widget.setLayout(mesh_hbox)
+	
+		self.emesh_editor_x=electrical_mesh_editor("x")
+		self.emesh_editor_y=electrical_mesh_editor("y")
+		self.emesh_editor_z=electrical_mesh_editor("z")
+
+		mesh_hbox.addWidget(self.emesh_editor_x)
+		mesh_hbox.addWidget(self.emesh_editor_y)
+		mesh_hbox.addWidget(self.emesh_editor_z)
+
+		self.main_vbox.addWidget(widget)
+
+		self.update_dim()
+
+		self.setLayout(self.main_vbox)
 
 		return
-
-		self.emesh_editor_x=electrical_mesh_editor()
-		self.emesh_editor_x.init("x")
-
-		self.emesh_editor_y=electrical_mesh_editor()
-		self.emesh_editor_y.init("y")
-
-		self.emesh_editor_z=electrical_mesh_editor()
-		self.emesh_editor_z.init("z")
-
-
-
-		self.emesh_editor_x.show()
-		mesh_hbox.pack_start(self.emesh_editor_x, True, True, 0)
-
-		self.emesh_editor_y.show()
-		mesh_hbox.pack_start(self.emesh_editor_y, True, True, 0)
-
-		self.emesh_editor_z.show()
-		mesh_hbox.pack_start(self.emesh_editor_z, True, True, 0)
-
-		window_main_vbox.pack_start(mesh_hbox, True, True, 0)
 
 		self.mesh_dump_ctl=mesh_dump_ctl()
 		self.mesh_dump_ctl.init()

@@ -67,10 +67,14 @@ class gpvdm_notebook(QTabWidget):
 	item_factory=None
 	menu_items=[]
 
+	def get_current_page(self):
+		i=self.currentIndex()
+		return self.tabText(i)
+
 	def goto_page(self,page):
-		for i in range(0,len(self.get_children())):
-				if self.get_nth_page(i).label_name==page:
-					self.set_current_page(i)
+		for i in range(0,self.count()):
+				if self.tabText(i)==page:
+					self.setCurrentIndex(i)
 					break
 
 	def callback_close_button(self,index):

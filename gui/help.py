@@ -66,13 +66,17 @@ class help_class(QWidget):
 	def init(self):
 		QWidget.__init__(self)
 		self.setWindowFlags(Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint)
-		self.setFixedSize(400,140)
+		self.setFixedSize(400,160)
+
+		self.setStyleSheet(" padding:0px; margin-top:0px; margin-bottom:0px")
+		#; border:2px solid rgb(0, 0, 0); 
 
 		self.last=[]
 		self.pos=-1
 
 		self.move_window()
 		self.vbox = QVBoxLayout()
+
 		#self.vbox.setAlignment(Qt.AlignTop)
 		self.box=[]
 		self.image=[]
@@ -80,6 +84,8 @@ class help_class(QWidget):
 		for i in range(0,5):
 			l=QHBoxLayout()
 			label=QLabel()
+			label.setWordWrap(True)
+	
 			image=QLabel()
 			image.setFixedWidth(48)
 
@@ -89,7 +95,7 @@ class help_class(QWidget):
 			self.label.append(label)
 
 			self.box[i].setLayout(l)
-			self.box[i].setFixedSize(298,60)
+			self.box[i].setFixedSize(380,80)
 			l.addWidget(self.image[i])
 			l.addWidget(self.label[i])
 
