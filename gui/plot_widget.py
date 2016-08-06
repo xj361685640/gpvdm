@@ -20,19 +20,12 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-#import re
-#import sys
 import os
-#import shutil
-#from token_lib import tokens
 from numpy import *
-#from util import pango_to_gnuplot
 from util import read_data_2d
 from plot_io import plot_load_info
-#import matplotlib.pyplot as plt
-#from matplotlib.widgets import Cursor
 from plot_export import plot_export
-#from numpy import arange, sin, pi, zeros
+
 
 #matplotlib
 import matplotlib

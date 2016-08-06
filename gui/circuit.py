@@ -20,61 +20,54 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-#import sys
-#import math
-#import random
-#from layer_widget import layer_widget
-#from util import read_xyz_data
+
 import os
-#from cal_path import get_materials_path
-#from inp import inp_load_file
-#from inp_util import inp_search_token_value
-#from util import str2bool
-#from tab_base import tab_base
-#from epitaxy import epitaxy_get_layers
-#from epitaxy import epitaxy_get_width
-#from epitaxy import epitaxy_get_mat_file
-#from epitaxy import epitaxy_get_electrical_layer
-#from help import my_help_class
 from cal_path import get_image_file_path
-#from epitaxy import epitaxy_get_pl_file
-#from epitaxy import epitaxy_get_name
 from tb_pulse_load_type import tb_pulse_load_type
 
-class circuit(gtk.VBox):
+#qt
+from PyQt5.QtCore import QSize, Qt 
+from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QMenuBar,QStatusBar
+from PyQt5.QtGui import QPainter,QIcon,QPixmap
+
+
+class circuit(QWidget):
 
 	def update(self,object):
 		self.darea.queue_draw()
 
-	def init(self,index):
+	def __init__(self,index):
+		QWidget.__init__(self)
+
+		vbox=QVBoxLayout()
+
+
 		self.index=index
-		self.toolbar = gtk.Toolbar()
-		self.toolbar.set_style(gtk.TOOLBAR_ICONS)
-		self.toolbar.set_size_request(900, 50)
-		self.toolbar.show()
 
-		pos=0
-		self.load_type=tb_pulse_load_type()
-		self.load_type.init(self.index)
-		self.load_type.connect("changed", self.draw_callback)
+		toolbar=QToolBar()
+		toolbar.setIconSize(QSize(48, 48))
 
-		self.toolbar.insert(self.load_type, pos)
-		pos=pos+1
 
-		self.pack_start(self.toolbar, False, False, 0)
+		self.load_type=tb_pulse_load_type(self.index)
+		#self.load_type.connect("changed", self.draw_callback)
 
-		self.darea = gtk.DrawingArea()
-		self.darea.connect("expose-event", self.expose)
+		toolbar.addWidget(self.load_type)
+		vbox.addWidget(toolbar)
 
-		self.pack_start(self.darea, True, True, 0)
+		self.diode = QPixmap(os.path.join(get_image_file_path(),"diode.png"))
+		self.ideal_diode = QPixmap(os.path.join(get_image_file_path(),"ideal_diode.png"))
+		self.load = QPixmap(os.path.join(get_image_file_path(),"load.png"))
+		self.ideal_load = QPixmap(os.path.join(get_image_file_path(),"ideal_load.png"))
+		self.voc = QPixmap(os.path.join(get_image_file_path(),"voc.png"))
 
-		self.diode = gtk.gdk.pixbuf_new_from_file(os.path.join(get_image_file_path(),"diode.png"))
-		self.ideal_diode = gtk.gdk.pixbuf_new_from_file(os.path.join(get_image_file_path(),"ideal_diode.png"))
-		self.load = gtk.gdk.pixbuf_new_from_file(os.path.join(get_image_file_path(),"load.png"))
-		self.ideal_load = gtk.gdk.pixbuf_new_from_file(os.path.join(get_image_file_path(),"ideal_load.png"))
-		self.voc = gtk.gdk.pixbuf_new_from_file(os.path.join(get_image_file_path(),"voc.png"))
+		self.darea = QWidget()
 
-		self.show_all()
+		vbox.addWidget(self.darea)
+
+		self.setLayout(vbox)
+		return
+
+
 
 	def draw_callback(self,sender):
 		self.darea.queue_draw()

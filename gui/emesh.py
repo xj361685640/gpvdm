@@ -71,20 +71,20 @@ class tab_electrical_mesh(QWidget):
 	def callback_help(self, widget, data=None):
 		webbrowser.open('http://www.gpvdm.com/man/index.html')
 
-	def callback_dim_1d(self, widget, data=None):
+	def callback_dim_1d(self):
 		self.emesh_editor_y.enable_dim()
 		self.emesh_editor_x.disable_dim()
 		self.emesh_editor_z.disable_dim()
 
 		self.update_dim()
 
-	def callback_dim_2d(self, widget, data=None):
+	def callback_dim_2d(self):
 		self.emesh_editor_y.enable_dim()
 		self.emesh_editor_x.enable_dim()
 		self.emesh_editor_z.disable_dim()
 		self.update_dim()
 
-	def callback_dim_3d(self, widget, data=None):
+	def callback_dim_3d(self):
 		self.emesh_editor_y.enable_dim()
 		self.emesh_editor_x.enable_dim()
 		self.emesh_editor_z.enable_dim()
@@ -93,30 +93,30 @@ class tab_electrical_mesh(QWidget):
 
 	def update_dim(self):
 		if self.emesh_editor_x.mesh_points==1 and self.emesh_editor_z.mesh_points==1:
-			self.one_d.set_sensitive(False)
-			self.two_d.set_sensitive(True)
-			self.three_d.set_sensitive(True)
-			self.emesh_editor_y.set_sensitive(True)
-			self.emesh_editor_x.set_sensitive(False)
-			self.emesh_editor_z.set_sensitive(False)
+			self.one_d.setEnabled(False)
+			self.two_d.setEnabled(True)
+			self.three_d.setEnabled(True)
+			self.emesh_editor_y.setEnabled(True)
+			self.emesh_editor_x.setEnabled(False)
+			self.emesh_editor_z.setEnabled(False)
 
 
 		if self.emesh_editor_x.mesh_points>1 and self.emesh_editor_z.mesh_points==1:
-			self.one_d.set_sensitive(True)
-			self.two_d.set_sensitive(False)
-			self.three_d.set_sensitive(True)
-			self.emesh_editor_y.set_sensitive(True)
-			self.emesh_editor_x.set_sensitive(True)
-			self.emesh_editor_z.set_sensitive(False)
+			self.one_d.setEnabled(True)
+			self.two_d.setEnabled(False)
+			self.three_d.setEnabled(True)
+			self.emesh_editor_y.setEnabled(True)
+			self.emesh_editor_x.setEnabled(True)
+			self.emesh_editor_z.setEnabled(False)
 
 
 		if self.emesh_editor_x.mesh_points>1 and self.emesh_editor_z.mesh_points>1:
-			self.one_d.set_sensitive(True)
-			self.two_d.set_sensitive(True)
-			self.three_d.set_sensitive(False)
-			self.emesh_editor_y.set_sensitive(True)
-			self.emesh_editor_x.set_sensitive(True)
-			self.emesh_editor_z.set_sensitive(True)
+			self.one_d.setEnabled(True)
+			self.two_d.setEnabled(True)
+			self.three_d.setEnabled(False)
+			self.emesh_editor_y.setEnabled(True)
+			self.emesh_editor_x.setEnabled(True)
+			self.emesh_editor_z.setEnabled(True)
 
 
 	def __init__(self):
@@ -160,6 +160,8 @@ class tab_electrical_mesh(QWidget):
 		self.win_list.load()
 		self.win_list.set_window(self,"emesh_window")
 
+		#self.update_dim()
+
 		return
 
 		self.emesh_editor_x=electrical_mesh_editor()
@@ -172,9 +174,6 @@ class tab_electrical_mesh(QWidget):
 		self.emesh_editor_z.init("z")
 
 
-		toolbar.show_all()
-		window_main_vbox=gtk.VBox()
-		window_main_vbox.pack_start(toolbar, False, False, 0)
 
 		self.emesh_editor_x.show()
 		mesh_hbox.pack_start(self.emesh_editor_x, True, True, 0)
@@ -201,6 +200,6 @@ class tab_electrical_mesh(QWidget):
 		self.add(window_main_vbox)
 		self.connect("delete-event", self.callback_close)
 		self.set_position(gtk.WIN_POS_CENTER)
-		self.update_dim()
+
 
 

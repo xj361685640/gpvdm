@@ -35,17 +35,16 @@ _ = i18n.language.gettext
 
 #qt
 from PyQt5.QtCore import QSize, Qt 
-from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget
+from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QTabWidget
 from PyQt5.QtGui import QPainter,QIcon
 
-class experiment_tab(QWidget):
+class experiment_tab(QTabWidget):
 
 	def update(self):
 		self.tmesh.update()
 
-	def init(self,index):
-		self.tab_label=None
-
+	def __init__(self,index):
+		QTabWidget.__init__(self)
 
 		self.index=index
 		lines=[]
@@ -55,48 +54,24 @@ class experiment_tab(QWidget):
 		else:
 			self.tab_name=""
 
-#
-		self.title_hbox=gtk.HBox()
 
-		self.title_hbox.set_size_request(-1, 25)
-		self.label=gtk.Label()
-		self.label.set_justify(gtk.JUSTIFY_LEFT)
-		self.title_hbox.pack_start(self.label, False, True, 0)
+		self.setTabsClosable(True)
+		self.setMovable(True)
 
-		self.close_button = gtk.Button()
-		close_image = gtk.Image()
-   		close_image.set_from_file(os.path.join(get_image_file_path(),"close.png"))
-		close_image.show()
-		self.close_button.add(close_image)
-		self.close_button.props.relief = gtk.RELIEF_NONE
+		self.tmesh = tab_time_mesh(self.index)
+		self.addTab(self.tmesh,_("time mesh"))
 
-		self.close_button.set_size_request(25, 25)
-		self.close_button.show()
 
-		self.title_hbox.pack_end(self.close_button, False, False, 0)
-		self.title_hbox.show_all()
+		self.circuit=circuit(self.index)
 
-		self.notebook=gtk.Notebook()
-		self.notebook.show()
-		self.tmesh = tab_time_mesh()
-		self.tmesh.init(self.index)
+		self.addTab(self.circuit,_("Circuit"))
 
-		self.notebook.append_page(self.tmesh, gtk.Label(_("time mesh")))
+		widget	= QWidget()
+		tab=tab_class()
+		tab.init("pulse"+str(self.index)+".inp",self.tab_name)
+		widget.setLayout(tab)
+		self.addTab(widget,self.tab_name)
 
-		self.pack_start(self.notebook, False, False, 0)
-
-		self.circuit=circuit()
-		self.circuit.init(self.index)
-
-		self.notebook.append_page(self.circuit, gtk.Label(_("Circuit")))
-
-		config=tab_class()
-		config.show()
-		self.notebook.append_page(config,gtk.Label("Config"))
-		config.visible=True
-		config.init("pulse"+str(self.index)+".inp",self.tab_name)
-		config.label_name=self.tab_name
-		self.show()
 
 	def set_tab_caption(self,name):
 		mytext=name

@@ -27,7 +27,6 @@ from window_list import windows
 import webbrowser
 from code_ctrl import enable_betafeatures
 from inp import inp_update_token_value
-#from experiment_tab import experiment_tab
 from util_zip import zip_lsdir
 from inp import inp_isfile
 from inp import inp_copy_file
@@ -44,12 +43,16 @@ from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QMenuBar,QStatusBar
 from PyQt5.QtGui import QPainter,QIcon
 
+#window
+from experiment_tab import experiment_tab
+
 def experiment_new_filename():
 	for i in range(0,20):
 		pulse_name="pulse"+str(i)+".inp"
 		if inp_isfile(pulse_name)==False:
 			return i
 	return -1
+
 
 class experiment(QWidget):
 
@@ -169,7 +172,7 @@ class experiment(QWidget):
 		file_list=zip_lsdir(os.path.join(os.getcwd(),"sim.gpvdm"))
 		files=[]
 		for i in range(0,len(file_list)):
-			if file_list[i].startswith("laser") and file_list[i].endswith(".inp"):
+			if file_list[i].startswith("pulse") and file_list[i].endswith(".inp"):
 				files.append(file_list[i])
 
 		print "load tabs",files
@@ -189,11 +192,8 @@ class experiment(QWidget):
 
 
 	def add_page(self,index):
-		widget	= QWidget()
-		tab=experiment_tab()
-		tab.init(index)
-		widget.setLayout(tab)
-		self.notebook.addTab(widget,tab.title)
+		tab=experiment_tab(index)
+		self.notebook.addTab(tab,tab.tab_name)
 
 	def switch_page(self,page, page_num, user_param1):
 		pageNum = self.notebook.get_current_page()
@@ -240,7 +240,7 @@ class experiment(QWidget):
 
 		self.main_vbox.addWidget(menubar)
 
-		self.setFixedSize(900, 500)
+		self.setFixedSize(900, 700)
 		self.setWindowTitle(_("Time domain experiment window - gpvdm")) 
 		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"image.png")))
 
@@ -281,7 +281,7 @@ class experiment(QWidget):
 		self.notebook.setTabsClosable(True)
 		self.notebook.setMovable(True)
 
-		#self.load_tabs()
+		self.load_tabs()
 
 		self.main_vbox.addWidget(self.notebook)
 

@@ -1,4 +1,3 @@
-#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
@@ -21,32 +20,34 @@
 
 
 
-import pygtk
-pygtk.require('2.0')
-import gtk
-#import sys
 import os
-#import shutil
 from numpy import *
-from matplotlib.figure import Figure
-#from numpy import arange, sin, pi
-from matplotlib.backends.backend_gtkagg import FigureCanvasGTKAgg as FigureCanvas
-#import gobject
 from scan_item import scan_item_add
-from inp import inp_load_file
-from inp import inp_read_next_item
 from gui_util import dlg_get_text
-from inp import inp_get_token_value
-#import matplotlib.mlab as mlab
-from inp import inp_write_lines_to_file
 import webbrowser
 from util import time_with_units
-from inp_util import inp_search_token_value
 from cal_path import get_image_file_path
 from scan_item import scan_remove_file
 from code_ctrl import enable_betafeatures
 from tb_lasers import tb_lasers
-from matplotlib_toolbar import NavigationToolbar
+
+#inp
+from inp import inp_load_file
+from inp import inp_read_next_item
+from inp_util import inp_search_token_value
+from inp import inp_get_token_value
+from inp import inp_write_lines_to_file
+
+#matplotlib
+import matplotlib
+matplotlib.use('Qt5Agg')
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.figure import Figure
+
+#qt
+from PyQt5.QtCore import QSize, Qt 
+from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget
+from PyQt5.QtGui import QPainter,QIcon
 
 import i18n
 _ = i18n.language.gettext
@@ -64,7 +65,7 @@ SEG_LASER
 mesh_articles = []
 
 
-class tab_time_mesh(gtk.VBox):
+class tab_time_mesh(QWidget):
 	lines=[]
 	edit_list=[]
 
@@ -514,112 +515,79 @@ class tab_time_mesh(gtk.VBox):
 
 		self.statusbar.push(0, str(len(self.time))+_(" mesh points"))
 
-	#def save_mesh(self):
-	#	lines=[]
 
-	#	lines.append(str(len(self.time)))
-	#	for i in range(0,len(self.time)):
-	#		lines.append(str(format(self.time[i],'.6e'))+" "+str(format(self.laser[i],'.6e'))+" "+str(format(self.sun[i],'.6e'))+" "+str(format(self.voltage[i],'.6e'))+" "+str(format(self.fs_laser[i],'.6e')))
-	#	lines.append("#ver")
-	#	lines.append("1.0")
-	#	lines.append("#end")
+	def __init__(self,index):
+		QWidget.__init__(self)
+		self.main_vbox = QVBoxLayout()
+		self.time=[]
+		self.voltage=[]
+		self.sun=[]
+		self.laser=[]
 
-	#	inp_write_lines_to_file("time_mesh"+str(self.index)+".inp",lines)
-
-	def init(self,index):
-		self.index=index
-		self.fig = Figure(figsize=(5,4), dpi=100)
-		self.ax1=None
-		self.show_key=True
-		self.hbox=gtk.HBox()
 		self.edit_list=[]
 		self.line_number=[]
+		self.list=[]
+
+
+		toolbar=QToolBar()
+		toolbar.setIconSize(QSize(48, 48))
+
+		self.tb_save = QAction(QIcon(os.path.join(get_image_file_path(),"32_save.png")), _("Save image"), self)
+		self.tb_save.triggered.connect(self.callback_save)
+		toolbar.addAction(self.tb_save)
+
+		self.tb_save = QAction(QIcon(os.path.join(get_image_file_path(),"laser.png")), _("Laser start time"), self)
+		self.tb_save.triggered.connect(self.callback_save)
+		toolbar.addAction(self.tb_save)
+
+
+		#self.lasers=tb_lasers()
+		#self.lasers.init("pulse"+str(self.index)+".inp")
+		#toolbar.insert(self.lasers, tool_bar_pos)
+		#tool_bar_pos=tool_bar_pos+1
+
+		self.tb_start = QAction(QIcon(os.path.join(get_image_file_path(),"start.png")), _("Simulation start time"), self)
+		self.tb_start.triggered.connect(self.callback_start_time)
+		toolbar.addAction(self.tb_start)
+
+		self.main_vbox.addWidget(toolbar)
+
+
+		print "index=",index
 		gui_pos=0
 
-		self.list=[]
-		print "index=",index
+
+		self.index=index
+		self.fig = Figure(figsize=(5,4), dpi=100)
+		self.canvas = FigureCanvas(self.fig)  # a gtk.DrawingArea
+		#self.canvas.figure.patch.set_facecolor('white')
+		#canvas.set_size_request(500, 150)
+
+		self.ax1=None
+		self.show_key=True
+
 		self.load_data()
 		self.update_scan_tokens()
 
-		gui_pos=gui_pos+1
+		#self.build_mesh()
+		self.draw_graph()
 
-		canvas = FigureCanvas(self.fig)  # a gtk.DrawingArea
-		#canvas.set_background('white')
-		#canvas.set_facecolor('white')
-		canvas.figure.patch.set_facecolor('white')
-		canvas.set_size_request(500, 150)
-		canvas.show()
+		self.main_vbox.addWidget(self.canvas)
 
-		tooltips = gtk.Tooltips()
+		self.canvas.show()
+		self.setLayout(self.main_vbox)
+		return
 
-		toolbar = gtk.Toolbar()
-		#toolbar.set_orientation(gtk.ORIENTATION_VERTICAL)
-		toolbar.set_style(gtk.TOOLBAR_ICONS)
-		toolbar.set_size_request(-1, 70)
+
+
+
 
 		self.store = self.create_model()
 		treeview = gtk.TreeView(self.store)
 		treeview.show()
 		tool_bar_pos=0
 
-		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"32_save.png"))
-		save = gtk.ToolButton(image)
-		tooltips.set_tip(save, _("Save image"))
-		save.connect("clicked", self.callback_save)
-		toolbar.insert(save, tool_bar_pos)
-		tool_bar_pos=tool_bar_pos+1
 
-		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"laser.png"))
-		laser = gtk.ToolButton(image)
-		tooltips.set_tip(laser, _("Laser start time"))
-		laser.connect("clicked", self.callback_laser,treeview)
-		toolbar.insert(laser, tool_bar_pos)
-		tool_bar_pos=tool_bar_pos+1
-
-		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"start.png"))
-		start = gtk.ToolButton(image)
-		tooltips.set_tip(start, _("Simulation start time"))
-		start.connect("clicked", self.callback_start_time,treeview)
-		toolbar.insert(start, tool_bar_pos)
-		tool_bar_pos=tool_bar_pos+1
-
-		plot_toolbar = NavigationToolbar(self.fig.canvas, self)
-		plot_toolbar.show()
-		box=gtk.HBox(True, 1)
-		box.set_size_request(300,-1)
-		box.show()
-		box.pack_start(plot_toolbar, True, True, 0)
-		tb_comboitem = gtk.ToolItem();
-		tb_comboitem.add(box);
-		tb_comboitem.show()
-		toolbar.insert(tb_comboitem, tool_bar_pos)
-		tool_bar_pos=tool_bar_pos+1
-
-		self.lasers=tb_lasers()
-		self.lasers.init("pulse"+str(self.index)+".inp")
-		toolbar.insert(self.lasers, tool_bar_pos)
-		tool_bar_pos=tool_bar_pos+1
-
-		sep = gtk.SeparatorToolItem()
-		sep.set_draw(False)
-		sep.set_expand(True)
-		toolbar.insert(sep, tool_bar_pos)
-		sep.show()
-		tool_bar_pos=tool_bar_pos+1
-
-
-		toolbar.show_all()
-		self.pack_start(toolbar, False, True, 0)
-		self.pack_start(toolbar, True, True, 0)
-		tool_bar_pos=tool_bar_pos+1
-
-
-
-		canvas.set_size_request(700,400)
-		self.pack_start(canvas, True, True, 0)
 
 
 		list_toolbar = gtk.Toolbar()
@@ -663,8 +631,7 @@ class tab_time_mesh(gtk.VBox):
 		self.statusbar.show()
 		self.pack_start(self.statusbar, False, False, 0)
 
-		self.build_mesh()
-		self.draw_graph()
+
 
 		self.show()
 
