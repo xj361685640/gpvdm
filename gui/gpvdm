@@ -133,8 +133,8 @@ import webbrowser
 bubble=False
 if running_on_linux()==True:
 	import dbus
-	from dbus.mainloop.glib import DBusGMainLoop
-	
+	from dbus.mainloop.pyqt5 import DBusQtMainLoop
+
 	try:
 		import pynotify
 		bubble=True
@@ -620,6 +620,7 @@ class gpvdm_main_window(QMainWindow):
 			self.optics_window.show()
 
 	def __init__(self):
+
 		super(gpvdm_main_window,self).__init__()
 
 		#super(gpvdm_main_window, self).__init__(parent, QtCore.Qt.FramelessWindowHint)
@@ -627,17 +628,15 @@ class gpvdm_main_window(QMainWindow):
 		server_init()
 		self.my_server=server_get()
 		self.my_server.init(os.getcwd())
-		#status_icon_get().connect('popup-menu', self.on_status_icon_right_click)
-		#self.my_server.setup_gui(self.gui_sim_start,self.gui_sim_stop)
+		self.my_server.setup_gui(self.gui_sim_start,self.gui_sim_stop)
 		help_init()
 		help_window().help_set_help(["star.png",_("<big><b>Update available!</b></big><br>")])
 
 		if running_on_linux()==True:
-			DBusGMainLoop(set_as_default=True)
+			DBusQtMainLoop(set_as_default=True)
 			self.bus = dbus.SessionBus()
 			self.bus.add_match_string_non_blocking("type='signal',interface='org.my.gpvdm'")
 			self.bus.add_message_filter(self.adbus)
-
 		else:
 			self.win_pipe=win_pipe()
 			self.win_pipe.connect('new-data', self.win_dbus)

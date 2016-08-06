@@ -1,4 +1,3 @@
-#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
@@ -38,7 +37,7 @@ from cal_path import get_image_file_path
 ) = range(2)
 
 
-class electrical_mesh_editor(gtk.VBox):
+class electrical_mesh_editor(QGroupBox):
 
 	def __add_columns(self, treeview):
 
@@ -286,5 +285,5 @@ class electrical_mesh_editor(gtk.VBox):
 
 		self.show_all()
 
-gobject.type_register(electrical_mesh_editor)
-gobject.signal_new("refresh", electrical_mesh_editor, gobject.SIGNAL_RUN_FIRST,gobject.TYPE_NONE, ())
+#gobject.type_register(electrical_mesh_editor)
+#gobject.signal_new("refresh", electrical_mesh_editor, gobject.SIGNAL_RUN_FIRST,gobject.TYPE_NONE, ())

@@ -128,7 +128,6 @@ class server(cluster):
 		self.extern_gui_sim_start=extern_gui_sim_start
 		self.extern_gui_sim_stop=extern_gui_sim_stop
 		self.progress_window=progress_class()
-		self.progress_window.init()
 
 
 	def add_job(self,path,arg):
@@ -266,7 +265,7 @@ class server(cluster):
 		if data_in.startswith("hex"):
 			data_in=data_in[3:]
 			data=data_in.decode("hex")
-			#print "dbus:",data
+			print "dbus:",data
 			if data.startswith("lock"):
 				if str(data)>4:
 					test=data[:4]
