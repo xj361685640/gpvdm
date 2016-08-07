@@ -1,4 +1,3 @@
-#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
@@ -20,17 +19,7 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-#import sys
 import os
-#import shutil
-#import commands
-#import subprocess
-#import time
-#import re
-#import os
-#from ver import ver_core
-#from ver import ver_mat
-#from ver import ver_gui
 from tab_base import tab_base
 from help import my_help_class
 from cal_path import get_image_file_path
@@ -38,7 +27,13 @@ from cal_path import get_image_file_path
 import i18n
 _ = i18n.language.gettext
 
-class information(gtk.HBox,tab_base):
+#qt
+from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication
+from PyQt5.QtGui import QIcon,QPixmap
+from PyQt5.QtCore import QSize, Qt 
+from PyQt5.QtWidgets import QWidget,QSizePolicy,QHBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar, QMessageBox, QVBoxLayout, QGroupBox, QTableWidget,QAbstractItemView, QTableWidgetItem, QLabel
+
+class information(QWidget,tab_base):
 
 	lines=[]
 	edit_list=[]
@@ -47,23 +42,23 @@ class information(gtk.HBox,tab_base):
 	save_file_name=""
 	name="Welcome"
 
-	def init(self):
-		self.label = gtk.Label()
-
-		self.text=_("<big><b>General-purpose photovoltaic device model</b>\n(<a href=\"http://www.gpvdm.com\" title=\"Click to find out more\">www.gpvdm.com</a>)\n\n To make a new simulation directory click <i>new</i> in the <i>file</i> menu\n or to open an existing simulation click on the <i>open</i> button.\n There is more help on the <a href=\"http://www.gpvdm.com/man/index.html\">man pages</a>.  Please report bugs to\nroderick.mackenzie@nottingham.ac.uk.\n\n Rod\n18/10/13\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n\n\n")
+	def __init__(self):
+		QWidget.__init__(self)
+		hbox=QHBoxLayout()
+		
+		self.label = QLabel()
+		self.label.setText(_("<b>General-purpose photovoltaic device model</b><br>(<a href=\"http://www.gpvdm.com\" title=\"Click to find out more\">www.gpvdm.com</a>)<br><br> To make a new simulation directory click <i>new</i> in the <i>file</i> menu<br> or to open an existing simulation click on the <i>open</i> button.<br> There is more help on the <a href=\"http://www.gpvdm.com/man/index.html\">man pages</a>.  Please report bugs to\nroderick.mackenzie@nottingham.ac.uk.<br><br> Rod<br>18/10/13<br>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<br><br><br><br>"))
 		#read_page=False
 
+		hbox.addWidget(self.label)
 
-		self.label.set_markup(self.text+"</big>")
-		self.label.set_alignment(0, 0.5)
-		self.pack_start(self.label, True, True, 0)
-		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"image.jpg"))
-		self.pack_start(image, False, False, 0)
+		image = QLabel()
+		pixmap = QPixmap(os.path.join(get_image_file_path(),"image.jpg"))
+		image.setPixmap(pixmap)
 
-   		image.show()
-		self.label.show()
+		hbox.addWidget(image)
 
+		self.setLayout(hbox)
 
 	def update(self,data):
 		self.text=self.web.text

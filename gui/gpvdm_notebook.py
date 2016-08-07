@@ -51,12 +51,12 @@ from pl_main import pl_main
 
 if running_on_linux()==True:
 	from tab_terminal import tab_terminal
-#	if enable_webbrowser()==True:
-#		from information_webkit import information
-#	else:
-#		from information_noweb import information
-#else:
-#	from information_noweb import information
+	if enable_webbrowser()==True:
+		from information_webkit import information
+	else:
+		from information_noweb import information
+else:
+	from information_noweb import information
 
 import i18n
 _ = i18n.language.gettext
@@ -130,9 +130,8 @@ class gpvdm_notebook(QTabWidget):
 
 	def add_info_page(self):
 		browser=information()
-		browser.init()
 		browser.show()
-		self.append_page(browser, gtk.Label("Information"))
+		self.addTab(browser,_("Information"))
 
 	def load(self):
 		self.clean_menu()
