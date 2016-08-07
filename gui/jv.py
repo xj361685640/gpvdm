@@ -48,7 +48,7 @@ class jv(QWidget):
 
 	def __init__(self):
 		QWidget.__init__(self)
-		self.setFixedSize(900, 600)
+		self.setFixedSize(1500, 500)
 		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"jv.png")))
 
 		self.setWindowTitle(_("Steady state simulation (www.gpvdm.com)")) 

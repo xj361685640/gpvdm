@@ -1,4 +1,3 @@
-#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
@@ -55,7 +54,7 @@ class gpvdm_open():
 
 	def __init__(self,path):
 		self.file_path=""
-		self.window = loadUi(os.path.joint(get_ui_path(),"open.ui"))
+		self.window = loadUi(os.path.join(get_ui_path(),"open.ui"))
 		#self.window.center()
 
 		icon = QPixmap(os.path.join(get_image_file_path(),"up.png"))

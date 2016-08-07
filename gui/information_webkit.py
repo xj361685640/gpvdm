@@ -18,91 +18,68 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-
-
-#import sys
-#import os
-#import shutil
+import os
 from tab_base import tab_base
-#import commands
-import webkit
+from cal_path import get_image_file_path
 
-class information(gtk.HBox,tab_base):
+#qt
+from PyQt5.QtCore import QSize, Qt, QUrl
+from PyQt5.QtGui import QIcon
+from PyQt5.QtWidgets import QWidget, QVBoxLayout,QProgressBar,QLabel,QDesktopWidget,QToolBar,QHBoxLayout,QAction,QSizePolicy,QLineEdit
+from PyQt5.QtGui import QPixmap
+from PyQt5.QtWebKitWidgets import QWebView
 
-	def on_active(self, widge, data=None):
-		url = self.url_bar.get_text()
-		try:
-		    url.index("://")
-		except:
-		    url = "http://"+url
-		self.url_bar.set_text(url)
-		self.web.open(url)
-
-	def go_back(self, widget, data=None):
-		self.web.go_back()
-
-	def go_forward(self, widget, data=None):
-		self.web.go_forward()
-
-	def refresh(self, widget, data=None):
-		self.web.reload()
+class information(QWidget,tab_base):
 
 	def update_buttons(self, widget, data=None):
 		self.url_bar.set_text( widget.get_main_frame().get_uri() )
 		self.back_button.set_sensitive(self.web.can_go_back())
 		self.forward_button.set_sensitive(self.web.can_go_forward())
 
+	def browse(self):
+		print "go"
 
-	def init(self):
-		self.web = webkit.WebView()
+		url = self.tb_url.text()
+		if url.count("://")==0:
+		    url = "http://"+url
+		self.tb_url.setText(url)
 
-		sw = gtk.ScrolledWindow()
-		sw.add(self.web)
+		self.html.load(QUrl(url))
 
+	def home(self):
+		self.tb_url.setText(self.default_url)
+		self.browse()
 
-		toolbar = gtk.Toolbar()
+	def __init__(self):
+		QWidget.__init__(self)
 
-		self.back_button = gtk.ToolButton(gtk.STOCK_GO_BACK)
-		self.back_button.connect("clicked", self.go_back)
+		self.setMinimumSize(1000,500)
+		self.html = QWebView()
 
-		self.forward_button = gtk.ToolButton(gtk.STOCK_GO_FORWARD)
-		self.forward_button.connect("clicked", self.go_forward)
+		vbox=QVBoxLayout()
 
-		refresh_button = gtk.ToolButton(gtk.STOCK_REFRESH)
-		refresh_button.connect("clicked", self.refresh)
+		toolbar=QToolBar()
+		toolbar.setIconSize(QSize(48, 48))
 
-		toolbar.add(self.back_button)
-		toolbar.add(self.forward_button)
-		toolbar.add(refresh_button)
+		back = QAction(QIcon(os.path.join(get_image_file_path(),"back.png")),  _("back"), self)
+		back.triggered.connect(self.html.back)
+		toolbar.addAction(back)
 
-		self.url_bar = gtk.Entry()
-		self.url_bar.connect("activate", self.on_active)
+		home = QAction(QIcon(os.path.join(get_image_file_path(),"home.png")),  _("home"), self)
+		home.triggered.connect(self.home)
+		toolbar.addAction(home)
 
-		box=gtk.HBox(True, 1)
-		box.set_size_request(500,-1)
-		box.show()
-		box.pack_start(self.url_bar, True, True, 0)
-		url_tb_item = gtk.ToolItem();
-		url_tb_item.add(box);
-		url_tb_item.show()
-		toolbar.add(url_tb_item)
+		self.tb_url=QLineEdit()
+		self.tb_url.returnPressed.connect(self.browse)
+		toolbar.addWidget(self.tb_url)
+		
+		vbox.addWidget(toolbar)
 
-		self.web.connect("load_committed", self.update_buttons)
+		self.default_url = "http://www.gpvdm.com/welcome.html"
+		self.tb_url.setText(self.default_url)
+		self.browse()
+		vbox.addWidget(self.html)
 
-
-		vbox = gtk.VBox(False, 0)
-		vbox.pack_start(toolbar, False, True, 0)
-		vbox.pack_start(self.url_bar, False, True, 0)
-		vbox.add(sw)
-
-		self.show_all()
-
-
-		self.web.open("http://www.gpvdm.com/welcome.html")
-		self.add(vbox)
-
-
-		self.show_all()
-
-
+		self.setLayout(vbox)
+		return
 
