@@ -27,7 +27,6 @@ from cal_path import get_image_file_path
 #from about import about_dialog_show
 #from used_files_menu import used_files_menu
 #from server import server
-#from scan_tab import scan_vbox
 from gui_util import dlg_get_text
 #import threading
 #import gobject
@@ -52,8 +51,11 @@ _ = i18n.language.gettext
 
 #qt
 from PyQt5.QtCore import QSize, Qt 
-from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget
+from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QMenuBar,QStatusBar
 from PyQt5.QtGui import QPainter,QIcon
+
+#window
+from scan_tab import scan_vbox
 
 class scan_class(QWidget):
 
@@ -307,41 +309,8 @@ class scan_class(QWidget):
 		self.rod=[]
 
 	def add_page(self,name):
-
-		hbox=gtk.HBox()
-
-		hbox.set_size_request(-1, 25)
-		label=gtk.Label("")
-		sim_name=os.path.basename(os.path.normpath(name))
-		print "Looking for",sim_name,name
-		self.rod.append(scan_vbox())
-		self.rod[len(self.rod)-1].init(self.myserver,self.tooltips,self.status_bar,self.context_id,label,self.sim_dir,sim_name)
-		label.set_justify(gtk.JUSTIFY_LEFT)
-		hbox.pack_start(label, False, True, 0)
-
-		button = gtk.Button()
-		close_image = gtk.Image()
-   		close_image.set_from_file(os.path.join(get_image_file_path(),"close.png"))
-		close_image.show()
-		button.add(close_image)
-		button.props.relief = gtk.RELIEF_NONE
-		button.connect("clicked", self.callback_view_toggle_tab,self.rod[len(self.rod)-1].tab_name)
-		button.set_size_request(25, 25)
-		button.show()
-
-		hbox.pack_end(button, False, False, 0)
-		hbox.show_all()
-		self.notebook.append_page(self.rod[len(self.rod)-1],hbox)
-		self.notebook.set_tab_reorderable(self.rod[len(self.rod)-1],True)
-
-		menu_item = gtk.CheckMenuItem(sim_name)
-		menu_item.set_active(True)
-		self.tab_menu.append(menu_item)
-		menu_item.show()
-		menu_item.set_active(self.rod[len(self.rod)-1].visible)
-		#print "Rod",name,self.rod[len(self.rod)-1].visible
-		menu_item.connect("activate", self.callback_view_toggle,menu_item)
-
+		tab=scan_vbox(self.myserver,self.status_bar,self.sim_dir,name)
+		self.notebook.addTab(tab,name)
 		self.number_of_tabs=self.number_of_tabs+1
 
 	def callback_last_menu_click(self, widget, data):
@@ -365,11 +334,14 @@ class scan_class(QWidget):
 
 	def __init__(self,my_server):
 		QWidget.__init__(self)
-		return
+		self.number_of_tabs=0
+		self.myserver=my_server
+
 		self.win_list=windows()
 		self.win_list.load()
 		self.win_list.set_window(self,"scan_window")
-		print "constructur"
+		self.setWindowTitle(_("Parameter scan - gpvdm"))
+
 
 		self.rod=[]
 		if os.path.isfile("scan_window.inp"):
@@ -385,155 +357,134 @@ class scan_class(QWidget):
 		else:
 			self.sim_dir=os.getcwd()
 
-		self.tooltips = gtk.Tooltips()
-
-		self.set_border_width(2)
-		self.set_title(_("Parameter scan - gpvdm"))
-
-#		n=0
 
 
-		self.number_of_tabs=0
-#		items=0
+		self.main_vbox = QVBoxLayout()
 
-		self.status_bar = gtk.Statusbar()
+		menubar = QMenuBar()
 
-		self.status_bar.show()
-
-		self.context_id = self.status_bar.get_context_id("Statusbar example")
-
-		box=gtk.HBox()
-		box.add(self.status_bar)
-		box.set_child_packing(self.status_bar, True, True, 0, 0)
-		box.show()
-
-
-		self.menu_items = (
-		    ( _("/_File"),         None,         None, 0, "<Branch>" ),
-		    ( _("/File/Change dir"),     None, self.callback_change_dir, 0, None ),
-		    ( _("/File/Close"),     None, self.callback_close, 0, None ),
-		    ( _("/Simulations/_New"),     None, self.callback_add_page, 0, "<StockItem>", "gtk-new" ),
-		    ( _("/Simulations/_Delete simulaton"),     None, self.callback_delete_page, 0, "<StockItem>", "gtk-delete" ),
-		    ( _("/Simulations/_Rename simulation"),     None, self.callback_rename_page, 0, "<StockItem>", "gtk-edit" ),
-		    ( _("/Simulations/_Clone simulation"),     None, self.callback_copy_page, 0, "<StockItem>", "gtk-copy" ),
-			( _("/Simulations/sep1"),     None, None, 0, "<Separator>" ),
-		    ( _("/Simulations/_Run simulation"),     None, self.callback_run_simulation, 0, "<StockItem>", "gtk-media-play" ),
-
-			( _("/Advanced/_Plot fits"),     None, self.callback_plot_fits, 0, "<StockItem>", "gtk-media-play" ),
-			( _("/Advanced/_Run nested simulation"),     None, self.callback_nested_simulation, 0, "<StockItem>", "gtk-media-play" ),
-		    ( _("/Advanced/_Run simulation no generation"),     None, self.callback_run_simulation_nogen, 0, "<StockItem>", "gtk-media-play" ),
-		    ( _("/Advanced/_Run single fit"),     None, self.callback_run_single_fit, 0, "<StockItem>", "gtk-media-play" ),
-			( _("/Advanced/_Clean simulation"),     None, self.callback_clean_simulation, 0, "<StockItem>", "gtk-clear" ),
-			( _("/Advanced/_Clean unconverged simulation"),     None, self.callback_clean_unconverged_simulation, 0, "<StockItem>", "gtk-clear" ),
-			( _("/Advanced/_Clean simulation output"),     None, self.callback_clean_simulation_output, 0, "<StockItem>", "gtk-clear" ),
-			( _("/Advanced/sep2"),     None, None, 0, "<Separator>" ),
-			( _("/Advanced/_Push unconverged to hpc"),     None, self.callback_push_unconverged_to_hpc, 0, "<StockItem>", "gtk-save" ),
-
-
-		    ( _("/Advanced/_Remove all results"),     None, self.callback_remove_all_results, 0, "<StockItem>", "gtk-copy" ),
-		    ( _("/_Help"),         None,         None, 0, "<LastBranch>" ),
-		    ( _("/_Help/Help"),   None,         self.callback_help, 0, None ),
-		    ( _("/_Help/About"),   None,         about_dialog_show, 0, "<StockItem>", "gtk-about" ),
-		    )
+		file_menu = menubar.addMenu('&File')
+		self.menu_change_dir=file_menu.addAction(_("Change dir"))
+		self.menu_change_dir.triggered.connect(self.callback_close)
+		self.menu_close=file_menu.addAction(_("Close"))
+		self.menu_close.triggered.connect(self.callback_close)
 
 
 
-		main_vbox = gtk.VBox(False, 3)
+		self.menu_simulation=menubar.addMenu(_("Simulations"))
+		self.menu_new=self.menu_simulation.addAction(_("&New"))
+		self.menu_new.triggered.connect(self.callback_add_page)
 
-		menubar = self.get_main_menu(self)
-		main_vbox.pack_start(menubar, False, False, 0)
-		menubar.show()
+		self.menu_delete=self.menu_simulation.addAction(_("&Delete simulation"))
+		self.menu_delete.triggered.connect(self.callback_delete_page)
 
-		toolbar = gtk.Toolbar()
-		toolbar.set_style(gtk.TOOLBAR_BOTH_HORIZ)
-		toolbar.set_size_request(-1, 70)
+		self.menu_rename=self.menu_simulation.addAction(_("&Rename simulation"))
+		self.menu_rename.triggered.connect(self.callback_rename_page)
 
-		#image = gtk.Image()
-		#image.set_from_file(os.path.join(get_image_file_path(),"new-tab.png"))
-		image = gtk.Image()
-		image.set_from_file(os.path.join(get_image_file_path(),"new.png"))
-		tb_new_scan = gtk.MenuToolButton(image,"")
-		tb_new_scan.connect("clicked", self.callback_add_page)
-		self.tooltips.set_tip(tb_new_scan, _("New simulation"))
+		self.menu_copy=self.menu_simulation.addAction(_("&Clone simulation"))
+		self.menu_copy.triggered.connect(self.callback_copy_page)
 
-		self.tab_menu=gtk.Menu()
-		tb_new_scan.set_menu(self.tab_menu)
+		self.menu_simulation.addSeparator()
 
-		toolbar.insert(tb_new_scan, -1)
+		self.menu_run=self.menu_simulation.addAction(_("&Run simulation"))
+		self.menu_run.triggered.connect(self.callback_run_simulation)
 
-		image = gtk.Image()
-		image.set_from_file(os.path.join(get_image_file_path(),"delete.png"))
-		delete = gtk.ToolButton()
-		delete.set_label("Delete")
-		delete.set_icon_widget(image)
-		delete.set_is_important(True)
+		self.menu_advanced=menubar.addMenu(_("Advanced"))
 
-		delete.connect("clicked", self.callback_delete_page,None)
-		self.tooltips.set_tip(delete, _("Delete simulation"))
+		self.menu_plot_fits=self.menu_advanced.addAction(_("&Plot fits"))
+		self.menu_plot_fits.triggered.connect(self.callback_plot_fits)
 
-		toolbar.insert(delete, -1)
+		self.menu_run_nested=self.menu_advanced.addAction(_("&Run nested simulation"))
+		self.menu_run_nested.triggered.connect(self.callback_nested_simulation)
 
-		image = gtk.Image()
-		image.set_from_file(os.path.join(get_image_file_path(),"clone.png"))
-		copy = gtk.ToolButton(image)
-		copy.connect("clicked", self.callback_copy_page,None)
-		self.tooltips.set_tip(copy, _("Clone simulation"))
-		toolbar.insert(copy, -1)
+		self.menu_run_nested=self.menu_advanced.addAction(_("&Run simulation no generation"))
+		self.menu_run_nested.triggered.connect(self.callback_run_simulation_nogen)
 
+		self.menu_run_nested=self.menu_advanced.addAction(_("&Run simulation no generation"))
+		self.menu_run_nested.triggered.connect(self.callback_run_simulation_nogen)
 
-		image = gtk.Image()
-		image.set_from_file(os.path.join(get_image_file_path(),"rename.png"))
-		rename = gtk.ToolButton(image)
-		rename.connect("clicked", self.callback_rename_page,None)
-		self.tooltips.set_tip(rename, _("Rename simulation"))
-		toolbar.insert(rename, -1)
+		self.menu_run_single_fit=self.menu_advanced.addAction(_("&Run single fit"))
+		self.menu_run_single_fit.triggered.connect(self.callback_run_single_fit)
 
-		sep = gtk.SeparatorToolItem()
-		sep.set_draw(True)
-		sep.set_expand(False)
-		toolbar.insert(sep, -1)
+		self.menu_clean_simulation=self.menu_advanced.addAction(_("&Clean simulation"))
+		self.menu_clean_simulation.triggered.connect(self.callback_clean_simulation)
 
-		image = gtk.Image()
-		image.set_from_file(os.path.join(get_image_file_path(),"32_forward2.png"))
-		tb_simulate = gtk.ToolButton(image)
-		tb_simulate.connect("clicked", self.callback_run_all_simulations)
-		self.tooltips.set_tip(tb_simulate, _("Run all simulation"))
-		toolbar.insert(tb_simulate, -1)
+		self.menu_clean_unconverged_simulation=self.menu_advanced.addAction(_("&Clean unconverged simulation"))
+		self.menu_clean_unconverged_simulation.triggered.connect(self.callback_clean_unconverged_simulation)
 
-		sep = gtk.SeparatorToolItem()
-		sep.set_draw(False)
-		sep.set_expand(True)
-		toolbar.insert(sep, -1)
+		self.menu_clean_simulation_output=self.menu_advanced.addAction(_("&Clean simulation output"))
+		self.menu_clean_simulation_output.triggered.connect(self.callback_clean_simulation_output)
 
-		image = gtk.Image()
-		image.set_from_file(os.path.join(get_image_file_path(),"32_help.png"))
-		tb_help = gtk.ToolButton(image)
-		tb_help.connect("clicked", self.callback_help)
-		self.tooltips.set_tip(tb_help, _("Help"))
-		toolbar.insert(tb_help, -1)
+		self.menu_clean_simulation_output=self.menu_advanced.addAction(_("&Clean simulation output"))
+		self.menu_clean_simulation_output.triggered.connect(self.callback_clean_simulation_output)
+
+		self.menu_advanced.addSeparator()
+
+		self.menu_push_to_hpc=self.menu_advanced.addAction(_("&Push unconverged to hpc"))
+		self.menu_push_to_hpc.triggered.connect(self.callback_push_unconverged_to_hpc)
 
 
-		toolbar.show_all()
-		main_vbox.pack_start(toolbar, False, False, 0)
-		#main_vbox.add(toolbar)
 
-		main_vbox.set_border_width(1)
-		self.add(main_vbox)
-		main_vbox.show()
-		self.myserver=my_server
+		self.menu_help=menubar.addMenu(_("Help"))
+		self.menu_help_help=self.menu_help.addAction(_("Help"))
+		self.menu_help_help.triggered.connect(self.callback_help)
+
+		self.main_vbox.addWidget(menubar)		
 
 
-		self.notebook = gtk.Notebook()
-		self.notebook.show()
-		self.notebook.set_tab_pos(gtk.POS_LEFT)
+		toolbar=QToolBar()
+		toolbar.setIconSize(QSize(48, 48))
+
+		self.tb_new = QAction(QIcon(os.path.join(get_image_file_path(),"new.png")), _("New simulation"), self)
+		self.tb_new.triggered.connect(self.callback_add_page)
+		toolbar.addAction(self.tb_new)
+
+		self.tb_delete = QAction(QIcon(os.path.join(get_image_file_path(),"delete.png")), _("Delete simulation"), self)
+		self.tb_delete.triggered.connect(self.callback_delete_page)
+		toolbar.addAction(self.tb_delete)
+
+		self.tb_clone = QAction(QIcon(os.path.join(get_image_file_path(),"clone.png")), _("Clone simulation"), self)
+		self.tb_clone.triggered.connect(self.callback_copy_page)
+		toolbar.addAction(self.tb_clone)
+
+		self.tb_rename = QAction(QIcon(os.path.join(get_image_file_path(),"rename.png")), _("Rename simulation"), self)
+		self.tb_rename.triggered.connect(self.callback_rename_page)
+		toolbar.addAction(self.tb_rename)
+
+		self.tb_run_all = QAction(QIcon(os.path.join(get_image_file_path(),"32_forward2.png")), _("Run all simulations"), self)
+		self.tb_run_all.triggered.connect(self.callback_run_all_simulations)
+		toolbar.addAction(self.tb_run_all)
+
+		spacer = QWidget()
+		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+		toolbar.addWidget(spacer)
+
+
+		self.help = QAction(QIcon(os.path.join(get_image_file_path(),"help.png")), 'Hide', self)
+		self.help.setStatusTip(_("Close"))
+		self.help.triggered.connect(self.callback_help)
+		toolbar.addAction(self.help)
+
+		self.main_vbox.addWidget(toolbar)
+
+		self.notebook = QTabWidget()
+
+		self.notebook.setTabsClosable(True)
+		self.notebook.setMovable(True)
+
+
+		self.main_vbox.addWidget(self.notebook)
+
+
+		self.status_bar=QStatusBar()
+		self.main_vbox.addWidget(self.status_bar)		
 
 		self.load_tabs()
-		main_vbox.pack_start(self.notebook, True, True, 0)
-		main_vbox.pack_start(box, False, False, 0)
 
-		self.connect("delete-event", self.callback_close)
-		self.notebook.connect("switch-page",self.switch_page)
-		self.set_icon_from_file(os.path.join(get_image_file_path(),"image.jpg"))
+		self.setLayout(self.main_vbox)
+		return
 
-		self.hide()
+
+#		self.connect("delete-event", self.callback_close)
+#		self.notebook.connect("switch-page",self.switch_page)
 

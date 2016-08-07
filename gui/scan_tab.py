@@ -24,68 +24,67 @@
 
 
 import gc
-#import sys
 import os
-#import shutil
-#from inp import inp_update_token_value
 from inp import inp_get_token_value
-#from search import return_file_list
 from plot import check_info_file
-#from about import about_dialog_show
 from used_files_menu import used_files_menu
-#from server import server
-from plot_dlg import plot_dlg_class
 from plot_gen import plot_gen
 from plot_state import plot_state
-#import threading
-#import gobject
-
-#import multiprocessing
-#import time
-#from util import get_cache_path
 from cmp_class import cmp_class
-from scan_select import select_param
 from config import config
-#import hashlib
-#from os.path import expanduser
 from token_lib import tokens
-from scan_item import scan_items_get_list
-#from win_lin import running_on_linux
-from scan_tree import tree_gen
-from scan_tree import tree_load_program
-from scan_tree import tree_load_model
 
-from scan_item import scan_item_save
+
 from scan_plot import scan_gen_plot_data
+from server import server_find_simulations_to_run
+
+from plot_io import plot_save_oplot_file
+from gpvdm_open import gpvdm_open
+from cal_path import get_exe_command
+from help import my_help_class
+from cal_path import get_image_file_path
+
+from util import str2bool
+
+#scan_io
 from scan_io import scan_clean_dir
 from scan_io import scan_clean_unconverged
 from scan_io import scan_clean_simulation_output
 from scan_io import scan_nested_simulation
-from server import server_find_simulations_to_run
-from scan_io import scan_plot_fits
-
-from plot_io import plot_save_oplot_file
-#from scan_io import scan_list_simulations
-from notes import notes
 from scan_io import scan_push_to_hpc
 from scan_io import scan_import_from_hpc
-from gpvdm_open import gpvdm_open
+from scan_io import scan_plot_fits
+
+#scan_tree
+from scan_tree import tree_gen
+from scan_tree import tree_load_program
+from scan_tree import tree_load_model
+from scan_tree import tree_load_config
 from scan_tree import tree_load_flat_list
 from scan_tree import tree_save_flat_list
-from cal_path import get_exe_command
-from help import my_help_class
-from cal_path import get_image_file_path
+
+#scan_item
 from scan_item import scan_items_get_file
 from scan_item import scan_items_get_token
-from util import str2bool
-from scan_tree import tree_load_config
+from scan_item import scan_items_get_list
+from scan_item import scan_item_save
+
+
+#qt
+from PyQt5.QtCore import QSize, Qt 
+from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QMenuBar,QStatusBar, QMenu, QTableWidget, QAbstractItemView
+from PyQt5.QtGui import QPainter,QIcon
+
+#window
+#from plot_dlg import plot_dlg_class
+#from scan_select import select_param
+#from notes import notes
 
 import i18n
 _ = i18n.language.gettext
 
-class scan_vbox(gtk.VBox):
+class scan_vbox(QWidget):
 
-	icon_theme = gtk.icon_theme_get_default()
 
 	def rename(self,new_name):
 		self.sim_name=os.path.basename(new_name)
@@ -503,17 +502,17 @@ class scan_vbox(gtk.VBox):
 			self.config.set_value("#visible",False)
 			self.hide()
 
-	def callback_run_simulation(self,widget):
+	def callback_run_simulation(self):
 		args=inp_get_token_value(os.path.join("scan_config.inp",self.sim_dir),"#args")
 		if args==None:
 			args=""
 		self.simulate(True,True,args)
 
 
-	def callback_stop_simulation(self,widget):
+	def callback_stop_simulation(self):
 		self.stop_simulation()
 
-	def callback_examine(self, widget, data=None):
+	def callback_examine(self):
 		mycmp=cmp_class()
 		ret=mycmp.init(self.sim_dir,get_exe_command())
 		if ret==False:
@@ -522,298 +521,121 @@ class scan_vbox(gtk.VBox):
         		md.destroy()
 			return
 
-	def init(self,myserver,tooltips,status_bar,context_id,tab_label,scan_root_dir,sim_name):
+	def __init__(self,myserver,status_bar,scan_root_dir,sim_name):
+		QWidget.__init__(self)
+
+		self.main_vbox = QVBoxLayout()
 
 		self.tokens=tokens()
 		self.config=config()
 		self.sim_name=sim_name
-		self.clipboard = gtk.clipboard_get(gtk.gdk.SELECTION_CLIPBOARD)
-		self.popup_menu = gtk.Menu()
-
-		menu_item = gtk.MenuItem(_("Select parameter to scan"))
-		menu_item.connect("activate", self.callback_show_list)
-		self.popup_menu.append(menu_item)
-		self.popup_menu.show_all()
-
-		menu_item = gtk.SeparatorMenuItem()
-		self.popup_menu.append(menu_item)
-		self.popup_menu.show_all()
-
-		menu_item = gtk.MenuItem(_("Delete item"))
-		menu_item.connect("activate", self.callback_delete_item)
-		self.popup_menu.append(menu_item)
-		self.popup_menu.show_all()
-
-		menu_item = gtk.MenuItem(_("Add item"))
-		menu_item.connect("activate", self.callback_add_item)
-		self.popup_menu.append(menu_item)
-		self.popup_menu.show_all()
-
-		menu_item = gtk.MenuItem(_("Move down"))
-		menu_item.connect("activate", self.callback_move_down)
-		self.popup_menu.append(menu_item)
-		self.popup_menu.show_all()
-
-		menu_item = gtk.SeparatorMenuItem()
-		self.popup_menu.append(menu_item)
-		self.popup_menu.show_all()
-
-		menu_item = gtk.MenuItem(_("Copy"))
-		menu_item.connect("activate", self.callback_copy_item)
-		self.popup_menu.append(menu_item)
-
-		menu_item = gtk.MenuItem(_("Paste"))
-		menu_item.connect("activate", self.callback_paste_item)
-		self.popup_menu.append(menu_item)
-
-		menu_item = gtk.MenuItem(_("Delete"))
-		menu_item.connect("activate", self.callback_delete_item)
-		self.popup_menu.append(menu_item)
-		self.popup_menu.show_all()
-
-
 		self.myserver=myserver
-		self.tooltips=tooltips
 		self.status_bar=status_bar
-		self.context_id=context_id
 		self.param_list=scan_items_get_list()
-		self.tab_label=tab_label
-		self.liststore_op_type = gtk.ListStore(str)
-
+		#self.tab_label=tab_label
 
 		self.sim_dir=os.path.join(scan_root_dir,sim_name)
 		self.tab_name=os.path.basename(os.path.normpath(self.sim_dir))
 
-		self.status_bar.push(self.context_id, self.sim_dir)
-		self.set_tab_caption(self.tab_name)
+		toolbar=QToolBar()
+		toolbar.setIconSize(QSize(48, 48))
 
-		toolbar = gtk.Toolbar()
-		toolbar.set_style(gtk.TOOLBAR_ICONS)
-		toolbar.set_size_request(-1, 50)
-		pos=0
+		self.tb_add = QAction(QIcon(os.path.join(get_image_file_path(),"add.png")), _("Add parameter to scan"), self)
+		self.tb_add.triggered.connect(self.callback_add_item)
+		toolbar.addAction(self.tb_add)
 
-		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"add.png"))
-		add = gtk.ToolButton(image)
-		add.connect("clicked", self.callback_add_item)
-		self.tooltips.set_tip(add, _("Add parameter to scan"))
-		toolbar.insert(add, pos)
-		pos=pos+1
+		self.tb_minus = QAction(QIcon(os.path.join(get_image_file_path(),"minus.png")), _("Delete item"), self)
+		self.tb_minus.triggered.connect(self.callback_delete_item)
+		toolbar.addAction(self.tb_minus)
 
+		self.tb_down = QAction(QIcon(os.path.join(get_image_file_path(),"down.png")), _("Move down"), self)
+		self.tb_down.triggered.connect(self.callback_move_down)
+		toolbar.addAction(self.tb_down)
 
-		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"minus.png"))
-		remove = gtk.ToolButton(image)
-		remove.connect("clicked", self.callback_delete_item)
-		self.tooltips.set_tip(remove, _("Delete item"))
-		toolbar.insert(remove, pos)
-		pos=pos+1
+		self.tb_notes = QAction(QIcon(os.path.join(get_image_file_path(),"down.png")), _("Notes"), self)
+		self.tb_notes.triggered.connect(self.callback_notes)
+		toolbar.addAction(self.tb_notes)
 
-		move = gtk.ToolButton(gtk.STOCK_GO_DOWN)
-		move.connect("clicked", self.callback_move_down)
-		self.tooltips.set_tip(move, _("Move down"))
-		toolbar.insert(move, pos)
-		pos=pos+1
+		self.tb_notes = QAction(QIcon(os.path.join(get_image_file_path(),"select.png")), _("Select parameter to change"), self)
+		self.tb_notes.triggered.connect(self.callback_show_list)
+		toolbar.addAction(self.tb_notes)
 
-		notes = gtk.ToolButton(gtk.STOCK_EDIT)
-		notes.connect("clicked", self.callback_notes)
-		self.tooltips.set_tip(notes, _("Edit notes"))
-		toolbar.insert(notes, pos)
-		pos=pos+1
+		self.tb_simulate = QAction(QIcon(os.path.join(get_image_file_path(),"forward.png")), _("Run simulation"), self)
+		self.tb_simulate.triggered.connect(self.callback_run_simulation)
+		toolbar.addAction(self.tb_simulate)
 
-		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"select.png"))
-		quick = gtk.ToolButton(image)
-		quick.connect("clicked", self.callback_show_list)
-		self.tooltips.set_tip(quick, _("Select parameter to change"))
-		toolbar.insert(quick, pos)
-		pos=pos+1
+		self.tb_stop = QAction(QIcon(os.path.join(get_image_file_path(),"pause.png")), _("Stop the simulation"), self)
+		self.tb_stop.triggered.connect(self.callback_stop_simulation)
+		toolbar.addAction(self.tb_stop)
 
-		sep = gtk.SeparatorToolItem()
-		sep.set_draw(True)
-		sep.set_expand(False)
-		toolbar.insert(sep, pos)
-		pos=pos+1
+		self.tb_plot = QAction(QIcon(os.path.join(get_image_file_path(),"plot.png")), _("Find a file to plot"), self)
+		self.tb_plot.triggered.connect(self.callback_gen_plot_command)
+		toolbar.addAction(self.tb_plot)
 
-		image = gtk.Image()
-		image.set_from_file(os.path.join(get_image_file_path(),"forward.png"))
-		tb_simulate = gtk.ToolButton(image)
-		tb_simulate.connect("clicked", self.callback_run_simulation)
-		self.tooltips.set_tip(tb_simulate, _("Run simulation"))
-		toolbar.insert(tb_simulate, pos)
-		pos=pos+1
+		self.tb_plot_time = QAction(QIcon(os.path.join(get_image_file_path(),"plot_time.png")), _("Examine results in time domain"), self)
+		self.tb_plot_time.triggered.connect(self.callback_examine)
+		toolbar.addAction(self.tb_plot_time)
 
-	        image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"pause.png"))
-		self.stop = gtk.ToolButton(image)
-		self.tooltips.set_tip(self.stop, _("Stop the simulation"))
-		self.stop.connect("clicked", self.callback_stop_simulation)
-		toolbar.insert(self.stop, pos)
-		pos=pos+1
+		self.tb_command = QAction(QIcon(os.path.join(get_image_file_path(),"command.png")), _("Insert python command"), self)
+		self.tb_command.triggered.connect(self.callback_insert_command)
+		toolbar.addAction(self.tb_command)
 
-		sep = gtk.SeparatorToolItem()
-		sep.set_draw(True)
-		sep.set_expand(False)
-		toolbar.insert(sep, pos)
-		pos=pos+1
+		self.main_vbox.addWidget(toolbar)
 
-		image = gtk.Image()
-		image.set_from_file(os.path.join(get_image_file_path(),"plot.png"))
-		plot_select = gtk.MenuToolButton(image,"hello")
-		plot_select.connect("clicked", self.callback_gen_plot_command)
-		self.tooltips.set_tip(plot_select, _("Find a file to plot"))
+		self.tab = QTableWidget()
+		self.tab.resizeColumnsToContents()
 
-		self.plotted_graphs = used_files_menu()
-		self.plotted_graphs.init(self.sim_dir,self.callback_last_menu_click)
-		plot_select.set_menu(self.plotted_graphs.menu)
-		toolbar.insert(plot_select, pos)
+		self.tab.verticalHeader().setVisible(False)
 
-		pos=pos+1
+		self.tab.clear()
+		self.tab.setColumnCount(4)
+		self.tab.setSelectionBehavior(QAbstractItemView.SelectRows)
 
-		#image = gtk.Image()
-   		#image.set_from_file(self.icon_theme.lookup_icon("view-refresh", 32, 0).get_filename())
-		#self.plot_open = gtk.ToolButton(image)
-		#self.plot_open.connect("clicked", self.callback_plot_results)
-		#self.plot_open.set_sensitive(False)
-		#self.tooltips.set_tip(self.plot_open, "Replot the graph")
-		#toolbar.insert(self.plot_open, pos)
-		#pos=pos+1
+		self.tab.setHorizontalHeaderLabels([_("File"), _("Token"), _("Parameter to change"), _("Values"), _("Opperation")])
 
-		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"plot_time.png"))
-		self.examine = gtk.ToolButton(image)
-		self.tooltips.set_tip(self.examine, _("Examine results in time domain"))
-		self.examine.connect("clicked", self.callback_examine)
-		toolbar.insert(self.examine, pos)
-		pos=pos+1
+		self.main_vbox.addWidget(self.tab)
 
-		sep = gtk.SeparatorToolItem()
-		sep.set_draw(True)
-		sep.set_expand(False)
-		toolbar.insert(sep, pos)
-		pos=pos+1
+		self.popMenu = QMenu(self)
 
-		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"command.png"))
-		insert_command = gtk.ToolButton(image)
-		insert_command.connect("clicked", self.callback_insert_command)
-		self.tooltips.set_tip(insert_command, _("Insert python command"))
-		toolbar.insert(insert_command, pos)
-		pos=pos+1
-		#reopen_xy = gtk.ToolButton(gtk.STOCK_SELECT_COLOR)
-		#reopen_xy.connect("clicked", self.callback_reopen_xy_window)
-		#self.tooltips.set_tip(reopen_xy, "Reopen xy window selector")
-		#toolbar.insert(reopen_xy, pos)
-		#pos=pos+1
+		self.mp_show_list=QAction(_("Select parameter to scan"), self)
+		self.mp_show_list.triggered.connect(self.callback_show_list)
+		self.popMenu.addAction(self.mp_show_list)
 
-		toolbar.show_all()
-		self.pack_start(toolbar, False, False, 0)#.add()
+		self.popMenu.addSeparator()
 
-		liststore_manufacturers = gtk.ListStore(str)
-		for i in range(0,len(self.param_list)):
-		    liststore_manufacturers.append([self.param_list[i].name])
+		self.mp_delete=QAction(_("Delete item"), self)
+		self.mp_delete.triggered.connect(self.callback_delete_item)
+		self.popMenu.addAction(self.mp_delete)
 
-		self.liststore_combobox = gtk.ListStore(str, str,str, str, str, bool)
+		self.mp_copy=QAction(_("Copy"), self)
+		self.mp_copy.triggered.connect(self.callback_copy_item)
+		self.popMenu.addAction(self.mp_copy)
 
-		self.config.load(self.sim_dir)
-		self.visible=self.config.get_value("#visible",True)
-		self.reload_liststore()
+		self.mp_paste=QAction(_("Paste"), self)
+		self.mp_paste.triggered.connect(self.callback_paste_item)
+		self.popMenu.addAction(self.mp_paste)
 
+		self.popMenu.addSeparator()
 
-		self.treeview = gtk.TreeView(self.liststore_combobox)
-		self.treeview.get_selection().set_mode(gtk.SELECTION_MULTIPLE)
-		self.treeview.connect("button-press-event", self.on_treeview_button_press_event)
+		self.mp_add=QAction(_("Add item"), self)
+		self.mp_add.triggered.connect(self.callback_add_item)
+		self.popMenu.addAction(self.mp_add)
 
+		self.mp_down=QAction(_("Move down"), self)
+		self.mp_down.triggered.connect(self.callback_move_down)
+		self.popMenu.addAction(self.mp_down)
 
-		self.select_param_window=select_param()
-		self.select_param_window.init(self.liststore_combobox,self.treeview)
+		self.mp_down=QAction(_("Move down"), self)
+		self.mp_down.triggered.connect(self.callback_move_down)
+		self.popMenu.addAction(self.mp_down)
 
-		column_file = gtk.TreeViewColumn(_("File"))
-		column_file.set_visible(False)
+		self.popMenu.addSeparator()
 
-		column_token = gtk.TreeViewColumn(_("Token"))
-		column_token.set_visible(False)
+		self.status_bar=QStatusBar()
+		self.status_bar.showMessage(self.sim_dir)
 
-		column_combo = gtk.TreeViewColumn(_("Parameter to change"))
-		column_text = gtk.TreeViewColumn(_("Values"))
-		column_mirror = gtk.TreeViewColumn(_("Opperation"))
+		self.main_vbox.addWidget(self.status_bar)
 
-		cellrenderer_file = gtk.CellRendererText()
-		cellrenderer_file.set_property("editable", True)
-		cellrenderer_file.connect("edited", self.text_changed_file, self.liststore_combobox)
-		column_file.pack_start(cellrenderer_file, False)
-		column_file.set_min_width(100)
-		column_file.add_attribute(cellrenderer_file, "text", 0)
+		self.setLayout(self.main_vbox)
 
-		cellrenderer_token = gtk.CellRendererText()
-		cellrenderer_token.set_property("editable", True)
-		cellrenderer_token.connect("edited", self.text_changed_token, self.liststore_combobox)
-		column_token.pack_start(cellrenderer_token, False)
-		column_token.set_min_width(100)
-		column_token.add_attribute(cellrenderer_token, "text", 1)
-
-
-		cellrenderer_combo = gtk.CellRendererCombo()
-		cellrenderer_combo.set_property("editable", True)
-		cellrenderer_combo.set_property("model", liststore_manufacturers)
-		cellrenderer_combo.set_property("text-column", 0)
-		cellrenderer_combo.connect("edited", self.combo_changed, self.liststore_combobox)
-
-		column_combo.pack_start(cellrenderer_combo, False)
-		column_combo.set_min_width(240)
-		column_combo.add_attribute(cellrenderer_combo, "text", 2)
-
-		cellrenderer_mirror = gtk.CellRendererCombo()
-		cellrenderer_mirror.set_property("editable", True)
-		self.rebuild_liststore_op_type()
-		cellrenderer_mirror.set_property("model", self.liststore_op_type)
-		cellrenderer_mirror.set_property("text-column", 0)
-
-		cellrenderer_mirror.connect("edited", self.combo_mirror_changed, self.liststore_combobox)
-
-		column_mirror.pack_start(cellrenderer_mirror, True)
-		column_mirror.set_min_width(200)
-		column_mirror.add_attribute(cellrenderer_mirror, "text", 4)
-
-		cellrenderer_text = gtk.CellRendererText()
-		cellrenderer_text.set_property("editable", True)
-		cellrenderer_text.connect("edited", self.text_changed_value, self.liststore_combobox)
-		cellrenderer_text.props.wrap_width = 400
-		cellrenderer_text.props.wrap_mode = gtk.WRAP_WORD
-
-		column_text.pack_start(cellrenderer_text, False)
-		column_text.set_min_width(400)
-		column_text.add_attribute(cellrenderer_text, "text", 3)
-
-		renderer_enable = gtk.CellRendererToggle()
-		#renderer_enable.set_property("activatable", True)
-		renderer_enable.set_activatable(True)
-		renderer_enable.connect("toggled", self.toggled_cb, self.liststore_combobox)
-		column_enable = gtk.TreeViewColumn(_("Enabled"),renderer_enable)
-		column_enable.set_max_width(50)
-		column_enable.set_visible(False)
-
-		column_enable.add_attribute(renderer_enable, "active", 5)
-		column_enable.pack_start(renderer_enable, False)
-
-		self.treeview.append_column(column_file)
-		self.treeview.append_column(column_token)
-		self.treeview.append_column(column_combo)
-		self.treeview.append_column(column_text)
-		self.treeview.append_column(column_mirror)
-		self.treeview.append_column(column_enable)
-
-		#window.connect("destroy", lambda w: gtk.main_quit())
-		scrolled_window = gtk.ScrolledWindow()
-		scrolled_window.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_ALWAYS)
-		scrolled_window.add(self.treeview)
-		scrolled_window.set_size_request(1000, 500)
-		#scrolled_window.set_min_content_height(200)
-
-		self.pack_start(scrolled_window, True, True, 0)
-		self.treeview.show()
-		self.show_all()
-
-		if self.visible==False:
-			self.hide()
 

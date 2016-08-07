@@ -51,7 +51,7 @@ from pl_main import pl_main
 
 if running_on_linux()==True:
 	from tab_terminal import tab_terminal
-	if enable_webbrowser()==False:
+	if enable_webbrowser()==True:
 		from information_webkit import information
 	else:
 		from information_noweb import information

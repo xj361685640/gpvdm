@@ -48,7 +48,7 @@ class jv(QWidget):
 
 	def __init__(self):
 		QWidget.__init__(self)
-		self.setFixedSize(1500, 500)
+		self.setFixedSize(900, 600)
 		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"jv.png")))
 
 		self.setWindowTitle(_("Steady state simulation (www.gpvdm.com)")) 
@@ -64,10 +64,10 @@ class jv(QWidget):
 		toolbar.addWidget(spacer)
 
 
-		self.undo = QAction(QIcon(os.path.join(get_image_file_path(),"help.png")), 'Hide', self)
-		self.undo.setStatusTip(_("Close"))
-		self.undo.triggered.connect(self.callback_help)
-		toolbar.addAction(self.undo)
+		self.help = QAction(QIcon(os.path.join(get_image_file_path(),"help.png")), 'Hide', self)
+		self.help.setStatusTip(_("Close"))
+		self.help.triggered.connect(self.callback_help)
+		toolbar.addAction(self.help)
 
 		self.main_vbox.addWidget(toolbar)
 
