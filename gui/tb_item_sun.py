@@ -63,8 +63,6 @@ class tb_item_sun(QWidget):
 
 		self.setLayout(layout)
 
-		self.light.currentIndexChanged.connect(self.call_back_light_changed)
-
 		sun_values=["0.0","0.01","0.1","1.0","10"]
 
 		token=inp_get_token_value("light.inp", "#Psun")

@@ -35,6 +35,7 @@ from PyQt5.uic import loadUi
 #calpath
 from cal_path import get_device_lib_path
 from cal_path import get_image_file_path
+from cal_path import get_ui_path
 
 class new_simulation():
 
@@ -100,7 +101,7 @@ class new_simulation():
 		self.ret_path=""
 		# Create a new window
 
-		self.window = loadUi('./gui/new.ui')
+		self.window = loadUi(os.path.join(get_ui_path(),"new.ui"))
 
 		self.win_list=windows()
 		self.win_list.load()

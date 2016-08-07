@@ -34,7 +34,6 @@ from gpvdm_open import gpvdm_open
 from cal_path import get_materials_path
 from global_objects import global_object_get
 from help import help_window
-#from doping import doping_window
 
 #inp
 from inp import inp_isfile
@@ -58,6 +57,7 @@ from epitaxy import epitay_get_next_dos
 #windows
 from contacts import contacts_window
 from emesh import tab_electrical_mesh
+from doping import doping_window
 
 #qt
 from PyQt5.QtCore import QSize, Qt
@@ -414,9 +414,8 @@ class layer_widget(QWidget):
 
 		if self.doping_window==False:
 			self.doping_window=doping_window()
-			self.doping_window.init()
 
-		if self.doping_window.get_property("visible")==True:
+		if self.doping_window.isVisible()==True:
 			self.doping_window.hide()
 		else:
 			self.doping_window.show()

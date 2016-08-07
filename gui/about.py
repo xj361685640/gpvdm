@@ -25,6 +25,7 @@ import os
 from ver import ver
 from notice import notice
 from cal_path import get_image_file_path
+from cal_path import get_ui_path
 
 import sys
 
@@ -35,7 +36,7 @@ from PyQt5.QtGui import QPixmap
 class about_dlg():
 	def __init__(self):
 		#QDialog.__init__(self)
-		self.ui = loadUi('./gui/about.ui')
+		self.ui = loadUi(os.path.joint(get_ui_path(),"about.ui"))
 		self.ui.ver.setText(ver()+"\n"+notice())
 		self.ui.li.setText("Written by Roderick MacKenzie 2014, published under GPL v2.0")
 		self.ui.show()

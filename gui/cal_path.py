@@ -130,7 +130,7 @@ def calculate_paths():
 	global plugins_path
 	global inp_file_path
 	global src_path
-
+	global ui_path
 	materials_path=search_known_paths("materials",[""])
 	device_lib_path=search_known_paths("device_lib",[""])
 	plugins_path=search_known_paths("plugins",[""])
@@ -139,7 +139,7 @@ def calculate_paths():
 	exe_command=search_known_paths("gpvdm_core",["",".exe",".o"])
 	inp_file_path=os.path.dirname(search_known_paths("sim",[".gpvdm"]))
 	src_path=os.path.dirname(search_known_paths("Makefile",[".am"]))
-
+	ui_path=search_known_paths("ui",[""])
 
 def get_share_path():
 	global share_path
@@ -185,3 +185,6 @@ def get_lang_path():
 	global lang_path
 	return lang_path
 
+def get_ui_path():
+	global ui_path
+	return ui_path

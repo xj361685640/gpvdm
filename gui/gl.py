@@ -179,8 +179,8 @@ class glWidget(QGLWidget):
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 		glLoadIdentity()
 
-		glTranslatef(-0.5, 0.0, -5.0) # Move Into The Screen
-		glRotatef(40.0, 1.0, 0.0, 0.0)
+		glTranslatef(-0.5, 0.0, -6.0) # Move Into The Screen
+		glRotatef(25.0, 1.0, 0.0, 0.0)
 		glRotatef(-20.0, 0.0, 1.0, 0.0)
 
 		glColor3f( 1.0, 1.5, 0.0 )

@@ -28,13 +28,17 @@ import os
 from plot_io import get_plot_file_info
 from plot_state import plot_state
 from util import latex_to_pygtk_subscript
-from cal_path import get_image_file_path
 
+#qt
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSize, Qt, QTimer
 from PyQt5.uic import loadUi
 from PyQt5.QtWidgets import QApplication,QGraphicsScene,QListWidgetItem,QListView
 from PyQt5.QtGui import QPixmap
+
+#cal_path
+from cal_path import get_image_file_path
+from cal_path import get_ui_path
 
 from help import help_window
 
@@ -51,15 +55,15 @@ class gpvdm_open():
 
 	def __init__(self,path):
 		self.file_path=""
-		self.window = loadUi('./gui/open.ui')
+		self.window = loadUi(os.path.joint(get_ui_path(),"open.ui"))
 		#self.window.center()
 
-		icon = QPixmap(os.path.join(get_image_file_path(),"up.png"));
+		icon = QPixmap(os.path.join(get_image_file_path(),"up.png"))
 		self.window.up.setIcon(QIcon(icon))
 		self.window.up.clicked.connect(self.on_up_clicked)
 
 
-		icon = QPixmap(os.path.join(get_image_file_path(),"home.png"));
+		icon = QPixmap(os.path.join(get_image_file_path(),"home.png"))
 		self.window.home.setIcon(QIcon(icon))
 		self.window.home.clicked.connect(self.on_home_clicked)
 

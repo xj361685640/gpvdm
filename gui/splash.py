@@ -21,7 +21,6 @@
 
 
 import os
-from cal_path import get_image_file_path
 from ver import version
 from notice import notice
 import random
@@ -32,6 +31,10 @@ from PyQt5.QtCore import QSize, Qt, QTimer
 from PyQt5.uic import loadUi
 from PyQt5.QtWidgets import QApplication,QGraphicsScene
 from PyQt5.QtGui import QPixmap
+
+#cal_path
+from cal_path import get_image_file_path
+from cal_path import get_ui_path
 
 class splash_window():
 
@@ -47,7 +50,7 @@ class splash_window():
 
 
 	def init(self):
-		self.window = loadUi('./gui/splash.ui')
+		self.window = loadUi(os.path.join(get_ui_path(),"splash.ui"))
 		self.window.setWindowFlags(Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint)
 		self.center()
 		self.window.li.setText(notice()+"\n"+version())
