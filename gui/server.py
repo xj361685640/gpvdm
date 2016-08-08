@@ -182,10 +182,10 @@ class server(cluster):
 						self.jobs_running=self.jobs_running+1
 						if running_on_linux()==True:
 							cmd="cd "+self.jobs[i]+";"
-							cmd=cmd+get_exe_command()+" --lock "+"lock"+str(i)+" "+self.args[i]+" --gui &\n"
+							cmd=cmd+get_exe_command()+" --lock "+"lock"+str(i)+" "+self.args[i]+" --gui &"
 							print "command="+cmd
 							if self.enable_gui==True:
-								self.terminal.feed_child(cmd)
+								self.terminal.run(self.jobs[i],get_exe_command()+" --lock "+"lock"+str(i)+" "+self.args[i]+" --gui &")
 							else:
 								print cmd
 								os.system(cmd)

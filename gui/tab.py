@@ -59,20 +59,11 @@ class tab_class(QWidget,tab_base):
 	def help(self):
 		help_window().get_help(self.file_name)
 
-
-	def rename(self,tab_name):
-		self.tab_name=tab_name
-
-		mytext=tab_name
-		if len(mytext)<10:
-			for i in range(len(mytext),10):
-				mytext=mytext+" "
-		self.label.set_text(mytext)
-
-
 	def init(self,filename,tab_name):
 		self.vbox=QVBoxLayout()
-		
+		self.file_name=filename
+		self.tab_name=tab_name
+
 		self.tab=QGridLayout()
 		widget=QWidget()
 		widget.setLayout(self.tab)
@@ -87,50 +78,60 @@ class tab_class(QWidget,tab_base):
 		pos=0
 		my_token_lib=tokens()
 		height=27
-
-		for i in range(0, len(self.lines)/2):
-
-			show=False
-			units="Units"
+		widget_number=0
+		while (pos<len(self.lines)):
 			token=self.lines[pos]
-			result=my_token_lib.find(token)
-			if result!=False:
-				units=result.units
-				text_info=result.info
-				show=True
+			if token=="#ver":
+				break
+
+			if token.startswith("#"):
+				show=False
+				units="Units"
+
+				pos=pos+1
+				value=self.lines[pos]
+
+				print "looking for token",token
+				result=my_token_lib.find(token)
+				if result!=False:
+					units=result.units
+					text_info=result.info
+					show=True
+				
+				#self.set_size_request(600,-1)
+				if show == True :
+					description=QLabel()
+					description.setText(latex_to_html(text_info))
+
+
+					print result.opt[0]
+					if result.opt[0]=="switch":
+						edit_box=gtkswitch()
+						edit_box.set_value(str2bool(value))
+						#edit_box.connect("changed", self.callback_edit, token)
+						#edit_box.show_all()
+					elif result.opt[0]=="leftright":
+						edit_box=leftright()
+						edit_box.set_value(str2bool(value))
+						#edit_box.connect("changed", self.callback_edit, token)
+						#edit_box.show_all()
+					else: #result.opt[0]=="text":
+						edit_box=QLineEdit()
+						edit_box.setText(value)
+						#edit_box.set_text(self.lines[pos]);
+						edit_box.textChanged.connect(functools.partial(self.callback_edit,filename,token,edit_box))
+						#edit_box.show()
+
+					edit_box.setFixedSize(300, 25)
+					unit=QLabel()
+					unit.setText(latex_to_html(units))
+
+
+					self.tab.addWidget(description,widget_number,0)
+					self.tab.addWidget(edit_box,widget_number,1)
+					self.tab.addWidget(unit,widget_number,2)
+					widget_number=widget_number+1
 			pos=pos+1
-			#self.set_size_request(600,-1)
-			if show == True :
-				description=QLabel()
-				description.setText(latex_to_html(text_info))
-
-
-				print result.opt[0]
-				if result.opt[0]=="switch":
-					edit_box=gtkswitch()
-					edit_box.set_value(str2bool(self.lines[pos]))
-					#edit_box.connect("changed", self.callback_edit, token)
-					#edit_box.show_all()
-				elif result.opt[0]=="leftright":
-					edit_box=leftright()
-					edit_box.set_value(str2bool(self.lines[pos]))
-					#edit_box.connect("changed", self.callback_edit, token)
-					#edit_box.show_all()
-				else: #result.opt[0]=="text":
-					edit_box=QLineEdit()
-					edit_box.setText(self.lines[pos])
-					#edit_box.set_text(self.lines[pos]);
-					edit_box.textChanged.connect(functools.partial(self.callback_edit,filename,token,edit_box))
-					#edit_box.show()
-
-				edit_box.setFixedSize(300, 30)
-				unit=QLabel()
-				unit.setText(latex_to_html(units))
-
-
-				self.tab.addWidget(description,i,0)
-				self.tab.addWidget(edit_box,i,1)
-				self.tab.addWidget(unit,i,2)
 
 		spacer = QWidget()
 		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)

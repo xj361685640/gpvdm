@@ -85,11 +85,9 @@ class jv(QWidget):
 
 
 		for i in range(0,len(files)):
-			widget	= QWidget()
 			tab=tab_class()
 			tab.init(files[i],description[i])
-			widget.setLayout(tab)
-			self.notebook.addTab(widget,description[i])
+			self.notebook.addTab(tab,description[i])
 
 
 		self.setLayout(self.main_vbox)

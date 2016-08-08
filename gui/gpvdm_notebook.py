@@ -41,6 +41,8 @@ from win_lin import running_on_linux
 from cal_path import get_bin_path
 from cal_path import get_image_file_path
 from code_ctrl import enable_webbrowser
+from cal_path import get_exe_command
+
 
 #qt
 from PyQt5.QtWidgets import QTabWidget,QWidget
@@ -130,7 +132,6 @@ class gpvdm_notebook(QTabWidget):
 
 	def add_info_page(self):
 		browser=information()
-		browser.show()
 		self.addTab(browser,_("Information"))
 
 	def load(self):
@@ -247,27 +248,23 @@ class gpvdm_notebook(QTabWidget):
 			#		print type(child)
 
 			if running_on_linux()==True:
-				#widget	= QWidget()
-				tab=tab_terminal()
-				tab.init()
-				#widget.setLayout(tab) 
-				self.addTab(tab,"Terminal")
-				tab.run('ls',['./'])
+				self.terminal=tab_terminal()
+				self.terminal.init()
+				self.addTab(self.terminal,"Terminal")
+				self.terminal.run(os.getcwd(),get_exe_command()+" --version")
+
+			self.add_info_page()
 
 			return True
 
 
-			self.add_info_page()
+
 
 			self.finished_loading=True
 			#self.progress.stop()
 			#self.progress.set_fraction(0.0)
 			self.goto_page("tab_main")
 
-			self.set_tab_pos(gtk.POS_TOP)
-			#self.set_current_page(1)
-
-			return True
 		else:
 			self.add_info_page()
 			self.goto_page(_("Information"))

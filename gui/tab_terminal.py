@@ -20,13 +20,9 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
+import os
 
-#import sys
-#import os
-#import shutil
-#from scan_item import scan_item
 from tab_base import tab_base
-#from help import my_help_class
 
 from PyQt5.QtWidgets import QTabWidget,QTextEdit
 from PyQt5.QtCore import QProcess
@@ -40,8 +36,9 @@ class tab_terminal(QTextEdit,tab_base):
 		cursor.insertText(str(self.process.readAll()))
 		self.ensureCursorVisible()
 
-	def run(self,command,args):
-		self.process.start(command,args)
+	def run(self,path,command):
+		os.chdir(path)
+		self.process.start(command)
 
 	def init(self):
 		self.font = QFont()

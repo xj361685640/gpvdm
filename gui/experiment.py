@@ -45,6 +45,7 @@ from PyQt5.QtGui import QPainter,QIcon
 
 #window
 from experiment_tab import experiment_tab
+from QHTabBar import QHTabBar
 
 def experiment_new_filename():
 	for i in range(0,20):
@@ -277,8 +278,8 @@ class experiment(QWidget):
 
 
 		self.notebook = QTabWidget()
-
-		self.notebook.setTabsClosable(True)
+		self.notebook.setTabBar(QHTabBar())
+		self.notebook.setTabPosition(QTabWidget.West)
 		self.notebook.setMovable(True)
 
 		self.load_tabs()

@@ -23,38 +23,28 @@ from cal_path import get_image_file_path
 import os
 
 #qt
-from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication,QTableWidgetItem,QComboBox
+from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication,QTableWidgetItem,QComboBox, QMessageBox, QDialog,QDialogButtonBox
+from PyQt5.uic import loadUi
+from PyQt5.QtGui import QPixmap
 
-def dlg_get_text( message, default='',image_name=""):
+#windows
+from cal_path import get_ui_path
 
-	d = gtk.MessageDialog(None,
-	          gtk.DIALOG_MODAL ,
-	          gtk.MESSAGE_QUESTION,
-	          gtk.BUTTONS_OK_CANCEL,
-	          message)
+class dlg_get_text():
+	def __init__(self,text,default,image):
+		#QDialog.__init__(self)
+		self.ui = loadUi(os.path.join(get_ui_path(),"question.ui"))
+		self.ui.label.setText(text)
+		self.ui.text.setText(default)
+		pixmap = QPixmap(os.path.join(get_image_file_path(),image))
+		self.ui.image.setPixmap(pixmap)
+		ret=self.ui.exec_()
+		if ret==True:
+			self.ret=self.ui.text.text()
+		else:
+			self.ret=None
 
-	if image_name!="":
-		image = gtk.Image()
-	   	image.set_from_file(os.path.join(get_image_file_path(),image_name))
-		image.show()
-		print image_name
-		d.set_image(image)
 
-	entry = gtk.Entry()
-	entry.set_text(default)
-	entry.show()
-
-	d.vbox.pack_end(entry)
-	entry.connect('activate', lambda _: d.response(gtk.RESPONSE_OK))
-	d.set_default_response(gtk.RESPONSE_OK)
-
-	r = d.run()
-	text = entry.get_text().decode('utf8')
-	d.destroy()
-	if r == gtk.RESPONSE_OK:
-		return text
-	else:
-		return None
 
 def dlg_get_multi_text( title_text,info, default=''):
 	ret=[]
@@ -153,3 +143,24 @@ def tab_remove(tab):
 		tab.removeRow(pos)
 	tab.blockSignals(False)
 
+def error_dlg(parent,text):
+	msgBox = QMessageBox(parent)
+	msgBox.setIcon(QMessageBox.Critical)
+	msgBox.setText("gpvdm error:")
+	msgBox.setInformativeText(text)
+	msgBox.setStandardButtons(QMessageBox.Ok )
+	msgBox.setDefaultButton(QMessageBox.Ok)
+	reply = msgBox.exec_()
+
+def yes_no_dlg(parent,text):
+	msgBox = QMessageBox(parent)
+	msgBox.setIcon(QMessageBox.Question)
+	msgBox.setText("Question")
+	msgBox.setInformativeText(text)
+	msgBox.setStandardButtons(QMessageBox.Yes| QMessageBox.No )
+	msgBox.setDefaultButton(QMessageBox.No)
+	reply = msgBox.exec_()
+	if reply == QMessageBox.Yes:
+		return True
+	else:
+		return False

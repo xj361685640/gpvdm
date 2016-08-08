@@ -62,6 +62,7 @@ from gui_util import tab_move_down
 from gui_util import tab_add
 from gui_util import tab_remove
 from gui_util import tab_get_value
+from gui_util import yes_no_dlg
 
 #qt
 from PyQt5.QtCore import QSize, Qt

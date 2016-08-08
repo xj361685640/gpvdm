@@ -20,7 +20,6 @@
 
 import os
 #from about import about_dialog_show
-#from gui_util import dlg_get_text
 from window_list import windows
 import webbrowser
 from inp import inp_update
@@ -39,17 +38,22 @@ _ = i18n.language.gettext
 
 #qt
 from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QIcon, QPainter, QFont, QColor
 from PyQt5.QtCore import QSize, Qt 
-from PyQt5.QtWidgets import QWidget,QSizePolicy,QVBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QLabel,QComboBox, QTabWidget,QStatusBar,QMenuBar
+from PyQt5.QtWidgets import QWidget,QSizePolicy,QVBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QLabel,QComboBox, QTabWidget,QStatusBar,QMenuBar, QTabBar, QStylePainter, QStyleOptionTab,QStyle
 
-
+#window
+from gui_util import yes_no_dlg
+from gui_util import dlg_get_text
+ 
 def laser_new_filename():
 	for i in range(0,20):
 		pulse_name="laser"+str(i)+".inp"
 		if inp_isfile(pulse_name)==False:
 			return i
 	return -1
+
+
 
 class lasers(QWidget):
 
@@ -78,23 +82,20 @@ class lasers(QWidget):
 		webbrowser.open('http://www.gpvdm.com/man/index.html')
 
 	def callback_add_page(self):
-		new_sim_name=dlg_get_text( _("New laser name:"), _("laser ")+str(len(self.notebook.get_children())),image_name="new.png")
-
-		if new_sim_name!=None:
+		new_sim_name=dlg_get_text( _("New laser name:"), _("laser ")+str(self.notebook.count()),"new.png")
+		if new_sim_name.ret!=None:
 			index=laser_new_filename()
 			inp_copy_file("laser"+str(index)+".inp","laser0.inp")
-			inp_update_token_value("laser"+str(index)+".inp", "#laser_name", new_sim_name,1)
+			inp_update_token_value("laser"+str(index)+".inp", "#laser_name", new_sim_name.ret,1)
 			self.add_page(index)
 
-	def callback_remove_page(self):
-		pageNum = self.notebook.get_current_page()
-		tab = self.notebook.get_nth_page(pageNum)
-		self.toggle_tab_visible(tab.tab_name)
 
 	def callback_copy_page(self):
-		pageNum = self.notebook.get_current_page()
-		tab = self.notebook.get_nth_page(pageNum)
-		new_sim_name=dlg_get_text( _("Clone the current laser to a new laser called:"), tab.tab_name,image_name="clone.png")
+		tab = self.notebook.currentWidget()
+		new_sim_name=dlg_get_text(_("Clone the current laser to a new laser called:"), "clone.png")
+		print new_sim_name
+		return
+		#dlg_get_text( _("Clone the current laser to a new laser called:"), tab.tab_name,image_name="clone.png")
 		if new_sim_name!=None:
 			index=laser_new_filename()
 			if inp_copy_file("laser"+str(index)+".inp",tab.file_name)==False:
@@ -108,37 +109,25 @@ class lasers(QWidget):
 	def remove_invalid(self,input_name):
 		return input_name.replace (" ", "_")
 
-	def callback_rename_page(self,widget,data):
-		pageNum = self.notebook.get_current_page()
-		tab = self.notebook.get_nth_page(pageNum)
-		new_laser_name=dlg_get_text( _("Rename the laser to be called:"), tab.tab_name,image_name="rename.png")
+	def callback_rename_page(self):
+		tab = self.notebook.currentWidget()
+		new_laser_name=dlg_get_text( _("Rename the laser to be called:"), tab.tab_name ,"rename.png")
 
-		if new_laser_name!=None:
-			tab.rename(new_laser_name)
-			inp_update(tab.file_name, "#laser_name", new_laser_name)
+		if new_laser_name.ret!=None:
+			print "calling rename"
+			index=self.notebook.currentIndex() 
+			self.notebook.setTabText(index, new_laser_name.ret);
+			inp_update(tab.file_name, "#laser_name", new_laser_name.ret)
 
 	def callback_delete_page(self):
-		pageNum = self.notebook.get_current_page()
-		tab = self.notebook.get_nth_page(pageNum)
-		md = gtk.MessageDialog(None, 0, gtk.MESSAGE_QUESTION,  gtk.BUTTONS_YES_NO, _("Should I remove the laser file ")+tab.tab_name)
+		tab = self.notebook.currentWidget()
+		response=yes_no_dlg(self,_("Should I remove the laser file ")+tab.tab_name)
 
-		response = md.run()
-
-		if response == gtk.RESPONSE_YES:
+		if response == True:
 			inp_remove_file(tab.file_name)
-			self.notebook.remove_page(pageNum)
+			index=self.notebook.currentIndex() 
+			self.notebook.removeTab(index)
 
-		elif response == gtk.RESPONSE_NO:
-			print _("Not deleting")
-			#edit
-
-
-		md.destroy()
-
-
-	def callback_view_toggle_tab(self, widget, data):
-		print "add code"
-		#self.toggle_tab_visible(data)
 
 	def load_tabs(self):
 
@@ -166,11 +155,9 @@ class lasers(QWidget):
 	def add_page(self,index):
 		file_name="laser"+str(index)+".inp"
 		laser_name=inp_get_token_value(file_name, "#laser_name")
-		widget	= QWidget()
 		tab=tab_class()
 		tab.init(file_name,laser_name)
-		widget.setLayout(tab)
-		self.notebook.addTab(widget,laser_name)
+		self.notebook.addTab(tab,laser_name)
 
 
 
@@ -257,8 +244,6 @@ class lasers(QWidget):
 
 
 		self.notebook = QTabWidget()
-
-		self.notebook.setTabsClosable(True)
 		self.notebook.setMovable(True)
 
 		self.load_tabs()

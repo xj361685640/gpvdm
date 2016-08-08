@@ -66,11 +66,9 @@ class experiment_tab(QTabWidget):
 
 		self.addTab(self.circuit,_("Circuit"))
 
-		widget	= QWidget()
 		tab=tab_class()
 		tab.init("pulse"+str(self.index)+".inp",self.tab_name)
-		widget.setLayout(tab)
-		self.addTab(widget,self.tab_name)
+		self.addTab(tab,self.tab_name)
 
 
 	def set_tab_caption(self,name):

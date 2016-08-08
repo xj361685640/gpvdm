@@ -402,8 +402,8 @@ class gpvdm_main_window(QMainWindow):
 			self.menu_configure.setEnabled(False)
 
 
-		#if self.notebook.terminal!=None:
-		#	self.my_server.set_terminal(self.notebook.terminal)
+		if self.notebook.terminal!=None:
+			self.my_server.set_terminal(self.notebook.terminal)
 
 		#self.plotted_graphs.init(os.getcwd(),self.callback_last_menu_click)
 

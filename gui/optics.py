@@ -1,4 +1,3 @@
-#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
@@ -40,12 +39,13 @@ from cal_path import get_exe_command
 
 #qt
 from PyQt5.QtCore import QSize, Qt 
-from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QSystemTrayIcon,QMenu
+from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QSystemTrayIcon,QMenu, QComboBox, QMenuBar, QLabel
 from PyQt5.QtGui import QIcon
 
 #windows
 from band_graph import band_graph
 from plot_widget import plot_widget
+from gui_util import error_dlg
 
 def find_modes(path):
 	result = []
@@ -119,6 +119,8 @@ class class_optical(QWidget):
 
 	def __init__(self):
 		QWidget.__init__(self)
+		self.dump_dir=os.path.join(os.getcwd(),"light_dump")
+		find_models()
 
 		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"image.png")))
 
@@ -142,9 +144,46 @@ class class_optical(QWidget):
 		self.setWindowTitle(_("Optical simulation editor (www.gpvdm.com)"))    
 
 		self.main_vbox=QVBoxLayout()
+
+		menubar = QMenuBar()
+
+		file_menu = menubar.addMenu('&File')
+		self.menu_refresh=file_menu.addAction(_("&Refresh"))
+		self.menu_refresh.triggered.connect(self.callback_refresh)
+
+		self.menu_close=file_menu.addAction(_("&Close"))
+		self.menu_close.triggered.connect(self.callback_close)
+
+		self.main_vbox.addWidget(menubar)
+
 		toolbar=QToolBar()
 
 		toolbar.setIconSize(QSize(48, 48))
+
+		self.run = QAction(QIcon(os.path.join(get_image_file_path(),"play.png")), _("Run"), self)
+		self.run.triggered.connect(self.callback_run)
+		toolbar.addAction(self.run)
+
+
+		label=QLabel(_("Wavelengths:"))
+		toolbar.addWidget(label)
+
+		self.cb = QComboBox()
+		self.update_cb()
+		toolbar.addWidget(self.cb)
+
+		label=QLabel(_("Optical model:"))
+		toolbar.addWidget(label)
+
+		self.cb_model = QComboBox()
+		self.update_cb_model()
+		toolbar.addWidget(self.cb_model)
+
+		label=QLabel(_("Solar spectrum:"))
+		toolbar.addWidget(label)
+		self.light_source_model = QComboBox()
+		self.update_light_source_model()
+		toolbar.addWidget(self.light_source_model)
 
 		spacer = QWidget()
 		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
@@ -152,15 +191,11 @@ class class_optical(QWidget):
 
 
 		self.help = QAction(QIcon(os.path.join(get_image_file_path(),"help.png")), 'Help', self)
-		self.help.setStatusTip(_("Close"))
 		self.help.triggered.connect(self.callback_help)
 		toolbar.addAction(self.help)
 
 		self.main_vbox.addWidget(toolbar)
 
-
-		self.dump_dir=os.path.join(os.getcwd(),"light_dump")
-		find_models()
 
 		self.progress_window=progress_class()
 
@@ -180,10 +215,8 @@ class class_optical(QWidget):
 		self.fig_photon_abs.init()
 		self.notebook.addTab(self.fig_photon_abs,"Photon absorbed")
 
-		widget	= QWidget()
-		tab=tab_class()
-		tab.init("light.inp","Optical setup")
-		widget.setLayout(tab)
+		widget=tab_class()
+		widget.init("light.inp","Optical setup")
 		self.notebook.addTab(widget,"Optical setup")
 
 
@@ -216,75 +249,6 @@ class class_optical(QWidget):
 		return
 
 
-		self.gen_main_menu(self,self.main_vbox)
-
-
-
-
-
-		self.cb = gtk.combo_box_new_text()
-		self.cb.set_wrap_width(5)
-		self.cb_id=self.cb.connect("changed", self.on_changed)
-		self.update_cb()
-
-
-		self.cb_model = gtk.combo_box_new_text()
-		self.cb_model.set_wrap_width(5)
-		self.cb_model.connect("changed", self.on_cb_model_changed)
-		self.update_cb_model()
-
-		self.light_source_model = gtk.combo_box_new_text()
-		self.light_source_model.set_wrap_width(5)
-		self.light_source_model.connect("changed", self.on_light_source_model_changed)
-		self.update_light_source_model()
-		self.light_source_model.show()
-
-
-		tool_bar_pos=0
-
-
-		ti_light = gtk.ToolItem()
-		lable=gtk.Label("Optical mode:")
-		lable.show()
-		ti_hbox = gtk.HBox(False, 2)
-		ti_hbox.show()
-
-		ti_hbox.pack_start(lable, False, False, 0)
-		ti_hbox.pack_start(self.cb, False, False, 0)
-		self.cb.show()
-
-		lable=gtk.Label("Optical model:")
-		lable.show()
-	        ti_hbox.pack_start(lable, False, False, 0)
-		ti_hbox.pack_start(self.cb_model, False, False, 0)
-		self.cb_model.show()
-
-
-		ti_light.add(ti_hbox);
-		toolbar.insert(ti_light, tool_bar_pos)
-		ti_light.show()
-
-		tool_bar_pos=tool_bar_pos+1
-
-		sep = gtk.SeparatorToolItem()
-		sep.set_draw(False)
-		sep.set_expand(False)
-		toolbar.insert(sep, tool_bar_pos)
-		sep.show()
-		tool_bar_pos=tool_bar_pos+1
-
-		lable=gtk.Label("Light source:")
-		lable.show()
-		ti_hbox.pack_start(lable, False, False, 0)
-		ti_hbox.pack_start(self.light_source_model, False, False, 0)
-		self.cb_model.show()
-
-
-
-
-##################
-
-
 	def onclick(self, event):
 		print 'button=%d, x=%d, y=%d, xdata=%f, ydata=%f'%(
 		event.button, event.x, event.y, event.xdata, event.ydata)
@@ -295,87 +259,66 @@ class class_optical(QWidget):
 		plot_gen([os.path.join(pwd,"materials",self.layer_name[i],"alpha.omat")],[],None,"")
 
 	def update_cb(self):
-		self.cb.handler_block(self.cb_id)
+		self.cb.blockSignals(True)
 		thefiles=find_modes(self.dump_dir)
 		thefiles.sort()
 		files_short=thefiles[::2]
-		model=self.cb.get_model()
-		model.clear()
-		#self.cb.clear()
-		self.cb.append_text("all")
+		self.cb.clear()
+		self.cb.addItem("all")
 		for i in range(0, len(files_short)):
-			self.cb.append_text(str(files_short[i])+" nm")
-		self.cb.set_active(0)
-		self.cb.handler_unblock(self.cb_id)
+			self.cb.addItem(str(files_short[i])+" nm")
+		self.cb.setCurrentIndex(0)
+		self.cb.blockSignals(False)
 
 	def update_cb_model(self):
+		self.cb_model.blockSignals(True)
+
+		self.cb_model.clear()
 		models=find_models()
 		if len(models)==0:
-			md = gtk.MessageDialog(self,gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_ERROR, gtk.BUTTONS_CLOSE, "I can't find any optical plugins, I think the model is not installed properly.")
-			md.run()
-			md.destroy()
+			error_dlg(self,_("I can't find any optical plugins, I think the model is not installed properly."))
+			return
 
 		for i in range(0, len(models)):
-			self.cb_model.append_text(models[i])
+			self.cb_model.addItem(models[i])
 
 		used_model=inp_get_token_value("light.inp", "#light_model")
 		if models.count(used_model)==0:
 			used_model="exp"
 			inp_update_token_value("light.inp", "#light_model","exp",1)
 		else:
-			self.cb_model.set_active(models.index(used_model))
+			self.cb_model.setCurrentIndex(self.cb_model.findText(used_model))
 			scan_item_add("light.inp","#light_model","Optical model",1)
 
+		self.cb_model.setCurrentIndex(0)
+		self.cb_model.blockSignals(False)
+
 	def update_light_source_model(self):
+		self.light_source_model.blockSignals(True)
 		models=find_light_source()
 		for i in range(0, len(models)):
-			self.light_source_model.append_text(models[i])
+			self.light_source_model.addItem(models[i])
 
 		used_model=inp_get_token_value("light.inp", "#sun")
 		if models.count(used_model)==0:
 			used_model="sun"
 			inp_update_token_value("light.inp", "#sun","sun",1)
 
-		self.light_source_model.set_active(models.index(used_model))
+		self.light_source_model.setCurrentIndex(self.light_source_model.findText(used_model))
 		scan_item_add("light.inp","#sun","Light source",1)
+		self.light_source_model.blockSignals(False)
 
-	def callback_close(self, widget, data=None):
+	def callback_close(self):
 		self.hide()
 		return True
 
 
-	def callback_refresh(self, button):
-
+	def callback_refresh(self):
 		self.update_graph()
 		self.update_cb()
 
 
-	def gen_main_menu(self, window,vbox):
-		self.notebook = gtk.Notebook()
-		self.notebook.show()
-		accel_group = gtk.AccelGroup()
-
-
-		item_factory = gtk.ItemFactory(gtk.MenuBar, "<main>", accel_group)
-
-		menu_items = (
-		    ( "/_File",         None,         None, 0, "<Branch>" ),
-		    ( "/File/Refresh",     None, self.callback_refresh, 0 , "<ImageItem>"),
-		    ( "/File/Close",     "<control>Q", self.callback_close, 0, "<StockItem>", "gtk-quit" ),
-
-		    )
-
-		item_factory.create_items(menu_items)
-
-
-		window.add_accel_group(accel_group)
-
-		menubar=item_factory.get_widget("<main>")
-		menubar.show_all()
-		vbox.pack_start(menubar, False, True, 0)
-
-
-	def update_graph(self):
+	def callback_run(self):
 		cmd = get_exe_command()+' --simmode opticalmodel@optics'
 		print cmd
 		ret= os.system(cmd)
@@ -408,11 +351,11 @@ class class_optical(QWidget):
 		self.fig_photon_abs.draw_graph()
 		self.fig_photon_abs.canvas.draw()
 
-	def on_cb_model_changed(self, widget):
+	def on_cb_model_changed(self):
 		cb_text=widget.get_active_text()
 		inp_update_token_value("light.inp", "#light_model", cb_text,1)
 
-	def on_light_source_model_changed(self, widget):
+	def on_light_source_model_changed(self):
 		cb_text=widget.get_active_text()
 		cb_text=cb_text+".spectra"
 		inp_update_token_value("light.inp", "#sun", cb_text,1)
