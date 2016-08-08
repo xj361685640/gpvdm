@@ -73,13 +73,13 @@ class leftright(QWidget):
 			qp.setBrush(QColor(230,230,230))
 			qp.drawRoundedRect(42, 2, 40,18.0,5.0,5.0)
 
-			qp.drawText(8, 17, "Left")
+			qp.drawText(8, 17, "Right")
 		else:
 			qp.setBrush(QColor(180,180,180))
 			qp.drawRoundedRect(0, 0.0, 85.0,22.0,5.0,5.0)			
 			qp.setBrush(QColor(230,230,230))
 			qp.drawRoundedRect(2, 2, 38,18.0,5.0,5.0)
-			qp.drawText(44, 17, "Right")
+			qp.drawText(44, 17, "Left")
 
 	def mouseReleaseEvent(self, QMouseEvent):
 		if QMouseEvent.x()<80:

@@ -70,9 +70,8 @@ class pl_main(QWidget,tab_base):
 				name="Luminescence of "+epitaxy_get_name(i)
 				print pl_file,files
 
-				tab=tab_class()
-				tab.init(pl_file+".inp",name)
-				widget.setLayout(tab)
+				widget=tab_class()
+				widget.init(pl_file+".inp",name)
 
 				self.notebook.addTab(widget,name)
 
@@ -80,6 +79,4 @@ class pl_main(QWidget,tab_base):
 	def help(self):
 		help_window().help_set_help(["tab.png","<big><b>Luminescence</b></big>\nIf you set 'Turn on luminescence' to true, the simulation will assume recombination is a raditave process and intergrate it to produce Voltage-Light intensity curves (lv.dat).  Each number in the tab tells the model how efficient each recombination mechanism is at producing photons."])
 
-#gobject.type_register(dos_main)
-#gobject.signal_new("update", dos_main, gobject.SIGNAL_RUN_FIRST,gobject.TYPE_NONE, ())
 

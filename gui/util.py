@@ -194,7 +194,7 @@ def pygtk_to_latex_subscript(in_string):
 	out_string=out_string.replace("</sup>","}")
 	return out_string
 
-def latex_to_pygtk_subscript(in_string):
+def latex_to_html(in_string):
 	out=re.compile(r"_\{([^\]]*?)\}").sub("<sub>\\1</sub>", in_string)
 	out=re.compile(r"\^\{([^\]]*?)\}").sub("<sup>\\1</sup>", out)
 	return out

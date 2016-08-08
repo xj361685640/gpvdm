@@ -70,16 +70,12 @@ class dos_main(QWidget,tab_base):
 			dos_layer=epitaxy_get_electrical_layer(i)
 			if dos_layer.startswith("dos")==True:
 				#add_to_widget=True
-				widget	= QWidget()
- 
-
 
 				name="DoS of "+epitaxy_get_name(i)
 				print dos_layer,files
 
-				tab=tab_class()
-				tab.init(dos_layer+".inp",name)
-				widget.setLayout(tab)
+				widget=tab_class()
+				widget.init(dos_layer+".inp",name)
 
 				self.notebook.addTab(widget,name)
 

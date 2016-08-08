@@ -22,7 +22,7 @@
 
 
 import os
-#from optics import find_materials
+from optics import find_materials
 #from inp import inp_write_lines_to_file
 from util import str2bool
 from inp_util import inp_search_token_value
@@ -58,6 +58,10 @@ from epitaxy import epitay_get_next_dos
 from contacts import contacts_window
 from emesh import tab_electrical_mesh
 from doping import doping_window
+from gui_util import tab_move_down
+from gui_util import tab_add
+from gui_util import tab_remove
+from gui_util import tab_get_value
 
 #qt
 from PyQt5.QtCore import QSize, Qt
@@ -65,29 +69,28 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QWidget, QVBoxLayout,QProgressBar,QLabel,QDesktopWidget,QToolBar,QHBoxLayout,QAction, QSizePolicy, QTableWidget, QTableWidgetItem,QComboBox,QDialog,QAbstractItemView
 
 from PyQt5.QtGui import QPixmap
+from PyQt5.QtCore import pyqtSignal
+from PyQt5.QtWidgets import QWidget
 
 import i18n
 _ = i18n.language.gettext
 
 from i18n import yes_no
 
-(
-  COLUMN_NAME,
-  COLUMN_THICKNES,
-  COLUMN_MATERIAL,
-  COLUMN_DEVICE,
-  COLUMN_DOS_LAYER,
-  COLUMN_PL_FILE
-) = range(6)
-
-from PyQt5.QtWidgets import QWidget
 
 class layer_widget(QWidget):
 
-	def tab_changed(self, x,y):
-		print x,y
+	changed = pyqtSignal()
+
+	def combo_changed(self):
+		print "saved"
 		self.save_model()
-		#self.refresh(True)
+		self.changed.emit()
+
+	def tab_changed(self, x,y):
+		print "changed!!!!",x,y
+		self.save_model()
+
 
 	def sync_to_electrical_mesh(self):
 		tot=0
@@ -126,21 +129,15 @@ class layer_widget(QWidget):
 
 
 	def rebuild_mat_list(self):
-		self.material_files.clear()
-		self.layer_type.clear()
+		self.material_files=[]
 		mat=find_materials()
 		print mat
 		for i in range(0,len(mat)):
-			self.material_files.append([mat[i]])
+			self.material_files.append(mat[i])
 			scan_remove_file(os.path.join(get_materials_path(),mat[i]))			
 			scan_item_add(os.path.join("materials",mat[i],"fit.inp"),"#wavelength_shift_alpha","Absorption spectrum wavelength shift",1)
 			scan_item_add(os.path.join("materials",mat[i],"fit.inp"),"#n_mul","Refractive index spectrum multiplier",1)
 			scan_item_add(os.path.join("materials",mat[i],"fit.inp"),"#alpha_mul","Absorption spectrum multiplier",1)
-
-		self.layer_type.append([_("Active layer")])
-		self.layer_type.append([_("Contact")])
-		self.layer_type.append([_("Other")])
-
 
 	def callback_view_materials(self):
 		dialog=gpvdm_open(get_materials_path())
@@ -150,17 +147,10 @@ class layer_widget(QWidget):
 		if ret==QDialog.Accepted:
 			plot_gen([dialog.get_filename()],[],"auto")
 
-	def callback_move_down(self, widget, data=None):
-
-		selection = self.treeview.get_selection()
-		model, iter = selection.get_selected()
-
-		if iter:
-			#path = model.get_path(iter)[0]
- 			model.move_after( iter,model.iter_next(iter))
-			self.save_model()
-			self.refresh(True)
-
+	def on_move_down(self):
+		tab_move_down(self.tab)
+		self.changed.emit()
+		
 	def callback_edit_mesh(self, widget, data=None):
 		help_window().help_set_help(["mesh.png",_("<big><b>Mesh editor</b></big>\nUse this window to setup the mesh, the window can also be used to change the dimensionality of the simulation.")])
 
@@ -171,6 +161,7 @@ class layer_widget(QWidget):
 
 	def __init__(self):
 		QWidget.__init__(self)
+		self.rebuild_mat_list()
 		self.doping_window=False
 		self.contacts_window=False
 
@@ -189,7 +180,7 @@ class layer_widget(QWidget):
 
 
 		self.tb_remove= QAction(QIcon(os.path.join(get_image_file_path(),"down.png")), _("Move device layer"), self)
-		self.tb_remove.triggered.connect(self.on_remove_item_clicked)
+		self.tb_remove.triggered.connect(self.on_move_down)
 		self.toolbar.addAction(self.tb_remove)
 
 		self.tb_mesh = QAction(QIcon(os.path.join(get_image_file_path(),"mesh.png")), _("Edit the electrical mesh"), self)
@@ -239,7 +230,6 @@ class layer_widget(QWidget):
 
 
 	def create_model(self):
-		#self.rebuild_mat_list()
 		self.tab.clear()
 		self.tab.setColumnCount(6)
 		self.tab.setColumnHidden(5, True)
@@ -273,12 +263,16 @@ class layer_widget(QWidget):
 			item2 = QTableWidgetItem(str(thick))
 			self.tab.setItem(i,1,item2)
 
-			item3 = QTableWidgetItem(str(material))
-			self.tab.setItem(i,2,item3)
+			combobox = QComboBox()
+			combobox.setEditable(True)
+
+			for a in self.material_files:
+				combobox.addItem(str(a))
+			self.tab.setCellWidget(i,2, combobox)
+			combobox.setCurrentIndex(combobox.findText(material))
 
 			item3 = QTableWidgetItem(str(dos_file))
 			self.tab.setItem(i,3,item3)
-
 
 			item3 = QTableWidgetItem(str(dos_layer))
 			self.tab.setItem(i,4,item3)
@@ -287,52 +281,19 @@ class layer_widget(QWidget):
 			self.tab.setItem(i,5,item3)
 
 
-			#combo = QComboBox()
-			#for t in combo_box_options:
-			#	combo.addItem(t)
-			#self.tab.setCellWidget(index,2,combo)
-
 			scan_item_add("epitaxy.inp","#layer"+str(i),_("Material for ")+str(material),2)
 			scan_item_add("epitaxy.inp","#layer"+str(i),_("Layer width ")+str(material),1)
+
+			combobox.currentIndexChanged.connect(self.combo_changed)
 
 		return
 
 
 
-	def on_remove_item_clicked(self, button):
-		index = self.tab.selectionModel().selectedRows()
-
-		print index
-		if len(index)>0:
-			pos=index[0].row()
-			self.tab.removeRow(pos)
-#			self.save_model()
-#			self.refresh(True)
-
-
-
-
-
-	def on_cell_edited(self, cell, path_string, new_text, model):
-		iter = model.get_iter_from_string(path_string)
-		#path = model.get_path(iter)[0]
-		column = cell.get_data("column")
-
-		model.set(iter, column, new_text)
-
+	def on_remove_item_clicked(self):
+		tab_remove(self.tab)
 		self.save_model()
-		self.refresh(True)
-
-	def on_dos_layer_edited(self, cell, path_string, new_text, model):
-
-		iter = model.get_iter_from_string(path_string)
-		#path = model.get_path(iter)[0]
-		column = cell.get_data("column")
-
-		model.set(iter, column, new_text)
-
-		self.save_model()
-		self.refresh(True)
+		self.changed.emit()
 
 	def change_active_layer_thickness(self,obj):
 		thickness=obj.get_data("refresh")
@@ -351,41 +312,9 @@ class layer_widget(QWidget):
 					return
 
 	def on_add_item_clicked(self):
-		index = self.tab.selectionModel().selectedRows()
-
-		print index
-		if len(index)>0:
-			pos=index[0].row()+1
-		else:
-			pos = self.tab.rowCount()
-
-		self.tab.insertRow(pos)
-
-		self.tab.setItem(pos,0,QTableWidgetItem("layer name"))
-
-		self.tab.setItem(pos,1,QTableWidgetItem("100e-9"))
-
-		self.tab.setItem(pos,2,QTableWidgetItem("pcbm"))
-
-		self.tab.setItem(pos,3,QTableWidgetItem(_("Other")))
-
-		self.tab.setItem(pos,4,QTableWidgetItem("none"))
-
-		self.tab.setItem(pos,5,QTableWidgetItem("none"))
-
-
+		tab_add(self.tab,[_("layer name"),_("100e-9"),_("pcbm"),_("Other"),_("none"),_("none")])
 		self.save_model()
-		#self.refresh(True)
-
-
-	def refresh(self,emit):
-		self.electrical_mesh.refresh()
-		if emit==True:
-			self.emit("refresh")
-
-		global_object_get("dos-update")()
-		global_object_get("pl-update")()
-
+		self.changed.emit()
 
 	def save_model(self):
 
@@ -396,15 +325,15 @@ class layer_widget(QWidget):
 		name=[]
 
 		for i in range(0,self.tab.rowCount()):
-			name.append(str(self.tab.item(i, 0).text()))
-			thick.append(str(self.tab.item(i, 1).text()))
-			mat_file.append(str(self.tab.item(i, 2).text()))
-			dos_file.append(str(self.tab.item(i, 4).text()))
-			pl_file.append(str(self.tab.item(i, 5).text()))
+			name.append(str(tab_get_value(self.tab,i, 0)))
+			thick.append(str(tab_get_value(self.tab,i, 1)))
+			mat_file.append(str(tab_get_value(self.tab,i, 2)))
+			dos_file.append(str(tab_get_value(self.tab,i, 4)))
+			pl_file.append(str(tab_get_value(self.tab,i, 5)))
 
+		print dos_file
+		print pl_file
 		epitaxy_load_from_arrays(name,thick,mat_file,dos_file,pl_file)
-
-		print thick
 
 		epitaxy_save()
 		#self.sync_to_electrical_mesh()
@@ -431,6 +360,4 @@ class layer_widget(QWidget):
 		else:
 			self.contacts_window.show()
 
-#gobject.type_register(layer_widget)
-#gobject.signal_new("refresh", layer_widget, gobject.SIGNAL_RUN_FIRST,gobject.TYPE_NONE, ())
 

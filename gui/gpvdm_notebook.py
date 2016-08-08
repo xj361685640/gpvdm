@@ -216,10 +216,8 @@ class gpvdm_notebook(QTabWidget):
 						widget.file_name=file_name
 					elif inp_isfile(file_name)==True:
 						add_to_widget=True
-						widget	= QWidget()
-						tab=tab_class()
-						tab.init(file_name,name)
-						widget.setLayout(tab) 
+						widget=tab_class()
+						widget.init(file_name,name)
 
 
 					#	add_to_widget=True
@@ -262,8 +260,8 @@ class gpvdm_notebook(QTabWidget):
 			self.add_info_page()
 
 			self.finished_loading=True
-			self.progress.stop()
-			self.progress.set_fraction(0.0)
+			#self.progress.stop()
+			#self.progress.set_fraction(0.0)
 			self.goto_page("tab_main")
 
 			self.set_tab_pos(gtk.POS_TOP)

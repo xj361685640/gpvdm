@@ -23,7 +23,7 @@ from cal_path import get_image_file_path
 import os
 
 #qt
-from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication
+from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication,QTableWidgetItem,QComboBox
 
 def dlg_get_text( message, default='',image_name=""):
 
@@ -86,4 +86,70 @@ def dlg_get_multi_text( title_text,info, default=''):
 
 def process_events():
 	QApplication.processEvents()
+
+def tab_get_value(tab,y,x):
+	if type(tab.cellWidget(y, x))==QComboBox:
+		return tab.cellWidget(y, x).currentText()
+	else:
+		return tab.item(y, x).text()
+
+def tab_set_value(tab,y,x,value):
+	if type(tab.cellWidget(y, x))==QComboBox:
+		tab.cellWidget(y, x).setCurrentIndex(tab.cellWidget(y, x).findText(value));
+	else:
+		item = QTableWidgetItem(str(value))
+		tab.setItem(y,x,item)
+
+def tab_move_down(tab):
+	a=tab.selectionModel().selectedRows()
+
+	if len(a)>0:
+		a=a[0].row()
+	else:
+		a=a[0]
+
+	b=a+1
+	if b>=tab.rowCount():
+		b=0
+
+	av=[]
+	for i in range(0,tab.columnCount()):
+		av.append(str(tab_get_value(tab,a,i)))
+
+	bv=[]
+	for i in range(0,tab.columnCount()):
+		bv.append(str(tab_get_value(tab,b,i)))
+
+	for i in range(0,tab.columnCount()):
+		tab_set_value(tab,b,i,str(av[i]))
+		tab_set_value(tab,a,i,str(bv[i]))
+
+	tab.selectRow(b)
+
+def tab_add(tab,data):
+	tab.blockSignals(True)
+	index = tab.selectionModel().selectedRows()
+
+	print index
+	if len(index)>0:
+		pos=index[0].row()+1
+	else:
+		pos = tab.rowCount()
+
+	tab.insertRow(pos)
+
+	for i in range(0,len(data)):
+		tab.setItem(pos,i,QTableWidgetItem(data[i]))
+
+
+	tab.blockSignals(False)
+
+def tab_remove(tab):
+	tab.blockSignals(True)
+	index = tab.selectionModel().selectedRows()
+
+	if len(index)>0:
+		pos=index[0].row()
+		tab.removeRow(pos)
+	tab.blockSignals(False)
 

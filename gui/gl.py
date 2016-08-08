@@ -174,7 +174,6 @@ class glWidget(QGLWidget):
 		QGLWidget.__init__(self, parent)
 		self.setMinimumSize(550, 480)
 
-
 	def paintGL(self):
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 		glLoadIdentity()
@@ -245,9 +244,7 @@ class glWidget(QGLWidget):
 			glRotatef(self.tet_rotate, tet_x_rate, tet_y_rate, tet_z_rate)
 
 
-
-	def initializeGL(self):
-
+	def recalculate(self):
 		self.colors=[]
 		l=epitaxy_get_layers()-1
 		for i in range(0,epitaxy_get_layers()):
@@ -265,6 +262,11 @@ class glWidget(QGLWidget):
 				blue=0.0
 
 			self.colors.append(color(red,green,blue))
+		self.update()
+
+	def initializeGL(self):
+
+		self.recalculate()
 
 		glClearDepth(1.0)              
 		glDepthFunc(GL_LESS)

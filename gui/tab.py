@@ -1,4 +1,3 @@
-#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
@@ -32,33 +31,33 @@ from scan_item import scan_remove_file
 from inp import inp_load_file
 from inp import inp_update_token_value
 from inp import inp_get_token_value
-#from help import my_help_class
-from util import latex_to_pygtk_subscript
+from util import latex_to_html
 from i18n import yes_no
 from cal_path import get_image_file_path
 from gtkswitch import gtkswitch
 from leftright import leftright
+from help import help_window
 
-from PyQt5.QtWidgets import QGridLayout,QPushButton,QLabel,QLineEdit
+from PyQt5.QtWidgets import QWidget, QVBoxLayout,QProgressBar,QLabel,QDesktopWidget,QToolBar,QHBoxLayout,QAction, QSizePolicy, QTableWidget, QTableWidgetItem,QComboBox,QDialog,QAbstractItemView,QGridLayout,QLineEdit
 
 import i18n
 _ = i18n.language.gettext
 
-class tab_class(QGridLayout,tab_base):
+import functools
+
+class tab_class(QWidget,tab_base):
 
 	lines=[]
 	edit_list=[]
 
 
 
-	def callback_edit(self, file_name,token,data):
-		print file_name, token, data
-		inp_update_token_value(file_name, token, data,1)
-
-		#my_help_class.help_set_help(["32_save.png","<big><b>Saved to disk</b></big>\n"])
+	def callback_edit(self, file_name,token,widget):
+		inp_update_token_value(file_name, token, widget.text(),1)
+		help_window().help_set_help(["32_save.png","<big><b>Saved to disk</b></big>\n"])
 
 	def help(self):
-		my_help_class.get_help(self.file_name)
+		help_window().get_help(self.file_name)
 
 
 	def rename(self,tab_name):
@@ -72,6 +71,12 @@ class tab_class(QGridLayout,tab_base):
 
 
 	def init(self,filename,tab_name):
+		self.vbox=QVBoxLayout()
+		
+		self.tab=QGridLayout()
+		widget=QWidget()
+		widget.setLayout(self.tab)
+		self.vbox.addWidget(widget)
 
 		scan_remove_file(filename)
 
@@ -97,8 +102,7 @@ class tab_class(QGridLayout,tab_base):
 			#self.set_size_request(600,-1)
 			if show == True :
 				description=QLabel()
-				description.setText(text_info)
-				#label.set_markup(latex_to_pygtk_subscript(text_info))
+				description.setText(latex_to_html(text_info))
 
 
 				print result.opt[0]
@@ -116,17 +120,23 @@ class tab_class(QGridLayout,tab_base):
 					edit_box=QLineEdit()
 					edit_box.setText(self.lines[pos])
 					#edit_box.set_text(self.lines[pos]);
-					edit_box.textChanged.connect(lambda: self.callback_edit(filename,token,edit_box.text()))
+					edit_box.textChanged.connect(functools.partial(self.callback_edit,filename,token,edit_box))
 					#edit_box.show()
 
+				edit_box.setFixedSize(300, 30)
 				unit=QLabel()
-				unit.setText(units)
+				unit.setText(latex_to_html(units))
 
 
-				self.addWidget(description,i,0)
-				self.addWidget(edit_box,i,1)
-				self.addWidget(unit,i,2)
+				self.tab.addWidget(description,i,0)
+				self.tab.addWidget(edit_box,i,1)
+				self.tab.addWidget(unit,i,2)
 
+		spacer = QWidget()
+		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+		self.vbox.addWidget(spacer)
+		
+		self.setLayout(self.vbox)
 		return
 		if show == True :
 			if show == True :
@@ -162,3 +172,5 @@ class tab_class(QGridLayout,tab_base):
 				n=n+1
 
 			pos=pos+1
+
+		self.setLayout(self.vbox)

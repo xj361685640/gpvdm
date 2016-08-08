@@ -73,7 +73,7 @@ class tab_main(QWidget,tab_base):
 		#main_hbox.pack_start(self.frame, False, False, 0)
 		#main_hbox.pack_start(self.darea, True, True, 0)
 		#main_hbox.pack_start(three_d,False,False,0)
-
+		self.frame.changed.connect(self.three_d.recalculate)
 		#self.frame.connect("refresh", self.update)
 
 		#self.add(main_hbox)
