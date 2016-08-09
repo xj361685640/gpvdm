@@ -154,7 +154,7 @@ class fit_window(QWidget):
 			global_object_get("tb_item_sim_mode_update")()
 
 		elif response == gtk.RESPONSE_NO:
-			print _("Not deleting")
+			print(_("Not deleting"))
 			#edit
 
 
@@ -164,7 +164,7 @@ class fit_window(QWidget):
 		#self.toggle_tab_visible(widget.get_label())
 
 	def callback_view_toggle_tab(self, widget, data):
-		print "add code"
+		print("add code")
 		#self.toggle_tab_visible(data)
 
 	def load_tabs(self):
@@ -177,7 +177,7 @@ class fit_window(QWidget):
 				if num.isdigit()==True:
 					files.append(file_list[i])
 
-		print "load tabs",files
+		print("load tabs",files)
 
 		for i in range(0,len(files)):
 			value=strextract_interger(files[i])

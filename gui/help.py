@@ -1,4 +1,3 @@
-#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
@@ -169,7 +168,7 @@ class help_class(QWidget):
 		for i in range(0,5):
 			self.box[i].hide()
 
-		for i in range(0,len(self.last[self.pos])/2):
+		for i in range(0,int(len(self.last[self.pos])/2)):
 			pixmap = QPixmap(os.path.join(get_image_file_path(),self.last[self.pos][i*2]))
 			self.image[i].setPixmap(pixmap)
 			self.label[i].setText(self.last[self.pos][i*2+1]+"\n")

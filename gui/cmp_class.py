@@ -1,4 +1,3 @@
-#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
@@ -116,7 +115,7 @@ class cmp_class(QWidget):
 
 		files=self.entry2.get_text().split()
 		value=int(value)
-		print "hello"
+		print("hello")
 
 		if value>self.dumps:
 			return
@@ -157,13 +156,13 @@ class cmp_class(QWidget):
 			plot_id.append(i)
 		self.plot.zero_frame_list=zero_frame
 
-		print "hi",self.file_names
-		print plot_id
+		print("hi",self.file_names)
+		print(plot_id)
 		self.plot.set_labels(labels)
 		self.plot.set_plot_ids(plot_id)
 		config_file=os.path.join(self.entry0.get_active_text(),os.path.splitext(self.entry2.get_text().split()[0])[0])+".oplot"
-		print "file names=",self.file_names
-		print "config file",config_file
+		print("file names=",self.file_names)
+		print("config file",config_file)
 		self.plot.load_data(self.file_names,config_file)
 
 
@@ -229,7 +228,7 @@ class cmp_class(QWidget):
 			os.system("mencoder "+jpgs+" -mf type=jpg:fps=1.0 -o "+file_name+" -ovc lavc -lavcopts vcodec=mpeg1video:vbitrate=800")
 			#msmpeg4v2
 		else:
-			print "Unknown file extension"
+			print("Unknown file extension")
 
 	def callback_save(self, widget, data=None):
 		dialog = gtk.FileChooserDialog("Save as..",
@@ -262,7 +261,7 @@ class cmp_class(QWidget):
 				self.save_image(os.path.join(file_name,filter.get_name()))
 
 		elif response == gtk.RESPONSE_CANCEL:
-		    print 'Closed, no files selected'
+		    print('Closed, no files selected')
 		dialog.destroy()
 
 	def callback_help(self, widget, data=None):
@@ -272,7 +271,7 @@ class cmp_class(QWidget):
 	def callback_toggle_subtract(self, widget, data):
 		self.plot.zero_frame_enable=data.get_active()
 		self.update(self.adj1.value)
-		print "CONVERTh!!!!!!!!!!!",type(self.plot.plot_token.key_units)
+		print("CONVERTh!!!!!!!!!!!",type(self.plot.plot_token.key_units))
 		self.plot.do_plot()
 
 	def callback_multi_plot(self, data, widget):
@@ -292,7 +291,6 @@ class cmp_class(QWidget):
 				if my_file.endswith("snapshots.inp")==True:
 					matches.append( os.path.dirname(my_file))
 
-		print matches
 		return matches
 
 	def __init__(self):
@@ -331,14 +329,14 @@ class cmp_class(QWidget):
 
 
 		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"video.png"))
+		image.set_from_file(os.path.join(get_image_file_path(),"video.png"))
 		self.video = gtk.ToolButton(image)
 		self.plot.toolbar.add(self.video)
 		self.video.show()
 		self.video.connect("clicked", self.callback_save)
 
 		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"scale.png"))
+		image.set_from_file(os.path.join(get_image_file_path(),"scale.png"))
 		self.scale = gtk.ToolButton(image)
 		self.plot.toolbar.add(self.scale)
 
@@ -471,7 +469,7 @@ class cmp_class(QWidget):
 		self.update(0)
 		if self.dumps!=0:
 			self.plot.do_plot()
-			print "CONVERT!!!!!!!!!!!",type(self.plot.plot_token.key_units)
+			print("CONVERT!!!!!!!!!!!",type(self.plot.plot_token.key_units))
 		self.set_border_width(10)
 		self.set_title("Compare")
 		self.set_icon_from_file(os.path.join(get_image_file_path(),"image.jpg"))

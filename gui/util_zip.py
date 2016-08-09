@@ -230,7 +230,8 @@ def read_lines_from_archive(lines,zip_file_path,file_name):
 				return False
 		else:
 			return False
-	read_lines=read_lines.decode("utf-8") 
+	#print(">",file_path,"<",read_lines)
+	read_lines=read_lines.decode('ascii')#.decode("utf-8") 
 	read_lines=read_lines.split("\n")
 
 	del lines[:]

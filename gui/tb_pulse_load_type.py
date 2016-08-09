@@ -67,7 +67,7 @@ class tb_pulse_load_type(QWidget):
 		token=inp_get_token_value("pulse"+str(self.index)+".inp", "#pulse_sim_mode")
 
 		all_items  = [self.sim_mode.itemText(i) for i in range(self.sim_mode.count())]
-		for i in xrange(len(all_items)):
+		for i in range(0,len(all_items)):
 		    if all_items[i] == token:
 		        self.sim_mode.setCurrentIndex(i)
 

@@ -49,7 +49,7 @@ class config():
 			self.tag_list.append(a)
 #			pos=len(self.tag_list)-1
 
-		print "Saved as",os.path.join(self.path,"config.inp")
+		print("Saved as",os.path.join(self.path,"config.inp"))
 		a = open(os.path.join(self.path,"config.inp"), "w")
 		a.write(str(len(self.tag_list))+"\n")
 		for i in range(0,len(self.tag_list)):

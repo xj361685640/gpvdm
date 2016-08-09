@@ -73,7 +73,7 @@ class scan_class(QWidget):
 		if response == gtk.RESPONSE_OK:
 			self.sim_dir=dialog.get_filename()
 
-	 		a = open("scan_window.inp", "w")
+			a = open("scan_window.inp", "w")
 			a.write(self.sim_dir)
 			a.close()
 
@@ -115,7 +115,7 @@ class scan_class(QWidget):
 			new_dir=os.path.join(self.sim_dir,new_sim_name)
 
 			copy_scan_dir(new_dir,old_dir)
-			print _("I want to copy"),new_dir,old_dir
+			print(_("I want to copy"),new_dir,old_dir)
 			self.add_page(new_sim_name)
 
 	def callback_run_simulation(self):
@@ -184,7 +184,7 @@ class scan_class(QWidget):
 			index=self.notebook.currentIndex() 
 			self.notebook.removeTab(index)
 
-			print _("I am going to delete file"),dir_to_del
+			print(_("I am going to delete file"),dir_to_del)
 			delete_second_level_link_tree(dir_to_del)
 
 
@@ -202,7 +202,7 @@ class scan_class(QWidget):
 
 		get_scan_dirs(sim_dirs,self.sim_dir)
 
-		print sim_dirs,self.sim_dir
+		print(sim_dirs,self.sim_dir)
 
 		if len(sim_dirs)==0:
 			sim_dirs.append("scan1")

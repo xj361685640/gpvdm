@@ -126,6 +126,7 @@ def inp_write_lines_to_file(file_path,lines):
 def inp_save_lines(file_path,lines):
 	dump=""
 	for item in lines:
+		#print(type(dump),type(item),item)
 		dump=dump+item+"\n"
 
 	dump=dump.rstrip("\n")

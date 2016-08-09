@@ -155,7 +155,7 @@ print(notice())
 
 def set_active_name(combobox, name):
 	liststore = combobox.get_model()
-	for i in xrange(len(liststore)):
+	for i in range(0,len(liststore)):
 		if liststore[i][0] == name:
 			combobox.set_active(i)
 

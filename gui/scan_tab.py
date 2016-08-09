@@ -136,9 +136,9 @@ class scan_vbox(QWidget):
 		build=""
 		for path in pathlist:
 			tree_iter = model.get_iter(path)
-			print "path=",tree_iter
+			print("path=",tree_iter)
 			build=build+model.get_value(tree_iter,0)+","+model.get_value(tree_iter,1)+","+model.get_value(tree_iter,2)+","+str(model.get_value(tree_iter,3))+","+str(model.get_value(tree_iter,4))+","+str(model.get_value(tree_iter,5))+"\n"
-			print build
+			print(build)
 		build=build[:-1]
 		self.clipboard.set_text(build, -1)
 		#tab_get_value(tab,y,x)
@@ -150,7 +150,7 @@ class scan_vbox(QWidget):
 			for line in lines:
 				array=line.rstrip().split(',')
 				array[5]=str2bool(array[5])
-				print array
+				print(array)
 				self.add_line(array)
 
 	def callback_show_list(self, widget, data=None):
@@ -166,7 +166,7 @@ class scan_vbox(QWidget):
 		plot_token.key_units=self.get_units()
 
 		plot_files, plot_labels, config_file = scan_gen_plot_data(plot_token,self.sim_dir)
-		print plot_files, plot_labels
+		print(plot_files, plot_labels)
 		plot_save_oplot_file(config_file,plot_token)
 		plot_gen(plot_files,plot_labels,config_file)
 		self.plot_open.set_sensitive(True)
@@ -255,12 +255,12 @@ class scan_vbox(QWidget):
 
 
 		if run==True:
-			print "Running"
+			print("Running")
 			program_list=[]
 			for i in range(0,self.tab.rowCount()):
 				program_list.append([tab_get_value(self.tab,i,0),tab_get_value(self.tab,i,1),tab_get_value(self.tab,i,3),tab_get_value(self.tab,i,4)])
 
-			print program_list
+			print(program_list)
 			tree_load_config(self.sim_dir)
 			if generate_simulations==True:
 				flat_simulation_list=[]
@@ -268,11 +268,11 @@ class scan_vbox(QWidget):
 					error_dlg(self,_("Problem generating tree."))
 					return
 
-				print "flat list",flat_simulation_list
+				print("flat list",flat_simulation_list)
 				tree_save_flat_list(self.sim_dir,flat_simulation_list)
 
 			commands=tree_load_flat_list(self.sim_dir)
-			print "loaded commands",commands
+			print("loaded commands",commands)
 			if run_simulation==True:
 				self.send_commands_to_server(commands,args)
 
@@ -285,7 +285,7 @@ class scan_vbox(QWidget):
 
 		for i in range(0, len(commands)):
 			self.myserver.add_job(commands[i],args)
-			print "Adding job"+commands[i]
+			print("Adding job"+commands[i])
 
 		self.myserver.start()
 
@@ -293,7 +293,7 @@ class scan_vbox(QWidget):
 		self.plot_results(self.last_plot_data)
 
 	def callback_last_menu_click(self, widget, data):
-		print "here one!"
+		print("here one!")
 		self.plot_results(data)
 
 	def callback_reopen_xy_window(self, widget, data=None):
@@ -386,7 +386,7 @@ class scan_vbox(QWidget):
 
 	def toggled_cb( self, cell, path, model ):
 		model[path][3] = not model[path][3]
-		print model[path][2],model[path][3]
+		print(model[path][2],model[path][3])
 		self.save_combo()
 		return
 

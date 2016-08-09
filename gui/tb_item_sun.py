@@ -73,7 +73,7 @@ class tb_item_sun(QWidget):
 			self.light.addItem(sun_values[i])
 
 		all_items  = [self.light.itemText(i) for i in range(self.light.count())]
-		for i in xrange(len(all_items)):
+		for i in range(0,len(all_items)):
 		    if all_items[i] == token:
 		        self.light.setCurrentIndex(i)
 
