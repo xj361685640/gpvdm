@@ -21,7 +21,6 @@
 
 
 import os
-import gobject
 from code_ctrl import enable_betafeatures
 from scan_item import scan_item_add
 from cal_path import get_image_file_path
@@ -42,7 +41,7 @@ class electrical_mesh_editor(QGroupBox):
 		self.tab.blockSignals(True)
 		index = self.tab.selectionModel().selectedRows()
 
-		print index
+		print(index)
 		if len(index)>0:
 			pos=index[0].row()+1
 		else:
@@ -61,7 +60,7 @@ class electrical_mesh_editor(QGroupBox):
 		self.tab.blockSignals(True)
 		index = self.tab.selectionModel().selectedRows()
 
-		print index
+		print(index)
 		if len(index)>0:
 			pos=index[0].row()
 			self.tab.removeRow(pos)
@@ -75,7 +74,7 @@ class electrical_mesh_editor(QGroupBox):
 		lines.append(str(self.tab.rowCount()))
 		i=0
 		for i in range(0,self.tab.rowCount()):
-			print i
+			print(i)
 			lines.append("#mesh_layer_length"+str(i))
 			lines.append(str(self.tab.item(i, 0).text()))
 			lines.append("#mesh_layer_points"+str(i))
@@ -134,7 +133,7 @@ class electrical_mesh_editor(QGroupBox):
 				self.mesh_points=self.mesh_points+int(points)
 
 	def tab_changed(self, x,y):
-		print x,y
+		print(x,y)
 		self.save()
 		#self.refresh(True)
 

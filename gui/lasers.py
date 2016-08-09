@@ -96,7 +96,7 @@ class lasers(QWidget):
 		if new_sim_name.ret!=None:
 			index=laser_new_filename()
 			if inp_copy_file("laser"+str(index)+".inp",tab.file_name)==False:
-				print "Error copying file"+tab.file_name
+				print ("Error copying file"+tab.file_name)
 				return
 
 			inp_update_token_value("laser"+str(index)+".inp", "#laser_name", new_sim_name.ret,1)
@@ -111,7 +111,7 @@ class lasers(QWidget):
 		new_laser_name=dlg_get_text( _("Rename the laser to be called:"), tab.tab_name ,"rename.png")
 
 		if new_laser_name.ret!=None:
-			print "calling rename"
+			print ("calling rename")
 			index=self.notebook.currentIndex() 
 			self.notebook.setTabText(index, new_laser_name.ret)
 			inp_update(tab.file_name, "#laser_name", new_laser_name.ret)
@@ -134,7 +134,7 @@ class lasers(QWidget):
 			if file_list[i].startswith("laser") and file_list[i].endswith(".inp"):
 				files.append(file_list[i])
 
-		print "load tabs",files
+		print ("load tabs",files)
 
 		for i in range(0,len(files)):
 			value=strextract_interger(files[i])

@@ -76,7 +76,7 @@ class splash_window():
 		value=tot/my_max
 
 		xpos=int(x_max*value)+window_w/2
-		print "xpos=",xpos
+		print("xpos=",xpos)
 		scene=QGraphicsScene();
 		scene.setSceneRect(xpos, 0, 0, h)
 		self.window.image.setScene(scene)

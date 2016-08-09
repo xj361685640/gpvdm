@@ -86,10 +86,10 @@ class fxexperiment(QWidget):
 			new_sim_name=new_sim_name+"@"+tab.tab_name.split("@")[1]
 			index=experiment_new_filename()
 			if inp_copy_file("fxdomain"+str(index)+".inp","fxdomain"+str(old_index)+".inp")==False:
-				print "Error copying file"+"fxdomain"+str(old_index)+".inp"
+				print("Error copying file"+"fxdomain"+str(old_index)+".inp")
 				return
 			if inp_copy_file("fxmesh"+str(index)+".inp","fxmesh"+str(old_index)+".inp")==False:
-				print "Error copying file"+"fxdomain"+str(old_index)+".inp"
+				print("Error copying file"+"fxdomain"+str(old_index)+".inp")
 				return
 
 			inp_update_token_value("fxdomain"+str(index)+".inp", "#sim_menu_name", new_sim_name,1)
@@ -137,7 +137,7 @@ class fxexperiment(QWidget):
 			if file_list[i].startswith("fxdomain") and file_list[i].endswith(".inp"):
 				files.append(file_list[i])
 
-		print "load tabs",files
+		print("load tabs",files)
 
 		for i in range(0,len(files)):
 			value=strextract_interger(files[i])

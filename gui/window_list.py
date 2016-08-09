@@ -80,10 +80,10 @@ class windows():
 				y=int(wlist[i].y)
 				if (x+w>desktop_w):
 					x=0
-					print "Reset with"
+					print("Reset with")
 				if (y+h>desktop_h):
 					y=0
-					print "Reset height"
+					print("Reset height")
 
 				window.move(x,y)
 				break

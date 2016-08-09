@@ -84,12 +84,12 @@ class layer_widget(QWidget):
 	changed = pyqtSignal()
 
 	def combo_changed(self):
-		print "saved"
+		print("saved")
 		self.save_model()
 		self.changed.emit()
 
 	def tab_changed(self, x,y):
-		print "changed!!!!",x,y
+		print("changed!!!!",x,y)
 		self.save_model()
 
 
@@ -110,7 +110,7 @@ class layer_widget(QWidget):
 		self.model[path][COLUMN_DEVICE]=text
 #		print yes_no(old_text), yes_no(text),type(yes_no(text))
 		if old_text!="Active layer" and text=="Active layer":
-			print "doing update"
+			print("doing update")
 			self.model[path][COLUMN_DOS_LAYER]=epitay_get_next_dos()
 			self.model[path][COLUMN_PL_FILE]=epitay_get_next_pl()
 			new_file=self.model[path][COLUMN_DOS_LAYER]+".inp"
@@ -132,7 +132,7 @@ class layer_widget(QWidget):
 	def rebuild_mat_list(self):
 		self.material_files=[]
 		mat=find_materials()
-		print mat
+		print(mat)
 		for i in range(0,len(mat)):
 			self.material_files.append(mat[i])
 			scan_remove_file(os.path.join(get_materials_path(),mat[i]))			
@@ -298,7 +298,7 @@ class layer_widget(QWidget):
 
 	def change_active_layer_thickness(self,obj):
 		thickness=obj.get_data("refresh")
-		print thickness
+		print(thickness)
 		count=0
 		for item in self.model:
 			if str2bool(item[COLUMN_DEVICE])==True:
@@ -332,8 +332,8 @@ class layer_widget(QWidget):
 			dos_file.append(str(tab_get_value(self.tab,i, 4)))
 			pl_file.append(str(tab_get_value(self.tab,i, 5)))
 
-		print dos_file
-		print pl_file
+		print(dos_file)
+		print(pl_file)
 		epitaxy_load_from_arrays(name,thick,mat_file,dos_file,pl_file)
 
 		epitaxy_save()

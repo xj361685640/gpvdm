@@ -1,4 +1,3 @@
-#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
@@ -95,7 +94,7 @@ class band_graph(QWidget):
 
 
 	def do_clip(self):
-		print "doing clip"
+		print("doing clip")
 		snap = self.my_figure.canvas.get_snapshot()
 		pixbuf = gtk.gdk.pixbuf_get_from_drawable(None, snap, snap.get_colormap(),0,0,0,0,snap.get_size()[0], snap.get_size()[1])
 		clip = gtk.Clipboard()
@@ -120,7 +119,7 @@ class band_graph(QWidget):
 			self.my_figure.savefig(dialog.get_filename())
 
 		elif response == gtk.RESPONSE_CANCEL:
-		    print 'Closed'
+		    print('Closed')
 		dialog.destroy()
 
 	def set_data_file(self,file):
@@ -144,7 +143,7 @@ class band_graph(QWidget):
 				start=start-epitaxy_get_width(i)
 			else:
 				break
-		print "START=",start
+		print("START=",start)
 		start=start*1e9
 
 		x_pos=start
@@ -155,7 +154,7 @@ class band_graph(QWidget):
 			layer_material=epitaxy_get_mat_file(i)
 
 			delta=float(layer_ticknes)*1e9
-			print epitaxy_get_electrical_layer(i)
+			print(epitaxy_get_electrical_layer(i))
 			if epitaxy_get_electrical_layer(i).startswith("dos")==False:
 				mat_file=os.path.join(os.getcwd(),'materials',layer_material,'mat.inp')
 				myfile = open(mat_file)
@@ -200,7 +199,7 @@ class band_graph(QWidget):
 		get_plot_file_info(state,self.optical_mode_file)
 		#summary="<big><b>"+self.store[path[0]][0]+"</b></big>\n"+"\ntitle: "+state.title+"\nx axis: "+state.x_label+" ("+latex_to_pygtk_subscript(state.x_units)+")\ny axis: "++" ("+latex_to_pygtk_subscript(state.y_units)+")\n\n<big><b>Double click to open</b></big>"
 
-		print "ROD!!!!",state.y_label,self.optical_mode_file
+		print("ROD!!!!",state.y_label,self.optical_mode_file)
 		ax1.set_ylabel(state.y_label)
 		ax1.set_xlabel('Position (nm)')
 		ax2.set_ylabel('Energy (eV)')
@@ -214,7 +213,7 @@ class band_graph(QWidget):
 			zf.close()
 			loaded=True
 		elif os.path.isfile(self.optical_mode_file):
-			print "I want to load",self.optical_mode_file
+			print("I want to load",self.optical_mode_file)
 			f = open(self.optical_mode_file)
 			lines = f.readlines()
 			f.close()

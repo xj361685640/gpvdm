@@ -43,7 +43,7 @@ import gobject
 import platform
 #import getpass
 #from help import my_help_class
-from http import get_data_from_web
+from gpvdm_http import get_data_from_web
 from cal_path import get_share_path
 import hashlib
 from sim_warnings import sim_warnings

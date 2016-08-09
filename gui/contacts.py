@@ -69,7 +69,7 @@ class contacts_window(QWidget):
 		self.tab.blockSignals(True)
 		index = self.tab.selectionModel().selectedRows()
 
-		print index
+		print(index)
 		if len(index)>0:
 			pos=index[0].row()+1
 		else:
@@ -89,7 +89,7 @@ class contacts_window(QWidget):
 		self.tab.blockSignals(True)
 		index = self.tab.selectionModel().selectedRows()
 
-		print index
+		print(index)
 		if len(index)>0:
 			pos=index[0].row()
 			self.tab.removeRow(pos)
@@ -110,7 +110,7 @@ class contacts_window(QWidget):
 		webbrowser.open('http://www.gpvdm.com/man/index.html')
 
 	def tab_changed(self, x,y):
-		print x,y
+		print(x,y)
 		self.save()
 
 	def load(self):

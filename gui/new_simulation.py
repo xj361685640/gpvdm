@@ -57,8 +57,6 @@ class new_simulation():
 
 		if iter:
 			path = model.get_path(iter)[0]
-			print path
-			print
 
 		dialog = gtk.FileChooserDialog(_("Make new simulation directory"),
                                None,
@@ -85,10 +83,10 @@ class new_simulation():
 			import_archive(os.path.join(get_device_lib_path(),self.liststore[path][2]),os.path.join(os.getcwd(),"sim.gpvdm"),False)
 			self.response(True)
 			#self.change_dir_and_refresh_interface(dialog.get_filename())
-			print _("OK")
+			print(_("OK"))
 
 		elif response == gtk.RESPONSE_CANCEL:
-			print _("Closed, no dir selected")
+			print(_("Closed, no dir selected"))
 
 		dialog.destroy()
 

@@ -80,7 +80,7 @@ class gpvdm_notebook(QTabWidget):
 					break
 
 	def callback_close_button(self,index):
-		print "close_handler called, index = %s" % index
+		print("close_handler called, index = %s" % index)
 		self.removeTab(index)
 
 	def callback_switch_page(self, notebook, page, page_num):
@@ -167,7 +167,7 @@ class gpvdm_notebook(QTabWidget):
 				pos=0
 				tab_number=0
 				tabs=(len(lines)-3)/2
-				print "tabs=",tabs
+				print("tabs=",tabs)
 				while (1):
 					add_to_widget=False
 					ret,pos=inp_get_next_token_array(lines,pos)
@@ -180,7 +180,7 @@ class gpvdm_notebook(QTabWidget):
 						file_name=file_name[1:]
 					name=inp_file_to_description(file_name)
 					if name==False:
-						print "name not found",name
+						print("name not found",name)
 						break
 					visible=bool(int(ret[1]))
 

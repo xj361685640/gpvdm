@@ -68,7 +68,7 @@ class pl_main(QWidget,tab_base):
 				widget	= QWidget()
  
 				name="Luminescence of "+epitaxy_get_name(i)
-				print pl_file,files
+				print(pl_file,files)
 
 				widget=tab_class()
 				widget.init(pl_file+".inp",name)

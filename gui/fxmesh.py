@@ -209,7 +209,7 @@ class tab_fxmesh(QWidget):
 				self.save_image(file_name+filter.get_name())
 
 		elif response == gtk.RESPONSE_CANCEL:
-		    print _("Closed, no files selected")
+		    print(_("Closed, no files selected"))
 		dialog.destroy()
 
 	def callback_help(self, widget, data=None):
@@ -256,11 +256,11 @@ class tab_fxmesh(QWidget):
 
 				return True
 			else:
-				print "file "+file_name+"wrong version"
+				print("file "+file_name+"wrong version")
 				exit("")
 				return False
 		else:
-			print "file "+file_name+" not found"
+			print("file "+file_name+" not found")
 			return False
 
 		return False
@@ -290,7 +290,7 @@ class tab_fxmesh(QWidget):
 		#self.statusbar.push(0, str(len(self.fx))+_(" mesh points"))
 
 	def on_cell_edited(self, x,y):
-		print "Cell edited",x,y
+		print("Cell edited",x,y)
 		self.build_mesh()
 		self.draw_graph()
 		self.fig.canvas.draw()
@@ -312,7 +312,7 @@ class tab_fxmesh(QWidget):
 
 		gui_pos=0
 
-		print "index=",index
+		print("index=",index)
 
 		self.main_vbox = QVBoxLayout()
 

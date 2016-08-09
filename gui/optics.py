@@ -250,8 +250,8 @@ class class_optical(QWidget):
 
 
 	def onclick(self, event):
-		print 'button=%d, x=%d, y=%d, xdata=%f, ydata=%f'%(
-		event.button, event.x, event.y, event.xdata, event.ydata)
+		#print 'button=%d, x=%d, y=%d, xdata=%f, ydata=%f'%(
+		#event.button, event.x, event.y, event.xdata, event.ydata)
 		for i in range(0,len(self.layer_end)):
 			if (self.layer_end[i]>event.xdata):
 				break
@@ -320,7 +320,7 @@ class class_optical(QWidget):
 
 	def callback_run(self):
 		cmd = get_exe_command()+' --simmode opticalmodel@optics'
-		print cmd
+		print(cmd)
 		ret= os.system(cmd)
 		self.fig_photon_density.my_figure.clf()
 		self.fig_photon_density.draw_graph()
@@ -343,11 +343,11 @@ class class_optical(QWidget):
 			self.fig_photon_density.set_data_file("light_1d_"+cb_text[:-3]+"_photons_norm.dat")
 			self.fig_photon_abs.set_data_file("light_1d_"+cb_text[:-3]+"_photons_abs.dat")
 
-		print "drawing"
+		print("drawing")
 		self.fig_photon_density.draw_graph()
 		self.fig_photon_density.canvas.draw()
 
-		print "drawing"
+		print("drawing")
 		self.fig_photon_abs.draw_graph()
 		self.fig_photon_abs.canvas.draw()
 

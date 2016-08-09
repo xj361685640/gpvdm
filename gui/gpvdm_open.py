@@ -130,7 +130,7 @@ class gpvdm_open():
 					f = open(file_name, 'r')
 					text = f.readline()
 					f.close()
-					#print text
+					#print(text)
 					text=text.rstrip()
 					if text=="#gpvdm":
 						itm = QListWidgetItem( fl )
@@ -160,7 +160,7 @@ class gpvdm_open():
 	def on_item_activated(self,item):
 		full_path=os.path.join(self.dir, item.text())
 
-		print full_path,os.path.isfile(full_path)
+		print(full_path,os.path.isfile(full_path))
 		if os.path.isfile(full_path)==True:
 			self.file_path=full_path
 			self.window.accept()
@@ -171,7 +171,7 @@ class gpvdm_open():
 	def on_selection_changed(self,item):
 		if type(item)!=None:
 			file_name=item.text()
-			print file_name
+			print(file_name)
 			full_path=os.path.join(self.dir, file_name)
 			if (file_name.endswith(".dat")==True):
 				state=plot_state()
@@ -191,7 +191,7 @@ class gpvdm_open():
 
 		self.fill_store()
 		sensitive = True
-		#print self.dir,self.root_dir
+		#print(self.dir,self.root_dir)
 		if self.dir == self.root_dir:
 			sensitive = False
 

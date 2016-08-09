@@ -90,10 +90,10 @@ class experiment(QWidget):
 			new_sim_name=new_sim_name+"@"+tab.tab_name.split("@")[1]
 			index=experiment_new_filename()
 			if inp_copy_file("pulse"+str(index)+".inp","pulse"+str(old_index)+".inp")==False:
-				print "Error copying file"+"pulse"+str(old_index)+".inp"
+				print("Error copying file"+"pulse"+str(old_index)+".inp")
 				return
 			if inp_copy_file("time_mesh_config"+str(index)+".inp","time_mesh_config"+str(old_index)+".inp")==False:
-				print "Error copying file"+"pulse"+str(old_index)+".inp"
+				print("Error copying file"+"pulse"+str(old_index)+".inp")
 				return
 
 			inp_update_token_value("pulse"+str(index)+".inp", "#sim_menu_name", new_sim_name,1)
@@ -140,7 +140,7 @@ class experiment(QWidget):
 			if file_list[i].startswith("pulse") and file_list[i].endswith(".inp"):
 				files.append(file_list[i])
 
-		print "load tabs",files
+		print("load tabs",files)
 
 		for i in range(0,len(files)):
 			value=strextract_interger(files[i])

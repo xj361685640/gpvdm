@@ -55,7 +55,7 @@ class doping_window(QWidget):
 
 
 	def save_data(self):
-		print "save"
+		print("save")
 		for i in range(0,self.tab.rowCount()):
 			inp_update(self.tab.item(i, 0).text()+".inp", "#doping_start", self.tab.item(i, 2).text())
 			inp_update(self.tab.item(i, 0).text()+".inp", "#doping_stop", self.tab.item(i, 3).text())
@@ -121,7 +121,7 @@ class doping_window(QWidget):
 				self.save_image(file_name+filter.get_name())
 
 		elif response == gtk.RESPONSE_CANCEL:
-		    print _("Closed, no files selected")
+		    print(_("Closed, no files selected"))
 		dialog.destroy()
 
 	def callback_help(self, widget, data=None):
@@ -138,12 +138,12 @@ class doping_window(QWidget):
 			width=epitaxy_get_width(i)
 			if dos_file!="none":
 				lines=[]
-				print "loading",dos_file
+				print("loading",dos_file)
 				if inp_load_file(lines,dos_file+".inp")==True:
 					doping_start=float(inp_search_token_value(lines, "#doping_start"))
 					doping_stop=float(inp_search_token_value(lines, "#doping_stop"))
 
-					print "add",dos_file
+					print("add",dos_file)
 
 					count=self.tab.rowCount()
 					self.tab.insertRow(count)
@@ -170,7 +170,7 @@ class doping_window(QWidget):
 		self.x_pos=[]
 		pos=0.0
 		for i in range(0,self.tab.rowCount()):
-			print i
+			print(i)
 			doping_start=float(self.tab.item(i, 2).text())
 			doping_stop=float(self.tab.item(i, 3).text())
 			width=float(self.tab.item(i, 1).text())

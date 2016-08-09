@@ -91,7 +91,7 @@ class tab_class(QWidget,tab_base):
 				pos=pos+1
 				value=self.lines[pos]
 
-				print "looking for token",token
+				print("looking for token",token)
 				result=my_token_lib.find(token)
 				if result!=False:
 					units=result.units
@@ -104,7 +104,7 @@ class tab_class(QWidget,tab_base):
 					description.setText(latex_to_html(text_info))
 
 
-					print result.opt[0]
+					print(result.opt[0])
 					if result.opt[0]=="switch":
 						edit_box=gtkswitch()
 						edit_box.set_value(str2bool(value))

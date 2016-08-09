@@ -173,7 +173,7 @@ class tab_time_mesh(QWidget):
 		self.fig.canvas.draw()
 
 	def on_cell_edited(self, x,y):
-		print "Cell edited",x,y
+		print("Cell edited",x,y)
 		return 
 		model[path][SEG_DT] = new_text
 		self.build_mesh()
@@ -271,7 +271,7 @@ class tab_time_mesh(QWidget):
 				self.save_image(file_name+filter.get_name())
 
 		elif response == gtk.RESPONSE_CANCEL:
-		    print _("Closed, no files selected")
+		    print(_("Closed, no files selected"))
 		dialog.destroy()
 
 
@@ -288,7 +288,7 @@ class tab_time_mesh(QWidget):
 		self.tab.setHorizontalHeaderLabels([_("Length"),_("dt"), _("Start Voltage"), _("Stop Voltage"), _("step multiplyer"), _("Suns"),_("Laser")])
 
 		file_name="time_mesh_config"+str(self.index)+".inp"
-		print "loading",file_name
+		print("loading",file_name)
 		ret=inp_load_file(lines,file_name)
 		if ret==True:
 			if inp_search_token_value(lines, "#ver")=="1.1":
@@ -316,11 +316,11 @@ class tab_time_mesh(QWidget):
 
 				return True
 			else:
-				print "file "+file_name+"wrong version"
+				print("file "+file_name+"wrong version")
 				exit("")
 				return False
 		else:
-			print "file "+file_name+" not found"
+			print("file "+file_name+" not found")
 			return False
 
 		return False
@@ -352,7 +352,7 @@ class tab_time_mesh(QWidget):
 			mul=float(tab_get_value(self.tab,i, 4))
 			sun=float(tab_get_value(self.tab,i, 5))
 			laser=float(tab_get_value(self.tab,i, 6))
-			#print "VOLTAGE=",line[SEG_VOLTAGE],end_time,pos
+			#print("VOLTAGE=",line[SEG_VOLTAGE],end_time,pos)
 
 			if dt!=0.0 and mul!=0.0:
 				voltage=voltage_start
@@ -362,7 +362,7 @@ class tab_time_mesh(QWidget):
 					self.laser.append(laser)
 					self.sun.append(sun+sun_steady_state)
 					self.voltage.append(voltage+voltage_bias)
-					#print seg,voltage
+					#print(seg,voltage)
 					self.fs_laser.append(0.0)
 					pos=pos+dt
 					voltage=voltage+dv
@@ -376,7 +376,7 @@ class tab_time_mesh(QWidget):
 
 			seg=seg+1
 
-		#print self.voltage
+		#print(self.voltage)
 
 		#self.statusbar.push(0, str(len(self.time))+_(" mesh points"))
 
@@ -394,7 +394,7 @@ class tab_time_mesh(QWidget):
 
 	def __init__(self,index):
 		self.index=index
-		print "index=",index
+		print("index=",index)
 
 		QWidget.__init__(self)
 		self.main_vbox = QVBoxLayout()

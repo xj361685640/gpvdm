@@ -25,11 +25,11 @@ from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtWidgets import QWidget,QSizePolicy,QVBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QLabel,QComboBox, QTabWidget,QStatusBar,QMenuBar, QTabBar, QStylePainter, QStyleOptionTab,QStyle
 
 class QHTabBar(QTabBar):
-    def __init__(self, *args, **kwargs):
+	def __init__(self, *args, **kwargs):
 		QTabBar.__init__(self)
 		self.setStyleSheet("QTabBar::tab { height: 35px; width: 140px; }")
 
-    def paintEvent(self, event):
+	def paintEvent(self, event):
 		painter = QStylePainter(self)
 		option = QStyleOptionTab()
 

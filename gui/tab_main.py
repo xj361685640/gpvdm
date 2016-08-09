@@ -49,7 +49,7 @@ class tab_main(QWidget,tab_base):
 	label_name="tab_main"
 
 	def update(self,object):
-		print "update gl"
+		print("update gl")
 		#self.darea.queue_draw()
 
 	def __init__(self):
@@ -212,7 +212,7 @@ class tab_main(QWidget,tab_base):
 				green=float(inp_search_token_value(lines, "#Green"))
 				blue=float(inp_search_token_value(lines, "#Blue"))
 			else:
-				print "Could not load",path
+				print("Could not load",path)
 				red=0.0
 				green=0.0
 				blue=0.0
