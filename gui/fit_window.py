@@ -1,4 +1,3 @@
-#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
@@ -23,17 +22,11 @@
 
 import os
 import shutil
-from about import about_dialog_show
-from gui_util import dlg_get_text
 from window_list import windows
 import webbrowser
 from code_ctrl import enable_betafeatures
-from inp import inp_update_token_value
-from fit_tab import fit_tab
+#from fit_tab import fit_tab
 from util_zip import zip_lsdir
-from inp import inp_isfile
-from inp import inp_copy_file
-from inp import inp_remove_file
 from util import strextract_interger
 from global_objects import global_object_get
 from cal_path import get_image_file_path
@@ -43,6 +36,20 @@ from server import server_get
 import i18n
 _ = i18n.language.gettext
 
+#inp
+from inp import inp_isfile
+from inp import inp_copy_file
+from inp import inp_remove_file
+from inp import inp_update_token_value
+
+#qt
+from PyQt5.QtCore import QSize, Qt 
+from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QMenuBar,QStatusBar, QMenu, QTableWidget, QAbstractItemView
+from PyQt5.QtGui import QPainter,QIcon,QCursor
+
+#windows
+from gui_util import dlg_get_text
+
 def fit_new_filename():
 	for i in range(0,20):
 		pulse_name="fit"+str(i)+".inp"
@@ -50,7 +57,7 @@ def fit_new_filename():
 			return i
 	return -1
 
-class fit_window(gtk.Window):
+class fit_window(QWidget):
 
 	def update(self):
 		for item in self.notebook.get_children():
@@ -218,81 +225,84 @@ class fit_window(gtk.Window):
 
 
 	def init(self):
+		QWidget.__init__(self)
+
 		self.win_list=windows()
 		self.win_list.load()
 		self.win_list.set_window(self,"fit_window")
-		global_object_register("fit_graph_update",self.update)
-		print "constructur"
 
-		self.tooltips = gtk.Tooltips()
+		self.main_vbox = QVBoxLayout()
 
-		self.set_border_width(2)
-		self.set_title(_("Fit window - gpvdm"))
+		menubar = QMenuBar()
 
-		self.status_bar = gtk.Statusbar()
-		self.status_bar.show()
-		self.context_id = self.status_bar.get_context_id("Statusbar example")
-
-		box=gtk.HBox()
-		box.add(self.status_bar)
-		box.set_child_packing(self.status_bar, True, True, 0, 0)
-		box.show()
+		file_menu = menubar.addMenu('&File')
+		self.menu_close=file_menu.addAction(_("Close"))
+		self.menu_close.triggered.connect(self.callback_close)
 
 
-		self.menu_items = (
-		    ( _("/_File"),         None,         None, 0, "<Branch>" ),
-		    ( _("/File/Close"),     None, self.callback_close, 0, None ),
-		    ( _("/fits/_New"),     None, self.callback_add_page, 0, "<StockItem>", "gtk-new" ),
-		    ( _("/fits/_Delete fit"),     None, self.callback_delete_page, 0, "<StockItem>", "gtk-delete" ),
-		    ( _("/fits/_Rename fit"),     None, self.callback_rename_page, 0, "<StockItem>", "gtk-edit" ),
-		    ( _("/fits/_Import"),     None, self.callback_import, 0, "<StockItem>", "gtk-edit" ),
-		    ( _("/fits/_Clone fit"),     None, self.callback_copy_page, 0, "<StockItem>", "gtk-copy" ),
-		    ( _("/_Help"),         None,         None, 0, "<LastBranch>" ),
-		    ( _("/_Help/Help"),   None,         self.callback_help, 0, None ),
-		    ( _("/_Help/About"),   None,         about_dialog_show, 0, "<StockItem>", "gtk-about" ),
-		    )
+		self.menu_fit=menubar.addMenu(_("Fits"))
+		self.menu_fit_new=self.menu_fit.addAction(_("&New"))
+		self.menu_fit_new.triggered.connect(self.callback_add_page)
+
+		self.menu_fit_delete=self.menu_fit.addAction(_("&Delete fit"))
+		self.menu_fit_delete.triggered.connect(self.callback_delete_page)
+
+		self.menu_fit_rename=self.menu_fit.addAction(_("&Rename fit"))
+		self.menu_fit_rename.triggered.connect(self.callback_rename_page)
+
+		self.menu_fit_import=self.menu_fit.addAction(_("&Import data"))
+		self.menu_fit_import.triggered.connect(self.callback_import)
+
+		self.menu_fit_clone=self.menu_fit.addAction(_("&Clone fit"))
+		self.menu_fit_clone.triggered.connect(self.callback_copy_page)
 
 
-		main_vbox = gtk.VBox(False, 3)
-
-		menubar = self.get_main_menu(self)
-		main_vbox.pack_start(menubar, False, False, 0)
-		menubar.show()
-
-		toolbar = gtk.Toolbar()
-		toolbar.set_style(gtk.TOOLBAR_ICONS)
-		toolbar.set_size_request(-1, 70)
-
-		image = gtk.Image()
-		image.set_from_file(os.path.join(get_image_file_path(),"new.png"))
-		tb_new_scan = gtk.ToolButton(image)
-		tb_new_scan.connect("clicked", self.callback_add_page)
-		self.tooltips.set_tip(tb_new_scan, _("Add new fit."))
-
-		toolbar.insert(tb_new_scan, -1)
-
-		image = gtk.Image()
-		image.set_from_file(os.path.join(get_image_file_path(),"delete.png"))
-		delete = gtk.ToolButton(image)
-		delete.connect("clicked", self.callback_delete_page,None)
-		self.tooltips.set_tip(delete, _("Delete fit"))
-		toolbar.insert(delete, -1)
-
-		image = gtk.Image()
-		image.set_from_file(os.path.join(get_image_file_path(),"clone.png"))
-		copy = gtk.ToolButton(image)
-		copy.connect("clicked", self.callback_copy_page,None)
-		self.tooltips.set_tip(copy, _("Clone fit"))
-		toolbar.insert(copy, -1)
+		self.menu_help=menubar.addMenu(_("Help"))
+		self.menu_help_help=self.menu_help.addAction(_("Help"))
+		self.menu_help_help.triggered.connect(self.callback_help)
 
 
-		image = gtk.Image()
-		image.set_from_file(os.path.join(get_image_file_path(),"rename.png"))
-		rename = gtk.ToolButton(image)
-		rename.connect("clicked", self.callback_rename_page,None)
-		self.tooltips.set_tip(rename, _("Rename fit"))
-		toolbar.insert(rename, -1)
+		self.main_vbox.addWidget(menubar)
 
+
+		self.setFixedSize(900, 500)
+		self.setWindowTitle(_("Fit window - gpvdm"))   
+		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"fit.png")))
+
+		toolbar=QToolBar()
+		toolbar.setIconSize(QSize(48, 48))
+
+		self.new = QAction(QIcon(os.path.join(get_image_file_path(),"new.png")), _("New laser"), self)
+		self.new.triggered.connect(self.callback_add_page)
+		toolbar.addAction(self.new)
+
+		self.new = QAction(QIcon(os.path.join(get_image_file_path(),"delete.png")), _("Delete laser"), self)
+		self.new.triggered.connect(self.callback_delete_page)
+		toolbar.addAction(self.new)
+
+		self.clone = QAction(QIcon(os.path.join(get_image_file_path(),"clone.png")), _("Clone laser"), self)
+		self.clone.triggered.connect(self.callback_copy_page)
+		toolbar.addAction(self.clone)
+
+		self.clone = QAction(QIcon(os.path.join(get_image_file_path(),"rename.png")), _("Rename laser"), self)
+		self.clone.triggered.connect(self.callback_rename_page)
+		toolbar.addAction(self.clone)
+
+		self.main_vbox.addWidget(toolbar)
+
+
+		self.notebook = QTabWidget()
+		self.notebook.setMovable(True)
+
+#		self.load_tabs()
+
+		self.status_bar=QStatusBar()
+		self.main_vbox.addWidget(self.status_bar)
+
+		self.setLayout(self.main_vbox)
+
+################################
+		return
 		image = gtk.Image()
 		image.set_from_file(os.path.join(get_image_file_path(),"import.png"))
 		import_data = gtk.ToolButton(image)
@@ -325,32 +335,11 @@ class fit_window(gtk.Window):
 		sep.set_expand(True)
 		toolbar.insert(sep, -1)
 
-		image = gtk.Image()
-		image.set_from_file(os.path.join(get_image_file_path(),"help.png"))
-		tb_help = gtk.ToolButton(image)
-		tb_help.connect("clicked", self.callback_help)
-		self.tooltips.set_tip(tb_help, "Help")
-		toolbar.insert(tb_help, -1)
 
-		toolbar.show_all()
-		main_vbox.pack_start(toolbar, False, False, 0)
-
-		main_vbox.set_border_width(1)
-		self.add(main_vbox)
-		main_vbox.show()
+		self.main_vbox.addWidget(self.notebook)
+################################
+		#self.main_vbox.addWidget(self.notebook)
 
 
-		self.notebook = gtk.Notebook()
-		self.notebook.show()
-		self.notebook.set_tab_pos(gtk.POS_LEFT)
 
-		self.load_tabs()
-		main_vbox.pack_start(self.notebook, True, True, 0)
-		main_vbox.pack_start(box, False, False, 0)
-
-		self.connect("delete-event", self.callback_close)
-		self.notebook.connect("switch-page",self.switch_page)
-		self.set_icon_from_file(os.path.join(get_image_file_path(),"fit.png"))
-
-		self.hide()
 

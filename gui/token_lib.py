@@ -362,7 +362,7 @@ lib.append(my_data("#free_to_free_recombination","0.0-1.0","n_{free} to p_{free}
 def dump_lib():
 	global lib
 	for i in range(0, len(lib)):
-		print ">",lib[i].token,"<>",lib[i].info,"<"
+		print(">",lib[i].token,"<>",lib[i].info,"<")
 
 class tokens:
 

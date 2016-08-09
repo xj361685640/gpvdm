@@ -102,7 +102,7 @@ def get_cache_path(path):
 	return cache_path
 
 def copy_scan_dir(new_dir,old_dir):
-	print "trying to copy",old_dir,new_dir
+	print("trying to copy",old_dir,new_dir)
 	if not os.path.exists(new_dir):
 		os.makedirs(new_dir)
 	for filename in glob.glob(os.path.join(old_dir, '*.*')):
@@ -113,7 +113,7 @@ def delete_second_level_link_tree(path):
 	for filename in os.listdir(path):
 		full_name=os.path.join(path,filename)
 		if os.path.isdir(full_name):
-			print "Deleteing",full_name
+			print("Deleteing",full_name)
 			gpvdm_delete_file(full_name)
 
 	gpvdm_delete_file(path)
@@ -121,27 +121,27 @@ def delete_second_level_link_tree(path):
 def gpvdm_delete_file(path):
 	if os.path.islink(path):
 		real_path=os.path.realpath(path)
-		print "Deleting link:",path
+		print("Deleting link:",path)
 		os.unlink(path)
-		print "check",real_path,get_cache_path(path)
+		print("check",real_path,get_cache_path(path))
 		if real_path==get_cache_path(path):	#only delete the cache directory if it is the one we are intending to delete
 
 			if os.path.isdir(real_path)==True:
-				print "Delete",real_path
+				print("Delete",real_path)
 				if real_path!="/":
 					#a bit of paranoia - don't ever delete the home directory.
 					if os.path.normpath(real_path)!=os.path.normpath(os.path.expanduser('~')):
 							shutil.rmtree(real_path)
 
 			elif os.path.isfile(real_path)==True:
-				print "Delete",real_path
+				print("Delete",real_path)
 				os.remove(real_path)
 	else:
 		if os.path.isdir(path)==True:
-			print "Delete",path
+			print("Delete",path)
 			shutil.rmtree(path)
 		elif os.path.isfile(path)==True:
-			print "Delete",path
+			print("Delete",path)
 			os.remove(path)
 
 def numbers_to_latex(data):
@@ -220,7 +220,7 @@ def read_xyz_data(x,y,z,file_name):
 	found,lines=zip_get_data_file(file_name)
 	if found==True:
 		lines_to_xyz(x,y,z,lines)
-		#print "here z=,",z,x,file_name
+		#print("here z=,",z,x,file_name)
 		return True
 	else:
 		return False
@@ -279,7 +279,7 @@ def gpvdm_copy_src(new_dir):
 
 	if not os.path.exists(new_dir):
 		os.makedirs(new_dir)
-	print file_list
+	print(file_list)
 	for name in file_list:
 		gui_file_name=os.path.join(name,"gpvdm_gui_config.inp")
 
@@ -289,10 +289,10 @@ def gpvdm_copy_src(new_dir):
 			if os.path.isfile(name):
 				 shutil.copy(name, out)
 			else:
-				print "Copy dir:", name
+				print("Copy dir:", name)
 				shutil.copytree(name, out,symlinks=True)
 		else:
-			print "I will not copy",name
+			print("I will not copy",name)
 
 
 

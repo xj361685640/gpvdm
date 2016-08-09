@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+# -*- coding: utf-8 -*-
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
@@ -178,7 +178,7 @@ class plot_widget(QVBoxLayout):
 				plot_number=self.plot_id[index]
 			else:
 				plot_number=index
-			print "YMIN=",self.plot_token.ymin
+			print("YMIN=",self.plot_token.ymin)
 			if self.plot_token.ymax!=-1:
 				self.ax[plot_number].set_ylim((self.plot_token.ymin,self.plot_token.ymax))
 			return True
@@ -186,7 +186,7 @@ class plot_widget(QVBoxLayout):
 			return False
 
 	def do_plot(self):
-		print "PLOT TYPE=",self.plot_token.type
+		print("PLOT TYPE=",self.plot_token.type)
 		if self.plot_token!=None and len(self.plot_id)!=0:
 			plot_number=0
 
@@ -225,7 +225,7 @@ class plot_widget(QVBoxLayout):
 				self.ax.append(self.fig.add_subplot(number_of_plots,1,i+1, axisbg='white'))
 				#Only place label on bottom plot
 				if i==number_of_plots-1:
-					print self.plot_token.x_label,self.plot_token.x_units
+					print(self.plot_token.x_label,self.plot_token.x_units)
 					self.ax[i].set_xlabel(self.plot_token.x_label+" ("+self.plot_token.x_units+")")
 
 				else:
@@ -252,7 +252,7 @@ class plot_widget(QVBoxLayout):
 			files=[]
 
 			my_max=1.0
-			print "token type==",self.plot_token.type
+			print("token type==",self.plot_token.type)
 			if self.plot_token.type=="xy":
 
 				all_max=1.0
@@ -278,7 +278,7 @@ class plot_widget(QVBoxLayout):
 						if all_max!=1.0:
 							for ii in range(0,len(s)):
 								s[ii]=s[ii]/all_max
-						print plot_number,len(self.ax)
+						print(plot_number,len(self.ax))
 						#print len(self.ax),plot_number,i,len(self.color),len(self.marker)
 						Ec, = self.ax[plot_number].plot(t,s, linewidth=3 ,alpha=1.0,color=self.color[i],marker=self.marker[i])
 
@@ -293,10 +293,10 @@ class plot_widget(QVBoxLayout):
 						if number_of_plots>1:
 							self.ax[plot_number].yaxis.set_major_formatter(ticker.FormatStrFormatter('%0.1e'))
 							if min(s)!=max(s):
-								print "TICKS=",(max(s)-min(s))/4.0
+								print("TICKS=",(max(s)-min(s))/4.0)
 								self.ax[plot_number].yaxis.set_ticks(arange(min(s), max(s), (max(s)-min(s))/4.0 ))
 
-						print "roderick",self.labels,i,self.labels[i]
+						print("roderick",self.labels,i,self.labels[i])
 						if self.labels[i]!="":
 							#print "Rod=",self.labels[i]
 							#print self.plot_token.key_units
@@ -352,7 +352,7 @@ class plot_widget(QVBoxLayout):
 					s=[]
 					z=[]
 					if self.read_data_file(t,s,z,ii)==True:
-						print self.input_files[ii]
+						print(self.input_files[ii])
 						for points in range(0,len(t)):
 							found=0
 							if t[points]>x[0]:
@@ -368,15 +368,15 @@ class plot_widget(QVBoxLayout):
 											found=found+1
 											break
 							if found==2:
-								print "adding data at",x_pos,y_pos
+								print("adding data at",x_pos,y_pos)
 								if data[y_pos][x_pos]<10.0:
 									data[y_pos][x_pos]=data[y_pos][x_pos]+1
 							else:
-								print "not adding point",t[points],s[points]
+								print("not adding point",t[points],s[points])
 
-				print x
-				print y
-				print data
+				print(x)
+				print(y)
+				print(data)
 				x_grid, y_grid = mgrid[float(self.plot_token.y_start):float(self.plot_token.y_stop):complex(0, len(y)), float(self.plot_token.x_start):float(self.plot_token.x_stop):complex(0, len(x))]
 				self.ax[0].pcolor(y_grid,x_grid,data)
 
@@ -413,7 +413,7 @@ class plot_widget(QVBoxLayout):
 
 			#self.fig.tight_layout(pad=0.0, w_pad=0.0, h_pad=0.0)
 			self.fig.canvas.draw()
-			print "exit do plot"
+			print("exit do plot")
 
 	def callback_plot_save(self, widget, data=None):
 		dialog = gtk.FileChooserDialog("Directory to make a gnuplot script..",
@@ -421,7 +421,7 @@ class plot_widget(QVBoxLayout):
                                gtk.FILE_CHOOSER_ACTION_OPEN,
                                (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
                                 gtk.STOCK_SAVE, gtk.RESPONSE_OK))
-		print os.path.basename(self.output_file),os.path.dirname(self.output_file)
+		print(os.path.basename(self.output_file),os.path.dirname(self.output_file))
 		dialog.set_current_folder(os.path.dirname(self.output_file))
 		dialog.set_default_response(gtk.RESPONSE_OK)
 		dialog.set_action(gtk.FILE_CHOOSER_ACTION_SAVE)
@@ -440,11 +440,11 @@ class plot_widget(QVBoxLayout):
 
 		response = dialog.run()
 		if response == gtk.RESPONSE_OK:
-			print "Logscale x = ",self.plot_token.logx
+			print("Logscale x = ",self.plot_token.logx)
 			plot_export(dialog.get_filename(),self.input_files,self.plot_token,self.fig)
 
 		elif response == gtk.RESPONSE_CANCEL:
-		    print 'Closed, no dir selected'
+		    print('Closed, no dir selected')
 
 		dialog.destroy()
 
@@ -468,15 +468,15 @@ class plot_widget(QVBoxLayout):
 		#Try and get the data from the config file
 		if plot_load_info(self.plot_token,config_file)==True:
 			loaded=True
-			print "I HAVE LOADED THE OPLOT FILE",self.plot_token.type
+			print("I HAVE LOADED THE OPLOT FILE",self.plot_token.type)
 
 		#If that did not work get it from the data file
 		if loaded==False:
 			if plot_load_info(self.plot_token,input_files[0])==True:
 				loaded=True
 
-		print "the config file is",config_file
-		print input_files,loaded
+		print("the config file is",config_file)
+		print(input_files,loaded)
 		loaded=True
 		if loaded==True:
 
@@ -516,15 +516,15 @@ class plot_widget(QVBoxLayout):
 			#myitem=self.item_factory.get_item("/Math/Norm to peak of all data")
 			#myitem.set_active(self.plot_token.norm_to_peak_of_all_data)
 
-			print "Loaded OK",self.config_file
+			print("Loaded OK",self.config_file)
 
 			test_file=self.input_files[0]
 			for i in range(0,len(self.input_files)):
 				if os.path.isfile(self.input_files[i]):
 					test_file=self.input_files[i]
 
-			print "test_file=",test_file
-			print "Exit here"
+			print("test_file=",test_file)
+			print("Exit here")
 
 
 	def gen_colors_black(self,repeat_lines):
@@ -570,7 +570,7 @@ class plot_widget(QVBoxLayout):
 
 	def callback_key(self, data, widget):
 		self.plot_token.legend_pos=widget.get_label()
-		print self.config_file,self.plot_token
+		print(self.config_file,self.plot_token)
 		plot_save_oplot_file(self.config_file,self.plot_token)
 		self.do_plot()
 
@@ -630,7 +630,7 @@ class plot_widget(QVBoxLayout):
 
 	def callback_heat_map_edit(self, widget, data):
 		[a,b,c,d,e,f] = dlg_get_multi_text("2D plot editor", [["x start",str(self.plot_token.x_start)],["x stop",str(self.plot_token.x_stop)],["x points",str(self.plot_token.x_points)],["y start",str(self.plot_token.y_start)],["y stop",str(self.plot_token.y_stop)],["y points",str(self.plot_token.y_points)]])
-		print "---------",a,b,c,d,e,f
+		print("---------",a,b,c,d,e,f)
 		self.plot_token.x_start=float(a)
 		self.plot_token.x_stop=float(b)
 		self.plot_token.x_points=float(c)

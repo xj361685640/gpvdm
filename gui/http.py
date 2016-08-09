@@ -37,7 +37,7 @@ from socket import SOCK_STREAM
 from socket import SOL_SOCKET
 from socket import SO_REUSEADDR
 from socket import getdefaulttimeout
-import urlparse
+import urllib.parse
 import re
 #import os
 

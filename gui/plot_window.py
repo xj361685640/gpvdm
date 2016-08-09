@@ -1,4 +1,4 @@
-#!/usr/bin/env python2.7
+# -*- coding: utf-8 -*-
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
@@ -47,8 +47,7 @@ class plot_window():
 		self.plot.init(self.window)
 		self.window.setLayout(self.plot)
 
-		print "here1"
-		print "labels",plot_labels
+		print("labels",plot_labels)
 		if len(plot_labels)==0:
 			for i in range(0,len(input_files)):
 				plot_labels.append(os.path.basename(input_files[i]).replace("_","\_"))

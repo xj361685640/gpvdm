@@ -1,4 +1,3 @@
-#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
@@ -63,7 +62,7 @@ def code_ctrl_load():
 		store_enable_cluster=yes_no(inp_search_token_value(lines, "#enable_cluster"))
 		store_enable_betafeatures=yes_no(inp_search_token_value(lines, "#enable_betafeatures"))
 	else:
-		print "Can not load ver.inp file"
+		print("Can not load ver.inp file")
 		store_enable_webupdates=False
 		store_enable_webbrowser=False
 		store_enable_cluster=False

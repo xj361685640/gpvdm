@@ -81,7 +81,7 @@ def scan_list_unconverged_simulations(dir_to_search):
 			if len(lines)>4:
 				error=float(lines[len(lines)-2].split()[1])
 				if error<0.1:
-					print fit_log,error
+					print(fit_log,error)
 					add=False
 
 		if add==True:
@@ -124,10 +124,10 @@ def scan_ask_to_delete(dirs_to_del):
 		if response == gtk.RESPONSE_YES:
 				scan_delete_files(dirs_to_del)
 		elif response == gtk.RESPONSE_NO:
-			print "Not deleting"
+			print("Not deleting")
 		elif response == gtk.RESPONSE_CANCEL:
 			#run=False
-			print "Cancel"
+			print("Cancel")
 
 		dialog.destroy()
 
@@ -147,7 +147,7 @@ def scan_nested_simulation(root_simulation,nest_simulation):
 		program_list=[]
 		flat_list=[]
 		tree_load_program(program_list,dest_name)
-		print "call=",names[i],dest_name
+		print("call=",names[i],dest_name)
 		tree_gen(flat_list,program_list,names[i],dest_name)
 
 
@@ -201,7 +201,7 @@ def clean_simulation(dir_to_clean,simulation_dirs):
 					delete=False
 
 				if delete==True:
-					print "delete",path
+					print("delete",path)
 					files_to_delete.append(path)
 
 	scan_ask_to_delete(files_to_delete)
@@ -210,7 +210,7 @@ def scan_clean_dir(dir_to_clean):
 		dirs_to_del=[]
 		dirs_to_del=scan_list_simulations(dir_to_clean)
 
-		print dirs_to_del,dir_to_clean
+		print(dirs_to_del,dir_to_clean)
 
 		scan_ask_to_delete(dirs_to_del)
 
@@ -218,20 +218,20 @@ def scan_clean_unconverged(dir_to_clean):
 		dirs_to_del=[]
 		dirs_to_del=scan_list_unconverged_simulations(dir_to_clean)
 
-		print dirs_to_del,dir_to_clean
+		print(dirs_to_del,dir_to_clean)
 
 		scan_ask_to_delete(dirs_to_del)
 
 def scan_push_to_hpc(base_dir,only_unconverged):
 	config_file=os.path.join(os.getcwd(),"server.inp")
-	print config_file
+	print(config_file)
 	hpc_path=inp_get_token_value(config_file, "#hpc_dir")
 	hpc_path=os.path.abspath(hpc_path)
 
 	if os.path.isdir(hpc_path)==True:
 		hpc_files=[]
 		hpc_files=scan_list_simulations(hpc_path)
-		print "hpc files=",hpc_files
+		print("hpc files=",hpc_files)
 		scan_delete_files(hpc_files)
 		files=[]
 
@@ -240,13 +240,13 @@ def scan_push_to_hpc(base_dir,only_unconverged):
 		else:
 			files=scan_list_simulations(base_dir)
 
-		print "copy files=",files
+		print("copy files=",files)
 		for i in range(0,len(files)):
 			dest_path=os.path.join(hpc_path,files[i][len(base_dir)+1:])
-			print dest_path
+			print(dest_path)
 			shutil.copytree(files[i], dest_path,symlinks=True)
 	else:
-		print "HPC dir not found",hpc_path
+		print("HPC dir not found",hpc_path)
 
 def scan_import_from_hpc(base_dir):
 	config_file=os.path.join(os.getcwd(),"server.inp")
@@ -264,9 +264,9 @@ def scan_import_from_hpc(base_dir):
 				if os.path.isdir(dest_path):
 					shutil.rmtree(dest_path)
 				shutil.copytree(src_path, dest_path, symlinks=False, ignore=None)
-				print src_path,dest_path
+				print(src_path,dest_path)
 	else:
-		print "HPC dir not found",hpc_path
+		print("HPC dir not found",hpc_path)
 
 def get_scan_dirs(scan_dirs,sim_dir):
 	ls=os.listdir(sim_dir)
@@ -283,6 +283,6 @@ def delete_scan_dirs(path):
 	get_scan_dirs(sim_dirs,path)
 
 	for my_file in sim_dirs:
-		print "Deleteing ",my_file
+		print("Deleteing ",my_file)
 		shutil.rmtree(my_file)
 

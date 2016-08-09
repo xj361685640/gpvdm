@@ -1,4 +1,3 @@
-#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
@@ -207,7 +206,7 @@ class glWidget(QGLWidget):
 		for i in range(0,epitaxy_get_layers()):
 
 			thick=1.5*epitaxy_get_width(l-i)/tot
-			print thick
+			print(thick)
 			red=self.colors[l-i].r
 			green=self.colors[l-i].g
 			blue=self.colors[l-i].b
@@ -256,7 +255,7 @@ class glWidget(QGLWidget):
 				green=float(inp_search_token_value(lines, "#Green"))
 				blue=float(inp_search_token_value(lines, "#Blue"))
 			else:
-				print "Could not load",path
+				print("Could not load",path)
 				red=0.0
 				green=0.0
 				blue=0.0

@@ -37,7 +37,7 @@ def gpvdm_clone(dest,copy_dirs,materials=["all"]):
 	src_dir=get_inp_file_path()
 	src_archive=os.path.join(src_dir,"sim.gpvdm")
 	dest_archive=os.path.join(dest,"sim.gpvdm")
-	print src_archive
+	print(src_archive)
 	files=zip_lsdir(src_archive)
 	lines=[]
 
@@ -90,7 +90,7 @@ def clone_materials(dest,materials=["all"]):
 
 
 				if do_copy==True:
-					print "copy",dest_file
+					print("copy",dest_file)
 					if os.path.isdir(dest_file)==False:
 						os.mkdir(dest_file)
 
@@ -99,5 +99,5 @@ def clone_materials(dest,materials=["all"]):
 						if os.path.isfile(src_mat_file)==True:
 							copyfile(src_mat_file,os.path.join(dest_file,copy_file))
 				else:
-					print "not copy",dest_file
+					print("not copy",dest_file)
 

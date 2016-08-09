@@ -1,4 +1,3 @@
-#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
@@ -21,7 +20,6 @@
 
 
 
-import gtk
 import sys
 import os
 #import shutil
@@ -34,7 +32,7 @@ from inp import inp_get_token_value
 from plot import plot_populate_plot_token
 
 def gen_plot_line(dirname,plot_token):
-	print plot_token.file0,plot_token.file1
+	print(plot_token.file0,plot_token.file1)
 	if plot_token.file1=="":
 		f = open(os.path.join(dirname,plot_token.file0),'r')
 		values=f.readline()
@@ -44,7 +42,7 @@ def gen_plot_line(dirname,plot_token):
 		v0=inp_get_token_value(os.path.join(dirname,plot_token.file0), plot_token.tag0)
 		v1=inp_get_token_value(os.path.join(dirname,plot_token.file1), plot_token.tag1)
 		v2=""
-		print os.path.join(dirname,plot_token.file1),plot_token.tag1
+		print(os.path.join(dirname,plot_token.file1),plot_token.tag1)
 		if plot_token.file2!="":
 			v2=inp_get_token_value(os.path.join(dirname,plot_token.file2), plot_token.tag2)
 		values=v0+" "+v1+" "+v2+"\n"
@@ -63,7 +61,7 @@ def gen_infofile_plot(file_list_in,base_dir,plot_token):
 
 
 	if len(result)==0:
-		print "No files found"
+		print("No files found")
 		return
 
 	#pull out first item
@@ -77,10 +75,6 @@ def gen_infofile_plot(file_list_in,base_dir,plot_token):
 	else:
 		depth=ittr_path.count('\\')
 
-	#print "DEPTHDEPTHDEPTHDEPTH:"
-	#print result
-	#print ittr_path
-	#print str(depth)
 
 	#Remove the first part of the path name just leaving what is in the simulation dir
 	if depth==0:
@@ -145,13 +139,13 @@ def scan_gen_plot_data(plot_token,base_path):
 
 	file_name=plot_token.file0
 	if file_name=="":
-		print "You have given me no file name!!!"
+		print("You have given me no file name!!!")
 		sys.exit(0)
 
 	#search for the files
 	return_file_list(plot_files,base_path,file_name)
-	print "search_file=",plot_token.file0
-	print "found_files=",plot_files
+	print("search_file=",plot_token.file0)
+	print("found_files=",plot_files)
 	num_list=[]
 
 	#remove the file name in the base_dir
@@ -169,15 +163,15 @@ def scan_gen_plot_data(plot_token,base_path):
 
 		num_list, plot_files = zip(*sorted(zip(num_list, plot_files)))
 	except:
-		print "There are stings in the list I can not order it"
+		print("There are stings in the list I can not order it")
 
 	#if it is an info file then deal with it
-	print check_info_file(file_name),file_name,plot_token.file0,plot_token.file1,plot_token.tag0,plot_token.tag1
+	print(check_info_file(file_name),file_name,plot_token.file0,plot_token.file1,plot_token.tag0,plot_token.tag1)
 
 	if (check_info_file(file_name)==True):
 		#print "Rod",plot_files,self.sim_dir
 
-		print plot_files,"r",plot_labels,"r",save_file,"r",plot_files,"r",base_path,"r",plot_token
+		print(plot_files,"r",plot_labels,"r",save_file,"r",plot_files,"r",base_path,"r",plot_token)
 
 		plot_files, plot_labels, save_file = gen_infofile_plot(plot_files,base_path,plot_token)
 

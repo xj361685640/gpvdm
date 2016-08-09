@@ -49,7 +49,7 @@ def mesh_load(file_name):
 	my_list=[]
 	pos=0
 	lines=[]
-	print "loading",os.path.join(os.getcwd(),file_name)
+	print("loading",os.path.join(os.getcwd(),file_name))
 	if inp_load_file(lines,os.path.join(os.getcwd(),file_name))==True:
 		pos=pos+1	#first comment
 		mesh_layers=int(lines[pos])
@@ -67,9 +67,9 @@ def mesh_load(file_name):
 			token=lines[pos]
 			pos=pos+1
 			points=lines[pos] 		#read value
-			print "adding",thick,points
+			print("adding",thick,points)
 			mesh_add(my_list,thick,points)
-			print "adding",thick,points,len(my_list)
+			print("adding",thick,points,len(my_list))
 	return my_list
 
 def mesh_save(file_name,my_list):
@@ -109,7 +109,7 @@ def mesh_get_xlen():
 	global xlist
 	tot=0.0
 	for a in xlist:
-		print a.thick
+		print(a.thick)
 		tot=tot+a.thick
 	return tot
 
@@ -117,7 +117,7 @@ def mesh_get_xpoints():
 	global xlist
 	tot=0.0
 	for a in xlist:
-		print a.points
+		print(a.points)
 		tot=tot+a.points
 	return tot
 
@@ -125,7 +125,7 @@ def mesh_get_ypoints():
 	global ylist
 	tot=0.0
 	for a in ylist:
-		print a.points
+		print(a.points)
 		tot=tot+a.points
 	return tot
 
@@ -133,6 +133,6 @@ def mesh_get_zpoints():
 	global zlist
 	tot=0.0
 	for a in zlist:
-		print a.points
+		print(a.points)
 		tot=tot+a.points
 	return tot

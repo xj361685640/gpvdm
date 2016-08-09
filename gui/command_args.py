@@ -24,7 +24,6 @@
 
 import sys
 import os
-#import shutil
 
 from clone import gpvdm_clone
 from export_as import export_as
@@ -39,17 +38,14 @@ from make_man import make_man
 from scan_tree import tree_load_program
 from scan_tree import tree_gen
 
-#from scan_item import scan_items_index_item
 from server import server
 from cal_path import get_exe_command
-#import gtk
 from plot_state import plot_state
 from plot_io import plot_load_info
 from scan_plot import scan_gen_plot_data
 from server import server_find_simulations_to_run
 from clean_sim import clean_sim_dir
 from ver import ver_sync_ver
-#from device_lib import device_lib_replace
 from code_ctrl import enable_cluster
 from win_lin import running_on_linux
 from inp import inp_update
@@ -63,54 +59,54 @@ def check_params(argv,token,values):
 				if (i+values)<len(argv):
 					return True
 				else:
-					print _("More parameters needed see --help for info")
+					print(_("More parameters needed see --help for info"))
 
 				sys.exit(0)
 
 def command_args(argc,argv):
 	if argc>=2:
 		if argv[1]=="--help":
-			print _("Usage: gpvdm [option] src_file dest_file")
-			print ""
-			print _("Options:")
-			print _("\t--version\t\tdisplays the current version")
-			print _("\t--help\t\t\tdisplays the help")
-			print _("\t--export\t\texport a simulation to a gz file")
-			print _("\t--import\t\timport a simulation from a .gpvdm file")
-			print _("\t--patch\t\t\tpatch an .gpvdm file with an older .gpvdm file")
-			print _("\t\t\t\tusage --import abc.gpvdm ./path/to/output/ ")
-			print _("\t--clone\t\t\tgenerate a clean simulation in the current directory")
-			print _("\t--clean\t\t\tcleans the current simulation directory deleting .dat files but not  scan dirs")
-			print _("\t--dump-tab\t\tdumps simulation parameters as jpg")
-			print _("\t\t\t\tusage --dump-tab output_path ")
-			print _("\t--import-scandirs\tOnly imports the scan directories")
-			print _("\t--clean-scandirs\tDeletes the content of all scan dirs")
-			print _("\t--scan-plot\t\truns an oplot file")
-			print _("\t\t\t\tusage --scan-plot /path/to/oplot/file.oplot ")
-			print _("\t--run-scan\t\truns a scan")
-			print _("\t\t\t\tusage --run-scan /path/containing/base/files/ /path/to/scan/dir/ ")
-			print _("\t--sync-ver\t\truns a scan")
-			print _("\t--edit-value\t\tedits a value in a .gpvdm archive")
-			print _("\t\t\t\tusage --edit-value /path/to/sim.gpvdm #token_to_change new_value ")
-			print _("\t\t\t\tchanges the version of input file")
-			print _("\t--replace\t\treplaces file in device lib")
+			print(_("Usage: gpvdm [option] src_file dest_file"))
+			print("")
+			print(_("Options:"))
+			print(_("\t--version\t\tdisplays the current version"))
+			print(_("\t--help\t\t\tdisplays the help"))
+			print(_("\t--export\t\texport a simulation to a gz file"))
+			print(_("\t--import\t\timport a simulation from a .gpvdm file"))
+			print(_("\t--patch\t\t\tpatch an .gpvdm file with an older .gpvdm file"))
+			print(_("\t\t\t\tusage --import abc.gpvdm ./path/to/output/ "))
+			print(_("\t--clone\t\t\tgenerate a clean simulation in the current directory"))
+			print(_("\t--clean\t\t\tcleans the current simulation directory deleting .dat files but not  scan dirs"))
+			print(_("\t--dump-tab\t\tdumps simulation parameters as jpg"))
+			print(_("\t\t\t\tusage --dump-tab output_path "))
+			print(_("\t--import-scandirs\tOnly imports the scan directories"))
+			print(_("\t--clean-scandirs\tDeletes the content of all scan dirs"))
+			print(_("\t--scan-plot\t\truns an oplot file"))
+			print(_("\t\t\t\tusage --scan-plot /path/to/oplot/file.oplot "))
+			print(_("\t--run-scan\t\truns a scan"))
+			print(_("\t\t\t\tusage --run-scan /path/containing/base/files/ /path/to/scan/dir/ "))
+			print(_("\t--sync-ver\t\truns a scan"))
+			print(_("\t--edit-value\t\tedits a value in a .gpvdm archive"))
+			print(_("\t\t\t\tusage --edit-value /path/to/sim.gpvdm #token_to_change new_value "))
+			print(_("\t\t\t\tchanges the version of input file"))
+			print(_("\t--replace\t\treplaces file in device lib"))
 			if enable_cluster()==True:
-				print _("\t--server\t\tRun as server node for cluster")
-				print _("\t--server\t\tRun as client node for cluster")
+				print(_("\t--server\t\tRun as server node for cluster"))
+				print(_("\t--server\t\tRun as client node for cluster"))
 
 
-			print "\t\t\t"
-			print ""
-			print _("Additional information about gpvdm is available at http://www.gpvdm.com.")
-			print ""
-			print _("Report bugs to: roderick.mackenzie@nottingham.ac.uk")
+			print("\t\t\t")
+			print("")
+			print(_("Additional information about gpvdm is available at http://www.gpvdm.com."))
+			print("")
+			print(_("Report bugs to: roderick.mackenzie@nottingham.ac.uk"))
 			sys.exit(0)
 
 		if 	check_params(argv,"--version",0)==True:
-			print version()
+			print(version())
 			sys.exit(0)
 		if 	check_params(argv,"--ver",0)==True:
-			print ver()
+			print(ver())
 			sys.exit(0)
 		if check_params(argv,"--import-scandirs",1)==True:
 			import_scan_dirs(os.getcwd(),argv[2])
@@ -167,10 +163,10 @@ def command_args(argc,argv):
 			tree_load_program(program_list,scan_dir_path)
 
 			watch_dir=os.path.join(os.getcwd(),scan_dir_path)
-			#print program_list,pwd,scan_dir_path
+			#print(program_list,pwd,scan_dir_path)
 			#sys.exit(0)
-			#print pwd,scan_dir_path
-			#print os.getcwd(),os.path.join(scan_dir_path)
+			#print(pwd,scan_dir_path)
+			#print(os.getcwd(),os.path.join(scan_dir_path))
 			#tree_gen(program_list,os.getcwd(),os.path.join(os.getcwd(),"suns"))
 			flat_list=[]
 			tree_gen(flat_list,program_list,base_dir,scan_dir_path)
@@ -181,7 +177,7 @@ def command_args(argc,argv):
 			myserver.clear_cache()
 			for i in range(0, len(commands)):
 				myserver.add_job(commands[i],"")
-				print "Adding job"+commands[i]
+				print("Adding job"+commands[i])
 			myserver.simple_run(exe_command)
 
 			sys.exit(0)
@@ -190,11 +186,11 @@ def command_args(argc,argv):
 			plot_token=plot_state()
 			oplot_file=argv[2]
 			if plot_load_info(plot_token,oplot_file)==True:
-				print "file0=",plot_token.file0,"<"
+				print("file0=",plot_token.file0,"<")
 				plot_files, plot_labels, save_file = scan_gen_plot_data(plot_token,os.path.dirname(oplot_file))
-				print "written data to",save_file
+				print("written data to",save_file)
 			else:
-				print "Problem loading oplot file"
+				print("Problem loading oplot file")
 			sys.exit(0)
 
 

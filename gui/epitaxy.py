@@ -72,7 +72,7 @@ def epitaxy_load():
 
 			electrical_layer.append(lines[pos])		#value
 
-			print ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",lines[pos]
+			print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",lines[pos])
 
 			if lines[pos].startswith("dos")==True:
 				electrical_layers=electrical_layers+1

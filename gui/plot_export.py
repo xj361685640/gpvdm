@@ -1,4 +1,3 @@
-#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
@@ -31,10 +30,10 @@ from util_text import gkt_title_to_gnu_plot_title
 
 def plot_export(dest_dir,input_files,state,fig):
 	file_ext=os.path.splitext(dest_dir)[1]
-	print file_ext
+	print(file_ext)
 
 	if file_ext=="":
-		print "Saving as tex file"
+		print("Saving as tex file")
 		if os.path.isdir(dest_dir)==False:
 			os.makedirs(dest_dir)
 
@@ -79,5 +78,5 @@ def plot_export(dest_dir,input_files,state,fig):
 		text_file.close()
 
 	if file_ext==".png":
-		print "Saving png as",dest_dir
+		print("Saving png as",dest_dir)
 		fig.savefig(dest_dir)

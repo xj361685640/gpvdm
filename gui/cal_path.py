@@ -1,4 +1,3 @@
-#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
@@ -75,7 +74,7 @@ def cal_share_path():
 			share_path=value
 		except WindowsError:
 			share_path="c:\\gpvdm"
-			print "No registry key found using default",share_path
+			print("No registry key found using default",share_path)
 	else:
 		if os.path.isdir("/usr/lib64/gpvdm"):
 			share_path="/usr/lib64/gpvdm/"
@@ -83,7 +82,7 @@ def cal_share_path():
 			share_path="/usr/lib/gpvdm/"
 		else:
 			share_path="/usr/lib64/gpvdm/"
-			print "I don't know where the shared files are assuming ",share_path
+			print("I don't know where the shared files are assuming ",share_path)
 
 def search_known_paths(file_or_dir_to_find,ext):
 	global share_path

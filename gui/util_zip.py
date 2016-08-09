@@ -1,4 +1,3 @@
-#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
@@ -121,8 +120,8 @@ def replace_file_in_zip_archive(zip_file_name,target,lines):
 	zf = zipfile.ZipFile(abs_path, 'w')
 
 	for file in source.filelist:
-	    if not file.filename.startswith(target):
-		zf.writestr(file.filename, source.read(file))
+		if not file.filename.startswith(target):
+			zf.writestr(file.filename, source.read(file))
 
 	source.close()
 
@@ -218,7 +217,7 @@ def read_lines_from_archive(lines,zip_file_path,file_name):
 
 	if os.path.isfile(file_path):
 		f=open(file_path, mode='rb')
-    		read_lines = f.read()
+		read_lines = f.read()
 		f.close()
 	else:
 		if os.path.isfile(zip_file_path):
@@ -231,7 +230,7 @@ def read_lines_from_archive(lines,zip_file_path,file_name):
 				return False
 		else:
 			return False
-
+	read_lines=read_lines.decode("utf-8") 
 	read_lines=read_lines.split("\n")
 
 	del lines[:]
@@ -264,7 +263,7 @@ def archive_isfile(zip_file_name,file_name):
 
 def archive_merge_file(dest_archive,src_archive,file_name):
 	if dest_archive==src_archive:
-		print "I can't opperate on the same .gpvdm file"
+		print("I can't opperate on the same .gpvdm file")
 		return
 
 	src_lines=[]
@@ -273,18 +272,18 @@ def archive_merge_file(dest_archive,src_archive,file_name):
 	orig_exists=read_lines_from_archive(src_lines,src_archive,file_name)
 
 	if orig_exists==False:
-		print "Warning: ",src_archive,file_name," no origonal file to copy"
+		print("Warning: ",src_archive,file_name," no origonal file to copy")
 		return False
 
 	dest_exists=read_lines_from_archive(dest_lines,dest_archive,file_name)
 
 	if dest_exists==False:
-		print "Warning: ",dest_archive,file_name," no final copy found"
+		print("Warning: ",dest_archive,file_name," no final copy found")
 		return False
 
 	errors=inp_merge(dest_lines,src_lines)
 	if len(errors)!=0:
-		print "File ",file_name,errors
+		print("File ",file_name,errors)
 
 	write_lines_to_archive(dest_archive,file_name,dest_lines)
 

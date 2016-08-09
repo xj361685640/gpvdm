@@ -65,7 +65,7 @@ def export_as(output):
 		f_list=glob.iglob(os.path.join("./", "dos*.inp"))
 		for in_file in f_list:
                          files.append(in_file)
-		print files
+		print(files)
 		if tex==True:
 			line=line+"\\begin{table}[H]\n"
 			line=line+"\\begin{center}\n"

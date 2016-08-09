@@ -39,7 +39,7 @@ store=[]
 def contacts_print():
 	global store
 	for s in store:
-		print s.start, s.width,s.depth,s.voltage
+		print(s.start, s.width,s.depth,s.voltage)
 
 def contacts_get_contacts():
 	global store
@@ -124,5 +124,5 @@ def contacts_load():
 
 			contacts_append(float(start),float(depth),float(voltage),float(width))
 
-		print "store=",store
+		print("store=",store)
 

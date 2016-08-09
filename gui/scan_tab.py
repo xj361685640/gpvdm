@@ -72,7 +72,7 @@ from scan_item import scan_item_save
 #qt
 from PyQt5.QtCore import QSize, Qt 
 from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QMenuBar,QStatusBar, QMenu, QTableWidget, QAbstractItemView
-from PyQt5.QtGui import QPainter,QIcon
+from PyQt5.QtGui import QPainter,QIcon,QCursor
 
 #window
 #from plot_dlg import plot_dlg_class
@@ -157,20 +157,14 @@ class scan_vbox(QWidget):
 		self.select_param_window.update()
 		self.select_param_window.show()
 
-	def callback_delete_item(self, widget, data=None):
-		selection = self.treeview.get_selection()
-		model, pathlist = selection.get_selected_rows()
-
-		iters = [model.get_iter(path) for path in pathlist]
-		for iter in iters:
-			model.remove(iter)
-
+	def callback_delete_item(self):
+		tab_remove(self.tab)
 		self.save_combo()
 		self.rebuild_liststore_op_type()
 
 	def plot_results(self,plot_token):
 		plot_token.key_units=self.get_units()
-		print "here!!!!!!!!!!"
+
 		plot_files, plot_labels, config_file = scan_gen_plot_data(plot_token,self.sim_dir)
 		print plot_files, plot_labels
 		plot_save_oplot_file(config_file,plot_token)
@@ -178,12 +172,11 @@ class scan_vbox(QWidget):
 		self.plot_open.set_sensitive(True)
 
 		self.last_plot_data=plot_token
-
 		return
 
 	def get_units(self):
 		token=""
-		for i in range(0,len(self.liststore_combobox)):
+		for i in range(0,self.tab.rowCount()):
 			if self.liststore_combobox[i][2]=="scan":
 				for ii in range(0,len(self.param_list)):
 					if self.liststore_combobox[i][0]==self.param_list[ii].name:
@@ -195,7 +188,6 @@ class scan_vbox(QWidget):
 				return found_token.units
 
 		return ""
-
 
 
 	def make_sim_dir(self):
@@ -250,7 +242,7 @@ class scan_vbox(QWidget):
 			scan_clean_dir(self.sim_dir)
 
 
-		for i in range(0,len(self.liststore_combobox)):
+		for i in range(0,self.tab.rowCount()):
 			found=False
 			for ii in range(0,len(self.liststore_op_type)):
 				if self.liststore_combobox[i][4]==self.liststore_op_type[ii][0]:
@@ -265,8 +257,8 @@ class scan_vbox(QWidget):
 		if run==True:
 			print "Running"
 			program_list=[]
-			for i in range(0,len(self.liststore_combobox)):
-				program_list.append([self.liststore_combobox[i][0],self.liststore_combobox[i][1],self.liststore_combobox[i][3],self.liststore_combobox[i][4]])
+			for i in range(0,self.tab.rowCount()):
+				program_list.append([tab_get_value(self.tab,i,0),tab_get_value(self.tab,i,1),tab_get_value(self.tab,i,3),tab_get_value(self.tab,i,4)])
 
 			print program_list
 			tree_load_config(self.sim_dir)
@@ -356,16 +348,16 @@ class scan_vbox(QWidget):
 	def save_combo(self):
 		self.make_sim_dir()
 		a = open(os.path.join(self.sim_dir,"gpvdm_gui_config.inp"), "w")
-		a.write(str(len(self.liststore_combobox))+"\n")
+		a.write(str(self.tab.rowCount())+"\n")
 
 
-		for item in self.liststore_combobox:
-			a.write(item[0]+"\n")
-			a.write(item[1]+"\n")
-			a.write(item[2]+"\n")
-			a.write(item[3]+"\n")
-			a.write(item[4]+"\n")
-			a.write(str(item[5])+"\n")
+		for i in range(0,self.tab.rowCount()):
+			a.write(tab_get_value(self.tab,i,0)+"\n")
+			a.write(tab_get_value(self.tab,i,1)+"\n")
+			a.write(tab_get_value(self.tab,i,2)+"\n")
+			a.write(tab_get_value(self.tab,i,3)+"\n")
+			a.write(tab_get_value(self.tab,i,4)+"\n")
+			a.write(tab_get_value(self.tab,i,5)+"\n")
 		a.close()
 
 		if os.path.isfile(os.path.join(self.sim_dir,"scan_config.inp"))==False:
@@ -392,18 +384,6 @@ class scan_vbox(QWidget):
 		self.save_combo()
 
 
-	def text_changed_file(self, widget, path, text, model):
-		model[path][0] = text
-		self.save_combo()
-
-	def text_changed_token(self, widget, path, text, model):
-		model[path][1] = text
-		self.save_combo()
-
-	def text_changed_value(self, widget, path, text, model):
-		model[path][3] = text
-		self.save_combo()
-
 	def toggled_cb( self, cell, path, model ):
 		model[path][3] = not model[path][3]
 		print model[path][2],model[path][3]
@@ -416,12 +396,8 @@ class scan_vbox(QWidget):
 		self.tab.setHorizontalHeaderLabels([_("File"), _("Token"), _("Parameter to change"), _("Values"), _("Opperation")])
 		tree_load_model(self.tab,self.sim_dir)
 
-
-
-	def on_treeview_button_press_event(self, treeview, event):
-		if event.type == gtk.gdk.BUTTON_PRESS and event.button == 3:
-			self.popup_menu.popup(None, None, None, event.button, event.time)
-			return True
+	def contextMenuEvent(self, event):
+		self.popMenu.popup(QCursor.pos())
 
 
 	def callback_close(self,widget):

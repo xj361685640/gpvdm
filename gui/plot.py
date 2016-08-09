@@ -1,4 +1,3 @@
-#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
@@ -30,7 +29,7 @@ from plot_io import plot_load_info
 
 def load_graph(path):
 	cmd = '/usr/bin/gnuplot -persist '+path
-	print cmd
+	print(cmd)
 	os.system(cmd)
 
 def check_info_file(search_string):
@@ -47,7 +46,7 @@ def file_name_to_latex(in_string):
 def plot_populate_plot_token(plot_token,file_name):
 	if file_name!=None:
 		ret=plot_load_info(plot_token,file_name)
-		print "ret====",ret
+		print("ret====",ret)
 		if ret==True:
 			return True
 
@@ -57,8 +56,8 @@ def plot_populate_plot_token(plot_token,file_name):
 		my_token_lib=tokens()
 		result0=my_token_lib.find(plot_token.tag0)
 		result1=my_token_lib.find(plot_token.tag1)
-		print "one=",plot_token.tag0,result0
-		print "two=",plot_token.tag1,result1
+		print("one=",plot_token.tag0,result0)
+		print("two=",plot_token.tag1,result1)
 		if result0!=False:
 			plot_token.x_label=result0.info
 			plot_token.x_units=result0.units
@@ -70,10 +69,10 @@ def plot_populate_plot_token(plot_token,file_name):
 
 			plot_token.title=result0.info+" "+result1.info
 
-			print "Found tokens",plot_token.tag0,plot_token.tag1
+			print("Found tokens",plot_token.tag0,plot_token.tag1)
 			return True
 		else:
-			print "Tokens not found",plot_token.tag0,plot_token.tag1
+			print("Tokens not found",plot_token.tag0,plot_token.tag1)
 
 	return False
 

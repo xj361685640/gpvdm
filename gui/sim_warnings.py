@@ -22,7 +22,6 @@
 
 
 
-import gtk
 #import os
 #from global_objects import global_object_get
 #from plot_io import get_plot_file_info
@@ -31,6 +30,12 @@ import gtk
 #from help import my_help_class
 #from cal_path import get_image_file_path
 
+#qt
+from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication,QTableWidgetItem,QComboBox, QMessageBox, QDialog, QDialogButtonBox, QWidget
+from PyQt5.uic import loadUi
+from PyQt5.QtGui import QPixmap
+
+
 COL_PATH = 0
 COL_PIXBUF = 1
 COL_IS_DIRECTORY = 2
@@ -38,13 +43,14 @@ COL_IS_DIRECTORY = 2
 import i18n
 _ = i18n.language.gettext
 
-class sim_warnings(gtk.Dialog):
+class sim_warnings(QWidget):
 
 	def callback_close(self, widget, data=None):
 		self.response(True)
-	    	return
+		return
 
 	def init(self,text):
+		QWidget.__init(self)
 		self.set_default_response(gtk.RESPONSE_OK)
 		self.set_title(_("Simulation report - gpvdm"))
 		self.set_flags(gtk.DIALOG_DESTROY_WITH_PARENT)

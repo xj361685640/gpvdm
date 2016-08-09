@@ -120,7 +120,7 @@ def tab_add(tab,data):
 	tab.blockSignals(True)
 	index = tab.selectionModel().selectedRows()
 
-	print index
+	print(index)
 	if len(index)>0:
 		pos=index[0].row()+1
 	else:

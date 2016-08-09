@@ -57,19 +57,19 @@ def update_simulaton_to_new_ver(file_name):
 
 		merge_archives(back_file,dest_archive,False)
 	else:
-		print "Can't merge bak file already exists"
+		print("Can't merge bak file already exists")
 	return True
 
 
 def remove_non_used_index_files(dest_archive,src_archive):
 	ls_dest=zip_lsdir(dest_archive)
 	if ls_dest==False:
-		print "File ",ls_dest, "not found"
+		print("File ",ls_dest, "not found")
 		return
 
 	ls_src=zip_lsdir(src_archive)
 	if ls_src==False:
-		print "File ",ls_src, "not found"
+		print("File ",ls_src, "not found")
 
 
 	for my_file in ls_dest:
@@ -106,7 +106,7 @@ def merge_archives(src_archive,dest_archive,only_over_write):
 
 	base_file=files[:]
 
-	print src_archive
+	print(src_archive)
 	ls=zip_lsdir(src_archive)
 	for i in range(0,len(ls)):
 		if inp_issequential_file(ls[i],"dos"):
@@ -126,15 +126,15 @@ def merge_archives(src_archive,dest_archive,only_over_write):
 			base_file.append("laser0.inp")
 
 	for i in range(0,len(files)):
-		print "Importing",files[i],"to",dest_archive,template_archive,base_file[i]
+		print("Importing",files[i],"to",dest_archive,template_archive,base_file[i])
 		if only_over_write==False:
 			if archive_isfile(dest_archive,files[i])==False:
 				if archive_copy_file(dest_archive,files[i],template_archive,base_file[i])==False:
-					print "problem copying",template_archive,base_file[i]
-				print "made new file",dest_archive,files[i]
+					print("problem copying",template_archive,base_file[i])
+				print("made new file",dest_archive,files[i])
 
 		ret=archive_merge_file(dest_archive,src_archive,files[i])
-		print "merged",dest_archive,src_archive,files[i],ret
+		print("merged",dest_archive,src_archive,files[i],ret)
 
 
 	files=[ "epitaxy.inp", "fit.inp", "constraints.inp","duplicate.inp", "thermal.inp","mesh_x.inp","mesh_y.inp","mesh_z.inp" ]
@@ -156,15 +156,15 @@ def merge_archives(src_archive,dest_archive,only_over_write):
 			base_file.append("lumo0.inp")
 
 	for i in range(0,len(files)):
-		print "Importing",files[i]
+		print("Importing",files[i])
 		template_ver=archive_get_file_ver(template_archive,base_file[i])
 		src_ver=archive_get_file_ver(src_archive,files[i])
-		print template_ver,src_ver,template_ver==src_ver,template_archive,files[i],src_archive
+		print(template_ver,src_ver,template_ver==src_ver,template_archive,files[i],src_archive)
 
 		if template_ver!="" and src_ver!="":
 			if template_ver==src_ver:
 				archive_copy_file(dest_archive,files[i],src_archive,files[i])
-				print "complex copy",dest_archive,files[i],src_archive,files[i]
+				print("complex copy",dest_archive,files[i],src_archive,files[i])
 
 
 def import_archive(src_archive,dest_archive,only_over_write):
@@ -172,11 +172,11 @@ def import_archive(src_archive,dest_archive,only_over_write):
 	dest_dir=os.path.dirname(dest_archive)
 
 	if src_archive.endswith('.gpvdm')==False:
-		print "I can only import from .gpvdm files"
+		print("I can only import from .gpvdm files")
 		return
 
 	if dest_archive.endswith('.gpvdm')==False:
-		print "I can only import to .gpvdm files"
+		print("I can only import to .gpvdm files")
 		return
 
 	merge_archives(src_archive,dest_archive,only_over_write)
@@ -188,7 +188,7 @@ def import_scan_dirs(dest_dir,src_dir):
 	get_scan_dirs(sim_dirs,src_dir)
 	for my_file in sim_dirs:
 		dest=os.path.join(dest_dir,os.path.basename(my_file))
-		print "copy scan dir",my_file,"to",dest
+		print("copy scan dir",my_file,"to",dest)
 
 		if os.path.exists(dest):
 			delete_second_level_link_tree(dest)
@@ -200,15 +200,15 @@ def clean_scan_dirs(path):
 	get_scan_dirs(sim_dirs,path)
 
 	for my_dir in sim_dirs:
-		print "cleaning ",my_dir
+		print("cleaning ",my_dir)
 		files = os.listdir(my_dir)
 		for file in files:
 			file_name=os.path.join(my_dir,file)
 			if file_name.endswith(".dat"):
-				print "Remove",file_name
+				print("Remove",file_name)
 				os.remove(file_name)
 			if os.path.isdir(file_name):
-				print "remove dir",file_name
+				print("remove dir",file_name)
 				shutil.rmtree(file_name)
 
 

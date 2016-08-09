@@ -112,7 +112,7 @@ class server(cluster):
 
 		self.extern_gui_sim_stop("Finished simulation")
 		#my_help_class.help_set_help(["plot.png",_("<big><b>Simulation finished!</b></big>\nClick on the plot icon to plot the results")])
-		print text
+		print(text)
 		if len(text)!=0:
 			dialog=sim_warnings()
 			dialog.init(text)
@@ -153,7 +153,7 @@ class server(cluster):
 
 	def print_jobs(self):
 		for i in range(0, len(self.jobs)):
-			print self.jobs[i],self.arg[i],self.status[i]
+			print(self.jobs[i],self.arg[i],self.status[i])
 
 		#if self.cluster==True:
 		#	s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -163,7 +163,7 @@ class server(cluster):
 
 
 	def run_jobs(self):
-		print ">>>>>>>>>>>>>>>>>>>>>>>>>",self.cluster
+		print(">>>>>>>>>>>>>>>>>>>>>>>>>",self.cluster)
 
 		if self.cluster==True:
 			self.cluster_run_jobs()
@@ -176,23 +176,23 @@ class server(cluster):
 				if (self.jobs_running<self.cpus):
 					if self.status[i]==0:
 						self.status[i]=1
-						print "Running job",self.jobs[i],self.args[i]
+						print("Running job",self.jobs[i],self.args[i])
 						if self.enable_gui==True:
 							self.progress_window.set_text("Running job "+self.jobs[i])
 						self.jobs_running=self.jobs_running+1
 						if running_on_linux()==True:
 							cmd="cd "+self.jobs[i]+";"
 							cmd=cmd+get_exe_command()+" --lock "+"lock"+str(i)+" "+self.args[i]+" --gui &"
-							print "command="+cmd
+							print("command="+cmd)
 							if self.enable_gui==True:
 								self.terminal.run(self.jobs[i],get_exe_command()+" --lock "+"lock"+str(i)+" "+self.args[i]+" --gui &")
 							else:
-								print cmd
+								print(cmd)
 								os.system(cmd)
 
 						else:
 							cmd=get_exe_command()+" --lock "+"lock"+str(i)+" "+self.args[i]+" --gui &\n"
-							print cmd,self.jobs[i],self.args[i]
+							print(cmd,self.jobs[i],self.args[i])
 							subprocess.Popen(cmd,cwd=self.jobs[i])
 							#os.system(cmd)
 
@@ -235,7 +235,7 @@ class server(cluster):
 		self.status=[]
 		self.jobs_running=0
 		self.jobs_run=0
-		print _("I have shut down the server.")
+		print(_("I have shut down the server."))
 
 
 	def simple_run(self):
@@ -243,7 +243,7 @@ class server(cluster):
 		for i in range(0, len(ls)):
 			if ls[i][:4]=="lock" and ls[i][-4:]==".dat":
 				del_file=os.path.join(self.sim_dir,ls[i])
-				print "delete file:",del_file
+				print("delete file:",del_file)
 				os.remove(del_file)
 		self.run_jobs()
 
@@ -265,7 +265,7 @@ class server(cluster):
 		if data_in.startswith("hex"):
 			data_in=data_in[3:]
 			data=data_in.decode("hex")
-			print "dbus:",data
+			print("dbus:",data)
 			if data.startswith("lock"):
 				if str(data)>4:
 					test=data[:4]

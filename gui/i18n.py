@@ -1,4 +1,3 @@
-#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
@@ -31,7 +30,7 @@ current_locale, encoding = locale.getdefaultlocale()
 locale_path = get_lang_path()
 #print locale_path, current_locale
 if current_locale==None:
-	print "No local language set assuming en_US"
+	print("No local language set assuming en_US")	
 	current_locale="en_US"
 
 language = gettext.translation ('gpvdm', locale_path, [current_locale] , fallback=True)

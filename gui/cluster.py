@@ -98,13 +98,13 @@ class cluster:
 	def connect(self):
 		if self.cluster==False:
 			encrypt_load()
-			print "conecting to:",self.server_ip
+			print("conecting to:",self.server_ip)
 			self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 			port=int(inp_get_token_value("server.inp","#port"))
 			try:
 				self.socket.connect((self.server_ip, port))
 			except:
-				print "Failed to connect to ",self.server_ip
+				print("Failed to connect to ",self.server_ip)
 				return False
 
 			self.cluster=True
@@ -119,16 +119,16 @@ class cluster:
 				self.thread.daemon = True
 				self.thread.start()
 
-			print "conected to cluster"
+			print("conected to cluster")
 		else:
 			self.socket.close()
 			try:
 				self.thread.stop()
 			except:
-				print "error stopping thread",sys.exc_info()[0]
+				print("error stopping thread",sys.exc_info()[0])
 
 			self.cluster=False
-			print "not conected to cluster"
+			print("not conected to cluster")
 
 		return True
 
@@ -151,14 +151,14 @@ class cluster:
 		#		print "I should be waiting for mylock"
 		#		self.wait_lock()
 		#		print "I have finished waiting"
-		print "cache clear"
+		print("cache clear")
 
 	def recvall(self,n):
 		data = ''
 		while len(data) < n:
 			packet = self.socket.recv(n - len(data))
 			if not packet:
-				print "not packet"
+				print("not packet")
 				return None
 			data += packet
 		data=decrypt(data)
@@ -193,7 +193,7 @@ class cluster:
 
 
 		sums=sums[0:len(sums)-1]
-		#print "sending",sums
+		#print("sending",sums0
 		size=len(sums)
 
 		tx_size=((int(size)/int(512))+1)*512
@@ -263,7 +263,7 @@ class cluster:
 		return f
 
 	def send_dir(self,src,target):
-		print "Sending dir",src,target
+		print("Sending dir",src,target)
 		files=self.gen_dir_list(src)
 		self.send_files(target,src,files)
 
@@ -310,9 +310,9 @@ class cluster:
 			buf[i]=header[i]
 
 		buf=buf+bytes
-		print "I am sending",len(buf),data.id
+		print("I am sending",len(buf),data.id)
 		buf=encrypt(buf)
-		print "I am sending",len(buf),data.id
+		print("I am sending",len(buf),data.id)
 		self.socket.sendall(buf)
 
 	def send_files(self,target,src,files):
@@ -330,7 +330,7 @@ class cluster:
 			f.close()
 			orig_size=len(bytes)
 
-			print "tx file:",full_path
+			print("tx file:",full_path)
 
 			if target=="":
 				data.target=src
@@ -345,7 +345,7 @@ class cluster:
 			count=count+1
 			self.tx_packet(data)
 
-		print "total=",count
+		print("total=",count)
 
 	def process_node_list(self,data):
 		self.nodes=[]
@@ -353,18 +353,18 @@ class cluster:
 		data=data.split("\n")
 		for i in range(0,len(data)-1):
 			self.nodes.append(data[i].split(":"))
-		print self.nodes
+		print(self.nodes)
 
 	def process_job_list(self,data):
 		ret=self.rx_packet(data)
 		self.jobs_list.clear()
 		for line in ret.data.split("\n"):
 			act=line.split()
-			print len(act),act
+			print(len(act),act)
 			if len(act)==9:
 				self.jobs_list.append([act[0], act[1], act[2], act[3],act[4], act[5], act[6], act[7]])
 
-		print ret.data
+		print(ret.data)
 
 	def process_sync_packet_two(self,data):
 		lines=data.split("\n")
@@ -378,7 +378,7 @@ class cluster:
 		lines=data.split("\n")
 		pos=0
 		copy_list=[]
-		#print lines
+		#print(lines)
 		for i in range(0,len(lines)):
 			fname=lines[pos]
 			pos=pos+1
@@ -388,7 +388,7 @@ class cluster:
 		self.send_files(target,src,copy_list)
 
 	def process_sync_packet_one(self,data):
-		print data
+		print(data)
 
 
 	def rx_packet(self,data):
@@ -426,7 +426,7 @@ class cluster:
 				if os.path.isdir(my_dir)==False:
 					os.makedirs(my_dir)
 
-				print "write:",target
+				print("write:",target)
 				f = open(target, "wb")
 				f.write(ret.data[0:ret.size])
 				f.close()
@@ -434,7 +434,7 @@ class cluster:
 				f = open(target, "wb")
 				f.close()
 		else:
-			print "not writing target",pwd,target
+			print("not writing target",pwd,target)
 
 	def set_cluster_loads(self,ip,loads):
 
@@ -504,7 +504,7 @@ class cluster:
 			self.tx_packet(data)
 
 		else:
-			print "stop jobs"
+			print("stop jobs")
 			if running_on_linux()==True:
 				exe_name=os.path.basename(get_exe_command())
 				cmd = 'killall '+exe_name
@@ -551,7 +551,7 @@ class cluster:
 		self.tx_packet(data)
 
 	def listen(self):
-		#print "thread !!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+		#print("thread !!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 		self.running=True
 
 		while(1):
@@ -561,7 +561,7 @@ class cluster:
 			if data==None:
 				break
 
-			#print "command=",data,len(data)
+			#print("command=",data,len(data))
 			if data.startswith("gpvdmfile"):
 				self.rx_file(data)
 				understood=True
@@ -584,7 +584,7 @@ class cluster:
 
 			if data.startswith("gpvdmheadquit"):
 				self.stop()
-				print "Server quit!"
+				print("Server quit!")
 				understood=True
 
 			if data.startswith("gpvdmnodelist"):
@@ -604,9 +604,9 @@ class cluster:
 				understood=True
 
 			if data.startswith("gpvdm_message"):
-				print data
+				print(data)
 				understood=True
 
 			if understood==False:
-				print "Command ",data, "not understood"
+				print("Command ",data, "not understood")
 				

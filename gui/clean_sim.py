@@ -30,22 +30,22 @@ def remove_bin(directory):
 		for file in files:
 			if file.endswith(".o"):
 				del_file=os.path.join(root, file)
-				print "Deleteing "+del_file
+				print("Deleteing "+del_file)
 				os.remove(del_file)
 
 			if file.endswith(".so"):
 				del_file=os.path.join(root, file)
-				print "Deleteing "+del_file
+				print("Deleteing "+del_file)
 				os.remove(del_file)
 
 			if file.endswith(".a"):
 				del_file=os.path.join(root, file)
-				print "Deleteing "+del_file
+				print("Deleteing "+del_file)
 				os.remove(del_file)
 
 			if file.endswith(".dll"):
 				del_file=os.path.join(root, file)
-				print "Deleteing "+del_file
+				print("Deleteing "+del_file)
 				os.remove(del_file)
 
 def clean_sim_dir():
@@ -55,23 +55,23 @@ def clean_sim_dir():
 
 	del_file=os.path.join(os.getcwd(),"pub")
 	if os.path.isdir(del_file):
-		print "Deleteing "+del_file
+		print("Deleteing "+del_file)
 		shutil.rmtree(del_file)
 
 	del_file=os.path.join(os.getcwd(),"dynamic")
 	if os.path.isdir(del_file):
-		print "Deleteing "+del_file
+		print("Deleteing "+del_file)
 		shutil.rmtree(del_file)
 
 	del_file=os.path.join(os.getcwd(),"snapshots")
 	if os.path.isdir(del_file):
-		print "Deleteing "+del_file
+		print("Deleteing "+del_file)
 		shutil.rmtree(del_file)
 
 	files = os.listdir(os.getcwd())
 	for file in files:
 		if file.startswith("snapshots_"):
-			print "deleting dir",file
+			print("deleting dir",file)
 			shutil.rmtree(file)
 
 	files = os.listdir(os.getcwd())
@@ -94,5 +94,5 @@ def clean_sim_dir():
 		if file.endswith("gmon.out"):
 			remove=True
 		if remove==True:
-			print "Deleting",file
+			print("Deleting",file)
 			os.remove(file)

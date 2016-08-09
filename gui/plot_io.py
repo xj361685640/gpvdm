@@ -42,7 +42,7 @@ def plot_load_info(plot_token,file_name_in):
 	if ret==False:
 		ret=get_plot_file_info(plot_token,file_name_in)
 	else:
-		print "not loaded oplot file",config_file
+		print("not loaded oplot file",config_file)
 
 	return ret
 
@@ -169,7 +169,7 @@ def get_plot_file_info(output,file_name):
 	found,lines=zip_get_data_file(file_name)
 
 	if found==False:
-		print "can't file file"
+		print("can't file file")
 		return False
 
 	for i in range(0, len(lines)):
