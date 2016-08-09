@@ -131,8 +131,8 @@ def tab_add(tab,data):
 	for i in range(0,len(data)):
 		tab.setItem(pos,i,QTableWidgetItem(data[i]))
 
-
 	tab.blockSignals(False)
+
 
 def tab_remove(tab):
 	tab.blockSignals(True)

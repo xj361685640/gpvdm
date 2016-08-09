@@ -20,10 +20,6 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-
-
-#import gc
-#import sys
 import os
 import shutil
 import glob
@@ -40,6 +36,9 @@ from cal_path import get_materials_path
 from clone import clone_materials
 from scan_item import scan_items_get_file
 from scan_item import scan_items_get_token
+
+#windows
+from gui_util import tab_add
 
 copy_materials=False
 
@@ -112,7 +111,7 @@ def tree_load_config(sim_dir):
 		copy_materials="False"
 	copy_materials=str2bool(copy_materials)
 
-def tree_load_model(model,sim_dir):
+def tree_load_model(tab,sim_dir):
 	file_name=os.path.join(sim_dir,'gpvdm_gui_config.inp')
 
 	if os.path.isfile(file_name)==True:
@@ -128,7 +127,7 @@ def tree_load_model(model,sim_dir):
 		pos=pos+1
 
 		for i in range(0, mylen):
-			model.append([config[pos],config[pos+1],config[pos+2],config[pos+3], config[pos+4],str2bool(config[pos+5])])
+			tab_add(tab,[config[pos],config[pos+1],config[pos+2],config[pos+3], config[pos+4],str2bool(config[pos+5])])
 			pos=pos+6
 
 def tree_gen(flat_simulation_list,program_list,base_dir,sim_dir):

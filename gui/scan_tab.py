@@ -1,4 +1,3 @@
-#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
@@ -79,6 +78,12 @@ from PyQt5.QtGui import QPainter,QIcon
 #from plot_dlg import plot_dlg_class
 #from scan_select import select_param
 #from notes import notes
+from gui_util import tab_add
+from gui_util import tab_move_down
+from gui_util import tab_remove
+from gui_util import tab_get_value
+from gui_util import error_dlg
+from gui_util import yes_no_dlg
 
 import i18n
 _ = i18n.language.gettext
@@ -89,11 +94,10 @@ class scan_vbox(QWidget):
 	def rename(self,new_name):
 		self.sim_name=os.path.basename(new_name)
 		self.sim_dir=new_name
-		self.status_bar.push(self.context_id, self.sim_dir)
-		self.set_tab_caption(self.sim_name)
-		#self.tab_label.set_text(os.path.basename(new_name))
-		self.reload_liststore()
-		self.plotted_graphs.init(self.sim_dir,self.callback_last_menu_click)
+
+		self.status_bar.showMessage(self.sim_dir)
+		self.load()
+		#self.plotted_graphs.init(self.sim_dir,self.callback_last_menu_click)
 
 	def callback_notes(self, widget, data=None):
 
@@ -101,41 +105,24 @@ class scan_vbox(QWidget):
 		note.init(self.sim_dir)
 		note.show()
 
-	def callback_move_down(self, widget, data=None):
+	def callback_move_down(self):
+		tab_move_down(self.tab)
 
-		selection = self.treeview.get_selection()
-		model, iter = selection.get_selected()
-
-		if iter:
-#			path = model.get_path(iter)[0]
- 			self.liststore_combobox.move_after( iter,self.liststore_combobox.iter_next(iter))
-			#self.liststore_combobox.swap(path+1,path)
 
 	def callback_insert_command(self, widget, data=None):
+		a=tab.selectionModel().selectedRows()
 
-		selection = self.treeview.get_selection()
-		model, iter = selection.get_selected()
-
-		if iter:
-			path = model.get_path(iter)[0]
-			print path
-			model[path][1]="ret=str(round(random.uniform(1.0, 9.9),2))+\"e-\"+str(randint(1, 9))"
-			model[path][2]="python_code"
- 			#self.liststore_combobox.move_after( iter,self.liststore_combobox.iter_next(iter))
-			#self.liststore_combobox.swap(path+1,path)
+		if len(a)>0:
+			a=a[0].row()
+			tab_set_value(self.tab,a,1,"ret=str(round(random.uniform(1.0, 9.9),2))+\"e-\"+str(randint(1, 9))")
+			tab_set_value(self.tab,a,2,"python_code")
 
 
 	def add_line(self,data):
-		my_help_class.help_set_help(["forward.png",_("<big><b>The scan window</b></big>\n Now using the drop down menu in the prameter to change 'column', select the device parameter you wish to vary, an example may be dos0/Electron Mobility. Now enter the values you would like it to scan oveer in the  'Values', an example could be '1e-3 1e-4 1e-5 1e-6'.  And hit the double arrorw to run the simulation.")])
-		selection = self.treeview.get_selection()
-		model, pathlist = selection.get_selected_rows()
+		my_help_class.help_set_help(["forward.png",_("<big><b>The scan window</b></big><br> Now using the drop down menu in the prameter to change 'column', select the device parameter you wish to vary, an example may be dos0/Electron Mobility. Now enter the values you would like it to scan oveer in the  'Values', an example could be '1e-3 1e-4 1e-5 1e-6'.  And hit the double arrorw to run the simulation.")])
 
-		if len(pathlist)!=0:
-			path = pathlist[0][0]
-			#path = model.get_path(iter)[0]
-			self.liststore_combobox.insert(path+1,data)
-		else:
-			self.liststore_combobox.append(data)
+		tab_add(tab,data)
+
 		self.save_combo()
 		self.rebuild_liststore_op_type()
 
@@ -150,10 +137,11 @@ class scan_vbox(QWidget):
 		for path in pathlist:
 			tree_iter = model.get_iter(path)
 			print "path=",tree_iter
-			build=build+model.get_value(tree_iter,0)+","+model.get_value(tree_iter,1)+","+model.get_value(tree_iter,2)+","+str(model.get_value(tree_iter,3))+","+str(model.get_value(tree_iter,4))+","+str(str(model.get_value(tree_iter,5)))+"\n"
+			build=build+model.get_value(tree_iter,0)+","+model.get_value(tree_iter,1)+","+model.get_value(tree_iter,2)+","+str(model.get_value(tree_iter,3))+","+str(model.get_value(tree_iter,4))+","+str(model.get_value(tree_iter,5))+"\n"
 			print build
 		build=build[:-1]
 		self.clipboard.set_text(build, -1)
+		#tab_get_value(tab,y,x)
 
 	def callback_paste_item(self, widget, data=None):
 		text = self.clipboard.wait_for_text()
@@ -248,19 +236,13 @@ class scan_vbox(QWidget):
 		base_dir=os.getcwd()
 		run=True
 
-		if len(self.liststore_combobox) == 0:
-			message = gtk.MessageDialog(type=gtk.MESSAGE_ERROR, buttons=gtk.BUTTONS_OK)
-			message.set_markup(_("You have not selected any parameters to scan through.  Use the add button."))
-			message.run()
-			message.destroy()
+		if self.tab.rowCount() == 0:
+			error_dlg(self,_("You have not selected any parameters to scan through.  Use the add button."))
 			return
 
 
 		if self.sim_name=="":
-			message = gtk.MessageDialog(type=gtk.MESSAGE_ERROR, buttons=gtk.BUTTONS_OK)
-			message.set_markup(_("No sim dir name"))
-			message.run()
-			message.destroy()
+			error_dlg(self,_("No sim dir name"))
 			return
 
 		self.make_sim_dir()
@@ -275,12 +257,7 @@ class scan_vbox(QWidget):
 					found=True
 			if found==False:
 				run=False
-
-				md = gtk.MessageDialog(None,
-				0, gtk.MESSAGE_ERROR,
-				gtk.BUTTONS_CLOSE, self.liststore_combobox[i][4]+"Not valid")
-				md.run()
-				md.destroy()
+				error_dlg(self,self.liststore_combobox[i][4]+_("Not valid"))
 				break
 
 
@@ -296,9 +273,7 @@ class scan_vbox(QWidget):
 			if generate_simulations==True:
 				flat_simulation_list=[]
 				if tree_gen(flat_simulation_list,program_list,base_dir,self.sim_dir)==False:
-					md = gtk.MessageDialog(None, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_WARNING,  gtk.BUTTONS_CLOSE, _("Problem generating tree."))
-					md.run()
-					md.destroy()
+					error_dlg(self,_("Problem generating tree."))
 					return
 
 				print "flat list",flat_simulation_list
@@ -343,33 +318,11 @@ class scan_vbox(QWidget):
 				self.plot_results(plot_data)
 				self.plotted_graphs.refresh()
 
-	def callback_gen_plot_command(self, widget, data=None):
-		#dialog = gtk.FileChooserDialog("File to plot",
-        #       None,
-        #       gtk.FILE_CHOOSER_ACTION_OPEN,
-        #       (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
-        #        gtk.STOCK_OPEN, gtk.RESPONSE_OK))
-		#dialog.set_default_response(gtk.RESPONSE_OK)
-		#dialog.set_current_folder(self.sim_dir)
-		#filter = gtk.FileFilter()
-		#filter.set_name("Data files")
-		#filter.add_pattern("*.dat")
-		#dialog.add_filter(filter)
+	def callback_gen_plot_command(self):
+		dialog=gpvdm_open(os.getcwd())
+		ret=dialog.window.exec_()
 
-		#filter = gtk.FileFilter()
-		#filter.set_name("Input files")
-		#filter.add_pattern("*.inp")
-		#dialog.add_filter(filter)
-
-		#dialog.set_action(gtk.FILE_CHOOSER_ACTION_OPEN)
-
-
-		#response = dialog.run()
-		dialog=gpvdm_open()
-		dialog.init(self.sim_dir)
-		response=dialog.run()
-
-		if response == True:
+		if ret==QDialog.Accepted:
 			full_file_name=dialog.get_filename()
 			dialog.destroy()
 			#print cur_dir=os.getcwd()
@@ -399,9 +352,6 @@ class scan_vbox(QWidget):
 
 				self.plotted_graphs.refresh()
 
-		else:
-			print _("Closed, no files selected")
-			dialog.destroy()
 
 	def save_combo(self):
 		self.make_sim_dir()
@@ -460,9 +410,11 @@ class scan_vbox(QWidget):
 		self.save_combo()
 		return
 
-	def reload_liststore(self):
-		self.liststore_combobox.clear()
-		tree_load_model(self.liststore_combobox,self.sim_dir)
+	def load(self):
+		self.tab.clear()
+		self.tab.setRowCount(0)
+		self.tab.setHorizontalHeaderLabels([_("File"), _("Token"), _("Parameter to change"), _("Values"), _("Opperation")])
+		tree_load_model(self.tab,self.sim_dir)
 
 
 
@@ -470,7 +422,7 @@ class scan_vbox(QWidget):
 		if event.type == gtk.gdk.BUTTON_PRESS and event.button == 3:
 			self.popup_menu.popup(None, None, None, event.button, event.time)
 			return True
-		
+
 
 	def callback_close(self,widget):
 		self.hide()
@@ -516,9 +468,7 @@ class scan_vbox(QWidget):
 		mycmp=cmp_class()
 		ret=mycmp.init(self.sim_dir,get_exe_command())
 		if ret==False:
-			md = gtk.MessageDialog(None, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_WARNING,  gtk.BUTTONS_CLOSE, _("Re-run the simulation with 'dump all slices' set to one to use this tool."))
-        		md.run()
-        		md.destroy()
+			error_dlg(self,_("Re-run the simulation with 'dump all slices' set to one to use this tool."))
 			return
 
 	def __init__(self,myserver,status_bar,scan_root_dir,sim_name):
@@ -588,10 +538,10 @@ class scan_vbox(QWidget):
 		self.tab.verticalHeader().setVisible(False)
 
 		self.tab.clear()
-		self.tab.setColumnCount(4)
+		self.tab.setColumnCount(6)
 		self.tab.setSelectionBehavior(QAbstractItemView.SelectRows)
 
-		self.tab.setHorizontalHeaderLabels([_("File"), _("Token"), _("Parameter to change"), _("Values"), _("Opperation")])
+		self.load()
 
 		self.main_vbox.addWidget(self.tab)
 
@@ -630,11 +580,6 @@ class scan_vbox(QWidget):
 		self.popMenu.addAction(self.mp_down)
 
 		self.popMenu.addSeparator()
-
-		self.status_bar=QStatusBar()
-		self.status_bar.showMessage(self.sim_dir)
-
-		self.main_vbox.addWidget(self.status_bar)
 
 		self.setLayout(self.main_vbox)
 
