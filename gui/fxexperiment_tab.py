@@ -77,6 +77,6 @@ class fxexperiment_tab(QTabWidget):
 	def rename(self,tab_name):
 		self.tab_name=tab_name+"@"+self.tab_name.split("@")[1]
 		inp_update_token_value("fxdomain"+str(self.index)+".inp", "#sim_menu_name", self.tab_name,1)
-		self.set_tab_caption(self.tab_name.split("@")[0])
+
 
 

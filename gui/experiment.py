@@ -46,6 +46,7 @@ from PyQt5.QtGui import QPainter,QIcon
 #window
 from experiment_tab import experiment_tab
 from QHTabBar import QHTabBar
+from gui_util import yes_no_dlg
 
 def experiment_new_filename():
 	for i in range(0,20):
@@ -61,49 +62,30 @@ class experiment(QWidget):
 		for item in self.notebook.get_children():
 			item.update()
 
-	def get_main_menu(self, window):
-		accel_group = gtk.AccelGroup()
-		item_factory = gtk.ItemFactory(gtk.MenuBar, "<main>", accel_group)
-
-		item_factory.create_items(self.menu_items)
-		if enable_betafeatures()==False:
-			item_factory.delete_item(_("/Advanced"))
-
-		window.add_accel_group(accel_group)
-
-		self.item_factory = item_factory
-
-		return item_factory.get_widget("<main>")
-
-	def callback_close(self, widget, data=None):
+	def callback_close(self):
 		self.win_list.update(self,"experiment_window")
 		self.hide()
 		return True
 
-	def callback_help(self, widget, data=None):
+	def callback_help(self):
 		webbrowser.open('http://www.gpvdm.com/man/index.html')
 
-	def callback_add_page(self, widget, data=None):
-		new_sim_name=dlg_get_text( _("New experiment name:"), _("experiment ")+str(len(self.notebook.get_children())+1),image_name="new.png")
+	def callback_add_page(self):
+		new_sim_name=dlg_get_text( _("New experiment name:"), _("experiment ")+str(self.notebook.count()+1),"new.png")
 
-		if new_sim_name!=None:
+		if new_sim_name.ret!=None:
 			index=experiment_new_filename()
 			inp_copy_file("pulse"+str(index)+".inp","pulse0.inp")
 			inp_copy_file("time_mesh_config"+str(index)+".inp","time_mesh_config0.inp")
-			inp_update_token_value("pulse"+str(index)+".inp", "#sim_menu_name", new_sim_name+"@pulse",1)
+			inp_update_token_value("pulse"+str(index)+".inp", "#sim_menu_name", new_sim_name.ret+"@pulse",1)
 			self.add_page(index)
-			global_object_get("tb_item_sim_mode_update")()
 
-	def callback_remove_page(self,widget,name):
-		pageNum = self.notebook.get_current_page()
-		tab = self.notebook.get_nth_page(pageNum)
-		self.toggle_tab_visible(tab.tab_name)
+	def callback_copy_page(self):
+		tab = self.notebook.currentWidget()
 
-	def callback_copy_page(self,widget,data):
-		pageNum = self.notebook.get_current_page()
-		tab = self.notebook.get_nth_page(pageNum)
 		old_index=tab.index
-		new_sim_name=dlg_get_text( _("Clone the current experiment to a new experiment called:"), tab.tab_name.split("@")[0],image_name="clone.png")
+		new_sim_name=dlg_get_text( _("Clone the current experiment to a new experiment called:"), tab.tab_name.split("@")[0],"clone.png")
+		new_sim_name=new_sim_name.ret
 		if new_sim_name!=None:
 			new_sim_name=new_sim_name+"@"+tab.tab_name.split("@")[1]
 			index=experiment_new_filename()
@@ -116,57 +98,39 @@ class experiment(QWidget):
 
 			inp_update_token_value("pulse"+str(index)+".inp", "#sim_menu_name", new_sim_name,1)
 			self.add_page(index)
-			global_object_get("tb_item_sim_mode_update")()
-
-	#def callback_run_experiment(self,widget,data):
-	#	pageNum = self.notebook.get_current_page()
-	#	tab = self.notebook.get_nth_page(pageNum)
-	#	tab.simulate(True,True)
 
 
 	def remove_invalid(self,input_name):
 		return input_name.replace (" ", "_")
 
-	def callback_rename_page(self,widget,data):
-		pageNum = self.notebook.get_current_page()
-		tab = self.notebook.get_nth_page(pageNum)
-		new_sim_name=dlg_get_text( _("Rename the experiment to be called:"), tab.tab_name.split("@")[0],image_name="rename.png")
+	def callback_rename_page(self):
+		tab = self.notebook.currentWidget()
+
+		new_sim_name=dlg_get_text( _("Rename the experiment to be called:"), tab.tab_name.split("@")[0],"rename.png")
+
+		new_sim_name=new_sim_name.ret
 
 		if new_sim_name!=None:
 			#new_sim_name=self.remove_invalid(new_sim_name)
 			#new_dir=os.path.join(self.sim_dir,new_sim_name)
 			#shutil.move(old_dir, new_dir)
 			tab.rename(new_sim_name)
-			global_object_get("tb_item_sim_mode_update")()
-			#edit
+			index=self.notebook.currentIndex() 
+			self.notebook.setTabText(index, new_sim_name)
 
 
-	def callback_delete_page(self,widget,data):
-		pageNum = self.notebook.get_current_page()
-		tab = self.notebook.get_nth_page(pageNum)
-		md = gtk.MessageDialog(None, 0, gtk.MESSAGE_QUESTION,  gtk.BUTTONS_YES_NO, _("Should I remove the experiment file ")+tab.tab_name.split("@")[0])
+	def callback_delete_page(self):
 
-		response = md.run()
+		tab = self.notebook.currentWidget()
 
-		if response == gtk.RESPONSE_YES:
+		response=yes_no_dlg(self,_("Should I remove the experiment file ")+tab.tab_name.split("@")[0])
+
+
+		if response == True:
 			inp_remove_file("pulse"+str(tab.index)+".inp")
 			inp_remove_file("time_mesh_config"+str(tab.index)+".inp")
-			self.notebook.remove_page(pageNum)
-			global_object_get("tb_item_sim_mode_update")()
-
-		elif response == gtk.RESPONSE_NO:
-			print _("Not deleting")
-			#edit
-
-
-		md.destroy()
-
-	#def callback_view_toggle(self, widget, data):
-		#self.toggle_tab_visible(widget.get_label())
-
-	def callback_view_toggle_tab(self, widget, data):
-		print "add code"
-		#self.toggle_tab_visible(data)
+			index=self.notebook.currentIndex() 
+			self.notebook.removeTab(index)
 
 	def load_tabs(self):
 
@@ -185,16 +149,11 @@ class experiment(QWidget):
 
 
 	def clear_pages(self):
-		for items in self.tab_menu.get_children():
-			self.tab_menu.remove(items)
-
-		for child in self.notebook.get_children():
-    			self.notebook.remove(child)
-
+		self.notebook.clear()
 
 	def add_page(self,index):
 		tab=experiment_tab(index)
-		self.notebook.addTab(tab,tab.tab_name)
+		self.notebook.addTab(tab,tab.tab_name.split("@")[0])
 
 	def switch_page(self,page, page_num, user_param1):
 		pageNum = self.notebook.get_current_page()
@@ -241,7 +200,7 @@ class experiment(QWidget):
 
 		self.main_vbox.addWidget(menubar)
 
-		self.setFixedSize(900, 700)
+		self.setMinimumSize(1200, 700)
 		self.setWindowTitle(_("Time domain experiment window - gpvdm")) 
 		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"image.png")))
 

@@ -19,7 +19,6 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 import os
-#from about import about_dialog_show
 from window_list import windows
 import webbrowser
 from inp import inp_update
@@ -93,16 +92,14 @@ class lasers(QWidget):
 	def callback_copy_page(self):
 		tab = self.notebook.currentWidget()
 		new_sim_name=dlg_get_text(_("Clone the current laser to a new laser called:"), "clone.png")
-		print new_sim_name
-		return
-		#dlg_get_text( _("Clone the current laser to a new laser called:"), tab.tab_name,image_name="clone.png")
-		if new_sim_name!=None:
+
+		if new_sim_name.ret!=None:
 			index=laser_new_filename()
 			if inp_copy_file("laser"+str(index)+".inp",tab.file_name)==False:
 				print "Error copying file"+tab.file_name
 				return
 
-			inp_update_token_value("laser"+str(index)+".inp", "#laser_name", new_sim_name,1)
+			inp_update_token_value("laser"+str(index)+".inp", "#laser_name", new_sim_name.ret,1)
 			self.add_page(index)
 
 
@@ -116,7 +113,7 @@ class lasers(QWidget):
 		if new_laser_name.ret!=None:
 			print "calling rename"
 			index=self.notebook.currentIndex() 
-			self.notebook.setTabText(index, new_laser_name.ret);
+			self.notebook.setTabText(index, new_laser_name.ret)
 			inp_update(tab.file_name, "#laser_name", new_laser_name.ret)
 
 	def callback_delete_page(self):

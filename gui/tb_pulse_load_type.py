@@ -34,8 +34,11 @@ from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSize, Qt 
 from PyQt5.QtWidgets import QWidget,QSizePolicy,QHBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QLabel,QComboBox
+from PyQt5.QtCore import pyqtSignal
 
 class tb_pulse_load_type(QWidget):
+
+	changed = pyqtSignal()
 
 	def __init__(self,index):
 		self.index=index
@@ -77,7 +80,7 @@ class tb_pulse_load_type(QWidget):
 	def call_back_sim_mode_changed(self):
 		mode=self.sim_mode.currentText()
 		inp_update_token_value("pulse"+str(self.index)+".inp", "#pulse_sim_mode", mode,1)
-		self.emit("changed")
+		self.changed.emit()
 
 #gobject.type_register(tb_pulse_load_type)
 #gobject.signal_new("changed", tb_pulse_load_type, gobject.SIGNAL_RUN_FIRST,gobject.TYPE_NONE, ())

@@ -43,24 +43,22 @@ import matplotlib
 matplotlib.use('Qt5Agg')
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
+from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 
 #qt
 from PyQt5.QtCore import QSize, Qt 
 from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QTableWidget,QAbstractItemView
 from PyQt5.QtGui import QPainter,QIcon
 
+#windows
+from gui_util import tab_add
+from gui_util import tab_move_down
+from gui_util import tab_remove
+from gui_util import tab_get_value
+
 import i18n
 _ = i18n.language.gettext
 
-(
-SEG_LENGTH,
-SEG_DT,
-SEG_VOLTAGE_START,
-SEG_VOLTAGE_STOP,
-SEG_MUL,
-SEG_SUN,
-SEG_LASER
-) = range(7)
 
 mesh_articles = []
 
@@ -86,37 +84,29 @@ class tab_time_mesh(QWidget):
 		out_text.append("#fs_laser_time")
 		out_text.append(str(float(self.fs_laser_time)))
 		out_text.append("#time_segments")
-		out_text.append(str(int(len(self.store))))
-		i=0
-		for line in self.store:
+		out_text.append(str(self.tab.rowCount()))
+
+		for i in range(0,self.tab.rowCount()):
 			out_text.append("#time_segment"+str(i)+"_len")
-			scan_item_add(file_name,out_text[len(out_text)-1],_("Part ")+str(i)+_(" period"),1)
-			out_text.append(str(line[SEG_LENGTH]))
+			out_text.append(str(tab_get_value(self.tab,i, 0)))
 
 			out_text.append("#time_segment"+str(i)+"_dt")
-			scan_item_add(file_name,out_text[len(out_text)-1],_("Part ")+str(i)+_(" dt"),1)
-			out_text.append(str(line[SEG_DT]))
+			out_text.append(str(tab_get_value(self.tab,i, 1)))
 
 			out_text.append("#time_segment"+str(i)+"_voltage_start")
-			scan_item_add(file_name,out_text[len(out_text)-1],_("Part ")+str(i)+_(" start voltage"),1)
-			out_text.append(str(line[SEG_VOLTAGE_START]))
+			out_text.append(str(tab_get_value(self.tab,i, 2)))
 
 			out_text.append("#time_segment"+str(i)+"_voltage_stop")
-			scan_item_add(file_name,out_text[len(out_text)-1],_("Part ")+str(i)+_(" stop voltage"),1)
-			out_text.append(str(line[SEG_VOLTAGE_STOP]))
+			out_text.append(str(tab_get_value(self.tab,i, 3)))
 
 			out_text.append("#time_segment"+str(i)+"_mul")
-			scan_item_add(file_name,out_text[len(out_text)-1],_("Part ")+str(i)+_(" mul"),1)
-			out_text.append(str(line[SEG_MUL]))
+			out_text.append(str(tab_get_value(self.tab,i, 4)))
 
 			out_text.append("#time_segment"+str(i)+"_sun")
-			scan_item_add(file_name,out_text[len(out_text)-1],_("Part ")+str(i)+_(" sun"),1)
-			out_text.append(str(line[SEG_SUN]))
+			out_text.append(str(tab_get_value(self.tab,i, 5)))
 
 			out_text.append("#time_segment"+str(i)+"_laser")
-			scan_item_add(file_name,out_text[len(out_text)-1],_("Part ")+str(i)+_(" laser"),1)
-			out_text.append(str(line[SEG_LASER]))
-			i=i+1
+			out_text.append(str(tab_get_value(self.tab,i, 6)))
 
 		out_text.append("#ver")
 		out_text.append("1.1")
@@ -140,15 +130,7 @@ class tab_time_mesh(QWidget):
 
 
 	def callback_add_section(self, widget, treeview):
-		data=["0.0", "0.0", "0.0", "0.0", "1.0", "0.0", "0.0"]
-		selection = treeview.get_selection()
-		model, iter = selection.get_selected()
-
-		if iter:
-			path = model.get_path(iter)[0]
-			self.store.insert(path+1,data)
-		else:
-			self.store.append(data)
+		tab_add(self.tab,[_("10e-6"),_("0.1e-6"),_("0.0"),_("0.0"),_("1.0"),_("0.0"),_("0.0")])
 
 		self.build_mesh()
 		self.draw_graph()
@@ -156,13 +138,7 @@ class tab_time_mesh(QWidget):
 		self.save_data()
 
 	def callback_remove_item(self, button, treeview):
-
-		selection = treeview.get_selection()
-		model, iter = selection.get_selected()
-
-		if iter:
-			#path = model.get_path(iter)[0]
-			model.remove(iter)
+		tab_remove(self.tab)
 
 		self.build_mesh()
 
@@ -171,32 +147,18 @@ class tab_time_mesh(QWidget):
 		self.save_data()
 
 	def callback_move_down(self, widget, treeview):
-
-		selection = treeview.get_selection()
-		model, iter = selection.get_selected()
-
-		if iter:
-			#path = model.get_path(iter)[0]
- 			self.store.move_after( iter,self.store.iter_next(iter))
+		tab_move_down(self.tab)
 
 		self.build_mesh()
 		self.draw_graph()
 		self.fig.canvas.draw()
 		self.save_data()
 
-	def callback_start_time(self, widget, treeview):
-		new_time=dlg_get_text( _("Enter the start time of the simulation"), str(self.start_time))
-
-		if new_time!=None:
-			self.start_time=float(new_time)
-			self.build_mesh()
-			self.draw_graph()
-			self.fig.canvas.draw()
-			self.save_data()
 
 
 	def callback_laser(self, widget, treeview):
 		new_time=dlg_get_text( _("Enter the time at which the laser pulse will fire (-1) to turn it off"), str(self.fs_laser_time))
+		new_time=new_time.ret
 
 		if new_time!=None:
 			self.fs_laser_time=float(new_time)
@@ -204,13 +166,6 @@ class tab_time_mesh(QWidget):
 			self.draw_graph()
 			self.fig.canvas.draw()
 			self.save_data()
-
-	def on_cell_edited_length(self, cell, path, new_text, model):
-		model[path][SEG_LENGTH] = new_text
-		self.build_mesh()
-		self.draw_graph()
-		self.fig.canvas.draw()
-		self.save_data()
 
 	def update(self):
 		self.build_mesh()
@@ -292,7 +247,7 @@ class tab_time_mesh(QWidget):
 	def save_image(self,file_name):
 		self.fig.savefig(file_name)
 
-	def callback_save(self, widget, data=None):
+	def callback_save(self):
 		dialog = gtk.FileChooserDialog(_("Save as.."),
                                None,
                                gtk.FILE_CHOOSER_ACTION_SAVE,
@@ -319,27 +274,18 @@ class tab_time_mesh(QWidget):
 		    print _("Closed, no files selected")
 		dialog.destroy()
 
-	def create_model(self):
-		store = gtk.ListStore(str, str, str, str, str, str, str)
-
-		for line in self.list:
-			store.append([str(line[SEG_LENGTH]), str(line[SEG_DT]), str(line[SEG_VOLTAGE_START]), str(line[SEG_VOLTAGE_STOP]), str(line[SEG_MUL]), str(line[SEG_SUN]), str(line[SEG_LASER])])
-
-		return store
-
-	def create_columns(self):
-		self.tab.clear()
-		self.tab.setColumnCount(7)
-		self.tab.setSelectionBehavior(QAbstractItemView.SelectRows)
-		self.tab.setHorizontalHeaderLabels([_("Length"), _("dt"), _("Start Voltage"), _("Stop Voltage"), _("Multiply"),_("Sun"),_("CW Laser")])
-
 
 	def load_data(self):
+		self.tab.setColumnCount(7)
+		self.tab.clear()
+		self.tab.setSelectionBehavior(QAbstractItemView.SelectRows)
 
 		lines=[]
 		self.start_time=0.0
 		self.fs_laser_time=0.0
 		self.list=[]
+
+		self.tab.setHorizontalHeaderLabels([_("Length"),_("dt"), _("Start Voltage"), _("Stop Voltage"), _("step multiplyer"), _("Suns"),_("Laser")])
 
 		file_name="time_mesh_config"+str(self.index)+".inp"
 		print "loading",file_name
@@ -364,9 +310,10 @@ class tab_time_mesh(QWidget):
 					token,mul,pos=inp_read_next_item(lines,pos)
 					token,sun,pos=inp_read_next_item(lines,pos)
 					token,laser,pos=inp_read_next_item(lines,pos)
-					self.list.append((length,dt,voltage_start,voltage_stop,mul,sun,laser))
 
-				print self.list
+					tab_add(self.tab,[str(length),str(dt),str(voltage_start),str(voltage_stop),str(mul),str(sun),str(laser)])
+
+
 				return True
 			else:
 				print "file "+file_name+"wrong version"
@@ -396,20 +343,21 @@ class tab_time_mesh(QWidget):
 
 
 		seg=0
-		for line in self.store:
-			end_time=pos+float(line[SEG_LENGTH])
-			dt=float(line[SEG_DT])
-			voltage_start=float(line[SEG_VOLTAGE_START])
-			voltage_stop=float(line[SEG_VOLTAGE_STOP])
-			mul=float(line[SEG_MUL])
-			sun=float(line[SEG_SUN])
-			laser=float(line[SEG_LASER])
+		for i in range(0,self.tab.rowCount()):
+			length=float(tab_get_value(self.tab,i, 0))
+			end_time=pos+length
+			dt=float(tab_get_value(self.tab,i, 1))
+			voltage_start=float(tab_get_value(self.tab,i, 2))
+			voltage_stop=float(tab_get_value(self.tab,i, 3))
+			mul=float(tab_get_value(self.tab,i, 4))
+			sun=float(tab_get_value(self.tab,i, 5))
+			laser=float(tab_get_value(self.tab,i, 6))
 			#print "VOLTAGE=",line[SEG_VOLTAGE],end_time,pos
 
 			if dt!=0.0 and mul!=0.0:
 				voltage=voltage_start
 				while(pos<end_time):
-					dv=(voltage_stop-voltage_start)*(dt/float(line[SEG_LENGTH]))
+					dv=(voltage_stop-voltage_start)*(dt/length)
 					self.time.append(pos)
 					self.laser.append(laser)
 					self.sun.append(sun+sun_steady_state)
@@ -430,7 +378,18 @@ class tab_time_mesh(QWidget):
 
 		#print self.voltage
 
-		self.statusbar.push(0, str(len(self.time))+_(" mesh points"))
+		#self.statusbar.push(0, str(len(self.time))+_(" mesh points"))
+
+	def callback_start_time(self, widget, treeview):
+		new_time=dlg_get_text( _("Enter the start time of the simulation"), str(self.start_time))
+		new_time=new_time.ret
+
+		if new_time!=None:
+			self.start_time=float(new_time)
+			self.build_mesh()
+			self.draw_graph()
+			self.fig.canvas.draw()
+			self.save_data()
 
 
 	def __init__(self,index):
@@ -448,6 +407,9 @@ class tab_time_mesh(QWidget):
 		self.line_number=[]
 		self.list=[]
 
+		self.fig = Figure(figsize=(5,4), dpi=100)
+		self.canvas = FigureCanvas(self.fig)  # a gtk.DrawingArea
+		self.canvas.figure.patch.set_facecolor('white')
 
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
@@ -468,30 +430,26 @@ class tab_time_mesh(QWidget):
 		self.tb_start.triggered.connect(self.callback_start_time)
 		toolbar.addAction(self.tb_start)
 
+		nav_bar=NavigationToolbar(self.canvas,self)
+		toolbar.addWidget(nav_bar)
+
+
 		self.main_vbox.addWidget(toolbar)
+
 
 
 		gui_pos=0
 
 
 
-		self.fig = Figure(figsize=(5,4), dpi=100)
-		self.canvas = FigureCanvas(self.fig)  # a gtk.DrawingArea
-		#self.canvas.figure.patch.set_facecolor('white')
 		#canvas.set_size_request(500, 150)
 
 		self.ax1=None
 		self.show_key=True
 
-		self.load_data()
-		self.update_scan_tokens()
-
-		#self.build_mesh()
-		self.draw_graph()
-
 		self.main_vbox.addWidget(self.canvas)
 
-		self.canvas.show()
+		#self.canvas.show()
 
 		#toolbar 2
 
@@ -519,11 +477,22 @@ class tab_time_mesh(QWidget):
 
 		self.tab.verticalHeader().setVisible(False)
 
-		self.create_columns()
+
+		self.load_data()
+		self.update_scan_tokens()
+
+		self.build_mesh()
+		self.draw_graph()
 
 		self.tab.cellChanged.connect(self.on_cell_edited)
 
 		self.main_vbox.addWidget(self.tab)
+
+		w=self.width()
+
+		#self.canvas.setMinimumSize(w, 400)
+
+		self.tab.setMinimumSize(w, 120)
 
 
 		self.setLayout(self.main_vbox)

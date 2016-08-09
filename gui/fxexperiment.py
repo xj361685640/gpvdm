@@ -21,7 +21,6 @@
 
 
 import os
-#from about import about_dialog_show
 from gui_util import dlg_get_text
 from window_list import windows
 import webbrowser
@@ -45,6 +44,9 @@ from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QMenuBar,QStatusBar
 from PyQt5.QtGui import QPainter,QIcon
 
+#window
+from QHTabBar import QHTabBar
+
 def experiment_new_filename():
 	for i in range(0,20):
 		name="fxdomain"+str(i)+".inp"
@@ -54,34 +56,19 @@ def experiment_new_filename():
 
 class fxexperiment(QWidget):
 
-	def update(self):
-		for item in self.notebook.get_children():
-			item.update()
 
-	def get_main_menu(self, window):
-		accel_group = gtk.AccelGroup()
-		item_factory = gtk.ItemFactory(gtk.MenuBar, "<main>", accel_group)
-
-		item_factory.create_items(self.menu_items)
-		if enable_betafeatures()==False:
-			item_factory.delete_item(_("/Advanced"))
-
-		window.add_accel_group(accel_group)
-
-		self.item_factory = item_factory
-
-		return item_factory.get_widget("<main>")
-
-	def callback_close(self, widget, data=None):
-		#self.win_list.update(self,"experiment_window")
+	def callback_close(self):
+		self.win_list.update(self,"experiment_window")
 		self.hide()
 		return True
 
-	def callback_help(self, widget, data=None):
+	def callback_help(self):
 		webbrowser.open('http://www.gpvdm.com/man/index.html')
 
-	def callback_add_page(self, widget, data=None):
-		new_sim_name=dlg_get_text( _("New experiment name:"), _("experiment ")+str(len(self.notebook.get_children())+1),image_name="new.png")
+	def callback_add_page(self):
+		new_sim_name=dlg_get_text( _("New experiment name:"), _("experiment ")+str(self.notebook.count()+1),"new.png")
+
+		new_sim_name=new_sim_name.ret
 
 		if new_sim_name!=None:
 			index=experiment_new_filename()
@@ -89,12 +76,6 @@ class fxexperiment(QWidget):
 			inp_copy_file("fxmesh"+str(index)+".inp","fxmesh0.inp")
 			inp_update_token_value("fxdomain"+str(index)+".inp", "#sim_menu_name", new_sim_name+"@fxdomain",1)
 			self.add_page(index)
-			global_object_get("tb_item_sim_mode_update")()
-
-	def callback_remove_page(self,widget,name):
-		pageNum = self.notebook.get_current_page()
-		tab = self.notebook.get_nth_page(pageNum)
-		self.toggle_tab_visible(tab.tab_name)
 
 	def callback_copy_page(self,widget,data):
 		pageNum = self.notebook.get_current_page()
@@ -124,53 +105,36 @@ class fxexperiment(QWidget):
 	def remove_invalid(self,input_name):
 		return input_name.replace (" ", "_")
 
-	def callback_rename_page(self,widget,data):
-		pageNum = self.notebook.get_current_page()
-		tab = self.notebook.get_nth_page(pageNum)
-		new_sim_name=dlg_get_text( _("Rename the experiment to be called:"), tab.tab_name.split("@")[0],image_name="rename.png")
+	def callback_rename_page(self):
+		tab = self.notebook.currentWidget()
+
+		new_sim_name=dlg_get_text( _("Rename the experiment to be called:"), tab.tab_name.split("@")[0],"rename.png")
+
+		new_sim_name=new_sim_name.ret
 
 		if new_sim_name!=None:
-			#new_sim_name=self.remove_invalid(new_sim_name)
-			#new_dir=os.path.join(self.sim_dir,new_sim_name)
-			#shutil.move(old_dir, new_dir)
 			tab.rename(new_sim_name)
-			global_object_get("tb_item_sim_mode_update")()
-			#edit
+			index=self.notebook.currentIndex() 
+			self.notebook.setTabText(index, new_sim_name)
 
 
 	def callback_delete_page(self,widget,data):
-		pageNum = self.notebook.get_current_page()
-		tab = self.notebook.get_nth_page(pageNum)
-		md = gtk.MessageDialog(None, 0, gtk.MESSAGE_QUESTION,  gtk.BUTTONS_YES_NO, _("Should I remove the experiment file ")+tab.tab_name.split("@")[0])
+		tab = self.notebook.currentWidget()
 
-		response = md.run()
+		response=yes_no_dlg(self,_("Should I remove the experiment file ")+tab.tab_name.split("@")[0])
 
-		if response == gtk.RESPONSE_YES:
+		if response == True:
 			inp_remove_file("fxdomain"+str(tab.index)+".inp")
 			inp_remove_file("fxmesh"+str(tab.index)+".inp")
-			self.notebook.remove_page(pageNum)
-			global_object_get("tb_item_sim_mode_update")()
-
-		elif response == gtk.RESPONSE_NO:
-			print _("Not deleting")
-			#edit
-
-
-		md.destroy()
-
-	#def callback_view_toggle(self, widget, data):
-		#self.toggle_tab_visible(widget.get_label())
-
-	def callback_view_toggle_tab(self, widget, data):
-		print "add code"
-		#self.toggle_tab_visible(data)
+			index=self.notebook.currentIndex() 
+			self.notebook.removeTab(index)
 
 	def load_tabs(self):
 
 		file_list=zip_lsdir(os.path.join(os.getcwd(),"sim.gpvdm"))
 		files=[]
 		for i in range(0,len(file_list)):
-			if file_list[i].startswith("laser") and file_list[i].endswith(".inp"):
+			if file_list[i].startswith("fxdomain") and file_list[i].endswith(".inp"):
 				files.append(file_list[i])
 
 		print "load tabs",files
@@ -181,25 +145,16 @@ class fxexperiment(QWidget):
 				self.add_page(value)
 
 	def clear_pages(self):
-		for items in self.tab_menu.get_children():
-			self.tab_menu.remove(items)
-
-		for child in self.notebook.get_children():
-    			self.notebook.remove(child)
-
+		self.notebook.clear()
 
 	def add_page(self,index):
 		tab=fxexperiment_tab()
 		tab.init(index)
-		self.notebook.addTab(tab,tab.tab_name)
-
-	def switch_page(self,page, page_num, user_param1):
-		pageNum = self.notebook.get_current_page()
-		tab = self.notebook.get_nth_page(pageNum)
-		self.status_bar.push(self.context_id, tab.tab_name)
+		self.notebook.addTab(tab,tab.tab_name.split("@")[0])
 
 	def __init__(self):
 		QWidget.__init__(self)
+		self.setMinimumSize(1200, 700)
 
 		self.win_list=windows()
 		self.win_list.load()
@@ -224,9 +179,6 @@ class fxexperiment(QWidget):
 		self.menu_experiment_rename=self.menu_experiment.addAction(_("&Rename experiment"))
 		self.menu_experiment_rename.triggered.connect(self.callback_rename_page)
 
-		self.menu_experiment_rename=self.menu_experiment.addAction(_("&Rename experiment"))
-		self.menu_experiment_rename.triggered.connect(self.callback_rename_page)
-
 		self.menu_experiment_clone=self.menu_experiment.addAction(_("&Clone experiment"))
 		self.menu_experiment_clone.triggered.connect(self.callback_copy_page)
 
@@ -238,9 +190,8 @@ class fxexperiment(QWidget):
 
 		self.main_vbox.addWidget(menubar)
 
-		self.setFixedSize(900, 500)
 		self.setWindowTitle(_("Frequency domain experiment editor - gpvdm")) 
-		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"image.png")))
+		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"spectrum.png")))
 
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
@@ -275,8 +226,9 @@ class fxexperiment(QWidget):
 
 
 		self.notebook = QTabWidget()
+		self.notebook.setTabBar(QHTabBar())
 
-		self.notebook.setTabsClosable(True)
+		self.notebook.setTabPosition(QTabWidget.West)
 		self.notebook.setMovable(True)
 
 		self.load_tabs()
@@ -290,5 +242,4 @@ class fxexperiment(QWidget):
 
 		self.setLayout(self.main_vbox)
 
-		return
 

@@ -30,6 +30,18 @@ from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QMenuBar,QStatusBar
 from PyQt5.QtGui import QPainter,QIcon,QPixmap
 
+class my_draw(QWidget):
+    def __init__(self, parent=None):
+        super(QWidget, self).__init__(parent)
+
+        self.mQImage = QPixmap("new.png")
+
+    def paintEvent(self, QPaintEvent):
+        painter = QPainter()
+        painter.begin(self)
+        painter.drawPixmap(100,10, self.mQImage)
+        painter.end()
+
 
 class circuit(QWidget):
 
@@ -65,62 +77,29 @@ class circuit(QWidget):
 		vbox.addWidget(self.darea)
 
 		self.setLayout(vbox)
+		self.load_type.changed.connect(self.repaint)
 		return
 
+	def paintEvent(self, QPaintEvent):
+		y_offset=100
+		x_offset=50
 
+		painter = QPainter()
+		painter.begin(self)
 
-	def draw_callback(self,sender):
-		self.darea.queue_draw()
-		#self.cr = self.darea.window.cairo_create()
-		#self.draw()
+		if self.load_type.sim_mode.currentText()=="load":
+			painter.drawPixmap(x_offset,y_offset, self.diode)
 
-	def draw(self):
-		x=40
-		y=40
-		self.cr.set_source_rgb(0.0,0.0,0.0)
-		self.cr.set_font_size(14)
+			painter.drawPixmap(x_offset+620,y_offset+67, self.load)
+		elif self.load_type.sim_mode.currentText()=="ideal_diode_ideal_load":
+			painter.drawPixmap(x_offset,y_offset, self.ideal_diode)
 
-
-		if self.load_type.sim_mode.get_active_text()=="load":
-			self.cr.move_to(x+130, y+120)
-			self.cr.show_text("C=")
-
-			self.cr.move_to(x+250, y+120)
-			self.cr.show_text("Rshunt=")
-
-			self.cr.move_to(x+250, y+25)
-			self.cr.show_text("Rcontact=")
-
-
-			self.cr.set_source_pixbuf(self.diode, x, y)
-			self.cr.paint()
-
-			self.cr.set_source_pixbuf(self.load, x+610, y+67)
-			self.cr.paint()
-			self.cr.move_to(x+550, y+150)
-			self.cr.show_text("Rload=")
-		elif self.load_type.sim_mode.get_active_text()=="ideal_diode_ideal_load":
-			self.cr.set_source_pixbuf(self.ideal_diode, x, y)
-			self.cr.paint()
-			self.cr.set_source_pixbuf(self.ideal_load, x+610, y+67)
-			self.cr.paint()
+			painter.drawPixmap(x_offset+620,y_offset+68, self.ideal_load)
 		else:
-			self.cr.move_to(x+130, y+120)
-			self.cr.show_text("C=")
+			painter.drawPixmap(x_offset,y_offset, self.diode)
 
-			self.cr.move_to(x+250, y+120)
-			self.cr.show_text("Rshunt=")
+			painter.drawPixmap(x_offset+620,y_offset+57, self.voc)
 
-			self.cr.move_to(x+250, y+25)
-			self.cr.show_text("Rcontact=")
+		painter.end()
 
-			self.cr.set_source_pixbuf(self.diode, x, y)
-			self.cr.paint()
-			self.cr.set_source_pixbuf(self.voc, x+610, y+57)
-			self.cr.paint()
-
-
-	def expose(self, widget, event):
-		self.cr = self.darea.window.cairo_create()
-		self.draw()
 

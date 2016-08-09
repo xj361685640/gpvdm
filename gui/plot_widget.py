@@ -691,6 +691,7 @@ class plot_widget(QVBoxLayout):
 
 		self.fig.canvas.mpl_connect('motion_notify_event', self.mouse_move)
 
+
 		#self.item_factory = gtk.ItemFactory(gtk.MenuBar, "<main>", None)
 
 		#menu_items = (

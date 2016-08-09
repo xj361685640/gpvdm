@@ -26,7 +26,7 @@ from notice import notice
 import random
 import time
 
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QIcon,QTransform
 from PyQt5.QtCore import QSize, Qt, QTimer
 from PyQt5.uic import loadUi
 from PyQt5.QtWidgets import QApplication,QGraphicsScene
@@ -58,26 +58,32 @@ class splash_window():
 		self.window.image.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
 		self.window.image.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
 
+		window_h=self.window.height()
+		window_w=self.window.width()
 
 		image=QPixmap(os.path.join(get_image_file_path(),"splash2.png"))
+		image.scaledToHeight(window_h)
 
 		w=image.width()
-		dw=494
-		xpos=w-dw
+		h=image.height()
+		x_max=w-window_h-window_w/2
 
-		h=float(time.strftime("%H"))*60
+		hour=float(time.strftime("%H"))*60
 		m=float(time.strftime("%m"))
-		tot=h+m
+		tot=hour+m
 		my_max=float(24*60)
+
 		value=tot/my_max
 
-		xpos=int(xpos*value)
-
+		xpos=int(x_max*value)+window_w/2
+		print "xpos=",xpos
 		scene=QGraphicsScene();
-		scene.addPixmap(image);
-		scene.setSceneRect(0, 0, 0, 0)
+		scene.setSceneRect(xpos, 0, 0, h)
 		self.window.image.setScene(scene)
+
 		self.window.show()
+
+		scene.addPixmap(image);
 
 		QTimer.singleShot(1500, self.callback_destroy)
 

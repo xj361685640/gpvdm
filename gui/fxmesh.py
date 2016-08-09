@@ -40,19 +40,19 @@ import matplotlib
 matplotlib.use('Qt5Agg')
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
+from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 
 #qt
 from PyQt5.QtCore import QSize, Qt 
 from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QTableWidget,QAbstractItemView
 from PyQt5.QtGui import QPainter,QIcon
 
+#windows
+from gui_util import tab_add
+from gui_util import tab_move_down
+from gui_util import tab_remove
+from gui_util import tab_get_value
 
-
-(
-SEG_LENGTH,
-SEG_DFX,
-SEG_MUL
-) = range(3)
 
 mesh_articles = []
 
@@ -75,21 +75,21 @@ class tab_fxmesh(QWidget):
 		out_text.append("#fx_start")
 		out_text.append(str(float(self.fx_start)))
 		out_text.append("#fx_segments")
-		out_text.append(str(int(len(self.store))))
-		i=0
-		for line in self.store:
+		out_text.append(str(self.tab.rowCount()))
+
+		for i in range(0,self.tab.rowCount()):
 			out_text.append("#fx_segment"+str(i)+"_len")
 			scan_item_add(file_name,out_text[len(out_text)-1],_("Part ")+str(i)+_(" period"),1)
-			out_text.append(str(line[SEG_LENGTH]))
+			out_text.append(str(tab_get_value(self.tab,i, 0)))
 
 			out_text.append("#fx_segment"+str(i)+"_dfx")
 			scan_item_add(file_name,out_text[len(out_text)-1],_("Part ")+str(i)+_(" dfx"),1)
-			out_text.append(str(line[SEG_DFX]))
+			out_text.append(str(tab_get_value(self.tab,i, 1)))
 
 			out_text.append("#fx_segment"+str(i)+"_mul")
 			scan_item_add(file_name,out_text[len(out_text)-1],_("Part ")+str(i)+_(" mul"),1)
-			out_text.append(str(line[SEG_MUL]))
-			i=i+1
+			out_text.append(str(tab_get_value(self.tab,i, 2)))
+
 
 		out_text.append("#ver")
 		out_text.append("1.0")
@@ -109,15 +109,8 @@ class tab_fxmesh(QWidget):
 
 
 	def callback_add_section(self, widget, treeview):
-		data=["0.0", "0.0", "1.0"]
-		selection = treeview.get_selection()
-		model, iter = selection.get_selected()
 
-		if iter:
-			path = model.get_path(iter)[0]
-			self.store.insert(path+1,data)
-		else:
-			self.store.append(data)
+		tab_add(self.tab,["0.0","0.0","0.0"])
 
 		self.build_mesh()
 		self.draw_graph()
@@ -125,13 +118,7 @@ class tab_fxmesh(QWidget):
 		self.save_data()
 
 	def callback_remove_item(self, button, treeview):
-
-		selection = treeview.get_selection()
-		model, iter = selection.get_selected()
-
-		if iter:
-#			path = model.get_path(iter)[0]
-			model.remove(iter)
+		tab_remove(self.tab)
 
 		self.build_mesh()
 
@@ -141,12 +128,7 @@ class tab_fxmesh(QWidget):
 
 	def callback_move_down(self, widget, treeview):
 
-		selection = treeview.get_selection()
-		model, iter = selection.get_selected()
-
-		if iter:
-#			path = model.get_path(iter)[0]
- 			self.store.move_after( iter,self.store.iter_next(iter))
+		tab_move_down(self.tab)
 
 		self.build_mesh()
 		self.draw_graph()
@@ -167,31 +149,6 @@ class tab_fxmesh(QWidget):
 		self.build_mesh()
 		self.draw_graph()
 		self.fig.canvas.draw()
-
-	def on_cell_edited_length(self, cell, path, new_text, model):
-		model[path][SEG_LENGTH] = new_text
-		self.build_mesh()
-		self.draw_graph()
-		self.fig.canvas.draw()
-		self.save_data()
-
-	def on_cell_edited_dfx(self, cell, path, new_text, model):
-		#print "Rod",path
-		model[path][SEG_DFX] = new_text
-		self.build_mesh()
-		self.draw_graph()
-		self.fig.canvas.draw()
-		self.save_data()
-
-	def on_cell_edited_mul(self, cell, path, new_text, model):
-		model[path][SEG_MUL] = new_text
-		self.build_mesh()
-		self.draw_graph()
-		self.fig.canvas.draw()
-		self.save_data()
-
-	#def gaussian(self,x, mu, sig):
-	#	return exp(-power(x - mu, 2.) / (2 * power(sig, 2.)))
 
 	def draw_graph(self):
 
@@ -266,14 +223,12 @@ class tab_fxmesh(QWidget):
 
 		return store
 
-	def create_columns(self):
+
+	def load_data(self):
 		self.tab.clear()
 		self.tab.setColumnCount(3)
 		self.tab.setSelectionBehavior(QAbstractItemView.SelectRows)
 		self.tab.setHorizontalHeaderLabels([_("Frequency"), _("dfx"), _("Multiply")])
-
-
-	def load_data(self):
 
 		lines=[]
 		self.start_fx=0.0
@@ -297,7 +252,8 @@ class tab_fxmesh(QWidget):
 					token,mul,pos=inp_read_next_item(lines,pos)
 					self.list.append((length,dfx,mul))
 
-				print self.list
+					tab_add(self.tab,[str(length),str(dfx),str(mul)])
+
 				return True
 			else:
 				print "file "+file_name+"wrong version"
@@ -315,10 +271,10 @@ class tab_fxmesh(QWidget):
 		pos=self.fx_start
 
 		seg=0
-		for line in self.store:
-			end_fx=pos+float(line[SEG_LENGTH])
-			dfx=float(line[SEG_DFX])
-			mul=float(line[SEG_MUL])
+		for i in range(0,self.tab.rowCount()):
+			end_fx=pos+float(tab_get_value(self.tab,i, 0))
+			dfx=float(tab_get_value(self.tab,i, 1))
+			mul=float(tab_get_value(self.tab,i, 2))
 
 			if dfx!=0.0 and mul!=0.0:
 				while(pos<end_fx):
@@ -331,12 +287,10 @@ class tab_fxmesh(QWidget):
 			seg=seg+1
 
 
-		self.statusbar.push(0, str(len(self.fx))+_(" mesh points"))
+		#self.statusbar.push(0, str(len(self.fx))+_(" mesh points"))
 
 	def on_cell_edited(self, x,y):
 		print "Cell edited",x,y
-		return 
-		model[path][SEG_DT] = new_text
 		self.build_mesh()
 		self.draw_graph()
 		self.fig.canvas.draw()
@@ -352,15 +306,15 @@ class tab_fxmesh(QWidget):
 		self.line_number=[]
 		self.list=[]
 
+		self.fig = Figure(figsize=(5,4), dpi=100)
+		self.canvas = FigureCanvas(self.fig)
+		self.canvas.figure.patch.set_facecolor('white')
+
 		gui_pos=0
 
 		print "index=",index
 
 		self.main_vbox = QVBoxLayout()
-
-		self.load_data()
-		self.update_scan_tokens()
-
 
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
@@ -376,12 +330,7 @@ class tab_fxmesh(QWidget):
 
 		self.main_vbox.addWidget(toolbar)
 
-		self.fig = Figure(figsize=(5,4), dpi=100)
-		self.canvas = FigureCanvas(self.fig)
-		self.canvas.figure.patch.set_facecolor('white')
 
-
-		self.canvas.show()
 		self.main_vbox.addWidget(self.canvas)
 
 
@@ -411,7 +360,11 @@ class tab_fxmesh(QWidget):
 
 		self.tab.verticalHeader().setVisible(False)
 
-		self.create_columns()
+		self.load_data()
+		self.build_mesh()
+		self.draw_graph()
+
+		self.update_scan_tokens()
 
 		self.tab.cellChanged.connect(self.on_cell_edited)
 
@@ -421,6 +374,6 @@ class tab_fxmesh(QWidget):
 
 		return
 
-		self.build_mesh()
-		self.draw_graph()
+
+
 
