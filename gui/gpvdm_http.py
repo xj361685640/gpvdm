@@ -1,4 +1,3 @@
-#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
@@ -37,7 +36,7 @@ from socket import SOCK_STREAM
 from socket import SOL_SOCKET
 from socket import SO_REUSEADDR
 from socket import getdefaulttimeout
-import urllib.parse
+from urllib.parse import urlparse
 import re
 #import os
 
@@ -50,7 +49,7 @@ CRLF = "\r\n\r\n"
 
 def get_data_from_web(address):
 	setdefaulttimeout(4.0)
-	url = urlparse.urlparse(address)
+	url = urlparse(address) #urlparse.
 	HOST = url.netloc
 	PORT = 80
 	message=""
@@ -70,13 +69,19 @@ def get_data_from_web(address):
 		s.close()
 		s = None
 	if s!=None:
-		s.send("GET "+address+" HTTP/1.0" +CRLF)
+		request="GET "+address+" HTTP/1.0" +CRLF
+		request=request.encode('utf-8')
+		
+		s.send(request)
 		data=""
 		result = s.recv(10000)
+		result=result.decode('utf-8')
+		
 		data=data+result
 
 		while (len(result) > 0):
 			result = s.recv(10000)
+			result=result.decode('utf-8')
 			data=data+result
 
 		s.shutdown(1)

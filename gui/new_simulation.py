@@ -22,6 +22,7 @@ from clone import gpvdm_clone
 import os
 from import_archive import import_archive
 from window_list import windows
+from gui_util import save_as_gpvdm
 
 import i18n
 _ = i18n.language.gettext
@@ -36,6 +37,7 @@ from PyQt5.uic import loadUi
 from cal_path import get_device_lib_path
 from cal_path import get_image_file_path
 from cal_path import get_ui_path
+from gui_util import error_dlg
 
 class new_simulation():
 
@@ -51,52 +53,31 @@ class new_simulation():
 		self.window.reject()
 
 
-	def callback_next(self, widget, data=None):
-		selection = self.treeview.get_selection()
-		model, iter = selection.get_selected()
+	def callback_next(self):
+		if len(self.window.listwidget.selectedItems())>0:
 
-		if iter:
-			path = model.get_path(iter)[0]
+			file_path=save_as_gpvdm(self.window)
 
-		dialog = gtk.FileChooserDialog(_("Make new simulation directory"),
-                               None,
-                               gtk.FILE_CHOOSER_ACTION_OPEN,
-                               (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
-                                gtk.STOCK_NEW, gtk.RESPONSE_OK))
+			selection=self.window.listwidget.selectedItems()[0].text()
+			selection_file=selection[selection.find("(")+1:selection.find(")")]
 
-		dialog.set_default_response(gtk.RESPONSE_OK)
-		dialog.set_action(gtk.FILE_CHOOSER_ACTION_CREATE_FOLDER)
+			if not os.path.exists(file_path):
+				os.makedirs(file_path)
 
-		filter = gtk.FileFilter()
-		filter.set_name(_("All files"))
-		filter.add_pattern("*")
-		dialog.add_filter(filter)
-
-		response = dialog.run()
-		if response == gtk.RESPONSE_OK:
-			if not os.path.exists(dialog.get_filename()):
-				os.makedirs(dialog.get_filename())
-
-			self.ret_path=dialog.get_filename()
+			self.ret_path=file_path
 			os.chdir(self.ret_path)
 			gpvdm_clone(os.getcwd(),True)
-			import_archive(os.path.join(get_device_lib_path(),self.liststore[path][2]),os.path.join(os.getcwd(),"sim.gpvdm"),False)
-			self.response(True)
-			#self.change_dir_and_refresh_interface(dialog.get_filename())
-			print(_("OK"))
+			import_archive(os.path.join(get_device_lib_path(),selection_file),os.path.join(os.getcwd(),"sim.gpvdm"),False)
+			self.window.close()
+		else:
+			error_dlg(self.window,_("Please select a device before clicking next"))
 
-		elif response == gtk.RESPONSE_CANCEL:
-			print(_("Closed, no dir selected"))
-
-		dialog.destroy()
-
-		self.window.accept()
 
 	def get_return_path(self):
 		return self.ret_path
 
 	def __init__(self):
-		self.ret_path=""
+		self.ret_path=None
 		# Create a new window
 
 		self.window = loadUi(os.path.join(get_ui_path(),"new.ui"))

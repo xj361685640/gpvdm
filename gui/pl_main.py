@@ -35,6 +35,9 @@ from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtWidgets import QWidget,QSizePolicy,QVBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QMessageBox,QTabWidget
 from about import about_dlg
 
+#windows
+from QHTabBar import QHTabBar
+
 class pl_main(QWidget,tab_base):
 
 	lines=[]
@@ -55,7 +58,11 @@ class pl_main(QWidget,tab_base):
 
 		self.notebook.setTabsClosable(True)
 		self.notebook.setMovable(True)
+		bar=QHTabBar()
+		bar.setStyleSheet("QTabBar::tab { height: 35px; width: 200px; }")
+		self.notebook.setTabBar(bar)
 		self.notebook.setTabPosition(QTabWidget.West)
+
 
 
 	def update(self):

@@ -50,6 +50,8 @@ matplotlib.use('Qt5Agg')
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 
+from gui_util import save_as_gpvdm
+
 class doping_window(QWidget):
 	lines=[]
 
@@ -98,33 +100,17 @@ class doping_window(QWidget):
 		self.fig.savefig(file_name)
 
 	def callback_save(self, widget, data=None):
-		dialog = gtk.FileChooserDialog(_("Save as.."),
-                               None,
-                               gtk.FILE_CHOOSER_ACTION_SAVE,
-                               (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
-                                gtk.STOCK_SAVE, gtk.RESPONSE_OK))
-		dialog.set_default_response(gtk.RESPONSE_OK)
-
-		filter = gtk.FileFilter()
-		filter.set_name(".jpg")
-		filter.add_pattern("*.jpg")
-		dialog.add_filter(filter)
-
-		response = dialog.run()
-		if response == gtk.RESPONSE_OK:
-			file_name=dialog.get_filename()
+		file_name=save_as_gpvdm(self)
+		if file_name!=False:
 
 			if os.path.splitext(file_name)[1]:
 				self.save_image(file_name)
 			else:
 				filter=dialog.get_filter()
-				self.save_image(file_name+filter.get_name())
+				self.save_image(file_name+".png")
 
-		elif response == gtk.RESPONSE_CANCEL:
-		    print(_("Closed, no files selected"))
-		dialog.destroy()
 
-	def callback_help(self, widget, data=None):
+	def callback_help(self):
 		webbrowser.open('http://www.gpvdm.com/man/index.html')
 
 	def load(self):
@@ -208,7 +194,7 @@ class doping_window(QWidget):
 		toolbar.setIconSize(QSize(48, 48))
 
 		self.save = QAction(QIcon(os.path.join(get_image_file_path(),"save.png")), _("Save"), self)
-		self.save.triggered.connect(self.callback_help)
+		self.save.triggered.connect(self.callback_save)
 		toolbar.addAction(self.save)
 
 		spacer = QWidget()

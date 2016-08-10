@@ -55,6 +55,7 @@ from gui_util import tab_add
 from gui_util import tab_move_down
 from gui_util import tab_remove
 from gui_util import tab_get_value
+from gui_util import save_as_image
 
 import i18n
 _ = i18n.language.gettext
@@ -248,31 +249,16 @@ class tab_time_mesh(QWidget):
 		self.fig.savefig(file_name)
 
 	def callback_save(self):
-		dialog = gtk.FileChooserDialog(_("Save as.."),
-                               None,
-                               gtk.FILE_CHOOSER_ACTION_SAVE,
-                               (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
-                                gtk.STOCK_SAVE, gtk.RESPONSE_OK))
-		dialog.set_default_response(gtk.RESPONSE_OK)
-
-		filter = gtk.FileFilter()
-		filter.set_name(".jpg")
-		filter.add_pattern("*.jpg")
-		dialog.add_filter(filter)
-
-		response = dialog.run()
-		if response == gtk.RESPONSE_OK:
-			file_name=dialog.get_filename()
+		response=save_as_image(self)
+		if response != None:
+			file_name=response
 
 			if os.path.splitext(file_name)[1]:
 				self.save_image(file_name)
 			else:
-				filter=dialog.get_filter()
-				self.save_image(file_name+filter.get_name())
+				filter=response
+				self.save_image(file_name+".png")
 
-		elif response == gtk.RESPONSE_CANCEL:
-		    print(_("Closed, no files selected"))
-		dialog.destroy()
 
 
 	def load_data(self):

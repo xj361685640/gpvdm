@@ -47,6 +47,9 @@ COL_IS_DIRECTORY = 2
 import i18n
 _ = i18n.language.gettext
 
+#util
+from util import latex_to_html
+
 class gpvdm_open():
 	show_inp_files=True
 	show_directories=True
@@ -127,12 +130,17 @@ class gpvdm_open():
 			else:
 				#append=False
 				if (file_name.endswith(".dat")==True):
-					f = open(file_name, 'r')
+					f = open(file_name, 'rb')
 					text = f.readline()
 					f.close()
+					#text=text.encode('utf-8').strip()
 					#print(text)
-					text=text.rstrip()
-					if text=="#gpvdm":
+					#text=text.rstrip()
+					if len(text)>0:
+						if text[len(text)-1]==10:
+							text=text[:-1]
+
+					if text==b"#gpvdm":
 						itm = QListWidgetItem( fl )
 						itm.setIcon(self.dat_icon)
 						self.window.listwidget.addItem(itm)
@@ -176,7 +184,7 @@ class gpvdm_open():
 			if (file_name.endswith(".dat")==True):
 				state=plot_state()
 				get_plot_file_info(state,full_path)
-				summary="<big><b>"+file_name+"</b></big><br>"+_("<br>title: ")+state.title+_("<br>x axis: ")+state.x_label+" ("+latex_to_pygtk_subscript(state.x_units)+_(")<br>y axis: ")+state.y_label+" ("+latex_to_pygtk_subscript(state.y_units)+_(")<br><br><big><b>Double click to open</b></big>")
+				summary="<big><b>"+file_name+"</b></big><br>"+_("<br>title: ")+state.title+_("<br>x axis: ")+state.x_label+" ("+latex_to_html(state.x_units)+_(")<br>y axis: ")+state.y_label+" ("+latex_to_html(state.y_units)+_(")<br><br><big><b>Double click to open</b></big>")
 				help_window().help_set_help(["dat_file.png",summary])
 
 			if file_name.endswith("equilibrium"):

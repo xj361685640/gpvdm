@@ -34,6 +34,9 @@ from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtWidgets import QWidget,QSizePolicy,QVBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QMessageBox,QTabWidget
 from about import about_dlg
 
+#windows
+from QHTabBar import QHTabBar
+
 class dos_main(QWidget,tab_base):
 
 	lines=[]
@@ -54,6 +57,7 @@ class dos_main(QWidget,tab_base):
 
 		self.notebook.setTabsClosable(True)
 		self.notebook.setMovable(True)
+		self.notebook.setTabBar(QHTabBar())
 		self.notebook.setTabPosition(QTabWidget.West)
 
 		#global_object_register("dos-update",self.update)

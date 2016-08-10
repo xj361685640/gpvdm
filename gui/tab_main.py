@@ -55,33 +55,17 @@ class tab_main(QWidget,tab_base):
 	def __init__(self):
 		QHBoxLayout.__init__(self)
 		self.sun=1
-		#main_hbox=gtk.HBox()
-		#self.darea = gtk.DrawingArea()
-		#self.darea.connect("expose-event", self.expose)
-		#darea.show()
 		mainLayout = QHBoxLayout()
 
 		self.three_d=glWidget(self)
 		self.three_d.show()
 
-
-
-
-
-		#self.tooltips=gtk.Tooltips()
 		self.frame=layer_widget()
-		#main_hbox.pack_start(self.frame, False, False, 0)
-		#main_hbox.pack_start(self.darea, True, True, 0)
-		#main_hbox.pack_start(three_d,False,False,0)
-		self.frame.changed.connect(self.three_d.recalculate)
-		#self.frame.connect("refresh", self.update)
 
-		#self.add(main_hbox)
-		#self.show_all()
+		self.frame.changed.connect(self.three_d.recalculate)
 
 		mainLayout.addWidget(self.frame)
 		mainLayout.addWidget(self.three_d)
-
 
 		self.setLayout(mainLayout)
 
@@ -118,145 +102,8 @@ class tab_main(QWidget,tab_base):
 		self.cr.fill()
 
 
-	def draw_box(self,x,y,z,r,g,b,layer):
-		text=""
-		self.cr.set_source_rgb(r,g,b)
-
-		points=[(x,y), (x+200,y), (x+200,y+z), (x,y+z)]
-		self.cr.move_to(x, y)
-		for px,py in points:
-			self.cr.line_to(px, py)
-		self.cr.fill()
-
-		if epitaxy_get_electrical_layer(layer)=="none":
-			text=epitaxy_get_name(layer)
-		else:
-			text=epitaxy_get_name(layer)+" (active)"
-			points=[(x+285,y-60), (x+295,y-60), (x+295,y+z-60), (x+285,y+z-60)]
-			self.cr.set_source_rgb(0.0,0.0,0.7)
-			self.cr.move_to(points[0][0], points[0][1])
-			for px,py in points:
-				self.cr.line_to(px, py)
-			self.cr.fill()
-
-		r=r*0.5
-		g=g*0.5
-		b=b*0.5
-		self.cr.set_source_rgb(r,g,b)
-
-		points=[(x+200,y-0),(x+200,y+z), (x+200+80,y-60+z),(x+200+80,y-60)]
-		self.cr.move_to(points[0][0], points[0][1])
-		for px,py in points:
-			self.cr.line_to(px, py)
-		self.cr.fill()
-
-		r=r*0.5
-		g=g*0.5
-		b=b*0.5
-		self.cr.set_source_rgb(r,g,b)
-
-		points=[(x,y),(x+200,y), (x+200+80,y-60), (x+100,y-60)]
-		self.cr.move_to(points[0][0], points[0][1])
-		self.cr.move_to(x, y)
-		for px,py in points:
-			self.cr.line_to(px, py)
-		self.cr.fill()
-		self.cr.set_font_size(14)
-		self.cr.move_to(x+200+80+20, y-60+z/2)
-		self.cr.show_text(text)
-
-	def draw_mode(self,x_start,y_start,z_size):
-		t=[]
-		s=[]
-		z=[]
-		x=x_start
-		y=y_start
-		self.cr.set_source_rgb(0.2,0.2,0.2)
-		if read_xyz_data(t,s,z,os.path.join(os.getcwd(),"light_dump","light_1d_photons_tot_norm.dat"))==True:
-			self.cr.move_to(x-s[0]*40, y)
-			self.cr.set_line_width(5)
-			array_len=len(t)
-
-			for i in range(0,array_len):
-					self.cr.line_to(x-s[i]*40, y_start+(z_size*i/array_len))
-
-		self.cr.stroke()
-
 	def set_sun(self,sun):
 		self.sun=sun
-
-	def draw(self):
-		emission=False
-		lines=[]
-		for i in range(0,epitaxy_get_layers()):
-			if epitaxy_get_pl_file(i)!="none":
-				if inp_load_file(lines,epitaxy_get_pl_file(i)+".inp")==True:
-					if str2bool(lines[1])==True:
-						emission=True
-
-		tot=0
-		for i in range(0,epitaxy_get_layers()):
-			tot=tot+epitaxy_get_width(i)
-
-		pos=0.0
-		l=epitaxy_get_layers()-1
-		lines=[]
-
-		for i in range(0,epitaxy_get_layers()):
-			thick=200.0*epitaxy_get_width(l-i)/tot
-			pos=pos+thick
-			path=os.path.join(get_materials_path(),epitaxy_get_mat_file(l-i),"mat.inp")
-
-			if inp_load_file(lines,path)==True:
-				red=float(inp_search_token_value(lines, "#Red"))
-				green=float(inp_search_token_value(lines, "#Green"))
-				blue=float(inp_search_token_value(lines, "#Blue"))
-			else:
-				print("Could not load",path)
-				red=0.0
-				green=0.0
-				blue=0.0
-
-			self.draw_box(200,450.0-pos,thick*0.9,red,green,blue,l-i)
-		step=50.0
-
-		lines=[]
-		if inp_load_file(lines,os.path.join(os.getcwd(),"light.inp"))==True:
-			self.sun=float(inp_search_token_value(lines, "#Psun"))
-
-		if self.sun<=0.01:
-			step=200
-		elif self.sun<=0.1:
-			step=100
-		elif self.sun<=1.0:
-			step=50
-		elif self.sun<=10.0:
-			step=10
-		else:
-			step=5.0
-		if self.sun!=0:
-			for x in range(0,200,step):
-				self.draw_photon(270+x,50)
-
-		if emission==True:
-			for x in range(0,200,50):
-				self.draw_photon_up(240+x,180)
-
-		self.draw_mode(200,250,200)
-
-	def expose(self, widget, event):
-
-		self.cr = widget.window.cairo_create()
-
-		self.cr.set_line_width(9)
-		self.cr.set_source_rgb(0.7, 0.2, 0.0)
-
-#		w = self.allocation.width
-#		h = self.allocation.height
-
-		#self.cr.translate(w/2, h/2)
-
-		self.draw()
 
 	def help(self):
 		help_window().help_set_help(["device.png",_("<big><b>The device structure tab</b></big>\n Use this tab to change the structure of the device, the layer thicknesses and to perform optical simulations.  You can also browse the materials data base and  edit the electrical mesh.")])

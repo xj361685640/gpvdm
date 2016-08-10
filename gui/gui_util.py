@@ -23,9 +23,10 @@ from cal_path import get_image_file_path
 import os
 
 #qt
-from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication,QTableWidgetItem,QComboBox, QMessageBox, QDialog,QDialogButtonBox
+from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication,QTableWidgetItem,QComboBox, QMessageBox, QDialog, QDialogButtonBox, QFileDialog
 from PyQt5.uic import loadUi
 from PyQt5.QtGui import QPixmap
+
 
 #windows
 from cal_path import get_ui_path
@@ -44,6 +45,29 @@ class dlg_get_text():
 		else:
 			self.ret=None
 
+def save_as_gpvdm(parent):
+	dialog = QFileDialog(parent)
+	dialog.setWindowTitle(_("Save a the simulation as"))
+	dialog.setNameFilter('dir')
+	dialog.setAcceptMode(QFileDialog.AcceptSave)
+	dialog.setOption(QFileDialog.ShowDirsOnly, True) 
+	if dialog.exec_() == QDialog.Accepted:
+		filename = dialog.selectedFiles()[0]
+		return filename
+	else:
+		return None
+
+def save_as_image(parent):
+	dialog = QFileDialog(parent)
+	dialog.setWindowTitle(_("Save image as"))
+	dialog.setNameFilter("png (*.png);;jpg (*.jpg);;gnuplot (*.)")
+	dialog.setAcceptMode(QFileDialog.AcceptSave)
+
+	if dialog.exec_() == QDialog.Accepted:
+		filename = dialog.selectedFiles()[0]
+		return filename
+	else:
+		return None
 
 
 def dlg_get_multi_text( title_text,info, default=''):

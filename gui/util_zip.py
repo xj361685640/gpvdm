@@ -184,7 +184,7 @@ def write_lines_to_archive(archive_path,file_name,lines):
 		dump=dump.rstrip("\n")
 
 		f=open(file_path, mode='wb')
-		lines = f.write(dump)
+		lines = f.write(str.encode(dump))
 		f.close()
 
 	else:

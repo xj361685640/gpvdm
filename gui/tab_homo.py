@@ -1,4 +1,3 @@
-#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
@@ -21,12 +20,8 @@
 
 
 
-import pygtk
-pygtk.require('2.0')
-import gtk
-#import sys
+
 import os
-#import shutil
 from inp import inp_isfile
 from inp import inp_load_file
 from inp import inp_write_lines_to_file
@@ -37,6 +32,8 @@ from matplotlib.backends.backend_gtkagg import FigureCanvasGTKAgg as FigureCanva
 import gobject
 from scan_item import scan_item_add
 from tab_base import tab_base
+
+from gui_util import save_as_gpvdm
 
 (
   LUMO_FUNCTION,
@@ -60,7 +57,7 @@ from tab_base import tab_base
 articles = []
 HOMO_articles = []
 
-class tab_bands(gtk.HBox,tab_base):
+class tab_bands(QWidget,tab_base):
 	lines=[]
 	edit_list=[]
 
@@ -441,37 +438,21 @@ class tab_bands(gtk.HBox,tab_base):
 		self.canvas_lumo.figure.savefig(lumo)
 
 
-
-	def callback_save(self, widget, data=None):
-		dialog = gtk.FileChooserDialog("Save as..",
-                               None,
-                               gtk.FILE_CHOOSER_ACTION_SAVE,
-                               (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
-                                gtk.STOCK_SAVE, gtk.RESPONSE_OK))
-		dialog.set_default_response(gtk.RESPONSE_OK)
-
-		filter = gtk.FileFilter()
-		filter.set_name(".jpg")
-		filter.add_pattern("*.jpg")
-		dialog.add_filter(filter)
-
-		response = dialog.run()
-		if response == gtk.RESPONSE_OK:
-			file_name=dialog.get_filename()
+	def callback_save(self):
+		file_name=save_as_gpvdm(self)
+		if file_name!=False:
 
 			if os.path.splitext(file_name)[1]:
 				self.save_image(file_name)
 			else:
 				filter=dialog.get_filter()
-				self.save_image(file_name+filter.get_name())
-
-		elif response == gtk.RESPONSE_CANCEL:
-		    print 'Closed, no files selected'
-		dialog.destroy()
+				self.save_image(file_name+".png")
 
 
+	def __init__(self):
+		QWidget.__init__(self)
+		return
 
-	def wow(self):
 		self.edit_list=[]
 		self.line_number=[]
 		self.lines=[]

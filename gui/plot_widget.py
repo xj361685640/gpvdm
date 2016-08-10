@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
@@ -32,8 +31,7 @@ import matplotlib
 matplotlib.use('Qt5Agg')
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
-
-#from matplotlib_toolbar import NavigationToolbar
+from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 
 
 from util import read_xyz_data
@@ -53,13 +51,20 @@ from plot_io import plot_save_oplot_file
 from util import time_with_units
 
 #qt
-from PyQt5.QtWidgets import QWidget,QVBoxLayout
+from PyQt5.QtCore import QSize, Qt 
+from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QTableWidget,QAbstractItemView, QMenuBar
+from PyQt5.QtGui import QPainter,QIcon
 
-class plot_widget(QVBoxLayout):
+#calpath
+from cal_path import get_image_file_path
+from gui_util import save_as_image
 
-	def on_key_press_event(self,widget, event):
-		keyname = gtk.gdk.keyval_name(event.keyval)
-		#print "Key %s (%d) was pressed" % (keyname, event.keyval)
+class plot_widget(QWidget):
+
+	def keyPressEvent(self, event):
+		
+		keyname=event.key()
+		
 		if keyname=="a":
 			self.do_plot()
 
@@ -101,7 +106,7 @@ class plot_widget(QVBoxLayout):
 					self.ax[i].set_xscale("log")
 
 		if keyname=="q":
-			self.win.destroy()
+			self.destroy()
 
 		if keyname == "c":
 			#print "clip",event.state,event.state& gtk.gdk.CONTROL_MASK
@@ -117,7 +122,6 @@ class plot_widget(QVBoxLayout):
 		pixbuf = gtk.gdk.pixbuf_get_from_drawable(None, snap, snap.get_colormap(),0,0,0,0,snap.get_size()[0], snap.get_size()[1])
 		clip = gtk.Clipboard()
 		clip.set_image(pixbuf)
-
 
 
 	def mouse_move(self,event):
@@ -226,7 +230,7 @@ class plot_widget(QVBoxLayout):
 				#Only place label on bottom plot
 				if i==number_of_plots-1:
 					print(self.plot_token.x_label,self.plot_token.x_units)
-					self.ax[i].set_xlabel(self.plot_token.x_label+" ("+self.plot_token.x_units+")")
+					self.ax[i].set_xlabel(self.plot_token.x_label+" ("+str(self.plot_token.x_units)+")")
 
 				else:
 					self.ax[i].tick_params(axis='x', which='both', bottom='off', top='off',labelbottom='off') # labels along the bottom edge are off
@@ -415,38 +419,10 @@ class plot_widget(QVBoxLayout):
 			self.fig.canvas.draw()
 			print("exit do plot")
 
-	def callback_plot_save(self, widget, data=None):
-		dialog = gtk.FileChooserDialog("Directory to make a gnuplot script..",
-                               None,
-                               gtk.FILE_CHOOSER_ACTION_OPEN,
-                               (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
-                                gtk.STOCK_SAVE, gtk.RESPONSE_OK))
-		print(os.path.basename(self.output_file),os.path.dirname(self.output_file))
-		dialog.set_current_folder(os.path.dirname(self.output_file))
-		dialog.set_default_response(gtk.RESPONSE_OK)
-		dialog.set_action(gtk.FILE_CHOOSER_ACTION_SAVE)
-
-		filter = gtk.FileFilter()
-		filter.set_name("png file")
-		filter.add_pattern("*.png")
-		dialog.add_filter(filter)
-
-		filter = gtk.FileFilter()
-		filter.set_name("gnuplot script")
-		filter.add_pattern("*.")
-		dialog.add_filter(filter)
-
-		dialog.set_current_name(os.path.basename(self.output_file))
-
-		response = dialog.run()
-		if response == gtk.RESPONSE_OK:
-			print("Logscale x = ",self.plot_token.logx)
-			plot_export(dialog.get_filename(),self.input_files,self.plot_token,self.fig)
-
-		elif response == gtk.RESPONSE_CANCEL:
-		    print('Closed, no dir selected')
-
-		dialog.destroy()
+	def callback_plot_save(self):
+		response=save_as_image(self)
+		if response != None:
+			plot_export(response,self.input_files,self.plot_token,self.fig)
 
 	def set_labels(self,labels):
 		self.labels=labels
@@ -496,8 +472,7 @@ class plot_widget(QVBoxLayout):
 			#if ret==True:
 			#print "Rod",input_files
 			title=self.plot_token.title
-			if  type(self.win)==QWidget:
-				self.win.setWindowTitle(title+" - www.gpvdm.com")
+			self.setWindowTitle(title+" - www.gpvdm.com")
 #			lines=[]
 
 #			ret=plot_load_info(self.plot_token,input_files[0])
@@ -555,26 +530,26 @@ class plot_widget(QVBoxLayout):
 
 		self.color=c_tot
 
-	def callback_black(self, data, widget):
+	def callback_black(self):
 		self.gen_colors_black(1)
 		plot_save_oplot_file(self.config_file,self.plot_token)
 		self.do_plot()
 
-	def callback_rainbow(self, data, widget):
+	def callback_rainbow(self):
 		self.gen_colors(1)
 		plot_save_oplot_file(self.config_file,self.plot_token)
 		self.do_plot()
 
-	def callback_save(self, data, widget):
+	def callback_save(self):
 		plot_export(self.output_file,self.input_files,self.plot_token,self.fig)
 
-	def callback_key(self, data, widget):
+	def callback_key(self):
 		self.plot_token.legend_pos=widget.get_label()
 		print(self.config_file,self.plot_token)
 		plot_save_oplot_file(self.config_file,self.plot_token)
 		self.do_plot()
 
-	def callback_units(self, data, widget):
+	def callback_units(self):
 		units=dlg_get_text( "Units:", self.plot_token.key_units)
 		if units!=None:
 			self.plot_token.key_units=units
@@ -582,7 +557,7 @@ class plot_widget(QVBoxLayout):
 		self.do_plot()
 
 
-	def callback_autoscale_y(self, data, widget):
+	def callback_autoscale_y(self):
 		if widget.get_active()==True:
 			self.plot_token.ymax=-1
 			self.plot_token.ymin=-1
@@ -591,7 +566,7 @@ class plot_widget(QVBoxLayout):
 			self.plot_token.ymax=ymax
 			self.plot_token.ymin=ymin
 
-	def callback_normtoone_y(self, data, widget):
+	def callback_normtoone_y(self):
 		if widget.get_active()==True:
 			self.plot_token.normalize=True
 		else:
@@ -599,7 +574,7 @@ class plot_widget(QVBoxLayout):
 		plot_save_oplot_file(self.config_file,self.plot_token)
 		self.do_plot()
 
-	def callback_norm_to_peak_of_all_data(self, data, widget):
+	def callback_norm_to_peak_of_all_data(self):
 		if widget.get_active()==True:
 			self.plot_token.norm_to_peak_of_all_data=True
 		else:
@@ -607,28 +582,28 @@ class plot_widget(QVBoxLayout):
 		plot_save_oplot_file(self.config_file,self.plot_token)
 		self.do_plot()
 
-	def callback_toggle_log_scale_y(self, widget, data):
+	def callback_toggle_log_scale_y(self):
 		self.plot_token.logy=data.get_active()
 		plot_save_oplot_file(self.config_file,self.plot_token)
 		self.do_plot()
 
-	def callback_toggle_log_scale_x(self, widget, data):
+	def callback_toggle_log_scale_x(self):
 		self.plot_token.logx=data.get_active()
 		plot_save_oplot_file(self.config_file,self.plot_token)
 		self.do_plot()
 
-	def callback_toggle_label_data(self, widget, data):
+	def callback_toggle_label_data(self):
 		self.plot_token.label_data=data.get_active()
 		plot_save_oplot_file(self.config_file,self.plot_token)
 		self.do_plot()
 
-	def callback_set_heat_map(self, widget, data):
+	def callback_set_heat_map(self):
 		self.plot_token.type="heat"
 		plot_save_oplot_file(self.config_file,self.plot_token)
 		plot_save_oplot_file(self.config_file,self.plot_token)
 		self.do_plot()
 
-	def callback_heat_map_edit(self, widget, data):
+	def callback_heat_map_edit(self):
 		[a,b,c,d,e,f] = dlg_get_multi_text("2D plot editor", [["x start",str(self.plot_token.x_start)],["x stop",str(self.plot_token.x_stop)],["x points",str(self.plot_token.x_points)],["y start",str(self.plot_token.y_start)],["y stop",str(self.plot_token.y_stop)],["y points",str(self.plot_token.y_points)]])
 		print("---------",a,b,c,d,e,f)
 		self.plot_token.x_start=float(a)
@@ -642,23 +617,23 @@ class plot_widget(QVBoxLayout):
 		plot_save_oplot_file(self.config_file,self.plot_token)
 		self.do_plot()
 
-	def callback_set_xy_plot(self, widget, data):
+	def callback_set_xy_plot(self):
 		self.plot_token.type="xy"
 		plot_save_oplot_file(self.config_file,self.plot_token)
 		plot_save_oplot_file(self.config_file,self.plot_token)
 		self.do_plot()
 
-	def callback_toggle_invert_y(self, widget, data):
+	def callback_toggle_invert_y(self):
 		self.plot_token.invert_y=data.get_active()
 		plot_save_oplot_file(self.config_file,self.plot_token)
 		self.do_plot()
 
-	def callback_toggle_subtract_first_point(self, widget, data):
+	def callback_toggle_subtract_first_point(self):
 		self.plot_token.subtract_first_point=data.get_active()
 		plot_save_oplot_file(self.config_file,self.plot_token)
 		self.do_plot()
 
-	def callback_toggle_add_min(self, widget, data):
+	def callback_toggle_add_min(self):
 		self.plot_token.add_min=data.get_active()
 		plot_save_oplot_file(self.config_file,self.plot_token)
 		self.do_plot()
@@ -667,20 +642,11 @@ class plot_widget(QVBoxLayout):
 		self.load_data(self.input_files,self.config_file)
 		self.do_plot()
 
-	def callback_refresh(self, widget, data=None):
+	def callback_refresh(self):
 		self.update()
 
-	def init(self,in_window):
-		self.zero_frame_enable=False
-		self.zero_frame_list=[]
-		self.plot_title=""
-		self.gen_colors(1)
-		self.win=in_window
-
-		#self.toolbar = gtk.Toolbar()
-		#self.toolbar.set_style(gtk.TOOLBAR_ICONS)
-		#self.toolbar.set_size_request(-1, 50)
-		#self.toolbar.show()
+	def init(self):
+		self.main_vbox = QVBoxLayout()
 
 		self.config_file=""
 		self.plot_token=None
@@ -689,16 +655,97 @@ class plot_widget(QVBoxLayout):
 		self.plot_id=[]
 		self.canvas = FigureCanvas(self.fig)  # a gtk.DrawingArea
 
+		self.zero_frame_enable=False
+		self.zero_frame_list=[]
+		self.plot_title=""
+		self.gen_colors(1)
+
+		toolbar=QToolBar()
+		toolbar.setIconSize(QSize(48, 48))
+
+
+		self.tb_save = QAction(QIcon(os.path.join(get_image_file_path(),"save.png")), _("Save graph"), self)
+		self.tb_save.triggered.connect(self.callback_plot_save)
+		toolbar.addAction(self.tb_save)
+
+		self.tb_refresh = QAction(QIcon(os.path.join(get_image_file_path(),"refresh.png")), _("Refresh graph"), self)
+		self.tb_refresh .triggered.connect(self.callback_refresh)
+		toolbar.addAction(self.tb_refresh )
+
+		nav_bar=NavigationToolbar(self.canvas,self)
+		toolbar.addWidget(nav_bar)
+
+
+		
+
 		self.fig.canvas.mpl_connect('motion_notify_event', self.mouse_move)
 
+		menubar = QMenuBar()
 
-		#self.item_factory = gtk.ItemFactory(gtk.MenuBar, "<main>", None)
+		file_menu = menubar.addMenu("File")
 
-		#menu_items = (
-		#    ( "/_File",         None,         None, 0, "<Branch>" ),
-		#    ( "/_File/Save",  None,         self.callback_save , 0, None ),
-		#    ( "/_File/Save As...",  None,         self.callback_plot_save , 0, None ),
-		#    ( "/_Key",         None,         None, 0, "<Branch>" ),
+		self.menu_save=file_menu.addAction(_("&Save"))
+		self.menu_save.triggered.connect(self.callback_save)
+
+		self.menu_save_as=file_menu.addAction(_("&Save as"))
+		self.menu_save_as.triggered.connect(self.callback_plot_save)
+
+
+		key_menu = menubar.addMenu('&Key')
+
+		key_menu = menubar.addMenu('&Color')
+		self.menu_black=key_menu.addAction(_("&Black"))
+		self.menu_black.triggered.connect(self.callback_black)
+
+		self.menu_rainbow=key_menu.addAction(_("&Rainbow"))
+		self.menu_rainbow.triggered.connect(self.callback_rainbow)
+
+		axis_menu = menubar.addMenu('&Color')
+		menu=axis_menu.addAction(_("&Autoscale"))
+		menu.triggered.connect(self.callback_autoscale_y)
+
+		menu=axis_menu.addAction(_("&Set log scale y"))
+		menu.triggered.connect(self.callback_toggle_log_scale_y)
+
+		menu=axis_menu.addAction(_("&Set log scale x"))
+		menu.triggered.connect(self.callback_toggle_log_scale_x)
+
+		menu=axis_menu.addAction(_("&Set log scale x"))
+		menu.triggered.connect(self.callback_toggle_log_scale_x)
+
+		self.menu_rainbow=key_menu.addAction(_("&Label data"))
+		self.menu_rainbow.triggered.connect(self.callback_toggle_label_data)
+
+		math_menu = menubar.addMenu('&Math')
+
+		menu=math_menu.addAction(_("&Subtract first point"))
+		menu.triggered.connect(self.callback_toggle_subtract_first_point)
+
+		menu=math_menu.addAction(_("&Add min point"))
+		menu.triggered.connect(self.callback_toggle_add_min)
+
+		menu=math_menu.addAction(_("&Invert y-axis"))
+		menu.triggered.connect(self.callback_toggle_invert_y)
+		
+		menu=math_menu.addAction(_("&Norm to 1.0 y"))
+		menu.triggered.connect(self.callback_normtoone_y)
+		
+		menu=math_menu.addAction(_("&Norm to peak of all data"))
+		menu.triggered.connect(self.callback_norm_to_peak_of_all_data)
+		
+		menu=math_menu.addAction(_("&Heat map"))
+		menu.triggered.connect(self.callback_set_heat_map)
+
+		menu=math_menu.addAction(_("&Heat map edit"))
+		menu.triggered.connect(self.callback_heat_map_edit)
+
+		menu=math_menu.addAction(_("&xy plot"))
+		menu.triggered.connect(self.callback_set_xy_plot)
+
+		self.main_vbox.addWidget(menubar)
+		
+		self.main_vbox.addWidget(toolbar)
+
 		#    ( "/_Key/No key",  None,         self.callback_key , 0, "<RadioItem>", "gtk-save" ),
 		#    ( "/_Key/upper right",  None,         self.callback_key , 0, "<RadioItem>", "gtk-save" ),
 		#   ( "/_Key/upper left",  None,         self.callback_key , 0, "<RadioItem>", "gtk-save" ),
@@ -710,67 +757,14 @@ class plot_widget(QVBoxLayout):
 		#    ( "/_Key/upper center",  None,         self.callback_key , 0, "<RadioItem>", "gtk-save" ),
 		#    ( "/_Key/center",  None,         self.callback_key , 0, "<RadioItem>", "gtk-save" ),
 		#    ( "/_Key/Units",  None,         self.callback_units , 0, None ),
-		#    ( "/_Color/Black",  None,         self.callback_black , 0, None ),
-		#    ( "/_Color/Rainbow",  None,         self.callback_rainbow , 0, None ),
-		#    ( "/_Axis/_Autoscale y",     None, self.callback_autoscale_y, 0, "<ToggleItem>", "gtk-save" ),
-		#    ( "/_Axis/_Set log scale y",     None, self.callback_toggle_log_scale_y, 0, "<ToggleItem>", "gtk-save" ),
-		#    ( "/_Axis/_Set log scale x",     None, self.callback_toggle_log_scale_x, 0, "<ToggleItem>", "gtk-save" ),
-		#    ( "/_Axis/_Label data",     None, self.callback_toggle_label_data, 0, "<ToggleItem>", "gtk-save" ),
-		#    ( "/_Math/_Subtract first point",     None, self.callback_toggle_subtract_first_point, 0, "<ToggleItem>", "gtk-save" ),
-		#    ( "/_Math/_Add min point",     None, self.callback_toggle_add_min, 0, "<ToggleItem>", "gtk-save" ),
-		#    ( "/_Math/_Invert y-axis",     None, self.callback_toggle_invert_y, 0, "<ToggleItem>", "gtk-save" ),
-		#    ( "/_Math/_Norm to 1.0 y",     None, self.callback_normtoone_y, 0, "<ToggleItem>", "gtk-save" ),
-		#    ( "/_Math/_Norm to peak of all data",     None, self.callback_norm_to_peak_of_all_data, 0, "<ToggleItem>", "gtk-save" ),
-		#    ( "/_Math/_Heat map",     None, self.callback_set_heat_map, 0, "<ToggleItem>", "gtk-save" ),
-		#    ( "/_Math/_Heat map edit",     None, self.callback_heat_map_edit, 0, "<ToggleItem>", "gtk-save" ),
-		#    ( "/_Math/_xy plot",     None, self.callback_set_xy_plot, 0, "<ToggleItem>", "gtk-save" ),
-		#    )
-
-		#self.item_factory.create_items(menu_items)
+		
 
 
-		#menubar=self.item_factory.get_widget("<main>")
-		#menubar.show_all()
-		#self.pack_start(menubar, False, True, 0)
-
-		#self.pack_start(self.toolbar, False, True, 0)
-
-		#pos=0
-
-		#self.plot_save = gtk.ToolButton(gtk.STOCK_SAVE)
-		#self.plot_save.connect("clicked", self.callback_plot_save)
-		#self.toolbar.add(self.plot_save)
-		#pos=pos+1
-
-		#refresh = gtk.ToolButton(gtk.STOCK_REFRESH)
-		#refresh.connect("clicked", self.callback_refresh)
-		#self.toolbar.insert(refresh, pos)
-		#pos=pos+1
-
-		#plot_toolbar = NavigationToolbar(self.canvas, self.win)
-		#plot_toolbar.show()
-		#box=gtk.HBox(True, 1)
-		#box.set_size_request(400,-1)
-		#box.show()
-		#box.pack_start(plot_toolbar, True, True, 0)
-		#tb_comboitem = gtk.ToolItem();
-		#tb_comboitem.add(box);
-		#tb_comboitem.show_all()
-
-		#self.toolbar.add(tb_comboitem)
-		#pos=pos+1
-
-
-
-		#self.toolbar.show_all()
 
 
 		self.canvas.figure.patch.set_facecolor('white')
-		#self.canvas.set_size_request(650, 400)
-		self.addWidget(self.canvas)
+		self.canvas.setMinimumSize(800, 500)
+		self.main_vbox.addWidget(self.canvas)
 
-		#self.fig.canvas.draw()
-
-		self.canvas.show()
-
+		self.setLayout(self.main_vbox)
 		#self.win.connect('key_press_event', self.on_key_press_event)

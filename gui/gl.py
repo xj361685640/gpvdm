@@ -59,6 +59,9 @@ from epitaxy import epitaxy_get_electrical_layer
 from epitaxy import epitaxy_get_pl_file
 from epitaxy import epitaxy_get_name
 
+#qt
+from PyQt5.QtGui import QFont
+
 # Rotations for cube.
 cube_rotate_x_rate = 0.2
 cube_rotate_y_rate = 0.2
@@ -81,7 +84,7 @@ def tab(x,y,z,w,h,d):
 	glVertex3f(x+w+0.05,y+h ,z)
 
 	glEnd()
-
+	
 def box(x,y,z,w,h,d,r,g,b):
 
 	red=r
@@ -171,7 +174,7 @@ class glWidget(QGLWidget):
 	colors=[]
 	def __init__(self, parent):
 		QGLWidget.__init__(self, parent)
-		self.setMinimumSize(550, 480)
+		self.setMinimumSize(600, 480)
 
 	def paintGL(self):
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
@@ -193,6 +196,7 @@ class glWidget(QGLWidget):
 		for i in range(0,epitaxy_get_layers()):
 			tot=tot+epitaxy_get_width(i)
 
+		mul=1.5/tot
 		pos=0.0
 		width=2.0
 		depth=2.0
@@ -205,7 +209,7 @@ class glWidget(QGLWidget):
 		zpoints=int(mesh_get_zpoints())
 		for i in range(0,epitaxy_get_layers()):
 
-			thick=1.5*epitaxy_get_width(l-i)/tot
+			thick=epitaxy_get_width(l-i)*mul
 			print(thick)
 			red=self.colors[l-i].r
 			green=self.colors[l-i].g
@@ -215,10 +219,21 @@ class glWidget(QGLWidget):
 				dy=thick/float(ypoints)
 				dx=width/float(xpoints)
 				dz=depth/float(zpoints)
+				xshrink=0.8
+				zshrink=0.8
+				if xpoints==1:
+					xshrink=1.0
+
+				if zpoints==1:
+					zshrink=1.0
+
+
 				for y in range(0,ypoints):
 					for x in range(0,xpoints):
 						for z in range(0,zpoints):
-							box(dx*x,pos+y*(dy),z*dz,dx*0.8,dy*0.5,dz*0.8,red,green,blue)
+							box(dx*x,pos+y*(dy),z*dz,dx*xshrink,dy*0.8,dz*zshrink,red,green,blue)
+				tab(0.0,pos,depth,width,thick,depth)
+				
 			elif epitaxy_get_electrical_layer(l-i)=="Contact" and i==l:
 				for c in contacts_get_array():
 					x_len=mesh_get_xlen()
@@ -230,15 +245,20 @@ class glWidget(QGLWidget):
 					box(xstart,pos,0,xwidth,thick,depth,red,green,blue)
 			else:
 				box(0.0,pos,0,width,thick,depth,red,green,blue)
+				
 
 			if epitaxy_get_electrical_layer(l-i).startswith("dos")==True:
 				text=epitaxy_get_name(l-i)+" (active)"
-				tab(0.0,pos,0,width,thick,depth)
 			else:
 				text=epitaxy_get_name(l-i)
 
+			glColor3f(0.0,0.0,0.0)
+			font = QFont("Arial")
+			font.setPointSize(18)
+			self.renderText (width+0.1,pos,depth, text,font)
 
 			pos=pos+thick+0.05
+
 
 			glRotatef(self.tet_rotate, tet_x_rate, tet_y_rate, tet_z_rate)
 

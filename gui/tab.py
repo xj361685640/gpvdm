@@ -24,7 +24,7 @@ import os
 
 #from scan_item import scan_item_add
 from token_lib import tokens
-#from undo import undo_list_class
+from undo import undo_list_class
 from tab_base import tab_base
 from util import str2bool
 from scan_item import scan_remove_file
@@ -53,6 +53,9 @@ class tab_class(QWidget,tab_base):
 
 
 	def callback_edit(self, file_name,token,widget):
+		a=undo_list_class()
+		a.add([file_name, token, inp_get_token_value(self.file_name, token),widget])
+
 		inp_update_token_value(file_name, token, widget.text(),1)
 		help_window().help_set_help(["32_save.png","<big><b>Saved to disk</b></big>\n"])
 

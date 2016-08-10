@@ -1,4 +1,3 @@
-#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
@@ -20,29 +19,12 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-import pygtk
-pygtk.require('2.0')
-import gtk
-#import sys
 import os
-#import shutil
-#import commands
-#import subprocess
 from win_lin import running_on_linux
-#from cal_path import get_exe_command
-#import urllib2
-#import socket
 from threading import Thread
-#import time
-#import urlparse
-#import re
-#import os
 from ver import ver_core
 from ver import ver_mat
-import gobject
 import platform
-#import getpass
-#from help import my_help_class
 from gpvdm_http import get_data_from_web
 from cal_path import get_share_path
 import hashlib
@@ -51,6 +33,14 @@ from code_ctrl import enable_webupdates
 import i18n
 _ = i18n.language.gettext
 from ver import ver
+
+#qt
+from PyQt5.QtCore import QSize, Qt
+from PyQt5.QtGui import QIcon
+from PyQt5.QtWidgets import QWidget
+from PyQt5.QtGui import QPixmap
+from PyQt5.QtCore import pyqtSignal
+from PyQt5.QtWidgets import QWidget
 
 #Under windows, this class will connect to gpvdm.com and look for updates, a user prompt will be displayed if any are found.  It can also download updates if the user asks it to.  It's not called under linux because linux has it's own package management system.
 
@@ -67,7 +57,7 @@ def update_fetch():
 
 	update_path="http://www.gpvdm.com/update_windows/"+ver()+"/"
 	lines=get_data_from_web(update_path+"list.dat")
-	print "Got file list"
+	print("Got file list")
 	lines=lines.split('\n')
 	files=[]
 	md5=[]
@@ -132,9 +122,11 @@ def update_now():
 
 
 
-class update_thread(gtk.VBox):
+class update_thread(QWidget):
+	got_data = pyqtSignal(str)
+
 	def __init__(self):
-		self.__gobject_init__()
+		QWidget.__init__(self)
 		self.text=""
 
 	def get_from_web(self,url):
@@ -142,14 +134,13 @@ class update_thread(gtk.VBox):
 			message=get_data_from_web(page)
 
 			message=message.split("\n")
-			print message
+			print(message)
 			self.text=""
 			if message[0].startswith("update"):
 				token,ver=message[0].split("#")
 				self.text="Version "+ver+" of opvdm is now available."
-			gobject.idle_add(gobject.GObject.emit,self,"got-data")
-			#self.emit("got-data")
-
+			self.got_data.emit(self.text)
+			
 	def foo(self,n):
 		self.get_from_web('http://www.gpvdm.com')
 
@@ -158,8 +149,4 @@ class update_thread(gtk.VBox):
 		#multiprocessing.Process(target=self.foo, name="Foo", args=(10,))
 		p.daemon = True
 		p.start()
-
-
-gobject.type_register(update_thread)
-gobject.signal_new("got-data", update_thread, gobject.SIGNAL_RUN_FIRST,gobject.TYPE_NONE, ())
 

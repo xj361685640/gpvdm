@@ -224,15 +224,13 @@ class class_optical(QWidget):
 		self.progress_window.start()
 		for i in range(0,len(input_files)):
 			self.plot_widgets.append(plot_widget())
-			self.plot_widgets[i].init(self)
+			self.plot_widgets[i].init()
 			self.plot_widgets[i].set_labels([plot_labels[0]])
 			self.plot_widgets[i].load_data([input_files[i]],os.path.splitext(input_files[i])[0]+".oplot")
 
 			self.plot_widgets[i].do_plot()
 			#self.plot_widgets[i].show()
-			widget=QWidget()
-			widget.setLayout(self.plot_widgets[i])
-			self.notebook.addTab(widget,plot_labels[i])
+			self.notebook.addTab(self.plot_widgets[i],plot_labels[i])
 
 
 		self.fig_photon_density.draw_graph()

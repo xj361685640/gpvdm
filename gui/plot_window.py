@@ -40,12 +40,13 @@ class plot_window():
 
 	def init(self,input_files,plot_labels,config_file):
 		self.shown=True
-		self.window = QWidget()
-		self.window.resize(800, 600)
+		#self.window = QWidget()
 
 		self.plot=plot_widget()
-		self.plot.init(self.window)
-		self.window.setLayout(self.plot)
+		self.plot.init()
+		#self.plot.resize(800, 600)
+
+		#self.window.setLayout(self.plot)
 
 		print("labels",plot_labels)
 		if len(plot_labels)==0:
@@ -63,9 +64,9 @@ class plot_window():
 		self.plot.load_data(input_files,config_file)
 
 		self.plot.do_plot()
-
+		self.plot.show()
 		#self.window.add(self.plot)
-		self.window.show()
+		#self.window.show()
 		#self.window.show_all()
 		#self.window.connect("destroy", self.callback_destroy)
 

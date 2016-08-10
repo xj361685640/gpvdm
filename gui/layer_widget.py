@@ -89,8 +89,8 @@ class layer_widget(QWidget):
 		self.changed.emit()
 
 	def tab_changed(self, x,y):
-		print("changed!!!!",x,y)
 		self.save_model()
+		self.changed.emit()
 
 
 	def sync_to_electrical_mesh(self):

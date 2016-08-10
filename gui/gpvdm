@@ -45,6 +45,8 @@ from code_ctrl import enable_webupdates
 import i18n
 _ = i18n.language.gettext
 
+#undo
+from undo import undo_list_class
 
 #ver
 from ver import ver_load_info
@@ -87,10 +89,7 @@ from epitaxy import epitaxy_load
 
 #from device_lib import device_lib_class
 #from export_materials import export_materials
-#from ver import ver_check_compatibility
 #from import_archive import update_simulaton_to_new_ver
-#from update import update_thread
-#from update import update_now
 #from scan_item import scan_populate_from_file
 #from status_icon import status_icon_get
 from contacts_io import contacts_load
@@ -107,7 +106,7 @@ from mesh import mesh_load_all
 from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSize, Qt 
-from PyQt5.QtWidgets import QWidget,QSizePolicy,QHBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QMessageBox
+from PyQt5.QtWidgets import QWidget,QSizePolicy,QHBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QMessageBox, QLineEdit
 
 #windows
 from splash import splash_window
@@ -130,6 +129,13 @@ from fit_window import fit_window
 
 #python modules
 import webbrowser
+
+#ver
+from ver import ver_check_compatibility
+
+#updates
+from update import update_thread
+from update import update_now
 
 bubble=False
 if running_on_linux()==True:
@@ -324,9 +330,10 @@ class gpvdm_main_window(QMainWindow):
 	def callback_new(self):
 
 		dialog=new_simulation()
-		ret=dialog.window.exec_()
-		if ret==QDialog.Accepted:
-			self.change_dir_and_refresh_interface(dialog.get_return_path())
+		dialog.window.exec_()
+		ret=dialog.ret_path
+		if ret!=None:
+			self.change_dir_and_refresh_interface(dialog.ret_path)
 
 
 	def change_dir_and_refresh_interface(self,new_dir):
@@ -462,12 +469,12 @@ class gpvdm_main_window(QMainWindow):
 
 			new_path=os.path.dirname(filename)
 
-			if ver_check_compatibility(dialog.get_filename())==True:
+			if ver_check_compatibility(filename)==True:
 				self.change_dir_and_refresh_interface(new_path)
 			else:
-				reply = QMessageBox.question(self, 'Message',"Are you sure to quit?", QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+				reply = yes_no_dlg(self,"The simulation you want to import looks like it was made on an old version of gpvdm, do you want to try to open it anyway?")
 
-				if reply == QMessageBox.Yes:
+				if reply == True:
 					update_simulaton_to_new_ver(dialog.get_filename())
 					self.change_dir_and_refresh_interface(new_path)
 
@@ -577,9 +584,9 @@ class gpvdm_main_window(QMainWindow):
 			value=l[len(l)-1][2]
 			w_type=l[len(l)-1][3]
 
-			if type(w_type)==gtk.Entry:
+			if type(w_type)==QLineEdit:
 				self.undo_list.disable()
-				w_type.set_text(value)
+				w_type.setText(value)
 				self.undo_list.enable()
 
 			l.pop()
@@ -621,7 +628,7 @@ class gpvdm_main_window(QMainWindow):
 			self.optics_window.show()
 
 	def __init__(self):
-
+		self.undo_list=undo_list_class()
 		super(gpvdm_main_window,self).__init__()
 
 		#super(gpvdm_main_window, self).__init__(parent, QtCore.Qt.FramelessWindowHint)
@@ -631,7 +638,7 @@ class gpvdm_main_window(QMainWindow):
 		self.my_server.init(os.getcwd())
 		self.my_server.setup_gui(self.gui_sim_start,self.gui_sim_stop)
 		help_init()
-		help_window().help_set_help(["star.png",_("<big><b>Update available!</b></big><br>")])
+		#help_window().help_set_help(["star.png",_("<big><b>Update available!</b></big><br>")])
 
 		if running_on_linux()==True:
 			DBusQtMainLoop(set_as_default=True)
@@ -892,7 +899,7 @@ class gpvdm_main_window(QMainWindow):
 		if running_on_linux()==False and enable_webupdates()==True:
 			print("Looking for updates")
 			self.update=update_thread()
-			self.update.connect("got-data", self.got_help)
+			self.update.got_data.connect(self.got_help)
 			self.update.start()
 
 #		self.window.show()
@@ -904,10 +911,10 @@ class gpvdm_main_window(QMainWindow):
 		self.setWindowTitle(_("General-purpose Photovoltaic Device Model (www.gpvdm.com)"))
 		self.show()
 
-
+	#data
 	def got_help(self,data):
-		if self.update.text!="":
-			help_window().help_append(["star.png",_("<big><b>Update available!</b></big><br>"+self.update.text)])
+		if data!="":
+			help_window().help_append(["star.png",_("<big><b>Update available!</b></big><br>"+data)])
 			
 if __name__ == '__main__':
 	app = QApplication(sys.argv)
