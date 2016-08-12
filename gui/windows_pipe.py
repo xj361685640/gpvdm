@@ -24,10 +24,19 @@ import win32file
 import winerror
 from threading import Thread
 
+#qt
+from PyQt5.QtCore import QSize, Qt
+from PyQt5.QtGui import QIcon
+from PyQt5.QtWidgets import QWidget
+from PyQt5.QtGui import QPixmap
+from PyQt5.QtCore import pyqtSignal
+from PyQt5.QtWidgets import QWidget
 
-class win_pipe(gobject.GObject):
+class win_pipe(QWidget):
+	new_data = pyqtSignal(str)
+	
 	def __init__(self):
-		self.__gobject_init__()
+		QWidget.__init__(self)
 
 	def foo(self,n):
 		p = win32pipe.CreateNamedPipe(r'\\.\pipe\gpvdm_pipe',
@@ -41,13 +50,9 @@ class win_pipe(gobject.GObject):
 			res,data = win32file.ReadFile(p, 4096)
 			#print res,data
 			if res != winerror.ERROR_MORE_DATA:
-				#print data
-				#print "emit event from",threading.current_thread()
-				#gobject.idle_add(gobject.GObject.emit,self,*args)
-				#self.emit("new-data",data)
-				gobject.idle_add(gobject.GObject.emit,self,"new-data",data)
+				self.new_data.emit(data)
 			else:
-				print "no more data"
+				print("no more data")
 			win32pipe.DisconnectNamedPipe(p)
 
 	def start(self):
@@ -55,7 +60,4 @@ class win_pipe(gobject.GObject):
 		p.daemon = True
 		p.start()
 
-
-#gobject.type_register(win_pipe)
-#gobject.signal_new("new-data", win_pipe, gobject.SIGNAL_RUN_FIRST,gobject.TYPE_NONE, (gobject.TYPE_STRING,))
 

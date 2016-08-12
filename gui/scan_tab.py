@@ -76,7 +76,7 @@ from PyQt5.QtGui import QPainter,QIcon,QCursor
 
 #window
 #from plot_dlg import plot_dlg_class
-#from scan_select import select_param
+from scan_select import select_param
 #from notes import notes
 from gui_util import tab_add
 from gui_util import tab_move_down
@@ -463,6 +463,8 @@ class scan_vbox(QWidget):
 		self.sim_dir=os.path.join(scan_root_dir,sim_name)
 		self.tab_name=os.path.basename(os.path.normpath(self.sim_dir))
 
+		self.select_param_window=select_param()
+
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
@@ -513,6 +515,8 @@ class scan_vbox(QWidget):
 
 		self.tab.verticalHeader().setVisible(False)
 
+		self.select_param_window.init(self.tab)
+		
 		self.tab.clear()
 		self.tab.setColumnCount(6)
 		self.tab.setSelectionBehavior(QAbstractItemView.SelectRows)

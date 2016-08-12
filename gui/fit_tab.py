@@ -1,4 +1,3 @@
-#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
@@ -23,73 +22,51 @@
 import os
 from inp import inp_load_file
 from inp_util import inp_search_token_value
-from fit_window_plot import fit_window_plot
-from fit_window_plot_real import fit_window_plot_real
+#from fit_window_plot_real import fit_window_plot_real
 from inp import inp_update_token_value
 from cal_path import get_image_file_path
 from tab import tab_class
-from fit_patch import fit_patch
+#from fit_patch import fit_patch
 import shutil
 
 import i18n
 _ = i18n.language.gettext
 
-(
-SEG_LENGTH,
-SEG_DT,
-SEG_VOLTAGE_START,
-SEG_VOLTAGE_STOP,
-SEG_MUL,
-SEG_SUN,
-SEG_LASER
-) = range(7)
+#qt
+from PyQt5.QtCore import QSize, Qt 
+from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QMenuBar,QStatusBar, QMenu, QTableWidget, QAbstractItemView
+from PyQt5.QtGui import QPainter,QIcon,QCursor
+
+#windows
+from fit_window_plot import fit_window_plot
 
 mesh_articles = []
 
-class fit_tab(gtk.VBox):
+class fit_tab(QTabWidget):
 
 	def update(self):
 		self.tmesh_real.update()
 		self.tmesh.update()
-	def init(self,index):
-		self.tab_label=None
 
-
-		self.index=index
+	def __init__(self,index):
+		QTabWidget.__init__(self)
 		lines=[]
+		self.index=index
 
 		if inp_load_file(lines,"fit"+str(self.index)+".inp")==True:
 			self.tab_name=inp_search_token_value(lines, "#fit_name")
 		else:
 			self.tab_name=""
 
+		self.setTabsClosable(True)
+		self.setMovable(True)
 
-		self.title_hbox=gtk.HBox()
+		self.tmesh = fit_window_plot(self.index)
+		self.addTab(self.tmesh,_("Fit error"))
 
-		self.title_hbox.set_size_request(-1, 25)
-		self.label=gtk.Label(self.tab_name)
-		self.label.set_justify(gtk.JUSTIFY_LEFT)
-		self.title_hbox.pack_start(self.label, False, True, 0)
 
-		self.close_button = gtk.Button()
-		close_image = gtk.Image()
-   		close_image.set_from_file(os.path.join(get_image_file_path(),"close.png"))
-		close_image.show()
-		self.close_button.add(close_image)
-		self.close_button.props.relief = gtk.RELIEF_NONE
-
-		self.close_button.set_size_request(25, 25)
-		self.close_button.show()
-
-		self.title_hbox.pack_end(self.close_button, False, False, 0)
-		self.title_hbox.show_all()
-
-		self.notebook=gtk.Notebook()
-		self.notebook.show()
-
-		self.tmesh = fit_window_plot()
-		self.tmesh.init(self.index)
-		self.notebook.append_page(self.tmesh, gtk.Label(_("Fit error")))
+	def init(self,index):
+		return
 
 		self.tmesh_real = fit_window_plot_real()
 		self.tmesh_real.init(self.index)
@@ -141,9 +118,9 @@ class fit_tab(gtk.VBox):
 
 		response = dialog.run()
 		if response == gtk.RESPONSE_OK:
-			print "importing file",dialog.get_filename()
+			print("importing file",dialog.get_filename())
 			shutil.copy(dialog.get_filename(), os.path.join(os.getcwd(),"fit_data"+str(self.index)+".inp"))
 			self.update()
 		elif response == gtk.RESPONSE_CANCEL:
-		    print _("Closed, no files selected")
+		    print(_("Closed, no files selected"))
 		dialog.destroy()

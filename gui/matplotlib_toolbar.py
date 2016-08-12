@@ -24,7 +24,7 @@ from matplotlib.backends.backend_gtkagg import NavigationToolbar2GTKAgg
 
 class NavigationToolbar(NavigationToolbar2GTKAgg):
 	# only display the buttons we need
-	print NavigationToolbar2GTKAgg.toolitems
+	print(NavigationToolbar2GTKAgg.toolitems)
 	toolitems = []
 	for t in NavigationToolbar2GTKAgg.toolitems:
 		if t[0] not in ["Save","Forward","Back"]:

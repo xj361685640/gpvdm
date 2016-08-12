@@ -25,7 +25,6 @@ import shutil
 from window_list import windows
 import webbrowser
 from code_ctrl import enable_betafeatures
-#from fit_tab import fit_tab
 from util_zip import zip_lsdir
 from util import strextract_interger
 from global_objects import global_object_get
@@ -49,6 +48,8 @@ from PyQt5.QtGui import QPainter,QIcon,QCursor
 
 #windows
 from gui_util import dlg_get_text
+from fit_tab import fit_tab
+from QHTabBar import QHTabBar
 
 def fit_new_filename():
 	for i in range(0,20):
@@ -193,12 +194,8 @@ class fit_window(QWidget):
 
 
 	def add_page(self,index):
-		new_tab=fit_tab()
-		new_tab.init(index)
-		new_tab.close_button.connect("clicked", self.callback_view_toggle_tab,new_tab.tab_name)
-
-		self.notebook.append_page(new_tab,new_tab.title_hbox)
-		self.notebook.set_tab_reorderable(new_tab,True)
+		new_tab=fit_tab(index)
+		self.notebook.addTab(new_tab,new_tab.tab_name)
 
 	def switch_page(self,page, page_num, user_param1):
 		pageNum = self.notebook.get_current_page()
@@ -288,57 +285,47 @@ class fit_window(QWidget):
 		self.clone.triggered.connect(self.callback_rename_page)
 		toolbar.addAction(self.clone)
 
+		self.import_data= QAction(QIcon(os.path.join(get_image_file_path(),"import.png")), _("Import data"), self)
+		self.import_data.triggered.connect(self.callback_import)
+		toolbar.addAction(self.import_data)
+
+		self.play= QAction(QIcon(os.path.join(get_image_file_path(),"play.png")), _("Run a single fit"), self)
+		self.play.triggered.connect(self.callback_import)
+		toolbar.addAction(self.play)
+		
+		self.play= QAction(QIcon(os.path.join(get_image_file_path(),"forward.png")), _("Start the fitting process"), self)
+		self.play.triggered.connect(self.callback_do_fit)
+		toolbar.addAction(self.play)
+		
+		spacer = QWidget()
+		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+		toolbar.addWidget(spacer)
+
+
+		self.help = QAction(QIcon(os.path.join(get_image_file_path(),"help.png")), 'Help', self)
+		self.help.triggered.connect(self.callback_help)
+		toolbar.addAction(self.help)
+
 		self.main_vbox.addWidget(toolbar)
 
-
 		self.notebook = QTabWidget()
+		self.notebook.setTabBar(QHTabBar())
+		self.notebook.setTabPosition(QTabWidget.West)
+
 		self.notebook.setMovable(True)
 
-#		self.load_tabs()
+		self.load_tabs()
 
+		self.main_vbox.addWidget(self.notebook)
+		
 		self.status_bar=QStatusBar()
 		self.main_vbox.addWidget(self.status_bar)
 
 		self.setLayout(self.main_vbox)
 
-################################
 		return
-		image = gtk.Image()
-		image.set_from_file(os.path.join(get_image_file_path(),"import.png"))
-		import_data = gtk.ToolButton(image)
-		import_data.connect("clicked", self.callback_import,None)
-		self.tooltips.set_tip(import_data, _("Import data"))
-		toolbar.insert(import_data, -1)
 
 
-		sep = gtk.SeparatorToolItem()
-		sep.set_draw(True)
-		sep.set_expand(False)
-		toolbar.insert(sep, -1)
-
-		image = gtk.Image()
-		image.set_from_file(os.path.join(get_image_file_path(),"play.png"))
-		self.play = gtk.ToolButton(image)
-		self.tooltips.set_tip(self.play, _("Run a single fit"))
-		toolbar.insert(self.play, -1)
-		self.play.connect("clicked", self.callback_one_fit)
-
-		image = gtk.Image()
-		image.set_from_file(os.path.join(get_image_file_path(),"forward.png"))
-		self.do_fit = gtk.ToolButton(image)
-		self.tooltips.set_tip(self.do_fit, _("Start the fitting process"))
-		toolbar.insert(self.do_fit, -1)
-		self.do_fit.connect("clicked", self.callback_do_fit)
-
-		sep = gtk.SeparatorToolItem()
-		sep.set_draw(False)
-		sep.set_expand(True)
-		toolbar.insert(sep, -1)
-
-
-		self.main_vbox.addWidget(self.notebook)
-################################
-		#self.main_vbox.addWidget(self.notebook)
 
 
 

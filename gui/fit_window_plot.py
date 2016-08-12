@@ -1,4 +1,3 @@
-#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
@@ -20,20 +19,13 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-#import sys
 import os
-#import shutil
 from numpy import *
-from matplotlib.figure import Figure
-#from numpy import arange, sin, pi
-from matplotlib.backends.backend_gtkagg import FigureCanvasGTKAgg as FigureCanvas
-#import gobject
 from scan_item import scan_item_add
 from inp import inp_load_file
 from inp import inp_read_next_item
 from gui_util import dlg_get_text
 from inp import inp_get_token_value
-#import matplotlib.mlab as mlab
 from inp import inp_write_lines_to_file
 import webbrowser
 from util import time_with_units
@@ -41,17 +33,26 @@ from inp_util import inp_search_token_value
 from cal_path import get_image_file_path
 from scan_item import scan_remove_file
 from code_ctrl import enable_betafeatures
-from matplotlib_toolbar import NavigationToolbar
 from util import read_xyz_data
 from plot_widget import plot_widget
 import i18n
 _ = i18n.language.gettext
 
 
-mesh_articles = []
+#qt
+from PyQt5.QtCore import QSize, Qt 
+from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QTabWidget
+from PyQt5.QtGui import QPainter,QIcon
 
+#from matplotlib_toolbar import NavigationToolbar
+#matplotlib
+import matplotlib
+matplotlib.use('Qt5Agg')
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 
-class fit_window_plot(gtk.VBox):
+class fit_window_plot(QWidget):
 	lines=[]
 	edit_list=[]
 
@@ -100,11 +101,13 @@ class fit_window_plot(gtk.VBox):
 				self.save_image(file_name+filter.get_name())
 
 		elif response == gtk.RESPONSE_CANCEL:
-		    print _("Closed, no files selected")
+		    print(_("Closed, no files selected"))
 		dialog.destroy()
 
 
-	def init(self,index):
+	def __init__(self,index):
+		QWidget.__init__(self)
+		return
 		self.index=index
 
 
@@ -121,7 +124,7 @@ class fit_window_plot(gtk.VBox):
 		self.line_number=[]
 
 		self.list=[]
-		print "index=",index
+		print("index=",index)
 
 
 #		canvas = FigureCanvas(self.fig)  # a gtk.DrawingArea

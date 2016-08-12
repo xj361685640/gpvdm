@@ -50,13 +50,10 @@ from PyQt5.QtWidgets import QTabWidget,QWidget
 #window
 from dos_main import dos_main
 from pl_main import pl_main
+from tab_terminal import tab_terminal
 
-if running_on_linux()==True:
-	from tab_terminal import tab_terminal
-	if enable_webbrowser()==True:
-		from information_webkit import information
-	else:
-		from information_noweb import information
+if enable_webbrowser()==True:
+	from information_webkit import information
 else:
 	from information_noweb import information
 
@@ -69,6 +66,10 @@ class gpvdm_notebook(QTabWidget):
 	item_factory=None
 	menu_items=[]
 
+	def __init__(self):
+		QWidget.__init__(self)
+		self.terminal=None
+		
 	def get_current_page(self):
 		i=self.currentIndex()
 		return self.tabText(i)
@@ -247,11 +248,11 @@ class gpvdm_notebook(QTabWidget):
 			#for child in self.get_children():
 			#		print type(child)
 
-			if running_on_linux()==True:
-				self.terminal=tab_terminal()
-				self.terminal.init()
-				self.addTab(self.terminal,"Terminal")
-				self.terminal.run(os.getcwd(),get_exe_command()+" --version")
+			#if running_on_linux()==True:
+			self.terminal=tab_terminal()
+			self.terminal.init()
+			self.addTab(self.terminal,"Terminal")
+			self.terminal.run(os.getcwd(),get_exe_command()+" --version")
 
 			self.add_info_page()
 

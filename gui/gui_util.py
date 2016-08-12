@@ -114,6 +114,21 @@ def tab_set_value(tab,y,x,value):
 		item = QTableWidgetItem(str(value))
 		tab.setItem(y,x,item)
 
+def tab_get_selected(tab):
+	a=tab.selectionModel().selectedRows()
+
+	if len(a)>0:
+		y=a[0].row()
+	else:
+		return False
+
+	ret=[]
+	
+	for i in range(0,tab.columnCount()):
+		ret.append(str(tab_get_value(tab,y,i)))
+
+	return ret
+
 def tab_move_down(tab):
 	a=tab.selectionModel().selectedRows()
 

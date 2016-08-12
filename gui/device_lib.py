@@ -1,4 +1,3 @@
-#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
@@ -22,135 +21,97 @@
 
 
 
-#import sys
 import os
-#import shutil
-#import time
 import glob
 from cal_path import get_device_lib_path
 from util_zip import read_lines_from_archive
 from inp_util import inp_search_token_value_multiline
 from util_zip import zip_lsdir
 from util_zip import archive_add_file
-(
-  COLUMN_FILENAME,
-  COLUMN_TYPE,
-  COLUMN_INFO
-) = range(3)
+
+#qt
+from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication
+from PyQt5.QtGui import QIcon
+from PyQt5.QtCore import QSize, Qt 
+from PyQt5.QtWidgets import QWidget,QSizePolicy,QHBoxLayout,QPushButton,QDialog, QFileDialog, QToolBar, QMessageBox, QLineEdit,QVBoxLayout, QTableWidget, QAbstractItemView
+
+#gui_util
+from gui_util import tab_set_value
+from gui_util import tab_add
+from gui_util import tab_get_selected
 
 def device_lib_replace(file_name):
 	archives=glob.glob(os.path.join(get_device_lib_path(),"*.gpvdm"))
 	for i in range(0,len(archives)):
-		print "replace ",archives[i],file_name
+		print("replace ",archives[i],file_name)
 		archive_add_file(archives[i],file_name,"")
 
-class device_lib_class(gtk.Dialog):
+class device_lib_class(QDialog):
 
-	def __add_columns(self, treeview):
 
-#		model = treeview.get_model()
+	def create_model(self):
 
-		renderer = gtk.CellRendererText()
-		#renderer.connect("edited", self.on_cell_edited, model)
-		renderer.set_data("column", COLUMN_FILENAME)
-		#renderer.set_property("editable", True)
-		column = gtk.TreeViewColumn("File name", renderer, text=COLUMN_FILENAME,editable=True)
-		treeview.append_column(column)
-
-		renderer = gtk.CellRendererText()
-		#renderer.connect("edited", self.on_cell_edited, model)
-		renderer.set_data("column", COLUMN_TYPE)
-		#renderer.set_property("editable", True)
-		column = gtk.TreeViewColumn("Device type", renderer, text=COLUMN_TYPE,editable=True)
-		treeview.append_column(column)
-
-		renderer = gtk.CellRendererText()
-		#renderer.connect("edited", self.on_cell_edited, model)
-		renderer.set_data("column", COLUMN_INFO)
-		#renderer.set_property("editable", True)
-		renderer.props.wrap_width = 400
-		renderer.props.wrap_mode = gtk.WRAP_WORD
-
-		column = gtk.TreeViewColumn("Description", renderer, text=COLUMN_INFO,editable=True)
-		treeview.append_column(column)
-
-	def __create_model(self):
-
-		# create list store
-		model = gtk.ListStore(str,str,str)
-
-		# add items
-
+		self.tab.clear()
+		self.tab.setColumnCount(3)
+		self.tab.setSelectionBehavior(QAbstractItemView.SelectRows)
+		self.tab.setHorizontalHeaderLabels([_("File name"), _("Device type"), _("Description")])
+		self.tab.setColumnWidth(0, 150);
+		self.tab.setColumnWidth(2, 500);
+		self.tab.verticalHeader().setDefaultSectionSize(80);
 		files=glob.glob(os.path.join(get_device_lib_path(),"*.gpvdm"))
 		for i in range(0,len(files)):
-			print "working on",files[i],zip_lsdir(files[i])
-			iter = model.append()
+			print("working on",files[i],zip_lsdir(files[i]))
 			lines=[]
 			if read_lines_from_archive(lines,files[i],"info.inp")==True:
-				print lines
-				model.set (iter,
-					COLUMN_FILENAME, os.path.basename(files[i]),
-					COLUMN_TYPE, " ".join(inp_search_token_value_multiline(lines,"#info_device_type")),
-					COLUMN_INFO, " ".join(inp_search_token_value_multiline(lines,"#info_description"))
-				)
-		return model
+				tab_add(self.tab,[os.path.basename(files[i]), " ".join(inp_search_token_value_multiline(lines,"#info_device_type"))," ".join(inp_search_token_value_multiline(lines,"#info_description"))])
 
-	def init(self):
+
+	def __init__(self):
 		self.file_path=""
-		self.set_default_response(gtk.RESPONSE_OK)
-		self.set_title("Device library")
-		self.set_flags(gtk.DIALOG_DESTROY_WITH_PARENT)
-		#self.add_buttons("OK",True,"Cancel",False)
+		QWidget.__init__(self)
+		self.main_vbox=QVBoxLayout()
+		self.setFixedSize(800,400) 
+		self.tab = QTableWidget()
+		self.tab.setWordWrap(True)
+		self.tab.resizeColumnsToContents()
 
-		self.set_size_request(800, 400)
-		self.set_position(gtk.WIN_POS_CENTER)
+		self.tab.verticalHeader().setVisible(False)
+		self.create_model()
 
+#		self.tab.cellChanged.connect(self.tab_changed)
 
-		self.model = self.__create_model()
+		self.main_vbox.addWidget(self.tab)
 
-		self.treeview = gtk.TreeView(self.model)
-		self.treeview.set_size_request(380, 150)
-		self.treeview.set_rules_hint(True)
-		self.treeview.get_selection().set_mode(gtk.SELECTION_SINGLE)
-		self.__add_columns(self.treeview)
-		self.treeview.show()
+		self.hwidget=QWidget()
 
-		self.vbox.pack_start(self.treeview, True, True, 0)
+		okButton = QPushButton("OK")
+		cancelButton = QPushButton("Cancel")
 
-		self.hbox=gtk.HBox()
-		self.vbox.pack_start(self.hbox, False, False, 0)
-		ok = gtk.Button(label="Import", stock=gtk.STOCK_OK)
-		ok.connect("clicked", self.on_ok_clicked)
-		close = gtk.Button(label="Close", stock=gtk.STOCK_CLOSE)
-		self.hbox.pack_end(ok, False, False, 0)
-		close.connect("clicked", self.on_close_clicked)
-		self.hbox.pack_end(close, False, False, 0)
-		self.hbox.show_all()
-		self.show()
+		hbox = QHBoxLayout()
+		hbox.addStretch(1)
+		hbox.addWidget(okButton)
+		hbox.addWidget(cancelButton)
 
-	def on_ok_clicked(self, button):
+		self.hwidget.setLayout(hbox)
 
-		selection = self.treeview.get_selection()
-		model, iter = selection.get_selected()
+		self.main_vbox.addWidget(self.hwidget)
 
+		self.setLayout(self.main_vbox)
 
-		model, iter = selection.get_selected()
-
-		if iter:
-			path = model.get_path(iter)[0]
-			self.file_path=os.path.join(get_device_lib_path(),model[path][0])
-			md = gtk.MessageDialog(None, 0, gtk.MESSAGE_QUESTION,  gtk.BUTTONS_YES_NO, "You are about to import the simulation file "+self.file_path+" into this simulation.  The result will be that all model parameters will be overwritten.  Do you really want to do that?")
-
-			response = md.run()
-
-			if response == gtk.RESPONSE_YES:
-				self.response(True)
-			elif response == gtk.RESPONSE_NO:
-				return
-			md.destroy()
+		okButton.clicked.connect(self.on_ok_clicked) 
+		cancelButton.clicked.connect(self.close)
+		
+		return
 
 
+	def on_ok_clicked(self):
+		ret=tab_get_selected(self.tab)
+		if ret==False:
+			error_dlg(self,_("You have not selected anything"))
+		else:
+			file_path=os.path.join(get_device_lib_path(),ret[0])
+			md = yes_no_dlg(self,"You are about to import the simulation file "+file_path+" into this simulation.  The result will be that all model parameters will be overwritten.  Do you really want to do that?")
 
-	def on_close_clicked(self, button):
-			self.response(False)
-
+			if response == True:
+				self.file_path=file_path
+				self.close()

@@ -25,7 +25,7 @@ import os
 from win_lin import running_on_linux
 
 if running_on_linux()==False:
-	import _winreg
+	import winreg
 
 materials_path=None
 plugins_path=None

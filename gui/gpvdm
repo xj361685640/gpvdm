@@ -87,7 +87,6 @@ from gpvdm_notebook import gpvdm_notebook
 from epitaxy import epitaxy_load
 #from global_objects import global_object_register
 
-#from device_lib import device_lib_class
 #from export_materials import export_materials
 #from import_archive import update_simulaton_to_new_ver
 #from scan_item import scan_populate_from_file
@@ -126,6 +125,7 @@ from cmp_class import cmp_class
 from about import about_dlg
 from dlg_export import dlg_export
 from fit_window import fit_window
+from device_lib import device_lib_class
 
 #python modules
 import webbrowser
@@ -176,7 +176,7 @@ class gpvdm_main_window(QMainWindow):
 		if data!=None:
 			self.my_server.callback_dbus(data)
 
-	def win_dbus(self, widget, data):
+	def win_dbus(self, data):
 		self.my_server.callback_dbus(data)
 
 
@@ -310,19 +310,15 @@ class gpvdm_main_window(QMainWindow):
 			import_archive(filename,os.path.join(os.getcwd(),"sim.gpvdm"),False)
 			self.change_dir_and_refresh_interface(os.getcwd())
 
-	def callback_import_from_lib(self, widget, data=None):
+	def callback_import_from_lib(self):
 		device_lib=device_lib_class()
-		device_lib.init()
-		response=device_lib.run()
+		device_lib.exec_()
 		path=device_lib.file_path
-		if response == True:
+		if path != "":
 			device_lib.destroy()
 			import_archive(path,os.path.join(os.getcwd(),"sim.gpvdm"),False)
 			self.change_dir_and_refresh_interface(os.getcwd())
 			print(_("file opened"),path)
-		elif response == False:
-			print(_("Closed, no files selected"))
-			device_lib.destroy()
 
 		
 
@@ -360,12 +356,10 @@ class gpvdm_main_window(QMainWindow):
 			self.undo.setEnabled(True)
 			self.jv_button.setEnabled(True)
 			self.optics_button.setEnabled(True)
-			self.tb_run_fit.setEnabled(True)
 			self.laser_button.setEnabled(True)
 			self.tb_time_domain.setEnabled(True)
 			#self.save_sim.setEnabled(True)
 			self.experiment_window_button.setEnabled(True)
-			self.qe_button.setEnabled(True)
 			self.light_button.setEnabled(True)
 			help_window().help_set_help(["play.png",_("<big><b>Now run the simulation</b></big><br> Click on the play icon to start a simulation.")])
 
@@ -378,7 +372,9 @@ class gpvdm_main_window(QMainWindow):
 			self.menu_scan.setEnabled(True)
 			self.menu_configure.setEnabled(True)
 			self.sim_mode_button.setEnabled(True)
-
+			if enable_betafeatures()==True:
+				self.tb_run_fit.setEnabled(True)
+				self.qe_button.setEnabled(True)
 		else:
 			self.run.setEnabled(False)
 			self.stop.setEnabled(False)
@@ -388,13 +384,11 @@ class gpvdm_main_window(QMainWindow):
 			self.undo.setEnabled(False)
 			self.jv_button.setEnabled(False)
 			self.optics_button.setEnabled(False)
-			self.tb_run_fit.setEnabled(False)
 			#self.save_sim.setEnabled(False)
 			self.experiment_window_button.setEnabled(False)
 
 			self.laser_button.setEnabled(False)
 			self.tb_time_domain.setEnabled(False)
-			self.qe_button.setEnabled(False)
 			self.sim_mode_button.setEnabled(False)
 			self.light_button.setEnabled(False)
 
@@ -408,7 +402,9 @@ class gpvdm_main_window(QMainWindow):
 			self.menu_stop.setEnabled(False)
 			self.menu_scan.setEnabled(False)
 			self.menu_configure.setEnabled(False)
-
+			if enable_betafeatures()==True:
+				self.tb_run_fit.setEnabled(False)
+				self.qe_button.setEnabled(False)
 
 		if self.notebook.terminal!=None:
 			self.my_server.set_terminal(self.notebook.terminal)
@@ -647,7 +643,7 @@ class gpvdm_main_window(QMainWindow):
 			self.bus.add_message_filter(self.adbus)
 		else:
 			self.win_pipe=win_pipe()
-			self.win_pipe.connect('new-data', self.win_dbus)
+			self.win_pipe.new_data.connect(self.win_dbus)
 			self.win_pipe.start()
 
 		self.notebook=gpvdm_notebook()
