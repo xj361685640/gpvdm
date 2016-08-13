@@ -49,6 +49,7 @@ from ver import ver_sync_ver
 from code_ctrl import enable_cluster
 from win_lin import running_on_linux
 from inp import inp_update
+from device_lib import device_lib_replace
 
 import i18n
 _ = i18n.language.gettext

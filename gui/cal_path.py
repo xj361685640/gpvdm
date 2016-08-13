@@ -68,9 +68,9 @@ def cal_share_path():
 
 	if running_on_linux()==False:
 		try:
-			registry_key = _winreg.OpenKey(_winreg.HKEY_CURRENT_USER, "Software\\gpvdm", 0, _winreg.KEY_READ)
-			value, regtype = _winreg.QueryValueEx(registry_key, "installpath")
-			_winreg.CloseKey(registry_key)
+			registry_key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, "Software\\gpvdm", 0, winreg.KEY_READ)
+			value, regtype = winreg.QueryValueEx(registry_key, "installpath")
+			winreg.CloseKey(registry_key)
 			share_path=value
 		except WindowsError:
 			share_path="c:\\gpvdm"

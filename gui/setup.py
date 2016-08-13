@@ -26,6 +26,8 @@ import py2exe
 import os
 import sys
 import matplotlib
+matplotlib.use('Qt5Agg')
+
 import shutil
 import glob
 
@@ -36,17 +38,17 @@ if os.path.isdir(dest_path)==False:
 	os.makedirs(dest_path)
 #	shutil.rmtree(dest_path)
 
-print "copying from z:\\auto_dep\\"
+print("copying from z:\\auto_dep\\")
 for file in glob.glob("z:\\auto_dep\\*"):
 	dest=os.path.join(os.getcwd(),os.path.basename(file))
-	print file,dest
+	print(file,dest)
 	if os.path.isfile(dest)==False:
 		shutil.copy(file, dest)
 
 
 	dest=os.path.join(dest_path,os.path.basename(file))
 	if os.path.isfile(dest)==False:
-		print file,dest
+		print(file,dest)
 		shutil.copy(file, dest)
 #'cairo', 'pango', 'pangocairo','atk', 'gobject', 'gio',"matplotlib.backends",  "matplotlib.backends.backend_tkagg"
 includes =[]
@@ -55,6 +57,8 @@ dll_excludes = []
 #[ "OLEAUT32.dll","USER32.dll","IMM32.DLL","SHELL32.DLL","OLE32.dll","SHLWAPI.DLL","MSVCP90.dll","MSVCP90.dll","COMDLG32.dll","ADVAPI32.dll","ADVAPI32.dll","msvcrt.dll","WS2_32.dll","WINSPOOL.DRV","GDI32.dll","VERSION.dll","KERNEL32.dll","COMCTL32.dll","gdiplus.dll","api-ms-win-core-processthreads-l1-1-2.dll","api-ms-win-core-sysinfo-l1-2-1.dll","api-ms-win-core-errorhandling-l1-1-1.dll","api-ms-win-core-profile-l1-1-0.dll","api-ms-win-core-libraryloader-l1-2-0.dll"]
 #'gtk','gtk.keysyms'
 pack  =[  ]
+data_files=matplotlib.get_py2exe_datafiles()
+print(data_files)
 setup(
 		console=['gpvdm.py'],
         options={
@@ -63,7 +67,7 @@ setup(
 				"includes": includes,
 				"dll_excludes": dll_excludes}
 				},
-		data_files=matplotlib.get_py2exe_datafiles()
+		data_files
 )
 
 #dist=os.path.join(os.getcwd(),"dist","etc")

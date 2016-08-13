@@ -92,6 +92,7 @@ struct simulation
 	struct server_struct server;
 
 	int gui;
+	int html;
 };
 
 #endif

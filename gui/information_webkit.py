@@ -37,7 +37,6 @@ class information(QWidget,tab_base):
 		self.forward_button.set_sensitive(self.web.can_go_forward())
 
 	def browse(self):
-		print "go"
 
 		url = self.tb_url.text()
 		if url.count("://")==0:

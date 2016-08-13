@@ -38,7 +38,7 @@ int ewe(struct simulation *sim, const char *format, ...);
 double read_value(struct simulation *sim,char *file,int skip,int line);
 int strcmp_end(char * str,char *end);
 int extract_str_number(char * in,char *cut);
-void randomprint(char *in);
+void randomprint(struct simulation *sim,char *in);
 int scanarg( char* in[],int count,char * find);
 int get_arg_plusone_pos( char* in[],int count,char * find);
 char * get_arg_plusone( char* in[],int count,char * find);

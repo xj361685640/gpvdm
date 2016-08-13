@@ -359,20 +359,28 @@ fclose(file);
 
 
 
-void randomprint(char *in)
+void randomprint(struct simulation *sim,char *in)
 {
 	int i;
 	for (i=0;i<strlen(in);i++)
 	{
 	int rnd=(float)6.0*rand()/(float)RAND_MAX;
-		if (rnd==0) textcolor(fg_reset);
-		if (rnd==1) textcolor(fg_red);
-		if (rnd==2) textcolor(fg_green);
-		if (rnd==3) textcolor(fg_yellow);
-		if (rnd==4) textcolor(fg_blue);
-		if (rnd==5) textcolor(fg_purple);
-		printf("%c",in[i]);
-	}
+		if (rnd==0) textcolor(sim,fg_reset);
+		if (rnd==1) textcolor(sim,fg_red);
+		if (rnd==2) textcolor(sim,fg_green);
+		if (rnd==3) textcolor(sim,fg_yellow);
+		if (rnd==4) textcolor(sim,fg_blue);
+		if (rnd==5) textcolor(sim,fg_purple);
+		
+		if ((in[i]!='\n')||(sim->html==FALSE))
+		{
+			printf("%c",in[i]);
+		}else
+		{
+			printf("<br>");
+		}
+			
+		}
 
 }
 
@@ -727,13 +735,20 @@ int get_dir_name_from_path(char *out, char *in)
 strcpy(out,in);
 
 int i=0;
-for (i=strlen(in);i>0;i--)
+int len=strlen(in);
+for (i=len;i>0;i--)
 {
 		if (in[i]=='/')
 		{
 			out[i]=0;
 			return 0;
 		}
+}
+
+if (len>0)
+{
+	out[0]=0;
+	return 0;
 }
 
 return -1;

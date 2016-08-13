@@ -62,6 +62,6 @@ void sim_init(struct simulation *sim)
 
 	sim->dumpfile=NULL;
 	sim->dumpfiles=-1;
-
+	sim->html=FALSE;
 }
 

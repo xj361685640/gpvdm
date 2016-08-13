@@ -91,11 +91,13 @@ class electrical_mesh_editor(QGroupBox):
 
 	def disable_dim(self):
 		self.tab.setItem(0,1,QTableWidgetItem("1"))
+		self.mesh_points=1
 		self.save()
 
 	def enable_dim(self):
 		if int(self.tab.rowCount())==1:
 			self.tab.setItem(0,1,QTableWidgetItem("10"))
+			self.mesh_points=10
 			self.save()
 
 

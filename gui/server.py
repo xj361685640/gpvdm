@@ -182,16 +182,16 @@ class server(cluster):
 						self.jobs_running=self.jobs_running+1
 						if running_on_linux()==True:
 							cmd="cd "+self.jobs[i]+";"
-							cmd=cmd+get_exe_command()+" --lock "+"lock"+str(i)+" "+self.args[i]+" --gui &"
+							cmd=cmd+get_exe_command()+" --lock "+"lock"+str(i)+" "+self.args[i]+" --gui --html &"
 							print("command="+cmd)
 							if self.enable_gui==True:
-								self.terminal.run(self.jobs[i],get_exe_command()+" --lock "+"lock"+str(i)+" "+self.args[i]+" --gui &")
+								self.terminal.run(self.jobs[i],get_exe_command()+" --lock "+"lock"+str(i)+" "+self.args[i]+" --gui --html &")
 							else:
 								print(cmd)
 								os.system(cmd)
 
 						else:
-							cmd=get_exe_command()+" --lock "+"lock"+str(i)+" "+self.args[i]+" --gui &\n"
+							cmd=get_exe_command()+" --lock "+"lock"+str(i)+" "+self.args[i]+" --gui --html &\n"
 							print(cmd,self.jobs[i],self.args[i])
 							subprocess.Popen(cmd,cwd=self.jobs[i])
 							#os.system(cmd)

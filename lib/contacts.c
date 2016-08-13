@@ -43,7 +43,10 @@ void contacts_load(struct simulation *sim,struct device *in)
 	in->ncontacts=0;
 
 	inp_init(sim,&inp);
-	inp_load(sim, &inp , "contacts.inp");
+	if (inp_load(sim, &inp , "contacts.inp")!=0)
+	{
+		ewe(sim,"Can't open the file contacts\n");
+	}
 
 	inp_check(sim,&inp,1.0);
 	inp_reset_read(sim,&inp);

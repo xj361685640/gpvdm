@@ -252,7 +252,7 @@ class gpvdm_notebook(QTabWidget):
 			self.terminal=tab_terminal()
 			self.terminal.init()
 			self.addTab(self.terminal,"Terminal")
-			self.terminal.run(os.getcwd(),get_exe_command()+" --version")
+			self.terminal.run(os.getcwd(),get_exe_command()+" --version --html")
 
 			self.add_info_page()
 

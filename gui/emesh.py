@@ -40,9 +40,11 @@ from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSize, Qt 
 from PyQt5.QtWidgets import QWidget,QSizePolicy,QHBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QMessageBox,QVBoxLayout
+from PyQt5.QtCore import pyqtSignal
 
 #windows
 from window_list import windows
+from mesh import mesh_load_all
 
 #matplotlib
 import matplotlib
@@ -60,6 +62,8 @@ class tab_electrical_mesh(QWidget):
 	file_name=""
 	name=""
 	visible=1
+
+	changed = pyqtSignal()
 
 	def save_image(self,file_name):
 		self.fig.savefig(file_name)
@@ -81,20 +85,22 @@ class tab_electrical_mesh(QWidget):
 		self.emesh_editor_y.enable_dim()
 		self.emesh_editor_x.disable_dim()
 		self.emesh_editor_z.disable_dim()
-
 		self.update_dim()
-
+		mesh_load_all()
+		
 	def callback_dim_2d(self):
 		self.emesh_editor_y.enable_dim()
 		self.emesh_editor_x.enable_dim()
 		self.emesh_editor_z.disable_dim()
 		self.update_dim()
+		mesh_load_all()
 
 	def callback_dim_3d(self):
 		self.emesh_editor_y.enable_dim()
 		self.emesh_editor_x.enable_dim()
 		self.emesh_editor_z.enable_dim()
 		self.update_dim()
+		mesh_load_all()
 
 
 	def update_dim(self):
@@ -123,6 +129,8 @@ class tab_electrical_mesh(QWidget):
 			self.emesh_editor_y.setEnabled(True)
 			self.emesh_editor_x.setEnabled(True)
 			self.emesh_editor_z.setEnabled(True)
+
+		self.changed.emit()
 
 
 	def __init__(self):

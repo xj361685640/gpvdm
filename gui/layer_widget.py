@@ -86,12 +86,16 @@ class layer_widget(QWidget):
 	def combo_changed(self):
 		print("saved")
 		self.save_model()
-		self.changed.emit()
+		self.emit_change()
 
 	def tab_changed(self, x,y):
 		self.save_model()
+		self.emit_change()
+		
+	def emit_change(self):
+		print("emit")
 		self.changed.emit()
-
+		
 
 	def sync_to_electrical_mesh(self):
 		tot=0
@@ -214,19 +218,9 @@ class layer_widget(QWidget):
 		self.main_vbox.addWidget(self.tab)
 
 		self.electrical_mesh=tab_electrical_mesh()
-
+		self.electrical_mesh.changed.connect(self.emit_change)
 		self.setLayout(self.main_vbox)
 
-
-		return
-
-
-
-
-		self.electrical_mesh.emesh_editor_y.connect("refresh", self.change_active_layer_thickness)
-
-
-		self.frame.set_label(_("Device layers"))
 
 
 

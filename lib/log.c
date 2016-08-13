@@ -28,6 +28,8 @@
 #include <stdlib.h>
 #include <util.h>
 #include <cal_path.h>
+#include <string.h>
+#include <const.h>
 
 void log_time_stamp(struct simulation *sim)
 {
@@ -54,17 +56,52 @@ void set_logging_level(struct simulation *sim,int value)
 	sim->log_level=value;
 }
 
+void text_to_html(struct simulation *sim,char *out, char *in)
+{
+	if (sim->html==TRUE)
+	{
+		int i=0;
+		int out_pos=0;
+		int len=0;
+		len=strlen(in);
+		for (i=0;i<len;i++)
+		{
+			if (in[i]=='\n')
+			{
+				out[out_pos]=0;
+				strcat(out,"<br>");
+				out_pos=strlen(out);
+			}else
+			{
+				out[out_pos]=in[i];
+				out_pos++;
+			}
+			
+		}
+		
+		out[out_pos]=0;
+	}else
+	{
+		out[0]=0;
+		strcpy(out,in);
+	}
+	
+}
+
 void printf_log(struct simulation *sim, const char *format, ...)
 {
 	FILE* out;
 	char data[1000];
+	char data_html[1000];
 	char temp[500];
 	va_list args;
 	va_start(args, format);
 	vsprintf(data,format, args);
+	
 	if ((sim->log_level==log_level_screen)||(sim->log_level==log_level_screen_and_disk))
 	{
-		printf("%s",data);
+		text_to_html(sim,data_html, data);
+		printf("%s",data_html);
 	}
 
 	if ((sim->log_level==log_level_disk)||(sim->log_level==log_level_screen_and_disk))
@@ -84,26 +121,40 @@ void printf_log(struct simulation *sim, const char *format, ...)
 
 void waveprint(struct simulation *sim,char *in,double wavelength)
 {
+	//Remove tralining \n in html mode as div introduces one anyway
+	/*if (sim->html==TRUE)
+	{
+		int len=strlen(in)-1;
+		if (len>0)
+		{
+			if (in[len]=='\n')
+			{
+				in[len]=0;
+			}
+		}
+	}*/
+
 	if ((sim->log_level==log_level_screen)||(sim->log_level==log_level_screen_and_disk))
 	{
 		if (wavelength<400.0)
 		{
-			textcolor(fg_purple);
+			textcolor(sim,fg_purple);
 		}else
 		if (wavelength<500.0)
 		{
-			textcolor(fg_blue);
+			textcolor(sim,fg_blue);
 		}else
 		if (wavelength<575.0)
 		{
-			textcolor(fg_green);
+			textcolor(sim,fg_green);
 		}else
 		if (wavelength<600.0)
 		{
-			textcolor(fg_yellow);
+			textcolor(sim,fg_yellow);
 		}else
 		{
-			textcolor(fg_red);
+			textcolor(sim,fg_red);
+
 		}
 	}
 
@@ -111,15 +162,45 @@ void waveprint(struct simulation *sim,char *in,double wavelength)
 
 	if ((sim->log_level==log_level_screen)||(sim->log_level==log_level_screen_and_disk))
 	{
-		textcolor(fg_reset);
+			textcolor(sim,fg_reset);
 	}
 }
 
-void textcolor(int color)
+void textcolor(struct simulation *sim, int color)
 {
-char command[13];
-sprintf(command, "\e[%dm", color);
-printf("%s", command);
+if (sim->html==TRUE)
+{
+	if (color==fg_purple)
+	{
+		printf("<span style=\"color:purple\">");
+	}else
+	if (color==fg_blue)
+	{
+		printf("<span style=\"color:blue\">");
+	}else
+	if (color==fg_green)
+	{
+		printf("<span style=\"color:green\">");
+	}else
+	if (color==fg_yellow)
+	{
+		printf("<span style=\"color:yellow\">");
+	}else
+	if (color==fg_red)
+	{
+		printf("<span style=\"color:red\">");
+	}else
+	if (color==fg_reset)
+	{
+		printf("</span>");
+	}
+
+}else
+{
+	char command[13];
+	sprintf(command, "\e[%dm", color);
+	printf("%s", command);
+}
 }
 
 int log_search_error(char *path)
@@ -143,7 +224,7 @@ int log_search_error(char *path)
 			ret=0;
 			break;
 		}
-        //printf("%s\n", line);
+
     }
 
     fclose(fp);

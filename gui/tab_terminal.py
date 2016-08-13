@@ -33,10 +33,14 @@ class tab_terminal(QTextEdit,tab_base):
 	def dataReady(self):
 		cursor = self.textCursor()
 		cursor.movePosition(cursor.End)
-		cursor.insertText(str(self.process.readAll()))
+		data=str(self.process.readAll())
+		data=data[2:-1]
+		cursor.insertHtml(data)
 		self.ensureCursorVisible()
 
 	def run(self,path,command):
+		cursor = self.textCursor()
+		cursor.insertHtml("Running:"+command+"<br>")
 		os.chdir(path)
 		self.process.start(command)
 

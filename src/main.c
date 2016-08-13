@@ -61,6 +61,16 @@ int main (int argc, char *argv[])
 int run=FALSE;
 struct simulation sim;
 sim_init(&sim);
+
+if (scanarg( argv,argc,"--html")==TRUE)
+{
+	sim.html=TRUE;
+}else
+{
+	sim.html=FALSE;
+}
+
+
 if (scanarg( argv,argc,"--gui")==TRUE)
 {
 	sim.gui=TRUE;
@@ -142,16 +152,16 @@ if(geteuid()==0) {
 }
 
 srand(time(0));
-textcolor(fg_green);
-randomprint(_("General-purpose Photovoltaic Device Model (www.gpvdm.com)\n"));
-randomprint(_("You should have received a copy of the GNU General Public License\n"));
-randomprint(_("along with this software.  If not, see www.gnu.org/licenses/.\n"));
-randomprint("\n");
-randomprint(_("If you wish to collaborate in anyway please get in touch:\n"));
-randomprint(_("roderick.mackenzie@nottingham.ac.uk\n"));
-randomprint(_("www.roderickmackenzie.eu/contact.html\n"));
-randomprint("\n");
-textcolor(fg_reset);
+textcolor(&sim,fg_green);
+randomprint(&sim,_("General-purpose Photovoltaic Device Model (www.gpvdm.com)\n"));
+randomprint(&sim,_("You should have received a copy of the GNU General Public License\n"));
+randomprint(&sim,_("along with this software.  If not, see www.gnu.org/licenses/.\n"));
+randomprint(&sim,"\n");
+randomprint(&sim,_("If you wish to collaborate in anyway please get in touch:\n"));
+randomprint(&sim,_("roderick.mackenzie@nottingham.ac.uk\n"));
+randomprint(&sim,_("www.roderickmackenzie.eu/contact.html\n"));
+randomprint(&sim,"\n");
+textcolor(&sim,fg_reset);
 
 sim.server.on=FALSE;
 sim.server.cpus=1;

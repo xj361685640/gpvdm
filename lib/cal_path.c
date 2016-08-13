@@ -104,13 +104,13 @@ get_dir_name_from_path(sim->exe_path, temp);
 if (isfile("configure.ac")==0)
 {
 	strcpy(sim->share_path,cwd);
-	printf("share path: %s\n",sim->share_path);
+	printf_log("share path: %s\n",sim->share_path);
 }else
 if (isfile("ver.py")==0)
 {
 	path_up_level(temp, cwd);
 	strcpy(sim->share_path,temp);
-	printf("share path: %s\n",sim->share_path);
+	printf_log("share path: %s\n",sim->share_path);
 }else
 {
 	strcpy(sim->share_path,"/usr/lib64/gpvdm/");
