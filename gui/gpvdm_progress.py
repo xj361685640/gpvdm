@@ -67,9 +67,9 @@ class gpvdm_progress(QWidget):
 		self.enable_pulse=True
 		
 		if self.pulse_direction==True:
-			self.value=self.value+0.02
+			self.value=self.value+0.1
 		else:
-			self.value=self.value-0.02
+			self.value=self.value-0.1
 
 		if self.value>=1.0 or self.value<=0.0:
 			self.pulse_direction= not self.pulse_direction

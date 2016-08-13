@@ -22,7 +22,7 @@
 
 import os
 
-#from scan_item import scan_item_add
+from scan_item import scan_item_add
 from token_lib import tokens
 from undo import undo_list_class
 from tab_base import tab_base
@@ -143,6 +143,9 @@ class tab_class(QWidget,tab_base):
 					self.tab.addWidget(description,widget_number,0)
 					self.tab.addWidget(edit_box,widget_number,1)
 					self.tab.addWidget(unit,widget_number,2)
+					
+					scan_item_add(filename,token,text_info,1)
+					
 					widget_number=widget_number+1
 			pos=pos+1
 
@@ -181,7 +184,7 @@ class tab_class(QWidget,tab_base):
 				edit_box.show()
 
 				line=1
-				scan_item_add(filename,token,text_info,line)
+				
 
 				n=n+1
 

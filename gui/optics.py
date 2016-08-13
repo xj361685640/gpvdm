@@ -176,8 +176,9 @@ class class_optical(QWidget):
 		toolbar.addWidget(label)
 
 		self.cb_model = QComboBox()
-		self.update_cb_model()
 		toolbar.addWidget(self.cb_model)
+		self.update_cb_model()
+		self.cb_model.activated.connect(self.on_cb_model_changed)
 
 		label=QLabel(_("Solar spectrum:"))
 		toolbar.addWidget(label)
@@ -281,12 +282,14 @@ class class_optical(QWidget):
 			self.cb_model.addItem(models[i])
 
 		used_model=inp_get_token_value("light.inp", "#light_model")
+		print(models,used_model)
 		if models.count(used_model)==0:
 			used_model="exp"
 			inp_update_token_value("light.inp", "#light_model","exp",1)
 		else:
 			self.cb_model.setCurrentIndex(self.cb_model.findText(used_model))
-			scan_item_add("light.inp","#light_model","Optical model",1)
+
+		scan_item_add("light.inp","#light_model","Optical model",1)
 
 		self.cb_model.setCurrentIndex(0)
 		self.cb_model.blockSignals(False)
@@ -350,11 +353,12 @@ class class_optical(QWidget):
 		self.fig_photon_abs.canvas.draw()
 
 	def on_cb_model_changed(self):
-		cb_text=widget.get_active_text()
+		cb_text=self.cb_model.currentText()
 		inp_update_token_value("light.inp", "#light_model", cb_text,1)
 
+
 	def on_light_source_model_changed(self):
-		cb_text=widget.get_active_text()
+		cb_text=widget.currentText()
 		cb_text=cb_text+".spectra"
 		inp_update_token_value("light.inp", "#sun", cb_text,1)
 

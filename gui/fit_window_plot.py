@@ -107,24 +107,32 @@ class fit_window_plot(QWidget):
 
 	def __init__(self,index):
 		QWidget.__init__(self)
-		return
+		self.vbox=QVBoxLayout()
 		self.index=index
 
-
 		self.plot_widget=plot_widget()
-		self.plot_widget.init(self)
-		self.plot_widget.show()
+		self.plot_widget.init()
+		self.vbox.addWidget(self.plot_widget)
+		
+		self.setLayout(self.vbox)
+		
+		self.draw_graph()
+
+		return
+
+
+
 
 
 #		self.fig = Figure(figsize=(5,4), dpi=100)
-		self.ax1=None
-		self.show_key=True
-		self.hbox=gtk.HBox()
-		self.edit_list=[]
-		self.line_number=[]
+		#self.ax1=None
+		#self.show_key=True
+		#self.hbox=gtk.HBox()
+		#self.edit_list=[]
+		#self.line_number=[]
 
-		self.list=[]
-		print("index=",index)
+		#self.list=[]
+		#print("index=",index)
 
 
 #		canvas = FigureCanvas(self.fig)  # a gtk.DrawingArea
@@ -175,15 +183,14 @@ class fit_window_plot(QWidget):
 
 #		canvas.set_size_request(700,400)
 
-		self.pack_start(self.plot_widget, True, True, 0)
+#		self.pack_start(self.plot_widget, True, True, 0)
 
 
 
-		self.statusbar = gtk.Statusbar()
-		self.statusbar.show()
-		self.pack_start(self.statusbar, False, False, 0)
+#		self.statusbar = gtk.Statusbar()
+#		self.statusbar.show()
+#		self.pack_start(self.statusbar, False, False, 0)
 
-		self.draw_graph()
 
-		self.show()
+#		self.show()
 

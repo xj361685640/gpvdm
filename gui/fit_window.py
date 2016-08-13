@@ -262,7 +262,7 @@ class fit_window(QWidget):
 		self.main_vbox.addWidget(menubar)
 
 
-		self.setFixedSize(900, 500)
+		#self.setFixedSize(900, 700)
 		self.setWindowTitle(_("Fit window - gpvdm"))   
 		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"fit.png")))
 

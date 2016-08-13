@@ -22,11 +22,10 @@
 import os
 from inp import inp_load_file
 from inp_util import inp_search_token_value
-#from fit_window_plot_real import fit_window_plot_real
 from inp import inp_update_token_value
 from cal_path import get_image_file_path
 from tab import tab_class
-#from fit_patch import fit_patch
+from fit_patch import fit_patch
 import shutil
 
 import i18n
@@ -39,6 +38,8 @@ from PyQt5.QtGui import QPainter,QIcon,QCursor
 
 #windows
 from fit_window_plot import fit_window_plot
+from fit_window_plot_real import fit_window_plot_real
+
 
 mesh_articles = []
 
@@ -64,28 +65,19 @@ class fit_tab(QTabWidget):
 		self.tmesh = fit_window_plot(self.index)
 		self.addTab(self.tmesh,_("Fit error"))
 
+		self.tmesh_real = fit_window_plot_real(self.index)
+		self.addTab(self.tmesh_real,_("Experimental data"))
 
-	def init(self,index):
-		return
-
-		self.tmesh_real = fit_window_plot_real()
-		self.tmesh_real.init(self.index)
-		self.notebook.append_page(self.tmesh_real, gtk.Label(_("Experimental data")))
-
-		self.fit_patch = fit_patch()
-		self.fit_patch.init(self.index)
-		self.notebook.append_page(self.fit_patch, gtk.Label(_("Fit patch")))
-
-		self.pack_start(self.notebook, False, False, 0)
-
+		self.fit_patch = fit_patch(self.index)
+		self.addTab(self.fit_patch, _("Fit patch"))
 
 		config=tab_class()
-		config.show()
-		self.notebook.append_page(config,gtk.Label("Configure fit"))
-		config.visible=True
 		config.init("fit"+str(self.index)+".inp",self.tab_name)
-		config.label_name=self.tab_name
-		self.show()
+		self.addTab(config,_("Configure fit"))
+
+		
+	def init(self,index):
+		return
 
 	def set_tab_caption(self,name):
 		mytext=name

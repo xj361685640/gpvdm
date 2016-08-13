@@ -142,12 +142,6 @@ if running_on_linux()==True:
 	import dbus
 	from dbus.mainloop.pyqt5 import DBusQtMainLoop
 
-	try:
-		import pynotify
-		bubble=True
-	except:
-		print("no pynotify")
-
 	if os.geteuid() == 0:
 		exit(_("Don't run me as root!!"))
 	
@@ -181,12 +175,14 @@ class gpvdm_main_window(QMainWindow):
 
 
 	def gui_sim_start(self):
-		self.notebook_active_page=self.notebook.get_current_page()
+		self.notebook_active_page=self.notebook.currentIndex()
 		self.notebook.goto_page("Terminal")
 
-	def gui_sim_stop(self,text):
+	def gui_sim_stop(self):
 		message=""
-		self.notebook.set_current_page(self.notebook_active_page)
+		print("page set as",self.notebook_active_page)
+		self.notebook.setCurrentIndex(self.notebook_active_page)
+		print("page set as2",self.notebook_active_page)
 
 		if os.path.isfile("signal_stop.dat")==True:
 			f = open('signal_stop.dat')
@@ -194,16 +190,6 @@ class gpvdm_main_window(QMainWindow):
 			f.close()
 			message=lines[0].rstrip()
 
-		if text!="":
-			message=text
-
-		if running_on_linux()==True:
-			if message!="":
-				if bubble==True:
-					pynotify.init ("gpvdm")
-					Hello=pynotify.Notification ("gpvdm:",message,os.path.join(get_image_file_path(),"icon.svg"))
-					Hello.set_timeout(2000)
-					Hello.show ()
 
 
 	def callback_plot_after_run_toggle(self, widget, data):
@@ -272,6 +258,7 @@ class gpvdm_main_window(QMainWindow):
 		
 
 	def closeEvent(self, event):
+		print("closing")
 		self.close_now()
 		event.accept()
 
@@ -632,7 +619,9 @@ class gpvdm_main_window(QMainWindow):
 		server_init()
 		self.my_server=server_get()
 		self.my_server.init(os.getcwd())
-		self.my_server.setup_gui(self.gui_sim_start,self.gui_sim_stop)
+		self.my_server.setup_gui(self.gui_sim_start)
+		self.my_server.sim_finished.connect(self.gui_sim_stop)
+
 		help_init()
 		#help_window().help_set_help(["star.png",_("<big><b>Update available!</b></big><br>")])
 
@@ -910,6 +899,7 @@ class gpvdm_main_window(QMainWindow):
 		self.setGeometry(300, 300, 1000, 600)
 		self.setWindowTitle(_("General-purpose Photovoltaic Device Model (www.gpvdm.com)"))
 		self.show()
+
 
 	#data
 	def got_help(self,data):

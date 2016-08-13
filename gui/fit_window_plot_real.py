@@ -1,4 +1,3 @@
-#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
@@ -19,20 +18,13 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-#import sys
 import os
-#import shutil
 from numpy import *
-from matplotlib.figure import Figure
-#from numpy import arange, sin, pi
-from matplotlib.backends.backend_gtkagg import FigureCanvasGTKAgg as FigureCanvas
-#import gobject
 from scan_item import scan_item_add
 from inp import inp_load_file
 from inp import inp_read_next_item
 from gui_util import dlg_get_text
 from inp import inp_get_token_value
-#import matplotlib.mlab as mlab
 from inp import inp_write_lines_to_file
 import webbrowser
 from util import time_with_units
@@ -40,17 +32,27 @@ from inp_util import inp_search_token_value
 from cal_path import get_image_file_path
 from scan_item import scan_remove_file
 from code_ctrl import enable_betafeatures
-from matplotlib_toolbar import NavigationToolbar
 from util import read_xyz_data
 
 import i18n
 _ = i18n.language.gettext
 
+#qt
+from PyQt5.QtCore import QSize, Qt 
+from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QMenuBar,QStatusBar, QMenu, QTableWidget, QAbstractItemView
+from PyQt5.QtGui import QPainter,QIcon,QCursor
+
+#matplotlib
+import matplotlib
+matplotlib.use('Qt5Agg')
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 
 mesh_articles = []
 
 
-class fit_window_plot_real(gtk.VBox):
+class fit_window_plot_real(QWidget):
 	lines=[]
 	edit_list=[]
 
@@ -111,79 +113,50 @@ class fit_window_plot_real(gtk.VBox):
 				self.save_image(file_name+filter.get_name())
 
 		elif response == gtk.RESPONSE_CANCEL:
-		    print _("Closed, no files selected")
+		    print(_("Closed, no files selected"))
 		dialog.destroy()
 
 
-	def init(self,index):
+	def __init__(self,index):
+		QWidget.__init__(self)
+
 		self.index=index
 		self.fig = Figure(figsize=(5,4), dpi=100)
 		self.ax1=None
 		self.show_key=True
-		self.hbox=gtk.HBox()
+		
+		self.hbox=QVBoxLayout()
 		self.edit_list=[]
 		self.line_number=[]
 
 		self.list=[]
-		print "index=",index
+		print("index=",index)
 
 
 		canvas = FigureCanvas(self.fig)  # a gtk.DrawingArea
 		#canvas.set_background('white')
 		#canvas.set_facecolor('white')
 		canvas.figure.patch.set_facecolor('white')
-		canvas.set_size_request(500, 150)
-		canvas.show()
+		#canvas.set_size_request(500, 150)
 
-		tooltips = gtk.Tooltips()
-
-		toolbar = gtk.Toolbar()
-		#toolbar.set_orientation(gtk.ORIENTATION_VERTICAL)
-		toolbar.set_style(gtk.TOOLBAR_ICONS)
-		toolbar.set_size_request(-1, 70)
-
-		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"32_save.png"))
-		save = gtk.ToolButton(image)
-		tooltips.set_tip(save, _("Save image"))
-		save.connect("clicked", self.callback_save)
-		toolbar.insert(save, -1)
-	
-
-		plot_toolbar = NavigationToolbar(self.fig.canvas, self)
-		plot_toolbar.show()
-		box=gtk.HBox(True, 1)
-		box.set_size_request(300,-1)
-		box.show()
-		box.pack_start(plot_toolbar, True, True, 0)
-		tb_comboitem = gtk.ToolItem();
-		tb_comboitem.add(box);
-		tb_comboitem.show()
-		toolbar.insert(tb_comboitem, -1)
-
-		sep = gtk.SeparatorToolItem()
-		sep.set_draw(False)
-		sep.set_expand(True)
-		toolbar.insert(sep, -1)
-		sep.show()
-
-
-		toolbar.show_all()
-		self.pack_start(toolbar, False, True, 0)
-		self.pack_start(toolbar, True, True, 0)
-
-
-
-		canvas.set_size_request(700,400)
-		self.pack_start(canvas, True, True, 0)
-
-
-
-		self.statusbar = gtk.Statusbar()
-		self.statusbar.show()
-		self.pack_start(self.statusbar, False, False, 0)
+		#canvas.set_size_request(700,400)
 
 		self.draw_graph()
 
-		self.show()
+		toolbar=QToolBar()
+		toolbar.setIconSize(QSize(48, 48))
 
+
+		self.tb_save = QAction(QIcon(os.path.join(get_image_file_path(),"save.png")), _("Save graph"), self)
+		self.tb_save.triggered.connect(self.callback_save)
+		toolbar.addAction(self.tb_save)
+
+
+		nav_bar=NavigationToolbar(canvas,self)
+		toolbar.addWidget(nav_bar)
+
+		self.hbox.addWidget(toolbar)
+		
+		self.hbox.addWidget(canvas)
+
+		self.setLayout(self.hbox)

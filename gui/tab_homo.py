@@ -451,7 +451,6 @@ class tab_bands(QWidget,tab_base):
 
 	def __init__(self):
 		QWidget.__init__(self)
-		return
 
 		self.edit_list=[]
 		self.line_number=[]
@@ -555,7 +554,7 @@ class tab_bands(QWidget,tab_base):
 
 			HOMO_articles.append([ str(function), str(enabled), str(a), str(b), str(c), True ])
 
-
+		return
 		tooltips = gtk.Tooltips()
 
 		toolbar = gtk.Toolbar()

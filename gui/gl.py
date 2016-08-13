@@ -27,7 +27,7 @@ from PyQt5.QtOpenGL import QGLWidget
 from PyQt5.QtWidgets import QWidget, QHBoxLayout
 
 #from layer_widget import layer_widget
-#from util import read_xyz_data
+from util import read_xyz_data
 
 #from util import str2bool
 #from tab_base import tab_base
@@ -84,9 +84,30 @@ def tab(x,y,z,w,h,d):
 	glVertex3f(x+w+0.05,y+h ,z)
 
 	glEnd()
+
+def draw_mode(z_size):
+
+	glLineWidth(5)
+	glColor3f(0.0, 0.0, 0.0)
+	glBegin(GL_LINES)
+	t=[]
+	s=[]
+	z=[]
+
+	if read_xyz_data(t,s,z,os.path.join(os.getcwd(),"light_dump","light_1d_photons_tot_norm.dat"))==True:
+		array_len=len(t)
+		for i in range(1,array_len):
+			glVertex3f(-1.2-s[i-1]*0.5, -1.0+(z_size*(i-1)/array_len), 1.0)
+			glVertex3f(-1.2-s[i]*0.5, -1.0+(z_size*i/array_len), 1.0)
+
+	glEnd()
+
+
 	
 def box(x,y,z,w,h,d,r,g,b):
 
+
+	
 	red=r
 	green=g
 	blue=b
@@ -159,6 +180,7 @@ def box(x,y,z,w,h,d,r,g,b):
 
 	glEnd()
 
+
 class color():
 	def __init__(self,r,g,b):
 		self.r=r
@@ -192,6 +214,8 @@ class glWidget(QGLWidget):
 
 		lines=[]
 
+		draw_mode(2.0)
+
 		tot=0
 		for i in range(0,epitaxy_get_layers()):
 			tot=tot+epitaxy_get_width(i)
@@ -203,7 +227,7 @@ class glWidget(QGLWidget):
 
 		l=epitaxy_get_layers()-1
 		#lines=[]
-		#pos=0.0
+			#pos=0.0
 		xpoints=int(mesh_get_xpoints())
 		ypoints=int(mesh_get_ypoints())
 		zpoints=int(mesh_get_zpoints())
@@ -235,14 +259,17 @@ class glWidget(QGLWidget):
 				tab(0.0,pos,depth,width,thick,depth)
 				
 			elif epitaxy_get_electrical_layer(l-i)=="Contact" and i==l:
-				for c in contacts_get_array():
-					x_len=mesh_get_xlen()
-					xstart=width*(c.start/x_len)
-					xwidth=width*(c.width/x_len)
-					if (c.start+c.width)>x_len:
-						xwidth=width-xstart
+				if xpoints==1 and zpoints==1:
+					box(0.0,pos,0,width,thick,depth,red,green,blue)
+				else:
+					for c in contacts_get_array():
+						x_len=mesh_get_xlen()
+						xstart=width*(c.start/x_len)
+						xwidth=width*(c.width/x_len)
+						if (c.start+c.width)>x_len:
+							xwidth=width-xstart
 
-					box(xstart,pos,0,xwidth,thick,depth,red,green,blue)
+						box(xstart,pos,0,xwidth,thick,depth,red,green,blue)
 			else:
 				box(0.0,pos,0,width,thick,depth,red,green,blue)
 				

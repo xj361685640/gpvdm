@@ -60,6 +60,8 @@ from status_icon import status_icon_stop
 import codecs
 
 from help import help_window
+from PyQt5.QtCore import pyqtSignal
+from PyQt5.QtWidgets import QWidget
 
 my_server=False
 
@@ -76,8 +78,12 @@ class node:
 	cpus=""
 
 
-class server(cluster):
+class server(QWidget,cluster):
+	
+	sim_finished = pyqtSignal()
+		
 	def __init__(self):
+		QWidget.__init__(self)
 		self.running=False
 		self.enable_gui=False
 		self.callback_when_done=False
@@ -114,7 +120,6 @@ class server(cluster):
 		self.progress_window.stop()
 		status_icon_stop(self.cluster)
 
-		self.extern_gui_sim_stop("Finished simulation")
 		help_window().help_set_help(["plot.png",_("<big><b>Simulation finished!</b></big>\nClick on the plot icon to plot the results")])
 		print("Errors!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",text)
 		if len(text)!=0:
@@ -126,11 +131,12 @@ class server(cluster):
 		if 	self.callback_when_done!=False:
 			self.callback_when_done()
 			self.callback_when_done=False
-
-	def setup_gui(self,extern_gui_sim_start,extern_gui_sim_stop):
+			
+		self.sim_finished.emit()
+		
+	def setup_gui(self,extern_gui_sim_start):
 		self.enable_gui=True
 		self.extern_gui_sim_start=extern_gui_sim_start
-		self.extern_gui_sim_stop=extern_gui_sim_stop
 		self.progress_window=progress_class()
 
 
