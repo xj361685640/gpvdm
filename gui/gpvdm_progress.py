@@ -1,4 +1,23 @@
-#!/usr/bin/env python
+#    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
+#    model for 1st, 2nd and 3rd generation solar cells.
+#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#
+#	www.gpvdm.com
+#	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
+#
+#    This program is free software; you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License v2.0, as published by
+#    the Free Software Foundation.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License along
+#    with this program; if not, write to the Free Software Foundation, Inc.,
+#    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
 
 from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication, QPushButton
 from OpenGL.GL import *
@@ -9,7 +28,7 @@ from PyQt5.QtWidgets import QWidget, QHBoxLayout
 from PyQt5.QtCore import QRectF,QPoint
 from PyQt5.QtCore import QTimer
 
-class MainWindow(QWidget):
+class gpvdm_progress(QWidget):
 	def update(self):
 		print("a")
 		self.setValue()
@@ -31,16 +50,18 @@ class MainWindow(QWidget):
 		self.value=0.0
 		self.enable_pulse=False
 
-		self.timer=QTimer()
-		self.timer.timeout.connect(self.update)
-		self.timer.start(100);
+		#self.timer=QTimer()
+		#self.timer.timeout.connect(self.update)
+		#self.timer.start(100);
+
 	def setValue(self,v):
 		self.value=v
+		self.repaint()
 		
-	def setValue(self):
-		self.value=self.value+0.02
-		if self.value>1.0:
-			self.value=0
+	#def setValue(self):
+	#	self.value=self.value+0.02
+	#	if self.value>1.0:
+	#		self.value=0
 
 	def pulse(self):
 		self.enable_pulse=True
@@ -53,7 +74,7 @@ class MainWindow(QWidget):
 		if self.value>=1.0 or self.value<=0.0:
 			self.pulse_direction= not self.pulse_direction
 
-		print(self.value)
+		self.repaint()
 		
 	def paintEvent(self, e):
 		w=self.width()
@@ -94,12 +115,3 @@ class MainWindow(QWidget):
 
 
 		qp.end()
-
-
-		
-if __name__ == '__main__':
-    app = QApplication(['Yo'])
-    window = MainWindow()
-    window.show()
-    app.exec_()
-

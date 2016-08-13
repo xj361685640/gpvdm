@@ -57,6 +57,8 @@ from status_icon import status_icon_init
 from status_icon import status_icon_run
 from status_icon import status_icon_stop
 
+import codecs
+
 my_server=False
 
 def server_find_simulations_to_run(commands,search_path):
@@ -224,17 +226,17 @@ class server(cluster):
 
 
 	def stop(self):
-
-		self.progress_window.set_fraction(0.0)
-		self.running=False
-
-		self.gui_sim_stop()
-
 		self.jobs=[]
 		self.args=[]
 		self.status=[]
 		self.jobs_running=0
 		self.jobs_run=0
+		
+		self.progress_window.set_fraction(0.0)
+		self.running=False
+
+		self.gui_sim_stop()
+
 		print(_("I have shut down the server."))
 
 
@@ -264,21 +266,20 @@ class server(cluster):
 	def callback_dbus(self,data_in):
 		if data_in.startswith("hex"):
 			data_in=data_in[3:]
-			data=data_in.decode("hex")
-			print("dbus:",data)
+			data=codecs.decode(data_in, 'hex')
+			data=data.decode('ascii')
+
 			if data.startswith("lock"):
-				if str(data)>4:
-					test=data[:4]
-					if test=="lock":
-						if self.finished_jobs.count(data)==0:
-							self.finished_jobs.append(data)
+
+				if self.finished_jobs.count(data)==0:
+					self.finished_jobs.append(data)
 #							rest=data[4:]
-							self.jobs_run=self.jobs_run+1
-							self.jobs_running=self.jobs_running-1
-							self.progress_window.set_fraction(float(self.jobs_run)/float(len(self.jobs)))
-							self.run_jobs()
-							if (self.jobs_run==len(self.jobs)):
-								self.stop()
+					self.jobs_run=self.jobs_run+1
+					self.jobs_running=self.jobs_running-1
+					self.progress_window.set_fraction(float(self.jobs_run)/float(len(self.jobs)))
+					self.run_jobs()
+					if (self.jobs_run==len(self.jobs)):
+						self.stop()
 
 			elif (data=="pulse"):
 				if len(self.jobs)==1:
@@ -286,7 +287,7 @@ class server(cluster):
 					if len(splitup)>1:
 						text=data.split(":")[1]
 						self.progress_window.set_text(text)
-					self.progress_window.progress.set_pulse_step(0.01)
+					#self.progress_window.progress.set_pulse_step(0.01)
 					self.progress_window.pulse()
 			elif (data.startswith("percent")):
 				if len(self.jobs)==1:

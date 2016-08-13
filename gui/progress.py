@@ -22,7 +22,8 @@
 
 
 from PyQt5.QtCore import QSize, Qt
-from PyQt5.QtWidgets import QWidget, QVBoxLayout,QProgressBar,QLabel,QDesktopWidget
+from PyQt5.QtWidgets import QWidget, QVBoxLayout,QLabel,QDesktopWidget
+from gpvdm_progress import gpvdm_progress
 
 #from help import my_help_class
 
@@ -31,11 +32,11 @@ class progress_class(QWidget):
 	def __init__(self):
 		QWidget.__init__(self)
 		self.setWindowFlags(Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint)
-		self.setFixedSize(400, 50)
+		self.setFixedSize(400, 70)
 
 		main_vbox = QVBoxLayout()
 
-		self.progress = QProgressBar(self)
+		self.progress = gpvdm_progress()
 		main_vbox.addWidget(self.progress)
 
 		#self.spin=gtk.Spinner()
@@ -67,7 +68,7 @@ class progress_class(QWidget):
 
 
 	def set_fraction(self,fraction):
-		self.progress.setValue(fraction*100.0)
+		self.progress.setValue(fraction)
 
 	def pulse(self):
 		self.progress.pulse()
