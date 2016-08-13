@@ -53,10 +53,17 @@ class tab_class(QWidget,tab_base):
 
 
 	def callback_edit(self, file_name,token,widget):
-		a=undo_list_class()
-		a.add([file_name, token, inp_get_token_value(self.file_name, token),widget])
+		if type(widget)==QLineEdit:
+			a=undo_list_class()
+			a.add([file_name, token, inp_get_token_value(self.file_name, token),widget])
+			inp_update_token_value(file_name, token, widget.text(),1)
+		elif type(widget)==gtkswitch:
+			inp_update_token_value(file_name, token, widget.get_value(),1)
+		elif type(widget)==leftright:
+			inp_update_token_value(file_name, token, widget.get_value(),1)
 
-		inp_update_token_value(file_name, token, widget.text(),1)
+		
+		
 		help_window().help_set_help(["32_save.png","<big><b>Saved to disk</b></big>\n"])
 
 	def help(self):
@@ -111,11 +118,14 @@ class tab_class(QWidget,tab_base):
 					if result.opt[0]=="switch":
 						edit_box=gtkswitch()
 						edit_box.set_value(str2bool(value))
+						edit_box.changed.connect(functools.partial(self.callback_edit,filename,token,edit_box))
 						#edit_box.connect("changed", self.callback_edit, token)
 						#edit_box.show_all()
 					elif result.opt[0]=="leftright":
 						edit_box=leftright()
 						edit_box.set_value(str2bool(value))
+						edit_box.changed.connect(functools.partial(self.callback_edit,filename,token,edit_box))
+						
 						#edit_box.connect("changed", self.callback_edit, token)
 						#edit_box.show_all()
 					else: #result.opt[0]=="text":

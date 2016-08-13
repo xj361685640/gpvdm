@@ -63,6 +63,12 @@ closedir (theFolder);
 
 join_path(2,file_path,get_materials_path(sim),in->suns_spectrum_file);
 
+if (isfile(file_path)!=0)
+{
+	strcat(in->suns_spectrum_file,".spectra");
+	join_path(2,file_path,get_materials_path(sim),in->suns_spectrum_file);
+}
+
 inter_load(&(in->sun_read),file_path);
 inter_sort(&(in->sun_read));
 

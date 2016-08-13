@@ -750,7 +750,11 @@ class gpvdm_main_window(QMainWindow):
 
 
 		help_menu = menubar.addMenu('Help')
-		help_web=help_menu.addAction(_("&Help Index"))
+
+		help_web=help_menu.addAction(_("&Help window"))
+		help_web.triggered.connect(self.callback_help)
+
+		help_web=help_menu.addAction(_("&Online help"))
 		help_web.triggered.connect(self.callback_on_line_help)
 
 		about=help_menu.addAction(_("&About"))

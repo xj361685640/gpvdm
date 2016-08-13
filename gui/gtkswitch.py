@@ -24,7 +24,11 @@ from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtWidgets import QWidget
 from PyQt5.QtGui import QPainter,QFont,QColor,QPen
 
+from PyQt5.QtCore import pyqtSignal
+
 class gtkswitch(QWidget):
+
+	changed = pyqtSignal()
 
 	def __init__(self):      
 		super(gtkswitch, self).__init__()
@@ -36,6 +40,11 @@ class gtkswitch(QWidget):
 		#self.setMinimumSize(1, 30)
 		self.value = False
 
+	def get_value(self):
+		if self.value==True:
+			return "true"
+		else:
+			return "false"
 
 	def set_value(self, value):
 
@@ -76,3 +85,4 @@ class gtkswitch(QWidget):
 		if QMouseEvent.x()<80:
 			self.value= not self.value
 			self.repaint()
+			self.changed.emit()

@@ -59,6 +59,8 @@ from status_icon import status_icon_stop
 
 import codecs
 
+from help import help_window
+
 my_server=False
 
 def server_find_simulations_to_run(commands,search_path):
@@ -113,8 +115,8 @@ class server(cluster):
 		status_icon_stop(self.cluster)
 
 		self.extern_gui_sim_stop("Finished simulation")
-		#my_help_class.help_set_help(["plot.png",_("<big><b>Simulation finished!</b></big>\nClick on the plot icon to plot the results")])
-		print(text)
+		help_window().help_set_help(["plot.png",_("<big><b>Simulation finished!</b></big>\nClick on the plot icon to plot the results")])
+		print("Errors!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",text)
 		if len(text)!=0:
 			dialog=sim_warnings()
 			dialog.init(text)

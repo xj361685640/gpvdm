@@ -24,8 +24,12 @@ from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtWidgets import QWidget
 from PyQt5.QtGui import QPainter,QFont,QColor,QPen
 
+from PyQt5.QtCore import pyqtSignal
+
 class leftright(QWidget):
 
+	changed = pyqtSignal()
+	
 	def __init__(self):      
 		super(leftright, self).__init__()
 		self.setMaximumSize(95,30)
@@ -41,7 +45,12 @@ class leftright(QWidget):
 
 		self.value = value
 
-
+	def get_value(self):
+		if self.value==True:
+			return "right"
+		else:
+			return "left"
+		
 	def paintEvent(self, e):
 		qp = QPainter()
 		qp.begin(self)
@@ -85,6 +94,7 @@ class leftright(QWidget):
 		if QMouseEvent.x()<80:
 			self.value= not self.value
 			self.repaint()
+			self.changed.emit()
 
 
 

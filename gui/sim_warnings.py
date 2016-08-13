@@ -19,17 +19,6 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-
-
-
-#import os
-#from global_objects import global_object_get
-#from plot_io import get_plot_file_info
-#from plot_state import plot_state
-#from util import latex_to_pygtk_subscript
-#from help import my_help_class
-#from cal_path import get_image_file_path
-
 #qt
 from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication,QTableWidgetItem,QComboBox, QMessageBox, QDialog, QDialogButtonBox, QWidget
 from PyQt5.uic import loadUi

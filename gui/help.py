@@ -54,11 +54,9 @@ class help_class(QWidget):
 
 	def toggle_visible(self):
 		if self.isVisible()==True:
-			#self.hide()
-			self.setVisible(self, False)
+			self.setVisible(False)
 		else:
-#			self.show()
-			self.setVisible(self, True)
+			self.setVisible(True)
 
 		self.move_window()
 
