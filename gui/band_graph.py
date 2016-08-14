@@ -139,7 +139,7 @@ class band_graph(QWidget):
 		start=0.0
 
 		for i in range(0,epitaxy_get_layers()):
-			if epitaxy_get_electrical_layer(i)=="none":
+			if epitaxy_get_electrical_layer(i).startswith("dos")==False:
 				start=start-epitaxy_get_width(i)
 			else:
 				break

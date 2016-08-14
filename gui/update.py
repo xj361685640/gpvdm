@@ -42,6 +42,8 @@ from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QWidget
 
+from gui_util import yes_no_dlg
+
 #Under windows, this class will connect to gpvdm.com and look for updates, a user prompt will be displayed if any are found.  It can also download updates if the user asks it to.  It's not called under linux because linux has it's own package management system.
 
 def sp(value):
@@ -107,11 +109,9 @@ def update_fetch():
 	return text
 
 def update_now():
-	md = gtk.MessageDialog(None, 0, gtk.MESSAGE_QUESTION,  gtk.BUTTONS_YES_NO, _("This feature is sill under development.  It searches the gpvdm web page for updates then uses them to update gpvdm.  Use it at your own risk - I take no responsibility for any data loss!  Do you wish to continue?"))
+	response=yes_no_dlg(self,_("This feature is sill under development.  It searches the gpvdm web page for updates then uses them to update gpvdm.  Use it at your own risk - I take no responsibility for any data loss!  Do you wish to continue?"))
 
-	response = md.run()
-
-	if response == gtk.RESPONSE_YES:
+	if response==True:
 		ret='\n'.join(update_fetch())
 		dialog=sim_warnings()
 		dialog.init(ret)

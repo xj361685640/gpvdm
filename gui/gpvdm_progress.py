@@ -73,7 +73,12 @@ class gpvdm_progress(QWidget):
 
 		if self.value>=1.0 or self.value<=0.0:
 			self.pulse_direction= not self.pulse_direction
+			if self.value>0.5:
+				self.value=1.0
 
+			if self.value<0.5:
+				self.value=0.0
+				
 		self.repaint()
 		
 	def paintEvent(self, e):

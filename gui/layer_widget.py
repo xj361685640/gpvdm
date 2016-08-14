@@ -62,6 +62,7 @@ from gui_util import tab_move_down
 from gui_util import tab_add
 from gui_util import tab_remove
 from gui_util import tab_get_value
+from gui_util import tab_set_value
 from gui_util import yes_no_dlg
 
 #qt
@@ -109,28 +110,27 @@ class layer_widget(QWidget):
 			if mesh_layers==1:
 				inp_update_token_value(os.path.join(os.getcwd(),"mesh_y.inp"), "#mesh_layer_length0", str(tot),1)
 
-	def layer_type_edit(self, widget, path, text, model):
-		old_text=self.model[path][COLUMN_DEVICE]
-		self.model[path][COLUMN_DEVICE]=text
-#		print yes_no(old_text), yes_no(text),type(yes_no(text))
-		if old_text!="Active layer" and text=="Active layer":
-			print("doing update")
-			self.model[path][COLUMN_DOS_LAYER]=epitay_get_next_dos()
-			self.model[path][COLUMN_PL_FILE]=epitay_get_next_pl()
-			new_file=self.model[path][COLUMN_DOS_LAYER]+".inp"
-			if inp_isfile(new_file)==False:
-				inp_copy_file(new_file,"dos0.inp")
+	def layer_type_edit(self):
+		for i in range(0,self.tab.rowCount()):
+			if tab_get_value(self.tab,i,3)=="Active layer" and tab_get_value(self.tab,i,4).startswith("dos")==False:
+				print("doing update")
+				tab_set_value(self.tab,i,4,epitay_get_next_dos())
+				tab_set_value(self.tab,i,5,epitay_get_next_pl())
 
-			new_file=self.model[path][COLUMN_PL_FILE]+".inp"
-			if inp_isfile(new_file)==False:
-				inp_copy_file(new_file,"pl0.inp")
-		else:
-			self.model[path][COLUMN_DOS_LAYER]=text
-			self.model[path][COLUMN_PL_FILE]="none"
+				new_file=tab_get_value(self.tab,i,4)+".inp"
+				if inp_isfile(new_file)==False:
+					inp_copy_file(new_file,"dos0.inp")
+
+				new_file=tab_get_value(self.tab,i,5)+".inp"
+				if inp_isfile(new_file)==False:
+					inp_copy_file(new_file,"pl0.inp")
+
+			if tab_get_value(self.tab,i,3)!="Active layer" and tab_get_value(self.tab,i,4).startswith("dos")==True:
+				tab_set_value(self.tab,i,4,tab_get_value(self.tab,i,3))
+				tab_set_value(self.tab,i,5,"none")
 
 		self.save_model()
-		self.refresh(True)
-
+		self.emit_change()
 
 
 	def rebuild_mat_list(self):
@@ -156,7 +156,7 @@ class layer_widget(QWidget):
 		tab_move_down(self.tab)
 		self.changed.emit()
 		
-	def callback_edit_mesh(self, widget, data=None):
+	def callback_edit_mesh(self):
 		help_window().help_set_help(["mesh.png",_("<big><b>Mesh editor</b></big>\nUse this window to setup the mesh, the window can also be used to change the dimensionality of the simulation.")])
 
 		if self.electrical_mesh.isVisible()==True:
@@ -206,7 +206,6 @@ class layer_widget(QWidget):
 
 		self.main_vbox.addWidget(self.toolbar)
 	
-
 		self.tab = QTableWidget()
 		self.tab.resizeColumnsToContents()
 
@@ -259,15 +258,25 @@ class layer_widget(QWidget):
 			self.tab.setItem(i,1,item2)
 
 			combobox = QComboBox()
-			combobox.setEditable(True)
+			#combobox.setEditable(True)
 
 			for a in self.material_files:
 				combobox.addItem(str(a))
 			self.tab.setCellWidget(i,2, combobox)
 			combobox.setCurrentIndex(combobox.findText(material))
 
-			item3 = QTableWidgetItem(str(dos_file))
-			self.tab.setItem(i,3,item3)
+			#item3 = QTableWidgetItem(str(dos_file))
+			#self.tab.setItem(i,3,item3)
+			combobox_layer_type = QComboBox()
+			#combobox.setEditable(True)
+
+			combobox_layer_type.addItem("Contact")
+			combobox_layer_type.addItem("Active layer")
+			combobox_layer_type.addItem("Other")
+
+			self.tab.setCellWidget(i,3, combobox_layer_type)
+			combobox_layer_type.setCurrentIndex(combobox_layer_type.findText(str(dos_file)))
+
 
 			item3 = QTableWidgetItem(str(dos_layer))
 			self.tab.setItem(i,4,item3)
@@ -280,7 +289,7 @@ class layer_widget(QWidget):
 			scan_item_add("epitaxy.inp","#layer"+str(i),_("Layer width ")+str(material),1)
 
 			combobox.currentIndexChanged.connect(self.combo_changed)
-
+			combobox_layer_type.currentIndexChanged.connect(self.layer_type_edit)
 		return
 
 
@@ -333,7 +342,7 @@ class layer_widget(QWidget):
 		epitaxy_save()
 		#self.sync_to_electrical_mesh()
 
-	def callback_doping(self, widget, data=None):
+	def callback_doping(self):
 		help_window().help_set_help(["doping.png",_("<big><b>Doping window</b></big>\nUse this window to add doping to the simulation")])
 
 		if self.doping_window==False:
@@ -344,7 +353,7 @@ class layer_widget(QWidget):
 		else:
 			self.doping_window.show()
 
-	def callback_contacts(self, widget, data=None):
+	def callback_contacts(self):
 		help_window().help_set_help(["contact.png",_("<big><b>Contacts window</b></big>\nUse this window to change the layout of the contacts on the device")])
 
 		if self.contacts_window==False:

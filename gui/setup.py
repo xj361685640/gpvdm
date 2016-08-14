@@ -55,7 +55,7 @@ includes =[]
 
 dll_excludes = []
 #[ "OLEAUT32.dll","USER32.dll","IMM32.DLL","SHELL32.DLL","OLE32.dll","SHLWAPI.DLL","MSVCP90.dll","MSVCP90.dll","COMDLG32.dll","ADVAPI32.dll","ADVAPI32.dll","msvcrt.dll","WS2_32.dll","WINSPOOL.DRV","GDI32.dll","VERSION.dll","KERNEL32.dll","COMCTL32.dll","gdiplus.dll","api-ms-win-core-processthreads-l1-1-2.dll","api-ms-win-core-sysinfo-l1-2-1.dll","api-ms-win-core-errorhandling-l1-1-1.dll","api-ms-win-core-profile-l1-1-0.dll","api-ms-win-core-libraryloader-l1-2-0.dll"]
-#'gtk','gtk.keysyms'
+
 pack  =[  ]
 data_files=matplotlib.get_py2exe_datafiles()
 print(data_files)
@@ -69,27 +69,6 @@ setup(
 				},
 		data_files
 )
-
-#dist=os.path.join(os.getcwd(),"dist","etc")
-#if os.path.isdir(dist)==False:
-#	print "copying",dist
-#	shutil.copytree("c:\\Python27\\Lib\\site-packages\\gtk-2.0\\runtime\\etc", dist)
-
-#dist=os.path.join(dest_path,"lib")
-#if os.path.isdir(dist)==False:
-#	print "copying",dist
-#	shutil.copytree("c:\\Python27\\Lib\\site-packages\\gtk-2.0\\runtime\\lib", dist)
-
-#dist=os.path.join(dest_path,"share")
-#if os.path.isdir(dist)==False:
-#	print "copying",dist
-#	shutil.copytree("c:\\Python27\\Lib\\site-packages\\gtk-2.0\\runtime\\share", dist)
-
-
-#path_to_del=os.path.join(dest_path,"share","gtk-doc")
-#if os.path.isdir(path_to_del)==True:
-#	print "Delete",path_to_del
-#	shutil.rmtree(path_to_del)
 
 #path_to_del=os.path.join(dest_path,"share","locale")
 #if os.path.isdir(path_to_del)==True:
@@ -107,10 +86,6 @@ setup(
 #	print "Delete",path_to_del
 #	shutil.rmtree(path_to_del)
 
-#path_to_del=os.path.join(dest_path,"share","gtk-2.0")		#only contains a demo folder
-#if os.path.isdir(path_to_del)==True:
-#	print "Delete",path_to_del
-#	shutil.rmtree(path_to_del)
 
 #path_to_del=os.path.join(dest_path,"share","pub","gui","dist","tcl","tk8.5","demos")
 #if os.path.isdir(path_to_del)==True:
