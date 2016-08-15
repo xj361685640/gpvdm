@@ -124,7 +124,7 @@ class class_optical(QWidget):
 
 		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"image.png")))
 
-		self.setFixedSize(1000, 600)
+		self.setMinimumSize(1000, 600)
 
 		self.edit_list=[]
 		self.line_number=[]
@@ -171,6 +171,7 @@ class class_optical(QWidget):
 		self.cb = QComboBox()
 		self.update_cb()
 		toolbar.addWidget(self.cb)
+		self.cb.currentIndexChanged.connect(self.mode_changed)
 
 		label=QLabel(_("Optical model:"))
 		toolbar.addWidget(label)
@@ -178,6 +179,7 @@ class class_optical(QWidget):
 		self.cb_model = QComboBox()
 		toolbar.addWidget(self.cb_model)
 		self.update_cb_model()
+		
 		self.cb_model.activated.connect(self.on_cb_model_changed)
 
 		label=QLabel(_("Solar spectrum:"))
@@ -185,7 +187,8 @@ class class_optical(QWidget):
 		self.light_source_model = QComboBox()
 		self.update_light_source_model()
 		toolbar.addWidget(self.light_source_model)
-
+		self.light_source_model.activated.connect(self.on_light_source_model_changed)
+		
 		spacer = QWidget()
 		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 		toolbar.addWidget(spacer)
@@ -202,7 +205,6 @@ class class_optical(QWidget):
 
 		self.notebook = QTabWidget()
 
-		self.notebook.setTabsClosable(True)
 		self.notebook.setMovable(True)
 
 
@@ -286,12 +288,12 @@ class class_optical(QWidget):
 		if models.count(used_model)==0:
 			used_model="exp"
 			inp_update_token_value("light.inp", "#light_model","exp",1)
+			self.cb_model.setCurrentIndex(self.cb_model.findText(used_model))
 		else:
 			self.cb_model.setCurrentIndex(self.cb_model.findText(used_model))
 
 		scan_item_add("light.inp","#light_model","Optical model",1)
 
-		self.cb_model.setCurrentIndex(0)
 		self.cb_model.blockSignals(False)
 
 	def update_light_source_model(self):
@@ -301,6 +303,8 @@ class class_optical(QWidget):
 			self.light_source_model.addItem(models[i])
 
 		used_model=inp_get_token_value("light.inp", "#sun")
+
+		print("models================",models,used_model)
 		if models.count(used_model)==0:
 			used_model="sun"
 			inp_update_token_value("light.inp", "#sun","sun",1)
@@ -335,8 +339,9 @@ class class_optical(QWidget):
 			self.plot_widgets[i].update()
 
 
-	def on_changed(self, widget):
-		cb_text=widget.get_active_text()
+	def mode_changed(self):
+		cb_text=self.cb.currentText()
+
 		if cb_text=="all":
 			self.fig_photon_density.set_data_file("light_1d_photons_tot_norm.dat")
 			self.fig_photon_abs.set_data_file("light_1d_photons_tot_abs_norm.dat")
@@ -358,8 +363,8 @@ class class_optical(QWidget):
 
 
 	def on_light_source_model_changed(self):
-		cb_text=widget.currentText()
-		cb_text=cb_text+".spectra"
+		cb_text=self.light_source_model.currentText()
+		cb_text=cb_text
 		inp_update_token_value("light.inp", "#sun", cb_text,1)
 
 	def callback_help(self, widget, data=None):

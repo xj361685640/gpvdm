@@ -35,6 +35,7 @@ from PyQt5.QtGui import QPainter,QIcon
 
 from cal_path import get_image_file_path
 from gui_util import tab_set_value
+from gui_util import error_dlg
 
 class select_param(QWidget):
 	def init(self,treeview):
@@ -43,7 +44,7 @@ class select_param(QWidget):
 	def __init__(self):
 		QWidget.__init__(self)
 		self.win_list=windows()
-		self.setFixedSize(300,700)
+		self.setFixedSize(400,700)
 		self.main_vbox=QVBoxLayout()
 
 		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"scan.png")))
@@ -77,7 +78,7 @@ class select_param(QWidget):
 		cancelButton.clicked.connect(self.close)
 
 		#self.tab.itemSelectionChanged.connect(self.tree_apply_click)
-		
+		self.tab.header().close() 
 		self.update()
 
 		return
@@ -99,8 +100,8 @@ class select_param(QWidget):
 
 	def update(self):
 		self.tab.clear()
-		root = QTreeWidgetItem(self.tab, ["root"])
-		
+		root = QTreeWidgetItem(self.tab, [_("Simulation parameters")])
+		root.setExpanded(True)
 		param_list=scan_items_get_list()
 		i=0
 		for item in range(0, len(param_list)):
@@ -133,15 +134,20 @@ class select_param(QWidget):
 		return ret
 	
 	def tree_apply_click(self):
-		getSelected = self.tab.selectedItems()
-		if getSelected:
+		index = self.tab.selectionModel().selectedRows()
+
+		if len(index)>0:
+			pos=index[0].row()
+
 			path=self.cal_path()
-			tab_set_value(self.dest_treeview,0,0,scan_items_get_file(path))
-			tab_set_value(self.dest_treeview,0,1,scan_items_get_token(path))
-			tab_set_value(self.dest_treeview,0,2,path)
+			tab_set_value(self.dest_treeview,pos,0,scan_items_get_file(path))
+			tab_set_value(self.dest_treeview,pos,1,scan_items_get_token(path))
+			tab_set_value(self.dest_treeview,pos,2,path)
 
 			self.close()
-		return
+		else:
+			error_dlg(self,"No row selected in the scan window, can't insert the selection")
+
 
 
 

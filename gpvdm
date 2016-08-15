@@ -74,7 +74,7 @@ from help import help_init
 from notice import notice
 #import gobject
 #from used_files_menu import used_files_menu
-#from scan_item import scan_item_add
+from scan_item import scan_item_add
 from window_list import windows
 #from config import config
 #import random
@@ -136,6 +136,7 @@ from ver import ver_check_compatibility
 #updates
 from update import update_thread
 from update import update_now
+
 
 bubble=False
 if running_on_linux()==True:
@@ -400,8 +401,8 @@ class gpvdm_main_window(QMainWindow):
 
 		#set_active_name(self.light, inp_get_token_value("light.inp", "#Psun"))
 
-		#scan_item_add("sim.inp","#simmode","sim mode",1)
-		#scan_item_add("light.inp","#Psun","light intensity",1)
+		scan_item_add("sim.inp","#simmode","sim mode",1)
+		scan_item_add("light.inp","#Psun","light intensity",1)
 		#scan_populate_from_file("light.inp")
 		#self.notebook_active_page=self.notebook.get_current_page()
 
@@ -896,7 +897,7 @@ class gpvdm_main_window(QMainWindow):
 
 #		process_events()
 
-		self.setGeometry(300, 300, 1000, 600)
+		self.setGeometry(200, 100, 1100, 600)
 		self.setWindowTitle(_("General-purpose Photovoltaic Device Model (www.gpvdm.com)"))
 		self.show()
 

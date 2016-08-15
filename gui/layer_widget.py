@@ -67,7 +67,7 @@ from gui_util import yes_no_dlg
 
 #qt
 from PyQt5.QtCore import QSize, Qt
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QIcon,QPalette
 from PyQt5.QtWidgets import QWidget, QVBoxLayout,QProgressBar,QLabel,QDesktopWidget,QToolBar,QHBoxLayout,QAction, QSizePolicy, QTableWidget, QTableWidgetItem,QComboBox,QDialog,QAbstractItemView
 
 from PyQt5.QtGui import QPixmap
@@ -79,6 +79,7 @@ _ = i18n.language.gettext
 
 from i18n import yes_no
 
+from gpvdm_select import gpvdm_select
 
 class layer_widget(QWidget):
 
@@ -154,6 +155,7 @@ class layer_widget(QWidget):
 
 	def on_move_down(self):
 		tab_move_down(self.tab)
+		self.save_model()
 		self.changed.emit()
 		
 	def callback_edit_mesh(self):

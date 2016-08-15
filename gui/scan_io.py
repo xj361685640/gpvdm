@@ -38,6 +38,8 @@ from server import server_find_simulations_to_run
 import i18n
 _ = i18n.language.gettext
 
+from gui_util import yes_no_cancel_dlg
+
 def scan_delete_files(dirs_to_del):
 	for i in range(0, len(dirs_to_del)):
 		gpvdm_delete_file(dirs_to_del[i])
@@ -89,19 +91,9 @@ def scan_list_unconverged_simulations(dir_to_search):
 
 	return found_dirs
 
-def scan_ask_to_delete(dirs_to_del):
+def scan_ask_to_delete(parent,dirs_to_del):
 	if (len(dirs_to_del)!=0):
 
-		settings = gtk.settings_get_default()
-		settings.set_property('gtk-alternative-button-order', True)
-
-		dialog = gtk.Dialog()
-		yes_button = dialog.add_button(gtk.STOCK_YES, gtk.RESPONSE_YES)
-
-		no_button = dialog.add_button(gtk.STOCK_NO, gtk.RESPONSE_NO)
-		no_button.grab_default()
-
-#		help_button = dialog.add_button(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL)
 
 		text_del_dirs=""
 		if len(dirs_to_del)>30:
@@ -112,24 +104,17 @@ def scan_ask_to_delete(dirs_to_del):
 			for i in range(0,len(dirs_to_del)):
 				text_del_dirs=text_del_dirs+dirs_to_del[i]+"\n"
 
-		label = gtk.Label(_("Should I delete these files?:\n")+"\n"+text_del_dirs)
-		dialog.vbox.pack_start(label, True, True, 0)
-		label.show()
+		text=_("Should I delete these files?:\n")+"\n"+text_del_dirs
 
-		dialog.set_alternative_button_order([gtk.RESPONSE_YES, gtk.RESPONSE_NO,  gtk.RESPONSE_CANCEL])
-
-		#dialog = gtk.MessageDialog(None, 0, gtk.MESSAGE_QUESTION,  gtk.BUTTONS_YES_NO, str("Should I delete the old simualtions first?:\n"+"\n".join(dirs_to_del)))
-		response = dialog.run()
-
-		if response == gtk.RESPONSE_YES:
-				scan_delete_files(dirs_to_del)
-		elif response == gtk.RESPONSE_NO:
+		response = yes_no_cancel_dlg(parent,text)
+			
+		if response == "yes":
+			scan_delete_files(dirs_to_del)
+		elif response == "no":
 			print("Not deleting")
-		elif response == gtk.RESPONSE_CANCEL:
+		elif response == "cancel":
 			#run=False
 			print("Cancel")
-
-		dialog.destroy()
 
 def scan_clean_simulation_output(dir_to_clean):
 		#dirs_to_del=[]
@@ -155,7 +140,7 @@ def scan_nested_simulation(root_simulation,nest_simulation):
 
 	return commands
 
-def clean_simulation(dir_to_clean,simulation_dirs):
+def clean_simulation(parent,dir_to_clean,simulation_dirs):
 	files_to_delete=[]
 	sims_we_should_have=tree_load_flat_list(dir_to_clean)
 	for i in range(0,len(simulation_dirs)):
@@ -204,23 +189,23 @@ def clean_simulation(dir_to_clean,simulation_dirs):
 					print("delete",path)
 					files_to_delete.append(path)
 
-	scan_ask_to_delete(files_to_delete)
+	scan_ask_to_delete(parent,files_to_delete)
 
-def scan_clean_dir(dir_to_clean):
+def scan_clean_dir(parent,dir_to_clean):
 		dirs_to_del=[]
 		dirs_to_del=scan_list_simulations(dir_to_clean)
 
 		print(dirs_to_del,dir_to_clean)
 
-		scan_ask_to_delete(dirs_to_del)
+		scan_ask_to_delete(parent,dirs_to_del)
 
-def scan_clean_unconverged(dir_to_clean):
+def scan_clean_unconverged(parent,dir_to_clean):
 		dirs_to_del=[]
 		dirs_to_del=scan_list_unconverged_simulations(dir_to_clean)
 
 		print(dirs_to_del,dir_to_clean)
 
-		scan_ask_to_delete(dirs_to_del)
+		scan_ask_to_delete(parent,dirs_to_del)
 
 def scan_push_to_hpc(base_dir,only_unconverged):
 	config_file=os.path.join(os.getcwd(),"server.inp")

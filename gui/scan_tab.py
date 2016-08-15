@@ -20,8 +20,6 @@
 
 
 
-
-
 import gc
 import os
 from inp import inp_get_token_value
@@ -40,7 +38,6 @@ from server import server_find_simulations_to_run
 from plot_io import plot_save_oplot_file
 from gpvdm_open import gpvdm_open
 from cal_path import get_exe_command
-from help import my_help_class
 from cal_path import get_image_file_path
 
 from util import str2bool
@@ -57,7 +54,6 @@ from scan_io import scan_plot_fits
 #scan_tree
 from scan_tree import tree_gen
 from scan_tree import tree_load_program
-from scan_tree import tree_load_model
 from scan_tree import tree_load_config
 from scan_tree import tree_load_flat_list
 from scan_tree import tree_save_flat_list
@@ -70,9 +66,9 @@ from scan_item import scan_item_save
 
 
 #qt
-from PyQt5.QtCore import QSize, Qt 
-from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QMenuBar,QStatusBar, QMenu, QTableWidget, QAbstractItemView
-from PyQt5.QtGui import QPainter,QIcon,QCursor
+from PyQt5.QtCore import QSize, Qt
+from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QApplication,QSizePolicy,QAction,QTableWidgetItem,QTabWidget,QMenuBar,QStatusBar, QMenu, QTableWidget, QAbstractItemView, QComboBox
+from PyQt5.QtGui import QPainter,QIcon,QCursor,QClipboard
 
 #window
 #from plot_dlg import plot_dlg_class
@@ -84,12 +80,17 @@ from gui_util import tab_remove
 from gui_util import tab_get_value
 from gui_util import error_dlg
 from gui_util import yes_no_dlg
+from gui_util import tab_get_selected
+from gui_util import tab_set_value
 
 import i18n
 _ = i18n.language.gettext
 
-class scan_vbox(QWidget):
+from gpvdm_select import gpvdm_select
+from help import help_window
 
+
+class scan_vbox(QWidget):
 
 	def rename(self,new_name):
 		self.sim_name=os.path.basename(new_name)
@@ -100,7 +101,6 @@ class scan_vbox(QWidget):
 		#self.plotted_graphs.init(self.sim_dir,self.callback_last_menu_click)
 
 	def callback_notes(self, widget, data=None):
-
 		note=notes()
 		note.init(self.sim_dir)
 		note.show()
@@ -109,49 +109,48 @@ class scan_vbox(QWidget):
 		tab_move_down(self.tab)
 
 
-	def callback_insert_command(self, widget, data=None):
-		a=tab.selectionModel().selectedRows()
+	def callback_insert_command(self):
+		a=self.tab.selectionModel().selectedRows()
 
 		if len(a)>0:
 			a=a[0].row()
-			tab_set_value(self.tab,a,1,"ret=str(round(random.uniform(1.0, 9.9),2))+\"e-\"+str(randint(1, 9))")
-			tab_set_value(self.tab,a,2,"python_code")
+			tab_set_value(self.tab,a,3,"ret=str(round(random.uniform(1.0, 9.9),2))+\"e-\"+str(randint(1, 9))")
+			tab_set_value(self.tab,a,4,"python_code")
 
 
 	def add_line(self,data):
-		my_help_class.help_set_help(["forward.png",_("<big><b>The scan window</b></big><br> Now using the drop down menu in the prameter to change 'column', select the device parameter you wish to vary, an example may be dos0/Electron Mobility. Now enter the values you would like it to scan oveer in the  'Values', an example could be '1e-3 1e-4 1e-5 1e-6'.  And hit the double arrorw to run the simulation.")])
+		help_window().help_set_help(["add.png",_("<big><b>The scan window</b></big><br> Now using the drop down menu in the prameter to change 'column', select the device parameter you wish to vary, an example may be dos0/Electron Mobility. Now enter the values you would like it to scan oveer in the  'Values', an example could be '1e-3 1e-4 1e-5 1e-6'.  And hit the double arrorw to run the simulation.")])
 
-		tab_add(tab,data)
+		self.insert_row(self.tab.rowCount(),data[0],data[1],data[2],data[3],data[4])
 
+		self.rebuild_op_type_widgets()
+		
 		self.save_combo()
-		self.rebuild_liststore_op_type()
+
 
 	def callback_add_item(self, widget, data=None):
 		self.add_line(["File","token",_("Select parameter"), "0.0 0.0", "scan",True])
 
 
-	def callback_copy_item(self, widget, data=None):
-		selection = self.treeview.get_selection()
-		model, pathlist = selection.get_selected_rows()
-		build=""
-		for path in pathlist:
-			tree_iter = model.get_iter(path)
-			print("path=",tree_iter)
-			build=build+model.get_value(tree_iter,0)+","+model.get_value(tree_iter,1)+","+model.get_value(tree_iter,2)+","+str(model.get_value(tree_iter,3))+","+str(model.get_value(tree_iter,4))+","+str(model.get_value(tree_iter,5))+"\n"
-			print(build)
-		build=build[:-1]
-		self.clipboard.set_text(build, -1)
-		#tab_get_value(tab,y,x)
+	def callback_copy_item(self):
+		data=tab_get_selected(self.tab)
+		combine=';'.join(data)
+		
+		cb = QApplication.clipboard()
+		cb.clear(mode=cb.Clipboard )
+		cb.setText(combine, mode=cb.Clipboard)
 
 	def callback_paste_item(self, widget, data=None):
-		text = self.clipboard.wait_for_text()
-		if text != None:
-			lines=text.rstrip().split('\n')
-			for line in lines:
-				array=line.rstrip().split(',')
-				array[5]=str2bool(array[5])
-				print(array)
-				self.add_line(array)
+		cb = QApplication.clipboard()
+		text=cb.text()
+		lines=text.rstrip().split(';')
+		print("text=",lines)
+		row=self.tab.selectionModel().selectedRows()
+		if len(row)>0:
+			row=row[0].row()
+			if len(lines)>=4:
+				for i in range(0,len(lines)):
+					tab_set_value(self.tab,row,i,lines[i])
 
 	def callback_show_list(self, widget, data=None):
 		self.select_param_window.update()
@@ -159,8 +158,8 @@ class scan_vbox(QWidget):
 
 	def callback_delete_item(self):
 		tab_remove(self.tab)
+		self.rebuild_op_type_widgets()
 		self.save_combo()
-		self.rebuild_liststore_op_type()
 
 	def plot_results(self,plot_token):
 		plot_token.key_units=self.get_units()
@@ -199,13 +198,13 @@ class scan_vbox(QWidget):
 		self.myserver.killall()
 
 	def clean_scan_dir(self):
-		scan_clean_dir(self.sim_dir)
+		scan_clean_dir(self,self.sim_dir)
 
 	def scan_clean_unconverged(self):
-		scan_clean_unconverged(self.sim_dir)
+		scan_clean_unconverged(self,self.sim_dir)
 
 	def scan_clean_simulation_output(self):
-		scan_clean_simulation_output(self.sim_dir)
+		scan_clean_simulation_output(self,self.sim_dir)
 
 	def import_from_hpc(self):
 		scan_import_from_hpc(self.sim_dir)
@@ -239,42 +238,28 @@ class scan_vbox(QWidget):
 
 		self.make_sim_dir()
 		if generate_simulations==True:
-			scan_clean_dir(self.sim_dir)
+			scan_clean_dir(self,self.sim_dir)
 
-
+		print("Running")
+		program_list=[]
 		for i in range(0,self.tab.rowCount()):
-			found=False
-			for ii in range(0,len(self.liststore_op_type)):
-				if self.liststore_combobox[i][4]==self.liststore_op_type[ii][0]:
-					found=True
-			if found==False:
-				run=False
-				error_dlg(self,self.liststore_combobox[i][4]+_("Not valid"))
-				break
+			program_list.append([tab_get_value(self.tab,i,0),tab_get_value(self.tab,i,1),tab_get_value(self.tab,i,3),tab_get_value(self.tab,i,4)])
 
+		print(program_list)
+		tree_load_config(self.sim_dir)
+		if generate_simulations==True:
+			flat_simulation_list=[]
+			if tree_gen(flat_simulation_list,program_list,base_dir,self.sim_dir)==False:
+				error_dlg(self,_("Problem generating tree."))
+				return
 
+			print("flat list",flat_simulation_list)
+			tree_save_flat_list(self.sim_dir,flat_simulation_list)
 
-		if run==True:
-			print("Running")
-			program_list=[]
-			for i in range(0,self.tab.rowCount()):
-				program_list.append([tab_get_value(self.tab,i,0),tab_get_value(self.tab,i,1),tab_get_value(self.tab,i,3),tab_get_value(self.tab,i,4)])
-
-			print(program_list)
-			tree_load_config(self.sim_dir)
-			if generate_simulations==True:
-				flat_simulation_list=[]
-				if tree_gen(flat_simulation_list,program_list,base_dir,self.sim_dir)==False:
-					error_dlg(self,_("Problem generating tree."))
-					return
-
-				print("flat list",flat_simulation_list)
-				tree_save_flat_list(self.sim_dir,flat_simulation_list)
-
-			commands=tree_load_flat_list(self.sim_dir)
-			print("loaded commands",commands)
-			if run_simulation==True:
-				self.send_commands_to_server(commands,args)
+		commands=tree_load_flat_list(self.sim_dir)
+		print("loaded commands",commands)
+		if run_simulation==True:
+			self.send_commands_to_server(commands,args)
 
 		self.save_combo()
 		os.chdir(base_dir)
@@ -346,18 +331,21 @@ class scan_vbox(QWidget):
 
 
 	def save_combo(self):
+		print("SAVE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 		self.make_sim_dir()
 		a = open(os.path.join(self.sim_dir,"gpvdm_gui_config.inp"), "w")
 		a.write(str(self.tab.rowCount())+"\n")
 
-
+		print(self.tab.rowCount())
+		
 		for i in range(0,self.tab.rowCount()):
+			print(i)
 			a.write(tab_get_value(self.tab,i,0)+"\n")
 			a.write(tab_get_value(self.tab,i,1)+"\n")
 			a.write(tab_get_value(self.tab,i,2)+"\n")
 			a.write(tab_get_value(self.tab,i,3)+"\n")
 			a.write(tab_get_value(self.tab,i,4)+"\n")
-			a.write(tab_get_value(self.tab,i,5)+"\n")
+			a.write("notused\n")
 		a.close()
 
 		if os.path.isfile(os.path.join(self.sim_dir,"scan_config.inp"))==False:
@@ -368,11 +356,8 @@ class scan_vbox(QWidget):
 
 			a.close()
 
-	def combo_changed(self, widget, path, text, model):
-		model[path][2] = text
-		model[path][0] = scan_items_get_file(text)
-		model[path][1] = scan_items_get_token(text)
-		self.rebuild_liststore_op_type()
+	def tab_changed(self):
+		self.rebuild_op_type_widgets()
 		self.save_combo()
 
 	def combo_mirror_changed(self, widget, path, text, model):
@@ -390,28 +375,83 @@ class scan_vbox(QWidget):
 		self.save_combo()
 		return
 
+	def insert_row(self,i,v0,v1,v2,v3,v4):
+		self.tab.insertRow(i)
+
+		item = QTableWidgetItem(v0)
+		self.tab.setItem(i,0,item)
+
+		item = QTableWidgetItem(v1)
+		self.tab.setItem(i,1,item)
+
+
+		self.item = gpvdm_select()
+		self.item.setText(v2)
+		self.item.button.clicked.connect(self.callback_show_list)
+
+		self.tab.setCellWidget(i,2,self.item)
+
+		item = QTableWidgetItem(v3)
+		self.tab.setItem(i,3,item)
+
+		item = QTableWidgetItem(v4)
+		self.tab.setItem(i,4,item)
+		
 	def load(self):
 		self.tab.clear()
 		self.tab.setRowCount(0)
 		self.tab.setHorizontalHeaderLabels([_("File"), _("Token"), _("Parameter to change"), _("Values"), _("Opperation")])
-		tree_load_model(self.tab,self.sim_dir)
+
+		file_name=os.path.join(self.sim_dir,'gpvdm_gui_config.inp')
+
+		if os.path.isfile(file_name)==True:
+			f=open(file_name)
+			config = f.readlines()
+			f.close()
+
+			for ii in range(0, len(config)):
+				config[ii]=config[ii].rstrip()
+
+			pos=0
+			mylen=int(config[0])
+			pos=pos+1
+			
+			print(config)
+
+			for i in range(0, mylen):
+				self.insert_row(i,config[pos+0],config[pos+1],config[pos+2],config[pos+3],config[pos+4])
+
+				pos=pos+6
+
+
+		self.rebuild_op_type_widgets()
+
+
 
 	def contextMenuEvent(self, event):
 		self.popMenu.popup(QCursor.pos())
 
 
-	def callback_close(self,widget):
-		self.hide()
+	def rebuild_op_type_widgets(self):
+		items=[]
+		items.append("scan")
+		items.append("constant")
+		items.append("python_code")
 
-	def rebuild_liststore_op_type(self):
-		self.liststore_op_type.clear()
-		self.liststore_op_type.append(["scan"])
-		self.liststore_op_type.append(["constant"])
-		self.liststore_op_type.append(["python_code"])
+		for i in range(0,self.tab.rowCount()):
+			items.append(str(tab_get_value(self.tab,i,2)))
 
-		for i in range(0,len(self.liststore_combobox)):
-			if self.liststore_combobox[i][0]!=_("Select parameter"):
-				self.liststore_op_type.append([self.liststore_combobox[i][2]])
+		for i in range(0,self.tab.rowCount()):
+			save_value=tab_get_value(self.tab,i,4)
+			
+			combobox = QComboBox()
+			for a in items:
+				combobox.addItem(a)
+
+			self.tab.setCellWidget(i,4, combobox)
+			
+			tab_set_value(self.tab,i,4,save_value)
+
 
 	def set_tab_caption(self,name):
 		mytext=name
@@ -449,7 +489,6 @@ class scan_vbox(QWidget):
 
 	def __init__(self,myserver,status_bar,scan_root_dir,sim_name):
 		QWidget.__init__(self)
-
 		self.main_vbox = QVBoxLayout()
 
 		self.tokens=tokens()
@@ -484,9 +523,9 @@ class scan_vbox(QWidget):
 		self.tb_notes.triggered.connect(self.callback_notes)
 		toolbar.addAction(self.tb_notes)
 
-		self.tb_notes = QAction(QIcon(os.path.join(get_image_file_path(),"select.png")), _("Select parameter to change"), self)
-		self.tb_notes.triggered.connect(self.callback_show_list)
-		toolbar.addAction(self.tb_notes)
+		#self.tb_notes = QAction(QIcon(os.path.join(get_image_file_path(),"select.png")), _("Select parameter to change"), self)
+		#self.tb_notes.triggered.connect(self.callback_show_list)
+		#toolbar.addAction(self.tb_notes)
 
 		self.tb_simulate = QAction(QIcon(os.path.join(get_image_file_path(),"forward.png")), _("Run simulation"), self)
 		self.tb_simulate.triggered.connect(self.callback_run_simulation)
@@ -511,25 +550,31 @@ class scan_vbox(QWidget):
 		self.main_vbox.addWidget(toolbar)
 
 		self.tab = QTableWidget()
-		self.tab.resizeColumnsToContents()
+		#self.tab.resizeColumnsToContents()
 
+		
 		self.tab.verticalHeader().setVisible(False)
 
 		self.select_param_window.init(self.tab)
 		
-		self.tab.clear()
-		self.tab.setColumnCount(6)
-		self.tab.setSelectionBehavior(QAbstractItemView.SelectRows)
+		self.tab.setColumnCount(5)
+		self.tab.setColumnHidden(0, True)
+		self.tab.setColumnHidden(1, True)
 
+		self.tab.setSelectionBehavior(QAbstractItemView.SelectRows)
+		self.tab.setColumnWidth(2, 200)
+		self.tab.setColumnWidth(3, 200)
 		self.load()
+
+		self.tab.cellChanged.connect(self.tab_changed)
 
 		self.main_vbox.addWidget(self.tab)
 
 		self.popMenu = QMenu(self)
 
-		self.mp_show_list=QAction(_("Select parameter to scan"), self)
-		self.mp_show_list.triggered.connect(self.callback_show_list)
-		self.popMenu.addAction(self.mp_show_list)
+		#self.mp_show_list=QAction(_("Select parameter to scan"), self)
+		#self.mp_show_list.triggered.connect(self.callback_show_list)
+		#self.popMenu.addAction(self.mp_show_list)
 
 		self.popMenu.addSeparator()
 
@@ -560,7 +605,8 @@ class scan_vbox(QWidget):
 		self.popMenu.addAction(self.mp_down)
 
 		self.popMenu.addSeparator()
-
+		self.setMinimumSize(700,500)
+		
 		self.setLayout(self.main_vbox)
 
 

@@ -1,4 +1,3 @@
-#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
@@ -111,24 +110,6 @@ def tree_load_config(sim_dir):
 		copy_materials="False"
 	copy_materials=str2bool(copy_materials)
 
-def tree_load_model(tab,sim_dir):
-	file_name=os.path.join(sim_dir,'gpvdm_gui_config.inp')
-
-	if os.path.isfile(file_name)==True:
-		f=open(file_name)
-		config = f.readlines()
-		f.close()
-
-		for ii in range(0, len(config)):
-			config[ii]=config[ii].rstrip()
-
-		pos=0
-		mylen=int(config[0])
-		pos=pos+1
-
-		for i in range(0, mylen):
-			tab_add(tab,[config[pos],config[pos+1],config[pos+2],config[pos+3], config[pos+4],str2bool(config[pos+5])])
-			pos=pos+6
 
 def tree_gen(flat_simulation_list,program_list,base_dir,sim_dir):
 	sim_dir=os.path.abspath(sim_dir)	# we are about to traverse the directory structure better to have the abs path

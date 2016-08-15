@@ -31,6 +31,8 @@ from PyQt5.QtGui import QPixmap
 #windows
 from cal_path import get_ui_path
 
+from gpvdm_select import gpvdm_select
+
 class dlg_get_text():
 	def __init__(self,text,default,image):
 		#QDialog.__init__(self)
@@ -104,12 +106,16 @@ def process_events():
 def tab_get_value(tab,y,x):
 	if type(tab.cellWidget(y, x))==QComboBox:
 		return tab.cellWidget(y, x).currentText()
+	elif type(tab.cellWidget(y,x))==gpvdm_select:
+		return tab.cellWidget(y, x).text()
 	else:
 		return tab.item(y, x).text()
 
 def tab_set_value(tab,y,x,value):
 	if type(tab.cellWidget(y, x))==QComboBox:
-		tab.cellWidget(y, x).setCurrentIndex(tab.cellWidget(y, x).findText(value));
+		tab.cellWidget(y, x).setCurrentIndex(tab.cellWidget(y, x).findText(value))
+	elif type(tab.cellWidget(y,x))==gpvdm_select:
+		tab.cellWidget(y, x).setText(value)
 	else:
 		item = QTableWidgetItem(str(value))
 		tab.setItem(y,x,item)
@@ -203,3 +209,18 @@ def yes_no_dlg(parent,text):
 		return True
 	else:
 		return False
+
+def yes_no_cancel_dlg(parent,text):
+	msgBox = QMessageBox(parent)
+	msgBox.setIcon(QMessageBox.Question)
+	msgBox.setText("Question")
+	msgBox.setInformativeText(text)
+	msgBox.setStandardButtons(QMessageBox.Yes| QMessageBox.No| QMessageBox.Cancel  )
+	msgBox.setDefaultButton(QMessageBox.No)
+	reply = msgBox.exec_()
+	if reply == QMessageBox.Yes:
+		return "yes"
+	elif reply == QMessageBox.No:
+		return "no"
+	else:
+		return "cancel"

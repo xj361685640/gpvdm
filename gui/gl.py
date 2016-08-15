@@ -294,6 +294,7 @@ class glWidget(QGLWidget):
 		self.colors=[]
 		l=epitaxy_get_layers()-1
 		for i in range(0,epitaxy_get_layers()):
+			print("order",epitaxy_get_mat_file(l-i))
 			path=os.path.join(get_materials_path(),epitaxy_get_mat_file(l-i),"mat.inp")
 			lines=[]
 
@@ -306,8 +307,8 @@ class glWidget(QGLWidget):
 				red=0.0
 				green=0.0
 				blue=0.0
-
 			self.colors.append(color(red,green,blue))
+
 		self.update()
 
 	def initializeGL(self):

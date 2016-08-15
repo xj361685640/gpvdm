@@ -35,7 +35,6 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSize, Qt 
 from PyQt5.QtWidgets import QWidget,QSizePolicy,QHBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QLabel,QComboBox
 
-
 class tb_item_sun(QWidget):
 	def call_back_light_changed(self):
 		light_power=self.light.currentText()
@@ -48,7 +47,6 @@ class tb_item_sun(QWidget):
 
 	def __init__(self):
 		QWidget.__init__(self)
-
 
 		layout=QHBoxLayout()
 		label=QLabel()

@@ -69,21 +69,6 @@ class tab_main(QWidget,tab_base):
 
 		self.setLayout(mainLayout)
 
-	def draw_photon(self,x_start,y_start):
-		x=x_start
-		y=y_start
-		self.cr.set_source_rgb(0,1.0,0.0)
-		self.cr.move_to(x, y)
-		self.cr.set_line_width(2)
-		while (y<y_start+101):
-			self.cr.line_to(x+math.sin((y_start-y)/4)*10, y)
-			y=y+0.1
-		self.cr.stroke()
-
-		self.cr.line_to(x+10, y)
-		self.cr.line_to(x, y+20)
-		self.cr.line_to(x-10, y)
-		self.cr.fill()
 
 	def draw_photon_up(self,x_start,y_start):
 		x=x_start

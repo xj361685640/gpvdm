@@ -1,4 +1,3 @@
-#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
@@ -186,24 +185,28 @@ class server(QWidget,cluster):
 				if (self.jobs_running<self.cpus):
 					if self.status[i]==0:
 						self.status[i]=1
+						for r in range(0,len(self.jobs)):
+							print(self.jobs[i],self.args[i])
+							
 						print("Running job",self.jobs[i],self.args[i])
 						if self.enable_gui==True:
 							self.progress_window.set_text("Running job "+self.jobs[i])
 						self.jobs_running=self.jobs_running+1
-						if running_on_linux()==True:
-							cmd="cd "+self.jobs[i]+";"
-							cmd=cmd+get_exe_command()+" --lock "+"lock"+str(i)+" "+self.args[i]+" --gui --html &"
-							print("command="+cmd)
-							if self.enable_gui==True:
-								self.terminal.run(self.jobs[i],get_exe_command()+" --lock "+"lock"+str(i)+" "+self.args[i]+" --gui --html &")
-							else:
-								print(cmd)
-								os.system(cmd)
+#						if running_on_linux()==True:
 
+						cmd="cd "+self.jobs[i]+";"
+						cmd=cmd+get_exe_command()+" --lock "+"lock"+str(i)+" "+self.args[i]+" --gui --html &"
+						print("command="+cmd)
+						if self.enable_gui==True:
+							self.terminal.run(self.jobs[i],get_exe_command()+" --lock "+"lock"+str(i)+" "+self.args[i]+" --gui --html")
 						else:
-							cmd=get_exe_command()+" --lock "+"lock"+str(i)+" "+self.args[i]+" --gui --html &\n"
-							print(cmd,self.jobs[i],self.args[i])
-							subprocess.Popen(cmd,cwd=self.jobs[i])
+							print(cmd)
+							os.system(cmd)
+
+#						else:
+#							cmd=get_exe_command()+" --lock "+"lock"+str(i)+" "+self.args[i]+" --gui --html &\n"
+#							print(cmd,self.jobs[i],self.args[i])
+#							subprocess.Popen(cmd,cwd=self.jobs[i])
 							#os.system(cmd)
 
 							#sys.exit()
@@ -287,6 +290,7 @@ class server(QWidget,cluster):
 					self.progress_window.set_fraction(float(self.jobs_run)/float(len(self.jobs)))
 					self.run_jobs()
 					if (self.jobs_run==len(self.jobs)):
+						#print("STOPPING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 						self.stop()
 
 			elif (data=="pulse"):

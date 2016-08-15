@@ -28,39 +28,68 @@ from PyQt5.QtWidgets import QTabWidget,QTextEdit
 from PyQt5.QtCore import QProcess
 from PyQt5.QtGui import QPalette,QColor,QFont
 
-class tab_terminal(QTextEdit,tab_base):
+from QHTabBar import QHTabBar
 
-	def dataReady(self):
-		cursor = self.textCursor()
+import multiprocessing
+import functools
+
+class tab_terminal(QTabWidget,tab_base):
+
+	def dataReady(self,i):
+		cursor = self.terminals[i].textCursor()
 		cursor.movePosition(cursor.End)
-		data=str(self.process.readAll())
+		data=str(self.process[i].readAll())
 		data=data[2:-1]
 		cursor.insertHtml(data)
-		self.ensureCursorVisible()
+		self.terminals[i].ensureCursorVisible()
 
 	def run(self,path,command):
-		cursor = self.textCursor()
-		cursor.insertHtml("Running:"+command+"<br>")
-		os.chdir(path)
-		self.process.start(command)
+		for i in range(0,self.cpus):
+	
+			if self.process[i].state()==QProcess.NotRunning:
+				cursor = self.terminals[i].textCursor()
+				cursor.insertHtml("Running:"+command+"<br>")
+				self.process[i].setWorkingDirectory(path)
+				self.process[i].start(command)
+				return
+
+		print("I could not find a free cpu to run the command on")
 
 	def init(self):
+		self.cpus=multiprocessing.cpu_count()
+		
+		self.setTabsClosable(True)
+		self.setMovable(True)
+		self.setTabBar(QHTabBar())
+		self.setTabPosition(QTabWidget.West)
+		
 		self.font = QFont()
 		self.font.setFamily('Monospace')
 		self.font.setStyleHint(QFont.Monospace)
 		self.font.setFixedPitch(True)
 		self.font.setPointSize(int(12))
 
-		self.setFont(self.font)
+		self.terminals=[]
+		self.process=[]
+		for i in range(0,self.cpus):
+			term=QTextEdit()
+			term.setFont(self.font)
+			
+			pal = QPalette()
+			bgc = QColor(0, 0, 0)
+			pal.setColor(QPalette.Base, bgc)
+			textc = QColor(230, 230, 230)
+			pal.setColor(QPalette.Text, textc)
+			term.setPalette(pal)
 
-		pal = QPalette()
-		bgc = QColor(0, 0, 0)
-		pal.setColor(QPalette.Base, bgc)
-		textc = QColor(230, 230, 230)
-		pal.setColor(QPalette.Text, textc)
-		self.setPalette(pal)
-		self.process = QProcess(self)
-		self.process.readyRead.connect(self.dataReady)
+			proc=QProcess(self)
+			proc.readyRead.connect(functools.partial(self.dataReady,i))
+			self.process.append(proc)
+			self.terminals.append(term)
+			self.addTab(term,"cpu "+str(i))
+
+
+
 
 	def help(self):
 		my_help_class.help_set_help(["command.png","<big><b>The terminal window</b></big>\nThe model will run in this window.  You can also use it to enter bash commands."])

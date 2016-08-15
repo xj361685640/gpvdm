@@ -763,7 +763,7 @@ class plot_widget(QWidget):
 
 
 		self.canvas.figure.patch.set_facecolor('white')
-		self.canvas.setMinimumSize(800, 500)
+		self.canvas.setMinimumSize(800, 350)
 		self.main_vbox.addWidget(self.canvas)
 
 		self.setLayout(self.main_vbox)
