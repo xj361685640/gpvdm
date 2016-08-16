@@ -260,6 +260,7 @@ class layer_widget(QWidget):
 			self.tab.setItem(i,1,item2)
 
 			combobox = QComboBox()
+
 			#combobox.setEditable(True)
 
 			for a in self.material_files:
@@ -267,6 +268,11 @@ class layer_widget(QWidget):
 			self.tab.setCellWidget(i,2, combobox)
 			combobox.setCurrentIndex(combobox.findText(material))
 
+			p=combobox.palette()
+			p.setColor(QPalette.Active, QPalette.Button, Qt.white);
+			p.setColor(QPalette.Inactive, QPalette.Button, Qt.white);
+			combobox.setPalette(p)
+			
 			#item3 = QTableWidgetItem(str(dos_file))
 			#self.tab.setItem(i,3,item3)
 			combobox_layer_type = QComboBox()

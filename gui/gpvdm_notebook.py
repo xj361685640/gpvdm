@@ -57,8 +57,11 @@ if enable_webbrowser()==True:
 else:
 	from information_noweb import information
 
+from help import help_window
+
 import i18n
 _ = i18n.language.gettext
+
 
 class gpvdm_notebook(QTabWidget):
 	#progress=progress_class()
@@ -69,6 +72,36 @@ class gpvdm_notebook(QTabWidget):
 	def __init__(self):
 		QWidget.__init__(self)
 		self.terminal=None
+		self.currentChanged.connect(self.changed_click)
+
+	def update(self):
+		for i in range(0,self.count()):
+			print(i)
+			w=self.widget(i)
+			w.update()
+
+	def changed_click(self):
+		print(self.tabText(self.currentIndex()))
+		if self.tabText(self.currentIndex()).strip()==_("Device"):
+			help_window().help_set_help(["tab.png",_("<big><b>Device tab</b></big><br>This tab contains information about the device, such as width breadth, carrier density on the contacts, shunt and contact resistance.")])
+
+		if self.tabText(self.currentIndex()).strip()==_("Device structure"):
+			help_window().help_set_help(["device.png",_("<big><b>The device structure tab</b></big><br> Use this tab to change the structure of the device, the layer thicknesses and to perform optical simulations.  You can also browse the materials data base and  edit the electrical mesh.")])
+
+		if self.tabText(self.currentIndex()).strip()==_("Bands"):
+			help_window().help_set_help(["tab.png",_("<big><b>The bands tab</b></big><br> Use this tab to edit the energetic distribution of the density of states.")])
+
+		if self.tabText(self.currentIndex()).strip()==_("Density of states"):
+			help_window().help_set_help(["tab.png","<big><b>Density of States</b></big>\nThis tab contains the electrical model parameters, such as mobility, tail slope energy, and band gap."])
+
+		if self.tabText(self.currentIndex()).strip()==_("Luminescence"):
+			help_window().help_set_help(["tab.png","<big><b>Luminescence</b></big>\nIf you set 'Turn on luminescence' to true, the simulation will assume recombination is a raditave process and intergrate it to produce Voltage-Light intensity curves (lv.dat).  Each number in the tab tells the model how efficient each recombination mechanism is at producing photons."])
+
+		if self.tabText(self.currentIndex()).strip()==_("Terminal"):
+			help_window().help_set_help(["command.png","<big><b>The terminal window</b></big>\nThe output of the model will be displayed in this window, watch this screen for debugging and convergence information."])
+
+		if self.tabText(self.currentIndex()).strip()==_("Information"):
+			help_window().help_set_help(["help.png","<big><b>On-line help</b></big>\nYou can view the on-line help and manual here."])
 		
 	def get_current_page(self):
 		i=self.currentIndex()
@@ -80,9 +113,6 @@ class gpvdm_notebook(QTabWidget):
 					self.setCurrentIndex(i)
 					break
 
-	def callback_close_button(self,index):
-		print("close_handler called, index = %s" % index)
-		self.removeTab(index)
 
 	def callback_switch_page(self, notebook, page, page_num):
 		if self.last_page!=page_num:
@@ -139,9 +169,8 @@ class gpvdm_notebook(QTabWidget):
 		self.clean_menu()
 		self.last_page=0
 
-		self.setTabsClosable(True)
+		#self.setTabsClosable(True)
 		self.setMovable(True)
-		self.tabCloseRequested.connect(self.callback_close_button)
 		if (os.path.exists("sim.gpvdm")==True) and (os.path.normcase(os.getcwd())!=os.path.normcase(get_bin_path())):
 			self.finished_loading=False
 			#self.progress.init()
@@ -155,12 +184,9 @@ class gpvdm_notebook(QTabWidget):
 #			dos_files=inp_get_token_value("device_epitaxy.inp", "#layers")
 
 			widget=tab_main()
-			#tab.show()
-			#tab.init(file_name,name)
 
 			self.addTab(widget,_("Device structure"))
-			#self.main_tab.show()
-			#self.append_page(self.main_tab, gtk.Label(_("Device structure")))
+
 	
 			lines=[]
 			pos=0
@@ -237,18 +263,6 @@ class gpvdm_notebook(QTabWidget):
 						self.addTab(widget,mytext)
 
 
-					#	if (visible==True):
-					#		tab.show()
-
-
-					#	self.add_to_menu(name,visible)
-			#else:
-			#	print _("No gui_config.inp file found\n")
-
-			#for child in self.get_children():
-			#		print type(child)
-
-			#if running_on_linux()==True:
 			self.terminal=tab_terminal()
 			self.terminal.init()
 			self.addTab(self.terminal,"Terminal")

@@ -32,11 +32,22 @@ from PyQt5.QtGui import QPainter,QIcon
 #python modules
 import webbrowser
 
+from help import help_window
+
 articles = []
 mesh_articles = []
 
 class jv(QWidget):
 
+	def changed_click(self):
+		if self.notebook.tabText(self.notebook.currentIndex()).strip()==_("JV simulation"):
+			help_window().help_set_help(["jv.png",_("<big><b>JV simulation</b></big><br>This controls the jv curve simulation. You can set paramets such as start voltage, stop voltage and voltage step.")])
+
+		if self.notebook.tabText(self.notebook.currentIndex()).strip()==_("Diode equation"):
+			help_window().help_set_help(["jv.png",_("<big><b>Diode equation</b></big><br>The model can also use the standard diode equtaion to simulate solar cells (rather than a complex model).  Use this window to configure the simulation.")])
+			
+		if self.notebook.tabText(self.notebook.currentIndex()).strip()==_("Suns v.s. Voc"):
+			help_window().help_set_help(["jv.png",_("<big><b>Suns v.s. Voc</b></big><br>Configure the sun v.s. Voc plot.")])
 
 	def callback_close(self, widget, data=None):
 		self.hide()
@@ -93,7 +104,8 @@ class jv(QWidget):
 		self.win_list=windows()
 		self.win_list.load()
 		self.win_list.set_window(self,"jv_window")
-
+		
+		self.notebook.currentChanged.connect(self.changed_click)
 
 	def callback_close_window(self):
 		self.win_list.update(self,"jv_window")

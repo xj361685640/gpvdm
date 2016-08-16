@@ -72,8 +72,6 @@ def epitaxy_load():
 
 			electrical_layer.append(lines[pos])		#value
 
-			print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",lines[pos])
-
 			if lines[pos].startswith("dos")==True:
 				electrical_layers=electrical_layers+1
 
@@ -160,7 +158,6 @@ def epitaxy_save():
 	lines.append("1.2")
 	lines.append("#end")
 
-	#print lines
 	inp_write_lines_to_file(os.path.join(os.getcwd(),"epitaxy.inp"),lines)
 
 def epitaxy_get_dos_files():

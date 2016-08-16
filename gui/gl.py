@@ -61,6 +61,9 @@ from epitaxy import epitaxy_get_name
 
 #qt
 from PyQt5.QtGui import QFont
+import numpy as np
+from inp import inp_get_token_value
+from util import str2bool
 
 # Rotations for cube.
 cube_rotate_x_rate = 0.2
@@ -84,6 +87,43 @@ def tab(x,y,z,w,h,d):
 	glVertex3f(x+w+0.05,y+h ,z)
 
 	glEnd()
+
+
+def draw_photon(x,z,up):
+	glLineWidth(3)
+	if up==True:
+		glColor3f(0.0, 0.0, 1.0)
+	else:
+		glColor3f(0.0, 1.0, 0.0)
+
+	glBegin(GL_LINES)
+	wx=np.arange(0, 1.0 , 0.01)
+	wy=np.sin(wx*3.14159*8)*0.2
+	
+	start_x=2.7
+	stop_x=2.7-1.0
+	for i in range(1,len(wx)):
+		glVertex3f(x, start_x-wx[i-1], z+wy[i-1])
+		glVertex3f(x, start_x-wx[i], z+wy[i])
+
+	glEnd()
+
+	if up==False:
+		glBegin(GL_TRIANGLES)
+
+		glVertex3f(x-0.1, stop_x,z)
+		glVertex3f(x+0.1, stop_x ,z)
+		glVertex3f(x,stop_x-0.1 ,z)
+
+		glEnd()
+	else:
+		glBegin(GL_TRIANGLES)
+
+		glVertex3f(x-0.1, start_x,z)
+		glVertex3f(x+0.1, start_x ,z)
+		glVertex3f(x,start_x+0.1 ,z)
+
+		glEnd()
 
 def draw_mode(z_size):
 
@@ -196,13 +236,13 @@ class glWidget(QGLWidget):
 	colors=[]
 	def __init__(self, parent):
 		QGLWidget.__init__(self, parent)
-		self.setMinimumSize(600, 480)
+		self.setMinimumSize(650, 500)
 
 	def paintGL(self):
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 		glLoadIdentity()
 
-		glTranslatef(-0.5, 0.0, -6.0) # Move Into The Screen
+		glTranslatef(-0.5, -0.5, -7.0) # Move Into The Screen
 		glRotatef(25.0, 1.0, 0.0, 0.0)
 		glRotatef(-20.0, 0.0, 1.0, 0.0)
 
@@ -216,6 +256,27 @@ class glWidget(QGLWidget):
 
 		draw_mode(2.0)
 
+		if self.suns!=0:
+			if self.suns<=0.01:
+				den=1.4
+			elif self.suns<=0.1:
+				den=0.8
+			elif self.suns<=1.0:
+				den=0.6
+			elif self.suns<=10.0:
+				den=0.3
+			else:
+				den=0.2
+			
+			x=np.arange(0, 2.0 , den)
+			y=np.arange(0, 2.0 , den)
+			for i in range(0,len(x)):
+				for ii in range(0,len(y)):
+					draw_photon(x[i],y[ii],False)
+					if self.emission==True:
+						draw_photon(x[i]+0.1,y[ii]+0.1,True)
+
+
 		tot=0
 		for i in range(0,epitaxy_get_layers()):
 			tot=tot+epitaxy_get_width(i)
@@ -224,7 +285,7 @@ class glWidget(QGLWidget):
 		pos=0.0
 		width=2.0
 		depth=2.0
-
+		
 		l=epitaxy_get_layers()-1
 		#lines=[]
 			#pos=0.0
@@ -234,7 +295,7 @@ class glWidget(QGLWidget):
 		for i in range(0,epitaxy_get_layers()):
 
 			thick=epitaxy_get_width(l-i)*mul
-			print(thick)
+
 			red=self.colors[l-i].r
 			green=self.colors[l-i].g
 			blue=self.colors[l-i].b
@@ -251,11 +312,13 @@ class glWidget(QGLWidget):
 				if zpoints==1:
 					zshrink=1.0
 
-
-				for y in range(0,ypoints):
-					for x in range(0,xpoints):
-						for z in range(0,zpoints):
-							box(dx*x,pos+y*(dy),z*dz,dx*xshrink,dy*0.8,dz*zshrink,red,green,blue)
+				if xpoints==1 and zpoints==1:
+					box(0.0,pos,0,width,thick,depth,red,green,blue)
+				else:
+					for y in range(0,ypoints):
+						for x in range(0,xpoints):
+							for z in range(0,zpoints):
+								box(dx*x,pos+y*(dy),z*dz,dx*xshrink,dy*0.8,dz*zshrink,red,green,blue)
 				tab(0.0,pos,depth,width,thick,depth)
 				
 			elif epitaxy_get_electrical_layer(l-i)=="Contact" and i==l:
@@ -282,37 +345,47 @@ class glWidget(QGLWidget):
 			glColor3f(0.0,0.0,0.0)
 			font = QFont("Arial")
 			font.setPointSize(18)
-			self.renderText (width+0.1,pos,depth, text,font)
+			self.renderText (width+0.1,pos+thick/2,depth, text,font)
 
 			pos=pos+thick+0.05
 
 
+		
 			glRotatef(self.tet_rotate, tet_x_rate, tet_y_rate, tet_z_rate)
-
+			
 
 	def recalculate(self):
 		self.colors=[]
+		lines=[]
+		self.emission=False
+		for i in range(0,epitaxy_get_layers()):
+			if epitaxy_get_pl_file(i)!="none":
+				if inp_load_file(lines,epitaxy_get_pl_file(i)+".inp")==True:
+					if str2bool(lines[1])==True:
+						self.emission=True
+						
+		val=inp_get_token_value("light.inp", "#Psun")
+		self.suns=float(val)
 		l=epitaxy_get_layers()-1
 		for i in range(0,epitaxy_get_layers()):
-			print("order",epitaxy_get_mat_file(l-i))
+
 			path=os.path.join(get_materials_path(),epitaxy_get_mat_file(l-i),"mat.inp")
-			lines=[]
+
 
 			if inp_load_file(lines,path)==True:
 				red=float(inp_search_token_value(lines, "#Red"))
 				green=float(inp_search_token_value(lines, "#Green"))
 				blue=float(inp_search_token_value(lines, "#Blue"))
 			else:
-				print("Could not load",path)
+
 				red=0.0
 				green=0.0
 				blue=0.0
 			self.colors.append(color(red,green,blue))
-
+		self.colors.reverse()
 		self.update()
 
 	def initializeGL(self):
-
 		self.recalculate()
 
 		glClearDepth(1.0)              
@@ -320,10 +393,10 @@ class glWidget(QGLWidget):
 		glEnable(GL_DEPTH_TEST)
 		glShadeModel(GL_SMOOTH)
 		
-		glViewport(0, 0, self.width(), self.height())
+		glViewport(0, 0, self.width(), self.height()+100)
 		glMatrixMode(GL_PROJECTION)
 		glLoadIdentity()                    
-		gluPerspective(45.0,float(self.width()) / float(self.height()),0.1, 100.0) 
+		gluPerspective(45.0,float(self.width()) / float(self.height()+100),0.1, 100.0) 
 		glMatrixMode(GL_MODELVIEW)
 
 

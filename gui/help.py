@@ -24,7 +24,7 @@ import webbrowser
 
 from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QWidget, QVBoxLayout,QProgressBar,QLabel,QDesktopWidget,QToolBar,QHBoxLayout,QAction,QSizePolicy
+from PyQt5.QtWidgets import QWidget, QVBoxLayout,QProgressBar,QLabel,QDesktopWidget,QToolBar,QHBoxLayout,QAction,QSizePolicy,QStatusBar
 from PyQt5.QtGui import QPixmap
 
 my_help_class=None
@@ -99,15 +99,13 @@ class help_class(QWidget):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
-		new_sim = QAction(QIcon(os.path.join(get_image_file_path(),"left.png")), 'Back', self)
-		new_sim.setStatusTip(_("Make a new simulation"))
-		new_sim.triggered.connect(self.callback_back)
-		toolbar.addAction(new_sim)
+		self.back = QAction(QIcon(os.path.join(get_image_file_path(),"left.png")), 'Back', self)
+		self.back.triggered.connect(self.callback_back)
+		toolbar.addAction(self.back)
 
-		open_sim = QAction(QIcon(os.path.join(get_image_file_path(),"right.png")), 'Next', self)
-		open_sim.setStatusTip(_("Open a simulation"))
-		open_sim.triggered.connect(self.callback_forward)
-		toolbar.addAction(open_sim)
+		self.forward= QAction(QIcon(os.path.join(get_image_file_path(),"right.png")), 'Next', self)
+		self.forward.triggered.connect(self.callback_forward)
+		toolbar.addAction(self.forward)
 
 
 		spacer = QWidget()
@@ -125,10 +123,7 @@ class help_class(QWidget):
 		self.undo.triggered.connect(self.callback_close)
 		toolbar.addAction(self.undo)
 
-		#self.status_bar = gtk.Statusbar()
-		#self.context_id = self.status_bar.get_context_id("Statusbar example")
-		#self.status_bar.show()
-		#self.tooltips.set_tip(self.qe_button, "Quantum efficiency")
+
 
 
 		self.vbox.addWidget(toolbar)
@@ -138,6 +133,9 @@ class help_class(QWidget):
 
 		self.vbox.addStretch()
 
+		self.status_bar = QStatusBar()
+		self.vbox.addWidget(self.status_bar)
+		
 		self.setLayout(self.vbox)
 		self.show()
 
@@ -173,16 +171,19 @@ class help_class(QWidget):
 			self.box[i].show()
 			#self.image[i].show()
 
-		#self.forward.set_sensitive(True)
-		#self.back.set_sensitive(True)
+		self.forward.setEnabled(True)
+		self.back.setEnabled(True)
+		print("roderick",self.pos)
 
-		#if self.pos==0:
-		#	self.back.set_sensitive(False)
+		if self.pos==0:
+			self.back.setEnabled(False)
+			print("disable")
 
-		#if self.pos==len(self.last)-1:
-		#	self.forward.set_sensitive(False)
+		if self.pos==len(self.last)-1:
+			self.forward.setEnabled(False)
+			print("disable2")
 
-		#self.status_bar.push(self.context_id, str(self.pos)+"/"+str(len(self.last)-1))
+		self.status_bar.showMessage(str(self.pos)+"/"+str(len(self.last)-1))
 
 	def help_set_help(self,array):
 		add=True
@@ -193,6 +194,7 @@ class help_class(QWidget):
 		if add==True:
 			self.pos=self.pos+1
 			self.last.append(array)
+
 		self.update()
 		self.resize(300, 150)
 		self.move_window()

@@ -48,9 +48,9 @@ class tab_main(QWidget,tab_base):
 
 	label_name="tab_main"
 
-	def update(self,object):
-		print("update gl")
-		#self.darea.queue_draw()
+	
+	def update(self):
+		self.three_d.recalculate()
 
 	def __init__(self):
 		QHBoxLayout.__init__(self)
@@ -68,27 +68,6 @@ class tab_main(QWidget,tab_base):
 		mainLayout.addWidget(self.three_d)
 
 		self.setLayout(mainLayout)
-
-
-	def draw_photon_up(self,x_start,y_start):
-		x=x_start
-		y=y_start
-		self.cr.set_source_rgb(0.0,0.0,1.0)
-		self.cr.move_to(x, y)
-		self.cr.set_line_width(2)
-		while (y>y_start-101):
-			self.cr.line_to(x+math.sin((y_start-y)/4)*10, y)
-			y=y-0.1
-		self.cr.stroke()
-
-		self.cr.line_to(x+10, y)
-		self.cr.line_to(x, y-20)
-		self.cr.line_to(x-10, y)
-		self.cr.fill()
-
-
-	def set_sun(self,sun):
-		self.sun=sun
 
 	def help(self):
 		help_window().help_set_help(["device.png",_("<big><b>The device structure tab</b></big>\n Use this tab to change the structure of the device, the layer thicknesses and to perform optical simulations.  You can also browse the materials data base and  edit the electrical mesh.")])

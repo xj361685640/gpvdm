@@ -66,9 +66,9 @@ def mesh_load(file_name):
 			token=lines[pos]
 			pos=pos+1
 			points=lines[pos] 		#read value
-			print("adding",thick,points)
+
 			mesh_add(my_list,thick,points)
-			print("adding",thick,points,len(my_list))
+
 	return my_list
 
 def mesh_save(file_name,my_list):

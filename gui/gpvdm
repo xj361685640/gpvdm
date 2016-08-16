@@ -900,7 +900,8 @@ class gpvdm_main_window(QMainWindow):
 		self.setGeometry(200, 100, 1100, 600)
 		self.setWindowTitle(_("General-purpose Photovoltaic Device Model (www.gpvdm.com)"))
 		self.show()
-
+		
+		self.light_button.changed.connect(self.notebook.update)
 
 	#data
 	def got_help(self,data):

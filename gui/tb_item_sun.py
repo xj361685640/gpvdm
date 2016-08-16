@@ -34,17 +34,17 @@ from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSize, Qt 
 from PyQt5.QtWidgets import QWidget,QSizePolicy,QHBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QLabel,QComboBox
+from PyQt5.QtCore import pyqtSignal
 
 class tb_item_sun(QWidget):
+
+	changed = pyqtSignal()
+	
 	def call_back_light_changed(self):
 		light_power=self.light.currentText()
-		#print light_power
 		inp_update_token_value("light.inp", "#Psun", light_power,1)
-#		if global_isobject("experiment_graph_update")==True:
-#			global_object_get("experiment_graph_update")()
-
-#		self.emit("refresh")
-
+		self.changed.emit()
+		
 	def __init__(self):
 		QWidget.__init__(self)
 
