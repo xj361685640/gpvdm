@@ -36,6 +36,9 @@ class information(QWidget,tab_base):
 		self.back_button.set_sensitive(self.web.can_go_back())
 		self.forward_button.set_sensitive(self.web.can_go_forward())
 
+	def update(self):
+		print("")
+		
 	def browse(self):
 
 		url = self.tb_url.text()

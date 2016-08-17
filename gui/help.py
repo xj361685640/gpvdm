@@ -154,7 +154,6 @@ class help_class(QWidget):
 		self.pos=self.pos-1
 		if self.pos<0:
 			self.pos=0
-		#print self.pos,self.last_icons
 		self.update()
 
 	def on_line_help(self,widget):
@@ -173,15 +172,12 @@ class help_class(QWidget):
 
 		self.forward.setEnabled(True)
 		self.back.setEnabled(True)
-		print("roderick",self.pos)
 
 		if self.pos==0:
 			self.back.setEnabled(False)
-			print("disable")
 
 		if self.pos==len(self.last)-1:
 			self.forward.setEnabled(False)
-			print("disable2")
 
 		self.status_bar.showMessage(str(self.pos)+"/"+str(len(self.last)-1))
 

@@ -60,11 +60,9 @@ class information(QWidget,tab_base):
 
 		self.setLayout(hbox)
 
-	def update(self,data):
-		self.text=self.web.text
-		self.label.set_markup(self.text+"</big>")
-		#self.hide_all()
-
+	def update(self):
+		print("")
+		
 	def help(self):
 		my_help_class.help_set_help(["icon.png",_("<big><b>Welcome to gpvdm</b></big>\n The window will provide you with information about new versions and bugs in gpvdm.")])
 

@@ -334,7 +334,7 @@ class gpvdm_main_window(QMainWindow):
 
 		#self.notebook.set_item_factory(self.item_factory)
 		if self.notebook.load()==True:
-			#self.sim_mode.update()
+			self.sim_mode_button.update()
 			#self.ti_light.connect('refresh', self.notebook.main_tab.update)
 			self.run.setEnabled(True)
 			self.stop.setEnabled(True)
@@ -886,12 +886,6 @@ class gpvdm_main_window(QMainWindow):
 
 
 
-		if running_on_linux()==False and enable_webupdates()==True:
-			print("Looking for updates")
-			self.update=update_thread()
-			self.update.got_data.connect(self.got_help)
-			self.update.start()
-
 #		self.window.show()
 
 
@@ -903,10 +897,6 @@ class gpvdm_main_window(QMainWindow):
 		
 		self.light_button.changed.connect(self.notebook.update)
 
-	#data
-	def got_help(self,data):
-		if data!="":
-			help_window().help_append(["star.png",_("<big><b>Update available!</b></big><br>"+data)])
 			
 if __name__ == '__main__':
 	app = QApplication(sys.argv)

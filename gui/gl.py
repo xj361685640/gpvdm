@@ -136,6 +136,8 @@ def draw_mode(z_size):
 
 	if read_xyz_data(t,s,z,os.path.join(os.getcwd(),"light_dump","light_1d_photons_tot_norm.dat"))==True:
 		array_len=len(t)
+		t.reverse()
+		s.reverse()		
 		for i in range(1,array_len):
 			glVertex3f(-1.2-s[i-1]*0.5, -1.0+(z_size*(i-1)/array_len), 1.0)
 			glVertex3f(-1.2-s[i]*0.5, -1.0+(z_size*i/array_len), 1.0)
@@ -222,11 +224,13 @@ def box(x,y,z,w,h,d,r,g,b):
 
 
 class color():
+
 	def __init__(self,r,g,b):
 		self.r=r
 		self.g=g
 		self.b=b
 
+		
 class glWidget(QGLWidget):
 
 	x_rot = 0.0
@@ -235,124 +239,137 @@ class glWidget(QGLWidget):
 	tet_rotate = 0.0
 	colors=[]
 	def __init__(self, parent):
+		self.enabled=False
 		QGLWidget.__init__(self, parent)
+
+		#glClearDepth(1.0)              
+		#glDepthFunc(GL_LESS)
+		#glEnable(GL_DEPTH_TEST)
+		#glShadeModel(GL_SMOOTH)
+		
 		self.setMinimumSize(650, 500)
 
 	def paintGL(self):
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-		glLoadIdentity()
+		if self.enabled==True:
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+			glLoadIdentity()
 
-		glTranslatef(-0.5, -0.5, -7.0) # Move Into The Screen
-		glRotatef(25.0, 1.0, 0.0, 0.0)
-		glRotatef(-20.0, 0.0, 1.0, 0.0)
+			glTranslatef(-0.5, -0.5, -7.0) # Move Into The Screen
+			glRotatef(25.0, 1.0, 0.0, 0.0)
+			glRotatef(-20.0, 0.0, 1.0, 0.0)
 
-		glColor3f( 1.0, 1.5, 0.0 )
-		glPolygonMode(GL_FRONT, GL_FILL);
+			glColor3f( 1.0, 1.5, 0.0 )
+			glPolygonMode(GL_FRONT, GL_FILL);
 
 
-		glClearColor(0.92, 0.92, 0.92, 0.5) # Clear to black.
+			glClearColor(0.92, 0.92, 0.92, 0.5) # Clear to black.
 
-		lines=[]
+			lines=[]
 
-		draw_mode(2.0)
+			draw_mode(2.0)
 
-		if self.suns!=0:
-			if self.suns<=0.01:
-				den=1.4
-			elif self.suns<=0.1:
-				den=0.8
-			elif self.suns<=1.0:
+			if self.suns!=0:
+				if self.suns<=0.01:
+					den=1.4
+				elif self.suns<=0.1:
+					den=0.8
+				elif self.suns<=1.0:
+					den=0.6
+				elif self.suns<=10.0:
+					den=0.3
+				else:
+					den=0.2
+				
+				x=np.arange(0, 2.0 , den)
+				y=np.arange(0, 2.0 , den)
+				for i in range(0,len(x)):
+					for ii in range(0,len(y)):
+						draw_photon(x[i],y[ii],False)
+
+			if self.emission==True:
 				den=0.6
-			elif self.suns<=10.0:
-				den=0.3
-			else:
-				den=0.2
+				x=np.arange(0, 2.0 , den)
+				y=np.arange(0, 2.0 , den)
+				for i in range(0,len(x)):
+					for ii in range(0,len(y)):
+							draw_photon(x[i]+0.1,y[ii]+0.1,True)
+
+
+			tot=0
+			for i in range(0,epitaxy_get_layers()):
+				tot=tot+epitaxy_get_width(i)
+
+			mul=1.5/tot
+			pos=0.0
+			width=2.0
+			depth=2.0
 			
-			x=np.arange(0, 2.0 , den)
-			y=np.arange(0, 2.0 , den)
-			for i in range(0,len(x)):
-				for ii in range(0,len(y)):
-					draw_photon(x[i],y[ii],False)
-					if self.emission==True:
-						draw_photon(x[i]+0.1,y[ii]+0.1,True)
+			l=epitaxy_get_layers()-1
+			#lines=[]
+				#pos=0.0
+			xpoints=int(mesh_get_xpoints())
+			ypoints=int(mesh_get_ypoints())
+			zpoints=int(mesh_get_zpoints())
+			for i in range(0,epitaxy_get_layers()):
 
+				thick=epitaxy_get_width(l-i)*mul
 
-		tot=0
-		for i in range(0,epitaxy_get_layers()):
-			tot=tot+epitaxy_get_width(i)
+				red=self.colors[l-i].r
+				green=self.colors[l-i].g
+				blue=self.colors[l-i].b
 
-		mul=1.5/tot
-		pos=0.0
-		width=2.0
-		depth=2.0
-		
-		l=epitaxy_get_layers()-1
-		#lines=[]
-			#pos=0.0
-		xpoints=int(mesh_get_xpoints())
-		ypoints=int(mesh_get_ypoints())
-		zpoints=int(mesh_get_zpoints())
-		for i in range(0,epitaxy_get_layers()):
+				if epitaxy_get_electrical_layer(l-i).startswith("dos")==True:
+					dy=thick/float(ypoints)
+					dx=width/float(xpoints)
+					dz=depth/float(zpoints)
+					xshrink=0.8
+					zshrink=0.8
+					if xpoints==1:
+						xshrink=1.0
 
-			thick=epitaxy_get_width(l-i)*mul
+					if zpoints==1:
+						zshrink=1.0
 
-			red=self.colors[l-i].r
-			green=self.colors[l-i].g
-			blue=self.colors[l-i].b
+					if xpoints==1 and zpoints==1:
+						box(0.0,pos,0,width,thick,depth,red,green,blue)
+					else:
+						for y in range(0,ypoints):
+							for x in range(0,xpoints):
+								for z in range(0,zpoints):
+									box(dx*x,pos+y*(dy),z*dz,dx*xshrink,dy*0.8,dz*zshrink,red,green,blue)
+					tab(0.0,pos,depth,width,thick,depth)
+					
+				elif epitaxy_get_electrical_layer(l-i)=="Contact" and i==l:
+					if xpoints==1 and zpoints==1:
+						box(0.0,pos,0,width,thick,depth,red,green,blue)
+					else:
+						for c in contacts_get_array():
+							x_len=mesh_get_xlen()
+							xstart=width*(c.start/x_len)
+							xwidth=width*(c.width/x_len)
+							if (c.start+c.width)>x_len:
+								xwidth=width-xstart
 
-			if epitaxy_get_electrical_layer(l-i).startswith("dos")==True:
-				dy=thick/float(ypoints)
-				dx=width/float(xpoints)
-				dz=depth/float(zpoints)
-				xshrink=0.8
-				zshrink=0.8
-				if xpoints==1:
-					xshrink=1.0
-
-				if zpoints==1:
-					zshrink=1.0
-
-				if xpoints==1 and zpoints==1:
-					box(0.0,pos,0,width,thick,depth,red,green,blue)
+							box(xstart,pos,0,xwidth,thick,depth,red,green,blue)
 				else:
-					for y in range(0,ypoints):
-						for x in range(0,xpoints):
-							for z in range(0,zpoints):
-								box(dx*x,pos+y*(dy),z*dz,dx*xshrink,dy*0.8,dz*zshrink,red,green,blue)
-				tab(0.0,pos,depth,width,thick,depth)
-				
-			elif epitaxy_get_electrical_layer(l-i)=="Contact" and i==l:
-				if xpoints==1 and zpoints==1:
 					box(0.0,pos,0,width,thick,depth,red,green,blue)
+					
+
+				if epitaxy_get_electrical_layer(l-i).startswith("dos")==True:
+					text=epitaxy_get_name(l-i)+" (active)"
 				else:
-					for c in contacts_get_array():
-						x_len=mesh_get_xlen()
-						xstart=width*(c.start/x_len)
-						xwidth=width*(c.width/x_len)
-						if (c.start+c.width)>x_len:
-							xwidth=width-xstart
+					text=epitaxy_get_name(l-i)
 
-						box(xstart,pos,0,xwidth,thick,depth,red,green,blue)
-			else:
-				box(0.0,pos,0,width,thick,depth,red,green,blue)
-				
+				glColor3f(0.0,0.0,0.0)
+				font = QFont("Arial")
+				font.setPointSize(18)
+				self.renderText (width+0.1,pos+thick/2,depth, text,font)
 
-			if epitaxy_get_electrical_layer(l-i).startswith("dos")==True:
-				text=epitaxy_get_name(l-i)+" (active)"
-			else:
-				text=epitaxy_get_name(l-i)
-
-			glColor3f(0.0,0.0,0.0)
-			font = QFont("Arial")
-			font.setPointSize(18)
-			self.renderText (width+0.1,pos+thick/2,depth, text,font)
-
-			pos=pos+thick+0.05
+				pos=pos+thick+0.05
 
 
-		
-			glRotatef(self.tet_rotate, tet_x_rate, tet_y_rate, tet_z_rate)
 			
+				glRotatef(self.tet_rotate, tet_x_rate, tet_y_rate, tet_z_rate)
 
 	def recalculate(self):
 		self.colors=[]
@@ -363,7 +380,7 @@ class glWidget(QGLWidget):
 				if inp_load_file(lines,epitaxy_get_pl_file(i)+".inp")==True:
 					if str2bool(lines[1])==True:
 						self.emission=True
-						
+		
 		val=inp_get_token_value("light.inp", "#Psun")
 		self.suns=float(val)
 		l=epitaxy_get_layers()-1
@@ -386,6 +403,7 @@ class glWidget(QGLWidget):
 		self.update()
 
 	def initializeGL(self):
+		self.enabled=True
 		self.recalculate()
 
 		glClearDepth(1.0)              
@@ -398,7 +416,4 @@ class glWidget(QGLWidget):
 		glLoadIdentity()                    
 		gluPerspective(45.0,float(self.width()) / float(self.height()+100),0.1, 100.0) 
 		glMatrixMode(GL_MODELVIEW)
-
-
-
 

@@ -37,7 +37,10 @@ from epitaxy import epitaxy_get_electrical_layer
 from help import help_window
 from epitaxy import epitaxy_get_pl_file
 from epitaxy import epitaxy_get_name
-from gl import glWidget
+from display import display_widget
+from win_lin import running_on_linux
+from code_ctrl import enable_webupdates
+from update import update_thread
 
 from PyQt5.QtWidgets import QWidget,QHBoxLayout
 
@@ -57,7 +60,7 @@ class tab_main(QWidget,tab_base):
 		self.sun=1
 		mainLayout = QHBoxLayout()
 
-		self.three_d=glWidget(self)
+		self.three_d=display_widget()
 		self.three_d.show()
 
 		self.frame=layer_widget()
@@ -69,5 +72,15 @@ class tab_main(QWidget,tab_base):
 
 		self.setLayout(mainLayout)
 
+		if running_on_linux()==False and enable_webupdates()==True:
+			print("Looking for updates")
+			self.web_update=update_thread()
+			self.web_update.got_data.connect(self.got_help)
+			self.web_update.start()
+			
 	def help(self):
 		help_window().help_set_help(["device.png",_("<big><b>The device structure tab</b></big>\n Use this tab to change the structure of the device, the layer thicknesses and to perform optical simulations.  You can also browse the materials data base and  edit the electrical mesh.")])
+
+	def got_help(self,data):
+		if data!="":
+			help_window().help_append(["star.png",_("<big><b>Update available!</b></big><br>"+data)])

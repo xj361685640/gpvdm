@@ -558,42 +558,36 @@ class plot_widget(QWidget):
 
 
 	def callback_autoscale_y(self):
-		if widget.get_active()==True:
-			self.plot_token.ymax=-1
-			self.plot_token.ymin=-1
-		else:
+		if self.plot_token.ymax==-1:
 			xmin, xmax, ymin, ymax = self.ax[0].axis()
 			self.plot_token.ymax=ymax
 			self.plot_token.ymin=ymin
+		else:
+			self.plot_token.ymax=-1
+			self.plot_token.ymin=-1
 
 	def callback_normtoone_y(self):
-		if widget.get_active()==True:
-			self.plot_token.normalize=True
-		else:
-			self.plot_token.normalize=False
+		self.plot_token.normalize= not self.plot_token.normalize
 		plot_save_oplot_file(self.config_file,self.plot_token)
 		self.do_plot()
 
 	def callback_norm_to_peak_of_all_data(self):
-		if widget.get_active()==True:
-			self.plot_token.norm_to_peak_of_all_data=True
-		else:
-			self.plot_token.norm_to_peak_of_all_data=False
+		self.plot_token.norm_to_peak_of_all_data=not self.plot_token.norm_to_peak_of_all_data
 		plot_save_oplot_file(self.config_file,self.plot_token)
 		self.do_plot()
 
 	def callback_toggle_log_scale_y(self):
-		self.plot_token.logy=data.get_active()
+		self.plot_token.logy=not self.plot_token.logy
 		plot_save_oplot_file(self.config_file,self.plot_token)
 		self.do_plot()
 
 	def callback_toggle_log_scale_x(self):
-		self.plot_token.logx=data.get_active()
+		self.plot_token.logx=not self.plot_token.logx
 		plot_save_oplot_file(self.config_file,self.plot_token)
 		self.do_plot()
 
 	def callback_toggle_label_data(self):
-		self.plot_token.label_data=data.get_active()
+		self.plot_token.label_data=not self.plot_token.label_data
 		plot_save_oplot_file(self.config_file,self.plot_token)
 		self.do_plot()
 
@@ -624,17 +618,17 @@ class plot_widget(QWidget):
 		self.do_plot()
 
 	def callback_toggle_invert_y(self):
-		self.plot_token.invert_y=data.get_active()
+		self.plot_token.invert_y=not self.plot_token.invert_y
 		plot_save_oplot_file(self.config_file,self.plot_token)
 		self.do_plot()
 
 	def callback_toggle_subtract_first_point(self):
-		self.plot_token.subtract_first_point=data.get_active()
+		self.plot_token.subtract_first_point=not self.plot_token.subtract_first_point
 		plot_save_oplot_file(self.config_file,self.plot_token)
 		self.do_plot()
 
 	def callback_toggle_add_min(self):
-		self.plot_token.add_min=data.get_active()
+		self.plot_token.add_min=not self.plot_token.add_min
 		plot_save_oplot_file(self.config_file,self.plot_token)
 		self.do_plot()
 

@@ -72,7 +72,7 @@ class progress_class(QWidget):
 
 	def pulse(self):
 		self.progress.pulse()
-
+		
 	def start(self):
 		shape=QDesktopWidget().screenGeometry()
 

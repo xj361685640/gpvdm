@@ -113,7 +113,7 @@ class layer_widget(QWidget):
 
 	def layer_type_edit(self):
 		for i in range(0,self.tab.rowCount()):
-			if tab_get_value(self.tab,i,3)=="Active layer" and tab_get_value(self.tab,i,4).startswith("dos")==False:
+			if tab_get_value(self.tab,i,3).lower()=="active layer" and tab_get_value(self.tab,i,4).startswith("dos")==False:
 				print("doing update")
 				tab_set_value(self.tab,i,4,epitay_get_next_dos())
 				tab_set_value(self.tab,i,5,epitay_get_next_pl())
@@ -126,7 +126,7 @@ class layer_widget(QWidget):
 				if inp_isfile(new_file)==False:
 					inp_copy_file(new_file,"pl0.inp")
 
-			if tab_get_value(self.tab,i,3)!="Active layer" and tab_get_value(self.tab,i,4).startswith("dos")==True:
+			if tab_get_value(self.tab,i,3).lower()!="active layer" and tab_get_value(self.tab,i,4).startswith("dos")==True:
 				tab_set_value(self.tab,i,4,tab_get_value(self.tab,i,3))
 				tab_set_value(self.tab,i,5,"none")
 
@@ -228,8 +228,8 @@ class layer_widget(QWidget):
 	def create_model(self):
 		self.tab.clear()
 		self.tab.setColumnCount(6)
-		self.tab.setColumnHidden(5, True)
-		self.tab.setColumnHidden(4, True)
+		#self.tab.setColumnHidden(5, True)
+		#self.tab.setColumnHidden(4, True)
 		self.tab.setSelectionBehavior(QAbstractItemView.SelectRows)
 		self.tab.setHorizontalHeaderLabels([_("Layer name"), _("Thicknes"), _("Optical material"), _("Layer type"), _("DoS Layer"),_("PL Layer")])
 
@@ -249,7 +249,7 @@ class layer_widget(QWidget):
 			dos_file=""
 			
 			if dos_layer.startswith("dos")==True:
-				dos_file="Active layer"
+				dos_file="active layer"
 			else:
 				dos_file=dos_layer
 
@@ -278,12 +278,12 @@ class layer_widget(QWidget):
 			combobox_layer_type = QComboBox()
 			#combobox.setEditable(True)
 
-			combobox_layer_type.addItem("Contact")
-			combobox_layer_type.addItem("Active layer")
-			combobox_layer_type.addItem("Other")
+			combobox_layer_type.addItem("contact")
+			combobox_layer_type.addItem("active layer")
+			combobox_layer_type.addItem("other")
 
 			self.tab.setCellWidget(i,3, combobox_layer_type)
-			combobox_layer_type.setCurrentIndex(combobox_layer_type.findText(str(dos_file)))
+			combobox_layer_type.setCurrentIndex(combobox_layer_type.findText(str(dos_file).lower()))
 
 
 			item3 = QTableWidgetItem(str(dos_layer))

@@ -44,7 +44,13 @@ from PyQt5.QtWidgets import QWidget
 
 from gui_util import yes_no_dlg
 
+from display import is_open_gl_working
+
+from PyQt5.QtCore import QTimer
+
 #Under windows, this class will connect to gpvdm.com and look for updates, a user prompt will be displayed if any are found.  It can also download updates if the user asks it to.  It's not called under linux because linux has it's own package management system.
+
+checked_web=False
 
 def sp(value):
 	return value.split(os.sep)
@@ -130,7 +136,7 @@ class update_thread(QWidget):
 		self.text=""
 
 	def get_from_web(self,url):
-			page="http://www.gpvdm.com/download_windows/update.php?ver_core="+ver_core()+"&ver_mat="+ver_mat()+"&os="+platform.platform()
+			page="http://www.gpvdm.com/download_windows/update.php?ver_core="+ver_core()+"&ver_mat="+ver_mat()+"&os="+platform.platform()+"&opengl="+is_open_gl_working()
 			message=get_data_from_web(page)
 
 			message=message.split("\n")
@@ -144,9 +150,20 @@ class update_thread(QWidget):
 	def foo(self,n):
 		self.get_from_web('http://www.gpvdm.com')
 
-	def start(self):
+	def start_thread(self):
 		p = Thread(target=self.foo, args=(10,))
 		#multiprocessing.Process(target=self.foo, name="Foo", args=(10,))
 		p.daemon = True
 		p.start()
+		
+	def start(self):
+		global checked_web
+		if checked_web==False:			#make this a one shot thing
+			checked_web=True
+			self.timer=QTimer()
+			self.timer.setSingleShot(True)
+			self.timer.timeout.connect(self.start_thread)
+			self.timer.start(5000)
+		
+
 
