@@ -64,7 +64,7 @@ from gui_util import tab_remove
 from gui_util import tab_get_value
 from gui_util import tab_set_value
 from gui_util import yes_no_dlg
-
+from gui_util import tab_insert_row
 #qt
 from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtGui import QIcon,QPalette
@@ -80,6 +80,8 @@ _ = i18n.language.gettext
 from i18n import yes_no
 
 from gpvdm_select import gpvdm_select
+
+from code_ctrl import enable_betafeatures
 
 class layer_widget(QWidget):
 
@@ -228,14 +230,12 @@ class layer_widget(QWidget):
 	def create_model(self):
 		self.tab.clear()
 		self.tab.setColumnCount(6)
-		#self.tab.setColumnHidden(5, True)
-		#self.tab.setColumnHidden(4, True)
+		if enable_betafeatures()==False:
+			self.tab.setColumnHidden(5, True)
+			self.tab.setColumnHidden(4, True)
+
 		self.tab.setSelectionBehavior(QAbstractItemView.SelectRows)
 		self.tab.setHorizontalHeaderLabels([_("Layer name"), _("Thicknes"), _("Optical material"), _("Layer type"), _("DoS Layer"),_("PL Layer")])
-
-		data1 = ['row1','row2','row3','row4']
-		data2 = ['1','2.0','3.00000001','3.9999999']
-		combo_box_options = ["Option 1","Option 2","Option 3"]
 
 		self.tab.setRowCount(epitaxy_get_layers())
 
@@ -246,61 +246,62 @@ class layer_widget(QWidget):
 			pl_file=epitaxy_get_pl_file(i)
 			name=epitaxy_get_name(i)
 
-			dos_file=""
-			
-			if dos_layer.startswith("dos")==True:
-				dos_file="active layer"
-			else:
-				dos_file=dos_layer
-
-			item1 = QTableWidgetItem(str(name))
-			self.tab.setItem(i,0,item1)
-
-			item2 = QTableWidgetItem(str(thick))
-			self.tab.setItem(i,1,item2)
-
-			combobox = QComboBox()
-
-			#combobox.setEditable(True)
-
-			for a in self.material_files:
-				combobox.addItem(str(a))
-			self.tab.setCellWidget(i,2, combobox)
-			combobox.setCurrentIndex(combobox.findText(material))
-
-			p=combobox.palette()
-			p.setColor(QPalette.Active, QPalette.Button, Qt.white);
-			p.setColor(QPalette.Inactive, QPalette.Button, Qt.white);
-			combobox.setPalette(p)
-			
-			#item3 = QTableWidgetItem(str(dos_file))
-			#self.tab.setItem(i,3,item3)
-			combobox_layer_type = QComboBox()
-			#combobox.setEditable(True)
-
-			combobox_layer_type.addItem("contact")
-			combobox_layer_type.addItem("active layer")
-			combobox_layer_type.addItem("other")
-
-			self.tab.setCellWidget(i,3, combobox_layer_type)
-			combobox_layer_type.setCurrentIndex(combobox_layer_type.findText(str(dos_file).lower()))
-
-
-			item3 = QTableWidgetItem(str(dos_layer))
-			self.tab.setItem(i,4,item3)
-
-			item3 = QTableWidgetItem(str(pl_file))
-			self.tab.setItem(i,5,item3)
-
-
-			scan_item_add("epitaxy.inp","#layer"+str(i),_("Material for ")+str(material),2)
-			scan_item_add("epitaxy.inp","#layer"+str(i),_("Layer width ")+str(material),1)
-
-			combobox.currentIndexChanged.connect(self.combo_changed)
-			combobox_layer_type.currentIndexChanged.connect(self.layer_type_edit)
+			self.add_row(i,thick,material,dos_layer,pl_file,name)
 		return
 
+	def add_row(self,i,thick,material,dos_layer,pl_file,name):
+		dos_file=""
+		
+		if dos_layer.startswith("dos")==True:
+			dos_file="active layer"
+		else:
+			dos_file=dos_layer
 
+		item1 = QTableWidgetItem(str(name))
+		self.tab.setItem(i,0,item1)
+
+		item2 = QTableWidgetItem(str(thick))
+		self.tab.setItem(i,1,item2)
+
+		combobox = QComboBox()
+
+		#combobox.setEditable(True)
+
+		for a in self.material_files:
+			combobox.addItem(str(a))
+		self.tab.setCellWidget(i,2, combobox)
+		combobox.setCurrentIndex(combobox.findText(material))
+
+		p=combobox.palette()
+		p.setColor(QPalette.Active, QPalette.Button, Qt.white);
+		p.setColor(QPalette.Inactive, QPalette.Button, Qt.white);
+		combobox.setPalette(p)
+		
+		#item3 = QTableWidgetItem(str(dos_file))
+		#self.tab.setItem(i,3,item3)
+		combobox_layer_type = QComboBox()
+		#combobox.setEditable(True)
+
+		combobox_layer_type.addItem("contact")
+		combobox_layer_type.addItem("active layer")
+		combobox_layer_type.addItem("other")
+
+		self.tab.setCellWidget(i,3, combobox_layer_type)
+		combobox_layer_type.setCurrentIndex(combobox_layer_type.findText(str(dos_file).lower()))
+
+
+		item3 = QTableWidgetItem(str(dos_layer))
+		self.tab.setItem(i,4,item3)
+
+		item3 = QTableWidgetItem(str(pl_file))
+		self.tab.setItem(i,5,item3)
+
+
+		scan_item_add("epitaxy.inp","#layer"+str(i),_("Material for ")+str(material),2)
+		scan_item_add("epitaxy.inp","#layer"+str(i),_("Layer width ")+str(material),1)
+
+		combobox.currentIndexChanged.connect(self.combo_changed)
+		combobox_layer_type.currentIndexChanged.connect(self.layer_type_edit)
 
 	def on_remove_item_clicked(self):
 		tab_remove(self.tab)
@@ -324,7 +325,9 @@ class layer_widget(QWidget):
 					return
 
 	def on_add_item_clicked(self):
-		tab_add(self.tab,[_("layer name"),_("100e-9"),_("pcbm"),_("Other"),_("none"),_("none")])
+		row=tab_insert_row(self.tab)
+
+		self.add_row(row,"100e-9","pcbm","other","none","layer"+str(row))
 		self.save_model()
 		self.changed.emit()
 

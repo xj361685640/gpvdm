@@ -102,6 +102,7 @@ void printf_log(struct simulation *sim, const char *format, ...)
 	{
 		text_to_html(sim,data_html, data);
 		printf("%s",data_html);
+		fflush(stdout);
 	}
 
 	if ((sim->log_level==log_level_disk)||(sim->log_level==log_level_screen_and_disk))

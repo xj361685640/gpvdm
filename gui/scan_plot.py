@@ -145,7 +145,19 @@ def scan_gen_plot_data(plot_token,base_path):
 	#search for the files
 	return_file_list(plot_files,base_path,file_name)
 	print("search_file=",plot_token.file0)
-	print("found_files=",plot_files)
+	#print("found_files=",plot_files)
+	#print("found_files=",base_path)
+	
+	#now tidy up the list as we need to remove snapshots
+	save_list=[]
+	if base_path.split(os.sep).count("snapshots")==0:
+		for i in range(len(plot_files)):
+			if "snapshots" not in plot_files[i]:
+				save_list.append(plot_files[i])
+		plot_files=save_list
+
+	print("plot_files=",plot_files)
+	
 	num_list=[]
 
 	#remove the file name in the base_dir

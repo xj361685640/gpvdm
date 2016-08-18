@@ -161,6 +161,20 @@ def tab_move_down(tab):
 
 	tab.selectRow(b)
 
+def tab_insert_row(tab):
+	tab.blockSignals(True)
+	index = tab.selectionModel().selectedRows()
+
+	print(index)
+	if len(index)>0:
+		pos=index[0].row()+1
+	else:
+		pos = tab.rowCount()
+
+	tab.insertRow(pos)
+	return pos
+
+	
 def tab_add(tab,data):
 	tab.blockSignals(True)
 	index = tab.selectionModel().selectedRows()

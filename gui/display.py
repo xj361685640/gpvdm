@@ -57,7 +57,7 @@ class display_widget(QWidget):
 		self.hbox=QHBoxLayout()
 		self.display=glWidget(self)
 		self.hbox.addWidget(self.display)
-		self.setMinimumSize(650, 500)
+		self.setMinimumSize(800, 500)
 
 		self.setLayout(self.hbox)
 		self.timer=QTimer()

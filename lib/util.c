@@ -382,6 +382,7 @@ void randomprint(struct simulation *sim,char *in)
 			
 		}
 
+fflush(stdout);
 }
 
 FILE *fopena(char *path,char *name,const char *mode)

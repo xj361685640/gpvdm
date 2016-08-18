@@ -130,18 +130,22 @@ class select_param(QWidget):
 				item = item.parent()
 
 		ret="/".join(reversed(path))
-		ret=ret[5:]
+		ret=ret.split('/', 1)[-1]
+		ret=ret.replace("/", os.path.sep)
 		return ret
 	
 	def tree_apply_click(self):
-		index = self.tab.selectionModel().selectedRows()
-
+		index = self.dest_treeview.selectionModel().selectedRows()
 		if len(index)>0:
+			print("row=",index[0].row(),len(index))
 			pos=index[0].row()
-
+			#print(path,scan_items_get_file(path),scan_items_get_token(path))
 			path=self.cal_path()
-			tab_set_value(self.dest_treeview,pos,0,scan_items_get_file(path))
-			tab_set_value(self.dest_treeview,pos,1,scan_items_get_token(path))
+			file_name=scan_items_get_file(path)
+			token=scan_items_get_token(path)
+			print("adding",path,file_name,token)
+			tab_set_value(self.dest_treeview,pos,0,file_name)
+			tab_set_value(self.dest_treeview,pos,1,token)
 			tab_set_value(self.dest_treeview,pos,2,path)
 
 			self.close()

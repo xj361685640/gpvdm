@@ -46,6 +46,7 @@ from PyQt5.QtGui import QPainter,QIcon
 from experiment_tab import experiment_tab
 from QHTabBar import QHTabBar
 from gui_util import yes_no_dlg
+from PyQt5.QtCore import pyqtSignal
 
 def experiment_new_filename():
 	for i in range(0,20):
@@ -57,6 +58,8 @@ def experiment_new_filename():
 
 class experiment(QWidget):
 
+	changed = pyqtSignal()
+	
 	def update(self):
 		for item in self.notebook.get_children():
 			item.update()
@@ -78,6 +81,7 @@ class experiment(QWidget):
 			inp_copy_file("time_mesh_config"+str(index)+".inp","time_mesh_config0.inp")
 			inp_update_token_value("pulse"+str(index)+".inp", "#sim_menu_name", new_sim_name.ret+"@pulse",1)
 			self.add_page(index)
+			self.changed.emit()
 
 	def callback_copy_page(self):
 		tab = self.notebook.currentWidget()
@@ -97,7 +101,7 @@ class experiment(QWidget):
 
 			inp_update_token_value("pulse"+str(index)+".inp", "#sim_menu_name", new_sim_name,1)
 			self.add_page(index)
-
+			self.changed.emit()
 
 	def remove_invalid(self,input_name):
 		return input_name.replace (" ", "_")
@@ -116,6 +120,7 @@ class experiment(QWidget):
 			tab.rename(new_sim_name)
 			index=self.notebook.currentIndex() 
 			self.notebook.setTabText(index, new_sim_name)
+			self.changed.emit()
 
 
 	def callback_delete_page(self):
@@ -130,6 +135,7 @@ class experiment(QWidget):
 			inp_remove_file("time_mesh_config"+str(tab.index)+".inp")
 			index=self.notebook.currentIndex() 
 			self.notebook.removeTab(index)
+			self.changed.emit()
 
 	def load_tabs(self):
 

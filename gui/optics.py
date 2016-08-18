@@ -130,9 +130,9 @@ class class_optical(QWidget):
 		self.line_number=[]
 		self.articles=[]
 		input_files=[]
-		input_files.append("./light_dump/light_2d_photons.dat")
-		input_files.append("./light_dump/light_2d_photons_asb.dat")
-		input_files.append("./light_dump/reflect.dat")
+		input_files.append(os.path.join(os.getcwd(),"light_dump","light_2d_photons.dat"))
+		input_files.append(os.path.join(os.getcwd(),"light_dump","light_2d_photons_asb.dat"))
+		input_files.append(os.path.join(os.getcwd(),"light_dump","reflect.dat"))
 
 		plot_labels=[]
 		plot_labels.append("Photon distribution")

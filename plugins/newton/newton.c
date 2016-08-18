@@ -1601,7 +1601,6 @@ if (alloc==TRUE)
 void dllinternal_solver_free_memory(struct device *in)
 {
 //int i=0;
-printf("here1\n");
 if (in->srh_bands>0)
 {
 	free(in->newton_dntrap);
@@ -1621,7 +1620,6 @@ if (in->srh_bands>0)
 
 	free(in->newton_ntlast);
 	free(in->newton_ptlast);
-	printf("here2\n");
 
 }
 
@@ -1629,7 +1627,6 @@ free(in->Ti);
 free(in->Tj);
 free(in->Tx);
 free(in->b);
-printf("here3\n");
 
 //for (i=0;i<in->N;i++)
 //{

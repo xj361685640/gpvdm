@@ -61,6 +61,8 @@ class tab_class(QWidget,tab_base):
 			inp_update_token_value(file_name, token, widget.get_value(),1)
 		elif type(widget)==leftright:
 			inp_update_token_value(file_name, token, widget.get_value(),1)
+		elif type(widget)==QComboBox:
+			inp_update_token_value(file_name, token, widget.itemText(widget.currentIndex()),1)
 
 		
 		
@@ -117,21 +119,27 @@ class tab_class(QWidget,tab_base):
 						edit_box=gtkswitch()
 						edit_box.set_value(str2bool(value))
 						edit_box.changed.connect(functools.partial(self.callback_edit,filename,token,edit_box))
-						#edit_box.connect("changed", self.callback_edit, token)
-						#edit_box.show_all()
 					elif result.opt[0]=="leftright":
 						edit_box=leftright()
 						edit_box.set_value(str2bool(value))
 						edit_box.changed.connect(functools.partial(self.callback_edit,filename,token,edit_box))
-						
-						#edit_box.connect("changed", self.callback_edit, token)
-						#edit_box.show_all()
-					else: #result.opt[0]=="text":
+					elif result.opt[0]=="text":
 						edit_box=QLineEdit()
 						edit_box.setText(value)
 						#edit_box.set_text(self.lines[pos]);
 						edit_box.textChanged.connect(functools.partial(self.callback_edit,filename,token,edit_box))
 						#edit_box.show()
+					else:
+						edit_box=QComboBox()
+						for i in range(0,len(result.opt)):
+							edit_box.addItem(result.opt[i])
+							
+						all_items  = [edit_box.itemText(i) for i in range(edit_box.count())]
+						for i in range(0,len(all_items)):
+							if all_items[i] == token:
+								edit_box.setCurrentIndex(i)
+								
+						edit_box.currentIndexChanged.connect(functools.partial(self.callback_edit,filename,token,edit_box))
 
 					edit_box.setFixedSize(300, 25)
 					unit=QLabel()

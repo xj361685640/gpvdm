@@ -132,10 +132,14 @@ def inp_save_lines(file_path,lines):
 
 	dump=dump.rstrip("\n")
 	dump=dump.encode('ascii')
+	try:
+		f=open(file_path, mode='wb')
+	except:
+		return False
 
-	f=open(file_path, mode='wb')
 	lines = f.write(dump)
 	f.close()
+	return True
 
 
 def inp_get_next_token_array(lines,pos):

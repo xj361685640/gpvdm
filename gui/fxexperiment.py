@@ -46,6 +46,7 @@ from PyQt5.QtGui import QPainter,QIcon
 
 #window
 from QHTabBar import QHTabBar
+from PyQt5.QtCore import pyqtSignal
 
 def experiment_new_filename():
 	for i in range(0,20):
@@ -56,6 +57,7 @@ def experiment_new_filename():
 
 class fxexperiment(QWidget):
 
+	changed = pyqtSignal()
 
 	def callback_close(self):
 		self.win_list.update(self,"experiment_window")
@@ -76,6 +78,8 @@ class fxexperiment(QWidget):
 			inp_copy_file("fxmesh"+str(index)+".inp","fxmesh0.inp")
 			inp_update_token_value("fxdomain"+str(index)+".inp", "#sim_menu_name", new_sim_name+"@fxdomain",1)
 			self.add_page(index)
+			self.changed.emit()
+
 
 	def callback_copy_page(self,widget,data):
 		pageNum = self.notebook.get_current_page()
@@ -94,7 +98,8 @@ class fxexperiment(QWidget):
 
 			inp_update_token_value("fxdomain"+str(index)+".inp", "#sim_menu_name", new_sim_name,1)
 			self.add_page(index)
-			global_object_get("tb_item_sim_mode_update")()
+			self.changed.emit()
+
 
 	#def callback_run_experiment(self,widget,data):
 	#	pageNum = self.notebook.get_current_page()
@@ -116,6 +121,7 @@ class fxexperiment(QWidget):
 			tab.rename(new_sim_name)
 			index=self.notebook.currentIndex() 
 			self.notebook.setTabText(index, new_sim_name)
+			self.changed.emit()
 
 
 	def callback_delete_page(self,widget,data):
@@ -128,6 +134,8 @@ class fxexperiment(QWidget):
 			inp_remove_file("fxmesh"+str(tab.index)+".inp")
 			index=self.notebook.currentIndex() 
 			self.notebook.removeTab(index)
+			self.changed.emit()
+
 
 	def load_tabs(self):
 

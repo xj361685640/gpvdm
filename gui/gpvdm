@@ -510,18 +510,21 @@ class gpvdm_main_window(QMainWindow):
 
 		if self.experiment_window==None:
 			self.experiment_window=experiment()
-
+			self.experiment_window.changed.connect(self.sim_mode_button.update)
+			
 		help_window().help_set_help(["time.png",_("<big><b>The time mesh editor</b></big><br> To do time domain simulations one must define how voltage the light vary as a function of time.  This can be done in this window.  Also use this window to define the simulation length and time step.")])
 		if self.experiment_window.isVisible()==True:
 			self.experiment_window.hide()
 		else:
 			self.experiment_window.show()
 
+
 	def callback_fxexperiment_window(self):
 
 		if self.fxexperiment_window==None:
 			self.fxexperiment_window=fxexperiment()
-
+			self.fxexperiment_window.changed.connect(self.sim_mode_button.update)
+			
 		help_window().help_set_help(["spectrum.png",_("<big><b>Frequency domain mesh editor</b></big><br> Some times it is useful to do frequency domain simulations such as when simulating impedance spectroscopy.  This window will allow you to choose which frequencies will be simulated.")])
 		if self.fxexperiment_window.isVisible()==True:
 			self.fxexperiment_window.hide()
@@ -891,7 +894,7 @@ class gpvdm_main_window(QMainWindow):
 
 #		process_events()
 
-		self.setGeometry(200, 100, 1100, 600)
+		self.setGeometry(200, 100, 1300, 600)
 		self.setWindowTitle(_("General-purpose Photovoltaic Device Model (www.gpvdm.com)"))
 		self.show()
 		

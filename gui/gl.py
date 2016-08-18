@@ -91,17 +91,18 @@ def tab(x,y,z,w,h,d):
 
 def draw_photon(x,z,up):
 	glLineWidth(3)
+	length=0.9
 	if up==True:
 		glColor3f(0.0, 0.0, 1.0)
 	else:
 		glColor3f(0.0, 1.0, 0.0)
 
 	glBegin(GL_LINES)
-	wx=np.arange(0, 1.0 , 0.01)
+	wx=np.arange(0, length , 0.01)
 	wy=np.sin(wx*3.14159*8)*0.2
 	
 	start_x=2.7
-	stop_x=2.7-1.0
+	stop_x=2.7-length
 	for i in range(1,len(wx)):
 		glVertex3f(x, start_x-wx[i-1], z+wy[i-1])
 		glVertex3f(x, start_x-wx[i], z+wy[i])
@@ -251,6 +252,15 @@ class glWidget(QGLWidget):
 
 	def paintGL(self):
 		if self.enabled==True:
+			
+			self.emission=False
+			lines=[]
+			for i in range(0,epitaxy_get_layers()):
+				if epitaxy_get_pl_file(i)!="none":
+					if inp_load_file(lines,epitaxy_get_pl_file(i)+".inp")==True:
+						if str2bool(lines[1])==True:
+							self.emission=True
+						
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 			glLoadIdentity()
 
@@ -374,12 +384,7 @@ class glWidget(QGLWidget):
 	def recalculate(self):
 		self.colors=[]
 		lines=[]
-		self.emission=False
-		for i in range(0,epitaxy_get_layers()):
-			if epitaxy_get_pl_file(i)!="none":
-				if inp_load_file(lines,epitaxy_get_pl_file(i)+".inp")==True:
-					if str2bool(lines[1])==True:
-						self.emission=True
+
 		
 		val=inp_get_token_value("light.inp", "#Psun")
 		self.suns=float(val)

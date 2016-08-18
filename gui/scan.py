@@ -33,6 +33,7 @@ from scan_io import get_scan_dirs
 from code_ctrl import enable_betafeatures
 from inp import inp_update_token_value
 from inp import inp_get_token_value
+from gui_util import yes_no_dlg
 
 import i18n
 _ = i18n.language.gettext
@@ -172,6 +173,8 @@ class scan_class(QWidget):
 			new_dir=os.path.join(self.sim_dir,new_sim_name)
 			shutil.move(old_dir, new_dir)
 			tab.rename(new_dir)
+			index=self.notebook.currentIndex() 
+			self.notebook.setTabText(index, new_sim_name)
 
 	def callback_delete_page(self):
 		tab = self.notebook.currentWidget()
@@ -188,10 +191,10 @@ class scan_class(QWidget):
 			delete_second_level_link_tree(dir_to_del)
 
 
-	def callback_run_all_simulations(self,widget):
+	def callback_run_all_simulations(self):
 		for i in range(0,self.notebook.count()):
 			tab = self.notebook.widget(i)
-			tab.simulate(True,True)
+			tab.simulate(True,True,"")
 
 	def callback_stop_simulation(self,widget):
 		tab = self.notebook.currentWidget()
@@ -229,7 +232,7 @@ class scan_class(QWidget):
 		self.win_list.load()
 		self.win_list.set_window(self,"scan_window")
 		self.setWindowTitle(_("Parameter scan - gpvdm"))
-
+		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"scan.png")))
 
 		self.rod=[]
 		if os.path.isfile("scan_window.inp"):

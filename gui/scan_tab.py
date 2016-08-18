@@ -67,7 +67,7 @@ from scan_item import scan_item_save
 
 #qt
 from PyQt5.QtCore import QSize, Qt
-from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QApplication,QSizePolicy,QAction,QTableWidgetItem,QTabWidget,QMenuBar,QStatusBar, QMenu, QTableWidget, QAbstractItemView, QComboBox
+from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QApplication,QDialog,QSizePolicy,QAction,QTableWidgetItem,QTabWidget,QMenuBar,QStatusBar, QMenu, QTableWidget, QAbstractItemView, QComboBox
 from PyQt5.QtGui import QPainter,QIcon,QCursor,QClipboard
 
 #window
@@ -82,12 +82,14 @@ from gui_util import error_dlg
 from gui_util import yes_no_dlg
 from gui_util import tab_get_selected
 from gui_util import tab_set_value
+from gui_util import tab_insert_row
 
 import i18n
 _ = i18n.language.gettext
 
 from gpvdm_select import gpvdm_select
 from help import help_window
+from code_ctrl import enable_betafeatures
 
 
 class scan_vbox(QWidget):
@@ -122,7 +124,7 @@ class scan_vbox(QWidget):
 		help_window().help_set_help(["add.png",_("<big><b>The scan window</b></big><br> Now using the drop down menu in the prameter to change 'column', select the device parameter you wish to vary, an example may be dos0/Electron Mobility. Now enter the values you would like it to scan oveer in the  'Values', an example could be '1e-3 1e-4 1e-5 1e-6'.  And hit the double arrorw to run the simulation.")])
 
 		self.insert_row(self.tab.rowCount(),data[0],data[1],data[2],data[3],data[4])
-
+		
 		self.rebuild_op_type_widgets()
 		
 		self.save_combo()
@@ -163,12 +165,11 @@ class scan_vbox(QWidget):
 
 	def plot_results(self,plot_token):
 		plot_token.key_units=self.get_units()
-
+		print("scanning",self.sim_dir)
 		plot_files, plot_labels, config_file = scan_gen_plot_data(plot_token,self.sim_dir)
 		print(plot_files, plot_labels)
 		plot_save_oplot_file(config_file,plot_token)
 		plot_gen(plot_files,plot_labels,config_file)
-		self.plot_open.set_sensitive(True)
 
 		self.last_plot_data=plot_token
 		return
@@ -176,9 +177,9 @@ class scan_vbox(QWidget):
 	def get_units(self):
 		token=""
 		for i in range(0,self.tab.rowCount()):
-			if self.liststore_combobox[i][2]=="scan":
+			if tab_get_value(self.tab,i,4)=="scan":
 				for ii in range(0,len(self.param_list)):
-					if self.liststore_combobox[i][0]==self.param_list[ii].name:
+					if tab_get_value(self.tab,i,2)==self.param_list[ii].name:
 						token=self.param_list[ii].token
 				break
 		if token!="":
@@ -282,7 +283,8 @@ class scan_vbox(QWidget):
 		self.plot_results(data)
 
 	def callback_reopen_xy_window(self, widget, data=None):
-
+		print("put in code later")
+		return
 		if len(self.plotted_graphs)>0:
 			pos=len(self.plotted_graphs)-1
 			plot_data=plot_state()
@@ -296,12 +298,12 @@ class scan_vbox(QWidget):
 				self.plotted_graphs.refresh()
 
 	def callback_gen_plot_command(self):
-		dialog=gpvdm_open(os.getcwd())
+		dialog=gpvdm_open(self.sim_dir)
 		ret=dialog.window.exec_()
 
 		if ret==QDialog.Accepted:
 			full_file_name=dialog.get_filename()
-			dialog.destroy()
+			#dialog.destroy()
 			#print cur_dir=os.getcwd()
 			#print full_file_name
 			file_name=os.path.basename(full_file_name)
@@ -327,7 +329,7 @@ class scan_vbox(QWidget):
 			if plot_now==True:
 				self.plot_results(plot_data)
 
-				self.plotted_graphs.refresh()
+				#self.plotted_graphs.refresh()
 
 
 	def save_combo(self):
@@ -376,6 +378,7 @@ class scan_vbox(QWidget):
 		return
 
 	def insert_row(self,i,v0,v1,v2,v3,v4):
+		self.tab.blockSignals(True)
 		self.tab.insertRow(i)
 
 		item = QTableWidgetItem(v0)
@@ -396,12 +399,15 @@ class scan_vbox(QWidget):
 
 		item = QTableWidgetItem(v4)
 		self.tab.setItem(i,4,item)
-		
+		self.tab.blockSignals(False)
+
 	def load(self):
+		self.tab.blockSignals(True)
 		self.tab.clear()
 		self.tab.setRowCount(0)
 		self.tab.setHorizontalHeaderLabels([_("File"), _("Token"), _("Parameter to change"), _("Values"), _("Opperation")])
-
+		self.tab.blockSignals(False)
+		
 		file_name=os.path.join(self.sim_dir,'gpvdm_gui_config.inp')
 
 		if os.path.isfile(file_name)==True:
@@ -424,6 +430,7 @@ class scan_vbox(QWidget):
 				pos=pos+6
 
 
+		
 		self.rebuild_op_type_widgets()
 
 
@@ -433,6 +440,7 @@ class scan_vbox(QWidget):
 
 
 	def rebuild_op_type_widgets(self):
+		self.tab.blockSignals(True)
 		items=[]
 		items.append("scan")
 		items.append("constant")
@@ -451,7 +459,7 @@ class scan_vbox(QWidget):
 			self.tab.setCellWidget(i,4, combobox)
 			
 			tab_set_value(self.tab,i,4,save_value)
-
+		self.tab.blockSignals(False)
 
 	def set_tab_caption(self,name):
 		mytext=name
@@ -482,7 +490,8 @@ class scan_vbox(QWidget):
 
 	def callback_examine(self):
 		mycmp=cmp_class()
-		ret=mycmp.init(self.sim_dir,get_exe_command())
+		#ret=mycmp.init(self.sim_dir,get_exe_command())
+		ret=mycmp.init()
 		if ret==False:
 			error_dlg(self,_("Re-run the simulation with 'dump all slices' set to one to use this tool."))
 			return
@@ -519,9 +528,9 @@ class scan_vbox(QWidget):
 		self.tb_down.triggered.connect(self.callback_move_down)
 		toolbar.addAction(self.tb_down)
 
-		self.tb_notes = QAction(QIcon(os.path.join(get_image_file_path(),"down.png")), _("Notes"), self)
-		self.tb_notes.triggered.connect(self.callback_notes)
-		toolbar.addAction(self.tb_notes)
+		#self.tb_notes = QAction(QIcon(os.path.join(get_image_file_path(),"down.png")), _("Notes"), self)
+		#self.tb_notes.triggered.connect(self.callback_notes)
+		#toolbar.addAction(self.tb_notes)
 
 		#self.tb_notes = QAction(QIcon(os.path.join(get_image_file_path(),"select.png")), _("Select parameter to change"), self)
 		#self.tb_notes.triggered.connect(self.callback_show_list)
@@ -558,8 +567,9 @@ class scan_vbox(QWidget):
 		self.select_param_window.init(self.tab)
 		
 		self.tab.setColumnCount(5)
-		self.tab.setColumnHidden(0, True)
-		self.tab.setColumnHidden(1, True)
+		#if enable_betafeatures()==False:
+		#	self.tab.setColumnHidden(0, True)
+		#	self.tab.setColumnHidden(1, True)
 
 		self.tab.setSelectionBehavior(QAbstractItemView.SelectRows)
 		self.tab.setColumnWidth(2, 200)
