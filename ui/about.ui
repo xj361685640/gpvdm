@@ -6,106 +6,157 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>388</height>
+    <width>430</width>
+    <height>411</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>About www.gpvdm.com</string>
   </property>
-  <widget class="QDialogButtonBox" name="buttonBox">
+  <widget class="QTabWidget" name="tabWidget">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>340</y>
-     <width>341</width>
-     <height>32</height>
+     <x>10</x>
+     <y>10</y>
+     <width>411</width>
+     <height>391</height>
     </rect>
    </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
+   <property name="currentIndex">
+    <number>0</number>
    </property>
-   <property name="standardButtons">
-    <set>QDialogButtonBox::Close</set>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>150</x>
-     <y>200</y>
-     <width>121</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>16</pointsize>
-     <weight>75</weight>
-     <bold>true</bold>
-    </font>
-   </property>
-   <property name="text">
-    <string>gpvdm</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="ver">
-   <property name="geometry">
-    <rect>
-     <x>180</x>
-     <y>250</y>
-     <width>61</width>
-     <height>15</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>ver</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="li">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>280</y>
-     <width>361</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>li</string>
-   </property>
-   <property name="alignment">
-    <set>Qt::AlignCenter</set>
-   </property>
-   <property name="wordWrap">
-    <bool>true</bool>
-   </property>
-  </widget>
-  <widget class="QLabel" name="web">
-   <property name="geometry">
-    <rect>
-     <x>120</x>
-     <y>320</y>
-     <width>151</width>
-     <height>20</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>&lt;a href=&quot;http://www.gpvdm.com&quot;&gt;http://www.gpvdm.com&lt;/a&gt;</string>
-   </property>
-  </widget>
-  <widget class="QLabel" name="image">
-   <property name="geometry">
-    <rect>
-     <x>100</x>
-     <y>30</y>
-     <width>201</width>
-     <height>181</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>image</string>
-   </property>
+   <widget class="QWidget" name="tab">
+    <attribute name="title">
+     <string>About</string>
+    </attribute>
+    <widget class="QLabel" name="image">
+     <property name="geometry">
+      <rect>
+       <x>90</x>
+       <y>10</y>
+       <width>201</width>
+       <height>181</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>image</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="web">
+     <property name="geometry">
+      <rect>
+       <x>110</x>
+       <y>300</y>
+       <width>151</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>&lt;a href=&quot;http://www.gpvdm.com&quot;&gt;http://www.gpvdm.com&lt;/a&gt;</string>
+     </property>
+    </widget>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>320</y>
+       <width>341</width>
+       <height>32</height>
+      </rect>
+     </property>
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Close</set>
+     </property>
+    </widget>
+    <widget class="QLabel" name="ver">
+     <property name="geometry">
+      <rect>
+       <x>170</x>
+       <y>230</y>
+       <width>61</width>
+       <height>15</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>ver</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>180</y>
+       <width>121</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>16</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>gpvdm</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="li">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>260</y>
+       <width>361</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>li</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab_2">
+    <attribute name="title">
+     <string>License</string>
+    </attribute>
+    <widget class="QTextEdit" name="textEdit">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>391</width>
+       <height>331</height>
+      </rect>
+     </property>
+     <property name="html">
+      <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall model&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License v2.0, as published by the Free Software Foundation.&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;When you start gpvdm the software checks the gpvdm.com server for updates and bug reports.  To do this it transmits your opperating system type, gpvdm version number.  It also tells the gpvdm.com server if opengl is working on your pc.  By installing gpvdm you agree that the gpvdm software may transmit this information to the gpvdm.com server.  The communications  process between gpvdm software and the gpvdm.com server is described in more detail in the manual.&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;roderick.mackenzie@nottingham.ac.uk&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+   </widget>
   </widget>
  </widget>
  <resources/>

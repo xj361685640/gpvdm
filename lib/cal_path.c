@@ -54,7 +54,7 @@ char temp[1000];
 		strcpy(out,temp);
 		return;
 	}
-
+	
 	join_path(2,temp,"/usr/lib/gpvdm/",name);
 	if (isdir(temp)==0)
 	{
@@ -62,6 +62,13 @@ char temp[1000];
 		return;
 	}
 
+	join_path(2,temp,"/usr/lib64/gpvdm/",name);
+	if (isdir(temp)==0)
+	{
+		strcpy(out,temp);
+		return;
+	}
+	
 	join_path(2,temp,"/usr/share/gpvdm/",name);
 	if (isdir(temp)==0)
 	{
@@ -69,12 +76,15 @@ char temp[1000];
 		return;
 	}
 
-	join_path(2,sim->lang_path,sim->share_path,name);
-
-	if (isdir(out)!=0)
+	join_path(2,temp,sim->share_path,name);
+	if (isdir(temp)==0)
 	{
-		ewe(sim,"I can't find the %s\n",name);
+		strcpy(out,temp);
+		return;
 	}
+	
+	ewe(sim,"I can't find the %s\n",name);
+
 }
 
 void cal_path(struct simulation *sim)
@@ -104,13 +114,13 @@ get_dir_name_from_path(sim->exe_path, temp);
 if (isfile("configure.ac")==0)
 {
 	strcpy(sim->share_path,cwd);
-	printf_log("share path: %s\n",sim->share_path);
+	printf_log(sim,"share path: %s\n",sim->share_path);
 }else
 if (isfile("ver.py")==0)
 {
 	path_up_level(temp, cwd);
 	strcpy(sim->share_path,temp);
-	printf_log("share path: %s\n",sim->share_path);
+	printf_log(sim,"share path: %s\n",sim->share_path);
 }else
 {
 	strcpy(sim->share_path,"/usr/lib64/gpvdm/");

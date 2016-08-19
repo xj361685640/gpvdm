@@ -72,7 +72,7 @@ class tab_main(QWidget,tab_base):
 
 		self.setLayout(mainLayout)
 
-		if running_on_linux()==False and enable_webupdates()==True:
+		if enable_webupdates()==True:
 			print("Looking for updates")
 			self.web_update=update_thread()
 			self.web_update.got_data.connect(self.got_help)

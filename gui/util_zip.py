@@ -114,27 +114,31 @@ def check_is_config_file(name):
 
 
 def replace_file_in_zip_archive(zip_file_name,target,lines):
-	fh, abs_path = mkstemp()
-	source = zipfile.ZipFile(zip_file_name, 'r')
+	if os.path.isfile(zip_file_name)==True:
+		fh, abs_path = mkstemp()
+		source = zipfile.ZipFile(zip_file_name, 'r')
 
-	zf = zipfile.ZipFile(abs_path, 'w')
+		zf = zipfile.ZipFile(abs_path, 'w')
 
-	for file in source.filelist:
-		if not file.filename.startswith(target):
-			zf.writestr(file.filename, source.read(file))
+		for file in source.filelist:
+			if not file.filename.startswith(target):
+				zf.writestr(file.filename, source.read(file))
 
-	source.close()
+		source.close()
 
-	build='\n'.join(lines)
+		build='\n'.join(lines)
 
-	#for i in range(0,len(lines)):
-	#	build=build+lines[i]+"\n"
+		#for i in range(0,len(lines)):
+		#	build=build+lines[i]+"\n"
 
-	zf.writestr(target, build)
+		zf.writestr(target, build)
 
-	zf.close()
-	os.close(fh)
-	shutil.move(abs_path, zip_file_name)
+		zf.close()
+		os.close(fh)
+		shutil.move(abs_path, zip_file_name)
+		return True
+	else:
+		return False
 
 def zip_search_file(source,target):
 	for file in source.filelist:
@@ -186,9 +190,9 @@ def write_lines_to_archive(archive_path,file_name,lines):
 		f=open(file_path, mode='wb')
 		lines = f.write(str.encode(dump))
 		f.close()
-
+		return True
 	else:
-		replace_file_in_zip_archive(archive_path,file_name,lines)
+		return replace_file_in_zip_archive(archive_path,file_name,lines)
 
 def archive_add_file(archive_path,file_name,base_dir):
 		lines=[]

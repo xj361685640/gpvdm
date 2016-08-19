@@ -62,7 +62,7 @@ class windows():
 			lines.append(str(wlist[i].x))
 			lines.append(str(wlist[i].y))
 
-		inp_write_lines_to_file("window_list.inp",lines)
+		return inp_write_lines_to_file("window_list.inp",lines)
 
 	def set_window(self,window,name):
 		global wlist

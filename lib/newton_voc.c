@@ -23,6 +23,7 @@
 #include <exp.h>
 #include <log.h>
 #include <contacts.h>
+#include <newton_voc.h>
 
 void newton_aux_voc(struct simulation *sim,struct device *in,gdouble V,gdouble* i,gdouble* didv,gdouble* didphi,gdouble* didxil,gdouble* didxipl,gdouble* didphir,gdouble* didxir,gdouble* didxipr)
 {
@@ -32,7 +33,14 @@ return;
 
 gdouble newton_sim_voc_fast(struct simulation *sim,struct device *in,int do_LC)
 {
+gdouble Vapplied=0.0;
+gdouble Vapplied_last=0.0;
+
+Vapplied=contact_get_voltage(sim,in,0);
+Vapplied_last=contact_get_voltage_last(sim,in,0);
+
 newton_sim_voc(sim,in);
+
 return get_I(in)+in->C*(Vapplied-Vapplied_last)+Vapplied/in->Rshunt;
 }
 

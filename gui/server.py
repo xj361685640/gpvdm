@@ -62,14 +62,11 @@ from help import help_window
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QWidget
 
+from server_io import server_find_simulations_to_run
+
 my_server=False
 
-def server_find_simulations_to_run(commands,search_path):
-	for root, dirs, files in os.walk(search_path):
-		for my_file in files:
-			if my_file.endswith("sim.gpvdm")==True:
-#				full_name=os.path.join(root, my_file)
-				commands.append(root)
+
 
 class node:
 	ip=""

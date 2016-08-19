@@ -32,9 +32,16 @@ static int glob_use_cap=0;
 
 gdouble newton_externv(struct simulation *sim,struct device *in,gdouble Vtot,int usecap)
 {
+gdouble Vapplied_last=0.0;
+gdouble Vapplied=0.0;
+
 gdouble C=in->C;
 solve_all(sim,in);
 if (glob_use_cap==FALSE) C=0.0;
+
+
+Vapplied_last=contact_get_voltage_last(sim,in,0);
+Vapplied=contact_get_voltage(sim,in,0);
 return get_I(in)+Vapplied/in->Rshunt+C*(Vapplied-Vapplied_last)/in->dt;
 }
 

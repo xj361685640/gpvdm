@@ -5,7 +5,7 @@ SUBDIRS = @BUILD_DIRS@
 bin_PROGRAMS=gpvdm_core
 gpvdm_core_SOURCES=
 
-bin_SCRIPTS = gui/gpvdm
+
 
 
 @HPC@
@@ -31,6 +31,8 @@ python_PYTHON=gui/*.py
 
 dist_doc_DATA = README
 
+man1_MANS = man/gpvdm.1 man/gpvdm_core.1
+
 appicondir=$(pkgdatadir)/images
 appicon_DATA=$(srcdir)/desktop/application-gpvdm.svg
 
@@ -50,6 +52,7 @@ gpvdm_core$(EXEEXT):
 
 install-data-hook:
 	cp materials $(DESTDIR)$(datadir)/gpvdm/materials -rf
+	cp ui $(DESTDIR)$(datadir)/gpvdm/ui -rf
 	find lang -name "*.mo" -exec cp --parents {} $(DESTDIR)$(datadir)/gpvdm/ ";"
-
-
+	ln -s $(pkgdatadir)/gui/gpvdm.py $(DESTDIR)$(bindir)/gpvdm
+	chmod +x $(DESTDIR)$(pkgdatadir)/gui/gpvdm.py

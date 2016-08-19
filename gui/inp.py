@@ -122,7 +122,7 @@ def inp_load_file(lines,file_path):
 def inp_write_lines_to_file(file_path,lines):
 	archive_path=os.path.join(os.path.dirname(file_path),"sim.gpvdm")
 	file_name=os.path.basename(file_path)
-	write_lines_to_archive(archive_path,file_name,lines)
+	return write_lines_to_archive(archive_path,file_name,lines)
 
 def inp_save_lines(file_path,lines):
 	dump=""

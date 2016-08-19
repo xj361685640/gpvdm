@@ -1,4 +1,3 @@
-#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
@@ -33,7 +32,7 @@ from util import copy_scan_dir
 from scan_tree import tree_load_program
 from scan_tree import tree_gen
 
-from server import server_find_simulations_to_run
+from server_io import server_find_simulations_to_run
 
 import i18n
 _ = i18n.language.gettext

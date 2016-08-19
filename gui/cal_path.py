@@ -84,7 +84,7 @@ def cal_share_path():
 			share_path="/usr/lib64/gpvdm/"
 			print("I don't know where the shared files are assuming ",share_path)
 
-def search_known_paths(file_or_dir_to_find,ext):
+def search_known_paths(file_or_dir_to_find,ext,key_file):
 	global share_path
 	global bin_path
 	#check cwd
@@ -100,10 +100,13 @@ def search_known_paths(file_or_dir_to_find,ext):
 			paths.append(os.path.join("/usr/bin/",file_or_dir_to_find)+ex)
 
 	for item in paths:
-		if os.path.isdir(item) or os.path.isfile(item):
-			#print "found",item
-			return item
-
+		if key_file==None:
+			if os.path.isdir(item) or os.path.isfile(item):
+				#print "found",item
+				return item
+		else:
+			if os.path.isfile(os.path.join(item,key_file)):
+				return item
 	#print "Can't find",file_or_dir_to_find, "setting it to",paths[0]
 	return paths[2]
 
@@ -130,15 +133,15 @@ def calculate_paths():
 	global inp_file_path
 	global src_path
 	global ui_path
-	materials_path=search_known_paths("materials",[""])
-	device_lib_path=search_known_paths("device_lib",[""])
-	plugins_path=search_known_paths("plugins",[""])
-	image_path=search_known_paths("images",[""])
-	lang_path=search_known_paths("lang",[""])
-	exe_command=search_known_paths("gpvdm_core",["",".exe",".o"])
-	inp_file_path=os.path.dirname(search_known_paths("sim",[".gpvdm"]))
-	src_path=os.path.dirname(search_known_paths("Makefile",[".am"]))
-	ui_path=search_known_paths("ui",[""])
+	materials_path=search_known_paths("materials",[""],None)
+	device_lib_path=search_known_paths("device_lib",[""],None)
+	plugins_path=search_known_paths("plugins",[""],None)
+	image_path=search_known_paths("images",[""],"image.jpg")
+	lang_path=search_known_paths("lang",[""],None)
+	exe_command=search_known_paths("gpvdm_core",["",".exe",".o"],None)
+	inp_file_path=os.path.dirname(search_known_paths("sim",[".gpvdm"],None))
+	src_path=os.path.dirname(search_known_paths("Makefile",[".am"],None))
+	ui_path=search_known_paths("ui",[""],None)
 
 def get_share_path():
 	global share_path

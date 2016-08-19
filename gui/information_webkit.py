@@ -80,6 +80,7 @@ class information(QWidget,tab_base):
 		self.default_url = "http://www.gpvdm.com/welcome.html"
 		self.tb_url.setText(self.default_url)
 		self.browse()
+
 		vbox.addWidget(self.html)
 
 		self.setLayout(vbox)
