@@ -31,6 +31,7 @@ except:
 	print("opengl error ",sys.exc_info()[0])
 
 from PyQt5 import QtGui
+from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QWidget, QHBoxLayout
 
 #from layer_widget import layer_widget
@@ -71,6 +72,8 @@ from PyQt5.QtGui import QFont
 import numpy as np
 from inp import inp_get_token_value
 from util import str2bool
+
+from PyQt5.QtCore import QTimer
 
 # Rotations for cube.
 cube_rotate_x_rate = 0.2
@@ -241,15 +244,16 @@ class color():
 if open_gl_ok==True:		
 	class glWidget(QGLWidget):
 
-		x_rot = 0.0
-		y_rot = 0.0
-		z_rot = 0.0
 		tet_rotate = 0.0
 		colors=[]
 		def __init__(self, parent):
+			self.xRot =25.0
+			self.yRot =-20.0
+			self.zRot =0.0
 			self.enabled=False
+			self.timer=None
 			QGLWidget.__init__(self, parent)
-
+			self.lastPos=None
 			#glClearDepth(1.0)              
 			#glDepthFunc(GL_LESS)
 			#glEnable(GL_DEPTH_TEST)
@@ -257,6 +261,49 @@ if open_gl_ok==True:
 		
 			self.setMinimumSize(650, 500)
 
+		def my_timer(self):
+			self.xRot =self.xRot + 10
+			self.yRot =self.yRot + 10
+			self.zRot =self.zRot + 10
+			self.update()
+			
+		def keyPressEvent(self, event):
+			print("r0od")
+
+			if type(event) == QtGui.QKeyEvent:
+				print("rod")
+				if event.text()=="r":
+					if self.timer==None:
+						self.timer=QTimer()
+						self.timer.timeout.connect(self.my_timer)
+						self.timer.start(100)
+					else:
+						self.timer.stop()
+						self.timer=None
+						
+		def mouseMoveEvent(self,event):
+			if 	self.timer!=None:
+				self.timer.stop()
+				self.timer=None
+
+			if self.lastPos==None:
+				self.lastPos=event.pos()
+			dx = event.x() - self.lastPos.x();
+			dy = event.y() - self.lastPos.y();
+
+			if event.buttons()==Qt.LeftButton:
+				
+				self.xRot =self.xRot + 1 * dy
+				self.yRot =self.yRot + 1 * dx
+			elif event.buttons()==Qt.RightButton:
+				self.xRot =self.xRot + 1 * dy
+				self.zRot =self.zRot + 1 * dx
+				
+			self.lastPos=event.pos()
+			self.setFocusPolicy(Qt.StrongFocus)
+			self.setFocus()
+			self.update()
+			
 		def paintGL(self):
 			if self.enabled==True:
 			
@@ -272,15 +319,17 @@ if open_gl_ok==True:
 				glLoadIdentity()
 
 				glTranslatef(-0.5, -0.5, -7.0) # Move Into The Screen
-				glRotatef(25.0, 1.0, 0.0, 0.0)
-				glRotatef(-20.0, 0.0, 1.0, 0.0)
+				
+				glRotatef(self.xRot, 1.0, 0.0, 0.0)
+				glRotatef(self.yRot, 0.0, 1.0, 0.0)
+				glRotatef(self.zRot, 0.0, 0.0, 1.0)
 
 				glColor3f( 1.0, 1.5, 0.0 )
 				glPolygonMode(GL_FRONT, GL_FILL);
 
 
-				glClearColor(0.92, 0.92, 0.92, 0.5) # Clear to black.
-
+				#glClearColor(0.92, 0.92, 0.92, 0.5) # Clear to black.
+				glClearColor(0.0, 0.0, 0.0, 0.5)
 				lines=[]
 
 				draw_mode(2.0)
