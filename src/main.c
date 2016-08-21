@@ -79,7 +79,6 @@ if (scanarg( argv,argc,"--gui")==TRUE)
 int log_level=0;
 set_logging_level(&sim,log_level_screen);
 cal_path(&sim);
-
 if (scanarg( argv,argc,"--help")==TRUE)
 {
 	printf_log(&sim,"gpvdm_core - General-purpose Photovoltaic Device Model\n");

@@ -56,7 +56,7 @@ class mesh_dump_ctl(gtk.VBox):
 		check = gtk.CheckButton("Enable")
 		self.pack_start(check, True, True, 0)
 
-		print "total=",total
+		print("total=",total)
 		adj=gtk.Adjustment(self.pos, 0, total, 1.0, 1.0, 1.0)
 		adj.connect("value_changed", self.scroll)
 		self.vscale = gtk.HScale(adj)

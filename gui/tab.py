@@ -160,40 +160,4 @@ class tab_class(QWidget,tab_base):
 		self.vbox.addWidget(spacer)
 		
 		self.setLayout(self.vbox)
-		return
-		if show == True :
-			if show == True :
 
-
-				
-				edit_box=gtk.combo_box_new_text()
-				index=0
-				true_false=False
-				if len(result.opt)==2:
-					if result.opt[0]==_("true") and result.opt[1]==_("false"):
-						true_false=True
-
-				for i in range(0,len(result.opt)):
-					edit_box.append_text(result.opt[i])
-					if true_false==False:
-						if yes_no(self.lines[pos])==yes_no(result.opt[i]):
-							index=i
-					else:
-						if str2bool(self.lines[pos])==True:
-							index=0
-						else:
-							index=1
-
-				edit_box.set_active(index);
-
-				edit_box.connect("changed", self.callback_edit, token)
-				edit_box.show()
-
-				line=1
-				
-
-				n=n+1
-
-			pos=pos+1
-
-		self.setLayout(self.vbox)

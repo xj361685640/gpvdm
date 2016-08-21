@@ -43,12 +43,10 @@ static int unused __attribute__((unused));
 void newton_init(struct simulation *sim,char *solver_name)
 {
 //printf_log(sim,_("Solver initialization\n"));
-char lib_name[100];
 char lib_path[1000];
-sprintf(lib_name,"%s.so",solver_name);
 
-join_path(2,lib_path,get_plugins_path(sim),lib_name);
-//printf_log(sim,"I want to open %s %s %s\n",lib_path,get_plugins_path(sim),lib_name);
+find_dll(sim, lib_path,solver_name);
+
 
 char *error;
 

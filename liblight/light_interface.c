@@ -47,10 +47,8 @@ void light_load_dlls(struct simulation *sim,struct light *in)
 
 	printf_log(sim,_("Light initialization\n"));
 
-	sprintf(lib_name,"light_%s.so",in->mode);
-
-	join_path(2,lib_path,get_plugins_path(sim),lib_name);
-	//printf_log(sim,"I want to open %s %s %s\n",lib_path,get_plugins_path(sim),lib_name);
+	sprintf(lib_name,"light_%s",in->mode);
+	find_dll(sim, lib_path,lib_name);
 
 
 	char *error;

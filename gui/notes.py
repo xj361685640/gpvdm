@@ -44,7 +44,7 @@ class notes(gtk.Window):
 		os.system(cmd)
 
 	def enter_callback(self, widget, entry):
-		print "edit"
+		print("edit")
 		#entry_text = self.entry.get_buffer()
 		entry_text=self.buf.get_text(*self.buf.get_bounds())
 		a = open(os.path.join(self.sim_dir,"notes.inp"), "w")

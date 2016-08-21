@@ -571,7 +571,7 @@ class tab_bands(QWidget,tab_base):
 		self.pack_start(toolbar, False, True, 0)
 
 
- 		vbox = gtk.VBox(False, 2)
+		vbox = gtk.VBox(False, 2)
 		self.LUMO_model = self.__create_model()
 		self.HOMO_model = self.__create_model_mesh()
 		self.LUMO_fig = Figure(figsize=(5,4), dpi=100)
@@ -590,7 +590,7 @@ class tab_bands(QWidget,tab_base):
 
 		self.LUMO_fig.tight_layout(pad=0.5)
 
-	        vbox = gtk.VBox(False, 2)
+		vbox = gtk.VBox(False, 2)
 
 
 		frame = gtk.Frame()
@@ -601,7 +601,7 @@ class tab_bands(QWidget,tab_base):
 		treeview.set_rules_hint(True)
 		treeview.get_selection().set_mode(gtk.SELECTION_SINGLE)
 		self.__add_columns(treeview)
-	        vbox_layers.pack_start(treeview, False, False, 0)
+		vbox_layers.pack_start(treeview, False, False, 0)
 		treeview.show()
 
 		add_button = gtk.Button("Add",gtk.STOCK_ADD)
@@ -612,10 +612,10 @@ class tab_bands(QWidget,tab_base):
 		delete_button.connect("clicked", self.on_remove_item_from_lumo_clicked, treeview)
 		delete_button.show()
 
-	        hbox = gtk.HBox(False, 2)
+		hbox = gtk.HBox(False, 2)
 
-	        hbox.pack_start(add_button, False, False, 0)
-	        hbox.pack_start(delete_button, False, False, 0)
+		hbox.pack_start(add_button, False, False, 0)
+		hbox.pack_start(delete_button, False, False, 0)
 		hbox.show()
 
 		vbox_layers.pack_start(hbox, False, False, 0)
@@ -623,7 +623,7 @@ class tab_bands(QWidget,tab_base):
 
 		frame.add(vbox_layers)
 		frame.show()
-	        vbox.pack_start(frame, False, False, 0)
+		vbox.pack_start(frame, False, False, 0)
 
 		#spacer
 		label=gtk.Label(" \n\n    ")
@@ -654,10 +654,10 @@ class tab_bands(QWidget,tab_base):
 		delete_button.connect("clicked", self.on_remove_item_from_homo_clicked, treeview)
 		delete_button.show()
 
-	        hbox = gtk.HBox(False, 2)
+		hbox = gtk.HBox(False, 2)
 
-	        hbox.pack_start(add_button, False, False, 0)
-	        hbox.pack_start(delete_button, False, False, 0)
+		hbox.pack_start(add_button, False, False, 0)
+		hbox.pack_start(delete_button, False, False, 0)
 		vbox_mesh.pack_start(hbox, False, False, 0)
 		frame.add(vbox_mesh)
 		vbox.pack_start(frame, False, False, 0)

@@ -27,8 +27,56 @@
 #include "inp.h"
 #include <log.h>
 
+#include <unistd.h>
+#include <dirent.h>
+#include <fcntl.h>
+
 #include <limits.h>
 
+int find_dll(struct simulation *sim, char *lib_path,char *lib_name)
+{
+char full_name[1024];
+char temp[1024];
+sprintf(full_name,"%s.so",lib_name);
+
+join_path(2,lib_path,get_plugins_path(sim),full_name);
+if (isfile(lib_path)==0)
+{
+	return 0;
+}
+	
+struct dirent *next_file;
+DIR *theFolder;
+
+theFolder = opendir(get_plugins_path(sim));
+if (theFolder!=NULL)
+{
+	while((next_file=readdir(theFolder))!=NULL)
+	{
+		split_dot(temp, next_file->d_name);
+		if (strcmp(lib_name,temp)==0)
+		{
+			join_path(2,lib_path,get_plugins_path(sim),next_file->d_name);
+			if (isfile(lib_path)==0)
+			{
+				closedir (theFolder);
+				return 0;
+			}
+				
+		}
+	}
+
+closedir (theFolder);
+
+}else
+{
+	printf("can't open\n");
+}
+
+ewe(sim,"I can't find the dll %s,\n",lib_name);
+
+return -1;
+}
 
 void set_path(struct simulation *sim,char *out, char *name)
 {

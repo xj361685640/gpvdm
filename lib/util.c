@@ -31,12 +31,22 @@
 #include "util.h"
 #include "log.h"
 #include <const.h>
-//#include "dump_ctrl.h"
-//#include "dos_types.h"
-//#include "gui_hooks.h"
-//#include "server.h"
 #include <lang.h>
 #include <math.h>
+
+void split_dot(char *out, char *in)
+{
+	int i=0;	
+	strcpy(out,in);
+	for (i=0;i<strlen(out);i++)
+	{
+		if (out[i]=='.')
+		{
+			out[i]=0;
+			break;
+		}
+	}
+}
 
 
 void fx_with_units(char *out,double number)
@@ -771,6 +781,25 @@ int isdir(const char *path)
 			return 0;
 		}
 	}
+}
+
+int isfile(char *in)
+{
+	struct stat statbuf;
+	if (stat(in, &statbuf) != 0)
+	{
+		return 1;
+	}else
+	{
+		if (S_ISREG(statbuf.st_mode)==0)
+		{
+			return 1;
+		}else
+		{
+			return 0;
+		}
+	}
+
 }
 
 void remove_dir(struct simulation *sim,char* dir_name)

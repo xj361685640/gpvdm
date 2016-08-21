@@ -17,17 +17,15 @@ Build-Depends: autoconf,
                libsuitesparse-dev,
                libzip-dev,
                pkg-config,
-               python
+               python3
 Homepage: http://www.gpvdm.com
 
 Package: gpvdm
 Architecture: any
-Depends: python-matplotlib,
-         python-notify2,
-         python-numpy,
-         python-vte,
+Depends: python3-matplotlib,
+         python3-numpy,
          ${misc:Depends},
-         ${python:Depends},
+         ${python3:Depends},
          ${shlibs:Depends}
 Description: Provides gpvdm a tool for simulating and solar cells.
  It was originally written to model organic solar cells and OLEDs,

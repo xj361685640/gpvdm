@@ -1,4 +1,3 @@
-#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
@@ -69,7 +68,7 @@ class _FooThread(threading.Thread, _IdleObject):
 		file_name=file_name.rstrip()
 		self.thread_data[0]
 		self.thread_data[0]=file_name
-		print "thread: file changed"
+		print("thread: file changed")
 		self.emit("file_changed")
 
 	def set_watch_path(self,path,thread_data):
@@ -78,12 +77,12 @@ class _FooThread(threading.Thread, _IdleObject):
 
 	def run(self):
 		if running_on_linux()==True:
-			print "thread: start"
+			print("thread: start")
 			wm = pyinotify.WatchManager()
-			print "wathcing path",self.watch_path
+			print("wathcing path",self.watch_path)
 			ret=wm.add_watch(self.watch_path, pyinotify.IN_CLOSE_WRITE, self.onChange,False,False)
-			print ret
-			print "thread: start notifyer",self.notifier
+			print(ret)
+			print("thread: start notifyer",self.notifier)
 			self.notifier = pyinotify.Notifier(wm)
 			try:
 				while 1:
@@ -92,7 +91,7 @@ class _FooThread(threading.Thread, _IdleObject):
 						self.notifier.read_events()
 			#self.notifier.loop()
 			except:
-				print "error in notify",sys.exc_info()[0]
+				print("error in notify",sys.exc_info()[0])
 		else:
 			hDir = win32file.CreateFile (self.watch_path,FILE_LIST_DIRECTORY,win32con.FILE_SHARE_READ | win32con.FILE_SHARE_WRITE | win32con.FILE_SHARE_DELETE,None,win32con.OPEN_EXISTING,win32con.FILE_FLAG_BACKUP_SEMANTICS,None)
 
@@ -113,8 +112,8 @@ class _FooThread(threading.Thread, _IdleObject):
 
 
 	def stop(self):
-		print "thread: stop been called",threading.currentThread()
+		print("thread: stop been called",threading.currentThread())
 		if running_on_linux()==True:
 			self.notifier.stop()
 			self.notifier=False
-			print "thread:I have shutdown the notifyer",threading.currentThread()
+			print("thread:I have shutdown the notifyer",threading.currentThread())

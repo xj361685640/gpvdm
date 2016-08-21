@@ -48,7 +48,6 @@ int inp_search_pos(struct simulation *sim,struct inp_file *in,char *token);
 int inp_search_english(struct simulation *sim,struct inp_file *in,char *token);
 int inp_isfile(struct simulation *sim,char *full_file_name);
 int zip_is_in_archive(char *full_file_name);
-int isfile(char *in);
 int zip_write_buffer(struct simulation *sim,char *full_file_name,char *buffer, int len);
 
 void inp_listdir(struct simulation *sim, char *dir_name,struct inp_list *out);

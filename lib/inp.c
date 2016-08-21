@@ -273,20 +273,6 @@ int inp_listcmp(struct inp_list *in,char *name)
 return -1;
 }
 
-int isfile(char *in)
-{
-FILE *f = fopen(in, "r");
-
-if (f==NULL)
-{
-	return -1;
-}
-
-fclose(f);
-return 0;
-
-}
-
 int zip_is_in_archive(char *full_file_name)
 {
 	char zip_path[1000];

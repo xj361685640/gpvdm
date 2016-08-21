@@ -1,4 +1,3 @@
-#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
@@ -46,15 +45,12 @@ class plot_dlg_class(gtk.Window):
 			combobox.get_model().clear()
 
 	def callback_edit0(self, widget):
-		print "Edit"
 		self.populate_combo_box_using_input_file(self.token0,self.file0.get_text())
 
 	def callback_edit1(self, widget):
-		print "Edit"
 		self.populate_combo_box_using_input_file(self.token1,self.file1.get_text())
 
 	def callback_edit2(self, widget):
-		print "Edit"
 		self.populate_combo_box_using_input_file(self.token2,self.file2.get_text())
 
 	def callback_click(self, widget,button,data):

@@ -1,4 +1,3 @@
-#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
@@ -25,7 +24,7 @@ import shutil
 import sys
 
 if len(sys.argv)==1:
-	print "argument needed"
+	print("argument needed")
 	sys.exit(0)
 
 file_name=sys.argv[1]
@@ -37,7 +36,7 @@ for i in range(0,len(a)):
 	if len(s)==3:
 		lines.append(int(s[1]))
 
-print lines
+print(lines)
 
 f = open(file_name, "r")
 copy = open("out.dat", "w")

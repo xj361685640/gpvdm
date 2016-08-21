@@ -20,10 +20,7 @@
 
 
 from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication, QPushButton
-from OpenGL.GL import *
-from OpenGL.GLU import *
 from PyQt5.QtGui import QPainter,QColor,QPainterPath,QPolygonF
-from PyQt5 import QtOpenGL
 from PyQt5.QtWidgets import QWidget, QHBoxLayout
 from PyQt5.QtCore import QRectF,QPoint
 from PyQt5.QtCore import QTimer

@@ -1,4 +1,3 @@
-#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
@@ -82,7 +81,7 @@ class qe_window(gtk.Window):
 			self.fig.canvas.draw()
 
 		except:
-			print "No mode file\n"
+			print("No mode file\n")
 
 
 	def save_image(self,file_name):
@@ -124,7 +123,7 @@ class qe_window(gtk.Window):
 				self.save_image(file_name+filter.get_name())
 
 		elif response == gtk.RESPONSE_CANCEL:
-		    print 'Closed, no files selected'
+		    print('Closed, no files selected')
 		dialog.destroy()
 
 
@@ -158,7 +157,7 @@ class qe_window(gtk.Window):
 
 		tool_bar_pos=0
 		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"save.png"))
+		image.set_from_file(os.path.join(get_image_file_path(),"save.png"))
 		save = gtk.ToolButton(image)
 		tooltips.set_tip(save, "Save image")
 		save.connect("clicked", self.callback_save)
@@ -172,7 +171,7 @@ class qe_window(gtk.Window):
 		tool_bar_pos=tool_bar_pos+1
 
 		image = gtk.Image()
-   		image.set_from_file(os.path.join(get_image_file_path(),"play.png"))
+		image.set_from_file(os.path.join(get_image_file_path(),"play.png"))
 		save = gtk.ToolButton(image)
 		tooltips.set_tip(save, "Run simulation")
 		save.connect("clicked", self.callback_refresh)
