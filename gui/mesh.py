@@ -108,7 +108,6 @@ def mesh_get_xlen():
 	global xlist
 	tot=0.0
 	for a in xlist:
-		print(a.thick)
 		tot=tot+a.thick
 	return tot
 
@@ -116,7 +115,6 @@ def mesh_get_xpoints():
 	global xlist
 	tot=0.0
 	for a in xlist:
-		print(a.points)
 		tot=tot+a.points
 	return tot
 
@@ -124,7 +122,6 @@ def mesh_get_ypoints():
 	global ylist
 	tot=0.0
 	for a in ylist:
-		print(a.points)
 		tot=tot+a.points
 	return tot
 
@@ -132,6 +129,5 @@ def mesh_get_zpoints():
 	global zlist
 	tot=0.0
 	for a in zlist:
-		print(a.points)
 		tot=tot+a.points
 	return tot

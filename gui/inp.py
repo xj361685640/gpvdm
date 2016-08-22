@@ -38,7 +38,7 @@ from util_zip import zip_lsdir
 def inp_issequential_file(data,search):
 	if data.startswith(search) and data.endswith("inp"):
 		cut=data[len(search):-4]
-		print(cut)
+		#print(cut)
 		return cut.isdigit()
 	else:
 		return False

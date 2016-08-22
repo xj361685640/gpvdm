@@ -66,7 +66,7 @@ class tab_main(QWidget,tab_base):
 		self.frame=layer_widget()
 
 		self.frame.changed.connect(self.three_d.recalculate)
-
+		
 		mainLayout.addWidget(self.frame)
 		mainLayout.addWidget(self.three_d)
 
@@ -77,7 +77,19 @@ class tab_main(QWidget,tab_base):
 			self.web_update=update_thread()
 			self.web_update.got_data.connect(self.got_help)
 			self.web_update.start()
-			
+		self.frame.tab.itemSelectionChanged.connect(self.layer_selection_changed)
+
+	def layer_selection_changed(self):
+		a=self.frame.tab.selectionModel().selectedRows()
+
+		if len(a)>0:
+			y=a[0].row()
+		else:
+			y=-1
+		
+		self.three_d.set_selected_layer(y)
+		self.three_d.update()
+		
 	def help(self):
 		help_window().help_set_help(["device.png",_("<big><b>The device structure tab</b></big>\n Use this tab to change the structure of the device, the layer thicknesses and to perform optical simulations.  You can also browse the materials data base and  edit the electrical mesh.")])
 

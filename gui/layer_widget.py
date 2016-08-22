@@ -217,7 +217,7 @@ class layer_widget(QWidget):
 		self.create_model()
 
 		self.tab.cellChanged.connect(self.tab_changed)
-
+		
 		self.main_vbox.addWidget(self.tab)
 
 		self.electrical_mesh=tab_electrical_mesh()

@@ -62,10 +62,10 @@ class display_widget(QWidget):
 		self.setLayout(self.hbox)
 		self.timer=QTimer()
 		self.timer.setSingleShot(True)
-		self.timer.timeout.connect(self.update)
+		self.timer.timeout.connect(self.timer_update)
 		self.timer.start(2000)
 
-	def update(self):
+	def timer_update(self):
 		#self.display.enabled=False
 		global open_gl_working
 		
@@ -82,7 +82,14 @@ class display_widget(QWidget):
 			self.display=gl_fallback()
 			self.hbox.addWidget(self.display)
 
-		
+	def set_selected_layer(self,n):
+		if self.display.enabled==True:
+			self.display.selected_layer=n
+
 	def recalculate(self):
 #		print("recalculate")
 		self.display.recalculate()
+	
+	def update(self):
+#		print("recalculate")
+		self.display.update()

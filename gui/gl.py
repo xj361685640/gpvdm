@@ -75,6 +75,9 @@ from util import str2bool
 
 from PyQt5.QtCore import QTimer
 
+import random
+from math import pi,acos,sin,cos
+
 # Rotations for cube.
 cube_rotate_x_rate = 0.2
 cube_rotate_y_rate = 0.2
@@ -98,6 +101,70 @@ def tab(x,y,z,w,h,d):
 
 	glEnd()
 
+stars=[]
+
+def draw_stars():
+	global stars
+	if len(stars)==0:
+		
+		for i in range(0,1000):
+			phi = random.uniform(0,pi)
+			costheta = random.uniform(-1,1)
+			theta = acos( costheta )
+			r=70
+			x = r * sin( theta) * cos( phi )
+			y = r * sin( theta) * sin( phi )
+			z = r * cos( theta )
+			color=random.uniform(0,1.0)
+			r=color
+			g=color
+			b=color
+			s=random.uniform(1,3)	
+			stars.append([x,y,z,r,g,b,s])
+	
+		stars.append([x,4,z,0.5,0.0,0.0,5])
+		
+	for i in range(0,len(stars)):
+		glPointSize(stars[i][6])
+		glBegin(GL_POINTS)
+		glColor3f(stars[i][3],stars[i][4],stars[i][5])
+		glVertex3f(stars[i][0],stars[i][1],stars[i][2])
+		#glVertex3f(-1.0,-1.0,0.0)
+		glEnd()
+
+
+def draw_grid():
+	glLineWidth(1)
+	
+	draw_stars()
+
+
+	glColor3f(0.5, 0.5, 0.5)
+
+	start_x=-18.0
+	stop_x=20.0
+	n=40
+	dx=(stop_x-start_x)/n
+	pos=start_x
+	glBegin(GL_LINES)
+	for i in range(0,n+1):
+		glVertex3f(start_x, 0.0, pos)
+		glVertex3f(stop_x, 0.0, pos)
+		pos=pos+dx
+
+
+	start_z=-18.0
+	stop_z=20.0
+	dz=(stop_z-start_z)/n
+	pos=start_z
+	for i in range(0,n+1):
+		glVertex3f(pos, 0, start_z)
+		glVertex3f(pos, 0, stop_z)
+		pos=pos+dz
+
+	glEnd()
+
+
 
 def draw_photon(x,z,up):
 	glLineWidth(3)
@@ -108,7 +175,7 @@ def draw_photon(x,z,up):
 		glColor3f(0.0, 1.0, 0.0)
 
 	glBegin(GL_LINES)
-	wx=np.arange(0, length , 0.01)
+	wx=np.arange(0, length , 0.025)
 	wy=np.sin(wx*3.14159*8)*0.2
 	
 	start_x=2.7
@@ -139,28 +206,100 @@ def draw_photon(x,z,up):
 def draw_mode(z_size):
 
 	glLineWidth(5)
-	glColor3f(0.0, 0.0, 0.0)
+	glColor3f(1.0, 1.0, 1.0)
 	glBegin(GL_LINES)
 	t=[]
 	s=[]
 	z=[]
-
+	start=0.0
 	if read_xyz_data(t,s,z,os.path.join(os.getcwd(),"light_dump","light_1d_photons_tot_norm.dat"))==True:
 		array_len=len(t)
 		t.reverse()
 		s.reverse()		
 		for i in range(1,array_len):
-			glVertex3f(-1.2-s[i-1]*0.5, -1.0+(z_size*(i-1)/array_len), 1.0)
-			glVertex3f(-1.2-s[i]*0.5, -1.0+(z_size*i/array_len), 1.0)
+			glVertex3f(0.0, start+(z_size*(i-1)/array_len), 2.0+s[i-1]*0.5)
+			glVertex3f(0.0, start+(z_size*i/array_len), 2.0+s[i]*0.5)
 
 	glEnd()
 
+def box_lines(x,y,z,w,h,d):
 
+	glLineWidth(10)
 	
+	glBegin(GL_LINES)
+
+	glColor3f(1.0,1.0,1.0)
+
+	#btm
+
+	glVertex3f(x+0.0,y+0.0,z+0.0)
+	glVertex3f(x+w,y+ 0.0,z+0.0)
+
+	glVertex3f(x+w,y+ 0.0,z+0.0)
+	glVertex3f(x+w,y+ 0.0,z+d)
+
+	glVertex3f(x+w,y+ 0.0,z+d)
+	glVertex3f(x+ 0.0, y+0.0,z+ d) 
+
+
+	#
+	glVertex3f(x+0.0,y+h,z+0.0)
+	glVertex3f(x+w,y+ h,z+0.0)
+
+
+	glVertex3f(x+w,y+ h,z+0.0)
+	glVertex3f(x+w,y+ h,z+d)
+	
+	glVertex3f(x+w,y+ h,z+d)	
+	glVertex3f(x+ 0.0, y+h,z+ d) 
+
+	#right
+
+	glVertex3f(x+w,y,z)
+	glVertex3f(x+w,y+ h,z)
+
+	glVertex3f(x+w,y+ h,z)
+	glVertex3f(x+w,y+ h,z+d)
+
+	glVertex3f(x+w,y+ h,z+d)	
+	glVertex3f(x+w, y,z+d) 
+
+	#left
+
+	glVertex3f(x,y,z)
+	glVertex3f(x,y+ h,z)
+
+	glVertex3f(x,y+ h,z)
+	glVertex3f(x,y+ h,z+d)
+	
+	glVertex3f(x,y+ h,z+d)
+	glVertex3f(x, y,z+d) 
+
+
+#
+	glVertex3f(x,y,z+d)
+	glVertex3f(x+w,y,z+d)
+
+	glVertex3f(x+w,y,z+d)
+	glVertex3f(x+w,y+h,z+d)
+
+	glVertex3f(x+w,y+h,z+d)	
+	glVertex3f(x, y+h,z+d) 
+
+
+	#top
+	glVertex3f(x,y+h,z)
+	glVertex3f(x+w,y+ h,z)
+
+	glVertex3f(x+w,y+ h,z)
+	glVertex3f(x+w,y+ h,z+ d)
+	
+	glVertex3f(x+w,y+ h,z+ d)
+	glVertex3f(x, y+h,z+ d) 
+
+	glEnd()
+
 def box(x,y,z,w,h,d,r,g,b):
-
-
-	
 	red=r
 	green=g
 	blue=b
@@ -250,8 +389,12 @@ if open_gl_ok==True:
 			self.xRot =25.0
 			self.yRot =-20.0
 			self.zRot =0.0
+			self.zoom=-7.0
 			self.enabled=False
 			self.timer=None
+			self.zoom_timer=None
+			
+			self.selected_layer=-1
 			QGLWidget.__init__(self, parent)
 			self.lastPos=None
 			#glClearDepth(1.0)              
@@ -262,24 +405,41 @@ if open_gl_ok==True:
 			self.setMinimumSize(650, 500)
 
 		def my_timer(self):
-			self.xRot =self.xRot + 10
-			self.yRot =self.yRot + 10
-			self.zRot =self.zRot + 10
-			self.update()
+			#self.xRot =self.xRot + 2
+			self.yRot =self.yRot + 2
+			#self.zRot =self.zRot + 5
 			
+			self.update()
+
+		def fzoom_timer(self):
+			self.zoom =self.zoom+4.0
+			if self.zoom>-12.0:
+				self.zoom_timer.stop()
+			self.update()
+
+
 		def keyPressEvent(self, event):
-			print("r0od")
 
 			if type(event) == QtGui.QKeyEvent:
-				print("rod")
+				if event.text()=="f":
+					self.showFullScreen()
 				if event.text()=="r":
 					if self.timer==None:
 						self.timer=QTimer()
 						self.timer.timeout.connect(self.my_timer)
-						self.timer.start(100)
+						self.timer.start(50)
 					else:
 						self.timer.stop()
 						self.timer=None
+				if event.text()=="z":
+					if self.timer==None:
+						self.zoom =-200
+						self.zoom_timer=QTimer()
+						self.zoom_timer.timeout.connect(self.fzoom_timer)
+						self.zoom_timer.start(50)
+					else:
+						self.zoom_timer.stop()
+						self.zoom_timer=None
 						
 		def mouseMoveEvent(self,event):
 			if 	self.timer!=None:
@@ -295,30 +455,35 @@ if open_gl_ok==True:
 				
 				self.xRot =self.xRot + 1 * dy
 				self.yRot =self.yRot + 1 * dx
-			elif event.buttons()==Qt.RightButton:
-				self.xRot =self.xRot + 1 * dy
-				self.zRot =self.zRot + 1 * dx
 				
 			self.lastPos=event.pos()
 			self.setFocusPolicy(Qt.StrongFocus)
 			self.setFocus()
 			self.update()
+
+		def mouseReleaseEvent(self,event):
+			self.lastPos=None
 			
+		def wheelEvent(self,event):
+			p=event.angleDelta()
+			self.zoom =self.zoom + p.y()/120
+			self.update()
+
 		def paintGL(self):
 			if self.enabled==True:
 			
 				self.emission=False
 				lines=[]
-				for i in range(0,epitaxy_get_layers()):
-					if epitaxy_get_pl_file(i)!="none":
-						if inp_load_file(lines,epitaxy_get_pl_file(i)+".inp")==True:
-							if str2bool(lines[1])==True:
-								self.emission=True
+			#	for i in range(0,epitaxy_get_layers()):
+			#		if epitaxy_get_pl_file(i)!="none":
+			#			if inp_load_file(lines,epitaxy_get_pl_file(i)+".inp")==True:
+			#				if str2bool(lines[1])==True:
+			#					self.emission=True
 						
 				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 				glLoadIdentity()
 
-				glTranslatef(-0.5, -0.5, -7.0) # Move Into The Screen
+				glTranslatef(-0.5, -0.5, self.zoom) # Move Into The Screen
 				
 				glRotatef(self.xRot, 1.0, 0.0, 0.0)
 				glRotatef(self.yRot, 0.0, 1.0, 0.0)
@@ -332,7 +497,6 @@ if open_gl_ok==True:
 				glClearColor(0.0, 0.0, 0.0, 0.5)
 				lines=[]
 
-				draw_mode(2.0)
 
 				if self.suns!=0:
 					if self.suns<=0.01:
@@ -384,6 +548,9 @@ if open_gl_ok==True:
 					green=self.colors[l-i].g
 					blue=self.colors[l-i].b
 
+					if i==l-self.selected_layer:
+						box_lines(0.0,pos,0,width,thick,depth)
+
 					if epitaxy_get_electrical_layer(l-i).startswith("dos")==True:
 						dy=thick/float(ypoints)
 						dx=width/float(xpoints)
@@ -426,7 +593,7 @@ if open_gl_ok==True:
 					else:
 						text=epitaxy_get_name(l-i)
 
-					glColor3f(0.0,0.0,0.0)
+					glColor3f(1.0,1.0,1.0)
 					font = QFont("Arial")
 					font.setPointSize(18)
 					self.renderText (width+0.1,pos+thick/2,depth, text,font)
@@ -437,6 +604,9 @@ if open_gl_ok==True:
 			
 					glRotatef(self.tet_rotate, tet_x_rate, tet_y_rate, tet_z_rate)
 
+				draw_mode(pos-0.05)
+				draw_grid()
+				
 		def recalculate(self):
 			self.colors=[]
 			lines=[]
@@ -470,13 +640,15 @@ if open_gl_ok==True:
 			glClearDepth(1.0)              
 			glDepthFunc(GL_LESS)
 			glEnable(GL_DEPTH_TEST)
+			#glEnable(GL_PROGRAM_POINT_SIZE_EXT);
 			glShadeModel(GL_SMOOTH)
 		
 			glViewport(0, 0, self.width(), self.height()+100)
 			glMatrixMode(GL_PROJECTION)
 			glLoadIdentity()                    
-			gluPerspective(45.0,float(self.width()) / float(self.height()+100),0.1, 100.0) 
+			gluPerspective(45.0,float(self.width()) / float(self.height()+100),0.1, 1000.0) 
 			glMatrixMode(GL_MODELVIEW)
+
 else:
 	class glWidget(QWidget):
 		def __init__(self, parent):
