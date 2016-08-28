@@ -1,4 +1,3 @@
-#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
@@ -55,14 +54,14 @@ def read_data_2d(x_scale,y_scale,z,file_name):
 		y_pos=0
 		z_store=[]
 		for i in range(0, len(lines)):
-			if (lines[i][0]!="#"):
-				if lines[i]!="\n":
-
+			if len(lines[i])>0:
+				if lines[i][0]!="#" and lines[i]!="\n":
 					temp=lines[i]
 					temp=re.sub(' +',' ',temp)
 					temp=re.sub('\t',' ',temp)
 					temp=temp.rstrip()
 					sline=temp.split(" ")
+
 					if len(sline)==3:
 						if x_max==0:
 							y_scale.append(float(lines[i].split(" ")[1]))
@@ -75,14 +74,15 @@ def read_data_2d(x_scale,y_scale,z,file_name):
 					if x_max==0:
 						y_max=y_max+1
 
-				if lines[i]=="\n":
-					x_max=x_max+1
-					y_pos=0
+			if lines[i]=="":
+				x_max=x_max+1
+				y_pos=0
 
 		if  lines[len(lines)-1]!="\n":
 			x_max=x_max+1
 
-		#print "load 3d data",x_scale,y_scale
+		x_max=len(x_scale)
+		y_max=len(y_scale)
 
 		pos=0
 		for x in range(0, x_max):

@@ -324,9 +324,18 @@ class class_optical(QWidget):
 
 
 	def callback_run(self):
+		dump_optics=inp_get_token_value("dump.inp", "#dump_optics")
+		dump_optics_verbose=inp_get_token_value("dump.inp", "#dump_optics_verbose")
+
+		inp_update_token_value("dump.inp", "#dump_optics","true",1)
+		inp_update_token_value("dump.inp", "#dump_optics_verbose","true",1)
 		cmd = get_exe_command()+' --simmode opticalmodel@optics'
 		print(cmd)
 		ret= os.system(cmd)
+
+		inp_update_token_value("dump.inp", "#dump_optics",dump_optics,1)
+		inp_update_token_value("dump.inp", "#dump_optics_verbose",dump_optics_verbose,1)
+		
 		self.fig_photon_density.my_figure.clf()
 		self.fig_photon_density.draw_graph()
 		self.fig_photon_density.canvas.draw()
@@ -338,7 +347,8 @@ class class_optical(QWidget):
 		for i in range(0,len(self.plot_widgets)):
 			self.plot_widgets[i].update()
 
-
+		inp_update_token_value("dump.inp", "#dump_optics","true",1)
+		inp_update_token_value("dump.inp", "#dump_optics_verbose","true",1)
 	def mode_changed(self):
 		cb_text=self.cb.currentText()
 
