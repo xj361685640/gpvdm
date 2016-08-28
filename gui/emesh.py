@@ -46,6 +46,10 @@ from PyQt5.QtCore import pyqtSignal
 from window_list import windows
 from mesh import mesh_load_all
 
+from mesh import mesh_get_xpoints
+from mesh import mesh_get_ypoints
+from mesh import mesh_get_zpoints
+
 #matplotlib
 import matplotlib
 matplotlib.use('Qt5Agg')
@@ -86,25 +90,22 @@ class tab_electrical_mesh(QWidget):
 		self.emesh_editor_x.disable_dim()
 		self.emesh_editor_z.disable_dim()
 		self.update_dim()
-		mesh_load_all()
 		
 	def callback_dim_2d(self):
 		self.emesh_editor_y.enable_dim()
 		self.emesh_editor_x.enable_dim()
 		self.emesh_editor_z.disable_dim()
 		self.update_dim()
-		mesh_load_all()
 
 	def callback_dim_3d(self):
 		self.emesh_editor_y.enable_dim()
 		self.emesh_editor_x.enable_dim()
 		self.emesh_editor_z.enable_dim()
 		self.update_dim()
-		mesh_load_all()
 
 
 	def update_dim(self):
-		if self.emesh_editor_x.mesh_points==1 and self.emesh_editor_z.mesh_points==1:
+		if mesh_get_xpoints()==1 and mesh_get_zpoints()==1:
 			self.one_d.setEnabled(False)
 			self.two_d.setEnabled(True)
 			self.three_d.setEnabled(True)
@@ -113,7 +114,7 @@ class tab_electrical_mesh(QWidget):
 			self.emesh_editor_z.setEnabled(False)
 
 
-		if self.emesh_editor_x.mesh_points>1 and self.emesh_editor_z.mesh_points==1:
+		if mesh_get_xpoints()>1 and mesh_get_zpoints()==1:
 			self.one_d.setEnabled(True)
 			self.two_d.setEnabled(False)
 			self.three_d.setEnabled(True)
@@ -122,7 +123,7 @@ class tab_electrical_mesh(QWidget):
 			self.emesh_editor_z.setEnabled(False)
 
 
-		if self.emesh_editor_x.mesh_points>1 and self.emesh_editor_z.mesh_points>1:
+		if mesh_get_xpoints()>1 and mesh_get_zpoints()>1:
 			self.one_d.setEnabled(True)
 			self.two_d.setEnabled(True)
 			self.three_d.setEnabled(False)
@@ -132,7 +133,9 @@ class tab_electrical_mesh(QWidget):
 
 		self.changed.emit()
 
-
+	def emit_now(self):
+		self.changed.emit()
+		
 	def __init__(self):
 		QWidget.__init__(self)
 		self.setFixedSize(900, 600)
@@ -178,8 +181,14 @@ class tab_electrical_mesh(QWidget):
 		widget.setLayout(mesh_hbox)
 	
 		self.emesh_editor_x=electrical_mesh_editor("x")
+		self.emesh_editor_x.changed.connect(self.emit_now)
+		
 		self.emesh_editor_y=electrical_mesh_editor("y")
+		self.emesh_editor_y.changed.connect(self.emit_now)
+
 		self.emesh_editor_z=electrical_mesh_editor("z")
+		self.emesh_editor_z.changed.connect(self.emit_now)
+
 
 		mesh_hbox.addWidget(self.emesh_editor_x)
 		mesh_hbox.addWidget(self.emesh_editor_y)

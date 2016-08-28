@@ -38,6 +38,7 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSize, Qt 
 from PyQt5.QtWidgets import QWidget,QSizePolicy,QVBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QMessageBox, QLineEdit,QLabel
 from PyQt5.QtCore import QTimer
+from PyQt5.QtCore import pyqtSignal
 
 from cal_path import get_image_file_path
 
@@ -121,7 +122,6 @@ class display_widget(QWidget):
 			self.display.selected_layer=n
 
 	def recalculate(self):
-#		print("recalculate")
 		self.display.recalculate()
 	
 	def update(self):

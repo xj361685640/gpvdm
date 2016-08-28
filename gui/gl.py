@@ -58,6 +58,8 @@ from mesh import mesh_get_xpoints
 from mesh import mesh_get_ypoints
 from mesh import mesh_get_zpoints
 from mesh import mesh_get_xlen
+from mesh import mesh_get_ylen
+from mesh import mesh_get_zlen
 
 #epitaxy
 from epitaxy import epitaxy_get_layers
@@ -141,8 +143,8 @@ def draw_grid():
 
 	start_x=-18.0
 	stop_x=20.0
-	n=40
-	dx=(stop_x-start_x)/n
+	n=40#stop_x-start_x
+	dx=1.0#(stop_x-start_x)/n
 	pos=start_x
 	glBegin(GL_LINES)
 	for i in range(0,n+1):
@@ -153,7 +155,7 @@ def draw_grid():
 
 	start_z=-18.0
 	stop_z=20.0
-	dz=(stop_z-start_z)/n
+	dz=1.0#(stop_z-start_z)/n
 	pos=start_z
 	for i in range(0,n+1):
 		glVertex3f(pos, 0, start_z)
@@ -201,7 +203,7 @@ def draw_photon(x,z,up):
 
 		glEnd()
 
-def draw_mode(z_size):
+def draw_mode(z_size,depth):
 
 	glLineWidth(5)
 	glColor3f(1.0, 1.0, 1.0)
@@ -215,8 +217,8 @@ def draw_mode(z_size):
 		t.reverse()
 		s.reverse()		
 		for i in range(1,array_len):
-			glVertex3f(0.0, start+(z_size*(i-1)/array_len), 2.0+s[i-1]*0.5)
-			glVertex3f(0.0, start+(z_size*i/array_len), 2.0+s[i]*0.5)
+			glVertex3f(0.0, start+(z_size*(i-1)/array_len), depth+s[i-1]*0.5)
+			glVertex3f(0.0, start+(z_size*i/array_len), depth+s[i]*0.5)
 
 	glEnd()
 
@@ -473,7 +475,18 @@ if open_gl_ok==True:
 
 		def paintGL(self):
 			if self.enabled==True:
+
+				width=mesh_get_xlen()/1e-3
+				depth=mesh_get_zlen()/1e-3
 			
+				l=epitaxy_get_layers()-1
+
+				xpoints=int(mesh_get_xpoints())
+				ypoints=int(mesh_get_ypoints())
+				zpoints=int(mesh_get_zpoints())
+
+				x_len=mesh_get_xlen()
+
 				self.emission=False
 				lines=[]
 			#	for i in range(0,epitaxy_get_layers()):
@@ -512,11 +525,11 @@ if open_gl_ok==True:
 					else:
 						den=0.2
 				
-					x=np.arange(0, 2.0 , den)
-					y=np.arange(0, 2.0 , den)
+					x=np.arange(0, width , den)
+					z=np.arange(0, depth , den)
 					for i in range(0,len(x)):
-						for ii in range(0,len(y)):
-							draw_photon(x[i],y[ii],False)
+						for ii in range(0,len(z)):
+							draw_photon(x[i],z[ii],False)
 
 				if self.emission==True:
 					den=0.6
@@ -533,15 +546,7 @@ if open_gl_ok==True:
 
 				mul=1.5/tot
 				pos=0.0
-				width=2.0
-				depth=2.0
-			
-				l=epitaxy_get_layers()-1
-				#lines=[]
-					#pos=0.0
-				xpoints=int(mesh_get_xpoints())
-				ypoints=int(mesh_get_ypoints())
-				zpoints=int(mesh_get_zpoints())
+				
 				for i in range(0,epitaxy_get_layers()):
 
 					thick=epitaxy_get_width(l-i)*mul
@@ -574,14 +579,14 @@ if open_gl_ok==True:
 										box(dx*x,pos+y*(dy),z*dz,dx*xshrink,dy*0.8,dz*zshrink,red,green,blue)
 						tab(0.0,pos,depth,width,thick,depth)
 					
-					elif epitaxy_get_electrical_layer(l-i)=="Contact" and i==l:
+					elif epitaxy_get_electrical_layer(l-i).lower()=="contact" and i==l:
 						if xpoints==1 and zpoints==1:
 							box(0.0,pos,0,width,thick,depth,red,green,blue)
 						else:
 							for c in contacts_get_array():
-								x_len=mesh_get_xlen()
 								xstart=width*(c.start/x_len)
 								xwidth=width*(c.width/x_len)
+								print("contacts",xstart,xwidth,c.width,x_len)
 								if (c.start+c.width)>x_len:
 									xwidth=width-xstart
 
@@ -607,7 +612,7 @@ if open_gl_ok==True:
 			
 					glRotatef(self.tet_rotate, tet_x_rate, tet_y_rate, tet_z_rate)
 
-				draw_mode(pos-0.05)
+				draw_mode(pos-0.05,depth)
 				draw_grid()
 				if self.zoom<-60:
 					draw_stars()

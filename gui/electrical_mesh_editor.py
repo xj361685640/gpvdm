@@ -34,9 +34,25 @@ from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSize, Qt 
 from PyQt5.QtWidgets import QWidget,QSizePolicy,QHBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar, QMessageBox, QVBoxLayout, QGroupBox, QTableWidget,QAbstractItemView, QTableWidgetItem
+from PyQt5.QtCore import pyqtSignal
+
+from mesh import mesh_get_xlayers
+from mesh import mesh_get_ylayers
+from mesh import mesh_get_zlayers
+from mesh import mesh_get_xlist
+from mesh import mesh_get_ylist
+from mesh import mesh_get_zlist
+from mesh import mesh_save_all
+from mesh import mesh_add
+
+from mesh import mesh_clear_xlist
+from mesh import mesh_clear_ylist
+from mesh import mesh_clear_zlist
 
 class electrical_mesh_editor(QGroupBox):
 
+	changed = pyqtSignal()
+	
 	def on_add_mesh_clicked(self):
 		self.tab.blockSignals(True)
 		index = self.tab.selectionModel().selectedRows()
@@ -55,6 +71,7 @@ class electrical_mesh_editor(QGroupBox):
 
 		self.save()
 		self.tab.blockSignals(False)
+		self.changed.emit()
 
 	def on_remove_click(self, button, treeview):
 		self.tab.blockSignals(True)
@@ -67,37 +84,32 @@ class electrical_mesh_editor(QGroupBox):
 
 		self.save()
 		self.tab.blockSignals(False)
+		self.changed.emit()
 
 	def save(self):
-		lines=[]
-		lines.append("#mesh_layers")
-		lines.append(str(self.tab.rowCount()))
-		i=0
+		if self.xyz=="y":
+			mesh_clear_ylist()
+		elif self.xyz=="x":
+			print("cleared")
+			mesh_clear_xlist()
+		elif self.xyz=="z":
+			mesh_clear_zlist()
+
 		for i in range(0,self.tab.rowCount()):
-			print(i)
-			lines.append("#mesh_layer_length"+str(i))
-			lines.append(str(self.tab.item(i, 0).text()))
-			lines.append("#mesh_layer_points"+str(i))
-			lines.append(str(self.tab.item(i, 1).text()))
+			mesh_add(self.xyz,float(self.tab.item(i, 0).text()),float(self.tab.item(i, 1).text()))
 
-		lines.append("#ver")
-		lines.append("1.0")
-		lines.append("#end")
-
-		inp_write_lines_to_file(os.path.join(os.getcwd(),"mesh_"+self.xyz+".inp"),lines)
+		mesh_save_all()
 
 	def refresh(self):
 		self.load()
 
 	def disable_dim(self):
 		self.tab.setItem(0,1,QTableWidgetItem("1"))
-		self.mesh_points=1
 		self.save()
 
 	def enable_dim(self):
 		if int(self.tab.rowCount())==1:
 			self.tab.setItem(0,1,QTableWidgetItem("10"))
-			self.mesh_points=10
 			self.save()
 
 
@@ -107,37 +119,29 @@ class electrical_mesh_editor(QGroupBox):
 		self.tab.clear()
 		lines=[]
 		pos=0
-		if inp_load_file(lines,os.path.join(os.getcwd(),"mesh_"+self.xyz+".inp"))==True:
-			pos=pos+1	#first comment
-			mesh_layers=int(lines[pos])
-			self.tab.setRowCount(mesh_layers)
+		
+		if self.xyz=="y":
+			mesh_layers=mesh_get_ylayers()
+			layer_list=mesh_get_ylist()
+		elif self.xyz=="x":
+			mesh_layers=mesh_get_xlayers()
+			layer_list=mesh_get_xlist()
+		elif self.xyz=="z":
+			mesh_layers=mesh_get_zlayers()
+			layer_list=mesh_get_zlist()
 
-			for i in range(0, mesh_layers):
-				pos=pos+1					#token
-				token=lines[pos]
-				scan_item_add("mesh_"+self.xyz+".inp",token,self.xyz+"mesh width"+str(i),1)
-				pos=pos+1
-				thicknes=lines[pos]	#read value
+		self.tab.setRowCount(mesh_layers)
+		for i in range(0, mesh_layers):
+			value = QTableWidgetItem(str(layer_list[i].thick))
+			self.tab.setItem(i,0,value)
 
-				pos=pos+1					#token
-				token=lines[pos]
-				scan_item_add("mesh_"+self.xyz+".inp",token,self.xyz+"mesh points"+str(i),1)
-
-				pos=pos+1
-				points=lines[pos] 		#read value
-
-				value = QTableWidgetItem(str(thicknes))
-				self.tab.setItem(i,0,value)
-
-				value = QTableWidgetItem(str(points))
-				self.tab.setItem(i,1,value)
-
-				self.mesh_points=self.mesh_points+int(points)
+			value = QTableWidgetItem(str(int(layer_list[i].points)))
+			self.tab.setItem(i,1,value)
 
 	def tab_changed(self, x,y):
 		print(x,y)
 		self.save()
-		#self.refresh(True)
+		self.changed.emit()
 
 
 	def __init__(self,xyz):
@@ -177,12 +181,3 @@ class electrical_mesh_editor(QGroupBox):
 		self.tab.cellChanged.connect(self.tab_changed)
 
 		vbox.addWidget(self.tab)
-
-
-		return
-
-
-
-
-#gobject.type_register(electrical_mesh_editor)
-#gobject.signal_new("refresh", electrical_mesh_editor, gobject.SIGNAL_RUN_FIRST,gobject.TYPE_NONE, ())
