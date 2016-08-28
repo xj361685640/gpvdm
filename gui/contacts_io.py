@@ -1,4 +1,3 @@
-#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
@@ -24,8 +23,11 @@
 import os
 from inp import inp_load_file
 from inp_util import inp_search_token_value
+from inp import inp_write_lines_to_file
 from cal_path import get_image_file_path
 from inp import inp_update
+
+from util import str2bool
 
 class segment():
 	def __init__(self):
@@ -33,13 +35,14 @@ class segment():
 		self.depth=0.0
 		self.voltage=0.0
 		self.width=0.0
+		self.active=False
 
 store=[]
 
 def contacts_print():
 	global store
 	for s in store:
-		print(s.start, s.width,s.depth,s.voltage)
+		print(s.start, s.width,s.depth,s.voltage,s.active)
 
 def contacts_get_contacts():
 	global store
@@ -53,13 +56,14 @@ def contacts_clear():
 	global store
 	store=[]
 
-def contacts_append(start,depth,voltage,width):
+def contacts_append(start,depth,voltage,width,active):
 	global store
 	s=segment()
 	s.start=start
 	s.depth=depth
 	s.voltage=voltage
 	s.width=width
+	s.active=active
 	store.append(s)
 
 def contacts_save():
@@ -70,17 +74,20 @@ def contacts_save():
 	i=0
 	for s in store:
 		lines.append("#contact_start"+str(i))
-		lines.append(s.start)
+		lines.append(str(s.start))
 		lines.append("#contact_width"+str(i))
-		lines.append(s.width)
+		lines.append(str(s.width))
 		lines.append("#contact_depth"+str(i))
-		lines.append(s.depth)
+		lines.append(str(s.depth))
 		lines.append("#contact_voltage"+str(i))
-		lines.append(s.voltage)
+		lines.append(str(s.voltage))
+		lines.append("#contact_active"+str(i))
+		lines.append(str(s.active))
 		i=i+1
 	lines.append("#ver")
 	lines.append("1.0")
 	lines.append("#end")
+	
 	inp_write_lines_to_file(os.path.join(os.getcwd(),"contacts.inp"),lines)
 
 
@@ -122,7 +129,14 @@ def contacts_load():
 			pos=pos+1
 			voltage=lines[pos]			#read value
 
-			contacts_append(float(start),float(depth),float(voltage),float(width))
+			#active
+			pos=pos+1					#token
+			token=lines[pos]
+			
+			pos=pos+1
+			active=lines[pos]			#read value
+			
+			contacts_append(float(start),float(depth),float(voltage),float(width),str2bool(active))
 
 		print("store=",store)
 

@@ -172,6 +172,7 @@ def tab_insert_row(tab):
 		pos = tab.rowCount()
 
 	tab.insertRow(pos)
+	tab.blockSignals(False)
 	return pos
 
 	

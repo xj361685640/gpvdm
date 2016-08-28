@@ -143,7 +143,7 @@ def draw_grid():
 
 	start_x=-18.0
 	stop_x=20.0
-	n=40#stop_x-start_x
+	n=int(stop_x-start_x)
 	dx=1.0#(stop_x-start_x)/n
 	pos=start_x
 	glBegin(GL_LINES)
@@ -589,8 +589,12 @@ if open_gl_ok==True:
 								print("contacts",xstart,xwidth,c.width,x_len)
 								if (c.start+c.width)>x_len:
 									xwidth=width-xstart
+								if c.active==True:
+									box(xstart,pos,0,xwidth,thick,depth,0.0,1.0,0.0)
+								else:
+									box(xstart,pos,0,xwidth,thick,depth,red,green,blue)
 
-								box(xstart,pos,0,xwidth,thick,depth,red,green,blue)
+
 					else:
 						box(0.0,pos,0,width,thick,depth,red,green,blue)
 					

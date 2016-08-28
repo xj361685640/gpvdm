@@ -79,6 +79,9 @@ void contacts_load(struct simulation *sim,struct device *in)
 		sscanf(inp_get_string(sim,&inp),"%Le",&(in->contacts[i].voltage));
 		in->contacts[i].voltage_last=in->contacts[i].voltage;
 
+		inp_get_string(sim,&inp);	//active contact
+		inp_get_string(sim,&inp);
+
 		pos+=in->contacts[i].width;
 	}
 

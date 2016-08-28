@@ -115,8 +115,7 @@ class electrical_mesh_editor(QGroupBox):
 
 	def load(self):
 		self.tab.clear()
-		self.mesh_points=0
-		self.tab.clear()
+		self.tab.setHorizontalHeaderLabels([_("Thicknes"), _("Mesh points")])
 		lines=[]
 		pos=0
 		
@@ -146,7 +145,6 @@ class electrical_mesh_editor(QGroupBox):
 
 	def __init__(self,xyz):
 		self.xyz=xyz
-		self.mesh_points=0
 		QGroupBox.__init__(self)
 		self.setTitle(self.xyz)
 		self.setStyleSheet("QGroupBox {  border: 1px solid gray;}")
@@ -167,6 +165,7 @@ class electrical_mesh_editor(QGroupBox):
 		vbox.addWidget(toolbar)
 
 		self.tab = QTableWidget()
+
 		self.tab.resizeColumnsToContents()
 
 		self.tab.verticalHeader().setVisible(False)
@@ -174,7 +173,6 @@ class electrical_mesh_editor(QGroupBox):
 		self.tab.clear()
 		self.tab.setColumnCount(2)
 		self.tab.setSelectionBehavior(QAbstractItemView.SelectRows)
-		self.tab.setHorizontalHeaderLabels([_("Thicknes"), _("Mesh points")])
 
 		self.load()
 

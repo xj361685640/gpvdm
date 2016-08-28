@@ -52,19 +52,43 @@ from contacts_io import contacts_append
 from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSize, Qt 
-from PyQt5.QtWidgets import QWidget,QSizePolicy,QHBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar, QMessageBox, QVBoxLayout, QGroupBox, QTableWidget,QAbstractItemView, QTableWidgetItem
+from PyQt5.QtWidgets import QWidget,QSizePolicy,QHBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar, QMessageBox, QVBoxLayout, QGroupBox, QTableWidget,QAbstractItemView, QTableWidgetItem, QComboBox
 
+from PyQt5.QtCore import pyqtSignal
+
+from gui_util import tab_get_value
+from gui_util import tab_set_value
+from gui_util import tab_insert_row
+
+from util import str2bool
 
 class contacts_window(QWidget):
 
 	visible=1
-
+	
+	changed = pyqtSignal()
+	
 	def update_contact_db(self):
 		contacts_clear()
 		for i in range(0,self.tab.rowCount()):
-			contacts_append(float(self.tab.item(i, 0).text()),float(self.tab.item(i, 1).text()),float(self.tab.item(i, 2).text()),float(self.tab.item(i, 3).text()))	
+			contacts_append(float(tab_get_value(self.tab,i, 0)),float(tab_get_value(self.tab,i, 2)),float(tab_get_value(self.tab,i, 3)),float(tab_get_value(self.tab,i, 1)),str2bool(tab_get_value(self.tab,i, 4)))	
 
+	def add_row(self,pos,start,width,depth,voltage,active):
+		pos= tab_insert_row(self.tab)
 
+		self.tab.setItem(pos,0,QTableWidgetItem(start))
+		self.tab.setItem(pos,1,QTableWidgetItem(width))
+		self.tab.setItem(pos,2,QTableWidgetItem(depth))
+		self.tab.setItem(pos,3,QTableWidgetItem(voltage))
+
+		combobox = QComboBox()
+		combobox.addItem(_("true"))
+		combobox.addItem(_("false"))
+
+		self.tab.setCellWidget(pos,4, combobox)
+		combobox.setCurrentIndex(combobox.findText(active.lower()))
+		combobox.currentIndexChanged.connect(self.save)
+		
 	def on_add_clicked(self, button):
 		self.tab.blockSignals(True)
 		index = self.tab.selectionModel().selectedRows()
@@ -75,31 +99,20 @@ class contacts_window(QWidget):
 		else:
 			pos = self.tab.rowCount()
 
-		self.tab.insertRow(pos)
-
-		self.tab.setItem(pos,0,QTableWidgetItem(_("start")))
-		self.tab.setItem(pos,1,QTableWidgetItem(_("width")))
-		self.tab.setItem(pos,2,QTableWidgetItem(_("depth")))
-		self.tab.setItem(pos,3,QTableWidgetItem(_("voltage")))
-
+		self.add_row(pos,_("start"),_("width"),_("depth"),_("voltage"),_("false"))
+ 
 		self.save()
 		self.tab.blockSignals(False)
 
 	def on_remove_clicked(self, button):
-		self.tab.blockSignals(True)
-		index = self.tab.selectionModel().selectedRows()
-
-		print(index)
-		if len(index)>0:
-			pos=index[0].row()
-			self.tab.removeRow(pos)
-
+		tab_remove(self.tab)
 		self.save()
-		self.tab.blockSignals(False)
 
 	def save(self):
+		print("save called")
 		self.update_contact_db()
 		contacts_save()
+		self.changed.emit()
 
 	def callback_close(self, widget, data=None):
 		self.win_list.update(self,"contact")
@@ -110,38 +123,25 @@ class contacts_window(QWidget):
 		webbrowser.open('http://www.gpvdm.com/man/index.html')
 
 	def tab_changed(self, x,y):
-		print(x,y)
+		print("tab changed")
 		self.save()
 
 	def load(self):
 		self.tab.clear()
-		self.tab.setHorizontalHeaderLabels([_("Start"), _("Width"),_("Depth"),_("Voltage")])
+		self.tab.setHorizontalHeaderLabels([_("Start"), _("Width"),_("Depth"),_("Voltage"),_("Active contact")])
 		contacts_load()
 		contacts_print()
 		contacts=contacts_get_array()
-		self.tab.setRowCount(len(contacts))
 		i=0
 		for c in contacts_get_array():
+			self.add_row(i,str(c.start),str(c.width),str(c.depth),str(c.voltage),str(c.active))
 
-			value = QTableWidgetItem(str(c.start))
-			self.tab.setItem(i,0,value)
-
-			value = QTableWidgetItem(str(c.width))
-			self.tab.setItem(i,1,value)
-
-			value = QTableWidgetItem(str(c.depth))
-			self.tab.setItem(i,2,value)
-
-			value = QTableWidgetItem(str(c.voltage))
-			self.tab.setItem(i,3,value)
 			i=i+1
 
 
-		return
-
 	def __init__(self):
 		QWidget.__init__(self)
-		self.setFixedSize(500, 400)
+		self.setFixedSize(600, 400)
 
 		self.win_list=windows()
 		self.win_list.set_window(self,"contacts")
@@ -181,7 +181,7 @@ class contacts_window(QWidget):
 		self.tab.verticalHeader().setVisible(False)
 
 		self.tab.clear()
-		self.tab.setColumnCount(4)
+		self.tab.setColumnCount(5)
 		self.tab.setSelectionBehavior(QAbstractItemView.SelectRows)
 
 		self.load()
@@ -192,6 +192,4 @@ class contacts_window(QWidget):
 
 
 		self.setLayout(self.main_vbox)
-
-		return
 

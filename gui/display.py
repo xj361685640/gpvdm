@@ -62,7 +62,6 @@ class display_widget(QWidget):
 	def __init__(self):
 		QWidget.__init__(self)
 		self.complex_display=False
-		self.contacts_window=False
 
 		self.hbox=QVBoxLayout()
 		
@@ -97,6 +96,9 @@ class display_widget(QWidget):
 		self.electrical_mesh=tab_electrical_mesh()
 		self.electrical_mesh.changed.connect(self.recalculate)
 
+		self.contacts_window=contacts_window()
+		self.contacts_window.changed.connect(self.recalculate)
+		
 	def tb_rotate_click(self):
 		self.display.start_rotate()
 		
@@ -131,9 +133,6 @@ class display_widget(QWidget):
 
 	def callback_contacts(self):
 		help_window().help_set_help(["contact.png",_("<big><b>Contacts window</b></big>\nUse this window to change the layout of the contacts on the device")])
-
-		if self.contacts_window==False:
-			self.contacts_window=contacts_window()
 
 		if self.contacts_window.isVisible()==True:
 			self.contacts_window.hide()
