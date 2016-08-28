@@ -37,6 +37,8 @@ from PyQt5.QtWidgets import QWidget,QSizePolicy,QHBoxLayout,QPushButton,QDialog,
 import i18n
 _ = i18n.language.gettext
 
+from workbook import gen_workbook
+
 def dlg_export(parent):
 
 	dialog = QFileDialog(parent)
@@ -49,7 +51,7 @@ def dlg_export(parent):
 	types.append(_("pdf file (*.pdf)"))
 	types.append(_("jpg image (*.jpg)"))
 	types.append(_("tex file (*.tex)"))
-
+	types.append(_("Excel file (*.xlsx)"))
 
 	dialog.setNameFilters(types)
 	dialog.setFileMode(QFileDialog.ExistingFile)
@@ -57,16 +59,14 @@ def dlg_export(parent):
 
 	if dialog.exec_() == QDialog.Accepted:
 		file_name = dialog.selectedFiles()[0]
-
 		if dialog.selectedNameFilter()==_("gpvdm archive input+output files (*.gpvdm)"):
 			export_archive(file_name,True)
 		elif dialog.selectedNameFilter()==_("gpvdm archive input files (*.gpvdm)"):
 			export_archive(file_name,False)
 		elif dialog.selectedNameFilter()==_("optical materials database (*.zip)"):
 			export_materials(file_name)
-		elif dialog.selectedNameFilter()==_("pdf file (*.pdf)") or _("jpg image (*.jpg)") or _("tex file (*.tex)"):
-			if os.path.splitext(file_name)[1]=="":
-				export_as(file_name)
-			else:
-				export_as(file_name+filter.get_name())
+		elif dialog.selectedNameFilter()==_("pdf file (*.pdf)") or dialog.selectedNameFilter()==_("jpg image (*.jpg)") or dialog.selectedNameFilter()==_("tex file (*.tex)"):
+			export_as(file_name)
+		elif dialog.selectedNameFilter()==_("Excel file (*.xlsx)"):
+			gen_workbook(os.getcwd(),file_name)
 

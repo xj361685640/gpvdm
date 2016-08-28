@@ -36,8 +36,15 @@ from gl_fallback import gl_fallback
 from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSize, Qt 
-from PyQt5.QtWidgets import QWidget,QSizePolicy,QHBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QMessageBox, QLineEdit,QLabel
+from PyQt5.QtWidgets import QWidget,QSizePolicy,QVBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QMessageBox, QLineEdit,QLabel
 from PyQt5.QtCore import QTimer
+
+from cal_path import get_image_file_path
+
+from contacts import contacts_window
+from emesh import tab_electrical_mesh
+
+from help import help_window
 
 open_gl_working=False
 
@@ -54,10 +61,31 @@ class display_widget(QWidget):
 	def __init__(self):
 		QWidget.__init__(self)
 		self.complex_display=False
-		self.hbox=QHBoxLayout()
+		self.contacts_window=False
+
+		self.hbox=QVBoxLayout()
+		
+		toolbar=QToolBar()
+		toolbar.setIconSize(QSize(42, 42))
+
+		self.tb_rotate = QAction(QIcon(os.path.join(get_image_file_path(),"rotate.png")), _("Rotate"), self)
+		self.tb_rotate.triggered.connect(self.tb_rotate_click)
+		toolbar.addAction(self.tb_rotate)
+		self.tb_rotate.setEnabled(True)
+		
+		self.tb_contact = QAction(QIcon(os.path.join(get_image_file_path(),"contact.png")), _("Contacts"), self)
+		self.tb_contact.triggered.connect(self.callback_contacts)
+		toolbar.addAction(self.tb_contact)
+
+		self.tb_mesh = QAction(QIcon(os.path.join(get_image_file_path(),"mesh.png")), _("Edit the electrical mesh"), self)
+		self.tb_mesh.triggered.connect(self.callback_edit_mesh)
+		toolbar.addAction(self.tb_mesh)
+
+		self.hbox.addWidget(toolbar)
+
 		self.display=glWidget(self)
 		self.hbox.addWidget(self.display)
-		self.setMinimumSize(800, 500)
+		self.display.setMinimumSize(800, 600)
 
 		self.setLayout(self.hbox)
 		self.timer=QTimer()
@@ -65,6 +93,12 @@ class display_widget(QWidget):
 		self.timer.timeout.connect(self.timer_update)
 		self.timer.start(2000)
 
+		self.electrical_mesh=tab_electrical_mesh()
+		self.electrical_mesh.changed.connect(self.recalculate)
+
+	def tb_rotate_click(self):
+		self.display.start_rotate()
+		
 	def timer_update(self):
 		#self.display.enabled=False
 		global open_gl_working
@@ -93,3 +127,23 @@ class display_widget(QWidget):
 	def update(self):
 #		print("recalculate")
 		self.display.update()
+
+
+	def callback_contacts(self):
+		help_window().help_set_help(["contact.png",_("<big><b>Contacts window</b></big>\nUse this window to change the layout of the contacts on the device")])
+
+		if self.contacts_window==False:
+			self.contacts_window=contacts_window()
+
+		if self.contacts_window.isVisible()==True:
+			self.contacts_window.hide()
+		else:
+			self.contacts_window.show()
+
+	def callback_edit_mesh(self):
+		help_window().help_set_help(["mesh.png",_("<big><b>Mesh editor</b></big>\nUse this window to setup the mesh, the window can also be used to change the dimensionality of the simulation.")])
+
+		if self.electrical_mesh.isVisible()==True:
+			self.electrical_mesh.hide()
+		else:
+			self.electrical_mesh.show()

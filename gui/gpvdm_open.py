@@ -77,6 +77,8 @@ class gpvdm_open():
 		self.dir_icon = self.get_icon("dir")
 		self.dat_icon = self.get_icon("dat")
 		self.inp_icon = self.get_icon("inp")
+		self.xls_icon = self.get_icon("xls")
+		self.info_icon = self.get_icon("info")
 		self.spectra_icon = self.get_icon("spectra")
 		self.mat_icon = self.get_icon("material")
 
@@ -158,6 +160,16 @@ class gpvdm_open():
 				if (file_name.endswith(".omat")==True):
 					itm = QListWidgetItem( fl )
 					itm.setIcon(self.mat_icon)
+					self.window.listwidget.addItem(itm)
+
+				if file_name.endswith(".xlsx")==True or file_name.endswith(".xls")==True:
+					itm = QListWidgetItem( fl )
+					itm.setIcon(self.xls_icon)
+					self.window.listwidget.addItem(itm)
+
+				if os.path.basename(file_name)=="sim_info.dat":
+					itm = QListWidgetItem( fl )
+					itm.setIcon(self.info_icon)
 					self.window.listwidget.addItem(itm)
 
 	def on_home_clicked(self, widget):

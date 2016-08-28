@@ -107,11 +107,11 @@ def draw_stars():
 	global stars
 	if len(stars)==0:
 		
-		for i in range(0,1000):
-			phi = random.uniform(0,pi)
+		for i in range(0,5000):
+			phi = random.uniform(0,2*pi)
 			costheta = random.uniform(-1,1)
 			theta = acos( costheta )
-			r=70
+			r=70+random.uniform(0,300)
 			x = r * sin( theta) * cos( phi )
 			y = r * sin( theta) * sin( phi )
 			z = r * cos( theta )
@@ -135,8 +135,6 @@ def draw_stars():
 
 def draw_grid():
 	glLineWidth(1)
-	
-	draw_stars()
 
 
 	glColor3f(0.5, 0.5, 0.5)
@@ -389,7 +387,7 @@ if open_gl_ok==True:
 			self.xRot =25.0
 			self.yRot =-20.0
 			self.zRot =0.0
-			self.zoom=-7.0
+			self.zoom=-8.0
 			self.enabled=False
 			self.timer=None
 			self.zoom_timer=None
@@ -417,6 +415,10 @@ if open_gl_ok==True:
 				self.zoom_timer.stop()
 			self.update()
 
+		def start_rotate(self):
+			self.timer=QTimer()
+			self.timer.timeout.connect(self.my_timer)
+			self.timer.start(50)
 
 		def keyPressEvent(self, event):
 
@@ -425,15 +427,15 @@ if open_gl_ok==True:
 					self.showFullScreen()
 				if event.text()=="r":
 					if self.timer==None:
-						self.timer=QTimer()
-						self.timer.timeout.connect(self.my_timer)
-						self.timer.start(50)
+						self.start_rotate()
 					else:
 						self.timer.stop()
 						self.timer=None
 				if event.text()=="z":
 					if self.timer==None:
-						self.zoom =-200
+						self.start_rotate()
+						
+						self.zoom =-400
 						self.zoom_timer=QTimer()
 						self.zoom_timer.timeout.connect(self.fzoom_timer)
 						self.zoom_timer.start(50)
@@ -596,7 +598,8 @@ if open_gl_ok==True:
 					glColor3f(1.0,1.0,1.0)
 					font = QFont("Arial")
 					font.setPointSize(18)
-					self.renderText (width+0.1,pos+thick/2,depth, text,font)
+					if self.zoom>-10:
+						self.renderText (width+0.1,pos+thick/2,depth, text,font)
 
 					pos=pos+thick+0.05
 
@@ -606,7 +609,9 @@ if open_gl_ok==True:
 
 				draw_mode(pos-0.05)
 				draw_grid()
-				
+				if self.zoom<-60:
+					draw_stars()
+					
 		def recalculate(self):
 			self.colors=[]
 			lines=[]

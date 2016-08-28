@@ -64,6 +64,8 @@ from PyQt5.QtWidgets import QWidget
 
 from server_io import server_find_simulations_to_run
 
+from workbook import gen_workbook
+
 my_server=False
 
 
@@ -280,14 +282,14 @@ class server(QWidget,cluster):
 			if data.startswith("lock"):
 
 				if self.finished_jobs.count(data)==0:
+					job=int(data[4:])
 					self.finished_jobs.append(data)
-#							rest=data[4:]
+					gen_workbook(self.jobs[job],os.path.join(self.jobs[job],"data.xlsx"))
 					self.jobs_run=self.jobs_run+1
 					self.jobs_running=self.jobs_running-1
 					self.progress_window.set_fraction(float(self.jobs_run)/float(len(self.jobs)))
 					self.run_jobs()
 					if (self.jobs_run==len(self.jobs)):
-						#print("STOPPING!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 						self.stop()
 
 			elif (data=="pulse"):

@@ -50,6 +50,9 @@ class tab_class(QWidget,tab_base):
 	lines=[]
 	edit_list=[]
 
+	def __init__(self):
+		QWidget.__init__(self)
+		self.editable=True
 
 
 	def callback_edit(self, file_name,token,widget):
@@ -71,6 +74,9 @@ class tab_class(QWidget,tab_base):
 	def help(self):
 		help_window().get_help(self.file_name)
 
+	def set_edit(self,editable):
+		self.editable=editable
+		
 	def init(self,filename,tab_name):
 		self.vbox=QVBoxLayout()
 		self.file_name=filename
@@ -94,6 +100,9 @@ class tab_class(QWidget,tab_base):
 		while (pos<len(self.lines)):
 			token=self.lines[pos]
 			if token=="#ver":
+				break
+
+			if token=="#end":
 				break
 
 			if token.startswith("#"):
@@ -125,6 +134,8 @@ class tab_class(QWidget,tab_base):
 						edit_box.changed.connect(functools.partial(self.callback_edit,filename,token,edit_box))
 					elif result.opt[0]=="text":
 						edit_box=QLineEdit()
+						if self.editable==False:
+							edit_box.setReadOnly(True)
 						edit_box.setText(value)
 						#edit_box.set_text(self.lines[pos]);
 						edit_box.textChanged.connect(functools.partial(self.callback_edit,filename,token,edit_box))

@@ -27,6 +27,8 @@ from inp import inp_load_file
 from inp_util import inp_search_token_value
 from token_lib import tokens
 from util import pygtk_to_latex_subscript
+from workbook import gen_workbook
+
 import glob
 
 def to_exp(data):
@@ -46,7 +48,9 @@ def export_as(output):
 	eol=" \\\\"
 	ext= os.path.splitext(output)[1]
 	line=""
-	if (ext==".pdf") or (ext==".jpg") or (ext==".tex")  or (ext==".csv"):
+	if ext==".xlsx":
+		gen_workbook(os.getcwd(),output)
+	elif (ext==".pdf") or (ext==".jpg") or (ext==".tex")  or (ext==".csv"):
 		if ext==".csv":
 			tex=False
 			dollar=""

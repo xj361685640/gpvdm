@@ -36,14 +36,14 @@ from cal_path import calculate_paths
 from cal_path import calculate_paths_init
 calculate_paths_init()
 calculate_paths()
+
+import i18n
+_ = i18n.language.gettext
+
 from code_ctrl import enable_webupdates
 from code_ctrl import enable_betafeatures
 from code_ctrl import code_ctrl_load
 from code_ctrl import enable_webupdates
-
-#translate
-import i18n
-_ = i18n.language.gettext
 
 #undo
 from undo import undo_list_class
@@ -101,6 +101,8 @@ from server import server_get
 #mesh
 from mesh import mesh_load_all
 
+from info import sim_info
+
 #qt
 from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication
 from PyQt5.QtGui import QIcon
@@ -136,6 +138,8 @@ from ver import ver_check_compatibility
 #updates
 from update import update_thread
 from update import update_now
+
+from workbook import gen_workbook
 
 
 bubble=False
@@ -272,6 +276,27 @@ class gpvdm_main_window(QMainWindow):
 		dialog.show_directories=False
 		ret=dialog.window.exec_()
 		if ret==QDialog.Accepted:
+			split=dialog.get_filename().split(".")
+			if len(split)>0:
+				if split[1]=="xlsx" or split[1]=="xls":
+					if running_on_linux()==True:
+						os.system("xdg-open "+dialog.get_filename()+" &")
+					else:
+						os.system("start "+dialog.get_filename())
+
+					print("open with excel")
+					return
+				
+			if os.path.basename(dialog.get_filename())=="sim_info.dat":
+				if self.sim_info_window==None:
+					self.sim_info_window=sim_info(dialog.get_filename())
+
+				if self.sim_info_window.isVisible()==True:
+					self.sim_info_window.hide()
+				else:
+					self.sim_info_window.show()
+				return
+
 			plot_gen([dialog.get_filename()],[],"auto")
 
 			#self.plotted_graphs.refresh()
@@ -422,6 +447,10 @@ class gpvdm_main_window(QMainWindow):
 		if self.jvexperiment_window!=None:
 			del self.jvexperiment_window
 			self.jvexperiment_window=None
+
+		if self.sim_info_window!=None:
+			del self.sim_info_window
+			self.sim_info_window=None
 
 		if self.fit_window!=None:
 			del self.fit_window
@@ -691,7 +720,7 @@ class gpvdm_main_window(QMainWindow):
 
 		self.lasers_window=None
 
-
+		self.sim_info_window=None
 
 		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"image.jpg")))
 

@@ -130,6 +130,7 @@ def calculate_paths():
 	global materials_path
 	global image_path
 	global plugins_path
+	global lang_path
 	global inp_file_path
 	global src_path
 	global ui_path

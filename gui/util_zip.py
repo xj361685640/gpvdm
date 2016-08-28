@@ -83,8 +83,8 @@ def zip_get_data_file(file_name):
 	zip_file=os.path.dirname(file_name)+".zip"
 	name=os.path.basename(file_name)
 	if os.path.isfile(file_name)==True:
-		f = open(file_name)
-		lines = f.readlines()
+		f = open(file_name, mode='rb')
+		lines = f.read()
 		f.close()
 		found=True
 
@@ -92,10 +92,15 @@ def zip_get_data_file(file_name):
 		zf = zipfile.ZipFile(zip_file, 'r')
 		items=zf.namelist()
 		if items.count(name)>0:
-			lines = zf.read(name).split("\n")
+			lines = zf.read(name)
 			found=True
 		zf.close()
-
+	try:
+		lines=lines.decode('ascii')
+		lines=lines.split("\n")
+	except:
+		lines=[]
+		
 	return [found,lines]
 
 def check_is_config_file(name):
