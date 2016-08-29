@@ -88,7 +88,7 @@ inter_init(&lv);
 
 
 gdouble Vapplied=0.0;
-contact_set_voltage(sim,in,0,Vapplied);
+contact_set_voltage_if_active(sim,in,Vapplied);
 
 /*if (gfabs(config.Vstart-in->Vapplied)>0.2)
 {
@@ -109,12 +109,11 @@ remesh_reset(in,Vapplied);
 gdouble sun_orig=light_get_sun(&(in->mylight));
 light_set_sun(&(in->mylight),sun_orig*config.jv_light_efficiency);
 light_solve_and_update(sim,in,&(in->mylight),0.0);
-printf("rod\n");
 
 newton_set_min_ittr(in,30);
 
 Vapplied=config.Vstart;
-contact_set_voltage(sim,in,0,Vapplied);
+contact_set_voltage_if_active(sim,in,Vapplied);
 V=Vapplied;
 newton_sim_jv(sim,in);
 newton_set_min_ittr(in,0);
@@ -136,7 +135,7 @@ gdouble n_pmax=0.0;
 	{
 
 		Vapplied=V;
-		contact_set_voltage(sim,in,0,Vapplied);
+		contact_set_voltage_if_active(sim,in,Vapplied);
 		newton_sim_jv(sim,in);
 
 		J=get_equiv_J(sim,in);

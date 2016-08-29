@@ -431,7 +431,7 @@ struct device
 
 	struct contact contacts[10];
 	int ncontacts;
-
+	int active_contact;
 };
 
 void device_init(struct device *in);

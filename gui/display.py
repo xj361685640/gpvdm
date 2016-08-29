@@ -46,6 +46,7 @@ from contacts import contacts_window
 from emesh import tab_electrical_mesh
 
 from help import help_window
+from gl_cmp import gl_cmp
 
 open_gl_working=False
 
@@ -64,6 +65,7 @@ class display_widget(QWidget):
 		self.complex_display=False
 
 		self.hbox=QVBoxLayout()
+		self.gl_cmp=gl_cmp()
 		
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(42, 42))
@@ -81,6 +83,11 @@ class display_widget(QWidget):
 		self.tb_mesh.triggered.connect(self.callback_edit_mesh)
 		toolbar.addAction(self.tb_mesh)
 
+
+		self.tb_config = QAction(QIcon(os.path.join(get_image_file_path(),"cog.png")), _("Configuration"), self)
+		self.tb_config.triggered.connect(self.callback_configure)
+		toolbar.addAction(self.tb_config)
+		
 		self.hbox.addWidget(toolbar)
 
 		self.display=glWidget(self)
@@ -98,7 +105,9 @@ class display_widget(QWidget):
 
 		self.contacts_window=contacts_window()
 		self.contacts_window.changed.connect(self.recalculate)
-		
+
+		self.gl_cmp.slider.changed.connect(self.recalculate)
+
 	def tb_rotate_click(self):
 		self.display.start_rotate()
 		
@@ -124,13 +133,19 @@ class display_widget(QWidget):
 			self.display.selected_layer=n
 
 	def recalculate(self):
+		self.display.graph_path=self.gl_cmp.slider.file_name
 		self.display.recalculate()
 	
 	def update(self):
 #		print("recalculate")
 		self.display.update()
 
-
+	def callback_configure(self):
+		if self.gl_cmp.isVisible()==True:
+			self.gl_cmp.hide()
+		else:
+			self.gl_cmp.show()
+		
 	def callback_contacts(self):
 		help_window().help_set_help(["contact.png",_("<big><b>Contacts window</b></big>\nUse this window to change the layout of the contacts on the device")])
 

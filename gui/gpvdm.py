@@ -524,8 +524,9 @@ class gpvdm_main_window(QMainWindow):
 
 	def callback_examine(self, widget, data=None):
 		help_window().help_set_help(["plot_time.png",_("<big><b>Examine the results in time domain</b></big><br> After you have run a simulation in time domain, if is often nice to be able to step through the simulation and look at the results.  This is what this window does.  Use the slider bar to move through the simulation.  When you are simulating a JV curve, the slider sill step through voltage points rather than time points.")])
-		mycmp=cmp_class()
-		mycmp.show()
+		self.my_cmp_class=cmp_class()
+		self.my_cmp_class.show()
+
 		return
 		ret=mycmp.init()
 		if ret==False:
@@ -666,7 +667,7 @@ class gpvdm_main_window(QMainWindow):
 		self.win_list=windows()
 		self.win_list.load()
 
-		self.show()
+		#self.show()
 
 		if running_on_linux()==True:
 			DBusQtMainLoop(set_as_default=True)

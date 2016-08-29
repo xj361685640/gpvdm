@@ -183,6 +183,17 @@ FILE *out;
 	fclose(out);
 }
 
+void str_to_lower(char *out, char *in)
+{
+	int i=0;
+	for (i=0;i<strlen(in);i++)
+	{
+		out[i]=tolower(in[i]);
+	}
+	out[i]=0;
+
+}
+
 int check_int(char *in)
 {
 int i=0;
@@ -201,116 +212,120 @@ static int unused __attribute__((unused));
 
 int english_to_bin(struct simulation *sim, char * in)
 {
+char temp[100];
 int ret=0;
-if (check_int(in)==TRUE)
+
+str_to_lower(temp, in);
+
+if (check_int(temp)==TRUE)
 {
-sscanf(in,"%d",&ret);
+sscanf(temp,"%d",&ret);
 return ret;
 }
 
-if (strcmp(in,"true")==0)
+if (strcmp(temp,"true")==0)
 {
 	return TRUE;
 }else
-if (strcmp(in,"false")==0)
+if (strcmp(temp,"false")==0)
 {
 	return FALSE;
 }else
-if (strcmp(in,"1")==0)
+if (strcmp(temp,"1")==0)
 {
 	return TRUE;
 }else
-if (strcmp(in,"0")==0)
+if (strcmp(temp,"0")==0)
 {
 	return FALSE;
 }else
-if (strcmp(in,"yes")==0)
+if (strcmp(temp,"yes")==0)
 {
 	return TRUE;
 }else
-if (strcmp(in,"no")==0)
+if (strcmp(temp,"no")==0)
 {
 	return FALSE;
 }else
-if (strcmp(in,"left")==0)
+if (strcmp(temp,"left")==0)
 {
 	return LEFT;
 }else
-if (strcmp(in,"links")==0)
+if (strcmp(temp,"links")==0)
 {
 	return LEFT;
 }else
-if (strcmp(in,"ja")==0)
+if (strcmp(temp,"ja")==0)
 {
 	return TRUE;
 }else
-if (strcmp(in,"nein")==0)
+if (strcmp(temp,"nein")==0)
 {
 	return FALSE;
 }else
-if (strcmp(in,"right")==0)
+if (strcmp(temp,"right")==0)
 {
 	return RIGHT;
 }else
-if (strcmp(in,"rechts")==0)
+if (strcmp(temp,"rechts")==0)
 {
 	return RIGHT;
 
 }else
-if (strcmp(in,"gaus")==0)
+if (strcmp(temp,"gaus")==0)
 {
 	return 0;
 }else
-if (strcmp(in,"exp")==0)
+if (strcmp(temp,"exp")==0)
 {
 	return 1;
 }else
-if (strcmp(in,"exponential")==0)
+if (strcmp(temp,"exponential")==0)
 {
 	return dos_exp;
 }else
-if (strcmp(in,"complex")==0)
+if (strcmp(temp,"complex")==0)
 {
 	return dos_an;
 }
 else
-if (strcmp(in,"open_circuit")==0)
+if (strcmp(temp,"open_circuit")==0)
 {
 	return pulse_open_circuit;
 }else
-if (strcmp(in,"load")==0)
+if (strcmp(temp,"load")==0)
 {
 	return pulse_load;
 }else
-if (strcmp(in,"ideal_diode_ideal_load")==0)
+if (strcmp(temp,"ideal_diode_ideal_load")==0)
 {
 	return pulse_ideal_diode_ideal_load;
 }else
-if (strcmp(in,"none")==0)
+if (strcmp(temp,"none")==0)
 {
 	return log_level_none;
 }else
-if (strcmp(in,"screen")==0)
+if (strcmp(temp,"screen")==0)
 {
 	return log_level_screen;
 }else
-if (strcmp(in,"disk")==0)
+if (strcmp(temp,"disk")==0)
 {
 	return log_level_disk;
 }else
-if (strcmp(in,"screen_and_disk")==0)
+if (strcmp(temp,"screen_and_disk")==0)
 {
 	return log_level_screen_and_disk;
 }else
-if (strcmp(in,"newton")==0)
+if (strcmp(temp,"newton")==0)
 {
 	return FIT_NEWTON;
 }else
-if (strcmp(in,"simplex")==0)
+if (strcmp(temp,"simplex")==0)
 {
 	return FIT_SIMPLEX;
 }else
-if (strcmp(in,"bfgs")==0)
+if (strcmp(temp,"bfgs")==0)
 {
 	return FIT_BFGS;
 }

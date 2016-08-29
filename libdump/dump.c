@@ -118,7 +118,7 @@ char sim_name[PATH_MAX];
 
 strextract_name(sim_name,in->simmode);
 
-sprintf(snapshot_dir,"snapshots_%s",sim_name);
+sprintf(snapshot_dir,"snapshots");
 
 int dumped=FALSE;
 FILE* out;

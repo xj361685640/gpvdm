@@ -36,6 +36,7 @@ from PyQt5.QtWidgets import QWidget, QHBoxLayout
 
 #from layer_widget import layer_widget
 from util import read_xyz_data
+from util import read_data_2d
 
 #from util import str2bool
 #from tab_base import tab_base
@@ -299,6 +300,36 @@ def box_lines(x,y,z,w,h,d):
 
 	glEnd()
 
+def graph(xstart,ystart,z,w,h,x_scale,y_scale,z_data):
+	xpoints=len(x_scale)
+	ypoints=len(y_scale)
+	
+	dx=w/xpoints
+	dy=h/ypoints
+
+	glBegin(GL_QUADS)
+
+	my_max=z_data[0][0]
+	for x in range(0,xpoints):
+		for y in range(0,ypoints):
+			if z_data[x][y]>my_max:
+				my_max=z_data[x][y]
+
+
+
+	for x in range(0,xpoints):
+		for y in range(0,ypoints):
+
+			glColor4f(z_data[x][y]/my_max,0.0,0.0, 0.7)
+			#glColor3f(z_data[x][y]/my_max,0.0,0.0)
+			glVertex3f(xstart+dx*x,ystart+y*dy, z)
+			glVertex3f(xstart+dx*(x+1),ystart+y*dy, z)
+			glVertex3f(xstart+dx*(x+1),ystart+dy*(y+1), z)
+			glVertex3f(xstart+dx*x, ystart+dy*(y+1), z) 
+
+
+	glEnd()
+	
 def box(x,y,z,w,h,d,r,g,b):
 	red=r
 	green=g
@@ -386,6 +417,7 @@ if open_gl_ok==True:
 		tet_rotate = 0.0
 		colors=[]
 		def __init__(self, parent):
+			self.graph_path="./snapshots/159/Jn.dat"
 			self.xRot =25.0
 			self.yRot =-20.0
 			self.zRot =0.0
@@ -617,6 +649,9 @@ if open_gl_ok==True:
 					glRotatef(self.tet_rotate, tet_x_rate, tet_y_rate, tet_z_rate)
 
 				draw_mode(pos-0.05,depth)
+				print(self.graph_path)
+
+				graph(0.0,0.0,depth+0.5,width,pos,self.x_scale,self.y_scale,self.z_data)
 				draw_grid()
 				if self.zoom<-60:
 					draw_stars()
@@ -625,7 +660,13 @@ if open_gl_ok==True:
 			self.colors=[]
 			lines=[]
 
-		
+			self.x_scale=[]
+			self.y_scale=[]
+			self.z_data=[]
+
+			read_data_2d(self.x_scale,self.y_scale,self.z_data,self.graph_path)
+
+
 			val=inp_get_token_value("light.inp", "#Psun")
 			self.suns=float(val)
 			l=epitaxy_get_layers()-1
@@ -654,6 +695,8 @@ if open_gl_ok==True:
 			glClearDepth(1.0)              
 			glDepthFunc(GL_LESS)
 			glEnable(GL_DEPTH_TEST)
+			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			glEnable(GL_BLEND);
 			#glEnable(GL_PROGRAM_POINT_SIZE_EXT);
 			glShadeModel(GL_SMOOTH)
 		

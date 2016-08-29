@@ -64,6 +64,7 @@ void contacts_load(struct simulation *sim,struct device *in)
 	}
 
 	gdouble pos=0.0;
+	int active=FALSE;
 	for (i=0;i<in->ncontacts;i++)
 	{
 		inp_get_string(sim,&inp);	//start
@@ -80,7 +81,7 @@ void contacts_load(struct simulation *sim,struct device *in)
 		in->contacts[i].voltage_last=in->contacts[i].voltage;
 
 		inp_get_string(sim,&inp);	//active contact
-		inp_get_string(sim,&inp);
+		in->contacts[i].active=english_to_bin(sim, inp_get_string(sim,&inp));
 
 		pos+=in->contacts[i].width;
 	}
@@ -148,7 +149,8 @@ for (x=0;x<in->xmeshpoints;x++)
 
 	if (found==FALSE)
 	{
-		ewe(sim,"contact does not extend over whole device\n");
+		value=0.0;
+		n=-1;
 	}
 
 	for (z=0;z<in->zmeshpoints;z++)
@@ -174,6 +176,21 @@ void contact_set_voltage(struct simulation *sim,struct device *in,int contact,gd
 {
 	in->contacts[contact].voltage=voltage;
 	contacts_update(sim,in);
+}
+
+void contact_set_voltage_if_active(struct simulation *sim,struct device *in,gdouble voltage)
+{
+	int i=0;
+	for (i=0;i<in->ncontacts;i++)
+	{
+		if (in->contacts[i].active==TRUE)
+		{
+			in->contacts[i].voltage=voltage;
+		}
+	}
+
+contacts_update(sim,in);
+
 }
 
 void contact_set_all_voltages(struct simulation *sim,struct device *in,gdouble voltage)

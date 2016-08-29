@@ -38,6 +38,8 @@ from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget
 from PyQt5.QtGui import QPainter,QIcon
 
+from snapshot_slider import snapshot_slider
+
 class cmp_class(QWidget):
 	mix_y=None
 	max_y=None
@@ -60,18 +62,6 @@ class cmp_class(QWidget):
 		self.win_list.update(self,"cmp_class")
 		return False
 
-	def count_dumps(self):
-		dirs=0
-		path=self.entry0.get_active_text()
-		if os.path.isdir(path)==True:
-			for name in os.listdir(path):
-				if name!="." and name!= "..":
-					if os.path.isdir(os.path.join(path, name)):
-						dirs=dirs+1
-
-		self.adj1.set_upper(dirs)
-		self.dumps=dirs
-
 	def do_clip(self):
 
 		snap = self.canvas.get_snapshot()
@@ -85,31 +75,6 @@ class cmp_class(QWidget):
 		if gtk.gdk.keyval_name(event.keyval) == "c":
 			if event.state == gtk.gdk.CONTROL_MASK:
 				self.do_clip()
-
-	def callback_set_min_max(self, data, widget):
-
-		#path0=self.entry0.get_active_text()
-		my_max=-1e40
-		my_min=1e40
-		#print "Rod",self.file_names
-		for ii in range(0,len(self.file_names)):
-			for i in range(0,self.dumps):
-				self.update(i)
-				t=[]
-				s=[]
-				z=[]
-				if self.plot.read_data_file(t,s,z,ii) == True:
-					temp_max=max(s)
-					temp_min=min(s)
-
-					if temp_max>my_max:
-						my_max=temp_max
-
-					if temp_min<my_min:
-						my_min=temp_min
-
-		self.plot.ymax=my_max
-		self.plot.ymin=my_min
 
 	def update(self,value):
 
@@ -295,6 +260,15 @@ class cmp_class(QWidget):
 
 	def __init__(self):
 		QWidget.__init__(self)
+		self.setWindowTitle(_("Examine simulation results in time domain")) 
+		
+		self.main_vbox = QVBoxLayout()
+
+		self.slider=snapshot_slider(os.path.join(os.getcwd(),"snapshots"))
+
+		self.main_vbox.addWidget(self.slider)
+
+		self.setLayout(self.main_vbox)
 
 	def init(self):
 		return False
