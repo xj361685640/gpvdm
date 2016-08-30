@@ -300,35 +300,72 @@ def box_lines(x,y,z,w,h,d):
 
 	glEnd()
 
-def graph(xstart,ystart,z,w,h,x_scale,y_scale,z_data):
+def val_to_rgb(v):
+
+	dx=1.0
+	r=0*v/dx
+	g=0*v/dx
+	b=1*v/dx	
+	return r,g,b
+
+	dx=1/6.0
+
+	if v<dx:
+		r=0*v/dx
+		g=0*v/dx
+		b=1*v/dx
+	elif v<dx*2:
+		r=0*(v-dx)/dx
+		g=1*(v-dx)/dx
+		b=1*(v-dx)/dx
+	elif v<dx*3:
+		r=0*(v-2*dx)/dx
+		g=1*(v-2*dx)/dx
+		b=0*(v-2*dx)/dx
+	elif v<dx*4:
+		r=1*(v-3*dx)/dx
+		g=1*(v-3*dx)/dx
+		b=0*(v-3*dx)/dx
+	elif v<dx*5:
+		r=1*(v-4*dx)/dx
+		g=0*(v-4*dx)/dx
+		b=0*(v-4*dx)/dx
+	else:
+		r=1*(v-5*dx)/dx
+		g=1*(v-5*dx)/dx
+		b=1*(v-5*dx)/dx
+		
+	return r,g,b
+
+		
+		
+def graph(xstart,ystart,z,w,h,x_scale,y_scale,z_data,z_range):
 	xpoints=len(x_scale)
 	ypoints=len(y_scale)
 	
-	dx=w/xpoints
-	dy=h/ypoints
+	if xpoints>0 and ypoints>0:
+		
+		dx=w/xpoints
+		dy=h/ypoints
 
-	glBegin(GL_QUADS)
-
-	my_max=z_data[0][0]
-	for x in range(0,xpoints):
-		for y in range(0,ypoints):
-			if z_data[x][y]>my_max:
-				my_max=z_data[x][y]
+		glBegin(GL_QUADS)
 
 
+		if z_range==0.0:
+			z_range=1.0
 
-	for x in range(0,xpoints):
-		for y in range(0,ypoints):
+		for x in range(0,xpoints):
+			for y in range(0,ypoints):
+				r,g,b=val_to_rgb(z_data[x][y]/z_range)
+				glColor4f(r,g,b, 0.7)
+				#glColor3f(z_data[x][y]/my_max,0.0,0.0)
+				glVertex3f(xstart+dx*x,ystart+y*dy, z)
+				glVertex3f(xstart+dx*(x+1),ystart+y*dy, z)
+				glVertex3f(xstart+dx*(x+1),ystart+dy*(y+1), z)
+				glVertex3f(xstart+dx*x, ystart+dy*(y+1), z) 
 
-			glColor4f(z_data[x][y]/my_max,0.0,0.0, 0.7)
-			#glColor3f(z_data[x][y]/my_max,0.0,0.0)
-			glVertex3f(xstart+dx*x,ystart+y*dy, z)
-			glVertex3f(xstart+dx*(x+1),ystart+y*dy, z)
-			glVertex3f(xstart+dx*(x+1),ystart+dy*(y+1), z)
-			glVertex3f(xstart+dx*x, ystart+dy*(y+1), z) 
 
-
-	glEnd()
+		glEnd()
 	
 def box(x,y,z,w,h,d,r,g,b):
 	red=r
@@ -418,9 +455,13 @@ if open_gl_ok==True:
 		colors=[]
 		def __init__(self, parent):
 			self.graph_path="./snapshots/159/Jn.dat"
+			self.graph_z_max=1.0
+			self.graph_z_min=1.0
 			self.xRot =25.0
 			self.yRot =-20.0
 			self.zRot =0.0
+			self.x_pos=-0.5
+			self.y_pos=-0.5
 			self.zoom=-8.0
 			self.enabled=False
 			self.timer=None
@@ -468,8 +509,8 @@ if open_gl_ok==True:
 				if event.text()=="z":
 					if self.timer==None:
 						self.start_rotate()
-						
-						self.zoom =-400
+						if self.zoom>-40:
+							self.zoom =-400
 						self.zoom_timer=QTimer()
 						self.zoom_timer.timeout.connect(self.fzoom_timer)
 						self.zoom_timer.start(50)
@@ -491,7 +532,12 @@ if open_gl_ok==True:
 				
 				self.xRot =self.xRot + 1 * dy
 				self.yRot =self.yRot + 1 * dx
-				
+
+			if event.buttons()==Qt.RightButton:
+				self.x_pos =self.x_pos - 0.1 * dx
+				self.y_pos =self.y_pos + 0.1 * dy
+
+
 			self.lastPos=event.pos()
 			self.setFocusPolicy(Qt.StrongFocus)
 			self.setFocus()
@@ -507,7 +553,8 @@ if open_gl_ok==True:
 
 		def paintGL(self):
 			if self.enabled==True:
-
+				dos_start=-1
+				dos_stop=-1
 				width=mesh_get_xlen()/1e-3
 				depth=mesh_get_zlen()/1e-3
 			
@@ -530,7 +577,7 @@ if open_gl_ok==True:
 				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 				glLoadIdentity()
 
-				glTranslatef(-0.5, -0.5, self.zoom) # Move Into The Screen
+				glTranslatef(self.x_pos, self.y_pos, self.zoom) # Move Into The Screen
 				
 				glRotatef(self.xRot, 1.0, 0.0, 0.0)
 				glRotatef(self.yRot, 0.0, 1.0, 0.0)
@@ -596,6 +643,12 @@ if open_gl_ok==True:
 						dz=depth/float(zpoints)
 						xshrink=0.8
 						zshrink=0.8
+						
+						if dos_start==-1:
+							dos_start=pos
+						
+						dos_stop=pos+thick
+				
 						if xpoints==1:
 							xshrink=1.0
 
@@ -639,7 +692,7 @@ if open_gl_ok==True:
 					glColor3f(1.0,1.0,1.0)
 					font = QFont("Arial")
 					font.setPointSize(18)
-					if self.zoom>-10:
+					if self.zoom>-20:
 						self.renderText (width+0.1,pos+thick/2,depth, text,font)
 
 					pos=pos+thick+0.05
@@ -651,7 +704,8 @@ if open_gl_ok==True:
 				draw_mode(pos-0.05,depth)
 				print(self.graph_path)
 
-				graph(0.0,0.0,depth+0.5,width,pos,self.x_scale,self.y_scale,self.z_data)
+				full_data_range=self.graph_z_max-self.graph_z_min
+				graph(0.0,dos_start,depth+0.5,width,dos_stop-dos_start,self.x_scale,self.y_scale,self.z_data,full_data_range)
 				draw_grid()
 				if self.zoom<-60:
 					draw_stars()

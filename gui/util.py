@@ -47,6 +47,9 @@ def gui_print_path(text,path,length):
 
 
 def read_data_2d(x_scale,y_scale,z,file_name):
+	if file_name==None:
+		return False
+	
 	found,lines=zip_get_data_file(file_name)
 	if found==True:
 		x_max=0

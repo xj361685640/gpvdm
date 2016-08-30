@@ -35,7 +35,7 @@ import webbrowser
 
 #qt
 from PyQt5.QtCore import QSize, Qt 
-from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget
+from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QHBoxLayout,QLabel,QComboBox
 from PyQt5.QtGui import QPainter,QIcon
 
 from snapshot_slider import snapshot_slider
@@ -250,7 +250,7 @@ class cmp_class(QWidget):
 	def find_snapshots(self):
 
 		matches = []
-		for root, dirnames, filenames in os.walk(os.getcwd(), followlinks=True):
+		for root, dirnames, filenames in os.walk(os.getcwd()):
 			for filename in filenames:
 				my_file=os.path.join(root,filename)
 				if my_file.endswith("snapshots.inp")==True:
@@ -261,35 +261,74 @@ class cmp_class(QWidget):
 	def __init__(self):
 		QWidget.__init__(self)
 		self.setWindowTitle(_("Examine simulation results in time domain")) 
+
+		self.snapshots_hbox = QHBoxLayout()
+		self.snapshots_label= QLabel("Snapshots")
+		self.snapshots_hbox.addWidget(self.snapshots_label)
+		self.snapshots_combobox=QComboBox()
+		self.snapshots_hbox.addWidget(self.snapshots_combobox)
+		self.snapshots_widget=QWidget()
+		self.snapshot_dirs=self.find_snapshots()
+		for i in range(0,len(self.snapshot_dirs)):
+			self.snapshots_combobox.addItem(self.snapshot_dirs[i])
+
+		self.snapshots_widget.setLayout(self.snapshots_hbox)
 		
 		self.main_vbox = QVBoxLayout()
 
 		self.slider=snapshot_slider(os.path.join(os.getcwd(),"snapshots"))
 
+		self.plot=plot_widget()
+		self.plot.init()
+		#Toolbar
+		toolbar=QToolBar()
+		toolbar.setIconSize(QSize(42, 42))
+
+		self.tb_rotate = QAction(QIcon(os.path.join(get_image_file_path(),"video.png")), _("Rotate"), self)
+		self.tb_rotate.triggered.connect(self.callback_save)
+		toolbar.addAction(self.tb_rotate)
+
+		self.tb_rotate = QAction(QIcon(os.path.join(get_image_file_path(),"scale.png")), _("Rotate"), self)
+		self.tb_rotate.triggered.connect(self.callback_save)
+		toolbar.addAction(self.tb_rotate)
+
+
+		spacer = QWidget()
+		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+		toolbar.addWidget(spacer)
+
+
+		self.help = QAction(QIcon(os.path.join(get_image_file_path(),"help.png")), 'Hide', self)
+		self.help.setStatusTip(_("Close"))
+		self.help.triggered.connect(self.callback_help)
+		toolbar.addAction(self.help)
+##############################################
+		self.main_vbox.addWidget(toolbar)
+
+		self.main_vbox.addWidget(self.plot)
+
+		self.main_vbox.addWidget(self.snapshots_widget)
+		
 		self.main_vbox.addWidget(self.slider)
 
 		self.setLayout(self.main_vbox)
 
-	def init(self):
-		return False
-		self.dumps=0
-		self.plot_token=plot_state()
 		self.win_list=windows()
 		self.win_list.load()
 		self.win_list.set_window(self,"cmp_class")
 
-		self.snapshot_list=self.find_snapshots()
+		#self.light.currentIndexChanged.connect(self.call_back_light_changed)
+	def init(self):
+		return False
+		self.dumps=0
+		self.plot_token=plot_state()
+
 		vbox=gtk.VBox()
 
 		self.multi_plot=False
 
 		self.log_scale_y="auto"
 
-		self.plot=plot_widget()
-		self.plot.init(self)
-
-		#accel_group = gtk.AccelGroup()
-		#item_factory = gtk.ItemFactory(gtk.MenuBar, "<main>", accel_group)
 
 		menu_items = (
 		    ( "/_Options",         None,         None, 0, "<Branch>" ),
@@ -300,59 +339,12 @@ class cmp_class(QWidget):
 
 		self.plot.item_factory.create_items(menu_items)
 
-
-
-		image = gtk.Image()
-		image.set_from_file(os.path.join(get_image_file_path(),"video.png"))
-		self.video = gtk.ToolButton(image)
-		self.plot.toolbar.add(self.video)
-		self.video.show()
-		self.video.connect("clicked", self.callback_save)
-
-		image = gtk.Image()
-		image.set_from_file(os.path.join(get_image_file_path(),"scale.png"))
-		self.scale = gtk.ToolButton(image)
-		self.plot.toolbar.add(self.scale)
-
-		sep = gtk.SeparatorToolItem()
-		sep.set_draw(False)
-		sep.set_expand(True)
-		self.plot.toolbar.add(sep)
-		sep.show()
-
-
-		image = gtk.Image()
-		image.set_from_file(os.path.join(get_image_file_path(),"help.png"))
-		help = gtk.ToolButton(image)
-		self.plot.toolbar.add(help)
-		help.connect("clicked", self.callback_help)
-		help.show()
-
 		close = gtk.ToolButton(gtk.STOCK_QUIT)
 		close.connect("clicked", self.callback_close)
 		self.plot.toolbar.add(close)
 		close.show()
 
 		self.connect("delete-event", self.callback_close)
-
-		self.plot.toolbar.show_all()
-
-
-		self.canvas=self.plot.canvas
-		self.plot.show()
-		vbox.add(self.plot)
-
-		#adjust
-		self.adj1 = gtk.Adjustment(0.0, 0.0, 100, 1, 1.0, 1.0)
-		self.adj1.connect("value_changed", self.callback_scale)
-		vscale = gtk.HScale(self.adj1)
-		vscale.set_update_policy(gtk.UPDATE_CONTINUOUS)
-		vscale.set_digits(1)
-		vscale.set_value_pos(gtk.POS_TOP)
-		vscale.set_draw_value(True)
-		vscale.set_size_request(200, 40)
-		vscale.set_digits(0)
-		vbox.pack_start(vscale, False, False, 10)
 
 
 		sim_vbox=gtk.VBox()
