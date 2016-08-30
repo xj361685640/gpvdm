@@ -19,8 +19,6 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-from util import read_xyz_data
-
 import os
 
 #inp
@@ -65,7 +63,7 @@ class display_widget(QWidget):
 		self.complex_display=False
 
 		self.hbox=QVBoxLayout()
-		self.gl_cmp=gl_cmp()
+		self.gl_cmp=gl_cmp(os.path.join(os.getcwd(),"snapshots"))
 		
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(42, 42))

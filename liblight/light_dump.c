@@ -342,13 +342,21 @@ if ((get_dump_status(sim,dump_optics)==TRUE)&&(in->sun_E[i]!=0.0))
 		strcpy(buf.y_units,"$a.u.$");
 		buf.logscale_x=0;
 		buf.logscale_y=0;
+		buf.x=1;
+		buf.y=in->points;
+		buf.z=1;
+
 		buffer_add_info(&buf);
+
+		buffer_add_string(&buf,"#data\n");
 
 		for (ii=0;ii<in->points;ii++)
 		{
 			sprintf(line,"%Le %Le\n",in->x[ii]-in->device_start,in->photons_tot[ii]/max);
 			buffer_add_string(&buf,line);
 		}
+
+		buffer_add_string(&buf,"#end");
 
 		sprintf(out_name,"light_1d_photons_tot_norm%s.dat",ext);
 		buffer_dump_path(out_dir,out_name,&buf);
@@ -382,6 +390,9 @@ if ((get_dump_status(sim,dump_optics)==TRUE)&&(in->sun_E[i]!=0.0))
 		strcpy(buf.y_units,"$a.u.$");
 		buf.logscale_x=0;
 		buf.logscale_y=0;
+		buf.x=1;
+		buf.y=in->points;
+		buf.z=1;
 		buffer_add_info(&buf);
 
 		for (ii=0;ii<in->points;ii++)

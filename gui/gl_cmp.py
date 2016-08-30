@@ -42,14 +42,14 @@ from snapshot_slider import snapshot_slider
 
 class gl_cmp(QWidget):
 
-	def __init__(self):
+	def __init__(self,path):
 		QWidget.__init__(self)
 		self.setWindowTitle(_("Results viewer")) 
 		
 		self.main_vbox = QVBoxLayout()
 
-		self.slider=snapshot_slider(os.path.join(os.getcwd(),"snapshots"))
-
+		self.slider=snapshot_slider()
+		self.slider.set_path(path)
 		self.main_vbox.addWidget(self.slider)
 
 		self.setLayout(self.main_vbox)

@@ -43,9 +43,7 @@ def gui_print_path(text,path,length):
 		ret=text+path
 
 	return ret
-
-
-
+			
 def read_data_2d(x_scale,y_scale,z,file_name):
 	if file_name==None:
 		return False

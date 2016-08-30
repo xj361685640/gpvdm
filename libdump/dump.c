@@ -51,6 +51,9 @@ gdouble zpos=0.0;
 
 char string[200];
 
+sprintf(string,"#data\n");
+buffer_add_string(buf,string);
+			
 if ((in->xmeshpoints>1)&&(in->ymeshpoints>1)&&(in->zmeshpoints>1))
 {
 	for (z=0;z<in->zmeshpoints;z++)
@@ -88,7 +91,8 @@ if ((in->xmeshpoints>1)&&(in->ymeshpoints>1))
 	}
 }
 
-
+sprintf(string,"#end\n");
+buffer_add_string(buf,string);
 }
 
 void buffer_set_graph_type(struct buffer *buf,struct device *in)
@@ -125,7 +129,6 @@ FILE* out;
 struct stat st = {0};
 
 	sprintf(postfix,"%d",dump_number);
-
 	if ((get_dump_status(sim,dump_pl)==TRUE)||(get_dump_status(sim,dump_energy_slice_switch)==TRUE)||(get_dump_status(sim,dump_1d_slices)==TRUE)||(get_dump_status(sim,dump_optical_probe_spectrum)==TRUE))
 	{
 		join_path(2,snapshots_dir,get_output_path(sim),snapshot_dir);
@@ -133,12 +136,13 @@ struct stat st = {0};
 		if (stat(snapshots_dir, &st) == -1)
 		{
 				mkdir(snapshots_dir, 0700);
-
-			join_path(2,temp,snapshots_dir,"snapshots.inp");
-			out=fopen(temp,"w");
-			fprintf(out,"#end");
-			fclose(out);
+			
 		}
+
+		join_path(2,temp,snapshots_dir,"snapshots.inp");
+		out=fopen(temp,"w");
+		fprintf(out,"#end");
+		fclose(out);
 
 		join_path(2,out_dir,snapshots_dir,postfix);
 

@@ -76,8 +76,15 @@ class cmp_class(QWidget):
 			if event.state == gtk.gdk.CONTROL_MASK:
 				self.do_clip()
 
-	def update(self,value):
+	def update(self):
+		file_name=self.slider.get_file_name()
+		self.plot.set_labels(["data"])
+		self.plot.set_plot_ids([0])
+		config_file=os.path.splitext(file_name)[0]+".oplot"
+		self.plot.load_data([file_name],config_file)
+		self.plot.do_plot()
 
+		return
 		files=self.entry2.get_text().split()
 		value=int(value)
 		print("hello")
@@ -123,12 +130,8 @@ class cmp_class(QWidget):
 
 		print("hi",self.file_names)
 		print(plot_id)
-		self.plot.set_labels(labels)
-		self.plot.set_plot_ids(plot_id)
-		config_file=os.path.join(self.entry0.get_active_text(),os.path.splitext(self.entry2.get_text().split()[0])[0])+".oplot"
-		print("file names=",self.file_names)
-		print("config file",config_file)
-		self.plot.load_data(self.file_names,config_file)
+
+
 
 
 	def callback_scale(self, adj):
@@ -258,6 +261,9 @@ class cmp_class(QWidget):
 
 		return matches
 
+	def callback_snapshots_combobox(self):
+		self.slider.set_path(self.snapshots_combobox.currentText())
+		
 	def __init__(self):
 		QWidget.__init__(self)
 		self.setWindowTitle(_("Examine simulation results in time domain")) 
@@ -272,12 +278,15 @@ class cmp_class(QWidget):
 		for i in range(0,len(self.snapshot_dirs)):
 			self.snapshots_combobox.addItem(self.snapshot_dirs[i])
 
+		self.snapshots_combobox.currentIndexChanged.connect(self.callback_snapshots_combobox)
+
 		self.snapshots_widget.setLayout(self.snapshots_hbox)
 		
 		self.main_vbox = QVBoxLayout()
 
-		self.slider=snapshot_slider(os.path.join(os.getcwd(),"snapshots"))
-
+		self.slider=snapshot_slider()
+		self.slider.set_path(os.path.join(os.getcwd(),"snapshots"))
+		self.slider.changed.connect(self.update)
 		self.plot=plot_widget()
 		self.plot.init()
 		#Toolbar
@@ -318,6 +327,7 @@ class cmp_class(QWidget):
 		self.win_list.set_window(self,"cmp_class")
 
 		#self.light.currentIndexChanged.connect(self.call_back_light_changed)
+
 	def init(self):
 		return False
 		self.dumps=0

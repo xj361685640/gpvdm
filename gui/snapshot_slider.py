@@ -31,24 +31,11 @@ from PyQt5.QtGui import QPainter,QIcon
 from PyQt5.QtCore import pyqtSignal
 
 from help import help_window
-from util import read_data_2d
 
+from dat_file import dat_file
+from dat_file import dat_file_read
+from dat_file import dat_file_max_min
 
-def max_min_2d(array):
-	y_len=len(array)
-	x_len=len(array[0])
-	my_max=array[0][0]
-	my_min=array[0][0]
-
-	for x in range(0,x_len):
-		for y in range(0,y_len):
-			if array[x][y]>my_max:
-				my_max=array[x][y]
-
-			if array[x][y]<my_min:
-				my_min=array[x][y]
-
-	return [my_max,my_min]
 
 class snapshot_slider(QWidget):
 
@@ -65,9 +52,11 @@ class snapshot_slider(QWidget):
 			y=[]
 			z=[]
 			print("one=",fname)
-			if read_data_2d(x,y,z,fname) == True:
-
-				temp_max,temp_min=max_min_2d(z)
+			my_data=dat_file()
+			
+			if dat_file_read(my_data,fname) == True:
+				print(z)
+				temp_max,temp_min=dat_file_max_min(my_data)
 
 				if temp_max>self.z_max:
 					self.z_max=temp_max
@@ -98,10 +87,16 @@ class snapshot_slider(QWidget):
 		if os.path.isfile(file_path)==False:
 			file_path=None
 		return file_path
-		
-	def __init__(self,path):
-		QWidget.__init__(self)
+
+	def set_path(self,path):
 		self.path=path
+		self.update()
+		self.cal_min_max()
+
+		
+	def __init__(self):
+		QWidget.__init__(self)
+		self.path=""
 		
 		self.setWindowTitle(_("Snapshot slider")) 
 		
@@ -141,7 +136,6 @@ class snapshot_slider(QWidget):
 		self.files_combo=QComboBox()
 		self.slider_hbox1.addWidget(self.files_combo)
 
-		self.update()
 		self.files_combo.currentIndexChanged.connect(self.files_combo_changed)
 
 		self.widget1=QWidget()
@@ -151,10 +145,10 @@ class snapshot_slider(QWidget):
 
 ###############
 
-		self.cal_min_max()
 		self.setLayout(self.main_vbox)
 
 	def update_file_combo(self):
+		self.files_combo.blockSignals(True)
 		self.files_combo.clear()
 		path=os.path.join(self.path,str(self.slider0.value()))
 		if os.path.isdir(path)==True:
@@ -168,7 +162,9 @@ class snapshot_slider(QWidget):
 		for i in range(0,len(all_items)):
 			if all_items[i] == "Jn.dat":
 				self.files_combo.setCurrentIndex(i)
+		self.files_combo.blockSignals(False)
 
+		
 	def files_combo_changed(self):
 		self.cal_min_max()
 		self.changed.emit()

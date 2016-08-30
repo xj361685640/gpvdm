@@ -147,6 +147,7 @@ class plot_widget(QWidget):
 
 	def read_data_file(self,t,s,z,index):
 		if read_xyz_data(t,s,z,self.input_files[index])==True:
+			print(">>>>>>>>>>!>>>>",s,self.input_files[index])
 			self.sub_zero_frame(t,s,index)
 			my_min=0.0;
 
@@ -217,11 +218,6 @@ class plot_widget(QWidget):
 			if self.plot_token.type=="heat":
 				number_of_plots=1
 
-#			if number_of_plots>1:
-#				yloc = plt.MaxNLocator(4)
-#			else:
-#				yloc = plt.MaxNLocator(10)
-
 
 
 
@@ -273,7 +269,6 @@ class plot_widget(QWidget):
 					all_max=my_max
 
 				for i in range(0, len(self.input_files)):
-					#t,s = loadtxt(self.input_files[i], unpack=True)
 					t=[]
 					s=[]
 					z=[]
@@ -473,23 +468,6 @@ class plot_widget(QWidget):
 			#print "Rod",input_files
 			title=self.plot_token.title
 			self.setWindowTitle(title+" - www.gpvdm.com")
-#			lines=[]
-
-#			ret=plot_load_info(self.plot_token,input_files[0])
-			#myitem=self.item_factory.get_item("/Math/Subtract first point")
-			#myitem.set_active(self.plot_token.subtract_first_point)
-
-			#myitem=self.item_factory.get_item("/Math/Add min point")
-			#myitem.set_active(self.plot_token.add_min)
-
-			#myitem=self.item_factory.get_item("/Math/Invert y-axis")
-			#myitem.set_active(self.plot_token.invert_y)
-
-			#myitem=self.item_factory.get_item("/Math/Norm to 1.0 y")
-			#myitem.set_active(self.plot_token.normalize)
-
-			#myitem=self.item_factory.get_item("/Math/Norm to peak of all data")
-			#myitem.set_active(self.plot_token.norm_to_peak_of_all_data)
 
 			print("Loaded OK",self.config_file)
 

@@ -34,13 +34,6 @@ from PyQt5 import QtGui
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QWidget, QHBoxLayout
 
-#from layer_widget import layer_widget
-from util import read_xyz_data
-from util import read_data_2d
-
-#from util import str2bool
-#from tab_base import tab_base
-
 import os
 
 #inp
@@ -80,6 +73,10 @@ from PyQt5.QtCore import QTimer
 
 import random
 from math import pi,acos,sin,cos
+
+from dat_file import dat_file
+from dat_file import dat_file_read
+from dat_file import dat_file_max_min
 
 # Rotations for cube.
 cube_rotate_x_rate = 0.2
@@ -213,13 +210,17 @@ def draw_mode(z_size,depth):
 	s=[]
 	z=[]
 	start=0.0
-	if read_xyz_data(t,s,z,os.path.join(os.getcwd(),"light_dump","light_1d_photons_tot_norm.dat"))==True:
-		array_len=len(t)
-		t.reverse()
-		s.reverse()		
+	data=dat_file()
+	path=os.path.join(os.getcwd(),"light_dump","light_1d_photons_tot_norm.dat")
+	if dat_file_read(data,path)==True:
+		array_len=data.y_len
+		s=data.data
+		s.reverse()
+		print(path)
+		print(data.data)
 		for i in range(1,array_len):
-			glVertex3f(0.0, start+(z_size*(i-1)/array_len), depth+s[i-1]*0.5)
-			glVertex3f(0.0, start+(z_size*i/array_len), depth+s[i]*0.5)
+			glVertex3f(0.0, start+(z_size*(i-1)/array_len), depth+s[0][0][i-1]*0.5)
+			glVertex3f(0.0, start+(z_size*i/array_len), depth+s[0][0][i]*0.5)
 
 	glEnd()
 
@@ -339,9 +340,9 @@ def val_to_rgb(v):
 
 		
 		
-def graph(xstart,ystart,z,w,h,x_scale,y_scale,z_data,z_range):
-	xpoints=len(x_scale)
-	ypoints=len(y_scale)
+def graph(xstart,ystart,z,w,h,z_range,graph_data):
+	xpoints=graph_data.x_len
+	ypoints=graph_data.y_len
 	
 	if xpoints>0 and ypoints>0:
 		
@@ -356,9 +357,8 @@ def graph(xstart,ystart,z,w,h,x_scale,y_scale,z_data,z_range):
 
 		for x in range(0,xpoints):
 			for y in range(0,ypoints):
-				r,g,b=val_to_rgb(z_data[x][y]/z_range)
+				r,g,b=val_to_rgb(graph_data.data[0][x][y]/z_range)
 				glColor4f(r,g,b, 0.7)
-				#glColor3f(z_data[x][y]/my_max,0.0,0.0)
 				glVertex3f(xstart+dx*x,ystart+y*dy, z)
 				glVertex3f(xstart+dx*(x+1),ystart+y*dy, z)
 				glVertex3f(xstart+dx*(x+1),ystart+dy*(y+1), z)
@@ -466,8 +466,9 @@ if open_gl_ok==True:
 			self.enabled=False
 			self.timer=None
 			self.zoom_timer=None
-			
+			self.suns=0.0
 			self.selected_layer=-1
+			self.graph_data=dat_file()
 			QGLWidget.__init__(self, parent)
 			self.lastPos=None
 			#glClearDepth(1.0)              
@@ -534,8 +535,8 @@ if open_gl_ok==True:
 				self.yRot =self.yRot + 1 * dx
 
 			if event.buttons()==Qt.RightButton:
-				self.x_pos =self.x_pos - 0.1 * dx
-				self.y_pos =self.y_pos + 0.1 * dy
+				self.x_pos =self.x_pos + 0.1 * dx
+				self.y_pos =self.y_pos - 0.1 * dy
 
 
 			self.lastPos=event.pos()
@@ -705,7 +706,7 @@ if open_gl_ok==True:
 				print(self.graph_path)
 
 				full_data_range=self.graph_z_max-self.graph_z_min
-				graph(0.0,dos_start,depth+0.5,width,dos_stop-dos_start,self.x_scale,self.y_scale,self.z_data,full_data_range)
+				graph(0.0,dos_start,depth+0.5,width,dos_stop-dos_start,full_data_range,self.graph_data)
 				draw_grid()
 				if self.zoom<-60:
 					draw_stars()
@@ -714,13 +715,10 @@ if open_gl_ok==True:
 			self.colors=[]
 			lines=[]
 
-			self.x_scale=[]
-			self.y_scale=[]
-			self.z_data=[]
-
-			read_data_2d(self.x_scale,self.y_scale,self.z_data,self.graph_path)
-
-
+			if dat_file_read(self.graph_data,self.graph_path)==True:
+				print(self.graph_path)
+				self.graph_z_max,self.graph_z_min=dat_file_max_min(self.graph_data)
+				print(self.graph_z_max,self.graph_z_min)
 			val=inp_get_token_value("light.inp", "#Psun")
 			self.suns=float(val)
 			l=epitaxy_get_layers()-1

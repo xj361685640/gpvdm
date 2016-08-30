@@ -23,7 +23,6 @@
 
 import math
 from layer_widget import layer_widget
-from util import read_xyz_data
 import os
 from cal_path import get_materials_path
 from inp import inp_load_file

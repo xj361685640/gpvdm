@@ -33,7 +33,6 @@ from inp_util import inp_search_token_value
 from cal_path import get_image_file_path
 from scan_item import scan_remove_file
 from code_ctrl import enable_betafeatures
-from util import read_xyz_data
 from plot_widget import plot_widget
 import i18n
 _ = i18n.language.gettext

@@ -181,15 +181,26 @@ void contact_set_voltage(struct simulation *sim,struct device *in,int contact,gd
 void contact_set_voltage_if_active(struct simulation *sim,struct device *in,gdouble voltage)
 {
 	int i=0;
-	for (i=0;i<in->ncontacts;i++)
+
+	if ((in->xmeshpoints==1)&&(in->zmeshpoints==1))
 	{
-		if (in->contacts[i].active==TRUE)
+		for (i=0;i<in->ncontacts;i++)
 		{
 			in->contacts[i].voltage=voltage;
 		}
+
+	}else
+	{
+		for (i=0;i<in->ncontacts;i++)
+		{
+			if (in->contacts[i].active==TRUE)
+			{
+				in->contacts[i].voltage=voltage;
+			}
+		}
 	}
 
-contacts_update(sim,in);
+	contacts_update(sim,in);
 
 }
 

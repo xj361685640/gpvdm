@@ -56,6 +56,9 @@ strcpy(in->section_one,"");
 strcpy(in->section_two,"");
 in->logscale_x=0;
 in->logscale_y=0;
+in->x=0;
+in->y=0;
+in->z=0;
 in->time= -1.0;
 in->Vexternal= -1.0;
 in->buf=(char*)malloc(sizeof(char)*in->max_len);
@@ -206,6 +209,15 @@ sprintf(temp,"#time %Le\n",in->time);
 buffer_add_string(in,temp);
 
 sprintf(temp,"#Vexternal %Le\n",in->Vexternal);
+buffer_add_string(in,temp);
+
+sprintf(temp,"#x %d\n",in->x);
+buffer_add_string(in,temp);
+
+sprintf(temp,"#y %d\n",in->y);
+buffer_add_string(in,temp);
+
+sprintf(temp,"#z %d\n",in->z);
 buffer_add_string(in,temp);
 }
 
