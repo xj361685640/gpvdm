@@ -20,64 +20,25 @@
 
 
 #qt
+import os
+
 from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication,QTableWidgetItem,QComboBox, QMessageBox, QDialog, QDialogButtonBox, QWidget
 from PyQt5.uic import loadUi
 from PyQt5.QtGui import QPixmap
 
-
-COL_PATH = 0
-COL_PIXBUF = 1
-COL_IS_DIRECTORY = 2
+from cal_path import get_ui_path
 
 import i18n
 _ = i18n.language.gettext
 
 class sim_warnings(QWidget):
 
-	def callback_close(self, widget, data=None):
-		self.response(True)
-		return
+	def callback_close(self):
+		self.window.hide()
 
-	def init(self,text):
-		QWidget.__init(self)
-		self.set_default_response(gtk.RESPONSE_OK)
-		self.set_title(_("Simulation report - gpvdm"))
-		self.set_flags(gtk.DIALOG_DESTROY_WITH_PARENT)
-		#self.add_buttons("OK",True,"Cancel",False)
-
-		#self.set_size_request(800, 400)
-		self.set_position(gtk.WIN_POS_CENTER)
-
-
-		hbox = gtk.HBox(False, 0);
-		hbox.show()
-
-
-		self.text = gtk.TextView()
-		self.buf=gtk.TextBuffer()
-		self.buf.set_text(text)
-		self.text.set_buffer(self.buf)
-		self.text.show()
-		self.text.set_size_request(700, 400)
-
-
-		sw = gtk.ScrolledWindow()
-		sw.set_shadow_type(gtk.SHADOW_ETCHED_IN)
-		sw.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
-		#vbox.pack_start(self.text, True, True, 0)
-
-
-		button = gtk.Button("Close")
-		button.show()
-		#self.text.set_size_request(200, 80)
-		button.connect("clicked", self.callback_close, "Close")
-		hbox.pack_end( button,False,False,10)
-		sw.add(self.text)
-
-		self.vbox.pack_start( sw,True,True)
-		self.vbox.pack_start(hbox)
-
-		#self.vbox.add(sw)
-		self.show_all()
-
-
+	def __init__(self,text):
+		QWidget.__init__(self)
+		self.window = loadUi(os.path.join(get_ui_path(),"simulation_errors.ui"))
+		self.window.text.setText(text)
+		self.window.ok.clicked.connect(self.callback_close)
+		self.window.show()

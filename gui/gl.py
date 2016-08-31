@@ -216,8 +216,8 @@ def draw_mode(z_size,depth):
 		array_len=data.y_len
 		s=data.data
 		s.reverse()
-		print(path)
-		print(data.data)
+		#print(path)
+		#print(data.data)
 		for i in range(1,array_len):
 			glVertex3f(0.0, start+(z_size*(i-1)/array_len), depth+s[0][0][i-1]*0.5)
 			glVertex3f(0.0, start+(z_size*i/array_len), depth+s[0][0][i]*0.5)
@@ -672,7 +672,7 @@ if open_gl_ok==True:
 							for c in contacts_get_array():
 								xstart=width*(c.start/x_len)
 								xwidth=width*(c.width/x_len)
-								print("contacts",xstart,xwidth,c.width,x_len)
+								#print("contacts",xstart,xwidth,c.width,x_len)
 								if (c.start+c.width)>x_len:
 									xwidth=width-xstart
 								if c.active==True:
@@ -703,7 +703,7 @@ if open_gl_ok==True:
 					glRotatef(self.tet_rotate, tet_x_rate, tet_y_rate, tet_z_rate)
 
 				draw_mode(pos-0.05,depth)
-				print(self.graph_path)
+				#print(self.graph_path)
 
 				full_data_range=self.graph_z_max-self.graph_z_min
 				graph(0.0,dos_start,depth+0.5,width,dos_stop-dos_start,full_data_range,self.graph_data)
@@ -716,9 +716,9 @@ if open_gl_ok==True:
 			lines=[]
 
 			if dat_file_read(self.graph_data,self.graph_path)==True:
-				print(self.graph_path)
+				#print(self.graph_path)
 				self.graph_z_max,self.graph_z_min=dat_file_max_min(self.graph_data)
-				print(self.graph_z_max,self.graph_z_min)
+				#print(self.graph_z_max,self.graph_z_min)
 			val=inp_get_token_value("light.inp", "#Psun")
 			self.suns=float(val)
 			l=epitaxy_get_layers()-1

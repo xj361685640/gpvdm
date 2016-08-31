@@ -47,6 +47,7 @@ from PyQt5.QtCore import QTimer
 from PyQt5.QtGui import QPainter,QFont,QColor,QPen,QPainterPath,QBrush
 
 import numpy as np
+from math import pi,acos,sin,cos
 
 class gl_fallback(QWidget):
 

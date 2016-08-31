@@ -74,6 +74,9 @@ gdouble y_out=0.0;
 gdouble max=0.0;
 gdouble min=0.0;
 
+sprintf(string,"#data\n");
+buffer_add_string(in,string);
+
 if (len>0)
 {
 	max=y[0];
@@ -104,6 +107,9 @@ if (len>0)
 		buffer_add_string(in,string);
 	}
 }
+sprintf(string,"#end\n");
+buffer_add_string(in,string);
+
 }
 
 
@@ -115,6 +121,10 @@ gdouble x_out=0.0;
 gdouble y_out=0.0;
 gdouble max=0.0;
 gdouble min=0.0;
+
+sprintf(string,"#data\n");
+buffer_add_string(in,string);
+
 
 if (len>0)
 {
@@ -146,6 +156,9 @@ if (len>0)
 		buffer_add_string(in,string);
 	}
 }
+sprintf(string,"#end\n");
+buffer_add_string(in,string);
+
 }
 
 void buffer_add_string(struct buffer *in,char * string)

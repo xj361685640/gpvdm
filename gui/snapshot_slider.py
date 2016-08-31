@@ -55,7 +55,7 @@ class snapshot_slider(QWidget):
 			my_data=dat_file()
 			
 			if dat_file_read(my_data,fname) == True:
-				print(z)
+				#print(z)
 				temp_max,temp_min=dat_file_max_min(my_data)
 
 				if temp_max>self.z_max:

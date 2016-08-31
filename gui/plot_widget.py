@@ -46,8 +46,6 @@ from util import fx_with_units
 from plot_state import plot_state
 #from plot import plot_populate_plot_token
 from plot_io import plot_save_oplot_file
-#from plot_state import plot_state
-#from gui_util import dlg_get_multi_text
 from util import time_with_units
 
 #qt

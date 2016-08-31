@@ -28,7 +28,8 @@ from openpyxl.cell import get_column_letter
 import glob
 import os
 from plot_io import plot_load_info
-from util import read_xyz_data
+from dat_file import dat_file_read
+from dat_file import dat_file
 
 def title_truncate(title):
 	ret=title
@@ -56,16 +57,17 @@ def gen_workbook(input_file_or_dir,output_file):
 			x=[]
 			y=[]
 			z=[]
-
-			if read_xyz_data(x,y,z,my_file)==True:
+			data=dat_file()
+			if dat_file_read(data,my_file)==True:
 				ws = wb.create_sheet(title=title_truncate(os.path.basename(my_file)))
 				ws.cell(column=1, row=1, value=info_token.title)
 				ws.cell(column=1, row=2, value=info_token.x_label+" ("+info_token.x_units+") ")
 				ws.cell(column=2, row=2, value=info_token.y_label+" ("+info_token.y_units+") ")
 		
-				for i in range(0,len(x)):
-					ws.cell(column=1, row=i+3, value=x[i])
-					ws.cell(column=2, row=i+3, value=y[i])
+				for i in range(0,data.y_len):
+					print(data.y_len,len(data.y_scale),i)
+					ws.cell(column=1, row=i+3, value=data.y_scale[i])
+					ws.cell(column=2, row=i+3, value=data.data[0][0][i])
 
 				c1 = ScatterChart()
 				c1.title = info_token.title

@@ -121,10 +121,9 @@ class server(QWidget,cluster):
 		help_window().help_set_help(["plot.png",_("<big><b>Simulation finished!</b></big>\nClick on the plot icon to plot the results")])
 		print("Errors!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",text)
 		if len(text)!=0:
-			dialog=sim_warnings()
-			dialog.init(text)
+			self.dialog=sim_warnings(text)
 #			response=dialog.run()
-			dialog.destroy()
+#			dialog.destroy()
 
 		if 	self.callback_when_done!=False:
 			self.callback_when_done()
@@ -171,8 +170,6 @@ class server(QWidget,cluster):
 
 
 	def run_jobs(self):
-		print(">>>>>>>>>>>>>>>>>>>>>>>>>",self.cluster)
-
 		if self.cluster==True:
 			self.cluster_run_jobs()
 
@@ -213,6 +210,8 @@ class server(QWidget,cluster):
 	def check_warnings(self):
 		message=""
 		problem_found=False
+		print(len(self.jobs))
+
 		for i in range(0,len(self.jobs)):
 			log_file=os.path.join(self.jobs[i],"log.dat")
 			if os.path.isfile(log_file):
@@ -223,6 +222,7 @@ class server(QWidget,cluster):
 				for l in range(0, len(lines)):
 					lines[l]=lines[l].rstrip()
 					if lines[l].startswith("error:") or lines[l].startswith("warning:"):
+						print("whoo",lines[l])
 						found=found+lines[l]+"\n"
 						problem_found=True
 				if len(found)!=0:
@@ -236,16 +236,16 @@ class server(QWidget,cluster):
 
 
 	def stop(self):
+		self.progress_window.set_fraction(0.0)
+
+		self.gui_sim_stop()
+
 		self.jobs=[]
 		self.args=[]
 		self.status=[]
 		self.jobs_running=0
 		self.jobs_run=0
-		
-		self.progress_window.set_fraction(0.0)
 		self.running=False
-
-		self.gui_sim_stop()
 
 		print(_("I have shut down the server."))
 

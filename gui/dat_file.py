@@ -52,6 +52,24 @@ def dat_file_max_min(my_data):
 
 	return [my_max,my_min]
 
+def guess_dim(lines):
+	#not finished
+	x=0
+	y=0
+	z=0
+	data_started=False
+	for i in range(0, len(lines)):
+		temp=lines[i]
+		temp=re.sub(' +',' ',temp)
+		temp=re.sub('\t',' ',temp)
+		s=lines[i].split(" ")
+		if len(s[0])>0:
+			if s[0][0]!="#":
+				 data_started=True
+		if data_started==True:
+			if len(s)>0:
+				y=y+1
+		
 def dat_file_read(out,file_name):
 	if file_name==None:
 		return False
@@ -94,9 +112,9 @@ def dat_file_read(out,file_name):
 
 				out.data=[[[0.0 for k in range(out.y_len)] for j in range(out.x_len)] for i in range(out.z_len)]
 						
-				x_scale= [0.0]*out.x_len
-				y_scale= [0.0]*out.y_len
-				z_scale= [0.0]*out.z_len
+				out.x_scale= [0.0]*out.x_len
+				out.y_scale= [0.0]*out.y_len
+				out.z_scale= [0.0]*out.z_len
 
 			if s[0]=="#end":
 				break
@@ -106,16 +124,35 @@ def dat_file_read(out,file_name):
 				if len(s)==4:
 					line_found=True
 					out.data[z][x][y]=float(s[3])
+					a0=s[0]
+					a1=s[1]
+					a2=s[2]
+
 				if len(s)==3:
 					line_found=True
 					out.data[z][x][y]=float(s[2])
+					a0=s[0]
+					a1=s[1]
+					a2=0.0
 				elif len(s)==2:
 					line_found=True
 					out.data[z][x][y]=float(s[1])
+					a0=s[0]
+					a1=0.0
+					a2=0.0
 				else:
 					print("skip")
 
 				if line_found==True:
+					if x==0 and z==0:
+						out.y_scale[y]=float(a0)
+
+					if z==0 and x==y:
+						out.x_scale[y]=float(a0)
+
+					if z==y:
+						out.z_scale[y]=float(a0)
+
 					y=y+1
 					if y==out.y_len:
 						y=0
@@ -126,5 +163,8 @@ def dat_file_read(out,file_name):
 
 			if s[0]=="#data":
 				data_started=True
+
+	if data_started==False:
+		return False
 	return True
 			

@@ -59,6 +59,19 @@ def save_as_gpvdm(parent):
 	else:
 		return None
 
+def save_as_jpg(parent):
+	dialog = QFileDialog(parent)
+	dialog.setWindowTitle(_("Save image as"))
+	dialog.setNameFilter("jpg (*.jpg)")
+	dialog.setAcceptMode(QFileDialog.AcceptSave)
+
+	if dialog.exec_() == QDialog.Accepted:
+		filename = dialog.selectedFiles()[0]
+		return filename
+	else:
+		return None
+
+
 def save_as_image(parent):
 	dialog = QFileDialog(parent)
 	dialog.setWindowTitle(_("Save image as"))
