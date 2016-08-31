@@ -114,7 +114,7 @@ class display_widget(QWidget):
 		global open_gl_working
 		
 		open_gl_working=self.display.enabled
-
+		self.display.enabled=False
 		if self.display.enabled==True:
 			print("OpenGL is working")
 		else:

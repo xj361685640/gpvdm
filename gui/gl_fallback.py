@@ -20,7 +20,6 @@
 
 
 import math
-from util import read_xyz_data
 import os
 from cal_path import get_materials_path
 from inp import inp_load_file
@@ -49,10 +48,13 @@ from PyQt5.QtGui import QPainter,QFont,QColor,QPen,QPainterPath,QBrush
 import numpy as np
 from math import pi,acos,sin,cos
 
+from dat_file import dat_file
+from dat_file import dat_file_read
 class gl_fallback(QWidget):
 
 	def __init__(self):
 		QWidget.__init__(self)
+		self.setMinimumSize(600, 500)
 		self.suns=1
 		
 	def paintEvent(self, e):
@@ -197,11 +199,10 @@ class gl_fallback(QWidget):
 		pen.setColor(QColor(0,0,0))
 
 		qp.setPen(pen)
-		
-		if read_xyz_data(t,s,z,os.path.join(os.getcwd(),"light_dump","light_1d_photons_tot_norm.dat"))==True:
-			array_len=len(t)
-			for i in range(1,array_len):
-				qp.drawLine(start_x-s[i-1]*40-10,start_y+(200*(i-1)/array_len),start_x-s[i]*40-10,start_y+(200*i/array_len))
+		data=dat_file()
+		if dat_file_read(data,os.path.join(os.getcwd(),"light_dump","light_1d_photons_tot_norm.dat"))==True:
+			for i in range(1,data.y_len):
+				qp.drawLine(start_x-data.data[0][0][i-1]*40-10,start_y+(200*(i-1)/data.y_len),start_x-data.data[0][0][i]*40-10,start_y+(200*i/data.y_len))
 		else:
 			print("no mode")
 

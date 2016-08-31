@@ -66,5 +66,9 @@ class plot_state():
 		self.y_start=0
 		self.y_stop=1
 		self.y_points=25
+		self.x_len=0
+		self.y_len=0
+		self.z_len=0
+
 
 

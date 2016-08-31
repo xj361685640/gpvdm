@@ -32,19 +32,12 @@ matplotlib.use('Qt5Agg')
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
+import matplotlib.pyplot as plt
 
-
-from util import read_xyz_data
-#import matplotlib.ticker as ticker
-#from gui_util import dlg_get_text
-#from inp import inp_load_file
-#from inp import inp_write_lines_to_file
-#from inp_util import inp_search_token_value
 from util import numbers_to_latex
 from util import pygtk_to_latex_subscript
 from util import fx_with_units
 from plot_state import plot_state
-#from plot import plot_populate_plot_token
 from plot_io import plot_save_oplot_file
 from util import time_with_units
 
@@ -56,6 +49,10 @@ from PyQt5.QtGui import QPainter,QIcon
 #calpath
 from cal_path import get_image_file_path
 from gui_util import save_as_image
+
+from dat_file import dat_file_read
+from dat_file import dat_file_max_min
+from dat_file import dat_file
 
 class plot_widget(QWidget):
 
@@ -133,48 +130,55 @@ class plot_widget(QWidget):
 		#	print "Error opening file ",file_name
 
 
-	def sub_zero_frame(self,t,s,i):
-		tt=[]
-		ss=[]
-		z=[]
-		#print self.zero_frame_enable
+	def sub_zero_frame(self,data,i):
 		if self.zero_frame_enable==True:
-			if read_xyz_data(tt,ss,z,self.zero_frame_list[i])==True:
-				for ii in range(0,len(t)):
-					s[ii]=s[ii]-ss[ii]
+			data_zero=dat_file()
+			if dat_file_read(data_zero,self.zero_frame_list[i])==True:
+				for x in range(0,data.x_len):
+					for y in range(0,data.y_len):
+						for z in range(0,data.z_len):
+							data.data[z][x][y]=data.data[z][x][y]-data_zero.data[z][x][y]
 
-	def read_data_file(self,t,s,z,index):
-		if read_xyz_data(t,s,z,self.input_files[index])==True:
-			print(">>>>>>>>>>!>>>>",s,self.input_files[index])
-			self.sub_zero_frame(t,s,index)
+	def read_data_file(self,data,index):
+		if dat_file_read(data,self.input_files[index])==True:
+			self.sub_zero_frame(data,index)
 			my_min=0.0;
 
 
-			for ii in range(0,len(t)):
-				t[ii]=t[ii]*self.plot_token.x_mul
-				s[ii]=s[ii]*self.plot_token.y_mul
+			for x in range(0,data.x_len):
+				for y in range(0,data.y_len):
+					for z in range(0,data.z_len):
+						data.y_scale[y]=data.y_scale[y]*self.plot_token.x_mul
+						data.data[z][x][y]=data.data[z][x][y]*self.plot_token.y_mul
 
-				if self.plot_token.invert_y==True:
-					s[ii]=-s[ii]
+						if self.plot_token.invert_y==True:
+							data.data[z][x][y]=-data.data[z][x][y]
 
-				if self.plot_token.subtract_first_point==True:
-					if ii==0:
-						val=s[0]
-					s[ii]=s[ii]-val
+			if self.plot_token.subtract_first_point==True:
+				val=data.data[0][0][0]
+				for x in range(0,data.x_len):
+					for y in range(0,data.y_len):
+						for z in range(0,data.z_len):
+							data.data[z][x][y]=data.data[z][x][y]-val
 
 
 			if self.plot_token.add_min==True:
-				my_min=min(s)
-				for ii in range(0,len(t)):
-					s[ii]=s[ii]-my_min
+				my_max,my_min=dat_file_max_min(data)
+
+				for x in range(0,data.x_len):
+					for y in range(0,data.y_len):
+						for z in range(0,data.z_len):
+							data.data[z][x][y]=data.data[z][x][y]-my_min
 
 			if self.plot_token.normalize==True:
-				local_max=max(s)
-				for ii in range(0,len(t)):
-					if s[ii]!=0:
-						s[ii]=s[ii]/local_max
-					else:
-						s[ii]=0.0
+				my_max,my_min=dat_file_max_min(data)
+				for x in range(0,data.x_len):
+					for y in range(0,data.y_len):
+						for z in range(0,data.z_len):
+							if data.data[z][x][y]!=0:
+								data.data[z][x][y]=data.data[z][x][y]/local_max
+							else:
+								data.data[z][x][y]=0.0
 
 
 			if index<len(self.plot_id):
@@ -248,52 +252,45 @@ class plot_widget(QWidget):
 
 			lines=[]
 			files=[]
-
+			data=dat_file()
 			my_max=1.0
-			print("token type==",self.plot_token.type)
-			if self.plot_token.type=="xy":
+			if self.plot_token.x_len==1 and self.plot_token.z_len==1:
 
 				all_max=1.0
 				if self.plot_token.norm_to_peak_of_all_data==True:
-#					m=[]
 					my_max=-1e40
 					for i in range(0, len(self.input_files)):
-						t=[]
-						s=[]
-						z=[]
-						if self.read_data_file(t,s,z,i)==True:
-							if max(s)>my_max:
-								my_max=max(s)
+						if self.read_data_file(data,i)==True:
+							local_max,my_min=dat_file_max_min(data)
+							if local_max>my_max:
+								my_max=local_max
 					all_max=my_max
 
 				for i in range(0, len(self.input_files)):
-					t=[]
-					s=[]
-					z=[]
-					if self.read_data_file(t,s,z,i)==True:
-						#print "z==",z
+					if self.read_data_file(data,i)==True:
 						if all_max!=1.0:
-							for ii in range(0,len(s)):
-								s[ii]=s[ii]/all_max
-						print(plot_number,len(self.ax))
-						#print len(self.ax),plot_number,i,len(self.color),len(self.marker)
-						Ec, = self.ax[plot_number].plot(t,s, linewidth=3 ,alpha=1.0,color=self.color[i],marker=self.marker[i])
+							for x in range(0,data.x_len):
+								for y in range(0,data.y_len):
+									for z in range(0,data.z_len):
+										data.data[z][x][y]=data.data[z][x][y]/all_max
+
+						Ec, = self.ax[plot_number].plot(data.y_scale,data.data[0][0], linewidth=3 ,alpha=1.0,color=self.color[i],marker=self.marker[i])
 
 						#label data if required
-						if self.plot_token.label_data==True:
-							for ii in range(0,len(t)):
-								if z[ii]!="":
-									fx_unit=fx_with_units(float(z[ii]))
-									label_text=str(float(z[ii])*fx_unit[0])+" "+fx_unit[1]
-									self.ax[plot_number].annotate(label_text,xy = (t[ii], s[ii]), xytext = (-20, 20),textcoords = 'offset points', ha = 'right', va = 'bottom',bbox = dict(boxstyle = 'round,pad=0.5', fc = 'yellow', alpha = 0.5),arrowprops = dict(arrowstyle = '->', connectionstyle = 'arc3,rad=0'))
+						#if self.plot_token.label_data==True:
+						#	for ii in range(0,len(t)):
+						#		if z[ii]!="":
+						#			fx_unit=fx_with_units(float(z[ii]))
+						#			label_text=str(float(z[ii])*fx_unit[0])+" "+fx_unit[1]
+						#			self.ax[plot_number].annotate(label_text,xy = (t[ii], s[ii]), xytext = (-20, 20),textcoords = 'offset points', ha = 'right', va = 'bottom',bbox = dict(boxstyle = 'round,pad=0.5', fc = 'yellow', alpha = 0.5),arrowprops = dict(arrowstyle = '->', connectionstyle = 'arc3,rad=0'))
 
-						if number_of_plots>1:
-							self.ax[plot_number].yaxis.set_major_formatter(ticker.FormatStrFormatter('%0.1e'))
-							if min(s)!=max(s):
-								print("TICKS=",(max(s)-min(s))/4.0)
-								self.ax[plot_number].yaxis.set_ticks(arange(min(s), max(s), (max(s)-min(s))/4.0 ))
+						#if number_of_plots>1:
+						#	self.ax[plot_number].yaxis.set_major_formatter(ticker.FormatStrFormatter('%0.1e'))
+						#	if min(s)!=max(s):
+						#		print("TICKS=",(max(s)-min(s))/4.0)
+						#		self.ax[plot_number].yaxis.set_ticks(arange(min(s), max(s), (max(s)-min(s))/4.0 ))
 
-						print("roderick",self.labels,i,self.labels[i])
+						#print("roderick",self.labels,i,self.labels[i])
 						if self.labels[i]!="":
 							#print "Rod=",self.labels[i]
 							#print self.plot_token.key_units
@@ -307,20 +304,12 @@ class plot_widget(QWidget):
 					self.ax[plot_number].legend_ = None
 				else:
 					self.fig.legend(lines, files, self.plot_token.legend_pos)
-
-			elif self.plot_token.type=="3d":
-				x=[]
-				y=[]
-				z=[]
-				if read_data_2d(x,y,z,self.input_files[0])==True:
-
-					x_len=len(x)
-					y_len=len(y)
-					data = zeros((x_len,y_len))
-					for xx in range(0,x_len):
-						for yy in range(0,y_len):
-							data[xx][yy]=z[xx][yy]
-					self.ax[0].pcolor(data)
+			elif self.plot_token.x_len>1 and self.plot_token.y_len>1 and self.plot_token.z_len==1:		#3d plot
+				data=dat_file()
+				print("year2",self.input_files[0])
+				if self.read_data_file(data,0)==True:
+					print("year")
+					self.ax[0].pcolor(data.data[0])
 
 					#self.ax[0].plot_surface(x, y, z, rstride=1, cstride=1, cmap=cm.coolwarm,linewidth=0, antialiased=False)
 					#self.ax[0].invert_yaxis()

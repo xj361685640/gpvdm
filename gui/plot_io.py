@@ -214,6 +214,12 @@ def get_plot_file_info(output,file_name):
 						output.time=float(command[1])
 					if (command[0]=="#Vexternal"):
 						output.Vexternal=float(command[1])
+					if (command[0]=="#x"):
+						output.x_len=int(command[1])
+					if (command[0]=="#y"):
+						output.y_len=int(command[1])
+					if (command[0]=="#z"):
+						output.z_len=int(command[1])
 
 			return True
 

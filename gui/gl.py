@@ -214,13 +214,13 @@ def draw_mode(z_size,depth):
 	path=os.path.join(os.getcwd(),"light_dump","light_1d_photons_tot_norm.dat")
 	if dat_file_read(data,path)==True:
 		array_len=data.y_len
-		s=data.data
+		s=data.data[0][0]
 		s.reverse()
 		#print(path)
 		#print(data.data)
 		for i in range(1,array_len):
-			glVertex3f(0.0, start+(z_size*(i-1)/array_len), depth+s[0][0][i-1]*0.5)
-			glVertex3f(0.0, start+(z_size*i/array_len), depth+s[0][0][i]*0.5)
+			glVertex3f(0.0, start+(z_size*(i-1)/array_len), depth+s[i-1]*0.5)
+			glVertex3f(0.0, start+(z_size*i/array_len), depth+s[i]*0.5)
 
 	glEnd()
 
