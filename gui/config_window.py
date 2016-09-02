@@ -76,7 +76,6 @@ class class_config_window(QWidget):
 
 		self.notebook = QTabWidget()
 
-		self.notebook.setTabsClosable(True)
 		self.notebook.setMovable(True)
 
 		self.main_vbox.addWidget(self.notebook)

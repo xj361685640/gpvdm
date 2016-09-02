@@ -24,11 +24,8 @@ import os
 from util import str2bool
 from inp import inp_get_token_value
 import threading
-#import gobject
 import multiprocessing
 import time
-#import glob
-import socket
 from cal_path import get_image_file_path
 
 from time import sleep
@@ -37,10 +34,7 @@ import subprocess
 from util import gui_print_path
 from progress import progress_class
 
-#from copying import copying
 from cal_path import get_exe_command
-#from global_objects import global_object_get
-#from help import my_help_class
 from sim_warnings import sim_warnings
 from inp_util import inp_search_token_value
 from stat import *
@@ -121,11 +115,9 @@ class server(QWidget,cluster):
 		status_icon_stop(self.cluster)
 
 		help_window().help_set_help(["plot.png",_("<big><b>Simulation finished!</b></big><br>Click on the plot icon to plot the results")])
-		print("Errors!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",text)
+
 		if len(text)!=0:
 			self.dialog=sim_warnings(text)
-#			response=dialog.run()
-#			dialog.destroy()
 
 		if 	self.callback_when_done!=False:
 			self.callback_when_done()

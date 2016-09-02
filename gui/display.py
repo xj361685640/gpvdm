@@ -110,12 +110,12 @@ class display_widget(QWidget):
 		self.display.start_rotate()
 		
 	def timer_update(self):
-		#self.display.enabled=False
+		#self.display.failed=False
 		global open_gl_working
 		
-		open_gl_working=self.display.enabled
+		open_gl_working=not self.display.failed
 
-		if self.display.enabled==True:
+		if self.display.failed==False:
 			print("OpenGL is working")
 		else:
 			print("OpenGL is not working going to fallback")
@@ -125,9 +125,11 @@ class display_widget(QWidget):
 
 			self.display=gl_fallback()
 			self.hbox.addWidget(self.display)
+			print("now")
+			help_window().help_append(["warning.png",_("<big><b>OpenGL warning</b></big><br>It looks as if you don’t have workign 3D graphics acceleration on you computer.  gpvdm has therefore fallen back to a 2D mode.  This will not affect affect your ability to use the  model, it just won’t look so nice.")])
 
 	def set_selected_layer(self,n):
-		if self.display.enabled==True:
+		if self.display.failed==True:
 			self.display.selected_layer=n
 
 	def recalculate(self):

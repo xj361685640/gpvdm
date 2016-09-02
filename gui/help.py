@@ -93,7 +93,7 @@ class help_class(QWidget):
 			self.label.append(label)
 
 			self.box[i].setLayout(l)
-			self.box[i].setFixedSize(380,80)	#setMinimumSize(400, 500)#
+			#self.box[i].setFixedSize(380,80)	#setMinimumSize(400, 500)#
 			l.addWidget(self.image[i])
 			l.addWidget(self.label[i])
 
@@ -168,7 +168,10 @@ class help_class(QWidget):
 		for i in range(0,items):
 			pixmap = QPixmap(os.path.join(get_image_file_path(),self.last[self.pos][i*2]))
 			self.image[i].setPixmap(pixmap)
-			self.label[i].setText(self.last[self.pos][i*2+1]+"\n")
+			text=self.last[self.pos][i*2+1]+"<br>"
+			self.label[i].setText(text)
+			height=(len(text)/80)*30
+			self.label[i].setFixedSize(380,height)
 			self.box[i].show()
 			#self.image[i].show()
 
@@ -199,11 +202,11 @@ class help_class(QWidget):
 		self.move_window()
 
 	def help_append(self,array):
-		self.last[self.pos-1]=self.last[self.pos-1] + array
+		last_item=len(self.last)-1
+		self.last[last_item]=self.last[last_item] + array
 		self.update()
 		#self.resize(300, 150)
 		self.move_window()
-
 
 def help_init():
 	global my_help_class

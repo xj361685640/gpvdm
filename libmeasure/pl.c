@@ -173,7 +173,7 @@ inter_mul(&fh_to_th,in->ylen/((double)in->ymeshpoints));
 sprintf(temp,"%d",number);
 
 strextract_name(sim_name,in->simmode);
-sprintf(snapshot_dir,"snapshots_%s",sim_name);
+sprintf(snapshot_dir,"snapshots");
 
 join_path(3,out_dir,get_output_path(sim),snapshot_dir,temp);
 

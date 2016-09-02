@@ -450,7 +450,6 @@ class color():
 
 if open_gl_ok==True:		
 	class glWidget(QGLWidget):
-
 		tet_rotate = 0.0
 		colors=[]
 		def __init__(self, parent):
@@ -463,7 +462,7 @@ if open_gl_ok==True:
 			self.x_pos=-0.5
 			self.y_pos=-0.5
 			self.zoom=-12.0
-			self.enabled=False
+			self.failed=False
 			self.timer=None
 			self.zoom_timer=None
 			self.suns=0.0
@@ -553,7 +552,7 @@ if open_gl_ok==True:
 			self.update()
 
 		def paintGL(self):
-			if self.enabled==True:
+			if self.failed==False:
 				dos_start=-1
 				dos_stop=-1
 				width=mesh_get_xlen()/1e-3
@@ -742,26 +741,28 @@ if open_gl_ok==True:
 			self.update()
 
 		def initializeGL(self):
-			self.enabled=True
 			self.recalculate()
-
-			glClearDepth(1.0)              
-			glDepthFunc(GL_LESS)
-			glEnable(GL_DEPTH_TEST)
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-			glEnable(GL_BLEND);
-			#glEnable(GL_PROGRAM_POINT_SIZE_EXT);
-			glShadeModel(GL_SMOOTH)
-		
-			glViewport(0, 0, self.width(), self.height()+100)
-			glMatrixMode(GL_PROJECTION)
-			glLoadIdentity()                    
-			gluPerspective(45.0,float(self.width()) / float(self.height()+100),0.1, 1000.0) 
-			glMatrixMode(GL_MODELVIEW)
+			try:
+				glClearDepth(1.0)              
+				glDepthFunc(GL_LESS)
+				glEnable(GL_DEPTH_TEST)
+				glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+				glEnable(GL_BLEND);
+				#glEnable(GL_PROGRAM_POINT_SIZE_EXT);
+				glShadeModel(GL_SMOOTH)
+			
+				glViewport(0, 0, self.width(), self.height()+100)
+				glMatrixMode(GL_PROJECTION)
+				glLoadIdentity()                    
+				gluPerspective(45.0,float(self.width()) / float(self.height()+100),0.1, 1000.0) 
+				glMatrixMode(GL_MODELVIEW)
+			except:
+				self.failed=True
+				print("OpenGL failed to load falling back to 2D rendering.",sys.exc_info()[0])
 
 else:
 	class glWidget(QWidget):
+
 		def __init__(self, parent):
 			QWidget.__init__(self)
-			self.enabled=False
-			return
+			self.failed=True
