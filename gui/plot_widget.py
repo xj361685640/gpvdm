@@ -21,7 +21,6 @@
 
 import os
 from numpy import *
-from util import read_data_2d
 from plot_io import plot_load_info
 from plot_export import plot_export
 
@@ -53,6 +52,7 @@ from gui_util import save_as_image
 from dat_file import dat_file_read
 from dat_file import dat_file_max_min
 from dat_file import dat_file
+from dat_file import read_data_2d
 
 class plot_widget(QWidget):
 

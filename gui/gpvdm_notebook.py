@@ -42,7 +42,7 @@ from cal_path import get_bin_path
 from cal_path import get_image_file_path
 from code_ctrl import enable_webbrowser
 from cal_path import get_exe_command
-
+from epitaxy import epitaxy_print
 
 #qt
 from PyQt5.QtWidgets import QTabWidget,QWidget
@@ -108,18 +108,17 @@ class gpvdm_notebook(QTabWidget):
 		return self.tabText(i)
 
 	def goto_page(self,page):
+		self.blockSignals(True)
 		for i in range(0,self.count()):
 				if self.tabText(i)==page:
 					self.setCurrentIndex(i)
 					break
-
+		self.blockSignals(False)
 
 	def callback_switch_page(self, notebook, page, page_num):
 		if self.last_page!=page_num:
 			self.last_page=page_num
 			self.get_children()[page_num].help()
-			#print "Rod", page_num
-		#self.toggle_tab_visible(data)
 
 	def clean_menu(self):
 		for menu in self.menu_items:
@@ -170,6 +169,7 @@ class gpvdm_notebook(QTabWidget):
 		self.last_page=0
 
 		#self.setTabsClosable(True)
+		epitaxy_print()
 		self.setMovable(True)
 		if (os.path.exists("sim.gpvdm")==True) and (os.path.normcase(os.getcwd())!=os.path.normcase(get_bin_path())):
 			self.finished_loading=False

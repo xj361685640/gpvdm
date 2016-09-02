@@ -1,4 +1,3 @@
-#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
@@ -18,14 +17,6 @@
 #    You should have received a copy of the GNU General Public License along
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
-
-
-#import sys
-#import os
-#import shutil
-#import signal
-#import subprocess
-#from util import latex_to_pygtk_subscript
 
 import i18n
 _ = i18n.language.gettext
@@ -134,7 +125,10 @@ lib.append(my_data("#Dphotoneff","0-1",_("Photon efficiency"),["text"],"e",1.0))
 lib.append(my_data("#jv_step_mul","0-2.0",_("JV voltage step multiplyer"),["text"],"e",1.0))
 lib.append(my_data("#jv_max_j","A m^{-2}",_("Maximum current density"),["text"],"e",1.0))
 
+#sim_info.dat
 lib.append(my_data("#voc","V",_("V_{oc}"),["text"],"e",1.0))
+lib.append(my_data("#pce","Percent",_("Power conversion efficiency"),["text"],"e",1.0))
+lib.append(my_data("#ff","a.u.",_("Fill factor"),["text"],"e",1.0))
 
 lib.append(my_data("#imps_r","Amps",_("Re(i)"),["text"],"e",1.0))
 lib.append(my_data("#imps_i","Amps",_("Im(i)"),["text"],"e",1.0))
@@ -245,7 +239,7 @@ lib.append(my_data("#voc_pt","m^{-3}","Trapped holes at Voc",["text"],"e",1.0))
 lib.append(my_data("#voc_nf","m^{-3}","Free electrons at Voc",["text"],"e",1.0))
 lib.append(my_data("#voc_pf","m^{-3}","Free holes at Voc",["text"],"e",1.0))
 lib.append(my_data("#voc_np_tot","m^{-3}","Total carriers (n+p)/2 at Voc",["text"],"e",1.0))
-lib.append(my_data("#voc_tau","s}","Recombination time constant at Voc",["text"],"e",1.0))
+lib.append(my_data("#voc_tau","s","Recombination time constant at Voc",["text"],"e",1.0))
 lib.append(my_data("#voc_R","m^{-3}s^{-1}","Recombination rate at Voc",["text"],"e",1.0))
 lib.append(my_data("#voc_J","A m^{-2}","Current density at Voc",["text"],"e",1.0))
 lib.append(my_data("#voc_J_to_Jr","au","Ratio of conduction current to recombination current",["text"],"e",1.0))

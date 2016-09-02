@@ -106,6 +106,7 @@ class server(QWidget,cluster):
 		self.terminal=terminal
 
 	def gui_sim_start(self):
+		help_window().hide()
 		self.progress_window.start()
 		status_icon_run(self.cluster)
 		self.extern_gui_sim_start()
@@ -116,9 +117,10 @@ class server(QWidget,cluster):
 	def gui_sim_stop(self):
 		text=self.check_warnings()
 		self.progress_window.stop()
+		help_window().show()
 		status_icon_stop(self.cluster)
 
-		help_window().help_set_help(["plot.png",_("<big><b>Simulation finished!</b></big>\nClick on the plot icon to plot the results")])
+		help_window().help_set_help(["plot.png",_("<big><b>Simulation finished!</b></big><br>Click on the plot icon to plot the results")])
 		print("Errors!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",text)
 		if len(text)!=0:
 			self.dialog=sim_warnings(text)

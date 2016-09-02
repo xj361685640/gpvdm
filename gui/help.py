@@ -62,8 +62,9 @@ class help_class(QWidget):
 
 	def init(self):
 		QWidget.__init__(self)
+		self.item_height=10
 		self.setWindowFlags(Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint)
-		self.setFixedSize(400,160)
+		#self.setFixedSize(400,160)
 
 		self.setStyleSheet(" padding:0px; margin-top:0px; margin-bottom:0px")
 		#; border:2px solid rgb(0, 0, 0); 
@@ -92,7 +93,7 @@ class help_class(QWidget):
 			self.label.append(label)
 
 			self.box[i].setLayout(l)
-			self.box[i].setFixedSize(380,80)
+			self.box[i].setFixedSize(380,80)	#setMinimumSize(400, 500)#
 			l.addWidget(self.image[i])
 			l.addWidget(self.label[i])
 
@@ -160,15 +161,18 @@ class help_class(QWidget):
 		webbrowser.open('http://www.gpvdm.com/man/index.html')
 
 	def update(self):
+		items=int(len(self.last[self.pos])/2)
 		for i in range(0,5):
 			self.box[i].hide()
 
-		for i in range(0,int(len(self.last[self.pos])/2)):
+		for i in range(0,items):
 			pixmap = QPixmap(os.path.join(get_image_file_path(),self.last[self.pos][i*2]))
 			self.image[i].setPixmap(pixmap)
 			self.label[i].setText(self.last[self.pos][i*2+1]+"\n")
 			self.box[i].show()
 			#self.image[i].show()
+
+		self.resize(300, items*self.item_height)
 
 		self.forward.setEnabled(True)
 		self.back.setEnabled(True)
@@ -192,13 +196,12 @@ class help_class(QWidget):
 			self.last.append(array)
 
 		self.update()
-		self.resize(300, 150)
 		self.move_window()
 
 	def help_append(self,array):
 		self.last[self.pos-1]=self.last[self.pos-1] + array
 		self.update()
-		self.resize(300, 150)
+		#self.resize(300, 150)
 		self.move_window()
 
 

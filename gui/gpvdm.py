@@ -79,7 +79,7 @@ from window_list import windows
 #from config import config
 #import random
 #from undo import undo_list_class
-#from qe import qe_window
+from qe import qe_window
 
 
 from gpvdm_notebook import gpvdm_notebook
@@ -180,14 +180,12 @@ class gpvdm_main_window(QMainWindow):
 
 
 	def gui_sim_start(self):
-		self.notebook_active_page=self.notebook.currentIndex()
+		self.notebook_active_page=self.notebook.get_current_page()#self.tabText(i)#self.notebook.currentIndex()
 		self.notebook.goto_page("Terminal")
 
 	def gui_sim_stop(self):
 		message=""
-		print("page set as",self.notebook_active_page)
-		self.notebook.setCurrentIndex(self.notebook_active_page)
-		print("page set as2",self.notebook_active_page)
+		self.notebook.goto_page(self.notebook_active_page)
 
 		if os.path.isfile("signal_stop.dat")==True:
 			f = open('signal_stop.dat')
@@ -204,12 +202,11 @@ class gpvdm_main_window(QMainWindow):
 	def callback_qe_window(self, widget):
 		if self.qe_window==None:
 			self.qe_window=qe_window()
-			self.qe_window.init()
 
 		if self.qe_window.isVisible()==True:
-			self.qe_window.hide_all()
+			self.qe_window.hide()
 		else:
-			self.qe_window.show_all()
+			self.qe_window.show()
 
 	def callback_set_plot_auto_close(self, widget, data):
 		set_plot_auto_close(data.get_active())
@@ -337,6 +334,7 @@ class gpvdm_main_window(QMainWindow):
 
 
 	def callback_new(self):
+		help_window().help_set_help(["p3ht_pcbm.png",_("<big><b>New simulation!</b></big><br> Now selected the type of device you would like to simulate.")])
 
 		dialog=new_simulation()
 		dialog.window.exec_()
@@ -375,6 +373,7 @@ class gpvdm_main_window(QMainWindow):
 			#self.save_sim.setEnabled(True)
 			self.experiment_window_button.setEnabled(True)
 			self.light_button.setEnabled(True)
+			self.light_button.update()
 			help_window().help_set_help(["play.png",_("<big><b>Now run the simulation</b></big><br> Click on the play icon to start a simulation.")])
 
 			self.menu_new_optical_material.setEnabled(True)
@@ -430,7 +429,6 @@ class gpvdm_main_window(QMainWindow):
 		scan_item_add("sim.inp","#simmode","sim mode",1)
 		scan_item_add("light.inp","#Psun","light intensity",1)
 		#scan_populate_from_file("light.inp")
-		#self.notebook_active_page=self.notebook.get_current_page()
 
 		if self.scan_window!=None:
 			del self.scan_window

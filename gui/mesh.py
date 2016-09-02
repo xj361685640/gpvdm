@@ -43,7 +43,6 @@ def mesh_add(vector,thick,points):
 	a.points=float(points)
 	if vector=="x":
 		global xlist
-		print("adding to ",len(xlist))
 		xlist.append(a)
 	elif vector=="y":
 		global ylist
@@ -55,6 +54,14 @@ def mesh_add(vector,thick,points):
 	
 def mesh_load(vector):
 	file_name="mesh_"+vector+".inp"
+
+	if vector=="x":
+		mesh_clear_xlist()
+	elif vector=="y":
+		mesh_clear_ylist()
+	elif vector=="z":
+		mesh_clear_zlist()
+
 	global xlist
 	my_list=[]
 	pos=0
@@ -197,3 +204,8 @@ def mesh_clear_ylist():
 def mesh_clear_zlist():
 	global zlist
 	zlist=[]
+	
+def mesh_clear():
+	mesh_clear_xlist()
+	mesh_clear_ylist()
+	mesh_clear_zlist()

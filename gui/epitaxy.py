@@ -128,7 +128,27 @@ def epitaxy_load_from_arrays(in_name,in_width,in_material,in_dos_layer,in_pl_fil
 
 
 		layers=layers+1
-
+		
+def epitaxy_print():
+	global layers
+	global electrical_layers
+	global width
+	global mat_file
+	global electrical_layer
+	global pl_file
+	global name
+	print("Epitxy dump:")
+	layer=0
+	print("layers=",str(layers))
+	for i in range(0,layers):
+		print("#layer"+str(layer))
+		print(str(name[i]))
+		print(str(width[i]))
+		print(mat_file[i])
+		print(electrical_layer[i])
+		print(pl_file[i])
+		layer=layer+1
+		
 def epitaxy_save():
 	global layers
 	global electrical_layers

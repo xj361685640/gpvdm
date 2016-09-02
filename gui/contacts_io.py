@@ -66,6 +66,23 @@ def contacts_append(start,depth,voltage,width,active):
 	s.active=active
 	store.append(s)
 
+def contacts_dump():
+	global store
+	print("dump of contacts:")
+	print(str(len(store)))
+	i=0
+	for s in store:
+		print("#contact_start"+str(i))
+		print(str(s.start))
+		print("#contact_width"+str(i))
+		print(str(s.width))
+		print("#contact_depth"+str(i))
+		print(str(s.depth))
+		print("#contact_voltage"+str(i))
+		print(str(s.voltage))
+		print("#contact_active"+str(i))
+		print(str(s.active))
+
 def contacts_save():
 	global store
 	lines=[]
@@ -138,5 +155,5 @@ def contacts_load():
 			
 			contacts_append(float(start),float(depth),float(voltage),float(width),str2bool(active))
 
-		print("store=",store)
+		contacts_dump()
 

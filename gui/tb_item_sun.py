@@ -44,7 +44,26 @@ class tb_item_sun(QWidget):
 		light_power=self.light.currentText()
 		inp_update_token_value("light.inp", "#Psun", light_power,1)
 		self.changed.emit()
-		
+
+	def update(self):
+		self.light.blockSignals(True)
+		self.light.clear()
+		sun_values=["0.0","0.01","0.1","1.0","10"]
+
+		token=inp_get_token_value("light.inp", "#Psun")
+		if sun_values.count(token)==0:
+			sun_values.append(token)
+
+		for i in range(0,len(sun_values)):
+			self.light.addItem(sun_values[i])
+
+		all_items  = [self.light.itemText(i) for i in range(self.light.count())]
+		for i in range(0,len(all_items)):
+		    if all_items[i] == token:
+		        self.light.setCurrentIndex(i)
+		self.light.blockSignals(False)
+
+
 	def __init__(self):
 		QWidget.__init__(self)
 
@@ -61,20 +80,8 @@ class tb_item_sun(QWidget):
 
 		self.setLayout(layout)
 
-		sun_values=["0.0","0.01","0.1","1.0","10"]
-
-		token=inp_get_token_value("light.inp", "#Psun")
-		if sun_values.count(token)==0:
-			sun_values.append(token)
-
-		for i in range(0,len(sun_values)):
-			self.light.addItem(sun_values[i])
-
-		all_items  = [self.light.itemText(i) for i in range(self.light.count())]
-		for i in range(0,len(all_items)):
-		    if all_items[i] == token:
-		        self.light.setCurrentIndex(i)
-
+		self.update()
+		
 		self.light.currentIndexChanged.connect(self.call_back_light_changed)
 
 

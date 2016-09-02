@@ -462,7 +462,7 @@ if open_gl_ok==True:
 			self.zRot =0.0
 			self.x_pos=-0.5
 			self.y_pos=-0.5
-			self.zoom=-8.0
+			self.zoom=-12.0
 			self.enabled=False
 			self.timer=None
 			self.zoom_timer=None
@@ -569,11 +569,12 @@ if open_gl_ok==True:
 
 				self.emission=False
 				lines=[]
-			#	for i in range(0,epitaxy_get_layers()):
-			#		if epitaxy_get_pl_file(i)!="none":
-			#			if inp_load_file(lines,epitaxy_get_pl_file(i)+".inp")==True:
-			#				if str2bool(lines[1])==True:
-			#					self.emission=True
+
+				for i in range(0,epitaxy_get_layers()):
+					if epitaxy_get_pl_file(i)!="none":
+						if inp_load_file(lines,epitaxy_get_pl_file(i)+".inp")==True:
+							if str2bool(lines[1])==True:
+								self.emission=True
 						
 				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 				glLoadIdentity()
@@ -613,8 +614,8 @@ if open_gl_ok==True:
 
 				if self.emission==True:
 					den=0.6
-					x=np.arange(0, 2.0 , den)
-					y=np.arange(0, 2.0 , den)
+					x=np.arange(0, width , den)
+					y=np.arange(0, depth , den)
 					for i in range(0,len(x)):
 						for ii in range(0,len(y)):
 								draw_photon(x[i]+0.1,y[ii]+0.1,True)

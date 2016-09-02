@@ -280,12 +280,11 @@ if (get_dump_status(sim,dump_print_text)==TRUE)
 	printf_log(sim,"Efficiency= %Lf percent\n",gfabs(in->Pmax/light_get_sun(&(in->mylight))/1000)*100.0);
 }
 
-
 	FILE *out;
 	out=fopena(get_input_path(sim),"sim_info.dat","w");
-	fprintf(out,"#ff\n%Le\n",in->FF);
-	fprintf(out,"#pce\n%Le\n",gfabs(in->Pmax/(light_get_sun(&(in->mylight))/1000))*100.0);
-	fprintf(out,"#voc\n%Le\n",in->Voc);
+	fprintf(out,"#ff\n%Lf\n",in->FF);
+	fprintf(out,"#pce\n%Lf\n",gfabs(100.0*in->Pmax/(1000.0*light_get_sun(&(in->mylight)))));
+	fprintf(out,"#voc\n%Lf\n",in->Voc);
 	fprintf(out,"#voc_tau\n%Le\n",n_voc/r_voc);
 	fprintf(out,"#voc_R\n%Le\n",r_voc);
 	fprintf(out,"#jv_voc_k\n%Le\n",r_voc/n_voc);

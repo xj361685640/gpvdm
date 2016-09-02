@@ -394,7 +394,7 @@ class tab_time_mesh(QWidget):
 		self.list=[]
 
 		self.fig = Figure(figsize=(5,4), dpi=100)
-		self.canvas = FigureCanvas(self.fig)  # a gtk.DrawingArea
+		self.canvas = FigureCanvas(self.fig)
 		self.canvas.figure.patch.set_facecolor('white')
 
 		toolbar=QToolBar()

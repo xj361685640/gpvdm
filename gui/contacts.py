@@ -59,6 +59,7 @@ from PyQt5.QtCore import pyqtSignal
 from gui_util import tab_get_value
 from gui_util import tab_set_value
 from gui_util import tab_insert_row
+from gui_util import tab_remove
 
 from util import str2bool
 

@@ -113,6 +113,10 @@ class new_simulation():
 		itm.setIcon(QIcon(os.path.join(get_image_file_path(),"psi.png")))
 		self.window.listwidget.addItem(itm)
 
+		itm = QListWidgetItem( "OFET (new/beta) (ofet.gpvdm)" )
+		itm.setIcon(QIcon(os.path.join(get_image_file_path(),"ofet.png")))
+		self.window.listwidget.addItem(itm)
+
 		self.window.listwidget.itemDoubleClicked.connect(self.callback_next)
 		self.window.next.clicked.connect(self.callback_next)
 		self.window.cancel.clicked.connect(self.callback_close)
