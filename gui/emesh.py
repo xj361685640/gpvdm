@@ -199,23 +199,3 @@ class tab_electrical_mesh(QWidget):
 		self.update_dim()
 
 		self.setLayout(self.main_vbox)
-
-		return
-
-		self.mesh_dump_ctl=mesh_dump_ctl()
-		self.mesh_dump_ctl.init()
-		self.mesh_dump_ctl.show()
-		window_main_vbox.pack_start(self.mesh_dump_ctl, True, True, 0)
-
-		#self.mesh_dump_ctl.connect("update", self.callback_update)
-
-		self.statusbar = gtk.Statusbar()
-		self.statusbar.show()
-		window_main_vbox.pack_start(self.statusbar, False, False, 0)
-
-		self.add(window_main_vbox)
-		self.connect("delete-event", self.callback_close)
-		self.set_position(gtk.WIN_POS_CENTER)
-
-
-

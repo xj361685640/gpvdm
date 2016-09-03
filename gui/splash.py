@@ -59,8 +59,8 @@ class splash_window():
 
 		window_h=self.window.height()
 		window_w=self.window.width()
-
-		image=QPixmap(os.path.join(get_image_file_path(),"splash3.png"))
+		r=random.randint(2, 3)
+		image=QPixmap(os.path.join(get_image_file_path(),"splash"+str(r)+".png"))
 		image.scaledToHeight(window_h)
 
 		w=image.width()

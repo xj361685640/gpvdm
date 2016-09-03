@@ -51,6 +51,8 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 
+from gui_util import save_as_jpg
+
 class fit_window_plot(QWidget):
 	lines=[]
 	edit_list=[]
@@ -77,32 +79,9 @@ class fit_window_plot(QWidget):
 		self.fig.savefig(file_name)
 
 	def callback_save(self, widget, data=None):
-		dialog = gtk.FileChooserDialog(_("Save as.."),
-                               None,
-                               gtk.FILE_CHOOSER_ACTION_SAVE,
-                               (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
-                                gtk.STOCK_SAVE, gtk.RESPONSE_OK))
-		dialog.set_default_response(gtk.RESPONSE_OK)
-
-		filter = gtk.FileFilter()
-		filter.set_name(".jpg")
-		filter.add_pattern("*.jpg")
-		dialog.add_filter(filter)
-
-		response = dialog.run()
-		if response == gtk.RESPONSE_OK:
-			file_name=dialog.get_filename()
-
-			if os.path.splitext(file_name)[1]:
-				self.save_image(file_name)
-			else:
-				filter=dialog.get_filter()
-				self.save_image(file_name+filter.get_name())
-
-		elif response == gtk.RESPONSE_CANCEL:
-		    print(_("Closed, no files selected"))
-		dialog.destroy()
-
+		file_name = save_as_jpg(self)
+		if file_name !=None:
+			self.save_image(file_name)
 
 	def __init__(self,index):
 		QWidget.__init__(self)

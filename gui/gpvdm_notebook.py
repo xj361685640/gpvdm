@@ -32,7 +32,7 @@ from inp_description import inp_file_to_description
 #tabs
 from tab_main import tab_main
 from tab import tab_class
-#from tab_homo import tab_bands
+from tab_homo import tab_bands
 
 #util
 from win_lin import running_on_linux
@@ -217,18 +217,14 @@ class gpvdm_notebook(QTabWidget):
 					#self.progress.set_text(_("Loading ")+name)
 					#process_events()
 
-					#elif file_name=="lumo0.inp":
-					#	tab=tab_bands()
-					#	tab.update()
-					#	if tab.enabled==True:
-					#		add_to_widget=True
-					#		tab.visible=visible
-					#		tab.wow()
-					#		tab.label_name=name
-					#		tab.file_name=file_name
-
-					#el
-					if file_name=="epitaxy.inp":
+					if file_name=="lumo0.inp":
+						widget=tab_bands()
+						#tab.update()
+						add_to_widget=True
+						widget.visible=visible
+						widget.label_name=name
+						widget.file_name=file_name
+					elif file_name=="epitaxy.inp":
 						widget=dos_main()
 						widget.update()
 						add_to_widget=True

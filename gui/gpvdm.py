@@ -851,16 +851,6 @@ class gpvdm_main_window(QMainWindow):
 		toolbar.addSeparator()
 
 
-		#image = gtk.Image()
-		#image.set_from_file(os.path.join(get_image_file_path(),"plot.png"))
-		#self.plot_select = gtk.MenuToolButton(image,"hello")
-		#self.tooltips.set_tip(self.plot_select, _("Find a file to plot"))
-		#self.plotted_graphs = used_files_menu()
-		#self.plot_select.set_menu(self.plotted_graphs.menu)
-		#toolbar.insert(self.plot_select, -1)
-		#self.plot_select.connect("clicked", self.callback_plot_select)
-		#self.plot_select.set_sensitive(False)
-
 		self.plot_select = QAction(QIcon(os.path.join(get_image_file_path(),"plot.png")), _("Find a file to plot"), self)
 		self.plot_select.triggered.connect(self.callback_plot_select)
 		toolbar.addAction(self.plot_select)

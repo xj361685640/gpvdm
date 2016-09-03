@@ -55,6 +55,8 @@ from inp_util import inp_search_token_value
 #calpath
 from cal_path import get_image_file_path
 
+from gui_util import save_as_image
+
 class band_graph(QWidget):
 	def init(self):
 
@@ -101,26 +103,9 @@ class band_graph(QWidget):
 		clip.set_image(pixbuf)
 
 	def callback_save_image(self):
-		dialog = gtk.FileChooserDialog("Save plot",
-                               None,
-                               gtk.FILE_CHOOSER_ACTION_SAVE,
-                               (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
-                                gtk.STOCK_SAVE, gtk.RESPONSE_OK))
-		dialog.set_default_response(gtk.RESPONSE_OK)
-		dialog.set_action(gtk.FILE_CHOOSER_ACTION_CREATE_FOLDER)
-
-		filter = gtk.FileFilter()
-		filter.set_name("png")
-		filter.add_pattern("*.png")
-		dialog.add_filter(filter)
-
-		response = dialog.run()
-		if response == gtk.RESPONSE_OK:
-			self.my_figure.savefig(dialog.get_filename())
-
-		elif response == gtk.RESPONSE_CANCEL:
-		    print('Closed')
-		dialog.destroy()
+		response=save_as_image(self)
+		if response != None:
+			self.my_figure.savefig(response)
 
 	def set_data_file(self,file):
 		self.optical_mode_file=os.path.join(os.getcwd(),"light_dump",file)

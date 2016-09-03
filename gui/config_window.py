@@ -64,12 +64,6 @@ class class_config_window(QWidget):
 		self.undo.triggered.connect(self.callback_help)
 		toolbar.addAction(self.undo)
 
-		#self.status_bar = gtk.Statusbar()
-		#self.context_id = self.status_bar.get_context_id("Statusbar example")
-		#self.status_bar.show()
-		#self.tooltips.set_tip(self.qe_button, "Quantum efficiency")
-
-
 		self.main_vbox.addWidget(toolbar)
 
 		

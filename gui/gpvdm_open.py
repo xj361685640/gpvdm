@@ -102,11 +102,6 @@ class gpvdm_open():
 		return QIcon(QPixmap(os.path.join(get_image_file_path(),name+"_file.png")))
 
 
-	def create_store(self):
-		store = gtk.ListStore(str, gtk.gdk.Pixbuf, str)
-		store.set_sort_column_id(COL_PATH, gtk.SORT_ASCENDING)
-		return store
-
 	def get_filename(self):
 		return self.file_path
 

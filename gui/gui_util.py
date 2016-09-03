@@ -50,7 +50,7 @@ class dlg_get_text():
 def save_as_gpvdm(parent):
 	dialog = QFileDialog(parent)
 	dialog.setWindowTitle(_("Save a the simulation as"))
-	dialog.setNameFilter('dir')
+	dialog.setNameFilter(_("Directory"))
 	dialog.setAcceptMode(QFileDialog.AcceptSave)
 	dialog.setOption(QFileDialog.ShowDirsOnly, True) 
 	if dialog.exec_() == QDialog.Accepted:
@@ -84,6 +84,17 @@ def save_as_image(parent):
 	else:
 		return None
 
+def save_as_image_inc_gnuplot(parent):
+	dialog = QFileDialog(parent)
+	dialog.setWindowTitle(_("Save image as"))
+	dialog.setNameFilter("png (*.png);;jpg (*.jpg);;gnuplot (*.)")
+	dialog.setAcceptMode(QFileDialog.AcceptSave)
+
+	if dialog.exec_() == QDialog.Accepted:
+		filename = dialog.selectedFiles()[0]
+		return filename
+	else:
+		return None
 
 def dlg_get_multi_text( title_text,info, default=''):
 	ret=[]
