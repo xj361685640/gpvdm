@@ -51,7 +51,7 @@ class snapshot_slider(QWidget):
 			x=[]
 			y=[]
 			z=[]
-			print("one=",fname)
+
 			my_data=dat_file()
 			
 			if dat_file_read(my_data,fname) == True:

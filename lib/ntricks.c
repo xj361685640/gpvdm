@@ -300,7 +300,6 @@ for (z=0;z<in->zmeshpoints;z++)
 
 		if (in->newton_enable_external_thermal==FALSE)
 		{
-			printf("z=%d x=%d\n",z,x);
 			solve_cur(sim,in,z,x);
 		}else
 		{

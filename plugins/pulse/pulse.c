@@ -109,7 +109,7 @@ if (pulse_config.pulse_sim_mode==pulse_ideal_diode_ideal_load)
 else
 if (pulse_config.pulse_sim_mode==pulse_open_circuit)
 {
-	contact_set_voltage(sim,in,0,in->Vbi);
+	contact_set_voltage_if_active(sim,in,in->Vbi);
 	in->Rload=1e6;
 	newton_sim_voc(sim,in);
 	newton_sim_voc_fast(sim,in,FALSE);
@@ -127,7 +127,7 @@ gdouble i0=0;
 carrier_count_reset(in);
 reset_np_save(in);
 gdouble Vapplied=0.0;
-Vapplied=contact_get_voltage(sim,in,0);
+Vapplied=contact_get_active_contact_voltage(sim,in);//contact_get_voltage(sim,in,0);
 printf_log(sim,"Vapplied=%Le\n",Vapplied);
 do
 {
@@ -207,6 +207,9 @@ strcpy(buf.x_units,_("us"));
 strcpy(buf.y_units,_("m"));
 buf.logscale_x=0;
 buf.logscale_y=0;
+buf.x=1;
+buf.y=out_i.len;
+buf.z=1;
 buffer_add_info(&buf);
 buffer_add_xy_data(&buf,out_i.x, out_i.data, out_i.len);
 buffer_dump_path(get_output_path(sim),"pulse_i.dat",&buf);

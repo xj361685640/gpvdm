@@ -129,7 +129,8 @@ do
 	}else
 	if (fxdomain_config.fxdomain_sim_mode==fxdomain_open_circuit)
 	{
-		contact_set_voltage(sim,in,0,in->Vbi);
+		contact_set_voltage_if_active(sim,in,in->Vbi);
+		//contact_set_voltage(sim,in,0,in->Vbi);
 		newton_sim_voc(sim,in);
 		newton_sim_voc_fast(sim,in,FALSE);
 	}else
@@ -166,7 +167,7 @@ do
 		}else
 		if (fxdomain_config.fxdomain_sim_mode==fxdomain_open_circuit)
 		{
-			V=contact_get_voltage(sim,in,0);
+			V=contact_get_active_contact_voltage(sim,in);//contact_get_voltage(sim,in,0);
 			i0=newton_sim_voc_fast(sim,in,TRUE);
 		}else
 		{

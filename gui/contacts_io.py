@@ -155,5 +155,5 @@ def contacts_load():
 			
 			contacts_append(float(start),float(depth),float(voltage),float(width),str2bool(active))
 
-		contacts_dump()
+		#contacts_dump()
 

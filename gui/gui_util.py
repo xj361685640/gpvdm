@@ -160,6 +160,7 @@ def tab_get_selected(tab):
 	return ret
 
 def tab_move_down(tab):
+	tab.blockSignals(True)
 	a=tab.selectionModel().selectedRows()
 
 	if len(a)>0:
@@ -184,6 +185,7 @@ def tab_move_down(tab):
 		tab_set_value(tab,a,i,str(bv[i]))
 
 	tab.selectRow(b)
+	tab.blockSignals(False)
 
 def tab_insert_row(tab):
 	tab.blockSignals(True)

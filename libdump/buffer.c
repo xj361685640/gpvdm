@@ -224,14 +224,24 @@ buffer_add_string(in,temp);
 sprintf(temp,"#Vexternal %Le\n",in->Vexternal);
 buffer_add_string(in,temp);
 
-sprintf(temp,"#x %d\n",in->x);
-buffer_add_string(in,temp);
+if (in->x!=0)
+{
+	sprintf(temp,"#x %d\n",in->x);
+	buffer_add_string(in,temp);
+}
 
-sprintf(temp,"#y %d\n",in->y);
-buffer_add_string(in,temp);
+if (in->y!=0)
+{
+	sprintf(temp,"#y %d\n",in->y);
+	buffer_add_string(in,temp);
+}
 
-sprintf(temp,"#z %d\n",in->z);
-buffer_add_string(in,temp);
+if (in->z!=0)
+{
+	sprintf(temp,"#z %d\n",in->z);
+	buffer_add_string(in,temp);
+}
+	
 }
 
 void buffer_dump(char * file,struct buffer *in)

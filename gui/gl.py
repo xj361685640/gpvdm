@@ -750,7 +750,6 @@ if open_gl_ok==True:
 				glEnable(GL_BLEND);
 				#glEnable(GL_PROGRAM_POINT_SIZE_EXT);
 				glShadeModel(GL_SMOOTH)
-			
 				glViewport(0, 0, self.width(), self.height()+100)
 				glMatrixMode(GL_PROJECTION)
 				glLoadIdentity()                    

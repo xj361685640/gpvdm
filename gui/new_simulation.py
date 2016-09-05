@@ -39,6 +39,8 @@ from cal_path import get_image_file_path
 from cal_path import get_ui_path
 from gui_util import error_dlg
 
+from help import help_window
+
 class new_simulation():
 
 	# close the window and quit
@@ -54,21 +56,23 @@ class new_simulation():
 
 
 	def callback_next(self):
+		help_window().help_set_help(["save.png",_("<big><b>Now save the simulation</b></big><br>Now select where you would like to save the simulation directory.")])
+
 		if len(self.window.listwidget.selectedItems())>0:
 
 			file_path=save_as_gpvdm(self.window)
+			if file_path!=None:
+				selection=self.window.listwidget.selectedItems()[0].text()
+				selection_file=selection[selection.find("(")+1:selection.find(")")]
 
-			selection=self.window.listwidget.selectedItems()[0].text()
-			selection_file=selection[selection.find("(")+1:selection.find(")")]
+				if not os.path.exists(file_path):
+					os.makedirs(file_path)
 
-			if not os.path.exists(file_path):
-				os.makedirs(file_path)
-
-			self.ret_path=file_path
-			os.chdir(self.ret_path)
-			gpvdm_clone(os.getcwd(),True)
-			import_archive(os.path.join(get_device_lib_path(),selection_file),os.path.join(os.getcwd(),"sim.gpvdm"),False)
-			self.window.close()
+				self.ret_path=file_path
+				os.chdir(self.ret_path)
+				gpvdm_clone(os.getcwd(),True)
+				import_archive(os.path.join(get_device_lib_path(),selection_file),os.path.join(os.getcwd(),"sim.gpvdm"),False)
+				self.window.close()
 		else:
 			error_dlg(self.window,_("Please select a device before clicking next"))
 

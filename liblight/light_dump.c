@@ -37,6 +37,7 @@ int ii;
 struct buffer buf;
 char out_dir[1024];
 char line[1024];
+char temp[1024];
 if ((get_dump_status(sim,dump_optics_verbose)==TRUE)&&(in->Gn[0]!=0.0))
 {
 	sprintf(out_dir,"%s/light_dump/",get_output_path(sim));
@@ -99,8 +100,14 @@ if ((get_dump_status(sim,dump_optics_verbose)==TRUE)&&(in->Gn[0]!=0.0))
 	strcpy(buf.y_units,"$nm$");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
+	buf.x=in->lpoints;
+	buf.y=in->points;
+	buf.z=1;
 	buffer_add_info(&buf);
 
+	sprintf(temp,"#data\n");
+	buffer_add_string(&buf,temp);
+	
 	for (i=0;i<in->lpoints;i++)
 	{
 		for (ii=0;ii<in->points;ii++)
@@ -111,6 +118,9 @@ if ((get_dump_status(sim,dump_optics_verbose)==TRUE)&&(in->Gn[0]!=0.0))
 
 	buffer_add_string(&buf,"\n");
 	}
+
+	sprintf(temp,"#end\n");
+	buffer_add_string(&buf,temp);
 
 	buffer_dump_path(out_dir,"light_2d_photons.dat",&buf);
 	buffer_free(&buf);
@@ -127,8 +137,14 @@ if ((get_dump_status(sim,dump_optics_verbose)==TRUE)&&(in->Gn[0]!=0.0))
 	strcpy(buf.y_units,"$nm$");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
+	buf.x=in->lpoints;
+	buf.y=in->points;
+	buf.z=1;
 	buffer_add_info(&buf);
 
+	sprintf(temp,"#data\n");
+	buffer_add_string(&buf,temp);
+	
 	for (i=0;i<in->lpoints;i++)
 	{
 		for (ii=0;ii<in->points;ii++)
@@ -140,6 +156,9 @@ if ((get_dump_status(sim,dump_optics_verbose)==TRUE)&&(in->Gn[0]!=0.0))
 	buffer_add_string(&buf,"\n");
 	}
 
+	sprintf(temp,"#end\n");
+	buffer_add_string(&buf,temp);
+	
 	buffer_dump_path(out_dir,"light_2d_photons_asb.dat",&buf);
 	buffer_free(&buf);
 
@@ -188,8 +207,14 @@ if ((get_dump_status(sim,dump_optics_verbose)==TRUE)&&(in->Gn[0]!=0.0))
 	strcpy(buf.y_units,"$nm$");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
+	buf.x=in->lpoints;
+	buf.y=in->points;
+	buf.z=1;
 	buffer_add_info(&buf);
 
+	sprintf(temp,"#data\n");
+	buffer_add_string(&buf,temp);
+	
 	for (i=0;i<in->lpoints;i++)
 	{
 		for (ii=0;ii<in->points;ii++)
@@ -201,6 +226,9 @@ if ((get_dump_status(sim,dump_optics_verbose)==TRUE)&&(in->Gn[0]!=0.0))
 	buffer_add_string(&buf,"\n");
 	}
 
+	sprintf(temp,"#end\n");
+	buffer_add_string(&buf,temp);
+	
 	buffer_dump_path(out_dir,"light_lambda_alpha.dat",&buf);
 	buffer_free(&buf);
 
@@ -215,8 +243,14 @@ if ((get_dump_status(sim,dump_optics_verbose)==TRUE)&&(in->Gn[0]!=0.0))
 	strcpy(buf.y_units,"$nm$");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
+	buf.x=in->lpoints;
+	buf.y=in->points;
+	buf.z=1;
 	buffer_add_info(&buf);
 
+	sprintf(temp,"#data\n");
+	buffer_add_string(&buf,temp);
+	
 	for (i=0;i<in->lpoints;i++)
 	{
 		for (ii=0;ii<in->points;ii++)
@@ -228,6 +262,9 @@ if ((get_dump_status(sim,dump_optics_verbose)==TRUE)&&(in->Gn[0]!=0.0))
 	buffer_add_string(&buf,"\n");
 	}
 
+	sprintf(temp,"#end\n");
+	buffer_add_string(&buf,temp);
+	
 	buffer_dump_path(out_dir,"light_lambda_n.dat",&buf);
 	buffer_free(&buf);
 
@@ -265,6 +302,9 @@ if ((get_dump_status(sim,dump_optics_summary)==TRUE)&&(in->Gn[0]!=0.0))
 	strcpy(buf.y_units,"a.u.");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
+	buf.x=1;
+	buf.y=in->lpoints;
+	buf.z=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,in->l, in->reflect, in->lpoints);
 	buffer_dump_path(out_dir,"reflect.dat",&buf);

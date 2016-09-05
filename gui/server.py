@@ -109,6 +109,7 @@ class server(QWidget,cluster):
 		self.callback_when_done=proc
 
 	def gui_sim_stop(self):
+		print("here")
 		text=self.check_warnings()
 		self.progress_window.stop()
 		help_window().show()
@@ -274,7 +275,6 @@ class server(QWidget,cluster):
 			data=data.decode('ascii')
 
 			if data.startswith("lock"):
-
 				if self.finished_jobs.count(data)==0:
 					job=int(data[4:])
 					self.finished_jobs.append(data)

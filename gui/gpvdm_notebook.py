@@ -76,12 +76,10 @@ class gpvdm_notebook(QTabWidget):
 
 	def update(self):
 		for i in range(0,self.count()):
-			print(i)
 			w=self.widget(i)
 			w.update()
 
 	def changed_click(self):
-		print(self.tabText(self.currentIndex()))
 		if self.tabText(self.currentIndex()).strip()==_("Device"):
 			help_window().help_set_help(["tab.png",_("<big><b>Device tab</b></big><br>This tab contains information about the device, such as width breadth, carrier density on the contacts, shunt and contact resistance.")])
 
@@ -148,11 +146,9 @@ class gpvdm_notebook(QTabWidget):
 						child.hide()
 						child.visible=False
 
-					#print "gui_config.inp", "#"+child.file_name, str(int(child.visible)),2
 					inp_update_token_value("gui_config.inp", "#"+child.file_name, str(int(child.visible)),1)
 
 	def add_to_menu(self,name,visible):
-		#print _("/View/")+name
 		a = (( _("/View/")+name,  None, self.callback_view_toggle, 0, "<ToggleItem>" ),   )
 		self.item_factory.create_items( a, )
 		path=_("/View/")+name
@@ -169,7 +165,6 @@ class gpvdm_notebook(QTabWidget):
 		self.last_page=0
 
 		#self.setTabsClosable(True)
-		epitaxy_print()
 		self.setMovable(True)
 		if (os.path.exists("sim.gpvdm")==True) and (os.path.normcase(os.getcwd())!=os.path.normcase(get_bin_path())):
 			self.finished_loading=False
@@ -194,7 +189,6 @@ class gpvdm_notebook(QTabWidget):
 				pos=0
 				tab_number=0
 				tabs=(len(lines)-3)/2
-				print("tabs=",tabs)
 				while (1):
 					add_to_widget=False
 					ret,pos=inp_get_next_token_array(lines,pos)

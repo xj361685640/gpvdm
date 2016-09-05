@@ -204,6 +204,27 @@ void contact_set_voltage_if_active(struct simulation *sim,struct device *in,gdou
 
 }
 
+long double contact_get_active_contact_voltage(struct simulation *sim,struct device *in)
+{
+	int i=0;
+
+	if ((in->xmeshpoints==1)&&(in->zmeshpoints==1))
+	{
+		return in->contacts[0].voltage;
+
+	}else
+	{
+		for (i=0;i<in->ncontacts;i++)
+		{
+			if (in->contacts[i].active==TRUE)
+			{
+				return in->contacts[i].voltage;
+			}
+		}
+	}
+
+}
+
 void contact_set_all_voltages(struct simulation *sim,struct device *in,gdouble voltage)
 {
 int i;

@@ -139,7 +139,7 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	}
 
 	char out_dir[1000];
-	join_path(3, out_dir,outputpath,"dynamic");
+	join_path(2, out_dir,outputpath,"dynamic");
 	struct stat st = {0};
 
 	if (stat(out_dir, &st) == -1)

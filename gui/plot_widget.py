@@ -196,7 +196,7 @@ class plot_widget(QWidget):
 		print("PLOT TYPE=",self.plot_token.type)
 		if self.plot_token!=None and len(self.plot_id)!=0:
 			plot_number=0
-
+			print(">>>>>>>>>>>>",self.plot_token.x_len,self.plot_token.y_len,self.plot_token.z_len)
 			self.fig.clf()
 			self.fig.subplots_adjust(bottom=0.2)
 			self.fig.subplots_adjust(bottom=0.2)
@@ -254,6 +254,7 @@ class plot_widget(QWidget):
 			files=[]
 			data=dat_file()
 			my_max=1.0
+
 			if self.plot_token.x_len==1 and self.plot_token.z_len==1:
 
 				all_max=1.0
@@ -372,6 +373,7 @@ class plot_widget(QWidget):
 				z=[]
 
 				if read_data_2d(x,y,z,self.input_files[0])==True:
+					print(len(x),len(y),len(z),self.input_files[0])
 					maxx=-1
 					maxy=-1
 					for i in range(0,len(z)):
@@ -424,47 +426,43 @@ class plot_widget(QWidget):
 		self.plot_token=plot_state()
 
 		#Try and get the data from the config file
+		if plot_load_info(self.plot_token,input_files[0])==False:
+			return
+		print("fred>>>>>>>>>>",self.plot_token.x_len)
 		if plot_load_info(self.plot_token,config_file)==True:
-			loaded=True
-			print("I HAVE LOADED THE OPLOT FILE",self.plot_token.type)
+			print("I have updated the plot info",self.plot_token.type)
 
-		#If that did not work get it from the data file
-		if loaded==False:
-			if plot_load_info(self.plot_token,input_files[0])==True:
-				loaded=True
 
 		print("the config file is",config_file)
 		print(input_files,loaded)
-		loaded=True
-		if loaded==True:
 
-			if len(self.plot_id)==0:
-				for i in range(0,len(input_files)):
-					self.plot_id.append(0)
+		if len(self.plot_id)==0:
+			for i in range(0,len(input_files)):
+				self.plot_id.append(0)
 
-			self.plot_token.path=os.path.dirname(config_file)
-			if self.plot_token.tag0=="":
-				self.plot_token.file0=os.path.basename(input_files[0])
+		self.plot_token.path=os.path.dirname(config_file)
+		if self.plot_token.tag0=="":
+			self.plot_token.file0=os.path.basename(input_files[0])
 
-			plot_save_oplot_file(config_file,self.plot_token)
+		plot_save_oplot_file(config_file,self.plot_token)
 
-			self.output_file=os.path.splitext(config_file)[0]+".png"
+		self.output_file=os.path.splitext(config_file)[0]+".png"
 
-			#ret=plot_populate_plot_token(plot_token,self.input_files[0])
-			#if ret==True:
-			#print "Rod",input_files
-			title=self.plot_token.title
-			self.setWindowTitle(title+" - www.gpvdm.com")
+		#ret=plot_populate_plot_token(plot_token,self.input_files[0])
+		#if ret==True:
+		#print "Rod",input_files
+		title=self.plot_token.title
+		self.setWindowTitle(title+" - www.gpvdm.com")
 
-			print("Loaded OK",self.config_file)
+		print("Loaded OK",self.config_file)
 
-			test_file=self.input_files[0]
-			for i in range(0,len(self.input_files)):
-				if os.path.isfile(self.input_files[i]):
-					test_file=self.input_files[i]
+		test_file=self.input_files[0]
+		for i in range(0,len(self.input_files)):
+			if os.path.isfile(self.input_files[i]):
+				test_file=self.input_files[i]
 
-			print("test_file=",test_file)
-			print("Exit here")
+		print("test_file=",test_file)
+		print("Exit here")
 
 
 	def gen_colors_black(self,repeat_lines):

@@ -94,7 +94,6 @@ class contacts_window(QWidget):
 		self.tab.blockSignals(True)
 		index = self.tab.selectionModel().selectedRows()
 
-		print(index)
 		if len(index)>0:
 			pos=index[0].row()+1
 		else:
@@ -110,7 +109,6 @@ class contacts_window(QWidget):
 		self.save()
 
 	def save(self):
-		print("save called")
 		self.update_contact_db()
 		contacts_save()
 		self.changed.emit()
@@ -124,14 +122,13 @@ class contacts_window(QWidget):
 		webbrowser.open('http://www.gpvdm.com/man/index.html')
 
 	def tab_changed(self, x,y):
-		print("tab changed")
 		self.save()
 
 	def load(self):
 		self.tab.clear()
 		self.tab.setHorizontalHeaderLabels([_("Start"), _("Width"),_("Depth"),_("Voltage"),_("Active contact")])
 		contacts_load()
-		contacts_print()
+		#contacts_print()
 		contacts=contacts_get_array()
 		i=0
 		for c in contacts_get_array():

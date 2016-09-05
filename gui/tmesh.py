@@ -130,7 +130,7 @@ class tab_time_mesh(QWidget):
 			scan_item_add(file_name,"#time_segment"+str(i)+"_laser",_("Part ")+str(i)+_(" CW laser"),1)
 
 
-	def callback_add_section(self, widget, treeview):
+	def callback_add_section(self):
 		tab_add(self.tab,[_("10e-6"),_("0.1e-6"),_("0.0"),_("0.0"),_("1.0"),_("0.0"),_("0.0")])
 
 		self.build_mesh()
@@ -138,7 +138,7 @@ class tab_time_mesh(QWidget):
 		self.fig.canvas.draw()
 		self.save_data()
 
-	def callback_remove_item(self, button, treeview):
+	def callback_remove_item(self):
 		tab_remove(self.tab)
 
 		self.build_mesh()
@@ -147,18 +147,16 @@ class tab_time_mesh(QWidget):
 		self.fig.canvas.draw()
 		self.save_data()
 
-	def callback_move_down(self, widget, treeview):
+	def callback_move_down(self):
 		tab_move_down(self.tab)
-
 		self.build_mesh()
 		self.draw_graph()
 		self.fig.canvas.draw()
 		self.save_data()
 
-
-
-	def callback_laser(self, widget, treeview):
-		new_time=dlg_get_text( _("Enter the time at which the laser pulse will fire (-1) to turn it off"), str(self.fs_laser_time))
+			
+	def callback_laser(self):
+		new_time=dlg_get_text( _("Enter the time at which the laser pulse will fire (-1) to turn it off"), str(self.fs_laser_time),"laser.png")
 		new_time=new_time.ret
 
 		if new_time!=None:
@@ -174,13 +172,10 @@ class tab_time_mesh(QWidget):
 		self.fig.canvas.draw()
 
 	def on_cell_edited(self, x,y):
-		print("Cell edited",x,y)
-		return 
-		model[path][SEG_DT] = new_text
+		self.save_data()
 		self.build_mesh()
 		self.draw_graph()
 		self.fig.canvas.draw()
-		self.save_data()
 
 	def gaussian(self,x, mu, sig):
 		return exp(-power(x - mu, 2.) / (2 * power(sig, 2.)))
@@ -366,8 +361,8 @@ class tab_time_mesh(QWidget):
 
 		#self.statusbar.push(0, str(len(self.time))+_(" mesh points"))
 
-	def callback_start_time(self, widget, treeview):
-		new_time=dlg_get_text( _("Enter the start time of the simulation"), str(self.start_time))
+	def callback_start_time(self):
+		new_time=dlg_get_text( _("Enter the start time of the simulation"), str(self.start_time),"start.png")
 		new_time=new_time.ret
 
 		if new_time!=None:
@@ -404,9 +399,9 @@ class tab_time_mesh(QWidget):
 		self.tb_save.triggered.connect(self.callback_save)
 		toolbar.addAction(self.tb_save)
 
-		self.tb_save = QAction(QIcon(os.path.join(get_image_file_path(),"laser.png")), _("Laser start time"), self)
-		self.tb_save.triggered.connect(self.callback_save)
-		toolbar.addAction(self.tb_save)
+		self.tb_laser = QAction(QIcon(os.path.join(get_image_file_path(),"laser.png")), _("Laser start time"), self)
+		self.tb_laser.triggered.connect(self.callback_laser)
+		toolbar.addAction(self.tb_laser)
 
 
 		self.lasers=tb_lasers("pulse"+str(self.index)+".inp")

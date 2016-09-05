@@ -28,7 +28,6 @@ from inp_util import inp_search_token_value
 from plot_widget import plot_widget
 from window_list import windows
 from plot_state import plot_state
-from plot_io import plot_load_info
 from cal_path import get_exe_command
 from cal_path import get_image_file_path
 import webbrowser

@@ -141,6 +141,7 @@ from update import update_now
 
 from workbook import gen_workbook
 
+from error_han import error_han
 
 bubble=False
 if running_on_linux()==True:
@@ -925,13 +926,12 @@ class gpvdm_main_window(QMainWindow):
 
 
 		self.show()
-		
-		self.light_button.changed.connect(self.notebook.update)
 
+		self.light_button.changed.connect(self.notebook.update)
 			
 if __name__ == '__main__':
 	app = QApplication(sys.argv)
+	sys.excepthook = error_han
+
 	ex = gpvdm_main_window()
 	sys.exit(app.exec_())
-
-
