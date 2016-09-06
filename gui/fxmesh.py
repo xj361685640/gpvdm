@@ -117,7 +117,7 @@ class tab_fxmesh(QWidget):
 		self.fig.canvas.draw()
 		self.save_data()
 
-	def callback_remove_item(self, button, treeview):
+	def callback_remove_item(self):
 		tab_remove(self.tab)
 
 		self.build_mesh()
@@ -126,7 +126,7 @@ class tab_fxmesh(QWidget):
 		self.fig.canvas.draw()
 		self.save_data()
 
-	def callback_move_down(self, widget, treeview):
+	def callback_move_down(self):
 
 		tab_move_down(self.tab)
 
@@ -135,7 +135,7 @@ class tab_fxmesh(QWidget):
 		self.fig.canvas.draw()
 		self.save_data()
 
-	def callback_start_fx(self, widget, treeview):
+	def callback_start_fx(self):
 		new_fx=dlg_get_text( _("Enter the start frequency of the simulation"), str(self.fx_start))
 
 		if new_fx!=None:

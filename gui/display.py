@@ -126,8 +126,7 @@ class display_widget(QWidget):
 			self.display=gl_fallback()
 			self.hbox.addWidget(self.display)
 			print("now")
-			help_window().help_append(["warning.png",_("<big><b>OpenGL warning</b></big><br>It looks as if you don’t have workign 3D graphics acceleration on you computer.  gpvdm has therefore fallen back to a 2D mode.  This will not affect affect your ability to use the  model, it just won’t look so nice.")])
-
+			help_window().help_append(["warning.png",_("<big><b>OpenGL warning</b></big><br>It looks as if you don't have working 3D graphics acceleration on your computer.  gpvdm will therefore fallback to 2D mode. The model will still be fully functional, but not look quite so nice.")])
 	def set_selected_layer(self,n):
 		if self.display.failed==True:
 			self.display.selected_layer=n
