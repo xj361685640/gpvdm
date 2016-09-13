@@ -35,6 +35,7 @@ from global_objects import global_object_get
 from cal_path import get_image_file_path
 from global_objects import global_object_register
 from code_ctrl import enable_betafeatures
+from gui_util import yes_no_dlg
 
 import i18n
 _ = i18n.language.gettext
@@ -124,7 +125,7 @@ class fxexperiment(QWidget):
 			self.changed.emit()
 
 
-	def callback_delete_page(self,widget,data):
+	def callback_delete_page(self):
 		tab = self.notebook.currentWidget()
 
 		response=yes_no_dlg(self,_("Should I remove the experiment file ")+tab.tab_name.split("@")[0])

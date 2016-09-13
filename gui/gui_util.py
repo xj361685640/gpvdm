@@ -59,42 +59,37 @@ def save_as_gpvdm(parent):
 	else:
 		return None
 
-def save_as_jpg(parent):
+def save_as_filter(parent,my_filter):
+	selected_filter = ""
 	dialog = QFileDialog(parent)
-	dialog.setWindowTitle(_("Save image as"))
-	dialog.setNameFilter("jpg (*.jpg)")
+	dialog.setWindowTitle(_("Save as"))
+	dialog.setNameFilter(my_filter)
 	dialog.setAcceptMode(QFileDialog.AcceptSave)
-
 	if dialog.exec_() == QDialog.Accepted:
 		filename = dialog.selectedFiles()[0]
+		s=dialog.selectedNameFilter()
+		if s.count("(*")==1:
+			s=s.split("(*")[1]
+			s=s[:-1]
+
+			if filename.endswith(s)==False:
+				filename=filename+s
+			else:
+				filename=filename
+
 		return filename
 	else:
 		return None
+	
+def save_as_jpg(parent):
+	save_as_filter(parent,"jpg (*.jpg)")
 
 
 def save_as_image(parent):
-	dialog = QFileDialog(parent)
-	dialog.setWindowTitle(_("Save image as"))
-	dialog.setNameFilter("png (*.png);;jpg (*.jpg);;gnuplot (*.)")
-	dialog.setAcceptMode(QFileDialog.AcceptSave)
-
-	if dialog.exec_() == QDialog.Accepted:
-		filename = dialog.selectedFiles()[0]
-		return filename
-	else:
-		return None
+	save_as_filter(parent,"png (*.png);;jpg (*.jpg);;gnuplot (*.)")
 
 def save_as_image_inc_gnuplot(parent):
-	dialog = QFileDialog(parent)
-	dialog.setWindowTitle(_("Save image as"))
-	dialog.setNameFilter("png (*.png);;jpg (*.jpg);;gnuplot (*.)")
-	dialog.setAcceptMode(QFileDialog.AcceptSave)
-
-	if dialog.exec_() == QDialog.Accepted:
-		filename = dialog.selectedFiles()[0]
-		return filename
-	else:
-		return None
+	save_as_filter(parent,"png (*.png);;jpg (*.jpg);;gnuplot (*.)")
 
 def dlg_get_multi_text( title_text,info, default=''):
 	ret=[]

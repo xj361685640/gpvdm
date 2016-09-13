@@ -40,6 +40,10 @@ from PyQt5.QtGui import QPainter,QIcon
 
 from snapshot_slider import snapshot_slider
 
+from gui_util import save_as_filter
+
+from PyQt5.QtWidgets import QApplication
+
 class cmp_class(QWidget):
 	mix_y=None
 	max_y=None
@@ -179,18 +183,24 @@ class cmp_class(QWidget):
 			self.entry3.set_text("")
 
 	def save_image(self,file_name):
-		fileName, ext = os.path.splitext(file_name)
+		dir_name, ext = os.path.splitext(file_name)
 
 		if (ext==".jpg"):
-			self.canvas.figure.savefig(file_name)
+			self.plot.fig.savefig(file_name)
 		elif ext==".avi":
-			out_file=os.path.join(os.getcwd(),"snapshots")
+
+			if os.path.isdir(dir_name)==False:
+				os.mkdir(dir_name)
+
 			jpgs=""
-			for i in range(0,int(self.adj1.get_upper())):
-				self.update(i)
+			for i in range(0,self.slider.slider_max):
+				self.slider.slider0.setValue(i)
+				QApplication.processEvents()
+				self.update()
 				self.plot.do_plot()
-				image_name=os.path.join(out_file,"image_"+str(i)+".jpg")
-				self.canvas.figure.savefig(image_name)
+				image_name=os.path.join(dir_name,"image_"+str(i)+".jpg")
+				print(image_name)
+				self.plot.fig.savefig(image_name)
 				jpgs=jpgs+" mf://"+image_name
 
 			os.system("mencoder "+jpgs+" -mf type=jpg:fps=1.0 -o "+file_name+" -ovc lavc -lavcopts vcodec=mpeg1video:vbitrate=800")
@@ -199,38 +209,9 @@ class cmp_class(QWidget):
 			print("Unknown file extension")
 
 	def callback_save(self, widget, data=None):
-		dialog = gtk.FileChooserDialog("Save as..",
-                               None,
-                               gtk.FILE_CHOOSER_ACTION_SAVE,
-                               (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
-                                gtk.STOCK_SAVE, gtk.RESPONSE_OK))
-		dialog.set_default_response(gtk.RESPONSE_OK)
-
-		filter = gtk.FileFilter()
-		filter.set_name(".jpg")
-		filter.add_pattern("*.jpg")
-		dialog.add_filter(filter)
-
-		filter = gtk.FileFilter()
-		filter.set_name(".avi")
-		filter.add_pattern("*.avi")
-		dialog.add_filter(filter)
-
-		response = dialog.run()
-		if response == gtk.RESPONSE_OK:
-			dialog.hide()
-			file_name=dialog.get_filename()
-
-			#print os.path.splitext(file_name)[1]
-			if os.path.splitext(file_name)[1]:
-				self.save_image(file_name)
-			else:
-				filter=dialog.get_filter()
-				self.save_image(os.path.join(file_name,filter.get_name()))
-
-		elif response == gtk.RESPONSE_CANCEL:
-		    print('Closed, no files selected')
-		dialog.destroy()
+		file_name=save_as_filter(self,"avi (*.avi)")
+		if file_name!=None:
+			self.save_image(file_name)
 
 	def callback_help(self, widget, data=None):
 		webbrowser.open('http://www.gpvdm.com/man/gpvdm.html')
@@ -293,13 +274,13 @@ class cmp_class(QWidget):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(42, 42))
 
-		self.tb_rotate = QAction(QIcon(os.path.join(get_image_file_path(),"video.png")), _("Rotate"), self)
-		self.tb_rotate.triggered.connect(self.callback_save)
-		toolbar.addAction(self.tb_rotate)
+		self.tb_video = QAction(QIcon(os.path.join(get_image_file_path(),"video.png")), _("Save video"), self)
+		self.tb_video.triggered.connect(self.callback_save)
+		toolbar.addAction(self.tb_video)
 
-		self.tb_rotate = QAction(QIcon(os.path.join(get_image_file_path(),"scale.png")), _("Rotate"), self)
-		self.tb_rotate.triggered.connect(self.callback_save)
-		toolbar.addAction(self.tb_rotate)
+		#self.tb_scale = QAction(QIcon(os.path.join(get_image_file_path(),"scale.png")), _("Scale"), self)
+		#self.tb_scale.triggered.connect(self.callback_scale)
+		#toolbar.addAction(self.tb_rotate)
 
 
 		spacer = QWidget()

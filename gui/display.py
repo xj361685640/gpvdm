@@ -22,8 +22,7 @@
 import os
 
 #inp
-from inp import inp_load_file
-from inp_util import inp_search_token_value
+from inp import inp_get_token_value
 
 #path
 from cal_path import get_materials_path
@@ -46,6 +45,8 @@ from emesh import tab_electrical_mesh
 from help import help_window
 from gl_cmp import gl_cmp
 
+from util import str2bool
+
 open_gl_working=False
 
 def is_open_gl_working():
@@ -58,6 +59,15 @@ def is_open_gl_working():
 class display_widget(QWidget):
 
 	colors=[]
+
+	def add_fallback(self):
+		global open_gl_working
+		open_gl_working=False
+		self.tb_rotate.setEnabled(False)
+		self.display=gl_fallback()
+		self.hbox.addWidget(self.display)
+		
+
 	def __init__(self):
 		QWidget.__init__(self)
 		self.complex_display=False
@@ -87,16 +97,25 @@ class display_widget(QWidget):
 		toolbar.addAction(self.tb_config)
 		
 		self.hbox.addWidget(toolbar)
+		
+		enable_3d=inp_get_token_value(os.path.join(os.getcwd(),"config.inp") , "#gui_config_3d_enabled")
+		if enable_3d==None:
+			enable_3d="True"
+		enable_3d=str2bool(enable_3d)
+		
+		if enable_3d==True:
+			self.display=glWidget(self)
+			self.hbox.addWidget(self.display)
+			self.display.setMinimumSize(800, 600)
 
-		self.display=glWidget(self)
-		self.hbox.addWidget(self.display)
-		self.display.setMinimumSize(800, 600)
-
+			self.timer=QTimer()
+			self.timer.setSingleShot(True)
+			self.timer.timeout.connect(self.timer_update)
+			self.timer.start(2000)
+		else:
+			self.add_fallback()
+			
 		self.setLayout(self.hbox)
-		self.timer=QTimer()
-		self.timer.setSingleShot(True)
-		self.timer.timeout.connect(self.timer_update)
-		self.timer.start(2000)
 
 		self.electrical_mesh=tab_electrical_mesh()
 		self.electrical_mesh.changed.connect(self.recalculate)
@@ -110,25 +129,24 @@ class display_widget(QWidget):
 		self.display.start_rotate()
 		
 	def timer_update(self):
-		#self.display.failed=False
 		global open_gl_working
 		
 		open_gl_working=not self.display.failed
-
-		if self.display.failed==False:
+		
+		if open_gl_working==True:
 			print("OpenGL is working")
 		else:
 			print("OpenGL is not working going to fallback")
 			self.hbox.removeWidget(self.display)
 			self.display.deleteLater()
 			self.display = None
+			self.add_fallback()
 
-			self.display=gl_fallback()
-			self.hbox.addWidget(self.display)
-			print("now")
 			help_window().help_append(["warning.png",_("<big><b>OpenGL warning</b></big><br>It looks as if you don't have working 3D graphics acceleration on your computer.  gpvdm will therefore fallback to 2D mode. The model will still be fully functional, but not look quite so nice.")])
+
 	def set_selected_layer(self,n):
-		if self.display.failed==True:
+		global open_gl_working
+		if open_gl_working==True:
 			self.display.selected_layer=n
 
 	def recalculate(self):
@@ -147,7 +165,8 @@ class display_widget(QWidget):
 			self.gl_cmp.hide()
 		else:
 			self.gl_cmp.show()
-		
+
+
 	def callback_contacts(self):
 		help_window().help_set_help(["contact.png",_("<big><b>Contacts window</b></big>\nUse this window to change the layout of the contacts on the device")])
 

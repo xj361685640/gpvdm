@@ -76,8 +76,8 @@ def gen_workbook(input_file_or_dir,output_file):
 				c1.y_axis.title = info_token.y_label+" ("+info_token.y_units+") "
 				c1.x_axis.title = info_token.x_label+" ("+info_token.x_units+") "
 
-				xdata = Reference(ws, min_col=1, min_row=3, max_row=7)
-				ydata = Reference(ws, min_col=2, min_row=3, max_row=7)
+				xdata = Reference(ws, min_col=1, min_row=3, max_row=3+data.y_len)
+				ydata = Reference(ws, min_col=2, min_row=3, max_row=3+data.y_len)
 
 				series = Series(ydata,xdata,  title_from_data=True)
 				c1.series.append(series)

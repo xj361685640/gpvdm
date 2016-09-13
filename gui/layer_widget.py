@@ -39,7 +39,8 @@ from inp import inp_isfile
 from inp import inp_copy_file
 from inp import inp_update_token_value
 from inp import inp_load_file
-
+from inp import inp_lsdir
+from inp import inp_remove_file
 
 #epitaxy
 from epitaxy import epitaxy_get_pl_file
@@ -70,6 +71,8 @@ from PyQt5.QtWidgets import QWidget, QVBoxLayout,QProgressBar,QLabel,QDesktopWid
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QWidget
+
+from materials_main import materials_main
 
 import i18n
 _ = i18n.language.gettext
@@ -117,13 +120,15 @@ class layer_widget(QWidget):
 				tab_set_value(self.tab,i,4,epitay_get_next_dos())
 				tab_set_value(self.tab,i,5,epitay_get_next_pl())
 
+				mat_dir=os.path.join(get_materials_path(),tab_get_value(self.tab,i,2))
+				
 				new_file=tab_get_value(self.tab,i,4)+".inp"
 				if inp_isfile(new_file)==False:
-					inp_copy_file(new_file,"dos0.inp")
+					inp_copy_file(new_file,os.path.join(mat_dir,"dos.inp"))
 
 				new_file=tab_get_value(self.tab,i,5)+".inp"
 				if inp_isfile(new_file)==False:
-					inp_copy_file(new_file,"pl0.inp")
+					inp_copy_file(new_file,os.path.join(mat_dir,"pl.inp"))
 
 			if tab_get_value(self.tab,i,3).lower()!="active layer" and tab_get_value(self.tab,i,4).startswith("dos")==True:
 				tab_set_value(self.tab,i,4,tab_get_value(self.tab,i,3))
@@ -150,7 +155,11 @@ class layer_widget(QWidget):
 		ret=dialog.window.exec_()
 
 		if ret==QDialog.Accepted:
-			plot_gen([dialog.get_filename()],[],"auto")
+			if os.path.isfile(os.path.join(dialog.get_filename(),"mat.inp"))==True:
+				self.mat_window=materials_main(dialog.get_filename())
+				self.mat_window.show()
+			else:
+				plot_gen([dialog.get_filename()],[],"auto")
 
 	def on_move_down(self):
 		tab_move_down(self.tab)
@@ -184,7 +193,7 @@ class layer_widget(QWidget):
 		self.tb_doping.triggered.connect(self.callback_doping)
 		self.toolbar.addAction(self.tb_doping)
 
-		self.tb_open = QAction(QIcon(os.path.join(get_image_file_path(),"open.png")), _("Look at the materials database"), self)
+		self.tb_open = QAction(QIcon(os.path.join(get_image_file_path(),"organic_material.png")), _("Look at the materials database"), self)
 		self.tb_open.triggered.connect(self.callback_view_materials)
 		self.toolbar.addAction(self.tb_open)
 
@@ -228,6 +237,8 @@ class layer_widget(QWidget):
 		return
 
 	def add_row(self,i,thick,material,dos_layer,pl_file,name):
+		self.tab.blockSignals(True)
+
 		dos_file=""
 		
 		if dos_layer.startswith("dos")==True:
@@ -267,7 +278,6 @@ class layer_widget(QWidget):
 		self.tab.setCellWidget(i,3, combobox_layer_type)
 		combobox_layer_type.setCurrentIndex(combobox_layer_type.findText(str(dos_file).lower()))
 
-
 		item3 = QTableWidgetItem(str(dos_layer))
 		self.tab.setItem(i,4,item3)
 
@@ -280,6 +290,21 @@ class layer_widget(QWidget):
 
 		combobox.currentIndexChanged.connect(self.combo_changed)
 		combobox_layer_type.currentIndexChanged.connect(self.layer_type_edit)
+
+		self.tab.blockSignals(False)
+
+	def clean_dos_files(self):
+		files=inp_lsdir()
+		tab=[]
+		for i in range(0,self.tab.rowCount()):
+			tab.append(str(tab_get_value(self.tab,i, 4))+".inp")
+		
+		for i in range(0,len(files)):
+			if files[i].startswith("dos") and files[i].endswith(".inp"):
+				disk_file=files[i]
+				if disk_file not in tab:
+					print("I don't need",disk_file)
+					inp_remove_file(disk_file)
 
 	def on_remove_item_clicked(self):
 		tab_remove(self.tab)
@@ -329,6 +354,7 @@ class layer_widget(QWidget):
 		epitaxy_load_from_arrays(name,thick,mat_file,dos_file,pl_file)
 
 		epitaxy_save()
+		self.clean_dos_files()
 		#self.sync_to_electrical_mesh()
 
 	def callback_doping(self):

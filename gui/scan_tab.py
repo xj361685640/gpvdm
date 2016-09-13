@@ -28,7 +28,6 @@ from used_files_menu import used_files_menu
 from plot_gen import plot_gen
 from plot_state import plot_state
 from cmp_class import cmp_class
-from config import config
 from token_lib import tokens
 
 
@@ -468,15 +467,6 @@ class scan_vbox(QWidget):
 				mytext=mytext+" "
 		self.tab_label.set_text(mytext)
 
-	def set_visible(self,value):
-		if value==True:
-			self.visible=True
-			self.config.set_value("#visible",True)
-			self.show()
-		else:
-			self.visible=False
-			self.config.set_value("#visible",False)
-			self.hide()
 
 	def callback_run_simulation(self):
 		args=inp_get_token_value(os.path.join("scan_config.inp",self.sim_dir),"#args")
@@ -501,7 +491,6 @@ class scan_vbox(QWidget):
 		self.main_vbox = QVBoxLayout()
 
 		self.tokens=tokens()
-		self.config=config()
 		self.sim_name=sim_name
 		self.myserver=myserver
 		self.status_bar=status_bar

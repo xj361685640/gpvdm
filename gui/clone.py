@@ -1,4 +1,3 @@
-#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
@@ -94,7 +93,7 @@ def clone_materials(dest,materials=["all"]):
 					if os.path.isdir(dest_file)==False:
 						os.mkdir(dest_file)
 
-					for copy_file in ["mat.inp","alpha.omat","n.omat","fit.inp","info.txt","n_spectrum.inp"]:
+					for copy_file in ["alpha_eq.inp","alpha.omat","dos.inp","info.txt","n_eq.inp","n.omat","alpha_gen.omat","cost.xlsx","fit.inp","mat.inp","n_gen.omat","pl.inp"]:
 						src_mat_file=os.path.join(src_file,copy_file)
 						if os.path.isfile(src_mat_file)==True:
 							copyfile(src_mat_file,os.path.join(dest_file,copy_file))

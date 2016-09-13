@@ -20,7 +20,7 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-#import sys
+import os
 import platform
 
 def running_on_linux():
@@ -35,3 +35,8 @@ def get_distro():
 	else:
 		return ""
 
+def desktop_open(file_name):
+	if running_on_linux()==True:
+		os.system("xdg-open "+file_name+" &")
+	else:
+		os.system("start "+file_name)

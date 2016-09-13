@@ -29,6 +29,7 @@ sys.path.append('/usr/lib64/gpvdm/')
 sys.path.append('/usr/share/gpvdm/gui/')	#debian
 
 from win_lin import running_on_linux
+from win_lin import desktop_open
 from cal_path import get_exe_command
 from cal_path import get_exe_name
 from cal_path import get_image_file_path
@@ -67,30 +68,16 @@ from inp import inp_get_token_value
 
 from scan_item import scan_items_clear
 from plot_gen import plot_gen
-#from plot_gen import set_plot_auto_close
-#from import_archive import import_archive
 from help import help_window
 from help import help_init
 from notice import notice
-#import gobject
-#from used_files_menu import used_files_menu
 from scan_item import scan_item_add
 from window_list import windows
-#from config import config
-#import random
-#from undo import undo_list_class
 from qe import qe_window
 
 
 from gpvdm_notebook import gpvdm_notebook
-#from gui_util import process_events
 from epitaxy import epitaxy_load
-#from global_objects import global_object_register
-
-#from export_materials import export_materials
-#from import_archive import update_simulaton_to_new_ver
-#from scan_item import scan_populate_from_file
-#from status_icon import status_icon_get
 from contacts_io import contacts_load
 
 #server
@@ -128,6 +115,8 @@ from about import about_dlg
 from dlg_export import dlg_export
 from fit_window import fit_window
 from device_lib import device_lib_class
+
+from equation import equation
 
 #python modules
 import webbrowser
@@ -277,11 +266,8 @@ class gpvdm_main_window(QMainWindow):
 			split=dialog.get_filename().split(".")
 			if len(split)>0:
 				if split[1]=="xlsx" or split[1]=="xls":
-					if running_on_linux()==True:
-						os.system("xdg-open "+dialog.get_filename()+" &")
-					else:
-						os.system("start "+dialog.get_filename())
-
+					desktop_open(dialog.get_filename())
+	
 					print("open with excel")
 					return
 				
@@ -352,7 +338,6 @@ class gpvdm_main_window(QMainWindow):
 		contacts_load()
 		mesh_load_all()
 
-		#self.config.load(os.getcwd())
 		#print "rod",os.getcwd(),new_dir
 		self.statusBar().showMessage(os.getcwd())
 		#self.plot_open.setEnabled(False)
@@ -921,9 +906,7 @@ class gpvdm_main_window(QMainWindow):
 
 #		self.window.show()
 
-
 #		process_events()
-
 
 		self.show()
 

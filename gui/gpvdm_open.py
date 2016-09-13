@@ -80,7 +80,7 @@ class gpvdm_open():
 		self.xls_icon = self.get_icon("xls")
 		self.info_icon = self.get_icon("info")
 		self.spectra_icon = self.get_icon("spectra")
-		self.mat_icon = self.get_icon("material")
+		self.mat_icon = QIcon(QPixmap(os.path.join(get_image_file_path(),"organic_material.png")))
 
 		self.window.listwidget.setIconSize(QSize(48,48))
 		self.window.listwidget.setViewMode(QListView.IconMode)
@@ -111,18 +111,23 @@ class gpvdm_open():
 		for fl in os.listdir(self.dir):
 			file_name=os.path.join(self.dir, fl)
 			if os.path.isdir(file_name):
-				show_dir=True
-
-				#if fl=="materials":
-				#	show_dir=False
-
-				if os.path.isfile(os.path.join(file_name,"gpvdm_gui_config.inp"))==True:
-					show_dir=False
-
-				if show_dir==True:
+				if os.path.isfile(os.path.join(file_name,"mat.inp")):
 					itm = QListWidgetItem( fl )
-					itm.setIcon(self.dir_icon)
+					itm.setIcon(self.mat_icon)
 					self.window.listwidget.addItem(itm)
+				else:
+					show_dir=True
+
+					#if fl=="materials":
+					#	show_dir=False
+
+					if os.path.isfile(os.path.join(file_name,"gpvdm_gui_config.inp"))==True:
+						show_dir=False
+
+					if show_dir==True:
+						itm = QListWidgetItem( fl )
+						itm.setIcon(self.dir_icon)
+						self.window.listwidget.addItem(itm)
 
 			else:
 				#append=False
@@ -151,7 +156,7 @@ class gpvdm_open():
 					itm = QListWidgetItem( fl )
 					itm.setIcon(self.spectra_icon)
 					self.window.listwidget.addItem(itm)
-
+					
 				if (file_name.endswith(".omat")==True):
 					itm = QListWidgetItem( fl )
 					itm.setIcon(self.mat_icon)
@@ -180,8 +185,12 @@ class gpvdm_open():
 			self.file_path=full_path
 			self.window.accept()
 		else:
-			self.dir = full_path
-			self.change_path()
+			if os.path.isfile(os.path.join(full_path,"mat.inp"))==True:
+				self.file_path=full_path
+				self.window.accept()
+			else:
+				self.dir = full_path
+				self.change_path()
 
 	def on_selection_changed(self,item):
 		if type(item)!=None:

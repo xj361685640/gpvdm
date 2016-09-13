@@ -274,6 +274,8 @@ lib.append(my_data("#srh_p_r4","m^{-3}s^{-1}","srh hole rate 4",["text"],"e",1.0
 
 lib.append(my_data("#band_bend_max","percent","band bend max",["text"],"e",1.0))
 
+lib.append(my_data("#gui_config_3d_enabled","true/false","Enable 3d effects",[("switch")],"e",1.0))
+
 #fit
 lib.append(my_data("#enabled",_("True/False"),_("Enable fit"),[("switch")],"e",1.0))
 lib.append(my_data("#time_shift","s","time shift",["text"],"e",1.0))

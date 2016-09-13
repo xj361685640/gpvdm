@@ -185,7 +185,7 @@ class plot_widget(QWidget):
 				plot_number=self.plot_id[index]
 			else:
 				plot_number=index
-			print("YMIN=",self.plot_token.ymin)
+			#print("YMIN=",self.plot_token.ymin)
 			if self.plot_token.ymax!=-1:
 				self.ax[plot_number].set_ylim((self.plot_token.ymin,self.plot_token.ymax))
 			return True
@@ -193,10 +193,10 @@ class plot_widget(QWidget):
 			return False
 
 	def do_plot(self):
-		print("PLOT TYPE=",self.plot_token.type)
+		#print("PLOT TYPE=",self.plot_token.type)
 		if self.plot_token!=None and len(self.plot_id)!=0:
 			plot_number=0
-			print(">>>>>>>>>>>>",self.plot_token.x_len,self.plot_token.y_len,self.plot_token.z_len)
+			#print(">>>>>>>>>>>>",self.plot_token.x_len,self.plot_token.y_len,self.plot_token.z_len)
 			self.fig.clf()
 			self.fig.subplots_adjust(bottom=0.2)
 			self.fig.subplots_adjust(bottom=0.2)
@@ -227,7 +227,7 @@ class plot_widget(QWidget):
 				self.ax.append(self.fig.add_subplot(number_of_plots,1,i+1, axisbg='white'))
 				#Only place label on bottom plot
 				if i==number_of_plots-1:
-					print(self.plot_token.x_label,self.plot_token.x_units)
+					#print(self.plot_token.x_label,self.plot_token.x_units)
 					self.ax[i].set_xlabel(self.plot_token.x_label+" ("+str(self.plot_token.x_units)+")")
 
 				else:
@@ -307,9 +307,9 @@ class plot_widget(QWidget):
 					self.fig.legend(lines, files, self.plot_token.legend_pos)
 			elif self.plot_token.x_len>1 and self.plot_token.y_len>1 and self.plot_token.z_len==1:		#3d plot
 				data=dat_file()
-				print("year2",self.input_files[0])
+				#print("year2",self.input_files[0])
 				if self.read_data_file(data,0)==True:
-					print("year")
+				#	print("year")
 					self.ax[0].pcolor(data.data[0])
 
 					#self.ax[0].plot_surface(x, y, z, rstride=1, cstride=1, cmap=cm.coolwarm,linewidth=0, antialiased=False)
@@ -339,7 +339,7 @@ class plot_widget(QWidget):
 					s=[]
 					z=[]
 					if self.read_data_file(t,s,z,ii)==True:
-						print(self.input_files[ii])
+						#print(self.input_files[ii])
 						for points in range(0,len(t)):
 							found=0
 							if t[points]>x[0]:
@@ -355,15 +355,15 @@ class plot_widget(QWidget):
 											found=found+1
 											break
 							if found==2:
-								print("adding data at",x_pos,y_pos)
+								#print("adding data at",x_pos,y_pos)
 								if data[y_pos][x_pos]<10.0:
 									data[y_pos][x_pos]=data[y_pos][x_pos]+1
 							else:
 								print("not adding point",t[points],s[points])
 
-				print(x)
-				print(y)
-				print(data)
+				#print(x)
+				#print(y)
+				#print(data)
 				x_grid, y_grid = mgrid[float(self.plot_token.y_start):float(self.plot_token.y_stop):complex(0, len(y)), float(self.plot_token.x_start):float(self.plot_token.x_stop):complex(0, len(x))]
 				self.ax[0].pcolor(y_grid,x_grid,data)
 
@@ -373,7 +373,7 @@ class plot_widget(QWidget):
 				z=[]
 
 				if read_data_2d(x,y,z,self.input_files[0])==True:
-					print(len(x),len(y),len(z),self.input_files[0])
+					#print(len(x),len(y),len(z),self.input_files[0])
 					maxx=-1
 					maxy=-1
 					for i in range(0,len(z)):
@@ -401,7 +401,7 @@ class plot_widget(QWidget):
 
 			#self.fig.tight_layout(pad=0.0, w_pad=0.0, h_pad=0.0)
 			self.fig.canvas.draw()
-			print("exit do plot")
+			#print("exit do plot")
 
 	def callback_plot_save(self):
 		response=save_as_image(self)
@@ -428,13 +428,13 @@ class plot_widget(QWidget):
 		#Try and get the data from the config file
 		if plot_load_info(self.plot_token,input_files[0])==False:
 			return
-		print("fred>>>>>>>>>>",self.plot_token.x_len)
+		#print("fred>>>>>>>>>>",self.plot_token.x_len)
 		if plot_load_info(self.plot_token,config_file)==True:
 			print("I have updated the plot info",self.plot_token.type)
 
 
-		print("the config file is",config_file)
-		print(input_files,loaded)
+		#print("the config file is",config_file)
+		#print(input_files,loaded)
 
 		if len(self.plot_id)==0:
 			for i in range(0,len(input_files)):
@@ -454,15 +454,15 @@ class plot_widget(QWidget):
 		title=self.plot_token.title
 		self.setWindowTitle(title+" - www.gpvdm.com")
 
-		print("Loaded OK",self.config_file)
+		#print("Loaded OK",self.config_file)
 
 		test_file=self.input_files[0]
 		for i in range(0,len(self.input_files)):
 			if os.path.isfile(self.input_files[i]):
 				test_file=self.input_files[i]
 
-		print("test_file=",test_file)
-		print("Exit here")
+		#print("test_file=",test_file)
+		#print("Exit here")
 
 
 	def gen_colors_black(self,repeat_lines):
@@ -508,7 +508,7 @@ class plot_widget(QWidget):
 
 	def callback_key(self):
 		self.plot_token.legend_pos=widget.get_label()
-		print(self.config_file,self.plot_token)
+		#print(self.config_file,self.plot_token)
 		plot_save_oplot_file(self.config_file,self.plot_token)
 		self.do_plot()
 
@@ -562,7 +562,7 @@ class plot_widget(QWidget):
 
 	def callback_heat_map_edit(self):
 		[a,b,c,d,e,f] = dlg_get_multi_text("2D plot editor", [["x start",str(self.plot_token.x_start)],["x stop",str(self.plot_token.x_stop)],["x points",str(self.plot_token.x_points)],["y start",str(self.plot_token.y_start)],["y stop",str(self.plot_token.y_stop)],["y points",str(self.plot_token.y_points)]])
-		print("---------",a,b,c,d,e,f)
+		#print("---------",a,b,c,d,e,f)
 		self.plot_token.x_start=float(a)
 		self.plot_token.x_stop=float(b)
 		self.plot_token.x_points=float(c)

@@ -100,6 +100,8 @@ V=fxdomain_config.fxdomain_Vexternal;
 Plight=light_get_sun((&in->mylight));
 int total_steps=fxdomain_config.fxdomain_points*fxdomain_config.fxdomain_n*fx_points();
 int cur_total_step=0;
+char temp[200];
+
 do
 {
 	V=fxdomain_config.fxdomain_Vexternal;
@@ -148,6 +150,11 @@ do
 	cut_time=0.0;
 	period_pos=0;
 	period=0;
+
+	fx_with_units(temp,fx);
+	sprintf(send_data,"text:%s",temp);
+	gui_send_data(sim,send_data);
+
 	do
 	{
 
@@ -183,14 +190,6 @@ do
 
 		dump_dynamic_add_data(sim,&store,in,in->time);
 
-		sprintf(send_data,"percent:%Lf",(gdouble)(cur_total_step)/(gdouble)(total_steps));
-		gui_send_data(sim,send_data);
-
-		char temp[200];
-		fx_with_units(temp,fx);
-		sprintf(send_data,"text:%s",temp);
-		gui_send_data(sim,send_data);
-
 
 		cur_total_step++;
 		//dump_write_to_disk(in);
@@ -223,6 +222,10 @@ do
 		if (in->time>stop_time) break;
 
 	}while(1);
+	
+	sprintf(send_data,"percent:%Lf",(gdouble)(cur_total_step)/(gdouble)(total_steps));
+	gui_send_data(sim,send_data);
+
 gdouble v_mag=0.0;
 gdouble i_mag=0.0;
 gdouble v_delta=0.0;

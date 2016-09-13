@@ -35,6 +35,7 @@ from util_zip import read_lines_from_archive
 from util_zip import archive_isfile
 from util_zip import zip_lsdir
 
+
 def inp_issequential_file(data,search):
 	if data.startswith(search) and data.endswith("inp"):
 		cut=data[len(search):-4]
@@ -63,12 +64,16 @@ def inp_update_token_value(file_path, token, replace,line_number):
 	lines=[]
 	if token=="#Tll":
 		inp_update_token_value("thermal.inp", "#Tlr", replace,1)
-		inp_update_token_value("dos0.inp", "#Tstart", replace,1)
-		try:
-			upper_temp=str(float(replace)+5)
-		except:
-			upper_temp="300.0"
-		inp_update_token_value("dos0.inp", "#Tstop", upper_temp,1)
+		files=inp_lsdir(file_path)
+		for i in range(0,len(files)):
+			if files[i].startswith("dos") and files[i].endswith(".inp"):
+
+				inp_update_token_value(files[i], "#Tstart", replace,1)
+				try:
+					upper_temp=str(float(replace)+5)
+				except:
+					upper_temp="300.0"
+				inp_update_token_value(files[i], "#Tstop", upper_temp,1)
 
 	path=os.path.dirname(file_path)
 

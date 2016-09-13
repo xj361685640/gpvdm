@@ -40,6 +40,8 @@ from util_zip import archive_isfile
 from util_zip import archive_merge_file
 from util_zip import archive_get_file_ver
 
+from cal_path import get_materials_path
+
 def update_simulaton_to_new_ver(file_name):
 	pre, ext = os.path.splitext(file_name)
 	back_file = pre + ".bak"
@@ -102,7 +104,7 @@ def merge_archives(src_archive,dest_archive,only_over_write):
 
 	remove_non_used_index_files(dest_archive,src_archive)
 
-	files=[ "sim.inp", "device.inp", "stark.inp" ,"shg.inp"   ,"jv.inp" , "math.inp",  "dump.inp",  "dump_file.inp"  , "light.inp", "server.inp", "light_exp.inp","info.inp" ]
+	files=[ "sim.inp", "device.inp", "stark.inp" ,"shg.inp"   ,"jv.inp" , "math.inp",  "dump.inp",  "dump_file.inp"  , "light.inp", "server.inp", "light_exp.inp","info.inp","config.inp" ]
 
 	base_file=files[:]
 
@@ -111,11 +113,11 @@ def merge_archives(src_archive,dest_archive,only_over_write):
 	for i in range(0,len(ls)):
 		if inp_issequential_file(ls[i],"dos"):
 			files.append(ls[i])
-			base_file.append("dos0.inp")
+			base_file.append(os.path.join(get_materials_path(),"generic","dos.inp"))
 
 		if inp_issequential_file(ls[i],"pl"):
 			files.append(ls[i])
-			base_file.append("pl0.inp")
+			base_file.append(os.path.join(get_materials_path(),"generic","pl.inp"))
 
 		if inp_issequential_file(ls[i],"pulse"):
 			files.append(ls[i])

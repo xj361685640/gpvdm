@@ -72,9 +72,8 @@ class snapshot_slider(QWidget):
 					full_path=os.path.join(self.path, name)
 					if os.path.isdir(full_path):
 						self.dirs.append(full_path)
-
-		self.slider0.setMaximum(len(self.dirs)-1)		
-
+		self.slider_max=len(self.dirs)-1
+		self.slider0.setMaximum(self.slider_max)
 		self.update_file_combo()
 
 	def slider0_change(self):
@@ -103,10 +102,12 @@ class snapshot_slider(QWidget):
 		self.main_vbox = QVBoxLayout()
 
 		self.slider_hbox0= QHBoxLayout()
-
+		self.slider_max=30
+		
 		self.slider0 = QSlider(Qt.Horizontal)
 		self.slider0.setMinimum(10)
-		self.slider0.setMaximum(30)
+		self.slider0.setMaximum(self.slider_max)
+
 		self.slider0.setTickPosition(QSlider.TicksBelow)
 		self.slider0.setTickInterval(5)
 		self.slider0.valueChanged.connect(self.slider0_change)

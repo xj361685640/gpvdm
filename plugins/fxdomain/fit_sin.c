@@ -73,6 +73,9 @@ if (dump_all==TRUE)
 	strcpy(buf.y_units,"$A$");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
+	buf.x=1;
+	buf.y=fit_data.len;
+	buf.z=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,fit_data.x, fit_data.data, fit_data.len);
 	sprintf(name,"imps_fit_%s_orig.dat",fit_file_prefix);
@@ -95,6 +98,9 @@ if (dump_all==TRUE)
 	strcpy(buf.y_units,"$A$");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
+	buf.x=1;
+	buf.y=test_i.len;
+	buf.z=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,test_i.x, test_i.data, test_i.len);
 	sprintf(name,"imps_fit_%s_guess.dat",fit_file_prefix);
@@ -117,6 +123,9 @@ if (dump_all==TRUE)
 	strcpy(buf.y_units,"$A$");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
+	buf.x=1;
+	buf.y=test_i.len;
+	buf.z=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,test_i.x, test_i.data, test_i.len);
 	sprintf(name,"imps_fit_%s_delta.dat",fit_file_prefix);

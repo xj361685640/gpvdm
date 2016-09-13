@@ -22,7 +22,6 @@
 import os
 
 from scan_select import select_param
-from config import config
 from token_lib import tokens
 from scan_item import scan_items_get_list
 

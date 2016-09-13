@@ -453,6 +453,7 @@ if open_gl_ok==True:
 		tet_rotate = 0.0
 		colors=[]
 		def __init__(self, parent):
+			self.failed=True
 			self.graph_path="./snapshots/159/Jn.dat"
 			self.graph_z_max=1.0
 			self.graph_z_min=1.0
@@ -462,7 +463,6 @@ if open_gl_ok==True:
 			self.x_pos=-0.5
 			self.y_pos=-0.5
 			self.zoom=-12.0
-			self.failed=False
 			self.timer=None
 			self.zoom_timer=None
 			self.suns=0.0
@@ -755,8 +755,8 @@ if open_gl_ok==True:
 				glLoadIdentity()                    
 				gluPerspective(45.0,float(self.width()) / float(self.height()+100),0.1, 1000.0) 
 				glMatrixMode(GL_MODELVIEW)
+				self.failed=False
 			except:
-				self.failed=True
 				print("OpenGL failed to load falling back to 2D rendering.",sys.exc_info()[0])
 
 else:

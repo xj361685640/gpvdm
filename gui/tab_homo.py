@@ -150,15 +150,17 @@ class equation_editor(QGroupBox):
 
 	def tab_changed(self):
 		self.save()
+		self.changed.emit()
 		
 	def add_item_clicked(self):
 		tab_add(self.tab,[ "exp", "true", "a", "b", "c"])
 		self.save()
+		self.changed.emit()
 
 	def on_remove_click(self):
 		tab_remove(self.tab)
 		self.save()
-		self.update_graph()
+		self.changed.emit()
 		
 	def save(self):
 		lines=[]
@@ -178,8 +180,6 @@ class equation_editor(QGroupBox):
 		lines.append("#end")
 		inp_write_lines_to_file(self.file_name,lines)
 
-	def update_graph(self):
-		print("")
 		
 ############
 class tab_bands(QWidget,tab_base):
@@ -212,29 +212,43 @@ class tab_bands(QWidget,tab_base):
 		Eg=2.0
 		ax1.set_xlim([0,-Eg])
 		x = linspace(0, -Eg, num=40)
-		for item in self.LUMO_model:
-			if item[LUMO_FUNCTION]=="exp":
-				y = float(item[LUMO_A])*exp(x/float(item[LUMO_B]))
-
+		for i in range(0,self.lumo.tab.rowCount()):
+			try:
+				a=float(tab_get_value(self.lumo.tab,i,2))
+				b=float(tab_get_value(self.lumo.tab,i,3))
+				c=float(tab_get_value(self.lumo.tab,i,4))
+			except:
+				a=0.0
+				b=0.0
+				c=0.0
+				
+			if tab_get_value(self.lumo.tab,i,0)=="exp":
+				y = a*exp(x/b)
 				line, = ax1.plot(x,y , '-', linewidth=3)
-			if item[LUMO_FUNCTION]=="gaus":
-
-				y = float(item[LUMO_A])*exp(-pow(((float(item[LUMO_B])+x)/(sqrt(2.0)*float(item[LUMO_C])*1.0)),2.0))
-
+				
+			if tab_get_value(self.lumo.tab,i,0)=="gaus":
+				y = a*exp(-pow(((b+x)/(sqrt(2.0)*c*1.0)),2.0))
 				line, = ax1.plot(x,y , color[pos], linewidth=3)
 				pos=pos+1
 
 		pos=0
 
 		x_homo = linspace(-Eg, 0, num=40)
-		for item in self.HOMO_model:
-			if item[HOMO_FUNCTION]=="exp":
-
-				y = float(item[HOMO_A])*exp(x/float(item[HOMO_B]))
-
+		for i in range(0,self.homo.tab.rowCount()):
+			try:
+				a=float(tab_get_value(self.homo.tab,i,2))
+				b=float(tab_get_value(self.homo.tab,i,3))
+				c=float(tab_get_value(self.homo.tab,i,4))
+			except:
+				a=0.0
+				b=0.0
+				c=0.0
+				
+			if tab_get_value(self.homo.tab,i,0)=="exp":
+				y = a*exp(x/b)
 				line, = ax1.plot(x_homo,y , '-', linewidth=3)
-			if item[LUMO_FUNCTION]=="gaus":
-				y = float(item[HOMO_A])*exp(-pow(((float(item[HOMO_B])+x)/(sqrt(2.0)*float(item[HOMO_C])*1.0)),2.0))
+			if tab_get_value(self.homo.tab,i,0)=="gaus":
+				y = a*exp(-pow(((b+x)/(sqrt(2.0)*c*1.0)),2.0))
 
 				line, = ax1.plot(x_homo,y , color[pos], linewidth=3)
 				pos=pos+1
@@ -261,11 +275,12 @@ class tab_bands(QWidget,tab_base):
 		edit_boxes=QWidget()
 		vbox=QVBoxLayout()
 
-		lumo=equation_editor("lumo0.inp","LUMO")
-		vbox.addWidget(lumo)
+		self.lumo=equation_editor("lumo0.inp","LUMO")
+		vbox.addWidget(self.lumo)
 		
-		homo=equation_editor("homo0.inp","HOMO")
-		vbox.addWidget(homo)
+		self.homo=equation_editor("homo0.inp","HOMO")
+		vbox.addWidget(self.homo)
+		
 		
 		edit_boxes.setLayout(vbox)
 
@@ -283,11 +298,11 @@ class tab_bands(QWidget,tab_base):
 		self.LUMO_fig = Figure(figsize=(5,4), dpi=100)
 
 
-		#self.draw_graph_lumo()
+		self.draw_graph_lumo()
 		self.canvas_lumo = FigureCanvas(self.LUMO_fig)
 		self.canvas_lumo.figure.patch.set_facecolor('white')
 
-		#self.LUMO_fig.tight_layout(pad=0.5)
+		self.LUMO_fig.tight_layout(pad=0.5)
 
 		hbox.addWidget(self.canvas_lumo)
 
@@ -296,6 +311,8 @@ class tab_bands(QWidget,tab_base):
 		
 		self.setLayout(hbox)
 		
-		return
+		self.lumo.changed.connect(self.update_graph)
+		self.homo.changed.connect(self.update_graph)
+		
 	
 

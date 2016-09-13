@@ -25,8 +25,8 @@ within the device. The model also solves Poisson's equation to calculate the
 internal electrostatic potential. Recombination and carrier trapping are 
 described within the model using a Shockley-Read-Hall (SRH) formalism, the 
 distribution of trap sates can be arbitrarily defined. A fuller description of 
-the model can be found in the at www.gpvdm.com, in the associated publications 
-and in the manual.
+the model can be found in the at https://www.gpvdm.com, in the associated
+publications  and in the manual.
 Example simulations
 
 The model makes it easy to study the influence of material parameters such as 
@@ -51,5 +51,5 @@ sane/accessible/useful to others.
 
 More information
 ~~~~~~~~~~~~~~~~
-More information can be found on the home page www.gpvdm.com
+More information can be found on the home page https://www.gpvdm.com
 
