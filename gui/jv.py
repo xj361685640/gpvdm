@@ -107,10 +107,10 @@ class jv(QWidget):
 		
 		self.notebook.currentChanged.connect(self.changed_click)
 
-	def callback_close_window(self):
+	def closeEvent(self, event):
 		self.win_list.update(self,"jv_window")
 		self.hide()
-		return True
+		event.accept()
 
 
 

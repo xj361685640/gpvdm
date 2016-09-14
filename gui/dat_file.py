@@ -52,6 +52,35 @@ def dat_file_max_min(my_data):
 
 	return [my_max,my_min]
 
+#search first 40 lines for dims
+def find_dim(lines):
+	x_len=-1
+	y_len=-1
+	z_len=-1
+
+	my_max=len(lines)
+	if my_max>40:
+		my_max=40
+		
+	for i in range(0, my_max):
+		temp=lines[i]
+		temp=re.sub(' +',' ',temp)
+		temp=re.sub('\t',' ',temp)
+		s=lines[i].split(" ")
+
+		if s[0]=="#x":
+			x_len=int(s[1])
+
+		if s[0]=="#y":
+			y_len=int(s[1])
+
+		if s[0]=="#z":
+			z_len=int(s[1])
+
+		if x_len!=-1 and y_len!=-1 and z_len!=-1:
+			return x_len,y_len,z_len
+	return False,False,False
+
 def guess_dim(lines):
 	x=0
 	y=0
@@ -60,17 +89,38 @@ def guess_dim(lines):
 	for i in range(0, len(lines)):
 		temp=lines[i]
 		temp=re.sub(' +',' ',temp)
-		temp=re.sub('\t',' ',temp)
+		temp=re.sub("\t"," ",temp)
+		temp=re.sub("\r","",temp)
+
 		if len(temp)>0:
 			if temp[0]!="#":
-				s=lines[i].split(" ")
+				s=temp.split(" ")
 				if len(s)==1:
 					print("I can't do this file type yet")
+					return False,False,False
 				if len(s)==2:
 					y=y+1
 				if len(s)==3:
 					print("I can't do this file type yet")
-	return 1,1,y
+					return False,False,False
+	return 1,y,1
+
+def is_number(data_in):
+	if type(data_in)==str:
+		if len(data_in)>0:
+			s=data_in
+			s=re.sub(' ','',s)
+			s=re.sub("\+",'',s)
+			s=re.sub('-','',s)
+			s=re.sub('\t','',s)
+	
+			if len(s)>0:
+				if s[0].isdigit()==True:
+					return True
+				else:
+					return False
+
+	return False
 
 def dat_file_read(out,file_name):
 	if file_name==None:
@@ -85,9 +135,19 @@ def dat_file_read(out,file_name):
 	out.z_scale=[]
 	out.data=[]
 	
-	out.x_len=1
-	out.y_len=1
-	out.z_len=1
+
+	out.x_len, out.y_len, out.z_len = find_dim(lines)
+
+	if out.x_len==False:
+		out.x_len, out.y_len, out.z_len = guess_dim(lines)
+		if out.x_len==False:
+			return False
+
+	out.data=[[[0.0 for k in range(out.y_len)] for j in range(out.x_len)] for i in range(out.z_len)]
+			
+	out.x_scale= [0.0]*out.x_len
+	out.y_scale= [0.0]*out.y_len
+	out.z_scale= [0.0]*out.z_len
 
 	data_started=False
 
@@ -99,24 +159,14 @@ def dat_file_read(out,file_name):
 		temp=lines[i]
 		temp=re.sub(' +',' ',temp)
 		temp=re.sub('\t',' ',temp)
-		s=lines[i].split(" ")
-
+		s=temp.split(" ")
 
 		if len(s)>0:
-			if s[0]=="#x":
-				out.x_len=int(s[1])
 
-			if s[0]=="#y":
-				out.y_len=int(s[1])
-
-			if s[0]=="#z":
-				out.z_len=int(s[1])
-
-				out.data=[[[0.0 for k in range(out.y_len)] for j in range(out.x_len)] for i in range(out.z_len)]
-						
-				out.x_scale= [0.0]*out.x_len
-				out.y_scale= [0.0]*out.y_len
-				out.z_scale= [0.0]*out.z_len
+			#if 
+			if data_started==False:
+				if is_number(s[0])==True:
+					data_started=True
 
 			if s[0]=="#end":
 				break

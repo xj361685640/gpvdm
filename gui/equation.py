@@ -19,6 +19,7 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 import os
+import sys
 from scan_item import scan_item_add
 from gui_util import dlg_get_text
 from inp import inp_write_lines_to_file
@@ -54,6 +55,9 @@ from gui_util import tab_remove
 from gui_util import tab_get_value
 from gui_util import save_as_jpg
 
+from dat_file import dat_file
+from dat_file import dat_file_read
+
 mesh_articles = []
 
 class equation(QWidget):
@@ -87,7 +91,7 @@ class equation(QWidget):
 
 		dump=dump.rstrip("\n")
 
-		f=open(self.file_name, mode='wb')
+		f=open(os.path.join(self.path,self.file_name), mode='wb')
 		lines = f.write(str.encode(dump))
 		f.close()
 
@@ -135,8 +139,14 @@ class equation(QWidget):
 		self.ax1.set_ylabel(self.ylabel)
 
 		x_nm= [x * 1e9 for x in self.x]
-		
 		frequency, = self.ax1.plot(x_nm,self.y, 'ro-', linewidth=3 ,alpha=1.0)
+
+		if os.path.isfile(os.path.join(self.path,self.exp_file))==True:
+			data=dat_file()
+			dat_file_read(data,os.path.join(self.path,self.exp_file))
+			x_nm= [x * 1e9 for x in data.y_scale]
+			frequency, = self.ax1.plot(x_nm,data.data[0][0], 'bo-', linewidth=3 ,alpha=1.0)
+
 		self.ax1.set_xlabel(_("Wavelength (nm)"))
 
 	def save_image(self,file_name):
@@ -164,10 +174,10 @@ class equation(QWidget):
 		self.tab.setColumnCount(3)
 		self.tab.setSelectionBehavior(QAbstractItemView.SelectRows)
 		self.tab.setHorizontalHeaderLabels([_("start (m)"), _("stop (m)"), _("Python Equation")])
-
+		self.tab.setColumnWidth(2, 500)
 		lines=[]
 		pos=0
-		if inp_load_file(lines,self.file_name)==True:
+		if inp_load_file(lines,os.path.join(self.path,self.file_name))==True:
 			token,self.points,pos=inp_read_next_item(lines,pos)		
 			token,equations,pos=inp_read_next_item(lines,pos)
 			equations=int(equations)
@@ -196,7 +206,7 @@ class equation(QWidget):
 				if val>data_max:
 					data_max=val
 
-			pos=data_min
+			w=data_min
 			dx=(data_max-data_min)/(float(self.points))
 
 			for i in range(0,self.points):
@@ -204,15 +214,23 @@ class equation(QWidget):
 				for ii in range(0,self.tab.rowCount()):
 					range_min=float(tab_get_value(self.tab,ii, 0))
 					range_max=float(tab_get_value(self.tab,ii, 1))
-					equ=float(tab_get_value(self.tab,ii, 2))
-					if pos>=range_min and pos <=range_max:
-						val=val+equ
+					command=tab_get_value(self.tab,ii, 2)
+					try:
+						equ=eval(command)
+					except:
+						print("error evaluating command ", sys.exc_info())
+						equ=-1
 					
-				self.x.append(pos)
+					if w>=range_min and w <=range_max:
+						val=val+equ
+				if val<0.0:
+					val=1.0
+					
+				self.x.append(w)
 				self.y.append(val)
-				pos=pos+dx
+				w=w+dx
 			
-			a = open(self.out_file, "w")
+			a = open(os.path.join(self.path,self.out_file), "w")
 			for i in range(0,len(self.y)):
 				a.write(str(self.x[i])+" "+str(self.y[i])+"\n")
 			a.close()
@@ -285,16 +303,14 @@ class equation(QWidget):
 
 		self.tab.cellChanged.connect(self.on_cell_edited)
 		
-	def __init__(self,file_name,out_file):
+	def __init__(self,path,file_name,out_file,exp_file):
 		QWidget.__init__(self)
-		self.points=400
+		self.points=200
 		self.default_value="3.0"
+		self.path=path
 		self.file_name=file_name
 		self.out_file=out_file
-		
-
-
-
+		self.exp_file=exp_file
 
 
 

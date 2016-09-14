@@ -130,10 +130,19 @@ for (i=0;i<in->layers;i++)
 	inp_free(sim,&inp);
 
 	join_path(3, file_path,get_materials_path(sim),in->material_dir_name[i],"alpha.omat");
+	if (isfile(file_path)==FALSE)
+	{
+		join_path(3, file_path,get_materials_path(sim),in->material_dir_name[i],"alpha_gen.omat");
+	}
 	inter_load(&(in->mat[i]),file_path);
 	inter_sort(&(in->mat[i]));
 
 	join_path(3,file_path,get_materials_path(sim),in->material_dir_name[i],"n.omat");
+	if (isfile(file_path)==FALSE)
+	{
+		join_path(3, file_path,get_materials_path(sim),in->material_dir_name[i],"n_gen.omat");
+	}
+
 	inter_load(&(in->mat_n[i]),file_path);
 	//printf_log(sim,"%s\n",file_path);
 	//inter_dump(&in->mat_n[i]);

@@ -104,13 +104,13 @@ class materials_main(QWidget):
 			tab.init(os.path.join(self.path,files[i]),description[i])
 			self.notebook.addTab(tab,description[i])
 
-		alpha=equation(os.path.join(self.path,"alpha_eq.inp"),os.path.join(self.path,"alpha_gen.omat"))
+		alpha=equation(self.path,"alpha_eq.inp","alpha_gen.omat","alpha.omat")
 		alpha.set_default_value("1e7")
 		alpha.set_ylabel("Absorption (m^{-1})")
 		alpha.init()
 		self.notebook.addTab(alpha,"Absorption")
 
-		n=equation(os.path.join(self.path,"n_eq.inp"),os.path.join(self.path,"n_gen.omat"))
+		n=equation(self.path,"n_eq.inp","n_gen.omat","n.omat")
 		n.set_default_value("3")
 		n.set_ylabel("Refractive index (au)")
 		n.init()

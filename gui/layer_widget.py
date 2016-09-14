@@ -83,6 +83,8 @@ from gpvdm_select import gpvdm_select
 
 from code_ctrl import enable_betafeatures
 
+from cost import cost
+
 class layer_widget(QWidget):
 
 	changed = pyqtSignal()
@@ -170,6 +172,7 @@ class layer_widget(QWidget):
 		QWidget.__init__(self)
 		self.rebuild_mat_list()
 		self.doping_window=False
+		self.cost_window=False
 		
 		self.main_vbox=QVBoxLayout()
 
@@ -197,6 +200,10 @@ class layer_widget(QWidget):
 		self.tb_open.triggered.connect(self.callback_view_materials)
 		self.toolbar.addAction(self.tb_open)
 
+		self.cost = QAction(QIcon(os.path.join(get_image_file_path(),"cost.png")), _("Calculate the cost of the solar cell"), self)
+		self.cost.triggered.connect(self.callback_cost)
+		self.toolbar.addAction(self.cost)
+		
 		self.main_vbox.addWidget(self.toolbar)
 	
 		self.tab = QTableWidget()
@@ -367,6 +374,17 @@ class layer_widget(QWidget):
 			self.doping_window.hide()
 		else:
 			self.doping_window.show()
+
+	def callback_cost(self):
+		help_window().help_set_help(["cost.png",_("<big><b>Costs window</b></big>\nUse this window to calculate the cost of the solar cell and the energy payback time.")])
+
+		if self.cost_window==False:
+			self.cost_window=cost()
+
+		if self.cost_window.isVisible()==True:
+			self.cost_window.hide()
+		else:
+			self.cost_window.show()
 
 
 

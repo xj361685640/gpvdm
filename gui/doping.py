@@ -228,7 +228,6 @@ class doping_window(QWidget):
 		self.tab.setColumnCount(4)
 		self.tab.setSelectionBehavior(QAbstractItemView.SelectRows)
 
-
 		self.load()
 		self.build_mesh()
 
