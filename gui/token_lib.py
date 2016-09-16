@@ -344,6 +344,8 @@ lib.append(my_data("#dump_pl",_("True/False"),_("Dump PL spectra"),[("switch")],
 lib.append(my_data("#dump_norm_time_to_one",_("True/False"),_("Normalize output x-time to one"),[("switch")],"e",1.0))
 lib.append(my_data("#dump_built_in_voltage",_("True/False"),_("Dump the built in voltage."),[("switch")],"e",1.0))
 lib.append(my_data("#dump_optical_probe_spectrum",_("True/False"),_("Dump optical probe spectrum"),[("switch")],"e",1.0))
+lib.append(my_data("#dump_optics_summary",_("True/False"),_("Dump optical summary"),[("switch")],"e",1.0))
+
 
 
 lib.append(my_data("#pl_enabled",_("True/False"),"Turn on luminescence",[("switch")],"e",1.0))

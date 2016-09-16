@@ -140,6 +140,10 @@ def replace_file_in_zip_archive(zip_file_name,target,lines):
 
 		zf.close()
 		os.close(fh)
+
+		if os.path.isfile(zip_file_name):
+			os.remove(zip_file_name)
+
 		shutil.move(abs_path, zip_file_name)
 		return True
 	else:
@@ -176,6 +180,9 @@ def zip_remove_file(zip_file_name,target):
 		source.close()
 
 		if found==True:
+			if os.path.isfile(zip_file_name):
+				os.remove(zip_file_name)
+
 			shutil.move(abs_path, zip_file_name)
 
 

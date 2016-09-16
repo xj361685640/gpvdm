@@ -143,6 +143,8 @@ class class_optical(QWidget):
 		self.setGeometry(300, 300, 600, 600)
 		self.setWindowTitle(_("Optical simulation editor (www.gpvdm.com)"))    
 
+		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"optics.png")))
+
 		self.main_vbox=QVBoxLayout()
 
 		menubar = QMenuBar()

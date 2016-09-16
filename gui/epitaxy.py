@@ -55,25 +55,26 @@ def epitaxy_load():
 		pos=pos+1
 
 		for i in range(0, int(lines[pos])):
-			pos=pos+1
-			#label=lines[pos]				#read label
-
+			pos=pos+1		#token
 			pos=pos+1
 			name.append(lines[pos])
 
+			pos=pos+1		#token
 			pos=pos+1
 			width.append(float(lines[pos]))
 
+			pos=pos+1		#token
 			pos=pos+1
 			mat_file.append(lines[pos])
 
+			pos=pos+1		#token
 			pos=pos+1
-
 			electrical_layer.append(lines[pos])		#value
 
 			if lines[pos].startswith("dos")==True:
 				electrical_layers=electrical_layers+1
 
+			pos=pos+1		#token
 			pos=pos+1
 			pl_file.append(lines[pos])		#value
 
@@ -165,16 +166,20 @@ def epitaxy_save():
 
 	layer=0
 	for i in range(0,layers):
-		lines.append("#layer"+str(layer))
+		lines.append("#layer_name"+str(layer))
 		lines.append(str(name[i]))
+		lines.append("#layer_width"+str(layer))
 		lines.append(str(width[i]))
+		lines.append("#layer_material_file"+str(layer))
 		lines.append(mat_file[i])
+		lines.append("#layer_dos_file"+str(layer))
 		lines.append(electrical_layer[i])
+		lines.append("#layer_pl_file"+str(layer))
 		lines.append(pl_file[i])
 		layer=layer+1
 
 	lines.append("#ver")
-	lines.append("1.2")
+	lines.append("1.3")
 	lines.append("#end")
 
 	inp_write_lines_to_file(os.path.join(os.getcwd(),"epitaxy.inp"),lines)

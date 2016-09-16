@@ -176,7 +176,7 @@ class plot_widget(QWidget):
 					for y in range(0,data.y_len):
 						for z in range(0,data.z_len):
 							if data.data[z][x][y]!=0:
-								data.data[z][x][y]=data.data[z][x][y]/local_max
+								data.data[z][x][y]=data.data[z][x][y]/my_max
 							else:
 								data.data[z][x][y]=0.0
 

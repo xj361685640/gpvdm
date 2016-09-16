@@ -621,86 +621,89 @@ if open_gl_ok==True:
 
 
 				tot=0
+
 				for i in range(0,epitaxy_get_layers()):
 					tot=tot+epitaxy_get_width(i)
 
-				mul=1.5/tot
 				pos=0.0
 				
-				for i in range(0,epitaxy_get_layers()):
+				if tot>0:
+					mul=1.5/tot
+					
+					for i in range(0,epitaxy_get_layers()):
 
-					thick=epitaxy_get_width(l-i)*mul
+						thick=epitaxy_get_width(l-i)*mul
 
-					red=self.colors[l-i].r
-					green=self.colors[l-i].g
-					blue=self.colors[l-i].b
+						red=self.colors[l-i].r
+						green=self.colors[l-i].g
+						blue=self.colors[l-i].b
 
-					if i==l-self.selected_layer:
-						box_lines(0.0,pos,0,width,thick,depth)
+						if i==l-self.selected_layer:
+							box_lines(0.0,pos,0,width,thick,depth)
 
-					if epitaxy_get_electrical_layer(l-i).startswith("dos")==True:
-						dy=thick/float(ypoints)
-						dx=width/float(xpoints)
-						dz=depth/float(zpoints)
-						xshrink=0.8
-						zshrink=0.8
+						if epitaxy_get_electrical_layer(l-i).startswith("dos")==True:
+							dy=thick/float(ypoints)
+							dx=width/float(xpoints)
+							dz=depth/float(zpoints)
+							xshrink=0.8
+							zshrink=0.8
+							
+							if dos_start==-1:
+								dos_start=pos
+							
+							dos_stop=pos+thick
+					
+							if xpoints==1:
+								xshrink=1.0
+
+							if zpoints==1:
+								zshrink=1.0
+
+							if xpoints==1 and zpoints==1:
+								box(0.0,pos,0,width,thick,depth,red,green,blue)
+							else:
+								for y in range(0,ypoints):
+									for x in range(0,xpoints):
+										for z in range(0,zpoints):
+											box(dx*x,pos+y*(dy),z*dz,dx*xshrink,dy*0.8,dz*zshrink,red,green,blue)
+							tab(0.0,pos,depth,width,thick,depth)
 						
-						if dos_start==-1:
-							dos_start=pos
+						elif epitaxy_get_electrical_layer(l-i).lower()=="contact" and i==l:
+							if xpoints==1 and zpoints==1:
+								box(0.0,pos,0,width,thick,depth,red,green,blue)
+							else:
+								for c in contacts_get_array():
+									xstart=width*(c.start/x_len)
+									xwidth=width*(c.width/x_len)
+									#print("contacts",xstart,xwidth,c.width,x_len)
+									if (c.start+c.width)>x_len:
+										xwidth=width-xstart
+									if c.active==True:
+										box(xstart,pos,0,xwidth,thick,depth,0.0,1.0,0.0)
+									else:
+										box(xstart,pos,0,xwidth,thick,depth,red,green,blue)
+
+
+						else:
+							box(0.0,pos,0,width,thick,depth,red,green,blue)
 						
-						dos_stop=pos+thick
+
+						if epitaxy_get_electrical_layer(l-i).startswith("dos")==True:
+							text=epitaxy_get_name(l-i)+" (active)"
+						else:
+							text=epitaxy_get_name(l-i)
+
+						glColor3f(1.0,1.0,1.0)
+						font = QFont("Arial")
+						font.setPointSize(18)
+						if self.zoom>-20:
+							self.renderText (width+0.1,pos+thick/2,depth, text,font)
+
+						pos=pos+thick+0.05
+
+
 				
-						if xpoints==1:
-							xshrink=1.0
-
-						if zpoints==1:
-							zshrink=1.0
-
-						if xpoints==1 and zpoints==1:
-							box(0.0,pos,0,width,thick,depth,red,green,blue)
-						else:
-							for y in range(0,ypoints):
-								for x in range(0,xpoints):
-									for z in range(0,zpoints):
-										box(dx*x,pos+y*(dy),z*dz,dx*xshrink,dy*0.8,dz*zshrink,red,green,blue)
-						tab(0.0,pos,depth,width,thick,depth)
-					
-					elif epitaxy_get_electrical_layer(l-i).lower()=="contact" and i==l:
-						if xpoints==1 and zpoints==1:
-							box(0.0,pos,0,width,thick,depth,red,green,blue)
-						else:
-							for c in contacts_get_array():
-								xstart=width*(c.start/x_len)
-								xwidth=width*(c.width/x_len)
-								#print("contacts",xstart,xwidth,c.width,x_len)
-								if (c.start+c.width)>x_len:
-									xwidth=width-xstart
-								if c.active==True:
-									box(xstart,pos,0,xwidth,thick,depth,0.0,1.0,0.0)
-								else:
-									box(xstart,pos,0,xwidth,thick,depth,red,green,blue)
-
-
-					else:
-						box(0.0,pos,0,width,thick,depth,red,green,blue)
-					
-
-					if epitaxy_get_electrical_layer(l-i).startswith("dos")==True:
-						text=epitaxy_get_name(l-i)+" (active)"
-					else:
-						text=epitaxy_get_name(l-i)
-
-					glColor3f(1.0,1.0,1.0)
-					font = QFont("Arial")
-					font.setPointSize(18)
-					if self.zoom>-20:
-						self.renderText (width+0.1,pos+thick/2,depth, text,font)
-
-					pos=pos+thick+0.05
-
-
-			
-					glRotatef(self.tet_rotate, tet_x_rate, tet_y_rate, tet_z_rate)
+						glRotatef(self.tet_rotate, tet_x_rate, tet_y_rate, tet_z_rate)
 
 				draw_mode(pos-0.05,depth)
 				#print(self.graph_path)

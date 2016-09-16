@@ -292,8 +292,8 @@ class layer_widget(QWidget):
 		self.tab.setItem(i,5,item3)
 
 
-		scan_item_add("epitaxy.inp","#layer"+str(i),_("Material for ")+str(material),2)
-		scan_item_add("epitaxy.inp","#layer"+str(i),_("Layer width ")+str(material),1)
+		scan_item_add("epitaxy.inp","#layer_material_file"+str(i),_("Material for ")+name,2)
+		scan_item_add("epitaxy.inp","#layer_width"+str(i),_("Layer width ")+name,1)
 
 		combobox.currentIndexChanged.connect(self.combo_changed)
 		combobox_layer_type.currentIndexChanged.connect(self.layer_type_edit)

@@ -55,7 +55,7 @@ from inp_util import inp_search_token_value
 #calpath
 from cal_path import get_image_file_path
 
-from gui_util import save_as_image
+from gui_util import save_as_filter
 
 class band_graph(QWidget):
 	def init(self):
@@ -65,7 +65,7 @@ class band_graph(QWidget):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(32, 32))
 
-		self.tb_save = QAction(QIcon(os.path.join(get_image_file_path(),"save.svg")), 'Hide', self)
+		self.tb_save = QAction(QIcon(os.path.join(get_image_file_path(),"save.svg")), "Save image", self)
 		self.tb_save.setStatusTip(_("Close"))
 		self.tb_save.triggered.connect(self.callback_save_image)
 		toolbar.addAction(self.tb_save)
@@ -103,8 +103,9 @@ class band_graph(QWidget):
 		clip.set_image(pixbuf)
 
 	def callback_save_image(self):
-		response=save_as_image(self)
+		response=save_as_filter(self,"png (*.png);;jpg (*.jpg)")
 		if response != None:
+			print(response)
 			self.my_figure.savefig(response)
 
 	def set_data_file(self,file):
@@ -185,7 +186,7 @@ class band_graph(QWidget):
 		#summary="<big><b>"+self.store[path[0]][0]+"</b></big>\n"+"\ntitle: "+state.title+"\nx axis: "+state.x_label+" ("+latex_to_pygtk_subscript(state.x_units)+")\ny axis: "++" ("+latex_to_pygtk_subscript(state.y_units)+")\n\n<big><b>Double click to open</b></big>"
 
 		print("ROD!!!!",state.y_label,self.optical_mode_file)
-		ax1.set_ylabel(state.y_label)
+		ax1.set_ylabel(state.y_label+" ("+state.y_units+")")
 		ax1.set_xlabel('Position (nm)')
 		ax2.set_ylabel('Energy (eV)')
 		ax2.set_xlim([start, x_pos])
