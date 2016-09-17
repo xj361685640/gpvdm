@@ -306,9 +306,9 @@ class cluster:
 		buf=bytearray(512)
 
 		for i in range(0,len(header)):
-			buf[i]=header[i]
-
-		buf=buf+bytes
+			buf[i]=ord(header[i])
+		buf.extend(map(ord, bytes))
+		#buf=buf+bytes
 		print("I am sending",len(buf),data.id)
 		buf=encrypt(buf)
 		print("I am sending",len(buf),data.id)

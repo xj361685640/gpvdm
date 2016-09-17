@@ -1,4 +1,3 @@
-#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
@@ -28,14 +27,15 @@ from window_list import windows
 from inp import inp_load_file
 from inp_util import inp_search_token_value
 from status_icon import status_icon_stop
-#from jobs import jobs_view
+from jobs import jobs_view
 
 #qt
 from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSize, Qt 
-from PyQt5.QtWidgets import QWidget,QSizePolicy,QHBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar
+from PyQt5.QtWidgets import QWidget,QSizePolicy,QHBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QVBoxLayout,QTabWidget
 from about import about_dlg
+from gui_util import error_dlg
 
 class hpc_class(QToolBar):
 
@@ -133,43 +133,41 @@ class hpc_class(QToolBar):
 			else:
 				self.bar[i].set_text("node down?????")
 
-	def callback_cluster_make(self, widget, data=None):
+	def callback_cluster_make(self):
 		self.myserver.cluster_make()
 
-	def callback_cluster_stop(self, widget, data=None):
+	def callback_cluster_stop(self):
 		self.myserver.killall()
 
-	def callback_cluster_clean(self, widget, data=None):
+	def callback_cluster_clean(self):
 		self.myserver.cluster_clean()
 
-	def callback_cluster_off(self, widget, data=None):
+	def callback_cluster_off(self):
 		self.myserver.cluster_quit()
 		self.cluster_gui_update()
 
-	def callback_cluster_sync(self, widget, data=None):
+	def callback_cluster_sync(self):
 		self.myserver.copy_src_to_cluster_fast()
 
 
-	def callback_cluster_jobs(self, widget, data=None):
+	def callback_cluster_jobs(self):
 		self.myserver.cluster_list_jobs()
 
-	def callback_cluster_sleep(self,widget,data):
+	def callback_cluster_sleep(self):
 		self.myserver.sleep()
 
-	def callback_cluster_poweroff(self,widget,data):
+	def callback_cluster_poweroff(self):
 		self.myserver.poweroff()
 
-	def callback_cluster_print_jobs(self,widget):
+	def callback_cluster_print_jobs(self):
 		self.myserver.print_jobs()
 
 	def callback_wol(self, widget, data):
 		self.myserver.wake_nodes()
 
-	def callback_cluster_connect(self, widget, data=None):
+	def callback_cluster_connect(self):
 		if self.myserver.connect()==False:
-			md = gtk.MessageDialog(None, gtk.DIALOG_DESTROY_WITH_PARENT, gtk.MESSAGE_INFO, gtk.BUTTONS_CLOSE, "Can not connect to cluster.")
-			md.run()
-			md.destroy()
+			error_dlg(self,_("Can not connect to cluster."))
 
 		self.cluster_gui_update()
 		if self.myserver.cluster==True:
@@ -179,30 +177,30 @@ class hpc_class(QToolBar):
 
 	def cluster_gui_update(self):
 		if self.myserver.cluster==True:
-			self.cluster_button.set_stock_id(gtk.STOCK_DISCONNECT)
-			self.cluster_clean.set_sensitive(True)
-			self.cluster_make.set_sensitive(True)
-			self.cluster_copy_src.set_sensitive(True)
-			self.cluster_get_info.set_sensitive(True)
-			self.cluster_get_data.set_sensitive(True)
-			self.cluster_off.set_sensitive(True)
-			self.cluster_sync.set_sensitive(True)
-			self.cluster_jobs.set_sensitive(True)
-			self.cluster_stop.set_sensitive(True)
-			self.cluster_view_button.set_sensitive(True)
+			self.cluster_button.setIcon(QIcon(os.path.join(get_image_file_path(),"connected.png")))
+			self.cluster_clean.setEnabled(True)
+			self.cluster_make.setEnabled(True)
+			self.cluster_copy_src.setEnabled(True)
+			self.cluster_get_info.setEnabled(True)
+			self.cluster_get_data.setEnabled(True)
+			self.cluster_off.setEnabled(True)
+			self.cluster_sync.setEnabled(True)
+			self.cluster_jobs.setEnabled(True)
+			self.cluster_stop.setEnabled(True)
+			self.cluster_view_button.setEnabled(True)
 
 		else:
-			self.cluster_button.set_stock_id(gtk.STOCK_CONNECT)
-			self.cluster_clean.set_sensitive(False)
-			self.cluster_make.set_sensitive(False)
-			self.cluster_copy_src.set_sensitive(False)
-			self.cluster_get_info.set_sensitive(False)
-			self.cluster_get_data.set_sensitive(False)
-			self.cluster_off.set_sensitive(False)
-			self.cluster_sync.set_sensitive(False)
-			self.cluster_jobs.set_sensitive(False)
-			self.cluster_stop.set_sensitive(False)
-			self.cluster_view_button.set_sensitive(False)
+			self.cluster_button.setIcon(QIcon(os.path.join(get_image_file_path(),"not_connected.png")))
+			self.cluster_clean.setEnabled(False)
+			self.cluster_make.setEnabled(False)
+			self.cluster_copy_src.setEnabled(False)
+			self.cluster_get_info.setEnabled(False)
+			self.cluster_get_data.setEnabled(False)
+			self.cluster_off.setEnabled(False)
+			self.cluster_sync.setEnabled(False)
+			self.cluster_jobs.setEnabled(False)
+			self.cluster_stop.setEnabled(False)
+			self.cluster_view_button.setEnabled(False)
 
 	def callback_close_window(self, widget, event, data=None):
 		self.win_list.update(self.hpc_window,"hpc_window")
@@ -210,6 +208,38 @@ class hpc_class(QToolBar):
 		return False
 
 
+	def init_job_window(self):
+		self.status_window=QWidget()
+		self.status_window.setFixedSize(900, 600)
+		self.status_window.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"connected.png")))
+		self.status_window.setWindowTitle(_("Steady state simulation (www.gpvdm.com)")) 
+		
+		self.main_vbox = QVBoxLayout()
+		
+		self.notebook = QTabWidget()
+
+		self.notebook.setTabsClosable(True)
+		self.notebook.setMovable(True)
+
+		self.main_vbox.addWidget(self.notebook)
+
+
+		#self.notebook = gtk.Notebook()
+		#self.notebook.set_tab_pos(gtk.POS_TOP)
+		#self.notebook.show()
+		#label = gtk.Label("Nodes")
+		#self.notebook.append_page(self.prog_hbox, label)
+
+
+		self.jview=jobs_view()
+		self.jview.init(self.myserver.jobs_list)
+		tab.init(files[i],description[i])
+		self.notebook.addTab(self.jview,"Jobs list")
+
+		self.setLayout(self.main_vbox)
+
+		self.win_list.set_window(self.status_window,"hpc_window")
+		self.status_window.show()
 
 	def __init__(self, server):
 		QToolBar.__init__(self)
@@ -222,7 +252,7 @@ class hpc_class(QToolBar):
 
 		self.setIconSize(QSize(42, 42))
 
-		self.cluster_button = QAction(QIcon(os.path.join(get_image_file_path(),"lasers.png")), _("Connect to cluster"), self)
+		self.cluster_button = QAction(QIcon(os.path.join(get_image_file_path(),"not_connected.png")), _("Connect to cluster"), self)
 		self.cluster_button.triggered.connect(self.callback_cluster_connect)
 		self.addAction(self.cluster_button)
 
@@ -279,36 +309,15 @@ class hpc_class(QToolBar):
 		self.addAction(self.cluster_view_button)
 		self.cluster_view_button.setEnabled(False)
 
+		self.init_job_window()
+		
 		return
 
 
 
 		self.prog_hbox=gtk.VBox(False, 2)
 		self.prog_hbox.show()
-		self.notebook = gtk.Notebook()
-		self.notebook.set_tab_pos(gtk.POS_TOP)
-		self.notebook.show()
-		label = gtk.Label("Nodes")
-		self.notebook.append_page(self.prog_hbox, label)
 
-
-		self.jview=jobs_view()
-		self.jview.init(self.myserver.jobs_list)
-		self.jview.show()
-		label = gtk.Label("Jobs")
-		self.notebook.append_page(self.jview, label)
-
-
-		self.hpc_window.add(self.notebook)
-
-		self.show_all()
-		#check load
-
-		self.win_list.set_window(self.hpc_window,"hpc_window")
-		self.hpc_window.set_icon_from_file(os.path.join(get_image_file_path(),"server.png"))
-		self.hpc_window.set_size_request(700,-1)
-		self.hpc_window.set_title("General-purpose Photovoltaic Device Model (www.gpvdm.com)")
-		self.hpc_window.connect("delete-event", self.callback_close_window)
 		self.bar=[]
 		self.button=[]
 		self.slider=[]
