@@ -185,14 +185,6 @@ class tab_fxmesh(QWidget):
 	def callback_help(self):
 		webbrowser.open('http://www.gpvdm.com/man/index.html')
 
-	def create_model(self):
-		store = gtk.ListStore(str, str, str)
-
-		for line in self.list:
-			store.append([str(line[SEG_LENGTH]), str(line[SEG_DFX]), str(line[SEG_MUL])])
-
-		return store
-
 
 	def load_data(self):
 		self.tab.clear()

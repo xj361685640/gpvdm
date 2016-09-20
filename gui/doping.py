@@ -211,7 +211,7 @@ class doping_window(QWidget):
 		self.fig = Figure(figsize=(5,4), dpi=100)
 		self.ax1=None
 		self.show_key=True
-		canvas = FigureCanvas(self.fig)  # a gtk.DrawingArea
+		canvas = FigureCanvas(self.fig)
 		#canvas.set_background('white')
 		#canvas.set_facecolor('white')
 		canvas.figure.patch.set_facecolor('white')

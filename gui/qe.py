@@ -103,7 +103,7 @@ class qe_window(QWidget):
 		self.show_key=True
 
 		self.draw_graph()
-		canvas = FigureCanvas(self.fig)  # a gtk.DrawingArea
+		canvas = FigureCanvas(self.fig)
 		#canvas.set_background('white')
 		#canvas.set_facecolor('white')
 		canvas.figure.patch.set_facecolor('white')

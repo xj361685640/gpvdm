@@ -37,18 +37,22 @@ class dat_file():
 
 
 def dat_file_max_min(my_data):
-	my_max=my_data.data[0][0][0]
-	my_min=my_data.data[0][0][0]
+	my_max=False
+	my_min=False
+	
+	if my_data.x_len>0 and my_data.y_len>0 and my_data.z_len>0:
+		my_max=my_data.data[0][0][0]
+		my_min=my_data.data[0][0][0]
 
-	for z in range(0,my_data.z_len):
-		for x in range(0,my_data.x_len):
-			for y in range(0,my_data.y_len):
-				
-				if my_data.data[z][x][y]>my_max:
-					my_max=my_data.data[z][x][y]
+		for z in range(0,my_data.z_len):
+			for x in range(0,my_data.x_len):
+				for y in range(0,my_data.y_len):
+					
+					if my_data.data[z][x][y]>my_max:
+						my_max=my_data.data[z][x][y]
 
-				if my_data.data[z][x][y]<my_min:
-					my_min=my_data.data[z][x][y]
+					if my_data.data[z][x][y]<my_min:
+						my_min=my_data.data[z][x][y]
 
 	return [my_max,my_min]
 

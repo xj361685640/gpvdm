@@ -132,6 +132,8 @@ from workbook import gen_workbook
 
 from error_han import error_han
 
+from plot_dlg import plot_dlg_class
+
 bubble=False
 if running_on_linux()==True:
 	import dbus
@@ -632,6 +634,7 @@ class gpvdm_main_window(QMainWindow):
 		else:
 			self.optics_window.show()
 
+
 	def __init__(self):
 		self.undo_list=undo_list_class()
 		super(gpvdm_main_window,self).__init__()
@@ -707,11 +710,7 @@ class gpvdm_main_window(QMainWindow):
 
 		self.sim_info_window=None
 
-		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"image.jpg")))
-
-
-		self.cluster_window=None
-		
+		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"image.jpg")))		
 
 		self.show_tabs = True
 		self.show_border = True
@@ -739,7 +738,6 @@ class gpvdm_main_window(QMainWindow):
 
 		self.menu_quit=file_menu.addAction(_("&Quit"))
 		self.menu_quit.triggered.connect(self.close_now)
-
 
 		simulation_menu = menubar.addMenu('&Simulation')
 
@@ -889,7 +887,7 @@ class gpvdm_main_window(QMainWindow):
 
 		if enable_betafeatures()==True:
 			self.hpc_toolbar=hpc_class(self.my_server)
-			self.addToolBarBreak()
+			#self.addToolBarBreak()
 			toolbar_hpc = self.addToolBar(self.hpc_toolbar)
 	
 		self.win_list.set_window(self,"main_window")
@@ -911,7 +909,12 @@ class gpvdm_main_window(QMainWindow):
 		self.show()
 
 		self.light_button.changed.connect(self.notebook.update)
-			
+		#from plot_state import plot_state
+		#plot_data=plot_state()
+		#plot_data.example_file0=os.path.join(os.getcwd(),"dos0.inp")
+		#a=plot_dlg_class(plot_data)
+		#a.run()
+		
 if __name__ == '__main__':
 	app = QApplication(sys.argv)
 	sys.excepthook = error_han

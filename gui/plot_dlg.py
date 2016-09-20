@@ -2,7 +2,7 @@
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -19,148 +19,142 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-#import sys
 import os
-#import shutil
-#import signal
-#import subprocess
-#from tempfile import mkstemp
 
+#qt
+from PyQt5.QtCore import QSize, Qt 
+from PyQt5.QtWidgets import QWidget,QLineEdit,QComboBox,QHBoxLayout,QPushButton,QLabel,QDialog,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QTableWidget,QAbstractItemView, QMenuBar,QApplication
+from PyQt5.QtGui import QPainter,QIcon,QImage
 
-class plot_dlg_class(gtk.Window):
+from cal_path import get_image_file_path
+
+from PyQt5.QtCore import QSize, Qt
+
+from inp import inp_load_file
+
+import functools
+
+class plot_dlg_class(QDialog):
 
 	def populate_combo_box_using_input_file(self,combobox,input_file):
-		try:
-			f = open(os.path.join(self.path,input_file))
-			lines = f.readlines()
-			f.close()
+#		try:
+		lines=[]
+		inp_load_file(lines,os.path.join(self.path,input_file))
+		combobox.clear()
 
-			for i in range(0, len(lines) ,2):
-				lines[i]=lines[i].rstrip()
-				combobox.append_text(lines[i])
+		for i in range(0, len(lines)):
+			lines[i]=lines[i].rstrip()
+			if len(lines[i])>0:
+				if lines[i][0]=="#":
+					combobox.addItem(lines[i])
+#		except:
+#
+#			combobox.clear()
 
-			combobox.set_active(0)
-		except:
+	def callback_edit0(self):
+		self.populate_combo_box_using_input_file(self.token0,self.file0.text())
 
-			combobox.get_model().clear()
+	def callback_edit1(self):
+		self.populate_combo_box_using_input_file(self.token1,self.file1.text())
 
-	def callback_edit0(self, widget):
-		self.populate_combo_box_using_input_file(self.token0,self.file0.get_text())
+	def callback_edit2(self):
+		self.populate_combo_box_using_input_file(self.token2,self.file2.text())
 
-	def callback_edit1(self, widget):
-		self.populate_combo_box_using_input_file(self.token1,self.file1.get_text())
+	def callback_click_ok(self,data):
+		data.file0=self.file0.text()
+		data.tag0=str(self.token0.currentText())
+		data.file1=self.file1.text()
+		data.tag1=str(self.token1.currentText())
+		data.file2=self.file2.text()
+		data.tag2=str(self.token2.currentText())
+		self.ret=True
+		self.close()
 
-	def callback_edit2(self, widget):
-		self.populate_combo_box_using_input_file(self.token2,self.file2.get_text())
-
-	def callback_click(self, widget,button,data):
-		if button == "ok":
-			data.file0=self.file0.get_text().decode('utf8')
-			data.tag0=self.token0.get_active_text().decode('utf8')
-			data.file1=self.file1.get_text().decode('utf8')
-			data.tag1=self.token1.get_active_text().decode('utf8')
-			data.file2=self.file2.get_text().decode('utf8')
-			data.tag2=self.token2.get_active_text().decode('utf8')
-			self.ret=True
-		else:
-			self.ret=False
-
-		gtk.main_quit()
-
-	def my_init(self,data):
-		self.path=os.path.dirname(data.example_file0)
+	def callback_click_cancel(self):
 		self.ret=False
-		self.set_title("xy plot www.gpvdm.com")
-		self.set_keep_above(True)
+		self.close()
 
-		#x-axis
-		l=gtk.Label("x-axis:")
-		l.show()
-		vbox=gtk.VBox()
-		hbox=gtk.HBox()
-		self.file0 = gtk.Entry()
-		self.file0.set_text(data.file0)
-		self.file0.connect("changed", self.callback_edit0)
-		self.file0.show()
-		hbox.add(self.file0)
+	def __init__(self,data):
+		QWidget.__init__(self)
+		self.path=os.path.dirname(data.example_file0)
+		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"jv.png")))
+		self.setWindowTitle(_("Steady state simulation (www.gpvdm.com)")) 
+		self.setWindowFlags(Qt.WindowStaysOnTopHint)
+
+		l=QLabel("x-axis:")
+		vbox=QVBoxLayout()
+		hbox=QHBoxLayout()
+		self.file0 = QLineEdit()
+		self.file0.setText(data.file0)
+		self.file0.textChanged.connect(self.callback_edit0)
+		hbox.addWidget(self.file0)
 
 
-		self.token0 = gtk.combo_box_new_text()
-		self.token0.set_wrap_width(5)
+		self.token0 = QComboBox()
 		self.populate_combo_box_using_input_file(self.token0, os.path.basename(data.example_file0))
-		self.token0.show()
-		hbox.add(self.token0)
+		hbox.addWidget(self.token0)
 
-		hbox.show()
-
-		vbox.add(l)
-		vbox.add(hbox)
+		vbox.addWidget(l)
+		hbox_widget=QWidget()
+		hbox_widget.setLayout(hbox)
+		vbox.addWidget(hbox_widget)
 
 		#y-axis
-		l=gtk.Label("y-axis:")
+		l=QLabel("y-axis:")
 		l.show()
 
-		hbox=gtk.HBox()
-		self.file1 = gtk.Entry()
-		self.file1.set_text(data.file0)
-		self.file1.connect("changed", self.callback_edit1)
+		hbox=QHBoxLayout()
+		self.file1 = QLineEdit()
+		self.file1.setText(data.file0)
+		self.file1.textChanged.connect(self.callback_edit1)
 		self.file1.show()
-		hbox.add(self.file1)
+		hbox.addWidget(self.file1)
 
-		self.token1 = gtk.combo_box_new_text()
-		self.token1.set_wrap_width(5)
+		self.token1 = QComboBox()
 		self.populate_combo_box_using_input_file(self.token1,os.path.basename(data.example_file1))
-		self.token1.show()
-		hbox.add(self.token1)
+		hbox.addWidget(self.token1)
 
-		hbox.show()
-		vbox.add(l)
-		vbox.add(hbox)
+		vbox.addWidget(l)
+		hbox_widget=QWidget()
+		hbox_widget.setLayout(hbox)
+		vbox.addWidget(hbox_widget)
 
 		#label
-		l=gtk.Label("label:")
-		l.show()
+		l=QLabel("label:")
 
-		hbox=gtk.HBox()
-		self.file2 = gtk.Entry()
-		self.file2.set_text(data.file0)
-		self.file2.connect("changed", self.callback_edit2)
-		self.file2.show()
-		hbox.add(self.file2)
+		hbox=QHBoxLayout()
+		self.file2 = QLineEdit( )
+		self.file2.setText(data.file0)
+		self.file2.textChanged.connect(self.callback_edit2)
+		hbox.addWidget(self.file2)
 
-		self.token2 = gtk.combo_box_new_text()
-		self.token2.set_wrap_width(5)
+		self.token2 = QComboBox()
 		self.populate_combo_box_using_input_file(self.token2,os.path.basename(data.example_file1))
-		self.token2.show()
-		hbox.add(self.token2)
+		hbox.addWidget(self.token2)
 
-		hbox.show()
-		vbox.add(l)
-		vbox.add(hbox)
+		vbox.addWidget(l)
+		hbox_widget=QWidget()
+		hbox_widget.setLayout(hbox)
+		vbox.addWidget(hbox_widget)
 
-		button_box=gtk.HBox()
+		button_box=QHBoxLayout()
 
-		button_cancel=gtk.Button(stock=gtk.STOCK_CANCEL)
-		button_cancel.show()
-		button_box.add(button_cancel)
-		button_cancel.connect("clicked",self.callback_click,"cancel",data)
+		button_cancel=QPushButton("Cancel", self)
+		button_box.addWidget(button_cancel)
+		button_cancel.clicked.connect(self.callback_click_cancel)
 
-		button_ok=gtk.Button(stock=gtk.STOCK_OK)
-		button_ok.show()
-		button_ok.connect("clicked",self.callback_click,"ok",data)
-		button_box.add(button_ok)
+		button_ok=QPushButton("Ok", self)
+		button_ok.clicked.connect(functools.partial(self.callback_click_ok,data))
+		button_box.addWidget(button_ok)
 
-		button_box.show()
+		button_box_widget=QWidget()
+		button_box_widget.setLayout(button_box)
+		vbox.addWidget(button_box_widget)
+		self.setLayout(vbox)
+		
+		
+	def run(self):
+		self.ret=False
+		self.exec_()
 
-		vbox.add(button_box)
-		vbox.show()
-		self.add(vbox)
-		self.show()
-
-	def my_run(self,data):
-		self.show_all()
-
-		gtk.main()
-		self.destroy()
-		return self.ret
 

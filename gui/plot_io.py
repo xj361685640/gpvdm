@@ -20,11 +20,7 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-#import gtk
-#import sys
 import os
-#import shutil
-#from token_lib import tokens
 from inp import inp_load_file
 from inp_util import inp_search_token_value
 from util_zip import zip_get_data_file

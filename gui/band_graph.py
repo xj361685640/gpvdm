@@ -2,7 +2,7 @@
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -21,6 +21,8 @@
 
 
 import os
+import io
+import sys
 from numpy import *
 
 #matplotlib
@@ -38,8 +40,8 @@ from plot_io import get_plot_file_info
 
 #qt
 from PyQt5.QtCore import QSize, Qt 
-from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QSystemTrayIcon,QMenu
-from PyQt5.QtGui import QIcon
+from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QSystemTrayIcon,QMenu,QApplication
+from PyQt5.QtGui import QIcon,QPixmap,QImage
 
 #epitaxy
 from epitaxy import epitaxy_get_layers
@@ -74,6 +76,9 @@ class band_graph(QWidget):
 
 		self.my_figure=Figure(figsize=(5,4), dpi=100)
 		self.canvas = FigureCanvas(self.my_figure)
+		self.canvas.mpl_connect('key_press_event', self.press)
+		self.canvas.setFocusPolicy( Qt.ClickFocus )
+		self.canvas.setFocus()
 		self.canvas.figure.patch.set_facecolor('white')
 		#self.canvas.set_size_request(600, 400)
 		self.canvas.show()
@@ -86,21 +91,28 @@ class band_graph(QWidget):
 		self.setLayout(self.main_vbox)
 
 
-	def on_key_press_event(self,widget, event):
-		keyname = gtk.gdk.keyval_name(event.keyval)
-		if keyname == "c":
-			if event.state == gtk.gdk.CONTROL_MASK:
-				self.do_clip()
+#	def keyPressEvent(self, event):
+#		pritn("oh")
+#
+#		keyname = ''
+#		key = event.key()
+#		modifiers = int(event.modifiers())
+#		if (Qt.CTRL & modifiers)==modifiers and key==67:
+#			self.do_clip()
+#			self.canvas.draw()
 
-		self.canvas.draw()
+	def press(self,event):
+		#print('press', event.key)
+		sys.stdout.flush()
+		if event.key == "ctrl+c":
+			self.do_clip()
 
 
 	def do_clip(self):
-		print("doing clip")
-		snap = self.my_figure.canvas.get_snapshot()
-		pixbuf = gtk.gdk.pixbuf_get_from_drawable(None, snap, snap.get_colormap(),0,0,0,0,snap.get_size()[0], snap.get_size()[1])
-		clip = gtk.Clipboard()
-		clip.set_image(pixbuf)
+		buf = io.BytesIO()
+		self.my_figure.savefig(buf)
+		QApplication.clipboard().setImage(QImage.fromData(buf.getvalue()))
+		buf.close()
 
 	def callback_save_image(self):
 		response=save_as_filter(self,"png (*.png);;jpg (*.jpg)")

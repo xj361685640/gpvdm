@@ -82,14 +82,14 @@ def save_as_filter(parent,my_filter):
 		return None
 	
 def save_as_jpg(parent):
-	save_as_filter(parent,"jpg (*.jpg)")
+	return save_as_filter(parent,"jpg (*.jpg)")
 
 
 def save_as_image(parent):
-	save_as_filter(parent,"png (*.png);;jpg (*.jpg);;gnuplot (*.)")
+	return save_as_filter(parent,"png (*.png);;jpg (*.jpg);;gnuplot (*.)")
 
 def save_as_image_inc_gnuplot(parent):
-	save_as_filter(parent,"png (*.png);;jpg (*.jpg);;gnuplot (*.)")
+	return save_as_filter(parent,"png (*.png);;jpg (*.jpg);;gnuplot (*.)")
 
 def dlg_get_multi_text( title_text,info, default=''):
 	ret=[]

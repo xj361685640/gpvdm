@@ -27,6 +27,7 @@ from help import my_help_class
 from cal_path import get_image_file_path
 from export_as import export_as
 from export_archive import export_archive
+from export_materials import export_materials
 
 #qt
 from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication

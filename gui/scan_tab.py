@@ -70,7 +70,7 @@ from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QApplication,QDialog,QS
 from PyQt5.QtGui import QPainter,QIcon,QCursor,QClipboard
 
 #window
-#from plot_dlg import plot_dlg_class
+from plot_dlg import plot_dlg_class
 from scan_select import select_param
 #from notes import notes
 from gui_util import tab_add
@@ -288,9 +288,9 @@ class scan_vbox(QWidget):
 			pos=len(self.plotted_graphs)-1
 			plot_data=plot_state()
 			plot_data.file0=self.plotted_graphs[pos].file0
-			plot_xy_window=plot_dlg_class(gtk.WINDOW_TOPLEVEL)
-			plot_xy_window.my_init(plot_data)
-			plot_now=plot_xy_window.my_run(plot_data)
+			plot_xy_window=plot_dlg_class(plot_data)
+			plot_xy_window.run()
+			plot_now=plot_xy_window.ret
 
 			if plot_now==True:
 				self.plot_results(plot_data)
@@ -315,9 +315,9 @@ class scan_vbox(QWidget):
 			plot_now=False
 			if check_info_file(file_name)==True:
 				plot_data.file0=file_name
-				plot_xy_window=plot_dlg_class(gtk.WINDOW_TOPLEVEL)
-				plot_xy_window.my_init(plot_data)
-				plot_now=plot_xy_window.my_run(plot_data)
+				plot_xy_window=plot_dlg_class(plot_data)
+				plot_xy_window.run()
+				plot_now=plot_xy_window.ret
 			else:
 				plot_data.file0=file_name
 				plot_data.tag0=""

@@ -33,89 +33,61 @@ from inp_util import inp_search_token_value
 from status_icon import status_icon_stop
 
 
-actresses = [("n","name","done","status","target","ip","copystate","start","stop")]
+#qt
+from PyQt5.QtCore import QSize, Qt
+from PyQt5.QtGui import QIcon,QPalette
+from PyQt5.QtWidgets import QWidget, QVBoxLayout,QProgressBar,QLabel,QDesktopWidget,QToolBar,QHBoxLayout,QAction, QSizePolicy, QTableWidget, QTableWidgetItem,QComboBox,QDialog,QAbstractItemView
 
+from PyQt5.QtGui import QPixmap
+from PyQt5.QtCore import pyqtSignal
+from PyQt5.QtWidgets import QWidget
 
-class jobs_view(gtk.VBox):
+from gui_util import tab_add
 
-	def init(self,jobs):
+class jobs_view(QWidget):
 
-		self.set_size_request(400,800)
+	def __init__(self):
+		QWidget.__init__(self)
 
-		self.sw = gtk.ScrolledWindow()
-		self.sw.set_shadow_type(gtk.SHADOW_ETCHED_IN)
-		self.sw.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_AUTOMATIC)
+		self.main_vbox=QVBoxLayout()
+	
+		self.tab = QTableWidget()
+		self.tab.resizeColumnsToContents()
 
-		self.pack_start(self.sw, True, True, 0)
+		self.tab.verticalHeader().setVisible(False)
 
-		treeView = gtk.TreeView(jobs)
+		self.create_model()
 
-		#treeView.connect("row-activated", self.on_activated)
-		treeView.set_rules_hint(True)
-		self.sw.add(treeView)
-		self.sw.show()
+#		self.tab.cellChanged.connect(self.tab_changed)
+		
+		self.main_vbox.addWidget(self.tab)
 
-		self.create_columns(treeView)
-		self.statusbar = gtk.Statusbar()
-		self.pack_start(self.sw, False, False, 0)        
-		self.pack_start(self.statusbar, False, False, 0)
-
-		self.show_all()
+		self.setLayout(self.main_vbox)
+		self.show()
 
 
 	def add_items(self):
 		self.store.clear()
+		actresses = [("n","name","done","status","target","ip","copystate","start","stop")]
+
 		for act in actresses:
 			self.store.store.append([act[0], act[1], act[2], act[3],act[4], act[5], act[6], act[7]])
 
+	def load_data(self,jobs_list):
+		self.create_model()
+		for i in range(len(jobs_list)):
+			tab_add(self.tab,jobs_list[i])
 
-	def create_columns(self, treeView):
+	def create_model(self):
+		self.tab.clear()
+		self.tab.setColumnCount(7)
 
-		rendererText = gtk.CellRendererText()
-		column = gtk.TreeViewColumn("n", rendererText, text=0)
-		column.set_sort_column_id(0)    
-		treeView.append_column(column)
+		self.tab.setSelectionBehavior(QAbstractItemView.SelectRows)
+		self.tab.setHorizontalHeaderLabels([_("n"), _("done"), _("status"), _("target"), _("ip"),_("copy state"),_("start"),_("stop")])
 
-		rendererText = gtk.CellRendererText()
-		column = gtk.TreeViewColumn("done", rendererText, text=1)
-		column.set_sort_column_id(1)
-		treeView.append_column(column)
+		self.tab.setRowCount(0)
 
-		rendererText = gtk.CellRendererText()
-		column = gtk.TreeViewColumn("status", rendererText, text=2)
-		column.set_sort_column_id(2)
-		treeView.append_column(column)
 
-		rendererText = gtk.CellRendererText()
-		column = gtk.TreeViewColumn("target", rendererText, text=3)
-		column.set_sort_column_id(3)
-		treeView.append_column(column)
-
-		rendererText = gtk.CellRendererText()
-		column = gtk.TreeViewColumn("ip", rendererText, text=4)
-		column.set_sort_column_id(4)
-		treeView.append_column(column)
-
-		rendererText = gtk.CellRendererText()
-		column = gtk.TreeViewColumn("copystate", rendererText, text=5)
-		column.set_sort_column_id(5)
-		treeView.append_column(column)
-
-		rendererText = gtk.CellRendererText()
-		column = gtk.TreeViewColumn("start", rendererText, text=6)
-		column.set_sort_column_id(6)
-		treeView.append_column(column)
-
-		rendererText = gtk.CellRendererText()
-		column = gtk.TreeViewColumn("stop", rendererText, text=7)
-		column.set_sort_column_id(7)
-		treeView.append_column(column)
-
-	def on_activated(self, widget, row, col):
-
-		model = widget.get_model()
-		text = model[row][0] + ", " + model[row][1] + ", " + model[row][2]
-		self.statusbar.push(0, text)
 
 
 

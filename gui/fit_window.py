@@ -48,6 +48,8 @@ from PyQt5.QtGui import QPainter,QIcon,QCursor
 
 #windows
 from gui_util import dlg_get_text
+from gui_util import yes_no_dlg
+
 from fit_tab import fit_tab
 from QHTabBar import QHTabBar
 
@@ -140,31 +142,18 @@ class fit_window(QWidget):
 			#edit
 
 
-	def callback_delete_page(self,widget,data):
-		pageNum = self.notebook.get_current_page()
-		tab = self.notebook.get_nth_page(pageNum)
-		md = gtk.MessageDialog(None, 0, gtk.MESSAGE_QUESTION,  gtk.BUTTONS_YES_NO, _("Should I remove the fit file ")+tab.tab_name.split("@")[0])
+	def callback_delete_page(self):
+		tab = self.notebook.currentWidget()
+		response=yes_no_dlg(self, _("Should I remove the fit file ")+tab.tab_name.split("@")[0])
 
-		response = md.run()
-
-		if response == gtk.RESPONSE_YES:
+		if response==True:
 			inp_remove_file("fit"+str(tab.index)+".inp")
 			inp_remove_file("fit_data"+str(tab.index)+".inp")
 			inp_remove_file("fit_patch"+str(tab.index)+".inp")
 			self.notebook.remove_page(pageNum)
 			global_object_get("tb_item_sim_mode_update")()
 
-		elif response == gtk.RESPONSE_NO:
-			print(_("Not deleting"))
-			#edit
-
-
-		md.destroy()
-
-	#def callback_view_toggle(self, widget, data):
-		#self.toggle_tab_visible(widget.get_label())
-
-	def callback_view_toggle_tab(self, widget, data):
+	def callback_view_toggle_tab(self):
 		print("add code")
 		#self.toggle_tab_visible(data)
 

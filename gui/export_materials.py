@@ -37,14 +37,13 @@ def export_materials(target):
 	file_list=[]
 
 	progress_window=progress_class()
-	progress_window.init()
 	progress_window.show()
 	progress_window.start()
 	process_events()
-
+	mat_files=["alpha_eq.inp","alpha_gen.omat","alpha.omat","cost.xlsx","dos.inp","fit.inp","info.txt","mat.inp","n_eq.inp","n_gen.omat","n.omat","pl.inp"]
 	for path, dirs, files in os.walk(os.path.join(os.getcwd(),"materials")):
 		for file_name in files:
-			if file_name=="alpha.omat" or file_name=="fit.inp" or file_name=="mat.inp" or file_name=="n.omat":
+			if file_name in mat_files:
 				file_list.append(os.path.join(path,file_name))
 
 	zf = zipfile.ZipFile(target, 'a')

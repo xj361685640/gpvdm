@@ -40,6 +40,7 @@ from PyQt5.QtGui import QPainter,QIcon,QCursor
 from fit_window_plot import fit_window_plot
 from fit_window_plot_real import fit_window_plot_real
 
+from gui_util import save_as_filter
 
 mesh_articles = []
 
@@ -91,28 +92,8 @@ class fit_tab(QTabWidget):
 		self.set_tab_caption(self.tab_name)
 
 	def import_data(self):
-		dialog = gtk.FileChooserDialog(_("Import data in to gpvdm for fitting."),
-                               None,
-                               gtk.FILE_CHOOSER_ACTION_OPEN,
-                               (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
-                                gtk.STOCK_OPEN, gtk.RESPONSE_OK))
-		dialog.set_default_response(gtk.RESPONSE_OK)
-
-		filter = gtk.FileFilter()
-		filter.set_name(".dat")
-		filter.add_pattern("*.dat")
-		dialog.add_filter(filter)
-
-		filter = gtk.FileFilter()
-		filter.set_name(".csv")
-		filter.add_pattern("*.csv")
-		dialog.add_filter(filter)
-
-		response = dialog.run()
-		if response == gtk.RESPONSE_OK:
-			print("importing file",dialog.get_filename())
-			shutil.copy(dialog.get_filename(), os.path.join(os.getcwd(),"fit_data"+str(self.index)+".inp"))
+		file_name=save_as_filter(parent,"dat (*.dat);;csv (*.csv)")
+		if file_name!=None:
+			print("importing file",file_name)
+			shutil.copy(file_name, os.path.join(os.getcwd(),"fit_data"+str(self.index)+".inp"))
 			self.update()
-		elif response == gtk.RESPONSE_CANCEL:
-		    print(_("Closed, no files selected"))
-		dialog.destroy()

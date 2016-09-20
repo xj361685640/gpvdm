@@ -37,7 +37,6 @@ from time import sleep
 from win_lin import running_on_linux
 import subprocess
 from util import gui_print_path
-from progress import progress_class
 
 #from copying import copying
 from cal_path import get_exe_command
@@ -54,7 +53,7 @@ import i18n
 _ = i18n.language.gettext
 import zlib
 from cal_path import get_src_path
-
+from progress import progress_class
 
 def strip_slash(tx_name):
 	start=0
@@ -92,7 +91,7 @@ class cluster:
 		self.cluster=False
 		self.nodes=[]
 		self.server_ip=inp_get_token_value("server.inp","#server_ip")
-		#self.jobs_list = gtk.ListStore(str, str, str,str, str, str,str, str)
+		self.jobs_list = []
 
 	def connect(self):
 		if self.cluster==False:
@@ -153,7 +152,7 @@ class cluster:
 		print("cache clear")
 
 	def recvall(self,n):
-		data = ''
+		data = bytearray() 
 		while len(data) < n:
 			packet = self.socket.recv(n - len(data))
 			if not packet:
@@ -349,6 +348,7 @@ class cluster:
 	def process_node_list(self,data):
 		self.nodes=[]
 		data = self.recvall(512)
+		data=data.decode("utf-8") 
 		data=data.split("\n")
 		for i in range(0,len(data)-1):
 			self.nodes.append(data[i].split(":"))
@@ -356,8 +356,9 @@ class cluster:
 
 	def process_job_list(self,data):
 		ret=self.rx_packet(data)
-		self.jobs_list.clear()
-		for line in ret.data.split("\n"):
+		lines=ret.data.decode("utf-8").split("\n") 
+		self.jobs_list=[]
+		for line in lines:
 			act=line.split()
 			print(len(act),act)
 			if len(act)==9:
@@ -393,7 +394,7 @@ class cluster:
 	def rx_packet(self,data):
 		ret=tx_struct()
 
-		lines=data.split("\n")
+		lines=data.decode("utf-8").split("\n")
 		ret.file_name=inp_search_token_value(lines, "#file_name")
 		ret.size=int(inp_search_token_value(lines, "#size"))
 		ret.target=inp_search_token_value(lines, "#target")
@@ -560,49 +561,49 @@ class cluster:
 			if data==None:
 				break
 
-			#print("command=",data,len(data))
-			if data.startswith("gpvdmfile"):
+			print("command=",data,len(data))
+			if data.startswith(str.encode("gpvdmfile")):
 				self.rx_file(data)
 				understood=True
 
-			if data.startswith("gpvdmpercent"):
+			if data.startswith(str.encode("gpvdmpercent")):
 				lines=data.split("\n")
 				percent=float(inp_search_token_value(lines, "#percent"))
 				self.progress_window.set_fraction(percent/100.0)
 				understood=True
 
-			if data.startswith("gpvdmjobfinished"):
+			if data.startswith(str.encode("gpvdmjobfinished")):
 				lines=data.split("\n")
 				name=inp_search_token_value(lines, "#job_name")
 				self.label.set_text(gui_print_path("Finished:  ",name,60))
 				understood=True
 
-			if data.startswith("gpvdmfinished"):
+			if data.startswith(str.encode("gpvdmfinished")):
 				self.stop()
 				understood=True
 
-			if data.startswith("gpvdmheadquit"):
+			if data.startswith(str.encode("gpvdmheadquit")):
 				self.stop()
 				print("Server quit!")
 				understood=True
 
-			if data.startswith("gpvdmnodelist"):
+			if data.startswith(str.encode("gpvdmnodelist")):
 				self.process_node_list(data)
 				understood=True
 
-			if data.startswith("gpvdm_sync_packet_two"):
+			if data.startswith(str.encode("gpvdm_sync_packet_two")):
 				self.process_sync_packet_two(data)
 				understood=True
 
-			if data.startswith("gpvdm_sync_packet_one"):
+			if data.startswith(str.encode("gpvdm_sync_packet_one")):
 				self.process_sync_packet_one(data)
 				understood=True
 
-			if data.startswith("gpvdm_job_list"):
+			if data.startswith(str.encode("gpvdm_job_list")):
 				self.process_job_list(data)
 				understood=True
 
-			if data.startswith("gpvdm_message"):
+			if data.startswith(str.encode("gpvdm_message")):
 				print(data)
 				understood=True
 

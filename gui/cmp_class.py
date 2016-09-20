@@ -330,27 +330,6 @@ class cmp_class(QWidget):
 
 		self.plot.item_factory.create_items(menu_items)
 
-		close = gtk.ToolButton(gtk.STOCK_QUIT)
-		close.connect("clicked", self.callback_close)
-		self.plot.toolbar.add(close)
-		close.show()
-
-		self.connect("delete-event", self.callback_close)
-
-
-		sim_vbox=gtk.VBox()
-		primary_hbox=gtk.HBox()
-
-		text=gtk.Label("Primary dir")
-		primary_hbox.add(text)
-
-		self.entry0 = gtk.combo_box_entry_new_text()
-		self.entry0.show()
-
-
-		for i in range(0,len(self.snapshot_list)):
-			self.entry0.append_text(self.snapshot_list[i])
-
 		primary_hbox.add(self.entry0)
 		sim_vbox.add(primary_hbox)
 

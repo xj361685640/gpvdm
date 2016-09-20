@@ -207,6 +207,8 @@ def scan_gen_plot_data(plot_token,base_path):
 
 			if text[0]=="/" or "\\":
 				text=text[1:]
+				
+			text=text.replace("\\","/")
 
 			plot_labels.append(str(text))
 

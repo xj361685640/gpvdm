@@ -33,9 +33,42 @@ from jobs import jobs_view
 from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSize, Qt 
-from PyQt5.QtWidgets import QWidget,QSizePolicy,QHBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QVBoxLayout,QTabWidget
+from PyQt5.QtWidgets import QWidget,QSizePolicy,QHBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QVBoxLayout,QTabWidget,QLabel,QSlider,QWidgetItem
 from about import about_dlg
 from gui_util import error_dlg
+
+from progress import progress_class
+
+class node_indicator(QWidget):
+	def __init__(self):
+		QWidget.__init__(self)
+		self.hbox=QHBoxLayout()
+		
+		self.bar=progress_class()
+		self.bar.spinner.stop()
+		self.bar.spinner.hide()
+		self.label=QLabel()
+		
+		self.slider = QSlider(Qt.Horizontal)
+		self.slider.setMinimum(0)
+		self.slider.setMaximum(10)
+
+		self.slider.setTickPosition(QSlider.TicksBelow)
+		self.slider.setTickInterval(1)
+		#self.slider.valueChanged.connect(self.slider0_change)
+		self.slider.setMinimumSize(300, 80)
+
+		self.hbox.addWidget(self.label)
+		self.hbox.addWidget(self.bar)
+		self.hbox.addWidget(self.slider)
+
+		self.setLayout(self.hbox)
+
+	def set_cpus(self,cpus):
+		self.slider.setValue(cpus)
+	
+	def set_text(self,text):
+		self.label.setText(text)
 
 class hpc_class(QToolBar):
 
@@ -64,7 +97,7 @@ class hpc_class(QToolBar):
 			loads.append(self.slider[i].get_value())
 		self.myserver.set_cluster_loads(ip,loads)
 
-	def callback_cluster_get_info(self, widget, data=None):
+	def callback_cluster_get_info(self):
 		self.myserver.cluster_get_info()
 		self.name=[]
 		self.ip=[]
@@ -81,57 +114,37 @@ class hpc_class(QToolBar):
 			self.max_cpus.append(self.myserver.nodes[i][5])
 			self.last_seen.append(self.myserver.nodes[i][6])
 
-		if len(self.myserver.nodes)>len(self.button):
-			needed=len(self.myserver.nodes)-len(self.button)
+		if len(self.myserver.nodes)>self.node_view_vbox.count():
+			needed=len(self.myserver.nodes)-self.node_view_vbox.count()
 			for i in range(0,needed):
+				self.node_widget=node_indicator()
+				self.node_widget.set_cpus(int(self.cpus[i]))
+				#self.slider[i].connect("value-changed", self.on_changed)
+				self.node_view_vbox.addWidget(self.node_widget)
+				print("Add widget",i)
 
-				self.button.append(gtk.HBox(False, 0))
-				self.button[i].set_size_request(-1, 70)
-				self.button[i].show()
-
-				self.bar.append(gtk.ProgressBar())
-				self.bar[i].set_size_request(-1, 70)
-				self.bar[i].set_orientation(gtk.PROGRESS_LEFT_TO_RIGHT)
-				self.bar[i].show()
-
-				self.label.append(gtk.Label("text"))
-				self.label[i].show()
-
-				self.slider.append(gtk.HScale())
-				self.slider[i].set_range(0, int(self.cpus[i]))
-				#self.slider[i].set_increments(1, 100)
-				self.slider[i].set_digits(0)
-				self.slider[i].set_value(int(self.max_cpus[i]))
-				self.slider[i].set_size_request(200, -1)
-				self.slider[i].connect("value-changed", self.on_changed)
-				self.slider[i].show()
-
-				self.button[i].pack_start(self.label[i], False, False, 3)
-				self.button[i].pack_start(self.bar[i], False, False, 3)
-				self.button[i].pack_start(self.slider[i], False, False, 3)
-				#self.button[i].add(hbox)
-
-				self.prog_hbox.pack_start(self.button[i], False, False, 3)
-
-		if len(self.button)>len(self.myserver.nodes):
+		if self.node_view_vbox.count()>len(self.myserver.nodes):
 			for i in range(len(self.myserver.nodes), len(self.button)):
-				self.button[i].hide()
+				self.node_view_vbox.itemAt(i).hide()
 
 		for i in range(0, len(self.myserver.nodes)):
-			self.button[i].show()
-			self.label[i].set_text(self.name[i])
+			widget=self.node_view_vbox.itemAt(i).widget()
+			print(type(widget))
+			widget.show()
+			widget.set_text(self.name[i])
+
 			if self.ip[i]!="none":
-				self.bar[i].set_text(self.ip[i]+" "+self.load[i]+":"+self.cpus[i]+":seen="+self.last_seen[i])
+				widget.bar.set_text(self.ip[i]+" "+self.load[i]+":"+self.cpus[i]+":seen="+self.last_seen[i])
 				if float(self.cpus[i])!=0.0:
 					prog=float(self.load[i])/float(self.cpus[i])
 				else:
 					prog=0.0
-
+			
 				if prog>1.0:
 					prog=1.0
-				self.bar[i].set_fraction(prog)
+				widget.bar.set_fraction(prog)
 			else:
-				self.bar[i].set_text("node down?????")
+				self.bar.set_text("node down?????")
 
 	def callback_cluster_make(self):
 		self.myserver.cluster_make()
@@ -172,8 +185,10 @@ class hpc_class(QToolBar):
 		self.cluster_gui_update()
 		if self.myserver.cluster==True:
 			status_icon_stop(True)
+			self.status_window.show()
 		else:
 			status_icon_stop(False)
+			self.status_window.hide()
 
 	def cluster_gui_update(self):
 		if self.myserver.cluster==True:
@@ -202,12 +217,11 @@ class hpc_class(QToolBar):
 			self.cluster_stop.setEnabled(False)
 			self.cluster_view_button.setEnabled(False)
 
-	def callback_close_window(self, widget, event, data=None):
-		self.win_list.update(self.hpc_window,"hpc_window")
-		#gtk.main_quit()
-		return False
-
-
+	#def closeEvent(self, event):
+	#	self.win_list.update(self,"hpc_window")
+	#	self.hide()
+	#	event.accept()
+		
 	def init_job_window(self):
 		self.status_window=QWidget()
 		self.status_window.setFixedSize(900, 600)
@@ -215,31 +229,82 @@ class hpc_class(QToolBar):
 		self.status_window.setWindowTitle(_("Steady state simulation (www.gpvdm.com)")) 
 		
 		self.main_vbox = QVBoxLayout()
+
+		self.tool_bar=QToolBar()
+
+		self.tool_bar.setIconSize(QSize(42, 42))
+
+		self.cluster_get_data = QAction(QIcon(os.path.join(get_image_file_path(),"server_get_data.png")), _("Cluster get data"), self)
+		self.cluster_get_data.triggered.connect(self.callback_cluster_get_data)
+		self.tool_bar.addAction(self.cluster_get_data)
+		self.cluster_get_data.setEnabled(False)
+
+		self.cluster_get_info = QAction(QIcon(os.path.join(get_image_file_path(),"server_get_info.png")), _("Cluster get info"), self)
+		self.cluster_get_info.triggered.connect(self.callback_cluster_get_info)
+		self.tool_bar.addAction(self.cluster_get_info)
+		self.cluster_get_info.setEnabled(False)
+
+		self.cluster_copy_src = QAction(QIcon(os.path.join(get_image_file_path(),"server_copy_src.png")), _("Copy src to cluster"), self)
+		self.cluster_copy_src.triggered.connect(self.callback_cluster_copy_src)
+		self.tool_bar.addAction(self.cluster_copy_src)
+		self.cluster_copy_src.setEnabled(False)
+
+		self.cluster_make = QAction(QIcon(os.path.join(get_image_file_path(),"server_make.png")), _("Make on cluster"), self)
+		self.cluster_make.triggered.connect(self.callback_cluster_make)
+		self.tool_bar.addAction(self.cluster_make)
+		self.cluster_make.setEnabled(False)
+
+		self.cluster_clean = QAction(QIcon(os.path.join(get_image_file_path(),"server_clean.png")), _("Clean cluster"), self)
+		self.cluster_clean.triggered.connect(self.callback_cluster_clean)
+		self.tool_bar.addAction(self.cluster_clean)
+		self.cluster_clean.setEnabled(False)
+
+		self.cluster_off = QAction(QIcon(os.path.join(get_image_file_path(),"off.png")), _("Kill all cluster code"), self)
+		self.cluster_off.triggered.connect(self.callback_cluster_off)
+		self.tool_bar.addAction(self.cluster_off)
+		self.cluster_off.setEnabled(False)
+
+
+		self.cluster_sync = QAction(QIcon(os.path.join(get_image_file_path(),"sync.png")),  _("Sync"), self)
+		self.cluster_sync.triggered.connect(self.callback_cluster_sync)
+		self.tool_bar.addAction(self.cluster_sync)
+		self.cluster_sync.setEnabled(False)
+
+		self.cluster_stop = QAction(QIcon(os.path.join(get_image_file_path(),"pause.png")),  _("Stop"), self)
+		self.cluster_stop.triggered.connect(self.callback_cluster_stop)
+		self.tool_bar.addAction(self.cluster_stop)
+		self.cluster_stop.setEnabled(False)
+
+
+		self.cluster_jobs = QAction(QIcon(os.path.join(get_image_file_path(),"server_jobs.png")),  _("Get jobs"), self)
+		self.cluster_jobs.triggered.connect(self.callback_cluster_jobs)
+		self.tool_bar.addAction(self.cluster_jobs)
+		self.cluster_jobs.setEnabled(False)
+
+		self.cluster_view_button = QAction(QIcon(os.path.join(get_image_file_path(),"server.png")),  _("Configure cluster"), self)
+		self.cluster_view_button.triggered.connect(self.callback_cluster_view_button)
+		self.tool_bar.addAction(self.cluster_view_button)
+		self.cluster_view_button.setEnabled(False)
+		
+		self.main_vbox.addWidget(self.tool_bar)
 		
 		self.notebook = QTabWidget()
 
-		self.notebook.setTabsClosable(True)
 		self.notebook.setMovable(True)
 
 		self.main_vbox.addWidget(self.notebook)
 
-
-		#self.notebook = gtk.Notebook()
-		#self.notebook.set_tab_pos(gtk.POS_TOP)
-		#self.notebook.show()
-		#label = gtk.Label("Nodes")
-		#self.notebook.append_page(self.prog_hbox, label)
-
-
+		self.notebook.addTab(self.node_view,"Nodes")
+		self.node_view.show()
+		
 		self.jview=jobs_view()
-		self.jview.init(self.myserver.jobs_list)
-		tab.init(files[i],description[i])
+		self.jview.load_data(self.myserver.jobs_list)
 		self.notebook.addTab(self.jview,"Jobs list")
 
-		self.setLayout(self.main_vbox)
+		self.status_window.setLayout(self.main_vbox)
 
 		self.win_list.set_window(self.status_window,"hpc_window")
-		self.status_window.show()
+		
 
 	def __init__(self, server):
 		QToolBar.__init__(self)
@@ -248,7 +313,8 @@ class hpc_class(QToolBar):
 
 		self.myserver=server
 		self.win_list=windows()
-
+		self.win_list.load()
+		self.win_list.set_window(self,"hpc_window")
 
 		self.setIconSize(QSize(42, 42))
 
@@ -256,70 +322,19 @@ class hpc_class(QToolBar):
 		self.cluster_button.triggered.connect(self.callback_cluster_connect)
 		self.addAction(self.cluster_button)
 
-		self.cluster_get_data = QAction(QIcon(os.path.join(get_image_file_path(),"server_get_data.png")), _("Cluster get data"), self)
-		self.cluster_get_data.triggered.connect(self.callback_cluster_get_data)
-		self.addAction(self.cluster_get_data)
-		self.cluster_get_data.setEnabled(False)
 
-		self.cluster_get_info = QAction(QIcon(os.path.join(get_image_file_path(),"server_get_info.png")), _("Cluster get info"), self)
-		self.cluster_get_info.triggered.connect(self.callback_cluster_get_info)
-		self.addAction(self.cluster_get_info)
-		self.cluster_get_info.setEnabled(False)
-
-
-		self.cluster_copy_src = QAction(QIcon(os.path.join(get_image_file_path(),"server_copy_src.png")), _("Copy src to cluster"), self)
-		self.cluster_copy_src.triggered.connect(self.callback_cluster_copy_src)
-		self.addAction(self.cluster_copy_src)
-		self.cluster_copy_src.setEnabled(False)
-
-		self.cluster_make = QAction(QIcon(os.path.join(get_image_file_path(),"server_make.png")), _("Make on cluster"), self)
-		self.cluster_make.triggered.connect(self.callback_cluster_make)
-		self.addAction(self.cluster_make)
-		self.cluster_make.setEnabled(False)
-
-		self.cluster_clean = QAction(QIcon(os.path.join(get_image_file_path(),"server_clean.png")), _("Clean cluster"), self)
-		self.cluster_clean.triggered.connect(self.callback_cluster_clean)
-		self.addAction(self.cluster_clean)
-		self.cluster_clean.setEnabled(False)
-
-		self.cluster_off = QAction(QIcon(os.path.join(get_image_file_path(),"off.png")), _("Kill all cluster code"), self)
-		self.cluster_off.triggered.connect(self.callback_cluster_off)
-		self.addAction(self.cluster_off)
-		self.cluster_off.setEnabled(False)
-
-
-		self.cluster_sync = QAction(QIcon(os.path.join(get_image_file_path(),"sync.png")),  _("Sync"), self)
-		self.cluster_sync.triggered.connect(self.callback_cluster_sync)
-		self.addAction(self.cluster_sync)
-		self.cluster_sync.setEnabled(False)
-
-		self.cluster_stop = QAction(QIcon(os.path.join(get_image_file_path(),"pause.png")),  _("Stop"), self)
-		self.cluster_stop.triggered.connect(self.callback_cluster_stop)
-		self.addAction(self.cluster_stop)
-		self.cluster_stop.setEnabled(False)
-
-
-		self.cluster_jobs = QAction(QIcon(os.path.join(get_image_file_path(),"server_jobs.png")),  _("Get jobs"), self)
-		self.cluster_jobs.triggered.connect(self.callback_cluster_jobs)
-		self.addAction(self.cluster_jobs)
-		self.cluster_jobs.setEnabled(False)
-
-		self.cluster_view_button = QAction(QIcon(os.path.join(get_image_file_path(),"server.png")),  _("Configure cluster"), self)
-		self.cluster_view_button.triggered.connect(self.callback_cluster_view_button)
-		self.addAction(self.cluster_view_button)
-		self.cluster_view_button.setEnabled(False)
-
-		self.init_job_window()
-		
-		return
-
-
-
-		self.prog_hbox=gtk.VBox(False, 2)
-		self.prog_hbox.show()
-
+		self.node_view=QWidget()
+		self.node_view_vbox=QVBoxLayout()
+		self.node_view.setLayout(self.node_view_vbox)
 		self.bar=[]
 		self.button=[]
 		self.slider=[]
 		self.label=[]
+
+		self.init_job_window()
+		
+
+
+
+
 

@@ -2,7 +2,7 @@
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -20,6 +20,7 @@
 
 
 import os
+import io
 from numpy import *
 from plot_io import plot_load_info
 from plot_export import plot_export
@@ -42,8 +43,8 @@ from util import time_with_units
 
 #qt
 from PyQt5.QtCore import QSize, Qt 
-from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QTableWidget,QAbstractItemView, QMenuBar
-from PyQt5.QtGui import QPainter,QIcon
+from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QTableWidget,QAbstractItemView, QMenuBar,QApplication
+from PyQt5.QtGui import QPainter,QIcon,QImage
 
 #calpath
 from cal_path import get_image_file_path
@@ -59,7 +60,8 @@ class plot_widget(QWidget):
 	def keyPressEvent(self, event):
 		
 		keyname=event.key()
-		
+		modifiers = int(event.modifiers())
+
 		if keyname=="a":
 			self.do_plot()
 
@@ -103,20 +105,17 @@ class plot_widget(QWidget):
 		if keyname=="q":
 			self.destroy()
 
-		if keyname == "c":
-			#print "clip",event.state,event.state& gtk.gdk.CONTROL_MASK
-			if event.state & gtk.gdk.CONTROL_MASK==gtk.gdk.CONTROL_MASK:
-				#print "yes"
-				self.do_clip()
+		if (Qt.CTRL & modifiers)==modifiers and keyname==67:
+			self.do_clip()
 
 		self.fig.canvas.draw()
 		plot_save_oplot_file(self.config_file,self.plot_token)
 
 	def do_clip(self):
-		snap = self.canvas.get_snapshot()
-		pixbuf = gtk.gdk.pixbuf_get_from_drawable(None, snap, snap.get_colormap(),0,0,0,0,snap.get_size()[0], snap.get_size()[1])
-		clip = gtk.Clipboard()
-		clip.set_image(pixbuf)
+		buf = io.BytesIO()
+		self.fig.savefig(buf)
+		QApplication.clipboard().setImage(QImage.fromData(buf.getvalue()))
+		buf.close()
 
 
 	def mouse_move(self,event):
