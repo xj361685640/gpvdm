@@ -77,7 +77,7 @@ class gpvdm_progress(QWidget):
 				self.value=0.0
 				
 		self.repaint()
-		
+
 	def paintEvent(self, e):
 		w=self.width()
 		h=self.height()

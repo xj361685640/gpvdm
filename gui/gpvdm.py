@@ -133,8 +133,8 @@ from workbook import gen_workbook
 from error_han import error_han
 
 from plot_dlg import plot_dlg_class
+from gui_util import yes_no_dlg
 
-bubble=False
 if running_on_linux()==True:
 	import dbus
 	from dbus.mainloop.pyqt5 import DBusQtMainLoop
@@ -146,6 +146,8 @@ else:
 	from windows_pipe import win_pipe
 
 print(notice())
+
+from ref import ref
 
 #gobject.threads_init()
 
@@ -266,7 +268,7 @@ class gpvdm_main_window(QMainWindow):
 		ret=dialog.window.exec_()
 		if ret==QDialog.Accepted:
 			split=dialog.get_filename().split(".")
-			if len(split)>0:
+			if len(split)>1:
 				if split[1]=="xlsx" or split[1]=="xls":
 					desktop_open(dialog.get_filename())
 	
@@ -907,7 +909,9 @@ class gpvdm_main_window(QMainWindow):
 #		process_events()
 
 		self.show()
-
+		a=ref("dos0.inp","#me")
+		a.run()
+		
 		self.light_button.changed.connect(self.notebook.update)
 		#from plot_state import plot_state
 		#plot_data=plot_state()

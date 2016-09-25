@@ -44,6 +44,8 @@ from gui_util import save_as_filter
 
 from PyQt5.QtWidgets import QApplication
 
+from help import help_window
+
 class cmp_class(QWidget):
 	mix_y=None
 	max_y=None
@@ -307,6 +309,9 @@ class cmp_class(QWidget):
 		self.win_list.load()
 		self.win_list.set_window(self,"cmp_class")
 
+		if os.path.isfile(os.path.join(os.getcwd(),"snapshots","0","Ec.dat"))==False:
+			help_window().help_append(["warning.png",_("No electrical slice data has been stored in the snapshots directory.  To turn this on set Simulation->Configure->Dump->Dump 1D Slices to on.  This will dump a lot of data and slow down your simulations.")])
+		
 		#self.light.currentIndexChanged.connect(self.call_back_light_changed)
 
 	def init(self):
@@ -379,6 +384,9 @@ class cmp_class(QWidget):
 
 		self.config_load()
 		self.count_dumps()
+
+
+
 		if self.dumps==0:
 			md = gtk.MessageDialog(None, 0, gtk.MESSAGE_QUESTION,  gtk.BUTTONS_YES_NO, "No slice data has been written to disk.  You need to re-run the simulation with the dump_slices set to 1.  Would you like to do this now?  Note: This generates lots of files and will slow down the simulation.")
 

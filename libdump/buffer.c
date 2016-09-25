@@ -250,20 +250,13 @@ void buffer_dump(char * file,struct buffer *in)
 	out = fopen(file, "wb");
 	fwrite(in->buf, in->len, 1, out);
 	fclose(out);
-
 }
 
 void buffer_dump_path(char *path,char * file,struct buffer *in)
 {
-	FILE *out;
-	out = fopena(path,file, "wb");
-	if (out==NULL)
-	{
-		printf("Fopen error on %s %s\n",path,file);
-	}
-	fwrite(in->buf, in->len, 1, out);
-	fclose(out);
-
+	char wholename[200];
+	join_path(2, wholename,path,file);
+	buffer_dump(wholename,in);
 }
 
 

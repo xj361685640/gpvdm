@@ -158,7 +158,7 @@ do
 	}else
 	if (pulse_config.pulse_sim_mode==pulse_open_circuit)
 	{
-		V=Vapplied;
+		V=contact_get_active_contact_voltage(sim,in);
 		newton_sim_voc_fast(sim,in,TRUE);
 	}else
 	{

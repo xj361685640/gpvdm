@@ -155,6 +155,9 @@ def tab_get_selected(tab):
 	return ret
 
 def tab_move_down(tab):
+	if tab.rowCount()==0:
+		return
+
 	tab.blockSignals(True)
 	a=tab.selectionModel().selectedRows()
 

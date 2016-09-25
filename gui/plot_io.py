@@ -172,46 +172,47 @@ def get_plot_file_info(output,file_name):
 	if len(lines)>1:
 		if lines[0]=="#gpvdm":
 			for i in range(0, len(lines)):
-				if (lines[i][0]!="#"):
-					break
-				else:
-					command=lines[i].split(" ",1)
-					if len(command)<2:
-						command.append("")
-					if (command[0]=="#x_mul"):
-						output.x_mul=float(command[1])
-					if (command[0]=="#y_mul"):
-						output.y_mul=float(command[1])
-					if (command[0]=="#x_label"):
-						output.x_label=command[1]
-					if (command[0]=="#y_label"):
-						output.y_label=command[1]
-					if (command[0]=="#x_units"):
-						output.x_units=command[1]
-					if (command[0]=="#y_units"):
-						output.y_units=command[1]
-					if (command[0]=="#logscale_x"):
-						output.logx=bool(int(command[1]))
-					if (command[0]=="#logscale_y"):
-						output.logy=bool(int(command[1]))
-					if (command[0]=="#type"):
-						output.type=command[1]
-					if (command[0]=="#title"):
-						output.title=command[1]
-					if (command[0]=="#section_one"):
-						output.section_one=command[1]
-					if (command[0]=="#section_two"):
-						output.section_two=command[1]
-					if (command[0]=="#time"):
-						output.time=float(command[1])
-					if (command[0]=="#Vexternal"):
-						output.Vexternal=float(command[1])
-					if (command[0]=="#x"):
-						output.x_len=int(command[1])
-					if (command[0]=="#y"):
-						output.y_len=int(command[1])
-					if (command[0]=="#z"):
-						output.z_len=int(command[1])
+				if (len(lines[i])>0):
+					if (lines[i][0]!="#"):
+						break
+					else:
+						command=lines[i].split(" ",1)
+						if len(command)<2:
+							command.append("")
+						if (command[0]=="#x_mul"):
+							output.x_mul=float(command[1])
+						if (command[0]=="#y_mul"):
+							output.y_mul=float(command[1])
+						if (command[0]=="#x_label"):
+							output.x_label=command[1]
+						if (command[0]=="#y_label"):
+							output.y_label=command[1]
+						if (command[0]=="#x_units"):
+							output.x_units=command[1]
+						if (command[0]=="#y_units"):
+							output.y_units=command[1]
+						if (command[0]=="#logscale_x"):
+							output.logx=bool(int(command[1]))
+						if (command[0]=="#logscale_y"):
+							output.logy=bool(int(command[1]))
+						if (command[0]=="#type"):
+							output.type=command[1]
+						if (command[0]=="#title"):
+							output.title=command[1]
+						if (command[0]=="#section_one"):
+							output.section_one=command[1]
+						if (command[0]=="#section_two"):
+							output.section_two=command[1]
+						if (command[0]=="#time"):
+							output.time=float(command[1])
+						if (command[0]=="#Vexternal"):
+							output.Vexternal=float(command[1])
+						if (command[0]=="#x"):
+							output.x_len=int(command[1])
+						if (command[0]=="#y"):
+							output.y_len=int(command[1])
+						if (command[0]=="#z"):
+							output.z_len=int(command[1])
 
 			return True
 

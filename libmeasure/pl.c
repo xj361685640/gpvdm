@@ -115,8 +115,7 @@ inter_init(&th_to_fe);
 
 
 //double Re_e=0.0;
-
-
+int pl_data_added=FALSE;
 for (z=0;z<in->zmeshpoints;z++)
 {
 	for (x=0;x<in->xmeshpoints;x++)
@@ -133,7 +132,7 @@ for (z=0;z<in->zmeshpoints;z++)
 
 				if (pl_enabled==TRUE)
 				{
-
+					pl_data_added=TRUE;
 					inter_append(&fe_to_fh,in->Eg[z][x][y],in->Rfree[z][x][y]*pl_fe_fh);
 
 					for (band=0;band<in->srh_bands;band++)
@@ -181,128 +180,132 @@ join_path(3,out_dir,get_output_path(sim),snapshot_dir,temp);
 
 //inter_dump(&fe_to_fh);
 //inter_sort(&fe_to_fh);
-inter_sort(&fe_to_te);
-inter_sort(&te_to_fh);
-inter_sort(&th_to_fe);
-inter_sort(&fh_to_th);
+if (pl_data_added==TRUE)
+{
+	inter_sort(&fe_to_te);
+	inter_sort(&te_to_fh);
+	inter_sort(&th_to_fe);
+	inter_sort(&fh_to_th);
 
-inter_join_bins(&fe_to_fh,0.01);
-inter_join_bins(&fe_to_te,0.01);
-inter_join_bins(&te_to_fh,0.01);
-inter_join_bins(&th_to_fe,0.01);
-inter_join_bins(&fh_to_th,0.01);
+	inter_join_bins(&fe_to_fh,0.01);
+	inter_join_bins(&fe_to_te,0.01);
+	inter_join_bins(&te_to_fh,0.01);
+	inter_join_bins(&th_to_fe,0.01);
+	inter_join_bins(&fh_to_th,0.01);
 
-light_energy=0.0;
+	light_energy=0.0;
 
-light_energy+=calculate_photon_energy(&fe_to_fh)*in->area;
-light_energy+=calculate_photon_energy(&fe_to_te)*in->area;
-light_energy+=calculate_photon_energy(&te_to_fh)*in->area;
-light_energy+=calculate_photon_energy(&th_to_fe)*in->area;
-light_energy+=calculate_photon_energy(&fh_to_th)*in->area;
+	light_energy+=calculate_photon_energy(&fe_to_fh)*in->area;
+	light_energy+=calculate_photon_energy(&fe_to_te)*in->area;
+	light_energy+=calculate_photon_energy(&te_to_fh)*in->area;
+	light_energy+=calculate_photon_energy(&th_to_fe)*in->area;
+	light_energy+=calculate_photon_energy(&fh_to_th)*in->area;
 
-buffer_malloc(&buf);
-sprintf(name,"%s","fe_to_fh.dat");
-buf.y_mul=1.0;
-buf.x_mul=1e9;
-strcpy(buf.title,"PL Spectra Free electron to free hole");
-strcpy(buf.type,"xy");
-strcpy(buf.x_label,"Energy");
-strcpy(buf.y_label,"Intensity");
-strcpy(buf.x_units,"eV");
-strcpy(buf.y_units,"m^{-3}s^{-1}");
-buf.logscale_x=0;
-buf.logscale_y=0;
-buf.time=in->time;
-buf.Vexternal=Vexternal;
-buffer_add_info(&buf);
-buffer_add_xy_data(&buf,fe_to_fh.x, fe_to_fh.data, fe_to_fh.len);
-buffer_dump_path(out_dir,name,&buf);
-buffer_free(&buf);
+	buffer_malloc(&buf);
+	sprintf(name,"%s","fe_to_fh.dat");
+	buf.y_mul=1.0;
+	buf.x_mul=1e9;
+	strcpy(buf.title,"PL Spectra Free electron to free hole");
+	strcpy(buf.type,"xy");
+	strcpy(buf.x_label,"Energy");
+	strcpy(buf.y_label,"Intensity");
+	strcpy(buf.x_units,"eV");
+	strcpy(buf.y_units,"m^{-3}s^{-1}");
+	buf.logscale_x=0;
+	buf.logscale_y=0;
+	buf.time=in->time;
+	buf.Vexternal=Vexternal;
+	buffer_add_info(&buf);
+	buffer_add_xy_data(&buf,fe_to_fh.x, fe_to_fh.data, fe_to_fh.len);
+	buffer_dump_path(out_dir,name,&buf);
+	buffer_free(&buf);
 
-buffer_malloc(&buf);
-sprintf(name,"%s","te_to_fh.dat");
-buf.y_mul=1.0;
-buf.x_mul=1e9;
-strcpy(buf.title,"PL Spectra Free hole to trapped electron");
-strcpy(buf.type,"xy");
-strcpy(buf.x_label,"Energy");
-strcpy(buf.y_label,"Intensity");
-strcpy(buf.x_units,"eV");
-strcpy(buf.y_units,"m^{-3}s^{-1}");
-buf.logscale_x=0;
-buf.logscale_y=0;
-buf.time=in->time;
-buf.Vexternal=Vexternal;
-buffer_add_info(&buf);
-buffer_add_xy_data(&buf,te_to_fh.x, te_to_fh.data, te_to_fh.len);
-buffer_dump_path(out_dir,name,&buf);
-buffer_free(&buf);
+	buffer_malloc(&buf);
+	sprintf(name,"%s","te_to_fh.dat");
+	buf.y_mul=1.0;
+	buf.x_mul=1e9;
+	strcpy(buf.title,"PL Spectra Free hole to trapped electron");
+	strcpy(buf.type,"xy");
+	strcpy(buf.x_label,"Energy");
+	strcpy(buf.y_label,"Intensity");
+	strcpy(buf.x_units,"eV");
+	strcpy(buf.y_units,"m^{-3}s^{-1}");
+	buf.logscale_x=0;
+	buf.logscale_y=0;
+	buf.time=in->time;
+	buf.Vexternal=Vexternal;
+	buffer_add_info(&buf);
+	buffer_add_xy_data(&buf,te_to_fh.x, te_to_fh.data, te_to_fh.len);
+	buffer_dump_path(out_dir,name,&buf);
+	buffer_free(&buf);
 
-buffer_malloc(&buf);
-sprintf(name,"%s","fe_to_te.dat");
-buf.y_mul=1.0;
-buf.x_mul=1e9;
-strcpy(buf.title,"PL Spectra free electron to trapped electron");
-strcpy(buf.type,"xy");
-strcpy(buf.x_label,"Energy");
-strcpy(buf.y_label,"Intensity");
-strcpy(buf.x_units,"eV");
-strcpy(buf.y_units,"m^{-3}s^{-1}");
-buf.logscale_x=0;
-buf.logscale_y=0;
-buf.time=in->time;
-buf.Vexternal=Vexternal;
-buffer_add_info(&buf);
-buffer_add_xy_data(&buf,fe_to_te.x, fe_to_te.data, fe_to_te.len);
-buffer_dump_path(out_dir,name,&buf);
-buffer_free(&buf);
-
-
-buffer_malloc(&buf);
-sprintf(name,"%s","th_to_fe.dat");
-buf.y_mul=1.0;
-buf.x_mul=1e9;
-strcpy(buf.title,"PL Spectra Free electron to trapped hole");
-strcpy(buf.type,"xy");
-strcpy(buf.x_label,"Energy");
-strcpy(buf.y_label,"Intensity");
-strcpy(buf.x_units,"eV");
-strcpy(buf.y_units,"m^{-3}s^{-1}");
-buf.logscale_x=0;
-buf.logscale_y=0;
-buf.time=in->time;
-buf.Vexternal=Vexternal;
-buffer_add_info(&buf);
-buffer_add_xy_data(&buf,th_to_fe.x, th_to_fe.data, th_to_fe.len);
-buffer_dump_path(out_dir,name,&buf);
-buffer_free(&buf);
+	buffer_malloc(&buf);
+	sprintf(name,"%s","fe_to_te.dat");
+	buf.y_mul=1.0;
+	buf.x_mul=1e9;
+	strcpy(buf.title,"PL Spectra free electron to trapped electron");
+	strcpy(buf.type,"xy");
+	strcpy(buf.x_label,"Energy");
+	strcpy(buf.y_label,"Intensity");
+	strcpy(buf.x_units,"eV");
+	strcpy(buf.y_units,"m^{-3}s^{-1}");
+	buf.logscale_x=0;
+	buf.logscale_y=0;
+	buf.time=in->time;
+	buf.Vexternal=Vexternal;
+	buffer_add_info(&buf);
+	buffer_add_xy_data(&buf,fe_to_te.x, fe_to_te.data, fe_to_te.len);
+	buffer_dump_path(out_dir,name,&buf);
+	buffer_free(&buf);
 
 
-buffer_malloc(&buf);
-sprintf(name,"%s","fh_to_th.dat");
-buf.y_mul=1.0;
-buf.x_mul=1e9;
-strcpy(buf.title,"PL Spectra free hole to trapped hole");
-strcpy(buf.type,"xy");
-strcpy(buf.x_label,"Energy");
-strcpy(buf.y_label,"Intensity");
-strcpy(buf.x_units,"eV");
-strcpy(buf.y_units,"m^{-3}s^{-1}");
-buf.logscale_x=0;
-buf.logscale_y=0;
-buf.time=in->time;
-buf.Vexternal=Vexternal;
-buffer_add_info(&buf);
-buffer_add_xy_data(&buf,fh_to_th.x, fh_to_th.data, fh_to_th.len);
-buffer_dump_path(out_dir,name,&buf);
-buffer_free(&buf);
+	buffer_malloc(&buf);
+	sprintf(name,"%s","th_to_fe.dat");
+	buf.y_mul=1.0;
+	buf.x_mul=1e9;
+	strcpy(buf.title,"PL Spectra Free electron to trapped hole");
+	strcpy(buf.type,"xy");
+	strcpy(buf.x_label,"Energy");
+	strcpy(buf.y_label,"Intensity");
+	strcpy(buf.x_units,"eV");
+	strcpy(buf.y_units,"m^{-3}s^{-1}");
+	buf.logscale_x=0;
+	buf.logscale_y=0;
+	buf.time=in->time;
+	buf.Vexternal=Vexternal;
+	buffer_add_info(&buf);
+	buffer_add_xy_data(&buf,th_to_fe.x, th_to_fe.data, th_to_fe.len);
+	buffer_dump_path(out_dir,name,&buf);
+	buffer_free(&buf);
 
+
+	buffer_malloc(&buf);
+	sprintf(name,"%s","fh_to_th.dat");
+	buf.y_mul=1.0;
+	buf.x_mul=1e9;
+	strcpy(buf.title,"PL Spectra free hole to trapped hole");
+	strcpy(buf.type,"xy");
+	strcpy(buf.x_label,"Energy");
+	strcpy(buf.y_label,"Intensity");
+	strcpy(buf.x_units,"eV");
+	strcpy(buf.y_units,"m^{-3}s^{-1}");
+	buf.logscale_x=0;
+	buf.logscale_y=0;
+	buf.time=in->time;
+	buf.Vexternal=Vexternal;
+	buffer_add_info(&buf);
+	buffer_add_xy_data(&buf,fh_to_th.x, fh_to_th.data, fh_to_th.len);
+	buffer_dump_path(out_dir,name,&buf);
+	buffer_free(&buf);
+
+}
 
 inter_free(&fe_to_fh);
 inter_free(&fe_to_te);
 inter_free(&te_to_fh);
 inter_free(&th_to_fe);
 inter_free(&fh_to_th);
+
 
 return;
 }

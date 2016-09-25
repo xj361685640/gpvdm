@@ -93,6 +93,11 @@ struct simulation
 
 	int gui;
 	int html;
+	long int bytes_written;
+	long int bytes_read;
+	long int files_read;
+	long int files_written;	
+
 };
 
 #endif

@@ -57,6 +57,26 @@ def inp_read_next_item(lines,pos):
 	pos=pos+1
 	return token,value,pos
 
+def inp_replace_multi_line_token(lines,token,replace):
+	new_lines=[]
+	pos=0
+	for i in range(0, len(lines)):
+		new_lines.append(lines[i])
+		if lines[i]==token:
+			new_lines.append(replace)
+			pos=i+1
+			break
+
+	start=False
+	for i in range(pos, len(lines)):
+		if len(lines[i])>0:
+			if lines[i][0]=="#":
+				start=True
+				
+		if start==True:
+			new_lines.append(lines[i])
+	return new_lines
+
 def inp_update(file_path, token, replace):
 	inp_update_token_value(file_path, token, replace,1)
 
@@ -81,30 +101,25 @@ def inp_update_token_value(file_path, token, replace,line_number):
 
 	read_lines_from_archive(lines,zip_file_name,os.path.basename(file_path))
 
-	for i in range(0, len(lines)):
-		if lines[i]==token:
-			lines[i+line_number]=replace
-			break
+
+	new_lines=inp_replace_multi_line_token(lines,token,replace)
 
 
 	if os.path.isfile(file_path):
 		fh, abs_path = mkstemp()
 
-		dump='\n'.join(lines)
-
-		#for item in lines:
-		#	dump=dump+item+"\n"
+		dump='\n'.join(new_lines)
 
 		dump=dump.rstrip("\n")
 		dump=dump.encode('ascii')
 		f=open(abs_path, mode='wb')
-		lines = f.write(dump)
+		written = f.write(dump)
 		f.close()
 
 		os.close(fh)
 		shutil.move(abs_path, file_path)
 	else:
-		replace_file_in_zip_archive(zip_file_name,os.path.basename(file_path),lines)
+		replace_file_in_zip_archive(zip_file_name,os.path.basename(file_path),new_lines)
 
 def inp_isfile(file_path):
 
@@ -146,6 +161,13 @@ def inp_save_lines(file_path,lines):
 	f.close()
 	return True
 
+def inp_new_file():
+	ret=[]
+	ret.append("#ver")
+	ret.append("1.0")
+	ret.append("#end")
+	return ret
+
 
 def inp_get_next_token_array(lines,pos):
 
@@ -167,11 +189,12 @@ def inp_get_token_array(file_path, token):
 	for i in range(0, len(lines)):
 		if lines[i]==token:
 			pos=i+1
-			while (lines[pos][0]!="#"):
-				ret.append(lines[pos])
-				pos=pos+1
-
-			return ret
+			for ii in range(pos,len(lines)):
+				if len(lines[ii])>0:
+					if lines[ii][0]=="#":
+						return ret
+				
+				ret.append(lines[ii])
 
 	return False
 

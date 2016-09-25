@@ -282,8 +282,6 @@ class scan_vbox(QWidget):
 		self.plot_results(data)
 
 	def callback_reopen_xy_window(self, widget, data=None):
-		print("put in code later")
-		return
 		if len(self.plotted_graphs)>0:
 			pos=len(self.plotted_graphs)-1
 			plot_data=plot_state()

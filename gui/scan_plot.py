@@ -43,9 +43,9 @@ def gen_plot_line(dirname,plot_token):
 		v1=inp_get_token_value(os.path.join(dirname,plot_token.file1), plot_token.tag1)
 		v2=""
 		print(os.path.join(dirname,plot_token.file1),plot_token.tag1)
-		if plot_token.file2!="":
-			v2=inp_get_token_value(os.path.join(dirname,plot_token.file2), plot_token.tag2)
-		values=v0+" "+v1+" "+v2+"\n"
+		#if plot_token.file2!="":
+		#	v2=inp_get_token_value(os.path.join(dirname,plot_token.file2), plot_token.tag2)
+		values=v0+" "+v1+"\n"
 		return values
 
 def gen_infofile_plot(file_list_in,base_dir,plot_token):

@@ -24,7 +24,7 @@ import os
 
 from tab_base import tab_base
 
-from PyQt5.QtWidgets import QTabWidget,QTextEdit
+from PyQt5.QtWidgets import QTabWidget,QTextEdit,QWidget,QHBoxLayout
 from PyQt5.QtCore import QProcess
 from PyQt5.QtGui import QPalette,QColor,QFont
 
@@ -32,8 +32,18 @@ from QHTabBar import QHTabBar
 
 import multiprocessing
 import functools
+from cpu_usage import cpu_usage
 
-class tab_terminal(QTabWidget,tab_base):
+class tab_terminal(QWidget,tab_base):
+
+	def __init__(self):
+		QWidget.__init__(self)
+		self.tab=QTabWidget()
+		self.vbox=QHBoxLayout()
+		self.vbox.addWidget(self.tab)
+		self.usage=cpu_usage()
+		self.vbox.addWidget(self.usage)
+		self.setLayout(self.vbox)
 
 	def dataReady(self,i):
 		cursor = self.terminals[i].textCursor()
@@ -58,10 +68,10 @@ class tab_terminal(QTabWidget,tab_base):
 	def init(self):
 		self.cpus=multiprocessing.cpu_count()
 		
-		self.setTabsClosable(True)
-		self.setMovable(True)
-		self.setTabBar(QHTabBar())
-		self.setTabPosition(QTabWidget.West)
+		self.tab.setTabsClosable(True)
+		self.tab.setMovable(True)
+		self.tab.setTabBar(QHTabBar())
+		self.tab.setTabPosition(QTabWidget.West)
 		
 		self.font = QFont()
 		self.font.setFamily('Monospace')
@@ -86,7 +96,7 @@ class tab_terminal(QTabWidget,tab_base):
 			proc.readyRead.connect(functools.partial(self.dataReady,i))
 			self.process.append(proc)
 			self.terminals.append(term)
-			self.addTab(term,"cpu "+str(i))
+			self.tab.addTab(term,"cpu "+str(i))
 
 
 
