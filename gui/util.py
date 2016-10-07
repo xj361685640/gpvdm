@@ -19,20 +19,11 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-#import sys
 import os
 import shutil
-#import signal
-#import subprocess
-#from tempfile import mkstemp
-#import logging
-#import zipfile
 import re
-#from numpy import zeros
 import hashlib
 import glob
-#from win_lin import running_on_linux
-#from cal_path import get_inp_file_path
 from util_zip import zip_get_data_file
 
 def gui_print_path(text,path,length):
@@ -44,6 +35,13 @@ def gui_print_path(text,path,length):
 
 	return ret
 
+def isnumber(s):
+	try:
+		float(s)
+		return True
+	except ValueError:
+		return False
+	
 def get_cache_path(path):
 	m = hashlib.md5()
 	m.update(path)
@@ -69,30 +67,12 @@ def delete_second_level_link_tree(path):
 	gpvdm_delete_file(path)
 
 def gpvdm_delete_file(path):
-	if os.path.islink(path):
-		real_path=os.path.realpath(path)
-		print("Deleting link:",path)
-		os.unlink(path)
-		print("check",real_path,get_cache_path(path))
-		if real_path==get_cache_path(path):	#only delete the cache directory if it is the one we are intending to delete
-
-			if os.path.isdir(real_path)==True:
-				print("Delete",real_path)
-				if real_path!="/":
-					#a bit of paranoia - don't ever delete the home directory.
-					if os.path.normpath(real_path)!=os.path.normpath(os.path.expanduser('~')):
-							shutil.rmtree(real_path)
-
-			elif os.path.isfile(real_path)==True:
-				print("Delete",real_path)
-				os.remove(real_path)
-	else:
-		if os.path.isdir(path)==True:
-			print("Delete",path)
-			shutil.rmtree(path)
-		elif os.path.isfile(path)==True:
-			print("Delete",path)
-			os.remove(path)
+	if os.path.isdir(path)==True:
+		print("Delete",path)
+		shutil.rmtree(path)
+	elif os.path.isfile(path)==True:
+		print("Delete",path)
+		os.remove(path)
 
 def numbers_to_latex(data):
 	out=""

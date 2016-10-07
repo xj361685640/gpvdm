@@ -58,6 +58,8 @@ from gui_util import save_as_jpg
 from dat_file import dat_file
 from dat_file import dat_file_read
 
+from ref import ref
+
 mesh_articles = []
 
 class equation(QWidget):
@@ -238,6 +240,10 @@ class equation(QWidget):
 	def set_ylabel(self,value):
 		self.ylabel=value
 
+	def callback_ref(self):
+		a=ref(os.path.join(self.path,self.file_name),"#root")
+		a.run()
+		
 	def init(self):
 		self.fig = Figure(figsize=(5,4), dpi=100)
 		self.canvas = FigureCanvas(self.fig)
@@ -252,6 +258,11 @@ class equation(QWidget):
 		self.tb_save.triggered.connect(self.callback_save)
 		toolbar.addAction(self.tb_save)
 
+		self.tb_ref= QAction(QIcon(os.path.join(get_image_file_path(),"32_ref.png")), _("Insert reference information"), self)
+		self.tb_ref.triggered.connect(self.callback_ref)
+		toolbar.addAction(self.tb_ref)
+		
+		
 
 		self.main_vbox.addWidget(toolbar)
 

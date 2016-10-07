@@ -147,8 +147,6 @@ else:
 
 print(notice())
 
-from ref import ref
-
 #gobject.threads_init()
 
 
@@ -909,8 +907,6 @@ class gpvdm_main_window(QMainWindow):
 #		process_events()
 
 		self.show()
-		a=ref("dos0.inp","#me")
-		a.run()
 		
 		self.light_button.changed.connect(self.notebook.update)
 		#from plot_state import plot_state
@@ -920,6 +916,7 @@ class gpvdm_main_window(QMainWindow):
 		#a.run()
 		
 if __name__ == '__main__':
+	
 	app = QApplication(sys.argv)
 	sys.excepthook = error_han
 

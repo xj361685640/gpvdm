@@ -80,6 +80,20 @@ def inp_replace_multi_line_token(lines,token,replace):
 def inp_update(file_path, token, replace):
 	inp_update_token_value(file_path, token, replace,1)
 
+def inp_is_token(lines,token):
+	for i in range(0, len(lines)):
+		if lines[i]==token:
+			return True
+
+	return False
+
+def inp_add_token(lines,token,value):
+	a=[]
+	a.append(token)
+	a.append(value)
+	ret=a + lines
+	return ret
+
 def inp_update_token_value(file_path, token, replace,line_number):
 	lines=[]
 	if token=="#Tll":
@@ -195,6 +209,22 @@ def inp_get_token_array(file_path, token):
 						return ret
 				
 				ret.append(lines[ii])
+
+	return False
+
+def inp_check_ver(file_path, ver):
+
+	lines=[]
+	if inp_load_file(lines,file_path)==False:
+		return False
+
+	for i in range(0, len(lines)):
+		if lines[i]=="#ver":
+			if len(lines)>i+2:
+				if lines[i+1]==ver:
+					if lines[i+2]=="#end":
+						return True
+			return False
 
 	return False
 

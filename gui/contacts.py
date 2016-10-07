@@ -62,6 +62,7 @@ from gui_util import tab_insert_row
 from gui_util import tab_remove
 
 from util import str2bool
+from gui_util import error_dlg
 
 class contacts_window(QWidget):
 
@@ -70,12 +71,25 @@ class contacts_window(QWidget):
 	changed = pyqtSignal()
 	
 	def update_contact_db(self):
+		for i in range(0,self.tab.rowCount()):
+			try:
+				float(tab_get_value(self.tab,i, 0))
+				float(tab_get_value(self.tab,i, 2))
+				float(tab_get_value(self.tab,i, 3))
+				float(tab_get_value(self.tab,i, 1))
+			except:
+				return False
+
 		contacts_clear()
 		for i in range(0,self.tab.rowCount()):
 			contacts_append(float(tab_get_value(self.tab,i, 0)),float(tab_get_value(self.tab,i, 2)),float(tab_get_value(self.tab,i, 3)),float(tab_get_value(self.tab,i, 1)),str2bool(tab_get_value(self.tab,i, 4)))	
-
+		return True
+	
 	def add_row(self,pos,start,width,depth,voltage,active):
+
 		pos= tab_insert_row(self.tab)
+
+		self.tab.blockSignals(True)
 
 		self.tab.setItem(pos,0,QTableWidgetItem(start))
 		self.tab.setItem(pos,1,QTableWidgetItem(width))
@@ -89,9 +103,9 @@ class contacts_window(QWidget):
 		self.tab.setCellWidget(pos,4, combobox)
 		combobox.setCurrentIndex(combobox.findText(active.lower()))
 		combobox.currentIndexChanged.connect(self.save)
+		self.tab.blockSignals(False)
 		
 	def on_add_clicked(self, button):
-		self.tab.blockSignals(True)
 		index = self.tab.selectionModel().selectedRows()
 
 		if len(index)>0:
@@ -99,19 +113,20 @@ class contacts_window(QWidget):
 		else:
 			pos = self.tab.rowCount()
 
-		self.add_row(pos,_("start"),_("width"),_("depth"),_("voltage"),_("false"))
+		self.add_row(pos,_("0.0"),_("0.0"),_("0.0"),_("0.0"),_("false"))
  
 		self.save()
-		self.tab.blockSignals(False)
 
 	def on_remove_clicked(self, button):
 		tab_remove(self.tab)
 		self.save()
 
 	def save(self):
-		self.update_contact_db()
-		contacts_save()
-		self.changed.emit()
+		if self.update_contact_db()==True:
+			contacts_save()
+			self.changed.emit()
+		else:
+			error_dlg(self,_("There are some non numberic values in the table"))
 
 	def callback_close(self, widget, data=None):
 		self.win_list.update(self,"contact")

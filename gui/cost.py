@@ -46,6 +46,7 @@ from gui_util import tab_add
 from openpyxl import load_workbook
 from cal_path import get_materials_path
 
+from inp import inp_get_token_value
 
 articles = []
 mesh_articles = []
@@ -108,7 +109,9 @@ class cost(QWidget):
 		self.tab.setSelectionBehavior(QAbstractItemView.SelectRows)
 		self.tab.setHorizontalHeaderLabels([_("material"), _("Volume (m^-3)"), _("Mass (kg)"), _("Cost ($)"), _("Energy (J)")])
 		self.tab.setColumnWidth(1, 200)
-
+		self.tab.setColumnWidth(2, 200)
+		self.tab.setColumnWidth(3, 200)
+		self.tab.setColumnWidth(4, 200)
 		energy_tot=0.0
 		cost_tot=0.0
 		for i in range(0,epitaxy_get_layers()):
@@ -133,8 +136,13 @@ class cost(QWidget):
 			energy_tot=energy_tot+energy
 			cost_tot=cost_tot+cost
 		
+		pce=inp_get_token_value("sim_info.dat", "#pce")
+		payback_time=-1.0
+		if pce!=None:
+			pce=float(pce)
+			gen_energy=1366.0*pce/100.0
+			payback_time=energy_tot/gen_energy/60.0/60.0/24/365
 		
-		payback_time=1.0
 		tab_add(self.tab,["sum","","",str(cost_tot),str(energy_tot)])
 		tab_add(self.tab,["","","pay back time=",str(payback_time),"years"])
 		

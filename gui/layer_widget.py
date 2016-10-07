@@ -2,7 +2,7 @@
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -63,6 +63,8 @@ from gui_util import tab_get_value
 from gui_util import tab_set_value
 from gui_util import yes_no_dlg
 from gui_util import tab_insert_row
+from gui_util import error_dlg
+
 #qt
 from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtGui import QIcon,QPalette
@@ -305,12 +307,13 @@ class layer_widget(QWidget):
 		tab=[]
 		for i in range(0,self.tab.rowCount()):
 			tab.append(str(tab_get_value(self.tab,i, 4))+".inp")
-		
+
 		for i in range(0,len(files)):
 			if files[i].startswith("dos") and files[i].endswith(".inp"):
 				disk_file=files[i]
+				print("dosfile exists=",disk_file,tab)
 				if disk_file not in tab:
-					print("I don't need",disk_file)
+					print("I don't need do I will delete",disk_file)
 					inp_remove_file(disk_file)
 
 	def on_remove_item_clicked(self):
@@ -358,7 +361,9 @@ class layer_widget(QWidget):
 
 		print(dos_file)
 		print(pl_file)
-		epitaxy_load_from_arrays(name,thick,mat_file,dos_file,pl_file)
+		ret=epitaxy_load_from_arrays(name,thick,mat_file,dos_file,pl_file)
+		if ret==False:
+			error_dlg(self,_("Error in epitaxy, check the input values."))
 
 		epitaxy_save()
 		self.clean_dos_files()

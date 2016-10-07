@@ -185,9 +185,16 @@ class cmp_class(QWidget):
 			self.entry3.set_text("")
 
 	def save_image(self,file_name):
+		file_ext="jpg"
+		types=self.plot.fig.canvas.get_supported_filetypes()
+		if "jpg" in types:
+			file_ext="jpg"
+		elif "png" in  types:
+			file_ext="png"
+
 		dir_name, ext = os.path.splitext(file_name)
 
-		if (ext==".jpg"):
+		if (ext=="."+file_ext):
 			self.plot.fig.savefig(file_name)
 		elif ext==".avi":
 
@@ -200,12 +207,12 @@ class cmp_class(QWidget):
 				QApplication.processEvents()
 				self.update()
 				self.plot.do_plot()
-				image_name=os.path.join(dir_name,"image_"+str(i)+".jpg")
+				image_name=os.path.join(dir_name,"image_"+str(i)+"."+file_ext)
 				print(image_name)
 				self.plot.fig.savefig(image_name)
 				jpgs=jpgs+" mf://"+image_name
 
-			os.system("mencoder "+jpgs+" -mf type=jpg:fps=1.0 -o "+file_name+" -ovc lavc -lavcopts vcodec=mpeg1video:vbitrate=800")
+			os.system("mencoder "+jpgs+" -mf type="+file_ext+":fps=1.0 -o "+file_name+" -ovc lavc -lavcopts vcodec=mpeg1video:vbitrate=800")
 			#msmpeg4v2
 		else:
 			print("Unknown file extension")

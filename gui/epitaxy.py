@@ -2,7 +2,7 @@
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -22,7 +22,7 @@
 import os
 from inp import inp_write_lines_to_file
 from inp import inp_load_file
-
+from util import isnumber
 
 layers=0
 electrical_layers=0
@@ -95,7 +95,11 @@ def epitay_get_next_pl():
 			return name
 
 def epitaxy_load_from_arrays(in_name,in_width,in_material,in_dos_layer,in_pl_file):
-	#lines=[]
+
+	for i in range(0, len(in_width)):
+		if isnumber(in_width[i])==False:
+			return False
+
 	global layers
 	global electrical_layers
 	global width
@@ -129,7 +133,9 @@ def epitaxy_load_from_arrays(in_name,in_width,in_material,in_dos_layer,in_pl_fil
 
 
 		layers=layers+1
-		
+
+	return True
+
 def epitaxy_print():
 	global layers
 	global electrical_layers

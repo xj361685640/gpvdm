@@ -36,6 +36,12 @@ from gpvdm_select import gpvdm_select
 from inp import inp_isfile
 from inp import inp_get_token_array
 from inp import inp_update
+from inp import inp_check_ver
+from inp import inp_new_file
+from inp import inp_write_lines_to_file
+from inp import inp_add_token
+from inp import inp_load_file
+from inp import inp_save_lines
 
 
 class ref():
@@ -52,12 +58,25 @@ class ref():
 
 	def load(self):
 		ret=inp_get_token_array(self.file_name, self.token)
-		if ret!=False:
+		if ret!=False:									#We have found the file and got the token
 			self.ui.text.setText("\n".join(ret))
-		else:
-			self.ui.text.setText(_("No data"))
+		else:	
+			self.ui.text.setText(_("New file"))
+
+			if inp_check_ver(self.file_name, "1.0")==True:	#The file exists but there is no token.
+				lines=[]
+				inp_load_file(lines,self.file_name)
+				lines=inp_add_token(lines,self.token,self.ui.text.toPlainText())
+				print("written to 1",self.file_name)
+				inp_save_lines(self.file_name,lines)
+			else:											#The file does not exist or there is an error
+				lines=inp_new_file()
+				lines=inp_add_token(lines,self.token,self.ui.text.toPlainText())
+				print("written to 2",self.file_name,lines)
+				inp_save_lines(self.file_name,lines)
 
 	def run(self):
 		ret=self.ui.exec_()
 		if ret==True:
+			print("update ",self.file_name)
 			inp_update(self.file_name, self.token, self.ui.text.toPlainText())
