@@ -101,7 +101,6 @@ from splash import splash_window
 from config_window import class_config_window
 from gpvdm_open import gpvdm_open
 from jv import jv
-from optics import class_optical
 from new_simulation import new_simulation
 from tb_item_sim_mode import tb_item_sim_mode
 from tb_item_sun import tb_item_sun
@@ -355,7 +354,6 @@ class gpvdm_main_window(QMainWindow):
 			self.plot_select.setEnabled(True)
 			self.undo.setEnabled(True)
 			self.jv_button.setEnabled(True)
-			self.optics_button.setEnabled(True)
 			self.laser_button.setEnabled(True)
 			self.tb_time_domain.setEnabled(True)
 			#self.save_sim.setEnabled(True)
@@ -384,7 +382,6 @@ class gpvdm_main_window(QMainWindow):
 			self.plot_select.setEnabled(False)
 			self.undo.setEnabled(False)
 			self.jv_button.setEnabled(False)
-			self.optics_button.setEnabled(False)
 			#self.save_sim.setEnabled(False)
 			self.experiment_window_button.setEnabled(False)
 
@@ -622,19 +619,6 @@ class gpvdm_main_window(QMainWindow):
 
 
 
-
-	def callback_optics_sim(self, widget, data=None):
-		help_window().help_set_help(["optics.png",_("<big><b>The optical simulation window</b></big><br>Use this window to perform optical simulations.  Click on the play button to run a simulation."),"play.png",_("Click on the play button to run an optical simulation.  The results will be displayed in the tabs to the right.")])
-
-		if self.optics_window==False:
-			self.optics_window=class_optical()
-
-		if self.optics_window.isVisible()==True:
-			self.optics_window.hide()
-		else:
-			self.optics_window.show()
-
-
 	def __init__(self):
 		self.undo_list=undo_list_class()
 		super(gpvdm_main_window,self).__init__()
@@ -701,8 +685,6 @@ class gpvdm_main_window(QMainWindow):
 		self.fit_window=None
 
 		self.config_window=None
-
-		self.optics_window=False
 
 		self.qe_window=None
 
@@ -858,11 +840,6 @@ class gpvdm_main_window(QMainWindow):
 		self.jv_button = QAction(QIcon(os.path.join(get_image_file_path(),"jv.png")), _("Steady state simulation editor"), self)
 		self.jv_button.triggered.connect(self.callback_jv_window)
 		toolbar.addAction(self.jv_button)
-
-		self.optics_button = QAction(QIcon(os.path.join(get_image_file_path(),"optics.png")), _("Optical simulation"), self)
-		self.optics_button.triggered.connect(self.callback_optics_sim)
-		toolbar.addAction(self.optics_button)
-
 
 		self.laser_button = QAction(QIcon(os.path.join(get_image_file_path(),"lasers.png")), _("Lasers editor"), self)
 		self.laser_button.triggered.connect(self.callback_configure_lasers)

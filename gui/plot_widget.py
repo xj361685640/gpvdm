@@ -33,6 +33,7 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 import matplotlib.pyplot as plt
+from matplotlib.pyplot import colorbar
 
 from util import numbers_to_latex
 from util import pygtk_to_latex_subscript
@@ -143,15 +144,20 @@ class plot_widget(QWidget):
 			self.sub_zero_frame(data,index)
 			my_min=0.0;
 
+			for y in range(0,data.y_len):
+				data.y_scale[y]=data.y_scale[y]*self.plot_token.x_mul
 
+			for x in range(0,data.x_len):
+				data.x_scale[x]=data.x_scale[x]*self.plot_token.x_mul
+				
 			for x in range(0,data.x_len):
 				for y in range(0,data.y_len):
 					for z in range(0,data.z_len):
-						data.y_scale[y]=data.y_scale[y]*self.plot_token.x_mul
+						#print("mull=",self.plot_token.y_mul)
 						data.data[z][x][y]=data.data[z][x][y]*self.plot_token.y_mul
 
-						if self.plot_token.invert_y==True:
-							data.data[z][x][y]=-data.data[z][x][y]
+						#if self.plot_token.invert_y==True:
+						#	data.data[z][x][y]=-data.data[z][x][y]
 
 			if self.plot_token.subtract_first_point==True:
 				val=data.data[0][0][0]
@@ -306,11 +312,10 @@ class plot_widget(QWidget):
 					self.fig.legend(lines, files, self.plot_token.legend_pos)
 			elif self.plot_token.x_len>1 and self.plot_token.y_len>1 and self.plot_token.z_len==1:		#3d plot
 				data=dat_file()
-				#print("year2",self.input_files[0])
-				if self.read_data_file(data,0)==True:
-				#	print("year")
-					self.ax[0].pcolor(data.data[0])
 
+				if self.read_data_file(data,0)==True:
+					im=self.ax[0].pcolor(data.y_scale,data.x_scale,data.data[0])
+					self.fig.colorbar(im)
 					#self.ax[0].plot_surface(x, y, z, rstride=1, cstride=1, cmap=cm.coolwarm,linewidth=0, antialiased=False)
 					#self.ax[0].invert_yaxis()
 					#self.ax[0].xaxis.tick_top()
@@ -365,7 +370,7 @@ class plot_widget(QWidget):
 				#print(data)
 				x_grid, y_grid = mgrid[float(self.plot_token.y_start):float(self.plot_token.y_stop):complex(0, len(y)), float(self.plot_token.x_start):float(self.plot_token.x_stop):complex(0, len(x))]
 				self.ax[0].pcolor(y_grid,x_grid,data)
-
+				
 			else:
 				x=[]
 				y=[]
@@ -394,7 +399,7 @@ class plot_widget(QWidget):
 
 					#fig, ax = plt.subplots()
 					self.ax[0].pcolor(data,cmap=plt.cm.Blues)
-
+					
 					self.ax[0].invert_yaxis()
 					self.ax[0].xaxis.tick_top()
 
@@ -702,25 +707,9 @@ class plot_widget(QWidget):
 		
 		self.main_vbox.addWidget(toolbar)
 
-		#    ( "/_Key/No key",  None,         self.callback_key , 0, "<RadioItem>", "gtk-save" ),
-		#    ( "/_Key/upper right",  None,         self.callback_key , 0, "<RadioItem>", "gtk-save" ),
-		#   ( "/_Key/upper left",  None,         self.callback_key , 0, "<RadioItem>", "gtk-save" ),
-		#    ( "/_Key/lower left",  None,         self.callback_key , 0, "<RadioItem>", "gtk-save" ),
-		#    ( "/_Key/lower right",  None,         self.callback_key , 0, "<RadioItem>", "gtk-save" ),
-		#    ( "/_Key/right",  None,         self.callback_key , 0, "<RadioItem>", "gtk-save" ),
-		#    ( "/_Key/center right",  None,         self.callback_key , 0, "<RadioItem>", "gtk-save" ),
-		#    ( "/_Key/lower center",  None,         self.callback_key , 0, "<RadioItem>", "gtk-save" ),
-		#    ( "/_Key/upper center",  None,         self.callback_key , 0, "<RadioItem>", "gtk-save" ),
-		#    ( "/_Key/center",  None,         self.callback_key , 0, "<RadioItem>", "gtk-save" ),
-		#    ( "/_Key/Units",  None,         self.callback_units , 0, None ),
-		
-
-
-
 
 		self.canvas.figure.patch.set_facecolor('white')
 		self.canvas.setMinimumSize(800, 350)
 		self.main_vbox.addWidget(self.canvas)
 
 		self.setLayout(self.main_vbox)
-		#self.win.connect('key_press_event', self.on_key_press_event)

@@ -132,9 +132,13 @@ def tab_get_value(tab,y,x):
 
 def tab_set_value(tab,y,x,value):
 	if type(tab.cellWidget(y, x))==QComboBox:
+		tab.cellWidget(y, x).blockSignals(True)
 		tab.cellWidget(y, x).setCurrentIndex(tab.cellWidget(y, x).findText(value))
+		tab.cellWidget(y, x).blockSignals(False)
 	elif type(tab.cellWidget(y,x))==gpvdm_select:
+		tab.cellWidget(y, x).blockSignals(True)
 		tab.cellWidget(y, x).setText(value)
+		tab.cellWidget(y, x).blockSignals(False)
 	else:
 		item = QTableWidgetItem(str(value))
 		tab.setItem(y,x,item)

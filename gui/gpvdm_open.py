@@ -40,6 +40,8 @@ from cal_path import get_ui_path
 
 from help import help_window
 
+from gui_util import error_dlg
+
 COL_PATH = 0
 COL_PIXBUF = 1
 COL_IS_DIRECTORY = 2
@@ -107,7 +109,10 @@ class gpvdm_open():
 
 	def fill_store(self):
 		self.window.listwidget.clear()
+		if os.path.isdir(self.dir)==False:
+			error_dlg(self,_("The directory is gone, so I can't open it."))
 
+		
 		for fl in os.listdir(self.dir):
 			file_name=os.path.join(self.dir, fl)
 			if os.path.isdir(file_name):

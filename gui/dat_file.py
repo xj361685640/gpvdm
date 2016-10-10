@@ -145,6 +145,7 @@ def dat_file_read(out,file_name):
 	if out.x_len==False:
 		out.x_len, out.y_len, out.z_len = guess_dim(lines)
 		if out.x_len==False:
+			print(file_name)
 			return False
 
 	out.data=[[[0.0 for k in range(out.y_len)] for j in range(out.x_len)] for i in range(out.z_len)]
@@ -174,7 +175,7 @@ def dat_file_read(out,file_name):
 
 			if s[0]=="#end":
 				break
-			
+
 			if data_started==True:
 				line_found=False
 				if len(s)==4:
@@ -200,14 +201,19 @@ def dat_file_read(out,file_name):
 					print("skip")
 
 				if line_found==True:
-					if x==0 and z==0:
-						out.y_scale[y]=float(a0)
+					if len(s)==2:
+						if x==0 and z==0:
+							out.y_scale[y]=float(a0)
 
-					if z==0 and x==y:
-						out.x_scale[y]=float(a0)
+					if len(s)==3:
+						if x==0 and z==0:
+							out.y_scale[y]=float(a1)
+							
+						if z==0 and y==0:
+							out.x_scale[x]=float(a0)
 
-					if z==y:
-						out.z_scale[y]=float(a0)
+					#if z==y:
+					#	out.z_scale[y]=float(a0)
 
 					y=y+1
 					if y==out.y_len:

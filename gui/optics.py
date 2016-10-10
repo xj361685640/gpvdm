@@ -2,7 +2,7 @@
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -151,7 +151,7 @@ class class_optical(QWidget):
 
 		file_menu = menubar.addMenu('&File')
 		self.menu_refresh=file_menu.addAction(_("&Refresh"))
-		self.menu_refresh.triggered.connect(self.callback_refresh)
+		self.menu_refresh.triggered.connect(self.update)
 
 		self.menu_close=file_menu.addAction(_("&Close"))
 		self.menu_close.triggered.connect(self.callback_close)
@@ -253,8 +253,6 @@ class class_optical(QWidget):
 
 
 	def onclick(self, event):
-		#print 'button=%d, x=%d, y=%d, xdata=%f, ydata=%f'%(
-		#event.button, event.x, event.y, event.xdata, event.ydata)
 		for i in range(0,len(self.layer_end)):
 			if (self.layer_end[i]>event.xdata):
 				break
@@ -320,9 +318,17 @@ class class_optical(QWidget):
 		return True
 
 
-	def callback_refresh(self):
-		self.update_graph()
-		self.update_cb()
+	def update(self):
+		self.fig_photon_density.my_figure.clf()
+		self.fig_photon_density.draw_graph()
+		self.fig_photon_density.canvas.draw()
+
+		self.fig_photon_abs.my_figure.clf()
+		self.fig_photon_abs.draw_graph()
+		self.fig_photon_abs.canvas.draw()
+
+		for i in range(0,len(self.plot_widgets)):
+			self.plot_widgets[i].update()
 
 
 	def callback_run(self):
@@ -338,19 +344,13 @@ class class_optical(QWidget):
 		inp_update_token_value("dump.inp", "#dump_optics",dump_optics,1)
 		inp_update_token_value("dump.inp", "#dump_optics_verbose",dump_optics_verbose,1)
 		
-		self.fig_photon_density.my_figure.clf()
-		self.fig_photon_density.draw_graph()
-		self.fig_photon_density.canvas.draw()
-
-		self.fig_photon_abs.my_figure.clf()
-		self.fig_photon_abs.draw_graph()
-		self.fig_photon_abs.canvas.draw()
-
-		for i in range(0,len(self.plot_widgets)):
-			self.plot_widgets[i].update()
+		self.update()
+		self.update_cb()
 
 		inp_update_token_value("dump.inp", "#dump_optics","true",1)
 		inp_update_token_value("dump.inp", "#dump_optics_verbose","true",1)
+		
+
 	def mode_changed(self):
 		cb_text=self.cb.currentText()
 
@@ -361,13 +361,7 @@ class class_optical(QWidget):
 			self.fig_photon_density.set_data_file("light_1d_"+cb_text[:-3]+"_photons_norm.dat")
 			self.fig_photon_abs.set_data_file("light_1d_"+cb_text[:-3]+"_photons_abs.dat")
 
-		print("drawing")
-		self.fig_photon_density.draw_graph()
-		self.fig_photon_density.canvas.draw()
-
-		print("drawing")
-		self.fig_photon_abs.draw_graph()
-		self.fig_photon_abs.canvas.draw()
+		self.update()
 
 	def on_cb_model_changed(self):
 		cb_text=self.cb_model.currentText()

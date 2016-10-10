@@ -75,6 +75,7 @@ from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QWidget
 
 from materials_main import materials_main
+from optics import class_optical
 
 import i18n
 _ = i18n.language.gettext
@@ -92,7 +93,6 @@ class layer_widget(QWidget):
 	changed = pyqtSignal()
 
 	def combo_changed(self):
-		print("saved")
 		self.save_model()
 		self.emit_change()
 
@@ -101,7 +101,10 @@ class layer_widget(QWidget):
 		self.emit_change()
 		
 	def emit_change(self):
-		print("emit")
+		if self.optics_window!=False:
+			if self.optics_window.isVisible()==True:
+				self.optics_window.update()
+			
 		self.changed.emit()
 		
 
@@ -120,7 +123,6 @@ class layer_widget(QWidget):
 	def layer_type_edit(self):
 		for i in range(0,self.tab.rowCount()):
 			if tab_get_value(self.tab,i,3).lower()=="active layer" and tab_get_value(self.tab,i,4).startswith("dos")==False:
-				print("doing update")
 				tab_set_value(self.tab,i,4,epitay_get_next_dos())
 				tab_set_value(self.tab,i,5,epitay_get_next_pl())
 
@@ -145,7 +147,6 @@ class layer_widget(QWidget):
 	def rebuild_mat_list(self):
 		self.material_files=[]
 		mat=find_materials()
-		print(mat)
 		for i in range(0,len(mat)):
 			self.material_files.append(mat[i])
 			scan_remove_file(os.path.join(get_materials_path(),mat[i]))			
@@ -168,14 +169,27 @@ class layer_widget(QWidget):
 	def on_move_down(self):
 		tab_move_down(self.tab)
 		self.save_model()
-		self.changed.emit()
+		self.emit_change()
+
+	def callback_optics_sim(self, widget, data=None):
+		help_window().help_set_help(["optics.png",_("<big><b>The optical simulation window</b></big><br>Use this window to perform optical simulations.  Click on the play button to run a simulation."),"play.png",_("Click on the play button to run an optical simulation.  The results will be displayed in the tabs to the right.")])
+
+		if self.optics_window==False:
+			self.optics_window=class_optical()
+
+		if self.optics_window.isVisible()==True:
+			self.optics_window.hide()
+		else:
+			self.optics_window.show()
+
 
 	def __init__(self):
 		QWidget.__init__(self)
 		self.rebuild_mat_list()
 		self.doping_window=False
 		self.cost_window=False
-		
+		self.optics_window=False
+
 		self.main_vbox=QVBoxLayout()
 
 		self.toolbar=QToolBar()
@@ -197,6 +211,10 @@ class layer_widget(QWidget):
 		self.tb_doping = QAction(QIcon(os.path.join(get_image_file_path(),"doping.png")), _("Doping"), self)
 		self.tb_doping.triggered.connect(self.callback_doping)
 		self.toolbar.addAction(self.tb_doping)
+
+		self.optics_button = QAction(QIcon(os.path.join(get_image_file_path(),"optics.png")), _("Optical simulation"), self)
+		self.optics_button.triggered.connect(self.callback_optics_sim)
+		self.toolbar.addAction(self.optics_button)
 
 		self.tb_open = QAction(QIcon(os.path.join(get_image_file_path(),"organic_material.png")), _("Look at the materials database"), self)
 		self.tb_open.triggered.connect(self.callback_view_materials)
@@ -311,9 +329,7 @@ class layer_widget(QWidget):
 		for i in range(0,len(files)):
 			if files[i].startswith("dos") and files[i].endswith(".inp"):
 				disk_file=files[i]
-				print("dosfile exists=",disk_file,tab)
 				if disk_file not in tab:
-					print("I don't need do I will delete",disk_file)
 					inp_remove_file(disk_file)
 
 	def on_remove_item_clicked(self):
@@ -323,7 +339,6 @@ class layer_widget(QWidget):
 
 	def change_active_layer_thickness(self,obj):
 		thickness=obj.get_data("refresh")
-		print(thickness)
 		count=0
 		for item in self.model:
 			if str2bool(item[COLUMN_DEVICE])==True:
@@ -359,8 +374,6 @@ class layer_widget(QWidget):
 			dos_file.append(str(tab_get_value(self.tab,i, 4)))
 			pl_file.append(str(tab_get_value(self.tab,i, 5)))
 
-		print(dos_file)
-		print(pl_file)
 		ret=epitaxy_load_from_arrays(name,thick,mat_file,dos_file,pl_file)
 		if ret==False:
 			error_dlg(self,_("Error in epitaxy, check the input values."))

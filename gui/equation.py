@@ -58,6 +58,8 @@ from gui_util import save_as_jpg
 from dat_file import dat_file
 from dat_file import dat_file_read
 
+from gui_util import error_dlg
+
 from ref import ref
 
 mesh_articles = []
@@ -211,8 +213,10 @@ class equation(QWidget):
 					try:
 						equ=eval(command)
 					except:
-						print("error evaluating command ", sys.exc_info())
+						print(sys.exc_info())
+						error_dlg(self,_("You've made a mistake in the equation, use w for wavelength. " + command))
 						equ=-1
+						return
 					
 					if w>=range_min and w <=range_max:
 						val=val+equ

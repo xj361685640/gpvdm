@@ -53,7 +53,6 @@ class snapshot_slider(QWidget):
 			z=[]
 
 			my_data=dat_file()
-			
 			if dat_file_read(my_data,fname) == True:
 				#print(z)
 				temp_max,temp_min=dat_file_max_min(my_data)
@@ -156,7 +155,8 @@ class snapshot_slider(QWidget):
 			for name in os.listdir(path):
 				full_path=os.path.join(path, name)
 				if os.path.isfile(full_path):
-					self.files_combo.addItem(name)
+					if name!="snapshot_info.dat":
+						self.files_combo.addItem(name)
 
 		all_items  = [self.files_combo.itemText(i) for i in range(self.files_combo.count())]
 
