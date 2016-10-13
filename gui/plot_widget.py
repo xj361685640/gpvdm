@@ -56,6 +56,7 @@ from dat_file import dat_file_max_min
 from dat_file import dat_file
 from dat_file import read_data_2d
 
+from dlg_get_multi_text import dlg_get_multi_text
 class plot_widget(QWidget):
 
 	def keyPressEvent(self, event):
@@ -565,18 +566,22 @@ class plot_widget(QWidget):
 		self.do_plot()
 
 	def callback_heat_map_edit(self):
-		[a,b,c,d,e,f] = dlg_get_multi_text("2D plot editor", [["x start",str(self.plot_token.x_start)],["x stop",str(self.plot_token.x_stop)],["x points",str(self.plot_token.x_points)],["y start",str(self.plot_token.y_start)],["y stop",str(self.plot_token.y_stop)],["y points",str(self.plot_token.y_points)]])
-		#print("---------",a,b,c,d,e,f)
-		self.plot_token.x_start=float(a)
-		self.plot_token.x_stop=float(b)
-		self.plot_token.x_points=float(c)
+		ret = dlg_get_multi_text([["x start",str(self.plot_token.x_start)],["x stop",str(self.plot_token.x_stop)],["x points",str(self.plot_token.x_points)],["y start",str(self.plot_token.y_start)],["y stop",str(self.plot_token.y_stop)],["y points",str(self.plot_token.y_points)]],title="2D plot editor")
+		ret.run()
+		ret=ret.get_values()
+		if ret!=False:
+			[a,b,c,d,e,f] = ret
+			#print("---------",a,b,c,d,e,f)
+			self.plot_token.x_start=float(a)
+			self.plot_token.x_stop=float(b)
+			self.plot_token.x_points=float(c)
 
-		self.plot_token.y_start=float(d)
-		self.plot_token.y_stop=float(e)
-		self.plot_token.y_points=float(f)
+			self.plot_token.y_start=float(d)
+			self.plot_token.y_stop=float(e)
+			self.plot_token.y_points=float(f)
 
-		plot_save_oplot_file(self.config_file,self.plot_token)
-		self.do_plot()
+			plot_save_oplot_file(self.config_file,self.plot_token)
+			self.do_plot()
 
 	def callback_set_xy_plot(self):
 		self.plot_token.type="xy"

@@ -108,7 +108,7 @@ class tab_fxmesh(QWidget):
 			scan_item_add(file_name,"#fx_segment"+str(i)+"_mul",_("Part ")+str(i)+_(" mul"),1)
 
 
-	def callback_add_section(self, widget, treeview):
+	def callback_add_section(self):
 
 		tab_add(self.tab,["0.0","0.0","0.0"])
 
@@ -136,7 +136,8 @@ class tab_fxmesh(QWidget):
 		self.save_data()
 
 	def callback_start_fx(self):
-		new_fx=dlg_get_text( _("Enter the start frequency of the simulation"), str(self.fx_start))
+		new_fx=dlg_get_text( _("Enter the start frequency of the simulation"), str(self.fx_start),"start.png")
+		new_fx=new_fx.ret
 
 		if new_fx!=None:
 			self.fx_start=float(new_fx)
@@ -190,7 +191,7 @@ class tab_fxmesh(QWidget):
 		self.tab.clear()
 		self.tab.setColumnCount(3)
 		self.tab.setSelectionBehavior(QAbstractItemView.SelectRows)
-		self.tab.setHorizontalHeaderLabels([_("Frequency"), _("dfx"), _("Multiply")])
+		self.tab.setHorizontalHeaderLabels([_("Frequency segment"), _("dfx"), _("Multiply")])
 
 		lines=[]
 		self.start_fx=0.0

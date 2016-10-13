@@ -886,11 +886,6 @@ class gpvdm_main_window(QMainWindow):
 		self.show()
 		
 		self.light_button.changed.connect(self.notebook.update)
-		#from plot_state import plot_state
-		#plot_data=plot_state()
-		#plot_data.example_file0=os.path.join(os.getcwd(),"dos0.inp")
-		#a=plot_dlg_class(plot_data)
-		#a.run()
 		
 if __name__ == '__main__':
 	
