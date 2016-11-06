@@ -371,12 +371,12 @@ void get_refractive(struct image *in,double *n0,double *n1,int ray)
 	vec_init(&fwd);
 
 	vec_cpy(&tmp,&(in->rays[ray].dir));
-	vec_mul(&tmp,-1e-12);
+	vec_mul(&tmp,-1e-10);
 	vec_cpy(&back,&(in->rays[ray].xy_end));
 	vec_add(&back,&tmp);
 
 	vec_cpy(&tmp,&(in->rays[ray].dir));
-	vec_mul(&tmp,1e-12);
+	vec_mul(&tmp,1e-10);
 	vec_cpy(&fwd,&(in->rays[ray].xy_end));
 	vec_add(&fwd,&tmp);
 	//vec_print(&fwd);
@@ -468,7 +468,7 @@ int propergate_next_ray(struct image *in)
 			double n1=1.0;
 			get_refractive(in,&n0,&n1,ray);
 			//printf("back index=%lf fwd index=%lf\n",n0,n1);
-
+			//getchar();
 			//Calculate norm of object
 			obj_norm(&n,&(in->p[item]));
 			vec_cpy(&n_inv,&n);
@@ -507,7 +507,7 @@ int propergate_next_ray(struct image *in)
 			//printf("in=%lf\n",deg(ang_in));
 			//
 
-			if (n1>n0)
+			if (n1>=n0)
 			{
 				threshold=0.0;
 			}else
