@@ -175,7 +175,7 @@ if (strcmp(cell.simmode,"opticalmodel@optics")!=0)
 	light_set_dx(&cell.mylight,cell.ymesh[1]-cell.ymesh[0]);
 	light_load_config(sim,&cell.mylight);
 	light_load_dlls(sim,&cell.mylight);
-
+	light_setup_ray(sim,&cell,&cell.mylight);
 
 	//update_arrays(&cell);
 

@@ -23,7 +23,6 @@ from plot_state import plot_state
 from openpyxl import Workbook
 from openpyxl.chart import Reference, Series, ScatterChart
 from openpyxl.compat import range
-from openpyxl.cell import get_column_letter
 
 import glob
 import os

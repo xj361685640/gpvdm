@@ -24,14 +24,14 @@
 
 //Physical constants
 #define PATHLEN	512
-#define epsilon0 (gdouble)8.85418782e-12			// m-3 kg-1 s4 A2;
-#define hp (gdouble)6.62606896e-34			//J S Wikipeda
-#define PI (gdouble)3.14159265358979323846
-#define hbar (gdouble)(6.62606896e-34/(2.0*PI))	//Calculated
-#define kb (gdouble)1.3806504e-23			//J K-1 Wiki
-#define Q (gdouble)1.602176487e-19			//C Wikipeda
-#define m0 (gdouble)9.10938215e-31 			//Kg Wikipeda
-#define cl  (gdouble)2.99792458e8			//m/s Wikipieda
+#define epsilon0 (long double)8.85418782e-12			// m-3 kg-1 s4 A2;
+#define hp (long double)6.62606896e-34			//J S Wikipeda
+#define PI (long double)3.14159265358979323846
+#define hbar (long double)(6.62606896e-34/(2.0*PI))	//Calculated
+#define kb (long double)1.3806504e-23			//J K-1 Wiki
+#define Q (long double)1.602176487e-19			//C Wikipeda
+#define m0 (long double)9.10938215e-31 			//Kg Wikipeda
+#define cl  (long double)2.99792458e8			//m/s Wikipieda
 
 //SRH constants
 #define srh_1	1

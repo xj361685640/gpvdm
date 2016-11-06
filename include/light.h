@@ -24,6 +24,8 @@
 #include "advmath.h"
 #include "i.h"
 #include <sim_struct.h>
+#include <epitaxy.h>
+#include <ray.h>
 
 struct light
 {
@@ -107,9 +109,10 @@ gdouble (*fn_cal_photon_density)();
 void (*light_ver)();
 void *lib_handle;
 char mode[20];
-
+struct epitaxy my_epitaxy;
 gdouble electron_eff;
 gdouble hole_eff;
+struct image my_image;
 };
 
 void light_norm_photon_density(struct light *in);

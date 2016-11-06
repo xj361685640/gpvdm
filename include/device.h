@@ -44,9 +44,9 @@ struct device
 		//0D arrays
 
 		//mesh points
-			int zmeshpoints;
-			int xmeshpoints;
-			int ymeshpoints;
+		int zmeshpoints;
+		int xmeshpoints;
+		int ymeshpoints;
 
 		int remesh;
 		int newmeshsize;

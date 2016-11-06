@@ -45,7 +45,7 @@ void list_add_no_rep(struct list* in,struct vec *test)
 int i;
 for (i=0;i<in->length;i++)
 {
-	if (cmp_vec(&(in->list[i]),test)==0)
+	if (vec_cmp(&(in->list[i]),test)==0)
 	{
 		return;
 	}
@@ -81,7 +81,7 @@ int list_check(struct list* in,struct vec *test)
 int i;
 for (i=0;i<in->length;i++)
 {
-	if (cmp_vec(&(in->list[i]),test)==0)
+	if (vec_cmp(&(in->list[i]),test)==0)
 	{
 		return 0;
 	}

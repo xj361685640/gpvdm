@@ -55,14 +55,13 @@ int i=0;
 void light_load_epitaxy(struct simulation *sim,struct light *in,char *epi_file)
 {
 char full_name[200];
-struct epitaxy my_epitaxy;
 join_path(2, full_name, get_input_path(sim), "epitaxy.inp");
 printf_log(sim,"load: %s\n",full_name);
-epitaxy_load(sim,&my_epitaxy,full_name);
+epitaxy_load(sim,&in->my_epitaxy,full_name);
 
 int i=0;
 
-	in->layers=my_epitaxy.layers;
+	in->layers=in->my_epitaxy.layers;
 	in->thick=(gdouble *)malloc(in->layers*sizeof(gdouble));
 	in->G_percent=(gdouble *)malloc(in->layers*sizeof(gdouble));
 
@@ -75,19 +74,19 @@ int i=0;
 	in->ylen=0.0;
 	in->device_ylen=0.0;
 
-	for (i=0;i<my_epitaxy.layers;i++)
+	for (i=0;i<in->my_epitaxy.layers;i++)
 	{
-		in->thick[i]=my_epitaxy.width[i];
+		in->thick[i]=in->my_epitaxy.width[i];
 		in->thick[i]=fabs(in->thick[i]);
 
-		strcpy(in->material_dir_name[i],my_epitaxy.mat_file[i]);
+		strcpy(in->material_dir_name[i],in->my_epitaxy.mat_file[i]);
 
 		in->ylen+=in->thick[i];
 	}
 
-in->device_start=epitaxy_get_device_start(&my_epitaxy);
-in->device_start_layer=epitaxy_get_device_start_i(&my_epitaxy);
-in->device_ylen=epitaxy_get_electrical_length(&my_epitaxy);
+in->device_start=epitaxy_get_device_start(&in->my_epitaxy);
+in->device_start_layer=epitaxy_get_device_start_i(&in->my_epitaxy);
+in->device_ylen=epitaxy_get_electrical_length(&in->my_epitaxy);
 
 }
 

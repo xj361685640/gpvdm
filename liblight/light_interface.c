@@ -176,9 +176,46 @@ void light_init(struct light *in)
 	in->thick=NULL;
 	in->G_percent=NULL;
 	in->material_dir_name=NULL;
-
+	image_init(&in->my_image);
 }
 
+void light_setup_ray(struct simulation *sim,struct device *cell,struct light *in)
+{
+	FILE *out;
+	out=fopen("light.out","w");
+	fclose(out);
+
+	int i;
+	double xlen=cell->ylen;
+	double ypos=in->ylen;
+	double dx=xlen*0.1;
+	double dy=in->ylen*0.1;
+	double start_y=in->ylen+epitaxy_get_device_start(&cell->my_epitaxy)+10e-9;
+	add_box(&in->my_image,0.0,0.0,xlen+dx*2.0,in->ylen*2.0+dy,1.0,TRUE);
+
+	for (i=0;i<cell->my_epitaxy.layers;i++)
+	{
+		add_box(&in->my_image,dx,ypos,xlen,fabs(cell->my_epitaxy.width[i]),1.45,FALSE);
+		
+		ypos+=fabs(cell->my_epitaxy.width[i]);
+	}
+
+	in->my_image.n_start_rays=10;
+	double x_start=dx+dx/2.0;
+	double x_stop=dx+xlen-dx/2.0;
+	dx=(x_stop-x_start)/((double)in->my_image.n_start_rays);
+	double x_pos=x_start;
+
+	for (i=0;i<in->my_image.n_start_rays;i++)
+	{
+		in->my_image.start_rays[i].x=x_pos;
+		in->my_image.start_rays[i].y=start_y;
+		x_pos=x_pos+dx;
+	}
+
+	dump_plane(&in->my_image);
+	dump_plane_to_file(&in->my_image);
+}
 void light_load_config(struct simulation *sim,struct light *in)
 {
 	light_load_config_file(sim,in);

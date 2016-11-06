@@ -33,6 +33,7 @@
 #include <const.h>
 #include <lang.h>
 #include <math.h>
+#include <ctype.h>
 
 void split_dot(char *out, char *in)
 {
