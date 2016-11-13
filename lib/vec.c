@@ -168,6 +168,11 @@ my_vec->x=my_vec->y;
 my_vec->y=temp;
 }
 
+double vec_dist(struct vec *a,struct vec *b)
+{
+	return sqrt(pow(a->x-b->x,2.0)+pow(a->y-b->y,2.0)+pow(a->z-b->z,2.0));
+}
+
 ///Copy a vector
 void vec_cpy(struct vec *my_vec1,struct vec *my_vec2)
 {

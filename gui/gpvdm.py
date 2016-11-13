@@ -165,7 +165,7 @@ class gpvdm_main_window(QMainWindow):
 		data=message.get_member()
 		if data!=None:
 			self.my_server.callback_dbus(data)
-
+		
 	def win_dbus(self, data):
 		self.my_server.callback_dbus(data)
 

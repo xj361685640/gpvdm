@@ -432,6 +432,9 @@ struct device
 	struct contact contacts[10];
 	int ncontacts;
 	int active_contact;
+	//LED
+	int led_on;
+	long double led_wavelength;
 };
 
 void device_init(struct device *in);

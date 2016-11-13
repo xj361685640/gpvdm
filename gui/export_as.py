@@ -117,8 +117,8 @@ def export_as(output):
 			line=line+"\\end{table}\n"
 			line=line+"\n"
 
-		files=["./device.inp","./device_epitaxy.inp", "./stark.inp", "./materials/redf/fit.inp", "./materials/redf/patch.inp"]
-		names=["Device", "Device Epitaxy","Stark","Fit redf","Fit patch"]
+		files=["./device.inp","./led.inp","./device_epitaxy.inp", "./stark.inp", "./materials/redf/fit.inp", "./materials/redf/patch.inp"]
+		names=["Device", "LED","Device Epitaxy","Stark","Fit redf","Fit patch"]
 		if tex==True:
 			line=line+"\\begin{table}[H]\n"
 			line=line+"\\begin{center}\n"

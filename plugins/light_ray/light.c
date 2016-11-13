@@ -29,18 +29,54 @@
 
 #include <functions.h>
 #include <log.h>
+#include <stdlib.h>
 #include "ray.h"
 
+void light_update_ray_mat(struct light *in,int lam)
+{
+	int i;
+	int layer;
+	double n=1.0;
+	double alpha=0.0;
 
+	for (i=0;i<in->my_image.objects;i++)
+	{
+		layer=in->my_image.obj_mat_number[i];
+
+		if (layer==-1)
+		{
+			alpha=0.0;
+			n=1.0;
+		}else
+		{
+			alpha=inter_get_noend(&(in->mat[layer]),in->l[lam]);
+			n=inter_get_noend(&(in->mat_n[layer]),in->l[lam]);
+		}
+
+		in->my_image.obj_n[i]=n;
+		in->my_image.obj_alpha[i]=alpha;
+	}
+
+
+
+}
 
 EXPORT void light_dll_ver(struct simulation *sim)
 {
         printf_log(sim,"Ray tracing light model\n");
 }
 
+double get_rand()
+{
+	double r=0.0;
+	r = rand();
+	r=(double)r/(double)RAND_MAX;
+	return r;
+}
+
 EXPORT int light_dll_solve_lam_slice(struct simulation *sim,struct light *in,int lam)
 {
-
+	in->ray_trace=TRUE;
 	int i;
 	double x_vec;
 	double y_vec;
@@ -48,7 +84,7 @@ EXPORT int light_dll_solve_lam_slice(struct simulation *sim,struct light *in,int
 
 	int x=0;
 	int ii=0;
-	int nang=20;
+	int nang=60;
 	double dang=360.0/((double)nang);
 	double eff=0.0;
 	int sims=0;
@@ -60,18 +96,19 @@ EXPORT int light_dll_solve_lam_slice(struct simulation *sim,struct light *in,int
 		waveprint(sim,one,in->l[lam]*1e9);
 	}
 
-
+	light_update_ray_mat(in,lam);
 
 
 	printf(">>%d\n",in->my_image.n_start_rays);
 	//for (x=0;x<in->my_image.n_start_rays;x++)
+	x=5;
 	{
 		angle=0.0;
 		printf("%d\n",x);
-		//for (ii=0;ii<nang;ii++)
+		for (ii=0;ii<nang;ii++)
 		{
 			angle+=dang;
-			angle=85.0;//0.0;
+			//angle=get_rand()*360.0;
 			x_vec=cos(2*PI*(angle/360.0));
 			y_vec=sin(2*PI*(angle/360.0));
 
@@ -91,14 +128,14 @@ EXPORT int light_dll_solve_lam_slice(struct simulation *sim,struct light *in,int
 			for (i=0;i<50;i++)
 			{
 				propergate_next_ray(&in->my_image);
-				dump_plane(&in->my_image);
+				//dump_plane(&in->my_image);
 				dump_plane_to_file(&in->my_image);
 				//getchar();
 				ret=activate_rays(&in->my_image);
 				
 				if (ret==0)
 				{
-					printf("no more rays\n");
+					//printf("no more rays\n");
 					break;
 				}
 
@@ -111,7 +148,7 @@ EXPORT int light_dll_solve_lam_slice(struct simulation *sim,struct light *in,int
 	}
 	
 	printf("%lf\n",eff/((double)sims));
-	exit(0);
+	//exit(0);
 
 
 return 0;

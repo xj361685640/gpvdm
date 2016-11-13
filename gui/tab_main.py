@@ -40,7 +40,8 @@ from win_lin import running_on_linux
 from code_ctrl import enable_webupdates
 from update import update_thread
 
-from PyQt5.QtWidgets import QWidget,QHBoxLayout
+from PyQt5.QtWidgets import QWidget,QHBoxLayout,QSplitter
+from PyQt5.QtCore import Qt
 
 import i18n
 _ = i18n.language.gettext
@@ -54,10 +55,11 @@ class tab_main(QWidget,tab_base):
 		self.three_d.recalculate()
 
 	def __init__(self):
-		QHBoxLayout.__init__(self)
+		QWidget.__init__(self)
 		self.sun=1
-		mainLayout = QHBoxLayout()
-
+		hbox=QHBoxLayout(self)
+		mainLayout = QSplitter(Qt.Horizontal)
+       # splitter1 = QtGui.QSplitter(QtCore.Qt.Horizontal)
 		self.three_d=display_widget()
 		self.three_d.show()
 
@@ -67,8 +69,9 @@ class tab_main(QWidget,tab_base):
 		
 		mainLayout.addWidget(self.frame)
 		mainLayout.addWidget(self.three_d)
-
-		self.setLayout(mainLayout)
+		hbox.addWidget(mainLayout)
+		
+		self.setLayout(hbox)
 
 		if enable_webupdates()==True:
 			print("Looking for updates")

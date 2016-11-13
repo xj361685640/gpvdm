@@ -32,8 +32,8 @@ void image_init(struct image *in)
 
 int between(double v, double x0, double x1)
 {
-	double min;
-	double max;
+	double min=0.0;
+	double max=0.0;
 	if (x0>x1)
 	{
 		min=x1;
@@ -43,10 +43,10 @@ int between(double v, double x0, double x1)
 		min=x0;
 		max=x1;
 	}
-	
-	if ((v-x0)>=-1e-12)
+
+	if ((v-min)>=-1e-12)
 	{
-		if ((v-x1)<=1e-12)
+		if ((v-max)<=1e-12)
 		{
 			return 0;
 		}
@@ -74,8 +74,7 @@ void ray_reset(struct image *in)
 
 void add_ray(struct image *in,struct vec *start,struct vec *dir,double mag)
 {
-
-	if (mag>1e-3)
+	if (mag>1e-2)
 	{
 		vec_cpy(&(in->rays[in->nrays].xy),start);
 		vec_cpy(&(in->rays[in->nrays].dir),dir);
@@ -83,6 +82,11 @@ void add_ray(struct image *in,struct vec *start,struct vec *dir,double mag)
 		in->rays[in->nrays].bounce=0;
 		in->rays[in->nrays].mag=mag;
 		in->nrays++;
+		if (in->nrays>=RAY_MAX)
+		{
+			printf("too many rays!\n");
+			exit(0);
+		}
 	}
 		
 }
@@ -104,7 +108,7 @@ void dump_plane_to_file(struct image *in)
 
 	fclose(out);
 
-	out=fopen("light.out","a");
+	out=fopen("ray.dat","a");
 
 	for (i=0;i<in->nrays;i++)
 	{
@@ -289,7 +293,7 @@ vec_init(&store);
 	for (i=0;i<in->lines;i++)
 	{
 		found=ray_intersect(&ret,&(in->p[i]),&(in->rays[ray]));
-		printf("check %d %d %d\n",i,ray,found);
+		//printf("check %d %d %d\n",i,ray,found);
 
 		if (found==1)
 		{
@@ -359,7 +363,7 @@ int pnpoly(struct image *in, struct vec *xy,int id)
 	return c;
 }
 
-void get_refractive(struct image *in,double *n0,double *n1,int ray)
+void get_refractive(struct image *in,double *alpha,double *n0,double *n1,int ray)
 {
 	struct vec tmp;
 	vec_init(&tmp);
@@ -413,6 +417,7 @@ void get_refractive(struct image *in,double *n0,double *n1,int ray)
 	if (i_back!=-1)
 	{
 		*n0=in->obj_n[i_back];
+		*alpha=in->obj_alpha[i_back];
 	}
 
 }
@@ -450,129 +455,146 @@ int propergate_next_ray(struct image *in)
 			in->rays[ray].state=DONE;
 
 			int item=search_ojb(in,ray);
+
 			if (item==-1)
 			{
-				printf("I have not hit anything\n");
-				dump_plane_to_file(in);
-				exit(0);
-			}
-			printf("intersect %d %le %le\n",item,in->rays[ray].xy_end.x,in->rays[ray].xy_end.y);
-			//getchar();
-			//printf("norm=\n");
-
-			int bounce=in->rays[ray].bounce;
-			mag=in->rays[ray].mag;
-			bounce=bounce+1;
-
-			double n0=1.0;
-			double n1=1.0;
-			get_refractive(in,&n0,&n1,ray);
-			//printf("back index=%lf fwd index=%lf\n",n0,n1);
-			//getchar();
-			//Calculate norm of object
-			obj_norm(&n,&(in->p[item]));
-			vec_cpy(&n_inv,&n);
-			vec_mul(&n_inv,-1.0);
-
-			//vec_print(&n);
-
-			////Cal normal to surface
-			double a=vec_overlap(&n,&(in->rays[ray].dir));
-			vec_mul(&n,-1.0);
-			vec_mul(&n_inv,-1.0);
-			double b=vec_overlap(&n,&(in->rays[ray].dir));
-
-			if (a<b)
+				printf("I have not hit anything %d %le %le %le %le\n",ray,item,in->rays[ray].xy.x,in->rays[ray].xy.y,ray,item,in->rays[ray].dir.x,in->rays[ray].dir.y);
+				vec_cpy(&in->rays[ray].xy_end,&in->rays[ray].xy);
+				
+			}else
 			{
-				vec_mul(&n,-1.0);
+				//printf("intersect %d %le %le\n",item,in->rays[ray].xy_end.x,in->rays[ray].xy_end.y);
+				double dist=vec_dist(&(in->rays[ray].xy),&(in->rays[ray].xy_end));
+				//getchar();
+				//printf("norm=\n");
+
+				int bounce=in->rays[ray].bounce;
+				mag=in->rays[ray].mag;
+				bounce=bounce+1;
+
+				double n0=1.0;
+				double n1=1.0;
+				double alpha=1e9;
+				get_refractive(in,&alpha,&n0,&n1,ray);
+				//printf("back index=%lf fwd index=%lf\n",n0,n1);
+				//getchar();
+				//Calculate norm of object
+				obj_norm(&n,&(in->p[item]));
+				vec_cpy(&n_inv,&n);
 				vec_mul(&n_inv,-1.0);
 
-			}
+				//vec_print(&n);
 
-			/////////////Calculate reflected ray.
-			double ret=2.0*vec_dot(&(in->rays[ray].dir),&n);
+				////Cal normal to surface
+				double a=vec_overlap(&n,&(in->rays[ray].dir));
+				vec_mul(&n,-1.0);
+				vec_mul(&n_inv,-1.0);
+				double b=vec_overlap(&n,&(in->rays[ray].dir));
 
-			vec_cpy(&temp,&n);
-			vec_mul(&temp,ret);
+				if (a<b)
+				{
+					vec_mul(&n,-1.0);
+					vec_mul(&n_inv,-1.0);
 
-			vec_cpy(&r,&(in->rays[ray].dir));
-			vec_sub(&r,&temp);
-			//////Angle between inceident ray and surface
-			double dot=0.0;
-			double ang_in=0.0;
-			dot=vec_dot(&n_inv,&(in->rays[ray].dir));
-			ang_in=PI/2.0-acos(dot);
+				}
 
-			
-			//printf("in=%lf\n",deg(ang_in));
-			//
+				/////////////Calculate reflected ray.
+				double ret=2.0*vec_dot(&(in->rays[ray].dir),&n);
 
-			if (n1>=n0)
-			{
-				threshold=0.0;
-			}else
-			{
-				threshold=asin(n1/n0);
-			}
+				vec_cpy(&temp,&n);
+				vec_mul(&temp,ret);
 
-			///////////////Calculate Snell's law in vector form.
-			struct vec left;
-			vec_init(&left);
-			vec_cross(&left,&n,&(in->rays[ray].dir));
-			vec_mul(&left,-1.0);
-			vec_cross(&left,&n,&left);
-			vec_mul(&left,n0/n1);
-			
-			struct vec cr;
-			vec_init(&cr);
-			vec_cross(&cr,&n,&(in->rays[ray].dir));
+				vec_cpy(&r,&(in->rays[ray].dir));
+				vec_sub(&r,&temp);
+				//////Angle between inceident ray and surface
+				double dot=0.0;
+				double ang_in=0.0;
+				dot=vec_dot(&n_inv,&(in->rays[ray].dir));
+				ang_in=PI/2.0-acos(dot);
 
-			dot=0.0;
-			dot=vec_dot(&cr,&cr);
-			dot=dot*(pow((n0/n1),2.0));
-			dot=sqrt(1.0-dot);
+				
+				//printf("in=%lf\n",deg(ang_in));
+				//
 
-			struct vec right;
-			vec_init(&right);
-			vec_cpy(&right,&n);
-			vec_mul(&right,dot);
-			vec_sub(&left,&right);
-			
-			vec_cpy(&t,&left);
+				if (n1>=n0)
+				{
+					threshold=0.0;
+				}else
+				{
+					threshold=asin(n1/n0);
+				}
+
+				///////////////Calculate Snell's law in vector form.
+				struct vec left;
+				vec_init(&left);
+				vec_cross(&left,&n,&(in->rays[ray].dir));
+				vec_mul(&left,-1.0);
+				vec_cross(&left,&n,&left);
+				vec_mul(&left,n0/n1);
 
 
-			//////Out angle
+				struct vec cr;
+				vec_init(&cr);
+				vec_cross(&cr,&n,&(in->rays[ray].dir));
 
-			if (ang_in>threshold)
-			{
-				dot=vec_dot(&n_inv,&t);
-				ang_out=PI/2.0-acos(dot);
+				dot=0.0;
+				dot=vec_dot(&cr,&cr);
+				dot=dot*(pow((n0/n1),2.0));
+				double radicand=1.0-dot;
 
-				R=((n0*cos(PI/2.0-ang_in)-n1*cos(PI/2.0-ang_out))/(n0*cos(PI/2.0-ang_in)+n1*cos(PI/2.0-ang_out)));
-				R=fabs(R);
-				T=1.0-R;
+				if (radicand>=0.0)
+				{
+					dot=sqrt(radicand);
 
-			}else
-			{
-				ang_out=-100.0;
-				R=1.0;
-				T=0.0;
-			}
+					struct vec right;
+					vec_init(&right);
+					vec_cpy(&right,&n);
+					vec_mul(&right,dot);
+					vec_sub(&left,&right);
+					
+					vec_cpy(&t,&left);
+				}else
+				{
+					vec_set(&t,0.0,0.0,0.0);
+				}
 
-			//printf("ang_in=%lf %lf\n",deg(ang_in),deg(threshold));
-			//printf("ang_out=%lf\n",deg(ang_out));
-			//printf("T=%lf R=%lf\n",T,R);
-			//getchar();
-			//////////////////////////////
+				//////Out angle
+
+				if ((ang_in>threshold)&&(radicand>=0.0))
+				{
+					dot=vec_dot(&n_inv,&t);
+					ang_out=PI/2.0-acos(dot);
+
+					R=((n0*cos(PI/2.0-ang_in)-n1*cos(PI/2.0-ang_out))/(n0*cos(PI/2.0-ang_in)+n1*cos(PI/2.0-ang_out)));
+					R=fabs(R);
+					T=1.0-R;
+
+				}else
+				{
+					ang_out=-100.0;
+					R=1.0;
+					T=0.0;
+				}
+
+				//printf("ang_in=%lf %lf\n",deg(ang_in),deg(threshold));
+				//printf("ang_out=%lf\n",deg(ang_out));
+				//printf("n0=%lf n1=%lf\n",n0,n1);
+				//vec_print(&t);
+				//printf("T=%lf R=%lf\n",T,R);
+				//getchar();
+				//////////////////////////////
 
 
-			//vec_print(&r);
+				//vec_print(&r);
 
 				if (bounce<100)
 				{
 					if (in->p[item].edge==FALSE)
 					{
-						add_ray(in,&(in->rays[ray].xy_end),&r,R*mag);
+						double abs=exp(-alpha*dist);
+						//printf("abs=%lf\n",abs);
+						//getchar();
+						add_ray(in,&(in->rays[ray].xy_end),&r,R*mag*abs);
 						in->rays[in->nrays-1].bounce=bounce;
 
 						//printf("ang_in=%lf threshold=%lf %lf %lf\n",ang_in,threshold,n1,n0);
@@ -585,20 +607,20 @@ int propergate_next_ray(struct image *in)
 							
 					}
 				}	
-
 			}
+		}
 	}
 
 return 0;
 }
 
-void add_box(struct image *in,double start_x,double start_y,double x_len,double y_len,double n,int sim_edge)
+void add_box(struct image *in,double start_x,double start_y,double x_len,double y_len,int material,int sim_edge)
 {
 	add_plane(in,start_x,start_y,start_x+x_len,start_y,in->objects,sim_edge);	
 	add_plane(in,start_x+x_len,start_y,start_x+x_len,start_y+y_len,in->objects,sim_edge);
 	add_plane(in,start_x,start_y+y_len,start_x+x_len,start_y+y_len,in->objects,sim_edge);
 	add_plane(in,start_x,start_y,start_x,start_y+y_len,in->objects,sim_edge);
-	in->obj_n[in->objects]=n;
+	in->obj_mat_number[in->objects]=material;
 	in->objects++;
 }
 

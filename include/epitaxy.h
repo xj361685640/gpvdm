@@ -43,5 +43,6 @@ gdouble epitaxy_get_optical_length(struct epitaxy *in);
 int epitaxy_get_optical_material_layer(struct epitaxy *in,gdouble pos);
 int epitaxy_get_electrical_material_layer(struct epitaxy *in,gdouble pos);
 gdouble epitaxy_get_device_start(struct epitaxy *in);
+gdouble epitaxy_get_device_stop(struct epitaxy *in);
 gdouble epitaxy_get_device_start_i(struct epitaxy *in);
 #endif

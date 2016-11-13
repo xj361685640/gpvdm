@@ -100,8 +100,7 @@ void light_solve_and_update(struct simulation *sim,struct device *cell,struct li
 
 
 	in->laser_eff=laser_eff_in;
-
-	if ((last_laser_eff!=in->laser_eff)||(last_Psun!=in->Psun)||(last_wavelength_laser!=in->laser_wavelength))
+	if ((last_laser_eff!=in->laser_eff)||(last_Psun!=in->Psun)||(last_wavelength_laser!=in->laser_wavelength)||(in->force_update==TRUE))
 	{
 		light_solve_optical_problem(sim,in);
 		last_laser_eff=in->laser_eff;
@@ -179,23 +178,28 @@ void light_init(struct light *in)
 	image_init(&in->my_image);
 }
 
+
 void light_setup_ray(struct simulation *sim,struct device *cell,struct light *in)
 {
 	FILE *out;
-	out=fopen("light.out","w");
+	out=fopen("ray.dat","w");
 	fclose(out);
 
 	int i;
-	double xlen=cell->ylen;
-	double ypos=in->ylen;
-	double dx=xlen*0.1;
+	double xlen=cell->xlen;
+	double ypos=-epitaxy_get_device_start(&cell->my_epitaxy);//+in->ylen;
+	double dx=xlen*0.01;
 	double dy=in->ylen*0.1;
-	double start_y=in->ylen+epitaxy_get_device_start(&cell->my_epitaxy)+10e-9;
-	add_box(&in->my_image,0.0,0.0,xlen+dx*2.0,in->ylen*2.0+dy,1.0,TRUE);
+	double device_start=epitaxy_get_device_start(&(cell->my_epitaxy));
+	double device_stop=epitaxy_get_device_stop(&(cell->my_epitaxy));
+
+	double start_y=device_start+(device_stop-device_start)/2.0;
+
+	add_box(&in->my_image,0.0,-in->ylen-epitaxy_get_device_start(&cell->my_epitaxy),xlen+dx*2.0,in->ylen*2.0+dy,-1,TRUE);
 
 	for (i=0;i<cell->my_epitaxy.layers;i++)
 	{
-		add_box(&in->my_image,dx,ypos,xlen,fabs(cell->my_epitaxy.width[i]),1.45,FALSE);
+		add_box(&in->my_image,dx,ypos,xlen,fabs(cell->my_epitaxy.width[i]),i,FALSE);
 		
 		ypos+=fabs(cell->my_epitaxy.width[i]);
 	}
@@ -231,8 +235,13 @@ return (*in->fn_solve_lam_slice)(sim,in,lam);
 }
 
 
+void light_free_dlls(struct simulation *sim,struct light *in)
+{
+dlclose(in->lib_handle);
+}
+
 void light_free(struct simulation *sim,struct light *in)
 {
 light_free_memory(sim,in);
-dlclose(in->lib_handle);
+light_free_dlls(sim,in);
 }

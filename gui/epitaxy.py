@@ -199,6 +199,18 @@ def epitaxy_get_dos_files():
 
 	return dos_file
 
+def epitaxy_get_device_start():
+	global layers
+	global width
+	global electrical_layer
+
+	pos=0.0
+	for i in range(0, layers):
+		if electrical_layer[i].startswith("dos")==True:
+			return pos
+
+		pos=pos+width[i]
+			
 def epitaxy_get_layers():
 	global layers
 	return layers

@@ -194,4 +194,15 @@ inp_search_gdouble(sim,&inp,&(in->Tll),"#Tll");
 inp_search_gdouble(sim,&inp,&(in->Tlr),"#Tlr");
 inp_free(sim,&inp);
 
+inp_init(sim,&inp);
+inp_load_from_path(sim,&inp,get_input_path(sim),"led.inp");
+inp_check(sim,&inp,1.0);
+inp_search_gdouble(sim,&inp,&(in->led_wavelength),"#led_wavelength");
+
+inp_search_string(sim,&inp,temp,"#led_on");
+in->led_on=english_to_bin(sim,temp);
+
+inp_free(sim,&inp);
+
+
 }

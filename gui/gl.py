@@ -78,6 +78,11 @@ from dat_file import dat_file
 from dat_file import dat_file_read
 from dat_file import dat_file_max_min
 
+from lines import lines_read
+from math import sqrt
+from math import fabs
+from epitaxy import epitaxy_get_device_start
+
 # Rotations for cube.
 cube_rotate_x_rate = 0.2
 cube_rotate_y_rate = 0.2
@@ -201,6 +206,47 @@ def draw_photon(x,z,up):
 
 		glEnd()
 
+def draw_rays(top,width,y_mul,w):
+	out=[]
+
+	if lines_read(out,"ray.dat")==True:
+
+		if len(out)>2:
+			glLineWidth(2)
+			glColor4f(0.0, 1.0, 0.0,0.5)
+			glBegin(GL_QUADS)
+
+			sub=epitaxy_get_device_start()
+			m=0
+			s=0
+			mm=0
+			for i in range(0,len(out)):
+				m=m+out[i].x
+			m=m/len(out)
+
+			for i in range(0,len(out)):
+				s=s+(out[i].x-m)*(out[i].x-m)
+			std=sqrt(s/len(out))
+
+			std_mul=0.05
+			x_mul=width/(std*std_mul)
+			i=0
+
+			while(i<len(out)-2):
+				if fabs(out[i].x-m)<std*std_mul:
+					if fabs(out[i+1].x-m)<std*std_mul:
+						#print(sub)
+						glVertex3f(width/2+(out[i].x-m)*x_mul, top-(out[i].y+sub)*y_mul, 0)
+						glVertex3f(width/2+(out[i+1].x-m)*x_mul, top-(out[i+1].y+sub)*y_mul, 0)
+
+						glVertex3f(width/2+(out[i+1].x-m)*x_mul, top-(out[i+1].y+sub)*y_mul, w)
+						glVertex3f(width/2+(out[i].x-m)*x_mul, top-(out[i].y+sub)*y_mul, w)
+
+
+
+				i=i+2
+			glEnd()
+	
 def draw_mode(z_size,depth):
 
 	glLineWidth(5)
@@ -211,6 +257,7 @@ def draw_mode(z_size,depth):
 	z=[]
 	start=0.0
 	data=dat_file()
+			
 	path=os.path.join(os.getcwd(),"light_dump","light_1d_photons_tot_norm.dat")
 	if dat_file_read(data,path)==True:
 		array_len=data.y_len
@@ -555,9 +602,12 @@ if open_gl_ok==True:
 			if self.failed==False:
 				dos_start=-1
 				dos_stop=-1
-				width=mesh_get_xlen()/1e-3
-				depth=mesh_get_zlen()/1e-3
-			
+				self.x_mul=1e3
+				self.z_mul=1e3
+
+				width=mesh_get_xlen()*self.x_mul
+				depth=mesh_get_zlen()*self.z_mul
+
 				l=epitaxy_get_layers()-1
 
 				xpoints=int(mesh_get_xpoints())
@@ -567,6 +617,12 @@ if open_gl_ok==True:
 				x_len=mesh_get_xlen()
 
 				self.emission=False
+				self.ray_model=False
+				
+				lines=[]
+				if inp_load_file(lines,"led.inp")==True:
+					self.ray_model=val=str2bool(inp_search_token_value(lines, "#led_on"))
+					
 				lines=[]
 
 				for i in range(0,epitaxy_get_layers()):
@@ -611,7 +667,7 @@ if open_gl_ok==True:
 						for ii in range(0,len(z)):
 							draw_photon(x[i],z[ii],False)
 
-				if self.emission==True:
+				if self.emission==True and self.ray_model==False:
 					den=0.6
 					x=np.arange(0, width , den)
 					y=np.arange(0, depth , den)
@@ -626,13 +682,13 @@ if open_gl_ok==True:
 					tot=tot+epitaxy_get_width(i)
 
 				pos=0.0
-				
+				self.y_mul=0
 				if tot>0:
-					mul=1.5/tot
+					self.y_mul=1.5/tot
 					
 					for i in range(0,epitaxy_get_layers()):
 
-						thick=epitaxy_get_width(l-i)*mul
+						thick=epitaxy_get_width(l-i)*self.y_mul
 
 						red=self.colors[l-i].r
 						green=self.colors[l-i].g
@@ -706,6 +762,7 @@ if open_gl_ok==True:
 						glRotatef(self.tet_rotate, tet_x_rate, tet_y_rate, tet_z_rate)
 
 				draw_mode(pos-0.05,depth)
+				draw_rays(pos-0.05,width,self.y_mul,depth*1.05)
 				#print(self.graph_path)
 
 				full_data_range=self.graph_z_max-self.graph_z_min
@@ -742,6 +799,21 @@ if open_gl_ok==True:
 				self.colors.append(color(red,green,blue))
 			self.colors.reverse()
 			self.update()
+			
+		def resizeEvent(self,event):
+			if self.failed==False:
+				#glClearDepth(1.0)              
+				#glDepthFunc(GL_LESS)
+				#glEnable(GL_DEPTH_TEST)
+				#glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+				#glEnable(GL_BLEND);
+				#glShadeModel(GL_SMOOTH)
+				glViewport(0, 0, self.width(), self.height()+100)
+				glMatrixMode(GL_PROJECTION)
+				glLoadIdentity()                    
+				gluPerspective(45.0,float(self.width()) / float(self.height()+100),0.1, 1000.0) 
+				glMatrixMode(GL_MODELVIEW)
+
 
 		def initializeGL(self):
 			self.recalculate()
@@ -758,6 +830,8 @@ if open_gl_ok==True:
 				glLoadIdentity()                    
 				gluPerspective(45.0,float(self.width()) / float(self.height()+100),0.1, 1000.0) 
 				glMatrixMode(GL_MODELVIEW)
+				#self.resizeEvent.connect(self.resize)
+				
 				self.failed=False
 			except:
 				print("OpenGL failed to load falling back to 2D rendering.",sys.exc_info()[0])

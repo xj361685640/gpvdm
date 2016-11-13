@@ -4,7 +4,7 @@
 // 
 //  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 //
-//	www.roderickmackenzie.eu
+//	https://www.gpvdm.eu
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
@@ -273,7 +273,6 @@ void light_solve_all(struct simulation *sim,struct light *in)
 int i;
 	for (i=0;i<in->lpoints;i++)
 	{
-
 		if (in->sun_E[i]!=0.0)
 		{
 			light_solve_lam_slice(sim,in,i);
@@ -302,6 +301,16 @@ for  (i=0;i<in->lpoints;i++)
 }
 
 
+}
+
+void light_set_sun_delta_at_wavelength(struct light *in,long double lam)
+{
+	int i;
+	memset(in->sun, 0.0, in->lpoints*sizeof(gdouble));
+	memset(in->sun_photons, 0.0, in->lpoints*sizeof(gdouble));
+	memset(in->sun_E, 0.0, in->lpoints*sizeof(gdouble));
+	i=(int)((lam-in->lstart)/in->dl);
+	in->sun_E[i]=1.0;
 }
 
 void light_set_unity_laser_power(struct light *in,int lam)

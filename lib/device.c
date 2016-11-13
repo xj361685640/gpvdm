@@ -367,7 +367,9 @@ void device_init(struct device *in)
 	in->ncontacts=-1;
 	in->active_contact=-1;
 
-	
+	//LED
+	in->led_on=FALSE;
+	in->led_wavelength=0.0;
 }
 
 

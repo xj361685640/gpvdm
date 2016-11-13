@@ -29,6 +29,7 @@
 #define TRUE 1
 #define FALSE 0
 
+#define RAY_MAX 5000
 
 struct plane
 {
@@ -51,10 +52,12 @@ struct ray
 struct image
 {
 	struct plane p[1000];
-	struct ray rays[1000];
+	struct ray rays[RAY_MAX];
 	int lines;
 	int nrays;
-	double obj_n[10];
+	int obj_mat_number[100];
+	double obj_n[100];
+	double obj_alpha[100];
 	int objects;
 	struct vec start_rays[100];
 	int n_start_rays;
@@ -74,8 +77,8 @@ int ray_intersect(struct vec *ret,struct plane *my_obj,struct ray *my_ray);
 int search_ojb(struct image *in,int ray);
 int activate_rays(struct image *in);
 int pnpoly(struct image *in, struct vec *xy,int id);
-void get_refractive(struct image *in,double *n0,double *n1,int ray);
+void get_refractive(struct image *in,double *alpha,double *n0,double *n1,int ray);
 int propergate_next_ray(struct image *in);
-void add_box(struct image *in,double start_x,double start_y,double x_len,double y_len,double n,int sim_edge);
+void add_box(struct image *in,double start_x,double start_y,double x_len,double y_len,int n,int sim_edge);
 double get_eff(struct image *in);
 #endif

@@ -112,6 +112,11 @@ char mode[20];
 struct epitaxy my_epitaxy;
 gdouble electron_eff;
 gdouble hole_eff;
+int force_update;
+
+//Ray tracing
+int ray_trace;
+
 struct image my_image;
 };
 
@@ -146,4 +151,6 @@ gdouble light_get_sun(struct light *in);
 void light_set_sun(struct light *in,gdouble Psun);
 void light_set_model(struct light *in,char *model);
 void light_dump_summary(struct simulation *sim,struct light *in);
+void light_set_sun_delta_at_wavelength(struct light *in,long double lam);
+void light_free_dlls(struct simulation *sim,struct light *in);
 #endif

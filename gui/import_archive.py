@@ -104,7 +104,7 @@ def merge_archives(src_archive,dest_archive,only_over_write):
 
 	remove_non_used_index_files(dest_archive,src_archive)
 
-	files=[ "sim.inp", "device.inp", "stark.inp" ,"shg.inp"   ,"jv.inp" , "math.inp",  "dump.inp",  "dump_file.inp"  , "light.inp", "server.inp", "light_exp.inp","info.inp","config.inp" ]
+	files=[ "sim.inp", "device.inp", "led.inp","stark.inp" ,"shg.inp"   ,"jv.inp" , "math.inp",  "dump.inp",  "dump_file.inp"  , "light.inp", "server.inp", "light_exp.inp","info.inp","config.inp" ]
 
 	base_file=files[:]
 

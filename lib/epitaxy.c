@@ -201,6 +201,36 @@ for (i=0;i<in->layers;i++)
 return -1;
 }
 
+gdouble epitaxy_get_device_stop(struct epitaxy *in)
+{
+int i=0;
+gdouble pos=0.0;
+int found=FALSE;
+for (i=0;i<in->layers;i++)
+{
+	pos+=in->width[i];
+
+	if (in->electrical_layer[i]==TRUE)
+	{
+		found=TRUE;
+	}
+
+	if ((in->electrical_layer[i]==FALSE)&&(found==TRUE))
+	{
+		return pos;
+	}
+
+}
+
+if (found==TRUE)
+{
+	return pos;
+}
+
+
+return -1;
+}
+
 gdouble epitaxy_get_device_start_i(struct epitaxy *in)
 {
 int i=0;

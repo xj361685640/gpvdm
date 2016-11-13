@@ -171,11 +171,38 @@ if (strcmp(cell.simmode,"opticalmodel@optics")!=0)
 	cell.A=cell.xlen*cell.zlen;
 	cell.Vol=cell.xlen*cell.zlen*cell.ylen;
 
+	///////////////////////light model
+	char old_model[100];
+	gdouble old_Psun=0.0;
+	old_Psun=light_get_sun(&cell.mylight);
 	light_init(&cell.mylight);
 	light_set_dx(&cell.mylight,cell.ymesh[1]-cell.ymesh[0]);
 	light_load_config(sim,&cell.mylight);
+
+	if (cell.led_on==TRUE)
+	{
+		strcpy(old_model,cell.mylight.mode);
+		strcpy(cell.mylight.mode,"ray");
+	}
+	
 	light_load_dlls(sim,&cell.mylight);
 	light_setup_ray(sim,&cell,&cell.mylight);
+
+	if (cell.led_on==TRUE)
+	{
+		cell.mylight.force_update=TRUE;
+
+		light_set_sun(&(cell.mylight),1.0);
+		light_set_sun_delta_at_wavelength(&(cell.mylight),cell.led_wavelength);
+		light_solve_all(sim,&(cell.mylight));
+		
+		cell.mylight.force_update=FALSE;
+		strcpy(cell.mylight.mode,old_model);
+		light_set_sun(&(cell.mylight),old_Psun);
+		light_free_dlls(sim,&cell.mylight);
+		light_load_dlls(sim,&cell.mylight);
+	}
+	///////////////////////
 
 	//update_arrays(&cell);
 
