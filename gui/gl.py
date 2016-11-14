@@ -206,32 +206,61 @@ def draw_photon(x,z,up):
 
 		glEnd()
 
-def draw_rays(top,width,y_mul,w):
+class fast_data():
+	date=0
+	m=0
+	std=0
 	out=[]
 
-	if lines_read(out,"ray.dat")==True:
+def fast_load(d,file_name):
 
-		if len(out)>2:
+	if os.path.isfile(file_name):
+		age = os.path.getmtime(file_name)
+
+		if d.date!=age:
+			d.out=[]
+			if lines_read(d.out,file_name)==True:
+				print(d.out)
+				d.date=age
+
+				d.m=0
+				s=0
+				for i in range(0,len(d.out)):
+					d.m=d.m+d.out[i].x
+				d.m=d.m/len(d.out)
+
+				for i in range(0,len(d.out)):
+					s=s+(d.out[i].x-d.m)*(d.out[i].x-d.m)
+				d.std=sqrt(s/len(d.out))
+				
+				return True
+			else:
+				return False
+		
+	return True
+
+def draw_rays(d,top,width,y_mul,w):
+
+
+	if fast_load(d,"ray.dat")==True:
+
+		if len(d.out)>2:
+			out=d.out
+			m=d.m
+			std=d.std
+			
 			glLineWidth(2)
 			glColor4f(0.0, 1.0, 0.0,0.5)
 			glBegin(GL_QUADS)
 
 			sub=epitaxy_get_device_start()
-			m=0
 			s=0
 			mm=0
-			for i in range(0,len(out)):
-				m=m+out[i].x
-			m=m/len(out)
-
-			for i in range(0,len(out)):
-				s=s+(out[i].x-m)*(out[i].x-m)
-			std=sqrt(s/len(out))
 
 			std_mul=0.05
 			x_mul=width/(std*std_mul)
 			i=0
-
+			step=((int)(len(out)/6000))*2
 			while(i<len(out)-2):
 				if fabs(out[i].x-m)<std*std_mul:
 					if fabs(out[i+1].x-m)<std*std_mul:
@@ -244,7 +273,7 @@ def draw_rays(top,width,y_mul,w):
 
 
 
-				i=i+2
+				i=i+step
 			glEnd()
 	
 def draw_mode(z_size,depth):
@@ -500,6 +529,7 @@ if open_gl_ok==True:
 		tet_rotate = 0.0
 		colors=[]
 		def __init__(self, parent):
+			self.ray_fast=fast_data()
 			self.failed=True
 			self.graph_path="./snapshots/159/Jn.dat"
 			self.graph_z_max=1.0
@@ -762,7 +792,7 @@ if open_gl_ok==True:
 						glRotatef(self.tet_rotate, tet_x_rate, tet_y_rate, tet_z_rate)
 
 				draw_mode(pos-0.05,depth)
-				draw_rays(pos-0.05,width,self.y_mul,depth*1.05)
+				draw_rays(self.ray_fast,pos-0.05,width,self.y_mul,depth*1.05)
 				#print(self.graph_path)
 
 				full_data_range=self.graph_z_max-self.graph_z_min

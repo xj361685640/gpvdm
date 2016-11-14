@@ -62,6 +62,7 @@ epitaxy_load(sim,&in->my_epitaxy,full_name);
 int i=0;
 	in->ray_trace=FALSE;
 	in->force_update=FALSE;
+	in->extract_eff=1.0;
 	in->layers=in->my_epitaxy.layers;
 	in->thick=(gdouble *)malloc(in->layers*sizeof(gdouble));
 	in->G_percent=(gdouble *)malloc(in->layers*sizeof(gdouble));

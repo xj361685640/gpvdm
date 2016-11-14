@@ -105,9 +105,10 @@ EXPORT int light_dll_solve_lam_slice(struct simulation *sim,struct light *in,int
 	{
 		angle=0.0;
 		printf("%d\n",x);
-		for (ii=0;ii<nang;ii++)
+		//for (ii=0;ii<nang;ii++)
 		{
 			angle+=dang;
+			angle=42.0;
 			//angle=get_rand()*360.0;
 			x_vec=cos(2*PI*(angle/360.0));
 			y_vec=sin(2*PI*(angle/360.0));
@@ -128,9 +129,9 @@ EXPORT int light_dll_solve_lam_slice(struct simulation *sim,struct light *in,int
 			for (i=0;i<50;i++)
 			{
 				propergate_next_ray(&in->my_image);
-				//dump_plane(&in->my_image);
+				dump_plane(&in->my_image);
 				dump_plane_to_file(&in->my_image);
-				//getchar();
+				getchar();
 				ret=activate_rays(&in->my_image);
 				
 				if (ret==0)
@@ -140,15 +141,16 @@ EXPORT int light_dll_solve_lam_slice(struct simulation *sim,struct light *in,int
 				}
 
 			}
-			eff+=get_eff(&in->my_image);
+			double e=get_eff(&in->my_image);
+			printf("%lf %lf\n",e,angle);
+			getchar();
+			eff+=e;
 			sims++;
 			ray_reset(&in->my_image);
 		}
 		
 	}
-	
-	printf("%lf\n",eff/((double)sims));
-	//exit(0);
+	in->extract_eff=eff/((double)sims);
 
 
 return 0;

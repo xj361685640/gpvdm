@@ -349,17 +349,18 @@ lib.append(my_data("#dump_optics_summary",_("True/False"),_("Dump optical summar
 
 
 lib.append(my_data("#pl_enabled",_("True/False"),"Turn on luminescence",[("switch")],"e",1.0))
-lib.append(my_data("#pl_fe_fh","0.0-1.0","n_{frae} to n_{frae} photon generation efficiency",["text"],"e",1.0))
+lib.append(my_data("#pl_fe_fh","0.0-1.0","n_{free} to p_{frae} photon generation efficiency",["text"],"e",1.0))
 lib.append(my_data("#pl_fe_te","0.0-1.0","n_{frae} to n_{trap} photon generation efficiency",["text"],"e",1.0))
 lib.append(my_data("#pl_te_fh","0.0-1.0","n_{trap} to p_{free} photon generation efficiency",["text"],"e",1.0))
-lib.append(my_data("#pl_th_fe","0.0-1.0","n_{trap} to p_{free} photon generation efficiency",["text"],"e",1.0))
-lib.append(my_data("#pl_fh_th","0.0-1.0","p_{free} to p_{free} photon generation efficiency",["text"],"e",1.0))
+lib.append(my_data("#pl_th_fe","0.0-1.0","p_{trap} to n_{free} photon generation efficiency",["text"],"e",1.0))
+lib.append(my_data("#pl_fh_th","0.0-1.0","p_{free} to p_{trap} photon generation efficiency",["text"],"e",1.0))
 
 lib.append(my_data("#free_to_free_recombination","0.0-1.0","n_{free} to p_{free} Recombination rate constant",["text"],"e",1.0))
 
 #LED
 lib.append(my_data("#led_on",_("True/False"),"Turn on LED",[("switch")],"e",1.0))
 lib.append(my_data("#led_wavelength","m","LED emission wavelength",["text"],"e",1.0))
+lib.append(my_data("#led_extract_eff","m","LED extraction efficiency",["text"],"e",1.0))
 
 def dump_lib():
 	global lib

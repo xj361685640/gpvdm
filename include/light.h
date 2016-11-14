@@ -116,6 +116,7 @@ int force_update;
 
 //Ray tracing
 int ray_trace;
+long double extract_eff;
 
 struct image my_image;
 };

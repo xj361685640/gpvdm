@@ -1,6 +1,6 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012-2016 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
 #	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -58,7 +58,7 @@ class tab_terminal(QWidget,tab_base):
 			if self.process[i].state()==QProcess.NotRunning:
 				cursor = self.terminals[i].textCursor()
 				cursor.insertHtml("Running:"+command+"<br>")
-				self.process[i].setWorkingDirectory("\""+path+"\"")
+				self.process[i].setWorkingDirectory(path)
 				self.process[i].start(command)
 				return
 

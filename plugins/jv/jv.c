@@ -2,9 +2,9 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+//  Copyright (C) 2012-2016 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 //
-//	www.roderickmackenzie.eu
+//	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
@@ -236,7 +236,7 @@ gdouble n_pmax=0.0;
 			fprintf(outf,"%Le %Le\n",V,J);
 			fclose(outf);
 
-			inter_append(&lv,get_equiv_V(sim,in),pl_get_light_energy());
+			inter_append(&lv,get_equiv_V(sim,in),pl_get_light_energy()*in->mylight.extract_eff);
 
 			V+=Vstep;
 			Vstep*=config.jv_step_mul;
@@ -299,6 +299,7 @@ if (get_dump_status(sim,dump_print_text)==TRUE)
 	fprintf(out,"#jv_vbi\n%Le\n",in->vbi);
 	fprintf(out,"#jv_gen\n%Le\n",get_avg_gen(in));
 	fprintf(out,"#voc_np_tot\n%Le\n",np_voc_tot);
+	fprintf(out,"#led_extract_eff\n%Le\n",in->mylight.extract_eff);
 	fprintf(out,"#end");
 	fclose(out);
 
