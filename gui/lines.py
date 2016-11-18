@@ -39,9 +39,8 @@ def lines_read(out,file_name):
 	if found==False:
 		return False
 
-	for i in range(1,len(lines)):
-		if lines[i]!="":
-			#out.append(vec())
+	for i in range(0,len(lines)):
+		if len(lines[i])>2:
 			text=lines[i].split(" ")
 			out.append(vec())
 			out[-1].x=float(text[0])

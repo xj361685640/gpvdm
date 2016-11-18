@@ -61,6 +61,7 @@ struct image
 	int objects;
 	struct vec start_rays[100];
 	int n_start_rays;
+	double y_escape_level;
 };
 
 
@@ -69,7 +70,7 @@ int between(double v, double x0, double x1);
 void add_plane(struct image *in, double x0,double y0,double x1,double y1,int id,int edge);
 void ray_reset(struct image *in);
 void add_ray(struct image *in,struct vec *start,struct vec *dir,double mag);
-void dump_plane_to_file(struct image *in);
+void dump_plane_to_file(char *file_name,struct image *in, int lam);
 void dump_plane(struct image *in);
 double get_rand();
 void obj_norm(struct vec *ret,struct plane *my_obj);

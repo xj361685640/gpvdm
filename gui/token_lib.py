@@ -345,6 +345,7 @@ lib.append(my_data("#dump_norm_time_to_one",_("True/False"),_("Normalize output 
 lib.append(my_data("#dump_built_in_voltage",_("True/False"),_("Dump the built in voltage."),[("switch")],"e",1.0))
 lib.append(my_data("#dump_optical_probe_spectrum",_("True/False"),_("Dump optical probe spectrum"),[("switch")],"e",1.0))
 lib.append(my_data("#dump_optics_summary",_("True/False"),_("Dump optical summary"),[("switch")],"e",1.0))
+lib.append(my_data("#dump_ray_trace_map",_("True/False"),_("Dump raytrace plots"),[("switch")],"e",1.0))
 
 
 
@@ -361,6 +362,7 @@ lib.append(my_data("#free_to_free_recombination","0.0-1.0","n_{free} to p_{free}
 lib.append(my_data("#led_on",_("True/False"),"Turn on LED",[("switch")],"e",1.0))
 lib.append(my_data("#led_wavelength","m","LED emission wavelength",["text"],"e",1.0))
 lib.append(my_data("#led_extract_eff","m","LED extraction efficiency",["text"],"e",1.0))
+
 
 def dump_lib():
 	global lib

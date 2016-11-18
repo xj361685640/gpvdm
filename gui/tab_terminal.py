@@ -32,6 +32,7 @@ from QHTabBar import QHTabBar
 import multiprocessing
 import functools
 from cpu_usage import cpu_usage
+from win_lin import running_on_linux
 
 class tab_terminal(QWidget,tab_base):
 
@@ -59,6 +60,13 @@ class tab_terminal(QWidget,tab_base):
 				cursor = self.terminals[i].textCursor()
 				cursor.insertHtml("Running:"+command+"<br>")
 				self.process[i].setWorkingDirectory(path)
+
+				if running_on_linux()==False:
+					if command.count(".exe")>0:
+						command="\""+command
+						command=command.replace(".exe",".exe\"",1)
+
+				print("exe command=",command)
 				self.process[i].start(command)
 				return
 

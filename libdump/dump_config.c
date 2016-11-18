@@ -33,7 +33,7 @@ void dump_load_config(struct simulation* sim,struct device *in)
 
 	inp_load_from_path(sim,&inp,get_input_path(sim),"dump.inp");
 
-	inp_check(sim,&inp,1.40);
+	inp_check(sim,&inp,1.41);
 
 	dump=inp_search_english(sim,&inp,"#plot");
 	set_dump_status(sim,dump_plot,dump);
@@ -123,6 +123,9 @@ void dump_load_config(struct simulation* sim,struct device *in)
 
 	dump=inp_search_english(sim,&inp,"#dump_built_in_voltage");
 	set_dump_status(sim,dump_built_in_voltage, dump);
+
+	dump=inp_search_english(sim,&inp,"#dump_ray_trace_map");
+	set_dump_status(sim,dump_ray_trace_map, dump);
 
 	inp_free(sim,&inp);
 

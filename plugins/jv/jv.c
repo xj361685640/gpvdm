@@ -39,6 +39,7 @@ static int unused __attribute__((unused));
 
 void sim_jv(struct simulation *sim,struct device *in)
 {
+int lam=0;
 FILE *outf=fopen("o.dat","w");
 fclose(outf);
 printf_log(sim,_("Running JV simulation\n"));
@@ -61,6 +62,8 @@ gdouble Vlast;
 gdouble Jlast;
 gdouble Pdenlast;
 gdouble Vexternal;
+
+lam=light_find_wavelength(&(in->mylight),in->led_wavelength);
 
 struct istruct ivexternal;
 inter_init(&ivexternal);
@@ -86,6 +89,8 @@ inter_init(&klist);
 struct istruct lv;
 inter_init(&lv);
 
+struct istruct li;
+inter_init(&li);
 
 gdouble Vapplied=0.0;
 contact_set_voltage_if_active(sim,in,Vapplied);
@@ -232,11 +237,9 @@ gdouble n_pmax=0.0;
 
 			dump_write_to_disk(sim,in);
 
-			outf=fopen("o.dat","a");
-			fprintf(outf,"%Le %Le\n",V,J);
-			fclose(outf);
+			inter_append(&lv,get_equiv_V(sim,in),pl_get_light_energy()*in->mylight.extract_eff[lam]);
 
-			inter_append(&lv,get_equiv_V(sim,in),pl_get_light_energy()*in->mylight.extract_eff);
+			inter_append(&li,J,pl_get_light_energy()*in->mylight.extract_eff[lam]);
 
 			V+=Vstep;
 			Vstep*=config.jv_step_mul;
@@ -299,7 +302,7 @@ if (get_dump_status(sim,dump_print_text)==TRUE)
 	fprintf(out,"#jv_vbi\n%Le\n",in->vbi);
 	fprintf(out,"#jv_gen\n%Le\n",get_avg_gen(in));
 	fprintf(out,"#voc_np_tot\n%Le\n",np_voc_tot);
-	fprintf(out,"#led_extract_eff\n%Le\n",in->mylight.extract_eff);
+	fprintf(out,"#led_extract_eff\n%Le\n",in->mylight.extract_eff[lam]);
 	fprintf(out,"#end");
 	fclose(out);
 
@@ -429,12 +432,34 @@ buffer_add_xy_data(&buf,lv.x, lv.data, lv.len);
 buffer_dump_path(get_output_path(sim),"lv.dat",&buf);
 buffer_free(&buf);
 
+
+
+buffer_malloc(&buf);
+buf.y_mul=1000.0;
+buf.x_mul=1.0;
+strcpy(buf.title,"Current - Light generated");
+strcpy(buf.type,"xy");
+strcpy(buf.x_label,"Current");
+strcpy(buf.y_label,"Light power");
+strcpy(buf.x_units,"A m^{-2}");
+strcpy(buf.y_units,"mW");
+buf.logscale_x=0;
+buf.logscale_y=0;
+buf.x=1;
+buf.y=li.len;
+buf.z=1;
+buffer_add_info(&buf);
+buffer_add_xy_data(&buf,li.x, li.data, li.len);
+buffer_dump_path(get_output_path(sim),"li.dat",&buf);
+buffer_free(&buf);
+
 inter_free(&jvexternal);
 inter_free(&jv);
 inter_free(&jvavg);
 inter_free(&charge);
 inter_free(&ivexternal);
 inter_free(&lv);
+inter_free(&li);
 
 
 dump_dynamic_save(sim,get_output_path(sim),&store);

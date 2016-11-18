@@ -21,6 +21,7 @@
 #include <ray.h>
 #include <const.h>
 #include <math.h>
+#include <cal_path.h>
 
 void image_init(struct image *in)
 {
@@ -92,9 +93,11 @@ void add_ray(struct image *in,struct vec *start,struct vec *dir,double mag)
 }
 
 
-void dump_plane_to_file(struct image *in)
+void dump_plane_to_file(char *file_name,struct image *in,int lam)
 {
-	FILE *out=fopen("lines.out","w");
+	FILE *out;
+
+	out=fopen("lines.dat","w");
 	int i=0;
 
 	for (i=0;i<in->lines;i++)
@@ -108,7 +111,7 @@ void dump_plane_to_file(struct image *in)
 
 	fclose(out);
 
-	out=fopen("ray.dat","a");
+	out=fopen(file_name,"a");
 
 	for (i=0;i<in->nrays;i++)
 	{
@@ -123,12 +126,12 @@ void dump_plane_to_file(struct image *in)
 
 	fclose(out);
 	
-	out=fopen("start.out","w");
-	for (i=0;i<in->n_start_rays;i++)
-	{
-		fprintf(out,"%le %le\n\n",in->start_rays[i].x,in->start_rays[i].y);
-	}
-	fclose(out);
+	//out=fopen("start.out","w");
+	//for (i=0;i<in->n_start_rays;i++)
+	//{
+	//	fprintf(out,"%le %le\n\n",in->start_rays[i].x,in->start_rays[i].y);
+	//}
+	//fclose(out);
 	
 }
 
@@ -155,7 +158,7 @@ void dump_plane(struct image *in)
 
 	for (i=0;i<in->nrays;i++)
 	{
-		printf("%ld (%le,%le) (%le,%le) %lf %lf mag=%lf\n",in->rays[i].state,in->rays[i].xy.x,in->rays[i].xy.y,in->rays[i].xy_end.x,in->rays[i].xy_end.y,in->rays[i].dir.x,in->rays[i].dir.y,in->rays[i].mag);
+		printf("%d (%le,%le) (%le,%le) %lf %lf mag=%lf\n",in->rays[i].state,in->rays[i].xy.x,in->rays[i].xy.y,in->rays[i].xy_end.x,in->rays[i].xy_end.y,in->rays[i].dir.x,in->rays[i].dir.y,in->rays[i].mag);
 		
 	}
 	printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
@@ -458,7 +461,7 @@ int propergate_next_ray(struct image *in)
 
 			if (item==-1)
 			{
-				printf("I have not hit anything %d %le %le %le %le\n",ray,item,in->rays[ray].xy.x,in->rays[ray].xy.y,ray,item,in->rays[ray].dir.x,in->rays[ray].dir.y);
+				//printf("I have not hit anything %d %le %le %le %le\n",ray,item,in->rays[ray].xy.x,in->rays[ray].xy.y,ray,item,in->rays[ray].dir.x,in->rays[ray].dir.y);
 				vec_cpy(&in->rays[ray].xy_end,&in->rays[ray].xy);
 				
 			}else
@@ -632,7 +635,7 @@ double tot=0.0;
 	{
 		if (in->rays[i].state==DONE)
 		{
-			if (in->rays[i].xy_end.y==0.0)
+			if (in->rays[i].xy_end.y<in->y_escape_level)
 			{
 				tot+=in->rays[i].mag;
 			}

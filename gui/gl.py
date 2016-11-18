@@ -214,13 +214,15 @@ class fast_data():
 
 def fast_load(d,file_name):
 
-	if os.path.isfile(file_name):
+	if os.path.isfile(file_name)==True:
 		age = os.path.getmtime(file_name)
 
 		if d.date!=age:
 			d.out=[]
 			if lines_read(d.out,file_name)==True:
-				print(d.out)
+				if len(d.out)==0:
+					return False
+				#print(d.out)
 				d.date=age
 
 				d.m=0
@@ -242,7 +244,7 @@ def fast_load(d,file_name):
 def draw_rays(d,top,width,y_mul,w):
 
 
-	if fast_load(d,"ray.dat")==True:
+	if fast_load(d,os.path.join(os.getcwd(),"light_dump","light_ray_573.dat"))==True:
 
 		if len(d.out)>2:
 			out=d.out
@@ -260,7 +262,10 @@ def draw_rays(d,top,width,y_mul,w):
 			std_mul=0.05
 			x_mul=width/(std*std_mul)
 			i=0
-			step=((int)(len(out)/6000))*2
+			#step=((int)(len(out)/6000))*2
+			#if step<2:
+			step=2
+				
 			while(i<len(out)-2):
 				if fabs(out[i].x-m)<std*std_mul:
 					if fabs(out[i+1].x-m)<std*std_mul:
@@ -274,6 +279,7 @@ def draw_rays(d,top,width,y_mul,w):
 
 
 				i=i+step
+
 			glEnd()
 	
 def draw_mode(z_size,depth):

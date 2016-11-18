@@ -31,6 +31,9 @@
 #include <log.h>
 #include <stdlib.h>
 #include "ray.h"
+#include <cal_path.h>
+#include <sys/stat.h>
+
 
 void light_update_ray_mat(struct light *in,int lam)
 {
@@ -89,6 +92,23 @@ EXPORT int light_dll_solve_lam_slice(struct simulation *sim,struct light *in,int
 	double eff=0.0;
 	int sims=0;
 
+	char name[400];
+	char out_dir[400];
+	struct stat st = {0};
+	FILE *out;
+	sprintf(out_dir,"%s/light_dump",get_output_path(sim));
+	sprintf(name,"%s/light_ray_%d.dat",out_dir,(int)(in->l[lam]*1e9));
+
+	if (stat(out_dir, &st) == -1)
+	{
+		mkdir(out_dir, 0700);
+	}
+	
+	if ((out=fopen(name,"w")))
+	{
+		fclose(out);
+	}
+	
 	if (get_dump_status(sim,dump_optics)==TRUE)
 	{
 		char one[100];
@@ -99,16 +119,16 @@ EXPORT int light_dll_solve_lam_slice(struct simulation *sim,struct light *in,int
 	light_update_ray_mat(in,lam);
 
 
-	printf(">>%d\n",in->my_image.n_start_rays);
+	//printf(">>%d\n",in->my_image.n_start_rays);
 	//for (x=0;x<in->my_image.n_start_rays;x++)
 	x=5;
 	{
 		angle=0.0;
-		printf("%d\n",x);
-		//for (ii=0;ii<nang;ii++)
+		//printf("%d\n",x);
+		for (ii=0;ii<nang;ii++)
 		{
 			angle+=dang;
-			angle=42.0;
+			//angle=42.0;
 			//angle=get_rand()*360.0;
 			x_vec=cos(2*PI*(angle/360.0));
 			y_vec=sin(2*PI*(angle/360.0));
@@ -129,9 +149,8 @@ EXPORT int light_dll_solve_lam_slice(struct simulation *sim,struct light *in,int
 			for (i=0;i<50;i++)
 			{
 				propergate_next_ray(&in->my_image);
-				dump_plane(&in->my_image);
-				dump_plane_to_file(&in->my_image);
-				getchar();
+				//dump_plane(&in->my_image);
+				//getchar();
 				ret=activate_rays(&in->my_image);
 				
 				if (ret==0)
@@ -141,16 +160,22 @@ EXPORT int light_dll_solve_lam_slice(struct simulation *sim,struct light *in,int
 				}
 
 			}
+
+			if (get_dump_status(sim,dump_ray_trace_map)==TRUE)
+			{
+				dump_plane_to_file(name,&in->my_image,lam);
+			}
+
 			double e=get_eff(&in->my_image);
-			printf("%lf %lf\n",e,angle);
-			getchar();
+			//printf("%lf %lf\n",e,angle);
+			//getchar();
 			eff+=e;
 			sims++;
 			ray_reset(&in->my_image);
 		}
 		
 	}
-	in->extract_eff=eff/((double)sims);
+	in->extract_eff[lam]=eff/((double)sims);
 
 
 return 0;

@@ -2,9 +2,9 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+//  Copyright (C) 2012-2016 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 //
-//	www.roderickmackenzie.eu
+//	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
@@ -316,6 +316,7 @@ if ((get_dump_status(sim,dump_optics_summary)==TRUE)&&(in->Gn[0]!=0.0))
 }
 void light_dump_1d(struct simulation *sim,struct light *in, int i,char *ext)
 {
+
 char out_dir[1024];
 char line[1024];
 char out_name[200];
@@ -348,7 +349,7 @@ buffer_init(&data_t);
 buffer_init(&data_n);
 buffer_init(&data_alpha);
 buffer_init(&buf);
-if ((get_dump_status(sim,dump_optics)==TRUE)&&(in->sun_E[i]!=0.0))
+if (get_dump_status(sim,dump_optics)==TRUE)
 {
 
 	sprintf(out_dir,"%s/light_dump/",get_output_path(sim));
@@ -545,6 +546,7 @@ if ((get_dump_status(sim,dump_optics)==TRUE)&&(in->sun_E[i]!=0.0))
 		buffer_free(&data_1d_photons_tot_abs);
 	}
 
+
 	if (get_dump_status(sim,dump_optics_verbose)==TRUE)
 	{
 		sprintf(name,"%s/light_1d_%.0Lf_layer%s.dat",out_dir,in->l[i]*1e9,ext);
@@ -646,6 +648,23 @@ if ((get_dump_status(sim,dump_optics)==TRUE)&&(in->sun_E[i]!=0.0))
 		}
 		fclose(out);
 
+
+		buffer_malloc(&buf);
+		buf.y_mul=1.0;
+		buf.x_mul=1e9;
+		strcpy(buf.title,"Photon escape probability");
+		strcpy(buf.type,"xy");
+		strcpy(buf.x_label,"Wavelength");
+		strcpy(buf.y_label,"Probability");
+		strcpy(buf.x_units,"$\\nm$");
+		strcpy(buf.y_units,"$a.u.$");
+		buf.logscale_x=0;
+		buf.logscale_y=0;
+		buffer_add_info(&buf);
+		buffer_add_xy_data(&buf,in->l, in->extract_eff, in->lpoints);
+		buffer_dump_path(out_dir,"light_escape_probability.dat",&buf);
+		buffer_free(&buf);
+		
 	}
 
 
