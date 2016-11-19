@@ -193,7 +193,7 @@ if (strcmp(cell.simmode,"opticalmodel@optics")!=0)
 		cell.mylight.force_update=TRUE;
 
 		light_set_sun(&(cell.mylight),1.0);
-		light_set_sun_delta_at_wavelength(&(cell.mylight),cell.led_wavelength);
+		light_set_sun_delta_at_wavelength(sim,&(cell.mylight),cell.led_wavelength);
 		//light_set_unity_power(&(cell.mylight));
 		light_solve_all(sim,&(cell.mylight));
 		

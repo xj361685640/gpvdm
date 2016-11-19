@@ -946,7 +946,8 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 
 	inter_append(&(store->ntrap),x_value,get_n_trapped_charge(in));
 
-	inter_append(&(store->E_field),x_value,(in->phi[(in->ymeshpoints/2)+1]-in->phi[(in->ymeshpoints/2)])/(in->ymesh[(in->ymeshpoints/2)+1]-in->ymesh[(in->ymeshpoints/2)]));
+	long double val=(in->phi[0][0][(in->ymeshpoints/2)+1]-in->phi[0][0][(in->ymeshpoints/2)])/(in->ymesh[(in->ymeshpoints/2)+1]-in->ymesh[(in->ymeshpoints/2)]);
+	inter_append(&(store->E_field),x_value,val);
 
 	Vapplied=contact_get_voltage(sim,in,0);
 	inter_append(&(store->dynamic_Vapplied),x_value,Vapplied);

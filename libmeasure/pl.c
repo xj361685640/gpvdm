@@ -2,9 +2,9 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+//  Copyright (C) 2012-2016 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 //
-//	www.roderickmackenzie.eu
+//	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
@@ -89,6 +89,8 @@ struct istruct te_to_fh;
 struct istruct fh_to_th;
 struct istruct th_to_fe;
 
+//struct istruct luminescence_tot;
+
 double max_Eg=0.0;
 for (z=0;z<in->zmeshpoints;z++)
 {
@@ -112,7 +114,7 @@ inter_init(&fe_to_te);
 inter_init(&te_to_fh);
 inter_init(&fh_to_th);
 inter_init(&th_to_fe);
-
+//inter_init(&luminescence_tot);
 
 //double Re_e=0.0;
 int pl_data_added=FALSE;
@@ -297,6 +299,31 @@ if (pl_data_added==TRUE)
 	buffer_add_xy_data(&buf,fh_to_th.x, fh_to_th.data, fh_to_th.len);
 	buffer_dump_path(out_dir,name,&buf);
 	buffer_free(&buf);
+	
+	/*inter_copy(&luminescence_tot,&fe_to_fh,TRUE);	
+	inter_add(&luminescence_tot,&fe_to_te);
+	inter_add(&luminescence_tot,&te_to_fh);
+	inter_add(&luminescence_tot,&th_to_fe);
+	inter_add(&luminescence_tot,&fh_to_th);
+
+	buffer_malloc(&buf);
+	sprintf(name,"%s","luminescence.dat");
+	buf.y_mul=1.0;
+	buf.x_mul=1e9;
+	strcpy(buf.title,"Luminescence spectra");
+	strcpy(buf.type,"xy");
+	strcpy(buf.x_label,"Energy");
+	strcpy(buf.y_label,"Intensity");
+	strcpy(buf.x_units,"eV");
+	strcpy(buf.y_units,"m^{-3}s^{-1}");
+	buf.logscale_x=0;
+	buf.logscale_y=0;
+	buf.time=in->time;
+	buf.Vexternal=Vexternal;
+	buffer_add_info(&buf);
+	buffer_add_xy_data(&buf,luminescence_tot.x, luminescence_tot.data, luminescence_tot.len);
+	buffer_dump_path(out_dir,name,&buf);
+	buffer_free(&buf);*/
 
 }
 
@@ -305,7 +332,7 @@ inter_free(&fe_to_te);
 inter_free(&te_to_fh);
 inter_free(&th_to_fe);
 inter_free(&fh_to_th);
-
+//inter_free(&luminescence_tot);
 
 return;
 }

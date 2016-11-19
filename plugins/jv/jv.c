@@ -63,7 +63,7 @@ gdouble Jlast;
 gdouble Pdenlast;
 gdouble Vexternal;
 
-lam=light_find_wavelength(&(in->mylight),in->led_wavelength);
+lam=light_get_pos_from_wavelength(sim,&(in->mylight),in->led_wavelength);//light_find_wavelength(&(in->mylight),in->led_wavelength);
 
 struct istruct ivexternal;
 inter_init(&ivexternal);

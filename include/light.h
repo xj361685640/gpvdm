@@ -141,7 +141,6 @@ int light_solve_lam_slice(struct simulation *sim, struct light *in,int lam);
 void light_set_dx(struct light *in,gdouble dx);
 void light_dump_1d(struct simulation *sim,struct light *in, int i,char *ext);
 void light_get_mode(struct istruct *mode,int lam,struct light *in);
-int light_find_wavelength(struct light *in,gdouble lam);
 void light_set_unity_laser_power(struct light *in,int lam);
 void light_free_materials(struct light *in);
 void light_free_epitaxy(struct light *in);
@@ -152,6 +151,7 @@ gdouble light_get_sun(struct light *in);
 void light_set_sun(struct light *in,gdouble Psun);
 void light_set_model(struct light *in,char *model);
 void light_dump_summary(struct simulation *sim,struct light *in);
-void light_set_sun_delta_at_wavelength(struct light *in,long double lam);
+void light_set_sun_delta_at_wavelength(struct simulation *sim,struct light *in,long double lam);
 void light_free_dlls(struct simulation *sim,struct light *in);
+int light_get_pos_from_wavelength(struct simulation *sim,struct light *in,double lam);
 #endif

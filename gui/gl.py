@@ -1,6 +1,6 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012-2016 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
 #	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -84,6 +84,8 @@ from math import fabs
 from epitaxy import epitaxy_get_device_start
 
 from util import wavelength_to_rgb
+import glob
+
 # Rotations for cube.
 cube_rotate_x_rate = 0.2
 cube_rotate_y_rate = 0.2
@@ -244,46 +246,50 @@ def fast_load(d,file_name):
 
 def draw_rays(d,top,width,y_mul,w):
 
+	files=glob.glob(os.path.join(os.getcwd(),"light_dump","light_ray_*.dat"))
+	if len(files)>0:
+		my_file=files[0]
+		if fast_load(d,my_file)==True:
 
-	if fast_load(d,os.path.join(os.getcwd(),"light_dump","light_ray_520.dat"))==True:
-
-		if len(d.out)>2:
-			out=d.out
-			m=d.m
-			std=d.std
-			
-			glLineWidth(2)
-			r,g,b=wavelength_to_rgb(520.0)
-
-			glColor4f(r, g, b,0.5)
-			glBegin(GL_QUADS)
-
-			sub=epitaxy_get_device_start()
-			s=0
-			mm=0
-
-			std_mul=0.05
-			x_mul=width/(std*std_mul)
-			i=0
-			#step=((int)(len(out)/6000))*2
-			#if step<2:
-			step=2
+			if len(d.out)>2:
+				head, tail = os.path.split(my_file)
+				out=d.out
+				m=d.m
+				std=d.std
 				
-			while(i<len(out)-2):
-				if fabs(out[i].x-m)<std*std_mul:
-					if fabs(out[i+1].x-m)<std*std_mul:
-						#print(sub)
-						glVertex3f(width/2+(out[i].x-m)*x_mul, top-(out[i].y+sub)*y_mul, 0)
-						glVertex3f(width/2+(out[i+1].x-m)*x_mul, top-(out[i+1].y+sub)*y_mul, 0)
+				glLineWidth(2)
+				wavelength=float(tail[10:-4])
+				r,g,b=wavelength_to_rgb(wavelength)
 
-						glVertex3f(width/2+(out[i+1].x-m)*x_mul, top-(out[i+1].y+sub)*y_mul, w)
-						glVertex3f(width/2+(out[i].x-m)*x_mul, top-(out[i].y+sub)*y_mul, w)
+				glColor4f(r, g, b,0.5)
+				glBegin(GL_QUADS)
+
+				sub=epitaxy_get_device_start()
+				s=0
+				mm=0
+
+				std_mul=0.05
+				x_mul=width/(std*std_mul)
+				i=0
+				#step=((int)(len(out)/6000))*2
+				#if step<2:
+				step=2
+					
+				while(i<len(out)-2):
+					if fabs(out[i].x-m)<std*std_mul:
+						if fabs(out[i+1].x-m)<std*std_mul:
+							#print(sub)
+							glVertex3f(width/2+(out[i].x-m)*x_mul, top-(out[i].y+sub)*y_mul, 0)
+							glVertex3f(width/2+(out[i+1].x-m)*x_mul, top-(out[i+1].y+sub)*y_mul, 0)
+
+							glVertex3f(width/2+(out[i+1].x-m)*x_mul, top-(out[i+1].y+sub)*y_mul, w)
+							glVertex3f(width/2+(out[i].x-m)*x_mul, top-(out[i].y+sub)*y_mul, w)
 
 
 
-				i=i+step
+					i=i+step
 
-			glEnd()
+				glEnd()
 	
 def draw_mode(z_size,depth):
 

@@ -304,13 +304,32 @@ for  (i=0;i<in->lpoints;i++)
 
 }
 
-void light_set_sun_delta_at_wavelength(struct light *in,long double lam)
+int light_get_pos_from_wavelength(struct simulation *sim,struct light *in,double lam)
+{
+	int i=0;
+
+	if (lam<in->lstart)
+	{
+		ewe(sim,"The desired wavelenght is smaller than the simulated range");
+	}
+
+	if (lam>in->lstop)
+	{
+		ewe(sim,"The desired wavelenght is smaller than the simulated range");
+	}
+
+	i=(int)((lam-in->lstart)/in->dl);
+
+	return i;
+}
+
+void light_set_sun_delta_at_wavelength(struct simulation *sim,struct light *in,long double lam)
 {
 	int i;
 	memset(in->sun, 0.0, in->lpoints*sizeof(gdouble));
 	memset(in->sun_photons, 0.0, in->lpoints*sizeof(gdouble));
 	memset(in->sun_E, 0.0, in->lpoints*sizeof(gdouble));
-	i=(int)((lam-in->lstart)/in->dl);
+	i=light_get_pos_from_wavelength(sim,in,lam);
 	in->sun_E[i]=1.0;
 }
 
@@ -337,22 +356,6 @@ for (ii=0;ii<mode->len;ii++)
 void light_set_dx(struct light *in,gdouble dx)
 {
 in->dx=dx;
-}
-
-int light_find_wavelength(struct light *in,gdouble lam)
-{
-int i=0;
-int l=0;
-	for (i=0;i<in->lpoints;i++)
-	{
-		if (in->l[i]>=lam)
-		{
-			l=i;
-			break;
-		}
-	}
-
-return l;
 }
 
 gdouble light_convert_density(struct device *in,gdouble start, gdouble width)
