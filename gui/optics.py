@@ -49,27 +49,19 @@ from gui_util import error_dlg
 
 def find_modes(path):
 	result = []
-	file_names=[]
+	lines=[]
 	pwd=os.getcwd()
+	path=os.path.join(os.getcwd(),"light_dump","wavelengths.dat")
+	if os.path.isfile(path)==True:
 
-	if os.path.isfile(os.path.join(pwd,"light_dump.zip")):
-		zf = zipfile.ZipFile("light_dump.zip", 'r')
-
-		for file in zf.filelist:
-			file_names.append(file.filename)
-		zf.close()
-	else:
-		for file in glob.glob(os.path.join(pwd,"light_dump","*.dat")):
-			file_names.append(os.path.basename(file))
-
-	for i in range(0,len(file_names)-1):
-		if file_names[i].startswith("light_1d_"):
-			if file_names[i].endswith("_photons_norm.dat"):
-				store = file_names[i][:-17]
-				s=store.split("light_1d_")
-				store = s[1]
-				result.append(store)
-
+		f = open(path, "r")
+		lines = f.readlines()
+		f.close()
+		
+		for l in range(0, len(lines)):
+			txt=lines[l].rstrip()
+			if txt!="":
+				result.append(txt)
 
 	return result
 

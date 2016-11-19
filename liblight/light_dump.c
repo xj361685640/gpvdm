@@ -29,6 +29,32 @@
 #include "buffer.h"
 #include <cal_path.h>
 
+void light_setup_dump_dir(struct simulation *sim,struct light *in,char *dir)
+{
+FILE *out;
+char out_dir[1024];
+int i;
+
+	sprintf(out_dir,"%s/light_dump/",get_output_path(sim));
+	struct stat st = {0};
+
+	if (stat(out_dir, &st) == -1)
+	{
+		mkdir(out_dir, 0700);
+	}
+
+	out=fopena(out_dir,"wavelengths.dat","w");
+
+	for (i=0;i<in->lpoints;i++)
+	{
+		fprintf(out,"%.0Lf\n",in->l[i]*1e9);
+	}
+	
+	fclose(out);
+	
+strcpy(dir,out_dir);
+}
+
 void light_dump(struct simulation *sim,struct light *in)
 {
 FILE *out;
@@ -40,15 +66,7 @@ char line[1024];
 char temp[1024];
 if ((get_dump_status(sim,dump_optics_verbose)==TRUE)&&(in->Gn[0]!=0.0))
 {
-	sprintf(out_dir,"%s/light_dump/",get_output_path(sim));
-	struct stat st = {0};
-
-	if (stat(out_dir, &st) == -1)
-	{
-		mkdir(out_dir, 0700);
-	}
-
-
+	light_setup_dump_dir(sim,in,out_dir);
 
 	out=fopena(out_dir,"light_2d_Ep.dat","w");
 	for (i=0;i<in->lpoints;i++)
@@ -282,13 +300,7 @@ struct buffer buf;
 char out_dir[1024];
 if ((get_dump_status(sim,dump_optics_summary)==TRUE)&&(in->Gn[0]!=0.0))
 {
-	sprintf(out_dir,"%s/light_dump/",get_output_path(sim));
-	struct stat st = {0};
-
-	if (stat(out_dir, &st) == -1)
-	{
-		mkdir(out_dir, 0700);
-	}
+	light_setup_dump_dir(sim,in,out_dir);
 
 
 	buffer_malloc(&buf);
@@ -352,13 +364,7 @@ buffer_init(&buf);
 if (get_dump_status(sim,dump_optics)==TRUE)
 {
 
-	sprintf(out_dir,"%s/light_dump/",get_output_path(sim));
-	struct stat st = {0};
-
-	if (stat(out_dir, &st) == -1)
-	{
-		mkdir(out_dir, 0700);
-	}
+	light_setup_dump_dir(sim,in,out_dir);
 
 
 	FILE *out;

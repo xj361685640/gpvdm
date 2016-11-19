@@ -83,6 +83,7 @@ from math import sqrt
 from math import fabs
 from epitaxy import epitaxy_get_device_start
 
+from util import wavelength_to_rgb
 # Rotations for cube.
 cube_rotate_x_rate = 0.2
 cube_rotate_y_rate = 0.2
@@ -244,7 +245,7 @@ def fast_load(d,file_name):
 def draw_rays(d,top,width,y_mul,w):
 
 
-	if fast_load(d,os.path.join(os.getcwd(),"light_dump","light_ray_573.dat"))==True:
+	if fast_load(d,os.path.join(os.getcwd(),"light_dump","light_ray_520.dat"))==True:
 
 		if len(d.out)>2:
 			out=d.out
@@ -252,7 +253,9 @@ def draw_rays(d,top,width,y_mul,w):
 			std=d.std
 			
 			glLineWidth(2)
-			glColor4f(0.0, 1.0, 0.0,0.5)
+			r,g,b=wavelength_to_rgb(520.0)
+
+			glColor4f(r, g, b,0.5)
 			glBegin(GL_QUADS)
 
 			sub=epitaxy_get_device_start()
