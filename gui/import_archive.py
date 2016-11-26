@@ -1,4 +1,3 @@
-#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
@@ -104,7 +103,7 @@ def merge_archives(src_archive,dest_archive,only_over_write):
 
 	remove_non_used_index_files(dest_archive,src_archive)
 
-	files=[ "sim.inp", "device.inp", "led.inp","stark.inp" ,"shg.inp"   ,"jv.inp" , "math.inp",  "dump.inp",  "dump_file.inp"  , "light.inp", "server.inp", "light_exp.inp","info.inp","config.inp" ]
+	files=[ "sim.inp", "device.inp", "led.inp","ray.inp","stark.inp" ,"shg.inp"   ,"jv.inp" , "math.inp",  "dump.inp",  "dump_file.inp"  , "light.inp", "server.inp", "light_exp.inp","info.inp","config.inp" ]
 
 	base_file=files[:]
 

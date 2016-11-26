@@ -72,6 +72,7 @@ class gpvdm_notebook(QTabWidget):
 	def __init__(self):
 		QWidget.__init__(self)
 		self.terminal=None
+		self.update_display_function=None
 		self.currentChanged.connect(self.changed_click)
 
 	def update(self):
@@ -182,7 +183,8 @@ class gpvdm_notebook(QTabWidget):
 
 			self.addTab(widget,_("Device structure"))
 
-	
+			self.update_display_function=widget.update
+			print("setting>>>>>>>>>>",self.update_display_function)
 			lines=[]
 			pos=0
 			if inp_load_file(lines,"gui_config.inp")==True:

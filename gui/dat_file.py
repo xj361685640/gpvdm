@@ -145,7 +145,7 @@ def dat_file_read(out,file_name):
 	if out.x_len==False:
 		out.x_len, out.y_len, out.z_len = guess_dim(lines)
 		if out.x_len==False:
-			print(file_name)
+			#print(file_name)
 			return False
 
 	out.data=[[[0.0 for k in range(out.y_len)] for j in range(out.x_len)] for i in range(out.z_len)]

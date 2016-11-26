@@ -61,6 +61,7 @@ struct image
 	int objects;
 	struct vec start_rays[100];
 	int n_start_rays;
+	int theta_steps;
 	double y_escape_level;
 };
 

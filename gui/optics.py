@@ -1,6 +1,6 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012-2016 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
 #	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -39,31 +39,15 @@ from cal_path import get_exe_command
 
 #qt
 from PyQt5.QtCore import QSize, Qt 
-from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QSystemTrayIcon,QMenu, QComboBox, QMenuBar, QLabel
+from PyQt5.QtWidgets import QWidget,QHBoxLayout,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QSystemTrayIcon,QMenu, QComboBox, QMenuBar, QLabel
 from PyQt5.QtGui import QIcon
 
 #windows
 from band_graph import band_graph
 from plot_widget import plot_widget
 from gui_util import error_dlg
+from fx_selector import fx_selector
 
-def find_modes(path):
-	result = []
-	lines=[]
-	pwd=os.getcwd()
-	path=os.path.join(os.getcwd(),"light_dump","wavelengths.dat")
-	if os.path.isfile(path)==True:
-
-		f = open(path, "r")
-		lines = f.readlines()
-		f.close()
-		
-		for l in range(0, len(lines)):
-			txt=lines[l].rstrip()
-			if txt!="":
-				result.append(txt)
-
-	return result
 
 def find_models():
 	ret=[]
@@ -111,7 +95,6 @@ class class_optical(QWidget):
 
 	def __init__(self):
 		QWidget.__init__(self)
-		self.dump_dir=os.path.join(os.getcwd(),"light_dump")
 		find_models()
 
 		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"image.png")))
@@ -158,14 +141,14 @@ class class_optical(QWidget):
 		self.run.triggered.connect(self.callback_run)
 		toolbar.addAction(self.run)
 
+		self.fx_box=fx_selector()
+		self.fx_box.show_all=True
+		self.fx_box.file_name_set_start("light_1d_") 
+		self.fx_box.file_name_set_end("_photons_abs.dat")
+		self.fx_box.update()
 
-		label=QLabel(_("Wavelengths:"))
-		toolbar.addWidget(label)
-
-		self.cb = QComboBox()
-		self.update_cb()
-		toolbar.addWidget(self.cb)
-		self.cb.currentIndexChanged.connect(self.mode_changed)
+		self.fx_box.cb.currentIndexChanged.connect(self.mode_changed)
+		toolbar.addWidget(self.fx_box)
 
 		label=QLabel(_("Optical model:"))
 		toolbar.addWidget(label)
@@ -251,17 +234,6 @@ class class_optical(QWidget):
 		pwd=os.getcwd()
 		plot_gen([os.path.join(pwd,"materials",self.layer_name[i],"alpha.omat")],[],None,"")
 
-	def update_cb(self):
-		self.cb.blockSignals(True)
-		thefiles=find_modes(self.dump_dir)
-		thefiles.sort()
-		files_short=thefiles[::2]
-		self.cb.clear()
-		self.cb.addItem("all")
-		for i in range(0, len(files_short)):
-			self.cb.addItem(str(files_short[i])+" nm")
-		self.cb.setCurrentIndex(0)
-		self.cb.blockSignals(False)
 
 	def update_cb_model(self):
 		self.cb_model.blockSignals(True)
@@ -337,21 +309,21 @@ class class_optical(QWidget):
 		inp_update_token_value("dump.inp", "#dump_optics_verbose",dump_optics_verbose,1)
 		
 		self.update()
-		self.update_cb()
+		self.fx_selector.update()
 
 		inp_update_token_value("dump.inp", "#dump_optics","true",1)
 		inp_update_token_value("dump.inp", "#dump_optics_verbose","true",1)
 		
 
 	def mode_changed(self):
-		cb_text=self.cb.currentText()
+		cb_text=self.fx_box.get_text()
 
 		if cb_text=="all":
 			self.fig_photon_density.set_data_file("light_1d_photons_tot_norm.dat")
 			self.fig_photon_abs.set_data_file("light_1d_photons_tot_abs_norm.dat")
 		else:
-			self.fig_photon_density.set_data_file("light_1d_"+cb_text[:-3]+"_photons_norm.dat")
-			self.fig_photon_abs.set_data_file("light_1d_"+cb_text[:-3]+"_photons_abs.dat")
+			self.fig_photon_density.set_data_file("light_1d_"+cb_text+"_photons_norm.dat")
+			self.fig_photon_abs.set_data_file("light_1d_"+cb_text+"_photons_abs.dat")
 
 		self.update()
 

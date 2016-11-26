@@ -654,22 +654,6 @@ if (get_dump_status(sim,dump_optics)==TRUE)
 		}
 		fclose(out);
 
-
-		buffer_malloc(&buf);
-		buf.y_mul=1.0;
-		buf.x_mul=1e9;
-		strcpy(buf.title,"Photon escape probability");
-		strcpy(buf.type,"xy");
-		strcpy(buf.x_label,"Wavelength");
-		strcpy(buf.y_label,"Probability");
-		strcpy(buf.x_units,"$\\nm$");
-		strcpy(buf.y_units,"$a.u.$");
-		buf.logscale_x=0;
-		buf.logscale_y=0;
-		buffer_add_info(&buf);
-		buffer_add_xy_data(&buf,in->l, in->extract_eff, in->lpoints);
-		buffer_dump_path(out_dir,"light_escape_probability.dat",&buf);
-		buffer_free(&buf);
 		
 	}
 

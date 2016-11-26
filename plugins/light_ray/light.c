@@ -87,7 +87,7 @@ EXPORT int light_dll_solve_lam_slice(struct simulation *sim,struct light *in,int
 
 	int x=0;
 	int ii=0;
-	int nang=60;
+	int nang=(in->my_image.theta_steps);
 	double dang=360.0/((double)nang);
 	double eff=0.0;
 	int sims=0;

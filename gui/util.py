@@ -275,8 +275,8 @@ def wavelength_to_rgb(wavelength):
 		red = 0.0
 		green = 0.0
 		blue = 0.0
-
-	if ((wavelength >= 380) and  (wavelength<420)):
+	#(wavelength >= 380) and  
+	if (wavelength<420):
 		factor = 0.3 + 0.7*(wavelength - 380) / (420 - 380)
 	elif ((wavelength >= 420) and  (wavelength<701)):
 		factor = 1.0
@@ -286,13 +286,13 @@ def wavelength_to_rgb(wavelength):
 		factor = 0.0
 
 	if red != 0:
-		red = (int)(intensity_max * pow(red * factor, gamma))
+		red = (intensity_max * pow(red * factor, gamma))
 		
 	if green != 0:
-		green = (int)(intensity_max * pow(green * factor, gamma))
+		green = (intensity_max * pow(green * factor, gamma))
 	
 	if blue != 0:
-		blue = (int)(intensity_max * pow(blue * factor, gamma))
+		blue = (intensity_max * pow(blue * factor, gamma))
 	
 
 	return red,green,blue

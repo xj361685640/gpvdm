@@ -1,8 +1,8 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012-2016 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -79,6 +79,7 @@ class server(QWidget,cluster):
 		self.running=False
 		self.enable_gui=False
 		self.callback_when_done=False
+		self.display=False
 		status_icon_init()
 
 	def init(self,sim_dir):
@@ -98,6 +99,9 @@ class server(QWidget,cluster):
 
 	def set_terminal(self,terminal):
 		self.terminal=terminal
+	
+	def set_display_function(self,display):
+		self.display=display
 
 	def gui_sim_start(self):
 		help_window().hide()
@@ -217,7 +221,7 @@ class server(QWidget,cluster):
 				for l in range(0, len(lines)):
 					lines[l]=lines[l].rstrip()
 					if lines[l].startswith("error:") or lines[l].startswith("warning:"):
-						print("whoo",lines[l])
+						#print("whoo",lines[l])
 						found=found+lines[l]+"\n"
 						problem_found=True
 				if len(found)!=0:
@@ -241,7 +245,10 @@ class server(QWidget,cluster):
 		self.jobs_running=0
 		self.jobs_run=0
 		self.running=False
+		print("I am updating the display>>>>>>>>>>>>>>>>>",self.display)
+		if self.display!=False:
 
+			self.display()
 		print(_("I have shut down the server."))
 
 

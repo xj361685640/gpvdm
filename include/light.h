@@ -154,4 +154,5 @@ void light_dump_summary(struct simulation *sim,struct light *in);
 void light_set_sun_delta_at_wavelength(struct simulation *sim,struct light *in,long double lam);
 void light_free_dlls(struct simulation *sim,struct light *in);
 int light_get_pos_from_wavelength(struct simulation *sim,struct light *in,double lam);
+void light_setup_dump_dir(struct simulation *sim,struct light *in,char *dir);
 #endif

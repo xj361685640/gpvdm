@@ -49,7 +49,7 @@ def gen_workbook(input_file_or_dir,output_file):
 		return
 	
 	for my_file in files:
-		print("about to save1",my_file)
+		#print("about to save1",my_file)
 
 		if plot_load_info(info_token,my_file)==True:
 			x=[]
@@ -57,7 +57,7 @@ def gen_workbook(input_file_or_dir,output_file):
 			z=[]
 			data=dat_file()
 			if dat_file_read(data,my_file)==True:
-				print("read",my_file)
+				#print("read",my_file)
 				ws = wb.create_sheet(title=title_truncate(os.path.basename(my_file)))
 				ws.cell(column=1, row=1, value=info_token.title)
 				ws.cell(column=1, row=2, value=info_token.x_label+" ("+info_token.x_units+") ")
@@ -82,6 +82,6 @@ def gen_workbook(input_file_or_dir,output_file):
 				c1.series.append(series)
 				ws.add_chart(c1, "G4")
 
-	print("about to save1")
+	#print("about to save1")
 	wb.save(filename = output_file)
-	print("about to save0")
+	#print("about to save0")

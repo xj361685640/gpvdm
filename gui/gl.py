@@ -2,7 +2,7 @@
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012-2016 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -215,6 +215,10 @@ class fast_data():
 	std=0
 	out=[]
 
+def fast_reset(d):
+	d.date=0
+	d.out=[]
+	
 def fast_load(d,file_name):
 
 	if os.path.isfile(file_name)==True:
@@ -244,52 +248,49 @@ def fast_load(d,file_name):
 		
 	return True
 
-def draw_rays(d,top,width,y_mul,w):
+def draw_rays(ray_file,d,top,width,y_mul,w):
 
-	files=glob.glob(os.path.join(os.getcwd(),"light_dump","light_ray_*.dat"))
-	if len(files)>0:
-		my_file=files[0]
-		if fast_load(d,my_file)==True:
+	if fast_load(d,ray_file)==True:
 
-			if len(d.out)>2:
-				head, tail = os.path.split(my_file)
-				out=d.out
-				m=d.m
-				std=d.std
+		if len(d.out)>2:
+			head, tail = os.path.split(ray_file)
+			out=d.out
+			m=d.m
+			std=d.std
+			
+			glLineWidth(2)
+			wavelength=float(tail[10:-4])
+			r,g,b=wavelength_to_rgb(wavelength)
+
+			glColor4f(r, g, b,0.5)
+			glBegin(GL_QUADS)
+
+			sub=epitaxy_get_device_start()
+			s=0
+			mm=0
+
+			std_mul=0.05
+			x_mul=width/(std*std_mul)
+			i=0
+			#step=((int)(len(out)/6000))*2
+			#if step<2:
+			step=2
 				
-				glLineWidth(2)
-				wavelength=float(tail[10:-4])
-				r,g,b=wavelength_to_rgb(wavelength)
+			while(i<len(out)-2):
+				if fabs(out[i].x-m)<std*std_mul:
+					if fabs(out[i+1].x-m)<std*std_mul:
+						#print(sub)
+						glVertex3f(width/2+(out[i].x-m)*x_mul, top-(out[i].y+sub)*y_mul, 0)
+						glVertex3f(width/2+(out[i+1].x-m)*x_mul, top-(out[i+1].y+sub)*y_mul, 0)
 
-				glColor4f(r, g, b,0.5)
-				glBegin(GL_QUADS)
-
-				sub=epitaxy_get_device_start()
-				s=0
-				mm=0
-
-				std_mul=0.05
-				x_mul=width/(std*std_mul)
-				i=0
-				#step=((int)(len(out)/6000))*2
-				#if step<2:
-				step=2
-					
-				while(i<len(out)-2):
-					if fabs(out[i].x-m)<std*std_mul:
-						if fabs(out[i+1].x-m)<std*std_mul:
-							#print(sub)
-							glVertex3f(width/2+(out[i].x-m)*x_mul, top-(out[i].y+sub)*y_mul, 0)
-							glVertex3f(width/2+(out[i+1].x-m)*x_mul, top-(out[i+1].y+sub)*y_mul, 0)
-
-							glVertex3f(width/2+(out[i+1].x-m)*x_mul, top-(out[i+1].y+sub)*y_mul, w)
-							glVertex3f(width/2+(out[i].x-m)*x_mul, top-(out[i].y+sub)*y_mul, w)
+						glVertex3f(width/2+(out[i+1].x-m)*x_mul, top-(out[i+1].y+sub)*y_mul, w)
+						glVertex3f(width/2+(out[i].x-m)*x_mul, top-(out[i].y+sub)*y_mul, w)
 
 
 
-					i=i+step
+				i=i+step
 
-				glEnd()
+			glEnd()
 	
 def draw_mode(z_size,depth):
 
@@ -562,6 +563,7 @@ if open_gl_ok==True:
 			self.graph_data=dat_file()
 			QGLWidget.__init__(self, parent)
 			self.lastPos=None
+			self.ray_file=""
 			#glClearDepth(1.0)              
 			#glDepthFunc(GL_LESS)
 			#glEnable(GL_DEPTH_TEST)
@@ -807,7 +809,7 @@ if open_gl_ok==True:
 						glRotatef(self.tet_rotate, tet_x_rate, tet_y_rate, tet_z_rate)
 
 				draw_mode(pos-0.05,depth)
-				draw_rays(self.ray_fast,pos-0.05,width,self.y_mul,depth*1.05)
+				draw_rays(self.ray_file,self.ray_fast,pos-0.05,width,self.y_mul,depth*1.05)
 				#print(self.graph_path)
 
 				full_data_range=self.graph_z_max-self.graph_z_min
@@ -817,6 +819,7 @@ if open_gl_ok==True:
 					draw_stars()
 					
 		def recalculate(self):
+			fast_reset(self.ray_fast)
 			self.colors=[]
 			lines=[]
 

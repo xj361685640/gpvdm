@@ -1,8 +1,8 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012-2016 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -46,6 +46,7 @@ from help import help_window
 from gl_cmp import gl_cmp
 
 from util import str2bool
+from fx_selector import fx_selector
 
 open_gl_working=False
 
@@ -95,7 +96,16 @@ class display_widget(QWidget):
 		self.tb_config = QAction(QIcon(os.path.join(get_image_file_path(),"cog.png")), _("Configuration"), self)
 		self.tb_config.triggered.connect(self.callback_configure)
 		toolbar.addAction(self.tb_config)
-		
+
+		self.fx_box=fx_selector()
+		self.fx_box.file_name_set_start("light_ray_") 
+		self.fx_box.file_name_set_end(".dat")
+		self.fx_box.update()
+		self.fx_box.cb.currentIndexChanged.connect(self.fx_box_changed)
+
+		#self.fx_box.cb.currentIndexChanged.connect(self.mode_changed)
+		toolbar.addWidget(self.fx_box)
+
 		self.hbox.addWidget(toolbar)
 		
 		enable_3d=inp_get_token_value(os.path.join(os.getcwd(),"config.inp") , "#gui_config_3d_enabled")
@@ -105,6 +115,8 @@ class display_widget(QWidget):
 		
 		if enable_3d==True:
 			self.display=glWidget(self)
+			self.display.ray_file=os.path.join(os.getcwd(),"light_dump","light_ray_"+self.fx_box.get_text()+".dat")
+
 			self.hbox.addWidget(self.display)
 			self.display.setMinimumSize(800, 600)
 
@@ -124,6 +136,12 @@ class display_widget(QWidget):
 		self.contacts_window.changed.connect(self.recalculate)
 
 		self.gl_cmp.slider.changed.connect(self.recalculate)
+
+	def fx_box_changed(self):
+		self.display.ray_file=os.path.join(os.getcwd(),"light_dump","light_ray_"+self.fx_box.get_text()+".dat")
+		self.display.update()
+		#print("rod",self.display.ray_file)
+		
 
 	def tb_rotate_click(self):
 		self.display.start_rotate()
@@ -153,12 +171,13 @@ class display_widget(QWidget):
 		self.display.graph_path=self.gl_cmp.slider.get_file_name()
 		self.display.graph_z_max=self.gl_cmp.slider.z_max
 		self.display.graph_z_min=self.gl_cmp.slider.z_min
-		
 		self.display.recalculate()
-	
-	def update(self):
+		self.fx_box.update()
+
+	#def update(self):
 #		print("recalculate")
-		self.display.update()
+	#	self.display.update()
+	#	self.fx_box.update()
 
 	def callback_configure(self):
 		if self.gl_cmp.isVisible()==True:

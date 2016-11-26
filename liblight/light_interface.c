@@ -181,6 +181,16 @@ void light_init(struct light *in)
 
 void light_setup_ray(struct simulation *sim,struct device *cell,struct light *in)
 {
+	struct inp_file inp;
+
+	inp_init(sim,&inp);
+	inp_load_from_path(sim,&inp,get_input_path(sim),"ray.inp");
+
+	inp_check(sim,&inp,1.0);
+
+	inp_search_int(sim,&inp,&(in->my_image.theta_steps),"#ray_theta_steps");
+
+	inp_free(sim,&inp);
 
 	int i;
 	double xlen=cell->xlen;

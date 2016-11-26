@@ -407,6 +407,8 @@ class gpvdm_main_window(QMainWindow):
 		if self.notebook.terminal!=None:
 			self.my_server.set_terminal(self.notebook.terminal)
 
+		if self.notebook.update_display_function!=None:
+			self.my_server.set_display_function(self.notebook.update_display_function)
 		#self.plotted_graphs.init(os.getcwd(),self.callback_last_menu_click)
 
 		#set_active_name(self.light, inp_get_token_value("light.inp", "#Psun"))
