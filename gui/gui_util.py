@@ -1,8 +1,8 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012-2016 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -140,27 +140,27 @@ def tab_move_down(tab):
 
 	if len(a)>0:
 		a=a[0].row()
+
+		b=a+1
+		if b>=tab.rowCount():
+			b=0
+
+		av=[]
+		for i in range(0,tab.columnCount()):
+			av.append(str(tab_get_value(tab,a,i)))
+
+		bv=[]
+		for i in range(0,tab.columnCount()):
+			bv.append(str(tab_get_value(tab,b,i)))
+
+		for i in range(0,tab.columnCount()):
+			tab_set_value(tab,b,i,str(av[i]))
+			tab_set_value(tab,a,i,str(bv[i]))
+
+		tab.selectRow(b)
+		tab.blockSignals(False)
 	else:
-		a=a[0]
-
-	b=a+1
-	if b>=tab.rowCount():
-		b=0
-
-	av=[]
-	for i in range(0,tab.columnCount()):
-		av.append(str(tab_get_value(tab,a,i)))
-
-	bv=[]
-	for i in range(0,tab.columnCount()):
-		bv.append(str(tab_get_value(tab,b,i)))
-
-	for i in range(0,tab.columnCount()):
-		tab_set_value(tab,b,i,str(av[i]))
-		tab_set_value(tab,a,i,str(bv[i]))
-
-	tab.selectRow(b)
-	tab.blockSignals(False)
+		return
 
 def tab_insert_row(tab):
 	tab.blockSignals(True)

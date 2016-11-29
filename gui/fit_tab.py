@@ -1,8 +1,8 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012-2016 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -47,6 +47,7 @@ mesh_articles = []
 class fit_tab(QTabWidget):
 
 	def update(self):
+		print("updating!")
 		self.tmesh_real.update()
 		self.tmesh.update()
 
@@ -60,14 +61,14 @@ class fit_tab(QTabWidget):
 		else:
 			self.tab_name=""
 
-		self.setTabsClosable(True)
+		#self.setTabsClosable(True)
 		self.setMovable(True)
-
-		self.tmesh = fit_window_plot(self.index)
-		self.addTab(self.tmesh,_("Fit error"))
 
 		self.tmesh_real = fit_window_plot_real(self.index)
 		self.addTab(self.tmesh_real,_("Experimental data"))
+
+		self.tmesh = fit_window_plot(self.index)
+		self.addTab(self.tmesh,_("Fit error"))
 
 		self.fit_patch = fit_patch(self.index)
 		self.addTab(self.fit_patch, _("Fit patch"))
@@ -88,12 +89,12 @@ class fit_tab(QTabWidget):
 		self.label.set_text(mytext)
 
 	def rename(self,tab_name):
+		self.tab_name=tab_name
 		inp_update_token_value("fit"+str(self.index)+".inp", "#fit_name", self.tab_name,1)
-		self.set_tab_caption(self.tab_name)
 
 	def import_data(self):
 		file_name=save_as_filter(parent,"dat (*.dat);;csv (*.csv)")
 		if file_name!=None:
-			print("importing file",file_name)
+			#print("importing file",file_name)
 			shutil.copy(file_name, os.path.join(os.getcwd(),"fit_data"+str(self.index)+".inp"))
 			self.update()

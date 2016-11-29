@@ -2,7 +2,7 @@
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -29,7 +29,7 @@ from numpy import *
 from scan_item import scan_item_add
 from tab_base import tab_base
 
-from gui_util import save_as_gpvdm
+from gui_util import save_as_image
 
 #matplotlib
 import matplotlib
@@ -253,22 +253,11 @@ class tab_bands(QWidget,tab_base):
 				line, = ax1.plot(x_homo,y , color[pos], linewidth=3)
 				pos=pos+1
 
-	def save_image(self,file_name):
-		data=os.path.splitext(file_name)[0]
-		lumo=data+'_bands.jpg'
-		self.canvas_lumo.figure.savefig(lumo)
-
 
 	def callback_save(self):
-		file_name=save_as_gpvdm(self)
+		file_name=save_as_image(self)
 		if file_name!=False:
-
-			if os.path.splitext(file_name)[1]:
-				self.save_image(file_name)
-			else:
-				filter=dialog.get_filter()
-				self.save_image(file_name+".png")
-
+			self.canvas_lumo.figure.savefig(file_name)
 
 	def __init__(self):
 		QWidget.__init__(self)

@@ -751,6 +751,7 @@ double read_ver=0.0;
 				ewe(sim,"#end token missing %s\n",in->full_name);
 			}
 
+			inp_reset_read(sim,in);
 			return;
 		}
 

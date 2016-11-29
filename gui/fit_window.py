@@ -1,8 +1,8 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012-2016 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -31,6 +31,7 @@ from global_objects import global_object_get
 from cal_path import get_image_file_path
 from global_objects import global_object_register
 from server import server_get
+from help import help_window
 
 import i18n
 _ = i18n.language.gettext
@@ -52,6 +53,10 @@ from gui_util import yes_no_dlg
 
 from fit_tab import fit_tab
 from QHTabBar import QHTabBar
+
+from fit_vars import fit_vars
+from duplicate import duplicate
+
 
 def fit_new_filename():
 	for i in range(0,20):
@@ -80,16 +85,36 @@ class fit_window(QWidget):
 
 		return item_factory.get_widget("<main>")
 
-	def callback_close(self, widget, data=None):
+	def callback_close(self):
 		self.win_list.update(self,"fit_window")
 		self.hide()
 		return True
 
-	def callback_help(self, widget, data=None):
-		webbrowser.open('http://www.gpvdm.com/man/index.html')
+	def callback_fit_vars(self):
+		if self.fit_vars_window==None:
+			self.fit_vars_window=fit_vars()
+			
+		help_window().help_set_help(["vars.png",_("<big><b>The fitting variables window</b></big><br> Use this window to select the variables use to perform the fit.")])
+		if self.fit_vars_window.isVisible()==True:
+			self.fit_vars_window.hide()
+		else:
+			self.fit_vars_window.show()
 
-	def callback_add_page(self, widget, data=None):
-		new_sim_name=dlg_get_text( _("New fit name:"), _("fit ")+str(len(self.notebook.get_children())+1),image_name="new.png")
+	def callback_duplicate(self):
+		if self.duplicate_window==None:
+			self.duplicate_window=duplicate()
+			
+		help_window().help_set_help(["duplicate.png",_("<big><b>The fitting variables window</b></big><br> Use this window to select the variables use to perform the fit.")])
+		if self.duplicate_window.isVisible()==True:
+			self.duplicate_window.hide()
+		else:
+			self.duplicate_window.show()
+			
+	def callback_help(self):
+		webbrowser.open('https://www.gpvdm.com/man/index.html')
+
+	def callback_add_page(self):
+		new_sim_name=dlg_get_text( _("New fit name:"), _("fit ")+str(len(self.notebook.get_children())+1),"new.png")
 
 		if new_sim_name!=None:
 			index=fit_new_filename()
@@ -100,15 +125,13 @@ class fit_window(QWidget):
 			self.add_page(index)
 
 	def callback_remove_page(self,widget,name):
-		pageNum = self.notebook.get_current_page()
-		tab = self.notebook.get_nth_page(pageNum)
+		tab = self.notebook.currentWidget()
 		self.toggle_tab_visible(tab.tab_name)
 
-	def callback_copy_page(self,widget,data):
-		pageNum = self.notebook.get_current_page()
-		tab = self.notebook.get_nth_page(pageNum)
+	def callback_copy_page(self):
+		tab = self.notebook.currentWidget()
 		old_index=tab.index
-		new_sim_name=dlg_get_text( _("Clone the current fit to a new fit called:"), tab.tab_name,image_name="clone.png")
+		new_sim_name=dlg_get_text( _("Clone the current fit to a new fit called:"), tab.tab_name,"clone.png")
 		if new_sim_name!=None:
 			new_sim_name=new_sim_name
 			index=fit_new_filename()
@@ -124,22 +147,21 @@ class fit_window(QWidget):
 	def remove_invalid(self,input_name):
 		return input_name.replace (" ", "_")
 
-	def callback_import(self,widget,data):
-		pageNum = self.notebook.get_current_page()
-		tab = self.notebook.get_nth_page(pageNum)
+	def callback_import(self):
+		tab = self.notebook.currentWidget()
 		tab.import_data()
 			
-	def callback_rename_page(self,widget,data):
-		pageNum = self.notebook.get_current_page()
-		tab = self.notebook.get_nth_page(pageNum)
-		new_sim_name=dlg_get_text( _("Rename the fit to be called:"), tab.tab_name,image_name="rename.png")
+	def callback_rename_page(self):
+		tab = self.notebook.currentWidget()
+		new_sim_name=dlg_get_text( _("Rename the fit to be called:"), tab.tab_name,"rename.png")
 
-		if new_sim_name!=None:
+		if new_sim_name.ret!=None:
 			#new_sim_name=self.remove_invalid(new_sim_name)
 			#new_dir=os.path.join(self.sim_dir,new_sim_name)
 			#shutil.move(old_dir, new_dir)
-			tab.rename(new_sim_name)
-			#edit
+			tab.rename(new_sim_name.ret)
+			index=self.notebook.currentIndex() 
+			self.notebook.setTabText(index, new_sim_name.ret)
 
 
 	def callback_delete_page(self):
@@ -186,24 +208,19 @@ class fit_window(QWidget):
 		new_tab=fit_tab(index)
 		self.notebook.addTab(new_tab,new_tab.tab_name)
 
-	def switch_page(self,page, page_num, user_param1):
-		pageNum = self.notebook.get_current_page()
-		tab = self.notebook.get_nth_page(pageNum)
-		self.status_bar.push(self.context_id, tab.tab_name)
 
 	def rod(self):
-		pageNum = self.notebook.get_current_page()
-		tab = self.notebook.get_nth_page(pageNum)
+		tab = self.notebook.currentWidget()
 		tab.update()
 
-	def callback_one_fit(self, widget, data=None):
+	def callback_one_fit(self):
 		my_server=server_get()
 		my_server.clear_cache()
 		my_server.add_job(os.getcwd(),"--1fit")
 		my_server.set_callback_when_done(self.rod)
 		my_server.start()
 
-	def callback_do_fit(self, widget, data=None):
+	def callback_do_fit(self):
 		my_server=server_get()
 		my_server.clear_cache()
 		my_server.add_job(os.getcwd(),"--fit")
@@ -278,8 +295,16 @@ class fit_window(QWidget):
 		self.import_data.triggered.connect(self.callback_import)
 		toolbar.addAction(self.import_data)
 
+		self.tb_fit_vars= QAction(QIcon(os.path.join(get_image_file_path(),"vars.png")), _("Fit variables"), self)
+		self.tb_fit_vars.triggered.connect(self.callback_fit_vars)
+		toolbar.addAction(self.tb_fit_vars)
+
+		self.tb_duplicate= QAction(QIcon(os.path.join(get_image_file_path(),"duplicate.png")), _("Duplicate variables"), self)
+		self.tb_duplicate.triggered.connect(self.callback_duplicate)
+		toolbar.addAction(self.tb_duplicate)
+				
 		self.play= QAction(QIcon(os.path.join(get_image_file_path(),"play.png")), _("Run a single fit"), self)
-		self.play.triggered.connect(self.callback_import)
+		self.play.triggered.connect(self.callback_one_fit)
 		toolbar.addAction(self.play)
 		
 		self.play= QAction(QIcon(os.path.join(get_image_file_path(),"forward.png")), _("Start the fitting process"), self)
@@ -312,9 +337,9 @@ class fit_window(QWidget):
 
 		self.setLayout(self.main_vbox)
 
-		return
-
-
+		self.fit_vars_window=None
+		self.duplicate_window=None
+		
 
 
 

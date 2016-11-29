@@ -117,13 +117,14 @@ class lasers(QWidget):
 			inp_update(tab.file_name, "#laser_name", new_laser_name.ret)
 
 	def callback_delete_page(self):
-		tab = self.notebook.currentWidget()
-		response=yes_no_dlg(self,_("Should I remove the laser file ")+tab.tab_name)
+		if self.notebook.count()>1:
+			tab = self.notebook.currentWidget()
+			response=yes_no_dlg(self,_("Should I remove the laser file ")+tab.tab_name)
 
-		if response == True:
-			inp_remove_file(tab.file_name)
-			index=self.notebook.currentIndex() 
-			self.notebook.removeTab(index)
+			if response == True:
+				inp_remove_file(tab.file_name)
+				index=self.notebook.currentIndex() 
+				self.notebook.removeTab(index)
 
 
 	def load_tabs(self):

@@ -113,6 +113,7 @@ from cmp_class import cmp_class
 from about import about_dlg
 from dlg_export import dlg_export
 from fit_window import fit_window
+from duplicate import duplicate
 from device_lib import device_lib_class
 
 from equation import equation

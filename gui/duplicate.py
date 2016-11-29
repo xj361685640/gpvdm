@@ -41,6 +41,7 @@ from cal_path import get_exe_command
 from cal_path import get_image_file_path
 from scan_item import scan_items_get_file
 from scan_item import scan_items_get_token
+
 from util import str2bool
 
 import i18n
@@ -55,7 +56,9 @@ from gui_util import tab_add
 from gui_util import tab_remove
 from gui_util import tab_get_value
 
-class fit_patch(QWidget):
+from inp import inp_load_file
+
+class duplicate(QWidget):
 
 
 	def callback_add_item(self):
@@ -67,6 +70,8 @@ class fit_patch(QWidget):
 		self.save_combo()
 
 	def save_combo(self):
+		return
+
 		a = open(self.file_name, "w")
 
 		for i in range(0,self.tab.rowCount()):
@@ -89,30 +94,25 @@ class fit_patch(QWidget):
 		self.tab.setSelectionBehavior(QAbstractItemView.SelectRows)
 		self.tab.setHorizontalHeaderLabels([_("File"), _("Token"), _("Values")])
 		self.tab.setColumnWidth(1, 400)
-		self.file_name="fit_patch"+str(self.index)+".inp"
+		self.file_name="fit_vars.inp"
 
-		if os.path.isfile(self.file_name)==True:
-			f=open(self.file_name)
-			config = f.readlines()
-			f.close()
+		lines=[]
+		pos=0
 
-			for ii in range(0, len(config)):
-				config[ii]=config[ii].rstrip()
-
-			pos=0
-			mylen=len(config)
+		if inp_load_file(lines,self.file_name)==True:
+			mylen=len(lines)
 			while(1):
-				t=config[pos]
+				t=lines[pos]
 				if t=="#end":
 					break
 				pos=pos+1
 
-				f=config[pos]
+				f=lines[pos]
 				if f=="#end":
 					break
 				pos=pos+1
 
-				v=config[pos]
+				v=lines[pos]
 				if v=="#end":
 					break
 				pos=pos+1
@@ -122,10 +122,11 @@ class fit_patch(QWidget):
 				if pos>mylen:
 					break
 
-	def __init__(self,index):
+	def __init__(self):
 		QWidget.__init__(self)
-
-		self.index=index
+		self.setWindowTitle(_("Fit vars window - gpvdm"))   
+		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"fit.png")))
+		self.setFixedSize(900, 700)
 		
 		self.vbox=QVBoxLayout()
 
