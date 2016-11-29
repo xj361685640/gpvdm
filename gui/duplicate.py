@@ -42,6 +42,8 @@ from cal_path import get_image_file_path
 from scan_item import scan_items_get_file
 from scan_item import scan_items_get_token
 
+from window_list import windows
+
 from util import str2bool
 
 import i18n
@@ -90,11 +92,11 @@ class duplicate(QWidget):
 
 	def create_model(self):
 		self.tab.clear()
-		self.tab.setColumnCount(3)
+		self.tab.setColumnCount(4)
 		self.tab.setSelectionBehavior(QAbstractItemView.SelectRows)
-		self.tab.setHorizontalHeaderLabels([_("File"), _("Token"), _("Values")])
-		self.tab.setColumnWidth(1, 400)
-		self.file_name="fit_vars.inp"
+		self.tab.setHorizontalHeaderLabels([_("src File"), _("src Token"), _("dest File"), _("dest Token")])
+		#self.tab.setColumnWidth(1, 400)
+		self.file_name="duplicate.inp"
 
 		lines=[]
 		pos=0
@@ -102,31 +104,25 @@ class duplicate(QWidget):
 		if inp_load_file(lines,self.file_name)==True:
 			mylen=len(lines)
 			while(1):
-				t=lines[pos]
-				if t=="#end":
+				data=lines[pos]
+				if data=="#end":
 					break
 				pos=pos+1
-
-				f=lines[pos]
-				if f=="#end":
-					break
-				pos=pos+1
-
-				v=lines[pos]
-				if v=="#end":
-					break
-				pos=pos+1
-
-				tab_add(self.tab,[f,t,v])
+				data=data.split(" ")
+				tab_add(self.tab,[data[0],data[1],data[2],data[3]])
 
 				if pos>mylen:
 					break
 
 	def __init__(self):
 		QWidget.__init__(self)
-		self.setWindowTitle(_("Fit vars window - gpvdm"))   
-		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"fit.png")))
+		self.setWindowTitle(_("Fit variables duplicate window - gpvdm"))   
+		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"duplicate.png")))
 		self.setFixedSize(900, 700)
+
+		self.win_list=windows()
+		self.win_list.load()
+		self.win_list.set_window(self,"fit_duplicate_window")
 		
 		self.vbox=QVBoxLayout()
 
@@ -155,3 +151,7 @@ class duplicate(QWidget):
 
 
 		self.setLayout(self.vbox)
+
+	def closeEvent(self, event):
+		self.win_list.update(self,"fit_duplicate_window")
+		self.hide()

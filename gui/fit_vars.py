@@ -42,6 +42,8 @@ from cal_path import get_image_file_path
 from scan_item import scan_items_get_file
 from scan_item import scan_items_get_token
 
+from window_list import windows
+
 from util import str2bool
 
 import i18n
@@ -86,7 +88,10 @@ class fit_vars(QWidget):
 
 	def tab_changed(self):
 		self.save_combo()
-		
+
+	def closeEvent(self, event):
+		self.win_list.update(self,"fit_vars_window")
+		self.hide()
 
 	def create_model(self):
 		self.tab.clear()
@@ -124,6 +129,10 @@ class fit_vars(QWidget):
 
 	def __init__(self):
 		QWidget.__init__(self)
+		self.win_list=windows()
+		self.win_list.load()
+		self.win_list.set_window(self,"fit_vars_window")
+
 		self.setWindowTitle(_("Fit vars window - gpvdm"))   
 		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"fit.png")))
 		self.setFixedSize(900, 700)
