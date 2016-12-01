@@ -29,6 +29,7 @@ from util_zip import zip_lsdir
 from util import strextract_interger
 from global_objects import global_object_get
 from cal_path import get_image_file_path
+
 from global_objects import global_object_register
 from server import server_get
 from help import help_window
@@ -68,8 +69,9 @@ def fit_new_filename():
 class fit_window(QWidget):
 
 	def update(self):
-		for item in self.notebook.get_children():
-			item.update()
+		for i in range(0,self.notebook.count()):
+			tab = self.notebook.widget(i)
+			tab.update()
 
 	def get_main_menu(self, window):
 		accel_group = gtk.AccelGroup()
@@ -89,6 +91,10 @@ class fit_window(QWidget):
 		self.win_list.update(self,"fit_window")
 		self.hide()
 		return True
+
+	def callback_stop(self):
+		my_server=server_get()
+		my_server.force_stop()
 
 	def callback_fit_vars(self):
 		if self.fit_vars_window==None:
@@ -295,6 +301,8 @@ class fit_window(QWidget):
 		self.import_data.triggered.connect(self.callback_import)
 		toolbar.addAction(self.import_data)
 
+		toolbar.addSeparator()
+
 		self.tb_fit_vars= QAction(QIcon(os.path.join(get_image_file_path(),"vars.png")), _("Fit variables"), self)
 		self.tb_fit_vars.triggered.connect(self.callback_fit_vars)
 		toolbar.addAction(self.tb_fit_vars)
@@ -303,6 +311,8 @@ class fit_window(QWidget):
 		self.tb_duplicate.triggered.connect(self.callback_duplicate)
 		toolbar.addAction(self.tb_duplicate)
 				
+		toolbar.addSeparator()
+
 		self.play= QAction(QIcon(os.path.join(get_image_file_path(),"play.png")), _("Run a single fit"), self)
 		self.play.triggered.connect(self.callback_one_fit)
 		toolbar.addAction(self.play)
@@ -310,7 +320,11 @@ class fit_window(QWidget):
 		self.play= QAction(QIcon(os.path.join(get_image_file_path(),"forward.png")), _("Start the fitting process"), self)
 		self.play.triggered.connect(self.callback_do_fit)
 		toolbar.addAction(self.play)
-		
+
+		self.pause= QAction(QIcon(os.path.join(get_image_file_path(),"pause.png")), _("Stop the simulation"), self)
+		self.pause.triggered.connect(self.callback_stop)
+		toolbar.addAction(self.pause)
+
 		spacer = QWidget()
 		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 		toolbar.addWidget(spacer)

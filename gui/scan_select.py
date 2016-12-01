@@ -40,13 +40,17 @@ from gui_util import error_dlg
 class select_param(QWidget):
 	def init(self,treeview):
 		self.dest_treeview=treeview
-		
+
+	def set_save_function(self,save_function):
+		self.save_function=save_function
+
 	def __init__(self):
 		QWidget.__init__(self)
 		self.win_list=windows()
 		self.setFixedSize(400,700)
 		self.main_vbox=QVBoxLayout()
-
+		self.save_function=None
+		
 		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"scan.png")))
 
 		self.setWindowTitle(_("Select simulation parameter (www.gpvdm.com)")) 
@@ -148,9 +152,13 @@ class select_param(QWidget):
 			tab_set_value(self.dest_treeview,pos,1,token)
 			tab_set_value(self.dest_treeview,pos,2,path)
 
+			if self.save_function!=None:
+				self.save_function()
+
 			self.close()
 		else:
 			error_dlg(self,"No row selected in the scan window, can't insert the selection")
+
 
 
 

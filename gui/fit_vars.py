@@ -51,40 +51,65 @@ _ = i18n.language.gettext
 
 #qt
 from PyQt5.QtCore import QSize, Qt 
-from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QTableWidget,QAbstractItemView, QMenuBar
+from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QTableWidget,QAbstractItemView, QMenuBar, QTableWidgetItem
 from PyQt5.QtGui import QPainter,QIcon
 
-from gui_util import tab_add
 from gui_util import tab_remove
 from gui_util import tab_get_value
 
 from inp import inp_load_file
+from inp import inp_save_lines
+from gpvdm_select import gpvdm_select
 
 class fit_vars(QWidget):
 
+	def insert_row(self,i,f,t,p,v):
+		self.tab.blockSignals(True)
+		self.tab.insertRow(i)
 
+		item = QTableWidgetItem(f)
+		self.tab.setItem(i,0,item)
+
+		item = QTableWidgetItem(t)
+		self.tab.setItem(i,1,item)
+
+
+		self.item = gpvdm_select()
+		self.item.setText(p)
+		self.item.button.clicked.connect(self.callback_show_list)
+
+		self.tab.setCellWidget(i,2,self.item)
+
+		item = QTableWidgetItem(v)
+		self.tab.setItem(i,3,item)
+
+		
 	def callback_add_item(self):
-		tab_add(self.tab,["File","token",_("value")])
+		self.insert_row(self.tab.rowCount(),_("File"),_("token"),_("path"),_("value"))
 		self.save_combo()
+
+	def callback_show_list(self):
+		self.select_param_window.update()
+		self.select_param_window.show()
 
 	def callback_delete_item(self):
 		tab_remove(self.tab)
 		self.save_combo()
 
 	def save_combo(self):
-		return
-
-		a = open(self.file_name, "w")
+		lines=[]
 
 		for i in range(0,self.tab.rowCount()):
-			a.write(str(tab_get_value(self.tab,i, 1))+"\n")
-			a.write(str(tab_get_value(self.tab,i, 0))+"\n")
-			a.write(str(tab_get_value(self.tab,i, 2))+"\n")
+			lines.append(str(tab_get_value(self.tab,i, 1)))
+			lines.append(str(tab_get_value(self.tab,i, 0)))
+			lines.append(str(tab_get_value(self.tab,i, 2)))
+			lines.append(str(tab_get_value(self.tab,i, 3)))
 
-		a.write("#end\n")
+		lines.append("#ver")
+		lines.append("1.0")
+		lines.append("#end")
 
-		a.close()
-
+		inp_save_lines(self.file_name,lines)
 
 	def tab_changed(self):
 		self.save_combo()
@@ -95,10 +120,10 @@ class fit_vars(QWidget):
 
 	def create_model(self):
 		self.tab.clear()
-		self.tab.setColumnCount(3)
+		self.tab.setColumnCount(4)
 		self.tab.setSelectionBehavior(QAbstractItemView.SelectRows)
-		self.tab.setHorizontalHeaderLabels([_("File"), _("Token"), _("Values")])
-		self.tab.setColumnWidth(1, 400)
+		self.tab.setHorizontalHeaderLabels([_("File"), _("Token"), _("Path"),_("Values")])
+		self.tab.setColumnWidth(2, 400)
 		self.file_name="fit_vars.inp"
 
 		lines=[]
@@ -106,6 +131,7 @@ class fit_vars(QWidget):
 
 		if inp_load_file(lines,self.file_name)==True:
 			mylen=len(lines)
+			line=0
 			while(1):
 				t=lines[pos]
 				if t=="#end":
@@ -117,15 +143,22 @@ class fit_vars(QWidget):
 					break
 				pos=pos+1
 
+				p=lines[pos]
+				if p=="#end":
+					break
+				pos=pos+1
+
 				v=lines[pos]
 				if v=="#end":
 					break
 				pos=pos+1
 
-				tab_add(self.tab,[f,t,v])
+				self.insert_row(line,f,t,p,v)
 
 				if pos>mylen:
 					break
+
+				line=line+1
 
 	def __init__(self):
 		QWidget.__init__(self)
@@ -136,7 +169,9 @@ class fit_vars(QWidget):
 		self.setWindowTitle(_("Fit vars window - gpvdm"))   
 		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"fit.png")))
 		self.setFixedSize(900, 700)
-		
+
+		self.select_param_window=select_param()
+
 		self.vbox=QVBoxLayout()
 
 		toolbar=QToolBar()
@@ -162,5 +197,7 @@ class fit_vars(QWidget):
 
 		self.vbox.addWidget(self.tab)
 
+		self.select_param_window.init(self.tab)
+		self.select_param_window.set_save_function(self.save_combo)
 
 		self.setLayout(self.vbox)

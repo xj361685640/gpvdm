@@ -177,7 +177,8 @@ class gpvdm_main_window(QMainWindow):
 
 	def gui_sim_stop(self):
 		message=""
-		self.notebook.goto_page(self.notebook_active_page)
+		if self.notebook_active_page!=None:
+			self.notebook.goto_page(self.notebook_active_page)
 
 		if os.path.isfile("signal_stop.dat")==True:
 			f = open('signal_stop.dat')
@@ -217,14 +218,14 @@ class gpvdm_main_window(QMainWindow):
 
 
 	def callback_simulate_stop(self):
-		cmd = 'killall '+get_exe_name()
-		print(cmd)
+		self.my_server.force_stop()
 #		ret= os.system(cmd)
 
 	def callback_run_fit(self, widget, data=None):
 		if self.fit_window==None:
 			self.fit_window=fit_window()
 			self.fit_window.init()
+			self.my_server.set_fit_update_function(self.fit_window.update)
 
 		help_window().help_set_help(["fit.png",_("<big><b>Fit window</b></big><br> Use this window to fit the simulation to experimental data.")])
 		if self.fit_window.isVisible()==True:
@@ -624,6 +625,7 @@ class gpvdm_main_window(QMainWindow):
 
 	def __init__(self):
 		self.undo_list=undo_list_class()
+		self.notebook_active_page=None
 		super(gpvdm_main_window,self).__init__()
 		self.setGeometry(200, 100, 1300, 600)
 		self.setWindowTitle(_("General-purpose Photovoltaic Device Model (www.gpvdm.com)"))

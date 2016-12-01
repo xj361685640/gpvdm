@@ -4,7 +4,7 @@
 // 
 //  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 //
-//	www.roderickmackenzie.eu
+//	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
@@ -40,11 +40,10 @@ static char* unused_pchar __attribute__((unused));
 void inter_sin(struct istruct *in,gdouble mag,gdouble fx,gdouble delta)
 {
 int i;
-for (i=0;i<in->len;i++)
-{
-	in->data[i]=fabs(mag)*sin(2*PI*fx*(in->x[i]+delta));
-}
-
+	for (i=0;i<in->len;i++)
+	{
+		in->data[i]=fabs(mag)*sin(2*PI*fx*(in->x[i]+delta));
+	}
 }
 
 

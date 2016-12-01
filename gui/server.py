@@ -27,6 +27,7 @@ import threading
 import multiprocessing
 import time
 from cal_path import get_image_file_path
+from cal_path import get_exe_name
 
 from time import sleep
 from win_lin import running_on_linux
@@ -80,6 +81,7 @@ class server(QWidget,cluster):
 		self.enable_gui=False
 		self.callback_when_done=False
 		self.display=False
+		self.fit_update=None
 		status_icon_init()
 
 	def init(self,sim_dir):
@@ -103,6 +105,9 @@ class server(QWidget,cluster):
 	def set_display_function(self,display):
 		self.display=display
 
+	def set_fit_update_function(self,fit_update):
+		self.fit_update=fit_update
+
 	def gui_sim_start(self):
 		help_window().hide()
 		self.progress_window.start()
@@ -113,7 +118,6 @@ class server(QWidget,cluster):
 		self.callback_when_done=proc
 
 	def gui_sim_stop(self):
-		print("here")
 		text=self.check_warnings()
 		self.progress_window.stop()
 		help_window().show()
@@ -233,6 +237,17 @@ class server(QWidget,cluster):
 
 		return message
 
+	def force_stop(self):
+		if running_on_linux()==True:
+			cmd = 'killall '+get_exe_name()
+			os.system(cmd)
+			print(cmd)
+		else:
+			cmd="taskkill /im "+get_exe_name()
+			print(cmd)
+			os.system(cmd)
+
+		self.stop()
 
 	def stop(self):
 		self.progress_window.set_fraction(0.0)
@@ -312,7 +327,9 @@ class server(QWidget,cluster):
 					splitup=data.split(":")
 					if len(splitup)>1:
 						self.progress_window.set_text(data.split(":")[1])
-
+			elif (data.startswith("fit_run")):
+				if self.fit_update!=None:
+					self.fit_update()
 
 def server_init():
 	global my_server

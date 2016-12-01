@@ -122,8 +122,13 @@ lib.append(my_data("#imps_modulation_max","1=1 Sun",_("Modulation depth"),["text
 lib.append(my_data("#imps_modulation_fx","Hz",_("Modulation frequency"),["text"],"e",1.0))
 lib.append(my_data("#high_sun_scale","au",_("High light multiplyer"),["text"],"e",1.0))
 lib.append(my_data("#Dphotoneff","0-1",_("Photon efficiency"),["text"],"e",1.0))
+
+#jv.inp
 lib.append(my_data("#jv_step_mul","0-2.0",_("JV voltage step multiplyer"),["text"],"e",1.0))
 lib.append(my_data("#jv_max_j","A m^{-2}",_("Maximum current density"),["text"],"e",1.0))
+lib.append(my_data("#jv_light_efficiency","au",_("JV curve photon generation efficiency"),["text"],"e",1.0))
+lib.append(my_data("#jv_pmax_n","m^{-3}","Average carrier density at P_{max}",["text"],"e",1.0))
+lib.append(my_data("#jv_pmax_tau","m^{-1}","Recombination time constant",["text"],"e",1.0))
 
 #sim_info.dat
 lib.append(my_data("#voc","V",_("V_{oc}"),["text"],"e",1.0))
@@ -209,7 +214,6 @@ lib.append(my_data("#vl_e","","",["text"],"e",1.0))
 lib.append(my_data("#vl_h","","",["text"],"e",1.0))
 lib.append(my_data("#vr_e","","",["text"],"e",1.0))
 lib.append(my_data("#vr_h","","",["text"],"e",1.0))
-lib.append(my_data("#jv_light_efficiency","","",["text"],"e",1.0))
 lib.append(my_data("#light_model","","",["text"],"e",1.0))
 lib.append(my_data("#NDfilter","","",["text"],"e",1.0))
 lib.append(my_data("#plottime","","",["text"],"e",1.0))
@@ -231,8 +235,7 @@ lib.append(my_data("#epitaxy","","",["text"],"e",1.0))
 lib.append(my_data("#alignmesh","","",["text"],"e",1.0))
 lib.append(my_data("#stark_start_time","","",["text"],"e",1.0))
 
-lib.append(my_data("#jv_pmax_n","m^{-3}","Average carrier density at P_{max}",["text"],"e",1.0))
-lib.append(my_data("#jv_pmax_tau","m^{-1}","Recombination time constant",["text"],"e",1.0))
+
 
 lib.append(my_data("#voc_nt","m^{-3}","Trapped electrons at Voc",["text"],"e",1.0))
 lib.append(my_data("#voc_pt","m^{-3}","Trapped holes at Voc",["text"],"e",1.0))

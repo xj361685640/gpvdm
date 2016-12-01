@@ -2,7 +2,7 @@
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -266,15 +266,22 @@ class cluster:
 		self.send_files(target,src,files)
 
 	def tx_packet(self,data):
-		bytes=data.data
-		if data.zip==True:
-			bytes = zlib.compress(bytes)
+		
+		#If the user wants to tx a string conver it into byte sfirst
+		if type(data.data)==str:
+			dat=str.encode(data.data)
+		else:
+			dat=data.data
 
-		tx_size=len(bytes)
+		if data.zip==True:
+			dat = zlib.compress(dat)
+
+		tx_size=len(dat)
 		if tx_size!=0:
 			expand=((int(tx_size)/int(512))+1)*512-tx_size
-			bytes+= "\0" * expand
-
+			expand=int(expand)
+			zeros=bytearray(expand)
+			dat += zeros
 
 		header=data.id+"\n"
 
@@ -306,7 +313,8 @@ class cluster:
 
 		for i in range(0,len(header)):
 			buf[i]=ord(header[i])
-		buf.extend(map(ord, bytes))
+
+		dat += buf
 		#buf=buf+bytes
 		print("I am sending",len(buf),data.id)
 		buf=encrypt(buf)
@@ -329,7 +337,8 @@ class cluster:
 			orig_size=len(bytes)
 
 			print("tx file:",full_path)
-
+			if full_path.endswith("centos_configure.sh")==True:
+				print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>sent centos configure")
 			if target=="":
 				data.target=src
 			else:

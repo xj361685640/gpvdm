@@ -41,15 +41,19 @@ from fit_window_plot import fit_window_plot
 from fit_window_plot_real import fit_window_plot_real
 
 from gui_util import save_as_filter
+from util import str2bool
 
 mesh_articles = []
 
 class fit_tab(QTabWidget):
 
 	def update(self):
-		print("updating!")
-		self.tmesh_real.update()
-		self.tmesh.update()
+		lines=[]
+		if inp_load_file(lines,"fit"+str(self.index)+".inp")==True:
+			enabled=str2bool(inp_search_token_value(lines, "#enabled"))
+			if enabled==True:
+				self.tmesh_real.update()
+				self.tmesh.update()
 
 	def __init__(self,index):
 		QTabWidget.__init__(self)
@@ -93,7 +97,7 @@ class fit_tab(QTabWidget):
 		inp_update_token_value("fit"+str(self.index)+".inp", "#fit_name", self.tab_name,1)
 
 	def import_data(self):
-		file_name=save_as_filter(parent,"dat (*.dat);;csv (*.csv)")
+		file_name=save_as_filter(self,"dat (*.dat);;csv (*.csv)")
 		if file_name!=None:
 			#print("importing file",file_name)
 			shutil.copy(file_name, os.path.join(os.getcwd(),"fit_data"+str(self.index)+".inp"))

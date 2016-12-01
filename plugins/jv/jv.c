@@ -152,17 +152,17 @@ gdouble n_pmax=0.0;
 		if (ittr>0)
 		{
 
-			inter_append(&jvexternal,get_equiv_V(sim,in),get_equiv_J(sim,in));
+			inter_append(&jvexternal,Vexternal,get_equiv_J(sim,in));
 			inter_append(&jvavg,V,get_avg_J(in));
 			inter_append(&jv,V,get_J(in));
-			inter_append(&ivexternal,get_equiv_V(sim,in),get_equiv_I(sim,in));
+			inter_append(&ivexternal,Vexternal,get_equiv_I(sim,in));
 
 		}
 
 		ittr++;
 
-		inter_append(&charge,get_equiv_V(sim,in),get_extracted_np(in));
-		inter_append(&charge_tot,get_equiv_V(sim,in),get_np_tot(in));
+		inter_append(&charge,Vexternal,get_extracted_np(in));
+		inter_append(&charge_tot,Vexternal,get_np_tot(in));
 /*
 		FILE *deriv=fopen("dfn.dat","w");
 		for (r=0;r<in->ymeshpoints-1;r++)
@@ -181,7 +181,7 @@ gdouble n_pmax=0.0;
 			//printf("Plotted\n");
 			plot_now(sim,"jv.plot");
 			stop_start(sim,in);
-			dump_dynamic_add_data(sim,&store,in,get_equiv_V(sim,in));
+			dump_dynamic_add_data(sim,&store,in,Vexternal);
 
 			if (first==FALSE)
 			{
@@ -237,7 +237,7 @@ gdouble n_pmax=0.0;
 
 			dump_write_to_disk(sim,in);
 
-			inter_append(&lv,get_equiv_V(sim,in),pl_get_light_energy()*in->mylight.extract_eff[lam]);
+			inter_append(&lv,Vexternal,pl_get_light_energy()*in->mylight.extract_eff[lam]);
 
 			inter_append(&li,J,pl_get_light_energy()*in->mylight.extract_eff[lam]);
 

@@ -153,7 +153,7 @@ class scan_vbox(QWidget):
 				for i in range(0,len(lines)):
 					tab_set_value(self.tab,row,i,lines[i])
 
-	def callback_show_list(self, widget, data=None):
+	def callback_show_list(self):
 		self.select_param_window.update()
 		self.select_param_window.show()
 
@@ -330,7 +330,7 @@ class scan_vbox(QWidget):
 
 
 	def save_combo(self):
-		print("SAVE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+
 		self.make_sim_dir()
 		a = open(os.path.join(self.sim_dir,"gpvdm_gui_config.inp"), "w")
 		a.write(str(self.tab.rowCount())+"\n")
@@ -499,7 +499,8 @@ class scan_vbox(QWidget):
 		self.tab_name=os.path.basename(os.path.normpath(self.sim_dir))
 
 		self.select_param_window=select_param()
-
+		self.select_param_window.set_save_function(self.save_combo)
+		
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 

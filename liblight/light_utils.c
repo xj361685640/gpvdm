@@ -266,6 +266,12 @@ for  (i=0;i<in->lpoints;i++)
 
 }
 
+gdouble tot=0.0;
+for  (i=0;i<in->lpoints;i++)
+{
+	tot=tot+in->sun_photons[i]*in->dl;
+}
+
 }
 
 void light_solve_all(struct simulation *sim,struct light *in)
