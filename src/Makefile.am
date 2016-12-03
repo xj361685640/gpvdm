@@ -5,7 +5,8 @@ AROPT=
 inc=-I../include/ -L../
 
 all: main.c $(OBJS)
-	$(CC) main.c $(OBJS) -o ../gpvdm_core@EXE_EXT@ $(inc) @COMPILE_FLAG@ -Wl,--whole-archive @LOCAL_LINK@ -Wl,--no-whole-archive @LDFLAGS@ @EXE_LINK@
+	@WIN_ICON@
+	$(CC) main.c $(OBJS) -o ../gpvdm_core@EXE_EXT@ @WIN_RES_FILE@ $(inc) @COMPILE_FLAG@ -Wl,--whole-archive @LOCAL_LINK@ -Wl,--no-whole-archive @LDFLAGS@ @EXE_LINK@
 	ln -s -f gpvdm_core ../go.o
 	ln -s -f ./gui/gpvdm.py ../gpvdm
 

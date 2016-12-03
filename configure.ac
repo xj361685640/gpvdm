@@ -1,8 +1,10 @@
-AC_INIT([gpvdm], [4.40])
+AC_INIT([gpvdm], [4.79])
 AC_CONFIG_SRCDIR([./src/main.c])
 AC_CANONICAL_TARGET
 AC_CANONICAL_HOST
 
+AC_SUBST(WIN_ICON, "" )
+AC_SUBST(WIN_RES_FILE, "" )
 
 AS_CASE([$target_os],
   [mingw32], [
@@ -19,10 +21,12 @@ AC_SUBST(DLIB_EXT, "dll")
 AC_SUBST(EXE_EXT, ".exe")
 
 AC_CHECK_HEADERS([umfpack.h],[],[AC_MSG_ERROR([umfpack.h is needed but not found])])
-AC_SUBST(DLL_LINKER, ["-L/home/rod/windll/compiled_dlls/ -Wl,--out-implib,plugin.a -lgpvdm_light  -lgpvdm_lib -lgpvdm_dump -lgpvdm_measure -lgpvdm_dos -lgpvdm_dumpctrl -lgpvdm_light -lgpvdm_i -lzip-2 -lumfpack -lgpvdm_mesh"])
+AC_SUBST(DLL_LINKER, ["-L/home/rod/windll/compiled_dlls/ -Wl,--out-implib,plugin.a -lgpvdm_light  -lgpvdm_lib -lgpvdm_dump -lgpvdm_measure -lgpvdm_dos -lgpvdm_dumpctrl -lgpvdm_light -lgpvdm_i -lzip-2 -lumfpack -lgpvdm_mesh "])
 AC_SUBST(DLL_COMPILE, ["-DBUILDING_EXAMPLE_DLL"])
 AC_SUBST(DLL_DEBUG, ["-Wall"])
 AC_SUBST(EXE_LINK,["-L/home/rod/windll/compiled_dlls/ -lumfpack -lzip-2"])
+AC_SUBST(WIN_RES_FILE, "gpvdm.res" )
+AC_SUBST(WIN_ICON, "i686-w64-mingw32-windres gpvdm.rc -O coff -o gpvdm.res" )
 
 ],
   [linux-gnu], [

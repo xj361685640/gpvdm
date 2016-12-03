@@ -67,7 +67,9 @@ class display_widget(QWidget):
 		self.tb_rotate.setEnabled(False)
 		self.display=gl_fallback()
 		self.hbox.addWidget(self.display)
-		
+	
+	def update_ray_file(self):
+		self.display.ray_file=os.path.join(os.getcwd(),"light_dump","light_ray_"+self.fx_box.get_text()+".dat")
 
 	def __init__(self):
 		QWidget.__init__(self)
@@ -115,7 +117,7 @@ class display_widget(QWidget):
 		
 		if enable_3d==True:
 			self.display=glWidget(self)
-			self.display.ray_file=os.path.join(os.getcwd(),"light_dump","light_ray_"+self.fx_box.get_text()+".dat")
+			self.update_ray_file()
 
 			self.hbox.addWidget(self.display)
 			self.display.setMinimumSize(800, 600)
@@ -138,7 +140,7 @@ class display_widget(QWidget):
 		self.gl_cmp.slider.changed.connect(self.recalculate)
 
 	def fx_box_changed(self):
-		self.display.ray_file=os.path.join(os.getcwd(),"light_dump","light_ray_"+self.fx_box.get_text()+".dat")
+		self.update_ray_file()
 		self.display.update()
 		#print("rod",self.display.ray_file)
 		
@@ -168,11 +170,13 @@ class display_widget(QWidget):
 			self.display.selected_layer=n
 
 	def recalculate(self):
+		self.fx_box.update()
+		self.update_ray_file()
 		self.display.graph_path=self.gl_cmp.slider.get_file_name()
 		self.display.graph_z_max=self.gl_cmp.slider.z_max
 		self.display.graph_z_min=self.gl_cmp.slider.z_min
+		
 		self.display.recalculate()
-		self.fx_box.update()
 
 	#def update(self):
 #		print("recalculate")

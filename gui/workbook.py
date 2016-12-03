@@ -30,6 +30,8 @@ from plot_io import plot_load_info
 from dat_file import dat_file_read
 from dat_file import dat_file
 
+from help import help_window
+
 def title_truncate(title):
 	ret=title
 
@@ -83,5 +85,10 @@ def gen_workbook(input_file_or_dir,output_file):
 				ws.add_chart(c1, "G4")
 
 	#print("about to save1")
-	wb.save(filename = output_file)
+	try:
+		wb.save(filename = output_file)
+	except:
+		return False
+
+	return True
 	#print("about to save0")

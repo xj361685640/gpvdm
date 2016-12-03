@@ -19,6 +19,11 @@
 
 
 
-#ifndef ver_h
-#define	gpvdm_ver	"4.79"
+#ifndef optics_plugin_h
+#define optics_plugin_h
+#include <sim.h>
+#include <sim_struct.h>
+
+void sim_optics(struct simulation *sim,struct device *in);
+
 #endif

@@ -143,7 +143,7 @@ class gl_fallback(QWidget):
 		qp.setPen(pen)
 
 		for i in range(1,len(wx)):
-			qp.drawLine(start_x-wy[i-1],start_y+wx[i-1],start_x-wy[i],start_y+wx[i])
+			qp.drawLine((int)(start_x-wy[i-1]),(int)(start_y+wx[i-1]),(int)(start_x-wy[i]),(int)(start_y+wx[i]))
 
 		if up==True:
 			path=QPainterPath()
@@ -202,7 +202,17 @@ class gl_fallback(QWidget):
 		data=dat_file()
 		if dat_file_read(data,os.path.join(os.getcwd(),"light_dump","light_1d_photons_tot_norm.dat"))==True:
 			for i in range(1,data.y_len):
-				qp.drawLine(start_x-data.data[0][0][i-1]*40-10,start_y+(200*(i-1)/data.y_len),start_x-data.data[0][0][i]*40-10,start_y+(200*i/data.y_len))
+				
+				x0=(start_x-data.data[0][0][i-1]*40-10)
+				y0=(start_y+(200*(i-1)/data.y_len))
+				x1=(start_x-data.data[0][0][i]*40-10)
+				y1=(start_y+(200*i/data.y_len))
+				if math.isnan(x0)==False and math.isnan(y0)==False :
+					x0=(int)(x0)
+					y0=(int)(y0)
+					x1=(int)(x1)
+					y1=(int)(y1)
+					qp.drawLine(x0,y0,x1,y1)
 		else:
 			print("no mode")
 

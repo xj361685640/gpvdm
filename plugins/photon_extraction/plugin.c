@@ -18,7 +18,21 @@
 // more details.
 
 
+#include <dll_export.h>
+#include <log.h>
+#include <cal_path.h>
+#include <dump.h>
+#include "photon_extraction_plugin.h"
 
-#ifndef ver_h
-#define	gpvdm_ver	"4.79"
-#endif
+struct dll_interface *fun;
+
+EXPORT void set_interface()
+{
+}
+
+EXPORT void dll_run_simulation(struct simulation *sim,struct device *in)
+{
+sim_optics(sim,in);
+}
+
+

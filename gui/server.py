@@ -131,7 +131,10 @@ class server(QWidget,cluster):
 		if 	self.callback_when_done!=False:
 			self.callback_when_done()
 			self.callback_when_done=False
-			
+
+		if self.excel_workbook_gen_error==True:
+			help_window().help_append(["warning.png",_("<big><b>Excel workbook error</b></big><br>I can't write new data to the file data.xlsx, I think you have are viewing it using another program.  Please close data.xlsx to enable me to write new data to it.")])
+
 		self.sim_finished.emit()
 		
 	def setup_gui(self,extern_gui_sim_start):
@@ -152,6 +155,7 @@ class server(QWidget,cluster):
 
 
 	def start(self):
+		self.excel_workbook_gen_error=False
 		self.finished_jobs=[]
 		if self.enable_gui==True:
 			self.progress_window.show()
@@ -300,7 +304,8 @@ class server(QWidget,cluster):
 				if self.finished_jobs.count(data)==0:
 					job=int(data[4:])
 					self.finished_jobs.append(data)
-					gen_workbook(self.jobs[job],os.path.join(self.jobs[job],"data.xlsx"))
+					if gen_workbook(self.jobs[job],os.path.join(self.jobs[job],"data.xlsx"))==False:
+						self.excel_workbook_gen_error=self.excel_workbook_gen_error or True
 					self.jobs_run=self.jobs_run+1
 					self.jobs_running=self.jobs_running-1
 					self.progress_window.set_fraction(float(self.jobs_run)/float(len(self.jobs)))

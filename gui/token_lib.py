@@ -67,10 +67,6 @@ lib.append(my_data("#simple_alpha","m^{-1}",_("Absorption of material"),["text"]
 lib.append(my_data("#simmode","au",_("#simmode"),["text"],"e",1.0))
 lib.append(my_data("#Nc","m^{-3}",_("Effective density of free electron states"),["text"],"e",1.0))
 lib.append(my_data("#Nv","m^{-3}",_("Effective density of free hole states"),["text"],"e",1.0))
-lib.append(my_data("#maxelectricalitt","au",_("Max electrical itterations"),["text"],"e",1.0))
-lib.append(my_data("#electricalclamp","au",_("Electrical clamp"),["text"],"e",1.0))
-lib.append(my_data("#posclamp","au",_("Poisson clamping"),["text"],"e",1.0))
-lib.append(my_data("#electricalerror","au",_("Minimum electrical error"),["text"],"e",1.0))
 lib.append(my_data("#sun","filename",_("Sun's spectra"),["text"],"e",1.0))
 lib.append(my_data("#meshpoints","au",_("Mesh points (x)"),["text"],"e",1.0))
 lib.append(my_data("#lpoints","au",_("Mesh points (lambda)"),["text"],"e",1.0))
@@ -224,11 +220,25 @@ lib.append(my_data("#plotfile","","",["text"],"e",1.0))
 
 lib.append(my_data("#Rshort","","",["text"],"e",1.0))
 lib.append(my_data("#solve_at_Vbi","","",["text"],"e",1.0))
-lib.append(my_data("#maxelectricalitt_first","au","Max Electrical itterations (first step)",["text"],"e",1.0))
 
+#math.inp
+lib.append(my_data("#maxelectricalitt_first","au","Max Electrical itterations (first step)",["text"],"e",1.0))
 lib.append(my_data("#electricalclamp_first","au","Electrical clamp (first step)",["text"],"e",1.0))
-lib.append(my_data("#newton_clever_exit","","",["text"],"e",1.0))
-lib.append(my_data("#newton_min_itt","","",["text"],"e",1.0))
+lib.append(my_data("#math_electrical_error_first","au","Desired electrical solver error (first step)",["text"],"e",1.0))
+lib.append(my_data("#math_enable_pos_solver","true/false","Enable poisson solver",[("switch")],"e",1.0))
+
+lib.append(my_data("#maxelectricalitt","au",_("Max electrical itterations"),["text"],"e",1.0))
+lib.append(my_data("#electricalclamp","au",_("Electrical clamp"),["text"],"e",1.0))
+lib.append(my_data("#posclamp","au",_("Poisson clamping"),["text"],"e",1.0))
+lib.append(my_data("#electricalerror","au",_("Minimum electrical error"),["text"],"e",1.0))
+lib.append(my_data("#pos_max_ittr","au",_("Poisson solver max itterations"),["text"],"e",1.0))
+lib.append(my_data("#newton_clever_exit","true/false","Newton solver clever exit",[("switch")],"e",1.0))
+lib.append(my_data("#newton_min_itt","au",_("Newton minimum iterations"),["text"],"e",1.0))
+lib.append(my_data("#solver_name","dll name",_("Matrix solver to use"),["text"],"e",1.0))
+lib.append(my_data("#newton_name","dll name",_("Newton solver to use"),["text"],"e",1.0))
+
+
+
 lib.append(my_data("#remesh","","",["text"],"e",1.0))
 lib.append(my_data("#newmeshsize","","",["text"],"e",1.0))
 lib.append(my_data("#epitaxy","","",["text"],"e",1.0))
