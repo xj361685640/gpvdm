@@ -191,13 +191,21 @@ lib.append(my_data("#homodelstop","","",["text"],"e",1.0))
 lib.append(my_data("#gaus_mull","","",["text"],"e",1.0))
 lib.append(my_data("#Esteps","","",["text"],"e",1.0))
 
-lib.append(my_data("#server_cpus","","",["text"],"e",1.0))
+#server.inp
+lib.append(my_data("#server_cpus","au","Number of CPUs",["text"],"e",1.0))
 lib.append(my_data("#server_stall_time","","",["text"],"e",1.0))
 lib.append(my_data("#server_exit_on_dos_error","","",["text"],"e",1.0))
 lib.append(my_data("#server_max_run_time","","",["text"],"e",1.0))
 lib.append(my_data("#server_auto_cpus","","",["text"],"e",1.0))
 lib.append(my_data("#server_min_cpus","","",["text"],"e",1.0))
 lib.append(my_data("#server_steel","","",["text"],"e",1.0))
+lib.append(my_data("#server_ip","au","Cluster IP",["text"],"e",1.0))
+lib.append(my_data("#port","au","Cluster port",["text"],"e",1.0))
+lib.append(my_data("#path_to_src","au","Path to source code",["text"],"e",1.0))
+lib.append(my_data("#path_to_libs","au","Path to compiled libs for cluster",["text"],"e",1.0))
+lib.append(my_data("#make_command","au","Make command",["text"],"e",1.0))
+lib.append(my_data("#exe_name","au","exe name",["text"],"e",1.0))
+
 
 lib.append(my_data("#invert_applied_bias","","",["text"],"e",1.0))
 lib.append(my_data("#Rshort","","",["text"],"e",1.0))

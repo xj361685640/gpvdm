@@ -12,13 +12,14 @@ AC_MSG_NOTICE([********************************])
 AC_MSG_NOTICE([*Setting up config for windows *])
 AC_MSG_NOTICE([********************************])
 
-AM_PROG_AR
-
 AC_SUBST(LINK_FLAG, "-posix")
 AC_SUBST(COMPILE_FLAG, " -D windows -posix")
 AC_SUBST(SLIB_EXT, "a")
 AC_SUBST(DLIB_EXT, "dll")
 AC_SUBST(EXE_EXT, ".exe")
+
+m4_include([images.m4])
+m4_include([plot.m4])
 
 AC_CHECK_HEADERS([umfpack.h],[],[AC_MSG_ERROR([umfpack.h is needed but not found])])
 AC_SUBST(DLL_LINKER, ["-L/home/rod/windll/compiled_dlls/ -Wl,--out-implib,plugin.a -lgpvdm_light  -lgpvdm_lib -lgpvdm_dump -lgpvdm_measure -lgpvdm_dos -lgpvdm_dumpctrl -lgpvdm_light -lgpvdm_i -lzip-2 -lumfpack -lgpvdm_mesh "])
@@ -37,7 +38,6 @@ AC_MSG_NOTICE([*****************************])
 AC_SUBST(LINK_FLAG, "")
 AC_CHECK_LIB(zip, [main], [], [AC_MSG_ERROR([libzip is needed but not found.])])
 AC_CHECK_HEADERS([suitesparse/umfpack.h],[],[AC_MSG_ERROR([suitesparse/umfpack.h is needed but not found])])
-AC_CHECK_LIB(matheval, [main], [], [AC_MSG_ERROR([matheval is needed but not found.])])
 AC_SUBST(SLIB_EXT, "a")
 AC_SUBST(DLIB_EXT, "so")
 AC_SUBST(EXE_EXT, "")
@@ -51,14 +51,20 @@ AC_SUBST(DLL_DEBUG, ["-Wall -g"])
 
 AC_ARG_ENABLE(hpc, "used to turn on HPC compatability",
   [
+AC_MSG_NOTICE([*****************************])
+AC_MSG_NOTICE([*Setting up for HPC         *])
+AC_MSG_NOTICE([*****************************])
 AC_SUBST(COMPILE_FLAG, " -D enable_server -g -fPIC " )
-AC_SUBST(EXE_LINK, "-lumfpack -lm -lgsl -lgslcblas -rdynamic -export-dynamic -ldl -lzip -lz -lmatheval -g -L/home/steve/rm/build/libmatheval-1.1.11/lib/.libs/ -L/home/steve/rm/lib/")
-AC_SUBST(HPC, "" )
+AC_SUBST(EXE_LINK, "-lumfpack -lm -lgsl -lgslcblas -rdynamic -export-dynamic -ldl -lzip -lz  -L/home/steve/rm/lib/")
+#-lmatheval -g -L/home/steve/rm/build/libmatheval-1.1.11/lib/.libs/
+AC_SUBST(MAN_PAGES, "" )
+
 ],[
-	AM_PROG_AR
+	AC_CHECK_LIB(matheval, [main], [], [AC_MSG_ERROR([matheval is needed but not found.])])
 	AC_SUBST(COMPILE_FLAG, " -D enable_server -g -fPIC `pkg-config --cflags dbus-1` -D dbus " )
-	AC_SUBST(EXE_LINK, "-lumfpack -lm -lgsl -lgslcblas -rdynamic -export-dynamic -ldl -lzip -lz -lmatheval -g `pkg-config --libs dbus-1`")
-	AC_SUBST(HPC, "man1_MANS = man/gpvdm.1 man/gpvdm_core.1" )
+	AC_SUBST(EXE_LINK, "-lumfpack -lm -lgsl -lgslcblas -rdynamic -export-dynamic -ldl -lzip  -lmatheval -lz -g `pkg-config --libs dbus-1`")
+	AC_SUBST(MAN_PAGES, "man1_MANS = man/gpvdm.1 man/gpvdm_core.1" )
+	
 ]
 )
 
@@ -69,7 +75,6 @@ AC_SUBST(HPC, "" )
 
 
 AC_PROG_RANLIB
-#AM_PROG_AR
 AM_INIT_AUTOMAKE
 AC_PROG_CC
 
@@ -108,13 +113,14 @@ fi
 m4_include([make_files.m4])
 m4_include([local_link.m4])
 
+m4_include([ar.m4])
+
 AC_CHECK_HEADERS(math.h)
 AC_FUNC_MALLOC
 AC_CHECK_FUNCS([sqrt])
 
 
 #AC_CONFIG_FILES
-#images/Makefile
 
 m4_include([config_files.m4])
 

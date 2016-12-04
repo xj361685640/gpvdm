@@ -3,7 +3,7 @@
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -21,12 +21,19 @@
 
 import os
 import sys
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument("--noar", help="no archiver for old Cent OS", action='store_true')
+parser.add_argument("--hpc", help="Set up for Nottingham hpc", action='store_true')
+parser.add_argument("--verbosity", help="increase output verbosity", action='store_true')
+
+args = parser.parse_args()
+    
 config_files=[]
 link_libs=""
 hpc=False
-if len(sys.argv)>1:
-	if sys.argv[1]=="hpc":
-		hpc=True
+if args.hpc:
+	hpc=True
 
 config_files.append("")
 config_files.append("lang")
@@ -94,6 +101,37 @@ f.write( "AC_SUBST(LOCAL_LINK,\"")
 f.write(link_libs)
 f.write("\")")
 
+f.close()
+
+f = open("ar.m4", "w")
+
+if args.noar:
+	f.write("")
+else:
+	f.write("AM_PROG_AR")
+
+f.close()
+
+f = open("images.m4", "w")
+if os.path.isdir("images"):
+	f.write("AC_SUBST(IMAGES0, \"appicondir=$(pkgdatadir)/images\")\n")
+	f.write("AC_SUBST(IMAGES1, \"appicon_DATA=$(srcdir)/desktop/application-gpvdm.svg \")\n")
+	f.write("AC_SUBST(IMAGES2, \"imagedir = $(pkgdatadir)/images\")\n")
+	f.write("AC_SUBST(IMAGES3, \"image_DATA=images/*.jpg images/*.png\")\n")
+else:
+	f.write("AC_SUBST(IMAGES0, \"\")")
+	f.write("AC_SUBST(IMAGES1, \"\")")
+	f.write("AC_SUBST(IMAGES2, \"\")")
+	f.write("AC_SUBST(IMAGES3, \"\")")
+f.close()
+
+f = open("plot.m4", "w")
+if os.path.isdir("plot"):
+	f.write("AC_SUBST(PLOT0, \"plotdir = $(pkgdatadir)/plot \")\n")
+	f.write("AC_SUBST(PLOT1, \"plot_DATA=plot/*.plot \")\n")
+else:
+	f.write("AC_SUBST(PLOT0, \"\")")
+	f.write("AC_SUBST(PLOT1, \"\")")
 f.close()
 
 

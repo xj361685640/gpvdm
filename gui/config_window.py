@@ -2,7 +2,7 @@
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -74,8 +74,8 @@ class class_config_window(QWidget):
 
 		self.main_vbox.addWidget(self.notebook)
 
-		files=["math.inp","dump.inp","thermal.inp","led.inp","config.inp"]
-		description=["Math","Dump","Thermal","LED","GUI  config"]
+		files=["math.inp","dump.inp","thermal.inp","led.inp","config.inp","server.inp"]
+		description=[_("Math"),_("Dump"),_("Thermal"),_("LED"),_("GUI config"),_("Server config")]
 
 		for i in range(0,len(files)):
 			tab=tab_class()

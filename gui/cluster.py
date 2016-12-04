@@ -219,13 +219,13 @@ class cluster:
 	def gen_dir_list(self,path):
 
 		banned_types=[".pdf",".png",".dll",".o",".so",".so",".a",".dat",".aprox",".ods"]
-		banned_dirs=["equilibrium","man_src","snapshots", "plot","pub"]
+		banned_dirs=["equilibrium","man_src","images","snapshots", "plot","pub"]
 
 		file_list=[]
 
 		for root, dirs, files in os.walk(path):
 			for name in files:
-
+					
 				fname=os.path.join(root, name)
 
 				tx=True
@@ -242,7 +242,6 @@ class cluster:
 					fname=strip_slash(fname)
 					file_list.append(fname)
 
-
 		f=[]
 		for i in range(0,len(file_list)):
 			if file_list[i].endswith("gpvdm_gui_config.inp"):
@@ -251,9 +250,11 @@ class cluster:
 		for i in range(0,len(file_list)):
 			add=True
 			for ii in range(0,len(banned_dirs)):
-				if file_list[i].startswith(banned_dirs[ii])==True:
-					add=False
-					break
+				sp=os.path.split(file_list[i])
+				if len(sp)>0:
+					if sp[0]==banned_dirs[ii]:
+						add=False
+						break
 
 			if add==True:
 				f.append(file_list[i])
@@ -278,7 +279,7 @@ class cluster:
 
 		tx_size=len(dat)
 		if tx_size!=0:
-			expand=((int(tx_size)/int(512))+1)*512-tx_size
+			expand=((int)(tx_size/512)+1)*512-tx_size
 			expand=int(expand)
 			zeros=bytearray(expand)
 			dat += zeros
@@ -314,9 +315,9 @@ class cluster:
 		for i in range(0,len(header)):
 			buf[i]=ord(header[i])
 
-		dat += buf
+		buf += dat
 		#buf=buf+bytes
-		print("I am sending",len(buf),data.id)
+		print("I am sending",len(buf),data.id,len(buf),len(dat))
 		buf=encrypt(buf)
 		print("I am sending",len(buf),data.id)
 		self.socket.sendall(buf)
@@ -337,7 +338,7 @@ class cluster:
 			orig_size=len(bytes)
 
 			print("tx file:",full_path)
-			if full_path.endswith("centos_configure.sh")==True:
+			if full_path.endswith("hpc_configure.sh")==True:
 				print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>sent centos configure")
 			if target=="":
 				data.target=src
@@ -351,6 +352,8 @@ class cluster:
 			data.file_name=strip_slash(fname)
 			count=count+1
 			self.tx_packet(data)
+			#if count>2:
+			#	break
 
 		print("total=",count)
 
