@@ -91,7 +91,7 @@ class cluster:
 		self.cluster=False
 		self.nodes=[]
 		self.server_ip=inp_get_token_value("server.inp","#server_ip")
-		self.jobs_list = []
+		self.cluster_jobs = []
 
 	def connect(self):
 		if self.cluster==False:
@@ -338,8 +338,7 @@ class cluster:
 			orig_size=len(bytes)
 
 			print("tx file:",full_path)
-			if full_path.endswith("hpc_configure.sh")==True:
-				print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>sent centos configure")
+
 			if target=="":
 				data.target=src
 			else:
@@ -369,14 +368,14 @@ class cluster:
 	def process_job_list(self,data):
 		ret=self.rx_packet(data)
 		lines=ret.data.decode("utf-8").split("\n") 
-		self.jobs_list=[]
+		self.cluster_jobs=[]
 		for line in lines:
 			act=line.split()
 			print(len(act),act)
 			if len(act)==9:
-				self.jobs_list.append([act[0], act[1], act[2], act[3],act[4], act[5], act[6], act[7]])
+				self.cluster_jobs.append([act[0], act[1], act[2], act[3],act[4], act[5], act[6], act[7]])
 
-		print(ret.data)
+		print(ret.data,"jim")
 
 	def process_sync_packet_two(self,data):
 		lines=data.split("\n")

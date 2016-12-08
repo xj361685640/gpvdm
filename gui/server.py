@@ -82,6 +82,7 @@ class server(QWidget,cluster):
 		self.callback_when_done=False
 		self.display=False
 		self.fit_update=None
+		self.excel_workbook_gen_error=False
 		status_icon_init()
 
 	def init(self,sim_dir):

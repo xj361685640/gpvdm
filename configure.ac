@@ -55,7 +55,7 @@ AC_MSG_NOTICE([*****************************])
 AC_MSG_NOTICE([*Setting up for HPC         *])
 AC_MSG_NOTICE([*****************************])
 AC_SUBST(COMPILE_FLAG, " -D enable_server -g -fPIC " )
-AC_SUBST(EXE_LINK, "-lumfpack -lm -lgsl -lgslcblas -rdynamic -export-dynamic -ldl -lzip -lz  -L/home/steve/rm/lib/")
+AC_SUBST(EXE_LINK, " -lumfpack -lm -lgsl -lgslcblas -rdynamic -export-dynamic -ldl -lzip -lz  -L/home/steve/rm/lib/")
 #-lmatheval -g -L/home/steve/rm/build/libmatheval-1.1.11/lib/.libs/
 AC_SUBST(MAN_PAGES, "" )
 

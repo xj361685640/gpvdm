@@ -2,7 +2,7 @@
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -50,25 +50,74 @@ class node_indicator(QWidget):
 		self.label=QLabel()
 		
 		self.slider = QSlider(Qt.Horizontal)
-		self.slider.setMinimum(0)
-		self.slider.setMaximum(10)
+
 
 		self.slider.setTickPosition(QSlider.TicksBelow)
 		self.slider.setTickInterval(1)
 		#self.slider.valueChanged.connect(self.slider0_change)
 		self.slider.setMinimumSize(300, 80)
-
+		self.slider.valueChanged.connect(self.slider_changed)
+		self.slider.setTickPosition(QSlider.TicksBelow)
 		self.hbox.addWidget(self.label)
 		self.hbox.addWidget(self.bar)
 		self.hbox.addWidget(self.slider)
 
 		self.setLayout(self.hbox)
 
+		self.name=""
+		self.ip=""
+		self.cpus=-1
+		self.load=-1
+		self.max_cpus=-1
+		self.last_seen=-1
+
+	def block_signals(self,val):
+		self.slider.blockSignals(val)
+		
+	def slider_changed(self):
+		self.max_cpus=self.slider.value()
+		self.update()
+		
 	def set_cpus(self,cpus):
-		self.slider.setValue(cpus)
+		self.cpus=cpus
+		self.slider.setMinimum(0)
+		self.slider.setMaximum(cpus)
 	
 	def set_text(self,text):
 		self.label.setText(text)
+
+	def set_name(self,name):
+		self.name=name		
+
+	def set_ip(self,ip):
+		self.ip=ip		
+
+	def set_load(self,load):
+		self.load=load
+
+	def set_max_cpus(self,max_cpus):
+		self.slider.setValue(max_cpus)
+		self.max_cpus=max_cpus
+
+	def set_last_seen(self,last_seen):
+		self.last_seen=last_seen
+		
+	def update(self):
+		self.set_text(self.name)
+
+		self.bar.set_text(self.ip+" "+str(self.load)+":"+str(self.max_cpus)+"/"+str(self.cpus)+":seen="+self.last_seen)
+
+		if float(self.cpus)!=0.0:
+			prog=float(self.load)/float(self.cpus)
+		else:
+			prog=0.0
+
+		print("setting CPUs",self.load,self.cpus,prog)
+		
+		if prog>1.0:
+			prog=1.0
+
+		self.bar.set_fraction(prog)
 
 class hpc_class(QToolBar):
 
@@ -88,63 +137,45 @@ class hpc_class(QToolBar):
 	def callback_cluster_copy_src(self, widget, data=None):
 		self.myserver.copy_src_to_cluster()
 
-	def on_changed(self, widget):
+	def slider_changed(self, widget):
 		ip=[]
 		loads=[]
 
-		for i in range(0,len(self.slider)):
-			ip.append(self.ip[i])
-			loads.append(self.slider[i].get_value())
+		for i in range(0, self.node_view_vbox.count()):
+			item=self.node_view_vbox.itemAt(i).widget()
+			ip.append(item.ip)
+			loads.append(item.max_cpus)
 		self.myserver.set_cluster_loads(ip,loads)
 
 	def callback_cluster_get_info(self):
 		self.myserver.cluster_get_info()
-		self.name=[]
-		self.ip=[]
-		self.cpus=[]
-		self.load=[]
-		self.max_cpus=[]
-		self.last_seen=[]
-
-		for i in range(0, len(self.myserver.nodes)):
-			self.name.append(self.myserver.nodes[i][0])
-			self.ip.append(self.myserver.nodes[i][1])
-			self.cpus.append(self.myserver.nodes[i][2])
-			self.load.append(self.myserver.nodes[i][4])
-			self.max_cpus.append(self.myserver.nodes[i][5])
-			self.last_seen.append(self.myserver.nodes[i][6])
 
 		if len(self.myserver.nodes)>self.node_view_vbox.count():
 			needed=len(self.myserver.nodes)-self.node_view_vbox.count()
 			for i in range(0,needed):
 				self.node_widget=node_indicator()
-				self.node_widget.set_cpus(int(self.cpus[i]))
-				#self.slider[i].connect("value-changed", self.on_changed)
+				self.node_widget.show()
+				self.node_widget.slider.valueChanged.connect(self.slider_changed)
 				self.node_view_vbox.addWidget(self.node_widget)
 				print("Add widget",i)
 
 		if self.node_view_vbox.count()>len(self.myserver.nodes):
 			for i in range(len(self.myserver.nodes), len(self.button)):
-				self.node_view_vbox.itemAt(i).hide()
+				item=self.node_view_vbox.itemAt(i).widget()
+				item.deleteLater()
 
-		for i in range(0, len(self.myserver.nodes)):
-			widget=self.node_view_vbox.itemAt(i).widget()
-			print(type(widget))
-			widget.show()
-			widget.set_text(self.name[i])
+		for i in range(0, self.node_view_vbox.count()):
+			item=self.node_view_vbox.itemAt(i).widget()
+			item.block_signals(True)
+			item.set_name(self.myserver.nodes[i][0])
+			item.set_ip(self.myserver.nodes[i][1])
+			item.set_cpus(int(self.myserver.nodes[i][2]))
+			item.set_load(self.myserver.nodes[i][4])
+			item.set_max_cpus(int(self.myserver.nodes[i][5]))
+			item.set_last_seen(self.myserver.nodes[i][6])
 
-			if self.ip[i]!="none":
-				widget.bar.set_text(self.ip[i]+" "+self.load[i]+":"+self.cpus[i]+":seen="+self.last_seen[i])
-				if float(self.cpus[i])!=0.0:
-					prog=float(self.load[i])/float(self.cpus[i])
-				else:
-					prog=0.0
-			
-				if prog>1.0:
-					prog=1.0
-				widget.bar.set_fraction(prog)
-			else:
-				self.bar.set_text("node down?????")
+			item.update()
+			item.block_signals(False)
 
 	def callback_cluster_make(self):
 		self.myserver.cluster_make()
@@ -165,6 +196,7 @@ class hpc_class(QToolBar):
 
 	def callback_cluster_jobs(self):
 		self.myserver.cluster_list_jobs()
+		self.jview.load_data(self.myserver.cluster_jobs)
 
 	def callback_cluster_sleep(self):
 		self.myserver.sleep()
@@ -224,7 +256,7 @@ class hpc_class(QToolBar):
 		
 	def init_job_window(self):
 		self.status_window=QWidget()
-		self.status_window.setFixedSize(900, 600)
+		self.status_window.setMinimumSize(900, 600)
 		self.status_window.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"connected.png")))
 		self.status_window.setWindowTitle(_("Steady state simulation (www.gpvdm.com)")) 
 		
@@ -298,7 +330,7 @@ class hpc_class(QToolBar):
 		self.node_view.show()
 		
 		self.jview=jobs_view()
-		self.jview.load_data(self.myserver.jobs_list)
+		self.jview.load_data(self.myserver.cluster_jobs)
 		self.notebook.addTab(self.jview,"Jobs list")
 
 		self.status_window.setLayout(self.main_vbox)
@@ -326,10 +358,6 @@ class hpc_class(QToolBar):
 		self.node_view=QWidget()
 		self.node_view_vbox=QVBoxLayout()
 		self.node_view.setLayout(self.node_view_vbox)
-		self.bar=[]
-		self.button=[]
-		self.slider=[]
-		self.label=[]
 
 		self.init_job_window()
 		

@@ -3743,7 +3743,7 @@ $as_echo "$as_me: *Setting up for HPC         *" >&6;}
 $as_echo "$as_me: *****************************" >&6;}
 COMPILE_FLAG=" -D enable_server -g -fPIC "
 
-EXE_LINK="-lumfpack -lm -lgsl -lgslcblas -rdynamic -export-dynamic -ldl -lzip -lz  -L/home/steve/rm/lib/"
+EXE_LINK=" -lumfpack -lm -lgsl -lgslcblas -rdynamic -export-dynamic -ldl -lzip -lz  -L/home/steve/rm/lib/"
 
 #-lmatheval -g -L/home/steve/rm/build/libmatheval-1.1.11/lib/.libs/
 MAN_PAGES=""
