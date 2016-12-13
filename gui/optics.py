@@ -268,7 +268,6 @@ class class_optical(QWidget):
 
 		used_model=inp_get_token_value("light.inp", "#sun")
 
-		print("models================",models,used_model)
 		if models.count(used_model)==0:
 			used_model="sun"
 			inp_update_token_value("light.inp", "#sun","sun",1)
@@ -309,7 +308,7 @@ class class_optical(QWidget):
 		inp_update_token_value("dump.inp", "#dump_optics_verbose",dump_optics_verbose,1)
 		
 		self.update()
-		self.fx_selector.update()
+		self.fx_box.update()
 
 		inp_update_token_value("dump.inp", "#dump_optics","true",1)
 		inp_update_token_value("dump.inp", "#dump_optics_verbose","true",1)

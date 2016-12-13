@@ -198,8 +198,8 @@ def dat_file_read(out,file_name):
 					a0=s[0]
 					a1=0.0
 					a2=0.0
-				else:
-					print("skip")
+#				else:
+#					print("skip")
 
 				if line_found==True:
 					if len(s)==2:

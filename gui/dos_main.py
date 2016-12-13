@@ -2,7 +2,7 @@
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -63,9 +63,6 @@ class dos_main(QWidget,tab_base):
 		#global_object_register("dos-update",self.update)
 
 	def update(self):
-		print("DoS update")
-
-
 		self.notebook.clear()
 
 		files=epitaxy_get_dos_files()
@@ -75,7 +72,7 @@ class dos_main(QWidget,tab_base):
 				#add_to_widget=True
 
 				name="DoS of "+epitaxy_get_name(i)
-				print(dos_layer,files)
+				#print(dos_layer,files)
 
 				widget=tab_class()
 				widget.init(dos_layer+".inp",name)

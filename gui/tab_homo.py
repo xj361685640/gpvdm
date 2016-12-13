@@ -65,7 +65,7 @@ class equation_editor(QGroupBox):
 		self.tab.setHorizontalHeaderLabels([_("Function"), _("Enabled"), _("a"), _("b"), _("c")])
 
 		inp_load_file(lines,self.file_name)
-		print(self.file_name,lines)
+		#print(self.file_name,lines)
 		pos=0
 
 		while True:

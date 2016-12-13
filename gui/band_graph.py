@@ -141,7 +141,7 @@ class band_graph(QWidget):
 				start=start-epitaxy_get_width(i)
 			else:
 				break
-		print("START=",start)
+		print("START=",start,self.optical_mode_file)
 		start=start*1e9
 
 		x_pos=start
@@ -152,7 +152,7 @@ class band_graph(QWidget):
 			layer_material=epitaxy_get_mat_file(i)
 
 			delta=float(layer_ticknes)*1e9
-			print(epitaxy_get_electrical_layer(i))
+			#print(epitaxy_get_electrical_layer(i))
 			if epitaxy_get_electrical_layer(i).startswith("dos")==False:
 				mat_file=os.path.join(os.getcwd(),'materials',layer_material,'mat.inp')
 				myfile = open(mat_file)
@@ -197,7 +197,7 @@ class band_graph(QWidget):
 		get_plot_file_info(state,self.optical_mode_file)
 		#summary="<big><b>"+self.store[path[0]][0]+"</b></big>\n"+"\ntitle: "+state.title+"\nx axis: "+state.x_label+" ("+latex_to_pygtk_subscript(state.x_units)+")\ny axis: "++" ("+latex_to_pygtk_subscript(state.y_units)+")\n\n<big><b>Double click to open</b></big>"
 
-		print("ROD!!!!",state.y_label,self.optical_mode_file)
+		#print("ROD!!!!",state.y_label,self.optical_mode_file)
 		ax1.set_ylabel(state.y_label+" ("+state.y_units+")")
 		ax1.set_xlabel('Position (nm)')
 		ax2.set_ylabel('Energy (eV)')
@@ -211,7 +211,7 @@ class band_graph(QWidget):
 			zf.close()
 			loaded=True
 		elif os.path.isfile(self.optical_mode_file):
-			print("I want to load",self.optical_mode_file)
+			#print("I want to load",self.optical_mode_file)
 			f = open(self.optical_mode_file)
 			lines = f.readlines()
 			f.close()

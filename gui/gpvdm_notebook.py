@@ -2,7 +2,7 @@
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -184,7 +184,7 @@ class gpvdm_notebook(QTabWidget):
 			self.addTab(widget,_("Device structure"))
 
 			self.update_display_function=widget.update
-			print("setting>>>>>>>>>>",self.update_display_function)
+
 			lines=[]
 			pos=0
 			if inp_load_file(lines,"gui_config.inp")==True:

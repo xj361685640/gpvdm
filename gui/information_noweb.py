@@ -2,7 +2,7 @@
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -47,8 +47,9 @@ class information(QWidget,tab_base):
 		hbox=QHBoxLayout()
 		
 		self.label = QLabel()
-		self.label.setText(_("<b>General-purpose photovoltaic device model</b><br>(<a href=\"http://www.gpvdm.com\" title=\"Click to find out more\">www.gpvdm.com</a>)<br><br> To make a new simulation directory click <i>new</i> in the <i>file</i> menu<br> or to open an existing simulation click on the <i>open</i> button.<br> There is more help on the <a href=\"http://www.gpvdm.com/man/index.html\">man pages</a>.  Please report bugs to\nroderick.mackenzie@nottingham.ac.uk.<br><br> Rod<br>18/10/13<br>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<br><br><br><br>"))
-		#read_page=False
+		self.label.setAlignment(Qt.AlignTop)
+		self.label.setOpenExternalLinks(True);
+		self.label.setText(_("<b><font size=30>General-purpose photovoltaic device model</b><br>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<br></font><br><font size=12>(<a href=\"http://www.gpvdm.com\" title=\"Click to find out more\">www.gpvdm.com</a>)<br><br> To make a new simulation click <i><u>N</u>ew Simulation</i> in the <i><u>F</u>ile</i> menu<br> or to open an existing simulation select <i><u>O</u>pen simulation</i>. <br> <br> There is more help on the <a href=\"http://www.gpvdm.com/man/index.html\">man pages</a>.  <br><br>Please report bugs to <br><a href=\"mailto:roderick.mackenzie@nottingham.ac.uk?Subject=gpvdm%20bug\">roderick.mackenzie@nottingham.ac.uk</a>.<br><br><br> Rod<br>18/10/13<br>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<br><br><br><br></font>"))
 
 		hbox.addWidget(self.label)
 

@@ -2,7 +2,7 @@
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -66,7 +66,7 @@ def mesh_load(vector):
 	my_list=[]
 	pos=0
 	lines=[]
-	print("loading",os.path.join(os.getcwd(),file_name))
+
 	if inp_load_file(lines,os.path.join(os.getcwd(),file_name))==True:
 		pos=pos+1	#first comment
 		mesh_layers=int(lines[pos])
@@ -100,7 +100,7 @@ def mesh_save(file_name,my_list):
 	lines.append("#ver")
 	lines.append("1.0")
 	lines.append("#end")
-	print(file_name,lines)
+
 	inp_write_lines_to_file(os.path.join(os.getcwd(),file_name),lines)
 
 def mesh_save_all():

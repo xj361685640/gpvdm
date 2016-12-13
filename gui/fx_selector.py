@@ -86,7 +86,6 @@ class fx_selector(QWidget):
 		if len(thefiles)==0:
 			self.setEnabled(False)
 		else:
-			print("Showing my self!!!!!!")
 			self.setEnabled(True)
 
 		self.cb.clear()
