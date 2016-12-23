@@ -112,26 +112,5 @@ else:
 
 f.close()
 
-f = open("images.m4", "w")
-if os.path.isdir("images"):
-	f.write("AC_SUBST(IMAGES0, \"appicondir=$(pkgdatadir)/images\")\n")
-	f.write("AC_SUBST(IMAGES1, \"appicon_DATA=$(srcdir)/desktop/application-gpvdm.svg \")\n")
-	f.write("AC_SUBST(IMAGES2, \"imagedir = $(pkgdatadir)/images\")\n")
-	f.write("AC_SUBST(IMAGES3, \"image_DATA=images/*.jpg images/*.png\")\n")
-else:
-	f.write("AC_SUBST(IMAGES0, \"\")")
-	f.write("AC_SUBST(IMAGES1, \"\")")
-	f.write("AC_SUBST(IMAGES2, \"\")")
-	f.write("AC_SUBST(IMAGES3, \"\")")
-f.close()
-
-f = open("plot.m4", "w")
-if os.path.isdir("plot"):
-	f.write("AC_SUBST(PLOT0, \"plotdir = $(pkgdatadir)/plot \")\n")
-	f.write("AC_SUBST(PLOT1, \"plot_DATA=plot/*.plot \")\n")
-else:
-	f.write("AC_SUBST(PLOT0, \"\")")
-	f.write("AC_SUBST(PLOT1, \"\")")
-f.close()
 
 

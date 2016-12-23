@@ -5,17 +5,20 @@ SUBDIRS = @BUILD_DIRS@
 bin_PROGRAMS=gpvdm_core
 gpvdm_core_SOURCES=
 
-
-@IMAGES2@
-@IMAGES3@
+if INCLUDE_IMAGES
+imagedir = $(pkgdatadir)/images
+image_DATA = images/*.jpg images/*.png
+endif
 
 dist_pkgdata_DATA = sim.gpvdm
 
 device_libdir = $(pkgdatadir)/device_lib
 device_lib_DATA=device_lib/*.gpvdm
 
-@PLOT0@
-@PLOT1@
+if INCLUDE_PLOTS
+plotdir = $(pkgdatadir)/plot
+plot_DATA=plot/*.plot
+endif
 
 pluginsdir = $(pkglibdir)/plugins
 plugins_DATA=plugins/*.@DLIB_EXT@
@@ -25,10 +28,14 @@ python_PYTHON=gui/*.py
 
 dist_doc_DATA = README
 
-@MAN_PAGES@
+if INCLUDE_MAN
+man1_MANS = man/gpvdm.1 man/gpvdm_core.1
+endif
 
-@IMAGES0@
-@IMAGES1@
+if INCLUDE_IMAGES
+appicondir=$(pkgdatadir)/images
+appicon_DATA=$(srcdir)/desktop/application-gpvdm.svg
+endif
 
 desktopdir = $(datadir)/applications
 desktop_DATA = $(srcdir)/desktop/gpvdm.desktop

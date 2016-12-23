@@ -20,9 +20,14 @@
 
 from plot_state import plot_state
 
-from openpyxl import Workbook
-from openpyxl.chart import Reference, Series, ScatterChart
-from openpyxl.compat import range
+work_book_enabled=False
+try:
+	from openpyxl import Workbook
+	from openpyxl.chart import Reference, Series, ScatterChart
+	from openpyxl.compat import range
+	work_book_enabled=True
+except:
+	print("python3-openpyxl not found")
 
 import glob
 import os
@@ -41,6 +46,9 @@ def title_truncate(title):
 	return ret
 
 def gen_workbook(input_file_or_dir,output_file):
+	if work_book_enabled==False:
+		return
+
 	wb = Workbook()
 	info_token=plot_state()
 	if os.path.isfile(input_file_or_dir):

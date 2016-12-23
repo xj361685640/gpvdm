@@ -73,7 +73,7 @@ if ((get_dump_status(sim,dump_optics_verbose)==TRUE)&&(in->Gn[0]!=0.0))
 	{
 		for (ii=0;ii<in->points;ii++)
 		{
-			fprintf(out,"%Le %Le %Le\n",in->l[i],in->x[ii],gpow(gpow(in->Ep[i][ii],2.0)+gpow(in->Epz[i][ii],2.0),0.5));
+			fprintf(out,"%Le %Le %Le\n",in->l[i],in->x[ii]-in->device_start,gpow(gpow(in->Ep[i][ii],2.0)+gpow(in->Epz[i][ii],2.0),0.5));
 
 		}
 
@@ -86,7 +86,7 @@ if ((get_dump_status(sim,dump_optics_verbose)==TRUE)&&(in->Gn[0]!=0.0))
 	{
 		for (ii=0;ii<in->points;ii++)
 		{
-			fprintf(out,"%Le %Le %Le\n",in->l[i],in->x[ii],gpow(gpow(in->En[i][ii],2.0)+gpow(in->Enz[i][ii],2.0),0.5));
+			fprintf(out,"%Le %Le %Le\n",in->l[i],in->x[ii]-in->device_start,gpow(gpow(in->En[i][ii],2.0)+gpow(in->Enz[i][ii],2.0),0.5));
 		}
 
 	fprintf(out,"\n");
@@ -98,7 +98,7 @@ if ((get_dump_status(sim,dump_optics_verbose)==TRUE)&&(in->Gn[0]!=0.0))
 	{
 		for (ii=0;ii<in->points;ii++)
 		{
-			fprintf(out,"%Le %Le %Le\n",in->l[i],in->x[ii],gpow(gpow(in->Ep[i][ii]+in->En[i][ii],2.0)+gpow(in->Enz[i][ii]+in->Epz[i][ii],2.0),1.0));
+			fprintf(out,"%Le %Le %Le\n",in->l[i],in->x[ii]-in->device_start,gpow(gpow(in->Ep[i][ii]+in->En[i][ii],2.0)+gpow(in->Enz[i][ii]+in->Epz[i][ii],2.0),1.0));
 		}
 
 	fprintf(out,"\n");
@@ -130,7 +130,7 @@ if ((get_dump_status(sim,dump_optics_verbose)==TRUE)&&(in->Gn[0]!=0.0))
 	{
 		for (ii=0;ii<in->points;ii++)
 		{
-			sprintf(line,"%Le %Le %Le\n",in->l[i],in->x[ii],in->photons[i][ii]);
+			sprintf(line,"%Le %Le %Le\n",in->l[i],in->x[ii]-in->device_start,in->photons[i][ii]);
 			buffer_add_string(&buf,line);
 		}
 
@@ -167,7 +167,7 @@ if ((get_dump_status(sim,dump_optics_verbose)==TRUE)&&(in->Gn[0]!=0.0))
 	{
 		for (ii=0;ii<in->points;ii++)
 		{
-			sprintf(line,"%Le %Le %Le\n",in->l[i],in->x[ii],in->photons_asb[i][ii]);
+			sprintf(line,"%Le %Le %Le\n",in->l[i],in->x[ii]-in->device_start,in->photons_asb[i][ii]);
 			buffer_add_string(&buf,line);
 		}
 
@@ -186,7 +186,7 @@ if ((get_dump_status(sim,dump_optics_verbose)==TRUE)&&(in->Gn[0]!=0.0))
 	{
 		for (ii=0;ii<in->points;ii++)
 		{
-			fprintf(out,"%Le %Le %Le\n",in->l[i],in->x[ii],in->n[i][ii]);
+			fprintf(out,"%Le %Le %Le\n",in->l[i],in->x[ii]-in->device_start,in->n[i][ii]);
 		}
 
 	fprintf(out,"\n");
@@ -237,7 +237,7 @@ if ((get_dump_status(sim,dump_optics_verbose)==TRUE)&&(in->Gn[0]!=0.0))
 	{
 		for (ii=0;ii<in->points;ii++)
 		{
-			sprintf(line,"%Le %Le %Le\n",in->l[i],in->x[ii],in->alpha[i][ii]);
+			sprintf(line,"%Le %Le %Le\n",in->l[i],in->x[ii]-in->device_start,in->alpha[i][ii]);
 			buffer_add_string(&buf,line);
 		}
 
@@ -273,7 +273,7 @@ if ((get_dump_status(sim,dump_optics_verbose)==TRUE)&&(in->Gn[0]!=0.0))
 	{
 		for (ii=0;ii<in->points;ii++)
 		{
-			sprintf(line,"%Le %Le %Le\n",in->l[i],in->x[ii],in->n[i][ii]);
+			sprintf(line,"%Le %Le %Le\n",in->l[i],in->x[ii]-in->device_start,in->n[i][ii]);
 			buffer_add_string(&buf,line);
 		}
 
@@ -491,28 +491,28 @@ if (get_dump_status(sim,dump_optics)==TRUE)
 	max=inter_array_get_max(in->photons[i],in->points);
 	for (ii=0;ii<in->points;ii++)
 	{
-		sprintf(line,"%Le %Le\n",in->x[ii],in->photons[i][ii]);
+		sprintf(line,"%Le %Le\n",in->x[ii]-in->device_start,in->photons[i][ii]);
 		buffer_add_string(&data_photons,line);
 
 		sprintf(line,"%Le %Le\n",in->x[ii]-in->device_start,in->photons[i][ii]/max);
 		buffer_add_string(&data_photons_norm,line);
 
-		sprintf(line,"%Le %Le %Le %Le\n",in->x[ii],gpow(gpow(in->Ep[i][ii],2.0)+gpow(in->Epz[i][ii],2.0),0.5),in->Ep[i][ii],in->Epz[i][ii]);
+		sprintf(line,"%Le %Le %Le %Le\n",in->x[ii]-in->device_start,gpow(gpow(in->Ep[i][ii],2.0)+gpow(in->Epz[i][ii],2.0),0.5),in->Ep[i][ii],in->Epz[i][ii]);
 		buffer_add_string(&data_light_1d_Ep,line);
 
-		sprintf(line,"%Le %Le %Le %Le\n",in->x[ii],gpow(gpow(in->En[i][ii],2.0)+gpow(in->Enz[i][ii],2.0),0.5),in->En[i][ii],in->Enz[i][ii]);
+		sprintf(line,"%Le %Le %Le %Le\n",in->x[ii]-in->device_start,gpow(gpow(in->En[i][ii],2.0)+gpow(in->Enz[i][ii],2.0),0.5),in->En[i][ii],in->Enz[i][ii]);
 		buffer_add_string(&data_light_1d_En,line);
 
-		sprintf(line,"%Le %Le\n",in->x[ii],in->pointing_vector[i][ii]);
+		sprintf(line,"%Le %Le\n",in->x[ii]-in->device_start,in->pointing_vector[i][ii]);
 		buffer_add_string(&data_pointing,line);
 
-		sprintf(line,"%Le %Le %Le\n",in->x[ii],in->E_tot_r[i][ii],in->E_tot_i[i][ii]);
+		sprintf(line,"%Le %Le %Le\n",in->x[ii]-in->device_start,in->E_tot_r[i][ii],in->E_tot_i[i][ii]);
 		buffer_add_string(&data_E_tot,line);
 
-		sprintf(line,"%Le %Le %Le %Le\n",in->x[ii],gcabs(in->r[i][ii]),gcreal(in->r[i][ii]),gcimag(in->r[i][ii]));
+		sprintf(line,"%Le %Le %Le %Le\n",in->x[ii]-in->device_start,gcabs(in->r[i][ii]),gcreal(in->r[i][ii]),gcimag(in->r[i][ii]));
 		buffer_add_string(&data_r,line);
 
-		sprintf(line,"%Le %Le %Le %Le\n",in->x[ii],gcabs(in->t[i][ii]),gcreal(in->t[i][ii]),gcimag(in->t[i][ii]));
+		sprintf(line,"%Le %Le %Le %Le\n",in->x[ii]-in->device_start,gcabs(in->t[i][ii]),gcreal(in->t[i][ii]),gcimag(in->t[i][ii]));
 		buffer_add_string(&data_t,line);
 
 		sprintf(line,"%Le %Le\n",in->x[ii]-in->device_start,in->n[i][ii]);
@@ -559,7 +559,7 @@ if (get_dump_status(sim,dump_optics)==TRUE)
 		out=fopen(name,"w");
 		for (ii=0;ii<in->points;ii++)
 		{
-			fprintf(out,"%Le %d\n",in->x[ii],in->layer[ii]);
+			fprintf(out,"%Le %d\n",in->x[ii]-in->device_start,in->layer[ii]);
 		}
 		fclose(out);
 
@@ -581,7 +581,7 @@ if (get_dump_status(sim,dump_optics)==TRUE)
 		out=fopen(name,"w");
 		for (ii=0;ii<in->points;ii++)
 		{
-			fprintf(out,"%Le %Le\n",in->x[ii],in->Gp[ii]);
+			fprintf(out,"%Le %Le\n",in->x[ii]-in->device_start,in->Gp[ii]);
 		}
 		fclose(out);
 
@@ -593,7 +593,7 @@ if (get_dump_status(sim,dump_optics)==TRUE)
 		out=fopen(name,"w");
 		for (ii=0;ii<in->points;ii++)
 		{
-			fprintf(out,"%Le %Le\n",in->x[ii],gpow(gpow(in->Ep[i][ii]+in->En[i][ii],2.0)+gpow(in->Enz[i][ii]+in->Epz[i][ii],2.0),0.5));
+			fprintf(out,"%Le %Le\n",in->x[ii]-in->device_start,gpow(gpow(in->Ep[i][ii]+in->En[i][ii],2.0)+gpow(in->Enz[i][ii]+in->Epz[i][ii],2.0),0.5));
 		}
 		fclose(out);
 
@@ -603,7 +603,7 @@ if (get_dump_status(sim,dump_optics)==TRUE)
 		out=fopen(name,"w");
 		for (ii=0;ii<in->points;ii++)
 		{
-			fprintf(out,"%Le %Le\n",in->x[ii],gcabs(in->t[i][ii]));
+			fprintf(out,"%Le %Le\n",in->x[ii]-in->device_start,gcabs(in->t[i][ii]));
 		}
 		fclose(out);
 
@@ -611,7 +611,7 @@ if (get_dump_status(sim,dump_optics)==TRUE)
 		out=fopen(name,"w");
 		for (ii=0;ii<in->points;ii++)
 		{
-			fprintf(out,"%Le %Le\n",in->x[ii],gcabs(in->r[i][ii]));
+			fprintf(out,"%Le %Le\n",in->x[ii]-in->device_start,gcabs(in->r[i][ii]));
 		}
 		fclose(out);
 
@@ -619,7 +619,7 @@ if (get_dump_status(sim,dump_optics)==TRUE)
 		out=fopen(name,"w");
 		for (ii=0;ii<in->points;ii++)
 		{
-			fprintf(out,"%Le %Le\n",in->x[ii],in->photons_asb[i][ii]);
+			fprintf(out,"%Le %Le\n",in->x[ii]-in->device_start,in->photons_asb[i][ii]);
 		}
 		fclose(out);
 
@@ -629,7 +629,7 @@ if (get_dump_status(sim,dump_optics)==TRUE)
 
 		for (ii=0;ii<in->points;ii++)
 		{
-			fprintf(out,"%Le %Le\n",in->x[ii],in->n[i][ii]);
+			fprintf(out,"%Le %Le\n",in->x[ii]-in->device_start,in->n[i][ii]);
 		}
 
 
@@ -640,7 +640,7 @@ if (get_dump_status(sim,dump_optics)==TRUE)
 
 		for (ii=0;ii<in->points;ii++)
 		{
-			fprintf(out,"%Le %Le\n",in->x[ii],in->alpha[i][ii]);
+			fprintf(out,"%Le %Le\n",in->x[ii]-in->device_start,in->alpha[i][ii]);
 		}
 
 

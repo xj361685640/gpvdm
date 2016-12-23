@@ -4,7 +4,7 @@
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -62,6 +62,7 @@ from command_args import command_args
 
 command_args(len(sys.argv),sys.argv)
 
+from import_archive import update_simulaton_to_new_ver
 
 import os
 from inp import inp_get_token_value
@@ -476,7 +477,7 @@ class gpvdm_main_window(QMainWindow):
 				reply = yes_no_dlg(self,"The simulation you want to import looks like it was made on an old version of gpvdm, do you want to try to open it anyway?")
 
 				if reply == True:
-					update_simulaton_to_new_ver(dialog.get_filename())
+					update_simulaton_to_new_ver(dialog.selectedFiles()[0])
 					self.change_dir_and_refresh_interface(new_path)
 
 	def callback_export(self, widget, data=None):

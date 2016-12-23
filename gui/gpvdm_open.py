@@ -112,8 +112,9 @@ class gpvdm_open():
 		if os.path.isdir(self.dir)==False:
 			error_dlg(self.window,_("The directory is gone, so I can't open it."))
 
-		
-		for fl in os.listdir(self.dir):
+		all_files=os.listdir(self.dir)
+		all_files.sort()
+		for fl in all_files:
 			file_name=os.path.join(self.dir, fl)
 			if os.path.isdir(file_name):
 				if os.path.isfile(os.path.join(file_name,"mat.inp")):

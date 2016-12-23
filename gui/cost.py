@@ -39,11 +39,18 @@ from epitaxy import epitaxy_get_width
 from mesh import mesh_get_xlen
 from mesh import mesh_get_zlen
 from epitaxy import epitaxy_get_mat_file
-from openpyxl import Workbook
+
+work_book_enabled=False
+try:
+	from openpyxl import Workbook
+	from openpyxl import load_workbook
+	work_book_enabled=True
+except:
+	print("pyton3-openpyxl not found")
 
 from gui_util import tab_add
 
-from openpyxl import load_workbook
+
 from cal_path import get_materials_path
 
 from inp import inp_get_token_value
@@ -112,6 +119,10 @@ class cost(QWidget):
 		self.tab.setColumnWidth(2, 200)
 		self.tab.setColumnWidth(3, 200)
 		self.tab.setColumnWidth(4, 200)
+		if work_book_enabled==False:
+			print("I can't do this calculation because I can't load pyton3-openpyxl")
+			return
+
 		energy_tot=0.0
 		cost_tot=0.0
 		for i in range(0,epitaxy_get_layers()):

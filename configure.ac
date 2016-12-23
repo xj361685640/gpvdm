@@ -1,13 +1,36 @@
-AC_INIT([gpvdm], [4.79])
+AC_INIT([gpvdm], [4.80])
 AC_CONFIG_SRCDIR([./src/main.c])
 AC_CANONICAL_TARGET
 AC_CANONICAL_HOST
 
+
+AC_MSG_NOTICE([$target])
+AC_MSG_NOTICE([$target_alias])
+AC_MSG_NOTICE([$target_cpu])
+AC_MSG_NOTICE([$target_vendor])
+AC_MSG_NOTICE([$target_os])
+AC_ARG_ENABLE(noimages, "used to disable compilation of images",
+[AM_CONDITIONAL([INCLUDE_IMAGES],[false])],
+[AM_CONDITIONAL([INCLUDE_IMAGES],[true])]
+)
+
+AC_ARG_ENABLE(noplots, "used to disable plot files",
+[AM_CONDITIONAL([INCLUDE_PLOTS],[false])],
+[AM_CONDITIONAL([INCLUDE_PLOTS],[true])]
+)
+
+AC_ARG_ENABLE(nopman, "used to disable man page generation",
+[AM_CONDITIONAL([INCLUDE_MAN],[false])],
+[AM_CONDITIONAL([INCLUDE_MAN],[true])]
+)
+
 AC_SUBST(WIN_ICON, "" )
 AC_SUBST(WIN_RES_FILE, "" )
 
+#This is a case statment the default is to compile for linux
 AS_CASE([$target_os],
   [mingw32], [
+
 AC_MSG_NOTICE([********************************])
 AC_MSG_NOTICE([*Setting up config for windows *])
 AC_MSG_NOTICE([********************************])
@@ -18,9 +41,6 @@ AC_SUBST(SLIB_EXT, "a")
 AC_SUBST(DLIB_EXT, "dll")
 AC_SUBST(EXE_EXT, ".exe")
 
-m4_include([images.m4])
-m4_include([plot.m4])
-
 AC_CHECK_HEADERS([umfpack.h],[],[AC_MSG_ERROR([umfpack.h is needed but not found])])
 AC_SUBST(DLL_LINKER, ["-L/home/rod/windll/compiled_dlls/ -Wl,--out-implib,plugin.a -lgpvdm_light  -lgpvdm_lib -lgpvdm_dump -lgpvdm_measure -lgpvdm_dos -lgpvdm_dumpctrl -lgpvdm_light -lgpvdm_i -lzip-2 -lumfpack -lgpvdm_mesh "])
 AC_SUBST(DLL_COMPILE, ["-DBUILDING_EXAMPLE_DLL"])
@@ -29,8 +49,7 @@ AC_SUBST(EXE_LINK,["-L/home/rod/windll/compiled_dlls/ -lumfpack -lzip-2"])
 AC_SUBST(WIN_RES_FILE, "gpvdm.res" )
 AC_SUBST(WIN_ICON, "i686-w64-mingw32-windres gpvdm.rc -O coff -o gpvdm.res" )
 
-],
-  [linux-gnu], [
+], [
 
 AC_MSG_NOTICE([*****************************])
 AC_MSG_NOTICE([*Setting up config for linux*])
@@ -54,23 +73,21 @@ AC_ARG_ENABLE(hpc, "used to turn on HPC compatability",
 AC_MSG_NOTICE([*****************************])
 AC_MSG_NOTICE([*Setting up for HPC         *])
 AC_MSG_NOTICE([*****************************])
+
 AC_SUBST(COMPILE_FLAG, " -D enable_server -g -fPIC " )
 AC_SUBST(EXE_LINK, " -lumfpack -lm -lgsl -lgslcblas -rdynamic -export-dynamic -ldl -lzip -lz  -L/home/steve/rm/lib/")
 #-lmatheval -g -L/home/steve/rm/build/libmatheval-1.1.11/lib/.libs/
-AC_SUBST(MAN_PAGES, "" )
 
 ],[
 	AC_CHECK_LIB(matheval, [main], [], [AC_MSG_ERROR([matheval is needed but not found.])])
 	AC_SUBST(COMPILE_FLAG, " -D enable_server -g -fPIC `pkg-config --cflags dbus-1` -D dbus " )
 	AC_SUBST(EXE_LINK, "-lumfpack -lm -lgsl -lgslcblas -rdynamic -export-dynamic -ldl -lzip  -lmatheval -lz -g `pkg-config --libs dbus-1`")
-	AC_SUBST(MAN_PAGES, "man1_MANS = man/gpvdm.1 man/gpvdm_core.1" )
 	
 ]
 )
 
 
-],
-  [AC_MSG_ERROR("No assembler code for CPU $target_os")]
+]
 )
 
 

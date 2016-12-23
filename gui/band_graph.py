@@ -226,6 +226,7 @@ class band_graph(QWidget):
 			s = asarray(yy)
 
 			t=t*1e9
+
 			ax1.plot(t,s, 'black', linewidth=3 ,alpha=0.5)
 
 
