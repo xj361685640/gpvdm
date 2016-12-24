@@ -569,7 +569,7 @@ if open_gl_ok==True:
 			#glEnable(GL_DEPTH_TEST)
 			#glShadeModel(GL_SMOOTH)
 		
-			self.setMinimumSize(650, 500)
+			#self.setMinimumSize(650, 500)
 
 		def my_timer(self):
 			#self.xRot =self.xRot + 2

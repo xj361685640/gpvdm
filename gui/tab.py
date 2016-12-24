@@ -2,7 +2,7 @@
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -38,20 +38,20 @@ from gtkswitch import gtkswitch
 from leftright import leftright
 from help import help_window
 
-from PyQt5.QtWidgets import QWidget, QVBoxLayout,QProgressBar,QLabel,QDesktopWidget,QToolBar,QHBoxLayout,QAction, QSizePolicy, QTableWidget, QTableWidgetItem,QComboBox,QDialog,QAbstractItemView,QGridLayout,QLineEdit
+from PyQt5.QtWidgets import QWidget, QScrollArea,QVBoxLayout,QProgressBar,QLabel,QDesktopWidget,QToolBar,QHBoxLayout,QAction, QSizePolicy, QTableWidget, QTableWidgetItem,QComboBox,QDialog,QAbstractItemView,QGridLayout,QLineEdit
 
 import i18n
 _ = i18n.language.gettext
 
 import functools
 
-class tab_class(QWidget,tab_base):
+class tab_class(QScrollArea,tab_base):
 
 	lines=[]
 	edit_list=[]
 
 	def __init__(self):
-		QWidget.__init__(self)
+		QScrollArea.__init__(self)
 		self.editable=True
 
 
@@ -78,6 +78,8 @@ class tab_class(QWidget,tab_base):
 		self.editable=editable
 		
 	def init(self,filename,tab_name):
+		self.setStyleSheet("background-color:white;")
+		self.main_widget=QWidget()
 		self.vbox=QVBoxLayout()
 		self.file_name=filename
 		self.tab_name=tab_name
@@ -169,6 +171,7 @@ class tab_class(QWidget,tab_base):
 		spacer = QWidget()
 		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 		self.vbox.addWidget(spacer)
+		self.main_widget.setLayout(self.vbox)
 		
-		self.setLayout(self.vbox)
+		self.setWidget(self.main_widget)
 

@@ -2,7 +2,7 @@ AC_INIT([gpvdm], [4.80])
 AC_CONFIG_SRCDIR([./src/main.c])
 AC_CANONICAL_TARGET
 AC_CANONICAL_HOST
-
+#AM_GNU_GETTEXT([external])
 
 AC_MSG_NOTICE([$target])
 AC_MSG_NOTICE([$target_alias])

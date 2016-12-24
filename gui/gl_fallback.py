@@ -2,7 +2,7 @@
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -54,7 +54,7 @@ class gl_fallback(QWidget):
 
 	def __init__(self):
 		QWidget.__init__(self)
-		self.setMinimumSize(600, 500)
+		#self.setMinimumSize(600, 500)
 		self.suns=1
 		
 	def paintEvent(self, e):

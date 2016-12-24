@@ -29,11 +29,11 @@ _ = i18n.language.gettext
 
 #qt
 from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication
-from PyQt5.QtGui import QIcon,QPixmap
-from PyQt5.QtCore import QSize, Qt 
-from PyQt5.QtWidgets import QWidget,QSizePolicy,QHBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar, QMessageBox, QVBoxLayout, QGroupBox, QTableWidget,QAbstractItemView, QTableWidgetItem, QLabel
+from PyQt5.QtGui import QIcon,QPixmap,QPalette
+from PyQt5.QtCore import QSize, Qt
+from PyQt5.QtWidgets import QWidget,QScrollArea,QSizePolicy,QHBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar, QMessageBox, QVBoxLayout, QGroupBox, QTableWidget,QAbstractItemView, QTableWidgetItem, QLabel
 
-class information(QWidget,tab_base):
+class information(QScrollArea,tab_base):
 
 	lines=[]
 	edit_list=[]
@@ -43,13 +43,21 @@ class information(QWidget,tab_base):
 	name="Welcome"
 
 	def __init__(self):
-		QWidget.__init__(self)
+		QScrollArea.__init__(self)
+		self.main_widget=QWidget()
+
 		hbox=QHBoxLayout()
-		
+		self.setStyleSheet("background-color:white;");
 		self.label = QLabel()
+		#self.label.setStyleSheet("background-color:white;");
+
 		self.label.setAlignment(Qt.AlignTop)
 		self.label.setOpenExternalLinks(True);
-		self.label.setText(_("<b><font size=30>General-purpose photovoltaic device model</b><br>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<br></font><br><font size=12>(<a href=\"http://www.gpvdm.com\" title=\"Click to find out more\">www.gpvdm.com</a>)<br><br> To make a new simulation click <i><u>N</u>ew Simulation</i> in the <i><u>F</u>ile</i> menu<br> or to open an existing simulation select <i><u>O</u>pen simulation</i>. <br> <br> There is more help on the <a href=\"http://www.gpvdm.com/man/index.html\">man pages</a>.  <br><br>Please report bugs to <br><a href=\"mailto:roderick.mackenzie@nottingham.ac.uk?Subject=gpvdm%20bug\">roderick.mackenzie@nottingham.ac.uk</a>.<br><br><br> Rod<br>18/10/13<br>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<br><br><br><br></font>"))
+		#self.label.setSizePolicy( QSizePolicy.Ignored, QSizePolicy.Ignored );
+		#self.label.setMaximumSize( QSize(16777215, 16777215) )
+		self.label.setWordWrap(True)
+		self.label.setText(_("<b><font size=30>General-purpose photovoltaic device model</b><br>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<br></font><br><font size=12>(<a href=\"http://www.gpvdm.com\" title=\"Click to find out more\">www.gpvdm.com</a>)<br><br> To make a new simulation click <i><u>N</u>ew Simulation</i> in the <i><u>F</u>ile</i> menu<br> or to open an existing simulation select <i><u>O</u>pen simulation</i>. <br> <br> There is more help on the <a href=\"http://www.gpvdm.com/man/index.html\">man pages</a>.  <br><br>Please report bugs to <br><a href=\"mailto:roderick.mackenzie@nottingham.ac.uk?Subject=gpvdm%20bug\">roderick.mackenzie@nottingham.ac.uk</a>.<br><br><br> Rod<br>18/10/13<br>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</font>"))
+		#self.label.setMinimumSize( QSize(0,0) )
 
 		hbox.addWidget(self.label)
 
@@ -59,7 +67,9 @@ class information(QWidget,tab_base):
 
 		hbox.addWidget(image)
 
-		self.setLayout(hbox)
+		self.main_widget.setLayout(hbox)
+		self.main_widget.show()
+		self.setWidget(self.main_widget)
 
 	def update(self):
 		print("")

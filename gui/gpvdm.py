@@ -74,6 +74,7 @@ from help import help_init
 from notice import notice
 from scan_item import scan_item_add
 from window_list import windows
+from window_list import get_main_window_size
 from qe import qe_window
 
 
@@ -706,7 +707,7 @@ class gpvdm_main_window(QMainWindow):
 		menubar = self.menuBar()
 
 
-		file_menu = menubar.addMenu('&File')
+		file_menu = menubar.addMenu(_("&File"))
 		self.menu_new=file_menu.addAction(_("&New simulation"))
 		self.menu_new.triggered.connect(self.callback_new)
 
@@ -727,7 +728,7 @@ class gpvdm_main_window(QMainWindow):
 		self.menu_quit=file_menu.addAction(_("&Quit"))
 		self.menu_quit.triggered.connect(self.close_now)
 
-		simulation_menu = menubar.addMenu('&Simulation')
+		simulation_menu = menubar.addMenu(_("&Simulation"))
 
 		self.menu_run=simulation_menu.addAction(_("&Run"))
 		self.menu_run.triggered.connect(self.callback_simulate)
@@ -742,16 +743,16 @@ class gpvdm_main_window(QMainWindow):
 		self.menu_configure.triggered.connect(self.callback_config_window)
 
 
-		view_menu = menubar.addMenu('&View')
+		view_menu = menubar.addMenu(_("&View"))
 		view_menu.addAction(_("&None"))
 
 
-		plot_menu = menubar.addMenu('&Plot')
+		plot_menu = menubar.addMenu(_("&Plot"))
 		self.plot_menu_plot=plot_menu.addAction(_("&Plot simulation result"))
 		self.plot_menu_plot.triggered.connect(self.callback_plot_select)
 
 
-		help_menu = menubar.addMenu('Help')
+		help_menu = menubar.addMenu(_("Help"))
 
 		help_web=help_menu.addAction(_("&Help window"))
 		help_web.triggered.connect(self.callback_help)
@@ -874,8 +875,8 @@ class gpvdm_main_window(QMainWindow):
 			toolbar_hpc = self.addToolBar(self.hpc_toolbar)
 	
 		self.win_list.set_window(self,"main_window")
-
-
+		w,h=get_main_window_size()
+		self.resize(w,h)
 
 #		self.menubar.show()
 

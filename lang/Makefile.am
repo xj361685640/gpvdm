@@ -1,7 +1,7 @@
 OBJS= ./de_DE/LC_MESSAGES/gpvdm.mo
 
 all: $(OBJS)
-	echo "po files generated"
+	xgettext --language=Python --keyword=_ --output=gpvdm.pot `find ../ \( -name "*.py" -or -name "*.c" \)|grep -v pub` --msgid-bugs-address=roderick.mackenzie@nottingham.ac.uk  --copyright-holder="Roderick C. I. MacKenzie" --package-name=gpvdm --package-version=4.80
 
 ./de_DE/LC_MESSAGES/gpvdm.mo : de.po
 	mkdir ./de_DE

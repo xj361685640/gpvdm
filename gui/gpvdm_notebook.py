@@ -187,6 +187,7 @@ class gpvdm_notebook(QTabWidget):
 
 			lines=[]
 			pos=0
+
 			if inp_load_file(lines,"gui_config.inp")==True:
 				pos=0
 				tab_number=0
@@ -238,14 +239,6 @@ class gpvdm_notebook(QTabWidget):
 						add_to_widget=True
 						widget=tab_class()
 						widget.init(file_name,name)
-
-
-					#	add_to_widget=True
-					#	tab=
-					#	tab.visible=visible
-					#	tab.init(file_name,name)
-					#	tab.label_name=name
-					#	tab.file_name=file_name
 
 					if add_to_widget==True:
 						mytext=name
