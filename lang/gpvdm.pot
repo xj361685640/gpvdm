@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.80\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2016-12-24 20:53+0000\n"
+"POT-Creation-Date: 2016-12-24 22:57+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -612,6 +612,14 @@ msgid ""
 "No electrical slice data has been stored in the snapshots directory.  To "
 "turn this on set Simulation->Configure->Dump->Dump 1D Slices to on.  This "
 "will dump a lot of data and slow down your simulations."
+msgstr ""
+
+#: ../gui/gtkswitch.py:76
+msgid "ON"
+msgstr ""
+
+#: ../gui/gtkswitch.py:82
+msgid "OFF"
 msgstr ""
 
 #: ../gui/experiment_tab.py:62
@@ -1412,22 +1420,30 @@ msgstr ""
 msgid "Rename experiment"
 msgstr ""
 
-#: ../gui/information_noweb.py:59
-msgid ""
-"<b><font size=30>General-purpose photovoltaic device model</"
-"b><br>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<br></"
-"font><br><font size=12>(<a href=\"http://www.gpvdm.com\" title=\"Click to "
-"find out more\">www.gpvdm.com</a>)<br><br> To make a new simulation click "
-"<i><u>N</u>ew Simulation</i> in the <i><u>F</u>ile</i> menu<br> or to open "
-"an existing simulation select <i><u>O</u>pen simulation</i>. <br> <br> There "
-"is more help on the <a href=\"http://www.gpvdm.com/man/index.html\">man "
-"pages</a>.  <br><br>Please report bugs to <br><a href=\"mailto:roderick."
-"mackenzie@nottingham.ac.uk?Subject=gpvdm%20bug\">roderick."
-"mackenzie@nottingham.ac.uk</a>.<br><br><br> "
-"Rod<br>18/10/13<br>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</font>"
+#: ../gui/information_noweb.py:63
+msgid "Click to find out more"
 msgstr ""
 
-#: ../gui/information_noweb.py:78
+#: ../gui/information_noweb.py:65
+msgid ""
+"To make a new simulation click <i><u>N</u>ew Simulation</i> in the <i><u>F</"
+"u>ile</i> menu<br> or to open an existing simulation select <i><u>O</u>pen "
+"simulation</i>. "
+msgstr ""
+
+#: ../gui/information_noweb.py:67
+msgid ""
+"There is more help on the <a href=\"http://www.gpvdm.com/man/index.html"
+"\">man pages</a>."
+msgstr ""
+
+#: ../gui/information_noweb.py:69
+msgid ""
+"Please report bugs to <br><a href=\"mailto:roderick.mackenzie@nottingham.ac."
+"uk?Subject=gpvdm%20bug\">"
+msgstr ""
+
+#: ../gui/information_noweb.py:90
 #: ../test/usr/local/share/gpvdm/gui/information_noweb.py:68
 msgid ""
 "<big><b>Welcome to gpvdm</b></big>\n"
@@ -2425,6 +2441,14 @@ msgstr ""
 
 #: ../gui/fit_vars.py:169 ../test/usr/local/share/gpvdm/gui/fit_vars.py:169
 msgid "Fit vars window - gpvdm"
+msgstr ""
+
+#: ../gui/leftright.py:85
+msgid "Right"
+msgstr ""
+
+#: ../gui/leftright.py:91
+msgid "Left"
 msgstr ""
 
 #: ../gui/hpc.py:215 ../test/usr/local/share/gpvdm/gui/hpc.py:215

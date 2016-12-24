@@ -56,7 +56,19 @@ class information(QScrollArea,tab_base):
 		#self.label.setSizePolicy( QSizePolicy.Ignored, QSizePolicy.Ignored );
 		#self.label.setMaximumSize( QSize(16777215, 16777215) )
 		self.label.setWordWrap(True)
-		self.label.setText(_("<b><font size=30>General-purpose photovoltaic device model</b><br>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<br></font><br><font size=12>(<a href=\"http://www.gpvdm.com\" title=\"Click to find out more\">www.gpvdm.com</a>)<br><br> To make a new simulation click <i><u>N</u>ew Simulation</i> in the <i><u>F</u>ile</i> menu<br> or to open an existing simulation select <i><u>O</u>pen simulation</i>. <br> <br> There is more help on the <a href=\"http://www.gpvdm.com/man/index.html\">man pages</a>.  <br><br>Please report bugs to <br><a href=\"mailto:roderick.mackenzie@nottingham.ac.uk?Subject=gpvdm%20bug\">roderick.mackenzie@nottingham.ac.uk</a>.<br><br><br> Rod<br>18/10/13<br>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</font>"))
+		text="<b><font size=30>"
+		text=text+"General-purpose photovoltaic device model"
+		text=text+"</b><br>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<br></font>"
+		text=text+"<br><font size=12>(<a href=\"http://www.gpvdm.com\" title=\""
+		text=text+_("Click to find out more")
+		text=text+"\">www.gpvdm.com</a>)<br><br> "
+		text=text+_("To make a new simulation click <i><u>N</u>ew Simulation</i> in the <i><u>F</u>ile</i> menu<br> or to open an existing simulation select <i><u>O</u>pen simulation</i>. ")
+		text=text+"<br> <br> "
+		text=text+_("There is more help on the <a href=\"http://www.gpvdm.com/man/index.html\">man pages</a>.")
+		text=text+"<br><br>"
+		text=text+_("Please report bugs to <br><a href=\"mailto:roderick.mackenzie@nottingham.ac.uk?Subject=gpvdm%20bug\">")
+		text=text+"roderick.mackenzie@nottingham.ac.uk</a>.<br><br><br> Rod<br>18/10/13<br>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<br><br><br><br></font>"
+		self.label.setText(text)
 		#self.label.setMinimumSize( QSize(0,0) )
 
 		hbox.addWidget(self.label)

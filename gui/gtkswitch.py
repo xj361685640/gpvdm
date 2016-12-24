@@ -73,13 +73,13 @@ class gtkswitch(QWidget):
 			qp.setBrush(QColor(230,230,230))
 			qp.drawRoundedRect(40, 2, 38,18.0,5.0,5.0)
 
-			qp.drawText(8, 17, "ON")
+			qp.drawText(8, 17, _("ON"))
 		else:
 			qp.setBrush(QColor(180,180,180))
 			qp.drawRoundedRect(0, 0.0, 80.0,22.0,5.0,5.0)			
 			qp.setBrush(QColor(230,230,230))
 			qp.drawRoundedRect(2, 2, 38,18.0,5.0,5.0)
-			qp.drawText(44, 17, "OFF")
+			qp.drawText(44, 17, _("OFF"))
 
 	def mouseReleaseEvent(self, QMouseEvent):
 		if QMouseEvent.x()<80:
