@@ -46,7 +46,7 @@ class class_config_window(QWidget):
 		self.setFixedSize(900, 600)
 		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"cog.png")))
 
-		self.setWindowTitle(_("Configure (www.gpvdm.com)")) 
+		self.setWindowTitle(_("Configure")+" (https://www.gpvdm.com)") 
 		
 
 		self.main_vbox = QVBoxLayout()

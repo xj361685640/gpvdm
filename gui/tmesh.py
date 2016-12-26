@@ -2,7 +2,7 @@
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -131,7 +131,7 @@ class tab_time_mesh(QWidget):
 
 
 	def callback_add_section(self):
-		tab_add(self.tab,[_("10e-6"),_("0.1e-6"),_("0.0"),_("0.0"),_("1.0"),_("0.0"),_("0.0")])
+		tab_add(self.tab,["10e-6","0.1e-6","0.0","0.0","1.0","0.0","0.0"])
 
 		self.build_mesh()
 		self.draw_graph()
@@ -203,10 +203,10 @@ class tab_time_mesh(QWidget):
 		self.ax1.set_ylabel(_("Voltage (Volts)"))
 
 		voltage, = self.ax1.plot(time,self.voltage, 'ro-', linewidth=3 ,alpha=1.0)
-		self.ax1.set_xlabel(_("Time (")+unit+')')
+		self.ax1.set_xlabel(_("Time")+" ("+unit+')')
 
 		self.ax2 = self.ax1.twinx()
-		self.ax2.set_ylabel(_("Magnitude (au)"))
+		self.ax2.set_ylabel(_("Magnitude")+" (au)")
 		#ax2.set_ylabel('Energy (eV)')
 
 		sun, = self.ax2.plot(time,self.sun, 'go-', linewidth=3 ,alpha=1.0)

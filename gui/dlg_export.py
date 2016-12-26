@@ -1,8 +1,8 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012-2017 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -46,13 +46,13 @@ def dlg_export(parent):
 	dialog.setWindowTitle(_("Export the simulation as"))
 	dialog.setAcceptMode(QFileDialog.AcceptSave)
 	types=[]
-	types.append(_("gpvdm archive input+output files (*.gpvdm)"))
-	types.append(_("gpvdm archive input files (*.gpvdm)"))
-	types.append(_("optical materials database (*.zip)"))
-	types.append(_("pdf file (*.pdf)"))
-	types.append(_("jpg image (*.jpg)"))
-	types.append(_("tex file (*.tex)"))
-	types.append(_("Excel file (*.xlsx)"))
+	types.append(_("gpvdm archive input+output files")+" (*.gpvdm)")
+	types.append(_("gpvdm archive input files")+" (*.gpvdm)")
+	types.append(_("optical materials database")+" (*.zip)")
+	types.append(_("pdf file")+" (*.pdf)")
+	types.append(_("jpg image")+" (*.jpg)")
+	types.append(_("tex file")+" (*.tex)")
+	types.append(_("Excel file")+" (*.xlsx)")
 
 	dialog.setNameFilters(types)
 	dialog.setFileMode(QFileDialog.ExistingFile)
@@ -60,14 +60,14 @@ def dlg_export(parent):
 
 	if dialog.exec_() == QDialog.Accepted:
 		file_name = dialog.selectedFiles()[0]
-		if dialog.selectedNameFilter()==_("gpvdm archive input+output files (*.gpvdm)"):
+		if dialog.selectedNameFilter()==_("gpvdm archive input+output files")+" (*.gpvdm)":
 			export_archive(file_name,True)
-		elif dialog.selectedNameFilter()==_("gpvdm archive input files (*.gpvdm)"):
+		elif dialog.selectedNameFilter()==_("gpvdm archive input files")+" (*.gpvdm)":
 			export_archive(file_name,False)
-		elif dialog.selectedNameFilter()==_("optical materials database (*.zip)"):
+		elif dialog.selectedNameFilter()==_("optical materials database")+" (*.zip)":
 			export_materials(file_name)
-		elif dialog.selectedNameFilter()==_("pdf file (*.pdf)") or dialog.selectedNameFilter()==_("jpg image (*.jpg)") or dialog.selectedNameFilter()==_("tex file (*.tex)"):
+		elif dialog.selectedNameFilter()==_("pdf file")+" (*.pdf)" or dialog.selectedNameFilter()==_("jpg image")+" (*.jpg)" or dialog.selectedNameFilter()==_("tex file")+" (*.tex)":
 			export_as(file_name)
-		elif dialog.selectedNameFilter()==_("Excel file (*.xlsx)"):
+		elif dialog.selectedNameFilter()==_("Excel file")+" (*.xlsx)":
 			gen_workbook(os.getcwd(),file_name)
 

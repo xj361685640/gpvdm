@@ -1,8 +1,8 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012-2017 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -111,7 +111,7 @@ class doping_window(QWidget):
 
 
 	def callback_help(self):
-		webbrowser.open('http://www.gpvdm.com/man/index.html')
+		webbrowser.open("https://www.gpvdm.com/man/index.html")
 
 	def load(self):
 		self.tab.blockSignals(True)
@@ -185,7 +185,7 @@ class doping_window(QWidget):
 		self.win_list=windows()
 		self.setFixedSize(900, 600)
 		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"doping.png")))
-		self.setWindowTitle(_("Doping profile editor (www.gpvdm.com)")) 
+		self.setWindowTitle(_("Doping profile editor")+" (https://www.gpvdm.com)") 
 
 		self.win_list.set_window(self,"doping")
 		self.main_vbox=QVBoxLayout()

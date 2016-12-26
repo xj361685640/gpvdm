@@ -73,20 +73,6 @@ class fit_window(QWidget):
 			tab = self.notebook.widget(i)
 			tab.update()
 
-	def get_main_menu(self, window):
-		accel_group = gtk.AccelGroup()
-		item_factory = gtk.ItemFactory(gtk.MenuBar, "<main>", accel_group)
-
-		item_factory.create_items(self.menu_items)
-		if enable_betafeatures()==False:
-			item_factory.delete_item(_("/Advanced"))
-
-		window.add_accel_group(accel_group)
-
-		self.item_factory = item_factory
-
-		return item_factory.get_widget("<main>")
-
 	def callback_close(self):
 		self.win_list.update(self,"fit_window")
 		self.hide()
@@ -244,25 +230,25 @@ class fit_window(QWidget):
 
 		menubar = QMenuBar()
 
-		file_menu = menubar.addMenu('&File')
+		file_menu = menubar.addMenu("&"+_("File"))
 		self.menu_close=file_menu.addAction(_("Close"))
 		self.menu_close.triggered.connect(self.callback_close)
 
 
 		self.menu_fit=menubar.addMenu(_("Fits"))
-		self.menu_fit_new=self.menu_fit.addAction(_("&New"))
+		self.menu_fit_new=self.menu_fit.addAction("&"+_("New"))
 		self.menu_fit_new.triggered.connect(self.callback_add_page)
 
-		self.menu_fit_delete=self.menu_fit.addAction(_("&Delete fit"))
+		self.menu_fit_delete=self.menu_fit.addAction("&"+_("Delete fit"))
 		self.menu_fit_delete.triggered.connect(self.callback_delete_page)
 
-		self.menu_fit_rename=self.menu_fit.addAction(_("&Rename fit"))
+		self.menu_fit_rename=self.menu_fit.addAction("&"+_("Rename fit"))
 		self.menu_fit_rename.triggered.connect(self.callback_rename_page)
 
-		self.menu_fit_import=self.menu_fit.addAction(_("&Import data"))
+		self.menu_fit_import=self.menu_fit.addAction("&"+_("Import data"))
 		self.menu_fit_import.triggered.connect(self.callback_import)
 
-		self.menu_fit_clone=self.menu_fit.addAction(_("&Clone fit"))
+		self.menu_fit_clone=self.menu_fit.addAction("&"+_("Clone fit"))
 		self.menu_fit_clone.triggered.connect(self.callback_copy_page)
 
 

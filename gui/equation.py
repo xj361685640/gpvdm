@@ -151,7 +151,7 @@ class equation(QWidget):
 			x_nm= [x * 1e9 for x in data.y_scale]
 			frequency, = self.ax1.plot(x_nm,data.data[0][0], 'bo-', linewidth=3 ,alpha=1.0)
 
-		self.ax1.set_xlabel(_("Wavelength (nm)"))
+		self.ax1.set_xlabel(_("Wavelength")+" (nm)")
 
 	def save_image(self,file_name):
 		self.fig.savefig(file_name)
@@ -162,13 +162,13 @@ class equation(QWidget):
 			self.save_image(file_name)
 
 	def callback_help(self):
-		webbrowser.open('http://www.gpvdm.com/man/index.html')
+		webbrowser.open("https://www.gpvdm.com/man/index.html")
 
 	def load_data(self):
 		self.tab.clear()
 		self.tab.setColumnCount(3)
 		self.tab.setSelectionBehavior(QAbstractItemView.SelectRows)
-		self.tab.setHorizontalHeaderLabels([_("start (m)"), _("stop (m)"), _("Python Equation")])
+		self.tab.setHorizontalHeaderLabels([_("start")+" (m)", _("stop")+" (m)", _("Python Equation")])
 		self.tab.setColumnWidth(2, 500)
 		lines=[]
 		pos=0

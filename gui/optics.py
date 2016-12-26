@@ -110,13 +110,13 @@ class class_optical(QWidget):
 		input_files.append(os.path.join(os.getcwd(),"light_dump","reflect.dat"))
 
 		plot_labels=[]
-		plot_labels.append("Photon distribution")
-		plot_labels.append("Photon distribution absorbed")
-		plot_labels.append("Reflection")
+		plot_labels.append(_("Photon distribution"))
+		plot_labels.append(_("Photon distribution absorbed"))
+		plot_labels.append(_("Reflection"))
 
 
 		self.setGeometry(300, 300, 600, 600)
-		self.setWindowTitle(_("Optical simulation editor (www.gpvdm.com)"))    
+		self.setWindowTitle(_("Optical simulation editor")+" (https://www.gpvdm.com)")    
 
 		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"optics.png")))
 
@@ -124,11 +124,11 @@ class class_optical(QWidget):
 
 		menubar = QMenuBar()
 
-		file_menu = menubar.addMenu('&File')
-		self.menu_refresh=file_menu.addAction(_("&Refresh"))
+		file_menu = menubar.addMenu("&"+_("File"))
+		self.menu_refresh=file_menu.addAction("&"+_("Refresh"))
 		self.menu_refresh.triggered.connect(self.update)
 
-		self.menu_close=file_menu.addAction(_("&Close"))
+		self.menu_close=file_menu.addAction("&"+_("Close"))
 		self.menu_close.triggered.connect(self.callback_close)
 
 		self.main_vbox.addWidget(menubar)
@@ -150,7 +150,7 @@ class class_optical(QWidget):
 		self.fx_box.cb.currentIndexChanged.connect(self.mode_changed)
 		toolbar.addWidget(self.fx_box)
 
-		label=QLabel(_("Optical model:"))
+		label=QLabel(_("Optical model")+":")
 		toolbar.addWidget(label)
 
 		self.cb_model = QComboBox()
@@ -159,7 +159,7 @@ class class_optical(QWidget):
 		
 		self.cb_model.activated.connect(self.on_cb_model_changed)
 
-		label=QLabel(_("Solar spectrum:"))
+		label=QLabel(_("Solar spectrum")+":")
 		toolbar.addWidget(label)
 		self.light_source_model = QComboBox()
 		self.update_light_source_model()
@@ -256,7 +256,7 @@ class class_optical(QWidget):
 		else:
 			self.cb_model.setCurrentIndex(self.cb_model.findText(used_model))
 
-		scan_item_add("light.inp","#light_model","Optical model",1)
+		scan_item_add("light.inp","#light_model",_("Optical model"),1)
 
 		self.cb_model.blockSignals(False)
 
@@ -337,5 +337,5 @@ class class_optical(QWidget):
 		inp_update_token_value("light.inp", "#sun", cb_text,1)
 
 	def callback_help(self, widget, data=None):
-		webbrowser.open('http://www.gpvdm.com/man/index.html')
+		webbrowser.open('https://www.gpvdm.com/man/index.html')
 

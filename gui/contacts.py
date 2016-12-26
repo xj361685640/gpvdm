@@ -1,8 +1,8 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012-2017 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -113,7 +113,7 @@ class contacts_window(QWidget):
 		else:
 			pos = self.tab.rowCount()
 
-		self.add_row(pos,_("0.0"),_("0.0"),_("0.0"),_("0.0"),_("false"))
+		self.add_row(pos,"0.0","0.0","0.0","0.0",_("false"))
  
 		self.save()
 
@@ -126,7 +126,7 @@ class contacts_window(QWidget):
 			contacts_save()
 			self.changed.emit()
 		else:
-			error_dlg(self,_("There are some non numberic values in the table"))
+			error_dlg(self,_("There are some non numeric values in the table"))
 
 	def callback_close(self, widget, data=None):
 		self.win_list.update(self,"contact")
@@ -161,7 +161,7 @@ class contacts_window(QWidget):
 
 		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"contact.png")))
 
-		self.setWindowTitle(_("Edit contacts (www.gpvdm.com)")) 
+		self.setWindowTitle(_("Edit contacts")+" (www.gpvdm.com)") 
 		
 		self.main_vbox = QVBoxLayout()
 
@@ -181,7 +181,7 @@ class contacts_window(QWidget):
 		toolbar.addWidget(spacer)
 
 
-		self.help = QAction(QIcon(os.path.join(get_image_file_path(),"help.png")), 'Hide', self)
+		self.help = QAction(QIcon(os.path.join(get_image_file_path(),"help.png")), _("Hide"), self)
 		self.help.setStatusTip(_("Close"))
 		self.help.triggered.connect(self.callback_help)
 		toolbar.addAction(self.help)

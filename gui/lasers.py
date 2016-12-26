@@ -2,7 +2,7 @@
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -182,19 +182,19 @@ class lasers(QWidget):
 
 
 		self.menu_lasers=menubar.addMenu(_("Lasers"))
-		self.menu_lasers_new=self.menu_lasers.addAction(_("&New"))
+		self.menu_lasers_new=self.menu_lasers.addAction("&"+_("New"))
 		self.menu_lasers_new.triggered.connect(self.callback_add_page)
 
-		self.menu_lasers_delete=self.menu_lasers.addAction(_("&Delete laser"))
+		self.menu_lasers_delete=self.menu_lasers.addAction("&"+_("Delete laser"))
 		self.menu_lasers_delete.triggered.connect(self.callback_delete_page)
 
-		self.menu_lasers_rename=self.menu_lasers.addAction(_("&Rename laser"))
+		self.menu_lasers_rename=self.menu_lasers.addAction("&"+_("Rename laser"))
 		self.menu_lasers_rename.triggered.connect(self.callback_rename_page)
 
-		self.menu_lasers_rename=self.menu_lasers.addAction(_("&Rename laser"))
+		self.menu_lasers_rename=self.menu_lasers.addAction("&"+_("Rename laser"))
 		self.menu_lasers_rename.triggered.connect(self.callback_rename_page)
 
-		self.menu_lasers_clone=self.menu_lasers.addAction(_("&Clone laser"))
+		self.menu_lasers_clone=self.menu_lasers.addAction("&"+_("Clone laser"))
 		self.menu_lasers_clone.triggered.connect(self.callback_copy_page)
 
 
@@ -206,7 +206,7 @@ class lasers(QWidget):
 		self.main_vbox.addWidget(menubar)
 
 		self.setFixedSize(900, 500)
-		self.setWindowTitle(_("Laser configuration window - gpvdm"))   
+		self.setWindowTitle(_("Laser configuration window")+" https://www.gpvdm.com")   
 		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"lasers.png")))
 
 		toolbar=QToolBar()

@@ -317,8 +317,8 @@ lib.append(my_data("#thermal_l",_("True/False"),_("Lattice heat model"),[("switc
 lib.append(my_data("#thermal_e",_("True/False"),_("Electron heat model"),[("switch")],"e",1.0))
 lib.append(my_data("#thermal_h",_("True/False"),_("Hole heat model"),[("switch")],"e",1.0))
 lib.append(my_data("#thermal_kl","W m^{-1} C^{-1}","Thermal conductivity",["text"],"e",1.0))
-lib.append(my_data("#Tliso",_("True/False"),_("Isothermal boundry on left"),[("switch")],"e",1.0))
-lib.append(my_data("#Triso",_("True/False"),_("Isothermal boundry on right"),[("switch")],"e",1.0))
+lib.append(my_data("#Tliso",_("True/False"),_("Isothermal boundary on left"),[("switch")],"e",1.0))
+lib.append(my_data("#Triso",_("True/False"),_("Isothermal boundary on right"),[("switch")],"e",1.0))
 lib.append(my_data("#thermal_tau_e","s","Electron relaxation time",["text"],"e",1.0))
 lib.append(my_data("#thermal_tau_h","s","Hole relaxation time",["text"],"e",1.0))
 #

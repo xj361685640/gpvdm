@@ -108,7 +108,7 @@ do
 
 	fx=fx_get_fx();
 
-	printf_log(sim,"Running frequency %Lf\n",fx);
+	printf_log(sim,"%s %Lf\n",_("Running frequency"),fx);
 
 	in->go_time=FALSE;
 
@@ -137,7 +137,7 @@ do
 		newton_sim_voc_fast(sim,in,FALSE);
 	}else
 	{
-		ewe(sim,_("fxdomain mode not known\n"));
+		ewe(sim,"%s\n",_("fxdomain mode not known"));
 	}
 
 	device_timestep(sim,in);
@@ -178,7 +178,7 @@ do
 			i0=newton_sim_voc_fast(sim,in,TRUE);
 		}else
 		{
-			ewe(sim,_("fxdomain mode not known\n"));
+			ewe(sim,"%s\n",_("fxdomain mode not known"));
 		}
 
 
@@ -252,12 +252,12 @@ char temp[2000];
 buffer_malloc(&buf);
 buf.y_mul=1e3;
 buf.x_mul=1e6;
-strcpy(buf.title,_("Time - current"));
-strcpy(buf.type,_("xy"));
+sprintf(buf.title,"%s - %s",_("Time"),_("current"));
+strcpy(buf.type,"xy");
 strcpy(buf.x_label,_("Time"));
 strcpy(buf.y_label,_("Current"));
-strcpy(buf.x_units,_("us"));
-strcpy(buf.y_units,_("m"));
+strcpy(buf.x_units,"\\ms");
+strcpy(buf.y_units,"m");
 buf.logscale_x=0;
 buf.logscale_y=0;
 buf.x=1;
@@ -272,12 +272,12 @@ buffer_free(&buf);
 buffer_malloc(&buf);
 buf.y_mul=1.0;
 buf.x_mul=1e6;
-strcpy(buf.title,_("Time - Voltage"));
-strcpy(buf.type,_("xy"));
+sprintf(buf.title,"%s - %s",_("Time"),_("Voltage"));
+strcpy(buf.type,"xy");
 strcpy(buf.x_label,_("Time"));
 strcpy(buf.y_label,_("Voltage"));
-strcpy(buf.x_units,_("us"));
-strcpy(buf.y_units,_("V"));
+strcpy(buf.x_units,"\\ms");
+strcpy(buf.y_units,"V");
 buf.logscale_x=0;
 buf.logscale_y=0;
 buf.x=1;
@@ -305,12 +305,12 @@ dump_dynamic_free(sim,in,&store);
 buffer_malloc(&buf);
 buf.y_mul=1e3;
 buf.x_mul=1e3;
-strcpy(buf.title,_("Real - Imaginary"));
-strcpy(buf.type,_("xy"));
+sprintf(buf.title,"%s - %s",_("Real"),_("Imaginary"));
+strcpy(buf.type,"xy");
 strcpy(buf.x_label,_("Re(i)"));
 strcpy(buf.y_label,_("Im(i)"));
-strcpy(buf.x_units,_("mA"));
-strcpy(buf.y_units,_("mA"));
+strcpy(buf.x_units,"mA");
+strcpy(buf.y_units,"mA");
 buf.logscale_x=0;
 buf.logscale_y=0;
 buf.x=1;

@@ -45,7 +45,7 @@ class tb_pulse_load_type(QWidget):
 
 		layout=QHBoxLayout()
 		label=QLabel()
-		label.setText(_("Load type:"))
+		label.setText(_("Load type")+":")
 		layout.addWidget(label)
 
 		self.sim_mode = QComboBox(self)

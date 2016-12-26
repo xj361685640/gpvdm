@@ -2,9 +2,9 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+//  Copyright (C) 2012-2017 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 //
-//	www.roderickmackenzie.eu
+//	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
@@ -156,7 +156,7 @@ FILE *out;
 	out=fopen(name,"w");
 	if (out==NULL)
 	{
-		ewe(sim,"Error writing file %s\n",name);
+		ewe(sim,"%s %s\n",_("Error writing file"),name);
 	}
 
 	for (i=0;i<len;i++)
@@ -174,7 +174,7 @@ FILE *out;
 	out=fopen(name,"w");
 	if (out==NULL)
 	{
-		ewe(sim,"Error writing file %s\n",name);
+		ewe(sim,"%s %s\n",_("Error writing file"),name);
 	}
 
 	for (i=0;i<len;i++)
@@ -333,7 +333,7 @@ if (strcmp(temp,"bfgs")==0)
 
 
 
-ewe(sim,"I don't understand the command %s\n",in);
+ewe(sim,"%s %s\n",_("I don't understand the command"),in);
 return 0;
 }
 
@@ -345,7 +345,7 @@ double value;
 in=fopen(file,"r");
 if (in==NULL)
 {
-ewe(sim,"Can not read file %s\n",file);
+ewe(sim,"%s %s\n",_("Can not read file"),file);
 }
 int l=0;
 
@@ -376,7 +376,7 @@ file = fopen(name, "rb");
 
 if (!file)
 {
-	ewe(sim,"File %s not found\n",name);
+	ewe(sim,"%s: %s\n",_("File not found"),name);
 }
 
 fclose(file);
@@ -488,7 +488,7 @@ int pos=0;
 char temp[200];
 if (in==NULL)
 {
-	ewe(sim,"edit_file_by_var: File %s not found\n",in_name);
+	ewe(sim,"edit_file_by_var: %s %s\n",_("File not found"),in_name);
 }
 fseek(in, 0, SEEK_END);
 file_size = ftell(in);
@@ -526,7 +526,7 @@ free(in_buf);
 out=fopen(in_name,"w");
 if (in==NULL)
 {
-	ewe(sim,"edit_file_by_var: Can not write file %s \n",in_name);
+	ewe(sim,"edit_file_by_var: %s %s \n",_("Can not write file"),in_name);
 }
 fwrite(out_buf, strlen(out_buf), 1, out);
 free(out_buf);
@@ -548,7 +548,7 @@ int pos=0;
 char temp[200];
 if (in==NULL)
 {
-	ewe(sim,"edit_file_by_var: File %s not found\n",in_name);
+	ewe(sim,"edit_file_by_var: %s %s \n",_("File not found"),in_name);
 }
 fseek(in, 0, SEEK_END);
 file_size = ftell(in);
@@ -586,7 +586,7 @@ free(in_buf);
 out=fopen(in_name,"w");
 if (in==NULL)
 {
-	ewe(sim,"edit_file_by_var: Can not write file %s \n",in_name);
+	ewe(sim,"edit_file_by_var: %s %s \n",_("Can not write file"),in_name);
 }
 fwrite(out_buf, strlen(out_buf), 1, out);
 free(out_buf);
@@ -602,7 +602,7 @@ struct stat results;
 int in_fd = open(input, O_RDONLY);
 if (in_fd== -1)
 {
-	ewe(sim,"File %s can not be opened\n",input);
+	ewe(sim,"%s: %s\n",_("Can not open file"),input);
 }
 
 stat(input, &results);
@@ -610,7 +610,7 @@ stat(input, &results);
 int out_fd = open(output, O_WRONLY | O_CREAT| O_TRUNC,results.st_mode);
 if (in_fd== -1)
 {
-	ewe(sim,"File %s can not be opened\n",output);
+	ewe(sim,"%s: %s\n",_("Can not open file"),output);
 }
 
 
@@ -641,7 +641,7 @@ int file_size =0;
 in=fopen(in_name,"r");
 if (in==NULL)
 {
-	ewe(sim,"edit_file_by_var: File %s not found\n",in_name);
+	ewe(sim,"edit_file_by_var: %s %s\n",_("File not found"),in_name);
 }
 fseek(in, 0, SEEK_END);
 file_size = ftell(in);
@@ -679,7 +679,7 @@ while(line)
 
 if (found==FALSE)
 {
-	ewe(sim,"edit_file_by_var: Token not found in file %s\n",token);
+	ewe(sim,"edit_file_by_var: %s %s\n",_("Token not found in file"),token);
 }
 
 free(in_buf);
@@ -687,7 +687,7 @@ free(in_buf);
 out=fopen(in_name,"w");
 if (in==NULL)
 {
-	ewe(sim,"edit_file_by_var: Can not write file %s \n",in_name);
+	ewe(sim,"edit_file_by_var: %s %s \n",_("Can not write file"),in_name);
 }
 fwrite(out_buf, strlen(out_buf), 1, out);
 free(out_buf);
@@ -840,7 +840,7 @@ char filepath[256];
 				if (isdir(filepath)==0)
 				{
 					remove_dir(sim,filepath);
-					printf_log(sim,_("Deleting dir =%s\n"),filepath);
+					printf_log(sim,"%s =%s\n",_("Deleting directory"),filepath);
 						remove(filepath);
 				}else
 				{

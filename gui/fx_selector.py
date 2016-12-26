@@ -39,7 +39,7 @@ class fx_selector(QWidget):
 		self.dump_dir=os.path.join(os.getcwd(),"light_dump")
 
 		self.layout=QHBoxLayout()
-		label=QLabel(_("Wavelengths:"))
+		label=QLabel(_("Wavelengths")+":")
 		self.layout.addWidget(label)
 
 		self.cb = QComboBox()

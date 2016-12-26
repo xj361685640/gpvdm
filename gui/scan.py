@@ -1,6 +1,6 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012-2017 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
 #	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -263,55 +263,55 @@ class scan_class(QWidget):
 
 
 		self.menu_simulation=menubar.addMenu(_("Simulations"))
-		self.menu_new=self.menu_simulation.addAction(_("&New"))
+		self.menu_new=self.menu_simulation.addAction("&"+_("New"))
 		self.menu_new.triggered.connect(self.callback_add_page)
 
-		self.menu_delete=self.menu_simulation.addAction(_("&Delete simulation"))
+		self.menu_delete=self.menu_simulation.addAction("&"+_("Delete simulation"))
 		self.menu_delete.triggered.connect(self.callback_delete_page)
 
-		self.menu_rename=self.menu_simulation.addAction(_("&Rename simulation"))
+		self.menu_rename=self.menu_simulation.addAction("&"+_("Rename simulation"))
 		self.menu_rename.triggered.connect(self.callback_rename_page)
 
-		self.menu_copy=self.menu_simulation.addAction(_("&Clone simulation"))
+		self.menu_copy=self.menu_simulation.addAction("&"+_("Clone simulation"))
 		self.menu_copy.triggered.connect(self.callback_copy_page)
 
 		self.menu_simulation.addSeparator()
 
-		self.menu_run=self.menu_simulation.addAction(_("&Run simulation"))
+		self.menu_run=self.menu_simulation.addAction("&"+_("Run simulation"))
 		self.menu_run.triggered.connect(self.callback_run_simulation)
 
 		self.menu_advanced=menubar.addMenu(_("Advanced"))
 
-		self.menu_plot_fits=self.menu_advanced.addAction(_("&Plot fits"))
+		self.menu_plot_fits=self.menu_advanced.addAction("&"+_("Plot fits"))
 		self.menu_plot_fits.triggered.connect(self.callback_plot_fits)
 
-		self.menu_run_nested=self.menu_advanced.addAction(_("&Run nested simulation"))
+		self.menu_run_nested=self.menu_advanced.addAction("&"+_("Run nested simulation"))
 		self.menu_run_nested.triggered.connect(self.callback_nested_simulation)
 
-		self.menu_run_nested=self.menu_advanced.addAction(_("&Run simulation no generation"))
+		self.menu_run_nested=self.menu_advanced.addAction("&"+_("Run simulation no generation"))
 		self.menu_run_nested.triggered.connect(self.callback_run_simulation_nogen)
 
-		self.menu_run_nested=self.menu_advanced.addAction(_("&Run simulation no generation"))
+		self.menu_run_nested=self.menu_advanced.addAction("&"+_("Run simulation no generation"))
 		self.menu_run_nested.triggered.connect(self.callback_run_simulation_nogen)
 
-		self.menu_run_single_fit=self.menu_advanced.addAction(_("&Run single fit"))
+		self.menu_run_single_fit=self.menu_advanced.addAction("&"+_("Run single fit"))
 		self.menu_run_single_fit.triggered.connect(self.callback_run_single_fit)
 
-		self.menu_clean_simulation=self.menu_advanced.addAction(_("&Clean simulation"))
+		self.menu_clean_simulation=self.menu_advanced.addAction("&"+_("Clean simulation"))
 		self.menu_clean_simulation.triggered.connect(self.callback_clean_simulation)
 
-		self.menu_clean_unconverged_simulation=self.menu_advanced.addAction(_("&Clean unconverged simulation"))
+		self.menu_clean_unconverged_simulation=self.menu_advanced.addAction("&"+_("Clean unconverged simulation"))
 		self.menu_clean_unconverged_simulation.triggered.connect(self.callback_clean_unconverged_simulation)
 
-		self.menu_clean_simulation_output=self.menu_advanced.addAction(_("&Clean simulation output"))
+		self.menu_clean_simulation_output=self.menu_advanced.addAction("&"+_("Clean simulation output"))
 		self.menu_clean_simulation_output.triggered.connect(self.callback_clean_simulation_output)
 
-		self.menu_clean_simulation_output=self.menu_advanced.addAction(_("&Clean simulation output"))
+		self.menu_clean_simulation_output=self.menu_advanced.addAction("&"+_("Clean simulation output"))
 		self.menu_clean_simulation_output.triggered.connect(self.callback_clean_simulation_output)
 
 		self.menu_advanced.addSeparator()
 
-		self.menu_push_to_hpc=self.menu_advanced.addAction(_("&Push unconverged to hpc"))
+		self.menu_push_to_hpc=self.menu_advanced.addAction("&"+_("Push unconverged to hpc"))
 		self.menu_push_to_hpc.triggered.connect(self.callback_push_unconverged_to_hpc)
 
 
@@ -351,7 +351,7 @@ class scan_class(QWidget):
 		toolbar.addWidget(spacer)
 
 
-		self.help = QAction(QIcon(os.path.join(get_image_file_path(),"help.png")), 'Hide', self)
+		self.help = QAction(QIcon(os.path.join(get_image_file_path(),"help.png")), _("Hide"), self)
 		self.help.setStatusTip(_("Close"))
 		self.help.triggered.connect(self.callback_help)
 		toolbar.addAction(self.help)

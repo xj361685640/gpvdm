@@ -1,8 +1,8 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012-2017 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -54,7 +54,7 @@ class materials_main(QWidget):
 		desktop_open(os.path.join(self.path,"cost.xlsx"))
 
 	def callback_help(self):
-		webbrowser.open('http://www.gpvdm.com/man/index.html')
+		webbrowser.open("https://www.gpvdm.com/man/index.html")
 
 	def __init__(self,path):
 		QWidget.__init__(self)
@@ -62,7 +62,7 @@ class materials_main(QWidget):
 		self.setFixedSize(900, 600)
 		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"organic_material.png")))
 
-		self.setWindowTitle(_("Material editor (www.gpvdm.com)")) 
+		self.setWindowTitle(_("Material editor")+" (https://www.gpvdm.com)") 
 		
 
 		self.main_vbox = QVBoxLayout()
@@ -106,15 +106,15 @@ class materials_main(QWidget):
 
 		alpha=equation(self.path,"alpha_eq.inp","alpha_gen.omat","alpha.omat")
 		alpha.set_default_value("1e7")
-		alpha.set_ylabel("Absorption (m^{-1})")
+		alpha.set_ylabel(_("Absorption")+" (m^{-1})")
 		alpha.init()
 		self.notebook.addTab(alpha,"Absorption")
 
 		n=equation(self.path,"n_eq.inp","n_gen.omat","n.omat")
 		n.set_default_value("3")
-		n.set_ylabel("Refractive index (au)")
+		n.set_ylabel(_("Refractive index")+" (au)")
 		n.init()
-		self.notebook.addTab(n,"Refractive index")
+		self.notebook.addTab(n,_("Refractive index"))
 
 
 		self.setLayout(self.main_vbox)

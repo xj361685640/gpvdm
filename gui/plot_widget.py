@@ -650,62 +650,62 @@ class plot_widget(QWidget):
 
 		file_menu = menubar.addMenu("File")
 
-		self.menu_save=file_menu.addAction(_("&Save"))
+		self.menu_save=file_menu.addAction("&"+_("Save"))
 		self.menu_save.triggered.connect(self.callback_save)
 
-		self.menu_save_as=file_menu.addAction(_("&Save as"))
+		self.menu_save_as=file_menu.addAction("&"+_("Save as"))
 		self.menu_save_as.triggered.connect(self.callback_plot_save)
 
 
-		key_menu = menubar.addMenu('&Key')
+		key_menu = menubar.addMenu("&"+"Key")
 
-		key_menu = menubar.addMenu('&Color')
-		self.menu_black=key_menu.addAction(_("&Black"))
+		key_menu = menubar.addMenu("&"+"Color")
+		self.menu_black=key_menu.addAction("&"+_("Black"))
 		self.menu_black.triggered.connect(self.callback_black)
 
-		self.menu_rainbow=key_menu.addAction(_("&Rainbow"))
+		self.menu_rainbow=key_menu.addAction("&"+_("Rainbow"))
 		self.menu_rainbow.triggered.connect(self.callback_rainbow)
 
-		axis_menu = menubar.addMenu('&Color')
-		menu=axis_menu.addAction(_("&Autoscale"))
+		axis_menu = menubar.addMenu("&"+_("Color"))
+		menu=axis_menu.addAction("&"+_("Autoscale"))
 		menu.triggered.connect(self.callback_autoscale_y)
 
-		menu=axis_menu.addAction(_("&Set log scale y"))
+		menu=axis_menu.addAction("&"+_("Set log scale y"))
 		menu.triggered.connect(self.callback_toggle_log_scale_y)
 
-		menu=axis_menu.addAction(_("&Set log scale x"))
+		menu=axis_menu.addAction("&"+_("Set log scale x"))
 		menu.triggered.connect(self.callback_toggle_log_scale_x)
 
-		menu=axis_menu.addAction(_("&Set log scale x"))
+		menu=axis_menu.addAction("&"+_("Set log scale x"))
 		menu.triggered.connect(self.callback_toggle_log_scale_x)
 
-		self.menu_rainbow=key_menu.addAction(_("&Label data"))
+		self.menu_rainbow=key_menu.addAction("&"+_("Label data"))
 		self.menu_rainbow.triggered.connect(self.callback_toggle_label_data)
 
-		math_menu = menubar.addMenu('&Math')
+		math_menu = menubar.addMenu("&"+_("Math"))
 
-		menu=math_menu.addAction(_("&Subtract first point"))
+		menu=math_menu.addAction("&"+_("Subtract first point"))
 		menu.triggered.connect(self.callback_toggle_subtract_first_point)
 
-		menu=math_menu.addAction(_("&Add min point"))
+		menu=math_menu.addAction("&"+_("Add min point"))
 		menu.triggered.connect(self.callback_toggle_add_min)
 
-		menu=math_menu.addAction(_("&Invert y-axis"))
+		menu=math_menu.addAction("&"+_("Invert y-axis"))
 		menu.triggered.connect(self.callback_toggle_invert_y)
 		
-		menu=math_menu.addAction(_("&Norm to 1.0 y"))
+		menu=math_menu.addAction("&"+_("Norm to 1.0 y"))
 		menu.triggered.connect(self.callback_normtoone_y)
 		
-		menu=math_menu.addAction(_("&Norm to peak of all data"))
+		menu=math_menu.addAction("&"+_("Norm to peak of all data"))
 		menu.triggered.connect(self.callback_norm_to_peak_of_all_data)
 		
-		menu=math_menu.addAction(_("&Heat map"))
+		menu=math_menu.addAction("&"+_("Heat map"))
 		menu.triggered.connect(self.callback_set_heat_map)
 
-		menu=math_menu.addAction(_("&Heat map edit"))
+		menu=math_menu.addAction("&"+_("Heat map edit"))
 		menu.triggered.connect(self.callback_heat_map_edit)
 
-		menu=math_menu.addAction(_("&xy plot"))
+		menu=math_menu.addAction("&"+_("xy plot"))
 		menu.triggered.connect(self.callback_set_xy_plot)
 
 		self.main_vbox.addWidget(menubar)
@@ -713,7 +713,7 @@ class plot_widget(QWidget):
 		self.main_vbox.addWidget(toolbar)
 
 
-		self.canvas.figure.patch.set_facecolor('white')
+		self.canvas.figure.patch.set_facecolor("white")
 		self.canvas.setMinimumSize(800, 350)
 		self.main_vbox.addWidget(self.canvas)
 

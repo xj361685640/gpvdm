@@ -97,9 +97,9 @@ def command_args(argc,argv):
 
 			print("\t\t\t")
 			print("")
-			print(_("Additional information about gpvdm is available at https://www.gpvdm.com."))
+			print(_("Additional information about gpvdm is available at ")+"https://www.gpvdm.com")
 			print("")
-			print(_("Report bugs to: roderick.mackenzie@nottingham.ac.uk"))
+			print(_("Report bugs to:")+" roderick.mackenzie@nottingham.ac.uk")
 			sys.exit(0)
 
 		if 	check_params(argv,"--version",0)==True:

@@ -2,9 +2,9 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+//  Copyright (C) 2012-2017 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 //
-//	www.roderickmackenzie.eu
+//	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
@@ -46,12 +46,12 @@ if (get_dump_status(sim,dump_iodump)==TRUE)
 	sprintf(name,"%s","init_Fi.dat");
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
-	strcpy(buf.title,_("Equilibrium Fermi-level - position"));
-	strcpy(buf.type,_("xy"));
+	sprintf(buf.title,"%s - %s",_("Equilibrium Fermi-level"),_("position"));
+	strcpy(buf.type,"xy");
 	strcpy(buf.x_label,_("Position"));
-	strcpy(buf.y_label,_("Fi"));
-	strcpy(buf.x_units,_("nm"));
-	strcpy(buf.y_units,_("eV"));
+	strcpy(buf.y_label,"Fi");
+	strcpy(buf.x_units,"nm");
+	strcpy(buf.y_units,"eV");
 	strcpy(buf.section_one,_("1D position space output"));
 	strcpy(buf.section_two,_("Transport"));
 	buf.logscale_x=0;
@@ -67,12 +67,12 @@ if (get_dump_status(sim,dump_iodump)==TRUE)
 	sprintf(name,"%s","init_Ec.dat");
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
-	strcpy(buf.title,_("LUMO - position"));
-	strcpy(buf.type,_("xy"));
+	sprintf(buf.title,"%s - %s",_("LUMO"),_("position"));
+	strcpy(buf.type,"xy");
 	strcpy(buf.x_label,_("Position"));
-	strcpy(buf.y_label,_("E_{c}"));
-	strcpy(buf.x_units,_("nm"));
-	strcpy(buf.y_units,_("eV"));
+	strcpy(buf.y_label,"E_{c}");
+	strcpy(buf.x_units,"nm");
+	strcpy(buf.y_units,"eV");
 	strcpy(buf.section_one,_("1D position space output"));
 	strcpy(buf.section_two,_("Transport"));
 	buf.logscale_x=0;
@@ -88,12 +88,12 @@ if (get_dump_status(sim,dump_iodump)==TRUE)
 	sprintf(name,"%s","init_Ev.dat");
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
-	strcpy(buf.title,_("HOMO - position"));
-	strcpy(buf.type,_("xy"));
+	sprintf(buf.title,"%s - %s",_("HOMO"),_("position"));
+	strcpy(buf.type,"xy");
 	strcpy(buf.x_label,_("Position"));
-	strcpy(buf.y_label,_("E_{v}"));
-	strcpy(buf.x_units,_("nm"));
-	strcpy(buf.y_units,_("eV"));
+	strcpy(buf.y_label,"E_{v}");
+	strcpy(buf.x_units,"nm");
+	strcpy(buf.y_units,"eV");
 	strcpy(buf.section_one,_("1D position space output"));
 	strcpy(buf.section_two,_("Transport"));
 	buf.logscale_x=0;
@@ -109,12 +109,12 @@ if (get_dump_status(sim,dump_iodump)==TRUE)
 	sprintf(name,"%s","init_n.dat");
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
-	strcpy(buf.title,_("Electron density - position"));
-	strcpy(buf.type,_("xy"));
+	sprintf(buf.title,"%s - %s",_("Electron density"),_("position"));
+	strcpy(buf.type,"xy");
 	strcpy(buf.x_label,_("Position"));
-	strcpy(buf.y_label,_("n"));
-	strcpy(buf.x_units,_("nm"));
-	strcpy(buf.y_units,_("m^{-3}"));
+	strcpy(buf.y_label,"n");
+	strcpy(buf.x_units,"nm");
+	strcpy(buf.y_units,"m^{-3}");
 	strcpy(buf.section_one,_("1D position space output"));
 	strcpy(buf.section_two,_("Transport"));
 	buf.logscale_x=0;
@@ -130,12 +130,12 @@ if (get_dump_status(sim,dump_iodump)==TRUE)
 	sprintf(name,"%s","init_p.dat");
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
-	strcpy(buf.title,_("Hole density - position"));
-	strcpy(buf.type,_("xy"));
+	sprintf(buf.title,"%s - %s",_("Hole density"),_("position"));
+	strcpy(buf.type,"xy");
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("n"));
-	strcpy(buf.x_units,_("nm"));
-	strcpy(buf.y_units,_("m^{-3}"));
+	strcpy(buf.x_units,"nm");
+	strcpy(buf.y_units,"m^{-3}");
 	strcpy(buf.section_one,_("1D position space output"));
 	strcpy(buf.section_two,_("Transport"));
 	buf.logscale_x=0;

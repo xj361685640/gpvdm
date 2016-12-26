@@ -199,8 +199,8 @@ class band_graph(QWidget):
 
 		#print("ROD!!!!",state.y_label,self.optical_mode_file)
 		ax1.set_ylabel(state.y_label+" ("+state.y_units+")")
-		ax1.set_xlabel('Position (nm)')
-		ax2.set_ylabel('Energy (eV)')
+		ax1.set_xlabel(_("Position")+" (nm)")
+		ax2.set_ylabel(_("Energy")+" (eV)")
 		ax2.set_xlim([start, x_pos])
 		#ax2.axis(max=)#autoscale(enable=True, axis='x', tight=None)
 		loaded=False

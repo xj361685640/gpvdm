@@ -1,8 +1,8 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012-2017 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -79,15 +79,15 @@ class tab_fxmesh(QWidget):
 
 		for i in range(0,self.tab.rowCount()):
 			out_text.append("#fx_segment"+str(i)+"_len")
-			scan_item_add(file_name,out_text[len(out_text)-1],_("Part ")+str(i)+_(" period"),1)
+			scan_item_add(file_name,out_text[len(out_text)-1],_("Part ")+str(i)+" "+_("period"),1)
 			out_text.append(str(tab_get_value(self.tab,i, 0)))
 
 			out_text.append("#fx_segment"+str(i)+"_dfx")
-			scan_item_add(file_name,out_text[len(out_text)-1],_("Part ")+str(i)+_(" dfx"),1)
+			scan_item_add(file_name,out_text[len(out_text)-1],_("Part ")+str(i)+" "+_("dfx"),1)
 			out_text.append(str(tab_get_value(self.tab,i, 1)))
 
 			out_text.append("#fx_segment"+str(i)+"_mul")
-			scan_item_add(file_name,out_text[len(out_text)-1],_("Part ")+str(i)+_(" mul"),1)
+			scan_item_add(file_name,out_text[len(out_text)-1],_("Part ")+str(i)+" "+_("mul"),1)
 			out_text.append(str(tab_get_value(self.tab,i, 2)))
 
 
@@ -103,9 +103,9 @@ class tab_fxmesh(QWidget):
 		scan_remove_file(file_name)
 
 		for i in range(0,len(self.list)):
-			scan_item_add(file_name,"#fx_segment"+str(i)+"_len",_("Part ")+str(i)+_(" period"),1)
-			scan_item_add(file_name,"#fx_segment"+str(i)+"_dfx",_("Part ")+str(i)+_(" dfx"),1)
-			scan_item_add(file_name,"#fx_segment"+str(i)+"_mul",_("Part ")+str(i)+_(" mul"),1)
+			scan_item_add(file_name,"#fx_segment"+str(i)+"_len",_("Part ")+str(i)+" "+_("period"),1)
+			scan_item_add(file_name,"#fx_segment"+str(i)+"_dfx",_("Part ")+str(i)+" "+_("dfx"),1)
+			scan_item_add(file_name,"#fx_segment"+str(i)+"_mul",_("Part ")+str(i)+" "+_("mul"),1)
 
 
 	def callback_add_section(self):
@@ -170,10 +170,10 @@ class tab_fxmesh(QWidget):
 		self.ax1 = self.fig.add_subplot(111)
 		self.ax1.ticklabel_format(useOffset=False)
 
-		self.ax1.set_ylabel(_("Magnitude (Volts)"))
+		self.ax1.set_ylabel(_("Magnitude")+" ("+_("Volts")+" )")
 
 		frequency, = self.ax1.plot(fx,self.mag, 'ro-', linewidth=3 ,alpha=1.0)
-		self.ax1.set_xlabel(_("Frequency (")+unit+')')
+		self.ax1.set_xlabel(_("Frequency")+" ("+unit+")")
 
 	def save_image(self,file_name):
 		self.fig.savefig(file_name)
@@ -184,7 +184,7 @@ class tab_fxmesh(QWidget):
 			self.save_image(file_name)
 
 	def callback_help(self):
-		webbrowser.open('http://www.gpvdm.com/man/index.html')
+		webbrowser.open("http://www.gpvdm.com/man/index.html")
 
 
 	def load_data(self):

@@ -157,8 +157,8 @@ randomprint(&sim,_("You should have received a copy of the GNU General Public Li
 randomprint(&sim,_("along with this software.  If not, see www.gnu.org/licenses/.\n"));
 randomprint(&sim,"\n");
 randomprint(&sim,_("If you wish to collaborate in anyway please get in touch:\n"));
-randomprint(&sim,_("roderick.mackenzie@nottingham.ac.uk\n"));
-randomprint(&sim,_("www.roderickmackenzie.eu/contact.html\n"));
+randomprint(&sim,"roderick.mackenzie@nottingham.ac.uk\n");
+randomprint(&sim,"www.roderickmackenzie.eu/contact.html\n");
 randomprint(&sim,"\n");
 textcolor(&sim,fg_reset);
 

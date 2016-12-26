@@ -251,12 +251,12 @@ void device_get_memory(struct simulation *sim,struct device *in)
 
 	if ((in->ymeshpoints<1)||(in->xmeshpoints<1)||(in->zmeshpoints<1))
 	{
-		ewe(sim,_("I can't allocate a device with less than 1 mesh point.\n"));
+		ewe(sim,"%s\n",_("I can't allocate a device with less than 1 mesh point."));
 	}
 
 	if ((in->ymeshpoints>50000)||(in->xmeshpoints>50000)||(in->zmeshpoints>50000))
 	{
-		ewe(sim,_("You are asking me to simulate a device with more than 50000 mesh points, although I could do this I am not going to because it seems a bad idea to me.\n"));
+		ewe(sim,"%s\n",_("You are asking me to simulate a device with more than 50000 mesh points, although I could do this I am not going to because it seems a bad idea to me."));
 	}
 
 	in->Ti = NULL;

@@ -44,14 +44,14 @@ class sim_info(QWidget):
 		return True
 
 	def callback_help(self):
-		webbrowser.open('http://www.gpvdm.com/man/index.html')
+		webbrowser.open("https://www.gpvdm.com/man/index.html")
 
 	def __init__(self,file_name):
 		QWidget.__init__(self)
 		self.setFixedSize(900, 600)
 		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"jv.png")))
 
-		self.setWindowTitle(_("Simulation information (www.gpvdm.com)")) 
+		self.setWindowTitle(_("Simulation information")+" (www.gpvdm.com)") 
 		
 
 		self.main_vbox = QVBoxLayout()

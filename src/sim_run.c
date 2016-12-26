@@ -42,7 +42,7 @@ int run_simulation(struct simulation *sim)
 struct device cell;
 log_clear(sim);
 
-printf_log(sim,_("Run_simulation\n"));
+printf_log(sim,"%s\n",_("Runing simulation"));
 
 device_init(&cell);
 cell.onlypos=FALSE;
@@ -101,7 +101,7 @@ if (strcmp(cell.simmode,"opticalmodel@optics")!=0)
 	solver_init(sim,cell.solver_name);
 	newton_init(sim,cell.newton_name);
 
-	printf_log(sim,_("Loading DoS for %d layers\n"),cell.my_epitaxy.electrical_layers);
+	printf_log(sim,"%s: %d\n",_("Loading DoS layers"),cell.my_epitaxy.electrical_layers);
 	char tempn[100];
 	char tempp[100];
 	i=0;
@@ -109,7 +109,7 @@ if (strcmp(cell.simmode,"opticalmodel@optics")!=0)
 	for (i=0;i<cell.my_epitaxy.electrical_layers;i++)
 	{
 		dos_init(&cell,i);
-		printf_log(sim,"Load DoS %d/%d\n",i,cell.my_epitaxy.electrical_layers);
+		printf_log(sim,"%s %d/%d\n",_("Load DoS"),i,cell.my_epitaxy.electrical_layers);
 		sprintf(tempn,"%s_dosn.dat",cell.my_epitaxy.dos_file[i]);
 		sprintf(tempp,"%s_dosp.dat",cell.my_epitaxy.dos_file[i]);
 		load_dos(sim,&cell,tempn,tempp,i);

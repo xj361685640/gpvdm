@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012-2017 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
 #	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -707,70 +707,70 @@ class gpvdm_main_window(QMainWindow):
 		menubar = self.menuBar()
 
 
-		file_menu = menubar.addMenu(_("&File"))
-		self.menu_new=file_menu.addAction(_("&New simulation"))
+		file_menu = menubar.addMenu("&"+_("File"))
+		self.menu_new=file_menu.addAction("&"+_("New simulation"))
 		self.menu_new.triggered.connect(self.callback_new)
 
 		self.menu_new_optical_material=file_menu.addAction(_("New optical material"))
 
-		self.menu_export_open=file_menu.addAction(_("&Open simulation"))
+		self.menu_export_open=file_menu.addAction("&"+_("Open simulation"))
 		self.menu_export_open.triggered.connect(self.callback_open)
 
-		self.menu_export_data=file_menu.addAction(_("&Export data"))
+		self.menu_export_data=file_menu.addAction("&"+_("Export data"))
 		self.menu_export_data.triggered.connect(self.callback_export)
 
-		self.menu_import_data=file_menu.addAction(_("&Import data"))
+		self.menu_import_data=file_menu.addAction("&"+_("Import data"))
 		self.menu_import_data.triggered.connect(self.callback_import)
 
 		self.menu_import_lib=file_menu.addAction(_("Import from library"))
 		self.menu_import_lib.triggered.connect(self.callback_import_from_lib)
 
-		self.menu_quit=file_menu.addAction(_("&Quit"))
+		self.menu_quit=file_menu.addAction("&"+_("Quit"))
 		self.menu_quit.triggered.connect(self.close_now)
 
-		simulation_menu = menubar.addMenu(_("&Simulation"))
+		simulation_menu = menubar.addMenu("&"+_("Simulation"))
 
-		self.menu_run=simulation_menu.addAction(_("&Run"))
+		self.menu_run=simulation_menu.addAction("&"+_("Run"))
 		self.menu_run.triggered.connect(self.callback_simulate)
 
-		self.menu_stop=simulation_menu.addAction(_("&Stop"))
+		self.menu_stop=simulation_menu.addAction("&"+_("Stop"))
 		self.menu_stop.triggered.connect(self.callback_simulate_stop)
 
-		self.menu_scan=simulation_menu.addAction(_("&Parameter scan"))
+		self.menu_scan=simulation_menu.addAction("&"+_("Parameter scan"))
 		self.menu_scan.triggered.connect(self.callback_scan)
 
-		self.menu_configure=simulation_menu.addAction(_("&Configure"))
+		self.menu_configure=simulation_menu.addAction("&"+_("Configure"))
 		self.menu_configure.triggered.connect(self.callback_config_window)
 
 
-		view_menu = menubar.addMenu(_("&View"))
-		view_menu.addAction(_("&None"))
+		view_menu = menubar.addMenu("&"+_("View"))
+		view_menu.addAction("&"+_("None"))
 
 
-		plot_menu = menubar.addMenu(_("&Plot"))
-		self.plot_menu_plot=plot_menu.addAction(_("&Plot simulation result"))
+		plot_menu = menubar.addMenu("&"+_("Plot"))
+		self.plot_menu_plot=plot_menu.addAction("&"+_("Plot simulation result"))
 		self.plot_menu_plot.triggered.connect(self.callback_plot_select)
 
 
 		help_menu = menubar.addMenu(_("Help"))
 
-		help_web=help_menu.addAction(_("&Help window"))
+		help_web=help_menu.addAction("&"+_("Help window"))
 		help_web.triggered.connect(self.callback_help)
 
-		help_web=help_menu.addAction(_("&Online help"))
+		help_web=help_menu.addAction("&"+_("Online help"))
 		help_web.triggered.connect(self.callback_on_line_help)
 
-		help_web=help_menu.addAction(_("&License"))
+		help_web=help_menu.addAction("&"+_("License"))
 		help_web.triggered.connect(self.callback_license)
 
-		about=help_menu.addAction(_("&About"))
+		about=help_menu.addAction("&"+_("About"))
 		about.triggered.connect(self.callback_about_dialog)
 
 
 
 
 		if enable_webupdates()==False:
-			self.help_menu_update=help_menu.addAction(_("&Check for updates"))
+			self.help_menu_update=help_menu.addAction("&"+_("Check for updates"))
 			self.help_menu_update.triggered.connect(self.callback_update)
 
 

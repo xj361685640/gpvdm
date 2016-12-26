@@ -1,6 +1,6 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012-2017 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
 #	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -129,33 +129,6 @@ class gpvdm_notebook(QTabWidget):
 
 	def set_item_factory(self,item_factory):
 		self.item_factory=item_factory
-
-	def toggle_tab_visible(self,name):
-		if self.finished_loading==True:
-			for child in self.get_children():
-				if child.label_name==name:
-					if child.visible==False:
-						if self.item_factory!=None:
-							widget=self.item_factory.get_widget(_("/View/")+name)
-							widget.set_active(True)
-						child.show()
-						child.visible=True
-					else:
-						if self.item_factory!=None:
-							widget=self.item_factory.get_widget(_("/View/")+name)
-							widget.set_active(False)
-						child.hide()
-						child.visible=False
-
-					inp_update_token_value("gui_config.inp", "#"+child.file_name, str(int(child.visible)),1)
-
-	def add_to_menu(self,name,visible):
-		a = (( _("/View/")+name,  None, self.callback_view_toggle, 0, "<ToggleItem>" ),   )
-		self.item_factory.create_items( a, )
-		path=_("/View/")+name
-		myitem=self.item_factory.get_item(path)
-		self.menu_items.append(path)
-		myitem.set_active(visible)
 
 	def add_info_page(self):
 		browser=information()

@@ -45,7 +45,7 @@ void light_load_dlls(struct simulation *sim,struct light *in)
 	char lib_path[200];
 	char lib_name[100];
 
-	printf_log(sim,_("Light initialization\n"));
+	printf_log(sim,"%s\n",_("Initializing optical model"));
 
 	sprintf(lib_name,"light_%s",in->mode);
 	find_dll(sim, lib_path,lib_name);
