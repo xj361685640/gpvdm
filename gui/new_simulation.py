@@ -93,31 +93,31 @@ class new_simulation():
 		self.window.listwidget.setIconSize(QSize(64,64))
 		self.window.listwidget.clear()
 
-		itm = QListWidgetItem( "Organic solar cell (p3htpcbm.gpvdm)" )
+		itm = QListWidgetItem( _("Organic solar cell")+" (p3htpcbm.gpvdm)" )
 		itm.setIcon(QIcon(os.path.join(get_image_file_path(),"icon.png")))
 		self.window.listwidget.addItem(itm)
 
-		itm = QListWidgetItem( "Organic LED (oled.gpvdm)" )
+		itm = QListWidgetItem( _("Organic LED")+" (oled.gpvdm)" )
 		itm.setIcon(QIcon(os.path.join(get_image_file_path(),"oled.png")))
 		self.window.listwidget.addItem(itm)
 
-		itm = QListWidgetItem( "Crystalline silicon solar cell new/beta (silicon.gpvdm)" )
+		itm = QListWidgetItem( _("Crystalline silicon solar cell new/beta")+" (silicon.gpvdm)" )
 		itm.setIcon(QIcon(os.path.join(get_image_file_path(),"si.png")))
 		self.window.listwidget.addItem(itm)
 
-		itm = QListWidgetItem( "CIGS Solar cell new/beta (cigs.gpvdm)" )
+		itm = QListWidgetItem( _("CIGS Solar cell new/beta")+" (cigs.gpvdm)" )
 		itm.setIcon(QIcon(os.path.join(get_image_file_path(),"si.png")))
 		self.window.listwidget.addItem(itm)
 
-		itm = QListWidgetItem( "a-Si solar cell new/beta (a-silicon.gpvdm)" )
+		itm = QListWidgetItem( _("a-Si solar cell new/beta")+" (a-silicon.gpvdm)" )
 		itm.setIcon(QIcon(os.path.join(get_image_file_path(),"asi.png")))
 		self.window.listwidget.addItem(itm)
 
-		itm = QListWidgetItem( "polycrystalline silicon (new/beta) (silicon.gpvdm)" )
+		itm = QListWidgetItem( _("polycrystalline silicon (new/beta)")+" (silicon.gpvdm)" )
 		itm.setIcon(QIcon(os.path.join(get_image_file_path(),"psi.png")))
 		self.window.listwidget.addItem(itm)
 
-		itm = QListWidgetItem( "OFET (new/beta) (ofet.gpvdm)" )
+		itm = QListWidgetItem( _("OFET (new/beta)")+" (ofet.gpvdm)" )
 		itm.setIcon(QIcon(os.path.join(get_image_file_path(),"ofet.png")))
 		self.window.listwidget.addItem(itm)
 

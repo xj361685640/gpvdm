@@ -91,16 +91,16 @@ class gpvdm_notebook(QTabWidget):
 			help_window().help_set_help(["tab.png",_("<big><b>The bands tab</b></big><br> Use this tab to edit the energetic distribution of the density of states.")])
 
 		if self.tabText(self.currentIndex()).strip()==_("Density of states"):
-			help_window().help_set_help(["tab.png","<big><b>Density of States</b></big>\nThis tab contains the electrical model parameters, such as mobility, tail slope energy, and band gap."])
+			help_window().help_set_help(["tab.png",_("<big><b>Density of States</b></big>\nThis tab contains the electrical model parameters, such as mobility, tail slope energy, and band gap.")])
 
 		if self.tabText(self.currentIndex()).strip()==_("Luminescence"):
-			help_window().help_set_help(["tab.png","<big><b>Luminescence</b></big>\nIf you set 'Turn on luminescence' to true, the simulation will assume recombination is a raditave process and intergrate it to produce Voltage-Light intensity curves (lv.dat).  Each number in the tab tells the model how efficient each recombination mechanism is at producing photons."])
+			help_window().help_set_help(["tab.png",_("<big><b>Luminescence</b></big>\nIf you set 'Turn on luminescence' to true, the simulation will assume recombination is a raditave process and intergrate it to produce Voltage-Light intensity curves (lv.dat).  Each number in the tab tells the model how efficient each recombination mechanism is at producing photons.")])
 
 		if self.tabText(self.currentIndex()).strip()==_("Terminal"):
-			help_window().help_set_help(["command.png","<big><b>The terminal window</b></big>\nThe output of the model will be displayed in this window, watch this screen for debugging and convergence information."])
+			help_window().help_set_help(["command.png",_("<big><b>The terminal window</b></big>\nThe output of the model will be displayed in this window, watch this screen for debugging and convergence information.")])
 
 		if self.tabText(self.currentIndex()).strip()==_("Information"):
-			help_window().help_set_help(["help.png","<big><b>On-line help</b></big>\nYou can view the on-line help and manual here."])
+			help_window().help_set_help(["help.png",_("<big><b>On-line help</b></big>\nYou can view the on-line help and manual here.")])
 		
 	def get_current_page(self):
 		i=self.currentIndex()
@@ -223,7 +223,7 @@ class gpvdm_notebook(QTabWidget):
 
 			self.terminal=tab_terminal()
 			self.terminal.init()
-			self.addTab(self.terminal,"Terminal")
+			self.addTab(self.terminal,_("Terminal"))
 			self.terminal.run(os.getcwd(),get_exe_command()+" --version --html")
 
 			self.add_info_page()

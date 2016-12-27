@@ -1,8 +1,8 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012-2017 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -53,7 +53,7 @@ class select_param(QWidget):
 		
 		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"scan.png")))
 
-		self.setWindowTitle(_("Select simulation parameter (www.gpvdm.com)")) 
+		self.setWindowTitle(_("Select simulation parameter")+" (https://www.gpvdm.com)") 
 
 
 		self.tab = QTreeWidget()
@@ -64,8 +64,8 @@ class select_param(QWidget):
 
 		self.hwidget=QWidget()
 
-		okButton = QPushButton("OK")
-		cancelButton = QPushButton("Cancel")
+		okButton = QPushButton(_("OK"))
+		cancelButton = QPushButton(_("Cancel"))
 
 		hbox = QHBoxLayout()
 		hbox.addStretch(1)
@@ -157,7 +157,7 @@ class select_param(QWidget):
 
 			self.close()
 		else:
-			error_dlg(self,"No row selected in the scan window, can't insert the selection")
+			error_dlg(self,_("No row selected in the scan window, can't insert the selection"))
 
 
 

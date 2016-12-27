@@ -8,6 +8,9 @@ gpvdm_core_SOURCES=
 if INCLUDE_IMAGES
 imagedir = $(pkgdatadir)/images
 image_DATA = images/*.jpg images/*.png
+
+flagdir = $(pkgdatadir)/flags
+flag_DATA = flags/*.png
 endif
 
 dist_pkgdata_DATA = sim.gpvdm

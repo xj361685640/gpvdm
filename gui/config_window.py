@@ -59,7 +59,7 @@ class class_config_window(QWidget):
 		toolbar.addWidget(spacer)
 
 
-		self.undo = QAction(QIcon(os.path.join(get_image_file_path(),"help.png")), 'Hide', self)
+		self.undo = QAction(QIcon(os.path.join(get_image_file_path(),"help.png")), _("Help"), self)
 		self.undo.setStatusTip(_("Close"))
 		self.undo.triggered.connect(self.callback_help)
 		toolbar.addAction(self.undo)
@@ -75,7 +75,7 @@ class class_config_window(QWidget):
 		self.main_vbox.addWidget(self.notebook)
 
 		files=["math.inp","dump.inp","thermal.inp","led.inp","config.inp","server.inp"]
-		description=[_("Math"),_("Dump"),_("Thermal"),_("LED"),_("GUI config"),_("Server config")]
+		description=[_("Solver configuration"),_("Dump"),_("Thermal"),_("LED"),_("GUI configuration"),_("Server configuration")]
 
 		for i in range(0,len(files)):
 			tab=tab_class()

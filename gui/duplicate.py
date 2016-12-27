@@ -94,7 +94,7 @@ class duplicate(QWidget):
 		self.tab.clear()
 		self.tab.setColumnCount(4)
 		self.tab.setSelectionBehavior(QAbstractItemView.SelectRows)
-		self.tab.setHorizontalHeaderLabels([_("src File"), _("src Token"), _("dest File"), _("dest Token")])
+		self.tab.setHorizontalHeaderLabels([_("Source File"), _("Source Token"), _("Destination File"), _("Destination Token")])
 		#self.tab.setColumnWidth(1, 400)
 		self.file_name="duplicate.inp"
 

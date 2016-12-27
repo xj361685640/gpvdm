@@ -495,10 +495,10 @@ class gpvdm_main_window(QMainWindow):
 		update_now()
 
 	def callback_on_line_help(self):
-		webbrowser.open('www.gpvdm.com')
+		webbrowser.open("https://www.gpvdm.com")
 
 	def callback_license(self):
-		webbrowser.open('www.gpvdm.com/license.html')
+		webbrowser.open("https://www.gpvdm.com/license.html")
 		
 	def callback_new_window(self, widget, data=None):
 		if self.window2.isVisible()==True:
@@ -630,7 +630,7 @@ class gpvdm_main_window(QMainWindow):
 		self.notebook_active_page=None
 		super(gpvdm_main_window,self).__init__()
 		self.setGeometry(200, 100, 1300, 600)
-		self.setWindowTitle(_("General-purpose Photovoltaic Device Model (www.gpvdm.com)"))
+		self.setWindowTitle("General-purpose Photovoltaic Device Model (https://www.gpvdm.com)")
 
 		#super(gpvdm_main_window, self).__init__(parent, QtCore.Qt.FramelessWindowHint)
 		#gobject.GObject.__init__(self)

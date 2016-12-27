@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.80\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2016-12-26 13:31+0000\n"
+"POT-Creation-Date: 2016-12-27 00:15+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -195,15 +195,15 @@ msgid "Generation rate"
 msgstr ""
 
 #: ../libmeasure/probe.c:327
-msgid "Probe load config\n"
+msgid "Probe load configuration"
 msgstr ""
 
 #: ../libmeasure/probe.c:353
-msgid "Probe calc modes\n"
+msgid "Probe calculate modes"
 msgstr ""
 
 #: ../libmeasure/probe.c:394
-msgid "Free probe\n"
+msgid "Probe free memory"
 msgstr ""
 
 #: ../plugins/pulse/pulse.c:68
@@ -360,8 +360,7 @@ msgstr ""
 #: ../src/memory.c:259
 msgid ""
 "You are asking me to simulate a device with more than 50000 mesh points, "
-"although I could do this I am not going to because it seems a bad idea to "
-"me.\n"
+"although I could do this I am not going to because it seems a bad idea to me."
 msgstr ""
 
 #: ../src/initial.c:49
@@ -1131,7 +1130,7 @@ msgstr ""
 msgid "Clone experiment"
 msgstr ""
 
-#: ../gui/experiment.py:201 ../gui/experiment.py:202
+#: ../gui/experiment.py:201 ../gui/experiment.py:202 ../gui/config_window.py:62
 #: ../gui/materials_main.py:84 ../gui/gpvdm.py:755 ../gui/gpvdm.py:861
 #: ../gui/emesh.py:168 ../gui/scan.py:319 ../gui/scan.py:320 ../gui/cost.py:92
 #: ../gui/fxexperiment.py:195 ../gui/fxexperiment.py:196
@@ -1192,6 +1191,34 @@ msgstr ""
 msgid "Please select a device before clicking next"
 msgstr ""
 
+#: ../gui/new_simulation.py:96
+msgid "Organic solar cell"
+msgstr ""
+
+#: ../gui/new_simulation.py:100
+msgid "Organic LED"
+msgstr ""
+
+#: ../gui/new_simulation.py:104
+msgid "Crystalline silicon solar cell new/beta"
+msgstr ""
+
+#: ../gui/new_simulation.py:108
+msgid "CIGS Solar cell new/beta"
+msgstr ""
+
+#: ../gui/new_simulation.py:112
+msgid "a-Si solar cell new/beta"
+msgstr ""
+
+#: ../gui/new_simulation.py:116
+msgid "polycrystalline silicon (new/beta)"
+msgstr ""
+
+#: ../gui/new_simulation.py:120
+msgid "OFET (new/beta)"
+msgstr ""
+
 #: ../gui/scan_io.py:101
 msgid "and "
 msgstr ""
@@ -1244,11 +1271,11 @@ msgstr ""
 msgid "Remove contacts"
 msgstr ""
 
-#: ../gui/dlg_get_multi_text.py:70
+#: ../gui/dlg_get_multi_text.py:70 ../gui/scan_select.py:67
 msgid "OK"
 msgstr ""
 
-#: ../gui/dlg_get_multi_text.py:72
+#: ../gui/dlg_get_multi_text.py:72 ../gui/scan_select.py:68
 msgid "Cancel"
 msgstr ""
 
@@ -1256,9 +1283,8 @@ msgstr ""
 msgid "Configure"
 msgstr ""
 
-#: ../gui/config_window.py:78 ../gui/inp_description.py:42
-#: ../gui/plot_widget.py:685
-msgid "Math"
+#: ../gui/config_window.py:78
+msgid "Solver configuration"
 msgstr ""
 
 #: ../gui/config_window.py:78 ../gui/inp_description.py:40
@@ -1274,11 +1300,11 @@ msgid "LED"
 msgstr ""
 
 #: ../gui/config_window.py:78
-msgid "GUI config"
+msgid "GUI configuration"
 msgstr ""
 
 #: ../gui/config_window.py:78
-msgid "Server config"
+msgid "Server configuration"
 msgstr ""
 
 #: ../gui/materials_main.py:46 ../gui/materials_main.py:99
@@ -1423,10 +1449,6 @@ msgstr ""
 
 #: ../gui/gpvdm.py:610
 msgid "Quantum efficiency"
-msgstr ""
-
-#: ../gui/gpvdm.py:633
-msgid "General-purpose Photovoltaic Device Model (www.gpvdm.com)"
 msgstr ""
 
 #: ../gui/gpvdm.py:711 ../gui/scan.py:329
@@ -1606,8 +1628,8 @@ msgstr ""
 msgid "<big><b>Suns v.s. Voc</b></big><br>Configure the sun v.s. Voc plot."
 msgstr ""
 
-#: ../gui/jv.py:64 ../gui/hpc.py:261 ../gui/plot_dlg.py:81
-msgid "Steady state simulation (www.gpvdm.com)"
+#: ../gui/jv.py:64
+msgid "Steady state simulation"
 msgstr ""
 
 #: ../gui/tab_main.py:97
@@ -1715,13 +1737,42 @@ msgstr ""
 msgid "Density of states"
 msgstr ""
 
-#: ../gui/gpvdm_notebook.py:99
+#: ../gui/gpvdm_notebook.py:94
+msgid ""
+"<big><b>Density of States</b></big>\n"
+"This tab contains the electrical model parameters, such as mobility, tail "
+"slope energy, and band gap."
+msgstr ""
+
+#: ../gui/gpvdm_notebook.py:97
+msgid ""
+"<big><b>Luminescence</b></big>\n"
+"If you set 'Turn on luminescence' to true, the simulation will assume "
+"recombination is a raditave process and intergrate it to produce Voltage-"
+"Light intensity curves (lv.dat).  Each number in the tab tells the model how "
+"efficient each recombination mechanism is at producing photons."
+msgstr ""
+
+#: ../gui/gpvdm_notebook.py:99 ../gui/gpvdm_notebook.py:226
 msgid "Terminal"
+msgstr ""
+
+#: ../gui/gpvdm_notebook.py:100
+msgid ""
+"<big><b>The terminal window</b></big>\n"
+"The output of the model will be displayed in this window, watch this screen "
+"for debugging and convergence information."
 msgstr ""
 
 #: ../gui/gpvdm_notebook.py:102 ../gui/gpvdm_notebook.py:135
 #: ../gui/gpvdm_notebook.py:243
 msgid "Information"
+msgstr ""
+
+#: ../gui/gpvdm_notebook.py:103
+msgid ""
+"<big><b>On-line help</b></big>\n"
+"You can view the on-line help and manual here."
 msgstr ""
 
 #: ../gui/tb_item_sim_mode.py:94
@@ -1738,6 +1789,10 @@ msgstr ""
 
 #: ../gui/inp_description.py:41
 msgid "CELIV"
+msgstr ""
+
+#: ../gui/inp_description.py:42 ../gui/plot_widget.py:685
+msgid "Math"
 msgstr ""
 
 #: ../gui/inp_description.py:43
@@ -1923,19 +1978,19 @@ msgid "value"
 msgstr ""
 
 #: ../gui/duplicate.py:97
-msgid "src File"
+msgid "Source File"
 msgstr ""
 
 #: ../gui/duplicate.py:97
-msgid "src Token"
+msgid "Source Token"
 msgstr ""
 
 #: ../gui/duplicate.py:97
-msgid "dest File"
+msgid "Destination File"
 msgstr ""
 
 #: ../gui/duplicate.py:97
-msgid "dest Token"
+msgid "Destination Token"
 msgstr ""
 
 #: ../gui/duplicate.py:119
@@ -2073,6 +2128,10 @@ msgstr ""
 msgid "Can not connect to cluster."
 msgstr ""
 
+#: ../gui/hpc.py:261 ../gui/plot_dlg.py:81
+msgid "Steady state simulation (www.gpvdm.com)"
+msgstr ""
+
 #: ../gui/hpc.py:269
 msgid "Cluster get data"
 msgstr ""
@@ -2203,31 +2262,39 @@ msgid "The directory is gone, so I can't open it."
 msgstr ""
 
 #: ../gui/gpvdm_open.py:209
-msgid "<br>title: "
+msgid "title"
 msgstr ""
 
 #: ../gui/gpvdm_open.py:209
-msgid "<br>x axis: "
+msgid "x axis"
 msgstr ""
 
 #: ../gui/gpvdm_open.py:209
-msgid ")<br>y axis: "
+msgid "y axis"
 msgstr ""
 
 #: ../gui/gpvdm_open.py:209
-msgid ")<br><br><big><b>Double click to open</b></big>"
+msgid "Double click to open"
 msgstr ""
 
 #: ../gui/gpvdm_open.py:215
-msgid "<br>This contains the simulation output at 0V in the dark."
+msgid "equilibrium"
+msgstr ""
+
+#: ../gui/gpvdm_open.py:215
+msgid "This contains the simulation output at 0V in the dark."
 msgstr ""
 
 #: ../gui/scan_select.py:56
-msgid "Select simulation parameter (www.gpvdm.com)"
+msgid "Select simulation parameter"
 msgstr ""
 
 #: ../gui/scan_select.py:107
 msgid "Simulation parameters"
+msgstr ""
+
+#: ../gui/scan_select.py:160
+msgid "No row selected in the scan window, can't insert the selection"
 msgstr ""
 
 #: ../gui/equation.py:171 ../gui/jobs.py:86
@@ -2718,6 +2785,14 @@ msgstr ""
 msgid "Invert simulated data (y)"
 msgstr ""
 
+#: ../gui/token_lib.py:313
+msgid "Device temperature on left"
+msgstr ""
+
+#: ../gui/token_lib.py:314
+msgid "Device temperature on right"
+msgstr ""
+
 #: ../gui/token_lib.py:315
 msgid "Enable thermal solver"
 msgstr ""
@@ -2740,6 +2815,10 @@ msgstr ""
 
 #: ../gui/token_lib.py:321
 msgid "Isothermal boundary on right"
+msgstr ""
+
+#: ../gui/token_lib.py:344
+msgid "Filp the opticl field"
 msgstr ""
 
 #: ../gui/token_lib.py:347
@@ -2816,6 +2895,52 @@ msgstr ""
 
 #: ../gui/token_lib.py:369
 msgid "Dump raytrace plots"
+msgstr ""
+
+#: ../gui/token_lib.py:373
+msgid "Turn on luminescence"
+msgstr ""
+
+#: ../gui/token_lib.py:374
+#, python-brace-format
+msgid "n_{free} to p_{free} photon generation efficiency"
+msgstr ""
+
+#: ../gui/token_lib.py:375
+#, python-brace-format
+msgid "n_{free} to n_{trap} photon generation efficiency"
+msgstr ""
+
+#: ../gui/token_lib.py:376
+#, python-brace-format
+msgid "n_{trap} to p_{free} photon generation efficiency"
+msgstr ""
+
+#: ../gui/token_lib.py:377
+#, python-brace-format
+msgid "p_{trap} to n_{free} photon generation efficiency"
+msgstr ""
+
+#: ../gui/token_lib.py:378
+#, python-brace-format
+msgid "p_{free} to p_{trap} photon generation efficiency"
+msgstr ""
+
+#: ../gui/token_lib.py:380
+#, python-brace-format
+msgid "n_{free} to p_{free} Recombination rate constant"
+msgstr ""
+
+#: ../gui/token_lib.py:383
+msgid "Turn on LED"
+msgstr ""
+
+#: ../gui/token_lib.py:384
+msgid "LED emission wavelength"
+msgstr ""
+
+#: ../gui/token_lib.py:385
+msgid "LED extraction efficiency"
 msgstr ""
 
 #: ../gui/jobs.py:86

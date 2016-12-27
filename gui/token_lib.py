@@ -310,8 +310,8 @@ lib.append(my_data("#fit_invert_simulation_y",_("True/False"),_("Invert simulate
 
 
 #Thermal
-lib.append(my_data("#Tll","Kelvin","Device temperature on left",["text"],"e",1.0))
-lib.append(my_data("#Tlr","Kelvin","Device temperature on right",["text"],"e",1.0))
+lib.append(my_data("#Tll","Kelvin",_("Device temperature on left"),["text"],"e",1.0))
+lib.append(my_data("#Tlr","Kelvin",_("Device temperature on right"),["text"],"e",1.0))
 lib.append(my_data("#thermal",_("True/False"),_("Enable thermal solver"),[("switch")],"e",1.0))
 lib.append(my_data("#thermal_l",_("True/False"),_("Lattice heat model"),[("switch")],"e",1.0))
 lib.append(my_data("#thermal_e",_("True/False"),_("Electron heat model"),[("switch")],"e",1.0))
@@ -319,8 +319,8 @@ lib.append(my_data("#thermal_h",_("True/False"),_("Hole heat model"),[("switch")
 lib.append(my_data("#thermal_kl","W m^{-1} C^{-1}","Thermal conductivity",["text"],"e",1.0))
 lib.append(my_data("#Tliso",_("True/False"),_("Isothermal boundary on left"),[("switch")],"e",1.0))
 lib.append(my_data("#Triso",_("True/False"),_("Isothermal boundary on right"),[("switch")],"e",1.0))
-lib.append(my_data("#thermal_tau_e","s","Electron relaxation time",["text"],"e",1.0))
-lib.append(my_data("#thermal_tau_h","s","Hole relaxation time",["text"],"e",1.0))
+lib.append(my_data("#thermal_tau_e","s",("Electron relaxation time"),["text"],"e",1.0))
+lib.append(my_data("#thermal_tau_h","s",("Hole relaxation time"),["text"],"e",1.0))
 #
 lib.append(my_data("#layer0","m","Active layer width",["text"],"e",1.0))
 lib.append(my_data("#stark_saturate","au","Stark saturate",["text"],"e",1.0))
@@ -341,7 +341,7 @@ lib.append(my_data("#sim_id","au","sim id",["text"],"e",1.0))
 lib.append(my_data("#Rload","Ohms","External load resistor",["text"],"e",1.0))
 lib.append(my_data("#pulse_shift","s","Shift of TPC signal",["text"],"e",1.0))
 
-lib.append(my_data("#flip_field","au","Filp the opticl field",["text"],["1","0"],1.0))
+lib.append(my_data("#flip_field","au",_("Filp the opticl field"),["text"],["1","0"],1.0))
 
 
 lib.append(my_data("#newton_dump",_("True/False"),_("Dump from newton solver"),[("switch")],"e",1.0))
@@ -370,19 +370,19 @@ lib.append(my_data("#dump_ray_trace_map",_("True/False"),_("Dump raytrace plots"
 
 
 
-lib.append(my_data("#pl_enabled",_("True/False"),"Turn on luminescence",[("switch")],"e",1.0))
-lib.append(my_data("#pl_fe_fh","0.0-1.0","n_{free} to p_{frae} photon generation efficiency",["text"],"e",1.0))
-lib.append(my_data("#pl_fe_te","0.0-1.0","n_{frae} to n_{trap} photon generation efficiency",["text"],"e",1.0))
-lib.append(my_data("#pl_te_fh","0.0-1.0","n_{trap} to p_{free} photon generation efficiency",["text"],"e",1.0))
-lib.append(my_data("#pl_th_fe","0.0-1.0","p_{trap} to n_{free} photon generation efficiency",["text"],"e",1.0))
-lib.append(my_data("#pl_fh_th","0.0-1.0","p_{free} to p_{trap} photon generation efficiency",["text"],"e",1.0))
+lib.append(my_data("#pl_enabled",_("True/False"),_("Turn on luminescence"),[("switch")],"e",1.0))
+lib.append(my_data("#pl_fe_fh","0.0-1.0",_("n_{free} to p_{free} photon generation efficiency"),["text"],"e",1.0))
+lib.append(my_data("#pl_fe_te","0.0-1.0",_("n_{free} to n_{trap} photon generation efficiency"),["text"],"e",1.0))
+lib.append(my_data("#pl_te_fh","0.0-1.0",_("n_{trap} to p_{free} photon generation efficiency"),["text"],"e",1.0))
+lib.append(my_data("#pl_th_fe","0.0-1.0",_("p_{trap} to n_{free} photon generation efficiency"),["text"],"e",1.0))
+lib.append(my_data("#pl_fh_th","0.0-1.0",_("p_{free} to p_{trap} photon generation efficiency"),["text"],"e",1.0))
 
-lib.append(my_data("#free_to_free_recombination","0.0-1.0","n_{free} to p_{free} Recombination rate constant",["text"],"e",1.0))
+lib.append(my_data("#free_to_free_recombination","0.0-1.0",_("n_{free} to p_{free} Recombination rate constant"),["text"],"e",1.0))
 
 #LED
-lib.append(my_data("#led_on",_("True/False"),"Turn on LED",[("switch")],"e",1.0))
-lib.append(my_data("#led_wavelength","m","LED emission wavelength",["text"],"e",1.0))
-lib.append(my_data("#led_extract_eff","m","LED extraction efficiency",["text"],"e",1.0))
+lib.append(my_data("#led_on",_("True/False"),_("Turn on LED"),[("switch")],"e",1.0))
+lib.append(my_data("#led_wavelength","m",_("LED emission wavelength"),["text"],"e",1.0))
+lib.append(my_data("#led_extract_eff","m",_("LED extraction efficiency"),["text"],"e",1.0))
 
 
 def dump_lib():

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.40\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2016-12-26 13:18+0000\n"
-"PO-Revision-Date: 2016-12-26 13:31+0000\n"
+"POT-Creation-Date: 2016-12-26 22:57+0000\n"
+"PO-Revision-Date: 2016-12-26 23:13+0000\n"
 "Last-Translator: Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>\n"
 "Language-Team: \n"
 "Language: de\n"
@@ -196,16 +196,16 @@ msgid "Generation rate"
 msgstr "Ladungsträgererzeugungseffizienz"
 
 #: ../libmeasure/probe.c:327
-msgid "Probe load config\n"
-msgstr ""
+msgid "Probe load configuration"
+msgstr "Probel laden Konfiguration."
 
 #: ../libmeasure/probe.c:353
-msgid "Probe calc modes\n"
-msgstr ""
+msgid "Probe calculate modes"
+msgstr "Probe: Calculate optical modes."
 
 #: ../libmeasure/probe.c:394
-msgid "Free probe\n"
-msgstr ""
+msgid "Probe free memory"
+msgstr "Probe: Freien Speicher"
 
 #: ../plugins/pulse/pulse.c:68
 msgid "no pulse config file found"
@@ -260,11 +260,11 @@ msgstr "keine fxdomain Konfigurationsdatei gefunden"
 
 #: ../plugins/fxdomain/fxdomain.c:115
 msgid "Running frequency"
-msgstr ""
+msgstr "Frequenz"
 
 #: ../plugins/fxdomain/fxdomain.c:144 ../plugins/fxdomain/fxdomain.c:185
 msgid "fxdomain mode not known"
-msgstr ""
+msgstr "fxdomain Modus nicht bekannt"
 
 #: ../plugins/fxdomain/fxdomain.c:191
 msgid "fxdomain time"
@@ -361,12 +361,11 @@ msgstr "Ich kann kein Gerät mit weniger als einem Mesh-Punkt zuweisen."
 #: ../src/memory.c:259
 msgid ""
 "You are asking me to simulate a device with more than 50000 mesh points, "
-"although I could do this I am not going to because it seems a bad idea to "
-"me.\n"
+"although I could do this I am not going to because it seems a bad idea to me."
 msgstr ""
 "Sie fragen mich, ein Gerät mit mehr als 50000 Mesh-Punkten zu simulieren, "
 "obwohl ich dies tun könnte, werde ich nicht, weil es eine schlechte Idee für "
-"mich scheint.\n"
+"mich scheint."
 
 #: ../src/initial.c:49
 msgid "Equilibrium Fermi-level"
@@ -522,16 +521,19 @@ msgid "Runing simulation"
 msgstr "Laufende Simulation"
 
 #: ../src/sim_run.c:104
+#, fuzzy
 msgid "Loading DoS layers"
-msgstr ""
+msgstr "Loading"
 
 #: ../src/sim_run.c:112
+#, fuzzy
 msgid "Load DoS"
-msgstr ""
+msgstr "DoS Schict"
 
 #: ../gui/cmp_class.py:259
+#, fuzzy
 msgid "Examine simulation results in time domain"
-msgstr ""
+msgstr "Die Ergebnisse im Zeitbereich angucken"
 
 #: ../gui/cmp_class.py:286
 msgid "Save video"
@@ -552,6 +554,10 @@ msgid ""
 "turn this on set Simulation->Configure->Dump->Dump 1D Slices to on.  This "
 "will dump a lot of data and slow down your simulations."
 msgstr ""
+"In dem Snapshot-Verzeichnis wurden keine elektrischen Slice-Daten "
+"gespeichert. Um dies auf Set Simulation-> Configure-> Dump-> Dump 1D Slices "
+"auf Ein einzuschalten. Dies wird dump viele Daten und verlangsamen Sie Ihre "
+"Simulationen."
 
 #: ../gui/gtkswitch.py:76
 msgid "ON"
@@ -571,7 +577,7 @@ msgstr "Ersatzschaltbild"
 
 #: ../gui/gl_cmp.py:46
 msgid "Results viewer"
-msgstr ""
+msgstr "Ergebnisanzeige"
 
 #: ../gui/band_graph.py:203 ../gui/cost.py:117 ../libdump/dump_1d_slice.c:558
 msgid "Energy"
@@ -580,15 +586,16 @@ msgstr "Energie"
 #: ../gui/qe.py:116 ../gui/fit_window_plot_real.py:131
 #: ../gui/plot_widget.py:633
 msgid "Save graph"
-msgstr ""
+msgstr "Grafik speichern"
 
 #: ../gui/qe.py:120 ../gui/gpvdm.py:733 ../gui/optics.py:140
 msgid "Run"
 msgstr "Starten"
 
 #: ../gui/tb_pulse_load_type.py:48
+#, fuzzy
 msgid "Load type"
-msgstr ""
+msgstr "Schichttyp"
 
 #: ../gui/fx_selector.py:42
 msgid "Wavelengths"
@@ -596,21 +603,21 @@ msgstr "Wellenlängen"
 
 #: ../gui/fit_tab.py:72
 msgid "Experimental data"
-msgstr ""
+msgstr "Versuchsdaten"
 
 #: ../gui/fit_tab.py:75 ../libfit/fit_dump.c:59 ../libfit/fit_dump.c:79
 #: ../libfit/fit_dump.c:99 ../libfit/fit_dump.c:119 ../libfit/fit_dump.c:140
 #: ../libfit/fit_dump.c:161
 msgid "Fit error"
-msgstr ""
+msgstr "Fit Fehler"
 
 #: ../gui/fit_tab.py:78
 msgid "Fit patch"
-msgstr ""
+msgstr "Fit Patch"
 
 #: ../gui/fit_tab.py:82
 msgid "Configure fit"
-msgstr ""
+msgstr "Fit konfigurieren"
 
 #: ../gui/tmesh.py:124 ../gui/tmesh.py:125 ../gui/tmesh.py:126
 #: ../gui/tmesh.py:127 ../gui/tmesh.py:128 ../gui/tmesh.py:129
@@ -692,8 +699,9 @@ msgid "Stop Voltage"
 msgstr "Stopspannung"
 
 #: ../gui/tmesh.py:269
+#, fuzzy
 msgid "step multiplyer"
-msgstr ""
+msgstr "JV Spannungsstufe Multiplikator"
 
 #: ../gui/tmesh.py:269 ../gui/tb_item_sun.py:72
 msgid "Suns"
@@ -773,8 +781,9 @@ msgid "dfx"
 msgstr "dfx"
 
 #: ../gui/fxmesh.py:90 ../gui/fxmesh.py:108
+#, fuzzy
 msgid "mul"
-msgstr ""
+msgstr "mul"
 
 #: ../gui/fxmesh.py:139
 msgid "Enter the start frequency of the simulation"
@@ -786,7 +795,7 @@ msgstr "Frequenz"
 
 #: ../gui/fxmesh.py:194
 msgid "Frequency segment"
-msgstr ""
+msgstr "Frequenzsegment"
 
 #: ../gui/fxmesh.py:194
 msgid "Multiply"
@@ -813,16 +822,19 @@ msgid "\t--version\t\tdisplays the current version"
 msgstr ""
 
 #: ../gui/command_args.py:73
+#, fuzzy
 msgid "\t--help\t\t\tdisplays the help"
-msgstr ""
+msgstr "/_Hilfe/Hilfe"
 
 #: ../gui/command_args.py:74
+#, fuzzy
 msgid "\t--export\t\texport a simulation to a gz file"
-msgstr ""
+msgstr "/Datei/Speichern"
 
 #: ../gui/command_args.py:75
+#, fuzzy
 msgid "\t--import\t\timport a simulation from a .gpvdm file"
-msgstr ""
+msgstr "Importieren alte gpvdm Simulation."
 
 #: ../gui/command_args.py:76
 msgid "\t--patch\t\t\tpatch an .gpvdm file with an older .gpvdm file"
@@ -897,8 +909,9 @@ msgid "\t--replace\t\treplaces file in device lib"
 msgstr "ersetzt Datei in Bauteil lib"
 
 #: ../gui/command_args.py:94
+#, fuzzy
 msgid "\t--server\t\tRun as server node for cluster"
-msgstr ""
+msgstr "/Simulation/Start cluster server"
 
 #: ../gui/command_args.py:95
 msgid "\t--server\t\tRun as client node for cluster"
@@ -913,6 +926,7 @@ msgid "Report bugs to:"
 msgstr "Fehlerberichte:"
 
 #: ../gui/scan_tab.py:123
+#, fuzzy
 msgid ""
 "<big><b>The scan window</b></big><br> Now using the drop down menu in the "
 "prameter to change 'column', select the device parameter you wish to vary, "
@@ -920,6 +934,12 @@ msgid ""
 "like it to scan oveer in the  'Values', an example could be '1e-3 1e-4 1e-5 "
 "1e-6'.  And hit the double arrorw to run the simulation."
 msgstr ""
+"<big><b>Das Scan-Fenster</b></big>\n"
+" Now using the drop down menu in the prameter to change 'column', select the "
+"device parameter you wish to vary, an example may be dos0/Electron Mobility. "
+"Now enter the values you would like it to scan oveer in the  'Values', an "
+"example could be '1e-3 1e-4 1e-5 1e-6'.  And hit the double arrorw to run "
+"the simulation."
 
 #: ../gui/scan_tab.py:133
 msgid "Select parameter"
@@ -938,7 +958,7 @@ msgstr "Keine Simulation Verzeichnisnamen"
 
 #: ../gui/scan_tab.py:253
 msgid "Problem generating tree."
-msgstr ""
+msgstr "Problem bei Baum erzeugung."
 
 #: ../gui/scan_tab.py:405 ../gui/gpvdm.py:710 ../gui/fxexperiment.py:176
 #: ../gui/fit_window.py:233 ../gui/fit_vars.py:88 ../gui/fit_vars.py:125
@@ -1153,7 +1173,7 @@ msgstr "Experiment umbenennen"
 msgid "Clone experiment"
 msgstr "Experiment kopieren"
 
-#: ../gui/experiment.py:201 ../gui/experiment.py:202
+#: ../gui/experiment.py:201 ../gui/experiment.py:202 ../gui/config_window.py:62
 #: ../gui/materials_main.py:84 ../gui/gpvdm.py:755 ../gui/gpvdm.py:861
 #: ../gui/emesh.py:168 ../gui/scan.py:319 ../gui/scan.py:320 ../gui/cost.py:92
 #: ../gui/fxexperiment.py:195 ../gui/fxexperiment.py:196
@@ -1172,7 +1192,7 @@ msgstr "Neu Experiment"
 
 #: ../gui/experiment.py:236 ../gui/contacts.py:184 ../gui/scan.py:354
 msgid "Hide"
-msgstr ""
+msgstr "Nicht sichtbar"
 
 #: ../gui/information_noweb.py:63
 msgid "Click to find out more"
@@ -1185,8 +1205,8 @@ msgid ""
 "simulation</i>. "
 msgstr ""
 "Um eine neue Simulation zu erstellen, klicken Sie im Menü <i> <u>D</u>atei</"
-"i> auf <i> <u> N </u> eu Simulation </i> oder um eine vorhandene zu öffnen "
-"Simulation wählen Sie <i> <u> Ö </u> ffnen Simulation </i>."
+"i> auf <i> <u>N</u>eu Simulation </i> oder um eine vorhandene zu öffnen "
+"Simulation wählen Sie <i> <u> Ö</u>ffnen Simulation </i>."
 
 #: ../gui/information_noweb.py:67
 msgid ""
@@ -1225,6 +1245,34 @@ msgstr ""
 msgid "Please select a device before clicking next"
 msgstr "Bitte wählen Sie ein Gerät aus, bevor Sie weiter klicken"
 
+#: ../gui/new_simulation.py:96
+msgid "Organic solar cell"
+msgstr "Organische Solarzelle"
+
+#: ../gui/new_simulation.py:100
+msgid "Organic LED"
+msgstr "Organische LED"
+
+#: ../gui/new_simulation.py:104
+msgid "Crystalline silicon solar cell new/beta"
+msgstr "Kristalline Silizium Solarzelle neu/beta"
+
+#: ../gui/new_simulation.py:108
+msgid "CIGS Solar cell new/beta"
+msgstr "CIGS Solarzelle neu/beta"
+
+#: ../gui/new_simulation.py:112
+msgid "a-Si solar cell new/beta"
+msgstr "a-Si Solarzelle neu/beta"
+
+#: ../gui/new_simulation.py:116
+msgid "polycrystalline silicon (new/beta)"
+msgstr "Polykristallines Silizium neu/beta"
+
+#: ../gui/new_simulation.py:120
+msgid "OFET (new/beta)"
+msgstr "OFET neu/beta"
+
 #: ../gui/scan_io.py:101
 msgid "and "
 msgstr "und "
@@ -1247,7 +1295,7 @@ msgstr "nein"
 
 #: ../gui/contacts.py:129
 msgid "There are some non numeric values in the table"
-msgstr ""
+msgstr "Es gibt einige nicht numerische Werte in der Tabelle."
 
 #: ../gui/contacts.py:144 ../gui/doping.py:119
 msgid "Start"
@@ -1277,11 +1325,11 @@ msgstr "Kontakt hinzufügen"
 msgid "Remove contacts"
 msgstr "Kontakte entfernen"
 
-#: ../gui/dlg_get_multi_text.py:70
+#: ../gui/dlg_get_multi_text.py:70 ../gui/scan_select.py:67
 msgid "OK"
 msgstr "OK"
 
-#: ../gui/dlg_get_multi_text.py:72
+#: ../gui/dlg_get_multi_text.py:72 ../gui/scan_select.py:68
 msgid "Cancel"
 msgstr "Cancel"
 
@@ -1289,10 +1337,9 @@ msgstr "Cancel"
 msgid "Configure"
 msgstr "Konfigurieren"
 
-#: ../gui/config_window.py:78 ../gui/inp_description.py:42
-#: ../gui/plot_widget.py:685
-msgid "Math"
-msgstr "Mathe"
+#: ../gui/config_window.py:78
+msgid "Solver configuration"
+msgstr "Solver-Konfiguration"
 
 #: ../gui/config_window.py:78 ../gui/inp_description.py:40
 msgid "Dump"
@@ -1307,12 +1354,12 @@ msgid "LED"
 msgstr "LED"
 
 #: ../gui/config_window.py:78
-msgid "GUI config"
-msgstr ""
+msgid "GUI configuration"
+msgstr "GUI-Konfiguration"
 
 #: ../gui/config_window.py:78
-msgid "Server config"
-msgstr ""
+msgid "Server configuration"
+msgstr "Serverkonfiguration"
 
 #: ../gui/materials_main.py:46 ../gui/materials_main.py:99
 msgid "Electrical parameters"
@@ -1323,6 +1370,8 @@ msgid ""
 "<big><b>Electrical parameters</b></big><br>Use this tab to configure the "
 "electrical parameters for the material."
 msgstr ""
+"<Big> <b> Elektrische Parameter </ b> </ big> <br> Auf dieser Registerkarte "
+"werden die elektrischen Parameter für das Material konfiguriert."
 
 #: ../gui/materials_main.py:49 ../gui/materials_main.py:99
 #: ../gui/gpvdm_notebook.py:96 ../gui/inp_description.py:55
@@ -1334,6 +1383,8 @@ msgid ""
 "<big><b>Luminescence</b></big><br>Use this tab to edit the materials "
 "Luminescence."
 msgstr ""
+"<Big> <b> Lumineszenz </ b> </ big> <br> Auf dieser Registerkarte können Sie "
+"die Materialien Lumineszenz bearbeiten."
 
 #: ../gui/materials_main.py:65
 msgid "Material editor"
@@ -1360,13 +1411,21 @@ msgid ""
 "<big><b>Fit window</b></big><br> Use this window to fit the simulation to "
 "experimental data."
 msgstr ""
+"92/5000\n"
+"<Big> <b> Fit Fenster </ b> </ big> <br> Verwenden Sie dieses Fenster, um "
+"die Simulation auf experimentelle Daten anzupassen."
 
 #: ../gui/gpvdm.py:240
+#, fuzzy
 msgid ""
 "<big><b>The scan window</b></big><br> Very often it is useful to be able to "
 "systematically very a device parameter such as mobility or density of trap "
 "states.  This window allows you to do just that."
 msgstr ""
+"<big><b>Das Scan-Fenster</b></big>\n"
+" Very often it is useful to be able to systematically very a device "
+"parameter such as mobility or density of trap states.  This window allows "
+"you to do just that."
 
 #: ../gui/gpvdm.py:240
 msgid "Use the plus icon to add a new scan line to the list."
@@ -1379,6 +1438,8 @@ msgid ""
 "<big>Select a file to plot</big><br>Single clicking shows you the content of "
 "the file"
 msgstr ""
+"<Big> Wählen Sie eine Datei zum Plotten aus. </Big> <br> Mit einem Klick "
+"wird der Inhalt der Datei angezeigt"
 
 #: ../gui/gpvdm.py:306
 msgid "Import an old gpvdm simulation"
@@ -1399,12 +1460,17 @@ msgid ""
 "<big><b>Now run the simulation</b></big><br> Click on the play icon to start "
 "a simulation."
 msgstr ""
+"<big><b>Starten Sie die Simulation.</b></big><br>\n"
+"Klicken Sie auf das Play-Symbol, um eine Simulation zu starten."
 
 #: ../gui/gpvdm.py:397
 msgid ""
 "<big><b>Hi!</b></big><br> I'm the on-line help system :).  If you find any "
 "bugs please report them to roderick.mackenzie@nottingham.ac.uk."
 msgstr ""
+"<big> <b> Hi! </b> </big>\n"
+"  Ich bin der Online-Hilfe-System :). Wenn Sie irgendwelche Fehler finden "
+"melden Sie diese bitte an roderick.mackenzie@nottingham.ac.uk"
 
 #: ../gui/gpvdm.py:397
 msgid "Click on the new icon to make a new simulation directory."
@@ -1424,14 +1490,26 @@ msgid ""
 "slider bar to move through the simulation.  When you are simulating a JV "
 "curve, the slider sill step through voltage points rather than time points."
 msgstr ""
+"<Big> <b> Prüfen Sie die Ergebnisse im Zeitbereich </b> </big> <br> Nachdem "
+"Sie eine Simulation im Zeitbereich ausgeführt haben, ist es oft schön, die "
+"Simulation durchzuführen und die Ergebnisse zu betrachten . Dies ist, was "
+"dieses Fenster tut. Verwenden Sie die Schieberegler, um durch die Simulation "
+"zu bewegen. Wenn Sie eine JV-Kurve simulieren, schritt der Schieberegler "
+"durch Spannungspunkte anstelle von Zeitpunkten."
 
 #: ../gui/gpvdm.py:538
+#, fuzzy
 msgid ""
 "<big><b>The time mesh editor</b></big><br> To do time domain simulations one "
 "must define how voltage the light vary as a function of time.  This can be "
 "done in this window.  Also use this window to define the simulation length "
 "and time step."
 msgstr ""
+"<big><b>Die Zeit Mesh-Editor</b></big>\n"
+"  Um Zeitbereich Simulationen muss man festlegen, wie Spannungs das Licht "
+"als Funktion der Zeit. Dies kann in diesem Fenster durchgeführt werden. "
+"Verwenden Sie auch dieses Fenster, um die Simulation Länge und Zeit Schritt "
+"zu definieren."
 
 #: ../gui/gpvdm.py:551
 msgid ""
@@ -1440,31 +1518,37 @@ msgid ""
 "spectroscopy.  This window will allow you to choose which frequencies will "
 "be simulated."
 msgstr ""
+"<Big> <b> Frequency-Domain-Mesh-Editor </ b> </big> <br> Einige Male ist es "
+"sinnvoll, Frequenzdomänensimulationen wie bei der Simulation der "
+"Impedanzspektroskopie durchzuführen. In diesem Fenster können Sie auswählen, "
+"welche Frequenzen simuliert werden sollen."
 
 #: ../gui/gpvdm.py:562
 msgid ""
 "<big><b>Laser setup</b></big><br> Use this window to set up your lasers."
 msgstr ""
+"<Big> <b> Lasersetup </ b> </ big> <br> In diesem Fenster können Sie Ihre "
+"Laser einrichten."
 
 #: ../gui/gpvdm.py:573
 msgid ""
 "<big><b>JV simulation editor</b></big><br> Use this window to select the "
 "step size and parameters of the JV simulations."
 msgstr ""
+"<Big> <b> JV-Simulationseditor </b> </big> <br> In diesem Fenster können Sie "
+"die Schrittgröße und die Parameter der JV-Simulationen auswählen."
 
 #: ../gui/gpvdm.py:585
 msgid ""
 "<big><b>Configuration editor</b></big><br> Use this window to control "
 "advanced simulation parameters."
 msgstr ""
+"<Big> <b> Konfigurations-Editor </ b> </ big> <br> Über dieses Fenster "
+"können Sie erweiterte Simulationsparameter steuern."
 
 #: ../gui/gpvdm.py:610
 msgid "Quantum efficiency"
 msgstr "Quanteneffizienz"
-
-#: ../gui/gpvdm.py:633
-msgid "General-purpose Photovoltaic Device Model (www.gpvdm.com)"
-msgstr "Allgemein Photovoltaik- Bauteil Modell (www.gpvdm.com)"
 
 #: ../gui/gpvdm.py:711 ../gui/scan.py:329
 msgid "New simulation"
@@ -1480,11 +1564,11 @@ msgstr "Simulation Öffnen"
 
 #: ../gui/gpvdm.py:719
 msgid "Export data"
-msgstr ""
+msgstr "Daten exportieren"
 
 #: ../gui/gpvdm.py:722 ../gui/fit_window.py:248 ../gui/fit_window.py:286
 msgid "Import data"
-msgstr ""
+msgstr "Daten importieren"
 
 #: ../gui/gpvdm.py:725
 msgid "Import from library"
@@ -1512,7 +1596,7 @@ msgstr "Ansicht"
 
 #: ../gui/gpvdm.py:747
 msgid "None"
-msgstr ""
+msgstr "Nix"
 
 #: ../gui/gpvdm.py:750
 msgid "Plot"
@@ -1520,7 +1604,7 @@ msgstr "Plotten"
 
 #: ../gui/gpvdm.py:751
 msgid "Plot simulation result"
-msgstr ""
+msgstr "Plot Simulationsergebnis"
 
 #: ../gui/gpvdm.py:757
 msgid "Help window"
@@ -1540,7 +1624,7 @@ msgstr "Info"
 
 #: ../gui/gpvdm.py:773
 msgid "Check for updates"
-msgstr ""
+msgstr "Jetzt nach Updates suchen"
 
 #: ../gui/gpvdm.py:777
 msgid "Make a new simulation"
@@ -1552,7 +1636,7 @@ msgstr "Simulation Öffnen"
 
 #: ../gui/gpvdm.py:788
 msgid "Undo"
-msgstr ""
+msgstr "Rückgängig"
 
 #: ../gui/gpvdm.py:794
 msgid "Run the simulation"
@@ -1568,19 +1652,19 @@ msgstr "Run fit command"
 
 #: ../gui/gpvdm.py:837
 msgid "Time domain simulation editor."
-msgstr ""
+msgstr "Zeitbereichs-Simulationseditor."
 
 #: ../gui/gpvdm.py:842
 msgid "Frequency domain simulation editor"
-msgstr ""
+msgstr "Frequenzbereichs-Simulationseditor"
 
 #: ../gui/gpvdm.py:847
 msgid "Steady state simulation editor"
-msgstr ""
+msgstr "Gleichgewichtszustand Simulationseditor"
 
 #: ../gui/gpvdm.py:851
 msgid "Lasers editor"
-msgstr ""
+msgstr "Laser-Editor"
 
 #: ../gui/tab_homo.py:65
 msgid "Function"
@@ -1623,6 +1707,9 @@ msgid ""
 "<big><b>JV simulation</b></big><br>This controls the jv curve simulation. "
 "You can set paramets such as start voltage, stop voltage and voltage step."
 msgstr ""
+"<Big> <b> JV-Simulation </ b> </ big> <br> Das steuert die JV-Kurven-"
+"Simulation. Sie können Paramets wie Startspannung, Stoppspannung und "
+"Spannungsstufe einstellen."
 
 #: ../gui/jv.py:46
 msgid "Diode equation"
@@ -1634,6 +1721,9 @@ msgid ""
 "diode equtaion to simulate solar cells (rather than a complex model).  Use "
 "this window to configure the simulation."
 msgstr ""
+"<Big> <b> Diodengleichung </ b> </ big> <br> Das Modell kann auch die "
+"Standard-Diode equtaion zu simulieren Solarzellen (anstatt ein komplexes "
+"Modell). In diesem Fenster können Sie die Simulation konfigurieren."
 
 #: ../gui/jv.py:49
 msgid "Suns v.s. Voc"
@@ -1642,9 +1732,11 @@ msgstr "Suns v.s. Voc"
 #: ../gui/jv.py:50
 msgid "<big><b>Suns v.s. Voc</b></big><br>Configure the sun v.s. Voc plot."
 msgstr ""
+"<Big> <b> Suns vs.s. Voc </ b> </ big> <br> Konfigurieren Sie die Sonne v.s. "
+"Voc Plot."
 
-#: ../gui/jv.py:64 ../gui/hpc.py:261 ../gui/plot_dlg.py:81
-msgid "Steady state simulation (www.gpvdm.com)"
+#: ../gui/jv.py:64
+msgid "Steady state simulation"
 msgstr ""
 
 #: ../gui/tab_main.py:97
@@ -1668,8 +1760,9 @@ msgid "Laser:"
 msgstr "Laser:"
 
 #: ../gui/emesh.py:144
+#, fuzzy
 msgid "Electrical Mesh Editor"
-msgstr ""
+msgstr "Raum abtastung ändern"
 
 #: ../gui/emesh.py:152
 msgid "1D simulation"
@@ -1725,6 +1818,9 @@ msgid ""
 "Use this window to setup the mesh, the window can also be used to change the "
 "dimensionality of the simulation."
 msgstr ""
+"<Big> <b> Mesh-Editor </b> </big>\n"
+"Verwenden Sie dieses Fenster, um das Gitter einzurichten, kann das Fenster "
+"auch verwendet werden, um die Dimensionalität der Simulation zu ändern."
 
 #: ../gui/gpvdm_notebook.py:84 ../gui/inp_description.py:37
 msgid "Device"
@@ -1736,6 +1832,9 @@ msgid ""
 "device, such as width breadth, carrier density on the contacts, shunt and "
 "contact resistance."
 msgstr ""
+"<Big> <b> Bauteil </b> </big> <br> Diese Registerkarte enthält Informationen "
+"über das Gerät, wie Breite Breite, Trägerdichte an den Kontakten, Shunt und "
+"Kontaktwiderstand."
 
 #: ../gui/gpvdm_notebook.py:87 ../gui/gpvdm_notebook.py:157
 msgid "Device structure"
@@ -1748,6 +1847,10 @@ msgid ""
 "simulations.  You can also browse the materials data base and  edit the "
 "electrical mesh."
 msgstr ""
+"<Big> <b> Registerkarte Gerätestruktur </b> </big> <br>\n"
+"Auf dieser Registerkarte können Sie die Struktur des Geräts, die "
+"Schichtdicken und die Durchführung optischer Simulationen ändern. Sie können "
+"auch die Materialdatenbank durchsuchen und die elektrische Masche bearbeiten."
 
 #: ../gui/gpvdm_notebook.py:90 ../gui/inp_description.py:53
 msgid "Bands"
@@ -1758,19 +1861,65 @@ msgid ""
 "<big><b>The bands tab</b></big><br> Use this tab to edit the energetic "
 "distribution of the density of states."
 msgstr ""
+"<Big> <b> Bands </ b> </big><br><br>\n"
+"Auf dieser Registerkarte können Sie die energetische Verteilung der "
+"Zustandsdichte bearbeiten."
 
 #: ../gui/gpvdm_notebook.py:93
 msgid "Density of states"
-msgstr ""
+msgstr "Zustandsdichte"
 
-#: ../gui/gpvdm_notebook.py:99
+#: ../gui/gpvdm_notebook.py:94
+msgid ""
+"<big><b>Density of States</b></big>\n"
+"This tab contains the electrical model parameters, such as mobility, tail "
+"slope energy, and band gap."
+msgstr ""
+"<big><b>Density of States</b></big><br>\n"
+"Diese Registerkarte enthält die elektrischen Modellparameter wie Mobilität, "
+"Schwanzneigung und Bandlücke."
+
+#: ../gui/gpvdm_notebook.py:97
+msgid ""
+"<big><b>Luminescence</b></big>\n"
+"If you set 'Turn on luminescence' to true, the simulation will assume "
+"recombination is a raditave process and intergrate it to produce Voltage-"
+"Light intensity curves (lv.dat).  Each number in the tab tells the model how "
+"efficient each recombination mechanism is at producing photons."
+msgstr ""
+"<Big><b>Lumineszenz </b> </big>\n"
+"Wenn Sie 'Lumineszenz einschalten' auf 'true' setzen, geht die Simulation "
+"davon aus, dass die Rekombination ein Raditave-Prozess ist, und intergrate, "
+"um die Intensitätskurven der Spannung (lv.dat) zu erzeugen. Jede Zahl in der "
+"Registerkarte teilt dem Modell mit, wie effizient jeder "
+"Rekombinationsmechanismus Photonen produziert."
+
+#: ../gui/gpvdm_notebook.py:99 ../gui/gpvdm_notebook.py:226
 msgid "Terminal"
 msgstr "Terminal"
+
+#: ../gui/gpvdm_notebook.py:100
+msgid ""
+"<big><b>The terminal window</b></big>\n"
+"The output of the model will be displayed in this window, watch this screen "
+"for debugging and convergence information."
+msgstr ""
+"<Big> <b> Das Terminalfenster </b> </big>\n"
+"Die Ausgabe des Modells wird in diesem Fenster angezeigt, sehen Sie diesen "
+"Bildschirm für Debugging- und Konvergenzinformationen an."
 
 #: ../gui/gpvdm_notebook.py:102 ../gui/gpvdm_notebook.py:135
 #: ../gui/gpvdm_notebook.py:243
 msgid "Information"
 msgstr "Information"
+
+#: ../gui/gpvdm_notebook.py:103
+msgid ""
+"<big><b>On-line help</b></big>\n"
+"You can view the on-line help and manual here."
+msgstr ""
+"<Big> <b> Online-Hilfe </b> </big>\n"
+"Hier können Sie die Online-Hilfe und das Handbuch ansehen."
 
 #: ../gui/tb_item_sim_mode.py:94
 msgid "Simulation mode:"
@@ -1787,6 +1936,10 @@ msgstr "Einfache JV"
 #: ../gui/inp_description.py:41
 msgid "CELIV"
 msgstr "CELIV"
+
+#: ../gui/inp_description.py:42 ../gui/plot_widget.py:685
+msgid "Math"
+msgstr "Mathe"
 
 #: ../gui/inp_description.py:43
 msgid "ToF"
@@ -1869,8 +2022,9 @@ msgid "Parameter scan - gpvdm"
 msgstr "Parameter Scan - hgpvdm"
 
 #: ../gui/scan.py:258
+#, fuzzy
 msgid "Change dir"
-msgstr ""
+msgstr "/_Datei/Verzeichnis wechseln"
 
 #: ../gui/scan.py:265
 msgid "Simulations"
@@ -1890,35 +2044,37 @@ msgstr "Experiment kopieren"
 
 #: ../gui/scan.py:283
 msgid "Advanced"
-msgstr ""
+msgstr "Advanced"
 
 #: ../gui/scan.py:285
+#, fuzzy
 msgid "Plot fits"
-msgstr ""
+msgstr "Plotten"
 
 #: ../gui/scan.py:288
 msgid "Run nested simulation"
-msgstr ""
+msgstr "Führen Sie verschachtelte Simulation aus"
 
 #: ../gui/scan.py:291 ../gui/scan.py:294
 msgid "Run simulation no generation"
-msgstr ""
+msgstr "Simulation ohne Erzeugung ausführen"
 
 #: ../gui/scan.py:297
+#, fuzzy
 msgid "Run single fit"
-msgstr ""
+msgstr "Run fit command"
 
 #: ../gui/scan.py:300
 msgid "Clean simulation"
-msgstr ""
+msgstr "Saubere Simulation"
 
 #: ../gui/scan.py:303
 msgid "Clean unconverged simulation"
-msgstr ""
+msgstr "Saubere nicht konvergierte Simulation"
 
 #: ../gui/scan.py:306 ../gui/scan.py:309
 msgid "Clean simulation output"
-msgstr ""
+msgstr "Simulationsausgang reinigen"
 
 #: ../gui/scan.py:314
 msgid "Push unconverged to hpc"
@@ -1926,11 +2082,11 @@ msgstr ""
 
 #: ../gui/scan.py:345
 msgid "Run all simulations"
-msgstr ""
+msgstr "Alle Simulationen laufen lassen."
 
 #: ../gui/info.py:54
 msgid "Simulation information"
-msgstr ""
+msgstr "Simulationsinformationen"
 
 #: ../gui/snapshot_slider.py:99
 msgid "Snapshot slider"
@@ -1944,11 +2100,11 @@ msgstr ""
 
 #: ../gui/cost.py:83
 msgid "Re-calcualte"
-msgstr ""
+msgstr "Neu berechnen"
 
 #: ../gui/cost.py:117
 msgid "material"
-msgstr ""
+msgstr "Material"
 
 #: ../gui/cost.py:117
 msgid "Volume"
@@ -1959,31 +2115,32 @@ msgid "Mass"
 msgstr ""
 
 #: ../gui/cost.py:117
+#, fuzzy
 msgid "Cost"
-msgstr ""
+msgstr "Berechnen die Kosten der Solarzelle"
 
 #: ../gui/cost.py:123
 msgid "pyton3-openpyxl not found"
-msgstr ""
+msgstr "Pyton3-openpyxl nicht gefunden"
 
 #: ../gui/duplicate.py:67 ../gui/fit_vars.py:88 ../gui/fit_patch.py:62
 msgid "value"
 msgstr ""
 
 #: ../gui/duplicate.py:97
-msgid "src File"
+msgid "Source File"
 msgstr ""
 
 #: ../gui/duplicate.py:97
-msgid "src Token"
+msgid "Source Token"
 msgstr ""
 
 #: ../gui/duplicate.py:97
-msgid "dest File"
+msgid "Destination File"
 msgstr ""
 
 #: ../gui/duplicate.py:97
-msgid "dest Token"
+msgid "Destination Token"
 msgstr ""
 
 #: ../gui/duplicate.py:119
@@ -1992,7 +2149,7 @@ msgstr ""
 
 #: ../gui/duplicate.py:132 ../gui/fit_vars.py:180 ../gui/fit_patch.py:135
 msgid "Add"
-msgstr ""
+msgstr "Hinzufügen"
 
 #: ../gui/duplicate.py:136 ../gui/fit_vars.py:184 ../gui/fit_patch.py:139
 msgid "Minus"
@@ -2000,65 +2157,75 @@ msgstr ""
 
 #: ../gui/tb_item_sun.py:72
 msgid "Light intensity"
-msgstr ""
+msgstr "Lichtintensität"
 
 #: ../gui/fxexperiment.py:89
 msgid "Clone the current experiment to a new experiment called"
-msgstr ""
+msgstr "Klonen Sie das aktuelle Experiment zu einem neuen Experiment namens"
 
 #: ../gui/fxexperiment.py:131
 msgid "Should I remove the experiment file"
-msgstr ""
+msgstr "Sollte ich das Experiment Datei löschen"
 
 #: ../gui/fxexperiment.py:202
 msgid "Frequency domain experiment editor"
-msgstr ""
+msgstr "Frequency Bereich Experiment Editor"
 
 #: ../gui/fit_window.py:89 ../gui/fit_window.py:99
 msgid ""
 "<big><b>The fitting variables window</b></big><br> Use this window to select "
 "the variables use to perform the fit."
 msgstr ""
+"<Big> <b> Das Fenster für die Anpassungsvariablen </ b> </ big> <br> In "
+"diesem Fenster können Sie die Variablen auswählen, die für die Passung "
+"verwendet werden."
 
 #: ../gui/fit_window.py:109
 msgid "New fit name:"
-msgstr ""
+msgstr "Neue Fit Name:"
 
 #: ../gui/fit_window.py:109
 msgid "fit "
-msgstr ""
+msgstr "Fitten"
 
 #: ../gui/fit_window.py:126
+#, fuzzy
 msgid "Clone the current fit to a new fit called:"
-msgstr ""
+msgstr "Klonen Sie die aktuelle Simulation auf eine neue Simulation genannt:"
 
 #: ../gui/fit_window.py:148
+#, fuzzy
 msgid "Rename the fit to be called:"
-msgstr ""
+msgstr "Benennen den Laser:"
 
 #: ../gui/fit_window.py:161
+#, fuzzy
 msgid "Should I remove the fit file "
-msgstr ""
+msgstr "Soll ich den Laser entfernen?"
 
 #: ../gui/fit_window.py:238
 msgid "Fits"
 msgstr ""
 
 #: ../gui/fit_window.py:242
+#, fuzzy
 msgid "Delete fit"
-msgstr ""
+msgstr "Fitten"
 
 #: ../gui/fit_window.py:245
+#, fuzzy
 msgid "Rename fit"
-msgstr ""
+msgstr "Fitten"
 
 #: ../gui/fit_window.py:251
+#, fuzzy
 msgid "Clone fit"
-msgstr ""
+msgstr "Fitten"
 
 #: ../gui/fit_window.py:264
+#, fuzzy
 msgid "Fit window - gpvdm"
-msgstr ""
+msgstr "Fitten"
 
 #: ../gui/fit_window.py:270 ../gui/lasers.py:215
 msgid "New laser"
@@ -2079,23 +2246,25 @@ msgstr "Benennen den Laser"
 
 #: ../gui/fit_window.py:292
 msgid "Fit variables"
-msgstr ""
+msgstr "Die Fit-Variablen"
 
 #: ../gui/fit_window.py:296
 msgid "Duplicate variables"
-msgstr ""
+msgstr "Die doppelten Variablen"
 
 #: ../gui/fit_window.py:302
+#, fuzzy
 msgid "Run a single fit"
-msgstr ""
+msgstr "Run fit command"
 
 #: ../gui/fit_window.py:306
+#, fuzzy
 msgid "Start the fitting process"
-msgstr ""
+msgstr "Anfangsspannung"
 
 #: ../gui/fit_vars.py:88
 msgid "token"
-msgstr ""
+msgstr "Token"
 
 #: ../gui/fit_vars.py:88
 msgid "path"
@@ -2106,8 +2275,9 @@ msgid "Path"
 msgstr "Pfad"
 
 #: ../gui/fit_vars.py:169
+#, fuzzy
 msgid "Fit vars window - gpvdm"
-msgstr ""
+msgstr "Zeitbereich Experiment Fenster - gpvdm"
 
 #: ../gui/leftright.py:85
 msgid "Right"
@@ -2119,55 +2289,68 @@ msgstr "Links"
 
 #: ../gui/hpc.py:215
 msgid "Can not connect to cluster."
-msgstr ""
+msgstr "Verbindung zu Cluster kann nicht hergestellt werden."
+
+#: ../gui/hpc.py:261 ../gui/plot_dlg.py:81
+#, fuzzy
+msgid "Steady state simulation (www.gpvdm.com)"
+msgstr "Optischer Simulationseditor (www.gpvdm.com)"
 
 #: ../gui/hpc.py:269
+#, fuzzy
 msgid "Cluster get data"
-msgstr ""
+msgstr "Cluster konfigurieren"
 
 #: ../gui/hpc.py:274
+#, fuzzy
 msgid "Cluster get info"
-msgstr ""
+msgstr "Cluster konfigurieren"
 
 #: ../gui/hpc.py:279
+#, fuzzy
 msgid "Copy src to cluster"
-msgstr ""
+msgstr "Cluster konfigurieren"
 
 #: ../gui/hpc.py:284
+#, fuzzy
 msgid "Make on cluster"
-msgstr ""
+msgstr "Cluster konfigurieren"
 
 #: ../gui/hpc.py:289
+#, fuzzy
 msgid "Clean cluster"
-msgstr ""
+msgstr "Cluster konfigurieren"
 
 #: ../gui/hpc.py:294
 msgid "Kill all cluster code"
 msgstr ""
 
 #: ../gui/hpc.py:300
+#, fuzzy
 msgid "Sync"
-msgstr ""
+msgstr "-sync-ver\t\täuft ein Scan"
 
 #: ../gui/hpc.py:311
+#, fuzzy
 msgid "Get jobs"
-msgstr ""
+msgstr "Alle Aufgaben  beendet. Aufgaben "
 
 #: ../gui/hpc.py:316
 msgid "Configure cluster"
 msgstr "Cluster konfigurieren"
 
 #: ../gui/hpc.py:353
+#, fuzzy
 msgid "Connect to cluster"
-msgstr ""
+msgstr "Ich kann nicht mit dem Server verbinden"
 
 #: ../gui/fit_window_plot_real.py:85
 msgid "x"
-msgstr ""
+msgstr "x"
 
 #: ../gui/fit_window_plot_real.py:86
 msgid "y"
-msgstr ""
+msgstr "y"
 
 #: ../gui/server.py:127
 msgid ""
@@ -2190,7 +2373,7 @@ msgstr "Ich habe den Server herunterfahren ."
 
 #: ../gui/information_webkit.py:66
 msgid "back"
-msgstr ""
+msgstr "Zurück"
 
 #: ../gui/information_webkit.py:70
 msgid "home"
@@ -2198,7 +2381,7 @@ msgstr ""
 
 #: ../gui/ref.py:52
 msgid "Reference information"
-msgstr ""
+msgstr "Referenzinformationen"
 
 #: ../gui/ref.py:64
 msgid "New file"
@@ -2206,15 +2389,15 @@ msgstr "Neue Datei"
 
 #: ../gui/device_lib.py:59
 msgid "File name"
-msgstr ""
+msgstr "Dateiname"
 
 #: ../gui/device_lib.py:59
 msgid "Device type"
-msgstr ""
+msgstr "Bauteiltyp"
 
 #: ../gui/device_lib.py:59
 msgid "Description"
-msgstr ""
+msgstr "Beschreibung"
 
 #: ../gui/device_lib.py:112
 msgid "You have not selected anything"
@@ -2253,36 +2436,44 @@ msgid "The directory is gone, so I can't open it."
 msgstr "Das Verzeichnis ist weg, also kann ich es nicht öffnen."
 
 #: ../gui/gpvdm_open.py:209
-msgid "<br>title: "
-msgstr ""
+msgid "title"
+msgstr "Titel"
 
 #: ../gui/gpvdm_open.py:209
-msgid "<br>x axis: "
-msgstr ""
+msgid "x axis"
+msgstr "X-Achse"
 
 #: ../gui/gpvdm_open.py:209
-msgid ")<br>y axis: "
-msgstr ""
+msgid "y axis"
+msgstr "Y-Achse"
 
 #: ../gui/gpvdm_open.py:209
-msgid ")<br><br><big><b>Double click to open</b></big>"
-msgstr ""
+msgid "Double click to open"
+msgstr "Doppelklicken Sie zum Öffnen"
 
 #: ../gui/gpvdm_open.py:215
-msgid "<br>This contains the simulation output at 0V in the dark."
-msgstr ""
+msgid "equilibrium"
+msgstr "Gleichgewicht"
+
+#: ../gui/gpvdm_open.py:215
+msgid "This contains the simulation output at 0V in the dark."
+msgstr "Diese enthält den Simulationsausgang bei 0 V im Dunkeln."
 
 #: ../gui/scan_select.py:56
-msgid "Select simulation parameter (www.gpvdm.com)"
-msgstr ""
+msgid "Select simulation parameter"
+msgstr "Wählen Sie Simulationsparameter "
 
 #: ../gui/scan_select.py:107
 msgid "Simulation parameters"
+msgstr "Simulationsparameter"
+
+#: ../gui/scan_select.py:160
+msgid "No row selected in the scan window, can't insert the selection"
 msgstr ""
 
 #: ../gui/equation.py:171 ../gui/jobs.py:86
 msgid "start"
-msgstr ""
+msgstr "Start"
 
 #: ../gui/equation.py:171 ../gui/token_lib.py:104 ../gui/jobs.py:86
 msgid "stop"
@@ -2290,15 +2481,17 @@ msgstr "Stop"
 
 #: ../gui/equation.py:171
 msgid "Python Equation"
-msgstr ""
+msgstr "Python-Gleichung"
 
 #: ../gui/equation.py:217
 msgid "You've made a mistake in the equation, use w for wavelength. "
 msgstr ""
+"Sie haben einen Fehler in der Gleichung gemacht, verwenden Sie w für "
+"Wellenlänge."
 
 #: ../gui/equation.py:265
 msgid "Insert reference information"
-msgstr ""
+msgstr "Fügen Sie Referenzinformationen ein"
 
 #: ../gui/ver.py:94
 msgid "version.h not found"
@@ -2306,7 +2499,7 @@ msgstr "version.h nicht gefunden"
 
 #: ../gui/help.py:118
 msgid "On line help"
-msgstr ""
+msgstr "Onlinehilfe"
 
 #: ../gui/fxexperiment_tab.py:61
 msgid "Frequency mesh"
@@ -2314,7 +2507,7 @@ msgstr "Diskretisierung im Frequenzbereich"
 
 #: ../gui/electrical_mesh_editor.py:118
 msgid "Mesh points"
-msgstr ""
+msgstr "Gitterpunkten"
 
 #: ../gui/token_lib.py:38 ../libdump/dump_dynamic.c:621
 #: ../libdump/dump_1d_slice.c:604 ../libdump/dump_1d_slice.c:607
@@ -2543,7 +2736,7 @@ msgstr "Potenzial nach links / rechts des Gerätes anwenden"
 
 #: ../gui/token_lib.py:93
 msgid "Other layers"
-msgstr "andere Schichten"
+msgstr "Zusätzliche Schichten"
 
 #: ../gui/token_lib.py:95
 msgid "Use capacitor"
@@ -2605,7 +2798,7 @@ msgstr "V_{bias}"
 
 #: ../gui/token_lib.py:113
 msgid "Efficiency of light"
-msgstr ""
+msgstr "Effizienz des Lichts"
 
 #: ../gui/token_lib.py:116
 msgid "Backgroud light bias"
@@ -2637,7 +2830,7 @@ msgstr "Maximale Stromdichte "
 
 #: ../gui/token_lib.py:125
 msgid "JV curve photon generation efficiency"
-msgstr ""
+msgstr "JV-Kurve Photonenerzeugungseffizienz"
 
 #: ../gui/token_lib.py:130
 #, python-brace-format
@@ -2742,23 +2935,23 @@ msgstr "Minimal erlaubt elektrische Fehler"
 
 #: ../gui/token_lib.py:242
 msgid "Poisson solver max itterations"
-msgstr ""
+msgstr "Poisson Solver maximale Iterationen"
 
 #: ../gui/token_lib.py:244
 msgid "Newton minimum iterations"
-msgstr ""
+msgstr "Newton minimale Iterationen"
 
 #: ../gui/token_lib.py:245
 msgid "Matrix solver to use"
-msgstr ""
+msgstr "Matrix-Löser zu verwenden"
 
 #: ../gui/token_lib.py:246
 msgid "Newton solver to use"
-msgstr ""
+msgstr "Newton Löser zu verwenden"
 
 #: ../gui/token_lib.py:301
 msgid "Enable fit"
-msgstr ""
+msgstr "Fit aktivieren."
 
 #: ../gui/token_lib.py:305
 msgid "log x"
@@ -2766,11 +2959,19 @@ msgstr "log x"
 
 #: ../gui/token_lib.py:309
 msgid "Invert simulated data (y)"
-msgstr ""
+msgstr "Invertieren Daten (y)"
+
+#: ../gui/token_lib.py:313
+msgid "Device temperature on left"
+msgstr "Bauteil temperature links"
+
+#: ../gui/token_lib.py:314
+msgid "Device temperature on right"
+msgstr "Bauteil temperature rechts"
 
 #: ../gui/token_lib.py:315
 msgid "Enable thermal solver"
-msgstr ""
+msgstr "Thermal Solver aktivieren"
 
 #: ../gui/token_lib.py:316
 msgid "Lattice heat model"
@@ -2786,10 +2987,14 @@ msgstr "Lochwärmemodell"
 
 #: ../gui/token_lib.py:320
 msgid "Isothermal boundary on left"
-msgstr ""
+msgstr "Isotherme Grenze links"
 
 #: ../gui/token_lib.py:321
 msgid "Isothermal boundary on right"
+msgstr "Isotherme Grenze rechts"
+
+#: ../gui/token_lib.py:344
+msgid "Filp the opticl field"
 msgstr ""
 
 #: ../gui/token_lib.py:347
@@ -2853,28 +3058,76 @@ msgid "Normalize output x-time to one"
 msgstr "Normalisieren maximale x-Mal zu eins."
 
 #: ../gui/token_lib.py:366
+#, fuzzy
 msgid "Dump the built in voltage."
-msgstr ""
+msgstr "Spannung"
 
 #: ../gui/token_lib.py:367
+#, fuzzy
 msgid "Dump optical probe spectrum"
-msgstr ""
+msgstr "Dump optische Information"
 
 #: ../gui/token_lib.py:368
 msgid "Dump optical summary"
-msgstr ""
+msgstr "Dump optische Zusammenfassung"
 
 #: ../gui/token_lib.py:369
 msgid "Dump raytrace plots"
+msgstr "Dump Raytrace-Diagramme"
+
+#: ../gui/token_lib.py:373
+msgid "Turn on luminescence"
 msgstr ""
+
+#: ../gui/token_lib.py:374
+#, python-brace-format
+msgid "n_{free} to p_{free} photon generation efficiency"
+msgstr "n_{free} bis p_{free} Photonenerzeugungswirkungsgrad"
+
+#: ../gui/token_lib.py:375
+#, python-brace-format
+msgid "n_{free} to n_{trap} photon generation efficiency"
+msgstr "n_{free} to n_{trap} Photonenerzeugungswirkungsgrad"
+
+#: ../gui/token_lib.py:376
+#, python-brace-format
+msgid "n_{trap} to p_{free} photon generation efficiency"
+msgstr "n_{trap} to p_{free} Photonenerzeugungswirkungsgrad"
+
+#: ../gui/token_lib.py:377
+#, python-brace-format
+msgid "p_{trap} to n_{free} photon generation efficiency"
+msgstr "p_{trap} to n_{free} Photonenerzeugungswirkungsgrad"
+
+#: ../gui/token_lib.py:378
+#, python-brace-format
+msgid "p_{free} to p_{trap} photon generation efficiency"
+msgstr "p_{free} to p_{trap} Photonenerzeugungswirkungsgrad"
+
+#: ../gui/token_lib.py:380
+#, python-brace-format
+msgid "n_{free} to p_{free} Recombination rate constant"
+msgstr "p_{free} to p_{free} Photonenerzeugungswirkungsgrad"
+
+#: ../gui/token_lib.py:383
+msgid "Turn on LED"
+msgstr "LED einschalten"
+
+#: ../gui/token_lib.py:384
+msgid "LED emission wavelength"
+msgstr "LED-Emissionswellenlänge"
+
+#: ../gui/token_lib.py:385
+msgid "LED extraction efficiency"
+msgstr "LED optischer Wirkungsgrad"
 
 #: ../gui/jobs.py:86
 msgid "done"
-msgstr ""
+msgstr "erledigt"
 
 #: ../gui/jobs.py:86
 msgid "status"
-msgstr ""
+msgstr "Status"
 
 #: ../gui/jobs.py:86
 msgid "target"
@@ -2886,11 +3139,11 @@ msgstr "IP"
 
 #: ../gui/jobs.py:86
 msgid "copy state"
-msgstr ""
+msgstr "Status bei kopieren"
 
 #: ../gui/plot_widget.py:637
 msgid "Refresh graph"
-msgstr ""
+msgstr "Grafik aktualisieren"
 
 #: ../gui/plot_widget.py:656 ../gui/gui_util.py:65
 msgid "Save as"
@@ -2910,35 +3163,43 @@ msgstr "Farbe"
 
 #: ../gui/plot_widget.py:670
 msgid "Autoscale"
-msgstr ""
+msgstr "Autoskalierung"
 
 #: ../gui/plot_widget.py:673
 msgid "Set log scale y"
 msgstr ""
 
 #: ../gui/plot_widget.py:676 ../gui/plot_widget.py:679
+#, fuzzy
 msgid "Set log scale x"
-msgstr ""
+msgstr "log x"
 
 #: ../gui/plot_widget.py:682
+#, fuzzy
 msgid "Label data"
-msgstr ""
+msgstr "&Daten importieren"
 
 #: ../gui/plot_widget.py:687
+#, fuzzy
 msgid "Subtract first point"
-msgstr ""
+msgstr "Einziger Punkt"
 
 #: ../gui/plot_widget.py:690
+#, fuzzy
 msgid "Add min point"
-msgstr ""
+msgstr "Hinzufügen"
 
 #: ../gui/plot_widget.py:693
+#, fuzzy
 msgid "Invert y-axis"
 msgstr ""
+")\n"
+"y-Achse: "
 
 #: ../gui/plot_widget.py:696
+#, fuzzy
 msgid "Norm to 1.0 y"
-msgstr ""
+msgstr "1.0"
 
 #: ../gui/plot_widget.py:699
 msgid "Norm to peak of all data"
@@ -2989,7 +3250,7 @@ msgstr "Photonenverteilung"
 
 #: ../gui/optics.py:114
 msgid "Photon distribution absorbed"
-msgstr ""
+msgstr "Photonenverteilung  absorbiert"
 
 #: ../gui/optics.py:115
 msgid "Reflection"
@@ -3026,7 +3287,7 @@ msgstr "Fehler"
 
 #: ../gui/error_han.py:102
 msgid "Reporting error...."
-msgstr ""
+msgstr "Fehler melden ...."
 
 #: ../gui/gui_util.py:52
 msgid "Save a the simulation as"
@@ -3038,19 +3299,19 @@ msgstr "Verzeichnis"
 
 #: ../libdump/dump_dynamic.c:179 ../libdump/dump_dynamic.c:289
 msgid "Hole drift current"
-msgstr ""
+msgstr "Lochstromdichte (Drift)"
 
 #: ../libdump/dump_dynamic.c:179
 msgid " Hole diffusion current"
-msgstr ""
+msgstr "Lochdiffusionsstrom"
 
 #: ../libdump/dump_dynamic.c:200 ../libdump/dump_dynamic.c:257
 msgid "Electron drift current"
-msgstr ""
+msgstr "Elektronenstromdichte (Drift)"
 
 #: ../libdump/dump_dynamic.c:200 ../libdump/dump_dynamic.c:273
 msgid "Electron diffusion current"
-msgstr ""
+msgstr "Elektronenstromdichte (Diffusion)"
 
 #: ../libdump/dump_dynamic.c:203 ../libdump/dump_dynamic.c:292
 #: ../libdump/dump_dynamic.c:308 ../libdump/dump_dynamic.c:340
@@ -3060,11 +3321,11 @@ msgstr "Lochzustandsdichte"
 
 #: ../libdump/dump_dynamic.c:220
 msgid "Current density at contacts"
-msgstr ""
+msgstr "Stromdichte bei Kontakten"
 
 #: ../libdump/dump_dynamic.c:241
 msgid "Change in charge distribution"
-msgstr ""
+msgstr "Veränderung der Gesamtladung verteilung"
 
 #: ../libdump/dump_dynamic.c:244 ../libdump/dump_dynamic.c:894
 msgid "percent"
@@ -3093,11 +3354,11 @@ msgstr "Externer Strom"
 
 #: ../libdump/dump_dynamic.c:382
 msgid "Free carrier generation rate"
-msgstr ""
+msgstr "Freie Elektronenerzeugungsrate"
 
 #: ../libdump/dump_dynamic.c:398
 msgid "Dynamic quantum efficiency"
-msgstr ""
+msgstr "Dynamisch Quanteneffizienz"
 
 #: ../libdump/dump_dynamic.c:401
 msgid "Percent"
@@ -3122,7 +3383,7 @@ msgstr "Freie Elektronen-Rekombination"
 
 #: ../libdump/dump_dynamic.c:455 ../libdump/dump_dynamic.c:458
 msgid "Free electron loss"
-msgstr ""
+msgstr "Freier Elektronenverlust"
 
 #: ../libdump/dump_dynamic.c:455 ../libdump/dump_dynamic.c:472
 #: ../libdump/dump_dynamic.c:761 ../libdump/dump_dynamic.c:777
@@ -3135,11 +3396,11 @@ msgstr "Zeit"
 
 #: ../libdump/dump_dynamic.c:472 ../libdump/dump_dynamic.c:475
 msgid "Free hole loss"
-msgstr ""
+msgstr "Freier Lochverlust"
 
 #: ../libdump/dump_dynamic.c:504
 msgid "Electron relaxation"
-msgstr ""
+msgstr "Elektronenentspannung"
 
 #: ../libdump/dump_dynamic.c:507 ../libdump/dump_dynamic.c:523
 msgid "Relaxation"
@@ -3147,19 +3408,19 @@ msgstr "Entspannung"
 
 #: ../libdump/dump_dynamic.c:520
 msgid "Hole relaxation"
-msgstr ""
+msgstr "Lochentspannung"
 
 #: ../libdump/dump_dynamic.c:536
 msgid "Trapped electron density"
-msgstr ""
+msgstr "Gefangene Elektronendichte"
 
 #: ../libdump/dump_dynamic.c:552
 msgid "Trapped hole density"
-msgstr ""
+msgstr "Gefangene Lochdichte"
 
 #: ../libdump/dump_dynamic.c:568
 msgid "Free electron density"
-msgstr ""
+msgstr "Freie Elektronendichte"
 
 #: ../libdump/dump_dynamic.c:584
 msgid "Free hole density"
@@ -3181,7 +3442,7 @@ msgstr "Gesamtlochdichte"
 
 #: ../libdump/dump_dynamic.c:705
 msgid "Voltage applied to diode"
-msgstr ""
+msgstr "Spannung gelegte an die Diode an."
 
 #: ../libdump/dump_dynamic.c:727
 msgid "PL intensity"
@@ -3193,19 +3454,19 @@ msgstr "PL-Intensität"
 
 #: ../libdump/dump_dynamic.c:745
 msgid "PL intensity normalized"
-msgstr ""
+msgstr "PL-Intensität normalisiert"
 
 #: ../libdump/dump_dynamic.c:889
 msgid "band bend (percent)"
-msgstr ""
+msgstr "Band-Biegung (Prozent)"
 
 #: ../libdump/dump_dynamic.c:892
 msgid "band bend"
-msgstr ""
+msgstr "Band-Biegung"
 
 #: ../libdump/dump_1d_slice.c:68 ../libdump/dump_1d_slice.c:116
 msgid "Drift current density"
-msgstr ""
+msgstr "Driftstromdichte"
 
 #: ../libdump/dump_1d_slice.c:71
 msgid "Electron current density (drift)"
@@ -3213,7 +3474,7 @@ msgstr "Elektronenstromdichte (Drift)"
 
 #: ../libdump/dump_1d_slice.c:92 ../libdump/dump_1d_slice.c:140
 msgid "Diffusion current density"
-msgstr ""
+msgstr "Diffusionsstromdichte"
 
 #: ../libdump/dump_1d_slice.c:95
 msgid "Electron current density (diffusion)"
@@ -3280,7 +3541,7 @@ msgstr "Loch quasi Fermi-level"
 
 #: ../libdump/dump_1d_slice.c:356
 msgid "Hole quasi Fermi-level"
-msgstr ""
+msgstr "Loch Quasi-Fermi-Niveau"
 
 #: ../libdump/dump_1d_slice.c:381 ../libdump/dump_1d_slice.c:384
 #: ../libdump/dump_1d_slice.c:405 ../libdump/dump_1d_slice.c:408
@@ -3329,15 +3590,15 @@ msgstr "Freie Lochträgerdichte"
 
 #: ../libdump/dump_1d_slice.c:762
 msgid "Trapped electron carrier density"
-msgstr ""
+msgstr "Gefangen Elektronenträgerdichte"
 
 #: ../libdump/dump_1d_slice.c:786
 msgid "Trapped hole carrier density"
-msgstr ""
+msgstr "Trapped Lochträgerdichte"
 
 #: ../libdump/dump_1d_slice.c:870
 msgid "Change in electron population"
-msgstr ""
+msgstr "Veränderung der Elektronenpopulation"
 
 #: ../libdump/dump_1d_slice.c:877
 msgid "Chaerge density"
@@ -3349,15 +3610,15 @@ msgstr "Gesamtladung"
 
 #: ../libdump/dump_1d_slice.c:926
 msgid "Change in total charge"
-msgstr ""
+msgstr "Veränderung der Gesamtladung"
 
 #: ../libdump/dump_1d_slice.c:954
 msgid "Change in hole population"
-msgstr ""
+msgstr "Änderung in Lochdichte"
 
 #: ../libdump/dump_1d_slice.c:982 ../libdump/dump_1d_slice.c:1010
 msgid "Excess electron density"
-msgstr ""
+msgstr "Überschüssiges Elektronendichte"
 
 #: ../libdump/dump_1d_slice.c:1038
 msgid "Free electron generation rate"
@@ -3389,7 +3650,7 @@ msgstr "Electron Fermi-Niveau"
 
 #: ../libdump/dump_1d_slice.c:1208 ../libdump/dump_1d_slice.c:1237
 msgid "Material number"
-msgstr ""
+msgstr "Materialnummer"
 
 #: ../libdump/dump_1d_slice.c:1211 ../libdump/dump_1d_slice.c:1240
 msgid "Number"
@@ -3433,7 +3694,7 @@ msgstr "au"
 #: ../libfit/fit_dump.c:125 ../libfit/fit_dump.c:126 ../libfit/fit_dump.c:146
 #: ../libfit/fit_dump.c:147 ../libfit/fit_dump.c:167 ../libfit/fit_dump.c:168
 msgid "Fitting"
-msgstr ""
+msgstr "Fitten"
 
 #: ../libfit/fit_dump.c:122 ../libfit/fit_dump.c:143
 msgid "Speed"
@@ -3441,11 +3702,84 @@ msgstr "Geschwindigkeit"
 
 #: ../libfit/fit_dump.c:124 ../libfit/fit_dump.c:145
 msgid "odes/s"
-msgstr ""
+msgstr "Differentialgleichungen/s"
 
 #: ../libfit/fit_dump.c:164
 msgid "Reset flag"
 msgstr ""
+
+#~ msgid "General-purpose Photovoltaic Device Model (www.gpvdm.com)"
+#~ msgstr "Allgemein Photovoltaik- Bauteil Modell (www.gpvdm.com)"
+
+#, fuzzy
+#~ msgid "src File"
+#~ msgstr "Verbrauch: gpvdm [Option] src_file dst_file"
+
+#, fuzzy
+#~ msgid "src Token"
+#~ msgstr "Token"
+
+#, fuzzy
+#~ msgid "dest File"
+#~ msgstr "Verbrauch: gpvdm [Option] src_file dst_file"
+
+#, fuzzy
+#~ msgid "dest Token"
+#~ msgstr "Token"
+
+#~ msgid "n_{free} to p_{frae} photon generation efficiency"
+#~ msgstr "n_{frei} to p_{frei} photonenerzeugungseffizienz"
+
+#, fuzzy
+#~ msgid ")<br>y axis: "
+#~ msgstr ""
+#~ ")\n"
+#~ "y-Achse: "
+
+#, fuzzy
+#~ msgid "Probe load config\n"
+#~ msgstr "kein Puls-Konfigurationsdatei gefunden"
+
+#~ msgid "title: "
+#~ msgstr "Titel: "
+
+#, fuzzy
+#~ msgid "<br>title: "
+#~ msgstr ""
+#~ "\n"
+#~ "Titel:"
+
+#, fuzzy
+#~ msgid "<br>x axis: "
+#~ msgstr ""
+#~ "\n"
+#~ "x-Achse: "
+
+#, fuzzy
+#~ msgid ")<br><br><big><b>Double click to open</b></big>"
+#~ msgstr ""
+#~ ")\n"
+#~ "\n"
+#~ "<big><b>Öffnen durch Doppelklick</b></big>"
+
+#, fuzzy
+#~ msgid "<br>This contains the simulation output at 0V in the dark."
+#~ msgstr ""
+#~ "\n"
+#~ "Diese enthält die Simulationsausgabe bei 0V im Dunkeln."
+
+#, fuzzy
+#~ msgid "Select simulation parameter (www.gpvdm.com)"
+#~ msgstr "Parameter auswählen zu scannen"
+
+#~ msgid ""
+#~ "You are asking me to simulate a device with more than 50000 mesh points, "
+#~ "although I could do this I am not going to because it seems a bad idea to "
+#~ "me.\n"
+#~ msgstr ""
+#~ "Sie fragen mich, ein Gerät mit mehr als 50000 Mesh-Punkten zu simulieren, "
+#~ "obwohl ich dies tun könnte, werde ich nicht, weil es eine schlechte Idee "
+#~ "für mich scheint.\n"
 
 #~ msgid "xy"
 #~ msgstr "xy"
@@ -3938,9 +4272,6 @@ msgstr ""
 #~ "<big> <b> Simulation fertig! </ b> </ big>\n"
 #~ "Klicken Sie auf das Diagrammsymbol, um die Ergebnisse darzustellen."
 
-#~ msgid "Select simulation parameter"
-#~ msgstr "Wählen Sie Simulationsparameter "
-
 #~ msgid ""
 #~ "<big><b>The scan window</b></big>\n"
 #~ " Now using the drop down menu in the prameter to change 'column', select "
@@ -4060,9 +4391,6 @@ msgstr ""
 
 #~ msgid "Open file - gpvdm"
 #~ msgstr "Datei Öffnen - hgpvdm"
-
-#~ msgid "title: "
-#~ msgstr "Titel: "
 
 #~ msgid ""
 #~ "\n"

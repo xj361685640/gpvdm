@@ -1,8 +1,8 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012-2917 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -206,13 +206,13 @@ class gpvdm_open():
 			if (file_name.endswith(".dat")==True):
 				state=plot_state()
 				get_plot_file_info(state,full_path)
-				summary="<big><b>"+file_name+"</b></big><br>"+_("<br>title: ")+state.title+_("<br>x axis: ")+state.x_label+" ("+latex_to_html(state.x_units)+_(")<br>y axis: ")+state.y_label+" ("+latex_to_html(state.y_units)+_(")<br><br><big><b>Double click to open</b></big>")
+				summary="<big><b>"+file_name+"</b></big><br><br>"+_("title")+": "+state.title+"<br>"+_("x axis")+": "+state.x_label+" ("+latex_to_html(state.x_units)+")<br>"+_("y axis")+": "+state.y_label+" ("+latex_to_html(state.y_units)+")<br><br><big><b>"+_("Double click to open")+"</b></big>"
 				help_window().help_set_help(["dat_file.png",summary])
 
 			if file_name.endswith("equilibrium"):
 				state=plot_state()
 				get_plot_file_info(state,full_path)
-				summary="<big><b>equilibrium</b></big><br>"+_("<br>This contains the simulation output at 0V in the dark.")
+				summary="<big><b>"+_("equilibrium")+"</b></big><br><br>"+_("This contains the simulation output at 0V in the dark.")
 				help_window().help_set_help(["dir_file.png",summary])
 
 
