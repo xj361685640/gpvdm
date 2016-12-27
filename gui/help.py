@@ -27,6 +27,10 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QWidget, QVBoxLayout,QProgressBar,QLabel,QDesktopWidget,QToolBar,QHBoxLayout,QAction,QSizePolicy,QStatusBar
 from PyQt5.QtGui import QPixmap
 
+from i18n import get_language
+
+from cal_path import get_flag_file_path
+
 my_help_class=None
 
 class help_data():
@@ -83,7 +87,7 @@ class help_class(QWidget):
 			l=QHBoxLayout()
 			label=QLabel()
 			label.setWordWrap(True)
-	
+			label.setOpenExternalLinks(True)
 			image=QLabel()
 			image.setFixedWidth(48)
 
@@ -158,7 +162,7 @@ class help_class(QWidget):
 		self.update()
 
 	def on_line_help(self,widget):
-		webbrowser.open('http://www.gpvdm.com/man/index.html')
+		webbrowser.open("https://www.gpvdm.com/man/index.html")
 
 	def update(self):
 		items=int(len(self.last[self.pos])/2)
@@ -217,4 +221,9 @@ def help_window():
 	global my_help_class
 	return my_help_class
 
-
+def language_advert():
+	lang=get_language()
+	f=os.path.join(get_flag_file_path(),lang+".png")
+	print(f)
+	if os.path.isfile(f)==True:
+		my_help_class.help_append([f,"<big><b>gpvdm in your language!</b></big><br>Would you like gpvdm to be translated into your native language?  If so please help with the gpvdm <a href=\"https://gpvdm.com/translation.html\">translation project.</a>"])

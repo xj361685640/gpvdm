@@ -2,7 +2,7 @@
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -35,6 +35,7 @@ device_lib_path=None
 bin_path=None
 lib_path=None
 image_path=None
+flag_path=None
 lang_path=None
 inp_file_path=None
 src_path=None
@@ -129,6 +130,7 @@ def calculate_paths():
 	global device_lib_path
 	global materials_path
 	global image_path
+	global flag_path	
 	global plugins_path
 	global lang_path
 	global inp_file_path
@@ -138,6 +140,7 @@ def calculate_paths():
 	device_lib_path=search_known_paths("device_lib",[""],None)
 	plugins_path=search_known_paths("plugins",[""],None)
 	image_path=search_known_paths("images",[""],"image.jpg")
+	flag_path=search_known_paths("flags",[""],"gb.png")
 	lang_path=search_known_paths("lang",[""],None)
 	exe_command=search_known_paths("gpvdm_core",["",".exe",".o"],None)
 	inp_file_path=os.path.dirname(search_known_paths("sim",[".gpvdm"],None))
@@ -183,6 +186,10 @@ def get_inp_file_path():
 def get_image_file_path():
 	global image_path
 	return image_path
+
+def get_flag_file_path():
+	global flag_path
+	return flag_path
 
 def get_lang_path():
 	global lang_path

@@ -78,7 +78,6 @@ class tab_class(QScrollArea,tab_base):
 		self.editable=editable
 		
 	def init(self,filename,tab_name):
-		self.setStyleSheet("background-color:white;")
 		self.main_widget=QWidget()
 		self.vbox=QVBoxLayout()
 		self.file_name=filename

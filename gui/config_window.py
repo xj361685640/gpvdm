@@ -35,6 +35,7 @@ import webbrowser
 
 #windows
 from tab import tab_class
+from tab_lang import language_tab_class
 
 articles = []
 mesh_articles = []
@@ -82,6 +83,8 @@ class class_config_window(QWidget):
 			tab.init(files[i],description[i])
 			self.notebook.addTab(tab,description[i])
 
+		lang_tab=language_tab_class()
+		self.notebook.addTab(lang_tab,_("Language"))
 
 		self.setLayout(self.main_vbox)
 		self.win_list=windows()

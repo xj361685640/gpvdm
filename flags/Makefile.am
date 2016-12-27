@@ -8,7 +8,7 @@ all: $(OBJS)
 
 .svg.png:
 
-	rsvg-convert -w 32 -h 32 $< > $@
+	rsvg-convert -w 48 -h 32 $< > $@
 
 clean:
 	rm *.png -f

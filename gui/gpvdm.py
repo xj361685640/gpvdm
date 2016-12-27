@@ -71,6 +71,7 @@ from scan_item import scan_items_clear
 from plot_gen import plot_gen
 from help import help_window
 from help import help_init
+from help import language_advert
 from notice import notice
 from scan_item import scan_item_add
 from window_list import windows
@@ -394,8 +395,8 @@ class gpvdm_main_window(QMainWindow):
 			self.sim_mode_button.setEnabled(False)
 			self.light_button.setEnabled(False)
 
-			help_window().help_set_help(["icon.png",_("<big><b>Hi!</b></big><br> I'm the on-line help system :).  If you find any bugs please report them to roderick.mackenzie@nottingham.ac.uk."),"new.png",_("Click on the new icon to make a new simulation directory.")])
-
+			help_window().help_set_help(["icon.png",_("<big><b>Hi!</b></big><br> I'm the on-line help system :).  If you find any bugs please report them to <a href=\"mailto:roderick.mackenzie@nottingham.ac.uk\">roderick.mackenzie@nottingham.ac.uk</a>."),"new.png",_("Click on the new icon to make a new simulation directory.")])
+			language_advert()
 			self.menu_new_optical_material.setEnabled(False)
 			self.menu_export_data.setEnabled(False)
 			self.menu_import_data.setEnabled(False)
