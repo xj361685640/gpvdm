@@ -27,6 +27,8 @@ from inp import inp_get_token_value
 
 locale_path = get_lang_path()
 file_lang=inp_get_token_value("lang.inp", "#lang")
+if file_lang==None:
+	file_lang="auto"
 
 if file_lang=="auto":
 	current_locale, encoding = locale.getdefaultlocale()
@@ -35,7 +37,6 @@ if file_lang=="auto":
 		current_locale="en_US"
 else:
 	current_locale=file_lang
-
 language = gettext.translation ('gpvdm', locale_path, [current_locale] , fallback=True)
 language.install()
 

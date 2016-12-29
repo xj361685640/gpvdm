@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.40\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2016-12-26 22:57+0000\n"
-"PO-Revision-Date: 2016-12-26 23:13+0000\n"
+"POT-Creation-Date: 2016-12-29 13:03+0000\n"
+"PO-Revision-Date: 2016-12-29 13:03+0000\n"
 "Last-Translator: Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>\n"
 "Language-Team: \n"
 "Language: de\n"
@@ -540,11 +540,11 @@ msgid "Save video"
 msgstr "Video speichern"
 
 #: ../gui/cmp_class.py:301 ../gui/band_graph.py:71 ../gui/experiment.py:180
-#: ../gui/experiment.py:237 ../gui/contacts.py:185 ../gui/config_window.py:63
+#: ../gui/experiment.py:237 ../gui/contacts.py:185 ../gui/config_window.py:64
 #: ../gui/jv.py:78 ../gui/emesh.py:169 ../gui/scan.py:260 ../gui/scan.py:355
 #: ../gui/info.py:68 ../gui/fxexperiment.py:177 ../gui/fxexperiment.py:230
 #: ../gui/fit_window.py:234 ../gui/lasers.py:180 ../gui/lasers.py:237
-#: ../gui/help.py:123 ../gui/optics.py:131
+#: ../gui/help.py:127 ../gui/optics.py:131
 msgid "Close"
 msgstr "Schließen"
 
@@ -588,7 +588,7 @@ msgstr "Energie"
 msgid "Save graph"
 msgstr "Grafik speichern"
 
-#: ../gui/qe.py:120 ../gui/gpvdm.py:733 ../gui/optics.py:140
+#: ../gui/qe.py:120 ../gui/gpvdm.py:734 ../gui/optics.py:140
 msgid "Run"
 msgstr "Starten"
 
@@ -805,125 +805,83 @@ msgstr "Multiplizieren"
 msgid "Simulation start frequency"
 msgstr "Simulation Startfrequenz "
 
+#: ../gui/command_args.py:57
+msgid "Additional information about gpvdm is available at"
+msgstr ""
+
+#: ../gui/command_args.py:57
+msgid "Report bugs to:"
+msgstr "Fehlerberichte:"
+
+#: ../gui/command_args.py:58 ../gui/command_args.py:59
+msgid "displays the current version"
+msgstr ""
+
+#: ../gui/command_args.py:60
+msgid "replaces file in device lib"
+msgstr ""
+
+#: ../gui/command_args.py:61
+msgid ""
+"cleans the current simulation directory deleting .dat files but not  scan "
+"dirs"
+msgstr ""
+
 #: ../gui/command_args.py:62
-msgid "More parameters needed see --help for info"
-msgstr "Weitere Parameter, die benötigt siehe --help für info."
+msgid "export a simulation to a gz file"
+msgstr ""
+
+#: ../gui/command_args.py:63
+msgid "Synchronizes the saved file version to that of the source code."
+msgstr ""
+
+#: ../gui/command_args.py:64
+msgid "Generate the manual pages referring to the output files.."
+msgstr ""
+
+#: ../gui/command_args.py:65
+msgid "Only imports the scan directories."
+msgstr ""
+
+#: ../gui/command_args.py:66
+msgid "Deletes the content of all scan directories."
+msgstr ""
+
+#: ../gui/command_args.py:67
+msgid "Patch a .gpvdm file with an older .gpvdm file."
+msgstr ""
+
+#: ../gui/command_args.py:68
+msgid "usage --import abc.gpvdm ./path/to/output/ "
+msgstr ""
 
 #: ../gui/command_args.py:69
-msgid "Usage: gpvdm [option] src_file dest_file"
-msgstr "Verbrauch: gpvdm [Option] src_file dst_file"
+msgid "Dumps simulation parameters as jpg, usage: --dump-tab output_path"
+msgstr ""
+
+#: ../gui/command_args.py:70
+msgid "Generate a clean simulation in the current directory"
+msgstr ""
 
 #: ../gui/command_args.py:71
-msgid "Options:"
-msgstr "Optionen:"
+msgid "Clone the source code."
+msgstr ""
 
 #: ../gui/command_args.py:72
-msgid "\t--version\t\tdisplays the current version"
+msgid ""
+"edits a value in a .gpvdm archive. Usage --edit-value /path/to/sim.gpvdm "
+"#token_to_change new_value "
 msgstr ""
 
 #: ../gui/command_args.py:73
-#, fuzzy
-msgid "\t--help\t\t\tdisplays the help"
-msgstr "/_Hilfe/Hilfe"
+msgid "Runs an oplot file, usage --scan-plot /path/to/oplot/file.oplot "
+msgstr ""
 
 #: ../gui/command_args.py:74
-#, fuzzy
-msgid "\t--export\t\texport a simulation to a gz file"
-msgstr "/Datei/Speichern"
-
-#: ../gui/command_args.py:75
-#, fuzzy
-msgid "\t--import\t\timport a simulation from a .gpvdm file"
-msgstr "Importieren alte gpvdm Simulation."
-
-#: ../gui/command_args.py:76
-msgid "\t--patch\t\t\tpatch an .gpvdm file with an older .gpvdm file"
-msgstr ""
-
-#: ../gui/command_args.py:77
-msgid "\t\t\t\tusage --import abc.gpvdm ./path/to/output/ "
-msgstr ""
-
-#: ../gui/command_args.py:78
-msgid "\t--clone\t\t\tgenerate a clean simulation in the current directory"
-msgstr ""
-
-#: ../gui/command_args.py:79
 msgid ""
-"\t--clean\t\t\tcleans the current simulation directory deleting .dat files "
-"but not  scan dirs"
+"Runs a scan, usage --run-scan /path/containing/base/files/ /path/to/scan/"
+"dir/ "
 msgstr ""
-
-#: ../gui/command_args.py:80
-msgid "\t--dump-tab\t\tdumps simulation parameters as jpg"
-msgstr ""
-
-#: ../gui/command_args.py:81
-msgid "\t\t\t\tusage --dump-tab output_path "
-msgstr ""
-
-#: ../gui/command_args.py:82
-msgid "\t--import-scandirs\tOnly imports the scan directories"
-msgstr ""
-
-#: ../gui/command_args.py:83
-msgid "\t--clean-scandirs\tDeletes the content of all scan dirs"
-msgstr ""
-
-#: ../gui/command_args.py:84
-msgid "\t--scan-plot\t\truns an oplot file"
-msgstr "scan-plot\t\tlädt eine oplot - Datei"
-
-#: ../gui/command_args.py:85
-msgid "\t\t\t\tusage --scan-plot /path/to/oplot/file.oplot "
-msgstr ""
-
-#: ../gui/command_args.py:86
-msgid "\t--run-scan\t\truns a scan"
-msgstr "\t--run-scan\t\tläuft ein Scan"
-
-#: ../gui/command_args.py:87
-msgid ""
-"\t\t\t\tusage --run-scan /path/containing/base/files/ /path/to/scan/dir/ "
-msgstr ""
-
-#: ../gui/command_args.py:88
-msgid "\t--sync-ver\t\truns a scan"
-msgstr "-sync-ver\t\täuft ein Scan"
-
-#: ../gui/command_args.py:89
-msgid "\t--edit-value\t\tedits a value in a .gpvdm archive"
-msgstr ""
-
-#: ../gui/command_args.py:90
-msgid ""
-"\t\t\t\tusage --edit-value /path/to/sim.gpvdm #token_to_change new_value "
-msgstr ""
-
-#: ../gui/command_args.py:91
-msgid "\t\t\t\tchanges the version of input file"
-msgstr ""
-
-#: ../gui/command_args.py:92
-msgid "\t--replace\t\treplaces file in device lib"
-msgstr "ersetzt Datei in Bauteil lib"
-
-#: ../gui/command_args.py:94
-#, fuzzy
-msgid "\t--server\t\tRun as server node for cluster"
-msgstr "/Simulation/Start cluster server"
-
-#: ../gui/command_args.py:95
-msgid "\t--server\t\tRun as client node for cluster"
-msgstr ""
-
-#: ../gui/command_args.py:100
-msgid "Additional information about gpvdm is available at "
-msgstr "Weitere Informationen über gpvdm finden Sie unter"
-
-#: ../gui/command_args.py:102
-msgid "Report bugs to:"
-msgstr "Fehlerberichte:"
 
 #: ../gui/scan_tab.py:123
 #, fuzzy
@@ -960,7 +918,7 @@ msgstr "Keine Simulation Verzeichnisnamen"
 msgid "Problem generating tree."
 msgstr "Problem bei Baum erzeugung."
 
-#: ../gui/scan_tab.py:405 ../gui/gpvdm.py:710 ../gui/fxexperiment.py:176
+#: ../gui/scan_tab.py:405 ../gui/gpvdm.py:711 ../gui/fxexperiment.py:176
 #: ../gui/fit_window.py:233 ../gui/fit_vars.py:88 ../gui/fit_vars.py:125
 #: ../gui/optics.py:127 ../gui/fit_patch.py:90
 msgid "File"
@@ -982,7 +940,7 @@ msgstr "Werte"
 msgid "Opperation"
 msgstr "Funktion"
 
-#: ../gui/scan_tab.py:484 ../gui/gpvdm.py:525
+#: ../gui/scan_tab.py:484 ../gui/gpvdm.py:526
 msgid ""
 "Re-run the simulation with 'dump all slices' set to one to use this tool."
 msgstr ""
@@ -1001,15 +959,15 @@ msgstr "Zeile löschen"
 msgid "Run simulation"
 msgstr "Simulation starten"
 
-#: ../gui/scan_tab.py:531 ../gui/gpvdm.py:803 ../gui/fit_window.py:310
+#: ../gui/scan_tab.py:531 ../gui/gpvdm.py:804 ../gui/fit_window.py:310
 msgid "Stop the simulation"
 msgstr "Simulation abbrechen"
 
-#: ../gui/scan_tab.py:535 ../gui/gpvdm.py:827
+#: ../gui/scan_tab.py:535 ../gui/gpvdm.py:828
 msgid "Find a file to plot"
 msgstr "Find eine Datei zum Plotten."
 
-#: ../gui/scan_tab.py:539 ../gui/gpvdm.py:831
+#: ../gui/scan_tab.py:539 ../gui/gpvdm.py:832
 msgid "Examine results in time domain"
 msgstr "Die Ergebnisse im Zeitbereich angucken"
 
@@ -1173,8 +1131,8 @@ msgstr "Experiment umbenennen"
 msgid "Clone experiment"
 msgstr "Experiment kopieren"
 
-#: ../gui/experiment.py:201 ../gui/experiment.py:202 ../gui/config_window.py:62
-#: ../gui/materials_main.py:84 ../gui/gpvdm.py:755 ../gui/gpvdm.py:861
+#: ../gui/experiment.py:201 ../gui/experiment.py:202 ../gui/config_window.py:63
+#: ../gui/materials_main.py:84 ../gui/gpvdm.py:756 ../gui/gpvdm.py:862
 #: ../gui/emesh.py:168 ../gui/scan.py:319 ../gui/scan.py:320 ../gui/cost.py:92
 #: ../gui/fxexperiment.py:195 ../gui/fxexperiment.py:196
 #: ../gui/fit_window.py:255 ../gui/fit_window.py:256 ../gui/lasers.py:201
@@ -1333,33 +1291,37 @@ msgstr "OK"
 msgid "Cancel"
 msgstr "Cancel"
 
-#: ../gui/config_window.py:49 ../gui/gpvdm.py:742
+#: ../gui/config_window.py:50 ../gui/gpvdm.py:743
 msgid "Configure"
 msgstr "Konfigurieren"
 
-#: ../gui/config_window.py:78
+#: ../gui/config_window.py:79
 msgid "Solver configuration"
 msgstr "Solver-Konfiguration"
 
-#: ../gui/config_window.py:78 ../gui/inp_description.py:40
+#: ../gui/config_window.py:79 ../gui/inp_description.py:40
 msgid "Dump"
 msgstr "Daten-Dump"
 
-#: ../gui/config_window.py:78 ../gui/inp_description.py:49
+#: ../gui/config_window.py:79 ../gui/inp_description.py:49
 msgid "Thermal"
 msgstr "Thermal"
 
-#: ../gui/config_window.py:78
+#: ../gui/config_window.py:79
 msgid "LED"
 msgstr "LED"
 
-#: ../gui/config_window.py:78
+#: ../gui/config_window.py:79
 msgid "GUI configuration"
 msgstr "GUI-Konfiguration"
 
-#: ../gui/config_window.py:78
+#: ../gui/config_window.py:79
 msgid "Server configuration"
 msgstr "Serverkonfiguration"
+
+#: ../gui/config_window.py:87
+msgid "Language"
+msgstr ""
 
 #: ../gui/materials_main.py:46 ../gui/materials_main.py:99
 msgid "Electrical parameters"
@@ -1402,11 +1364,11 @@ msgstr "Absorption"
 msgid "Refractive index"
 msgstr "Brechungsindex"
 
-#: ../gui/gpvdm.py:145
+#: ../gui/gpvdm.py:146
 msgid "Don't run me as root!!"
 msgstr "Nicht als root benutzen!"
 
-#: ../gui/gpvdm.py:232
+#: ../gui/gpvdm.py:233
 msgid ""
 "<big><b>Fit window</b></big><br> Use this window to fit the simulation to "
 "experimental data."
@@ -1415,7 +1377,7 @@ msgstr ""
 "<Big> <b> Fit Fenster </ b> </ big> <br> Verwenden Sie dieses Fenster, um "
 "die Simulation auf experimentelle Daten anzupassen."
 
-#: ../gui/gpvdm.py:240
+#: ../gui/gpvdm.py:241
 #, fuzzy
 msgid ""
 "<big><b>The scan window</b></big><br> Very often it is useful to be able to "
@@ -1427,13 +1389,13 @@ msgstr ""
 "parameter such as mobility or density of trap states.  This window allows "
 "you to do just that."
 
-#: ../gui/gpvdm.py:240
+#: ../gui/gpvdm.py:241
 msgid "Use the plus icon to add a new scan line to the list."
 msgstr ""
 "Verwenden Sie das Plus-Symbol, um eine neue Scan-Linie zu der Liste "
 "hinzuzufügen."
 
-#: ../gui/gpvdm.py:264
+#: ../gui/gpvdm.py:265
 msgid ""
 "<big>Select a file to plot</big><br>Single clicking shows you the content of "
 "the file"
@@ -1441,21 +1403,21 @@ msgstr ""
 "<Big> Wählen Sie eine Datei zum Plotten aus. </Big> <br> Mit einem Klick "
 "wird der Inhalt der Datei angezeigt"
 
-#: ../gui/gpvdm.py:306
+#: ../gui/gpvdm.py:307
 msgid "Import an old gpvdm simulation"
 msgstr "Importieren alte gpvdm Simulation."
 
-#: ../gui/gpvdm.py:323
+#: ../gui/gpvdm.py:324
 msgid "file opened"
 msgstr "Datei geöffnet"
 
-#: ../gui/gpvdm.py:329
+#: ../gui/gpvdm.py:330
 msgid ""
 "<big><b>New simulation!</b></big><br> Now selected the type of device you "
 "would like to simulate."
 msgstr ""
 
-#: ../gui/gpvdm.py:367
+#: ../gui/gpvdm.py:368
 msgid ""
 "<big><b>Now run the simulation</b></big><br> Click on the play icon to start "
 "a simulation."
@@ -1463,26 +1425,24 @@ msgstr ""
 "<big><b>Starten Sie die Simulation.</b></big><br>\n"
 "Klicken Sie auf das Play-Symbol, um eine Simulation zu starten."
 
-#: ../gui/gpvdm.py:397
+#: ../gui/gpvdm.py:398
 msgid ""
 "<big><b>Hi!</b></big><br> I'm the on-line help system :).  If you find any "
-"bugs please report them to roderick.mackenzie@nottingham.ac.uk."
+"bugs please report them to <a href=\"mailto:roderick.mackenzie@nottingham.ac."
+"uk\">roderick.mackenzie@nottingham.ac.uk</a>."
 msgstr ""
-"<big> <b> Hi! </b> </big>\n"
-"  Ich bin der Online-Hilfe-System :). Wenn Sie irgendwelche Fehler finden "
-"melden Sie diese bitte an roderick.mackenzie@nottingham.ac.uk"
 
-#: ../gui/gpvdm.py:397
+#: ../gui/gpvdm.py:398
 msgid "Click on the new icon to make a new simulation directory."
 msgstr ""
 "Klicken Sie auf das neue Symbol, um ein neues Simulationsverzeichnis zu "
 "machen."
 
-#: ../gui/gpvdm.py:467
+#: ../gui/gpvdm.py:468
 msgid "Open an existing gpvdm simulation"
 msgstr "Öffnen eine vorhandene gpvdm Simulation"
 
-#: ../gui/gpvdm.py:515
+#: ../gui/gpvdm.py:516
 msgid ""
 "<big><b>Examine the results in time domain</b></big><br> After you have run "
 "a simulation in time domain, if is often nice to be able to step through the "
@@ -1497,7 +1457,7 @@ msgstr ""
 "zu bewegen. Wenn Sie eine JV-Kurve simulieren, schritt der Schieberegler "
 "durch Spannungspunkte anstelle von Zeitpunkten."
 
-#: ../gui/gpvdm.py:538
+#: ../gui/gpvdm.py:539
 #, fuzzy
 msgid ""
 "<big><b>The time mesh editor</b></big><br> To do time domain simulations one "
@@ -1511,7 +1471,7 @@ msgstr ""
 "Verwenden Sie auch dieses Fenster, um die Simulation Länge und Zeit Schritt "
 "zu definieren."
 
-#: ../gui/gpvdm.py:551
+#: ../gui/gpvdm.py:552
 msgid ""
 "<big><b>Frequency domain mesh editor</b></big><br> Some times it is useful "
 "to do frequency domain simulations such as when simulating impedance "
@@ -1523,14 +1483,14 @@ msgstr ""
 "Impedanzspektroskopie durchzuführen. In diesem Fenster können Sie auswählen, "
 "welche Frequenzen simuliert werden sollen."
 
-#: ../gui/gpvdm.py:562
+#: ../gui/gpvdm.py:563
 msgid ""
 "<big><b>Laser setup</b></big><br> Use this window to set up your lasers."
 msgstr ""
 "<Big> <b> Lasersetup </ b> </ big> <br> In diesem Fenster können Sie Ihre "
 "Laser einrichten."
 
-#: ../gui/gpvdm.py:573
+#: ../gui/gpvdm.py:574
 msgid ""
 "<big><b>JV simulation editor</b></big><br> Use this window to select the "
 "step size and parameters of the JV simulations."
@@ -1538,7 +1498,7 @@ msgstr ""
 "<Big> <b> JV-Simulationseditor </b> </big> <br> In diesem Fenster können Sie "
 "die Schrittgröße und die Parameter der JV-Simulationen auswählen."
 
-#: ../gui/gpvdm.py:585
+#: ../gui/gpvdm.py:586
 msgid ""
 "<big><b>Configuration editor</b></big><br> Use this window to control "
 "advanced simulation parameters."
@@ -1546,123 +1506,123 @@ msgstr ""
 "<Big> <b> Konfigurations-Editor </ b> </ big> <br> Über dieses Fenster "
 "können Sie erweiterte Simulationsparameter steuern."
 
-#: ../gui/gpvdm.py:610
+#: ../gui/gpvdm.py:611
 msgid "Quantum efficiency"
 msgstr "Quanteneffizienz"
 
-#: ../gui/gpvdm.py:711 ../gui/scan.py:329
+#: ../gui/gpvdm.py:712 ../gui/scan.py:329
 msgid "New simulation"
 msgstr "Neue Simulation"
 
-#: ../gui/gpvdm.py:714
+#: ../gui/gpvdm.py:715
 msgid "New optical material"
 msgstr "Neues optisches Material"
 
-#: ../gui/gpvdm.py:716
+#: ../gui/gpvdm.py:717
 msgid "Open simulation"
 msgstr "Simulation Öffnen"
 
-#: ../gui/gpvdm.py:719
+#: ../gui/gpvdm.py:720
 msgid "Export data"
 msgstr "Daten exportieren"
 
-#: ../gui/gpvdm.py:722 ../gui/fit_window.py:248 ../gui/fit_window.py:286
+#: ../gui/gpvdm.py:723 ../gui/fit_window.py:248 ../gui/fit_window.py:286
 msgid "Import data"
 msgstr "Daten importieren"
 
-#: ../gui/gpvdm.py:725
+#: ../gui/gpvdm.py:726
 msgid "Import from library"
 msgstr "Import aus der Bibliothek"
 
-#: ../gui/gpvdm.py:728
+#: ../gui/gpvdm.py:729
 msgid "Quit"
 msgstr "Beenden"
 
-#: ../gui/gpvdm.py:731
+#: ../gui/gpvdm.py:732
 msgid "Simulation"
 msgstr "Simulation"
 
-#: ../gui/gpvdm.py:736 ../gui/hpc.py:305 ../gui/doping.py:119
+#: ../gui/gpvdm.py:737 ../gui/hpc.py:305 ../gui/doping.py:119
 msgid "Stop"
 msgstr "Stopp"
 
-#: ../gui/gpvdm.py:739 ../gui/gpvdm.py:811
+#: ../gui/gpvdm.py:740 ../gui/gpvdm.py:812
 msgid "Parameter scan"
 msgstr "Parameter Scan"
 
-#: ../gui/gpvdm.py:746
+#: ../gui/gpvdm.py:747
 msgid "View"
 msgstr "Ansicht"
 
-#: ../gui/gpvdm.py:747
+#: ../gui/gpvdm.py:748
 msgid "None"
 msgstr "Nix"
 
-#: ../gui/gpvdm.py:750
+#: ../gui/gpvdm.py:751
 msgid "Plot"
 msgstr "Plotten"
 
-#: ../gui/gpvdm.py:751
+#: ../gui/gpvdm.py:752
 msgid "Plot simulation result"
 msgstr "Plot Simulationsergebnis"
 
-#: ../gui/gpvdm.py:757
+#: ../gui/gpvdm.py:758
 msgid "Help window"
 msgstr "Hilfe-Fenster"
 
-#: ../gui/gpvdm.py:760
+#: ../gui/gpvdm.py:761
 msgid "Online help"
 msgstr "Onlinehilfe"
 
-#: ../gui/gpvdm.py:763
+#: ../gui/gpvdm.py:764
 msgid "License"
 msgstr "Lizenz"
 
-#: ../gui/gpvdm.py:766
+#: ../gui/gpvdm.py:767
 msgid "About"
 msgstr "Info"
 
-#: ../gui/gpvdm.py:773
+#: ../gui/gpvdm.py:774
 msgid "Check for updates"
 msgstr "Jetzt nach Updates suchen"
 
-#: ../gui/gpvdm.py:777
+#: ../gui/gpvdm.py:778
 msgid "Make a new simulation"
 msgstr "Neue OPVDM Simulation"
 
-#: ../gui/gpvdm.py:781
+#: ../gui/gpvdm.py:782
 msgid "Open a simulation"
 msgstr "Simulation Öffnen"
 
-#: ../gui/gpvdm.py:788
+#: ../gui/gpvdm.py:789
 msgid "Undo"
 msgstr "Rückgängig"
 
-#: ../gui/gpvdm.py:794
+#: ../gui/gpvdm.py:795
 msgid "Run the simulation"
 msgstr "Simulation starten"
 
-#: ../gui/gpvdm.py:798
+#: ../gui/gpvdm.py:799
 msgid "Run parameter scan"
 msgstr "Run parameter scan"
 
-#: ../gui/gpvdm.py:818
+#: ../gui/gpvdm.py:819
 msgid "Run a fit command"
 msgstr "Run fit command"
 
-#: ../gui/gpvdm.py:837
+#: ../gui/gpvdm.py:838
 msgid "Time domain simulation editor."
 msgstr "Zeitbereichs-Simulationseditor."
 
-#: ../gui/gpvdm.py:842
+#: ../gui/gpvdm.py:843
 msgid "Frequency domain simulation editor"
 msgstr "Frequenzbereichs-Simulationseditor"
 
-#: ../gui/gpvdm.py:847
+#: ../gui/gpvdm.py:848
 msgid "Steady state simulation editor"
 msgstr "Gleichgewichtszustand Simulationseditor"
 
-#: ../gui/gpvdm.py:851
+#: ../gui/gpvdm.py:852
 msgid "Lasers editor"
 msgstr "Laser-Editor"
 
@@ -2497,7 +2457,7 @@ msgstr "Fügen Sie Referenzinformationen ein"
 msgid "version.h not found"
 msgstr "version.h nicht gefunden"
 
-#: ../gui/help.py:118
+#: ../gui/help.py:122
 msgid "On line help"
 msgstr "Onlinehilfe"
 
@@ -3707,6 +3667,54 @@ msgstr "Differentialgleichungen/s"
 #: ../libfit/fit_dump.c:164
 msgid "Reset flag"
 msgstr ""
+
+#~ msgid "More parameters needed see --help for info"
+#~ msgstr "Weitere Parameter, die benötigt siehe --help für info."
+
+#~ msgid "Usage: gpvdm [option] src_file dest_file"
+#~ msgstr "Verbrauch: gpvdm [Option] src_file dst_file"
+
+#~ msgid "Options:"
+#~ msgstr "Optionen:"
+
+#, fuzzy
+#~ msgid "\t--help\t\t\tdisplays the help"
+#~ msgstr "/_Hilfe/Hilfe"
+
+#, fuzzy
+#~ msgid "\t--export\t\texport a simulation to a gz file"
+#~ msgstr "/Datei/Speichern"
+
+#, fuzzy
+#~ msgid "\t--import\t\timport a simulation from a .gpvdm file"
+#~ msgstr "Importieren alte gpvdm Simulation."
+
+#~ msgid "\t--scan-plot\t\truns an oplot file"
+#~ msgstr "scan-plot\t\tlädt eine oplot - Datei"
+
+#~ msgid "\t--run-scan\t\truns a scan"
+#~ msgstr "\t--run-scan\t\tläuft ein Scan"
+
+#~ msgid "\t--sync-ver\t\truns a scan"
+#~ msgstr "-sync-ver\t\täuft ein Scan"
+
+#~ msgid "\t--replace\t\treplaces file in device lib"
+#~ msgstr "ersetzt Datei in Bauteil lib"
+
+#, fuzzy
+#~ msgid "\t--server\t\tRun as server node for cluster"
+#~ msgstr "/Simulation/Start cluster server"
+
+#~ msgid "Additional information about gpvdm is available at "
+#~ msgstr "Weitere Informationen über gpvdm finden Sie unter"
+
+#~ msgid ""
+#~ "<big><b>Hi!</b></big><br> I'm the on-line help system :).  If you find "
+#~ "any bugs please report them to roderick.mackenzie@nottingham.ac.uk."
+#~ msgstr ""
+#~ "<big> <b> Hi! </b> </big>\n"
+#~ "  Ich bin der Online-Hilfe-System :). Wenn Sie irgendwelche Fehler finden "
+#~ "melden Sie diese bitte an roderick.mackenzie@nottingham.ac.uk"
 
 #~ msgid "General-purpose Photovoltaic Device Model (www.gpvdm.com)"
 #~ msgstr "Allgemein Photovoltaik- Bauteil Modell (www.gpvdm.com)"

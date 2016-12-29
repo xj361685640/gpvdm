@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.80\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2016-12-27 14:55+0000\n"
+"POT-Creation-Date: 2016-12-29 14:57+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -532,7 +532,7 @@ msgid "Save video"
 msgstr ""
 
 #: ../gui/cmp_class.py:301 ../gui/band_graph.py:71 ../gui/experiment.py:180
-#: ../gui/experiment.py:237 ../gui/contacts.py:185 ../gui/config_window.py:63
+#: ../gui/experiment.py:237 ../gui/contacts.py:185 ../gui/config_window.py:64
 #: ../gui/jv.py:78 ../gui/emesh.py:169 ../gui/scan.py:260 ../gui/scan.py:355
 #: ../gui/info.py:68 ../gui/fxexperiment.py:177 ../gui/fxexperiment.py:230
 #: ../gui/fit_window.py:234 ../gui/lasers.py:180 ../gui/lasers.py:237
@@ -788,120 +788,82 @@ msgstr ""
 msgid "Simulation start frequency"
 msgstr ""
 
+#: ../gui/command_args.py:57
+msgid "Additional information about gpvdm is available at"
+msgstr ""
+
+#: ../gui/command_args.py:57
+msgid "Report bugs to:"
+msgstr ""
+
+#: ../gui/command_args.py:58 ../gui/command_args.py:59
+msgid "displays the current version"
+msgstr ""
+
+#: ../gui/command_args.py:60
+msgid "replaces file in device lib"
+msgstr ""
+
+#: ../gui/command_args.py:61
+msgid ""
+"cleans the current simulation directory deleting .dat files but not  scan "
+"dirs"
+msgstr ""
+
 #: ../gui/command_args.py:62
-msgid "More parameters needed see --help for info"
+msgid "export a simulation to a gz file"
+msgstr ""
+
+#: ../gui/command_args.py:63
+msgid "Synchronizes the saved file version to that of the source code."
+msgstr ""
+
+#: ../gui/command_args.py:64
+msgid "Generate the manual pages referring to the output files.."
+msgstr ""
+
+#: ../gui/command_args.py:65
+msgid "Only imports the scan directories."
+msgstr ""
+
+#: ../gui/command_args.py:66
+msgid "Deletes the content of all scan directories."
+msgstr ""
+
+#: ../gui/command_args.py:67
+msgid "Patch a .gpvdm file with an older .gpvdm file."
+msgstr ""
+
+#: ../gui/command_args.py:68
+msgid "usage --import abc.gpvdm ./path/to/output/ "
 msgstr ""
 
 #: ../gui/command_args.py:69
-msgid "Usage: gpvdm [option] src_file dest_file"
+msgid "Dumps simulation parameters as jpg, usage: --dump-tab output_path"
+msgstr ""
+
+#: ../gui/command_args.py:70
+msgid "Generate a clean simulation in the current directory"
 msgstr ""
 
 #: ../gui/command_args.py:71
-msgid "Options:"
+msgid "Clone the source code."
 msgstr ""
 
 #: ../gui/command_args.py:72
-msgid "\t--version\t\tdisplays the current version"
+msgid ""
+"edits a value in a .gpvdm archive. Usage --edit-value /path/to/sim.gpvdm "
+"#token_to_change new_value "
 msgstr ""
 
 #: ../gui/command_args.py:73
-msgid "\t--help\t\t\tdisplays the help"
+msgid "Runs an oplot file, usage --scan-plot /path/to/oplot/file.oplot "
 msgstr ""
 
 #: ../gui/command_args.py:74
-msgid "\t--export\t\texport a simulation to a gz file"
-msgstr ""
-
-#: ../gui/command_args.py:75
-msgid "\t--import\t\timport a simulation from a .gpvdm file"
-msgstr ""
-
-#: ../gui/command_args.py:76
-msgid "\t--patch\t\t\tpatch an .gpvdm file with an older .gpvdm file"
-msgstr ""
-
-#: ../gui/command_args.py:77
-msgid "\t\t\t\tusage --import abc.gpvdm ./path/to/output/ "
-msgstr ""
-
-#: ../gui/command_args.py:78
-msgid "\t--clone\t\t\tgenerate a clean simulation in the current directory"
-msgstr ""
-
-#: ../gui/command_args.py:79
 msgid ""
-"\t--clean\t\t\tcleans the current simulation directory deleting .dat files "
-"but not  scan dirs"
-msgstr ""
-
-#: ../gui/command_args.py:80
-msgid "\t--dump-tab\t\tdumps simulation parameters as jpg"
-msgstr ""
-
-#: ../gui/command_args.py:81
-msgid "\t\t\t\tusage --dump-tab output_path "
-msgstr ""
-
-#: ../gui/command_args.py:82
-msgid "\t--import-scandirs\tOnly imports the scan directories"
-msgstr ""
-
-#: ../gui/command_args.py:83
-msgid "\t--clean-scandirs\tDeletes the content of all scan dirs"
-msgstr ""
-
-#: ../gui/command_args.py:84
-msgid "\t--scan-plot\t\truns an oplot file"
-msgstr ""
-
-#: ../gui/command_args.py:85
-msgid "\t\t\t\tusage --scan-plot /path/to/oplot/file.oplot "
-msgstr ""
-
-#: ../gui/command_args.py:86
-msgid "\t--run-scan\t\truns a scan"
-msgstr ""
-
-#: ../gui/command_args.py:87
-msgid ""
-"\t\t\t\tusage --run-scan /path/containing/base/files/ /path/to/scan/dir/ "
-msgstr ""
-
-#: ../gui/command_args.py:88
-msgid "\t--sync-ver\t\truns a scan"
-msgstr ""
-
-#: ../gui/command_args.py:89
-msgid "\t--edit-value\t\tedits a value in a .gpvdm archive"
-msgstr ""
-
-#: ../gui/command_args.py:90
-msgid ""
-"\t\t\t\tusage --edit-value /path/to/sim.gpvdm #token_to_change new_value "
-msgstr ""
-
-#: ../gui/command_args.py:91
-msgid "\t\t\t\tchanges the version of input file"
-msgstr ""
-
-#: ../gui/command_args.py:92
-msgid "\t--replace\t\treplaces file in device lib"
-msgstr ""
-
-#: ../gui/command_args.py:94
-msgid "\t--server\t\tRun as server node for cluster"
-msgstr ""
-
-#: ../gui/command_args.py:95
-msgid "\t--server\t\tRun as client node for cluster"
-msgstr ""
-
-#: ../gui/command_args.py:100
-msgid "Additional information about gpvdm is available at "
-msgstr ""
-
-#: ../gui/command_args.py:102
-msgid "Report bugs to:"
+"Runs a scan, usage --run-scan /path/containing/base/files/ /path/to/scan/"
+"dir/ "
 msgstr ""
 
 #: ../gui/scan_tab.py:123
@@ -1130,7 +1092,7 @@ msgstr ""
 msgid "Clone experiment"
 msgstr ""
 
-#: ../gui/experiment.py:201 ../gui/experiment.py:202 ../gui/config_window.py:62
+#: ../gui/experiment.py:201 ../gui/experiment.py:202 ../gui/config_window.py:63
 #: ../gui/materials_main.py:84 ../gui/gpvdm.py:756 ../gui/gpvdm.py:862
 #: ../gui/emesh.py:168 ../gui/scan.py:319 ../gui/scan.py:320 ../gui/cost.py:92
 #: ../gui/fxexperiment.py:195 ../gui/fxexperiment.py:196
@@ -1279,32 +1241,36 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: ../gui/config_window.py:49 ../gui/gpvdm.py:743
+#: ../gui/config_window.py:50 ../gui/gpvdm.py:743
 msgid "Configure"
 msgstr ""
 
-#: ../gui/config_window.py:78
+#: ../gui/config_window.py:79
 msgid "Solver configuration"
 msgstr ""
 
-#: ../gui/config_window.py:78 ../gui/inp_description.py:40
+#: ../gui/config_window.py:79 ../gui/inp_description.py:40
 msgid "Dump"
 msgstr ""
 
-#: ../gui/config_window.py:78 ../gui/inp_description.py:49
+#: ../gui/config_window.py:79 ../gui/inp_description.py:49
 msgid "Thermal"
 msgstr ""
 
-#: ../gui/config_window.py:78
+#: ../gui/config_window.py:79
 msgid "LED"
 msgstr ""
 
-#: ../gui/config_window.py:78
+#: ../gui/config_window.py:79
 msgid "GUI configuration"
 msgstr ""
 
-#: ../gui/config_window.py:78
+#: ../gui/config_window.py:79
 msgid "Server configuration"
+msgstr ""
+
+#: ../gui/config_window.py:87
+msgid "Language"
 msgstr ""
 
 #: ../gui/materials_main.py:46 ../gui/materials_main.py:99
@@ -1394,7 +1360,8 @@ msgstr ""
 #: ../gui/gpvdm.py:398
 msgid ""
 "<big><b>Hi!</b></big><br> I'm the on-line help system :).  If you find any "
-"bugs please report them to roderick.mackenzie@nottingham.ac.uk."
+"bugs please report them to <a href=\"mailto:roderick.mackenzie@nottingham.ac."
+"uk\">roderick.mackenzie@nottingham.ac.uk</a>."
 msgstr ""
 
 #: ../gui/gpvdm.py:398
