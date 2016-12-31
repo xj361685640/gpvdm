@@ -2,9 +2,9 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+//  Copyright (C) 2012-2017 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 //
-//	www.roderickmackenzie.eu
+//	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
@@ -310,6 +310,7 @@ int inp_isfile(struct simulation *sim,char *full_file_name)
 FILE *f = fopen(full_file_name, "rb");
 if (f!=NULL)
 {
+	sim->files_read++;
 	fclose(f);
 	return 0;
 }else
@@ -385,14 +386,15 @@ return ret;
 int inp_read_buffer(struct simulation *sim,char **buf, long *len,char *full_file_name)
 {
 FILE *f = fopen(full_file_name, "rb");
-
 if (f!=NULL)
 {
+	sim->files_read++;
 	int err=0;
 	fseek(f, 0, SEEK_END);
 	*len = ftell(f);
 	fseek(f, 0, SEEK_SET);
 
+	sim->bytes_read+=*len;
 	*buf = malloc(((*len) + 1)*sizeof(char));
 	//memset(*buf, 0, ((*len) + 1)*sizeof(char));
 	if (fread(*buf, *len, 1, f)==0)
@@ -429,9 +431,11 @@ if (f!=NULL)
 			//Alloc memory for its uncompressed contents
 			*len=st.size*sizeof(char);
 			*buf = (char *)malloc((*len+1)*sizeof(char));
+			sim->bytes_read+=*len;
 
 			//Read the compressed file
 			struct zip_file *f = zip_fopen(z, file_name, 0);
+			sim->files_read++;
 			if (f==NULL)
 			{
 				free(buf);
@@ -598,7 +602,7 @@ outside_zip_file=isfile(full_file_name);
 if ((in_zip_file!=0)||(outside_zip_file==0))
 {
 	int out_fd = open(full_file_name, O_WRONLY | O_CREAT | O_TRUNC,0644);
-
+	sim->files_written++;
 	if (out_fd== -1)
 	{
 		ewe(sim,"File %s can not be opened\n",full_file_name);
@@ -635,9 +639,12 @@ if ((in_zip_file!=0)||(outside_zip_file==0))
 		if (index== -1)
 		{
 			zip_add(z, file_name, s);
+			sim->files_written++;
+
 		}else
 		{
 			zip_replace(z, index, s);
+			sim->files_written++;
 		}
 
 

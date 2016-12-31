@@ -60,7 +60,7 @@ if (get_dump_status(sim,dump_iodump)==TRUE)
 	buf.Vexternal=0.0;
 	buffer_add_info(&buf);
 	buffer_add_3d_device_data(&buf,in,  in->Fi);
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -81,7 +81,7 @@ if (get_dump_status(sim,dump_iodump)==TRUE)
 	buf.Vexternal=0.0;
 	buffer_add_info(&buf);
 	buffer_add_3d_device_data(&buf,in,  in->Ec);
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -102,7 +102,7 @@ if (get_dump_status(sim,dump_iodump)==TRUE)
 	buf.Vexternal=0.0;
 	buffer_add_info(&buf);
 	buffer_add_3d_device_data(&buf,in,  in->Ev);
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -123,7 +123,7 @@ if (get_dump_status(sim,dump_iodump)==TRUE)
 	buf.Vexternal=0.0;
 	buffer_add_info(&buf);
 	buffer_add_3d_device_data(&buf,in,  in->n);
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -144,7 +144,7 @@ if (get_dump_status(sim,dump_iodump)==TRUE)
 	buf.Vexternal=0.0;
 	buffer_add_info(&buf);
 	buffer_add_3d_device_data(&buf,in,  in->p);
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 }
 }

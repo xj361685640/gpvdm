@@ -1719,9 +1719,9 @@ int cpos=0;
 
 		if (get_dump_status(sim,dump_print_newtonerror)==TRUE)
 		{
-			printf("%d Cur error = %Le %Le I=%Le",ittr,error,in->Vapplied[z][x],get_I(in));
+			printf_log(sim,"%d Cur error = %Le %Le I=%Le",ittr,error,in->Vapplied[z][x],get_I(in));
 
-			printf("\n");
+			printf_log(sim,"\n");
 		}
 
 		in->last_error=error;

@@ -4,7 +4,7 @@
 // 
 //  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 //
-//	www.roderickmackenzie.eu
+//	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
@@ -39,10 +39,10 @@ void dump_build_2d_charge_frame(struct map *mapin_e,struct map *mapin_h,struct d
 void dump_write_2d_charge_map(struct map *in_e,struct map *in_h,struct device *dev);
 void frame_add_data(struct map *in,gdouble x,gdouble y,gdouble data);
 void dump_slice(struct device *in,char *prefix);
-void dump_energy_slice(char *out_dir,struct device *in);
+void dump_energy_slice(struct simulation *sim,char *out_dir,struct device *in);
 void dump_write_2d_charge_single_map(struct map *in,struct device *dev);
 void dump_build_2d_charge_single_frame(struct map *mapin,struct device *in);
-void dump_device_map(char* out_dir,struct device *in);
+void dump_device_map(struct simulation *sim,char* out_dir,struct device *in);
 void dump_1d_slice(struct simulation *sim,struct device *in,char *out_dir);
 void dump_write_to_disk(struct simulation *sim,struct device* in);
 void buffer_add_3d_device_data(struct buffer *buf,struct device *in, gdouble ***data);

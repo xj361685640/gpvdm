@@ -219,7 +219,7 @@ if (pl_data_added==TRUE)
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,fe_to_fh.x, fe_to_fh.data, fe_to_fh.len);
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -238,7 +238,7 @@ if (pl_data_added==TRUE)
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,te_to_fh.x, te_to_fh.data, te_to_fh.len);
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -257,7 +257,7 @@ if (pl_data_added==TRUE)
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,fe_to_te.x, fe_to_te.data, fe_to_te.len);
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 
@@ -277,7 +277,7 @@ if (pl_data_added==TRUE)
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,th_to_fe.x, th_to_fe.data, th_to_fe.len);
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 
@@ -297,7 +297,7 @@ if (pl_data_added==TRUE)
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,fh_to_th.x, fh_to_th.data, fh_to_th.len);
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 	
 	/*inter_copy(&luminescence_tot,&fe_to_fh,TRUE);	
@@ -322,7 +322,7 @@ if (pl_data_added==TRUE)
 	buf.Vexternal=Vexternal;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,luminescence_tot.x, luminescence_tot.data, luminescence_tot.len);
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);*/
 
 }

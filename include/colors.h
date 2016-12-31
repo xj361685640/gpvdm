@@ -24,6 +24,7 @@
 
 
 #define fg_reset	15
+#define fg_wight	7
 #define fg_red		12
 #define fg_green	10
 #define fg_yellow	14
@@ -32,6 +33,7 @@
 
 #else
 #define fg_reset	0
+#define fg_wight	97
 #define fg_red		31
 #define fg_green	32
 #define fg_yellow	33

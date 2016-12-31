@@ -25,7 +25,7 @@
 #include "dump.h"
 #include "buffer.h"
 
-void dump_energy_slice(char *out_dir,struct device *in)
+void dump_energy_slice(struct simulation *sim,char *out_dir,struct device *in)
 {
 struct buffer buf;
 buffer_init(&buf);
@@ -129,7 +129,7 @@ buf.logscale_x=0;
 buf.logscale_y=0;
 buffer_add_info(&buf);
 buffer_add_xy_data(&buf,dump_nt.x, dump_nt.data, dump_nt.len);
-buffer_dump_path(out_dir,name,&buf);
+buffer_dump_path(sim,out_dir,name,&buf);
 buffer_free(&buf);
 inter_free(&dump_nt);
 
@@ -147,7 +147,7 @@ buf.logscale_x=0;
 buf.logscale_y=0;
 buffer_add_info(&buf);
 buffer_add_xy_data(&buf,dump_pt.x, dump_pt.data, dump_pt.len);
-buffer_dump_path(out_dir,name,&buf);
+buffer_dump_path(sim,out_dir,name,&buf);
 buffer_free(&buf);
 inter_free(&dump_pt);
 

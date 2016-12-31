@@ -390,8 +390,8 @@ void randomprint(struct simulation *sim,char *in)
 	int i;
 	for (i=0;i<strlen(in);i++)
 	{
-	int rnd=(float)6.0*rand()/(float)RAND_MAX;
-		if (rnd==0) textcolor(sim,fg_reset);
+	int rnd=(float)5.0*rand()/(float)RAND_MAX;
+		if (rnd==0) textcolor(sim,fg_wight);
 		if (rnd==1) textcolor(sim,fg_red);
 		if (rnd==2) textcolor(sim,fg_green);
 		if (rnd==3) textcolor(sim,fg_yellow);
@@ -405,7 +405,9 @@ void randomprint(struct simulation *sim,char *in)
 		{
 			printf("<br>");
 		}
-			
+
+		textcolor(sim,fg_reset);
+					
 		}
 
 fflush(stdout);

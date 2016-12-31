@@ -76,7 +76,7 @@ class class_config_window(QWidget):
 		self.main_vbox.addWidget(self.notebook)
 
 		files=["math.inp","dump.inp","thermal.inp","led.inp","config.inp","server.inp"]
-		description=[_("Solver configuration"),_("Dump"),_("Thermal"),_("LED"),_("GUI configuration"),_("Server configuration")]
+		description=[_("Solver configuration"),_("Output files"),_("Thermal"),_("LED"),_("GUI configuration"),_("Server configuration")]
 
 		for i in range(0,len(files)):
 			tab=tab_class()

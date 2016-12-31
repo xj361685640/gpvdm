@@ -96,7 +96,7 @@ void sim_optics(struct simulation *sim,struct device *in)
 	buf.z=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,two.l, two.extract_eff, two.lpoints);
-	buffer_dump_path(out_dir,"light_escape_probability.dat",&buf);
+	buffer_dump_path(sim,out_dir,"light_escape_probability.dat",&buf);
 	buffer_free(&buf);
 	
 	light_dump(sim,&two);

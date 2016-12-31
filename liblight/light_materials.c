@@ -363,7 +363,7 @@ for (i=0;i<in->layers;i++)
 		buf.logscale_y=0;
 		buffer_add_info(&buf);
 		buffer_add_xy_data(&buf,in->mat_n[i].x, in->mat_n[i].data, in->mat_n[i].len);
-		buffer_dump_path(out_file,"n_out.dat",&buf);
+		buffer_dump_path(sim,out_file,"n_out.dat",&buf);
 		buffer_free(&buf);
 
 	}
@@ -415,7 +415,7 @@ for (i=0;i<in->layers;i++)
 		buf.logscale_y=0;
 		buffer_add_info(&buf);
 		buffer_add_xy_data(&buf,in->mat[i].x, in->mat[i].data, in->mat[i].len);
-		buffer_dump_path(out_file,"alpha_out.dat",&buf);
+		buffer_dump_path(sim,out_file,"alpha_out.dat",&buf);
 		buffer_free(&buf);
 
 	}

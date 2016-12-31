@@ -140,7 +140,7 @@ if ((get_dump_status(sim,dump_optics_verbose)==TRUE)&&(in->Gn[0]!=0.0))
 	sprintf(temp,"#end\n");
 	buffer_add_string(&buf,temp);
 
-	buffer_dump_path(out_dir,"light_2d_photons.dat",&buf);
+	buffer_dump_path(sim,out_dir,"light_2d_photons.dat",&buf);
 	buffer_free(&buf);
 
 
@@ -177,7 +177,7 @@ if ((get_dump_status(sim,dump_optics_verbose)==TRUE)&&(in->Gn[0]!=0.0))
 	sprintf(temp,"#end\n");
 	buffer_add_string(&buf,temp);
 	
-	buffer_dump_path(out_dir,"light_2d_photons_asb.dat",&buf);
+	buffer_dump_path(sim,out_dir,"light_2d_photons_asb.dat",&buf);
 	buffer_free(&buf);
 
 
@@ -247,7 +247,7 @@ if ((get_dump_status(sim,dump_optics_verbose)==TRUE)&&(in->Gn[0]!=0.0))
 	sprintf(temp,"#end\n");
 	buffer_add_string(&buf,temp);
 	
-	buffer_dump_path(out_dir,"light_lambda_alpha.dat",&buf);
+	buffer_dump_path(sim,out_dir,"light_lambda_alpha.dat",&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -283,7 +283,7 @@ if ((get_dump_status(sim,dump_optics_verbose)==TRUE)&&(in->Gn[0]!=0.0))
 	sprintf(temp,"#end\n");
 	buffer_add_string(&buf,temp);
 	
-	buffer_dump_path(out_dir,"light_lambda_n.dat",&buf);
+	buffer_dump_path(sim,out_dir,"light_lambda_n.dat",&buf);
 	buffer_free(&buf);
 
 
@@ -319,7 +319,7 @@ if ((get_dump_status(sim,dump_optics_summary)==TRUE)&&(in->Gn[0]!=0.0))
 	buf.z=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,in->l, in->reflect, in->lpoints);
-	buffer_dump_path(out_dir,"reflect.dat",&buf);
+	buffer_dump_path(sim,out_dir,"reflect.dat",&buf);
 	buffer_free(&buf);
 }
 
@@ -406,7 +406,7 @@ if (get_dump_status(sim,dump_optics)==TRUE)
 		buffer_add_string(&buf,"#end");
 
 		sprintf(out_name,"light_1d_photons_tot_norm%s.dat",ext);
-		buffer_dump_path(out_dir,out_name,&buf);
+		buffer_dump_path(sim,out_dir,out_name,&buf);
 		buffer_free(&buf);
 
 		sprintf(temp_name,"light_1d_photons_tot%s.dat",ext);
@@ -420,7 +420,7 @@ if (get_dump_status(sim,dump_optics)==TRUE)
 
 		}
 
-		buffer_dump_path(out_dir,temp_name,&data_1d_photons_tot);
+		buffer_dump_path(sim,out_dir,temp_name,&data_1d_photons_tot);
 
 
 
@@ -449,7 +449,7 @@ if (get_dump_status(sim,dump_optics)==TRUE)
 		}
 
 		sprintf(out_name,"light_1d_photons_tot_abs_norm%s.dat",ext);
-		buffer_dump_path(out_dir,out_name,&buf);
+		buffer_dump_path(sim,out_dir,out_name,&buf);
 		buffer_free(&buf);
 
 
@@ -522,16 +522,16 @@ if (get_dump_status(sim,dump_optics)==TRUE)
 		buffer_add_string(&data_alpha,line);
 	}
 
-	buffer_dump_path(out_dir,name_photons,&data_photons);
-	buffer_dump_path(out_dir,name_photons_norm,&data_photons_norm);
-	buffer_dump_path(out_dir,name_light_1d_Ep,&data_light_1d_Ep);
-	buffer_dump_path(out_dir,name_light_1d_En,&data_light_1d_En);
-	buffer_dump_path(out_dir,name_pointing,&data_pointing);
-	buffer_dump_path(out_dir,name_E_tot,&data_E_tot);
-	buffer_dump_path(out_dir,name_r,&data_r);
-	buffer_dump_path(out_dir,name_t,&data_t);
-	buffer_dump_path(out_dir,name_n,&data_n);
-	buffer_dump_path(out_dir,name_alpha,&data_alpha);
+	buffer_dump_path(sim,out_dir,name_photons,&data_photons);
+	buffer_dump_path(sim,out_dir,name_photons_norm,&data_photons_norm);
+	buffer_dump_path(sim,out_dir,name_light_1d_Ep,&data_light_1d_Ep);
+	buffer_dump_path(sim,out_dir,name_light_1d_En,&data_light_1d_En);
+	buffer_dump_path(sim,out_dir,name_pointing,&data_pointing);
+	buffer_dump_path(sim,out_dir,name_E_tot,&data_E_tot);
+	buffer_dump_path(sim,out_dir,name_r,&data_r);
+	buffer_dump_path(sim,out_dir,name_t,&data_t);
+	buffer_dump_path(sim,out_dir,name_n,&data_n);
+	buffer_dump_path(sim,out_dir,name_alpha,&data_alpha);
 
 
 

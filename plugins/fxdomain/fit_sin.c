@@ -2,9 +2,9 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+//  Copyright (C) 2012-2017 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 //
-//	www.roderickmackenzie.eu
+//	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
@@ -40,6 +40,7 @@ gdouble last_d=0.0;
 gdouble last_magnitude=0.0;
 gdouble last_error=0.0;
 
+struct simulation *local_sim;
 double sin_f (const gsl_vector *v, void *params)
 {
 int dump_all=TRUE;
@@ -79,7 +80,7 @@ if (dump_all==TRUE)
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,fit_data.x, fit_data.data, fit_data.len);
 	sprintf(name,"imps_fit_%s_orig.dat",fit_file_prefix);
-	buffer_dump(name,&buf);
+	buffer_dump(local_sim,name,&buf);
 	buffer_free(&buf);
 }
 
@@ -104,7 +105,7 @@ if (dump_all==TRUE)
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,test_i.x, test_i.data, test_i.len);
 	sprintf(name,"imps_fit_%s_guess.dat",fit_file_prefix);
-	buffer_dump(name,&buf);
+	buffer_dump(local_sim,name,&buf);
 	buffer_free(&buf);
 }
 
@@ -129,7 +130,7 @@ if (dump_all==TRUE)
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,test_i.x, test_i.data, test_i.len);
 	sprintf(name,"imps_fit_%s_delta.dat",fit_file_prefix);
-	buffer_dump(name,&buf);
+	buffer_dump(local_sim,name,&buf);
 	buffer_free(&buf);
 }
 
@@ -145,6 +146,7 @@ return (double)e0;
 
 void fit_sin(struct simulation *sim,gdouble *ret_mag,gdouble *ret_delta,struct istruct *in,gdouble fx,char * prefix)
 {
+local_sim=sim;
 gdouble size=0.0;
 int status=0;
 int fitvars=2;

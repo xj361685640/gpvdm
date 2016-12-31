@@ -179,13 +179,13 @@ struct stat st = {0};
 	if (get_dump_status(sim,dump_1d_slices)==TRUE)
 	{
 		dump_1d_slice(sim,in,out_dir);
-		dump_device_map(out_dir,in);
+		dump_device_map(sim,out_dir,in);
 		dumped=TRUE;
 	}
 
 	if (get_dump_status(sim,dump_energy_slice_switch)==TRUE)
 	{
-		dump_energy_slice(out_dir,in);
+		dump_energy_slice(sim,out_dir,in);
 		dumped=TRUE;
 	}
 

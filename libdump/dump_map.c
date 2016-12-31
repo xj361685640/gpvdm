@@ -28,7 +28,7 @@
 static int unused __attribute__((unused));
 
 
-void dump_device_map(char* out_dir,struct device *in)
+void dump_device_map(struct simulation *sim,char* out_dir,struct device *in)
 {
 struct buffer buf;
 char name[200];
@@ -61,7 +61,7 @@ for (i=0;i<in->ymeshpoints;i++)
 		buffer_add_string(&buf,temp);
 	}
 }
-buffer_dump(name,&buf);
+buffer_dump(sim,name,&buf);
 buffer_free(&buf);
 
 
@@ -87,7 +87,7 @@ for (i=0;i<in->ymeshpoints;i++)
 		buffer_add_string(&buf,temp);
 	}
 }
-buffer_dump(name,&buf);
+buffer_dump(sim,name,&buf);
 buffer_free(&buf);
 
 }

@@ -4,7 +4,7 @@
 // 
 //  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 //
-//	www.roderickmackenzie.eu
+//	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
@@ -48,7 +48,7 @@ void complex_error_report(int status, const char *file, const char *func, int li
 }
 
 
-void complex_solver_dump_matrix(int col,int nz,int *Ti,int *Tj, double *Tx, double *Txz,double *b,double *bz)
+void complex_solver_dump_matrix(struct simulation *sim,int col,int nz,int *Ti,int *Tj, double *Tx, double *Txz,double *b,double *bz)
 {
 char build[100];
 struct buffer buf;
@@ -71,7 +71,7 @@ for (i=0;i<col;i++)
 }
 
 
-buffer_dump("matrix.dat",&buf);
+buffer_dump(sim,"matrix.dat",&buf);
 
 buffer_free(&buf);
 printf(_("Matrix dumped\n"));

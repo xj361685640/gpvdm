@@ -330,7 +330,7 @@ buf.y=charge.len;
 buf.z=1;
 buffer_add_info(&buf);
 buffer_add_xy_data(&buf,charge.x, charge.data, charge.len);
-buffer_dump_path(get_output_path(sim),"charge.dat",&buf);
+buffer_dump_path(sim,get_output_path(sim),"charge.dat",&buf);
 buffer_free(&buf);
 
 inter_save_a(&charge_tot,get_output_path(sim),"charge_tot.dat");
@@ -353,7 +353,7 @@ buf.y=jvexternal.len;
 buf.z=1;
 buffer_add_info(&buf);
 buffer_add_xy_data(&buf,jvexternal.x, jvexternal.data, jvexternal.len);
-buffer_dump_path(get_output_path(sim),"jv.dat",&buf);
+buffer_dump_path(sim,get_output_path(sim),"jv.dat",&buf);
 buffer_free(&buf);
 
 buffer_malloc(&buf);
@@ -372,7 +372,7 @@ buf.y=jv.len;
 buf.z=1;
 buffer_add_info(&buf);
 buffer_add_xy_data(&buf,jv.x, jv.data, jv.len);
-buffer_dump_path(get_output_path(sim),"jv_internal.dat",&buf);
+buffer_dump_path(sim,get_output_path(sim),"jv_internal.dat",&buf);
 buffer_free(&buf);
 
 buffer_malloc(&buf);
@@ -391,7 +391,7 @@ buf.y=jvavg.len;
 buf.z=1;
 buffer_add_info(&buf);
 buffer_add_xy_data(&buf,jvavg.x, jvavg.data, jvavg.len);
-buffer_dump_path(get_output_path(sim),"jv_avg.dat",&buf);
+buffer_dump_path(sim,get_output_path(sim),"jv_avg.dat",&buf);
 buffer_free(&buf);
 
 buffer_malloc(&buf);
@@ -410,7 +410,7 @@ buf.y=jvexternal.len;
 buf.z=1;
 buffer_add_info(&buf);
 buffer_add_xy_data(&buf,jvexternal.x, jvexternal.data, jvexternal.len);
-buffer_dump_path(get_output_path(sim),"iv.dat",&buf);
+buffer_dump_path(sim,get_output_path(sim),"iv.dat",&buf);
 buffer_free(&buf);
 
 buffer_malloc(&buf);
@@ -429,7 +429,7 @@ buf.y=lv.len;
 buf.z=1;
 buffer_add_info(&buf);
 buffer_add_xy_data(&buf,lv.x, lv.data, lv.len);
-buffer_dump_path(get_output_path(sim),"lv.dat",&buf);
+buffer_dump_path(sim,get_output_path(sim),"lv.dat",&buf);
 buffer_free(&buf);
 
 
@@ -450,7 +450,7 @@ buf.y=li.len;
 buf.z=1;
 buffer_add_info(&buf);
 buffer_add_xy_data(&buf,li.x, li.data, li.len);
-buffer_dump_path(get_output_path(sim),"li.dat",&buf);
+buffer_dump_path(sim,get_output_path(sim),"li.dat",&buf);
 buffer_free(&buf);
 
 inter_free(&jvexternal);

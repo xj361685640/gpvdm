@@ -2,7 +2,7 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+//  Copyright (C) 2012-2017 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 //
 //	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -121,42 +121,136 @@ void printf_log(struct simulation *sim, const char *format, ...)
 	va_end(args);
 }
 
+void wavelength_to_rgb(int *r,int *g,int *b,double wavelength)
+{
+	double gamma=0.80;
+	double intensity_max=1.0;
+	double factor=0.0;
+
+	double red=0.0;
+	double green=0.0;
+	double blue=0.0;
+
+	if ((wavelength >= 380e-9) && (wavelength<440e-9))
+	{
+		red = -(wavelength - 440e-9) / (440e-9 - 380e-9);
+		green = 0.0;
+		blue = 1.0;
+	}else
+	if ((wavelength >= 440e-9) &&  (wavelength<490e-9))
+	{
+		red = 0.0;
+		green = (wavelength - 440e-9) / (490e-9 - 440e-9);
+		blue = 1.0;
+	}else
+	if ((wavelength >= 490e-9) &&  (wavelength<510e-9))
+	{
+		red = 0.0;
+		green = 1.0;
+		blue = -(wavelength - 510e-9) / (510e-9 - 490e-9);
+	}else
+	if ((wavelength >= 510e-9) &&  (wavelength<580e-9))
+	{
+		red = (wavelength - 510e-9) / (580e-9 - 510e-9);
+		green = 1.0;
+		blue = 0.0;
+	}else
+	if ((wavelength >= 580e-9) &&  (wavelength<645e-9))
+	{
+		red = 1.0;
+		green = -(wavelength - 645e-9) / (645e-9 - 580e-9);
+		blue = 0.0;
+	}else
+	if ((wavelength >= 645e-9) &&  (wavelength<781e-9))
+	{
+		red = 1.0;
+		green = 0.0;
+		blue = 0.0;
+	}else
+	{
+		red = 0.0;
+		green = 0.0;
+		blue = 0.0;
+	}
+	
+	if (wavelength<420e-9)
+	{
+		factor = 0.3 + 0.7*(wavelength - 380e-9) / (420e-9 - 380e-9);
+	}else
+	if ((wavelength >= 420e-9) && (wavelength<701e-9))
+	{
+		factor = 1.0;
+	}else
+	if ((wavelength >= 701e-9) &&  (wavelength<781e-9))
+	{
+		factor = 0.3 + 0.7*(780e-9 - wavelength) / (780e-9 - 700e-9);
+	}else
+	{
+		factor = 0.0;
+	}
+
+	if (red != 0.0)
+	{
+		red = (intensity_max * pow(red * factor, gamma));
+	}
+
+	if (green != 0)
+	{
+		green = (intensity_max * pow(green * factor, gamma));
+	}
+
+	if (blue != 0)
+	{
+		blue = (intensity_max * pow(blue * factor, gamma));
+	}
+
+
+	if ((red==0.0)&&(green==0.0)&&(blue==0.0))
+	{
+		red=0.392634;
+		green=0.000000;
+		blue=0.397315;
+	}
+
+	*r=255.0*red;
+	*g=255.0*green;
+	*b=255.0*blue;
+}
+
 void waveprint(struct simulation *sim,char *in,double wavelength)
 {
-	//Remove tralining \n in html mode as div introduces one anyway
-	/*if (sim->html==TRUE)
-	{
-		int len=strlen(in)-1;
-		if (len>0)
-		{
-			if (in[len]=='\n')
-			{
-				in[len]=0;
-			}
-		}
-	}*/
+	int r;
+	int g;
+	int b;
 
 	if ((sim->log_level==log_level_screen)||(sim->log_level==log_level_screen_and_disk))
 	{
-		if (wavelength<400.0)
+		if (sim->html==TRUE)
 		{
-			textcolor(sim,fg_purple);
-		}else
-		if (wavelength<500.0)
-		{
-			textcolor(sim,fg_blue);
-		}else
-		if (wavelength<575.0)
-		{
-			textcolor(sim,fg_green);
-		}else
-		if (wavelength<600.0)
-		{
-			textcolor(sim,fg_yellow);
+			wavelength_to_rgb(&r,&g,&b,wavelength*1e-9);
+			printf("<font color=\"#%.2x%.2x%.2x\">",r,g,b);
 		}else
 		{
-			textcolor(sim,fg_red);
+			if (wavelength<400.0)
+			{
+				textcolor(sim,fg_purple);
+			}else
+			if (wavelength<500.0)
+			{
+				textcolor(sim,fg_blue);
+			}else
+			if (wavelength<575.0)
+			{
+				textcolor(sim,fg_green);
+			}else
+			if (wavelength<600.0)
+			{
+				textcolor(sim,fg_yellow);
+			}else
+			{
+				textcolor(sim,fg_red);
 
+			}
 		}
 	}
 
@@ -164,7 +258,14 @@ void waveprint(struct simulation *sim,char *in,double wavelength)
 
 	if ((sim->log_level==log_level_screen)||(sim->log_level==log_level_screen_and_disk))
 	{
+		if (sim->html==TRUE)
+		{
+			printf("</font>");
+		}else
+		{
 			textcolor(sim,fg_reset);
+		}
+			
 	}
 }
 
@@ -174,27 +275,31 @@ if (sim->html==TRUE)
 {
 	if (color==fg_purple)
 	{
-		printf("<span style=\"color:purple\">");
+		printf("<font color=\"purple\">");
 	}else
 	if (color==fg_blue)
 	{
-		printf("<span style=\"color:blue\">");
+		printf("<font color=\"blue\">");
 	}else
 	if (color==fg_green)
 	{
-		printf("<span style=\"color:green\">");
+		printf("<font color=\"green\">");
 	}else
 	if (color==fg_yellow)
 	{
-		printf("<span style=\"color:yellow\">");
+		printf("<font color=\"yellow\">");
 	}else
 	if (color==fg_red)
 	{
-		printf("<span style=\"color:red\">");
+		printf("<font color=\"red\">");
+	}else
+	if (color==fg_wight)
+	{
+		printf("<font color=\"#ffffff\">");
 	}else
 	if (color==fg_reset)
 	{
-		printf("</span>");
+		printf("</font>");
 	}
 
 }else

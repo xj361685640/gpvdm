@@ -78,7 +78,7 @@ if (stat(out_dir, &st) == -1)
 	buf.z=in->zmeshpoints;
 	buffer_add_info(&buf);
 	buffer_add_3d_device_data(&buf,in,  in->Jn_drift);
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -102,7 +102,7 @@ if (stat(out_dir, &st) == -1)
 	buf.z=in->zmeshpoints;
 	buffer_add_info(&buf);
 	buffer_add_3d_device_data(&buf,in,  in->Jn_diffusion);
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -126,7 +126,7 @@ if (stat(out_dir, &st) == -1)
 	buf.z=in->zmeshpoints;
 	buffer_add_info(&buf);
 	buffer_add_3d_device_data(&buf,in,  in->Jp_drift);
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -150,7 +150,7 @@ if (stat(out_dir, &st) == -1)
 	buf.z=in->zmeshpoints;
 	buffer_add_info(&buf);
 	buffer_add_3d_device_data(&buf,in,  in->Jp_diffusion);
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -174,7 +174,7 @@ if (stat(out_dir, &st) == -1)
 	buf.z=in->zmeshpoints;
 	buffer_add_info(&buf);
 	buffer_add_3d_device_data(&buf,in,  in->Ec);
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -198,7 +198,7 @@ if (stat(out_dir, &st) == -1)
 	buf.z=in->zmeshpoints;
 	buffer_add_info(&buf);
 	buffer_add_3d_device_data(&buf,in,  in->Ev);
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -222,7 +222,7 @@ if (stat(out_dir, &st) == -1)
 	buf.z=in->zmeshpoints;
 	buffer_add_info(&buf);
 	buffer_add_3d_device_data(&buf,in,  in->Tl);
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -246,7 +246,7 @@ if (stat(out_dir, &st) == -1)
 	buf.z=in->zmeshpoints;
 	buffer_add_info(&buf);
 	buffer_add_3d_device_data(&buf,in,  in->Te);
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -270,7 +270,7 @@ if (stat(out_dir, &st) == -1)
 	buf.z=in->zmeshpoints;
 	buffer_add_info(&buf);
 	buffer_add_3d_device_data(&buf,in,  in->Te);
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -294,7 +294,7 @@ if (stat(out_dir, &st) == -1)
 	buf.z=in->zmeshpoints;
 	buffer_add_info(&buf);
 	buffer_add_3d_device_data(&buf,in,  in->Nad);
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -318,7 +318,7 @@ if (stat(out_dir, &st) == -1)
 	buf.z=in->zmeshpoints;
 	buffer_add_info(&buf);
 	buffer_add_3d_device_data(&buf,in,  in->Eg);
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -342,7 +342,7 @@ if (stat(out_dir, &st) == -1)
 	buf.z=in->zmeshpoints;
 	buffer_add_info(&buf);
 	buffer_add_3d_device_data(&buf,in,  in->Fn);
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -366,7 +366,7 @@ if (stat(out_dir, &st) == -1)
 	buf.z=in->zmeshpoints;
 	buffer_add_info(&buf);
 	buffer_add_3d_device_data(&buf,in,  in->Fp);
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 
@@ -391,7 +391,7 @@ if (stat(out_dir, &st) == -1)
 	buf.z=in->zmeshpoints;
 	buffer_add_info(&buf);
 	buffer_add_3d_device_data(&buf,in,  in->phi);
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -422,7 +422,7 @@ if (stat(out_dir, &st) == -1)
 		sprintf(temp,"%Le %Le\n",in->ymesh[y],(in->phi[z][x][y]-in->phi_save[z][x][y]));
 		buffer_add_string(&buf,temp);
 	}
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -446,7 +446,7 @@ if (stat(out_dir, &st) == -1)
 	buf.z=in->zmeshpoints;
 	buffer_add_info(&buf);
 	buffer_add_3d_device_data(&buf,in,  in->Jn);
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 
@@ -471,7 +471,7 @@ if (stat(out_dir, &st) == -1)
 	buf.z=in->zmeshpoints;
 	buffer_add_info(&buf);
 	buffer_add_3d_device_data(&buf,in,  in->Jp);
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 
@@ -508,7 +508,7 @@ if (stat(out_dir, &st) == -1)
 	}
 
 	sprintf(temp,"%Le %Le\n",in->ymesh[in->ymeshpoints-1]-in->ymesh[1]/2,get_J_right(in));
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -541,7 +541,7 @@ if (stat(out_dir, &st) == -1)
 		buffer_add_string(&buf,temp);
 	}
 
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -565,7 +565,7 @@ if (stat(out_dir, &st) == -1)
 	buf.z=in->zmeshpoints;
 	buffer_add_info(&buf);
 	buffer_add_3d_device_data(&buf,in,  in->Fi);
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -589,7 +589,7 @@ if (stat(out_dir, &st) == -1)
 	buf.z=in->zmeshpoints;
 	buffer_add_info(&buf);
 	buffer_add_3d_device_data(&buf,in,  in->epsilonr);
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 
@@ -614,7 +614,7 @@ if (stat(out_dir, &st) == -1)
 	buf.z=in->zmeshpoints;
 	buffer_add_info(&buf);
 	buffer_add_3d_device_data(&buf,in,  in->mun);
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -638,7 +638,7 @@ if (stat(out_dir, &st) == -1)
 	buf.z=in->zmeshpoints;
 	buffer_add_info(&buf);
 	buffer_add_3d_device_data(&buf,in,  in->mup);
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -671,7 +671,7 @@ if (stat(out_dir, &st) == -1)
 		sprintf(temp,"%Le %Le\n",in->ymesh[y],in->mun[z][x][y]*in->n[z][x][y]/(in->nt_all[z][x][y]+in->n[z][x][y]));
 		buffer_add_string(&buf,temp);
 	}
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -699,7 +699,7 @@ if (stat(out_dir, &st) == -1)
 		sprintf(temp,"%Le %Le\n",in->ymesh[y],in->mup[z][x][y]*in->p[z][x][y]/(in->pt_all[z][x][y]+in->p[z][x][y]));
 		buffer_add_string(&buf,temp);
 	}
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 
@@ -724,7 +724,7 @@ if (stat(out_dir, &st) == -1)
 	buf.z=in->zmeshpoints;
 	buffer_add_info(&buf);
 	buffer_add_3d_device_data(&buf,in,  in->n);
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -748,7 +748,7 @@ if (stat(out_dir, &st) == -1)
 	buf.z=in->zmeshpoints;
 	buffer_add_info(&buf);
 	buffer_add_3d_device_data(&buf,in,  in->p);
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -772,7 +772,7 @@ if (stat(out_dir, &st) == -1)
 	buf.z=in->zmeshpoints;
 	buffer_add_info(&buf);
 	buffer_add_3d_device_data(&buf,in,  in->nt_all);
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -796,7 +796,7 @@ if (stat(out_dir, &st) == -1)
 	buf.z=in->zmeshpoints;
 	buffer_add_info(&buf);
 	buffer_add_3d_device_data(&buf,in,  in->pt_all);
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -827,7 +827,7 @@ if (stat(out_dir, &st) == -1)
 		sprintf(temp,"%Le %Le\n",in->ymesh[y],in->p[z][x][y]+in->pt_all[z][x][y]);
 		buffer_add_string(&buf,temp);
 	}
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 
@@ -856,7 +856,7 @@ if (stat(out_dir, &st) == -1)
 		sprintf(temp,"%Le %Le\n",in->ymesh[y],in->n[z][x][y]+in->nt_all[z][x][y]);
 		buffer_add_string(&buf,temp);
 	}
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -884,7 +884,7 @@ if (stat(out_dir, &st) == -1)
 		sprintf(temp,"%Le %Le\n",in->ymesh[y],(in->n[z][x][y]+in->nt_all[z][x][y])-(in->nf_save[z][x][y]+in->nt_save[z][x][y]));
 		buffer_add_string(&buf,temp);
 	}
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -912,7 +912,7 @@ if (stat(out_dir, &st) == -1)
 		sprintf(temp,"%Le %Le\n",in->ymesh[y],in->p[z][x][y]-in->n[z][x][y]+in->pt_all[z][x][y]-in->nt_all[z][x][y]);
 		buffer_add_string(&buf,temp);
 	}
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -940,7 +940,7 @@ if (stat(out_dir, &st) == -1)
 		sprintf(temp,"%Le %Le\n",in->ymesh[y],in->p[z][x][y]-in->n[z][x][y]+in->pt_all[z][x][y]-in->nt_all[z][x][y]-(in->pt_save[z][x][y]-in->nf_save[z][x][y]+in->pf_save[z][x][y]-in->nt_save[z][x][y]));
 		buffer_add_string(&buf,temp);
 	}
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -968,7 +968,7 @@ if (stat(out_dir, &st) == -1)
 		sprintf(temp,"%Le %Le\n",in->ymesh[y],in->p[z][x][y]+in->pt_all[z][x][y]-in->pf_save[z][x][y]-in->pt_save[z][x][y]);
 		buffer_add_string(&buf,temp);
 	}
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -996,7 +996,7 @@ if (stat(out_dir, &st) == -1)
 		sprintf(temp,"%Le %Le",in->ymesh[y], in->nt_all[z][x][y]-in->nt_save[z][x][y]);
 		buffer_add_string(&buf,temp);
 	}
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -1024,7 +1024,7 @@ if (stat(out_dir, &st) == -1)
 		sprintf(temp,"%Le %Le",in->ymesh[y], in->pt_all[z][x][y]-in->pt_save[z][x][y]);
 		buffer_add_string(&buf,temp);
 	}
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -1048,7 +1048,7 @@ if (stat(out_dir, &st) == -1)
 	buf.z=in->zmeshpoints;
 	buffer_add_info(&buf);
 	buffer_add_3d_device_data(&buf,in,  in->Gn);
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -1072,7 +1072,7 @@ if (stat(out_dir, &st) == -1)
 	buf.z=in->zmeshpoints;
 	buffer_add_info(&buf);
 	buffer_add_3d_device_data(&buf,in,  in->Gp);
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 
@@ -1097,7 +1097,7 @@ if (stat(out_dir, &st) == -1)
 	buf.z=in->zmeshpoints;
 	buffer_add_info(&buf);
 	buffer_add_3d_device_data(&buf,in,  in->Rn);
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -1121,7 +1121,7 @@ if (stat(out_dir, &st) == -1)
 	buf.z=in->zmeshpoints;
 	buffer_add_info(&buf);
 	buffer_add_3d_device_data(&buf,in,  in->Rp);
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 
@@ -1157,7 +1157,7 @@ if (stat(out_dir, &st) == -1)
 		buffer_add_string(&buf,"\n");
 
 	}
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 
@@ -1193,7 +1193,7 @@ if (stat(out_dir, &st) == -1)
 		buffer_add_string(&buf,"\n");
 
 	}
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 
@@ -1222,7 +1222,7 @@ if (stat(out_dir, &st) == -1)
 		sprintf(temp,"%Le %d\n",in->ymesh[y], in->imat[z][x][y]);
 		buffer_add_string(&buf,temp);
 	}
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 
@@ -1255,7 +1255,7 @@ if (stat(out_dir, &st) == -1)
 		buffer_add_string(&buf,temp);
 	}
 
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 
@@ -1280,7 +1280,7 @@ if (stat(out_dir, &st) == -1)
 	buf.z=in->zmeshpoints;
 	buffer_add_info(&buf);
 	buffer_add_3d_device_data(&buf,in,  in->ntrap_to_p);
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 
@@ -1305,7 +1305,7 @@ if (stat(out_dir, &st) == -1)
 	buf.z=in->zmeshpoints;
 	buffer_add_info(&buf);
 	buffer_add_3d_device_data(&buf,in,  in->ptrap_to_n);
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -1329,7 +1329,7 @@ if (stat(out_dir, &st) == -1)
 	buf.z=in->zmeshpoints;
 	buffer_add_info(&buf);
 	buffer_add_3d_device_data(&buf,in,  in->prelax);
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -1353,7 +1353,7 @@ if (stat(out_dir, &st) == -1)
 	buf.z=in->zmeshpoints;
 	buffer_add_info(&buf);
 	buffer_add_3d_device_data(&buf,in, in->nrelax);
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 

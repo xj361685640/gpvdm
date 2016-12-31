@@ -212,7 +212,7 @@ buf.y=out_i.len;
 buf.z=1;
 buffer_add_info(&buf);
 buffer_add_xy_data(&buf,out_i.x, out_i.data, out_i.len);
-buffer_dump_path(get_output_path(sim),"pulse_i.dat",&buf);
+buffer_dump_path(sim,get_output_path(sim),"pulse_i.dat",&buf);
 buffer_free(&buf);
 
 
@@ -235,7 +235,7 @@ buf.y=out_j.len;
 buf.z=1;
 buffer_add_info(&buf);
 buffer_add_xy_data(&buf,out_j.x, out_j.data, out_j.len);
-buffer_dump_path(get_output_path(sim),"pulse_j.dat",&buf);
+buffer_dump_path(sim,get_output_path(sim),"pulse_j.dat",&buf);
 buffer_free(&buf);
 
 inter_free(&out_j);
@@ -259,7 +259,7 @@ buf.y=out_flip.len;
 buf.z=1;
 buffer_add_info(&buf);
 buffer_add_xy_data(&buf,out_flip.x, out_flip.data, out_flip.len);
-buffer_dump_path(get_output_path(sim),"pulse_i_pos.dat",&buf);
+buffer_dump_path(sim,get_output_path(sim),"pulse_i_pos.dat",&buf);
 buffer_free(&buf);
 
 inter_free(&out_flip);
@@ -282,7 +282,7 @@ buf.y=out_v.len;
 buf.z=1;
 buffer_add_info(&buf);
 buffer_add_xy_data(&buf,out_v.x, out_v.data, out_v.len);
-buffer_dump_path(get_output_path(sim),"pulse_v.dat",&buf);
+buffer_dump_path(sim,get_output_path(sim),"pulse_v.dat",&buf);
 buffer_free(&buf);
 
 
@@ -302,7 +302,7 @@ buf.y=out_G.len;
 buf.z=1;
 buffer_add_info(&buf);
 buffer_add_xy_data(&buf,out_G.x, out_G.data, out_G.len);
-buffer_dump_path(get_output_path(sim),"pulse_G.dat",&buf);
+buffer_dump_path(sim,get_output_path(sim),"pulse_G.dat",&buf);
 buffer_free(&buf);
 
 

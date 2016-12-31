@@ -2,9 +2,9 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+//  Copyright (C) 2012-2017 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 //
-//	www.roderickmackenzie.eu
+//	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
@@ -266,7 +266,7 @@ buf.z=1;
 buffer_add_info(&buf);
 buffer_add_xy_data(&buf,out_i.x, out_i.data, out_i.len);
 sprintf(temp,"fxdomain_i%d.dat",(int)fx);
-buffer_dump_path(out_dir,temp,&buf);
+buffer_dump_path(sim,out_dir,temp,&buf);
 buffer_free(&buf);
 
 buffer_malloc(&buf);
@@ -286,7 +286,7 @@ buf.z=1;
 buffer_add_info(&buf);
 buffer_add_xy_data(&buf,out_v.x, out_v.data, out_v.len);
 sprintf(temp,"fxdomain_v%d.dat",(int)fx);
-buffer_dump_path(out_dir,temp,&buf);
+buffer_dump_path(sim,out_dir,temp,&buf);
 buffer_free(&buf);
 
 fx_step();
@@ -318,7 +318,7 @@ buf.y=real_imag.len;
 buf.z=1;
 buffer_add_info(&buf);
 buffer_add_xy_data_z_label(&buf,real_imag.x, real_imag.data, out_fx.x, real_imag.len);
-buffer_dump_path(get_output_path(sim),"fxdomain_real_imag.dat",&buf);
+buffer_dump_path(sim,get_output_path(sim),"fxdomain_real_imag.dat",&buf);
 buffer_free(&buf);
 
 

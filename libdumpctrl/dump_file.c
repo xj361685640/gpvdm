@@ -89,7 +89,6 @@ void dumpfiles_load(struct simulation* sim)
 	}
 
 	sim->dumpfiles=inp_count_hash_tags(sim,&inp)-1;
-	printf("files=%d\n",sim->dumpfiles);
 
 	if (sim->dumpfiles<=0)
 	{

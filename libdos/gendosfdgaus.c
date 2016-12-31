@@ -788,7 +788,7 @@ if (get_dump_status(sim,dump_write_out_band_structure)==TRUE)
 		sprintf(name,"%s_dosoutp.dat",configh[mat].dos_name);
 	}
 
-	buffer_dump(name,&dos_out);
+	buffer_dump(sim,name,&dos_out);
 	buffer_free(&dos_out);
 
 }

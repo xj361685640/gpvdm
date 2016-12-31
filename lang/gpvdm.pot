@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.80\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2016-12-31 14:52+0000\n"
+"POT-Creation-Date: 2016-12-31 21:20+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -66,23 +66,23 @@ msgstr ""
 msgid "Can not read file"
 msgstr ""
 
-#: ../lib/util.c:390 ../lib/util.c:502 ../lib/util.c:562 ../lib/util.c:655
+#: ../lib/util.c:390 ../lib/util.c:504 ../lib/util.c:564 ../lib/util.c:657
 msgid "File not found"
 msgstr ""
 
-#: ../lib/util.c:540 ../lib/util.c:600 ../lib/util.c:701
+#: ../lib/util.c:542 ../lib/util.c:602 ../lib/util.c:703
 msgid "Can not write file"
 msgstr ""
 
-#: ../lib/util.c:616 ../lib/util.c:624
+#: ../lib/util.c:618 ../lib/util.c:626
 msgid "Can not open file"
 msgstr ""
 
-#: ../lib/util.c:693
+#: ../lib/util.c:695
 msgid "Token not found in file"
 msgstr ""
 
-#: ../lib/util.c:869
+#: ../lib/util.c:871
 msgid "Deleting directory"
 msgstr ""
 
@@ -487,19 +487,19 @@ msgstr ""
 msgid "n"
 msgstr ""
 
-#: ../src/main.c:173
-msgid "General-purpose Photovoltaic Device Model (www.gpvdm.com)\n"
+#: ../src/main.c:172
+msgid "General-purpose Photovoltaic Device Model (https://www.gpvdm.com)\n"
 msgstr ""
 
-#: ../src/main.c:174
+#: ../src/main.c:173
 msgid "You should have received a copy of the GNU General Public License\n"
 msgstr ""
 
-#: ../src/main.c:175
+#: ../src/main.c:174
 msgid "along with this software.  If not, see www.gnu.org/licenses/.\n"
 msgstr ""
 
-#: ../src/main.c:177
+#: ../src/main.c:176
 msgid "If you wish to collaborate in anyway please get in touch:\n"
 msgstr ""
 
@@ -857,7 +857,7 @@ msgid ""
 msgstr ""
 
 #: ../gui/command_args.py:73
-msgid "Runs an oplot file, usage --scan-plot /path/to/oplot/file.oplot "
+msgid "Runs an oplot file, usage --scanplot /path/to/oplot/file.oplot "
 msgstr ""
 
 #: ../gui/command_args.py:74
@@ -1056,7 +1056,7 @@ msgstr ""
 msgid "<big><b>Write minimal data to disk (fast)</b></big><br>"
 msgstr ""
 
-#: ../gui/dump_io.py:90
+#: ../gui/dump_io.py:92
 msgid "Set how much data is dumped from a simulation"
 msgstr ""
 
@@ -1261,8 +1261,8 @@ msgstr ""
 msgid "Solver configuration"
 msgstr ""
 
-#: ../gui/config_window.py:79 ../gui/inp_description.py:40
-msgid "Dump"
+#: ../gui/config_window.py:79
+msgid "Output files"
 msgstr ""
 
 #: ../gui/config_window.py:79 ../gui/inp_description.py:49
@@ -1764,6 +1764,10 @@ msgstr ""
 
 #: ../gui/inp_description.py:39
 msgid "JV Simple"
+msgstr ""
+
+#: ../gui/inp_description.py:40
+msgid "Dump"
 msgstr ""
 
 #: ../gui/inp_description.py:41

@@ -86,6 +86,8 @@ class dump_io(QAction):
 		self.tokens.append("#dump_workbook")
 		self.const_tokens=[]
 		self.const_tokens.append(["#dump_print_converge",True])
+		self.const_tokens.append(["#dump_print_newtonerror",False])
+
 		self.help_text=" Writing data to disk can be slow and gpvdm can produce a lot of data files during a simulation run.  To speed up the simulation use this icon to minimize simulation output.  Click it again to turn back on full output.  You can fine tune these parameters theough the Configure->Dump tab."
 		QAction.__init__(self,QIcon(os.path.join(get_image_file_path(),"hdd_low.png")), _("Set how much data is dumped from a simulation"),parent)
 		self.triggered.connect(self.callback_dump_io)

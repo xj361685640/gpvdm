@@ -2,9 +2,9 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+//  Copyright (C) 2012-2017 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 //
-//	www.roderickmackenzie.eu
+//	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
@@ -66,7 +66,7 @@ if (get_dump_status(sim,dump_first_guess)==TRUE)
 	buf.logscale_y=0;
 	buffer_add_info(&buf);
 	buffer_add_3d_device_data(&buf,in, in->Fi);
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -83,7 +83,7 @@ if (get_dump_status(sim,dump_first_guess)==TRUE)
 	buf.logscale_y=0;
 	buffer_add_info(&buf);
 	buffer_add_3d_device_data(&buf,in, in->Ec);
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -100,7 +100,7 @@ if (get_dump_status(sim,dump_first_guess)==TRUE)
 	buf.logscale_y=0;
 	buffer_add_info(&buf);
 	buffer_add_3d_device_data(&buf,in, in->Ev);
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 
@@ -118,7 +118,7 @@ if (get_dump_status(sim,dump_first_guess)==TRUE)
 	buf.logscale_y=0;
 	buffer_add_info(&buf);
 	buffer_add_3d_device_data(&buf,in, in->n);
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 
@@ -136,7 +136,7 @@ if (get_dump_status(sim,dump_first_guess)==TRUE)
 	buf.logscale_y=0;
 	buffer_add_info(&buf);
 	buffer_add_3d_device_data(&buf,in, in->p);
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -153,7 +153,7 @@ if (get_dump_status(sim,dump_first_guess)==TRUE)
 	buf.logscale_y=0;
 	buffer_add_info(&buf);
 	buffer_add_3d_device_data(&buf,in, in->phi);
-	buffer_dump_path(out_dir,name,&buf);
+	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
 

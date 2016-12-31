@@ -187,7 +187,7 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 		sprintf(temp,"%Le %Le\n",(store->dynamic_jp_drift).x[i],(store->dynamic_jp_drift).data[i]+(store->dynamic_jp_diffusion).data[i]);
 		buffer_add_string(&buf,temp);
 	}
-	buffer_dump_path(out_dir,"dynamic_jp_drift_plus_diffusion.dat",&buf);
+	buffer_dump_path(sim,out_dir,"dynamic_jp_drift_plus_diffusion.dat",&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -207,7 +207,7 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 		sprintf(temp,"%Le %Le\n",(store->dynamic_jn_drift).x[i],(store->dynamic_jn_drift).data[i]+(store->dynamic_jn_diffusion).data[i]);
 		buffer_add_string(&buf,temp);
 	}
-	buffer_dump_path(out_dir,"dynamic_jn_drift_plus_diffusion.dat",&buf);
+	buffer_dump_path(sim,out_dir,"dynamic_jn_drift_plus_diffusion.dat",&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -228,7 +228,7 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 		inter_mul(&(store->jout),-1.0);
 	}
 	buffer_add_xy_data(&buf,(store->jout).x, (store->jout).data, (store->jout).len);
-	buffer_dump_path(out_dir,"dynamic_j.dat",&buf);
+	buffer_dump_path(sim,out_dir,"dynamic_j.dat",&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -244,7 +244,7 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	buf.logscale_y=0;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->charge_change).x, (store->charge_change).data, (store->charge_change).len);
-	buffer_dump_path(out_dir,"dynamic_charge_change.dat",&buf);
+	buffer_dump_path(sim,out_dir,"dynamic_charge_change.dat",&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -260,7 +260,7 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	buf.logscale_y=0;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->dynamic_jn_drift).x, (store->dynamic_jn_drift).data, (store->dynamic_jn_drift).len);
-	buffer_dump_path(out_dir,"dynamic_jn_drift.dat",&buf);
+	buffer_dump_path(sim,out_dir,"dynamic_jn_drift.dat",&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -276,7 +276,7 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	buf.logscale_y=0;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->dynamic_jn_diffusion).x, (store->dynamic_jn_diffusion).data, (store->dynamic_jn_diffusion).len);
-	buffer_dump_path(out_dir,"dynamic_jn_diffusion.dat",&buf);
+	buffer_dump_path(sim,out_dir,"dynamic_jn_diffusion.dat",&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -292,7 +292,7 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	buf.logscale_y=0;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->dynamic_jp_drift).x, (store->dynamic_jp_drift).data, (store->dynamic_jp_drift).len);
-	buffer_dump_path(out_dir,"dynamic_jp_drift.dat",&buf);
+	buffer_dump_path(sim,out_dir,"dynamic_jp_drift.dat",&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -308,7 +308,7 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	buf.logscale_y=0;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->dynamic_jp_diffusion).x, (store->dynamic_jp_diffusion).data, (store->dynamic_jp_diffusion).len);
-	buffer_dump_path(out_dir,"dynamic_jp_diffusion.dat",&buf);
+	buffer_dump_path(sim,out_dir,"dynamic_jp_diffusion.dat",&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -324,7 +324,7 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	buf.logscale_y=0;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->dynamic_jn).x, (store->dynamic_jn).data, (store->dynamic_jn).len);
-	buffer_dump_path(out_dir,"dynamic_jn_contacts.dat",&buf);
+	buffer_dump_path(sim,out_dir,"dynamic_jn_contacts.dat",&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -340,7 +340,7 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	buf.logscale_y=0;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->dynamic_jp).x, (store->dynamic_jp).data, (store->dynamic_jp).len);
-	buffer_dump_path(out_dir,"dynamic_jp_contacts.dat",&buf);
+	buffer_dump_path(sim,out_dir,"dynamic_jp_contacts.dat",&buf);
 	buffer_free(&buf);
 
 	sprintf(outpath,"%s%s",out_dir,"dynamic_jn_avg.dat");
@@ -362,7 +362,7 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	buf.logscale_y=0;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->iout).x, (store->iout).data, (store->iout).len);
-	buffer_dump_path(out_dir,"dynamic_i.dat",&buf);
+	buffer_dump_path(sim,out_dir,"dynamic_i.dat",&buf);
 	buffer_free(&buf);
 
 	sprintf(outpath,"%s%s",out_dir,"dynamic_i_left.dat");
@@ -385,7 +385,7 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	buf.logscale_y=0;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->gexout).x, (store->gexout).data, (store->gexout).len);
-	buffer_dump_path(out_dir,"dynamic_gex.dat",&buf);
+	buffer_dump_path(sim,out_dir,"dynamic_gex.dat",&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -401,7 +401,7 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	buf.logscale_y=0;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->dynamic_qe).x, (store->dynamic_qe).data, (store->dynamic_qe).len);
-	buffer_dump_path(out_dir,"dynamic_qe.dat",&buf);
+	buffer_dump_path(sim,out_dir,"dynamic_qe.dat",&buf);
 	buffer_free(&buf);
 
 
@@ -423,7 +423,7 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	buf.logscale_y=0;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->pfree_to_ntrap).x, (store->pfree_to_ntrap).data,(store->pfree_to_ntrap).len);
-	buffer_dump_path(out_dir,"dynamic_pf_to_nt.dat",&buf);
+	buffer_dump_path(sim,out_dir,"dynamic_pf_to_nt.dat",&buf);
 	buffer_free(&buf);
 
 
@@ -440,7 +440,7 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	buf.logscale_y=0;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->nfree_to_ptrap).x, (store->nfree_to_ptrap).data,(store->nfree_to_ptrap).len);
-	buffer_dump_path(out_dir,"dynamic_nf_to_pt.dat",&buf);
+	buffer_dump_path(sim,out_dir,"dynamic_nf_to_pt.dat",&buf);
 	buffer_free(&buf);
 
 	
@@ -458,7 +458,7 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	buf.logscale_y=0;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->Rnout).x, (store->Rnout).data, (store->Rnout).len);
-	buffer_dump_path(out_dir,"dynamic_Rn.dat",&buf);
+	buffer_dump_path(sim,out_dir,"dynamic_Rn.dat",&buf);
 	buffer_free(&buf);
 
 
@@ -475,7 +475,7 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	buf.logscale_y=0;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->Rpout).x, (store->Rpout).data, (store->Rpout).len);
-	buffer_dump_path(out_dir,"dynamic_Rp.dat",&buf);
+	buffer_dump_path(sim,out_dir,"dynamic_Rp.dat",&buf);
 	buffer_free(&buf);
 
 	sum=inter_intergrate(&(store->pfree_to_ntrap));
@@ -507,7 +507,7 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	buf.logscale_y=0;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->nrelax_out).x, (store->nrelax_out).data, (store->nrelax_out).len);
-	buffer_dump_path(out_dir,"dynamic_nrelax.dat",&buf);
+	buffer_dump_path(sim,out_dir,"dynamic_nrelax.dat",&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -523,7 +523,7 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	buf.logscale_y=0;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->prelax_out).x, (store->prelax_out).data, (store->prelax_out).len);
-	buffer_dump_path(out_dir,"dynamic_prelax.dat",&buf);
+	buffer_dump_path(sim,out_dir,"dynamic_prelax.dat",&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -539,7 +539,7 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	buf.logscale_y=0;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->ntrap).x, (store->ntrap).data, (store->ntrap).len);
-	buffer_dump_path(out_dir,"dynamic_nt.dat",&buf);
+	buffer_dump_path(sim,out_dir,"dynamic_nt.dat",&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -555,7 +555,7 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	buf.logscale_y=0;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->ptrap).x, (store->ptrap).data, (store->ptrap).len);
-	buffer_dump_path(out_dir,"dynamic_pt.dat",&buf);
+	buffer_dump_path(sim,out_dir,"dynamic_pt.dat",&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -571,7 +571,7 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	buf.logscale_y=0;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->nfree).x, (store->nfree).data, (store->nfree).len);
-	buffer_dump_path(out_dir,"dynamic_nf.dat",&buf);
+	buffer_dump_path(sim,out_dir,"dynamic_nf.dat",&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -587,7 +587,7 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	buf.logscale_y=0;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->pfree).x, (store->pfree).data, (store->pfree).len);
-	buffer_dump_path(out_dir,"dynamic_pf.dat",&buf);
+	buffer_dump_path(sim,out_dir,"dynamic_pf.dat",&buf);
 	buffer_free(&buf);
 
 	sprintf(outpath,"%s%s",out_dir,"dynamic_nfree_delta.dat");
@@ -624,7 +624,7 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	buf.logscale_y=0;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->tpc_mue).x, (store->tpc_mue).data,(store->tpc_mue).len);
-	buffer_dump_path(out_dir,"dynamic_mue.dat",&buf);
+	buffer_dump_path(sim,out_dir,"dynamic_mue.dat",&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -640,7 +640,7 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	buf.logscale_y=0;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->tpc_muh).x, (store->tpc_muh).data,(store->tpc_muh).len);
-	buffer_dump_path(out_dir,"dynamic_muh.dat",&buf);
+	buffer_dump_path(sim,out_dir,"dynamic_muh.dat",&buf);
 	buffer_free(&buf);
 
 
@@ -660,7 +660,7 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	buf.logscale_y=0;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->only_n).x, (store->only_n).data, (store->only_n).len);
-	buffer_dump_path(out_dir,"dynamic_n.dat",&buf);
+	buffer_dump_path(sim,out_dir,"dynamic_n.dat",&buf);
 	buffer_free(&buf);
 
 
@@ -677,7 +677,7 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	buf.logscale_y=0;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->only_p).x, (store->only_p).data, (store->only_p).len);
-	buffer_dump_path(out_dir,"dynamic_p.dat",&buf);
+	buffer_dump_path(sim,out_dir,"dynamic_p.dat",&buf);
 	buffer_free(&buf);
 
 
@@ -708,7 +708,7 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	buf.logscale_y=0;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->dynamic_Vapplied).x, (store->dynamic_Vapplied).data, (store->dynamic_Vapplied).len);
-	buffer_dump_path(out_dir,"dynamic_Vapplied.dat",&buf);
+	buffer_dump_path(sim,out_dir,"dynamic_Vapplied.dat",&buf);
 	buffer_free(&buf);
 
 
@@ -730,7 +730,7 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	buf.logscale_y=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->dynamic_pl).x, (store->dynamic_pl).data, (store->dynamic_pl).len);
-	buffer_dump_path(out_dir,"dynamic_pl.dat",&buf);
+	buffer_dump_path(sim,out_dir,"dynamic_pl.dat",&buf);
 	buffer_free(&buf);
 
 	gdouble max=inter_get_max(&(store->dynamic_pl));
@@ -748,7 +748,7 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	buf.logscale_y=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->dynamic_pl).x, (store->dynamic_pl).data, (store->dynamic_pl).len);
-	buffer_dump_path(out_dir,"dynamic_pl_norm.dat",&buf);
+	buffer_dump_path(sim,out_dir,"dynamic_pl_norm.dat",&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -764,7 +764,7 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	buf.logscale_y=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->srh_n_r1).x, (store->srh_n_r1).data, (store->srh_n_r1).len);
-	buffer_dump_path(out_dir,"dynamic_srh_n_r1.dat",&buf);
+	buffer_dump_path(sim,out_dir,"dynamic_srh_n_r1.dat",&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -780,7 +780,7 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	buf.logscale_y=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->srh_n_r2).x, (store->srh_n_r2).data, (store->srh_n_r2).len);
-	buffer_dump_path(out_dir,"dynamic_srh_n_r2.dat",&buf);
+	buffer_dump_path(sim,out_dir,"dynamic_srh_n_r2.dat",&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -796,7 +796,7 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	buf.logscale_y=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->srh_n_r3).x, (store->srh_n_r3).data, (store->srh_n_r3).len);
-	buffer_dump_path(out_dir,"dynamic_srh_n_r3.dat",&buf);
+	buffer_dump_path(sim,out_dir,"dynamic_srh_n_r3.dat",&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -812,7 +812,7 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	buf.logscale_y=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->srh_n_r4).x, (store->srh_n_r4).data, (store->srh_n_r4).len);
-	buffer_dump_path(out_dir,"dynamic_srh_n_r4.dat",&buf);
+	buffer_dump_path(sim,out_dir,"dynamic_srh_n_r4.dat",&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -828,7 +828,7 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	buf.logscale_y=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->srh_p_r1).x, (store->srh_p_r1).data, (store->srh_p_r1).len);
-	buffer_dump_path(out_dir,"dynamic_srh_p_r1.dat",&buf);
+	buffer_dump_path(sim,out_dir,"dynamic_srh_p_r1.dat",&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -844,7 +844,7 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	buf.logscale_y=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->srh_p_r2).x, (store->srh_p_r2).data, (store->srh_p_r2).len);
-	buffer_dump_path(out_dir,"dynamic_srh_p_r2.dat",&buf);
+	buffer_dump_path(sim,out_dir,"dynamic_srh_p_r2.dat",&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -860,7 +860,7 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	buf.logscale_y=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->srh_p_r3).x, (store->srh_p_r3).data, (store->srh_p_r3).len);
-	buffer_dump_path(out_dir,"dynamic_srh_p_r3.dat",&buf);
+	buffer_dump_path(sim,out_dir,"dynamic_srh_p_r3.dat",&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -876,7 +876,7 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	buf.logscale_y=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->srh_p_r4).x, (store->srh_p_r4).data, (store->srh_p_r4).len);
-	buffer_dump_path(out_dir,"dynamic_srh_p_r4.dat",&buf);
+	buffer_dump_path(sim,out_dir,"dynamic_srh_p_r4.dat",&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -892,7 +892,7 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	buf.logscale_y=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->band_bend).x, (store->band_bend).data, (store->band_bend).len);
-	buffer_dump_path(out_dir,"dynamic_band_bend.dat",&buf);
+	buffer_dump_path(sim,out_dir,"dynamic_band_bend.dat",&buf);
 	buffer_free(&buf);
 }
 
