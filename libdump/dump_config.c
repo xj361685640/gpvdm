@@ -33,7 +33,7 @@ void dump_load_config(struct simulation* sim,struct device *in)
 
 	inp_load_from_path(sim,&inp,get_input_path(sim),"dump.inp");
 
-	inp_check(sim,&inp,1.41);
+	inp_check(sim,&inp,1.42);
 
 	dump=inp_search_english(sim,&inp,"#plot");
 	set_dump_status(sim,dump_plot,dump);

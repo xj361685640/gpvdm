@@ -60,6 +60,7 @@ void text_to_html(struct simulation *sim,char *out, char *in)
 {
 	if (sim->html==TRUE)
 	{
+
 		int i=0;
 		int out_pos=0;
 		int len=0;

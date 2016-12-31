@@ -222,7 +222,6 @@ lib.append(my_data("#light_model","","",["text"],"e",1.0))
 lib.append(my_data("#NDfilter","","",["text"],"e",1.0))
 lib.append(my_data("#plottime","","",["text"],"e",1.0))
 lib.append(my_data("#startstop","","",["text"],"e",1.0))
-lib.append(my_data("#dumpitdos","","",["text"],"e",1.0))
 lib.append(my_data("#plotfile","","",["text"],"e",1.0))
 
 
@@ -343,7 +342,7 @@ lib.append(my_data("#pulse_shift","s","Shift of TPC signal",["text"],"e",1.0))
 
 lib.append(my_data("#flip_field","au",_("Filp the opticl field"),["text"],["1","0"],1.0))
 
-
+#dump.inp
 lib.append(my_data("#newton_dump",_("True/False"),_("Dump from newton solver"),[("switch")],"e",1.0))
 lib.append(my_data("#plot",_("True/False"),_("Plot bands etc.. "),[("switch")],"e",1.0))
 lib.append(my_data("#dump_band_structure","","",["text"],"e",1.0))
@@ -367,6 +366,8 @@ lib.append(my_data("#dump_built_in_voltage",_("True/False"),_("Dump the built in
 lib.append(my_data("#dump_optical_probe_spectrum",_("True/False"),_("Dump optical probe spectrum"),[("switch")],"e",1.0))
 lib.append(my_data("#dump_optics_summary",_("True/False"),_("Dump optical summary"),[("switch")],"e",1.0))
 lib.append(my_data("#dump_ray_trace_map",_("True/False"),_("Dump raytrace plots"),[("switch")],"e",1.0))
+lib.append(my_data("#dumpitdos","","",["text"],"e",1.0))
+lib.append(my_data("#dump_workbook",_("True/False"),_("Dump an excel workbook for each simulation run congaing the results."),[("switch")],"e",1.0))
 
 
 

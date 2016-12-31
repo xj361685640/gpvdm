@@ -305,8 +305,9 @@ class server(QWidget,cluster):
 				if self.finished_jobs.count(data)==0:
 					job=int(data[4:])
 					self.finished_jobs.append(data)
-					if gen_workbook(self.jobs[job],os.path.join(self.jobs[job],"data.xlsx"))==False:
-						self.excel_workbook_gen_error=self.excel_workbook_gen_error or True
+					if str2bool(inp_get_token_value("dump.inp","#dump_workbook"))==True:
+						if gen_workbook(self.jobs[job],os.path.join(self.jobs[job],"data.xlsx"))==False:
+							self.excel_workbook_gen_error=self.excel_workbook_gen_error or True
 					self.jobs_run=self.jobs_run+1
 					self.jobs_running=self.jobs_running-1
 					self.progress_window.set_fraction(float(self.jobs_run)/float(len(self.jobs)))

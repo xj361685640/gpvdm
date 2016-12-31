@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.80\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2016-12-29 14:57+0000\n"
+"POT-Creation-Date: 2016-12-31 14:52+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -576,7 +576,7 @@ msgstr ""
 msgid "Save graph"
 msgstr ""
 
-#: ../gui/qe.py:120 ../gui/gpvdm.py:734 ../gui/optics.py:140
+#: ../gui/qe.py:120 ../gui/gpvdm.py:740 ../gui/optics.py:140
 msgid "Run"
 msgstr ""
 
@@ -892,7 +892,7 @@ msgstr ""
 msgid "Problem generating tree."
 msgstr ""
 
-#: ../gui/scan_tab.py:405 ../gui/gpvdm.py:711 ../gui/fxexperiment.py:176
+#: ../gui/scan_tab.py:405 ../gui/gpvdm.py:717 ../gui/fxexperiment.py:176
 #: ../gui/fit_window.py:233 ../gui/fit_vars.py:88 ../gui/fit_vars.py:125
 #: ../gui/optics.py:127 ../gui/fit_patch.py:90
 msgid "File"
@@ -914,7 +914,7 @@ msgstr ""
 msgid "Opperation"
 msgstr ""
 
-#: ../gui/scan_tab.py:484 ../gui/gpvdm.py:526
+#: ../gui/scan_tab.py:484 ../gui/gpvdm.py:532
 msgid ""
 "Re-run the simulation with 'dump all slices' set to one to use this tool."
 msgstr ""
@@ -931,15 +931,15 @@ msgstr ""
 msgid "Run simulation"
 msgstr ""
 
-#: ../gui/scan_tab.py:531 ../gui/gpvdm.py:804 ../gui/fit_window.py:310
+#: ../gui/scan_tab.py:531 ../gui/gpvdm.py:810 ../gui/fit_window.py:310
 msgid "Stop the simulation"
 msgstr ""
 
-#: ../gui/scan_tab.py:535 ../gui/gpvdm.py:828
+#: ../gui/scan_tab.py:535 ../gui/gpvdm.py:834
 msgid "Find a file to plot"
 msgstr ""
 
-#: ../gui/scan_tab.py:539 ../gui/gpvdm.py:832
+#: ../gui/scan_tab.py:539 ../gui/gpvdm.py:838
 msgid "Examine results in time domain"
 msgstr ""
 
@@ -1048,6 +1048,18 @@ msgid ""
 "payback time."
 msgstr ""
 
+#: ../gui/dump_io.py:67
+msgid "<big><b>Write all data to disk (slow)</b></big><br>"
+msgstr ""
+
+#: ../gui/dump_io.py:72
+msgid "<big><b>Write minimal data to disk (fast)</b></big><br>"
+msgstr ""
+
+#: ../gui/dump_io.py:90
+msgid "Set how much data is dumped from a simulation"
+msgstr ""
+
 #: ../gui/experiment.py:76 ../gui/fxexperiment.py:72
 msgid "New experiment name"
 msgstr ""
@@ -1093,7 +1105,7 @@ msgid "Clone experiment"
 msgstr ""
 
 #: ../gui/experiment.py:201 ../gui/experiment.py:202 ../gui/config_window.py:63
-#: ../gui/materials_main.py:84 ../gui/gpvdm.py:756 ../gui/gpvdm.py:862
+#: ../gui/materials_main.py:84 ../gui/gpvdm.py:762 ../gui/gpvdm.py:872
 #: ../gui/emesh.py:168 ../gui/scan.py:319 ../gui/scan.py:320 ../gui/cost.py:92
 #: ../gui/fxexperiment.py:195 ../gui/fxexperiment.py:196
 #: ../gui/fit_window.py:255 ../gui/fit_window.py:256 ../gui/lasers.py:201
@@ -1241,7 +1253,7 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: ../gui/config_window.py:50 ../gui/gpvdm.py:743
+#: ../gui/config_window.py:50 ../gui/gpvdm.py:749
 msgid "Configure"
 msgstr ""
 
@@ -1314,65 +1326,65 @@ msgstr ""
 msgid "Don't run me as root!!"
 msgstr ""
 
-#: ../gui/gpvdm.py:233
+#: ../gui/gpvdm.py:237
 msgid ""
 "<big><b>Fit window</b></big><br> Use this window to fit the simulation to "
 "experimental data."
 msgstr ""
 
-#: ../gui/gpvdm.py:241
+#: ../gui/gpvdm.py:245
 msgid ""
 "<big><b>The scan window</b></big><br> Very often it is useful to be able to "
 "systematically very a device parameter such as mobility or density of trap "
 "states.  This window allows you to do just that."
 msgstr ""
 
-#: ../gui/gpvdm.py:241
+#: ../gui/gpvdm.py:245
 msgid "Use the plus icon to add a new scan line to the list."
 msgstr ""
 
-#: ../gui/gpvdm.py:265
+#: ../gui/gpvdm.py:269
 msgid ""
 "<big>Select a file to plot</big><br>Single clicking shows you the content of "
 "the file"
 msgstr ""
 
-#: ../gui/gpvdm.py:307
+#: ../gui/gpvdm.py:311
 msgid "Import an old gpvdm simulation"
 msgstr ""
 
-#: ../gui/gpvdm.py:324
+#: ../gui/gpvdm.py:328
 msgid "file opened"
 msgstr ""
 
-#: ../gui/gpvdm.py:330
+#: ../gui/gpvdm.py:334
 msgid ""
 "<big><b>New simulation!</b></big><br> Now selected the type of device you "
 "would like to simulate."
 msgstr ""
 
-#: ../gui/gpvdm.py:368
+#: ../gui/gpvdm.py:372
 msgid ""
 "<big><b>Now run the simulation</b></big><br> Click on the play icon to start "
 "a simulation."
 msgstr ""
 
-#: ../gui/gpvdm.py:398
+#: ../gui/gpvdm.py:402
 msgid ""
 "<big><b>Hi!</b></big><br> I'm the on-line help system :).  If you find any "
 "bugs please report them to <a href=\"mailto:roderick.mackenzie@nottingham.ac."
 "uk\">roderick.mackenzie@nottingham.ac.uk</a>."
 msgstr ""
 
-#: ../gui/gpvdm.py:398
+#: ../gui/gpvdm.py:402
 msgid "Click on the new icon to make a new simulation directory."
 msgstr ""
 
-#: ../gui/gpvdm.py:468
+#: ../gui/gpvdm.py:474
 msgid "Open an existing gpvdm simulation"
 msgstr ""
 
-#: ../gui/gpvdm.py:516
+#: ../gui/gpvdm.py:522
 msgid ""
 "<big><b>Examine the results in time domain</b></big><br> After you have run "
 "a simulation in time domain, if is often nice to be able to step through the "
@@ -1381,7 +1393,7 @@ msgid ""
 "curve, the slider sill step through voltage points rather than time points."
 msgstr ""
 
-#: ../gui/gpvdm.py:539
+#: ../gui/gpvdm.py:545
 msgid ""
 "<big><b>The time mesh editor</b></big><br> To do time domain simulations one "
 "must define how voltage the light vary as a function of time.  This can be "
@@ -1389,7 +1401,7 @@ msgid ""
 "and time step."
 msgstr ""
 
-#: ../gui/gpvdm.py:552
+#: ../gui/gpvdm.py:558
 msgid ""
 "<big><b>Frequency domain mesh editor</b></big><br> Some times it is useful "
 "to do frequency domain simulations such as when simulating impedance "
@@ -1397,140 +1409,140 @@ msgid ""
 "be simulated."
 msgstr ""
 
-#: ../gui/gpvdm.py:563
+#: ../gui/gpvdm.py:569
 msgid ""
 "<big><b>Laser setup</b></big><br> Use this window to set up your lasers."
 msgstr ""
 
-#: ../gui/gpvdm.py:574
+#: ../gui/gpvdm.py:580
 msgid ""
 "<big><b>JV simulation editor</b></big><br> Use this window to select the "
 "step size and parameters of the JV simulations."
 msgstr ""
 
-#: ../gui/gpvdm.py:586
+#: ../gui/gpvdm.py:592
 msgid ""
 "<big><b>Configuration editor</b></big><br> Use this window to control "
 "advanced simulation parameters."
 msgstr ""
 
-#: ../gui/gpvdm.py:611
+#: ../gui/gpvdm.py:617
 msgid "Quantum efficiency"
 msgstr ""
 
-#: ../gui/gpvdm.py:712 ../gui/scan.py:329
+#: ../gui/gpvdm.py:718 ../gui/scan.py:329
 msgid "New simulation"
 msgstr ""
 
-#: ../gui/gpvdm.py:715
+#: ../gui/gpvdm.py:721
 msgid "New optical material"
 msgstr ""
 
-#: ../gui/gpvdm.py:717
+#: ../gui/gpvdm.py:723
 msgid "Open simulation"
 msgstr ""
 
-#: ../gui/gpvdm.py:720
+#: ../gui/gpvdm.py:726
 msgid "Export data"
 msgstr ""
 
-#: ../gui/gpvdm.py:723 ../gui/fit_window.py:248 ../gui/fit_window.py:286
+#: ../gui/gpvdm.py:729 ../gui/fit_window.py:248 ../gui/fit_window.py:286
 msgid "Import data"
 msgstr ""
 
-#: ../gui/gpvdm.py:726
+#: ../gui/gpvdm.py:732
 msgid "Import from library"
 msgstr ""
 
-#: ../gui/gpvdm.py:729
+#: ../gui/gpvdm.py:735
 msgid "Quit"
 msgstr ""
 
-#: ../gui/gpvdm.py:732
+#: ../gui/gpvdm.py:738
 msgid "Simulation"
 msgstr ""
 
-#: ../gui/gpvdm.py:737 ../gui/hpc.py:305 ../gui/doping.py:119
+#: ../gui/gpvdm.py:743 ../gui/hpc.py:305 ../gui/doping.py:119
 msgid "Stop"
 msgstr ""
 
-#: ../gui/gpvdm.py:740 ../gui/gpvdm.py:812
+#: ../gui/gpvdm.py:746 ../gui/gpvdm.py:818
 msgid "Parameter scan"
 msgstr ""
 
-#: ../gui/gpvdm.py:747
+#: ../gui/gpvdm.py:753
 msgid "View"
 msgstr ""
 
-#: ../gui/gpvdm.py:748
+#: ../gui/gpvdm.py:754
 msgid "None"
 msgstr ""
 
-#: ../gui/gpvdm.py:751
+#: ../gui/gpvdm.py:757
 msgid "Plot"
 msgstr ""
 
-#: ../gui/gpvdm.py:752
+#: ../gui/gpvdm.py:758
 msgid "Plot simulation result"
 msgstr ""
 
-#: ../gui/gpvdm.py:758
+#: ../gui/gpvdm.py:764
 msgid "Help window"
 msgstr ""
 
-#: ../gui/gpvdm.py:761
+#: ../gui/gpvdm.py:767
 msgid "Online help"
 msgstr ""
 
-#: ../gui/gpvdm.py:764
+#: ../gui/gpvdm.py:770
 msgid "License"
 msgstr ""
 
-#: ../gui/gpvdm.py:767
+#: ../gui/gpvdm.py:773
 msgid "About"
 msgstr ""
 
-#: ../gui/gpvdm.py:774
+#: ../gui/gpvdm.py:780
 msgid "Check for updates"
 msgstr ""
 
-#: ../gui/gpvdm.py:778
+#: ../gui/gpvdm.py:784
 msgid "Make a new simulation"
 msgstr ""
 
-#: ../gui/gpvdm.py:782
+#: ../gui/gpvdm.py:788
 msgid "Open a simulation"
 msgstr ""
 
-#: ../gui/gpvdm.py:789
+#: ../gui/gpvdm.py:795
 msgid "Undo"
 msgstr ""
 
-#: ../gui/gpvdm.py:795
+#: ../gui/gpvdm.py:801
 msgid "Run the simulation"
 msgstr ""
 
-#: ../gui/gpvdm.py:799
+#: ../gui/gpvdm.py:805
 msgid "Run parameter scan"
 msgstr ""
 
-#: ../gui/gpvdm.py:819
+#: ../gui/gpvdm.py:825
 msgid "Run a fit command"
 msgstr ""
 
-#: ../gui/gpvdm.py:838
+#: ../gui/gpvdm.py:844
 msgid "Time domain simulation editor."
 msgstr ""
 
-#: ../gui/gpvdm.py:843
+#: ../gui/gpvdm.py:849
 msgid "Frequency domain simulation editor"
 msgstr ""
 
-#: ../gui/gpvdm.py:848
+#: ../gui/gpvdm.py:854
 msgid "Steady state simulation editor"
 msgstr ""
 
-#: ../gui/gpvdm.py:852
+#: ../gui/gpvdm.py:858
 msgid "Lasers editor"
 msgstr ""
 
@@ -2503,17 +2515,17 @@ msgstr ""
 msgid "Pause between iterations"
 msgstr ""
 
-#: ../gui/token_lib.py:91 ../gui/token_lib.py:301 ../gui/token_lib.py:305
-#: ../gui/token_lib.py:309 ../gui/token_lib.py:315 ../gui/token_lib.py:316
-#: ../gui/token_lib.py:317 ../gui/token_lib.py:318 ../gui/token_lib.py:320
-#: ../gui/token_lib.py:321 ../gui/token_lib.py:347 ../gui/token_lib.py:348
-#: ../gui/token_lib.py:350 ../gui/token_lib.py:351 ../gui/token_lib.py:352
-#: ../gui/token_lib.py:353 ../gui/token_lib.py:354 ../gui/token_lib.py:355
-#: ../gui/token_lib.py:358 ../gui/token_lib.py:360 ../gui/token_lib.py:361
-#: ../gui/token_lib.py:362 ../gui/token_lib.py:363 ../gui/token_lib.py:364
-#: ../gui/token_lib.py:365 ../gui/token_lib.py:366 ../gui/token_lib.py:367
-#: ../gui/token_lib.py:368 ../gui/token_lib.py:369 ../gui/token_lib.py:373
-#: ../gui/token_lib.py:383
+#: ../gui/token_lib.py:91 ../gui/token_lib.py:300 ../gui/token_lib.py:304
+#: ../gui/token_lib.py:308 ../gui/token_lib.py:314 ../gui/token_lib.py:315
+#: ../gui/token_lib.py:316 ../gui/token_lib.py:317 ../gui/token_lib.py:319
+#: ../gui/token_lib.py:320 ../gui/token_lib.py:346 ../gui/token_lib.py:347
+#: ../gui/token_lib.py:349 ../gui/token_lib.py:350 ../gui/token_lib.py:351
+#: ../gui/token_lib.py:352 ../gui/token_lib.py:353 ../gui/token_lib.py:354
+#: ../gui/token_lib.py:357 ../gui/token_lib.py:359 ../gui/token_lib.py:360
+#: ../gui/token_lib.py:361 ../gui/token_lib.py:362 ../gui/token_lib.py:363
+#: ../gui/token_lib.py:364 ../gui/token_lib.py:365 ../gui/token_lib.py:366
+#: ../gui/token_lib.py:367 ../gui/token_lib.py:368 ../gui/token_lib.py:370
+#: ../gui/token_lib.py:374 ../gui/token_lib.py:384
 msgid "True/False"
 msgstr ""
 
@@ -2708,205 +2720,209 @@ msgstr ""
 msgid "device breadth"
 msgstr ""
 
-#: ../gui/token_lib.py:238
+#: ../gui/token_lib.py:237
 msgid "Max electrical itterations"
 msgstr ""
 
-#: ../gui/token_lib.py:239
+#: ../gui/token_lib.py:238
 msgid "Electrical clamp"
 msgstr ""
 
-#: ../gui/token_lib.py:240
+#: ../gui/token_lib.py:239
 msgid "Poisson clamping"
 msgstr ""
 
-#: ../gui/token_lib.py:241
+#: ../gui/token_lib.py:240
 msgid "Minimum electrical error"
 msgstr ""
 
-#: ../gui/token_lib.py:242
+#: ../gui/token_lib.py:241
 msgid "Poisson solver max itterations"
 msgstr ""
 
-#: ../gui/token_lib.py:244
+#: ../gui/token_lib.py:243
 msgid "Newton minimum iterations"
 msgstr ""
 
-#: ../gui/token_lib.py:245
+#: ../gui/token_lib.py:244
 msgid "Matrix solver to use"
 msgstr ""
 
-#: ../gui/token_lib.py:246
+#: ../gui/token_lib.py:245
 msgid "Newton solver to use"
 msgstr ""
 
-#: ../gui/token_lib.py:301
+#: ../gui/token_lib.py:300
 msgid "Enable fit"
 msgstr ""
 
-#: ../gui/token_lib.py:305
+#: ../gui/token_lib.py:304
 msgid "log x"
 msgstr ""
 
-#: ../gui/token_lib.py:309
+#: ../gui/token_lib.py:308
 msgid "Invert simulated data (y)"
 msgstr ""
 
-#: ../gui/token_lib.py:313
+#: ../gui/token_lib.py:312
 msgid "Device temperature on left"
 msgstr ""
 
-#: ../gui/token_lib.py:314
+#: ../gui/token_lib.py:313
 msgid "Device temperature on right"
 msgstr ""
 
-#: ../gui/token_lib.py:315
+#: ../gui/token_lib.py:314
 msgid "Enable thermal solver"
 msgstr ""
 
-#: ../gui/token_lib.py:316
+#: ../gui/token_lib.py:315
 msgid "Lattice heat model"
 msgstr ""
 
-#: ../gui/token_lib.py:317
+#: ../gui/token_lib.py:316
 msgid "Electron heat model"
 msgstr ""
 
-#: ../gui/token_lib.py:318
+#: ../gui/token_lib.py:317
 msgid "Hole heat model"
 msgstr ""
 
-#: ../gui/token_lib.py:320
+#: ../gui/token_lib.py:319
 msgid "Isothermal boundary on left"
 msgstr ""
 
-#: ../gui/token_lib.py:321
+#: ../gui/token_lib.py:320
 msgid "Isothermal boundary on right"
 msgstr ""
 
-#: ../gui/token_lib.py:344
+#: ../gui/token_lib.py:343
 msgid "Filp the opticl field"
 msgstr ""
 
-#: ../gui/token_lib.py:347
+#: ../gui/token_lib.py:346
 msgid "Dump from newton solver"
 msgstr ""
 
-#: ../gui/token_lib.py:348
+#: ../gui/token_lib.py:347
 msgid "Plot bands etc.. "
 msgstr ""
 
-#: ../gui/token_lib.py:350
+#: ../gui/token_lib.py:349
 msgid "dump slices by time"
 msgstr ""
 
-#: ../gui/token_lib.py:351
+#: ../gui/token_lib.py:350
 msgid "Dump 1D slices"
 msgstr ""
 
-#: ../gui/token_lib.py:352
+#: ../gui/token_lib.py:351
 msgid "Dump slices"
 msgstr ""
 
-#: ../gui/token_lib.py:353
+#: ../gui/token_lib.py:352
 msgid "Dump dynamic"
 msgstr ""
 
-#: ../gui/token_lib.py:354
+#: ../gui/token_lib.py:353
 msgid "Dump zip files"
 msgstr ""
 
-#: ../gui/token_lib.py:355
+#: ../gui/token_lib.py:354
 msgid "Write out band structure"
 msgstr ""
 
-#: ../gui/token_lib.py:358
+#: ../gui/token_lib.py:357
 msgid "Dump optical information"
 msgstr ""
 
-#: ../gui/token_lib.py:360
+#: ../gui/token_lib.py:359
 msgid "Print newton error"
 msgstr ""
 
-#: ../gui/token_lib.py:361
+#: ../gui/token_lib.py:360
 msgid "Print solver convergence"
 msgstr ""
 
-#: ../gui/token_lib.py:362
+#: ../gui/token_lib.py:361
 msgid "Write newton solver convergence to disk"
 msgstr ""
 
-#: ../gui/token_lib.py:363
+#: ../gui/token_lib.py:362
 msgid "Print poisson solver convergence"
 msgstr ""
 
-#: ../gui/token_lib.py:364
+#: ../gui/token_lib.py:363
 msgid "Dump PL spectra"
 msgstr ""
 
-#: ../gui/token_lib.py:365
+#: ../gui/token_lib.py:364
 msgid "Normalize output x-time to one"
 msgstr ""
 
-#: ../gui/token_lib.py:366
+#: ../gui/token_lib.py:365
 msgid "Dump the built in voltage."
 msgstr ""
 
-#: ../gui/token_lib.py:367
+#: ../gui/token_lib.py:366
 msgid "Dump optical probe spectrum"
 msgstr ""
 
-#: ../gui/token_lib.py:368
+#: ../gui/token_lib.py:367
 msgid "Dump optical summary"
 msgstr ""
 
-#: ../gui/token_lib.py:369
+#: ../gui/token_lib.py:368
 msgid "Dump raytrace plots"
 msgstr ""
 
-#: ../gui/token_lib.py:373
-msgid "Turn on luminescence"
+#: ../gui/token_lib.py:370
+msgid "Dump an excel workbook for each simulation run congaing the results."
 msgstr ""
 
 #: ../gui/token_lib.py:374
-#, python-brace-format
-msgid "n_{free} to p_{free} photon generation efficiency"
+msgid "Turn on luminescence"
 msgstr ""
 
 #: ../gui/token_lib.py:375
 #, python-brace-format
-msgid "n_{free} to n_{trap} photon generation efficiency"
+msgid "n_{free} to p_{free} photon generation efficiency"
 msgstr ""
 
 #: ../gui/token_lib.py:376
 #, python-brace-format
-msgid "n_{trap} to p_{free} photon generation efficiency"
+msgid "n_{free} to n_{trap} photon generation efficiency"
 msgstr ""
 
 #: ../gui/token_lib.py:377
 #, python-brace-format
-msgid "p_{trap} to n_{free} photon generation efficiency"
+msgid "n_{trap} to p_{free} photon generation efficiency"
 msgstr ""
 
 #: ../gui/token_lib.py:378
 #, python-brace-format
+msgid "p_{trap} to n_{free} photon generation efficiency"
+msgstr ""
+
+#: ../gui/token_lib.py:379
+#, python-brace-format
 msgid "p_{free} to p_{trap} photon generation efficiency"
 msgstr ""
 
-#: ../gui/token_lib.py:380
+#: ../gui/token_lib.py:381
 #, python-brace-format
 msgid "n_{free} to p_{free} Recombination rate constant"
 msgstr ""
 
-#: ../gui/token_lib.py:383
+#: ../gui/token_lib.py:384
 msgid "Turn on LED"
 msgstr ""
 
-#: ../gui/token_lib.py:384
+#: ../gui/token_lib.py:385
 msgid "LED emission wavelength"
 msgstr ""
 
-#: ../gui/token_lib.py:385
+#: ../gui/token_lib.py:386
 msgid "LED extraction efficiency"
 msgstr ""
 

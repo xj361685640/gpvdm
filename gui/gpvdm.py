@@ -148,6 +148,8 @@ if running_on_linux()==True:
 else:
 	from windows_pipe import win_pipe
 
+from dump_io import dump_io
+
 print(notice())
 
 #gobject.threads_init()
@@ -159,6 +161,7 @@ def set_active_name(combobox, name):
 		if liststore[i][0] == name:
 			combobox.set_active(i)
 
+		
 class gpvdm_main_window(QMainWindow):
 
 	plot_after_run=False
@@ -195,6 +198,7 @@ class gpvdm_main_window(QMainWindow):
 		self.plot_after_run=data.get_active()
 		self.config.set_value("#plot_after_simulation",data.get_active())
 
+		
 	def callback_qe_window(self, widget):
 		if self.qe_window==None:
 			self.qe_window=qe_window()
@@ -457,6 +461,8 @@ class gpvdm_main_window(QMainWindow):
 		if self.qe_window!=None:
 			del self.qe_window
 			self.qe_window=None
+
+		self.dump_io.refresh()
 
 		#myitem=self.item_factory.get_item("/Plots/One plot window")
 		#myitem.set_active(self.config.get_value("#one_plot_window",False))
@@ -853,7 +859,11 @@ class gpvdm_main_window(QMainWindow):
 		self.laser_button.triggered.connect(self.callback_configure_lasers)
 		toolbar.addAction(self.laser_button)
 
-
+		toolbar.addSeparator()
+		
+		self.dump_io = dump_io(self)
+		toolbar.addAction(self.dump_io)
+		
 		spacer = QWidget()
 		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 		toolbar.addWidget(spacer)

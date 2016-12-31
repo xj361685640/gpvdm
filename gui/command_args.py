@@ -60,17 +60,17 @@ parser.add_argument("--ver", help=_("displays the current version"), action='sto
 parser.add_argument("--replace", help=_("replaces file in device lib"), nargs=1)
 parser.add_argument("--clean", help=_("cleans the current simulation directory deleting .dat files but not  scan dirs"), action='store_true')
 parser.add_argument("--export", help=_("export a simulation to a gz file"), nargs=1)
-parser.add_argument("--sync-ver", help=_("Synchronizes the saved file version to that of the source code."), action='store_true')
-parser.add_argument("--make-man", help=_("Generate the manual pages referring to the output files.."), action='store_true')
+parser.add_argument("--syncver", help=_("Synchronizes the saved file version to that of the source code."), action='store_true')
+parser.add_argument("--makeman", help=_("Generate the manual pages referring to the output files.."), action='store_true')
 parser.add_argument("--importscandirs", help=_("Only imports the scan directories."), nargs=1)
-parser.add_argument("--clean-scandirs", help=_("Deletes the content of all scan directories."), nargs=1)
+parser.add_argument("--cleanscandirs", help=_("Deletes the content of all scan directories."), nargs=1)
 parser.add_argument("--patch", help=_("Patch a .gpvdm file with an older .gpvdm file."), nargs=2)
 parser.add_argument("--importfile", help=_("usage --import abc.gpvdm ./path/to/output/ "), nargs=2)
-parser.add_argument("--dump-tab", help=_("Dumps simulation parameters as jpg, usage: --dump-tab output_path"), nargs=1)
+parser.add_argument("--dumptab", help=_("Dumps simulation parameters as jpg, usage: --dump-tab output_path"), nargs=1)
 parser.add_argument("--clone", help=_("Generate a clean simulation in the current directory"), action='store_true')
-parser.add_argument("--clone-src", help=_("Clone the source code."), action='store_true')
-parser.add_argument("--edit-value", help=_("edits a value in a .gpvdm archive. Usage --edit-value /path/to/sim.gpvdm #token_to_change new_value "), nargs=3)
-parser.add_argument("--scan-plot", help=_("Runs an oplot file, usage --scan-plot /path/to/oplot/file.oplot "), nargs=1)
+parser.add_argument("--clonesrc", help=_("Clone the source code."), action='store_true')
+parser.add_argument("--editvalue", help=_("edits a value in a .gpvdm archive. Usage --edit-value /path/to/sim.gpvdm #token_to_change new_value "), nargs=3)
+parser.add_argument("--scanplot", help=_("Runs an oplot file, usage --scanplot /path/to/oplot/file.oplot "), nargs=1)
 parser.add_argument("--run-scan", help=_("Runs a scan, usage --run-scan /path/containing/base/files/ /path/to/scan/dir/ "), nargs=2)
 
 args = parser.parse_args()
@@ -86,7 +86,7 @@ def command_args(argc,argv):
 		elif args.ver:
 			print(ver())
 			sys.exit(0)
-		elif args.sync-ver:
+		elif args.syncver:
 			ver_sync_ver()
 			sys.exit(0)
 		elif args.importscandirs:
@@ -101,17 +101,17 @@ def command_args(argc,argv):
 		elif args.export:
 			export_as(args.export[0])
 			sys.exit(0)
-		elif args.make-man:
+		elif args.makeman:
 			make_man()
 			sys.exit(0)
-		elif args.clean-scandirs:
+		elif args.cleanscandirs:
 			clean_scan_dirs(os.getcwd())
 			sys.exit(0)
 		elif args.importfile:
 			import_archive(args.importfile[0],os.path.join(os.getcwd(),"sim.gpvdm"),False)
 			sys.exit(0)
-		elif args.dump-tab:
-			export_as(args.dump-tab[0])
+		elif args.dumptab:
+			export_as(args.dumptab[0])
 			sys.exit(0)
 		elif args.patch:
 			import_archive(args.patch[0],args.patch[1],True)
@@ -119,13 +119,13 @@ def command_args(argc,argv):
 		elif args.clone:
 			gpvdm_clone(os.getcwd(),True)
 			sys.exit(0)
-		elif args.clone-src:
+		elif args.clonesrc:
 			gpvdm_copy_src(clone-src[0])
 			sys.exit(0)
-		elif args.edit-value:
-			inp_update(args.edit-value[0], args.edit-value[1], args.edit-value[2])
+		elif args.editvalue:
+			inp_update(args.editvalue[0], args.editvalue[1], args.editvalue[2])
 			sys.exit(0)
-		elif args.scan-plot:
+		elif args.scanplot:
 			plot_token=plot_state()
 			oplot_file=args.scan-plot[0]
 			if plot_load_info(plot_token,oplot_file)==True:

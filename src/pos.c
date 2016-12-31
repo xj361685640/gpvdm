@@ -52,7 +52,7 @@ if (get_dump_status(sim,dump_first_guess)==TRUE)
 	int band=0;
 	int i=0;
 
-
+	buffer_malloc(&buf);
 	sprintf(name,"%s%s","first_guess_Fi",".dat");
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
@@ -104,6 +104,7 @@ if (get_dump_status(sim,dump_first_guess)==TRUE)
 	buffer_free(&buf);
 
 
+	buffer_malloc(&buf);
 	sprintf(name,"%s%s","first_guess_n",".dat");
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
@@ -121,6 +122,7 @@ if (get_dump_status(sim,dump_first_guess)==TRUE)
 	buffer_free(&buf);
 
 
+	buffer_malloc(&buf);
 	sprintf(name,"%s%s","first_guess_p",".dat");
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
@@ -137,7 +139,7 @@ if (get_dump_status(sim,dump_first_guess)==TRUE)
 	buffer_dump_path(out_dir,name,&buf);
 	buffer_free(&buf);
 
-
+	buffer_malloc(&buf);
 	sprintf(name,"%s%s","first_guess_phi",".dat");
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
