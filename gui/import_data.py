@@ -27,7 +27,7 @@ from cal_path import get_image_file_path
 
 #qt
 from PyQt5.QtCore import QSize, Qt 
-from PyQt5.QtWidgets import QWidget,QVBoxLayout,QHBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QTextEdit,QComboBox,QLabel,QLineEdit
+from PyQt5.QtWidgets import QWidget,QVBoxLayout,QHBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QTextEdit,QComboBox,QLabel,QLineEdit,QDialog
 from PyQt5.QtGui import QPainter,QIcon
 
 #python modules
@@ -50,6 +50,8 @@ from plot_state import plot_state
 from plot_io import gen_header_from_token
 
 from PyQt5.QtCore import pyqtSignal
+
+from window_list import resize_window_to_be_sane
 
 articles = []
 mesh_articles = []
@@ -81,7 +83,8 @@ class graph_data_display(QWidget):
 		box.addItem("um")
 		box.addItem("mm")
 		box.addItem("m")
-		
+		box.addItem("V")
+		box.addItem("mV")		
 	def to_si(self,unit):
 		ret=-1
 		if unit=="cm^{-1}":
@@ -101,13 +104,17 @@ class graph_data_display(QWidget):
 		elif unit=="A/m2":
 			ret=1.0
 		elif unit=="nm":
-			ret=1e9
+			ret=1e-9
 		elif unit=="um":
-			ret=1e6
+			ret=1e-6
 		elif unit=="mm":
-			ret=1e3
+			ret=1e-3
 		elif unit=="m":
 			ret=1.0
+		elif unit=="V":
+			ret=1.0
+		elif unit=="mV":
+			ret=1e-3
 		return ret
 
 	def callback_edited(self):
@@ -176,6 +183,7 @@ class graph_data_display(QWidget):
 
 		self.setLayout(self.main_vbox)
 
+
 	def set_xlabel(self,text):
 		self.xlabel_entry.blockSignals(True)
 		self.xlabel_entry.setText(text)
@@ -205,15 +213,17 @@ class graph_data_display(QWidget):
 	def get_ylabel(self):
 		return self.ylabel_entry.text()
 
-class import_data(QWidget):
+class import_data(QDialog):
 
 	changed = pyqtSignal()
 	
 	def callback_tab_changed(self):
 		self.changed.emit()
 
-	def __init__(self):
-		QWidget.__init__(self)
+	def __init__(self,out_file):
+		QDialog.__init__(self)
+		self.out_file=out_file
+		resize_window_to_be_sane(self,0.6,0.7)
 		self.data=dat_file()
 		self.info_token=plot_state()
 
@@ -231,8 +241,13 @@ class import_data(QWidget):
 		spacer = QWidget()
 		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 		
-		self.import_data= QAction(QIcon(os.path.join(get_image_file_path(),"import.png")), _("Import data"), self)
+		self.open_data= QAction(QIcon(os.path.join(get_image_file_path(),"open.png")), _("Open file"), self)
+		self.open_data.triggered.connect(self.callback_open)
+		toolbar.addAction(self.open_data)
+
+		self.import_data= QAction(QIcon(os.path.join(get_image_file_path(),"save.png")), _("Import data to model"), self)
 		self.import_data.triggered.connect(self.callback_import)
+		self.import_data.setEnabled(False)
 		toolbar.addAction(self.import_data)
 		
 		toolbar.addWidget(spacer)
@@ -245,23 +260,43 @@ class import_data(QWidget):
 
 		self.main_vbox.addWidget(toolbar)
 
+
 		self.input_output_hbox=QHBoxLayout()
+
+		self.raw_data_widget=QWidget()
+		self.raw_data_hbox=QVBoxLayout()
+		self.raw_data_widget.setLayout(self.raw_data_hbox)
 		self.raw_data = QTextEdit(self)
 		self.raw_data.setReadOnly(True)
 		self.raw_data.setLineWrapMode(QTextEdit.NoWrap)
 		font = self.raw_data.font()
 		font.setFamily("Courier")
 		font.setPointSize(10)
+		self.raw_data_label=QLabel(_("The file to import:"))
+		self.raw_data_hbox.addWidget(self.raw_data_label)
+		self.raw_data_hbox.addWidget(self.raw_data)
+		self.raw_data_path=QLabel()
+		self.raw_data_hbox.addWidget(self.raw_data_path)
 
+		self.out_data_widget=QWidget()
+		self.out_data_hbox=QVBoxLayout()
+		self.out_data_widget.setLayout(self.out_data_hbox)
 		self.out_data = QTextEdit(self)
 		self.out_data.setReadOnly(True)
 		self.out_data.setLineWrapMode(QTextEdit.NoWrap)
 		font = self.out_data.font()
 		font.setFamily("Courier")
 		font.setPointSize(10)
+		self.out_data_label=QLabel(_("The imported file, the numbers should now be in SI units"))
+		self.out_data_hbox.addWidget(self.out_data_label)
 
-		self.input_output_hbox.addWidget(self.raw_data)
-		self.input_output_hbox.addWidget(self.out_data)
+		self.out_data_hbox.addWidget(self.out_data)
+
+		self.out_data_path=QLabel()
+		self.out_data_hbox.addWidget(self.out_data_path)
+		
+		self.input_output_hbox.addWidget(self.raw_data_widget)
+		self.input_output_hbox.addWidget(self.out_data_widget)
 		self.input_output_widget=QWidget()
 		self.input_output_widget.setLayout(self.input_output_hbox)
 
@@ -272,11 +307,14 @@ class import_data(QWidget):
 		self.unit_sel.changed.connect(self.update)
 		self.setLayout(self.main_vbox)
 
+		self.out_data_path.setText(self.out_file)
+		
 		self.win_list=windows()
 		self.win_list.load()
 		self.win_list.set_window(self,"import_window")
 
-
+		self.ret=self.load_file()
+			
 	def callback_help(self,widget):
 		webbrowser.open('http://www.gpvdm.com/man/index.html')
 
@@ -304,9 +342,15 @@ class import_data(QWidget):
 		self.info_token.y_mul=self.unit_sel.y_mul
 		self.gen_output()
 
-		
 	def callback_import(self):
+		a = open(self.out_file, "w")
+		a.write(self.out_data.toPlainText())
+		a.close()
+		self.close()
+
+	def load_file(self):
 		file_name=open_as_filter(self,"dat (*.dat);;csv (*.csv);;txt (*.txt)")
+
 		if file_name!=None:
 			f = open(file_name, "r")
 			lines = f.readlines()
@@ -314,35 +358,42 @@ class import_data(QWidget):
 			text=""
 			for l in range(0, len(lines)):
 				text=text+lines[l].rstrip()+"\n"
-			
+			self.raw_data_path.setText(file_name)
 			self.raw_data.setText(text)
 
-		got_info=plot_load_info(self.info_token,file_name)
-			
-		if dat_file_read(self.data,file_name)==True:
-			if got_info==False:
-				self.info_token.x_len=self.data.x_len
-				self.info_token.y_len=self.data.y_len
-				self.info_token.z_len=self.data.z_len
-				self.info_token.x_units="m"
-				self.info_token.y_units="m"
-				self.info_token.x_label="Enter x-label"
-				self.info_token.y_label="Enter y-label"
-				self.info_token.title="Enter title"
-				self.unit_sel.enable_units(True)
-			else:
-				self.unit_sel.enable_units(False)
+			got_info=plot_load_info(self.info_token,file_name)
+				
+			if dat_file_read(self.data,file_name)==True:
+				if got_info==False:
+					self.info_token.x_len=self.data.x_len
+					self.info_token.y_len=self.data.y_len
+					self.info_token.z_len=self.data.z_len
+					self.info_token.x_units="m"
+					self.info_token.y_units="m"
+					self.info_token.x_label="Enter x-label"
+					self.info_token.y_label="Enter y-label"
+					self.info_token.title="Enter title"
+					self.unit_sel.enable_units(True)
+				else:
+					self.unit_sel.enable_units(False)
+				
+				self.import_data.setEnabled(True)
 
-			self.unit_sel.set_xlabel(self.info_token.x_label)
-			self.unit_sel.set_ylabel(self.info_token.y_label)
-			self.unit_sel.set_title(self.info_token.title)
-			self.unit_sel.set_units(self.info_token.x_units,self.info_token.y_units)
-			
-			self.gen_output()
+				self.unit_sel.set_xlabel(self.info_token.x_label)
+				self.unit_sel.set_ylabel(self.info_token.y_label)
+				self.unit_sel.set_title(self.info_token.title)
+				self.unit_sel.set_units(self.info_token.x_units,self.info_token.y_units)
+				
+				self.gen_output()
+				return True
+				#print("importing file",file_name)
+				#shutil.copy(file_name, os.path.join(os.getcwd(),"fit_data"+str(self.index)+".inp"))
+				#self.update()
+		else:
+			return False
 
-			#print("importing file",file_name)
-			#shutil.copy(file_name, os.path.join(os.getcwd(),"fit_data"+str(self.index)+".inp"))
-			#self.update()
+	def callback_open(self):
+		self.load_file()
 
-
-
+	def run(self):
+		self.exec_()

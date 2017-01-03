@@ -75,7 +75,7 @@ from help import language_advert
 from notice import notice
 from scan_item import scan_item_add
 from window_list import windows
-from window_list import get_main_window_size
+from window_list import resize_window_to_be_sane
 from qe import qe_window
 
 
@@ -887,8 +887,7 @@ class gpvdm_main_window(QMainWindow):
 			toolbar_hpc = self.addToolBar(self.hpc_toolbar)
 	
 		self.win_list.set_window(self,"main_window")
-		w,h=get_main_window_size()
-		self.resize(w,h)
+		resize_window_to_be_sane(self,0.7,0.7)
 
 #		self.menubar.show()
 

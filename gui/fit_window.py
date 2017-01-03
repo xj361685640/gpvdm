@@ -49,7 +49,6 @@ from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTa
 from PyQt5.QtGui import QPainter,QIcon,QCursor
 
 #windows
-from gui_util import dlg_get_text
 from gui_util import yes_no_dlg
 
 from fit_tab import fit_tab
@@ -125,15 +124,14 @@ class fit_window(QWidget):
 		tab = self.notebook.currentWidget()
 		old_index=tab.index
 		new_sim_name=dlg_get_text( _("Clone the current fit to a new fit called:"), tab.tab_name,"clone.png")
-		if new_sim_name!=None:
-			new_sim_name=new_sim_name
+		if new_sim_name.ret!=None:
 			index=fit_new_filename()
 
 			shutil.copy("fit"+str(old_index)+".inp","fit"+str(index)+".inp")
 			shutil.copy("fit_data"+str(old_index)+".inp","fit_data"+str(index)+".inp")
 			shutil.copy("fit_patch"+str(old_index)+".inp","fit_patch"+str(index)+".inp")
 
-			inp_update_token_value("fit"+str(index)+".inp", "#fit_name", new_sim_name,1)
+			inp_update_token_value("fit"+str(index)+".inp", "#fit_name", new_sim_name.ret,1)
 			self.add_page(index)
 
 
@@ -161,8 +159,8 @@ class fit_window(QWidget):
 			inp_remove_file("fit"+str(tab.index)+".inp")
 			inp_remove_file("fit_data"+str(tab.index)+".inp")
 			inp_remove_file("fit_patch"+str(tab.index)+".inp")
-			self.notebook.remove_page(pageNum)
-			global_object_get("tb_item_sim_mode_update")()
+			index=self.notebook.currentIndex() 
+			self.notebook.removeTab(index)
 
 	def callback_view_toggle_tab(self):
 		print("add code")

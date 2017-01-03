@@ -99,9 +99,11 @@ class fit_window_plot_real(QWidget):
 			self.save_image(file_name)
 
 	def callback_import(self):
-		self.im=import_data()
-		self.im.show()
-		return
+		self.im=import_data(os.path.join(os.getcwd(),"fit_data"+str(self.index)+".inp"))
+		self.im.run()
+		print("return value",self.im)
+		if self.im.ret==True:
+			self.update()
 
 	def __init__(self,index):
 		QWidget.__init__(self)

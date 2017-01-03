@@ -24,11 +24,11 @@ from inp import inp_write_lines_to_file
 
 from PyQt5.QtWidgets import QWidget, QDesktopWidget
 
-def get_main_window_size():
+def resize_window_to_be_sane(window,x,y):
 	shape=QDesktopWidget().screenGeometry()
-	desktop_w=shape.width()*0.7
-	desktop_h=shape.height()*0.7
-	return desktop_w,desktop_h
+	w=shape.width()*x
+	h=shape.height()*y
+	window.resize(w,h)
 
 class window_item:
 	name=""

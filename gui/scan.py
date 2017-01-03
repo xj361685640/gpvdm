@@ -186,7 +186,6 @@ class scan_class(QWidget):
 		if response==True:
 			index=self.notebook.currentIndex() 
 			self.notebook.removeTab(index)
-
 			print(_("I am going to delete file"),dir_to_del)
 			delete_second_level_link_tree(dir_to_del)
 
