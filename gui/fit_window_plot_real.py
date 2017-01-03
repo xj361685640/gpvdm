@@ -1,8 +1,8 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012-2017 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -49,8 +49,9 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 
-from gui_util import save_as_filter
+from gui_util import open_as_filter
 
+from import_data import import_data
 mesh_articles = []
 
 
@@ -97,6 +98,10 @@ class fit_window_plot_real(QWidget):
 		if file_name!=None:
 			self.save_image(file_name)
 
+	def callback_import(self):
+		self.im=import_data()
+		self.im.show()
+		return
 
 	def __init__(self,index):
 		QWidget.__init__(self)
@@ -127,6 +132,9 @@ class fit_window_plot_real(QWidget):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
+		self.import_data= QAction(QIcon(os.path.join(get_image_file_path(),"import.png")), _("Import data"), self)
+		self.import_data.triggered.connect(self.callback_import)
+		toolbar.addAction(self.import_data)
 
 		self.tb_save = QAction(QIcon(os.path.join(get_image_file_path(),"save.png")), _("Save graph"), self)
 		self.tb_save.triggered.connect(self.callback_save)

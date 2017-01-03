@@ -97,7 +97,7 @@ def guess_dim(lines):
 		temp=re.sub("\r","",temp)
 
 		if len(temp)>0:
-			if temp[0]!="#":
+			if is_number(temp)==True:
 				s=temp.split(" ")
 				if len(s)==1:
 					print("I can't do this file type yet")

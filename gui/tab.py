@@ -38,6 +38,8 @@ from gtkswitch import gtkswitch
 from leftright import leftright
 from help import help_window
 
+from PyQt5.QtCore import pyqtSignal
+
 from PyQt5.QtWidgets import QWidget, QScrollArea,QVBoxLayout,QProgressBar,QLabel,QDesktopWidget,QToolBar,QHBoxLayout,QAction, QSizePolicy, QTableWidget, QTableWidgetItem,QComboBox,QDialog,QAbstractItemView,QGridLayout,QLineEdit
 
 import i18n
@@ -49,7 +51,8 @@ class tab_class(QScrollArea,tab_base):
 
 	lines=[]
 	edit_list=[]
-
+	changed = pyqtSignal()
+		
 	def __init__(self):
 		QScrollArea.__init__(self)
 		self.editable=True
@@ -66,10 +69,10 @@ class tab_class(QScrollArea,tab_base):
 			inp_update_token_value(file_name, token, widget.get_value(),1)
 		elif type(widget)==QComboBox:
 			inp_update_token_value(file_name, token, widget.itemText(widget.currentIndex()),1)
-
-		
 		
 		help_window().help_set_help(["32_save.png","<big><b>Saved to disk</b></big>\n"])
+		
+		self.changed.emit()
 
 	def help(self):
 		help_window().get_help(self.file_name)

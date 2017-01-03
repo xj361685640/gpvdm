@@ -58,6 +58,7 @@ from QHTabBar import QHTabBar
 from fit_vars import fit_vars
 from duplicate import duplicate
 
+from gui_util import dlg_get_text
 
 def fit_new_filename():
 	for i in range(0,20):
@@ -106,14 +107,14 @@ class fit_window(QWidget):
 		webbrowser.open('https://www.gpvdm.com/man/index.html')
 
 	def callback_add_page(self):
-		new_sim_name=dlg_get_text( _("New fit name:"), _("fit ")+str(len(self.notebook.get_children())+1),"new.png")
+		new_sim_name=dlg_get_text( _("New fit name:"), _("fit ")+str(self.notebook.count()+1),"new.png")
 
-		if new_sim_name!=None:
+		if new_sim_name.ret!=None:
 			index=fit_new_filename()
 			shutil.copy("fit0.inp","fit"+str(index)+".inp")
 			shutil.copy("fit_data0.inp","fit_data"+str(index)+".inp")
 			shutil.copy("fit_patch0.inp","fit_patch"+str(index)+".inp")
-			inp_update_token_value("fit"+str(index)+".inp", "#fit_name", new_sim_name,1)
+			inp_update_token_value("fit"+str(index)+".inp", "#fit_name", new_sim_name.ret,1)
 			self.add_page(index)
 
 	def callback_remove_page(self,widget,name):
@@ -138,10 +139,6 @@ class fit_window(QWidget):
 
 	def remove_invalid(self,input_name):
 		return input_name.replace (" ", "_")
-
-	def callback_import(self):
-		tab = self.notebook.currentWidget()
-		tab.import_data()
 			
 	def callback_rename_page(self):
 		tab = self.notebook.currentWidget()
@@ -245,9 +242,6 @@ class fit_window(QWidget):
 		self.menu_fit_rename=self.menu_fit.addAction("&"+_("Rename fit"))
 		self.menu_fit_rename.triggered.connect(self.callback_rename_page)
 
-		self.menu_fit_import=self.menu_fit.addAction("&"+_("Import data"))
-		self.menu_fit_import.triggered.connect(self.callback_import)
-
 		self.menu_fit_clone=self.menu_fit.addAction("&"+_("Clone fit"))
 		self.menu_fit_clone.triggered.connect(self.callback_copy_page)
 
@@ -267,25 +261,21 @@ class fit_window(QWidget):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
-		self.new = QAction(QIcon(os.path.join(get_image_file_path(),"new.png")), _("New laser"), self)
+		self.new = QAction(QIcon(os.path.join(get_image_file_path(),"new.png")), _("New fit"), self)
 		self.new.triggered.connect(self.callback_add_page)
 		toolbar.addAction(self.new)
 
-		self.new = QAction(QIcon(os.path.join(get_image_file_path(),"delete.png")), _("Delete laser"), self)
+		self.new = QAction(QIcon(os.path.join(get_image_file_path(),"delete.png")), _("Delete fit"), self)
 		self.new.triggered.connect(self.callback_delete_page)
 		toolbar.addAction(self.new)
 
-		self.clone = QAction(QIcon(os.path.join(get_image_file_path(),"clone.png")), _("Clone laser"), self)
+		self.clone = QAction(QIcon(os.path.join(get_image_file_path(),"clone.png")), _("Clone fit"), self)
 		self.clone.triggered.connect(self.callback_copy_page)
 		toolbar.addAction(self.clone)
 
-		self.clone = QAction(QIcon(os.path.join(get_image_file_path(),"rename.png")), _("Rename laser"), self)
+		self.clone = QAction(QIcon(os.path.join(get_image_file_path(),"rename.png")), _("Rename fit"), self)
 		self.clone.triggered.connect(self.callback_rename_page)
 		toolbar.addAction(self.clone)
-
-		self.import_data= QAction(QIcon(os.path.join(get_image_file_path(),"import.png")), _("Import data"), self)
-		self.import_data.triggered.connect(self.callback_import)
-		toolbar.addAction(self.import_data)
 
 		toolbar.addSeparator()
 

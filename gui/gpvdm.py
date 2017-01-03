@@ -588,6 +588,7 @@ class gpvdm_main_window(QMainWindow):
 		if self.config_window==None:
 			self.config_window=class_config_window()
 			self.config_window.init()
+			self.config_window.changed.connect(self.dump_io.refresh)
 
 		help_window().help_set_help(["cog.png",_("<big><b>Configuration editor</b></big><br> Use this window to control advanced simulation parameters.")])
 		if self.config_window.isVisible()==True:

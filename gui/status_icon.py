@@ -28,12 +28,16 @@ from win_lin import running_on_linux
 import i18n
 _ = i18n.language.gettext
 
+from about import about_dlg
+
 #qt
 from PyQt5.QtCore import QSize, Qt 
 from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QSystemTrayIcon,QMenu,QApplication
 from PyQt5.QtGui import QIcon
 
 from cluster import cluster
+
+import webbrowser
 
 statusicon = None
 
@@ -42,12 +46,25 @@ class tray_icon(QSystemTrayIcon):
 	def __init__(self,  parent=None):
 		QSystemTrayIcon.__init__(self, QIcon(os.path.join(get_image_file_path(),"ball_green.png")), parent)
 		menu = QMenu(parent)
-		self.exitAction = menu.addAction("Exit")
+		self.menu_about = menu.addAction("About")
+		self.menu_about.triggered.connect(self.callback_about)
+		self.menu_man = menu.addAction("Manual")
+		self.menu_man.triggered.connect(self.callback_man)
+
+		self.exitAction = menu.addSeparator()		
+		self.exitAction = menu.addAction("Quit")
 		self.exitAction.triggered.connect(self.callback_exit)
 		self.setContextMenu(menu)
 
 	def callback_exit(self):
 		QApplication.quit()
+
+	def callback_about(self):
+		dlg=about_dlg()
+		dlg.ui.exec_()
+
+	def callback_man(self):
+		webbrowser.open("https://www.gpvdm.com/man.html")
 
 def status_icon_init():
 	global statusicon

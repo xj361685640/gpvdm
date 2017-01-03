@@ -78,17 +78,40 @@ def plot_load_oplot_file(plot_token,file_name):
 		return True
 	return False
 
-def plot_save_oplot_file(config_file,plot_token):
-	save_name=config_file
-	if save_name!="":
-		if save_name.endswith(".oplot")==False:
-			save_name=save_name.split(".")[0]+".oplot"
+def gen_header_from_token(plot_token,full=False,single_line=True):
+	lines=[]
+	lines.append("#title")
+	lines.append(str(plot_token.title))
+	lines.append("#type")
+	lines.append(str(plot_token.type))
+	lines.append("#x_mul")
+	lines.append(str(plot_token.x_mul))
+	lines.append("#y_mul")
+	lines.append(str(plot_token.y_mul))
+	lines.append("#x_label")
+	lines.append(str(plot_token.x_label))
+	lines.append("#y_label")
+	lines.append(str(plot_token.y_label))
+	lines.append("#x_units")
+	lines.append(str(plot_token.x_units))
+	lines.append("#y_units")
+	lines.append(str(plot_token.y_units))
+	lines.append("#logy")
+	lines.append(str(plot_token.logy))
+	lines.append("#logx")
+	lines.append(str(plot_token.logx))
+	lines.append("#time")
+	lines.append(str(plot_token.time))
+	lines.append("#Vexternal")
+	lines.append(str(plot_token.Vexternal))
+	lines.append("#x")
+	lines.append(str(plot_token.x_len))
+	lines.append("#y")
+	lines.append(str(plot_token.y_len))
+	lines.append("#z")
+	lines.append(str(plot_token.z_len))
 
-		lines=[]
-		lines.append("#logy")
-		lines.append(str(plot_token.logy))
-		lines.append("#logx")
-		lines.append(str(plot_token.logx))
+	if full==True:
 		lines.append("#grid")
 		lines.append(str(plot_token.grid))
 		lines.append("#invert_y")
@@ -119,20 +142,6 @@ def plot_save_oplot_file(config_file,plot_token):
 		lines.append(str(plot_token.key_units))
 		lines.append("#label_data")
 		lines.append(str(plot_token.label_data))
-		lines.append("#type")
-		lines.append(str(plot_token.type))
-		lines.append("#x_label")
-		lines.append(str(plot_token.x_label))
-		lines.append("#y_label")
-		lines.append(str(plot_token.y_label))
-		lines.append("#x_units")
-		lines.append(str(plot_token.x_units))
-		lines.append("#y_units")
-		lines.append(str(plot_token.y_units))
-		lines.append("#x_mul")
-		lines.append(str(plot_token.x_mul))
-		lines.append("#y_mul")
-		lines.append(str(plot_token.y_mul))
 		lines.append("#key_units")
 		lines.append(str(plot_token.key_units))
 		lines.append("#x_start")
@@ -147,10 +156,23 @@ def plot_save_oplot_file(config_file,plot_token):
 		lines.append(str(plot_token.y_stop))
 		lines.append("#y_points")
 		lines.append(str(plot_token.y_points))
-		lines.append("#time")
-		lines.append(str(plot_token.time))
-		lines.append("#Vexternal")
-		lines.append(str(plot_token.Vexternal))
+	
+	if single_line==True:
+		l=[]
+		for i in range(0,int(len(lines)/2)):
+			l.append(lines[i*2]+" "+lines[(i*2)+1])
+
+		lines=l
+
+	return lines
+
+def plot_save_oplot_file(config_file,plot_token):
+	save_name=config_file
+	if save_name!="":
+		if save_name.endswith(".oplot")==False:
+			save_name=save_name.split(".")[0]+".oplot"
+
+		lines=gen_header_from_token(plot_token,full=True,single_line=False)
 		lines.append("#ver")
 		lines.append("1.0")
 		lines.append("#end")

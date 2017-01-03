@@ -96,9 +96,3 @@ class fit_tab(QTabWidget):
 		self.tab_name=tab_name
 		inp_update_token_value("fit"+str(self.index)+".inp", "#fit_name", self.tab_name,1)
 
-	def import_data(self):
-		file_name=save_as_filter(self,"dat (*.dat);;csv (*.csv)")
-		if file_name!=None:
-			#print("importing file",file_name)
-			shutil.copy(file_name, os.path.join(os.getcwd(),"fit_data"+str(self.index)+".inp"))
-			self.update()

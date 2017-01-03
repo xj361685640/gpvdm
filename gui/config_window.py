@@ -37,11 +37,17 @@ import webbrowser
 from tab import tab_class
 from tab_lang import language_tab_class
 
+from PyQt5.QtCore import pyqtSignal
+
 articles = []
 mesh_articles = []
 
 class class_config_window(QWidget):
 
+	changed = pyqtSignal()
+	
+	def callback_tab_changed(self):
+		self.changed.emit()
 
 	def init(self):
 		self.setFixedSize(900, 600)
@@ -82,6 +88,8 @@ class class_config_window(QWidget):
 			tab=tab_class()
 			tab.init(files[i],description[i])
 			self.notebook.addTab(tab,description[i])
+			if files[i]=="dump.inp":
+				tab.changed.connect(self.callback_tab_changed)
 
 		lang_tab=language_tab_class()
 		self.notebook.addTab(lang_tab,_("Language"))

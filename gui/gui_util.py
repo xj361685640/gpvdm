@@ -80,6 +80,28 @@ def save_as_filter(parent,my_filter):
 		return filename
 	else:
 		return None
+
+def open_as_filter(parent,my_filter):
+	selected_filter = ""
+	dialog = QFileDialog(parent)
+	dialog.setWindowTitle(_("Open file"))
+	dialog.setNameFilter(my_filter)
+	dialog.setAcceptMode(QFileDialog.AcceptOpen)
+	if dialog.exec_() == QDialog.Accepted:
+		filename = dialog.selectedFiles()[0]
+		s=dialog.selectedNameFilter()
+		if s.count("(*")==1:
+			s=s.split("(*")[1]
+			s=s[:-1]
+
+			if filename.endswith(s)==False:
+				filename=filename+s
+			else:
+				filename=filename
+
+		return filename
+	else:
+		return None
 	
 def save_as_jpg(parent):
 	return save_as_filter(parent,"jpg (*.jpg)")
