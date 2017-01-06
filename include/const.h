@@ -95,6 +95,7 @@
 #define dump_optical_probe_spectrum 29
 #define dump_built_in_voltage 30
 #define dump_ray_trace_map 31
+#define dump_file_access_log 32
 
 //dos types
 #define dos_exp		0

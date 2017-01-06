@@ -1,6 +1,6 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012-2017 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
 #	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -43,23 +43,56 @@ from scan_item import scan_items_get_file
 from scan_item import scan_items_get_token
 from util import str2bool
 
+from scan_item import scan_items_lookup_item
+
 import i18n
 _ = i18n.language.gettext
 
 #qt
 from PyQt5.QtCore import QSize, Qt 
-from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QTableWidget,QAbstractItemView, QMenuBar
+from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QTableWidget,QAbstractItemView, QMenuBar,QTableWidgetItem
 from PyQt5.QtGui import QPainter,QIcon
 
 from gui_util import tab_add
 from gui_util import tab_remove
 from gui_util import tab_get_value
 
+from inp import inp_save_lines
+from inp import inp_load_file
+
+from gpvdm_select import gpvdm_select
+
+from scan_select import select_param
+
 class fit_patch(QWidget):
 
+	def insert_row(self,i,file_name,token,path,value):
+		self.tab.blockSignals(True)
+		self.tab.insertRow(i)
 
+		item = QTableWidgetItem(file_name)
+		self.tab.setItem(i,0,item)
+
+		item = QTableWidgetItem(token)
+		self.tab.setItem(i,1,item)
+
+
+		self.item = gpvdm_select()
+		self.item.setText(path)
+		self.item.button.clicked.connect(self.callback_show_list)
+
+		self.tab.setCellWidget(i,2,self.item)
+
+		item = QTableWidgetItem(value)
+		self.tab.setItem(i,3,item)
+		self.tab.blockSignals(False)
+
+	def callback_show_list(self):
+		self.select_param_window.update()
+		self.select_param_window.show()
+		
 	def callback_add_item(self):
-		tab_add(self.tab,["File","token",_("value")])
+		self.insert_row(self.tab.rowCount(),"File","token","path",_("value"))
 		self.save_combo()
 
 	def callback_delete_item(self):
@@ -67,16 +100,16 @@ class fit_patch(QWidget):
 		self.save_combo()
 
 	def save_combo(self):
-		a = open(self.file_name, "w")
-
+		lines=[]
 		for i in range(0,self.tab.rowCount()):
-			a.write(str(tab_get_value(self.tab,i, 1))+"\n")
-			a.write(str(tab_get_value(self.tab,i, 0))+"\n")
-			a.write(str(tab_get_value(self.tab,i, 2))+"\n")
+			lines.append(str(tab_get_value(self.tab,i, 1)))
+			lines.append(str(tab_get_value(self.tab,i, 0)))
+			lines.append(str(tab_get_value(self.tab,i, 2)))
+			lines.append(str(tab_get_value(self.tab,i, 3)))
 
-		a.write("#end\n")
-
-		a.close()
+		lines.append("#end")
+		print("save as",self.file_name)
+		inp_save_lines(self.file_name,lines)
 
 
 	def tab_changed(self):
@@ -84,46 +117,47 @@ class fit_patch(QWidget):
 		
 
 	def create_model(self):
+		lines=[]
 		self.tab.clear()
-		self.tab.setColumnCount(3)
+		self.tab.setColumnCount(4)
 		self.tab.setSelectionBehavior(QAbstractItemView.SelectRows)
-		self.tab.setHorizontalHeaderLabels([_("File"), _("Token"), _("Values")])
-		self.tab.setColumnWidth(1, 400)
+		self.tab.setHorizontalHeaderLabels([_("File"), _("Token"), _("Path"), _("Values")])
+		self.tab.setColumnWidth(2, 300)
 		self.file_name="fit_patch"+str(self.index)+".inp"
 
-		if os.path.isfile(self.file_name)==True:
-			f=open(self.file_name)
-			config = f.readlines()
-			f.close()
-
-			for ii in range(0, len(config)):
-				config[ii]=config[ii].rstrip()
+		if inp_load_file(lines,self.file_name)==True:
 
 			pos=0
-			mylen=len(config)
+			mylen=len(lines)
 			while(1):
-				t=config[pos]
+				t=lines[pos]
 				if t=="#end":
 					break
 				pos=pos+1
 
-				f=config[pos]
+				f=lines[pos]
 				if f=="#end":
 					break
 				pos=pos+1
 
-				v=config[pos]
+				path=lines[pos]
+				if f=="#end":
+					break
+				pos=pos+1
+				
+				v=lines[pos]
 				if v=="#end":
 					break
 				pos=pos+1
 
-				tab_add(self.tab,[f,t,v])
+				self.insert_row(self.tab.rowCount(),f,t,path,v)
 
 				if pos>mylen:
 					break
 
 	def __init__(self,index):
 		QWidget.__init__(self)
+
 
 		self.index=index
 		
@@ -146,6 +180,11 @@ class fit_patch(QWidget):
 		self.tab.resizeColumnsToContents()
 
 		self.tab.verticalHeader().setVisible(False)
+		
+		self.select_param_window=select_param()
+		self.select_param_window.init(self.tab)
+		self.select_param_window.set_save_function(self.save_combo)
+
 		self.create_model()
 
 		self.tab.cellChanged.connect(self.tab_changed)

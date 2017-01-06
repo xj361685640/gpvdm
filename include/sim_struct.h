@@ -49,6 +49,7 @@ struct simulation
 	char plugins_path[400];
 	char lang_path[400];
 	char input_path[400];
+	char root_simulation_path[400];
 	char output_path[400];
 	char share_path[400];
 	char exe_path[400];

@@ -179,6 +179,7 @@ if (getcwd(cwd,1000)==NULL)
 	ewe(sim,"IO error\n");
 }
 
+strcpy(sim->root_simulation_path,cwd);
 strcpy(sim->output_path,cwd);
 strcpy(sim->input_path,cwd);
 set_path(sim,sim->plugins_path, "plugins");

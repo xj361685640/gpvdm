@@ -252,6 +252,7 @@ void buffer_dump(struct simulation *sim,char * file,struct buffer *in)
 	out = fopen(file, "wb");
 	fwrite(in->buf, in->len, 1, out);
 	fclose(out);
+	log_write_file_access(sim,file,'w');
 }
 
 void buffer_dump_path(struct simulation *sim,char *path,char * file,struct buffer *in)

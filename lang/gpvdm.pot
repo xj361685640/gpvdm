@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.80\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2016-12-31 21:20+0000\n"
+"POT-Creation-Date: 2017-01-06 17:58+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -122,6 +122,11 @@ msgstr ""
 
 #: ../lib/newton_interface.c:107
 msgid "dll function dll_solver_free_memory not found\n"
+msgstr ""
+
+#: ../lib/log.c:67
+#, python-format
+msgid "File access log written to %s\n"
 msgstr ""
 
 #: ../lib/solver_interface.c:95
@@ -309,19 +314,19 @@ msgstr ""
 msgid "Files written"
 msgstr ""
 
-#: ../libserver/server.c:159
+#: ../libserver/server.c:161
 msgid "I have shut down the server"
 msgstr ""
 
-#: ../libserver/server.c:506
+#: ../libserver/server.c:508
 msgid "All jobs finished jobs"
 msgstr ""
 
-#: ../libserver/server.c:512
+#: ../libserver/server.c:514
 msgid "I have finished all my jobs"
 msgstr ""
 
-#: ../libserver/server.c:519
+#: ../libserver/server.c:521
 msgid "The server has detected a crash"
 msgstr ""
 
@@ -532,10 +537,10 @@ msgid "Save video"
 msgstr ""
 
 #: ../gui/cmp_class.py:301 ../gui/band_graph.py:71 ../gui/experiment.py:180
-#: ../gui/experiment.py:237 ../gui/contacts.py:185 ../gui/config_window.py:64
-#: ../gui/jv.py:78 ../gui/emesh.py:169 ../gui/scan.py:260 ../gui/scan.py:355
+#: ../gui/experiment.py:237 ../gui/contacts.py:185 ../gui/config_window.py:70
+#: ../gui/jv.py:78 ../gui/emesh.py:169 ../gui/scan.py:259 ../gui/scan.py:354
 #: ../gui/info.py:68 ../gui/fxexperiment.py:177 ../gui/fxexperiment.py:230
-#: ../gui/fit_window.py:234 ../gui/lasers.py:180 ../gui/lasers.py:237
+#: ../gui/fit_window.py:229 ../gui/lasers.py:180 ../gui/lasers.py:237
 #: ../gui/help.py:127 ../gui/optics.py:131
 msgid "Close"
 msgstr ""
@@ -571,12 +576,12 @@ msgstr ""
 msgid "Energy"
 msgstr ""
 
-#: ../gui/qe.py:116 ../gui/fit_window_plot_real.py:131
+#: ../gui/qe.py:116 ../gui/fit_window_plot_real.py:141
 #: ../gui/plot_widget.py:633
 msgid "Save graph"
 msgstr ""
 
-#: ../gui/qe.py:120 ../gui/gpvdm.py:740 ../gui/optics.py:140
+#: ../gui/qe.py:120 ../gui/gpvdm.py:741 ../gui/optics.py:140
 msgid "Run"
 msgstr ""
 
@@ -892,13 +897,13 @@ msgstr ""
 msgid "Problem generating tree."
 msgstr ""
 
-#: ../gui/scan_tab.py:405 ../gui/gpvdm.py:717 ../gui/fxexperiment.py:176
-#: ../gui/fit_window.py:233 ../gui/fit_vars.py:88 ../gui/fit_vars.py:125
-#: ../gui/optics.py:127 ../gui/fit_patch.py:90
+#: ../gui/scan_tab.py:405 ../gui/gpvdm.py:718 ../gui/fxexperiment.py:176
+#: ../gui/fit_window.py:228 ../gui/fit_vars.py:88 ../gui/fit_vars.py:125
+#: ../gui/optics.py:127 ../gui/fit_patch.py:123
 msgid "File"
 msgstr ""
 
-#: ../gui/scan_tab.py:405 ../gui/fit_vars.py:125 ../gui/fit_patch.py:90
+#: ../gui/scan_tab.py:405 ../gui/fit_vars.py:125 ../gui/fit_patch.py:123
 msgid "Token"
 msgstr ""
 
@@ -906,7 +911,7 @@ msgstr ""
 msgid "Parameter to change"
 msgstr ""
 
-#: ../gui/scan_tab.py:405 ../gui/fit_vars.py:125 ../gui/fit_patch.py:90
+#: ../gui/scan_tab.py:405 ../gui/fit_vars.py:125 ../gui/fit_patch.py:123
 msgid "Values"
 msgstr ""
 
@@ -927,19 +932,19 @@ msgstr ""
 msgid "Delete item"
 msgstr ""
 
-#: ../gui/scan_tab.py:527 ../gui/scan.py:280
+#: ../gui/scan_tab.py:527 ../gui/scan.py:279
 msgid "Run simulation"
 msgstr ""
 
-#: ../gui/scan_tab.py:531 ../gui/gpvdm.py:810 ../gui/fit_window.py:310
+#: ../gui/scan_tab.py:531 ../gui/gpvdm.py:811 ../gui/fit_window.py:298
 msgid "Stop the simulation"
 msgstr ""
 
-#: ../gui/scan_tab.py:535 ../gui/gpvdm.py:834
+#: ../gui/scan_tab.py:535 ../gui/gpvdm.py:835
 msgid "Find a file to plot"
 msgstr ""
 
-#: ../gui/scan_tab.py:539 ../gui/gpvdm.py:838
+#: ../gui/scan_tab.py:539 ../gui/gpvdm.py:839
 msgid "Examine results in time domain"
 msgstr ""
 
@@ -1084,8 +1089,8 @@ msgstr ""
 msgid "Experiments"
 msgstr ""
 
-#: ../gui/experiment.py:185 ../gui/scan.py:266 ../gui/fxexperiment.py:182
-#: ../gui/fit_window.py:239 ../gui/lasers.py:185
+#: ../gui/experiment.py:185 ../gui/scan.py:265 ../gui/fxexperiment.py:182
+#: ../gui/fit_window.py:234 ../gui/lasers.py:185
 msgid "New"
 msgstr ""
 
@@ -1104,12 +1109,13 @@ msgstr ""
 msgid "Clone experiment"
 msgstr ""
 
-#: ../gui/experiment.py:201 ../gui/experiment.py:202 ../gui/config_window.py:63
-#: ../gui/materials_main.py:84 ../gui/gpvdm.py:762 ../gui/gpvdm.py:872
-#: ../gui/emesh.py:168 ../gui/scan.py:319 ../gui/scan.py:320 ../gui/cost.py:92
+#: ../gui/experiment.py:201 ../gui/experiment.py:202 ../gui/config_window.py:69
+#: ../gui/materials_main.py:84 ../gui/gpvdm.py:763 ../gui/gpvdm.py:873
+#: ../gui/emesh.py:168 ../gui/scan.py:318 ../gui/scan.py:319 ../gui/cost.py:92
 #: ../gui/fxexperiment.py:195 ../gui/fxexperiment.py:196
-#: ../gui/fit_window.py:255 ../gui/fit_window.py:256 ../gui/lasers.py:201
-#: ../gui/lasers.py:202 ../gui/doping.py:205
+#: ../gui/fit_window.py:247 ../gui/fit_window.py:248 ../gui/lasers.py:201
+#: ../gui/lasers.py:202 ../gui/import_data.py:256 ../gui/import_data.py:257
+#: ../gui/doping.py:205
 msgid "Help"
 msgstr ""
 
@@ -1121,7 +1127,7 @@ msgstr ""
 msgid "New experiment"
 msgstr ""
 
-#: ../gui/experiment.py:236 ../gui/contacts.py:184 ../gui/scan.py:354
+#: ../gui/experiment.py:236 ../gui/contacts.py:184 ../gui/scan.py:353
 msgid "Hide"
 msgstr ""
 
@@ -1253,35 +1259,35 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: ../gui/config_window.py:50 ../gui/gpvdm.py:749
+#: ../gui/config_window.py:56 ../gui/gpvdm.py:750
 msgid "Configure"
 msgstr ""
 
-#: ../gui/config_window.py:79
+#: ../gui/config_window.py:85
 msgid "Solver configuration"
 msgstr ""
 
-#: ../gui/config_window.py:79
+#: ../gui/config_window.py:85
 msgid "Output files"
 msgstr ""
 
-#: ../gui/config_window.py:79 ../gui/inp_description.py:49
+#: ../gui/config_window.py:85 ../gui/inp_description.py:49
 msgid "Thermal"
 msgstr ""
 
-#: ../gui/config_window.py:79
+#: ../gui/config_window.py:85
 msgid "LED"
 msgstr ""
 
-#: ../gui/config_window.py:79
+#: ../gui/config_window.py:85
 msgid "GUI configuration"
 msgstr ""
 
-#: ../gui/config_window.py:79
+#: ../gui/config_window.py:85
 msgid "Server configuration"
 msgstr ""
 
-#: ../gui/config_window.py:87
+#: ../gui/config_window.py:95
 msgid "Language"
 msgstr ""
 
@@ -1420,129 +1426,130 @@ msgid ""
 "step size and parameters of the JV simulations."
 msgstr ""
 
-#: ../gui/gpvdm.py:592
+#: ../gui/gpvdm.py:593
 msgid ""
 "<big><b>Configuration editor</b></big><br> Use this window to control "
 "advanced simulation parameters."
 msgstr ""
 
-#: ../gui/gpvdm.py:617
+#: ../gui/gpvdm.py:618
 msgid "Quantum efficiency"
 msgstr ""
 
-#: ../gui/gpvdm.py:718 ../gui/scan.py:329
+#: ../gui/gpvdm.py:719 ../gui/scan.py:328
 msgid "New simulation"
 msgstr ""
 
-#: ../gui/gpvdm.py:721
+#: ../gui/gpvdm.py:722
 msgid "New optical material"
 msgstr ""
 
-#: ../gui/gpvdm.py:723
+#: ../gui/gpvdm.py:724
 msgid "Open simulation"
 msgstr ""
 
-#: ../gui/gpvdm.py:726
+#: ../gui/gpvdm.py:727
 msgid "Export data"
 msgstr ""
 
-#: ../gui/gpvdm.py:729 ../gui/fit_window.py:248 ../gui/fit_window.py:286
+#: ../gui/gpvdm.py:730 ../gui/fit_window_plot_real.py:137
+#: ../gui/import_data.py:233
 msgid "Import data"
 msgstr ""
 
-#: ../gui/gpvdm.py:732
+#: ../gui/gpvdm.py:733
 msgid "Import from library"
 msgstr ""
 
-#: ../gui/gpvdm.py:735
+#: ../gui/gpvdm.py:736
 msgid "Quit"
 msgstr ""
 
-#: ../gui/gpvdm.py:738
+#: ../gui/gpvdm.py:739
 msgid "Simulation"
 msgstr ""
 
-#: ../gui/gpvdm.py:743 ../gui/hpc.py:305 ../gui/doping.py:119
+#: ../gui/gpvdm.py:744 ../gui/hpc.py:305 ../gui/doping.py:119
 msgid "Stop"
 msgstr ""
 
-#: ../gui/gpvdm.py:746 ../gui/gpvdm.py:818
+#: ../gui/gpvdm.py:747 ../gui/gpvdm.py:819
 msgid "Parameter scan"
 msgstr ""
 
-#: ../gui/gpvdm.py:753
+#: ../gui/gpvdm.py:754
 msgid "View"
 msgstr ""
 
-#: ../gui/gpvdm.py:754
+#: ../gui/gpvdm.py:755
 msgid "None"
 msgstr ""
 
-#: ../gui/gpvdm.py:757
+#: ../gui/gpvdm.py:758
 msgid "Plot"
 msgstr ""
 
-#: ../gui/gpvdm.py:758
+#: ../gui/gpvdm.py:759
 msgid "Plot simulation result"
 msgstr ""
 
-#: ../gui/gpvdm.py:764
+#: ../gui/gpvdm.py:765
 msgid "Help window"
 msgstr ""
 
-#: ../gui/gpvdm.py:767
+#: ../gui/gpvdm.py:768
 msgid "Online help"
 msgstr ""
 
-#: ../gui/gpvdm.py:770
+#: ../gui/gpvdm.py:771
 msgid "License"
 msgstr ""
 
-#: ../gui/gpvdm.py:773
+#: ../gui/gpvdm.py:774
 msgid "About"
 msgstr ""
 
-#: ../gui/gpvdm.py:780
+#: ../gui/gpvdm.py:781
 msgid "Check for updates"
 msgstr ""
 
-#: ../gui/gpvdm.py:784
+#: ../gui/gpvdm.py:785
 msgid "Make a new simulation"
 msgstr ""
 
-#: ../gui/gpvdm.py:788
+#: ../gui/gpvdm.py:789
 msgid "Open a simulation"
 msgstr ""
 
-#: ../gui/gpvdm.py:795
+#: ../gui/gpvdm.py:796
 msgid "Undo"
 msgstr ""
 
-#: ../gui/gpvdm.py:801
+#: ../gui/gpvdm.py:802
 msgid "Run the simulation"
 msgstr ""
 
-#: ../gui/gpvdm.py:805
+#: ../gui/gpvdm.py:806
 msgid "Run parameter scan"
 msgstr ""
 
-#: ../gui/gpvdm.py:825
+#: ../gui/gpvdm.py:826
 msgid "Run a fit command"
 msgstr ""
 
-#: ../gui/gpvdm.py:844
+#: ../gui/gpvdm.py:845
 msgid "Time domain simulation editor."
 msgstr ""
 
-#: ../gui/gpvdm.py:849
+#: ../gui/gpvdm.py:850
 msgid "Frequency domain simulation editor"
 msgstr ""
 
-#: ../gui/gpvdm.py:854
+#: ../gui/gpvdm.py:855
 msgid "Steady state simulation editor"
 msgstr ""
 
-#: ../gui/gpvdm.py:858
+#: ../gui/gpvdm.py:859
 msgid "Lasers editor"
 msgstr ""
 
@@ -1850,71 +1857,71 @@ msgstr ""
 msgid "Should I remove the simulation directory "
 msgstr ""
 
-#: ../gui/scan.py:190
+#: ../gui/scan.py:189
 msgid "I am going to delete file"
 msgstr ""
 
-#: ../gui/scan.py:234
+#: ../gui/scan.py:233
 msgid "Parameter scan - gpvdm"
 msgstr ""
 
-#: ../gui/scan.py:258
+#: ../gui/scan.py:257
 msgid "Change dir"
 msgstr ""
 
-#: ../gui/scan.py:265
+#: ../gui/scan.py:264
 msgid "Simulations"
 msgstr ""
 
-#: ../gui/scan.py:269 ../gui/scan.py:333
+#: ../gui/scan.py:268 ../gui/scan.py:332
 msgid "Delete simulation"
 msgstr ""
 
-#: ../gui/scan.py:272 ../gui/scan.py:341
+#: ../gui/scan.py:271 ../gui/scan.py:340
 msgid "Rename simulation"
 msgstr ""
 
-#: ../gui/scan.py:275 ../gui/scan.py:337
+#: ../gui/scan.py:274 ../gui/scan.py:336
 msgid "Clone simulation"
 msgstr ""
 
-#: ../gui/scan.py:283
+#: ../gui/scan.py:282
 msgid "Advanced"
 msgstr ""
 
-#: ../gui/scan.py:285
+#: ../gui/scan.py:284
 msgid "Plot fits"
 msgstr ""
 
-#: ../gui/scan.py:288
+#: ../gui/scan.py:287
 msgid "Run nested simulation"
 msgstr ""
 
-#: ../gui/scan.py:291 ../gui/scan.py:294
+#: ../gui/scan.py:290 ../gui/scan.py:293
 msgid "Run simulation no generation"
 msgstr ""
 
-#: ../gui/scan.py:297
+#: ../gui/scan.py:296
 msgid "Run single fit"
 msgstr ""
 
-#: ../gui/scan.py:300
+#: ../gui/scan.py:299
 msgid "Clean simulation"
 msgstr ""
 
-#: ../gui/scan.py:303
+#: ../gui/scan.py:302
 msgid "Clean unconverged simulation"
 msgstr ""
 
-#: ../gui/scan.py:306 ../gui/scan.py:309
+#: ../gui/scan.py:305 ../gui/scan.py:308
 msgid "Clean simulation output"
 msgstr ""
 
-#: ../gui/scan.py:314
+#: ../gui/scan.py:313
 msgid "Push unconverged to hpc"
 msgstr ""
 
-#: ../gui/scan.py:345
+#: ../gui/scan.py:344
 msgid "Run all simulations"
 msgstr ""
 
@@ -1956,7 +1963,7 @@ msgstr ""
 msgid "pyton3-openpyxl not found"
 msgstr ""
 
-#: ../gui/duplicate.py:67 ../gui/fit_vars.py:88 ../gui/fit_patch.py:62
+#: ../gui/duplicate.py:67 ../gui/fit_vars.py:88 ../gui/fit_patch.py:94
 msgid "value"
 msgstr ""
 
@@ -1980,11 +1987,11 @@ msgstr ""
 msgid "Fit variables duplicate window"
 msgstr ""
 
-#: ../gui/duplicate.py:132 ../gui/fit_vars.py:180 ../gui/fit_patch.py:135
+#: ../gui/duplicate.py:132 ../gui/fit_vars.py:180 ../gui/fit_patch.py:168
 msgid "Add"
 msgstr ""
 
-#: ../gui/duplicate.py:136 ../gui/fit_vars.py:184 ../gui/fit_patch.py:139
+#: ../gui/duplicate.py:136 ../gui/fit_vars.py:184 ../gui/fit_patch.py:172
 msgid "Minus"
 msgstr ""
 
@@ -2022,64 +2029,51 @@ msgstr ""
 msgid "Clone the current fit to a new fit called:"
 msgstr ""
 
-#: ../gui/fit_window.py:148
+#: ../gui/fit_window.py:143
 msgid "Rename the fit to be called:"
 msgstr ""
 
-#: ../gui/fit_window.py:161
+#: ../gui/fit_window.py:156
 msgid "Should I remove the fit file "
 msgstr ""
 
-#: ../gui/fit_window.py:238
+#: ../gui/fit_window.py:233
 msgid "Fits"
 msgstr ""
 
-#: ../gui/fit_window.py:242
+#: ../gui/fit_window.py:237 ../gui/fit_window.py:266
 msgid "Delete fit"
 msgstr ""
 
-#: ../gui/fit_window.py:245
+#: ../gui/fit_window.py:240 ../gui/fit_window.py:274
 msgid "Rename fit"
 msgstr ""
 
-#: ../gui/fit_window.py:251
+#: ../gui/fit_window.py:243 ../gui/fit_window.py:270
 msgid "Clone fit"
 msgstr ""
 
-#: ../gui/fit_window.py:264
+#: ../gui/fit_window.py:256
 msgid "Fit window - gpvdm"
 msgstr ""
 
-#: ../gui/fit_window.py:270 ../gui/lasers.py:215
-msgid "New laser"
+#: ../gui/fit_window.py:262
+msgid "New fit"
 msgstr ""
 
-#: ../gui/fit_window.py:274 ../gui/lasers.py:188 ../gui/lasers.py:219
-msgid "Delete laser"
-msgstr ""
-
-#: ../gui/fit_window.py:278 ../gui/lasers.py:197 ../gui/lasers.py:223
-msgid "Clone laser"
-msgstr ""
-
-#: ../gui/fit_window.py:282 ../gui/lasers.py:191 ../gui/lasers.py:194
-#: ../gui/lasers.py:227
-msgid "Rename laser"
-msgstr ""
-
-#: ../gui/fit_window.py:292
+#: ../gui/fit_window.py:280
 msgid "Fit variables"
 msgstr ""
 
-#: ../gui/fit_window.py:296
+#: ../gui/fit_window.py:284
 msgid "Duplicate variables"
 msgstr ""
 
-#: ../gui/fit_window.py:302
+#: ../gui/fit_window.py:290
 msgid "Run a single fit"
 msgstr ""
 
-#: ../gui/fit_window.py:306
+#: ../gui/fit_window.py:294
 msgid "Start the fitting process"
 msgstr ""
 
@@ -2091,7 +2085,7 @@ msgstr ""
 msgid "path"
 msgstr ""
 
-#: ../gui/fit_vars.py:125
+#: ../gui/fit_vars.py:125 ../gui/fit_patch.py:123
 msgid "Path"
 msgstr ""
 
@@ -2155,11 +2149,11 @@ msgstr ""
 msgid "Connect to cluster"
 msgstr ""
 
-#: ../gui/fit_window_plot_real.py:85
+#: ../gui/fit_window_plot_real.py:86
 msgid "x"
 msgstr ""
 
-#: ../gui/fit_window_plot_real.py:86
+#: ../gui/fit_window_plot_real.py:87
 msgid "y"
 msgstr ""
 
@@ -2236,8 +2230,24 @@ msgstr ""
 msgid "Lasers"
 msgstr ""
 
+#: ../gui/lasers.py:188 ../gui/lasers.py:219
+msgid "Delete laser"
+msgstr ""
+
+#: ../gui/lasers.py:191 ../gui/lasers.py:194 ../gui/lasers.py:227
+msgid "Rename laser"
+msgstr ""
+
+#: ../gui/lasers.py:197 ../gui/lasers.py:223
+msgid "Clone laser"
+msgstr ""
+
 #: ../gui/lasers.py:209
 msgid "Laser configuration window"
+msgstr ""
+
+#: ../gui/lasers.py:215
+msgid "New laser"
 msgstr ""
 
 #: ../gui/gpvdm_open.py:113
@@ -2266,6 +2276,46 @@ msgstr ""
 
 #: ../gui/gpvdm_open.py:215
 msgid "This contains the simulation output at 0V in the dark."
+msgstr ""
+
+#: ../gui/import_data.py:141
+msgid "x units:"
+msgstr ""
+
+#: ../gui/import_data.py:142
+msgid "y units:"
+msgstr ""
+
+#: ../gui/import_data.py:151
+msgid "Title:"
+msgstr ""
+
+#: ../gui/import_data.py:160 ../gui/import_data.py:171
+msgid "x-label:"
+msgstr ""
+
+#: ../gui/import_data.py:244 ../gui/gui_util.py:87
+msgid "Open file"
+msgstr ""
+
+#: ../gui/import_data.py:248
+msgid "Import data to model"
+msgstr ""
+
+#: ../gui/import_data.py:275
+msgid "The file to import:"
+msgstr ""
+
+#: ../gui/import_data.py:290
+msgid "The imported file, the numbers should now be in SI units"
+msgstr ""
+
+#: ../gui/about.py:41
+msgid "Version "
+msgstr ""
+
+#: ../gui/about.py:44
+msgid "About (https://www.gpvdm.com)"
 msgstr ""
 
 #: ../gui/scan_select.py:56
@@ -2529,7 +2579,7 @@ msgstr ""
 #: ../gui/token_lib.py:361 ../gui/token_lib.py:362 ../gui/token_lib.py:363
 #: ../gui/token_lib.py:364 ../gui/token_lib.py:365 ../gui/token_lib.py:366
 #: ../gui/token_lib.py:367 ../gui/token_lib.py:368 ../gui/token_lib.py:370
-#: ../gui/token_lib.py:374 ../gui/token_lib.py:384
+#: ../gui/token_lib.py:371 ../gui/token_lib.py:374 ../gui/token_lib.py:384
 msgid "True/False"
 msgstr ""
 
@@ -2882,6 +2932,10 @@ msgstr ""
 
 #: ../gui/token_lib.py:370
 msgid "Dump an excel workbook for each simulation run congaing the results."
+msgstr ""
+
+#: ../gui/token_lib.py:371
+msgid "Write file access log to disk."
 msgstr ""
 
 #: ../gui/token_lib.py:374

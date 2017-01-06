@@ -2,7 +2,7 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012-2017 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+//  Copyright (C) 2012-2017 Roderick C. I. MacKenzie r.c.i.mackenzie AT googlemail.com
 //
 //	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -30,6 +30,7 @@
 #include <cal_path.h>
 #include <string.h>
 #include <const.h>
+#include <lang.h>
 
 void log_time_stamp(struct simulation *sim)
 {
@@ -49,6 +50,42 @@ void log_clear(struct simulation *sim)
 	out=fopen(temp,"w");
 	fprintf(out,"gpvdm log file:\n");
 	fclose(out);
+	
+	join_path(2,temp,sim->root_simulation_path,"log_file_access.dat");
+	out=fopen(temp,"w");
+	fprintf(out,"gpvdm file access log file:\n");
+	fclose(out);
+		
+}
+
+void log_tell_use_where_file_access_log_is(struct simulation *sim)
+{
+	if (get_dump_status(sim,dump_file_access_log)==TRUE)
+	{
+		char temp[500];
+		join_path(2,temp,sim->root_simulation_path,"log_file_access.dat");
+		printf_log(_("File access log written to %s\n"),temp);
+	}
+		
+}
+void log_write_file_access(struct simulation *sim,char * file,char mode)
+{
+	if (get_dump_status(sim,dump_file_access_log)==TRUE)
+	{
+		FILE* out;
+		char temp[500];
+		join_path(2,temp,sim->root_simulation_path,"log_file_access.dat");
+		out=fopen(temp,"a");
+		if (mode=='w')
+		{
+			fprintf(out,"write:%s\n",file);
+		}else
+		{
+			fprintf(out,"read:%s\n",file);
+		}
+		
+		fclose(out);	
+	}
 }
 
 void set_logging_level(struct simulation *sim,int value)

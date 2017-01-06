@@ -368,7 +368,7 @@ lib.append(my_data("#dump_optics_summary",_("True/False"),_("Dump optical summar
 lib.append(my_data("#dump_ray_trace_map",_("True/False"),_("Dump raytrace plots"),[("switch")],"e",1.0))
 lib.append(my_data("#dumpitdos","","",["text"],"e",1.0))
 lib.append(my_data("#dump_workbook",_("True/False"),_("Dump an excel workbook for each simulation run congaing the results."),[("switch")],"e",1.0))
-
+lib.append(my_data("#dump_file_access_log",_("True/False"),_("Write file access log to disk."),[("switch")],"e",1.0))
 
 
 lib.append(my_data("#pl_enabled",_("True/False"),_("Turn on luminescence"),[("switch")],"e",1.0))
