@@ -1,6 +1,6 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012-2016 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012-2017 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
 #	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -58,6 +58,8 @@ from fit_vars import fit_vars
 from duplicate import duplicate
 
 from gui_util import dlg_get_text
+
+from fit_progress import fit_progress
 
 def fit_new_filename():
 	for i in range(0,20):
@@ -182,6 +184,9 @@ class fit_window(QWidget):
 			value=strextract_interger(files[i])
 			if value!=-1:
 				self.add_page(value)
+
+		self.fit_progress=fit_progress()
+		self.notebook.addTab(self.fit_progress,"Fit progress")
 
 	def clear_pages(self):
 		for items in self.tab_menu.get_children():

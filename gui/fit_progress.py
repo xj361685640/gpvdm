@@ -24,7 +24,6 @@ from inp import inp_load_file
 from inp_util import inp_search_token_value
 from inp import inp_update_token_value
 from cal_path import get_image_file_path
-from tab import tab_class
 from fit_patch import fit_patch
 import shutil
 
@@ -37,62 +36,28 @@ from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTa
 from PyQt5.QtGui import QPainter,QIcon,QCursor
 
 #windows
-from fit_window_plot import fit_window_plot
-from fit_window_plot_real import fit_window_plot_real
-
 from gui_util import save_as_filter
-from util import str2bool
+from plot_widget import plot_widget
 
 mesh_articles = []
 
-class fit_tab(QTabWidget):
+class fit_progress(QTabWidget):
 
 	def update(self):
-		lines=[]
-		if inp_load_file(lines,"fit"+str(self.index)+".inp")==True:
-			enabled=str2bool(inp_search_token_value(lines, "#enabled"))
-			if enabled==True:
-				self.tmesh_real.update()
-				self.tmesh.update()
+		self.plot_fit_speed.do_plot()
 
-	def __init__(self,index):
+	def __init__(self):
 		QTabWidget.__init__(self)
-		lines=[]
-		self.index=index
 
-		if inp_load_file(lines,"fit"+str(self.index)+".inp")==True:
-			self.tab_name=inp_search_token_value(lines, "#fit_name")
-		else:
-			self.tab_name=""
-
-		#self.setTabsClosable(True)
 		self.setMovable(True)
 
-		self.tmesh_real = fit_window_plot_real(self.index)
-		self.addTab(self.tmesh_real,_("Experimental data"))
-
-		self.tmesh = fit_window_plot(self.index)
-		self.addTab(self.tmesh,_("Fit error"))
-
-		self.fit_patch = fit_patch(self.index)
-		self.addTab(self.fit_patch, _("Fit patch"))
-
-		config=tab_class()
-		config.init("fit"+str(self.index)+".inp",self.tab_name)
-		self.addTab(config,_("Configure fit"))
-
-		
-	def init(self,index):
-		return
-
-	def set_tab_caption(self,name):
-		mytext=name
-		if len(mytext)<10:
-			for i in range(len(mytext),10):
-				mytext=mytext+" "
-		self.label.set_text(mytext)
+		self.plot_fit_speed=plot_widget()
+		self.plot_fit_speed.init()
+		self.addTab(self.plot_fit_speed,_("Fit speed"))
+		self.plot_fit_speed.set_labels(["Fit speed"])
+		print("about to load data")
+		self.plot_fit_speed.load_data(["fitlog_time_error.dat"],"fitlog_time_error.oplot")
+		self.plot_fit_speed.do_plot()
 
 	def rename(self,tab_name):
-		self.tab_name=tab_name
-		inp_update_token_value("fit"+str(self.index)+".inp", "#fit_name", self.tab_name,1)
-
+		return

@@ -1,6 +1,6 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012-2017 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012-2017 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
 #	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -48,6 +48,10 @@ class select_param(QWidget):
 		QWidget.__init__(self)
 		self.win_list=windows()
 		self.setFixedSize(400,700)
+		self.file_name_tab_pos=0
+		self.token_tab_pos=1
+		self.path_tab_pos=2
+			
 		self.main_vbox=QVBoxLayout()
 		self.save_function=None
 		
@@ -147,10 +151,10 @@ class select_param(QWidget):
 			path=self.cal_path()
 			file_name=scan_items_get_file(path)
 			token=scan_items_get_token(path)
-			print("adding",path,file_name,token)
-			tab_set_value(self.dest_treeview,pos,0,file_name)
-			tab_set_value(self.dest_treeview,pos,1,token)
-			tab_set_value(self.dest_treeview,pos,2,path)
+
+			tab_set_value(self.dest_treeview,pos,self.file_name_tab_pos,file_name)
+			tab_set_value(self.dest_treeview,pos,self.token_tab_pos,token)
+			tab_set_value(self.dest_treeview,pos,self.path_tab_pos,path)
 
 			if self.save_function!=None:
 				self.save_function()

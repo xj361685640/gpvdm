@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.80\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2017-01-06 17:58+0000\n"
+"POT-Creation-Date: 2017-01-06 22:36+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -183,8 +183,8 @@ msgstr ""
 #: ../libdump/dump_dynamic.c:795 ../libdump/dump_dynamic.c:811
 #: ../libdump/dump_dynamic.c:827 ../libdump/dump_dynamic.c:843
 #: ../libdump/dump_dynamic.c:859 ../libdump/dump_dynamic.c:875
-#: ../libdump/dump_dynamic.c:891 ../libfit/fit_dump.c:101
-#: ../libfit/fit_dump.c:121 ../libfit/fit_dump.c:142 ../libfit/fit_dump.c:163
+#: ../libdump/dump_dynamic.c:891 ../libfit/fit_dump.c:107
+#: ../libfit/fit_dump.c:130 ../libfit/fit_dump.c:154 ../libfit/fit_dump.c:178
 msgid "Time"
 msgstr ""
 
@@ -540,7 +540,7 @@ msgstr ""
 #: ../gui/experiment.py:237 ../gui/contacts.py:185 ../gui/config_window.py:70
 #: ../gui/jv.py:78 ../gui/emesh.py:169 ../gui/scan.py:259 ../gui/scan.py:354
 #: ../gui/info.py:68 ../gui/fxexperiment.py:177 ../gui/fxexperiment.py:230
-#: ../gui/fit_window.py:229 ../gui/lasers.py:180 ../gui/lasers.py:237
+#: ../gui/fit_window.py:234 ../gui/lasers.py:180 ../gui/lasers.py:237
 #: ../gui/help.py:127 ../gui/optics.py:131
 msgid "Close"
 msgstr ""
@@ -568,6 +568,10 @@ msgstr ""
 msgid "Circuit"
 msgstr ""
 
+#: ../gui/fit_progress.py:56
+msgid "Fit speed"
+msgstr ""
+
 #: ../gui/gl_cmp.py:46
 msgid "Results viewer"
 msgstr ""
@@ -576,7 +580,7 @@ msgstr ""
 msgid "Energy"
 msgstr ""
 
-#: ../gui/qe.py:116 ../gui/fit_window_plot_real.py:141
+#: ../gui/qe.py:116 ../gui/fit_window_plot_real.py:130
 #: ../gui/plot_widget.py:633
 msgid "Save graph"
 msgstr ""
@@ -597,9 +601,9 @@ msgstr ""
 msgid "Experimental data"
 msgstr ""
 
-#: ../gui/fit_tab.py:75 ../libfit/fit_dump.c:59 ../libfit/fit_dump.c:79
-#: ../libfit/fit_dump.c:99 ../libfit/fit_dump.c:119 ../libfit/fit_dump.c:140
-#: ../libfit/fit_dump.c:161
+#: ../gui/fit_tab.py:75 ../libfit/fit_dump.c:59 ../libfit/fit_dump.c:82
+#: ../libfit/fit_dump.c:105 ../libfit/fit_dump.c:128 ../libfit/fit_dump.c:152
+#: ../libfit/fit_dump.c:176
 msgid "Fit error"
 msgstr ""
 
@@ -898,12 +902,12 @@ msgid "Problem generating tree."
 msgstr ""
 
 #: ../gui/scan_tab.py:405 ../gui/gpvdm.py:718 ../gui/fxexperiment.py:176
-#: ../gui/fit_window.py:228 ../gui/fit_vars.py:88 ../gui/fit_vars.py:125
-#: ../gui/optics.py:127 ../gui/fit_patch.py:123
+#: ../gui/fit_window.py:233 ../gui/fit_vars.py:88 ../gui/fit_vars.py:125
+#: ../gui/optics.py:127 ../gui/fit_patch.py:124
 msgid "File"
 msgstr ""
 
-#: ../gui/scan_tab.py:405 ../gui/fit_vars.py:125 ../gui/fit_patch.py:123
+#: ../gui/scan_tab.py:405 ../gui/fit_vars.py:125 ../gui/fit_patch.py:124
 msgid "Token"
 msgstr ""
 
@@ -911,7 +915,7 @@ msgstr ""
 msgid "Parameter to change"
 msgstr ""
 
-#: ../gui/scan_tab.py:405 ../gui/fit_vars.py:125 ../gui/fit_patch.py:123
+#: ../gui/scan_tab.py:405 ../gui/fit_vars.py:125 ../gui/fit_patch.py:124
 msgid "Values"
 msgstr ""
 
@@ -936,7 +940,7 @@ msgstr ""
 msgid "Run simulation"
 msgstr ""
 
-#: ../gui/scan_tab.py:531 ../gui/gpvdm.py:811 ../gui/fit_window.py:298
+#: ../gui/scan_tab.py:531 ../gui/gpvdm.py:811 ../gui/fit_window.py:303
 msgid "Stop the simulation"
 msgstr ""
 
@@ -1090,7 +1094,7 @@ msgid "Experiments"
 msgstr ""
 
 #: ../gui/experiment.py:185 ../gui/scan.py:265 ../gui/fxexperiment.py:182
-#: ../gui/fit_window.py:234 ../gui/lasers.py:185
+#: ../gui/fit_window.py:239 ../gui/lasers.py:185
 msgid "New"
 msgstr ""
 
@@ -1113,7 +1117,7 @@ msgstr ""
 #: ../gui/materials_main.py:84 ../gui/gpvdm.py:763 ../gui/gpvdm.py:873
 #: ../gui/emesh.py:168 ../gui/scan.py:318 ../gui/scan.py:319 ../gui/cost.py:92
 #: ../gui/fxexperiment.py:195 ../gui/fxexperiment.py:196
-#: ../gui/fit_window.py:247 ../gui/fit_window.py:248 ../gui/lasers.py:201
+#: ../gui/fit_window.py:252 ../gui/fit_window.py:253 ../gui/lasers.py:201
 #: ../gui/lasers.py:202 ../gui/import_data.py:256 ../gui/import_data.py:257
 #: ../gui/doping.py:205
 msgid "Help"
@@ -1251,11 +1255,11 @@ msgstr ""
 msgid "Remove contacts"
 msgstr ""
 
-#: ../gui/dlg_get_multi_text.py:70 ../gui/scan_select.py:67
+#: ../gui/dlg_get_multi_text.py:70 ../gui/scan_select.py:71
 msgid "OK"
 msgstr ""
 
-#: ../gui/dlg_get_multi_text.py:72 ../gui/scan_select.py:68
+#: ../gui/dlg_get_multi_text.py:72 ../gui/scan_select.py:72
 msgid "Cancel"
 msgstr ""
 
@@ -1452,7 +1456,7 @@ msgstr ""
 msgid "Export data"
 msgstr ""
 
-#: ../gui/gpvdm.py:730 ../gui/fit_window_plot_real.py:137
+#: ../gui/gpvdm.py:730 ../gui/fit_window_plot_real.py:126
 #: ../gui/import_data.py:233
 msgid "Import data"
 msgstr ""
@@ -1963,35 +1967,55 @@ msgstr ""
 msgid "pyton3-openpyxl not found"
 msgstr ""
 
-#: ../gui/duplicate.py:67 ../gui/fit_vars.py:88 ../gui/fit_patch.py:94
-msgid "value"
+#: ../gui/duplicate.py:105
+msgid "Source file"
 msgstr ""
 
-#: ../gui/duplicate.py:97
+#: ../gui/duplicate.py:105
+msgid "Source token"
+msgstr ""
+
+#: ../gui/duplicate.py:105 ../gui/duplicate.py:135
+msgid "Source path"
+msgstr ""
+
+#: ../gui/duplicate.py:105
+msgid "Destination file"
+msgstr ""
+
+#: ../gui/duplicate.py:105
+msgid "Destination token"
+msgstr ""
+
+#: ../gui/duplicate.py:105 ../gui/duplicate.py:135
+msgid "Destination path"
+msgstr ""
+
+#: ../gui/duplicate.py:135
 msgid "Source File"
 msgstr ""
 
-#: ../gui/duplicate.py:97
+#: ../gui/duplicate.py:135
 msgid "Source Token"
 msgstr ""
 
-#: ../gui/duplicate.py:97
+#: ../gui/duplicate.py:135
 msgid "Destination File"
 msgstr ""
 
-#: ../gui/duplicate.py:97
+#: ../gui/duplicate.py:135
 msgid "Destination Token"
 msgstr ""
 
-#: ../gui/duplicate.py:119
+#: ../gui/duplicate.py:183
 msgid "Fit variables duplicate window"
 msgstr ""
 
-#: ../gui/duplicate.py:132 ../gui/fit_vars.py:180 ../gui/fit_patch.py:168
+#: ../gui/duplicate.py:196 ../gui/fit_vars.py:180 ../gui/fit_patch.py:169
 msgid "Add"
 msgstr ""
 
-#: ../gui/duplicate.py:136 ../gui/fit_vars.py:184 ../gui/fit_patch.py:172
+#: ../gui/duplicate.py:200 ../gui/fit_vars.py:184 ../gui/fit_patch.py:173
 msgid "Minus"
 msgstr ""
 
@@ -2011,69 +2035,69 @@ msgstr ""
 msgid "Frequency domain experiment editor"
 msgstr ""
 
-#: ../gui/fit_window.py:89 ../gui/fit_window.py:99
+#: ../gui/fit_window.py:91 ../gui/fit_window.py:101
 msgid ""
 "<big><b>The fitting variables window</b></big><br> Use this window to select "
 "the variables use to perform the fit."
 msgstr ""
 
-#: ../gui/fit_window.py:109
+#: ../gui/fit_window.py:111
 msgid "New fit name:"
 msgstr ""
 
-#: ../gui/fit_window.py:109
+#: ../gui/fit_window.py:111
 msgid "fit "
 msgstr ""
 
-#: ../gui/fit_window.py:126
+#: ../gui/fit_window.py:128
 msgid "Clone the current fit to a new fit called:"
 msgstr ""
 
-#: ../gui/fit_window.py:143
+#: ../gui/fit_window.py:145
 msgid "Rename the fit to be called:"
 msgstr ""
 
-#: ../gui/fit_window.py:156
+#: ../gui/fit_window.py:158
 msgid "Should I remove the fit file "
 msgstr ""
 
-#: ../gui/fit_window.py:233
+#: ../gui/fit_window.py:238
 msgid "Fits"
 msgstr ""
 
-#: ../gui/fit_window.py:237 ../gui/fit_window.py:266
+#: ../gui/fit_window.py:242 ../gui/fit_window.py:271
 msgid "Delete fit"
 msgstr ""
 
-#: ../gui/fit_window.py:240 ../gui/fit_window.py:274
+#: ../gui/fit_window.py:245 ../gui/fit_window.py:279
 msgid "Rename fit"
 msgstr ""
 
-#: ../gui/fit_window.py:243 ../gui/fit_window.py:270
+#: ../gui/fit_window.py:248 ../gui/fit_window.py:275
 msgid "Clone fit"
 msgstr ""
 
-#: ../gui/fit_window.py:256
+#: ../gui/fit_window.py:261
 msgid "Fit window - gpvdm"
 msgstr ""
 
-#: ../gui/fit_window.py:262
+#: ../gui/fit_window.py:267
 msgid "New fit"
 msgstr ""
 
-#: ../gui/fit_window.py:280
+#: ../gui/fit_window.py:285
 msgid "Fit variables"
 msgstr ""
 
-#: ../gui/fit_window.py:284
+#: ../gui/fit_window.py:289
 msgid "Duplicate variables"
 msgstr ""
 
-#: ../gui/fit_window.py:290
+#: ../gui/fit_window.py:295
 msgid "Run a single fit"
 msgstr ""
 
-#: ../gui/fit_window.py:294
+#: ../gui/fit_window.py:299
 msgid "Start the fitting process"
 msgstr ""
 
@@ -2085,7 +2109,11 @@ msgstr ""
 msgid "path"
 msgstr ""
 
-#: ../gui/fit_vars.py:125 ../gui/fit_patch.py:123
+#: ../gui/fit_vars.py:88 ../gui/fit_patch.py:95
+msgid "value"
+msgstr ""
+
+#: ../gui/fit_vars.py:125 ../gui/fit_patch.py:124
 msgid "Path"
 msgstr ""
 
@@ -2149,11 +2177,11 @@ msgstr ""
 msgid "Connect to cluster"
 msgstr ""
 
-#: ../gui/fit_window_plot_real.py:86
+#: ../gui/fit_window_plot_real.py:75
 msgid "x"
 msgstr ""
 
-#: ../gui/fit_window_plot_real.py:87
+#: ../gui/fit_window_plot_real.py:76
 msgid "y"
 msgstr ""
 
@@ -2318,15 +2346,15 @@ msgstr ""
 msgid "About (https://www.gpvdm.com)"
 msgstr ""
 
-#: ../gui/scan_select.py:56
+#: ../gui/scan_select.py:60
 msgid "Select simulation parameter"
 msgstr ""
 
-#: ../gui/scan_select.py:107
+#: ../gui/scan_select.py:111
 msgid "Simulation parameters"
 msgstr ""
 
-#: ../gui/scan_select.py:160
+#: ../gui/scan_select.py:164
 msgid "No row selected in the scan window, can't insert the selection"
 msgstr ""
 
@@ -3129,8 +3157,8 @@ msgid ""
 "properly."
 msgstr ""
 
-#: ../gui/error_han.py:77 ../libfit/fit_dump.c:62 ../libfit/fit_dump.c:82
-#: ../libfit/fit_dump.c:102
+#: ../gui/error_han.py:77 ../libfit/fit_dump.c:62 ../libfit/fit_dump.c:85
+#: ../libfit/fit_dump.c:108
 msgid "Error"
 msgstr ""
 
@@ -3530,29 +3558,29 @@ msgstr ""
 msgid "Electron relaxation rate"
 msgstr ""
 
-#: ../libfit/fit_dump.c:61 ../libfit/fit_dump.c:81
+#: ../libfit/fit_dump.c:61 ../libfit/fit_dump.c:84
 msgid "Step"
 msgstr ""
 
-#: ../libfit/fit_dump.c:63 ../libfit/fit_dump.c:64 ../libfit/fit_dump.c:166
+#: ../libfit/fit_dump.c:63 ../libfit/fit_dump.c:64 ../libfit/fit_dump.c:181
 msgid "au"
 msgstr ""
 
-#: ../libfit/fit_dump.c:65 ../libfit/fit_dump.c:66 ../libfit/fit_dump.c:85
-#: ../libfit/fit_dump.c:86 ../libfit/fit_dump.c:105 ../libfit/fit_dump.c:106
-#: ../libfit/fit_dump.c:125 ../libfit/fit_dump.c:126 ../libfit/fit_dump.c:146
-#: ../libfit/fit_dump.c:147 ../libfit/fit_dump.c:167 ../libfit/fit_dump.c:168
+#: ../libfit/fit_dump.c:65 ../libfit/fit_dump.c:66 ../libfit/fit_dump.c:88
+#: ../libfit/fit_dump.c:89 ../libfit/fit_dump.c:111 ../libfit/fit_dump.c:112
+#: ../libfit/fit_dump.c:134 ../libfit/fit_dump.c:135 ../libfit/fit_dump.c:158
+#: ../libfit/fit_dump.c:159 ../libfit/fit_dump.c:182 ../libfit/fit_dump.c:183
 msgid "Fitting"
 msgstr ""
 
-#: ../libfit/fit_dump.c:122 ../libfit/fit_dump.c:143
+#: ../libfit/fit_dump.c:131 ../libfit/fit_dump.c:155
 msgid "Speed"
 msgstr ""
 
-#: ../libfit/fit_dump.c:124 ../libfit/fit_dump.c:145
+#: ../libfit/fit_dump.c:133 ../libfit/fit_dump.c:157
 msgid "odes/s"
 msgstr ""
 
-#: ../libfit/fit_dump.c:164
+#: ../libfit/fit_dump.c:179
 msgid "Reset flag"
 msgstr ""

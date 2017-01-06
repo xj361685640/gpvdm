@@ -1,6 +1,6 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012-2017 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012-2017 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
 #	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -42,6 +42,8 @@ from cal_path import get_image_file_path
 from scan_item import scan_items_get_file
 from scan_item import scan_items_get_token
 
+from gpvdm_select import gpvdm_select
+
 from window_list import windows
 
 from util import str2bool
@@ -51,20 +53,56 @@ _ = i18n.language.gettext
 
 #qt
 from PyQt5.QtCore import QSize, Qt 
-from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QTableWidget,QAbstractItemView, QMenuBar
+from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QTableWidget,QAbstractItemView, QMenuBar, QTableWidgetItem
 from PyQt5.QtGui import QPainter,QIcon
 
 from gui_util import tab_add
 from gui_util import tab_remove
 from gui_util import tab_get_value
 
+from inp import inp_save_lines
 from inp import inp_load_file
 
 class duplicate(QWidget):
 
+	def insert_row(self,i,src_file,src_token,src_path,dest_file,dest_token,dest_path):
+		self.tab.blockSignals(True)
+		self.tab.insertRow(i)
 
+		item = QTableWidgetItem(src_file)
+		self.tab.setItem(i,0,item)
+
+		item = QTableWidgetItem(src_token)
+		self.tab.setItem(i,1,item)
+
+		self.item = gpvdm_select()
+		self.item.setText(src_path)
+		self.item.button.clicked.connect(self.callback_show_list_src)
+		self.tab.setCellWidget(i,2,self.item)
+
+		item = QTableWidgetItem(dest_file)
+		self.tab.setItem(i,3,item)
+
+		item = QTableWidgetItem(dest_token)
+		self.tab.setItem(i,4,item)
+
+		self.item = gpvdm_select()
+		self.item.setText(dest_path)
+		self.item.button.clicked.connect(self.callback_show_list_dest)
+		self.tab.setCellWidget(i,5,self.item)
+		
+		self.tab.blockSignals(False)
+
+	def callback_show_list_src(self):
+		self.select_param_window_src.update()
+		self.select_param_window_src.show()
+
+	def callback_show_list_dest(self):
+		self.select_param_window_dest.update()
+		self.select_param_window_dest.show()
+		
 	def callback_add_item(self):
-		tab_add(self.tab,["File","token",_("value")])
+		self.insert_row(self.tab.rowCount(),_("Source file"),_("Source token"),_("Source path"),_("Destination file"),_("Destination token"),_("Destination path"))
 		self.save_combo()
 
 	def callback_delete_item(self):
@@ -72,18 +110,18 @@ class duplicate(QWidget):
 		self.save_combo()
 
 	def save_combo(self):
-		return
-
-		a = open(self.file_name, "w")
-
+		lines=[]
 		for i in range(0,self.tab.rowCount()):
-			a.write(str(tab_get_value(self.tab,i, 1))+"\n")
-			a.write(str(tab_get_value(self.tab,i, 0))+"\n")
-			a.write(str(tab_get_value(self.tab,i, 2))+"\n")
-
-		a.write("#end\n")
-
-		a.close()
+			lines.append(str(tab_get_value(self.tab,i, 0)))
+			lines.append(str(tab_get_value(self.tab,i, 1)))
+			lines.append(str(tab_get_value(self.tab,i, 2)))
+			lines.append(str(tab_get_value(self.tab,i, 3)))
+			lines.append(str(tab_get_value(self.tab,i, 4)))
+			lines.append(str(tab_get_value(self.tab,i, 5)))
+			
+		lines.append("#end")
+		print("save as",self.file_name)
+		inp_save_lines(self.file_name,lines)
 
 
 	def tab_changed(self):
@@ -92,10 +130,11 @@ class duplicate(QWidget):
 
 	def create_model(self):
 		self.tab.clear()
-		self.tab.setColumnCount(4)
+		self.tab.setColumnCount(6)
 		self.tab.setSelectionBehavior(QAbstractItemView.SelectRows)
-		self.tab.setHorizontalHeaderLabels([_("Source File"), _("Source Token"), _("Destination File"), _("Destination Token")])
-		#self.tab.setColumnWidth(1, 400)
+		self.tab.setHorizontalHeaderLabels([_("Source File"), _("Source Token"), _("Source path"),_("Destination File"), _("Destination Token"), _("Destination path")])
+		self.tab.setColumnWidth(2, 200)
+		self.tab.setColumnWidth(5, 200)
 		self.file_name="duplicate.inp"
 
 		lines=[]
@@ -104,12 +143,37 @@ class duplicate(QWidget):
 		if inp_load_file(lines,self.file_name)==True:
 			mylen=len(lines)
 			while(1):
-				data=lines[pos]
-				if data=="#end":
+				file_src=lines[pos]
+				if lines[pos]=="#end":
 					break
 				pos=pos+1
-				data=data.split(" ")
-				tab_add(self.tab,[data[0],data[1],data[2],data[3]])
+
+				token_src=lines[pos]
+				if lines[pos]=="#end":
+					break
+				pos=pos+1
+
+				path_src=lines[pos]
+				if lines[pos]=="#end":
+					break
+				pos=pos+1
+
+				file_dest=lines[pos]
+				if lines[pos]=="#end":
+					break
+				pos=pos+1
+
+				token_dest=lines[pos]
+				if lines[pos]=="#end":
+					break
+				pos=pos+1
+
+				path_dest=lines[pos]
+				if lines[pos]=="#end":
+					break
+				pos=pos+1
+
+				self.insert_row(self.tab.rowCount(),file_src,token_src,path_src,file_dest,token_dest,path_dest)
 
 				if pos>mylen:
 					break
@@ -147,6 +211,21 @@ class duplicate(QWidget):
 
 		self.tab.cellChanged.connect(self.tab_changed)
 
+		self.select_param_window_src=select_param()
+		self.select_param_window_src.init(self.tab)
+		self.select_param_window_src.set_save_function(self.save_combo)
+		self.select_param_window_src.file_name_tab_pos=0
+		self.select_param_window_src.token_tab_pos=1
+		self.select_param_window_src.path_tab_pos=2
+
+
+		self.select_param_window_dest=select_param()
+		self.select_param_window_dest.init(self.tab)
+		self.select_param_window_dest.set_save_function(self.save_combo)
+		self.select_param_window_dest.file_name_tab_pos=3
+		self.select_param_window_dest.token_tab_pos=4
+		self.select_param_window_dest.path_tab_pos=5
+		
 		self.vbox.addWidget(self.tab)
 
 
