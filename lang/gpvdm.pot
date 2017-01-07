@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.80\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2017-01-06 22:36+0000\n"
+"POT-Creation-Date: 2017-01-07 23:12+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -536,11 +536,12 @@ msgstr ""
 msgid "Save video"
 msgstr ""
 
-#: ../gui/cmp_class.py:301 ../gui/band_graph.py:71 ../gui/experiment.py:180
+#: ../gui/cmp_class.py:301 ../gui/band_graph.py:71
+#: ../gui/fit_configure_window.py:73 ../gui/experiment.py:180
 #: ../gui/experiment.py:237 ../gui/contacts.py:185 ../gui/config_window.py:70
 #: ../gui/jv.py:78 ../gui/emesh.py:169 ../gui/scan.py:259 ../gui/scan.py:354
 #: ../gui/info.py:68 ../gui/fxexperiment.py:177 ../gui/fxexperiment.py:230
-#: ../gui/fit_window.py:234 ../gui/lasers.py:180 ../gui/lasers.py:237
+#: ../gui/fit_window.py:222 ../gui/lasers.py:180 ../gui/lasers.py:237
 #: ../gui/help.py:127 ../gui/optics.py:131
 msgid "Close"
 msgstr ""
@@ -566,10 +567,6 @@ msgstr ""
 
 #: ../gui/experiment_tab.py:67 ../gui/fxexperiment_tab.py:66
 msgid "Circuit"
-msgstr ""
-
-#: ../gui/fit_progress.py:56
-msgid "Fit speed"
 msgstr ""
 
 #: ../gui/gl_cmp.py:46
@@ -613,6 +610,33 @@ msgstr ""
 
 #: ../gui/fit_tab.py:82
 msgid "Configure fit"
+msgstr ""
+
+#: ../gui/fit_configure_window.py:59
+msgid "Fit configure"
+msgstr ""
+
+#: ../gui/fit_configure_window.py:72 ../gui/experiment.py:201
+#: ../gui/experiment.py:202 ../gui/config_window.py:69
+#: ../gui/materials_main.py:84 ../gui/gpvdm.py:763 ../gui/gpvdm.py:873
+#: ../gui/emesh.py:168 ../gui/scan.py:318 ../gui/scan.py:319 ../gui/cost.py:92
+#: ../gui/fxexperiment.py:195 ../gui/fxexperiment.py:196
+#: ../gui/fit_window.py:240 ../gui/fit_window.py:241 ../gui/lasers.py:201
+#: ../gui/lasers.py:202 ../gui/import_data.py:256 ../gui/import_data.py:257
+#: ../gui/doping.py:205
+msgid "Help"
+msgstr ""
+
+#: ../gui/fit_configure_window.py:88
+msgid "Configure minimizer"
+msgstr ""
+
+#: ../gui/fit_configure_window.py:96
+msgid "Duplicate window"
+msgstr ""
+
+#: ../gui/fit_configure_window.py:99
+msgid "Fit variable window"
 msgstr ""
 
 #: ../gui/tmesh.py:124 ../gui/tmesh.py:125 ../gui/tmesh.py:126
@@ -902,12 +926,12 @@ msgid "Problem generating tree."
 msgstr ""
 
 #: ../gui/scan_tab.py:405 ../gui/gpvdm.py:718 ../gui/fxexperiment.py:176
-#: ../gui/fit_window.py:233 ../gui/fit_vars.py:88 ../gui/fit_vars.py:125
+#: ../gui/fit_window.py:221 ../gui/fit_vars.py:95 ../gui/fit_vars.py:156
 #: ../gui/optics.py:127 ../gui/fit_patch.py:124
 msgid "File"
 msgstr ""
 
-#: ../gui/scan_tab.py:405 ../gui/fit_vars.py:125 ../gui/fit_patch.py:124
+#: ../gui/scan_tab.py:405 ../gui/fit_vars.py:156 ../gui/fit_patch.py:124
 msgid "Token"
 msgstr ""
 
@@ -915,7 +939,7 @@ msgstr ""
 msgid "Parameter to change"
 msgstr ""
 
-#: ../gui/scan_tab.py:405 ../gui/fit_vars.py:125 ../gui/fit_patch.py:124
+#: ../gui/scan_tab.py:405 ../gui/fit_patch.py:124
 msgid "Values"
 msgstr ""
 
@@ -940,7 +964,7 @@ msgstr ""
 msgid "Run simulation"
 msgstr ""
 
-#: ../gui/scan_tab.py:531 ../gui/gpvdm.py:811 ../gui/fit_window.py:303
+#: ../gui/scan_tab.py:531 ../gui/gpvdm.py:811 ../gui/fit_window.py:287
 msgid "Stop the simulation"
 msgstr ""
 
@@ -1094,7 +1118,7 @@ msgid "Experiments"
 msgstr ""
 
 #: ../gui/experiment.py:185 ../gui/scan.py:265 ../gui/fxexperiment.py:182
-#: ../gui/fit_window.py:239 ../gui/lasers.py:185
+#: ../gui/fit_window.py:227 ../gui/lasers.py:185
 msgid "New"
 msgstr ""
 
@@ -1111,16 +1135,6 @@ msgstr ""
 #: ../gui/experiment.py:197 ../gui/experiment.py:223 ../gui/fxexperiment.py:191
 #: ../gui/fxexperiment.py:216
 msgid "Clone experiment"
-msgstr ""
-
-#: ../gui/experiment.py:201 ../gui/experiment.py:202 ../gui/config_window.py:69
-#: ../gui/materials_main.py:84 ../gui/gpvdm.py:763 ../gui/gpvdm.py:873
-#: ../gui/emesh.py:168 ../gui/scan.py:318 ../gui/scan.py:319 ../gui/cost.py:92
-#: ../gui/fxexperiment.py:195 ../gui/fxexperiment.py:196
-#: ../gui/fit_window.py:252 ../gui/fit_window.py:253 ../gui/lasers.py:201
-#: ../gui/lasers.py:202 ../gui/import_data.py:256 ../gui/import_data.py:257
-#: ../gui/doping.py:205
-msgid "Help"
 msgstr ""
 
 #: ../gui/experiment.py:209
@@ -1263,7 +1277,7 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: ../gui/config_window.py:56 ../gui/gpvdm.py:750
+#: ../gui/config_window.py:56 ../gui/gpvdm.py:750 ../gui/fit_window.py:273
 msgid "Configure"
 msgstr ""
 
@@ -1585,7 +1599,7 @@ msgstr ""
 msgid "Remove "
 msgstr ""
 
-#: ../gui/tab_homo.py:281 ../gui/plot_widget.py:653 ../gui/doping.py:196
+#: ../gui/tab_homo.py:281 ../gui/plot_widget.py:654 ../gui/doping.py:196
 msgid "Save"
 msgstr ""
 
@@ -1785,7 +1799,7 @@ msgstr ""
 msgid "CELIV"
 msgstr ""
 
-#: ../gui/inp_description.py:42 ../gui/plot_widget.py:685
+#: ../gui/inp_description.py:42 ../gui/plot_widget.py:686
 msgid "Math"
 msgstr ""
 
@@ -2011,11 +2025,11 @@ msgstr ""
 msgid "Fit variables duplicate window"
 msgstr ""
 
-#: ../gui/duplicate.py:196 ../gui/fit_vars.py:180 ../gui/fit_patch.py:169
+#: ../gui/duplicate.py:196 ../gui/fit_patch.py:169
 msgid "Add"
 msgstr ""
 
-#: ../gui/duplicate.py:200 ../gui/fit_vars.py:184 ../gui/fit_patch.py:173
+#: ../gui/duplicate.py:200 ../gui/fit_patch.py:173
 msgid "Minus"
 msgstr ""
 
@@ -2035,90 +2049,104 @@ msgstr ""
 msgid "Frequency domain experiment editor"
 msgstr ""
 
-#: ../gui/fit_window.py:91 ../gui/fit_window.py:101
+#: ../gui/fit_window.py:89
 msgid ""
 "<big><b>The fitting variables window</b></big><br> Use this window to select "
 "the variables use to perform the fit."
 msgstr ""
 
-#: ../gui/fit_window.py:111
+#: ../gui/fit_window.py:99
 msgid "New fit name:"
 msgstr ""
 
-#: ../gui/fit_window.py:111
+#: ../gui/fit_window.py:99
 msgid "fit "
 msgstr ""
 
-#: ../gui/fit_window.py:128
+#: ../gui/fit_window.py:116
 msgid "Clone the current fit to a new fit called:"
 msgstr ""
 
-#: ../gui/fit_window.py:145
+#: ../gui/fit_window.py:133
 msgid "Rename the fit to be called:"
 msgstr ""
 
-#: ../gui/fit_window.py:158
+#: ../gui/fit_window.py:146
 msgid "Should I remove the fit file "
 msgstr ""
 
-#: ../gui/fit_window.py:238
+#: ../gui/fit_window.py:226
 msgid "Fits"
 msgstr ""
 
-#: ../gui/fit_window.py:242 ../gui/fit_window.py:271
+#: ../gui/fit_window.py:230 ../gui/fit_window.py:259
 msgid "Delete fit"
 msgstr ""
 
-#: ../gui/fit_window.py:245 ../gui/fit_window.py:279
+#: ../gui/fit_window.py:233 ../gui/fit_window.py:267
 msgid "Rename fit"
 msgstr ""
 
-#: ../gui/fit_window.py:248 ../gui/fit_window.py:275
+#: ../gui/fit_window.py:236 ../gui/fit_window.py:263
 msgid "Clone fit"
 msgstr ""
 
-#: ../gui/fit_window.py:261
+#: ../gui/fit_window.py:249
 msgid "Fit window - gpvdm"
 msgstr ""
 
-#: ../gui/fit_window.py:267
+#: ../gui/fit_window.py:255
 msgid "New fit"
 msgstr ""
 
-#: ../gui/fit_window.py:285
-msgid "Fit variables"
-msgstr ""
-
-#: ../gui/fit_window.py:289
-msgid "Duplicate variables"
-msgstr ""
-
-#: ../gui/fit_window.py:295
+#: ../gui/fit_window.py:279
 msgid "Run a single fit"
 msgstr ""
 
-#: ../gui/fit_window.py:299
+#: ../gui/fit_window.py:283
 msgid "Start the fitting process"
 msgstr ""
 
-#: ../gui/fit_vars.py:88
+#: ../gui/fit_vars.py:95
 msgid "token"
 msgstr ""
 
-#: ../gui/fit_vars.py:88
+#: ../gui/fit_vars.py:95
 msgid "path"
 msgstr ""
 
-#: ../gui/fit_vars.py:88 ../gui/fit_patch.py:95
-msgid "value"
+#: ../gui/fit_vars.py:114
+msgid ""
+"The data file does not have a #begin or #end token indicating where the data "
+"starts and ends."
 msgstr ""
 
-#: ../gui/fit_vars.py:125 ../gui/fit_patch.py:124
+#: ../gui/fit_vars.py:156 ../gui/fit_patch.py:124
 msgid "Path"
 msgstr ""
 
-#: ../gui/fit_vars.py:169
+#: ../gui/fit_vars.py:156
+msgid "Lines to edit"
+msgstr ""
+
+#: ../gui/fit_vars.py:156
+msgid "Line section to edit"
+msgstr ""
+
+#: ../gui/fit_vars.py:205
 msgid "Fit vars window - gpvdm"
+msgstr ""
+
+#: ../gui/fit_vars.py:216
+msgid "Add line"
+msgstr ""
+
+#: ../gui/fit_vars.py:220
+msgid "Remove line"
+msgstr ""
+
+#: ../gui/fit_vars.py:224
+msgid "Open"
 msgstr ""
 
 #: ../gui/leftright.py:85
@@ -2185,20 +2213,20 @@ msgstr ""
 msgid "y"
 msgstr ""
 
-#: ../gui/server.py:127
+#: ../gui/server.py:129
 msgid ""
 "<big><b>Simulation finished!</b></big><br>Click on the plot icon to plot the "
 "results"
 msgstr ""
 
-#: ../gui/server.py:137
+#: ../gui/server.py:139
 msgid ""
 "<big><b>Excel workbook error</b></big><br>I can't write new data to the file "
 "data.xlsx, I think you have are viewing it using another program.  Please "
 "close data.xlsx to enable me to write new data to it."
 msgstr ""
 
-#: ../gui/server.py:272
+#: ../gui/server.py:274
 msgid "I have shut down the server."
 msgstr ""
 
@@ -2598,16 +2626,17 @@ msgid "Pause between iterations"
 msgstr ""
 
 #: ../gui/token_lib.py:91 ../gui/token_lib.py:300 ../gui/token_lib.py:304
-#: ../gui/token_lib.py:308 ../gui/token_lib.py:314 ../gui/token_lib.py:315
-#: ../gui/token_lib.py:316 ../gui/token_lib.py:317 ../gui/token_lib.py:319
-#: ../gui/token_lib.py:320 ../gui/token_lib.py:346 ../gui/token_lib.py:347
-#: ../gui/token_lib.py:349 ../gui/token_lib.py:350 ../gui/token_lib.py:351
-#: ../gui/token_lib.py:352 ../gui/token_lib.py:353 ../gui/token_lib.py:354
-#: ../gui/token_lib.py:357 ../gui/token_lib.py:359 ../gui/token_lib.py:360
-#: ../gui/token_lib.py:361 ../gui/token_lib.py:362 ../gui/token_lib.py:363
-#: ../gui/token_lib.py:364 ../gui/token_lib.py:365 ../gui/token_lib.py:366
-#: ../gui/token_lib.py:367 ../gui/token_lib.py:368 ../gui/token_lib.py:370
-#: ../gui/token_lib.py:371 ../gui/token_lib.py:374 ../gui/token_lib.py:384
+#: ../gui/token_lib.py:306 ../gui/token_lib.py:310 ../gui/token_lib.py:323
+#: ../gui/token_lib.py:324 ../gui/token_lib.py:325 ../gui/token_lib.py:326
+#: ../gui/token_lib.py:328 ../gui/token_lib.py:329 ../gui/token_lib.py:355
+#: ../gui/token_lib.py:356 ../gui/token_lib.py:358 ../gui/token_lib.py:359
+#: ../gui/token_lib.py:360 ../gui/token_lib.py:361 ../gui/token_lib.py:362
+#: ../gui/token_lib.py:363 ../gui/token_lib.py:366 ../gui/token_lib.py:368
+#: ../gui/token_lib.py:369 ../gui/token_lib.py:370 ../gui/token_lib.py:371
+#: ../gui/token_lib.py:372 ../gui/token_lib.py:373 ../gui/token_lib.py:374
+#: ../gui/token_lib.py:375 ../gui/token_lib.py:376 ../gui/token_lib.py:377
+#: ../gui/token_lib.py:379 ../gui/token_lib.py:380 ../gui/token_lib.py:383
+#: ../gui/token_lib.py:393
 msgid "True/False"
 msgstr ""
 
@@ -2842,173 +2871,201 @@ msgstr ""
 msgid "log x"
 msgstr ""
 
-#: ../gui/token_lib.py:308
+#: ../gui/token_lib.py:306
 msgid "Invert simulated data (y)"
 msgstr ""
 
+#: ../gui/token_lib.py:310
+msgid "Randomize fit"
+msgstr ""
+
+#: ../gui/token_lib.py:311
+msgid "Number of iterations between random reset"
+msgstr ""
+
 #: ../gui/token_lib.py:312
-msgid "Device temperature on left"
+msgid "Stall steps"
 msgstr ""
 
 #: ../gui/token_lib.py:313
-msgid "Device temperature on right"
+msgid "Disable reset at level"
 msgstr ""
 
 #: ../gui/token_lib.py:314
-msgid "Enable thermal solver"
+msgid "Fit define convergence"
 msgstr ""
 
 #: ../gui/token_lib.py:315
+msgid "Enable simplex reset"
+msgstr ""
+
+#: ../gui/token_lib.py:316 ../gui/token_lib.py:317
+msgid "Simplex reset steps"
+msgstr ""
+
+#: ../gui/token_lib.py:321
+msgid "Device temperature on left"
+msgstr ""
+
+#: ../gui/token_lib.py:322
+msgid "Device temperature on right"
+msgstr ""
+
+#: ../gui/token_lib.py:323
+msgid "Enable thermal solver"
+msgstr ""
+
+#: ../gui/token_lib.py:324
 msgid "Lattice heat model"
 msgstr ""
 
-#: ../gui/token_lib.py:316
+#: ../gui/token_lib.py:325
 msgid "Electron heat model"
 msgstr ""
 
-#: ../gui/token_lib.py:317
+#: ../gui/token_lib.py:326
 msgid "Hole heat model"
 msgstr ""
 
-#: ../gui/token_lib.py:319
+#: ../gui/token_lib.py:328
 msgid "Isothermal boundary on left"
 msgstr ""
 
-#: ../gui/token_lib.py:320
+#: ../gui/token_lib.py:329
 msgid "Isothermal boundary on right"
 msgstr ""
 
-#: ../gui/token_lib.py:343
+#: ../gui/token_lib.py:352
 msgid "Filp the opticl field"
 msgstr ""
 
-#: ../gui/token_lib.py:346
+#: ../gui/token_lib.py:355
 msgid "Dump from newton solver"
 msgstr ""
 
-#: ../gui/token_lib.py:347
+#: ../gui/token_lib.py:356
 msgid "Plot bands etc.. "
 msgstr ""
 
-#: ../gui/token_lib.py:349
+#: ../gui/token_lib.py:358
 msgid "dump slices by time"
 msgstr ""
 
-#: ../gui/token_lib.py:350
+#: ../gui/token_lib.py:359
 msgid "Dump 1D slices"
 msgstr ""
 
-#: ../gui/token_lib.py:351
+#: ../gui/token_lib.py:360
 msgid "Dump slices"
 msgstr ""
 
-#: ../gui/token_lib.py:352
+#: ../gui/token_lib.py:361
 msgid "Dump dynamic"
 msgstr ""
 
-#: ../gui/token_lib.py:353
+#: ../gui/token_lib.py:362
 msgid "Dump zip files"
 msgstr ""
 
-#: ../gui/token_lib.py:354
+#: ../gui/token_lib.py:363
 msgid "Write out band structure"
 msgstr ""
 
-#: ../gui/token_lib.py:357
+#: ../gui/token_lib.py:366
 msgid "Dump optical information"
 msgstr ""
 
-#: ../gui/token_lib.py:359
+#: ../gui/token_lib.py:368
 msgid "Print newton error"
 msgstr ""
 
-#: ../gui/token_lib.py:360
+#: ../gui/token_lib.py:369
 msgid "Print solver convergence"
 msgstr ""
 
-#: ../gui/token_lib.py:361
+#: ../gui/token_lib.py:370
 msgid "Write newton solver convergence to disk"
 msgstr ""
 
-#: ../gui/token_lib.py:362
+#: ../gui/token_lib.py:371
 msgid "Print poisson solver convergence"
 msgstr ""
 
-#: ../gui/token_lib.py:363
+#: ../gui/token_lib.py:372
 msgid "Dump PL spectra"
 msgstr ""
 
-#: ../gui/token_lib.py:364
+#: ../gui/token_lib.py:373
 msgid "Normalize output x-time to one"
 msgstr ""
 
-#: ../gui/token_lib.py:365
+#: ../gui/token_lib.py:374
 msgid "Dump the built in voltage."
 msgstr ""
 
-#: ../gui/token_lib.py:366
+#: ../gui/token_lib.py:375
 msgid "Dump optical probe spectrum"
 msgstr ""
 
-#: ../gui/token_lib.py:367
+#: ../gui/token_lib.py:376
 msgid "Dump optical summary"
 msgstr ""
 
-#: ../gui/token_lib.py:368
+#: ../gui/token_lib.py:377
 msgid "Dump raytrace plots"
 msgstr ""
 
-#: ../gui/token_lib.py:370
+#: ../gui/token_lib.py:379
 msgid "Dump an excel workbook for each simulation run congaing the results."
 msgstr ""
 
-#: ../gui/token_lib.py:371
+#: ../gui/token_lib.py:380
 msgid "Write file access log to disk."
 msgstr ""
 
-#: ../gui/token_lib.py:374
+#: ../gui/token_lib.py:383
 msgid "Turn on luminescence"
 msgstr ""
 
-#: ../gui/token_lib.py:375
+#: ../gui/token_lib.py:384
 #, python-brace-format
 msgid "n_{free} to p_{free} photon generation efficiency"
 msgstr ""
 
-#: ../gui/token_lib.py:376
+#: ../gui/token_lib.py:385
 #, python-brace-format
 msgid "n_{free} to n_{trap} photon generation efficiency"
 msgstr ""
 
-#: ../gui/token_lib.py:377
+#: ../gui/token_lib.py:386
 #, python-brace-format
 msgid "n_{trap} to p_{free} photon generation efficiency"
 msgstr ""
 
-#: ../gui/token_lib.py:378
+#: ../gui/token_lib.py:387
 #, python-brace-format
 msgid "p_{trap} to n_{free} photon generation efficiency"
 msgstr ""
 
-#: ../gui/token_lib.py:379
+#: ../gui/token_lib.py:388
 #, python-brace-format
 msgid "p_{free} to p_{trap} photon generation efficiency"
 msgstr ""
 
-#: ../gui/token_lib.py:381
+#: ../gui/token_lib.py:390
 #, python-brace-format
 msgid "n_{free} to p_{free} Recombination rate constant"
 msgstr ""
 
-#: ../gui/token_lib.py:384
+#: ../gui/token_lib.py:393
 msgid "Turn on LED"
 msgstr ""
 
-#: ../gui/token_lib.py:385
+#: ../gui/token_lib.py:394
 msgid "LED emission wavelength"
 msgstr ""
 
-#: ../gui/token_lib.py:386
+#: ../gui/token_lib.py:395
 msgid "LED extraction efficiency"
 msgstr ""
 
@@ -3036,67 +3093,67 @@ msgstr ""
 msgid "Refresh graph"
 msgstr ""
 
-#: ../gui/plot_widget.py:656 ../gui/gui_util.py:65
+#: ../gui/plot_widget.py:657 ../gui/gui_util.py:65
 msgid "Save as"
 msgstr ""
 
-#: ../gui/plot_widget.py:663
+#: ../gui/plot_widget.py:664
 msgid "Black"
 msgstr ""
 
-#: ../gui/plot_widget.py:666
+#: ../gui/plot_widget.py:667
 msgid "Rainbow"
 msgstr ""
 
-#: ../gui/plot_widget.py:669
+#: ../gui/plot_widget.py:670
 msgid "Color"
 msgstr ""
 
-#: ../gui/plot_widget.py:670
+#: ../gui/plot_widget.py:671
 msgid "Autoscale"
 msgstr ""
 
-#: ../gui/plot_widget.py:673
+#: ../gui/plot_widget.py:674
 msgid "Set log scale y"
 msgstr ""
 
-#: ../gui/plot_widget.py:676 ../gui/plot_widget.py:679
+#: ../gui/plot_widget.py:677 ../gui/plot_widget.py:680
 msgid "Set log scale x"
 msgstr ""
 
-#: ../gui/plot_widget.py:682
+#: ../gui/plot_widget.py:683
 msgid "Label data"
 msgstr ""
 
-#: ../gui/plot_widget.py:687
+#: ../gui/plot_widget.py:688
 msgid "Subtract first point"
 msgstr ""
 
-#: ../gui/plot_widget.py:690
+#: ../gui/plot_widget.py:691
 msgid "Add min point"
 msgstr ""
 
-#: ../gui/plot_widget.py:693
+#: ../gui/plot_widget.py:694
 msgid "Invert y-axis"
 msgstr ""
 
-#: ../gui/plot_widget.py:696
+#: ../gui/plot_widget.py:697
 msgid "Norm to 1.0 y"
 msgstr ""
 
-#: ../gui/plot_widget.py:699
+#: ../gui/plot_widget.py:700
 msgid "Norm to peak of all data"
 msgstr ""
 
-#: ../gui/plot_widget.py:702
+#: ../gui/plot_widget.py:703
 msgid "Heat map"
 msgstr ""
 
-#: ../gui/plot_widget.py:705
+#: ../gui/plot_widget.py:706
 msgid "Heat map edit"
 msgstr ""
 
-#: ../gui/plot_widget.py:708
+#: ../gui/plot_widget.py:709
 msgid "xy plot"
 msgstr ""
 
@@ -3155,6 +3212,10 @@ msgstr ""
 msgid ""
 "I can't find any optical plugins, I think the model is not installed "
 "properly."
+msgstr ""
+
+#: ../gui/fit_patch.py:95
+msgid "value"
 msgstr ""
 
 #: ../gui/error_han.py:77 ../libfit/fit_dump.c:62 ../libfit/fit_dump.c:85

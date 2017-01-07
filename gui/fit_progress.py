@@ -44,20 +44,23 @@ mesh_articles = []
 class fit_progress(QTabWidget):
 
 	def update(self):
-		self.plot_fit_speed.do_plot()
+		for widget in self.plot_widgets:
+			widget.do_plot()
 
 	def __init__(self):
 		QTabWidget.__init__(self)
 
 		self.setMovable(True)
+		self.plot_widgets=[]
+		for file_name in ["fitlog.dat","fitlog_time_error.dat","fitlog_time_odes.dat",]:
+			self.plot_widgets.append(plot_widget())
+			self.plot_widgets[-1].init(menu=False)
+			self.plot_widgets[-1].set_labels([file_name])
+			self.plot_widgets[-1].load_data([file_name],os.path.splitext(file_name)[0]+".oplot")
+			self.plot_widgets[-1].do_plot()
 
-		self.plot_fit_speed=plot_widget()
-		self.plot_fit_speed.init()
-		self.addTab(self.plot_fit_speed,_("Fit speed"))
-		self.plot_fit_speed.set_labels(["Fit speed"])
-		print("about to load data")
-		self.plot_fit_speed.load_data(["fitlog_time_error.dat"],"fitlog_time_error.oplot")
-		self.plot_fit_speed.do_plot()
+			self.addTab(self.plot_widgets[-1],file_name)
+		
 
 	def rename(self,tab_name):
 		return

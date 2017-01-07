@@ -61,9 +61,12 @@ from inp import inp_load_file
 from inp import inp_save_lines
 from gpvdm_select import gpvdm_select
 
+from gui_util import open_as_filter
+from gui_util import error_dlg
+
 class fit_vars(QWidget):
 
-	def insert_row(self,i,f,t,p,v):
+	def insert_row(self,i,f,t,p,v,section):
 		self.tab.blockSignals(True)
 		self.tab.insertRow(i)
 
@@ -82,11 +85,38 @@ class fit_vars(QWidget):
 
 		item = QTableWidgetItem(v)
 		self.tab.setItem(i,3,item)
+
+		item = QTableWidgetItem(section)
+		self.tab.setItem(i,4,item)
+
 		self.tab.blockSignals(False)
 		
 	def callback_add_item(self):
-		self.insert_row(self.tab.rowCount(),_("File"),_("token"),_("path"),_("value"))
+		self.insert_row(self.tab.rowCount(),_("File"),_("token"),_("path"),"1","0")
 		self.save_combo()
+		
+	def callback_open(self):
+		file_name=open_as_filter(self,"dat (*.dat);;csv (*.csv);;txt (*.txt);;inp (*.inp);;omat (*.omat)")
+
+		if file_name!=None:
+			lines=[]
+			inp_load_file(lines,file_name)
+			begin=-1
+			end=-1
+
+			for i in range(0,len(lines)):
+				if lines[i]=="#data":
+					begin=i
+				if lines[i]=="#end":
+					end=i
+				
+			if begin==-1 or end==-1:
+				error_dlg(self,_("The data file does not have a #begin or #end token indicating where the data starts and ends."))
+				return
+
+			rel_path=os.path.relpath(file_name, os.getcwd())
+			self.insert_row(self.tab.rowCount(),rel_path,"#data",rel_path,str(end-begin),"1")
+			self.save_combo()
 
 	def callback_show_list(self):
 		self.select_param_window.update()
@@ -104,6 +134,7 @@ class fit_vars(QWidget):
 			lines.append(str(tab_get_value(self.tab,i, 0)))
 			lines.append(str(tab_get_value(self.tab,i, 2)))
 			lines.append(str(tab_get_value(self.tab,i, 3)))
+			lines.append(str(tab_get_value(self.tab,i, 4)))
 
 		lines.append("#ver")
 		lines.append("1.0")
@@ -120,9 +151,9 @@ class fit_vars(QWidget):
 
 	def create_model(self):
 		self.tab.clear()
-		self.tab.setColumnCount(4)
+		self.tab.setColumnCount(5)
 		self.tab.setSelectionBehavior(QAbstractItemView.SelectRows)
-		self.tab.setHorizontalHeaderLabels([_("File"), _("Token"), _("Path"),_("Values")])
+		self.tab.setHorizontalHeaderLabels([_("File"), _("Token"), _("Path"),_("Lines to edit"),_("Line section to edit")])
 		self.tab.setColumnWidth(2, 400)
 		self.file_name="fit_vars.inp"
 
@@ -153,7 +184,12 @@ class fit_vars(QWidget):
 					break
 				pos=pos+1
 
-				self.insert_row(line,f,t,p,v)
+				section=lines[pos]
+				if section=="#end":
+					break
+				pos=pos+1
+				
+				self.insert_row(line,f,t,p,v,section)
 
 				if pos>mylen:
 					break
@@ -177,14 +213,18 @@ class fit_vars(QWidget):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
-		self.tb_save = QAction(QIcon(os.path.join(get_image_file_path(),"add.png")), _("Add"), self)
+		self.tb_save = QAction(QIcon(os.path.join(get_image_file_path(),"add.png")), _("Add line"), self)
 		self.tb_save.triggered.connect(self.callback_add_item)
 		toolbar.addAction(self.tb_save)
 
-		self.tb_save = QAction(QIcon(os.path.join(get_image_file_path(),"minus.png")), _("Minus"), self)
+		self.tb_save = QAction(QIcon(os.path.join(get_image_file_path(),"minus.png")), _("Remove line"), self)
 		self.tb_save.triggered.connect(self.callback_delete_item)
 		toolbar.addAction(self.tb_save)
 
+		self.tb_open = QAction(QIcon(os.path.join(get_image_file_path(),"open.png")), _("Open"), self)
+		self.tb_open.triggered.connect(self.callback_open)
+		toolbar.addAction(self.tb_open)
+		
 		self.vbox.addWidget(toolbar)
 
 		self.tab = QTableWidget()

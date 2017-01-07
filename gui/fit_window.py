@@ -42,6 +42,7 @@ from inp import inp_isfile
 from inp import inp_copy_file
 from inp import inp_remove_file
 from inp import inp_update_token_value
+from fit_configure_window import fit_configure_window
 
 #qt
 from PyQt5.QtCore import QSize, Qt 
@@ -53,9 +54,6 @@ from gui_util import yes_no_dlg
 
 from fit_tab import fit_tab
 from QHTabBar import QHTabBar
-
-from fit_vars import fit_vars
-from duplicate import duplicate
 
 from gui_util import dlg_get_text
 
@@ -84,26 +82,16 @@ class fit_window(QWidget):
 		my_server=server_get()
 		my_server.force_stop()
 
-	def callback_fit_vars(self):
-		if self.fit_vars_window==None:
-			self.fit_vars_window=fit_vars()
+	def callback_configure(self):
+		if self.fit_configure_window==None:
+			self.fit_configure_window=fit_configure_window()
 			
 		help_window().help_set_help(["vars.png",_("<big><b>The fitting variables window</b></big><br> Use this window to select the variables use to perform the fit.")])
-		if self.fit_vars_window.isVisible()==True:
-			self.fit_vars_window.hide()
+		if self.fit_configure_window.isVisible()==True:
+			self.fit_configure_window.hide()
 		else:
-			self.fit_vars_window.show()
+			self.fit_configure_window.show()
 
-	def callback_duplicate(self):
-		if self.duplicate_window==None:
-			self.duplicate_window=duplicate()
-			
-		help_window().help_set_help(["duplicate.png",_("<big><b>The fitting variables window</b></big><br> Use this window to select the variables use to perform the fit.")])
-		if self.duplicate_window.isVisible()==True:
-			self.duplicate_window.hide()
-		else:
-			self.duplicate_window.show()
-			
 	def callback_help(self):
 		webbrowser.open('https://www.gpvdm.com/man/index.html')
 
@@ -282,13 +270,9 @@ class fit_window(QWidget):
 
 		toolbar.addSeparator()
 
-		self.tb_fit_vars= QAction(QIcon(os.path.join(get_image_file_path(),"vars.png")), _("Fit variables"), self)
-		self.tb_fit_vars.triggered.connect(self.callback_fit_vars)
-		toolbar.addAction(self.tb_fit_vars)
-
-		self.tb_duplicate= QAction(QIcon(os.path.join(get_image_file_path(),"duplicate.png")), _("Duplicate variables"), self)
-		self.tb_duplicate.triggered.connect(self.callback_duplicate)
-		toolbar.addAction(self.tb_duplicate)
+		self.tb_configure= QAction(QIcon(os.path.join(get_image_file_path(),"cog.png")), _("Configure"), self)
+		self.tb_configure.triggered.connect(self.callback_configure)
+		toolbar.addAction(self.tb_configure)
 				
 		toolbar.addSeparator()
 
@@ -330,8 +314,7 @@ class fit_window(QWidget):
 
 		self.setLayout(self.main_vbox)
 
-		self.fit_vars_window=None
-		self.duplicate_window=None
+		self.fit_configure_window=None
 		
 
 

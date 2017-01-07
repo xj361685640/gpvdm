@@ -330,6 +330,7 @@ class import_data(QDialog):
 		for i in range(0,self.data.y_len):
 			text=text+str('{:.8e}'.format(float(self.data.y_scale[i]*self.unit_sel.x_mul)))+" "+str('{:.8e}'.format(float(self.data.data[0][0][i]*self.unit_sel.y_mul)))+"\n"
 
+		text=text+"#end\n"
 		self.out_data.setText(text)
 
 	def update(self):

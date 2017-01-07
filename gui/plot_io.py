@@ -1,9 +1,8 @@
-#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -163,6 +162,8 @@ def gen_header_from_token(plot_token,full=False,single_line=True):
 			l.append(lines[i*2]+" "+lines[(i*2)+1])
 
 		lines=l
+
+		lines.append("#begin")
 
 	return lines
 

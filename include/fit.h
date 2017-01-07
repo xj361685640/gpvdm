@@ -32,6 +32,8 @@
 #define FIT_RESET 2
 
 #define FIT_MAX 10
+#define FIT_VAR_MAX 2000
+
 struct fits_struct
 {
 int enabled;
@@ -48,9 +50,10 @@ struct fits_struct data_set[FIT_MAX];
 double simplexmul;
 int simplexreset;
 int fitvars;
-char fit_file[200][100];
-char fit_token[200][100];
-int fit_line[200];
+char fit_file[FIT_VAR_MAX][100];
+char fit_token[FIT_VAR_MAX][100];
+int fit_line[FIT_VAR_MAX];
+int fit_line_section[FIT_VAR_MAX];
 
 int randomize;
 int random_reset_ittr;

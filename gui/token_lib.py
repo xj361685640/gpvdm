@@ -1,6 +1,6 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012-2016 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012-2016 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
 #	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -303,9 +303,18 @@ lib.append(my_data("#start","s","start",["text"],"e",1.0))
 lib.append(my_data("#stop","s","stop",["text"],"e",1.0))
 lib.append(my_data("#log_x",_("True/False"),_("log x"),[("switch")],"e",1.0))
 lib.append(my_data("#sim_data","filename","Fit file name",["text"],"e",1.0))
-lib.append(my_data("#fit_error_mul","au","Fit error multiplyer",["text"],"e",1.0))
-
 lib.append(my_data("#fit_invert_simulation_y",_("True/False"),_("Invert simulated data (y)"),[("switch")],"e",1.0))
+
+#fit.inp
+lib.append(my_data("#fit_error_mul","au","Fit error multiplyer",["text"],"e",1.0))
+lib.append(my_data("#fit_randomize",_("True/False"),_("Randomize fit"),[("switch")],"e",1.0))
+lib.append(my_data("#fit_random_reset_ittr","au",_("Number of iterations between random reset"),["text"],"e",1.0))
+lib.append(my_data("#fit_stall_steps","au",_("Stall steps"),["text"],"e",1.0))
+lib.append(my_data("#fit_disable_reset_at","au",_("Disable reset at level"),["text"],"e",1.0))
+lib.append(my_data("#fit_converge_error","au",_("Fit define convergence"),["text"],"e",1.0))
+lib.append(my_data("#fit_enable_simple_reset","au",_("Enable simplex reset"),[("switch")],"e",1.0))
+lib.append(my_data("#fit_enable_simple_reset","au",_("Simplex reset steps"),[("switch")],"e",1.0))
+lib.append(my_data("#fit_method","au",_("Simplex reset steps"),["simplex","newton"],"e",1.0))
 
 
 #Thermal

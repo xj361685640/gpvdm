@@ -60,6 +60,7 @@ from PyQt5.QtWidgets import QWidget
 from server_io import server_find_simulations_to_run
 
 from workbook import gen_workbook
+import time
 
 my_server=False
 
@@ -84,6 +85,7 @@ class server(QWidget,cluster):
 		self.fit_update=None
 		self.excel_workbook_gen_error=False
 		status_icon_init()
+		self.gui_update_time= time.time()
 
 	def init(self,sim_dir):
 		self.terminate_on_finish=False
@@ -335,8 +337,13 @@ class server(QWidget,cluster):
 					if len(splitup)>1:
 						self.progress_window.set_text(data.split(":")[1])
 			elif (data.startswith("fit_run")):
-				if self.fit_update!=None:
-					self.fit_update()
+				elapsed_time = time.time() - self.gui_update_time
+				if elapsed_time>5:
+
+					self.gui_update_time=time.time()
+					
+					if self.fit_update!=None:
+						self.fit_update()
 
 def server_init():
 	global my_server
