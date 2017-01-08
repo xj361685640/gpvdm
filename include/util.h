@@ -69,7 +69,8 @@ int path_up_level(char *out, char *in);
 int fnmatch2(char *pat,char *in);
 void split_dot(char *out, char *in);
 int isfile(char *in);
-
+int replace_number_in_string(char *buf, char* in, double replace, int n);
+int get_number_in_string(double *out, char* in, int n);
 #ifdef windows
 void timersub(struct timeval *a,struct timeval *b,struct timeval *r);
 #endif

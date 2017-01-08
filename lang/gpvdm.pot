@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.80\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2017-01-07 23:12+0000\n"
+"POT-Creation-Date: 2017-01-08 13:32+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -492,19 +492,19 @@ msgstr ""
 msgid "n"
 msgstr ""
 
-#: ../src/main.c:172
+#: ../src/main.c:175
 msgid "General-purpose Photovoltaic Device Model (https://www.gpvdm.com)\n"
 msgstr ""
 
-#: ../src/main.c:173
+#: ../src/main.c:176
 msgid "You should have received a copy of the GNU General Public License\n"
 msgstr ""
 
-#: ../src/main.c:174
+#: ../src/main.c:177
 msgid "along with this software.  If not, see www.gnu.org/licenses/.\n"
 msgstr ""
 
-#: ../src/main.c:176
+#: ../src/main.c:179
 msgid "If you wish to collaborate in anyway please get in touch:\n"
 msgstr ""
 

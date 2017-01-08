@@ -2,9 +2,9 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+//  Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
-//	www.roderickmackenzie.eu
+//	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
@@ -35,6 +35,126 @@
 #include <math.h>
 
 	#include <fnmatch.h>
+
+
+int is_number(char a)
+{
+switch(a)
+{
+	case '1':
+		return TRUE;
+	case '2':
+		return TRUE;
+	case '3':
+		return TRUE;
+	case '4':
+		return TRUE;
+	case '5':
+		return TRUE;
+	case '6':
+		return TRUE;
+	case '7':
+		return TRUE;
+	case '8':
+		return TRUE;
+	case '9':
+		return TRUE;
+	case '0':
+		return TRUE;
+	case 'e':
+		return TRUE;
+	case '+':
+		return TRUE;
+	case '-':
+		return TRUE;
+	case '.':
+		return TRUE;
+	default:
+		return FALSE;
+}
+	
+}
+
+int get_number_in_string(double *out, char* in, int n)
+{
+	int i=0;
+	int len=strlen(in);
+	int m=0;
+	int c=0;
+	int number=-1;
+	for (i=0;i<len;i++)
+	{
+		if (i>0)
+		{
+			m=is_number(in[i-1]);
+		}else
+		{
+			m=FALSE;
+		}
+
+		c=is_number(in[i]);
+
+		if ((m==FALSE) && (c==TRUE))
+		{
+			number++;
+			if (number==n)
+			{
+				sscanf(&(in[i]),"%le",out);
+				return 0;
+			}
+		}
+
+
+	}
+
+return -1;		
+}
+
+int replace_number_in_string(char *buf, char* in, double replace, int n)
+{
+	int i=0;
+	int len=strlen(in);
+	int m=0;
+	int c=0;
+	int number=-1;
+	int pos=0;
+	strcpy(buf,"");
+
+	for (i=0;i<len;i++)
+	{
+		if (i>0)
+		{
+		m=is_number(in[i-1]);
+		}else
+		{
+			m=FALSE;
+		}
+
+		c=is_number(in[i]);
+
+		if ((m==FALSE) && (c==TRUE))
+		{
+			number++;
+			if (number==n)
+			{
+				char temp[200];
+				sprintf(temp,"%le ",replace);
+				strcat(buf,temp);
+				pos=strlen(buf);
+			}
+		}
+		
+		if (number!=n)
+		{
+			buf[pos]=in[i];
+			pos++;
+			buf[pos]=0;
+			
+		}
+		
+	}
+		
+}
 
 int fnmatch2(char *pat,char *in)
 {

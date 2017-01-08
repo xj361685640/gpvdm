@@ -520,6 +520,15 @@ if (strcmp(in->full_name,file)!=0)
 return ret;
 }
 
+void inp_replace_double_offset_col(struct simulation *sim,struct inp_file *in,char *token, double value,int offset,int col)
+{
+	char temp[200];
+	char new[200];
+	inp_search_offset(sim,temp,in,token,offset);
+	replace_number_in_string(new, temp, value, col);
+	inp_replace_offset(sim,in,token,new,offset);
+}
+
 void inp_replace_double_offset(struct simulation *sim,struct inp_file *in,char *token, double value,int offset)
 {
 	char temp[100];
@@ -716,6 +725,19 @@ if (inp_search_offset(sim,temp,in,token,offset)==0)
 	return;
 }
 ewe(sim,"token %s not found in file %s\n",token,in->full_name);
+}
+
+int inp_search_double_offset_col(struct simulation *sim,struct inp_file *in,double* out,char* token,int offset,int col)
+{
+int ret=0; 
+char temp[200];
+if (inp_search_offset(sim,temp,in,token,offset)==0)
+{
+	ret=get_number_in_string(out, temp, col);
+	return ret;
+}
+ewe(sim,"token %s not found in file %s\n",token,in->full_name);
+return -1;	
 }
 
 void inp_search_int(struct simulation *sim,struct inp_file *in,int* out,char* token)
