@@ -31,7 +31,7 @@
 #define FIT_FINISH 1
 #define FIT_RESET 2
 
-#define FIT_MAX 10
+#define FIT_MAX 100
 #define FIT_VAR_MAX 2000
 
 struct fits_struct

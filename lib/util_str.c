@@ -63,6 +63,8 @@ switch(a)
 		return TRUE;
 	case 'e':
 		return TRUE;
+	case 'E':
+		return TRUE;
 	case '+':
 		return TRUE;
 	case '-':

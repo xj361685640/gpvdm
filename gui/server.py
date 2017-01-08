@@ -341,7 +341,7 @@ class server(QWidget,cluster):
 				if elapsed_time>5:
 
 					self.gui_update_time=time.time()
-					
+				
 					if self.fit_update!=None:
 						self.fit_update()
 
