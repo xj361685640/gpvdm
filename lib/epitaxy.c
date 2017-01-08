@@ -164,9 +164,9 @@ int epitaxy_get_electrical_material_layer(struct epitaxy *in,gdouble pos)
 int i=0;
 gdouble layer_end=0.0;
 int electrical_layer=0;
-
 for (i=0;i<in->layers;i++)
 {
+	//printf("%Le\n",in->width[i]);
 	if (in->electrical_layer[i]==TRUE)
 	{
 		layer_end+=in->width[i];

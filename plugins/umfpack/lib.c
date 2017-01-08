@@ -202,19 +202,47 @@ return 0;
 
 void umfpack_solver_free(struct simulation *sim)
 {
-free(sim->x);
-free(sim->b);
-free(sim->Ap);
-free(sim->Ai);
-free(sim->Ax);
-free(sim->Tx);
+printf("%x %x %x\n",sim->x,sim->b,sim->Ap);
 
-sim->x=NULL;
-sim->b=NULL;
-sim->Ap=NULL;
-sim->Ai=NULL;
-sim->Ax=NULL;
-sim->Tx=NULL;
+if (sim->x!=NULL)
+{
+	free(sim->x);
+	sim->x=NULL;	
+}
+printf("%x %x %x\n",sim->x,sim->b,sim->Ap);
+
+if (sim->b!=NULL)
+{
+	free(sim->b);
+	sim->b=NULL;	
+}
+printf("%x %x %x\n",sim->x,sim->b,sim->Ap);
+
+if (sim->Ap!=NULL)
+{
+	free(sim->Ap);
+	sim->Ap=NULL;
+}
+printf("%x %x %x\n",sim->x,sim->b,sim->Ap);
+
+if (sim->Ai!=NULL)
+{
+	free(sim->Ai);
+	sim->Ai=NULL;
+}
+
+if (sim->Ax!=NULL)
+{
+	free(sim->Ax);
+	sim->Ax=NULL;
+}
+
+if (sim->Tx!=NULL)
+{
+	free(sim->Tx);
+	sim->Tx=NULL;
+}
+
 sim->last_col=0;
 sim->last_nz=0;
 }

@@ -40,6 +40,8 @@ gdouble mesh_len=0.0;
 
 	if (fabs(in->ylen-mesh_len)>1e-14)
 	{
+		printf("calling remesh\n");
+		//getchar();
 		mesh_remesh_y(sim,in);
 		printf_log(sim,"Warning: Length of epitaxy and computational mesh did not match, so I remesshed the device.\n");
 	}
@@ -47,12 +49,17 @@ gdouble mesh_len=0.0;
 
 void mesh_remesh_y(struct simulation *sim,struct device *in)
 {
+	char device_file_path[1000];
 	in->ymeshlayers=1;
 	in->meshdata_y[0].len=in->ylen;
-	in->meshdata_y[0].number=40;
+	in->meshdata_y[0].number=10;
 	mesh_save_y(sim,in);
 	device_free(sim,in);
 	mesh_free(sim,in);
+
+	join_path(2,device_file_path,get_input_path(sim),"epitaxy.inp");
+	epitaxy_load(sim,&(in->my_epitaxy),device_file_path);
+
 	mesh_load(sim,in);
 	device_get_memory(sim,in);
 	mesh_build(sim,in);
@@ -90,7 +97,8 @@ void mesh_save_y(struct simulation *sim,struct device *in)
 	strcat(buffer,"1.0\n");
 	strcat(buffer,"#end\n");
 
-	strcpy(full_file_name,"mesh_y.inp");
+	join_path(2,full_file_name,get_input_path(sim),"mesh_y.inp");
+	printf("Write new mesh to: %s\n",full_file_name);
 	zip_write_buffer(sim,full_file_name,buffer, strlen(buffer));
 
 }
@@ -194,6 +202,7 @@ void mesh_load(struct simulation *sim,struct device *in)
 		in->meshdata_y[i].len=fabs(in->meshdata_y[i].len);
 		hard_limit(sim,token0,&(in->meshdata_y[i].len));
 		in->meshdata_y[i].den=in->meshdata_y[i].len/in->meshdata_y[i].number;
+		//printf("realloc den\n");
 		in->ymeshpoints+=in->meshdata_y[i].number;
 	}
 
@@ -258,7 +267,9 @@ void mesh_build(struct simulation *sim,struct device *in)
 			dpos+=in->meshdata_y[i].den/2.0;
 			in->ymesh[pos]=dpos;
 			in->imat[0][0][pos]=epitaxy_get_electrical_material_layer(&(in->my_epitaxy),dpos);
-
+			//printf("%s\n",sim->output_path);
+			//printf("here %d %d %Le %Le %Le %Le\n",in->imat[0][0][pos],pos,dpos,in->meshdata_y[i].den,in->meshdata_y[i].len,in->meshdata_y[i].number);
+			//getchar();
 			for (z=0;z<in->zmeshlayers;z++)
 			{
 				for (x=0;x<in->xmeshlayers;x++)
