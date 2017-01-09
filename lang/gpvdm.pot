@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.80\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2017-01-08 22:39+0000\n"
+"POT-Creation-Date: 2017-01-08 23:34+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2626,17 +2626,17 @@ msgid "Pause between iterations"
 msgstr ""
 
 #: ../gui/token_lib.py:91 ../gui/token_lib.py:300 ../gui/token_lib.py:304
-#: ../gui/token_lib.py:306 ../gui/token_lib.py:310 ../gui/token_lib.py:323
-#: ../gui/token_lib.py:324 ../gui/token_lib.py:325 ../gui/token_lib.py:326
-#: ../gui/token_lib.py:328 ../gui/token_lib.py:329 ../gui/token_lib.py:355
-#: ../gui/token_lib.py:356 ../gui/token_lib.py:358 ../gui/token_lib.py:359
-#: ../gui/token_lib.py:360 ../gui/token_lib.py:361 ../gui/token_lib.py:362
-#: ../gui/token_lib.py:363 ../gui/token_lib.py:366 ../gui/token_lib.py:368
-#: ../gui/token_lib.py:369 ../gui/token_lib.py:370 ../gui/token_lib.py:371
+#: ../gui/token_lib.py:306 ../gui/token_lib.py:310 ../gui/token_lib.py:326
+#: ../gui/token_lib.py:327 ../gui/token_lib.py:328 ../gui/token_lib.py:329
+#: ../gui/token_lib.py:331 ../gui/token_lib.py:332 ../gui/token_lib.py:358
+#: ../gui/token_lib.py:359 ../gui/token_lib.py:361 ../gui/token_lib.py:362
+#: ../gui/token_lib.py:363 ../gui/token_lib.py:364 ../gui/token_lib.py:365
+#: ../gui/token_lib.py:366 ../gui/token_lib.py:369 ../gui/token_lib.py:371
 #: ../gui/token_lib.py:372 ../gui/token_lib.py:373 ../gui/token_lib.py:374
 #: ../gui/token_lib.py:375 ../gui/token_lib.py:376 ../gui/token_lib.py:377
-#: ../gui/token_lib.py:379 ../gui/token_lib.py:380 ../gui/token_lib.py:383
-#: ../gui/token_lib.py:393
+#: ../gui/token_lib.py:378 ../gui/token_lib.py:379 ../gui/token_lib.py:380
+#: ../gui/token_lib.py:382 ../gui/token_lib.py:383 ../gui/token_lib.py:386
+#: ../gui/token_lib.py:396
 msgid "True/False"
 msgstr ""
 
@@ -2903,169 +2903,173 @@ msgstr ""
 msgid "Simplex reset steps"
 msgstr ""
 
-#: ../gui/token_lib.py:321
-msgid "Device temperature on left"
-msgstr ""
-
-#: ../gui/token_lib.py:322
-msgid "Device temperature on right"
-msgstr ""
-
-#: ../gui/token_lib.py:323
-msgid "Enable thermal solver"
+#: ../gui/token_lib.py:320
+msgid "Subtract lowest point"
 msgstr ""
 
 #: ../gui/token_lib.py:324
-msgid "Lattice heat model"
+msgid "Device temperature on left"
 msgstr ""
 
 #: ../gui/token_lib.py:325
-msgid "Electron heat model"
+msgid "Device temperature on right"
 msgstr ""
 
 #: ../gui/token_lib.py:326
-msgid "Hole heat model"
+msgid "Enable thermal solver"
+msgstr ""
+
+#: ../gui/token_lib.py:327
+msgid "Lattice heat model"
 msgstr ""
 
 #: ../gui/token_lib.py:328
-msgid "Isothermal boundary on left"
+msgid "Electron heat model"
 msgstr ""
 
 #: ../gui/token_lib.py:329
+msgid "Hole heat model"
+msgstr ""
+
+#: ../gui/token_lib.py:331
+msgid "Isothermal boundary on left"
+msgstr ""
+
+#: ../gui/token_lib.py:332
 msgid "Isothermal boundary on right"
 msgstr ""
 
-#: ../gui/token_lib.py:352
+#: ../gui/token_lib.py:355
 msgid "Filp the opticl field"
 msgstr ""
 
-#: ../gui/token_lib.py:355
+#: ../gui/token_lib.py:358
 msgid "Dump from newton solver"
 msgstr ""
 
-#: ../gui/token_lib.py:356
+#: ../gui/token_lib.py:359
 msgid "Plot bands etc.. "
 msgstr ""
 
-#: ../gui/token_lib.py:358
+#: ../gui/token_lib.py:361
 msgid "dump slices by time"
 msgstr ""
 
-#: ../gui/token_lib.py:359
+#: ../gui/token_lib.py:362
 msgid "Dump 1D slices"
 msgstr ""
 
-#: ../gui/token_lib.py:360
+#: ../gui/token_lib.py:363
 msgid "Dump slices"
 msgstr ""
 
-#: ../gui/token_lib.py:361
+#: ../gui/token_lib.py:364
 msgid "Dump dynamic"
 msgstr ""
 
-#: ../gui/token_lib.py:362
+#: ../gui/token_lib.py:365
 msgid "Dump zip files"
 msgstr ""
 
-#: ../gui/token_lib.py:363
+#: ../gui/token_lib.py:366
 msgid "Write out band structure"
 msgstr ""
 
-#: ../gui/token_lib.py:366
+#: ../gui/token_lib.py:369
 msgid "Dump optical information"
 msgstr ""
 
-#: ../gui/token_lib.py:368
+#: ../gui/token_lib.py:371
 msgid "Print newton error"
 msgstr ""
 
-#: ../gui/token_lib.py:369
+#: ../gui/token_lib.py:372
 msgid "Print solver convergence"
 msgstr ""
 
-#: ../gui/token_lib.py:370
+#: ../gui/token_lib.py:373
 msgid "Write newton solver convergence to disk"
 msgstr ""
 
-#: ../gui/token_lib.py:371
+#: ../gui/token_lib.py:374
 msgid "Print poisson solver convergence"
 msgstr ""
 
-#: ../gui/token_lib.py:372
+#: ../gui/token_lib.py:375
 msgid "Dump PL spectra"
 msgstr ""
 
-#: ../gui/token_lib.py:373
+#: ../gui/token_lib.py:376
 msgid "Normalize output x-time to one"
 msgstr ""
 
-#: ../gui/token_lib.py:374
+#: ../gui/token_lib.py:377
 msgid "Dump the built in voltage."
 msgstr ""
 
-#: ../gui/token_lib.py:375
+#: ../gui/token_lib.py:378
 msgid "Dump optical probe spectrum"
 msgstr ""
 
-#: ../gui/token_lib.py:376
+#: ../gui/token_lib.py:379
 msgid "Dump optical summary"
 msgstr ""
 
-#: ../gui/token_lib.py:377
+#: ../gui/token_lib.py:380
 msgid "Dump raytrace plots"
 msgstr ""
 
-#: ../gui/token_lib.py:379
+#: ../gui/token_lib.py:382
 msgid "Dump an excel workbook for each simulation run congaing the results."
 msgstr ""
 
-#: ../gui/token_lib.py:380
+#: ../gui/token_lib.py:383
 msgid "Write file access log to disk."
 msgstr ""
 
-#: ../gui/token_lib.py:383
-msgid "Turn on luminescence"
-msgstr ""
-
-#: ../gui/token_lib.py:384
-#, python-brace-format
-msgid "n_{free} to p_{free} photon generation efficiency"
-msgstr ""
-
-#: ../gui/token_lib.py:385
-#, python-brace-format
-msgid "n_{free} to n_{trap} photon generation efficiency"
-msgstr ""
-
 #: ../gui/token_lib.py:386
-#, python-brace-format
-msgid "n_{trap} to p_{free} photon generation efficiency"
+msgid "Turn on luminescence"
 msgstr ""
 
 #: ../gui/token_lib.py:387
 #, python-brace-format
-msgid "p_{trap} to n_{free} photon generation efficiency"
+msgid "n_{free} to p_{free} photon generation efficiency"
 msgstr ""
 
 #: ../gui/token_lib.py:388
 #, python-brace-format
-msgid "p_{free} to p_{trap} photon generation efficiency"
+msgid "n_{free} to n_{trap} photon generation efficiency"
+msgstr ""
+
+#: ../gui/token_lib.py:389
+#, python-brace-format
+msgid "n_{trap} to p_{free} photon generation efficiency"
 msgstr ""
 
 #: ../gui/token_lib.py:390
 #, python-brace-format
-msgid "n_{free} to p_{free} Recombination rate constant"
+msgid "p_{trap} to n_{free} photon generation efficiency"
+msgstr ""
+
+#: ../gui/token_lib.py:391
+#, python-brace-format
+msgid "p_{free} to p_{trap} photon generation efficiency"
 msgstr ""
 
 #: ../gui/token_lib.py:393
+#, python-brace-format
+msgid "n_{free} to p_{free} Recombination rate constant"
+msgstr ""
+
+#: ../gui/token_lib.py:396
 msgid "Turn on LED"
 msgstr ""
 
-#: ../gui/token_lib.py:394
+#: ../gui/token_lib.py:397
 msgid "LED emission wavelength"
 msgstr ""
 
-#: ../gui/token_lib.py:395
+#: ../gui/token_lib.py:398
 msgid "LED extraction efficiency"
 msgstr ""
 

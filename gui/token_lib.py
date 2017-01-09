@@ -316,6 +316,9 @@ lib.append(my_data("#fit_enable_simple_reset","au",_("Enable simplex reset"),[("
 lib.append(my_data("#fit_enable_simple_reset","au",_("Simplex reset steps"),[("switch")],"e",1.0))
 lib.append(my_data("#fit_method","au",_("Simplex reset steps"),["simplex","newton"],"e",1.0))
 
+#fit?.inp
+lib.append(my_data("#fit_subtract_lowest_point","au",_("Subtract lowest point"),[("switch")],"e",1.0))
+
 
 #Thermal
 lib.append(my_data("#Tll","Kelvin",_("Device temperature on left"),["text"],"e",1.0))
