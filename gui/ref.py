@@ -1,8 +1,8 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -23,10 +23,16 @@ from cal_path import get_image_file_path
 import os
 
 #qt
-from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication,QTableWidgetItem,QComboBox, QMessageBox, QDialog, QDialogButtonBox, QFileDialog
-from PyQt5.uic import loadUi
-from PyQt5.QtGui import QPixmap, QIcon
+from PyQt5.QtCore import QSize, Qt 
+from PyQt5.QtWidgets import QWidget,QVBoxLayout,QHBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QTableWidget,QAbstractItemView,QPushButton
+from PyQt5.QtGui import QPainter,QIcon
 
+#from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication,QTableWidgetItem,QComboBox, QMessageBox, QDialog, QDialogButtonBox, QFileDialog
+#from PyQt5.uic import loadUi
+
+#from PyQt5.QtGui import QPixmap, QIcon
+
+from window_list import resize_window_to_be_sane
 
 #windows
 from cal_path import get_ui_path
@@ -43,18 +49,88 @@ from inp import inp_add_token
 from inp import inp_load_file
 from inp import inp_save_lines
 
+from tab import tab_class
 
-class ref():
-	def __init__(self,file_name,token):
+import webbrowser
+
+class ref(QWidget):
+	def __init__(self,file_name):
+		QWidget.__init__(self)
+		resize_window_to_be_sane(self,0.5,0.5)
 		self.file_name=os.path.splitext(file_name)[0]+".ref"
-		self.token=token
-		self.ui = loadUi(os.path.join(get_ui_path(),"ref.ui"))
-		self.ui.label.setText(_("Reference information"))
-		pixmap = QPixmap(os.path.join(get_image_file_path(),"ref.png"))
-		self.ui.image.setPixmap(pixmap)
-		self.ui.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"ref.jpg")))		
+		self.gen_file()
+		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"ref.png")))
+		self.setWindowTitle(_("Reference manager")+" (https://www.gpvdm.com)") 
 
-		self.load()
+		self.vbox=QVBoxLayout()
+
+
+		self.toolbar=QToolBar()
+		self.toolbar.setIconSize(QSize(48, 48))
+
+		spacer = QWidget()
+		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+		self.toolbar.addWidget(spacer)
+
+		self.tb_help = QAction(QIcon(os.path.join(get_image_file_path(),"help.png")), _("Help"), self)
+		self.tb_help.setStatusTip(_("Help"))
+		self.tb_help.triggered.connect(self.callback_help)
+		self.toolbar.addAction(self.tb_help)
+
+		self.vbox.addWidget(self.toolbar)
+		tab=tab_class()
+		tab.icon_file="ref.png"
+		tab.init(self.file_name,"Reference")
+		self.vbox.addWidget(tab)
+		
+		self.button_widget=QWidget()
+		self.button_hbox=QHBoxLayout()
+		self.button_widget.setLayout(self.button_hbox)
+
+		spacer = QWidget()
+		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Fixed)
+		self.button_hbox.addWidget(spacer)
+
+
+		self.button_close=QPushButton(_("Close"))
+		self.button_close.clicked.connect(self.callback_close)
+		self.button_hbox.addWidget(self.button_close)
+		self.vbox.addWidget(self.button_widget)		
+		self.setLayout(self.vbox)
+
+	def callback_close(self):
+		self.close()
+
+	def gen_file(self):
+		make_new=True
+		lines=[]
+		if inp_load_file(lines,self.file_name):
+			if inp_check_ver(self.file_name, "1.0")==True:
+				make_new=False
+		
+		if make_new==True:
+			lines=[]
+			lines.append("#ref_website")
+			lines.append("")
+			lines.append("#ref_research_group")
+			lines.append("")
+			lines.append("#ref_autors")
+			lines.append("")
+			lines.append("#ref_jounral")
+			lines.append("")
+			lines.append("#ref_volume")
+			lines.append("")
+			lines.append("#ref_pages")
+			lines.append("")
+			lines.append("#ref_year")
+			lines.append("")
+			lines.append("#ref_md5")
+			lines.append("")
+			lines.append("#ver")
+			lines.append("1.0")
+			lines.append("#end")
+
+			inp_save_lines(self.file_name,lines)
 
 	def load(self):
 		ret=inp_get_token_array(self.file_name, self.token)
@@ -75,8 +151,6 @@ class ref():
 				print("written to 2",self.file_name,lines)
 				inp_save_lines(self.file_name,lines)
 
-	def run(self):
-		ret=self.ui.exec_()
-		if ret==True:
-			print("update ",self.file_name)
-			inp_update(self.file_name, self.token, self.ui.text.toPlainText())
+	def callback_help(self):
+		webbrowser.open('http://www.gpvdm.com/man/index.html')
+

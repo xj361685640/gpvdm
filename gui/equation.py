@@ -62,6 +62,8 @@ from gui_util import error_dlg
 
 from ref import ref
 
+#window
+
 mesh_articles = []
 
 class equation(QWidget):
@@ -245,8 +247,8 @@ class equation(QWidget):
 		self.ylabel=value
 
 	def callback_ref(self):
-		a=ref(os.path.join(self.path,self.file_name),"#root")
-		a.run()
+		self.ref_window=ref(os.path.join(self.path,self.exp_file))
+		self.ref_window.show()
 		
 	def init(self):
 		self.fig = Figure(figsize=(5,4), dpi=100)

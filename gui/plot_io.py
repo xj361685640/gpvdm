@@ -185,7 +185,7 @@ def get_plot_file_info(output,file_name):
 	found,lines=zip_get_data_file(file_name)
 	#print(file_name)
 	if found==False:
-		print("can't file file")
+		print("can't find file",file_name)
 		return False
 
 	for i in range(0, len(lines)):

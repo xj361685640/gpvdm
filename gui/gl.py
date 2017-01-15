@@ -459,7 +459,7 @@ def graph(xstart,ystart,z,w,h,z_range,graph_data):
 
 		glEnd()
 	
-def box(x,y,z,w,h,d,r,g,b):
+def box(x,y,z,w,h,d,r,g,b,alpha):
 	red=r
 	green=g
 	blue=b
@@ -467,7 +467,7 @@ def box(x,y,z,w,h,d,r,g,b):
 	glBegin(GL_QUADS)
 
 	#btm
-	glColor3f(red,green,blue)
+	glColor4f(red,green,blue,alpha)
 
 	glVertex3f(x+0.0,y+0.0,z+0.0)
 	glVertex3f(x+w,y+ 0.0,z+0.0)
@@ -479,7 +479,7 @@ def box(x,y,z,w,h,d,r,g,b):
 	green=green*0.95
 	blue=blue*0.95
 
-	glColor3f(red,green,blue)
+	glColor4f(red,green,blue,alpha)
 
 	glVertex3f(x+0.0,y+h,z+0.0)
 	glVertex3f(x+w,y+ h,z+0.0)
@@ -490,7 +490,7 @@ def box(x,y,z,w,h,d,r,g,b):
 	red=red*0.95
 	green=green*0.95
 	blue=blue*0.95
-	glColor3f(red,green,blue)
+	glColor4f(red,green,blue,alpha)
 
 	glVertex3f(x+w,y,z)
 	glVertex3f(x+w,y+ h,z)
@@ -501,7 +501,7 @@ def box(x,y,z,w,h,d,r,g,b):
 	red=red*0.95
 	green=green*0.95
 	blue=blue*0.95
-	glColor3f(red,green,blue)
+	glColor4f(red,green,blue,alpha)
 
 	glVertex3f(x,y,z)
 	glVertex3f(x,y+ h,z)
@@ -513,7 +513,7 @@ def box(x,y,z,w,h,d,r,g,b):
 	green=g
 	blue=b
 
-	glColor3f(red,green,blue)
+	glColor4f(red,green,blue,alpha)
 	glVertex3f(x,y,z+d)
 	glVertex3f(x+w,y,z+d)
 	glVertex3f(x+w,y+h,z+d)
@@ -524,7 +524,7 @@ def box(x,y,z,w,h,d,r,g,b):
 	blue=blue*0.8
 
 	#top
-	glColor3f(red,green,blue)
+	glColor4f(red,green,blue,alpha)
 	glVertex3f(x,y+h,z)
 	glVertex3f(x+w,y+ h,z)
 	glVertex3f(x+w,y+ h,z+ d)
@@ -535,10 +535,11 @@ def box(x,y,z,w,h,d,r,g,b):
 
 class color():
 
-	def __init__(self,r,g,b):
+	def __init__(self,r,g,b,alpha):
 		self.r=r
 		self.g=g
 		self.b=b
+		self.alpha=alpha
 
 if open_gl_ok==True:		
 	class glWidget(QGLWidget):
@@ -740,7 +741,7 @@ if open_gl_ok==True:
 						red=self.colors[l-i].r
 						green=self.colors[l-i].g
 						blue=self.colors[l-i].b
-
+						alpha=self.colors[l-i].alpha
 						if i==l-self.selected_layer:
 							box_lines(0.0,pos,0,width,thick,depth)
 
@@ -763,12 +764,12 @@ if open_gl_ok==True:
 								zshrink=1.0
 
 							if xpoints==1 and zpoints==1:
-								box(0.0,pos,0,width,thick,depth,red,green,blue)
+								box(0.0,pos,0,width,thick,depth,red,green,blue,alpha)
 							else:
 								for y in range(0,ypoints):
 									for x in range(0,xpoints):
 										for z in range(0,zpoints):
-											box(dx*x,pos+y*(dy),z*dz,dx*xshrink,dy*0.8,dz*zshrink,red,green,blue)
+											box(dx*x,pos+y*(dy),z*dz,dx*xshrink,dy*0.8,dz*zshrink,red,green,blue,alpha)
 							tab(0.0,pos,depth,width,thick,depth)
 						
 						elif epitaxy_get_electrical_layer(l-i).lower()=="contact" and i==l:
@@ -782,13 +783,13 @@ if open_gl_ok==True:
 									if (c.start+c.width)>x_len:
 										xwidth=width-xstart
 									if c.active==True:
-										box(xstart,pos,0,xwidth,thick,depth,0.0,1.0,0.0)
+										box(xstart,pos,0,xwidth,thick,depth,0.0,1.0,0.0,alpha)
 									else:
-										box(xstart,pos,0,xwidth,thick,depth,red,green,blue)
+										box(xstart,pos,0,xwidth,thick,depth,red,green,blue,alpha)
 
 
 						else:
-							box(0.0,pos,0,width,thick,depth,red,green,blue)
+							box(0.0,pos,0,width,thick,depth,red,green,blue,alpha)
 						
 
 						if epitaxy_get_electrical_layer(l-i).startswith("dos")==True:
@@ -839,12 +840,13 @@ if open_gl_ok==True:
 					red=float(inp_search_token_value(lines, "#Red"))
 					green=float(inp_search_token_value(lines, "#Green"))
 					blue=float(inp_search_token_value(lines, "#Blue"))
+					alpha=float(inp_search_token_value(lines, "#mat_alpha"))
 				else:
-
 					red=0.0
 					green=0.0
 					blue=0.0
-				self.colors.append(color(red,green,blue))
+					alpha=1.0
+				self.colors.append(color(red,green,blue,alpha))
 			self.colors.reverse()
 			self.update()
 			

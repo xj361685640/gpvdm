@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.80\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2017-01-08 23:34+0000\n"
+"POT-Creation-Date: 2017-01-13 17:44+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -541,7 +541,7 @@ msgstr ""
 #: ../gui/experiment.py:237 ../gui/contacts.py:185 ../gui/config_window.py:70
 #: ../gui/jv.py:78 ../gui/emesh.py:169 ../gui/scan.py:259 ../gui/scan.py:354
 #: ../gui/info.py:68 ../gui/fxexperiment.py:177 ../gui/fxexperiment.py:230
-#: ../gui/fit_window.py:222 ../gui/lasers.py:180 ../gui/lasers.py:237
+#: ../gui/fit_window.py:226 ../gui/lasers.py:180 ../gui/lasers.py:237
 #: ../gui/help.py:127 ../gui/optics.py:131
 msgid "Close"
 msgstr ""
@@ -621,7 +621,7 @@ msgstr ""
 #: ../gui/materials_main.py:84 ../gui/gpvdm.py:763 ../gui/gpvdm.py:873
 #: ../gui/emesh.py:168 ../gui/scan.py:318 ../gui/scan.py:319 ../gui/cost.py:92
 #: ../gui/fxexperiment.py:195 ../gui/fxexperiment.py:196
-#: ../gui/fit_window.py:240 ../gui/fit_window.py:241 ../gui/lasers.py:201
+#: ../gui/fit_window.py:244 ../gui/fit_window.py:245 ../gui/lasers.py:201
 #: ../gui/lasers.py:202 ../gui/import_data.py:256 ../gui/import_data.py:257
 #: ../gui/doping.py:205
 msgid "Help"
@@ -926,7 +926,7 @@ msgid "Problem generating tree."
 msgstr ""
 
 #: ../gui/scan_tab.py:405 ../gui/gpvdm.py:718 ../gui/fxexperiment.py:176
-#: ../gui/fit_window.py:221 ../gui/fit_vars.py:95 ../gui/fit_vars.py:156
+#: ../gui/fit_window.py:225 ../gui/fit_vars.py:95 ../gui/fit_vars.py:156
 #: ../gui/optics.py:127 ../gui/fit_patch.py:124
 msgid "File"
 msgstr ""
@@ -964,7 +964,7 @@ msgstr ""
 msgid "Run simulation"
 msgstr ""
 
-#: ../gui/scan_tab.py:531 ../gui/gpvdm.py:811 ../gui/fit_window.py:287
+#: ../gui/scan_tab.py:531 ../gui/gpvdm.py:811 ../gui/fit_window.py:291
 msgid "Stop the simulation"
 msgstr ""
 
@@ -1118,7 +1118,7 @@ msgid "Experiments"
 msgstr ""
 
 #: ../gui/experiment.py:185 ../gui/scan.py:265 ../gui/fxexperiment.py:182
-#: ../gui/fit_window.py:227 ../gui/lasers.py:185
+#: ../gui/fit_window.py:231 ../gui/lasers.py:185
 msgid "New"
 msgstr ""
 
@@ -1277,7 +1277,7 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: ../gui/config_window.py:56 ../gui/gpvdm.py:750 ../gui/fit_window.py:273
+#: ../gui/config_window.py:56 ../gui/gpvdm.py:750 ../gui/fit_window.py:277
 msgid "Configure"
 msgstr ""
 
@@ -2049,61 +2049,61 @@ msgstr ""
 msgid "Frequency domain experiment editor"
 msgstr ""
 
-#: ../gui/fit_window.py:89
+#: ../gui/fit_window.py:91
 msgid ""
 "<big><b>The fitting variables window</b></big><br> Use this window to select "
 "the variables use to perform the fit."
 msgstr ""
 
-#: ../gui/fit_window.py:99
+#: ../gui/fit_window.py:101
 msgid "New fit name:"
 msgstr ""
 
-#: ../gui/fit_window.py:99
+#: ../gui/fit_window.py:101
 msgid "fit "
 msgstr ""
 
-#: ../gui/fit_window.py:116
+#: ../gui/fit_window.py:118
 msgid "Clone the current fit to a new fit called:"
 msgstr ""
 
-#: ../gui/fit_window.py:133
+#: ../gui/fit_window.py:135
 msgid "Rename the fit to be called:"
 msgstr ""
 
-#: ../gui/fit_window.py:146
+#: ../gui/fit_window.py:148
 msgid "Should I remove the fit file "
 msgstr ""
 
-#: ../gui/fit_window.py:226
+#: ../gui/fit_window.py:230
 msgid "Fits"
 msgstr ""
 
-#: ../gui/fit_window.py:230 ../gui/fit_window.py:259
+#: ../gui/fit_window.py:234 ../gui/fit_window.py:263
 msgid "Delete fit"
 msgstr ""
 
-#: ../gui/fit_window.py:233 ../gui/fit_window.py:267
+#: ../gui/fit_window.py:237 ../gui/fit_window.py:271
 msgid "Rename fit"
 msgstr ""
 
-#: ../gui/fit_window.py:236 ../gui/fit_window.py:263
+#: ../gui/fit_window.py:240 ../gui/fit_window.py:267
 msgid "Clone fit"
 msgstr ""
 
-#: ../gui/fit_window.py:249
+#: ../gui/fit_window.py:253
 msgid "Fit window - gpvdm"
 msgstr ""
 
-#: ../gui/fit_window.py:255
+#: ../gui/fit_window.py:259
 msgid "New fit"
 msgstr ""
 
-#: ../gui/fit_window.py:279
+#: ../gui/fit_window.py:283
 msgid "Run a single fit"
 msgstr ""
 
-#: ../gui/fit_window.py:283
+#: ../gui/fit_window.py:287
 msgid "Start the fitting process"
 msgstr ""
 

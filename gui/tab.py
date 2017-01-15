@@ -1,6 +1,6 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
 #	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -41,20 +41,23 @@ from help import help_window
 from PyQt5.QtCore import pyqtSignal
 
 from PyQt5.QtWidgets import QWidget, QScrollArea,QVBoxLayout,QProgressBar,QLabel,QDesktopWidget,QToolBar,QHBoxLayout,QAction, QSizePolicy, QTableWidget, QTableWidgetItem,QComboBox,QDialog,QAbstractItemView,QGridLayout,QLineEdit
+from PyQt5.QtCore import QSize, Qt
+from PyQt5.QtGui import QPixmap, QIcon
 
 import i18n
 _ = i18n.language.gettext
 
 import functools
 
-class tab_class(QScrollArea,tab_base):
+class tab_class(QWidget,tab_base):
 
 	lines=[]
 	edit_list=[]
 	changed = pyqtSignal()
 		
 	def __init__(self):
-		QScrollArea.__init__(self)
+		self.icon_file=""
+		QWidget.__init__(self)
 		self.editable=True
 
 
@@ -81,8 +84,11 @@ class tab_class(QScrollArea,tab_base):
 		self.editable=editable
 		
 	def init(self,filename,tab_name):
-		self.main_widget=QWidget()
+		self.scroll=QScrollArea()
+		self.main_box_widget=QWidget()
 		self.vbox=QVBoxLayout()
+		self.hbox=QHBoxLayout()
+		self.hbox.setAlignment(Qt.AlignTop)
 		self.file_name=filename
 		self.tab_name=tab_name
 
@@ -173,7 +179,26 @@ class tab_class(QScrollArea,tab_base):
 		spacer = QWidget()
 		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 		self.vbox.addWidget(spacer)
-		self.main_widget.setLayout(self.vbox)
+		self.main_box_widget.setLayout(self.vbox)
 		
-		self.setWidget(self.main_widget)
+		self.scroll.setWidget(self.main_box_widget)
 
+		self.icon_widget=QWidget()
+		self.icon_widget_vbox=QVBoxLayout()
+		self.icon_widget.setLayout(self.icon_widget_vbox)
+		
+		if self.icon_file!="":
+			self.image=QLabel()
+			pixmap = QPixmap(os.path.join(get_image_file_path(),self.icon_file))
+			self.image.setPixmap(pixmap)
+			self.icon_widget_vbox.addWidget(self.image)
+
+			spacer2 = QWidget()
+			spacer2.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Expanding)
+			self.icon_widget_vbox.addWidget(spacer2)
+		
+			self.hbox.addWidget(self.icon_widget)
+
+		self.hbox.addWidget(self.scroll)
+		
+		self.setLayout(self.hbox)

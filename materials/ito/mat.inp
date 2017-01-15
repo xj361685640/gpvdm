@@ -12,6 +12,8 @@
 oxide
 #status
 public
+#mat_alpha
+1.0
 #ver
 1.0
 #end

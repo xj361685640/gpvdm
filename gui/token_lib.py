@@ -107,6 +107,16 @@ lib.append(my_data("#stark_lasereff","1/0",_("lasereff"),["text"],"e",1.0))
 lib.append(my_data("#stark_probe_wavelength","nm",_("wavelength"),["text"],"e",1e9))
 lib.append(my_data("#stark_sim_contacts","1/0",_("sim_contacts"),["text"],"e",1.0))
 
+#ref
+lib.append(my_data("#ref_website","au",_("Website"),["text"],"e",1.0))
+lib.append(my_data("#ref_research_group","au",_("Research group"),["text"],"e",1.0))
+lib.append(my_data("#ref_autors","au",_("Authors"),["text"],"e",1.0))
+lib.append(my_data("#ref_jounral","au",_("Journal"),["text"],"e",1.0))
+lib.append(my_data("#ref_volume","au",_("Volume"),["text"],"e",1.0))
+lib.append(my_data("#ref_pages","au",_("Pages"),["text"],"e",1.0))
+lib.append(my_data("#ref_year","au",_("Year"),["text"],"e",1.0))
+lib.append(my_data("#ref_md5","au",_("md5 sum"),["text"],"e",1.0))
+
 #pulse
 lib.append(my_data("#Rshort_pulse","Ohms",_("R_{short}"),["text"],"e",1.0))
 lib.append(my_data("#pulse_bias","V",_("V_{bias}"),["text"],"e",1.0))

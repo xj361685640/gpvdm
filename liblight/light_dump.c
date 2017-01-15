@@ -64,7 +64,7 @@ struct buffer buf;
 char out_dir[1024];
 char line[1024];
 char temp[1024];
-if ((get_dump_status(sim,dump_optics_verbose)==TRUE)&&(in->Gn[0]!=0.0))
+if (get_dump_status(sim,dump_optics_verbose)==TRUE)
 {
 	light_setup_dump_dir(sim,in,out_dir);
 
@@ -298,7 +298,7 @@ void light_dump_summary(struct simulation *sim,struct light *in)
 {
 struct buffer buf;
 char out_dir[1024];
-if ((get_dump_status(sim,dump_optics_summary)==TRUE)&&(in->Gn[0]!=0.0))
+if (get_dump_status(sim,dump_optics_summary)==TRUE)
 {
 	light_setup_dump_dir(sim,in,out_dir);
 

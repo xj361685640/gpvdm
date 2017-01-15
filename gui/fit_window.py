@@ -58,6 +58,8 @@ from QHTabBar import QHTabBar
 from gui_util import dlg_get_text
 
 from fit_progress import fit_progress
+from inp import inp_get_token_value
+from util import str2bool
 
 def fit_new_filename():
 	for i in range(0,20):
@@ -171,7 +173,9 @@ class fit_window(QWidget):
 		for i in range(0,len(files)):
 			value=strextract_interger(files[i])
 			if value!=-1:
-				self.add_page(value)
+				token=inp_get_token_value(files[i], "#fit_hidden")
+				if str2bool(token)==False:
+					self.add_page(value)
 
 		self.fit_progress=fit_progress()
 		self.notebook.addTab(self.fit_progress,"Fit progress")
