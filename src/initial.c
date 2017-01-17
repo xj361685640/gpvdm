@@ -56,6 +56,9 @@ if (get_dump_status(sim,dump_iodump)==TRUE)
 	strcpy(buf.section_two,_("Transport"));
 	buf.logscale_x=0;
 	buf.logscale_y=0;
+	buf.x=in->xmeshpoints;
+	buf.y=in->ymeshpoints;
+	buf.z=in->zmeshpoints;
 	buf.time=in->time;
 	buf.Vexternal=0.0;
 	buffer_add_info(&buf);
@@ -77,6 +80,9 @@ if (get_dump_status(sim,dump_iodump)==TRUE)
 	strcpy(buf.section_two,_("Transport"));
 	buf.logscale_x=0;
 	buf.logscale_y=0;
+	buf.x=in->xmeshpoints;
+	buf.y=in->ymeshpoints;
+	buf.z=in->zmeshpoints;
 	buf.time=in->time;
 	buf.Vexternal=0.0;
 	buffer_add_info(&buf);
@@ -98,6 +104,9 @@ if (get_dump_status(sim,dump_iodump)==TRUE)
 	strcpy(buf.section_two,_("Transport"));
 	buf.logscale_x=0;
 	buf.logscale_y=0;
+	buf.x=in->xmeshpoints;
+	buf.y=in->ymeshpoints;
+	buf.z=in->zmeshpoints;
 	buf.time=in->time;
 	buf.Vexternal=0.0;
 	buffer_add_info(&buf);
@@ -119,6 +128,9 @@ if (get_dump_status(sim,dump_iodump)==TRUE)
 	strcpy(buf.section_two,_("Transport"));
 	buf.logscale_x=0;
 	buf.logscale_y=0;
+	buf.x=in->xmeshpoints;
+	buf.y=in->ymeshpoints;
+	buf.z=in->zmeshpoints;
 	buf.time=in->time;
 	buf.Vexternal=0.0;
 	buffer_add_info(&buf);
@@ -140,6 +152,9 @@ if (get_dump_status(sim,dump_iodump)==TRUE)
 	strcpy(buf.section_two,_("Transport"));
 	buf.logscale_x=0;
 	buf.logscale_y=0;
+	buf.x=in->xmeshpoints;
+	buf.y=in->ymeshpoints;
+	buf.z=in->zmeshpoints;
 	buf.time=in->time;
 	buf.Vexternal=0.0;
 	buffer_add_info(&buf);

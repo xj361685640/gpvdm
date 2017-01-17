@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.80\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2017-01-13 17:44+0000\n"
+"POT-Creation-Date: 2017-01-16 23:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -151,7 +151,7 @@ msgstr ""
 
 #: ../libmeasure/probe.c:164 ../libmeasure/probe.c:166
 #: ../libmeasure/probe.c:189 ../libmeasure/probe.c:191
-#: ../libmeasure/probe.c:214 ../libmeasure/probe.c:216 ../gui/equation.py:154
+#: ../libmeasure/probe.c:214 ../libmeasure/probe.c:216 ../gui/equation.py:161
 msgid "Wavelength"
 msgstr ""
 
@@ -164,26 +164,26 @@ msgstr ""
 #: ../plugins/pulse/pulse.c:295 ../plugins/pulse/pulse.c:297
 #: ../plugins/fxdomain/fxdomain.c:259 ../plugins/fxdomain/fxdomain.c:261
 #: ../plugins/fxdomain/fxdomain.c:279 ../plugins/fxdomain/fxdomain.c:281
-#: ../gui/tmesh.py:206 ../libdump/dump_dynamic.c:202
-#: ../libdump/dump_dynamic.c:222 ../libdump/dump_dynamic.c:243
-#: ../libdump/dump_dynamic.c:259 ../libdump/dump_dynamic.c:275
-#: ../libdump/dump_dynamic.c:291 ../libdump/dump_dynamic.c:307
-#: ../libdump/dump_dynamic.c:323 ../libdump/dump_dynamic.c:339
-#: ../libdump/dump_dynamic.c:361 ../libdump/dump_dynamic.c:384
-#: ../libdump/dump_dynamic.c:400 ../libdump/dump_dynamic.c:422
-#: ../libdump/dump_dynamic.c:439 ../libdump/dump_dynamic.c:457
-#: ../libdump/dump_dynamic.c:474 ../libdump/dump_dynamic.c:506
-#: ../libdump/dump_dynamic.c:522 ../libdump/dump_dynamic.c:538
-#: ../libdump/dump_dynamic.c:554 ../libdump/dump_dynamic.c:570
-#: ../libdump/dump_dynamic.c:586 ../libdump/dump_dynamic.c:623
-#: ../libdump/dump_dynamic.c:639 ../libdump/dump_dynamic.c:659
-#: ../libdump/dump_dynamic.c:676 ../libdump/dump_dynamic.c:707
-#: ../libdump/dump_dynamic.c:729 ../libdump/dump_dynamic.c:747
-#: ../libdump/dump_dynamic.c:763 ../libdump/dump_dynamic.c:779
-#: ../libdump/dump_dynamic.c:795 ../libdump/dump_dynamic.c:811
-#: ../libdump/dump_dynamic.c:827 ../libdump/dump_dynamic.c:843
-#: ../libdump/dump_dynamic.c:859 ../libdump/dump_dynamic.c:875
-#: ../libdump/dump_dynamic.c:891 ../libfit/fit_dump.c:107
+#: ../gui/tmesh.py:206 ../libdump/dump_dynamic.c:205
+#: ../libdump/dump_dynamic.c:228 ../libdump/dump_dynamic.c:252
+#: ../libdump/dump_dynamic.c:271 ../libdump/dump_dynamic.c:290
+#: ../libdump/dump_dynamic.c:309 ../libdump/dump_dynamic.c:328
+#: ../libdump/dump_dynamic.c:347 ../libdump/dump_dynamic.c:366
+#: ../libdump/dump_dynamic.c:391 ../libdump/dump_dynamic.c:417
+#: ../libdump/dump_dynamic.c:436 ../libdump/dump_dynamic.c:461
+#: ../libdump/dump_dynamic.c:481 ../libdump/dump_dynamic.c:502
+#: ../libdump/dump_dynamic.c:522 ../libdump/dump_dynamic.c:557
+#: ../libdump/dump_dynamic.c:576 ../libdump/dump_dynamic.c:595
+#: ../libdump/dump_dynamic.c:614 ../libdump/dump_dynamic.c:633
+#: ../libdump/dump_dynamic.c:652 ../libdump/dump_dynamic.c:692
+#: ../libdump/dump_dynamic.c:711 ../libdump/dump_dynamic.c:734
+#: ../libdump/dump_dynamic.c:754 ../libdump/dump_dynamic.c:788
+#: ../libdump/dump_dynamic.c:813 ../libdump/dump_dynamic.c:834
+#: ../libdump/dump_dynamic.c:853 ../libdump/dump_dynamic.c:872
+#: ../libdump/dump_dynamic.c:891 ../libdump/dump_dynamic.c:910
+#: ../libdump/dump_dynamic.c:929 ../libdump/dump_dynamic.c:948
+#: ../libdump/dump_dynamic.c:967 ../libdump/dump_dynamic.c:986
+#: ../libdump/dump_dynamic.c:1005 ../libfit/fit_dump.c:107
 #: ../libfit/fit_dump.c:130 ../libfit/fit_dump.c:154 ../libfit/fit_dump.c:178
 msgid "Time"
 msgstr ""
@@ -194,7 +194,7 @@ msgid "Photogeneration rate"
 msgstr ""
 
 #: ../libmeasure/probe.c:274 ../libmeasure/probe.c:299
-#: ../plugins/pulse/pulse.c:298 ../libdump/dump_dynamic.c:385
+#: ../plugins/pulse/pulse.c:298 ../libdump/dump_dynamic.c:418
 #: ../libdump/dump_1d_slice.c:1041 ../libdump/dump_1d_slice.c:1065
 msgid "Generation rate"
 msgstr ""
@@ -234,7 +234,7 @@ msgstr ""
 
 #: ../plugins/pulse/pulse.c:205 ../plugins/pulse/pulse.c:208
 #: ../plugins/pulse/pulse.c:255 ../plugins/fxdomain/fxdomain.c:262
-#: ../libdump/dump_dynamic.c:362
+#: ../libdump/dump_dynamic.c:392
 msgid "Current"
 msgstr ""
 
@@ -242,7 +242,7 @@ msgstr ""
 msgid "current density"
 msgstr ""
 
-#: ../plugins/pulse/pulse.c:231 ../libdump/dump_dynamic.c:223
+#: ../plugins/pulse/pulse.c:231 ../libdump/dump_dynamic.c:229
 #: ../libdump/dump_1d_slice.c:436 ../libdump/dump_1d_slice.c:461
 msgid "Current density"
 msgstr ""
@@ -250,7 +250,7 @@ msgstr ""
 #: ../plugins/pulse/pulse.c:275 ../plugins/pulse/pulse.c:280
 #: ../plugins/fxdomain/fxdomain.c:279 ../plugins/fxdomain/fxdomain.c:282
 #: ../gui/tmesh.py:232 ../gui/tmesh.py:234 ../gui/tmesh.py:237
-#: ../gui/tmesh.py:239 ../gui/contacts.py:144 ../libdump/dump_dynamic.c:708
+#: ../gui/tmesh.py:239 ../gui/contacts.py:144 ../libdump/dump_dynamic.c:789
 msgid "Voltage"
 msgstr ""
 
@@ -282,11 +282,11 @@ msgstr ""
 msgid "Imaginary"
 msgstr ""
 
-#: ../plugins/fxdomain/fxdomain.c:314 ../gui/token_lib.py:134
+#: ../plugins/fxdomain/fxdomain.c:314 ../gui/token_lib.py:144
 msgid "Re(i)"
 msgstr ""
 
-#: ../plugins/fxdomain/fxdomain.c:315 ../gui/token_lib.py:135
+#: ../plugins/fxdomain/fxdomain.c:315 ../gui/token_lib.py:145
 msgid "Im(i)"
 msgstr ""
 
@@ -372,16 +372,16 @@ msgstr ""
 msgid "Equilibrium Fermi-level"
 msgstr ""
 
-#: ../src/initial.c:49 ../src/initial.c:70 ../src/initial.c:91
-#: ../src/initial.c:112 ../src/initial.c:133 ../libdump/dump_1d_slice.c:92
+#: ../src/initial.c:49 ../src/initial.c:73 ../src/initial.c:97
+#: ../src/initial.c:121 ../src/initial.c:145 ../libdump/dump_1d_slice.c:92
 #: ../libdump/dump_1d_slice.c:116 ../libdump/dump_1d_slice.c:164
 #: ../libdump/dump_1d_slice.c:260 ../libdump/dump_1d_slice.c:332
 #: ../libdump/dump_1d_slice.c:356 ../libdump/dump_1d_slice.c:1319
 msgid "position"
 msgstr ""
 
-#: ../src/initial.c:51 ../src/initial.c:72 ../src/initial.c:93
-#: ../src/initial.c:114 ../src/initial.c:135 ../gui/band_graph.py:202
+#: ../src/initial.c:51 ../src/initial.c:75 ../src/initial.c:99
+#: ../src/initial.c:123 ../src/initial.c:147 ../gui/band_graph.py:202
 #: ../libdump/dump_1d_slice.c:68 ../libdump/dump_1d_slice.c:70
 #: ../libdump/dump_1d_slice.c:94 ../libdump/dump_1d_slice.c:118
 #: ../libdump/dump_1d_slice.c:140 ../libdump/dump_1d_slice.c:142
@@ -429,8 +429,8 @@ msgstr ""
 msgid "Position"
 msgstr ""
 
-#: ../src/initial.c:55 ../src/initial.c:76 ../src/initial.c:97
-#: ../src/initial.c:118 ../src/initial.c:139 ../libdump/dump_1d_slice.c:74
+#: ../src/initial.c:55 ../src/initial.c:79 ../src/initial.c:103
+#: ../src/initial.c:127 ../src/initial.c:151 ../libdump/dump_1d_slice.c:74
 #: ../libdump/dump_1d_slice.c:98 ../libdump/dump_1d_slice.c:122
 #: ../libdump/dump_1d_slice.c:146 ../libdump/dump_1d_slice.c:170
 #: ../libdump/dump_1d_slice.c:194 ../libdump/dump_1d_slice.c:218
@@ -458,8 +458,8 @@ msgstr ""
 msgid "1D position space output"
 msgstr ""
 
-#: ../src/initial.c:56 ../src/initial.c:77 ../src/initial.c:98
-#: ../src/initial.c:119 ../src/initial.c:140 ../libdump/dump_1d_slice.c:75
+#: ../src/initial.c:56 ../src/initial.c:80 ../src/initial.c:104
+#: ../src/initial.c:128 ../src/initial.c:152 ../libdump/dump_1d_slice.c:75
 #: ../libdump/dump_1d_slice.c:99 ../libdump/dump_1d_slice.c:123
 #: ../libdump/dump_1d_slice.c:147 ../libdump/dump_1d_slice.c:219
 #: ../libdump/dump_1d_slice.c:243 ../libdump/dump_1d_slice.c:267
@@ -468,27 +468,27 @@ msgstr ""
 msgid "Transport"
 msgstr ""
 
-#: ../src/initial.c:70 ../libdump/dump_1d_slice.c:164
+#: ../src/initial.c:73 ../libdump/dump_1d_slice.c:164
 msgid "LUMO"
 msgstr ""
 
-#: ../src/initial.c:91 ../libdump/dump_1d_slice.c:188
+#: ../src/initial.c:97 ../libdump/dump_1d_slice.c:188
 msgid "HOMO"
 msgstr ""
 
-#: ../src/initial.c:112 ../libdump/dump_dynamic.c:539
-#: ../libdump/dump_dynamic.c:571 ../libdump/dump_dynamic.c:660
+#: ../src/initial.c:121 ../libdump/dump_dynamic.c:596
+#: ../libdump/dump_dynamic.c:634 ../libdump/dump_dynamic.c:735
 #: ../libdump/dump_1d_slice.c:985
 msgid "Electron density"
 msgstr ""
 
-#: ../src/initial.c:133 ../libdump/dump_dynamic.c:555
-#: ../libdump/dump_dynamic.c:587 ../libdump/dump_dynamic.c:677
+#: ../src/initial.c:145 ../libdump/dump_dynamic.c:615
+#: ../libdump/dump_dynamic.c:653 ../libdump/dump_dynamic.c:755
 #: ../libdump/dump_1d_slice.c:1013
 msgid "Hole density"
 msgstr ""
 
-#: ../src/initial.c:136 ../gui/jobs.py:86
+#: ../src/initial.c:148 ../gui/jobs.py:86
 msgid "n"
 msgstr ""
 
@@ -538,11 +538,11 @@ msgstr ""
 
 #: ../gui/cmp_class.py:301 ../gui/band_graph.py:71
 #: ../gui/fit_configure_window.py:73 ../gui/experiment.py:180
-#: ../gui/experiment.py:237 ../gui/contacts.py:185 ../gui/config_window.py:70
-#: ../gui/jv.py:78 ../gui/emesh.py:169 ../gui/scan.py:259 ../gui/scan.py:354
-#: ../gui/info.py:68 ../gui/fxexperiment.py:177 ../gui/fxexperiment.py:230
-#: ../gui/fit_window.py:226 ../gui/lasers.py:180 ../gui/lasers.py:237
-#: ../gui/help.py:127 ../gui/optics.py:131
+#: ../gui/experiment.py:237 ../gui/contacts.py:185 ../gui/jv.py:78
+#: ../gui/emesh.py:169 ../gui/scan.py:259 ../gui/scan.py:354 ../gui/info.py:68
+#: ../gui/fxexperiment.py:177 ../gui/fxexperiment.py:230
+#: ../gui/fit_window.py:226 ../gui/ref.py:124 ../gui/lasers.py:180
+#: ../gui/lasers.py:237 ../gui/help.py:127 ../gui/optics.py:131
 msgid "Close"
 msgstr ""
 
@@ -582,7 +582,7 @@ msgstr ""
 msgid "Save graph"
 msgstr ""
 
-#: ../gui/qe.py:120 ../gui/gpvdm.py:741 ../gui/optics.py:140
+#: ../gui/qe.py:120 ../gui/gpvdm.py:744 ../gui/optics.py:140
 msgid "Run"
 msgstr ""
 
@@ -617,11 +617,12 @@ msgid "Fit configure"
 msgstr ""
 
 #: ../gui/fit_configure_window.py:72 ../gui/experiment.py:201
-#: ../gui/experiment.py:202 ../gui/config_window.py:69
-#: ../gui/materials_main.py:84 ../gui/gpvdm.py:763 ../gui/gpvdm.py:873
-#: ../gui/emesh.py:168 ../gui/scan.py:318 ../gui/scan.py:319 ../gui/cost.py:92
-#: ../gui/fxexperiment.py:195 ../gui/fxexperiment.py:196
-#: ../gui/fit_window.py:244 ../gui/fit_window.py:245 ../gui/lasers.py:201
+#: ../gui/experiment.py:202 ../gui/config_window.py:68
+#: ../gui/config_window.py:69 ../gui/materials_main.py:97 ../gui/gpvdm.py:766
+#: ../gui/gpvdm.py:881 ../gui/emesh.py:168 ../gui/scan.py:318
+#: ../gui/scan.py:319 ../gui/cost.py:92 ../gui/fxexperiment.py:195
+#: ../gui/fxexperiment.py:196 ../gui/fit_window.py:244 ../gui/fit_window.py:245
+#: ../gui/ref.py:104 ../gui/ref.py:105 ../gui/lasers.py:201
 #: ../gui/lasers.py:202 ../gui/import_data.py:256 ../gui/import_data.py:257
 #: ../gui/doping.py:205
 msgid "Help"
@@ -732,7 +733,7 @@ msgstr ""
 msgid "Enter the start time of the simulation"
 msgstr ""
 
-#: ../gui/tmesh.py:398 ../gui/fxmesh.py:285 ../gui/equation.py:261
+#: ../gui/tmesh.py:398 ../gui/fxmesh.py:285 ../gui/equation.py:268
 msgid "Save image"
 msgstr ""
 
@@ -744,16 +745,16 @@ msgstr ""
 msgid "Simulation start time"
 msgstr ""
 
-#: ../gui/tmesh.py:440 ../gui/fxmesh.py:307 ../gui/equation.py:281
+#: ../gui/tmesh.py:440 ../gui/fxmesh.py:307 ../gui/equation.py:288
 msgid "Add section"
 msgstr ""
 
-#: ../gui/tmesh.py:444 ../gui/fxmesh.py:311 ../gui/equation.py:285
+#: ../gui/tmesh.py:444 ../gui/fxmesh.py:311 ../gui/equation.py:292
 msgid "Delete section"
 msgstr ""
 
 #: ../gui/tmesh.py:448 ../gui/fxmesh.py:315 ../gui/scan_tab.py:515
-#: ../gui/scan_tab.py:597 ../gui/scan_tab.py:601 ../gui/equation.py:289
+#: ../gui/scan_tab.py:597 ../gui/scan_tab.py:601 ../gui/equation.py:296
 msgid "Move down"
 msgstr ""
 
@@ -805,7 +806,7 @@ msgstr ""
 msgid "Enter the start frequency of the simulation"
 msgstr ""
 
-#: ../gui/fxmesh.py:176 ../gui/token_lib.py:138
+#: ../gui/fxmesh.py:176 ../gui/token_lib.py:148
 msgid "Frequency"
 msgstr ""
 
@@ -895,8 +896,11 @@ msgstr ""
 
 #: ../gui/command_args.py:74
 msgid ""
-"Runs a scan, usage --run-scan /path/containing/base/files/ /path/to/scan/"
-"dir/ "
+"Runs a scan, usage --runscan /path/containing/base/files/ /path/to/scan/dir/ "
+msgstr ""
+
+#: ../gui/command_args.py:75
+msgid "Runs a scan, usage --load /path/containing/simulation/sim.gpvdm"
 msgstr ""
 
 #: ../gui/scan_tab.py:123
@@ -925,7 +929,7 @@ msgstr ""
 msgid "Problem generating tree."
 msgstr ""
 
-#: ../gui/scan_tab.py:405 ../gui/gpvdm.py:718 ../gui/fxexperiment.py:176
+#: ../gui/scan_tab.py:405 ../gui/gpvdm.py:721 ../gui/fxexperiment.py:176
 #: ../gui/fit_window.py:225 ../gui/fit_vars.py:95 ../gui/fit_vars.py:156
 #: ../gui/optics.py:127 ../gui/fit_patch.py:124
 msgid "File"
@@ -947,7 +951,7 @@ msgstr ""
 msgid "Opperation"
 msgstr ""
 
-#: ../gui/scan_tab.py:484 ../gui/gpvdm.py:532
+#: ../gui/scan_tab.py:484 ../gui/gpvdm.py:535
 msgid ""
 "Re-run the simulation with 'dump all slices' set to one to use this tool."
 msgstr ""
@@ -964,15 +968,15 @@ msgstr ""
 msgid "Run simulation"
 msgstr ""
 
-#: ../gui/scan_tab.py:531 ../gui/gpvdm.py:811 ../gui/fit_window.py:291
+#: ../gui/scan_tab.py:531 ../gui/gpvdm.py:819 ../gui/fit_window.py:291
 msgid "Stop the simulation"
 msgstr ""
 
-#: ../gui/scan_tab.py:535 ../gui/gpvdm.py:835
+#: ../gui/scan_tab.py:535 ../gui/gpvdm.py:843
 msgid "Find a file to plot"
 msgstr ""
 
-#: ../gui/scan_tab.py:539 ../gui/gpvdm.py:839
+#: ../gui/scan_tab.py:539 ../gui/gpvdm.py:847
 msgid "Examine results in time domain"
 msgstr ""
 
@@ -1277,73 +1281,83 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: ../gui/config_window.py:56 ../gui/gpvdm.py:750 ../gui/fit_window.py:277
+#: ../gui/config_window.py:55 ../gui/gpvdm.py:753 ../gui/fit_window.py:277
 msgid "Configure"
 msgstr ""
 
-#: ../gui/config_window.py:85
+#: ../gui/config_window.py:84
 msgid "Solver configuration"
 msgstr ""
 
-#: ../gui/config_window.py:85
+#: ../gui/config_window.py:84
 msgid "Output files"
 msgstr ""
 
-#: ../gui/config_window.py:85 ../gui/inp_description.py:49
+#: ../gui/config_window.py:84 ../gui/inp_description.py:49
 msgid "Thermal"
 msgstr ""
 
-#: ../gui/config_window.py:85
+#: ../gui/config_window.py:84
 msgid "LED"
 msgstr ""
 
-#: ../gui/config_window.py:85
+#: ../gui/config_window.py:84
 msgid "GUI configuration"
 msgstr ""
 
-#: ../gui/config_window.py:85
+#: ../gui/config_window.py:84
 msgid "Server configuration"
 msgstr ""
 
-#: ../gui/config_window.py:95
+#: ../gui/config_window.py:94
 msgid "Language"
 msgstr ""
 
-#: ../gui/materials_main.py:46 ../gui/materials_main.py:99
+#: ../gui/materials_main.py:48 ../gui/materials_main.py:112
 msgid "Electrical parameters"
 msgstr ""
 
-#: ../gui/materials_main.py:47
+#: ../gui/materials_main.py:49
 msgid ""
 "<big><b>Electrical parameters</b></big><br>Use this tab to configure the "
 "electrical parameters for the material."
 msgstr ""
 
-#: ../gui/materials_main.py:49 ../gui/materials_main.py:99
+#: ../gui/materials_main.py:51 ../gui/materials_main.py:112
 #: ../gui/gpvdm_notebook.py:96 ../gui/inp_description.py:55
 msgid "Luminescence"
 msgstr ""
 
-#: ../gui/materials_main.py:50
+#: ../gui/materials_main.py:52
 msgid ""
 "<big><b>Luminescence</b></big><br>Use this tab to edit the materials "
 "Luminescence."
 msgstr ""
 
-#: ../gui/materials_main.py:65
-msgid "Material editor"
-msgstr ""
-
-#: ../gui/materials_main.py:74
-msgid "Cost of material"
-msgstr ""
-
-#: ../gui/materials_main.py:109 ../gui/token_lib.py:161
+#: ../gui/materials_main.py:54 ../gui/materials_main.py:122
+#: ../gui/token_lib.py:171
 msgid "Absorption"
 msgstr ""
 
-#: ../gui/materials_main.py:115 ../gui/materials_main.py:117
+#: ../gui/materials_main.py:58
+msgid "<big><b>Absorption</b></big><br>"
+msgstr ""
+
+#: ../gui/materials_main.py:60 ../gui/materials_main.py:128
+#: ../gui/materials_main.py:130
 msgid "Refractive index"
+msgstr ""
+
+#: ../gui/materials_main.py:64
+msgid "<big><b>Refractive index</b></big><br>"
+msgstr ""
+
+#: ../gui/materials_main.py:78
+msgid "Material editor"
+msgstr ""
+
+#: ../gui/materials_main.py:87
+msgid "Cost of material"
 msgstr ""
 
 #: ../gui/gpvdm.py:146
@@ -1408,7 +1422,7 @@ msgstr ""
 msgid "Open an existing gpvdm simulation"
 msgstr ""
 
-#: ../gui/gpvdm.py:522
+#: ../gui/gpvdm.py:525
 msgid ""
 "<big><b>Examine the results in time domain</b></big><br> After you have run "
 "a simulation in time domain, if is often nice to be able to step through the "
@@ -1417,7 +1431,7 @@ msgid ""
 "curve, the slider sill step through voltage points rather than time points."
 msgstr ""
 
-#: ../gui/gpvdm.py:545
+#: ../gui/gpvdm.py:548
 msgid ""
 "<big><b>The time mesh editor</b></big><br> To do time domain simulations one "
 "must define how voltage the light vary as a function of time.  This can be "
@@ -1425,7 +1439,7 @@ msgid ""
 "and time step."
 msgstr ""
 
-#: ../gui/gpvdm.py:558
+#: ../gui/gpvdm.py:561
 msgid ""
 "<big><b>Frequency domain mesh editor</b></big><br> Some times it is useful "
 "to do frequency domain simulations such as when simulating impedance "
@@ -1433,141 +1447,141 @@ msgid ""
 "be simulated."
 msgstr ""
 
-#: ../gui/gpvdm.py:569
+#: ../gui/gpvdm.py:572
 msgid ""
 "<big><b>Laser setup</b></big><br> Use this window to set up your lasers."
 msgstr ""
 
-#: ../gui/gpvdm.py:580
+#: ../gui/gpvdm.py:583
 msgid ""
 "<big><b>JV simulation editor</b></big><br> Use this window to select the "
 "step size and parameters of the JV simulations."
 msgstr ""
 
-#: ../gui/gpvdm.py:593
+#: ../gui/gpvdm.py:596
 msgid ""
 "<big><b>Configuration editor</b></big><br> Use this window to control "
 "advanced simulation parameters."
 msgstr ""
 
-#: ../gui/gpvdm.py:618
+#: ../gui/gpvdm.py:621
 msgid "Quantum efficiency"
 msgstr ""
 
-#: ../gui/gpvdm.py:719 ../gui/scan.py:328
+#: ../gui/gpvdm.py:722 ../gui/scan.py:328
 msgid "New simulation"
 msgstr ""
 
-#: ../gui/gpvdm.py:722
+#: ../gui/gpvdm.py:725
 msgid "New optical material"
 msgstr ""
 
-#: ../gui/gpvdm.py:724
+#: ../gui/gpvdm.py:727
 msgid "Open simulation"
 msgstr ""
 
-#: ../gui/gpvdm.py:727
+#: ../gui/gpvdm.py:730
 msgid "Export data"
 msgstr ""
 
-#: ../gui/gpvdm.py:730 ../gui/fit_window_plot_real.py:126
+#: ../gui/gpvdm.py:733 ../gui/fit_window_plot_real.py:126
 #: ../gui/import_data.py:233
 msgid "Import data"
 msgstr ""
 
-#: ../gui/gpvdm.py:733
+#: ../gui/gpvdm.py:736
 msgid "Import from library"
 msgstr ""
 
-#: ../gui/gpvdm.py:736
+#: ../gui/gpvdm.py:739
 msgid "Quit"
 msgstr ""
 
-#: ../gui/gpvdm.py:739
+#: ../gui/gpvdm.py:742
 msgid "Simulation"
 msgstr ""
 
-#: ../gui/gpvdm.py:744 ../gui/hpc.py:305 ../gui/doping.py:119
+#: ../gui/gpvdm.py:747 ../gui/hpc.py:305 ../gui/doping.py:119
 msgid "Stop"
 msgstr ""
 
-#: ../gui/gpvdm.py:747 ../gui/gpvdm.py:819
+#: ../gui/gpvdm.py:750 ../gui/gpvdm.py:827
 msgid "Parameter scan"
 msgstr ""
 
-#: ../gui/gpvdm.py:754
+#: ../gui/gpvdm.py:757
 msgid "View"
 msgstr ""
 
-#: ../gui/gpvdm.py:755
+#: ../gui/gpvdm.py:758
 msgid "None"
 msgstr ""
 
-#: ../gui/gpvdm.py:758
+#: ../gui/gpvdm.py:761
 msgid "Plot"
 msgstr ""
 
-#: ../gui/gpvdm.py:759
+#: ../gui/gpvdm.py:762
 msgid "Plot simulation result"
 msgstr ""
 
-#: ../gui/gpvdm.py:765
+#: ../gui/gpvdm.py:768
 msgid "Help window"
 msgstr ""
 
-#: ../gui/gpvdm.py:768
-msgid "Online help"
-msgstr ""
-
 #: ../gui/gpvdm.py:771
-msgid "License"
+msgid "Manual"
 msgstr ""
 
 #: ../gui/gpvdm.py:774
+msgid "License"
+msgstr ""
+
+#: ../gui/gpvdm.py:777 ../gui/status_icon.py:54
+msgid "Youtube channel"
+msgstr ""
+
+#: ../gui/gpvdm.py:782 ../gui/about.py:47
 msgid "About"
 msgstr ""
 
-#: ../gui/gpvdm.py:781
-msgid "Check for updates"
-msgstr ""
-
-#: ../gui/gpvdm.py:785
+#: ../gui/gpvdm.py:793
 msgid "Make a new simulation"
 msgstr ""
 
-#: ../gui/gpvdm.py:789
+#: ../gui/gpvdm.py:797
 msgid "Open a simulation"
 msgstr ""
 
-#: ../gui/gpvdm.py:796
+#: ../gui/gpvdm.py:804
 msgid "Undo"
 msgstr ""
 
-#: ../gui/gpvdm.py:802
+#: ../gui/gpvdm.py:810
 msgid "Run the simulation"
 msgstr ""
 
-#: ../gui/gpvdm.py:806
+#: ../gui/gpvdm.py:814
 msgid "Run parameter scan"
 msgstr ""
 
-#: ../gui/gpvdm.py:826
+#: ../gui/gpvdm.py:834
 msgid "Run a fit command"
 msgstr ""
 
-#: ../gui/gpvdm.py:845
+#: ../gui/gpvdm.py:853
 msgid "Time domain simulation editor."
 msgstr ""
 
-#: ../gui/gpvdm.py:850
+#: ../gui/gpvdm.py:858
 msgid "Frequency domain simulation editor"
 msgstr ""
 
-#: ../gui/gpvdm.py:855
+#: ../gui/gpvdm.py:863
 msgid "Steady state simulation editor"
 msgstr ""
 
-#: ../gui/gpvdm.py:859
+#: ../gui/gpvdm.py:867
 msgid "Lasers editor"
 msgstr ""
 
@@ -1965,7 +1979,7 @@ msgstr ""
 msgid "material"
 msgstr ""
 
-#: ../gui/cost.py:117
+#: ../gui/cost.py:117 ../gui/token_lib.py:115
 msgid "Volume"
 msgstr ""
 
@@ -2238,11 +2252,11 @@ msgstr ""
 msgid "home"
 msgstr ""
 
-#: ../gui/ref.py:52
-msgid "Reference information"
+#: ../gui/ref.py:92
+msgid "Reference manager"
 msgstr ""
 
-#: ../gui/ref.py:64
+#: ../gui/ref.py:171
 msgid "New file"
 msgstr ""
 
@@ -2306,31 +2320,31 @@ msgstr ""
 msgid "New laser"
 msgstr ""
 
-#: ../gui/gpvdm_open.py:113
+#: ../gui/gpvdm_open.py:115
 msgid "The directory is gone, so I can't open it."
 msgstr ""
 
-#: ../gui/gpvdm_open.py:209
+#: ../gui/gpvdm_open.py:212
 msgid "title"
 msgstr ""
 
-#: ../gui/gpvdm_open.py:209
+#: ../gui/gpvdm_open.py:212
 msgid "x axis"
 msgstr ""
 
-#: ../gui/gpvdm_open.py:209
+#: ../gui/gpvdm_open.py:212
 msgid "y axis"
 msgstr ""
 
-#: ../gui/gpvdm_open.py:209
+#: ../gui/gpvdm_open.py:212
 msgid "Double click to open"
 msgstr ""
 
-#: ../gui/gpvdm_open.py:215
+#: ../gui/gpvdm_open.py:218
 msgid "equilibrium"
 msgstr ""
 
-#: ../gui/gpvdm_open.py:215
+#: ../gui/gpvdm_open.py:218
 msgid "This contains the simulation output at 0V in the dark."
 msgstr ""
 
@@ -2366,12 +2380,8 @@ msgstr ""
 msgid "The imported file, the numbers should now be in SI units"
 msgstr ""
 
-#: ../gui/about.py:41
-msgid "Version "
-msgstr ""
-
 #: ../gui/about.py:44
-msgid "About (https://www.gpvdm.com)"
+msgid "Version "
 msgstr ""
 
 #: ../gui/scan_select.py:60
@@ -2386,23 +2396,23 @@ msgstr ""
 msgid "No row selected in the scan window, can't insert the selection"
 msgstr ""
 
-#: ../gui/equation.py:171 ../gui/jobs.py:86
+#: ../gui/equation.py:178 ../gui/jobs.py:86
 msgid "start"
 msgstr ""
 
-#: ../gui/equation.py:171 ../gui/token_lib.py:104 ../gui/jobs.py:86
+#: ../gui/equation.py:178 ../gui/token_lib.py:104 ../gui/jobs.py:86
 msgid "stop"
 msgstr ""
 
-#: ../gui/equation.py:171
+#: ../gui/equation.py:178
 msgid "Python Equation"
 msgstr ""
 
-#: ../gui/equation.py:217
+#: ../gui/equation.py:224
 msgid "You've made a mistake in the equation, use w for wavelength. "
 msgstr ""
 
-#: ../gui/equation.py:265
+#: ../gui/equation.py:272
 msgid "Insert reference information"
 msgstr ""
 
@@ -2422,12 +2432,12 @@ msgstr ""
 msgid "Mesh points"
 msgstr ""
 
-#: ../gui/token_lib.py:38 ../libdump/dump_dynamic.c:621
+#: ../gui/token_lib.py:38 ../libdump/dump_dynamic.c:690
 #: ../libdump/dump_1d_slice.c:604 ../libdump/dump_1d_slice.c:607
 msgid "Electron mobility"
 msgstr ""
 
-#: ../gui/token_lib.py:39 ../libdump/dump_dynamic.c:637
+#: ../gui/token_lib.py:39 ../libdump/dump_dynamic.c:709
 #: ../libdump/dump_1d_slice.c:628 ../libdump/dump_1d_slice.c:631
 msgid "Hole mobility"
 msgstr ""
@@ -2625,18 +2635,18 @@ msgstr ""
 msgid "Pause between iterations"
 msgstr ""
 
-#: ../gui/token_lib.py:91 ../gui/token_lib.py:300 ../gui/token_lib.py:304
-#: ../gui/token_lib.py:306 ../gui/token_lib.py:310 ../gui/token_lib.py:326
-#: ../gui/token_lib.py:327 ../gui/token_lib.py:328 ../gui/token_lib.py:329
-#: ../gui/token_lib.py:331 ../gui/token_lib.py:332 ../gui/token_lib.py:358
-#: ../gui/token_lib.py:359 ../gui/token_lib.py:361 ../gui/token_lib.py:362
-#: ../gui/token_lib.py:363 ../gui/token_lib.py:364 ../gui/token_lib.py:365
-#: ../gui/token_lib.py:366 ../gui/token_lib.py:369 ../gui/token_lib.py:371
-#: ../gui/token_lib.py:372 ../gui/token_lib.py:373 ../gui/token_lib.py:374
-#: ../gui/token_lib.py:375 ../gui/token_lib.py:376 ../gui/token_lib.py:377
-#: ../gui/token_lib.py:378 ../gui/token_lib.py:379 ../gui/token_lib.py:380
-#: ../gui/token_lib.py:382 ../gui/token_lib.py:383 ../gui/token_lib.py:386
-#: ../gui/token_lib.py:396
+#: ../gui/token_lib.py:91 ../gui/token_lib.py:310 ../gui/token_lib.py:314
+#: ../gui/token_lib.py:316 ../gui/token_lib.py:320 ../gui/token_lib.py:336
+#: ../gui/token_lib.py:337 ../gui/token_lib.py:338 ../gui/token_lib.py:339
+#: ../gui/token_lib.py:341 ../gui/token_lib.py:342 ../gui/token_lib.py:368
+#: ../gui/token_lib.py:369 ../gui/token_lib.py:371 ../gui/token_lib.py:372
+#: ../gui/token_lib.py:373 ../gui/token_lib.py:374 ../gui/token_lib.py:375
+#: ../gui/token_lib.py:376 ../gui/token_lib.py:379 ../gui/token_lib.py:381
+#: ../gui/token_lib.py:382 ../gui/token_lib.py:383 ../gui/token_lib.py:384
+#: ../gui/token_lib.py:385 ../gui/token_lib.py:386 ../gui/token_lib.py:387
+#: ../gui/token_lib.py:388 ../gui/token_lib.py:389 ../gui/token_lib.py:390
+#: ../gui/token_lib.py:392 ../gui/token_lib.py:393 ../gui/token_lib.py:396
+#: ../gui/token_lib.py:406
 msgid "True/False"
 msgstr ""
 
@@ -2700,376 +2710,404 @@ msgstr ""
 msgid "sim_contacts"
 msgstr ""
 
-#: ../gui/token_lib.py:111 ../gui/token_lib.py:115
+#: ../gui/token_lib.py:111
+msgid "Website"
+msgstr ""
+
+#: ../gui/token_lib.py:112
+msgid "Research group"
+msgstr ""
+
+#: ../gui/token_lib.py:113
+msgid "Authors"
+msgstr ""
+
+#: ../gui/token_lib.py:114
+msgid "Journal"
+msgstr ""
+
+#: ../gui/token_lib.py:116
+msgid "Pages"
+msgstr ""
+
+#: ../gui/token_lib.py:117
+msgid "Year"
+msgstr ""
+
+#: ../gui/token_lib.py:118
+msgid "md5 sum"
+msgstr ""
+
+#: ../gui/token_lib.py:121 ../gui/token_lib.py:125
 #, python-brace-format
 msgid "R_{short}"
 msgstr ""
 
-#: ../gui/token_lib.py:112
+#: ../gui/token_lib.py:122
 #, python-brace-format
 msgid "V_{bias}"
 msgstr ""
 
-#: ../gui/token_lib.py:113
+#: ../gui/token_lib.py:123
 msgid "Efficiency of light"
 msgstr ""
 
-#: ../gui/token_lib.py:116
+#: ../gui/token_lib.py:126
 msgid "Backgroud light bias"
 msgstr ""
 
-#: ../gui/token_lib.py:117
+#: ../gui/token_lib.py:127
 msgid "Modulation depth"
 msgstr ""
 
-#: ../gui/token_lib.py:118
+#: ../gui/token_lib.py:128
 msgid "Modulation frequency"
 msgstr ""
 
-#: ../gui/token_lib.py:119
+#: ../gui/token_lib.py:129
 msgid "High light multiplyer"
 msgstr ""
 
-#: ../gui/token_lib.py:120
+#: ../gui/token_lib.py:130
 msgid "Photon efficiency"
 msgstr ""
 
-#: ../gui/token_lib.py:123
+#: ../gui/token_lib.py:133
 msgid "JV voltage step multiplyer"
 msgstr ""
 
-#: ../gui/token_lib.py:124
+#: ../gui/token_lib.py:134
 msgid "Maximum current density"
 msgstr ""
 
-#: ../gui/token_lib.py:125
+#: ../gui/token_lib.py:135
 msgid "JV curve photon generation efficiency"
 msgstr ""
 
-#: ../gui/token_lib.py:130
+#: ../gui/token_lib.py:140
 #, python-brace-format
 msgid "V_{oc}"
 msgstr ""
 
-#: ../gui/token_lib.py:131
+#: ../gui/token_lib.py:141
 msgid "Power conversion efficiency"
 msgstr ""
 
-#: ../gui/token_lib.py:132
+#: ../gui/token_lib.py:142
 msgid "Fill factor"
 msgstr ""
 
-#: ../gui/token_lib.py:136
+#: ../gui/token_lib.py:146
 msgid "Re(J)"
 msgstr ""
 
-#: ../gui/token_lib.py:137
+#: ../gui/token_lib.py:147
 msgid "Im(J)"
 msgstr ""
 
-#: ../gui/token_lib.py:139 ../gui/token_lib.py:140 ../gui/token_lib.py:141
+#: ../gui/token_lib.py:149 ../gui/token_lib.py:150 ../gui/token_lib.py:151
 msgid "Phase shift"
 msgstr ""
 
-#: ../gui/token_lib.py:142
+#: ../gui/token_lib.py:152
 msgid "points"
 msgstr ""
 
-#: ../gui/token_lib.py:143
+#: ../gui/token_lib.py:153
 msgid "Wavelengths to simulate"
 msgstr ""
 
-#: ../gui/token_lib.py:144
+#: ../gui/token_lib.py:154
 msgid "External voltage"
 msgstr ""
 
-#: ../gui/token_lib.py:146
+#: ../gui/token_lib.py:156
 msgid "External C"
 msgstr ""
 
-#: ../gui/token_lib.py:147
+#: ../gui/token_lib.py:157
 msgid "External R"
 msgstr ""
 
-#: ../gui/token_lib.py:149
+#: ../gui/token_lib.py:159
 msgid "Resistance of scope"
 msgstr ""
 
-#: ../gui/token_lib.py:150
+#: ../gui/token_lib.py:160
 msgid "Number of traps"
 msgstr ""
 
-#: ../gui/token_lib.py:152
+#: ../gui/token_lib.py:162
 msgid "DoS distribution"
 msgstr ""
 
-#: ../gui/token_lib.py:154
+#: ../gui/token_lib.py:164
 msgid "Single point"
 msgstr ""
 
-#: ../gui/token_lib.py:155
+#: ../gui/token_lib.py:165
 msgid "Start intensity"
 msgstr ""
 
-#: ../gui/token_lib.py:156
+#: ../gui/token_lib.py:166
 msgid "Stop intensity"
 msgstr ""
 
-#: ../gui/token_lib.py:157
+#: ../gui/token_lib.py:167
 msgid "step multiplier"
 msgstr ""
 
-#: ../gui/token_lib.py:160
+#: ../gui/token_lib.py:170
 msgid "Photon Flux"
 msgstr ""
 
-#: ../gui/token_lib.py:162
+#: ../gui/token_lib.py:172
 msgid "device width"
 msgstr ""
 
-#: ../gui/token_lib.py:163
+#: ../gui/token_lib.py:173
 msgid "device breadth"
 msgstr ""
 
-#: ../gui/token_lib.py:237
+#: ../gui/token_lib.py:247
 msgid "Max electrical itterations"
 msgstr ""
 
-#: ../gui/token_lib.py:238
+#: ../gui/token_lib.py:248
 msgid "Electrical clamp"
 msgstr ""
 
-#: ../gui/token_lib.py:239
+#: ../gui/token_lib.py:249
 msgid "Poisson clamping"
 msgstr ""
 
-#: ../gui/token_lib.py:240
+#: ../gui/token_lib.py:250
 msgid "Minimum electrical error"
 msgstr ""
 
-#: ../gui/token_lib.py:241
+#: ../gui/token_lib.py:251
 msgid "Poisson solver max itterations"
 msgstr ""
 
-#: ../gui/token_lib.py:243
+#: ../gui/token_lib.py:253
 msgid "Newton minimum iterations"
 msgstr ""
 
-#: ../gui/token_lib.py:244
+#: ../gui/token_lib.py:254
 msgid "Matrix solver to use"
 msgstr ""
 
-#: ../gui/token_lib.py:245
+#: ../gui/token_lib.py:255
 msgid "Newton solver to use"
 msgstr ""
 
-#: ../gui/token_lib.py:300
+#: ../gui/token_lib.py:310
 msgid "Enable fit"
 msgstr ""
 
-#: ../gui/token_lib.py:304
+#: ../gui/token_lib.py:314
 msgid "log x"
 msgstr ""
 
-#: ../gui/token_lib.py:306
+#: ../gui/token_lib.py:316
 msgid "Invert simulated data (y)"
 msgstr ""
 
-#: ../gui/token_lib.py:310
+#: ../gui/token_lib.py:320
 msgid "Randomize fit"
 msgstr ""
 
-#: ../gui/token_lib.py:311
+#: ../gui/token_lib.py:321
 msgid "Number of iterations between random reset"
 msgstr ""
 
-#: ../gui/token_lib.py:312
+#: ../gui/token_lib.py:322
 msgid "Stall steps"
 msgstr ""
 
-#: ../gui/token_lib.py:313
+#: ../gui/token_lib.py:323
 msgid "Disable reset at level"
 msgstr ""
 
-#: ../gui/token_lib.py:314
+#: ../gui/token_lib.py:324
 msgid "Fit define convergence"
 msgstr ""
 
-#: ../gui/token_lib.py:315
+#: ../gui/token_lib.py:325
 msgid "Enable simplex reset"
 msgstr ""
 
-#: ../gui/token_lib.py:316 ../gui/token_lib.py:317
+#: ../gui/token_lib.py:326 ../gui/token_lib.py:327
 msgid "Simplex reset steps"
 msgstr ""
 
-#: ../gui/token_lib.py:320
+#: ../gui/token_lib.py:330
 msgid "Subtract lowest point"
 msgstr ""
 
-#: ../gui/token_lib.py:324
+#: ../gui/token_lib.py:334
 msgid "Device temperature on left"
 msgstr ""
 
-#: ../gui/token_lib.py:325
+#: ../gui/token_lib.py:335
 msgid "Device temperature on right"
 msgstr ""
 
-#: ../gui/token_lib.py:326
+#: ../gui/token_lib.py:336
 msgid "Enable thermal solver"
 msgstr ""
 
-#: ../gui/token_lib.py:327
+#: ../gui/token_lib.py:337
 msgid "Lattice heat model"
 msgstr ""
 
-#: ../gui/token_lib.py:328
+#: ../gui/token_lib.py:338
 msgid "Electron heat model"
 msgstr ""
 
-#: ../gui/token_lib.py:329
+#: ../gui/token_lib.py:339
 msgid "Hole heat model"
 msgstr ""
 
-#: ../gui/token_lib.py:331
+#: ../gui/token_lib.py:341
 msgid "Isothermal boundary on left"
 msgstr ""
 
-#: ../gui/token_lib.py:332
+#: ../gui/token_lib.py:342
 msgid "Isothermal boundary on right"
 msgstr ""
 
-#: ../gui/token_lib.py:355
+#: ../gui/token_lib.py:365
 msgid "Filp the opticl field"
 msgstr ""
 
-#: ../gui/token_lib.py:358
+#: ../gui/token_lib.py:368
 msgid "Dump from newton solver"
 msgstr ""
 
-#: ../gui/token_lib.py:359
+#: ../gui/token_lib.py:369
 msgid "Plot bands etc.. "
 msgstr ""
 
-#: ../gui/token_lib.py:361
+#: ../gui/token_lib.py:371
 msgid "dump slices by time"
 msgstr ""
 
-#: ../gui/token_lib.py:362
+#: ../gui/token_lib.py:372
 msgid "Dump 1D slices"
 msgstr ""
 
-#: ../gui/token_lib.py:363
+#: ../gui/token_lib.py:373
 msgid "Dump slices"
 msgstr ""
 
-#: ../gui/token_lib.py:364
+#: ../gui/token_lib.py:374
 msgid "Dump dynamic"
 msgstr ""
 
-#: ../gui/token_lib.py:365
+#: ../gui/token_lib.py:375
 msgid "Dump zip files"
 msgstr ""
 
-#: ../gui/token_lib.py:366
+#: ../gui/token_lib.py:376
 msgid "Write out band structure"
 msgstr ""
 
-#: ../gui/token_lib.py:369
+#: ../gui/token_lib.py:379
 msgid "Dump optical information"
 msgstr ""
 
-#: ../gui/token_lib.py:371
+#: ../gui/token_lib.py:381
 msgid "Print newton error"
 msgstr ""
 
-#: ../gui/token_lib.py:372
+#: ../gui/token_lib.py:382
 msgid "Print solver convergence"
 msgstr ""
 
-#: ../gui/token_lib.py:373
+#: ../gui/token_lib.py:383
 msgid "Write newton solver convergence to disk"
 msgstr ""
 
-#: ../gui/token_lib.py:374
+#: ../gui/token_lib.py:384
 msgid "Print poisson solver convergence"
 msgstr ""
 
-#: ../gui/token_lib.py:375
+#: ../gui/token_lib.py:385
 msgid "Dump PL spectra"
 msgstr ""
 
-#: ../gui/token_lib.py:376
+#: ../gui/token_lib.py:386
 msgid "Normalize output x-time to one"
 msgstr ""
 
-#: ../gui/token_lib.py:377
+#: ../gui/token_lib.py:387
 msgid "Dump the built in voltage."
 msgstr ""
 
-#: ../gui/token_lib.py:378
+#: ../gui/token_lib.py:388
 msgid "Dump optical probe spectrum"
 msgstr ""
 
-#: ../gui/token_lib.py:379
+#: ../gui/token_lib.py:389
 msgid "Dump optical summary"
 msgstr ""
 
-#: ../gui/token_lib.py:380
+#: ../gui/token_lib.py:390
 msgid "Dump raytrace plots"
 msgstr ""
 
-#: ../gui/token_lib.py:382
+#: ../gui/token_lib.py:392
 msgid "Dump an excel workbook for each simulation run congaing the results."
 msgstr ""
 
-#: ../gui/token_lib.py:383
+#: ../gui/token_lib.py:393
 msgid "Write file access log to disk."
 msgstr ""
 
-#: ../gui/token_lib.py:386
+#: ../gui/token_lib.py:396
 msgid "Turn on luminescence"
 msgstr ""
 
-#: ../gui/token_lib.py:387
+#: ../gui/token_lib.py:397
 #, python-brace-format
 msgid "n_{free} to p_{free} photon generation efficiency"
 msgstr ""
 
-#: ../gui/token_lib.py:388
+#: ../gui/token_lib.py:398
 #, python-brace-format
 msgid "n_{free} to n_{trap} photon generation efficiency"
 msgstr ""
 
-#: ../gui/token_lib.py:389
+#: ../gui/token_lib.py:399
 #, python-brace-format
 msgid "n_{trap} to p_{free} photon generation efficiency"
 msgstr ""
 
-#: ../gui/token_lib.py:390
+#: ../gui/token_lib.py:400
 #, python-brace-format
 msgid "p_{trap} to n_{free} photon generation efficiency"
 msgstr ""
 
-#: ../gui/token_lib.py:391
+#: ../gui/token_lib.py:401
 #, python-brace-format
 msgid "p_{free} to p_{trap} photon generation efficiency"
 msgstr ""
 
-#: ../gui/token_lib.py:393
+#: ../gui/token_lib.py:403
 #, python-brace-format
 msgid "n_{free} to p_{free} Recombination rate constant"
 msgstr ""
 
-#: ../gui/token_lib.py:396
+#: ../gui/token_lib.py:406
 msgid "Turn on LED"
 msgstr ""
 
-#: ../gui/token_lib.py:397
+#: ../gui/token_lib.py:407
 msgid "LED emission wavelength"
 msgstr ""
 
-#: ../gui/token_lib.py:398
+#: ../gui/token_lib.py:408
 msgid "LED extraction efficiency"
 msgstr ""
 
@@ -3239,7 +3277,7 @@ msgstr ""
 msgid "Directory"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:179 ../libdump/dump_dynamic.c:289
+#: ../libdump/dump_dynamic.c:179 ../libdump/dump_dynamic.c:307
 msgid "Hole drift current"
 msgstr ""
 
@@ -3247,70 +3285,70 @@ msgstr ""
 msgid " Hole diffusion current"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:200 ../libdump/dump_dynamic.c:257
+#: ../libdump/dump_dynamic.c:203 ../libdump/dump_dynamic.c:269
 msgid "Electron drift current"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:200 ../libdump/dump_dynamic.c:273
+#: ../libdump/dump_dynamic.c:203 ../libdump/dump_dynamic.c:288
 msgid "Electron diffusion current"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:203 ../libdump/dump_dynamic.c:292
-#: ../libdump/dump_dynamic.c:308 ../libdump/dump_dynamic.c:340
+#: ../libdump/dump_dynamic.c:206 ../libdump/dump_dynamic.c:310
+#: ../libdump/dump_dynamic.c:329 ../libdump/dump_dynamic.c:367
 #: ../libdump/dump_1d_slice.c:464
 msgid "Hole current density"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:220
+#: ../libdump/dump_dynamic.c:226
 msgid "Current density at contacts"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:241
+#: ../libdump/dump_dynamic.c:250
 msgid "Change in charge distribution"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:244 ../libdump/dump_dynamic.c:894
+#: ../libdump/dump_dynamic.c:253 ../libdump/dump_dynamic.c:1008
 msgid "percent"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:260 ../libdump/dump_dynamic.c:276
-#: ../libdump/dump_dynamic.c:324 ../libdump/dump_1d_slice.c:439
+#: ../libdump/dump_dynamic.c:272 ../libdump/dump_dynamic.c:291
+#: ../libdump/dump_dynamic.c:348 ../libdump/dump_1d_slice.c:439
 msgid "Electron current density"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:305
+#: ../libdump/dump_dynamic.c:326
 msgid "Hole diffusion current"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:321
+#: ../libdump/dump_dynamic.c:345
 msgid "Jn at contacts"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:337
+#: ../libdump/dump_dynamic.c:364
 msgid "Jp at contacts"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:359
+#: ../libdump/dump_dynamic.c:389
 msgid "External Current"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:382
+#: ../libdump/dump_dynamic.c:415
 msgid "Free carrier generation rate"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:398
+#: ../libdump/dump_dynamic.c:434
 msgid "Dynamic quantum efficiency"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:401
+#: ../libdump/dump_dynamic.c:437
 msgid "Percent"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:420
+#: ../libdump/dump_dynamic.c:459
 msgid "Free hole recombination"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:423 ../libdump/dump_dynamic.c:440
+#: ../libdump/dump_dynamic.c:462 ../libdump/dump_dynamic.c:482
 #: ../libdump/dump_1d_slice.c:1045 ../libdump/dump_1d_slice.c:1069
 #: ../libdump/dump_1d_slice.c:1094 ../libdump/dump_1d_slice.c:1118
 #: ../libdump/dump_1d_slice.c:1143 ../libdump/dump_1d_slice.c:1179
@@ -3319,90 +3357,90 @@ msgstr ""
 msgid "Recombination"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:437
+#: ../libdump/dump_dynamic.c:479
 msgid "Free electron recombination"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:455 ../libdump/dump_dynamic.c:458
+#: ../libdump/dump_dynamic.c:500 ../libdump/dump_dynamic.c:503
 msgid "Free electron loss"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:455 ../libdump/dump_dynamic.c:472
-#: ../libdump/dump_dynamic.c:761 ../libdump/dump_dynamic.c:777
-#: ../libdump/dump_dynamic.c:793 ../libdump/dump_dynamic.c:809
-#: ../libdump/dump_dynamic.c:825 ../libdump/dump_dynamic.c:841
-#: ../libdump/dump_dynamic.c:857 ../libdump/dump_dynamic.c:873
-#: ../libdump/dump_dynamic.c:889
+#: ../libdump/dump_dynamic.c:500 ../libdump/dump_dynamic.c:520
+#: ../libdump/dump_dynamic.c:851 ../libdump/dump_dynamic.c:870
+#: ../libdump/dump_dynamic.c:889 ../libdump/dump_dynamic.c:908
+#: ../libdump/dump_dynamic.c:927 ../libdump/dump_dynamic.c:946
+#: ../libdump/dump_dynamic.c:965 ../libdump/dump_dynamic.c:984
+#: ../libdump/dump_dynamic.c:1003
 msgid "time"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:472 ../libdump/dump_dynamic.c:475
+#: ../libdump/dump_dynamic.c:520 ../libdump/dump_dynamic.c:523
 msgid "Free hole loss"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:504
+#: ../libdump/dump_dynamic.c:555
 msgid "Electron relaxation"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:507 ../libdump/dump_dynamic.c:523
+#: ../libdump/dump_dynamic.c:558 ../libdump/dump_dynamic.c:577
 msgid "Relaxation"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:520
+#: ../libdump/dump_dynamic.c:574
 msgid "Hole relaxation"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:536
+#: ../libdump/dump_dynamic.c:593
 msgid "Trapped electron density"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:552
+#: ../libdump/dump_dynamic.c:612
 msgid "Trapped hole density"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:568
+#: ../libdump/dump_dynamic.c:631
 msgid "Free electron density"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:584
+#: ../libdump/dump_dynamic.c:650
 msgid "Free hole density"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:624 ../libdump/dump_dynamic.c:640
+#: ../libdump/dump_dynamic.c:693 ../libdump/dump_dynamic.c:712
 #: ../libdump/dump_1d_slice.c:655 ../libdump/dump_1d_slice.c:688
 msgid "Mobility"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:657
+#: ../libdump/dump_dynamic.c:732
 msgid "Total electron density"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:674 ../libdump/dump_1d_slice.c:810
+#: ../libdump/dump_dynamic.c:752 ../libdump/dump_1d_slice.c:810
 #: ../libdump/dump_1d_slice.c:842
 msgid "Total hole density"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:705
+#: ../libdump/dump_dynamic.c:786
 msgid "Voltage applied to diode"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:727
+#: ../libdump/dump_dynamic.c:811
 msgid "PL intensity"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:730 ../libdump/dump_dynamic.c:748
+#: ../libdump/dump_dynamic.c:814 ../libdump/dump_dynamic.c:835
 msgid "PL Intensity"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:745
+#: ../libdump/dump_dynamic.c:832
 msgid "PL intensity normalized"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:889
+#: ../libdump/dump_dynamic.c:1003
 msgid "band bend (percent)"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:892
+#: ../libdump/dump_dynamic.c:1006
 msgid "band bend"
 msgstr ""
 

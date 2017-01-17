@@ -41,6 +41,8 @@ class dump_io(QAction):
 		val=False
 		for token in self.tokens:
 			v=inp_get_token_value("dump.inp", token )
+			if v==None:
+				return None
 			val = val + int(str2bool(v))
 
 		if val==len(self.tokens):
@@ -62,9 +64,9 @@ class dump_io(QAction):
 
 	def update_ui(self,update_help):
 		if self.dump==dump_slow:
-			self.setIcon(QIcon(os.path.join(get_image_file_path(),"hdd_hi.png")))
+			self.setIcon(QIcon(os.path.join(get_image_file_path(),"hdd_high.png")))
 			if update_help==True:
-				help_window().help_set_help(["hdd_hi.png",_("<big><b>Write all data to disk (slow)</b></big><br>"+self.help_text)])
+				help_window().help_set_help(["hdd_high.png",_("<big><b>Write all data to disk (slow)</b></big><br>"+self.help_text)])
 
 		if self.dump==dump_fast:
 			self.setIcon(QIcon(os.path.join(get_image_file_path(),"hdd_low.png")))
@@ -76,6 +78,12 @@ class dump_io(QAction):
 
 	def refresh(self):
 		self.dump=self.cal_state()
+		if self.dump==None:
+			self.setEnabled(False)
+			return
+		else:
+			self.setEnabled(True)
+
 		self.blockSignals(True)
 		self.update_ui(False)
 		self.blockSignals(False)

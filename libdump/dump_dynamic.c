@@ -180,6 +180,9 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	strcpy(buf.y_units,"A m^{-2}");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
+	buf.x=1;
+	buf.y=(store->dynamic_jp_drift).len;
+	buf.z=1;
 	buffer_add_info(&buf);
 
 	for (i=0;i<(store->dynamic_jp_drift).len;i++)
@@ -201,6 +204,9 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	strcpy(buf.y_units,"A m^{-2}");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
+	buf.x=1;
+	buf.y=(store->dynamic_jn_drift).len;
+	buf.z=1;
 	buffer_add_info(&buf);
 	for (i=0;i<(store->dynamic_jn_drift).len;i++)
 	{
@@ -221,6 +227,9 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	strcpy(buf.y_units,"A m^{-2}");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
+	buf.x=1;
+	buf.y=(store->jout).len;
+	buf.z=1;
 	buffer_add_info(&buf);
 	if (sub==TRUE)
 	{
@@ -242,6 +251,9 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	strcpy(buf.y_units,"\\%");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
+	buf.x=1;
+	buf.y=(store->charge_change).len;
+	buf.z=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->charge_change).x, (store->charge_change).data, (store->charge_change).len);
 	buffer_dump_path(sim,out_dir,"dynamic_charge_change.dat",&buf);
@@ -258,6 +270,9 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	strcpy(buf.y_units,"A m^{-2}");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
+	buf.x=1;
+	buf.y=(store->dynamic_jn_drift).len;
+	buf.z=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->dynamic_jn_drift).x, (store->dynamic_jn_drift).data, (store->dynamic_jn_drift).len);
 	buffer_dump_path(sim,out_dir,"dynamic_jn_drift.dat",&buf);
@@ -274,6 +289,9 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	strcpy(buf.y_units,"A m^{-2}");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
+	buf.x=1;
+	buf.y=(store->dynamic_jn_diffusion).len;
+	buf.z=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->dynamic_jn_diffusion).x, (store->dynamic_jn_diffusion).data, (store->dynamic_jn_diffusion).len);
 	buffer_dump_path(sim,out_dir,"dynamic_jn_diffusion.dat",&buf);
@@ -290,6 +308,9 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	strcpy(buf.y_units,"A m^{-2}");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
+	buf.x=1;
+	buf.y=(store->dynamic_jp_drift).len;
+	buf.z=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->dynamic_jp_drift).x, (store->dynamic_jp_drift).data, (store->dynamic_jp_drift).len);
 	buffer_dump_path(sim,out_dir,"dynamic_jp_drift.dat",&buf);
@@ -306,6 +327,9 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	strcpy(buf.y_units,"A m^{-2}");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
+	buf.x=1;
+	buf.y=(store->dynamic_jp_diffusion).len;
+	buf.z=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->dynamic_jp_diffusion).x, (store->dynamic_jp_diffusion).data, (store->dynamic_jp_diffusion).len);
 	buffer_dump_path(sim,out_dir,"dynamic_jp_diffusion.dat",&buf);
@@ -322,6 +346,9 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	strcpy(buf.y_units,"A m^{-2}");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
+	buf.x=1;
+	buf.y=(store->dynamic_jn).len;
+	buf.z=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->dynamic_jn).x, (store->dynamic_jn).data, (store->dynamic_jn).len);
 	buffer_dump_path(sim,out_dir,"dynamic_jn_contacts.dat",&buf);
@@ -338,6 +365,9 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	strcpy(buf.y_units,"A m^{-2}");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
+	buf.x=1;
+	buf.y=(store->dynamic_jp).len;
+	buf.z=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->dynamic_jp).x, (store->dynamic_jp).data, (store->dynamic_jp).len);
 	buffer_dump_path(sim,out_dir,"dynamic_jp_contacts.dat",&buf);
@@ -360,6 +390,9 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	strcpy(buf.y_units,"Amps");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
+	buf.x=1;
+	buf.y=(store->iout).len;
+	buf.z=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->iout).x, (store->iout).data, (store->iout).len);
 	buffer_dump_path(sim,out_dir,"dynamic_i.dat",&buf);
@@ -383,6 +416,9 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	strcpy(buf.y_units,"m^{-3}s^{-1}");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
+	buf.x=1;
+	buf.y=(store->gexout).len;
+	buf.z=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->gexout).x, (store->gexout).data, (store->gexout).len);
 	buffer_dump_path(sim,out_dir,"dynamic_gex.dat",&buf);
@@ -399,6 +435,9 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	strcpy(buf.y_units,"\%");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
+	buf.x=1;
+	buf.y=(store->dynamic_qe).len;
+	buf.z=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->dynamic_qe).x, (store->dynamic_qe).data, (store->dynamic_qe).len);
 	buffer_dump_path(sim,out_dir,"dynamic_qe.dat",&buf);
@@ -421,6 +460,9 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	strcpy(buf.y_units,"m^{-3}s^{-1}");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
+	buf.x=1;
+	buf.y=(store->pfree_to_ntrap).len;
+	buf.z=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->pfree_to_ntrap).x, (store->pfree_to_ntrap).data,(store->pfree_to_ntrap).len);
 	buffer_dump_path(sim,out_dir,"dynamic_pf_to_nt.dat",&buf);
@@ -438,6 +480,9 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	strcpy(buf.y_units,"m^{-3}s^{-1}");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
+	buf.x=1;
+	buf.y=(store->nfree_to_ptrap).len;
+	buf.z=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->nfree_to_ptrap).x, (store->nfree_to_ptrap).data,(store->nfree_to_ptrap).len);
 	buffer_dump_path(sim,out_dir,"dynamic_nf_to_pt.dat",&buf);
@@ -456,6 +501,9 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	strcpy(buf.y_units,"m^{-3}s^{-1}");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
+	buf.x=1;
+	buf.y=(store->Rnout).len;
+	buf.z=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->Rnout).x, (store->Rnout).data, (store->Rnout).len);
 	buffer_dump_path(sim,out_dir,"dynamic_Rn.dat",&buf);
@@ -473,6 +521,9 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	strcpy(buf.y_units,"m^{-3}s^{-1}");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
+	buf.x=1;
+	buf.y=(store->Rpout).len;
+	buf.z=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->Rpout).x, (store->Rpout).data, (store->Rpout).len);
 	buffer_dump_path(sim,out_dir,"dynamic_Rp.dat",&buf);
@@ -505,6 +556,9 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	strcpy(buf.y_units,"m^{-3}s^{-1}");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
+	buf.x=1;
+	buf.y=(store->nrelax_out).len;
+	buf.z=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->nrelax_out).x, (store->nrelax_out).data, (store->nrelax_out).len);
 	buffer_dump_path(sim,out_dir,"dynamic_nrelax.dat",&buf);
@@ -521,6 +575,9 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	strcpy(buf.y_units,"m^{-3}s^{-1}");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
+	buf.x=1;
+	buf.y=(store->prelax_out).len;
+	buf.z=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->prelax_out).x, (store->prelax_out).data, (store->prelax_out).len);
 	buffer_dump_path(sim,out_dir,"dynamic_prelax.dat",&buf);
@@ -537,6 +594,9 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	strcpy(buf.y_units,"$m^{-3}$");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
+	buf.x=1;
+	buf.y=(store->ntrap).len;
+	buf.z=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->ntrap).x, (store->ntrap).data, (store->ntrap).len);
 	buffer_dump_path(sim,out_dir,"dynamic_nt.dat",&buf);
@@ -553,6 +613,9 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	strcpy(buf.y_units,"m^{-3}");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
+	buf.x=1;
+	buf.y=(store->ptrap).len;
+	buf.z=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->ptrap).x, (store->ptrap).data, (store->ptrap).len);
 	buffer_dump_path(sim,out_dir,"dynamic_pt.dat",&buf);
@@ -569,6 +632,9 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	strcpy(buf.y_units,"m^{-3}");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
+	buf.x=1;
+	buf.y=(store->nfree).len;
+	buf.z=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->nfree).x, (store->nfree).data, (store->nfree).len);
 	buffer_dump_path(sim,out_dir,"dynamic_nf.dat",&buf);
@@ -585,6 +651,9 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	strcpy(buf.y_units,"m^{-3}");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
+	buf.x=1;
+	buf.y=(store->pfree).len;
+	buf.z=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->pfree).x, (store->pfree).data, (store->pfree).len);
 	buffer_dump_path(sim,out_dir,"dynamic_pf.dat",&buf);
@@ -622,6 +691,9 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	strcpy(buf.y_units,"m^{2}V^{-1}s^{-1}");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
+	buf.x=1;
+	buf.y=(store->tpc_mue).len;
+	buf.z=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->tpc_mue).x, (store->tpc_mue).data,(store->tpc_mue).len);
 	buffer_dump_path(sim,out_dir,"dynamic_mue.dat",&buf);
@@ -638,6 +710,9 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	strcpy(buf.y_units,"m^{2}V^{-1}s^{-1}");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
+	buf.x=1;
+	buf.y=(store->tpc_muh).len;
+	buf.z=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->tpc_muh).x, (store->tpc_muh).data,(store->tpc_muh).len);
 	buffer_dump_path(sim,out_dir,"dynamic_muh.dat",&buf);
@@ -658,6 +733,9 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	strcpy(buf.y_units,"m^{-3}");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
+	buf.x=1;
+	buf.y=(store->only_n).len;
+	buf.z=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->only_n).x, (store->only_n).data, (store->only_n).len);
 	buffer_dump_path(sim,out_dir,"dynamic_n.dat",&buf);
@@ -675,6 +753,9 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	strcpy(buf.y_units,"m^{-3}");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
+	buf.x=1;
+	buf.y=(store->only_p).len;
+	buf.z=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->only_p).x, (store->only_p).data, (store->only_p).len);
 	buffer_dump_path(sim,out_dir,"dynamic_p.dat",&buf);
@@ -706,6 +787,9 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	strcpy(buf.y_units,"V");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
+	buf.x=1;
+	buf.y=(store->dynamic_Vapplied).len;
+	buf.z=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->dynamic_Vapplied).x, (store->dynamic_Vapplied).data, (store->dynamic_Vapplied).len);
 	buffer_dump_path(sim,out_dir,"dynamic_Vapplied.dat",&buf);
@@ -728,6 +812,9 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	strcpy(buf.y_units,"au");
 	buf.logscale_x=1;
 	buf.logscale_y=1;
+	buf.x=1;
+	buf.y=(store->dynamic_pl).len;
+	buf.z=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->dynamic_pl).x, (store->dynamic_pl).data, (store->dynamic_pl).len);
 	buffer_dump_path(sim,out_dir,"dynamic_pl.dat",&buf);
@@ -746,6 +833,9 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	strcpy(buf.y_units,"au");
 	buf.logscale_x=1;
 	buf.logscale_y=1;
+	buf.x=1;
+	buf.y=(store->dynamic_pl).len;
+	buf.z=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->dynamic_pl).x, (store->dynamic_pl).data, (store->dynamic_pl).len);
 	buffer_dump_path(sim,out_dir,"dynamic_pl_norm.dat",&buf);
@@ -762,6 +852,9 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	strcpy(buf.y_units,"m^{-3} s^{-1}");
 	buf.logscale_x=1;
 	buf.logscale_y=1;
+	buf.x=1;
+	buf.y=(store->srh_n_r1).len;
+	buf.z=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->srh_n_r1).x, (store->srh_n_r1).data, (store->srh_n_r1).len);
 	buffer_dump_path(sim,out_dir,"dynamic_srh_n_r1.dat",&buf);
@@ -778,6 +871,9 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	strcpy(buf.y_units,"m^{-3}s^{-1}");
 	buf.logscale_x=1;
 	buf.logscale_y=1;
+	buf.x=1;
+	buf.y=(store->srh_n_r2).len;
+	buf.z=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->srh_n_r2).x, (store->srh_n_r2).data, (store->srh_n_r2).len);
 	buffer_dump_path(sim,out_dir,"dynamic_srh_n_r2.dat",&buf);
@@ -794,6 +890,9 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	strcpy(buf.y_units,"m^{-3}s^{-1}");
 	buf.logscale_x=1;
 	buf.logscale_y=1;
+	buf.x=1;
+	buf.y=(store->srh_n_r3).len;
+	buf.z=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->srh_n_r3).x, (store->srh_n_r3).data, (store->srh_n_r3).len);
 	buffer_dump_path(sim,out_dir,"dynamic_srh_n_r3.dat",&buf);
@@ -810,6 +909,9 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	strcpy(buf.y_units,"m^{-3}s^{-1}");
 	buf.logscale_x=1;
 	buf.logscale_y=1;
+	buf.x=1;
+	buf.y=(store->srh_n_r4).len;
+	buf.z=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->srh_n_r4).x, (store->srh_n_r4).data, (store->srh_n_r4).len);
 	buffer_dump_path(sim,out_dir,"dynamic_srh_n_r4.dat",&buf);
@@ -826,6 +928,9 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	strcpy(buf.y_units,"m^{-3}s^{-1}");
 	buf.logscale_x=1;
 	buf.logscale_y=1;
+	buf.x=1;
+	buf.y=(store->srh_p_r1).len;
+	buf.z=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->srh_p_r1).x, (store->srh_p_r1).data, (store->srh_p_r1).len);
 	buffer_dump_path(sim,out_dir,"dynamic_srh_p_r1.dat",&buf);
@@ -842,6 +947,9 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	strcpy(buf.y_units,"m^{-3}s^{-1}");
 	buf.logscale_x=1;
 	buf.logscale_y=1;
+	buf.x=1;
+	buf.y=(store->srh_p_r2).len;
+	buf.z=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->srh_p_r2).x, (store->srh_p_r2).data, (store->srh_p_r2).len);
 	buffer_dump_path(sim,out_dir,"dynamic_srh_p_r2.dat",&buf);
@@ -858,6 +966,9 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	strcpy(buf.y_units,"m^{-3}s^{-1}");
 	buf.logscale_x=1;
 	buf.logscale_y=1;
+	buf.x=1;
+	buf.y=(store->srh_p_r3).len;
+	buf.z=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->srh_p_r3).x, (store->srh_p_r3).data, (store->srh_p_r3).len);
 	buffer_dump_path(sim,out_dir,"dynamic_srh_p_r3.dat",&buf);
@@ -874,6 +985,9 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	strcpy(buf.y_units,"m^{-3}s^{-1}");
 	buf.logscale_x=1;
 	buf.logscale_y=1;
+	buf.x=1;
+	buf.y=(store->srh_p_r4).len;
+	buf.z=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->srh_p_r4).x, (store->srh_p_r4).data, (store->srh_p_r4).len);
 	buffer_dump_path(sim,out_dir,"dynamic_srh_p_r4.dat",&buf);
@@ -890,6 +1004,9 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	strcpy(buf.y_units,_("percent"));
 	buf.logscale_x=1;
 	buf.logscale_y=1;
+	buf.x=1;
+	buf.y=(store->band_bend).len;
+	buf.z=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,(store->band_bend).x, (store->band_bend).data, (store->band_bend).len);
 	buffer_dump_path(sim,out_dir,"dynamic_band_bend.dat",&buf);

@@ -774,7 +774,7 @@ if open_gl_ok==True:
 						
 						elif epitaxy_get_electrical_layer(l-i).lower()=="contact" and i==l:
 							if xpoints==1 and zpoints==1:
-								box(0.0,pos,0,width,thick,depth,red,green,blue)
+								box(0.0,pos,0,width,thick,depth,red,green,blue,alpha)
 							else:
 								for c in contacts_get_array():
 									xstart=width*(c.start/x_len)

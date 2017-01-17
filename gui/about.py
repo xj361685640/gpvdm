@@ -29,22 +29,49 @@ from cal_path import get_ui_path
 import sys
 
 from PyQt5.uic import loadUi
-from PyQt5.QtWidgets import QDialog
+from PyQt5.QtWidgets import QDialog,QListWidgetItem,QListView
 from PyQt5.QtGui import QPixmap
-
+from PyQt5.QtCore import QSize
 from PyQt5.QtGui import QIcon
+
+from cal_path import get_materials_dirs
+from ref import get_ref_text
 
 class about_dlg():
 	def __init__(self):
 		#QDialog.__init__(self)
-		self.ui = loadUi(os.path.join(get_ui_path(),"about.ui"))
-		self.ui.ver.setText(_("Version ")+ver())
-		self.ui.li.setText("Written by Roderick MacKenzie 2012-2017, published under GPL v2.0")
-		self.ui.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"image.jpg")))
-		self.ui.setWindowTitle(_("About (https://www.gpvdm.com)"))
-		self.ui.show()
+		self.window = loadUi(os.path.join(get_ui_path(),"about.ui"))
+		self.window.ver.setText(_("Version ")+ver())
+		self.window.li.setText("Written by Roderick MacKenzie 2012-2017, published under GPL v2.0")
+		self.window.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"image.jpg")))
+		self.window.setWindowTitle(_("About")+" (https://www.gpvdm.com)")
+
+		self.window.materials.setIconSize(QSize(32,32))
+		self.window.materials.setViewMode(QListView.ListMode)
+		self.window.materials.setSpacing(8)
+		self.window.materials.setWordWrap(True)
+		gridsize=self.window.materials.size()
+		#gridsize.setWidth(80)
+		#gridsize.setHeight(80)
+
+		self.window.materials.setGridSize(gridsize)
+		self.mat_icon = QIcon(QPixmap(os.path.join(get_image_file_path(),"organic_material.png")))
+		self.fill_store()
+
+		self.window.show()
 		pixmap = QPixmap(os.path.join(get_image_file_path(),"image.jpg"))
-		self.ui.image.setPixmap(pixmap)
+		self.window.image.setPixmap(pixmap)
 
+		
+	def fill_store(self):
+		self.window.materials.clear()
 
+		all_files=get_materials_dirs()
+		for fl in all_files:
+			text=get_ref_text(os.path.join(fl,"n.inp"),html=False)
+			if text!=None:
+				itm = QListWidgetItem(os.path.basename(fl)+" "+text)
+				itm.setIcon(self.mat_icon)
+				itm.setToolTip(text)
+				self.window.materials.addItem(itm)
 

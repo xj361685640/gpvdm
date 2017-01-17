@@ -48,11 +48,40 @@ from inp import inp_write_lines_to_file
 from inp import inp_add_token
 from inp import inp_load_file
 from inp import inp_save_lines
-
+from inp import inp_get_token_value_from_list
 from tab import tab_class
 
 import webbrowser
 
+def get_ref_text(file_name,html=True):
+	file_name=os.path.splitext(file_name)[0]+".ref"
+
+	if os.path.isfile(file_name)==False:
+		return None
+
+	lines=[]
+	if inp_load_file(lines,file_name):
+		text=""
+		group=inp_get_token_value_from_list(lines, "#ref_research_group")
+		author=inp_get_token_value_from_list(lines, "#ref_autors")
+		journal=inp_get_token_value_from_list(lines, "#ref_jounral")
+		volume=inp_get_token_value_from_list(lines, "#ref_volume")
+		pages=inp_get_token_value_from_list(lines, "#ref_pages")
+		year=inp_get_token_value_from_list(lines, "#ref_year")
+		doi=inp_get_token_value_from_list(lines, "#ref_doi")
+		if html==True:
+			if group!="":
+				text="<b>Data provided by:</b>"+group+"<br>"
+			text=text+"<b>Associated paper:</b>"+author+", "+journal+", "+volume+", "+pages+", "+year+"<br>"
+			text=text+"<b>doi link:</b> <a href=\"http://doi.org/"+doi+"\"> http://doi.org/"+doi+"</a>"
+		else:
+			if group!="":
+				text="Data provided by: "+group+" "
+			#text=text+"Associated paper:"+author+", "+journal+", "+volume+", "+pages+", "+year
+
+		return text
+	return None
+	
 class ref(QWidget):
 	def __init__(self,file_name):
 		QWidget.__init__(self)
@@ -125,6 +154,8 @@ class ref(QWidget):
 			lines.append("#ref_year")
 			lines.append("")
 			lines.append("#ref_md5")
+			lines.append("")
+			lines.append("#ref_doi")
 			lines.append("")
 			lines.append("#ver")
 			lines.append("1.0")

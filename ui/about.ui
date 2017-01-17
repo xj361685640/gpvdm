@@ -25,6 +25,9 @@
    <property name="currentIndex">
     <number>0</number>
    </property>
+   <property name="tabBarAutoHide">
+    <bool>false</bool>
+   </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
      <string>About</string>
@@ -135,6 +138,21 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;Would you like your name in the credits of gpvdm?&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:12pt;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;If so then please consider joining the gpvdm translation &lt;/span&gt;&lt;a href=&quot;https://gpvdm.com/translation.html&quot;&gt;&lt;span style=&quot; font-size:12pt; text-decoration: underline; color:#0000ff;&quot;&gt;effort&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;.  This is somthing you can put on your CV and it's a way to make sure that speakers of your language have access to high quality scientific tools for simulating solar cells.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="tab_4">
+    <attribute name="title">
+     <string>Materials</string>
+    </attribute>
+    <widget class="QListWidget" name="materials">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>391</width>
+       <height>361</height>
+      </rect>
      </property>
     </widget>
    </widget>

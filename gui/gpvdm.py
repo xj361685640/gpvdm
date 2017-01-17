@@ -380,6 +380,7 @@ class gpvdm_main_window(QMainWindow):
 			self.menu_scan.setEnabled(True)
 			self.menu_configure.setEnabled(True)
 			self.sim_mode_button.setEnabled(True)
+			self.dump_io.setEnabled(True)
 			if enable_betafeatures()==True:
 				self.tb_run_fit.setEnabled(True)
 				self.qe_button.setEnabled(True)
@@ -409,6 +410,7 @@ class gpvdm_main_window(QMainWindow):
 			self.menu_stop.setEnabled(False)
 			self.menu_scan.setEnabled(False)
 			self.menu_configure.setEnabled(False)
+			self.dump_io.setEnabled(False)
 			if enable_betafeatures()==True:
 				self.tb_run_fit.setEnabled(False)
 				self.qe_button.setEnabled(False)
@@ -493,7 +495,7 @@ class gpvdm_main_window(QMainWindow):
 
 	def callback_about_dialog(self):
 		dlg=about_dlg()
-		dlg.ui.exec_()
+		dlg.window.exec_()
 
 	def callback_help(self, widget, data=None):
 		help_window().toggle_visible()
@@ -506,6 +508,9 @@ class gpvdm_main_window(QMainWindow):
 
 	def callback_license(self):
 		webbrowser.open("https://www.gpvdm.com/license.html")
+
+	def callback_youtube(self):
+		webbrowser.open("https://www.youtube.com/channel/UCbm_0AKX1SpbMMT7jilxFfA")
 		
 	def callback_new_window(self, widget, data=None):
 		if self.window2.isVisible()==True:
@@ -765,11 +770,16 @@ class gpvdm_main_window(QMainWindow):
 		help_web=help_menu.addAction("&"+_("Help window"))
 		help_web.triggered.connect(self.callback_help)
 
-		help_web=help_menu.addAction("&"+_("Online help"))
+		help_web=help_menu.addAction("&"+_("Manual"))
 		help_web.triggered.connect(self.callback_on_line_help)
 
 		help_web=help_menu.addAction("&"+_("License"))
 		help_web.triggered.connect(self.callback_license)
+
+		help_web=help_menu.addAction("&"+_("Youtube channel"))
+		help_web.triggered.connect(self.callback_youtube)
+
+		help_menu.addSeparator()	
 
 		about=help_menu.addAction("&"+_("About"))
 		about.triggered.connect(self.callback_about_dialog)
@@ -777,9 +787,9 @@ class gpvdm_main_window(QMainWindow):
 
 
 
-		if enable_webupdates()==False:
-			self.help_menu_update=help_menu.addAction("&"+_("Check for updates"))
-			self.help_menu_update.triggered.connect(self.callback_update)
+		#if enable_webupdates()==False:
+		#	self.help_menu_update=help_menu.addAction("&"+_("Check for updates"))
+		#	self.help_menu_update.triggered.connect(self.callback_update)
 
 
 		new_sim = QAction(QIcon(os.path.join(get_image_file_path(),"new.png")), _("Make a new simulation"), self)

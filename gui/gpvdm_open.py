@@ -1,6 +1,6 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012-2917 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012-2917 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
 #	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -41,6 +41,8 @@ from cal_path import get_ui_path
 from help import help_window
 
 from gui_util import error_dlg
+
+from ref import get_ref_text
 
 COL_PATH = 0
 COL_PIXBUF = 1
@@ -201,8 +203,9 @@ class gpvdm_open():
 	def on_selection_changed(self,item):
 		if type(item)!=None:
 			file_name=item.text()
-			print(file_name)
+
 			full_path=os.path.join(self.dir, file_name)
+
 			if (file_name.endswith(".dat")==True):
 				state=plot_state()
 				get_plot_file_info(state,full_path)
@@ -214,6 +217,16 @@ class gpvdm_open():
 				get_plot_file_info(state,full_path)
 				summary="<big><b>"+_("equilibrium")+"</b></big><br><br>"+_("This contains the simulation output at 0V in the dark.")
 				help_window().help_set_help(["dir_file.png",summary])
+
+			if os.path.isdir(full_path)==True:
+				if os.path.isfile(os.path.join(full_path,"mat.inp")):
+					summary="<b><big>"+file_name+"</b></big><br>"
+					ref_path=os.path.join(full_path,"n.ref")
+					ref=get_ref_text(ref_path)
+					if ref!=None:
+						summary=summary+ref
+					help_window().help_set_help(["32_organic_material.png",summary])
+					#get_ref_text(file_name,html=True)
 
 
 	def change_path(self):

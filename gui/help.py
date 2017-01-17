@@ -170,12 +170,16 @@ class help_class(QWidget):
 			self.box[i].hide()
 
 		for i in range(0,items):
+			all_text=self.last[self.pos][i*2+1]
+			nbr=all_text.count("<br>")
+			end_text=len(all_text.split("<br>")[-1])
 			pixmap = QPixmap(os.path.join(get_image_file_path(),self.last[self.pos][i*2]))
 			self.image[i].setPixmap(pixmap)
-			text=self.last[self.pos][i*2+1]+"<br>"
+			text=all_text+"<br>"
 			self.label[i].setText(text)
-			height=(len(text)/80)*30
+			height=((end_text/80)+nbr)*20
 			self.label[i].setFixedSize(380,height)
+			self.label[i].setOpenExternalLinks(True)
 			self.box[i].show()
 			#self.image[i].show()
 

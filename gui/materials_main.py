@@ -1,6 +1,6 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012-2017 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012-2017 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
 #	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -37,6 +37,8 @@ from help import help_window
 from equation import equation
 from win_lin import desktop_open
 
+from ref import get_ref_text
+
 articles = []
 mesh_articles = []
 
@@ -48,7 +50,18 @@ class materials_main(QWidget):
 
 		if self.notebook.tabText(self.notebook.currentIndex()).strip()==_("Luminescence"):
 			help_window().help_set_help(["tab.png",_("<big><b>Luminescence</b></big><br>Use this tab to edit the materials Luminescence.")])
-			
+
+		if self.notebook.tabText(self.notebook.currentIndex()).strip()==_("Absorption"):
+			text=get_ref_text(os.path.join(self.path,"alpha.ref"))
+			if text==None:
+				text=""
+			help_window().help_set_help(["alpha.png",_("<big><b>Absorption</b></big><br>"+text)])
+
+		if self.notebook.tabText(self.notebook.currentIndex()).strip()==_("Refractive index"):
+			text=get_ref_text(os.path.join(self.path,"n.ref"))
+			if text==None:
+				text=""
+			help_window().help_set_help(["n.png",_("<big><b>Refractive index</b></big><br>"+text)])
 
 	def callback_cost(self):
 		desktop_open(os.path.join(self.path,"cost.xlsx"))

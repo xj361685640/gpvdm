@@ -1,6 +1,6 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
 #	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -198,3 +198,17 @@ def get_lang_path():
 def get_ui_path():
 	global ui_path
 	return ui_path
+
+def get_materials_dirs():
+	l=[]
+	mat_dir=get_materials_path()
+	all_files=os.listdir(mat_dir)
+	all_files.sort()
+	for fl in all_files:
+		dir_path=os.path.join(mat_dir, fl) 
+		file_name=os.path.join(dir_path ,"mat.inp")
+		if os.path.isfile(file_name)==True:
+			l.append(dir_path)
+	return l
+
+	

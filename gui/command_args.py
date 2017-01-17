@@ -1,6 +1,6 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012-2016 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012-2016 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
 #	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -71,8 +71,8 @@ parser.add_argument("--clone", help=_("Generate a clean simulation in the curren
 parser.add_argument("--clonesrc", help=_("Clone the source code."), action='store_true')
 parser.add_argument("--editvalue", help=_("edits a value in a .gpvdm archive. Usage --edit-value /path/to/sim.gpvdm #token_to_change new_value "), nargs=3)
 parser.add_argument("--scanplot", help=_("Runs an oplot file, usage --scanplot /path/to/oplot/file.oplot "), nargs=1)
-parser.add_argument("--run-scan", help=_("Runs a scan, usage --run-scan /path/containing/base/files/ /path/to/scan/dir/ "), nargs=2)
-
+parser.add_argument("--runscan", help=_("Runs a scan, usage --runscan /path/containing/base/files/ /path/to/scan/dir/ "), nargs=2)
+parser.add_argument("--load", help=_("Runs a scan, usage --load /path/containing/simulation/sim.gpvdm"), nargs=1)
 args = parser.parse_args()
 
 
@@ -125,6 +125,8 @@ def command_args(argc,argv):
 		elif args.editvalue:
 			inp_update(args.editvalue[0], args.editvalue[1], args.editvalue[2])
 			sys.exit(0)
+		elif args.load:
+			print("Loading file",args.load[0])
 		elif args.scanplot:
 			plot_token=plot_state()
 			oplot_file=args.scan-plot[0]
@@ -135,10 +137,10 @@ def command_args(argc,argv):
 			else:
 				print("Problem loading oplot file")
 			sys.exit(0)
-		if args.run-scan:
-			scan_dir_path=args.run-scan[1]	#program file
+		if args.runscan:
+			scan_dir_path=args.runscan[1]	#program file
 			program_list=[]
-			base_dir=args.run-scan[0]				#base dir
+			base_dir=args.runscan[0]				#base dir
 			exe_command   =  get_exe_command()
 			tree_load_program(program_list,scan_dir_path)
 

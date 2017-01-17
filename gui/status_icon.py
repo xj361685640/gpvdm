@@ -51,8 +51,12 @@ class tray_icon(QSystemTrayIcon):
 		self.menu_man = menu.addAction("Manual")
 		self.menu_man.triggered.connect(self.callback_man)
 
+		self.menu_youtube = menu.addAction("&"+_("Youtube channel"))
+		self.menu_youtube.triggered.connect(self.callback_youtube)
+
 		self.exitAction = menu.addSeparator()		
 		self.exitAction = menu.addAction("Quit")
+		
 		self.exitAction.triggered.connect(self.callback_exit)
 		self.setContextMenu(menu)
 
@@ -65,6 +69,9 @@ class tray_icon(QSystemTrayIcon):
 
 	def callback_man(self):
 		webbrowser.open("https://www.gpvdm.com/man.html")
+	def	callback_youtube(self):
+		webbrowser.open("https://www.youtube.com/channel/UCbm_0AKX1SpbMMT7jilxFfA")
+
 
 def status_icon_init():
 	global statusicon

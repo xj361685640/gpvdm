@@ -154,11 +154,13 @@ def inp_load_file(lines,file_path):
 	return read_lines_from_archive(lines,zip_file_path,file_name)
 
 def inp_write_lines_to_file(file_path,lines):
+	"""Write lines to a file"""
 	archive_path=os.path.join(os.path.dirname(file_path),"sim.gpvdm")
 	file_name=os.path.basename(file_path)
 	return write_lines_to_archive(archive_path,file_name,lines)
 
 def inp_save_lines(file_path,lines):
+	"""Save the lines"""
 	dump=""
 	for item in lines:
 		#print(type(dump),type(item),item)
@@ -176,6 +178,7 @@ def inp_save_lines(file_path,lines):
 	return True
 
 def inp_new_file():
+	"""Make a new input file"""
 	ret=[]
 	ret.append("#ver")
 	ret.append("1.0")
@@ -184,7 +187,7 @@ def inp_new_file():
 
 
 def inp_get_next_token_array(lines,pos):
-
+	"""Get the next token"""
 	ret=[]
 	ret.append(lines[pos])
 	pos=pos+1
@@ -195,7 +198,7 @@ def inp_get_next_token_array(lines,pos):
 	return ret,pos
 
 def inp_get_token_array(file_path, token):
-
+	"""Get an array of data assosiated with a token"""
 	lines=[]
 	ret=[]
 	inp_load_file(lines,file_path)
@@ -213,7 +216,7 @@ def inp_get_token_array(file_path, token):
 	return False
 
 def inp_check_ver(file_path, ver):
-
+	"""Check ver of file"""
 	lines=[]
 	if inp_load_file(lines,file_path)==False:
 		return False
@@ -228,8 +231,16 @@ def inp_check_ver(file_path, ver):
 
 	return False
 
-def inp_get_token_value(file_path, token):
+def inp_get_token_value_from_list(lines, token):
+	"""Get the value of a token from a list"""
+	for i in range(0, len(lines)):
+		if lines[i]==token:
+			return lines[i+1]
 
+	return None
+
+def inp_get_token_value(file_path, token):
+	"""Get the value of a token from a file"""
 	lines=[]
 	inp_load_file(lines,file_path)
 
