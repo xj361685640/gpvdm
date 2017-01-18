@@ -40,7 +40,7 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 
-from gui_util import save_as_jpg
+from open_save_dlg import save_as_jpg
 
 class fit_window_plot(QWidget):
 	lines=[]

@@ -37,6 +37,7 @@ from cal_path import get_image_file_path
 from gtkswitch import gtkswitch
 from leftright import leftright
 from help import help_window
+from gpvdm_select import gpvdm_select
 
 from PyQt5.QtCore import pyqtSignal
 
@@ -70,6 +71,8 @@ class tab_class(QWidget,tab_base):
 			inp_update_token_value(file_name, token, widget.get_value(),1)
 		elif type(widget)==leftright:
 			inp_update_token_value(file_name, token, widget.get_value(),1)
+		elif type(widget)==gpvdm_select:
+			inp_update_token_value(file_name, token, widget.text(),1)
 		elif type(widget)==QComboBox:
 			inp_update_token_value(file_name, token, widget.itemText(widget.currentIndex()),1)
 		
@@ -82,6 +85,8 @@ class tab_class(QWidget,tab_base):
 
 	def set_edit(self,editable):
 		self.editable=editable
+	def callback_gpvdm_select(self):
+		print("... clicked")
 		
 	def init(self,filename,tab_name):
 		self.scroll=QScrollArea()
@@ -142,6 +147,10 @@ class tab_class(QWidget,tab_base):
 						edit_box=leftright()
 						edit_box.set_value(str2bool(value))
 						edit_box.changed.connect(functools.partial(self.callback_edit,filename,token,edit_box))
+					elif result.opt[0]=="gpvdm_select":
+						edit_box=gpvdm_select(file_box=True)
+						edit_box.setText(value)
+						edit_box.edit.textChanged.connect(functools.partial(self.callback_edit,filename,token,edit_box))
 					elif result.opt[0]=="text":
 						edit_box=QLineEdit()
 						if self.editable==False:

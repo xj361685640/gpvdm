@@ -22,7 +22,7 @@ from clone import gpvdm_clone
 import os
 from import_archive import import_archive
 from window_list import windows
-from gui_util import save_as_gpvdm
+from open_save_dlg import save_as_gpvdm
 
 import i18n
 _ = i18n.language.gettext

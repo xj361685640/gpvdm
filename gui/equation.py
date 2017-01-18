@@ -53,7 +53,7 @@ from gui_util import tab_add
 from gui_util import tab_move_down
 from gui_util import tab_remove
 from gui_util import tab_get_value
-from gui_util import save_as_jpg
+from open_save_dlg import save_as_jpg
 
 from dat_file import dat_file
 from dat_file import dat_file_read

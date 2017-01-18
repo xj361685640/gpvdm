@@ -50,7 +50,7 @@ matplotlib.use('Qt5Agg')
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 
-from gui_util import save_as_gpvdm
+from open_save_dlg import save_as_gpvdm
 
 class doping_window(QWidget):
 	lines=[]

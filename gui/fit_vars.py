@@ -61,7 +61,7 @@ from inp import inp_load_file
 from inp import inp_save_lines
 from gpvdm_select import gpvdm_select
 
-from gui_util import open_as_filter
+from open_save_dlg import open_as_filter
 from gui_util import error_dlg
 
 class fit_vars(QWidget):

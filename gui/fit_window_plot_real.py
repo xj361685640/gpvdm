@@ -38,7 +38,7 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 
-from gui_util import open_as_filter
+from open_save_dlg import open_as_filter
 
 from import_data import import_data
 mesh_articles = []

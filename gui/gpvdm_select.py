@@ -37,6 +37,7 @@ from PyQt5.QtGui import QPixmap
 #cal_path
 from cal_path import get_image_file_path
 from cal_path import get_ui_path
+from open_save_dlg import open_as_filter
 
 from help import help_window
 
@@ -46,7 +47,7 @@ _ = i18n.language.gettext
 
 class gpvdm_select(QWidget):
 
-	def __init__(self):
+	def __init__(self,file_box=False):
 		QWidget.__init__(self)
 		self.hbox=QHBoxLayout()
 		self.edit=QLineEdit()
@@ -58,11 +59,17 @@ class gpvdm_select(QWidget):
 
 		self.hbox.setContentsMargins(0, 0, 0, 0)
 		self.edit.setStyleSheet("QLineEdit { border: none }");
-		#self.hbox.setMargin(0)
 
+		if file_box==True:
+			self.button.clicked.connect(self.callback_button_click)
 
 		self.setLayout(self.hbox)
-	
+
+	def callback_button_click(self):
+		file_name=open_as_filter(self,"dat (*.dat);;csv (*.csv);;txt (*.txt)")
+		if file_name!=None:
+			self.setText(file_name)
+
 	def setText(self,text):
 		self.edit.setText(text)
 	

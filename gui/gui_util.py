@@ -1,6 +1,6 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012-2016 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012-2016 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
 #	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -46,72 +46,6 @@ class dlg_get_text():
 			self.ret=self.ui.text.text()
 		else:
 			self.ret=None
-
-def save_as_gpvdm(parent):
-	dialog = QFileDialog(parent)
-	dialog.setWindowTitle(_("Save a the simulation as"))
-	dialog.setNameFilter(_("Directory"))
-	dialog.setAcceptMode(QFileDialog.AcceptSave)
-	dialog.setOption(QFileDialog.ShowDirsOnly, True) 
-	if dialog.exec_() == QDialog.Accepted:
-		filename = dialog.selectedFiles()[0]
-		return filename
-	else:
-		return None
-
-def save_as_filter(parent,my_filter):
-	selected_filter = ""
-	dialog = QFileDialog(parent)
-	dialog.setWindowTitle(_("Save as"))
-	dialog.setNameFilter(my_filter)
-	dialog.setAcceptMode(QFileDialog.AcceptSave)
-	if dialog.exec_() == QDialog.Accepted:
-		filename = dialog.selectedFiles()[0]
-		s=dialog.selectedNameFilter()
-		if s.count("(*")==1:
-			s=s.split("(*")[1]
-			s=s[:-1]
-
-			if filename.endswith(s)==False:
-				filename=filename+s
-			else:
-				filename=filename
-
-		return filename
-	else:
-		return None
-
-def open_as_filter(parent,my_filter):
-	selected_filter = ""
-	dialog = QFileDialog(parent)
-	dialog.setWindowTitle(_("Open file"))
-	dialog.setNameFilter(my_filter)
-	dialog.setAcceptMode(QFileDialog.AcceptOpen)
-	if dialog.exec_() == QDialog.Accepted:
-		filename = dialog.selectedFiles()[0]
-		s=dialog.selectedNameFilter()
-		if s.count("(*")==1:
-			s=s.split("(*")[1]
-			s=s[:-1]
-
-			if filename.endswith(s)==False:
-				filename=filename+s
-			else:
-				filename=filename
-
-		return filename
-	else:
-		return None
-	
-def save_as_jpg(parent):
-	return save_as_filter(parent,"jpg (*.jpg)")
-
-
-def save_as_image(parent):
-	return save_as_filter(parent,"png (*.png);;jpg (*.jpg);;gnuplot (*.)")
-
-def save_as_image_inc_gnuplot(parent):
-	return save_as_filter(parent,"png (*.png);;jpg (*.jpg);;gnuplot (*.)")
 
 
 def process_events():

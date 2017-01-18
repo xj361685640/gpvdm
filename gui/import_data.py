@@ -39,7 +39,7 @@ from tab_lang import language_tab_class
 
 from PyQt5.QtCore import pyqtSignal
 
-from gui_util import open_as_filter
+from open_save_dlg import open_as_filter
 
 from dat_file import dat_file_read
 from dat_file import dat_file

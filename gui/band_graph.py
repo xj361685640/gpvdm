@@ -57,7 +57,7 @@ from inp_util import inp_search_token_value
 #calpath
 from cal_path import get_image_file_path
 
-from gui_util import save_as_filter
+from open_save_dlg import save_as_filter
 
 class band_graph(QWidget):
 	def init(self):

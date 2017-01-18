@@ -40,7 +40,7 @@ from PyQt5.QtGui import QPainter,QIcon,QCursor
 from fit_window_plot import fit_window_plot
 from fit_window_plot_real import fit_window_plot_real
 
-from gui_util import save_as_filter
+from open_save_dlg import save_as_filter
 from util import str2bool
 
 mesh_articles = []

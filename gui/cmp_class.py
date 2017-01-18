@@ -40,7 +40,7 @@ from PyQt5.QtGui import QPainter,QIcon
 
 from snapshot_slider import snapshot_slider
 
-from gui_util import save_as_filter
+from open_save_dlg import save_as_filter
 
 from PyQt5.QtWidgets import QApplication
 

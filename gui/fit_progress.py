@@ -36,7 +36,7 @@ from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTa
 from PyQt5.QtGui import QPainter,QIcon,QCursor
 
 #windows
-from gui_util import save_as_filter
+from open_save_dlg import save_as_filter
 from plot_widget import plot_widget
 
 mesh_articles = []

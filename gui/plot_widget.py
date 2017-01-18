@@ -49,7 +49,7 @@ from PyQt5.QtGui import QPainter,QIcon,QImage
 
 #calpath
 from cal_path import get_image_file_path
-from gui_util import save_as_image
+from open_save_dlg import save_as_image
 
 from dat_file import dat_file_read
 from dat_file import dat_file_max_min

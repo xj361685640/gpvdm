@@ -7,7 +7,7 @@
 #
 #    This program is free software; you can redistribute it and/or modify
 #    it under the terms of the GNU General Public License v2.0, as published by
-#    the Free Software Foundation.
+#    the Free Software Foundation.df
 #
 #    This program is distributed in the hope that it will be useful,
 #    but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -29,7 +29,7 @@ from numpy import *
 from scan_item import scan_item_add
 from tab_base import tab_base
 
-from gui_util import save_as_image
+from open_save_dlg import save_as_image
 
 #matplotlib
 import matplotlib
