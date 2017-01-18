@@ -85,6 +85,12 @@ btm+=in->data[ii];
 return top/btm;
 }
 
+/**Find the peaks
+@param real real array
+@param imag imag array
+@param in input data
+@param fx frequency
+*/
 void inter_find_peaks(struct istruct* out,struct istruct* in,int find_max)
 {
 int i=0;
@@ -147,6 +153,13 @@ for (i=0;i<in->len;i++)
 	}
 }
 
+/**Do a DFT
+@param real real array
+@param imag imag array
+@param in input data
+@param fx frequency
+*/
+
 void inter_dft(gdouble *real,gdouble *imag,struct istruct* in,gdouble fx)
 {
 gdouble r=0.0;
@@ -165,6 +178,7 @@ for (j=0;j<in->len;j++)
 *imag=i;
 }
 
+
 int inter_sort_compare(const void *a, const void *b)
 {
 gdouble aa = *(gdouble*)a;
@@ -176,7 +190,9 @@ if (aa > bb) return  1;
 return 0;
 }
 
-
+/**Do a quick search
+@param in input structure
+*/
 int inter_sort(struct istruct* in)
 {
 if (in->len==0) return -1;
@@ -1455,6 +1471,34 @@ free(xtemp);
 free(dtemp);
 }
 
+/**This is a version of the standard fgets, but it will also accept a 0x0d as a new line.
+@param buf output buffer
+@param len max length of buffer
+@param file file handle
+*/
+char *fgets_safe(char *buf,int len,FILE *file)
+{
+	char dat;
+	int pos=0;
+	do
+	{
+		dat=(char)fgetc(file);
+
+		buf[pos]=dat;
+		pos++;
+
+		if ((pos>len)||(dat=='\n')||(dat=='\r')||(dat==0x0d))
+		{
+			break;
+		}
+		
+	}while(!feof(file));
+
+	buf[pos]=0;
+
+	return 0;
+}
+
 /**Load data from a file
 @param in the istruct holding the data
 @param name The file name.
@@ -1479,7 +1523,7 @@ inter_init(in);
 do
 {
 	temp[0]=0;
-	unused_pchar=fgets(temp, 1000, file);
+	unused_pchar=fgets_safe(temp, 1000, file);
 	//printf("read=%s\n",temp);
 	if ((temp[0]!='#')&&(temp[0]!='\n')&&(temp[0]!='\r')&&(temp[0]!=0))
 	{

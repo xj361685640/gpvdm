@@ -2,7 +2,7 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012-2016 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+//  Copyright (C) 2012-2016 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
 //	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -88,63 +88,64 @@ int i;
 
 gdouble light_cal_photon_density(struct light *in)
 {
-
-int i;
-int ii;
-gdouble tot=0.0;
-
-gdouble H_tot=0.0;
-gdouble photons_tot=0.0;
-
-for (ii=0;ii<in->points;ii++)
+if (in->disable_cal_photon_density==FALSE)
 {
-	tot=0.0;
-	H_tot=0.0;
-	photons_tot=0.0;
+	int i;
+	int ii;
+	gdouble tot=0.0;
+
+	gdouble H_tot=0.0;
+	gdouble photons_tot=0.0;
+
+	for (ii=0;ii<in->points;ii++)
+	{
+		tot=0.0;
+		H_tot=0.0;
+		photons_tot=0.0;
+		for (i=0;i<in->lpoints;i++)
+		{
+			in->E_tot_r[i][ii]=in->Ep[i][ii]+in->En[i][ii];
+			in->E_tot_i[i][ii]=in->Enz[i][ii]+in->Epz[i][ii];
+			in->pointing_vector[i][ii]=0.5*epsilon0*cl*in->n[i][ii]*(gpow(in->E_tot_r[i][ii],2.0)+gpow(in->E_tot_i[i][ii],2.0));
+
+			if (strcmp(in->mode,"bleach")!=0)
+			{
+				in->photons[i][ii]=in->pointing_vector[i][ii]*(in->l[i]/(hp*cl));
+				in->photons_asb[i][ii]=in->photons[i][ii]*in->alpha[i][ii];
+			}
+			gdouble E=((hp*cl)/in->l[i])/Q-in->Eg;
+
+			//getchar();
+			if (E>0.0)
+			{
+			in->H[i][ii]=E*Q*in->photons_asb[i][ii];
+			}else
+			{
+			in->H[i][ii]=0.0;
+			}
+
+			//printf(sim,"%d %d %Le %Le %Le\n",i,ii,E,in->H[i][ii],in->photons_asb[i][ii]);
+			photons_tot+=in->photons[i][ii]*in->dl;
+			tot+=in->photons_asb[i][ii]*in->dl;
+			H_tot+=in->H[i][ii]*in->dl;
+			//printf(sim,"%Le %Le\n",E,in->l[i]);
+			//getchar();*/
+
+		}
+
+	in->Gn[ii]=tot;
+	in->Gp[ii]=tot;
+	in->H1d[ii]=H_tot;
+	in->photons_tot[ii]=photons_tot;
+
 	for (i=0;i<in->lpoints;i++)
 	{
-		in->E_tot_r[i][ii]=in->Ep[i][ii]+in->En[i][ii];
-		in->E_tot_i[i][ii]=in->Enz[i][ii]+in->Epz[i][ii];
-		in->pointing_vector[i][ii]=0.5*epsilon0*cl*in->n[i][ii]*(gpow(in->E_tot_r[i][ii],2.0)+gpow(in->E_tot_i[i][ii],2.0));
-
-		if (strcmp(in->mode,"bleach")!=0)
-		{
-			in->photons[i][ii]=in->pointing_vector[i][ii]*(in->l[i]/(hp*cl));
-			in->photons_asb[i][ii]=in->photons[i][ii]*in->alpha[i][ii];
-		}
-		gdouble E=((hp*cl)/in->l[i])/Q-in->Eg;
-
-		//getchar();
-		if (E>0.0)
-		{
-		in->H[i][ii]=E*Q*in->photons_asb[i][ii];
-		}else
-		{
-		in->H[i][ii]=0.0;
-		}
-
-		//printf(sim,"%d %d %Le %Le %Le\n",i,ii,E,in->H[i][ii],in->photons_asb[i][ii]);
-		photons_tot+=in->photons[i][ii]*in->dl;
-		tot+=in->photons_asb[i][ii]*in->dl;
-		H_tot+=in->H[i][ii]*in->dl;
-		//printf(sim,"%Le %Le\n",E,in->l[i]);
-		//getchar();*/
+		in->reflect[i]=(gpow(in->En[i][0],2.0)+gpow(in->Enz[i][0],2.0))/(gpow(in->Ep[i][0],2.0)+gpow(in->Epz[i][0],2.0));
+	}
 
 	}
 
-in->Gn[ii]=tot;
-in->Gp[ii]=tot;
-in->H1d[ii]=H_tot;
-in->photons_tot[ii]=photons_tot;
-
-for (i=0;i<in->lpoints;i++)
-{
-	in->reflect[i]=(gpow(in->En[i][0],2.0)+gpow(in->Enz[i][0],2.0))/(gpow(in->Ep[i][0],2.0)+gpow(in->Epz[i][0],2.0));
 }
-
-}
-
-
 return 0.0;
 }
 

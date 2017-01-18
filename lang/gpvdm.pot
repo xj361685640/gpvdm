@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.80\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2017-01-18 21:35+0000\n"
+"POT-Creation-Date: 2017-01-18 23:44+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1233,6 +1233,22 @@ msgstr ""
 msgid "Should I delete these files?:\n"
 msgstr ""
 
+#: ../gui/open_save_dlg.py:31
+msgid "Save a the simulation as"
+msgstr ""
+
+#: ../gui/open_save_dlg.py:32
+msgid "Directory"
+msgstr ""
+
+#: ../gui/open_save_dlg.py:44 ../gui/plot_widget.py:657
+msgid "Save as"
+msgstr ""
+
+#: ../gui/open_save_dlg.py:66 ../gui/import_data.py:244
+msgid "Open file"
+msgstr ""
+
 #: ../gui/contacts.py:100
 msgid "true"
 msgstr ""
@@ -2364,10 +2380,6 @@ msgstr ""
 msgid "x-label:"
 msgstr ""
 
-#: ../gui/import_data.py:244 ../gui/gui_util.py:87
-msgid "Open file"
-msgstr ""
-
 #: ../gui/import_data.py:248
 msgid "Import data to model"
 msgstr ""
@@ -3139,10 +3151,6 @@ msgstr ""
 msgid "Refresh graph"
 msgstr ""
 
-#: ../gui/plot_widget.py:657 ../gui/gui_util.py:65
-msgid "Save as"
-msgstr ""
-
 #: ../gui/plot_widget.py:664
 msgid "Black"
 msgstr ""
@@ -3271,14 +3279,6 @@ msgstr ""
 
 #: ../gui/error_han.py:102
 msgid "Reporting error...."
-msgstr ""
-
-#: ../gui/gui_util.py:52
-msgid "Save a the simulation as"
-msgstr ""
-
-#: ../gui/gui_util.py:53
-msgid "Directory"
 msgstr ""
 
 #: ../libdump/dump_dynamic.c:179 ../libdump/dump_dynamic.c:307
