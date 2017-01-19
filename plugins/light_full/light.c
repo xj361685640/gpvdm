@@ -42,6 +42,10 @@ EXPORT void light_dll_ver(struct simulation *sim)
 
 EXPORT int light_dll_solve_lam_slice(struct simulation *sim,struct light *in,int lam)
 {
+if (in->sun_E[lam]==0.0)
+{
+	return 0;
+}
 if (get_dump_status(sim,dump_optics)==TRUE)
 {
 	char one[100];

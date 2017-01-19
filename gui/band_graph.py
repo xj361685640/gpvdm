@@ -1,6 +1,6 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
 #	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -141,7 +141,7 @@ class band_graph(QWidget):
 				start=start-epitaxy_get_width(i)
 			else:
 				break
-		print("START=",start,self.optical_mode_file)
+
 		start=start*1e9
 
 		x_pos=start
@@ -211,7 +211,6 @@ class band_graph(QWidget):
 			zf.close()
 			loaded=True
 		elif os.path.isfile(self.optical_mode_file):
-			#print("I want to load",self.optical_mode_file)
 			f = open(self.optical_mode_file)
 			lines = f.readlines()
 			f.close()

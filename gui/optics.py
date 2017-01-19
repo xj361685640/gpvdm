@@ -188,16 +188,21 @@ class class_optical(QWidget):
 		self.fig_photon_density = band_graph()
 		self.fig_photon_density.set_data_file("light_1d_photons_tot_norm.dat")
 		self.fig_photon_density.init()
-		self.notebook.addTab(self.fig_photon_density,"Photon density")
+		self.notebook.addTab(self.fig_photon_density,_("Photon density"))
 
 		self.fig_photon_abs = band_graph()
 		self.fig_photon_abs.set_data_file("light_1d_photons_tot_abs_norm.dat")
 		self.fig_photon_abs.init()
-		self.notebook.addTab(self.fig_photon_abs,"Photon absorbed")
+		self.notebook.addTab(self.fig_photon_abs,_("Photon absorbed"))
+
+		self.fig_gen_rate = band_graph()
+		self.fig_gen_rate.set_data_file("light_1d_Gn.dat")
+		self.fig_gen_rate.init()
+		self.notebook.addTab(self.fig_gen_rate,_("Generation rate"))
 
 		widget=tab_class()
 		widget.init("light.inp","Optical setup")
-		self.notebook.addTab(widget,"Optical setup")
+		self.notebook.addTab(widget,_("Optical setup"))
 
 
 		self.plot_widgets=[]
@@ -215,7 +220,7 @@ class class_optical(QWidget):
 
 		self.fig_photon_density.draw_graph()
 		self.fig_photon_abs.draw_graph()
-
+		self.fig_gen_rate.draw_graph()
 		self.progress_window.stop()
 
 
@@ -289,6 +294,11 @@ class class_optical(QWidget):
 		self.fig_photon_abs.my_figure.clf()
 		self.fig_photon_abs.draw_graph()
 		self.fig_photon_abs.canvas.draw()
+
+		self.fig_gen_rate.my_figure.clf()
+		self.fig_gen_rate.draw_graph()
+		self.fig_gen_rate.canvas.draw()
+
 
 		for i in range(0,len(self.plot_widgets)):
 			self.plot_widgets[i].update()

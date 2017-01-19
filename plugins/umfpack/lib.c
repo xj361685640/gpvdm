@@ -202,28 +202,24 @@ return 0;
 
 void umfpack_solver_free(struct simulation *sim)
 {
-printf("%x %x %x\n",sim->x,sim->b,sim->Ap);
 
 if (sim->x!=NULL)
 {
 	free(sim->x);
 	sim->x=NULL;	
 }
-printf("%x %x %x\n",sim->x,sim->b,sim->Ap);
 
 if (sim->b!=NULL)
 {
 	free(sim->b);
 	sim->b=NULL;	
 }
-printf("%x %x %x\n",sim->x,sim->b,sim->Ap);
 
 if (sim->Ap!=NULL)
 {
 	free(sim->Ap);
 	sim->Ap=NULL;
 }
-printf("%x %x %x\n",sim->x,sim->b,sim->Ap);
 
 if (sim->Ai!=NULL)
 {

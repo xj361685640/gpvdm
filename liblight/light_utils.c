@@ -57,25 +57,27 @@ int i;
 
 	gdouble Psun=in->Psun*gpow(10.0,-in->ND);
 	light_set_sun_power(in,Psun,in->laser_eff);
-	if ((in->laser_eff==0)&&(in->Psun==0))
-	{
+	//if ((in->laser_eff==0)&&(in->Psun==0))
+	//{
 
-		if (get_dump_status(sim,dump_optics)==TRUE) printf_log(sim,_("It's dark I know what the answer is\n"));
-		for (i=0;i<in->lpoints;i++)
-		{
-			memset(in->En[i], 0.0, in->points*sizeof(gdouble));
-			memset(in->Ep[i], 0.0, in->points*sizeof(gdouble));
-			memset(in->Enz[i], 0.0, in->points*sizeof(gdouble));
-			memset(in->Epz[i], 0.0, in->points*sizeof(gdouble));
-		}
+	//	if (get_dump_status(sim,dump_optics)==TRUE) printf_log(sim,_("It's dark I know what the answer is\n"));
+	//	for (i=0;i<in->lpoints;i++)
+	//	{
+	//		memset(in->En[i], 0.0, in->points*sizeof(gdouble));
+	//		memset(in->Ep[i], 0.0, in->points*sizeof(gdouble));
+	//		memset(in->Enz[i], 0.0, in->points*sizeof(gdouble));
+	//		memset(in->Epz[i], 0.0, in->points*sizeof(gdouble));
+	//	}
+		
 		//printf(sim,"dark\n");
-	}else
-	{
-
-		light_solve_all(sim,in);
-	}
+	//}else
+	//{
+//
+	light_solve_all(sim,in);
+	//}
 
 	light_cal_photon_density(in);
+
 
 	//light_dump(in);
 
@@ -145,7 +147,15 @@ if (in->disable_cal_photon_density==FALSE)
 
 	}
 
+}else
+{
+	if ((in->laser_eff==0)&&(in->Psun==0))
+	{
+		memset(in->Gn, 0.0, in->points*sizeof(gdouble));
+		memset(in->Gp, 0.0, in->points*sizeof(gdouble));
+	}
 }
+
 return 0.0;
 }
 
@@ -278,12 +288,14 @@ for  (i=0;i<in->lpoints;i++)
 void light_solve_all(struct simulation *sim,struct light *in)
 {
 int i;
+int slices_solved=0;
 	for (i=0;i<in->lpoints;i++)
 	{
 
 		if (in->sun_E[i]!=0.0)
 		{
 			light_solve_lam_slice(sim,in,i);
+			slices_solved++;
 		}else
 		{
 			memset(in->En[i], 0.0, in->points*sizeof(gdouble));
@@ -292,6 +304,11 @@ int i;
 			memset(in->Epz[i], 0.0, in->points*sizeof(gdouble));
 		}
 	}
+	
+if (slices_solved==0)
+{
+	printf_log(sim,_("It was dark I did not solve any slices\n"));
+}
 }
 
 void light_set_unity_power(struct light *in)

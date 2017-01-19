@@ -2,7 +2,7 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+//  Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
 //	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -1483,17 +1483,26 @@ char *fgets_safe(char *buf,int len,FILE *file)
 	do
 	{
 		dat=(char)fgetc(file);
+		if (feof(file))
+		{
+			break;
+		}
+
+		if ((dat=='\n')||(dat=='\r')||(dat==0x0d))
+		{
+			break;
+		}
 
 		buf[pos]=dat;
-		pos++;
 
-		if ((pos>len)||(dat=='\n')||(dat=='\r')||(dat==0x0d))
+		pos++;
+		
+		if (pos>len)
 		{
 			break;
 		}
 		
-	}while(!feof(file));
-
+	}while(1);
 	buf[pos]=0;
 
 	return 0;
@@ -1524,8 +1533,8 @@ do
 {
 	temp[0]=0;
 	unused_pchar=fgets_safe(temp, 1000, file);
-	//printf("read=%s\n",temp);
-	if ((temp[0]!='#')&&(temp[0]!='\n')&&(temp[0]!='\r')&&(temp[0]!=0))
+	//printf("read=%s %d\n",temp,temp[0]);
+	if ((temp[0]!='#')&&(temp[0]!='\n')&&(temp[0]!='\r')&&(temp[0]!=0)&&(temp[0]!=0x0D))
 	{
 		sscanf(temp,"%Le %Le",&(x),&(y));
 		//printf("added= %Le %Le\n",x,y);
@@ -1795,20 +1804,6 @@ return 0.0;
 }
 
 
-/*for (i=0;i<in->len;i++)
-{
-	if (in->x[i]>x)
-	{
-		break;
-	}
-}
-
-i--;
-if (i<0) i=0;
-
-if (i>=(in->len-1)) i=in->len-2;
-*/
-
 if (x>=in->x[in->len-1])
 {
 //inter_dump(in);
@@ -1824,11 +1819,13 @@ if (x>=in->x[in->len-1])
 }else
 {
 	i=search(in->x,in->len,x);
+	//printf("%d %d\n",i,in->len);
 	x0=in->x[i];
 	x1=in->x[i+1];
 
 	y0=in->data[i];
 	y1=in->data[i+1];
+	//printf("%Le %Le %Le %Le\n",x0,x1,y0,y1);
 }
 ret=y0+((y1-y0)/(x1-x0))*(x-x0);
 return ret;

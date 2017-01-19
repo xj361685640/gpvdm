@@ -28,6 +28,7 @@
 #include "light.h"
 #include "buffer.h"
 #include <cal_path.h>
+#include <lang.h>
 
 void light_setup_dump_dir(struct simulation *sim,struct light *in,char *dir)
 {
@@ -368,7 +369,6 @@ if (get_dump_status(sim,dump_optics)==TRUE)
 
 
 	FILE *out;
-	FILE *out2;
 	int ii;
 	char name[400];
 	double max=0.0;
@@ -453,6 +453,58 @@ if (get_dump_status(sim,dump_optics)==TRUE)
 		buffer_free(&buf);
 
 
+		buffer_malloc(&buf);
+		buf.y_mul=1.0;
+		buf.x_mul=1e9;
+		strcpy(buf.title,_("Electron generation rate"));
+		strcpy(buf.type,"xy");
+		strcpy(buf.x_label,_("Position"));
+		strcpy(buf.y_label,_("Generation rate"));
+		strcpy(buf.x_units,"nm");
+		strcpy(buf.y_units,"m^{-3}");
+		buf.logscale_x=0;
+		buf.logscale_y=0;
+		buf.x=1;
+		buf.y=in->points;
+		buf.z=1;
+		buffer_add_info(&buf);
+
+		for (ii=0;ii<in->points;ii++)
+		{
+			sprintf(line,"%Le %Le\n",in->x[ii]-in->device_start,in->Gn[ii]);
+			buffer_add_string(&buf,line);
+		}
+
+		buffer_dump_path(sim,out_dir,"light_1d_Gn.dat",&buf);
+		buffer_free(&buf);
+
+
+
+		buffer_malloc(&buf);
+		buf.y_mul=1.0;
+		buf.x_mul=1e9;
+		strcpy(buf.title,_("Hole generation rate"));
+		strcpy(buf.type,"xy");
+		strcpy(buf.x_label,_("Position"));
+		strcpy(buf.y_label,_("Generation rate"));
+		strcpy(buf.x_units,"nm");
+		strcpy(buf.y_units,"m^{-3}");
+		buf.logscale_x=0;
+		buf.logscale_y=0;
+		buf.x=1;
+		buf.y=in->points;
+		buf.z=1;
+		buffer_add_info(&buf);
+
+		for (ii=0;ii<in->points;ii++)
+		{
+			sprintf(line,"%Le %Le\n",in->x[ii]-in->device_start,in->Gp[ii]);
+			buffer_add_string(&buf,line);
+		}
+
+		buffer_dump_path(sim,out_dir,"light_1d_Gp.dat",&buf);
+		buffer_free(&buf);
+		
 	}
 
 	buffer_malloc(&data_photons);
@@ -562,31 +614,6 @@ if (get_dump_status(sim,dump_optics)==TRUE)
 			fprintf(out,"%Le %d\n",in->x[ii]-in->device_start,in->layer[ii]);
 		}
 		fclose(out);
-
-		sprintf(name,"%s/light_1d_%.0Lf_Gn%s.dat",out_dir,in->l[i]*1e9,ext);
-		out=fopen(name,"w");
-		sprintf(name,"%s/light_1d_%.0Lf_Gn%s_norm.dat",out_dir,in->l[i]*1e9,ext);
-		out2=fopen(name,"w");
-		max=inter_array_get_max(in->Gn,in->points);
-		for (ii=0;ii<in->points;ii++)
-		{
-			fprintf(out,"%Le %Le\n",in->x[ii]-in->device_start,in->Gn[ii]);
-			fprintf(out2,"%Le %Le\n",in->x[ii]-in->device_start,in->Gn[ii]/max);
-		}
-		fclose(out);
-		fclose(out2);
-
-
-		sprintf(name,"%s/light_1d_%.0Lf_Gp%s.dat",out_dir,in->l[i]*1e9,ext);
-		out=fopen(name,"w");
-		for (ii=0;ii<in->points;ii++)
-		{
-			fprintf(out,"%Le %Le\n",in->x[ii]-in->device_start,in->Gp[ii]);
-		}
-		fclose(out);
-
-
-
 
 
 		sprintf(name,"%s/light_1d_%.0Lf_E%s.dat",out_dir,in->l[i]*1e9,ext);

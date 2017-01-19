@@ -25,7 +25,7 @@
 #include <light.h>
 #include <device.h>
 #include <light_interface.h>
-
+#include <string.h>
 #include <functions.h>
 #include <log.h>
 
@@ -36,7 +36,14 @@ EXPORT void light_dll_ver(struct simulation *sim)
 
 EXPORT int light_dll_solve_lam_slice(struct simulation *sim,struct light *in,int lam)
 {
+
+if (in->sun_E[lam]==0.0)
+{
+	return 0;
+}
+
 int i=0;
+in->disable_cal_photon_density=TRUE;
 
 if (lam==2)
 {
@@ -48,63 +55,23 @@ if (lam==2)
 		
 	}
 
-	in->disable_cal_photon_density=TRUE;
+
 		
 		
 	struct istruct data;
 
 	inter_load(&data,in->light_file_generation);
-	for (i=0;i<data.len;i++)
+
+	for (i=0;i<in->points;i++)
 	{
-		printf("%Le %Le\n",data.x[i],data.data[i]);
+		in->Gn[i]=inter_get_hard(&data,in->x[i]);
+		in->Gp[i]=in->Gn[i];
 	}
 
 	inter_free(&data);
 
-/*
-	int i;
-
-	gdouble complex n0=0.0+0.0*I;
-
-	//complex gdouble r=0.0+0.0*I;
-	complex gdouble t=0.0+0.0*I;
-	gdouble complex beta0=0.0+0.0*I;
-	complex gdouble Ep=in->sun_E[lam]+0.0*I;
-	complex gdouble En=0.0+0.0*I;
-	gdouble dx=in->x[1]-in->x[0];
-
-	for (i=0;i<in->points;i++)
-	{
-		n0=in->nbar[lam][i];
-		beta0=(2*PI*n0/in->l[lam]);
-
-		if ((in->x[i]>in->device_start) &&(in->x[i]<in->device_ylen+in->device_start))
-		{
-			beta0=creal(beta0)+I*0;
-		}
-
-		Ep=Ep*cexp(-beta0*dx*I);
-
-		//r=in->r[lam][i];
-		t=in->t[lam][i];
-
-		//if ((in->n[lam][i]!=in->n[lam][i+1])||(in->alpha[lam][i]!=in->alpha[lam][i+1]))
-		//{
-		//	En=Ep*r;
-		//}
-
-		in->Ep[lam][i]=creal(Ep);
-		in->Epz[lam][i]=cimag(Ep);
-		in->En[lam][i]=creal(En);
-		in->Enz[lam][i]=cimag(En);
-
-		if ((in->n[lam][i]!=in->n[lam][i+1])||(in->alpha[lam][i]!=in->alpha[lam][i+1]))
-		{
-			Ep=Ep*t;
-		}
-	}*/
-
 }
+
 return 0;
 }
 

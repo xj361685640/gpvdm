@@ -2,9 +2,9 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+//  Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
-//	www.roderickmackenzie.eu
+//	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
@@ -45,7 +45,7 @@ find_dll(sim, lib_path,solver_name);
 char *error;
 
 	sim->dll_matrix_handle = dlopen(lib_path, RTLD_LAZY);
-	printf("ALLOC=%p\n",sim->dll_matrix_handle);
+
 	if (!sim->dll_matrix_handle)
 	{
 		ewe(sim, "%s\n", dlerror());
@@ -99,9 +99,8 @@ void solver_free(struct simulation *sim)
 {
 if (sim->dll_matrix_handle!=NULL)
 { 
-	printf("here1 %x\n",sim->dll_matrix_solver_free);
 	(*sim->dll_matrix_solver_free)(sim);
-	printf("here2\n");
+
 
 	printf("DEALLOC=%p\n",sim->dll_matrix_handle);
 
