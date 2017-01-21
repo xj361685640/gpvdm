@@ -96,7 +96,7 @@ def zip_get_data_file(file_name):
 			found=True
 		zf.close()
 	try:
-		lines=lines.decode('ascii')
+		lines=lines.decode('utf-8')
 		lines=lines.split("\n")
 	except:
 		lines=[]
@@ -247,7 +247,7 @@ def read_lines_from_archive(lines,zip_file_path,file_name):
 		else:
 			return False
 	#print(">",file_path,"<",read_lines)
-	read_lines=read_lines.decode('ascii')#.decode("utf-8") 
+	read_lines=read_lines.decode('utf-8')#.decode("utf-8") 
 	read_lines=read_lines.split("\n")
 
 	del lines[:]

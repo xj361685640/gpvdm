@@ -52,7 +52,7 @@ class about_dlg():
 		self.window.materials.setWordWrap(True)
 		gridsize=self.window.materials.size()
 		#gridsize.setWidth(80)
-		#gridsize.setHeight(80)
+		gridsize.setHeight(40)
 
 		self.window.materials.setGridSize(gridsize)
 		self.mat_icon = QIcon(QPixmap(os.path.join(get_image_file_path(),"organic_material.png")))
@@ -68,7 +68,7 @@ class about_dlg():
 
 		all_files=get_materials_dirs()
 		for fl in all_files:
-			text=get_ref_text(os.path.join(fl,"n.inp"),html=False)
+			text=get_ref_text(os.path.join(fl,"n.omat"),html=False)
 			if text!=None:
 				itm = QListWidgetItem(os.path.basename(fl)+" "+text)
 				itm.setIcon(self.mat_icon)

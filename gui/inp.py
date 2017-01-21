@@ -125,7 +125,7 @@ def inp_update_token_value(file_path, token, replace,line_number):
 		dump='\n'.join(new_lines)
 
 		dump=dump.rstrip("\n")
-		dump=dump.encode('ascii')
+		dump=dump.encode('utf-8')
 		f=open(abs_path, mode='wb')
 		written = f.write(dump)
 		f.close()
@@ -167,7 +167,7 @@ def inp_save_lines(file_path,lines):
 		dump=dump+item+"\n"
 
 	dump=dump.rstrip("\n")
-	dump=dump.encode('ascii')
+	dump=dump.encode('utf-8')
 	try:
 		f=open(file_path, mode='wb')
 	except:

@@ -20,5 +20,5 @@
 
 
 #ifndef ver_h
-#define	gpvdm_ver	"4.81"
+#define	gpvdm_ver	"4.82"
 #endif
