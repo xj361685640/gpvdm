@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.80\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2017-01-22 13:14+0000\n"
+"POT-Creation-Date: 2017-01-22 19:07+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -414,19 +414,19 @@ msgstr ""
 msgid "Finished generating DoS....\n"
 msgstr ""
 
-#: ../src/memory.c:245
+#: ../src/memory.c:247
 msgid "Solved"
 msgstr ""
 
-#: ../src/memory.c:245
+#: ../src/memory.c:247
 msgid "Equations"
 msgstr ""
 
-#: ../src/memory.c:254
+#: ../src/memory.c:256
 msgid "I can't allocate a device with less than 1 mesh point."
 msgstr ""
 
-#: ../src/memory.c:259
+#: ../src/memory.c:261
 msgid ""
 "You are asking me to simulate a device with more than 50000 mesh points, "
 "although I could do this I am not going to because it seems a bad idea to me."

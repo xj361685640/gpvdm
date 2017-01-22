@@ -60,7 +60,7 @@ def gen_workbook(input_file_or_dir,output_file):
 	
 	for my_file in files:
 		#print("about to save1",my_file)
-
+		print(my_file)
 		if plot_load_info(info_token,my_file)==True:
 			x=[]
 			y=[]
@@ -91,12 +91,12 @@ def gen_workbook(input_file_or_dir,output_file):
 				series = Series(ydata,xdata,  title_from_data=True)
 				c1.series.append(series)
 				ws.add_chart(c1, "G4")
-
+		print(my_file)
 	#print("about to save1")
 	try:
 		wb.save(filename = output_file)
 	except:
 		return False
-
+	print("exit")
 	return True
 	#print("about to save0")

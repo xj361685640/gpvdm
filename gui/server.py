@@ -302,7 +302,6 @@ class server(QWidget,cluster):
 			data_in=data_in[3:]
 			data=codecs.decode(data_in, 'hex')
 			data=data.decode('ascii')
-
 			if data.startswith("lock"):
 				if self.finished_jobs.count(data)==0:
 					job=int(data[4:])

@@ -77,6 +77,7 @@ void device_init(struct device *in)
 	in->R= NULL;
 	in->Fi= NULL;
 	in->imat= NULL;
+	in->imat_epitaxy= NULL;
 	in->Jn= NULL;
 	in->Jp= NULL;
 

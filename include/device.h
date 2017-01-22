@@ -118,6 +118,7 @@ struct device
 		gdouble ***R;
 		gdouble ***Fi;
 		int ***imat;
+		int ***imat_epitaxy;
 		gdouble ***Jn;
 		gdouble ***Jp;
 
@@ -394,7 +395,6 @@ struct device
 	gdouble phi_mul;
 	long double layer_start[100];
 	long double layer_stop[100];
-	long double layer_width[100];
 
 
 	#ifdef enable_multi_layers

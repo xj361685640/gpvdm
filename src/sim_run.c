@@ -131,6 +131,8 @@ if (strcmp(cell.simmode,"opticalmodel@optics")!=0)
 	long double depth=0.0;
 	long double percent=0.0;
 	long double value=0.0;
+
+
 	for (z=0;z<cell.zmeshpoints;z++)
 	{
 		for (x=0;x<cell.xmeshpoints;x++)
@@ -139,13 +141,12 @@ if (strcmp(cell.simmode,"opticalmodel@optics")!=0)
 			{
 
 				depth=cell.ymesh[y]-cell.layer_start[cell.imat[z][x][y]];
-				percent=depth/cell.layer_width[cell.imat[z][x][y]];
+				percent=depth/cell.my_epitaxy.width[cell.imat_epitaxy[z][x][y]];
 				cell.Nad[z][x][y]=get_dos_doping_start(&cell,cell.imat[z][x][y])+(get_dos_doping_stop(&cell,cell.imat[z][x][y])-get_dos_doping_start(&cell,cell.imat[z][x][y]))*percent;
 			}
 		}		
 		
 	}
-
 	init_mat_arrays(&cell);
 
 

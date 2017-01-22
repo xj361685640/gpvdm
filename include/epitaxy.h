@@ -45,4 +45,5 @@ int epitaxy_get_electrical_material_layer(struct epitaxy *in,gdouble pos);
 gdouble epitaxy_get_device_start(struct epitaxy *in);
 gdouble epitaxy_get_device_stop(struct epitaxy *in);
 gdouble epitaxy_get_device_start_i(struct epitaxy *in);
+int epitaxy_get_epitaxy_layer_using_electrical_pos(struct epitaxy *in,gdouble pos);
 #endif

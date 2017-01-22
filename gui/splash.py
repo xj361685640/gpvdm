@@ -64,30 +64,36 @@ class splash_window():
 
 		r=random.randint(0, 2)
 		files=["splash2.png","splash3.png","splash4.jpg"]
-		image=QPixmap(os.path.join(get_image_file_path(),files[r]))
+
+		image_path=os.path.join(get_image_file_path(),files[r])
+		if os.path.isfile(image_path):
+			image=QPixmap(image_path)
 		
-		image.scaledToHeight(window_h)
+			image.scaledToHeight(window_h)
 
-		w=image.width()
-		h=image.height()
-		x_max=w-window_h-window_w/2
+			w=image.width()
+			h=image.height()
+			x_max=w-window_h-window_w/2
 
-		hour=float(time.strftime("%H"))*60
-		m=float(time.strftime("%m"))
-		tot=hour+m
-		my_max=float(24*60)
+			hour=float(time.strftime("%H"))*60
+			m=float(time.strftime("%m"))
+			tot=hour+m
+			my_max=float(24*60)
 
-		value=tot/my_max
+			value=tot/my_max
 
-		xpos=int(x_max*value)+window_w/2
+			xpos=int(x_max*value)+window_w/2
 
-		scene=QGraphicsScene();
-		scene.setSceneRect(xpos, 0, 0, h)
-		self.window.image.setScene(scene)
+			scene=QGraphicsScene();
+			scene.setSceneRect(xpos, 0, 0, h)
+			self.window.image.setScene(scene)
+
+
+			scene.addPixmap(image);
+		else:
+			print("Image not found",image_path)
 
 		self.window.show()
-
-		scene.addPixmap(image);
 
 		QTimer.singleShot(1500, self.callback_destroy)
 

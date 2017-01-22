@@ -273,6 +273,8 @@ void mesh_build(struct simulation *sim,struct device *in)
 			dpos+=in->meshdata_y[i].den/2.0;
 			in->ymesh[pos]=dpos;
 			in->imat[0][0][pos]=epitaxy_get_electrical_material_layer(&(in->my_epitaxy),dpos);
+			in->imat_epitaxy[0][0][pos]=epitaxy_get_epitaxy_layer_using_electrical_pos(&(in->my_epitaxy),dpos);
+
 			//printf("%s\n",sim->output_path);
 			//printf("here %d %d %Le %Le %Le %Le\n",in->imat[0][0][pos],pos,dpos,in->meshdata_y[i].den,in->meshdata_y[i].len,in->meshdata_y[i].number);
 			//getchar();
@@ -304,7 +306,6 @@ for (i=0;i<in->ymeshpoints;i++)
 	if ((in->imat[0][0][i]!=cur_i)||(i==(in->ymeshpoints-1)))
 	{
 		in->layer_stop[cur_i]=in->ymesh[i-1];//+(in->ymesh[i]-in->ymesh[i-1])/2;
-		in->layer_width[cur_i]=in->layer_stop[cur_i]-in->layer_start[cur_i];
 		if (i==(in->ymeshpoints-1))
 		{
 			break;

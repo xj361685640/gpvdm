@@ -1124,7 +1124,7 @@ if (stat(out_dir, &st) == -1)
 	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
-
+/*
 	buffer_malloc(&buf);
 	sprintf(name,"%s","fsrhn.dat");
 	buf.y_mul=1.0;
@@ -1195,7 +1195,7 @@ if (stat(out_dir, &st) == -1)
 	}
 	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
-
+*/
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","imat.dat");
