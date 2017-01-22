@@ -112,11 +112,11 @@ def merge_archives(src_archive,dest_archive,only_over_write):
 	for i in range(0,len(ls)):
 		if inp_issequential_file(ls[i],"dos"):
 			files.append(ls[i])
-			base_file.append(os.path.join(get_materials_path(),"generic","dos.inp"))
+			base_file.append(os.path.join(get_materials_path(),"generic","generic_organic","dos.inp"))
 
 		if inp_issequential_file(ls[i],"pl"):
 			files.append(ls[i])
-			base_file.append(os.path.join(get_materials_path(),"generic","pl.inp"))
+			base_file.append(os.path.join(get_materials_path(),"generic","generic_organic","pl.inp"))
 
 		if inp_issequential_file(ls[i],"pulse"):
 			files.append(ls[i])

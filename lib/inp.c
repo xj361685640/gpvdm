@@ -32,7 +32,7 @@
 #include "code_ctrl.h"
 #include "const.h"
 #include <log.h>
-
+#include <cal_path.h>
 
 int search_for_token(struct simulation *sim,char *ret,char *dir_name,char* token,char *search_value)
 {

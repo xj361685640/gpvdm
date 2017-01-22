@@ -53,7 +53,6 @@ int cmpstr_min(char * in1,char *in2);
 int english_to_bin(struct simulation *sim,char * in);
 void write_x_y_to_file(struct simulation *sim,char *name,double *x,double *y,int len);
 void write_x_y_z_to_file(struct simulation *sim,char *name,double *x,double *y,double *z,int len);
-void join_path(int max, ...);
 int get_dir_name_from_path(char *out, char *in);
 char *get_file_name_from_path(char *in);
 void string_to_hex(char* out,char* in);

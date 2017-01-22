@@ -33,6 +33,8 @@
 #include "memory.h"
 #include "contacts.h"
 #include <lang.h>
+#include <cal_path.h>
+
 
 static int unused __attribute__((unused));
 

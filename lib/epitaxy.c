@@ -62,7 +62,8 @@ void epitaxy_load(struct simulation *sim,struct epitaxy *in, char *file)
 
 		inp_get_string(sim,&inp);	//token
 		strcpy(in->mat_file[i],inp_get_string(sim,&inp));
-
+		assert_platform_path(in->mat_file[i]);
+		
 		inp_get_string(sim,&inp);	//token
 		strcpy(dos_file,inp_get_string(sim,&inp));
 
@@ -70,7 +71,7 @@ void epitaxy_load(struct simulation *sim,struct epitaxy *in, char *file)
 		strcpy(pl_file,inp_get_string(sim,&inp));
 
 		char temp[20];
-		char full_path[200];
+		char full_path[PATHLEN];
 		if (strcmp_begin(dos_file,"dos")==0)
 		{
 			strcpy(temp,dos_file);

@@ -32,6 +32,7 @@
 
 #include "i.h"
 #include "util.h"
+#include "cal_path.h"
 #include "const.h"
 
 static int unused __attribute__((unused));

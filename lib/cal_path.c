@@ -2,9 +2,9 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+//  Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
-//	www.roderickmackenzie.eu
+//	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
@@ -30,13 +30,16 @@
 #include <unistd.h>
 #include <dirent.h>
 #include <fcntl.h>
+#include <stdarg.h>
+#include <const.h>
+
 
 #include <limits.h>
 
 int find_dll(struct simulation *sim, char *lib_path,char *lib_name)
 {
-char full_name[1024];
-char temp[1024];
+char full_name[PATHLEN];
+char temp[PATHLEN];
 sprintf(full_name,"%s.so",lib_name);
 
 join_path(2,lib_path,get_plugins_path(sim),full_name);
@@ -80,10 +83,10 @@ return -1;
 
 void set_path(struct simulation *sim,char *out, char *name)
 {
-char cwd[1000];
-char temp[1000];
+char cwd[PATHLEN];
+char temp[PATHLEN];
 
-	if (getcwd(cwd,1000)==NULL)
+	if (getcwd(cwd,PATHLEN)==NULL)
 	{
 		ewe(sim,"IO error\n");
 	}
@@ -137,8 +140,8 @@ char temp[1000];
 
 void cal_path(struct simulation *sim)
 {
-char cwd[1000];
-char temp[1000];
+char cwd[PATHLEN];
+char temp[PATHLEN];
 strcpy(cwd,"");
 strcpy(sim->share_path,"nopath");
 
@@ -148,7 +151,7 @@ strcpy(sim->input_path,"");
 strcpy(sim->output_path,"");
 
 char buff[PATH_MAX];
-int len = readlink("/proc/self/exe", temp, 1000);
+int len = readlink("/proc/self/exe", temp, PATHLEN);
 if (len == -1)
 {
 	ewe(sim,"IO error\n");
@@ -174,7 +177,7 @@ if (isfile("ver.py")==0)
 	strcpy(sim->share_path,"/usr/lib64/gpvdm/");
 }
 
-if (getcwd(cwd,1000)==NULL)
+if (getcwd(cwd,PATHLEN)==NULL)
 {
 	ewe(sim,"IO error\n");
 }
@@ -225,3 +228,55 @@ strcpy(sim->input_path,in);
 }
 
 
+void join_path(int max, ...)
+{
+	max=max+1;
+	char temp[PATHLEN];
+	strcpy(temp,"");
+	va_list arguments;
+	int i;
+	va_start ( arguments, max );
+	char *ret=va_arg ( arguments, char * );
+	strcpy(ret,"");
+	for (i = 1; i < max; i++ )
+	{
+		if ((i!=1)&&(strcmp(temp,"")!=0))
+		{
+			strcat(ret,"/");
+		}
+		strcpy(temp,va_arg ( arguments, char * ));
+		strcat(ret,temp);
+	}
+	va_end ( arguments );                  // Cleans up the list
+
+	return;
+}
+
+
+/**Make sure the slashes go the right way in a string for which ever OS we are on.
+@param path path to check
+*/
+void assert_platform_path(char * path)
+{
+	int i=0;
+	char temp[PATHLEN];
+	strcpy(temp,"");
+	int max=strlen(path);
+	for (i=0;i<max;i++)
+	{
+		if ((path[i]=='\\')||(path[i]=='/'))
+		{
+			strcat(temp,"/");
+		}else
+		{
+			temp[i]=path[i];
+			temp[i+1]=0;
+		}
+
+
+	}
+
+	strcpy(path,temp);
+
+	return;
+}

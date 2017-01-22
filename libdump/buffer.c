@@ -24,6 +24,8 @@
 #include "buffer.h"
 #include "const.h"
 #include "code_ctrl.h"
+#include "cal_path.h"
+
 
 void buffer_zip_set_name(struct buffer *in,char * name)
 {

@@ -2,7 +2,7 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012-2017 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+//  Copyright (C) 2012-2017 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
 //	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -34,6 +34,8 @@
 #include <lang.h>
 #include <math.h>
 #include <ctype.h>
+#include <cal_path.h>
+
 
 void split_dot(char *out, char *in)
 {
@@ -111,30 +113,6 @@ void time_with_units(char *out,double number)
 
 
 }
-void join_path(int max, ...)
-{
-	max=max+1;
-	char temp[1000];
-	strcpy(temp,"");
-	va_list arguments;
-	int i;
-	va_start ( arguments, max );
-	char *ret=va_arg ( arguments, char * );
-	strcpy(ret,"");
-	for (i = 1; i < max; i++ )
-	{
-		if ((i!=1)&&(strcmp(temp,"")!=0))
-		{
-			strcat(ret,"/");
-		}
-		strcpy(temp,va_arg ( arguments, char * ));
-		strcat(ret,temp);
-	}
-	va_end ( arguments );                  // Cleans up the list
-
-	return;
-}
-
 
 
 void print_hex(unsigned char *data)

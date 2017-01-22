@@ -64,7 +64,7 @@ void log_tell_use_where_file_access_log_is(struct simulation *sim)
 	{
 		char temp[500];
 		join_path(2,temp,sim->root_simulation_path,"log_file_access.dat");
-		printf_log(_("File access log written to %s\n"),temp);
+		printf_log(sim,_("File access log written to %s\n"),temp);
 	}
 		
 }

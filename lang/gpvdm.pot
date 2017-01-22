@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.80\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2017-01-19 20:04+0000\n"
+"POT-Creation-Date: 2017-01-22 13:14+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -73,8 +73,8 @@ msgstr ""
 
 #: ../liblight/light_dump.c:466 ../liblight/light_dump.c:493
 #: ../libmeasure/probe.c:274 ../libmeasure/probe.c:299
-#: ../plugins/pulse/pulse.c:298 ../gui/optics.py:201
-#: ../libdump/dump_dynamic.c:418 ../libdump/dump_1d_slice.c:1041
+#: ../plugins/pulse/pulse.c:298 ../gui/optics.py:190
+#: ../libdump/dump_dynamic.c:420 ../libdump/dump_1d_slice.c:1041
 #: ../libdump/dump_1d_slice.c:1065
 msgid "Generation rate"
 msgstr ""
@@ -124,35 +124,35 @@ msgstr ""
 msgid "It was dark I did not solve any slices\n"
 msgstr ""
 
-#: ../lib/util.c:170 ../lib/util.c:188
+#: ../lib/util.c:144 ../lib/util.c:162
 msgid "Error writing file"
 msgstr ""
 
-#: ../lib/util.c:347
+#: ../lib/util.c:321
 msgid "I don't understand the command"
 msgstr ""
 
-#: ../lib/util.c:359
+#: ../lib/util.c:333
 msgid "Can not read file"
 msgstr ""
 
-#: ../lib/util.c:390 ../lib/util.c:504 ../lib/util.c:564 ../lib/util.c:657
+#: ../lib/util.c:364 ../lib/util.c:478 ../lib/util.c:538 ../lib/util.c:631
 msgid "File not found"
 msgstr ""
 
-#: ../lib/util.c:542 ../lib/util.c:602 ../lib/util.c:703
+#: ../lib/util.c:516 ../lib/util.c:576 ../lib/util.c:677
 msgid "Can not write file"
 msgstr ""
 
-#: ../lib/util.c:618 ../lib/util.c:626
+#: ../lib/util.c:592 ../lib/util.c:600
 msgid "Can not open file"
 msgstr ""
 
-#: ../lib/util.c:695
+#: ../lib/util.c:669
 msgid "Token not found in file"
 msgstr ""
 
-#: ../lib/util.c:871
+#: ../lib/util.c:845
 msgid "Deleting directory"
 msgstr ""
 
@@ -234,26 +234,26 @@ msgstr ""
 #: ../plugins/pulse/pulse.c:295 ../plugins/pulse/pulse.c:297
 #: ../plugins/fxdomain/fxdomain.c:259 ../plugins/fxdomain/fxdomain.c:261
 #: ../plugins/fxdomain/fxdomain.c:279 ../plugins/fxdomain/fxdomain.c:281
-#: ../gui/tmesh.py:206 ../libdump/dump_dynamic.c:205
-#: ../libdump/dump_dynamic.c:228 ../libdump/dump_dynamic.c:252
-#: ../libdump/dump_dynamic.c:271 ../libdump/dump_dynamic.c:290
-#: ../libdump/dump_dynamic.c:309 ../libdump/dump_dynamic.c:328
-#: ../libdump/dump_dynamic.c:347 ../libdump/dump_dynamic.c:366
-#: ../libdump/dump_dynamic.c:391 ../libdump/dump_dynamic.c:417
-#: ../libdump/dump_dynamic.c:436 ../libdump/dump_dynamic.c:461
-#: ../libdump/dump_dynamic.c:481 ../libdump/dump_dynamic.c:502
-#: ../libdump/dump_dynamic.c:522 ../libdump/dump_dynamic.c:557
-#: ../libdump/dump_dynamic.c:576 ../libdump/dump_dynamic.c:595
-#: ../libdump/dump_dynamic.c:614 ../libdump/dump_dynamic.c:633
-#: ../libdump/dump_dynamic.c:652 ../libdump/dump_dynamic.c:692
-#: ../libdump/dump_dynamic.c:711 ../libdump/dump_dynamic.c:734
-#: ../libdump/dump_dynamic.c:754 ../libdump/dump_dynamic.c:788
-#: ../libdump/dump_dynamic.c:813 ../libdump/dump_dynamic.c:834
-#: ../libdump/dump_dynamic.c:853 ../libdump/dump_dynamic.c:872
-#: ../libdump/dump_dynamic.c:891 ../libdump/dump_dynamic.c:910
-#: ../libdump/dump_dynamic.c:929 ../libdump/dump_dynamic.c:948
-#: ../libdump/dump_dynamic.c:967 ../libdump/dump_dynamic.c:986
-#: ../libdump/dump_dynamic.c:1005 ../libfit/fit_dump.c:107
+#: ../gui/tmesh.py:206 ../libdump/dump_dynamic.c:207
+#: ../libdump/dump_dynamic.c:230 ../libdump/dump_dynamic.c:254
+#: ../libdump/dump_dynamic.c:273 ../libdump/dump_dynamic.c:292
+#: ../libdump/dump_dynamic.c:311 ../libdump/dump_dynamic.c:330
+#: ../libdump/dump_dynamic.c:349 ../libdump/dump_dynamic.c:368
+#: ../libdump/dump_dynamic.c:393 ../libdump/dump_dynamic.c:419
+#: ../libdump/dump_dynamic.c:438 ../libdump/dump_dynamic.c:463
+#: ../libdump/dump_dynamic.c:483 ../libdump/dump_dynamic.c:504
+#: ../libdump/dump_dynamic.c:524 ../libdump/dump_dynamic.c:559
+#: ../libdump/dump_dynamic.c:578 ../libdump/dump_dynamic.c:597
+#: ../libdump/dump_dynamic.c:616 ../libdump/dump_dynamic.c:635
+#: ../libdump/dump_dynamic.c:654 ../libdump/dump_dynamic.c:694
+#: ../libdump/dump_dynamic.c:713 ../libdump/dump_dynamic.c:736
+#: ../libdump/dump_dynamic.c:756 ../libdump/dump_dynamic.c:790
+#: ../libdump/dump_dynamic.c:815 ../libdump/dump_dynamic.c:836
+#: ../libdump/dump_dynamic.c:855 ../libdump/dump_dynamic.c:874
+#: ../libdump/dump_dynamic.c:893 ../libdump/dump_dynamic.c:912
+#: ../libdump/dump_dynamic.c:931 ../libdump/dump_dynamic.c:950
+#: ../libdump/dump_dynamic.c:969 ../libdump/dump_dynamic.c:988
+#: ../libdump/dump_dynamic.c:1007 ../libfit/fit_dump.c:107
 #: ../libfit/fit_dump.c:130 ../libfit/fit_dump.c:154 ../libfit/fit_dump.c:178
 msgid "Time"
 msgstr ""
@@ -298,7 +298,7 @@ msgstr ""
 
 #: ../plugins/pulse/pulse.c:205 ../plugins/pulse/pulse.c:208
 #: ../plugins/pulse/pulse.c:255 ../plugins/fxdomain/fxdomain.c:262
-#: ../libdump/dump_dynamic.c:392
+#: ../libdump/dump_dynamic.c:394
 msgid "Current"
 msgstr ""
 
@@ -306,7 +306,7 @@ msgstr ""
 msgid "current density"
 msgstr ""
 
-#: ../plugins/pulse/pulse.c:231 ../libdump/dump_dynamic.c:229
+#: ../plugins/pulse/pulse.c:231 ../libdump/dump_dynamic.c:231
 #: ../libdump/dump_1d_slice.c:436 ../libdump/dump_1d_slice.c:461
 msgid "Current density"
 msgstr ""
@@ -314,7 +314,7 @@ msgstr ""
 #: ../plugins/pulse/pulse.c:275 ../plugins/pulse/pulse.c:280
 #: ../plugins/fxdomain/fxdomain.c:279 ../plugins/fxdomain/fxdomain.c:282
 #: ../gui/tmesh.py:232 ../gui/tmesh.py:234 ../gui/tmesh.py:237
-#: ../gui/tmesh.py:239 ../gui/contacts.py:144 ../libdump/dump_dynamic.c:789
+#: ../gui/tmesh.py:239 ../gui/contacts.py:144 ../libdump/dump_dynamic.c:791
 msgid "Voltage"
 msgstr ""
 
@@ -491,14 +491,14 @@ msgstr ""
 msgid "HOMO"
 msgstr ""
 
-#: ../src/initial.c:121 ../libdump/dump_dynamic.c:596
-#: ../libdump/dump_dynamic.c:634 ../libdump/dump_dynamic.c:735
+#: ../src/initial.c:121 ../libdump/dump_dynamic.c:598
+#: ../libdump/dump_dynamic.c:636 ../libdump/dump_dynamic.c:737
 #: ../libdump/dump_1d_slice.c:985
 msgid "Electron density"
 msgstr ""
 
-#: ../src/initial.c:145 ../libdump/dump_dynamic.c:615
-#: ../libdump/dump_dynamic.c:653 ../libdump/dump_dynamic.c:755
+#: ../src/initial.c:145 ../libdump/dump_dynamic.c:617
+#: ../libdump/dump_dynamic.c:655 ../libdump/dump_dynamic.c:757
 #: ../libdump/dump_1d_slice.c:1013
 msgid "Hole density"
 msgstr ""
@@ -557,7 +557,7 @@ msgstr ""
 #: ../gui/emesh.py:169 ../gui/scan.py:259 ../gui/scan.py:354 ../gui/info.py:68
 #: ../gui/fxexperiment.py:177 ../gui/fxexperiment.py:230
 #: ../gui/fit_window.py:226 ../gui/ref.py:124 ../gui/lasers.py:180
-#: ../gui/lasers.py:237 ../gui/help.py:127 ../gui/optics.py:131
+#: ../gui/lasers.py:237 ../gui/help.py:127 ../gui/optics.py:120
 msgid "Close"
 msgstr ""
 
@@ -597,7 +597,7 @@ msgstr ""
 msgid "Save graph"
 msgstr ""
 
-#: ../gui/qe.py:120 ../gui/gpvdm.py:746 ../gui/optics.py:140
+#: ../gui/qe.py:120 ../gui/gpvdm.py:746 ../gui/optics.py:129
 msgid "Run"
 msgstr ""
 
@@ -946,7 +946,7 @@ msgstr ""
 
 #: ../gui/scan_tab.py:405 ../gui/gpvdm.py:723 ../gui/fxexperiment.py:176
 #: ../gui/fit_window.py:225 ../gui/fit_vars.py:95 ../gui/fit_vars.py:156
-#: ../gui/optics.py:127 ../gui/fit_patch.py:124
+#: ../gui/optics.py:116 ../gui/fit_patch.py:124
 msgid "File"
 msgstr ""
 
@@ -2519,12 +2519,12 @@ msgstr ""
 msgid "Effective density of free hole states"
 msgstr ""
 
-#: ../gui/token_lib.py:57 ../libdump/dump_dynamic.c:690
+#: ../gui/token_lib.py:57 ../libdump/dump_dynamic.c:692
 #: ../libdump/dump_1d_slice.c:604 ../libdump/dump_1d_slice.c:607
 msgid "Electron mobility"
 msgstr ""
 
-#: ../gui/token_lib.py:58 ../libdump/dump_dynamic.c:709
+#: ../gui/token_lib.py:58 ../libdump/dump_dynamic.c:711
 #: ../libdump/dump_1d_slice.c:628 ../libdump/dump_1d_slice.c:631
 msgid "Hole mobility"
 msgstr ""
@@ -2932,7 +2932,7 @@ msgstr ""
 msgid "#imps_saturate"
 msgstr ""
 
-#: ../gui/token_lib.py:217 ../gui/optics.py:191
+#: ../gui/token_lib.py:217 ../gui/optics.py:180
 msgid "Photon density"
 msgstr ""
 
@@ -3249,43 +3249,43 @@ msgstr ""
 msgid "Doping profile editor"
 msgstr ""
 
-#: ../gui/optics.py:113
+#: ../gui/optics.py:102
 msgid "Photon distribution"
 msgstr ""
 
-#: ../gui/optics.py:114
+#: ../gui/optics.py:103
 msgid "Photon distribution absorbed"
 msgstr ""
 
-#: ../gui/optics.py:115
+#: ../gui/optics.py:104
 msgid "Reflection"
 msgstr ""
 
-#: ../gui/optics.py:119
+#: ../gui/optics.py:108
 msgid "Optical simulation editor"
 msgstr ""
 
-#: ../gui/optics.py:128
+#: ../gui/optics.py:117
 msgid "Refresh"
 msgstr ""
 
-#: ../gui/optics.py:153 ../gui/optics.py:264
+#: ../gui/optics.py:142 ../gui/optics.py:253
 msgid "Optical model"
 msgstr ""
 
-#: ../gui/optics.py:162
+#: ../gui/optics.py:151
 msgid "Solar spectrum"
 msgstr ""
 
-#: ../gui/optics.py:196
+#: ../gui/optics.py:185
 msgid "Photon absorbed"
 msgstr ""
 
-#: ../gui/optics.py:205
+#: ../gui/optics.py:194
 msgid "Optical setup"
 msgstr ""
 
-#: ../gui/optics.py:249
+#: ../gui/optics.py:238
 msgid ""
 "I can't find any optical plugins, I think the model is not installed "
 "properly."
@@ -3304,78 +3304,78 @@ msgstr ""
 msgid "Reporting error...."
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:179 ../libdump/dump_dynamic.c:307
+#: ../libdump/dump_dynamic.c:181 ../libdump/dump_dynamic.c:309
 msgid "Hole drift current"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:179
+#: ../libdump/dump_dynamic.c:181
 msgid " Hole diffusion current"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:203 ../libdump/dump_dynamic.c:269
+#: ../libdump/dump_dynamic.c:205 ../libdump/dump_dynamic.c:271
 msgid "Electron drift current"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:203 ../libdump/dump_dynamic.c:288
+#: ../libdump/dump_dynamic.c:205 ../libdump/dump_dynamic.c:290
 msgid "Electron diffusion current"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:206 ../libdump/dump_dynamic.c:310
-#: ../libdump/dump_dynamic.c:329 ../libdump/dump_dynamic.c:367
+#: ../libdump/dump_dynamic.c:208 ../libdump/dump_dynamic.c:312
+#: ../libdump/dump_dynamic.c:331 ../libdump/dump_dynamic.c:369
 #: ../libdump/dump_1d_slice.c:464
 msgid "Hole current density"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:226
+#: ../libdump/dump_dynamic.c:228
 msgid "Current density at contacts"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:250
+#: ../libdump/dump_dynamic.c:252
 msgid "Change in charge distribution"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:253 ../libdump/dump_dynamic.c:1008
+#: ../libdump/dump_dynamic.c:255 ../libdump/dump_dynamic.c:1010
 msgid "percent"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:272 ../libdump/dump_dynamic.c:291
-#: ../libdump/dump_dynamic.c:348 ../libdump/dump_1d_slice.c:439
+#: ../libdump/dump_dynamic.c:274 ../libdump/dump_dynamic.c:293
+#: ../libdump/dump_dynamic.c:350 ../libdump/dump_1d_slice.c:439
 msgid "Electron current density"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:326
+#: ../libdump/dump_dynamic.c:328
 msgid "Hole diffusion current"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:345
+#: ../libdump/dump_dynamic.c:347
 msgid "Jn at contacts"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:364
+#: ../libdump/dump_dynamic.c:366
 msgid "Jp at contacts"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:389
+#: ../libdump/dump_dynamic.c:391
 msgid "External Current"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:415
+#: ../libdump/dump_dynamic.c:417
 msgid "Free carrier generation rate"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:434
+#: ../libdump/dump_dynamic.c:436
 msgid "Dynamic quantum efficiency"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:437
+#: ../libdump/dump_dynamic.c:439
 msgid "Percent"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:459
+#: ../libdump/dump_dynamic.c:461
 msgid "Free hole recombination"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:462 ../libdump/dump_dynamic.c:482
+#: ../libdump/dump_dynamic.c:464 ../libdump/dump_dynamic.c:484
 #: ../libdump/dump_1d_slice.c:1045 ../libdump/dump_1d_slice.c:1069
 #: ../libdump/dump_1d_slice.c:1094 ../libdump/dump_1d_slice.c:1118
 #: ../libdump/dump_1d_slice.c:1143 ../libdump/dump_1d_slice.c:1179
@@ -3384,90 +3384,90 @@ msgstr ""
 msgid "Recombination"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:479
+#: ../libdump/dump_dynamic.c:481
 msgid "Free electron recombination"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:500 ../libdump/dump_dynamic.c:503
+#: ../libdump/dump_dynamic.c:502 ../libdump/dump_dynamic.c:505
 msgid "Free electron loss"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:500 ../libdump/dump_dynamic.c:520
-#: ../libdump/dump_dynamic.c:851 ../libdump/dump_dynamic.c:870
-#: ../libdump/dump_dynamic.c:889 ../libdump/dump_dynamic.c:908
-#: ../libdump/dump_dynamic.c:927 ../libdump/dump_dynamic.c:946
-#: ../libdump/dump_dynamic.c:965 ../libdump/dump_dynamic.c:984
-#: ../libdump/dump_dynamic.c:1003
+#: ../libdump/dump_dynamic.c:502 ../libdump/dump_dynamic.c:522
+#: ../libdump/dump_dynamic.c:853 ../libdump/dump_dynamic.c:872
+#: ../libdump/dump_dynamic.c:891 ../libdump/dump_dynamic.c:910
+#: ../libdump/dump_dynamic.c:929 ../libdump/dump_dynamic.c:948
+#: ../libdump/dump_dynamic.c:967 ../libdump/dump_dynamic.c:986
+#: ../libdump/dump_dynamic.c:1005
 msgid "time"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:520 ../libdump/dump_dynamic.c:523
+#: ../libdump/dump_dynamic.c:522 ../libdump/dump_dynamic.c:525
 msgid "Free hole loss"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:555
+#: ../libdump/dump_dynamic.c:557
 msgid "Electron relaxation"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:558 ../libdump/dump_dynamic.c:577
+#: ../libdump/dump_dynamic.c:560 ../libdump/dump_dynamic.c:579
 msgid "Relaxation"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:574
+#: ../libdump/dump_dynamic.c:576
 msgid "Hole relaxation"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:593
+#: ../libdump/dump_dynamic.c:595
 msgid "Trapped electron density"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:612
+#: ../libdump/dump_dynamic.c:614
 msgid "Trapped hole density"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:631
+#: ../libdump/dump_dynamic.c:633
 msgid "Free electron density"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:650
+#: ../libdump/dump_dynamic.c:652
 msgid "Free hole density"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:693 ../libdump/dump_dynamic.c:712
+#: ../libdump/dump_dynamic.c:695 ../libdump/dump_dynamic.c:714
 #: ../libdump/dump_1d_slice.c:655 ../libdump/dump_1d_slice.c:688
 msgid "Mobility"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:732
+#: ../libdump/dump_dynamic.c:734
 msgid "Total electron density"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:752 ../libdump/dump_1d_slice.c:810
+#: ../libdump/dump_dynamic.c:754 ../libdump/dump_1d_slice.c:810
 #: ../libdump/dump_1d_slice.c:842
 msgid "Total hole density"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:786
+#: ../libdump/dump_dynamic.c:788
 msgid "Voltage applied to diode"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:811
+#: ../libdump/dump_dynamic.c:813
 msgid "PL intensity"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:814 ../libdump/dump_dynamic.c:835
+#: ../libdump/dump_dynamic.c:816 ../libdump/dump_dynamic.c:837
 msgid "PL Intensity"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:832
+#: ../libdump/dump_dynamic.c:834
 msgid "PL intensity normalized"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:1003
+#: ../libdump/dump_dynamic.c:1005
 msgid "band bend (percent)"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:1006
+#: ../libdump/dump_dynamic.c:1008
 msgid "band bend"
 msgstr ""
 

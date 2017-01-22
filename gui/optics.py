@@ -72,17 +72,6 @@ def find_light_source():
 
 	return ret
 
-def find_materials():
-	ret=[]
-
-	path=get_materials_path()
-
-	for file in glob.glob(os.path.join(path,"*")):
-		if os.path.isdir(file)==True:
-			ret.append(os.path.splitext(os.path.basename(file))[0])
-
-	return ret
-
 class class_optical(QWidget):
 
 	edit_list=[]

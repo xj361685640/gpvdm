@@ -211,4 +211,15 @@ def get_materials_dirs():
 			l.append(dir_path)
 	return l
 
-	
+def find_materials():
+	ret=[]
+	mat_path=get_materials_path()
+	for dirpath, dirnames, filenames in os.walk(mat_path):
+		for filename in [f for f in filenames if f=="mat.inp"]:
+			path=os.path.join(dirpath, filename)
+			path=os.path.dirname(path)
+			s=os.path.relpath(path, mat_path)
+			s=s.replace("\\","/")
+			ret.append(s)
+
+	return ret
