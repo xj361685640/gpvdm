@@ -302,19 +302,24 @@ class server(QWidget,cluster):
 			data_in=data_in[3:]
 			data=codecs.decode(data_in, 'hex')
 			data=data.decode('ascii')
+
 			if data.startswith("lock"):
-				if self.finished_jobs.count(data)==0:
-					job=int(data[4:])
-					self.finished_jobs.append(data)
-					if str2bool(inp_get_token_value("dump.inp","#dump_workbook"))==True:
-						if gen_workbook(self.jobs[job],os.path.join(self.jobs[job],"data.xlsx"))==False:
-							self.excel_workbook_gen_error=self.excel_workbook_gen_error or True
-					self.jobs_run=self.jobs_run+1
-					self.jobs_running=self.jobs_running-1
-					self.progress_window.set_fraction(float(self.jobs_run)/float(len(self.jobs)))
-					self.run_jobs()
-					if (self.jobs_run==len(self.jobs)):
-						self.stop()
+				if len(self.jobs)==0:
+					print(_("I did not think I was running any jobs"))
+					self.stop()
+				else:
+					if self.finished_jobs.count(data)==0:
+						job=int(data[4:])
+						self.finished_jobs.append(data)
+						if str2bool(inp_get_token_value("dump.inp","#dump_workbook"))==True:
+							if gen_workbook(self.jobs[job],os.path.join(self.jobs[job],"data.xlsx"))==False:
+								self.excel_workbook_gen_error=self.excel_workbook_gen_error or True
+						self.jobs_run=self.jobs_run+1
+						self.jobs_running=self.jobs_running-1
+						self.progress_window.set_fraction(float(self.jobs_run)/float(len(self.jobs)))
+						self.run_jobs()
+						if (self.jobs_run==len(self.jobs)):
+							self.stop()
 
 			elif (data=="pulse"):
 				if len(self.jobs)==1:

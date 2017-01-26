@@ -42,7 +42,7 @@ class tb_lasers(QWidget):
 		self.sim_mode.clear()
 		lines=[]
 
-		files=inp_lsdir()
+		files=inp_lsdir("sim.gpvdm")
 		if files!=False:
 			for i in range(0,len(files)):
 				if files[i].endswith(".inp"):

@@ -31,6 +31,10 @@ parser = argparse.ArgumentParser(epilog="copy materials database")
 parser.add_argument("--copy", help="Copy materials file", nargs=2)
 args = parser.parse_args()
 
+def safe_cpy(dest,src,f):
+	if os.path.isfile(os.path.join(src,f))==True:
+		shutil.copyfile(os.path.join(src,f),os.path.join(dest,f))
+
 if args.copy:
 	src=args.copy[0]
 	dest=args.copy[1]
@@ -58,19 +62,20 @@ if args.copy:
 				if os.path.isfile(os.path.join(src_mat_path,"alpha_eq.inp"))==True:
 					shutil.copyfile(os.path.join(src_mat_path,"alpha_eq.inp"),os.path.join(dst_mat_path,"alpha_eq.inp"))
 
-				shutil.copyfile(os.path.join(src_mat_path,"dos.inp"),os.path.join(dst_mat_path,"dos.inp"))
-				shutil.copyfile(os.path.join(src_mat_path,"pl.inp"),os.path.join(dst_mat_path,"pl.inp"))
+				safe_cpy(dst_mat_path,src_mat_path,"dos.inp")
 
-				shutil.copyfile(os.path.join(src_mat_path,"mat.inp"),os.path.join(dst_mat_path,"mat.inp"))
-				shutil.copyfile(os.path.join(src_mat_path,"fit.inp"),os.path.join(dst_mat_path,"fit.inp"))
+				safe_cpy(dst_mat_path,src_mat_path,"pl.inp")
 
-				shutil.copyfile(os.path.join(src_mat_path,"cost.xlsx"),os.path.join(dst_mat_path,"cost.xlsx"))
+				safe_cpy(dst_mat_path,src_mat_path,"mat.inp")
+				safe_cpy(dst_mat_path,src_mat_path,"fit.inp")
+
+				safe_cpy(dst_mat_path,src_mat_path,"cost.xlsx")
 
 				if status=="public_all":
-					shutil.copyfile(os.path.join(src_mat_path,"alpha.omat"),os.path.join(dst_mat_path,"alpha.omat"))
-					shutil.copyfile(os.path.join(src_mat_path,"n.omat"),os.path.join(dst_mat_path,"n.omat"))
+					safe_cpy(dst_mat_path,src_mat_path,"alpha.omat")
+					safe_cpy(dst_mat_path,src_mat_path,"n.omat")
+					safe_cpy(dst_mat_path,src_mat_path,"alpha.ref")
+					safe_cpy(dst_mat_path,src_mat_path,"n.ref")
 
-				print("src=",src_mat_path)
-				print("dest=",dst_mat_path)
 
 

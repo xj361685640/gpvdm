@@ -137,7 +137,7 @@ from error_han import error_han
 
 from plot_dlg import plot_dlg_class
 from gui_util import yes_no_dlg
-
+		
 if running_on_linux()==True:
 	import dbus
 	from dbus.mainloop.pyqt5 import DBusQtMainLoop
@@ -213,9 +213,9 @@ class gpvdm_main_window(QMainWindow):
 		self.config.set_value("#one_plot_window",data.get_active())
 
 
-	def callback_run_scan(self, widget, data=None):
-		if self.scan_window!=None:
-			self.scan_window.callback_run_simulation(None)
+	#def callback_run_scan(self, widget, data=None):
+	#	if self.scan_window!=None:
+	#		self.scan_window.callback_run_simulation()
 
 	def callback_simulate(self):
 
@@ -808,15 +808,16 @@ class gpvdm_main_window(QMainWindow):
 		toolbar.addAction(self.undo)
 		#seperator
 
+		toolbar.addSeparator()
 
 		self.run = QAction(QIcon(os.path.join(get_image_file_path(),"play.png")), _("Run the simulation"), self)
 		self.run.triggered.connect(self.callback_simulate)
 		toolbar.addAction(self.run)
 
 		self.tb_run_scan = QAction(QIcon(os.path.join(get_image_file_path(),"forward.png")), _("Run parameter scan"), self)
-		self.tb_run_scan.triggered.connect(self.callback_run_scan)
+		#self.tb_run_scan.triggered.connect(self.callback_run_scan)
 		self.tb_run_scan.setEnabled(False)
-		toolbar.addAction(self.tb_run_scan)
+		#toolbar.addAction(self.tb_run_scan)
 
 		self.stop = QAction(QIcon(os.path.join(get_image_file_path(),"pause.png")), _("Stop the simulation"), self)
 		self.stop.triggered.connect(self.callback_simulate_stop)

@@ -1,6 +1,6 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
+#    Copyright (C) 2012-2017 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
 #	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -18,24 +18,42 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-
+import uuid
 import os
-import platform
+from inp import inp_load_file
+from cal_path import get_exe_path
+from inp import inp_write_lines_to_file
+from inp_util import inp_search_token_value
+from os.path import expanduser
+from win_lin import running_on_linux
 
-def running_on_linux():
-	if platform.system()=="Linux":
-		return True
-	else:
-		return False
-
-def get_distro():
-	if platform.system()=="Linux":
-		return platform.dist()[0]
-	else:
-		return ""
-
-def desktop_open(file_name):
+def uid_get():
+	uid=""
 	if running_on_linux()==True:
-		os.system("xdg-open "+file_name+" &")
+		path=os.path.join(expanduser("~"),".gpvdm_uid.inp")
 	else:
-		os.system("start "+file_name)
+		path=os.path.join(get_exe_path(),"uid.inp")
+
+	try:
+		lines=[]
+		found=False
+
+		if inp_load_file(lines,path)==True:
+			uid=inp_search_token_value(lines, "#uid")
+			found=True
+
+		if found==False:
+			uid=str(uuid.uuid4())[0:8]
+			lines=[]
+			lines.append("#uid")
+			lines.append(uid)
+			lines.append("#ver")
+			lines.append("1.0")
+			lines.append("#end")
+
+			inp_write_lines_to_file(path,lines)
+	except:
+		print("uid error")
+
+	return uid
+

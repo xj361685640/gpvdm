@@ -321,7 +321,7 @@ class layer_widget(QWidget):
 		self.tab.blockSignals(False)
 
 	def clean_dos_files(self):
-		files=inp_lsdir()
+		files=inp_lsdir("sim.gpvdm")
 		tab=[]
 		for i in range(0,self.tab.rowCount()):
 			tab.append(str(tab_get_value(self.tab,i, 4))+".inp")

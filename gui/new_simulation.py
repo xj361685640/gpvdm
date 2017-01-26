@@ -38,6 +38,7 @@ from cal_path import get_device_lib_path
 from cal_path import get_image_file_path
 from cal_path import get_ui_path
 from gui_util import error_dlg
+from cal_path import get_exe_path
 
 from help import help_window
 
@@ -62,6 +63,10 @@ class new_simulation():
 
 			file_path=save_as_gpvdm(self.window)
 			if file_path!=None:
+				if file_path.startswith(get_exe_path())==True:
+					error_dlg(self.window,_("It's not a good idea to save the simulation in the gpvdm installation directory."))
+					return
+
 				selection=self.window.listwidget.selectedItems()[0].text()
 				selection_file=selection[selection.find("(")+1:selection.find(")")]
 
@@ -81,6 +86,7 @@ class new_simulation():
 		return self.ret_path
 
 	def __init__(self):
+		print(get_exe_path())
 		self.ret_path=None
 		# Create a new window
 

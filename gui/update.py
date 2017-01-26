@@ -2,7 +2,7 @@
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -47,6 +47,8 @@ from gui_util import yes_no_dlg
 from display import is_open_gl_working
 
 from PyQt5.QtCore import QTimer
+
+from uid_gen import uid_get
 
 #Under windows, this class will connect to gpvdm.com and look for updates, a user prompt will be displayed if any are found.  It can also download updates if the user asks it to.  It's not called under linux because linux has it's own package management system.
 
@@ -136,7 +138,7 @@ class update_thread(QWidget):
 		self.text=""
 
 	def get_from_web(self,url):
-			page="http://www.gpvdm.com/download_windows/update.php?ver_core="+ver_core()+"&ver_mat="+ver_mat()+"&os="+platform.platform()+"&opengl="+is_open_gl_working()
+			page="http://www.gpvdm.com/download_windows/update.php?ver_core="+ver_core()+"&uid="+uid_get()+"&os="+platform.platform()+"&opengl="+is_open_gl_working()
 			message=get_data_from_web(page)
 
 			message=message.split("\n")

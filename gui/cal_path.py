@@ -171,6 +171,11 @@ def get_plugins_path():
 	global plugins_path
 	return plugins_path
 
+def get_exe_path():
+	global exe_command
+	ret=os.path.dirname(exe_command)
+	return ret
+
 def get_exe_command():
 	global exe_command
 	return exe_command

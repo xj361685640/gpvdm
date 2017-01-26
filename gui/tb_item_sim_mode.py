@@ -1,8 +1,8 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -50,7 +50,7 @@ class tb_item_sim_mode(QWidget):
 		lines=[]
 		self.store_list=[]
 
-		files=inp_lsdir()
+		files=inp_lsdir("sim.gpvdm")
 		if files!=False:
 			for i in range(0,len(files)):
 				if files[i].endswith(".inp"):

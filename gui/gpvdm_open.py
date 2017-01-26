@@ -112,7 +112,8 @@ class gpvdm_open():
 	def fill_store(self):
 		self.window.listwidget.clear()
 		if os.path.isdir(self.dir)==False:
-			error_dlg(self.window,_("The directory is gone, so I can't open it."))
+			error_dlg(self.window,_("The directory is gone, so I can't open it.  Did you delete it?")+" "+self.dir)
+			return
 
 		all_files=os.listdir(self.dir)
 		all_files.sort()
