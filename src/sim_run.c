@@ -239,7 +239,7 @@ if (strcmp(cell.simmode,"opticalmodel@optics")!=0)
 
 	cell.go_time=FALSE;
 
-	plot_now(sim,"plot");
+	plot_now(sim,&cell,"plot");
 	//set_solver_dump_every_matrix(1);
 
 	find_n0(sim,&cell);

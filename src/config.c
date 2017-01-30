@@ -2,9 +2,9 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+//  Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
-//	www.roderickmackenzie.eu
+//	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
@@ -140,7 +140,7 @@ inp_free(sim,&inp);
 
 inp_init(sim,&inp);
 inp_load_from_path(sim,&inp,get_input_path(sim),"math.inp");
-inp_check(sim,&inp,1.48);
+inp_check(sim,&inp,1.49);
 inp_search_int(sim,&inp,&(in->max_electrical_itt0),"#maxelectricalitt_first");
 inp_search_gdouble(sim,&inp,&(in->electrical_clamp0),"#electricalclamp_first");
 inp_search_gdouble(sim,&inp,&(in->electrical_error0),"#math_electrical_error_first");
@@ -160,6 +160,9 @@ inp_search_int(sim,&inp,&(in->pos_max_ittr),"#pos_max_ittr");
 inp_search_int(sim,&inp,&(in->config_kl_in_newton),"#kl_in_newton");
 inp_search_string(sim,&inp,in->solver_name,"#solver_name");
 inp_search_string(sim,&inp,in->newton_name,"#newton_name");
+inp_search_gdouble(sim,&inp,&(sim->T0),"#math_t0");
+inp_search_gdouble(sim,&inp,&(sim->D0),"#math_d0");
+inp_search_gdouble(sim,&inp,&(sim->n0),"#math_n0");
 
 inp_free(sim,&inp);
 

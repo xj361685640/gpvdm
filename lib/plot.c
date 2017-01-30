@@ -48,7 +48,7 @@ gettimeofday (&last_time, NULL);
 
 }
 
-void plot_now(struct simulation *sim,char *name)
+void plot_now(struct simulation *sim,struct device *in,char *name)
 {
 struct timeval mytime;
 struct timeval result;
@@ -66,7 +66,8 @@ last_time.tv_usec=mytime.tv_usec;
 
 if (get_dump_status(sim,dump_plot)==TRUE)
 {
-	fprintf(sim->gnuplot, " load '%s%s'\n",plot_script_dir,name);
+	dump_write_to_disk(sim,in);
+	fprintf(sim->gnuplot, " load'%s%s'\n",plot_script_dir,name);
 	fflush(sim->gnuplot);
 }
 }

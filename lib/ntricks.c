@@ -29,6 +29,7 @@
 #include <cal_path.h>
 #include <thermal.h>
 #include <contacts.h>
+#include <dump.h>
 
 static int unused __attribute__((unused));
 
@@ -69,7 +70,7 @@ do
 	if (get_dump_status(sim,dump_print_text)==TRUE) printf("ramp: %Lf %Lf %d\n",V,to,in->kl_in_newton);
 	sim_externalv(sim,in,V);
 
-	plot_now(sim,"jv.plot");
+	plot_now(sim,in,"jv.plot");
 	gui_send_data(sim,"pulse");
 
 	if (fabs(V-to)<fabs(dV))
@@ -122,7 +123,7 @@ do
 	}
 
 	solve_all(sim,in);
-	plot_now(sim,"jv_vars.plot");
+	plot_now(sim,in,"jv_vars.plot");
 	//sim_externalv(in,in->cevoltage);
 
 	if (fabs(Vapplied-to)<fabs(dV))

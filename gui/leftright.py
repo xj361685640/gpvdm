@@ -32,12 +32,12 @@ class leftright(QWidget):
 	
 	def __init__(self):      
 		super(leftright, self).__init__()
-		self.setMaximumSize(95,30)
+		self.setMaximumSize(100,30)
 		self.initUI()
 
 	def initUI(self):
 
-		self.setMinimumSize(1, 30)
+		#self.setMinimumSize(1, 30)
 		self.value = False
 
 
@@ -78,20 +78,20 @@ class leftright(QWidget):
 
 		if self.value==True:
 			qp.setBrush(QColor(95,163,235))
-			qp.drawRoundedRect(0, 0.0, 85.0,22.0,5.0,5.0)
+			qp.drawRoundedRect(0, 0.0, 100.0,22.0,5.0,5.0)
 			qp.setBrush(QColor(230,230,230))
-			qp.drawRoundedRect(42, 2, 40,18.0,5.0,5.0)
+			qp.drawRoundedRect(50, 2, 48,18.0,5.0,5.0)
 
 			qp.drawText(8, 17, _("Right"))
 		else:
 			qp.setBrush(QColor(180,180,180))
-			qp.drawRoundedRect(0, 0.0, 85.0,22.0,5.0,5.0)			
+			qp.drawRoundedRect(0, 0.0, 100.0,22.0,5.0,5.0)			
 			qp.setBrush(QColor(230,230,230))
-			qp.drawRoundedRect(2, 2, 38,18.0,5.0,5.0)
-			qp.drawText(44, 17, _("Left"))
+			qp.drawRoundedRect(2, 2, 48,18.0,5.0,5.0)
+			qp.drawText(55, 17, _("Left"))
 
 	def mouseReleaseEvent(self, QMouseEvent):
-		if QMouseEvent.x()<80:
+		if QMouseEvent.x()<100:
 			self.value= not self.value
 			self.repaint()
 			self.changed.emit()

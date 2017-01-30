@@ -830,7 +830,6 @@ if (in->interfaceright==TRUE)
 			Rtrapp=0.0;
 
 
-
 			in->nrelax[z][x][i]=0.0;
 			in->ntrap_to_p[z][x][i]=0.0;
 			in->prelax[z][x][i]=0.0;
@@ -1792,7 +1791,7 @@ if (get_dump_status(sim,dump_newton)==TRUE)
 {
 	dump_1d_slice(sim,in,get_output_path(sim));
 }
-//plot_now(in,"plot");
+//plot_now(sim,in,"plot");
 //getchar();
 in->odes+=in->M;
 //getchar();

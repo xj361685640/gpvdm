@@ -176,7 +176,7 @@ do
 	ittr++;
 	gui_send_data(sim,"pulse");
 
-	plot_now(sim,"pulse.plot");
+	plot_now(sim,in,"pulse.plot");
 	inter_append(&out_i,in->time,i0);
 	inter_append(&out_v,in->time,V);
 	inter_append(&out_G,in->time,in->Gn[0][0][0]);

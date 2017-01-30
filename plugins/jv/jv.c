@@ -115,13 +115,17 @@ gdouble sun_orig=light_get_sun(&(in->mylight));
 light_set_sun(&(in->mylight),sun_orig*config.jv_light_efficiency);
 light_solve_and_update(sim,in,&(in->mylight),0.0);
 
+newton_push_state(in);
+
 newton_set_min_ittr(in,30);
 
 Vapplied=config.Vstart;
 contact_set_voltage_if_active(sim,in,Vapplied);
 V=Vapplied;
 newton_sim_jv(sim,in);
-newton_set_min_ittr(in,0);
+
+newton_pop_state(in);
+//newton_set_min_ittr(in,0);
 
 //gdouble k_voc=0.0;
 gdouble n_voc=0.0;
@@ -134,7 +138,7 @@ gdouble p_free_voc=0.0;
 gdouble np_voc_tot=0.0;
 gdouble r_pmax=0.0;
 gdouble n_pmax=0.0;
-
+in->stop=FALSE;
 
 	do
 	{
@@ -179,7 +183,7 @@ gdouble n_pmax=0.0;
 			Pden=gfabs(J*Vexternal);
 
 			//printf("Plotted\n");
-			plot_now(sim,"jv.plot");
+			plot_now(sim,in,"jv.plot");
 			stop_start(sim,in);
 			dump_dynamic_add_data(sim,&store,in,Vexternal);
 
@@ -220,7 +224,11 @@ gdouble n_pmax=0.0;
 					n_pmax=get_extracted_np(in);
 				}
 
-				if (Vexternal>Vstop) break;
+				if (Vexternal>Vstop)
+				{
+					printf(_("Stopping because of Vexternal %Le>%Le\n"),Vexternal,Vstop);
+					break;
+				}
 
 			}
 

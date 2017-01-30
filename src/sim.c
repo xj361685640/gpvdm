@@ -66,6 +66,9 @@ void sim_init(struct simulation *sim)
 	sim->bytes_written=0;
 	sim->bytes_read=0;
 	sim->files_read=0;
-	sim->files_written=0;	
+	sim->files_written=0;
+	sim->T0=300.0;
+	sim->D0=243.75;
+	sim->n0=1e20;
 }
 

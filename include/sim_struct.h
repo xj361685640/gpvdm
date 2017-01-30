@@ -99,6 +99,10 @@ struct simulation
 	long int files_read;
 	long int files_written;	
 
+	long double T0;
+	long double D0;
+	long double n0;
+
 };
 
 #endif

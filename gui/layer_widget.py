@@ -147,6 +147,7 @@ class layer_widget(QWidget):
 	def rebuild_mat_list(self):
 		self.material_files=[]
 		mat=find_materials()
+
 		for i in range(0,len(mat)):
 			self.material_files.append(mat[i])
 			scan_remove_file(os.path.join(get_materials_path(),mat[i]))			

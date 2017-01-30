@@ -4,7 +4,7 @@
 // 
 //  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 //
-//	www.roderickmackenzie.eu
+//	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
@@ -105,12 +105,13 @@ static gdouble dphidxipc=0.0;
 
 gdouble Vapplied=0.0;
 
-#define D0 (gdouble)243.75
-#define n0 (gdouble)1e27
-#define phi0 (gdouble)(kb*300e4/Q)
-#define l0 ((gdouble)sqrtl(epsilon0*kb*300e4/Q/Q/n0))
-#define r0 ((gdouble)n0*D0/l0/l0)
-#define r_bi0 ((gdouble)(D0/(n0*l0*l0)))
+static gdouble T0=1e20;
+static gdouble D0=1.0;
+static gdouble n0=1.0;
+static gdouble phi0=0.0;
+static gdouble l0=0.0;
+static gdouble r0=0.0;
+static gdouble r_bi0=0.0;
 
 
 void update_solver_vars(struct simulation *sim,struct device *in, int z, int x,int clamp)
@@ -1455,6 +1456,15 @@ in->Tdebug=NULL;
 
 int dllinternal_solve_cur(struct simulation *sim,struct device *in,int z, int x)
 {
+T0=sim->T0;//300.0;
+D0=sim->D0;//243.75;
+n0=sim->n0;//1e20;
+phi0=((kb/Q)*T0);
+l0=sqrtl(epsilon0*(kb/Q)*T0/(Q*n0));
+r0=n0*D0/l0/l0;
+r_bi0=D0/(n0*l0*l0);
+
+	
 gdouble last_J=get_J(in);
 gdouble delta_J=0.0;
 
@@ -1482,15 +1492,13 @@ int cpos=0;
 //	printf("Rod ------- nt= %d %le\n",i,in->Gn[i]);
 //}
 gdouble abs_error=0.0;
-int e0=0;
 	do
 	{
 
 		fill_matrix(sim,in,z,x);
 		abs_error=get_abs_error(in);
 
-//dump_for_plot(in);
-//plot_now(in,"plot");
+		plot_now(sim,in,"plot");
 	//solver_dump_matrix(in->M,in->N,in->Ti,in->Tj, in->Tx,in->b);
 //getchar();
 
@@ -1540,11 +1548,7 @@ int e0=0;
 			if (error>in->min_cur_error)
 			{
 				stop=FALSE;
-				e0=0;
-			}else
-			{
-				if (e0<10) stop=FALSE;
-				e0++;
+
 			}
 		}
 
@@ -1552,7 +1556,6 @@ int e0=0;
 		{
 			stop=FALSE;
 		}
-
 
 		if (in->newton_clever_exit==TRUE)
 		{
@@ -1579,12 +1582,13 @@ int e0=0;
 
 in->newton_last_ittr=ittr;
 
-if (error>1e-3)
-{
-	printf_log(sim,"warning: The solver has not converged very well.\n");
-}
+//if (error>1e-3)
+//{
+//	printf_log(sim,"warning: The solver has not converged very well.\n");
+//}
 
 //getchar();
+
 if (get_dump_status(sim,dump_newton)==TRUE)
 {
 	dump_1d_slice(sim,in,get_output_path(sim));
@@ -1594,7 +1598,6 @@ if (get_dump_status(sim,dump_newton)==TRUE)
 //getchar();
 in->odes+=in->M;
 //getchar();
-
 return 0;
 }
 

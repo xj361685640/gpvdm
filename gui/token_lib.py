@@ -137,6 +137,10 @@ lib.append(my_data("#newton_clever_exit","true/false","Newton solver clever exit
 lib.append(my_data("#newton_min_itt","au",_("Newton minimum iterations"),["text"],"e",1.0))
 lib.append(my_data("#solver_name","dll name",_("Matrix solver to use"),["text"],"e",1.0))
 lib.append(my_data("#newton_name","dll name",_("Newton solver to use"),["text"],"e",1.0))
+lib.append(my_data("#math_t0","au",_("Slotboom T0"),["text"],"e",1.0))
+lib.append(my_data("#math_d0","au",_("Slotboom D0"),["text"],"e",1.0))
+lib.append(my_data("#math_n0","au",_("Slotboom n0"),["text"],"e",1.0))
+
 
 #fit.inp
 lib.append(my_data("#fit_error_mul","au","Fit error multiplyer",["text"],"e",1.0))
@@ -198,10 +202,16 @@ lib.append(my_data("#led_on",_("True/False"),_("Turn on LED"),[("switch")],"e",1
 lib.append(my_data("#led_wavelength","m",_("LED emission wavelength"),["text"],"e",1.0))
 lib.append(my_data("#led_extract_eff","m",_("LED extraction efficiency"),["text"],"e",1.0))
 
+#device.inp
+lib.append(my_data("#lr_bias",_("left/right"),_("Apply potential to  left/right of device"),[("leftright")],"s",1.0))
+lib.append(my_data("#invert_applied_bias","au",_("Invert applied bias"),[("switch")],"e",1.0))
 lib.append(my_data("#Rshunt","Ohms",_("Shunt resistance"),["text"],"e",1.0))
 lib.append(my_data("#Rcontact","Ohms",_("Series resistance"),["text"],"e",1.0))
 lib.append(my_data("#lcharge","m^{-3}",_("Charge on left contact"),["text"],"e",1.0))
 lib.append(my_data("#rcharge","m^{-3}",_("Charge on right contact"),["text"],"e",1.0))
+
+
+
 lib.append(my_data("#Vstart","V",_("Start voltage"),["text"],"e",1.0))
 lib.append(my_data("#Vstop","V",_("Stop voltage"),["text"],"e",1.0))
 lib.append(my_data("#Vstep","V",_("Voltage step"),["text"],"e",1.0))
@@ -228,7 +238,10 @@ lib.append(my_data("#Xi","eV",_("Xi"),["text"],"e",1.0))
 lib.append(my_data("#start_stop_time","s",_("Time of pause"),["text"],"e",1.0))
 lib.append(my_data("#stopstart","1/0",_("Pause between iterations"),["1","0"],"e",1.0))
 lib.append(my_data("#invert_current",_("True/False"),_("Invert output"),["text"],"e",1.0))
-lib.append(my_data("#lr_bias",_("left/right"),_("Apply potential to  left/right of device"),[("leftright")],"s",1.0))
+
+
+
+
 lib.append(my_data("#otherlayers","m",_("Other layers"),["text"],"e",1.0))
 
 lib.append(my_data("#use_capacitor","1/0",_("Use capacitor"),["1","0"],"e",1.0))
@@ -307,7 +320,7 @@ lib.append(my_data("#Esteps","","",["text"],"e",1.0))
 
 
 
-lib.append(my_data("#invert_applied_bias","","",["text"],"e",1.0))
+
 lib.append(my_data("#Rshort","","",["text"],"e",1.0))
 lib.append(my_data("#Dphoton","","",["text"],"e",1.0))
 lib.append(my_data("#interfaceleft","","",["text"],"e",1.0))

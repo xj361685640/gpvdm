@@ -23,7 +23,7 @@
 #define plot_h
 void plot_now_excite(struct simulation *sim);
 void plot_open(struct simulation *sim);
-void plot_now(struct simulation *sim,char *name);
+void plot_now(struct simulation *sim,struct device *in,char *name);
 void plot_close(struct simulation *sim);
 void plot_replot(struct simulation *sim);
 void set_plot_script_dir(char * in);

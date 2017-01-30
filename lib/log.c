@@ -31,6 +31,8 @@
 #include <string.h>
 #include <const.h>
 #include <lang.h>
+#include <dump.h>
+
 
 void log_time_stamp(struct simulation *sim)
 {
