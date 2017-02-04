@@ -450,6 +450,9 @@ long double dJdphil_x=0.0;
 long double dJdphic_x=0.0;
 long double dJdphir_x=0.0;
 
+long double dJpdphil_x=0.0;
+long double dJpdphic_x=0.0;
+long double dJpdphir_x=0.0;
 //gdouble dylh_left=0.0;
 //gdouble dyrh_left=0.0;
 //gdouble dncdphic=0.0;
@@ -1035,7 +1038,11 @@ for (x=0;x<in->xmeshpoints;x++)
 				dJdphil_x=0.0;
 				dJdphic_x=0.0;
 				dJdphir_x=0.0;
-				
+
+				dJpdphil_x=0.0;
+				dJpdphic_x=0.0;
+				dJpdphir_x=0.0;
+
 				Jnl_x=(Dnl_x/dxl)*(B(-xil_x)*nc-B(xil_x)*nl_x);
 				dJnldxil_l_x= -(Dnl_x/dxl)*(B(xil_x)*dnl_x);
 				dJnldxil_c_x=(Dnl_x/dxl)*B(-xil_x)*dnc;
@@ -1054,9 +1061,15 @@ for (x=0;x<in->xmeshpoints;x++)
 				dJpldxipl_l_x=(Dpl_x/dxl)*(B(-xipl_x)*dpl_x);
 				dJpldxipl_c_x= -(Dpl_x/dxl)*B(xipl_x)*dpc;
 
+				gdouble dJpldphi_l_x= -((mupl_x)/dxl)*(dB(-xipl_x)*pl_x+dB(xipl_x)*pc);
+				gdouble dJpldphi_c_x=((mupl_x)/dxl)*(dB(-xipl_x)*pl_x+dB(xipl_x)*pc);
+				
 				Jpr_x=(Dpr_x/dxr)*(B(-xipr_x)*pc-B(xipr_x)*pr_x);
 				dJprdxipr_c_x=(Dpr_x/dxr)*(B(-xipr_x)*dpc);
 				dJprdxipr_r_x= -(Dpr_x/dxr)*(B(xipr_x)*dpr_x);
+
+				gdouble dJprdphi_c_x= -(mupr_x/dxr)*(dB(-xipr_x)*pc+dB(xipr_x)*pr_x);
+				gdouble dJprdphi_r_x=(mupr_x/dxr)*(dB(-xipr_x)*pc+dB(xipr_x)*pr_x);
 
 				in->Jn_x[z][x][i]=Q*(Jnl_x+Jnr_x)/2.0;
 				in->Jp_x[z][x][i]=Q*(Jpl_x+Jpr_x)/2.0;
@@ -1073,11 +1086,16 @@ for (x=0;x<in->xmeshpoints;x++)
 				dJdphic_x+=(-dJnldphi_c_x+dJnrdphi_c_x)/(dxlh+dxrh);
 				dJdphir_x+=dJnrdphi_r_x/(dxlh+dxrh);
 
+				dJpdphil_x+= -dJpldphi_l_x/(dxlh+dxrh);
+				dJpdphic_x+=(-dJpldphi_c_x+dJprdphi_c_x)/(dxlh+dxrh);
+				dJpdphir_x+=dJprdphi_r_x/(dxlh+dxrh);
+
 				if (x==0)
 				{
 					dJdxic_x+=dJdxil_x;
 					dJpdxipc_x+=dJpdxipl_x;
 					dJdphic_x+=dJdphil_x;
+					dJpdphic_x+=dJpdphil_x;
 				}
 				
 				if (x==in->xmeshpoints-1)
@@ -1085,10 +1103,12 @@ for (x=0;x<in->xmeshpoints;x++)
 					dJdxic_x+=dJdxir_x;
 					dJpdxipc_x+=dJpdxipr_x;
 					dJdphic_x+=dJdphir_x;
+					dJpdphic_x+=dJpdphir_x;
 				}
 
 				dJdxic+=dJdxic_x;
 				dJpdxipc+=dJpdxipc_x;
+				dJpdxipc+=dJpdphic_x;
 				
 				dJdphic+=dJdphic_x;
 				if (Bfree!=0.0)
@@ -1471,9 +1491,12 @@ for (x=0;x<in->xmeshpoints;x++)
 					in->Ti[pos]=shift+in->ymeshpoints*(1)+i;
 					in->Tj[pos]=shift_l+i;
 					in->Tx[pos]=dJdphil_x;
-					//printf("b %le\n",in->Tx[pos]);
 					pos++;
-					
+
+					//in->Ti[pos]=shift+i+in->ymeshpoints*(1+1);
+					//in->Tj[pos]=shift_l+i;
+					//in->Tx[pos]=dJpdphil_x;
+					//pos++;
 				}
 
 				if (x!=(in->xmeshpoints-1))
@@ -1497,6 +1520,11 @@ for (x=0;x<in->xmeshpoints;x++)
 					in->Tj[pos]=shift_r+i;
 					in->Tx[pos]=dJdphir_x;
 					//printf("b %le\n",in->Tx[pos]);
+					pos++;
+					
+					in->Ti[pos]=shift+i+in->ymeshpoints*(1+1);
+					in->Tj[pos]=shift_r+i;
+					in->Tx[pos]=dJpdphir_x;
 					pos++;
 
 				}
@@ -1524,7 +1552,7 @@ for (x=0;x<in->xmeshpoints;x++)
 				//printf("%Le %Le\n",pc,nc);
 				//getchar();
 				build=0.0;
-				build= -((Jnr-Jnl)/(dylh+dyrh)+(Jnr_x-Jnl_x)/(dxlh+dxrh)-Rtrapn-Rfree);
+				build= -(((Jnr-Jnl)/(dylh+dyrh))+((Jnr_x-Jnl_x)/(dxlh+dxrh))-Rtrapn-Rfree);
 
 
 				//printf("p=%Le %Le %Le\n",pl,pc,pr);
@@ -1717,6 +1745,7 @@ if (in->xmeshpoints>1)
 	N+=in->ymeshpoints*(in->xmeshpoints*2-2);		//dJndxi
 	N+=in->ymeshpoints*(in->xmeshpoints*2-2);		//dJpdxi
 	N+=in->ymeshpoints*(in->xmeshpoints*2-2);		//dJndphi
+	N+=in->ymeshpoints*(in->xmeshpoints*2-2);		//dJpdphi
 
 //	printf("%d %d %d %d %d\n",sim->x_matrix_offset,in->ymeshpoints,in->xmeshpoints,N,M);
 //	getchar();
