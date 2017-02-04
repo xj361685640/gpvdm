@@ -445,6 +445,11 @@ long double dJprdxipr_r_x=0.0;
 long double dJpdxipl_x=0.0;
 long double dJpdxipc_x=0.0;
 long double dJpdxipr_x=0.0;
+
+long double dJdphil_x=0.0;
+long double dJdphic_x=0.0;
+long double dJdphir_x=0.0;
+
 //gdouble dylh_left=0.0;
 //gdouble dyrh_left=0.0;
 //gdouble dncdphic=0.0;
@@ -1026,15 +1031,25 @@ for (x=0;x<in->xmeshpoints;x++)
 				dJpdxipl_x=0.0;
 				dJpdxipc_x=0.0;
 				dJpdxipr_x=0.0;
+
+				dJdphil_x=0.0;
+				dJdphic_x=0.0;
+				dJdphir_x=0.0;
 				
 				Jnl_x=(Dnl_x/dxl)*(B(-xil_x)*nc-B(xil_x)*nl_x);
 				dJnldxil_l_x= -(Dnl_x/dxl)*(B(xil_x)*dnl_x);
 				dJnldxil_c_x=(Dnl_x/dxl)*B(-xil_x)*dnc;
 
+				gdouble dJnldphi_l_x= -(munl_x/dxl)*(dB(-xil_x)*nc+dB(xil_x)*nl_x);
+				gdouble dJnldphi_c_x=(munl_x/dxl)*(dB(-xil_x)*nc+dB(xil_x)*nl_x);
+				
 				Jnr_x=(Dnr_x/dxr)*(B(-xir_x)*nr_x-B(xir_x)*nc);
 				dJnrdxir_c_x= -(Dnr_x/dxr)*(B(xir_x)*dnc);
 				dJnrdxir_r_x=(Dnr_x/dxr)*(B(-xir_x)*dnr_x);
 
+				gdouble dJnrdphi_c_x=(munr_x/dxr)*(-dB(-xir_x)*nr_x-dB(xir_x)*nc);
+				gdouble dJnrdphi_r_x=(munr_x/dxr)*(dB(-xir_x)*nr_x+dB(xir_x)*nc);
+				
 				Jpl_x=(Dpl_x/dxl)*(B(-xipl_x)*pl_x-B(xipl_x)*pc);
 				dJpldxipl_l_x=(Dpl_x/dxl)*(B(-xipl_x)*dpl_x);
 				dJpldxipl_c_x= -(Dpl_x/dxl)*B(xipl_x)*dpc;
@@ -1053,21 +1068,29 @@ for (x=0;x<in->xmeshpoints;x++)
 				dJpdxipl_x+= -dJpldxipl_l_x/(dxlh+dxrh);
 				dJpdxipc_x+=(-dJpldxipl_c_x+dJprdxipr_c_x)/(dxlh+dxrh);
 				dJpdxipr_x+=dJprdxipr_r_x/(dxlh+dxrh);
-				
+
+				dJdphil_x+= -dJnldphi_l_x/(dxlh+dxrh);
+				dJdphic_x+=(-dJnldphi_c_x+dJnrdphi_c_x)/(dxlh+dxrh);
+				dJdphir_x+=dJnrdphi_r_x/(dxlh+dxrh);
+
 				if (x==0)
 				{
 					dJdxic_x+=dJdxil_x;
 					dJpdxipc_x+=dJpdxipl_x;
+					dJdphic_x+=dJdphil_x;
 				}
 				
 				if (x==in->xmeshpoints-1)
 				{
 					dJdxic_x+=dJdxir_x;
 					dJpdxipc_x+=dJpdxipr_x;
+					dJdphic_x+=dJdphir_x;
 				}
 
 				dJdxic+=dJdxic_x;
 				dJpdxipc+=dJpdxipc_x;
+				
+				dJdphic+=dJdphic_x;
 				if (Bfree!=0.0)
 				{
 					dJdxic+= -Bfree*(dnc*pc);
@@ -1429,39 +1452,51 @@ for (x=0;x<in->xmeshpoints;x++)
 
 				if (x!=0)
 				{
-					in->Ti[pos]=shift_l+i;
-					in->Tj[pos]=shift+i;
+					in->Ti[pos]=shift+i;
+					in->Tj[pos]=shift_l+i;
 					in->Tx[pos]=dphil_d_x;
 					pos++;
 
-					in->Ti[pos]=shift_l+in->ymeshpoints*(1)+i;
-					in->Tj[pos]=shift+in->ymeshpoints*(1)+i;
+					in->Ti[pos]=shift+in->ymeshpoints*(1)+i;
+					in->Tj[pos]=shift_l+in->ymeshpoints*(1)+i;
 					in->Tx[pos]=dJdxil_x;
 					pos++;
 
-					in->Ti[pos]=shift_l+in->ymeshpoints*(1+1)+i;
-					in->Tj[pos]=shift+in->ymeshpoints*(1+1)+i;
+					in->Ti[pos]=shift+in->ymeshpoints*(1+1)+i;
+					in->Tj[pos]=shift_l+in->ymeshpoints*(1+1)+i;
 					in->Tx[pos]=dJpdxipl_x;
 					//printf("c %le\n",in->Tx[pos]);
+					pos++;
+					
+					in->Ti[pos]=shift+in->ymeshpoints*(1)+i;
+					in->Tj[pos]=shift_l+i;
+					in->Tx[pos]=dJdphil_x;
+					//printf("b %le\n",in->Tx[pos]);
 					pos++;
 					
 				}
 
 				if (x!=(in->xmeshpoints-1))
 				{
-					in->Ti[pos]=shift_r+i;
-					in->Tj[pos]=shift+i;
+					in->Ti[pos]=shift+i;
+					in->Tj[pos]=shift_r+i;
 					in->Tx[pos]=dphir_d_x;
 					pos++;
 
-					in->Ti[pos]=shift_r+in->ymeshpoints*(1)+i;
-					in->Tj[pos]=shift+in->ymeshpoints*(1)+i;
+					in->Ti[pos]=shift+in->ymeshpoints*(1)+i;
+					in->Tj[pos]=shift_r+in->ymeshpoints*(1)+i;
 					in->Tx[pos]=dJdxir_x;
 					pos++;
 					
-					in->Ti[pos]=shift_r+in->ymeshpoints*(1+1)+i;
-					in->Tj[pos]=shift+in->ymeshpoints*(1+1)+i;
+					in->Ti[pos]=shift+in->ymeshpoints*(1+1)+i;
+					in->Tj[pos]=shift_r+in->ymeshpoints*(1+1)+i;
 					in->Tx[pos]=dJpdxipr_x;
+					pos++;
+					
+					in->Ti[pos]=shift+in->ymeshpoints*(1)+i;
+					in->Tj[pos]=shift_r+i;
+					in->Tx[pos]=dJdphir_x;
+					//printf("b %le\n",in->Tx[pos]);
 					pos++;
 
 				}
@@ -1681,6 +1716,8 @@ if (in->xmeshpoints>1)
 	N+=in->ymeshpoints*(in->xmeshpoints*2-2);		//dphix
 	N+=in->ymeshpoints*(in->xmeshpoints*2-2);		//dJndxi
 	N+=in->ymeshpoints*(in->xmeshpoints*2-2);		//dJpdxi
+	N+=in->ymeshpoints*(in->xmeshpoints*2-2);		//dJndphi
+
 //	printf("%d %d %d %d %d\n",sim->x_matrix_offset,in->ymeshpoints,in->xmeshpoints,N,M);
 //	getchar();
 }
