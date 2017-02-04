@@ -371,6 +371,7 @@ void device_init(struct device *in)
 	//LED
 	in->led_on=FALSE;
 	in->led_wavelength=0.0;
+
 }
 
 

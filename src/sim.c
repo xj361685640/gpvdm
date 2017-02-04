@@ -70,5 +70,6 @@ void sim_init(struct simulation *sim)
 	sim->T0=300.0;
 	sim->D0=243.75;
 	sim->n0=1e20;
+	sim->x_matrix_offset=0;
 }
 

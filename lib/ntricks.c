@@ -296,8 +296,8 @@ int cont=TRUE;
 
 for (z=0;z<in->zmeshpoints;z++)
 {
-	for (x=0;x<in->xmeshpoints;x++)
-	{
+//	for (x=0;x<in->xmeshpoints;x++)
+//	{
 
 		if (in->newton_enable_external_thermal==FALSE)
 		{
@@ -323,7 +323,7 @@ for (z=0;z<in->zmeshpoints;z++)
 				ittr++;
 			}while(cont==TRUE);
 		}
-	}
+//	}
 }
 
 }

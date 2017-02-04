@@ -63,6 +63,8 @@ struct simulation
 	double *Ax;
 	double *b;
 	double *Tx;
+	int x_matrix_offset;
+
 	//complex solver
 	int complex_last_col;
 	int complex_last_nz;

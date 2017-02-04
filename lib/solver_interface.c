@@ -92,6 +92,11 @@ int i;
 	{
 		printf("%ld %ld %Le\n",in->Ti[i],in->Tj[i],in->Tx[i]);
 	}
+	
+	for (i=0;i<in->M;i++)
+	{
+		printf("%Le\n",in->b[i]);
+	}
 	//(*sim->dll_matrix_dump)(sim,col,nz,Ti,Tj, Tx,b,index);
 }
 

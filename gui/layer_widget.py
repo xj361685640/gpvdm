@@ -140,6 +140,12 @@ class layer_widget(QWidget):
 				tab_set_value(self.tab,i,4,tab_get_value(self.tab,i,3))
 				tab_set_value(self.tab,i,5,"none")
 
+			if tab_get_value(self.tab,i,3).lower()=="other":
+				tab_set_value(self.tab,i,4,tab_get_value(self.tab,i,3))
+
+			if tab_get_value(self.tab,i,3).lower()=="contact":
+				tab_set_value(self.tab,i,4,tab_get_value(self.tab,i,3))
+
 		self.save_model()
 		self.emit_change()
 
@@ -367,7 +373,6 @@ class layer_widget(QWidget):
 		dos_file=[]
 		pl_file=[]
 		name=[]
-
 		for i in range(0,self.tab.rowCount()):
 			name.append(str(tab_get_value(self.tab,i, 0)))
 			thick.append(str(tab_get_value(self.tab,i, 1)))

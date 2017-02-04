@@ -33,4 +33,9 @@ void malloc_srh_bands(struct device *in, gdouble * (****var));
 void malloc_zx_int(struct device *in, int * (**var));
 void free_zx_int(struct device *in, int **var);
 
+//3d opps
+void three_d_set_gdouble(struct device *in, gdouble ***var, gdouble val);
+void three_d_sub_gdouble(struct device *in, gdouble ***var, gdouble ***sub);
+void three_d_add_gdouble(struct device *in, gdouble ***var, gdouble ***add);
+
 #endif

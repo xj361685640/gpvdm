@@ -32,6 +32,7 @@
 #include <i.h>
 #include <exp.h>
 #include <dos.h>
+#include <memory.h>
 
 
 
@@ -40,7 +41,7 @@ void dump_1d_slice(struct simulation *sim,struct device *in,char *out_dir)
 int x;
 int y;
 int z;
-
+long double ***temp_3d;
 int band;
 char name[100];
 char temp[200];
@@ -56,7 +57,7 @@ if (stat(out_dir, &st) == -1)
 }
 
 	cal_J_drift_diffusion(in);
-
+	malloc_3d_gdouble(in, &temp_3d);
 	buffer_malloc(&buf);
 	sprintf(name,"%s","Jn_drift.dat");
 	buf.y_mul=1.0;
@@ -531,15 +532,11 @@ if (stat(out_dir, &st) == -1)
 	buf.y=in->ymeshpoints;
 	buf.z=in->zmeshpoints;
 	buffer_add_info(&buf);
-	x=0;
-	y=0;
-	z=0;
 
-	for (y=0;y<in->ymeshpoints;y++)
-	{
-		sprintf(temp,"%Le %Le\n",in->ymesh[y],(in->Jp_drift[z][x][y]+in->Jp_diffusion[z][x][y]));
-		buffer_add_string(&buf,temp);
-	}
+	three_d_set_gdouble(in, temp_3d, 0.0);
+	three_d_add_gdouble(in, temp_3d, in->Jp_drift);
+	three_d_add_gdouble(in, temp_3d, in->Jp_diffusion);
+	buffer_add_3d_device_data(&buf,in, temp_3d);
 
 	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
@@ -819,14 +816,12 @@ if (stat(out_dir, &st) == -1)
 	buf.y=in->ymeshpoints;
 	buf.z=in->zmeshpoints;
 	buffer_add_info(&buf);
-	x=0;
-	y=0;
-	z=0;
-	for (y=0;y<in->ymeshpoints;y++)
-	{
-		sprintf(temp,"%Le %Le\n",in->ymesh[y],in->p[z][x][y]+in->pt_all[z][x][y]);
-		buffer_add_string(&buf,temp);
-	}
+
+	three_d_set_gdouble(in, temp_3d, 0.0);
+	three_d_add_gdouble(in, temp_3d, in->p);
+	three_d_add_gdouble(in, temp_3d, in->pt_all);
+	buffer_add_3d_device_data(&buf,in, temp_3d);
+
 	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -835,7 +830,7 @@ if (stat(out_dir, &st) == -1)
 	sprintf(name,"%s","n.dat");
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
-	sprintf(buf.title,"%s - %s",_("Total hole density"),_("Position"));
+	sprintf(buf.title,"%s - %s",_("Total electron density"),_("Position"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,_("Carrier density"));
@@ -851,11 +846,12 @@ if (stat(out_dir, &st) == -1)
 	buf.y=in->ymeshpoints;
 	buf.z=in->zmeshpoints;
 	buffer_add_info(&buf);
-	for (y=0;y<in->ymeshpoints;y++)
-	{
-		sprintf(temp,"%Le %Le\n",in->ymesh[y],in->n[z][x][y]+in->nt_all[z][x][y]);
-		buffer_add_string(&buf,temp);
-	}
+
+	three_d_set_gdouble(in, temp_3d, 0.0);
+	three_d_add_gdouble(in, temp_3d, in->n);
+	three_d_add_gdouble(in, temp_3d, in->nt_all);
+	buffer_add_3d_device_data(&buf,in, temp_3d);
+
 	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -1357,4 +1353,5 @@ if (stat(out_dir, &st) == -1)
 	buffer_free(&buf);
 
 
+	free_3d_gdouble(in, temp_3d);
 }

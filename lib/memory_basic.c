@@ -74,6 +74,66 @@ void malloc_3d_gdouble(struct device *in, gdouble * (***var))
 
 }
 
+void three_d_set_gdouble(struct device *in, gdouble ***var, gdouble val)
+{
+int x=0;
+int y=0;
+int z=0;
+
+	for (z = 0; z < in->zmeshpoints; z++)
+	{
+		for (x = 0; x < in->xmeshpoints; x++)
+		{
+			for (y = 0; y < in->ymeshpoints; y++)
+			{
+				var[z][x][y]=val;
+			}
+			
+		}
+	}
+
+}
+
+
+void three_d_sub_gdouble(struct device *in, gdouble ***var, gdouble ***sub)
+{
+int x=0;
+int y=0;
+int z=0;
+
+	for (z = 0; z < in->zmeshpoints; z++)
+	{
+		for (x = 0; x < in->xmeshpoints; x++)
+		{
+			for (y = 0; y < in->ymeshpoints; y++)
+			{
+				var[z][x][y]-=sub[z][x][y];
+			}
+			
+		}
+	}
+
+}
+
+void three_d_add_gdouble(struct device *in, gdouble ***var, gdouble ***add)
+{
+int x=0;
+int y=0;
+int z=0;
+
+	for (z = 0; z < in->zmeshpoints; z++)
+	{
+		for (x = 0; x < in->xmeshpoints; x++)
+		{
+			for (y = 0; y < in->ymeshpoints; y++)
+			{
+				var[z][x][y]+=add[z][x][y];
+			}
+			
+		}
+	}
+
+}
 void free_3d_gdouble(struct device *in, gdouble ***var)
 {
 	int x=0;
