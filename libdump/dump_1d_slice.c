@@ -473,6 +473,54 @@ if (stat(out_dir, &st) == -1)
 	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
+	buffer_malloc(&buf);
+	sprintf(name,"%s","Jn_x.dat");
+	buf.y_mul=1.0;
+	buf.x_mul=1e9;
+	sprintf(buf.title,"%s - %s",_("Electron current density x"),_("Position"));
+	buffer_set_graph_type(&buf,in);
+	strcpy(buf.x_label,_("Position"));
+	strcpy(buf.y_label,_("Electron current density"));
+	strcpy(buf.x_units,"nm");
+	strcpy(buf.y_units,"A m^{-2}");
+	strcpy(buf.section_one,_("1D position space output"));
+	strcpy(buf.section_two,_("Transport"));
+	buf.logscale_x=0;
+	buf.logscale_y=0;
+	buf.time=in->time;
+	buf.Vexternal=Vexternal;
+	buf.x=in->xmeshpoints;
+	buf.y=in->ymeshpoints;
+	buf.z=in->zmeshpoints;
+	buffer_add_info(&buf);
+	buffer_add_3d_device_data(&buf,in,  in->Jn_x);
+	buffer_dump_path(sim,out_dir,name,&buf);
+	buffer_free(&buf);
+
+
+	buffer_malloc(&buf);
+	sprintf(name,"%s","Jp_x.dat");
+	buf.y_mul=1.0;
+	buf.x_mul=1e9;
+	sprintf(buf.title,"%s - %s",_("Electron current density x"),_("Position"));
+	buffer_set_graph_type(&buf,in);
+	strcpy(buf.x_label,_("Position"));
+	strcpy(buf.y_label,_("Hole current density"));
+	strcpy(buf.x_units,"nm");
+	strcpy(buf.y_units,"A m^{-2}");
+	strcpy(buf.section_one,_("1D position space output"));
+	strcpy(buf.section_two,_("Transport"));
+	buf.logscale_x=0;
+	buf.logscale_y=0;
+	buf.time=in->time;
+	buf.Vexternal=Vexternal;
+	buf.x=in->xmeshpoints;
+	buf.y=in->ymeshpoints;
+	buf.z=in->zmeshpoints;
+	buffer_add_info(&buf);
+	buffer_add_3d_device_data(&buf,in,  in->Jp_x);
+	buffer_dump_path(sim,out_dir,name,&buf);
+	buffer_free(&buf);
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","Jn_plus_Jp.dat");

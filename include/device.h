@@ -121,7 +121,9 @@ struct device
 		int ***imat_epitaxy;
 		gdouble ***Jn;
 		gdouble ***Jp;
-
+		gdouble ***Jn_x;
+		gdouble ***Jp_x;
+		
 		gdouble ***Jn_diffusion;
 		gdouble ***Jn_drift;
 

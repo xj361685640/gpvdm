@@ -171,6 +171,8 @@ void device_free(struct simulation *sim,struct device *in)
 	free_3d_gdouble(in,in->Fi);
 	free_3d_gdouble(in,in->Jn);
 	free_3d_gdouble(in,in->Jp);
+	free_3d_gdouble(in,in->Jn_x);
+	free_3d_gdouble(in,in->Jp_x);
 	free_3d_gdouble(in,in->Jn_drift);
 	free_3d_gdouble(in,in->Jn_diffusion);
 	free_3d_gdouble(in,in->Jp_drift);
@@ -366,6 +368,10 @@ void device_get_memory(struct simulation *sim,struct device *in)
 
 	malloc_3d_gdouble(in,&(in->Jp));
 
+	malloc_3d_gdouble(in,&(in->Jn_x));
+
+	malloc_3d_gdouble(in,&(in->Jp_x));
+	
 	malloc_3d_gdouble(in,&(in->Jn_drift));
 
 	malloc_3d_gdouble(in,&(in->Jn_diffusion));

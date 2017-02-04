@@ -124,22 +124,16 @@ gdouble update=0.0;
 		{
 
 			update=(gdouble)in->b[shift+i];
-			if ((in->interfaceleft==TRUE)&&(i==0))
-			{
-			}else
-			if ((in->interfaceright==TRUE)&&(i==in->ymeshpoints-1))
-			{
-			}else
-			{
-				if (clamp==TRUE)
-				{
-					in->phi[z][x][i]+=update/(1.0+gfabs(update/in->electrical_clamp/(clamp_temp*kb/Q)));
-				}else
-				{
-					in->phi[z][x][i]+=update;
 
-				}
+			if (clamp==TRUE)
+			{
+				in->phi[z][x][i]+=update/(1.0+gfabs(update/in->electrical_clamp/(clamp_temp*kb/Q)));
+			}else
+			{
+				in->phi[z][x][i]+=update;
+
 			}
+			
 
 
 			update=(gdouble)(in->b[shift+in->ymeshpoints*(1)+i]);
@@ -198,7 +192,6 @@ gdouble update=0.0;
 
 		}
 
-			
 
 	}
 for (x=0;x<in->xmeshpoints;x++)
@@ -413,6 +406,27 @@ long double phir_x=0.0;
 long double xl=0.0;
 long double xr=0.0;
 
+long double Dnl_x=0.0;
+long double Dpl_x=0.0;
+
+long double Dnr_x=0.0;
+long double Dpr_x=0.0;
+
+long double xil_x=0.0;
+long double xir_x=0.0;
+
+long double xpil_x=0.0;
+long double xpir_x=0.0;
+
+long double xipl_x=0.0;
+long double xipr_x=0.0;
+
+long double Jnl_x=0.0;
+long double Jnr_x=0.0;
+
+long double Jpl_x=0.0;
+long double Jpr_x=0.0;
+
 //gdouble dylh_left=0.0;
 //gdouble dyrh_left=0.0;
 //gdouble dncdphic=0.0;
@@ -422,17 +436,6 @@ for (x=0;x<in->xmeshpoints;x++)
 {
 	//if (in->kl_in_newton==FALSE)
 	//{
-		if (in->interfaceleft==TRUE)
-		{
-				in->phi[z][x][0]=in->Vapplied[z][x];
-		}
-
-				
-	if (in->interfaceright==TRUE)
-	{
-			in->phi[z][x][in->ymeshpoints-1]=in->Vr;
-	}
-
 
 			for (i=0;i<in->ymeshpoints;i++)
 			{
@@ -740,6 +743,7 @@ for (x=0;x<in->xmeshpoints;x++)
 				wnc=in->wn[z][x][i];
 				wpc=in->wp[z][x][i];
 
+				//y
 				Dnl=munl*(2.0/3.0)*wnl/Q;
 				Dpl=mupl*(2.0/3.0)*wpl/Q;
 
@@ -748,39 +752,56 @@ for (x=0;x<in->xmeshpoints;x++)
 				in->Dn[z][x][i]=Dnc;
 				in->Dp[z][x][i]=Dnc;
 
+				Dnr=munr*(2.0/3.0)*wnr/Q;
+				Dpr=mupr*(2.0/3.0)*wpr/Q;
 
-					Dnr=munr*(2.0/3.0)*wnr/Q;
-					Dpr=mupr*(2.0/3.0)*wpr/Q;
+				Dnl=(Dnl+Dnc)/2.0;
+				Dnr=(Dnr+Dnc)/2.0;
+
+				Dpl=(Dpl+Dpc)/2.0;
+				Dpr=(Dpr+Dpc)/2.0;
+
+				munl=(munl+munc)/2.0;
+				munr=(munr+munc)/2.0;
+
+				mupl=(mupl+mupc)/2.0;
+				mupr=(mupr+mupc)/2.0;
+
+				//x
+				Dnl_x=munl_x*(2.0/3.0)*wnl_x/Q;
+				Dpl_x=mupl_x*(2.0/3.0)*wpl_x/Q;
+
+				Dnr_x=munr_x*(2.0/3.0)*wnr_x/Q;
+				Dpr_x=mupr_x*(2.0/3.0)*wpr_x/Q;
+
+				Dnl_x=(Dnl_x+Dnc)/2.0;
+				Dnr_x=(Dnr_x+Dnc)/2.0;
+
+				Dpl_x=(Dpl_x+Dpc)/2.0;
+				Dpr_x=(Dpr_x+Dpc)/2.0;
+
+				munl_x=(munl_x+munc)/2.0;
+				munr_x=(munr_x+munc)/2.0;
+
+				mupl_x=(mupl_x+mupc)/2.0;
+				mupr_x=(mupr_x+mupc)/2.0;
 
 
-					Dnl=(Dnl+Dnc)/2.0;
-					Dnr=(Dnr+Dnc)/2.0;
 
-					Dpl=(Dpl+Dpc)/2.0;
-					Dpr=(Dpr+Dpc)/2.0;
+				nc=in->n[z][x][i];
+				pc=in->p[z][x][i];
 
-					munl=(munl+munc)/2.0;
-					munr=(munr+munc)/2.0;
+				dnc=in->dn[z][x][i];
+				dpc=in->dp[z][x][i];
+//				dncdphic=in->dndphi[z][x][i];
+//				dpcdphic=in->dpdphi[z][x][i];
 
-					mupl=(mupl+mupc)/2.0;
-					mupr=(mupr+mupc)/2.0;
-
-
-
-					nc=in->n[z][x][i];
-					pc=in->p[z][x][i];
-
-					dnc=in->dn[z][x][i];
-					dpc=in->dp[z][x][i];
-	//				dncdphic=in->dndphi[z][x][i];
-	//				dpcdphic=in->dpdphi[z][x][i];
-
-					Bfree=in->B[z][x][i];
-					Nad=in->Nad[z][x][i];
-					nceq=in->nfequlib[z][x][i];
-					pceq=in->pfequlib[z][x][i];
-					Rfree=Bfree*(nc*pc-nceq*pceq);
-					in->Rfree[z][x][i]=Rfree;
+				Bfree=in->B[z][x][i];
+				Nad=in->Nad[z][x][i];
+				nceq=in->nfequlib[z][x][i];
+				pceq=in->pfequlib[z][x][i];
+				Rfree=Bfree*(nc*pc-nceq*pceq);
+				in->Rfree[z][x][i]=Rfree;
 					//if (in->ymeshpoints*(1)+i==31) printf("Rod -- %d %le %le %le \n",in->ymeshpoints*(1)+i,Rfree,nceq,pceq);
 
 	//			klc=in->kl[i];
@@ -834,8 +855,6 @@ for (x=0;x<in->xmeshpoints;x++)
 		}
 
 
-
-
 		//if (i==in->ymeshpoints-1)
 		//{
 		//printf("%le\n",phir);
@@ -851,19 +870,11 @@ for (x=0;x<in->xmeshpoints;x++)
 		dphidxic=Q*(dnc);
 		dphidxipc= -Q*(dpc);
 
-		if (((in->interfaceleft==TRUE)&&(i==0))||((in->interfaceright==TRUE)&&(i==in->ymeshpoints-1)))
-		{
-			dphidxic=0.0;
-			dphidxipc=0.0;
-		}
-
 		if (in->ntrapnewton==TRUE)
 		{
 			for (band=0;band<in->srh_bands;band++)
 			{
 				in->newton_dphidntrap[band]=Q*(in->dnt[z][x][i][band]);
-				if ((in->interfaceleft==TRUE)&&(i==0)) in->newton_dphidntrap[band]=0.0;
-				if ((in->interfaceright==TRUE)&&(i==in->ymeshpoints-1)) in->newton_dphidntrap[band]=0.0;
 			}
 		}
 
@@ -872,8 +883,6 @@ for (x=0;x<in->xmeshpoints;x++)
 			for (band=0;band<in->srh_bands;band++)
 			{
 				in->newton_dphidptrap[band]= -Q*(in->dpt[z][x][i][band]);
-				if ((in->interfaceleft==TRUE)&&(i==0)) in->newton_dphidptrap[band]=0.0;
-				if ((in->interfaceright==TRUE)&&(i==in->ymeshpoints-1)) in->newton_dphidptrap[band]=0.0;
 
 				//dphidxipc+= -Q*(in->dpt[i]);
 			}
@@ -885,7 +894,7 @@ for (x=0;x<in->xmeshpoints;x++)
 	//	G=in->G[i];
 
 
-
+				//y
 				xil=Q*2.0*(3.0/2.0)*(Ecc-Ecl)/((wnc+wnl));
 				xir=Q*2.0*(3.0/2.0)*(Ecr-Ecc)/((wnr+wnc));
 
@@ -894,6 +903,13 @@ for (x=0;x<in->xmeshpoints;x++)
 
 				xipl=Q*2.0*(3.0/2.0)*(Evc-Evl)/(wpc+wpl);
 				xipr=Q*2.0*(3.0/2.0)*(Evr-Evc)/(wpr+wpc);
+
+				//x
+				xil_x=Q*2.0*(3.0/2.0)*(Ecc-Ecl_x)/((wnc+wnl_x));
+				xir_x=Q*2.0*(3.0/2.0)*(Ecr_x-Ecc)/((wnr_x+wnc));
+
+				xipl_x=Q*2.0*(3.0/2.0)*(Evc-Evl_x)/(wpc+wpl_x);
+				xipr_x=Q*2.0*(3.0/2.0)*(Evr_x-Evc)/(wpr_x+wpc);
 
 				dJdxil=0.0;
 				dJdxic=0.0;
@@ -913,7 +929,7 @@ for (x=0;x<in->xmeshpoints;x++)
 				dJpdphic=0.0;
 				dJpdphir=0.0;
 
-
+				//y
 				Jnl=(Dnl/dyl)*(B(-xil)*nc-B(xil)*nl);
 				dJnldxil_l= -(Dnl/dyl)*(B(xil)*dnl);
 				dJnldxil_c=(Dnl/dyl)*B(-xil)*dnc;
@@ -984,6 +1000,16 @@ for (x=0;x<in->xmeshpoints;x++)
 				dJpdphic+=(-dJpldphi_c+dJprdphi_c)/(dylh+dyrh);
 				dJpdphir+=dJprdphi_r/(dylh+dyrh);
 
+				//x
+				Jnl_x=(Dnl_x/dxl)*(B(-xil_x)*nc-B(xil_x)*nl_x);
+				Jnr_x=(Dnr_x/dxr)*(B(-xir_x)*nr_x-B(xir_x)*nc);
+
+				Jpl_x=(Dpl_x/dxl)*(B(-xipl_x)*pl_x-B(xipl_x)*pc);
+				Jpr_x=(Dpr_x/dxr)*(B(-xipr_x)*pc-B(xipr_x)*pr_x);
+
+				in->Jn_x[z][x][i]=Q*(Jnl_x+Jnr_x)/2.0;
+				in->Jp_x[z][x][i]=Q*(Jpl_x+Jpr_x)/2.0;
+				
 				if (Bfree!=0.0)
 				{
 					dJdxic+= -Bfree*(dnc*pc);
@@ -992,16 +1018,8 @@ for (x=0;x<in->xmeshpoints;x++)
 					dJpdxipc+=Bfree*(nc*dpc);
 					dJpdxic+=Bfree*(dnc*pc);
 
-					if ((in->interfaceleft==TRUE)&&(i==0))
-					{
-					}else
-					if ((in->interfaceright==TRUE)&&(i==in->ymeshpoints-1))
-					{
-					}else
-					{
-						dJdphic+= -Bfree*(dnc*pc);
-						dJpdphic+=Bfree*(nc*dpc);
-					}
+					dJdphic+= -Bfree*(dnc*pc);
+					dJpdphic+=Bfree*(nc*dpc);
 
 				}
 
@@ -1176,19 +1194,11 @@ for (x=0;x<in->xmeshpoints;x++)
 
 				}
 
-				//getchar();
-				//if ((in->kl_in_newton==TRUE)&&(in->interfaceleft==TRUE)&&(i==0))
-				//{
-					//printf("%d\n",i);
-					//getchar();
-				//}else
-				//{
-					//phi
-					in->Ti[pos]=shift+i;
-					in->Tj[pos]=shift+i;
-					in->Tx[pos]=dphic_d;
-					pos++;
-				//}
+
+				in->Ti[pos]=shift+i;
+				in->Tj[pos]=shift+i;
+				in->Tx[pos]=dphic_d;
+				pos++;
 
 
 				in->Ti[pos]=shift+i;
@@ -1324,18 +1334,11 @@ for (x=0;x<in->xmeshpoints;x++)
 				if (i!=(in->ymeshpoints-1))
 				{
 
-					//if ((in->kl_in_newton==TRUE)&&(in->interfaceleft==TRUE)&&(i==0))
-					//{
-						//printf("%d\n",i);
-						//getchar();
-					//}else
-					//{
-						//phi
-						in->Ti[pos]=shift+i;
-						in->Tj[pos]=shift+i+1;
-						in->Tx[pos]=dphir_d;
-						pos++;
-					//}
+
+					in->Ti[pos]=shift+i;
+					in->Tj[pos]=shift+i+1;
+					in->Tx[pos]=dphir_d;
+					pos++;
 
 
 
@@ -1384,36 +1387,28 @@ for (x=0;x<in->xmeshpoints;x++)
 
 				//Possion
 				gdouble build=0.0;
-				if ((in->interfaceleft==TRUE)&&(i==0))
-				{
-					build= -0.0;
-				}else
-				if ((in->interfaceright==TRUE)&&(i==in->ymeshpoints-1))
-				{
-					build= -0.0;
-				}else
-				{
-					build= -(deriv);
 
-					build+= -(-(pc-nc-Nad)*Q);
+				build= -(deriv);
 
-					for (band=0;band<in->srh_bands;band++)
-					{
-						build+= -(-Q*(in->pt[z][x][i][band]-in->nt[z][x][i][band]));
-					}
+				build+= -(-(pc-nc-Nad)*Q);
 
-					//build+= -(-Q*in->Nad[i]);
-					//printf("n=%Le n0=%Le\n",in->n[i],in->n[i]);
-					//printf("p=%Le p0=%Le\n",in->p[i],in->p[i]);
-					//printf("Nad=%Le Nad0=%Le\n",in->Nad[i],in->Nad[i]);
-					//printf("deriv_norm=%Le deriv=%Le\n",deriv,deriv);
+				for (band=0;band<in->srh_bands;band++)
+				{
+					build+= -(-Q*(in->pt[z][x][i][band]-in->nt[z][x][i][band]));
 				}
+
+				//build+= -(-Q*in->Nad[i]);
+				//printf("n=%Le n0=%Le\n",in->n[i],in->n[i]);
+				//printf("p=%Le p0=%Le\n",in->p[i],in->p[i]);
+				//printf("Nad=%Le Nad0=%Le\n",in->Nad[i],in->Nad[i]);
+				//printf("deriv_norm=%Le deriv=%Le\n",deriv,deriv);
+			
 				in->b[shift+i]=build;
 				//getchar();
 				//printf("%Le %Le\n",pc,nc);
 				//getchar();
 				build=0.0;
-				build= -((Jnr-Jnl)/(dylh+dyrh)-Rtrapn-Rfree);
+				build= -((Jnr-Jnl)/(dylh+dyrh)+(Jnr_x-Jnl_x)/(dxlh+dxrh)-Rtrapn-Rfree);
 
 
 				//printf("p=%Le %Le %Le\n",pl,pc,pr);
@@ -1501,16 +1496,8 @@ for (x=0;x<in->xmeshpoints;x++)
 	for (i=0;i<in->ymeshpoints;i++)
 	{
 			int shift=sim->x_matrix_offset*x;
-			if ((in->interfaceleft==TRUE)&&(i==0))
-			{
-			}else
-			if ((in->interfaceright==TRUE)&&(i==in->ymeshpoints-1))
-			{
-			}else
-			{
-				phi+=gfabs(in->b[shift+i]);
+			phi+=gfabs(in->b[shift+i]);
 				//printf("%Le\n",in->b[i]);
-			}
 
 			n+=gfabs(in->b[shift+in->ymeshpoints*(1)+i]);
 			p+=+gfabs(in->b[shift+in->ymeshpoints*(1+1)+i]);
@@ -1614,6 +1601,7 @@ if (in->xmeshpoints>1)
 //	printf("%d %d %d %d %d\n",sim->x_matrix_offset,in->ymeshpoints,in->xmeshpoints,N,M);
 //	getchar();
 }
+
 
 
 *ret_N=N;
