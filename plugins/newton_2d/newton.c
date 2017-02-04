@@ -427,6 +427,24 @@ long double Jnr_x=0.0;
 long double Jpl_x=0.0;
 long double Jpr_x=0.0;
 
+long double dJnldxil_l_x=0.0;
+long double dJnldxil_c_x=0.0;
+long double dJnrdxir_c_x=0.0;
+long double dJnrdxir_r_x=0.0;
+
+long double dJdxil_x=0.0;
+long double dJdxic_x=0.0;
+long double dJdxir_x=0.0;
+
+long double dJpldxipl_l_x=0.0;
+long double dJpldxipl_c_x=0.0;
+
+long double dJprdxipr_c_x=0.0;
+long double dJprdxipr_r_x=0.0;
+
+long double dJpdxipl_x=0.0;
+long double dJpdxipc_x=0.0;
+long double dJpdxipr_x=0.0;
 //gdouble dylh_left=0.0;
 //gdouble dyrh_left=0.0;
 //gdouble dncdphic=0.0;
@@ -1001,15 +1019,55 @@ for (x=0;x<in->xmeshpoints;x++)
 				dJpdphir+=dJprdphi_r/(dylh+dyrh);
 
 				//x
+				dJdxil_x=0.0;
+				dJdxic_x=0.0;
+				dJdxir_x=0.0;
+
+				dJpdxipl_x=0.0;
+				dJpdxipc_x=0.0;
+				dJpdxipr_x=0.0;
+				
 				Jnl_x=(Dnl_x/dxl)*(B(-xil_x)*nc-B(xil_x)*nl_x);
+				dJnldxil_l_x= -(Dnl_x/dxl)*(B(xil_x)*dnl_x);
+				dJnldxil_c_x=(Dnl_x/dxl)*B(-xil_x)*dnc;
+
 				Jnr_x=(Dnr_x/dxr)*(B(-xir_x)*nr_x-B(xir_x)*nc);
+				dJnrdxir_c_x= -(Dnr_x/dxr)*(B(xir_x)*dnc);
+				dJnrdxir_r_x=(Dnr_x/dxr)*(B(-xir_x)*dnr_x);
 
 				Jpl_x=(Dpl_x/dxl)*(B(-xipl_x)*pl_x-B(xipl_x)*pc);
+				dJpldxipl_l_x=(Dpl_x/dxl)*(B(-xipl_x)*dpl_x);
+				dJpldxipl_c_x= -(Dpl_x/dxl)*B(xipl_x)*dpc;
+
 				Jpr_x=(Dpr_x/dxr)*(B(-xipr_x)*pc-B(xipr_x)*pr_x);
+				dJprdxipr_c_x=(Dpr_x/dxr)*(B(-xipr_x)*dpc);
+				dJprdxipr_r_x= -(Dpr_x/dxr)*(B(xipr_x)*dpr_x);
 
 				in->Jn_x[z][x][i]=Q*(Jnl_x+Jnr_x)/2.0;
 				in->Jp_x[z][x][i]=Q*(Jpl_x+Jpr_x)/2.0;
+
+				dJdxil_x+= -dJnldxil_l_x/(dxlh+dxrh);
+				dJdxic_x+=(-dJnldxil_c_x+dJnrdxir_c_x)/(dxlh+dxrh);
+				dJdxir_x+=dJnrdxir_r_x/(dxlh+dxrh);
 				
+				dJpdxipl_x+= -dJpldxipl_l_x/(dxlh+dxrh);
+				dJpdxipc_x+=(-dJpldxipl_c_x+dJprdxipr_c_x)/(dxlh+dxrh);
+				dJpdxipr_x+=dJprdxipr_r_x/(dxlh+dxrh);
+				
+				if (x==0)
+				{
+					dJdxic_x+=dJdxil_x;
+					dJpdxipc_x+=dJpdxipl_x;
+				}
+				
+				if (x==in->xmeshpoints-1)
+				{
+					dJdxic_x+=dJdxir_x;
+					dJpdxipc_x+=dJpdxipr_x;
+				}
+
+				dJdxic+=dJdxic_x;
+				dJpdxipc+=dJpdxipc_x;
 				if (Bfree!=0.0)
 				{
 					dJdxic+= -Bfree*(dnc*pc);
@@ -1167,30 +1225,30 @@ for (x=0;x<in->xmeshpoints;x++)
 					in->Tx[pos]=dphil_d;
 					pos++;
 					//electron
-						in->Ti[pos]=shift+in->ymeshpoints*(1)+i;
-						in->Tj[pos]=shift+in->ymeshpoints*(1)+i-1;
-						in->Tx[pos]=dJdxil;
-						//printf("a %le\n",in->Tx[pos]);
-						pos++;
+					in->Ti[pos]=shift+in->ymeshpoints*(1)+i;
+					in->Tj[pos]=shift+in->ymeshpoints*(1)+i-1;
+					in->Tx[pos]=dJdxil;
+					//printf("a %le\n",in->Tx[pos]);
+					pos++;
 
-						in->Ti[pos]=shift+in->ymeshpoints*(1)+i;
-						in->Tj[pos]=shift+i-1;
-						in->Tx[pos]=dJdphil;
-						//printf("b %le\n",in->Tx[pos]);
-						pos++;
+					in->Ti[pos]=shift+in->ymeshpoints*(1)+i;
+					in->Tj[pos]=shift+i-1;
+					in->Tx[pos]=dJdphil;
+					//printf("b %le\n",in->Tx[pos]);
+					pos++;
 
-						//hole
-						in->Ti[pos]=shift+in->ymeshpoints*(1+1)+i;
-						in->Tj[pos]=shift+in->ymeshpoints*(1+1)+i-1;
-						in->Tx[pos]=dJpdxipl;
-						//printf("c %le\n",in->Tx[pos]);
-						pos++;
+					//hole
+					in->Ti[pos]=shift+in->ymeshpoints*(1+1)+i;
+					in->Tj[pos]=shift+in->ymeshpoints*(1+1)+i-1;
+					in->Tx[pos]=dJpdxipl;
+					//printf("c %le\n",in->Tx[pos]);
+					pos++;
 
-						in->Ti[pos]=shift+i+in->ymeshpoints*(1+1);
-						in->Tj[pos]=shift+i-1;
-						in->Tx[pos]=dJpdphil;
-						//printf("d %le\n",in->Tx[pos]);
-						pos++;
+					in->Ti[pos]=shift+i+in->ymeshpoints*(1+1);
+					in->Tj[pos]=shift+i-1;
+					in->Tx[pos]=dJpdphil;
+					//printf("d %le\n",in->Tx[pos]);
+					pos++;
 
 				}
 
@@ -1375,6 +1433,18 @@ for (x=0;x<in->xmeshpoints;x++)
 					in->Tj[pos]=shift+i;
 					in->Tx[pos]=dphil_d_x;
 					pos++;
+
+					in->Ti[pos]=shift_l+in->ymeshpoints*(1)+i;
+					in->Tj[pos]=shift+in->ymeshpoints*(1)+i;
+					in->Tx[pos]=dJdxil_x;
+					pos++;
+
+					in->Ti[pos]=shift_l+in->ymeshpoints*(1+1)+i;
+					in->Tj[pos]=shift+in->ymeshpoints*(1+1)+i;
+					in->Tx[pos]=dJpdxipl_x;
+					//printf("c %le\n",in->Tx[pos]);
+					pos++;
+					
 				}
 
 				if (x!=(in->xmeshpoints-1))
@@ -1383,6 +1453,17 @@ for (x=0;x<in->xmeshpoints;x++)
 					in->Tj[pos]=shift+i;
 					in->Tx[pos]=dphir_d_x;
 					pos++;
+
+					in->Ti[pos]=shift_r+in->ymeshpoints*(1)+i;
+					in->Tj[pos]=shift+in->ymeshpoints*(1)+i;
+					in->Tx[pos]=dJdxir_x;
+					pos++;
+					
+					in->Ti[pos]=shift_r+in->ymeshpoints*(1+1)+i;
+					in->Tj[pos]=shift+in->ymeshpoints*(1+1)+i;
+					in->Tx[pos]=dJpdxipr_x;
+					pos++;
+
 				}
 
 				//Possion
@@ -1431,7 +1512,7 @@ for (x=0;x<in->xmeshpoints;x++)
 
 				//hole
 				build=0.0;
-				build= -((Jpr-Jpl)/(dylh+dyrh)+Rtrapp+Rfree);
+				build= -((Jpr-Jpl)/(dylh+dyrh)+(Jpr_x-Jpl_x)/(dxlh+dxrh)+Rtrapp+Rfree);
 				//printf("%le %le\n",Rtrapn,Rtrapp);
 
 				build-= -Gp;
@@ -1598,6 +1679,8 @@ if (in->xmeshpoints>1)
 	M*=in->xmeshpoints;		//multiply diagonals
 	
 	N+=in->ymeshpoints*(in->xmeshpoints*2-2);		//dphix
+	N+=in->ymeshpoints*(in->xmeshpoints*2-2);		//dJndxi
+	N+=in->ymeshpoints*(in->xmeshpoints*2-2);		//dJpdxi
 //	printf("%d %d %d %d %d\n",sim->x_matrix_offset,in->ymeshpoints,in->xmeshpoints,N,M);
 //	getchar();
 }
