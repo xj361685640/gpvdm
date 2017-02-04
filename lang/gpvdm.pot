@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.80\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2017-02-04 12:54+0000\n"
+"POT-Creation-Date: 2017-02-04 17:53+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -35,47 +35,47 @@ msgstr ""
 #: ../libdump/dump_1d_slice.c:309 ../libdump/dump_1d_slice.c:311
 #: ../libdump/dump_1d_slice.c:335 ../libdump/dump_1d_slice.c:359
 #: ../libdump/dump_1d_slice.c:382 ../libdump/dump_1d_slice.c:384
-#: ../libdump/dump_1d_slice.c:408 ../libdump/dump_1d_slice.c:437
-#: ../libdump/dump_1d_slice.c:439 ../libdump/dump_1d_slice.c:462
-#: ../libdump/dump_1d_slice.c:464 ../libdump/dump_1d_slice.c:487
-#: ../libdump/dump_1d_slice.c:489 ../libdump/dump_1d_slice.c:523
-#: ../libdump/dump_1d_slice.c:525 ../libdump/dump_1d_slice.c:552
-#: ../libdump/dump_1d_slice.c:554 ../libdump/dump_1d_slice.c:576
-#: ../libdump/dump_1d_slice.c:578 ../libdump/dump_1d_slice.c:601
-#: ../libdump/dump_1d_slice.c:603 ../libdump/dump_1d_slice.c:625
-#: ../libdump/dump_1d_slice.c:627 ../libdump/dump_1d_slice.c:651
-#: ../libdump/dump_1d_slice.c:684 ../libdump/dump_1d_slice.c:711
-#: ../libdump/dump_1d_slice.c:713 ../libdump/dump_1d_slice.c:735
-#: ../libdump/dump_1d_slice.c:737 ../libdump/dump_1d_slice.c:759
-#: ../libdump/dump_1d_slice.c:761 ../libdump/dump_1d_slice.c:783
-#: ../libdump/dump_1d_slice.c:785 ../libdump/dump_1d_slice.c:807
-#: ../libdump/dump_1d_slice.c:809 ../libdump/dump_1d_slice.c:837
-#: ../libdump/dump_1d_slice.c:839 ../libdump/dump_1d_slice.c:866
-#: ../libdump/dump_1d_slice.c:868 ../libdump/dump_1d_slice.c:894
-#: ../libdump/dump_1d_slice.c:896 ../libdump/dump_1d_slice.c:922
-#: ../libdump/dump_1d_slice.c:924 ../libdump/dump_1d_slice.c:950
-#: ../libdump/dump_1d_slice.c:952 ../libdump/dump_1d_slice.c:978
-#: ../libdump/dump_1d_slice.c:980 ../libdump/dump_1d_slice.c:1006
-#: ../libdump/dump_1d_slice.c:1008 ../libdump/dump_1d_slice.c:1034
-#: ../libdump/dump_1d_slice.c:1036 ../libdump/dump_1d_slice.c:1058
-#: ../libdump/dump_1d_slice.c:1060 ../libdump/dump_1d_slice.c:1083
-#: ../libdump/dump_1d_slice.c:1085 ../libdump/dump_1d_slice.c:1107
-#: ../libdump/dump_1d_slice.c:1109 ../libdump/dump_1d_slice.c:1132
-#: ../libdump/dump_1d_slice.c:1134 ../libdump/dump_1d_slice.c:1168
-#: ../libdump/dump_1d_slice.c:1170 ../libdump/dump_1d_slice.c:1204
-#: ../libdump/dump_1d_slice.c:1206 ../libdump/dump_1d_slice.c:1233
-#: ../libdump/dump_1d_slice.c:1235 ../libdump/dump_1d_slice.c:1266
-#: ../libdump/dump_1d_slice.c:1268 ../libdump/dump_1d_slice.c:1291
-#: ../libdump/dump_1d_slice.c:1293 ../libdump/dump_1d_slice.c:1317
-#: ../libdump/dump_1d_slice.c:1339 ../libdump/dump_1d_slice.c:1341
+#: ../libdump/dump_1d_slice.c:408 ../libdump/dump_1d_slice.c:435
+#: ../libdump/dump_1d_slice.c:437 ../libdump/dump_1d_slice.c:460
+#: ../libdump/dump_1d_slice.c:462 ../libdump/dump_1d_slice.c:485
+#: ../libdump/dump_1d_slice.c:487 ../libdump/dump_1d_slice.c:516
+#: ../libdump/dump_1d_slice.c:518 ../libdump/dump_1d_slice.c:545
+#: ../libdump/dump_1d_slice.c:547 ../libdump/dump_1d_slice.c:569
+#: ../libdump/dump_1d_slice.c:571 ../libdump/dump_1d_slice.c:594
+#: ../libdump/dump_1d_slice.c:596 ../libdump/dump_1d_slice.c:618
+#: ../libdump/dump_1d_slice.c:620 ../libdump/dump_1d_slice.c:644
+#: ../libdump/dump_1d_slice.c:677 ../libdump/dump_1d_slice.c:704
+#: ../libdump/dump_1d_slice.c:706 ../libdump/dump_1d_slice.c:728
+#: ../libdump/dump_1d_slice.c:730 ../libdump/dump_1d_slice.c:752
+#: ../libdump/dump_1d_slice.c:754 ../libdump/dump_1d_slice.c:776
+#: ../libdump/dump_1d_slice.c:778 ../libdump/dump_1d_slice.c:800
+#: ../libdump/dump_1d_slice.c:802 ../libdump/dump_1d_slice.c:830
+#: ../libdump/dump_1d_slice.c:832 ../libdump/dump_1d_slice.c:859
+#: ../libdump/dump_1d_slice.c:861 ../libdump/dump_1d_slice.c:890
+#: ../libdump/dump_1d_slice.c:892 ../libdump/dump_1d_slice.c:921
+#: ../libdump/dump_1d_slice.c:923 ../libdump/dump_1d_slice.c:958
+#: ../libdump/dump_1d_slice.c:960 ../libdump/dump_1d_slice.c:990
+#: ../libdump/dump_1d_slice.c:992 ../libdump/dump_1d_slice.c:1019
+#: ../libdump/dump_1d_slice.c:1021 ../libdump/dump_1d_slice.c:1048
+#: ../libdump/dump_1d_slice.c:1050 ../libdump/dump_1d_slice.c:1072
+#: ../libdump/dump_1d_slice.c:1074 ../libdump/dump_1d_slice.c:1097
+#: ../libdump/dump_1d_slice.c:1099 ../libdump/dump_1d_slice.c:1121
+#: ../libdump/dump_1d_slice.c:1123 ../libdump/dump_1d_slice.c:1146
+#: ../libdump/dump_1d_slice.c:1148 ../libdump/dump_1d_slice.c:1182
+#: ../libdump/dump_1d_slice.c:1184 ../libdump/dump_1d_slice.c:1218
+#: ../libdump/dump_1d_slice.c:1220 ../libdump/dump_1d_slice.c:1247
+#: ../libdump/dump_1d_slice.c:1249 ../libdump/dump_1d_slice.c:1280
+#: ../libdump/dump_1d_slice.c:1282 ../libdump/dump_1d_slice.c:1305
+#: ../libdump/dump_1d_slice.c:1307 ../libdump/dump_1d_slice.c:1331
+#: ../libdump/dump_1d_slice.c:1353 ../libdump/dump_1d_slice.c:1355
 msgid "Position"
 msgstr ""
 
 #: ../liblight/light_dump.c:466 ../liblight/light_dump.c:493
 #: ../libmeasure/probe.c:274 ../libmeasure/probe.c:299
 #: ../plugins/pulse/pulse.c:298 ../gui/optics.py:190
-#: ../libdump/dump_dynamic.c:420 ../libdump/dump_1d_slice.c:1037
-#: ../libdump/dump_1d_slice.c:1061
+#: ../libdump/dump_dynamic.c:420 ../libdump/dump_1d_slice.c:1051
+#: ../libdump/dump_1d_slice.c:1075
 msgid "Generation rate"
 msgstr ""
 
@@ -307,7 +307,7 @@ msgid "current density"
 msgstr ""
 
 #: ../plugins/pulse/pulse.c:231 ../libdump/dump_dynamic.c:231
-#: ../libdump/dump_1d_slice.c:437 ../libdump/dump_1d_slice.c:462
+#: ../libdump/dump_1d_slice.c:435 ../libdump/dump_1d_slice.c:460
 msgid "Current density"
 msgstr ""
 
@@ -445,7 +445,7 @@ msgstr ""
 #: ../src/initial.c:121 ../src/initial.c:145 ../libdump/dump_1d_slice.c:93
 #: ../libdump/dump_1d_slice.c:117 ../libdump/dump_1d_slice.c:165
 #: ../libdump/dump_1d_slice.c:261 ../libdump/dump_1d_slice.c:333
-#: ../libdump/dump_1d_slice.c:357 ../libdump/dump_1d_slice.c:1315
+#: ../libdump/dump_1d_slice.c:357 ../libdump/dump_1d_slice.c:1329
 msgid "position"
 msgstr ""
 
@@ -457,24 +457,24 @@ msgstr ""
 #: ../libdump/dump_1d_slice.c:243 ../libdump/dump_1d_slice.c:267
 #: ../libdump/dump_1d_slice.c:291 ../libdump/dump_1d_slice.c:315
 #: ../libdump/dump_1d_slice.c:339 ../libdump/dump_1d_slice.c:363
-#: ../libdump/dump_1d_slice.c:388 ../libdump/dump_1d_slice.c:443
-#: ../libdump/dump_1d_slice.c:468 ../libdump/dump_1d_slice.c:493
-#: ../libdump/dump_1d_slice.c:529 ../libdump/dump_1d_slice.c:558
-#: ../libdump/dump_1d_slice.c:582 ../libdump/dump_1d_slice.c:607
-#: ../libdump/dump_1d_slice.c:631 ../libdump/dump_1d_slice.c:655
-#: ../libdump/dump_1d_slice.c:688 ../libdump/dump_1d_slice.c:717
-#: ../libdump/dump_1d_slice.c:741 ../libdump/dump_1d_slice.c:765
-#: ../libdump/dump_1d_slice.c:789 ../libdump/dump_1d_slice.c:813
-#: ../libdump/dump_1d_slice.c:843 ../libdump/dump_1d_slice.c:872
-#: ../libdump/dump_1d_slice.c:900 ../libdump/dump_1d_slice.c:928
-#: ../libdump/dump_1d_slice.c:956 ../libdump/dump_1d_slice.c:984
-#: ../libdump/dump_1d_slice.c:1012 ../libdump/dump_1d_slice.c:1040
-#: ../libdump/dump_1d_slice.c:1064 ../libdump/dump_1d_slice.c:1089
-#: ../libdump/dump_1d_slice.c:1113 ../libdump/dump_1d_slice.c:1138
-#: ../libdump/dump_1d_slice.c:1174 ../libdump/dump_1d_slice.c:1210
-#: ../libdump/dump_1d_slice.c:1239 ../libdump/dump_1d_slice.c:1272
-#: ../libdump/dump_1d_slice.c:1297 ../libdump/dump_1d_slice.c:1321
-#: ../libdump/dump_1d_slice.c:1345
+#: ../libdump/dump_1d_slice.c:388 ../libdump/dump_1d_slice.c:441
+#: ../libdump/dump_1d_slice.c:466 ../libdump/dump_1d_slice.c:491
+#: ../libdump/dump_1d_slice.c:522 ../libdump/dump_1d_slice.c:551
+#: ../libdump/dump_1d_slice.c:575 ../libdump/dump_1d_slice.c:600
+#: ../libdump/dump_1d_slice.c:624 ../libdump/dump_1d_slice.c:648
+#: ../libdump/dump_1d_slice.c:681 ../libdump/dump_1d_slice.c:710
+#: ../libdump/dump_1d_slice.c:734 ../libdump/dump_1d_slice.c:758
+#: ../libdump/dump_1d_slice.c:782 ../libdump/dump_1d_slice.c:806
+#: ../libdump/dump_1d_slice.c:836 ../libdump/dump_1d_slice.c:865
+#: ../libdump/dump_1d_slice.c:896 ../libdump/dump_1d_slice.c:927
+#: ../libdump/dump_1d_slice.c:964 ../libdump/dump_1d_slice.c:996
+#: ../libdump/dump_1d_slice.c:1025 ../libdump/dump_1d_slice.c:1054
+#: ../libdump/dump_1d_slice.c:1078 ../libdump/dump_1d_slice.c:1103
+#: ../libdump/dump_1d_slice.c:1127 ../libdump/dump_1d_slice.c:1152
+#: ../libdump/dump_1d_slice.c:1188 ../libdump/dump_1d_slice.c:1224
+#: ../libdump/dump_1d_slice.c:1253 ../libdump/dump_1d_slice.c:1286
+#: ../libdump/dump_1d_slice.c:1311 ../libdump/dump_1d_slice.c:1335
+#: ../libdump/dump_1d_slice.c:1359
 msgid "1D position space output"
 msgstr ""
 
@@ -483,8 +483,8 @@ msgstr ""
 #: ../libdump/dump_1d_slice.c:100 ../libdump/dump_1d_slice.c:124
 #: ../libdump/dump_1d_slice.c:148 ../libdump/dump_1d_slice.c:220
 #: ../libdump/dump_1d_slice.c:244 ../libdump/dump_1d_slice.c:268
-#: ../libdump/dump_1d_slice.c:444 ../libdump/dump_1d_slice.c:469
-#: ../libdump/dump_1d_slice.c:494 ../libdump/dump_1d_slice.c:530
+#: ../libdump/dump_1d_slice.c:442 ../libdump/dump_1d_slice.c:467
+#: ../libdump/dump_1d_slice.c:492 ../libdump/dump_1d_slice.c:523
 msgid "Transport"
 msgstr ""
 
@@ -498,13 +498,13 @@ msgstr ""
 
 #: ../src/initial.c:121 ../libdump/dump_dynamic.c:598
 #: ../libdump/dump_dynamic.c:636 ../libdump/dump_dynamic.c:737
-#: ../libdump/dump_1d_slice.c:981
+#: ../libdump/dump_1d_slice.c:993
 msgid "Electron density"
 msgstr ""
 
 #: ../src/initial.c:145 ../libdump/dump_dynamic.c:617
 #: ../libdump/dump_dynamic.c:655 ../libdump/dump_dynamic.c:757
-#: ../libdump/dump_1d_slice.c:1009
+#: ../libdump/dump_1d_slice.c:1022
 msgid "Hole density"
 msgstr ""
 
@@ -593,7 +593,7 @@ msgstr ""
 msgid "Results viewer"
 msgstr ""
 
-#: ../gui/band_graph.py:203 ../gui/cost.py:117 ../libdump/dump_1d_slice.c:555
+#: ../gui/band_graph.py:203 ../gui/cost.py:117 ../libdump/dump_1d_slice.c:548
 msgid "Energy"
 msgstr ""
 
@@ -2535,12 +2535,12 @@ msgid "Effective density of free hole states"
 msgstr ""
 
 #: ../gui/token_lib.py:57 ../libdump/dump_dynamic.c:692
-#: ../libdump/dump_1d_slice.c:601 ../libdump/dump_1d_slice.c:604
+#: ../libdump/dump_1d_slice.c:594 ../libdump/dump_1d_slice.c:597
 msgid "Electron mobility"
 msgstr ""
 
 #: ../gui/token_lib.py:58 ../libdump/dump_dynamic.c:711
-#: ../libdump/dump_1d_slice.c:625 ../libdump/dump_1d_slice.c:628
+#: ../libdump/dump_1d_slice.c:618 ../libdump/dump_1d_slice.c:621
 msgid "Hole mobility"
 msgstr ""
 
@@ -2560,8 +2560,8 @@ msgstr ""
 msgid "Hole tail slope"
 msgstr ""
 
-#: ../gui/token_lib.py:63 ../libdump/dump_1d_slice.c:576
-#: ../libdump/dump_1d_slice.c:579
+#: ../gui/token_lib.py:63 ../libdump/dump_1d_slice.c:569
+#: ../libdump/dump_1d_slice.c:572
 msgid "Relative permittivity"
 msgstr ""
 
@@ -3353,7 +3353,7 @@ msgstr ""
 
 #: ../libdump/dump_dynamic.c:208 ../libdump/dump_dynamic.c:312
 #: ../libdump/dump_dynamic.c:331 ../libdump/dump_dynamic.c:369
-#: ../libdump/dump_1d_slice.c:465
+#: ../libdump/dump_1d_slice.c:463
 msgid "Hole current density"
 msgstr ""
 
@@ -3370,7 +3370,7 @@ msgid "percent"
 msgstr ""
 
 #: ../libdump/dump_dynamic.c:274 ../libdump/dump_dynamic.c:293
-#: ../libdump/dump_dynamic.c:350 ../libdump/dump_1d_slice.c:440
+#: ../libdump/dump_dynamic.c:350 ../libdump/dump_1d_slice.c:438
 msgid "Electron current density"
 msgstr ""
 
@@ -3407,11 +3407,11 @@ msgid "Free hole recombination"
 msgstr ""
 
 #: ../libdump/dump_dynamic.c:464 ../libdump/dump_dynamic.c:484
-#: ../libdump/dump_1d_slice.c:1041 ../libdump/dump_1d_slice.c:1065
-#: ../libdump/dump_1d_slice.c:1090 ../libdump/dump_1d_slice.c:1114
-#: ../libdump/dump_1d_slice.c:1139 ../libdump/dump_1d_slice.c:1175
-#: ../libdump/dump_1d_slice.c:1273 ../libdump/dump_1d_slice.c:1298
-#: ../libdump/dump_1d_slice.c:1322 ../libdump/dump_1d_slice.c:1346
+#: ../libdump/dump_1d_slice.c:1055 ../libdump/dump_1d_slice.c:1079
+#: ../libdump/dump_1d_slice.c:1104 ../libdump/dump_1d_slice.c:1128
+#: ../libdump/dump_1d_slice.c:1153 ../libdump/dump_1d_slice.c:1189
+#: ../libdump/dump_1d_slice.c:1287 ../libdump/dump_1d_slice.c:1312
+#: ../libdump/dump_1d_slice.c:1336 ../libdump/dump_1d_slice.c:1360
 msgid "Recombination"
 msgstr ""
 
@@ -3465,15 +3465,15 @@ msgid "Free hole density"
 msgstr ""
 
 #: ../libdump/dump_dynamic.c:695 ../libdump/dump_dynamic.c:714
-#: ../libdump/dump_1d_slice.c:652 ../libdump/dump_1d_slice.c:685
+#: ../libdump/dump_1d_slice.c:645 ../libdump/dump_1d_slice.c:678
 msgid "Mobility"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:734 ../libdump/dump_1d_slice.c:837
+#: ../libdump/dump_dynamic.c:734 ../libdump/dump_1d_slice.c:830
 msgid "Total electron density"
 msgstr ""
 
-#: ../libdump/dump_dynamic.c:754 ../libdump/dump_1d_slice.c:807
+#: ../libdump/dump_dynamic.c:754 ../libdump/dump_1d_slice.c:800
 msgid "Total hole density"
 msgstr ""
 
@@ -3534,8 +3534,8 @@ msgstr ""
 #: ../libdump/dump_1d_slice.c:172 ../libdump/dump_1d_slice.c:196
 #: ../libdump/dump_1d_slice.c:316 ../libdump/dump_1d_slice.c:340
 #: ../libdump/dump_1d_slice.c:364 ../libdump/dump_1d_slice.c:389
-#: ../libdump/dump_1d_slice.c:413 ../libdump/dump_1d_slice.c:559
-#: ../libdump/dump_1d_slice.c:1240
+#: ../libdump/dump_1d_slice.c:413 ../libdump/dump_1d_slice.c:552
+#: ../libdump/dump_1d_slice.c:1254
 msgid "Band structure"
 msgstr ""
 
@@ -3560,11 +3560,11 @@ msgstr ""
 msgid "Doping density"
 msgstr ""
 
-#: ../libdump/dump_1d_slice.c:292 ../libdump/dump_1d_slice.c:766
-#: ../libdump/dump_1d_slice.c:790 ../libdump/dump_1d_slice.c:814
-#: ../libdump/dump_1d_slice.c:844 ../libdump/dump_1d_slice.c:901
-#: ../libdump/dump_1d_slice.c:929 ../libdump/dump_1d_slice.c:957
-#: ../libdump/dump_1d_slice.c:985 ../libdump/dump_1d_slice.c:1013
+#: ../libdump/dump_1d_slice.c:292 ../libdump/dump_1d_slice.c:759
+#: ../libdump/dump_1d_slice.c:783 ../libdump/dump_1d_slice.c:807
+#: ../libdump/dump_1d_slice.c:837 ../libdump/dump_1d_slice.c:897
+#: ../libdump/dump_1d_slice.c:928 ../libdump/dump_1d_slice.c:965
+#: ../libdump/dump_1d_slice.c:997 ../libdump/dump_1d_slice.c:1026
 msgid "Charge density"
 msgstr ""
 
@@ -3589,132 +3589,136 @@ msgstr ""
 msgid "Change in 1D position space output"
 msgstr ""
 
-#: ../libdump/dump_1d_slice.c:487 ../libdump/dump_1d_slice.c:490
-#: ../libdump/dump_1d_slice.c:523 ../libdump/dump_1d_slice.c:526
+#: ../libdump/dump_1d_slice.c:485 ../libdump/dump_1d_slice.c:488
+#: ../libdump/dump_1d_slice.c:516 ../libdump/dump_1d_slice.c:519
 msgid "Total current density (Jn+Jp)"
 msgstr ""
 
-#: ../libdump/dump_1d_slice.c:552
+#: ../libdump/dump_1d_slice.c:545
 msgid "Equlibrium Fermi-level"
 msgstr ""
 
-#: ../libdump/dump_1d_slice.c:583 ../libdump/dump_1d_slice.c:608
-#: ../libdump/dump_1d_slice.c:632 ../libdump/dump_1d_slice.c:656
-#: ../libdump/dump_1d_slice.c:689 ../libdump/dump_1d_slice.c:718
-#: ../libdump/dump_1d_slice.c:742
+#: ../libdump/dump_1d_slice.c:576 ../libdump/dump_1d_slice.c:601
+#: ../libdump/dump_1d_slice.c:625 ../libdump/dump_1d_slice.c:649
+#: ../libdump/dump_1d_slice.c:682 ../libdump/dump_1d_slice.c:711
+#: ../libdump/dump_1d_slice.c:735
 msgid "Material parameters"
 msgstr ""
 
-#: ../libdump/dump_1d_slice.c:649 ../libdump/dump_1d_slice.c:682
+#: ../libdump/dump_1d_slice.c:642 ../libdump/dump_1d_slice.c:675
 msgid "Average electron mobility"
 msgstr ""
 
-#: ../libdump/dump_1d_slice.c:711
+#: ../libdump/dump_1d_slice.c:704
 msgid "Free electron carrier density"
 msgstr ""
 
-#: ../libdump/dump_1d_slice.c:714 ../libdump/dump_1d_slice.c:738
-#: ../libdump/dump_1d_slice.c:762 ../libdump/dump_1d_slice.c:786
-#: ../libdump/dump_1d_slice.c:810 ../libdump/dump_1d_slice.c:840
-#: ../libdump/dump_1d_slice.c:869 ../libdump/dump_1d_slice.c:897
-#: ../libdump/dump_1d_slice.c:925 ../libdump/dump_1d_slice.c:953
+#: ../libdump/dump_1d_slice.c:707 ../libdump/dump_1d_slice.c:731
+#: ../libdump/dump_1d_slice.c:755 ../libdump/dump_1d_slice.c:779
+#: ../libdump/dump_1d_slice.c:803 ../libdump/dump_1d_slice.c:833
+#: ../libdump/dump_1d_slice.c:862 ../libdump/dump_1d_slice.c:893
+#: ../libdump/dump_1d_slice.c:924 ../libdump/dump_1d_slice.c:961
 msgid "Carrier density"
 msgstr ""
 
-#: ../libdump/dump_1d_slice.c:735
+#: ../libdump/dump_1d_slice.c:728
 msgid "Free hole carrier density"
 msgstr ""
 
-#: ../libdump/dump_1d_slice.c:759
+#: ../libdump/dump_1d_slice.c:752
 msgid "Trapped electron carrier density"
 msgstr ""
 
-#: ../libdump/dump_1d_slice.c:783
+#: ../libdump/dump_1d_slice.c:776
 msgid "Trapped hole carrier density"
 msgstr ""
 
-#: ../libdump/dump_1d_slice.c:866
+#: ../libdump/dump_1d_slice.c:859
 msgid "Change in electron population"
 msgstr ""
 
-#: ../libdump/dump_1d_slice.c:873
+#: ../libdump/dump_1d_slice.c:866
 msgid "Chaerge density"
 msgstr ""
 
-#: ../libdump/dump_1d_slice.c:894
+#: ../libdump/dump_1d_slice.c:890
 msgid "Total charge"
 msgstr ""
 
-#: ../libdump/dump_1d_slice.c:922
+#: ../libdump/dump_1d_slice.c:921
 msgid "Change in total charge"
 msgstr ""
 
-#: ../libdump/dump_1d_slice.c:950
+#: ../libdump/dump_1d_slice.c:958
 msgid "Change in hole population"
 msgstr ""
 
-#: ../libdump/dump_1d_slice.c:978 ../libdump/dump_1d_slice.c:1006
+#: ../libdump/dump_1d_slice.c:990
 msgid "Excess electron density"
 msgstr ""
 
-#: ../libdump/dump_1d_slice.c:1034
+#: ../libdump/dump_1d_slice.c:1019
+msgid "Excess hole density"
+msgstr ""
+
+#: ../libdump/dump_1d_slice.c:1048
 msgid "Free electron generation rate"
 msgstr ""
 
-#: ../libdump/dump_1d_slice.c:1058
+#: ../libdump/dump_1d_slice.c:1072
 msgid "Free hole generation rate"
 msgstr ""
 
-#: ../libdump/dump_1d_slice.c:1083
+#: ../libdump/dump_1d_slice.c:1097
 msgid "Electron recombination rate"
 msgstr ""
 
-#: ../libdump/dump_1d_slice.c:1086 ../libdump/dump_1d_slice.c:1110
+#: ../libdump/dump_1d_slice.c:1100 ../libdump/dump_1d_slice.c:1124
 msgid "Recombination rate"
 msgstr ""
 
-#: ../libdump/dump_1d_slice.c:1107
+#: ../libdump/dump_1d_slice.c:1121
 msgid "Hole recombination rate"
 msgstr ""
 
-#: ../libdump/dump_1d_slice.c:1132 ../libdump/dump_1d_slice.c:1168
+#: ../libdump/dump_1d_slice.c:1146 ../libdump/dump_1d_slice.c:1182
 msgid "Trap fermi level"
 msgstr ""
 
-#: ../libdump/dump_1d_slice.c:1135 ../libdump/dump_1d_slice.c:1171
+#: ../libdump/dump_1d_slice.c:1149 ../libdump/dump_1d_slice.c:1185
 msgid "Electron Fermi level"
 msgstr ""
 
-#: ../libdump/dump_1d_slice.c:1204 ../libdump/dump_1d_slice.c:1233
+#: ../libdump/dump_1d_slice.c:1218 ../libdump/dump_1d_slice.c:1247
 msgid "Material number"
 msgstr ""
 
-#: ../libdump/dump_1d_slice.c:1207 ../libdump/dump_1d_slice.c:1236
+#: ../libdump/dump_1d_slice.c:1221 ../libdump/dump_1d_slice.c:1250
 msgid "Number"
 msgstr ""
 
-#: ../libdump/dump_1d_slice.c:1211
+#: ../libdump/dump_1d_slice.c:1225
 msgid "Model"
 msgstr ""
 
-#: ../libdump/dump_1d_slice.c:1266
+#: ../libdump/dump_1d_slice.c:1280
 msgid "Free hole to trapped electron"
 msgstr ""
 
-#: ../libdump/dump_1d_slice.c:1269 ../libdump/dump_1d_slice.c:1294
-#: ../libdump/dump_1d_slice.c:1318 ../libdump/dump_1d_slice.c:1342
+#: ../libdump/dump_1d_slice.c:1283 ../libdump/dump_1d_slice.c:1308
+#: ../libdump/dump_1d_slice.c:1332 ../libdump/dump_1d_slice.c:1356
 msgid "Rate"
 msgstr ""
 
-#: ../libdump/dump_1d_slice.c:1291
+#: ../libdump/dump_1d_slice.c:1305
 msgid "Free electron to trapped hole"
 msgstr ""
 
-#: ../libdump/dump_1d_slice.c:1315
+#: ../libdump/dump_1d_slice.c:1329
 msgid "Hole relaxation rate"
 msgstr ""
 
-#: ../libdump/dump_1d_slice.c:1339
+#: ../libdump/dump_1d_slice.c:1353
 msgid "Electron relaxation rate"
 msgstr ""
 

@@ -351,6 +351,68 @@ gdouble didxir=0.0;
 gdouble didxipr=0.0;
 gdouble Nad=0.0;
 
+gdouble phi_x_l=0.0;
+gdouble phi_x_r=0.0;
+
+long double xc;
+long double dxl;
+long double dxr;
+long double ddhx;
+long double dxlh;
+long double dxrh;
+
+long double Ter_x=0.0;
+long double Thr_x=0.0;
+
+long double Ecr_x=0.0;
+long double Evr_x=0.0;
+
+long double nr_x=0.0;
+long double dnr_x=0.0;
+
+long double wnr_x=0.0;
+long double wpr_x=0.0;
+
+long double pr_x=0.0;
+long double dpr_x=0.0;
+long double munr_x=0.0;
+long double mupr_x=0.0;
+
+long double epr_x=0.0;
+
+long double	Tel_x=0.0;
+long double	Thl_x=0.0;
+long double	Ecl_x=0.0;
+long double	Evl_x=0.0;
+
+
+long double	nl_x=0.0;
+long double	dnl_x=0.0;
+
+
+long double	wnl_x=0.0;
+long double	wpl_x=0.0;
+
+long double	pl_x=0.0;
+long double	dpl_x=0.0;
+long double	munl_x=0.0;
+long double	mupl_x=0.0;
+
+long double	epl_x=0.0;
+
+long double dphil_x=0.0;
+long double dphic_x=0.0;
+long double dphir_x=0.0;
+
+long double e0_x=0.0;
+long double e1_x=0.0;
+
+long double phil_x=0.0;
+long double phir_x=0.0;
+
+long double xl=0.0;
+long double xr=0.0;
+
 //gdouble dylh_left=0.0;
 //gdouble dyrh_left=0.0;
 //gdouble dncdphic=0.0;
@@ -364,8 +426,8 @@ for (x=0;x<in->xmeshpoints;x++)
 		{
 				in->phi[z][x][0]=in->Vapplied[z][x];
 		}
-	//}
 
+				
 	if (in->interfaceright==TRUE)
 	{
 			in->phi[z][x][in->ymeshpoints-1]=in->Vr;
@@ -535,6 +597,113 @@ for (x=0;x<in->xmeshpoints;x++)
 
 				}
 
+
+				if (x==0)
+				{
+					xl=in->xmesh[0]-(in->xmesh[1]-in->xmesh[0]);
+					phil_x=in->phi[z][x][i];
+					
+					Tel_x=in->Te[z][x][i];
+					Thl_x=in->Th[z][x][i];
+					Ecl_x=in->Ec[z][x][i];
+					Evl_x=in->Ev[z][x][i];
+
+
+					nl_x=in->n[z][x][i];
+					dnl_x=in->dn[z][x][i];
+
+
+					wnl_x=in->wn[z][x][i];
+					wpl_x=in->wp[z][x][i];
+
+					pl_x=in->p[z][x][i];
+					dpl_x=in->dp[z][x][i];
+					munl_x=in->mun[z][x][i];
+					mupl_x=in->mup[z][x][i];
+
+
+					epl_x=in->epsilonr[z][x][i]*epsilon0;
+					
+				}else
+				{
+					xl=in->xmesh[x-1];
+					phil_x=in->phi[z][x-1][i];
+					
+					Tel_x=in->Te[z][x-1][i];
+					Thl_x=in->Th[z][x-1][i];
+					Ecl_x=in->Ec[z][x-1][i];
+					Evl_x=in->Ev[z][x-1][i];
+
+
+					nl_x=in->n[z][x-1][i];
+					dnl_x=in->dn[z][x-1][i];
+
+
+					wnl_x=in->wn[z][x-1][i];
+					wpl_x=in->wp[z][x-1][i];
+
+					pl_x=in->p[z][x-1][i];
+					dpl_x=in->dp[z][x-1][i];
+					munl_x=in->mun[z][x-1][i];
+					mupl_x=in->mup[z][x-1][i];
+
+
+					epl_x=in->epsilonr[z][x-1][i]*epsilon0;
+
+				}
+				
+				if (x==(in->xmeshpoints-1))
+				{
+					xr=in->xmesh[x]+(in->xmesh[x]-in->xmesh[x-1]);
+					phir_x=in->phi[z][x][i];
+
+					Ter_x=in->Te[z][x][i];
+					Thr_x=in->Th[z][x][i];
+
+					Ecr_x=in->Ec[z][x][i];
+					Evr_x=in->Ev[z][x][i];
+
+
+					nr_x=in->n[z][x][i];
+					dnr_x=in->dn[z][x][i];
+
+					wnr_x=in->wn[z][x][i];
+					wpr_x=in->wp[z][x][i];
+
+					pr_x=in->p[z][x][i];
+					dpr_x=in->dp[z][x][i];
+					munr_x=in->mun[z][x][i];
+					mupr_x=in->mup[z][x][i];
+
+					epr_x=in->epsilonr[z][x][i]*epsilon0;
+					
+				}else
+				{
+					xr=in->xmesh[x+1];
+					phir_x=in->phi[z][x+1][i];
+
+					Ter_x=in->Te[z][x+1][i];
+					Thr_x=in->Th[z][x+1][i];
+
+					Ecr_x=in->Ec[z][x+1][i];
+					Evr_x=in->Ev[z][x+1][i];
+
+
+					nr_x=in->n[z][x+1][i];
+					dnr_x=in->dn[z][x+1][i];
+
+					wnr_x=in->wn[z][x+1][i];
+					wpr_x=in->wp[z][x+1][i];
+
+					pr_x=in->p[z][x+1][i];
+					dpr_x=in->dp[z][x+1][i];
+					munr_x=in->mun[z][x+1][i];
+					mupr_x=in->mup[z][x+1][i];
+
+					epr_x=in->epsilonr[z][x+1][i]*epsilon0;
+				}
+
+
 				dJdxipc=0.0;
 				dJpdxic=0.0;
 
@@ -546,9 +715,17 @@ for (x=0;x<in->xmeshpoints;x++)
 				yc=in->ymesh[i];
 				dyl=yc-yl;
 				dyr=yr-yc;
+
 				ddh=(dyl+dyr)/2.0;
 				gdouble dylh=dyl/2.0;
 				gdouble dyrh=dyr/2.0;
+
+				xc=in->xmesh[x];
+				dxl=xc-xl;
+				dxr=xr-xc;
+				ddhx=(dyl+dyr)/2.0;
+				dxlh=dxl/2.0;
+				dxrh=dxr/2.0;
 
 	//			dh=(dyl+dyr);
 				phic=in->phi[z][x][i];
@@ -556,20 +733,20 @@ for (x=0;x<in->xmeshpoints;x++)
 	//			Tec=in->Te[z][x][i];
 	//			Thc=in->Th[z][x][i];
 
-					munc=in->mun[z][x][i];
-					mupc=in->mup[z][x][i];
+				munc=in->mun[z][x][i];
+				mupc=in->mup[z][x][i];
 
 
-					wnc=in->wn[z][x][i];
-					wpc=in->wp[z][x][i];
+				wnc=in->wn[z][x][i];
+				wpc=in->wp[z][x][i];
 
-					Dnl=munl*(2.0/3.0)*wnl/Q;
-					Dpl=mupl*(2.0/3.0)*wpl/Q;
+				Dnl=munl*(2.0/3.0)*wnl/Q;
+				Dpl=mupl*(2.0/3.0)*wpl/Q;
 
-					Dnc=munc*(2.0/3.0)*wnc/Q;
-					Dpc=mupc*(2.0/3.0)*wpc/Q;
-					in->Dn[z][x][i]=Dnc;
-					in->Dp[z][x][i]=Dnc;
+				Dnc=munc*(2.0/3.0)*wnc/Q;
+				Dpc=mupc*(2.0/3.0)*wpc/Q;
+				in->Dn[z][x][i]=Dnc;
+				in->Dp[z][x][i]=Dnc;
 
 
 					Dnr=munr*(2.0/3.0)*wnr/Q;
@@ -624,6 +801,9 @@ for (x=0;x<in->xmeshpoints;x++)
 		e0=(epl+epc)/2.0;
 		e1=(epc+epr)/2.0;
 
+		e0_x=(epl_x+epc)/2.0;
+		e1_x=(epc+epr_x)/2.0;
+		
 	//	kl0=(klc+kll)/2.0;
 	//	kl1=(klr+klc)/2.0;
 
@@ -631,9 +811,27 @@ for (x=0;x<in->xmeshpoints;x++)
 		dphic= e0/dyl/ddh+e1/dyr/ddh;
 		dphir= -e1/dyr/ddh;
 
+		dphil_x= -e0_x/dxl/ddhx;
+		dphic_x= e0_x/dxl/ddhx+e1_x/dyr/ddhx;
+		dphir_x= -e1_x/dxr/ddhx;
+
 		gdouble dphil_d=dphil;
 		gdouble dphic_d=dphic;
 		gdouble dphir_d=dphir;
+
+		gdouble dphil_d_x=dphil_x;
+		dphic_d+=dphic_x;
+		gdouble dphir_d_x=dphir_x;
+
+		if (x==0)
+		{
+			dphic_d+=dphil_d_x;
+		}
+
+		if (x==(in->xmeshpoints-1))
+		{
+			dphic_d+=dphir_d_x;
+		}
 
 
 
@@ -644,6 +842,7 @@ for (x=0;x<in->xmeshpoints;x++)
 	//
 		//}
 		deriv=phil*dphil+phic*dphic+phir*dphir;
+		deriv+=phil_x*dphil_x+phic*dphic+phir_x*dphir_x;
 		//if (in->Vapplied[z][x]>0.1)
 		//{
 		//	printf("%Le %Le %Le %Le %Le\n",phil,phic,phir,nc,pc);
@@ -940,6 +1139,8 @@ for (x=0;x<in->xmeshpoints;x++)
 
 
 				int shift=sim->x_matrix_offset*x;
+				int shift_l=sim->x_matrix_offset*(x-1);
+				int shift_r=sim->x_matrix_offset*(x+1);
 
 				if (i!=0)
 				{
@@ -1163,6 +1364,22 @@ for (x=0;x<in->xmeshpoints;x++)
 
 
 
+				}
+
+				if (x!=0)
+				{
+					in->Ti[pos]=shift_l+i;
+					in->Tj[pos]=shift+i;
+					in->Tx[pos]=dphil_d_x;
+					pos++;
+				}
+
+				if (x!=(in->xmeshpoints-1))
+				{
+					in->Ti[pos]=shift_r+i;
+					in->Tj[pos]=shift+i;
+					in->Tx[pos]=dphir_d_x;
+					pos++;
 				}
 
 				//Possion
@@ -1390,8 +1607,10 @@ if (in->ptrapnewton==TRUE)
 if (in->xmeshpoints>1)
 {
 	sim->x_matrix_offset=M;
-	N*=in->xmeshpoints;
-	M*=in->xmeshpoints;
+	N*=in->xmeshpoints;		//multiply diagonals
+	M*=in->xmeshpoints;		//multiply diagonals
+	
+	N+=in->ymeshpoints*(in->xmeshpoints*2-2);		//dphix
 //	printf("%d %d %d %d %d\n",sim->x_matrix_offset,in->ymeshpoints,in->xmeshpoints,N,M);
 //	getchar();
 }
