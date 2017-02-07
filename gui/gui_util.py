@@ -23,7 +23,7 @@ from cal_path import get_image_file_path
 import os
 
 #qt
-from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication,QTableWidgetItem,QComboBox, QMessageBox, QDialog, QDialogButtonBox, QFileDialog
+from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction,QApplication,QTableWidgetItem,QComboBox, QMessageBox, QDialog, QDialogButtonBox, QFileDialog
 from PyQt5.uic import loadUi
 from PyQt5.QtGui import QPixmap
 

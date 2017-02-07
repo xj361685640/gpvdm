@@ -184,6 +184,24 @@ def inp_save_lines(file_path,lines):
 	f.close()
 	return True
 
+def inp_load_lines(file_path,lines):
+	"""Save the lines"""
+	dump=""
+	for item in lines:
+		#print(type(dump),type(item),item)
+		dump=dump+item+"\n"
+
+	dump=dump.rstrip("\n")
+	dump=dump.encode('utf-8')
+	try:
+		f=open(file_path, mode='wb')
+	except:
+		return False
+
+	lines = f.write(dump)
+	f.close()
+	return True
+
 def inp_new_file():
 	"""Make a new input file"""
 	ret=[]
