@@ -790,7 +790,7 @@ do
 				xc=in->xmesh[x];
 				dxl=xc-xl;
 				dxr=xr-xc;
-				ddhx=(dyl+dyr)/2.0;
+				ddhx=(dxl+dxr)/2.0;
 				dxlh=dxl/2.0;
 				dxrh=dxr/2.0;
 
@@ -904,14 +904,16 @@ do
 		dphic_d=dphic;
 		dphir_d=dphir;
 
+		deriv=phil*dphil+phic*dphic+phir*dphir;		//I think there is an error here by double counting the deriv for dphic come back and look on non work day. (7/2/17)
+
 		if (dim==2)
 		{
 			dphil_x= -e0_x/dxl/ddhx;
-			dphic_x= e0_x/dxl/ddhx+e1_x/dyr/ddhx;
+			dphic_x= e0_x/dxl/ddhx+e1_x/dxr/ddhx;
 			dphir_x= -e1_x/dxr/ddhx;
 
 			dphil_d_x= dphil_x;
-			dphic_d+= dphic_x;
+			dphic_d += dphic_x;
 			dphir_d_x= dphir_x;
 
 			if (x==0)
@@ -928,16 +930,9 @@ do
 
 
 
-		//if (i==in->ymeshpoints-1)
-		//{
-		//printf("%le\n",phir);
-	//
-		//}
-		deriv=phil*dphil+phic*dphic+phir*dphir;		//I think there is an error here by double counting the deriv for dphic come back and look on non work day. (7/2/17)
-
 		if (dim==2)
 		{
-			deriv+=phil_x*dphil_x+phic*dphic+phir_x*dphir_x;
+			deriv+=phil_x*dphil_x+phic*dphic_x+phir_x*dphir_x;
 		}
 		//if (in->Vapplied[z][x]>0.1)
 		//{
@@ -1143,27 +1138,36 @@ do
 					dJpdphic_x+=(-dJpldphi_c_x+dJprdphi_c_x)/(dxlh+dxrh);
 					dJpdphir_x+=dJprdphi_r_x/(dxlh+dxrh);
 
+
 					if (x==0)
 					{
+						//n
 						dJdxic_x+=dJdxil_x;
-						dJpdxipc_x+=dJpdxipl_x;
 						dJdphic_x+=dJdphil_x;
+
+						//p
+						dJpdxipc_x+=dJpdxipl_x;
 						dJpdphic_x+=dJpdphil_x;
 					}
 					
 					if (x==in->xmeshpoints-1)
 					{
+						//n
 						dJdxic_x+=dJdxir_x;
-						dJpdxipc_x+=dJpdxipr_x;
 						dJdphic_x+=dJdphir_x;
+						
+						//p
+						dJpdxipc_x+=dJpdxipr_x;
 						dJpdphic_x+=dJpdphir_x;
 					}
 
-					dJdxic+=dJdxic_x;
-					dJpdxipc+=dJpdxipc_x;
-					dJpdxipc+=dJpdphic_x;		//I think this is also wrong?? LHS should be dJpdphic
-					
+
+					dJdxic+=dJdxic_x;					
 					dJdphic+=dJdphic_x;
+					
+					dJpdxipc+=dJpdxipc_x;
+					dJpdphic+=dJpdphic_x;
+
 				}
 
 				if (Bfree!=0.0)
@@ -1542,7 +1546,6 @@ do
 						in->Ti[pos]=shift+in->ymeshpoints*(1+1)+i;
 						in->Tj[pos]=shift_l+in->ymeshpoints*(1+1)+i;
 						in->Tx[pos]=dJpdxipl_x;
-						//printf("c %le\n",in->Tx[pos]);
 						pos++;
 						
 						in->Ti[pos]=shift+in->ymeshpoints*(1)+i;
@@ -1550,10 +1553,10 @@ do
 						in->Tx[pos]=dJdphil_x;
 						pos++;
 
-						//in->Ti[pos]=shift+i+in->ymeshpoints*(1+1);
-						//in->Tj[pos]=shift_l+i;
-						//in->Tx[pos]=dJpdphil_x;
-						//pos++;
+						in->Ti[pos]=shift+i+in->ymeshpoints*(1+1);
+						in->Tj[pos]=shift_l+i;
+						in->Tx[pos]=dJpdphil_x;
+						pos++;
 					}
 
 					if (x!=(in->xmeshpoints-1))
@@ -1576,7 +1579,6 @@ do
 						in->Ti[pos]=shift+in->ymeshpoints*(1)+i;
 						in->Tj[pos]=shift_r+i;
 						in->Tx[pos]=dJdphir_x;
-						//printf("b %le\n",in->Tx[pos]);
 						pos++;
 						
 						in->Ti[pos]=shift+i+in->ymeshpoints*(1+1);
@@ -1639,7 +1641,7 @@ do
 				build= -((Jpr-Jpl)/(dylh+dyrh)+Rtrapp+Rfree);
 				if (dim==2)
 				{
-					build+=(Jpr_x-Jpl_x)/(dxlh+dxrh);
+					build+=-(Jpr_x-Jpl_x)/(dxlh+dxrh);
 				}
 				//printf("%le %le\n",Rtrapn,Rtrapp);
 
@@ -2191,7 +2193,7 @@ int cpos=0;
 
 		if (get_dump_status(sim,dump_print_newtonerror)==TRUE)
 		{
-			printf_log(sim,"%d Cur error = %Le %Le I=%Le\n",ittr,error,in->Vapplied[z][x],get_I(in));
+			printf_log(sim,"%d Cur error = %Le %Le I=%Le\n",ittr,error,contact_get_voltage(sim,in,0),get_I(in));
 
 		}
 

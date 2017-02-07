@@ -1366,7 +1366,7 @@ if (in->ptrapnewton==TRUE)
 *ret_M=M;
 }
 
-void dllinternal_solver_realloc(struct simulation *sim,struct device *in)
+void dllinternal_solver_realloc(struct simulation *sim,struct device *in, int dim)
 {
 int N=0;
 int M=0;

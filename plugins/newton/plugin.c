@@ -31,7 +31,7 @@ return dllinternal_solve_cur(sim,in,z,x);
 
 EXPORT void dll_solver_realloc(struct simulation *sim,struct device *in)
 {
-dllinternal_solver_realloc(sim,in);
+dllinternal_solver_realloc(sim,in,1);
 }
 
 EXPORT void dll_solver_free_memory(struct device *in)

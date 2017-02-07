@@ -1334,7 +1334,7 @@ for (i=0;i<in->M;i++)
 
 return tot;
 }
-void solver_cal_memory(struct device *in,int *ret_N,int *ret_M)
+void solver_cal_memory(struct device *in,int *ret_N,int *ret_M,int dim)
 {
 int i=0;
 int N=0;
@@ -1601,14 +1601,14 @@ in->odes+=in->M;
 return 0;
 }
 
-void dllinternal_solver_realloc(struct simulation *sim,struct device *in)
+void dllinternal_solver_realloc(struct simulation *sim,struct device *in, int dim)
 {
 int N=0;
 int M=0;
 long double* dtemp=NULL;
 int *itemp=NULL;
 
-solver_cal_memory(in,&N,&M);
+solver_cal_memory(in,&N,&M,dim);
 
 
 int alloc=FALSE;
