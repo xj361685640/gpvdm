@@ -197,8 +197,8 @@ class band_graph(QWidget):
 		get_plot_file_info(state,self.optical_mode_file)
 		#summary="<big><b>"+self.store[path[0]][0]+"</b></big>\n"+"\ntitle: "+state.title+"\nx axis: "+state.x_label+" ("+latex_to_pygtk_subscript(state.x_units)+")\ny axis: "++" ("+latex_to_pygtk_subscript(state.y_units)+")\n\n<big><b>Double click to open</b></big>"
 
-		#print("ROD!!!!",state.y_label,self.optical_mode_file)
-		ax1.set_ylabel(state.y_label+" ("+state.y_units+")")
+		#print("ROD!!!!",state.data_label,self.optical_mode_file)
+		ax1.set_ylabel(state.data_label+" ("+state.data_units+")")
 		ax1.set_xlabel(_("Position")+" (nm)")
 		ax2.set_ylabel(_("Energy")+" (eV)")
 		ax2.set_xlim([start, x_pos])

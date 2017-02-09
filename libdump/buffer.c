@@ -50,14 +50,22 @@ strcpy(in->type,"xy");
 strcpy(in->title,"");
 in->x_mul=1.0;
 in->y_mul=1.0;
+in->z_mul=1.0;
+in->data_mul=1.0;
 strcpy(in->x_label,"");
 strcpy(in->y_label,"");
+strcpy(in->z_label,"");
+strcpy(in->data_label,"");
 strcpy(in->x_units,"");
 strcpy(in->y_units,"");
+strcpy(in->z_units,"");
+strcpy(in->data_units,"");
 strcpy(in->section_one,"");
 strcpy(in->section_two,"");
 in->logscale_x=0;
 in->logscale_y=0;
+in->logscale_z=0;
+in->logscale_data=0;
 in->x=0;
 in->y=0;
 in->z=0;
@@ -196,10 +204,22 @@ buffer_add_string(in,temp);
 sprintf(temp,"#y_mul %Lf\n",in->y_mul);
 buffer_add_string(in,temp);
 
+sprintf(temp,"#z_mul %Lf\n",in->z_mul);
+buffer_add_string(in,temp);
+
+sprintf(temp,"#data_mul %Lf\n",in->data_mul);
+buffer_add_string(in,temp);
+
 sprintf(temp,"#x_label %s\n",in->x_label);
 buffer_add_string(in,temp);
 
 sprintf(temp,"#y_label %s\n",in->y_label);
+buffer_add_string(in,temp);
+
+sprintf(temp,"#z_label %s\n",in->z_label);
+buffer_add_string(in,temp);
+
+sprintf(temp,"#data_label %s\n",in->data_label);
 buffer_add_string(in,temp);
 
 sprintf(temp,"#x_units %s\n",in->x_units);
@@ -208,10 +228,22 @@ buffer_add_string(in,temp);
 sprintf(temp,"#y_units %s\n",in->y_units);
 buffer_add_string(in,temp);
 
+sprintf(temp,"#z_units %s\n",in->z_units);
+buffer_add_string(in,temp);
+
+sprintf(temp,"#data_units %s\n",in->data_units);
+buffer_add_string(in,temp);
+
 sprintf(temp,"#logscale_x %d\n",in->logscale_x);
 buffer_add_string(in,temp);
 
 sprintf(temp,"#logscale_y %d\n",in->logscale_y);
+buffer_add_string(in,temp);
+
+sprintf(temp,"#logscale_z %d\n",in->logscale_z);
+buffer_add_string(in,temp);
+
+sprintf(temp,"#logscale_data %d\n",in->logscale_data);
 buffer_add_string(in,temp);
 
 sprintf(temp,"#section_one %s\n",in->section_one);

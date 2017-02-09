@@ -145,17 +145,20 @@ class plot_widget(QWidget):
 			self.sub_zero_frame(data,index)
 			my_min=0.0;
 
-			for y in range(0,data.y_len):
-				data.y_scale[y]=data.y_scale[y]*self.plot_token.x_mul
-
 			for x in range(0,data.x_len):
 				data.x_scale[x]=data.x_scale[x]*self.plot_token.x_mul
-				
+
+			for y in range(0,data.y_len):
+				data.y_scale[y]=data.y_scale[y]*self.plot_token.y_mul
+
+			for z in range(0,data.z_len):
+				data.z_scale[z]=data.z_scale[z]*self.plot_token.z_mul
+
 			for x in range(0,data.x_len):
 				for y in range(0,data.y_len):
 					for z in range(0,data.z_len):
 						#print("mull=",self.plot_token.y_mul)
-						data.data[z][x][y]=data.data[z][x][y]*self.plot_token.y_mul
+						data.data[z][x][y]=data.data[z][x][y]*self.plot_token.data_mul
 
 						#if self.plot_token.invert_y==True:
 						#	data.data[z][x][y]=-data.data[z][x][y]
@@ -241,13 +244,13 @@ class plot_widget(QWidget):
 
 				#Only place y label on center plot
 				if self.plot_token.normalize==True or self.plot_token.norm_to_peak_of_all_data==True:
-					y_text="Normalized "+self.plot_token.y_label
-					y_units="au"
+					y_text="Normalized "+self.plot_token.data_label
+					data_units="au"
 				else:
-					y_text=self.plot_token.y_label
-					y_units=self.plot_token.y_units
+					data_text=self.plot_token.data_label
+					data_units=self.plot_token.data_units
 				if i==math.trunc(number_of_plots/2):
-					self.ax[i].set_ylabel(y_text+" ("+y_units+")")
+					self.ax[i].set_ylabel(data_text+" ("+data_units+")")
 
 				if self.plot_token.logx==True:
 					self.ax[i].set_xscale("log")
@@ -261,7 +264,7 @@ class plot_widget(QWidget):
 			data=dat_file()
 			my_max=1.0
 
-			if self.plot_token.x_len==1 and self.plot_token.z_len==1:
+			if self.plot_token.x_len==1 and self.plot_token.z_len==1:		#This is for the 1D graph case
 
 				all_max=1.0
 				if self.plot_token.norm_to_peak_of_all_data==True:
@@ -311,11 +314,19 @@ class plot_widget(QWidget):
 					self.ax[plot_number].legend_ = None
 				else:
 					self.fig.legend(lines, files, self.plot_token.legend_pos)
-			elif self.plot_token.x_len>1 and self.plot_token.y_len>1 and self.plot_token.z_len==1:		#3d plot
+			elif self.plot_token.x_len>1 and self.plot_token.y_len>1 and self.plot_token.z_len==1:		#2D graph
 				data=dat_file()
 
 				if self.read_data_file(data,0)==True:
-					im=self.ax[0].pcolor(data.y_scale,data.x_scale,data.data[0])
+					new_data=[[float for y in range(self.plot_token.y_len)] for x in range(self.plot_token.x_len)]
+					for x in range(0,self.plot_token.x_len):
+						for y in range(0,self.plot_token.y_len):
+							new_data[x][y]=data.data[0][y][x]
+					im=self.ax[0].pcolor(data.x_scale,data.y_scale,new_data)
+
+					self.ax[i].set_xlabel(self.plot_token.x_label+" ("+self.plot_token.x_units+")")
+					self.ax[i].set_ylabel(self.plot_token.y_label+" ("+self.plot_token.y_units+")")
+					
 					self.fig.colorbar(im)
 					#self.ax[0].plot_surface(x, y, z, rstride=1, cstride=1, cmap=cm.coolwarm,linewidth=0, antialiased=False)
 					#self.ax[0].invert_yaxis()

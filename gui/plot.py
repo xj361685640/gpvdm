@@ -63,9 +63,9 @@ def plot_populate_plot_token(plot_token,file_name):
 			plot_token.x_units=result0.units
 			plot_token.x_mul=result0.number_mul
 
-			plot_token.y_label=result1.info
-			plot_token.y_units=result1.units
-			plot_token.y_mul=result1.number_mul
+			plot_token.data_label=result1.info
+			plot_token.data_units=result1.units
+			plot_token.data_mul=result1.number_mul
 
 			plot_token.title=result0.info+" "+result1.info
 

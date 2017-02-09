@@ -1,8 +1,8 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -45,7 +45,7 @@ def plot_export(dest_dir,input_files,state,fig):
 		plot_string=plot_string+"set format y \"%1.0t{/Symbol \\327}10^{%L}\"\n"
 		plot_string=plot_string+"set format x \"%1.0t{/Symbol \\327}10^{%L}\"\n"
 		plot_string=plot_string+"set xlabel '"+gkt_title_to_gnu_plot_title(state.x_label)+" ("+state.x_units+")'\n"
-		plot_string=plot_string+"set ylabel '"+gkt_title_to_gnu_plot_title(state.y_label)+" ("+state.y_units+")'\n"
+		plot_string=plot_string+"set ylabel '"+gkt_title_to_gnu_plot_title(state.data_label)+" ("+state.data_units+")'\n"
 		#plot_string=plot_string+"set format y '%.1le%T'\n"
 
 		if (state.logy==1):

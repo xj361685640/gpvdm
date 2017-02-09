@@ -47,8 +47,8 @@ int band=0;
 		in->wn[z][x][y]=get_n_w(in,in->x[z][x][y]+in->t[z][x][y],in->Te[z][x][y],in->imat[z][x][y]);
 		in->wp[z][x][y]=get_p_w(in,in->xp[z][x][y]-in->tp[z][x][y],in->Th[z][x][y],in->imat[z][x][y]);
 
-		in->mun[z][x][y]=get_n_mu(in,in->imat[z][x][y]);
-		in->mup[z][x][y]=get_p_mu(in,in->imat[z][x][y]);
+		//in->mun[z][x][y]=get_n_mu(in,in->imat[z][x][y]);
+		//in->mup[z][x][y]=get_p_mu(in,in->imat[z][x][y]);
 
 		if (in->ntrapnewton)
 		{

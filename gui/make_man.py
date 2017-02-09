@@ -49,7 +49,7 @@ def make_man():
 				filename=filename.replace("_","\\_")
 				out=out+"\\textbf{"+filename+"}:"+ temp.title+"\\newline\n"
 				out=out+"x-axis:"+temp.x_label+"($"+temp.x_units+"$)\\newline\n"
-				out=out+"y-axis:"+temp.y_label+"($"+temp.y_units+"$)\\newline\n"
+				out=out+"y-axis:"+temp.data_label+"($"+temp.data_units+"$)\\newline\n"
 				out=out+"\\newline\n"
 				text_list.append(out)
 

@@ -69,9 +69,9 @@ if (dump_all==TRUE)
 	strcpy(buf.title,"Current origonal- Time");
 	strcpy(buf.type,"xy");
 	strcpy(buf.x_label,"Time");
-	strcpy(buf.y_label,"Current");
+	strcpy(buf.data_label,"Current");
 	strcpy(buf.x_units,"$s$");
-	strcpy(buf.y_units,"$A$");
+	strcpy(buf.data_units,"$A$");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
 	buf.x=1;
@@ -94,9 +94,9 @@ if (dump_all==TRUE)
 	strcpy(buf.title,"Current guess - Time");
 	strcpy(buf.type,"xy");
 	strcpy(buf.x_label,"Time");
-	strcpy(buf.y_label,"Current");
+	strcpy(buf.data_label,"Current");
 	strcpy(buf.x_units,"$s$");
-	strcpy(buf.y_units,"$A$");
+	strcpy(buf.data_units,"$A$");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
 	buf.x=1;
@@ -119,9 +119,9 @@ if (dump_all==TRUE)
 	strcpy(buf.title,"Current fit error - Time");
 	strcpy(buf.type,"xy");
 	strcpy(buf.x_label,"Time");
-	strcpy(buf.y_label,"Current");
+	strcpy(buf.data_label,"Current");
 	strcpy(buf.x_units,"$s$");
-	strcpy(buf.y_units,"$A$");
+	strcpy(buf.data_units,"$A$");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
 	buf.x=1;

@@ -4,9 +4,9 @@
 #x_mul 1e9
 #y_mul 1.000000
 #x_label Wavelength
-#y_label Refractive index 
+#data_label Refractive index 
 #x_units nm
-#y_units au
+#data_units au
 #logscale_x 0
 #logscale_y 0
 #section_one Materials

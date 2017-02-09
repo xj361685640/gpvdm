@@ -2,7 +2,7 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012-2016 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+//  Copyright (C) 2012-2016 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
 //	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -122,11 +122,14 @@ buf.x_mul=1.0;
 strcpy(buf.title,"Energy - trap ocupation");
 strcpy(buf.type,"xy");
 strcpy(buf.x_label,"Energy");
-strcpy(buf.y_label,"Ocupation");
+strcpy(buf.data_label,"Ocupation");
 strcpy(buf.x_units,"eV");
-strcpy(buf.y_units,"m^{-3} eV^{-1}");
+strcpy(buf.data_units,"m^{-3} eV^{-1}");
 buf.logscale_x=0;
 buf.logscale_y=0;
+buf.x=1;
+buf.y=dump_nt.len;
+buf.z=1;
 buffer_add_info(&buf);
 buffer_add_xy_data(&buf,dump_nt.x, dump_nt.data, dump_nt.len);
 buffer_dump_path(sim,out_dir,name,&buf);
@@ -140,11 +143,14 @@ buf.x_mul=1.0;
 strcpy(buf.title,"Energy - trap ocupation");
 strcpy(buf.type,"xy");
 strcpy(buf.x_label,"Energy");
-strcpy(buf.y_label,"Ocupation");
+strcpy(buf.data_label,"Ocupation");
 strcpy(buf.x_units,"eV");
-strcpy(buf.y_units,"m^{-3} eV^{-1}");
+strcpy(buf.data_units,"m^{-3} eV^{-1}");
 buf.logscale_x=0;
 buf.logscale_y=0;
+buf.x=1;
+buf.y=dump_nt.len;
+buf.z=1;
 buffer_add_info(&buf);
 buffer_add_xy_data(&buf,dump_pt.x, dump_pt.data, dump_pt.len);
 buffer_dump_path(sim,out_dir,name,&buf);

@@ -2,7 +2,7 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012-2016 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+//  Copyright (C) 2012-2016 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
 //	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -202,9 +202,9 @@ buf.x_mul=1e6;
 sprintf(buf.title,"%s - %s",_("Time"),_("Current"));
 strcpy(buf.type,"xy");
 strcpy(buf.x_label,_("Time"));
-strcpy(buf.y_label,_("Current"));
+strcpy(buf.data_label,_("Current"));
 strcpy(buf.x_units,"\\ms");
-strcpy(buf.y_units,"m");
+strcpy(buf.data_units,"m");
 buf.logscale_x=0;
 buf.logscale_y=0;
 buf.x=1;
@@ -225,9 +225,9 @@ buf.x_mul=1e6;
 sprintf(buf.title,"%s - %s",_("Time"),_("current density"));
 strcpy(buf.type,"xy");
 strcpy(buf.x_label,_("Time"));
-strcpy(buf.y_label,_("Current density"));
+strcpy(buf.data_label,_("Current density"));
 strcpy(buf.x_units,"\\ms");
-strcpy(buf.y_units,"m");
+strcpy(buf.data_units,"m");
 buf.logscale_x=0;
 buf.logscale_y=0;
 buf.x=1;
@@ -249,9 +249,9 @@ buf.x_mul=1e6;
 sprintf(buf.title,"%s - %s",_("Time"),_("current"));
 strcpy(buf.type,"xy");
 strcpy(buf.x_label,_("Time"));
-strcpy(buf.y_label,_("Current"));
+strcpy(buf.data_label,_("Current"));
 strcpy(buf.x_units,"\\ms");
-strcpy(buf.y_units,"mA");
+strcpy(buf.data_units,"mA");
 buf.logscale_x=0;
 buf.logscale_y=0;
 buf.x=1;
@@ -272,9 +272,9 @@ buf.x_mul=1e6;
 sprintf(buf.title,"%s - %s",_("Time"),_("Voltage"));
 strcpy(buf.type,"xy");
 strcpy(buf.x_label,_("Time"));
-strcpy(buf.y_label,_("Volts"));
+strcpy(buf.data_label,_("Volts"));
 strcpy(buf.x_units,"\\ms");
-strcpy(buf.y_units,_("Voltage"));
+strcpy(buf.data_units,_("Voltage"));
 buf.logscale_x=0;
 buf.logscale_y=0;
 buf.x=1;
@@ -292,9 +292,9 @@ buf.x_mul=1e6;
 sprintf(buf.title,"%s - %s",_("Time"),_("Photogeneration rate"));
 strcpy(buf.type,"xy");
 strcpy(buf.x_label,_("Time"));
-strcpy(buf.y_label,_("Generation rate"));
+strcpy(buf.data_label,_("Generation rate"));
 strcpy(buf.x_units,"s");
-strcpy(buf.y_units,"m^{-3} s^{-1}");
+strcpy(buf.data_units,"m^{-3} s^{-1}");
 buf.logscale_x=0;
 buf.logscale_y=0;
 buf.x=1;

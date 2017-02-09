@@ -4,9 +4,9 @@
 #x_mul 1e9
 #y_mul 1.000000
 #x_label Wavelength
-#y_label Absorption 
+#data_label Absorption 
 #x_units nm
-#y_units m^{-1}
+#data_units m^{-1}
 #logscale_x 0
 #logscale_y 0
 #section_one Materials

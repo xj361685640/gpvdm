@@ -2,7 +2,7 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012-2016 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+//  Copyright (C) 2012-2016 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
 //	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -114,9 +114,9 @@ if (get_dump_status(sim,dump_optics_verbose)==TRUE)
 	strcpy(buf.title,"Photon density");
 	strcpy(buf.type,"3d");
 	strcpy(buf.x_label,"Position");
-	strcpy(buf.y_label,"Wavelength");
+	strcpy(buf.data_label,"Wavelength");
 	strcpy(buf.x_units,"nm");
-	strcpy(buf.y_units,"nm");
+	strcpy(buf.data_units,"nm");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
 	buf.x=in->lpoints;
@@ -151,9 +151,9 @@ if (get_dump_status(sim,dump_optics_verbose)==TRUE)
 	strcpy(buf.title,"Adsorbed Photon density");
 	strcpy(buf.type,"3d");
 	strcpy(buf.x_label,"Position");
-	strcpy(buf.y_label,"Wavelength");
+	strcpy(buf.data_label,"Wavelength");
 	strcpy(buf.x_units,"nm");
-	strcpy(buf.y_units,"nm");
+	strcpy(buf.data_units,"nm");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
 	buf.x=in->lpoints;
@@ -221,9 +221,9 @@ if (get_dump_status(sim,dump_optics_verbose)==TRUE)
 	strcpy(buf.title,"Optical absorption coefficient");
 	strcpy(buf.type,"3d");
 	strcpy(buf.x_label,"Position");
-	strcpy(buf.y_label,"Wavelength");
+	strcpy(buf.data_label,"Wavelength");
 	strcpy(buf.x_units,"nm");
-	strcpy(buf.y_units,"nm");
+	strcpy(buf.data_units,"nm");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
 	buf.x=in->lpoints;
@@ -257,9 +257,9 @@ if (get_dump_status(sim,dump_optics_verbose)==TRUE)
 	strcpy(buf.title,"Optical absorption coefficient");
 	strcpy(buf.type,"3d");
 	strcpy(buf.x_label,"Position");
-	strcpy(buf.y_label,"Wavelength");
+	strcpy(buf.data_label,"Wavelength");
 	strcpy(buf.x_units,"nm");
-	strcpy(buf.y_units,"nm");
+	strcpy(buf.data_units,"nm");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
 	buf.x=in->lpoints;
@@ -310,9 +310,9 @@ if (get_dump_status(sim,dump_optics_summary)==TRUE)
 	strcpy(buf.title,"Wavelength - Reflected light");
 	strcpy(buf.type,"xy");
 	strcpy(buf.x_label,"Wavelength");
-	strcpy(buf.y_label,"Reflected light");
+	strcpy(buf.data_label,"Reflected light");
 	strcpy(buf.x_units,"nm");
-	strcpy(buf.y_units,"a.u.");
+	strcpy(buf.data_units,"a.u.");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
 	buf.x=1;
@@ -384,9 +384,9 @@ if (get_dump_status(sim,dump_optics)==TRUE)
 		strcpy(buf.title,"Normalized photon density");
 		strcpy(buf.type,"xy");
 		strcpy(buf.x_label,"Position");
-		strcpy(buf.y_label,"Photon desntiy");
+		strcpy(buf.data_label,"Photon desntiy");
 		strcpy(buf.x_units,"nm");
-		strcpy(buf.y_units,"a.u.");
+		strcpy(buf.data_units,"a.u.");
 		buf.logscale_x=0;
 		buf.logscale_y=0;
 		buf.x=1;
@@ -432,9 +432,9 @@ if (get_dump_status(sim,dump_optics)==TRUE)
 		strcpy(buf.title,"Normalized photons absorbed");
 		strcpy(buf.type,"xy");
 		strcpy(buf.x_label,"Position");
-		strcpy(buf.y_label,"Absorbed photons");
+		strcpy(buf.data_label,"Absorbed photons");
 		strcpy(buf.x_units,"nm");
-		strcpy(buf.y_units,"a.u.");
+		strcpy(buf.data_units,"a.u.");
 		buf.logscale_x=0;
 		buf.logscale_y=0;
 		buf.x=1;
@@ -459,9 +459,9 @@ if (get_dump_status(sim,dump_optics)==TRUE)
 		strcpy(buf.title,_("Electron generation rate"));
 		strcpy(buf.type,"xy");
 		strcpy(buf.x_label,_("Position"));
-		strcpy(buf.y_label,_("Generation rate"));
+		strcpy(buf.data_label,_("Generation rate"));
 		strcpy(buf.x_units,"nm");
-		strcpy(buf.y_units,"m^{-3}");
+		strcpy(buf.data_units,"m^{-3}");
 		buf.logscale_x=0;
 		buf.logscale_y=0;
 		buf.x=1;
@@ -486,9 +486,9 @@ if (get_dump_status(sim,dump_optics)==TRUE)
 		strcpy(buf.title,_("Hole generation rate"));
 		strcpy(buf.type,"xy");
 		strcpy(buf.x_label,_("Position"));
-		strcpy(buf.y_label,_("Generation rate"));
+		strcpy(buf.data_label,_("Generation rate"));
 		strcpy(buf.x_units,"nm");
-		strcpy(buf.y_units,"m^{-3}");
+		strcpy(buf.data_units,"m^{-3}");
 		buf.logscale_x=0;
 		buf.logscale_y=0;
 		buf.x=1;

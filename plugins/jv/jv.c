@@ -2,7 +2,7 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012-2016 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+//  Copyright (C) 2012-2016 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
 //	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -328,11 +328,12 @@ buf.x_mul=1.0;
 strcpy(buf.title,"Charge density - Applied voltage");
 strcpy(buf.type,"xy");
 strcpy(buf.x_label,"Applied Voltage");
-strcpy(buf.y_label,"Charge density");
+strcpy(buf.data_label,"Charge density");
 strcpy(buf.x_units,"Volts");
-strcpy(buf.y_units,"m^{-3}");
+strcpy(buf.data_units,"m^{-3}");
 buf.logscale_x=0;
 buf.logscale_y=0;
+buf.logscale_z=0;
 buf.x=1;
 buf.y=charge.len;
 buf.z=1;
@@ -351,9 +352,9 @@ buf.x_mul=1.0;
 strcpy(buf.title,"Current density - Applied voltage");
 strcpy(buf.type,"xy");
 strcpy(buf.x_label,"Applied Voltage");
-strcpy(buf.y_label,"Current density");
+strcpy(buf.data_label,"Current density");
 strcpy(buf.x_units,"Volts");
-strcpy(buf.y_units,"A m^{-2}");
+strcpy(buf.data_units,"A m^{-2}");
 buf.logscale_x=0;
 buf.logscale_y=0;
 buf.x=1;
@@ -370,9 +371,9 @@ buf.x_mul=1.0;
 strcpy(buf.title,"Current density - Applied voltage");
 strcpy(buf.type,"xy");
 strcpy(buf.x_label,"Applied Voltage");
-strcpy(buf.y_label,"Current density");
+strcpy(buf.data_label,"Current density");
 strcpy(buf.x_units,"Volts");
-strcpy(buf.y_units,"A m^{-2}");
+strcpy(buf.data_units,"A m^{-2}");
 buf.logscale_x=0;
 buf.logscale_y=0;
 buf.x=1;
@@ -389,9 +390,9 @@ buf.x_mul=1.0;
 strcpy(buf.title,"Current density - Applied voltage");
 strcpy(buf.type,"xy");
 strcpy(buf.x_label,"Applied Voltage");
-strcpy(buf.y_label,"Current density");
+strcpy(buf.data_label,"Current density");
 strcpy(buf.x_units,"Volts");
-strcpy(buf.y_units,"A m^{-2}");
+strcpy(buf.data_units,"A m^{-2}");
 buf.logscale_x=0;
 buf.logscale_y=0;
 buf.x=1;
@@ -408,9 +409,9 @@ buf.x_mul=1.0;
 strcpy(buf.title,"Current - Applied voltage");
 strcpy(buf.type,"xy");
 strcpy(buf.x_label,"Applied Voltage");
-strcpy(buf.y_label,"Current");
+strcpy(buf.data_label,"Current");
 strcpy(buf.x_units,"Volts");
-strcpy(buf.y_units,"A");
+strcpy(buf.data_units,"A");
 buf.logscale_x=0;
 buf.logscale_y=0;
 buf.x=1;
@@ -427,9 +428,9 @@ buf.x_mul=1.0;
 strcpy(buf.title,"Voltage - Light generated");
 strcpy(buf.type,"xy");
 strcpy(buf.x_label,"Applied Voltage");
-strcpy(buf.y_label,"Light power");
+strcpy(buf.data_label,"Light power");
 strcpy(buf.x_units,"Volts");
-strcpy(buf.y_units,"mW");
+strcpy(buf.data_units,"mW");
 buf.logscale_x=0;
 buf.logscale_y=0;
 buf.x=1;
@@ -448,9 +449,9 @@ buf.x_mul=1.0;
 strcpy(buf.title,"Current - Light generated");
 strcpy(buf.type,"xy");
 strcpy(buf.x_label,"Current");
-strcpy(buf.y_label,"Light power");
+strcpy(buf.data_label,"Light power");
 strcpy(buf.x_units,"A m^{-2}");
-strcpy(buf.y_units,"mW");
+strcpy(buf.data_units,"mW");
 buf.logscale_x=0;
 buf.logscale_y=0;
 buf.x=1;

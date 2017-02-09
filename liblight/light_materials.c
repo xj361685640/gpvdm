@@ -356,9 +356,9 @@ for (i=0;i<in->layers;i++)
 		strcpy(buf.title,"Wavelength - Reflected light");
 		strcpy(buf.type,"xy");
 		strcpy(buf.x_label,"Wavelength");
-		strcpy(buf.y_label,"n");
+		strcpy(buf.data_label,"n");
 		strcpy(buf.x_units,"nm");
-		strcpy(buf.y_units,"a.u.");
+		strcpy(buf.data_units,"a.u.");
 		buf.logscale_x=0;
 		buf.logscale_y=0;
 		buffer_add_info(&buf);

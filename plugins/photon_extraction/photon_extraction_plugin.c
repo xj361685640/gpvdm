@@ -86,9 +86,9 @@ void sim_optics(struct simulation *sim,struct device *in)
 	strcpy(buf.title,"Photon escape probability");
 	strcpy(buf.type,"xy");
 	strcpy(buf.x_label,"Wavelength");
-	strcpy(buf.y_label,"Probability");
+	strcpy(buf.data_label,"Probability");
 	strcpy(buf.x_units,"nm");
-	strcpy(buf.y_units,"a.u.");
+	strcpy(buf.data_units,"a.u.");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
 	buf.x=1;

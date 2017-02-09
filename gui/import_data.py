@@ -139,7 +139,7 @@ class graph_data_display(QWidget):
 		self.add_units(self.y_units)
 		
 		self.units_x_label=QLabel(_("x units:"))
-		self.units_y_label=QLabel(_("y units:"))
+		self.units_data_label=QLabel(_("y units:"))
 		
 
 		self.x_units.currentIndexChanged.connect(self.callback_edited)
@@ -172,7 +172,7 @@ class graph_data_display(QWidget):
 		self.ylabel_entry=QLineEdit()
 		self.ylabel_hbox.addWidget(self.ylabel_label)
 		self.ylabel_hbox.addWidget(self.ylabel_entry)
-		self.ylabel_hbox.addWidget(self.units_y_label)
+		self.ylabel_hbox.addWidget(self.units_data_label)
 		self.ylabel_hbox.addWidget(self.y_units)
 		self.ylabel_widget.setLayout(self.ylabel_hbox)
 		self.main_vbox.addWidget(self.ylabel_widget)
@@ -335,10 +335,10 @@ class import_data(QDialog):
 
 	def update(self):
 		self.info_token.x_label=self.unit_sel.get_xlabel()
-		self.info_token.y_label=self.unit_sel.get_ylabel()
+		self.info_token.data_label=self.unit_sel.get_ylabel()
 		self.info_token.title=self.unit_sel.get_title()
 		self.info_token.x_units=self.unit_sel.x_units.currentText()
-		self.info_token.y_units=self.unit_sel.y_units.currentText()
+		self.info_token.data_units=self.unit_sel.y_units.currentText()
 		self.info_token.x_mul=self.unit_sel.x_mul
 		self.info_token.y_mul=self.unit_sel.y_mul
 		self.gen_output()
@@ -370,9 +370,9 @@ class import_data(QDialog):
 					self.info_token.y_len=self.data.y_len
 					self.info_token.z_len=self.data.z_len
 					self.info_token.x_units="m"
-					self.info_token.y_units="m"
+					self.info_token.data_units="m"
 					self.info_token.x_label="Enter x-label"
-					self.info_token.y_label="Enter y-label"
+					self.info_token.data_label="Enter y-label"
 					self.info_token.title="Enter title"
 					self.unit_sel.enable_units(True)
 				else:
@@ -381,9 +381,9 @@ class import_data(QDialog):
 				self.import_data.setEnabled(True)
 
 				self.unit_sel.set_xlabel(self.info_token.x_label)
-				self.unit_sel.set_ylabel(self.info_token.y_label)
+				self.unit_sel.set_ylabel(self.info_token.data_label)
 				self.unit_sel.set_title(self.info_token.title)
-				self.unit_sel.set_units(self.info_token.x_units,self.info_token.y_units)
+				self.unit_sel.set_units(self.info_token.x_units,self.info_token.data_units)
 				
 				self.gen_output()
 				return True

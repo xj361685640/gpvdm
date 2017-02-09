@@ -2,7 +2,7 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012-2016 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+//  Copyright (C) 2012-2016 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
 //	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -210,9 +210,9 @@ if (pl_data_added==TRUE)
 	strcpy(buf.title,"PL Spectra Free electron to free hole");
 	strcpy(buf.type,"xy");
 	strcpy(buf.x_label,"Energy");
-	strcpy(buf.y_label,"Intensity");
+	strcpy(buf.data_label,"Intensity");
 	strcpy(buf.x_units,"eV");
-	strcpy(buf.y_units,"m^{-3}s^{-1}");
+	strcpy(buf.data_units,"m^{-3}s^{-1}");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
 	buf.time=in->time;
@@ -229,9 +229,9 @@ if (pl_data_added==TRUE)
 	strcpy(buf.title,"PL Spectra Free hole to trapped electron");
 	strcpy(buf.type,"xy");
 	strcpy(buf.x_label,"Energy");
-	strcpy(buf.y_label,"Intensity");
+	strcpy(buf.data_label,"Intensity");
 	strcpy(buf.x_units,"eV");
-	strcpy(buf.y_units,"m^{-3}s^{-1}");
+	strcpy(buf.data_units,"m^{-3}s^{-1}");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
 	buf.time=in->time;
@@ -248,9 +248,9 @@ if (pl_data_added==TRUE)
 	strcpy(buf.title,"PL Spectra free electron to trapped electron");
 	strcpy(buf.type,"xy");
 	strcpy(buf.x_label,"Energy");
-	strcpy(buf.y_label,"Intensity");
+	strcpy(buf.data_label,"Intensity");
 	strcpy(buf.x_units,"eV");
-	strcpy(buf.y_units,"m^{-3}s^{-1}");
+	strcpy(buf.data_units,"m^{-3}s^{-1}");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
 	buf.time=in->time;
@@ -268,9 +268,9 @@ if (pl_data_added==TRUE)
 	strcpy(buf.title,"PL Spectra Free electron to trapped hole");
 	strcpy(buf.type,"xy");
 	strcpy(buf.x_label,"Energy");
-	strcpy(buf.y_label,"Intensity");
+	strcpy(buf.data_label,"Intensity");
 	strcpy(buf.x_units,"eV");
-	strcpy(buf.y_units,"m^{-3}s^{-1}");
+	strcpy(buf.data_units,"m^{-3}s^{-1}");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
 	buf.time=in->time;
@@ -288,9 +288,9 @@ if (pl_data_added==TRUE)
 	strcpy(buf.title,"PL Spectra free hole to trapped hole");
 	strcpy(buf.type,"xy");
 	strcpy(buf.x_label,"Energy");
-	strcpy(buf.y_label,"Intensity");
+	strcpy(buf.data_label,"Intensity");
 	strcpy(buf.x_units,"eV");
-	strcpy(buf.y_units,"m^{-3}s^{-1}");
+	strcpy(buf.data_units,"m^{-3}s^{-1}");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
 	buf.time=in->time;
@@ -313,9 +313,9 @@ if (pl_data_added==TRUE)
 	strcpy(buf.title,"Luminescence spectra");
 	strcpy(buf.type,"xy");
 	strcpy(buf.x_label,"Energy");
-	strcpy(buf.y_label,"Intensity");
+	strcpy(buf.data_label,"Intensity");
 	strcpy(buf.x_units,"eV");
-	strcpy(buf.y_units,"m^{-3}s^{-1}");
+	strcpy(buf.data_units,"m^{-3}s^{-1}");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
 	buf.time=in->time;

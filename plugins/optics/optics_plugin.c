@@ -2,9 +2,9 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+//  Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
-//	www.roderickmackenzie.eu
+//	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
@@ -80,9 +80,9 @@ void sim_optics(struct simulation *sim,struct device *in)
 	strcpy(buf.title,"Wavelength - Reflected light");
 	strcpy(buf.type,"xy");
 	strcpy(buf.x_label,"Wavelength");
-	strcpy(buf.y_label,"Reflected light");
+	strcpy(buf.data_label,"Reflected light");
 	strcpy(buf.x_units,"nm");
-	strcpy(buf.y_units,"a.u.");
+	strcpy(buf.data_units,"a.u.");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
 	buffer_add_info(&buf);

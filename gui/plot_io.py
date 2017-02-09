@@ -1,6 +1,6 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
 #	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -42,6 +42,7 @@ def plot_load_oplot_file(plot_token,file_name):
 	if inp_load_file(lines,file_name)==True:
 		plot_token.logy=str2bool(inp_search_token_value(lines, "#logy"))
 		plot_token.logx=str2bool(inp_search_token_value(lines, "#logx"))
+		plot_token.logz=str2bool(inp_search_token_value(lines, "#logz"))
 		plot_token.grid=str2bool(inp_search_token_value(lines, "#grid"))
 		plot_token.invert_y=str2bool(inp_search_token_value(lines, "#invert_y"))
 		plot_token.normalize=str2bool(inp_search_token_value(lines, "#normalize"))
@@ -60,10 +61,16 @@ def plot_load_oplot_file(plot_token,file_name):
 		plot_token.type=inp_search_token_value(lines, "#type")
 		plot_token.x_label=inp_search_token_value(lines, "#x_label")
 		plot_token.y_label=inp_search_token_value(lines, "#y_label")
+		plot_token.z_label=inp_search_token_value(lines, "#z_label")
+		plot_token.data_label=inp_search_token_value(lines, "#data_label")
 		plot_token.x_units=inp_search_token_value(lines, "#x_units")
 		plot_token.y_units=inp_search_token_value(lines, "#y_units")
+		plot_token.y_units=inp_search_token_value(lines, "#z_units")
+		plot_token.data_units=inp_search_token_value(lines, "#data_units")
 		plot_token.x_mul=float(inp_search_token_value(lines, "#x_mul"))
 		plot_token.y_mul=float(inp_search_token_value(lines, "#y_mul"))
+		plot_token.z_mul=float(inp_search_token_value(lines, "#z_mul"))
+		plot_token.data_mul=float(inp_search_token_value(lines, "#data_mul"))
 		plot_token.key_units=inp_search_token_value(lines, "#key_units")
 		plot_token.x_start=float(inp_search_token_value(lines, "#x_start"))
 		plot_token.x_stop=float(inp_search_token_value(lines, "#x_stop"))
@@ -87,18 +94,32 @@ def gen_header_from_token(plot_token,full=False,single_line=True):
 	lines.append(str(plot_token.x_mul))
 	lines.append("#y_mul")
 	lines.append(str(plot_token.y_mul))
+	lines.append("#z_mul")
+	lines.append(str(plot_token.z_mul))
+	lines.append("#data_mul")
+	lines.append(str(plot_token.data_mul))
 	lines.append("#x_label")
 	lines.append(str(plot_token.x_label))
 	lines.append("#y_label")
 	lines.append(str(plot_token.y_label))
+	lines.append("#z_label")
+	lines.append(str(plot_token.z_label))
+	lines.append("#data_label")
+	lines.append(str(plot_token.data_label))
 	lines.append("#x_units")
 	lines.append(str(plot_token.x_units))
 	lines.append("#y_units")
 	lines.append(str(plot_token.y_units))
+	lines.append("#z_units")
+	lines.append(str(plot_token.z_units))
+	lines.append("#data_units")
+	lines.append(str(plot_token.data_units))
 	lines.append("#logy")
 	lines.append(str(plot_token.logy))
 	lines.append("#logx")
 	lines.append(str(plot_token.logx))
+	lines.append("#logz")
+	lines.append(str(plot_token.logz))
 	lines.append("#time")
 	lines.append(str(plot_token.time))
 	lines.append("#Vexternal")
@@ -206,18 +227,30 @@ def get_plot_file_info(output,file_name):
 							output.x_mul=float(command[1])
 						if (command[0]=="#y_mul"):
 							output.y_mul=float(command[1])
+						if (command[0]=="#z_mul"):
+							output.z_mul=float(command[1])
 						if (command[0]=="#x_label"):
 							output.x_label=command[1]
 						if (command[0]=="#y_label"):
 							output.y_label=command[1]
+						if (command[0]=="#z_label"):
+							output.z_label=command[1]
+						if (command[0]=="#data_label"):
+							output.data_label=command[1]
 						if (command[0]=="#x_units"):
 							output.x_units=command[1]
 						if (command[0]=="#y_units"):
 							output.y_units=command[1]
+						if (command[0]=="#z_units"):
+							output.z_units=command[1]
+						if (command[0]=="#data_units"):
+							output.data_units=command[1]
 						if (command[0]=="#logscale_x"):
 							output.logx=bool(int(command[1]))
 						if (command[0]=="#logscale_y"):
 							output.logy=bool(int(command[1]))
+						if (command[0]=="#logscale_z"):
+							output.logz=bool(int(command[1]))
 						if (command[0]=="#type"):
 							output.type=command[1]
 						if (command[0]=="#title"):

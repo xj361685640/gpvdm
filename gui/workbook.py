@@ -71,7 +71,7 @@ def gen_workbook(input_file_or_dir,output_file):
 				ws = wb.create_sheet(title=title_truncate(os.path.basename(my_file)))
 				ws.cell(column=1, row=1, value=info_token.title)
 				ws.cell(column=1, row=2, value=info_token.x_label+" ("+info_token.x_units+") ")
-				ws.cell(column=2, row=2, value=info_token.y_label+" ("+info_token.y_units+") ")
+				ws.cell(column=2, row=2, value=info_token.data_label+" ("+info_token.data_units+") ")
 		
 				for i in range(0,data.y_len):
 					ws.cell(column=1, row=i+3, value=data.y_scale[i])
@@ -82,7 +82,7 @@ def gen_workbook(input_file_or_dir,output_file):
 				c1.style = 13
 				c1.height=20
 				c1.width=20
-				c1.y_axis.title = info_token.y_label+" ("+info_token.y_units+") "
+				c1.y_axis.title = info_token.data_label+" ("+info_token.data_units+") "
 				c1.x_axis.title = info_token.x_label+" ("+info_token.x_units+") "
 
 				xdata = Reference(ws, min_col=1, min_row=3, max_row=3+data.y_len)
