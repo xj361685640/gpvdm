@@ -39,7 +39,8 @@ void device_init(struct device *in)
 	in->Jnright=NULL;
 	in->Jpleft=NULL;
 	in->Jpright=NULL;
-	in->n_contact=NULL;
+	in->n_contact_r=NULL;
+	in->n_contact_l=NULL;
 
 	in->phi= NULL;
 	in->Nad= NULL;
@@ -87,7 +88,9 @@ void device_init(struct device *in)
 	in->Jp_diffusion= NULL;
 	in->Jp_drift= NULL;
 
-	in->Vapplied=NULL;
+	in->Vapplied_r=NULL;
+	in->Vapplied_l=NULL;
+
 	in->Vl= -1.0;
 	in->Vr= -1.0;
 	in->x= NULL;

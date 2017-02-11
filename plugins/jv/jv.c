@@ -93,7 +93,7 @@ struct istruct li;
 inter_init(&li);
 
 gdouble Vapplied=0.0;
-contact_set_voltage_if_active(sim,in,Vapplied);
+contact_set_active_contact_voltage(sim,in,Vapplied);
 
 /*if (gfabs(config.Vstart-in->Vapplied)>0.2)
 {
@@ -120,7 +120,7 @@ newton_push_state(in);
 newton_set_min_ittr(in,30);
 
 Vapplied=config.Vstart;
-contact_set_voltage_if_active(sim,in,Vapplied);
+contact_set_active_contact_voltage(sim,in,Vapplied);
 V=Vapplied;
 newton_sim_jv(sim,in);
 
@@ -144,7 +144,7 @@ in->stop=FALSE;
 	{
 
 		Vapplied=V;
-		contact_set_voltage_if_active(sim,in,Vapplied);
+		contact_set_active_contact_voltage(sim,in,Vapplied);
 		newton_sim_jv(sim,in);
 
 		J=get_equiv_J(sim,in);

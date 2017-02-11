@@ -1,6 +1,6 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012-2017 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012-2017 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
 #	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -73,36 +73,47 @@ class contacts_window(QWidget):
 	def update_contact_db(self):
 		for i in range(0,self.tab.rowCount()):
 			try:
-				float(tab_get_value(self.tab,i, 0))
-				float(tab_get_value(self.tab,i, 2))
 				float(tab_get_value(self.tab,i, 3))
-				float(tab_get_value(self.tab,i, 1))
+				float(tab_get_value(self.tab,i, 4))
+				float(tab_get_value(self.tab,i, 5))
+				float(tab_get_value(self.tab,i, 6))
 			except:
 				return False
 
 		contacts_clear()
 		for i in range(0,self.tab.rowCount()):
-			contacts_append(float(tab_get_value(self.tab,i, 0)),float(tab_get_value(self.tab,i, 2)),float(tab_get_value(self.tab,i, 3)),float(tab_get_value(self.tab,i, 1)),str2bool(tab_get_value(self.tab,i, 4)))	
+			contacts_append(tab_get_value(self.tab,i, 0),tab_get_value(self.tab,i, 1),str2bool(tab_get_value(self.tab,i, 2)),float(tab_get_value(self.tab,i, 3)),float(tab_get_value(self.tab,i, 4)),float(tab_get_value(self.tab,i, 5)),float(tab_get_value(self.tab,i, 6)))
 		return True
 	
-	def add_row(self,pos,start,width,depth,voltage,active):
+	def add_row(self,pos,name,top_btm,active,start,width,depth,voltage):
 
 		pos= tab_insert_row(self.tab)
 
 		self.tab.blockSignals(True)
+		self.tab.setItem(pos,0,QTableWidgetItem(name))
 
-		self.tab.setItem(pos,0,QTableWidgetItem(start))
-		self.tab.setItem(pos,1,QTableWidgetItem(width))
-		self.tab.setItem(pos,2,QTableWidgetItem(depth))
-		self.tab.setItem(pos,3,QTableWidgetItem(voltage))
+		combobox = QComboBox()
+		combobox.addItem(_("top"))
+		combobox.addItem(_("bottom"))
+
+		self.tab.setCellWidget(pos,1, combobox)
+		combobox.setCurrentIndex(combobox.findText(top_btm.lower()))
+		combobox.currentIndexChanged.connect(self.save)
 
 		combobox = QComboBox()
 		combobox.addItem(_("true"))
 		combobox.addItem(_("false"))
 
-		self.tab.setCellWidget(pos,4, combobox)
+		self.tab.setCellWidget(pos,2, combobox)
 		combobox.setCurrentIndex(combobox.findText(active.lower()))
 		combobox.currentIndexChanged.connect(self.save)
+		
+		self.tab.setItem(pos,3,QTableWidgetItem(start))
+		self.tab.setItem(pos,4,QTableWidgetItem(width))
+		self.tab.setItem(pos,5,QTableWidgetItem(depth))
+		self.tab.setItem(pos,6,QTableWidgetItem(voltage))
+
+
 		self.tab.blockSignals(False)
 		
 	def on_add_clicked(self, button):
@@ -113,7 +124,7 @@ class contacts_window(QWidget):
 		else:
 			pos = self.tab.rowCount()
 
-		self.add_row(pos,"0.0","0.0","0.0","0.0",_("false"))
+		self.add_row(pos,"","top",_("false"),"0.0","0.0","0.0","0.0")
  
 		self.save()
 
@@ -141,20 +152,20 @@ class contacts_window(QWidget):
 
 	def load(self):
 		self.tab.clear()
-		self.tab.setHorizontalHeaderLabels([_("Start"), _("Width"),_("Depth"),_("Voltage"),_("Active contact")])
+		self.tab.setHorizontalHeaderLabels([_("Name"),_("Top/Bottom"),_("Active contact"),_("Start"), _("Width"),_("Depth"),_("Voltage")])
 		contacts_load()
 		#contacts_print()
 		contacts=contacts_get_array()
 		i=0
 		for c in contacts_get_array():
-			self.add_row(i,str(c.start),str(c.width),str(c.depth),str(c.voltage),str(c.active))
+			self.add_row(i,str(c.name),str(c.position),str(c.active),str(c.start),str(c.width),str(c.depth),str(c.voltage))
 
 			i=i+1
 
 
 	def __init__(self):
 		QWidget.__init__(self)
-		self.setFixedSize(600, 400)
+		self.setFixedSize(750, 400)
 
 		self.win_list=windows()
 		self.win_list.set_window(self,"contacts")
@@ -194,7 +205,7 @@ class contacts_window(QWidget):
 		self.tab.verticalHeader().setVisible(False)
 
 		self.tab.clear()
-		self.tab.setColumnCount(5)
+		self.tab.setColumnCount(7)
 		self.tab.setSelectionBehavior(QAbstractItemView.SelectRows)
 
 		self.load()

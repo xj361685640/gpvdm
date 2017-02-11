@@ -1318,31 +1318,15 @@ return ret;
 
 gdouble get_J_left(struct device *in)
 {
-int z=0;
-int x=0;
-gdouble ret=0.0;
-gdouble count=0.0;
-
-for (z=0;z<in->zmeshpoints;z++)
-{
-	for (x=0;x<in->xmeshpoints;x++)
-	{
-		if (in->n_contact[z][x]==0)
-		{
-			ret+=in->Jpleft[z][x]+in->Jnleft[z][x];
-			count=count+1.0;
-		}
-	}
-}
-ret/=count;
-
-return ret*Q;
+long double ret=0.0;
+ret = contacts_get_Jleft(in);
+return ret;
 }
 
 gdouble get_J_right(struct device *in)
 {
 long double ret=0.0;
-ret = contacts_get_J(in, 0);
+ret = contacts_get_Jright(in);
 return ret;
 }
 

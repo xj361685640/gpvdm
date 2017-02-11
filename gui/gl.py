@@ -455,26 +455,27 @@ if open_gl_ok==True:
 									box(dx*x,pos+y*(dy),z*dz,dx*xshrink,dy*0.8,dz*zshrink,red,green,blue,alpha)
 					tab(0.0,pos,max_gui_device_z,max_gui_device_x,thick,max_gui_device_z)
 				
-				elif epitaxy_get_electrical_layer(l-i).lower()=="contact" and i==l:
+				elif epitaxy_get_electrical_layer(l-i).lower()=="contact" and (i==l or i==0):
 					if xpoints==1 and zpoints==1:
 						box(0.0,pos,0,max_gui_device_x,thick,max_gui_device_z,red,green,blue,alpha)
 					else:
 						for c in contacts_get_array():
-							xstart=max_gui_device_x*(c.start/x_len)
-							xwidth=max_gui_device_x*(c.width/x_len)
-							#print("contacts",xstart,xwidth,c.width,x_len)
-							if (c.start+c.width)>x_len:
-								xwidth=max_gui_device_x-xstart
-								
-							if c.depth>0.0:
-								etch_depth=c.depth*self.y_mul
+							if (c.position=="top" and i==l) or (c.position=="bottom" and i==0):
+								xstart=max_gui_device_x*(c.start/x_len)
+								xwidth=max_gui_device_x*(c.width/x_len)
+								#print("contacts",xstart,xwidth,c.width,x_len)
+								if (c.start+c.width)>x_len:
+									xwidth=max_gui_device_x-xstart
+									
+								if c.depth>0.0:
+									etch_depth=c.depth*self.y_mul
 
-								box(xstart,pos-etch_depth-dy_layer_offset,0,xwidth,etch_depth,max_gui_device_z,0.0,0.0,1.0,1.0)
+									box(xstart,pos-etch_depth-dy_layer_offset,0,xwidth,etch_depth,max_gui_device_z,0.0,0.0,1.0,1.0)
 
-							if c.active==True:
-								box(xstart,pos,0,xwidth,thick,max_gui_device_z,0.0,1.0,0.0,alpha)
-							else:
-								box(xstart,pos,0,xwidth,thick,max_gui_device_z,red,green,blue,alpha)
+								if c.active==True:
+									box(xstart,pos,0,xwidth,thick,max_gui_device_z,0.0,1.0,0.0,alpha)
+								else:
+									box(xstart,pos,0,xwidth,thick,max_gui_device_z,red,green,blue,alpha)
 
 
 				else:

@@ -73,8 +73,10 @@ struct device
 		gdouble *zmesh;
 
 		//2D arrays
-		gdouble **Vapplied;
-		int **n_contact;
+		gdouble **Vapplied_r;
+		gdouble **Vapplied_l;		
+		int **n_contact_r;
+		int **n_contact_l;
 		gdouble **Jnleft;
 		gdouble **Jnright;
 		gdouble **Jpleft;

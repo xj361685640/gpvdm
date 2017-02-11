@@ -48,7 +48,7 @@ void contacts_load(struct simulation *sim,struct device *in)
 		ewe(sim,"Can't open the file contacts\n");
 	}
 
-	inp_check(sim,&inp,1.0);
+	inp_check(sim,&inp,1.1);
 	inp_reset_read(sim,&inp);
 	inp_get_string(sim,&inp);
 	sscanf(inp_get_string(sim,&inp),"%d",&(in->ncontacts));
@@ -67,6 +67,16 @@ void contacts_load(struct simulation *sim,struct device *in)
 	int active=FALSE;
 	for (i=0;i<in->ncontacts;i++)
 	{
+		
+		inp_get_string(sim,&inp);	//active contact
+		strcpy(in->contacts[i].name,inp_get_string(sim,&inp));
+
+		inp_get_string(sim,&inp);	//position
+		in->contacts[i].position=english_to_bin(sim, inp_get_string(sim,&inp));
+	
+		inp_get_string(sim,&inp);	//active contact
+		in->contacts[i].active=english_to_bin(sim, inp_get_string(sim,&inp));
+
 		inp_get_string(sim,&inp);	//start
 		sscanf(inp_get_string(sim,&inp),"%Le",&(in->contacts[i].start));
 
@@ -80,8 +90,6 @@ void contacts_load(struct simulation *sim,struct device *in)
 		sscanf(inp_get_string(sim,&inp),"%Le",&(in->contacts[i].voltage));
 		in->contacts[i].voltage_last=in->contacts[i].voltage;
 
-		inp_get_string(sim,&inp);	//active contact
-		in->contacts[i].active=english_to_bin(sim, inp_get_string(sim,&inp));
 
 		pos+=in->contacts[i].width;
 	}
@@ -97,7 +105,7 @@ void contacts_load(struct simulation *sim,struct device *in)
 	contacts_update(sim,in);
 }
 
-void contacts_force_value(struct simulation *sim,struct device *in,gdouble value)
+void contacts_force_to_zero(struct simulation *sim,struct device *in)
 {
 int x;
 int z;
@@ -106,7 +114,8 @@ for (x=0;x<in->xmeshpoints;x++)
 {
 	for (z=0;z<in->zmeshpoints;z++)
 	{
-		in->Vapplied[z][x]=value;
+		in->Vapplied_l[z][x]=0.0;
+		in->Vapplied_r[z][x]=0.0;
 	}
 
 }
@@ -127,12 +136,22 @@ if (in->xmeshpoints==1)
 {
 	for (z=0;z<in->zmeshpoints;z++)
 	{
-		in->Vapplied[z][0]=in->contacts[0].voltage;
+		for (i=0;i<in->ncontacts;i++)
+		{
+			if (in->contacts[i].position==TOP)
+			{
+				in->Vapplied_r[z][0]=in->contacts[i].voltage;
+			}else
+			{
+				in->Vapplied_l[z][0]=in->contacts[i].voltage;
+			}
+		}
 	}
 
 	return;
 }
 
+//Contacts on top
 for (x=0;x<in->xmeshpoints;x++)
 {
 	found=FALSE;
@@ -140,10 +159,13 @@ for (x=0;x<in->xmeshpoints;x++)
 	{
 		if ((in->xmesh[x]>=in->contacts[i].start)&&(in->xmesh[x]<in->contacts[i].start+in->contacts[i].width))
 		{
-			value=in->contacts[i].voltage;
-			n=i;
-			found=TRUE;
-			break;
+			if (in->contacts[i].position==TOP)
+			{
+				value=in->contacts[i].voltage;
+				n=i;
+				found=TRUE;
+				break;
+			}
 		}
 	}
 
@@ -155,11 +177,43 @@ for (x=0;x<in->xmeshpoints;x++)
 
 	for (z=0;z<in->zmeshpoints;z++)
 	{
-		in->Vapplied[z][x]=value;
-		in->n_contact[z][x]=n;
+		in->Vapplied_r[z][x]=value;
+		in->n_contact_r[z][x]=n;
 	}
+	
 }
 
+//Contacts on btm
+for (x=0;x<in->xmeshpoints;x++)
+{
+	found=FALSE;
+	for (i=0;i<in->ncontacts;i++)
+	{
+		if ((in->xmesh[x]>=in->contacts[i].start)&&(in->xmesh[x]<in->contacts[i].start+in->contacts[i].width))
+		{
+			if (in->contacts[i].position==BOTTOM)
+			{
+				value=in->contacts[i].voltage;
+				n=i;
+				found=TRUE;
+				break;
+			}
+		}
+	}
+
+	if (found==FALSE)
+	{
+		value=0.0;
+		n=-1;
+	}
+
+	for (z=0;z<in->zmeshpoints;z++)
+	{
+		in->Vapplied_l[z][x]=value;
+		in->n_contact_l[z][x]=n;
+	}
+	
+}
 }
 
 gdouble contact_get_voltage_last(struct simulation *sim,struct device *in,int contact)
@@ -178,25 +232,15 @@ void contact_set_voltage(struct simulation *sim,struct device *in,int contact,gd
 	contacts_update(sim,in);
 }
 
-void contact_set_voltage_if_active(struct simulation *sim,struct device *in,gdouble voltage)
+void contact_set_active_contact_voltage(struct simulation *sim,struct device *in,gdouble voltage)
 {
 	int i=0;
 
-	if ((in->xmeshpoints==1)&&(in->zmeshpoints==1))
+	for (i=0;i<in->ncontacts;i++)
 	{
-		for (i=0;i<in->ncontacts;i++)
+		if (in->contacts[i].active==TRUE)
 		{
 			in->contacts[i].voltage=voltage;
-		}
-
-	}else
-	{
-		for (i=0;i<in->ncontacts;i++)
-		{
-			if (in->contacts[i].active==TRUE)
-			{
-				in->contacts[i].voltage=voltage;
-			}
 		}
 	}
 
@@ -236,6 +280,58 @@ int i;
 	contacts_update(sim,in);
 }
 
+long double contacts_get_Jleft(struct device *in)
+{
+int i;
+int x;
+int z;
+
+long double tot=0.0;
+long double count=0.0;
+
+for (x=0;x<in->xmeshpoints;x++)
+{
+		for (z=0;z<in->zmeshpoints;z++)
+		{
+			if (in->n_contact_l[z][x]>=0)
+			{
+				tot+=in->Jpleft[z][x]+in->Jnleft[z][x];
+				count=count+1.0;						//this will need updating for meshes which change
+			}
+		}
+}
+
+tot=tot/count;
+
+return tot*Q;
+}
+
+long double contacts_get_Jright(struct device *in)
+{
+int i;
+int x;
+int z;
+
+long double tot=0.0;
+long double count=0.0;
+
+for (x=0;x<in->xmeshpoints;x++)
+{
+		for (z=0;z<in->zmeshpoints;z++)
+		{
+			if (in->n_contact_r[z][x]>=0)
+			{
+				tot+=in->Jpright[z][x]+in->Jnright[z][x];
+				count=count+1.0;
+			}
+		}
+}
+
+tot=tot/count;
+
+return tot*Q;
+}
+
 
 long double contacts_get_J(struct device *in, int n)
 {
@@ -252,9 +348,15 @@ for (x=0;x<in->xmeshpoints;x++)
 		{
 			for (i=0;i<in->ncontacts;i++)
 			{
-				if (in->n_contact[z][x]==n)
+				if (in->n_contact_r[z][x]==n)
 				{
 					tot+=in->Jpright[z][x]+in->Jnright[z][x];
+					count=count+1.0;						//this will need updating for meshes which change
+				}
+				
+				if (in->n_contact_l[z][x]==n)
+				{
+					tot+=in->Jpleft[z][x]+in->Jnleft[z][x];
 					count=count+1.0;						//this will need updating for meshes which change
 				}
 			}

@@ -307,6 +307,14 @@ if (strcmp(temp,"simplex")==0)
 if (strcmp(temp,"bfgs")==0)
 {
 	return FIT_BFGS;
+}else
+if (strcmp(temp,"top")==0)
+{
+	return TOP;
+}else
+if (strcmp(temp,"bottom")==0)
+{
+	return BOTTOM;
 }
 
 

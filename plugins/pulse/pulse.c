@@ -109,7 +109,7 @@ if (pulse_config.pulse_sim_mode==pulse_ideal_diode_ideal_load)
 else
 if (pulse_config.pulse_sim_mode==pulse_open_circuit)
 {
-	contact_set_voltage_if_active(sim,in,in->Vbi);
+	contact_set_active_contact_voltage(sim,in,in->Vbi);
 	in->Rload=1e6;
 	newton_sim_voc(sim,in);
 	newton_sim_voc_fast(sim,in,FALSE);

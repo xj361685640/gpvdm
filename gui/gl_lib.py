@@ -28,6 +28,7 @@ except:
 	print("opengl error from gl_lib",sys.exc_info()[0])
 	
 import random
+import numpy as np
 
 def draw_stars():
 	global stars

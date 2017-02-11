@@ -21,6 +21,7 @@
 #include <ray.h>
 #include <const.h>
 #include <math.h>
+#include <stdlib.h>
 #include <cal_path.h>
 
 void image_init(struct image *in)

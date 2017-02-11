@@ -111,8 +111,8 @@ void update_solver_vars(struct simulation *sim,struct device *in,int z,int x,int
 {
 int i;
 int band=0;
-gdouble Vapplied=0.0;
-gdouble clamp_temp=300.0;
+long double Vapplied=0.0;
+long double clamp_temp=300.0;
 
 gdouble update=0.0;
 	for (i=0;i<in->ymeshpoints;i++)
@@ -346,13 +346,13 @@ if (in->kl_in_newton==FALSE)
 {
 	if (in->interfaceleft==TRUE)
 	{
-			in->phi[z][x][0]=in->Vapplied[z][x];
+		in->phi[z][x][0]=in->Vapplied_l[z][x];
 	}
 }
 
 if (in->interfaceright==TRUE)
 {
-		in->phi[z][x][in->ymeshpoints-1]=in->Vr;
+	in->phi[z][x][in->ymeshpoints-1]=in->Vr-in->Vapplied_r[z][x];
 }
 
 		pos=0;
@@ -360,11 +360,8 @@ if (in->interfaceright==TRUE)
 		{
 			if (i==0)
 			{
-//				exl=0.0;
-//				Dexl=in->Dex[0];
 
-					phil=(in->Vapplied[z][x]);
-					//printf("setr=%Lf %Lf\n",phil,in->Vapplied[z][x]);
+				phil=in->Vapplied_l[z][x];
 
 				yl=in->ymesh[0]-(in->ymesh[1]-in->ymesh[0]);
 //				Tll=in->Tll;
@@ -448,7 +445,14 @@ if (in->interfaceright==TRUE)
 //				exr=0.0;
 				//phir=in->Vr;
 
-					phir=in->Vr;
+				if (in->invert_applied_bias==FALSE)
+				{
+					phir=(in->Vr+in->Vapplied_r[z][x]);
+				}else
+				{
+					phir=(in->Vr-in->Vapplied_r[z][x]);
+				}
+
 
 				yr=in->ymesh[i]+(in->ymesh[i]-in->ymesh[i-1]);
 //				Tlr=in->Tlr;
@@ -1718,7 +1722,7 @@ int cpos=0;
 
 		if (get_dump_status(sim,dump_print_newtonerror)==TRUE)
 		{
-			printf_log(sim,"%d Cur error = %Le %Le I=%Le",ittr,error,in->Vapplied[z][x],get_I(in));
+			printf_log(sim,"%d Cur error = %Le %Le I=%Le",ittr,error,contact_get_active_contact_voltage(sim,in),get_I(in));
 
 			printf_log(sim,"\n");
 		}
@@ -1779,6 +1783,8 @@ int cpos=0;
 
 	}while(stop==FALSE);
 
+//printf("%Le %Le\n",in->Vapplied_l[z][x],in->Vapplied_r[z][x]);
+//getchar();
 in->newton_last_ittr=ittr;
 
 if (error>1e-3)

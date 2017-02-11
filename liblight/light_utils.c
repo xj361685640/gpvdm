@@ -339,7 +339,7 @@ int light_get_pos_from_wavelength(struct simulation *sim,struct light *in,double
 
 	if (lam>in->lstop)
 	{
-		ewe(sim,"The desired wavelenght is smaller than the simulated range");
+		ewe(sim,"The desired wavelenght is bigger than the simulated range");
 	}
 
 	i=(int)((lam-in->lstart)/in->dl);

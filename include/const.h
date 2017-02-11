@@ -45,6 +45,8 @@
 #define FALSE 0
 #define LEFT 0
 #define RIGHT 1
+#define TOP 0
+#define BOTTOM 1
 
 #define FIT_SIMPLEX 0
 #define FIT_NEWTON 1

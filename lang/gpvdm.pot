@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.80\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2017-02-11 12:51+0000\n"
+"POT-Creation-Date: 2017-02-11 23:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -105,31 +105,31 @@ msgstr ""
 msgid "Error writing file"
 msgstr ""
 
-#: ../lib/util.c:321
+#: ../lib/util.c:329
 msgid "I don't understand the command"
 msgstr ""
 
-#: ../lib/util.c:333
+#: ../lib/util.c:341
 msgid "Can not read file"
 msgstr ""
 
-#: ../lib/util.c:364 ../lib/util.c:478 ../lib/util.c:538 ../lib/util.c:631
+#: ../lib/util.c:372 ../lib/util.c:486 ../lib/util.c:546 ../lib/util.c:639
 msgid "File not found"
 msgstr ""
 
-#: ../lib/util.c:516 ../lib/util.c:576 ../lib/util.c:677
+#: ../lib/util.c:524 ../lib/util.c:584 ../lib/util.c:685
 msgid "Can not write file"
 msgstr ""
 
-#: ../lib/util.c:592 ../lib/util.c:600
+#: ../lib/util.c:600 ../lib/util.c:608
 msgid "Can not open file"
 msgstr ""
 
-#: ../lib/util.c:669
+#: ../lib/util.c:677
 msgid "Token not found in file"
 msgstr ""
 
-#: ../lib/util.c:845
+#: ../lib/util.c:853
 msgid "Deleting directory"
 msgstr ""
 
@@ -291,7 +291,7 @@ msgstr ""
 #: ../plugins/pulse/pulse.c:275 ../plugins/pulse/pulse.c:280
 #: ../plugins/fxdomain/fxdomain.c:279 ../plugins/fxdomain/fxdomain.c:282
 #: ../gui/tmesh.py:232 ../gui/tmesh.py:234 ../gui/tmesh.py:237
-#: ../gui/tmesh.py:239 ../gui/contacts.py:144 ../libdump/dump_dynamic.c:791
+#: ../gui/tmesh.py:239 ../gui/contacts.py:155 ../libdump/dump_dynamic.c:791
 msgid "Voltage"
 msgstr ""
 
@@ -396,19 +396,19 @@ msgstr ""
 msgid "Finished generating DoS....\n"
 msgstr ""
 
-#: ../src/memory.c:249
+#: ../src/memory.c:251
 msgid "Solved"
 msgstr ""
 
-#: ../src/memory.c:249
+#: ../src/memory.c:251
 msgid "Equations"
 msgstr ""
 
-#: ../src/memory.c:258
+#: ../src/memory.c:260
 msgid "I can't allocate a device with less than 1 mesh point."
 msgstr ""
 
-#: ../src/memory.c:263
+#: ../src/memory.c:265
 msgid ""
 "You are asking me to simulate a device with more than 50000 mesh points, "
 "although I could do this I am not going to because it seems a bad idea to me."
@@ -537,7 +537,7 @@ msgstr ""
 
 #: ../gui/cmp_class.py:301 ../gui/band_graph.py:71
 #: ../gui/fit_configure_window.py:73 ../gui/experiment.py:180
-#: ../gui/experiment.py:237 ../gui/contacts.py:185 ../gui/jv.py:78
+#: ../gui/experiment.py:237 ../gui/contacts.py:196 ../gui/jv.py:78
 #: ../gui/emesh.py:169 ../gui/scan.py:259 ../gui/scan.py:354 ../gui/info.py:68
 #: ../gui/fxexperiment.py:177 ../gui/fxexperiment.py:230
 #: ../gui/fit_window.py:226 ../gui/ref.py:124 ../gui/lasers.py:180
@@ -1148,7 +1148,7 @@ msgstr ""
 msgid "New experiment"
 msgstr ""
 
-#: ../gui/experiment.py:236 ../gui/contacts.py:184 ../gui/scan.py:353
+#: ../gui/experiment.py:236 ../gui/contacts.py:195 ../gui/scan.py:353
 msgid "Hide"
 msgstr ""
 
@@ -1254,43 +1254,59 @@ msgstr ""
 msgid "Open file"
 msgstr ""
 
-#: ../gui/contacts.py:100
+#: ../gui/contacts.py:96
+msgid "top"
+msgstr ""
+
+#: ../gui/contacts.py:97
+msgid "bottom"
+msgstr ""
+
+#: ../gui/contacts.py:104
 msgid "true"
 msgstr ""
 
-#: ../gui/contacts.py:101 ../gui/contacts.py:116
+#: ../gui/contacts.py:105 ../gui/contacts.py:127
 msgid "false"
 msgstr ""
 
-#: ../gui/contacts.py:129
+#: ../gui/contacts.py:140
 msgid "There are some non numeric values in the table"
 msgstr ""
 
-#: ../gui/contacts.py:144 ../gui/doping.py:119
-msgid "Start"
+#: ../gui/contacts.py:155
+msgid "Name"
 msgstr ""
 
-#: ../gui/contacts.py:144 ../gui/doping.py:119
-msgid "Width"
+#: ../gui/contacts.py:155
+msgid "Top/Bottom"
 msgstr ""
 
-#: ../gui/contacts.py:144
-msgid "Depth"
-msgstr ""
-
-#: ../gui/contacts.py:144
+#: ../gui/contacts.py:155
 msgid "Active contact"
 msgstr ""
 
-#: ../gui/contacts.py:164
-msgid "Edit contacts"
+#: ../gui/contacts.py:155 ../gui/doping.py:119
+msgid "Start"
 msgstr ""
 
-#: ../gui/contacts.py:171
-msgid "Add contact"
+#: ../gui/contacts.py:155 ../gui/doping.py:119
+msgid "Width"
+msgstr ""
+
+#: ../gui/contacts.py:155
+msgid "Depth"
 msgstr ""
 
 #: ../gui/contacts.py:175
+msgid "Edit contacts"
+msgstr ""
+
+#: ../gui/contacts.py:182
+msgid "Add contact"
+msgstr ""
+
+#: ../gui/contacts.py:186
 msgid "Remove contacts"
 msgstr ""
 

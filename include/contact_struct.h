@@ -25,13 +25,15 @@
 
 struct contact
 {
+	char name[100];
+	int position;
+	int active;
 	gdouble width;
 	gdouble depth;
 	gdouble voltage;
 	gdouble voltage_last;
 	gdouble start;
 	gdouble store;
-	int active;
 
 };
 
