@@ -2,7 +2,7 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012-2017 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+//  Copyright (C) 2012-2017 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
 //	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -28,6 +28,7 @@
 #include <buffer.h>
 #include <lang.h>
 #include <string.h>
+#include <contacts.h>
 
 void init_dump(struct simulation *sim,struct device *in)
 {
@@ -346,6 +347,7 @@ in->Vr=delta_phi;
 in->Vbi=delta_phi;
 init_dump(sim,in);
 //getchar();
+contacts_passivate(sim,in);
 if (in->stoppoint==1) exit(0);
 return;
 }

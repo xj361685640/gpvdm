@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.80\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2017-02-09 16:52+0000\n"
+"POT-Creation-Date: 2017-02-11 12:09+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,8 +22,8 @@ msgid "Electron generation rate"
 msgstr ""
 
 #: ../liblight/light_dump.c:465 ../liblight/light_dump.c:492
-#: ../src/initial.c:51 ../src/initial.c:75 ../src/initial.c:99
-#: ../src/initial.c:123 ../src/initial.c:147 ../gui/band_graph.py:202
+#: ../src/initial.c:52 ../src/initial.c:76 ../src/initial.c:100
+#: ../src/initial.c:124 ../src/initial.c:148 ../gui/band_graph.py:202
 #: ../libdump/dump_1d_slice.c:69 ../libdump/dump_1d_slice.c:153
 #: ../libdump/dump_1d_slice.c:209 ../libdump/dump_1d_slice.c:237
 #: ../libdump/dump_1d_slice.c:265 ../libdump/dump_1d_slice.c:321
@@ -414,20 +414,20 @@ msgid ""
 "although I could do this I am not going to because it seems a bad idea to me."
 msgstr ""
 
-#: ../src/initial.c:49
+#: ../src/initial.c:50
 msgid "Equilibrium Fermi-level"
 msgstr ""
 
-#: ../src/initial.c:49 ../src/initial.c:73 ../src/initial.c:97
-#: ../src/initial.c:121 ../src/initial.c:145 ../libdump/dump_1d_slice.c:97
+#: ../src/initial.c:50 ../src/initial.c:74 ../src/initial.c:98
+#: ../src/initial.c:122 ../src/initial.c:146 ../libdump/dump_1d_slice.c:97
 #: ../libdump/dump_1d_slice.c:125 ../libdump/dump_1d_slice.c:181
 #: ../libdump/dump_1d_slice.c:293 ../libdump/dump_1d_slice.c:377
 #: ../libdump/dump_1d_slice.c:405 ../libdump/dump_1d_slice.c:1573
 msgid "position"
 msgstr ""
 
-#: ../src/initial.c:55 ../src/initial.c:79 ../src/initial.c:103
-#: ../src/initial.c:127 ../src/initial.c:151 ../libdump/dump_1d_slice.c:79
+#: ../src/initial.c:56 ../src/initial.c:80 ../src/initial.c:104
+#: ../src/initial.c:128 ../src/initial.c:152 ../libdump/dump_1d_slice.c:79
 #: ../libdump/dump_1d_slice.c:107 ../libdump/dump_1d_slice.c:135
 #: ../libdump/dump_1d_slice.c:163 ../libdump/dump_1d_slice.c:191
 #: ../libdump/dump_1d_slice.c:219 ../libdump/dump_1d_slice.c:247
@@ -456,8 +456,8 @@ msgstr ""
 msgid "1D position space output"
 msgstr ""
 
-#: ../src/initial.c:56 ../src/initial.c:80 ../src/initial.c:104
-#: ../src/initial.c:128 ../src/initial.c:152 ../libdump/dump_1d_slice.c:80
+#: ../src/initial.c:57 ../src/initial.c:81 ../src/initial.c:105
+#: ../src/initial.c:129 ../src/initial.c:153 ../libdump/dump_1d_slice.c:80
 #: ../libdump/dump_1d_slice.c:108 ../libdump/dump_1d_slice.c:136
 #: ../libdump/dump_1d_slice.c:164 ../libdump/dump_1d_slice.c:248
 #: ../libdump/dump_1d_slice.c:276 ../libdump/dump_1d_slice.c:304
@@ -467,27 +467,27 @@ msgstr ""
 msgid "Transport"
 msgstr ""
 
-#: ../src/initial.c:73 ../libdump/dump_1d_slice.c:181
+#: ../src/initial.c:74 ../libdump/dump_1d_slice.c:181
 msgid "LUMO"
 msgstr ""
 
-#: ../src/initial.c:97 ../libdump/dump_1d_slice.c:209
+#: ../src/initial.c:98 ../libdump/dump_1d_slice.c:209
 msgid "HOMO"
 msgstr ""
 
-#: ../src/initial.c:121 ../libdump/dump_dynamic.c:598
+#: ../src/initial.c:122 ../libdump/dump_dynamic.c:598
 #: ../libdump/dump_dynamic.c:636 ../libdump/dump_dynamic.c:737
 #: ../libdump/dump_1d_slice.c:1191
 msgid "Electron density"
 msgstr ""
 
-#: ../src/initial.c:145 ../libdump/dump_dynamic.c:617
+#: ../src/initial.c:146 ../libdump/dump_dynamic.c:617
 #: ../libdump/dump_dynamic.c:655 ../libdump/dump_dynamic.c:757
 #: ../libdump/dump_1d_slice.c:1224
 msgid "Hole density"
 msgstr ""
 
-#: ../src/initial.c:148 ../gui/jobs.py:86
+#: ../src/initial.c:149 ../gui/jobs.py:86
 msgid "n"
 msgstr ""
 
@@ -577,7 +577,7 @@ msgid "Energy"
 msgstr ""
 
 #: ../gui/qe.py:116 ../gui/fit_window_plot_real.py:130
-#: ../gui/plot_widget.py:637
+#: ../gui/plot_widget.py:644
 msgid "Save graph"
 msgstr ""
 
@@ -1246,7 +1246,7 @@ msgstr ""
 msgid "Directory"
 msgstr ""
 
-#: ../gui/open_save_dlg.py:44 ../gui/plot_widget.py:661
+#: ../gui/open_save_dlg.py:44 ../gui/plot_widget.py:668
 msgid "Save as"
 msgstr ""
 
@@ -1634,7 +1634,7 @@ msgstr ""
 msgid "Remove "
 msgstr ""
 
-#: ../gui/tab_homo.py:281 ../gui/plot_widget.py:658 ../gui/doping.py:196
+#: ../gui/tab_homo.py:281 ../gui/plot_widget.py:665 ../gui/doping.py:196
 msgid "Save"
 msgstr ""
 
@@ -1834,7 +1834,7 @@ msgstr ""
 msgid "CELIV"
 msgstr ""
 
-#: ../gui/inp_description.py:42 ../gui/plot_widget.py:690
+#: ../gui/inp_description.py:42 ../gui/plot_widget.py:697
 msgid "Math"
 msgstr ""
 
@@ -3172,67 +3172,67 @@ msgstr ""
 msgid "copy state"
 msgstr ""
 
-#: ../gui/plot_widget.py:641
+#: ../gui/plot_widget.py:648
 msgid "Refresh graph"
 msgstr ""
 
-#: ../gui/plot_widget.py:668
+#: ../gui/plot_widget.py:675
 msgid "Black"
 msgstr ""
 
-#: ../gui/plot_widget.py:671
+#: ../gui/plot_widget.py:678
 msgid "Rainbow"
 msgstr ""
 
-#: ../gui/plot_widget.py:674
+#: ../gui/plot_widget.py:681
 msgid "Color"
 msgstr ""
 
-#: ../gui/plot_widget.py:675
+#: ../gui/plot_widget.py:682
 msgid "Autoscale"
 msgstr ""
 
-#: ../gui/plot_widget.py:678
+#: ../gui/plot_widget.py:685
 msgid "Set log scale y"
 msgstr ""
 
-#: ../gui/plot_widget.py:681 ../gui/plot_widget.py:684
+#: ../gui/plot_widget.py:688 ../gui/plot_widget.py:691
 msgid "Set log scale x"
 msgstr ""
 
-#: ../gui/plot_widget.py:687
+#: ../gui/plot_widget.py:694
 msgid "Label data"
 msgstr ""
 
-#: ../gui/plot_widget.py:692
+#: ../gui/plot_widget.py:699
 msgid "Subtract first point"
 msgstr ""
 
-#: ../gui/plot_widget.py:695
+#: ../gui/plot_widget.py:702
 msgid "Add min point"
 msgstr ""
 
-#: ../gui/plot_widget.py:698
+#: ../gui/plot_widget.py:705
 msgid "Invert y-axis"
 msgstr ""
 
-#: ../gui/plot_widget.py:701
+#: ../gui/plot_widget.py:708
 msgid "Norm to 1.0 y"
 msgstr ""
 
-#: ../gui/plot_widget.py:704
+#: ../gui/plot_widget.py:711
 msgid "Norm to peak of all data"
 msgstr ""
 
-#: ../gui/plot_widget.py:707
+#: ../gui/plot_widget.py:714
 msgid "Heat map"
 msgstr ""
 
-#: ../gui/plot_widget.py:710
+#: ../gui/plot_widget.py:717
 msgid "Heat map edit"
 msgstr ""
 
-#: ../gui/plot_widget.py:713
+#: ../gui/plot_widget.py:720
 msgid "xy plot"
 msgstr ""
 

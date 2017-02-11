@@ -62,6 +62,7 @@ from epitaxy import epitaxy_get_mat_file
 from epitaxy import epitaxy_get_electrical_layer
 from epitaxy import epitaxy_get_pl_file
 from epitaxy import epitaxy_get_name
+from epitaxy import epitaxy_get_y_len
 
 #qt
 from PyQt5.QtGui import QFont
@@ -85,6 +86,15 @@ from epitaxy import epitaxy_get_device_start
 
 from util import wavelength_to_rgb
 import glob
+
+from gl_lib import draw_stars
+from gl_lib import draw_grid
+from gl_lib import draw_photon
+from gl_lib import box_lines
+from gl_lib import box
+
+from gl_lib_ray import draw_rays
+from gl_lib_ray import fast_data
 
 # Rotations for cube.
 cube_rotate_x_rate = 0.2
@@ -111,186 +121,7 @@ def tab(x,y,z,w,h,d):
 
 stars=[]
 
-def draw_stars():
-	global stars
-	if len(stars)==0:
-		
-		for i in range(0,5000):
-			phi = random.uniform(0,2*pi)
-			costheta = random.uniform(-1,1)
-			theta = acos( costheta )
-			r=70+random.uniform(0,300)
-			x = r * sin( theta) * cos( phi )
-			y = r * sin( theta) * sin( phi )
-			z = r * cos( theta )
-			color=random.uniform(0,1.0)
-			r=color
-			g=color
-			b=color
-			s=random.uniform(1,3)	
-			stars.append([x,y,z,r,g,b,s])
-	
-		stars.append([x,4,z,0.5,0.0,0.0,5])
-		
-	for i in range(0,len(stars)):
-		glPointSize(stars[i][6])
-		glBegin(GL_POINTS)
-		glColor3f(stars[i][3],stars[i][4],stars[i][5])
-		glVertex3f(stars[i][0],stars[i][1],stars[i][2])
-		#glVertex3f(-1.0,-1.0,0.0)
-		glEnd()
 
-
-def draw_grid():
-	glLineWidth(1)
-
-
-	glColor3f(0.5, 0.5, 0.5)
-
-	start_x=-18.0
-	stop_x=20.0
-	n=int(stop_x-start_x)
-	dx=1.0#(stop_x-start_x)/n
-	pos=start_x
-	glBegin(GL_LINES)
-	for i in range(0,n+1):
-		glVertex3f(start_x, 0.0, pos)
-		glVertex3f(stop_x, 0.0, pos)
-		pos=pos+dx
-
-
-	start_z=-18.0
-	stop_z=20.0
-	dz=1.0#(stop_z-start_z)/n
-	pos=start_z
-	for i in range(0,n+1):
-		glVertex3f(pos, 0, start_z)
-		glVertex3f(pos, 0, stop_z)
-		pos=pos+dz
-
-	glEnd()
-
-
-
-def draw_photon(x,z,up):
-	glLineWidth(3)
-	length=0.9
-	if up==True:
-		glColor3f(0.0, 0.0, 1.0)
-	else:
-		glColor3f(0.0, 1.0, 0.0)
-
-	glBegin(GL_LINES)
-	wx=np.arange(0, length , 0.025)
-	wy=np.sin(wx*3.14159*8)*0.2
-	
-	start_x=2.7
-	stop_x=2.7-length
-	for i in range(1,len(wx)):
-		glVertex3f(x, start_x-wx[i-1], z+wy[i-1])
-		glVertex3f(x, start_x-wx[i], z+wy[i])
-
-	glEnd()
-
-	if up==False:
-		glBegin(GL_TRIANGLES)
-
-		glVertex3f(x-0.1, stop_x,z)
-		glVertex3f(x+0.1, stop_x ,z)
-		glVertex3f(x,stop_x-0.1 ,z)
-
-		glEnd()
-	else:
-		glBegin(GL_TRIANGLES)
-
-		glVertex3f(x-0.1, start_x,z)
-		glVertex3f(x+0.1, start_x ,z)
-		glVertex3f(x,start_x+0.1 ,z)
-
-		glEnd()
-
-class fast_data():
-	date=0
-	m=0
-	std=0
-	out=[]
-
-def fast_reset(d):
-	d.date=0
-	d.out=[]
-	
-def fast_load(d,file_name):
-
-	if os.path.isfile(file_name)==True:
-		age = os.path.getmtime(file_name)
-
-		if d.date!=age:
-			d.out=[]
-			if lines_read(d.out,file_name)==True:
-				if len(d.out)==0:
-					return False
-				#print(d.out)
-				d.date=age
-
-				d.m=0
-				s=0
-				for i in range(0,len(d.out)):
-					d.m=d.m+d.out[i].x
-				d.m=d.m/len(d.out)
-
-				for i in range(0,len(d.out)):
-					s=s+(d.out[i].x-d.m)*(d.out[i].x-d.m)
-				d.std=sqrt(s/len(d.out))
-				
-				return True
-			else:
-				return False
-		
-	return True
-
-def draw_rays(ray_file,d,top,width,y_mul,w):
-
-	if fast_load(d,ray_file)==True:
-
-		if len(d.out)>2:
-			head, tail = os.path.split(ray_file)
-			out=d.out
-			m=d.m
-			std=d.std
-			
-			glLineWidth(2)
-			wavelength=float(tail[10:-4])
-			r,g,b=wavelength_to_rgb(wavelength)
-
-			glColor4f(r, g, b,0.5)
-			glBegin(GL_QUADS)
-
-			sub=epitaxy_get_device_start()
-			s=0
-			mm=0
-
-			std_mul=0.05
-			x_mul=width/(std*std_mul)
-			i=0
-			#step=((int)(len(out)/6000))*2
-			#if step<2:
-			step=2
-				
-			while(i<len(out)-2):
-				if fabs(out[i].x-m)<std*std_mul:
-					if fabs(out[i+1].x-m)<std*std_mul:
-						#print(sub)
-						glVertex3f(width/2+(out[i].x-m)*x_mul, top-(out[i].y+sub)*y_mul, 0)
-						glVertex3f(width/2+(out[i+1].x-m)*x_mul, top-(out[i+1].y+sub)*y_mul, 0)
-
-						glVertex3f(width/2+(out[i+1].x-m)*x_mul, top-(out[i+1].y+sub)*y_mul, w)
-						glVertex3f(width/2+(out[i].x-m)*x_mul, top-(out[i].y+sub)*y_mul, w)
-
-
-
-				i=i+step
-
-			glEnd()
 	
 def draw_mode(z_size,depth):
 
@@ -316,82 +147,7 @@ def draw_mode(z_size,depth):
 
 	glEnd()
 
-def box_lines(x,y,z,w,h,d):
 
-	glLineWidth(10)
-	
-	glBegin(GL_LINES)
-
-	glColor3f(1.0,1.0,1.0)
-
-	#btm
-
-	glVertex3f(x+0.0,y+0.0,z+0.0)
-	glVertex3f(x+w,y+ 0.0,z+0.0)
-
-	glVertex3f(x+w,y+ 0.0,z+0.0)
-	glVertex3f(x+w,y+ 0.0,z+d)
-
-	glVertex3f(x+w,y+ 0.0,z+d)
-	glVertex3f(x+ 0.0, y+0.0,z+ d) 
-
-
-	#
-	glVertex3f(x+0.0,y+h,z+0.0)
-	glVertex3f(x+w,y+ h,z+0.0)
-
-
-	glVertex3f(x+w,y+ h,z+0.0)
-	glVertex3f(x+w,y+ h,z+d)
-	
-	glVertex3f(x+w,y+ h,z+d)	
-	glVertex3f(x+ 0.0, y+h,z+ d) 
-
-	#right
-
-	glVertex3f(x+w,y,z)
-	glVertex3f(x+w,y+ h,z)
-
-	glVertex3f(x+w,y+ h,z)
-	glVertex3f(x+w,y+ h,z+d)
-
-	glVertex3f(x+w,y+ h,z+d)	
-	glVertex3f(x+w, y,z+d) 
-
-	#left
-
-	glVertex3f(x,y,z)
-	glVertex3f(x,y+ h,z)
-
-	glVertex3f(x,y+ h,z)
-	glVertex3f(x,y+ h,z+d)
-	
-	glVertex3f(x,y+ h,z+d)
-	glVertex3f(x, y,z+d) 
-
-
-#
-	glVertex3f(x,y,z+d)
-	glVertex3f(x+w,y,z+d)
-
-	glVertex3f(x+w,y,z+d)
-	glVertex3f(x+w,y+h,z+d)
-
-	glVertex3f(x+w,y+h,z+d)	
-	glVertex3f(x, y+h,z+d) 
-
-
-	#top
-	glVertex3f(x,y+h,z)
-	glVertex3f(x+w,y+ h,z)
-
-	glVertex3f(x+w,y+ h,z)
-	glVertex3f(x+w,y+ h,z+ d)
-	
-	glVertex3f(x+w,y+ h,z+ d)
-	glVertex3f(x, y+h,z+ d) 
-
-	glEnd()
 
 def val_to_rgb(v):
 
@@ -459,80 +215,6 @@ def graph(xstart,ystart,z,w,h,z_range,graph_data):
 
 		glEnd()
 	
-def box(x,y,z,w,h,d,r,g,b,alpha):
-	red=r
-	green=g
-	blue=b
-
-	glBegin(GL_QUADS)
-
-	#btm
-	glColor4f(red,green,blue,alpha)
-
-	glVertex3f(x+0.0,y+0.0,z+0.0)
-	glVertex3f(x+w,y+ 0.0,z+0.0)
-	glVertex3f(x+w,y+ 0.0,z+d)
-	glVertex3f(x+ 0.0, y+0.0,z+ d) 
-
-	#back
-	red=red*0.95
-	green=green*0.95
-	blue=blue*0.95
-
-	glColor4f(red,green,blue,alpha)
-
-	glVertex3f(x+0.0,y+h,z+0.0)
-	glVertex3f(x+w,y+ h,z+0.0)
-	glVertex3f(x+w,y+ h,z+d)
-	glVertex3f(x+ 0.0, y+h,z+ d) 
-
-	#right
-	red=red*0.95
-	green=green*0.95
-	blue=blue*0.95
-	glColor4f(red,green,blue,alpha)
-
-	glVertex3f(x+w,y,z)
-	glVertex3f(x+w,y+ h,z)
-	glVertex3f(x+w,y+ h,z+d)
-	glVertex3f(x+w, y,z+d) 
-
-	#left
-	red=red*0.95
-	green=green*0.95
-	blue=blue*0.95
-	glColor4f(red,green,blue,alpha)
-
-	glVertex3f(x,y,z)
-	glVertex3f(x,y+ h,z)
-	glVertex3f(x,y+ h,z+d)
-	glVertex3f(x, y,z+d) 
-
-	#front
-	red=r
-	green=g
-	blue=b
-
-	glColor4f(red,green,blue,alpha)
-	glVertex3f(x,y,z+d)
-	glVertex3f(x+w,y,z+d)
-	glVertex3f(x+w,y+h,z+d)
-	glVertex3f(x, y+h,z+d) 
-
-	red=red*0.8
-	green=green*0.8
-	blue=blue*0.8
-
-	#top
-	glColor4f(red,green,blue,alpha)
-	glVertex3f(x,y+h,z)
-	glVertex3f(x+w,y+ h,z)
-	glVertex3f(x+w,y+ h,z+ d)
-	glVertex3f(x, y+h,z+ d) 
-
-	glEnd()
-
-
 class color():
 
 	def __init__(self,r,g,b,alpha):
@@ -546,7 +228,6 @@ if open_gl_ok==True:
 		tet_rotate = 0.0
 		colors=[]
 		def __init__(self, parent):
-			self.ray_fast=fast_data()
 			self.failed=True
 			self.graph_path="./snapshots/159/Jn.dat"
 			self.graph_z_max=1.0
@@ -646,181 +327,193 @@ if open_gl_ok==True:
 			self.zoom =self.zoom + p.y()/120
 			self.update()
 
+		def draw_photons(self,max_gui_device_x,max_gui_device_z):
+			if self.suns!=0:
+				if self.suns<=0.01:
+					den=1.4
+				elif self.suns<=0.1:
+					den=0.8
+				elif self.suns<=1.0:
+					den=0.6
+				elif self.suns<=10.0:
+					den=0.3
+				else:
+					den=0.2
+			
+				x=np.arange(0, max_gui_device_x , den)
+				z=np.arange(0, max_gui_device_z , den)
+				for i in range(0,len(x)):
+					for ii in range(0,len(z)):
+						draw_photon(x[i],z[ii],False)
+
+			if self.emission==True and self.ray_model==False:
+				den=0.6
+				x=np.arange(0, max_gui_device_x , den)
+				y=np.arange(0, max_gui_device_z , den)
+				for i in range(0,len(x)):
+					for ii in range(0,len(y)):
+							draw_photon(x[i]+0.1,y[ii]+0.1,True)
+		def do_draw(self):
+			dos_start=-1
+			dos_stop=-1
+			epi_y_len=epitaxy_get_y_len()
+			dy_layer_offset=0.05
+			
+			if epi_y_len<=0:
+				return
+
+			self.x_mul=1e3
+			self.y_mul=1.0/epi_y_len
+			self.z_mul=1e3
+
+
+			x_len=mesh_get_xlen()
+			max_gui_device_x=x_len*self.x_mul
+			max_gui_device_y=1.0
+			max_gui_device_z=mesh_get_zlen()*self.z_mul
+
+			l=epitaxy_get_layers()-1
+
+			xpoints=int(mesh_get_xpoints())
+			ypoints=int(mesh_get_ypoints())
+			zpoints=int(mesh_get_zpoints())
+
+
+
+			self.emission=False
+			self.ray_model=False
+			
+			lines=[]
+			if inp_load_file(lines,"led.inp")==True:
+				self.ray_model=val=str2bool(inp_search_token_value(lines, "#led_on"))
+				
+			lines=[]
+
+			for i in range(0,epitaxy_get_layers()):
+				if epitaxy_get_pl_file(i)!="none":
+					if inp_load_file(lines,epitaxy_get_pl_file(i)+".inp")==True:
+						if str2bool(lines[1])==True:
+							self.emission=True
+					
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
+			glLoadIdentity()
+
+			glTranslatef(self.x_pos, self.y_pos, self.zoom) # Move Into The Screen
+			
+			glRotatef(self.xRot, 1.0, 0.0, 0.0)
+			glRotatef(self.yRot, 0.0, 1.0, 0.0)
+			glRotatef(self.zRot, 0.0, 0.0, 1.0)
+
+			glColor3f( 1.0, 1.5, 0.0 )
+			glPolygonMode(GL_FRONT, GL_FILL);
+
+
+			#glClearColor(0.92, 0.92, 0.92, 0.5) # Clear to black.
+			glClearColor(0.0, 0.0, 0.0, 0.5)
+			lines=[]
+
+
+			self.draw_photons(max_gui_device_x,max_gui_device_z)
+
+			pos=0.0
+				
+			for i in range(0,epitaxy_get_layers()):
+
+				thick=epitaxy_get_width(l-i)*self.y_mul
+
+				red=self.colors[l-i].r
+				green=self.colors[l-i].g
+				blue=self.colors[l-i].b
+				alpha=self.colors[l-i].alpha
+				if i==l-self.selected_layer:
+					box_lines(0.0,pos,0,max_gui_device_x,thick,max_gui_device_z)
+
+				if epitaxy_get_electrical_layer(l-i).startswith("dos")==True:
+					dy=thick/float(ypoints)
+					dx=max_gui_device_x/float(xpoints)
+					dz=max_gui_device_z/float(zpoints)
+					xshrink=0.8
+					zshrink=0.8
+					
+					if dos_start==-1:
+						dos_start=pos
+					
+					dos_stop=pos+thick
+			
+					if xpoints==1:
+						xshrink=1.0
+
+					if zpoints==1:
+						zshrink=1.0
+
+					if xpoints==1 and zpoints==1:
+						box(0.0,pos,0,max_gui_device_x,thick,max_gui_device_z,red,green,blue,alpha)
+					else:
+						for y in range(0,ypoints):
+							for x in range(0,xpoints):
+								for z in range(0,zpoints):
+									box(dx*x,pos+y*(dy),z*dz,dx*xshrink,dy*0.8,dz*zshrink,red,green,blue,alpha)
+					tab(0.0,pos,max_gui_device_z,max_gui_device_x,thick,max_gui_device_z)
+				
+				elif epitaxy_get_electrical_layer(l-i).lower()=="contact" and i==l:
+					if xpoints==1 and zpoints==1:
+						box(0.0,pos,0,max_gui_device_x,thick,max_gui_device_z,red,green,blue,alpha)
+					else:
+						for c in contacts_get_array():
+							xstart=max_gui_device_x*(c.start/x_len)
+							xwidth=max_gui_device_x*(c.width/x_len)
+							#print("contacts",xstart,xwidth,c.width,x_len)
+							if (c.start+c.width)>x_len:
+								xwidth=max_gui_device_x-xstart
+								
+							if c.depth>0.0:
+								etch_depth=c.depth*self.y_mul
+
+								box(xstart,pos-etch_depth-dy_layer_offset,0,xwidth,etch_depth,max_gui_device_z,0.0,0.0,1.0,1.0)
+
+							if c.active==True:
+								box(xstart,pos,0,xwidth,thick,max_gui_device_z,0.0,1.0,0.0,alpha)
+							else:
+								box(xstart,pos,0,xwidth,thick,max_gui_device_z,red,green,blue,alpha)
+
+
+				else:
+					box(0.0,pos,0,max_gui_device_x,thick,max_gui_device_z,red,green,blue,alpha)
+				
+
+				if epitaxy_get_electrical_layer(l-i).startswith("dos")==True:
+					text=epitaxy_get_name(l-i)+" (active)"
+				else:
+					text=epitaxy_get_name(l-i)
+
+				glColor3f(1.0,1.0,1.0)
+				font = QFont("Arial")
+				font.setPointSize(18)
+				if self.zoom>-20:
+					self.renderText (max_gui_device_x+0.1,pos+thick/2,max_gui_device_z, text,font)
+
+				pos=pos+thick+dy_layer_offset
+
+
+		
+				glRotatef(self.tet_rotate, tet_x_rate, tet_y_rate, tet_z_rate)
+
+			draw_mode(pos-dy_layer_offset,max_gui_device_z)
+			draw_rays(self.ray_file,pos-dy_layer_offset,max_gui_device_x,self.y_mul,max_gui_device_z*1.05)
+			#print(self.graph_path)
+
+			full_data_range=self.graph_z_max-self.graph_z_min
+			graph(0.0,dos_start,max_gui_device_z+0.5,max_gui_device_x,dos_stop-dos_start,full_data_range,self.graph_data)
+			draw_grid()
+			if self.zoom<-60:
+				draw_stars()
+				
+
 		def paintGL(self):
 			if self.failed==False:
-				dos_start=-1
-				dos_stop=-1
-				self.x_mul=1e3
-				self.z_mul=1e3
-
-				width=mesh_get_xlen()*self.x_mul
-				depth=mesh_get_zlen()*self.z_mul
-
-				l=epitaxy_get_layers()-1
-
-				xpoints=int(mesh_get_xpoints())
-				ypoints=int(mesh_get_ypoints())
-				zpoints=int(mesh_get_zpoints())
-
-				x_len=mesh_get_xlen()
-
-				self.emission=False
-				self.ray_model=False
-				
-				lines=[]
-				if inp_load_file(lines,"led.inp")==True:
-					self.ray_model=val=str2bool(inp_search_token_value(lines, "#led_on"))
-					
-				lines=[]
-
-				for i in range(0,epitaxy_get_layers()):
-					if epitaxy_get_pl_file(i)!="none":
-						if inp_load_file(lines,epitaxy_get_pl_file(i)+".inp")==True:
-							if str2bool(lines[1])==True:
-								self.emission=True
-						
-				glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-				glLoadIdentity()
-
-				glTranslatef(self.x_pos, self.y_pos, self.zoom) # Move Into The Screen
-				
-				glRotatef(self.xRot, 1.0, 0.0, 0.0)
-				glRotatef(self.yRot, 0.0, 1.0, 0.0)
-				glRotatef(self.zRot, 0.0, 0.0, 1.0)
-
-				glColor3f( 1.0, 1.5, 0.0 )
-				glPolygonMode(GL_FRONT, GL_FILL);
-
-
-				#glClearColor(0.92, 0.92, 0.92, 0.5) # Clear to black.
-				glClearColor(0.0, 0.0, 0.0, 0.5)
-				lines=[]
-
-
-				if self.suns!=0:
-					if self.suns<=0.01:
-						den=1.4
-					elif self.suns<=0.1:
-						den=0.8
-					elif self.suns<=1.0:
-						den=0.6
-					elif self.suns<=10.0:
-						den=0.3
-					else:
-						den=0.2
-				
-					x=np.arange(0, width , den)
-					z=np.arange(0, depth , den)
-					for i in range(0,len(x)):
-						for ii in range(0,len(z)):
-							draw_photon(x[i],z[ii],False)
-
-				if self.emission==True and self.ray_model==False:
-					den=0.6
-					x=np.arange(0, width , den)
-					y=np.arange(0, depth , den)
-					for i in range(0,len(x)):
-						for ii in range(0,len(y)):
-								draw_photon(x[i]+0.1,y[ii]+0.1,True)
-
-
-				tot=0
-
-				for i in range(0,epitaxy_get_layers()):
-					tot=tot+epitaxy_get_width(i)
-
-				pos=0.0
-				self.y_mul=0
-				if tot>0:
-					self.y_mul=1.5/tot
-					
-					for i in range(0,epitaxy_get_layers()):
-
-						thick=epitaxy_get_width(l-i)*self.y_mul
-
-						red=self.colors[l-i].r
-						green=self.colors[l-i].g
-						blue=self.colors[l-i].b
-						alpha=self.colors[l-i].alpha
-						if i==l-self.selected_layer:
-							box_lines(0.0,pos,0,width,thick,depth)
-
-						if epitaxy_get_electrical_layer(l-i).startswith("dos")==True:
-							dy=thick/float(ypoints)
-							dx=width/float(xpoints)
-							dz=depth/float(zpoints)
-							xshrink=0.8
-							zshrink=0.8
-							
-							if dos_start==-1:
-								dos_start=pos
-							
-							dos_stop=pos+thick
-					
-							if xpoints==1:
-								xshrink=1.0
-
-							if zpoints==1:
-								zshrink=1.0
-
-							if xpoints==1 and zpoints==1:
-								box(0.0,pos,0,width,thick,depth,red,green,blue,alpha)
-							else:
-								for y in range(0,ypoints):
-									for x in range(0,xpoints):
-										for z in range(0,zpoints):
-											box(dx*x,pos+y*(dy),z*dz,dx*xshrink,dy*0.8,dz*zshrink,red,green,blue,alpha)
-							tab(0.0,pos,depth,width,thick,depth)
-						
-						elif epitaxy_get_electrical_layer(l-i).lower()=="contact" and i==l:
-							if xpoints==1 and zpoints==1:
-								box(0.0,pos,0,width,thick,depth,red,green,blue,alpha)
-							else:
-								for c in contacts_get_array():
-									xstart=width*(c.start/x_len)
-									xwidth=width*(c.width/x_len)
-									#print("contacts",xstart,xwidth,c.width,x_len)
-									if (c.start+c.width)>x_len:
-										xwidth=width-xstart
-									if c.active==True:
-										box(xstart,pos,0,xwidth,thick,depth,0.0,1.0,0.0,alpha)
-									else:
-										box(xstart,pos,0,xwidth,thick,depth,red,green,blue,alpha)
-
-
-						else:
-							box(0.0,pos,0,width,thick,depth,red,green,blue,alpha)
-						
-
-						if epitaxy_get_electrical_layer(l-i).startswith("dos")==True:
-							text=epitaxy_get_name(l-i)+" (active)"
-						else:
-							text=epitaxy_get_name(l-i)
-
-						glColor3f(1.0,1.0,1.0)
-						font = QFont("Arial")
-						font.setPointSize(18)
-						if self.zoom>-20:
-							self.renderText (width+0.1,pos+thick/2,depth, text,font)
-
-						pos=pos+thick+0.05
-
-
-				
-						glRotatef(self.tet_rotate, tet_x_rate, tet_y_rate, tet_z_rate)
-
-				draw_mode(pos-0.05,depth)
-				draw_rays(self.ray_file,self.ray_fast,pos-0.05,width,self.y_mul,depth*1.05)
-				#print(self.graph_path)
-
-				full_data_range=self.graph_z_max-self.graph_z_min
-				graph(0.0,dos_start,depth+0.5,width,dos_stop-dos_start,full_data_range,self.graph_data)
-				draw_grid()
-				if self.zoom<-60:
-					draw_stars()
+				self.do_draw()
 					
 		def recalculate(self):
-			fast_reset(self.ray_fast)
 			self.colors=[]
 			lines=[]
 

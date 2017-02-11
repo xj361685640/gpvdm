@@ -240,3 +240,10 @@ def epitaxy_get_name(i):
 	global name
 	return name[i]
 
+def epitaxy_get_y_len():
+	tot=0
+
+	for i in range(0,epitaxy_get_layers()):
+		tot=tot+epitaxy_get_width(i)
+
+	return tot
