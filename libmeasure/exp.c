@@ -2,9 +2,9 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+//  Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
-//	www.roderickmackenzie.eu
+//	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
@@ -1336,31 +1336,13 @@ for (z=0;z<in->zmeshpoints;z++)
 }
 ret/=count;
 
-//printf("%le %le\n",in->Jpleft,in->Jnleft);
 return ret*Q;
 }
 
 gdouble get_J_right(struct device *in)
 {
-int z=0;
-int x=0;
-gdouble ret=0.0;
-gdouble count=0.0;
-
-for (z=0;z<in->zmeshpoints;z++)
-{
-	for (x=0;x<in->xmeshpoints;x++)
-	{
-		if (in->n_contact[z][x]==0)
-		{
-			ret+=in->Jnright[z][x]+in->Jpright[z][x];
-			count=count+1.0;
-		}
-	}
-}
-ret/=count;
-//printf("%e %e\n",in->Jn[0][0],in->Jn[0][in->ymeshpoints-2]);
-//getchar();
-return ret*Q;
+long double ret=0.0;
+ret = contacts_get_J(in, 0);
+return ret;
 }
 

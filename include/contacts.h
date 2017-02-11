@@ -35,4 +35,5 @@ void contacts_force_value(struct simulation *sim,struct device *in,gdouble value
 void contact_set_all_voltages(struct simulation *sim,struct device *in,gdouble voltage);
 void contact_set_voltage_if_active(struct simulation *sim,struct device *in,gdouble voltage);
 long double contact_get_active_contact_voltage(struct simulation *sim,struct device *in);
+long double contacts_get_J(struct device *in, int n);
 #endif

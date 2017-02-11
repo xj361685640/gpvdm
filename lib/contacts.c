@@ -237,6 +237,35 @@ int i;
 }
 
 
+long double contacts_get_J(struct device *in, int n)
+{
+int i;
+int x;
+int z;
+
+long double tot=0.0;
+long double count=0.0;
+
+for (x=0;x<in->xmeshpoints;x++)
+{
+		for (z=0;z<in->zmeshpoints;z++)
+		{
+			for (i=0;i<in->ncontacts;i++)
+			{
+				if (in->n_contact[z][x]==n)
+				{
+					tot+=in->Jpright[z][x]+in->Jnright[z][x];
+					count=count+1.0;						//this will need updating for meshes which change
+				}
+			}
+		}
+}
+
+tot=tot/count;
+
+return tot*Q;
+}
+
 void contacts_passivate(struct simulation *sim,struct device *in)
 {
 int i;
