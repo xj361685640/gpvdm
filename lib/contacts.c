@@ -122,6 +122,16 @@ for (x=0;x<in->xmeshpoints;x++)
 
 }
 
+void contacts_dump(struct device *in)
+{
+int i;
+	for (i=0;i<in->ncontacts;i++)
+	{
+		printf("%Le\n",in->contacts[i].voltage);
+	}
+	
+}
+
 void contacts_update(struct simulation *sim,struct device *in)
 {
 int i;
@@ -375,7 +385,6 @@ int x;
 int y;
 int z;
 
-
 for (x=0;x<in->xmeshpoints;x++)
 {
 	for (y=0;y<in->ymeshpoints;y++)
@@ -385,10 +394,22 @@ for (x=0;x<in->xmeshpoints;x++)
 
 			for (i=0;i<in->ncontacts;i++)
 			{
-				if ((in->ylen-in->ymesh[y]<=in->contacts[i].depth)&&(in->xmesh[x]>in->contacts[i].start)&&(in->xmesh[x]<in->contacts[i].start+in->contacts[i].width))
+				if (in->contacts[i].position==TOP)
 				{
-					in->mun[z][x][y]=1e-15;
-					in->mun[z][x][y]=1e-15;
+					if ((in->ylen-in->ymesh[y]<=in->contacts[i].depth)&&(in->xmesh[x]>in->contacts[i].start)&&(in->xmesh[x]<in->contacts[i].start+in->contacts[i].width))
+					{
+						in->mun[z][x][y]=1e-15;
+						in->mup[z][x][y]=1e-15;
+					}
+				}
+
+				if (in->contacts[i].position==BOTTOM)
+				{
+					if ((in->ymesh[y]<=in->contacts[i].depth)&&(in->xmesh[x]>in->contacts[i].start)&&(in->xmesh[x]<in->contacts[i].start+in->contacts[i].width))
+					{
+						in->mun[z][x][y]=1e-15;
+						in->mup[z][x][y]=1e-15;
+					}
 				}
 			}
 		}

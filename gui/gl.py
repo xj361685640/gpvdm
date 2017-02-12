@@ -469,9 +469,11 @@ if open_gl_ok==True:
 									
 								if c.depth>0.0:
 									etch_depth=c.depth*self.y_mul
-
-									box(xstart,pos-etch_depth-dy_layer_offset,0,xwidth,etch_depth,max_gui_device_z,0.0,0.0,1.0,1.0)
-
+									if c.position=="top":
+										box(xstart,pos-etch_depth-dy_layer_offset,0,xwidth,etch_depth,max_gui_device_z,0.0,0.0,1.0,1.0)
+									else:
+										box(xstart,pos+dy_layer_offset+thick,0,xwidth,etch_depth,max_gui_device_z,0.0,0.0,1.0,1.0)
+										
 								if c.active==True:
 									box(xstart,pos,0,xwidth,thick,max_gui_device_z,0.0,1.0,0.0,alpha)
 								else:

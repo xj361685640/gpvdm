@@ -507,8 +507,7 @@ do
 	//				exl=0.0;
 	//				Dexl=in->Dex[0];
 
-						phil=(in->Vapplied[z][x]);
-						//printf("setr=%Lf %Lf\n",phil,in->Vapplied[z][x]);
+					phil=in->Vapplied_l[z][x];
 
 					yl=in->ymesh[0]-(in->ymesh[1]-in->ymesh[0]);
 	//				Tll=in->Tll;
@@ -592,7 +591,14 @@ do
 	//				exr=0.0;
 					//phir=in->Vr;
 
-						phir=in->Vr;
+
+					if (in->invert_applied_bias==FALSE)
+					{
+						phir=(in->Vr+in->Vapplied_r[z][x]);
+					}else
+					{
+						phir=(in->Vr-in->Vapplied_r[z][x]);
+					}
 
 					yr=in->ymesh[i]+(in->ymesh[i]-in->ymesh[i-1]);
 	//				Tlr=in->Tlr;

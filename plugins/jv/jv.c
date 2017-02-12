@@ -186,7 +186,7 @@ in->stop=FALSE;
 			plot_now(sim,in,"jv.plot");
 			stop_start(sim,in);
 			dump_dynamic_add_data(sim,&store,in,Vexternal);
-			printf("rod %Le %Le %Le\n",contacts_get_J(in, 0),contacts_get_J(in, 1),contacts_get_J(in, 2));
+			printf("rod %Le %Le %Le %Le\n",contacts_get_J(in, 0),contacts_get_J(in, 1),contacts_get_J(in, 2),contacts_get_J(in, 3));
 			if (first==FALSE)
 			{
 
