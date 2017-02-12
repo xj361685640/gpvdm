@@ -295,10 +295,6 @@ class tab_class(gtk.Table):
 				units="true/false"
 				text_info="Invert output"
 				show=True
-			if out_text == "#lr_bias":
-				units="left/right"
-				text_info="Bias left or right"
-				show=True
 			if out_text == "#otherlayers":
 				units="m"
 				text_info="Other layers"

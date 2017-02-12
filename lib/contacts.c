@@ -262,20 +262,14 @@ long double contact_get_active_contact_voltage(struct simulation *sim,struct dev
 {
 	int i=0;
 
-	if ((in->xmeshpoints==1)&&(in->zmeshpoints==1))
+	for (i=0;i<in->ncontacts;i++)
 	{
-		return in->contacts[0].voltage;
-
-	}else
-	{
-		for (i=0;i<in->ncontacts;i++)
+		if (in->contacts[i].active==TRUE)
 		{
-			if (in->contacts[i].active==TRUE)
-			{
-				return in->contacts[i].voltage;
-			}
+			return in->contacts[i].voltage;
 		}
 	}
+
 
 }
 
@@ -342,6 +336,26 @@ tot=tot/count;
 return tot*Q;
 }
 
+int contacts_get_active_contact_left_right(struct device *in)
+{
+int i;
+	for (i=0;i<in->ncontacts;i++)
+	{
+		if (in->contacts[i].active==TRUE)
+		{
+			return LEFT;
+		}
+		
+
+		if (in->contacts[i].active==TRUE)
+		{
+			return RIGHT;
+		}
+
+	}
+			
+return -1;
+}
 
 long double contacts_get_J(struct device *in, int n)
 {

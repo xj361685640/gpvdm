@@ -30,6 +30,11 @@ except:
 	
 import random
 import os
+from math import sqrt
+from math import fabs
+from lines import lines_read
+from util import wavelength_to_rgb
+from epitaxy import epitaxy_get_device_start
 
 class fast_data():
 	date=0

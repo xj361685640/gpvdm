@@ -203,7 +203,6 @@ lib.append(my_data("#led_wavelength","m",_("LED emission wavelength"),["text"],"
 lib.append(my_data("#led_extract_eff","m",_("LED extraction efficiency"),["text"],"e",1.0))
 
 #device.inp
-lib.append(my_data("#lr_bias",_("left/right"),_("Apply potential to  left/right of device"),[("leftright")],"s",1.0))
 lib.append(my_data("#invert_applied_bias","au",_("Invert applied bias"),[("switch")],"e",1.0))
 lib.append(my_data("#Rshunt","Ohms",_("Shunt resistance"),["text"],"e",1.0))
 lib.append(my_data("#Rcontact","Ohms",_("Series resistance"),["text"],"e",1.0))

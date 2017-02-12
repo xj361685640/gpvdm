@@ -259,8 +259,6 @@ void device_init(struct device *in)
 	in->L= -1.0;
 
 
-	in->lr_bias= -1;
-
 	in->interfaceleft= -1;
 	in->interfaceright= -1;
 	in->phibleft= -1.0;

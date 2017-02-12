@@ -327,8 +327,6 @@ struct device
 	gdouble L;
 	gdouble C;
 
-	int lr_bias;
-
 	int interfaceleft;
 	int interfaceright;
 	gdouble phibleft;

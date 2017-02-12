@@ -1111,7 +1111,7 @@ return Iout;
 gdouble get_equiv_J(struct simulation *sim,struct device *in)
 {
 gdouble Vapplied=0.0;
-Vapplied=contact_get_voltage(sim,in,0);
+Vapplied=contact_get_active_contact_voltage(sim,in);
 gdouble J=0.0;
 J=get_J(in);
 if (in->lr_pcontact==RIGHT) J*= -1.0;
@@ -1123,7 +1123,7 @@ return J;
 gdouble get_I_ce(struct simulation *sim,struct device *in)
 {
 gdouble Vapplied=0.0;
-Vapplied=contact_get_voltage(sim,in,0);
+Vapplied=contact_get_active_contact_voltage(sim,in);
 
 gdouble ret=Vapplied/(in->Rcontact+in->Rshort);
 if (in->time<0.0)
@@ -1293,7 +1293,7 @@ gdouble get_equiv_V(struct simulation *sim,struct device *in)
 {
 gdouble J=0.0;
 gdouble Vapplied=0.0;
-Vapplied=contact_get_voltage(sim,in,0);
+Vapplied=contact_get_active_contact_voltage(sim,in);
 //if (in->adv_sim==FALSE)
 //{
 //J=get_J_recom(in);

@@ -87,9 +87,7 @@ mesh_check_y(sim,in);
 
 inp_init(sim,&inp);
 inp_load_from_path(sim,&inp,get_input_path(sim),"device.inp");
-inp_check(sim,&inp,1.20);
-inp_search_string(sim,&inp,temp,"#lr_bias");
-in->lr_bias=english_to_bin(sim,temp);
+inp_check(sim,&inp,1.21);
 
 inp_search_string(sim,&inp,temp,"#lr_pcontact");
 in->lr_pcontact=english_to_bin(sim,temp);
