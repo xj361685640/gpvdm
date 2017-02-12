@@ -385,6 +385,7 @@ int x;
 int y;
 int z;
 
+//passivate under each contact
 for (x=0;x<in->xmeshpoints;x++)
 {
 	for (y=0;y<in->ymeshpoints;y++)
@@ -412,6 +413,26 @@ for (x=0;x<in->xmeshpoints;x++)
 					}
 				}
 			}
+		}
+	}
+}
+
+for (x=0;x<in->xmeshpoints;x++)
+{
+	for (z=0;z<in->zmeshpoints;z++)
+	{
+		i=in->n_contact_r[z][x];
+		if (i==-1)
+		{
+			in->mun[z][x][in->ymeshpoints-1]=1e-15;
+			in->mup[z][x][in->ymeshpoints-1]=1e-15;
+		}
+
+		i=in->n_contact_l[z][x];
+		if (i==-1)
+		{
+			in->mun[z][x][0]=1e-15;
+			in->mup[z][x][0]=1e-15;
 		}
 	}
 }

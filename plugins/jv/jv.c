@@ -34,6 +34,7 @@
 #include <plot.h>
 #include <cal_path.h>
 #include <contacts.h>
+#include <contacts_vti_store.h>
 
 static int unused __attribute__((unused));
 
@@ -48,6 +49,10 @@ buffer_init(&buf);
 
 struct dynamic_store store;
 dump_dynamic_init(sim,&store,in);
+
+struct contacts_vti_store contact_store;
+dump_contacts_init(sim,in,&contact_store);
+
 
 struct jv config;
 jv_load_config(sim,&config,in);
@@ -186,7 +191,8 @@ in->stop=FALSE;
 			plot_now(sim,in,"jv.plot");
 			stop_start(sim,in);
 			dump_dynamic_add_data(sim,&store,in,Vexternal);
-			printf("rod %Le %Le %Le %Le\n",contacts_get_J(in, 0),contacts_get_J(in, 1),contacts_get_J(in, 2),contacts_get_J(in, 3));
+			dump_contacts_add_data(sim,in,&contact_store);
+
 			if (first==FALSE)
 			{
 
@@ -473,6 +479,10 @@ inter_free(&li);
 
 dump_dynamic_save(sim,get_output_path(sim),&store);
 dump_dynamic_free(sim,in,&store);
+
+
+dump_contacts_save(sim,in,&contact_store);
+dump_contacts_free(sim,in,&contact_store);
 
 light_set_sun(&(in->mylight),sun_orig);
 }

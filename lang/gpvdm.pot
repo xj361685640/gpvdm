@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.80\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2017-02-12 00:25+0000\n"
+"POT-Creation-Date: 2017-02-12 12:26+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -275,7 +275,7 @@ msgstr ""
 
 #: ../plugins/pulse/pulse.c:205 ../plugins/pulse/pulse.c:208
 #: ../plugins/pulse/pulse.c:255 ../plugins/fxdomain/fxdomain.c:262
-#: ../libdump/dump_dynamic.c:394
+#: ../libdump/dump_dynamic.c:394 ../libdump/dump_contacts.c:72
 msgid "Current"
 msgstr ""
 
@@ -292,6 +292,7 @@ msgstr ""
 #: ../plugins/fxdomain/fxdomain.c:279 ../plugins/fxdomain/fxdomain.c:282
 #: ../gui/tmesh.py:232 ../gui/tmesh.py:234 ../gui/tmesh.py:237
 #: ../gui/tmesh.py:239 ../gui/contacts.py:155 ../libdump/dump_dynamic.c:791
+#: ../libdump/dump_contacts.c:70
 msgid "Voltage"
 msgstr ""
 
@@ -331,11 +332,11 @@ msgstr ""
 msgid "Im(i)"
 msgstr ""
 
-#: ../plugins/jv/jv.c:45
+#: ../plugins/jv/jv.c:46
 msgid "Running JV simulation\n"
 msgstr ""
 
-#: ../plugins/jv/jv.c:229
+#: ../plugins/jv/jv.c:235
 #, python-format
 msgid "Stopping because of Vexternal %Le>%Le\n"
 msgstr ""
@@ -3495,6 +3496,10 @@ msgstr ""
 
 #: ../libdump/dump_dynamic.c:1008
 msgid "band bend"
+msgstr ""
+
+#: ../libdump/dump_contacts.c:68
+msgid "Voltage - Current"
 msgstr ""
 
 #: ../libdump/dump_1d_slice.c:69 ../libdump/dump_1d_slice.c:125
