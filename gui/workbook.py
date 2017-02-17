@@ -18,7 +18,7 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-from plot_state import plot_state
+from dat_file_class import dat_file
 
 work_book_enabled=False
 try:
@@ -50,7 +50,6 @@ def gen_workbook(input_file_or_dir,output_file):
 		return
 
 	wb = Workbook()
-	info_token=plot_state()
 	if os.path.isfile(input_file_or_dir):
 		files=[input_file_or_dir]
 	if os.path.isdir(input_file_or_dir):
@@ -61,29 +60,29 @@ def gen_workbook(input_file_or_dir,output_file):
 	for my_file in files:
 		#print("about to save1",my_file)
 		print(my_file)
-		if plot_load_info(info_token,my_file)==True:
+		data=dat_file()
+		if dat_file_read(data,my_file,guess=False)==True:
 			x=[]
 			y=[]
 			z=[]
-			data=dat_file()
 			if dat_file_read(data,my_file)==True:
 				#print("read",my_file)
 				ws = wb.create_sheet(title=title_truncate(os.path.basename(my_file)))
-				ws.cell(column=1, row=1, value=info_token.title)
-				ws.cell(column=1, row=2, value=info_token.x_label+" ("+info_token.x_units+") ")
-				ws.cell(column=2, row=2, value=info_token.data_label+" ("+info_token.data_units+") ")
+				ws.cell(column=1, row=1, value=data.title)
+				ws.cell(column=1, row=2, value=data.x_label+" ("+data.x_units+") ")
+				ws.cell(column=2, row=2, value=data.data_label+" ("+data.data_units+") ")
 		
 				for i in range(0,data.y_len):
 					ws.cell(column=1, row=i+3, value=data.y_scale[i])
 					ws.cell(column=2, row=i+3, value=data.data[0][0][i])
 
 				c1 = ScatterChart()
-				c1.title = info_token.title
+				c1.title = data.title
 				c1.style = 13
 				c1.height=20
 				c1.width=20
-				c1.y_axis.title = info_token.data_label+" ("+info_token.data_units+") "
-				c1.x_axis.title = info_token.x_label+" ("+info_token.x_units+") "
+				c1.y_axis.title = data.data_label+" ("+data.data_units+") "
+				c1.x_axis.title = data.x_label+" ("+data.x_units+") "
 
 				xdata = Reference(ws, min_col=1, min_row=3, max_row=3+data.y_len)
 				ydata = Reference(ws, min_col=2, min_row=3, max_row=3+data.y_len)

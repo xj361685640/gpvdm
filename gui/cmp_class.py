@@ -27,7 +27,7 @@ from inp import inp_load_file
 from inp_util import inp_search_token_value
 from plot_widget import plot_widget
 from window_list import windows
-from plot_state import plot_state
+from dat_file_class import dat_file
 from plot_io import plot_load_info
 from cal_path import get_exe_command
 from cal_path import get_image_file_path
@@ -85,7 +85,6 @@ class cmp_class(QWidget):
 	def update(self):
 		file_name=self.slider.get_file_name()
 		self.plot.set_labels(["data"])
-		self.plot.set_plot_ids([0])
 		config_file=os.path.splitext(file_name)[0]+".oplot"
 		self.plot.load_data([file_name],config_file)
 		self.plot.do_plot()
@@ -324,7 +323,7 @@ class cmp_class(QWidget):
 	def init(self):
 		return False
 		self.dumps=0
-		self.plot_token=plot_state()
+		self.plot_token=dat_file()
 
 		vbox=gtk.VBox()
 

@@ -73,11 +73,10 @@ from util import str2bool
 from PyQt5.QtCore import QTimer
 
 import random
-from math import pi,acos,sin,cos
 
 from dat_file import dat_file
 from dat_file import dat_file_read
-from dat_file import dat_file_max_min
+from dat_file_math import dat_file_max_min
 
 import glob
 
@@ -112,8 +111,6 @@ def tab(x,y,z,w,h,d):
 	glVertex3f(x+w+0.05,y+h ,z)
 
 	glEnd()
-
-stars=[]
 
 
 	
@@ -357,7 +354,7 @@ if open_gl_ok==True:
 				return
 
 			self.x_mul=1e3
-			self.y_mul=1.0/epi_y_len
+			self.y_mul=1.4/epi_y_len
 			self.z_mul=1e3
 
 
@@ -540,6 +537,7 @@ if open_gl_ok==True:
 				self.colors.append(color(red,green,blue,alpha))
 			self.colors.reverse()
 			self.update()
+			self.do_draw()
 			
 		def resizeEvent(self,event):
 			if self.failed==False:

@@ -1,9 +1,9 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -21,12 +21,11 @@
 
 
 
-#import sys
-#import os
 import glob
 import operator
-from plot_state import plot_state
+from dat_file_class import dat_file
 from plot_io import plot_load_info
+from dat_file_class import dat_file
 
 def make_man():
 	file_paths = []  # List which will store all of the full filepaths.
@@ -39,7 +38,7 @@ def make_man():
 
 		if filename.endswith(".dat")==True:
 
-			temp=plot_state()
+			temp=dat_file()
 			ret=plot_load_info(temp,filename)
 			if ret==True:
 

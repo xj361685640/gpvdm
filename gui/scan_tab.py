@@ -26,7 +26,7 @@ from inp import inp_get_token_value
 from plot import check_info_file
 from used_files_menu import used_files_menu
 from plot_gen import plot_gen
-from plot_state import plot_state
+from dat_file_class import dat_file
 from cmp_class import cmp_class
 from token_lib import tokens
 
@@ -284,7 +284,7 @@ class scan_vbox(QWidget):
 	def callback_reopen_xy_window(self, widget, data=None):
 		if len(self.plotted_graphs)>0:
 			pos=len(self.plotted_graphs)-1
-			plot_data=plot_state()
+			plot_data=dat_file()
 			plot_data.file0=self.plotted_graphs[pos].file0
 			plot_xy_window=plot_dlg_class(plot_data)
 			plot_xy_window.run()
@@ -305,7 +305,7 @@ class scan_vbox(QWidget):
 			#print full_file_name
 			file_name=os.path.basename(full_file_name)
 
-			plot_data=plot_state()
+			plot_data=dat_file()
 			plot_data.path=self.sim_dir
 			plot_data.example_file0=full_file_name
 			plot_data.example_file1=full_file_name

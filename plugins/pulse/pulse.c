@@ -132,6 +132,10 @@ printf_log(sim,"Vapplied=%Le\n",Vapplied);
 do
 {
 
+if (get_dump_status(sim,dump_optical_probe)==TRUE)
+{
+probe_record_step(sim,in);
+}
 
 	light_set_sun(&(in->mylight),time_get_sun(in)*pulse_config.pulse_light_efficiency);
 	light_solve_and_update(sim,in,&(in->mylight), (time_get_laser(in)+time_get_fs_laser(in))*pulse_config.pulse_light_efficiency);
@@ -306,11 +310,17 @@ buffer_dump_path(sim,get_output_path(sim),"pulse_G.dat",&buf);
 buffer_free(&buf);
 
 
-probe_dump(sim,in);
-
+if (get_dump_status(sim,dump_optical_probe)==TRUE)
+{
+	probe_dump(sim,in);
+}
 
 in->go_time=FALSE;
 
+if (get_dump_status(sim,dump_optical_probe)==TRUE)
+{
+	probe_free(sim,in);
+}
 inter_free(&out_G);
 inter_free(&out_i);
 inter_free(&out_v);

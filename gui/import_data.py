@@ -1,6 +1,6 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012-2017 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012-2017 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
 #	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -45,7 +45,7 @@ from dat_file import dat_file_read
 from dat_file import dat_file
 
 from plot_io import plot_load_info
-from plot_state import plot_state
+from dat_file_class import dat_file
 
 from plot_io import gen_header_from_token
 
@@ -225,7 +225,7 @@ class import_data(QDialog):
 		self.out_file=out_file
 		resize_window_to_be_sane(self,0.6,0.7)
 		self.data=dat_file()
-		self.info_token=plot_state()
+		self.info_token=dat_file()
 
 		#self.setFixedSize(900, 600)
 		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"import.png")))

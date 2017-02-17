@@ -22,7 +22,6 @@
 
 import os
 from plot_io import get_plot_file_info
-from plot_state import plot_state
 from help import my_help_class
 from cal_path import get_image_file_path
 from export_as import export_as

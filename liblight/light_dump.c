@@ -112,7 +112,7 @@ if (get_dump_status(sim,dump_optics_verbose)==TRUE)
 	buf.y_mul=1e9;
 	buf.x_mul=1e9;
 	strcpy(buf.title,"Photon density");
-	strcpy(buf.type,"3d");
+	strcpy(buf.type,"heat");
 	strcpy(buf.x_label,"Position");
 	strcpy(buf.data_label,"Wavelength");
 	strcpy(buf.x_units,"nm");
@@ -149,7 +149,7 @@ if (get_dump_status(sim,dump_optics_verbose)==TRUE)
 	buf.y_mul=1e9;
 	buf.x_mul=1e9;
 	strcpy(buf.title,"Adsorbed Photon density");
-	strcpy(buf.type,"3d");
+	strcpy(buf.type,"heat");
 	strcpy(buf.x_label,"Position");
 	strcpy(buf.data_label,"Wavelength");
 	strcpy(buf.x_units,"nm");
@@ -219,7 +219,7 @@ if (get_dump_status(sim,dump_optics_verbose)==TRUE)
 	buf.y_mul=1e9;
 	buf.x_mul=1e9;
 	strcpy(buf.title,"Optical absorption coefficient");
-	strcpy(buf.type,"3d");
+	strcpy(buf.type,"heat");
 	strcpy(buf.x_label,"Position");
 	strcpy(buf.data_label,"Wavelength");
 	strcpy(buf.x_units,"nm");
@@ -255,7 +255,7 @@ if (get_dump_status(sim,dump_optics_verbose)==TRUE)
 	buf.y_mul=1e9;
 	buf.x_mul=1e9;
 	strcpy(buf.title,"Optical absorption coefficient");
-	strcpy(buf.type,"3d");
+	strcpy(buf.type,"heat");
 	strcpy(buf.x_label,"Position");
 	strcpy(buf.data_label,"Wavelength");
 	strcpy(buf.x_units,"nm");

@@ -33,7 +33,9 @@ from matplotlib.figure import Figure
 
 import zipfile
 from util import lines_to_xyz
-from plot_state import plot_state
+from dat_file import dat_file_read
+from dat_file_class import dat_file
+
 
 from matplotlib.figure import Figure
 from plot_io import get_plot_file_info
@@ -193,40 +195,22 @@ class band_graph(QWidget):
 
 			n=n+1
 
-		state=plot_state()
-		get_plot_file_info(state,self.optical_mode_file)
-		#summary="<big><b>"+self.store[path[0]][0]+"</b></big>\n"+"\ntitle: "+state.title+"\nx axis: "+state.x_label+" ("+latex_to_pygtk_subscript(state.x_units)+")\ny axis: "++" ("+latex_to_pygtk_subscript(state.y_units)+")\n\n<big><b>Double click to open</b></big>"
+		state=dat_file()
+		if dat_file_read(state,self.optical_mode_file)==True:
+			print(self.optical_mode_file,os.path.isfile(self.optical_mode_file))
+			#summary="<big><b>"+self.store[path[0]][0]+"</b></big>\n"+"\ntitle: "+state.title+"\nx axis: "+state.x_label+" ("+latex_to_pygtk_subscript(state.x_units)+")\ny axis: "++" ("+latex_to_pygtk_subscript(state.y_units)+")\n\n<big><b>Double click to open</b></big>"
 
-		#print("ROD!!!!",state.data_label,self.optical_mode_file)
-		ax1.set_ylabel(state.data_label+" ("+state.data_units+")")
-		ax1.set_xlabel(_("Position")+" (nm)")
-		ax2.set_ylabel(_("Energy")+" (eV)")
-		ax2.set_xlim([start, x_pos])
-		#ax2.axis(max=)#autoscale(enable=True, axis='x', tight=None)
-		loaded=False
+			#print("ROD!!!!",state.data_label,self.optical_mode_file)
+			ax1.set_ylabel(state.data_label+" ("+state.data_units+")")
+			ax1.set_xlabel(_("Position")+" (nm)")
+			ax2.set_ylabel(_("Energy")+" (eV)")
+			ax2.set_xlim([start, x_pos])
+			#ax2.axis(max=)#autoscale(enable=True, axis='x', tight=None)
 
-		if os.path.isfile("light_dump.zip"):
-			zf = zipfile.ZipFile("light_dump.zip", 'r')
-			lines = zf.read(self.optical_mode_file).split("\n")
-			zf.close()
-			loaded=True
-		elif os.path.isfile(self.optical_mode_file):
-			f = open(self.optical_mode_file)
-			lines = f.readlines()
-			f.close()
-			loaded=True
-
-		if loaded==True:
-			xx=[]
-			yy=[]
-			zz=[]
-			lines_to_xyz(xx,yy,zz,lines)
-			t = asarray(xx)
-			s = asarray(yy)
-
-			t=t*1e9
-
-			ax1.plot(t,s, 'black', linewidth=3 ,alpha=0.5)
+			for i in range(0,len(state.y_scale)):
+				state.y_scale[i]=state.y_scale[i]*1e9
+			
+			ax1.plot(state.y_scale,state.data[0][0], 'black', linewidth=3 ,alpha=0.5)
 
 
 

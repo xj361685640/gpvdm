@@ -138,7 +138,7 @@ def merge_archives(src_archive,dest_archive,only_over_write):
 		print("merged",dest_archive,src_archive,files[i],ret)
 
 
-	files=[ "epitaxy.inp", "fit.inp", "constraints.inp","duplicate.inp", "thermal.inp","mesh_x.inp","mesh_y.inp","mesh_z.inp" ]
+	files=[ "epitaxy.inp", "contacts.inp", "fit.inp", "constraints.inp","duplicate.inp", "thermal.inp","mesh_x.inp","mesh_y.inp","mesh_z.inp" ]
 	base_file=files[:]
 
 	ls=zip_lsdir(src_archive)

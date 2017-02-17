@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.80\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2017-02-12 19:57+0000\n"
+"POT-Creation-Date: 2017-02-17 15:03+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,7 +23,7 @@ msgstr ""
 
 #: ../liblight/light_dump.c:465 ../liblight/light_dump.c:492
 #: ../src/initial.c:52 ../src/initial.c:76 ../src/initial.c:100
-#: ../src/initial.c:124 ../src/initial.c:148 ../gui/band_graph.py:202
+#: ../src/initial.c:124 ../src/initial.c:148 ../gui/band_graph.py:205
 #: ../libdump/dump_1d_slice.c:69 ../libdump/dump_1d_slice.c:153
 #: ../libdump/dump_1d_slice.c:209 ../libdump/dump_1d_slice.c:237
 #: ../libdump/dump_1d_slice.c:265 ../libdump/dump_1d_slice.c:321
@@ -50,7 +50,7 @@ msgstr ""
 
 #: ../liblight/light_dump.c:466 ../liblight/light_dump.c:493
 #: ../libmeasure/probe.c:274 ../libmeasure/probe.c:299
-#: ../plugins/pulse/pulse.c:298 ../gui/optics.py:190
+#: ../plugins/pulse/pulse.c:299 ../gui/optics.py:190
 #: ../libdump/dump_dynamic.c:420 ../libdump/dump_1d_slice.c:1257
 #: ../libdump/dump_1d_slice.c:1285
 msgid "Generation rate"
@@ -204,11 +204,11 @@ msgstr ""
 
 #: ../libmeasure/probe.c:271 ../libmeasure/probe.c:273
 #: ../libmeasure/probe.c:296 ../libmeasure/probe.c:298
-#: ../plugins/pulse/pulse.c:205 ../plugins/pulse/pulse.c:207
-#: ../plugins/pulse/pulse.c:228 ../plugins/pulse/pulse.c:230
-#: ../plugins/pulse/pulse.c:252 ../plugins/pulse/pulse.c:254
-#: ../plugins/pulse/pulse.c:275 ../plugins/pulse/pulse.c:277
-#: ../plugins/pulse/pulse.c:295 ../plugins/pulse/pulse.c:297
+#: ../plugins/pulse/pulse.c:206 ../plugins/pulse/pulse.c:208
+#: ../plugins/pulse/pulse.c:229 ../plugins/pulse/pulse.c:231
+#: ../plugins/pulse/pulse.c:253 ../plugins/pulse/pulse.c:255
+#: ../plugins/pulse/pulse.c:276 ../plugins/pulse/pulse.c:278
+#: ../plugins/pulse/pulse.c:296 ../plugins/pulse/pulse.c:298
 #: ../plugins/fxdomain/fxdomain.c:259 ../plugins/fxdomain/fxdomain.c:261
 #: ../plugins/fxdomain/fxdomain.c:279 ../plugins/fxdomain/fxdomain.c:281
 #: ../gui/tmesh.py:206 ../libdump/dump_dynamic.c:207
@@ -236,7 +236,7 @@ msgid "Time"
 msgstr ""
 
 #: ../libmeasure/probe.c:271 ../libmeasure/probe.c:296
-#: ../plugins/pulse/pulse.c:295
+#: ../plugins/pulse/pulse.c:296
 msgid "Photogeneration rate"
 msgstr ""
 
@@ -256,39 +256,39 @@ msgstr ""
 msgid "no pulse config file found"
 msgstr ""
 
-#: ../plugins/pulse/pulse.c:118 ../plugins/pulse/pulse.c:168
+#: ../plugins/pulse/pulse.c:118 ../plugins/pulse/pulse.c:169
 msgid "pulse mode not known\n"
 msgstr ""
 
-#: ../plugins/pulse/pulse.c:175
+#: ../plugins/pulse/pulse.c:176
 msgid "pulse time"
 msgstr ""
 
-#: ../plugins/pulse/pulse.c:175 ../plugins/fxdomain/fxdomain.c:191
+#: ../plugins/pulse/pulse.c:176 ../plugins/fxdomain/fxdomain.c:191
 msgid "step"
 msgstr ""
 
-#: ../plugins/pulse/pulse.c:176 ../plugins/pulse/pulse.c:252
+#: ../plugins/pulse/pulse.c:177 ../plugins/pulse/pulse.c:253
 #: ../plugins/fxdomain/fxdomain.c:192 ../plugins/fxdomain/fxdomain.c:259
 msgid "current"
 msgstr ""
 
-#: ../plugins/pulse/pulse.c:205 ../plugins/pulse/pulse.c:208
-#: ../plugins/pulse/pulse.c:255 ../plugins/fxdomain/fxdomain.c:262
+#: ../plugins/pulse/pulse.c:206 ../plugins/pulse/pulse.c:209
+#: ../plugins/pulse/pulse.c:256 ../plugins/fxdomain/fxdomain.c:262
 #: ../libdump/dump_dynamic.c:394 ../libdump/dump_contacts.c:72
 msgid "Current"
 msgstr ""
 
-#: ../plugins/pulse/pulse.c:228
+#: ../plugins/pulse/pulse.c:229
 msgid "current density"
 msgstr ""
 
-#: ../plugins/pulse/pulse.c:231 ../libdump/dump_dynamic.c:231
+#: ../plugins/pulse/pulse.c:232 ../libdump/dump_dynamic.c:231
 #: ../libdump/dump_1d_slice.c:495 ../libdump/dump_1d_slice.c:524
 msgid "Current density"
 msgstr ""
 
-#: ../plugins/pulse/pulse.c:275 ../plugins/pulse/pulse.c:280
+#: ../plugins/pulse/pulse.c:276 ../plugins/pulse/pulse.c:281
 #: ../plugins/fxdomain/fxdomain.c:279 ../plugins/fxdomain/fxdomain.c:282
 #: ../gui/tmesh.py:232 ../gui/tmesh.py:234 ../gui/tmesh.py:237
 #: ../gui/tmesh.py:239 ../gui/contacts.py:155 ../libdump/dump_dynamic.c:791
@@ -296,7 +296,7 @@ msgstr ""
 msgid "Voltage"
 msgstr ""
 
-#: ../plugins/pulse/pulse.c:278 ../gui/fxmesh.py:173
+#: ../plugins/pulse/pulse.c:279 ../gui/fxmesh.py:173
 msgid "Volts"
 msgstr ""
 
@@ -528,15 +528,15 @@ msgstr ""
 msgid "Load DoS"
 msgstr ""
 
-#: ../gui/cmp_class.py:259
+#: ../gui/cmp_class.py:258
 msgid "Examine simulation results in time domain"
 msgstr ""
 
-#: ../gui/cmp_class.py:286
+#: ../gui/cmp_class.py:285
 msgid "Save video"
 msgstr ""
 
-#: ../gui/cmp_class.py:301 ../gui/band_graph.py:71
+#: ../gui/cmp_class.py:300 ../gui/band_graph.py:73
 #: ../gui/fit_configure_window.py:73 ../gui/experiment.py:180
 #: ../gui/experiment.py:237 ../gui/contacts.py:196 ../gui/jv.py:78
 #: ../gui/emesh.py:169 ../gui/scan.py:259 ../gui/scan.py:354 ../gui/info.py:68
@@ -546,7 +546,7 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: ../gui/cmp_class.py:320
+#: ../gui/cmp_class.py:319
 msgid ""
 "No electrical slice data has been stored in the snapshots directory.  To "
 "turn this on set Simulation->Configure->Dump->Dump 1D Slices to on.  This "
@@ -569,16 +569,16 @@ msgstr ""
 msgid "Circuit"
 msgstr ""
 
-#: ../gui/gl_cmp.py:46
+#: ../gui/gl_cmp.py:36
 msgid "Results viewer"
 msgstr ""
 
-#: ../gui/band_graph.py:203 ../gui/cost.py:117 ../libdump/dump_1d_slice.c:682
+#: ../gui/band_graph.py:206 ../gui/cost.py:117 ../libdump/dump_1d_slice.c:682
 msgid "Energy"
 msgstr ""
 
 #: ../gui/qe.py:116 ../gui/fit_window_plot_real.py:130
-#: ../gui/plot_widget.py:644
+#: ../gui/plot_widget.py:538
 msgid "Save graph"
 msgstr ""
 
@@ -758,35 +758,35 @@ msgstr ""
 msgid "Move down"
 msgstr ""
 
-#: ../gui/dlg_export.py:46
+#: ../gui/dlg_export.py:45
 msgid "Export the simulation as"
 msgstr ""
 
-#: ../gui/dlg_export.py:49 ../gui/dlg_export.py:63
+#: ../gui/dlg_export.py:48 ../gui/dlg_export.py:62
 msgid "gpvdm archive input+output files"
 msgstr ""
 
-#: ../gui/dlg_export.py:50 ../gui/dlg_export.py:65
+#: ../gui/dlg_export.py:49 ../gui/dlg_export.py:64
 msgid "gpvdm archive input files"
 msgstr ""
 
-#: ../gui/dlg_export.py:51 ../gui/dlg_export.py:67
+#: ../gui/dlg_export.py:50 ../gui/dlg_export.py:66
 msgid "optical materials database"
 msgstr ""
 
-#: ../gui/dlg_export.py:52 ../gui/dlg_export.py:69
+#: ../gui/dlg_export.py:51 ../gui/dlg_export.py:68
 msgid "pdf file"
 msgstr ""
 
-#: ../gui/dlg_export.py:53 ../gui/dlg_export.py:69
+#: ../gui/dlg_export.py:52 ../gui/dlg_export.py:68
 msgid "jpg image"
 msgstr ""
 
-#: ../gui/dlg_export.py:54 ../gui/dlg_export.py:69
+#: ../gui/dlg_export.py:53 ../gui/dlg_export.py:68
 msgid "tex file"
 msgstr ""
 
-#: ../gui/dlg_export.py:55 ../gui/dlg_export.py:71
+#: ../gui/dlg_export.py:54 ../gui/dlg_export.py:70
 msgid "Excel file"
 msgstr ""
 
@@ -1247,7 +1247,7 @@ msgstr ""
 msgid "Directory"
 msgstr ""
 
-#: ../gui/open_save_dlg.py:44 ../gui/plot_widget.py:668
+#: ../gui/open_save_dlg.py:44 ../gui/plot_widget.py:562
 msgid "Save as"
 msgstr ""
 
@@ -1651,7 +1651,7 @@ msgstr ""
 msgid "Remove "
 msgstr ""
 
-#: ../gui/tab_homo.py:281 ../gui/plot_widget.py:665 ../gui/doping.py:196
+#: ../gui/tab_homo.py:281 ../gui/plot_widget.py:559 ../gui/doping.py:196
 msgid "Save"
 msgstr ""
 
@@ -1851,7 +1851,7 @@ msgstr ""
 msgid "CELIV"
 msgstr ""
 
-#: ../gui/inp_description.py:42 ../gui/plot_widget.py:697
+#: ../gui/inp_description.py:42 ../gui/plot_widget.py:591
 msgid "Math"
 msgstr ""
 
@@ -3185,67 +3185,67 @@ msgstr ""
 msgid "copy state"
 msgstr ""
 
-#: ../gui/plot_widget.py:648
+#: ../gui/plot_widget.py:542
 msgid "Refresh graph"
 msgstr ""
 
-#: ../gui/plot_widget.py:675
+#: ../gui/plot_widget.py:569
 msgid "Black"
 msgstr ""
 
-#: ../gui/plot_widget.py:678
+#: ../gui/plot_widget.py:572
 msgid "Rainbow"
 msgstr ""
 
-#: ../gui/plot_widget.py:681
+#: ../gui/plot_widget.py:575
 msgid "Color"
 msgstr ""
 
-#: ../gui/plot_widget.py:682
+#: ../gui/plot_widget.py:576
 msgid "Autoscale"
 msgstr ""
 
-#: ../gui/plot_widget.py:685
+#: ../gui/plot_widget.py:579
 msgid "Set log scale y"
 msgstr ""
 
-#: ../gui/plot_widget.py:688 ../gui/plot_widget.py:691
+#: ../gui/plot_widget.py:582 ../gui/plot_widget.py:585
 msgid "Set log scale x"
 msgstr ""
 
-#: ../gui/plot_widget.py:694
+#: ../gui/plot_widget.py:588
 msgid "Label data"
 msgstr ""
 
-#: ../gui/plot_widget.py:699
+#: ../gui/plot_widget.py:593
 msgid "Subtract first point"
 msgstr ""
 
-#: ../gui/plot_widget.py:702
+#: ../gui/plot_widget.py:596
 msgid "Add min point"
 msgstr ""
 
-#: ../gui/plot_widget.py:705
+#: ../gui/plot_widget.py:599
 msgid "Invert y-axis"
 msgstr ""
 
-#: ../gui/plot_widget.py:708
+#: ../gui/plot_widget.py:602
 msgid "Norm to 1.0 y"
 msgstr ""
 
-#: ../gui/plot_widget.py:711
+#: ../gui/plot_widget.py:605
 msgid "Norm to peak of all data"
 msgstr ""
 
-#: ../gui/plot_widget.py:714
+#: ../gui/plot_widget.py:608
 msgid "Heat map"
 msgstr ""
 
-#: ../gui/plot_widget.py:717
+#: ../gui/plot_widget.py:611
 msgid "Heat map edit"
 msgstr ""
 
-#: ../gui/plot_widget.py:720
+#: ../gui/plot_widget.py:614
 msgid "xy plot"
 msgstr ""
 

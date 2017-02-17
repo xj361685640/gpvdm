@@ -28,6 +28,7 @@ from plot_export import plot_export
 
 #matplotlib
 import matplotlib
+from matplotlib import cm
 matplotlib.use('Qt5Agg')
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
@@ -38,7 +39,6 @@ from matplotlib.pyplot import colorbar
 from util import numbers_to_latex
 from util import pygtk_to_latex_subscript
 from util import fx_with_units
-from plot_state import plot_state
 from plot_io import plot_save_oplot_file
 from util import time_with_units
 
@@ -52,31 +52,46 @@ from cal_path import get_image_file_path
 from open_save_dlg import save_as_image
 
 from dat_file import dat_file_read
-from dat_file import dat_file_max_min
+from dat_file_math import dat_file_max_min
+from dat_file_math import dat_file_sub
+from dat_file_math import dat_file_mul
+from dat_file_math import dat_file_sub_float
 from dat_file import dat_file
 from dat_file import read_data_2d
 
+
 from dlg_get_multi_text import dlg_get_multi_text
+
+from mpl_toolkits.mplot3d import Axes3D
+
 class plot_widget(QWidget):
 
 	def keyPressEvent(self, event):
-		
 		keyname=event.key()
-		modifiers = int(event.modifiers())
+		if (keyname>64 and keyname<91 ) or (keyname>96 and keyname<123):
+			modifiers = event.modifiers()
+			keyname=chr(keyname)
+			if keyname.isalpha()==True:
+				if Qt.ShiftModifier == modifiers:
+					keyname=keyname.upper()
+				else:
+					keyname=keyname.lower()
+		else:
+			return
 
 		if keyname=="a":
 			self.do_plot()
 
-		if keyname=="g":
-			if self.plot_token.grid==False:
+		elif keyname=='g':
+			if self.data[0].grid==False:
 				for i in range(0,len(self.ax)):
 					self.ax[i].grid(True)
-				self.plot_token.grid=True
+				self.data[0].grid=True
 			else:
 				for i in range(0,len(self.ax)):
 					self.ax[i].grid(False)
-				self.plot_token.grid=False
-		if keyname=="r":
+				self.data[0].grid=False
+		elif keyname=="r":
 			if self.lx==None:
 				for i in range(0,len(self.ax)):
 					self.lx = self.ax[i].axhline(color='k')
@@ -84,34 +99,34 @@ class plot_widget(QWidget):
 			self.lx.set_ydata(self.ydata)
 			self.ly.set_xdata(self.xdata)
 
-		if keyname=="l":
-			if self.plot_token.logy==True:
-				self.plot_token.logy=False
+		elif keyname=="l":
+			if self.data[0].logy==True:
+				self.data[0].logy=False
 				for i in range(0,len(self.ax)):
 					self.ax[i].set_yscale("linear")
 			else:
-				self.plot_token.logy=True
+				self.data[0].logy=True
 				for i in range(0,len(self.ax)):
 					self.ax[i].set_yscale("log")
 
-		if keyname=="L":
-			if self.plot_token.logx==True:
-				self.plot_token.logx=False
+		elif keyname=="L":
+			if self.data[0].logx==True:
+				self.data[0].logx=False
 				for i in range(0,len(self.ax)):
 					self.ax[i].set_xscale("linear")
 			else:
-				self.plot_token.logx=True
+				self.data[0].logx=True
 				for i in range(0,len(self.ax)):
 					self.ax[i].set_xscale("log")
 
-		if keyname=="q":
+		elif keyname=="q":
 			self.destroy()
 
-		if (Qt.CTRL & modifiers)==modifiers and keyname==67:
+		elif  modifiers == Qt.ControlModifier and keyname=='c':
 			self.do_clip()
 
 		self.fig.canvas.draw()
-		plot_save_oplot_file(self.config_file,self.plot_token)
+		plot_save_oplot_file(self.config_file,self.data[0])
 
 	def do_clip(self):
 		buf = io.BytesIO()
@@ -121,365 +136,247 @@ class plot_widget(QWidget):
 
 
 	def mouse_move(self,event):
-		#print event.xdata, event.ydata
 		self.xdata=event.xdata
 		self.ydata=event.ydata
 
-		#self.fig.canvas.draw()
 
-		#except:
-		#	print "Error opening file ",file_name
-
-
-	def sub_zero_frame(self,data,i):
-		if self.zero_frame_enable==True:
-			data_zero=dat_file()
-			if dat_file_read(data_zero,self.zero_frame_list[i])==True:
-				for x in range(0,data.x_len):
-					for y in range(0,data.y_len):
-						for z in range(0,data.z_len):
-							data.data[z][x][y]=data.data[z][x][y]-data_zero.data[z][x][y]
-
-	def read_data_file(self,data,index):
-		if dat_file_read(data,self.input_files[index])==True:
-			self.sub_zero_frame(data,index)
-			my_min=0.0;
-
-			for x in range(0,data.x_len):
-				data.x_scale[x]=data.x_scale[x]*self.plot_token.x_mul
-
-			for y in range(0,data.y_len):
-				data.y_scale[y]=data.y_scale[y]*self.plot_token.y_mul
-
-			for z in range(0,data.z_len):
-				data.z_scale[z]=data.z_scale[z]*self.plot_token.z_mul
-
-			for x in range(0,data.x_len):
-				for y in range(0,data.y_len):
-					for z in range(0,data.z_len):
-						#print("mull=",self.plot_token.y_mul)
-						data.data[z][x][y]=data.data[z][x][y]*self.plot_token.data_mul
-
-						#if self.plot_token.invert_y==True:
-						#	data.data[z][x][y]=-data.data[z][x][y]
-
-			if self.plot_token.subtract_first_point==True:
-				val=data.data[0][0][0]
-				for x in range(0,data.x_len):
-					for y in range(0,data.y_len):
-						for z in range(0,data.z_len):
-							data.data[z][x][y]=data.data[z][x][y]-val
-
-
-			if self.plot_token.add_min==True:
-				my_max,my_min=dat_file_max_min(data)
-
-				for x in range(0,data.x_len):
-					for y in range(0,data.y_len):
-						for z in range(0,data.z_len):
-							data.data[z][x][y]=data.data[z][x][y]-my_min
-
-			if self.plot_token.normalize==True:
-				my_max,my_min=dat_file_max_min(data)
-				for x in range(0,data.x_len):
-					for y in range(0,data.y_len):
-						for z in range(0,data.z_len):
-							if data.data[z][x][y]!=0:
-								data.data[z][x][y]=data.data[z][x][y]/my_max
-							else:
-								data.data[z][x][y]=0.0
-
-
-			if index<len(self.plot_id):
-				plot_number=self.plot_id[index]
-			else:
-				plot_number=index
-			#print("YMIN=",self.plot_token.ymin)
-			if self.plot_token.ymax!=-1:
-				self.ax[plot_number].set_ylim((self.plot_token.ymin,self.plot_token.ymax))
-			return True
-		else:
-			return False
 
 	def do_plot(self):
-		#print("PLOT TYPE=",self.plot_token.type)
-		if self.plot_token!=None and len(self.plot_id)!=0:
-			plot_number=0
-			#print(">>>>>>>>>>>>",self.plot_token.x_len,self.plot_token.y_len,self.plot_token.z_len)
-			self.fig.clf()
-			self.fig.subplots_adjust(bottom=0.2)
-			self.fig.subplots_adjust(bottom=0.2)
-			self.fig.subplots_adjust(left=0.1)
-			self.fig.subplots_adjust(hspace = .001)
+		if len(self.data)==0:
+			return
+		
+		if self.data[0].valid_data==False:
+			return
 
-			title=""
-			if self.plot_title=="":
-				title=self.plot_token.title
+		self.fig.clf()
+		self.fig.subplots_adjust(bottom=0.2)
+		self.fig.subplots_adjust(bottom=0.2)
+		self.fig.subplots_adjust(left=0.1)
+		self.fig.subplots_adjust(hspace = .001)
+		dim=""
+		if self.data[0].x_len==1 and self.data[0].z_len==1:
+			dim="linegraph"
+		elif self.data[0].x_len>1 and self.data[0].y_len>1 and self.data[0].z_len==1:
+			if self.data[0].type=="3d":
+				dim="wireframe"
+			if self.data[0].type=="heat":
+				dim="heat"
+		else:
+			print("I don't know how to process this type of file!",self.data[0].x_len, self.data[0].y_len,self.data[0].z_len)
+			return
+
+		title=self.data[0].title
+		if self.data[0].time!=-1.0 and self.data[0].Vexternal!=-1.0:
+			mul,unit=time_with_units(self.data[0].time)
+			title=self.data[0].title+" V="+str(self.data[0].Vexternal)+" time="+str(self.data[0].time*mul)+" "+unit
+
+		self.fig.suptitle(title)
+		self.setWindowTitle(title+" - www.gpvdm.com")
+
+		self.ax=[]
+
+
+		for i in range(0,len(self.input_files)):
+			if dim=="linegraph":
+				self.ax.append(self.fig.add_subplot(111,axisbg='white'))
+			elif dim=="wireframe":
+				self.ax.append(self.fig.add_subplot(111,axisbg='white' ,projection='3d'))
+			elif dim=="heat":
+				self.ax.append(self.fig.add_subplot(111,axisbg='white'))
+			#Only place label on bottom plot
+			#	if self.data[i].type=="3d":
+			#else:
+			#	self.ax[i].tick_params(axis='x', which='both', bottom='off', top='off',labelbottom='off') # labels along the bottom edge are off
+
+			#Only place y label on center plot
+			if self.data[0].normalize==True or self.data[0].norm_to_peak_of_all_data==True:
+				y_text="Normalized "+self.data[0].data_label
+				data_units="au"
 			else:
-				title=self.plot_title
+				data_text=self.data[i].data_label
+				data_units=self.data[i].data_units
 
-			if self.plot_token.time!=-1.0 and self.plot_token.Vexternal!=-1.0:
-				mul,unit=time_with_units(self.plot_token.time)
-				title=title+" V="+str(self.plot_token.Vexternal)+" time="+str(self.plot_token.time*mul)+" "+unit
+			if self.data[0].logx==True:
+				self.ax[i].set_xscale("log")
 
-			self.fig.suptitle(title)
-
-			self.ax=[]
-			number_of_plots=max(self.plot_id)+1
-			if self.plot_token.type=="heat":
-				number_of_plots=1
+			if self.data[0].logy==True:
+				self.ax[i].set_yscale("log")
 
 
+		all_plots=[]
+		files=[]
+		my_max=1.0
+
+			
+		if dim=="linegraph":		#This is for the 1D graph case
+			self.ax[0].set_xlabel(self.data[0].x_label+" ("+str(self.data[0].x_units)+")")
+			self.ax[0].set_ylabel(self.data[0].data_label+" ("+self.data[0].data_units+")")
+
+			for i in range(0,len(self.input_files)):
+				cur_plot, = self.ax[i].plot(self.data[i].y_scale,self.data[i].data[0][0], linewidth=3 ,alpha=1.0,color=self.color[i],marker=self.marker[i])
+
+				if self.labels[i]!="":
+					files.append("$"+numbers_to_latex(str(self.labels[i]))+" "+pygtk_to_latex_subscript(self.data[0].key_units)+"$")
+
+				all_plots.append(cur_plot)
+
+		elif dim=="wireframe":
+			self.ax[0].set_xlabel(self.data[0].x_label+" ("+self.data[0].x_units+")")
+			self.ax[0].set_ylabel(self.data[0].y_label+" ("+self.data[0].y_units+")")
+
+			for i in range(0,len(self.input_files)):
+
+				#new_data=[[float for y in range(self.data[0].y_len)] for x in range(self.data[0].x_len)]
+				#for x in range(0,self.data[i].x_len):
+				#	for y in range(0,self.data[i].y_len):
+				#		print(x,y,len(self.data[i].data[0]),len(self.data[i].data[0][0]))
+				#		new_data[x][y]=self.data[i].data[0][x][y]
+				#z = 10 * outer(ones(size(data.x_scale)), cos(data.y_scale))
+				#im=self.ax[0].plot_surface(data.x_scale,data.y_scale,z)
+				#print(new_data)
+				#print(self.data[i].x_scale)
+				#print(self.data[i].y_scale)
+				X, Y = meshgrid( self.data[i].y_scale,self.data[i].x_scale)
+				Z = self.data[i].data[0]
+
+				# Plot the surface
+				im=self.ax[i].plot_wireframe( Y,X, Z)
+
+				#pcolor
+		elif dim=="heat":
+			self.ax[0].set_xlabel(self.data[0].x_label+" ("+self.data[0].x_units+")")
+			self.ax[0].set_ylabel(self.data[0].y_label+" ("+self.data[0].y_units+")")
+
+			for i in range(0,len(self.input_files)):
+
+				im=self.ax[0].pcolor(self.data[i].y_scale,self.data[i].x_scale,self.data[i].data[0])
+				self.fig.colorbar(im)
+
+				#pcolor
+
+				#self.fig.colorbar(im, shrink=0.5, aspect=5)
+				#self.ax[0].plot_surface(x, y, z, rstride=1, cstride=1, cmap=cm.coolwarm,linewidth=0, antialiased=False)
+				#self.ax[0].invert_yaxis()
+				#self.ax[0].xaxis.tick_top()
 
 
-			for i in range(0,number_of_plots):
-				self.ax.append(self.fig.add_subplot(number_of_plots,1,i+1, axisbg='white'))
-				#Only place label on bottom plot
-				if i==number_of_plots-1:
-					#print(self.plot_token.x_label,self.plot_token.x_units)
-					self.ax[i].set_xlabel(self.plot_token.x_label+" ("+str(self.plot_token.x_units)+")")
-
-				else:
-					self.ax[i].tick_params(axis='x', which='both', bottom='off', top='off',labelbottom='off') # labels along the bottom edge are off
-
-				#Only place y label on center plot
-				if self.plot_token.normalize==True or self.plot_token.norm_to_peak_of_all_data==True:
-					y_text="Normalized "+self.plot_token.data_label
-					data_units="au"
-				else:
-					data_text=self.plot_token.data_label
-					data_units=self.plot_token.data_units
-				if i==math.trunc(number_of_plots/2):
-					self.ax[i].set_ylabel(data_text+" ("+data_units+")")
-
-				if self.plot_token.logx==True:
-					self.ax[i].set_xscale("log")
-
-				if self.plot_token.logy==True:
-					self.ax[i].set_yscale("log")
-
-
-			lines=[]
-			files=[]
-			data=dat_file()
-			my_max=1.0
-
-			if self.plot_token.x_len==1 and self.plot_token.z_len==1:		#This is for the 1D graph case
-
-				all_max=1.0
-				if self.plot_token.norm_to_peak_of_all_data==True:
-					my_max=-1e40
-					for i in range(0, len(self.input_files)):
-						if self.read_data_file(data,i)==True:
-							local_max,my_min=dat_file_max_min(data)
-							if local_max>my_max:
-								my_max=local_max
-					all_max=my_max
-
-				for i in range(0, len(self.input_files)):
-					if self.read_data_file(data,i)==True:
-						if all_max!=1.0:
-							for x in range(0,data.x_len):
-								for y in range(0,data.y_len):
-									for z in range(0,data.z_len):
-										data.data[z][x][y]=data.data[z][x][y]/all_max
-
-						Ec, = self.ax[plot_number].plot(data.y_scale,data.data[0][0], linewidth=3 ,alpha=1.0,color=self.color[i],marker=self.marker[i])
-
-						#label data if required
-						#if self.plot_token.label_data==True:
-						#	for ii in range(0,len(t)):
-						#		if z[ii]!="":
-						#			fx_unit=fx_with_units(float(z[ii]))
-						#			label_text=str(float(z[ii])*fx_unit[0])+" "+fx_unit[1]
-						#			self.ax[plot_number].annotate(label_text,xy = (t[ii], s[ii]), xytext = (-20, 20),textcoords = 'offset points', ha = 'right', va = 'bottom',bbox = dict(boxstyle = 'round,pad=0.5', fc = 'yellow', alpha = 0.5),arrowprops = dict(arrowstyle = '->', connectionstyle = 'arc3,rad=0'))
-
-						#if number_of_plots>1:
-						#	self.ax[plot_number].yaxis.set_major_formatter(ticker.FormatStrFormatter('%0.1e'))
-						#	if min(s)!=max(s):
-						#		print("TICKS=",(max(s)-min(s))/4.0)
-						#		self.ax[plot_number].yaxis.set_ticks(arange(min(s), max(s), (max(s)-min(s))/4.0 ))
-
-						#print("roderick",self.labels,i,self.labels[i])
-						if self.labels[i]!="":
-							#print "Rod=",self.labels[i]
-							#print self.plot_token.key_units
-							files.append("$"+numbers_to_latex(str(self.labels[i]))+" "+pygtk_to_latex_subscript(self.plot_token.key_units)+"$")
-
-							lines.append(Ec)
-
-				self.lx = None
-				self.ly = None
-				if self.plot_token.legend_pos=="No key":
-					self.ax[plot_number].legend_ = None
-				else:
-					self.fig.legend(lines, files, self.plot_token.legend_pos)
-			elif self.plot_token.x_len>1 and self.plot_token.y_len>1 and self.plot_token.z_len==1:		#2D graph
-				data=dat_file()
-
-				if self.read_data_file(data,0)==True:
-					new_data=[[float for y in range(self.plot_token.y_len)] for x in range(self.plot_token.x_len)]
-					for x in range(0,self.plot_token.x_len):
-						for y in range(0,self.plot_token.y_len):
-							new_data[x][y]=data.data[0][y][x]
-					im=self.ax[0].pcolor(data.x_scale,data.y_scale,new_data)
-
-					self.ax[i].set_xlabel(self.plot_token.x_label+" ("+self.plot_token.x_units+")")
-					self.ax[i].set_ylabel(self.plot_token.y_label+" ("+self.plot_token.y_units+")")
-					
-					self.fig.colorbar(im)
-					#self.ax[0].plot_surface(x, y, z, rstride=1, cstride=1, cmap=cm.coolwarm,linewidth=0, antialiased=False)
-					#self.ax[0].invert_yaxis()
-					#self.ax[0].xaxis.tick_top()
-			elif self.plot_token.type=="heat":
-				x=[]
-				y=[]
-				z=[]
-
-				pos=float(self.plot_token.x_start)
-				x_step=(float(self.plot_token.x_stop)-float(self.plot_token.x_start))/self.plot_token.x_points
-				while(pos<float(self.plot_token.x_stop)):
-					x.append(pos)
-					pos=pos+x_step
-
-				pos=float(self.plot_token.y_start)
-				y_step=(float(self.plot_token.y_stop)-float(self.plot_token.y_start))/self.plot_token.y_points
-				while(pos<float(self.plot_token.y_stop)):
-					y.append(pos)
-					pos=pos+y_step
-
-				data = zeros((len(y),len(x)))
-
-				for ii in range(0,len(self.input_files)):
-					t=[]
-					s=[]
-					z=[]
-					if self.read_data_file(t,s,z,ii)==True:
-						#print(self.input_files[ii])
-						for points in range(0,len(t)):
-							found=0
-							if t[points]>x[0]:
-								for x_pos in range(0,len(x)):
-									if x[x_pos]>t[points]:
-										found=found+1
-										break
-
-							if s[points]>y[0]:
-								for y_pos in range(0,len(y)):
-									if y_pos!=0:
-										if y[y_pos]>s[points]:
-											found=found+1
-											break
-							if found==2:
-								#print("adding data at",x_pos,y_pos)
-								if data[y_pos][x_pos]<10.0:
-									data[y_pos][x_pos]=data[y_pos][x_pos]+1
-							else:
-								print("not adding point",t[points],s[points])
-
-				#print(x)
-				#print(y)
-				#print(data)
-				x_grid, y_grid = mgrid[float(self.plot_token.y_start):float(self.plot_token.y_stop):complex(0, len(y)), float(self.plot_token.x_start):float(self.plot_token.x_stop):complex(0, len(x))]
-				self.ax[0].pcolor(y_grid,x_grid,data)
-				
-			else:
-				x=[]
-				y=[]
-				z=[]
-
-				if read_data_2d(x,y,z,self.input_files[0])==True:
-					#print(len(x),len(y),len(z),self.input_files[0])
-					maxx=-1
-					maxy=-1
-					for i in range(0,len(z)):
-						if x[i]>maxx:
-							maxx=x[i]
-
-						if y[i]>maxy:
-							maxy=y[i]
-
-					maxx=maxx+1
-					maxy=maxy+1
-
-					data = zeros((maxy,maxx))
-
-
-					for i in range(0,len(z)):
-						data[y[i]][x[i]]= random.random()+5
-						self.ax[0].text(x[i], y[i]+float(maxy)/float(len(z))+0.1,'%.1e' %  z[i], fontsize=12)
-
-					#fig, ax = plt.subplots()
-					self.ax[0].pcolor(data,cmap=plt.cm.Blues)
-					
-					self.ax[0].invert_yaxis()
-					self.ax[0].xaxis.tick_top()
-
-			#self.fig.tight_layout(pad=0.0, w_pad=0.0, h_pad=0.0)
-			self.fig.canvas.draw()
-			#print("exit do plot")
+		#setup the key
+		if self.data[0].legend_pos=="No key":
+			self.ax[plot_number].legend_ = None
+		else:
+			self.fig.legend(all_plots, files, self.data[0].legend_pos)
+			
+		#self.fig.tight_layout(pad=0.0, w_pad=0.0, h_pad=0.0)
+		self.fig.canvas.draw()
+		#print("exit do plot")
 
 	def callback_plot_save(self):
 		response=save_as_image(self)
 		if response != None:
-			plot_export(response,self.input_files,self.plot_token,self.fig)
+			plot_export(response,self.input_files,self.data[0],self.fig)
 
 	def set_labels(self,labels):
 		self.labels=labels
 
-	def set_plot_ids(self,plot_id):
-		self.plot_id=plot_id
-
 	def load_data(self,input_files,config_file):
-
+		self.lx=None
+		self.ly=None
 		self.input_files=input_files
 		self.config_file=config_file
 
-		if config_file=="":
-			config_file=os.path.splitext(input_files[0])[0]+".oplot"
+		if self.config_file=="":
+			self.config_file=os.path.splitext(input_files[0])[0]+".oplot"
 
-		loaded=False
-		self.plot_token=plot_state()
+		self.data=[]
+
+		
+		for i in range(0,len(self.input_files)):
+			dat=dat_file()
+			ret=dat_file_read(dat,self.input_files[i])
+			self.data.append(dat)
 
 		#Try and get the data from the config file
-		if plot_load_info(self.plot_token,input_files[0])==False:
-			return
-		#print("fred>>>>>>>>>>",self.plot_token.x_len)
-		if plot_load_info(self.plot_token,config_file)==True:
-			print("I have updated the plot info",self.plot_token.type)
+		self.norm_data()
+#		if plot_load_info(self.data[0],self.config_file)==True:
+#			print("I have updated the plot info",self.data[0].type)
 
 
-		#print("the config file is",config_file)
-		#print(input_files,loaded)
+#		if self.data[0].tag0=="":
+#			self.data[0].file0=os.path.basename(input_files[0])
 
-		if len(self.plot_id)==0:
-			for i in range(0,len(input_files)):
-				self.plot_id.append(0)
+#		plot_save_oplot_file(self.config_file,self.data[0])
 
-		self.plot_token.path=os.path.dirname(config_file)
-		if self.plot_token.tag0=="":
-			self.plot_token.file0=os.path.basename(input_files[0])
 
-		plot_save_oplot_file(config_file,self.plot_token)
 
-		self.output_file=os.path.splitext(config_file)[0]+".png"
+	def norm_data(self):
+		if len(self.data)>0:
+			if self.zero_frame_enable==True:
+				if len(self.input_files)>1:
+					for i in range(1,len(self.input_files)):
+						dat_file_sub(self.data[i],self.data[0])
+					
+					dat_file_sub(self.data[0],self.data[0])
 
-		#ret=plot_populate_plot_token(plot_token,self.input_files[0])
-		#if ret==True:
-		#print "Rod",input_files
-		title=self.plot_token.title
-		self.setWindowTitle(title+" - www.gpvdm.com")
+			for i in range(0,len(self.input_files)):
+				for x in range(0,self.data[i].x_len):
+					self.data[i].x_scale[x]=self.data[i].x_scale[x]*self.data[i].x_mul
 
-		#print("Loaded OK",self.config_file)
+				for y in range(0,self.data[i].y_len):
+					self.data[i].y_scale[y]=self.data[i].y_scale[y]*self.data[i].y_mul
 
-		test_file=self.input_files[0]
-		for i in range(0,len(self.input_files)):
-			if os.path.isfile(self.input_files[i]):
-				test_file=self.input_files[i]
+				for z in range(0,self.data[i].z_len):
+					self.data[i].z_scale[z]=self.data[i].z_scale[z]*self.data[i].z_mul
 
-		#print("test_file=",test_file)
-		#print("Exit here")
+			if self.data[0].invert_y==True:
+				for i in range(0,len(self.input_files)):
+					dat_file_mul(self.data[i],-1)
 
+			if self.data[0].subtract_first_point==True:
+				val=self.data[0].data[0][0][0]
+				for i in range(0,len(self.input_files)):
+					dat_file_sub_float(self.data[i],val)
+
+
+			if self.data[0].add_min==True:
+				my_max,my_min=dat_file_max_min(self.data[0])
+				for i in range(0,len(self.input_files)):
+					dat_file_sub_float(self.data[i],my_min)
+
+
+			#if self.plot_token.normalize==True:
+				#my_max,my_min=dat_file_max_min(self.data[0])
+				#for (i in range(0,len(self.input_files)):
+				#for x in range(0,data.x_len):
+					#for y in range(0,data.y_len):
+						#for z in range(0,data.z_len):
+							#if data.data[z][x][y]!=0:
+								#data.data[z][x][y]=data.data[z][x][y]/my_max
+							#else:
+								#data.data[z][x][y]=0.0
+
+
+			#if self.plot_token.ymax!=-1:
+				#self.ax[index].set_ylim((self.plot_token.ymin,self.plot_token.ymax))
+			#return True
+		#else:
+			#return False
+	
+##norm stuff
+			#all_max=1.0
+			#if self.plot_token.norm_to_peak_of_all_data==True:
+				#my_max=-1e40
+				#for i in range(0, len(self.input_files)):
+					#local_max,my_min=dat_file_max_min(self.data[i])
+					#if local_max>my_max:
+						#my_max=local_max
+				#all_max=my_max
+
+			#for i in range(0, len(self.input_files)):
+				#if all_max!=1.0:
+					#for x in range(0,data.x_len):
+						#for y in range(0,data.y_len):
+							#for z in range(0,data.z_len):
+								#data.data[z][x][y]=data.data[z][x][y]/all_max
 
 	def gen_colors_black(self,repeat_lines):
 		#make 100 black colors
@@ -511,108 +408,109 @@ class plot_widget(QWidget):
 
 	def callback_black(self):
 		self.gen_colors_black(1)
-		plot_save_oplot_file(self.config_file,self.plot_token)
+		plot_save_oplot_file(self.config_file,self.data[0])
 		self.do_plot()
 
 	def callback_rainbow(self):
 		self.gen_colors(1)
-		plot_save_oplot_file(self.config_file,self.plot_token)
+		plot_save_oplot_file(self.config_file,self.data[0])
 		self.do_plot()
 
 	def callback_save(self):
-		plot_export(self.output_file,self.input_files,self.plot_token,self.fig)
+		output_file=os.path.splitext(self.config_file)[0]+".png"
+		plot_export(output_file,self.input_files,self.data[0],self.fig)
 
 	def callback_key(self):
-		self.plot_token.legend_pos=widget.get_label()
-		#print(self.config_file,self.plot_token)
-		plot_save_oplot_file(self.config_file,self.plot_token)
+		self.data[0].legend_pos=widget.get_label()
+		#print(self.config_file,self.data[0])
+		plot_save_oplot_file(self.config_file,self.data[0])
 		self.do_plot()
 
 	def callback_units(self):
-		units=dlg_get_text( "Units:", self.plot_token.key_units)
+		units=dlg_get_text( "Units:", self.data[0].key_units)
 		if units!=None:
-			self.plot_token.key_units=units
-		plot_save_oplot_file(self.config_file,self.plot_token)
+			self.data[0].key_units=units
+		plot_save_oplot_file(self.config_file,self.data[0])
 		self.do_plot()
 
 
 	def callback_autoscale_y(self):
-		if self.plot_token.ymax==-1:
+		if self.data[0].ymax==-1:
 			xmin, xmax, ymin, ymax = self.ax[0].axis()
-			self.plot_token.ymax=ymax
-			self.plot_token.ymin=ymin
+			self.data[0].ymax=ymax
+			self.data[0].ymin=ymin
 		else:
-			self.plot_token.ymax=-1
-			self.plot_token.ymin=-1
+			self.data[0].ymax=-1
+			self.data[0].ymin=-1
 
 	def callback_normtoone_y(self):
-		self.plot_token.normalize= not self.plot_token.normalize
-		plot_save_oplot_file(self.config_file,self.plot_token)
+		self.data[0].normalize= not self.data[0].normalize
+		plot_save_oplot_file(self.config_file,self.data[0])
 		self.do_plot()
 
 	def callback_norm_to_peak_of_all_data(self):
-		self.plot_token.norm_to_peak_of_all_data=not self.plot_token.norm_to_peak_of_all_data
-		plot_save_oplot_file(self.config_file,self.plot_token)
+		self.data[0].norm_to_peak_of_all_data=not self.data[0].norm_to_peak_of_all_data
+		plot_save_oplot_file(self.config_file,self.data[0])
 		self.do_plot()
 
 	def callback_toggle_log_scale_y(self):
-		self.plot_token.logy=not self.plot_token.logy
-		plot_save_oplot_file(self.config_file,self.plot_token)
+		self.data[0].logy=not self.data[0].logy
+		plot_save_oplot_file(self.config_file,self.data[0])
 		self.do_plot()
 
 	def callback_toggle_log_scale_x(self):
-		self.plot_token.logx=not self.plot_token.logx
-		plot_save_oplot_file(self.config_file,self.plot_token)
+		self.data[0].logx=not self.data[0].logx
+		plot_save_oplot_file(self.config_file,self.data[0])
 		self.do_plot()
 
 	def callback_toggle_label_data(self):
-		self.plot_token.label_data=not self.plot_token.label_data
-		plot_save_oplot_file(self.config_file,self.plot_token)
+		self.data[0].label_data=not self.data[0].label_data
+		plot_save_oplot_file(self.config_file,self.data[0])
 		self.do_plot()
 
 	def callback_set_heat_map(self):
-		self.plot_token.type="heat"
-		plot_save_oplot_file(self.config_file,self.plot_token)
-		plot_save_oplot_file(self.config_file,self.plot_token)
+		self.data[0].type="heat"
+		plot_save_oplot_file(self.config_file,self.data[0])
+		plot_save_oplot_file(self.config_file,self.data[0])
 		self.do_plot()
 
 	def callback_heat_map_edit(self):
-		ret = dlg_get_multi_text([["x start",str(self.plot_token.x_start)],["x stop",str(self.plot_token.x_stop)],["x points",str(self.plot_token.x_points)],["y start",str(self.plot_token.y_start)],["y stop",str(self.plot_token.y_stop)],["y points",str(self.plot_token.y_points)]],title="2D plot editor")
+		ret = dlg_get_multi_text([["x start",str(self.data[0].x_start)],["x stop",str(self.data[0].x_stop)],["x points",str(self.data[0].x_points)],["y start",str(self.data[0].y_start)],["y stop",str(self.data[0].y_stop)],["y points",str(self.data[0].y_points)]],title="2D plot editor")
 		ret.run()
 		ret=ret.get_values()
 		if ret!=False:
 			[a,b,c,d,e,f] = ret
 			#print("---------",a,b,c,d,e,f)
-			self.plot_token.x_start=float(a)
-			self.plot_token.x_stop=float(b)
-			self.plot_token.x_points=float(c)
+			self.data[0].x_start=float(a)
+			self.data[0].x_stop=float(b)
+			self.data[0].x_points=float(c)
 
-			self.plot_token.y_start=float(d)
-			self.plot_token.y_stop=float(e)
-			self.plot_token.y_points=float(f)
+			self.data[0].y_start=float(d)
+			self.data[0].y_stop=float(e)
+			self.data[0].y_points=float(f)
 
-			plot_save_oplot_file(self.config_file,self.plot_token)
+			plot_save_oplot_file(self.config_file,self.data[0])
 			self.do_plot()
 
 	def callback_set_xy_plot(self):
-		self.plot_token.type="xy"
-		plot_save_oplot_file(self.config_file,self.plot_token)
-		plot_save_oplot_file(self.config_file,self.plot_token)
+		self.data[0].type="xy"
+		plot_save_oplot_file(self.config_file,self.data[0])
+		plot_save_oplot_file(self.config_file,self.data[0])
 		self.do_plot()
 
 	def callback_toggle_invert_y(self):
-		self.plot_token.invert_y=not self.plot_token.invert_y
-		plot_save_oplot_file(self.config_file,self.plot_token)
+		self.data[0].invert_y=not self.data[0].invert_y
+		plot_save_oplot_file(self.config_file,self.data[0])
 		self.do_plot()
 
 	def callback_toggle_subtract_first_point(self):
-		self.plot_token.subtract_first_point=not self.plot_token.subtract_first_point
-		plot_save_oplot_file(self.config_file,self.plot_token)
+		self.data[0].subtract_first_point=not self.data[0].subtract_first_point
+		plot_save_oplot_file(self.config_file,self.data[0])
 		self.do_plot()
 
 	def callback_toggle_add_min(self):
-		self.plot_token.add_min=not self.plot_token.add_min
-		plot_save_oplot_file(self.config_file,self.plot_token)
+		self.data[0].add_min=not self.data[0].add_min
+		plot_save_oplot_file(self.config_file,self.data[0])
 		self.do_plot()
 
 	def update(self):
@@ -624,17 +522,13 @@ class plot_widget(QWidget):
 
 	def init(self,menu=True):
 		self.main_vbox = QVBoxLayout()
-
 		self.config_file=""
-		self.plot_token=None
 		self.labels=[]
 		self.fig = Figure(figsize=(2.5,2), dpi=100)
-		self.plot_id=[]
 		self.canvas = FigureCanvas(self.fig)  # a gtk.DrawingArea
 
 		self.zero_frame_enable=False
 		self.zero_frame_list=[]
-		self.plot_title=""
 		self.gen_colors(1)
 
 		toolbar=QToolBar()
@@ -730,3 +624,6 @@ class plot_widget(QWidget):
 		self.main_vbox.addWidget(self.canvas)
 
 		self.setLayout(self.main_vbox)
+
+
+

@@ -96,6 +96,9 @@ class layer_widget(QWidget):
 		self.save_model()
 		self.emit_change()
 
+	def callback_tab_selection_changed(self):
+		self.tab_changed(0,0)
+
 	def tab_changed(self, x,y):
 		self.save_model()
 		self.emit_change()
@@ -240,7 +243,7 @@ class layer_widget(QWidget):
 		self.create_model()
 
 		self.tab.cellChanged.connect(self.tab_changed)
-		
+		self.tab.itemSelectionChanged.connect(self.callback_tab_selection_changed)
 		self.main_vbox.addWidget(self.tab)
 
 		self.setLayout(self.main_vbox)

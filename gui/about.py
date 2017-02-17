@@ -25,6 +25,7 @@ from ver import ver
 from notice import notice
 from cal_path import get_image_file_path
 from cal_path import get_ui_path
+from cal_path import get_materials_path
 
 import sys
 
@@ -34,7 +35,7 @@ from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import QSize
 from PyQt5.QtGui import QIcon
 
-from cal_path import get_materials_dirs
+from cal_path import find_materials
 from ref import get_ref_text
 
 class about_dlg():
@@ -65,10 +66,12 @@ class about_dlg():
 		
 	def fill_store(self):
 		self.window.materials.clear()
-
-		all_files=get_materials_dirs()
+	
+		all_files=find_materials()
+		print(all_files)
 		for fl in all_files:
-			text=get_ref_text(os.path.join(fl,"n.omat"),html=False)
+			text=get_ref_text(os.path.join(get_materials_path(),fl,"n.omat"),html=False)
+			print(os.path.join(get_materials_path(),fl,"n.omat"),text)
 			if text!=None:
 				itm = QListWidgetItem(os.path.basename(fl)+" "+text)
 				itm.setIcon(self.mat_icon)

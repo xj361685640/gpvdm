@@ -34,7 +34,7 @@ from help import help_window
 
 from dat_file import dat_file
 from dat_file import dat_file_read
-from dat_file import dat_file_max_min
+from dat_file_math import dat_file_max_min
 
 
 class snapshot_slider(QWidget):

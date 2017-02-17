@@ -29,6 +29,9 @@ except:
 	
 import random
 import numpy as np
+from math import pi,acos,sin,cos
+
+stars=[]
 
 def draw_stars():
 	global stars

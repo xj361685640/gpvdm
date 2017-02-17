@@ -19,47 +19,68 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-
 import os
-from dat_file_class import dat_file
-import glob
-from plot_io import plot_load_info
+import shutil
 
-class used_files_menu:
-	def __init__(self):
-		self.menu=gtk.Menu()
+class dat_file():
+	valid_data=False
+	grid=False
+	show_pointer=False
+	logy=False
+	logx=False
+	logz=False
+	logdata=False
+	label_data=False
+	invert_y=False
+	normalize=False
+	norm_to_peak_of_all_data=False
+	subtract_first_point=False
+	add_min=False
+	legend_pos="lower right"
+	ymax=-1
+	ymin=-1
+	x_label=""
+	y_label=""
+	z_label=""
+	data_label=""
+	x_units=""
+	y_units=""
+	z_units=""
+	data_units=""
+	x_mul=1.0
+	y_mul=1.0
+	z_mul=1.0
+	data_mul=1.0
+	key_units=""
+	file0=""
+	tag0=""
+	file1=""
+	tag1=""
+	file2=""
+	tag2=""
+	example_file0=""
+	example_file1=""
+	example_file2=""
+	time=0.0
+	Vexternal=0.0
+	file_name=""
+	other_file=""
+	title=""
+	type="xy"
+	section_one=""
+	section_two=""
 
-	def refresh(self):
-		try:
-			for i in self.menu.get_children():
-				self.menu.remove(i)
-		except:
-			pass
-
-		self.list=[]
-		files=[]
-		for my_file in glob.glob(os.path.join(self.base_dir,"*.oplot")):
-			files.append(my_file)
-
-		sorted(files)
-		for i in range(0,len(files)):
-			self.append(files[i])
-
-	def init(self,search_path,callback):
-
-		self.base_dir=search_path
-		self.callback=callback
-
-		self.refresh()
-
-	def append(self,file_name):
-		plot_token=dat_file()
-		if plot_load_info(plot_token,file_name)==True:
-			menu_item = gtk.MenuItem(os.path.basename(file_name).split(".")[0])
-			self.menu.append(menu_item)
-			self.list.append(plot_token)
-			menu_item.connect("activate", self.callback,self.list[len(self.list)-1])
-			menu_item.show()
-
-
-
+	x_start=0
+	x_stop=1
+	x_points=25
+	y_start=0
+	y_stop=1
+	y_points=25
+	x_len=0
+	y_len=0
+	z_len=0
+	
+	x_scale=[]
+	y_scale=[]
+	z_scale=[]
+	data=[]

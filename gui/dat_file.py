@@ -1,6 +1,6 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
 #	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -25,65 +25,75 @@ import re
 import hashlib
 import glob
 from util_zip import zip_get_data_file
+from dat_file_class import dat_file
 
-class dat_file():
-	x_len=0
-	y_len=0
-	z_len=0
-	x_scale=[]
-	y_scale=[]
-	z_scale=[]
-	data=[]
-
-
-def dat_file_max_min(my_data):
-	my_max=False
-	my_min=False
-	
-	if my_data.x_len>0 and my_data.y_len>0 and my_data.z_len>0:
-		my_max=my_data.data[0][0][0]
-		my_min=my_data.data[0][0][0]
-
-		for z in range(0,my_data.z_len):
-			for x in range(0,my_data.x_len):
-				for y in range(0,my_data.y_len):
-					
-					if my_data.data[z][x][y]>my_max:
-						my_max=my_data.data[z][x][y]
-
-					if my_data.data[z][x][y]<my_min:
-						my_min=my_data.data[z][x][y]
-
-	return [my_max,my_min]
 
 #search first 40 lines for dims
-def find_dim(lines):
-	x_len=-1
-	y_len=-1
-	z_len=-1
+def dat_file_load_info(output,lines):
+	if len(lines)>1:
+		if lines[0]=="#gpvdm":
+			max_lines=len(lines)
+			if max_lines>40:
+				max_lines=40
 
-	my_max=len(lines)
-	if my_max>40:
-		my_max=40
-		
-	for i in range(0, my_max):
-		temp=lines[i]
-		temp=re.sub(' +',' ',temp)
-		temp=re.sub('\t',' ',temp)
-		s=lines[i].split(" ")
+			for i in range(0, max_lines):
+				if (len(lines[i])>0):
+					if (lines[i][0]!="#"):
+						break
+					else:
+						command=lines[i].split(" ",1)
+						if len(command)<2:
+							command.append("")
+						if (command[0]=="#x_mul"):
+							output.x_mul=float(command[1])
+						if (command[0]=="#y_mul"):
+							output.y_mul=float(command[1])
+						if (command[0]=="#z_mul"):
+							output.z_mul=float(command[1])
+						if (command[0]=="#x_label"):
+							output.x_label=command[1]
+						if (command[0]=="#y_label"):
+							output.y_label=command[1]
+						if (command[0]=="#z_label"):
+							output.z_label=command[1]
+						if (command[0]=="#data_label"):
+							output.data_label=command[1]
+						if (command[0]=="#x_units"):
+							output.x_units=command[1]
+						if (command[0]=="#y_units"):
+							output.y_units=command[1]
+						if (command[0]=="#z_units"):
+							output.z_units=command[1]
+						if (command[0]=="#data_units"):
+							output.data_units=command[1]
+						if (command[0]=="#logscale_x"):
+							output.logx=bool(int(command[1]))
+						if (command[0]=="#logscale_y"):
+							output.logy=bool(int(command[1]))
+						if (command[0]=="#logscale_z"):
+							output.logz=bool(int(command[1]))
+						if (command[0]=="#type"):
+							output.type=command[1]
+						if (command[0]=="#title"):
+							output.title=command[1]
+						if (command[0]=="#section_one"):
+							output.section_one=command[1]
+						if (command[0]=="#section_two"):
+							output.section_two=command[1]
+						if (command[0]=="#time"):
+							output.time=float(command[1])
+						if (command[0]=="#Vexternal"):
+							output.Vexternal=float(command[1])
+						if (command[0]=="#x"):
+							output.x_len=int(command[1])
+						if (command[0]=="#y"):
+							output.y_len=int(command[1])
+						if (command[0]=="#z"):
+							output.z_len=int(command[1])
 
-		if s[0]=="#x":
-			x_len=int(s[1])
+			return True
 
-		if s[0]=="#y":
-			y_len=int(s[1])
-
-		if s[0]=="#z":
-			z_len=int(s[1])
-
-		if x_len!=-1 and y_len!=-1 and z_len!=-1:
-			return x_len,y_len,z_len
-	return False,False,False
+	return False
 
 def guess_dim(lines):
 	x=0
@@ -126,8 +136,9 @@ def is_number(data_in):
 
 	return False
 
-def dat_file_read(out,file_name):
-
+def dat_file_read(out,file_name,guess=True):
+	out.valid_data=False
+	
 	if file_name==None:
 		return False
 	
@@ -139,14 +150,15 @@ def dat_file_read(out,file_name):
 	out.y_scale=[]
 	out.z_scale=[]
 	out.data=[]
-	
 
-	out.x_len, out.y_len, out.z_len = find_dim(lines)
+	if dat_file_load_info(out,lines)==False:
+		if guess==True:
+			out.x_len, out.y_len, out.z_len = guess_dim(lines)
+		else:
+			return False
 
-	if out.x_len==False:
-		out.x_len, out.y_len, out.z_len = guess_dim(lines)
 		if out.x_len==False:
-			#print(file_name)
+			print("No idea what to do with this file!")
 			return False
 
 	out.data=[[[0.0 for k in range(out.y_len)] for j in range(out.x_len)] for i in range(out.z_len)]
@@ -178,6 +190,10 @@ def dat_file_read(out,file_name):
 				break
 
 			if data_started==True:
+				if temp.count("nan")>0:
+					#print("Warning nan found in data file",file_name)
+					return False
+
 				line_found=False
 				if len(s)==4:
 					line_found=True
@@ -229,6 +245,8 @@ def dat_file_read(out,file_name):
 
 	if data_started==False:
 		return False
+
+	out.valid_data=True
 	return True
 			
 

@@ -511,7 +511,10 @@ class gpvdm_main_window(QMainWindow):
 
 	def callback_youtube(self):
 		webbrowser.open("https://www.youtube.com/channel/UCbm_0AKX1SpbMMT7jilxFfA")
-		
+
+	def callback_cite(self):
+		webbrowser.open("https://gpvdm.com/how_to_cite.html")
+
 	def callback_new_window(self, widget, data=None):
 		if self.window2.isVisible()==True:
 			self.window2.hide()
@@ -778,6 +781,9 @@ class gpvdm_main_window(QMainWindow):
 
 		help_web=help_menu.addAction("&"+_("Youtube channel"))
 		help_web.triggered.connect(self.callback_youtube)
+
+		help_web=help_menu.addAction("&"+_("Citing the model"))
+		help_web.triggered.connect(self.callback_cite)
 
 		help_menu.addSeparator()	
 

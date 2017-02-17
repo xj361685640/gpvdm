@@ -1,6 +1,6 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012-2016 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012-2016 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
 #	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -48,6 +48,7 @@ from plot_widget import plot_widget
 from gui_util import error_dlg
 from fx_selector import fx_selector
 
+from server import server_get
 
 def find_models():
 	ret=[]
@@ -294,15 +295,21 @@ class class_optical(QWidget):
 
 
 	def callback_run(self):
+		self.my_server=server_get()
 		dump_optics=inp_get_token_value("dump.inp", "#dump_optics")
 		dump_optics_verbose=inp_get_token_value("dump.inp", "#dump_optics_verbose")
 
 		inp_update_token_value("dump.inp", "#dump_optics","true",1)
 		inp_update_token_value("dump.inp", "#dump_optics_verbose","true",1)
+
 		cmd = get_exe_command()+' --simmode opticalmodel@optics'
 		print(cmd)
 		ret= os.system(cmd)
 
+		#self.my_server.clear_cache()
+		#self.my_server.add_job(os.getcwd(),"--simmode opticalmodel@optics")
+		#self.my_server.start()
+		
 		inp_update_token_value("dump.inp", "#dump_optics",dump_optics,1)
 		inp_update_token_value("dump.inp", "#dump_optics_verbose",dump_optics_verbose,1)
 		

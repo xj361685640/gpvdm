@@ -25,7 +25,7 @@
 import os
 #from global_objects import global_object_get
 from plot_io import get_plot_file_info
-from plot_state import plot_state
+from dat_file_class import dat_file
 
 #qt
 from PyQt5.QtGui import QIcon
@@ -208,13 +208,13 @@ class gpvdm_open():
 			full_path=os.path.join(self.dir, file_name)
 
 			if (file_name.endswith(".dat")==True):
-				state=plot_state()
+				state=dat_file()
 				get_plot_file_info(state,full_path)
 				summary="<big><b>"+file_name+"</b></big><br><br>"+_("title")+": "+state.title+"<br>"+_("x axis")+": "+state.x_label+" ("+latex_to_html(state.x_units)+")<br>"+_("y axis")+": "+state.data_label+" ("+latex_to_html(state.data_units)+")<br><br><big><b>"+_("Double click to open")+"</b></big>"
 				help_window().help_set_help(["dat_file.png",summary])
 
 			if file_name.endswith("equilibrium"):
-				state=plot_state()
+				state=dat_file()
 				get_plot_file_info(state,full_path)
 				summary="<big><b>"+_("equilibrium")+"</b></big><br><br>"+_("This contains the simulation output at 0V in the dark.")
 				help_window().help_set_help(["dir_file.png",summary])

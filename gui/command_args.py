@@ -39,7 +39,7 @@ from scan_tree import tree_gen
 
 from server import server
 from cal_path import get_exe_command
-from plot_state import plot_state
+from dat_file_class import dat_file
 from plot_io import plot_load_info
 from scan_plot import scan_gen_plot_data
 from server_io import server_find_simulations_to_run
@@ -128,7 +128,7 @@ def command_args(argc,argv):
 		elif args.load:
 			print("Loading file",args.load[0])
 		elif args.scanplot:
-			plot_token=plot_state()
+			plot_token=dat_file()
 			oplot_file=args.scan-plot[0]
 			if plot_load_info(plot_token,oplot_file)==True:
 				print("file0=",plot_token.file0,"<")
