@@ -60,8 +60,9 @@ if (stat(out_dir, &st) == -1)
 	malloc_3d_gdouble(in, &temp_3d);
 	buffer_malloc(&buf);
 	sprintf(name,"%s","Jn_drift.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,"%s - %s",_("Drift current density"),_("Position"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -88,8 +89,9 @@ if (stat(out_dir, &st) == -1)
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","Jn_diffusion.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,"%s - %s",_("Diffusion current density"),_("position"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -116,8 +118,9 @@ if (stat(out_dir, &st) == -1)
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","Jp_drift.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,"%s - %s",_("Drift current density"),_("position"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -144,8 +147,9 @@ if (stat(out_dir, &st) == -1)
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","Jp_diffusion.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,"%s - %s",_("Diffusion current density"),_("Position"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -172,8 +176,9 @@ if (stat(out_dir, &st) == -1)
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","Ec.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,"%s - %s",_("LUMO"),_("position"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -200,8 +205,9 @@ if (stat(out_dir, &st) == -1)
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","Ev.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,"%s - %s",_("HOMO"),_("Position"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -228,8 +234,9 @@ if (stat(out_dir, &st) == -1)
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","Tl.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,"%s - %s",_("Lattice temperature"),_("Position"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -256,8 +263,9 @@ if (stat(out_dir, &st) == -1)
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","Te.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,"%s - %s",_("Electron temperature"),_("Position"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -284,8 +292,9 @@ if (stat(out_dir, &st) == -1)
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","Th.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,"%s - %s",_("Hole temperature"),_("position"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -312,8 +321,9 @@ if (stat(out_dir, &st) == -1)
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","Nad.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,"%s - %s",_("Doping"),_("Position"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -340,8 +350,9 @@ if (stat(out_dir, &st) == -1)
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","Eg.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,"%s - %s",_("Band gap"),_("Position"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -368,8 +379,9 @@ if (stat(out_dir, &st) == -1)
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","Fn.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,"%s - %s",_("Electron quasi Fermi-level"),_("position"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -396,8 +408,9 @@ if (stat(out_dir, &st) == -1)
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","Fp.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,"%s - %s",_("Hole quasi Fermi-level"),_("position"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -425,8 +438,9 @@ if (stat(out_dir, &st) == -1)
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","phi.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,"%s - %s",_("Position"),_("Potential"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -453,8 +467,9 @@ if (stat(out_dir, &st) == -1)
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","dphi.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	strcpy(buf.title,_("Potential"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -486,8 +501,9 @@ if (stat(out_dir, &st) == -1)
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","Jn.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,"%s - %s",_("Current density"),_("Position"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -515,8 +531,9 @@ if (stat(out_dir, &st) == -1)
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","Jp.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,"%s - %s",_("Current density"),_("Position"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -543,8 +560,9 @@ if (stat(out_dir, &st) == -1)
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","Jn_x.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,"%s - %s",_("Electron current density x"),_("Position"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -572,8 +590,9 @@ if (stat(out_dir, &st) == -1)
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","Jp_x.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,"%s - %s",_("Electron current density x"),_("Position"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -600,8 +619,9 @@ if (stat(out_dir, &st) == -1)
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","Jn_plus_Jp.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,"%s - %s",_("Total current density (Jn+Jp)"),_("Position"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -635,8 +655,9 @@ if (stat(out_dir, &st) == -1)
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","Jp_drift_plus_diffusion.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,"%s - %s",_("Total current density (Jn+Jp)"),_("Position"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -668,8 +689,9 @@ if (stat(out_dir, &st) == -1)
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","Fi.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,"%s - %s",_("Equlibrium Fermi-level"),_("Position"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -696,8 +718,9 @@ if (stat(out_dir, &st) == -1)
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","epsilon_r.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,"%s - %s",_("Relative permittivity"),_("Position"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -725,8 +748,9 @@ if (stat(out_dir, &st) == -1)
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","mu_n.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,"%s - %s",_("Electron mobility"),_("Position"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -753,8 +777,9 @@ if (stat(out_dir, &st) == -1)
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","mu_p.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,"%s - %s",_("Hole mobility"),_("Position"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -781,8 +806,9 @@ if (stat(out_dir, &st) == -1)
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","mu_n_ft.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,"%s","%s mu0*nf/nall",_("Average electron mobility"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -818,8 +844,9 @@ if (stat(out_dir, &st) == -1)
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","mu_p_ft.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,"%s mu0*nf/nall",_("Average electron mobility"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -851,8 +878,9 @@ if (stat(out_dir, &st) == -1)
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","nf.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,"%s - %s",_("Free electron carrier density"),_("Position"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -879,8 +907,9 @@ if (stat(out_dir, &st) == -1)
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","pf.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,"%s - %s",_("Free hole carrier density"),_("Position"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -907,8 +936,9 @@ if (stat(out_dir, &st) == -1)
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","nt.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,"%s - %s",_("Trapped electron carrier density"),_("Position"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -935,8 +965,9 @@ if (stat(out_dir, &st) == -1)
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","pt.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,"%s - %s",_("Trapped hole carrier density"),_("Position"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -963,8 +994,9 @@ if (stat(out_dir, &st) == -1)
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","p.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,"%s - %s",_("Total hole density"),_("Position"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -997,8 +1029,9 @@ if (stat(out_dir, &st) == -1)
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","n.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,"%s - %s",_("Total electron density"),_("Position"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -1030,8 +1063,9 @@ if (stat(out_dir, &st) == -1)
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","dn.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,_("Change in electron population"),_("Position"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -1065,8 +1099,9 @@ if (stat(out_dir, &st) == -1)
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","charge.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,"%s - %s",_("Total charge"),_("Position"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -1100,8 +1135,9 @@ if (stat(out_dir, &st) == -1)
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","dcharge.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,"%s - %s",_("Change in total charge"),_("Position"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -1141,8 +1177,9 @@ if (stat(out_dir, &st) == -1)
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","dp.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,"%s - %s",_("Change in hole population"),_("Position"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -1177,8 +1214,9 @@ if (stat(out_dir, &st) == -1)
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","dnt.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,"%s - %s",_("Excess electron density"),_("Position"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -1210,8 +1248,9 @@ if (stat(out_dir, &st) == -1)
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","dpt.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,"%s - %s",_("Excess hole density"),_("Position"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -1243,8 +1282,9 @@ if (stat(out_dir, &st) == -1)
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","Gn.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,"%s - %s",_("Free electron generation rate"),_("Position"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -1271,8 +1311,9 @@ if (stat(out_dir, &st) == -1)
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","Gp.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,"%s - %s",_("Free hole generation rate"),_("Position"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -1300,8 +1341,9 @@ if (stat(out_dir, &st) == -1)
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","Rn.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,"%s - %s",_("Electron recombination rate"),_("Position"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -1328,8 +1370,9 @@ if (stat(out_dir, &st) == -1)
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","Rp.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,"%s - %s",_("Hole recombination rate"),_("Position"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -1357,8 +1400,9 @@ if (stat(out_dir, &st) == -1)
 /*
 	buffer_malloc(&buf);
 	sprintf(name,"%s","fsrhn.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,"%s - %s",_("Trap fermi level"),_("Position"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -1397,8 +1441,9 @@ if (stat(out_dir, &st) == -1)
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","fsrhh.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,"%s - %s",_("Trap fermi level"),_("Position"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -1437,8 +1482,9 @@ if (stat(out_dir, &st) == -1)
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","imat.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,"%s - %s",_("Material number"),_("Position"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -1470,8 +1516,9 @@ if (stat(out_dir, &st) == -1)
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","Efield.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,"%s - %s",_("Material number"),_("Position"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -1507,8 +1554,9 @@ if (stat(out_dir, &st) == -1)
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","pf_to_nt.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,"%s - %s",_("Free hole to trapped electron"),_("Position"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -1536,8 +1584,9 @@ if (stat(out_dir, &st) == -1)
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","nf_to_pt.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,"%s - %s",_("Free electron to trapped hole"),_("Position"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -1564,8 +1613,9 @@ if (stat(out_dir, &st) == -1)
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","prelax.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,"%s - %s",_("Hole relaxation rate"),_("position"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));
@@ -1592,8 +1642,9 @@ if (stat(out_dir, &st) == -1)
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","nrelax.dat");
-	buf.y_mul=1.0;
+	buf.y_mul=1e9;
 	buf.x_mul=1e9;
+	buf.z_mul=1e9;
 	sprintf(buf.title,"%s - %s",_("Electron relaxation rate"),_("Position"));
 	buffer_set_graph_type(&buf,in);
 	strcpy(buf.x_label,_("x-position"));

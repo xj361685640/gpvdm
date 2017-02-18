@@ -161,6 +161,9 @@ class plot_widget(QWidget):
 				dim="wireframe"
 			if self.data[0].type=="heat":
 				dim="heat"
+		elif self.data[0].x_len>1 and self.data[0].y_len>1 and self.data[0].z_len>1:
+			print("ohhh full 3D")
+			dim="3d"
 		else:
 			print("I don't know how to process this type of file!",self.data[0].x_len, self.data[0].y_len,self.data[0].z_len)
 			return
@@ -183,6 +186,8 @@ class plot_widget(QWidget):
 				self.ax.append(self.fig.add_subplot(111,axisbg='white' ,projection='3d'))
 			elif dim=="heat":
 				self.ax.append(self.fig.add_subplot(111,axisbg='white'))
+			elif dim=="3d":
+				self.ax.append(self.fig.add_subplot(111,axisbg='white' ,projection='3d'))
 			#Only place label on bottom plot
 			#	if self.data[i].type=="3d":
 			#else:
@@ -258,11 +263,23 @@ class plot_widget(QWidget):
 				#self.ax[0].plot_surface(x, y, z, rstride=1, cstride=1, cmap=cm.coolwarm,linewidth=0, antialiased=False)
 				#self.ax[0].invert_yaxis()
 				#self.ax[0].xaxis.tick_top()
+		elif dim=="3d":
+			for ii in range(0,len(self.data[i].z_scale)):
+				my_max,my_min=dat_file_max_min(self.data[i])
+				X, Y = meshgrid( self.data[i].x_scale,self.data[i].y_scale)
+				new_data=[[float for y in range(self.data[0].y_len)] for x in range(self.data[0].x_len)]
+				for x in range(0,self.data[i].x_len):
+					for y in range(0,self.data[i].y_len):
+						new_data[x][y]=self.data[i].z_scale[ii]+self.data[i].data[ii][x][y]
+				self.ax[i].contourf(X, Y, new_data, zdir='z')#
 
+				self.ax[i].set_xlim3d(0, self.data[i].x_scale[-1])
+				self.ax[i].set_ylim3d(0, self.data[i].y_scale[-1])
+				self.ax[i].set_zlim3d(0, self.data[i].z_scale[-1])
 
 		#setup the key
 		if self.data[0].legend_pos=="No key":
-			self.ax[plot_number].legend_ = None
+			self.ax[i].legend_ = None
 		else:
 			self.fig.legend(all_plots, files, self.data[0].legend_pos)
 			

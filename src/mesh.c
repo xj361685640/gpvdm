@@ -236,7 +236,7 @@ void mesh_build(struct simulation *sim,struct device *in)
 		for (ii=0;ii<in->meshdata_z[i].number;ii++)
 		{
 			dpos+=in->meshdata_z[i].den/2.0;
-			in->ymesh[pos]=dpos;
+			in->zmesh[pos]=dpos;
 			dpos+=in->meshdata_z[i].den/2.0;
 			pos++;
 		}

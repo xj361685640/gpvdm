@@ -229,6 +229,15 @@ def dat_file_read(out,file_name,guess=True):
 						if z==0 and y==0:
 							out.x_scale[x]=float(a0)
 
+					if len(s)==4:
+						if x==0 and z==0:
+							out.y_scale[y]=float(a1)
+							
+						if z==0 and y==0:
+							out.x_scale[x]=float(a0)
+
+						if x==0 and y==0:
+							out.z_scale[z]=float(a2)
 					#if z==y:
 					#	out.z_scale[y]=float(a0)
 

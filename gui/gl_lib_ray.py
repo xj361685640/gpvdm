@@ -35,6 +35,7 @@ from math import fabs
 from lines import lines_read
 from util import wavelength_to_rgb
 from epitaxy import epitaxy_get_device_start
+from util import isnumber
 
 class fast_data():
 	date=0
@@ -90,7 +91,12 @@ def draw_rays(ray_file,top,width,y_mul,w):
 			std=d.std
 			
 			glLineWidth(2)
-			wavelength=float(tail[10:-4])
+			num=tail[10:-4]
+			if isnumber(num)==False:
+				print("not a number")
+				return
+
+			wavelength=float(num)
 			r,g,b=wavelength_to_rgb(wavelength)
 
 			glColor4f(r, g, b,0.5)
