@@ -160,7 +160,7 @@ randomprint(&sim,_("along with this software.  If not, see www.gnu.org/licenses/
 randomprint(&sim,"\n");
 randomprint(&sim,_("If you wish to collaborate in anyway please get in touch:\n"));
 randomprint(&sim,"roderick.mackenzie@nottingham.ac.uk\n");
-randomprint(&sim,"www.roderickmackenzie.eu/contact.html\n");
+randomprint(&sim,"www.rodmack.com/contact.html\n");
 randomprint(&sim,"\n");
 
 sim.server.on=FALSE;

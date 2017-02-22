@@ -264,6 +264,10 @@ class plot_widget(QWidget):
 				#self.ax[0].invert_yaxis()
 				#self.ax[0].xaxis.tick_top()
 		elif dim=="3d":
+			self.ax[0].set_xlabel(self.data[0].x_label+" ("+self.data[0].x_units+")")
+			self.ax[0].set_ylabel(self.data[0].y_label+" ("+self.data[0].y_units+")")
+			self.ax[0].set_zlabel(self.data[0].z_label+" ("+self.data[0].z_units+")")
+
 			for ii in range(0,len(self.data[i].z_scale)):
 				my_max,my_min=dat_file_max_min(self.data[i])
 				X, Y = meshgrid( self.data[i].x_scale,self.data[i].y_scale)

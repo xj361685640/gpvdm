@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.80\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2017-02-18 21:32+0000\n"
+"POT-Creation-Date: 2017-02-22 17:07+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -564,7 +564,7 @@ msgstr ""
 msgid "Save graph"
 msgstr ""
 
-#: ../gui/qe.py:120 ../gui/gpvdm.py:749 ../gui/optics.py:130
+#: ../gui/qe.py:120 ../gui/optics.py:130
 msgid "Run"
 msgstr ""
 
@@ -600,8 +600,8 @@ msgstr ""
 
 #: ../gui/fit_configure_window.py:72 ../gui/experiment.py:201
 #: ../gui/experiment.py:202 ../gui/config_window.py:68
-#: ../gui/config_window.py:69 ../gui/materials_main.py:97 ../gui/gpvdm.py:771
-#: ../gui/gpvdm.py:890 ../gui/emesh.py:168 ../gui/scan.py:318
+#: ../gui/config_window.py:69 ../gui/materials_main.py:97 ../gui/gpvdm.py:723
+#: ../gui/emesh.py:168 ../gui/ribbon.py:88 ../gui/scan.py:318
 #: ../gui/scan.py:319 ../gui/cost.py:92 ../gui/fxexperiment.py:195
 #: ../gui/fxexperiment.py:196 ../gui/fit_window.py:244 ../gui/fit_window.py:245
 #: ../gui/ref.py:104 ../gui/ref.py:105 ../gui/lasers.py:201
@@ -911,7 +911,7 @@ msgstr ""
 msgid "Problem generating tree."
 msgstr ""
 
-#: ../gui/scan_tab.py:405 ../gui/gpvdm.py:726 ../gui/fxexperiment.py:176
+#: ../gui/scan_tab.py:405 ../gui/gpvdm.py:701 ../gui/fxexperiment.py:176
 #: ../gui/fit_window.py:225 ../gui/fit_vars.py:95 ../gui/fit_vars.py:156
 #: ../gui/optics.py:117 ../gui/fit_patch.py:124
 msgid "File"
@@ -933,7 +933,7 @@ msgstr ""
 msgid "Opperation"
 msgstr ""
 
-#: ../gui/scan_tab.py:484 ../gui/gpvdm.py:540
+#: ../gui/scan_tab.py:484 ../gui/gpvdm.py:532
 msgid ""
 "Re-run the simulation with 'dump all slices' set to one to use this tool."
 msgstr ""
@@ -950,15 +950,15 @@ msgstr ""
 msgid "Run simulation"
 msgstr ""
 
-#: ../gui/scan_tab.py:531 ../gui/gpvdm.py:828 ../gui/fit_window.py:291
+#: ../gui/scan_tab.py:531 ../gui/fit_window.py:291
 msgid "Stop the simulation"
 msgstr ""
 
-#: ../gui/scan_tab.py:535 ../gui/gpvdm.py:852
+#: ../gui/scan_tab.py:535
 msgid "Find a file to plot"
 msgstr ""
 
-#: ../gui/scan_tab.py:539 ../gui/gpvdm.py:856
+#: ../gui/scan_tab.py:539 ../gui/ribbon.py:143
 msgid "Examine results in time domain"
 msgstr ""
 
@@ -1301,7 +1301,7 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: ../gui/config_window.py:55 ../gui/gpvdm.py:758 ../gui/fit_window.py:277
+#: ../gui/config_window.py:55 ../gui/gpvdm.py:719 ../gui/fit_window.py:277
 msgid "Configure"
 msgstr ""
 
@@ -1380,69 +1380,69 @@ msgstr ""
 msgid "Cost of material"
 msgstr ""
 
-#: ../gui/gpvdm.py:146
+#: ../gui/gpvdm.py:144
 msgid "Don't run me as root!!"
 msgstr ""
 
-#: ../gui/gpvdm.py:237
+#: ../gui/gpvdm.py:235
 msgid ""
 "<big><b>Fit window</b></big><br> Use this window to fit the simulation to "
 "experimental data."
 msgstr ""
 
-#: ../gui/gpvdm.py:245
+#: ../gui/gpvdm.py:243
 msgid ""
 "<big><b>The scan window</b></big><br> Very often it is useful to be able to "
 "systematically very a device parameter such as mobility or density of trap "
 "states.  This window allows you to do just that."
 msgstr ""
 
-#: ../gui/gpvdm.py:245
+#: ../gui/gpvdm.py:243
 msgid "Use the plus icon to add a new scan line to the list."
 msgstr ""
 
-#: ../gui/gpvdm.py:269
+#: ../gui/gpvdm.py:267
 msgid ""
 "<big>Select a file to plot</big><br>Single clicking shows you the content of "
 "the file"
 msgstr ""
 
-#: ../gui/gpvdm.py:311
+#: ../gui/gpvdm.py:309
 msgid "Import an old gpvdm simulation"
 msgstr ""
 
-#: ../gui/gpvdm.py:328
+#: ../gui/gpvdm.py:326
 msgid "file opened"
 msgstr ""
 
-#: ../gui/gpvdm.py:334
+#: ../gui/gpvdm.py:332
 msgid ""
 "<big><b>New simulation!</b></big><br> Now selected the type of device you "
 "would like to simulate."
 msgstr ""
 
-#: ../gui/gpvdm.py:372
+#: ../gui/gpvdm.py:370
 msgid ""
 "<big><b>Now run the simulation</b></big><br> Click on the play icon to start "
 "a simulation."
 msgstr ""
 
-#: ../gui/gpvdm.py:403
+#: ../gui/gpvdm.py:398
 msgid ""
 "<big><b>Hi!</b></big><br> I'm the on-line help system :).  If you find any "
 "bugs please report them to <a href=\"mailto:roderick.mackenzie@nottingham.ac."
 "uk\">roderick.mackenzie@nottingham.ac.uk</a>."
 msgstr ""
 
-#: ../gui/gpvdm.py:403
+#: ../gui/gpvdm.py:398
 msgid "Click on the new icon to make a new simulation directory."
 msgstr ""
 
-#: ../gui/gpvdm.py:476
+#: ../gui/gpvdm.py:468
 msgid "Open an existing gpvdm simulation"
 msgstr ""
 
-#: ../gui/gpvdm.py:530
+#: ../gui/gpvdm.py:522
 msgid ""
 "<big><b>Examine the results in time domain</b></big><br> After you have run "
 "a simulation in time domain, if is often nice to be able to step through the "
@@ -1451,7 +1451,7 @@ msgid ""
 "curve, the slider sill step through voltage points rather than time points."
 msgstr ""
 
-#: ../gui/gpvdm.py:553
+#: ../gui/gpvdm.py:545
 msgid ""
 "<big><b>The time mesh editor</b></big><br> To do time domain simulations one "
 "must define how voltage the light vary as a function of time.  This can be "
@@ -1459,7 +1459,7 @@ msgid ""
 "and time step."
 msgstr ""
 
-#: ../gui/gpvdm.py:566
+#: ../gui/gpvdm.py:558
 msgid ""
 "<big><b>Frequency domain mesh editor</b></big><br> Some times it is useful "
 "to do frequency domain simulations such as when simulating impedance "
@@ -1467,146 +1467,70 @@ msgid ""
 "be simulated."
 msgstr ""
 
-#: ../gui/gpvdm.py:577
+#: ../gui/gpvdm.py:569
 msgid ""
 "<big><b>Laser setup</b></big><br> Use this window to set up your lasers."
 msgstr ""
 
-#: ../gui/gpvdm.py:588
+#: ../gui/gpvdm.py:580
 msgid ""
 "<big><b>JV simulation editor</b></big><br> Use this window to select the "
 "step size and parameters of the JV simulations."
 msgstr ""
 
-#: ../gui/gpvdm.py:601
+#: ../gui/gpvdm.py:593
 msgid ""
 "<big><b>Configuration editor</b></big><br> Use this window to control "
 "advanced simulation parameters."
 msgstr ""
 
-#: ../gui/gpvdm.py:626
-msgid "Quantum efficiency"
-msgstr ""
-
-#: ../gui/gpvdm.py:727 ../gui/scan.py:328
-msgid "New simulation"
-msgstr ""
-
-#: ../gui/gpvdm.py:730
+#: ../gui/gpvdm.py:703
 msgid "New optical material"
 msgstr ""
 
-#: ../gui/gpvdm.py:732
-msgid "Open simulation"
-msgstr ""
-
-#: ../gui/gpvdm.py:735
+#: ../gui/gpvdm.py:705
 msgid "Export data"
 msgstr ""
 
-#: ../gui/gpvdm.py:738 ../gui/fit_window_plot_real.py:126
+#: ../gui/gpvdm.py:708 ../gui/fit_window_plot_real.py:126
 #: ../gui/import_data.py:233
 msgid "Import data"
 msgstr ""
 
-#: ../gui/gpvdm.py:741
+#: ../gui/gpvdm.py:711
 msgid "Import from library"
 msgstr ""
 
-#: ../gui/gpvdm.py:744
+#: ../gui/gpvdm.py:714
 msgid "Quit"
 msgstr ""
 
-#: ../gui/gpvdm.py:747
+#: ../gui/gpvdm.py:717
 msgid "Simulation"
 msgstr ""
 
-#: ../gui/gpvdm.py:752 ../gui/hpc.py:305 ../gui/doping.py:119
-msgid "Stop"
-msgstr ""
-
-#: ../gui/gpvdm.py:755 ../gui/gpvdm.py:836
-msgid "Parameter scan"
-msgstr ""
-
-#: ../gui/gpvdm.py:762
-msgid "View"
-msgstr ""
-
-#: ../gui/gpvdm.py:763
-msgid "None"
-msgstr ""
-
-#: ../gui/gpvdm.py:766
-msgid "Plot"
-msgstr ""
-
-#: ../gui/gpvdm.py:767
-msgid "Plot simulation result"
-msgstr ""
-
-#: ../gui/gpvdm.py:773
+#: ../gui/gpvdm.py:725
 msgid "Help window"
 msgstr ""
 
-#: ../gui/gpvdm.py:776
+#: ../gui/gpvdm.py:728
 msgid "Manual"
 msgstr ""
 
-#: ../gui/gpvdm.py:779
+#: ../gui/gpvdm.py:731
 msgid "License"
 msgstr ""
 
-#: ../gui/gpvdm.py:782 ../gui/status_icon.py:54
+#: ../gui/gpvdm.py:734 ../gui/status_icon.py:54
 msgid "Youtube channel"
 msgstr ""
 
-#: ../gui/gpvdm.py:785
+#: ../gui/gpvdm.py:737
 msgid "Citing the model"
 msgstr ""
 
-#: ../gui/gpvdm.py:790 ../gui/about.py:48
+#: ../gui/gpvdm.py:742 ../gui/about.py:48
 msgid "About"
-msgstr ""
-
-#: ../gui/gpvdm.py:801
-msgid "Make a new simulation"
-msgstr ""
-
-#: ../gui/gpvdm.py:805
-msgid "Open a simulation"
-msgstr ""
-
-#: ../gui/gpvdm.py:812
-msgid "Undo"
-msgstr ""
-
-#: ../gui/gpvdm.py:819
-msgid "Run the simulation"
-msgstr ""
-
-#: ../gui/gpvdm.py:823
-msgid "Run parameter scan"
-msgstr ""
-
-#: ../gui/gpvdm.py:843
-msgid "Run a fit command"
-msgstr ""
-
-#: ../gui/gpvdm.py:862
-msgid "Time domain simulation editor."
-msgstr ""
-
-#: ../gui/gpvdm.py:867
-msgid "Frequency domain simulation editor"
-msgstr ""
-
-#: ../gui/gpvdm.py:872
-msgid "Steady state simulation editor"
-msgstr ""
-
-#: ../gui/gpvdm.py:876
-msgid "Lasers editor"
 msgstr ""
 
 #: ../gui/tab_homo.py:65
@@ -1821,6 +1745,78 @@ msgstr ""
 msgid "Simulation mode:"
 msgstr ""
 
+#: ../gui/ribbon.py:43
+msgid "Make a new simulation"
+msgstr ""
+
+#: ../gui/ribbon.py:48
+msgid ""
+"Open\n"
+"simulation"
+msgstr ""
+
+#: ../gui/ribbon.py:55
+msgid "Undo"
+msgstr ""
+
+#: ../gui/ribbon.py:60
+msgid ""
+"Run\n"
+"simulation"
+msgstr ""
+
+#: ../gui/ribbon.py:63
+msgid ""
+"Parameter\n"
+"scan"
+msgstr ""
+
+#: ../gui/ribbon.py:68
+msgid ""
+"Stop\n"
+"simulation"
+msgstr ""
+
+#: ../gui/ribbon.py:79
+msgid "Run a fit command"
+msgstr ""
+
+#: ../gui/ribbon.py:99 ../gui/ribbon.py:126
+msgid ""
+"Time domain\n"
+"simulation editor."
+msgstr ""
+
+#: ../gui/ribbon.py:103
+msgid ""
+"Frequency domain\n"
+"simulation editor"
+msgstr ""
+
+#: ../gui/ribbon.py:107
+msgid ""
+"Steady state\n"
+"simulation editor"
+msgstr ""
+
+#: ../gui/ribbon.py:114
+msgid "Quantum efficiency"
+msgstr ""
+
+#: ../gui/ribbon.py:139
+msgid ""
+"Plot\n"
+"File"
+msgstr ""
+
+#: ../gui/ribbon.py:153
+msgid "Optics"
+msgstr ""
+
+#: ../gui/ribbon.py:156
+msgid "Lasers editor"
+msgstr ""
+
 #: ../gui/inp_description.py:38
 msgid "JV"
 msgstr ""
@@ -1975,6 +1971,10 @@ msgstr ""
 
 #: ../gui/scan.py:313
 msgid "Push unconverged to hpc"
+msgstr ""
+
+#: ../gui/scan.py:328
+msgid "New simulation"
 msgstr ""
 
 #: ../gui/scan.py:344
@@ -2229,6 +2229,10 @@ msgstr ""
 
 #: ../gui/hpc.py:300
 msgid "Sync"
+msgstr ""
+
+#: ../gui/hpc.py:305 ../gui/doping.py:119
+msgid "Stop"
 msgstr ""
 
 #: ../gui/hpc.py:311
