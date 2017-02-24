@@ -62,7 +62,7 @@ class information(QScrollArea,tab_base):
 		text=text+"<br><font size=12>(<a href=\"http://www.gpvdm.com\" title=\""
 		text=text+_("Click to find out more")
 		text=text+"\">www.gpvdm.com</a>)<br><br> "
-		text=text+_("To make a new simulation click <i><u>N</u>ew Simulation</i> in the <i><u>F</u>ile</i> menu<br> or to open an existing simulation select <i><u>O</u>pen simulation</i>. ")
+		text=text+_("To make a new simulation click <i><u>N</u>ew Simulation</i> in the menu or to open an existing simulation select <i><u>O</u>pen simulation</i>. ")
 		text=text+"<br> <br> "
 		text=text+_("There is more help on the <a href=\"http://www.gpvdm.com/man/index.html\">man pages</a>.")
 		text=text+"<br><br>"

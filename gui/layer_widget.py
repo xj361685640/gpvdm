@@ -55,7 +55,6 @@ from epitaxy import epitaxy_load_from_arrays
 from epitaxy import epitay_get_next_dos
 
 #windows
-from doping import doping_window
 from gui_util import tab_move_down
 from gui_util import tab_add
 from gui_util import tab_remove
@@ -75,7 +74,7 @@ from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QWidget
 
 from materials_main import materials_main
-from optics import class_optical
+
 
 import i18n
 _ = i18n.language.gettext
@@ -86,31 +85,35 @@ from gpvdm_select import gpvdm_select
 
 from code_ctrl import enable_betafeatures
 
-from cost import cost
 
 class layer_widget(QWidget):
 
+	structure_changed = pyqtSignal()
 	changed = pyqtSignal()
-
+	
 	def combo_changed(self):
 		self.save_model()
 		self.emit_change()
+		self.emit_structure_changed()
 
 	def callback_tab_selection_changed(self):
-		self.tab_changed(0,0)
+		#self.tab_changed(0,0)
+		self.emit_change()
 
 	def tab_changed(self, x,y):
 		self.save_model()
-		self.emit_change()
+		self.emit_structure_changed()
 		
 	def emit_change(self):
-		if self.optics_window!=False:
-			if self.optics_window.isVisible()==True:
-				self.optics_window.update()
-			
+		#if self.optics_window!=False:
+		#	if self.optics_window.isVisible()==True:
+		#		self.optics_window.update()
 		self.changed.emit()
 		
-
+	def emit_structure_changed(self):		#This will emit when there has been an edit
+		self.structure_changed.emit()
+		print("e")
+		
 	def sync_to_electrical_mesh(self):
 		tot=0
 		for i in range(0,len(self.model)):
@@ -164,41 +167,16 @@ class layer_widget(QWidget):
 			scan_item_add(os.path.join("materials",mat[i],"fit.inp"),"#n_mul","Refractive index spectrum multiplier",1)
 			scan_item_add(os.path.join("materials",mat[i],"fit.inp"),"#alpha_mul","Absorption spectrum multiplier",1)
 
-	def callback_view_materials(self):
-		dialog=gpvdm_open(get_materials_path())
-		dialog.show_inp_files=False
-		ret=dialog.window.exec_()
-
-		if ret==QDialog.Accepted:
-			if os.path.isfile(os.path.join(dialog.get_filename(),"mat.inp"))==True:
-				self.mat_window=materials_main(dialog.get_filename())
-				self.mat_window.show()
-			else:
-				plot_gen([dialog.get_filename()],[],"auto")
-
 	def on_move_down(self):
 		tab_move_down(self.tab)
 		self.save_model()
 		self.emit_change()
 
-	def callback_optics_sim(self, widget, data=None):
-		help_window().help_set_help(["optics.png",_("<big><b>The optical simulation window</b></big><br>Use this window to perform optical simulations.  Click on the play button to run a simulation."),"play.png",_("Click on the play button to run an optical simulation.  The results will be displayed in the tabs to the right.")])
-
-		if self.optics_window==False:
-			self.optics_window=class_optical()
-
-		if self.optics_window.isVisible()==True:
-			self.optics_window.hide()
-		else:
-			self.optics_window.show()
-
 
 	def __init__(self):
 		QWidget.__init__(self)
 		self.rebuild_mat_list()
-		self.doping_window=False
 		self.cost_window=False
-		self.optics_window=False
 
 		self.main_vbox=QVBoxLayout()
 
@@ -217,22 +195,6 @@ class layer_widget(QWidget):
 		self.tb_remove= QAction(QIcon(os.path.join(get_image_file_path(),"down.png")), _("Move device layer"), self)
 		self.tb_remove.triggered.connect(self.on_move_down)
 		self.toolbar.addAction(self.tb_remove)
-
-		self.tb_doping = QAction(QIcon(os.path.join(get_image_file_path(),"doping.png")), _("Doping"), self)
-		self.tb_doping.triggered.connect(self.callback_doping)
-		self.toolbar.addAction(self.tb_doping)
-
-		self.optics_button = QAction(QIcon(os.path.join(get_image_file_path(),"optics.png")), _("Optical simulation"), self)
-		self.optics_button.triggered.connect(self.callback_optics_sim)
-		self.toolbar.addAction(self.optics_button)
-
-		self.tb_open = QAction(QIcon(os.path.join(get_image_file_path(),"organic_material.png")), _("Look at the materials database"), self)
-		self.tb_open.triggered.connect(self.callback_view_materials)
-		self.toolbar.addAction(self.tb_open)
-
-		self.cost = QAction(QIcon(os.path.join(get_image_file_path(),"cost.png")), _("Calculate the cost of the solar cell"), self)
-		self.cost.triggered.connect(self.callback_cost)
-		self.toolbar.addAction(self.cost)
 		
 		self.main_vbox.addWidget(self.toolbar)
 	
@@ -390,28 +352,5 @@ class layer_widget(QWidget):
 		epitaxy_save()
 		self.clean_dos_files()
 		#self.sync_to_electrical_mesh()
-
-	def callback_doping(self):
-		help_window().help_set_help(["doping.png",_("<big><b>Doping window</b></big>\nUse this window to add doping to the simulation")])
-
-		if self.doping_window==False:
-			self.doping_window=doping_window()
-
-		if self.doping_window.isVisible()==True:
-			self.doping_window.hide()
-		else:
-			self.doping_window.show()
-
-	def callback_cost(self):
-		help_window().help_set_help(["cost.png",_("<big><b>Costs window</b></big>\nUse this window to calculate the cost of the solar cell and the energy payback time.")])
-
-		if self.cost_window==False:
-			self.cost_window=cost()
-
-		if self.cost_window.isVisible()==True:
-			self.cost_window.hide()
-		else:
-			self.cost_window.show()
-
 
 

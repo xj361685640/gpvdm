@@ -45,6 +45,7 @@ from code_ctrl import enable_webupdates
 from code_ctrl import enable_betafeatures
 from code_ctrl import code_ctrl_load
 from code_ctrl import enable_webupdates
+from doping import doping_window
 
 #undo
 from undo import undo_list_class
@@ -114,10 +115,11 @@ from cmp_class import cmp_class
 from about import about_dlg
 from dlg_export import dlg_export
 from fit_window import fit_window
-from duplicate import duplicate
 from device_lib import device_lib_class
+from cool_menu import cool_menu
 
 from equation import equation
+from optics import class_optical
 
 #python modules
 import webbrowser
@@ -152,6 +154,10 @@ print(notice())
 
 from PyQt5.QtWidgets import QTabWidget
 from ribbon import ribbon
+
+from cost import cost
+from emesh import tab_electrical_mesh
+from contacts import contacts_window
 
 def set_active_name(combobox, name):
 	liststore = combobox.get_model()
@@ -196,6 +202,17 @@ class gpvdm_main_window(QMainWindow):
 		self.plot_after_run=data.get_active()
 		self.config.set_value("#plot_after_simulation",data.get_active())
 
+	def callback_optics_sim(self, widget, data=None):
+		help_window().help_set_help(["optics.png",_("<big><b>The optical simulation window</b></big><br>Use this window to perform optical simulations.  Click on the play button to run a simulation."),"play.png",_("Click on the play button to run an optical simulation.  The results will be displayed in the tabs to the right.")])
+
+		if self.optics_window==False:
+			self.optics_window=class_optical()
+			self.notebook.changed.connect(self.optics_window.update)
+
+		if self.optics_window.isVisible()==True:
+			self.optics_window.hide()
+		else:
+			self.optics_window.show()
 		
 	def callback_qe_window(self, widget):
 		if self.qe_window==None:
@@ -304,17 +321,6 @@ class gpvdm_main_window(QMainWindow):
 		self.plot_after_run_file=file_to_load
 
 
-	def callback_import(self, widget, data=None):
-		dialog = QFileDialog(self)
-		dialog.setWindowTitle(_("Import an old gpvdm simulation"))
-		dialog.setNameFilter('Simulations - gpvdm (*.gpvdm *.opvdm)')
-		dialog.setFileMode(QFileDialog.ExistingFile)
-		if dialog.exec_() == QDialog.Accepted:
-			filename = dialog.selectedFiles()[0]
-
-			import_archive(filename,os.path.join(os.getcwd(),"sim.gpvdm"),False)
-			self.change_dir_and_refresh_interface(os.getcwd())
-
 	def callback_import_from_lib(self):
 		device_lib=device_lib_class()
 		device_lib.exec_()
@@ -326,6 +332,17 @@ class gpvdm_main_window(QMainWindow):
 			print(_("file opened"),path)
 
 		
+	def callback_view_materials(self):
+		dialog=gpvdm_open(get_materials_path())
+		dialog.show_inp_files=False
+		ret=dialog.window.exec_()
+
+		if ret==QDialog.Accepted:
+			if os.path.isfile(os.path.join(dialog.get_filename(),"mat.inp"))==True:
+				self.mat_window=materials_main(dialog.get_filename())
+				self.mat_window.show()
+			else:
+				plot_gen([dialog.get_filename()],[],"auto")
 
 
 	def callback_new(self):
@@ -352,60 +369,63 @@ class gpvdm_main_window(QMainWindow):
 
 		#self.notebook.set_item_factory(self.item_factory)
 		if self.notebook.load()==True:
-			self.ribbon.simulations_mode.update()
+			self.ribbon.simulations.mode.update()
 			#self.ti_light.connect('refresh', self.notebook.main_tab.update)
-			self.ribbon.home_run.setEnabled(True)
-			self.ribbon.home_stop.setEnabled(True)
-			self.ribbon.plot_time.setEnabled(True)
-			self.ribbon.home_scan.setEnabled(True)
-			self.ribbon.plot_plot.setEnabled(True)
-			self.ribbon.home_undo.setEnabled(True)
-			self.ribbon.simulations_jv.setEnabled(True)
-			self.ribbon.optics_lasers.setEnabled(True)
-			self.ribbon.simulations_time.setEnabled(True)
+			self.ribbon.home.run.setEnabled(True)
+			self.ribbon.home.stop.setEnabled(True)
+			self.ribbon.home.time.setEnabled(True)
+			self.ribbon.home.scan.setEnabled(True)
+			self.ribbon.home.plot.setEnabled(True)
+			self.ribbon.home.undo.setEnabled(True)
+			self.ribbon.simulations.jv.setEnabled(True)
+			self.ribbon.simulations.lasers.setEnabled(True)
+			self.ribbon.simulations.time.setEnabled(True)
 			#self.save_sim.setEnabled(True)
-			self.ribbon.simulations_fx.setEnabled(True)
-			self.ribbon.optics_sun.setEnabled(True)
-			self.ribbon.optics_sun.update()
+			self.ribbon.simulations.fx.setEnabled(True)
+			self.ribbon.simulations.optics.setEnabled(True)
+			self.ribbon.home.sun.setEnabled(True)
+			self.ribbon.home.sun.update()
+			self.ribbon.device.materials.setEnabled(True)
 			help_window().help_set_help(["play.png",_("<big><b>Now run the simulation</b></big><br> Click on the play icon to start a simulation.")])
 
-			self.menu_new_optical_material.setEnabled(True)
-			self.menu_export_data.setEnabled(True)
-			self.menu_import_data.setEnabled(True)
-			self.menu_import_lib.setEnabled(True)
-			self.menu_configure.setEnabled(True)
-			self.ribbon.simulations_mode.setEnabled(True)
-			self.ribbon.configure_dump.setEnabled(True)
+			self.ribbon.home_export.setEnabled(True)
+			#self.menu_import_lib.setEnabled(True)
+			self.ribbon.configure.configwindow.setEnabled(True)
+			self.ribbon.simulations.mode.setEnabled(True)
+			self.ribbon.configure.dump.setEnabled(True)
+			self.ribbon.goto_page(_("Home"))
 			if enable_betafeatures()==True:
-				self.ribbon.home_fit.setEnabled(True)
-				self.ribbon.simulations_qe.setEnabled(True)
+				self.ribbon.home.fit.setEnabled(True)
+				self.ribbon.simulations.qe.setEnabled(True)
+				self.ribbon.simulations.qe.setVisible(True)
 		else:
-			self.ribbon.home_run.setEnabled(False)
-			self.ribbon.home_stop.setEnabled(False)
-			self.ribbon.plot_time.setEnabled(False)
-			self.ribbon.home_scan.setEnabled(False)
-			self.ribbon.plot_plot.setEnabled(False)
-			self.ribbon.home_undo.setEnabled(False)
-			self.ribbon.simulations_jv.setEnabled(False)
+			self.ribbon.home.run.setEnabled(False)
+			self.ribbon.home.stop.setEnabled(False)
+			self.ribbon.home.time.setEnabled(False)
+			self.ribbon.home.scan.setEnabled(False)
+			self.ribbon.home.plot.setEnabled(False)
+			self.ribbon.home.undo.setEnabled(False)
+			self.ribbon.simulations.jv.setEnabled(False)
 			#self.save_sim.setEnabled(False)
-			self.ribbon.simulations_fx.setEnabled(False)
-
-			self.ribbon.optics_lasers.setEnabled(False)
-			self.ribbon.simulations_time.setEnabled(False)
-			self.ribbon.simulations_mode.setEnabled(False)
-			self.ribbon.optics_sun.setEnabled(False)
-
+			self.ribbon.simulations.fx.setEnabled(False)
+			self.ribbon.simulations.optics.setEnabled(False)
+			self.ribbon.simulations.lasers.setEnabled(False)
+			self.ribbon.simulations.time.setEnabled(False)
+			self.ribbon.simulations.mode.setEnabled(False)
+			self.ribbon.home.sun.setEnabled(False)
+			self.ribbon.device.materials.setEnabled(False)
+			self.ribbon.goto_page(_("File"))
 			help_window().help_set_help(["icon.png",_("<big><b>Hi!</b></big><br> I'm the on-line help system :).  If you find any bugs please report them to <a href=\"mailto:roderick.mackenzie@nottingham.ac.uk\">roderick.mackenzie@nottingham.ac.uk</a>."),"new.png",_("Click on the new icon to make a new simulation directory.")])
 			language_advert()
-			self.menu_new_optical_material.setEnabled(False)
-			self.menu_export_data.setEnabled(False)
-			self.menu_import_data.setEnabled(False)
-			self.menu_import_lib.setEnabled(False)
-			self.menu_configure.setEnabled(False)
-			self.ribbon.configure_dump.setEnabled(False)
+
+			self.ribbon.home_export.setEnabled(False)
+			#self.menu_import_lib.setEnabled(False)
+			self.ribbon.configure.configwindow.setEnabled(False)
+			self.ribbon.configure.dump.setEnabled(False)
 			if enable_betafeatures()==True:
-				self.ribbon.home_fit.setEnabled(False)
-				self.simulations_qe.setEnabled(False)
+				self.ribbon.home.fit.setEnabled(False)
+				self.ribbon.simulations.qe.setEnabled(False)
+				self.ribbon.simulations.qe.setVisible(True)
 
 		if self.notebook.terminal!=None:
 			self.my_server.set_terminal(self.notebook.terminal)
@@ -456,7 +476,7 @@ class gpvdm_main_window(QMainWindow):
 			del self.qe_window
 			self.qe_window=None
 
-		self.ribbon.configure_dump.refresh()
+		self.ribbon.configure.dump.refresh()
 
 		#myitem=self.item_factory.get_item("/Plots/One plot window")
 		#myitem.set_active(self.config.get_value("#one_plot_window",False))
@@ -496,6 +516,14 @@ class gpvdm_main_window(QMainWindow):
 		update_now()
 
 	def callback_on_line_help(self):
+		#print("here")
+		#self.a=cool_menu(self.ribbon.home.help.icon())
+		#self.a.show()
+		#self.a.setVisible(True)
+
+		#self.a.setFocusPolicy(Qt.StrongFocus)
+		#self.a.setFocus(True)
+		#self.a.hasFocus()
 		webbrowser.open("https://www.gpvdm.com")
 
 	def callback_license(self):
@@ -540,7 +568,7 @@ class gpvdm_main_window(QMainWindow):
 
 		if self.experiment_window==None:
 			self.experiment_window=experiment()
-			self.experiment_window.changed.connect(self.ribbon.simulations_mode.update)
+			self.experiment_window.changed.connect(self.ribbon.simulations.mode.update)
 			
 		help_window().help_set_help(["time.png",_("<big><b>The time mesh editor</b></big><br> To do time domain simulations one must define how voltage the light vary as a function of time.  This can be done in this window.  Also use this window to define the simulation length and time step.")])
 		if self.experiment_window.isVisible()==True:
@@ -553,7 +581,7 @@ class gpvdm_main_window(QMainWindow):
 
 		if self.fxexperiment_window==None:
 			self.fxexperiment_window=fxexperiment()
-			self.fxexperiment_window.changed.connect(self.ribbon.simulations_mode.update)
+			self.fxexperiment_window.changed.connect(self.ribbon.simulations.mode.update)
 			
 		help_window().help_set_help(["spectrum.png",_("<big><b>Frequency domain mesh editor</b></big><br> Some times it is useful to do frequency domain simulations such as when simulating impedance spectroscopy.  This window will allow you to choose which frequencies will be simulated.")])
 		if self.fxexperiment_window.isVisible()==True:
@@ -588,7 +616,7 @@ class gpvdm_main_window(QMainWindow):
 		if self.config_window==None:
 			self.config_window=class_config_window()
 			self.config_window.init()
-			self.config_window.changed.connect(self.ribbon.configure_dump.refresh)
+			self.config_window.changed.connect(self.ribbon.configure.dump.refresh)
 
 		help_window().help_set_help(["cog.png",_("<big><b>Configuration editor</b></big><br> Use this window to control advanced simulation parameters.")])
 		if self.config_window.isVisible()==True:
@@ -610,12 +638,52 @@ class gpvdm_main_window(QMainWindow):
 			l.pop()
 
 
+	def callback_cost(self):
+		help_window().help_set_help(["cost.png",_("<big><b>Costs window</b></big>\nUse this window to calculate the cost of the solar cell and the energy payback time.")])
+
+		if self.cost_window==False:
+			self.cost_window=cost()
+
+		if self.cost_window.isVisible()==True:
+			self.cost_window.hide()
+		else:
+			self.cost_window.show()
 
 
+	def callback_doping(self):
+		help_window().help_set_help(["doping.png",_("<big><b>Doping window</b></big>\nUse this window to add doping to the simulation")])
 
+		if self.doping_window==False:
+			self.doping_window=doping_window()
+
+		if self.doping_window.isVisible()==True:
+			self.doping_window.hide()
+		else:
+			self.doping_window.show()
+
+	def callback_edit_mesh(self):
+		help_window().help_set_help(["mesh.png",_("<big><b>Mesh editor</b></big>\nUse this window to setup the mesh, the window can also be used to change the dimensionality of the simulation.")])
+
+		if self.electrical_mesh.isVisible()==True:
+			self.electrical_mesh.hide()
+		else:
+			self.electrical_mesh.show()
+
+	def callback_contacts(self):
+		help_window().help_set_help(["contact.png",_("<big><b>Contacts window</b></big>\nUse this window to change the layout of the contacts on the device")])
+
+		if self.contacts_window.isVisible()==True:
+			self.contacts_window.hide()
+		else:
+			self.contacts_window.show()
+			
 	def __init__(self):
+		self.doping_window=False
+		self.optics_window=False
 		self.undo_list=undo_list_class()
 		self.ribbon=ribbon()
+		#self.electrical_mesh.changed.connect(self.recalculate)
+
 		self.notebook_active_page=None
 		super(gpvdm_main_window,self).__init__()
 		self.setGeometry(200, 100, 1300, 600)
@@ -648,6 +716,7 @@ class gpvdm_main_window(QMainWindow):
 
 		self.notebook=gpvdm_notebook()
 		vbox=QVBoxLayout()
+		
 		vbox.addWidget(self.ribbon)
 		vbox.addWidget(self.notebook)
 		wvbox=QWidget()
@@ -695,54 +764,17 @@ class gpvdm_main_window(QMainWindow):
 		self.show_tabs = True
 		self.show_border = True
 
-		menubar = self.menuBar()
+		self.ribbon.home_export.triggered.connect(self.callback_export)
 
+		self.ribbon.information.hints.triggered.connect(self.callback_help)
+		self.ribbon.information.man.triggered.connect(self.callback_on_line_help)
+		self.ribbon.information.license.triggered.connect(self.callback_license)
+		self.ribbon.information.youtube.triggered.connect(self.callback_youtube)
+		self.ribbon.information.ref.triggered.connect(self.callback_cite)
+		self.ribbon.about.pressed.connect(self.callback_about_dialog)
+		self.ribbon.device.doping.triggered.connect(self.callback_doping)
 
-		file_menu = menubar.addMenu("&"+_("File"))
-
-		self.menu_new_optical_material=file_menu.addAction(_("New optical material"))
-
-		self.menu_export_data=file_menu.addAction("&"+_("Export data"))
-		self.menu_export_data.triggered.connect(self.callback_export)
-
-		self.menu_import_data=file_menu.addAction("&"+_("Import data"))
-		self.menu_import_data.triggered.connect(self.callback_import)
-
-		self.menu_import_lib=file_menu.addAction(_("Import from library"))
-		self.menu_import_lib.triggered.connect(self.callback_import_from_lib)
-
-		self.menu_quit=file_menu.addAction("&"+_("Quit"))
-		self.menu_quit.triggered.connect(self.close_now)
-
-		simulation_menu = menubar.addMenu("&"+_("Simulation"))
-
-		self.menu_configure=simulation_menu.addAction("&"+_("Configure"))
-		self.menu_configure.triggered.connect(self.callback_config_window)
-
-
-		help_menu = menubar.addMenu(_("Help"))
-
-		help_web=help_menu.addAction("&"+_("Help window"))
-		help_web.triggered.connect(self.callback_help)
-
-		help_web=help_menu.addAction("&"+_("Manual"))
-		help_web.triggered.connect(self.callback_on_line_help)
-
-		help_web=help_menu.addAction("&"+_("License"))
-		help_web.triggered.connect(self.callback_license)
-
-		help_web=help_menu.addAction("&"+_("Youtube channel"))
-		help_web.triggered.connect(self.callback_youtube)
-
-		help_web=help_menu.addAction("&"+_("Citing the model"))
-		help_web.triggered.connect(self.callback_cite)
-
-		help_menu.addSeparator()	
-
-		about=help_menu.addAction("&"+_("About"))
-		about.triggered.connect(self.callback_about_dialog)
-
-
+		self.ribbon.device.contacts.triggered.connect(self.callback_contacts)
 
 		#if enable_webupdates()==False:
 		#	self.help_menu_update=help_menu.addAction("&"+_("Check for updates"))
@@ -751,36 +783,48 @@ class gpvdm_main_window(QMainWindow):
 
 		self.ribbon.home_new.triggered.connect(self.callback_new)
 		self.ribbon.home_open.triggered.connect(self.callback_open)
-		self.ribbon.home_undo.triggered.connect(self.callback_undo)
-		self.ribbon.home_run.triggered.connect(self.callback_simulate)
+		self.ribbon.home.undo.triggered.connect(self.callback_undo)
+		self.ribbon.home.run.triggered.connect(self.callback_simulate)
 		
-		self.ribbon.home_stop.triggered.connect(self.callback_simulate_stop)
-		self.ribbon.home_stop.setEnabled(False)
+		self.ribbon.home.stop.triggered.connect(self.callback_simulate_stop)
+		self.ribbon.home.stop.setEnabled(False)
 
-		self.ribbon.home_scan.triggered.connect(self.callback_scan)
-		self.ribbon.home_scan.setEnabled(False)
+		self.ribbon.home.scan.triggered.connect(self.callback_scan)
+		self.ribbon.home.scan.setEnabled(False)
 
-
-		if enable_betafeatures()==True:
-			self.ribbon.home_fit.triggered.connect(self.callback_run_fit)
-
-		self.ribbon.plot_plot.triggered.connect(self.callback_plot_select)
-		self.ribbon.plot_time.triggered.connect(self.callback_examine)
-		self.ribbon.simulations_time.triggered.connect(self.callback_edit_experiment_window)
-		self.ribbon.simulations_fx.triggered.connect(self.callback_fxexperiment_window)
-		self.ribbon.simulations_jv.triggered.connect(self.callback_jv_window)
-		self.ribbon.optics_lasers.triggered.connect(self.callback_configure_lasers)
-
-		self.ribbon.home_help.triggered.connect(self.callback_on_line_help)
 
 		if enable_betafeatures()==True:
-			self.ribbon.simulations_qe.triggered.connect(self.callback_qe_window)
+			self.ribbon.home.fit.triggered.connect(self.callback_run_fit)
+
+		self.ribbon.home.plot.triggered.connect(self.callback_plot_select)
+		self.ribbon.home.time.triggered.connect(self.callback_examine)
+		self.ribbon.simulations.time.triggered.connect(self.callback_edit_experiment_window)
+		self.ribbon.simulations.fx.triggered.connect(self.callback_fxexperiment_window)
+		self.ribbon.simulations.jv.triggered.connect(self.callback_jv_window)
+		self.ribbon.simulations.lasers.triggered.connect(self.callback_configure_lasers)
+		self.ribbon.simulations.optics.triggered.connect(self.callback_optics_sim)
+
+		self.ribbon.configure.mesh.triggered.connect(self.callback_edit_mesh)		
+		
+		self.ribbon.device.materials.triggered.connect(self.callback_view_materials)
+
+		self.ribbon.configure.configwindow.triggered.connect(self.callback_config_window)
+		
+		self.ribbon.home.help.triggered.connect(self.callback_on_line_help)
+
+		if enable_betafeatures()==True:
+			self.ribbon.simulations.qe.triggered.connect(self.callback_qe_window)
 	
 		self.win_list.set_window(self,"main_window")
 		resize_window_to_be_sane(self,0.7,0.7)
 
 
 		self.change_dir_and_refresh_interface(os.getcwd())
+		self.electrical_mesh=tab_electrical_mesh()
+
+		self.contacts_window=contacts_window()
+		#self.contacts_window.changed.connect(self.recalculate)
+
 
 #		self.window.show()
 
@@ -789,7 +833,7 @@ class gpvdm_main_window(QMainWindow):
 		self.show()
 
 		
-		self.ribbon.optics_sun.changed.connect(self.notebook.update)
+		self.ribbon.home.sun.changed.connect(self.notebook.update)
 		self.ribbon.setAutoFillBackground(True)
 		self.ribbon.init()
 		

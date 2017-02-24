@@ -35,6 +35,7 @@ device_lib_path=None
 bin_path=None
 lib_path=None
 image_path=None
+css_path=None
 flag_path=None
 lang_path=None
 inp_file_path=None
@@ -130,6 +131,7 @@ def calculate_paths():
 	global device_lib_path
 	global materials_path
 	global image_path
+	global css_path
 	global flag_path	
 	global plugins_path
 	global lang_path
@@ -140,6 +142,7 @@ def calculate_paths():
 	device_lib_path=search_known_paths("device_lib",[""],None)
 	plugins_path=search_known_paths("plugins",[""],None)
 	image_path=search_known_paths("images",[""],"image.jpg")
+	css_path=search_known_paths("css",[""],"style.css")
 	flag_path=search_known_paths("flags",[""],"gb.png")
 	lang_path=search_known_paths("lang",[""],None)
 	exe_command=search_known_paths("gpvdm_core",["",".exe",".o"],None)
@@ -191,6 +194,10 @@ def get_inp_file_path():
 def get_image_file_path():
 	global image_path
 	return image_path
+
+def get_css_path():
+	global css_path
+	return css_path
 
 def get_flag_file_path():
 	global flag_path

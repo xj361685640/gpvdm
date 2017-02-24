@@ -58,6 +58,7 @@ else:
 	from information_noweb import information
 
 from help import help_window
+from PyQt5.QtCore import pyqtSignal
 
 import i18n
 _ = i18n.language.gettext
@@ -68,7 +69,11 @@ class gpvdm_notebook(QTabWidget):
 	finished_loading=False
 	item_factory=None
 	menu_items=[]
+	changed = pyqtSignal()
 
+	def emit_change(self):
+		self.changed.emit()
+		
 	def __init__(self):
 		QWidget.__init__(self)
 		self.terminal=None
@@ -105,6 +110,7 @@ class gpvdm_notebook(QTabWidget):
 	def get_current_page(self):
 		i=self.currentIndex()
 		return self.tabText(i)
+
 
 	def goto_page(self,page):
 		self.blockSignals(True)
@@ -153,7 +159,7 @@ class gpvdm_notebook(QTabWidget):
 #			dos_files=inp_get_token_value("device_epitaxy.inp", "#layers")
 
 			widget=tab_main()
-
+			widget.changed.connect(self.emit_change)
 			self.addTab(widget,_("Device structure"))
 
 			self.update_display_function=widget.update
@@ -226,7 +232,7 @@ class gpvdm_notebook(QTabWidget):
 			self.addTab(self.terminal,_("Terminal"))
 			self.terminal.run(os.getcwd(),get_exe_command()+" --version --html")
 
-			self.add_info_page()
+			#self.add_info_page()
 
 			return True
 

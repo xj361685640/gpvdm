@@ -32,7 +32,7 @@ from inp_util import inp_search_token_value
 from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSize, Qt 
-from PyQt5.QtWidgets import QWidget,QSizePolicy,QHBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QLabel,QComboBox
+from PyQt5.QtWidgets import QWidget,QSizePolicy,QVBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QLabel,QComboBox
 
 import i18n
 _ = i18n.language.gettext
@@ -89,7 +89,7 @@ class tb_item_sim_mode(QWidget):
 
 	def __init__(self):
 		QWidget.__init__(self)
-		layout=QHBoxLayout()
+		layout=QVBoxLayout()
 		label=QLabel()
 		label.setText(_("Simulation mode:"))
 		layout.addWidget(label)

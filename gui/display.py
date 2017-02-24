@@ -39,9 +39,6 @@ from PyQt5.QtCore import pyqtSignal
 
 from cal_path import get_image_file_path
 
-from contacts import contacts_window
-from emesh import tab_electrical_mesh
-
 from help import help_window
 from gl_cmp import gl_cmp
 
@@ -85,15 +82,6 @@ class display_widget(QWidget):
 		self.tb_rotate.triggered.connect(self.tb_rotate_click)
 		toolbar.addAction(self.tb_rotate)
 		self.tb_rotate.setEnabled(True)
-		
-		self.tb_contact = QAction(QIcon(os.path.join(get_image_file_path(),"contact.png")), _("Contacts"), self)
-		self.tb_contact.triggered.connect(self.callback_contacts)
-		toolbar.addAction(self.tb_contact)
-
-		self.tb_mesh = QAction(QIcon(os.path.join(get_image_file_path(),"mesh.png")), _("Edit the electrical mesh"), self)
-		self.tb_mesh.triggered.connect(self.callback_edit_mesh)
-		toolbar.addAction(self.tb_mesh)
-
 
 		self.tb_config = QAction(QIcon(os.path.join(get_image_file_path(),"cog.png")), _("Configuration"), self)
 		self.tb_config.triggered.connect(self.callback_configure)
@@ -131,11 +119,6 @@ class display_widget(QWidget):
 			
 		self.setLayout(self.hbox)
 
-		self.electrical_mesh=tab_electrical_mesh()
-		self.electrical_mesh.changed.connect(self.recalculate)
-
-		self.contacts_window=contacts_window()
-		self.contacts_window.changed.connect(self.recalculate)
 
 		self.gl_cmp.slider.changed.connect(self.recalculate)
 
@@ -190,18 +173,3 @@ class display_widget(QWidget):
 			self.gl_cmp.show()
 
 
-	def callback_contacts(self):
-		help_window().help_set_help(["contact.png",_("<big><b>Contacts window</b></big>\nUse this window to change the layout of the contacts on the device")])
-
-		if self.contacts_window.isVisible()==True:
-			self.contacts_window.hide()
-		else:
-			self.contacts_window.show()
-
-	def callback_edit_mesh(self):
-		help_window().help_set_help(["mesh.png",_("<big><b>Mesh editor</b></big>\nUse this window to setup the mesh, the window can also be used to change the dimensionality of the simulation.")])
-
-		if self.electrical_mesh.isVisible()==True:
-			self.electrical_mesh.hide()
-		else:
-			self.electrical_mesh.show()

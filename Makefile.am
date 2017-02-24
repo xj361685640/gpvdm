@@ -11,6 +11,9 @@ image_DATA = images/*.jpg images/*.png
 
 flagdir = $(pkgdatadir)/flags
 flag_DATA = flags/*.png
+
+cssdir = $(pkgdatadir)/css
+css_DATA = css/*.css
 endif
 
 dist_pkgdata_DATA = sim.gpvdm

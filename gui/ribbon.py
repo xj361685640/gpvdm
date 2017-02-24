@@ -27,6 +27,8 @@ from tb_item_sim_mode import tb_item_sim_mode
 from tb_item_sun import tb_item_sun
 
 from code_ctrl import enable_betafeatures
+from cal_path import get_css_path
+
 #qt
 from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication
 from PyQt5.QtGui import QIcon
@@ -34,136 +36,188 @@ from PyQt5.QtCore import QSize, Qt,QFile,QIODevice
 from PyQt5.QtWidgets import QWidget,QSizePolicy,QVBoxLayout,QHBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QMessageBox, QLineEdit, QToolButton
 from PyQt5.QtWidgets import QTabWidget
 
+
+class c_information(QToolBar):
+	def __init__(self):
+		QToolBar.__init__(self)
+		self.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
+		self.setIconSize(QSize(42, 42))
+
+
+		self.license = QAction(QIcon(os.path.join(get_image_file_path(),"license.png")), _("License")+"\n"	, self)
+		self.addAction(self.license)		
+
+		self.ref = QAction(QIcon(os.path.join(get_image_file_path(),"ref.png")), _("How to\ncite"), self)
+		self.addAction(self.ref)
+
+		self.hints = QAction(QIcon(os.path.join(get_image_file_path(),"hints.png")), _("Hints\nWindow"), self)
+		self.addAction(self.hints)
+
+		#self.about = QAction(QIcon(os.path.join(get_image_file_path(),"help.png")), _("About")+"\n", self)
+		#self.addAction(self.about)
+
+
+		spacer = QWidget()
+		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+		self.addWidget(spacer)
+		
+		self.youtube = QAction(QIcon(os.path.join(get_image_file_path(),"youtube.png")), _("Youtube\nchannel"), self)
+		self.addAction(self.youtube)
+
+		self.man = QAction(QIcon(os.path.join(get_image_file_path(),"man.png")), _("Help")+"\n", self)
+		self.addAction(self.man)
+
+
+
+class c_device(QToolBar):
+	def __init__(self):
+		QToolBar.__init__(self)
+		self.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
+		self.setIconSize(QSize(42, 42))
+
+		self.doping = QAction(QIcon(os.path.join(get_image_file_path(),"doping.png")), _("Doping"), self)
+		self.addAction(self.doping)
+		
+		self.materials = QAction(QIcon(os.path.join(get_image_file_path(),"organic_material.png")), _("Materials\ndatabase"), self)
+		self.addAction(self.materials)
+	
+		self.cost = QAction(QIcon(os.path.join(get_image_file_path(),"cost.png")), _("Calculate\nthe cost"), self)
+		self.addAction(self.cost)
+		
+		self.contacts = QAction(QIcon(os.path.join(get_image_file_path(),"contact.png")), _("Contacts"), self)
+		self.addAction(self.contacts)
+		
+class c_home(QToolBar):
+	def __init__(self):
+		QToolBar.__init__(self)
+		self.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
+		self.setIconSize(QSize(42, 42))
+		
+
+		self.undo = QAction(QIcon(os.path.join(get_image_file_path(),"undo.png")), _("Undo"), self)
+		self.addAction(self.undo)
+
+		self.addSeparator()
+
+		self.run = QAction(QIcon(os.path.join(get_image_file_path(),"play.png")), _("Run\nsimulation"), self)
+		self.addAction(self.run)
+
+		self.stop = QAction(QIcon(os.path.join(get_image_file_path(),"pause.png")), _("Stop\nsimulation"), self)
+		self.addAction(self.stop)
+
+		self.addSeparator()
+		
+		self.scan = QAction(QIcon(os.path.join(get_image_file_path(),"scan.png")), _("Parameter\nscan"), self)
+		self.addAction(self.scan)
+
+
+		#self.addSeparator()
+		self.fit = QAction(QIcon(os.path.join(get_image_file_path(),"fit.png")), _("Fit\ndata"), self)
+		self.addAction(self.fit)
+		self.fit.setVisible(False)
+		
+		self.addSeparator()
+		
+		self.plot = QAction(QIcon(os.path.join(get_image_file_path(),"plot.png")), _("Plot\nFile"), self)
+		self.addAction(self.plot)
+
+		self.time = QAction(QIcon(os.path.join(get_image_file_path(),"plot_time.png")), _("Examine results\nin time domain"), self)
+		self.addAction(self.time)
+
+		self.addSeparator()
+
+		self.sun=tb_item_sun()
+		self.addWidget(self.sun)
+
+		spacer = QWidget()
+		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+		self.addWidget(spacer)
+
+		self.help = QAction(QIcon(os.path.join(get_image_file_path(),"man.png")), _("Help"), self)
+		self.addAction(self.help)
+
+class c_configure(QToolBar):
+	def __init__(self):
+		QToolBar.__init__(self)
+		self.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
+		self.setIconSize(QSize(42, 42))
+
+		self.configwindow = QAction(QIcon(os.path.join(get_image_file_path(),"cog.png")), _("Configure"), self)
+		self.addAction(self.configwindow)
+		
+		self.dump = dump_io(self)
+		self.addAction(self.dump)
+
+		self.mesh = QAction(QIcon(os.path.join(get_image_file_path(),"mesh.png")), _("Electrical\nmesh"), self)
+		self.addAction(self.mesh)
+
+	
+class c_simulations(QToolBar):
+	def __init__(self):
+		QToolBar.__init__(self)
+		self.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
+		self.setIconSize(QSize(42, 42))
+
+		self.time = QAction(QIcon(os.path.join(get_image_file_path(),"time.png")), _("Time domain\nsimulation editor."), self)
+		self.addAction(self.time )
+
+
+		self.fx = QAction(QIcon(os.path.join(get_image_file_path(),"spectrum.png")), _("Frequency domain\nsimulation editor"), self)
+		self.addAction(self.fx)
+
+
+		self.jv = QAction(QIcon(os.path.join(get_image_file_path(),"jv.png")), _("Steady state\nsimulation editor"), self)
+		self.addAction(self.jv)
+
+
+		self.qe = QAction(QIcon(os.path.join(get_image_file_path(),"qe.png")), _("Quantum\nefficiency"), self)
+		self.addAction(self.qe)
+		self.qe.setVisible(False)
+
+		self.mode=tb_item_sim_mode()
+		self.addWidget(self.mode)
+		
+		self.optics = QAction(QIcon(os.path.join(get_image_file_path(),"optics.png")), _("Optical\nSimulation"), self)
+		self.addAction(self.optics)
+
+		self.lasers = QAction(QIcon(os.path.join(get_image_file_path(),"lasers.png")), _("Laser\neditor"), self)
+		self.addAction(self.lasers)
+		
 class ribbon(QTabWidget):
-	def home(self):
+	def goto_page(self,page):
+		self.blockSignals(True)
+		for i in range(0,self.count()):
+				if self.tabText(i)==page:
+					self.setCurrentIndex(i)
+					break
+		self.blockSignals(False)
+		
+	def file(self):
 		toolbar = QToolBar()
 		toolbar.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
 		toolbar.setIconSize(QSize(42, 42))
 		
 		self.home_new = QAction(QIcon(os.path.join(get_image_file_path(),"new.png")), _("Make a new simulation"), self)
 		self.home_new.setText("New\nsimulation")
-		#new_sim.triggered.connect(self.callback_new)
 		toolbar.addAction(self.home_new)
 
 		self.home_open = QAction(QIcon(os.path.join(get_image_file_path(),"open.png")), _("Open\nsimulation"), self)
-		#open_sim.triggered.connect(self.callback_open)
 		toolbar.addAction(self.home_open)
 
-
-		toolbar.addSeparator()
-
-		self.home_undo = QAction(QIcon(os.path.join(get_image_file_path(),"undo.png")), _("Undo"), self)
-		toolbar.addAction(self.home_undo)
-
-		toolbar.addSeparator()
-
-		self.home_run = QAction(QIcon(os.path.join(get_image_file_path(),"play.png")), _("Run\nsimulation"), self)
-		toolbar.addAction(self.home_run)
-
-		self.home_stop = QAction(QIcon(os.path.join(get_image_file_path(),"pause.png")), _("Stop\nsimulation"), self)
-		toolbar.addAction(self.home_stop)
-
-		toolbar.addSeparator()
-		
-		self.home_scan = QAction(QIcon(os.path.join(get_image_file_path(),"scan.png")), _("Parameter\nscan"), self)
-
-		toolbar.addAction(self.home_scan)
-
-
-
-
-		#self.param_scan = QAction(QIcon(os.path.join(get_image_file_path(),"scan.png")), _("Parameter\nscan"), self)
-		#self.param_scan.triggered.connect(self.callback_scan)
-		#toolbar.addAction(self.param_scan)
-		#self.param_scan.setEnabled(False)
-
-
-			
-		self.home_fit = QAction(QIcon(os.path.join(get_image_file_path(),"fit.png")), _("Run a fit command"), self)
-		#self.tb_run_fit.triggered.connect(self.callback_run_fit)
-		toolbar.addAction(self.home_fit)
-		#self.tb_run_fit.setEnabled(True)
+		self.home_export = QAction(QIcon(os.path.join(get_image_file_path(),"export.png")), _("Export\ndata"), self)
+		toolbar.addAction(self.home_export)
 
 		spacer = QWidget()
 		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 		toolbar.addWidget(spacer)
 
-		self.home_help = QAction(QIcon(os.path.join(get_image_file_path(),"help.png")), _("Help"), self)
+		self.home_help = QAction(QIcon(os.path.join(get_image_file_path(),"man.png")), _("Help"), self)
 		toolbar.addAction(self.home_help)
 
 		return toolbar
+	
 
 
-	def simulations(self):
-		toolbar = QToolBar()
-		toolbar.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
-		toolbar.setIconSize(QSize(42, 42))
-
-		self.simulations_time = QAction(QIcon(os.path.join(get_image_file_path(),"time.png")), _("Time domain\nsimulation editor."), self)
-		toolbar.addAction(self.simulations_time )
-
-
-		self.simulations_fx = QAction(QIcon(os.path.join(get_image_file_path(),"spectrum.png")), _("Frequency domain\nsimulation editor"), self)
-		toolbar.addAction(self.simulations_fx)
-
-
-		self.simulations_jv = QAction(QIcon(os.path.join(get_image_file_path(),"jv.png")), _("Steady state\nsimulation editor"), self)
-		toolbar.addAction(self.simulations_jv)
-
-		self.simulations_mode=tb_item_sim_mode()
-		toolbar.addWidget(self.simulations_mode)
-		
-		if enable_betafeatures()==True:
-			self.simulations_qe = QAction(QIcon(os.path.join(get_image_file_path(),"qe.png")), _("Quantum efficiency"), self)
-			toolbar.addAction(self.simulations_qe)
-			self.simulations_qe.setEnabled(False)
-
-
-		return toolbar
-
-	def configure(self):
-		toolbar = QToolBar()
-		toolbar.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
-		toolbar.setIconSize(QSize(42, 42))
-
-		self.configure_configwindow = QAction(QIcon(os.path.join(get_image_file_path(),"cog.png")), _("Time domain\nsimulation editor."), self)
-		toolbar.addAction(self.configure_configwindow)
-		
-		self.configure_dump = dump_io(self)
-		toolbar.addAction(self.configure_dump)
-		
-		return toolbar
-		
-	def plot(self):
-		toolbar = QToolBar()
-		toolbar.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
-		toolbar.setIconSize(QSize(42, 42))
-
-		self.plot_plot = QAction(QIcon(os.path.join(get_image_file_path(),"plot.png")), _("Plot\nFile"), self)
-#		self.plot_select.triggered.connect(self.callback_plot_select)
-		toolbar.addAction(self.plot_plot)
-
-		self.plot_time = QAction(QIcon(os.path.join(get_image_file_path(),"plot_time.png")), _("Examine results in time domain"), self)
-		toolbar.addAction(self.plot_time)
-
-		return toolbar
-
-	def optics(self):
-		toolbar = QToolBar()
-		toolbar.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
-		toolbar.setIconSize(QSize(42, 42))
-
-		self.optics_editor = QAction(QIcon(os.path.join(get_image_file_path(),"optics.png")), _("Optics"), self)
-		toolbar.addAction(self.optics_editor)
-
-		self.optics_lasers = QAction(QIcon(os.path.join(get_image_file_path(),"lasers.png")), _("Lasers editor"), self)
-#		self.laser_button.triggered.connect(self.callback_configure_lasers)
-		toolbar.addAction(self.optics_lasers)
-
-		self.optics_sun=tb_item_sun()
-		toolbar.addWidget(self.optics_sun)
-		
-		return toolbar
 	
 	def cluster(self):
 		toolbar = QToolBar()
@@ -186,40 +240,43 @@ class ribbon(QTabWidget):
 	
 	def __init__(self):
 		QTabWidget.__init__(self)
+		self.setMaximumHeight(120)
 		#self.setStyleSheet("QWidget {	background-color:cyan; }")
 
 		#self.setFixedSize(-1, 300)
 		#self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"jv.png")))
 		#self.setWindowTitle(_("Steady state simulation")+"  (https://www.gpvdm.com)")
 
-		#self.plusButton = QPushButton("+")
-		#self.plusButton.setFixedSize(QSize(22, 22))
-		self.plusButton = QToolButton(self)
-		self.plusButton.setText("+")
+		self.about = QToolButton(self)
+		self.about.setText("About")
 
-		self.setCornerWidget(self.plusButton)
+		self.setCornerWidget(self.about)
 
-		w=self.home()
-		self.addTab(w,"Home")
+		w=self.file()
+		self.addTab(w,_("File"))
 		
-		wa=self.simulations()
-		self.addTab(wa,"Simulations")
+		self.home=c_home()
+		self.addTab(self.home,_("Home"))
 		
-		wa=self.configure()
-		self.addTab(wa,"Configure")
+		self.simulations=c_simulations()
+		self.addTab(self.simulations,_("Simulations"))
 		
-		wa=self.optics()
-		self.addTab(wa,"Optics")
+		self.configure=c_configure()
+		self.addTab(self.configure,_("Configure"))
+		
+		self.device=c_device()
+		self.addTab(self.device,"Device")
 
 		if enable_betafeatures()==True:
 			self.tb_cluster=self.cluster()
 			self.addTab(self.tb_cluster,"Cluster")
 
-		wa=self.plot()
-		self.addTab(wa,"Plot")
-		
+		self.information=c_information()
+		self.addTab(self.information,"Information")
+
 	def init(self):
-		aaa=self.readStyleSheet('style.css')
+		#self.setStyleSheet("QWidget {	background-color:cyan; }") 
+		aaa=self.readStyleSheet(os.path.join(get_css_path(),"style.css"))
 		aaa=str(aaa,'utf-8')
 		#print(aaa.decode("utf-8") ,"QWidget {	background-color:cyan; }")
 		self.setStyleSheet(aaa)

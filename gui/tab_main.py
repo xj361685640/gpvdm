@@ -42,6 +42,7 @@ from update import update_thread
 
 from PyQt5.QtWidgets import QWidget,QHBoxLayout,QSplitter
 from PyQt5.QtCore import Qt
+from PyQt5.QtCore import pyqtSignal
 
 import i18n
 _ = i18n.language.gettext
@@ -50,10 +51,14 @@ class tab_main(QWidget,tab_base):
 
 	label_name="tab_main"
 
+	changed = pyqtSignal()
 	
 	def update(self):
 		self.three_d.recalculate()
 
+	def emit_change(self):
+		self.changed.emit()
+		
 	def __init__(self):
 		QWidget.__init__(self)
 		self.sun=1
@@ -66,6 +71,7 @@ class tab_main(QWidget,tab_base):
 		self.frame=layer_widget()
 
 		self.frame.changed.connect(self.three_d.recalculate)
+		self.frame.structure_changed.connect(self.emit_change)
 		
 		mainLayout.addWidget(self.frame)
 		self.frame.setMinimumSize(420, 0)

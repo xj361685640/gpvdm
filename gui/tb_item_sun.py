@@ -33,7 +33,7 @@ _ = i18n.language.gettext
 from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSize, Qt 
-from PyQt5.QtWidgets import QWidget,QSizePolicy,QHBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QLabel,QComboBox
+from PyQt5.QtWidgets import QWidget,QSizePolicy,QVBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QLabel,QComboBox
 from PyQt5.QtCore import pyqtSignal
 
 class tb_item_sun(QWidget):
@@ -67,7 +67,7 @@ class tb_item_sun(QWidget):
 	def __init__(self):
 		QWidget.__init__(self)
 
-		layout=QHBoxLayout()
+		layout=QVBoxLayout()
 		label=QLabel()
 		label.setText(_("Light intensity")+" ("+_("Suns")+"):")
 		layout.addWidget(label)
