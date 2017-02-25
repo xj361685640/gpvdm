@@ -36,6 +36,9 @@ from PyQt5.QtCore import QSize, Qt,QFile,QIODevice
 from PyQt5.QtWidgets import QWidget,QSizePolicy,QVBoxLayout,QHBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QMessageBox, QLineEdit, QToolButton
 from PyQt5.QtWidgets import QTabWidget
 
+from ribbon_device import ribbon_device
+from ribbon_simulations import ribbon_simulations
+from ribbon_configure import ribbon_configure
 
 class c_information(QToolBar):
 	def __init__(self):
@@ -68,24 +71,6 @@ class c_information(QToolBar):
 		self.addAction(self.man)
 
 
-
-class c_device(QToolBar):
-	def __init__(self):
-		QToolBar.__init__(self)
-		self.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
-		self.setIconSize(QSize(42, 42))
-
-		self.doping = QAction(QIcon(os.path.join(get_image_file_path(),"doping.png")), _("Doping"), self)
-		self.addAction(self.doping)
-		
-		self.materials = QAction(QIcon(os.path.join(get_image_file_path(),"organic_material.png")), _("Materials\ndatabase"), self)
-		self.addAction(self.materials)
-	
-		self.cost = QAction(QIcon(os.path.join(get_image_file_path(),"cost.png")), _("Calculate\nthe cost"), self)
-		self.addAction(self.cost)
-		
-		self.contacts = QAction(QIcon(os.path.join(get_image_file_path(),"contact.png")), _("Contacts"), self)
-		self.addAction(self.contacts)
 		
 class c_home(QToolBar):
 	def __init__(self):
@@ -136,53 +121,8 @@ class c_home(QToolBar):
 		self.help = QAction(QIcon(os.path.join(get_image_file_path(),"man.png")), _("Help"), self)
 		self.addAction(self.help)
 
-class c_configure(QToolBar):
-	def __init__(self):
-		QToolBar.__init__(self)
-		self.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
-		self.setIconSize(QSize(42, 42))
-
-		self.configwindow = QAction(QIcon(os.path.join(get_image_file_path(),"cog.png")), _("Configure"), self)
-		self.addAction(self.configwindow)
-		
-		self.dump = dump_io(self)
-		self.addAction(self.dump)
-
-		self.mesh = QAction(QIcon(os.path.join(get_image_file_path(),"mesh.png")), _("Electrical\nmesh"), self)
-		self.addAction(self.mesh)
-
-	
-class c_simulations(QToolBar):
-	def __init__(self):
-		QToolBar.__init__(self)
-		self.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
-		self.setIconSize(QSize(42, 42))
-
-		self.time = QAction(QIcon(os.path.join(get_image_file_path(),"time.png")), _("Time domain\nsimulation editor."), self)
-		self.addAction(self.time )
 
 
-		self.fx = QAction(QIcon(os.path.join(get_image_file_path(),"spectrum.png")), _("Frequency domain\nsimulation editor"), self)
-		self.addAction(self.fx)
-
-
-		self.jv = QAction(QIcon(os.path.join(get_image_file_path(),"jv.png")), _("Steady state\nsimulation editor"), self)
-		self.addAction(self.jv)
-
-
-		self.qe = QAction(QIcon(os.path.join(get_image_file_path(),"qe.png")), _("Quantum\nefficiency"), self)
-		self.addAction(self.qe)
-		self.qe.setVisible(False)
-
-		self.mode=tb_item_sim_mode()
-		self.addWidget(self.mode)
-		
-		self.optics = QAction(QIcon(os.path.join(get_image_file_path(),"optics.png")), _("Optical\nSimulation"), self)
-		self.addAction(self.optics)
-
-		self.lasers = QAction(QIcon(os.path.join(get_image_file_path(),"lasers.png")), _("Laser\neditor"), self)
-		self.addAction(self.lasers)
-		
 class ribbon(QTabWidget):
 	def goto_page(self,page):
 		self.blockSignals(True)
@@ -237,7 +177,11 @@ class ribbon(QTabWidget):
 			css = file.readAll()
 			file.close()
 		return css
-	
+
+	def update(self):
+		self.device.update()
+		self.simulations.update()
+		
 	def __init__(self):
 		QTabWidget.__init__(self)
 		self.setMaximumHeight(120)
@@ -258,13 +202,13 @@ class ribbon(QTabWidget):
 		self.home=c_home()
 		self.addTab(self.home,_("Home"))
 		
-		self.simulations=c_simulations()
+		self.simulations=ribbon_simulations()
 		self.addTab(self.simulations,_("Simulations"))
 		
-		self.configure=c_configure()
+		self.configure=ribbon_configure()
 		self.addTab(self.configure,_("Configure"))
 		
-		self.device=c_device()
+		self.device=ribbon_device()
 		self.addTab(self.device,"Device")
 
 		if enable_betafeatures()==True:
@@ -274,9 +218,9 @@ class ribbon(QTabWidget):
 		self.information=c_information()
 		self.addTab(self.information,"Information")
 
-	def init(self):
 		#self.setStyleSheet("QWidget {	background-color:cyan; }") 
 		aaa=self.readStyleSheet(os.path.join(get_css_path(),"style.css"))
 		aaa=str(aaa,'utf-8')
 		#print(aaa.decode("utf-8") ,"QWidget {	background-color:cyan; }")
 		self.setStyleSheet(aaa)
+

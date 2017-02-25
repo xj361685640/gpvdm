@@ -45,7 +45,6 @@ from code_ctrl import enable_webupdates
 from code_ctrl import enable_betafeatures
 from code_ctrl import code_ctrl_load
 from code_ctrl import enable_webupdates
-from doping import doping_window
 
 #undo
 from undo import undo_list_class
@@ -155,9 +154,7 @@ print(notice())
 from PyQt5.QtWidgets import QTabWidget
 from ribbon import ribbon
 
-from cost import cost
 from emesh import tab_electrical_mesh
-from contacts import contacts_window
 
 def set_active_name(combobox, name):
 	liststore = combobox.get_model()
@@ -331,18 +328,6 @@ class gpvdm_main_window(QMainWindow):
 			self.change_dir_and_refresh_interface(os.getcwd())
 			print(_("file opened"),path)
 
-		
-	def callback_view_materials(self):
-		dialog=gpvdm_open(get_materials_path())
-		dialog.show_inp_files=False
-		ret=dialog.window.exec_()
-
-		if ret==QDialog.Accepted:
-			if os.path.isfile(os.path.join(dialog.get_filename(),"mat.inp"))==True:
-				self.mat_window=materials_main(dialog.get_filename())
-				self.mat_window.show()
-			else:
-				plot_gen([dialog.get_filename()],[],"auto")
 
 
 	def callback_new(self):
@@ -369,7 +354,6 @@ class gpvdm_main_window(QMainWindow):
 
 		#self.notebook.set_item_factory(self.item_factory)
 		if self.notebook.load()==True:
-			self.ribbon.simulations.mode.update()
 			#self.ti_light.connect('refresh', self.notebook.main_tab.update)
 			self.ribbon.home.run.setEnabled(True)
 			self.ribbon.home.stop.setEnabled(True)
@@ -377,26 +361,19 @@ class gpvdm_main_window(QMainWindow):
 			self.ribbon.home.scan.setEnabled(True)
 			self.ribbon.home.plot.setEnabled(True)
 			self.ribbon.home.undo.setEnabled(True)
-			self.ribbon.simulations.jv.setEnabled(True)
-			self.ribbon.simulations.lasers.setEnabled(True)
-			self.ribbon.simulations.time.setEnabled(True)
+			self.ribbon.simulations.setEnabled(True)
 			#self.save_sim.setEnabled(True)
-			self.ribbon.simulations.fx.setEnabled(True)
-			self.ribbon.simulations.optics.setEnabled(True)
 			self.ribbon.home.sun.setEnabled(True)
 			self.ribbon.home.sun.update()
-			self.ribbon.device.materials.setEnabled(True)
+			self.ribbon.device.setEnabled(True)
 			help_window().help_set_help(["play.png",_("<big><b>Now run the simulation</b></big><br> Click on the play icon to start a simulation.")])
 
 			self.ribbon.home_export.setEnabled(True)
 			#self.menu_import_lib.setEnabled(True)
-			self.ribbon.configure.configwindow.setEnabled(True)
-			self.ribbon.simulations.mode.setEnabled(True)
-			self.ribbon.configure.dump.setEnabled(True)
+			self.ribbon.configure.setEnabled(True)
 			self.ribbon.goto_page(_("Home"))
 			if enable_betafeatures()==True:
 				self.ribbon.home.fit.setEnabled(True)
-				self.ribbon.simulations.qe.setEnabled(True)
 				self.ribbon.simulations.qe.setVisible(True)
 		else:
 			self.ribbon.home.run.setEnabled(False)
@@ -405,26 +382,19 @@ class gpvdm_main_window(QMainWindow):
 			self.ribbon.home.scan.setEnabled(False)
 			self.ribbon.home.plot.setEnabled(False)
 			self.ribbon.home.undo.setEnabled(False)
-			self.ribbon.simulations.jv.setEnabled(False)
 			#self.save_sim.setEnabled(False)
-			self.ribbon.simulations.fx.setEnabled(False)
-			self.ribbon.simulations.optics.setEnabled(False)
-			self.ribbon.simulations.lasers.setEnabled(False)
-			self.ribbon.simulations.time.setEnabled(False)
-			self.ribbon.simulations.mode.setEnabled(False)
+			self.ribbon.simulations.setEnabled(False)
 			self.ribbon.home.sun.setEnabled(False)
-			self.ribbon.device.materials.setEnabled(False)
+			self.ribbon.device.setEnabled(False)
 			self.ribbon.goto_page(_("File"))
 			help_window().help_set_help(["icon.png",_("<big><b>Hi!</b></big><br> I'm the on-line help system :).  If you find any bugs please report them to <a href=\"mailto:roderick.mackenzie@nottingham.ac.uk\">roderick.mackenzie@nottingham.ac.uk</a>."),"new.png",_("Click on the new icon to make a new simulation directory.")])
 			language_advert()
 
 			self.ribbon.home_export.setEnabled(False)
 			#self.menu_import_lib.setEnabled(False)
-			self.ribbon.configure.configwindow.setEnabled(False)
-			self.ribbon.configure.dump.setEnabled(False)
+			self.ribbon.configure.setEnabled(False)
 			if enable_betafeatures()==True:
 				self.ribbon.home.fit.setEnabled(False)
-				self.ribbon.simulations.qe.setEnabled(False)
 				self.ribbon.simulations.qe.setVisible(True)
 
 		if self.notebook.terminal!=None:
@@ -476,8 +446,7 @@ class gpvdm_main_window(QMainWindow):
 			del self.qe_window
 			self.qe_window=None
 
-		self.ribbon.configure.dump.refresh()
-
+		self.ribbon.update()
 		#myitem=self.item_factory.get_item("/Plots/One plot window")
 		#myitem.set_active(self.config.get_value("#one_plot_window",False))
 		#myitem=self.item_factory.get_item("/Plots/Plot after simulation")
@@ -638,28 +607,6 @@ class gpvdm_main_window(QMainWindow):
 			l.pop()
 
 
-	def callback_cost(self):
-		help_window().help_set_help(["cost.png",_("<big><b>Costs window</b></big>\nUse this window to calculate the cost of the solar cell and the energy payback time.")])
-
-		if self.cost_window==False:
-			self.cost_window=cost()
-
-		if self.cost_window.isVisible()==True:
-			self.cost_window.hide()
-		else:
-			self.cost_window.show()
-
-
-	def callback_doping(self):
-		help_window().help_set_help(["doping.png",_("<big><b>Doping window</b></big>\nUse this window to add doping to the simulation")])
-
-		if self.doping_window==False:
-			self.doping_window=doping_window()
-
-		if self.doping_window.isVisible()==True:
-			self.doping_window.hide()
-		else:
-			self.doping_window.show()
 
 	def callback_edit_mesh(self):
 		help_window().help_set_help(["mesh.png",_("<big><b>Mesh editor</b></big>\nUse this window to setup the mesh, the window can also be used to change the dimensionality of the simulation.")])
@@ -669,16 +616,8 @@ class gpvdm_main_window(QMainWindow):
 		else:
 			self.electrical_mesh.show()
 
-	def callback_contacts(self):
-		help_window().help_set_help(["contact.png",_("<big><b>Contacts window</b></big>\nUse this window to change the layout of the contacts on the device")])
-
-		if self.contacts_window.isVisible()==True:
-			self.contacts_window.hide()
-		else:
-			self.contacts_window.show()
 			
 	def __init__(self):
-		self.doping_window=False
 		self.optics_window=False
 		self.undo_list=undo_list_class()
 		self.ribbon=ribbon()
@@ -772,9 +711,7 @@ class gpvdm_main_window(QMainWindow):
 		self.ribbon.information.youtube.triggered.connect(self.callback_youtube)
 		self.ribbon.information.ref.triggered.connect(self.callback_cite)
 		self.ribbon.about.pressed.connect(self.callback_about_dialog)
-		self.ribbon.device.doping.triggered.connect(self.callback_doping)
 
-		self.ribbon.device.contacts.triggered.connect(self.callback_contacts)
 
 		#if enable_webupdates()==False:
 		#	self.help_menu_update=help_menu.addAction("&"+_("Check for updates"))
@@ -806,8 +743,6 @@ class gpvdm_main_window(QMainWindow):
 
 		self.ribbon.configure.mesh.triggered.connect(self.callback_edit_mesh)		
 		
-		self.ribbon.device.materials.triggered.connect(self.callback_view_materials)
-
 		self.ribbon.configure.configwindow.triggered.connect(self.callback_config_window)
 		
 		self.ribbon.home.help.triggered.connect(self.callback_on_line_help)
@@ -822,7 +757,6 @@ class gpvdm_main_window(QMainWindow):
 		self.change_dir_and_refresh_interface(os.getcwd())
 		self.electrical_mesh=tab_electrical_mesh()
 
-		self.contacts_window=contacts_window()
 		#self.contacts_window.changed.connect(self.recalculate)
 
 
@@ -835,7 +769,6 @@ class gpvdm_main_window(QMainWindow):
 		
 		self.ribbon.home.sun.changed.connect(self.notebook.update)
 		self.ribbon.setAutoFillBackground(True)
-		self.ribbon.init()
 		
 if __name__ == '__main__':
 	
