@@ -43,6 +43,7 @@ from gpvdm_open import gpvdm_open
 
 from help import help_window
 from cost import cost
+from materials_main import materials_main
 
 class ribbon_device(QToolBar):
 	def __init__(self):

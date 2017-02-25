@@ -73,7 +73,6 @@ from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QWidget
 
-from materials_main import materials_main
 
 
 import i18n

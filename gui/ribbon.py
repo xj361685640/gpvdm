@@ -40,57 +40,8 @@ from ribbon_device import ribbon_device
 from ribbon_simulations import ribbon_simulations
 from ribbon_configure import ribbon_configure
 from ribbon_information import ribbon_information
-
+from ribbon_home import ribbon_home
 		
-class c_home(QToolBar):
-	def __init__(self):
-		QToolBar.__init__(self)
-		self.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
-		self.setIconSize(QSize(42, 42))
-		
-
-		self.undo = QAction(QIcon(os.path.join(get_image_file_path(),"undo.png")), _("Undo"), self)
-		self.addAction(self.undo)
-
-		self.addSeparator()
-
-		self.run = QAction(QIcon(os.path.join(get_image_file_path(),"play.png")), _("Run\nsimulation"), self)
-		self.addAction(self.run)
-
-		self.stop = QAction(QIcon(os.path.join(get_image_file_path(),"pause.png")), _("Stop\nsimulation"), self)
-		self.addAction(self.stop)
-
-		self.addSeparator()
-		
-		self.scan = QAction(QIcon(os.path.join(get_image_file_path(),"scan.png")), _("Parameter\nscan"), self)
-		self.addAction(self.scan)
-
-
-		#self.addSeparator()
-		self.fit = QAction(QIcon(os.path.join(get_image_file_path(),"fit.png")), _("Fit\ndata"), self)
-		self.addAction(self.fit)
-		self.fit.setVisible(False)
-		
-		self.addSeparator()
-		
-		self.plot = QAction(QIcon(os.path.join(get_image_file_path(),"plot.png")), _("Plot\nFile"), self)
-		self.addAction(self.plot)
-
-		self.time = QAction(QIcon(os.path.join(get_image_file_path(),"plot_time.png")), _("Examine results\nin time domain"), self)
-		self.addAction(self.time)
-
-		self.addSeparator()
-
-		self.sun=tb_item_sun()
-		self.addWidget(self.sun)
-
-		spacer = QWidget()
-		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-		self.addWidget(spacer)
-
-		self.help = QAction(QIcon(os.path.join(get_image_file_path(),"man.png")), _("Help"), self)
-		self.addAction(self.help)
-
 
 
 class ribbon(QTabWidget):
@@ -153,7 +104,8 @@ class ribbon(QTabWidget):
 		self.simulations.update()
 		self.configure.update()
 		self.information.update()
-		
+		self.home.update()
+
 	def __init__(self):
 		QTabWidget.__init__(self)
 		self.setMaximumHeight(120)
@@ -171,7 +123,7 @@ class ribbon(QTabWidget):
 		w=self.file()
 		self.addTab(w,_("File"))
 		
-		self.home=c_home()
+		self.home=ribbon_home()
 		self.addTab(self.home,_("Home"))
 		
 		self.simulations=ribbon_simulations()

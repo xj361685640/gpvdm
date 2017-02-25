@@ -36,6 +36,7 @@ def dat_file_load_info(output,lines):
 			if max_lines>40:
 				max_lines=40
 
+			found_xyz=False
 			for i in range(0, max_lines):
 				if (len(lines[i])>0):
 					if (lines[i][0]!="#"):
@@ -86,13 +87,18 @@ def dat_file_load_info(output,lines):
 							output.Vexternal=float(command[1])
 						if (command[0]=="#x"):
 							output.x_len=int(command[1])
+							found_xyz=True
 						if (command[0]=="#y"):
 							output.y_len=int(command[1])
+							found_xyz=True
 						if (command[0]=="#z"):
 							output.z_len=int(command[1])
-
-			return True
-
+							found_xyz=True
+			if found_xyz==True:
+				return True
+			else:
+				return False
+				
 	return False
 
 def guess_dim(lines):

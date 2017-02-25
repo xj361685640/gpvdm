@@ -29,7 +29,6 @@ sys.path.append('/usr/lib64/gpvdm/')
 sys.path.append('/usr/share/gpvdm/gui/')	#debian
 
 from win_lin import running_on_linux
-from win_lin import desktop_open
 from cal_path import get_exe_command
 from cal_path import get_exe_name
 from cal_path import get_image_file_path
@@ -91,8 +90,6 @@ from server import server_get
 #mesh
 from mesh import mesh_load_all
 
-from info import sim_info
-
 #qt
 from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication
 from PyQt5.QtGui import QIcon
@@ -101,7 +98,6 @@ from PyQt5.QtWidgets import QWidget,QSizePolicy,QVBoxLayout,QHBoxLayout,QPushBut
 
 #windows
 from splash import splash_window
-from gpvdm_open import gpvdm_open
 from jv import jv
 from new_simulation import new_simulation
 from hpc import hpc_class
@@ -274,37 +270,6 @@ class gpvdm_main_window(QMainWindow):
 		event.accept()
 
 
-	def callback_plot_select(self):
-		help_window().help_set_help(["dat_file.png",_("<big>Select a file to plot</big><br>Single clicking shows you the content of the file")])
-
-		dialog=gpvdm_open(os.getcwd())
-		dialog.show_inp_files=False
-		dialog.show_directories=False
-		ret=dialog.window.exec_()
-		if ret==QDialog.Accepted:
-			split=dialog.get_filename().split(".")
-			if len(split)>1:
-				if split[1]=="xlsx" or split[1]=="xls":
-					desktop_open(dialog.get_filename())
-	
-					print("open with excel")
-					return
-				
-			if os.path.basename(dialog.get_filename())=="sim_info.dat":
-				if self.sim_info_window==None:
-					self.sim_info_window=sim_info(dialog.get_filename())
-
-				if self.sim_info_window.isVisible()==True:
-					self.sim_info_window.hide()
-				else:
-					self.sim_info_window.show()
-				return
-
-			plot_gen([dialog.get_filename()],[],"auto")
-
-			#self.plotted_graphs.refresh()
-			#self.plot_after_run_file=dialog.get_filename()
-
 	def callback_plot_open(self, widget, data=None):
 		plot_gen([self.plot_after_run_file],[],"")
 
@@ -352,16 +317,9 @@ class gpvdm_main_window(QMainWindow):
 		#self.notebook.set_item_factory(self.item_factory)
 		if self.notebook.load()==True:
 			#self.ti_light.connect('refresh', self.notebook.main_tab.update)
-			self.ribbon.home.run.setEnabled(True)
-			self.ribbon.home.stop.setEnabled(True)
-			self.ribbon.home.time.setEnabled(True)
-			self.ribbon.home.scan.setEnabled(True)
-			self.ribbon.home.plot.setEnabled(True)
-			self.ribbon.home.undo.setEnabled(True)
+			self.ribbon.home.setEnabled(True)
 			self.ribbon.simulations.setEnabled(True)
 			#self.save_sim.setEnabled(True)
-			self.ribbon.home.sun.setEnabled(True)
-			self.ribbon.home.sun.update()
 			self.ribbon.device.setEnabled(True)
 			help_window().help_set_help(["play.png",_("<big><b>Now run the simulation</b></big><br> Click on the play icon to start a simulation.")])
 
@@ -373,15 +331,10 @@ class gpvdm_main_window(QMainWindow):
 				self.ribbon.home.fit.setEnabled(True)
 				self.ribbon.simulations.qe.setVisible(True)
 		else:
-			self.ribbon.home.run.setEnabled(False)
-			self.ribbon.home.stop.setEnabled(False)
-			self.ribbon.home.time.setEnabled(False)
-			self.ribbon.home.scan.setEnabled(False)
-			self.ribbon.home.plot.setEnabled(False)
-			self.ribbon.home.undo.setEnabled(False)
+			self.ribbon.home.setEnabled(False)
+
 			#self.save_sim.setEnabled(False)
 			self.ribbon.simulations.setEnabled(False)
-			self.ribbon.home.sun.setEnabled(False)
 			self.ribbon.device.setEnabled(False)
 			self.ribbon.goto_page(_("File"))
 			help_window().help_set_help(["icon.png",_("<big><b>Hi!</b></big><br> I'm the on-line help system :).  If you find any bugs please report them to <a href=\"mailto:roderick.mackenzie@nottingham.ac.uk\">roderick.mackenzie@nottingham.ac.uk</a>."),"new.png",_("Click on the new icon to make a new simulation directory.")])
@@ -391,7 +344,6 @@ class gpvdm_main_window(QMainWindow):
 			#self.menu_import_lib.setEnabled(False)
 			self.ribbon.configure.setEnabled(False)
 			if enable_betafeatures()==True:
-				self.ribbon.home.fit.setEnabled(False)
 				self.ribbon.simulations.qe.setVisible(True)
 
 		if self.notebook.terminal!=None:
@@ -423,9 +375,6 @@ class gpvdm_main_window(QMainWindow):
 			del self.jvexperiment_window
 			self.jvexperiment_window=None
 
-		if self.sim_info_window!=None:
-			del self.sim_info_window
-			self.sim_info_window=None
 
 		if self.fit_window!=None:
 			del self.fit_window
@@ -660,8 +609,6 @@ class gpvdm_main_window(QMainWindow):
 
 		self.lasers_window=None
 
-		self.sim_info_window=None
-
 		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"image.jpg")))		
 
 		self.show_tabs = True
@@ -692,7 +639,6 @@ class gpvdm_main_window(QMainWindow):
 		if enable_betafeatures()==True:
 			self.ribbon.home.fit.triggered.connect(self.callback_run_fit)
 
-		self.ribbon.home.plot.triggered.connect(self.callback_plot_select)
 		self.ribbon.home.time.triggered.connect(self.callback_examine)
 		self.ribbon.simulations.time.triggered.connect(self.callback_edit_experiment_window)
 		self.ribbon.simulations.fx.triggered.connect(self.callback_fxexperiment_window)
