@@ -475,8 +475,6 @@ class gpvdm_main_window(QMainWindow):
 		dlg=about_dlg()
 		dlg.window.exec_()
 
-	def callback_help(self, widget, data=None):
-		help_window().toggle_visible()
 
 	def callback_update(self, widget, data=None):
 		update_now()
@@ -492,14 +490,6 @@ class gpvdm_main_window(QMainWindow):
 		#self.a.hasFocus()
 		webbrowser.open("https://www.gpvdm.com")
 
-	def callback_license(self):
-		webbrowser.open("https://www.gpvdm.com/license.html")
-
-	def callback_youtube(self):
-		webbrowser.open("https://www.youtube.com/channel/UCbm_0AKX1SpbMMT7jilxFfA")
-
-	def callback_cite(self):
-		webbrowser.open("https://gpvdm.com/how_to_cite.html")
 
 	def callback_new_window(self, widget, data=None):
 		if self.window2.isVisible()==True:
@@ -679,11 +669,6 @@ class gpvdm_main_window(QMainWindow):
 
 		self.ribbon.home_export.triggered.connect(self.callback_export)
 
-		self.ribbon.information.hints.triggered.connect(self.callback_help)
-		self.ribbon.information.man.triggered.connect(self.callback_on_line_help)
-		self.ribbon.information.license.triggered.connect(self.callback_license)
-		self.ribbon.information.youtube.triggered.connect(self.callback_youtube)
-		self.ribbon.information.ref.triggered.connect(self.callback_cite)
 		self.ribbon.about.pressed.connect(self.callback_about_dialog)
 
 

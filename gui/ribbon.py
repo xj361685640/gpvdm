@@ -39,37 +39,7 @@ from PyQt5.QtWidgets import QTabWidget
 from ribbon_device import ribbon_device
 from ribbon_simulations import ribbon_simulations
 from ribbon_configure import ribbon_configure
-
-class c_information(QToolBar):
-	def __init__(self):
-		QToolBar.__init__(self)
-		self.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
-		self.setIconSize(QSize(42, 42))
-
-
-		self.license = QAction(QIcon(os.path.join(get_image_file_path(),"license.png")), _("License")+"\n"	, self)
-		self.addAction(self.license)		
-
-		self.ref = QAction(QIcon(os.path.join(get_image_file_path(),"ref.png")), _("How to\ncite"), self)
-		self.addAction(self.ref)
-
-		self.hints = QAction(QIcon(os.path.join(get_image_file_path(),"hints.png")), _("Hints\nWindow"), self)
-		self.addAction(self.hints)
-
-		#self.about = QAction(QIcon(os.path.join(get_image_file_path(),"help.png")), _("About")+"\n", self)
-		#self.addAction(self.about)
-
-
-		spacer = QWidget()
-		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-		self.addWidget(spacer)
-		
-		self.youtube = QAction(QIcon(os.path.join(get_image_file_path(),"youtube.png")), _("Youtube\nchannel"), self)
-		self.addAction(self.youtube)
-
-		self.man = QAction(QIcon(os.path.join(get_image_file_path(),"man.png")), _("Help")+"\n", self)
-		self.addAction(self.man)
-
+from ribbon_information import ribbon_information
 
 		
 class c_home(QToolBar):
@@ -182,7 +152,7 @@ class ribbon(QTabWidget):
 		self.device.update()
 		self.simulations.update()
 		self.configure.update()
-
+		self.information.update()
 		
 	def __init__(self):
 		QTabWidget.__init__(self)
@@ -217,7 +187,7 @@ class ribbon(QTabWidget):
 			self.tb_cluster=self.cluster()
 			self.addTab(self.tb_cluster,"Cluster")
 
-		self.information=c_information()
+		self.information=ribbon_information()
 		self.addTab(self.information,"Information")
 
 		#self.setStyleSheet("QWidget {	background-color:cyan; }") 
