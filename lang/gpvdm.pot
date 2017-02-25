@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.80\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2017-02-22 17:07+0000\n"
+"POT-Creation-Date: 2017-02-25 11:14+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -521,7 +521,7 @@ msgstr ""
 #: ../gui/cmp_class.py:300 ../gui/band_graph.py:73
 #: ../gui/fit_configure_window.py:73 ../gui/experiment.py:180
 #: ../gui/experiment.py:237 ../gui/contacts.py:196 ../gui/jv.py:78
-#: ../gui/emesh.py:169 ../gui/scan.py:259 ../gui/scan.py:354 ../gui/info.py:68
+#: ../gui/emesh.py:172 ../gui/scan.py:259 ../gui/scan.py:354 ../gui/info.py:68
 #: ../gui/fxexperiment.py:177 ../gui/fxexperiment.py:230
 #: ../gui/fit_window.py:226 ../gui/ref.py:124 ../gui/lasers.py:180
 #: ../gui/lasers.py:237 ../gui/help.py:127 ../gui/optics.py:121
@@ -572,6 +572,30 @@ msgstr ""
 msgid "Load type"
 msgstr ""
 
+#: ../gui/ribbon_configure.py:52 ../gui/config_window.py:55
+#: ../gui/ribbon.py:133 ../gui/fit_window.py:277
+msgid "Configure"
+msgstr ""
+
+#: ../gui/ribbon_configure.py:59
+msgid ""
+"Electrical\n"
+"mesh"
+msgstr ""
+
+#: ../gui/ribbon_configure.py:74
+msgid ""
+"<big><b>Mesh editor</b></big>\n"
+"Use this window to setup the mesh, the window can also be used to change the "
+"dimensionality of the simulation."
+msgstr ""
+
+#: ../gui/ribbon_configure.py:88
+msgid ""
+"<big><b>Configuration editor</b></big><br> Use this window to control "
+"advanced simulation parameters."
+msgstr ""
+
 #: ../gui/fx_selector.py:42
 msgid "Wavelengths"
 msgstr ""
@@ -600,8 +624,9 @@ msgstr ""
 
 #: ../gui/fit_configure_window.py:72 ../gui/experiment.py:201
 #: ../gui/experiment.py:202 ../gui/config_window.py:68
-#: ../gui/config_window.py:69 ../gui/materials_main.py:97 ../gui/gpvdm.py:723
-#: ../gui/emesh.py:168 ../gui/ribbon.py:88 ../gui/scan.py:318
+#: ../gui/config_window.py:69 ../gui/ribbon_home.py:92
+#: ../gui/materials_main.py:97 ../gui/emesh.py:171
+#: ../gui/ribbon_information.py:75 ../gui/ribbon.py:75 ../gui/scan.py:318
 #: ../gui/scan.py:319 ../gui/cost.py:92 ../gui/fxexperiment.py:195
 #: ../gui/fxexperiment.py:196 ../gui/fit_window.py:244 ../gui/fit_window.py:245
 #: ../gui/ref.py:104 ../gui/ref.py:105 ../gui/lasers.py:201
@@ -911,9 +936,9 @@ msgstr ""
 msgid "Problem generating tree."
 msgstr ""
 
-#: ../gui/scan_tab.py:405 ../gui/gpvdm.py:701 ../gui/fxexperiment.py:176
-#: ../gui/fit_window.py:225 ../gui/fit_vars.py:95 ../gui/fit_vars.py:156
-#: ../gui/optics.py:117 ../gui/fit_patch.py:124
+#: ../gui/scan_tab.py:405 ../gui/gpvdm.py:308 ../gui/ribbon.py:124
+#: ../gui/fxexperiment.py:176 ../gui/fit_window.py:225 ../gui/fit_vars.py:95
+#: ../gui/fit_vars.py:156 ../gui/optics.py:117 ../gui/fit_patch.py:124
 msgid "File"
 msgstr ""
 
@@ -933,7 +958,7 @@ msgstr ""
 msgid "Opperation"
 msgstr ""
 
-#: ../gui/scan_tab.py:484 ../gui/gpvdm.py:532
+#: ../gui/scan_tab.py:484 ../gui/gpvdm.py:408
 msgid ""
 "Re-run the simulation with 'dump all slices' set to one to use this tool."
 msgstr ""
@@ -958,7 +983,7 @@ msgstr ""
 msgid "Find a file to plot"
 msgstr ""
 
-#: ../gui/scan_tab.py:539 ../gui/ribbon.py:143
+#: ../gui/scan_tab.py:539
 msgid "Examine results in time domain"
 msgstr ""
 
@@ -979,92 +1004,51 @@ msgid "Add item"
 msgstr ""
 
 #: ../gui/layer_widget.py:185
-msgid ""
-"<big><b>The optical simulation window</b></big><br>Use this window to "
-"perform optical simulations.  Click on the play button to run a simulation."
-msgstr ""
-
-#: ../gui/layer_widget.py:185
-msgid ""
-"Click on the play button to run an optical simulation.  The results will be "
-"displayed in the tabs to the right."
-msgstr ""
-
-#: ../gui/layer_widget.py:208
 msgid "Add device layer"
 msgstr ""
 
-#: ../gui/layer_widget.py:212
+#: ../gui/layer_widget.py:189
 msgid "Delete device layer"
 msgstr ""
 
-#: ../gui/layer_widget.py:217
+#: ../gui/layer_widget.py:194
 msgid "Move device layer"
 msgstr ""
 
-#: ../gui/layer_widget.py:221 ../libdump/dump_1d_slice.c:331
-msgid "Doping"
-msgstr ""
-
-#: ../gui/layer_widget.py:225
-msgid "Optical simulation"
-msgstr ""
-
-#: ../gui/layer_widget.py:229
-msgid "Look at the materials database"
-msgstr ""
-
-#: ../gui/layer_widget.py:233
-msgid "Calculate the cost of the solar cell"
-msgstr ""
-
-#: ../gui/layer_widget.py:262
+#: ../gui/layer_widget.py:223
 msgid "Layer name"
 msgstr ""
 
-#: ../gui/layer_widget.py:262 ../gui/electrical_mesh_editor.py:118
+#: ../gui/layer_widget.py:223 ../gui/electrical_mesh_editor.py:118
 msgid "Thicknes"
 msgstr ""
 
-#: ../gui/layer_widget.py:262
+#: ../gui/layer_widget.py:223
 msgid "Optical material"
 msgstr ""
 
-#: ../gui/layer_widget.py:262
+#: ../gui/layer_widget.py:223
 msgid "Layer type"
 msgstr ""
 
-#: ../gui/layer_widget.py:262
+#: ../gui/layer_widget.py:223
 msgid "DoS Layer"
 msgstr ""
 
-#: ../gui/layer_widget.py:262
+#: ../gui/layer_widget.py:223
 msgid "PL Layer"
 msgstr ""
 
-#: ../gui/layer_widget.py:325
+#: ../gui/layer_widget.py:286
 msgid "Material for "
 msgstr ""
 
-#: ../gui/layer_widget.py:326
+#: ../gui/layer_widget.py:287
 msgid "Layer width "
 msgstr ""
 
-#: ../gui/layer_widget.py:388
+#: ../gui/layer_widget.py:349
 msgid "Error in epitaxy, check the input values."
-msgstr ""
-
-#: ../gui/layer_widget.py:395
-msgid ""
-"<big><b>Doping window</b></big>\n"
-"Use this window to add doping to the simulation"
-msgstr ""
-
-#: ../gui/layer_widget.py:406
-msgid ""
-"<big><b>Costs window</b></big>\n"
-"Use this window to calculate the cost of the solar cell and the energy "
-"payback time."
 msgstr ""
 
 #: ../gui/dump_io.py:69
@@ -1076,7 +1060,9 @@ msgid "<big><b>Write minimal data to disk (fast)</b></big><br>"
 msgstr ""
 
 #: ../gui/dump_io.py:100
-msgid "Set how much data is dumped from a simulation"
+msgid ""
+"Data dump\n"
+"control"
 msgstr ""
 
 #: ../gui/experiment.py:76 ../gui/fxexperiment.py:72
@@ -1141,9 +1127,8 @@ msgstr ""
 
 #: ../gui/information_noweb.py:65
 msgid ""
-"To make a new simulation click <i><u>N</u>ew Simulation</i> in the <i><u>F</"
-"u>ile</i> menu<br> or to open an existing simulation select <i><u>O</u>pen "
-"simulation</i>. "
+"To make a new simulation click <i><u>N</u>ew Simulation</i> in the menu or "
+"to open an existing simulation select <i><u>O</u>pen simulation</i>. "
 msgstr ""
 
 #: ../gui/information_noweb.py:67
@@ -1301,10 +1286,6 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: ../gui/config_window.py:55 ../gui/gpvdm.py:719 ../gui/fit_window.py:277
-msgid "Configure"
-msgstr ""
-
 #: ../gui/config_window.py:84
 msgid "Solver configuration"
 msgstr ""
@@ -1333,6 +1314,52 @@ msgstr ""
 msgid "Language"
 msgstr ""
 
+#: ../gui/ribbon_home.py:52
+msgid "Undo"
+msgstr ""
+
+#: ../gui/ribbon_home.py:57
+msgid ""
+"Run\n"
+"simulation"
+msgstr ""
+
+#: ../gui/ribbon_home.py:60
+msgid ""
+"Stop\n"
+"simulation"
+msgstr ""
+
+#: ../gui/ribbon_home.py:65
+msgid ""
+"Parameter\n"
+"scan"
+msgstr ""
+
+#: ../gui/ribbon_home.py:70
+msgid ""
+"Fit\n"
+"data"
+msgstr ""
+
+#: ../gui/ribbon_home.py:76
+msgid ""
+"Plot\n"
+"File"
+msgstr ""
+
+#: ../gui/ribbon_home.py:80
+msgid ""
+"Examine results\n"
+"in time domain"
+msgstr ""
+
+#: ../gui/ribbon_home.py:111
+msgid ""
+"<big>Select a file to plot</big><br>Single clicking shows you the content of "
+"the file"
+msgstr ""
+
 #: ../gui/materials_main.py:48 ../gui/materials_main.py:112
 msgid "Electrical parameters"
 msgstr ""
@@ -1344,7 +1371,7 @@ msgid ""
 msgstr ""
 
 #: ../gui/materials_main.py:51 ../gui/materials_main.py:112
-#: ../gui/gpvdm_notebook.py:96 ../gui/inp_description.py:55
+#: ../gui/gpvdm_notebook.py:101 ../gui/inp_description.py:55
 msgid "Luminescence"
 msgstr ""
 
@@ -1380,69 +1407,63 @@ msgstr ""
 msgid "Cost of material"
 msgstr ""
 
-#: ../gui/gpvdm.py:144
+#: ../gui/gpvdm.py:137
 msgid "Don't run me as root!!"
 msgstr ""
 
-#: ../gui/gpvdm.py:235
+#: ../gui/gpvdm.py:211
 msgid ""
 "<big><b>Fit window</b></big><br> Use this window to fit the simulation to "
 "experimental data."
 msgstr ""
 
-#: ../gui/gpvdm.py:243
+#: ../gui/gpvdm.py:219
 msgid ""
 "<big><b>The scan window</b></big><br> Very often it is useful to be able to "
 "systematically very a device parameter such as mobility or density of trap "
 "states.  This window allows you to do just that."
 msgstr ""
 
-#: ../gui/gpvdm.py:243
+#: ../gui/gpvdm.py:219
 msgid "Use the plus icon to add a new scan line to the list."
 msgstr ""
 
-#: ../gui/gpvdm.py:267
-msgid ""
-"<big>Select a file to plot</big><br>Single clicking shows you the content of "
-"the file"
-msgstr ""
-
-#: ../gui/gpvdm.py:309
-msgid "Import an old gpvdm simulation"
-msgstr ""
-
-#: ../gui/gpvdm.py:326
+#: ../gui/gpvdm.py:260
 msgid "file opened"
 msgstr ""
 
-#: ../gui/gpvdm.py:332
+#: ../gui/gpvdm.py:265
 msgid ""
 "<big><b>New simulation!</b></big><br> Now selected the type of device you "
 "would like to simulate."
 msgstr ""
 
-#: ../gui/gpvdm.py:370
+#: ../gui/gpvdm.py:293
 msgid ""
 "<big><b>Now run the simulation</b></big><br> Click on the play icon to start "
 "a simulation."
 msgstr ""
 
-#: ../gui/gpvdm.py:398
+#: ../gui/gpvdm.py:298 ../gui/ribbon.py:127
+msgid "Home"
+msgstr ""
+
+#: ../gui/gpvdm.py:309
 msgid ""
 "<big><b>Hi!</b></big><br> I'm the on-line help system :).  If you find any "
 "bugs please report them to <a href=\"mailto:roderick.mackenzie@nottingham.ac."
 "uk\">roderick.mackenzie@nottingham.ac.uk</a>."
 msgstr ""
 
-#: ../gui/gpvdm.py:398
+#: ../gui/gpvdm.py:309
 msgid "Click on the new icon to make a new simulation directory."
 msgstr ""
 
-#: ../gui/gpvdm.py:468
+#: ../gui/gpvdm.py:346
 msgid "Open an existing gpvdm simulation"
 msgstr ""
 
-#: ../gui/gpvdm.py:522
+#: ../gui/gpvdm.py:398
 msgid ""
 "<big><b>Examine the results in time domain</b></big><br> After you have run "
 "a simulation in time domain, if is often nice to be able to step through the "
@@ -1451,7 +1472,43 @@ msgid ""
 "curve, the slider sill step through voltage points rather than time points."
 msgstr ""
 
-#: ../gui/gpvdm.py:545
+#: ../gui/ribbon_simulations.py:58
+msgid ""
+"Time domain\n"
+"simulation editor."
+msgstr ""
+
+#: ../gui/ribbon_simulations.py:63
+msgid ""
+"Frequency domain\n"
+"simulation editor"
+msgstr ""
+
+#: ../gui/ribbon_simulations.py:68
+msgid ""
+"Steady state\n"
+"simulation editor"
+msgstr ""
+
+#: ../gui/ribbon_simulations.py:73
+msgid ""
+"Quantum\n"
+"efficiency"
+msgstr ""
+
+#: ../gui/ribbon_simulations.py:81
+msgid ""
+"Optical\n"
+"Simulation"
+msgstr ""
+
+#: ../gui/ribbon_simulations.py:85
+msgid ""
+"Laser\n"
+"editor"
+msgstr ""
+
+#: ../gui/ribbon_simulations.py:127
 msgid ""
 "<big><b>The time mesh editor</b></big><br> To do time domain simulations one "
 "must define how voltage the light vary as a function of time.  This can be "
@@ -1459,7 +1516,7 @@ msgid ""
 "and time step."
 msgstr ""
 
-#: ../gui/gpvdm.py:558
+#: ../gui/ribbon_simulations.py:140
 msgid ""
 "<big><b>Frequency domain mesh editor</b></big><br> Some times it is useful "
 "to do frequency domain simulations such as when simulating impedance "
@@ -1467,70 +1524,27 @@ msgid ""
 "be simulated."
 msgstr ""
 
-#: ../gui/gpvdm.py:569
+#: ../gui/ribbon_simulations.py:151
 msgid ""
 "<big><b>Laser setup</b></big><br> Use this window to set up your lasers."
 msgstr ""
 
-#: ../gui/gpvdm.py:580
+#: ../gui/ribbon_simulations.py:162
 msgid ""
 "<big><b>JV simulation editor</b></big><br> Use this window to select the "
 "step size and parameters of the JV simulations."
 msgstr ""
 
-#: ../gui/gpvdm.py:593
+#: ../gui/ribbon_simulations.py:169
 msgid ""
-"<big><b>Configuration editor</b></big><br> Use this window to control "
-"advanced simulation parameters."
+"<big><b>The optical simulation window</b></big><br>Use this window to "
+"perform optical simulations.  Click on the play button to run a simulation."
 msgstr ""
 
-#: ../gui/gpvdm.py:703
-msgid "New optical material"
-msgstr ""
-
-#: ../gui/gpvdm.py:705
-msgid "Export data"
-msgstr ""
-
-#: ../gui/gpvdm.py:708 ../gui/fit_window_plot_real.py:126
-#: ../gui/import_data.py:233
-msgid "Import data"
-msgstr ""
-
-#: ../gui/gpvdm.py:711
-msgid "Import from library"
-msgstr ""
-
-#: ../gui/gpvdm.py:714
-msgid "Quit"
-msgstr ""
-
-#: ../gui/gpvdm.py:717
-msgid "Simulation"
-msgstr ""
-
-#: ../gui/gpvdm.py:725
-msgid "Help window"
-msgstr ""
-
-#: ../gui/gpvdm.py:728
-msgid "Manual"
-msgstr ""
-
-#: ../gui/gpvdm.py:731
-msgid "License"
-msgstr ""
-
-#: ../gui/gpvdm.py:734 ../gui/status_icon.py:54
-msgid "Youtube channel"
-msgstr ""
-
-#: ../gui/gpvdm.py:737
-msgid "Citing the model"
-msgstr ""
-
-#: ../gui/gpvdm.py:742 ../gui/about.py:48
-msgid "About"
+#: ../gui/ribbon_simulations.py:169
+msgid ""
+"Click on the play button to run an optical simulation.  The results will be "
+"displayed in the tabs to the right."
 msgstr ""
 
 #: ../gui/tab_homo.py:65
@@ -1598,7 +1612,7 @@ msgstr ""
 msgid "Steady state simulation"
 msgstr ""
 
-#: ../gui/tab_main.py:97
+#: ../gui/tab_main.py:103
 msgid ""
 "<big><b>The device structure tab</b></big>\n"
 " Use this tab to change the structure of the device, the layer thicknesses "
@@ -1606,82 +1620,100 @@ msgid ""
 "base and  edit the electrical mesh."
 msgstr ""
 
-#: ../gui/tab_main.py:101
+#: ../gui/tab_main.py:107
 msgid "<big><b>Update available!</b></big><br>"
+msgstr ""
+
+#: ../gui/ribbon_device.py:58 ../libdump/dump_1d_slice.c:331
+msgid "Doping"
+msgstr ""
+
+#: ../gui/ribbon_device.py:62
+msgid ""
+"Materials\n"
+"database"
+msgstr ""
+
+#: ../gui/ribbon_device.py:66
+msgid ""
+"Calculate\n"
+"the cost"
+msgstr ""
+
+#: ../gui/ribbon_device.py:70
+msgid "Contacts"
+msgstr ""
+
+#: ../gui/ribbon_device.py:84
+msgid ""
+"<big><b>Doping window</b></big>\n"
+"Use this window to add doping to the simulation"
+msgstr ""
+
+#: ../gui/ribbon_device.py:95
+msgid ""
+"<big><b>Contacts window</b></big>\n"
+"Use this window to change the layout of the contacts on the device"
+msgstr ""
+
+#: ../gui/ribbon_device.py:116
+msgid ""
+"<big><b>Costs window</b></big>\n"
+"Use this window to calculate the cost of the solar cell and the energy "
+"payback time."
 msgstr ""
 
 #: ../gui/tb_lasers.py:70
 msgid "Laser:"
 msgstr ""
 
-#: ../gui/emesh.py:144
+#: ../gui/emesh.py:147
 msgid "Electrical Mesh Editor"
 msgstr ""
 
-#: ../gui/emesh.py:152
+#: ../gui/emesh.py:155
 msgid "1D simulation"
 msgstr ""
 
-#: ../gui/emesh.py:156
+#: ../gui/emesh.py:159
 msgid "2D simulation"
 msgstr ""
 
-#: ../gui/emesh.py:160
+#: ../gui/emesh.py:163
 msgid "3D simulation"
 msgstr ""
 
-#: ../gui/display.py:84
+#: ../gui/display.py:81
 msgid "Rotate"
 msgstr ""
 
-#: ../gui/display.py:89
-msgid "Contacts"
-msgstr ""
-
-#: ../gui/display.py:93
-msgid "Edit the electrical mesh"
-msgstr ""
-
-#: ../gui/display.py:98
+#: ../gui/display.py:86
 msgid "Configuration"
 msgstr ""
 
-#: ../gui/display.py:165
+#: ../gui/display.py:148
 msgid ""
 "<big><b>OpenGL warning</b></big><br>It looks as if you don't have working 3D "
 "graphics acceleration on your computer.  gpvdm will therefore fallback to 2D "
 "mode. The model will still be fully functional, but not look quite so nice."
 msgstr ""
 
-#: ../gui/display.py:194
-msgid ""
-"<big><b>Contacts window</b></big>\n"
-"Use this window to change the layout of the contacts on the device"
-msgstr ""
-
-#: ../gui/display.py:202
-msgid ""
-"<big><b>Mesh editor</b></big>\n"
-"Use this window to setup the mesh, the window can also be used to change the "
-"dimensionality of the simulation."
-msgstr ""
-
-#: ../gui/gpvdm_notebook.py:84 ../gui/inp_description.py:37
+#: ../gui/gpvdm_notebook.py:89 ../gui/inp_description.py:37
 msgid "Device"
 msgstr ""
 
-#: ../gui/gpvdm_notebook.py:85
+#: ../gui/gpvdm_notebook.py:90
 msgid ""
 "<big><b>Device tab</b></big><br>This tab contains information about the "
 "device, such as width breadth, carrier density on the contacts, shunt and "
 "contact resistance."
 msgstr ""
 
-#: ../gui/gpvdm_notebook.py:87 ../gui/gpvdm_notebook.py:157
+#: ../gui/gpvdm_notebook.py:92 ../gui/gpvdm_notebook.py:163
 msgid "Device structure"
 msgstr ""
 
-#: ../gui/gpvdm_notebook.py:88
+#: ../gui/gpvdm_notebook.py:93
 msgid ""
 "<big><b>The device structure tab</b></big><br> Use this tab to change the "
 "structure of the device, the layer thicknesses and to perform optical "
@@ -1689,28 +1721,28 @@ msgid ""
 "electrical mesh."
 msgstr ""
 
-#: ../gui/gpvdm_notebook.py:90 ../gui/inp_description.py:53
+#: ../gui/gpvdm_notebook.py:95 ../gui/inp_description.py:53
 msgid "Bands"
 msgstr ""
 
-#: ../gui/gpvdm_notebook.py:91
+#: ../gui/gpvdm_notebook.py:96
 msgid ""
 "<big><b>The bands tab</b></big><br> Use this tab to edit the energetic "
 "distribution of the density of states."
 msgstr ""
 
-#: ../gui/gpvdm_notebook.py:93
+#: ../gui/gpvdm_notebook.py:98
 msgid "Density of states"
 msgstr ""
 
-#: ../gui/gpvdm_notebook.py:94
+#: ../gui/gpvdm_notebook.py:99
 msgid ""
 "<big><b>Density of States</b></big>\n"
 "This tab contains the electrical model parameters, such as mobility, tail "
 "slope energy, and band gap."
 msgstr ""
 
-#: ../gui/gpvdm_notebook.py:97
+#: ../gui/gpvdm_notebook.py:102
 msgid ""
 "<big><b>Luminescence</b></big>\n"
 "If you set 'Turn on luminescence' to true, the simulation will assume "
@@ -1719,102 +1751,72 @@ msgid ""
 "efficient each recombination mechanism is at producing photons."
 msgstr ""
 
-#: ../gui/gpvdm_notebook.py:99 ../gui/gpvdm_notebook.py:226
+#: ../gui/gpvdm_notebook.py:104 ../gui/gpvdm_notebook.py:232
 msgid "Terminal"
 msgstr ""
 
-#: ../gui/gpvdm_notebook.py:100
+#: ../gui/gpvdm_notebook.py:105
 msgid ""
 "<big><b>The terminal window</b></big>\n"
 "The output of the model will be displayed in this window, watch this screen "
 "for debugging and convergence information."
 msgstr ""
 
-#: ../gui/gpvdm_notebook.py:102 ../gui/gpvdm_notebook.py:135
-#: ../gui/gpvdm_notebook.py:243
+#: ../gui/gpvdm_notebook.py:107 ../gui/gpvdm_notebook.py:141
+#: ../gui/gpvdm_notebook.py:249
 msgid "Information"
 msgstr ""
 
-#: ../gui/gpvdm_notebook.py:103
+#: ../gui/gpvdm_notebook.py:108
 msgid ""
 "<big><b>On-line help</b></big>\n"
 "You can view the on-line help and manual here."
+msgstr ""
+
+#: ../gui/ribbon_information.py:51 ../gui/cool_menu.py:59
+msgid "License"
+msgstr ""
+
+#: ../gui/ribbon_information.py:55
+msgid ""
+"How to\n"
+"cite"
+msgstr ""
+
+#: ../gui/ribbon_information.py:59
+msgid ""
+"Hints\n"
+"Window"
+msgstr ""
+
+#: ../gui/ribbon_information.py:71
+msgid ""
+"Youtube\n"
+"channel"
 msgstr ""
 
 #: ../gui/tb_item_sim_mode.py:94
 msgid "Simulation mode:"
 msgstr ""
 
-#: ../gui/ribbon.py:43
+#: ../gui/ribbon.py:61
 msgid "Make a new simulation"
 msgstr ""
 
-#: ../gui/ribbon.py:48
+#: ../gui/ribbon.py:65
 msgid ""
 "Open\n"
 "simulation"
 msgstr ""
 
-#: ../gui/ribbon.py:55
-msgid "Undo"
-msgstr ""
-
-#: ../gui/ribbon.py:60
-msgid ""
-"Run\n"
-"simulation"
-msgstr ""
-
-#: ../gui/ribbon.py:63
-msgid ""
-"Parameter\n"
-"scan"
-msgstr ""
-
 #: ../gui/ribbon.py:68
 msgid ""
-"Stop\n"
-"simulation"
+"Export\n"
+"data"
 msgstr ""
 
-#: ../gui/ribbon.py:79
-msgid "Run a fit command"
-msgstr ""
-
-#: ../gui/ribbon.py:99 ../gui/ribbon.py:126
-msgid ""
-"Time domain\n"
-"simulation editor."
-msgstr ""
-
-#: ../gui/ribbon.py:103
-msgid ""
-"Frequency domain\n"
-"simulation editor"
-msgstr ""
-
-#: ../gui/ribbon.py:107
-msgid ""
-"Steady state\n"
-"simulation editor"
-msgstr ""
-
-#: ../gui/ribbon.py:114
-msgid "Quantum efficiency"
-msgstr ""
-
-#: ../gui/ribbon.py:139
-msgid ""
-"Plot\n"
-"File"
-msgstr ""
-
-#: ../gui/ribbon.py:153
-msgid "Optics"
-msgstr ""
-
-#: ../gui/ribbon.py:156
-msgid "Lasers editor"
+#: ../gui/ribbon.py:130 ../gui/scan.py:264
+msgid "Simulations"
 msgstr ""
 
 #: ../gui/inp_description.py:38
@@ -1919,10 +1921,6 @@ msgstr ""
 
 #: ../gui/scan.py:257
 msgid "Change dir"
-msgstr ""
-
-#: ../gui/scan.py:264
-msgid "Simulations"
 msgstr ""
 
 #: ../gui/scan.py:268 ../gui/scan.py:332
@@ -2255,6 +2253,10 @@ msgstr ""
 msgid "y"
 msgstr ""
 
+#: ../gui/fit_window_plot_real.py:126 ../gui/import_data.py:233
+msgid "Import data"
+msgstr ""
+
 #: ../gui/server.py:129
 msgid ""
 "<big><b>Simulation finished!</b></big><br>Click on the plot icon to plot the "
@@ -2350,6 +2352,26 @@ msgstr ""
 
 #: ../gui/lasers.py:215
 msgid "New laser"
+msgstr ""
+
+#: ../gui/cool_menu.py:53
+msgid "Help window"
+msgstr ""
+
+#: ../gui/cool_menu.py:56
+msgid "Manual"
+msgstr ""
+
+#: ../gui/cool_menu.py:62
+msgid "Youtube"
+msgstr ""
+
+#: ../gui/cool_menu.py:65
+msgid "Citing the model"
+msgstr ""
+
+#: ../gui/cool_menu.py:68 ../gui/about.py:48
+msgid "About"
 msgstr ""
 
 #: ../gui/gpvdm_open.py:115
@@ -3237,6 +3259,10 @@ msgstr ""
 
 #: ../gui/plot_widget.py:635
 msgid "xy plot"
+msgstr ""
+
+#: ../gui/status_icon.py:54
+msgid "Youtube channel"
 msgstr ""
 
 #: ../gui/update.py:120

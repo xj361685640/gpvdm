@@ -61,6 +61,10 @@ class ribbon_configure(QToolBar):
 		self.addAction(self.mesh)
 		
 	def update(self):
+		if self.config_window!=None:
+			del self.config_window
+			self.config_window=None
+
 		self.dump.refresh()
 		self.electrical_mesh.update()
 		

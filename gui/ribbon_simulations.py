@@ -36,26 +36,47 @@ from PyQt5.QtCore import QSize, Qt,QFile,QIODevice
 from PyQt5.QtWidgets import QWidget,QSizePolicy,QVBoxLayout,QHBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QMessageBox, QLineEdit, QToolButton
 from PyQt5.QtWidgets import QTabWidget
 
+from help import help_window
+
+#experiments
+from lasers import lasers
+from experiment import experiment
+from fxexperiment import fxexperiment
+from jv import jv
+from qe import qe_window
+from optics import class_optical
 
 class ribbon_simulations(QToolBar):
 	def __init__(self):
 		QToolBar.__init__(self)
+
+		self.experiment_window=None
+		self.fxexperiment_window=None
+		self.jvexperiment_window=None
+		self.optics_window=False
+		self.qe_window=None
+		self.lasers_window=None
+
 		self.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
 		self.setIconSize(QSize(42, 42))
 
 		self.time = QAction(QIcon(os.path.join(get_image_file_path(),"time.png")), _("Time domain\nsimulation editor."), self)
+		self.time.triggered.connect(self.callback_edit_experiment_window)
 		self.addAction(self.time )
 
 
 		self.fx = QAction(QIcon(os.path.join(get_image_file_path(),"spectrum.png")), _("Frequency domain\nsimulation editor"), self)
+		self.fx.triggered.connect(self.callback_fxexperiment_window)
 		self.addAction(self.fx)
 
 
 		self.jv = QAction(QIcon(os.path.join(get_image_file_path(),"jv.png")), _("Steady state\nsimulation editor"), self)
+		self.jv.triggered.connect(self.callback_jv_window)
 		self.addAction(self.jv)
 
 
 		self.qe = QAction(QIcon(os.path.join(get_image_file_path(),"qe.png")), _("Quantum\nefficiency"), self)
+		self.qe.triggered.connect(self.callback_qe_window)
 		self.addAction(self.qe)
 		self.qe.setVisible(False)
 
@@ -63,13 +84,35 @@ class ribbon_simulations(QToolBar):
 		self.addWidget(self.mode)
 		
 		self.optics = QAction(QIcon(os.path.join(get_image_file_path(),"optics.png")), _("Optical\nSimulation"), self)
+		self.optics.triggered.connect(self.callback_optics_sim)
 		self.addAction(self.optics)
 
 		self.lasers = QAction(QIcon(os.path.join(get_image_file_path(),"lasers.png")), _("Laser\neditor"), self)
+		self.lasers.triggered.connect(self.callback_configure_lasers)
 		self.addAction(self.lasers)
-		
+
+
 	def update(self):
-		print("update")
+		if self.qe_window!=None:
+			del self.qe_window
+			self.qe_window=None
+
+		if self.lasers_window!=None:
+			del self.lasers_window
+			self.lasers_window=None
+
+		if self.experiment_window!=None:
+			del self.experiment_window
+			self.experiment_window=None
+
+		if self.fxexperiment_window!=None:
+			del self.fxexperiment_window
+			self.fxexperiment_window=None
+
+		if self.jvexperiment_window!=None:
+			del self.jvexperiment_window
+			self.jvexperiment_window=None
+			
 		
 	def setEnabled(self,val):
 		self.time.setEnabled(val)
@@ -80,3 +123,70 @@ class ribbon_simulations(QToolBar):
 		self.optics.setEnabled(val)
 		self.lasers.setEnabled(val)
 		
+	def callback_edit_experiment_window(self):
+
+		if self.experiment_window==None:
+			self.experiment_window=experiment()
+			self.experiment_window.changed.connect(self.mode.update)
+			
+		help_window().help_set_help(["time.png",_("<big><b>The time mesh editor</b></big><br> To do time domain simulations one must define how voltage the light vary as a function of time.  This can be done in this window.  Also use this window to define the simulation length and time step.")])
+		if self.experiment_window.isVisible()==True:
+			self.experiment_window.hide()
+		else:
+			self.experiment_window.show()
+
+
+	def callback_fxexperiment_window(self):
+
+		if self.fxexperiment_window==None:
+			self.fxexperiment_window=fxexperiment()
+			self.fxexperiment_window.changed.connect(self.mode.update)
+			
+		help_window().help_set_help(["spectrum.png",_("<big><b>Frequency domain mesh editor</b></big><br> Some times it is useful to do frequency domain simulations such as when simulating impedance spectroscopy.  This window will allow you to choose which frequencies will be simulated.")])
+		if self.fxexperiment_window.isVisible()==True:
+			self.fxexperiment_window.hide()
+		else:
+			self.fxexperiment_window.show()
+		
+	def callback_configure_lasers(self):
+
+		if self.lasers_window==None:
+			self.lasers_window=lasers()
+
+		help_window().help_set_help(["lasers.png",_("<big><b>Laser setup</b></big><br> Use this window to set up your lasers.")])
+		if self.lasers_window.isVisible()==True:
+			self.lasers_window.hide()
+		else:
+			self.lasers_window.show()
+
+	def callback_jv_window(self):
+
+		if self.jvexperiment_window==None:
+			self.jvexperiment_window=jv()
+
+		help_window().help_set_help(["jv.png",_("<big><b>JV simulation editor</b></big><br> Use this window to select the step size and parameters of the JV simulations.")])
+		if self.jvexperiment_window.isVisible()==True:
+			self.jvexperiment_window.hide()
+		else:
+			self.jvexperiment_window.show()
+			
+	def callback_optics_sim(self, widget, data=None):
+		help_window().help_set_help(["optics.png",_("<big><b>The optical simulation window</b></big><br>Use this window to perform optical simulations.  Click on the play button to run a simulation."),"play.png",_("Click on the play button to run an optical simulation.  The results will be displayed in the tabs to the right.")])
+
+		if self.optics_window==False:
+			self.optics_window=class_optical()
+			#self.notebook.changed.connect(self.optics_window.update)
+
+		if self.optics_window.isVisible()==True:
+			self.optics_window.hide()
+		else:
+			self.optics_window.show()
+			
+	def callback_qe_window(self, widget):
+		if self.qe_window==None:
+			self.qe_window=qe_window()
+
+		if self.qe_window.isVisible()==True:
+			self.qe_window.hide()
+		else:
+			self.qe_window.show()

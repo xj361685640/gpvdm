@@ -29,8 +29,6 @@ sys.path.append('/usr/lib64/gpvdm/')
 sys.path.append('/usr/share/gpvdm/gui/')	#debian
 
 from win_lin import running_on_linux
-from cal_path import get_exe_command
-from cal_path import get_exe_name
 from cal_path import get_image_file_path
 from cal_path import calculate_paths
 from cal_path import calculate_paths_init
@@ -40,7 +38,6 @@ calculate_paths()
 import i18n
 _ = i18n.language.gettext
 
-from code_ctrl import enable_webupdates
 from code_ctrl import enable_betafeatures
 from code_ctrl import code_ctrl_load
 from code_ctrl import enable_webupdates
@@ -51,8 +48,6 @@ from undo import undo_list_class
 #ver
 from ver import ver_load_info
 from ver import ver_error
-
-from gl import glWidget
 
 ver_load_info()
 code_ctrl_load()
@@ -75,7 +70,6 @@ from notice import notice
 from scan_item import scan_item_add
 from window_list import windows
 from window_list import resize_window_to_be_sane
-from qe import qe_window
 
 
 from gpvdm_notebook import gpvdm_notebook
@@ -98,13 +92,8 @@ from PyQt5.QtWidgets import QWidget,QSizePolicy,QVBoxLayout,QHBoxLayout,QPushBut
 
 #windows
 from splash import splash_window
-from jv import jv
 from new_simulation import new_simulation
 from hpc import hpc_class
-from lasers import lasers
-from experiment import experiment
-from fxexperiment import fxexperiment
-from scan import scan_class 
 from cmp_class import cmp_class
 from about import about_dlg
 from dlg_export import dlg_export
@@ -113,7 +102,6 @@ from device_lib import device_lib_class
 from cool_menu import cool_menu
 
 from equation import equation
-from optics import class_optical
 
 #python modules
 import webbrowser
@@ -160,7 +148,6 @@ class gpvdm_main_window(QMainWindow):
 
 	plot_after_run=False
 	plot_after_run_file=""
-	scan_window=None
 
 	def adbus(self,bus, message):
 		data=message.get_member()
@@ -180,38 +167,10 @@ class gpvdm_main_window(QMainWindow):
 		if self.notebook_active_page!=None:
 			self.notebook.goto_page(self.notebook_active_page)
 
-		if os.path.isfile("signal_stop.dat")==True:
-			f = open('signal_stop.dat')
-			lines = f.readlines()
-			f.close()
-			message=lines[0].rstrip()
-
-
-
 	def callback_plot_after_run_toggle(self, widget, data):
 		self.plot_after_run=data.get_active()
 		self.config.set_value("#plot_after_simulation",data.get_active())
 
-	def callback_optics_sim(self, widget, data=None):
-		help_window().help_set_help(["optics.png",_("<big><b>The optical simulation window</b></big><br>Use this window to perform optical simulations.  Click on the play button to run a simulation."),"play.png",_("Click on the play button to run an optical simulation.  The results will be displayed in the tabs to the right.")])
-
-		if self.optics_window==False:
-			self.optics_window=class_optical()
-			self.notebook.changed.connect(self.optics_window.update)
-
-		if self.optics_window.isVisible()==True:
-			self.optics_window.hide()
-		else:
-			self.optics_window.show()
-		
-	def callback_qe_window(self, widget):
-		if self.qe_window==None:
-			self.qe_window=qe_window()
-
-		if self.qe_window.isVisible()==True:
-			self.qe_window.hide()
-		else:
-			self.qe_window.show()
 
 	def callback_set_plot_auto_close(self, widget, data):
 		set_plot_auto_close(data.get_active())
@@ -245,19 +204,6 @@ class gpvdm_main_window(QMainWindow):
 		else:
 			self.fit_window.show()
 
-
-	def callback_scan(self, widget, data=None):
-		help_window().help_set_help(["scan.png",_("<big><b>The scan window</b></big><br> Very often it is useful to be able to systematically very a device parameter such as mobility or density of trap states.  This window allows you to do just that."),"add.png",_("Use the plus icon to add a new scan line to the list.")])
-		#self.tb_run_scan.setEnabled(True)
-
-		if self.scan_window==None:
-			self.scan_window=scan_class(self.my_server)
-
-
-		if self.scan_window.isVisible()==True:
-			self.scan_window.hide()
-		else:
-			self.scan_window.show()
 
 	def close_now(self):
 		self.win_list.update(self,"main_window")
@@ -359,44 +305,14 @@ class gpvdm_main_window(QMainWindow):
 		scan_item_add("light.inp","#Psun","light intensity",1)
 		#scan_populate_from_file("light.inp")
 
-		if self.scan_window!=None:
-			del self.scan_window
-			self.scan_window=None
-
-		if self.experiment_window!=None:
-			del self.experiment_window
-			self.experiment_window=None
-
-		if self.fxexperiment_window!=None:
-			del self.fxexperiment_window
-			self.fxexperiment_window=None
-
-		if self.jvexperiment_window!=None:
-			del self.jvexperiment_window
-			self.jvexperiment_window=None
-
 
 		if self.fit_window!=None:
 			del self.fit_window
 			self.fit_window=None
 
-		if self.lasers_window!=None:
-			del self.lasers_window
-			self.lasers_window=None
-
-		if self.config_window!=None:
-			del self.config_window
-			self.config_window=None
-
-		if self.qe_window!=None:
-			del self.qe_window
-			self.qe_window=None
 
 		self.ribbon.update()
-		#myitem=self.item_factory.get_item("/Plots/One plot window")
-		#myitem.set_active(self.config.get_value("#one_plot_window",False))
-		#myitem=self.item_factory.get_item("/Plots/Plot after simulation")
-		#myitem.set_active(self.config.get_value("#plot_after_simulation",False))
+
 
 	def callback_open(self, widget, data=None):
 		dialog = QFileDialog(self)
@@ -440,17 +356,6 @@ class gpvdm_main_window(QMainWindow):
 		webbrowser.open("https://www.gpvdm.com")
 
 
-	def callback_new_window(self, widget, data=None):
-		if self.window2.isVisible()==True:
-			self.window2.hide()
-		else:
-			self.window2.show()
-
-	def callback_close_window2(self, widget, data=None):
-		self.window2.hide()
-		return True
-
-
 	def callback_examine(self, widget, data=None):
 		help_window().help_set_help(["plot_time.png",_("<big><b>Examine the results in time domain</b></big><br> After you have run a simulation in time domain, if is often nice to be able to step through the simulation and look at the results.  This is what this window does.  Use the slider bar to move through the simulation.  When you are simulating a JV curve, the slider sill step through voltage points rather than time points.")])
 		self.my_cmp_class=cmp_class()
@@ -469,53 +374,6 @@ class gpvdm_main_window(QMainWindow):
 			return
 
 
-	def callback_edit_experiment_window(self):
-
-		if self.experiment_window==None:
-			self.experiment_window=experiment()
-			self.experiment_window.changed.connect(self.ribbon.simulations.mode.update)
-			
-		help_window().help_set_help(["time.png",_("<big><b>The time mesh editor</b></big><br> To do time domain simulations one must define how voltage the light vary as a function of time.  This can be done in this window.  Also use this window to define the simulation length and time step.")])
-		if self.experiment_window.isVisible()==True:
-			self.experiment_window.hide()
-		else:
-			self.experiment_window.show()
-
-
-	def callback_fxexperiment_window(self):
-
-		if self.fxexperiment_window==None:
-			self.fxexperiment_window=fxexperiment()
-			self.fxexperiment_window.changed.connect(self.ribbon.simulations.mode.update)
-			
-		help_window().help_set_help(["spectrum.png",_("<big><b>Frequency domain mesh editor</b></big><br> Some times it is useful to do frequency domain simulations such as when simulating impedance spectroscopy.  This window will allow you to choose which frequencies will be simulated.")])
-		if self.fxexperiment_window.isVisible()==True:
-			self.fxexperiment_window.hide()
-		else:
-			self.fxexperiment_window.show()
-		
-	def callback_configure_lasers(self):
-
-		if self.lasers_window==None:
-			self.lasers_window=lasers()
-
-		help_window().help_set_help(["lasers.png",_("<big><b>Laser setup</b></big><br> Use this window to set up your lasers.")])
-		if self.lasers_window.isVisible()==True:
-			self.lasers_window.hide()
-		else:
-			self.lasers_window.show()
-
-	def callback_jv_window(self):
-
-		if self.jvexperiment_window==None:
-			self.jvexperiment_window=jv()
-
-		help_window().help_set_help(["jv.png",_("<big><b>JV simulation editor</b></big><br> Use this window to select the step size and parameters of the JV simulations.")])
-		if self.jvexperiment_window.isVisible()==True:
-			self.jvexperiment_window.hide()
-		else:
-			self.jvexperiment_window.show()
-
 	def callback_undo(self, widget, data=None):
 		l=self.undo_list.get_list()
 		if len(l)>0:
@@ -531,7 +389,6 @@ class gpvdm_main_window(QMainWindow):
 
 			
 	def __init__(self):
-		self.optics_window=False
 		self.undo_list=undo_list_class()
 		self.ribbon=ribbon()
 		#self.electrical_mesh.changed.connect(self.recalculate)
@@ -594,20 +451,8 @@ class gpvdm_main_window(QMainWindow):
 			return
 
 
-
-		self.experiment_window=None
-
-		self.fxexperiment_window=None
-
-		self.jvexperiment_window=None
-
 		self.fit_window=None
 
-		self.config_window=None
-
-		self.qe_window=None
-
-		self.lasers_window=None
 
 		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"image.jpg")))		
 
@@ -632,7 +477,6 @@ class gpvdm_main_window(QMainWindow):
 		self.ribbon.home.stop.triggered.connect(self.callback_simulate_stop)
 		self.ribbon.home.stop.setEnabled(False)
 
-		self.ribbon.home.scan.triggered.connect(self.callback_scan)
 		self.ribbon.home.scan.setEnabled(False)
 
 
@@ -640,16 +484,9 @@ class gpvdm_main_window(QMainWindow):
 			self.ribbon.home.fit.triggered.connect(self.callback_run_fit)
 
 		self.ribbon.home.time.triggered.connect(self.callback_examine)
-		self.ribbon.simulations.time.triggered.connect(self.callback_edit_experiment_window)
-		self.ribbon.simulations.fx.triggered.connect(self.callback_fxexperiment_window)
-		self.ribbon.simulations.jv.triggered.connect(self.callback_jv_window)
-		self.ribbon.simulations.lasers.triggered.connect(self.callback_configure_lasers)
-		self.ribbon.simulations.optics.triggered.connect(self.callback_optics_sim)
 		
 		self.ribbon.home.help.triggered.connect(self.callback_on_line_help)
 
-		if enable_betafeatures()==True:
-			self.ribbon.simulations.qe.triggered.connect(self.callback_qe_window)
 	
 		self.win_list.set_window(self,"main_window")
 		resize_window_to_be_sane(self,0.7,0.7)

@@ -36,11 +36,16 @@ from PyQt5.QtCore import QSize, Qt,QFile,QIODevice
 from PyQt5.QtWidgets import QWidget,QSizePolicy,QVBoxLayout,QHBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QMessageBox, QLineEdit, QToolButton
 from PyQt5.QtWidgets import QTabWidget
 
-from help import help_window
-from gpvdm_open import gpvdm_open
 from plot_gen import plot_gen
 from info import sim_info
 from win_lin import desktop_open
+
+#windows
+from scan import scan_class 
+from help import help_window
+from gpvdm_open import gpvdm_open
+
+from server import server_get
 
 class ribbon_home(QToolBar):
 	def __init__(self):
@@ -48,7 +53,8 @@ class ribbon_home(QToolBar):
 		self.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
 		self.setIconSize(QSize(42, 42))
 		
-
+		self.scan_window=None
+	
 		self.undo = QAction(QIcon(os.path.join(get_image_file_path(),"undo.png")), _("Undo"), self)
 		self.addAction(self.undo)
 
@@ -63,6 +69,7 @@ class ribbon_home(QToolBar):
 		self.addSeparator()
 		
 		self.scan = QAction(QIcon(os.path.join(get_image_file_path(),"scan.png")), _("Parameter\nscan"), self)
+		self.scan.triggered.connect(self.callback_scan)
 		self.addAction(self.scan)
 
 
@@ -93,7 +100,9 @@ class ribbon_home(QToolBar):
 		self.addAction(self.help)
 
 	def update(self):
-		print("update")
+		if self.scan_window!=None:
+			del self.scan_window
+			self.scan_window=None
 		
 	def setEnabled(self,val):
 		self.undo.setEnabled(val)
@@ -132,3 +141,16 @@ class ribbon_home(QToolBar):
 
 			#self.plotted_graphs.refresh()
 			#self.plot_after_run_file=dialog.get_filename()
+
+	def callback_scan(self, widget):
+		help_window().help_set_help(["scan.png",_("<big><b>The scan window</b></big><br> Very often it is useful to be able to systematically very a device parameter such as mobility or density of trap states.  This window allows you to do just that."),"add.png",_("Use the plus icon to add a new scan line to the list.")])
+		#self.tb_run_scan.setEnabled(True)
+
+		if self.scan_window==None:
+			self.scan_window=scan_class(server_get())
+
+
+		if self.scan_window.isVisible()==True:
+			self.scan_window.hide()
+		else:
+			self.scan_window.show()
