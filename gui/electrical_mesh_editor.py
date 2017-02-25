@@ -100,7 +100,7 @@ class electrical_mesh_editor(QGroupBox):
 
 		mesh_save_all()
 
-	def refresh(self):
+	def update(self):
 		self.load()
 
 	def disable_dim(self):

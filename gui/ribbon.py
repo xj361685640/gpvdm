@@ -181,6 +181,8 @@ class ribbon(QTabWidget):
 	def update(self):
 		self.device.update()
 		self.simulations.update()
+		self.configure.update()
+
 		
 	def __init__(self):
 		QTabWidget.__init__(self)

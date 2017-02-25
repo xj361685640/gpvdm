@@ -72,8 +72,11 @@ class tab_electrical_mesh(QWidget):
 	def save_image(self,file_name):
 		self.fig.savefig(file_name)
 
-	def refresh(self):
-		self.emesh_editor_y.refresh()
+	def update(self):
+		self.emesh_editor_x.update()
+		self.emesh_editor_y.update()
+		self.emesh_editor_z.update()
+		self.update_dim()
 		#self.update_graph()
 
 

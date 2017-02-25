@@ -36,27 +36,57 @@ from PyQt5.QtCore import QSize, Qt,QFile,QIODevice
 from PyQt5.QtWidgets import QWidget,QSizePolicy,QVBoxLayout,QHBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QMessageBox, QLineEdit, QToolButton
 from PyQt5.QtWidgets import QTabWidget
 
+from emesh import tab_electrical_mesh
+from config_window import class_config_window
 
+from help import help_window
 
 class ribbon_configure(QToolBar):
 	def __init__(self):
 		QToolBar.__init__(self)
+		self.config_window=None
+		self.electrical_mesh=tab_electrical_mesh()
 		self.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
 		self.setIconSize(QSize(42, 42))
 
 		self.configwindow = QAction(QIcon(os.path.join(get_image_file_path(),"cog.png")), _("Configure"), self)
+		self.configwindow.triggered.connect(self.callback_config_window)
 		self.addAction(self.configwindow)
 		
 		self.dump = dump_io(self)
 		self.addAction(self.dump)
 
 		self.mesh = QAction(QIcon(os.path.join(get_image_file_path(),"mesh.png")), _("Electrical\nmesh"), self)
+		self.mesh.triggered.connect(self.callback_edit_mesh)		
 		self.addAction(self.mesh)
 		
 	def update(self):
 		self.dump.refresh()
+		self.electrical_mesh.update()
 		
 	def setEnabled(self,val):
 		self.configwindow.setEnabled(val)
 		self.dump.setEnabled(val)
 		self.mesh.setEnabled(val)
+		
+		
+	def callback_edit_mesh(self):
+		help_window().help_set_help(["mesh.png",_("<big><b>Mesh editor</b></big>\nUse this window to setup the mesh, the window can also be used to change the dimensionality of the simulation.")])
+
+		if self.electrical_mesh.isVisible()==True:
+			self.electrical_mesh.hide()
+		else:
+			self.electrical_mesh.show()
+			
+	def callback_config_window(self):
+
+		if self.config_window==None:
+			self.config_window=class_config_window()
+			self.config_window.init()
+			self.config_window.changed.connect(self.dump.refresh)
+
+		help_window().help_set_help(["cog.png",_("<big><b>Configuration editor</b></big><br> Use this window to control advanced simulation parameters.")])
+		if self.config_window.isVisible()==True:
+			self.config_window.hide()
+		else:
+			self.config_window.show()

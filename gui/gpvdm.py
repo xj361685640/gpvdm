@@ -101,7 +101,6 @@ from PyQt5.QtWidgets import QWidget,QSizePolicy,QVBoxLayout,QHBoxLayout,QPushBut
 
 #windows
 from splash import splash_window
-from config_window import class_config_window
 from gpvdm_open import gpvdm_open
 from jv import jv
 from new_simulation import new_simulation
@@ -153,8 +152,6 @@ print(notice())
 
 from PyQt5.QtWidgets import QTabWidget
 from ribbon import ribbon
-
-from emesh import tab_electrical_mesh
 
 def set_active_name(combobox, name):
 	liststore = combobox.get_model()
@@ -580,19 +577,6 @@ class gpvdm_main_window(QMainWindow):
 		else:
 			self.jvexperiment_window.show()
 
-	def callback_config_window(self):
-
-		if self.config_window==None:
-			self.config_window=class_config_window()
-			self.config_window.init()
-			self.config_window.changed.connect(self.ribbon.configure.dump.refresh)
-
-		help_window().help_set_help(["cog.png",_("<big><b>Configuration editor</b></big><br> Use this window to control advanced simulation parameters.")])
-		if self.config_window.isVisible()==True:
-			self.config_window.hide()
-		else:
-			self.config_window.show()
-
 	def callback_undo(self, widget, data=None):
 		l=self.undo_list.get_list()
 		if len(l)>0:
@@ -605,16 +589,6 @@ class gpvdm_main_window(QMainWindow):
 				self.undo_list.enable()
 
 			l.pop()
-
-
-
-	def callback_edit_mesh(self):
-		help_window().help_set_help(["mesh.png",_("<big><b>Mesh editor</b></big>\nUse this window to setup the mesh, the window can also be used to change the dimensionality of the simulation.")])
-
-		if self.electrical_mesh.isVisible()==True:
-			self.electrical_mesh.hide()
-		else:
-			self.electrical_mesh.show()
 
 			
 	def __init__(self):
@@ -740,10 +714,6 @@ class gpvdm_main_window(QMainWindow):
 		self.ribbon.simulations.jv.triggered.connect(self.callback_jv_window)
 		self.ribbon.simulations.lasers.triggered.connect(self.callback_configure_lasers)
 		self.ribbon.simulations.optics.triggered.connect(self.callback_optics_sim)
-
-		self.ribbon.configure.mesh.triggered.connect(self.callback_edit_mesh)		
-		
-		self.ribbon.configure.configwindow.triggered.connect(self.callback_config_window)
 		
 		self.ribbon.home.help.triggered.connect(self.callback_on_line_help)
 
@@ -755,7 +725,6 @@ class gpvdm_main_window(QMainWindow):
 
 
 		self.change_dir_and_refresh_interface(os.getcwd())
-		self.electrical_mesh=tab_electrical_mesh()
 
 		#self.contacts_window.changed.connect(self.recalculate)
 
