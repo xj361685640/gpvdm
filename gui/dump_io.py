@@ -78,11 +78,11 @@ class dump_io(QAction):
 
 	def refresh(self):
 		self.dump=self.cal_state()
-		if self.dump==None:
-			self.setEnabled(False)
-			return
-		else:
-			self.setEnabled(True)
+		#if self.dump==None:
+		#	self.setEnabled(False)
+		#	return
+		#else:
+		#	self.setEnabled(True)
 
 		self.blockSignals(True)
 		self.update_ui(False)

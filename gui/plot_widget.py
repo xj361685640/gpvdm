@@ -467,21 +467,25 @@ class plot_widget(QWidget):
 	def callback_normtoone_y(self):
 		self.data[0].normalize= not self.data[0].normalize
 		plot_save_oplot_file(self.config_file,self.data[0])
+		self.norm_data()
 		self.do_plot()
 
 	def callback_norm_to_peak_of_all_data(self):
 		self.data[0].norm_to_peak_of_all_data=not self.data[0].norm_to_peak_of_all_data
 		plot_save_oplot_file(self.config_file,self.data[0])
+		self.norm_data()
 		self.do_plot()
 
 	def callback_toggle_log_scale_y(self):
 		self.data[0].logy=not self.data[0].logy
 		plot_save_oplot_file(self.config_file,self.data[0])
+		self.norm_data()
 		self.do_plot()
 
 	def callback_toggle_log_scale_x(self):
 		self.data[0].logx=not self.data[0].logx
 		plot_save_oplot_file(self.config_file,self.data[0])
+		self.norm_data()
 		self.do_plot()
 
 	def callback_toggle_label_data(self):
@@ -513,25 +517,23 @@ class plot_widget(QWidget):
 			plot_save_oplot_file(self.config_file,self.data[0])
 			self.do_plot()
 
-	def callback_set_xy_plot(self):
-		self.data[0].type="xy"
-		plot_save_oplot_file(self.config_file,self.data[0])
-		plot_save_oplot_file(self.config_file,self.data[0])
-		self.do_plot()
 
 	def callback_toggle_invert_y(self):
 		self.data[0].invert_y=not self.data[0].invert_y
 		plot_save_oplot_file(self.config_file,self.data[0])
+		self.norm_data()
 		self.do_plot()
 
 	def callback_toggle_subtract_first_point(self):
 		self.data[0].subtract_first_point=not self.data[0].subtract_first_point
 		plot_save_oplot_file(self.config_file,self.data[0])
+		self.norm_data()
 		self.do_plot()
 
 	def callback_toggle_add_min(self):
 		self.data[0].add_min=not self.data[0].add_min
 		plot_save_oplot_file(self.config_file,self.data[0])
+		self.norm_data()
 		self.do_plot()
 
 	def update(self):
@@ -631,9 +633,6 @@ class plot_widget(QWidget):
 
 			menu=math_menu.addAction("&"+_("Heat map edit"))
 			menu.triggered.connect(self.callback_heat_map_edit)
-
-			menu=math_menu.addAction("&"+_("xy plot"))
-			menu.triggered.connect(self.callback_set_xy_plot)
 
 			self.main_vbox.addWidget(menubar)
 		

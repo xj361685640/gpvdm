@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.80\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2017-02-26 07:54+0000\n"
+"POT-Creation-Date: 2017-02-26 10:53+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -524,7 +524,8 @@ msgstr ""
 #: ../gui/emesh.py:172 ../gui/scan.py:259 ../gui/scan.py:354 ../gui/info.py:68
 #: ../gui/fxexperiment.py:177 ../gui/fxexperiment.py:230
 #: ../gui/fit_window.py:226 ../gui/ref.py:124 ../gui/lasers.py:180
-#: ../gui/lasers.py:237 ../gui/help.py:127 ../gui/optics.py:123
+#: ../gui/lasers.py:237 ../gui/help.py:127 ../gui/parasitic.py:69
+#: ../gui/optics.py:123
 msgid "Close"
 msgstr ""
 
@@ -1624,39 +1625,51 @@ msgstr ""
 msgid "<big><b>Update available!</b></big><br>"
 msgstr ""
 
-#: ../gui/ribbon_device.py:58 ../libdump/dump_1d_slice.c:331
+#: ../gui/ribbon_device.py:61 ../libdump/dump_1d_slice.c:331
 msgid "Doping"
 msgstr ""
 
-#: ../gui/ribbon_device.py:62
+#: ../gui/ribbon_device.py:65
 msgid ""
 "Materials\n"
 "database"
 msgstr ""
 
-#: ../gui/ribbon_device.py:66
+#: ../gui/ribbon_device.py:69
 msgid ""
 "Calculate\n"
 "the cost"
 msgstr ""
 
-#: ../gui/ribbon_device.py:70
+#: ../gui/ribbon_device.py:73
 msgid "Contacts"
 msgstr ""
 
-#: ../gui/ribbon_device.py:84
+#: ../gui/ribbon_device.py:77
+msgid ""
+"Parasitic\n"
+" components"
+msgstr ""
+
+#: ../gui/ribbon_device.py:91
 msgid ""
 "<big><b>Doping window</b></big>\n"
 "Use this window to add doping to the simulation"
 msgstr ""
 
-#: ../gui/ribbon_device.py:95
+#: ../gui/ribbon_device.py:102
 msgid ""
 "<big><b>Contacts window</b></big>\n"
 "Use this window to change the layout of the contacts on the device"
 msgstr ""
 
-#: ../gui/ribbon_device.py:116
+#: ../gui/ribbon_device.py:123
+msgid ""
+"<big><b>Parasitic components</b></big>\n"
+"Use this window to edit the shunt and series resistance."
+msgstr ""
+
+#: ../gui/ribbon_device.py:134
 msgid ""
 "<big><b>Costs window</b></big>\n"
 "Use this window to calculate the cost of the solar cell and the energy "
@@ -2474,6 +2487,10 @@ msgstr ""
 msgid "On line help"
 msgstr ""
 
+#: ../gui/parasitic.py:55
+msgid "Edit parasitic components"
+msgstr ""
+
 #: ../gui/fxexperiment_tab.py:61
 msgid "Frequency mesh"
 msgstr ""
@@ -2698,6 +2715,10 @@ msgstr ""
 
 #: ../gui/token_lib.py:109
 msgid "Fill factor"
+msgstr ""
+
+#: ../gui/token_lib.py:110
+msgid "Max power"
 msgstr ""
 
 #: ../gui/token_lib.py:131

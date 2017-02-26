@@ -46,6 +46,8 @@ from help import help_window
 from gpvdm_open import gpvdm_open
 from gui_util import error_dlg
 from server import server_get
+from fit_window import fit_window
+from cmp_class import cmp_class
 
 class ribbon_home(QToolBar):
 	def __init__(self):
@@ -54,7 +56,8 @@ class ribbon_home(QToolBar):
 		self.setIconSize(QSize(42, 42))
 		
 		self.scan_window=None
-	
+		self.fit_window=None
+
 		self.undo = QAction(QIcon(os.path.join(get_image_file_path(),"undo.png")), _("Undo"), self)
 		self.addAction(self.undo)
 
@@ -74,12 +77,12 @@ class ribbon_home(QToolBar):
 		self.addAction(self.scan)
 
 
-		#self.addSeparator()
-		self.fit = QAction(QIcon(os.path.join(get_image_file_path(),"fit.png")), _("Fit\ndata"), self)
-		self.addAction(self.fit)
-		self.fit.setVisible(False)
-		
 		self.addSeparator()
+		if enable_betafeatures()==True:
+			self.fit = QAction(QIcon(os.path.join(get_image_file_path(),"fit.png")), _("Fit\ndata"), self)
+			self.fit.triggered.connect(self.callback_run_fit)
+			self.addAction(self.fit)
+			self.addSeparator()
 		
 		self.plot = QAction(QIcon(os.path.join(get_image_file_path(),"plot.png")), _("Plot\nFile"), self)
 		self.plot.triggered.connect(self.callback_plot_select)
@@ -105,18 +108,22 @@ class ribbon_home(QToolBar):
 		if self.scan_window!=None:
 			del self.scan_window
 			self.scan_window=None
+
+		if self.fit_window!=None:
+			del self.fit_window
+			self.fit_window=None
 		
 	def setEnabled(self,val):
 		self.undo.setEnabled(val)
 		self.run.setEnabled(val)
 		self.stop.setEnabled(val)
 		self.scan.setEnabled(val)
-		self.fit.setVisible(val)
 		self.plot.setEnabled(val)
 		self.time.setEnabled(val)
 		self.sun.setEnabled(val)
 		self.help.setEnabled(val)
-		
+		if enable_betafeatures()==True:
+			self.fit.setVisible(val)
 
 	def callback_plot_select(self):
 		help_window().help_set_help(["dat_file.png",_("<big>Select a file to plot</big><br>Single clicking shows you the content of the file")])
@@ -170,3 +177,15 @@ class ribbon_home(QToolBar):
 		
 	def callback_simulate_stop(self):
 		server_get().force_stop()
+
+	def callback_run_fit(self, widget):
+		if self.fit_window==None:
+			self.fit_window=fit_window()
+			self.fit_window.init()
+			self.my_server.set_fit_update_function(self.fit_window.update)
+
+		help_window().help_set_help(["fit.png",_("<big><b>Fit window</b></big><br> Use this window to fit the simulation to experimental data.")])
+		if self.fit_window.isVisible()==True:
+			self.fit_window.hide()
+		else:
+			self.fit_window.show()

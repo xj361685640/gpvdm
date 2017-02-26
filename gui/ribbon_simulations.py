@@ -80,9 +80,11 @@ class ribbon_simulations(QToolBar):
 		self.addAction(self.qe)
 		self.qe.setVisible(False)
 
+		self.addSeparator()
 		self.mode=tb_item_sim_mode()
 		self.addWidget(self.mode)
-		
+		self.addSeparator()
+
 		self.optics = QAction(QIcon(os.path.join(get_image_file_path(),"optics.png")), _("Optical\nSimulation"), self)
 		self.optics.triggered.connect(self.callback_optics_sim)
 		self.addAction(self.optics)

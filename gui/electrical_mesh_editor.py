@@ -114,6 +114,7 @@ class electrical_mesh_editor(QGroupBox):
 
 
 	def load(self):
+		self.tab.blockSignals(True)
 		self.tab.clear()
 		self.tab.setHorizontalHeaderLabels([_("Thicknes"), _("Mesh points")])
 		lines=[]
@@ -136,6 +137,7 @@ class electrical_mesh_editor(QGroupBox):
 
 			value = QTableWidgetItem(str(int(layer_list[i].points)))
 			self.tab.setItem(i,1,value)
+		self.tab.blockSignals(False)
 
 	def tab_changed(self, x,y):
 		print(x,y)

@@ -94,10 +94,8 @@ from PyQt5.QtWidgets import QWidget,QSizePolicy,QVBoxLayout,QHBoxLayout,QPushBut
 from splash import splash_window
 from new_simulation import new_simulation
 from hpc import hpc_class
-from cmp_class import cmp_class
 from about import about_dlg
 from dlg_export import dlg_export
-from fit_window import fit_window
 from device_lib import device_lib_class
 from cool_menu import cool_menu
 
@@ -181,18 +179,6 @@ class gpvdm_main_window(QMainWindow):
 		self.my_server.add_job(os.getcwd(),"")
 		self.my_server.start()
 
-	def callback_run_fit(self, widget, data=None):
-		if self.fit_window==None:
-			self.fit_window=fit_window()
-			self.fit_window.init()
-			self.my_server.set_fit_update_function(self.fit_window.update)
-
-		help_window().help_set_help(["fit.png",_("<big><b>Fit window</b></big><br> Use this window to fit the simulation to experimental data.")])
-		if self.fit_window.isVisible()==True:
-			self.fit_window.hide()
-		else:
-			self.fit_window.show()
-
 
 	def close_now(self):
 		self.win_list.update(self,"main_window")
@@ -259,7 +245,6 @@ class gpvdm_main_window(QMainWindow):
 			self.ribbon.configure.setEnabled(True)
 			self.ribbon.goto_page(_("Home"))
 			if enable_betafeatures()==True:
-				self.ribbon.home.fit.setEnabled(True)
 				self.ribbon.simulations.qe.setVisible(True)
 		else:
 			self.ribbon.home.setEnabled(False)
@@ -289,10 +274,6 @@ class gpvdm_main_window(QMainWindow):
 		scan_item_add("light.inp","#Psun","light intensity",1)
 		#scan_populate_from_file("light.inp")
 
-
-		if self.fit_window!=None:
-			del self.fit_window
-			self.fit_window=None
 
 
 		self.ribbon.update()
@@ -417,8 +398,6 @@ class gpvdm_main_window(QMainWindow):
 			return
 
 
-		self.fit_window=None
-
 
 		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"image.jpg")))		
 
@@ -443,10 +422,6 @@ class gpvdm_main_window(QMainWindow):
 		self.ribbon.home.stop.setEnabled(False)
 
 		self.ribbon.home.scan.setEnabled(False)
-
-
-		if enable_betafeatures()==True:
-			self.ribbon.home.fit.triggered.connect(self.callback_run_fit)
 		
 		self.ribbon.home.help.triggered.connect(self.callback_on_line_help)
 

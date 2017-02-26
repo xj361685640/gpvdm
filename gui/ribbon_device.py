@@ -46,15 +46,17 @@ from cost import cost
 from materials_main import materials_main
 
 from parasitic import parasitic
+from plot_gen import plot_gen
 
 class ribbon_device(QToolBar):
 	def __init__(self):
 		QToolBar.__init__(self)
-		self.doping_window=False
-		self.cost_window=False
-		self.parasitic=False
-		self.contacts_window=contacts_window()
-				
+		self.doping_window=None
+		self.cost_window=None
+		self.parasitic=None
+		self.contacts_window=None
+		self.parasitic_window=None
+		
 		self.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
 		self.setIconSize(QSize(42, 42))
 
@@ -74,12 +76,31 @@ class ribbon_device(QToolBar):
 		self.contacts.triggered.connect(self.callback_contacts)
 		self.addAction(self.contacts)
 		
-		self.contacts = QAction(QIcon(os.path.join(get_image_file_path(),"parasitic.png")), _("Parasitic\n components"), self)
-		self.contacts.triggered.connect(self.callback_parasitic)
-		self.addAction(self.contacts)
+		self.parasitic = QAction(QIcon(os.path.join(get_image_file_path(),"parasitic.png")), _("Parasitic\n components"), self)
+		self.parasitic.triggered.connect(self.callback_parasitic)
+		self.addAction(self.parasitic)
 
 	def update(self):
-		print("update")
+		if self.cost_window!=None:
+			del self.cost_window
+			self.cost_window=None
+
+		if self.parasitic!=None:
+			del self.parasitic
+			self.parasitic=None
+			
+		if self.doping_window!=None:
+			del self.doping_window
+			self.doping_window=None
+
+		if self.contacts_window!=None:
+			del self.contacts_window
+			self.contacts_window=None
+
+		if self.parasitic_window!=None:
+			del self.parasitic_window
+			self.parasitic_window=None
+
 
 	def setEnabled(self,val):
 		self.doping.setEnabled(val)
@@ -90,7 +111,7 @@ class ribbon_device(QToolBar):
 	def callback_doping(self):
 		help_window().help_set_help(["doping.png",_("<big><b>Doping window</b></big>\nUse this window to add doping to the simulation")])
 
-		if self.doping_window==False:
+		if self.doping_window==None:
 			self.doping_window=doping_window()
 
 		if self.doping_window.isVisible()==True:
@@ -99,8 +120,13 @@ class ribbon_device(QToolBar):
 			self.doping_window.show()
 			
 	def callback_contacts(self):
+		
+		
 		help_window().help_set_help(["contact.png",_("<big><b>Contacts window</b></big>\nUse this window to change the layout of the contacts on the device")])
 
+		if self.contacts_window==None:
+			self.contacts_window=contacts_window()
+			
 		if self.contacts_window.isVisible()==True:
 			self.contacts_window.hide()
 		else:
@@ -122,18 +148,18 @@ class ribbon_device(QToolBar):
 	def callback_parasitic(self):
 		help_window().help_set_help(["parasitic.png",_("<big><b>Parasitic components</b></big>\nUse this window to edit the shunt and series resistance.")])
 
-		if self.parasitic==False:
-			self.parasitic=parasitic()
+		if self.parasitic_window==None:
+			self.parasitic_window=parasitic()
 
-		if self.parasitic.isVisible()==True:
-			self.parasitic.hide()
+		if self.parasitic_window.isVisible()==True:
+			self.parasitic_window.hide()
 		else:
-			self.parasitic.show()
+			self.parasitic_window.show()
 			
 	def callback_cost(self):
 		help_window().help_set_help(["cost.png",_("<big><b>Costs window</b></big>\nUse this window to calculate the cost of the solar cell and the energy payback time.")])
 
-		if self.cost_window==False:
+		if self.cost_window==None:
 			self.cost_window=cost()
 
 		if self.cost_window.isVisible()==True:
