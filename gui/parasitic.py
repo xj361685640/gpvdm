@@ -37,17 +37,8 @@ from help import help_window
 articles = []
 mesh_articles = []
 
-class jv(QWidget):
+class parasitic(QWidget):
 
-	def changed_click(self):
-		if self.notebook.tabText(self.notebook.currentIndex()).strip()==_("JV simulation"):
-			help_window().help_set_help(["jv.png",_("<big><b>JV simulation</b></big><br>This controls the jv curve simulation. You can set paramets such as start voltage, stop voltage and voltage step.")])
-
-		if self.notebook.tabText(self.notebook.currentIndex()).strip()==_("Diode equation"):
-			help_window().help_set_help(["jv.png",_("<big><b>Diode equation</b></big><br>The model can also use the standard diode equtaion to simulate solar cells (rather than a complex model).  Use this window to configure the simulation.")])
-			
-		if self.notebook.tabText(self.notebook.currentIndex()).strip()==_("Suns v.s. Voc"):
-			help_window().help_set_help(["jv.png",_("<big><b>Suns v.s. Voc</b></big><br>Configure the sun v.s. Voc plot.")])
 
 	def callback_close(self, widget, data=None):
 		self.hide()
@@ -59,9 +50,9 @@ class jv(QWidget):
 	def __init__(self):
 		QWidget.__init__(self)
 		self.setFixedSize(900, 600)
-		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"jv.png")))
+		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"parasitic.png")))
 
-		self.setWindowTitle(_("Steady state simulation")+"  (https://www.gpvdm.com)") 
+		self.setWindowTitle(_("Edit parasitic components")+"  (https://www.gpvdm.com)") 
 		
 
 		self.main_vbox = QVBoxLayout()
@@ -89,8 +80,8 @@ class jv(QWidget):
 		self.main_vbox.addWidget(self.notebook)
 
 
-		files=["jv.inp","jv_simple.inp","sun_voc.inp"]
-		description=["JV simulation","Diode equation","Suns v.s. Voc"]
+		files=["parasitic.inp"]
+		description=["Parasitic components"]
 
 
 		for i in range(0,len(files)):
@@ -102,12 +93,11 @@ class jv(QWidget):
 		self.setLayout(self.main_vbox)
 		self.win_list=windows()
 		self.win_list.load()
-		self.win_list.set_window(self,"jv_window")
+		self.win_list.set_window(self,"parasitic_window")
 		
-		self.notebook.currentChanged.connect(self.changed_click)
 
 	def closeEvent(self, event):
-		self.win_list.update(self,"jv_window")
+		self.win_list.update(self,"parasitic_window")
 		self.hide()
 		event.accept()
 

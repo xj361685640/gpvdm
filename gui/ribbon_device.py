@@ -45,11 +45,14 @@ from help import help_window
 from cost import cost
 from materials_main import materials_main
 
+from parasitic import parasitic
+
 class ribbon_device(QToolBar):
 	def __init__(self):
 		QToolBar.__init__(self)
 		self.doping_window=False
 		self.cost_window=False
+		self.parasitic=False
 		self.contacts_window=contacts_window()
 				
 		self.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
@@ -69,6 +72,10 @@ class ribbon_device(QToolBar):
 		
 		self.contacts = QAction(QIcon(os.path.join(get_image_file_path(),"contact.png")), _("Contacts"), self)
 		self.contacts.triggered.connect(self.callback_contacts)
+		self.addAction(self.contacts)
+		
+		self.contacts = QAction(QIcon(os.path.join(get_image_file_path(),"parasitic.png")), _("Parasitic\n components"), self)
+		self.contacts.triggered.connect(self.callback_parasitic)
 		self.addAction(self.contacts)
 
 	def update(self):
@@ -112,6 +119,17 @@ class ribbon_device(QToolBar):
 				plot_gen([dialog.get_filename()],[],"auto")
 
 
+	def callback_parasitic(self):
+		help_window().help_set_help(["parasitic.png",_("<big><b>Parasitic components</b></big>\nUse this window to edit the shunt and series resistance.")])
+
+		if self.parasitic==False:
+			self.parasitic=parasitic()
+
+		if self.parasitic.isVisible()==True:
+			self.parasitic.hide()
+		else:
+			self.parasitic.show()
+			
 	def callback_cost(self):
 		help_window().help_set_help(["cost.png",_("<big><b>Costs window</b></big>\nUse this window to calculate the cost of the solar cell and the energy payback time.")])
 

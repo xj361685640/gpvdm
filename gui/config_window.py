@@ -37,6 +37,7 @@ from tab import tab_class
 from tab_lang import language_tab_class
 
 from PyQt5.QtCore import pyqtSignal
+from global_objects import global_object_run
 
 articles = []
 mesh_articles = []
@@ -47,6 +48,7 @@ class class_config_window(QWidget):
 	
 	def callback_tab_changed(self):
 		self.changed.emit()
+		global_object_run("ribbon_configure_dump_refresh")
 
 	def init(self):
 		self.setFixedSize(900, 600)

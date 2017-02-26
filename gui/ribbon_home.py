@@ -44,7 +44,7 @@ from win_lin import desktop_open
 from scan import scan_class 
 from help import help_window
 from gpvdm_open import gpvdm_open
-
+from gui_util import error_dlg
 from server import server_get
 
 class ribbon_home(QToolBar):
@@ -64,6 +64,7 @@ class ribbon_home(QToolBar):
 		self.addAction(self.run)
 
 		self.stop = QAction(QIcon(os.path.join(get_image_file_path(),"pause.png")), _("Stop\nsimulation"), self)
+		self.stop.triggered.connect(self.callback_simulate_stop)
 		self.addAction(self.stop)
 
 		self.addSeparator()
@@ -85,6 +86,7 @@ class ribbon_home(QToolBar):
 		self.addAction(self.plot)
 
 		self.time = QAction(QIcon(os.path.join(get_image_file_path(),"plot_time.png")), _("Examine results\nin time domain"), self)
+		self.time.triggered.connect(self.callback_examine)
 		self.addAction(self.time)
 
 		self.addSeparator()
@@ -154,3 +156,17 @@ class ribbon_home(QToolBar):
 			self.scan_window.hide()
 		else:
 			self.scan_window.show()
+
+	def callback_examine(self, widget):
+		help_window().help_set_help(["plot_time.png",_("<big><b>Examine the results in time domain</b></big><br> After you have run a simulation in time domain, if is often nice to be able to step through the simulation and look at the results.  This is what this window does.  Use the slider bar to move through the simulation.  When you are simulating a JV curve, the slider sill step through voltage points rather than time points.")])
+		self.my_cmp_class=cmp_class()
+		self.my_cmp_class.show()
+
+		return
+		ret=mycmp.init()
+		if ret==False:
+			error_dlg(self,_("Re-run the simulation with 'dump all slices' set to one to use this tool."))
+			return
+		
+	def callback_simulate_stop(self):
+		server_get().force_stop()

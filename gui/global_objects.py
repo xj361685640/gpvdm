@@ -21,7 +21,7 @@
 import sys
 
 global_objects=[]
-
+blocked=False
 class objects:
 	name=""
 	object_pointer=None
@@ -39,6 +39,7 @@ def global_object_register(name,pointer):
 		a.name=name
 		a.object_pointer=pointer
 		global_objects.append(a)
+		
 
 def global_object_get(name):
 	global global_objects
@@ -49,6 +50,20 @@ def global_object_get(name):
 	print("name",name,"not found")
 	sys.exit()
 
+def global_object_run(name):
+	global blocked
+	if blocked==True:
+		return
+	global global_objects
+	for i in range(0,len(global_objects)):
+		if global_objects[i].name==name:
+			blocked=True
+			global_objects[i].object_pointer()
+			blocked=False
+			return
+
+	print("global object name",name,"not found")
+	
 def global_isobject(name):
 	global global_objects
 	for i in range(0,len(global_objects)):

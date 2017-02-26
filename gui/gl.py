@@ -89,6 +89,8 @@ from gl_lib import box
 from gl_lib_ray import draw_rays
 from gl_lib_ray import fast_data
 
+from global_objects import global_object_register
+
 # Rotations for cube.
 cube_rotate_x_rate = 0.2
 cube_rotate_y_rate = 0.2
@@ -572,6 +574,8 @@ if open_gl_ok==True:
 				#self.resizeEvent.connect(self.resize)
 				
 				self.failed=False
+				global_object_register("gl_recalculate",self.recalculate)
+
 			except:
 				print("OpenGL failed to load falling back to 2D rendering.",sys.exc_info()[0])
 

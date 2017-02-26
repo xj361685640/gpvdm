@@ -107,7 +107,7 @@ lib.append(my_data("#jv_pmax_tau","m^{-1}","Recombination time constant",["text"
 lib.append(my_data("#voc","V",_("V_{oc}"),["text"],"e",1.0))
 lib.append(my_data("#pce","Percent",_("Power conversion efficiency"),["text"],"e",1.0))
 lib.append(my_data("#ff","a.u.",_("Fill factor"),["text"],"e",1.0))
-
+lib.append(my_data("#Pmax","Watts",_("Max power"),["text"],"e",1.0))
 #server.inp
 lib.append(my_data("#server_cpus","au","Number of CPUs",["text"],"e",1.0))
 lib.append(my_data("#server_stall_time","","",["text"],"e",1.0))

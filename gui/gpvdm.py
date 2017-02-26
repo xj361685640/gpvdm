@@ -137,12 +137,6 @@ print(notice())
 from PyQt5.QtWidgets import QTabWidget
 from ribbon import ribbon
 
-def set_active_name(combobox, name):
-	liststore = combobox.get_model()
-	for i in range(0,len(liststore)):
-		if liststore[i][0] == name:
-			combobox.set_active(i)
-
 		
 class gpvdm_main_window(QMainWindow):
 
@@ -187,11 +181,6 @@ class gpvdm_main_window(QMainWindow):
 		self.my_server.add_job(os.getcwd(),"")
 		self.my_server.start()
 
-
-	def callback_simulate_stop(self):
-		self.my_server.force_stop()
-#		ret= os.system(cmd)
-
 	def callback_run_fit(self, widget, data=None):
 		if self.fit_window==None:
 			self.fit_window=fit_window()
@@ -214,10 +203,6 @@ class gpvdm_main_window(QMainWindow):
 		print("closing")
 		self.close_now()
 		event.accept()
-
-
-	def callback_plot_open(self, widget, data=None):
-		plot_gen([self.plot_after_run_file],[],"")
 
 	def callback_last_menu_click(self, widget, data):
 		#self.plot_open.set_sensitive(True)
@@ -299,7 +284,6 @@ class gpvdm_main_window(QMainWindow):
 			self.my_server.set_display_function(self.notebook.update_display_function)
 		#self.plotted_graphs.init(os.getcwd(),self.callback_last_menu_click)
 
-		#set_active_name(self.light, inp_get_token_value("light.inp", "#Psun"))
 
 		scan_item_add("sim.inp","#simmode","sim mode",1)
 		scan_item_add("light.inp","#Psun","light intensity",1)
@@ -354,24 +338,6 @@ class gpvdm_main_window(QMainWindow):
 		#self.a.setFocus(True)
 		#self.a.hasFocus()
 		webbrowser.open("https://www.gpvdm.com")
-
-
-	def callback_examine(self, widget, data=None):
-		help_window().help_set_help(["plot_time.png",_("<big><b>Examine the results in time domain</b></big><br> After you have run a simulation in time domain, if is often nice to be able to step through the simulation and look at the results.  This is what this window does.  Use the slider bar to move through the simulation.  When you are simulating a JV curve, the slider sill step through voltage points rather than time points.")])
-		self.my_cmp_class=cmp_class()
-		self.my_cmp_class.show()
-
-		return
-		ret=mycmp.init()
-		if ret==False:
-			msgBox = QMessageBox(self)
-			msgBox.setIcon(QMessageBox.Critical)
-			msgBox.setText(self.tr("gpvdm"))
-			msgBox.setInformativeText(_("Re-run the simulation with 'dump all slices' set to one to use this tool."))
-			msgBox.setStandardButtons(QMessageBox.Ok )
-			msgBox.setDefaultButton(QMessageBox.Ok)
-			reply = msgBox.exec_()
-			return
 
 
 	def callback_undo(self, widget, data=None):
@@ -474,7 +440,6 @@ class gpvdm_main_window(QMainWindow):
 		self.ribbon.home.undo.triggered.connect(self.callback_undo)
 		self.ribbon.home.run.triggered.connect(self.callback_simulate)
 		
-		self.ribbon.home.stop.triggered.connect(self.callback_simulate_stop)
 		self.ribbon.home.stop.setEnabled(False)
 
 		self.ribbon.home.scan.setEnabled(False)
@@ -482,8 +447,6 @@ class gpvdm_main_window(QMainWindow):
 
 		if enable_betafeatures()==True:
 			self.ribbon.home.fit.triggered.connect(self.callback_run_fit)
-
-		self.ribbon.home.time.triggered.connect(self.callback_examine)
 		
 		self.ribbon.home.help.triggered.connect(self.callback_on_line_help)
 

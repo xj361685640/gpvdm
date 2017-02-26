@@ -87,7 +87,7 @@ mesh_check_y(sim,in);
 
 inp_init(sim,&inp);
 inp_load_from_path(sim,&inp,get_input_path(sim),"device.inp");
-inp_check(sim,&inp,1.21);
+inp_check(sim,&inp,1.22);
 
 inp_search_string(sim,&inp,temp,"#lr_pcontact");
 in->lr_pcontact=english_to_bin(sim,temp);
@@ -97,11 +97,6 @@ in->invert_applied_bias=english_to_bin(sim,temp);
 
 in->area=in->xlen*in->zlen;
 
-inp_search_gdouble(sim,&inp,&(in->Rshunt),"#Rshunt");
-in->Rshunt=fabs(in->Rshunt);
-
-inp_search_gdouble(sim,&inp,&(in->Rcontact),"#Rcontact");
-in->Rcontact=fabs(in->Rcontact);
 
 inp_search_gdouble(sim,&inp,&(in->Rshort),"#Rshort");
 in->Rshort=fabs(in->Rshort);
@@ -115,7 +110,6 @@ inp_search_gdouble(sim,&inp,&(in->rcharge),"#rcharge");
 in->rcharge=fabs(in->rcharge);
 hard_limit(sim,"#rcharge",&(in->rcharge));
 
-inp_search_gdouble(sim,&inp,&(in->other_layers),"#otherlayers");
 
 inp_search_int(sim,&inp,&(in->interfaceleft),"#interfaceleft");
 inp_search_int(sim,&inp,&(in->interfaceright),"#interfaceright");
@@ -135,6 +129,22 @@ inp_search_gdouble(sim,&inp,&(in->vr_h),"#vr_h");
 in->vr_h=fabs(in->vr_h);
 
 inp_free(sim,&inp);
+
+
+inp_init(sim,&inp);
+inp_load_from_path(sim,&inp,get_input_path(sim),"parasitic.inp");
+inp_check(sim,&inp,1.0);
+
+inp_search_gdouble(sim,&inp,&(in->other_layers),"#otherlayers");
+
+inp_search_gdouble(sim,&inp,&(in->Rshunt),"#Rshunt");
+in->Rshunt=fabs(in->Rshunt);
+
+inp_search_gdouble(sim,&inp,&(in->Rcontact),"#Rcontact");
+in->Rcontact=fabs(in->Rcontact);
+
+inp_free(sim,&inp);
+
 
 inp_init(sim,&inp);
 inp_load_from_path(sim,&inp,get_input_path(sim),"math.inp");

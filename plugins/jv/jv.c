@@ -301,6 +301,7 @@ if (get_dump_status(sim,dump_print_text)==TRUE)
 	out=fopena(get_input_path(sim),"sim_info.dat","w");
 	fprintf(out,"#ff\n%Lf\n",in->FF);
 	fprintf(out,"#pce\n%Lf\n",gfabs(100.0*in->Pmax/(1000.0*light_get_sun(&(in->mylight)))));
+	fprintf(out,"#Pmax\n%Lf\n",in->Pmax);
 	fprintf(out,"#voc\n%Lf\n",in->Voc);
 	fprintf(out,"#voc_tau\n%Le\n",n_voc/r_voc);
 	fprintf(out,"#voc_R\n%Le\n",r_voc);

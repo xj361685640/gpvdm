@@ -50,6 +50,8 @@ from fx_selector import fx_selector
 
 from server import server_get
 
+from global_objects import global_object_run
+
 def find_models():
 	ret=[]
 	path=get_plugins_path()
@@ -319,6 +321,7 @@ class class_optical(QWidget):
 		inp_update_token_value("dump.inp", "#dump_optics","true",1)
 		inp_update_token_value("dump.inp", "#dump_optics_verbose","true",1)
 		
+		global_object_run("gl_recalculate")
 
 	def mode_changed(self):
 		cb_text=self.fx_box.get_text()

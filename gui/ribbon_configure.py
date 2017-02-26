@@ -41,6 +41,8 @@ from config_window import class_config_window
 
 from help import help_window
 
+from global_objects import global_object_register
+
 class ribbon_configure(QToolBar):
 	def __init__(self):
 		QToolBar.__init__(self)
@@ -54,6 +56,7 @@ class ribbon_configure(QToolBar):
 		self.addAction(self.configwindow)
 		
 		self.dump = dump_io(self)
+		global_object_register("ribbon_configure_dump_refresh",self.dump.refresh)
 		self.addAction(self.dump)
 
 		self.mesh = QAction(QIcon(os.path.join(get_image_file_path(),"mesh.png")), _("Electrical\nmesh"), self)

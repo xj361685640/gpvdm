@@ -64,6 +64,7 @@ from gui_util import tab_remove
 from util import str2bool
 from gui_util import error_dlg
 
+from global_objects import global_object_run
 class contacts_window(QWidget):
 
 	visible=1
@@ -136,6 +137,7 @@ class contacts_window(QWidget):
 		if self.update_contact_db()==True:
 			contacts_save()
 			self.changed.emit()
+			global_object_run("gl_recalculate")
 		else:
 			error_dlg(self,_("There are some non numeric values in the table"))
 
