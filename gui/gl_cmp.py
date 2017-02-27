@@ -29,6 +29,8 @@ from PyQt5.QtGui import QPainter,QIcon
 
 from snapshot_slider import snapshot_slider
 
+from global_objects import global_object_run
+
 class gl_cmp(QWidget):
 
 	def __init__(self,path):
@@ -42,3 +44,7 @@ class gl_cmp(QWidget):
 		self.main_vbox.addWidget(self.slider)
 
 		self.setLayout(self.main_vbox)
+		self.slider.changed.connect(self.changed)
+	
+	def changed(self):
+		global_object_run("gl_force_redraw")

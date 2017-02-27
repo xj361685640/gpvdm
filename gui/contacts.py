@@ -137,7 +137,7 @@ class contacts_window(QWidget):
 		if self.update_contact_db()==True:
 			contacts_save()
 			self.changed.emit()
-			global_object_run("gl_recalculate")
+			global_object_run("gl_force_redraw")
 		else:
 			error_dlg(self,_("There are some non numeric values in the table"))
 

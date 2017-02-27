@@ -40,7 +40,6 @@ from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSize, Qt 
 from PyQt5.QtWidgets import QWidget,QSizePolicy,QHBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QMessageBox,QVBoxLayout
-from PyQt5.QtCore import pyqtSignal
 
 #windows
 from window_list import windows
@@ -57,6 +56,8 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 
+from global_objects import global_object_run
+
 class tab_electrical_mesh(QWidget):
 	lines=[]
 	edit_list=[]
@@ -66,8 +67,6 @@ class tab_electrical_mesh(QWidget):
 	file_name=""
 	name=""
 	visible=1
-
-	changed = pyqtSignal()
 
 	def save_image(self,file_name):
 		self.fig.savefig(file_name)
@@ -134,10 +133,10 @@ class tab_electrical_mesh(QWidget):
 			self.emesh_editor_x.setEnabled(True)
 			self.emesh_editor_z.setEnabled(True)
 
-		self.changed.emit()
+		self.emit_now()
 
 	def emit_now(self):
-		self.changed.emit()
+		global_object_run("gl_force_redraw")
 		
 	def __init__(self):
 		QWidget.__init__(self)

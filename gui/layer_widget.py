@@ -70,9 +70,9 @@ from PyQt5.QtGui import QIcon,QPalette
 from PyQt5.QtWidgets import QWidget, QVBoxLayout,QProgressBar,QLabel,QDesktopWidget,QToolBar,QHBoxLayout,QAction, QSizePolicy, QTableWidget, QTableWidgetItem,QComboBox,QDialog,QAbstractItemView
 
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QWidget
 
+from global_objects import global_object_run
 
 
 import i18n
@@ -87,8 +87,6 @@ from code_ctrl import enable_betafeatures
 
 class layer_widget(QWidget):
 
-	structure_changed = pyqtSignal()
-	changed = pyqtSignal()
 	
 	def combo_changed(self):
 		self.save_model()
@@ -104,14 +102,10 @@ class layer_widget(QWidget):
 		self.emit_structure_changed()
 		
 	def emit_change(self):
-		#if self.optics_window!=False:
-		#	if self.optics_window.isVisible()==True:
-		#		self.optics_window.update()
-		self.changed.emit()
+		global_object_run("gl_force_redraw")
 		
 	def emit_structure_changed(self):		#This will emit when there has been an edit
-		self.structure_changed.emit()
-		print("e")
+		global_object_run("optics_force_redraw")
 		
 	def sync_to_electrical_mesh(self):
 		tot=0
@@ -170,7 +164,7 @@ class layer_widget(QWidget):
 		tab_move_down(self.tab)
 		self.save_model()
 		self.emit_change()
-
+		self.emit_structure_changed()
 
 	def __init__(self):
 		QWidget.__init__(self)
@@ -306,7 +300,7 @@ class layer_widget(QWidget):
 	def on_remove_item_clicked(self):
 		tab_remove(self.tab)
 		self.save_model()
-		self.changed.emit()
+		self.emit_change()
 
 	def change_active_layer_thickness(self,obj):
 		thickness=obj.get_data("refresh")
@@ -328,7 +322,8 @@ class layer_widget(QWidget):
 
 		self.add_row(row,"100e-9","pcbm","other","none","layer"+str(row))
 		self.save_model()
-		self.changed.emit()
+		#self.changed.emit()
+		self.emit_change()
 
 	def save_model(self):
 

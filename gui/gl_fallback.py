@@ -50,12 +50,15 @@ from math import pi,acos,sin,cos
 
 from dat_file import dat_file
 from dat_file import dat_file_read
+from global_objects import global_object_register
+
 class gl_fallback(QWidget):
 
 	def __init__(self):
 		QWidget.__init__(self)
 		#self.setMinimumSize(600, 500)
 		self.suns=1
+		global_object_register("gl_force_redraw",self.force_redraw)
 		
 	def paintEvent(self, e):
 		qp = QPainter()
@@ -220,5 +223,5 @@ class gl_fallback(QWidget):
 	def set_sun(self,sun):
 		self.sun=sun
 
-	def recalculate(self):
+	def force_redraw(self):
 		self.repaint()

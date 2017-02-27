@@ -45,6 +45,7 @@ from fxexperiment import fxexperiment
 from jv import jv
 from qe import qe_window
 from optics import class_optical
+from global_objects import global_object_register
 
 class ribbon_simulations(QToolBar):
 	def __init__(self):
@@ -182,7 +183,9 @@ class ribbon_simulations(QToolBar):
 		if self.optics_window.isVisible()==True:
 			self.optics_window.hide()
 		else:
+			global_object_register("optics_force_redraw",self.optics_window.force_redraw)
 			self.optics_window.show()
+
 			
 	def callback_qe_window(self, widget):
 		if self.qe_window==None:

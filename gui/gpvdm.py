@@ -338,7 +338,6 @@ class gpvdm_main_window(QMainWindow):
 	def __init__(self):
 		self.undo_list=undo_list_class()
 		self.ribbon=ribbon()
-		#self.electrical_mesh.changed.connect(self.recalculate)
 
 		self.notebook_active_page=None
 		super(gpvdm_main_window,self).__init__()
@@ -431,8 +430,6 @@ class gpvdm_main_window(QMainWindow):
 
 
 		self.change_dir_and_refresh_interface(os.getcwd())
-
-		#self.contacts_window.changed.connect(self.recalculate)
 
 
 #		self.window.show()

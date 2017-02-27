@@ -51,6 +51,7 @@ from fx_selector import fx_selector
 from server import server_get
 
 from global_objects import global_object_run
+from global_objects import global_object_delete
 
 def find_models():
 	ret=[]
@@ -88,7 +89,6 @@ class class_optical(QWidget):
 	def __init__(self):
 		QWidget.__init__(self)
 		find_models()
-
 		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"image.png")))
 
 		self.setMinimumSize(1000, 600)
@@ -114,16 +114,7 @@ class class_optical(QWidget):
 
 		self.main_vbox=QVBoxLayout()
 
-		menubar = QMenuBar()
 
-		file_menu = menubar.addMenu("&"+_("File"))
-		self.menu_refresh=file_menu.addAction("&"+_("Refresh"))
-		self.menu_refresh.triggered.connect(self.update)
-
-		self.menu_close=file_menu.addAction("&"+_("Close"))
-		self.menu_close.triggered.connect(self.callback_close)
-
-		self.main_vbox.addWidget(menubar)
 
 		toolbar=QToolBar()
 
@@ -273,12 +264,14 @@ class class_optical(QWidget):
 		scan_item_add("light.inp","#sun","Light source",1)
 		self.light_source_model.blockSignals(False)
 
-	def callback_close(self):
+
+
+	def closeEvent(self, event):
+		global_object_delete("optics_force_redraw")
 		self.hide()
-		return True
+		event.accept()
 
-
-	def update(self):
+	def force_redraw(self):
 		self.fig_photon_density.my_figure.clf()
 		self.fig_photon_density.draw_graph()
 		self.fig_photon_density.canvas.draw()
@@ -294,8 +287,7 @@ class class_optical(QWidget):
 
 		for i in range(0,len(self.plot_widgets)):
 			self.plot_widgets[i].update()
-
-
+		
 	def callback_run(self):
 		self.my_server=server_get()
 		dump_optics=inp_get_token_value("dump.inp", "#dump_optics")
@@ -315,13 +307,12 @@ class class_optical(QWidget):
 		inp_update_token_value("dump.inp", "#dump_optics",dump_optics,1)
 		inp_update_token_value("dump.inp", "#dump_optics_verbose",dump_optics_verbose,1)
 		
-		self.update()
+		self.force_redraw()
 		self.fx_box.update()
 
 		inp_update_token_value("dump.inp", "#dump_optics","true",1)
 		inp_update_token_value("dump.inp", "#dump_optics_verbose","true",1)
 		
-		global_object_run("gl_recalculate")
 
 	def mode_changed(self):
 		cb_text=self.fx_box.get_text()

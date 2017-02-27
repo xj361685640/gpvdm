@@ -510,7 +510,7 @@ if open_gl_ok==True:
 			if self.failed==False:
 				self.do_draw()
 					
-		def recalculate(self):
+		def load_data(self):
 			self.colors=[]
 			lines=[]
 
@@ -538,9 +538,14 @@ if open_gl_ok==True:
 					alpha=1.0
 				self.colors.append(color(red,green,blue,alpha))
 			self.colors.reverse()
+			#self.update()
+			#self.do_draw()
+
+		def force_redraw(self):
+			self.load_data()
 			self.update()
 			self.do_draw()
-			
+
 		def resizeEvent(self,event):
 			if self.failed==False:
 				#glClearDepth(1.0)              
@@ -557,8 +562,9 @@ if open_gl_ok==True:
 
 
 		def initializeGL(self):
-			self.recalculate()
+			self.load_data()
 			try:
+				aa
 				glClearDepth(1.0)              
 				glDepthFunc(GL_LESS)
 				glEnable(GL_DEPTH_TEST)
@@ -574,7 +580,7 @@ if open_gl_ok==True:
 				#self.resizeEvent.connect(self.resize)
 				
 				self.failed=False
-				global_object_register("gl_recalculate",self.recalculate)
+				global_object_register("gl_force_redraw",self.force_redraw)
 
 			except:
 				print("OpenGL failed to load falling back to 2D rendering.",sys.exc_info()[0])

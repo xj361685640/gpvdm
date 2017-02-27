@@ -71,3 +71,10 @@ def global_isobject(name):
 			return True
 
 	return False
+
+def global_object_delete(name):
+	global global_objects
+	print("delete")
+	for i in range(0,len(global_objects)):
+		if global_objects[i].name==name:
+			del global_objects[i]
