@@ -759,7 +759,7 @@ ac_user_opts='
 enable_option_checking
 enable_noimages
 enable_noplots
-enable_nopman
+enable_noman
 enable_hpc
 enable_dependency_tracking
 enable_silent_rules
@@ -2393,9 +2393,9 @@ fi
 fi
 
 
-# Check whether --enable-nopman was given.
-if test "${enable_nopman+set}" = set; then :
-  enableval=$enable_nopman;  if false; then
+# Check whether --enable-noman was given.
+if test "${enable_noman+set}" = set; then :
+  enableval=$enable_noman;  if false; then
   INCLUDE_MAN_TRUE=
   INCLUDE_MAN_FALSE='#'
 else
@@ -3707,13 +3707,13 @@ fi
 
 done
 
-DLL_LINKER="-L/home/rod/windll/compiled_dlls/ -Wl,--out-implib,plugin.a -lgpvdm_light -lgpvdm_lib -lgpvdm_dump -lgpvdm_measure -lgpvdm_dos -lgpvdm_dumpctrl -lgpvdm_light -lgpvdm_i -lzip-2 -lumfpack -lgpvdm_mesh -lgpvdm_memory"
+DLL_LINKER="-L/home/rod/windll/compiled_dlls/ -Wl,--out-implib,plugin.a -lgpvdm_light -lgpvdm_lib -lgpvdm_dump -lgpvdm_measure -lgpvdm_dos -lgpvdm_dumpctrl -lgpvdm_light -lgpvdm_i -lzip-2 -lumfpack -lgpvdm_mesh -lgpvdm_memory -lintl"
 
 DLL_COMPILE="-DBUILDING_EXAMPLE_DLL"
 
 DLL_DEBUG="-Wall"
 
-EXE_LINK="-L/home/rod/windll/compiled_dlls/ -lumfpack -lzip-2"
+EXE_LINK="-L/home/rod/windll/compiled_dlls/ -lumfpack -lzip-2 -lintl"
 
 WIN_RES_FILE="gpvdm.res"
 
@@ -3864,7 +3864,7 @@ else
   as_fn_error $? "matheval is needed but not found." "$LINENO" 5
 fi
 
-	COMPILE_FLAG=" -D enable_server -g -fPIC `pkg-config --cflags dbus-1` -D dbus "
+	COMPILE_FLAG="-D enable_fit -D enable_server -g -fPIC `pkg-config --cflags dbus-1` -D dbus "
 
 	EXE_LINK="-lumfpack -lm -lgsl -lgslcblas -rdynamic -export-dynamic -ldl -lzip  -lmatheval -lz -g `pkg-config --libs dbus-1`"
 

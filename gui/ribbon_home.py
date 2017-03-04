@@ -63,7 +63,7 @@ class ribbon_home(QToolBar):
 
 		self.addSeparator()
 
-		self.run = QAction(QIcon(os.path.join(get_image_file_path(),"play.png")), _("Run\nsimulation"), self)
+		self.run = QAction(QIcon(os.path.join(get_image_file_path(),"play.png")), _("Run simulation"), self)
 		self.addAction(self.run)
 
 		self.stop = QAction(QIcon(os.path.join(get_image_file_path(),"pause.png")), _("Stop\nsimulation"), self)

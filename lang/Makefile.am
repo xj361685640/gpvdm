@@ -1,14 +1,16 @@
-OBJS= ./de_DE/LC_MESSAGES/gpvdm.mo
+OBJS= ./de_DE/LC_MESSAGES/gpvdm.mo ./zh_CN/LC_MESSAGES/gpvdm.mo
 
 all: $(OBJS)
-	xgettext --language=Python --keyword=_ --output=gpvdm.pot `find ../ \( -name "*.py" -or -name "*.c" \)|grep -v pub` --msgid-bugs-address=roderick.mackenzie@nottingham.ac.uk  --copyright-holder="Roderick C. I. MacKenzie" --package-name=gpvdm --package-version=4.80
+	xgettext --language=Python --keyword=_ --output=gpvdm.pot `find ../ \( -name "*.py" -or -name "*.c" \)|grep -v pub` --msgid-bugs-address=roderick.mackenzie@nottingham.ac.uk  --copyright-holder="Roderick C. I. MacKenzie" --package-name=gpvdm --package-version=4.88
 
-./de_DE/LC_MESSAGES/gpvdm.mo : de.po
-	mkdir ./de_DE
-	mkdir ./de_DE/LC_MESSAGES
-	msgfmt  de.po -o ./de_DE/LC_MESSAGES/gpvdm.mo
+./%/LC_MESSAGES/gpvdm.mo : %.po
+#	name := $(basename $<)
+	mkdir $(basename $<)
+	mkdir $(basename $<)/LC_MESSAGES
+	msgfmt  $< -o $(basename $<)/LC_MESSAGES/gpvdm.mo
+
 
 clean:
-	rm de_DE -rf
+	rm de_DE zh_CN -rf
 	rm *.mo -f
 	rm gpvdm.pot -f

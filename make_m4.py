@@ -25,6 +25,7 @@ import argparse
 parser = argparse.ArgumentParser()
 parser.add_argument("--noar", help="no archiver for old Cent OS", action='store_true')
 parser.add_argument("--hpc", help="Set up for Nottingham hpc", action='store_true')
+parser.add_argument("--win", help="compile for windows", action='store_true')
 parser.add_argument("--verbosity", help="increase output verbosity", action='store_true')
 
 args = parser.parse_args()
@@ -32,9 +33,14 @@ args = parser.parse_args()
 config_files=[]
 link_libs=""
 hpc=False
+win=False
+
 if args.hpc:
 	hpc=True
 
+if args.win:
+	win=True
+	
 config_files.append("")
 
 config_files.append("lang")
@@ -69,9 +75,10 @@ link_libs=link_libs+" -lgpvdm_server"
 config_files.append("libmesh")
 link_libs=link_libs+" -lgpvdm_mesh"
 
-if os.path.isdir("libfit"):
-	config_files.append("libfit")
-	link_libs=link_libs+" -lgpvdm_fit"
+if win==False:
+	if os.path.isdir("libfit"):
+		config_files.append("libfit")
+		link_libs=link_libs+" -lgpvdm_fit"
 
 for root, dirs, files in os.walk("./plugins"):
     for file in files:

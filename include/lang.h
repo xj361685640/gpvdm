@@ -21,12 +21,12 @@
 
 
 #ifndef _
-#ifdef windows
-#define _(String) (String)
-#else
+//#ifdef windows
+//#define _(String) (String)
+//#else
 #include <libintl.h>
 #include <locale.h>
 #define _(String) gettext (String)
-#endif
+//#endif
 
 #endif

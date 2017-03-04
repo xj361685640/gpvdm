@@ -120,9 +120,11 @@ if (scanarg( argv,argc,"--version")==TRUE)
 //printf_log(&sim,"rod\n");
 //solver_ld_test();
 //exit(0);
+//#ifndef windows
 setlocale(LC_MESSAGES,"");
 bindtextdomain("gpvdm",get_lang_path(&sim));
 textdomain("gpvdm");
+//#endif
 
 timer_init(0);
 timer_init(1);

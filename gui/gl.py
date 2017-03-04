@@ -564,7 +564,6 @@ if open_gl_ok==True:
 		def initializeGL(self):
 			self.load_data()
 			try:
-				aa
 				glClearDepth(1.0)              
 				glDepthFunc(GL_LESS)
 				glEnable(GL_DEPTH_TEST)
