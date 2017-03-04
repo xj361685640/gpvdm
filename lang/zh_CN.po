@@ -1,11 +1,11 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR Roderick C. I. MacKenzie
+# Copyright (C) 2017 Liu Di (刘迪) and Zhao Chenyao (赵辰尧)
 # This file is distributed under the same license as the gpvdm package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Liu Di (刘迪) <EMAIL@ADDRESS>, 2017
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gpvdm 4.80\n"
+"Project-Id-Version: gpvdm 4.88\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
 "POT-Creation-Date: 2017-02-23 21:19+0800\n"
 "PO-Revision-Date: 2017-03-03 22:55+0800\n"
