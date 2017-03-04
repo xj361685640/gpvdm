@@ -189,5 +189,5 @@ void light_free_memory(struct simulation *sim,struct light *in)
 	free(in->l);
 	inter_free(&(in->sun_read));
 
-	printf_log(sim,_("Light free memory\n"));
+	printf_log(sim,_("Freeing memory from the optical model\n"));
 }

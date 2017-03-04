@@ -46,7 +46,7 @@ class progress_class(QWidget):
 		main_vbox.addWidget(w,0)
 
 		self.label=QLabel()
-		self.label.setText("Running...")
+		self.label.setText(_("Running")+"...")
 
 		main_vbox.addWidget(self.label)
 

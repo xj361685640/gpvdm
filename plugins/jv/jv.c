@@ -240,7 +240,7 @@ in->stop=FALSE;
 
 			if (get_dump_status(sim,dump_print_converge)==TRUE)
 			{
-			printf_log(sim,"%s=%Lf (%Lf) %s = %Le mA (%Le A/m^2) %Le\n",_("Voltage"),V,Vexternal,_("Current"),get_I(in)/1e-3,J,in->last_error);
+			printf_log(sim," %s=%Lf (%Lf) %s = %Le mA (%Le A/m^2) %Le\n",_("Voltage"),V,Vexternal,_("Current"),get_I(in)/1e-3,J,in->last_error);
 			}
 
 
@@ -332,7 +332,7 @@ if (get_dump_status(sim,dump_iodump)==TRUE)
 buffer_malloc(&buf);
 buf.y_mul=1.0;
 buf.x_mul=1.0;
-strcpy(buf.title,_("Charge density - Applied voltage"));
+sprintf(buf.title,"%s - %s",_("Charge density"),_("Applied voltage"));
 strcpy(buf.type,"xy");
 strcpy(buf.x_label,_("Applied Voltage"));
 strcpy(buf.data_label,_("Charge density"));
@@ -356,7 +356,7 @@ inter_free(&charge_tot);
 buffer_malloc(&buf);
 buf.y_mul=1.0;
 buf.x_mul=1.0;
-strcpy(buf.title,"Current density - Applied voltage");
+sprintf(buf.title,"%s - %s",_("Current density"),_("Applied voltage"));
 strcpy(buf.type,"xy");
 strcpy(buf.x_label,_("Applied Voltage"));
 strcpy(buf.data_label,_("Current density"));
@@ -375,7 +375,7 @@ buffer_free(&buf);
 buffer_malloc(&buf);
 buf.y_mul=1.0;
 buf.x_mul=1.0;
-strcpy(buf.title,_("Current density - Applied voltage"));
+sprintf(buf.title,"%s - %s",_("Current density"),_("Applied voltage"));
 strcpy(buf.type,"xy");
 strcpy(buf.x_label,_("Applied Voltage"));
 strcpy(buf.data_label,_("Current density"));
@@ -394,7 +394,7 @@ buffer_free(&buf);
 buffer_malloc(&buf);
 buf.y_mul=1.0;
 buf.x_mul=1.0;
-strcpy(buf.title,_("Current density - Applied voltage"));
+sprintf(buf.title,"%s - %s",_("Current density"),_("Applied voltage"));
 strcpy(buf.type,"xy");
 strcpy(buf.x_label,_("Applied Voltage"));
 strcpy(buf.data_label,_("Current density"));
@@ -413,7 +413,7 @@ buffer_free(&buf);
 buffer_malloc(&buf);
 buf.y_mul=1.0;
 buf.x_mul=1.0;
-strcpy(buf.title,_("Current - Applied voltage"));
+sprintf(buf.title,"%s - %s",_("Current "),_("Applied voltage"));
 strcpy(buf.type,"xy");
 strcpy(buf.x_label,_("Applied Voltage"));
 strcpy(buf.data_label,_("Current"));
@@ -432,7 +432,7 @@ buffer_free(&buf);
 buffer_malloc(&buf);
 buf.y_mul=1000.0;
 buf.x_mul=1.0;
-strcpy(buf.title,_("Voltage - Light generated"));
+sprintf(buf.title,"%s - %s",_("Voltage"),_("Light generated"));
 strcpy(buf.type,"xy");
 strcpy(buf.x_label,("Applied Voltage"));
 strcpy(buf.data_label,("Light power"));
@@ -453,7 +453,7 @@ buffer_free(&buf);
 buffer_malloc(&buf);
 buf.y_mul=1000.0;
 buf.x_mul=1.0;
-strcpy(buf.title,_("Current - Light generated"));
+sprintf(buf.title,"%s - %s",_("Current"),_("Light generated"));
 strcpy(buf.type,"xy");
 strcpy(buf.x_label,("Current"));
 strcpy(buf.data_label,_("Light power"));

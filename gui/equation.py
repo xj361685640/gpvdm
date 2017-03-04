@@ -60,7 +60,7 @@ from dat_file import dat_file_read
 
 from gui_util import error_dlg
 
-from ref import ref
+from ref import ref_window
 from ref import get_ref_text
 #window
 

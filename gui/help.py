@@ -1,8 +1,8 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -104,11 +104,11 @@ class help_class(QWidget):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
-		self.back = QAction(QIcon(os.path.join(get_image_file_path(),"left.png")), 'Back', self)
+		self.back = QAction(QIcon(os.path.join(get_image_file_path(),"left.png")), _("Back"), self)
 		self.back.triggered.connect(self.callback_back)
 		toolbar.addAction(self.back)
 
-		self.forward= QAction(QIcon(os.path.join(get_image_file_path(),"right.png")), 'Next', self)
+		self.forward= QAction(QIcon(os.path.join(get_image_file_path(),"right.png")), _("Next"), self)
 		self.forward.triggered.connect(self.callback_forward)
 		toolbar.addAction(self.forward)
 
@@ -118,12 +118,12 @@ class help_class(QWidget):
 		toolbar.addWidget(spacer)
 
 
-		self.undo = QAction(QIcon(os.path.join(get_image_file_path(),"www.png")), 'Online help', self)
+		self.undo = QAction(QIcon(os.path.join(get_image_file_path(),"www.png")), _("Online help"), self)
 		self.undo.setStatusTip(_("On line help"))
 		self.undo.triggered.connect(self.on_line_help)
 		toolbar.addAction(self.undo)
 
-		self.undo = QAction(QIcon(os.path.join(get_image_file_path(),"close.png")), 'Hide', self)
+		self.undo = QAction(QIcon(os.path.join(get_image_file_path(),"close.png")), _("Hide"), self)
 		self.undo.setStatusTip(_("Close"))
 		self.undo.triggered.connect(self.callback_close)
 		toolbar.addAction(self.undo)
@@ -178,7 +178,9 @@ class help_class(QWidget):
 			text=all_text+"<br>"
 			self.label[i].setText(text)
 			height=((end_text/80)+nbr)*20
-			self.label[i].setFixedSize(380,height)
+			
+			#self.label[i].setFixedSize(380,300)
+			self.label[i].adjustSize()
 			self.label[i].setOpenExternalLinks(True)
 			self.box[i].show()
 			#self.image[i].show()

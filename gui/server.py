@@ -196,7 +196,7 @@ class server(QWidget,cluster):
 							
 						print("Running job",self.jobs[i],self.args[i])
 						if self.enable_gui==True:
-							self.progress_window.set_text("Running job "+self.jobs[i])
+							self.progress_window.set_text(_("Running job ")+self.jobs[i])
 						self.jobs_running=self.jobs_running+1
 #						if running_on_linux()==True:
 
@@ -267,7 +267,7 @@ class server(QWidget,cluster):
 		self.jobs_running=0
 		self.jobs_run=0
 		self.running=False
-		print("I am updating the display>>>>>>>>>>>>>>>>>",self.display)
+
 		if self.display!=False:
 
 			self.display()

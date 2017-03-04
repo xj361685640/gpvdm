@@ -4,9 +4,9 @@ all: $(OBJS)
 	xgettext --language=Python --keyword=_ --output=gpvdm.pot `find ../ \( -name "*.py" -or -name "*.c" \)|grep -v pub` --msgid-bugs-address=roderick.mackenzie@nottingham.ac.uk  --copyright-holder="Roderick C. I. MacKenzie" --package-name=gpvdm --package-version=4.88
 
 ./%/LC_MESSAGES/gpvdm.mo : %.po
-#	name := $(basename $<)
 	mkdir $(basename $<)
 	mkdir $(basename $<)/LC_MESSAGES
+	cp $(basename $<).ref $(basename $<)/LC_MESSAGES/ref.ref
 	msgfmt  $< -o $(basename $<)/LC_MESSAGES/gpvdm.mo
 
 

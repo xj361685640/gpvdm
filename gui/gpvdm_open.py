@@ -61,6 +61,9 @@ class gpvdm_open():
 	def __init__(self,path):
 		self.file_path=""
 		self.window = loadUi(os.path.join(get_ui_path(),"open.ui"))
+		self.window.setWindowTitle(_("Open file")+" https://www.gpvdm.com")
+		self.window.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"dir_file.png")))	
+
 		#self.window.center()
 
 		icon = QPixmap(os.path.join(get_image_file_path(),"up.png"))
@@ -100,7 +103,12 @@ class gpvdm_open():
 
 		self.window.listwidget.itemDoubleClicked.connect(self.on_item_activated)
 		self.window.listwidget.itemClicked.connect(self.on_selection_changed)
+		self.window.listwidget.setIconSize(QSize(48,48))
+		self.window.resizeEvent=self.resizeEvent
 
+	def resizeEvent(self,resizeEvent):
+		self.fill_store()
+		#self.window.listwidget.setIconSize(QSize(48,48))
 
 	def get_icon(self, name):
 		return QIcon(QPixmap(os.path.join(get_image_file_path(),name+"_file.png")))

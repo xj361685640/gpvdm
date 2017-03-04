@@ -18,6 +18,7 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+from __future__ import unicode_literals
 
 import os
 import io
@@ -63,6 +64,7 @@ from dat_file import read_data_2d
 from dlg_get_multi_text import dlg_get_multi_text
 
 from mpl_toolkits.mplot3d import Axes3D
+
 
 class plot_widget(QWidget):
 
@@ -174,6 +176,7 @@ class plot_widget(QWidget):
 			title=self.data[0].title+" V="+str(self.data[0].Vexternal)+" time="+str(self.data[0].time*mul)+" "+unit
 
 		self.fig.suptitle(title)
+
 		self.setWindowTitle(title+" - www.gpvdm.com")
 
 		self.ax=[]
@@ -586,9 +589,9 @@ class plot_widget(QWidget):
 			self.menu_save_as.triggered.connect(self.callback_plot_save)
 
 
-			key_menu = menubar.addMenu("&"+"Key")
+			key_menu = menubar.addMenu("&"+_("Key"))
 
-			key_menu = menubar.addMenu("&"+"Color")
+			key_menu = menubar.addMenu("&"+_("Color"))
 			self.menu_black=key_menu.addAction("&"+_("Black"))
 			self.menu_black.triggered.connect(self.callback_black)
 

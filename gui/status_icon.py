@@ -1,9 +1,8 @@
-#!/usr/bin/env python2.7
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -46,16 +45,16 @@ class tray_icon(QSystemTrayIcon):
 	def __init__(self,  parent=None):
 		QSystemTrayIcon.__init__(self, QIcon(os.path.join(get_image_file_path(),"ball_green.png")), parent)
 		menu = QMenu(parent)
-		self.menu_about = menu.addAction("About")
+		self.menu_about = menu.addAction(_("About"))
 		self.menu_about.triggered.connect(self.callback_about)
-		self.menu_man = menu.addAction("Manual")
+		self.menu_man = menu.addAction(_("Manual"))
 		self.menu_man.triggered.connect(self.callback_man)
 
 		self.menu_youtube = menu.addAction("&"+_("Youtube channel"))
 		self.menu_youtube.triggered.connect(self.callback_youtube)
 
 		self.exitAction = menu.addSeparator()		
-		self.exitAction = menu.addAction("Quit")
+		self.exitAction = menu.addAction(_("Quit"))
 		
 		self.exitAction.triggered.connect(self.callback_exit)
 		self.setContextMenu(menu)

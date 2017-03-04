@@ -53,7 +53,18 @@ from tab import tab_class
 
 import webbrowser
 
-def get_ref_text(file_name,html=True):
+class ref:
+	def __init__(self):
+		self.group=""
+		self.author=""
+		self.journal=""
+		self.volume=""
+		self.pages=""
+		self.year=""
+		self.doi=""
+	
+def load_ref(file_name):
+	r=ref()
 	file_name=os.path.splitext(file_name)[0]+".ref"
 
 	if os.path.isfile(file_name)==False:
@@ -62,27 +73,33 @@ def get_ref_text(file_name,html=True):
 	lines=[]
 	if inp_load_file(lines,file_name):
 		text=""
-		group=inp_get_token_value_from_list(lines, "#ref_research_group")
-		author=inp_get_token_value_from_list(lines, "#ref_autors")
-		journal=inp_get_token_value_from_list(lines, "#ref_jounral")
-		volume=inp_get_token_value_from_list(lines, "#ref_volume")
-		pages=inp_get_token_value_from_list(lines, "#ref_pages")
-		year=inp_get_token_value_from_list(lines, "#ref_year")
-		doi=inp_get_token_value_from_list(lines, "#ref_doi")
+		r.group=inp_get_token_value_from_list(lines, "#ref_research_group")
+		r.author=inp_get_token_value_from_list(lines, "#ref_autors")
+		r.journal=inp_get_token_value_from_list(lines, "#ref_jounral")
+		r.volume=inp_get_token_value_from_list(lines, "#ref_volume")
+		r.pages=inp_get_token_value_from_list(lines, "#ref_pages")
+		r.year=inp_get_token_value_from_list(lines, "#ref_year")
+		r.doi=inp_get_token_value_from_list(lines, "#ref_doi")
+
+	return r
+	
+def get_ref_text(file_name,html=True):
+	r=load_ref(file_name)
+	if r!=None:
 		if html==True:
-			if group!="":
-				text="<b>Data provided by:</b>"+group+"<br>"
-			text=text+"<b>Associated paper:</b>"+author+", "+journal+", "+volume+", "+pages+", "+year+"<br>"
-			text=text+"<b>doi link:</b> <a href=\"http://doi.org/"+doi+"\"> http://doi.org/"+doi+"</a>"
+			if r.group!="":
+				text="<b>Data provided by:</b>"+r.group+"<br>"
+			text=text+"<b>Associated paper:</b>"+r.author+", "+r.journal+", "+r.volume+", "+r.pages+", "+r.year+"<br>"
+			text=text+"<b>doi link:</b> <a href=\"http://doi.org/"+r.doi+"\"> http://doi.org/"+r.doi+"</a>"
 		else:
-			if group!="":
-				text="Data provided by: "+group+" "
+			if r.group!="":
+				text="Data provided by: "+r.group+" "
 			#text=text+"Associated paper:"+author+", "+journal+", "+volume+", "+pages+", "+year
 
 		return text
 	return None
 	
-class ref(QWidget):
+class ref_window(QWidget):
 	def __init__(self,file_name):
 		QWidget.__init__(self)
 		resize_window_to_be_sane(self,0.5,0.5)

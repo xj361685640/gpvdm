@@ -87,6 +87,10 @@ if (scanarg( argv,argc,"--gui")==TRUE)
 int log_level=0;
 set_logging_level(&sim,log_level_screen);
 cal_path(&sim);
+setlocale(LC_ALL,"");
+bindtextdomain("gpvdm",get_lang_path(&sim));
+textdomain("gpvdm");
+
 if (scanarg( argv,argc,"--help")==TRUE)
 {
 	printf_log(&sim,"gpvdm_core - General-purpose Photovoltaic Device Model\n");
@@ -110,39 +114,20 @@ if (scanarg( argv,argc,"--help")==TRUE)
 }
 if (scanarg( argv,argc,"--version")==TRUE)
 {
-	printf_log(&sim,"gpvdm_core, Version %s\n",gpvdm_ver);
+	printf_log(&sim,_("gpvdm_core, Version %s\n"),gpvdm_ver);
 	printf_log(&sim,copyright);
 	printf_log(&sim,this_is_free_software);
-	printf_log(&sim,"There is ABSOLUTELY NO WARRANTY; not even for MERCHANTABILITY or\n");
-	printf_log(&sim,"FITNESS FOR A PARTICULAR PURPOSE.\n");
+	printf_log(&sim,_("There is ABSOLUTELY NO WARRANTY; not even for MERCHANTABILITY or\n"));
+	printf_log(&sim,_("FITNESS FOR A PARTICULAR PURPOSE.\n"));
 	printf_log(&sim,"\n");
 	exit(0);
 }
 
 
-
-//solver_test();
-//printf_log(&sim,"rod\n");
-//solver_ld_test();
-//exit(0);
-//#ifndef windows
-setlocale(LC_ALL,"");
-bindtextdomain("gpvdm",get_lang_path(&sim));
-textdomain("gpvdm");
-//#endif
 timer_init(0);
 timer_init(1);
 dbus_init();
-//works
-//wchar_t wide[1000];
-//char b[1000];
-//sprintf(b,"a >%s\n",_("Hole generation rate"));
-//int i=mbstowcs(wide, b, 1000);
-//wprintf (L"%S", wide);
-//wprintf(L"error: opening file %s\n","boom");
-//printf_log("%s\n",_("Hole generation rate"));
 
-//exit(0);
 set_ewe_lock_file("","");
 
 char pwd[1000];
