@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.88\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2017-03-04 11:02+0000\n"
+"POT-Creation-Date: 2017-03-04 14:14+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -56,7 +56,8 @@ msgstr ""
 msgid "Generation rate"
 msgstr ""
 
-#: ../liblight/light_dump.c:490
+#: ../liblight/light_dump.c:490 ../src/main.c:68 ../src/main.c:142
+#: ../src/main.c:146
 msgid "Hole generation rate"
 msgstr ""
 
@@ -474,19 +475,19 @@ msgstr ""
 msgid "n"
 msgstr ""
 
-#: ../src/main.c:175
+#: ../src/main.c:190
 msgid "General-purpose Photovoltaic Device Model (https://www.gpvdm.com)\n"
 msgstr ""
 
-#: ../src/main.c:176
+#: ../src/main.c:191
 msgid "You should have received a copy of the GNU General Public License\n"
 msgstr ""
 
-#: ../src/main.c:177
+#: ../src/main.c:192
 msgid "along with this software.  If not, see www.gnu.org/licenses/.\n"
 msgstr ""
 
-#: ../src/main.c:179
+#: ../src/main.c:194
 msgid "If you wish to collaborate in anyway please get in touch:\n"
 msgstr ""
 

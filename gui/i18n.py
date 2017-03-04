@@ -40,6 +40,8 @@ else:
 language = gettext.translation ('gpvdm', locale_path, [current_locale] , fallback=True)
 language.install()
 
+print(current_locale)
+
 def yes_no(a):
 	if a.lower() in ("ja","yes", "true", "t", "1"):
 		return True

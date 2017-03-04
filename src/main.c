@@ -57,10 +57,15 @@ static int unused __attribute__((unused));
 
 int main (int argc, char *argv[])
 {
-//char out[200];
-//replace_string(out,"1234 333e-3 445e+3",10000.0,2);
-//printf("%s\n",out);
-//return 0;
+
+//setlocale(LC_ALL,"");
+//bindtextdomain("gpvdm","./lang/");
+//textdomain("gpvdm");
+//wchar_t wide[1000];
+//int i=mbstowcs(wide, _("Hole generation rate"), 1000);
+//wprintf (L"%S", wide);
+//exit(0);
+
 int run=FALSE;
 struct simulation sim;
 sim_init(&sim);
@@ -121,15 +126,23 @@ if (scanarg( argv,argc,"--version")==TRUE)
 //solver_ld_test();
 //exit(0);
 //#ifndef windows
-setlocale(LC_MESSAGES,"");
+setlocale(LC_ALL,"");
 bindtextdomain("gpvdm",get_lang_path(&sim));
 textdomain("gpvdm");
 //#endif
-
 timer_init(0);
 timer_init(1);
 dbus_init();
+//works
+//wchar_t wide[1000];
+//char b[1000];
+//sprintf(b,"a >%s\n",_("Hole generation rate"));
+//int i=mbstowcs(wide, b, 1000);
+//wprintf (L"%S", wide);
+//wprintf(L"error: opening file %s\n","boom");
+//printf_log("%s\n",_("Hole generation rate"));
 
+//exit(0);
 set_ewe_lock_file("","");
 
 char pwd[1000];
@@ -154,6 +167,8 @@ set_plot_script_dir(pwd);
 if(geteuid()==0) {
 	ewe(&sim,"Don't run me as root!\n");
 }
+
+
 
 srand(time(0));
 randomprint(&sim,_("General-purpose Photovoltaic Device Model (https://www.gpvdm.com)\n"));

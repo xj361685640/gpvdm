@@ -24,6 +24,7 @@
 
 //Physical constants
 #define PATHLEN	512
+#define STR_MAX	1024
 #define epsilon0 (long double)8.85418782e-12			// m-3 kg-1 s4 A2;
 #define hp (long double)6.62606896e-34			//J S Wikipeda
 #define PI (long double)3.14159265358979323846

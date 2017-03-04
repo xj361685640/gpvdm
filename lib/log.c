@@ -95,7 +95,7 @@ void set_logging_level(struct simulation *sim,int value)
 	sim->log_level=value;
 }
 
-void text_to_html(struct simulation *sim,char *out, char *in)
+void text_to_html(struct simulation *sim,char *out, char *in,int max)
 {
 	if (sim->html==TRUE)
 	{
@@ -115,6 +115,11 @@ void text_to_html(struct simulation *sim,char *out, char *in)
 			{
 				out[out_pos]=in[i];
 				out_pos++;
+				if (out_pos>=max)
+				{
+					out_pos--;
+					break;
+				}
 			}
 			
 		}
@@ -123,7 +128,7 @@ void text_to_html(struct simulation *sim,char *out, char *in)
 	}else
 	{
 		out[0]=0;
-		strcpy(out,in);
+		strncpy(out,in,max);
 	}
 	
 }
@@ -131,17 +136,20 @@ void text_to_html(struct simulation *sim,char *out, char *in)
 void printf_log(struct simulation *sim, const char *format, ...)
 {
 	FILE* out;
-	char data[1000];
-	char data_html[1000];
-	char temp[500];
+	char data[STR_MAX];
+	char data_html[STR_MAX];
+	char temp[PATH_MAX];
 	va_list args;
 	va_start(args, format);
-	vsprintf(data,format, args);
+	vsnprintf(data,STR_MAX,format, args);
 	
 	if ((sim->log_level==log_level_screen)||(sim->log_level==log_level_screen_and_disk))
 	{
-		text_to_html(sim,data_html, data);
-		printf("%s",data_html);
+		text_to_html(sim,data_html, data,1000);
+		//printf("%s",data_html);
+		wchar_t wide[1000];
+		int i=mbstowcs(wide, data_html, 1000);
+		wprintf(L"%S",wide);
 		fflush(stdout);
 	}
 
@@ -151,7 +159,7 @@ void printf_log(struct simulation *sim, const char *format, ...)
 		out=fopen(temp,"a");
 		if (out==NULL)
 		{
-			printf("error: opening file %s\n",temp);
+			wprintf(L"error: opening file %s\n",temp);
 		}
 		fprintf(out,"%s",data);
 		fclose(out);
@@ -267,7 +275,7 @@ void waveprint(struct simulation *sim,char *in,double wavelength)
 		if (sim->html==TRUE)
 		{
 			wavelength_to_rgb(&r,&g,&b,wavelength*1e-9);
-			printf("<font color=\"#%.2x%.2x%.2x\">",r,g,b);
+			wprintf(L"<font color=\"#%.2x%.2x%.2x\">",r,g,b);
 		}else
 		{
 			if (wavelength<400.0)
@@ -299,7 +307,7 @@ void waveprint(struct simulation *sim,char *in,double wavelength)
 	{
 		if (sim->html==TRUE)
 		{
-			printf("</font>");
+			wprintf(L"</font>");
 		}else
 		{
 			textcolor(sim,fg_reset);
@@ -314,38 +322,38 @@ if (sim->html==TRUE)
 {
 	if (color==fg_purple)
 	{
-		printf("<font color=\"purple\">");
+		wprintf(L"<font color=\"purple\">");
 	}else
 	if (color==fg_blue)
 	{
-		printf("<font color=\"blue\">");
+		wprintf(L"<font color=\"blue\">");
 	}else
 	if (color==fg_green)
 	{
-		printf("<font color=\"green\">");
+		wprintf(L"<font color=\"green\">");
 	}else
 	if (color==fg_yellow)
 	{
-		printf("<font color=\"yellow\">");
+		wprintf(L"<font color=\"yellow\">");
 	}else
 	if (color==fg_red)
 	{
-		printf("<font color=\"red\">");
+		wprintf(L"<font color=\"red\">");
 	}else
 	if (color==fg_wight)
 	{
-		printf("<font color=\"#ffffff\">");
+		wprintf(L"<font color=\"#ffffff\">");
 	}else
 	if (color==fg_reset)
 	{
-		printf("</font>");
+		wprintf(L"</font>");
 	}
 
 }else
 {
 	char command[13];
 	sprintf(command, "\e[%dm", color);
-	printf("%s", command);
+	wprintf(L"%s", command);
 }
 }
 
