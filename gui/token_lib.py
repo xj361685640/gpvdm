@@ -124,10 +124,10 @@ lib.append(my_data("#make_command","au","Make command",["text"],"e",1.0))
 lib.append(my_data("#exe_name","au","exe name",["text"],"e",1.0))
 
 #math.inp
-lib.append(my_data("#maxelectricalitt_first","au","Max Electrical itterations (first step)",["text"],"e",1.0))
-lib.append(my_data("#electricalclamp_first","au","Electrical clamp (first step)",["text"],"e",1.0))
-lib.append(my_data("#math_electrical_error_first","au","Desired electrical solver error (first step)",["text"],"e",1.0))
-lib.append(my_data("#math_enable_pos_solver","true/false","Enable poisson solver",[("switch")],"e",1.0))
+lib.append(my_data("#maxelectricalitt_first","au",_("Max Electrical itterations (first step)"),["text"],"e",1.0))
+lib.append(my_data("#electricalclamp_first","au",_("Electrical clamp (first step)"),["text"],"e",1.0))
+lib.append(my_data("#math_electrical_error_first","au",_("Desired electrical solver error (first step)"),["text"],"e",1.0))
+lib.append(my_data("#math_enable_pos_solver","true/false",_("Enable poisson solver"),[("switch")],"e",1.0))
 lib.append(my_data("#maxelectricalitt","au",_("Max electrical itterations"),["text"],"e",1.0))
 lib.append(my_data("#electricalclamp","au",_("Electrical clamp"),["text"],"e",1.0))
 lib.append(my_data("#posclamp","au",_("Poisson clamping"),["text"],"e",1.0))
@@ -143,7 +143,7 @@ lib.append(my_data("#math_n0","au",_("Slotboom n0"),["text"],"e",1.0))
 
 
 #fit.inp
-lib.append(my_data("#fit_error_mul","au","Fit error multiplyer",["text"],"e",1.0))
+lib.append(my_data("#fit_error_mul","au",_("Fit error multiplyer"),["text"],"e",1.0))
 lib.append(my_data("#fit_randomize",_("True/False"),_("Randomize fit"),[("switch")],"e",1.0))
 lib.append(my_data("#fit_random_reset_ittr","au",_("Number of iterations between random reset"),["text"],"e",1.0))
 lib.append(my_data("#fit_stall_steps","au",_("Stall steps"),["text"],"e",1.0))

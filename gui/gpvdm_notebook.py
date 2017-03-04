@@ -237,7 +237,7 @@ class gpvdm_notebook(QTabWidget):
 			self.finished_loading=True
 			#self.progress.stop()
 			#self.progress.set_fraction(0.0)
-			self.goto_page("tab_main")
+			self.goto_page(_("Device structure"))
 
 		else:
 			self.add_info_page()

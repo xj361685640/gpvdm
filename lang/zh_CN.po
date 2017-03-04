@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.88\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2017-02-23 21:19+0800\n"
-"PO-Revision-Date: 2017-03-03 22:55+0800\n"
+"POT-Creation-Date: 2017-03-04 15:52+0000\n"
+"PO-Revision-Date: 2017-03-04 15:52+0000\n"
+"Last-Translator: \n"
 "Language-Team: \n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.12\n"
-"Last-Translator: \n"
+"X-Generator: Poedit 1.8.8\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"Language: zh_CN\n"
 
 #: ../liblight/light_dump.c:463
 msgid "Electron generation rate"
@@ -51,13 +51,14 @@ msgstr "位置"
 
 #: ../liblight/light_dump.c:466 ../liblight/light_dump.c:493
 #: ../libmeasure/probe.c:274 ../libmeasure/probe.c:299
-#: ../plugins/pulse/pulse.c:299 ../gui/optics.py:191
+#: ../plugins/pulse/pulse.c:299 ../gui/optics.py:184
 #: ../libdump/dump_dynamic.c:420 ../libdump/dump_1d_slice.c:1297
 #: ../libdump/dump_1d_slice.c:1326
 msgid "Generation rate"
 msgstr "产生率"
 
-#: ../liblight/light_dump.c:490
+#: ../liblight/light_dump.c:490 ../src/main.c:68 ../src/main.c:142
+#: ../src/main.c:146
 msgid "Hole generation rate"
 msgstr "空穴产生率"
 
@@ -292,7 +293,7 @@ msgstr "电流密度"
 #: ../plugins/pulse/pulse.c:276 ../plugins/pulse/pulse.c:281
 #: ../plugins/fxdomain/fxdomain.c:279 ../plugins/fxdomain/fxdomain.c:282
 #: ../gui/tmesh.py:232 ../gui/tmesh.py:234 ../gui/tmesh.py:237
-#: ../gui/tmesh.py:239 ../gui/contacts.py:155 ../libdump/dump_dynamic.c:791
+#: ../gui/tmesh.py:239 ../gui/contacts.py:157 ../libdump/dump_dynamic.c:791
 #: ../libdump/dump_contacts.c:70
 msgid "Voltage"
 msgstr "电压"
@@ -475,19 +476,19 @@ msgstr "空穴密度"
 msgid "n"
 msgstr "n"
 
-#: ../src/main.c:175
+#: ../src/main.c:190
 msgid "General-purpose Photovoltaic Device Model (https://www.gpvdm.com)\n"
 msgstr "通用光伏器件模型(https://www.gpvdm.com)\n"
 
-#: ../src/main.c:176
+#: ../src/main.c:191
 msgid "You should have received a copy of the GNU General Public License\n"
 msgstr "你应该接收到一份GNU通用公共许可证的副本\n"
 
-#: ../src/main.c:177
+#: ../src/main.c:192
 msgid "along with this software.  If not, see www.gnu.org/licenses/.\n"
 msgstr "和这个软件一起。如果没有，请访问www.gnu.org/licenses/.\n"
 
-#: ../src/main.c:179
+#: ../src/main.c:194
 msgid "If you wish to collaborate in anyway please get in touch:\n"
 msgstr "如果您有意合作，无论在什么方面，都请联系我：\n"
 
@@ -521,11 +522,11 @@ msgstr "保存视频"
 
 #: ../gui/cmp_class.py:300 ../gui/band_graph.py:73
 #: ../gui/fit_configure_window.py:73 ../gui/experiment.py:180
-#: ../gui/experiment.py:237 ../gui/contacts.py:196 ../gui/jv.py:78
-#: ../gui/emesh.py:169 ../gui/scan.py:259 ../gui/scan.py:354 ../gui/info.py:68
+#: ../gui/experiment.py:237 ../gui/contacts.py:198 ../gui/jv.py:78
+#: ../gui/emesh.py:171 ../gui/scan.py:259 ../gui/scan.py:354 ../gui/info.py:68
 #: ../gui/fxexperiment.py:177 ../gui/fxexperiment.py:230
 #: ../gui/fit_window.py:226 ../gui/ref.py:124 ../gui/lasers.py:180
-#: ../gui/lasers.py:237 ../gui/help.py:127 ../gui/optics.py:121
+#: ../gui/lasers.py:237 ../gui/help.py:127 ../gui/parasitic.py:69
 msgid "Close"
 msgstr "关闭"
 
@@ -554,7 +555,7 @@ msgstr "时间划分"
 msgid "Circuit"
 msgstr "电路"
 
-#: ../gui/gl_cmp.py:36
+#: ../gui/gl_cmp.py:38
 msgid "Results viewer"
 msgstr "结果查看"
 
@@ -563,17 +564,43 @@ msgid "Energy"
 msgstr "能量"
 
 #: ../gui/qe.py:116 ../gui/fit_window_plot_real.py:130
-#: ../gui/plot_widget.py:559
+#: ../gui/plot_widget.py:561
 msgid "Save graph"
 msgstr "保存图像"
 
-#: ../gui/qe.py:120 ../gui/optics.py:130
+#: ../gui/qe.py:120 ../gui/optics.py:123
 msgid "Run"
 msgstr "运行"
 
 #: ../gui/tb_pulse_load_type.py:48
 msgid "Load type"
 msgstr "负载类型"
+
+#: ../gui/ribbon_configure.py:54 ../gui/config_window.py:57
+#: ../gui/ribbon.py:133 ../gui/fit_window.py:277
+msgid "Configure"
+msgstr "配置"
+
+#: ../gui/ribbon_configure.py:62
+msgid ""
+"Electrical\n"
+"mesh"
+msgstr ""
+
+#: ../gui/ribbon_configure.py:81
+msgid ""
+"<big><b>Mesh editor</b></big>\n"
+"Use this window to setup the mesh, the window can also be used to change the "
+"dimensionality of the simulation."
+msgstr ""
+"<big><b>网格编辑器</b></big>\n"
+"使用此窗口设置网格，也可以用于更改仿真的维度。"
+
+#: ../gui/ribbon_configure.py:95
+msgid ""
+"<big><b>Configuration editor</b></big><br> Use this window to control "
+"advanced simulation parameters."
+msgstr "<big><b>配置编辑器</b></big><br> 使用此窗口可以控制高级仿真参数。"
 
 #: ../gui/fx_selector.py:42
 msgid "Wavelengths"
@@ -602,9 +629,10 @@ msgid "Fit configure"
 msgstr "匹配配置"
 
 #: ../gui/fit_configure_window.py:72 ../gui/experiment.py:201
-#: ../gui/experiment.py:202 ../gui/config_window.py:68
-#: ../gui/config_window.py:69 ../gui/materials_main.py:97 ../gui/gpvdm.py:723
-#: ../gui/emesh.py:168 ../gui/ribbon.py:88 ../gui/scan.py:318
+#: ../gui/experiment.py:202 ../gui/config_window.py:70
+#: ../gui/config_window.py:71 ../gui/ribbon_home.py:104
+#: ../gui/materials_main.py:97 ../gui/emesh.py:170
+#: ../gui/ribbon_information.py:75 ../gui/ribbon.py:75 ../gui/scan.py:318
 #: ../gui/scan.py:319 ../gui/cost.py:92 ../gui/fxexperiment.py:195
 #: ../gui/fxexperiment.py:196 ../gui/fit_window.py:244 ../gui/fit_window.py:245
 #: ../gui/ref.py:104 ../gui/ref.py:105 ../gui/lasers.py:201
@@ -921,9 +949,9 @@ msgstr ""
 msgid "Problem generating tree."
 msgstr "问题发生树"
 
-#: ../gui/scan_tab.py:405 ../gui/gpvdm.py:701 ../gui/fxexperiment.py:176
-#: ../gui/fit_window.py:225 ../gui/fit_vars.py:95 ../gui/fit_vars.py:156
-#: ../gui/optics.py:117 ../gui/fit_patch.py:124
+#: ../gui/scan_tab.py:405 ../gui/gpvdm.py:255 ../gui/ribbon.py:124
+#: ../gui/fxexperiment.py:176 ../gui/fit_window.py:225 ../gui/fit_vars.py:95
+#: ../gui/fit_vars.py:156 ../gui/fit_patch.py:124
 msgid "File"
 msgstr "文件"
 
@@ -943,7 +971,7 @@ msgstr "值"
 msgid "Opperation"
 msgstr "操作"
 
-#: ../gui/scan_tab.py:484 ../gui/gpvdm.py:532
+#: ../gui/scan_tab.py:484 ../gui/ribbon_home.py:175
 msgid ""
 "Re-run the simulation with 'dump all slices' set to one to use this tool."
 msgstr "重新运行仿真，将“转存所有层”设置为1，以使用此工具。"
@@ -956,7 +984,7 @@ msgstr "添加参数到扫描结果"
 msgid "Delete item"
 msgstr "删除项目"
 
-#: ../gui/scan_tab.py:527 ../gui/scan.py:279
+#: ../gui/scan_tab.py:527 ../gui/ribbon_home.py:66 ../gui/scan.py:279
 msgid "Run simulation"
 msgstr "运行仿真"
 
@@ -968,7 +996,7 @@ msgstr "停止仿真"
 msgid "Find a file to plot"
 msgstr "找到要绘制的文件"
 
-#: ../gui/scan_tab.py:539 ../gui/ribbon.py:143
+#: ../gui/scan_tab.py:539
 msgid "Examine results in time domain"
 msgstr "在时域中检测结果"
 
@@ -988,100 +1016,53 @@ msgstr "粘贴"
 msgid "Add item"
 msgstr "添加项目"
 
-#: ../gui/layer_widget.py:185
-msgid ""
-"<big><b>The optical simulation window</b></big><br>Use this window to "
-"perform optical simulations.  Click on the play button to run a simulation."
-msgstr ""
-"<big><b>光学仿真窗口</b></big><br>使用这个窗口进行光学仿真。点击运行按钮来运"
-"行仿真。"
-
-#: ../gui/layer_widget.py:185
-msgid ""
-"Click on the play button to run an optical simulation.  The results will be "
-"displayed in the tabs to the right."
-msgstr "点击运行按钮以运行光学仿真。结果将显示在右侧的选项卡中。"
-
-#: ../gui/layer_widget.py:208
+#: ../gui/layer_widget.py:179
 msgid "Add device layer"
 msgstr "添加器件层"
 
-#: ../gui/layer_widget.py:212
+#: ../gui/layer_widget.py:183
 msgid "Delete device layer"
 msgstr "删除器件层"
 
-#: ../gui/layer_widget.py:217
+#: ../gui/layer_widget.py:188
 msgid "Move device layer"
 msgstr "移动器件层"
 
-#: ../gui/layer_widget.py:221 ../libdump/dump_1d_slice.c:331
-msgid "Doping"
-msgstr "掺杂"
-
-#: ../gui/layer_widget.py:225
-msgid "Optical simulation"
-msgstr "光学仿真"
-
-#: ../gui/layer_widget.py:229
-msgid "Look at the materials database"
-msgstr "查看材料数据库"
-
-#: ../gui/layer_widget.py:233
-msgid "Calculate the cost of the solar cell"
-msgstr "计算太阳能电池成本"
-
-#: ../gui/layer_widget.py:262
+#: ../gui/layer_widget.py:217
 msgid "Layer name"
 msgstr "层名"
 
-#: ../gui/layer_widget.py:262 ../gui/electrical_mesh_editor.py:118
+#: ../gui/layer_widget.py:217 ../gui/electrical_mesh_editor.py:119
 msgid "Thicknes"
 msgstr "厚度"
 
-#: ../gui/layer_widget.py:262
+#: ../gui/layer_widget.py:217
 msgid "Optical material"
 msgstr "光学材料"
 
-#: ../gui/layer_widget.py:262
+#: ../gui/layer_widget.py:217
 msgid "Layer type"
 msgstr "层类型"
 
-#: ../gui/layer_widget.py:262
+#: ../gui/layer_widget.py:217
 msgid "DoS Layer"
 msgstr "DoS层"
 
-#: ../gui/layer_widget.py:262
+#: ../gui/layer_widget.py:217
 msgid "PL Layer"
 msgstr "PL层"
 
-#: ../gui/layer_widget.py:325
+#: ../gui/layer_widget.py:280
 msgid "Material for "
 msgstr "材料赋给"
 
-#: ../gui/layer_widget.py:326
+#: ../gui/layer_widget.py:281
 msgid "Layer width "
 msgstr "层宽"
 
-#: ../gui/layer_widget.py:388
+#: ../gui/layer_widget.py:344
 msgid "Error in epitaxy, check the input values."
 msgstr "外延中出错，请检查输入值。"
-
-#: ../gui/layer_widget.py:395
-msgid ""
-"<big><b>Doping window</b></big>\n"
-"Use this window to add doping to the simulation"
-msgstr ""
-"<big><b>掺杂窗口</b></big>\n"
-"使用此窗口在仿真中掺杂"
-
-#: ../gui/layer_widget.py:406
-msgid ""
-"<big><b>Costs window</b></big>\n"
-"Use this window to calculate the cost of the solar cell and the energy "
-"payback time."
-msgstr ""
-"<big><b>成本窗口</b></big>\n"
-"使用此窗口计算太阳能电池的成本和能量回收时间。"
 
 #: ../gui/dump_io.py:69
 msgid "<big><b>Write all data to disk (slow)</b></big><br>"
@@ -1092,8 +1073,10 @@ msgid "<big><b>Write minimal data to disk (fast)</b></big><br>"
 msgstr "<big><b>将最少数据写入磁盘（快速）</b></big><br>"
 
 #: ../gui/dump_io.py:100
-msgid "Set how much data is dumped from a simulation"
-msgstr "设置从仿真中转储的数据量"
+msgid ""
+"Data dump\n"
+"control"
+msgstr ""
 
 #: ../gui/experiment.py:76 ../gui/fxexperiment.py:72
 msgid "New experiment name"
@@ -1147,7 +1130,7 @@ msgstr "时域实验窗口"
 msgid "New experiment"
 msgstr "新建实验"
 
-#: ../gui/experiment.py:236 ../gui/contacts.py:195 ../gui/scan.py:353
+#: ../gui/experiment.py:236 ../gui/contacts.py:197 ../gui/scan.py:353
 msgid "Hide"
 msgstr "隐藏"
 
@@ -1157,12 +1140,9 @@ msgstr "点击获取更多信息"
 
 #: ../gui/information_noweb.py:65
 msgid ""
-"To make a new simulation click <i><u>N</u>ew Simulation</i> in the <i><u>F</"
-"u>ile</i> menu<br> or to open an existing simulation select <i><u>O</u>pen "
-"simulation</i>. "
+"To make a new simulation click <i><u>N</u>ew Simulation</i> in the menu or "
+"to open an existing simulation select <i><u>O</u>pen simulation</i>. "
 msgstr ""
-"要进行新的仿真请点击 <i><u>N</u>新建仿真</i> 在 <i><u>F</u>ile</i> 菜单<br> "
-"或打开现有的仿真。选择 <i><u>O</u>打开仿真</i>. "
 
 #: ../gui/information_noweb.py:67
 msgid ""
@@ -1252,7 +1232,7 @@ msgstr "保存仿真文件到"
 msgid "Directory"
 msgstr "目录"
 
-#: ../gui/open_save_dlg.py:44 ../gui/plot_widget.py:583
+#: ../gui/open_save_dlg.py:44 ../gui/plot_widget.py:585
 msgid "Save as"
 msgstr "另存为"
 
@@ -1260,59 +1240,59 @@ msgstr "另存为"
 msgid "Open file"
 msgstr "打开文件"
 
-#: ../gui/contacts.py:96
+#: ../gui/contacts.py:97
 msgid "top"
 msgstr "顶部"
 
-#: ../gui/contacts.py:97
+#: ../gui/contacts.py:98
 msgid "bottom"
 msgstr "底部"
 
-#: ../gui/contacts.py:104
+#: ../gui/contacts.py:105
 msgid "true"
 msgstr "正确"
 
-#: ../gui/contacts.py:105 ../gui/contacts.py:127
+#: ../gui/contacts.py:106 ../gui/contacts.py:128
 msgid "false"
 msgstr "错误"
 
-#: ../gui/contacts.py:140
+#: ../gui/contacts.py:142
 msgid "There are some non numeric values in the table"
 msgstr "表中存在非数值"
 
-#: ../gui/contacts.py:155
+#: ../gui/contacts.py:157
 msgid "Name"
 msgstr "名称"
 
-#: ../gui/contacts.py:155
+#: ../gui/contacts.py:157
 msgid "Top/Bottom"
 msgstr "顶部/底部"
 
-#: ../gui/contacts.py:155
+#: ../gui/contacts.py:157
 msgid "Active contact"
 msgstr "活动接触"
 
-#: ../gui/contacts.py:155 ../gui/doping.py:119
+#: ../gui/contacts.py:157 ../gui/doping.py:119
 msgid "Start"
 msgstr "开始"
 
-#: ../gui/contacts.py:155 ../gui/doping.py:119
+#: ../gui/contacts.py:157 ../gui/doping.py:119
 msgid "Width"
 msgstr "宽度"
 
-#: ../gui/contacts.py:155
+#: ../gui/contacts.py:157
 msgid "Depth"
 msgstr "深度"
 
-#: ../gui/contacts.py:175
+#: ../gui/contacts.py:177
 msgid "Edit contacts"
 msgstr "编辑接触"
 
-#: ../gui/contacts.py:182
+#: ../gui/contacts.py:184
 msgid "Add contact"
 msgstr "添加接触"
 
-#: ../gui/contacts.py:186
+#: ../gui/contacts.py:188
 msgid "Remove contacts"
 msgstr "移除接触"
 
@@ -1324,37 +1304,106 @@ msgstr "确认"
 msgid "Cancel"
 msgstr "取消"
 
-#: ../gui/config_window.py:55 ../gui/gpvdm.py:719 ../gui/fit_window.py:277
-msgid "Configure"
-msgstr "配置"
-
-#: ../gui/config_window.py:84
+#: ../gui/config_window.py:86
 msgid "Solver configuration"
 msgstr "求解器配置"
 
-#: ../gui/config_window.py:84
+#: ../gui/config_window.py:86
 msgid "Output files"
 msgstr "输出文件"
 
-#: ../gui/config_window.py:84 ../gui/inp_description.py:49
+#: ../gui/config_window.py:86 ../gui/inp_description.py:49
 msgid "Thermal"
 msgstr "热量"
 
-#: ../gui/config_window.py:84
+#: ../gui/config_window.py:86
 msgid "LED"
 msgstr "LED"
 
-#: ../gui/config_window.py:84
+#: ../gui/config_window.py:86
 msgid "GUI configuration"
 msgstr "GUI配置"
 
-#: ../gui/config_window.py:84
+#: ../gui/config_window.py:86
 msgid "Server configuration"
 msgstr "服务器配置"
 
-#: ../gui/config_window.py:94
+#: ../gui/config_window.py:96
 msgid "Language"
 msgstr "语言"
+
+#: ../gui/ribbon_home.py:61
+msgid "Undo"
+msgstr "撤销"
+
+#: ../gui/ribbon_home.py:69
+msgid ""
+"Stop\n"
+"simulation"
+msgstr "停止仿真"
+
+#: ../gui/ribbon_home.py:75
+msgid ""
+"Parameter\n"
+"scan"
+msgstr "参数扫描"
+
+#: ../gui/ribbon_home.py:82
+msgid ""
+"Fit\n"
+"data"
+msgstr ""
+
+#: ../gui/ribbon_home.py:87
+msgid ""
+"Plot\n"
+"File"
+msgstr ""
+"图像\n"
+"文件"
+
+#: ../gui/ribbon_home.py:91
+msgid ""
+"Examine results\n"
+"in time domain"
+msgstr ""
+
+#: ../gui/ribbon_home.py:129
+msgid ""
+"<big>Select a file to plot</big><br>Single clicking shows you the content of "
+"the file"
+msgstr "<big>选择要绘制的文件</big><br>单击显示文件的内容"
+
+#: ../gui/ribbon_home.py:155
+msgid ""
+"<big><b>The scan window</b></big><br> Very often it is useful to be able to "
+"systematically very a device parameter such as mobility or density of trap "
+"states.  This window allows you to do just that."
+msgstr ""
+"<big><b>扫描窗口</b></big><br> 这个窗口在大多数情况下能够系统地核查设备参数，"
+"例如迁移率或陷阱状态的密度。 这个窗口有这个功能。"
+
+#: ../gui/ribbon_home.py:155
+msgid "Use the plus icon to add a new scan line to the list."
+msgstr "使用加号图标将新的扫描线添加到列表中。"
+
+#: ../gui/ribbon_home.py:168
+msgid ""
+"<big><b>Examine the results in time domain</b></big><br> After you have run "
+"a simulation in time domain, if is often nice to be able to step through the "
+"simulation and look at the results.  This is what this window does.  Use the "
+"slider bar to move through the simulation.  When you are simulating a JV "
+"curve, the slider sill step through voltage points rather than time points."
+msgstr ""
+"<big><b>检查时域中的结果</b></big><br>在时域中运行仿真之后，如果能够通过仿真"
+"并查看结果，通常是很好的情况。 这是这个窗口的工作。 使用滑块移动仿真。 当您仿"
+"真JV曲线时，滑块将单步调试电压点而不是时间点。"
+
+#: ../gui/ribbon_home.py:187
+msgid ""
+"<big><b>Fit window</b></big><br> Use this window to fit the simulation to "
+"experimental data."
+msgstr "<big><b>调整窗口</b></big><br> 使用此窗口将仿真拟合到实验数据。"
 
 #: ../gui/materials_main.py:48 ../gui/materials_main.py:112
 msgid "Electrical parameters"
@@ -1367,7 +1416,7 @@ msgid ""
 msgstr "<big><b>电气参数</b></big><br>使用此选项卡配置材料的电气参数。"
 
 #: ../gui/materials_main.py:51 ../gui/materials_main.py:112
-#: ../gui/gpvdm_notebook.py:96 ../gui/inp_description.py:55
+#: ../gui/gpvdm_notebook.py:97 ../gui/inp_description.py:55
 msgid "Luminescence"
 msgstr "光"
 
@@ -1403,56 +1452,31 @@ msgstr "材料编辑器"
 msgid "Cost of material"
 msgstr "材料成本"
 
-#: ../gui/gpvdm.py:144
+#: ../gui/gpvdm.py:126
 msgid "Don't run me as root!!"
 msgstr "不要以root身份运行此程序！"
 
-#: ../gui/gpvdm.py:235
-msgid ""
-"<big><b>Fit window</b></big><br> Use this window to fit the simulation to "
-"experimental data."
-msgstr "<big><b>调整窗口</b></big><br> 使用此窗口将仿真拟合到实验数据。"
-
-#: ../gui/gpvdm.py:243
-msgid ""
-"<big><b>The scan window</b></big><br> Very often it is useful to be able to "
-"systematically very a device parameter such as mobility or density of trap "
-"states.  This window allows you to do just that."
-msgstr ""
-"<big><b>扫描窗口</b></big><br> 这个窗口在大多数情况下能够系统地核查设备参数，"
-"例如迁移率或陷阱状态的密度。 这个窗口有这个功能。"
-
-#: ../gui/gpvdm.py:243
-msgid "Use the plus icon to add a new scan line to the list."
-msgstr "使用加号图标将新的扫描线添加到列表中。"
-
-#: ../gui/gpvdm.py:267
-msgid ""
-"<big>Select a file to plot</big><br>Single clicking shows you the content of "
-"the file"
-msgstr "<big>选择要绘制的文件</big><br>单击显示文件的内容"
-
-#: ../gui/gpvdm.py:309
-msgid "Import an old gpvdm simulation"
-msgstr "导入旧的gpvdm仿真"
-
-#: ../gui/gpvdm.py:326
+#: ../gui/gpvdm.py:208
 msgid "file opened"
 msgstr "文件已打开"
 
-#: ../gui/gpvdm.py:332
+#: ../gui/gpvdm.py:213
 msgid ""
 "<big><b>New simulation!</b></big><br> Now selected the type of device you "
 "would like to simulate."
 msgstr "<big><b>新的仿真！</b></big><br> 现在选择您要仿真的设备类型。"
 
-#: ../gui/gpvdm.py:370
+#: ../gui/gpvdm.py:241
 msgid ""
 "<big><b>Now run the simulation</b></big><br> Click on the play icon to start "
 "a simulation."
 msgstr "<big><b>现在运行仿真</b></big><br> 单击播放图标开始仿真。"
 
-#: ../gui/gpvdm.py:398
+#: ../gui/gpvdm.py:246 ../gui/ribbon.py:127
+msgid "Home"
+msgstr ""
+
+#: ../gui/gpvdm.py:256
 msgid ""
 "<big><b>Hi!</b></big><br> I'm the on-line help system :).  If you find any "
 "bugs please report them to <a href=\"mailto:roderick.mackenzie@nottingham.ac."
@@ -1462,27 +1486,51 @@ msgstr ""
 "故障，请发送报告到 <a href=\"mailto:roderick.mackenzie@nottingham.ac.uk"
 "\">roderick.mackenzie@nottingham.ac.uk</a>."
 
-#: ../gui/gpvdm.py:398
+#: ../gui/gpvdm.py:256
 msgid "Click on the new icon to make a new simulation directory."
 msgstr "单击新键图标以创建一个新的仿真目录。"
 
-#: ../gui/gpvdm.py:468
+#: ../gui/gpvdm.py:284
 msgid "Open an existing gpvdm simulation"
 msgstr "打开现有的gpvdm仿真"
 
-#: ../gui/gpvdm.py:522
+#: ../gui/ribbon_simulations.py:64
 msgid ""
-"<big><b>Examine the results in time domain</b></big><br> After you have run "
-"a simulation in time domain, if is often nice to be able to step through the "
-"simulation and look at the results.  This is what this window does.  Use the "
-"slider bar to move through the simulation.  When you are simulating a JV "
-"curve, the slider sill step through voltage points rather than time points."
-msgstr ""
-"<big><b>检查时域中的结果</b></big><br>在时域中运行仿真之后，如果能够通过仿真"
-"并查看结果，通常是很好的情况。 这是这个窗口的工作。 使用滑块移动仿真。 当您仿"
-"真JV曲线时，滑块将单步调试电压点而不是时间点。"
+"Time domain\n"
+"simulation editor."
+msgstr "时域仿真编辑器"
 
-#: ../gui/gpvdm.py:545
+#: ../gui/ribbon_simulations.py:69
+msgid ""
+"Frequency domain\n"
+"simulation editor"
+msgstr "频域仿真编辑器"
+
+#: ../gui/ribbon_simulations.py:74
+msgid ""
+"Steady state\n"
+"simulation editor"
+msgstr "稳态仿真编辑器"
+
+#: ../gui/ribbon_simulations.py:79
+msgid ""
+"Quantum\n"
+"efficiency"
+msgstr ""
+
+#: ../gui/ribbon_simulations.py:89
+msgid ""
+"Optical\n"
+"Simulation"
+msgstr ""
+
+#: ../gui/ribbon_simulations.py:93
+msgid ""
+"Laser\n"
+"editor"
+msgstr ""
+
+#: ../gui/ribbon_simulations.py:135
 msgid ""
 "<big><b>The time mesh editor</b></big><br> To do time domain simulations one "
 "must define how voltage the light vary as a function of time.  This can be "
@@ -1493,7 +1541,7 @@ msgstr ""
 "时间而变化。 这可以在这个窗口中完成。 也可以使用此窗口定义仿真长度和时间步"
 "长。"
 
-#: ../gui/gpvdm.py:558
+#: ../gui/ribbon_simulations.py:148
 msgid ""
 "<big><b>Frequency domain mesh editor</b></big><br> Some times it is useful "
 "to do frequency domain simulations such as when simulating impedance "
@@ -1503,71 +1551,30 @@ msgstr ""
 "<big> <b>频域网格编辑器</ b> </ big> <br>有时，进行频域仿真（例如仿真阻抗光"
 "谱）时有用。 此窗口将允许您选择要仿真的频率。"
 
-#: ../gui/gpvdm.py:569
+#: ../gui/ribbon_simulations.py:159
 msgid ""
 "<big><b>Laser setup</b></big><br> Use this window to set up your lasers."
 msgstr "<big><b>激光设置</b></big><br> 用这个窗口来设置激光。"
 
-#: ../gui/gpvdm.py:580
+#: ../gui/ribbon_simulations.py:170
 msgid ""
 "<big><b>JV simulation editor</b></big><br> Use this window to select the "
 "step size and parameters of the JV simulations."
 msgstr "<big><b>JV 仿真编辑</b></big><br> 使用此窗口选择JV仿真的步长和参数。"
 
-#: ../gui/gpvdm.py:593
+#: ../gui/ribbon_simulations.py:177
 msgid ""
-"<big><b>Configuration editor</b></big><br> Use this window to control "
-"advanced simulation parameters."
-msgstr "<big><b>配置编辑器</b></big><br> 使用此窗口可以控制高级仿真参数。"
+"<big><b>The optical simulation window</b></big><br>Use this window to "
+"perform optical simulations.  Click on the play button to run a simulation."
+msgstr ""
+"<big><b>光学仿真窗口</b></big><br>使用这个窗口进行光学仿真。点击运行按钮来运"
+"行仿真。"
 
-#: ../gui/gpvdm.py:703
-msgid "New optical material"
-msgstr "新建光学材料"
-
-#: ../gui/gpvdm.py:705
-msgid "Export data"
-msgstr "导出数据"
-
-#: ../gui/gpvdm.py:708 ../gui/fit_window_plot_real.py:126
-#: ../gui/import_data.py:233
-msgid "Import data"
-msgstr "导入数据"
-
-#: ../gui/gpvdm.py:711
-msgid "Import from library"
-msgstr "从库中导入"
-
-#: ../gui/gpvdm.py:714
-msgid "Quit"
-msgstr "退出软件"
-
-#: ../gui/gpvdm.py:717
-msgid "Simulation"
-msgstr "仿真"
-
-#: ../gui/gpvdm.py:725
-msgid "Help window"
-msgstr "帮助窗口"
-
-#: ../gui/gpvdm.py:728
-msgid "Manual"
-msgstr "软件使用指南"
-
-#: ../gui/gpvdm.py:731
-msgid "License"
-msgstr "许可证"
-
-#: ../gui/gpvdm.py:734 ../gui/status_icon.py:54
-msgid "Youtube channel"
-msgstr "Youtube频道"
-
-#: ../gui/gpvdm.py:737
-msgid "Citing the model"
-msgstr "关于引用模型的声明"
-
-#: ../gui/gpvdm.py:742 ../gui/about.py:48
-msgid "About"
-msgstr "关于"
+#: ../gui/ribbon_simulations.py:177
+msgid ""
+"Click on the play button to run an optical simulation.  The results will be "
+"displayed in the tabs to the right."
+msgstr "点击运行按钮以运行光学仿真。结果将显示在右侧的选项卡中。"
 
 #: ../gui/tab_homo.py:65
 msgid "Function"
@@ -1589,15 +1596,15 @@ msgstr "b"
 msgid "c"
 msgstr "c"
 
-#: ../gui/tab_homo.py:125 ../gui/electrical_mesh_editor.py:157
+#: ../gui/tab_homo.py:125 ../gui/electrical_mesh_editor.py:159
 msgid "Add "
 msgstr "添加"
 
-#: ../gui/tab_homo.py:129 ../gui/electrical_mesh_editor.py:161
+#: ../gui/tab_homo.py:129 ../gui/electrical_mesh_editor.py:163
 msgid "Remove "
 msgstr "移除"
 
-#: ../gui/tab_homo.py:281 ../gui/plot_widget.py:580 ../gui/doping.py:196
+#: ../gui/tab_homo.py:281 ../gui/plot_widget.py:582 ../gui/doping.py:196
 msgid "Save"
 msgstr "保存"
 
@@ -1638,7 +1645,7 @@ msgstr "<big><b>光照 v.s. 电压</b></big><br>配置光照 v.s. 电压图。"
 msgid "Steady state simulation"
 msgstr "稳态仿真"
 
-#: ../gui/tab_main.py:97
+#: ../gui/tab_main.py:93
 msgid ""
 "<big><b>The device structure tab</b></big>\n"
 " Use this tab to change the structure of the device, the layer thicknesses "
@@ -1649,47 +1656,96 @@ msgstr ""
 "使用此选项卡可更改设备的结构，层厚度并执行光学仿真。 您还可以浏览材料数据库并"
 "编辑电网格。"
 
-#: ../gui/tab_main.py:101
+#: ../gui/tab_main.py:97
 msgid "<big><b>Update available!</b></big><br>"
 msgstr "<big> <b>可更新！</ b> </ big> <br>"
+
+#: ../gui/ribbon_device.py:63 ../libdump/dump_1d_slice.c:331
+msgid "Doping"
+msgstr "掺杂"
+
+#: ../gui/ribbon_device.py:67
+msgid ""
+"Materials\n"
+"database"
+msgstr ""
+
+#: ../gui/ribbon_device.py:71
+msgid ""
+"Calculate\n"
+"the cost"
+msgstr ""
+
+#: ../gui/ribbon_device.py:75
+msgid "Contacts"
+msgstr "接触"
+
+#: ../gui/ribbon_device.py:79
+msgid ""
+"Parasitic\n"
+" components"
+msgstr ""
+
+#: ../gui/ribbon_device.py:112
+msgid ""
+"<big><b>Doping window</b></big>\n"
+"Use this window to add doping to the simulation"
+msgstr ""
+"<big><b>掺杂窗口</b></big>\n"
+"使用此窗口在仿真中掺杂"
+
+#: ../gui/ribbon_device.py:125
+msgid ""
+"<big><b>Contacts window</b></big>\n"
+"Use this window to change the layout of the contacts on the device"
+msgstr ""
+"<big><b>接触窗口</b></big>\n"
+"使用此窗口可更改设备上接触的布局"
+
+#: ../gui/ribbon_device.py:149
+msgid ""
+"<big><b>Parasitic components</b></big>\n"
+"Use this window to edit the shunt and series resistance."
+msgstr ""
+
+#: ../gui/ribbon_device.py:160
+msgid ""
+"<big><b>Costs window</b></big>\n"
+"Use this window to calculate the cost of the solar cell and the energy "
+"payback time."
+msgstr ""
+"<big><b>成本窗口</b></big>\n"
+"使用此窗口计算太阳能电池的成本和能量回收时间。"
 
 #: ../gui/tb_lasers.py:70
 msgid "Laser:"
 msgstr "激光："
 
-#: ../gui/emesh.py:144
+#: ../gui/emesh.py:146
 msgid "Electrical Mesh Editor"
 msgstr "电气网格编辑器"
 
-#: ../gui/emesh.py:152
+#: ../gui/emesh.py:154
 msgid "1D simulation"
 msgstr "一维仿真"
 
-#: ../gui/emesh.py:156
+#: ../gui/emesh.py:158
 msgid "2D simulation"
 msgstr "二维仿真"
 
-#: ../gui/emesh.py:160
+#: ../gui/emesh.py:162
 msgid "3D simulation"
 msgstr "三维仿真"
 
-#: ../gui/display.py:84
+#: ../gui/display.py:81
 msgid "Rotate"
 msgstr "旋转"
 
-#: ../gui/display.py:89
-msgid "Contacts"
-msgstr "接触"
-
-#: ../gui/display.py:93
-msgid "Edit the electrical mesh"
-msgstr "编辑电气网格"
-
-#: ../gui/display.py:98
+#: ../gui/display.py:86
 msgid "Configuration"
 msgstr "配置"
 
-#: ../gui/display.py:165
+#: ../gui/display.py:146
 msgid ""
 "<big><b>OpenGL warning</b></big><br>It looks as if you don't have working 3D "
 "graphics acceleration on your computer.  gpvdm will therefore fallback to 2D "
@@ -1698,28 +1754,11 @@ msgstr ""
 "<big><b>OpenGL警告</b></big><br>似乎在您的计算机上没有正在工作中的3D图形加速"
 "器。 因此gpvdm将回退到2D模式。该模型将仍然保留全部功能，但看起来没有那么好。"
 
-#: ../gui/display.py:194
-msgid ""
-"<big><b>Contacts window</b></big>\n"
-"Use this window to change the layout of the contacts on the device"
-msgstr ""
-"<big><b>接触窗口</b></big>\n"
-"使用此窗口可更改设备上接触的布局"
-
-#: ../gui/display.py:202
-msgid ""
-"<big><b>Mesh editor</b></big>\n"
-"Use this window to setup the mesh, the window can also be used to change the "
-"dimensionality of the simulation."
-msgstr ""
-"<big><b>网格编辑器</b></big>\n"
-"使用此窗口设置网格，也可以用于更改仿真的维度。"
-
-#: ../gui/gpvdm_notebook.py:84 ../gui/inp_description.py:37
+#: ../gui/gpvdm_notebook.py:85 ../gui/inp_description.py:37
 msgid "Device"
 msgstr "器件"
 
-#: ../gui/gpvdm_notebook.py:85
+#: ../gui/gpvdm_notebook.py:86
 msgid ""
 "<big><b>Device tab</b></big><br>This tab contains information about the "
 "device, such as width breadth, carrier density on the contacts, shunt and "
@@ -1728,11 +1767,11 @@ msgstr ""
 "<big><b>设备选项卡</b></big><br>此选项卡包含有关器件的信息，例如宽度，触点上"
 "的载流子密度，分流和接触电阻。"
 
-#: ../gui/gpvdm_notebook.py:87 ../gui/gpvdm_notebook.py:157
+#: ../gui/gpvdm_notebook.py:88 ../gui/gpvdm_notebook.py:158
 msgid "Device structure"
 msgstr "器件结构"
 
-#: ../gui/gpvdm_notebook.py:88
+#: ../gui/gpvdm_notebook.py:89
 msgid ""
 "<big><b>The device structure tab</b></big><br> Use this tab to change the "
 "structure of the device, the layer thicknesses and to perform optical "
@@ -1742,21 +1781,21 @@ msgstr ""
 "<big><b>设备结构卡</b></big><br> 使用此选项卡可更改设备的结构，层厚度并执行光"
 "学仿真。 您还可以浏览材料数据库并编辑电网格。"
 
-#: ../gui/gpvdm_notebook.py:90 ../gui/inp_description.py:53
+#: ../gui/gpvdm_notebook.py:91 ../gui/inp_description.py:53
 msgid "Bands"
 msgstr "能带"
 
-#: ../gui/gpvdm_notebook.py:91
+#: ../gui/gpvdm_notebook.py:92
 msgid ""
 "<big><b>The bands tab</b></big><br> Use this tab to edit the energetic "
 "distribution of the density of states."
 msgstr "<big><b>能带选项卡</b></big><br> 使用此选项卡编辑成态密度的能量分布。"
 
-#: ../gui/gpvdm_notebook.py:93
+#: ../gui/gpvdm_notebook.py:94
 msgid "Density of states"
 msgstr "成态密度"
 
-#: ../gui/gpvdm_notebook.py:94
+#: ../gui/gpvdm_notebook.py:95
 msgid ""
 "<big><b>Density of States</b></big>\n"
 "This tab contains the electrical model parameters, such as mobility, tail "
@@ -1765,7 +1804,7 @@ msgstr ""
 "<big><b>成态密度</b></big>\n"
 "此选项卡包含电气模型参数，例如移动性，尾坡能量和带隙。"
 
-#: ../gui/gpvdm_notebook.py:97
+#: ../gui/gpvdm_notebook.py:98
 msgid ""
 "<big><b>Luminescence</b></big>\n"
 "If you set 'Turn on luminescence' to true, the simulation will assume "
@@ -1778,11 +1817,11 @@ msgstr ""
 "压 - 光强度曲线（lv.dat）。 选项卡中的每个数字告诉模型每种重组机制在产生光子"
 "方面的效率。"
 
-#: ../gui/gpvdm_notebook.py:99 ../gui/gpvdm_notebook.py:226
+#: ../gui/gpvdm_notebook.py:100 ../gui/gpvdm_notebook.py:227
 msgid "Terminal"
 msgstr "结束"
 
-#: ../gui/gpvdm_notebook.py:100
+#: ../gui/gpvdm_notebook.py:101
 msgid ""
 "<big><b>The terminal window</b></big>\n"
 "The output of the model will be displayed in this window, watch this screen "
@@ -1791,12 +1830,12 @@ msgstr ""
 "<big><b>结束窗口</b></big>\n"
 "模型的输出将显示在此窗口中，观察此屏幕的调试和收敛信息。"
 
-#: ../gui/gpvdm_notebook.py:102 ../gui/gpvdm_notebook.py:135
-#: ../gui/gpvdm_notebook.py:243
+#: ../gui/gpvdm_notebook.py:103 ../gui/gpvdm_notebook.py:137
+#: ../gui/gpvdm_notebook.py:244
 msgid "Information"
 msgstr "信息"
 
-#: ../gui/gpvdm_notebook.py:103
+#: ../gui/gpvdm_notebook.py:104
 msgid ""
 "<big><b>On-line help</b></big>\n"
 "You can view the on-line help and manual here."
@@ -1804,83 +1843,51 @@ msgstr ""
 "<big><b>在线帮助</b></big>\n"
 "您可以在这里查看在线帮助和手册。"
 
+#: ../gui/ribbon_information.py:51 ../gui/cool_menu.py:59
+msgid "License"
+msgstr "许可证"
+
+#: ../gui/ribbon_information.py:55
+msgid ""
+"How to\n"
+"cite"
+msgstr ""
+
+#: ../gui/ribbon_information.py:59
+msgid ""
+"Hints\n"
+"Window"
+msgstr ""
+
+#: ../gui/ribbon_information.py:71
+msgid ""
+"Youtube\n"
+"channel"
+msgstr ""
+
 #: ../gui/tb_item_sim_mode.py:94
 msgid "Simulation mode:"
 msgstr "仿真模式："
 
-#: ../gui/ribbon.py:43
+#: ../gui/ribbon.py:61
 msgid "Make a new simulation"
 msgstr "建立新的仿真"
 
-#: ../gui/ribbon.py:48
+#: ../gui/ribbon.py:65
 msgid ""
 "Open\n"
 "simulation"
 msgstr "打开仿真"
 
-#: ../gui/ribbon.py:55
-msgid "Undo"
-msgstr "撤销"
-
-#: ../gui/ribbon.py:60
-msgid ""
-"Run\n"
-"simulation"
-msgstr "运行仿真"
-
-#: ../gui/ribbon.py:63
-msgid ""
-"Parameter\n"
-"scan"
-msgstr "参数扫描"
-
 #: ../gui/ribbon.py:68
 msgid ""
-"Stop\n"
-"simulation"
-msgstr "停止仿真"
-
-#: ../gui/ribbon.py:79
-msgid "Run a fit command"
-msgstr "运行fit命令"
-
-#: ../gui/ribbon.py:99 ../gui/ribbon.py:126
-msgid ""
-"Time domain\n"
-"simulation editor."
-msgstr "时域仿真编辑器"
-
-#: ../gui/ribbon.py:103
-msgid ""
-"Frequency domain\n"
-"simulation editor"
-msgstr "频域仿真编辑器"
-
-#: ../gui/ribbon.py:107
-msgid ""
-"Steady state\n"
-"simulation editor"
-msgstr "稳态仿真编辑器"
-
-#: ../gui/ribbon.py:114
-msgid "Quantum efficiency"
-msgstr "量子效率"
-
-#: ../gui/ribbon.py:139
-msgid ""
-"Plot\n"
-"File"
+"Export\n"
+"data"
 msgstr ""
-"图像\n"
-"文件"
 
-#: ../gui/ribbon.py:153
-msgid "Optics"
-msgstr "光学"
-
-#: ../gui/ribbon.py:156
-msgid "Lasers editor"
-msgstr "激光编辑器"
+#: ../gui/ribbon.py:130 ../gui/scan.py:264
+msgid "Simulations"
+msgstr "仿真"
 
 #: ../gui/inp_description.py:38
 msgid "JV"
@@ -1898,7 +1905,7 @@ msgstr "转存"
 msgid "CELIV"
 msgstr "CELIV"
 
-#: ../gui/inp_description.py:42 ../gui/plot_widget.py:612
+#: ../gui/inp_description.py:42 ../gui/plot_widget.py:614
 msgid "Math"
 msgstr "数学"
 
@@ -1985,10 +1992,6 @@ msgstr "参数扫描 - gpvdm"
 #: ../gui/scan.py:257
 msgid "Change dir"
 msgstr "改变dir文件"
-
-#: ../gui/scan.py:264
-msgid "Simulations"
-msgstr "仿真"
 
 #: ../gui/scan.py:268 ../gui/scan.py:332
 msgid "Delete simulation"
@@ -2321,6 +2324,10 @@ msgstr "x"
 msgid "y"
 msgstr "y"
 
+#: ../gui/fit_window_plot_real.py:126 ../gui/import_data.py:233
+msgid "Import data"
+msgstr "导入数据"
+
 #: ../gui/server.py:129
 msgid ""
 "<big><b>Simulation finished!</b></big><br>Click on the plot icon to plot the "
@@ -2419,6 +2426,26 @@ msgstr "激光配置窗口"
 #: ../gui/lasers.py:215
 msgid "New laser"
 msgstr "新激光"
+
+#: ../gui/cool_menu.py:53
+msgid "Help window"
+msgstr "帮助窗口"
+
+#: ../gui/cool_menu.py:56
+msgid "Manual"
+msgstr "软件使用指南"
+
+#: ../gui/cool_menu.py:62
+msgid "Youtube"
+msgstr ""
+
+#: ../gui/cool_menu.py:65
+msgid "Citing the model"
+msgstr "关于引用模型的声明"
+
+#: ../gui/cool_menu.py:68 ../gui/about.py:48
+msgid "About"
+msgstr "关于"
 
 #: ../gui/gpvdm_open.py:115
 msgid "The directory is gone, so I can't open it.  Did you delete it?"
@@ -2520,11 +2547,15 @@ msgstr "version.h 未发现此版本"
 msgid "On line help"
 msgstr "在线帮助"
 
+#: ../gui/parasitic.py:55
+msgid "Edit parasitic components"
+msgstr ""
+
 #: ../gui/fxexperiment_tab.py:61
 msgid "Frequency mesh"
 msgstr "频率网格"
 
-#: ../gui/electrical_mesh_editor.py:118
+#: ../gui/electrical_mesh_editor.py:119
 msgid "Mesh points"
 msgstr "网格点"
 
@@ -2745,6 +2776,10 @@ msgstr "功率转化效率"
 #: ../gui/token_lib.py:109
 msgid "Fill factor"
 msgstr "填充因子"
+
+#: ../gui/token_lib.py:110
+msgid "Max power"
+msgstr ""
 
 #: ../gui/token_lib.py:131
 msgid "Max electrical itterations"
@@ -3017,7 +3052,7 @@ msgstr "#饱和率"
 msgid "#imps_saturate"
 msgstr "#脉冲饱和"
 
-#: ../gui/token_lib.py:226 ../gui/optics.py:181
+#: ../gui/token_lib.py:226 ../gui/optics.py:174
 msgid "Photon density"
 msgstr "光子密度"
 
@@ -3243,69 +3278,69 @@ msgstr "ip"
 msgid "copy state"
 msgstr "拷贝状态"
 
-#: ../gui/plot_widget.py:563
+#: ../gui/plot_widget.py:565
 msgid "Refresh graph"
 msgstr "刷新图像"
 
-#: ../gui/plot_widget.py:590
+#: ../gui/plot_widget.py:592
 msgid "Black"
 msgstr "黑"
 
-#: ../gui/plot_widget.py:593
+#: ../gui/plot_widget.py:595
 msgid "Rainbow"
 msgstr "彩虹"
 
-#: ../gui/plot_widget.py:596
+#: ../gui/plot_widget.py:598
 msgid "Color"
 msgstr "颜色"
 
-#: ../gui/plot_widget.py:597
+#: ../gui/plot_widget.py:599
 msgid "Autoscale"
 msgstr "自动大小"
 
-#: ../gui/plot_widget.py:600
+#: ../gui/plot_widget.py:602
 msgid "Set log scale y"
 msgstr "设置y"
 
-#: ../gui/plot_widget.py:603 ../gui/plot_widget.py:606
+#: ../gui/plot_widget.py:605 ../gui/plot_widget.py:608
 msgid "Set log scale x"
 msgstr "设置x"
 
-#: ../gui/plot_widget.py:609
+#: ../gui/plot_widget.py:611
 msgid "Label data"
 msgstr "标签数据"
 
-#: ../gui/plot_widget.py:614
+#: ../gui/plot_widget.py:616
 msgid "Subtract first point"
 msgstr "减去第一个点"
 
-#: ../gui/plot_widget.py:617
+#: ../gui/plot_widget.py:619
 msgid "Add min point"
 msgstr "加入最小点"
 
-#: ../gui/plot_widget.py:620
+#: ../gui/plot_widget.py:622
 msgid "Invert y-axis"
 msgstr "反转y轴"
 
-#: ../gui/plot_widget.py:623
+#: ../gui/plot_widget.py:625
 msgid "Norm to 1.0 y"
 msgstr "规范到1.0y"
 
-#: ../gui/plot_widget.py:626
+#: ../gui/plot_widget.py:628
 msgid "Norm to peak of all data"
 msgstr "规范到所有数据的峰值"
 
-#: ../gui/plot_widget.py:629
+#: ../gui/plot_widget.py:631
 msgid "Heat map"
 msgstr "热地图"
 
-#: ../gui/plot_widget.py:632
+#: ../gui/plot_widget.py:634
 msgid "Heat map edit"
 msgstr "热地图编辑"
 
-#: ../gui/plot_widget.py:635
-msgid "xy plot"
-msgstr "xy 绘图"
+#: ../gui/status_icon.py:54
+msgid "Youtube channel"
+msgstr "Youtube频道"
 
 #: ../gui/update.py:120
 msgid ""
@@ -3332,43 +3367,39 @@ msgstr "文件名"
 msgid "Doping profile editor"
 msgstr "掺杂信息编辑器"
 
-#: ../gui/optics.py:103
+#: ../gui/optics.py:105
 msgid "Photon distribution"
 msgstr "光子分布"
 
-#: ../gui/optics.py:104
+#: ../gui/optics.py:106
 msgid "Photon distribution absorbed"
 msgstr "被吸收的光子分布"
 
-#: ../gui/optics.py:105
+#: ../gui/optics.py:107
 msgid "Reflection"
 msgstr "反射"
 
-#: ../gui/optics.py:109
+#: ../gui/optics.py:111
 msgid "Optical simulation editor"
 msgstr "光学仿真编辑器"
 
-#: ../gui/optics.py:118
-msgid "Refresh"
-msgstr "重新更新"
-
-#: ../gui/optics.py:143 ../gui/optics.py:254
+#: ../gui/optics.py:136 ../gui/optics.py:247
 msgid "Optical model"
 msgstr "光学模形"
 
-#: ../gui/optics.py:152
+#: ../gui/optics.py:145
 msgid "Solar spectrum"
 msgstr "太阳能光谱"
 
-#: ../gui/optics.py:186
+#: ../gui/optics.py:179
 msgid "Photon absorbed"
 msgstr "被吸收的光子"
 
-#: ../gui/optics.py:195
+#: ../gui/optics.py:188
 msgid "Optical setup"
 msgstr "光学安装"
 
-#: ../gui/optics.py:239
+#: ../gui/optics.py:232
 msgid ""
 "I can't find any optical plugins, I think the model is not installed "
 "properly."
@@ -3916,3 +3947,67 @@ msgstr "odes/s"
 #: ../libfit/fit_dump.c:179
 msgid "Reset flag"
 msgstr "重设标志"
+
+#~ msgid "Optical simulation"
+#~ msgstr "光学仿真"
+
+#~ msgid "Look at the materials database"
+#~ msgstr "查看材料数据库"
+
+#~ msgid "Calculate the cost of the solar cell"
+#~ msgstr "计算太阳能电池成本"
+
+#~ msgid "Set how much data is dumped from a simulation"
+#~ msgstr "设置从仿真中转储的数据量"
+
+#~ msgid ""
+#~ "To make a new simulation click <i><u>N</u>ew Simulation</i> in the "
+#~ "<i><u>F</u>ile</i> menu<br> or to open an existing simulation select "
+#~ "<i><u>O</u>pen simulation</i>. "
+#~ msgstr ""
+#~ "要进行新的仿真请点击 <i><u>N</u>新建仿真</i> 在 <i><u>F</u>ile</i> 菜单"
+#~ "<br> 或打开现有的仿真。选择 <i><u>O</u>打开仿真</i>. "
+
+#~ msgid "Import an old gpvdm simulation"
+#~ msgstr "导入旧的gpvdm仿真"
+
+#~ msgid "New optical material"
+#~ msgstr "新建光学材料"
+
+#~ msgid "Export data"
+#~ msgstr "导出数据"
+
+#~ msgid "Import from library"
+#~ msgstr "从库中导入"
+
+#~ msgid "Quit"
+#~ msgstr "退出软件"
+
+#~ msgid "Simulation"
+#~ msgstr "仿真"
+
+#~ msgid "Edit the electrical mesh"
+#~ msgstr "编辑电气网格"
+
+#~ msgid ""
+#~ "Run\n"
+#~ "simulation"
+#~ msgstr "运行仿真"
+
+#~ msgid "Run a fit command"
+#~ msgstr "运行fit命令"
+
+#~ msgid "Quantum efficiency"
+#~ msgstr "量子效率"
+
+#~ msgid "Optics"
+#~ msgstr "光学"
+
+#~ msgid "Lasers editor"
+#~ msgstr "激光编辑器"
+
+#~ msgid "xy plot"
+#~ msgstr "xy 绘图"
+
+#~ msgid "Refresh"
+#~ msgstr "重新更新"

@@ -116,7 +116,7 @@ class ribbon(QTabWidget):
 		#self.setWindowTitle(_("Steady state simulation")+"  (https://www.gpvdm.com)")
 
 		self.about = QToolButton(self)
-		self.about.setText("About")
+		self.about.setText(_("About"))
 
 		self.setCornerWidget(self.about)
 
@@ -133,14 +133,14 @@ class ribbon(QTabWidget):
 		self.addTab(self.configure,_("Configure"))
 		
 		self.device=ribbon_device()
-		self.addTab(self.device,"Device")
+		self.addTab(self.device,_("Device"))
 
 		if enable_betafeatures()==True:
 			self.tb_cluster=self.cluster()
-			self.addTab(self.tb_cluster,"Cluster")
+			self.addTab(self.tb_cluster,_("Cluster"))
 
 		self.information=ribbon_information()
-		self.addTab(self.information,"Information")
+		self.addTab(self.information,_("Information"))
 
 		#self.setStyleSheet("QWidget {	background-color:cyan; }") 
 		aaa=self.readStyleSheet(os.path.join(get_css_path(),"style.css"))

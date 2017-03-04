@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.88\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2017-03-04 14:14+0000\n"
+"POT-Creation-Date: 2017-03-04 16:01+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -276,7 +276,8 @@ msgstr ""
 
 #: ../plugins/pulse/pulse.c:206 ../plugins/pulse/pulse.c:209
 #: ../plugins/pulse/pulse.c:256 ../plugins/fxdomain/fxdomain.c:262
-#: ../libdump/dump_dynamic.c:394 ../libdump/dump_contacts.c:72
+#: ../plugins/jv/jv.c:243 ../plugins/jv/jv.c:419 ../libdump/dump_dynamic.c:394
+#: ../libdump/dump_contacts.c:72
 msgid "Current"
 msgstr ""
 
@@ -284,20 +285,23 @@ msgstr ""
 msgid "current density"
 msgstr ""
 
-#: ../plugins/pulse/pulse.c:232 ../libdump/dump_dynamic.c:231
+#: ../plugins/pulse/pulse.c:232 ../plugins/jv/jv.c:362 ../plugins/jv/jv.c:381
+#: ../plugins/jv/jv.c:400 ../libdump/dump_dynamic.c:231
 #: ../libdump/dump_1d_slice.c:511 ../libdump/dump_1d_slice.c:541
 msgid "Current density"
 msgstr ""
 
 #: ../plugins/pulse/pulse.c:276 ../plugins/pulse/pulse.c:281
 #: ../plugins/fxdomain/fxdomain.c:279 ../plugins/fxdomain/fxdomain.c:282
-#: ../gui/tmesh.py:232 ../gui/tmesh.py:234 ../gui/tmesh.py:237
-#: ../gui/tmesh.py:239 ../gui/contacts.py:157 ../libdump/dump_dynamic.c:791
+#: ../plugins/jv/jv.c:243 ../plugins/jv/jv.c:295 ../gui/tmesh.py:232
+#: ../gui/tmesh.py:234 ../gui/tmesh.py:237 ../gui/tmesh.py:239
+#: ../gui/contacts.py:157 ../libdump/dump_dynamic.c:791
 #: ../libdump/dump_contacts.c:70
 msgid "Voltage"
 msgstr ""
 
-#: ../plugins/pulse/pulse.c:279 ../gui/fxmesh.py:173
+#: ../plugins/pulse/pulse.c:279 ../plugins/jv/jv.c:382 ../plugins/jv/jv.c:401
+#: ../plugins/jv/jv.c:420 ../gui/fxmesh.py:173
 msgid "Volts"
 msgstr ""
 
@@ -340,6 +344,48 @@ msgstr ""
 #: ../plugins/jv/jv.c:235
 #, python-format
 msgid "Stopping because of Vexternal %Le>%Le\n"
+msgstr ""
+
+#: ../plugins/jv/jv.c:297
+msgid "Efficiency"
+msgstr ""
+
+#: ../plugins/jv/jv.c:335
+msgid "Charge density - Applied voltage"
+msgstr ""
+
+#: ../plugins/jv/jv.c:337 ../plugins/jv/jv.c:361 ../plugins/jv/jv.c:380
+#: ../plugins/jv/jv.c:399 ../plugins/jv/jv.c:418
+msgid "Applied Voltage"
+msgstr ""
+
+#: ../plugins/jv/jv.c:338 ../libdump/dump_1d_slice.c:342
+#: ../libdump/dump_1d_slice.c:957 ../libdump/dump_1d_slice.c:986
+#: ../libdump/dump_1d_slice.c:1015 ../libdump/dump_1d_slice.c:1050
+#: ../libdump/dump_1d_slice.c:1120 ../libdump/dump_1d_slice.c:1156
+#: ../libdump/dump_1d_slice.c:1198 ../libdump/dump_1d_slice.c:1235
+#: ../libdump/dump_1d_slice.c:1269
+msgid "Charge density"
+msgstr ""
+
+#: ../plugins/jv/jv.c:378 ../plugins/jv/jv.c:397
+msgid "Current density - Applied voltage"
+msgstr ""
+
+#: ../plugins/jv/jv.c:416
+msgid "Current - Applied voltage"
+msgstr ""
+
+#: ../plugins/jv/jv.c:435
+msgid "Voltage - Light generated"
+msgstr ""
+
+#: ../plugins/jv/jv.c:456
+msgid "Current - Light generated"
+msgstr ""
+
+#: ../plugins/jv/jv.c:459
+msgid "Light power"
 msgstr ""
 
 #: ../libserver/server.c:111
@@ -1432,6 +1478,11 @@ msgstr ""
 msgid "Don't run me as root!!"
 msgstr ""
 
+#: ../gui/gpvdm.py:155 ../gui/gpvdm_notebook.py:100
+#: ../gui/gpvdm_notebook.py:227
+msgid "Terminal"
+msgstr ""
+
 #: ../gui/gpvdm.py:208
 msgid "file opened"
 msgstr ""
@@ -1705,7 +1756,8 @@ msgid ""
 "mode. The model will still be fully functional, but not look quite so nice."
 msgstr ""
 
-#: ../gui/gpvdm_notebook.py:85 ../gui/inp_description.py:37
+#: ../gui/gpvdm_notebook.py:85 ../gui/ribbon.py:136
+#: ../gui/inp_description.py:37
 msgid "Device"
 msgstr ""
 
@@ -1717,6 +1769,7 @@ msgid ""
 msgstr ""
 
 #: ../gui/gpvdm_notebook.py:88 ../gui/gpvdm_notebook.py:158
+#: ../gui/gpvdm_notebook.py:240
 msgid "Device structure"
 msgstr ""
 
@@ -1758,10 +1811,6 @@ msgid ""
 "efficient each recombination mechanism is at producing photons."
 msgstr ""
 
-#: ../gui/gpvdm_notebook.py:100 ../gui/gpvdm_notebook.py:227
-msgid "Terminal"
-msgstr ""
-
 #: ../gui/gpvdm_notebook.py:101
 msgid ""
 "<big><b>The terminal window</b></big>\n"
@@ -1770,7 +1819,7 @@ msgid ""
 msgstr ""
 
 #: ../gui/gpvdm_notebook.py:103 ../gui/gpvdm_notebook.py:137
-#: ../gui/gpvdm_notebook.py:244
+#: ../gui/gpvdm_notebook.py:244 ../gui/ribbon.py:143
 msgid "Information"
 msgstr ""
 
@@ -1822,8 +1871,16 @@ msgid ""
 "data"
 msgstr ""
 
+#: ../gui/ribbon.py:119 ../gui/cool_menu.py:68 ../gui/about.py:48
+msgid "About"
+msgstr ""
+
 #: ../gui/ribbon.py:130 ../gui/scan.py:264
 msgid "Simulations"
+msgstr ""
+
+#: ../gui/ribbon.py:140
+msgid "Cluster"
 msgstr ""
 
 #: ../gui/inp_description.py:38
@@ -2377,8 +2434,8 @@ msgstr ""
 msgid "Citing the model"
 msgstr ""
 
-#: ../gui/cool_menu.py:68 ../gui/about.py:48
-msgid "About"
+#: ../gui/tab_terminal.py:106
+msgid "CPU"
 msgstr ""
 
 #: ../gui/gpvdm_open.py:115
@@ -2715,6 +2772,22 @@ msgstr ""
 msgid "Max power"
 msgstr ""
 
+#: ../gui/token_lib.py:127
+msgid "Max Electrical itterations (first step)"
+msgstr ""
+
+#: ../gui/token_lib.py:128
+msgid "Electrical clamp (first step)"
+msgstr ""
+
+#: ../gui/token_lib.py:129
+msgid "Desired electrical solver error (first step)"
+msgstr ""
+
+#: ../gui/token_lib.py:130
+msgid "Enable poisson solver"
+msgstr ""
+
 #: ../gui/token_lib.py:131
 msgid "Max electrical itterations"
 msgstr ""
@@ -2757,6 +2830,10 @@ msgstr ""
 
 #: ../gui/token_lib.py:142
 msgid "Slotboom n0"
+msgstr ""
+
+#: ../gui/token_lib.py:146
+msgid "Fit error multiplyer"
 msgstr ""
 
 #: ../gui/token_lib.py:147 ../gui/token_lib.py:162 ../gui/token_lib.py:163
@@ -3683,14 +3760,6 @@ msgstr ""
 
 #: ../libdump/dump_1d_slice.c:336
 msgid "Doping density"
-msgstr ""
-
-#: ../libdump/dump_1d_slice.c:342 ../libdump/dump_1d_slice.c:957
-#: ../libdump/dump_1d_slice.c:986 ../libdump/dump_1d_slice.c:1015
-#: ../libdump/dump_1d_slice.c:1050 ../libdump/dump_1d_slice.c:1120
-#: ../libdump/dump_1d_slice.c:1156 ../libdump/dump_1d_slice.c:1198
-#: ../libdump/dump_1d_slice.c:1235 ../libdump/dump_1d_slice.c:1269
-msgid "Charge density"
 msgstr ""
 
 #: ../libdump/dump_1d_slice.c:360

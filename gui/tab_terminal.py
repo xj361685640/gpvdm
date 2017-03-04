@@ -48,7 +48,7 @@ class tab_terminal(QWidget,tab_base):
 	def dataReady(self,i):
 		cursor = self.terminals[i].textCursor()
 		cursor.movePosition(cursor.End)
-		data=str(self.process[i].readAll())
+		data=str(self.process[i].readAll(),'utf-8')
 		data=data[2:-1]
 		cursor.insertHtml(data)
 		self.terminals[i].ensureCursorVisible()
@@ -103,7 +103,7 @@ class tab_terminal(QWidget,tab_base):
 			proc.readyRead.connect(functools.partial(self.dataReady,i))
 			self.process.append(proc)
 			self.terminals.append(term)
-			self.tab.addTab(term,"cpu "+str(i))
+			self.tab.addTab(term,_("CPU")+" "+str(i))
 
 
 

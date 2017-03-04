@@ -152,7 +152,7 @@ class gpvdm_main_window(QMainWindow):
 
 	def gui_sim_start(self):
 		self.notebook_active_page=self.notebook.get_current_page()#self.tabText(i)#self.notebook.currentIndex()
-		self.notebook.goto_page("Terminal")
+		self.notebook.goto_page(_("Terminal"))
 
 	def gui_sim_stop(self):
 		message=""
