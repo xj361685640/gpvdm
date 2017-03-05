@@ -29,7 +29,7 @@ _ = i18n.language.gettext
 
 #qt
 from PyQt5.QtCore import QSize, Qt 
-from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QSystemTrayIcon,QMenu,QListWidgetItem
+from PyQt5.QtWidgets import QPushButton,QHBoxLayout,QLabel,QWidget,QDialog,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QSystemTrayIcon,QMenu,QListWidget,QListWidgetItem
 from PyQt5.QtGui import QIcon
 from PyQt5.uic import loadUi
 
@@ -42,32 +42,32 @@ from cal_path import get_exe_path
 
 from help import help_window
 
-class new_simulation():
+class new_simulation(QDialog):
 
 	# close the window and quit
-	def delete_event(self, widget, event, data=None):
-		self.win_list.update(self.window,"new_simulation")
-		gtk.main_quit()
-		return False
+	#def delete_event(self, widget, event, data=None):
+	#	self.win_list.update(self.window,"new_simulation")
+	#	gtk.main_quit()
+	#	return False
 
 
 	def callback_close(self, widget, data=None):
-		self.win_list.update(self.window,"new_simulation")
-		self.window.reject()
+		#self.win_list.update(self.window,"new_simulation")
+		self.reject()
 
 
 	def callback_next(self):
 		help_window().help_set_help(["save.png",_("<big><b>Now save the simulation</b></big><br>Now select where you would like to save the simulation directory.")])
 
-		if len(self.window.listwidget.selectedItems())>0:
+		if len(self.listwidget.selectedItems())>0:
 
-			file_path=save_as_gpvdm(self.window)
+			file_path=save_as_gpvdm(self)
 			if file_path!=None:
 				if file_path.startswith(get_exe_path())==True:
-					error_dlg(self.window,_("It's not a good idea to save the simulation in the gpvdm installation directory."))
+					error_dlg(self,_("It's not a good idea to save the simulation in the gpvdm installation directory."))
 					return
 
-				selection=self.window.listwidget.selectedItems()[0].text()
+				selection=self.listwidget.selectedItems()[0].text()
 				selection_file=selection[selection.find("(")+1:selection.find(")")]
 
 				if not os.path.exists(file_path):
@@ -77,59 +77,82 @@ class new_simulation():
 				os.chdir(self.ret_path)
 				gpvdm_clone(os.getcwd(),True)
 				import_archive(os.path.join(get_device_lib_path(),selection_file),os.path.join(os.getcwd(),"sim.gpvdm"),False)
-				self.window.close()
+				self.close()
 		else:
-			error_dlg(self.window,_("Please select a device before clicking next"))
+			error_dlg(self,_("Please select a device before clicking next"))
 
 
 	def get_return_path(self):
 		return self.ret_path
 
 	def __init__(self):
+		QDialog.__init__(self)
+		self.main_vbox=QVBoxLayout()
+		self.setFixedSize(450,580) 
+		self.setWindowTitle(_("New simulation")+" (https://www.gpvdm.com)")
+		self.title=QLabel("<big><b>"+_("Which type of device would you like to simulate?")+"</b></big>")
+
+		self.listwidget=QListWidget()
+		self.main_vbox.addWidget(self.title)
+		self.main_vbox.addWidget(self.listwidget)
+
+		self.hwidget=QWidget()
+
+		self.nextButton = QPushButton(_("Next"))
+		self.cancelButton = QPushButton(_("Cancel"))
+
+		hbox = QHBoxLayout()
+		hbox.addStretch(1)
+		hbox.addWidget(self.cancelButton)
+		hbox.addWidget(self.nextButton)
+		self.hwidget.setLayout(hbox)
+
+		self.main_vbox.addWidget(self.hwidget)
+
+		self.setLayout(self.main_vbox)
+		self.show()
 		print(get_exe_path())
 		self.ret_path=None
 		# Create a new window
 
-		self.window = loadUi(os.path.join(get_ui_path(),"new.ui"))
+		#self.win_list=windows()
+		#self.win_list.load()
+		#self.win_list.set_window(self,"new_simulation")
 
-		self.win_list=windows()
-		self.win_list.load()
-		self.win_list.set_window(self.window,"new_simulation")
-
-		self.window.listwidget.setIconSize(QSize(64,64))
-		self.window.listwidget.clear()
+		self.listwidget.setIconSize(QSize(64,64))
+		self.listwidget.clear()
 
 		itm = QListWidgetItem( _("Organic solar cell")+" (p3htpcbm.gpvdm)" )
 		itm.setIcon(QIcon(os.path.join(get_image_file_path(),"icon.png")))
-		self.window.listwidget.addItem(itm)
+		self.listwidget.addItem(itm)
 
 		itm = QListWidgetItem( _("Organic LED")+" (oled.gpvdm)" )
 		itm.setIcon(QIcon(os.path.join(get_image_file_path(),"oled.png")))
-		self.window.listwidget.addItem(itm)
+		self.listwidget.addItem(itm)
 
 		itm = QListWidgetItem( _("Crystalline silicon solar cell")+" (silicon.gpvdm)" )
 		itm.setIcon(QIcon(os.path.join(get_image_file_path(),"si.png")))
-		self.window.listwidget.addItem(itm)
+		self.listwidget.addItem(itm)
 
 		itm = QListWidgetItem( _("CIGS Solar cell")+" (cigs.gpvdm)" )
 		itm.setIcon(QIcon(os.path.join(get_image_file_path(),"cigs.png")))
-		self.window.listwidget.addItem(itm)
+		self.listwidget.addItem(itm)
 
 		itm = QListWidgetItem( _("a-Si solar cell ")+" (a-silicon.gpvdm)" )
 		itm.setIcon(QIcon(os.path.join(get_image_file_path(),"asi.png")))
-		self.window.listwidget.addItem(itm)
+		self.listwidget.addItem(itm)
 
 		itm = QListWidgetItem( _("polycrystalline silicon ")+" (silicon.gpvdm)" )
 		itm.setIcon(QIcon(os.path.join(get_image_file_path(),"psi.png")))
-		self.window.listwidget.addItem(itm)
+		self.listwidget.addItem(itm)
 
 		itm = QListWidgetItem( _("OFET ")+" (ofet.gpvdm)" )
 		itm.setIcon(QIcon(os.path.join(get_image_file_path(),"ofet.png")))
-		self.window.listwidget.addItem(itm)
+		self.listwidget.addItem(itm)
 
-		self.window.listwidget.itemDoubleClicked.connect(self.callback_next)
-		self.window.next.clicked.connect(self.callback_next)
-		self.window.cancel.clicked.connect(self.callback_close)
+		self.listwidget.itemDoubleClicked.connect(self.callback_next)
+		self.nextButton.clicked.connect(self.callback_next)
+		self.cancelButton.clicked.connect(self.callback_close)
 
 
 

@@ -53,47 +53,20 @@ from tab import tab_class
 
 import webbrowser
 
-class ref:
-	def __init__(self):
-		self.group=""
-		self.author=""
-		self.journal=""
-		self.volume=""
-		self.pages=""
-		self.year=""
-		self.doi=""
-	
-def load_ref(file_name):
-	r=ref()
-	file_name=os.path.splitext(file_name)[0]+".ref"
+from ref_io import ref
+from ref_io import load_ref
 
-	if os.path.isfile(file_name)==False:
-		return None
-
-	lines=[]
-	if inp_load_file(lines,file_name):
-		text=""
-		r.group=inp_get_token_value_from_list(lines, "#ref_research_group")
-		r.author=inp_get_token_value_from_list(lines, "#ref_autors")
-		r.journal=inp_get_token_value_from_list(lines, "#ref_jounral")
-		r.volume=inp_get_token_value_from_list(lines, "#ref_volume")
-		r.pages=inp_get_token_value_from_list(lines, "#ref_pages")
-		r.year=inp_get_token_value_from_list(lines, "#ref_year")
-		r.doi=inp_get_token_value_from_list(lines, "#ref_doi")
-
-	return r
-	
 def get_ref_text(file_name,html=True):
 	r=load_ref(file_name)
 	if r!=None:
 		if html==True:
 			if r.group!="":
-				text="<b>Data provided by:</b>"+r.group+"<br>"
-			text=text+"<b>Associated paper:</b>"+r.author+", "+r.journal+", "+r.volume+", "+r.pages+", "+r.year+"<br>"
+				text="<b>"+_("Data provided by")+":</b>"+r.group+"<br>"
+			text=text+"<b>"+_("Associated paper")+":</b>"+r.author+", "+r.journal+", "+r.volume+", "+r.pages+", "+r.year+"<br>"
 			text=text+"<b>doi link:</b> <a href=\"http://doi.org/"+r.doi+"\"> http://doi.org/"+r.doi+"</a>"
 		else:
 			if r.group!="":
-				text="Data provided by: "+r.group+" "
+				text=_("Data provided by")+": "+r.group+" "
 			#text=text+"Associated paper:"+author+", "+journal+", "+volume+", "+pages+", "+year
 
 		return text
@@ -126,7 +99,7 @@ class ref_window(QWidget):
 		self.vbox.addWidget(self.toolbar)
 		tab=tab_class()
 		tab.icon_file="ref.png"
-		tab.init(self.file_name,"Reference")
+		tab.init(self.file_name,_("Reference"))
 		self.vbox.addWidget(tab)
 		
 		self.button_widget=QWidget()

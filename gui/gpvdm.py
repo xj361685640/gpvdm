@@ -213,7 +213,7 @@ class gpvdm_main_window(QMainWindow):
 		help_window().help_set_help(["p3ht_pcbm.png",_("<big><b>New simulation!</b></big><br> Now selected the type of device you would like to simulate.")])
 
 		dialog=new_simulation()
-		dialog.window.exec_()
+		dialog.exec_()
 		ret=dialog.ret_path
 		if ret!=None:
 			self.change_dir_and_refresh_interface(dialog.ret_path)
@@ -385,7 +385,7 @@ class gpvdm_main_window(QMainWindow):
 		self.splash.init()
 
 		temp_error=ver_error()
-		print(temp_error)
+		#print(temp_error)
 		if len(temp_error)>0:
 			msgBox = QMessageBox(self)
 			msgBox.setIcon(QMessageBox.Critical)

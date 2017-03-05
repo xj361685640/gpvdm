@@ -30,6 +30,9 @@ from PyQt5.QtGui import QPixmap
 from i18n import get_language
 
 from cal_path import get_flag_file_path
+from i18n import get_full_desired_lang_path
+
+from ref_io import load_ref
 
 my_help_class=None
 
@@ -230,6 +233,12 @@ def help_window():
 def language_advert():
 	lang=get_language()
 	f=os.path.join(get_flag_file_path(),lang+".png")
-	print(f)
 	if os.path.isfile(f)==True:
-		my_help_class.help_append([f,"<big><b>gpvdm in your language!</b></big><br>Would you like gpvdm to be translated into your native language?  If so please help with the gpvdm <a href=\"https://gpvdm.com/translation.html\">translation project.</a>"])
+		print(os.path.join(get_full_desired_lang_path(),"ref.ref"))
+		r=load_ref(os.path.join(get_full_desired_lang_path(),"ref.ref"))
+
+		if r==None or r.author=="":
+			my_help_class.help_append([f,"<big><b>"+_("gpvdm in your language!")+"</b></big><br>"+"Would you like gpvdm to be translated into your native language?  If so please help with the gpvdm <a href=\"https://gpvdm.com/translation.html\">translation project.</a>"])
+		else:
+			my_help_class.help_append([f,"<big><b>"+_("gpvdm translated by:")+"</b></big><br>"+r.author])
+			

@@ -130,7 +130,7 @@ class snapshot_slider(QWidget):
 ################
 		self.slider_hbox1= QHBoxLayout()
 		self.label1 = QLabel()
-		self.label1.setText("File")
+		self.label1.setText(_("File"))
 		self.slider_hbox1.addWidget(self.label1)
 
 		self.files_combo=QComboBox()

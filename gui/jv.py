@@ -74,7 +74,7 @@ class jv(QWidget):
 		toolbar.addWidget(spacer)
 
 
-		self.help = QAction(QIcon(os.path.join(get_image_file_path(),"help.png")), 'Hide', self)
+		self.help = QAction(QIcon(os.path.join(get_image_file_path(),"help.png")), _("Help"), self)
 		self.help.setStatusTip(_("Close"))
 		self.help.triggered.connect(self.callback_help)
 		toolbar.addAction(self.help)
@@ -90,7 +90,7 @@ class jv(QWidget):
 
 
 		files=["jv.inp","jv_simple.inp","sun_voc.inp"]
-		description=["JV simulation","Diode equation","Suns v.s. Voc"]
+		description=[_("JV simulation"),_("Diode equation"),_("Suns v.s. Voc")]
 
 
 		for i in range(0,len(files)):

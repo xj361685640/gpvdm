@@ -1,8 +1,8 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -37,6 +37,9 @@ from PyQt5.QtGui import QPainter,QIcon
 
 from cal_path import get_image_file_path
 
+import i18n
+_ = i18n.language.gettext
+
 class qe_window(QWidget):
 
 	def update_graph(self):
@@ -53,8 +56,8 @@ class qe_window(QWidget):
 		self.ax1 = self.fig.add_subplot(111)
 
 
-		self.ax1.set_ylabel('Energy (eV)')
-		self.ax1.set_xlabel('Position (nm)')
+		self.ax1.set_ylabel(_("Energy")+" (eV)")
+		self.ax1.set_xlabel(_("Position")+" (nm)")
 		try:
 			t,s = loadtxt("Ec.dat", unpack=True)
 			t=t*1e9
@@ -75,7 +78,7 @@ class qe_window(QWidget):
 			self.fig.canvas.draw()
 
 		except:
-			print("No mode file\n")
+			print(_("No file")+"\n")
 
 
 	def save_image(self,file_name):
@@ -95,7 +98,7 @@ class qe_window(QWidget):
 
 	def __init__(self):
 		QWidget.__init__(self)
-		self.setWindowTitle("Quantum Efficiency calculator - (www.gpvdm.com)")
+		self.setWindowTitle(_("Quantum Efficiency calculator")+" - (www.gpvdm.com)")
 		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"qe.jpg")))
 
 		self.fig = Figure(figsize=(5,4), dpi=100)

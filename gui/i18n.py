@@ -40,7 +40,6 @@ else:
 language = gettext.translation ('gpvdm', locale_path, [current_locale] , fallback=True)
 language.install()
 
-print(current_locale)
 
 def yes_no(a):
 	if a.lower() in ("ja","yes", "true", "t", "1"):
@@ -53,6 +52,12 @@ def yes_no(a):
 def get_language():
 	lang=current_locale.split("_")[1].lower()
 	return lang
+
+def get_full_language():
+	return current_locale
+
+def get_full_desired_lang_path():
+	return os.path.join(get_lang_path(),get_full_language(),"LC_MESSAGES")
 
 def get_languages():
 	langs=[]

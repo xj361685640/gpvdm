@@ -167,13 +167,13 @@ class plot_widget(QWidget):
 			print("ohhh full 3D")
 			dim="3d"
 		else:
-			print("I don't know how to process this type of file!",self.data[0].x_len, self.data[0].y_len,self.data[0].z_len)
+			print(_("I don't know how to process this type of file!"),self.data[0].x_len, self.data[0].y_len,self.data[0].z_len)
 			return
 
 		title=self.data[0].title
 		if self.data[0].time!=-1.0 and self.data[0].Vexternal!=-1.0:
 			mul,unit=time_with_units(self.data[0].time)
-			title=self.data[0].title+" V="+str(self.data[0].Vexternal)+" time="+str(self.data[0].time*mul)+" "+unit
+			title=self.data[0].title+" V="+str(self.data[0].Vexternal)+" "+_("time")+"="+str(self.data[0].time*mul)+" "+unit
 
 		self.fig.suptitle(title)
 
@@ -580,7 +580,7 @@ class plot_widget(QWidget):
 		if menu==True:
 			menubar = QMenuBar()
 
-			file_menu = menubar.addMenu("File")
+			file_menu = menubar.addMenu(_("File"))
 
 			self.menu_save=file_menu.addAction("&"+_("Save"))
 			self.menu_save.triggered.connect(self.callback_save)

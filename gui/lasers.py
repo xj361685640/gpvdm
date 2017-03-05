@@ -111,7 +111,6 @@ class lasers(QWidget):
 		new_laser_name=dlg_get_text( _("Rename the laser to be called:"), tab.tab_name ,"rename.png")
 
 		if new_laser_name.ret!=None:
-			print ("calling rename")
 			index=self.notebook.currentIndex() 
 			self.notebook.setTabText(index, new_laser_name.ret)
 			inp_update(tab.file_name, "#laser_name", new_laser_name.ret)
@@ -134,8 +133,6 @@ class lasers(QWidget):
 		for i in range(0,len(file_list)):
 			if file_list[i].startswith("laser") and file_list[i].endswith(".inp"):
 				files.append(file_list[i])
-
-		print ("load tabs",files)
 
 		for i in range(0,len(files)):
 			value=strextract_interger(files[i])
@@ -176,7 +173,7 @@ class lasers(QWidget):
 
 		menubar = QMenuBar()
 
-		file_menu = menubar.addMenu('&File')
+		file_menu = menubar.addMenu("&"+_("File"))
 		self.menu_close=file_menu.addAction(_("Close"))
 		self.menu_close.triggered.connect(self.callback_close)
 
@@ -233,7 +230,7 @@ class lasers(QWidget):
 		toolbar.addWidget(spacer)
 
 
-		self.help = QAction(QIcon(os.path.join(get_image_file_path(),"help.png")), 'Hide', self)
+		self.help = QAction(QIcon(os.path.join(get_image_file_path(),"help.png")), _("Help"), self)
 		self.help.setStatusTip(_("Close"))
 		self.help.triggered.connect(self.callback_help)
 		toolbar.addAction(self.help)

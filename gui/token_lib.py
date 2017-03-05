@@ -48,7 +48,7 @@ lib.append(my_data("#gather","au",_("#gather"),["text"],"e",1.0))
 lib.append(my_data("#laser_pulse_width","s",_("Length of pulse"),["text"],"e",1.0))
 lib.append(my_data("#electron_eff","0-1",_("Electron generation efficiency"),["text"],"e",1.0))
 lib.append(my_data("#hole_eff","0-1",_("Hole generation efficiency"),["text"],"e",1.0))
-lib.append(my_data("#sun","filename",_("Sun's spectra"),["text"],"e",1.0))
+lib.append(my_data("#sun",_("filename"),_("Sun's spectra"),["text"],"e",1.0))
 lib.append(my_data("#light_file_generation","file_name",_("File containing generation rate"),["gpvdm_select"],"e",1.0))
 
 #dos.inp
@@ -127,16 +127,16 @@ lib.append(my_data("#exe_name","au","exe name",["text"],"e",1.0))
 lib.append(my_data("#maxelectricalitt_first","au",_("Max Electrical itterations (first step)"),["text"],"e",1.0))
 lib.append(my_data("#electricalclamp_first","au",_("Electrical clamp (first step)"),["text"],"e",1.0))
 lib.append(my_data("#math_electrical_error_first","au",_("Desired electrical solver error (first step)"),["text"],"e",1.0))
-lib.append(my_data("#math_enable_pos_solver","true/false",_("Enable poisson solver"),[("switch")],"e",1.0))
+lib.append(my_data("#math_enable_pos_solver",_("True/False"),_("Enable poisson solver"),[("switch")],"e",1.0))
 lib.append(my_data("#maxelectricalitt","au",_("Max electrical itterations"),["text"],"e",1.0))
 lib.append(my_data("#electricalclamp","au",_("Electrical clamp"),["text"],"e",1.0))
 lib.append(my_data("#posclamp","au",_("Poisson clamping"),["text"],"e",1.0))
 lib.append(my_data("#electricalerror","au",_("Minimum electrical error"),["text"],"e",1.0))
 lib.append(my_data("#pos_max_ittr","au",_("Poisson solver max itterations"),["text"],"e",1.0))
-lib.append(my_data("#newton_clever_exit","true/false","Newton solver clever exit",[("switch")],"e",1.0))
+lib.append(my_data("#newton_clever_exit",_("True/False"),"Newton solver clever exit",[("switch")],"e",1.0))
 lib.append(my_data("#newton_min_itt","au",_("Newton minimum iterations"),["text"],"e",1.0))
-lib.append(my_data("#solver_name","dll name",_("Matrix solver to use"),["text"],"e",1.0))
-lib.append(my_data("#newton_name","dll name",_("Newton solver to use"),["text"],"e",1.0))
+lib.append(my_data("#solver_name",_("dll name"),_("Matrix solver to use"),["text"],"e",1.0))
+lib.append(my_data("#newton_name",_("dll name"),_("Newton solver to use"),["text"],"e",1.0))
 lib.append(my_data("#math_t0","au",_("Slotboom T0"),["text"],"e",1.0))
 lib.append(my_data("#math_d0","au",_("Slotboom D0"),["text"],"e",1.0))
 lib.append(my_data("#math_n0","au",_("Slotboom n0"),["text"],"e",1.0))
@@ -386,7 +386,7 @@ lib.append(my_data("#srh_p_r4","m^{-3}s^{-1}","srh hole rate 4",["text"],"e",1.0
 
 lib.append(my_data("#band_bend_max","percent","band bend max",["text"],"e",1.0))
 
-lib.append(my_data("#gui_config_3d_enabled","true/false","Enable 3d effects",[("switch")],"e",1.0))
+lib.append(my_data("#gui_config_3d_enabled",_("True/False"),"Enable 3d effects",[("switch")],"e",1.0))
 
 #fit
 lib.append(my_data("#enabled",_("True/False"),_("Enable fit"),[("switch")],"e",1.0))
@@ -394,7 +394,7 @@ lib.append(my_data("#time_shift","s","time shift",["text"],"e",1.0))
 lib.append(my_data("#start","s","start",["text"],"e",1.0))
 lib.append(my_data("#stop","s","stop",["text"],"e",1.0))
 lib.append(my_data("#log_x",_("True/False"),_("log x"),[("switch")],"e",1.0))
-lib.append(my_data("#sim_data","filename","Fit file name",["text"],"e",1.0))
+lib.append(my_data("#sim_data",_("filename"),"Fit file name",["text"],"e",1.0))
 lib.append(my_data("#fit_invert_simulation_y",_("True/False"),_("Invert simulated data (y)"),[("switch")],"e",1.0))
 
 

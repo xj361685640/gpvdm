@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.88\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2017-03-04 20:14+0000\n"
+"POT-Creation-Date: 2017-03-05 13:13+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -597,8 +597,8 @@ msgstr ""
 #: ../gui/experiment.py:237 ../gui/contacts.py:198 ../gui/jv.py:78
 #: ../gui/emesh.py:171 ../gui/scan.py:259 ../gui/scan.py:354 ../gui/info.py:68
 #: ../gui/fxexperiment.py:177 ../gui/fxexperiment.py:230
-#: ../gui/fit_window.py:226 ../gui/ref.py:124 ../gui/lasers.py:180
-#: ../gui/lasers.py:237 ../gui/help.py:127 ../gui/parasitic.py:69
+#: ../gui/fit_window.py:226 ../gui/ref.py:141 ../gui/lasers.py:180
+#: ../gui/lasers.py:237 ../gui/help.py:128 ../gui/parasitic.py:69
 msgid "Close"
 msgstr ""
 
@@ -634,7 +634,7 @@ msgid "Energy"
 msgstr ""
 
 #: ../gui/qe.py:116 ../gui/fit_window_plot_real.py:130
-#: ../gui/plot_widget.py:563
+#: ../gui/plot_widget.py:564
 msgid "Save graph"
 msgstr ""
 
@@ -707,7 +707,7 @@ msgstr ""
 #: ../gui/ribbon_information.py:75 ../gui/ribbon.py:75 ../gui/scan.py:318
 #: ../gui/scan.py:319 ../gui/cost.py:92 ../gui/fxexperiment.py:195
 #: ../gui/fxexperiment.py:196 ../gui/fit_window.py:244 ../gui/fit_window.py:245
-#: ../gui/ref.py:104 ../gui/ref.py:105 ../gui/lasers.py:201
+#: ../gui/ref.py:121 ../gui/ref.py:122 ../gui/lasers.py:201
 #: ../gui/lasers.py:202 ../gui/import_data.py:256 ../gui/import_data.py:257
 #: ../gui/doping.py:205
 msgid "Help"
@@ -1196,7 +1196,7 @@ msgid "New experiment"
 msgstr ""
 
 #: ../gui/experiment.py:236 ../gui/contacts.py:197 ../gui/scan.py:353
-#: ../gui/help.py:126
+#: ../gui/help.py:127
 msgid "Hide"
 msgstr ""
 
@@ -1293,11 +1293,11 @@ msgstr ""
 msgid "Directory"
 msgstr ""
 
-#: ../gui/open_save_dlg.py:44 ../gui/plot_widget.py:587
+#: ../gui/open_save_dlg.py:44 ../gui/plot_widget.py:588
 msgid "Save as"
 msgstr ""
 
-#: ../gui/open_save_dlg.py:66 ../gui/import_data.py:244
+#: ../gui/open_save_dlg.py:66 ../gui/gpvdm_open.py:64 ../gui/import_data.py:244
 msgid "Open file"
 msgstr ""
 
@@ -1653,7 +1653,7 @@ msgstr ""
 msgid "Remove "
 msgstr ""
 
-#: ../gui/tab_homo.py:281 ../gui/plot_widget.py:584 ../gui/doping.py:196
+#: ../gui/tab_homo.py:281 ../gui/plot_widget.py:585 ../gui/doping.py:196
 msgid "Save"
 msgstr ""
 
@@ -1895,6 +1895,7 @@ msgid ""
 msgstr ""
 
 #: ../gui/ribbon.py:119 ../gui/cool_menu.py:68 ../gui/about.py:48
+#: ../gui/status_icon.py:48
 msgid "About"
 msgstr ""
 
@@ -1922,7 +1923,7 @@ msgstr ""
 msgid "CELIV"
 msgstr ""
 
-#: ../gui/inp_description.py:42 ../gui/plot_widget.py:616
+#: ../gui/inp_description.py:42 ../gui/plot_widget.py:617
 msgid "Math"
 msgstr ""
 
@@ -2377,11 +2378,11 @@ msgstr ""
 msgid "home"
 msgstr ""
 
-#: ../gui/ref.py:92
+#: ../gui/ref.py:109
 msgid "Reference manager"
 msgstr ""
 
-#: ../gui/ref.py:171
+#: ../gui/ref.py:188
 msgid "New file"
 msgstr ""
 
@@ -2449,7 +2450,7 @@ msgstr ""
 msgid "Help window"
 msgstr ""
 
-#: ../gui/cool_menu.py:56
+#: ../gui/cool_menu.py:56 ../gui/status_icon.py:50
 msgid "Manual"
 msgstr ""
 
@@ -2465,31 +2466,31 @@ msgstr ""
 msgid "CPU"
 msgstr ""
 
-#: ../gui/gpvdm_open.py:115
+#: ../gui/gpvdm_open.py:123
 msgid "The directory is gone, so I can't open it.  Did you delete it?"
 msgstr ""
 
-#: ../gui/gpvdm_open.py:213
+#: ../gui/gpvdm_open.py:221
 msgid "title"
 msgstr ""
 
-#: ../gui/gpvdm_open.py:213
+#: ../gui/gpvdm_open.py:221
 msgid "x axis"
 msgstr ""
 
-#: ../gui/gpvdm_open.py:213
+#: ../gui/gpvdm_open.py:221
 msgid "y axis"
 msgstr ""
 
-#: ../gui/gpvdm_open.py:213
+#: ../gui/gpvdm_open.py:221
 msgid "Double click to open"
 msgstr ""
 
-#: ../gui/gpvdm_open.py:219
+#: ../gui/gpvdm_open.py:227
 msgid "equilibrium"
 msgstr ""
 
-#: ../gui/gpvdm_open.py:219
+#: ../gui/gpvdm_open.py:227
 msgid "This contains the simulation output at 0V in the dark."
 msgstr ""
 
@@ -2561,19 +2562,19 @@ msgstr ""
 msgid "version.h not found"
 msgstr ""
 
-#: ../gui/help.py:107
+#: ../gui/help.py:108
 msgid "Back"
 msgstr ""
 
-#: ../gui/help.py:111
+#: ../gui/help.py:112
 msgid "Next"
 msgstr ""
 
-#: ../gui/help.py:121
+#: ../gui/help.py:122
 msgid "Online help"
 msgstr ""
 
-#: ../gui/help.py:122
+#: ../gui/help.py:123
 msgid "On line help"
 msgstr ""
 
@@ -3328,72 +3329,76 @@ msgstr ""
 msgid "copy state"
 msgstr ""
 
-#: ../gui/plot_widget.py:567
+#: ../gui/plot_widget.py:568
 msgid "Refresh graph"
 msgstr ""
 
-#: ../gui/plot_widget.py:591
+#: ../gui/plot_widget.py:592
 msgid "Key"
 msgstr ""
 
-#: ../gui/plot_widget.py:593 ../gui/plot_widget.py:600
+#: ../gui/plot_widget.py:594 ../gui/plot_widget.py:601
 msgid "Color"
 msgstr ""
 
-#: ../gui/plot_widget.py:594
+#: ../gui/plot_widget.py:595
 msgid "Black"
 msgstr ""
 
-#: ../gui/plot_widget.py:597
+#: ../gui/plot_widget.py:598
 msgid "Rainbow"
 msgstr ""
 
-#: ../gui/plot_widget.py:601
+#: ../gui/plot_widget.py:602
 msgid "Autoscale"
 msgstr ""
 
-#: ../gui/plot_widget.py:604
+#: ../gui/plot_widget.py:605
 msgid "Set log scale y"
 msgstr ""
 
-#: ../gui/plot_widget.py:607 ../gui/plot_widget.py:610
+#: ../gui/plot_widget.py:608 ../gui/plot_widget.py:611
 msgid "Set log scale x"
 msgstr ""
 
-#: ../gui/plot_widget.py:613
+#: ../gui/plot_widget.py:614
 msgid "Label data"
 msgstr ""
 
-#: ../gui/plot_widget.py:618
+#: ../gui/plot_widget.py:619
 msgid "Subtract first point"
 msgstr ""
 
-#: ../gui/plot_widget.py:621
+#: ../gui/plot_widget.py:622
 msgid "Add min point"
 msgstr ""
 
-#: ../gui/plot_widget.py:624
+#: ../gui/plot_widget.py:625
 msgid "Invert y-axis"
 msgstr ""
 
-#: ../gui/plot_widget.py:627
+#: ../gui/plot_widget.py:628
 msgid "Norm to 1.0 y"
 msgstr ""
 
-#: ../gui/plot_widget.py:630
+#: ../gui/plot_widget.py:631
 msgid "Norm to peak of all data"
 msgstr ""
 
-#: ../gui/plot_widget.py:633
+#: ../gui/plot_widget.py:634
 msgid "Heat map"
 msgstr ""
 
-#: ../gui/plot_widget.py:636
+#: ../gui/plot_widget.py:637
 msgid "Heat map edit"
 msgstr ""
 
-#: ../gui/status_icon.py:54
+#: ../gui/status_icon.py:53
 msgid "Youtube channel"
+msgstr ""
+
+#: ../gui/status_icon.py:57
+msgid "Quit"
 msgstr ""
 
 #: ../gui/update.py:120

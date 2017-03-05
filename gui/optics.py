@@ -154,7 +154,7 @@ class class_optical(QWidget):
 		toolbar.addWidget(spacer)
 
 
-		self.help = QAction(QIcon(os.path.join(get_image_file_path(),"help.png")), 'Help', self)
+		self.help = QAction(QIcon(os.path.join(get_image_file_path(),"help.png")), _("Help"), self)
 		self.help.triggered.connect(self.callback_help)
 		toolbar.addAction(self.help)
 
