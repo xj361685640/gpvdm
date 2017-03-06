@@ -232,7 +232,7 @@ in->stop=FALSE;
 
 				if (Vexternal>Vstop)
 				{
-					printf(_("Stopping because of Vexternal %Le>%Le\n"),Vexternal,Vstop);
+					printf_log(sim,_("Stopping because of Vexternal %Le>%Le\n"),Vexternal,Vstop);
 					break;
 				}
 

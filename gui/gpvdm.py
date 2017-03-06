@@ -94,7 +94,6 @@ from PyQt5.QtWidgets import QWidget,QSizePolicy,QVBoxLayout,QHBoxLayout,QPushBut
 from splash import splash_window
 from new_simulation import new_simulation
 from hpc import hpc_class
-from about import about_dlg
 from dlg_export import dlg_export
 from device_lib import device_lib_class
 from cool_menu import cool_menu
@@ -301,11 +300,6 @@ class gpvdm_main_window(QMainWindow):
 	def callback_export(self, widget, data=None):
 		dlg_export(self)
 
-	def callback_about_dialog(self):
-		dlg=about_dlg()
-		dlg.window.exec_()
-
-
 	def callback_update(self, widget, data=None):
 		update_now()
 
@@ -404,9 +398,6 @@ class gpvdm_main_window(QMainWindow):
 		self.show_border = True
 
 		self.ribbon.home_export.triggered.connect(self.callback_export)
-
-		self.ribbon.about.pressed.connect(self.callback_about_dialog)
-
 
 		#if enable_webupdates()==False:
 		#	self.help_menu_update=help_menu.addAction("&"+_("Check for updates"))

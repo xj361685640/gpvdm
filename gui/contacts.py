@@ -94,16 +94,16 @@ class contacts_window(QWidget):
 		self.tab.setItem(pos,0,QTableWidgetItem(name))
 
 		combobox = QComboBox()
-		combobox.addItem(_("top"))
-		combobox.addItem(_("bottom"))
+		combobox.addItem("top")
+		combobox.addItem("bottom")
 
 		self.tab.setCellWidget(pos,1, combobox)
 		combobox.setCurrentIndex(combobox.findText(top_btm.lower()))
 		combobox.currentIndexChanged.connect(self.save)
 
 		combobox = QComboBox()
-		combobox.addItem(_("true"))
-		combobox.addItem(_("false"))
+		combobox.addItem("true")
+		combobox.addItem("false")
 
 		self.tab.setCellWidget(pos,2, combobox)
 		combobox.setCurrentIndex(combobox.findText(active.lower()))
@@ -125,7 +125,7 @@ class contacts_window(QWidget):
 		else:
 			pos = self.tab.rowCount()
 
-		self.add_row(pos,"","top",_("false"),"0.0","0.0","0.0","0.0")
+		self.add_row(pos,"","top","false","0.0","0.0","0.0","0.0")
  
 		self.save()
 

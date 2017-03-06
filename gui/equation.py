@@ -143,9 +143,9 @@ class equation(QWidget):
 		self.ax1.ticklabel_format(useOffset=False)
 
 		self.ax1.set_ylabel(self.ylabel)
-
-		x_nm= [x * 1e9 for x in self.x]
-		frequency, = self.ax1.plot(x_nm,self.y, 'ro-', linewidth=3 ,alpha=1.0)
+		if self.x!=None:
+			x_nm= [x * 1e9 for x in self.x]
+			frequency, = self.ax1.plot(x_nm,self.y, 'ro-', linewidth=3 ,alpha=1.0)
 
 		if os.path.isfile(os.path.join(self.path,self.exp_file))==True:
 			data=dat_file()
@@ -240,7 +240,6 @@ class equation(QWidget):
 			a.close()
 
 	def on_cell_edited(self, x,y):
-		self.build_mesh()
 		self.draw_graph()
 		self.fig.canvas.draw()
 		self.save_data()
@@ -297,6 +296,10 @@ class equation(QWidget):
 		self.tb_move.triggered.connect(self.callback_move_down)
 		toolbar2.addAction(self.tb_move)
 
+		self.tb_play = QAction(QIcon(os.path.join(get_image_file_path(),"play.png")), _("Calculate"), self)
+		self.tb_play.triggered.connect(self.callback_play)
+		toolbar2.addAction(self.tb_play)
+		
 		self.main_vbox.addWidget(toolbar2)
 
 		self.tab = QTableWidget()
@@ -310,13 +313,20 @@ class equation(QWidget):
 
 		self.load_data()
 
-		self.build_mesh()
+
 
 		self.draw_graph()
 
 		self.tab.cellChanged.connect(self.on_cell_edited)
-		
+	
+	def callback_play(self):
+		self.build_mesh()
+		self.draw_graph()
+		self.fig.canvas.draw()
+
 	def __init__(self,path,file_name,out_file,exp_file):
+		self.x=None
+		self.y=None
 		QWidget.__init__(self)
 		self.points=200
 		self.default_value="3.0"

@@ -56,7 +56,7 @@ void light_load_epitaxy(struct simulation *sim,struct light *in,char *epi_file)
 {
 char full_name[200];
 join_path(2, full_name, get_input_path(sim), "epitaxy.inp");
-printf_log(sim,"load: %s\n",full_name);
+printf_log(sim,"%s: %s\n",_("load"),full_name);
 epitaxy_load(sim,&in->my_epitaxy,full_name);
 
 int i=0;
@@ -106,7 +106,7 @@ void light_load_config_file(struct simulation *sim,struct light *in)
 
 	join_path(2,in->config_file,get_output_path(sim),"light.inp");
 
-	printf_log(sim,"load: %s\n",in->config_file);
+	printf_log(sim,"%s: %s\n",_("load"),in->config_file);
 
 	inp_init(sim,&inp);
 	inp_load_from_path(sim,&inp,get_input_path(sim),"light.inp");

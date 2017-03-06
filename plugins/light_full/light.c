@@ -36,7 +36,7 @@
 
 EXPORT void light_dll_ver(struct simulation *sim)
 {
-        printf_log(sim,"Full transfer matrix based light model\n");
+        printf_log(sim,"%s\n","Full transfer matrix based light model");
 }
 
 
@@ -49,7 +49,7 @@ if (in->sun_E[lam]==0.0)
 if (get_dump_status(sim,dump_optics)==TRUE)
 {
 	char one[100];
-	sprintf(one,"Solve light optical slice at %Lf nm\n",in->l[lam]*1e9);
+	sprintf(one,"%s %Lf nm\n","Solve optical slice at",in->l[lam]*1e9);
 	waveprint(sim,one,in->l[lam]*1e9);
 }
 int i;

@@ -254,11 +254,11 @@ in->r_holes=Rp;
 if (get_dump_status(sim,dump_built_in_voltage)==TRUE)
 {
 printf_log(sim,"Ef=%Le\n",Ef);
-printf_log(sim,"Holes on left contact = %Le\n", Lp);
-printf_log(sim,"Electrons on left contact = %Le\n", Ln);
+printf_log(sim,"%s = %Le\n", _("Holes on left contact"),Lp);
+printf_log(sim,"%s = %Le\n",_("Electrons on left contact"), Ln);
 
-printf_log(sim,"Holes on right contact = %Le\n", Rp);
-printf_log(sim,"Electrons on right contact = %Le\n", Rn);
+printf_log(sim,"%s = %Le\n",_("Holes on right contact"), Rp);
+printf_log(sim,"%s = %Le\n",_("Electrons on right contact"), Rn);
 
 FILE *contacts=fopena(get_output_path(sim),"initial.dat","w");
 fprintf (contacts,"#left_holes\n");

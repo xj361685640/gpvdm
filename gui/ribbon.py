@@ -41,7 +41,8 @@ from ribbon_simulations import ribbon_simulations
 from ribbon_configure import ribbon_configure
 from ribbon_information import ribbon_information
 from ribbon_home import ribbon_home
-		
+
+from about import about_dlg
 
 
 class ribbon(QTabWidget):
@@ -106,6 +107,10 @@ class ribbon(QTabWidget):
 		self.information.update()
 		self.home.update()
 
+	def callback_about_dialog(self):
+		dlg=about_dlg()
+		dlg.exec_()
+
 	def __init__(self):
 		QTabWidget.__init__(self)
 		self.setMaximumHeight(120)
@@ -117,6 +122,7 @@ class ribbon(QTabWidget):
 
 		self.about = QToolButton(self)
 		self.about.setText(_("About"))
+		self.about.pressed.connect(self.callback_about_dialog)
 
 		self.setCornerWidget(self.about)
 

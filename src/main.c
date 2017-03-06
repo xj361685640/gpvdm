@@ -70,14 +70,6 @@ int run=FALSE;
 struct simulation sim;
 sim_init(&sim);
 
-if (scanarg( argv,argc,"--html")==TRUE)
-{
-	sim.html=TRUE;
-}else
-{
-	sim.html=FALSE;
-}
-
 
 if (scanarg( argv,argc,"--gui")==TRUE)
 {
@@ -87,9 +79,22 @@ if (scanarg( argv,argc,"--gui")==TRUE)
 int log_level=0;
 set_logging_level(&sim,log_level_screen);
 cal_path(&sim);
-setlocale(LC_ALL,"");
-bindtextdomain("gpvdm",get_lang_path(&sim));
-textdomain("gpvdm");
+
+if (scanarg( argv,argc,"--english")==FALSE)
+{
+	setlocale(LC_ALL,"");
+	bindtextdomain("gpvdm",get_lang_path(&sim));
+	textdomain("gpvdm");
+}
+
+if (scanarg( argv,argc,"--html")==TRUE)
+{
+	sim.html=TRUE;
+	printf_log(&sim,"<meta charset=\"utf-8\">\n");
+}else
+{
+	sim.html=FALSE;
+}
 
 if (scanarg( argv,argc,"--help")==TRUE)
 {

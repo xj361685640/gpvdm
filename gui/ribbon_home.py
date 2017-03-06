@@ -182,7 +182,7 @@ class ribbon_home(QToolBar):
 		if self.fit_window==None:
 			self.fit_window=fit_window()
 			self.fit_window.init()
-			self.my_server.set_fit_update_function(self.fit_window.update)
+			server_get().set_fit_update_function(self.fit_window.update)
 
 		help_window().help_set_help(["fit.png",_("<big><b>Fit window</b></big><br> Use this window to fit the simulation to experimental data.")])
 		if self.fit_window.isVisible()==True:
