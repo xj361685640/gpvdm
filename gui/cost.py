@@ -130,22 +130,23 @@ class cost(QWidget):
 			volume=epitaxy_get_width(i)*1.0*1.0
 			name=epitaxy_get_mat_file(i)
 			xls_file_name=os.path.join(get_materials_path(),epitaxy_get_mat_file(i),"cost.xlsx")
-			wb = load_workbook(xls_file_name)
-			ws= wb.get_sheet_by_name("results")
+			if os.path.isfile(xls_file_name):
+				wb = load_workbook(xls_file_name)
+				ws= wb.get_sheet_by_name("results")
 
-			density = float(ws['B2'].value)
-			mass=density*volume
+				density = float(ws['B2'].value)
+				mass=density*volume
 
-			cost_per_kg = float(ws['B3'].value)
-			cost=mass*cost_per_kg
+				cost_per_kg = float(ws['B3'].value)
+				cost=mass*cost_per_kg
 
-			energy_per_kg = float(ws['B4'].value)
-			energy=energy_per_kg*mass
+				energy_per_kg = float(ws['B4'].value)
+				energy=energy_per_kg*mass
 
-			tab_add(self.tab,[name,str(volume),str(mass),str(cost),str(energy)])
+				tab_add(self.tab,[name,str(volume),str(mass),str(cost),str(energy)])
 
-			energy_tot=energy_tot+energy
-			cost_tot=cost_tot+cost
+				energy_tot=energy_tot+energy
+				cost_tot=cost_tot+cost
 		
 		pce=inp_get_token_value("sim_info.dat", "#pce")
 		payback_time=-1.0

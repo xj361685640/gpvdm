@@ -28,6 +28,7 @@ import multiprocessing
 import time
 from cal_path import get_image_file_path
 from cal_path import get_exe_name
+from cal_path import get_exe_args
 
 from time import sleep
 from win_lin import running_on_linux
@@ -201,10 +202,10 @@ class server(QWidget,cluster):
 #						if running_on_linux()==True:
 
 						cmd="cd "+self.jobs[i]+";"
-						cmd=cmd+get_exe_command()+" --lock "+"lock"+str(i)+" "+self.args[i]+" --gui --html &"
+						cmd=cmd+get_exe_command()+" --lock "+"lock"+str(i)+" "+self.args[i]+get_exe_args()+" &"
 						print("command="+cmd)
 						if self.enable_gui==True:
-							self.terminal.run(self.jobs[i],get_exe_command()+" --lock "+"lock"+str(i)+" "+self.args[i]+" --gui --html")
+							self.terminal.run(self.jobs[i],get_exe_command()+" --lock "+"lock"+str(i)+" "+self.args[i]+get_exe_args())
 						else:
 							print(cmd)
 							os.system(cmd)
@@ -271,7 +272,7 @@ class server(QWidget,cluster):
 		if self.display!=False:
 
 			self.display()
-		print(_("I have shut down the server."))
+		#print(_("I have shut down the server."))
 
 
 	def simple_run(self):

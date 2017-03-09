@@ -29,6 +29,8 @@
 #include <cal_path.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <lang.h>
+
 
 gdouble min_pos_error=1e-4;
 
@@ -516,7 +518,7 @@ gdouble kTq=(in->Te[z][x][0]*kb/Q);
 
 		//if (get_dump_status(sim,dump_print_pos_error)==TRUE)
 		{
-			printf_log(sim,"%d Pos error = %Le %d\n",ittr,error,adv);
+			printf_log(sim,"%d %s = %Le %d\n",ittr,_("Poisson solver error"),error,adv);
 		}
 		//#endif
 

@@ -253,7 +253,7 @@ class scan_class(QWidget):
 
 		menubar = QMenuBar()
 
-		file_menu = menubar.addMenu('&File')
+		file_menu = menubar.addMenu("&"+_("File"))
 		self.menu_change_dir=file_menu.addAction(_("Change dir"))
 		self.menu_change_dir.triggered.connect(self.callback_close)
 		self.menu_close=file_menu.addAction(_("Close"))

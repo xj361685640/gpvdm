@@ -96,11 +96,7 @@ cube_rotate_x_rate = 0.2
 cube_rotate_y_rate = 0.2
 cube_rotate_z_rate = 0.2
 
-# Rotation rates for the tetrahedron.
-tet_x_rate = 0.0
-tet_y_rate = 1.0
-tet_z_rate = 0.5
-tet_rotate_step = 10.0
+
 
 def tab(x,y,z,w,h,d):
 
@@ -218,7 +214,7 @@ class color():
 
 if open_gl_ok==True:		
 	class glWidget(QGLWidget):
-		tet_rotate = 0.0
+
 		colors=[]
 		def __init__(self, parent):
 			self.failed=True
@@ -346,6 +342,7 @@ if open_gl_ok==True:
 				for i in range(0,len(x)):
 					for ii in range(0,len(y)):
 							draw_photon(x[i]+0.1,y[ii]+0.1,True)
+
 		def do_draw(self):
 			dos_start=-1
 			dos_stop=-1
@@ -490,10 +487,6 @@ if open_gl_ok==True:
 					self.renderText (max_gui_device_x+0.1,pos+thick/2,max_gui_device_z, text,font)
 
 				pos=pos+thick+dy_layer_offset
-
-
-		
-				glRotatef(self.tet_rotate, tet_x_rate, tet_y_rate, tet_z_rate)
 
 			draw_mode(pos-dy_layer_offset,max_gui_device_z)
 			draw_rays(self.ray_file,pos-dy_layer_offset,max_gui_device_x,self.y_mul,max_gui_device_z*1.05)

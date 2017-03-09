@@ -185,10 +185,8 @@ class about_dlg(QDialog):
 		self.materials.clear()
 	
 		all_files=find_materials()
-		print(all_files)
 		for fl in all_files:
 			text=get_ref_text(os.path.join(get_materials_path(),fl,"n.omat"),html=False)
-			print(os.path.join(get_materials_path(),fl,"n.omat"),text)
 			if text!=None:
 				itm = QListWidgetItem(os.path.basename(fl)+" "+text)
 				itm.setIcon(self.mat_icon)

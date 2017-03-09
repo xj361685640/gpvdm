@@ -75,7 +75,11 @@ def cal_share_path():
 			winreg.CloseKey(registry_key)
 			share_path=value
 		except WindowsError:
-			share_path="c:\\gpvdm"
+			if os.path.isfile(os.path.join(os.getcwd(),"gpvdm_core.exe")):
+				share_path=os.getcwd()
+			else:
+				share_path="c:\\gpvdm"
+
 			print("No registry key found using default",share_path)
 	else:
 		if os.path.isdir("/usr/lib64/gpvdm"):
@@ -211,6 +215,8 @@ def get_ui_path():
 	global ui_path
 	return ui_path
 
+def get_exe_args():
+	return "--gui --html --english"
 
 def find_materials():
 	ret=[]

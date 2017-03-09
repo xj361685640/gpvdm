@@ -40,6 +40,8 @@ from win_lin import running_on_linux
 #paths
 from cal_path import get_bin_path
 from cal_path import get_image_file_path
+from cal_path import get_exe_args
+
 from code_ctrl import enable_webbrowser
 from cal_path import get_exe_command
 from epitaxy import epitaxy_print
@@ -225,7 +227,7 @@ class gpvdm_notebook(QTabWidget):
 			self.terminal=tab_terminal()
 			self.terminal.init()
 			self.addTab(self.terminal,_("Terminal"))
-			self.terminal.run(os.getcwd(),get_exe_command()+" --version --html")
+			self.terminal.run(os.getcwd(),get_exe_command()+" --version "+get_exe_args())
 
 			#self.add_info_page()
 

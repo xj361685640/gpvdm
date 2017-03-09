@@ -24,9 +24,10 @@ import locale
 import gettext
 from cal_path import get_lang_path
 from inp import inp_get_token_value
-
+from cal_path import get_inp_file_path
 locale_path = get_lang_path()
-file_lang=inp_get_token_value("lang.inp", "#lang")
+config_path =os.path.join(get_inp_file_path(),"lang.inp")
+file_lang=inp_get_token_value(config_path, "#lang")
 if file_lang==None:
 	file_lang="auto"
 

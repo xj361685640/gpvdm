@@ -94,6 +94,7 @@ class ribbon(QTabWidget):
 
 			
 	def readStyleSheet(self,fileName):
+		css=None
 		file = QFile(fileName)
 		if file.open(QIODevice.ReadOnly) :
 			css = file.readAll()
@@ -149,8 +150,8 @@ class ribbon(QTabWidget):
 		self.addTab(self.information,_("Information"))
 
 		#self.setStyleSheet("QWidget {	background-color:cyan; }") 
-		aaa=self.readStyleSheet(os.path.join(get_css_path(),"style.css"))
-		aaa=str(aaa,'utf-8')
-		#print(aaa.decode("utf-8") ,"QWidget {	background-color:cyan; }")
-		self.setStyleSheet(aaa)
+		sheet=self.readStyleSheet(os.path.join(get_css_path(),"style.css"))
+		if sheet!=None:
+			sheet=str(sheet,'utf-8')
+			self.setStyleSheet(sheet)
 

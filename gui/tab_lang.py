@@ -34,7 +34,7 @@ from inp import inp_get_token_value
 from util import latex_to_html
 from i18n import yes_no
 from cal_path import get_image_file_path
-from cal_path import get_inp_file_path
+from cal_path import get_share_path
 from gtkswitch import gtkswitch
 from leftright import leftright
 from help import help_window
@@ -58,7 +58,7 @@ class language_tab_class(QWidget,tab_base):
 		self.tab=QHBoxLayout()
 		widget=QWidget()
 		widget.setLayout(self.tab)
-		self.file_path=os.path.join(get_inp_file_path(),"lang.inp")
+		self.file_path=os.path.join(get_share_path(),"lang.inp")
 
 		title_label=QLabel()
 		title_label.setWordWrap(True)

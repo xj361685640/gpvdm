@@ -65,6 +65,8 @@ lib.append(my_data("#srhsigman_e","m^{-2}",_("Free electron to Trapped electron"
 lib.append(my_data("#srhsigmap_e","m^{-2}",_("Trapped electron to Free hole"),["text"],"e",1.0))
 lib.append(my_data("#srhsigman_h","m^{-2}",_("Trapped hole to Free electron"),["text"],"e",1.0))
 lib.append(my_data("#srhsigmap_h","m^{-2}",_("Free hole to Trapped hole"),["text"],"e",1.0))
+lib.append(my_data("#free_to_free_recombination","m^{3}s^{-1}",_("n_{free} to p_{free} Recombination rate constant"),["text"],"e",1.0))
+
 
 #stark.inp
 lib.append(my_data("#stark_startime","s",_("startime"),["text"],"e",1.0))
@@ -428,7 +430,6 @@ lib.append(my_data("#pl_te_fh","0.0-1.0",_("n_{trap} to p_{free} photon generati
 lib.append(my_data("#pl_th_fe","0.0-1.0",_("p_{trap} to n_{free} photon generation efficiency"),["text"],"e",1.0))
 lib.append(my_data("#pl_fh_th","0.0-1.0",_("p_{free} to p_{trap} photon generation efficiency"),["text"],"e",1.0))
 
-lib.append(my_data("#free_to_free_recombination","0.0-1.0",_("n_{free} to p_{free} Recombination rate constant"),["text"],"e",1.0))
 
 
 

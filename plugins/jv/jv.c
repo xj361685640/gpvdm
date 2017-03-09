@@ -292,7 +292,7 @@ if (get_dump_status(sim,dump_print_text)==TRUE)
 	printf_log(sim,"Voc= %Lf (V)\n",in->Voc);
 	printf_log(sim,"Jsc= %Lf (A/m^2)\n",in->Jsc);
 	printf_log(sim,"Pmax= %Lf (W/m^2)\n",in->Pmax);
-	printf_log(sim,"Pmax %s= %Lf (V)\n",in->Pmax_voltage,_("Voltage"));
+	printf_log(sim,"Pmax %s= %Lf (V)\n",_("Voltage"),in->Pmax_voltage);
 	printf_log(sim,"FF= %Lf\n",in->FF*100.0);
 	printf_log(sim,"%s= %Lf percent\n",_("Efficiency"),gfabs(in->Pmax/light_get_sun(&(in->mylight))/1000)*100.0);
 }

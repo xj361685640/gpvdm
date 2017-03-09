@@ -49,6 +49,8 @@ from server import server_get
 from fit_window import fit_window
 from cmp_class import cmp_class
 
+from global_objects import global_object_run
+
 class ribbon_home(QToolBar):
 	def __init__(self):
 		QToolBar.__init__(self)
@@ -95,6 +97,7 @@ class ribbon_home(QToolBar):
 		self.addSeparator()
 
 		self.sun=tb_item_sun()
+		self.sun.changed.connect(self.callback_sun)
 		self.addWidget(self.sun)
 
 		spacer = QWidget()
@@ -104,6 +107,9 @@ class ribbon_home(QToolBar):
 		self.help = QAction(QIcon(os.path.join(get_image_file_path(),"man.png")), _("Help"), self)
 		self.addAction(self.help)
 
+	def callback_sun(self):
+		global_object_run("gl_force_redraw")
+		
 	def update(self):
 		if self.scan_window!=None:
 			del self.scan_window
