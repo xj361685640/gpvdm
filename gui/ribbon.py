@@ -59,8 +59,8 @@ class ribbon(QTabWidget):
 		toolbar.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
 		toolbar.setIconSize(QSize(42, 42))
 		
-		self.home_new = QAction(QIcon(os.path.join(get_image_file_path(),"new.png")), _("Make a new simulation"), self)
-		self.home_new.setText("New\nsimulation")
+		self.home_new = QAction(QIcon(os.path.join(get_image_file_path(),"new.png")), _("New simulation").replace(" ","\n"), self)
+		#self.home_new.setText(_("New\nsimulation"))
 		toolbar.addAction(self.home_new)
 
 		self.home_open = QAction(QIcon(os.path.join(get_image_file_path(),"open.png")), _("Open\nsimulation"), self)

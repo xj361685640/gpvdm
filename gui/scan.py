@@ -350,7 +350,7 @@ class scan_class(QWidget):
 		toolbar.addWidget(spacer)
 
 
-		self.help = QAction(QIcon(os.path.join(get_image_file_path(),"help.png")), _("Hide"), self)
+		self.help = QAction(QIcon(os.path.join(get_image_file_path(),"help.png")), _("Help"), self)
 		self.help.setStatusTip(_("Close"))
 		self.help.triggered.connect(self.callback_help)
 		toolbar.addAction(self.help)

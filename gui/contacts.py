@@ -65,6 +65,9 @@ from util import str2bool
 from gui_util import error_dlg
 
 from global_objects import global_object_run
+
+from QComboBoxLang import QComboBoxLang
+
 class contacts_window(QWidget):
 
 	visible=1
@@ -93,7 +96,7 @@ class contacts_window(QWidget):
 		self.tab.blockSignals(True)
 		self.tab.setItem(pos,0,QTableWidgetItem(name))
 
-		combobox = QComboBox()
+		combobox = QComboBoxLang()
 		combobox.addItem("top")
 		combobox.addItem("bottom")
 
@@ -101,7 +104,7 @@ class contacts_window(QWidget):
 		combobox.setCurrentIndex(combobox.findText(top_btm.lower()))
 		combobox.currentIndexChanged.connect(self.save)
 
-		combobox = QComboBox()
+		combobox = QComboBoxLang()
 		combobox.addItem("true")
 		combobox.addItem("false")
 
@@ -194,7 +197,7 @@ class contacts_window(QWidget):
 		toolbar.addWidget(spacer)
 
 
-		self.help = QAction(QIcon(os.path.join(get_image_file_path(),"help.png")), _("Hide"), self)
+		self.help = QAction(QIcon(os.path.join(get_image_file_path(),"help.png")), _("Help"), self)
 		self.help.setStatusTip(_("Close"))
 		self.help.triggered.connect(self.callback_help)
 		toolbar.addAction(self.help)

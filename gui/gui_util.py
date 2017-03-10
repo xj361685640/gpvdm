@@ -27,6 +27,7 @@ from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction,QApplication,QTableW
 from PyQt5.uic import loadUi
 from PyQt5.QtGui import QPixmap
 
+from QComboBoxLang import QComboBoxLang
 
 #windows
 from cal_path import get_ui_path
@@ -54,6 +55,8 @@ def process_events():
 def tab_get_value(tab,y,x):
 	if type(tab.cellWidget(y, x))==QComboBox:
 		return tab.cellWidget(y, x).currentText()
+	elif type(tab.cellWidget(y, x))==QComboBoxLang:
+		return tab.cellWidget(y, x).currentText()
 	elif type(tab.cellWidget(y,x))==gpvdm_select:
 		return tab.cellWidget(y, x).text()
 	else:
@@ -61,6 +64,10 @@ def tab_get_value(tab,y,x):
 
 def tab_set_value(tab,y,x,value):
 	if type(tab.cellWidget(y, x))==QComboBox:
+		tab.cellWidget(y, x).blockSignals(True)
+		tab.cellWidget(y, x).setCurrentIndex(tab.cellWidget(y, x).findText(value))
+		tab.cellWidget(y, x).blockSignals(False)
+	elif type(tab.cellWidget(y, x))==QComboBoxLang:
 		tab.cellWidget(y, x).blockSignals(True)
 		tab.cellWidget(y, x).setCurrentIndex(tab.cellWidget(y, x).findText(value))
 		tab.cellWidget(y, x).blockSignals(False)

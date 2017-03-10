@@ -64,7 +64,7 @@ class sim_info(QWidget):
 		toolbar.addWidget(spacer)
 
 
-		self.help = QAction(QIcon(os.path.join(get_image_file_path(),"help.png")), 'Hide', self)
+		self.help = QAction(QIcon(os.path.join(get_image_file_path(),"help.png")), _("Help"), self)
 		self.help.setStatusTip(_("Close"))
 		self.help.triggered.connect(self.callback_help)
 		toolbar.addAction(self.help)
@@ -80,7 +80,7 @@ class sim_info(QWidget):
 
 
 		files=[file_name]
-		description=["Simulation Information"]
+		description=[_("Simulation Information")]
 
 
 		for i in range(0,len(files)):
