@@ -92,7 +92,7 @@ msgstr "补丁文件末尾有错误\n"
 
 #: ../liblight/light_memory.c:192
 msgid "Freeing memory from the optical model\n"
-msgstr ""
+msgstr "光学模型中清空内存\n"
 
 #: ../liblight/light_utils.c:63
 msgid "It's dark I know what the answer is\n"
@@ -340,11 +340,11 @@ msgstr "电流的虚部"
 
 #: ../plugins/light_full/light.c:39
 msgid "Full transfer matrix based light model"
-msgstr ""
+msgstr "基于光学模形的完全转移矩阵"
 
 #: ../plugins/light_full/light.c:52
 msgid "Solve optical slice at"
-msgstr ""
+msgstr "在这个位置求解光学层："
 
 #: ../plugins/jv/jv.c:46
 msgid "Running JV simulation\n"
@@ -357,7 +357,7 @@ msgstr "正在停止，因为Vexternal %Le>%Le\n"
 
 #: ../plugins/jv/jv.c:297
 msgid "Efficiency"
-msgstr ""
+msgstr "效率"
 
 #: ../plugins/jv/jv.c:335 ../plugins/jv/jv.c:338 ../libdump/dump_1d_slice.c:342
 #: ../libdump/dump_1d_slice.c:957 ../libdump/dump_1d_slice.c:986
@@ -371,24 +371,24 @@ msgstr "电荷密度"
 #: ../plugins/jv/jv.c:335 ../plugins/jv/jv.c:359 ../plugins/jv/jv.c:378
 #: ../plugins/jv/jv.c:397 ../plugins/jv/jv.c:416
 msgid "Applied voltage"
-msgstr ""
+msgstr "外加电压"
 
 #: ../plugins/jv/jv.c:337 ../plugins/jv/jv.c:361 ../plugins/jv/jv.c:380
 #: ../plugins/jv/jv.c:399 ../plugins/jv/jv.c:418
 msgid "Applied Voltage"
-msgstr ""
+msgstr "外加电压"
 
 #: ../plugins/jv/jv.c:416
 msgid "Current "
-msgstr ""
+msgstr "电流"
 
 #: ../plugins/jv/jv.c:435 ../plugins/jv/jv.c:456
 msgid "Light generated"
-msgstr ""
+msgstr "生成的光"
 
 #: ../plugins/jv/jv.c:459
 msgid "Light power"
-msgstr ""
+msgstr "光功率"
 
 #: ../libserver/server.c:111
 msgid "Job stalled. Time since last run:"
@@ -416,11 +416,11 @@ msgstr "服务器已经关闭"
 
 #: ../libserver/server.c:246
 msgid "Start time"
-msgstr ""
+msgstr "起始时间"
 
 #: ../libserver/server.c:249
 msgid "End time"
-msgstr ""
+msgstr "截止时间"
 
 #: ../libserver/server.c:508
 msgid "All jobs finished jobs"
@@ -533,32 +533,32 @@ msgstr "n"
 
 #: ../src/initial.c:257
 msgid "Holes on left contact"
-msgstr ""
+msgstr "左接触层的空穴"
 
 #: ../src/initial.c:258
 msgid "Electrons on left contact"
-msgstr ""
+msgstr "左接触层的电子"
 
 #: ../src/initial.c:260
 msgid "Holes on right contact"
-msgstr ""
+msgstr "右接触层的空穴"
 
 #: ../src/initial.c:261
 msgid "Electrons on right contact"
-msgstr ""
+msgstr "右接触层的电子"
 
 #: ../src/main.c:125
 #, python-format
 msgid "gpvdm_core, Version %s\n"
-msgstr ""
+msgstr "gpvdm_core,版本%s\n"
 
 #: ../src/main.c:128
 msgid "There is ABSOLUTELY NO WARRANTY; not even for MERCHANTABILITY or\n"
-msgstr ""
+msgstr "绝对没有保证书，甚至连可买卖性也没有\n"
 
 #: ../src/main.c:129
 msgid "FITNESS FOR A PARTICULAR PURPOSE.\n"
-msgstr ""
+msgstr "为某个特定目的的拟合\n"
 
 #: ../src/main.c:180
 msgid "General-purpose Photovoltaic Device Model (https://www.gpvdm.com)\n"
@@ -598,7 +598,7 @@ msgstr "加载DoS"
 
 #: ../gui/pl_main.py:77
 msgid "Luminescence of "
-msgstr ""
+msgstr "光强"
 
 #: ../gui/pl_main.py:87 ../gui/gpvdm_notebook.py:98
 msgid ""
@@ -674,11 +674,11 @@ msgstr "能量"
 
 #: ../gui/qe.py:81
 msgid "No file"
-msgstr ""
+msgstr "无文件"
 
 #: ../gui/qe.py:101
 msgid "Quantum Efficiency calculator"
-msgstr ""
+msgstr "量子效率计算器"
 
 #: ../gui/qe.py:119 ../gui/fit_window_plot_real.py:130
 #: ../gui/plot_widget.py:564
@@ -697,7 +697,7 @@ msgstr "负载类型"
 msgid ""
 "Electrical\n"
 "mesh"
-msgstr ""
+msgstr "电器网格"
 
 #: ../gui/ribbon_configure.py:81
 msgid ""
@@ -720,7 +720,7 @@ msgstr "波长"
 
 #: ../gui/progress.py:49
 msgid "Running"
-msgstr ""
+msgstr "运行中"
 
 #: ../gui/fit_tab.py:72
 msgid "Experimental data"
@@ -808,7 +808,7 @@ msgstr "连续激光"
 
 #: ../gui/tmesh.py:159
 msgid "Enter the time at which the laser pulse will fire (-1) to turn it off"
-msgstr ""
+msgstr "当激光脉冲发射的时候输入时间来关掉激光"
 
 #: ../gui/tmesh.py:203
 msgid "Voltage (Volts)"
@@ -1195,7 +1195,7 @@ msgstr "<big><b>将最少数据写入磁盘（快速）</b></big><br>"
 msgid ""
 "Data dump\n"
 "control"
-msgstr ""
+msgstr "数据转存控制"
 
 #: ../gui/experiment.py:76 ../gui/fxexperiment.py:72
 msgid "New experiment name"
@@ -1211,7 +1211,7 @@ msgstr "将当前实验复制到新实验名为："
 
 #: ../gui/experiment.py:96 ../gui/experiment.py:99
 msgid "Error copying file"
-msgstr ""
+msgstr "复制文件时发生错误"
 
 #: ../gui/experiment.py:112 ../gui/fxexperiment.py:117
 msgid "Rename the experiment to be called"
@@ -1266,7 +1266,7 @@ msgstr "点击获取更多信息"
 msgid ""
 "To make a new simulation click <i><u>N</u>ew Simulation</i> in the menu or "
 "to open an existing simulation select <i><u>O</u>pen simulation</i>. "
-msgstr ""
+msgstr "点击菜单中的仿真选项来创建一个新的仿真文件，或者选择打开显存仿真选项来打开一个 现存的仿真文件"
 
 #: ../gui/information_noweb.py:67
 msgid ""
@@ -1314,11 +1314,11 @@ msgstr "新建仿真"
 
 #: ../gui/new_simulation.py:93
 msgid "Which type of device would you like to simulate?"
-msgstr ""
+msgstr "您想仿真哪种类型的器件？"
 
 #: ../gui/new_simulation.py:101 ../gui/help.py:114
 msgid "Next"
-msgstr ""
+msgstr "下一步"
 
 #: ../gui/new_simulation.py:102 ../gui/dlg_get_multi_text.py:72
 #: ../gui/scan_select.py:72
@@ -1473,7 +1473,7 @@ msgstr "参数扫描"
 msgid ""
 "Fit\n"
 "data"
-msgstr ""
+msgstr "拟合数据"
 
 #: ../gui/ribbon_home.py:87
 msgid ""
@@ -1487,7 +1487,7 @@ msgstr ""
 msgid ""
 "Examine results\n"
 "in time domain"
-msgstr ""
+msgstr "时域中检查结果"
 
 #: ../gui/ribbon_home.py:129
 msgid ""
@@ -1600,7 +1600,7 @@ msgstr "<big><b>现在运行仿真</b></big><br> 单击播放图标开始仿真�
 
 #: ../gui/gpvdm.py:245 ../gui/ribbon.py:133
 msgid "Home"
-msgstr ""
+msgstr "主页"
 
 #: ../gui/gpvdm.py:255
 msgid ""
@@ -1642,19 +1642,19 @@ msgstr "稳态仿真编辑器"
 msgid ""
 "Quantum\n"
 "efficiency"
-msgstr ""
+msgstr "量子效率"
 
 #: ../gui/ribbon_simulations.py:89
 msgid ""
 "Optical\n"
 "Simulation"
-msgstr ""
+msgstr "光学仿真"
 
 #: ../gui/ribbon_simulations.py:93
 msgid ""
 "Laser\n"
 "editor"
-msgstr ""
+msgstr "激光编辑器"
 
 #: ../gui/ribbon_simulations.py:135
 msgid ""
@@ -1794,13 +1794,13 @@ msgstr "掺杂"
 msgid ""
 "Materials\n"
 "database"
-msgstr ""
+msgstr "材料数据库"
 
 #: ../gui/ribbon_device.py:71
 msgid ""
 "Calculate\n"
 "the cost"
-msgstr ""
+msgstr "计算成本"
 
 #: ../gui/ribbon_device.py:75
 msgid "Contacts"
@@ -1810,7 +1810,7 @@ msgstr "接触"
 msgid ""
 "Parasitic\n"
 " components"
-msgstr ""
+msgstr "寄生元件"
 
 #: ../gui/ribbon_device.py:112
 msgid ""
@@ -1832,7 +1832,7 @@ msgstr ""
 msgid ""
 "<big><b>Parasitic components</b></big>\n"
 "Use this window to edit the shunt and series resistance."
-msgstr ""
+msgstr "使用此窗口来编辑串联和并联电阻"
 
 #: ../gui/ribbon_device.py:160
 msgid ""
@@ -1962,19 +1962,19 @@ msgstr "许可证"
 msgid ""
 "How to\n"
 "cite"
-msgstr ""
+msgstr "如何引用"
 
 #: ../gui/ribbon_information.py:59
 msgid ""
 "Hints\n"
 "Window"
-msgstr ""
+msgstr "提示窗口"
 
 #: ../gui/ribbon_information.py:71
 msgid ""
 "Youtube\n"
 "channel"
-msgstr ""
+msgstr "Youtube频道"
 
 #: ../gui/tb_item_sim_mode.py:94
 msgid "Simulation mode:"
@@ -1994,7 +1994,7 @@ msgstr "打开仿真"
 msgid ""
 "Export\n"
 "data"
-msgstr ""
+msgstr "拟合数据"
 
 #: ../gui/ribbon.py:124 ../gui/cool_menu.py:68 ../gui/about.py:49
 #: ../gui/about.py:81 ../gui/status_icon.py:48
@@ -2007,7 +2007,7 @@ msgstr "仿真"
 
 #: ../gui/ribbon.py:146
 msgid "Cluster"
-msgstr ""
+msgstr "多层"
 
 #: ../gui/inp_description.py:38
 msgid "JV"
@@ -2059,11 +2059,11 @@ msgstr "光强 开路电压"
 
 #: ../gui/inp_description.py:51
 msgid "TPC"
-msgstr ""
+msgstr "TPC"
 
 #: ../gui/inp_description.py:52
 msgid "Fit"
-msgstr ""
+msgstr "拟合"
 
 #: ../gui/inp_description.py:54
 msgid "Density of States"
@@ -2461,7 +2461,7 @@ msgstr ""
 
 #: ../gui/server.py:199
 msgid "Running job "
-msgstr ""
+msgstr "正在运行的任务"
 
 #: ../gui/server.py:274
 msgid "I have shut down the server."
@@ -2481,11 +2481,11 @@ msgstr "主页"
 
 #: ../gui/ref.py:64 ../gui/ref.py:69
 msgid "Data provided by"
-msgstr ""
+msgstr "数据提供者："
 
 #: ../gui/ref.py:65
 msgid "Associated paper"
-msgstr ""
+msgstr "相关论文"
 
 #: ../gui/ref.py:82
 msgid "Reference manager"
@@ -2493,7 +2493,7 @@ msgstr "参考管理"
 
 #: ../gui/ref.py:102
 msgid "Reference"
-msgstr ""
+msgstr "参考"
 
 #: ../gui/ref.py:161
 msgid "New file"
@@ -2637,7 +2637,7 @@ msgstr "外源文件，数字现在应该用国际单位制。"
 
 #: ../gui/about.py:53
 msgid "Written by Roderick MacKenzie 2012-2017, published under GPL v2.0"
-msgstr ""
+msgstr "本软件由Roderick MacKenzie在2012~2017年开发，在GPL2.0版本下出版"
 
 #: ../gui/about.py:55
 msgid "Version "
@@ -2649,27 +2649,27 @@ msgid ""
 "devices. It was originally written to simulate organic solar cells and "
 "OLEDs, but it has recently been extended to simulate other devices including "
 "silicon based devices. Currently the model can sumulate:"
-msgstr ""
+msgstr "本软件是一个免费的通用工具，用来模拟捕获光的器件的模拟。最初设计时用于模拟有机 太阳电池和OLED电池，但最近经更新拓展，其可模拟其他器件，包括基于硅材料的器件。目前本模型 可以用来模拟："
 
 #: ../gui/about.py:70
 msgid "Organic solar cells"
-msgstr ""
+msgstr "有机太阳能电池"
 
 #: ../gui/about.py:71
 msgid "Organic LEDs"
-msgstr ""
+msgstr "有机发光二极管"
 
 #: ../gui/about.py:72
 msgid "Crystalline silicon solar cells"
-msgstr ""
+msgstr "结晶硅太阳能电池"
 
 #: ../gui/about.py:73
 msgid "a-Si solar cells"
-msgstr ""
+msgstr "非硅太阳能电池"
 
 #: ../gui/about.py:74
 msgid "CIGS solar cells"
-msgstr ""
+msgstr "CIGS铜铟镓硒太阳电池"
 
 #: ../gui/about.py:76
 msgid ""
@@ -2682,20 +2682,20 @@ msgid ""
 "solved either in steady state or in time domain. A fuller description of the "
 "model can be found in the here, in the associated publications and in the "
 "manual."
-msgstr ""
+msgstr "本模型可求解有关电子空穴漂移扩散的问题，及在器件中用于描述坐标系中 载流子连续性方程的问题。本模型也可用于求解泊松方程，来计算内部静电势能。复合和载流子被俘获 用一个基于Shockley-Read-Hall模型来描述，俘获状态的分布可以随机定义。上述所有方程 要么可以在稳态中求解，要么能在时域中求解。在此处、或者附带的出版物和手册中可以找到对此模型更详尽的描述。"
 
 #: ../gui/about.py:85
 msgid ""
 "General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-"
 "Read-Hall model"
-msgstr ""
+msgstr "通用光伏器件模型--一个基于漂移扩散/肖克里雷德-霍尔模型"
 
 #: ../gui/about.py:89
 msgid ""
 "This program is free software; you can redistribute it and/or modify it "
 "under the terms of the GNU General Public License v2.0, as published by the "
 "Free Software Foundation."
-msgstr ""
+msgstr "本程序完全免费。您可以转发此软件，改动此软件。但必须依据由免费软件基金会 出版的GNU通用公共许可证2.0版本的条款。"
 
 #: ../gui/about.py:93
 msgid ""
@@ -2703,15 +2703,15 @@ msgid ""
 "ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
 "FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for "
 "more details."
-msgstr ""
+msgstr "本程序已共享，希望有益于大众，但是不包括任何保证书，甚至不包括针对某特殊意图进行销售 改版所暗含的保证书。详情参见GNU通用公共许可证。"
 
 #: ../gui/about.py:97
 msgid ""
 "You should have received a copy of the GNU General Public License along with "
 "this program; if not, write to the Free Software Foundation, Inc., 51 "
 "Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA."
-msgstr ""
-
+msgstr "和这个程序一起，您应该已经获得了一份GNU通用公共许可证的拷贝。如果没有， 向以下地址写信：Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA."
+ 
 #: ../gui/about.py:101
 msgid ""
 "When you start gpvdm the software checks the gpvdm.com server for updates "
@@ -2721,15 +2721,15 @@ msgid ""
 "this information to the gpvdm.com server.  The communications  process "
 "between gpvdm software and the gpvdm.com server is described in more detail "
 "in the manual."
-msgstr ""
+msgstr "当您启动本软件时，软件会到gpvdm.com的服务器上检查更新和报错情况。为此，软件将会传送您的操作系统 类型，版本数。同样地，软件告知服务器开放图形库是否在您的个人计算机上工作 。安装此软件时， 您已同意本软件可能会将这些信息传送给服务器。软件和服务器之间的通讯处理过程在手册中有 更详细的描述。"
 
 #: ../gui/about.py:140
 msgid "Translations"
-msgstr ""
+msgstr "翻译"
 
 #: ../gui/about.py:143
 msgid "Materials"
-msgstr ""
+msgstr "材料"
 
 #: ../gui/scan_select.py:60
 msgid "Select simulation parameter"
@@ -2765,7 +2765,7 @@ msgstr "插入参考信息"
 
 #: ../gui/equation.py:299
 msgid "Calculate"
-msgstr ""
+msgstr "计算"
 
 #: ../gui/ver.py:94
 msgid "version.h not found"
@@ -2773,11 +2773,11 @@ msgstr "version.h 未发现此版本"
 
 #: ../gui/help.py:110
 msgid "Back"
-msgstr ""
+msgstr "返回"
 
 #: ../gui/help.py:124
 msgid "Online help"
-msgstr ""
+msgstr "在线帮助"
 
 #: ../gui/help.py:125
 msgid "On line help"
@@ -2785,19 +2785,19 @@ msgstr "在线帮助"
 
 #: ../gui/help.py:241
 msgid "gpvdm in your language!"
-msgstr ""
+msgstr "用你的语言运行"
 
 #: ../gui/help.py:243
 msgid "gpvdm translated by:"
-msgstr ""
+msgstr "本软件翻译者如下："
 
 #: ../gui/parasitic.py:55
 msgid "Edit parasitic components"
-msgstr ""
+msgstr "编辑寄生元件"
 
 #: ../gui/parasitic.py:84
 msgid "Parasitic components"
-msgstr ""
+msgstr "寄生元件"
 
 #: ../gui/fxexperiment_tab.py:61
 msgid "Frequency mesh"
@@ -2853,7 +2853,7 @@ msgstr "空穴生成率"
 
 #: ../gui/token_lib.py:51 ../gui/token_lib.py:397
 msgid "filename"
-msgstr ""
+msgstr "文件名称"
 
 #: ../gui/token_lib.py:51
 msgid "Sun's spectra"
@@ -3031,7 +3031,7 @@ msgstr "填充因子"
 
 #: ../gui/token_lib.py:110
 msgid "Max power"
-msgstr ""
+msgstr "最大功率"
 
 #: ../gui/token_lib.py:127
 msgid "Max Electrical itterations (first step)"
@@ -3039,11 +3039,11 @@ msgstr ""
 
 #: ../gui/token_lib.py:128
 msgid "Electrical clamp (first step)"
-msgstr ""
+msgstr "电夹（第一步）"
 
 #: ../gui/token_lib.py:129
 msgid "Desired electrical solver error (first step)"
-msgstr ""
+msgstr "预期电气求解器出现错误（第一步）"
 
 #: ../gui/token_lib.py:130 ../gui/token_lib.py:136 ../gui/token_lib.py:147
 #: ../gui/token_lib.py:162 ../gui/token_lib.py:163 ../gui/token_lib.py:164
@@ -3063,7 +3063,7 @@ msgstr "真确/错误"
 
 #: ../gui/token_lib.py:130
 msgid "Enable poisson solver"
-msgstr ""
+msgstr "使用泊松方程求解器"
 
 #: ../gui/token_lib.py:131
 msgid "Max electrical itterations"
@@ -3091,7 +3091,7 @@ msgstr "牛顿最小迭代"
 
 #: ../gui/token_lib.py:138 ../gui/token_lib.py:139
 msgid "dll name"
-msgstr ""
+msgstr "名称"
 
 #: ../gui/token_lib.py:138
 msgid "Matrix solver to use"
@@ -3115,7 +3115,7 @@ msgstr ""
 
 #: ../gui/token_lib.py:146
 msgid "Fit error multiplyer"
-msgstr ""
+msgstr "累乘器拟合失败"
 
 #: ../gui/token_lib.py:147
 msgid "Randomize fit"
@@ -3127,7 +3127,7 @@ msgstr "随机设置间的迭代次数"
 
 #: ../gui/token_lib.py:149
 msgid "Stall steps"
-msgstr ""
+msgstr "安装步骤"
 
 #: ../gui/token_lib.py:150
 msgid "Disable reset at level"
@@ -3557,7 +3557,7 @@ msgstr "拷贝状态"
 
 #: ../gui/plot_widget.py:170
 msgid "I don't know how to process this type of file!"
-msgstr ""
+msgstr "我不知道如何处理此类文件！"
 
 #: ../gui/plot_widget.py:176 ../libdump/dump_dynamic.c:502
 #: ../libdump/dump_dynamic.c:522 ../libdump/dump_dynamic.c:853
@@ -3574,7 +3574,7 @@ msgstr "刷新图像"
 
 #: ../gui/plot_widget.py:592
 msgid "Key"
-msgstr ""
+msgstr "关键"
 
 #: ../gui/plot_widget.py:594 ../gui/plot_widget.py:601
 msgid "Color"
