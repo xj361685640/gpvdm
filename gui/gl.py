@@ -476,7 +476,7 @@ if open_gl_ok==True:
 				
 
 				if epitaxy_get_electrical_layer(l-i).startswith("dos")==True:
-					text=epitaxy_get_name(l-i)+" (active)"
+					text=epitaxy_get_name(l-i)+" ("+_("active")+")"
 				else:
 					text=epitaxy_get_name(l-i)
 

@@ -73,7 +73,7 @@ class electrical_mesh_editor(QGroupBox):
 		self.tab.blockSignals(False)
 		self.changed.emit()
 
-	def on_remove_click(self, button, treeview):
+	def on_remove_click(self):
 		self.tab.blockSignals(True)
 		index = self.tab.selectionModel().selectedRows()
 

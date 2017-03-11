@@ -60,7 +60,7 @@ class tab_terminal(QWidget,tab_base):
 	
 			if self.process[i].state()==QProcess.NotRunning:
 				cursor = self.terminals[i].textCursor()
-				cursor.insertHtml("Running:"+command+"<br>")
+				cursor.insertHtml(_("Running: ")+command+"<br>")
 				self.process[i].setWorkingDirectory(path)
 
 				if running_on_linux()==False:
@@ -72,7 +72,7 @@ class tab_terminal(QWidget,tab_base):
 				self.process[i].start(command)
 				return
 
-		print("I could not find a free cpu to run the command on")
+		print(_("I could not find a free cpu to run the command on"))
 
 	def init(self):
 		self.cpus=multiprocessing.cpu_count()

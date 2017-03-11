@@ -216,7 +216,7 @@ def get_ui_path():
 	return ui_path
 
 def get_exe_args():
-	return "--gui --html --english"
+	return "--gui --html" #--english
 
 def find_materials():
 	ret=[]

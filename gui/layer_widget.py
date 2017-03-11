@@ -74,6 +74,7 @@ from PyQt5.QtWidgets import QWidget
 
 from global_objects import global_object_run
 
+from QComboBoxLang import QComboBoxLang
 
 import i18n
 _ = i18n.language.gettext
@@ -260,15 +261,15 @@ class layer_widget(QWidget):
 		
 		#item3 = QTableWidgetItem(str(dos_file))
 		#self.tab.setItem(i,3,item3)
-		combobox_layer_type = QComboBox()
+		combobox_layer_type = QComboBoxLang()
 		#combobox.setEditable(True)
 
-		combobox_layer_type.addItem("contact")
-		combobox_layer_type.addItem("active layer")
-		combobox_layer_type.addItem("other")
+		combobox_layer_type.addItemLang("contact",_("contact"))
+		combobox_layer_type.addItemLang("active layer",_("active layer"))
+		combobox_layer_type.addItemLang("other",_("other"))
 
 		self.tab.setCellWidget(i,3, combobox_layer_type)
-		combobox_layer_type.setCurrentIndex(combobox_layer_type.findText(str(dos_file).lower()))
+		combobox_layer_type.setValue_using_english(str(dos_file).lower())
 
 		item3 = QTableWidgetItem(str(dos_layer))
 		self.tab.setItem(i,4,item3)

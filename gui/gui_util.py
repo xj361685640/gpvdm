@@ -56,7 +56,7 @@ def tab_get_value(tab,y,x):
 	if type(tab.cellWidget(y, x))==QComboBox:
 		return tab.cellWidget(y, x).currentText()
 	elif type(tab.cellWidget(y, x))==QComboBoxLang:
-		return tab.cellWidget(y, x).currentText()
+		return tab.cellWidget(y, x).currentText_english()
 	elif type(tab.cellWidget(y,x))==gpvdm_select:
 		return tab.cellWidget(y, x).text()
 	else:

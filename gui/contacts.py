@@ -97,19 +97,20 @@ class contacts_window(QWidget):
 		self.tab.setItem(pos,0,QTableWidgetItem(name))
 
 		combobox = QComboBoxLang()
-		combobox.addItem("top")
-		combobox.addItem("bottom")
+		combobox.addItemLang("top",_("top"))
+		combobox.addItemLang("bottom",_("bottom"))
 
 		self.tab.setCellWidget(pos,1, combobox)
-		combobox.setCurrentIndex(combobox.findText(top_btm.lower()))
+		combobox.setValue_using_english(top_btm.lower())
+		#combobox.setCurrentIndex(combobox.findText(top_btm.lower()))
 		combobox.currentIndexChanged.connect(self.save)
 
 		combobox = QComboBoxLang()
-		combobox.addItem("true")
-		combobox.addItem("false")
+		combobox.addItemLang("true",_("true"))
+		combobox.addItemLang("false",_("false"))
 
 		self.tab.setCellWidget(pos,2, combobox)
-		combobox.setCurrentIndex(combobox.findText(active.lower()))
+		combobox.setValue_using_english(active.lower()) #setCurrentIndex(combobox.findText(active.lower()))
 		combobox.currentIndexChanged.connect(self.save)
 		
 		self.tab.setItem(pos,3,QTableWidgetItem(start))

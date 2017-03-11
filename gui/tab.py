@@ -139,19 +139,19 @@ class tab_class(QWidget,tab_base):
 					description.setText(latex_to_html(text_info))
 
 
-					if result.opt[0]=="switch":
+					if result.widget=="gtkswitch":
 						edit_box=gtkswitch()
 						edit_box.set_value(str2bool(value))
 						edit_box.changed.connect(functools.partial(self.callback_edit,filename,token,edit_box))
-					elif result.opt[0]=="leftright":
+					elif result.widget=="leftright":
 						edit_box=leftright()
 						edit_box.set_value(str2bool(value))
 						edit_box.changed.connect(functools.partial(self.callback_edit,filename,token,edit_box))
-					elif result.opt[0]=="gpvdm_select":
+					elif result.widget=="gpvdm_select":
 						edit_box=gpvdm_select(file_box=True)
 						edit_box.setText(value)
 						edit_box.edit.textChanged.connect(functools.partial(self.callback_edit,filename,token,edit_box))
-					elif result.opt[0]=="text":
+					elif result.widget=="QLineEdit":
 						edit_box=QLineEdit()
 						if self.editable==False:
 							edit_box.setReadOnly(True)
@@ -161,8 +161,8 @@ class tab_class(QWidget,tab_base):
 						#edit_box.show()
 					else:
 						edit_box=QComboBox()
-						for i in range(0,len(result.opt)):
-							edit_box.addItem(result.opt[i])
+						for i in range(0,len(result.defaults)):
+							edit_box.addItem(result.defaults[i])
 							
 						all_items  = [edit_box.itemText(i) for i in range(edit_box.count())]
 						for i in range(0,len(all_items)):
