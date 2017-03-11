@@ -45,6 +45,8 @@ from PyQt5.QtWidgets import QWidget, QScrollArea,QVBoxLayout,QProgressBar,QLabel
 from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtGui import QPixmap, QIcon
 
+from QComboBoxLang import QComboBoxLang
+
 import i18n
 _ = i18n.language.gettext
 
@@ -75,7 +77,9 @@ class tab_class(QWidget,tab_base):
 			inp_update_token_value(file_name, token, widget.text(),1)
 		elif type(widget)==QComboBox:
 			inp_update_token_value(file_name, token, widget.itemText(widget.currentIndex()),1)
-		
+		elif type(widget)==QComboBoxLang:
+			inp_update_token_value(file_name, token, widget.currentText_english(),1)
+
 		help_window().help_set_help(["32_save.png","<big><b>Saved to disk</b></big>\n"])
 		
 		self.changed.emit()
@@ -159,6 +163,14 @@ class tab_class(QWidget,tab_base):
 						#edit_box.set_text(self.lines[pos]);
 						edit_box.textChanged.connect(functools.partial(self.callback_edit,filename,token,edit_box))
 						#edit_box.show()
+					elif result.widget=="QComboBoxLang":
+						edit_box=QComboBoxLang()
+						for i in range(0,len(result.defaults)):
+							edit_box.addItemLang(result.defaults[i][0],result.defaults[i][1])
+
+						edit_box.setValue_using_english(value)
+								
+						edit_box.currentIndexChanged.connect(functools.partial(self.callback_edit,filename,token,edit_box))
 					else:
 						edit_box=QComboBox()
 						for i in range(0,len(result.defaults)):

@@ -163,10 +163,10 @@ lib.append(my_data("#fit_disable_reset_at","au",_("Disable reset at level"),"e",
 lib.append(my_data("#fit_converge_error","au",_("Fit define convergence"),"e",1.0,"QLineEdit"))
 lib.append(my_data("#fit_enable_simple_reset","au",_("Enable simplex reset"),"e",1.0,"gtkswitch"))
 lib.append(my_data("#fit_enable_simple_reset","au",_("Simplex reset steps"),"e",1.0,"gtkswitch"))
-lib.append(my_data("#fit_method","au",_("Simplex reset steps"),"e",1.0,"gtkswitch",defaults=["simplex","newton"]))
+lib.append(my_data("#fit_method","au",_("Fiting method"),"e",1.0,"QComboBox",defaults=["simplex","newton"]))
 
 #fit?.inp
-lib.append(my_data("#fit_subtract_lowest_point","au",_("Subtract lowest point"),"e",1.0,"QComboBoxLang"))
+lib.append(my_data("#fit_subtract_lowest_point","au",_("Subtract lowest point"),"e",1.0,"QComboBox"))
 
 #thermal.inp
 lib.append(my_data("#Tll","Kelvin",_("Device temperature on left"),"e",1.0,"QLineEdit"))
@@ -247,7 +247,7 @@ lib.append(my_data("#Vmax","V",_("Max voltage"),"e",1.0,"QLineEdit"))
 lib.append(my_data("#Eg","eV",_("Eg"),"e",1.0,"QLineEdit"))
 lib.append(my_data("#Xi","eV",_("Xi"),"e",1.0,"QLineEdit"))
 lib.append(my_data("#start_stop_time","s",_("Time of pause"),"e",1.0,"QLineEdit"))
-lib.append(my_data("#stopstart","1/0",_("Pause between iterations"),"e",1.0,"QComboBoxLang",defaults=["1","0"]))
+lib.append(my_data("#stopstart","1/0",_("Pause between iterations"),"e",1.0,"QComboBox",defaults=["1","0"]))
 lib.append(my_data("#invert_current",_("True/False"),_("Invert output"),"e",1.0,"QLineEdit"))
 
 
@@ -255,7 +255,7 @@ lib.append(my_data("#invert_current",_("True/False"),_("Invert output"),"e",1.0,
 
 lib.append(my_data("#otherlayers","m",_("Other layers"),"e",1.0,"QLineEdit"))
 
-lib.append(my_data("#use_capacitor","1/0",_("Use capacitor"),"e",1.0,"QComboBoxLang",defaults=["1","0"]))
+lib.append(my_data("#use_capacitor","1/0",_("Use capacitor"),"e",1.0,"QComboBox",defaults=["1","0"]))
 
 
 #
@@ -286,9 +286,9 @@ lib.append(my_data("#Rext","Ohms",_("External R"),"e",1.0,"QLineEdit"))
 lib.append(my_data("#Rscope","Ohms",_("Resistance of scope"),"e",1.0,"QLineEdit"))
 lib.append(my_data("#srh_bands","bands",_("Number of traps"),"s",1.0,"QLineEdit"))
 
-lib.append(my_data("#dostype","au",_("DoS distribution"),"s",1.0,"QComboBoxLang",defaults=["exponential","complex"]))
+lib.append(my_data("#dostype","au",_("DoS distribution"),"s",1.0,"QComboBoxLang",defaults=[[("exponential"),_("exponential")],["complex",_("complex")]]))
 
-lib.append(my_data("#sun_voc_single_point","1/0",_("Single point"),"e",1.0,"QComboBoxLang",defaults=["1","0"]))
+lib.append(my_data("#sun_voc_single_point","1/0",_("Single point"),"e",1.0,"QComboBox",defaults=["1","0"]))
 lib.append(my_data("#sun_voc_Psun_start","Suns",_("Start intensity"),"e",1.0,"QLineEdit"))
 lib.append(my_data("#sun_voc_Psun_stop","Suns",_("Stop intensity"),"e",1.0,"QLineEdit"))
 lib.append(my_data("#sun_voc_Psun_mul","au",_("step multiplier"),"e",1.0,"QLineEdit"))
@@ -362,7 +362,7 @@ lib.append(my_data("#stark_start_time","","","e",1.0,"QLineEdit"))
 lib.append(my_data("#voc_J_to_Jr","au","Ratio of conduction current to recombination current","e",1.0,"QLineEdit"))
 
 lib.append(my_data("#voc_i","au",_("Current"),"e",1.0,"QLineEdit"))
-lib.append(my_data("#kl_in_newton","1/0",_("Solve Kirchhoff's current law in Newton solver"),"e",1.0,"QComboBoxLang",defaults=["1","0"]))
+lib.append(my_data("#kl_in_newton","1/0",_("Solve Kirchhoff's current law in Newton solver"),"e",1.0,"QComboBox",defaults=["1","0"]))
 
 lib.append(my_data("#simplexmul","au","simplex mull","e",1.0,"QLineEdit"))
 lib.append(my_data("#simplex_reset","au","Reset steps","e",1.0,"QLineEdit"))
@@ -423,7 +423,7 @@ lib.append(my_data("#sim_id","au","sim id","e",1.0,"QLineEdit"))
 lib.append(my_data("#Rload","Ohms",_("External load resistor"),"e",1.0,"QLineEdit"))
 lib.append(my_data("#pulse_shift","s","Shift of TPC signal","e",1.0,"QLineEdit"))
 
-lib.append(my_data("#flip_field","au",_("Filp the opticl field"),"e",1.0,"QComboBoxLang",defaults=["1","0"]))
+lib.append(my_data("#flip_field","au",_("Filp the opticl field"),"e",1.0,"QComboBox",defaults=["1","0"]))
 
 
 lib.append(my_data("#pl_enabled",_("True/False"),_("Turn on luminescence"),"e",1.0,"gtkswitch"))

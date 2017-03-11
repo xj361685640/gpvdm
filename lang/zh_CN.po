@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.88\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2017-03-10 23:54+0000\n"
-"PO-Revision-Date: 2017-03-10 23:59+0000\n"
+"POT-Creation-Date: 2017-03-11 12:04+0000\n"
+"PO-Revision-Date: 2017-03-11 12:04+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: zh_CN\n"
@@ -281,7 +281,8 @@ msgstr "电流"
 #: ../plugins/pulse/pulse.c:206 ../plugins/pulse/pulse.c:209
 #: ../plugins/pulse/pulse.c:256 ../plugins/fxdomain/fxdomain.c:262
 #: ../plugins/jv/jv.c:243 ../plugins/jv/jv.c:419 ../plugins/jv/jv.c:456
-#: ../libdump/dump_dynamic.c:394 ../libdump/dump_contacts.c:72
+#: ../gui/token_lib.py:364 ../libdump/dump_dynamic.c:394
+#: ../libdump/dump_contacts.c:72
 msgid "Current"
 msgstr "电流"
 
@@ -334,11 +335,11 @@ msgstr "实部"
 msgid "Imaginary"
 msgstr "虚部"
 
-#: ../plugins/fxdomain/fxdomain.c:314 ../gui/token_lib.py:270
+#: ../plugins/fxdomain/fxdomain.c:314 ../gui/token_lib.py:271
 msgid "Re(i)"
 msgstr "电流的实部"
 
-#: ../plugins/fxdomain/fxdomain.c:315 ../gui/token_lib.py:271
+#: ../plugins/fxdomain/fxdomain.c:315 ../gui/token_lib.py:272
 msgid "Im(i)"
 msgstr "电流的虚部"
 
@@ -835,7 +836,7 @@ msgstr "飞秒激光"
 msgid "Length"
 msgstr "长度"
 
-#: ../gui/tmesh.py:269 ../gui/token_lib.py:78
+#: ../gui/tmesh.py:269 ../gui/token_lib.py:79
 msgid "dt"
 msgstr "dt"
 
@@ -936,7 +937,7 @@ msgstr "mul"
 msgid "Enter the start frequency of the simulation"
 msgstr "输入仿真开始频率"
 
-#: ../gui/fxmesh.py:176 ../gui/token_lib.py:274
+#: ../gui/fxmesh.py:176 ../gui/token_lib.py:275
 msgid "Frequency"
 msgstr "频率"
 
@@ -1171,9 +1172,13 @@ msgstr "DoS层"
 msgid "PL Layer"
 msgstr "PL层"
 
-#: ../gui/layer_widget.py:267 ../gui/layer_widget.py:268
+#: ../gui/layer_widget.py:267
 msgid "contact"
 msgstr "接触"
+
+#: ../gui/layer_widget.py:268
+msgid "active layer"
+msgstr ""
 
 #: ../gui/layer_widget.py:269
 msgid "other"
@@ -1569,7 +1574,7 @@ msgid ""
 msgstr "<big><b>光</b></big><br>使用此选项卡编辑材料光属性。"
 
 #: ../gui/materials_main.py:54 ../gui/materials_main.py:122
-#: ../gui/token_lib.py:297
+#: ../gui/token_lib.py:298
 msgid "Absorption"
 msgstr "吸收"
 
@@ -2208,7 +2213,7 @@ msgstr "重新计算"
 msgid "material"
 msgstr "材料"
 
-#: ../gui/cost.py:117 ../gui/token_lib.py:91
+#: ../gui/cost.py:117 ../gui/token_lib.py:92
 msgid "Volume"
 msgstr "体积"
 
@@ -2592,6 +2597,14 @@ msgstr ""
 msgid "Citing the model"
 msgstr "关于引用模型的声明"
 
+#: ../gui/tab_terminal.py:63
+msgid "Running: "
+msgstr ""
+
+#: ../gui/tab_terminal.py:75
+msgid "I could not find a free cpu to run the command on"
+msgstr ""
+
 #: ../gui/tab_terminal.py:108
 msgid "CPU"
 msgstr ""
@@ -2783,7 +2796,7 @@ msgstr "扫描窗中没有行被选中，不能插入选择"
 msgid "start"
 msgstr "起始"
 
-#: ../gui/equation.py:178 ../gui/token_lib.py:80 ../gui/jobs.py:86
+#: ../gui/equation.py:178 ../gui/token_lib.py:81 ../gui/jobs.py:86
 msgid "stop"
 msgstr "截止"
 
@@ -2847,762 +2860,811 @@ msgstr "频率网格"
 msgid "Mesh points"
 msgstr "网格点"
 
-#: ../gui/token_lib.py:40
+#: ../gui/token_lib.py:41
 msgid "Mesh points (lambda)"
 msgstr "网格点（lambda）"
 
-#: ../gui/token_lib.py:41
+#: ../gui/token_lib.py:42
 msgid "Lambda start"
 msgstr "Lambda启动"
 
-#: ../gui/token_lib.py:42
+#: ../gui/token_lib.py:43
 msgid "Lambda stop"
 msgstr "Lambda截止"
 
-#: ../gui/token_lib.py:43
+#: ../gui/token_lib.py:44
 msgid "Laser wavelength"
 msgstr "激光波长"
 
-#: ../gui/token_lib.py:44
+#: ../gui/token_lib.py:45
 msgid "Spot size x"
 msgstr "x轴大小"
 
-#: ../gui/token_lib.py:45
+#: ../gui/token_lib.py:46
 msgid "Spot size y"
 msgstr "y轴大小"
 
-#: ../gui/token_lib.py:46
+#: ../gui/token_lib.py:47
 msgid "Energy in pulse"
 msgstr "脉冲能量"
 
-#: ../gui/token_lib.py:47
+#: ../gui/token_lib.py:48
 msgid "#gather"
 msgstr "#聚集"
 
-#: ../gui/token_lib.py:48
+#: ../gui/token_lib.py:49
 msgid "Length of pulse"
 msgstr "脉冲长度"
 
-#: ../gui/token_lib.py:49
+#: ../gui/token_lib.py:50
 msgid "Electron generation efficiency"
 msgstr "电子生成率"
 
-#: ../gui/token_lib.py:50
+#: ../gui/token_lib.py:51
 msgid "Hole generation efficiency"
 msgstr "空穴生成率"
 
-#: ../gui/token_lib.py:51 ../gui/token_lib.py:401
+#: ../gui/token_lib.py:52 ../gui/token_lib.py:402
 msgid "filename"
 msgstr "文件名称"
 
-#: ../gui/token_lib.py:51
+#: ../gui/token_lib.py:52
 msgid "Sun's spectra"
 msgstr "太阳光谱"
 
-#: ../gui/token_lib.py:52
+#: ../gui/token_lib.py:53
 msgid "File containing generation rate"
 msgstr "文件包含生成率"
 
-#: ../gui/token_lib.py:55
+#: ../gui/token_lib.py:56
 msgid "Effective density of free electron states"
 msgstr "自由电子状态的有效密度"
 
-#: ../gui/token_lib.py:56
+#: ../gui/token_lib.py:57
 msgid "Effective density of free hole states"
 msgstr "自由空穴状态的有效密度"
 
-#: ../gui/token_lib.py:57 ../libdump/dump_dynamic.c:692
+#: ../gui/token_lib.py:58 ../libdump/dump_dynamic.c:692
 #: ../libdump/dump_1d_slice.c:758 ../libdump/dump_1d_slice.c:763
 msgid "Electron mobility"
 msgstr "电子迁移率"
 
-#: ../gui/token_lib.py:58 ../libdump/dump_dynamic.c:711
+#: ../gui/token_lib.py:59 ../libdump/dump_dynamic.c:711
 #: ../libdump/dump_1d_slice.c:787 ../libdump/dump_1d_slice.c:792
 msgid "Hole mobility"
 msgstr "空穴迁移率"
 
-#: ../gui/token_lib.py:59
+#: ../gui/token_lib.py:60
 msgid "Electron trap density"
 msgstr "电子陷阱密度"
 
-#: ../gui/token_lib.py:60
+#: ../gui/token_lib.py:61
 msgid "Hole trap density"
 msgstr "空穴陷阱密度"
 
-#: ../gui/token_lib.py:61
+#: ../gui/token_lib.py:62
 msgid "Electron tail slope"
 msgstr "电子带尾斜率"
 
-#: ../gui/token_lib.py:62
+#: ../gui/token_lib.py:63
 msgid "Hole tail slope"
 msgstr "空穴尾部斜率"
 
-#: ../gui/token_lib.py:63 ../libdump/dump_1d_slice.c:728
+#: ../gui/token_lib.py:64 ../libdump/dump_1d_slice.c:728
 #: ../libdump/dump_1d_slice.c:733
 msgid "Relative permittivity"
 msgstr "相对介电常数"
 
-#: ../gui/token_lib.py:64
+#: ../gui/token_lib.py:65
 msgid "Free electron to Trapped electron"
 msgstr "自由电子到被俘获电子"
 
-#: ../gui/token_lib.py:65
+#: ../gui/token_lib.py:66
 msgid "Trapped electron to Free hole"
 msgstr "被俘获电子到自由空穴"
 
-#: ../gui/token_lib.py:66
+#: ../gui/token_lib.py:67
 msgid "Trapped hole to Free electron"
 msgstr "被俘获空穴到自由电子"
 
-#: ../gui/token_lib.py:67
+#: ../gui/token_lib.py:68
 msgid "Free hole to Trapped hole"
 msgstr "自由空穴到被俘获空穴"
 
-#: ../gui/token_lib.py:68
+#: ../gui/token_lib.py:69
 #, python-brace-format
 msgid "n_{free} to p_{free} Recombination rate constant"
 msgstr "自由n型到自由p型 复合率是常数"
 
-#: ../gui/token_lib.py:72
+#: ../gui/token_lib.py:73
 msgid "startime"
 msgstr "起始时间"
 
-#: ../gui/token_lib.py:73
+#: ../gui/token_lib.py:74
 msgid "ea_factor"
 msgstr "ea-因子"
 
-#: ../gui/token_lib.py:74
+#: ../gui/token_lib.py:75
 msgid "Np"
 msgstr "p型载流子浓度"
 
-#: ../gui/token_lib.py:75
+#: ../gui/token_lib.py:76
 msgid "den"
 msgstr "密度"
 
-#: ../gui/token_lib.py:76
+#: ../gui/token_lib.py:77
 msgid "externalv"
 msgstr "外电压"
 
-#: ../gui/token_lib.py:77
+#: ../gui/token_lib.py:78
 msgid "dt_neg_time"
 msgstr "dt_neg_time"
 
-#: ../gui/token_lib.py:79
+#: ../gui/token_lib.py:80
 msgid "dt_mull"
 msgstr "dt_mull"
 
-#: ../gui/token_lib.py:81
+#: ../gui/token_lib.py:82
 msgid "stark"
 msgstr "猛烈的"
 
-#: ../gui/token_lib.py:82
+#: ../gui/token_lib.py:83
 msgid "lasereff"
 msgstr "激光效率"
 
-#: ../gui/token_lib.py:83
+#: ../gui/token_lib.py:84
 msgid "wavelength"
 msgstr "波长"
 
-#: ../gui/token_lib.py:84
+#: ../gui/token_lib.py:85
 msgid "sim_contacts"
 msgstr "sim_接触"
 
-#: ../gui/token_lib.py:87
+#: ../gui/token_lib.py:88
 msgid "Website"
 msgstr "网站"
 
-#: ../gui/token_lib.py:88
+#: ../gui/token_lib.py:89
 msgid "Research group"
 msgstr "研究团队"
 
-#: ../gui/token_lib.py:89
+#: ../gui/token_lib.py:90
 msgid "Authors"
 msgstr "作者"
 
-#: ../gui/token_lib.py:90
+#: ../gui/token_lib.py:91
 msgid "Journal"
 msgstr "期刊"
 
-#: ../gui/token_lib.py:92
+#: ../gui/token_lib.py:93
 msgid "Pages"
 msgstr "页"
 
-#: ../gui/token_lib.py:93
+#: ../gui/token_lib.py:94
 msgid "Year"
 msgstr "年"
 
-#: ../gui/token_lib.py:94
+#: ../gui/token_lib.py:95
 msgid "md5 sum"
 msgstr "和"
 
-#: ../gui/token_lib.py:97 ../gui/token_lib.py:261
+#: ../gui/token_lib.py:98 ../gui/token_lib.py:262
 #, python-brace-format
 msgid "R_{short}"
 msgstr "短路电阻{short}"
 
-#: ../gui/token_lib.py:98
+#: ../gui/token_lib.py:99
 #, python-brace-format
 msgid "V_{bias}"
 msgstr "偏置电压{bias}"
 
-#: ../gui/token_lib.py:99
+#: ../gui/token_lib.py:100
 msgid "Efficiency of light"
 msgstr "光的效率"
 
-#: ../gui/token_lib.py:102
+#: ../gui/token_lib.py:103
 msgid "JV voltage step multiplyer"
 msgstr "JV 电压跨步乘积"
 
-#: ../gui/token_lib.py:103
+#: ../gui/token_lib.py:104
 msgid "Maximum current density"
 msgstr "最大电流密度"
 
-#: ../gui/token_lib.py:104
+#: ../gui/token_lib.py:105
 msgid "JV curve photon generation efficiency"
 msgstr "JV 曲线光子产生效率"
 
-#: ../gui/token_lib.py:109
+#: ../gui/token_lib.py:106
+#, python-brace-format
+msgid "Average carrier density at P_{max}"
+msgstr ""
+
+#: ../gui/token_lib.py:107
+msgid "Recombination time constant"
+msgstr ""
+
+#: ../gui/token_lib.py:110
 #, python-brace-format
 msgid "V_{oc}"
 msgstr "开路电压{oc}"
 
-#: ../gui/token_lib.py:110
+#: ../gui/token_lib.py:111
 msgid "Power conversion efficiency"
 msgstr "功率转化效率"
 
-#: ../gui/token_lib.py:111
+#: ../gui/token_lib.py:112
 msgid "Fill factor"
 msgstr "填充因子"
 
-#: ../gui/token_lib.py:112
+#: ../gui/token_lib.py:113
 msgid "Max power"
 msgstr "最大功率"
 
-#: ../gui/token_lib.py:113
+#: ../gui/token_lib.py:114
 msgid "Trapped electrons at Voc"
 msgstr ""
 
-#: ../gui/token_lib.py:114
+#: ../gui/token_lib.py:115
 msgid "Trapped holes at Voc"
 msgstr ""
 
-#: ../gui/token_lib.py:115
+#: ../gui/token_lib.py:116
 msgid "Free electrons at Voc"
 msgstr ""
 
-#: ../gui/token_lib.py:116
+#: ../gui/token_lib.py:117
 msgid "Free holes at Voc"
 msgstr ""
 
-#: ../gui/token_lib.py:117
+#: ../gui/token_lib.py:118
 msgid "Total carriers (n+p)/2 at Voc"
 msgstr ""
 
-#: ../gui/token_lib.py:118
+#: ../gui/token_lib.py:119
 msgid "Recombination time constant at Voc"
 msgstr ""
 
-#: ../gui/token_lib.py:119
+#: ../gui/token_lib.py:120
 msgid "Recombination rate at Voc"
 msgstr ""
 
-#: ../gui/token_lib.py:120
+#: ../gui/token_lib.py:121
 msgid "Current density at Voc"
 msgstr ""
 
-#: ../gui/token_lib.py:138
-msgid "Max Electrical itterations (first step)"
+#: ../gui/token_lib.py:124
+msgid "Number of CPUs"
 msgstr ""
 
 #: ../gui/token_lib.py:139
+msgid "Max Electrical itterations (first step)"
+msgstr ""
+
+#: ../gui/token_lib.py:140
 msgid "Electrical clamp (first step)"
 msgstr "电夹（第一步）"
 
-#: ../gui/token_lib.py:140
+#: ../gui/token_lib.py:141
 msgid "Desired electrical solver error (first step)"
 msgstr "预期电气求解器出现错误（第一步）"
 
-#: ../gui/token_lib.py:141 ../gui/token_lib.py:147 ../gui/token_lib.py:158
-#: ../gui/token_lib.py:173 ../gui/token_lib.py:174 ../gui/token_lib.py:175
-#: ../gui/token_lib.py:176 ../gui/token_lib.py:178 ../gui/token_lib.py:179
-#: ../gui/token_lib.py:184 ../gui/token_lib.py:185 ../gui/token_lib.py:187
-#: ../gui/token_lib.py:188 ../gui/token_lib.py:189 ../gui/token_lib.py:190
-#: ../gui/token_lib.py:191 ../gui/token_lib.py:192 ../gui/token_lib.py:195
-#: ../gui/token_lib.py:197 ../gui/token_lib.py:198 ../gui/token_lib.py:199
-#: ../gui/token_lib.py:200 ../gui/token_lib.py:201 ../gui/token_lib.py:202
-#: ../gui/token_lib.py:203 ../gui/token_lib.py:204 ../gui/token_lib.py:205
-#: ../gui/token_lib.py:206 ../gui/token_lib.py:208 ../gui/token_lib.py:209
-#: ../gui/token_lib.py:212 ../gui/token_lib.py:250 ../gui/token_lib.py:393
-#: ../gui/token_lib.py:396 ../gui/token_lib.py:400 ../gui/token_lib.py:402
-#: ../gui/token_lib.py:428
+#: ../gui/token_lib.py:142 ../gui/token_lib.py:148 ../gui/token_lib.py:159
+#: ../gui/token_lib.py:174 ../gui/token_lib.py:175 ../gui/token_lib.py:176
+#: ../gui/token_lib.py:177 ../gui/token_lib.py:179 ../gui/token_lib.py:180
+#: ../gui/token_lib.py:185 ../gui/token_lib.py:186 ../gui/token_lib.py:188
+#: ../gui/token_lib.py:189 ../gui/token_lib.py:190 ../gui/token_lib.py:191
+#: ../gui/token_lib.py:192 ../gui/token_lib.py:193 ../gui/token_lib.py:196
+#: ../gui/token_lib.py:198 ../gui/token_lib.py:199 ../gui/token_lib.py:200
+#: ../gui/token_lib.py:201 ../gui/token_lib.py:202 ../gui/token_lib.py:203
+#: ../gui/token_lib.py:204 ../gui/token_lib.py:205 ../gui/token_lib.py:206
+#: ../gui/token_lib.py:207 ../gui/token_lib.py:209 ../gui/token_lib.py:210
+#: ../gui/token_lib.py:213 ../gui/token_lib.py:251 ../gui/token_lib.py:394
+#: ../gui/token_lib.py:397 ../gui/token_lib.py:401 ../gui/token_lib.py:403
+#: ../gui/token_lib.py:429
 msgid "True/False"
 msgstr "真确/错误"
 
-#: ../gui/token_lib.py:141
+#: ../gui/token_lib.py:142
 msgid "Enable poisson solver"
 msgstr "使用泊松方程求解器"
 
-#: ../gui/token_lib.py:142
+#: ../gui/token_lib.py:143
 msgid "Max electrical itterations"
 msgstr "最大电气迭代"
 
-#: ../gui/token_lib.py:143
+#: ../gui/token_lib.py:144
 msgid "Electrical clamp"
 msgstr "电气钳"
 
-#: ../gui/token_lib.py:144
+#: ../gui/token_lib.py:145
 msgid "Poisson clamping"
 msgstr "泊松嵌套"
 
-#: ../gui/token_lib.py:145
+#: ../gui/token_lib.py:146
 msgid "Minimum electrical error"
 msgstr "最小电气误差"
 
-#: ../gui/token_lib.py:146
+#: ../gui/token_lib.py:147
 msgid "Poisson solver max itterations"
 msgstr "泊松解决器最大迭代"
 
-#: ../gui/token_lib.py:148
+#: ../gui/token_lib.py:149
 msgid "Newton minimum iterations"
 msgstr "牛顿最小迭代"
 
-#: ../gui/token_lib.py:149 ../gui/token_lib.py:150
+#: ../gui/token_lib.py:150 ../gui/token_lib.py:151
 msgid "dll name"
 msgstr "名称"
 
-#: ../gui/token_lib.py:149
+#: ../gui/token_lib.py:150
 msgid "Matrix solver to use"
 msgstr "使用矩阵解决器"
 
-#: ../gui/token_lib.py:150
+#: ../gui/token_lib.py:151
 msgid "Newton solver to use"
 msgstr "使用牛顿解决器"
 
-#: ../gui/token_lib.py:151
+#: ../gui/token_lib.py:152
 msgid "Slotboom T0"
 msgstr ""
 
-#: ../gui/token_lib.py:152
+#: ../gui/token_lib.py:153
 msgid "Slotboom D0"
 msgstr ""
 
-#: ../gui/token_lib.py:153
+#: ../gui/token_lib.py:154
 msgid "Slotboom n0"
 msgstr ""
 
-#: ../gui/token_lib.py:157
+#: ../gui/token_lib.py:158
 msgid "Fit error multiplyer"
 msgstr "累乘器拟合失败"
 
-#: ../gui/token_lib.py:158
+#: ../gui/token_lib.py:159
 msgid "Randomize fit"
 msgstr "重设fit"
 
-#: ../gui/token_lib.py:159
+#: ../gui/token_lib.py:160
 msgid "Number of iterations between random reset"
 msgstr "随机设置间的迭代次数"
 
-#: ../gui/token_lib.py:160
+#: ../gui/token_lib.py:161
 msgid "Stall steps"
 msgstr "安装步骤"
 
-#: ../gui/token_lib.py:161
+#: ../gui/token_lib.py:162
 msgid "Disable reset at level"
 msgstr "在能及不可充重置"
 
-#: ../gui/token_lib.py:162
+#: ../gui/token_lib.py:163
 msgid "Fit define convergence"
 msgstr "合适确定收敛"
 
-#: ../gui/token_lib.py:163
+#: ../gui/token_lib.py:164
 msgid "Enable simplex reset"
 msgstr "使simplex重置"
 
-#: ../gui/token_lib.py:164 ../gui/token_lib.py:165
+#: ../gui/token_lib.py:165 ../gui/token_lib.py:166
 msgid "Simplex reset steps"
 msgstr "简化重设步骤"
 
-#: ../gui/token_lib.py:168
+#: ../gui/token_lib.py:169
 msgid "Subtract lowest point"
 msgstr "减去最低点"
 
-#: ../gui/token_lib.py:171
+#: ../gui/token_lib.py:172
 msgid "Device temperature on left"
 msgstr "左器件温度"
 
-#: ../gui/token_lib.py:172
+#: ../gui/token_lib.py:173
 msgid "Device temperature on right"
 msgstr "右器件温度"
 
-#: ../gui/token_lib.py:173
+#: ../gui/token_lib.py:174
 msgid "Enable thermal solver"
 msgstr "开启热解决器"
 
-#: ../gui/token_lib.py:174
+#: ../gui/token_lib.py:175
 msgid "Lattice heat model"
 msgstr "晶格热模型"
 
-#: ../gui/token_lib.py:175
+#: ../gui/token_lib.py:176
 msgid "Electron heat model"
 msgstr "电子热模型"
 
-#: ../gui/token_lib.py:176
+#: ../gui/token_lib.py:177
 msgid "Hole heat model"
 msgstr "空穴热模型"
 
 #: ../gui/token_lib.py:178
+msgid "Thermal conductivity"
+msgstr ""
+
+#: ../gui/token_lib.py:179
 msgid "Isothermal boundary on left"
 msgstr "左隔离热边界"
 
-#: ../gui/token_lib.py:179
+#: ../gui/token_lib.py:180
 msgid "Isothermal boundary on right"
 msgstr "右隔离热边界"
 
-#: ../gui/token_lib.py:184
+#: ../gui/token_lib.py:181
+msgid "Electron relaxation time"
+msgstr ""
+
+#: ../gui/token_lib.py:182
+msgid "Hole relaxation time"
+msgstr ""
+
+#: ../gui/token_lib.py:185
 msgid "Dump from newton solver"
 msgstr "从牛顿法求解器中转存"
 
-#: ../gui/token_lib.py:185
+#: ../gui/token_lib.py:186
 msgid "Plot bands etc.. "
 msgstr "绘制能带图等等"
 
-#: ../gui/token_lib.py:187
+#: ../gui/token_lib.py:188
 msgid "dump slices by time"
 msgstr "以时间转存各层"
 
-#: ../gui/token_lib.py:188
+#: ../gui/token_lib.py:189
 msgid "Dump 1D slices"
 msgstr "转存一维各层"
 
-#: ../gui/token_lib.py:189
+#: ../gui/token_lib.py:190
 msgid "Dump slices"
 msgstr "转存各层"
 
-#: ../gui/token_lib.py:190
+#: ../gui/token_lib.py:191
 msgid "Dump dynamic"
 msgstr "转存动态"
 
-#: ../gui/token_lib.py:191
+#: ../gui/token_lib.py:192
 msgid "Dump zip files"
 msgstr "转存zip文件"
 
-#: ../gui/token_lib.py:192
+#: ../gui/token_lib.py:193
 msgid "Write out band structure"
 msgstr "写出能带结构"
 
-#: ../gui/token_lib.py:195
+#: ../gui/token_lib.py:196
 msgid "Dump optical information"
 msgstr "转存光学信息"
 
-#: ../gui/token_lib.py:197
+#: ../gui/token_lib.py:198
 msgid "Print newton error"
 msgstr "打印牛顿错误"
 
-#: ../gui/token_lib.py:198
+#: ../gui/token_lib.py:199
 msgid "Print solver convergence"
 msgstr "打印收敛"
 
-#: ../gui/token_lib.py:199
+#: ../gui/token_lib.py:200
 msgid "Write newton solver convergence to disk"
 msgstr "将牛顿收敛写入盘中"
 
-#: ../gui/token_lib.py:200
+#: ../gui/token_lib.py:201
 msgid "Print poisson solver convergence"
 msgstr "打印泊松收敛"
 
-#: ../gui/token_lib.py:201
+#: ../gui/token_lib.py:202
 msgid "Dump PL spectra"
 msgstr "转存PL光谱"
 
-#: ../gui/token_lib.py:202
+#: ../gui/token_lib.py:203
 msgid "Normalize output x-time to one"
 msgstr "标准化输出 x-时间 到一个"
 
-#: ../gui/token_lib.py:203
+#: ../gui/token_lib.py:204
 msgid "Dump the built in voltage."
 msgstr "在电压中转存所搭建的内容"
 
-#: ../gui/token_lib.py:204
+#: ../gui/token_lib.py:205
 msgid "Dump optical probe spectrum"
 msgstr "转存光探测光谱"
 
-#: ../gui/token_lib.py:205
+#: ../gui/token_lib.py:206
 msgid "Dump optical summary"
 msgstr "转存光存储"
 
-#: ../gui/token_lib.py:206
+#: ../gui/token_lib.py:207
 msgid "Dump raytrace plots"
 msgstr "转存光追踪点"
 
-#: ../gui/token_lib.py:208
+#: ../gui/token_lib.py:209
 msgid "Dump an excel workbook for each simulation run congaing the results."
 msgstr "每次仿真运行后，转存一个EXCEL工作书包含结果"
 
-#: ../gui/token_lib.py:209
+#: ../gui/token_lib.py:210
 msgid "Write file access log to disk."
 msgstr "将文件路径日志写到硬盘中"
 
-#: ../gui/token_lib.py:212
+#: ../gui/token_lib.py:213
 msgid "Turn on LED"
 msgstr "打开发光二极管"
 
-#: ../gui/token_lib.py:213
+#: ../gui/token_lib.py:214
 msgid "LED emission wavelength"
 msgstr "LED排放波长"
 
-#: ../gui/token_lib.py:214
+#: ../gui/token_lib.py:215
 msgid "LED extraction efficiency"
 msgstr "LED收回效率"
 
-#: ../gui/token_lib.py:217
+#: ../gui/token_lib.py:218
 msgid "Invert applied bias"
 msgstr "反相施加偏置"
 
-#: ../gui/token_lib.py:218
+#: ../gui/token_lib.py:219
 msgid "Shunt resistance"
 msgstr "并联电阻"
 
-#: ../gui/token_lib.py:219
+#: ../gui/token_lib.py:220
 msgid "Series resistance"
 msgstr "串联电阻"
 
-#: ../gui/token_lib.py:220
+#: ../gui/token_lib.py:221
 msgid "Charge on left contact"
 msgstr "左接触面的电荷"
 
-#: ../gui/token_lib.py:221
+#: ../gui/token_lib.py:222
 msgid "Charge on right contact"
 msgstr "右接触面的电荷"
 
-#: ../gui/token_lib.py:225
+#: ../gui/token_lib.py:226
 msgid "Start voltage"
 msgstr "起始电压"
 
-#: ../gui/token_lib.py:226
+#: ../gui/token_lib.py:227
 msgid "Stop voltage"
 msgstr "截止电压"
 
-#: ../gui/token_lib.py:227
+#: ../gui/token_lib.py:228
 msgid "Voltage step"
 msgstr "电压阶"
 
-#: ../gui/token_lib.py:228
+#: ../gui/token_lib.py:229
 msgid "I0"
 msgstr "输入输出"
 
-#: ../gui/token_lib.py:229
+#: ../gui/token_lib.py:230
 msgid "ideality factor"
 msgstr "理想因子"
 
-#: ../gui/token_lib.py:232
+#: ../gui/token_lib.py:233
 msgid "#saturation_n0"
 msgstr "#饱和"
 
-#: ../gui/token_lib.py:233
+#: ../gui/token_lib.py:234
 msgid "#saturation_rate"
 msgstr "#饱和率"
 
-#: ../gui/token_lib.py:234
+#: ../gui/token_lib.py:235
 msgid "#imps_saturate"
 msgstr "#脉冲饱和"
 
-#: ../gui/token_lib.py:237 ../gui/optics.py:174
+#: ../gui/token_lib.py:238 ../gui/optics.py:174
 msgid "Photon density"
 msgstr "光子密度"
 
-#: ../gui/token_lib.py:238
+#: ../gui/token_lib.py:239
 msgid "Absorption of material"
 msgstr "材料吸收率"
 
-#: ../gui/token_lib.py:239
+#: ../gui/token_lib.py:240
 msgid "#simmode"
 msgstr "#sim模式"
 
-#: ../gui/token_lib.py:240
+#: ../gui/token_lib.py:241
 msgid "Mesh points (x)"
 msgstr "网点（x）"
 
-#: ../gui/token_lib.py:242
+#: ../gui/token_lib.py:243
 msgid "#function"
 msgstr "#function 函数"
 
-#: ../gui/token_lib.py:243
+#: ../gui/token_lib.py:244
 msgid "left/right"
 msgstr "左/右"
 
-#: ../gui/token_lib.py:243
+#: ../gui/token_lib.py:244
 msgid "Hole majority contact on left/right of device."
 msgstr "器件左/右侧的空穴大多数接触"
 
-#: ../gui/token_lib.py:244
+#: ../gui/token_lib.py:245
 msgid "start voltage"
 msgstr "起始电压"
 
-#: ../gui/token_lib.py:245
+#: ../gui/token_lib.py:246
 msgid "Max voltage"
 msgstr "最大电压"
 
-#: ../gui/token_lib.py:246
+#: ../gui/token_lib.py:247
 msgid "Eg"
 msgstr "禁带宽度"
 
-#: ../gui/token_lib.py:247
+#: ../gui/token_lib.py:248
 msgid "Xi"
 msgstr "Xi"
 
-#: ../gui/token_lib.py:248
+#: ../gui/token_lib.py:249
 msgid "Time of pause"
 msgstr "暂停时间"
 
-#: ../gui/token_lib.py:249
+#: ../gui/token_lib.py:250
 msgid "Pause between iterations"
 msgstr "迭代之间的暂停"
 
-#: ../gui/token_lib.py:250
+#: ../gui/token_lib.py:251
 msgid "Invert output"
 msgstr "转换输出"
 
-#: ../gui/token_lib.py:255
+#: ../gui/token_lib.py:256
 msgid "Other layers"
 msgstr "其他层"
 
-#: ../gui/token_lib.py:257
+#: ../gui/token_lib.py:258
 msgid "Use capacitor"
 msgstr "使用电容"
 
-#: ../gui/token_lib.py:262
+#: ../gui/token_lib.py:263
 msgid "Backgroud light bias"
 msgstr "背景光偏差"
 
-#: ../gui/token_lib.py:263
+#: ../gui/token_lib.py:264
 msgid "Modulation depth"
 msgstr "调制宽度"
 
-#: ../gui/token_lib.py:264
+#: ../gui/token_lib.py:265
 msgid "Modulation frequency"
 msgstr "调制频率"
 
-#: ../gui/token_lib.py:265
+#: ../gui/token_lib.py:266
 msgid "High light multiplyer"
 msgstr "高光的多层"
 
-#: ../gui/token_lib.py:266
+#: ../gui/token_lib.py:267
 msgid "Photon efficiency"
 msgstr "光子效率"
 
-#: ../gui/token_lib.py:272
+#: ../gui/token_lib.py:273
 msgid "Re(J)"
 msgstr "J的实部"
 
-#: ../gui/token_lib.py:273
+#: ../gui/token_lib.py:274
 msgid "Im(J)"
 msgstr "J的虚部"
 
-#: ../gui/token_lib.py:275 ../gui/token_lib.py:276 ../gui/token_lib.py:277
+#: ../gui/token_lib.py:276 ../gui/token_lib.py:277 ../gui/token_lib.py:278
 msgid "Phase shift"
 msgstr "相移"
 
-#: ../gui/token_lib.py:278
+#: ../gui/token_lib.py:279
 msgid "points"
 msgstr "点"
 
-#: ../gui/token_lib.py:279
+#: ../gui/token_lib.py:280
 msgid "Wavelengths to simulate"
 msgstr "根据波长来仿真"
 
-#: ../gui/token_lib.py:280
+#: ../gui/token_lib.py:281
 msgid "External voltage"
 msgstr "外电压"
 
-#: ../gui/token_lib.py:282
+#: ../gui/token_lib.py:283
 msgid "External C"
 msgstr "外部电容"
 
-#: ../gui/token_lib.py:283
+#: ../gui/token_lib.py:284
 msgid "External R"
 msgstr "外部电阻"
 
-#: ../gui/token_lib.py:285
+#: ../gui/token_lib.py:286
 msgid "Resistance of scope"
 msgstr "净的电阻"
 
-#: ../gui/token_lib.py:286
+#: ../gui/token_lib.py:287
 msgid "Number of traps"
 msgstr "陷阱数量"
 
-#: ../gui/token_lib.py:288
+#: ../gui/token_lib.py:289
 msgid "DoS distribution"
 msgstr "DoS分布"
 
-#: ../gui/token_lib.py:290
+#: ../gui/token_lib.py:289
+msgid "exponential"
+msgstr ""
+
+#: ../gui/token_lib.py:289
+msgid "complex"
+msgstr ""
+
+#: ../gui/token_lib.py:291
 msgid "Single point"
 msgstr "奇点"
 
-#: ../gui/token_lib.py:291
+#: ../gui/token_lib.py:292
 msgid "Start intensity"
 msgstr "开始时强度"
 
-#: ../gui/token_lib.py:292
+#: ../gui/token_lib.py:293
 msgid "Stop intensity"
 msgstr "截止时强度"
 
-#: ../gui/token_lib.py:293
+#: ../gui/token_lib.py:294
 msgid "step multiplier"
 msgstr "步乘"
 
-#: ../gui/token_lib.py:296
+#: ../gui/token_lib.py:297
 msgid "Photon Flux"
 msgstr "光子流量"
 
-#: ../gui/token_lib.py:298
+#: ../gui/token_lib.py:299
 msgid "device width"
 msgstr "器件宽度"
 
-#: ../gui/token_lib.py:299
+#: ../gui/token_lib.py:300
 msgid "device breadth"
 msgstr "器件宽度"
 
-#: ../gui/token_lib.py:396
+#: ../gui/token_lib.py:365
+msgid "Solve Kirchhoff's current law in Newton solver"
+msgstr ""
+
+#: ../gui/token_lib.py:394
+msgid "Enable 3d effects"
+msgstr ""
+
+#: ../gui/token_lib.py:397
 msgid "Enable fit"
 msgstr "有效 合适"
 
-#: ../gui/token_lib.py:400
+#: ../gui/token_lib.py:401
 msgid "log x"
 msgstr "x的对数"
 
-#: ../gui/token_lib.py:402
+#: ../gui/token_lib.py:403
 msgid "Invert simulated data (y)"
 msgstr "逆变模拟数据"
 
-#: ../gui/token_lib.py:425
+#: ../gui/token_lib.py:407
+msgid "Active layer width"
+msgstr ""
+
+#: ../gui/token_lib.py:423
+msgid "External load resistor"
+msgstr ""
+
+#: ../gui/token_lib.py:426
 msgid "Filp the opticl field"
 msgstr "翻到光场"
 
-#: ../gui/token_lib.py:428
+#: ../gui/token_lib.py:429
 msgid "Turn on luminescence"
 msgstr "打开光"
 
-#: ../gui/token_lib.py:429
+#: ../gui/token_lib.py:430
 #, python-brace-format
 msgid "n_{free} to p_{free} photon generation efficiency"
 msgstr "自由n{free}到自由p{free}光子产生效率"
 
-#: ../gui/token_lib.py:430
+#: ../gui/token_lib.py:431
 #, python-brace-format
 msgid "n_{free} to n_{trap} photon generation efficiency"
 msgstr "自由n到陷阱n光子产生效率"
 
-#: ../gui/token_lib.py:431
+#: ../gui/token_lib.py:432
 #, python-brace-format
 msgid "n_{trap} to p_{free} photon generation efficiency"
 msgstr "陷阱n到自由p光子产生效率"
 
-#: ../gui/token_lib.py:432
+#: ../gui/token_lib.py:433
 #, python-brace-format
 msgid "p_{trap} to n_{free} photon generation efficiency"
 msgstr "陷阱p到自由n光子产生效率"
 
-#: ../gui/token_lib.py:433
+#: ../gui/token_lib.py:434
 #, python-brace-format
 msgid "p_{free} to p_{trap} photon generation efficiency"
 msgstr "自由p到陷阱p光子产生效率"
@@ -3778,6 +3840,10 @@ msgstr "我找不到任何光学插件，我琢磨着这模型没安装好吧。
 #: ../gui/fit_patch.py:95
 msgid "value"
 msgstr "值"
+
+#: ../gui/gl.py:479
+msgid "active"
+msgstr ""
 
 #: ../gui/error_han.py:77 ../libfit/fit_dump.c:62 ../libfit/fit_dump.c:85
 #: ../libfit/fit_dump.c:108
