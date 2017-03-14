@@ -2,9 +2,9 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+//  Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
-//	www.rodmack.com
+//	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
@@ -19,6 +19,7 @@
 
 
 #include <stdio.h>
+#include <log.h>
 #include "sim.h"
 
 /*
@@ -42,7 +43,7 @@ gdouble dt=tottime/((gdouble)time.len);
 inter_rescale(&xrange,1e-3, 1.0);
 //for (i=0;i<xrange.len;i++)
 //{
-//	printf("%e\n",xrange.x[i]);
+//	printf_log("%e\n",xrange.x[i]);
 //}
 gdouble d=180e-9;
 int x=0;
@@ -52,7 +53,7 @@ inter_copy(&lookup,&xrange);
 
 for (loop=0;loop<10;loop++)
 {
-printf("Dooing Loop %d\n",loop);
+printf_log("Dooing Loop %d\n",loop);
 	for (x=0;x<xrange.len;x++)
 	{
 		gdouble area=0.06/100.0/100.0;
@@ -85,7 +86,7 @@ printf("Dooing Loop %d\n",loop);
 		{
 
 
-		//printf("%e\n",xrange.x[x]);
+		//printf_log("%e\n",xrange.x[x]);
 		left.data[i]=tot;
 		if (loop!=0)
 		{
@@ -104,7 +105,7 @@ printf("Dooing Loop %d\n",loop);
 		lookup.data[x]=inter_get_hard(&tau,xrange.x[x]);
 
 
-		printf("%e %e %e %e %e %e\n",xrange.x[x],charge,capq,charge-capq,inter_get_hard(&tau,xrange.x[x]),sum_lost);
+		printf_log("%e %e %e %e %e %e\n",xrange.x[x],charge,capq,charge-capq,inter_get_hard(&tau,xrange.x[x]),sum_lost);
 		inter_save(&left,"left.dat");
 		inter_save(&loss,"loss.dat");
 
@@ -144,8 +145,8 @@ FILE *out=fopen(output,"w");
 
 	for (x=0;x<col;x++)
 	{
-		printf("loading.... %d\n",x);
-		inter_load_by_col(&data,input,x);
+		printf_log(sim,"loading.... %d\n",x);
+		inter_load_by_col(sim,&data,input,x);
 
 
 		gdouble tot=0.0;

@@ -32,7 +32,7 @@
 
 int strcmp_begin(char * str,char *begin);
 void set_ewe_lock_file(char *lockname,char *data);
-void print_hex(unsigned char *data);
+void print_hex(struct simulation *sim,unsigned char *data);
 void remove_dir(struct simulation *sim,char* dir_name);
 int ewe(struct simulation *sim, const char *format, ...);
 double read_value(struct simulation *sim,char *file,int skip,int line);
@@ -48,7 +48,7 @@ void edit_file_int(struct simulation *sim,char *in_name,char *front,int line,int
 void edit_file(struct simulation *sim,char *in_name,char *front,int line,double value);
 void edit_file_by_var(struct simulation *sim,char *in_name,char *token,char *newtext);
 void copy_file(struct simulation *sim,char *output,char *input);
-int get_file_len(char *file_name);
+int get_file_len(struct simulation *sim,char *file_name);
 int cmpstr_min(char * in1,char *in2);
 int english_to_bin(struct simulation *sim,char * in);
 void write_x_y_to_file(struct simulation *sim,char *name,double *x,double *y,int len);

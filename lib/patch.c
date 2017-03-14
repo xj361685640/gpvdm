@@ -26,6 +26,7 @@
 #include <dump_ctrl.h>
 #include <inp.h>
 #include <const.h>
+#include <log.h>
 
 static int unused __attribute__((unused));
 
@@ -46,7 +47,7 @@ if (inp_load(sim,&config_file,patch_file)!=0)
 
 
 char filetoedit[200];
-if (get_dump_status(sim,dump_iodump)==TRUE) printf("Patch %s\n",patch_file);
+if (get_dump_status(sim,dump_iodump)==TRUE) printf_log(sim,"Patch %s\n",patch_file);
 int found=FALSE;
 
 struct inp_file ifile;
@@ -78,7 +79,6 @@ do
 		strcpy(description,inp_get_string(sim,&config_file));
 		strcpy(newtext,inp_get_string(sim,&config_file));
 
-		//printf("File %s %s\n",dest,file);
 		if (inp_load_from_path(sim,&ifile,dest,file)!=0)
 		{
 			ewe(sim,"File %s %s not found to patch.\n",dest,file);

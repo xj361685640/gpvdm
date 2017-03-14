@@ -36,34 +36,34 @@ int i=in->dump_slicepos;
 char outpath[200];
 
 struct istruct dump1;
-inter_init(&dump1);
+inter_init(sim,&dump1);
 
 struct istruct dump2;
-inter_init(&dump2);
+inter_init(sim,&dump2);
 
 struct istruct dump3;
-inter_init(&dump3);
+inter_init(sim,&dump3);
 
 struct istruct dump4;
-inter_init(&dump4);
+inter_init(sim,&dump4);
 
 struct istruct dump5;
-inter_init(&dump5);
+inter_init(sim,&dump5);
 
 struct istruct dump6;
-inter_init(&dump6);
+inter_init(sim,&dump6);
 
 struct istruct dump9;
-inter_init(&dump9);
+inter_init(sim,&dump9);
 
 struct istruct dump10;
-inter_init(&dump10);
+inter_init(sim,&dump10);
 
 struct istruct dump_nt;
-inter_init(&dump_nt);
+inter_init(sim,&dump_nt);
 
 struct istruct dump_pt;
-inter_init(&dump_pt);
+inter_init(sim,&dump_pt);
 
 int mat=in->imat[0][0][in->ymeshpoints/2];
 for (band=0;band<in->srh_bands;band++)

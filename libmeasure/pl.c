@@ -109,11 +109,11 @@ for (z=0;z<in->zmeshpoints;z++)
 
 //inter_init_mesh(&photons,40,0.0,2.254);
 
-inter_init(&fe_to_fh);
-inter_init(&fe_to_te);
-inter_init(&te_to_fh);
-inter_init(&fh_to_th);
-inter_init(&th_to_fe);
+inter_init(sim,&fe_to_fh);
+inter_init(sim,&fe_to_te);
+inter_init(sim,&te_to_fh);
+inter_init(sim,&fh_to_th);
+inter_init(sim,&th_to_fe);
 //inter_init(&luminescence_tot);
 
 //double Re_e=0.0;

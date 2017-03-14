@@ -52,13 +52,13 @@ struct dynamic_store store;
 dump_dynamic_init(sim,&store,in);
 
 struct istruct out_i;
-inter_init(&out_i);
+inter_init(sim,&out_i);
 
 struct istruct out_v;
-inter_init(&out_v);
+inter_init(sim,&out_v);
 
 struct istruct out_G;
-inter_init(&out_G);
+inter_init(sim,&out_G);
 
 
 char config_file_name[200];

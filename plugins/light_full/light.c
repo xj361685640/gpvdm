@@ -229,7 +229,7 @@ do
 	}
 
 	//printf("%d %d %d\n",in->N,pos,in->M);
-	//complex_solver_print(in->M,in->N,in->Ti,in->Tj, in->Tx, in->Txz,in->b,in->bz);
+	//complex_solver_print(sim,in->M,in->N,in->Ti,in->Tj, in->Tx, in->Txz,in->b,in->bz);
 	//complex_solver_dump_matrix(in->M,in->N,in->Ti,in->Tj, in->Tx, in->Txz,in->b,in->bz);
 
 	if (pos!=in->N)

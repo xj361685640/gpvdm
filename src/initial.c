@@ -318,8 +318,6 @@ for (z=0;z<in->zmeshpoints;z++)
 			in->n[z][x][y]=in->Nc[z][x][y]*exp(((t)*Q)/(kb*in->Te[z][x][y]));
 			in->p[z][x][y]=in->Nv[z][x][y]*exp(((tp)*Q)/(kb*in->Th[z][x][y]));
 
-		//printf("%Le %Le\n",t,tp);
-		//getchar();
 			in->mun[z][x][y]=get_n_mu(in,in->imat[z][x][y]);
 			in->mup[z][x][y]=get_p_mu(in,in->imat[z][x][y]);
 

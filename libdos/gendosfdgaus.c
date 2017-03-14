@@ -79,13 +79,13 @@ printf("p srhbandp.inp %d 1\n",i);
 }
 }
 
-void dump_qe()
+void dump_qe(struct simulation *sim)
 {
 struct istruct n;
 struct istruct p;
 
-inter_load(&n,"dosoutn.dat");
-inter_load(&p,"dosoutp.dat");
+inter_load(sim,&n,"dosoutn.dat");
+inter_load(sim,&p,"dosoutp.dat");
 inter_swap(&p);
 
 

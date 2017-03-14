@@ -2,7 +2,7 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
+//  Copyright (C) 2012-2017 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
 //	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -29,11 +29,14 @@
 #include <string.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <sim_struct.h>
 
 #include "i.h"
 #include "util.h"
 #include "cal_path.h"
 #include "const.h"
+#include <log.h>
+
 
 static int unused __attribute__((unused));
 static char* unused_pchar __attribute__((unused));
@@ -263,42 +266,6 @@ if (pos==(N-1)) pos=N-2;
 return pos;
 }
 
-/**Get length of a file in lines
-@param file_name file name
-*/
-int get_file_len(char *file_name)
-{
-FILE *file;
-if (!(file=fopen(file_name,"r")))
-{
-	printf("Error opening file %s\n",file_name);
-	exit(0);
-}
-char buffer[1000];
-
-int i;
-i=0;
-char *p;
-do
-{
-	buffer[0]=0;
-	unused_pchar=fgets(buffer, 1000, file);
-	p=buffer;
-	if (buffer[0]=='#')
-	{
-		i--;
-	}else
-	{
-		//Check for empty line
-		while(*p==' ' || *p=='\t') p++;
-		if ((*p=='\r')||(*p=='\n')||(*p==0)) i--;
-	}
-i++;
-}while(!feof(file));
-//i--;
-fclose(file);
-return i;
-}
 
 /**Get position of quartile
 @param in input structure
@@ -431,7 +398,6 @@ for (i=0;i<out->len;i++)
 	out->x[i]=pos;
 	out->data[i]=y0+((y1-y0)/(x1-x0))*(pos-x0);
 
-	//printf("%d %d %Le %Le %Le %Le \n",i,ii,out->x[i],out->data[i],delta,in->x[i]);
 	pos+=delta;
 }
 
@@ -583,7 +549,6 @@ do
 	if (pos>=start)
 	{
 		etemp=fabs(inter_get_noend(one,pos)-inter_get_noend(two,pos))*inter_get_noend(mull,pos);
-		//printf("%Le %Le %Le %Lf\n",pos,inter_get_noend(one,pos),inter_get_noend(two,pos),inter_get_noend(mull,pos));
 		if (out_path!=NULL) fprintf(out,"%Le %Le\n",pos,etemp);
 		error+=etemp;
 		points+=1.0;
@@ -916,7 +881,6 @@ for (i=0;i<in->len;i++)
 {
 	in->data[write]=in->data[read];
 	in->x[write]=in->x[read];
-	//if (in->len==24) printf("%Le\n",in->data[read]);
 	if (in->data[read]==0.0)
 	{
 		write--;
@@ -924,7 +888,6 @@ for (i=0;i<in->len;i++)
 	read++;
 	write++;
 }
-//printf("%ld set to %ld\n",in->len,write);
 in->len=write;
 
 inter_realloc(in,in->len);
@@ -940,7 +903,7 @@ for (i=0;i<in->len;i++)
 {
 	in->data[write]=in->data[read];
 	in->x[write]=in->x[read];
-	//if (in->len==24) printf("%Le\n",in->data[read]);
+
 	if (in->x[read]==0.0)
 	{
 		write--;
@@ -948,7 +911,7 @@ for (i=0;i<in->len;i++)
 	read++;
 	write++;
 }
-//printf("%ld set to %ld\n",in->len,write);
+
 in->len=write;
 
 inter_realloc(in,in->len);
@@ -1107,11 +1070,11 @@ in->data[i]-=value;
 @param in opperand two
 
 */
-void inter_div(struct istruct* one,struct istruct* two)
+void inter_div(struct simulation *sim,struct istruct* one,struct istruct* two)
 {
 if (one->len!=two->len)
 {
-	printf("The arrays are not the same length\n");
+	printf_log(sim,"The arrays are not the same length\n");
 	exit(0);
 }
 
@@ -1120,7 +1083,7 @@ for  (i=0;i<one->len;i++)
 {
 	if (one->x[i]!=two->x[i])
 	{
-		printf("The arrays do not have the same x axis\n");
+		printf_log(sim,"The arrays do not have the same x axis\n");
 		exit(0);
 	}
 	if (two->data[i]!=0) one->data[i]/=two->data[i];
@@ -1133,11 +1096,11 @@ for  (i=0;i<one->len;i++)
 @param in opperand two
 
 */
-void inter_sub(struct istruct* one,struct istruct* two)
+void inter_sub(struct simulation *sim,struct istruct* one,struct istruct* two)
 {
 if (one->len!=two->len)
 {
-	printf("The arrays are not the same length\n");
+	printf_log(sim,"The arrays are not the same length\n");
 	exit(0);
 }
 
@@ -1146,7 +1109,7 @@ for  (i=0;i<one->len;i++)
 {
 	if (one->x[i]!=two->x[i])
 	{
-		printf("The arrays do not have the same x axis\n");
+		printf_log(sim,"The arrays do not have the same x axis\n");
 		exit(0);
 	}
 	one->data[i]-=two->data[i];
@@ -1240,14 +1203,14 @@ for (i=0;i<in->len;i++)
 /**Initialize a 1D istruct
 @param in input istruct
 */
-void inter_init(struct istruct* in)
+void inter_init(struct simulation *sim,struct istruct* in)
 {
 in->len=0;
 in->max_len=100;
 inter_alloc(in,in->max_len);
 }
 
-int inter_get_col_n(char *name)
+int inter_get_col_n(struct simulation *sim,char *name)
 {
 int i=0;
 char temp[10000];
@@ -1258,7 +1221,7 @@ FILE *file;
 file=fopen(name,"r");
 if (file == NULL)
 {
-	printf("inter_get_col_n can not open file %s\n",name);
+	printf_log(sim,"inter_get_col_n can not open file %s\n",name);
 	exit(0);
 }
 
@@ -1296,7 +1259,7 @@ fclose(file);
 return col;
 }
 
-void inter_load_by_col(struct istruct* in,char *name,int col)
+void inter_load_by_col(struct simulation *sim,struct istruct* in,char *name,int col)
 {
 int i=0;
 char temp[1000];
@@ -1310,11 +1273,11 @@ FILE *file;
 file=fopen(name,"r");
 if (file == NULL)
 {
-	printf("inter_load_a can not open file %s\n",name);
+	printf_log(sim,"inter_load_a can not open file %s\n",name);
 	exit(0);
 }
 
-inter_init(in);
+inter_init(sim,in);
 do
 {
 	memset(temp,0,1000);
@@ -1325,7 +1288,6 @@ do
 		if (temp[i]=='\t') temp[i]=' ';
 	}
 
-	//printf("read=%s\n",temp);
 	if ((temp[0]!='#')&&(temp[0]!='\n')&&(temp[0]!='\r')&&(temp[0]!=0))
 	{
 		token = strtok(temp, s);
@@ -1348,7 +1310,6 @@ do
 
 			if (ret==1) inter_append(in,x,y);
 		}
-		//printf("added= %Le %Le\n",x,y);
 
 	}
 
@@ -1513,7 +1474,7 @@ char *fgets_safe(char *buf,int len,FILE *file)
 @param in the istruct holding the data
 @param name The file name.
 */
-void inter_load(struct istruct* in,char *name)
+void inter_load(struct simulation *sim,struct istruct* in,char *name)
 {
 char temp[1000];
 gdouble x;
@@ -1525,20 +1486,20 @@ FILE *file;
 file=fopen(name,"r");
 if (file == NULL)
 {
-	printf("inter_load can not open file %s\n",name);
+	printf_log(sim,"inter_load can not open file %s\n",name);
 	exit(0);
 }
 
-inter_init(in);
+inter_init(sim,in);
 do
 {
 	temp[0]=0;
 	unused_pchar=fgets_safe(temp, 1000, file);
-	//printf("read=%s %d\n",temp,temp[0]);
+
 	if ((temp[0]!='#')&&(temp[0]!='\n')&&(temp[0]!='\r')&&(temp[0]!=0)&&(temp[0]!=0x0D))
 	{
 		sscanf(temp,"%Le %Le",&(x),&(y));
-		//printf("added= %Le %Le\n",x,y);
+
 		inter_append(in,x,y);
 	}
 
@@ -1629,12 +1590,12 @@ for  (i=0;i<in->len;i++)
 /**Print istruct to screen
 @param in struct to print
 */
-void inter_dump(struct istruct* in)
+void inter_dump(struct simulation *sim,struct istruct* in)
 {
 int i=0;
 for  (i=0;i<in->len;i++)
 {
-	printf("%Le %Le\n",in->x[i],in->data[i]);
+	printf_log(sim,"%Le %Le\n",in->x[i],in->data[i]);
 }
 
 }
@@ -1685,8 +1646,7 @@ void inter_save_seg(struct istruct* in,char *path,char *name,int seg)
 {
 FILE *file=NULL;
 int i=0;
-//printf("%d %d\n",in->len);
-//getchar();
+
 int count_max=in->len/seg;
 int count=0;
 char temp[1000];
@@ -1700,7 +1660,6 @@ for  (i=0;i<in->len;i++)
 
 		join_path(2, temp,path,file_name);
 
-		//printf("%s\n",temp);
 		file=fopen(temp,"w");
 		file_count++;
 	}
@@ -1807,9 +1766,6 @@ return 0.0;
 
 if (x>=in->x[in->len-1])
 {
-//inter_dump(in);
-//printf("%s\n",in->name);
-//getchar();
 	i=in->len-1;
 	x0=in->x[i-1];
 	x1=in->x[i];
@@ -1820,13 +1776,13 @@ if (x>=in->x[in->len-1])
 }else
 {
 	i=search(in->x,in->len,x);
-	//printf("%d %d\n",i,in->len);
+
 	x0=in->x[i];
 	x1=in->x[i+1];
 
 	y0=in->data[i];
 	y1=in->data[i+1];
-	//printf("%Le %Le %Le %Le\n",x0,x1,y0,y1);
+
 }
 ret=y0+((y1-y0)/(x1-x0))*(x-x0);
 return ret;

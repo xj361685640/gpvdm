@@ -74,7 +74,7 @@ for (i=0;i<col;i++)
 buffer_dump(sim,"matrix.dat",&buf);
 
 buffer_free(&buf);
-printf(_("Matrix dumped\n"));
+printf_log(sim,_("Matrix dumped\n"));
 }
 
 void complex_solver_free(struct simulation *sim)
@@ -96,17 +96,17 @@ sim->complex_last_nz=0;
 printf_log(sim,_("Complex solver free\n"));
 }
 
-void complex_solver_print(int col,int nz,int *Ti,int *Tj, double *Tx, double *Txz,double *b,double *bz)
+void complex_solver_print(struct simulation *sim,int col,int nz,int *Ti,int *Tj, double *Tx, double *Txz,double *b,double *bz)
 {
 int i;
 for (i=0;i<nz;i++)
 {
-	printf("%d %d %le+i%le\n",Ti[i],Tj[i],Tx[i],Txz[i]);
+	printf_log(sim,"%d %d %le+i%le\n",Ti[i],Tj[i],Tx[i],Txz[i]);
 }
 
 for (i=0;i<col;i++)
 {
-	printf("%le+i%le\n",b[i],bz[i]);
+	printf_log(sim,"%le+i%le\n",b[i],bz[i]);
 }
 
 
@@ -114,12 +114,9 @@ for (i=0;i<col;i++)
 
 int complex_solver(struct simulation *sim,int col,int nz,int *Ti,int *Tj, double *Tx, double *Txz,double *b,double *bz)
 {
-
-//getchar();
 int i;
 void *Symbolic, *Numeric;
 int status;
-//printf("here1\n");
 double *dtemp=NULL;
 int *itemp=NULL;
 if ((sim->complex_last_col!=col)||(sim->complex_last_nz!=nz))
@@ -208,11 +205,9 @@ if (status != UMFPACK_OK) {
 }
 
 // symbolic analysis
-//printf("here2 %d\n",col);
 //status = umfpack_di_symbolic(col, col, sim->complex_Ap, sim->complex_Ai, Ax, &Symbolic, NULL, NULL);
 status = umfpack_zi_symbolic(col, col, sim->complex_Ap, sim->complex_Ai, sim->complex_Ax, sim->complex_Az, &Symbolic, Control, Info) ;
 umfpack_zi_report_status (Control, status) ;
-//printf("here3\n");
 
 if (status != UMFPACK_OK) {
 	complex_error_report(status, __FILE__, __func__, __LINE__);
@@ -238,7 +233,6 @@ if (status != UMFPACK_OK) {
 	return EXIT_FAILURE;
 }
 
-//printf ("\nx (solution of Ax=b): ") ;
     (void) umfpack_zi_report_vector (col, sim->complex_x, sim->complex_xz, Control) ;
 
 umfpack_zi_free_symbolic (&Symbolic) ;

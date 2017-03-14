@@ -46,7 +46,7 @@ void dump_contacts_init(struct simulation *sim,struct device *in,struct contacts
 
 		for (i=0;i<in->ncontacts;i++)
 		{
-			inter_init(&(store->i[i]));
+			inter_init(sim,&(store->i[i]));
 		}
 	}
 }

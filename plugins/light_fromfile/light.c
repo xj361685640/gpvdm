@@ -60,7 +60,7 @@ if (lam==2)
 		
 	struct istruct data;
 
-	inter_load(&data,in->light_file_generation);
+	inter_load(sim,&data,in->light_file_generation);
 
 	for (i=0;i<in->points;i++)
 	{

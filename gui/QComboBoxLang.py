@@ -45,8 +45,14 @@ class QComboBoxLang(QComboBox):
 		self.lang_list.append(lang)
 	
 	def setValue_using_english(self,english):
-		pos=self.english_list.index(english)
-		self.setCurrentIndex(pos)
+		pos=None
+		for i in range(0,len(self.english_list)):
+			if self.english_list[i]==english:
+				pos=i
+				break
+
+		if pos!=None:
+			self.setCurrentIndex(pos)
 
 	def currentText_english(self):
 		pos=self.lang_list.index(self.currentText())

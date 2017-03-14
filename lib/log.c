@@ -32,7 +32,7 @@
 #include <const.h>
 #include <lang.h>
 #include <dump.h>
-
+#include <wchar.h>
 
 void log_time_stamp(struct simulation *sim)
 {

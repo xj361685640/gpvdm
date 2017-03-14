@@ -84,7 +84,7 @@ if (sim->gui==TRUE)
 
 		if (!connection)
 		{
-			printf ("Failed to connect to the D-BUS daemon: %s", error.message);
+			printf_log(sim,"Failed to connect to the D-BUS daemon: %s", error.message);
 			dbus_error_free (&error);
 			return 1;
 		}

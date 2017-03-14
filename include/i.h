@@ -24,6 +24,7 @@
 #ifndef i_h
 #define i_h
 #include "advmath.h"
+#include <sim_struct.h>
 
 struct istruct
 {
@@ -35,13 +36,13 @@ int max_len;
 char name[200];
 };
 
-int inter_get_col_n(char *name);
+int inter_get_col_n(struct simulation *sim,char *name);
 void inter_add_to_hist(struct istruct* in,gdouble pos,gdouble value);
 void inter_init_mesh(struct istruct* in,int len,gdouble min,gdouble max);
 void inter_smooth_range(struct istruct* out,struct istruct* in,int points,gdouble x);
 gdouble inter_avg_range(struct istruct* in,gdouble start,gdouble stop);
 gdouble inter_array_get_max(gdouble *data,int len);
-void inter_div(struct istruct* one,struct istruct* two);
+void inter_div(struct simulation *sim,struct istruct* one,struct istruct* two);
 void inter_div_gdouble(struct istruct* in,gdouble div);
 gdouble inter_get_min_range(struct istruct* in,gdouble min, gdouble max);
 void inter_make_cumulative(struct istruct* in);
@@ -66,16 +67,16 @@ gdouble inter_get_fabs_max(struct istruct* in);
 gdouble inter_norm_to_one_range(struct istruct* in,gdouble min,gdouble max);
 void inter_chop(struct istruct* in,gdouble min, gdouble max);
 void inter_save_a(struct istruct* in,char *path,char *name);
-void inter_dump(struct istruct* in);
+void inter_dump(struct simulation *sim,struct istruct* in);
 void inter_purge_zero(struct istruct* in);
 void inter_append(struct istruct* in,gdouble x,gdouble y);
-void inter_init(struct istruct* in);
+void inter_init(struct simulation *sim,struct istruct* in);
 void inter_sub_gdouble(struct istruct* in,gdouble value);
-void inter_sub(struct istruct* one,struct istruct* two);
+void inter_sub(struct simulation *sim,struct istruct* one,struct istruct* two);
 gdouble inter_sum(struct istruct* in);
 void inter_copy(struct istruct* in,struct istruct* orig,int alloc);
 int inter_get_col(char *file);
-void inter_load_by_col(struct istruct* in,char *name,int col);
+void inter_load_by_col(struct simulation *sim,struct istruct* in,char *name,int col);
 gdouble inter_get_diff(char *out_path,struct istruct* one,struct istruct* two,gdouble start,gdouble stop,struct istruct* mull);
 void inter_pow(struct istruct* in,gdouble p);
 gdouble inter_get_raw(gdouble *x,gdouble *data,int len,gdouble pos);
@@ -84,7 +85,7 @@ void inter_log_y(struct istruct* in);
 void inter_mul(struct istruct* in,gdouble mul);
 void inter_log_x(struct istruct* in);
 void inter_save(struct istruct* in,char *name);
-void inter_load(struct istruct* in,char *name);
+void inter_load(struct simulation *sim,struct istruct* in,char *name);
 gdouble inter_get_hard(struct istruct* in,gdouble x);
 gdouble inter_get(struct istruct* in,gdouble x);
 void inter_print(struct istruct* in);

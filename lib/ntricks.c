@@ -2,9 +2,9 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+//  Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
-//	www.rodmack.com
+//	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
@@ -30,6 +30,7 @@
 #include <thermal.h>
 #include <contacts.h>
 #include <dump.h>
+#include <log.h>
 
 static int unused __attribute__((unused));
 
@@ -59,15 +60,15 @@ void ramp_externalv(struct simulation *sim,struct device *in,gdouble from,gdoubl
 gdouble V=from;
 gdouble dV=0.1;
 if ((to-from)<0.0) dV*= -1.0;
-printf("dV=%Le\n",dV);
-printf("Ramping: from=%Le to=%Le\n",from,to);
+printf_log(sim,"dV=%Le\n",dV);
+printf_log(sim,"Ramping: from=%Le to=%Le\n",from,to);
 
 if (fabs(to-from)<=fabs(dV)) return;
 
 do
 {
 	V+=dV;
-	if (get_dump_status(sim,dump_print_text)==TRUE) printf("ramp: %Lf %Lf %d\n",V,to,in->kl_in_newton);
+	if (get_dump_status(sim,dump_print_text)==TRUE) printf_log(sim,"ramp: %Lf %Lf %d\n",V,to,in->kl_in_newton);
 	sim_externalv(sim,in,V);
 
 	plot_now(sim,in,"jv.plot");
@@ -106,8 +107,8 @@ in->newton_min_itt=3;
 in->electrical_clamp=2.0;
 in->newton_clever_exit=FALSE;
 if ((to-from)<0.0) dV*= -1.0;
-printf("dV=%Le\n",dV);
-printf("Ramping: from=%Le to=%Le\n",from,to);
+printf_log(sim,"dV=%Le\n",dV);
+printf_log(sim,"Ramping: from=%Le to=%Le\n",from,to);
 
 if (fabs(to-from)<=fabs(dV)) return;
 
@@ -119,7 +120,7 @@ do
 
 	if (get_dump_status(sim,dump_print_text)==TRUE)
 	{
-		printf("ramp: %Lf %Lf %d\n",Vapplied,to,in->kl_in_newton);
+		printf_log(sim,"ramp: %Lf %Lf %d\n",Vapplied,to,in->kl_in_newton);
 	}
 
 	solve_all(sim,in);
@@ -144,7 +145,7 @@ if (Vapplied!=to)
 }
 
 
-printf("Finished with ramp\n");
+printf_log(sim,"Finished with ramp\n");
 return;
 }
 
@@ -152,7 +153,7 @@ return;
 void save_state(struct simulation *sim,struct device *in,gdouble to)
 {
 //<clean>
-printf("Dumping state\n");
+printf_log(sim,"Dumping state\n");
 int i;
 int band;
 FILE *state;
@@ -178,7 +179,7 @@ fclose(state);
 int load_state(struct simulation *sim,struct device *in,gdouble voltage)
 {
 //<clean>
-printf("Load state\n");
+printf_log(sim,"Load state\n");
 int i;
 int band;
 gdouble vtest;
@@ -186,18 +187,18 @@ FILE *state;
 state=fopena(get_output_path(sim),"state.dat","r");
 if (!state)
 {
-printf("State not found\n");
+printf_log(sim,"State not found\n");
 return FALSE;
 }
 
 unused=fscanf(state,"%Le",&vtest);
-printf("%Le %Le",voltage,vtest);
+printf_log(sim,"%Le %Le",voltage,vtest);
 if (vtest!=voltage)
 {
-printf("State not found\n");
+printf_log(sim,"State not found\n");
 return FALSE;
 }
-printf("Loading state\n");
+printf_log(sim,"Loading state\n");
 
 contact_set_voltage(sim,in,0,vtest);
 
@@ -244,7 +245,7 @@ i1=get_I(in);
 itot=i1+Vapplied/in->Rshunt;
 
 e1=fabs(itot*Rs+Vapplied-wantedv);
-//printf("%Le\n",e1);
+
 deriv=(e1-e0)/step;
 step= -e1/deriv;
 //step=step/(1.0+fabs(step/clamp));
@@ -258,7 +259,7 @@ e0=e1;
 solve_all(sim,in);
 itot=i1+Vapplied/in->Rshunt;
 e1=fabs(itot*Rs+Vapplied-wantedv);
-//printf("error=%Le Vapplied=%Le \n",e1,Vapplied);
+
 deriv=(e1-e0)/step;
 step= -e1/deriv;
 //gdouble clamp=0.01;
@@ -314,11 +315,9 @@ for (z=0;z<in->zmeshpoints;z++)
 				//plot_now(sim,"thermal.plot");
 				//getchar();
 
-				//printf("ii=%d\n",ii);
 				//plot_now(in);
 				///getchar();
 				if (((in->thermal_conv==TRUE)&&(in->dd_conv==TRUE))||(ittr>10)) cont=FALSE;
-				//printf("%d %d %d\n",in->thermal_conv,in->dd_conv,ii);
 				//getchar();
 				ittr++;
 			}while(cont==TRUE);

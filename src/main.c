@@ -80,13 +80,17 @@ int log_level=0;
 set_logging_level(&sim,log_level_screen);
 cal_path(&sim);
 
-if (scanarg( argv,argc,"--english")==FALSE)
+if (scanarg( argv,argc,"--lang")==TRUE)
+{
+	setlocale(LC_ALL,get_arg_plusone( argv,argc,"--lang"));
+	bindtextdomain("gpvdm",get_lang_path(&sim));
+	textdomain("gpvdm");
+}else
 {
 	setlocale(LC_ALL,"");
 	bindtextdomain("gpvdm",get_lang_path(&sim));
-	textdomain("gpvdm");
+	textdomain("gpvdm");	
 }
-
 if (scanarg( argv,argc,"--html")==TRUE)
 {
 	sim.html=TRUE;

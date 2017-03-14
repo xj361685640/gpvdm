@@ -440,13 +440,11 @@ gdouble kTq=(in->Te[z][x][0]*kb/Q);
 			}else
 			{
 			gdouble update;
-			//printf("%d\n",get_clamp_state());
 
 			gdouble clamp_temp=300.0;
 			update=b[i]/(1.0+fabs(b[i]/in->posclamp/(clamp_temp*kb/Q)));
 			in->phi[z][x][i]+=update;
 
-			//printf("%Le %Le\n",i,b[i]);
 			}
 		}
 
@@ -487,8 +485,6 @@ gdouble kTq=(in->Te[z][x][0]*kb/Q);
 
 				for (band=0;band<in->srh_bands;band++)
 				{
-					//printf("%lf %lf\n",in->xpt[i][band],in->Fpt[i][band]);
-					//getchar();
 
 					in->Fnt[z][x][i][band]= -in->phi[z][x][i]-in->Xi[z][x][i]+dos_srh_get_fermi_n(in,in->n[z][x][i], in->p[z][x][i],band,in->imat[z][x][i],in->Te[z][x][i]);
 					in->Fpt[z][x][i][band]= -in->phi[z][x][i]-in->Xi[z][x][i]-in->Eg[z][x][i]-dos_srh_get_fermi_p(in,in->n[z][x][i], in->p[z][x][i],band,in->imat[z][x][i],in->Th[z][x][i]);
@@ -533,12 +529,6 @@ gdouble kTq=(in->Te[z][x][0]*kb/Q);
 
 
 
-//gdouble N=2.0*pow(((2.0*pi*kb*in->Tl[0]*in->me[0]*m0)/(hp*hp)),1.5);
-//gdouble test=N*exp((-3.000000e-03*Q)/(kb*in->Tl[0]));
-//printf("Check now %e %e\n",get_n_den(-3.000000e-03,in->Tl[0],in->me[0],in->dostype[0],dos_all),test);
-//getchar();
-
-//getchar();
 	ittr++;
 
 	if (adv==TRUE)

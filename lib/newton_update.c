@@ -2,9 +2,9 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+//  Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
-//	www.rodmack.com
+//	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
@@ -42,7 +42,6 @@ int band=0;
 		in->dp[z][x][y]=get_dp_den(in,in->xp[z][x][y]-in->tp[z][x][y],in->Th[z][x][y],in->imat[z][x][y]);
 		in->p[z][x][y]=get_p_den(in,in->xp[z][x][y]-in->tp[z][x][y],in->Th[z][x][y],in->imat[z][x][y]);
 		in->dpdphi[z][x][y]= -get_dp_den(in,in->xp[z][x][y]-in->tp[z][x][y],in->Th[z][x][y],in->imat[z][x][y]);
-//printf("%d one %d\n",i,in->imat[y]);
 
 		in->wn[z][x][y]=get_n_w(in,in->x[z][x][y]+in->t[z][x][y],in->Te[z][x][y],in->imat[z][x][y]);
 		in->wp[z][x][y]=get_p_w(in,in->xp[z][x][y]-in->tp[z][x][y],in->Th[z][x][y],in->imat[z][x][y]);
@@ -92,7 +91,6 @@ int band=0;
 				in->pt[z][x][y][band]=get_p_pop_srh(sim,in,in->xpt[z][x][y][band]-in->tpt[z][x][y],in->Th[z][x][y],band,in->imat[z][x][y]);
 				in->dpt[z][x][y][band]=get_dp_pop_srh(sim,in,in->xpt[z][x][y][band]-in->tpt[z][x][y],in->Th[z][x][y],band,in->imat[z][x][y]);
 				in->pt_all[z][x][y]+=in->pt[z][x][y][band];
-				//printf("%le\n",in->pt[z][x][y][band]);
 			}
 		}
 
@@ -123,7 +121,6 @@ int z=0;
 				//if ((i>in->ymeshpoints/2)&&(i<in->ymeshpoints/2+10)) in->Hex[z][x][y]=1e9;
 				in->epsilonr[z][x][y]=get_dos_epsilonr(in,in->imat[z][x][y]);
 
-				//printf("ended\n");
 				in->Eg[z][x][y]=get_dos_Eg(in,in->imat[z][x][y]);
 				in->B[z][x][y]=get_dos_B(in,in->imat[z][x][y]);
 				in->Dex[z][x][y]=0.0;//get_mat_param(&(in->mat.l[in->imat[z][x][y]]),mat_Dex);
@@ -134,7 +131,6 @@ int z=0;
 
 				in->Ev[z][x][y]= -in->Xi[z][x][y]-in->Eg[z][x][y];
 
-				//printf("%d %e %e\n",i,in->mun[z][x][y],in->mup[z][x][y]);
 
 				in->Nc[z][x][y]=get_Nc_free(in,in->imat[z][x][y]);
 

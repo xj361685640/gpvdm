@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.88\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2017-03-11 12:03+0000\n"
+"POT-Creation-Date: 2017-03-14 20:17+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -105,35 +105,35 @@ msgstr ""
 msgid "It was dark I did not solve any slices\n"
 msgstr ""
 
-#: ../lib/util.c:144 ../lib/util.c:162
+#: ../lib/util.c:182 ../lib/util.c:200
 msgid "Error writing file"
 msgstr ""
 
-#: ../lib/util.c:329
+#: ../lib/util.c:367
 msgid "I don't understand the command"
 msgstr ""
 
-#: ../lib/util.c:341
+#: ../lib/util.c:379
 msgid "Can not read file"
 msgstr ""
 
-#: ../lib/util.c:372 ../lib/util.c:486 ../lib/util.c:546 ../lib/util.c:639
+#: ../lib/util.c:410 ../lib/util.c:523 ../lib/util.c:583 ../lib/util.c:673
 msgid "File not found"
 msgstr ""
 
-#: ../lib/util.c:524 ../lib/util.c:584 ../lib/util.c:685
+#: ../lib/util.c:561 ../lib/util.c:621 ../lib/util.c:719
 msgid "Can not write file"
 msgstr ""
 
-#: ../lib/util.c:600 ../lib/util.c:608
+#: ../lib/util.c:636 ../lib/util.c:644
 msgid "Can not open file"
 msgstr ""
 
-#: ../lib/util.c:677
+#: ../lib/util.c:711
 msgid "Token not found in file"
 msgstr ""
 
-#: ../lib/util.c:853
+#: ../lib/util.c:887
 msgid "Deleting directory"
 msgstr ""
 
@@ -153,9 +153,9 @@ msgstr ""
 msgid "Complex solver free\n"
 msgstr ""
 
-#: ../lib/complex_solver.c:135 ../lib/complex_solver.c:144
-#: ../lib/complex_solver.c:153 ../lib/complex_solver.c:162
-#: ../lib/complex_solver.c:171 ../lib/complex_solver.c:180
+#: ../lib/complex_solver.c:132 ../lib/complex_solver.c:141
+#: ../lib/complex_solver.c:150 ../lib/complex_solver.c:159
+#: ../lib/complex_solver.c:168 ../lib/complex_solver.c:177
 msgid "complex_solver realloc memory error"
 msgstr ""
 
@@ -543,32 +543,32 @@ msgstr ""
 msgid "Electrons on right contact"
 msgstr ""
 
-#: ../src/main.c:125
+#: ../src/main.c:129
 #, python-format
 msgid "gpvdm_core, Version %s\n"
 msgstr ""
 
-#: ../src/main.c:128
+#: ../src/main.c:132
 msgid "There is ABSOLUTELY NO WARRANTY; not even for MERCHANTABILITY or\n"
 msgstr ""
 
-#: ../src/main.c:129
+#: ../src/main.c:133
 msgid "FITNESS FOR A PARTICULAR PURPOSE.\n"
 msgstr ""
 
-#: ../src/main.c:180
+#: ../src/main.c:184
 msgid "General-purpose Photovoltaic Device Model (https://www.gpvdm.com)\n"
 msgstr ""
 
-#: ../src/main.c:181
+#: ../src/main.c:185
 msgid "You should have received a copy of the GNU General Public License\n"
 msgstr ""
 
-#: ../src/main.c:182
+#: ../src/main.c:186
 msgid "along with this software.  If not, see www.gnu.org/licenses/.\n"
 msgstr ""
 
-#: ../src/main.c:184
+#: ../src/main.c:188
 msgid "If you wish to collaborate in anyway please get in touch:\n"
 msgstr ""
 
@@ -592,7 +592,7 @@ msgstr ""
 msgid "Load DoS"
 msgstr ""
 
-#: ../src/pos.c:525
+#: ../src/pos.c:521
 msgid "Poisson solver error"
 msgstr ""
 
@@ -2529,15 +2529,15 @@ msgstr ""
 msgid "Citing the model"
 msgstr ""
 
-#: ../gui/tab_terminal.py:63
+#: ../gui/tab_terminal.py:64
 msgid "Running: "
 msgstr ""
 
-#: ../gui/tab_terminal.py:75
+#: ../gui/tab_terminal.py:76
 msgid "I could not find a free cpu to run the command on"
 msgstr ""
 
-#: ../gui/tab_terminal.py:108
+#: ../gui/tab_terminal.py:109
 msgid "CPU"
 msgstr ""
 
@@ -3157,8 +3157,12 @@ msgstr ""
 msgid "Enable simplex reset"
 msgstr ""
 
-#: ../gui/token_lib.py:165 ../gui/token_lib.py:166
+#: ../gui/token_lib.py:165
 msgid "Simplex reset steps"
+msgstr ""
+
+#: ../gui/token_lib.py:166
+msgid "Fiting method"
 msgstr ""
 
 #: ../gui/token_lib.py:169

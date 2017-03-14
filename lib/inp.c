@@ -2,7 +2,7 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012-2017 Roderick C. I. MacKenzie r.c.i.mackenzie AT googlemail.com
+//  Copyright (C) 2012-2017 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
 //	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -159,18 +159,15 @@ inp_listdir(sim,dir_name,&a);
 	{
 		if ((strcmp(a.names[i],".")!=0)&&(strcmp(a.names[i],"..")!=0))
 		{
-			//printf("%s\n",a.names[i]);
 			if ((cmpstr_min(a.names[i],start_of_name)==0)&&(strcmp_end(a.names[i],".inp")==0))
 			{
 				inp_init(sim,&inp);
 				inp_load_from_path(sim,&inp,dir_name,a.names[i]);
 				inp_search_string(sim,&inp,sim_name,"#sim_menu_name");
 				inp_free(sim,&inp);
-				//printf(">>>>%s<<<%s<< %d\n",sim_name,search_name,strcmp(sim_name,search_name));
 				if (strcmp(sim_name,search_name)==0)
 				{
 					strcpy(ret,a.names[i]);
-					//printf("FOUND!!!\n");
 					found=TRUE;
 					break;
 				}
@@ -335,7 +332,7 @@ int inp_search_pos(struct simulation *sim,struct inp_file *in,char *token)
 		{
 			break;
 		}
-		//printf("'%s' '%s'\n", line,token);
+
 		if (strcmp(line,token)==0)
 		{
 			return pos;
@@ -420,7 +417,6 @@ if (f!=NULL)
 
 	join_path(2,zip_path,file_path,"sim.gpvdm");
 
-	//printf("1>%s 2>%s 3>%s 4>%s\n",full_file_name,file_path,file_name,zip_path);
 	int err = 0;
 	struct zip *z = zip_open(zip_path, 0, &err);
 
@@ -461,7 +457,7 @@ if (f!=NULL)
 			(*buf)[*len]=0;
 		}else
 		{
-			//printf("can't find rod");
+
 			zip_close(z);
 		 	return -1;
 		}
@@ -502,7 +498,7 @@ int ret=0;
 in->pos=0;
 if (strcmp(in->full_name,file)!=0)
 {
-	//printf("Reload %s %s\n",in->full_name,file);
+
 	if (in->data!=NULL)
 	{
 		inp_free(sim,in);
@@ -599,7 +595,6 @@ memcpy(in->data, temp, (len+1)*sizeof(char));
 
 if (in->data[len]!=0)
 {
-	//printf("%s %d\n",in->data,len);
 	ewe(sim,"String not ended\n");
 }
 free(temp);
@@ -764,7 +759,7 @@ void inp_check(struct simulation *sim,struct inp_file *in,double ver)
 {
 double read_ver=0.0;
 	inp_reset_read(sim,in);
-	//printf("%s\nname=%s\n",in->data,in->full_name);
+
 	char *line=inp_get_string(sim,in);
 	while(line!=NULL)
 	{
@@ -802,7 +797,7 @@ char* inp_search_part(struct simulation *sim,struct inp_file *in,char *token)
 	char * line = inp_get_string(sim,in);
 	while(line!=NULL)
 	{
-		//printf("'%s' '%s'\n", line,token);
+
 		if (cmpstr_min(line,token)==0)
 		{
 			return line;
@@ -827,7 +822,7 @@ int inp_search_offset(struct simulation *sim,char* out,struct inp_file *in,char 
 	char * line = inp_get_string(sim,in);
 	while(line!=NULL)
 	{
-		//printf("'%s' '%s'\n", line,token);
+
 		if (strcmp(line,token)==0)
 		{
 			for (i=0;i<offset;i++)
@@ -1002,7 +997,7 @@ int inp_search_english(struct simulation *sim,struct inp_file *in,char *token)
 	char * line = inp_get_string(sim,in);
 	while(line!=NULL)
 	{
-		//printf("'%s' '%s'\n", line,token);
+
 		if (strcmp(line,token)==0)
 		{
 			line  = inp_get_string(sim,in);

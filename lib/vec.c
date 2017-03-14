@@ -2,7 +2,7 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012-2016 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+//  Copyright (C) 2012-2016 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
 //	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -124,7 +124,6 @@ double y=0.0;
 
 x=my_vec->x*cos(ang)-my_vec->y*sin(ang);
 y=my_vec->x*sin(ang)+my_vec->y*cos(ang);
-//printf("intern %lf %lf\n",my_vec->x*sin(ang),my_vec->y*cos(ang));
 my_vec->x=x;
 my_vec->y=y;
 
@@ -193,7 +192,7 @@ void vec_norm(struct vec *my_vec)
 ///Print a vector to stdout
 void vec_print(struct vec *my_vec)
 {
-	printf("%lf %lf %lf\n",my_vec->x,my_vec->y,my_vec->z);
+	//printf_log(sim,"%lf %lf %lf\n",my_vec->x,my_vec->y,my_vec->z);
 }
 
 ///Set a vector
@@ -320,7 +319,6 @@ int vec_cmp(struct vec *my_vec1,struct vec *my_vec2)
 struct vec temp;
 vec_cpy(&temp,my_vec1);
 vec_sub(&temp,my_vec2);
-//printf ("%lf\n",);
 double test=vec_mod(&temp);
 if (test<1e-6) return 0;
 return 1;
@@ -364,7 +362,6 @@ double ang_vec(struct vec *one,struct vec *two)
 
 	cos_=(acos(dot/(vec_mod(one)*vec_mod(two)))/(3.1415026))*180.0;
 	//if (dot<0) cos_=360.0-cos_;
-	//printf("%lf\n",dot);
 	return cos_;
 }
 

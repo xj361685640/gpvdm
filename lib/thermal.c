@@ -22,6 +22,7 @@
 #include "sim.h"
 #include "solver_interface.h"
 #include <cal_path.h>
+#include <log.h>
 
 long double min_thermal_error=2e-11;
 
@@ -71,24 +72,21 @@ for (i=0;i<in->ymeshpoints;i++)
 	
 	in->He[z][x][i]=(Ecr-Ecl)*Jn/dh;//+in->Hasorb[i]/2.0;
 	in->Hh[z][x][i]=(Evr-Evl)*Jp/dh;//+in->Hasorb[i]/2.0;
-	//printf("%Le\n",in->Hasorb[i]);
-	//getchar();
+
 	in->ke[z][x][i]=(5/2+1.5)*kb*(kb/Q)*in->Te[z][x][i]*in->mun[z][x][i]*in->n[z][x][i];
 	in->kh[z][x][i]=(5/2+1.5)*kb*(kb/Q)*in->Th[z][x][i]*in->mup[z][x][i]*in->p[z][x][i];
 	
-	//printf("%Le\n",in->He[i]);
-	//getchar();
 }
 
 }
 
-void dump_thermal(struct device *in, int z, int x)
+void dump_thermal(struct simulation *sim,struct device *in, int z, int x)
 {
 int i;
 
 for (i=0;i<in->ymeshpoints;i++)
 {
-	printf("%Le Tl=%Lf Te=%Lf Th=%Lf %Le %Le %Le %Le \n",in->ymesh[i],in->Tl[z][x][i],in->Te[z][x][i],in->Th[z][x][i],in->Hl[z][x][i],in->He[z][x][i],in->Hh[z][x][i],in->kl[z][x][i]);
+	printf_log(sim,"%Le Tl=%Lf Te=%Lf Th=%Lf %Le %Le %Le %Le \n",in->ymesh[i],in->Tl[z][x][i],in->Te[z][x][i],in->Th[z][x][i],in->Hl[z][x][i],in->He[z][x][i],in->Hh[z][x][i],in->kl[z][x][i]);
 }
 
 }
@@ -120,7 +118,7 @@ return tot;
 
 int solve_thermal(struct simulation *sim,struct device *in, int z, int x)
 {
-printf("Solve thermal l=%d e=%d h=%d\n",in->thermal_l,in->thermal_e,in->thermal_h);
+printf_log(sim,"Solve thermal l=%d e=%d h=%d\n",in->thermal_l,in->thermal_e,in->thermal_h);
 
 int i;
 
@@ -255,8 +253,7 @@ update_heat(in,z,x);
 				kll=in->kl[z][x][0];
 				kel=in->ke[z][x][0];
 				khl=in->kh[z][x][0];
-				//printf("%d\n",in->Tliso);
-				//getchar();
+
 				if (in->Tliso==FALSE)
 				{
 					Tel=in->Tll;
@@ -601,15 +598,14 @@ update_heat(in,z,x);
 			in->Th[z][x][i]+=b[i+2*in->ymeshpoints];
 		}
 
-
 		error=get_thermal_error(in,b);
-		printf("%ld Thermal error = %Le %Le\n",ittr,error,min_thermal_error);
+		printf_log(sim,"%ld Thermal error = %Le %Le\n",ittr,error,min_thermal_error);
 		if ((ittr<2)&&(error<min_thermal_error)) in->thermal_conv=TRUE;
 		ittr++;
 		
 	}while((ittr<200)&&(error>min_thermal_error));
 
-dump_thermal(in,z,x);
+dump_thermal(sim,in,z,x);
 /*
 for (i=0;i<in->ymeshpoints;i++)
 {

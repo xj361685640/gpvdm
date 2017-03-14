@@ -69,7 +69,7 @@ if (isfile(file_path)!=0)
 	join_path(2,file_path,get_materials_path(sim),in->suns_spectrum_file);
 }
 
-inter_load(&(in->sun_read),file_path);
+inter_load(sim,&(in->sun_read),file_path);
 inter_sort(&(in->sun_read));
 
 in->mat=(struct istruct *)malloc(in->layers*sizeof(struct istruct));
@@ -134,7 +134,7 @@ for (i=0;i<in->layers;i++)
 	{
 		join_path(3, file_path,get_materials_path(sim),in->material_dir_name[i],"alpha_gen.omat");
 	}
-	inter_load(&(in->mat[i]),file_path);
+	inter_load(sim,&(in->mat[i]),file_path);
 	inter_sort(&(in->mat[i]));
 
 	join_path(3,file_path,get_materials_path(sim),in->material_dir_name[i],"n.omat");
@@ -143,7 +143,7 @@ for (i=0;i<in->layers;i++)
 		join_path(3, file_path,get_materials_path(sim),in->material_dir_name[i],"n_gen.omat");
 	}
 
-	inter_load(&(in->mat_n[i]),file_path);
+	inter_load(sim,&(in->mat_n[i]),file_path);
 	//printf_log(sim,"%s\n",file_path);
 	//inter_dump(&in->mat_n[i]);
 	//getchar();

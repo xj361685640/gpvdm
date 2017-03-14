@@ -71,31 +71,31 @@ gdouble Vexternal;
 lam=light_get_pos_from_wavelength(sim,&(in->mylight),in->led_wavelength);//light_find_wavelength(&(in->mylight),in->led_wavelength);
 
 struct istruct ivexternal;
-inter_init(&ivexternal);
+inter_init(sim,&ivexternal);
 
 struct istruct jvexternal;
-inter_init(&jvexternal);
+inter_init(sim,&jvexternal);
 
 struct istruct jv;
-inter_init(&jv);
+inter_init(sim,&jv);
 
 struct istruct jvavg;
-inter_init(&jvavg);
+inter_init(sim,&jvavg);
 
 struct istruct charge;
-inter_init(&charge);
+inter_init(sim,&charge);
 
 struct istruct charge_tot;
-inter_init(&charge_tot);
+inter_init(sim,&charge_tot);
 
 struct istruct klist;
-inter_init(&klist);
+inter_init(sim,&klist);
 
 struct istruct lv;
-inter_init(&lv);
+inter_init(sim,&lv);
 
 struct istruct li;
-inter_init(&li);
+inter_init(sim,&li);
 
 gdouble Vapplied=0.0;
 contact_set_active_contact_voltage(sim,in,Vapplied);

@@ -25,6 +25,7 @@
 
 #include "contact_struct.h"
 
+void contacts_passivate(struct simulation *sim,struct device *in);
 void contacts_load(struct simulation *sim,struct device *in);
 void contacts_update(struct simulation *sim,struct device *in);
 gdouble contact_get_voltage(struct simulation *sim,struct device *in,int contact);
@@ -39,4 +40,5 @@ long double contacts_get_J(struct device *in, int n);
 long double contacts_get_Jleft(struct device *in);
 long double contacts_get_Jright(struct device *in);
 int contacts_get_active_contact_left_right(struct device *in);
+void contacts_dump(struct simulation *sim,struct device *in);
 #endif

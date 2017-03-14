@@ -50,16 +50,16 @@ struct dynamic_store store;
 dump_dynamic_init(sim,&store,in);
 
 struct istruct out_i;
-inter_init(&out_i);
+inter_init(sim,&out_i);
 
 struct istruct out_v;
-inter_init(&out_v);
+inter_init(sim,&out_v);
 
 struct istruct out_fx;
-inter_init(&out_fx);
+inter_init(sim,&out_fx);
 
 struct istruct real_imag;
-inter_init(&real_imag);
+inter_init(sim,&real_imag);
 
 struct stat st = {0};
 char out_dir[1000];

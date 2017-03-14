@@ -32,6 +32,7 @@
 #include <sim.h>
 #include <solver_interface.h>
 #include <contacts.h>
+#include <plot.h>
 
 static gdouble Jnl=0.0;
 static gdouble Jnr=0.0;

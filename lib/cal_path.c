@@ -71,9 +71,6 @@ if (theFolder!=NULL)
 
 closedir (theFolder);
 
-}else
-{
-	printf("can't open\n");
 }
 
 ewe(sim,"I can't find the dll %s,\n",lib_name);
@@ -159,8 +156,6 @@ if (len == -1)
 
 
 get_dir_name_from_path(sim->exe_path, temp);
-
-//printf("I'm in %s\n",sim->exe_path);
 
 if (isfile("configure.ac")==0)
 {

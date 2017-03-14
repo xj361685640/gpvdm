@@ -25,6 +25,7 @@
 #include "const.h"
 #include <cal_path.h>
 #include "contacts.h"
+#include <log.h>
 
 void contacts_time_step(struct simulation *sim,struct device *in)
 {
@@ -122,12 +123,12 @@ for (x=0;x<in->xmeshpoints;x++)
 
 }
 
-void contacts_dump(struct device *in)
+void contacts_dump(struct simulation *sim,struct device *in)
 {
 int i;
 	for (i=0;i<in->ncontacts;i++)
 	{
-		printf("%Le\n",in->contacts[i].voltage);
+		printf_log(sim,"%Le\n",in->contacts[i].voltage);
 	}
 	
 }

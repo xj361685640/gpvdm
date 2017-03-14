@@ -2,9 +2,9 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+//  Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
-//	www.rodmack.com
+//	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
@@ -117,7 +117,6 @@ if (ypos<0) ypos=0;
 if (xpos>=in->xpoints) xpos=in->xpoints-1;
 if (ypos>=in->ypoints) ypos=in->ypoints-1;
 
-//printf("%d %d\n",xpos,ypos);
 
 in->data[xpos][ypos]=data;
 
@@ -133,8 +132,6 @@ if (ypos<0) ypos=0;
 if (xpos>=in->xpoints) xpos=in->xpoints-1;
 if (ypos>=in->ypoints) ypos=in->ypoints-1;
 
-//printf("%d %d\n",xpos,ypos);
-
 in->data[xpos][ypos]+=data;
 
 
@@ -144,8 +141,7 @@ void frame_data_set_if_bigger(struct map *in,double x,double y,double data)
 {
 int xpos=(x-in->xstart)/in->xdelta;
 int ypos=(y-in->ystart)/in->ydelta;
-//printf("%lf %lf %lf %lf\n",(x-in->xstart)/in->xdelta,(y-in->ystart)/in->ydelta,in->xstart,in->ystart);
-//getchar();
+
 if (xpos<0) xpos=0;
 if (ypos<0) ypos=0;
 if (xpos>=in->xpoints) xpos=in->xpoints-1;

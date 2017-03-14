@@ -40,7 +40,7 @@ gdouble mesh_len=0.0;
 
 	if (fabs(in->ylen-mesh_len)>1e-14)
 	{
-		printf("calling remesh\n");
+		printf_log(sim,"calling remesh\n");
 		//getchar();
 		mesh_remesh_y(sim,in);
 		printf_log(sim,"Warning: Length of epitaxy and computational mesh did not match, so I remesshed the device.\n");
@@ -104,7 +104,7 @@ void mesh_save_y(struct simulation *sim,struct device *in)
 	strcat(buffer,"#end\n");
 
 	join_path(2,full_file_name,get_input_path(sim),"mesh_y.inp");
-	printf("Write new mesh to: %s\n",full_file_name);
+	printf_log(sim,"Write new mesh to: %s\n",full_file_name);
 	zip_write_buffer(sim,full_file_name,buffer, strlen(buffer));
 
 }
@@ -208,7 +208,7 @@ void mesh_load(struct simulation *sim,struct device *in)
 		in->meshdata_y[i].len=fabs(in->meshdata_y[i].len);
 		hard_limit(sim,token0,&(in->meshdata_y[i].len));
 		in->meshdata_y[i].den=in->meshdata_y[i].len/in->meshdata_y[i].number;
-		//printf("realloc den\n");
+
 		in->ymeshpoints+=in->meshdata_y[i].number;
 	}
 
@@ -275,14 +275,14 @@ void mesh_build(struct simulation *sim,struct device *in)
 			in->imat[0][0][pos]=epitaxy_get_electrical_material_layer(&(in->my_epitaxy),dpos);
 			in->imat_epitaxy[0][0][pos]=epitaxy_get_epitaxy_layer_using_electrical_pos(&(in->my_epitaxy),dpos);
 
-			//printf("%s\n",sim->output_path);
-			//printf("here %d %d %Le %Le %Le %Le\n",in->imat[0][0][pos],pos,dpos,in->meshdata_y[i].den,in->meshdata_y[i].len,in->meshdata_y[i].number);
+			//printf_log(sim,"%s\n",sim->output_path);
+			//printf_log(sim,"here %d %d %Le %Le %Le %Le\n",in->imat[0][0][pos],pos,dpos,in->meshdata_y[i].den,in->meshdata_y[i].len,in->meshdata_y[i].number);
 			//getchar();
 			for (z=0;z<in->zmeshlayers;z++)
 			{
 				for (x=0;x<in->xmeshlayers;x++)
 				{
-					//printf("%ld %ld %d\n",z,x,pos);
+					//printf_log("%ld %ld %d\n",z,x,pos);
 					in->imat[z][x][pos]=in->imat[0][0][pos];
 				}
 			}
@@ -313,6 +313,6 @@ for (i=0;i<in->ymeshpoints;i++)
 		cur_i=in->imat[0][0][i];
 		in->layer_start[cur_i]=in->ymesh[i];//-(in->ymesh[i]-in->ymesh[i-1])/2;
 	}
-//printf("%d\n",in->imat[i]);
+//printf_log("%d\n",in->imat[i]);
 }
 }

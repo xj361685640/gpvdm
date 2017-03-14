@@ -85,17 +85,17 @@ void solver(struct simulation *sim,int col,int nz,int *Ti,int *Tj, long double *
 (*sim->dll_matrix_solve)(sim,col,nz,Ti,Tj,Tx,b);
 }
 
-void dump_matrix(struct device *in)
+void dump_matrix(struct simulation *sim,struct device *in)
 {
 int i;
 	for (i=0;i<in->N;i++)
 	{
-		printf("%ld %ld %Le\n",in->Ti[i],in->Tj[i],in->Tx[i]);
+		printf_log(sim,"%ld %ld %Le\n",in->Ti[i],in->Tj[i],in->Tx[i]);
 	}
 	
 	for (i=0;i<in->M;i++)
 	{
-		printf("%Le\n",in->b[i]);
+		printf_log(sim,"%Le\n",in->b[i]);
 	}
 	//(*sim->dll_matrix_dump)(sim,col,nz,Ti,Tj, Tx,b,index);
 }
@@ -107,7 +107,7 @@ if (sim->dll_matrix_handle!=NULL)
 	(*sim->dll_matrix_solver_free)(sim);
 
 
-	printf("DEALLOC=%p\n",sim->dll_matrix_handle);
+	printf_log(sim,"DEALLOC=%p\n",sim->dll_matrix_handle);
 
 	if (dlclose(sim->dll_matrix_handle)!=0)
 	{

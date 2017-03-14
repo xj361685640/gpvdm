@@ -36,6 +36,44 @@
 #include <ctype.h>
 #include <cal_path.h>
 
+static char* unused_pchar __attribute__((unused));
+
+/**Get length of a file in lines
+@param file_name file name
+*/
+int get_file_len(struct simulation *sim,char *file_name)
+{
+FILE *file;
+if (!(file=fopen(file_name,"r")))
+{
+	printf_log(sim,"Error opening file %s\n",file_name);
+	exit(0);
+}
+char buffer[1000];
+
+int i;
+i=0;
+char *p;
+do
+{
+	buffer[0]=0;
+	unused_pchar=fgets(buffer, 1000, file);
+	p=buffer;
+	if (buffer[0]=='#')
+	{
+		i--;
+	}else
+	{
+		//Check for empty line
+		while(*p==' ' || *p=='\t') p++;
+		if ((*p=='\r')||(*p=='\n')||(*p==0)) i--;
+	}
+i++;
+}while(!feof(file));
+//i--;
+fclose(file);
+return i;
+}
 
 void split_dot(char *out, char *in)
 {
@@ -115,14 +153,14 @@ void time_with_units(char *out,double number)
 }
 
 
-void print_hex(unsigned char *data)
+void print_hex(struct simulation *sim,unsigned char *data)
 {
 int i;
 for (i=0;i<16;i++)
 {
-	printf("%02x",data[i]);
+	printf_log(sim,"%02x",data[i]);
 }
-printf("\n");
+printf_log(sim,"\n");
 }
 
 
@@ -386,10 +424,10 @@ void randomprint(struct simulation *sim,char *in)
 		
 		if ((in[i]!='\n')||(sim->html==FALSE))
 		{
-			printf("%c",in[i]);
+			printf_log(sim,"%c",in[i]);
 		}else
 		{
-			printf("<br>");
+			printf_log(sim,"<br>");
 		}
 
 		textcolor(sim,fg_reset);
@@ -446,12 +484,11 @@ int i;
 static char no[] = "";
 for (i=0;i<count;i++)
 {
-//printf("%s %s\n",in[i],find);
+
 if (strcmp(in[i],find)==0)
 {
        if ((i+1)<count)
        {
-		//printf("%s\n",in[i+1]);
                return in[i+1];
        }else
        {
@@ -584,7 +621,6 @@ fclose(out);
 
 void copy_file(struct simulation *sim,char *output,char *input)
 {
-//printf ("%s %s",input,output);
 char buf[8192];
 struct stat results;
 int in_fd = open(input, O_RDONLY);
@@ -605,8 +641,6 @@ if (in_fd== -1)
 while (1)
 {
     ssize_t result = read(in_fd, buf, 8192*sizeof(char));
-
-	//printf("%d\n",result);
 
     if (result==0)
 	{
@@ -832,7 +866,6 @@ char filepath[256];
 						remove(filepath);
 				}else
 				{
-					//printf("Deleteing file =%s\n",filepath);
 					remove(filepath);
 				}
 			}
