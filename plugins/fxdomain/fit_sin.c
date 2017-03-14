@@ -175,7 +175,6 @@ gsl_vector *ss;
 x = gsl_vector_alloc (fitvars);
 ss = gsl_vector_alloc (fitvars);
 
-//printf("%le %le\n",mag,delta);
 
 int pos=0;
 gsl_vector_set (x, pos, mag);
@@ -206,19 +205,19 @@ pos++;
 
 		//if (status == GSL_SUCCESS)
 		//{
-		//	printf ("converged to minimum at\n");
+		//	printf_log (sim,"converged to minimum at\n");
 		//}
 		printf_log(sim,"step=%d error=%Le mag=%le delta=%le fx=%Le\n",ittr,last_error,mag, delta,fx);
 
 
 		if (status != GSL_CONTINUE)
 		{
-			printf("Fitting stopped\n");
+			printf_log(sim,"Fitting stopped\n");
 			stop=TRUE;
 		}
 		mag=gsl_vector_get(s->x, 0);
 		delta=gsl_vector_get(s->x, 1);
-		//printf("%s %le %10.3e delta=%10.3e\n",prefix,s->fval,mag,delta);
+		//printf_log(sim,"%s %le %10.3e delta=%10.3e\n",prefix,s->fval,mag,delta);
 
 		if (ittr>200)
 		{

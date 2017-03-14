@@ -111,7 +111,7 @@ if (in->go_time==TRUE)
 			}
 		}
 	}
-	//printf("%le\n",diff);
+
 	diff/=(n+p);
 	diff*=100.0;
 }
@@ -456,10 +456,8 @@ for (z=0;z<in->zmeshpoints;z++)
 			if (fabs(J-Javg)<Jstd_dev*0.05)
 			{
 				Jtot+=in->Jn[z][x][y]+in->Jp[z][x][y];
-				//printf("%d count\n",i);
-			}else
-			{
-			//printf("%d not count\n",i);
+
+				
 			}
 		}
 	}
@@ -531,7 +529,6 @@ for (z=0;z<in->zmeshpoints;z++)
 }
 
 gdouble dx=in->ymesh[1]-in->ymesh[0];
-//printf("\n\n%e %e\n\n",dx*(gdouble)in->ymeshpoints,in->ymesh[in->ymeshpoints-1]);
 for (z=0;z<in->zmeshpoints;z++)
 {
 	for (x=0;x<in->xmeshpoints;x++)
@@ -543,12 +540,9 @@ for (z=0;z<in->zmeshpoints;z++)
 		}
 	}
 }
-//printf("%e\n",in->ymesh[in->ymeshpoints-1]);
-//getchar();
 rn_count+=locat_n_tot*in->dt;
 rp_count+=locat_p_tot*in->dt;
 
-//printf("\n%e %e\n",rn_count,rp_count);
 }
 
 gdouble get_extracted_np(struct device *in)
@@ -574,9 +568,6 @@ for (z=0;z<in->zmeshpoints;z++)
 		}
 	}
 }
-//printf("%le %le %le\n",in->n[i]-in->nfinit[i],in->nt_all[i],in->ntinit[i]);
-//getchar();
-
 
 return sum_n/((gdouble)(in->xmeshpoints*in->ymeshpoints*in->zmeshpoints));
 }
@@ -665,8 +656,7 @@ for (z=0;z<in->zmeshpoints;z++)
 		}
 	}
 }
-//printf("%le %le %le\n",tot,n,tot/n);
-//getchar();
+
 return tot/n;
 }
 
@@ -1116,7 +1106,7 @@ gdouble J=0.0;
 J=get_J(in);
 if (in->lr_pcontact==RIGHT) J*= -1.0;
 J+=Vapplied/in->Rshunt/in->area;
-//printf("%e %e %e\n",(in->xlen*in->zlen),in->Rshunt,in->area);
+
 return J;
 }
 
@@ -1301,7 +1291,7 @@ Vapplied=contact_get_active_contact_voltage(sim,in);
 //{
 J=get_equiv_J(sim,in);
 //}
-//printf("%e\n",in->Rcontact);
+
 gdouble V=J*in->Rcontact*in->area+Vapplied;
 return V;
 }

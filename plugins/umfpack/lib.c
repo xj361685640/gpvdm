@@ -131,13 +131,10 @@ Control[UMFPACK_BLOCK_SIZE]=20;
 //Control [UMFPACK_STRATEGY]=UMFPACK_STRATEGY_SYMMETRIC;
 //Control [UMFPACK_STRATEGY]=UMFPACK_STRATEGY_UNSYMMETRIC;
 //Control [UMFPACK_ORDERING]=UMFPACK_ORDERING_NONE;//UMFPACK_ORDERING_BEST;//UMFPACK_ORDERING_AMD;//UMFPACK_ORDERING_BEST;//
-//printf("%lf\n",Control[UMFPACK_BLOCK_SIZE]);
 //Control [UMFPACK_PIVOT_TOLERANCE]=0.0001;
 //Control[UMFPACK_SINGLETONS]=1;
 //Control[UMFPACK_SCALE]=3;
 status = umfpack_di_triplet_to_col(col, col, nz, Ti, Tj, sim->Tx, sim->Ap, sim->Ai, sim->Ax, NULL);
-//printf("rod1\n");
-//getchar();
 
 if (status != UMFPACK_OK) {
 	error_report(status, __FILE__, __func__, __LINE__);
@@ -145,12 +142,7 @@ if (status != UMFPACK_OK) {
 }
 
 // symbolic analysis
-//printf("here2 %d\n",col);
 status = umfpack_di_symbolic(col, col, sim->Ap, sim->Ai, sim->Ax, &Symbolic, Control, Info);
-//printf("rod2\n");
-//getchar();
-
-//printf("here3\n");
 
 if (status != UMFPACK_OK) {
 	error_report(status, __FILE__, __func__, __LINE__);
@@ -159,8 +151,6 @@ if (status != UMFPACK_OK) {
 
 // LU factorization
 umfpack_di_numeric(sim->Ap, sim->Ai, sim->Ax, Symbolic, &Numeric, Control, Info);
-//printf("rod5\n");
-//getchar();
 
 
 if (status != UMFPACK_OK) {
@@ -170,16 +160,10 @@ if (status != UMFPACK_OK) {
 // solve system
 
 umfpack_di_free_symbolic(&Symbolic);
-//printf("rod a\n");
-//getchar();
 
 
 umfpack_di_solve(UMFPACK_A, sim->Ap, sim->Ai, sim->Ax, sim->x, sim->b, Numeric, Control, Info);
 
-//printf("rod b\n");
-//getchar();
-
-//printf("%lf\n",Info [UMFPACK_ORDERING_USED]);
 
 if (status != UMFPACK_OK) {
 	error_report(status, __FILE__, __func__, __LINE__);
@@ -187,8 +171,6 @@ if (status != UMFPACK_OK) {
 }
 
 umfpack_di_free_numeric(&Numeric);
-//printf("rod\n");
-//getchar();
 
 for (i=0;i<col;i++)
 {

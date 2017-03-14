@@ -37,7 +37,7 @@ umfpack_solver(sim,col,nz,Ti,Tj, Tx,b);
 
 EXPORT void dll_matrix_dump(struct simulation *sim,int col,int nz,int *Ti,int *Tj, long double *Tx,long double *b,char *index)
 {
-printf("hello\n");
+printf_log(sim,"hello\n");
 }
 
 EXPORT void dll_matrix_solver_free(struct simulation *sim)
