@@ -45,19 +45,19 @@ printf_log(sim,"init: mesh\n");
 
 	int layer=0;
 	gdouble layer_end=in->thick[layer];
-	//printf("%Le\n",layer_end);
+
 	for (i=0;i<in->points;i++)
 	{
 		in->x[i]=pos;
 		in->layer_end[i]=layer_end-pos;
 		in->layer[i]=layer;
 		if (in->device_start_layer>=layer) in->device_start_i=i;
-		//printf("%d %d %d %d\n",in->device_start_i,in->points,in->device_start_layer,layer);
+
 		pos+=in->dx;
 
 		if (pos>layer_end)
 		{
-			//printf("%Le\n",in->thick[layer],la);
+
 			//do
 			//{
 			if (layer<(in->layers-1))
@@ -69,7 +69,6 @@ printf_log(sim,"init: mesh\n");
 			}
 		}
 
-		//printf("%Le %d %d %Le\n",in->x[i],i,layer,in->thick[layer]);
 	}
 	in->device_start_i++;
 

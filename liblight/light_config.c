@@ -111,7 +111,6 @@ void light_load_config_file(struct simulation *sim,struct light *in)
 	inp_init(sim,&inp);
 	inp_load_from_path(sim,&inp,get_input_path(sim),"light.inp");
 
-	//printf("%s\n",inp.data);
 	inp_check(sim,&inp,1.30);
 
 	inp_search_string(sim,&inp,in->suns_spectrum_file,"#sun");

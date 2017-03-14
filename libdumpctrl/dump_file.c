@@ -134,7 +134,6 @@ void dumpfiles_load(struct simulation* sim)
 		}
 
 		sim->dumpfile[pos].ynorm=english_to_bin(sim, line);
-		//printf("%s %d\n",sim->dumpfile[pos].filename,sim->dumpfile[pos].ynorm);
 		pos++;
 
 

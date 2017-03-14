@@ -2,9 +2,9 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+//  Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
-//	www.rodmack.com
+//	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
@@ -101,8 +101,7 @@ long double srh_vth=in->dosn[mat].config.srh_vth;
 //long double srh_Nt=in->dosn[mat].srh_den[band];
 long double srh_en=srh_vth*srh_sigman*Nc*gexp((Q*in->dosn[mat].srh_E[band])/(T*kb));
 long double srh_ep=srh_vth*srh_sigmap*Nv*gexp((Q*(-1.0-in->dosn[mat].srh_E[band]))/(T*kb));
-//printf("%le\n",in->dosn[mat].srh_E[band]);
-//getchar();
+
 long double f=0.0;
 f=(n*srh_vth*srh_sigman+srh_ep)/(n*srh_vth*srh_sigman+p*srh_vth*srh_sigmap+srh_en+srh_ep);
 long double level=0.0;
@@ -251,8 +250,6 @@ if (get_dump_status(sim,dump_print_text)==TRUE) printf_log(sim,"%s %s\n",_("Load
 	}
 	//fscanf(tl,"%x",&a);//=ftell(file_in);
 	fclose(tl);
-	//printf("here '%ld'\n",len);
-	//getchar();
 
 		file_in = gzopen (file, "rb");
 		if (file_in==Z_NULL)
@@ -432,7 +429,7 @@ if (get_dump_status(sim,dump_print_text)==TRUE) printf_log(sim,"%s %s\n",_("Load
 				mydos->srh_r3[t][x][srh_band]=buf[buf_pos++];
 				mydos->srh_r4[t][x][srh_band]=buf[buf_pos++];
 				mydos->srh_c[t][x][srh_band]=buf[buf_pos++];
-				//printf("%le\n",mydos->srh_c[t][x][srh_band]);
+
 				#else
 				fscanf(file_in,"%Le %Le %Le %Le %Le ",&srh_r1,&srh_r2,&srh_r3,&srh_r4,&srh_c);
 				mydos->srh_r1[t][x][srh_band]=srh_r1;
@@ -1358,8 +1355,6 @@ long double gauEv;
 long double gauEc;
 long double sigmae=in->dosn[mat][1].config.sigma;
 long double sigmah=in->dosp[mat][1].config.sigma;
-//printf("sigmas %e %e\n",fabs(dos_get_Ev_edge(in->dostype[0])),fabs(dos_get_Ec_edge(in->dostype[0])));
-//getchar();
 //getchar();
 do
 {

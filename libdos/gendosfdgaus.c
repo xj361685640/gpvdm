@@ -2,9 +2,9 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+//  Copyright (C) 2012-2017 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 //
-//	www.rodmack.com
+//	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
@@ -58,7 +58,7 @@ static int gendos=TRUE;
 static struct dosconfig confige[10];
 static struct dosconfig configh[10];
 
-void dos_double_res()
+void dos_double_res(struct simulation *sim)
 {
 /*gdouble number;
 FILE *in=fopen("srhbandp.inp","r");
@@ -75,7 +75,7 @@ fclose(out);
 int i;
 for (i=1;i<=80;i++)
 {
-printf("p srhbandp.inp %d 1\n",i);
+printf_log(sim,"p srhbandp.inp %d 1\n",i);
 }
 }
 
@@ -113,7 +113,7 @@ rhored_tot=0.0;
 	re=inter_get(&n,pos+hf);
 	rh=inter_get(&p,pos);
 	rhored=re*rh;
-	//printf("%Le %Le %Le %Le\n",pos,rhored,re,rh);
+
 	rhored_tot+=rhored;
 	pos+=step;
 	}while(pos<stop);
@@ -121,7 +121,7 @@ rhored_tot=0.0;
 if (rhored_tot>max) max=rhored_tot;
 //getchar();
 hf+=hf_step;
-printf("%Le\n",hf);
+printf_log(sim,"%Le\n",hf);
 }while(hf<2.0);
 
 hf=0;
@@ -143,7 +143,7 @@ rhored_tot=0.0;
 //getchar();
 fprintf(qe,"%Le %Le\n",hf,rhored_tot/max);
 hf+=hf_step;
-printf("%Le\n",hf);
+printf_log(sim,"%Le\n",hf);
 }while(hf<2.0);
 
 fclose(qe);
@@ -280,8 +280,7 @@ tstart=in->Tstart;
 tstop=in->Tstop;
 tsteps=in->Tsteps;
 dt=(tstop-tstart)/tsteps;
-//printf("%Le %Le\n",in->nstop,in->nstart);
-//getchar();
+
 gdouble dxr=(in->nstop-in->nstart)/((gdouble)in->npoints);
 
 xpos=in->nstart;
@@ -359,11 +358,9 @@ for (band=0;band<in->srh_bands;band++)
 	#else
 	fprintf(out,"%Le\n",srh_pos);
 	#endif
-	//printf("%Le\n",srh_pos);
-	//getchar();
+
 	srh_pos+=srh_delta/2.0;
 	srh_x[band]=srh_pos;
-	//printf("%d %Le\n",band,srh_x[band]);
 
 }
 
@@ -374,8 +371,7 @@ if (in->srh_bands>0)
 
 
 gdouble pos=in->srh_start;
-//printf("%d\n",points_per_band);
-//getchar();
+
 //FILE *test4=fopen("test4.dat","w");
 for (i=0;i<in->Esteps;i++)
 {
@@ -420,7 +416,7 @@ FILE *dosread;
 	for (band=0;band<in->srh_bands;band++)
 	{
 		unused=fscanf(dosread,"%Le",&(srh_read[band]));
-		printf("%Le\n",srh_read[band]);
+		printf_log(sim,"%Le\n",srh_read[band]);
 		srh_read[band]=fabs(srh_read[band]);
 	}
 
@@ -497,7 +493,7 @@ gdouble f2=0.0;
 gdouble sum2=0.0;
 for (t=0;t<tsteps;t++)
 {
-if (get_dump_status(sim,dump_iodump)==TRUE) printf("%d/%d\n",t,(int)tsteps);
+if (get_dump_status(sim,dump_iodump)==TRUE) printf_log(sim,"%d/%d\n",t,(int)tsteps);
 
 	for (x=0;x<in->npoints;x++)
 	{
@@ -518,7 +514,7 @@ if (get_dump_status(sim,dump_iodump)==TRUE) printf("%d/%d\n",t,(int)tsteps);
 		}
 
 		srh_band=0;
-		//printf("start\n");
+
 		for (e=0;e<in->Esteps;e++)
 		{
 			E=band_E_mesh[e];
@@ -527,10 +523,9 @@ if (get_dump_status(sim,dump_iodump)==TRUE) printf("%d/%d\n",t,(int)tsteps);
 
 			f=1.0/(1.0+exp((E-xpos)*Q/(kb*tpos)));
 			f2=1.0/(1.0+exp((E-(-1.0*(in->Eg+xpos)))*Q/(kb*tpos)));
-			//printf("%Le %Le %Le %Le\n",f2,-1.0*(in->Eg+xpos),in->Eg,xpos);
-			//getchar();
+
 			srh_f=1.0/(1.0+exp((srh_E-xpos)*Q/(kb*tpos)));
-			//printf("%Le %Le\n",xpos,E);
+
 			if (in->dostype==dos_fd)
 			{
 				if (E>0)
@@ -564,7 +559,7 @@ if (get_dump_status(sim,dump_iodump)==TRUE) printf("%d/%d\n",t,(int)tsteps);
 				rho=in->Nt*exp((E)/(in->Et));
 				rho2=in2->Nt*exp((E)/(in2->Et));
 
-				//printf("%Le %Le\n",E,rho);
+
 				//if (rho>1e40)	rho=0.0;
 				//if (rho2>1e40)	rho2=0.0;
 
@@ -602,10 +597,10 @@ if (get_dump_status(sim,dump_iodump)==TRUE) printf("%d/%d\n",t,(int)tsteps);
 			{
 				sum+=rho*f*dE;
 				sum2+=rho2*f2*dE;
-				//printf("%Le %Le\n",rho2,f2);
+
 			}else
 			{
-				//printf("%Le %Le\n",rho,f);
+
 				//rho=1e47;
 				if (electrons==TRUE)
 				{
@@ -628,7 +623,6 @@ if (get_dump_status(sim,dump_iodump)==TRUE) printf("%d/%d\n",t,(int)tsteps);
 				}
 			}
 
-			//printf("%Le\n",E);
 
 			#ifdef test_dist
 			if (E>=0.0)
@@ -658,8 +652,7 @@ if (get_dump_status(sim,dump_iodump)==TRUE) printf("%d/%d\n",t,(int)tsteps);
 			#endif
 
 		}
-		//printf("stop\n");
-		//getchar();
+
 		#ifdef test_dist
 		fprintf(plotbands,"\n");
 		fprintf(plotbandsfree,"\n");
@@ -675,8 +668,7 @@ if (get_dump_status(sim,dump_iodump)==TRUE) printf("%d/%d\n",t,(int)tsteps);
 				fprintf(out,"%Le\n",srh_den[band]);
 				#endif
 			}
-				//printf("%ld\n",get_dump_status(sim,dump_band_structure));
-				//getchar();
+
 			if (get_dump_status(sim,dump_band_structure)==TRUE)
 			{
 				FILE *bandsdump;
@@ -830,8 +822,8 @@ free(band_i);
 
 free(srh_x);
 free(srh_mid);
-//printf("%d %d\n",buf_pos,buf_len);
-//getchar();
+
+
 //if (electrons==TRUE)
 //{
 //		FILE *test3=fopen("test3.dat","w");
@@ -1017,7 +1009,7 @@ if (bands>0)
 	Estep_div=(Esteps/bands)*bands;
 	//if (Estep_div!=Esteps)
 	//{
-	//	printf("Esteps wanted= %d, given= %d \n",Esteps,Estep_div);
+	//	printf_log(sim,"Esteps wanted= %d, given= %d \n",Esteps,Estep_div);
 	//}
 }
 
@@ -1038,14 +1030,12 @@ if (confige[mat].Nc<1e16) confige[mat].Nc=1e16;
 if (confige[mat].Nv<1e16) confige[mat].Nv=1e16;
 confige[mat].m=pow(confige[mat].Nc/2.0,2.0/3.0)*hp*hp/kb/300.0/m0/2.0/PI;
 configh[mat].m=pow(confige[mat].Nv/2.0,2.0/3.0)*hp*hp/kb/300.0/m0/2.0/PI;
-//printf("%Le %Le\n",confige[mat].m,configh[mat].m);
-//getchar();
+
 //(sqrt(E)/(4.0*PI*PI))*pow((2.0*in->m*m0)/(hbar*hbar),3.0/2.0)
 
 configh[mat].Nc=confige[mat].Nc;
 configh[mat].Nv=confige[mat].Nv;
-//printf("%Le\n",configh[mat].Nv);
-//getchar();
+
 
 sprintf(file_name,"%s.inp",pl_name);
 

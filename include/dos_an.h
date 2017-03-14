@@ -34,5 +34,5 @@ double c[100];
 };
 
 void dos_an_load(struct simulation *sim,struct dos_an_data *in,char *name);
-double dos_an_get_value(struct dos_an_data *in,double E);
+double dos_an_get_value(struct simulation *sim,struct dos_an_data *in,double E);
 #endif

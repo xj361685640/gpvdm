@@ -24,6 +24,8 @@
 #include "code_ctrl.h"
 #include "util.h"
 #include "inp.h"
+#include <log.h>
+
 
 static int unused __attribute__((unused));
 

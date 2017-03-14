@@ -2,7 +2,7 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012-2016 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+//  Copyright (C) 2012-2016 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
 //	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -23,6 +23,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <cal_path.h>
+#include <log.h>
 
 void image_init(struct image *in)
 {
@@ -74,7 +75,7 @@ void ray_reset(struct image *in)
 	in->nrays=0;
 }
 
-void add_ray(struct image *in,struct vec *start,struct vec *dir,double mag)
+void add_ray(struct simulation *sim,struct image *in,struct vec *start,struct vec *dir,double mag)
 {
 	if (mag>1e-2)
 	{
@@ -86,7 +87,7 @@ void add_ray(struct image *in,struct vec *start,struct vec *dir,double mag)
 		in->nrays++;
 		if (in->nrays>=RAY_MAX)
 		{
-			printf("too many rays!\n");
+			printf_log(sim,"too many rays!\n");
 			exit(0);
 		}
 	}
@@ -136,33 +137,33 @@ void dump_plane_to_file(char *file_name,struct image *in,int lam)
 	
 }
 
-void dump_plane(struct image *in)
+void dump_plane(struct simulation *sim,struct image *in)
 {
 	int i=0;
-	printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+	printf_log(sim,"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 
 	for (i=0;i<in->n_start_rays;i++)
 	{
-		printf("%le %le\n",in->start_rays[i].x,in->start_rays[i].y);
+		printf_log(sim,"%le %le\n",in->start_rays[i].x,in->start_rays[i].y);
 	}
 
-	printf("lines:\n");
+	printf_log(sim,"lines:\n");
 	for (i=0;i<in->lines;i++)
 	{
-		printf("%le %le %le %le %d\n",in->p[i].xy0.x,in->p[i].xy0.y,in->p[i].xy1.x,in->p[i].xy1.y,in->p[i].edge);
+		printf_log(sim,"%le %le %le %le %d\n",in->p[i].xy0.x,in->p[i].xy0.y,in->p[i].xy1.x,in->p[i].xy1.y,in->p[i].edge);
 
 
 	}
 
-	printf("rays x,y,x_vec,y_vec:\n");
+	printf_log(sim,"rays x,y,x_vec,y_vec:\n");
 
 
 	for (i=0;i<in->nrays;i++)
 	{
-		printf("%d (%le,%le) (%le,%le) %lf %lf mag=%lf\n",in->rays[i].state,in->rays[i].xy.x,in->rays[i].xy.y,in->rays[i].xy_end.x,in->rays[i].xy_end.y,in->rays[i].dir.x,in->rays[i].dir.y,in->rays[i].mag);
+		printf_log(sim,"%d (%le,%le) (%le,%le) %lf %lf mag=%lf\n",in->rays[i].state,in->rays[i].xy.x,in->rays[i].xy.y,in->rays[i].xy_end.x,in->rays[i].xy_end.y,in->rays[i].dir.x,in->rays[i].dir.y,in->rays[i].mag);
 		
 	}
-	printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+	printf_log(sim,"~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 
 }
 
@@ -212,15 +213,14 @@ else
 	x = (a * x34 - b * x12) / c;
 	y = (a * y34 - b * y12) / c;
 
-	//printf("here  x0=%le x=%le %le x1=%le %d\n",my_obj->xy0.x,x,my_obj->xy1.x,my_ray->xy.x,between(x,my_obj->xy0.x,my_obj->xy1.x));
+	//printf_log(sim,"here  x0=%le x=%le %le x1=%le %d\n",my_obj->xy0.x,x,my_obj->xy1.x,my_ray->xy.x,between(x,my_obj->xy0.x,my_obj->xy1.x));
 	//getchar();
 	if (between(x,my_obj->xy0.x,my_obj->xy1.x)==0)
 	{
-		//printf("here0\n");
 
 		if (between(y,my_obj->xy0.y,my_obj->xy1.y)==0)
 		{
-			//printf("here1\n");
+
 			if (my_ray->dir.y>=0)
 			{
 				if (y>my_ray->xy.y)
@@ -272,7 +272,7 @@ else
 
 ret->x=x;
 ret->y=y;
-//printf("exit %le %le %d\n",x,y,hit);
+
 return hit;
 }
 
@@ -297,7 +297,6 @@ vec_init(&store);
 	for (i=0;i<in->lines;i++)
 	{
 		found=ray_intersect(&ret,&(in->p[i]),&(in->rays[ray]));
-		//printf("check %d %d %d\n",i,ray,found);
 
 		if (found==1)
 		{
@@ -307,7 +306,7 @@ vec_init(&store);
 			//vec_print(&(in->rays[ray].xy));			
 			vec_sub(&tmp,&(in->rays[ray].xy));
 			dist=vec_fabs(&tmp);
-			//printf("dist=%lf\n",dist);
+
 			if (dist>1e-12)
 			{
 				if (dist<min_dist)
@@ -321,7 +320,7 @@ vec_init(&store);
 		
 	}
 
-//printf("chosen %d\n",pos);
+
 return pos;	
 }
 
@@ -426,7 +425,7 @@ void get_refractive(struct image *in,double *alpha,double *n0,double *n1,int ray
 
 }
     
-int propergate_next_ray(struct image *in)
+int propergate_next_ray(struct simulation *sim,struct image *in)
 {
 	struct vec n;
 	vec_init(&n);
@@ -462,15 +461,11 @@ int propergate_next_ray(struct image *in)
 
 			if (item==-1)
 			{
-				//printf("I have not hit anything %d %le %le %le %le\n",ray,item,in->rays[ray].xy.x,in->rays[ray].xy.y,ray,item,in->rays[ray].dir.x,in->rays[ray].dir.y);
 				vec_cpy(&in->rays[ray].xy_end,&in->rays[ray].xy);
 				
 			}else
 			{
-				//printf("intersect %d %le %le\n",item,in->rays[ray].xy_end.x,in->rays[ray].xy_end.y);
 				double dist=vec_dist(&(in->rays[ray].xy),&(in->rays[ray].xy_end));
-				//getchar();
-				//printf("norm=\n");
 
 				int bounce=in->rays[ray].bounce;
 				mag=in->rays[ray].mag;
@@ -480,8 +475,7 @@ int propergate_next_ray(struct image *in)
 				double n1=1.0;
 				double alpha=1e9;
 				get_refractive(in,&alpha,&n0,&n1,ray);
-				//printf("back index=%lf fwd index=%lf\n",n0,n1);
-				//getchar();
+
 				//Calculate norm of object
 				obj_norm(&n,&(in->p[item]));
 				vec_cpy(&n_inv,&n);
@@ -516,9 +510,7 @@ int propergate_next_ray(struct image *in)
 				dot=vec_dot(&n_inv,&(in->rays[ray].dir));
 				ang_in=PI/2.0-acos(dot);
 
-				
-				//printf("in=%lf\n",deg(ang_in));
-				//
+
 
 				if (n1>=n0)
 				{
@@ -580,12 +572,6 @@ int propergate_next_ray(struct image *in)
 					T=0.0;
 				}
 
-				//printf("ang_in=%lf %lf\n",deg(ang_in),deg(threshold));
-				//printf("ang_out=%lf\n",deg(ang_out));
-				//printf("n0=%lf n1=%lf\n",n0,n1);
-				//vec_print(&t);
-				//printf("T=%lf R=%lf\n",T,R);
-				//getchar();
 				//////////////////////////////
 
 
@@ -596,16 +582,14 @@ int propergate_next_ray(struct image *in)
 					if (in->p[item].edge==FALSE)
 					{
 						double abs=exp(-alpha*dist);
-						//printf("abs=%lf\n",abs);
-						//getchar();
-						add_ray(in,&(in->rays[ray].xy_end),&r,R*mag*abs);
+
+						add_ray(sim,in,&(in->rays[ray].xy_end),&r,R*mag*abs);
 						in->rays[in->nrays-1].bounce=bounce;
 
-						//printf("ang_in=%lf threshold=%lf %lf %lf\n",ang_in,threshold,n1,n0);
-						//getchar();
+
 						if (ang_in>=threshold)
 						{
-							add_ray(in,&(in->rays[ray].xy_end),&(t),T*mag);
+							add_ray(sim,in,&(in->rays[ray].xy_end),&(t),T*mag);
 							in->rays[in->nrays-1].bounce=bounce;
 						}	
 							

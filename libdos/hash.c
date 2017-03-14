@@ -36,7 +36,6 @@ int steps=delta/step;
 
 if (steps>(N-2)) steps=N-2;
 if (steps<0) steps=0;
-//printf("%ld\n",steps);
 x_=x;
 find_=find;
 steps_=steps;

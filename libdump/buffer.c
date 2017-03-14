@@ -183,7 +183,6 @@ if (in->len+100>in->max_len)
 	in->buf=(char*)realloc((char*)in->buf,sizeof(char)*in->max_len);
 }
 
-//printf("%p %d %d\n",in->buf,in->max_len,in->len);
 strcpy((char*)(in->buf+pos),string);
 }
 

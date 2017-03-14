@@ -1035,7 +1035,7 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 
 	inter_append(&(store->charge_change),x_value,get_charge_change(in));
 	inter_append(&(store->jout),x_value,get_J(in));
-	//printf("%Le\n",get_J(in));
+
 	inter_append(&(store->dynamic_jn_drift),x_value,get_Jn_drift(in));
 	inter_append(&(store->dynamic_jn_diffusion),x_value,get_Jn_diffusion(in));
 

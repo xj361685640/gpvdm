@@ -544,7 +544,6 @@ do
 
 					mupl=in->mup[z][x][0];
 
-					//printf("left n= %Le p= %Le \n",nl,pl);
 
 
 	//				kll=in->kl[i];
@@ -633,7 +632,6 @@ do
 					munr=in->mun[z][x][i];
 					mupr=in->mup[z][x][i];
 
-					//printf("right n= %Le p= %Le \n",nr,pr);
 
 					epr=in->epsilonr[z][x][i]*epsilon0;
 	//				klr=in->kl[i];
@@ -880,7 +878,6 @@ do
 				pceq=in->pfequlib[z][x][i];
 				Rfree=Bfree*(nc*pc-nceq*pceq);
 				in->Rfree[z][x][i]=Rfree;
-					//if (in->ymeshpoints*(1)+i==31) printf("Rod -- %d %le %le %le \n",in->ymeshpoints*(1)+i,Rfree,nceq,pceq);
 
 	//			klc=in->kl[i];
 				nlast=in->nlast[z][x][i];
@@ -940,11 +937,7 @@ do
 		{
 			deriv+=phil_x*dphil_x+phic*dphic_x+phir_x*dphir_x;
 		}
-		//if (in->Vapplied[z][x]>0.1)
-		//{
-		//	printf("%Le %Le %Le %Le %Le\n",phil,phic,phir,nc,pc);
-		//	getchar();
-		//}
+
 		dphidxic=Q*(dnc);
 		dphidxipc= -Q*(dpc);
 
@@ -1039,23 +1032,15 @@ do
 
 				if (i==0)
 				{
-					//printf("%le %le %le %le\n",in->vl*(nc-nc0_l),Jnl,-in->vl*(pc-pc0_l),Jpl);
-					//getchar();
 					in->Jnleft[z][x]=Jnl;
 					in->Jpleft[z][x]=Jpl;
-					//printf("%Le\n",in->Jpleft);
 				}
 
 				if (i==in->ymeshpoints-1)
 				{
-					//printf("%le %le %le %le\n",in->vr*(nc-nc0_r),Jnr,in->vr*(pc-pc0_r),Jpr);
 					in->Jnright[z][x]=Jnr;
 					in->Jpright[z][x]=Jpr;
 				}
-
-				//printf("----------\n");
-				//printf("%le %le\n",Jnl,Jpl);
-				//printf("%le %le\n",Jnr,Jpr);
 
 				in->Jn[z][x][i]=Q*(Jnl+Jnr)/2.0;
 				in->Jp[z][x][i]=Q*(Jpl+Jpr)/2.0;
@@ -1196,7 +1181,7 @@ do
 					dJdphil_leftc=dJnldphi_c;
 					dJpdphil_leftl=dJpldphi_l;
 					dJpdphil_leftc=dJpldphi_c;
-					//printf("%le %le\n",dpc,dnc);
+
 					dphil_left= -e0/dyl/ddh;
 					dJdxil_leftc=dJnldxil_c;
 					dJpdxipl_leftc=dJpldxipl_c;
@@ -1270,7 +1255,6 @@ do
 				}
 
 				//band=0;
-				//printf("heren %le %le %le %le\n",in->Vapplied[z][x],nc*in->srh_n_r1[i][band]-in->srh_n_r2[i][band]-pc*in->srh_n_r3[i][band]+in->srh_n_r4[i][band],nc*in->srh_n_r1[i][band]-in->srh_n_r2[i][band],-pc*in->srh_n_r3[i][band]+in->srh_n_r4[i][band]);
 
 				if (in->ptrapnewton==TRUE)
 				{
@@ -1312,7 +1296,6 @@ do
 				}
 
 				//band=0;
-				//printf("hereh %le %le %le %le\n",in->Vapplied[z][x],pc*in->srh_p_r1[i][band]-in->srh_p_r2[i][band]-nc*in->srh_p_r3[i][band]+in->srh_p_r4[i][band],pc*in->srh_p_r1[i][band]-in->srh_p_r2[i][band],-nc*in->srh_p_r3[i][band]+in->srh_p_r4[i][band]);
 
 
 				in->Rn[z][x][i]=Rtrapn;
@@ -1336,26 +1319,22 @@ do
 					in->Ti[pos]=shift+in->ymeshpoints*(1)+i;
 					in->Tj[pos]=shift+in->ymeshpoints*(1)+i-1;
 					in->Tx[pos]=dJdxil;
-					//printf("a %le\n",in->Tx[pos]);
 					pos++;
 
 					in->Ti[pos]=shift+in->ymeshpoints*(1)+i;
 					in->Tj[pos]=shift+i-1;
 					in->Tx[pos]=dJdphil;
-					//printf("b %le\n",in->Tx[pos]);
 					pos++;
 
 					//hole
 					in->Ti[pos]=shift+in->ymeshpoints*(1+1)+i;
 					in->Tj[pos]=shift+in->ymeshpoints*(1+1)+i-1;
 					in->Tx[pos]=dJpdxipl;
-					//printf("c %le\n",in->Tx[pos]);
 					pos++;
 
 					in->Ti[pos]=shift+i+in->ymeshpoints*(1+1);
 					in->Tj[pos]=shift+i-1;
 					in->Tx[pos]=dJpdphil;
-					//printf("d %le\n",in->Tx[pos]);
 					pos++;
 
 				}
@@ -1391,13 +1370,11 @@ do
 				in->Ti[pos]=shift+in->ymeshpoints*(1)+i;
 				in->Tj[pos]=shift+in->ymeshpoints*(1+1)+i;
 				in->Tx[pos]=dJdxipc;
-				//printf("dJdxipc %Le\n",dJdxipc);
 				pos++;
 
 				in->Ti[pos]=shift+in->ymeshpoints*(1)+i;
 				in->Tj[pos]=shift+i;
 				in->Tx[pos]=dJdphic;
-				//printf("dJdphic %Le",dJdphic);
 				pos++;
 
 
@@ -1608,14 +1585,8 @@ do
 				}
 
 				//build+= -(-Q*in->Nad[i]);
-				//printf("n=%Le n0=%Le\n",in->n[i],in->n[i]);
-				//printf("p=%Le p0=%Le\n",in->p[i],in->p[i]);
-				//printf("Nad=%Le Nad0=%Le\n",in->Nad[i],in->Nad[i]);
-				//printf("deriv_norm=%Le deriv=%Le\n",deriv,deriv);
 			
 				in->b[shift+i]=build;
-				//getchar();
-				//printf("%Le %Le\n",pc,nc);
 				//getchar();
 				build=0.0;
 				build= -(((Jnr-Jnl)/(dylh+dyrh))-Rtrapn-Rfree);
@@ -1624,23 +1595,14 @@ do
 					build+= -((Jnr_x-Jnl_x)/(dxlh+dxrh));
 				}
 
-				//printf("p=%Le %Le %Le\n",pl,pc,pr);
-				//printf("p=%Le %Le %Le\n",nl,nc,nr);
-				//getchar();
-
 				if (in->go_time==TRUE)
 				{
 					build-= -(nc-nlast)/dt;
 				}
 
-				//printf("2 %le\n",in->b[in->ymeshpoints*(1)+i]);
-				//getchar();
-
 				//getchar();
 				build-=Gn;
 				in->b[shift+in->ymeshpoints*(1)+i]=build;
-				//printf("3 %Le %le\n",Gn,in->b[in->ymeshpoints*(1)+i]);
-				//getchar();
 
 				//hole
 				build=0.0;
@@ -1649,7 +1611,6 @@ do
 				{
 					build+=-(Jpr_x-Jpl_x)/(dxlh+dxrh);
 				}
-				//printf("%le %le\n",Rtrapn,Rtrapp);
 
 				build-= -Gp;
 
@@ -1690,7 +1651,6 @@ if (pos>in->N)
 }
 
 //fclose(file_j);
-//printf("Check J file\n");
 //getchar();
 
 }
@@ -1727,7 +1687,6 @@ do
 	{
 			int shift=sim->x_matrix_offset*x;
 			phi+=gfabs(in->b[shift+i]);
-				//printf("%Le\n",in->b[i]);
 
 			n+=gfabs(in->b[shift+in->ymeshpoints*(1)+i]);
 			p+=+gfabs(in->b[shift+in->ymeshpoints*(1+1)+i]);
@@ -1737,7 +1696,6 @@ do
 				for (band=0;band<in->srh_bands;band++)
 				{
 					ttn+=gfabs(in->b[shift+in->ymeshpoints*(1+1+1+band)+i]);
-					//printf("error %le\n",fabs(in->b[in->ymeshpoints*(1+1+1+band)+i]));
 				}
 			}
 
@@ -1757,10 +1715,9 @@ do
 
 
 gdouble tot=phi+n+p+te+th+tl+ttn+ttp+i0;
-//printf("%Le %Le %Le %Le %Le %Le %Le %Le %Le\n",phi,n,p,x,te,th,tl,ttn,ttp);
 if (isnan( tot))
 {
-	printf("%Le %Le %Le %Le %Le %Le %Le %Le\n",phi,n,p,te,th,tl,ttn,ttp);
+	printf_log(sim,"%Le %Le %Le %Le %Le %Le %Le %Le\n",phi,n,p,te,th,tl,ttn,ttp);
 	//dump_matrix(in);
 	ewe(sim,"nan detected in newton solver\n");
 }
@@ -1839,8 +1796,6 @@ if (dim==2)
 		N+=in->ymeshpoints*(in->xmeshpoints*2-2);		//dJndphi
 		N+=in->ymeshpoints*(in->xmeshpoints*2-2);		//dJpdphi
 
-	//	printf("%d %d %d %d %d\n",sim->x_matrix_offset,in->ymeshpoints,in->xmeshpoints,N,M);
-	//	getchar();
 	}
 }
 
@@ -2184,9 +2139,7 @@ int cpos=0;
 
 			update_solver_vars(sim,in,z,x,TRUE);
 
-			//printf("Going to clamp=%d\n",proper);
 			//solver_dump_matrix(in->M,in->N,in->Ti,in->Tj, in->Tx,in->b);
-			//printf("%d\n");
 			//getchar();
 
 
