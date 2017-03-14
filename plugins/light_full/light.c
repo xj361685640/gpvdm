@@ -2,9 +2,9 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+//  Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
-//	www.rodmack.com
+//	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
@@ -92,11 +92,7 @@ gdouble tot_error=0.0;
 int quit=FALSE;
 gdouble test=FALSE;
 gdouble dx=in->x[2]-in->x[1];
-//for (i=0;i<in->points;i++)
-//{
-//printf("x=%le dx=%le\n",in->x[i],dx);
-//getchar();
-//}
+
 do
 {
 
@@ -224,17 +220,15 @@ do
 		in->b[in->points+i]=(double)gcreal(fn);
 		in->bz[in->points+i]=(double)gcimag(fn);
 
-		//printf("%d %le %le %d %d\n",i,in->b[i],in->b[i+in->points],pos,in->N);
 
 	}
 
-	//printf("%d %d %d\n",in->N,pos,in->M);
 	//complex_solver_print(sim,in->M,in->N,in->Ti,in->Tj, in->Tx, in->Txz,in->b,in->bz);
 	//complex_solver_dump_matrix(in->M,in->N,in->Ti,in->Tj, in->Tx, in->Txz,in->b,in->bz);
 
 	if (pos!=in->N)
 	{
-		printf("not solving because number does not match%d %d\n",pos,in->N);
+		printf_log(sim,"not solving because number does not match%d %d\n",pos,in->N);
 		exit(0);
 	}
 
@@ -271,7 +265,7 @@ if (test==TRUE)
 
 if (test==TRUE)
 {
-	printf("Error in optical model tot error=%Le\n",tot_error);
+	printf_log(sim,"Error in optical model tot error=%Le\n",tot_error);
 }
 
 //getchar();

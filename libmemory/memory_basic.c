@@ -254,7 +254,6 @@ void malloc_srh_bands(struct device *in, gdouble * (****var))
 	int y=0;
 	int z=0;
 
-	//printf("%d %d %d %d\n",in->xmeshpoints,in->ymeshpoints,in->zmeshpoints,in->srh_bands);
 	*var = (gdouble ****) malloc(in->zmeshpoints * sizeof(gdouble ***));
 
 	for (z = 0; z < in->zmeshpoints; z++)

@@ -187,7 +187,6 @@ in->stop=FALSE;
 */
 			Pden=gfabs(J*Vexternal);
 
-			//printf("Plotted\n");
 			plot_now(sim,in,"jv.plot");
 			stop_start(sim,in);
 			dump_dynamic_add_data(sim,&store,in,Vexternal);
@@ -283,7 +282,6 @@ in->stop=FALSE;
 
 
 	}while(1);
-//printf("exit\n");
 
 in->FF=gfabs(in->Pmax/(in->Jsc*in->Voc));
 

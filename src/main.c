@@ -63,7 +63,6 @@ int main (int argc, char *argv[])
 //textdomain("gpvdm");
 //wchar_t wide[1000];
 //int i=mbstowcs(wide, _("Hole generation rate"), 1000);
-//wprintf (L"%S", wide);
 //exit(0);
 
 int run=FALSE;

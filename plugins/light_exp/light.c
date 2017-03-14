@@ -2,9 +2,9 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+//  Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
-//	www.rodmack.com
+//	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
@@ -47,7 +47,7 @@ if (get_dump_status(sim,dump_optics)==TRUE)
 {
 	char one[100];
 	sprintf(one,"Solve light optical slice at %Lf nm\n",in->l[lam]*1e9);
-	//printf("%s\n",one);
+
 	waveprint(sim,one,in->l[lam]*1e9);
 }
 
@@ -64,7 +64,7 @@ gdouble dx=in->x[1]-in->x[0];
 
 for (i=0;i<in->points;i++)
 {
-	//printf("%d %d\n",i,in->points);
+
 	n0=in->nbar[lam][i];
 	beta0=(2*PI*n0/in->l[lam]);
 	Ep=Ep*cexp(-beta0*dx*I);

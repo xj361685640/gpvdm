@@ -28,6 +28,6 @@
 
 EXPORT void light_dll_init()
 {
-printf("Light init\n");
+	
 }
 
