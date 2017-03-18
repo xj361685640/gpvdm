@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.88\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2017-03-15 17:09+0000\n"
-"PO-Revision-Date: 2017-03-15 17:09+0000\n"
+"POT-Creation-Date: 2017-03-18 18:59+0000\n"
+"PO-Revision-Date: 2017-03-18 18:59+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: zh_CN\n"
@@ -28,7 +28,8 @@ msgstr "电子产生率"
 
 #: ../liblight/light_dump.c:473 ../liblight/light_dump.c:500
 #: ../src/initial.c:52 ../src/initial.c:76 ../src/initial.c:100
-#: ../src/initial.c:124 ../src/initial.c:148 ../gui/band_graph.py:205
+#: ../src/initial.c:124 ../src/initial.c:148 ../src/pos.c:67 ../src/pos.c:84
+#: ../src/pos.c:119 ../src/pos.c:137 ../src/pos.c:154 ../gui/band_graph.py:205
 #: ../gui/qe.py:60 ../libdump/dump_1d_slice.c:70 ../libdump/dump_1d_slice.c:157
 #: ../libdump/dump_1d_slice.c:215 ../libdump/dump_1d_slice.c:244
 #: ../libdump/dump_1d_slice.c:273 ../libdump/dump_1d_slice.c:331
@@ -61,7 +62,7 @@ msgstr "位置"
 msgid "Generation rate"
 msgstr "产生率"
 
-#: ../liblight/light_dump.c:498 ../src/main.c:68
+#: ../liblight/light_dump.c:498 ../src/main.c:67
 msgid "Hole generation rate"
 msgstr "空穴产生率"
 
@@ -86,13 +87,37 @@ msgstr "未找到dll函数light_dll_solve_lam_slice \n"
 msgid "dll function light_dll_ver not found\n"
 msgstr "未找到dll函数light_dll_ver\n"
 
+#: ../liblight/light_materials.c:46
+msgid "load: materials"
+msgstr ""
+
 #: ../liblight/light_materials.c:59
 msgid "No optical materials found\n"
 msgstr "未找到光学材料\n"
 
+#: ../liblight/light_materials.c:173 ../liblight/light_materials.c:263
+#: ../liblight/light_materials.c:329
+msgid "file not found"
+msgstr ""
+
 #: ../liblight/light_materials.c:249
 msgid "Error at end of patch file\n"
 msgstr "补丁文件末尾有错误\n"
+
+#: ../liblight/light_materials.c:309
+msgid "Error at end of inter file"
+msgstr ""
+
+#: ../liblight/light_materials.c:356 ../liblight/light_materials.c:408
+msgid "Wavelength - Reflected light"
+msgstr ""
+
+#: ../liblight/light_materials.c:358 ../liblight/light_materials.c:410
+#: ../libmeasure/probe.c:163 ../libmeasure/probe.c:165
+#: ../libmeasure/probe.c:188 ../libmeasure/probe.c:190
+#: ../libmeasure/probe.c:213 ../libmeasure/probe.c:215 ../gui/equation.py:161
+msgid "Wavelength"
+msgstr "波长"
 
 #: ../liblight/light_memory.c:192
 msgid "Freeing memory from the optical model\n"
@@ -193,15 +218,17 @@ msgstr "未找到dll函数set_interface\n"
 msgid "dll function dll_matrix_solver_free not found\n"
 msgstr "未找到dll函数dll_matrix_solver_free \n"
 
+#: ../lib/solver_interface.c:152
+msgid "Freeing memory"
+msgstr ""
+
+#: ../lib/solver_interface.c:156
+msgid "Error closing dll"
+msgstr ""
+
 #: ../libmesh/time.c:96
 msgid "You must load the optical plugin before making the time mesh"
 msgstr "您必须在划分时间之前加载光学插件"
-
-#: ../libmeasure/probe.c:163 ../libmeasure/probe.c:165
-#: ../libmeasure/probe.c:188 ../libmeasure/probe.c:190
-#: ../libmeasure/probe.c:213 ../libmeasure/probe.c:215 ../gui/equation.py:161
-msgid "Wavelength"
-msgstr "波长"
 
 #: ../libmeasure/probe.c:270 ../libmeasure/probe.c:272
 #: ../libmeasure/probe.c:295 ../libmeasure/probe.c:297
@@ -339,6 +366,18 @@ msgstr "电流的实部"
 msgid "Im(i)"
 msgstr "电流的虚部"
 
+#: ../plugins/light_full/light.c:41
+msgid "Full transfer matrix based light model"
+msgstr "基于光学模形的完全转移矩阵"
+
+#: ../plugins/light_full/light.c:54
+msgid "Solve optical slice at"
+msgstr "在这个位置求解光学层："
+
+#: ../plugins/light_full/light.c:232
+msgid "I can't solve the matrix because I don't have enough equations."
+msgstr ""
+
 #: ../plugins/jv/jv.c:46
 msgid "Running JV simulation\n"
 msgstr "正在仿真JV曲线\n"
@@ -406,6 +445,10 @@ msgstr "已写入的文件"
 #: ../libserver/server.c:161
 msgid "I have shut down the server"
 msgstr "服务器已经关闭"
+
+#: ../libserver/server.c:237
+msgid "Number of CPUs:"
+msgstr ""
 
 #: ../libserver/server.c:246
 msgid "Start time"
@@ -508,13 +551,13 @@ msgstr "最低未占分子轨道"
 msgid "HOMO"
 msgstr "最高占据分子轨道"
 
-#: ../src/initial.c:122 ../libdump/dump_dynamic.c:598
+#: ../src/initial.c:122 ../src/pos.c:120 ../libdump/dump_dynamic.c:598
 #: ../libdump/dump_dynamic.c:636 ../libdump/dump_dynamic.c:737
 #: ../libdump/dump_1d_slice.c:1229
 msgid "Electron density"
 msgstr "电子密度"
 
-#: ../src/initial.c:146 ../libdump/dump_dynamic.c:617
+#: ../src/initial.c:146 ../src/pos.c:138 ../libdump/dump_dynamic.c:617
 #: ../libdump/dump_dynamic.c:655 ../libdump/dump_dynamic.c:757
 #: ../libdump/dump_1d_slice.c:1263
 msgid "Hole density"
@@ -540,9 +583,17 @@ msgstr "右接触层的空穴"
 msgid "Electrons on right contact"
 msgstr "右接触层的电子"
 
-#: ../src/main.c:106
-msgid "LANG TEST.\n"
-msgstr "TRANSLATED to zh_CN\n"
+#: ../src/main.c:116 ../src/main.c:137
+msgid "Copyright (C) 2012-2017 Roderick C. I. MacKenzie, Releced under GPLv2"
+msgstr ""
+
+#: ../src/main.c:118
+msgid "options"
+msgstr ""
+
+#: ../src/main.c:120
+msgid "Options"
+msgstr ""
 
 #: ../src/main.c:122
 msgid "output data path"
@@ -569,7 +620,8 @@ msgid "sets the number of CPUs"
 msgstr ""
 
 #: ../src/main.c:129
-msgid "Additional information about gpvdm is available at www.gpvdm.com."
+msgid ""
+"Additional information about gpvdm is available at https://www.gpvdm.com."
 msgstr ""
 
 #: ../src/main.c:131
@@ -580,6 +632,10 @@ msgstr ""
 #, python-format
 msgid "gpvdm_core, Version %s\n"
 msgstr "gpvdm_core,版本%s\n"
+
+#: ../src/main.c:138
+msgid "This is free software; see the source code for copying conditions."
+msgstr ""
 
 #: ../src/main.c:139
 msgid "There is ABSOLUTELY NO WARRANTY; not even for MERCHANTABILITY or\n"
@@ -622,16 +678,66 @@ msgstr "未找到dll函数dll_run_simulation\n"
 msgid "Runing simulation"
 msgstr "正在进行仿真"
 
-#: ../src/sim_run.c:104
+#: ../src/sim_run.c:109
 msgid "Loading DoS layers"
 msgstr "正在加载DoS层"
 
-#: ../src/sim_run.c:112
+#: ../src/sim_run.c:118
 msgid "Load DoS"
 msgstr "加载DoS"
 
-#: ../src/pos.c:521
+#: ../src/pos.c:65
+msgid "Intrinsic Fermi - position"
+msgstr ""
+
+#: ../src/pos.c:82
+msgid "LUMO energy - position"
+msgstr ""
+
+#: ../src/pos.c:99
+msgid "HOMO energy - position"
+msgstr ""
+
+#: ../src/pos.c:117
+msgid "Electron density - position"
+msgstr ""
+
+#: ../src/pos.c:135
+msgid "Hole density - position"
+msgstr ""
+
+#: ../src/pos.c:152
+msgid "Potential - position"
+msgstr ""
+
+#: ../src/pos.c:155 ../libdump/dump_1d_slice.c:448
+#: ../libdump/dump_1d_slice.c:453 ../libdump/dump_1d_slice.c:477
+#: ../libdump/dump_1d_slice.c:482
+msgid "Potential"
+msgstr "势能"
+
+#: ../src/pos.c:206
+msgid "Solving Poisson's equation"
+msgstr ""
+
+#: ../src/pos.c:525
 msgid "Poisson solver error"
+msgstr ""
+
+#: ../src/pos.c:596
+msgid "Solved Poisson's equation"
+msgstr ""
+
+#: ../src/config.c:45
+msgid "load: config files"
+msgstr ""
+
+#: ../src/sim_find_n0.c:39
+msgid "Finding equilibrium conditions"
+msgstr ""
+
+#: ../src/sim_find_n0.c:105
+msgid "Finished finding equilibrium conditions"
 msgstr ""
 
 #: ../gui/pl_main.py:77
@@ -4227,11 +4333,6 @@ msgstr "电子准费米能级"
 msgid "Hole quasi Fermi-level"
 msgstr "空穴准费米能级"
 
-#: ../libdump/dump_1d_slice.c:448 ../libdump/dump_1d_slice.c:453
-#: ../libdump/dump_1d_slice.c:477 ../libdump/dump_1d_slice.c:482
-msgid "Potential"
-msgstr "势能"
-
 #: ../libdump/dump_1d_slice.c:487
 msgid "Change in 1D position space output"
 msgstr "一维位置空间输出变化"
@@ -4400,14 +4501,11 @@ msgstr "odes/s"
 msgid "Reset flag"
 msgstr "重设标志"
 
+#~ msgid "LANG TEST.\n"
+#~ msgstr "TRANSLATED to zh_CN\n"
+
 #~ msgid "It's dark I know what the answer is\n"
 #~ msgstr "黑暗条件，但结果可得\n"
-
-#~ msgid "Full transfer matrix based light model"
-#~ msgstr "基于光学模形的完全转移矩阵"
-
-#~ msgid "Solve optical slice at"
-#~ msgstr "在这个位置求解光学层："
 
 #~ msgid "Make a new simulation"
 #~ msgstr "建立新的仿真"
