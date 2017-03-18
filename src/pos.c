@@ -58,9 +58,9 @@ if (get_dump_status(sim,dump_first_guess)==TRUE)
 	sprintf(name,"%s%s","first_guess_Fi",".dat");
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
-	strcpy(buf.title,"Intrinsic Fermi - position");
+	strcpy(buf.title,_("Intrinsic Fermi - position"));
 	strcpy(buf.type,"xy");
-	strcpy(buf.x_label,"Position");
+	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,"Fi");
 	strcpy(buf.x_units,"nm");
 	strcpy(buf.y_units,"$E_{LUMO}$");
@@ -75,9 +75,9 @@ if (get_dump_status(sim,dump_first_guess)==TRUE)
 	sprintf(name,"%s%s","first_guess_Ec",".dat");
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
-	strcpy(buf.title,"LUMO energy - position");
+	strcpy(buf.title,_("LUMO energy - position"));
 	strcpy(buf.type,"xy");
-	strcpy(buf.x_label,"Position");
+	strcpy(buf.x_label,_("Position"));
 	strcpy(buf.y_label,"LUMO");
 	strcpy(buf.x_units,"nm");
 	strcpy(buf.y_units,"$E_{LUMO}$");
@@ -92,7 +92,7 @@ if (get_dump_status(sim,dump_first_guess)==TRUE)
 	sprintf(name,"%s%s","first_guess_Ev",".dat");
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
-	strcpy(buf.title,"HOMO energy - position");
+	strcpy(buf.title,_("HOMO energy - position"));
 	strcpy(buf.type,"xy");
 	strcpy(buf.x_label,"Position");
 	strcpy(buf.y_label,"LUMO");
@@ -110,10 +110,10 @@ if (get_dump_status(sim,dump_first_guess)==TRUE)
 	sprintf(name,"%s%s","first_guess_n",".dat");
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
-	strcpy(buf.title,"Electron density - position");
+	strcpy(buf.title,_("Electron density - position"));
 	strcpy(buf.type,"xy");
-	strcpy(buf.x_label,"Position");
-	strcpy(buf.y_label,"Electron density");
+	strcpy(buf.x_label,_("Position"));
+	strcpy(buf.y_label,_("Electron density"));
 	strcpy(buf.x_units,"nm");
 	strcpy(buf.y_units,"m^{-3}");
 	buf.logscale_x=0;
@@ -128,10 +128,10 @@ if (get_dump_status(sim,dump_first_guess)==TRUE)
 	sprintf(name,"%s%s","first_guess_p",".dat");
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
-	strcpy(buf.title,"Hole density - position");
+	strcpy(buf.title,_("Hole density - position"));
 	strcpy(buf.type,"xy");
-	strcpy(buf.x_label,"Position");
-	strcpy(buf.y_label,"Hole density");
+	strcpy(buf.x_label,_("Position"));
+	strcpy(buf.y_label,_("Hole density"));
 	strcpy(buf.x_units,"nm");
 	strcpy(buf.y_units,"m^{-3}");
 	buf.logscale_x=0;
@@ -145,10 +145,10 @@ if (get_dump_status(sim,dump_first_guess)==TRUE)
 	sprintf(name,"%s%s","first_guess_phi",".dat");
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;
-	strcpy(buf.title,"Potential - position");
+	strcpy(buf.title,_("Potential - position"));
 	strcpy(buf.type,"xy");
-	strcpy(buf.x_label,"Position");
-	strcpy(buf.y_label,"Potential");
+	strcpy(buf.x_label,_("Position"));
+	strcpy(buf.y_label,_("Potential"));
 	strcpy(buf.x_units,"nm");
 	strcpy(buf.y_units,"V");
 	buf.logscale_x=0;
@@ -197,7 +197,11 @@ return tot;
 
 int solve_pos(struct simulation *sim,struct device *in, int z, int x)
 {
-if (get_dump_status(sim,dump_iodump)==TRUE) printf_log(sim,"Solve pos\n");
+if (get_dump_status(sim,dump_iodump)==TRUE)
+{
+	printf_log(sim,"%s\n",_("Solving Poisson's equation"));
+}
+
 int i;
 int y;
 
@@ -585,7 +589,7 @@ free(b);
 
 
 
-printf_log(sim,"Solved pos\n");
+printf_log(sim,"%s\n",_("Solved Poisson's equation"));
 printf_log(sim,"Vl=%Le Vr=%Le phi_mid=%Le\n",in->Vl,in->Vr, in->phi[z][x][in->ymeshpoints/2]);
 
 return 0;

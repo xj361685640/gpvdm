@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.88\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2017-03-14 20:17+0000\n"
+"POT-Creation-Date: 2017-03-17 15:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,7 +27,8 @@ msgstr ""
 
 #: ../liblight/light_dump.c:473 ../liblight/light_dump.c:500
 #: ../src/initial.c:52 ../src/initial.c:76 ../src/initial.c:100
-#: ../src/initial.c:124 ../src/initial.c:148 ../gui/band_graph.py:205
+#: ../src/initial.c:124 ../src/initial.c:148 ../src/pos.c:67 ../src/pos.c:84
+#: ../src/pos.c:119 ../src/pos.c:137 ../src/pos.c:154 ../gui/band_graph.py:205
 #: ../gui/qe.py:60 ../libdump/dump_1d_slice.c:70 ../libdump/dump_1d_slice.c:157
 #: ../libdump/dump_1d_slice.c:215 ../libdump/dump_1d_slice.c:244
 #: ../libdump/dump_1d_slice.c:273 ../libdump/dump_1d_slice.c:331
@@ -53,14 +54,14 @@ msgid "Position"
 msgstr ""
 
 #: ../liblight/light_dump.c:474 ../liblight/light_dump.c:501
-#: ../libmeasure/probe.c:274 ../libmeasure/probe.c:299
+#: ../libmeasure/probe.c:273 ../libmeasure/probe.c:298
 #: ../plugins/pulse/pulse.c:299 ../gui/optics.py:184
 #: ../libdump/dump_dynamic.c:420 ../libdump/dump_1d_slice.c:1297
 #: ../libdump/dump_1d_slice.c:1326
 msgid "Generation rate"
 msgstr ""
 
-#: ../liblight/light_dump.c:498 ../src/main.c:68
+#: ../liblight/light_dump.c:498 ../src/main.c:67
 msgid "Hole generation rate"
 msgstr ""
 
@@ -85,23 +86,43 @@ msgstr ""
 msgid "dll function light_dll_ver not found\n"
 msgstr ""
 
+#: ../liblight/light_materials.c:46
+msgid "load: materials"
+msgstr ""
+
 #: ../liblight/light_materials.c:59
 msgid "No optical materials found\n"
+msgstr ""
+
+#: ../liblight/light_materials.c:173 ../liblight/light_materials.c:263
+#: ../liblight/light_materials.c:329
+msgid "file not found"
 msgstr ""
 
 #: ../liblight/light_materials.c:249
 msgid "Error at end of patch file\n"
 msgstr ""
 
+#: ../liblight/light_materials.c:309
+msgid "Error at end of inter file"
+msgstr ""
+
+#: ../liblight/light_materials.c:356 ../liblight/light_materials.c:408
+msgid "Wavelength - Reflected light"
+msgstr ""
+
+#: ../liblight/light_materials.c:358 ../liblight/light_materials.c:410
+#: ../libmeasure/probe.c:163 ../libmeasure/probe.c:165
+#: ../libmeasure/probe.c:188 ../libmeasure/probe.c:190
+#: ../libmeasure/probe.c:213 ../libmeasure/probe.c:215 ../gui/equation.py:161
+msgid "Wavelength"
+msgstr ""
+
 #: ../liblight/light_memory.c:192
 msgid "Freeing memory from the optical model\n"
 msgstr ""
 
-#: ../liblight/light_utils.c:63
-msgid "It's dark I know what the answer is\n"
-msgstr ""
-
-#: ../liblight/light_utils.c:310
+#: ../liblight/light_utils.c:299
 msgid "It was dark I did not solve any slices\n"
 msgstr ""
 
@@ -117,23 +138,23 @@ msgstr ""
 msgid "Can not read file"
 msgstr ""
 
-#: ../lib/util.c:410 ../lib/util.c:523 ../lib/util.c:583 ../lib/util.c:673
+#: ../lib/util.c:410 ../lib/util.c:530 ../lib/util.c:590 ../lib/util.c:680
 msgid "File not found"
 msgstr ""
 
-#: ../lib/util.c:561 ../lib/util.c:621 ../lib/util.c:719
+#: ../lib/util.c:568 ../lib/util.c:628 ../lib/util.c:726
 msgid "Can not write file"
 msgstr ""
 
-#: ../lib/util.c:636 ../lib/util.c:644
+#: ../lib/util.c:643 ../lib/util.c:651
 msgid "Can not open file"
 msgstr ""
 
-#: ../lib/util.c:711
+#: ../lib/util.c:718
 msgid "Token not found in file"
 msgstr ""
 
-#: ../lib/util.c:887
+#: ../lib/util.c:894
 msgid "Deleting directory"
 msgstr ""
 
@@ -196,18 +217,20 @@ msgstr ""
 msgid "dll function dll_matrix_solver_free not found\n"
 msgstr ""
 
-#: ../libmesh/time.c:94
+#: ../lib/solver_interface.c:152
+msgid "Freeing memory"
+msgstr ""
+
+#: ../lib/solver_interface.c:156
+msgid "Error closing dll"
+msgstr ""
+
+#: ../libmesh/time.c:96
 msgid "You must load the optical plugin before making the time mesh"
 msgstr ""
 
-#: ../libmeasure/probe.c:164 ../libmeasure/probe.c:166
-#: ../libmeasure/probe.c:189 ../libmeasure/probe.c:191
-#: ../libmeasure/probe.c:214 ../libmeasure/probe.c:216 ../gui/equation.py:161
-msgid "Wavelength"
-msgstr ""
-
-#: ../libmeasure/probe.c:271 ../libmeasure/probe.c:273
-#: ../libmeasure/probe.c:296 ../libmeasure/probe.c:298
+#: ../libmeasure/probe.c:270 ../libmeasure/probe.c:272
+#: ../libmeasure/probe.c:295 ../libmeasure/probe.c:297
 #: ../plugins/pulse/pulse.c:206 ../plugins/pulse/pulse.c:208
 #: ../plugins/pulse/pulse.c:229 ../plugins/pulse/pulse.c:231
 #: ../plugins/pulse/pulse.c:253 ../plugins/pulse/pulse.c:255
@@ -239,20 +262,20 @@ msgstr ""
 msgid "Time"
 msgstr ""
 
-#: ../libmeasure/probe.c:271 ../libmeasure/probe.c:296
+#: ../libmeasure/probe.c:270 ../libmeasure/probe.c:295
 #: ../plugins/pulse/pulse.c:296
 msgid "Photogeneration rate"
 msgstr ""
 
-#: ../libmeasure/probe.c:327
+#: ../libmeasure/probe.c:326
 msgid "Probe load configuration"
 msgstr ""
 
-#: ../libmeasure/probe.c:353
+#: ../libmeasure/probe.c:352
 msgid "Probe calculate modes"
 msgstr ""
 
-#: ../libmeasure/probe.c:394
+#: ../libmeasure/probe.c:393
 msgid "Probe free memory"
 msgstr ""
 
@@ -279,7 +302,7 @@ msgstr ""
 
 #: ../plugins/pulse/pulse.c:206 ../plugins/pulse/pulse.c:209
 #: ../plugins/pulse/pulse.c:256 ../plugins/fxdomain/fxdomain.c:262
-#: ../plugins/jv/jv.c:243 ../plugins/jv/jv.c:419 ../plugins/jv/jv.c:456
+#: ../plugins/jv/jv.c:242 ../plugins/jv/jv.c:417 ../plugins/jv/jv.c:454
 #: ../gui/token_lib.py:364 ../libdump/dump_dynamic.c:394
 #: ../libdump/dump_contacts.c:72
 msgid "Current"
@@ -289,24 +312,24 @@ msgstr ""
 msgid "current density"
 msgstr ""
 
-#: ../plugins/pulse/pulse.c:232 ../plugins/jv/jv.c:359 ../plugins/jv/jv.c:362
-#: ../plugins/jv/jv.c:378 ../plugins/jv/jv.c:381 ../plugins/jv/jv.c:397
-#: ../plugins/jv/jv.c:400 ../libdump/dump_dynamic.c:231
+#: ../plugins/pulse/pulse.c:232 ../plugins/jv/jv.c:357 ../plugins/jv/jv.c:360
+#: ../plugins/jv/jv.c:376 ../plugins/jv/jv.c:379 ../plugins/jv/jv.c:395
+#: ../plugins/jv/jv.c:398 ../libdump/dump_dynamic.c:231
 #: ../libdump/dump_1d_slice.c:511 ../libdump/dump_1d_slice.c:541
 msgid "Current density"
 msgstr ""
 
 #: ../plugins/pulse/pulse.c:276 ../plugins/pulse/pulse.c:281
 #: ../plugins/fxdomain/fxdomain.c:279 ../plugins/fxdomain/fxdomain.c:282
-#: ../plugins/jv/jv.c:243 ../plugins/jv/jv.c:295 ../plugins/jv/jv.c:435
+#: ../plugins/jv/jv.c:242 ../plugins/jv/jv.c:293 ../plugins/jv/jv.c:433
 #: ../gui/tmesh.py:232 ../gui/tmesh.py:234 ../gui/tmesh.py:237
 #: ../gui/tmesh.py:239 ../gui/contacts.py:161 ../libdump/dump_dynamic.c:791
 #: ../libdump/dump_contacts.c:70
 msgid "Voltage"
 msgstr ""
 
-#: ../plugins/pulse/pulse.c:279 ../plugins/jv/jv.c:382 ../plugins/jv/jv.c:401
-#: ../plugins/jv/jv.c:420 ../gui/fxmesh.py:173
+#: ../plugins/pulse/pulse.c:279 ../plugins/jv/jv.c:380 ../plugins/jv/jv.c:399
+#: ../plugins/jv/jv.c:418 ../gui/fxmesh.py:173
 msgid "Volts"
 msgstr ""
 
@@ -342,20 +365,32 @@ msgstr ""
 msgid "Im(i)"
 msgstr ""
 
+#: ../plugins/light_full/light.c:41
+msgid "Full transfer matrix based light model"
+msgstr ""
+
+#: ../plugins/light_full/light.c:54
+msgid "Solve optical slice at"
+msgstr ""
+
+#: ../plugins/light_full/light.c:232
+msgid "I can't solve the matrix because I don't have enough equations."
+msgstr ""
+
 #: ../plugins/jv/jv.c:46
 msgid "Running JV simulation\n"
 msgstr ""
 
-#: ../plugins/jv/jv.c:235
+#: ../plugins/jv/jv.c:234
 #, python-format
 msgid "Stopping because of Vexternal %Le>%Le\n"
 msgstr ""
 
-#: ../plugins/jv/jv.c:297
+#: ../plugins/jv/jv.c:295
 msgid "Efficiency"
 msgstr ""
 
-#: ../plugins/jv/jv.c:335 ../plugins/jv/jv.c:338 ../libdump/dump_1d_slice.c:342
+#: ../plugins/jv/jv.c:333 ../plugins/jv/jv.c:336 ../libdump/dump_1d_slice.c:342
 #: ../libdump/dump_1d_slice.c:957 ../libdump/dump_1d_slice.c:986
 #: ../libdump/dump_1d_slice.c:1015 ../libdump/dump_1d_slice.c:1050
 #: ../libdump/dump_1d_slice.c:1120 ../libdump/dump_1d_slice.c:1156
@@ -364,25 +399,25 @@ msgstr ""
 msgid "Charge density"
 msgstr ""
 
-#: ../plugins/jv/jv.c:335 ../plugins/jv/jv.c:359 ../plugins/jv/jv.c:378
-#: ../plugins/jv/jv.c:397 ../plugins/jv/jv.c:416
+#: ../plugins/jv/jv.c:333 ../plugins/jv/jv.c:357 ../plugins/jv/jv.c:376
+#: ../plugins/jv/jv.c:395 ../plugins/jv/jv.c:414
 msgid "Applied voltage"
 msgstr ""
 
-#: ../plugins/jv/jv.c:337 ../plugins/jv/jv.c:361 ../plugins/jv/jv.c:380
-#: ../plugins/jv/jv.c:399 ../plugins/jv/jv.c:418
+#: ../plugins/jv/jv.c:335 ../plugins/jv/jv.c:359 ../plugins/jv/jv.c:378
+#: ../plugins/jv/jv.c:397 ../plugins/jv/jv.c:416
 msgid "Applied Voltage"
 msgstr ""
 
-#: ../plugins/jv/jv.c:416
+#: ../plugins/jv/jv.c:414
 msgid "Current "
 msgstr ""
 
-#: ../plugins/jv/jv.c:435 ../plugins/jv/jv.c:456
+#: ../plugins/jv/jv.c:433 ../plugins/jv/jv.c:454
 msgid "Light generated"
 msgstr ""
 
-#: ../plugins/jv/jv.c:459
+#: ../plugins/jv/jv.c:457
 msgid "Light power"
 msgstr ""
 
@@ -410,6 +445,10 @@ msgstr ""
 msgid "I have shut down the server"
 msgstr ""
 
+#: ../libserver/server.c:237
+msgid "Number of CPUs:"
+msgstr ""
+
 #: ../libserver/server.c:246
 msgid "Start time"
 msgstr ""
@@ -418,35 +457,35 @@ msgstr ""
 msgid "End time"
 msgstr ""
 
-#: ../libserver/server.c:508
+#: ../libserver/server.c:503
 msgid "All jobs finished jobs"
 msgstr ""
 
-#: ../libserver/server.c:514
+#: ../libserver/server.c:509
 msgid "I have finished all my jobs"
 msgstr ""
 
-#: ../libserver/server.c:521
+#: ../libserver/server.c:516
 msgid "The server has detected a crash"
 msgstr ""
 
-#: ../libdos/dos.c:219
+#: ../libdos/dos.c:218
 msgid "Loading file"
 msgstr ""
 
-#: ../libdos/dos.c:267 ../libdos/dos.c:273
+#: ../libdos/dos.c:264 ../libdos/dos.c:270
 msgid "DOS file not found\n"
 msgstr ""
 
-#: ../libdos/dos.c:308
+#: ../libdos/dos.c:305
 msgid "DoS n file not found\n"
 msgstr ""
 
-#: ../libdos/gendosfdgaus.c:848
+#: ../libdos/gendosfdgaus.c:840
 msgid "Expected dos size is different from generated\n"
 msgstr ""
 
-#: ../libdos/gendosfdgaus.c:1314
+#: ../libdos/gendosfdgaus.c:1304
 msgid "Finished generating DoS....\n"
 msgstr ""
 
@@ -511,13 +550,13 @@ msgstr ""
 msgid "HOMO"
 msgstr ""
 
-#: ../src/initial.c:122 ../libdump/dump_dynamic.c:598
+#: ../src/initial.c:122 ../src/pos.c:120 ../libdump/dump_dynamic.c:598
 #: ../libdump/dump_dynamic.c:636 ../libdump/dump_dynamic.c:737
 #: ../libdump/dump_1d_slice.c:1229
 msgid "Electron density"
 msgstr ""
 
-#: ../src/initial.c:146 ../libdump/dump_dynamic.c:617
+#: ../src/initial.c:146 ../src/pos.c:138 ../libdump/dump_dynamic.c:617
 #: ../libdump/dump_dynamic.c:655 ../libdump/dump_dynamic.c:757
 #: ../libdump/dump_1d_slice.c:1263
 msgid "Hole density"
@@ -543,32 +582,86 @@ msgstr ""
 msgid "Electrons on right contact"
 msgstr ""
 
+#: ../src/main.c:116 ../src/main.c:137
+msgid "Copyright (C) 2012-2017 Roderick C. I. MacKenzie, Releced under GPLv2"
+msgstr ""
+
+#: ../src/main.c:118
+msgid "options"
+msgstr ""
+
+#: ../src/main.c:120
+msgid "Options"
+msgstr ""
+
+#: ../src/main.c:122
+msgid "output data path"
+msgstr ""
+
+#: ../src/main.c:123
+msgid "sets the input path"
+msgstr ""
+
+#: ../src/main.c:124 ../gui/command_args.py:58 ../gui/command_args.py:59
+msgid "displays the current version"
+msgstr ""
+
+#: ../src/main.c:125
+msgid "zip the results"
+msgstr ""
+
+#: ../src/main.c:126
+msgid "Forces a simulation mode."
+msgstr ""
+
+#: ../src/main.c:127
+msgid "sets the number of CPUs"
+msgstr ""
+
 #: ../src/main.c:129
+msgid ""
+"Additional information about gpvdm is available at https://www.gpvdm.com."
+msgstr ""
+
+#: ../src/main.c:131
+msgid "Report bugs to: roderick.mackenzie@nottingham.ac.uk"
+msgstr ""
+
+#: ../src/main.c:136
 #, python-format
 msgid "gpvdm_core, Version %s\n"
 msgstr ""
 
-#: ../src/main.c:132
+#: ../src/main.c:138
+msgid "This is free software; see the source code for copying conditions."
+msgstr ""
+
+#: ../src/main.c:139
 msgid "There is ABSOLUTELY NO WARRANTY; not even for MERCHANTABILITY or\n"
 msgstr ""
 
-#: ../src/main.c:133
+#: ../src/main.c:140
 msgid "FITNESS FOR A PARTICULAR PURPOSE.\n"
 msgstr ""
 
-#: ../src/main.c:184
+#: ../src/main.c:191 ../gui/scan_tab.py:405 ../gui/fit_vars.py:156
+#: ../gui/fit_patch.py:124
+msgid "Token"
+msgstr ""
+
+#: ../src/main.c:193
 msgid "General-purpose Photovoltaic Device Model (https://www.gpvdm.com)\n"
 msgstr ""
 
-#: ../src/main.c:185
+#: ../src/main.c:194
 msgid "You should have received a copy of the GNU General Public License\n"
 msgstr ""
 
-#: ../src/main.c:186
+#: ../src/main.c:195
 msgid "along with this software.  If not, see www.gnu.org/licenses/.\n"
 msgstr ""
 
-#: ../src/main.c:188
+#: ../src/main.c:197
 msgid "If you wish to collaborate in anyway please get in touch:\n"
 msgstr ""
 
@@ -584,16 +677,66 @@ msgstr ""
 msgid "Runing simulation"
 msgstr ""
 
-#: ../src/sim_run.c:104
+#: ../src/sim_run.c:109
 msgid "Loading DoS layers"
 msgstr ""
 
-#: ../src/sim_run.c:112
+#: ../src/sim_run.c:118
 msgid "Load DoS"
 msgstr ""
 
-#: ../src/pos.c:521
+#: ../src/pos.c:65
+msgid "Intrinsic Fermi - position"
+msgstr ""
+
+#: ../src/pos.c:82
+msgid "LUMO energy - position"
+msgstr ""
+
+#: ../src/pos.c:99
+msgid "HOMO energy - position"
+msgstr ""
+
+#: ../src/pos.c:117
+msgid "Electron density - position"
+msgstr ""
+
+#: ../src/pos.c:135
+msgid "Hole density - position"
+msgstr ""
+
+#: ../src/pos.c:152
+msgid "Potential - position"
+msgstr ""
+
+#: ../src/pos.c:155 ../libdump/dump_1d_slice.c:448
+#: ../libdump/dump_1d_slice.c:453 ../libdump/dump_1d_slice.c:477
+#: ../libdump/dump_1d_slice.c:482
+msgid "Potential"
+msgstr ""
+
+#: ../src/pos.c:206
+msgid "Solving Poisson's equation"
+msgstr ""
+
+#: ../src/pos.c:525
 msgid "Poisson solver error"
+msgstr ""
+
+#: ../src/pos.c:596
+msgid "Solved Poisson's equation"
+msgstr ""
+
+#: ../src/config.c:45
+msgid "load: config files"
+msgstr ""
+
+#: ../src/sim_find_n0.c:39
+msgid "Finding equilibrium conditions"
+msgstr ""
+
+#: ../src/sim_find_n0.c:105
+msgid "Finished finding equilibrium conditions"
 msgstr ""
 
 #: ../gui/pl_main.py:77
@@ -952,10 +1095,6 @@ msgstr ""
 msgid "Report bugs to:"
 msgstr ""
 
-#: ../gui/command_args.py:58 ../gui/command_args.py:59
-msgid "displays the current version"
-msgstr ""
-
 #: ../gui/command_args.py:60
 msgid "replaces file in device lib"
 msgstr ""
@@ -1057,10 +1196,6 @@ msgstr ""
 #: ../gui/fit_vars.py:156 ../gui/lasers.py:176 ../gui/plot_widget.py:583
 #: ../gui/fit_patch.py:124
 msgid "File"
-msgstr ""
-
-#: ../gui/scan_tab.py:405 ../gui/fit_vars.py:156 ../gui/fit_patch.py:124
-msgid "Token"
 msgstr ""
 
 #: ../gui/scan_tab.py:405
@@ -4105,11 +4240,6 @@ msgstr ""
 
 #: ../libdump/dump_1d_slice.c:418
 msgid "Hole quasi Fermi-level"
-msgstr ""
-
-#: ../libdump/dump_1d_slice.c:448 ../libdump/dump_1d_slice.c:453
-#: ../libdump/dump_1d_slice.c:477 ../libdump/dump_1d_slice.c:482
-msgid "Potential"
 msgstr ""
 
 #: ../libdump/dump_1d_slice.c:487

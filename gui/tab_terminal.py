@@ -50,9 +50,9 @@ class tab_terminal(QWidget,tab_base):
 		cursor.movePosition(cursor.End,cursor.MoveAnchor)
 		self.terminals[i].setTextCursor(cursor)
 		r=self.process[i].readAll()
-		print(">",r,"<")
-		data=str(r,'utf-8')
-		data=data[:-1]
+		#print(">",r,"<")
+		data=str(r,'utf-8',errors='ignore')
+		#data=data[:-1]
 		cursor.insertHtml(data)
 		self.terminals[i].ensureCursorVisible()
 

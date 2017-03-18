@@ -2,7 +2,7 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
+//  Copyright (C) 2012-2017 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
 //	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -36,7 +36,6 @@
 #include <light_interface.h>
 #include <dump.h>
 #include <complex_solver.h>
-#include <license.h>
 #include <inp.h>
 #include <gui_hooks.h>
 #include <timer.h>
@@ -64,7 +63,6 @@ int main (int argc, char *argv[])
 //wchar_t wide[1000];
 //int i=mbstowcs(wide, _("Hole generation rate"), 1000);
 //exit(0);
-
 int run=FALSE;
 struct simulation sim;
 sim_init(&sim);
@@ -78,17 +76,19 @@ if (scanarg( argv,argc,"--gui")==TRUE)
 int log_level=0;
 set_logging_level(&sim,log_level_screen);
 cal_path(&sim);
-
+char *b=NULL;
+char *c=NULL;
 if (scanarg( argv,argc,"--lang")==TRUE)
 {
 	setlocale(LC_ALL,get_arg_plusone( argv,argc,"--lang"));
-	bindtextdomain("gpvdm",get_lang_path(&sim));
-	textdomain("gpvdm");
+	c=textdomain("gpvdm");
+	b=bindtextdomain("gpvdm","lang");
+
 }else
 {
 	setlocale(LC_ALL,"");
-	bindtextdomain("gpvdm",get_lang_path(&sim));
-	textdomain("gpvdm");	
+	c=textdomain("gpvdm");	
+	b=bindtextdomain("gpvdm","lang");
 }
 if (scanarg( argv,argc,"--html")==TRUE)
 {
@@ -102,29 +102,29 @@ if (scanarg( argv,argc,"--html")==TRUE)
 if (scanarg( argv,argc,"--help")==TRUE)
 {
 	printf_log(&sim,"gpvdm_core - General-purpose Photovoltaic Device Model\n");
-	printf_log(&sim,copyright);
+	printf_log(&sim,"%s\n",_("Copyright (C) 2012-2017 Roderick C. I. MacKenzie, Releced under GPLv2"));
 	printf_log(&sim,"\n");
-	printf_log(&sim,"Usage: gpvdm_core [options]\n");
+	printf_log(&sim,"Usage: gpvdm_core [%s]\n",_("options"));
 	printf_log(&sim,"\n");
-	printf_log(&sim,"Options:\n");
+	printf_log(&sim,"%s:\n",_("Options"));
 	printf_log(&sim,"\n");
-	printf_log(&sim,"\t--outputpath\toutput data path");
-	printf_log(&sim,"\t--inputpath\t sets the input path\n");
-	printf_log(&sim,"\t--version\tdisplays the current version\n");
-	printf_log(&sim,"\t--zip_results\t zip the results\n");
-	printf_log(&sim,"\t--simmode\t forces a simulation mode.\n");
-	printf_log(&sim,"\t--cpus\t sets the number of CPUs\n");
+	printf_log(&sim,"\t--outputpath\t%s\n",_("output data path"));
+	printf_log(&sim,"\t--inputpath\t %s\n",_("sets the input path"));
+	printf_log(&sim,"\t--version\t%s\n",_("displays the current version"));
+	printf_log(&sim,"\t--zip_results\t %s\n",_("zip the results"));
+	printf_log(&sim,"\t--simmode\t %s\n",_("Forces a simulation mode."));
+	printf_log(&sim,"\t--cpus\t %s\n",_("sets the number of CPUs"));
 	printf_log(&sim,"\n");
-	printf_log(&sim,"Additional information about gpvdm is available at www.gpvdm.com.\n");
+	printf_log(&sim,"%s\n",_("Additional information about gpvdm is available at https://www.gpvdm.com."));
 	printf_log(&sim,"\n");
-	printf_log(&sim,"Report bugs to: roderick.mackenzie@nottingham.ac.uk\n\n");
+	printf_log(&sim,"%s\n\n",_("Report bugs to: roderick.mackenzie@nottingham.ac.uk"));
 	exit(0);
 }
 if (scanarg( argv,argc,"--version")==TRUE)
 {
 	printf_log(&sim,_("gpvdm_core, Version %s\n"),gpvdm_ver);
-	printf_log(&sim,copyright);
-	printf_log(&sim,this_is_free_software);
+	printf_log(&sim,"%s\n",_("Copyright (C) 2012-2017 Roderick C. I. MacKenzie, Releced under GPLv2"));
+	printf_log(&sim,"%s\n",_("This is free software; see the source code for copying conditions."));
 	printf_log(&sim,_("There is ABSOLUTELY NO WARRANTY; not even for MERCHANTABILITY or\n"));
 	printf_log(&sim,_("FITNESS FOR A PARTICULAR PURPOSE.\n"));
 	printf_log(&sim,"\n");
@@ -164,6 +164,8 @@ if(geteuid()==0) {
 
 
 srand(time(0));
+//printf_log(&sim,"%s\n",_("Token"));
+//exit(0);
 randomprint(&sim,_("General-purpose Photovoltaic Device Model (https://www.gpvdm.com)\n"));
 randomprint(&sim,_("You should have received a copy of the GNU General Public License\n"));
 randomprint(&sim,_("along with this software.  If not, see www.gnu.org/licenses/.\n"));
@@ -172,7 +174,7 @@ randomprint(&sim,_("If you wish to collaborate in anyway please get in touch:\n"
 randomprint(&sim,"roderick.mackenzie@nottingham.ac.uk\n");
 randomprint(&sim,"www.rodmack.com/contact.html\n");
 randomprint(&sim,"\n");
-
+//getchar();
 sim.server.on=FALSE;
 sim.server.cpus=1;
 sim.server.readconfig=TRUE;

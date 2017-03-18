@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.88\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2017-03-11 12:04+0000\n"
-"PO-Revision-Date: 2017-03-11 12:04+0000\n"
+"POT-Creation-Date: 2017-03-15 17:09+0000\n"
+"PO-Revision-Date: 2017-03-15 17:09+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: zh_CN\n"
@@ -54,7 +54,7 @@ msgid "Position"
 msgstr "位置"
 
 #: ../liblight/light_dump.c:474 ../liblight/light_dump.c:501
-#: ../libmeasure/probe.c:274 ../libmeasure/probe.c:299
+#: ../libmeasure/probe.c:273 ../libmeasure/probe.c:298
 #: ../plugins/pulse/pulse.c:299 ../gui/optics.py:184
 #: ../libdump/dump_dynamic.c:420 ../libdump/dump_1d_slice.c:1297
 #: ../libdump/dump_1d_slice.c:1326
@@ -98,43 +98,39 @@ msgstr "补丁文件末尾有错误\n"
 msgid "Freeing memory from the optical model\n"
 msgstr "光学模型中清空内存\n"
 
-#: ../liblight/light_utils.c:63
-msgid "It's dark I know what the answer is\n"
-msgstr "黑暗条件，但结果可得\n"
-
-#: ../liblight/light_utils.c:310
+#: ../liblight/light_utils.c:299
 msgid "It was dark I did not solve any slices\n"
 msgstr "黑暗条件，结果无法求得\n"
 
-#: ../lib/util.c:144 ../lib/util.c:162
+#: ../lib/util.c:182 ../lib/util.c:200
 msgid "Error writing file"
 msgstr "写入文件错误"
 
-#: ../lib/util.c:329
+#: ../lib/util.c:367
 msgid "I don't understand the command"
 msgstr "无法理解此条指令"
 
-#: ../lib/util.c:341
+#: ../lib/util.c:379
 msgid "Can not read file"
 msgstr "无法读取文件"
 
-#: ../lib/util.c:372 ../lib/util.c:486 ../lib/util.c:546 ../lib/util.c:639
+#: ../lib/util.c:410 ../lib/util.c:530 ../lib/util.c:590 ../lib/util.c:680
 msgid "File not found"
 msgstr "未找到文件"
 
-#: ../lib/util.c:524 ../lib/util.c:584 ../lib/util.c:685
+#: ../lib/util.c:568 ../lib/util.c:628 ../lib/util.c:726
 msgid "Can not write file"
 msgstr "无法写入文件"
 
-#: ../lib/util.c:600 ../lib/util.c:608
+#: ../lib/util.c:643 ../lib/util.c:651
 msgid "Can not open file"
 msgstr "无法打开文件"
 
-#: ../lib/util.c:677
+#: ../lib/util.c:718
 msgid "Token not found in file"
 msgstr "文件中未发现令牌"
 
-#: ../lib/util.c:853
+#: ../lib/util.c:894
 msgid "Deleting directory"
 msgstr "正在删除目录"
 
@@ -154,9 +150,9 @@ msgstr "矩阵转存\n"
 msgid "Complex solver free\n"
 msgstr "无需复数求解器\n"
 
-#: ../lib/complex_solver.c:135 ../lib/complex_solver.c:144
-#: ../lib/complex_solver.c:153 ../lib/complex_solver.c:162
-#: ../lib/complex_solver.c:171 ../lib/complex_solver.c:180
+#: ../lib/complex_solver.c:132 ../lib/complex_solver.c:141
+#: ../lib/complex_solver.c:150 ../lib/complex_solver.c:159
+#: ../lib/complex_solver.c:168 ../lib/complex_solver.c:177
 msgid "complex_solver realloc memory error"
 msgstr "complex_solver重新分配内存时发生错误"
 
@@ -197,18 +193,18 @@ msgstr "未找到dll函数set_interface\n"
 msgid "dll function dll_matrix_solver_free not found\n"
 msgstr "未找到dll函数dll_matrix_solver_free \n"
 
-#: ../libmesh/time.c:94
+#: ../libmesh/time.c:96
 msgid "You must load the optical plugin before making the time mesh"
 msgstr "您必须在划分时间之前加载光学插件"
 
-#: ../libmeasure/probe.c:164 ../libmeasure/probe.c:166
-#: ../libmeasure/probe.c:189 ../libmeasure/probe.c:191
-#: ../libmeasure/probe.c:214 ../libmeasure/probe.c:216 ../gui/equation.py:161
+#: ../libmeasure/probe.c:163 ../libmeasure/probe.c:165
+#: ../libmeasure/probe.c:188 ../libmeasure/probe.c:190
+#: ../libmeasure/probe.c:213 ../libmeasure/probe.c:215 ../gui/equation.py:161
 msgid "Wavelength"
 msgstr "波长"
 
-#: ../libmeasure/probe.c:271 ../libmeasure/probe.c:273
-#: ../libmeasure/probe.c:296 ../libmeasure/probe.c:298
+#: ../libmeasure/probe.c:270 ../libmeasure/probe.c:272
+#: ../libmeasure/probe.c:295 ../libmeasure/probe.c:297
 #: ../plugins/pulse/pulse.c:206 ../plugins/pulse/pulse.c:208
 #: ../plugins/pulse/pulse.c:229 ../plugins/pulse/pulse.c:231
 #: ../plugins/pulse/pulse.c:253 ../plugins/pulse/pulse.c:255
@@ -240,20 +236,20 @@ msgstr "波长"
 msgid "Time"
 msgstr "时间"
 
-#: ../libmeasure/probe.c:271 ../libmeasure/probe.c:296
+#: ../libmeasure/probe.c:270 ../libmeasure/probe.c:295
 #: ../plugins/pulse/pulse.c:296
 msgid "Photogeneration rate"
 msgstr "光子产生率"
 
-#: ../libmeasure/probe.c:327
+#: ../libmeasure/probe.c:326
 msgid "Probe load configuration"
 msgstr "探头加载配置"
 
-#: ../libmeasure/probe.c:353
+#: ../libmeasure/probe.c:352
 msgid "Probe calculate modes"
 msgstr "探头计算模型"
 
-#: ../libmeasure/probe.c:394
+#: ../libmeasure/probe.c:393
 msgid "Probe free memory"
 msgstr "探头可用内存"
 
@@ -280,7 +276,7 @@ msgstr "电流"
 
 #: ../plugins/pulse/pulse.c:206 ../plugins/pulse/pulse.c:209
 #: ../plugins/pulse/pulse.c:256 ../plugins/fxdomain/fxdomain.c:262
-#: ../plugins/jv/jv.c:243 ../plugins/jv/jv.c:419 ../plugins/jv/jv.c:456
+#: ../plugins/jv/jv.c:242 ../plugins/jv/jv.c:417 ../plugins/jv/jv.c:454
 #: ../gui/token_lib.py:364 ../libdump/dump_dynamic.c:394
 #: ../libdump/dump_contacts.c:72
 msgid "Current"
@@ -290,24 +286,24 @@ msgstr "电流"
 msgid "current density"
 msgstr "电流密度"
 
-#: ../plugins/pulse/pulse.c:232 ../plugins/jv/jv.c:359 ../plugins/jv/jv.c:362
-#: ../plugins/jv/jv.c:378 ../plugins/jv/jv.c:381 ../plugins/jv/jv.c:397
-#: ../plugins/jv/jv.c:400 ../libdump/dump_dynamic.c:231
+#: ../plugins/pulse/pulse.c:232 ../plugins/jv/jv.c:357 ../plugins/jv/jv.c:360
+#: ../plugins/jv/jv.c:376 ../plugins/jv/jv.c:379 ../plugins/jv/jv.c:395
+#: ../plugins/jv/jv.c:398 ../libdump/dump_dynamic.c:231
 #: ../libdump/dump_1d_slice.c:511 ../libdump/dump_1d_slice.c:541
 msgid "Current density"
 msgstr "电流密度"
 
 #: ../plugins/pulse/pulse.c:276 ../plugins/pulse/pulse.c:281
 #: ../plugins/fxdomain/fxdomain.c:279 ../plugins/fxdomain/fxdomain.c:282
-#: ../plugins/jv/jv.c:243 ../plugins/jv/jv.c:295 ../plugins/jv/jv.c:435
+#: ../plugins/jv/jv.c:242 ../plugins/jv/jv.c:293 ../plugins/jv/jv.c:433
 #: ../gui/tmesh.py:232 ../gui/tmesh.py:234 ../gui/tmesh.py:237
 #: ../gui/tmesh.py:239 ../gui/contacts.py:161 ../libdump/dump_dynamic.c:791
 #: ../libdump/dump_contacts.c:70
 msgid "Voltage"
 msgstr "电压"
 
-#: ../plugins/pulse/pulse.c:279 ../plugins/jv/jv.c:382 ../plugins/jv/jv.c:401
-#: ../plugins/jv/jv.c:420 ../gui/fxmesh.py:173
+#: ../plugins/pulse/pulse.c:279 ../plugins/jv/jv.c:380 ../plugins/jv/jv.c:399
+#: ../plugins/jv/jv.c:418 ../gui/fxmesh.py:173
 msgid "Volts"
 msgstr "伏特"
 
@@ -347,16 +343,16 @@ msgstr "电流的虚部"
 msgid "Running JV simulation\n"
 msgstr "正在仿真JV曲线\n"
 
-#: ../plugins/jv/jv.c:235
+#: ../plugins/jv/jv.c:234
 #, python-format
 msgid "Stopping because of Vexternal %Le>%Le\n"
 msgstr "正在停止，因为Vexternal %Le>%Le\n"
 
-#: ../plugins/jv/jv.c:297
+#: ../plugins/jv/jv.c:295
 msgid "Efficiency"
 msgstr "效率"
 
-#: ../plugins/jv/jv.c:335 ../plugins/jv/jv.c:338 ../libdump/dump_1d_slice.c:342
+#: ../plugins/jv/jv.c:333 ../plugins/jv/jv.c:336 ../libdump/dump_1d_slice.c:342
 #: ../libdump/dump_1d_slice.c:957 ../libdump/dump_1d_slice.c:986
 #: ../libdump/dump_1d_slice.c:1015 ../libdump/dump_1d_slice.c:1050
 #: ../libdump/dump_1d_slice.c:1120 ../libdump/dump_1d_slice.c:1156
@@ -365,25 +361,25 @@ msgstr "效率"
 msgid "Charge density"
 msgstr "电荷密度"
 
-#: ../plugins/jv/jv.c:335 ../plugins/jv/jv.c:359 ../plugins/jv/jv.c:378
-#: ../plugins/jv/jv.c:397 ../plugins/jv/jv.c:416
+#: ../plugins/jv/jv.c:333 ../plugins/jv/jv.c:357 ../plugins/jv/jv.c:376
+#: ../plugins/jv/jv.c:395 ../plugins/jv/jv.c:414
 msgid "Applied voltage"
 msgstr "外加电压"
 
-#: ../plugins/jv/jv.c:337 ../plugins/jv/jv.c:361 ../plugins/jv/jv.c:380
-#: ../plugins/jv/jv.c:399 ../plugins/jv/jv.c:418
+#: ../plugins/jv/jv.c:335 ../plugins/jv/jv.c:359 ../plugins/jv/jv.c:378
+#: ../plugins/jv/jv.c:397 ../plugins/jv/jv.c:416
 msgid "Applied Voltage"
 msgstr "外加电压"
 
-#: ../plugins/jv/jv.c:416
+#: ../plugins/jv/jv.c:414
 msgid "Current "
 msgstr "电流"
 
-#: ../plugins/jv/jv.c:435 ../plugins/jv/jv.c:456
+#: ../plugins/jv/jv.c:433 ../plugins/jv/jv.c:454
 msgid "Light generated"
 msgstr "生成的光"
 
-#: ../plugins/jv/jv.c:459
+#: ../plugins/jv/jv.c:457
 msgid "Light power"
 msgstr "光功率"
 
@@ -419,35 +415,35 @@ msgstr "起始时间"
 msgid "End time"
 msgstr "截止时间"
 
-#: ../libserver/server.c:508
+#: ../libserver/server.c:503
 msgid "All jobs finished jobs"
 msgstr "所有任务 已完成的任务"
 
-#: ../libserver/server.c:514
+#: ../libserver/server.c:509
 msgid "I have finished all my jobs"
 msgstr "已经完成所有任务"
 
-#: ../libserver/server.c:521
+#: ../libserver/server.c:516
 msgid "The server has detected a crash"
 msgstr "服务器检测到异常"
 
-#: ../libdos/dos.c:219
+#: ../libdos/dos.c:218
 msgid "Loading file"
 msgstr "正在加载文件"
 
-#: ../libdos/dos.c:267 ../libdos/dos.c:273
+#: ../libdos/dos.c:264 ../libdos/dos.c:270
 msgid "DOS file not found\n"
 msgstr "未找到DOS文件\n"
 
-#: ../libdos/dos.c:308
+#: ../libdos/dos.c:305
 msgid "DoS n file not found\n"
 msgstr "未找到DoS n文件\n"
 
-#: ../libdos/gendosfdgaus.c:848
+#: ../libdos/gendosfdgaus.c:840
 msgid "Expected dos size is different from generated\n"
 msgstr "预期dos大小与生成结果不同\n"
 
-#: ../libdos/gendosfdgaus.c:1314
+#: ../libdos/gendosfdgaus.c:1304
 msgid "Finished generating DoS....\n"
 msgstr "已完成生成DoS\n"
 
@@ -544,32 +540,73 @@ msgstr "右接触层的空穴"
 msgid "Electrons on right contact"
 msgstr "右接触层的电子"
 
+#: ../src/main.c:106
+msgid "LANG TEST.\n"
+msgstr "TRANSLATED to zh_CN\n"
+
+#: ../src/main.c:122
+msgid "output data path"
+msgstr ""
+
+#: ../src/main.c:123
+msgid "sets the input path"
+msgstr ""
+
+#: ../src/main.c:124 ../gui/command_args.py:58 ../gui/command_args.py:59
+msgid "displays the current version"
+msgstr "运行当前版本"
+
 #: ../src/main.c:125
+msgid "zip the results"
+msgstr ""
+
+#: ../src/main.c:126
+msgid "Forces a simulation mode."
+msgstr ""
+
+#: ../src/main.c:127
+msgid "sets the number of CPUs"
+msgstr ""
+
+#: ../src/main.c:129
+msgid "Additional information about gpvdm is available at www.gpvdm.com."
+msgstr ""
+
+#: ../src/main.c:131
+msgid "Report bugs to: roderick.mackenzie@nottingham.ac.uk"
+msgstr ""
+
+#: ../src/main.c:136
 #, python-format
 msgid "gpvdm_core, Version %s\n"
 msgstr "gpvdm_core,版本%s\n"
 
-#: ../src/main.c:128
+#: ../src/main.c:139
 msgid "There is ABSOLUTELY NO WARRANTY; not even for MERCHANTABILITY or\n"
 msgstr "绝对没有保证书，甚至连可买卖性也没有\n"
 
-#: ../src/main.c:129
+#: ../src/main.c:140
 msgid "FITNESS FOR A PARTICULAR PURPOSE.\n"
 msgstr "为某个特定目的的拟合\n"
 
-#: ../src/main.c:180
+#: ../src/main.c:191 ../gui/scan_tab.py:405 ../gui/fit_vars.py:156
+#: ../gui/fit_patch.py:124
+msgid "Token"
+msgstr "令牌"
+
+#: ../src/main.c:193
 msgid "General-purpose Photovoltaic Device Model (https://www.gpvdm.com)\n"
 msgstr "通用光伏器件模型(https://www.gpvdm.com)\n"
 
-#: ../src/main.c:181
+#: ../src/main.c:194
 msgid "You should have received a copy of the GNU General Public License\n"
 msgstr "你应该接收到一份GNU通用公共许可证的副本\n"
 
-#: ../src/main.c:182
+#: ../src/main.c:195
 msgid "along with this software.  If not, see www.gnu.org/licenses/.\n"
 msgstr "和这个软件一起。如果没有，请访问www.gnu.org/licenses/.\n"
 
-#: ../src/main.c:184
+#: ../src/main.c:197
 msgid "If you wish to collaborate in anyway please get in touch:\n"
 msgstr "如果您有意合作，无论在什么方面，都请联系我：\n"
 
@@ -593,7 +630,7 @@ msgstr "正在加载DoS层"
 msgid "Load DoS"
 msgstr "加载DoS"
 
-#: ../src/pos.c:525
+#: ../src/pos.c:521
 msgid "Poisson solver error"
 msgstr ""
 
@@ -961,10 +998,6 @@ msgstr "关于gpvdm的其它信息请关注"
 msgid "Report bugs to:"
 msgstr "报告错误到："
 
-#: ../gui/command_args.py:58 ../gui/command_args.py:59
-msgid "displays the current version"
-msgstr "运行当前版本"
-
 #: ../gui/command_args.py:60
 msgid "replaces file in device lib"
 msgstr "替换装置字典库中文件"
@@ -1074,10 +1107,6 @@ msgstr "问题发生树"
 #: ../gui/fit_patch.py:124
 msgid "File"
 msgstr "文件"
-
-#: ../gui/scan_tab.py:405 ../gui/fit_vars.py:156 ../gui/fit_patch.py:124
-msgid "Token"
-msgstr "令牌"
 
 #: ../gui/scan_tab.py:405
 msgid "Parameter to change"
@@ -2597,15 +2626,15 @@ msgstr ""
 msgid "Citing the model"
 msgstr "关于引用模型的声明"
 
-#: ../gui/tab_terminal.py:63
+#: ../gui/tab_terminal.py:64
 msgid "Running: "
 msgstr ""
 
-#: ../gui/tab_terminal.py:75
+#: ../gui/tab_terminal.py:76
 msgid "I could not find a free cpu to run the command on"
 msgstr ""
 
-#: ../gui/tab_terminal.py:108
+#: ../gui/tab_terminal.py:109
 msgid "CPU"
 msgstr ""
 
@@ -3244,9 +3273,13 @@ msgstr "合适确定收敛"
 msgid "Enable simplex reset"
 msgstr "使simplex重置"
 
-#: ../gui/token_lib.py:165 ../gui/token_lib.py:166
+#: ../gui/token_lib.py:165
 msgid "Simplex reset steps"
 msgstr "简化重设步骤"
+
+#: ../gui/token_lib.py:166
+msgid "Fiting method"
+msgstr ""
 
 #: ../gui/token_lib.py:169
 msgid "Subtract lowest point"
@@ -4366,6 +4399,9 @@ msgstr "odes/s"
 #: ../libfit/fit_dump.c:179
 msgid "Reset flag"
 msgstr "重设标志"
+
+#~ msgid "It's dark I know what the answer is\n"
+#~ msgstr "黑暗条件，但结果可得\n"
 
 #~ msgid "Full transfer matrix based light model"
 #~ msgstr "基于光学模形的完全转移矩阵"

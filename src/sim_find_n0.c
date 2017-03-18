@@ -28,6 +28,7 @@
 #include "log.h"
 #include <cal_path.h>
 #include <contacts.h>
+#include <lang.h>
 
 void find_n0(struct simulation *sim,struct device *in)
 {
@@ -35,7 +36,7 @@ int x;
 int y;
 int z;
 
-printf_log(sim,"Finding n0\n");
+printf_log(sim,"%s\n",_("Finding equilibrium conditions"));
 gdouble oldsun=light_get_sun(&(in->mylight));
 
 contacts_force_to_zero(sim,in);
@@ -101,5 +102,5 @@ light_set_sun(&(in->mylight),oldsun);
 contacts_update(sim,in);		//This should restore the value of the contacts
 
 light_solve_and_update(sim,in,&(in->mylight),0.0);
-printf_log(sim,"Exit finding n0\n");
+printf_log(sim,"%s\n",_("Finished finding equilibrium conditions"));
 }

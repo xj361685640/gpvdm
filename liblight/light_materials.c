@@ -34,7 +34,7 @@
 #include "util.h"
 #include "hard_limit.h"
 #include "epitaxy.h"
-#include "lang.h"
+#include <lang.h>
 #include "log.h"
 #include <cal_path.h>
 #include <buffer.h>
@@ -43,7 +43,7 @@ static int unused __attribute__((unused));
 
 void light_load_materials(struct simulation *sim,struct light *in)
 {
-printf_log(sim,"load: materials");
+printf_log(sim,_("load: materials"));
 struct buffer buf;
 int i=0;
 char fit_file[1000];
@@ -170,7 +170,7 @@ for (i=0;i<in->layers;i++)
 		FILE* patch_in=fopen(patch_file,"r");
 		if (in==NULL)
 		{
-			ewe(sim,"file %s not found\n",patch_file);
+			ewe(sim,"%s: %s\n",_("file not found"),patch_file);
 		}
 
 		do
@@ -260,7 +260,7 @@ for (i=0;i<in->layers;i++)
 			patch_in=fopen(patch_file,"r");
 			if (in==NULL)
 			{
-				ewe(sim,"file %s not found\n",patch_file);
+				ewe(sim,"%s: %s\n",_("file not found"),patch_file);
 			}
 
 			gdouble from=0.0;
@@ -306,7 +306,7 @@ for (i=0;i<in->layers;i++)
 
 			if (strcmp(token,"#end")!=0)
 			{
-				printf_log(sim,"Error at end of inter file\n");
+				printf_log(sim,"%s\n",_("Error at end of inter file"));
 				exit(0);
 			}
 
@@ -326,7 +326,7 @@ for (i=0;i<in->layers;i++)
 
 		if (f_in==NULL)
 		{
-			ewe(sim,"file %s not found\n",patch_file);
+			ewe(sim,"%s: %s \n",_("file not found"),patch_file);
 		}
 
 		int n=0;
@@ -353,9 +353,9 @@ for (i=0;i<in->layers;i++)
 		buffer_malloc(&buf);
 		buf.y_mul=1.0;
 		buf.x_mul=1e9;
-		strcpy(buf.title,"Wavelength - Reflected light");
+		strcpy(buf.title,_("Wavelength - Reflected light"));
 		strcpy(buf.type,"xy");
-		strcpy(buf.x_label,"Wavelength");
+		strcpy(buf.x_label,_("Wavelength"));
 		strcpy(buf.data_label,"n");
 		strcpy(buf.x_units,"nm");
 		strcpy(buf.data_units,"a.u.");
@@ -405,9 +405,9 @@ for (i=0;i<in->layers;i++)
 		buffer_malloc(&buf);
 		buf.y_mul=1.0;
 		buf.x_mul=1e9;
-		strcpy(buf.title,"Wavelength - Reflected light");
+		strcpy(buf.title,_("Wavelength - Reflected light"));
 		strcpy(buf.type,"xy");
-		strcpy(buf.x_label,"Wavelength");
+		strcpy(buf.x_label,_("Wavelength"));
 		strcpy(buf.y_label,"alpha");
 		strcpy(buf.x_units,"nm");
 		strcpy(buf.y_units,"a.u.");

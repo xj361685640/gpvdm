@@ -31,7 +31,7 @@
 #include "config.h"
 #include "complex_solver.h"
 #include "cal_path.h"
-#include "lang.h"
+#include <lang.h>
 #include <log.h>
 
 static int unused __attribute__((unused));
@@ -107,11 +107,11 @@ if (sim->dll_matrix_handle!=NULL)
 	(*sim->dll_matrix_solver_free)(sim);
 
 
-	printf_log(sim,"DEALLOC=%p\n",sim->dll_matrix_handle);
+	printf_log(sim,"%s=%p\n",_("Freeing memory"),sim->dll_matrix_handle);
 
 	if (dlclose(sim->dll_matrix_handle)!=0)
 	{
-		ewe(sim,"Error closing dll\n");
+		ewe(sim,"%s\n",_("Error closing dll"));
 	}
 	
 	sim->dll_matrix_handle=NULL;

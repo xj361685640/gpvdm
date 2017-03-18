@@ -142,15 +142,17 @@ void printf_log(struct simulation *sim, const char *format, ...)
 	va_list args;
 	va_start(args, format);
 	vsnprintf(data,STR_MAX,format, args);
-	
+
 	if ((sim->log_level==log_level_screen)||(sim->log_level==log_level_screen_and_disk))
 	{
 		text_to_html(sim,data_html, data,1000);
-		//printf("%s",data_html);
-		wchar_t wide[1000];
-		int i=mbstowcs(wide, data_html, 1000);
-		wprintf(L"%S",wide);
-		fflush(stdout);
+
+		//wchar_t wide[1000];
+		//int i=mbstowcs(wide, data_html, 1000);
+		//wprintf(L"%S",wide);
+			printf("%s",data_html);
+			fflush(stdout);
+
 	}
 
 	if ((sim->log_level==log_level_disk)||(sim->log_level==log_level_screen_and_disk))
@@ -275,7 +277,7 @@ void waveprint(struct simulation *sim,char *in,double wavelength)
 		if (sim->html==TRUE)
 		{
 			wavelength_to_rgb(&r,&g,&b,wavelength*1e-9);
-			wprintf(L"<font color=\"#%.2x%.2x%.2x\">",r,g,b);
+			printf_log(sim,"<font color=\"#%.2x%.2x%.2x\">",r,g,b);
 		}else
 		{
 			if (wavelength<400.0)
@@ -307,7 +309,7 @@ void waveprint(struct simulation *sim,char *in,double wavelength)
 	{
 		if (sim->html==TRUE)
 		{
-			wprintf(L"</font>");
+			printf_log(sim,"</font>");
 		}else
 		{
 			textcolor(sim,fg_reset);
@@ -322,39 +324,38 @@ if (sim->html==TRUE)
 {
 	if (color==fg_purple)
 	{
-		wprintf(L"<font color=\"purple\">");
+		printf_log(sim,"<font color=\"purple\">");
 	}else
 	if (color==fg_blue)
 	{
-		wprintf(L"<font color=\"blue\">");
+		printf_log(sim,"<font color=\"blue\">");
 	}else
 	if (color==fg_green)
 	{
-		wprintf(L"<font color=\"green\">");
+		printf_log(sim,"<font color=\"green\">");
 	}else
 	if (color==fg_yellow)
 	{
-		wprintf(L"<font color=\"yellow\">");
+		printf_log(sim,"<font color=\"yellow\">");
 	}else
 	if (color==fg_red)
 	{
-		wprintf(L"<font color=\"red\">");
+		printf_log(sim,"<font color=\"red\">");
 	}else
 	if (color==fg_wight)
 	{
-		wprintf(L"<font color=\"#ffffff\">");
+		printf_log(sim,"<font color=\"#ffffff\">");
 	}else
 	if (color==fg_reset)
 	{
-		wprintf(L"</font>");
+		printf_log(sim,"</font>");
 	}
 
 }else
 {
-	char command[13];
-	sprintf(command, "\e[%dm", color);
-	wprintf(L"%s", command);
+	printf("\033[%dm", color);
 }
+
 }
 
 int log_search_error(char *path)

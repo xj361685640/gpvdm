@@ -32,6 +32,7 @@
 #include "mesh.h"
 #include <cal_path.h>
 #include <log.h>
+#include <lang.h>
 
 static int unused __attribute__((unused));
 
@@ -41,7 +42,7 @@ void load_config(struct simulation *sim,struct device *in)
 {
 if (get_dump_status(sim,dump_info_text)==TRUE)
 {
-	printf_log(sim,"load: config files\n");
+	printf_log(sim,"%s\n",_("load: config files"));
 }
 int i;
 char temp[100];

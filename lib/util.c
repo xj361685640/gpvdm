@@ -412,7 +412,12 @@ fclose(file);
 void randomprint(struct simulation *sim,char *in)
 {
 	int i;
-	for (i=0;i<strlen(in);i++)
+
+	wchar_t wide[1000];
+	//char temp[1000];
+	int len=mbstowcs(wide, in, 1000);
+	//wprintf(L"%S",wide);
+	for (i=0;i<len;i++)
 	{
 	int rnd=(float)5.0*rand()/(float)RAND_MAX;
 		if (rnd==0) textcolor(sim,fg_wight);
@@ -422,9 +427,11 @@ void randomprint(struct simulation *sim,char *in)
 		if (rnd==4) textcolor(sim,fg_blue);
 		if (rnd==5) textcolor(sim,fg_purple);
 		
-		if ((in[i]!='\n')||(sim->html==FALSE))
+		if ((wide[i]!='\n')||(sim->html==FALSE))
 		{
-			printf_log(sim,"%c",in[i]);
+			//mbstowcs(wide, in, 1000);
+			//swprintf(temp,L"%C",wide[i]);
+			printf_log(sim,"%C",wide[i]);
 		}else
 		{
 			printf_log(sim,"<br>");

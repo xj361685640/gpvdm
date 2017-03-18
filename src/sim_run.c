@@ -75,8 +75,10 @@ remove(temp);
 join_path(2,temp,get_output_path(sim),"equilibrium");
 remove_dir(sim,temp);
 
+
 join_path(2,temp,get_output_path(sim),"snapshots");
 remove_dir(sim,temp);
+
 
 join_path(2,temp,get_output_path(sim),"light_dump");
 remove_dir(sim,temp);
@@ -96,15 +98,19 @@ if (strcmp(sim->force_sim_mode,"")!=0)
 	strcpy(cell.simmode,sim->force_sim_mode);
 }
 
+
+
 if (strcmp(cell.simmode,"opticalmodel@optics")!=0)
 {
 	solver_init(sim,cell.solver_name);
 	newton_init(sim,cell.newton_name);
 
+
 	printf_log(sim,"%s: %d\n",_("Loading DoS layers"),cell.my_epitaxy.electrical_layers);
 	char tempn[100];
 	char tempp[100];
 	i=0;
+
 
 	for (i=0;i<cell.my_epitaxy.electrical_layers;i++)
 	{
@@ -114,6 +120,7 @@ if (strcmp(cell.simmode,"opticalmodel@optics")!=0)
 		sprintf(tempp,"%s_dosp.dat",cell.my_epitaxy.dos_file[i]);
 		load_dos(sim,&cell,tempn,tempp,i);
 	}
+
 
 	device_alloc_traps(&cell);
 
@@ -125,6 +132,7 @@ if (strcmp(cell.simmode,"opticalmodel@optics")!=0)
 	sim->tconverge=fopena(get_output_path(sim),"tconverge.dat","w");
 	fclose(sim->tconverge);
 	}
+
 
 	mesh_cal_layer_widths(&cell);
 
@@ -147,6 +155,8 @@ if (strcmp(cell.simmode,"opticalmodel@optics")!=0)
 		}		
 		
 	}
+
+
 	init_mat_arrays(&cell);
 
 
@@ -167,6 +177,7 @@ if (strcmp(cell.simmode,"opticalmodel@optics")!=0)
 
 	contacts_load(sim,&cell);
 
+
 	cell.C=cell.xlen*cell.zlen*epsilon0*cell.epsilonr[0][0][0]/(cell.ylen+cell.other_layers);
 	if (get_dump_status(sim,dump_print_text)==TRUE) printf_log(sim,"C=%Le\n",cell.C);
 	cell.A=cell.xlen*cell.zlen;
@@ -180,6 +191,7 @@ if (strcmp(cell.simmode,"opticalmodel@optics")!=0)
 	light_set_dx(&cell.mylight,cell.ymesh[1]-cell.ymesh[0]);
 	light_load_config(sim,&cell.mylight);
 
+
 	if (cell.led_on==TRUE)
 	{
 		strcpy(old_model,cell.mylight.mode);
@@ -188,6 +200,7 @@ if (strcmp(cell.simmode,"opticalmodel@optics")!=0)
 	
 	light_load_dlls(sim,&cell.mylight);
 	light_setup_ray(sim,&cell,&cell.mylight);
+
 
 	if (cell.led_on==TRUE)
 	{
@@ -209,7 +222,10 @@ if (strcmp(cell.simmode,"opticalmodel@optics")!=0)
 	//update_arrays(&cell);
 
 	contacts_force_to_zero(sim,&cell);
+
+
 	get_initial(sim,&cell);
+
 
 	remesh_shrink(&cell);
 
@@ -223,6 +239,7 @@ if (strcmp(cell.simmode,"opticalmodel@optics")!=0)
 			}
 		}
 	}
+
 
 
 	time_init(sim,&cell);
@@ -243,6 +260,8 @@ if (strcmp(cell.simmode,"opticalmodel@optics")!=0)
 	//set_solver_dump_every_matrix(1);
 
 	find_n0(sim,&cell);
+
+
 	//set_solver_dump_every_matrix(0);
 	draw_gaus(&cell);
 
@@ -257,6 +276,7 @@ if (strcmp(cell.simmode,"opticalmodel@optics")!=0)
 		return 0;
 	}
 }
+
 
 
 //Load the dll
@@ -275,7 +295,10 @@ if (is_domain(cell.simmode)!=0)
 
 }
 
+
+
 run_electrical_dll(sim,&cell,strextract_domain(cell.simmode));
+
 
 
 if (strcmp(cell.simmode,"opticalmodel@optics")!=0)

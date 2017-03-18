@@ -26,6 +26,8 @@
 #include "inp.h"
 #include <cal_path.h>
 #include <contacts.h>
+#include <log.h>
+
 
 static int unused __attribute__((unused));
 
@@ -149,7 +151,7 @@ for (i=0;i<segments;i++)
 		{
 			dv=(v_stop-v_start)*dt/read_len;
 			in->tm_time_mesh[ii]=time;
-			//printf("%Le %d\n",time,ii);
+
 			in->tm_laser[ii]=read_laser;
 			in->tm_sun[ii]=read_sun+light_get_sun(&(in->mylight));
 			in->tm_voltage[ii]=v;

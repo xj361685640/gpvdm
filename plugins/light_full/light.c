@@ -31,12 +31,14 @@
 
 #include <functions.h>
 #include <log.h>
+#include <lang.h>
+
 
 //static gdouble min_light_error=1e-10;
 
 EXPORT void light_dll_ver(struct simulation *sim)
 {
-        printf_log(sim,"%s\n","Full transfer matrix based light model");
+        printf_log(sim,"%s\n",_("Full transfer matrix based light model"));
 }
 
 
@@ -49,7 +51,7 @@ if (in->sun_E[lam]==0.0)
 if (get_dump_status(sim,dump_optics)==TRUE)
 {
 	char one[100];
-	sprintf(one,"%s %Lf nm\n","Solve optical slice at",in->l[lam]*1e9);
+	sprintf(one,"%s %Lf nm\n",_("Solve optical slice at"),in->l[lam]*1e9);
 	waveprint(sim,one,in->l[lam]*1e9);
 }
 int i;
@@ -88,7 +90,6 @@ gdouble l=in->l[lam];
 
 //gdouble nc;
 
-gdouble tot_error=0.0;
 int quit=FALSE;
 gdouble test=FALSE;
 gdouble dx=in->x[2]-in->x[1];
@@ -228,7 +229,7 @@ do
 
 	if (pos!=in->N)
 	{
-		printf_log(sim,"not solving because number does not match%d %d\n",pos,in->N);
+		printf_log(sim,"%s %d %d\n",_("I can't solve the matrix because I don't have enough equations."),pos,in->N);
 		exit(0);
 	}
 
@@ -263,10 +264,6 @@ if (test==TRUE)
 }
 }while(quit==FALSE);
 
-if (test==TRUE)
-{
-	printf_log(sim,"Error in optical model tot error=%Le\n",tot_error);
-}
 
 //getchar();
 return 0;

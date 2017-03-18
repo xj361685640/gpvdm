@@ -90,9 +90,10 @@ config_files.append("src")
 if hpc==False:
 	config_files.append("flags")
 	config_files.append("images")
-	config_files.append("man")
 	config_files.append("css")
-	
+	if win==False:
+		config_files.append("man")
+
 f = open("config_files.m4", "w")
 for i in range(0,len(config_files)):
 	f.write( "AC_CONFIG_FILES(["+os.path.join(config_files[i],"Makefile")+"])\n")
