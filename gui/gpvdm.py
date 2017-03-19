@@ -27,7 +27,7 @@ sys.path.append('./gui/')
 sys.path.append('/usr/lib/gpvdm/')
 sys.path.append('/usr/lib64/gpvdm/')
 sys.path.append('/usr/share/gpvdm/gui/')	#debian
-
+sys.path.append('/usr/share/sip/PyQt5/')
 from win_lin import running_on_linux
 from cal_path import get_image_file_path
 from cal_path import calculate_paths
@@ -50,6 +50,7 @@ from ver import ver_load_info
 from ver import ver_error
 
 ver_load_info()
+
 code_ctrl_load()
 
 from command_args import command_args

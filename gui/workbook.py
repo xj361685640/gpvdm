@@ -1,8 +1,8 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -27,7 +27,7 @@ try:
 	from openpyxl.compat import range
 	work_book_enabled=True
 except:
-	print("python3-openpyxl not found")
+	work_book_enabled=False
 
 import glob
 import os
@@ -47,6 +47,7 @@ def title_truncate(title):
 
 def gen_workbook(input_file_or_dir,output_file):
 	if work_book_enabled==False:
+		print("python3-openpyxl not found")
 		return
 
 	wb = Workbook()
