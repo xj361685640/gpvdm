@@ -8,7 +8,7 @@ all: $(OBJS)
 
 .svg.png:
 
-	rsvg-convert -w 48 -h 32 $< > $@
+	@IMAGE_CONVERT_FLAG@ $@
 
 clean:
 	rm *.png -f

@@ -4,13 +4,12 @@ OBJS = parasitic.png hints.png man.png license.png youtube.png export.png cigs.p
 all: $(OBJS)
 	echo $(OBJS)
 
-
 .svg.png:
+	@IMAGE_CONVERT_FULL_SIZE@ $@
+	@IMAGE_CONVERT_32@ 32_$@
+	@IMAGE_CONVERT_16@ 16_$@
 
-	rsvg-convert $< > $@
-	rsvg-convert -w 32 -h 32 $< > 32_$@
-	rsvg-convert -w 16 -h 16 $< > 16_$@
-
+	
 clean:
 	rm 16_*.png 32_*.png $(OBJS) -f
 

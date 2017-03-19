@@ -45,7 +45,7 @@ AC_CHECK_HEADERS([umfpack.h],[],[AC_MSG_ERROR([umfpack.h is needed but not found
 AC_SUBST(DLL_LINKER, ["-L/home/rod/windll/compiled_dlls/ -Wl,--out-implib,plugin.a -lgpvdm_light -lgpvdm_lib -lgpvdm_dump -lgpvdm_measure -lgpvdm_dos -lgpvdm_dumpctrl -lgpvdm_light -lgpvdm_i -lzip-2 -lumfpack -lgpvdm_mesh -lgpvdm_memory -lintl"])
 AC_SUBST(DLL_COMPILE, ["-DBUILDING_EXAMPLE_DLL"])
 AC_SUBST(DLL_DEBUG, ["-Wall"])
-AC_SUBST(EXE_LINK,["-L/home/rod/windll/compiled_dlls/ -lumfpack -lzip-2 -lintl"])
+AC_SUBST(LIBS,["-L/home/rod/windll/compiled_dlls/ -lumfpack -lzip-2 -lintl"])
 AC_SUBST(WIN_RES_FILE, "gpvdm.res" )
 AC_SUBST(WIN_ICON, "i686-w64-mingw32-windres gpvdm.rc -O coff -o gpvdm.res" )
 
@@ -75,13 +75,13 @@ AC_MSG_NOTICE([*Setting up for HPC         *])
 AC_MSG_NOTICE([*****************************])
 
 AC_SUBST(COMPILE_FLAG, " -D enable_server -g -fPIC " )
-AC_SUBST(EXE_LINK, " -lumfpack -lm -lgsl -lgslcblas -rdynamic -export-dynamic -ldl -lzip -lz  -L/home/steve/rm/lib/")
+AC_SUBST(LIBS, " -lumfpack -lm -lgsl -lgslcblas -rdynamic -export-dynamic -ldl -lzip -lz  -L/home/steve/rm/lib/")
 #-lmatheval -g -L/home/steve/rm/build/libmatheval-1.1.11/lib/.libs/
 
 ],[
-	AC_CHECK_LIB(matheval, [main], [], [AC_MSG_ERROR([matheval is needed but not found.])])
 	AC_SUBST(COMPILE_FLAG, "-D enable_fit -D enable_server -g -fPIC `pkg-config --cflags dbus-1` -D dbus " )
-	AC_SUBST(EXE_LINK, "-lumfpack -lm -lgsl -lgslcblas -rdynamic -export-dynamic -ldl -lzip  -lmatheval -lz -g `pkg-config --libs dbus-1`")
+	AC_SUBST(LIBS, "-lumfpack -lm -lgsl -lgslcblas -rdynamic -export-dynamic -ldl -lzip -lz -g `pkg-config --libs dbus-1`")
+	AC_CHECK_LIB(matheval, [main], [], [AC_MSG_WARN([matheval is needed but not found.])])
 	
 ]
 )
@@ -98,16 +98,36 @@ AC_PROG_CC
 AC_ARG_ENABLE(hpc, "used to turn on HPC compatability",
   [ ],[
 
-	AM_PATH_PYTHON([2.7], [], [AC_MSG_ERROR([You need python installed])])
-
+	AM_PATH_PYTHON([3.0], [], [AC_MSG_ERROR([You need python installed])])
+	
 	AC_CHECK_PROG([PKG_HELP2MAN], help2man, help2man,no)
 	if test "$PKG_HELP2MAN" = "no"; then
 		AC_MSG_ERROR([help2man is not installed.])
 	fi
 
-	AC_CHECK_PROG([PKG_RSGV], rsvg-convert, rsvg-convert,no)
-	if test "$PKG_RSGV" = "no"; then
-		AC_MSG_ERROR([rsvg-convert is not installed.])
+	AC_CHECK_PROG([PKG_XGETTEXT], xgettext, xgettext,no)
+	if test "$PKG_XGETTEXT" = "no"; then
+		AC_MSG_ERROR([xgettext is not installed.])
+	fi
+
+	AC_CHECK_PROG([PKG_RSGV], rsvg-convert, yes,no)
+	if test "$PKG_RSGV" = "yes"; then
+		AC_SUBST(IMAGE_CONVERT_FULL_SIZE, "rsvg-convert $< > ")
+		AC_SUBST(IMAGE_CONVERT_16, "rsvg-convert -w 32 -h 32 $< > ")
+		AC_SUBST(IMAGE_CONVERT_32, "rsvg-convert -w 16 -h 16 $< > ")
+		AC_SUBST(IMAGE_CONVERT_FLAG, "rsvg-convert -w 48 -h 32 $< > ")
+	else
+		AC_MSG_WARN([rsvg-convert is not installed, I'm going to look for ImageMagick instead.])
+		
+		AC_CHECK_PROG([PKG_IMAGEMAGICK], convert, yes,no)
+		if test "$PKG_IMAGEMAGICK" = "yes"; then
+			AC_SUBST(IMAGE_CONVERT_FULL_SIZE, "convert -background white -alpha remove -flatten -alpha off  $< ")
+			AC_SUBST(IMAGE_CONVERT_16, "convert -background white -alpha remove -flatten -alpha off -size 32x32 $< ")
+			AC_SUBST(IMAGE_CONVERT_32, "convert -background white -alpha remove -flatten -alpha off -size 16x16 $< ")
+			AC_SUBST(IMAGE_CONVERT_FLAG, "convert -background white -alpha remove -flatten -alpha off -size 48x32 $< ")
+		else
+			AC_MSG_ERROR([ImageMagick not installed.])
+		fi
 	fi
 
 ]
