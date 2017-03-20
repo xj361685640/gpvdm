@@ -1,6 +1,6 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Roderick C. I. MacKenzie
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the gpvdm package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.88\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2017-03-19 10:23+0000\n"
+"POT-Creation-Date: 2017-03-19 20:17+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -29,27 +29,27 @@ msgstr ""
 #: ../src/initial.c:52 ../src/initial.c:76 ../src/initial.c:100
 #: ../src/initial.c:124 ../src/initial.c:148 ../src/pos.c:67 ../src/pos.c:84
 #: ../src/pos.c:119 ../src/pos.c:137 ../src/pos.c:154 ../gui/band_graph.py:205
-#: ../gui/qe.py:60 ../libdump/dump_1d_slice.c:70
-#: ../libdump/dump_1d_slice.c:157 ../libdump/dump_1d_slice.c:215
-#: ../libdump/dump_1d_slice.c:244 ../libdump/dump_1d_slice.c:273
-#: ../libdump/dump_1d_slice.c:331 ../libdump/dump_1d_slice.c:360
-#: ../libdump/dump_1d_slice.c:448 ../libdump/dump_1d_slice.c:511
-#: ../libdump/dump_1d_slice.c:541 ../libdump/dump_1d_slice.c:570
-#: ../libdump/dump_1d_slice.c:600 ../libdump/dump_1d_slice.c:629
-#: ../libdump/dump_1d_slice.c:665 ../libdump/dump_1d_slice.c:699
-#: ../libdump/dump_1d_slice.c:728 ../libdump/dump_1d_slice.c:758
-#: ../libdump/dump_1d_slice.c:787 ../libdump/dump_1d_slice.c:888
-#: ../libdump/dump_1d_slice.c:917 ../libdump/dump_1d_slice.c:946
-#: ../libdump/dump_1d_slice.c:975 ../libdump/dump_1d_slice.c:1004
-#: ../libdump/dump_1d_slice.c:1039 ../libdump/dump_1d_slice.c:1073
-#: ../libdump/dump_1d_slice.c:1109 ../libdump/dump_1d_slice.c:1145
-#: ../libdump/dump_1d_slice.c:1187 ../libdump/dump_1d_slice.c:1224
-#: ../libdump/dump_1d_slice.c:1258 ../libdump/dump_1d_slice.c:1292
-#: ../libdump/dump_1d_slice.c:1321 ../libdump/dump_1d_slice.c:1351
-#: ../libdump/dump_1d_slice.c:1380 ../libdump/dump_1d_slice.c:1410
-#: ../libdump/dump_1d_slice.c:1451 ../libdump/dump_1d_slice.c:1492
-#: ../libdump/dump_1d_slice.c:1526 ../libdump/dump_1d_slice.c:1564
-#: ../libdump/dump_1d_slice.c:1594 ../libdump/dump_1d_slice.c:1652
+#: ../gui/qe.py:60 ../libdump/dump_1d_slice.c:70 ../libdump/dump_1d_slice.c:157
+#: ../libdump/dump_1d_slice.c:215 ../libdump/dump_1d_slice.c:244
+#: ../libdump/dump_1d_slice.c:273 ../libdump/dump_1d_slice.c:331
+#: ../libdump/dump_1d_slice.c:360 ../libdump/dump_1d_slice.c:448
+#: ../libdump/dump_1d_slice.c:511 ../libdump/dump_1d_slice.c:541
+#: ../libdump/dump_1d_slice.c:570 ../libdump/dump_1d_slice.c:600
+#: ../libdump/dump_1d_slice.c:629 ../libdump/dump_1d_slice.c:665
+#: ../libdump/dump_1d_slice.c:699 ../libdump/dump_1d_slice.c:728
+#: ../libdump/dump_1d_slice.c:758 ../libdump/dump_1d_slice.c:787
+#: ../libdump/dump_1d_slice.c:888 ../libdump/dump_1d_slice.c:917
+#: ../libdump/dump_1d_slice.c:946 ../libdump/dump_1d_slice.c:975
+#: ../libdump/dump_1d_slice.c:1004 ../libdump/dump_1d_slice.c:1039
+#: ../libdump/dump_1d_slice.c:1073 ../libdump/dump_1d_slice.c:1109
+#: ../libdump/dump_1d_slice.c:1145 ../libdump/dump_1d_slice.c:1187
+#: ../libdump/dump_1d_slice.c:1224 ../libdump/dump_1d_slice.c:1258
+#: ../libdump/dump_1d_slice.c:1292 ../libdump/dump_1d_slice.c:1321
+#: ../libdump/dump_1d_slice.c:1351 ../libdump/dump_1d_slice.c:1380
+#: ../libdump/dump_1d_slice.c:1410 ../libdump/dump_1d_slice.c:1451
+#: ../libdump/dump_1d_slice.c:1492 ../libdump/dump_1d_slice.c:1526
+#: ../libdump/dump_1d_slice.c:1564 ../libdump/dump_1d_slice.c:1594
+#: ../libdump/dump_1d_slice.c:1652
 msgid "Position"
 msgstr ""
 
@@ -390,12 +390,12 @@ msgstr ""
 msgid "Efficiency"
 msgstr ""
 
-#: ../plugins/jv/jv.c:333 ../plugins/jv/jv.c:336
-#: ../libdump/dump_1d_slice.c:342 ../libdump/dump_1d_slice.c:957
-#: ../libdump/dump_1d_slice.c:986 ../libdump/dump_1d_slice.c:1015
-#: ../libdump/dump_1d_slice.c:1050 ../libdump/dump_1d_slice.c:1120
-#: ../libdump/dump_1d_slice.c:1156 ../libdump/dump_1d_slice.c:1198
-#: ../libdump/dump_1d_slice.c:1235 ../libdump/dump_1d_slice.c:1269
+#: ../plugins/jv/jv.c:333 ../plugins/jv/jv.c:336 ../libdump/dump_1d_slice.c:342
+#: ../libdump/dump_1d_slice.c:957 ../libdump/dump_1d_slice.c:986
+#: ../libdump/dump_1d_slice.c:1015 ../libdump/dump_1d_slice.c:1050
+#: ../libdump/dump_1d_slice.c:1120 ../libdump/dump_1d_slice.c:1156
+#: ../libdump/dump_1d_slice.c:1198 ../libdump/dump_1d_slice.c:1235
+#: ../libdump/dump_1d_slice.c:1269
 msgid "Charge density"
 msgstr ""
 
@@ -762,17 +762,15 @@ msgstr ""
 
 #: ../gui/cmp_class.py:299 ../gui/fit_configure_window.py:72
 #: ../gui/experiment.py:199 ../gui/experiment.py:200 ../gui/experiment.py:234
-#: ../gui/contacts.py:201 ../gui/config_window.py:70
-#: ../gui/config_window.py:71 ../gui/ribbon_home.py:107
-#: ../gui/materials_main.py:97 ../gui/jv.py:77 ../gui/emesh.py:170
-#: ../gui/ribbon_information.py:75 ../gui/ribbon.py:76 ../gui/scan.py:318
-#: ../gui/scan.py:319 ../gui/scan.py:353 ../gui/info.py:67 ../gui/cost.py:92
-#: ../gui/fxexperiment.py:195 ../gui/fxexperiment.py:196
-#: ../gui/fxexperiment.py:229 ../gui/fit_window.py:244
-#: ../gui/fit_window.py:245 ../gui/ref.py:94 ../gui/ref.py:95
-#: ../gui/lasers.py:198 ../gui/lasers.py:199 ../gui/lasers.py:233
-#: ../gui/import_data.py:256 ../gui/import_data.py:257 ../gui/parasitic.py:68
-#: ../gui/doping.py:205 ../gui/optics.py:157
+#: ../gui/contacts.py:201 ../gui/config_window.py:70 ../gui/config_window.py:71
+#: ../gui/ribbon_home.py:107 ../gui/materials_main.py:97 ../gui/jv.py:77
+#: ../gui/emesh.py:170 ../gui/ribbon_information.py:75 ../gui/ribbon.py:76
+#: ../gui/scan.py:318 ../gui/scan.py:319 ../gui/scan.py:353 ../gui/info.py:67
+#: ../gui/cost.py:92 ../gui/fxexperiment.py:195 ../gui/fxexperiment.py:196
+#: ../gui/fxexperiment.py:229 ../gui/fit_window.py:244 ../gui/fit_window.py:245
+#: ../gui/ref.py:94 ../gui/ref.py:95 ../gui/lasers.py:198 ../gui/lasers.py:199
+#: ../gui/lasers.py:233 ../gui/import_data.py:256 ../gui/import_data.py:257
+#: ../gui/parasitic.py:68 ../gui/doping.py:205 ../gui/optics.py:157
 msgid "Help"
 msgstr ""
 
@@ -1192,7 +1190,7 @@ msgstr ""
 msgid "Problem generating tree."
 msgstr ""
 
-#: ../gui/scan_tab.py:405 ../gui/experiment.py:177 ../gui/gpvdm.py:254
+#: ../gui/scan_tab.py:405 ../gui/experiment.py:177 ../gui/gpvdm.py:255
 #: ../gui/ribbon.py:131 ../gui/scan.py:256 ../gui/snapshot_slider.py:133
 #: ../gui/fxexperiment.py:176 ../gui/fit_window.py:225 ../gui/fit_vars.py:95
 #: ../gui/fit_vars.py:156 ../gui/lasers.py:176 ../gui/plot_widget.py:583
@@ -1364,8 +1362,8 @@ msgstr ""
 msgid "New"
 msgstr ""
 
-#: ../gui/experiment.py:186 ../gui/experiment.py:217
-#: ../gui/fxexperiment.py:185 ../gui/fxexperiment.py:212
+#: ../gui/experiment.py:186 ../gui/experiment.py:217 ../gui/fxexperiment.py:185
+#: ../gui/fxexperiment.py:212
 msgid "Delete experiment"
 msgstr ""
 
@@ -1374,8 +1372,8 @@ msgstr ""
 msgid "Rename experiment"
 msgstr ""
 
-#: ../gui/experiment.py:195 ../gui/experiment.py:221
-#: ../gui/fxexperiment.py:191 ../gui/fxexperiment.py:216
+#: ../gui/experiment.py:195 ../gui/experiment.py:221 ../gui/fxexperiment.py:191
+#: ../gui/fxexperiment.py:216
 msgid "Clone experiment"
 msgstr ""
 
@@ -1501,8 +1499,7 @@ msgstr ""
 msgid "Save as"
 msgstr ""
 
-#: ../gui/open_save_dlg.py:66 ../gui/gpvdm_open.py:64
-#: ../gui/import_data.py:244
+#: ../gui/open_save_dlg.py:66 ../gui/gpvdm_open.py:64 ../gui/import_data.py:244
 msgid "Open file"
 msgstr ""
 
@@ -1707,47 +1704,47 @@ msgstr ""
 msgid "Cost of material"
 msgstr ""
 
-#: ../gui/gpvdm.py:125
+#: ../gui/gpvdm.py:126
 msgid "Don't run me as root!!"
 msgstr ""
 
-#: ../gui/gpvdm.py:154 ../gui/gpvdm_notebook.py:102
+#: ../gui/gpvdm.py:155 ../gui/gpvdm_notebook.py:102
 #: ../gui/gpvdm_notebook.py:229
 msgid "Terminal"
 msgstr ""
 
-#: ../gui/gpvdm.py:207
+#: ../gui/gpvdm.py:208
 msgid "file opened"
 msgstr ""
 
-#: ../gui/gpvdm.py:212
+#: ../gui/gpvdm.py:213
 msgid ""
 "<big><b>New simulation!</b></big><br> Now selected the type of device you "
 "would like to simulate."
 msgstr ""
 
-#: ../gui/gpvdm.py:240
+#: ../gui/gpvdm.py:241
 msgid ""
 "<big><b>Now run the simulation</b></big><br> Click on the play icon to start "
 "a simulation."
 msgstr ""
 
-#: ../gui/gpvdm.py:245 ../gui/ribbon.py:134
+#: ../gui/gpvdm.py:246 ../gui/ribbon.py:134
 msgid "Home"
 msgstr ""
 
-#: ../gui/gpvdm.py:255
+#: ../gui/gpvdm.py:256
 msgid ""
 "<big><b>Hi!</b></big><br> I'm the on-line help system :).  If you find any "
 "bugs please report them to <a href=\"mailto:roderick.mackenzie@nottingham.ac."
 "uk\">roderick.mackenzie@nottingham.ac.uk</a>."
 msgstr ""
 
-#: ../gui/gpvdm.py:255
+#: ../gui/gpvdm.py:256
 msgid "Click on the new icon to make a new simulation directory."
 msgstr ""
 
-#: ../gui/gpvdm.py:283
+#: ../gui/gpvdm.py:284
 msgid "Open an existing gpvdm simulation"
 msgstr ""
 
