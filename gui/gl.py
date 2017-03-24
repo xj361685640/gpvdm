@@ -22,8 +22,8 @@ import sys
 open_gl_ok=False
 
 try:
-	from OpenGL.GL import *
 	from OpenGL.GLU import *
+	from OpenGL.GL import *
 	from PyQt5 import QtOpenGL
 	from PyQt5.QtOpenGL import QGLWidget
 	open_gl_ok=True

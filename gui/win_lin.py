@@ -36,6 +36,6 @@ def get_distro():
 
 def desktop_open(file_name):
 	if running_on_linux()==True:
-		os.system("xdg-open "+file_name+" &")
+		os.system("xdg-open \""+file_name+"\" &")
 	else:
-		os.system("start "+file_name)
+		os.system("start \""+file_name+"\"")

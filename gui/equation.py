@@ -62,6 +62,8 @@ from gui_util import error_dlg
 
 from ref import ref_window
 from ref import get_ref_text
+from ref_io import ref
+from tb_item_mat_file import tb_item_mat_file
 #window
 
 mesh_articles = []
@@ -264,13 +266,17 @@ class equation(QWidget):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
-		self.tb_save = QAction(QIcon(os.path.join(get_image_file_path(),"32_save.png")), _("Save image"), self)
+		self.tb_save = QAction(QIcon(os.path.join(get_image_file_path(),"save.png")), _("Save image"), self)
 		self.tb_save.triggered.connect(self.callback_save)
 		toolbar.addAction(self.tb_save)
 
-		self.tb_ref= QAction(QIcon(os.path.join(get_image_file_path(),"32_ref.png")), _("Insert reference information"), self)
+		self.tb_ref= QAction(QIcon(os.path.join(get_image_file_path(),"ref.png")), _("Insert reference information"), self)
 		self.tb_ref.triggered.connect(self.callback_ref)
 		toolbar.addAction(self.tb_ref)
+
+		self.file_select=tb_item_mat_file(self.path)
+		#self.file_select.changed.connect(self.callback_sun)
+		toolbar.addWidget(self.file_select)
 		
 		
 

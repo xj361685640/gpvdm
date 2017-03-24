@@ -128,7 +128,16 @@ for (i=0;i<in->layers;i++)
 	inp_search_int(sim,&inp,&spectrum_alpha,"#spectrum_alpha");
 
 	inp_free(sim,&inp);
+	
+	join_path(3, fit_file,get_materials_path(sim),in->material_dir_name[i],"fit.inp");
 
+	inp_load(sim,&inp,fit_file);
+	
+	char default_file[100];
+	inp_search_string(sim,&inp,default_file,"#mat_default_file");
+	
+	inp_free(sim,&inp);
+	
 	join_path(3, file_path,get_materials_path(sim),in->material_dir_name[i],"alpha.omat");
 	if (isfile(file_path)!=0)
 	{

@@ -119,6 +119,7 @@ lib.append(my_data("#voc_np_tot","m^{-3}",_("Total carriers (n+p)/2 at Voc"),"e"
 lib.append(my_data("#voc_tau","s",_("Recombination time constant at Voc"),"e",1.0,"QLineEdit"))
 lib.append(my_data("#voc_R","m^{-3}s^{-1}",_("Recombination rate at Voc"),"e",1.0,"QLineEdit"))
 lib.append(my_data("#voc_J","A m^{-2}",_("Current density at Voc"),"e",1.0,"QLineEdit"))
+lib.append(my_data("#jsc","A m^{-2}",_("J_{sc}"),"e",1.0,"QLineEdit"))
 
 #server.inp
 lib.append(my_data("#server_cpus","au",_("Number of CPUs"),"e",1.0,"QLineEdit"))

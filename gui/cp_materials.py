@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012-2017 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012-2017 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
 #	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -26,6 +26,7 @@ import os.path
 import argparse
 import shutil
 from inp import inp_get_token_value
+from cp_gasses import copy_gasses
 
 parser = argparse.ArgumentParser(epilog="copy materials database")
 parser.add_argument("--copy", help="Copy materials file", nargs=2)
@@ -35,9 +36,12 @@ def safe_cpy(dest,src,f):
 	if os.path.isfile(os.path.join(src,f))==True:
 		shutil.copyfile(os.path.join(src,f),os.path.join(dest,f))
 
+			
 if args.copy:
 	src=args.copy[0]
 	dest=args.copy[1]
+
+	copy_gasses(dest,src)
 
 	for dirpath, dirnames, filenames in os.walk(args.copy[0]):
 		for filename in [f for f in filenames if f=="mat.inp"]:
@@ -50,18 +54,14 @@ if args.copy:
 				if not os.path.exists(dst_mat_path):
 					os.makedirs(dst_mat_path)
 				
-				if os.path.isfile(os.path.join(src_mat_path,"alpha_gen.omat"))==True:
-					shutil.copyfile(os.path.join(src_mat_path,"alpha_gen.omat"),os.path.join(dst_mat_path,"alpha_gen.omat"))
-
-				if os.path.isfile(os.path.join(src_mat_path,"n_gen.omat"))==True:
-					shutil.copyfile(os.path.join(src_mat_path,"n_gen.omat"),os.path.join(dst_mat_path,"n_gen.omat"))
-
-				if os.path.isfile(os.path.join(src_mat_path,"n_eq.inp"))==True:
-					shutil.copyfile(os.path.join(src_mat_path,"n_eq.inp"),os.path.join(dst_mat_path,"n_eq.inp"))
-
-				if os.path.isfile(os.path.join(src_mat_path,"alpha_eq.inp"))==True:
-					shutil.copyfile(os.path.join(src_mat_path,"alpha_eq.inp"),os.path.join(dst_mat_path,"alpha_eq.inp"))
-
+				safe_cpy(dst_mat_path,src_mat_path,"alpha_gen.omat")
+				
+				safe_cpy(dst_mat_path,src_mat_path,"n_gen.omat")
+				
+				safe_cpy(dst_mat_path,src_mat_path,"n_eq.inp")
+				
+				safe_cpy(dst_mat_path,src_mat_path,"alpha_eq.inp")
+				
 				safe_cpy(dst_mat_path,src_mat_path,"dos.inp")
 
 				safe_cpy(dst_mat_path,src_mat_path,"pl.inp")

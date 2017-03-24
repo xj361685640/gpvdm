@@ -46,6 +46,7 @@ from jv import jv
 from qe import qe_window
 from optics import class_optical
 from global_objects import global_object_register
+from spectrum_main import spectrum_main
 
 class ribbon_simulations(QToolBar):
 	def __init__(self):
@@ -57,7 +58,8 @@ class ribbon_simulations(QToolBar):
 		self.optics_window=False
 		self.qe_window=None
 		self.lasers_window=None
-
+		self.solar_spectrum_window=None
+		
 		self.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
 		self.setIconSize(QSize(42, 42))
 
@@ -94,6 +96,9 @@ class ribbon_simulations(QToolBar):
 		self.lasers.triggered.connect(self.callback_configure_lasers)
 		self.addAction(self.lasers)
 
+		self.solar_spectrum = QAction(QIcon(os.path.join(get_image_file_path(),"spectra_file.png")), _("Solar spectrum\neditor"), self)
+		self.solar_spectrum.triggered.connect(self.callback_solar_spectrum)
+		self.addAction(self.solar_spectrum)
 
 	def update(self):
 		if self.qe_window!=None:
@@ -115,8 +120,11 @@ class ribbon_simulations(QToolBar):
 		if self.jvexperiment_window!=None:
 			del self.jvexperiment_window
 			self.jvexperiment_window=None
-			
-		
+
+		if self.solar_spectrum_window!=None:
+			del self.solar_spectrum_window
+			self.solar_spectrum_window=None
+
 	def setEnabled(self,val):
 		self.time.setEnabled(val)
 		self.fx.setEnabled(val)
@@ -138,7 +146,19 @@ class ribbon_simulations(QToolBar):
 		else:
 			self.experiment_window.show()
 
+	def callback_solar_spectrum(self):
 
+		if self.solar_spectrum_window==None:
+			self.solar_spectrum_window=spectrum_main()
+			#self.solar_spectrum_window.changed.connect(self.mode.update)
+			
+		help_window().help_set_help(["time.png",_("<big><b>The time mesh editor</b></big><br> To do time domain simulations one must define how voltage the light vary as a function of time.  This can be done in this window.  Also use this window to define the simulation length and time step.")])
+		if self.solar_spectrum_window.isVisible()==True:
+			self.solar_spectrum_window.hide()
+		else:
+			self.solar_spectrum_window.show()
+
+ 
 	def callback_fxexperiment_window(self):
 
 		if self.fxexperiment_window==None:

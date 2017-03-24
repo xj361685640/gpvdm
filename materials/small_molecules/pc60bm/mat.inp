@@ -14,6 +14,8 @@ organic
 public_all
 #mat_alpha
 1.0
+#mat_default_file
+auto
 #ver
 1.0
 #end

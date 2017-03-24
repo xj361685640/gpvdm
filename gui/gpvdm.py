@@ -336,6 +336,7 @@ class gpvdm_main_window(QMainWindow):
 
 		self.notebook_active_page=None
 		super(gpvdm_main_window,self).__init__()
+		self.setAcceptDrops(True)
 		self.setGeometry(200, 100, 1300, 600)
 		self.setWindowTitle("General-purpose Photovoltaic Device Model (https://www.gpvdm.com)")
 
@@ -433,7 +434,37 @@ class gpvdm_main_window(QMainWindow):
 		
 		self.ribbon.home.sun.changed.connect(self.notebook.update)
 		self.ribbon.setAutoFillBackground(True)
-		
+
+	def dragEnterEvent(self, event):
+		if event.mimeData().hasUrls:
+			event.accept()
+		else:
+			event.ignore()
+
+	def dropEvent(self, event):
+		if event.mimeData().hasUrls:
+			event.setDropAction(Qt.CopyAction)
+			event.accept()
+			links = []
+			for url in event.mimeData().urls():
+				links.append(str(url.toLocalFile()))
+			if len(links)==1:
+				filename, file_extension = os.path.splitext(links[0])
+				
+				if file_extension==".gpvdm":
+					new_path=os.path.dirname(links[0])
+					update_simulaton_to_new_ver(links[0])
+					self.change_dir_and_refresh_interface(new_path)
+				elif os.path.isdir(links[0])==True:
+					file_name=os.path.join(links[0],"sim.gpvdm")
+					if os.path.isfile(file_name)==True:
+						new_path=links[0]
+						update_simulaton_to_new_ver(file_name)
+						self.change_dir_and_refresh_interface(new_path)
+
+		else:
+			event.ignore()
+            
 if __name__ == '__main__':
 	
 	app = QApplication(sys.argv)

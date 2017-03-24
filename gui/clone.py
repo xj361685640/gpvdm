@@ -31,6 +31,7 @@ from util_zip import archive_make_empty
 from shutil import copyfile
 from inp_util import inp_search_token_value
 from cal_path import get_materials_path
+from cp_gasses import copy_gasses
 
 def gpvdm_clone(dest,copy_dirs,materials=["all"]):
 	src_dir=get_inp_file_path()
@@ -65,6 +66,7 @@ def clone_materials(dest,materials=["all"]):
 	dest_dir=os.path.join(dest,"materials")
 	if os.path.isdir(dest_dir)==False:
 		os.mkdir(dest_dir)
+	copy_gasses(dest_dir,src_dir)
 
 	files=os.listdir(src_dir)
 	for i in range(0,len(files)):
