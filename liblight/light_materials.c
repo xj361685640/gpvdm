@@ -43,7 +43,7 @@ static int unused __attribute__((unused));
 
 void light_load_materials(struct simulation *sim,struct light *in)
 {
-printf_log(sim,_("load: materials"));
+printf_log(sim,"%s\n",_("load: materials"));
 struct buffer buf;
 int i=0;
 char fit_file[1000];
@@ -96,6 +96,7 @@ int spectrum_alpha=FALSE;
 
 for (i=0;i<in->layers;i++)
 {
+	//fit.inp
 	join_path(3, fit_file,get_materials_path(sim),in->material_dir_name[i],"fit.inp");
 
 	inp_load(sim,&inp,fit_file);
@@ -129,27 +130,53 @@ for (i=0;i<in->layers;i++)
 
 	inp_free(sim,&inp);
 	
-	join_path(3, fit_file,get_materials_path(sim),in->material_dir_name[i],"fit.inp");
+	//mat.inp
+	join_path(3, fit_file,get_materials_path(sim),in->material_dir_name[i],"mat.inp");
 
 	inp_load(sim,&inp,fit_file);
 	
-	char default_file[100];
-	inp_search_string(sim,&inp,default_file,"#mat_default_file");
-	
+	char default_file_alpha[100];
+	char default_file_n[100];
+	inp_search_string(sim,&inp,default_file_alpha,"#mat_default_file_alpha");
+	inp_search_string(sim,&inp,default_file_n,"#mat_default_file_n");
 	inp_free(sim,&inp);
 	
-	join_path(3, file_path,get_materials_path(sim),in->material_dir_name[i],"alpha.omat");
-	if (isfile(file_path)!=0)
+	if (strcmp(default_file_alpha,"equation")==0)
 	{
 		join_path(3, file_path,get_materials_path(sim),in->material_dir_name[i],"alpha_gen.omat");
+	}else
+	{
+
+		join_path(3, file_path,get_materials_path(sim),in->material_dir_name[i],"alpha.omat");
+		if (isfile(file_path)!=0)
+		{
+			join_path(3, file_path,get_materials_path(sim),in->material_dir_name[i],"alpha_gen.omat");
+		}
 	}
+
+	if (isfile(file_path)!=0)
+	{
+		ewe(sim,"%s: %s\n",_("File not found"),file_path);
+	}
+
 	inter_load(sim,&(in->mat[i]),file_path);
 	inter_sort(&(in->mat[i]));
 
-	join_path(3,file_path,get_materials_path(sim),in->material_dir_name[i],"n.omat");
-	if (isfile(file_path)!=0)
+	if (strcmp(default_file_n,"equation")==0)
 	{
 		join_path(3, file_path,get_materials_path(sim),in->material_dir_name[i],"n_gen.omat");
+	}else
+	{
+		join_path(3,file_path,get_materials_path(sim),in->material_dir_name[i],"n.omat");
+		if (isfile(file_path)!=0)
+		{
+			join_path(3, file_path,get_materials_path(sim),in->material_dir_name[i],"n_gen.omat");
+		}
+	}
+
+	if (isfile(file_path)!=0)
+	{
+		ewe(sim,"%s: %s\n",_("File not found"),file_path);
 	}
 
 	inter_load(sim,&(in->mat_n[i]),file_path);

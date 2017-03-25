@@ -98,7 +98,7 @@ class ribbon_simulations(QToolBar):
 
 		self.solar_spectrum = QAction(QIcon(os.path.join(get_image_file_path(),"spectra_file.png")), _("Solar spectrum\neditor"), self)
 		self.solar_spectrum.triggered.connect(self.callback_solar_spectrum)
-		self.addAction(self.solar_spectrum)
+		#self.addAction(self.solar_spectrum)
 
 	def update(self):
 		if self.qe_window!=None:

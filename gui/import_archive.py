@@ -70,7 +70,7 @@ def remove_non_used_index_files(dest_archive,src_archive):
 
 	ls_src=zip_lsdir(src_archive)
 	if ls_src==False:
-		print("File ",ls_src, "not found")
+		print("File ",src_archive, "not found")
 
 
 	for my_file in ls_dest:

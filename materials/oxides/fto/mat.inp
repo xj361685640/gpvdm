@@ -14,8 +14,10 @@ oxide
 public
 #mat_alpha
 0.5
-#mat_default_file
-auto
+#mat_default_file_alpha
+equation
+#mat_default_file_n
+equation
 #ver
 1.0
 #end

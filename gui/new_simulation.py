@@ -1,6 +1,6 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
 #	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -150,6 +150,10 @@ class new_simulation(QDialog):
 		itm.setIcon(QIcon(os.path.join(get_image_file_path(),"ofet.png")))
 		self.listwidget.addItem(itm)
 
+		itm = QListWidgetItem( _("Perovskite solar cell")+" (perovskite.gpvdm)" )
+		itm.setIcon(QIcon(os.path.join(get_image_file_path(),"perovskite.png")))
+		self.listwidget.addItem(itm)
+		
 		self.listwidget.itemDoubleClicked.connect(self.callback_next)
 		self.nextButton.clicked.connect(self.callback_next)
 		self.cancelButton.clicked.connect(self.callback_close)

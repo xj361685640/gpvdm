@@ -274,7 +274,7 @@ class equation(QWidget):
 		self.tb_ref.triggered.connect(self.callback_ref)
 		toolbar.addAction(self.tb_ref)
 
-		self.file_select=tb_item_mat_file(self.path)
+		self.file_select=tb_item_mat_file(self.path,self.token)
 		#self.file_select.changed.connect(self.callback_sun)
 		toolbar.addWidget(self.file_select)
 		
@@ -320,7 +320,7 @@ class equation(QWidget):
 		self.load_data()
 
 
-
+		self.build_mesh()
 		self.draw_graph()
 
 		self.tab.cellChanged.connect(self.on_cell_edited)
@@ -330,7 +330,7 @@ class equation(QWidget):
 		self.draw_graph()
 		self.fig.canvas.draw()
 
-	def __init__(self,path,file_name,out_file,exp_file):
+	def __init__(self,path,file_name,out_file,exp_file,token):
 		self.x=None
 		self.y=None
 		QWidget.__init__(self)
@@ -338,6 +338,7 @@ class equation(QWidget):
 		self.default_value="3.0"
 		self.path=path
 		self.file_name=file_name
+		self.token=token
 		self.out_file=out_file
 		self.exp_file=exp_file
 

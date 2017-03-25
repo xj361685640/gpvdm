@@ -14,7 +14,9 @@ organic
 public
 #mat_alpha
 1.0
-#mat_default_file
+#mat_default_file_alpha
+equation
+#mat_default_file_n
 equation
 #ver
 1.0

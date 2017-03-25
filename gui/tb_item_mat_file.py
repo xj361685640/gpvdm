@@ -42,12 +42,13 @@ _ = i18n.language.gettext
 class tb_item_mat_file(QWidget):
 
 
-	def __init__(self,path):
+	def __init__(self,path,token):
 		QWidget.__init__(self)
 		self.path=path
+		self.token=token
 		layout=QVBoxLayout()
 		label=QLabel()
-		label.setText(_("Use material file:"))
+		label.setText(_("Use:"))
 		layout.addWidget(label)
 
 		self.mode = QComboBox(self)
@@ -56,8 +57,8 @@ class tb_item_mat_file(QWidget):
 		self.mode.addItem(_("Raw data"))
 		self.mode.addItem(_("Equation"))
 
-		token=inp_get_token_value(os.path.join(self.path,"mat.inp"), "#mat_default_file")
-		if token=="auto":
+		value=inp_get_token_value(os.path.join(self.path,"mat.inp"), self.token)
+		if value=="auto":
 			self.mode.setCurrentIndex(0)
 		else:
 			self.mode.setCurrentIndex(1)
@@ -76,7 +77,7 @@ class tb_item_mat_file(QWidget):
 	def call_back_mode_changed(self):
 		mode=self.mode.currentText()
 		if mode==_("Raw data"):
-			inp_update_token_value(os.path.join(self.path,"mat.inp"), "#mat_default_file", "auto" ,1)
+			inp_update_token_value(os.path.join(self.path,"mat.inp"), self.token, "auto" ,1)
 		if mode==_("Equation"):
-			inp_update_token_value(os.path.join(self.path,"mat.inp"), "#mat_default_file", "equation" ,1)
+			inp_update_token_value(os.path.join(self.path,"mat.inp"), self.token, "equation" ,1)
 

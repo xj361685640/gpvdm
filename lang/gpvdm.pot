@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.88\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2017-03-24 16:55+0000\n"
+"POT-Creation-Date: 2017-03-25 10:27+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -94,24 +94,29 @@ msgstr ""
 msgid "No optical materials found\n"
 msgstr ""
 
-#: ../liblight/light_materials.c:182 ../liblight/light_materials.c:272
-#: ../liblight/light_materials.c:338
+#: ../liblight/light_materials.c:159 ../liblight/light_materials.c:179
+#: ../lib/util.c:410 ../lib/util.c:530 ../lib/util.c:590 ../lib/util.c:680
+msgid "File not found"
+msgstr ""
+
+#: ../liblight/light_materials.c:209 ../liblight/light_materials.c:299
+#: ../liblight/light_materials.c:365
 msgid "file not found"
 msgstr ""
 
-#: ../liblight/light_materials.c:258
+#: ../liblight/light_materials.c:285
 msgid "Error at end of patch file\n"
 msgstr ""
 
-#: ../liblight/light_materials.c:318
+#: ../liblight/light_materials.c:345
 msgid "Error at end of inter file"
 msgstr ""
 
-#: ../liblight/light_materials.c:365 ../liblight/light_materials.c:417
+#: ../liblight/light_materials.c:392 ../liblight/light_materials.c:444
 msgid "Wavelength - Reflected light"
 msgstr ""
 
-#: ../liblight/light_materials.c:367 ../liblight/light_materials.c:419
+#: ../liblight/light_materials.c:394 ../liblight/light_materials.c:446
 #: ../libmeasure/probe.c:163 ../libmeasure/probe.c:165
 #: ../libmeasure/probe.c:188 ../libmeasure/probe.c:190
 #: ../libmeasure/probe.c:213 ../libmeasure/probe.c:215 ../gui/equation.py:163
@@ -136,10 +141,6 @@ msgstr ""
 
 #: ../lib/util.c:379
 msgid "Can not read file"
-msgstr ""
-
-#: ../lib/util.c:410 ../lib/util.c:530 ../lib/util.c:590 ../lib/util.c:680
-msgid "File not found"
 msgstr ""
 
 #: ../lib/util.c:568 ../lib/util.c:628 ../lib/util.c:726
@@ -2914,15 +2915,15 @@ msgstr ""
 msgid "Mesh points"
 msgstr ""
 
-#: ../gui/tb_item_mat_file.py:50
-msgid "Use material file:"
+#: ../gui/tb_item_mat_file.py:51
+msgid "Use:"
 msgstr ""
 
-#: ../gui/tb_item_mat_file.py:56 ../gui/tb_item_mat_file.py:78
+#: ../gui/tb_item_mat_file.py:57 ../gui/tb_item_mat_file.py:79
 msgid "Raw data"
 msgstr ""
 
-#: ../gui/tb_item_mat_file.py:57 ../gui/tb_item_mat_file.py:80
+#: ../gui/tb_item_mat_file.py:58 ../gui/tb_item_mat_file.py:81
 msgid "Equation"
 msgstr ""
 
