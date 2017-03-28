@@ -25,6 +25,7 @@ import os
 from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication,QTableWidgetItem,QComboBox, QMessageBox, QDialog, QDialogButtonBox, QFileDialog
 from PyQt5.uic import loadUi
 from PyQt5.QtGui import QPixmap
+from cal_path import to_native_path
 
 def save_as_gpvdm(parent):
 	dialog = QFileDialog(parent)
@@ -34,6 +35,7 @@ def save_as_gpvdm(parent):
 	dialog.setOption(QFileDialog.ShowDirsOnly, True) 
 	if dialog.exec_() == QDialog.Accepted:
 		filename = dialog.selectedFiles()[0]
+		filename = to_native_path(filename)
 		return filename
 	else:
 		return None

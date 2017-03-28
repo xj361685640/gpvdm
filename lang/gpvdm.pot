@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.88\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2017-03-25 10:27+0000\n"
+"POT-Creation-Date: 2017-03-28 14:31+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -764,7 +764,7 @@ msgstr ""
 #: ../gui/cmp_class.py:299 ../gui/fit_configure_window.py:72
 #: ../gui/experiment.py:199 ../gui/experiment.py:200 ../gui/experiment.py:234
 #: ../gui/contacts.py:201 ../gui/config_window.py:70 ../gui/config_window.py:71
-#: ../gui/ribbon_home.py:107 ../gui/materials_main.py:97 ../gui/jv.py:77
+#: ../gui/ribbon_home.py:108 ../gui/materials_main.py:97 ../gui/jv.py:77
 #: ../gui/emesh.py:170 ../gui/ribbon_information.py:75 ../gui/ribbon.py:76
 #: ../gui/scan.py:318 ../gui/scan.py:319 ../gui/scan.py:353 ../gui/info.py:67
 #: ../gui/cost.py:92 ../gui/fxexperiment.py:195 ../gui/fxexperiment.py:196
@@ -1191,7 +1191,7 @@ msgstr ""
 msgid "Problem generating tree."
 msgstr ""
 
-#: ../gui/scan_tab.py:405 ../gui/experiment.py:177 ../gui/gpvdm.py:255
+#: ../gui/scan_tab.py:405 ../gui/experiment.py:177 ../gui/gpvdm.py:254
 #: ../gui/ribbon.py:131 ../gui/scan.py:256 ../gui/snapshot_slider.py:133
 #: ../gui/fxexperiment.py:176 ../gui/fit_window.py:225 ../gui/fit_vars.py:95
 #: ../gui/fit_vars.py:156 ../gui/lasers.py:176 ../gui/plot_widget.py:583
@@ -1211,7 +1211,7 @@ msgstr ""
 msgid "Opperation"
 msgstr ""
 
-#: ../gui/scan_tab.py:484 ../gui/ribbon_home.py:182
+#: ../gui/scan_tab.py:484 ../gui/ribbon_home.py:180
 msgid ""
 "Re-run the simulation with 'dump all slices' set to one to use this tool."
 msgstr ""
@@ -1224,7 +1224,7 @@ msgstr ""
 msgid "Delete item"
 msgstr ""
 
-#: ../gui/scan_tab.py:527 ../gui/ribbon_home.py:68 ../gui/scan.py:279
+#: ../gui/scan_tab.py:527 ../gui/ribbon_home.py:69 ../gui/scan.py:279
 msgid "Run simulation"
 msgstr ""
 
@@ -1476,6 +1476,10 @@ msgstr ""
 msgid "OFET "
 msgstr ""
 
+#: ../gui/new_simulation.py:153
+msgid "Perovskite solar cell"
+msgstr ""
+
 #: ../gui/scan_io.py:101
 msgid "and "
 msgstr ""
@@ -1500,7 +1504,7 @@ msgstr ""
 msgid "Save as"
 msgstr ""
 
-#: ../gui/open_save_dlg.py:66 ../gui/gpvdm_open.py:64 ../gui/import_data.py:244
+#: ../gui/open_save_dlg.py:66 ../gui/gpvdm_open.py:80 ../gui/import_data.py:244
 msgid "Open file"
 msgstr ""
 
@@ -1592,58 +1596,58 @@ msgstr ""
 msgid "Language"
 msgstr ""
 
-#: ../gui/ribbon_home.py:63
+#: ../gui/ribbon_home.py:64
 msgid "Undo"
 msgstr ""
 
-#: ../gui/ribbon_home.py:71
+#: ../gui/ribbon_home.py:72
 msgid ""
 "Stop\n"
 "simulation"
 msgstr ""
 
-#: ../gui/ribbon_home.py:77
+#: ../gui/ribbon_home.py:78
 msgid ""
 "Parameter\n"
 "scan"
 msgstr ""
 
-#: ../gui/ribbon_home.py:84
+#: ../gui/ribbon_home.py:85
 msgid ""
 "Fit\n"
 "data"
 msgstr ""
 
-#: ../gui/ribbon_home.py:89
+#: ../gui/ribbon_home.py:90
 msgid ""
 "Plot\n"
 "File"
 msgstr ""
 
-#: ../gui/ribbon_home.py:93
+#: ../gui/ribbon_home.py:94
 msgid ""
 "Examine results\n"
 "in time domain"
 msgstr ""
 
-#: ../gui/ribbon_home.py:136
+#: ../gui/ribbon_home.py:137
 msgid ""
 "<big>Select a file to plot</big><br>Single clicking shows you the content of "
 "the file"
 msgstr ""
 
-#: ../gui/ribbon_home.py:162
+#: ../gui/ribbon_home.py:160
 msgid ""
 "<big><b>The scan window</b></big><br> Very often it is useful to be able to "
 "systematically very a device parameter such as mobility or density of trap "
 "states.  This window allows you to do just that."
 msgstr ""
 
-#: ../gui/ribbon_home.py:162
+#: ../gui/ribbon_home.py:160
 msgid "Use the plus icon to add a new scan line to the list."
 msgstr ""
 
-#: ../gui/ribbon_home.py:175
+#: ../gui/ribbon_home.py:173
 msgid ""
 "<big><b>Examine the results in time domain</b></big><br> After you have run "
 "a simulation in time domain, if is often nice to be able to step through the "
@@ -1652,7 +1656,7 @@ msgid ""
 "curve, the slider sill step through voltage points rather than time points."
 msgstr ""
 
-#: ../gui/ribbon_home.py:194
+#: ../gui/ribbon_home.py:192
 msgid ""
 "<big><b>Fit window</b></big><br> Use this window to fit the simulation to "
 "experimental data."
@@ -1705,20 +1709,20 @@ msgstr ""
 msgid "Cost of material"
 msgstr ""
 
-#: ../gui/gpvdm.py:126
+#: ../gui/gpvdm.py:128
 msgid "Don't run me as root!!"
 msgstr ""
 
-#: ../gui/gpvdm.py:155 ../gui/gpvdm_notebook.py:102
+#: ../gui/gpvdm.py:158 ../gui/gpvdm_notebook.py:102
 #: ../gui/gpvdm_notebook.py:229
 msgid "Terminal"
 msgstr ""
 
-#: ../gui/gpvdm.py:208
+#: ../gui/gpvdm.py:211
 msgid "file opened"
 msgstr ""
 
-#: ../gui/gpvdm.py:213
+#: ../gui/gpvdm.py:216
 msgid ""
 "<big><b>New simulation!</b></big><br> Now selected the type of device you "
 "would like to simulate."
@@ -1734,18 +1738,22 @@ msgstr ""
 msgid "Home"
 msgstr ""
 
-#: ../gui/gpvdm.py:256
+#: ../gui/gpvdm.py:255
 msgid ""
 "<big><b>Hi!</b></big><br> I'm the on-line help system :).  If you find any "
 "bugs please report them to <a href=\"mailto:roderick.mackenzie@nottingham.ac."
 "uk\">roderick.mackenzie@nottingham.ac.uk</a>."
 msgstr ""
 
-#: ../gui/gpvdm.py:256
+#: ../gui/gpvdm.py:255
 msgid "Click on the new icon to make a new simulation directory."
 msgstr ""
 
-#: ../gui/gpvdm.py:284
+#: ../gui/gpvdm.py:279
+msgid "You should not try to open simulations in the root gpvdm directory."
+msgstr ""
+
+#: ../gui/gpvdm.py:292
 msgid "Open an existing gpvdm simulation"
 msgstr ""
 
@@ -2683,31 +2691,31 @@ msgstr ""
 msgid "CPU"
 msgstr ""
 
-#: ../gui/gpvdm_open.py:123
+#: ../gui/gpvdm_open.py:148
 msgid "The directory is gone, so I can't open it.  Did you delete it?"
 msgstr ""
 
-#: ../gui/gpvdm_open.py:221
+#: ../gui/gpvdm_open.py:246
 msgid "title"
 msgstr ""
 
-#: ../gui/gpvdm_open.py:221
+#: ../gui/gpvdm_open.py:246
 msgid "x axis"
 msgstr ""
 
-#: ../gui/gpvdm_open.py:221
+#: ../gui/gpvdm_open.py:246
 msgid "y axis"
 msgstr ""
 
-#: ../gui/gpvdm_open.py:221
+#: ../gui/gpvdm_open.py:246
 msgid "Double click to open"
 msgstr ""
 
-#: ../gui/gpvdm_open.py:227
+#: ../gui/gpvdm_open.py:252
 msgid "equilibrium"
 msgstr ""
 
-#: ../gui/gpvdm_open.py:227
+#: ../gui/gpvdm_open.py:252
 msgid "This contains the simulation output at 0V in the dark."
 msgstr ""
 

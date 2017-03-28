@@ -62,6 +62,7 @@ class new_simulation(QDialog):
 		if len(self.listwidget.selectedItems())>0:
 
 			file_path=save_as_gpvdm(self)
+			print(file_path,get_exe_path())
 			if file_path!=None:
 				if file_path.startswith(get_exe_path())==True:
 					error_dlg(self,_("It's not a good idea to save the simulation in the gpvdm installation directory."))

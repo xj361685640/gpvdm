@@ -31,7 +31,7 @@ from dat_file_class import dat_file
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSize, Qt, QTimer
 from PyQt5.uic import loadUi
-from PyQt5.QtWidgets import QApplication,QGraphicsScene,QListWidgetItem,QListView
+from PyQt5.QtWidgets import QApplication,QGraphicsScene,QListWidgetItem,QPushButton,QListView,QVBoxLayout,QDialog,QWidget,QListWidget,QHBoxLayout,QLineEdit
 from PyQt5.QtGui import QPixmap
 
 #cal_path
@@ -54,32 +54,56 @@ _ = i18n.language.gettext
 #util
 from util import latex_to_html
 
-class gpvdm_open():
+class gpvdm_open(QDialog):
 	show_inp_files=True
 	show_directories=True
 
 	def __init__(self,path):
+		QWidget.__init__(self)
 		self.file_path=""
-		self.window = loadUi(os.path.join(get_ui_path(),"open.ui"))
-		self.window.setWindowTitle(_("Open file")+" https://www.gpvdm.com")
-		self.window.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"dir_file.png")))	
-
+		self.vbox=QVBoxLayout()
+		self.setLayout(self.vbox)
+		self.top_h_widget=QWidget()
+		self.top_h_widget.setStyleSheet("margin: 0; padding: 0; ")
+		self.top_hbox=QHBoxLayout()
+		self.top_h_widget.setLayout(self.top_hbox)
+		self.top_h_widget.setMaximumHeight(50)
+		self.up=QPushButton()
+		self.home=QPushButton()	
+		self.resize(800,500)
+		self.path=QLineEdit()
+		self.path.setMinimumHeight(30)
+		self.path.setStyleSheet("padding: 0; ")
+		self.top_hbox.addWidget(self.up)
+		self.top_hbox.addWidget(self.home)
+		self.top_hbox.addWidget(self.path)
+		self.setWindowTitle(_("Open file")+" https://www.gpvdm.com")
+		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"dir_file.png")))
+		self.listwidget=QListWidget()
+		self.listwidget.setStyleSheet("margin: 0; padding: 0; ")
+		self.vbox.addWidget(self.top_h_widget)
+		self.vbox.addWidget(self.listwidget)
+	
+		self.up.setFixedSize(42,42)
+		self.up.setStyleSheet("margin: 0; padding: 0; border: none;")
+		self.home.setFixedSize(42,42)
+		self.home.setStyleSheet("margin: 0; padding: 0; border: none ;")
 		#self.window.center()
 
 		icon = QPixmap(os.path.join(get_image_file_path(),"up.png"))
-		self.window.up.setIcon(QIcon(icon))
-		self.window.up.clicked.connect(self.on_up_clicked)
+		self.up.setIcon(QIcon(icon))
+		self.up.clicked.connect(self.on_up_clicked)
 
 
 		icon = QPixmap(os.path.join(get_image_file_path(),"home.png"))
-		self.window.home.setIcon(QIcon(icon))
-		self.window.home.clicked.connect(self.on_home_clicked)
+		self.home.setIcon(QIcon(icon))
+		self.home.clicked.connect(self.on_home_clicked)
 
 
 		self.dir = path
 		self.root_dir= path
 
-		self.window.path.setText(path)
+		self.path.setText(path)
 
 		self.dir_icon = self.get_icon("dir")
 		self.dat_icon = self.get_icon("dat")
@@ -89,22 +113,23 @@ class gpvdm_open():
 		self.spectra_icon = self.get_icon("spectra")
 		self.mat_icon = QIcon(QPixmap(os.path.join(get_image_file_path(),"organic_material.png")))
 
-		self.window.listwidget.setIconSize(QSize(48,48))
-		self.window.listwidget.setViewMode(QListView.IconMode)
-		self.window.listwidget.setSpacing(8)
-		self.window.listwidget.setWordWrap(True)
-		gridsize=self.window.listwidget.size()
+		self.listwidget.setIconSize(QSize(48,48))
+		self.listwidget.setViewMode(QListView.IconMode)
+		self.listwidget.setSpacing(8)
+		self.listwidget.setWordWrap(True)
+		gridsize=self.listwidget.size()
 		gridsize.setWidth(80)
 		gridsize.setHeight(80)
 
-		self.window.listwidget.setGridSize(gridsize)
+		self.listwidget.setGridSize(gridsize)
 
 		self.fill_store()
 
-		self.window.listwidget.itemDoubleClicked.connect(self.on_item_activated)
-		self.window.listwidget.itemClicked.connect(self.on_selection_changed)
-		self.window.listwidget.setIconSize(QSize(48,48))
-		self.window.resizeEvent=self.resizeEvent
+		self.listwidget.itemDoubleClicked.connect(self.on_item_activated)
+		self.listwidget.itemClicked.connect(self.on_selection_changed)
+		self.listwidget.setIconSize(QSize(48,48))
+		self.resizeEvent=self.resizeEvent
+		self.show()
 
 	def resizeEvent(self,resizeEvent):
 		self.fill_store()
@@ -118,9 +143,9 @@ class gpvdm_open():
 		return self.file_path
 
 	def fill_store(self):
-		self.window.listwidget.clear()
+		self.listwidget.clear()
 		if os.path.isdir(self.dir)==False:
-			error_dlg(self.window,_("The directory is gone, so I can't open it.  Did you delete it?")+" "+self.dir)
+			error_dlg(self,_("The directory is gone, so I can't open it.  Did you delete it?")+" "+self.dir)
 			return
 
 		all_files=os.listdir(self.dir)
@@ -131,7 +156,7 @@ class gpvdm_open():
 				if os.path.isfile(os.path.join(file_name,"mat.inp")):
 					itm = QListWidgetItem( fl )
 					itm.setIcon(self.mat_icon)
-					self.window.listwidget.addItem(itm)
+					self.listwidget.addItem(itm)
 				else:
 					show_dir=True
 
@@ -144,7 +169,7 @@ class gpvdm_open():
 					if show_dir==True:
 						itm = QListWidgetItem( fl )
 						itm.setIcon(self.dir_icon)
-						self.window.listwidget.addItem(itm)
+						self.listwidget.addItem(itm)
 
 			else:
 				#append=False
@@ -162,32 +187,32 @@ class gpvdm_open():
 					if text==b"#gpvdm":
 						itm = QListWidgetItem( fl )
 						itm.setIcon(self.dat_icon)
-						self.window.listwidget.addItem(itm)
+						self.listwidget.addItem(itm)
 
 				if (file_name.endswith(".inp")==True) and self.show_inp_files==True:
 					itm = QListWidgetItem( fl )
 					itm.setIcon(self.inp_icon)
-					self.window.listwidget.addItem(itm)
+					self.listwidget.addItem(itm)
 
 				if (file_name.endswith(".spectra")==True):
 					itm = QListWidgetItem( fl )
 					itm.setIcon(self.spectra_icon)
-					self.window.listwidget.addItem(itm)
+					self.listwidget.addItem(itm)
 					
 				if (file_name.endswith(".omat")==True):
 					itm = QListWidgetItem( fl )
 					itm.setIcon(self.mat_icon)
-					self.window.listwidget.addItem(itm)
+					self.listwidget.addItem(itm)
 
 				if file_name.endswith(".xlsx")==True or file_name.endswith(".xls")==True:
 					itm = QListWidgetItem( fl )
 					itm.setIcon(self.xls_icon)
-					self.window.listwidget.addItem(itm)
+					self.listwidget.addItem(itm)
 
 				if os.path.basename(file_name)=="sim_info.dat":
 					itm = QListWidgetItem( fl )
 					itm.setIcon(self.info_icon)
-					self.window.listwidget.addItem(itm)
+					self.listwidget.addItem(itm)
 
 	def on_home_clicked(self, widget):
 		self.dir = self.root_dir
@@ -200,11 +225,11 @@ class gpvdm_open():
 		print(full_path,os.path.isfile(full_path))
 		if os.path.isfile(full_path)==True:
 			self.file_path=full_path
-			self.window.accept()
+			self.accept()
 		else:
 			if os.path.isfile(os.path.join(full_path,"mat.inp"))==True:
 				self.file_path=full_path
-				self.window.accept()
+				self.accept()
 			else:
 				self.dir = full_path
 				self.change_path()
@@ -239,7 +264,7 @@ class gpvdm_open():
 
 
 	def change_path(self):
-		self.window.path.setText(self.dir)
+		self.path.setText(self.dir)
 
 		self.fill_store()
 		sensitive = True
@@ -247,7 +272,7 @@ class gpvdm_open():
 		if self.dir == self.root_dir:
 			sensitive = False
 
-		self.window.up.setEnabled(sensitive)
+		self.up.setEnabled(sensitive)
 
 	def on_up_clicked(self, widget):
 		self.dir = os.path.dirname(self.dir)

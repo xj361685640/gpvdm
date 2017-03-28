@@ -50,6 +50,7 @@ from fit_window import fit_window
 from cmp_class import cmp_class
 
 from global_objects import global_object_run
+from util import isfiletype
 
 class ribbon_home(QToolBar):
 	def __init__(self):
@@ -138,15 +139,12 @@ class ribbon_home(QToolBar):
 		dialog=gpvdm_open(os.getcwd())
 		dialog.show_inp_files=False
 		dialog.show_directories=False
-		ret=dialog.window.exec_()
+		ret=dialog.exec_()
 		if ret==QDialog.Accepted:
-			split=dialog.get_filename().split(".")
-			if len(split)>1:
-				if split[1]=="xlsx" or split[1]=="xls":
-					desktop_open(dialog.get_filename())
-	
-					print("open with excel")
-					return
+			file_name=dialog.get_filename()
+			if isfiletype(file_name,"xls")==True or isfiletype(file_name,"xlsx")==True:
+				desktop_open(dialog.get_filename())
+				return
 				
 			if os.path.basename(dialog.get_filename())=="sim_info.dat":
 				self.sim_info_window=sim_info(dialog.get_filename())

@@ -41,6 +41,13 @@ lang_path=None
 inp_file_path=None
 src_path=None
 
+def to_native_path(path):
+	ret=path
+	if running_on_linux()==False:
+		ret=ret.replace("/","\\")
+		ret=ret.lower()
+	return ret
+
 def remove_cwdfrompath(path):
 	tmp=path
 	if tmp.startswith(os.getcwd()):
@@ -109,10 +116,10 @@ def search_known_paths(file_or_dir_to_find,ext,key_file):
 		if key_file==None:
 			if os.path.isdir(item) or os.path.isfile(item):
 				#print "found",item
-				return item
+				return to_native_path(item)
 		else:
 			if os.path.isfile(os.path.join(item,key_file)):
-				return item
+				return to_native_path(item)
 	#print "Can't find",file_or_dir_to_find, "setting it to",paths[0]
 	return paths[2]
 

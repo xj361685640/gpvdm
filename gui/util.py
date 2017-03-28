@@ -42,7 +42,15 @@ def isnumber(s):
 		return True
 	except ValueError:
 		return False
-	
+
+def isfiletype(file_name,ext_in):
+	ext=ext_in
+	if ext.startswith(".")==False:
+		ext="."+ext
+	if file_name.endswith(ext):
+		return True
+	return False
+
 def get_cache_path(path):
 	m = hashlib.md5()
 	m.update(path)

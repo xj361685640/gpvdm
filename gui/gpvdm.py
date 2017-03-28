@@ -32,6 +32,8 @@ from win_lin import running_on_linux
 from cal_path import get_image_file_path
 from cal_path import calculate_paths
 from cal_path import calculate_paths_init
+from cal_path import get_share_path
+
 calculate_paths_init()
 calculate_paths()
 
@@ -117,7 +119,7 @@ from error_han import error_han
 
 from plot_dlg import plot_dlg_class
 from gui_util import yes_no_dlg
-		
+from util import isfiletype
 if running_on_linux()==True:
 	import dbus
 	from dbus.mainloop.pyqt5 import DBusQtMainLoop
@@ -135,7 +137,10 @@ print(notice())
 from PyQt5.QtWidgets import QTabWidget
 from ribbon import ribbon
 
-		
+from gui_util import error_dlg
+
+from cal_path import to_native_path
+
 class gpvdm_main_window(QMainWindow):
 
 	plot_after_run=False
@@ -227,11 +232,8 @@ class gpvdm_main_window(QMainWindow):
 		contacts_load()
 		mesh_load_all()
 
-		#print "rod",os.getcwd(),new_dir
 		self.statusBar().showMessage(os.getcwd())
-		#self.plot_open.setEnabled(False)
 
-		#self.notebook.set_item_factory(self.item_factory)
 		if self.notebook.load()==True:
 			#self.ti_light.connect('refresh', self.notebook.main_tab.update)
 			self.ribbon.home.setEnabled(True)
@@ -249,7 +251,6 @@ class gpvdm_main_window(QMainWindow):
 		else:
 			self.ribbon.home.setEnabled(False)
 
-			#self.save_sim.setEnabled(False)
 			self.ribbon.simulations.setEnabled(False)
 			self.ribbon.device.setEnabled(False)
 			self.ribbon.goto_page(_("File"))
@@ -257,7 +258,6 @@ class gpvdm_main_window(QMainWindow):
 			language_advert()
 
 			self.ribbon.home_export.setEnabled(False)
-			#self.menu_import_lib.setEnabled(False)
 			self.ribbon.configure.setEnabled(False)
 			if enable_betafeatures()==True:
 				self.ribbon.simulations.qe.setVisible(True)
@@ -267,17 +267,28 @@ class gpvdm_main_window(QMainWindow):
 
 		if self.notebook.update_display_function!=None:
 			self.my_server.set_display_function(self.notebook.update_display_function)
-		#self.plotted_graphs.init(os.getcwd(),self.callback_last_menu_click)
 
 
 		scan_item_add("sim.inp","#simmode","sim mode",1)
 		scan_item_add("light.inp","#Psun","light intensity",1)
 		#scan_populate_from_file("light.inp")
 
-
-
 		self.ribbon.update()
 
+	def load_sim(self,filename):
+		new_path=os.path.dirname(filename)
+		if filename.startswith(get_share_path())==True:
+			error_dlg(self,_("You should not try to open simulations in the root gpvdm directory."))
+			return
+
+		if ver_check_compatibility(filename)==True:
+			self.change_dir_and_refresh_interface(new_path)
+		else:
+			reply = yes_no_dlg(self,"The simulation you want to import looks like it was made on an old version of gpvdm, do you want to try to open it anyway?")
+
+			if reply == True:
+				update_simulaton_to_new_ver(dialog.selectedFiles()[0])
+				self.change_dir_and_refresh_interface(new_path)
 
 	def callback_open(self, widget, data=None):
 		dialog = QFileDialog(self)
@@ -286,17 +297,8 @@ class gpvdm_main_window(QMainWindow):
 		dialog.setFileMode(QFileDialog.ExistingFile)
 		if dialog.exec_() == QDialog.Accepted:
 			filename = dialog.selectedFiles()[0]
-
-			new_path=os.path.dirname(filename)
-
-			if ver_check_compatibility(filename)==True:
-				self.change_dir_and_refresh_interface(new_path)
-			else:
-				reply = yes_no_dlg(self,"The simulation you want to import looks like it was made on an old version of gpvdm, do you want to try to open it anyway?")
-
-				if reply == True:
-					update_simulaton_to_new_ver(dialog.selectedFiles()[0])
-					self.change_dir_and_refresh_interface(new_path)
+			filename=to_native_path(filename)
+			self.load_sim(filename)
 
 	def callback_export(self, widget, data=None):
 		dlg_export(self)
@@ -383,13 +385,7 @@ class gpvdm_main_window(QMainWindow):
 		temp_error=ver_error()
 		#print(temp_error)
 		if len(temp_error)>0:
-			msgBox = QMessageBox(self)
-			msgBox.setIcon(QMessageBox.Critical)
-			msgBox.setText(self.tr("gpvdm"))
-			msgBox.setInformativeText(temp_error)
-			msgBox.setStandardButtons(QMessageBox.Ok )
-			msgBox.setDefaultButton(QMessageBox.Ok)
-			reply = msgBox.exec_()
+			error_dlg(self,temp_error)
 			return
 
 
@@ -449,19 +445,13 @@ class gpvdm_main_window(QMainWindow):
 			for url in event.mimeData().urls():
 				links.append(str(url.toLocalFile()))
 			if len(links)==1:
-				filename, file_extension = os.path.splitext(links[0])
-				
-				if file_extension==".gpvdm":
-					new_path=os.path.dirname(links[0])
-					update_simulaton_to_new_ver(links[0])
-					self.change_dir_and_refresh_interface(new_path)
-				elif os.path.isdir(links[0])==True:
-					file_name=os.path.join(links[0],"sim.gpvdm")
+				file_name=links[0]
+				if isfiletype(file_name,"gpvdm")==True:
+					self.load_sim(file_name)
+				elif os.path.isdir(file_name)==True:
+					file_name=os.path.join(file_name,"sim.gpvdm")
 					if os.path.isfile(file_name)==True:
-						new_path=links[0]
-						update_simulaton_to_new_ver(file_name)
-						self.change_dir_and_refresh_interface(new_path)
-
+						self.load_sim(file_name)
 		else:
 			event.ignore()
             
