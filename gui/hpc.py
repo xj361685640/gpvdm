@@ -38,6 +38,7 @@ from about import about_dlg
 from gui_util import error_dlg
 
 from progress import progress_class
+from server import server_get
 
 class node_indicator(QWidget):
 	def __init__(self):
@@ -82,7 +83,7 @@ class node_indicator(QWidget):
 		self.cpus=cpus
 		self.slider.setMinimum(0)
 		self.slider.setMaximum(cpus)
-	
+
 	def set_text(self,text):
 		self.label.setText(text)
 
@@ -119,23 +120,11 @@ class node_indicator(QWidget):
 
 		self.bar.set_fraction(prog)
 
-class hpc_class(QToolBar):
+class hpc_class(QWidget):
 
 	name=""
 	cpus=[]
 
-	def callback_cluster_view_button(self, widget, data=None):
-
-		if self.hpc_window.get_property("visible")==True:
-			self.hpc_window.hide()
-		else:
-			self.hpc_window.show()
-
-	def callback_cluster_get_data(self, widget, data=None):
-		self.myserver.cluster_get_data()
-
-	def callback_cluster_copy_src(self, widget, data=None):
-		self.myserver.copy_src_to_cluster()
 
 	def slider_changed(self, widget):
 		ip=[]
@@ -177,146 +166,34 @@ class hpc_class(QToolBar):
 			item.update()
 			item.block_signals(False)
 
-	def callback_cluster_make(self):
-		self.myserver.cluster_make()
-
-	def callback_cluster_stop(self):
-		self.myserver.killall()
-
-	def callback_cluster_clean(self):
-		self.myserver.cluster_clean()
-
-	def callback_cluster_off(self):
-		self.myserver.cluster_quit()
-		self.cluster_gui_update()
-
-	def callback_cluster_sync(self):
-		self.myserver.copy_src_to_cluster_fast()
+	def closeEvent(self, event):
+		self.win_list.update(self,"hpc_window")
+		self.hide()
+		event.accept()
 
 
-	def callback_cluster_jobs(self):
-		self.myserver.cluster_list_jobs()
-		self.jview.load_data(self.myserver.cluster_jobs)
+	def __init__(self):
+		QWidget.__init__(self)
 
-	def callback_cluster_sleep(self):
-		self.myserver.sleep()
+		self.setMinimumSize(900, 600)
+		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"connected.png")))
+		self.setWindowTitle(_("Cluster status (www.gpvdm.com)")) 
 
-	def callback_cluster_poweroff(self):
-		self.myserver.poweroff()
+		self.myserver=server_get()
+		self.win_list=windows()
+		self.win_list.load()
+		self.win_list.set_window(self,"hpc_window")
 
-	def callback_cluster_print_jobs(self):
-		self.myserver.print_jobs()
+		self.node_view=QWidget()
+		self.node_view_vbox=QVBoxLayout()
+		self.node_view.setLayout(self.node_view_vbox)
 
-	def callback_wol(self, widget, data):
-		self.myserver.wake_nodes()
-
-	def callback_cluster_connect(self):
-		if self.myserver.connect()==False:
-			error_dlg(self,_("Can not connect to cluster."))
-
-		self.cluster_gui_update()
-		if self.myserver.cluster==True:
-			status_icon_stop(True)
-			self.status_window.show()
-		else:
-			status_icon_stop(False)
-			self.status_window.hide()
-
-	def cluster_gui_update(self):
-		if self.myserver.cluster==True:
-			self.cluster_button.setIcon(QIcon(os.path.join(get_image_file_path(),"connected.png")))
-			self.cluster_clean.setEnabled(True)
-			self.cluster_make.setEnabled(True)
-			self.cluster_copy_src.setEnabled(True)
-			self.cluster_get_info.setEnabled(True)
-			self.cluster_get_data.setEnabled(True)
-			self.cluster_off.setEnabled(True)
-			self.cluster_sync.setEnabled(True)
-			self.cluster_jobs.setEnabled(True)
-			self.cluster_stop.setEnabled(True)
-			self.cluster_view_button.setEnabled(True)
-
-		else:
-			self.cluster_button.setIcon(QIcon(os.path.join(get_image_file_path(),"not_connected.png")))
-			self.cluster_clean.setEnabled(False)
-			self.cluster_make.setEnabled(False)
-			self.cluster_copy_src.setEnabled(False)
-			self.cluster_get_info.setEnabled(False)
-			self.cluster_get_data.setEnabled(False)
-			self.cluster_off.setEnabled(False)
-			self.cluster_sync.setEnabled(False)
-			self.cluster_jobs.setEnabled(False)
-			self.cluster_stop.setEnabled(False)
-			self.cluster_view_button.setEnabled(False)
-
-	#def closeEvent(self, event):
-	#	self.win_list.update(self,"hpc_window")
-	#	self.hide()
-	#	event.accept()
-		
-	def init_job_window(self):
-		self.status_window=QWidget()
-		self.status_window.setMinimumSize(900, 600)
-		self.status_window.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"connected.png")))
-		self.status_window.setWindowTitle(_("Steady state simulation (www.gpvdm.com)")) 
 		
 		self.main_vbox = QVBoxLayout()
 
 		self.tool_bar=QToolBar()
 
 		self.tool_bar.setIconSize(QSize(42, 42))
-
-		self.cluster_get_data = QAction(QIcon(os.path.join(get_image_file_path(),"server_get_data.png")), _("Cluster get data"), self)
-		self.cluster_get_data.triggered.connect(self.callback_cluster_get_data)
-		self.tool_bar.addAction(self.cluster_get_data)
-		self.cluster_get_data.setEnabled(False)
-
-		self.cluster_get_info = QAction(QIcon(os.path.join(get_image_file_path(),"server_get_info.png")), _("Cluster get info"), self)
-		self.cluster_get_info.triggered.connect(self.callback_cluster_get_info)
-		self.tool_bar.addAction(self.cluster_get_info)
-		self.cluster_get_info.setEnabled(False)
-
-		self.cluster_copy_src = QAction(QIcon(os.path.join(get_image_file_path(),"server_copy_src.png")), _("Copy src to cluster"), self)
-		self.cluster_copy_src.triggered.connect(self.callback_cluster_copy_src)
-		self.tool_bar.addAction(self.cluster_copy_src)
-		self.cluster_copy_src.setEnabled(False)
-
-		self.cluster_make = QAction(QIcon(os.path.join(get_image_file_path(),"server_make.png")), _("Make on cluster"), self)
-		self.cluster_make.triggered.connect(self.callback_cluster_make)
-		self.tool_bar.addAction(self.cluster_make)
-		self.cluster_make.setEnabled(False)
-
-		self.cluster_clean = QAction(QIcon(os.path.join(get_image_file_path(),"server_clean.png")), _("Clean cluster"), self)
-		self.cluster_clean.triggered.connect(self.callback_cluster_clean)
-		self.tool_bar.addAction(self.cluster_clean)
-		self.cluster_clean.setEnabled(False)
-
-		self.cluster_off = QAction(QIcon(os.path.join(get_image_file_path(),"off.png")), _("Kill all cluster code"), self)
-		self.cluster_off.triggered.connect(self.callback_cluster_off)
-		self.tool_bar.addAction(self.cluster_off)
-		self.cluster_off.setEnabled(False)
-
-
-		self.cluster_sync = QAction(QIcon(os.path.join(get_image_file_path(),"sync.png")),  _("Sync"), self)
-		self.cluster_sync.triggered.connect(self.callback_cluster_sync)
-		self.tool_bar.addAction(self.cluster_sync)
-		self.cluster_sync.setEnabled(False)
-
-		self.cluster_stop = QAction(QIcon(os.path.join(get_image_file_path(),"pause.png")),  _("Stop"), self)
-		self.cluster_stop.triggered.connect(self.callback_cluster_stop)
-		self.tool_bar.addAction(self.cluster_stop)
-		self.cluster_stop.setEnabled(False)
-
-
-		self.cluster_jobs = QAction(QIcon(os.path.join(get_image_file_path(),"server_jobs.png")),  _("Get jobs"), self)
-		self.cluster_jobs.triggered.connect(self.callback_cluster_jobs)
-		self.tool_bar.addAction(self.cluster_jobs)
-		self.cluster_jobs.setEnabled(False)
-
-		self.cluster_view_button = QAction(QIcon(os.path.join(get_image_file_path(),"server.png")),  _("Configure cluster"), self)
-		self.cluster_view_button.triggered.connect(self.callback_cluster_view_button)
-		self.tool_bar.addAction(self.cluster_view_button)
-		self.cluster_view_button.setEnabled(False)
 		
 		self.main_vbox.addWidget(self.tool_bar)
 		
@@ -333,33 +210,9 @@ class hpc_class(QToolBar):
 		self.jview.load_data(self.myserver.cluster_jobs)
 		self.notebook.addTab(self.jview,"Jobs list")
 
-		self.status_window.setLayout(self.main_vbox)
+		self.setLayout(self.main_vbox)
 
-		self.win_list.set_window(self.status_window,"hpc_window")
-		
-
-	def __init__(self, server):
-		QToolBar.__init__(self)
-		self.hpc_window = QWidget()
-		#self.hpc_window.show()
-
-		self.myserver=server
-		self.win_list=windows()
-		self.win_list.load()
 		self.win_list.set_window(self,"hpc_window")
-
-		self.setIconSize(QSize(42, 42))
-
-		self.cluster_button = QAction(QIcon(os.path.join(get_image_file_path(),"not_connected.png")), _("Connect to cluster"), self)
-		self.cluster_button.triggered.connect(self.callback_cluster_connect)
-		self.addAction(self.cluster_button)
-
-
-		self.node_view=QWidget()
-		self.node_view_vbox=QVBoxLayout()
-		self.node_view.setLayout(self.node_view_vbox)
-
-		self.init_job_window()
 		
 
 

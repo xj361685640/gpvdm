@@ -87,6 +87,7 @@ if (scanarg( argv,argc,"--lang")==TRUE)
 }else
 {
 	setlocale(LC_ALL,"");
+	setlocale(LC_NUMERIC, "C");
 	c=textdomain("gpvdm");	
 	b=bindtextdomain("gpvdm","lang");
 }

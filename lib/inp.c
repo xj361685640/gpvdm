@@ -771,7 +771,8 @@ double read_ver=0.0;
 
 			if (ver!=read_ver)
 			{
-				ewe(sim,"File compatibility problem %s\n",in->full_name);
+				ewe(sim,"File compatibility problem %s >%s< >%s< >%lf<\n",in->full_name,in->data,line,ver);
+				
 			}
 			line  = inp_get_string(sim,in);
 

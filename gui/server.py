@@ -355,6 +355,7 @@ def server_init():
 	my_server=server()
 
 def server_get():
+	print("server get")
 	global my_server
 	return my_server
 

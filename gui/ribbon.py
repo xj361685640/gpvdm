@@ -44,6 +44,7 @@ from ribbon_home import ribbon_home
 
 from about import about_dlg
 
+from ribbon_cluster import ribbon_cluster
 
 class ribbon(QTabWidget):
 	def goto_page(self,page):
@@ -76,20 +77,6 @@ class ribbon(QTabWidget):
 		self.home_help = QAction(QIcon(os.path.join(get_image_file_path(),"man.png")), _("Help"), self)
 		toolbar.addAction(self.home_help)
 
-		return toolbar
-	
-
-
-	
-	def cluster(self):
-		toolbar = QToolBar()
-		toolbar.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
-		toolbar.setIconSize(QSize(42, 42))
-
-		#self.hpc_toolbar=hpc_class(self.my_server)
-		#self.addToolBarBreak()
-		#toolbar_hpc = self.addToolBar(self.hpc_toolbar)
-		
 		return toolbar
 
 			
@@ -143,7 +130,7 @@ class ribbon(QTabWidget):
 		self.addTab(self.device,_("Device"))
 
 		if enable_betafeatures()==True:
-			self.tb_cluster=self.cluster()
+			self.tb_cluster=ribbon_cluster()
 			self.addTab(self.tb_cluster,_("Cluster"))
 
 		self.information=ribbon_information()

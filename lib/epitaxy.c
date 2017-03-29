@@ -34,7 +34,10 @@ void epitaxy_load(struct simulation *sim,struct epitaxy *in, char *file)
 	in->electrical_layers=0;
 
 	inp_init(sim,&inp);
-	inp_load(sim, &inp , file);
+	if (inp_load(sim, &inp , file)!=0)
+	{
+		ewe(sim,"I can't find file %s\n",file);
+	}
 
 	inp_check(sim,&inp,1.3);
 	inp_reset_read(sim,&inp);

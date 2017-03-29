@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.88\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2017-03-28 14:31+0100\n"
+"POT-Creation-Date: 2017-03-29 09:38+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -583,86 +583,86 @@ msgstr ""
 msgid "Electrons on right contact"
 msgstr ""
 
-#: ../src/main.c:116 ../src/main.c:137
+#: ../src/main.c:117 ../src/main.c:138
 msgid "Copyright (C) 2012-2017 Roderick C. I. MacKenzie, Releced under GPLv2"
 msgstr ""
 
-#: ../src/main.c:118
+#: ../src/main.c:119
 msgid "options"
 msgstr ""
 
-#: ../src/main.c:120
+#: ../src/main.c:121
 msgid "Options"
 msgstr ""
 
-#: ../src/main.c:122
+#: ../src/main.c:123
 msgid "output data path"
 msgstr ""
 
-#: ../src/main.c:123
+#: ../src/main.c:124
 msgid "sets the input path"
 msgstr ""
 
-#: ../src/main.c:124 ../gui/command_args.py:58 ../gui/command_args.py:59
+#: ../src/main.c:125 ../gui/command_args.py:58 ../gui/command_args.py:59
 msgid "displays the current version"
 msgstr ""
 
-#: ../src/main.c:125
+#: ../src/main.c:126
 msgid "zip the results"
 msgstr ""
 
-#: ../src/main.c:126
+#: ../src/main.c:127
 msgid "Forces a simulation mode."
 msgstr ""
 
-#: ../src/main.c:127
+#: ../src/main.c:128
 msgid "sets the number of CPUs"
 msgstr ""
 
-#: ../src/main.c:129
+#: ../src/main.c:130
 msgid ""
 "Additional information about gpvdm is available at https://www.gpvdm.com."
 msgstr ""
 
-#: ../src/main.c:131
+#: ../src/main.c:132
 msgid "Report bugs to: roderick.mackenzie@nottingham.ac.uk"
 msgstr ""
 
-#: ../src/main.c:136
+#: ../src/main.c:137
 #, python-format
 msgid "gpvdm_core, Version %s\n"
 msgstr ""
 
-#: ../src/main.c:138
+#: ../src/main.c:139
 msgid "This is free software; see the source code for copying conditions."
 msgstr ""
 
-#: ../src/main.c:139
+#: ../src/main.c:140
 msgid "There is ABSOLUTELY NO WARRANTY; not even for MERCHANTABILITY or\n"
 msgstr ""
 
-#: ../src/main.c:140
+#: ../src/main.c:141
 msgid "FITNESS FOR A PARTICULAR PURPOSE.\n"
 msgstr ""
 
-#: ../src/main.c:191 ../gui/scan_tab.py:405 ../gui/fit_vars.py:156
+#: ../src/main.c:192 ../gui/scan_tab.py:405 ../gui/fit_vars.py:156
 #: ../gui/fit_patch.py:124
 msgid "Token"
 msgstr ""
 
-#: ../src/main.c:193
+#: ../src/main.c:194
 msgid "General-purpose Photovoltaic Device Model (https://www.gpvdm.com)\n"
 msgstr ""
 
-#: ../src/main.c:194
+#: ../src/main.c:195
 msgid "You should have received a copy of the GNU General Public License\n"
 msgstr ""
 
-#: ../src/main.c:195
+#: ../src/main.c:196
 msgid "along with this software.  If not, see www.gnu.org/licenses/.\n"
 msgstr ""
 
-#: ../src/main.c:197
+#: ../src/main.c:198
 msgid "If you wish to collaborate in anyway please get in touch:\n"
 msgstr ""
 
@@ -1191,7 +1191,7 @@ msgstr ""
 msgid "Problem generating tree."
 msgstr ""
 
-#: ../gui/scan_tab.py:405 ../gui/experiment.py:177 ../gui/gpvdm.py:254
+#: ../gui/scan_tab.py:405 ../gui/experiment.py:177 ../gui/gpvdm.py:256
 #: ../gui/ribbon.py:131 ../gui/scan.py:256 ../gui/snapshot_slider.py:133
 #: ../gui/fxexperiment.py:176 ../gui/fit_window.py:225 ../gui/fit_vars.py:95
 #: ../gui/fit_vars.py:156 ../gui/lasers.py:176 ../gui/plot_widget.py:583
@@ -1421,62 +1421,62 @@ msgid ""
 "to save the simulation directory."
 msgstr ""
 
-#: ../gui/new_simulation.py:67
+#: ../gui/new_simulation.py:68
 msgid ""
 "It's not a good idea to save the simulation in the gpvdm installation "
 "directory."
 msgstr ""
 
-#: ../gui/new_simulation.py:82
+#: ../gui/new_simulation.py:83
 msgid "Please select a device before clicking next"
 msgstr ""
 
-#: ../gui/new_simulation.py:92 ../gui/ribbon.py:62 ../gui/scan.py:328
+#: ../gui/new_simulation.py:93 ../gui/ribbon.py:62 ../gui/scan.py:328
 msgid "New simulation"
 msgstr ""
 
-#: ../gui/new_simulation.py:93
+#: ../gui/new_simulation.py:94
 msgid "Which type of device would you like to simulate?"
 msgstr ""
 
-#: ../gui/new_simulation.py:101 ../gui/help.py:114
+#: ../gui/new_simulation.py:102 ../gui/help.py:114
 msgid "Next"
 msgstr ""
 
-#: ../gui/new_simulation.py:102 ../gui/dlg_get_multi_text.py:72
+#: ../gui/new_simulation.py:103 ../gui/dlg_get_multi_text.py:72
 #: ../gui/scan_select.py:72
 msgid "Cancel"
 msgstr ""
 
-#: ../gui/new_simulation.py:125
+#: ../gui/new_simulation.py:126
 msgid "Organic solar cell"
 msgstr ""
 
-#: ../gui/new_simulation.py:129
+#: ../gui/new_simulation.py:130
 msgid "Organic LED"
 msgstr ""
 
-#: ../gui/new_simulation.py:133
+#: ../gui/new_simulation.py:134
 msgid "Crystalline silicon solar cell"
 msgstr ""
 
-#: ../gui/new_simulation.py:137
+#: ../gui/new_simulation.py:138
 msgid "CIGS Solar cell"
 msgstr ""
 
-#: ../gui/new_simulation.py:141
+#: ../gui/new_simulation.py:142
 msgid "a-Si solar cell "
 msgstr ""
 
-#: ../gui/new_simulation.py:145
+#: ../gui/new_simulation.py:146
 msgid "polycrystalline silicon "
 msgstr ""
 
-#: ../gui/new_simulation.py:149
+#: ../gui/new_simulation.py:150
 msgid "OFET "
 msgstr ""
 
-#: ../gui/new_simulation.py:153
+#: ../gui/new_simulation.py:154
 msgid "Perovskite solar cell"
 msgstr ""
 
@@ -1492,19 +1492,19 @@ msgstr ""
 msgid "Should I delete these files?:\n"
 msgstr ""
 
-#: ../gui/open_save_dlg.py:31
+#: ../gui/open_save_dlg.py:32
 msgid "Save a the simulation as"
 msgstr ""
 
-#: ../gui/open_save_dlg.py:32
+#: ../gui/open_save_dlg.py:33
 msgid "Directory"
 msgstr ""
 
-#: ../gui/open_save_dlg.py:44 ../gui/plot_widget.py:588
+#: ../gui/open_save_dlg.py:46 ../gui/plot_widget.py:588
 msgid "Save as"
 msgstr ""
 
-#: ../gui/open_save_dlg.py:66 ../gui/gpvdm_open.py:80 ../gui/import_data.py:244
+#: ../gui/open_save_dlg.py:68 ../gui/gpvdm_open.py:80 ../gui/import_data.py:244
 msgid "Open file"
 msgstr ""
 
@@ -1713,47 +1713,47 @@ msgstr ""
 msgid "Don't run me as root!!"
 msgstr ""
 
-#: ../gui/gpvdm.py:158 ../gui/gpvdm_notebook.py:102
+#: ../gui/gpvdm.py:160 ../gui/gpvdm_notebook.py:102
 #: ../gui/gpvdm_notebook.py:229
 msgid "Terminal"
 msgstr ""
 
-#: ../gui/gpvdm.py:211
+#: ../gui/gpvdm.py:213
 msgid "file opened"
 msgstr ""
 
-#: ../gui/gpvdm.py:216
+#: ../gui/gpvdm.py:218
 msgid ""
 "<big><b>New simulation!</b></big><br> Now selected the type of device you "
 "would like to simulate."
 msgstr ""
 
-#: ../gui/gpvdm.py:241
+#: ../gui/gpvdm.py:243
 msgid ""
 "<big><b>Now run the simulation</b></big><br> Click on the play icon to start "
 "a simulation."
 msgstr ""
 
-#: ../gui/gpvdm.py:246 ../gui/ribbon.py:134
+#: ../gui/gpvdm.py:248 ../gui/ribbon.py:134
 msgid "Home"
 msgstr ""
 
-#: ../gui/gpvdm.py:255
+#: ../gui/gpvdm.py:257
 msgid ""
 "<big><b>Hi!</b></big><br> I'm the on-line help system :).  If you find any "
 "bugs please report them to <a href=\"mailto:roderick.mackenzie@nottingham.ac."
 "uk\">roderick.mackenzie@nottingham.ac.uk</a>."
 msgstr ""
 
-#: ../gui/gpvdm.py:255
+#: ../gui/gpvdm.py:257
 msgid "Click on the new icon to make a new simulation directory."
 msgstr ""
 
-#: ../gui/gpvdm.py:279
+#: ../gui/gpvdm.py:281
 msgid "You should not try to open simulations in the root gpvdm directory."
 msgstr ""
 
-#: ../gui/gpvdm.py:292
+#: ../gui/gpvdm.py:295
 msgid "Open an existing gpvdm simulation"
 msgstr ""
 
