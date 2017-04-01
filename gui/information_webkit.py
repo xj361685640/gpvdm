@@ -63,11 +63,11 @@ class information(QWidget,tab_base):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
-		back = QAction(QIcon(os.path.join(get_image_file_path(),"left.png")),  _("back"), self)
+		back = QAction(QIcon(os.path.join(get_image_file_path(),"go-previous.png")),  _("back"), self)
 		back.triggered.connect(self.html.back)
 		toolbar.addAction(back)
 
-		home = QAction(QIcon(os.path.join(get_image_file_path(),"home.png")),  _("home"), self)
+		home = QAction(QIcon(os.path.join(get_image_file_path(),"user-home.png")),  _("home"), self)
 		home.triggered.connect(self.home)
 		toolbar.addAction(home)
 

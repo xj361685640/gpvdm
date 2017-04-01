@@ -51,7 +51,7 @@ class ribbon_configure(QToolBar):
 		self.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
 		self.setIconSize(QSize(42, 42))
 
-		self.configwindow = QAction(QIcon(os.path.join(get_image_file_path(),"cog.png")), _("Configure"), self)
+		self.configwindow = QAction(QIcon(os.path.join(get_image_file_path(),"preferences-system.png")), _("Configure"), self)
 		self.configwindow.triggered.connect(self.callback_config_window)
 		self.addAction(self.configwindow)
 		
@@ -92,7 +92,7 @@ class ribbon_configure(QToolBar):
 			self.config_window.init()
 			self.config_window.changed.connect(self.dump.refresh)
 
-		help_window().help_set_help(["cog.png",_("<big><b>Configuration editor</b></big><br> Use this window to control advanced simulation parameters.")])
+		help_window().help_set_help(["preferences-system.png",_("<big><b>Configuration editor</b></big><br> Use this window to control advanced simulation parameters.")])
 		if self.config_window.isVisible()==True:
 			self.config_window.hide()
 		else:

@@ -127,7 +127,7 @@ class fit_window_plot_real(QWidget):
 		self.import_data.triggered.connect(self.callback_import)
 		toolbar.addAction(self.import_data)
 
-		self.tb_save = QAction(QIcon(os.path.join(get_image_file_path(),"save.png")), _("Save graph"), self)
+		self.tb_save = QAction(QIcon(os.path.join(get_image_file_path(),"document-save-as.png")), _("Save graph"), self)
 		self.tb_save.triggered.connect(self.callback_save)
 		toolbar.addAction(self.tb_save)
 

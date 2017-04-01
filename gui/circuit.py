@@ -34,7 +34,7 @@ class my_draw(QWidget):
     def __init__(self, parent=None):
         super(QWidget, self).__init__(parent)
 
-        self.mQImage = QPixmap("new.png")
+        self.mQImage = QPixmap("document-new.png")
 
     def paintEvent(self, QPaintEvent):
         painter = QPainter()

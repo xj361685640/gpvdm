@@ -135,6 +135,13 @@ def calculate_paths_init():
 	cal_share_path()
 	cal_bin_path()
 
+def get_icon_path(name,size=-1):
+	global image_path
+	if size==-1:
+		return os.path.join(image_path,name+".png")
+
+	return os.path.join(image_path,str(size)+"_"+name+".png")
+		
 def calculate_paths():
 	global share_path
 	global lib_path

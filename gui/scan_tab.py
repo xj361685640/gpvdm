@@ -120,7 +120,7 @@ class scan_vbox(QWidget):
 
 
 	def add_line(self,data):
-		help_window().help_set_help(["add.png",_("<big><b>The scan window</b></big><br> Now using the drop down menu in the prameter to change 'column', select the device parameter you wish to vary, an example may be dos0/Electron Mobility. Now enter the values you would like it to scan oveer in the  'Values', an example could be '1e-3 1e-4 1e-5 1e-6'.  And hit the double arrorw to run the simulation.")])
+		help_window().help_set_help(["list-add.png",_("<big><b>The scan window</b></big><br> Now using the drop down menu in the prameter to change 'column', select the device parameter you wish to vary, an example may be dos0/Electron Mobility. Now enter the values you would like it to scan oveer in the  'Values', an example could be '1e-3 1e-4 1e-5 1e-6'.  And hit the double arrorw to run the simulation.")])
 
 		self.insert_row(self.tab.rowCount(),data[0],data[1],data[2],data[3],data[4])
 		
@@ -504,19 +504,19 @@ class scan_vbox(QWidget):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
-		self.tb_add = QAction(QIcon(os.path.join(get_image_file_path(),"add.png")), _("Add parameter to scan"), self)
+		self.tb_add = QAction(QIcon(os.path.join(get_image_file_path(),"list-add.png")), _("Add parameter to scan"), self)
 		self.tb_add.triggered.connect(self.callback_add_item)
 		toolbar.addAction(self.tb_add)
 
-		self.tb_minus = QAction(QIcon(os.path.join(get_image_file_path(),"minus.png")), _("Delete item"), self)
+		self.tb_minus = QAction(QIcon(os.path.join(get_image_file_path(),"list-remove.png")), _("Delete item"), self)
 		self.tb_minus.triggered.connect(self.callback_delete_item)
 		toolbar.addAction(self.tb_minus)
 
-		self.tb_down = QAction(QIcon(os.path.join(get_image_file_path(),"down.png")), _("Move down"), self)
+		self.tb_down = QAction(QIcon(os.path.join(get_image_file_path(),"go-down.png")), _("Move down"), self)
 		self.tb_down.triggered.connect(self.callback_move_down)
 		toolbar.addAction(self.tb_down)
 
-		#self.tb_notes = QAction(QIcon(os.path.join(get_image_file_path(),"down.png")), _("Notes"), self)
+		#self.tb_notes = QAction(QIcon(os.path.join(get_image_file_path(),"go-down.png")), _("Notes"), self)
 		#self.tb_notes.triggered.connect(self.callback_notes)
 		#toolbar.addAction(self.tb_notes)
 
@@ -540,7 +540,7 @@ class scan_vbox(QWidget):
 		self.tb_plot_time.triggered.connect(self.callback_examine)
 		toolbar.addAction(self.tb_plot_time)
 
-		self.tb_command = QAction(QIcon(os.path.join(get_image_file_path(),"command.png")), _("Insert python command"), self)
+		self.tb_command = QAction(QIcon(os.path.join(get_image_file_path(),"utilities-terminal.png")), _("Insert python command"), self)
 		self.tb_command.triggered.connect(self.callback_insert_command)
 		toolbar.addAction(self.tb_command)
 

@@ -241,11 +241,11 @@ class import_data(QDialog):
 		spacer = QWidget()
 		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 		
-		self.open_data= QAction(QIcon(os.path.join(get_image_file_path(),"open.png")), _("Open file"), self)
+		self.open_data= QAction(QIcon(os.path.join(get_image_file_path(),"document-open.png")), _("Open file"), self)
 		self.open_data.triggered.connect(self.callback_open)
 		toolbar.addAction(self.open_data)
 
-		self.import_data= QAction(QIcon(os.path.join(get_image_file_path(),"save.png")), _("Import data to model"), self)
+		self.import_data= QAction(QIcon(os.path.join(get_image_file_path(),"document-save-as.png")), _("Import data to model"), self)
 		self.import_data.triggered.connect(self.callback_import)
 		self.import_data.setEnabled(False)
 		toolbar.addAction(self.import_data)

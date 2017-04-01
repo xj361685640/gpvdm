@@ -122,11 +122,11 @@ class equation_editor(QGroupBox):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
-		add = QAction(QIcon(os.path.join(get_image_file_path(),"16_add.png")),  _("Add "+self.name+" mesh layer"), self)
+		add = QAction(QIcon(os.path.join(get_image_file_path(),"16_list-add.png")),  _("Add "+self.name+" mesh layer"), self)
 		add.triggered.connect(self.add_item_clicked)
 		toolbar.addAction(add)
 
-		remove = QAction(QIcon(os.path.join(get_image_file_path(),"16_minus.png")),  _("Remove "+self.name+" mesh layer"), self)
+		remove = QAction(QIcon(os.path.join(get_image_file_path(),"16_list-remove.png")),  _("Remove "+self.name+" mesh layer"), self)
 		remove.triggered.connect(self.on_remove_click)
 		toolbar.addAction(remove)
 
@@ -278,7 +278,7 @@ class tab_bands(QWidget,tab_base):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 		toolbar.setOrientation(Qt.Vertical)
-		add = QAction(QIcon(os.path.join(get_image_file_path(),"save.png")),  _("Save"), self)
+		add = QAction(QIcon(os.path.join(get_image_file_path(),"document-save-as.png")),  _("Save"), self)
 		add.triggered.connect(self.callback_save)
 		toolbar.addAction(add)
 

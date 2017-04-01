@@ -91,7 +91,7 @@ class planet(QWidget):
 		plotPreferencesAction = QAction(QIcon(os.path.join(os.getcwd(), 'icons', 'prefs.png')), 'Plot Preferences', self)
 		plotPreferencesAction.triggered.connect(self.setPlotPreferences)
 
-		saveFigureAction =  QAction(QIcon(os.path.join(os.getcwd(), 'icons', 'save.png')), 'Save Figure', self)
+		saveFigureAction =  QAction(QIcon(os.path.join(os.getcwd(), 'icons', 'document-save-as.png')), 'Save Figure', self)
 		saveFigureAction.triggered.connect(self.save)
 
 		copyFigureAction = QAction(QIcon(os.path.join(os.getcwd(), 'icons', 'copy.png')), 'Copy Figure', self)

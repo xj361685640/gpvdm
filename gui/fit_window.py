@@ -98,7 +98,7 @@ class fit_window(QWidget):
 		webbrowser.open('https://www.gpvdm.com/man/index.html')
 
 	def callback_add_page(self):
-		new_sim_name=dlg_get_text( _("New fit name:"), _("fit ")+str(self.notebook.count()+1),"new.png")
+		new_sim_name=dlg_get_text( _("New fit name:"), _("fit ")+str(self.notebook.count()+1),"document-new.png")
 
 		if new_sim_name.ret!=None:
 			index=fit_new_filename()
@@ -256,11 +256,11 @@ class fit_window(QWidget):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
-		self.new = QAction(QIcon(os.path.join(get_image_file_path(),"new.png")), _("New fit"), self)
+		self.new = QAction(QIcon(os.path.join(get_image_file_path(),"document-new.png")), _("New fit"), self)
 		self.new.triggered.connect(self.callback_add_page)
 		toolbar.addAction(self.new)
 
-		self.new = QAction(QIcon(os.path.join(get_image_file_path(),"delete.png")), _("Delete fit"), self)
+		self.new = QAction(QIcon(os.path.join(get_image_file_path(),"edit-delete.png")), _("Delete fit"), self)
 		self.new.triggered.connect(self.callback_delete_page)
 		toolbar.addAction(self.new)
 
@@ -274,7 +274,7 @@ class fit_window(QWidget):
 
 		toolbar.addSeparator()
 
-		self.tb_configure= QAction(QIcon(os.path.join(get_image_file_path(),"cog.png")), _("Configure"), self)
+		self.tb_configure= QAction(QIcon(os.path.join(get_image_file_path(),"preferences-system.png")), _("Configure"), self)
 		self.tb_configure.triggered.connect(self.callback_configure)
 		toolbar.addAction(self.tb_configure)
 				

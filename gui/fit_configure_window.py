@@ -54,7 +54,7 @@ class fit_configure_window(QWidget):
 	def __init__(self):
 		QWidget.__init__(self)
 		self.setFixedSize(900, 600)
-		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"cog.png")))
+		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"preferences-system.png")))
 
 		self.setWindowTitle(_("Fit configure")+" (https://www.gpvdm.com)") 
 		

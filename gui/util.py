@@ -27,6 +27,27 @@ import glob
 from util_zip import zip_get_data_file
 from math import pow
 
+def wrap_text(text,width):
+	count=0
+	r=False
+	out=""
+	for i in range(0,len(text)):
+		if count>width:
+			r=True
+		else:
+			r=False
+		
+		add=text[i]
+		if r==True:
+			if text[i]==" ":
+				add="\n"
+				count=0
+		
+		out=out+add
+				
+		count=count+1
+	return out
+
 def gui_print_path(text,path,length):
 	remove=len(text)+len(path)-length
 	if remove>0:

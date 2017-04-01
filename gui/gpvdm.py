@@ -254,7 +254,7 @@ class gpvdm_main_window(QMainWindow):
 			self.ribbon.simulations.setEnabled(False)
 			self.ribbon.device.setEnabled(False)
 			self.ribbon.goto_page(_("File"))
-			help_window().help_set_help(["icon.png",_("<big><b>Hi!</b></big><br> I'm the on-line help system :).  If you find any bugs please report them to <a href=\"mailto:roderick.mackenzie@nottingham.ac.uk\">roderick.mackenzie@nottingham.ac.uk</a>."),"new.png",_("Click on the new icon to make a new simulation directory.")])
+			help_window().help_set_help(["icon.png",_("<big><b>Hi!</b></big><br> I'm the on-line help system :).  If you find any bugs please report them to <a href=\"mailto:roderick.mackenzie@nottingham.ac.uk\">roderick.mackenzie@nottingham.ac.uk</a>."),"document-new.png",_("Click on the new icon to make a new simulation directory.")])
 			language_advert()
 
 			self.ribbon.home_export.setEnabled(False)
@@ -333,6 +333,12 @@ class gpvdm_main_window(QMainWindow):
 
 			
 	def __init__(self):
+		print(QIcon.themeSearchPaths(),QIcon.themeName())
+		exad
+		server_init()
+		self.my_server=server_get()
+		self.my_server.init(os.getcwd())
+
 		self.undo_list=undo_list_class()
 		self.ribbon=ribbon()
 
@@ -344,9 +350,7 @@ class gpvdm_main_window(QMainWindow):
 
 		#super(gpvdm_main_window, self).__init__(parent, QtCore.Qt.FramelessWindowHint)
 		#gobject.GObject.__init__(self)
-		server_init()
-		self.my_server=server_get()
-		self.my_server.init(os.getcwd())
+
 		self.my_server.setup_gui(self.gui_sim_start)
 		self.my_server.sim_finished.connect(self.gui_sim_stop)
 

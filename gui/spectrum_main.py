@@ -40,7 +40,7 @@ class spectrum_main(QWidget):
 		exitAction.setStatusTip('Exit application')
 		exitAction.triggered.connect(self.close)
 
-		saveFigureAction =  QAction(QIcon(os.path.join(os.getcwd(), 'icons', 'save.png')), 'Save Figure', self)
+		saveFigureAction =  QAction(QIcon(os.path.join(os.getcwd(), 'icons', 'document-save-as.png')), 'Save Figure', self)
 		saveFigureAction.setShortcut('Ctrl+S')
 		saveFigureAction.triggered.connect(self.save)
 

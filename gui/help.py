@@ -107,11 +107,11 @@ class help_class(QWidget):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
-		self.back = QAction(QIcon(os.path.join(get_image_file_path(),"left.png")), _("Back"), self)
+		self.back = QAction(QIcon(os.path.join(get_image_file_path(),"go-previous.png")), _("Back"), self)
 		self.back.triggered.connect(self.callback_back)
 		toolbar.addAction(self.back)
 
-		self.forward= QAction(QIcon(os.path.join(get_image_file_path(),"right.png")), _("Next"), self)
+		self.forward= QAction(QIcon(os.path.join(get_image_file_path(),"go-next.png")), _("Next"), self)
 		self.forward.triggered.connect(self.callback_forward)
 		toolbar.addAction(self.forward)
 

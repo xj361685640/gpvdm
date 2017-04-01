@@ -73,7 +73,7 @@ class experiment(QWidget):
 		webbrowser.open('http://www.gpvdm.com/man/index.html')
 
 	def callback_add_page(self):
-		new_sim_name=dlg_get_text( _("New experiment name")+":", _("experiment ")+str(self.notebook.count()+1),"new.png")
+		new_sim_name=dlg_get_text( _("New experiment name")+":", _("experiment ")+str(self.notebook.count()+1),"document-new.png")
 
 		if new_sim_name.ret!=None:
 			index=experiment_new_filename()
@@ -210,11 +210,11 @@ class experiment(QWidget):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
-		self.new = QAction(QIcon(os.path.join(get_image_file_path(),"new.png")), _("New experiment"), self)
+		self.new = QAction(QIcon(os.path.join(get_image_file_path(),"document-new.png")), _("New experiment"), self)
 		self.new.triggered.connect(self.callback_add_page)
 		toolbar.addAction(self.new)
 
-		self.new = QAction(QIcon(os.path.join(get_image_file_path(),"delete.png")), _("Delete experiment"), self)
+		self.new = QAction(QIcon(os.path.join(get_image_file_path(),"edit-delete.png")), _("Delete experiment"), self)
 		self.new.triggered.connect(self.callback_delete_page)
 		toolbar.addAction(self.new)
 

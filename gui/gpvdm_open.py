@@ -35,7 +35,7 @@ from PyQt5.QtWidgets import QApplication,QGraphicsScene,QListWidgetItem,QPushBut
 from PyQt5.QtGui import QPixmap
 
 #cal_path
-from cal_path import get_image_file_path
+from cal_path import get_icon_path
 from cal_path import get_ui_path
 
 from help import help_window
@@ -78,7 +78,7 @@ class gpvdm_open(QDialog):
 		self.top_hbox.addWidget(self.home)
 		self.top_hbox.addWidget(self.path)
 		self.setWindowTitle(_("Open file")+" https://www.gpvdm.com")
-		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"dir_file.png")))
+		self.setWindowIcon(QIcon(get_icon_path("folder")))
 		self.listwidget=QListWidget()
 		self.listwidget.setStyleSheet("margin: 0; padding: 0; ")
 		self.vbox.addWidget(self.top_h_widget)
@@ -90,12 +90,12 @@ class gpvdm_open(QDialog):
 		self.home.setStyleSheet("margin: 0; padding: 0; border: none ;")
 		#self.window.center()
 
-		icon = QPixmap(os.path.join(get_image_file_path(),"up.png"))
+		icon = QPixmap(get_icon_path("go-up"))
 		self.up.setIcon(QIcon(icon))
 		self.up.clicked.connect(self.on_up_clicked)
 
 
-		icon = QPixmap(os.path.join(get_image_file_path(),"home.png"))
+		icon = QPixmap(get_icon_path("user-home"))
 		self.home.setIcon(QIcon(icon))
 		self.home.clicked.connect(self.on_home_clicked)
 
@@ -105,13 +105,13 @@ class gpvdm_open(QDialog):
 
 		self.path.setText(path)
 
-		self.dir_icon = self.get_icon("dir")
+		self.dir_icon = QIcon(QPixmap(get_icon_path("folder")))
 		self.dat_icon = self.get_icon("dat")
 		self.inp_icon = self.get_icon("inp")
 		self.xls_icon = self.get_icon("xls")
 		self.info_icon = self.get_icon("info")
 		self.spectra_icon = self.get_icon("spectra")
-		self.mat_icon = QIcon(QPixmap(os.path.join(get_image_file_path(),"organic_material.png")))
+		self.mat_icon = QIcon(QPixmap(get_icon_path("organic_material")))
 
 		self.listwidget.setIconSize(QSize(48,48))
 		self.listwidget.setViewMode(QListView.IconMode)
@@ -136,7 +136,7 @@ class gpvdm_open(QDialog):
 		#self.window.listwidget.setIconSize(QSize(48,48))
 
 	def get_icon(self, name):
-		return QIcon(QPixmap(os.path.join(get_image_file_path(),name+"_file.png")))
+		return QIcon(QPixmap(get_icon_path(name+"_file")))
 
 
 	def get_filename(self):
@@ -250,7 +250,7 @@ class gpvdm_open(QDialog):
 				state=dat_file()
 				get_plot_file_info(state,full_path)
 				summary="<big><b>"+_("equilibrium")+"</b></big><br><br>"+_("This contains the simulation output at 0V in the dark.")
-				help_window().help_set_help(["dir_file.png",summary])
+				help_window().help_set_help(["folder.png",summary])
 
 			if os.path.isdir(full_path)==True:
 				if os.path.isfile(os.path.join(full_path,"mat.inp")):

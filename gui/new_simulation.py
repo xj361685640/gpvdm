@@ -57,7 +57,7 @@ class new_simulation(QDialog):
 
 
 	def callback_next(self):
-		help_window().help_set_help(["save.png",_("<big><b>Now save the simulation</b></big><br>Now select where you would like to save the simulation directory.")])
+		help_window().help_set_help(["document-save-as.png",_("<big><b>Now save the simulation</b></big><br>Now select where you would like to save the simulation directory.")])
 
 		if len(self.listwidget.selectedItems())>0:
 

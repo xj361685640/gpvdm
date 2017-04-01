@@ -61,7 +61,7 @@ class ribbon_home(QToolBar):
 		self.scan_window=None
 		self.fit_window=None
 
-		self.undo = QAction(QIcon(os.path.join(get_image_file_path(),"undo.png")), _("Undo"), self)
+		self.undo = QAction(QIcon(os.path.join(get_image_file_path(),"edit-undo.png")), _("Undo"), self)
 		self.addAction(self.undo)
 
 		self.addSeparator()
@@ -157,7 +157,7 @@ class ribbon_home(QToolBar):
 			#self.plot_after_run_file=dialog.get_filename()
 
 	def callback_scan(self, widget):
-		help_window().help_set_help(["scan.png",_("<big><b>The scan window</b></big><br> Very often it is useful to be able to systematically very a device parameter such as mobility or density of trap states.  This window allows you to do just that."),"add.png",_("Use the plus icon to add a new scan line to the list.")])
+		help_window().help_set_help(["scan.png",_("<big><b>The scan window</b></big><br> Very often it is useful to be able to systematically very a device parameter such as mobility or density of trap states.  This window allows you to do just that."),"list-add.png",_("Use the plus icon to add a new scan line to the list.")])
 		#self.tb_run_scan.setEnabled(True)
 
 		if self.scan_window==None:

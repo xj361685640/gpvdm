@@ -41,6 +41,7 @@ from ribbon_simulations import ribbon_simulations
 from ribbon_configure import ribbon_configure
 from ribbon_information import ribbon_information
 from ribbon_home import ribbon_home
+from cal_path import get_icon_path
 
 from about import about_dlg
 
@@ -60,21 +61,21 @@ class ribbon(QTabWidget):
 		toolbar.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
 		toolbar.setIconSize(QSize(42, 42))
 		
-		self.home_new = QAction(QIcon(os.path.join(get_image_file_path(),"new.png")), _("New simulation").replace(" ","\n"), self)
+		self.home_new = QAction(QIcon(get_icon_path("document-new")), _("New simulation").replace(" ","\n"), self)
 		#self.home_new.setText(_("New\nsimulation"))
 		toolbar.addAction(self.home_new)
 
-		self.home_open = QAction(QIcon(os.path.join(get_image_file_path(),"open.png")), _("Open\nsimulation"), self)
+		self.home_open = QAction(QIcon(get_icon_path("document-open")), _("Open\nsimulation"), self)
 		toolbar.addAction(self.home_open)
 
-		self.home_export = QAction(QIcon(os.path.join(get_image_file_path(),"export.png")), _("Export\ndata"), self)
+		self.home_export = QAction(QIcon(get_icon_path("export")), _("Export\ndata"), self)
 		toolbar.addAction(self.home_export)
 
 		spacer = QWidget()
 		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 		toolbar.addWidget(spacer)
 
-		self.home_help = QAction(QIcon(os.path.join(get_image_file_path(),"man.png")), _("Help"), self)
+		self.home_help = QAction(QIcon(get_icon_path("man")), _("Help"), self)
 		toolbar.addAction(self.home_help)
 
 		return toolbar

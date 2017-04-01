@@ -213,15 +213,15 @@ class fit_vars(QWidget):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
-		self.tb_save = QAction(QIcon(os.path.join(get_image_file_path(),"add.png")), _("Add line"), self)
+		self.tb_save = QAction(QIcon(os.path.join(get_image_file_path(),"list-add.png")), _("Add line"), self)
 		self.tb_save.triggered.connect(self.callback_add_item)
 		toolbar.addAction(self.tb_save)
 
-		self.tb_save = QAction(QIcon(os.path.join(get_image_file_path(),"minus.png")), _("Remove line"), self)
+		self.tb_save = QAction(QIcon(os.path.join(get_image_file_path(),"list-remove.png")), _("Remove line"), self)
 		self.tb_save.triggered.connect(self.callback_delete_item)
 		toolbar.addAction(self.tb_save)
 
-		self.tb_open = QAction(QIcon(os.path.join(get_image_file_path(),"open.png")), _("Open"), self)
+		self.tb_open = QAction(QIcon(os.path.join(get_image_file_path(),"document-open.png")), _("Open"), self)
 		self.tb_open.triggered.connect(self.callback_open)
 		toolbar.addAction(self.tb_open)
 		

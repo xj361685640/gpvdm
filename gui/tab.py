@@ -80,7 +80,7 @@ class tab_class(QWidget,tab_base):
 		elif type(widget)==QComboBoxLang:
 			inp_update_token_value(file_name, token, widget.currentText_english(),1)
 
-		help_window().help_set_help(["32_save.png","<big><b>Saved to disk</b></big>\n"])
+		help_window().help_set_help(["32_document-save-as.png","<big><b>Saved to disk</b></big>\n"])
 		
 		self.changed.emit()
 

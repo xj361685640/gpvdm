@@ -53,44 +53,46 @@ from global_objects import global_object_run
 from util import isfiletype
 
 from server import server_get
+from util import wrap_text
 
 class ribbon_cluster(QToolBar):
 	def __init__(self):
 		QToolBar.__init__(self)
 		self.myserver=server_get()
+
 		self.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
 		self.setIconSize(QSize(42, 42))
 		
-		self.cluster_button = QAction(QIcon(os.path.join(get_image_file_path(),"not_connected.png")), _("Connect to cluster"), self)
+		self.cluster_button = QAction(QIcon(os.path.join(get_image_file_path(),"not_connected.png")), wrap_text(_("Connect to cluster"),8), self)
 		self.cluster_button.triggered.connect(self.callback_cluster_connect)
 		self.addAction(self.cluster_button)
 
-		self.cluster_get_data = QAction(QIcon(os.path.join(get_image_file_path(),"server_get_data.png")), _("Cluster get data"), self)
+		self.cluster_get_data = QAction(QIcon(os.path.join(get_image_file_path(),"server_get_data.png")), wrap_text(_("Cluster get data"),8), self)
 		self.cluster_get_data.triggered.connect(self.callback_cluster_get_data)
 		self.addAction(self.cluster_get_data)
 		self.cluster_get_data.setEnabled(False)
 
-		self.cluster_get_info = QAction(QIcon(os.path.join(get_image_file_path(),"server_get_info.png")), _("Cluster get info"), self)
+		self.cluster_get_info = QAction(QIcon(os.path.join(get_image_file_path(),"server_get_info.png")), wrap_text(_("Cluster get info"),8), self)
 		#self.cluster_get_info.triggered.connect(self.callback_cluster_get_info)
 		self.addAction(self.cluster_get_info)
 		self.cluster_get_info.setEnabled(False)
 
-		self.cluster_copy_src = QAction(QIcon(os.path.join(get_image_file_path(),"server_copy_src.png")), _("Copy src to cluster"), self)
+		self.cluster_copy_src = QAction(QIcon(os.path.join(get_image_file_path(),"server_copy_src.png")), wrap_text(_("Copy src to cluster"),8), self)
 		self.cluster_copy_src.triggered.connect(self.callback_cluster_copy_src)
 		self.addAction(self.cluster_copy_src)
 		self.cluster_copy_src.setEnabled(False)
 
-		self.cluster_make = QAction(QIcon(os.path.join(get_image_file_path(),"server_make.png")), _("Make on cluster"), self)
+		self.cluster_make = QAction(QIcon(os.path.join(get_image_file_path(),"server_make.png")), wrap_text(_("Make on cluster"),6), self)
 		self.cluster_make.triggered.connect(self.callback_cluster_make)
 		self.addAction(self.cluster_make)
 		self.cluster_make.setEnabled(False)
 
-		self.cluster_clean = QAction(QIcon(os.path.join(get_image_file_path(),"server_clean.png")), _("Clean cluster"), self)
+		self.cluster_clean = QAction(QIcon(os.path.join(get_image_file_path(),"server_clean.png")), wrap_text(_("Clean cluster"),8), self)
 		self.cluster_clean.triggered.connect(self.callback_cluster_clean)
 		self.addAction(self.cluster_clean)
 		self.cluster_clean.setEnabled(False)
 
-		self.cluster_off = QAction(QIcon(os.path.join(get_image_file_path(),"off.png")), _("Kill all cluster code"), self)
+		self.cluster_off = QAction(QIcon(os.path.join(get_image_file_path(),"off.png")), wrap_text(_("Kill all cluster code"),8), self)
 		self.cluster_off.triggered.connect(self.callback_cluster_off)
 		self.addAction(self.cluster_off)
 		self.cluster_off.setEnabled(False)
@@ -112,7 +114,7 @@ class ribbon_cluster(QToolBar):
 		self.addAction(self.cluster_jobs)
 		self.cluster_jobs.setEnabled(False)
 
-		self.cluster_view_button = QAction(QIcon(os.path.join(get_image_file_path(),"server.png")),  _("Configure cluster"), self)
+		self.cluster_view_button = QAction(QIcon(os.path.join(get_image_file_path(),"server.png")),  wrap_text(_("Configure cluster"),8), self)
 		self.cluster_view_button.triggered.connect(self.callback_cluster_view_button)
 		self.addAction(self.cluster_view_button)
 		self.cluster_view_button.setEnabled(False)
@@ -171,7 +173,7 @@ class ribbon_cluster(QToolBar):
 			self.status_window.hide()
 			
 	def update(self):
-		if self.myserver.cluster()==True:
+		if self.myserver.cluster==True:
 			self.cluster_button.setIcon(QIcon(os.path.join(get_image_file_path(),"connected.png")))
 			self.cluster_clean.setEnabled(True)
 			self.cluster_make.setEnabled(True)

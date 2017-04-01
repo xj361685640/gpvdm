@@ -112,5 +112,5 @@ class tab_terminal(QWidget,tab_base):
 
 
 	def help(self):
-		my_help_class.help_set_help(["command.png","<big><b>The terminal window</b></big>\nThe model will run in this window.  You can also use it to enter bash commands."])
+		my_help_class.help_set_help(["utilities-terminal.png","<big><b>The terminal window</b></big>\nThe model will run in this window.  You can also use it to enter bash commands."])
 

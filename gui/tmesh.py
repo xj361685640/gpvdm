@@ -395,7 +395,7 @@ class tab_time_mesh(QWidget):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
-		self.tb_save = QAction(QIcon(os.path.join(get_image_file_path(),"32_save.png")), _("Save image"), self)
+		self.tb_save = QAction(QIcon(os.path.join(get_image_file_path(),"32_document-save-as.png")), _("Save image"), self)
 		self.tb_save.triggered.connect(self.callback_save)
 		toolbar.addAction(self.tb_save)
 
@@ -437,15 +437,15 @@ class tab_time_mesh(QWidget):
 		toolbar2=QToolBar()
 		toolbar2.setIconSize(QSize(48, 48))
 
-		self.tb_add = QAction(QIcon(os.path.join(get_image_file_path(),"add.png")), _("Add section"), self)
+		self.tb_add = QAction(QIcon(os.path.join(get_image_file_path(),"list-add.png")), _("Add section"), self)
 		self.tb_add.triggered.connect(self.callback_add_section)
 		toolbar2.addAction(self.tb_add)
 
-		self.tb_remove = QAction(QIcon(os.path.join(get_image_file_path(),"minus.png")), _("Delete section"), self)
+		self.tb_remove = QAction(QIcon(os.path.join(get_image_file_path(),"list-remove.png")), _("Delete section"), self)
 		self.tb_remove.triggered.connect(self.callback_remove_item)
 		toolbar2.addAction(self.tb_remove)
 
-		self.tb_move = QAction(QIcon(os.path.join(get_image_file_path(),"down.png")), _("Move down"), self)
+		self.tb_move = QAction(QIcon(os.path.join(get_image_file_path(),"go-down.png")), _("Move down"), self)
 		self.tb_move.triggered.connect(self.callback_move_down)
 		toolbar2.addAction(self.tb_move)
 

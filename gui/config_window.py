@@ -52,7 +52,7 @@ class class_config_window(QWidget):
 
 	def init(self):
 		self.setFixedSize(900, 600)
-		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"cog.png")))
+		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"preferences-system.png")))
 
 		self.setWindowTitle(_("Configure")+" (https://www.gpvdm.com)") 
 		

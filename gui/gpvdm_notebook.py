@@ -100,7 +100,7 @@ class gpvdm_notebook(QTabWidget):
 			help_window().help_set_help(["tab.png",_("<big><b>Luminescence</b></big>\nIf you set 'Turn on luminescence' to true, the simulation will assume recombination is a raditave process and intergrate it to produce Voltage-Light intensity curves (lv.dat).  Each number in the tab tells the model how efficient each recombination mechanism is at producing photons.")])
 
 		if self.tabText(self.currentIndex()).strip()==_("Terminal"):
-			help_window().help_set_help(["command.png",_("<big><b>The terminal window</b></big>\nThe output of the model will be displayed in this window, watch this screen for debugging and convergence information.")])
+			help_window().help_set_help(["utilities-terminal.png",_("<big><b>The terminal window</b></big>\nThe output of the model will be displayed in this window, watch this screen for debugging and convergence information.")])
 
 		if self.tabText(self.currentIndex()).strip()==_("Information"):
 			help_window().help_set_help(["help.png",_("<big><b>On-line help</b></big>\nYou can view the on-line help and manual here.")])

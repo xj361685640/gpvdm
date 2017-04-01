@@ -193,7 +193,7 @@ class doping_window(QWidget):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
-		self.save = QAction(QIcon(os.path.join(get_image_file_path(),"save.png")), _("Save"), self)
+		self.save = QAction(QIcon(os.path.join(get_image_file_path(),"document-save-as.png")), _("Save"), self)
 		self.save.triggered.connect(self.callback_save)
 		toolbar.addAction(self.save)
 

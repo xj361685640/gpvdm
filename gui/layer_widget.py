@@ -177,16 +177,16 @@ class layer_widget(QWidget):
 		self.toolbar=QToolBar()
 		self.toolbar.setIconSize(QSize(32, 32))
 
-		self.tb_add = QAction(QIcon(os.path.join(get_image_file_path(),"add.png")), _("Add device layer"), self)
+		self.tb_add = QAction(QIcon(os.path.join(get_image_file_path(),"list-add.png")), _("Add device layer"), self)
 		self.tb_add.triggered.connect(self.on_add_item_clicked)
 		self.toolbar.addAction(self.tb_add)
 
-		self.tb_remove = QAction(QIcon(os.path.join(get_image_file_path(),"minus.png")), _("Delete device layer"), self)
+		self.tb_remove = QAction(QIcon(os.path.join(get_image_file_path(),"list-remove.png")), _("Delete device layer"), self)
 		self.tb_remove.triggered.connect(self.on_remove_item_clicked)
 		self.toolbar.addAction(self.tb_remove)
 
 
-		self.tb_remove= QAction(QIcon(os.path.join(get_image_file_path(),"down.png")), _("Move device layer"), self)
+		self.tb_remove= QAction(QIcon(os.path.join(get_image_file_path(),"go-down.png")), _("Move device layer"), self)
 		self.tb_remove.triggered.connect(self.on_move_down)
 		self.toolbar.addAction(self.tb_remove)
 		

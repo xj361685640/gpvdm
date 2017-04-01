@@ -185,11 +185,11 @@ class contacts_window(QWidget):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
-		add = QAction(QIcon(os.path.join(get_image_file_path(),"add.png")),  _("Add contact"), self)
+		add = QAction(QIcon(os.path.join(get_image_file_path(),"list-add.png")),  _("Add contact"), self)
 		add.triggered.connect(self.on_add_clicked)
 		toolbar.addAction(add)
 
-		remove = QAction(QIcon(os.path.join(get_image_file_path(),"minus.png")),  _("Remove contacts"), self)
+		remove = QAction(QIcon(os.path.join(get_image_file_path(),"list-remove.png")),  _("Remove contacts"), self)
 		remove.triggered.connect(self.on_remove_clicked)
 		toolbar.addAction(remove)
 

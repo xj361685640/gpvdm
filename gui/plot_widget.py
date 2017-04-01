@@ -561,11 +561,11 @@ class plot_widget(QWidget):
 		toolbar.setIconSize(QSize(48, 48))
 
 
-		self.tb_save = QAction(QIcon(os.path.join(get_image_file_path(),"save.png")), _("Save graph"), self)
+		self.tb_save = QAction(QIcon(os.path.join(get_image_file_path(),"document-save-as.png")), _("Save graph"), self)
 		self.tb_save.triggered.connect(self.callback_plot_save)
 		toolbar.addAction(self.tb_save)
 
-		self.tb_refresh = QAction(QIcon(os.path.join(get_image_file_path(),"refresh.png")), _("Refresh graph"), self)
+		self.tb_refresh = QAction(QIcon(os.path.join(get_image_file_path(),"view-refresh.png")), _("Refresh graph"), self)
 		self.tb_refresh .triggered.connect(self.callback_refresh)
 		toolbar.addAction(self.tb_refresh )
 

@@ -81,7 +81,7 @@ class lasers(QWidget):
 		webbrowser.open('http://www.gpvdm.com/man/index.html')
 
 	def callback_add_page(self):
-		new_sim_name=dlg_get_text( _("New laser name:"), _("laser ")+str(self.notebook.count()),"new.png")
+		new_sim_name=dlg_get_text( _("New laser name:"), _("laser ")+str(self.notebook.count()),"document-new.png")
 		if new_sim_name.ret!=None:
 			index=laser_new_filename()
 			inp_copy_file("laser"+str(index)+".inp","laser0.inp")
@@ -209,11 +209,11 @@ class lasers(QWidget):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
-		self.new = QAction(QIcon(os.path.join(get_image_file_path(),"new.png")), _("New laser"), self)
+		self.new = QAction(QIcon(os.path.join(get_image_file_path(),"document-new.png")), _("New laser"), self)
 		self.new.triggered.connect(self.callback_add_page)
 		toolbar.addAction(self.new)
 
-		self.new = QAction(QIcon(os.path.join(get_image_file_path(),"delete.png")), _("Delete laser"), self)
+		self.new = QAction(QIcon(os.path.join(get_image_file_path(),"edit-delete.png")), _("Delete laser"), self)
 		self.new.triggered.connect(self.callback_delete_page)
 		toolbar.addAction(self.new)
 

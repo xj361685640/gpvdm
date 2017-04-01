@@ -156,11 +156,11 @@ class electrical_mesh_editor(QGroupBox):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
-		add = QAction(QIcon(os.path.join(get_image_file_path(),"16_add.png")),  _("Add "+self.xyz+" mesh layer"), self)
+		add = QAction(QIcon(os.path.join(get_image_file_path(),"16_list-add.png")),  _("Add "+self.xyz+" mesh layer"), self)
 		add.triggered.connect(self.on_add_mesh_clicked)
 		toolbar.addAction(add)
 
-		remove = QAction(QIcon(os.path.join(get_image_file_path(),"16_minus.png")),  _("Remove "+self.xyz+" mesh layer"), self)
+		remove = QAction(QIcon(os.path.join(get_image_file_path(),"16_list-remove.png")),  _("Remove "+self.xyz+" mesh layer"), self)
 		remove.triggered.connect(self.on_remove_click)
 		toolbar.addAction(remove)
 

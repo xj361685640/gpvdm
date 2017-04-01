@@ -83,7 +83,7 @@ class display_widget(QWidget):
 		toolbar.addAction(self.tb_rotate)
 		self.tb_rotate.setEnabled(True)
 
-		self.tb_config = QAction(QIcon(os.path.join(get_image_file_path(),"cog.png")), _("Configuration"), self)
+		self.tb_config = QAction(QIcon(os.path.join(get_image_file_path(),"preferences-system.png")), _("Configuration"), self)
 		self.tb_config.triggered.connect(self.callback_configure)
 		toolbar.addAction(self.tb_config)
 

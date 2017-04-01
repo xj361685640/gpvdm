@@ -193,11 +193,11 @@ class duplicate(QWidget):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
-		self.tb_save = QAction(QIcon(os.path.join(get_image_file_path(),"add.png")), _("Add"), self)
+		self.tb_save = QAction(QIcon(os.path.join(get_image_file_path(),"list-add.png")), _("Add"), self)
 		self.tb_save.triggered.connect(self.callback_add_item)
 		toolbar.addAction(self.tb_save)
 
-		self.tb_save = QAction(QIcon(os.path.join(get_image_file_path(),"minus.png")), _("Minus"), self)
+		self.tb_save = QAction(QIcon(os.path.join(get_image_file_path(),"list-remove.png")), _("Minus"), self)
 		self.tb_save.triggered.connect(self.callback_delete_item)
 		toolbar.addAction(self.tb_save)
 
