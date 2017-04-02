@@ -221,12 +221,21 @@ if open_gl_ok==True:
 			self.graph_path="./snapshots/159/Jn.dat"
 			self.graph_z_max=1.0
 			self.graph_z_min=1.0
+			#view pos
 			self.xRot =25.0
 			self.yRot =-20.0
 			self.zRot =0.0
 			self.x_pos=-0.5
 			self.y_pos=-0.5
 			self.zoom=-12.0
+
+			self.xRot_target =25.0
+			self.yRot_target =-20.0
+			self.zRot_target =0.0
+			self.x_pos_target=-0.5
+			self.y_pos_target=-0.5
+			self.zoom_target=-12.0
+
 			self.timer=None
 			self.zoom_timer=None
 			self.suns=0.0

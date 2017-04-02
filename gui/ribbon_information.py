@@ -20,7 +20,7 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 import os
-from cal_path import get_image_file_path
+from icon_lib import QIcon_load
 
 from dump_io import dump_io
 from tb_item_sim_mode import tb_item_sim_mode
@@ -48,19 +48,19 @@ class ribbon_information(QToolBar):
 
 
 
-		self.license = QAction(QIcon(os.path.join(get_image_file_path(),"license.png")), _("License")+"\n"	, self)
+		self.license = QAction(QIcon_load("license"), _("License")+"\n"	, self)
 		self.license.triggered.connect(self.callback_license)
 		self.addAction(self.license)		
 
-		self.ref = QAction(QIcon(os.path.join(get_image_file_path(),"ref.png")), _("How to\ncite"), self)
+		self.ref = QAction(QIcon_load("ref"), _("How to\ncite"), self)
 		self.ref.triggered.connect(self.callback_ref)
 		self.addAction(self.ref)
 
-		self.hints = QAction(QIcon(os.path.join(get_image_file_path(),"hints.png")), _("Hints\nWindow"), self)
+		self.hints = QAction(QIcon_load("hints.png"), _("Hints\nWindow"), self)
 		self.hints.triggered.connect(self.callback_help)
 		self.addAction(self.hints)
 
-		#self.about = QAction(QIcon(os.path.join(get_image_file_path(),"help.png")), _("About")+"\n", self)
+		#self.about = QAction(QIcon_load("help"), _("About")+"\n", self)
 		#self.addAction(self.about)
 
 
@@ -68,11 +68,11 @@ class ribbon_information(QToolBar):
 		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 		self.addWidget(spacer)
 		
-		self.youtube = QAction(QIcon(os.path.join(get_image_file_path(),"youtube.png")), _("Youtube\nchannel"), self)
+		self.youtube = QAction(QIcon_load("youtube.png"), _("Youtube\nchannel"), self)
 		self.youtube.triggered.connect(self.callback_youtube)
 		self.addAction(self.youtube)
 
-		self.man = QAction(QIcon(os.path.join(get_image_file_path(),"man.png")), _("Help")+"\n", self)
+		self.man = QAction(QIcon_load("internet-web-browser"), _("Help")+"\n", self)
 		self.man.triggered.connect(self.callback_on_line_help)
 		self.addAction(self.man)
 

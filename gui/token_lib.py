@@ -392,7 +392,9 @@ lib.append(my_data("#srh_p_r4","m^{-3}s^{-1}","srh hole rate 4","e",1.0,"QLineEd
 
 lib.append(my_data("#band_bend_max","percent","band bend max","e",1.0,"QLineEdit"))
 
+#config.inp
 lib.append(my_data("#gui_config_3d_enabled",_("True/False"),_("Enable 3d effects"),"e",1.0,"gtkswitch"))
+lib.append(my_data("#gui_use_icon_theme",_("True/False"),_("Use icons from OS"),"e",1.0,"gtkswitch"))
 
 #fit
 lib.append(my_data("#enabled",_("True/False"),_("Enable fit"),"e",1.0,"gtkswitch"))

@@ -1,6 +1,6 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012-2016 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012-2016 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
 #	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -37,7 +37,7 @@ from PyQt5.QtWidgets import QWidget,QSizePolicy,QVBoxLayout,QPushButton,QDialog,
 from PyQt5.QtCore import QTimer
 from PyQt5.QtCore import pyqtSignal
 
-from cal_path import get_image_file_path
+from icon_lib import QIcon_load
 
 from help import help_window
 from gl_cmp import gl_cmp
@@ -78,12 +78,12 @@ class display_widget(QWidget):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(42, 42))
 
-		self.tb_rotate = QAction(QIcon(os.path.join(get_image_file_path(),"rotate.png")), _("Rotate"), self)
+		self.tb_rotate = QAction(QIcon_load("rotate.png"), _("Rotate"), self)
 		self.tb_rotate.triggered.connect(self.tb_rotate_click)
 		toolbar.addAction(self.tb_rotate)
 		self.tb_rotate.setEnabled(True)
 
-		self.tb_config = QAction(QIcon(os.path.join(get_image_file_path(),"preferences-system.png")), _("Configuration"), self)
+		self.tb_config = QAction(QIcon_load("preferences-system"), _("Configuration"), self)
 		self.tb_config.triggered.connect(self.callback_configure)
 		toolbar.addAction(self.tb_config)
 

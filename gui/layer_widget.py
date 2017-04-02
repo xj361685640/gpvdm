@@ -27,7 +27,7 @@ from util import str2bool
 from inp_util import inp_search_token_value
 from scan_item import scan_item_add
 from scan_item import scan_remove_file
-from cal_path import get_image_file_path
+from icon_lib import QIcon_load
 from plot_gen import plot_gen
 from gpvdm_open import gpvdm_open
 from cal_path import get_materials_path
@@ -177,16 +177,16 @@ class layer_widget(QWidget):
 		self.toolbar=QToolBar()
 		self.toolbar.setIconSize(QSize(32, 32))
 
-		self.tb_add = QAction(QIcon(os.path.join(get_image_file_path(),"list-add.png")), _("Add device layer"), self)
+		self.tb_add = QAction(QIcon_load("list-add"), _("Add device layer"), self)
 		self.tb_add.triggered.connect(self.on_add_item_clicked)
 		self.toolbar.addAction(self.tb_add)
 
-		self.tb_remove = QAction(QIcon(os.path.join(get_image_file_path(),"list-remove.png")), _("Delete device layer"), self)
+		self.tb_remove = QAction(QIcon_load("list-remove"), _("Delete device layer"), self)
 		self.tb_remove.triggered.connect(self.on_remove_item_clicked)
 		self.toolbar.addAction(self.tb_remove)
 
 
-		self.tb_remove= QAction(QIcon(os.path.join(get_image_file_path(),"go-down.png")), _("Move device layer"), self)
+		self.tb_remove= QAction(QIcon_load("go-down"), _("Move device layer"), self)
 		self.tb_remove.triggered.connect(self.on_move_down)
 		self.toolbar.addAction(self.tb_remove)
 		

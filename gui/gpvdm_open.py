@@ -35,7 +35,7 @@ from PyQt5.QtWidgets import QApplication,QGraphicsScene,QListWidgetItem,QPushBut
 from PyQt5.QtGui import QPixmap
 
 #cal_path
-from cal_path import get_icon_path
+from icon_lib import QIcon_load
 from cal_path import get_ui_path
 
 from help import help_window
@@ -55,11 +55,11 @@ _ = i18n.language.gettext
 from util import latex_to_html
 
 class gpvdm_open(QDialog):
-	show_inp_files=True
-	show_directories=True
 
-	def __init__(self,path):
+	def __init__(self,path,show_inp_files=True):
 		QWidget.__init__(self)
+		self.show_inp_files=show_inp_files
+		self.show_directories=True
 		self.file_path=""
 		self.vbox=QVBoxLayout()
 		self.setLayout(self.vbox)
@@ -78,7 +78,7 @@ class gpvdm_open(QDialog):
 		self.top_hbox.addWidget(self.home)
 		self.top_hbox.addWidget(self.path)
 		self.setWindowTitle(_("Open file")+" https://www.gpvdm.com")
-		self.setWindowIcon(QIcon(get_icon_path("folder")))
+		self.setWindowIcon(QIcon_load("folder"))
 		self.listwidget=QListWidget()
 		self.listwidget.setStyleSheet("margin: 0; padding: 0; ")
 		self.vbox.addWidget(self.top_h_widget)
@@ -90,13 +90,11 @@ class gpvdm_open(QDialog):
 		self.home.setStyleSheet("margin: 0; padding: 0; border: none ;")
 		#self.window.center()
 
-		icon = QPixmap(get_icon_path("go-up"))
-		self.up.setIcon(QIcon(icon))
+		self.up.setIcon(QIcon_load("go-up"))
 		self.up.clicked.connect(self.on_up_clicked)
 
 
-		icon = QPixmap(get_icon_path("user-home"))
-		self.home.setIcon(QIcon(icon))
+		self.home.setIcon(QIcon_load("user-home"))
 		self.home.clicked.connect(self.on_home_clicked)
 
 
@@ -105,15 +103,15 @@ class gpvdm_open(QDialog):
 
 		self.path.setText(path)
 
-		self.dir_icon = QIcon(QPixmap(get_icon_path("folder")))
+		self.dir_icon = QIcon_load("folder")
 		self.dat_icon = self.get_icon("dat")
-		self.inp_icon = self.get_icon("inp")
-		self.xls_icon = self.get_icon("xls")
+		self.inp_icon = QIcon_load("text-x-generic")
+		self.xls_icon = QIcon_load("wps-office-xls")
 		self.info_icon = self.get_icon("info")
 		self.spectra_icon = self.get_icon("spectra")
-		self.mat_icon = QIcon(QPixmap(get_icon_path("organic_material")))
+		self.mat_icon = QIcon_load("organic_material")
 
-		self.listwidget.setIconSize(QSize(48,48))
+		self.listwidget.setIconSize(QSize(64,64))
 		self.listwidget.setViewMode(QListView.IconMode)
 		self.listwidget.setSpacing(8)
 		self.listwidget.setWordWrap(True)
@@ -127,7 +125,6 @@ class gpvdm_open(QDialog):
 
 		self.listwidget.itemDoubleClicked.connect(self.on_item_activated)
 		self.listwidget.itemClicked.connect(self.on_selection_changed)
-		self.listwidget.setIconSize(QSize(48,48))
 		self.resizeEvent=self.resizeEvent
 		self.show()
 
@@ -136,7 +133,7 @@ class gpvdm_open(QDialog):
 		#self.window.listwidget.setIconSize(QSize(48,48))
 
 	def get_icon(self, name):
-		return QIcon(QPixmap(get_icon_path(name+"_file")))
+		return QIcon_load(name+"_file")
 
 
 	def get_filename(self):

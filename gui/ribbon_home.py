@@ -51,6 +51,7 @@ from cmp_class import cmp_class
 
 from global_objects import global_object_run
 from util import isfiletype
+from icon_lib import QIcon_load
 
 class ribbon_home(QToolBar):
 	def __init__(self):
@@ -61,37 +62,37 @@ class ribbon_home(QToolBar):
 		self.scan_window=None
 		self.fit_window=None
 
-		self.undo = QAction(QIcon(os.path.join(get_image_file_path(),"edit-undo.png")), _("Undo"), self)
+		self.undo = QAction(QIcon_load("edit-undo"), _("Undo"), self)
 		self.addAction(self.undo)
 
 		self.addSeparator()
 
-		self.run = QAction(QIcon(os.path.join(get_image_file_path(),"play.png")), _("Run simulation"), self)
+		self.run = QAction(QIcon_load("media-playback-start"), _("Run simulation"), self)
 		self.addAction(self.run)
 
-		self.stop = QAction(QIcon(os.path.join(get_image_file_path(),"pause.png")), _("Stop\nsimulation"), self)
+		self.stop = QAction(QIcon_load("media-playback-pause"), _("Stop\nsimulation"), self)
 		self.stop.triggered.connect(self.callback_simulate_stop)
 		self.addAction(self.stop)
 
 		self.addSeparator()
 		
-		self.scan = QAction(QIcon(os.path.join(get_image_file_path(),"scan.png")), _("Parameter\nscan"), self)
+		self.scan = QAction(QIcon_load("scan"), _("Parameter\nscan"), self)
 		self.scan.triggered.connect(self.callback_scan)
 		self.addAction(self.scan)
 
 
 		self.addSeparator()
 		if enable_betafeatures()==True:
-			self.fit = QAction(QIcon(os.path.join(get_image_file_path(),"fit.png")), _("Fit\ndata"), self)
+			self.fit = QAction(QIcon_load("fit"), _("Fit\ndata"), self)
 			self.fit.triggered.connect(self.callback_run_fit)
 			self.addAction(self.fit)
 			self.addSeparator()
 		
-		self.plot = QAction(QIcon(os.path.join(get_image_file_path(),"plot.png")), _("Plot\nFile"), self)
+		self.plot = QAction(QIcon_load("plot"), _("Plot\nFile"), self)
 		self.plot.triggered.connect(self.callback_plot_select)
 		self.addAction(self.plot)
 
-		self.time = QAction(QIcon(os.path.join(get_image_file_path(),"plot_time.png")), _("Examine results\nin time domain"), self)
+		self.time = QAction(QIcon_load("plot_time"), _("Examine results\nin time domain"), self)
 		self.time.triggered.connect(self.callback_examine)
 		self.addAction(self.time)
 
@@ -105,7 +106,7 @@ class ribbon_home(QToolBar):
 		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 		self.addWidget(spacer)
 
-		self.help = QAction(QIcon(os.path.join(get_image_file_path(),"man.png")), _("Help"), self)
+		self.help = QAction(QIcon_load("internet-web-browser"), _("Help"), self)
 		self.addAction(self.help)
 
 	def callback_sun(self):
@@ -136,8 +137,7 @@ class ribbon_home(QToolBar):
 	def callback_plot_select(self):
 		help_window().help_set_help(["dat_file.png",_("<big>Select a file to plot</big><br>Single clicking shows you the content of the file")])
 
-		dialog=gpvdm_open(os.getcwd())
-		dialog.show_inp_files=False
+		dialog=gpvdm_open(os.getcwd(),show_inp_files=False)
 		dialog.show_directories=False
 		ret=dialog.exec_()
 		if ret==QDialog.Accepted:

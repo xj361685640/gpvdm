@@ -137,11 +137,17 @@ def calculate_paths_init():
 
 def get_icon_path(name,size=-1):
 	global image_path
-	if size==-1:
-		return os.path.join(image_path,name+".png")
+	if name.endswith(".png"):
+		name=name[:-4]
 
-	return os.path.join(image_path,str(size)+"_"+name+".png")
-		
+	if size==-1:
+		path=os.path.join(image_path,"64x64",name+".png")
+		print(path,os.path.isfile(path))
+		return path
+
+	return os.path.join(image_path,str(size)+"x"+str(size),name+".png")
+
+
 def calculate_paths():
 	global share_path
 	global lib_path

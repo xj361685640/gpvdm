@@ -112,18 +112,18 @@ AC_ARG_ENABLE(hpc, "used to turn on HPC compatability",
 
 	AC_CHECK_PROG([PKG_RSGV], rsvg-convert, yes,no)
 	if test "$PKG_RSGV" = "yes"; then
-		AC_SUBST(IMAGE_CONVERT_FULL_SIZE, "rsvg-convert $< > ")
-		AC_SUBST(IMAGE_CONVERT_16, "rsvg-convert -w 32 -h 32 $< > ")
-		AC_SUBST(IMAGE_CONVERT_32, "rsvg-convert -w 16 -h 16 $< > ")
+		AC_SUBST(IMAGE_CONVERT_16, "rsvg-convert -w 16 -h 16 $< > ")
+		AC_SUBST(IMAGE_CONVERT_32, "rsvg-convert -w 32 -h 32 $< > ")
+		AC_SUBST(IMAGE_CONVERT_64, "rsvg-convert -w 64 -h 64 $< > ")
 		AC_SUBST(IMAGE_CONVERT_FLAG, "rsvg-convert -w 48 -h 32 $< > ")
 	else
 		AC_MSG_WARN([rsvg-convert is not installed, I'm going to look for ImageMagick instead.])
 		
 		AC_CHECK_PROG([PKG_IMAGEMAGICK], convert, yes,no)
 		if test "$PKG_IMAGEMAGICK" = "yes"; then
-			AC_SUBST(IMAGE_CONVERT_FULL_SIZE, "convert -background white -alpha remove -flatten -alpha off  $< ")
-			AC_SUBST(IMAGE_CONVERT_16, "convert -background white -alpha remove -flatten -alpha off -size 32x32 $< ")
-			AC_SUBST(IMAGE_CONVERT_32, "convert -background white -alpha remove -flatten -alpha off -size 16x16 $< ")
+			AC_SUBST(IMAGE_CONVERT_16, "convert -background white -alpha remove -flatten -alpha off -size 16x16 $< ")
+			AC_SUBST(IMAGE_CONVERT_32, "convert -background white -alpha remove -flatten -alpha off -size 32x32 $< ")
+			AC_SUBST(IMAGE_CONVERT_64, "convert -background white -alpha remove -flatten -alpha off -size 64x64  $< ")
 			AC_SUBST(IMAGE_CONVERT_FLAG, "convert -background white -alpha remove -flatten -alpha off -size 48x32 $< ")
 		else
 			AC_MSG_ERROR([ImageMagick not installed.])

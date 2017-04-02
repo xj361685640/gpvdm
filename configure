@@ -630,9 +630,9 @@ BUILD_DIRS
 PKG_CONFIG
 PKG_IMAGEMAGICK
 IMAGE_CONVERT_FLAG
+IMAGE_CONVERT_64
 IMAGE_CONVERT_32
 IMAGE_CONVERT_16
-IMAGE_CONVERT_FULL_SIZE
 PKG_RSGV
 PKG_XGETTEXT
 PKG_HELP2MAN
@@ -5735,11 +5735,11 @@ fi
 
 
 	if test "$PKG_RSGV" = "yes"; then
-		IMAGE_CONVERT_FULL_SIZE="rsvg-convert $< > "
+		IMAGE_CONVERT_16="rsvg-convert -w 16 -h 16 $< > "
 
-		IMAGE_CONVERT_16="rsvg-convert -w 32 -h 32 $< > "
+		IMAGE_CONVERT_32="rsvg-convert -w 32 -h 32 $< > "
 
-		IMAGE_CONVERT_32="rsvg-convert -w 16 -h 16 $< > "
+		IMAGE_CONVERT_64="rsvg-convert -w 64 -h 64 $< > "
 
 		IMAGE_CONVERT_FLAG="rsvg-convert -w 48 -h 32 $< > "
 
@@ -5786,11 +5786,11 @@ fi
 
 
 		if test "$PKG_IMAGEMAGICK" = "yes"; then
-			IMAGE_CONVERT_FULL_SIZE="convert -background white -alpha remove -flatten -alpha off  $< "
+			IMAGE_CONVERT_16="convert -background white -alpha remove -flatten -alpha off -size 16x16 $< "
 
-			IMAGE_CONVERT_16="convert -background white -alpha remove -flatten -alpha off -size 32x32 $< "
+			IMAGE_CONVERT_32="convert -background white -alpha remove -flatten -alpha off -size 32x32 $< "
 
-			IMAGE_CONVERT_32="convert -background white -alpha remove -flatten -alpha off -size 16x16 $< "
+			IMAGE_CONVERT_64="convert -background white -alpha remove -flatten -alpha off -size 64x64  $< "
 
 			IMAGE_CONVERT_FLAG="convert -background white -alpha remove -flatten -alpha off -size 48x32 $< "
 
@@ -5881,7 +5881,7 @@ fi
 #i?86
 #x86_64
 
-BUILD_DIRS=" lang libi libmemory lib libdos liblight libmeasure libdump libdumpctrl libserver libmesh libfit plugins/optics plugins/newton plugins/nr_d plugins/pulse plugins/fxdomain plugins/light_flat plugins/light_ray plugins/li plugins/light_full plugins/newton_2d plugins/fit_stark plugins/nr_ld plugins/photon_extraction plugins/jv plugins/light_exp plugins/qe plugins/umfpack plugins/jv_one_point plugins/jv_simple plugins/sun_voc plugins/light_fromfile plugins/newton_norm src flags images css man "
+BUILD_DIRS=" lang libi libmemory lib libdos liblight libmeasure libdump libdumpctrl libserver libmesh libfit plugins/optics plugins/newton plugins/nr_d plugins/pulse plugins/fxdomain plugins/light_flat plugins/light_ray plugins/li plugins/light_full plugins/newton_2d plugins/fit_stark plugins/nr_ld plugins/photon_extraction plugins/jv plugins/light_exp plugins/qe plugins/umfpack plugins/jv_one_point plugins/jv_simple plugins/sun_voc plugins/light_fromfile plugins/newton_norm src flags images/scalable css man "
 
 LOCAL_LINK=" -lgpvdm_i -lgpvdm_memory -lgpvdm_lib -lgpvdm_dos -lgpvdm_light -lgpvdm_measure -lgpvdm_dump -lgpvdm_dumpctrl -lgpvdm_server -lgpvdm_mesh -lgpvdm_fit"
 
@@ -6226,7 +6226,7 @@ ac_config_files="$ac_config_files src/Makefile"
 
 ac_config_files="$ac_config_files flags/Makefile"
 
-ac_config_files="$ac_config_files images/Makefile"
+ac_config_files="$ac_config_files images/scalable/Makefile"
 
 ac_config_files="$ac_config_files css/Makefile"
 
@@ -7037,7 +7037,7 @@ do
     "plugins/newton_norm/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/newton_norm/Makefile" ;;
     "src/Makefile") CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
     "flags/Makefile") CONFIG_FILES="$CONFIG_FILES flags/Makefile" ;;
-    "images/Makefile") CONFIG_FILES="$CONFIG_FILES images/Makefile" ;;
+    "images/scalable/Makefile") CONFIG_FILES="$CONFIG_FILES images/scalable/Makefile" ;;
     "css/Makefile") CONFIG_FILES="$CONFIG_FILES css/Makefile" ;;
     "man/Makefile") CONFIG_FILES="$CONFIG_FILES man/Makefile" ;;
 

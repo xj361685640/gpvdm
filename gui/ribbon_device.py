@@ -20,7 +20,7 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 import os
-from cal_path import get_image_file_path
+from icon_lib import QIcon_load
 
 from dump_io import dump_io
 from tb_item_sim_mode import tb_item_sim_mode
@@ -60,23 +60,23 @@ class ribbon_device(QToolBar):
 		self.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
 		self.setIconSize(QSize(42, 42))
 
-		self.doping = QAction(QIcon(os.path.join(get_image_file_path(),"doping.png")), _("Doping"), self)
+		self.doping = QAction(QIcon_load("doping"), _("Doping"), self)
 		self.doping.triggered.connect(self.callback_doping)
 		self.addAction(self.doping)
 		
-		self.materials = QAction(QIcon(os.path.join(get_image_file_path(),"organic_material.png")), _("Materials\ndatabase"), self)
+		self.materials = QAction(QIcon_load("organic_material"), _("Materials\ndatabase"), self)
 		self.materials.triggered.connect(self.callback_view_materials)
 		self.addAction(self.materials)
 	
-		self.cost = QAction(QIcon(os.path.join(get_image_file_path(),"cost.png")), _("Calculate\nthe cost"), self)
+		self.cost = QAction(QIcon_load("cost"), _("Calculate\nthe cost"), self)
 		self.cost.triggered.connect(self.callback_cost)
 		self.addAction(self.cost)
 		
-		self.contacts = QAction(QIcon(os.path.join(get_image_file_path(),"contact.png")), _("Contacts"), self)
+		self.contacts = QAction(QIcon_load("contact"), _("Contacts"), self)
 		self.contacts.triggered.connect(self.callback_contacts)
 		self.addAction(self.contacts)
 		
-		self.parasitic = QAction(QIcon(os.path.join(get_image_file_path(),"parasitic.png")), _("Parasitic\n components"), self)
+		self.parasitic = QAction(QIcon_load("parasitic"), _("Parasitic\n components"), self)
 		self.parasitic.triggered.connect(self.callback_parasitic)
 		self.addAction(self.parasitic)
 

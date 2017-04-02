@@ -19,7 +19,7 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 import os
-from cal_path import get_image_file_path
+from cal_path import get_icon_path
 import webbrowser
 
 from PyQt5.QtCore import QSize, Qt
@@ -107,11 +107,11 @@ class help_class(QWidget):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
-		self.back = QAction(QIcon(os.path.join(get_image_file_path(),"go-previous.png")), _("Back"), self)
+		self.back = QAction(QIcon(get_icon_path("go-previous")), _("Back"), self)
 		self.back.triggered.connect(self.callback_back)
 		toolbar.addAction(self.back)
 
-		self.forward= QAction(QIcon(os.path.join(get_image_file_path(),"go-next.png")), _("Next"), self)
+		self.forward= QAction(QIcon(get_icon_path("go-next")), _("Next"), self)
 		self.forward.triggered.connect(self.callback_forward)
 		toolbar.addAction(self.forward)
 
@@ -121,12 +121,12 @@ class help_class(QWidget):
 		toolbar.addWidget(spacer)
 
 
-		self.undo = QAction(QIcon(os.path.join(get_image_file_path(),"www.png")), _("Online help"), self)
+		self.undo = QAction(QIcon(get_icon_path("www")), _("Online help"), self)
 		self.undo.setStatusTip(_("On line help"))
 		self.undo.triggered.connect(self.on_line_help)
 		toolbar.addAction(self.undo)
 
-		self.undo = QAction(QIcon(os.path.join(get_image_file_path(),"close.png")), _("Hide"), self)
+		self.undo = QAction(QIcon(get_icon_path("close")), _("Hide"), self)
 		self.undo.setStatusTip(_("Close"))
 		self.undo.triggered.connect(self.callback_close)
 		toolbar.addAction(self.undo)
@@ -176,7 +176,7 @@ class help_class(QWidget):
 			all_text=self.last[self.pos][i*2+1]
 			nbr=all_text.count("<br>")
 			end_text=len(all_text.split("<br>")[-1])
-			pixmap = QPixmap(os.path.join(get_image_file_path(),self.last[self.pos][i*2]))
+			pixmap = QPixmap(get_icon_path(self.last[self.pos][i*2]))
 			self.image[i].setPixmap(pixmap)
 			text=all_text+"<br>"
 			self.label[i].setText(text)

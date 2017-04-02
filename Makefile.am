@@ -9,6 +9,15 @@ if INCLUDE_IMAGES
 imagedir = $(pkgdatadir)/images
 image_DATA = images/*.jpg images/*.png
 
+image16dir = $(pkgdatadir)/images/16x16
+image16_DATA = images/16x16/*.png
+
+image32dir = $(pkgdatadir)/images/32x32
+image32_DATA = images/32x32/*.png
+
+image64dir = $(pkgdatadir)/images/64x64
+image64_DATA = images/64x64/*.png
+
 flagdir = $(pkgdatadir)/flags
 flag_DATA = flags/*.png
 

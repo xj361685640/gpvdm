@@ -333,8 +333,6 @@ class gpvdm_main_window(QMainWindow):
 
 			
 	def __init__(self):
-		print(QIcon.themeSearchPaths(),QIcon.themeName())
-		exad
 		server_init()
 		self.my_server=server_get()
 		self.my_server.init(os.getcwd())

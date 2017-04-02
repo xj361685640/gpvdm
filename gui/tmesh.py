@@ -26,7 +26,7 @@ from scan_item import scan_item_add
 from gui_util import dlg_get_text
 import webbrowser
 from util import time_with_units
-from cal_path import get_image_file_path
+from cal_path import get_icon_path
 from scan_item import scan_remove_file
 from code_ctrl import enable_betafeatures
 from tb_lasers import tb_lasers
@@ -395,11 +395,11 @@ class tab_time_mesh(QWidget):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
-		self.tb_save = QAction(QIcon(os.path.join(get_image_file_path(),"32_document-save-as.png")), _("Save image"), self)
+		self.tb_save = QAction(QIcon(get_icon_path("32_document-save-as")), _("Save image"), self)
 		self.tb_save.triggered.connect(self.callback_save)
 		toolbar.addAction(self.tb_save)
 
-		self.tb_laser = QAction(QIcon(os.path.join(get_image_file_path(),"laser.png")), _("Laser start time"), self)
+		self.tb_laser = QAction(QIcon(get_icon_path("laser")), _("Laser start time"), self)
 		self.tb_laser.triggered.connect(self.callback_laser)
 		toolbar.addAction(self.tb_laser)
 
@@ -407,7 +407,7 @@ class tab_time_mesh(QWidget):
 		self.lasers=tb_lasers("pulse"+str(self.index)+".inp")
 		toolbar.addWidget(self.lasers)
 
-		self.tb_start = QAction(QIcon(os.path.join(get_image_file_path(),"start.png")), _("Simulation start time"), self)
+		self.tb_start = QAction(QIcon(get_icon_path("start")), _("Simulation start time"), self)
 		self.tb_start.triggered.connect(self.callback_start_time)
 		toolbar.addAction(self.tb_start)
 
@@ -437,15 +437,15 @@ class tab_time_mesh(QWidget):
 		toolbar2=QToolBar()
 		toolbar2.setIconSize(QSize(48, 48))
 
-		self.tb_add = QAction(QIcon(os.path.join(get_image_file_path(),"list-add.png")), _("Add section"), self)
+		self.tb_add = QAction(QIcon(get_icon_path("list-add")), _("Add section"), self)
 		self.tb_add.triggered.connect(self.callback_add_section)
 		toolbar2.addAction(self.tb_add)
 
-		self.tb_remove = QAction(QIcon(os.path.join(get_image_file_path(),"list-remove.png")), _("Delete section"), self)
+		self.tb_remove = QAction(QIcon(get_icon_path("list-remove")), _("Delete section"), self)
 		self.tb_remove.triggered.connect(self.callback_remove_item)
 		toolbar2.addAction(self.tb_remove)
 
-		self.tb_move = QAction(QIcon(os.path.join(get_image_file_path(),"go-down.png")), _("Move down"), self)
+		self.tb_move = QAction(QIcon(get_icon_path("go-down")), _("Move down"), self)
 		self.tb_move.triggered.connect(self.callback_move_down)
 		toolbar2.addAction(self.tb_move)
 
