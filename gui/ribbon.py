@@ -104,10 +104,6 @@ class ribbon(QTabWidget):
 		self.setMaximumHeight(120)
 		#self.setStyleSheet("QWidget {	background-color:cyan; }")
 
-		#self.setFixedSize(-1, 300)
-		#self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"jv.png")))
-		#self.setWindowTitle(_("Steady state simulation")+"  (https://www.gpvdm.com)")
-
 		self.about = QToolButton(self)
 		self.about.setText(_("About"))
 		self.about.pressed.connect(self.callback_about_dialog)

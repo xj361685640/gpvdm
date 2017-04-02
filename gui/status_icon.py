@@ -20,7 +20,7 @@
 
 import sys
 import os
-from cal_path import get_image_file_path
+from icon_lib import QIcon_load
 
 from win_lin import running_on_linux
 
@@ -43,7 +43,7 @@ statusicon = None
 class tray_icon(QSystemTrayIcon):
 
 	def __init__(self,  parent=None):
-		QSystemTrayIcon.__init__(self, QIcon(os.path.join(get_image_file_path(),"ball_green.png")), parent)
+		QSystemTrayIcon.__init__(self, QIcon_load("ball_green"), parent)
 		menu = QMenu(parent)
 		self.menu_about = menu.addAction(_("About"))
 		self.menu_about.triggered.connect(self.callback_about)
@@ -81,16 +81,16 @@ def status_icon_init():
 def status_icon_run(cluster):
 	global statusicon
 	if cluster==False:
-		statusicon.setIcon(QIcon(os.path.join(get_image_file_path(),"ball_red.png")))
+		statusicon.setIcon(QIcon_load("ball_red"))
 	else:
-		statusicon.setIcon(QIcon(os.path.join(get_image_file_path(),"ball_red4.png")))	
+		statusicon.setIcon(QIcon_load("ball_red4"))
 
 def status_icon_stop(cluster):
 	global statusicon
 	if cluster==False:
-		statusicon.setIcon(QIcon(os.path.join(get_image_file_path(),"ball_green.png")))
+		statusicon.setIcon(QIcon_load("ball_green"))
 	else:
-		statusicon.setIcon(QIcon(os.path.join(get_image_file_path(),"ball_green4.png")))
+		statusicon.setIcon(QIcon_load("ball_green4"))
 
 def status_icon_get():
 	global statusicon

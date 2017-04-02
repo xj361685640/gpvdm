@@ -33,7 +33,7 @@ from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QTableWidget,QAbstractItemView, QTreeWidget, QPushButton, QHBoxLayout, QTreeWidgetItem
 from PyQt5.QtGui import QPainter,QIcon
 
-from cal_path import get_image_file_path
+from icon_lib import QIcon_load
 from gui_util import tab_set_value
 from gui_util import error_dlg
 
@@ -55,7 +55,7 @@ class select_param(QWidget):
 		self.main_vbox=QVBoxLayout()
 		self.save_function=None
 		
-		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"scan.png")))
+		self.setWindowIcon(QIcon_load("scan"))
 
 		self.setWindowTitle(_("Select simulation parameter")+" (https://www.gpvdm.com)") 
 

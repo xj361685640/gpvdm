@@ -21,7 +21,7 @@
 
 import os
 import shutil
-from cal_path import get_image_file_path
+from icon_lib import QIcon_load
 from gui_util import dlg_get_text
 from window_list import windows
 from util import delete_second_level_link_tree
@@ -231,7 +231,7 @@ class scan_class(QWidget):
 		self.win_list.load()
 		self.win_list.set_window(self,"scan_window")
 		self.setWindowTitle(_("Parameter scan - gpvdm"))
-		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"scan.png")))
+		self.setWindowIcon(QIcon_load("scan"))
 
 		self.rod=[]
 		if os.path.isfile("scan_window.inp"):
@@ -325,23 +325,23 @@ class scan_class(QWidget):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
-		self.tb_new = QAction(QIcon(os.path.join(get_image_file_path(),"document-new.png")), _("New simulation"), self)
+		self.tb_new = QAction(QIcon_load("document-new"), _("New simulation"), self)
 		self.tb_new.triggered.connect(self.callback_add_page)
 		toolbar.addAction(self.tb_new)
 
-		self.tb_delete = QAction(QIcon(os.path.join(get_image_file_path(),"edit-delete.png")), _("Delete simulation"), self)
+		self.tb_delete = QAction(QIcon_load("edit-delete"), _("Delete simulation"), self)
 		self.tb_delete.triggered.connect(self.callback_delete_page)
 		toolbar.addAction(self.tb_delete)
 
-		self.tb_clone = QAction(QIcon(os.path.join(get_image_file_path(),"clone.png")), _("Clone simulation"), self)
+		self.tb_clone = QAction(QIcon_load("clone"), _("Clone simulation"), self)
 		self.tb_clone.triggered.connect(self.callback_copy_page)
 		toolbar.addAction(self.tb_clone)
 
-		self.tb_rename = QAction(QIcon(os.path.join(get_image_file_path(),"rename.png")), _("Rename simulation"), self)
+		self.tb_rename = QAction(QIcon_load("rename"), _("Rename simulation"), self)
 		self.tb_rename.triggered.connect(self.callback_rename_page)
 		toolbar.addAction(self.tb_rename)
 
-		self.tb_run_all = QAction(QIcon(os.path.join(get_image_file_path(),"32_forward2.png")), _("Run all simulations"), self)
+		self.tb_run_all = QAction(QIcon_load("forward2"), _("Run all simulations"), self)
 		self.tb_run_all.triggered.connect(self.callback_run_all_simulations)
 		toolbar.addAction(self.tb_run_all)
 
@@ -350,7 +350,7 @@ class scan_class(QWidget):
 		toolbar.addWidget(spacer)
 
 
-		self.help = QAction(QIcon(os.path.join(get_image_file_path(),"help.png")), _("Help"), self)
+		self.help = QAction(QIcon_load("help"), _("Help"), self)
 		self.help.setStatusTip(_("Close"))
 		self.help.triggered.connect(self.callback_help)
 		toolbar.addAction(self.help)

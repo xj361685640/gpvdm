@@ -37,7 +37,7 @@ from server import server_find_simulations_to_run
 from plot_io import plot_save_oplot_file
 from gpvdm_open import gpvdm_open
 from cal_path import get_exe_command
-from cal_path import get_image_file_path
+from icon_lib import QIcon_load
 
 from util import str2bool
 
@@ -504,43 +504,43 @@ class scan_vbox(QWidget):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
-		self.tb_add = QAction(QIcon(os.path.join(get_image_file_path(),"list-add.png")), _("Add parameter to scan"), self)
+		self.tb_add = QAction(QIcon_load("list-add"), _("Add parameter to scan"), self)
 		self.tb_add.triggered.connect(self.callback_add_item)
 		toolbar.addAction(self.tb_add)
 
-		self.tb_minus = QAction(QIcon(os.path.join(get_image_file_path(),"list-remove.png")), _("Delete item"), self)
+		self.tb_minus = QAction(QIcon_load("list-remove"), _("Delete item"), self)
 		self.tb_minus.triggered.connect(self.callback_delete_item)
 		toolbar.addAction(self.tb_minus)
 
-		self.tb_down = QAction(QIcon(os.path.join(get_image_file_path(),"go-down.png")), _("Move down"), self)
+		self.tb_down = QAction(QIcon_load("go-down"), _("Move down"), self)
 		self.tb_down.triggered.connect(self.callback_move_down)
 		toolbar.addAction(self.tb_down)
 
-		#self.tb_notes = QAction(QIcon(os.path.join(get_image_file_path(),"go-down.png")), _("Notes"), self)
+		#self.tb_notes = QAction(QIcon_load("go-down.png"), _("Notes"), self)
 		#self.tb_notes.triggered.connect(self.callback_notes)
 		#toolbar.addAction(self.tb_notes)
 
-		#self.tb_notes = QAction(QIcon(os.path.join(get_image_file_path(),"select.png")), _("Select parameter to change"), self)
+		#self.tb_notes = QAction(QIcon_load("select"), _("Select parameter to change"), self)
 		#self.tb_notes.triggered.connect(self.callback_show_list)
 		#toolbar.addAction(self.tb_notes)
 
-		self.tb_simulate = QAction(QIcon(os.path.join(get_image_file_path(),"forward.png")), _("Run simulation"), self)
+		self.tb_simulate = QAction(QIcon_load("forward"), _("Run simulation"), self)
 		self.tb_simulate.triggered.connect(self.callback_run_simulation)
 		toolbar.addAction(self.tb_simulate)
 
-		self.tb_stop = QAction(QIcon(os.path.join(get_image_file_path(),"pause.png")), _("Stop the simulation"), self)
+		self.tb_stop = QAction(QIcon_load("media-playback-pause"), _("Stop the simulation"), self)
 		self.tb_stop.triggered.connect(self.callback_stop_simulation)
 		toolbar.addAction(self.tb_stop)
 
-		self.tb_plot = QAction(QIcon(os.path.join(get_image_file_path(),"plot.png")), _("Find a file to plot"), self)
+		self.tb_plot = QAction(QIcon_load("plot"), _("Find a file to plot"), self)
 		self.tb_plot.triggered.connect(self.callback_gen_plot_command)
 		toolbar.addAction(self.tb_plot)
 
-		self.tb_plot_time = QAction(QIcon(os.path.join(get_image_file_path(),"plot_time.png")), _("Examine results in time domain"), self)
+		self.tb_plot_time = QAction(QIcon_load("plot_time"), _("Examine results in time domain"), self)
 		self.tb_plot_time.triggered.connect(self.callback_examine)
 		toolbar.addAction(self.tb_plot_time)
 
-		self.tb_command = QAction(QIcon(os.path.join(get_image_file_path(),"utilities-terminal.png")), _("Insert python command"), self)
+		self.tb_command = QAction(QIcon_load("utilities-terminal"), _("Insert python command"), self)
 		self.tb_command.triggered.connect(self.callback_insert_command)
 		toolbar.addAction(self.tb_command)
 

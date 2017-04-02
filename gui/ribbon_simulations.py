@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012-2017 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012-2017 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
 #	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -20,7 +20,7 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 import os
-from cal_path import get_image_file_path
+from icon_lib import QIcon_load
 
 from dump_io import dump_io
 from tb_item_sim_mode import tb_item_sim_mode
@@ -63,22 +63,22 @@ class ribbon_simulations(QToolBar):
 		self.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
 		self.setIconSize(QSize(42, 42))
 
-		self.time = QAction(QIcon(os.path.join(get_image_file_path(),"time.png")), _("Time domain\nsimulation editor."), self)
+		self.time = QAction(QIcon_load("time"), _("Time domain\nsimulation editor."), self)
 		self.time.triggered.connect(self.callback_edit_experiment_window)
 		self.addAction(self.time )
 
 
-		self.fx = QAction(QIcon(os.path.join(get_image_file_path(),"spectrum.png")), _("Frequency domain\nsimulation editor"), self)
+		self.fx = QAction(QIcon_load("spectrum"), _("Frequency domain\nsimulation editor"), self)
 		self.fx.triggered.connect(self.callback_fxexperiment_window)
 		self.addAction(self.fx)
 
 
-		self.jv = QAction(QIcon(os.path.join(get_image_file_path(),"jv.png")), _("Steady state\nsimulation editor"), self)
+		self.jv = QAction(QIcon_load("jv"), _("Steady state\nsimulation editor"), self)
 		self.jv.triggered.connect(self.callback_jv_window)
 		self.addAction(self.jv)
 
 
-		self.qe = QAction(QIcon(os.path.join(get_image_file_path(),"qe.png")), _("Quantum\nefficiency"), self)
+		self.qe = QAction(QIcon_load("qe"), _("Quantum\nefficiency"), self)
 		self.qe.triggered.connect(self.callback_qe_window)
 		self.addAction(self.qe)
 		self.qe.setVisible(False)
@@ -88,15 +88,15 @@ class ribbon_simulations(QToolBar):
 		self.addWidget(self.mode)
 		self.addSeparator()
 
-		self.optics = QAction(QIcon(os.path.join(get_image_file_path(),"optics.png")), _("Optical\nSimulation"), self)
+		self.optics = QAction(QIcon_load("optics"), _("Optical\nSimulation"), self)
 		self.optics.triggered.connect(self.callback_optics_sim)
 		self.addAction(self.optics)
 
-		self.lasers = QAction(QIcon(os.path.join(get_image_file_path(),"lasers.png")), _("Laser\neditor"), self)
+		self.lasers = QAction(QIcon_load("lasers"), _("Laser\neditor"), self)
 		self.lasers.triggered.connect(self.callback_configure_lasers)
 		self.addAction(self.lasers)
 
-		self.solar_spectrum = QAction(QIcon(os.path.join(get_image_file_path(),"spectra_file.png")), _("Solar spectrum\neditor"), self)
+		self.solar_spectrum = QAction(QIcon_load("spectra_file"), _("Solar spectrum\neditor"), self)
 		self.solar_spectrum.triggered.connect(self.callback_solar_spectrum)
 		#self.addAction(self.solar_spectrum)
 

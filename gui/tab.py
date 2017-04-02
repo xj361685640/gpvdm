@@ -33,7 +33,6 @@ from inp import inp_update_token_value
 from inp import inp_get_token_value
 from util import latex_to_html
 from i18n import yes_no
-from cal_path import get_image_file_path
 from gtkswitch import gtkswitch
 from leftright import leftright
 from help import help_window
@@ -47,6 +46,7 @@ from PyQt5.QtGui import QPixmap, QIcon
 
 from QComboBoxLang import QComboBoxLang
 
+from icon_lib import QIcon_load
 import i18n
 _ = i18n.language.gettext
 
@@ -210,8 +210,7 @@ class tab_class(QWidget,tab_base):
 		
 		if self.icon_file!="":
 			self.image=QLabel()
-			pixmap = QPixmap(os.path.join(get_image_file_path(),self.icon_file))
-			self.image.setPixmap(pixmap)
+			self.image.setPixmap(QImage_load(self.icon_file))
 			self.icon_widget_vbox.addWidget(self.image)
 
 			spacer2 = QWidget()

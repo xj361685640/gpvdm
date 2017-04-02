@@ -57,7 +57,7 @@ from inp import inp_load_file
 from inp_util import inp_search_token_value
 
 #calpath
-from cal_path import get_image_file_path
+from icon_lib import QIcon_load
 
 from open_save_dlg import save_as_filter
 
@@ -69,7 +69,7 @@ class band_graph(QWidget):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(32, 32))
 
-		self.tb_save = QAction(QIcon(os.path.join(get_image_file_path(),"save.svg")), "Save image", self)
+		self.tb_save = QAction(QIcon_load("save"), _("Save image"), self)
 		self.tb_save.setStatusTip(_("Close"))
 		self.tb_save.triggered.connect(self.callback_save_image)
 		toolbar.addAction(self.tb_save)

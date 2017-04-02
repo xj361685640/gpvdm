@@ -1,6 +1,6 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012-2016 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012-2016 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
 #	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -32,7 +32,7 @@ from inp import inp_copy_file
 from inp import inp_remove_file
 from util import strextract_interger
 from global_objects import global_object_get
-from cal_path import get_image_file_path
+from icon_lib import QIcon_load
 from global_objects import global_object_register
 from code_ctrl import enable_betafeatures
 from gui_util import yes_no_dlg
@@ -200,24 +200,24 @@ class fxexperiment(QWidget):
 		self.main_vbox.addWidget(menubar)
 
 		self.setWindowTitle(_("Frequency domain experiment editor")+" https://www.gpvdm.com") 
-		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"spectrum.png")))
+		self.setWindowIcon(QIcon_load("spectrum"))
 
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
-		self.new = QAction(QIcon(os.path.join(get_image_file_path(),"document-new.png")), _("New experiment"), self)
+		self.new = QAction(QIcon_load("document-new"), _("New experiment"), self)
 		self.new.triggered.connect(self.callback_add_page)
 		toolbar.addAction(self.new)
 
-		self.new = QAction(QIcon(os.path.join(get_image_file_path(),"edit-delete.png")), _("Delete experiment"), self)
+		self.new = QAction(QIcon_load("edit-delete"), _("Delete experiment"), self)
 		self.new.triggered.connect(self.callback_delete_page)
 		toolbar.addAction(self.new)
 
-		self.clone = QAction(QIcon(os.path.join(get_image_file_path(),"clone.png")), _("Clone experiment"), self)
+		self.clone = QAction(QIcon_load("clone"), _("Clone experiment"), self)
 		self.clone.triggered.connect(self.callback_copy_page)
 		toolbar.addAction(self.clone)
 
-		self.clone = QAction(QIcon(os.path.join(get_image_file_path(),"rename.png")), _("Rename experiment"), self)
+		self.clone = QAction(QIcon_load("rename"), _("Rename experiment"), self)
 		self.clone.triggered.connect(self.callback_rename_page)
 		toolbar.addAction(self.clone)
 
@@ -226,7 +226,7 @@ class fxexperiment(QWidget):
 		toolbar.addWidget(spacer)
 
 
-		self.help = QAction(QIcon(os.path.join(get_image_file_path(),"help.png")), _("Help"), self)
+		self.help = QAction(QIcon_load("help"), _("Help"), self)
 		self.help.setStatusTip(_("Close"))
 		self.help.triggered.connect(self.callback_help)
 		toolbar.addAction(self.help)

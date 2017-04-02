@@ -35,7 +35,7 @@ from PyQt5.uic import loadUi
 
 #calpath
 from cal_path import get_device_lib_path
-from cal_path import get_image_file_path
+from icon_lib import QIcon_load
 from cal_path import get_ui_path
 from gui_util import error_dlg
 from cal_path import get_exe_path
@@ -91,6 +91,7 @@ class new_simulation(QDialog):
 		self.main_vbox=QVBoxLayout()
 		self.setFixedSize(450,580) 
 		self.setWindowTitle(_("New simulation")+" (https://www.gpvdm.com)")
+		self.setWindowIcon(QIcon_load("si"))
 		self.title=QLabel("<big><b>"+_("Which type of device would you like to simulate?")+"</b></big>")
 
 		self.listwidget=QListWidget()
@@ -124,35 +125,35 @@ class new_simulation(QDialog):
 		self.listwidget.clear()
 
 		itm = QListWidgetItem( _("Organic solar cell")+" (p3htpcbm.gpvdm)" )
-		itm.setIcon(QIcon(os.path.join(get_image_file_path(),"icon.png")))
+		itm.setIcon(QIcon_load("icon"))
 		self.listwidget.addItem(itm)
 
 		itm = QListWidgetItem( _("Organic LED")+" (oled.gpvdm)" )
-		itm.setIcon(QIcon(os.path.join(get_image_file_path(),"oled.png")))
+		itm.setIcon(QIcon_load("oled"))
 		self.listwidget.addItem(itm)
 
 		itm = QListWidgetItem( _("Crystalline silicon solar cell")+" (silicon.gpvdm)" )
-		itm.setIcon(QIcon(os.path.join(get_image_file_path(),"si.png")))
-		self.listwidget.addItem(itm)
-
-		itm = QListWidgetItem( _("CIGS Solar cell")+" (cigs.gpvdm)" )
-		itm.setIcon(QIcon(os.path.join(get_image_file_path(),"cigs.png")))
+		itm.setIcon(QIcon_load("si"))
 		self.listwidget.addItem(itm)
 
 		itm = QListWidgetItem( _("a-Si solar cell ")+" (a-silicon.gpvdm)" )
-		itm.setIcon(QIcon(os.path.join(get_image_file_path(),"asi.png")))
+		itm.setIcon(QIcon_load("asi"))
 		self.listwidget.addItem(itm)
 
 		itm = QListWidgetItem( _("polycrystalline silicon ")+" (silicon.gpvdm)" )
-		itm.setIcon(QIcon(os.path.join(get_image_file_path(),"psi.png")))
+		itm.setIcon(QIcon_load("psi"))
 		self.listwidget.addItem(itm)
 
 		itm = QListWidgetItem( _("OFET ")+" (ofet.gpvdm)" )
-		itm.setIcon(QIcon(os.path.join(get_image_file_path(),"ofet.png")))
+		itm.setIcon(QIcon_load("ofet"))
 		self.listwidget.addItem(itm)
 
 		itm = QListWidgetItem( _("Perovskite solar cell")+" (perovskite.gpvdm)" )
-		itm.setIcon(QIcon(os.path.join(get_image_file_path(),"perovskite.png")))
+		itm.setIcon(QIcon_load("perovskite"))
+		self.listwidget.addItem(itm)
+		
+		itm = QListWidgetItem( _("CIGS Solar cell")+" (cigs.gpvdm)" )
+		itm.setIcon(QIcon_load("cigs"))
 		self.listwidget.addItem(itm)
 		
 		self.listwidget.itemDoubleClicked.connect(self.callback_next)

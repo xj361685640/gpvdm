@@ -33,7 +33,6 @@ from inp import inp_update_token_value
 from inp import inp_get_token_value
 from util import latex_to_html
 from i18n import yes_no
-from cal_path import get_image_file_path
 from cal_path import get_share_path
 from gtkswitch import gtkswitch
 from leftright import leftright

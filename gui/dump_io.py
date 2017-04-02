@@ -1,6 +1,6 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012-2017 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012-2017 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
 #	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -26,7 +26,7 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSize, Qt 
 from PyQt5.QtWidgets import QWidget,QSizePolicy,QHBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QMessageBox, QLineEdit
 
-from cal_path import get_image_file_path
+from icon_lib import QIcon_load
 from util import str2bool
 from help import help_window
 from inp import inp_update
@@ -64,17 +64,17 @@ class dump_io(QAction):
 
 	def update_ui(self,update_help):
 		if self.dump==dump_slow:
-			self.setIcon(QIcon(os.path.join(get_image_file_path(),"hdd_high.png")))
+			self.setIcon(QIcon_load("hdd_high"))
 			if update_help==True:
 				help_window().help_set_help(["hdd_high.png",_("<big><b>Write all data to disk (slow)</b></big><br>"+self.help_text)])
 
 		if self.dump==dump_fast:
-			self.setIcon(QIcon(os.path.join(get_image_file_path(),"hdd_low.png")))
+			self.setIcon(QIcon_load("hdd_low"))
 			if update_help==True:
 				help_window().help_set_help(["hdd_low.png",_("<big><b>Write minimal data to disk (fast)</b></big><br>"+self.help_text)])
 
 		if self.dump==dump_custom:
-			self.setIcon(QIcon(os.path.join(get_image_file_path(),"hdd_custom.png")))
+			self.setIcon(QIcon_load("hdd_custom"))
 
 	def refresh(self):
 		self.dump=self.cal_state()
@@ -97,7 +97,7 @@ class dump_io(QAction):
 		self.const_tokens.append(["#dump_print_newtonerror",False])
 
 		self.help_text=" Writing data to disk can be slow and gpvdm can produce a lot of data files during a simulation run.  To speed up the simulation use this icon to minimize simulation output.  Click it again to turn back on full output.  You can fine tune these parameters theough the Configure->Dump tab."
-		QAction.__init__(self,QIcon(os.path.join(get_image_file_path(),"hdd_low.png")), _("Data dump\ncontrol"),parent)
+		QAction.__init__(self,QIcon_load("hdd_low"), _("Data dump\ncontrol"),parent)
 		self.triggered.connect(self.callback_dump_io)
 
 	def callback_dump_io(self):

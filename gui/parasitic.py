@@ -1,6 +1,6 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
 #	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -22,7 +22,7 @@
 import os
 from tab import tab_class
 from window_list import windows
-from cal_path import get_image_file_path
+from icon_lib import QIcon_load
 
 #qt
 from PyQt5.QtCore import QSize, Qt 
@@ -50,7 +50,7 @@ class parasitic(QWidget):
 	def __init__(self):
 		QWidget.__init__(self)
 		self.setFixedSize(900, 600)
-		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"parasitic.png")))
+		self.setWindowIcon(QIcon_load("parasitic"))
 
 		self.setWindowTitle(_("Edit parasitic components")+"  (https://www.gpvdm.com)") 
 		
@@ -65,7 +65,7 @@ class parasitic(QWidget):
 		toolbar.addWidget(spacer)
 
 
-		self.help = QAction(QIcon(os.path.join(get_image_file_path(),"help.png")), _("Help"), self)
+		self.help = QAction(QIcon_load("help"), _("Help"), self)
 		self.help.setStatusTip(_("Close"))
 		self.help.triggered.connect(self.callback_help)
 		toolbar.addAction(self.help)

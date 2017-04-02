@@ -22,7 +22,6 @@
 import os
 from tab import tab_class
 from window_list import windows
-from cal_path import get_image_file_path
 
 #qt
 from PyQt5.QtCore import QSize, Qt 

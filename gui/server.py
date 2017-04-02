@@ -26,7 +26,6 @@ from inp import inp_get_token_value
 import threading
 import multiprocessing
 import time
-from cal_path import get_image_file_path
 from cal_path import get_exe_name
 from cal_path import get_exe_args
 

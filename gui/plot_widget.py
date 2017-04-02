@@ -49,7 +49,7 @@ from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTa
 from PyQt5.QtGui import QPainter,QIcon,QImage
 
 #calpath
-from cal_path import get_image_file_path
+from icon_lib import QIcon_load
 from open_save_dlg import save_as_image
 
 from dat_file import dat_file_read
@@ -561,11 +561,11 @@ class plot_widget(QWidget):
 		toolbar.setIconSize(QSize(48, 48))
 
 
-		self.tb_save = QAction(QIcon(os.path.join(get_image_file_path(),"document-save-as.png")), _("Save graph"), self)
+		self.tb_save = QAction(QIcon_load("document-save-as"), _("Save graph"), self)
 		self.tb_save.triggered.connect(self.callback_plot_save)
 		toolbar.addAction(self.tb_save)
 
-		self.tb_refresh = QAction(QIcon(os.path.join(get_image_file_path(),"view-refresh.png")), _("Refresh graph"), self)
+		self.tb_refresh = QAction(QIcon_load("view-refresh"), _("Refresh graph"), self)
 		self.tb_refresh .triggered.connect(self.callback_refresh)
 		toolbar.addAction(self.tb_refresh )
 

@@ -20,7 +20,6 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 import os
-from cal_path import get_image_file_path
 
 from dump_io import dump_io
 from tb_item_sim_mode import tb_item_sim_mode

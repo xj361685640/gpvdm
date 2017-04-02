@@ -23,7 +23,7 @@ import os
 from inp import inp_update_token_value
 from inp import inp_get_token_value
 from plot_gen import plot_gen
-from cal_path import get_image_file_path
+from icon_lib import QIcon_load
 import zipfile
 import glob
 from scan_item import scan_item_add
@@ -89,7 +89,7 @@ class class_optical(QWidget):
 	def __init__(self):
 		QWidget.__init__(self)
 		find_models()
-		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"image.png")))
+		self.setWindowIcon(QIcon_load("image"))
 
 		self.setMinimumSize(1000, 600)
 
@@ -110,7 +110,7 @@ class class_optical(QWidget):
 		self.setGeometry(300, 300, 600, 600)
 		self.setWindowTitle(_("Optical simulation editor")+" (https://www.gpvdm.com)")    
 
-		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"optics.png")))
+		self.setWindowIcon(QIcon_load("optics"))
 
 		self.main_vbox=QVBoxLayout()
 
@@ -120,7 +120,7 @@ class class_optical(QWidget):
 
 		toolbar.setIconSize(QSize(48, 48))
 
-		self.run = QAction(QIcon(os.path.join(get_image_file_path(),"play.png")), _("Run"), self)
+		self.run = QAction(QIcon_load("media-playback-start"), _("Run"), self)
 		self.run.triggered.connect(self.callback_run)
 		toolbar.addAction(self.run)
 
@@ -154,7 +154,7 @@ class class_optical(QWidget):
 		toolbar.addWidget(spacer)
 
 
-		self.help = QAction(QIcon(os.path.join(get_image_file_path(),"help.png")), _("Help"), self)
+		self.help = QAction(QIcon_load("help"), _("Help"), self)
 		self.help.triggered.connect(self.callback_help)
 		toolbar.addAction(self.help)
 
