@@ -30,7 +30,7 @@ from window_list import windows
 from dat_file_class import dat_file
 from plot_io import plot_load_info
 from cal_path import get_exe_command
-from cal_path import get_image_file_path
+from icon_lib import QIcon_load
 import webbrowser
 
 #qt
@@ -282,11 +282,11 @@ class cmp_class(QWidget):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(42, 42))
 
-		self.tb_video = QAction(QIcon(os.path.join(get_image_file_path(),"video.png")), _("Save video"), self)
+		self.tb_video = QAction(QIcon_load("video"), _("Save video"), self)
 		self.tb_video.triggered.connect(self.callback_save)
 		toolbar.addAction(self.tb_video)
 
-		#self.tb_scale = QAction(QIcon(os.path.join(get_image_file_path(),"scale.png")), _("Scale"), self)
+		#self.tb_scale = QAction(QIcon_load("scale"), _("Scale"), self)
 		#self.tb_scale.triggered.connect(self.callback_scale)
 		#toolbar.addAction(self.tb_rotate)
 
@@ -296,7 +296,7 @@ class cmp_class(QWidget):
 		toolbar.addWidget(spacer)
 
 
-		self.help = QAction(QIcon(os.path.join(get_image_file_path(),"help.png")), _("Help"), self)
+		self.help = QAction(QIcon_load("help"), _("Help"), self)
 		self.help.setStatusTip(_("Close"))
 		self.help.triggered.connect(self.callback_help)
 		toolbar.addAction(self.help)

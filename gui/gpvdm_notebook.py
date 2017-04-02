@@ -39,7 +39,6 @@ from win_lin import running_on_linux
 
 #paths
 from cal_path import get_bin_path
-from cal_path import get_image_file_path
 from cal_path import get_exe_args
 
 from code_ctrl import enable_webbrowser

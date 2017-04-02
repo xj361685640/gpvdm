@@ -23,7 +23,6 @@ import os
 from inp import inp_load_file
 from inp_util import inp_search_token_value
 from inp import inp_update_token_value
-from cal_path import get_image_file_path
 from tab import tab_class
 from fit_patch import fit_patch
 import shutil

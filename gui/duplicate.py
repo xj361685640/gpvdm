@@ -38,7 +38,7 @@ from plot_io import plot_save_oplot_file
 from scan_io import scan_push_to_hpc
 from scan_io import scan_import_from_hpc
 from cal_path import get_exe_command
-from cal_path import get_image_file_path
+from icon_lib import QIcon_load
 from scan_item import scan_items_get_file
 from scan_item import scan_items_get_token
 
@@ -181,7 +181,7 @@ class duplicate(QWidget):
 	def __init__(self):
 		QWidget.__init__(self)
 		self.setWindowTitle(_("Fit variables duplicate window")+" - https://www.gpvdm.com")   
-		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"duplicate.png")))
+		self.setWindowIcon(QIcon_load("duplicate"))
 		self.setFixedSize(900, 700)
 
 		self.win_list=windows()
@@ -193,11 +193,11 @@ class duplicate(QWidget):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
-		self.tb_save = QAction(QIcon(os.path.join(get_image_file_path(),"list-add.png")), _("Add"), self)
+		self.tb_save = QAction(QIcon_load("list-add"), _("Add"), self)
 		self.tb_save.triggered.connect(self.callback_add_item)
 		toolbar.addAction(self.tb_save)
 
-		self.tb_save = QAction(QIcon(os.path.join(get_image_file_path(),"list-remove.png")), _("Minus"), self)
+		self.tb_save = QAction(QIcon_load("list-remove"), _("Minus"), self)
 		self.tb_save.triggered.connect(self.callback_delete_item)
 		toolbar.addAction(self.tb_save)
 

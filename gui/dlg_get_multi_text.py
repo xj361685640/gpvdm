@@ -26,8 +26,6 @@ from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtWidgets import QWidget,QLineEdit,QComboBox,QHBoxLayout,QPushButton,QLabel,QDialog,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QTableWidget,QAbstractItemView, QMenuBar,QApplication
 from PyQt5.QtGui import QPainter,QIcon,QImage
 
-from cal_path import get_image_file_path
-
 from PyQt5.QtCore import QSize, Qt
 
 from inp import inp_load_file

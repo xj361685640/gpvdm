@@ -135,7 +135,7 @@ class ribbon_device(QToolBar):
 	def callback_view_materials(self):
 		dialog=gpvdm_open(get_materials_path())
 		dialog.show_inp_files=False
-		ret=dialog.window.exec_()
+		ret=dialog.exec_()
 
 		if ret==QDialog.Accepted:
 			if os.path.isfile(os.path.join(dialog.get_filename(),"mat.inp"))==True:

@@ -27,7 +27,6 @@ from inp_util import inp_search_token_value
 from fxmesh import tab_fxmesh
 from circuit import circuit
 from inp import inp_update_token_value
-from cal_path import get_image_file_path
 
 import i18n
 _ = i18n.language.gettext

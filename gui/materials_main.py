@@ -22,7 +22,7 @@
 import os
 from tab import tab_class
 from window_list import windows
-from cal_path import get_image_file_path
+from icon_lib import QIcon_load
 
 #qt
 from PyQt5.QtCore import QSize, Qt 
@@ -73,7 +73,7 @@ class materials_main(QWidget):
 		QWidget.__init__(self)
 		self.path=path
 		self.setFixedSize(900, 600)
-		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"organic_material.png")))
+		self.setWindowIcon(QIcon_load("organic_material"))
 
 		self.setWindowTitle(_("Material editor")+" (https://www.gpvdm.com)") 
 		
@@ -83,7 +83,7 @@ class materials_main(QWidget):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
-		self.cost = QAction(QIcon(os.path.join(get_image_file_path(),"cost.png")), 'Hide', self)
+		self.cost = QAction(QIcon_load("cost"), 'Hide', self)
 		self.cost.setStatusTip(_("Cost of material"))
 		self.cost.triggered.connect(self.callback_cost)
 		toolbar.addAction(self.cost)
@@ -93,7 +93,7 @@ class materials_main(QWidget):
 		toolbar.addWidget(spacer)
 
 
-		self.help = QAction(QIcon(os.path.join(get_image_file_path(),"help.png")), 'Hide', self)
+		self.help = QAction(QIcon_load("help"), 'Hide', self)
 		self.help.setStatusTip(_("Help"))
 		self.help.triggered.connect(self.callback_help)
 		toolbar.addAction(self.help)

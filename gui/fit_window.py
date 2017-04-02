@@ -28,7 +28,7 @@ from code_ctrl import enable_betafeatures
 from util_zip import zip_lsdir
 from util import strextract_interger
 from global_objects import global_object_get
-from cal_path import get_image_file_path
+from icon_lib import QIcon_load
 
 from global_objects import global_object_register
 from server import server_get
@@ -251,44 +251,44 @@ class fit_window(QWidget):
 
 		#self.setFixedSize(900, 700)
 		self.setWindowTitle(_("Fit window - gpvdm"))   
-		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"fit.png")))
+		self.setWindowIcon(QIcon_load("fit"))
 
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
-		self.new = QAction(QIcon(os.path.join(get_image_file_path(),"document-new.png")), _("New fit"), self)
+		self.new = QAction(QIcon_load("document-new"), _("New fit"), self)
 		self.new.triggered.connect(self.callback_add_page)
 		toolbar.addAction(self.new)
 
-		self.new = QAction(QIcon(os.path.join(get_image_file_path(),"edit-delete.png")), _("Delete fit"), self)
+		self.new = QAction(QIcon_load("edit-delete"), _("Delete fit"), self)
 		self.new.triggered.connect(self.callback_delete_page)
 		toolbar.addAction(self.new)
 
-		self.clone = QAction(QIcon(os.path.join(get_image_file_path(),"clone.png")), _("Clone fit"), self)
+		self.clone = QAction(QIcon_load("clone"), _("Clone fit"), self)
 		self.clone.triggered.connect(self.callback_copy_page)
 		toolbar.addAction(self.clone)
 
-		self.clone = QAction(QIcon(os.path.join(get_image_file_path(),"rename.png")), _("Rename fit"), self)
+		self.clone = QAction(QIcon_load("rename"), _("Rename fit"), self)
 		self.clone.triggered.connect(self.callback_rename_page)
 		toolbar.addAction(self.clone)
 
 		toolbar.addSeparator()
 
-		self.tb_configure= QAction(QIcon(os.path.join(get_image_file_path(),"preferences-system.png")), _("Configure"), self)
+		self.tb_configure= QAction(QIcon_load("preferences-system"), _("Configure"), self)
 		self.tb_configure.triggered.connect(self.callback_configure)
 		toolbar.addAction(self.tb_configure)
 				
 		toolbar.addSeparator()
 
-		self.play= QAction(QIcon(os.path.join(get_image_file_path(),"play.png")), _("Run a single fit"), self)
+		self.play= QAction(QIcon_load("play"), _("Run a single fit"), self)
 		self.play.triggered.connect(self.callback_one_fit)
 		toolbar.addAction(self.play)
 		
-		self.play= QAction(QIcon(os.path.join(get_image_file_path(),"forward.png")), _("Start the fitting process"), self)
+		self.play= QAction(QIcon_load("forward"), _("Start the fitting process"), self)
 		self.play.triggered.connect(self.callback_do_fit)
 		toolbar.addAction(self.play)
 
-		self.pause= QAction(QIcon(os.path.join(get_image_file_path(),"pause.png")), _("Stop the simulation"), self)
+		self.pause= QAction(QIcon_load("pause"), _("Stop the simulation"), self)
 		self.pause.triggered.connect(self.callback_stop)
 		toolbar.addAction(self.pause)
 
@@ -297,7 +297,7 @@ class fit_window(QWidget):
 		toolbar.addWidget(spacer)
 
 
-		self.help = QAction(QIcon(os.path.join(get_image_file_path(),"help.png")), 'Help', self)
+		self.help = QAction(QIcon_load("help"), _("Help"), self)
 		self.help.triggered.connect(self.callback_help)
 		toolbar.addAction(self.help)
 

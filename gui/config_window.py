@@ -22,7 +22,7 @@
 
 import os
 from window_list import windows
-from cal_path import get_image_file_path
+from icon_lib import QIcon_load
 
 #qt
 from PyQt5.QtCore import QSize, Qt 
@@ -52,7 +52,7 @@ class class_config_window(QWidget):
 
 	def init(self):
 		self.setFixedSize(900, 600)
-		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"preferences-system.png")))
+		self.setWindowIcon(QIcon_load("preferences-system"))
 
 		self.setWindowTitle(_("Configure")+" (https://www.gpvdm.com)") 
 		
@@ -67,7 +67,7 @@ class class_config_window(QWidget):
 		toolbar.addWidget(spacer)
 
 
-		self.undo = QAction(QIcon(os.path.join(get_image_file_path(),"help.png")), _("Help"), self)
+		self.undo = QAction(QIcon_load("help"), _("Help"), self)
 		self.undo.setStatusTip(_("Help"))
 		self.undo.triggered.connect(self.callback_help)
 		toolbar.addAction(self.undo)

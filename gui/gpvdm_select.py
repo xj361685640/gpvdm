@@ -33,7 +33,6 @@ from PyQt5.QtWidgets import QApplication,QGraphicsScene,QListWidgetItem,QListVie
 from PyQt5.QtGui import QPixmap
 
 #cal_path
-from cal_path import get_image_file_path
 from cal_path import get_ui_path
 from open_save_dlg import open_as_filter
 

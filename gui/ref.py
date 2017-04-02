@@ -19,18 +19,13 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-from cal_path import get_image_file_path
+from icon_lib import QIcon_load
 import os
 
 #qt
 from PyQt5.QtCore import QSize, Qt 
 from PyQt5.QtWidgets import QWidget,QVBoxLayout,QHBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QTableWidget,QAbstractItemView,QPushButton
 from PyQt5.QtGui import QPainter,QIcon
-
-#from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication,QTableWidgetItem,QComboBox, QMessageBox, QDialog, QDialogButtonBox, QFileDialog
-#from PyQt5.uic import loadUi
-
-#from PyQt5.QtGui import QPixmap, QIcon
 
 from window_list import resize_window_to_be_sane
 
@@ -78,7 +73,7 @@ class ref_window(QWidget):
 		resize_window_to_be_sane(self,0.5,0.5)
 		self.file_name=os.path.splitext(file_name)[0]+".ref"
 		self.gen_file()
-		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"ref.png")))
+		self.setWindowIcon(QIcon_load("ref"))
 		self.setWindowTitle(_("Reference manager")+" (https://www.gpvdm.com)") 
 
 		self.vbox=QVBoxLayout()
@@ -91,7 +86,7 @@ class ref_window(QWidget):
 		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 		self.toolbar.addWidget(spacer)
 
-		self.tb_help = QAction(QIcon(os.path.join(get_image_file_path(),"help.png")), _("Help"), self)
+		self.tb_help = QAction(QIcon_load("help"), _("Help"), self)
 		self.tb_help.setStatusTip(_("Help"))
 		self.tb_help.triggered.connect(self.callback_help)
 		self.toolbar.addAction(self.tb_help)

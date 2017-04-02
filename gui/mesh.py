@@ -26,7 +26,6 @@ from inp import inp_write_lines_to_file
 from inp import inp_load_file
 from code_ctrl import enable_betafeatures
 from scan_item import scan_item_add
-from cal_path import get_image_file_path
 
 xlist=[]
 ylist=[]

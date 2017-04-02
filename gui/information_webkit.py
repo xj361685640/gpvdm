@@ -1,8 +1,8 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -20,7 +20,7 @@
 
 import os
 from tab_base import tab_base
-from cal_path import get_image_file_path
+from icon_lib import QIcon_load
 
 #qt
 from PyQt5.QtCore import QSize, Qt, QUrl
@@ -63,11 +63,11 @@ class information(QWidget,tab_base):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
-		back = QAction(QIcon(os.path.join(get_image_file_path(),"go-previous.png")),  _("back"), self)
+		back = QAction(QIcon_load("go-previous.png"),  _("back"), self)
 		back.triggered.connect(self.html.back)
 		toolbar.addAction(back)
 
-		home = QAction(QIcon(os.path.join(get_image_file_path(),"user-home.png")),  _("home"), self)
+		home = QAction(QIcon_load("user-home.png"),  _("home"), self)
 		home.triggered.connect(self.home)
 		toolbar.addAction(home)
 

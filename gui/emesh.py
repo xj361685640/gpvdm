@@ -1,6 +1,6 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012-2017 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012-2017 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
 #	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -24,7 +24,7 @@ import os
 from cal_path import get_exe_command
 from numpy import *
 from matplotlib.figure import Figure
-from cal_path import get_image_file_path
+from icon_lib import QIcon_load
 import webbrowser
 from electrical_mesh_editor import electrical_mesh_editor
 from inp_util import inp_search_token_value
@@ -141,7 +141,7 @@ class tab_electrical_mesh(QWidget):
 	def __init__(self):
 		QWidget.__init__(self)
 		self.setFixedSize(900, 600)
-		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"mesh.png")))
+		self.setWindowIcon(QIcon_load("mesh"))
 
 		self.setWindowTitle(_("Electrical Mesh Editor")+" - (https://www.gpvdm.com)") 
 		
@@ -151,15 +151,15 @@ class tab_electrical_mesh(QWidget):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
-		self.one_d = QAction(QIcon(os.path.join(get_image_file_path(),"1d.png")), _("1D simulation"), self)
+		self.one_d = QAction(QIcon_load("1d"), _("1D simulation"), self)
 		self.one_d.triggered.connect(self.callback_dim_1d)
 		toolbar.addAction(self.one_d)
 
-		self.two_d = QAction(QIcon(os.path.join(get_image_file_path(),"2d.png")), _("2D simulation"), self)
+		self.two_d = QAction(QIcon_load("2d"), _("2D simulation"), self)
 		self.two_d.triggered.connect(self.callback_dim_2d)
 		toolbar.addAction(self.two_d)
 
-		self.three_d = QAction(QIcon(os.path.join(get_image_file_path(),"3d.png")), _("3D simulation"), self)
+		self.three_d = QAction(QIcon_load("3d"), _("3D simulation"), self)
 		self.three_d.triggered.connect(self.callback_dim_3d)
 		toolbar.addAction(self.three_d)
 
@@ -167,7 +167,7 @@ class tab_electrical_mesh(QWidget):
 		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 		toolbar.addWidget(spacer)
 
-		self.undo = QAction(QIcon(os.path.join(get_image_file_path(),"help.png")), _("Help"), self)
+		self.undo = QAction(QIcon_load("help"), _("Help"), self)
 		self.undo.setStatusTip(_("Close"))
 		self.undo.triggered.connect(self.callback_help)
 		toolbar.addAction(self.undo)

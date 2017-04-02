@@ -23,7 +23,7 @@
 import os
 from tab import tab_class
 from window_list import windows
-from cal_path import get_image_file_path
+from icon_lib import QIcon_load
 
 #qt
 from PyQt5.QtCore import QSize, Qt 
@@ -228,7 +228,7 @@ class import_data(QDialog):
 		self.info_token=dat_file()
 
 		#self.setFixedSize(900, 600)
-		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"import.png")))
+		self.setWindowIcon(QIcon_load("import"))
 
 		self.setWindowTitle(_("Import data")+" (https://www.gpvdm.com)") 
 
@@ -241,11 +241,11 @@ class import_data(QDialog):
 		spacer = QWidget()
 		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 		
-		self.open_data= QAction(QIcon(os.path.join(get_image_file_path(),"document-open.png")), _("Open file"), self)
+		self.open_data= QAction(QIcon_load("document-open"), _("Open file"), self)
 		self.open_data.triggered.connect(self.callback_open)
 		toolbar.addAction(self.open_data)
 
-		self.import_data= QAction(QIcon(os.path.join(get_image_file_path(),"document-save-as.png")), _("Import data to model"), self)
+		self.import_data= QAction(QIcon_load("document-save-as"), _("Import data to model"), self)
 		self.import_data.triggered.connect(self.callback_import)
 		self.import_data.setEnabled(False)
 		toolbar.addAction(self.import_data)
@@ -253,7 +253,7 @@ class import_data(QDialog):
 		toolbar.addWidget(spacer)
 
 
-		self.tb_help = QAction(QIcon(os.path.join(get_image_file_path(),"help.png")), _("Help"), self)
+		self.tb_help = QAction(QIcon_load("help"), _("Help"), self)
 		self.tb_help.setStatusTip(_("Help"))
 		self.tb_help.triggered.connect(self.callback_help)
 		toolbar.addAction(self.tb_help)

@@ -22,7 +22,7 @@
 import os
 from tab import tab_class
 from window_list import windows
-from cal_path import get_image_file_path
+from icon_lib import QIcon_load
 
 #qt
 from PyQt5.QtCore import QSize, Qt 
@@ -70,7 +70,7 @@ class cost(QWidget):
 	def __init__(self):
 		QWidget.__init__(self)
 		self.setFixedSize(900, 600)
-		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"jv.png")))
+		self.setWindowIcon(QIcon_load("jv"))
 
 		self.setWindowTitle(_("Cost and energy payback calculator (BETA - missing realistic data at the moment!!!)")) 
 		
@@ -80,7 +80,7 @@ class cost(QWidget):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
-		self.play = QAction(QIcon(os.path.join(get_image_file_path(),"play.png")), _("Re-calcualte"), self)
+		self.play = QAction(QIcon_load("play"), _("Re-calcualte"), self)
 		self.play.triggered.connect(self.update)
 		toolbar.addAction(self.play)
 		
@@ -89,7 +89,7 @@ class cost(QWidget):
 		toolbar.addWidget(spacer)
 
 
-		self.help = QAction(QIcon(os.path.join(get_image_file_path(),"help.png")), _("Help"), self)
+		self.help = QAction(QIcon_load("help"), _("Help"), self)
 		self.help.triggered.connect(self.callback_help)
 		toolbar.addAction(self.help)
 

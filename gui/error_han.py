@@ -40,7 +40,7 @@ from PyQt5.QtGui import QPixmap
 from gui_util import tab_set_value
 from gui_util import tab_add
 from gui_util import tab_get_selected
-from cal_path import get_image_file_path
+from icon_lib import QIcon_load
 
 from spinner import spinner
 
@@ -82,8 +82,7 @@ class widget_error_han(QDialog):
 		h_box=QHBoxLayout()
 		h_widget.setLayout(h_box)
 		image=QLabel()
-		pixmap = QPixmap(os.path.join(get_image_file_path(),"warning.png"))
-		image.setPixmap(pixmap)
+		image.setPixmap(QIcon_load("warning"))
 		h_box.addWidget(image)
 
 		h_box.setAlignment(image,Qt.AlignTop)

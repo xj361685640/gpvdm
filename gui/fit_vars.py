@@ -38,7 +38,7 @@ from plot_io import plot_save_oplot_file
 from scan_io import scan_push_to_hpc
 from scan_io import scan_import_from_hpc
 from cal_path import get_exe_command
-from cal_path import get_image_file_path
+from icon_lib import QIcon_load
 from scan_item import scan_items_get_file
 from scan_item import scan_items_get_token
 
@@ -203,7 +203,7 @@ class fit_vars(QWidget):
 		self.win_list.set_window(self,"fit_vars_window")
 
 		self.setWindowTitle(_("Fit vars window - gpvdm"))   
-		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"fit.png")))
+		self.setWindowIcon(QIcon_load("fit"))
 		self.setFixedSize(900, 700)
 
 		self.select_param_window=select_param()
@@ -213,15 +213,15 @@ class fit_vars(QWidget):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
-		self.tb_save = QAction(QIcon(os.path.join(get_image_file_path(),"list-add.png")), _("Add line"), self)
+		self.tb_save = QAction(QIcon_load("list-add"), _("Add line"), self)
 		self.tb_save.triggered.connect(self.callback_add_item)
 		toolbar.addAction(self.tb_save)
 
-		self.tb_save = QAction(QIcon(os.path.join(get_image_file_path(),"list-remove.png")), _("Remove line"), self)
+		self.tb_save = QAction(QIcon_load("list-remove"), _("Remove line"), self)
 		self.tb_save.triggered.connect(self.callback_delete_item)
 		toolbar.addAction(self.tb_save)
 
-		self.tb_open = QAction(QIcon(os.path.join(get_image_file_path(),"document-open.png")), _("Open"), self)
+		self.tb_open = QAction(QIcon_load("document-open"), _("Open"), self)
 		self.tb_open.triggered.connect(self.callback_open)
 		toolbar.addAction(self.tb_open)
 		

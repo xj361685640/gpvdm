@@ -23,7 +23,7 @@
 import os
 from numpy import *
 import webbrowser
-from cal_path import get_image_file_path
+from icon_lib import QIcon_load
 from window_list import windows
 
 #inp
@@ -184,7 +184,7 @@ class doping_window(QWidget):
 		QWidget.__init__(self)
 		self.win_list=windows()
 		self.setFixedSize(900, 600)
-		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"doping.png")))
+		self.setWindowIcon(QIcon_load("doping"))
 		self.setWindowTitle(_("Doping profile editor")+" (https://www.gpvdm.com)") 
 
 		self.win_list.set_window(self,"doping")
@@ -193,7 +193,7 @@ class doping_window(QWidget):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
-		self.save = QAction(QIcon(os.path.join(get_image_file_path(),"document-save-as.png")), _("Save"), self)
+		self.save = QAction(QIcon_load("document-save-as"), _("Save"), self)
 		self.save.triggered.connect(self.callback_save)
 		toolbar.addAction(self.save)
 
@@ -202,7 +202,7 @@ class doping_window(QWidget):
 		toolbar.addWidget(spacer)
 
 
-		self.help = QAction(QIcon(os.path.join(get_image_file_path(),"help.png")), _("Help"), self)
+		self.help = QAction(QIcon_load("help"), _("Help"), self)
 		self.help.triggered.connect(self.callback_help)
 		toolbar.addAction(self.help)
 

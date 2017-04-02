@@ -1,6 +1,6 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012-2017 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012-2017 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
 #	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -24,7 +24,7 @@ from gui_util import dlg_get_text
 from inp import inp_write_lines_to_file
 import webbrowser
 from util import fx_with_units
-from cal_path import get_image_file_path
+from icon_lib import QIcon_load
 from scan_item import scan_remove_file
 
 import i18n
@@ -282,11 +282,11 @@ class tab_fxmesh(QWidget):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
-		self.tb_save = QAction(QIcon(os.path.join(get_image_file_path(),"32_document-save-as.png")), _("Save image"), self)
+		self.tb_save = QAction(QIcon_load("document-save-as"), _("Save image"), self)
 		self.tb_save.triggered.connect(self.callback_save)
 		toolbar.addAction(self.tb_save)
 
-		self.tb_startfx = QAction(QIcon(os.path.join(get_image_file_path(),"start.png")), _("Simulation start frequency"), self)
+		self.tb_startfx = QAction(QIcon_load("start"), _("Simulation start frequency"), self)
 		self.tb_startfx.triggered.connect(self.callback_start_fx)
 		toolbar.addAction(self.tb_startfx)
 
@@ -304,15 +304,15 @@ class tab_fxmesh(QWidget):
 		toolbar2=QToolBar()
 		toolbar2.setIconSize(QSize(48, 48))
 
-		self.tb_add = QAction(QIcon(os.path.join(get_image_file_path(),"list-add.png")), _("Add section"), self)
+		self.tb_add = QAction(QIcon_load("list-add"), _("Add section"), self)
 		self.tb_add.triggered.connect(self.callback_add_section)
 		toolbar2.addAction(self.tb_add)
 
-		self.tb_remove = QAction(QIcon(os.path.join(get_image_file_path(),"list-remove.png")), _("Delete section"), self)
+		self.tb_remove = QAction(QIcon_load("list-remove"), _("Delete section"), self)
 		self.tb_remove.triggered.connect(self.callback_remove_item)
 		toolbar2.addAction(self.tb_remove)
 
-		self.tb_move = QAction(QIcon(os.path.join(get_image_file_path(),"go-down.png")), _("Move down"), self)
+		self.tb_move = QAction(QIcon_load("go-down"), _("Move down"), self)
 		self.tb_move.triggered.connect(self.callback_move_down)
 		toolbar2.addAction(self.tb_move)
 

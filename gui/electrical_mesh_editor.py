@@ -1,8 +1,8 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -23,7 +23,7 @@
 import os
 from code_ctrl import enable_betafeatures
 from scan_item import scan_item_add
-from cal_path import get_image_file_path
+from icon_lib import QIcon_load
 
 #inp
 from inp import inp_write_lines_to_file
@@ -156,11 +156,11 @@ class electrical_mesh_editor(QGroupBox):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
-		add = QAction(QIcon(os.path.join(get_image_file_path(),"16_list-add.png")),  _("Add "+self.xyz+" mesh layer"), self)
+		add = QAction(QIcon_load("list-add.png",size=16),  _("Add "+self.xyz+" mesh layer"), self)
 		add.triggered.connect(self.on_add_mesh_clicked)
 		toolbar.addAction(add)
 
-		remove = QAction(QIcon(os.path.join(get_image_file_path(),"16_list-remove.png")),  _("Remove "+self.xyz+" mesh layer"), self)
+		remove = QAction(QIcon_load("list-remove.png",size=16),  _("Remove "+self.xyz+" mesh layer"), self)
 		remove.triggered.connect(self.on_remove_click)
 		toolbar.addAction(remove)
 

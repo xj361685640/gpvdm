@@ -1,6 +1,6 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
 #	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -26,7 +26,7 @@ from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtWidgets import QWidget,QLineEdit,QComboBox,QHBoxLayout,QPushButton,QLabel,QDialog,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QTableWidget,QAbstractItemView, QMenuBar,QApplication
 from PyQt5.QtGui import QPainter,QIcon,QImage
 
-from cal_path import get_image_file_path
+from icon_lib import QIcon_load
 
 from PyQt5.QtCore import QSize, Qt
 
@@ -77,7 +77,7 @@ class plot_dlg_class(QDialog):
 	def __init__(self,data):
 		QWidget.__init__(self)
 		self.path=os.path.dirname(data.example_file0)
-		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"jv.png")))
+		self.setWindowIcon(QIcon_load("jv"))
 		self.setWindowTitle(_("Steady state simulation (www.gpvdm.com)")) 
 		self.setWindowFlags(Qt.WindowStaysOnTopHint)
 
