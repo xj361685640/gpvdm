@@ -43,6 +43,7 @@ from open_save_dlg import open_as_filter
 from import_data import import_data
 mesh_articles = []
 
+from icon_lib import QIcon_load
 
 class fit_window_plot_real(QWidget):
 	lines=[]
@@ -123,11 +124,11 @@ class fit_window_plot_real(QWidget):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
-		self.import_data= QAction(QIcon(os.path.join(get_image_file_path(),"import.png")), _("Import data"), self)
+		self.import_data= QAction(QIcon_load("import"), _("Import data"), self)
 		self.import_data.triggered.connect(self.callback_import)
 		toolbar.addAction(self.import_data)
 
-		self.tb_save = QAction(QIcon(os.path.join(get_image_file_path(),"document-save-as.png")), _("Save graph"), self)
+		self.tb_save = QAction(QIcon_load("document-save-as"), _("Save graph"), self)
 		self.tb_save.triggered.connect(self.callback_save)
 		toolbar.addAction(self.tb_save)
 

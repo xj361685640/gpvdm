@@ -64,6 +64,9 @@ from ref import ref_window
 from ref import get_ref_text
 from ref_io import ref
 from tb_item_mat_file import tb_item_mat_file
+
+from import_data import import_data
+
 #window
 
 mesh_articles = []
@@ -248,12 +251,19 @@ class equation(QWidget):
 
 	def set_default_value(self,value):
 		self.default_value=value
-	
+
+	def callback_import(self):
+		self.im=import_data(os.path.join(self.path,self.file_name))
+		self.im.run()
+		print("return value",self.im)
+		if self.im.ret==True:
+			self.update()
+
 	def set_ylabel(self,value):
 		self.ylabel=value
 
 	def callback_ref(self):
-		self.ref_window=ref(os.path.join(self.path,self.exp_file))
+		self.ref_window=ref_window(os.path.join(self.path,self.exp_file))
 		self.ref_window.show()
 		
 	def init(self):
@@ -266,13 +276,17 @@ class equation(QWidget):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
-		self.tb_save = QAction(QIcon_load("dovument-save-as"), _("Save image"), self)
+		self.tb_save = QAction(QIcon_load("document-save-as"), _("Save image"), self)
 		self.tb_save.triggered.connect(self.callback_save)
 		toolbar.addAction(self.tb_save)
 
 		self.tb_ref= QAction(QIcon_load("ref"), _("Insert reference information"), self)
 		self.tb_ref.triggered.connect(self.callback_ref)
 		toolbar.addAction(self.tb_ref)
+
+		self.import_data= QAction(QIcon_load("import"), _("Import data"), self)
+		self.import_data.triggered.connect(self.callback_import)
+		toolbar.addAction(self.import_data)
 
 		self.file_select=tb_item_mat_file(self.path,self.token)
 		#self.file_select.changed.connect(self.callback_sun)
@@ -302,7 +316,7 @@ class equation(QWidget):
 		self.tb_move.triggered.connect(self.callback_move_down)
 		toolbar2.addAction(self.tb_move)
 
-		self.tb_play = QAction(QIcon_load("play"), _("Calculate"), self)
+		self.tb_play = QAction(QIcon_load("media-playback-start"), _("Calculate"), self)
 		self.tb_play.triggered.connect(self.callback_play)
 		toolbar2.addAction(self.tb_play)
 		

@@ -64,28 +64,38 @@ def inp_read_next_item(lines,pos):
 	pos=pos+1
 	return token,value,pos
 
-def inp_replace_multi_line_token(lines,token,replace):
-	new_lines=[]
+def inp_replace_token_value(lines,token,replace):
+	replaced=False
+	for i in range(0, len(lines)):
+		if lines[i]==token:
+			if i+1<len(lines):
+				lines[i+1]=replace
+				replaced=True
+				break
+
+	return replaced
+
+def inp_replace_token_array(lines,token,replace):
+	new_list=[]
 	pos=0
 	for i in range(0, len(lines)):
-		new_lines.append(lines[i])
+		new_list.append(lines[i])
 		if lines[i]==token:
-			new_lines.append(replace)
 			pos=i+1
+			new_list.extend(replace)
 			break
 
-	start=False
+	new_pos=0
 	for i in range(pos, len(lines)):
 		if len(lines[i])>0:
 			if lines[i][0]=="#":
-				start=True
-				
-		if start==True:
-			new_lines.append(lines[i])
-	return new_lines
+				new_pos=i
+				break
 
-def inp_update(file_path, token, replace):
-	inp_update_token_value(file_path, token, replace,1)
+	for i in range(new_pos, len(lines)):
+		new_list.append(lines[i])
+	
+	return new_list
 
 def inp_is_token(lines,token):
 	for i in range(0, len(lines)):
@@ -101,20 +111,8 @@ def inp_add_token(lines,token,value):
 	ret=a + lines
 	return ret
 
-def inp_update_token_value(file_path, token, replace,line_number):
+def inp_update_token_array(file_path, token, replace):
 	lines=[]
-	if token=="#Tll":
-		inp_update_token_value("thermal.inp", "#Tlr", replace,1)
-		files=inp_lsdir(os.path.join(os.path.dirname(file_path),"sim.gpvdm"))
-		for i in range(0,len(files)):
-			if files[i].startswith("dos") and files[i].endswith(".inp"):
-
-				inp_update_token_value(files[i], "#Tstart", replace,1)
-				try:
-					upper_temp=str(float(replace)+5)
-				except:
-					upper_temp="300.0"
-				inp_update_token_value(files[i], "#Tstop", upper_temp,1)
 
 	path=os.path.dirname(file_path)
 
@@ -122,25 +120,41 @@ def inp_update_token_value(file_path, token, replace,line_number):
 
 	read_lines_from_archive(lines,zip_file_name,os.path.basename(file_path))
 
+	lines=inp_replace_token_array(lines,token,replace)
+	print(lines)
+	if os.path.isfile(file_path):
+		inp_save_lines(file_path,lines)
+	else:
+		replace_file_in_zip_archive(zip_file_name,os.path.basename(file_path),lines)
 
-	new_lines=inp_replace_multi_line_token(lines,token,replace)
+def inp_update_token_value(file_path, token, replace):
+	lines=[]
+	if token=="#Tll":
+		inp_update_token_value("thermal.inp", "#Tlr", replace)
+		files=inp_lsdir(os.path.join(os.path.dirname(file_path),"sim.gpvdm"))
+		for i in range(0,len(files)):
+			if files[i].startswith("dos") and files[i].endswith(".inp"):
+
+				inp_update_token_value(files[i], "#Tstart", replace)
+				try:
+					upper_temp=str(float(replace)+5)
+				except:
+					upper_temp="300.0"
+				inp_update_token_value(files[i], "#Tstop", upper_temp)
+
+	path=os.path.dirname(file_path)
+
+	zip_file_name=os.path.join(path,"sim.gpvdm")
+
+	read_lines_from_archive(lines,zip_file_name,os.path.basename(file_path))
+
+	inp_replace_token_value(lines,token,replace)
 
 
 	if os.path.isfile(file_path):
-		fh, abs_path = mkstemp()
-
-		dump='\n'.join(new_lines)
-
-		dump=dump.rstrip("\n")
-		dump=dump.encode('utf-8')
-		f=open(abs_path, mode='wb')
-		written = f.write(dump)
-		f.close()
-
-		os.close(fh)
-		shutil.move(abs_path, file_path)
+		inp_save_lines(file_path,lines)
 	else:
-		replace_file_in_zip_archive(zip_file_name,os.path.basename(file_path),new_lines)
+		replace_file_in_zip_archive(zip_file_name,os.path.basename(file_path),lines)
 
 def inp_isfile(file_path):
 
@@ -168,10 +182,8 @@ def inp_write_lines_to_file(file_path,lines):
 
 def inp_save_lines(file_path,lines):
 	"""Save the lines"""
-	dump=""
-	for item in lines:
-		#print(type(dump),type(item),item)
-		dump=dump+item+"\n"
+
+	dump='\n'.join(lines)
 
 	dump=dump.rstrip("\n")
 	dump=dump.encode('utf-8')
@@ -179,9 +191,9 @@ def inp_save_lines(file_path,lines):
 		f=open(file_path, mode='wb')
 	except:
 		return False
-
-	lines = f.write(dump)
+	written = f.write(dump)
 	f.close()
+
 	return True
 
 def inp_load_lines(file_path,lines):
@@ -214,20 +226,18 @@ def inp_new_file():
 def inp_get_next_token_array(lines,pos):
 	"""Get the next token"""
 	ret=[]
-	ret.append(lines[pos])
-	pos=pos+1
-	while (lines[pos][0]!="#"):
+	while (1):
 		ret.append(lines[pos])
 		pos=pos+1
-
+		if (len(lines[pos])>0):
+			if lines[pos][0]=="#":
+				break
 	return ret,pos
 
-def inp_get_token_array(file_path, token):
-	"""Get an array of data assosiated with a token"""
-	lines=[]
-	ret=[]
-	inp_load_file(lines,file_path)
 
+def inp_search_token_array(lines, token):
+	"""Get an array of data assosiated with a token"""
+	ret=[]
 	for i in range(0, len(lines)):
 		if lines[i]==token:
 			pos=i+1
@@ -237,8 +247,18 @@ def inp_get_token_array(file_path, token):
 						return ret
 				
 				ret.append(lines[ii])
-
+			return ret
 	return False
+
+def inp_get_token_array(file_path, token):
+	"""Get an array of data assosiated with a token"""
+	lines=[]
+	ret=[]
+	inp_load_file(lines,file_path)
+
+	ret=inp_search_token_array(lines, token)
+
+	return ret
 
 def inp_check_ver(file_path, ver):
 	"""Check ver of file"""
@@ -282,4 +302,5 @@ def inp_sum_items(lines,token):
 			my_sum=my_sum+float(lines[i+1])
 
 	return my_sum
+
 

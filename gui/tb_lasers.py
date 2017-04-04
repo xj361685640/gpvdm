@@ -84,6 +84,6 @@ class tb_lasers(QWidget):
 
 	def call_back_sim_mode_changed(self):
 		mode=self.sim_mode.currentText()
-		inp_update_token_value(self.config_file, "#pump_laser", mode,1)
+		inp_update_token_value(self.config_file, "#pump_laser", mode)
 
 

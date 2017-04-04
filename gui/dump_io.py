@@ -29,7 +29,7 @@ from PyQt5.QtWidgets import QWidget,QSizePolicy,QHBoxLayout,QPushButton,QDialog,
 from icon_lib import QIcon_load
 from util import str2bool
 from help import help_window
-from inp import inp_update
+from inp import inp_update_token_value
 from inp import inp_get_token_value
 
 dump_fast=0
@@ -55,10 +55,10 @@ class dump_io(QAction):
 
 	def set_state(self,val):
 		for token in self.tokens:
-			inp_update("dump.inp", token,str(val).lower())
+			inp_update_token_value("dump.inp", token,str(val).lower())
 
 		for token in self.const_tokens:
-			inp_update("dump.inp", token[0],str(token[1]).lower())
+			inp_update_token_value("dump.inp", token[0],str(token[1]).lower())
 
 
 

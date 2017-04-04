@@ -152,14 +152,14 @@ def tree_apply_mirror(program_list):
 			f=scan_items_get_file(program_list[i][3])
 			t=scan_items_get_token(program_list[i][3])
 			src_value=inp_get_token_value(f, t)
-			inp_update_token_value(program_list[i][0], program_list[i][1], src_value,1)
+			inp_update_token_value(program_list[i][0], program_list[i][1], src_value)
 
 	return True
 
 def tree_apply_constant(program_list):
 	for i in range(0, len(program_list)):
 		if program_list[i][3]=="constant":
-			inp_update_token_value(program_list[i][0], program_list[i][1], program_list[i][2],1)
+			inp_update_token_value(program_list[i][0], program_list[i][1], program_list[i][2])
 
 	return True
 
@@ -169,9 +169,9 @@ def tree_apply_python_script(program_list):
 
 			ret=""
 			exec(program_list[i][2])
-			inp_update_token_value(program_list[i][0], program_list[i][1], ret,1)
+			inp_update_token_value(program_list[i][0], program_list[i][1], ret)
 			print(os.getcwd())
-			print("Replace",program_list[i][0], program_list[i][1], ret,1)
+			print("Replace",program_list[i][0], program_list[i][1], ret)
 
 	return True
 
@@ -225,7 +225,7 @@ def tree(flat_simulation_list,program_list,tree_items,base_dir,level,path,var_to
 				os.chdir(cur_dir)
 
 				for i in range(0, len(pos)):
-					inp_update_token_value(tree_items[0][int(pos[i])], tree_items[1][int(pos[i])], new_values[i],1)
+					inp_update_token_value(tree_items[0][int(pos[i])], tree_items[1][int(pos[i])], new_values[i])
 					print("updating",tree_items[0][int(pos[i])], tree_items[1][int(pos[i])], new_values[i])
 
 				if tree_apply_constant(program_list)==False:
@@ -236,7 +236,7 @@ def tree(flat_simulation_list,program_list,tree_items,base_dir,level,path,var_to
 
 				tree_apply_mirror(program_list)
 
-				inp_update_token_value("dump.inp", "#plot", "0",1)
+				inp_update_token_value("dump.inp", "#plot", "0")
 
 		if level==0:
 			f = open(os.path.join(cur_dir,'scan.inp'),'w')

@@ -25,7 +25,6 @@ from cal_path import get_inp_file_path
 from cal_path import get_share_path
 from cal_path import get_bin_path
 from inp import inp_load_file
-from inp import inp_update
 from util_zip import read_lines_from_archive
 from i18n import yes_no
 from inp_util import inp_search_token_value

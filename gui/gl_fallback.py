@@ -51,6 +51,7 @@ from math import pi,acos,sin,cos
 from dat_file import dat_file
 from dat_file import dat_file_read
 from global_objects import global_object_register
+from inp import inp_search_token_array
 
 class gl_fallback(QWidget):
 
@@ -93,9 +94,10 @@ class gl_fallback(QWidget):
 			path=os.path.join(get_materials_path(),epitaxy_get_mat_file(l-i),"mat.inp")
 
 			if inp_load_file(lines,path)==True:
-				red=float(inp_search_token_value(lines, "#Red"))
-				green=float(inp_search_token_value(lines, "#Green"))
-				blue=float(inp_search_token_value(lines, "#Blue"))
+				ret=inp_search_token_array(lines, "#red_green_blue")
+				red=float(ret[0])
+				green=float(ret[1])
+				blue=float(ret[2])
 			else:
 				print("Could not load",path)
 				red=0.0

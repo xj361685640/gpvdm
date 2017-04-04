@@ -36,7 +36,6 @@ from gpvdm_select import gpvdm_select
 
 from inp import inp_isfile
 from inp import inp_get_token_array
-from inp import inp_update
 from inp import inp_check_ver
 from inp import inp_new_file
 from inp import inp_write_lines_to_file
@@ -53,6 +52,7 @@ from ref_io import load_ref
 
 def get_ref_text(file_name,html=True):
 	r=load_ref(file_name)
+	text=""
 	if r!=None:
 		if html==True:
 			if r.group!="":
@@ -118,7 +118,7 @@ class ref_window(QWidget):
 	def gen_file(self):
 		make_new=True
 		lines=[]
-		if inp_load_file(lines,self.file_name):
+		if inp_load_file(lines,self.file_name)==True:
 			if inp_check_ver(self.file_name, "1.0")==True:
 				make_new=False
 		

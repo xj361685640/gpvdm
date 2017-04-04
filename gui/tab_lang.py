@@ -44,7 +44,6 @@ import i18n
 from i18n import get_languages
 _ = i18n.language.gettext
 
-from inp import inp_update
 import functools
 from gui_util import error_dlg
 
@@ -100,7 +99,7 @@ class language_tab_class(QWidget,tab_base):
 		self.setLayout(self.vbox)
 
 	def callback_edit(self):
-		inp_update(self.file_path, "#lang", self.lang_box.itemText(self.lang_box.currentIndex()))
+		inp_update_token_value(self.file_path, "#lang", self.lang_box.itemText(self.lang_box.currentIndex()))
 		error_dlg(self,"Please restart gpvdm for the changes to take effect.")
 
 	def help(self):

@@ -55,7 +55,7 @@ from epitaxy import epitaxy_get_name
 #inp
 from inp import inp_load_file
 from inp_util import inp_search_token_value
-
+from inp import inp_get_token_value
 #calpath
 from icon_lib import QIcon_load
 
@@ -155,19 +155,14 @@ class band_graph(QWidget):
 
 			delta=float(layer_ticknes)*1e9
 			#print(epitaxy_get_electrical_layer(i))
+			lines=[]
+			material_type=inp_get_token_value(os.path.join(os.getcwd(),'materials',layer_material,'mat.inp'), "#material_type")
 			if epitaxy_get_electrical_layer(i).startswith("dos")==False:
-				mat_file=os.path.join(os.getcwd(),'materials',layer_material,'mat.inp')
-				myfile = open(mat_file)
-				self.mat_file_lines = myfile.readlines()
-				myfile.close()
-
-				for ii in range(0, len(self.mat_file_lines)):
-					self.mat_file_lines[ii]=self.mat_file_lines[ii].rstrip()
-
-				lumo=-float(self.mat_file_lines[1])
-				Eg=float(self.mat_file_lines[3])
+				if inp_load_file(lines,os.path.join(os.getcwd(),'materials',layer_material,'dos.inp'))==True:
+					lumo=-float(inp_search_token_value(lines, "#Xi"))
+					Eg=float(inp_search_token_value(lines, "#Eg"))
 			else:
-				lines=[]
+
 				if inp_load_file(lines,epitaxy_get_electrical_layer(i)+".inp")==True:
 					lumo=-float(inp_search_token_value(lines, "#Xi"))
 					Eg=float(inp_search_token_value(lines, "#Eg"))
@@ -177,7 +172,8 @@ class band_graph(QWidget):
 			lumo_delta=lumo-0.1
 			homo=lumo-Eg
 			homo_delta=homo-0.1
-			if Eg==0.0:
+
+			if material_type=="oxide" or material_type=="metal":
 				lumo_delta=-7.0
 				homo=0.0
 			lumo_shape = [lumo,lumo,lumo_delta,lumo_delta]

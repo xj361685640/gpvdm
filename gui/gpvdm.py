@@ -240,7 +240,7 @@ class gpvdm_main_window(QMainWindow):
 			self.ribbon.simulations.setEnabled(True)
 			#self.save_sim.setEnabled(True)
 			self.ribbon.device.setEnabled(True)
-			help_window().help_set_help(["play.png",_("<big><b>Now run the simulation</b></big><br> Click on the play icon to start a simulation.")])
+			help_window().help_set_help(["media-playback-start",_("<big><b>Now run the simulation</b></big><br> Click on the play icon to start a simulation.")])
 
 			self.ribbon.home_export.setEnabled(True)
 			#self.menu_import_lib.setEnabled(True)

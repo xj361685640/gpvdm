@@ -93,5 +93,5 @@ class fit_tab(QTabWidget):
 
 	def rename(self,tab_name):
 		self.tab_name=tab_name
-		inp_update_token_value("fit"+str(self.index)+".inp", "#fit_name", self.tab_name,1)
+		inp_update_token_value("fit"+str(self.index)+".inp", "#fit_name", self.tab_name)
 

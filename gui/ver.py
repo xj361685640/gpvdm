@@ -24,7 +24,7 @@ from cal_path import get_inp_file_path
 from cal_path import get_share_path
 from cal_path import get_bin_path
 from inp import inp_load_file
-from inp import inp_update
+from inp import inp_update_token_value
 from util_zip import read_lines_from_archive
 
 global core
@@ -89,7 +89,7 @@ def ver_sync_ver():
 
 	if found==True:
 		print("seting ver to: ",text)
-		inp_update("ver.inp","#core",text)
+		inp_update_token_value("ver.inp","#core",text)
 	else:
 		print(_("version.h not found"))
 

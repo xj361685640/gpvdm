@@ -18,6 +18,9 @@ image32_DATA = images/32x32/*.png
 image64dir = $(pkgdatadir)/images/64x64
 image64_DATA = images/64x64/*.png
 
+splashdir = $(pkgdatadir)/images/splash
+splash_DATA = images/splash/*.png
+
 flagdir = $(pkgdatadir)/flags
 flag_DATA = flags/*.png
 

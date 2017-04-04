@@ -105,7 +105,7 @@ class fit_window(QWidget):
 			shutil.copy("fit0.inp","fit"+str(index)+".inp")
 			shutil.copy("fit_data0.inp","fit_data"+str(index)+".inp")
 			shutil.copy("fit_patch0.inp","fit_patch"+str(index)+".inp")
-			inp_update_token_value("fit"+str(index)+".inp", "#fit_name", new_sim_name.ret,1)
+			inp_update_token_value("fit"+str(index)+".inp", "#fit_name", new_sim_name.ret)
 			self.add_page(index)
 
 	def callback_remove_page(self,widget,name):
@@ -123,7 +123,7 @@ class fit_window(QWidget):
 			shutil.copy("fit_data"+str(old_index)+".inp","fit_data"+str(index)+".inp")
 			shutil.copy("fit_patch"+str(old_index)+".inp","fit_patch"+str(index)+".inp")
 
-			inp_update_token_value("fit"+str(index)+".inp", "#fit_name", new_sim_name.ret,1)
+			inp_update_token_value("fit"+str(index)+".inp", "#fit_name", new_sim_name.ret)
 			self.add_page(index)
 
 
@@ -280,7 +280,7 @@ class fit_window(QWidget):
 				
 		toolbar.addSeparator()
 
-		self.play= QAction(QIcon_load("play"), _("Run a single fit"), self)
+		self.play= QAction(QIcon_load("media-playback-start"), _("Run a single fit"), self)
 		self.play.triggered.connect(self.callback_one_fit)
 		toolbar.addAction(self.play)
 		

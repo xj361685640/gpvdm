@@ -65,7 +65,7 @@ class splash_window():
 		r=random.randint(0, 2)
 		files=["splash2.png","splash3.png","splash4.jpg"]
 
-		image_path=os.path.join(get_image_file_path(),files[r])
+		image_path=os.path.join(get_image_file_path(),"splash",files[r])
 		if os.path.isfile(image_path):
 			image=QPixmap(image_path)
 		

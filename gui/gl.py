@@ -91,6 +91,8 @@ from gl_lib_ray import fast_data
 
 from global_objects import global_object_register
 
+from inp import inp_search_token_array
+
 # Rotations for cube.
 cube_rotate_x_rate = 0.2
 cube_rotate_y_rate = 0.2
@@ -529,9 +531,13 @@ if open_gl_ok==True:
 
 
 				if inp_load_file(lines,path)==True:
-					red=float(inp_search_token_value(lines, "#Red"))
-					green=float(inp_search_token_value(lines, "#Green"))
-					blue=float(inp_search_token_value(lines, "#Blue"))
+					ret=inp_search_token_array(lines, "#red_green_blue")
+					red=float(ret[0])
+					green=float(ret[1])
+					blue=float(ret[2])
+					#red=float(inp_search_token_value(lines, "#Red"))
+					#green=float(inp_search_token_value(lines, "#Green"))
+					#blue=float(inp_search_token_value(lines, "#Blue"))
 					alpha=float(inp_search_token_value(lines, "#mat_alpha"))
 				else:
 					red=0.0

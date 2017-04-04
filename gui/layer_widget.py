@@ -118,7 +118,7 @@ class layer_widget(QWidget):
 		if inp_load_file(lines,os.path.join(os.getcwd(),"mesh_y.inp"))==True:
 			mesh_layers=int(inp_search_token_value(lines, "#mesh_layers"))
 			if mesh_layers==1:
-				inp_update_token_value(os.path.join(os.getcwd(),"mesh_y.inp"), "#mesh_layer_length0", str(tot),1)
+				inp_update_token_value(os.path.join(os.getcwd(),"mesh_y.inp"), "#mesh_layer_length0", str(tot))
 
 	def layer_type_edit(self):
 		for i in range(0,self.tab.rowCount()):

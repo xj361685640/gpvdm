@@ -31,6 +31,7 @@ from scan_item import scan_remove_file
 from inp import inp_load_file
 from inp import inp_update_token_value
 from inp import inp_get_token_value
+from inp import inp_get_next_token_array
 from util import latex_to_html
 from i18n import yes_no
 from gtkswitch import gtkswitch
@@ -45,12 +46,17 @@ from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtGui import QPixmap, QIcon
 
 from QComboBoxLang import QComboBoxLang
+from QColorPicker import QColorPicker
 
 from icon_lib import QIcon_load
+
+from PyQt5.QtCore import pyqtSignal
+
 import i18n
 _ = i18n.language.gettext
 
 import functools
+from inp import inp_update_token_array
 
 class tab_class(QWidget,tab_base):
 
@@ -68,19 +74,22 @@ class tab_class(QWidget,tab_base):
 		if type(widget)==QLineEdit:
 			a=undo_list_class()
 			a.add([file_name, token, inp_get_token_value(self.file_name, token),widget])
-			inp_update_token_value(file_name, token, widget.text(),1)
+			inp_update_token_value(file_name, token, widget.text())
 		elif type(widget)==gtkswitch:
-			inp_update_token_value(file_name, token, widget.get_value(),1)
+			inp_update_token_value(file_name, token, widget.get_value())
 		elif type(widget)==leftright:
-			inp_update_token_value(file_name, token, widget.get_value(),1)
+			inp_update_token_value(file_name, token, widget.get_value())
 		elif type(widget)==gpvdm_select:
-			inp_update_token_value(file_name, token, widget.text(),1)
+			inp_update_token_value(file_name, token, widget.text())
 		elif type(widget)==QComboBox:
-			inp_update_token_value(file_name, token, widget.itemText(widget.currentIndex()),1)
+			inp_update_token_value(file_name, token, widget.itemText(widget.currentIndex()))
 		elif type(widget)==QComboBoxLang:
-			inp_update_token_value(file_name, token, widget.currentText_english(),1)
-
-		help_window().help_set_help(["32_document-save-as.png","<big><b>Saved to disk</b></big>\n"])
+			inp_update_token_value(file_name, token, widget.currentText_english())
+		elif type(widget)==QColorPicker:
+			print("ohh type QColorPicker",widget.r,widget.g,widget.b)
+			inp_update_token_array(file_name, token, [str(widget.r),str(widget.g),str(widget.b)])
+			
+		help_window().help_set_help(["document-save-as","<big><b>Saved to disk</b></big>\n"])
 		
 		self.changed.emit()
 
@@ -89,8 +98,6 @@ class tab_class(QWidget,tab_base):
 
 	def set_edit(self,editable):
 		self.editable=editable
-	def callback_gpvdm_select(self):
-		print("... clicked")
 		
 	def init(self,filename,tab_name):
 		self.scroll=QScrollArea()
@@ -110,14 +117,15 @@ class tab_class(QWidget,tab_base):
 
 		self.edit_list=[]
 		inp_load_file(self.lines,filename)
-
+		print(filename)
 		n=0
 		pos=0
 		my_token_lib=tokens()
-		height=27
 		widget_number=0
-		while (pos<len(self.lines)):
-			token=self.lines[pos]
+		while (1):
+			ret,pos=inp_get_next_token_array(self.lines,pos)
+			print(ret[0],filename)
+			token=ret[0]
 			if token=="#ver":
 				break
 
@@ -128,8 +136,7 @@ class tab_class(QWidget,tab_base):
 				show=False
 				units="Units"
 
-				pos=pos+1
-				value=self.lines[pos]
+				value=ret[1]
 
 				result=my_token_lib.find(token)
 				if result!=False:
@@ -163,6 +170,12 @@ class tab_class(QWidget,tab_base):
 						#edit_box.set_text(self.lines[pos]);
 						edit_box.textChanged.connect(functools.partial(self.callback_edit,filename,token,edit_box))
 						#edit_box.show()
+					elif result.widget=="QColorPicker":
+						r=float(ret[1])
+						g=float(ret[2])
+						b=float(ret[3])
+						edit_box=QColorPicker(r,g,b)
+						edit_box.changed.connect(functools.partial(self.callback_edit,filename,token,edit_box))
 					elif result.widget=="QComboBoxLang":
 						edit_box=QComboBoxLang()
 						for i in range(0,len(result.defaults)):
@@ -195,7 +208,6 @@ class tab_class(QWidget,tab_base):
 					scan_item_add(filename,token,text_info,1)
 					
 					widget_number=widget_number+1
-			pos=pos+1
 
 		spacer = QWidget()
 		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
@@ -210,7 +222,8 @@ class tab_class(QWidget,tab_base):
 		
 		if self.icon_file!="":
 			self.image=QLabel()
-			self.image.setPixmap(QImage_load(self.icon_file))
+			icon=QIcon_load(self.icon_file)
+			self.image.setPixmap(icon.pixmap(icon.actualSize(QSize(32, 32))))
 			self.icon_widget_vbox.addWidget(self.image)
 
 			spacer2 = QWidget()

@@ -27,7 +27,7 @@ from icon_lib import QIcon_load
 from window_list import windows
 
 #inp
-from inp import inp_update
+from inp import inp_update_token_value
 from inp import inp_load_file
 from inp_util import inp_search_token_value
 
@@ -59,8 +59,8 @@ class doping_window(QWidget):
 	def save_data(self):
 		print("save")
 		for i in range(0,self.tab.rowCount()):
-			inp_update(self.tab.item(i, 0).text()+".inp", "#doping_start", self.tab.item(i, 2).text())
-			inp_update(self.tab.item(i, 0).text()+".inp", "#doping_stop", self.tab.item(i, 3).text())
+			inp_update_token_value(self.tab.item(i, 0).text()+".inp", "#doping_start", self.tab.item(i, 2).text())
+			inp_update_token_value(self.tab.item(i, 0).text()+".inp", "#doping_stop", self.tab.item(i, 3).text())
 
 
 

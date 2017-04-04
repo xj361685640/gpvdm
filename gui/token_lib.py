@@ -99,6 +99,14 @@ lib.append(my_data("#Rshort_pulse","Ohms",_("R_{short}"),"e",1.0,"QLineEdit"))
 lib.append(my_data("#pulse_bias","V",_("V_{bias}"),"e",1.0,"QLineEdit"))
 lib.append(my_data("#pulse_light_efficiency","au",_("Efficiency of light"),"e",1.0,"QLineEdit"))
 
+#mat.inp
+lib.append(my_data("#material_type","type",_("Material type"),"e",1.0,"QComboBoxLang",defaults=[[("organic"),_("Organic")],["inorganic",_("Inorganic")],["metal",_("Metal")],["other",_("Other")]]))
+lib.append(my_data("#mat_alpha","0-1.0",_("Alpha channel"),"e",1.0,"QLineEdit"))
+lib.append(my_data("#red_green_blue","rgb",_("Color"),"e",1.0,"QColorPicker"))
+lib.append(my_data("#mat_alpha","0-1",_("Transparency"),"e",1.0,"QLineEdit"))
+lib.append(my_data("#status","type",_("Publish material data?"),"e",1.0,"QComboBoxLang",defaults=[[("public"),_("Public")],["private",_("Private")]]))
+
+
 #jv.inp
 lib.append(my_data("#jv_step_mul","0-2.0",_("JV voltage step multiplyer"),"e",1.0,"QLineEdit"))
 lib.append(my_data("#jv_max_j","A m^{-2}",_("Maximum current density"),"e",1.0,"QLineEdit"))
@@ -167,7 +175,7 @@ lib.append(my_data("#fit_enable_simple_reset","au",_("Simplex reset steps"),"e",
 lib.append(my_data("#fit_method","au",_("Fiting method"),"e",1.0,"QComboBox",defaults=["simplex","newton"]))
 
 #fit?.inp
-lib.append(my_data("#fit_subtract_lowest_point","au",_("Subtract lowest point"),"e",1.0,"QComboBox"))
+lib.append(my_data("#fit_subtract_lowest_point",_("True/False"),_("Subtract lowest point"),"e",1.0,"gtkswitch"))
 
 #thermal.inp
 lib.append(my_data("#Tll","Kelvin",_("Device temperature on left"),"e",1.0,"QLineEdit"))

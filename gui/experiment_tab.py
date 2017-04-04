@@ -26,7 +26,6 @@ from inp_util import inp_search_token_value
 from tmesh import tab_time_mesh
 from circuit import circuit
 from inp import inp_update_token_value
-from cal_path import get_image_file_path
 from tab import tab_class
 
 
@@ -80,6 +79,6 @@ class experiment_tab(QTabWidget):
 
 	def rename(self,tab_name):
 		self.tab_name=tab_name+"@"+self.tab_name.split("@")[1]
-		inp_update_token_value("pulse"+str(self.index)+".inp", "#sim_menu_name", self.tab_name,1)
+		inp_update_token_value("pulse"+str(self.index)+".inp", "#sim_menu_name", self.tab_name)
 
 

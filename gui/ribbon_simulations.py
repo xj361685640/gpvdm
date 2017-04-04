@@ -194,7 +194,7 @@ class ribbon_simulations(QToolBar):
 			self.jvexperiment_window.show()
 			
 	def callback_optics_sim(self, widget, data=None):
-		help_window().help_set_help(["optics.png",_("<big><b>The optical simulation window</b></big><br>Use this window to perform optical simulations.  Click on the play button to run a simulation."),"play.png",_("Click on the play button to run an optical simulation.  The results will be displayed in the tabs to the right.")])
+		help_window().help_set_help(["optics.png",_("<big><b>The optical simulation window</b></big><br>Use this window to perform optical simulations.  Click on the play button to run a simulation."),"media-playback-start",_("Click on the play button to run an optical simulation.  The results will be displayed in the tabs to the right.")])
 
 		if self.optics_window==False:
 			self.optics_window=class_optical()

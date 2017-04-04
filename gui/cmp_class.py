@@ -399,7 +399,7 @@ class cmp_class(QWidget):
 			response = md.run()
 
 			if response == gtk.RESPONSE_YES:
-				inp_update_token_value("dump.inp", "#dump_1d_slices", "1",1)
+				inp_update_token_value("dump.inp", "#dump_1d_slices", "1")
 				os.system(get_exe_command())
 
 			md.destroy()

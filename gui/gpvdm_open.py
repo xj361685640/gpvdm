@@ -256,7 +256,7 @@ class gpvdm_open(QDialog):
 					ref=get_ref_text(ref_path)
 					if ref!=None:
 						summary=summary+ref
-					help_window().help_set_help(["32_organic_material.png",summary])
+					help_window().help_set_help(["organic_material.png",summary])
 					#get_ref_text(file_name,html=True)
 
 

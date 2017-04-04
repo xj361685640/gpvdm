@@ -76,7 +76,7 @@ class tb_pulse_load_type(QWidget):
 
 	def call_back_sim_mode_changed(self):
 		mode=self.sim_mode.currentText()
-		inp_update_token_value("pulse"+str(self.index)+".inp", "#pulse_sim_mode", mode,1)
+		inp_update_token_value("pulse"+str(self.index)+".inp", "#pulse_sim_mode", mode)
 		self.changed.emit()
 
 #gobject.type_register(tb_pulse_load_type)

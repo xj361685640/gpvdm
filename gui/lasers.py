@@ -21,7 +21,6 @@
 import os
 from window_list import windows
 import webbrowser
-from inp import inp_update
 from inp import inp_update_token_value
 from inp import inp_get_token_value
 from tab import tab_class
@@ -85,7 +84,7 @@ class lasers(QWidget):
 		if new_sim_name.ret!=None:
 			index=laser_new_filename()
 			inp_copy_file("laser"+str(index)+".inp","laser0.inp")
-			inp_update_token_value("laser"+str(index)+".inp", "#laser_name", new_sim_name.ret,1)
+			inp_update_token_value("laser"+str(index)+".inp", "#laser_name", new_sim_name.ret)
 			self.add_page(index)
 
 
@@ -99,7 +98,7 @@ class lasers(QWidget):
 				print ("Error copying file"+tab.file_name)
 				return
 
-			inp_update_token_value("laser"+str(index)+".inp", "#laser_name", new_sim_name.ret,1)
+			inp_update_token_value("laser"+str(index)+".inp", "#laser_name", new_sim_name.ret)
 			self.add_page(index)
 
 
@@ -113,7 +112,7 @@ class lasers(QWidget):
 		if new_laser_name.ret!=None:
 			index=self.notebook.currentIndex() 
 			self.notebook.setTabText(index, new_laser_name.ret)
-			inp_update(tab.file_name, "#laser_name", new_laser_name.ret)
+			inp_update_token_value(tab.file_name, "#laser_name", new_laser_name.ret)
 
 	def callback_delete_page(self):
 		if self.notebook.count()>1:

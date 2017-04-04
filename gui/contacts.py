@@ -31,7 +31,6 @@ from window_list import windows
 from epitaxy import epitaxy_get_layers
 from epitaxy import epitaxy_get_dos_file
 from epitaxy import epitaxy_get_width
-from inp import inp_update
 from scan_item import scan_item_add
 
 import i18n

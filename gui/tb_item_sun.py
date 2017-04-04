@@ -42,7 +42,7 @@ class tb_item_sun(QWidget):
 	
 	def call_back_light_changed(self):
 		light_power=self.light.currentText()
-		inp_update_token_value("light.inp", "#Psun", light_power,1)
+		inp_update_token_value("light.inp", "#Psun", light_power)
 		self.changed.emit()
 
 	def update(self):

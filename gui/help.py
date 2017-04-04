@@ -34,6 +34,7 @@ from i18n import get_full_desired_lang_path
 
 from ref_io import load_ref
 
+from icon_lib import QIcon_load
 my_help_class=None
 
 class help_data():
@@ -107,11 +108,11 @@ class help_class(QWidget):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
-		self.back = QAction(QIcon(get_icon_path("go-previous")), _("Back"), self)
+		self.back = QAction(QIcon_load("go-previous",size=32), _("Back"), self)
 		self.back.triggered.connect(self.callback_back)
 		toolbar.addAction(self.back)
 
-		self.forward= QAction(QIcon(get_icon_path("go-next")), _("Next"), self)
+		self.forward= QAction(QIcon_load("go-next",size=32), _("Next"), self)
 		self.forward.triggered.connect(self.callback_forward)
 		toolbar.addAction(self.forward)
 
@@ -126,7 +127,7 @@ class help_class(QWidget):
 		self.undo.triggered.connect(self.on_line_help)
 		toolbar.addAction(self.undo)
 
-		self.undo = QAction(QIcon(get_icon_path("close")), _("Hide"), self)
+		self.undo = QAction(QIcon_load("close",size=32), _("Hide"), self)
 		self.undo.setStatusTip(_("Close"))
 		self.undo.triggered.connect(self.callback_close)
 		toolbar.addAction(self.undo)
@@ -176,7 +177,7 @@ class help_class(QWidget):
 			all_text=self.last[self.pos][i*2+1]
 			nbr=all_text.count("<br>")
 			end_text=len(all_text.split("<br>")[-1])
-			pixmap = QPixmap(get_icon_path(self.last[self.pos][i*2]))
+			pixmap = QPixmap(get_icon_path(self.last[self.pos][i*2],size=32))
 			self.image[i].setPixmap(pixmap)
 			text=all_text+"<br>"
 			self.label[i].setText(text)

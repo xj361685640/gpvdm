@@ -47,7 +47,7 @@ from clean_sim import clean_sim_dir
 from ver import ver_sync_ver
 from code_ctrl import enable_cluster
 from win_lin import running_on_linux
-from inp import inp_update
+from inp import inp_update_token_value
 from device_lib import device_lib_replace
 
 import i18n
@@ -123,7 +123,7 @@ def command_args(argc,argv):
 			gpvdm_copy_src(clone-src[0])
 			sys.exit(0)
 		elif args.editvalue:
-			inp_update(args.editvalue[0], args.editvalue[1], args.editvalue[2])
+			inp_update_token_value(args.editvalue[0], args.editvalue[1], args.editvalue[2])
 			sys.exit(0)
 		elif args.load:
 			print("Loading file",args.load[0])

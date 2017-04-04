@@ -75,7 +75,7 @@ class materials_main(QWidget):
 		self.setFixedSize(900, 600)
 		self.setWindowIcon(QIcon_load("organic_material"))
 
-		self.setWindowTitle(_("Material editor")+" (https://www.gpvdm.com)") 
+		self.setWindowTitle(_("Material editor")+" (https://www.gpvdm.com)"+" "+os.path.basename(self.path)) 
 		
 
 		self.main_vbox = QVBoxLayout()
@@ -108,8 +108,8 @@ class materials_main(QWidget):
 		self.main_vbox.addWidget(self.notebook)
 
 
-		files=["dos.inp","pl.inp"]
-		description=[_("Electrical parameters"),_("Luminescence")]
+		files=["dos.inp","pl.inp","mat.inp"]
+		description=[_("Electrical parameters"),_("Luminescence"),_("Basic")]
 
 
 		for i in range(0,len(files)):

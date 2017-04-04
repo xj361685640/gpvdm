@@ -77,7 +77,7 @@ class fxexperiment(QWidget):
 			index=experiment_new_filename()
 			inp_copy_file("fxdomain"+str(index)+".inp","fxdomain0.inp")
 			inp_copy_file("fxmesh"+str(index)+".inp","fxmesh0.inp")
-			inp_update_token_value("fxdomain"+str(index)+".inp", "#sim_menu_name", new_sim_name+"@fxdomain",1)
+			inp_update_token_value("fxdomain"+str(index)+".inp", "#sim_menu_name", new_sim_name+"@fxdomain")
 			self.add_page(index)
 			self.changed.emit()
 
@@ -97,7 +97,7 @@ class fxexperiment(QWidget):
 				print("Error copying file"+"fxdomain"+str(old_index)+".inp")
 				return
 
-			inp_update_token_value("fxdomain"+str(index)+".inp", "#sim_menu_name", new_sim_name,1)
+			inp_update_token_value("fxdomain"+str(index)+".inp", "#sim_menu_name", new_sim_name)
 			self.add_page(index)
 			self.changed.emit()
 

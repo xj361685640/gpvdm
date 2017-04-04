@@ -29,13 +29,13 @@ class mesh_dump_ctl(gtk.VBox):
 
 	def scroll(self, adj):
 		self.pos=int(adj.value)
-		inp_update_token_value("dump.inp", "#dump_energy_slice_pos", str(self.pos),1)
+		inp_update_token_value("dump.inp", "#dump_energy_slice_pos", str(self.pos))
 		self.emit("update")
 
 	def check_clicked(self, widget):
 		self.enable=widget.get_active()
 		self.vscale.set_sensitive(self.enable)
-		inp_update_token_value("dump.inp", "#dump_energy_slice_switch", str(int(self.enable)),1)
+		inp_update_token_value("dump.inp", "#dump_energy_slice_switch", str(int(self.enable)))
 		self.emit("update")
 
 	def init(self):

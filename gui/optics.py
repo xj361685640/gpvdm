@@ -239,7 +239,7 @@ class class_optical(QWidget):
 		print(models,used_model)
 		if models.count(used_model)==0:
 			used_model="exp"
-			inp_update_token_value("light.inp", "#light_model","exp",1)
+			inp_update_token_value("light.inp", "#light_model","exp")
 			self.cb_model.setCurrentIndex(self.cb_model.findText(used_model))
 		else:
 			self.cb_model.setCurrentIndex(self.cb_model.findText(used_model))
@@ -258,7 +258,7 @@ class class_optical(QWidget):
 
 		if models.count(used_model)==0:
 			used_model="sun"
-			inp_update_token_value("light.inp", "#sun","sun",1)
+			inp_update_token_value("light.inp", "#sun","sun")
 
 		self.light_source_model.setCurrentIndex(self.light_source_model.findText(used_model))
 		scan_item_add("light.inp","#sun","Light source",1)
@@ -293,8 +293,8 @@ class class_optical(QWidget):
 		dump_optics=inp_get_token_value("dump.inp", "#dump_optics")
 		dump_optics_verbose=inp_get_token_value("dump.inp", "#dump_optics_verbose")
 
-		inp_update_token_value("dump.inp", "#dump_optics","true",1)
-		inp_update_token_value("dump.inp", "#dump_optics_verbose","true",1)
+		inp_update_token_value("dump.inp", "#dump_optics","true")
+		inp_update_token_value("dump.inp", "#dump_optics_verbose","true")
 
 		cmd = get_exe_command()+' --simmode opticalmodel@optics'
 		print(cmd)
@@ -304,14 +304,14 @@ class class_optical(QWidget):
 		#self.my_server.add_job(os.getcwd(),"--simmode opticalmodel@optics")
 		#self.my_server.start()
 		
-		inp_update_token_value("dump.inp", "#dump_optics",dump_optics,1)
-		inp_update_token_value("dump.inp", "#dump_optics_verbose",dump_optics_verbose,1)
+		inp_update_token_value("dump.inp", "#dump_optics",dump_optics)
+		inp_update_token_value("dump.inp", "#dump_optics_verbose",dump_optics_verbose)
 		
 		self.force_redraw()
 		self.fx_box.update()
 
-		inp_update_token_value("dump.inp", "#dump_optics","true",1)
-		inp_update_token_value("dump.inp", "#dump_optics_verbose","true",1)
+		inp_update_token_value("dump.inp", "#dump_optics","true")
+		inp_update_token_value("dump.inp", "#dump_optics_verbose","true")
 		
 
 	def mode_changed(self):
@@ -328,13 +328,13 @@ class class_optical(QWidget):
 
 	def on_cb_model_changed(self):
 		cb_text=self.cb_model.currentText()
-		inp_update_token_value("light.inp", "#light_model", cb_text,1)
+		inp_update_token_value("light.inp", "#light_model", cb_text)
 
 
 	def on_light_source_model_changed(self):
 		cb_text=self.light_source_model.currentText()
 		cb_text=cb_text
-		inp_update_token_value("light.inp", "#sun", cb_text,1)
+		inp_update_token_value("light.inp", "#sun", cb_text)
 
 	def callback_help(self, widget, data=None):
 		webbrowser.open('https://www.gpvdm.com/man/index.html')

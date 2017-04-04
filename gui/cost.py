@@ -80,7 +80,7 @@ class cost(QWidget):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
-		self.play = QAction(QIcon_load("play"), _("Re-calcualte"), self)
+		self.play = QAction(QIcon_load("media-playback-start"), _("Re-calcualte"), self)
 		self.play.triggered.connect(self.update)
 		toolbar.addAction(self.play)
 		

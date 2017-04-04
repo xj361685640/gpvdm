@@ -24,7 +24,6 @@ import os
 from inp import inp_load_file
 from inp_util import inp_search_token_value
 from inp import inp_write_lines_to_file
-from inp import inp_update
 
 from util import str2bool
 

@@ -79,7 +79,7 @@ class experiment(QWidget):
 			index=experiment_new_filename()
 			inp_copy_file("pulse"+str(index)+".inp","pulse0.inp")
 			inp_copy_file("time_mesh_config"+str(index)+".inp","time_mesh_config0.inp")
-			inp_update_token_value("pulse"+str(index)+".inp", "#sim_menu_name", new_sim_name.ret+"@pulse",1)
+			inp_update_token_value("pulse"+str(index)+".inp", "#sim_menu_name", new_sim_name.ret+"@pulse")
 			self.add_page(index)
 			self.changed.emit()
 
@@ -99,7 +99,7 @@ class experiment(QWidget):
 				print(_("Error copying file")+"pulse"+str(old_index)+".inp")
 				return
 
-			inp_update_token_value("pulse"+str(index)+".inp", "#sim_menu_name", new_sim_name,1)
+			inp_update_token_value("pulse"+str(index)+".inp", "#sim_menu_name", new_sim_name)
 			self.add_page(index)
 			self.changed.emit()
 

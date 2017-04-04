@@ -316,7 +316,7 @@ class import_data(QDialog):
 		self.ret=self.load_file()
 			
 	def callback_help(self,widget):
-		webbrowser.open('http://www.gpvdm.com/man/index.html')
+		webbrowser.open('https://www.gpvdm.com/man/index.html')
 
 	def closeEvent(self, event):
 		self.win_list.update(self,"config_window")

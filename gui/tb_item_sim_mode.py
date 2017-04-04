@@ -84,7 +84,7 @@ class tb_item_sim_mode(QWidget):
 				for i in range(0,len(self.store_list)):
 					if self.store_list[i].token=="jv":
 						self.sim_mode.activated(i)
-						inp_update_token_value("sim.inp", "#simmode", "jv@jv",1)
+						inp_update_token_value("sim.inp", "#simmode", "jv@jv")
 						break
 
 	def __init__(self):
@@ -113,6 +113,6 @@ class tb_item_sim_mode(QWidget):
 		mode=self.sim_mode.currentText()
 		for i in range(0,len(self.store_list)):
 			if self.store_list[i].token==mode:
-				inp_update_token_value("sim.inp", "#simmode", mode+"@"+self.store_list[i].file,1)
+				inp_update_token_value("sim.inp", "#simmode", mode+"@"+self.store_list[i].file)
 
 
