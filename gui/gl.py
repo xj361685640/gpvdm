@@ -92,6 +92,7 @@ from gl_lib_ray import fast_data
 from global_objects import global_object_register
 
 from inp import inp_search_token_array
+from math import fabs
 
 # Rotations for cube.
 cube_rotate_x_rate = 0.2
@@ -207,13 +208,79 @@ def graph(xstart,ystart,z,w,h,z_range,graph_data):
 		glEnd()
 	
 class color():
-
 	def __init__(self,r,g,b,alpha):
 		self.r=r
 		self.g=g
 		self.b=b
 		self.alpha=alpha
 
+class view_point():
+	def __init__(self):
+		self.xRot =25.0
+		self.yRot =-20.0
+		self.zRot =0.0
+		self.x_pos=-0.5
+		self.y_pos=-0.5
+		self.zoom=-12.0
+	
+	def shift(self,target):
+		stop=False
+		move=0.0
+		delta=(target.xRot-self.xRot)
+		if fabs(delta)>1.0:
+			delta=1.0*delta/fabs(delta)
+
+		self.xRot=self.xRot+delta
+		move=move+fabs(delta)
+
+		delta=(target.yRot-self.yRot)
+		if fabs(delta)>1.0:
+			delta=1.0*delta/fabs(delta)
+
+		self.yRot=self.yRot+delta
+		move=move+fabs(delta)
+
+		delta=(target.zRot-self.zRot)
+		if fabs(delta)>1.0:
+			delta=1.0*delta/fabs(delta)
+
+		self.zRot=self.zRot+delta
+		move=move+fabs(delta)
+		
+		delta=(target.x_pos-self.x_pos)
+		if fabs(delta)>0.5:
+			delta=0.5*delta/fabs(delta)
+
+		self.x_pos=self.x_pos+delta
+		move=move+fabs(delta)
+		
+		delta=(target.y_pos-self.y_pos)
+		if fabs(delta)>0.5:
+			delta=0.5*delta/fabs(delta)
+
+		self.y_pos=self.y_pos+delta
+		move=move+fabs(delta)
+
+		delta=(target.zoom-self.zoom)
+		if fabs(delta)>1.0:
+			delta=1.0*delta/fabs(delta)
+
+		self.zoom=self.zoom+delta
+		move=move+fabs(delta)
+		
+		if move==0.0:
+			stop=True
+
+		return stop
+
+	def set_value(self,data):
+		self.xRot=data.xRot
+		self.yRot=data.yRot
+		self.zRot=data.zRot
+		self.x_pos=data.x_pos
+		self.y_pos=data.y_pos
+		self.zoom=data.zoom
+			
 if open_gl_ok==True:		
 	class glWidget(QGLWidget):
 
@@ -224,22 +291,29 @@ if open_gl_ok==True:
 			self.graph_z_max=1.0
 			self.graph_z_min=1.0
 			#view pos
-			self.xRot =25.0
-			self.yRot =-20.0
-			self.zRot =0.0
-			self.x_pos=-0.5
-			self.y_pos=-0.5
-			self.zoom=-12.0
+			self.viewpoint=view_point()
+			self.viewpoint.xRot =25.0
+			self.viewpoint.yRot =-20.0
+			self.viewpoint.zRot =0.0
+			self.viewpoint.x_pos=-0.5
+			self.viewpoint.y_pos=-0.5
+			self.viewpoint.zoom=-12.0
 
-			self.xRot_target =25.0
-			self.yRot_target =-20.0
-			self.zRot_target =0.0
-			self.x_pos_target=-0.5
-			self.y_pos_target=-0.5
-			self.zoom_target=-12.0
+			self.viewtarget=view_point()
+			self.viewtarget.set_value(self.viewpoint)
+			self.viewtarget.xRot=0.0
+			self.viewtarget.yRot=0.0
+			self.viewtarget.zRot=0.0
+			self.viewtarget.x_pos=-2.0
+			self.viewtarget.y_pos=-1.7
+			self.viewtarget.zoom=-8.0
 
+
+
+			
 			self.timer=None
 			self.zoom_timer=None
+			
 			self.suns=0.0
 			self.selected_layer=-1
 			self.graph_data=dat_file()
@@ -255,14 +329,21 @@ if open_gl_ok==True:
 
 		def my_timer(self):
 			#self.xRot =self.xRot + 2
-			self.yRot =self.yRot + 2
+			self.viewpoint.yRot =self.viewpoint.yRot + 2
 			#self.zRot =self.zRot + 5
 			
 			self.update()
 
+		def ftimer_target(self):
+			stop=self.viewpoint.shift(self.viewtarget)
+			
+			self.update()
+			if stop==True:
+				self.timer.stop()
+
 		def fzoom_timer(self):
-			self.zoom =self.zoom+4.0
-			if self.zoom>-12.0:
+			self.viewpoint.zoom =self.viewpoint.zoom+4.0
+			if self.viewpoint.zoom>-12.0:
 				self.zoom_timer.stop()
 			self.update()
 
@@ -285,15 +366,20 @@ if open_gl_ok==True:
 				if event.text()=="z":
 					if self.timer==None:
 						self.start_rotate()
-						if self.zoom>-40:
-							self.zoom =-400
+						if self.viewpoint.zoom>-40:
+							self.viewpoint.zoom =-400
 						self.zoom_timer=QTimer()
 						self.zoom_timer.timeout.connect(self.fzoom_timer)
 						self.zoom_timer.start(50)
 					else:
 						self.zoom_timer.stop()
 						self.zoom_timer=None
-						
+		def xy(self):
+			self.timer=QTimer()
+			self.timer.timeout.connect(self.ftimer_target)
+			self.timer.start(50)
+
+
 		def mouseMoveEvent(self,event):
 			if 	self.timer!=None:
 				self.timer.stop()
@@ -306,12 +392,12 @@ if open_gl_ok==True:
 
 			if event.buttons()==Qt.LeftButton:
 				
-				self.xRot =self.xRot + 1 * dy
-				self.yRot =self.yRot + 1 * dx
+				self.viewpoint.xRot =self.viewpoint.xRot + 1 * dy
+				self.viewpoint.yRot =self.viewpoint.yRot + 1 * dx
 
 			if event.buttons()==Qt.RightButton:
-				self.x_pos =self.x_pos + 0.1 * dx
-				self.y_pos =self.y_pos - 0.1 * dy
+				self.viewpoint.x_pos =self.viewpoint.x_pos + 0.1 * dx
+				self.viewpoint.y_pos =self.viewpoint.y_pos - 0.1 * dy
 
 
 			self.lastPos=event.pos()
@@ -324,7 +410,7 @@ if open_gl_ok==True:
 			
 		def wheelEvent(self,event):
 			p=event.angleDelta()
-			self.zoom =self.zoom + p.y()/120
+			self.viewpoint.zoom =self.viewpoint.zoom + p.y()/120
 			self.update()
 
 		def draw_photons(self,max_gui_device_x,max_gui_device_z):
@@ -399,11 +485,11 @@ if open_gl_ok==True:
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 			glLoadIdentity()
 
-			glTranslatef(self.x_pos, self.y_pos, self.zoom) # Move Into The Screen
+			glTranslatef(self.viewpoint.x_pos, self.viewpoint.y_pos, self.viewpoint.zoom) # Move Into The Screen
 			
-			glRotatef(self.xRot, 1.0, 0.0, 0.0)
-			glRotatef(self.yRot, 0.0, 1.0, 0.0)
-			glRotatef(self.zRot, 0.0, 0.0, 1.0)
+			glRotatef(self.viewpoint.xRot, 1.0, 0.0, 0.0)
+			glRotatef(self.viewpoint.yRot, 0.0, 1.0, 0.0)
+			glRotatef(self.viewpoint.zRot, 0.0, 0.0, 1.0)
 
 			glColor3f( 1.0, 1.5, 0.0 )
 			glPolygonMode(GL_FRONT, GL_FILL);
@@ -494,7 +580,7 @@ if open_gl_ok==True:
 				glColor3f(1.0,1.0,1.0)
 				font = QFont("Arial")
 				font.setPointSize(18)
-				if self.zoom>-20:
+				if self.viewpoint.zoom>-20:
 					self.renderText (max_gui_device_x+0.1,pos+thick/2,max_gui_device_z, text,font)
 
 				pos=pos+thick+dy_layer_offset
@@ -506,7 +592,7 @@ if open_gl_ok==True:
 			full_data_range=self.graph_z_max-self.graph_z_min
 			graph(0.0,dos_start,max_gui_device_z+0.5,max_gui_device_x,dos_stop-dos_start,full_data_range,self.graph_data)
 			draw_grid()
-			if self.zoom<-60:
+			if self.viewpoint.zoom<-60:
 				draw_stars()
 				
 

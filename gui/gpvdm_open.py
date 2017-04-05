@@ -31,7 +31,7 @@ from dat_file_class import dat_file
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSize, Qt, QTimer
 from PyQt5.uic import loadUi
-from PyQt5.QtWidgets import QApplication,QGraphicsScene,QListWidgetItem,QPushButton,QListView,QVBoxLayout,QDialog,QWidget,QListWidget,QHBoxLayout,QLineEdit
+from PyQt5.QtWidgets import QApplication,QDialog,QGraphicsScene,QListWidgetItem,QPushButton,QListView,QVBoxLayout,QDialog,QWidget,QListWidget,QHBoxLayout,QLineEdit
 from PyQt5.QtGui import QPixmap
 
 #cal_path
@@ -108,6 +108,7 @@ class gpvdm_open(QDialog):
 		self.inp_icon = QIcon_load("text-x-generic")
 		self.xls_icon = QIcon_load("wps-office-xls")
 		self.info_icon = self.get_icon("info")
+		self.pdf_icon = QIcon_load("pdf")
 		self.spectra_icon = self.get_icon("spectra")
 		self.mat_icon = QIcon_load("organic_material")
 
@@ -201,9 +202,9 @@ class gpvdm_open(QDialog):
 					itm.setIcon(self.mat_icon)
 					self.listwidget.addItem(itm)
 
-				if file_name.endswith(".xlsx")==True or file_name.endswith(".xls")==True:
+				if file_name.endswith(".pdf")==True==True:
 					itm = QListWidgetItem( fl )
-					itm.setIcon(self.xls_icon)
+					itm.setIcon(self.pdf_icon)
 					self.listwidget.addItem(itm)
 
 				if os.path.basename(file_name)=="sim_info.dat":

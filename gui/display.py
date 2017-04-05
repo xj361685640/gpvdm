@@ -96,6 +96,22 @@ class display_widget(QWidget):
 		#self.fx_box.cb.currentIndexChanged.connect(self.mode_changed)
 		toolbar.addWidget(self.fx_box)
 
+		spacer = QWidget()
+		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+		toolbar.addWidget(spacer)
+
+		self.xy = QAction(QIcon_load("internet-web-browser"), _("xy"), self)
+		self.xy.triggered.connect(self.callback_xy)
+		toolbar.addAction(self.xy)
+
+		self.yz = QAction(QIcon_load("internet-web-browser"), _("yz"), self)
+		self.yz.triggered.connect(self.callback_yz)
+		toolbar.addAction(self.yz)
+
+		self.xz = QAction(QIcon_load("internet-web-browser"), _("xz"), self)
+		self.xz.triggered.connect(self.callback_xz)
+		toolbar.addAction(self.xz)
+
 		self.hbox.addWidget(toolbar)
 		
 		enable_3d=inp_get_token_value(os.path.join(os.getcwd(),"config.inp") , "#gui_config_3d_enabled")
@@ -119,6 +135,14 @@ class display_widget(QWidget):
 			
 		self.setLayout(self.hbox)
 
+	def callback_xy(self):
+		self.display.xy()
+
+	def callback_yz(self):
+		self.display.yz()
+		
+	def callback_xz(self):
+		self.display.xz()
 
 	def fx_box_changed(self):
 		self.update_ray_file()

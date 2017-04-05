@@ -59,91 +59,66 @@ mesh_articles = []
 class graph_data_display(QWidget):
 	changed = pyqtSignal()
 	
-	def set_units(self,unit_x,unit_y):
-		all_items  = [self.x_units.itemText(i) for i in range(self.x_units.count())]
-		for i in range(0,len(all_items)):
-			if all_items[i] == unit_x:
-				self.x_units.setCurrentIndex(i)
+	def populate_boxes(self):
+		self.x_label=self.items[self.x_combo.currentIndex()][2]
+		self.x_units=self.items[self.x_combo.currentIndex()][3]
+		self.x_mul_to_si=self.items[self.x_combo.currentIndex()][4]
+		self.x_disp_mul=self.items[self.x_combo.currentIndex()][5]
 
-		all_items  = [self.y_units.itemText(i) for i in range(self.y_units.count())]
-		for i in range(0,len(all_items)):
-			if all_items[i] == unit_y:
-				self.y_units.setCurrentIndex(i)
+		self.y_label=self.items[self.y_combo.currentIndex()][2]
+		self.y_units=self.items[self.y_combo.currentIndex()][3]
+		self.y_mul_to_si=self.items[self.y_combo.currentIndex()][4]
+		self.y_disp_mul=self.items[self.y_combo.currentIndex()][5]
+
+		self.set_xlabel(self.items[self.x_combo.currentIndex()][2])
+		self.set_ylabel(self.items[self.y_combo.currentIndex()][2])
+		self.set_title(self.items[self.x_combo.currentIndex()][2]+" - "+self.items[self.y_combo.currentIndex()][2])
 				
 	def add_units(self,box):
-		box.addItem("cm^{-1}")
-		box.addItem("cm^{-2}")
-		box.addItem("cm^{-3}")
-		box.addItem("m^{-1}")
-		box.addItem("m^{-2}")
-		box.addItem("m^{-3}")
-		box.addItem("mA/cm2")
-		box.addItem("A/m2")
-		box.addItem("nm")
-		box.addItem("um")
-		box.addItem("mm")
-		box.addItem("m")
-		box.addItem("V")
-		box.addItem("mV")		
-	def to_si(self,unit):
-		ret=-1
-		if unit=="cm^{-1}":
-			ret=100.0
-		elif unit=="cm^{-2}":
-			ret=10000.0
-		elif unit=="cm^{-3}":
-			ret=1000000.0
-		elif unit=="m^{-1}":
-			ret=1.0
-		elif unit=="m^{-2}":
-			ret=1.0
-		elif unit=="m^{-3}":
-			ret=1.0
-		elif unit=="mA/cm2":
-			ret=10000.0/1000.0
-		elif unit=="A/m2":
-			ret=1.0
-		elif unit=="nm":
-			ret=1e-9
-		elif unit=="um":
-			ret=1e-6
-		elif unit=="mm":
-			ret=1e-3
-		elif unit=="m":
-			ret=1.0
-		elif unit=="V":
-			ret=1.0
-		elif unit=="mV":
-			ret=1e-3
-		return ret
+		for i in range(0,len(self.items)):
+			box.addItem(self.items[i][0]+" ("+self.items[i][1]+")")
 
 	def callback_edited(self):
-		if self.mul_enabled==True:
-			self.x_mul=self.to_si(self.x_units.itemText(self.x_units.currentIndex()))
-			self.y_mul=self.to_si(self.y_units.itemText(self.y_units.currentIndex()))
-		else:
-			self.x_mul=1.0
-			self.y_mul=1.0
-			
+		self.populate_boxes()
 		self.changed.emit()
 
 	def __init__(self):
 		QWidget.__init__(self)
-		self.mul_enabled=True
-		self.x_mul=0.0
-		self.y_mul=0.0
+		self.items=[]
+		#input description+units	//output label // Output unit// equation to si //mull si to display
+		self.items.append([_("Wavelength"),"nm",_("Wavelength"),"nm","1e-9",1e9])
+		self.items.append([_("Wavelength"),"um",_("Wavelength"),"nm","1e-6",1e9])
+		self.items.append([_("Wavelength"),"cm",_("Wavelength"),"nm","1e-3",1e9])
+		self.items.append([_("J"),"mA/cm2",_("J"),"A/m2","10000.0/1000.0",1.0])
+		self.items.append([_("J"),"m/m2",_("J"),"A/m2","1.0",1.0])
+		self.items.append([_("Voltage"),"V",_("Voltage"),"V","1.0",1.0])
+		self.items.append([_("Voltage"),"mV",_("Voltage"),"V","1e-3",1.0])
+		self.items.append([_("Attenuation coefficient"),"au",_("Absorption"),"m^{-1}","4*3.14159/x",1.0])
+		self.items.append([_("Refractive index"),"au",_("Refractive index"),"au","1.0",1.0])
+
+		i=0
+		self.x_label=self.items[i][2]
+		self.x_units=self.items[i][3]
+		self.x_mul_to_si=self.items[i][4]
+		self.x_disp_mul=self.items[i][5]
+
+		self.y_label=self.items[i][2]
+		self.y_units=self.items[i][3]
+		self.y_mul_to_si=self.items[i][4]
+		self.y_disp_mul=self.items[i][5]
+
 		self.main_vbox=QVBoxLayout()
-		self.x_units=QComboBox()
-		self.add_units(self.x_units)
-		self.y_units=QComboBox()
-		self.add_units(self.y_units)
+		self.x_combo=QComboBox()
+		self.add_units(self.x_combo)
+		self.y_combo=QComboBox()
+		self.add_units(self.y_combo)
 		
 		self.units_x_label=QLabel(_("x units:"))
 		self.units_data_label=QLabel(_("y units:"))
 		
 
-		self.x_units.currentIndexChanged.connect(self.callback_edited)
-		self.y_units.currentIndexChanged.connect(self.callback_edited)
+		self.x_combo.currentIndexChanged.connect(self.callback_edited)
+		self.y_combo.currentIndexChanged.connect(self.callback_edited)
 
 
 		self.title_widget=QWidget()
@@ -162,18 +137,18 @@ class graph_data_display(QWidget):
 		self.xlabel_hbox.addWidget(self.xlabel_label)
 		self.xlabel_hbox.addWidget(self.xlabel_entry)
 		self.xlabel_hbox.addWidget(self.units_x_label)
-		self.xlabel_hbox.addWidget(self.x_units)
+		self.xlabel_hbox.addWidget(self.x_combo)
 		self.xlabel_widget.setLayout(self.xlabel_hbox)
 		self.main_vbox.addWidget(self.xlabel_widget)
 
 		self.ylabel_widget=QWidget()
 		self.ylabel_hbox=QHBoxLayout()
-		self.ylabel_label=QLabel(_("x-label:"))
+		self.ylabel_label=QLabel(_("y-label:"))
 		self.ylabel_entry=QLineEdit()
 		self.ylabel_hbox.addWidget(self.ylabel_label)
 		self.ylabel_hbox.addWidget(self.ylabel_entry)
 		self.ylabel_hbox.addWidget(self.units_data_label)
-		self.ylabel_hbox.addWidget(self.y_units)
+		self.ylabel_hbox.addWidget(self.y_combo)
 		self.ylabel_widget.setLayout(self.ylabel_hbox)
 		self.main_vbox.addWidget(self.ylabel_widget)
 
@@ -200,9 +175,8 @@ class graph_data_display(QWidget):
 		self.title_entry.blockSignals(False)
 
 	def enable_units(self,val):
-		self.mul_enabled=val
-		self.x_units.setEnabled(val)
-		self.y_units.setEnabled(val)
+		self.x_combo.setEnabled(val)
+		self.y_combo.setEnabled(val)
 
 	def get_title(self):
 		return self.title_entry.text()
@@ -212,7 +186,7 @@ class graph_data_display(QWidget):
 
 	def get_ylabel(self):
 		return self.ylabel_entry.text()
-
+		
 class import_data(QDialog):
 
 	changed = pyqtSignal()
@@ -223,6 +197,7 @@ class import_data(QDialog):
 	def __init__(self,out_file):
 		QDialog.__init__(self)
 		self.out_file=out_file
+		self.path=os.path.dirname(self.out_file)
 		resize_window_to_be_sane(self,0.6,0.7)
 		self.data=dat_file()
 		self.info_token=dat_file()
@@ -326,23 +301,39 @@ class import_data(QDialog):
 		text="#gpvdm\n"
 		text=text+"\n".join(gen_header_from_token(self.info_token))
 		text=text+"\n"
-		
+
 		for i in range(0,self.data.y_len):
-			text=text+str('{:.8e}'.format(float(self.data.y_scale[i]*self.unit_sel.x_mul)))+" "+str('{:.8e}'.format(float(self.data.data[0][0][i]*self.unit_sel.y_mul)))+"\n"
+			x=0
+			x_command="self.data.y_scale[i]*"+self.unit_sel.x_mul_to_si
+			x=eval(x_command)
+			y_command="self.data.data[0][0][i]*"+self.unit_sel.y_mul_to_si
+			y=eval(y_command)
+			x_text=str('{:.8e}'.format(float(x)))
+			y_text=str('{:.8e}'.format(float(y)))
+			text=text+x_text+" "+y_text+"\n"
 
 		text=text+"#end\n"
 		self.out_data.setText(text)
 
 	def update(self):
+		self.info_token.title=self.unit_sel.get_title()
+
 		self.info_token.x_label=self.unit_sel.get_xlabel()
 		self.info_token.data_label=self.unit_sel.get_ylabel()
-		self.info_token.title=self.unit_sel.get_title()
-		self.info_token.x_units=self.unit_sel.x_units.currentText()
-		self.info_token.data_units=self.unit_sel.y_units.currentText()
-		self.info_token.x_mul=self.unit_sel.x_mul
-		self.info_token.y_mul=self.unit_sel.y_mul
+
+		self.info_token.x_units=self.unit_sel.x_units
+		self.info_token.data_units=self.unit_sel.y_units
+		
+		self.info_token.x_mul=self.unit_sel.x_disp_mul
+		self.info_token.y_mul=self.unit_sel.y_disp_mul
+
+		self.info_token.x_len=self.data.x_len
+		self.info_token.y_len=self.data.y_len
+		self.info_token.z_len=self.data.z_len
+				
 		self.gen_output()
 
+		
 	def callback_import(self):
 		a = open(self.out_file, "w")
 		a.write(self.out_data.toPlainText())
@@ -350,7 +341,7 @@ class import_data(QDialog):
 		self.close()
 
 	def load_file(self):
-		file_name=open_as_filter(self,"dat (*.dat);;csv (*.csv);;txt (*.txt)")
+		file_name=open_as_filter(self,"dat (*.dat);;csv (*.csv);;txt (*.txt)",path=self.path)
 
 		if file_name!=None:
 			f = open(file_name, "r")
@@ -363,28 +354,12 @@ class import_data(QDialog):
 			self.raw_data.setText(text)
 
 			got_info=plot_load_info(self.info_token,file_name)
-				
-			if dat_file_read(self.data,file_name)==True:
-				if got_info==False:
-					self.info_token.x_len=self.data.x_len
-					self.info_token.y_len=self.data.y_len
-					self.info_token.z_len=self.data.z_len
-					self.info_token.x_units="m"
-					self.info_token.data_units="m"
-					self.info_token.x_label="Enter x-label"
-					self.info_token.data_label="Enter y-label"
-					self.info_token.title="Enter title"
-					self.unit_sel.enable_units(True)
-				else:
-					self.unit_sel.enable_units(False)
-				
-				self.import_data.setEnabled(True)
+			self.import_data.setEnabled(True)
 
-				self.unit_sel.set_xlabel(self.info_token.x_label)
-				self.unit_sel.set_ylabel(self.info_token.data_label)
-				self.unit_sel.set_title(self.info_token.title)
-				self.unit_sel.set_units(self.info_token.x_units,self.info_token.data_units)
-				
+			if dat_file_read(self.data,file_name)==True:
+				#if got_info==False:
+				self.unit_sel.populate_boxes()
+
 				self.gen_output()
 				return True
 				#print("importing file",file_name)

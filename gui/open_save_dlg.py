@@ -61,10 +61,16 @@ def save_as_filter(parent,my_filter):
 	else:
 		return None
 
-def open_as_filter(parent,my_filter):
+def open_as_filter(parent,my_filter,path=""):
 	selected_filter = ""
-	dialog = QFileDialog(parent)
-	dialog.setWindowTitle(_("Open file"))
+	if path=="":
+		open_path=os.getcwd()
+	else:
+		open_path=path
+
+	dialog = QFileDialog(parent,_("Open file"))
+	dialog.setDirectory(open_path)
+	print(">>>>>",open_path)
 	dialog.setNameFilter(my_filter)
 	dialog.setAcceptMode(QFileDialog.AcceptOpen)
 	if dialog.exec_() == QDialog.Accepted:
