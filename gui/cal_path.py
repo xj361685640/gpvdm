@@ -142,7 +142,6 @@ def get_icon_path(name,size=-1):
 
 	if size==-1:
 		path=os.path.join(image_path,"64x64",name+".png")
-		print(path,os.path.isfile(path))
 		return path
 
 	return os.path.join(image_path,str(size)+"x"+str(size),name+".png")
@@ -185,6 +184,10 @@ def get_src_path():
 def get_materials_path():
 	global materials_path
 	return materials_path
+
+def get_base_material_path():
+	global materials_path
+	return os.path.join(materials_path,"generic","generic_organic")
 
 def get_device_lib_path():
 	global device_lib_path

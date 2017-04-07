@@ -47,7 +47,9 @@ if args.copy:
 		for filename in [f for f in filenames if f=="mat.inp"]:
 			mat_f_name=os.path.join(dirpath, filename)
 			status=inp_get_token_value(mat_f_name, "#status")
-			if status=="public_all" or "public":
+
+			if status=="public_all" or status=="public":
+				print("copy materials",mat_f_name,status)
 				src_mat_path=os.path.dirname(mat_f_name)
 				delta_path=src_mat_path[len(src):]
 				dst_mat_path=os.path.join(dest,delta_path)

@@ -1,8 +1,8 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -61,6 +61,15 @@ def gpvdm_clone(dest,copy_dirs,materials=["all"]):
 
 		clone_materials(dest,materials)
 
+def clone_material(dest_material_dir,src_material_dir):
+	if os.path.isdir(dest_material_dir)==False:
+		os.mkdir(dest_material_dir)
+
+	for copy_file in ["alpha_eq.inp","alpha.omat","dos.inp","info.txt","n_eq.inp","n.omat","alpha_gen.omat","cost.xlsx","fit.inp","mat.inp","n_gen.omat","pl.inp"]:
+		src_mat_file=os.path.join(src_material_dir,copy_file)
+		if os.path.isfile(src_mat_file)==True:
+			copyfile(src_mat_file,os.path.join(dest_material_dir,copy_file))
+
 def clone_materials(dest,materials=["all"]):
 	src_dir=os.path.join(get_materials_path())
 	dest_dir=os.path.join(dest,"materials")
@@ -91,14 +100,8 @@ def clone_materials(dest,materials=["all"]):
 
 
 				if do_copy==True:
-					print("copy",dest_file)
-					if os.path.isdir(dest_file)==False:
-						os.mkdir(dest_file)
-
-					for copy_file in ["alpha_eq.inp","alpha.omat","dos.inp","info.txt","n_eq.inp","n.omat","alpha_gen.omat","cost.xlsx","fit.inp","mat.inp","n_gen.omat","pl.inp"]:
-						src_mat_file=os.path.join(src_file,copy_file)
-						if os.path.isfile(src_mat_file)==True:
-							copyfile(src_mat_file,os.path.join(dest_file,copy_file))
-				else:
-					print("not copy",dest_file)
+					print("copy ",dest_file)
+					clone_material(dest_file,src_file)
+				#else:
+				#	print("not copy",dest_file)
 

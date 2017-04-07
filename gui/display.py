@@ -62,6 +62,10 @@ class display_widget(QWidget):
 		global open_gl_working
 		open_gl_working=False
 		self.tb_rotate.setEnabled(False)
+		self.xy.setEnabled(False)
+		self.yz.setEnabled(False)
+		self.xz.setEnabled(False)
+
 		self.display=gl_fallback()
 		self.hbox.addWidget(self.display)
 	
@@ -77,11 +81,6 @@ class display_widget(QWidget):
 		
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(42, 42))
-
-		self.tb_rotate = QAction(QIcon_load("rotate.png"), _("Rotate"), self)
-		self.tb_rotate.triggered.connect(self.tb_rotate_click)
-		toolbar.addAction(self.tb_rotate)
-		self.tb_rotate.setEnabled(True)
 
 		self.tb_config = QAction(QIcon_load("preferences-system"), _("Configuration"), self)
 		self.tb_config.triggered.connect(self.callback_configure)
@@ -100,17 +99,22 @@ class display_widget(QWidget):
 		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 		toolbar.addWidget(spacer)
 
-		self.xy = QAction(QIcon_load("internet-web-browser"), _("xy"), self)
+		self.xy = QAction(QIcon_load("xy"), _("xy"), self)
 		self.xy.triggered.connect(self.callback_xy)
 		toolbar.addAction(self.xy)
 
-		self.yz = QAction(QIcon_load("internet-web-browser"), _("yz"), self)
+		self.yz = QAction(QIcon_load("yz"), _("yz"), self)
 		self.yz.triggered.connect(self.callback_yz)
 		toolbar.addAction(self.yz)
 
-		self.xz = QAction(QIcon_load("internet-web-browser"), _("xz"), self)
+		self.xz = QAction(QIcon_load("xz"), _("xz"), self)
 		self.xz.triggered.connect(self.callback_xz)
 		toolbar.addAction(self.xz)
+		
+		self.tb_rotate = QAction(QIcon_load("rotate.png"), _("Rotate"), self)
+		self.tb_rotate.triggered.connect(self.tb_rotate_click)
+		toolbar.addAction(self.tb_rotate)
+		self.tb_rotate.setEnabled(True)
 
 		self.hbox.addWidget(toolbar)
 		

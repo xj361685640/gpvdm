@@ -23,6 +23,7 @@
 
 
 import os
+from util import gpvdm_delete_file
 #from global_objects import global_object_get
 from plot_io import get_plot_file_info
 from dat_file_class import dat_file
@@ -31,7 +32,7 @@ from dat_file_class import dat_file
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSize, Qt, QTimer
 from PyQt5.uic import loadUi
-from PyQt5.QtWidgets import QApplication,QDialog,QGraphicsScene,QListWidgetItem,QPushButton,QListView,QVBoxLayout,QDialog,QWidget,QListWidget,QHBoxLayout,QLineEdit
+from PyQt5.QtWidgets import QMenu,QAbstractItemView,QApplication,QDialog,QGraphicsScene,QListWidgetItem,QPushButton,QListView,QVBoxLayout,QDialog,QWidget,QListWidget,QHBoxLayout,QLineEdit
 from PyQt5.QtGui import QPixmap
 
 #cal_path
@@ -43,6 +44,11 @@ from help import help_window
 from gui_util import error_dlg
 
 from ref import get_ref_text
+from gui_util import dlg_get_text
+from gui_util import yes_no_dlg
+
+from clone import clone_material
+from cal_path import get_base_material_path
 
 COL_PATH = 0
 COL_PIXBUF = 1
@@ -80,6 +86,7 @@ class gpvdm_open(QDialog):
 		self.setWindowTitle(_("Open file")+" https://www.gpvdm.com")
 		self.setWindowIcon(QIcon_load("folder"))
 		self.listwidget=QListWidget()
+		self.listwidget.setSelectionMode(QAbstractItemView.ExtendedSelection)
 		self.listwidget.setStyleSheet("margin: 0; padding: 0; ")
 		self.vbox.addWidget(self.top_h_widget)
 		self.vbox.addWidget(self.listwidget)
@@ -125,9 +132,61 @@ class gpvdm_open(QDialog):
 		self.fill_store()
 
 		self.listwidget.itemDoubleClicked.connect(self.on_item_activated)
+		self.listwidget.setContextMenuPolicy(Qt.CustomContextMenu)
 		self.listwidget.itemClicked.connect(self.on_selection_changed)
+		self.listwidget.customContextMenuRequested.connect(self.callback_menu)
 		self.resizeEvent=self.resizeEvent
 		self.show()
+
+	def callback_menu(self,event):
+		menu = QMenu(self)
+		newdirAction = menu.addAction(_("New directory"))
+		newmaterialAction = menu.addAction(_("New material"))
+		deleteAction = menu.addAction(_("Delete file"))
+		renameAction = menu.addAction(_("Rename"))
+		renameAction.setEnabled(False)
+		deleteAction.setEnabled(False)
+		if len(self.listwidget.selectedItems())==1:
+			renameAction.setEnabled(True)
+			
+		if len(self.listwidget.selectedItems())>0:
+			deleteAction.setEnabled(True)
+
+		action = menu.exec_(self.mapToGlobal(event))
+
+		if action == newdirAction:
+			new_sim_name=dlg_get_text( _("New directory name:"), _("New directory"),"document-new")
+			new_sim_name=new_sim_name.ret
+
+			if new_sim_name!=None:
+				name=os.path.join(self.dir,new_sim_name)
+				os.mkdir(name)
+		elif action == newmaterialAction:
+			new_sim_name=dlg_get_text( _("New material name:"), _("New material name"),"organic_material")
+			new_sim_name=new_sim_name.ret
+			if new_sim_name!=None:
+				new_material=os.path.join(self.dir,new_sim_name)
+				clone_material(new_material,get_base_material_path())
+
+		elif action == deleteAction:
+			files=""
+			for i in self.listwidget.selectedItems():
+				files=files+os.path.join(self.dir,i.text())+"\n"
+			ret=yes_no_dlg(self,_("Are you sure you want to delete the files ?")+"\n\n"+files)
+			if ret==True:
+				for i in self.listwidget.selectedItems():
+					file_to_remove=os.path.join(self.dir,i.text())
+					gpvdm_delete_file(file_to_remove)
+		elif action == renameAction:
+			old_name=self.listwidget.currentItem().text()
+			new_sim_name=dlg_get_text( _("Rename:"), self.listwidget.currentItem().text(),"rename")
+			new_sim_name=new_sim_name.ret
+
+			if new_sim_name!=None:
+				new_name=os.path.join(self.dir,new_sim_name)
+				os.rename(old_name, new_name)
+
+		self.fill_store()
 
 	def resizeEvent(self,resizeEvent):
 		self.fill_store()

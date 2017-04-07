@@ -21,8 +21,8 @@ image64_DATA = images/64x64/*.png
 splashdir = $(pkgdatadir)/images/splash
 splash_DATA = images/splash/*.png
 
-flagdir = $(pkgdatadir)/flags
-flag_DATA = flags/*.png
+flagdir = $(pkgdatadir)/images/48x32
+flag_DATA = images/48x32/*.png
 
 cssdir = $(pkgdatadir)/css
 css_DATA = css/*.css

@@ -104,7 +104,7 @@ lib.append(my_data("#material_type","type",_("Material type"),"e",1.0,"QComboBox
 lib.append(my_data("#mat_alpha","0-1.0",_("Alpha channel"),"e",1.0,"QLineEdit"))
 lib.append(my_data("#red_green_blue","rgb",_("Color"),"e",1.0,"QColorPicker"))
 lib.append(my_data("#mat_alpha","0-1",_("Transparency"),"e",1.0,"QLineEdit"))
-lib.append(my_data("#status","type",_("Publish material data?"),"e",1.0,"QComboBoxLang",defaults=[[("public"),_("Public")],["private",_("Private")]]))
+lib.append(my_data("#status","type",_("Publish material data?"),"e",1.0,"QComboBoxLang",defaults=[[("public"),_("Public")],[("public_all"),_("Public all")],["private",_("Private")]]))
 
 
 #jv.inp

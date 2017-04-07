@@ -26,11 +26,14 @@ import os
 from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction,QApplication,QTableWidgetItem,QComboBox, QMessageBox, QDialog, QDialogButtonBox, QFileDialog
 from PyQt5.uic import loadUi
 from PyQt5.QtGui import QPixmap
+from PyQt5.QtCore import QSize
 
 from QComboBoxLang import QComboBoxLang
 
 #windows
 from cal_path import get_ui_path
+
+from icon_lib import QIcon_load
 
 from gpvdm_select import gpvdm_select
 
@@ -40,8 +43,10 @@ class dlg_get_text():
 		self.ui = loadUi(os.path.join(get_ui_path(),"question.ui"))
 		self.ui.label.setText(text)
 		self.ui.text.setText(default)
-		pixmap = QPixmap(os.path.join(get_image_file_path(),image))
-		self.ui.image.setPixmap(pixmap)
+		#pixmap = QPixmap(os.path.join(get_image_file_path(),image))
+		icon=QIcon_load(image)
+		self.ui.setWindowIcon(icon)
+		self.ui.image.setPixmap(icon.pixmap(icon.actualSize(QSize(64, 64))))
 		ret=self.ui.exec_()
 		if ret==True:
 			self.ret=self.ui.text.text()

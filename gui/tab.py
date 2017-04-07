@@ -86,7 +86,6 @@ class tab_class(QWidget,tab_base):
 		elif type(widget)==QComboBoxLang:
 			inp_update_token_value(file_name, token, widget.currentText_english())
 		elif type(widget)==QColorPicker:
-			print("ohh type QColorPicker",widget.r,widget.g,widget.b)
 			inp_update_token_array(file_name, token, [str(widget.r),str(widget.g),str(widget.b)])
 			
 		help_window().help_set_help(["document-save-as","<big><b>Saved to disk</b></big>\n"])
@@ -117,14 +116,14 @@ class tab_class(QWidget,tab_base):
 
 		self.edit_list=[]
 		inp_load_file(self.lines,filename)
-		print(filename)
+
 		n=0
 		pos=0
 		my_token_lib=tokens()
 		widget_number=0
 		while (1):
 			ret,pos=inp_get_next_token_array(self.lines,pos)
-			print(ret[0],filename)
+
 			token=ret[0]
 			if token=="#ver":
 				break

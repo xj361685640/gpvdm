@@ -1,6 +1,6 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
 #	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -31,6 +31,8 @@ import hashlib
 from sim_warnings import sim_warnings
 from code_ctrl import enable_webupdates
 import i18n
+from i18n import get_full_language
+
 _ = i18n.language.gettext
 from ver import ver
 
@@ -138,11 +140,11 @@ class update_thread(QWidget):
 		self.text=""
 
 	def get_from_web(self,url):
-			page="http://www.gpvdm.com/download_windows/update.php?ver_core="+ver_core()+"&uid="+uid_get()+"&os="+platform.platform()+"&opengl="+is_open_gl_working()
+			page="http://www.gpvdm.com/download_windows/update.php?ver_core="+ver_core()+"&uid="+uid_get()+"&os="+platform.platform()+"&opengl="+is_open_gl_working()+"&lang="+get_full_language()
 			message=get_data_from_web(page)
 
 			message=message.split("\n")
-			print(message)
+			#print(message)
 			self.text=""
 			if message[0].startswith("update"):
 				token,ver=message[0].split("#")

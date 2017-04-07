@@ -121,7 +121,7 @@ def inp_update_token_array(file_path, token, replace):
 	read_lines_from_archive(lines,zip_file_name,os.path.basename(file_path))
 
 	lines=inp_replace_token_array(lines,token,replace)
-	print(lines)
+
 	if os.path.isfile(file_path):
 		inp_save_lines(file_path,lines)
 	else:

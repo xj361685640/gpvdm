@@ -226,37 +226,39 @@ class view_point():
 	def shift(self,target):
 		stop=False
 		move=0.0
+		max_angle_shift=4.0
+		max_xy_shift=0.2
 		delta=(target.xRot-self.xRot)
-		if fabs(delta)>1.0:
-			delta=1.0*delta/fabs(delta)
+		if fabs(delta)>max_angle_shift:
+			delta=max_angle_shift*delta/fabs(delta)
 
 		self.xRot=self.xRot+delta
 		move=move+fabs(delta)
 
 		delta=(target.yRot-self.yRot)
-		if fabs(delta)>1.0:
-			delta=1.0*delta/fabs(delta)
+		if fabs(delta)>max_angle_shift:
+			delta=max_angle_shift*delta/fabs(delta)
 
 		self.yRot=self.yRot+delta
 		move=move+fabs(delta)
 
 		delta=(target.zRot-self.zRot)
-		if fabs(delta)>1.0:
-			delta=1.0*delta/fabs(delta)
+		if fabs(delta)>max_angle_shift:
+			delta=max_angle_shift*delta/fabs(delta)
 
 		self.zRot=self.zRot+delta
 		move=move+fabs(delta)
 		
 		delta=(target.x_pos-self.x_pos)
-		if fabs(delta)>0.5:
-			delta=0.5*delta/fabs(delta)
+		if fabs(delta)>max_xy_shift:
+			delta=max_xy_shift*delta/fabs(delta)
 
 		self.x_pos=self.x_pos+delta
 		move=move+fabs(delta)
 		
 		delta=(target.y_pos-self.y_pos)
-		if fabs(delta)>0.5:
-			delta=0.5*delta/fabs(delta)
+		if fabs(delta)>max_xy_shift:
+			delta=max_xy_shift*delta/fabs(delta)
 
 		self.y_pos=self.y_pos+delta
 		move=move+fabs(delta)
@@ -276,7 +278,7 @@ class view_point():
 	def set_value(self,data):
 		self.xRot=data.xRot
 		self.yRot=data.yRot
-		self.zRot=data.zRot
+		#self.zRot=data.zRot
 		self.x_pos=data.x_pos
 		self.y_pos=data.y_pos
 		self.zoom=data.zoom
@@ -300,7 +302,7 @@ if open_gl_ok==True:
 			self.viewpoint.zoom=-12.0
 
 			self.viewtarget=view_point()
-			self.viewtarget.set_value(self.viewpoint)
+			#self.viewtarget.set_value(self.viewpoint)
 			self.viewtarget.xRot=0.0
 			self.viewtarget.yRot=0.0
 			self.viewtarget.zRot=0.0
@@ -312,7 +314,6 @@ if open_gl_ok==True:
 
 			
 			self.timer=None
-			self.zoom_timer=None
 			
 			self.suns=0.0
 			self.selected_layer=-1
@@ -344,7 +345,7 @@ if open_gl_ok==True:
 		def fzoom_timer(self):
 			self.viewpoint.zoom =self.viewpoint.zoom+4.0
 			if self.viewpoint.zoom>-12.0:
-				self.zoom_timer.stop()
+				self.timer.stop()
 			self.update()
 
 		def start_rotate(self):
@@ -368,17 +369,44 @@ if open_gl_ok==True:
 						self.start_rotate()
 						if self.viewpoint.zoom>-40:
 							self.viewpoint.zoom =-400
-						self.zoom_timer=QTimer()
-						self.zoom_timer.timeout.connect(self.fzoom_timer)
-						self.zoom_timer.start(50)
+						self.timer=QTimer()
+						self.timer.timeout.connect(self.fzoom_timer)
+						self.timer.start(50)
 					else:
-						self.zoom_timer.stop()
-						self.zoom_timer=None
+						self.timer.stop()
+						self.timer=None
 		def xy(self):
+			self.viewtarget.xRot=0.0
+			self.viewtarget.yRot=0.0
+			self.viewtarget.zRot=0.0
+			self.viewtarget.x_pos=-2.0
+			self.viewtarget.y_pos=-1.7
+			self.viewtarget.zoom=-8.0
 			self.timer=QTimer()
 			self.timer.timeout.connect(self.ftimer_target)
-			self.timer.start(50)
+			self.timer.start(25)
 
+		def yz(self):
+			self.viewtarget.xRot=0.0
+			self.viewtarget.yRot=-90
+			self.viewtarget.zRot=0.0
+			self.viewtarget.x_pos=2.0
+			self.viewtarget.y_pos=-1.7
+			self.viewtarget.zoom=-8.0
+			self.timer=QTimer()
+			self.timer.timeout.connect(self.ftimer_target)
+			self.timer.start(25)
+
+		def xz(self):
+			self.viewtarget.xRot=90.0
+			self.viewtarget.yRot=0.0
+			self.viewtarget.zRot=0.0
+			self.viewtarget.x_pos=-2.0
+			self.viewtarget.y_pos=1.2
+			self.viewtarget.zoom=-9.0
+			self.timer=QTimer()
+			self.timer.timeout.connect(self.ftimer_target)
+			self.timer.start(25)
 
 		def mouseMoveEvent(self,event):
 			if 	self.timer!=None:
