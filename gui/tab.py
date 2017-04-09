@@ -41,7 +41,7 @@ from gpvdm_select import gpvdm_select
 
 from PyQt5.QtCore import pyqtSignal
 
-from PyQt5.QtWidgets import QWidget, QScrollArea,QVBoxLayout,QProgressBar,QLabel,QDesktopWidget,QToolBar,QHBoxLayout,QAction, QSizePolicy, QTableWidget, QTableWidgetItem,QComboBox,QDialog,QAbstractItemView,QGridLayout,QLineEdit
+from PyQt5.QtWidgets import QTextEdit,QWidget, QScrollArea,QVBoxLayout,QProgressBar,QLabel,QDesktopWidget,QToolBar,QHBoxLayout,QAction, QSizePolicy, QTableWidget, QTableWidgetItem,QComboBox,QDialog,QAbstractItemView,QGridLayout,QLineEdit
 from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtGui import QPixmap, QIcon
 
@@ -57,6 +57,10 @@ _ = i18n.language.gettext
 
 import functools
 from inp import inp_update_token_array
+
+class QChangeLog(QTextEdit):
+	def __init__(self):
+		QTextEdit.__init__(self)
 
 class tab_class(QWidget,tab_base):
 
@@ -87,6 +91,10 @@ class tab_class(QWidget,tab_base):
 			inp_update_token_value(file_name, token, widget.currentText_english())
 		elif type(widget)==QColorPicker:
 			inp_update_token_array(file_name, token, [str(widget.r),str(widget.g),str(widget.b)])
+		elif type(widget)==QChangeLog:
+			a=undo_list_class()
+			a.add([file_name, token, inp_get_token_value(self.file_name, token),widget])
+			inp_update_token_array(file_name, token, widget.toPlainText().split("\n"))
 			
 		help_window().help_set_help(["document-save-as","<big><b>Saved to disk</b></big>\n"])
 		
@@ -151,18 +159,22 @@ class tab_class(QWidget,tab_base):
 
 					if result.widget=="gtkswitch":
 						edit_box=gtkswitch()
+						edit_box.setFixedSize(300, 25)
 						edit_box.set_value(str2bool(value))
 						edit_box.changed.connect(functools.partial(self.callback_edit,filename,token,edit_box))
 					elif result.widget=="leftright":
 						edit_box=leftright()
+						edit_box.setFixedSize(300, 25)
 						edit_box.set_value(str2bool(value))
 						edit_box.changed.connect(functools.partial(self.callback_edit,filename,token,edit_box))
 					elif result.widget=="gpvdm_select":
 						edit_box=gpvdm_select(file_box=True)
+						edit_box.setFixedSize(300, 25)
 						edit_box.setText(value)
 						edit_box.edit.textChanged.connect(functools.partial(self.callback_edit,filename,token,edit_box))
 					elif result.widget=="QLineEdit":
 						edit_box=QLineEdit()
+						edit_box.setFixedSize(300, 25)
 						if self.editable==False:
 							edit_box.setReadOnly(True)
 						edit_box.setText(value)
@@ -174,17 +186,27 @@ class tab_class(QWidget,tab_base):
 						g=float(ret[2])
 						b=float(ret[3])
 						edit_box=QColorPicker(r,g,b)
+						edit_box.setFixedSize(300, 25)
 						edit_box.changed.connect(functools.partial(self.callback_edit,filename,token,edit_box))
 					elif result.widget=="QComboBoxLang":
 						edit_box=QComboBoxLang()
+						edit_box.setFixedSize(300, 25)
 						for i in range(0,len(result.defaults)):
 							edit_box.addItemLang(result.defaults[i][0],result.defaults[i][1])
 
 						edit_box.setValue_using_english(value)
 								
 						edit_box.currentIndexChanged.connect(functools.partial(self.callback_edit,filename,token,edit_box))
+					elif result.widget=="QChangeLog":
+						edit_box=QChangeLog()
+						edit_box.setMinimumHeight(100)
+						if self.editable==False:
+							edit_box.setReadOnly(True)
+						edit_box.setText(value)
+						edit_box.textChanged.connect(functools.partial(self.callback_edit,filename,token,edit_box))
 					else:
 						edit_box=QComboBox()
+						edit_box.setFixedSize(300, 25)
 						for i in range(0,len(result.defaults)):
 							edit_box.addItem(result.defaults[i])
 							
@@ -195,7 +217,7 @@ class tab_class(QWidget,tab_base):
 								
 						edit_box.currentIndexChanged.connect(functools.partial(self.callback_edit,filename,token,edit_box))
 
-					edit_box.setFixedSize(300, 25)
+					
 					unit=QLabel()
 					unit.setText(latex_to_html(units))
 

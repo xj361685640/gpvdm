@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.88\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2017-04-07 18:20+0100\n"
+"POT-Creation-Date: 2017-04-09 07:51+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -120,8 +120,9 @@ msgstr ""
 #: ../liblight/light_materials.c:394 ../liblight/light_materials.c:446
 #: ../gui_2/equation.py:163 ../libmeasure/probe.c:163 ../libmeasure/probe.c:165
 #: ../libmeasure/probe.c:188 ../libmeasure/probe.c:190
-#: ../libmeasure/probe.c:213 ../libmeasure/probe.c:215 ../gui/import_data.py:89
-#: ../gui/import_data.py:90 ../gui/import_data.py:91 ../gui/equation.py:168
+#: ../libmeasure/probe.c:213 ../libmeasure/probe.c:215 ../gui/import_data.py:91
+#: ../gui/import_data.py:92 ../gui/import_data.py:93 ../gui/import_data.py:94
+#: ../gui/equation.py:168
 msgid "Wavelength"
 msgstr ""
 
@@ -279,7 +280,7 @@ msgstr ""
 #: ../gui/fxexperiment.py:229 ../gui/fit_window.py:244 ../gui/fit_window.py:245
 #: ../gui/fit_window.py:300 ../gui/ribbon_cluster.py:126 ../gui/ref.py:89
 #: ../gui/ref.py:90 ../gui/lasers.py:197 ../gui/lasers.py:198
-#: ../gui/lasers.py:232 ../gui/import_data.py:231 ../gui/import_data.py:232
+#: ../gui/lasers.py:232 ../gui/import_data.py:236 ../gui/import_data.py:237
 #: ../gui/parasitic.py:68 ../gui/doping.py:205 ../gui/optics.py:157
 msgid "Help"
 msgstr ""
@@ -297,7 +298,7 @@ msgstr ""
 #: ../gui/jv.py:78 ../gui/emesh.py:171 ../gui/scan.py:259 ../gui/scan.py:354
 #: ../gui/info.py:68 ../gui/fxexperiment.py:177 ../gui/fxexperiment.py:230
 #: ../gui/fit_window.py:226 ../gui/ref.py:109 ../gui/lasers.py:176
-#: ../gui/lasers.py:233 ../gui/about.py:153 ../gui/help.py:131
+#: ../gui/lasers.py:233 ../gui/about.py:154 ../gui/help.py:132
 #: ../gui/parasitic.py:69
 msgid "Close"
 msgstr ""
@@ -521,8 +522,9 @@ msgstr ""
 #: ../plugins/fxdomain/fxdomain.c:282 ../plugins/jv/jv.c:242
 #: ../plugins/jv/jv.c:293 ../plugins/jv/jv.c:433 ../gui/tmesh.py:232
 #: ../gui/tmesh.py:234 ../gui/tmesh.py:237 ../gui/tmesh.py:239
-#: ../gui/contacts.py:160 ../gui/import_data.py:94 ../gui/import_data.py:95
-#: ../libdump/dump_dynamic.c:791 ../libdump/dump_contacts.c:70
+#: ../gui/contacts.py:160 ../gui/import_data.py:98 ../gui/import_data.py:99
+#: ../gui/import_data.py:100 ../libdump/dump_dynamic.c:791
+#: ../libdump/dump_contacts.c:70
 msgid "Voltage"
 msgstr ""
 
@@ -1076,7 +1078,7 @@ msgid "Which type of device would you like to simulate?"
 msgstr ""
 
 #: ../gui_2/new_simulation.py:102 ../gui_2/help.py:114
-#: ../gui/new_simulation.py:103 ../gui/help.py:115
+#: ../gui/new_simulation.py:103 ../gui/help.py:116
 msgid "Next"
 msgstr ""
 
@@ -1145,7 +1147,7 @@ msgstr ""
 
 #: ../gui_2/open_save_dlg.py:68 ../gui_2/gpvdm_open.py:80
 #: ../gui_2/import_data.py:244 ../gui/open_save_dlg.py:71
-#: ../gui/gpvdm_open.py:83 ../gui/import_data.py:219
+#: ../gui/gpvdm_open.py:86 ../gui/import_data.py:224
 msgid "Open file"
 msgstr ""
 
@@ -1333,7 +1335,7 @@ msgstr ""
 
 #: ../gui_2/materials_main.py:54 ../gui_2/materials_main.py:122
 #: ../gui_2/token_lib.py:299 ../gui/materials_main.py:54
-#: ../gui/materials_main.py:122 ../gui/import_data.py:96
+#: ../gui/materials_main.py:122 ../gui/import_data.py:101
 #: ../gui/token_lib.py:307
 msgid "Absorption"
 msgstr ""
@@ -1345,7 +1347,7 @@ msgstr ""
 #: ../gui_2/materials_main.py:60 ../gui_2/materials_main.py:128
 #: ../gui_2/materials_main.py:130 ../gui/materials_main.py:60
 #: ../gui/materials_main.py:128 ../gui/materials_main.py:130
-#: ../gui/import_data.py:97
+#: ../gui/import_data.py:102
 msgid "Refractive index"
 msgstr ""
 
@@ -1645,15 +1647,15 @@ msgstr ""
 msgid "3D simulation"
 msgstr ""
 
-#: ../gui_2/display.py:81 ../gui/display.py:81
+#: ../gui_2/display.py:81 ../gui/display.py:114
 msgid "Rotate"
 msgstr ""
 
-#: ../gui_2/display.py:86 ../gui/display.py:86
+#: ../gui_2/display.py:86 ../gui/display.py:85
 msgid "Configuration"
 msgstr ""
 
-#: ../gui_2/display.py:146 ../gui/display.py:170
+#: ../gui_2/display.py:146 ../gui/display.py:174
 msgid ""
 "<big><b>OpenGL warning</b></big><br>It looks as if you don't have working 3D "
 "graphics acceleration on your computer.  gpvdm will therefore fallback to 2D "
@@ -1731,7 +1733,7 @@ msgstr ""
 
 #: ../gui_2/ribbon_information.py:51 ../gui_2/cool_menu.py:59
 #: ../gui_2/about.py:107 ../gui/ribbon_information.py:51 ../gui/cool_menu.py:59
-#: ../gui/about.py:107
+#: ../gui/about.py:108
 msgid "License"
 msgstr ""
 
@@ -1771,7 +1773,7 @@ msgstr ""
 
 #: ../gui_2/ribbon.py:112 ../gui_2/cool_menu.py:68 ../gui_2/about.py:49
 #: ../gui_2/about.py:81 ../gui_2/status_icon.py:48 ../gui/ribbon.py:108
-#: ../gui/cool_menu.py:68 ../gui/about.py:49 ../gui/about.py:81
+#: ../gui/cool_menu.py:68 ../gui/about.py:50 ../gui/about.py:82
 #: ../gui/status_icon.py:48
 msgid "About"
 msgstr ""
@@ -2236,7 +2238,7 @@ msgid "y"
 msgstr ""
 
 #: ../gui_2/fit_window_plot_real.py:126 ../gui_2/import_data.py:233
-#: ../gui/fit_window_plot_real.py:127 ../gui/import_data.py:208
+#: ../gui/fit_window_plot_real.py:127 ../gui/import_data.py:213
 #: ../gui/equation.py:297
 msgid "Import data"
 msgstr ""
@@ -2382,72 +2384,72 @@ msgstr ""
 msgid "CPU"
 msgstr ""
 
-#: ../gui_2/gpvdm_open.py:148 ../gui/gpvdm_open.py:202
+#: ../gui_2/gpvdm_open.py:148 ../gui/gpvdm_open.py:205
 msgid "The directory is gone, so I can't open it.  Did you delete it?"
 msgstr ""
 
-#: ../gui_2/gpvdm_open.py:246 ../gui/gpvdm_open.py:300
+#: ../gui_2/gpvdm_open.py:246 ../gui/gpvdm_open.py:303
 msgid "title"
 msgstr ""
 
-#: ../gui_2/gpvdm_open.py:246 ../gui/gpvdm_open.py:300
+#: ../gui_2/gpvdm_open.py:246 ../gui/gpvdm_open.py:303
 msgid "x axis"
 msgstr ""
 
-#: ../gui_2/gpvdm_open.py:246 ../gui/gpvdm_open.py:300
+#: ../gui_2/gpvdm_open.py:246 ../gui/gpvdm_open.py:303
 msgid "y axis"
 msgstr ""
 
-#: ../gui_2/gpvdm_open.py:246 ../gui/gpvdm_open.py:300
+#: ../gui_2/gpvdm_open.py:246 ../gui/gpvdm_open.py:303
 msgid "Double click to open"
 msgstr ""
 
-#: ../gui_2/gpvdm_open.py:252 ../gui/gpvdm_open.py:306
+#: ../gui_2/gpvdm_open.py:252 ../gui/gpvdm_open.py:309
 msgid "equilibrium"
 msgstr ""
 
-#: ../gui_2/gpvdm_open.py:252 ../gui/gpvdm_open.py:306
+#: ../gui_2/gpvdm_open.py:252 ../gui/gpvdm_open.py:309
 msgid "This contains the simulation output at 0V in the dark."
 msgstr ""
 
-#: ../gui_2/import_data.py:141 ../gui/import_data.py:116
+#: ../gui_2/import_data.py:141 ../gui/import_data.py:121
 msgid "x units:"
 msgstr ""
 
-#: ../gui_2/import_data.py:142 ../gui/import_data.py:117
+#: ../gui_2/import_data.py:142 ../gui/import_data.py:122
 msgid "y units:"
 msgstr ""
 
-#: ../gui_2/import_data.py:151 ../gui/import_data.py:126
+#: ../gui_2/import_data.py:151 ../gui/import_data.py:131
 msgid "Title:"
 msgstr ""
 
 #: ../gui_2/import_data.py:160 ../gui_2/import_data.py:171
-#: ../gui/import_data.py:135
+#: ../gui/import_data.py:140
 msgid "x-label:"
 msgstr ""
 
-#: ../gui_2/import_data.py:248 ../gui/import_data.py:223
+#: ../gui_2/import_data.py:248 ../gui/import_data.py:228
 msgid "Import data to model"
 msgstr ""
 
-#: ../gui_2/import_data.py:275 ../gui/import_data.py:250
+#: ../gui_2/import_data.py:275 ../gui/import_data.py:255
 msgid "The file to import:"
 msgstr ""
 
-#: ../gui_2/import_data.py:290 ../gui/import_data.py:265
+#: ../gui_2/import_data.py:290 ../gui/import_data.py:270
 msgid "The imported file, the numbers should now be in SI units"
 msgstr ""
 
-#: ../gui_2/about.py:53 ../gui/about.py:53
+#: ../gui_2/about.py:53 ../gui/about.py:54
 msgid "Written by Roderick MacKenzie 2012-2017, published under GPL v2.0"
 msgstr ""
 
-#: ../gui_2/about.py:55 ../gui/about.py:55
+#: ../gui_2/about.py:55 ../gui/about.py:56
 msgid "Version "
 msgstr ""
 
-#: ../gui_2/about.py:68 ../gui/about.py:68
+#: ../gui_2/about.py:68 ../gui/about.py:69
 msgid ""
 "gpvdm is a free general-purpose tool for simulation of light harvesting "
 "devices. It was originally written to simulate organic solar cells and "
@@ -2455,27 +2457,27 @@ msgid ""
 "silicon based devices. Currently the model can sumulate:"
 msgstr ""
 
-#: ../gui_2/about.py:70 ../gui/about.py:70
+#: ../gui_2/about.py:70 ../gui/about.py:71
 msgid "Organic solar cells"
 msgstr ""
 
-#: ../gui_2/about.py:71 ../gui/about.py:71
+#: ../gui_2/about.py:71 ../gui/about.py:72
 msgid "Organic LEDs"
 msgstr ""
 
-#: ../gui_2/about.py:72 ../gui/about.py:72
+#: ../gui_2/about.py:72 ../gui/about.py:73
 msgid "Crystalline silicon solar cells"
 msgstr ""
 
-#: ../gui_2/about.py:73 ../gui/about.py:73
+#: ../gui_2/about.py:73 ../gui/about.py:74
 msgid "a-Si solar cells"
 msgstr ""
 
-#: ../gui_2/about.py:74 ../gui/about.py:74
+#: ../gui_2/about.py:74 ../gui/about.py:75
 msgid "CIGS solar cells"
 msgstr ""
 
-#: ../gui_2/about.py:76 ../gui/about.py:76
+#: ../gui_2/about.py:76 ../gui/about.py:77
 msgid ""
 "The model solves both electron and hole drift-diffusion, and carrier "
 "continuity equations in position space to describe the movement of charge "
@@ -2488,20 +2490,20 @@ msgid ""
 "manual."
 msgstr ""
 
-#: ../gui_2/about.py:85 ../gui/about.py:85
+#: ../gui_2/about.py:85 ../gui/about.py:86
 msgid ""
 "General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-"
 "Read-Hall model"
 msgstr ""
 
-#: ../gui_2/about.py:89 ../gui/about.py:89
+#: ../gui_2/about.py:89 ../gui/about.py:90
 msgid ""
 "This program is free software; you can redistribute it and/or modify it "
 "under the terms of the GNU General Public License v2.0, as published by the "
 "Free Software Foundation."
 msgstr ""
 
-#: ../gui_2/about.py:93 ../gui/about.py:93
+#: ../gui_2/about.py:93 ../gui/about.py:94
 msgid ""
 "This program is distributed in the hope that it will be useful, but WITHOUT "
 "ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or "
@@ -2509,14 +2511,14 @@ msgid ""
 "more details."
 msgstr ""
 
-#: ../gui_2/about.py:97 ../gui/about.py:97
+#: ../gui_2/about.py:97 ../gui/about.py:98
 msgid ""
 "You should have received a copy of the GNU General Public License along with "
 "this program; if not, write to the Free Software Foundation, Inc., 51 "
 "Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA."
 msgstr ""
 
-#: ../gui_2/about.py:101 ../gui/about.py:101
+#: ../gui_2/about.py:101 ../gui/about.py:102
 msgid ""
 "When you start gpvdm the software checks the gpvdm.com server for updates "
 "and bug reports.  To do this it transmits your opperating system type, gpvdm "
@@ -2527,11 +2529,11 @@ msgid ""
 "in the manual."
 msgstr ""
 
-#: ../gui_2/about.py:140 ../gui/about.py:140
+#: ../gui_2/about.py:140 ../gui/about.py:141
 msgid "Translations"
 msgstr ""
 
-#: ../gui_2/about.py:143 ../gui/about.py:143
+#: ../gui_2/about.py:143 ../gui/about.py:144
 msgid "Materials"
 msgstr ""
 
@@ -2577,27 +2579,27 @@ msgstr ""
 msgid "version.h not found"
 msgstr ""
 
-#: ../gui_2/help.py:110 ../gui/help.py:111
+#: ../gui_2/help.py:110 ../gui/help.py:112
 msgid "Back"
 msgstr ""
 
-#: ../gui_2/help.py:124 ../gui/help.py:125
+#: ../gui_2/help.py:124 ../gui/help.py:126
 msgid "Online help"
 msgstr ""
 
-#: ../gui_2/help.py:125 ../gui/help.py:126
+#: ../gui_2/help.py:125 ../gui/help.py:127
 msgid "On line help"
 msgstr ""
 
-#: ../gui_2/help.py:129 ../gui/help.py:130
+#: ../gui_2/help.py:129 ../gui/help.py:131
 msgid "Hide"
 msgstr ""
 
-#: ../gui_2/help.py:241 ../gui/help.py:242
+#: ../gui_2/help.py:241 ../gui/help.py:243
 msgid "gpvdm in your language!"
 msgstr ""
 
-#: ../gui_2/help.py:243 ../gui/help.py:244
+#: ../gui_2/help.py:243 ../gui/help.py:245
 msgid "gpvdm translated by:"
 msgstr ""
 
@@ -3676,7 +3678,7 @@ msgstr ""
 msgid "value"
 msgstr ""
 
-#: ../gui_2/gl.py:479 ../gui/gl.py:576
+#: ../gui_2/gl.py:479 ../gui/gl.py:604
 msgid "active"
 msgstr ""
 
@@ -4127,63 +4129,71 @@ msgstr ""
 msgid "Basic"
 msgstr ""
 
-#: ../gui/display.py:103
+#: ../gui/display.py:102
 msgid "xy"
 msgstr ""
 
-#: ../gui/display.py:107
+#: ../gui/display.py:106
 msgid "yz"
 msgstr ""
 
-#: ../gui/display.py:111
+#: ../gui/display.py:110
 msgid "xz"
 msgstr ""
 
-#: ../gui/gpvdm_open.py:140 ../gui/gpvdm_open.py:155
+#: ../gui/gpvdm_open.py:143 ../gui/gpvdm_open.py:158
 msgid "New directory"
 msgstr ""
 
-#: ../gui/gpvdm_open.py:141
+#: ../gui/gpvdm_open.py:144
 msgid "New material"
 msgstr ""
 
-#: ../gui/gpvdm_open.py:142
+#: ../gui/gpvdm_open.py:145
 msgid "Delete file"
 msgstr ""
 
-#: ../gui/gpvdm_open.py:143
+#: ../gui/gpvdm_open.py:146
 msgid "Rename"
 msgstr ""
 
-#: ../gui/gpvdm_open.py:155
+#: ../gui/gpvdm_open.py:158
 msgid "New directory name:"
 msgstr ""
 
-#: ../gui/gpvdm_open.py:162
+#: ../gui/gpvdm_open.py:165
 msgid "New material name:"
 msgstr ""
 
-#: ../gui/gpvdm_open.py:162
+#: ../gui/gpvdm_open.py:165
 msgid "New material name"
 msgstr ""
 
-#: ../gui/gpvdm_open.py:172
+#: ../gui/gpvdm_open.py:175
 msgid "Are you sure you want to delete the files ?"
 msgstr ""
 
-#: ../gui/gpvdm_open.py:179
+#: ../gui/gpvdm_open.py:182
 msgid "Rename:"
 msgstr ""
 
-#: ../gui/import_data.py:92 ../gui/import_data.py:93
+#: ../gui/import_data.py:95 ../gui/import_data.py:96 ../gui/import_data.py:97
 msgid "J"
 msgstr ""
 
-#: ../gui/import_data.py:96
+#: ../gui/import_data.py:97
+msgid "-Amps"
+msgstr ""
+
+#: ../gui/import_data.py:99
+msgid "-Voltage"
+msgstr ""
+
+#: ../gui/import_data.py:101
 msgid "Attenuation coefficient"
 msgstr ""
 
-#: ../gui/import_data.py:146
+#: ../gui/import_data.py:151
 msgid "y-label:"
 msgstr ""
 
@@ -4228,7 +4238,15 @@ msgid "Public"
 msgstr ""
 
 #: ../gui/token_lib.py:107
+msgid "Public all"
+msgstr ""
+
+#: ../gui/token_lib.py:107
 msgid "Private"
+msgstr ""
+
+#: ../gui/token_lib.py:108
+msgid "Change log"
 msgstr ""
 
 #: ../gui/token_lib.py:405

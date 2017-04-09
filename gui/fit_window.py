@@ -98,7 +98,7 @@ class fit_window(QWidget):
 		webbrowser.open('https://www.gpvdm.com/man/index.html')
 
 	def callback_add_page(self):
-		new_sim_name=dlg_get_text( _("New fit name:"), _("fit ")+str(self.notebook.count()+1),"document-new.png")
+		new_sim_name=dlg_get_text( _("New fit name:"), _("fit ")+str(self.notebook.count()+1),"document-new")
 
 		if new_sim_name.ret!=None:
 			index=fit_new_filename()

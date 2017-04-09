@@ -49,6 +49,12 @@ def scan_item_add(file_name,token,text_info,line):
 	check_list[listpos].token=token
 	check_list[listpos].line=line
 
+def scan_items_populate_from_known_tokens():
+	my_token_lib=tokens().get_lib()
+	for i in range(0,len(my_token_lib)):
+		if my_token_lib[i].file_name!="":
+			scan_item_add(my_token_lib[i].file_name,my_token_lib[i].token,my_token_lib[i].info,1)
+	
 def scan_item_save(file_name):
 	global check_list
 	f = open(file_name,'w')

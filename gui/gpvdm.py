@@ -65,6 +65,7 @@ import os
 from inp import inp_get_token_value
 
 from scan_item import scan_items_clear
+from scan_item import scan_items_populate_from_known_tokens
 from plot_gen import plot_gen
 from help import help_window
 from help import help_init
@@ -226,6 +227,7 @@ class gpvdm_main_window(QMainWindow):
 
 	def change_dir_and_refresh_interface(self,new_dir):
 		scan_items_clear()
+		scan_items_populate_from_known_tokens()
 		os.chdir(new_dir)
 		calculate_paths()
 		epitaxy_load()

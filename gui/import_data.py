@@ -52,6 +52,8 @@ from plot_io import gen_header_from_token
 from PyQt5.QtCore import pyqtSignal
 
 from window_list import resize_window_to_be_sane
+from mesh import mesh_get_xlen
+from mesh import mesh_get_zlen
 
 articles = []
 mesh_articles = []
@@ -89,9 +91,12 @@ class graph_data_display(QWidget):
 		self.items.append([_("Wavelength"),"nm",_("Wavelength"),"nm","1e-9",1e9])
 		self.items.append([_("Wavelength"),"um",_("Wavelength"),"nm","1e-6",1e9])
 		self.items.append([_("Wavelength"),"cm",_("Wavelength"),"nm","1e-3",1e9])
+		self.items.append([_("Wavelength"),"m",_("Wavelength"),"nm","1.0",1e9])
 		self.items.append([_("J"),"mA/cm2",_("J"),"A/m2","10000.0/1000.0",1.0])
 		self.items.append([_("J"),"m/m2",_("J"),"A/m2","1.0",1.0])
+		self.items.append([_("-Amps"),"A",_("J"),"A/m2","-1.0/("+str(mesh_get_xlen())+"*"+str(mesh_get_zlen())+")",1.0])
 		self.items.append([_("Voltage"),"V",_("Voltage"),"V","1.0",1.0])
+		self.items.append([_("-Voltage"),"V",_("Voltage"),"V","-1.0",1.0])
 		self.items.append([_("Voltage"),"mV",_("Voltage"),"V","1e-3",1.0])
 		self.items.append([_("Attenuation coefficient"),"au",_("Absorption"),"m^{-1}","4*3.14159/x",1.0])
 		self.items.append([_("Refractive index"),"au",_("Refractive index"),"au","1.0",1.0])

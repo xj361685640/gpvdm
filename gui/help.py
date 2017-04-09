@@ -73,6 +73,7 @@ class help_class(QWidget):
 		self.item_height=10
 		self.setWindowFlags(Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint)
 		#self.setFixedSize(400,160)
+		#self.setFixedWidth(700)
 
 		self.setStyleSheet(" padding:0px; margin-top:0px; margin-bottom:0px")
 		#; border:2px solid rgb(0, 0, 0); 

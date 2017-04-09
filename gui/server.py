@@ -201,10 +201,10 @@ class server(QWidget,cluster):
 #						if running_on_linux()==True:
 
 						cmd="cd "+self.jobs[i]+";"
-						cmd=cmd+get_exe_command()+" --lock "+"lock"+str(i)+" "+self.args[i]+get_exe_args()+" &"
+						cmd=cmd+get_exe_command()+" --lock "+"lock"+str(i)+" "+self.args[i]+" "+get_exe_args()+" &"
 						print("command="+cmd)
 						if self.enable_gui==True:
-							self.terminal.run(self.jobs[i],get_exe_command()+" --lock "+"lock"+str(i)+" "+self.args[i]+get_exe_args())
+							self.terminal.run(self.jobs[i],get_exe_command()+" --lock "+"lock"+str(i)+" "+self.args[i]+" "+get_exe_args())
 						else:
 							print(cmd)
 							os.system(cmd)
