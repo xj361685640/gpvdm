@@ -88,8 +88,10 @@ for root, dirs, files in os.walk("./plugins"):
 
 config_files.append("src")
 if hpc==False:
-	config_files.append("images/flags")
-	config_files.append("images/scalable")
+	config_files.append("images/16x16")
+	config_files.append("images/32x32")
+	config_files.append("images/48x32")
+	config_files.append("images/64x64")
 	config_files.append("css")
 	if win==False:
 		config_files.append("man")

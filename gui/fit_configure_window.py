@@ -38,7 +38,7 @@ from tab import tab_class
 from tab_lang import language_tab_class
 from duplicate import duplicate
 from fit_vars import fit_vars
-
+from constraints import constraints
 from PyQt5.QtCore import pyqtSignal
 
 articles = []
@@ -53,7 +53,7 @@ class fit_configure_window(QWidget):
 
 	def __init__(self):
 		QWidget.__init__(self)
-		self.setFixedSize(900, 600)
+		self.setMinimumSize(900, 600)
 		self.setWindowIcon(QIcon_load("preferences-system"))
 
 		self.setWindowTitle(_("Fit configure")+" (https://www.gpvdm.com)") 
@@ -98,6 +98,9 @@ class fit_configure_window(QWidget):
 		self.fit_vars_window=fit_vars()
 		self.notebook.addTab(self.fit_vars_window,_("Fit variable window"))
 
+		self.constraints_window=constraints()
+		self.notebook.addTab(self.constraints_window,_("Fit constraints"))
+		
 		self.setLayout(self.main_vbox)
 		self.win_list=windows()
 		self.win_list.load()

@@ -5881,7 +5881,7 @@ fi
 #i?86
 #x86_64
 
-BUILD_DIRS=" lang libi libmemory lib libdos liblight libmeasure libdump libdumpctrl libserver libmesh libfit plugins/optics plugins/newton plugins/nr_d plugins/pulse plugins/fxdomain plugins/light_flat plugins/light_ray plugins/li plugins/light_full plugins/newton_2d plugins/fit_stark plugins/nr_ld plugins/photon_extraction plugins/jv plugins/light_exp plugins/qe plugins/umfpack plugins/jv_one_point plugins/jv_simple plugins/sun_voc plugins/light_fromfile plugins/newton_norm src images/flags images/scalable css man "
+BUILD_DIRS=" lang libi libmemory lib libdos liblight libmeasure libdump libdumpctrl libserver libmesh libfit plugins/optics plugins/newton plugins/nr_d plugins/pulse plugins/fxdomain plugins/light_flat plugins/light_ray plugins/li plugins/light_full plugins/newton_2d plugins/fit_stark plugins/nr_ld plugins/photon_extraction plugins/jv plugins/light_exp plugins/qe plugins/umfpack plugins/jv_one_point plugins/jv_simple plugins/sun_voc plugins/light_fromfile plugins/newton_norm src images/16x16 images/32x32 images/48x32 images/64x64 css man "
 
 LOCAL_LINK=" -lgpvdm_i -lgpvdm_memory -lgpvdm_lib -lgpvdm_dos -lgpvdm_light -lgpvdm_measure -lgpvdm_dump -lgpvdm_dumpctrl -lgpvdm_server -lgpvdm_mesh -lgpvdm_fit"
 
@@ -6224,9 +6224,13 @@ ac_config_files="$ac_config_files plugins/newton_norm/Makefile"
 
 ac_config_files="$ac_config_files src/Makefile"
 
-ac_config_files="$ac_config_files images/flags/Makefile"
+ac_config_files="$ac_config_files images/16x16/Makefile"
 
-ac_config_files="$ac_config_files images/scalable/Makefile"
+ac_config_files="$ac_config_files images/32x32/Makefile"
+
+ac_config_files="$ac_config_files images/48x32/Makefile"
+
+ac_config_files="$ac_config_files images/64x64/Makefile"
 
 ac_config_files="$ac_config_files css/Makefile"
 
@@ -7036,8 +7040,10 @@ do
     "plugins/light_fromfile/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/light_fromfile/Makefile" ;;
     "plugins/newton_norm/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/newton_norm/Makefile" ;;
     "src/Makefile") CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
-    "images/flags/Makefile") CONFIG_FILES="$CONFIG_FILES images/flags/Makefile" ;;
-    "images/scalable/Makefile") CONFIG_FILES="$CONFIG_FILES images/scalable/Makefile" ;;
+    "images/16x16/Makefile") CONFIG_FILES="$CONFIG_FILES images/16x16/Makefile" ;;
+    "images/32x32/Makefile") CONFIG_FILES="$CONFIG_FILES images/32x32/Makefile" ;;
+    "images/48x32/Makefile") CONFIG_FILES="$CONFIG_FILES images/48x32/Makefile" ;;
+    "images/64x64/Makefile") CONFIG_FILES="$CONFIG_FILES images/64x64/Makefile" ;;
     "css/Makefile") CONFIG_FILES="$CONFIG_FILES css/Makefile" ;;
     "man/Makefile") CONFIG_FILES="$CONFIG_FILES man/Makefile" ;;
 

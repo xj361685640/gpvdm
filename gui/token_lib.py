@@ -39,19 +39,21 @@ class my_data():
 lib=[]
 
 #light.inp
-lib.append(my_data("","#lpoints","au",_("Mesh points (lambda)"),"e",1.0,"QLineEdit"))
-lib.append(my_data("","#lstart","m",_("Lambda start"),"e",1.0,"QLineEdit"))
-lib.append(my_data("","#lstop","m",_("Lambda stop"),"e",1.0,"QLineEdit"))
-lib.append(my_data("","#laserwavelength","m",_("Laser wavelength"),"e",1.0,"QLineEdit"))
-lib.append(my_data("","#spotx","m",_("Spot size x"),"e",1.0,"QLineEdit"))
-lib.append(my_data("","#spoty","m",_("Spot size y"),"e",1.0,"QLineEdit"))
-lib.append(my_data("","#pulseJ","J",_("Energy in pulse"),"e",1.0,"QLineEdit"))
-lib.append(my_data("","#gather","au",_("#gather"),"e",1.0,"QLineEdit"))
-lib.append(my_data("","#laser_pulse_width","s",_("Length of pulse"),"e",1.0,"QLineEdit"))
-lib.append(my_data("","#electron_eff","0-1",_("Electron generation efficiency"),"e",1.0,"QLineEdit"))
-lib.append(my_data("","#hole_eff","0-1",_("Hole generation efficiency"),"e",1.0,"QLineEdit"))
-lib.append(my_data("","#sun",_("filename"),_("Sun's spectra"),"e",1.0,"QLineEdit"))
-lib.append(my_data("","#light_file_generation","file_name",_("File containing generation rate"),"e",1.0,"gpvdm_select"))
+lib.append(my_data("light.inp","#lpoints","au",_("Mesh points (lambda)"),"e",1.0,"QLineEdit"))
+lib.append(my_data("light.inp","#lstart","m",_("Lambda start"),"e",1.0,"QLineEdit"))
+lib.append(my_data("light.inp","#lstop","m",_("Lambda stop"),"e",1.0,"QLineEdit"))
+lib.append(my_data("light.inp","#laserwavelength","m",_("Laser wavelength"),"e",1.0,"QLineEdit"))
+lib.append(my_data("light.inp","#spotx","m",_("Spot size x"),"e",1.0,"QLineEdit"))
+lib.append(my_data("light.inp","#spoty","m",_("Spot size y"),"e",1.0,"QLineEdit"))
+lib.append(my_data("light.inp","#pulseJ","J",_("Energy in pulse"),"e",1.0,"QLineEdit"))
+lib.append(my_data("light.inp","#gather","au",_("#gather"),"e",1.0,"QLineEdit"))
+lib.append(my_data("light.inp","#laser_pulse_width","s",_("Length of pulse"),"e",1.0,"QLineEdit"))
+lib.append(my_data("light.inp","#electron_eff","0-1",_("Electron generation efficiency"),"e",1.0,"QLineEdit"))
+lib.append(my_data("light.inp","#hole_eff","0-1",_("Hole generation efficiency"),"e",1.0,"QLineEdit"))
+lib.append(my_data("light.inp","#sun",_("filename"),_("Sun's spectra"),"e",1.0,"QLineEdit"))
+lib.append(my_data("light.inp","#light_file_generation","file_name",_("File containing generation rate"),"e",1.0,"gpvdm_select"))
+lib.append(my_data("light.inp","#Dphotoneff","0-1",_("Photon efficiency"),"e",1.0,"QLineEdit"))
+
 
 #dos.inp
 lib.append(my_data("","#dostype","au",_("DoS distribution"),"s",1.0,"QComboBoxLang",defaults=[[("exponential"),_("exponential")],["complex",_("complex")]]))
@@ -109,11 +111,11 @@ lib.append(my_data("","#status","type",_("Publish material data?"),"e",1.0,"QCom
 lib.append(my_data("","#changelog","au",_("Change log"),"e",1.0,"QChangeLog"))
 
 #jv.inp
-lib.append(my_data("","#jv_step_mul","0-2.0",_("JV voltage step multiplyer"),"e",1.0,"QLineEdit"))
-lib.append(my_data("","#jv_max_j","A m^{-2}",_("Maximum current density"),"e",1.0,"QLineEdit"))
-lib.append(my_data("","#jv_light_efficiency","au",_("JV curve photon generation efficiency"),"e",1.0,"QLineEdit"))
-lib.append(my_data("","#jv_pmax_n","m^{-3}",_("Average carrier density at P_{max}"),"e",1.0,"QLineEdit"))
-lib.append(my_data("","#jv_pmax_tau","m^{-1}",_("Recombination time constant"),"e",1.0,"QLineEdit"))
+lib.append(my_data("jv.inp","#jv_step_mul","0-2.0",_("JV voltage step multiplyer"),"e",1.0,"QLineEdit"))
+lib.append(my_data("jv.inp","#jv_max_j","A m^{-2}",_("Maximum current density"),"e",1.0,"QLineEdit"))
+lib.append(my_data("jv.inp","#jv_light_efficiency","au",_("JV curve photon generation efficiency"),"e",1.0,"QLineEdit"))
+lib.append(my_data("jv.inp","#jv_pmax_n","m^{-3}",_("Average carrier density at P_{max}"),"e",1.0,"QLineEdit"))
+lib.append(my_data("jv.inp","#jv_pmax_tau","m^{-1}",_("Recombination time constant"),"e",1.0,"QLineEdit"))
 
 #sim_info.dat
 lib.append(my_data("","#voc","V",_("V_{oc}"),"e",1.0,"QLineEdit"))
@@ -280,7 +282,6 @@ lib.append(my_data("","#imps_sun","1=1 Sun",_("Backgroud light bias"),"e",1.0,"Q
 lib.append(my_data("","#imps_modulation_max","1=1 Sun",_("Modulation depth"),"e",1.0,"QLineEdit"))
 lib.append(my_data("","#imps_modulation_fx","Hz",_("Modulation frequency"),"e",1.0,"QLineEdit"))
 lib.append(my_data("","#high_sun_scale","au",_("High light multiplyer"),"e",1.0,"QLineEdit"))
-lib.append(my_data("","#Dphotoneff","0-1",_("Photon efficiency"),"e",1.0,"QLineEdit"))
 
 
 

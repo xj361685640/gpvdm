@@ -212,8 +212,9 @@ class tab_class(QWidget,tab_base):
 							
 						all_items  = [edit_box.itemText(i) for i in range(edit_box.count())]
 						for i in range(0,len(all_items)):
-							if all_items[i] == token:
+							if all_items[i] == value:
 								edit_box.setCurrentIndex(i)
+								break
 								
 						edit_box.currentIndexChanged.connect(functools.partial(self.callback_edit,filename,token,edit_box))
 

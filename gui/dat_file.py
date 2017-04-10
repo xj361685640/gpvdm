@@ -94,7 +94,7 @@ def dat_file_load_info(output,lines):
 						if (command[0]=="#z"):
 							output.z_len=int(command[1])
 							found_xyz=True
-			if found_xyz==True:
+			if found_xyz==True and output.x_len != -1 and output.y_len != -1 and output.z_len != -1:
 				return True
 			else:
 				return False
@@ -162,7 +162,6 @@ def dat_file_read(out,file_name,guess=True):
 			out.x_len, out.y_len, out.z_len = guess_dim(lines)
 		else:
 			return False
-
 		if out.x_len==False:
 			print("No idea what to do with this file!")
 			return False
@@ -181,6 +180,7 @@ def dat_file_read(out,file_name,guess=True):
 	dim=0
 	for i in range(0, len(lines)):
 		temp=lines[i]
+
 		temp=re.sub(' +',' ',temp)
 		temp=re.sub('\t',' ',temp)
 		s=temp.split(" ")
