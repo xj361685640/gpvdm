@@ -3846,7 +3846,7 @@ $as_echo "$as_me: *Setting up for HPC         *" >&6;}
 { $as_echo "$as_me:${as_lineno-$LINENO}: *****************************" >&5
 $as_echo "$as_me: *****************************" >&6;}
 
-COMPILE_FLAG=" -D enable_server -g -fPIC "
+COMPILE_FLAG=" -D enable_server -D enable_fit -g -fPIC "
 
 LIBS=" -lumfpack -lm -lgsl -lgslcblas -rdynamic -export-dynamic -ldl -lzip -lz  -L/home/steve/rm/lib/"
 

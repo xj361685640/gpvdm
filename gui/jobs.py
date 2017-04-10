@@ -76,10 +76,10 @@ class jobs_view(QWidget):
 
 	def create_model(self):
 		self.tab.clear()
-		self.tab.setColumnCount(7)
+		self.tab.setColumnCount(9)
 
 		self.tab.setSelectionBehavior(QAbstractItemView.SelectRows)
-		self.tab.setHorizontalHeaderLabels([_("n"), _("done"), _("status"), _("target"), _("ip"),_("copy state"),_("start"),_("stop")])
+		self.tab.setHorizontalHeaderLabels([_("n"), _("name"), _("done"), _("status"), _("target"), _("ip"),_("copy state"),_("start"),_("stop")])
 
 		self.tab.setRowCount(0)
 

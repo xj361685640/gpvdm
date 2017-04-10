@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.88\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2017-04-10 15:44+0100\n"
+"POT-Creation-Date: 2017-04-10 17:36+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -769,7 +769,7 @@ msgstr ""
 #: ../gui/contacts.py:200 ../gui/config_window.py:70 ../gui/config_window.py:71
 #: ../gui/ribbon_home.py:108 ../gui/materials_main.py:97 ../gui/jv.py:77
 #: ../gui/emesh.py:170 ../gui/ribbon_information.py:75 ../gui/ribbon.py:77
-#: ../gui/scan.py:324 ../gui/scan.py:325 ../gui/scan.py:363 ../gui/info.py:67
+#: ../gui/scan.py:320 ../gui/scan.py:321 ../gui/scan.py:355 ../gui/info.py:67
 #: ../gui/cost.py:92 ../gui/fxexperiment.py:195 ../gui/fxexperiment.py:196
 #: ../gui/fxexperiment.py:229 ../gui/fit_window.py:244 ../gui/fit_window.py:245
 #: ../gui/fit_window.py:300 ../gui/ribbon_cluster.py:129 ../gui/ref.py:89
@@ -782,7 +782,7 @@ msgstr ""
 #: ../gui/cmp_class.py:300 ../gui/band_graph.py:73
 #: ../gui/fit_configure_window.py:73 ../gui/experiment.py:178
 #: ../gui/experiment.py:235 ../gui/contacts.py:201 ../gui/jv.py:78
-#: ../gui/emesh.py:171 ../gui/scan.py:265 ../gui/scan.py:364 ../gui/info.py:68
+#: ../gui/emesh.py:171 ../gui/scan.py:261 ../gui/scan.py:356 ../gui/info.py:68
 #: ../gui/fxexperiment.py:177 ../gui/fxexperiment.py:230
 #: ../gui/fit_window.py:226 ../gui/ref.py:109 ../gui/lasers.py:176
 #: ../gui/lasers.py:233 ../gui/about.py:154 ../gui/help.py:132
@@ -1202,7 +1202,7 @@ msgstr ""
 
 #: ../gui/scan_tab.py:405 ../gui/experiment.py:177 ../gui/gpvdm.py:257
 #: ../gui/constraints.py:112 ../gui/constraints.py:137 ../gui/ribbon.py:114
-#: ../gui/scan.py:262 ../gui/snapshot_slider.py:132 ../gui/fxexperiment.py:176
+#: ../gui/scan.py:258 ../gui/snapshot_slider.py:132 ../gui/fxexperiment.py:176
 #: ../gui/fit_window.py:225 ../gui/fit_vars.py:95 ../gui/fit_vars.py:156
 #: ../gui/lasers.py:175 ../gui/plot_widget.py:583 ../gui/fit_patch.py:124
 msgid "File"
@@ -1233,7 +1233,7 @@ msgstr ""
 msgid "Delete item"
 msgstr ""
 
-#: ../gui/scan_tab.py:527 ../gui/ribbon_home.py:69 ../gui/scan.py:285
+#: ../gui/scan_tab.py:527 ../gui/ribbon_home.py:69 ../gui/scan.py:281
 msgid "Run simulation"
 msgstr ""
 
@@ -1367,7 +1367,7 @@ msgstr ""
 msgid "Experiments"
 msgstr ""
 
-#: ../gui/experiment.py:183 ../gui/scan.py:271 ../gui/fxexperiment.py:182
+#: ../gui/experiment.py:183 ../gui/scan.py:267 ../gui/fxexperiment.py:182
 #: ../gui/fit_window.py:231 ../gui/lasers.py:181
 msgid "New"
 msgstr ""
@@ -1440,7 +1440,7 @@ msgstr ""
 msgid "Please select a device before clicking next"
 msgstr ""
 
-#: ../gui/new_simulation.py:93 ../gui/ribbon.py:63 ../gui/scan.py:338
+#: ../gui/new_simulation.py:93 ../gui/ribbon.py:63 ../gui/scan.py:330
 msgid "New simulation"
 msgstr ""
 
@@ -2167,7 +2167,7 @@ msgstr ""
 msgid "About"
 msgstr ""
 
-#: ../gui/ribbon.py:120 ../gui/scan.py:270
+#: ../gui/ribbon.py:120 ../gui/scan.py:266
 msgid "Simulations"
 msgstr ""
 
@@ -2235,103 +2235,99 @@ msgstr ""
 msgid "Density of States"
 msgstr ""
 
-#: ../gui/scan.py:65
+#: ../gui/scan.py:61
 msgid "Change directory"
 msgstr ""
 
-#: ../gui/scan.py:74
+#: ../gui/scan.py:70
 msgid "All files"
 msgstr ""
 
-#: ../gui/scan.py:97
+#: ../gui/scan.py:93
 msgid "New simulation name:"
 msgstr ""
 
-#: ../gui/scan.py:97
+#: ../gui/scan.py:93
 msgid "Simulation "
 msgstr ""
 
-#: ../gui/scan.py:117
+#: ../gui/scan.py:113
 msgid "Clone the current simulation to a new simulation called:"
 msgstr ""
 
-#: ../gui/scan.py:125
+#: ../gui/scan.py:121
 msgid "I want to copy"
 msgstr ""
 
-#: ../gui/scan.py:174
+#: ../gui/scan.py:170
 msgid "Rename the simulation to be called:"
 msgstr ""
 
-#: ../gui/scan.py:190
+#: ../gui/scan.py:186
 msgid "Should I remove the simulation directory "
 msgstr ""
 
-#: ../gui/scan.py:195
+#: ../gui/scan.py:191
 msgid "I am going to delete file"
 msgstr ""
 
-#: ../gui/scan.py:239
+#: ../gui/scan.py:235
 msgid "Parameter scan - gpvdm"
 msgstr ""
 
-#: ../gui/scan.py:263
+#: ../gui/scan.py:259
 msgid "Change dir"
 msgstr ""
 
-#: ../gui/scan.py:274 ../gui/scan.py:342
+#: ../gui/scan.py:270 ../gui/scan.py:334
 msgid "Delete simulation"
 msgstr ""
 
-#: ../gui/scan.py:277 ../gui/scan.py:350
+#: ../gui/scan.py:273 ../gui/scan.py:342
 msgid "Rename simulation"
 msgstr ""
 
-#: ../gui/scan.py:280 ../gui/scan.py:346
+#: ../gui/scan.py:276 ../gui/scan.py:338
 msgid "Clone simulation"
 msgstr ""
 
-#: ../gui/scan.py:288
+#: ../gui/scan.py:284
 msgid "Advanced"
 msgstr ""
 
-#: ../gui/scan.py:290
+#: ../gui/scan.py:286
 msgid "Plot fits"
 msgstr ""
 
-#: ../gui/scan.py:293
+#: ../gui/scan.py:289
 msgid "Run nested simulation"
 msgstr ""
 
-#: ../gui/scan.py:296 ../gui/scan.py:299
+#: ../gui/scan.py:292 ../gui/scan.py:295
 msgid "Run simulation no generation"
 msgstr ""
 
-#: ../gui/scan.py:302
+#: ../gui/scan.py:298
 msgid "Run single fit"
 msgstr ""
 
-#: ../gui/scan.py:305
+#: ../gui/scan.py:301
 msgid "Clean simulation"
 msgstr ""
 
-#: ../gui/scan.py:308
+#: ../gui/scan.py:304
 msgid "Clean unconverged simulation"
 msgstr ""
 
-#: ../gui/scan.py:311 ../gui/scan.py:314
+#: ../gui/scan.py:307 ../gui/scan.py:310
 msgid "Clean simulation output"
 msgstr ""
 
-#: ../gui/scan.py:319
+#: ../gui/scan.py:315
 msgid "Push unconverged to hpc"
 msgstr ""
 
-#: ../gui/scan.py:334
-msgid "test"
-msgstr ""
-
-#: ../gui/scan.py:354
+#: ../gui/scan.py:346
 msgid "Run all simulations"
 msgstr ""
 
@@ -2619,11 +2615,11 @@ msgid ""
 "close data.xlsx to enable me to write new data to it."
 msgstr ""
 
-#: ../gui/server.py:204
+#: ../gui/server.py:203
 msgid "Running job "
 msgstr ""
 
-#: ../gui/server.py:326
+#: ../gui/server.py:323
 msgid "I did not think I was running any jobs"
 msgstr ""
 
@@ -3927,6 +3923,10 @@ msgstr ""
 
 #: ../gui/plot_dlg.py:81
 msgid "Steady state simulation (www.gpvdm.com)"
+msgstr ""
+
+#: ../gui/jobs.py:82
+msgid "name"
 msgstr ""
 
 #: ../gui/jobs.py:82

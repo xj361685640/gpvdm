@@ -1,6 +1,6 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012-2017 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012-2017 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
 #	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -56,10 +56,6 @@ class scan_class(QWidget):
 		self.win_list.update(self,"scan_window")
 		self.hide()
 		return True
-	
-	def callback_test(self):
-		global_object_get("terminal").list_cpu_state()
-
 
 	def callback_change_dir(self):
 		dialog = gtk.FileChooserDialog(_("Change directory"),
@@ -330,10 +326,6 @@ class scan_class(QWidget):
 
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
-
-		self.tb_new = QAction(QIcon_load("document-new"), _("test"), self)
-		self.tb_new.triggered.connect(self.callback_test)
-		toolbar.addAction(self.tb_new)
 		
 		self.tb_new = QAction(QIcon_load("document-new"), _("New simulation"), self)
 		self.tb_new.triggered.connect(self.callback_add_page)

@@ -106,7 +106,7 @@ class ribbon_cluster(QToolBar):
 		self.addAction(self.cluster_sync)
 		self.cluster_sync.setEnabled(False)
 
-		self.cluster_stop = QAction(QIcon_load("pause"),  _("Stop"), self)
+		self.cluster_stop = QAction(QIcon_load("media-playback-pause"),  _("Stop"), self)
 		self.cluster_stop.triggered.connect(self.callback_cluster_stop)
 		self.addAction(self.cluster_stop)
 		self.cluster_stop.setEnabled(False)
@@ -148,7 +148,7 @@ class ribbon_cluster(QToolBar):
 
 	def callback_cluster_jobs(self):
 		self.myserver.cluster_list_jobs()
-		self.jview.load_data(self.myserver.cluster_jobs)
+		self.cluster_tab.jview.load_data(self.myserver.cluster_jobs)
 
 	def callback_cluster_sleep(self):
 		self.myserver.sleep()
