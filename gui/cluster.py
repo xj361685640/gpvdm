@@ -218,8 +218,8 @@ class cluster:
 
 	def gen_dir_list(self,path):
 
-		banned_types=[".pdf",".png",".dll",".o",".so",".so",".a",".dat",".aprox",".ods"]
-		banned_dirs=["equilibrium","man_src","images","snapshots", "plot","pub"]
+		banned_types=[".pdf",".png",".dll",".o",".so",".so",".a",".dat",".aprox",".ods",".xls",".xlsx",".log",".pptx",".dig",".old",".bak",".opj",".csv"]
+		banned_dirs=["equilibrium","man_src","images","snapshots", "plot","pub","gui","debian","desktop"]
 
 		file_list=[]
 
@@ -250,11 +250,9 @@ class cluster:
 		for i in range(0,len(file_list)):
 			add=True
 			for ii in range(0,len(banned_dirs)):
-				sp=os.path.split(file_list[i])
-				if len(sp)>0:
-					if sp[0]==banned_dirs[ii]:
-						add=False
-						break
+				if file_list[i].startswith(banned_dirs[ii])==True:
+					add=False
+					break
 
 			if add==True:
 				f.append(file_list[i])

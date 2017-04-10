@@ -40,7 +40,7 @@ def export_materials(target):
 	progress_window.show()
 	progress_window.start()
 	process_events()
-	mat_files=["alpha_eq.inp","alpha_gen.omat","alpha.omat","cost.xlsx","dos.inp","fit.inp","info.txt","mat.inp","n_eq.inp","n_gen.omat","n.omat","pl.inp"]
+	mat_files=["alpha_eq.inp","alpha_gen.omat","alpha.omat","cost.xlsx","dos.inp","fit.inp","mat.inp","n_eq.inp","n_gen.omat","n.omat","pl.inp"]
 	for path, dirs, files in os.walk(os.path.join(os.getcwd(),"materials")):
 		for file_name in files:
 			if file_name in mat_files:

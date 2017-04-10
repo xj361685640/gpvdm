@@ -167,15 +167,16 @@ lib.append(my_data("math.inp","#math_n0","au",_("Slotboom n0"),"e",1.0,"QLineEdi
 
 
 #fit.inp
-lib.append(my_data("","#fit_error_mul","au",_("Fit error multiplyer"),"e",1.0,"QLineEdit"))
-lib.append(my_data("","#fit_randomize",_("True/False"),_("Randomize fit"),"e",1.0,"gtkswitch"))
-lib.append(my_data("","#fit_random_reset_ittr","au",_("Number of iterations between random reset"),"e",1.0,"QLineEdit"))
-lib.append(my_data("","#fit_stall_steps","au",_("Stall steps"),"e",1.0,"QLineEdit"))
-lib.append(my_data("","#fit_disable_reset_at","au",_("Disable reset at level"),"e",1.0,"QLineEdit"))
-lib.append(my_data("","#fit_converge_error","au",_("Fit define convergence"),"e",1.0,"QLineEdit"))
-lib.append(my_data("","#fit_enable_simple_reset","au",_("Enable simplex reset"),"e",1.0,"gtkswitch"))
-lib.append(my_data("","#fit_enable_simple_reset","au",_("Simplex reset steps"),"e",1.0,"gtkswitch"))
-lib.append(my_data("","#fit_method","au",_("Fiting method"),"e",1.0,"QComboBox",defaults=["simplex","newton"]))
+lib.append(my_data("fit.inp","#fit_error_mul","au",_("Fit error multiplyer"),"e",1.0,"QLineEdit"))
+lib.append(my_data("fit.inp","#fit_randomize",_("True/False"),_("Randomize fit"),"e",1.0,"gtkswitch"))
+lib.append(my_data("fit.inp","#fit_random_reset_ittr","au",_("Number of iterations between random reset"),"e",1.0,"QLineEdit"))
+lib.append(my_data("fit.inp","#fit_stall_steps","au",_("Stall steps"),"e",1.0,"QLineEdit"))
+lib.append(my_data("fit.inp","#fit_disable_reset_at","au",_("Disable reset at level"),"e",1.0,"QLineEdit"))
+lib.append(my_data("fit.inp","#fit_converge_error","au",_("Fit define convergence"),"e",1.0,"QLineEdit"))
+lib.append(my_data("fit.inp","#fit_enable_simple_reset","au",_("Enable simplex reset"),"e",1.0,"gtkswitch"))
+lib.append(my_data("fit.inp","#fit_enable_simple_reset","au",_("Simplex reset steps"),"e",1.0,"gtkswitch"))
+lib.append(my_data("fit.inp","#fit_method","au",_("Fiting method"),"e",1.0,"QComboBox",defaults=["simplex","newton"]))
+lib.append(my_data("fit.inp","#fit_simplexmul","au",_("Start simplex step multiplication"),"e",1.0,"QComboBox",defaults=["simplex","newton"]))
 
 #fit?.inp
 lib.append(my_data("","#fit_subtract_lowest_point",_("True/False"),_("Subtract lowest point"),"e",1.0,"gtkswitch"))

@@ -97,7 +97,6 @@ from PyQt5.QtWidgets import QWidget,QSizePolicy,QVBoxLayout,QHBoxLayout,QPushBut
 #windows
 from splash import splash_window
 from new_simulation import new_simulation
-from hpc import hpc_class
 from dlg_export import dlg_export
 from device_lib import device_lib_class
 from cool_menu import cool_menu

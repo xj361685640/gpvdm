@@ -33,6 +33,9 @@ import multiprocessing
 import functools
 from cpu_usage import cpu_usage
 from win_lin import running_on_linux
+from hpc import hpc_class
+from code_ctrl import enable_betafeatures
+from global_objects import global_object_register
 
 class tab_terminal(QWidget,tab_base):
 
@@ -56,6 +59,13 @@ class tab_terminal(QWidget,tab_base):
 		cursor.insertHtml(data)
 		self.terminals[i].ensureCursorVisible()
 
+	def list_cpu_state(self):
+		for i in range(0,self.cpus):
+			if self.process[i].state()==QProcess.NotRunning:
+				print(i,"0")
+			else:
+				print(i,"1")
+
 	def run(self,path,command):
 		for i in range(0,self.cpus):
 	
@@ -71,9 +81,10 @@ class tab_terminal(QWidget,tab_base):
 
 				print("exe command=",command)
 				self.process[i].start(command)
-				return
+				return True
 
 		print(_("I could not find a free cpu to run the command on"))
+		return False
 
 	def init(self):
 		self.cpus=multiprocessing.cpu_count()
@@ -108,8 +119,10 @@ class tab_terminal(QWidget,tab_base):
 			self.terminals.append(term)
 			self.tab.addTab(term,_("CPU")+" "+str(i))
 
-
-
+		if enable_betafeatures()==True:
+			self.cluster=hpc_class()
+			self.tab.addTab(self.cluster,_("Cluster"))
+			global_object_register("cluster_tab",self.cluster)
 
 	def help(self):
 		my_help_class.help_set_help(["utilities-terminal.png","<big><b>The terminal window</b></big>\nThe model will run in this window.  You can also use it to enter bash commands."])

@@ -63,6 +63,8 @@ from help import help_window
 import i18n
 _ = i18n.language.gettext
 
+from global_objects import global_object_register
+
 
 class gpvdm_notebook(QTabWidget):
 	#progress=progress_class()
@@ -76,6 +78,7 @@ class gpvdm_notebook(QTabWidget):
 		self.terminal=None
 		self.update_display_function=None
 		self.currentChanged.connect(self.changed_click)
+		global_object_register("notebook_goto_page",self.goto_page)
 
 	def update(self):
 		for i in range(0,self.count()):
@@ -227,6 +230,7 @@ class gpvdm_notebook(QTabWidget):
 			self.terminal.init()
 			self.addTab(self.terminal,_("Terminal"))
 			self.terminal.run(os.getcwd(),get_exe_command()+" --version "+get_exe_args())
+			global_object_register("terminal",self.terminal)
 
 			#self.add_info_page()
 

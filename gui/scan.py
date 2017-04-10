@@ -47,6 +47,8 @@ from PyQt5.QtGui import QPainter,QIcon
 from scan_tab import scan_vbox
 from QHTabBar import QHTabBar
 
+from global_objects import global_object_get
+
 class scan_class(QWidget):
 
 
@@ -54,6 +56,10 @@ class scan_class(QWidget):
 		self.win_list.update(self,"scan_window")
 		self.hide()
 		return True
+	
+	def callback_test(self):
+		global_object_get("terminal").list_cpu_state()
+
 
 	def callback_change_dir(self):
 		dialog = gtk.FileChooserDialog(_("Change directory"),
@@ -226,10 +232,10 @@ class scan_class(QWidget):
 	def __init__(self,my_server):
 		QWidget.__init__(self)
 		self.myserver=my_server
-
 		self.win_list=windows()
 		self.win_list.load()
 		self.win_list.set_window(self,"scan_window")
+		self.setMinimumSize(1000,500)
 		self.setWindowTitle(_("Parameter scan - gpvdm"))
 		self.setWindowIcon(QIcon_load("scan"))
 
@@ -325,6 +331,10 @@ class scan_class(QWidget):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
+		self.tb_new = QAction(QIcon_load("document-new"), _("test"), self)
+		self.tb_new.triggered.connect(self.callback_test)
+		toolbar.addAction(self.tb_new)
+		
 		self.tb_new = QAction(QIcon_load("document-new"), _("New simulation"), self)
 		self.tb_new.triggered.connect(self.callback_add_page)
 		toolbar.addAction(self.tb_new)

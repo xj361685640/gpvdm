@@ -560,7 +560,7 @@ class scan_vbox(QWidget):
 		#	self.tab.setColumnHidden(1, True)
 
 		self.tab.setSelectionBehavior(QAbstractItemView.SelectRows)
-		self.tab.setColumnWidth(2, 200)
+		self.tab.setColumnWidth(2, 300)
 		self.tab.setColumnWidth(3, 200)
 		self.load()
 

@@ -24,6 +24,11 @@ AC_ARG_ENABLE(noman, "used to disable man page generation",
 [AM_CONDITIONAL([INCLUDE_MAN],[true])]
 )
 
+AC_ARG_ENABLE(nodesktop, "used to disable desktop files for free desktop intergration",
+[AM_CONDITIONAL([INCLUDE_DESKTOP],[false])],
+[AM_CONDITIONAL([INCLUDE_DESKTOP],[true])]
+)
+
 AC_SUBST(WIN_ICON, "" )
 AC_SUBST(WIN_RES_FILE, "" )
 

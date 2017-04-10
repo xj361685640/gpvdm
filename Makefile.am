@@ -55,17 +55,19 @@ appicondir=$(pkgdatadir)/images
 appicon_DATA=$(srcdir)/desktop/application-gpvdm.svg
 endif
 
+if INCLUDE_DESKTOP
 desktopdir = $(datadir)/applications
 desktop_DATA = $(srcdir)/desktop/gpvdm.desktop
 
 packagesdir = $(datadir)/mime/packages
 packages_DATA = $(srcdir)/desktop/gpvdm-gpvdm.xml
-
+endif
 
 clean-local:
-	rm gpvdm_core *.dat *.o ./plugins/*.so ./plugins/*.dll *.log *.a  *.lib *.exe *.chk -f
-	rm autom4te.cache -rf 
-
+	rm gpvdm_core *.dat *.o ./plugins/*.so ./plugins/*.dll *.log *.a  *.lib *.exe *.chk *.oplot -f
+	rm autom4te.cache -rf
+	find . -type f -name '.~lock*' -delete
+	
 gpvdm_core$(EXEEXT):
 	@printf ""
 

@@ -55,9 +55,13 @@ from util import isfiletype
 from server import server_get
 from util import wrap_text
 
+from status_icon import status_icon_stop
+from global_objects import global_object_get
+
 class ribbon_cluster(QToolBar):
 	def __init__(self):
 		QToolBar.__init__(self)
+		self.cluster_tab=None
 		self.myserver=server_get()
 
 		self.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
@@ -73,7 +77,6 @@ class ribbon_cluster(QToolBar):
 		self.cluster_get_data.setEnabled(False)
 
 		self.cluster_get_info = QAction(QIcon_load("server_get_info"), wrap_text(_("Cluster get info"),8), self)
-		#self.cluster_get_info.triggered.connect(self.callback_cluster_get_info)
 		self.addAction(self.cluster_get_info)
 		self.cluster_get_info.setEnabled(False)
 
@@ -160,17 +163,17 @@ class ribbon_cluster(QToolBar):
 		self.myserver.wake_nodes()
 
 	def callback_cluster_connect(self):
-
+		self.cluster_tab=global_object_get("cluster_tab")
+		self.cluster_get_info.triggered.connect(self.cluster_tab.callback_cluster_get_info)
+		global_object_get("notebook_goto_page")(_("Terminal"))
 		if self.myserver.connect()==False:
 			error_dlg(self,_("Can not connect to cluster."))
 
 		self.update()
 		if self.myserver.cluster==True:
 			status_icon_stop(True)
-			self.status_window.show()
 		else:
 			status_icon_stop(False)
-			self.status_window.hide()
 			
 	def update(self):
 		if self.myserver.cluster==True:

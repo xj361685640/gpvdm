@@ -703,6 +703,8 @@ COMPILE_FLAG
 LINK_FLAG
 WIN_RES_FILE
 WIN_ICON
+INCLUDE_DESKTOP_FALSE
+INCLUDE_DESKTOP_TRUE
 INCLUDE_MAN_FALSE
 INCLUDE_MAN_TRUE
 INCLUDE_PLOTS_FALSE
@@ -765,6 +767,7 @@ enable_option_checking
 enable_noimages
 enable_noplots
 enable_noman
+enable_nodesktop
 enable_hpc
 enable_dependency_tracking
 enable_silent_rules
@@ -1401,6 +1404,7 @@ Optional Features:
 "used to disable compilation of images"
 "used to disable plot files"
 "used to disable man page generation"
+"used to disable desktop files for free desktop intergration"
 "used to turn on HPC compatability"
   --enable-dependency-tracking
                           do not reject slow dependency extractors
@@ -2415,6 +2419,29 @@ else
 else
   INCLUDE_MAN_TRUE='#'
   INCLUDE_MAN_FALSE=
+fi
+
+
+fi
+
+
+# Check whether --enable-nodesktop was given.
+if test "${enable_nodesktop+set}" = set; then :
+  enableval=$enable_nodesktop;  if false; then
+  INCLUDE_DESKTOP_TRUE=
+  INCLUDE_DESKTOP_FALSE='#'
+else
+  INCLUDE_DESKTOP_TRUE='#'
+  INCLUDE_DESKTOP_FALSE=
+fi
+
+else
+   if true; then
+  INCLUDE_DESKTOP_TRUE=
+  INCLUDE_DESKTOP_FALSE='#'
+else
+  INCLUDE_DESKTOP_TRUE='#'
+  INCLUDE_DESKTOP_FALSE=
 fi
 
 
@@ -6405,6 +6432,14 @@ Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${INCLUDE_MAN_TRUE}" && test -z "${INCLUDE_MAN_FALSE}"; then
   as_fn_error $? "conditional \"INCLUDE_MAN\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${INCLUDE_DESKTOP_TRUE}" && test -z "${INCLUDE_DESKTOP_FALSE}"; then
+  as_fn_error $? "conditional \"INCLUDE_DESKTOP\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${INCLUDE_DESKTOP_TRUE}" && test -z "${INCLUDE_DESKTOP_FALSE}"; then
+  as_fn_error $? "conditional \"INCLUDE_DESKTOP\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking that generated files are newer than configure" >&5

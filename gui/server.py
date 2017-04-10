@@ -61,6 +61,8 @@ from server_io import server_find_simulations_to_run
 
 from workbook import gen_workbook
 import time
+from gui_util import process_events
+from PyQt5.QtCore import QTimer
 
 my_server=False
 
@@ -169,8 +171,10 @@ class server(QWidget,cluster):
 
 
 	def print_jobs(self):
+		print("server job list:")
 		for i in range(0, len(self.jobs)):
-			print(self.jobs[i],self.arg[i],self.status[i])
+			print("job",i,self.jobs[i],self.args[i],self.status[i])
+		print("jobs running=",self.jobs_running,"jobs run=",self.jobs_run,"cpus=",self.cpus)
 
 		#if self.cluster==True:
 		#	s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -204,7 +208,14 @@ class server(QWidget,cluster):
 						cmd=cmd+get_exe_command()+" --lock "+"lock"+str(i)+" "+self.args[i]+" "+get_exe_args()+" &"
 						print("command="+cmd)
 						if self.enable_gui==True:
-							self.terminal.run(self.jobs[i],get_exe_command()+" --lock "+"lock"+str(i)+" "+self.args[i]+" "+get_exe_args())
+							#self.terminal.list_cpu_state()
+							full_command=get_exe_command()+" --lock "+"lock"+str(i)+" "+self.args[i]+" "+get_exe_args()
+							if self.terminal.run(self.jobs[i],full_command)==False:
+								while (self.terminal.run(self.jobs[i],full_command)==False):
+									print("NO CPUS free!!!!!!")
+
+								#self.terminal.list_cpu_state()
+
 						else:
 							print(cmd)
 							os.system(cmd)
@@ -297,6 +308,10 @@ class server(QWidget,cluster):
 			if self.jobs_run==len(self.jobs):
 				break
 
+	def my_timer(self):
+		#This is to give the QProcess timer enough time to update
+		self.run_jobs()
+
 	def callback_dbus(self,data_in):
 		if data_in.startswith("hex"):
 			data_in=data_in[3:]
@@ -317,7 +332,10 @@ class server(QWidget,cluster):
 						self.jobs_run=self.jobs_run+1
 						self.jobs_running=self.jobs_running-1
 						self.progress_window.set_fraction(float(self.jobs_run)/float(len(self.jobs)))
-						self.run_jobs()
+						self.timer=QTimer()
+						self.timer.timeout.connect(self.my_timer)
+						self.timer.setSingleShot(True)
+						self.timer.start(50)
 						if (self.jobs_run==len(self.jobs)):
 							self.stop()
 
@@ -354,7 +372,6 @@ def server_init():
 	my_server=server()
 
 def server_get():
-	print("server get")
 	global my_server
 	return my_server
 

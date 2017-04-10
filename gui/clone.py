@@ -65,7 +65,7 @@ def clone_material(dest_material_dir,src_material_dir):
 	if os.path.isdir(dest_material_dir)==False:
 		os.mkdir(dest_material_dir)
 
-	for copy_file in ["alpha_eq.inp","alpha.omat","dos.inp","info.txt","n_eq.inp","n.omat","alpha_gen.omat","cost.xlsx","fit.inp","mat.inp","n_gen.omat","pl.inp"]:
+	for copy_file in ["alpha_eq.inp","alpha.omat","dos.inp","n_eq.inp","n.omat","alpha_gen.omat","cost.xlsx","fit.inp","mat.inp","n_gen.omat","pl.inp"]:
 		src_mat_file=os.path.join(src_material_dir,copy_file)
 		if os.path.isfile(src_mat_file)==True:
 			copyfile(src_mat_file,os.path.join(dest_material_dir,copy_file))
