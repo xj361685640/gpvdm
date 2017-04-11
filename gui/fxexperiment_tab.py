@@ -35,11 +35,20 @@ _ = i18n.language.gettext
 from PyQt5.QtCore import QSize, Qt 
 from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QTabWidget
 from PyQt5.QtGui import QPainter,QIcon
+from inp import inp_update_token_value
 
 class fxexperiment_tab(QTabWidget):
 
 	def update(self):
 		self.fxmesh.update()
+
+	def save_image(self):
+		tab = self.currentWidget()
+		tab.save_image()
+	
+	def update_mode(self,new_mode):
+		print("fxdomain"+str(self.index)+".inp", "#fx_modulation_type", new_mode)
+		inp_update_token_value("fxdomain"+str(self.index)+".inp", "#fx_modulation_type", new_mode)
 
 	def init(self,index):
 		QTabWidget.__init__(self)
@@ -51,10 +60,6 @@ class fxexperiment_tab(QTabWidget):
 			self.tab_name=inp_search_token_value(lines, "#sim_menu_name")
 		else:
 			self.tab_name=""
-
-
-		self.setTabsClosable(True)
-		self.setMovable(True)
 
 		self.tmesh = tab_fxmesh(self.index)
 		self.addTab(self.tmesh,_("Frequency mesh"))

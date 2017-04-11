@@ -68,6 +68,7 @@ class tab_fxmesh(QWidget):
 	visible=1
 
 	def save_data(self):
+		return
 		file_name="fxmesh"+str(self.index)+".inp"
 		scan_remove_file(file_name)
 
@@ -103,14 +104,14 @@ class tab_fxmesh(QWidget):
 		scan_remove_file(file_name)
 
 		for i in range(0,len(self.list)):
-			scan_item_add(file_name,"#fx_segment"+str(i)+"_len",_("Part ")+str(i)+" "+_("period"),1)
-			scan_item_add(file_name,"#fx_segment"+str(i)+"_dfx",_("Part ")+str(i)+" "+_("dfx"),1)
+			scan_item_add(file_name,"#fx_segment"+str(i)+"_start",_("Part ")+str(i)+" "+_("start"),1)
+			scan_item_add(file_name,"#fx_segment"+str(i)+"_stop",_("Part ")+str(i)+" "+_("stop"),1)
+			scan_item_add(file_name,"#fx_segment"+str(i)+"_points",_("Part ")+str(i)+" "+_("points"),1)
 			scan_item_add(file_name,"#fx_segment"+str(i)+"_mul",_("Part ")+str(i)+" "+_("mul"),1)
 
 
 	def callback_add_section(self):
-
-		tab_add(self.tab,["0.0","0.0","0.0"])
+		tab_add(self.tab,["0.0","0.0","0.0","0.0"])
 
 		self.build_mesh()
 		self.draw_graph()
@@ -134,17 +135,6 @@ class tab_fxmesh(QWidget):
 		self.draw_graph()
 		self.fig.canvas.draw()
 		self.save_data()
-
-	def callback_start_fx(self):
-		new_fx=dlg_get_text( _("Enter the start frequency of the simulation"), str(self.fx_start),"start.png")
-		new_fx=new_fx.ret
-
-		if new_fx!=None:
-			self.fx_start=float(new_fx)
-			self.build_mesh()
-			self.draw_graph()
-			self.fig.canvas.draw()
-			self.save_data()
 
 	def update(self):
 		self.build_mesh()
@@ -175,47 +165,37 @@ class tab_fxmesh(QWidget):
 		frequency, = self.ax1.plot(fx,self.mag, 'ro-', linewidth=3 ,alpha=1.0)
 		self.ax1.set_xlabel(_("Frequency")+" ("+unit+")")
 
-	def save_image(self,file_name):
-		self.fig.savefig(file_name)
-
-	def callback_save(self):
-		file_name = save_as_jpg(self)
-		if file_name !=None:
-			self.save_image(file_name)
-
 	def callback_help(self):
 		webbrowser.open("http://www.gpvdm.com/man/index.html")
 
 
 	def load_data(self):
 		self.tab.clear()
-		self.tab.setColumnCount(3)
+		self.tab.setColumnCount(4)
 		self.tab.setSelectionBehavior(QAbstractItemView.SelectRows)
-		self.tab.setHorizontalHeaderLabels([_("Frequency segment"), _("dfx"), _("Multiply")])
+		self.tab.setHorizontalHeaderLabels([_("Frequency start"),_("Frequency stop"), _("points"), _("Multiply")])
+		self.tab.setColumnWidth(0, 200)
+		self.tab.setColumnWidth(1, 200)
 
 		lines=[]
 		self.start_fx=0.0
-		self.list=[]
 
 		file_name="fxmesh"+str(self.index)+".inp"
 
 		ret=inp_load_file(lines,file_name)
 		if ret==True:
-			if inp_search_token_value(lines, "#ver")=="1.0":
+			if inp_search_token_value(lines, "#ver")=="1.1":
 				pos=0
-				token,value,pos=inp_read_next_item(lines,pos)
-				self.fx_start=float(value)
 
-				token,value,pos=inp_read_next_item(lines,pos)
-				segments=int(value)
-
-				for i in range(0, segments):
-					token,length,pos=inp_read_next_item(lines,pos)
-					token,dfx,pos=inp_read_next_item(lines,pos)
+				while(1):
+					token,start,pos=inp_read_next_item(lines,pos)
+					if token=="#ver" or token=="#end":
+						break
+					token,stop,pos=inp_read_next_item(lines,pos)
+					token,points,pos=inp_read_next_item(lines,pos)
 					token,mul,pos=inp_read_next_item(lines,pos)
-					self.list.append((length,dfx,mul))
 
-					tab_add(self.tab,[str(length),str(dfx),str(mul)])
+					tab_add(self.tab,[str(start),str(stop),str(points),str(mul)])
 
 				return True
 			else:
@@ -231,23 +211,23 @@ class tab_fxmesh(QWidget):
 	def build_mesh(self):
 		self.mag=[]
 		self.fx=[]
-		pos=self.fx_start
 
-		seg=0
 		for i in range(0,self.tab.rowCount()):
-			end_fx=pos+float(tab_get_value(self.tab,i, 0))
-			dfx=float(tab_get_value(self.tab,i, 1))
-			mul=float(tab_get_value(self.tab,i, 2))
+			start=float(tab_get_value(self.tab,i, 0))
+			pos=start
+			stop=float(tab_get_value(self.tab,i, 1))
+			points=float(tab_get_value(self.tab,i, 2))
+			mul=float(tab_get_value(self.tab,i, 3))
 
-			if dfx!=0.0 and mul!=0.0:
-				while(pos<end_fx):
+			if stop!=0.0 and points!=0.0 and mul!=0.0:
+				dfx=(stop-start)/points
+				while(pos<stop):
 					self.fx.append(pos)
 					self.mag.append(1.0)
 					pos=pos+dfx
 
 					dfx=dfx*mul
 
-			seg=seg+1
 
 
 		#self.statusbar.push(0, str(len(self.fx))+_(" mesh points"))
@@ -258,6 +238,11 @@ class tab_fxmesh(QWidget):
 		self.draw_graph()
 		self.fig.canvas.draw()
 		self.save_data()
+
+	def save_image(self):
+		file_name = save_as_jpg(self)
+		if file_name !=None:
+			self.fig.savefig(file_name)
 
 	def __init__(self,index):
 		QWidget.__init__(self)
@@ -278,21 +263,6 @@ class tab_fxmesh(QWidget):
 		print("index=",index)
 
 		self.main_vbox = QVBoxLayout()
-
-		toolbar=QToolBar()
-		toolbar.setIconSize(QSize(48, 48))
-
-		self.tb_save = QAction(QIcon_load("document-save-as"), _("Save image"), self)
-		self.tb_save.triggered.connect(self.callback_save)
-		toolbar.addAction(self.tb_save)
-
-		self.tb_startfx = QAction(QIcon_load("start"), _("Simulation start frequency"), self)
-		self.tb_startfx.triggered.connect(self.callback_start_fx)
-		toolbar.addAction(self.tb_startfx)
-
-
-		self.main_vbox.addWidget(toolbar)
-
 
 		self.main_vbox.addWidget(self.canvas)
 

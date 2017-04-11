@@ -42,12 +42,15 @@ _ = i18n.language.gettext
 
 #qt
 from PyQt5.QtCore import QSize, Qt 
-from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QMenuBar,QStatusBar
+from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QStatusBar
 from PyQt5.QtGui import QPainter,QIcon
 
 #window
 from QHTabBar import QHTabBar
 from PyQt5.QtCore import pyqtSignal
+
+from util import wrap_text
+from tb_item_is_imps import tb_item_is_imps
 
 def experiment_new_filename():
 	for i in range(0,20):
@@ -66,7 +69,7 @@ class fxexperiment(QWidget):
 		return True
 
 	def callback_help(self):
-		webbrowser.open('http://www.gpvdm.com/man/index.html')
+		webbrowser.open("https://www.gpvdm.com/man/index.html")
 
 	def callback_add_page(self):
 		new_sim_name=dlg_get_text( _("New experiment name")+":", _("experiment ")+str(self.notebook.count()+1),"document-new.png")
@@ -82,11 +85,11 @@ class fxexperiment(QWidget):
 			self.changed.emit()
 
 
-	def callback_copy_page(self,widget,data):
-		pageNum = self.notebook.get_current_page()
-		tab = self.notebook.get_nth_page(pageNum)
+	def callback_copy_page(self):
+		tab = self.notebook.currentWidget()
 		old_index=tab.index
-		new_sim_name=dlg_get_text( _("Clone the current experiment to a new experiment called")+":", tab.tab_name.split("@")[0],image_name="clone.png")
+		new_sim_name=dlg_get_text( _("Clone the current experiment to a new experiment called")+":", tab.tab_name.split("@")[0],"clone.png")
+		new_sim_name=new_sim_name.ret
 		if new_sim_name!=None:
 			new_sim_name=new_sim_name+"@"+tab.tab_name.split("@")[1]
 			index=experiment_new_filename()
@@ -161,6 +164,14 @@ class fxexperiment(QWidget):
 		tab.init(index)
 		self.notebook.addTab(tab,tab.tab_name.split("@")[0])
 
+	def callback_mode_changed(self):
+		tab = self.notebook.currentWidget()
+		tab.update_mode(self.mode.mode.currentText())
+
+	def callback_save(self):
+		tab = self.notebook.currentWidget()
+		tab.save_image()
+	
 	def __init__(self):
 		QWidget.__init__(self)
 		self.setMinimumSize(1200, 700)
@@ -171,55 +182,37 @@ class fxexperiment(QWidget):
 
 		self.main_vbox = QVBoxLayout()
 
-		menubar = QMenuBar()
-
-		file_menu = menubar.addMenu("&"+_("File"))
-		self.menu_close=file_menu.addAction(_("Close"))
-		self.menu_close.triggered.connect(self.callback_close)
-
-
-		self.menu_experiment=menubar.addMenu("&"+_("Experiments"))
-		self.menu_experiment_new=self.menu_experiment.addAction("&"+_("New"))
-		self.menu_experiment_new.triggered.connect(self.callback_add_page)
-
-		self.menu_experiment_delete=self.menu_experiment.addAction("&"+_("Delete experiment"))
-		self.menu_experiment_delete.triggered.connect(self.callback_delete_page)
-
-		self.menu_experiment_rename=self.menu_experiment.addAction("&"+_("Rename experiment"))
-		self.menu_experiment_rename.triggered.connect(self.callback_rename_page)
-
-		self.menu_experiment_clone=self.menu_experiment.addAction("&"+_("Clone experiment"))
-		self.menu_experiment_clone.triggered.connect(self.callback_copy_page)
-
-
-		self.menu_help=menubar.addMenu(_("Help"))
-		self.menu_help_help=self.menu_help.addAction(_("Help"))
-		self.menu_help_help.triggered.connect(self.callback_help)
-
-
-		self.main_vbox.addWidget(menubar)
-
 		self.setWindowTitle(_("Frequency domain experiment editor")+" https://www.gpvdm.com") 
 		self.setWindowIcon(QIcon_load("spectrum"))
 
 		toolbar=QToolBar()
+		toolbar.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
 		toolbar.setIconSize(QSize(48, 48))
 
-		self.new = QAction(QIcon_load("document-new"), _("New experiment"), self)
+		self.new = QAction(QIcon_load("document-new"), wrap_text(_("New experiment"),2), self)
 		self.new.triggered.connect(self.callback_add_page)
 		toolbar.addAction(self.new)
 
-		self.new = QAction(QIcon_load("edit-delete"), _("Delete experiment"), self)
+		self.new = QAction(QIcon_load("edit-delete"), wrap_text(_("Delete experiment"),4), self)
 		self.new.triggered.connect(self.callback_delete_page)
 		toolbar.addAction(self.new)
 
-		self.clone = QAction(QIcon_load("clone"), _("Clone experiment"), self)
+		self.clone = QAction(QIcon_load("clone"), wrap_text(_("Clone experiment"),4), self)
 		self.clone.triggered.connect(self.callback_copy_page)
 		toolbar.addAction(self.clone)
 
-		self.clone = QAction(QIcon_load("rename"), _("Rename experiment"), self)
+		self.clone = QAction(QIcon_load("rename"), wrap_text(_("Rename experiment"),4), self)
 		self.clone.triggered.connect(self.callback_rename_page)
 		toolbar.addAction(self.clone)
+
+		self.tb_save = QAction(QIcon_load("document-save-as"), wrap_text(_("Save image"),3), self)
+		self.tb_save.triggered.connect(self.callback_save)
+		toolbar.addAction(self.tb_save)
+
+		self.mode=tb_item_is_imps()
+		self.mode.changed.connect(self.callback_mode_changed)
+		toolbar.addWidget(self.mode)
+
 
 		spacer = QWidget()
 		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)

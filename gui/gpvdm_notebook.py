@@ -133,9 +133,6 @@ class gpvdm_notebook(QTabWidget):
 	def callback_view_toggle(self, widget, data):
 		self.toggle_tab_visible(data.get_label())
 
-	def set_item_factory(self,item_factory):
-		self.item_factory=item_factory
-
 	def add_info_page(self):
 		browser=information()
 		self.addTab(browser,_("Information"))
