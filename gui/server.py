@@ -88,6 +88,7 @@ class server(QWidget,cluster):
 		self.excel_workbook_gen_error=False
 		status_icon_init()
 		self.gui_update_time= time.time()
+		self.timer=QTimer()
 
 	def init(self,sim_dir):
 		self.terminate_on_finish=False
@@ -186,47 +187,34 @@ class server(QWidget,cluster):
 	def run_jobs(self):
 		if self.cluster==True:
 			self.cluster_run_jobs()
-
-
 		else:
-			if (len(self.jobs)==0):
-				return
-			for i in range(0, len(self.jobs)):
-				if (self.jobs_running<self.cpus):
-					if self.status[i]==0:
-						self.status[i]=1
-						for r in range(0,len(self.jobs)):
-							print(self.jobs[i],self.args[i])
-							
-						print("Running job",self.jobs[i],self.args[i])
-						if self.enable_gui==True:
-							self.progress_window.set_text(_("Running job ")+self.jobs[i])
-						self.jobs_running=self.jobs_running+1
-#						if running_on_linux()==True:
+			self.timer_start()
 
-						cmd="cd "+self.jobs[i]+";"
-						cmd=cmd+get_exe_command()+" --lock "+"lock"+str(i)+" "+self.args[i]+" "+get_exe_args()+" &"
-						print("command="+cmd)
-						if self.enable_gui==True:
-							#self.terminal.list_cpu_state()
-							full_command=get_exe_command()+" --lock "+"lock"+str(i)+" "+self.args[i]+" "+get_exe_args()
-							if self.terminal.run(self.jobs[i],full_command)==False:
-								while (self.terminal.run(self.jobs[i],full_command)==False):
-									print("NO CPUS free!!!!!!")
+	def process_jobs(self):
+		if (len(self.jobs)==0):
+			return
 
-								#self.terminal.list_cpu_state()
+		for i in range(0, len(self.jobs)):
+			if (self.jobs_running<self.cpus):
+				if self.status[i]==0:
+					self.status[i]=1
+					for r in range(0,len(self.jobs)):
+						print(self.jobs[i],self.args[i])
+						
+					print("Running job",self.jobs[i],self.args[i])
+					if self.enable_gui==True:
+						self.progress_window.set_text(_("Running job ")+self.jobs[i])
+					self.jobs_running=self.jobs_running+1
 
-						else:
-							print(cmd)
-							os.system(cmd)
+					cmd="cd "+self.jobs[i]+";"
+					cmd=cmd+get_exe_command()+" --lock "+"lock"+str(i)+" "+self.args[i]+" "+get_exe_args()+" &"
+					print("command="+cmd)
 
-#						else:
-#							cmd=get_exe_command()+" --lock "+"lock"+str(i)+" "+self.args[i]+" --gui --html &\n"
-#							print(cmd,self.jobs[i],self.args[i])
-#							subprocess.Popen(cmd,cwd=self.jobs[i])
-							#os.system(cmd)
-
-							#sys.exit()
+					full_command=get_exe_command()+" --lock "+"lock"+str(i)+" "+self.args[i]+" "+get_exe_args()
+					if self.terminal.run(self.jobs[i],full_command)==True:
+						return True
+					else:
+						return False
 
 	def check_warnings(self):
 		message=""
@@ -268,6 +256,8 @@ class server(QWidget,cluster):
 		self.stop()
 
 	def stop(self):
+		self.timer.stop()
+		
 		self.progress_window.set_fraction(0.0)
 
 		self.gui_sim_stop()
@@ -282,6 +272,7 @@ class server(QWidget,cluster):
 		if self.display!=False:
 
 			self.display()
+			
 		#print(_("I have shut down the server."))
 
 
@@ -309,8 +300,15 @@ class server(QWidget,cluster):
 				break
 
 	def my_timer(self):
+		print("Server timer check")
 		#This is to give the QProcess timer enough time to update
-		self.run_jobs()
+		if self.terminal.test_free_cpus()!=0:
+			self.process_jobs()
+
+
+	def timer_start(self):
+		self.timer.timeout.connect(self.my_timer)
+		self.timer.start(100)
 
 	def callback_dbus(self,data_in):
 		if data_in.startswith("hex"):
@@ -332,10 +330,7 @@ class server(QWidget,cluster):
 						self.jobs_run=self.jobs_run+1
 						self.jobs_running=self.jobs_running-1
 						self.progress_window.set_fraction(float(self.jobs_run)/float(len(self.jobs)))
-						self.timer=QTimer()
-						self.timer.timeout.connect(self.my_timer)
-						self.timer.setSingleShot(True)
-						self.timer.start(50)
+
 						if (self.jobs_run==len(self.jobs)):
 							self.stop()
 

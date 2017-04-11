@@ -176,7 +176,8 @@ lib.append(my_data("fit.inp","#fit_converge_error","au",_("Fit define convergenc
 lib.append(my_data("fit.inp","#fit_enable_simple_reset","au",_("Enable simplex reset"),"e",1.0,"gtkswitch"))
 lib.append(my_data("fit.inp","#fit_enable_simple_reset","au",_("Simplex reset steps"),"e",1.0,"gtkswitch"))
 lib.append(my_data("fit.inp","#fit_method","au",_("Fiting method"),"e",1.0,"QComboBox",defaults=["simplex","newton"]))
-lib.append(my_data("fit.inp","#fit_simplexmul","au",_("Start simplex step multiplication"),"e",1.0,"QComboBox",defaults=["simplex","newton"]))
+lib.append(my_data("fit.inp","#fit_simplexmul","au",_("Start simplex step multiplication"),"e",1.0,"QLineEdit"))
+lib.append(my_data("fit.inp","#fit_simplex_reset","au",_("Simplex reset steps"),"e",1.0,"QLineEdit"))
 
 #fit?.inp
 lib.append(my_data("","#fit_subtract_lowest_point",_("True/False"),_("Subtract lowest point"),"e",1.0,"gtkswitch"))

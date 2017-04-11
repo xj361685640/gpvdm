@@ -94,6 +94,7 @@ class graph_data_display(QWidget):
 		self.items.append([_("Wavelength"),"m",_("Wavelength"),"nm","1.0",1e9])
 		self.items.append([_("J"),"mA/cm2",_("J"),"A/m2","10000.0/1000.0",1.0])
 		self.items.append([_("J"),"m/m2",_("J"),"A/m2","1.0",1.0])
+		self.items.append([_("Amps"),"A",_("J"),"A/m2","1.0/("+str(mesh_get_xlen())+"*"+str(mesh_get_zlen())+")",1.0])
 		self.items.append([_("-Amps"),"A",_("J"),"A/m2","-1.0/("+str(mesh_get_xlen())+"*"+str(mesh_get_zlen())+")",1.0])
 		self.items.append([_("Voltage"),"V",_("Voltage"),"V","1.0",1.0])
 		self.items.append([_("-Voltage"),"V",_("Voltage"),"V","-1.0",1.0])

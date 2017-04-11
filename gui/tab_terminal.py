@@ -86,6 +86,15 @@ class tab_terminal(QWidget,tab_base):
 		print(_("I could not find a free cpu to run the command on"))
 		return False
 
+	def test_free_cpus(self):
+		ret=0
+		for i in range(0,self.cpus):
+	
+			if self.process[i].state()==QProcess.NotRunning:
+				ret=ret+1
+
+		return ret
+	
 	def init(self):
 		self.cpus=multiprocessing.cpu_count()
 		

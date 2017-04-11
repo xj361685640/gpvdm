@@ -168,7 +168,9 @@ def tree_apply_python_script(program_list):
 		if program_list[i][3]=="python_code":
 
 			ret=""
-			exec(program_list[i][2])
+			command=program_list[i][2]
+			ret=eval(command)
+			#print("EXEC=",command,">",ret,"<")
 			inp_update_token_value(program_list[i][0], program_list[i][1], ret)
 			print(os.getcwd())
 			print("Replace",program_list[i][0], program_list[i][1], ret)

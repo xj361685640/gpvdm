@@ -115,7 +115,7 @@ class scan_vbox(QWidget):
 
 		if len(a)>0:
 			a=a[0].row()
-			tab_set_value(self.tab,a,3,"ret=str(round(random.uniform(1.0, 9.9),2))+\"e-\"+str(randint(1, 9))")
+			tab_set_value(self.tab,a,3,"str(round(random.uniform(1.0, 9.9),2))+\"e-\"+str(randint(1, 9))")
 			tab_set_value(self.tab,a,4,"python_code")
 
 
