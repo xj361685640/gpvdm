@@ -36,6 +36,7 @@ from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QTabWidget
 from PyQt5.QtGui import QPainter,QIcon
 from inp import inp_update_token_value
+from inp import inp_get_token_value
 
 class fxexperiment_tab(QTabWidget):
 
@@ -47,8 +48,10 @@ class fxexperiment_tab(QTabWidget):
 		tab.save_image()
 	
 	def update_mode(self,new_mode):
-		print("fxdomain"+str(self.index)+".inp", "#fx_modulation_type", new_mode)
 		inp_update_token_value("fxdomain"+str(self.index)+".inp", "#fx_modulation_type", new_mode)
+
+	def get_mode(self):
+		return inp_get_token_value("fxdomain"+str(self.index)+".inp", "#fx_modulation_type")
 
 	def init(self,index):
 		QTabWidget.__init__(self)

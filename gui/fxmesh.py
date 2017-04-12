@@ -54,6 +54,7 @@ from gui_util import tab_remove
 from gui_util import tab_get_value
 from open_save_dlg import save_as_jpg
 
+from colors import get_color
 mesh_articles = []
 
 class tab_fxmesh(QWidget):
@@ -68,32 +69,30 @@ class tab_fxmesh(QWidget):
 	visible=1
 
 	def save_data(self):
-		return
 		file_name="fxmesh"+str(self.index)+".inp"
 		scan_remove_file(file_name)
 
 		out_text=[]
-		out_text.append("#fx_start")
-		out_text.append(str(float(self.fx_start)))
-		out_text.append("#fx_segments")
-		out_text.append(str(self.tab.rowCount()))
 
 		for i in range(0,self.tab.rowCount()):
-			out_text.append("#fx_segment"+str(i)+"_len")
-			scan_item_add(file_name,out_text[len(out_text)-1],_("Part ")+str(i)+" "+_("period"),1)
+			out_text.append("#fx_segment"+str(i)+"_start")
+			scan_item_add(file_name,out_text[len(out_text)-1],_("Part ")+str(i)+" "+_("start"),1)
 			out_text.append(str(tab_get_value(self.tab,i, 0)))
 
-			out_text.append("#fx_segment"+str(i)+"_dfx")
-			scan_item_add(file_name,out_text[len(out_text)-1],_("Part ")+str(i)+" "+_("dfx"),1)
+			out_text.append("#fx_segment"+str(i)+"_stop")
+			scan_item_add(file_name,out_text[len(out_text)-1],_("Part ")+str(i)+" "+_("stop"),1)
 			out_text.append(str(tab_get_value(self.tab,i, 1)))
+
+			out_text.append("#fx_segment"+str(i)+"_points")
+			scan_item_add(file_name,out_text[len(out_text)-1],_("Part ")+str(i)+" "+_("points"),1)
+			out_text.append(str(tab_get_value(self.tab,i, 2)))
 
 			out_text.append("#fx_segment"+str(i)+"_mul")
 			scan_item_add(file_name,out_text[len(out_text)-1],_("Part ")+str(i)+" "+_("mul"),1)
-			out_text.append(str(tab_get_value(self.tab,i, 2)))
-
+			out_text.append(str(tab_get_value(self.tab,i, 3)))
 
 		out_text.append("#ver")
-		out_text.append("1.0")
+		out_text.append("1.1")
 		out_text.append("#end")
 
 		inp_write_lines_to_file(os.path.join(os.getcwd(),file_name),out_text)
@@ -142,17 +141,30 @@ class tab_fxmesh(QWidget):
 		self.fig.canvas.draw()
 
 	def draw_graph(self):
+		my_max=self.fx[0][0]
+		my_min=self.fx[0][0]
 
-#		n=0
+		for i in range(0,len(self.fx)):
+			for ii in range(0,len(self.fx[i])):
+				if self.fx[i][ii]>my_max:
+					my_max=self.fx[i][ii]
+
+				if self.fx[i][ii]<my_min:
+					my_min=self.fx[i][ii]
+	
 		if (len(self.fx)>0):
-			mul,unit=fx_with_units(float(self.fx[len(self.fx)-1]-self.fx[0]))
+			mul,unit=fx_with_units(float(my_max-my_min))
 		else:
 			mul=1.0
 			unit="Hz"
 
 		fx=[]
+
 		for i in range(0,len(self.fx)):
-			fx.append(self.fx[i]*mul)
+			local_fx=[]
+			for ii in range(0,len(self.fx[i])):
+				local_fx.append(self.fx[i][ii]*mul)
+			fx.append(local_fx)
 
 		self.fig.clf()
 		self.fig.subplots_adjust(bottom=0.2)
@@ -162,11 +174,10 @@ class tab_fxmesh(QWidget):
 
 		self.ax1.set_ylabel(_("Magnitude")+" ("+_("Volts")+" )")
 
-		frequency, = self.ax1.plot(fx,self.mag, 'ro-', linewidth=3 ,alpha=1.0)
+		for i in range(0,len(fx)):
+			frequency, = self.ax1.plot(fx[i],self.mag[i], 'ro-', color=get_color(i),linewidth=3 ,alpha=1.0)
+		
 		self.ax1.set_xlabel(_("Frequency")+" ("+unit+")")
-
-	def callback_help(self):
-		webbrowser.open("http://www.gpvdm.com/man/index.html")
 
 
 	def load_data(self):
@@ -213,6 +224,8 @@ class tab_fxmesh(QWidget):
 		self.fx=[]
 
 		for i in range(0,self.tab.rowCount()):
+			local_mag=[]
+			local_fx=[]
 			start=float(tab_get_value(self.tab,i, 0))
 			pos=start
 			stop=float(tab_get_value(self.tab,i, 1))
@@ -222,11 +235,15 @@ class tab_fxmesh(QWidget):
 			if stop!=0.0 and points!=0.0 and mul!=0.0:
 				dfx=(stop-start)/points
 				while(pos<stop):
-					self.fx.append(pos)
-					self.mag.append(1.0)
+					local_fx.append(pos)
+					local_mag.append(1.0)
 					pos=pos+dfx
 
 					dfx=dfx*mul
+			self.mag.append(local_mag)
+			self.fx.append(local_fx)
+			local_mag=[]
+			local_fx=[]
 
 
 

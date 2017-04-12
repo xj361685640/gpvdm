@@ -114,6 +114,10 @@ class fxexperiment(QWidget):
 	def remove_invalid(self,input_name):
 		return input_name.replace (" ", "_")
 
+	def callback_tab_changed(self):
+		tab = self.notebook.currentWidget()
+		self.mode.setText(tab.get_mode())
+
 	def callback_rename_page(self):
 		tab = self.notebook.currentWidget()
 
@@ -175,7 +179,6 @@ class fxexperiment(QWidget):
 	def __init__(self):
 		QWidget.__init__(self)
 		self.setMinimumSize(1200, 700)
-
 		self.win_list=windows()
 		self.win_list.load()
 		self.win_list.set_window(self,"fxexperiments_window")
@@ -232,6 +235,7 @@ class fxexperiment(QWidget):
 
 		self.notebook.setTabPosition(QTabWidget.West)
 		self.notebook.setMovable(True)
+		self.notebook.currentChanged.connect(self.callback_tab_changed)
 
 		self.load_tabs()
 

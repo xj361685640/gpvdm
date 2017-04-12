@@ -36,6 +36,8 @@ from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtWidgets import QWidget,QSizePolicy,QVBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QLabel,QComboBox
 from PyQt5.QtCore import pyqtSignal
 
+from code_ctrl import enable_betafeatures
+
 class tb_item_is_imps(QWidget):
 
 	changed = pyqtSignal()
@@ -44,12 +46,22 @@ class tb_item_is_imps(QWidget):
 		#light_power=self.mode.currentText()
 		self.changed.emit()
 
+	def setText(self,value):
+		self.mode.blockSignals(True)
+		all_items  = [self.mode.itemText(i) for i in range(self.mode.count())]
+		for i in range(0,len(all_items)):
+		    if all_items[i] == value:
+		        self.mode.setCurrentIndex(i)
+		self.mode.blockSignals(False)
+
 	def update(self):
 		self.mode.blockSignals(True)
 		self.mode.clear()
-
-		self.mode.addItem("imps")
+			
 		self.mode.addItem("is")
+
+		if enable_betafeatures()==True:
+			self.mode.addItem("imps")
 
 		self.mode.blockSignals(False)
 

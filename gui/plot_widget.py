@@ -65,6 +65,9 @@ from dlg_get_multi_text import dlg_get_multi_text
 
 from mpl_toolkits.mplot3d import Axes3D
 
+from colors import get_color
+from colors import get_color_black
+from colors import get_marker
 
 class plot_widget(QWidget):
 
@@ -221,7 +224,7 @@ class plot_widget(QWidget):
 			self.ax[0].set_ylabel(self.data[0].data_label+" ("+self.data[0].data_units+")")
 
 			for i in range(0,len(self.input_files)):
-				cur_plot, = self.ax[i].plot(self.data[i].y_scale,self.data[i].data[0][0], linewidth=3 ,alpha=1.0,color=self.color[i],marker=self.marker[i])
+				cur_plot, = self.ax[i].plot(self.data[i].y_scale,self.data[i].data[0][0], linewidth=3 ,alpha=1.0,color=get_color(i),marker=get_marker(i))
 
 				if self.labels[i]!="":
 					files.append("$"+numbers_to_latex(str(self.labels[i]))+" "+pygtk_to_latex_subscript(self.data[0].key_units)+"$")
@@ -402,41 +405,13 @@ class plot_widget(QWidget):
 							#for z in range(0,data.z_len):
 								#data.data[z][x][y]=data.data[z][x][y]/all_max
 
-	def gen_colors_black(self,repeat_lines):
-		#make 100 black colors
-		marker_base=["","x","o"]
-#		c_tot=[]
-		base=[[0.0,0.0,0.0]]
-		self.marker=[]
-		self.color=[]
-		for i in range(0,100):
-			for n in range(0,repeat_lines):
-				self.color.append([base[0][0],base[0][1],base[0][2]])
-				self.marker.append(marker_base[n])
 
-	def gen_colors(self,repeat_lines):
-		base=[[0.0,0.0,1.0],[0.0,1.0,0.0],[1.0,0.0,0.0],[0.0,1.0,1.0],[1.0,1.0,0.0],[1.0,0.0,1.0]]
-		c_tot=[]
-		self.marker=[]
-		marker_base=["","x","o"]
-		mul=1.0
-		self.color=[]
-		for rounds in range(0,20):
-			for i in range(0,len(base)):
-				for n in range(0,repeat_lines):
-					c_tot.append([base[i][0]*mul,base[i][1]*mul,base[i][2]*mul])
-					self.marker.append(marker_base[n])
-			mul=mul*0.5
-
-		self.color=c_tot
 
 	def callback_black(self):
-		self.gen_colors_black(1)
 		plot_save_oplot_file(self.config_file,self.data[0])
 		self.do_plot()
 
 	def callback_rainbow(self):
-		self.gen_colors(1)
 		plot_save_oplot_file(self.config_file,self.data[0])
 		self.do_plot()
 
@@ -555,7 +530,6 @@ class plot_widget(QWidget):
 
 		self.zero_frame_enable=False
 		self.zero_frame_list=[]
-		self.gen_colors(1)
 
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
