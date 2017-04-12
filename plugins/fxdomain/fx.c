@@ -2,9 +2,9 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+//  Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
-//	www.rodmack.com
+//	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
@@ -25,97 +25,99 @@
 
 static int unused __attribute__((unused));
 
-static double *fx_mesh;
+static long double *fx_mesh;
 static int mesh_len=0;
 static int mesh_pos=0;
 
 void fx_mesh_save(struct simulation *sim)
 {
-int i;
-FILE *out;
-out=fopen("fxmesh_save.dat","w");
-if (out==NULL)
-{
-	ewe(sim,"can not save fx mesh file\n");
-}
+	int i;
+	FILE *out;
+	out=fopen("fxmesh_save.dat","w");
 
-fprintf(out, "%d\n",mesh_len);
+	if (out==NULL)
+	{
+		ewe(sim,"can not save fx mesh file\n");
+	}
 
-for (i=0;i<mesh_len;i++)
-{
-	fprintf(out, "%le\n",fx_mesh[i]);
-}
-fprintf(out, "#ver\n");
-fprintf(out, "1.0\n");
-fprintf(out, "#end\n");
+	fprintf(out, "%d\n",mesh_len);
 
-fclose(out);
+	for (i=0;i<mesh_len;i++)
+	{
+		fprintf(out, "%Le\n",fx_mesh[i]);
+	}
+
+	fprintf(out, "#ver\n");
+	fprintf(out, "1.0\n");
+	fprintf(out, "#end\n");
+
+	fclose(out);
 }
 
 void fx_load_mesh(struct simulation *sim,struct device *in,int number)
 {
-int i;
-struct inp_file inp;
-char mesh_file[200];
-int segments=0;
-double end_fx=0.0;
-double fx_start=0.0;
-double read_len=0.0;
-double dfx=0.0;
-double mul=0.0;
-int buffer_len=2000;
-double fx=0.0;
-int ii=0;
+	struct inp_file inp;
+	char mesh_file[200];
 
-fx_mesh=(double *)malloc(buffer_len*sizeof(double));
+	long double start=0.0;
+	long double stop=0.0;
+	long double points=0.0;
+	long double mul=0.0;
 
-sprintf(mesh_file,"fxmesh%d.inp",number);
+	long double dfx=0.0;
+	
+	int buffer_len=2000;
+	long double fx=0.0;
+	int ii=0;
+	char temp[200];
+	fx_mesh=(long double *)malloc(buffer_len*sizeof(long double));
 
-inp_init(sim,&inp);
-inp_load_from_path(sim,&inp,get_input_path(sim),mesh_file);
-inp_check(sim,&inp,1.0);
+	sprintf(mesh_file,"fxmesh%d.inp",number);
 
-inp_reset_read(sim,&inp);
+	inp_init(sim,&inp);
+	inp_load_from_path(sim,&inp,get_input_path(sim),mesh_file);
+	inp_check(sim,&inp,1.1);
 
+	inp_reset_read(sim,&inp);
 
-inp_get_string(sim,&inp);
-sscanf(inp_get_string(sim,&inp),"%le",&fx_start);
-fx=fx_start;
-
-inp_get_string(sim,&inp);
-sscanf(inp_get_string(sim,&inp),"%d",&segments);
-
-
-
-for (i=0;i<segments;i++)
-{
-	inp_get_string(sim,&inp);
-	sscanf(inp_get_string(sim,&inp),"%le",&read_len);
-
-	inp_get_string(sim,&inp);
-	sscanf(inp_get_string(sim,&inp),"%le",&dfx);
-
-	inp_get_string(sim,&inp);
-	sscanf(inp_get_string(sim,&inp),"%le",&mul);
-
-
-	if ((dfx!=0.0)&&(mul!=0.0))
+	while(1)
 	{
-		end_fx=fx+read_len;
-
-		while(fx<end_fx)
+		strcpy(temp,inp_get_string(sim,&inp));		//token
+		if (strcmp(temp,"#ver")==0)
 		{
-			fx_mesh[ii]=fx;
-			fx=fx+dfx;
-			ii++;
-			dfx=dfx*mul;
+			break;
+		}
+		sscanf(inp_get_string(sim,&inp),"%Le",&start);
+
+		inp_get_string(sim,&inp);
+		sscanf(inp_get_string(sim,&inp),"%Le",&stop);
+
+		inp_get_string(sim,&inp);
+		sscanf(inp_get_string(sim,&inp),"%Le",&points);
+
+		inp_get_string(sim,&inp);
+		sscanf(inp_get_string(sim,&inp),"%Le",&mul);
+		
+		dfx=(stop-start)/points;
+
+		if ((dfx!=0.0)&&(mul!=0.0))
+		{
+
+			fx=start;
+
+			while(fx<stop)
+			{
+				fx_mesh[ii]=fx;
+				fx=fx+dfx;
+				dfx=dfx*mul;
+				ii++;
+			}
 		}
 	}
-}
 
-mesh_len=ii;
-mesh_pos=0;
-inp_free(sim,&inp);
+	mesh_len=ii;
+	mesh_pos=0;
+	inp_free(sim,&inp);
 
 }
 
@@ -131,7 +133,7 @@ int fx_points()
 
 int fx_run()
 {
-	if (mesh_pos<(mesh_len-1))
+	if (mesh_pos<mesh_len)
 	{
 		return TRUE;
 	}else
@@ -140,7 +142,7 @@ int fx_run()
 	}
 }
 
-double fx_get_fx()
+long double fx_get_fx()
 {
 	return fx_mesh[mesh_pos];
 }

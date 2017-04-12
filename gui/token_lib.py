@@ -18,6 +18,7 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+from code_ctrl import enable_betafeatures
 import i18n
 _ = i18n.language.gettext
 
@@ -116,6 +117,9 @@ lib.append(my_data("jv.inp","#jv_max_j","A m^{-2}",_("Maximum current density"),
 lib.append(my_data("jv.inp","#jv_light_efficiency","au",_("JV curve photon generation efficiency"),"e",1.0,"QLineEdit"))
 lib.append(my_data("jv.inp","#jv_pmax_n","m^{-3}",_("Average carrier density at P_{max}"),"e",1.0,"QLineEdit"))
 lib.append(my_data("jv.inp","#jv_pmax_tau","m^{-1}",_("Recombination time constant"),"e",1.0,"QLineEdit"))
+lib.append(my_data("jv.inp","#Vstart","V",_("Start voltage"),"e",1.0,"QLineEdit"))
+lib.append(my_data("jv.inp","#Vstop","V",_("Stop voltage"),"e",1.0,"QLineEdit"))
+lib.append(my_data("jv.inp","#Vstep","V",_("Voltage step"),"e",1.0,"QLineEdit"))
 
 #sim_info.dat
 lib.append(my_data("","#voc","V",_("V_{oc}"),"e",1.0,"QLineEdit"))
@@ -246,10 +250,21 @@ lib.append(my_data("","#pl_te_fh","0.0-1.0",_("n_{trap} to p_{free} photon gener
 lib.append(my_data("","#pl_th_fe","0.0-1.0",_("p_{trap} to n_{free} photon generation efficiency"),"e",1.0,"QLineEdit"))
 lib.append(my_data("","#pl_fh_th","0.0-1.0",_("p_{free} to p_{trap} photon generation efficiency"),"e",1.0,"QLineEdit"))
 
+#fxdomain?.inp
+lib.append(my_data("","#fxdomain_Rload","Ohms",_("Load resistor"),"e",1.0,"QLineEdit"))
+lib.append(my_data("","#fxdomain_points","au",_("fx domain mesh points"),"e",1.0,"QLineEdit"))
+lib.append(my_data("","#fxdomain_n","au",_("Cycles to simulate"),"e",1.0,"QLineEdit"))
+lib.append(my_data("","#fxdomain_Vexternal","au",_("V_{external}"),"e",1.0,"QLineEdit"))
+lib.append(my_data("","#fxdomain_voltage_modulation_max","au",_("Voltage modulation depth"),"e",1.0,"QLineEdit"))
 
-lib.append(my_data("","#Vstart","V",_("Start voltage"),"e",1.0,"QLineEdit"))
-lib.append(my_data("","#Vstop","V",_("Stop voltage"),"e",1.0,"QLineEdit"))
-lib.append(my_data("","#Vstep","V",_("Voltage step"),"e",1.0,"QLineEdit"))
+if enable_betafeatures()==True:
+	lib.append(my_data("","#fxdomain_light_modulation_max","au",_("Light modulation depth"),"e",1.0,"QLineEdit"))
+lib.append(my_data("","#fxdomain_do_fit","au",_("Run fit after simulation"),"e",1.0,"gtkswitch"))
+lib.append(my_data("","#periods_to_fit","au",_("Periods to fit"),"e",1.0,"QLineEdit"))
+
+
+
+
 lib.append(my_data("","#I0","Apms",_("I0"),"e",1.0,"QLineEdit"))
 lib.append(my_data("","#nid","(a.u.)",_("ideality factor"),"e",1.0,"QLineEdit"))
 #lib.append(my_data("","#Psun","Sun","Intensity of the sun"),"e",1.0,"QLineEdit"))
@@ -315,7 +330,7 @@ lib.append(my_data("","#simplephotondensity","m^{-2}s^{-1}",_("Photon Flux"),"e"
 lib.append(my_data("","#simple_alpha","m^{-1}",_("Absorption"),"e",1.0,"QLineEdit"))
 lib.append(my_data("","#xlen","m",_("device width"),"e",1.0,"QLineEdit"))
 lib.append(my_data("","#zlen","m",_("device breadth"),"e",1.0,"QLineEdit"))
-#translated to here
+
 
 lib.append(my_data("","#ver","","","e",1.0,"QLineEdit"))
 lib.append(my_data("","#dostype","","","e",1.0,"QLineEdit"))

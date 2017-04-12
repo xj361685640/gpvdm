@@ -2,7 +2,7 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012-2017 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+//  Copyright (C) 2012-2017 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
 //	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -101,7 +101,7 @@ Plight=light_get_sun((&in->mylight));
 int total_steps=fxdomain_config.fxdomain_points*fxdomain_config.fxdomain_n*fx_points();
 int cur_total_step=0;
 char temp[200];
-
+int modulate_voltage=TRUE;
 do
 {
 	V=fxdomain_config.fxdomain_Vexternal;
@@ -155,16 +155,11 @@ do
 	sprintf(send_data,"text:%s",temp);
 	gui_send_data(sim,send_data);
 
+
 	do
 	{
-
-		if (fxdomain_config.fxdomain_voltage_modulation==TRUE)
-		{
 			V=fxdomain_config.fxdomain_Vexternal+fxdomain_config.fxdomain_voltage_modulation_max*sin(2*PI*fx*in->time);
-		}else
-		{
-			Plight=light_get_sun((&in->mylight))+fxdomain_config.fxdomain_light_modulation_max*sin(2*PI*fx*in->time);
-		}
+
 		light_set_sun((&in->mylight),Plight);
 		light_solve_and_update(sim,in,&(in->mylight), 0.0);
 
@@ -226,73 +221,73 @@ do
 	sprintf(send_data,"percent:%Lf",(gdouble)(cur_total_step)/(gdouble)(total_steps));
 	gui_send_data(sim,send_data);
 
-gdouble v_mag=0.0;
-gdouble i_mag=0.0;
-gdouble v_delta=0.0;
-gdouble i_delta=0.0;
-gdouble real=0.0;
-gdouble imag=0.0;
+	gdouble v_mag=0.0;
+	gdouble i_mag=0.0;
+	gdouble v_delta=0.0;
+	gdouble i_delta=0.0;
+	gdouble real=0.0;
+	gdouble imag=0.0;
 
-fit_sin(sim,&i_mag,&i_delta,&out_i,fx,"i");
-fit_sin(sim,&v_mag,&v_delta,&out_v,fx,"v");
-printf_log(sim,"v_delta=%Le i_delta=%Le\n",v_delta,i_delta);
-gdouble dphi=2*PI*fx*(i_delta-v_delta);
-printf_log(sim,"delta_phi=%Lf\n",dphi);
+	fit_sin(sim,&i_mag,&i_delta,&out_i,fx,"i");
+	fit_sin(sim,&v_mag,&v_delta,&out_v,fx,"v");
+	printf_log(sim,"v_delta=%Le i_delta=%Le\n",v_delta,i_delta);
+	gdouble dphi=2*PI*fx*(i_delta-v_delta);
+	printf_log(sim,"delta_phi=%Lf\n",dphi);
 
-gdouble mag=i_mag;
-real=mag*cosl(dphi);
-imag=mag*sinl(dphi);
+	gdouble mag=i_mag;
+	real=mag*cosl(dphi);
+	imag=mag*sinl(dphi);
 
-inter_append(&real_imag,real,imag);
+	inter_append(&real_imag,real,imag);
 
-inter_append(&out_fx,fx,fx);
+	inter_append(&out_fx,fx,fx);
 
-printf_log(sim,"%Lf %Lf\n",real,imag);
-char temp[2000];
-buffer_malloc(&buf);
-buf.y_mul=1e3;
-buf.x_mul=1e6;
-sprintf(buf.title,"%s - %s",_("Time"),_("current"));
-strcpy(buf.type,"xy");
-strcpy(buf.x_label,_("Time"));
-strcpy(buf.data_label,_("Current"));
-strcpy(buf.x_units,"\\ms");
-strcpy(buf.data_units,"m");
-buf.logscale_x=0;
-buf.logscale_y=0;
-buf.x=1;
-buf.y=out_i.len;
-buf.z=1;
-buffer_add_info(&buf);
-buffer_add_xy_data(&buf,out_i.x, out_i.data, out_i.len);
-sprintf(temp,"fxdomain_i%d.dat",(int)fx);
-buffer_dump_path(sim,out_dir,temp,&buf);
-buffer_free(&buf);
+	printf_log(sim,"%Lf %Lf\n",real,imag);
+	char temp[2000];
+	buffer_malloc(&buf);
+	buf.y_mul=1e3;
+	buf.x_mul=1e6;
+	sprintf(buf.title,"%s - %s",_("Time"),_("current"));
+	strcpy(buf.type,"xy");
+	strcpy(buf.x_label,_("Time"));
+	strcpy(buf.data_label,_("Current"));
+	strcpy(buf.x_units,"\\ms");
+	strcpy(buf.data_units,"m");
+	buf.logscale_x=0;
+	buf.logscale_y=0;
+	buf.x=1;
+	buf.y=out_i.len;
+	buf.z=1;
+	buffer_add_info(&buf);
+	buffer_add_xy_data(&buf,out_i.x, out_i.data, out_i.len);
+	sprintf(temp,"fxdomain_i%d.dat",(int)fx);
+	buffer_dump_path(sim,out_dir,temp,&buf);
+	buffer_free(&buf);
 
-buffer_malloc(&buf);
-buf.y_mul=1.0;
-buf.x_mul=1e6;
-sprintf(buf.title,"%s - %s",_("Time"),_("Voltage"));
-strcpy(buf.type,"xy");
-strcpy(buf.x_label,_("Time"));
-strcpy(buf.data_label,_("Voltage"));
-strcpy(buf.x_units,"\\ms");
-strcpy(buf.data_units,"V");
-buf.logscale_x=0;
-buf.logscale_y=0;
-buf.x=1;
-buf.y=out_v.len;
-buf.z=1;
-buffer_add_info(&buf);
-buffer_add_xy_data(&buf,out_v.x, out_v.data, out_v.len);
-sprintf(temp,"fxdomain_v%d.dat",(int)fx);
-buffer_dump_path(sim,out_dir,temp,&buf);
-buffer_free(&buf);
+	buffer_malloc(&buf);
+	buf.y_mul=1.0;
+	buf.x_mul=1e6;
+	sprintf(buf.title,"%s - %s",_("Time"),_("Voltage"));
+	strcpy(buf.type,"xy");
+	strcpy(buf.x_label,_("Time"));
+	strcpy(buf.data_label,_("Voltage"));
+	strcpy(buf.x_units,"\\ms");
+	strcpy(buf.data_units,"V");
+	buf.logscale_x=0;
+	buf.logscale_y=0;
+	buf.x=1;
+	buf.y=out_v.len;
+	buf.z=1;
+	buffer_add_info(&buf);
+	buffer_add_xy_data(&buf,out_v.x, out_v.data, out_v.len);
+	sprintf(temp,"fxdomain_v%d.dat",(int)fx);
+	buffer_dump_path(sim,out_dir,temp,&buf);
+	buffer_free(&buf);
 
-fx_step();
+	fx_step();
 
-inter_reset(&out_i);
-inter_reset(&out_v);
+	inter_reset(&out_i);
+	inter_reset(&out_v);
 
 }while(fx_run()==TRUE);
 
@@ -349,7 +344,8 @@ inp_search_int(sim,&inp,&(in->fxdomain_n),"#fxdomain_n");
 inp_search_gdouble(sim,&inp,&(in->fxdomain_Vexternal),"#fxdomain_Vexternal");
 inp_search_gdouble(sim,&inp,&(in->fxdomain_voltage_modulation_max),"#fxdomain_voltage_modulation_max");
 inp_search_gdouble(sim,&inp,&(in->fxdomain_light_modulation_max),"#fxdomain_light_modulation_max");
-inp_search_int(sim,&inp,&(in->fxdomain_voltage_modulation),"#fxdomain_voltage_modulation");
+inp_search_string(sim,&inp,in->fxdomain_modulation_type,"#fx_modulation_type");
+
 inp_search_int(sim,&inp,&(in->periods_to_fit),"#periods_to_fit");
 
 inp_search_int(sim,&inp,&(in->fxdomain_do_fit),"#fxdomain_do_fit");
