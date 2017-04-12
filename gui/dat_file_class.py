@@ -84,3 +84,4 @@ class dat_file():
 	y_scale=[]
 	z_scale=[]
 	data=[]
+	labels=[]

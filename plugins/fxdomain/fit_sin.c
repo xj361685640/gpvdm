@@ -79,7 +79,7 @@ if (dump_all==TRUE)
 	buf.z=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,fit_data.x, fit_data.data, fit_data.len);
-	sprintf(name,"imps_fit_%s_orig.dat",fit_file_prefix);
+	sprintf(name,"fx_fit_%s_orig.dat",fit_file_prefix);
 	buffer_dump(local_sim,name,&buf);
 	buffer_free(&buf);
 }
@@ -104,7 +104,7 @@ if (dump_all==TRUE)
 	buf.z=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,test_i.x, test_i.data, test_i.len);
-	sprintf(name,"imps_fit_%s_guess.dat",fit_file_prefix);
+	sprintf(name,"fx_fit_%s_guess.dat",fit_file_prefix);
 	buffer_dump(local_sim,name,&buf);
 	buffer_free(&buf);
 }
@@ -129,7 +129,7 @@ if (dump_all==TRUE)
 	buf.z=1;
 	buffer_add_info(&buf);
 	buffer_add_xy_data(&buf,test_i.x, test_i.data, test_i.len);
-	sprintf(name,"imps_fit_%s_delta.dat",fit_file_prefix);
+	sprintf(name,"fx_fit_%s_delta.dat",fit_file_prefix);
 	buffer_dump(local_sim,name,&buf);
 	buffer_free(&buf);
 }

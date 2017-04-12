@@ -22,6 +22,8 @@
 
 #include <device.h>
 
+void three_d_copy_gdouble(struct device *in, gdouble ***dst, gdouble ***src);
+void three_d_mul_gdouble(struct device *in, gdouble ***src, gdouble val);
 void malloc_zx_gdouble(struct device *in, gdouble * (**var));
 void free_zx_gdouble(struct device *in, gdouble **var);
 void free_srh_bands(struct device *in, gdouble **** var);

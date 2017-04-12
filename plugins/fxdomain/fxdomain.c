@@ -102,6 +102,7 @@ int total_steps=fxdomain_config.fxdomain_points*fxdomain_config.fxdomain_n*fx_po
 int cur_total_step=0;
 char temp[200];
 int modulate_voltage=TRUE;
+
 do
 {
 	V=fxdomain_config.fxdomain_Vexternal;
@@ -120,6 +121,8 @@ do
 	in->dt=lambda/((gdouble)fxdomain_config.fxdomain_points);
 	stop_time=lambda*fxdomain_config.fxdomain_n;
 
+	Plight=light_get_sun((&in->mylight));
+	light_set_sun((&in->mylight),Plight);
 
 	light_solve_and_update(sim,in,&(in->mylight), 0.0);
 	step=0;
@@ -156,12 +159,12 @@ do
 	gui_send_data(sim,send_data);
 
 
+
 	do
 	{
 			V=fxdomain_config.fxdomain_Vexternal+fxdomain_config.fxdomain_voltage_modulation_max*sin(2*PI*fx*in->time);
 
-		light_set_sun((&in->mylight),Plight);
-		light_solve_and_update(sim,in,&(in->mylight), 0.0);
+
 
 		if (fxdomain_config.fxdomain_sim_mode==fxdomain_load)
 		{
@@ -180,7 +183,7 @@ do
 		if (get_dump_status(sim,dump_print_text)==TRUE)
 		{
 			printf_log(sim,"%s=%Le %s=%d %.1Le ",_("fxdomain time"),in->time,_("step"),step,in->last_error);
-			printf_log(sim,"Vtot=%Lf %s = %Le mA (%Le A/m^2)\n",V,_("current"),get_I(in)/1e-3,get_J(in));
+			printf_log(sim,"Vtot=%Lf Plight=%Lf %s = %Le mA (%Le A/m^2)\n",V,Plight,_("current"),get_I(in)/1e-3,get_J(in));
 		}
 
 		dump_dynamic_add_data(sim,&store,in,in->time);
@@ -228,19 +231,24 @@ do
 	gdouble real=0.0;
 	gdouble imag=0.0;
 
-	fit_sin(sim,&i_mag,&i_delta,&out_i,fx,"i");
-	fit_sin(sim,&v_mag,&v_delta,&out_v,fx,"v");
-	printf_log(sim,"v_delta=%Le i_delta=%Le\n",v_delta,i_delta);
-	gdouble dphi=2*PI*fx*(i_delta-v_delta);
-	printf_log(sim,"delta_phi=%Lf\n",dphi);
+	if (fxdomain_config.fxdomain_do_fit==TRUE)
+	{
+		fit_sin(sim,&i_mag,&i_delta,&out_i,fx,"i");
+		fit_sin(sim,&v_mag,&v_delta,&out_v,fx,"v");
+		
+		printf_log(sim,"v_delta=%Le i_delta=%Le\n",v_delta,i_delta);
+		gdouble dphi=2*PI*fx*(i_delta-v_delta);
+		printf_log(sim,"delta_phi=%Lf\n",dphi);
 
-	gdouble mag=i_mag;
-	real=mag*cosl(dphi);
-	imag=mag*sinl(dphi);
+		gdouble mag=i_mag;
+		real=mag*cosl(dphi);
+		imag=mag*sinl(dphi);
 
-	inter_append(&real_imag,real,imag);
+		inter_append(&real_imag,real,imag);
 
-	inter_append(&out_fx,fx,fx);
+		inter_append(&out_fx,fx,fx);
+	}
+
 
 	printf_log(sim,"%Lf %Lf\n",real,imag);
 	char temp[2000];
@@ -290,7 +298,6 @@ do
 	inter_reset(&out_v);
 
 }while(fx_run()==TRUE);
-
 
 dump_dynamic_save(sim,out_dir,&store);
 dump_dynamic_free(sim,in,&store);
@@ -347,8 +354,7 @@ inp_search_gdouble(sim,&inp,&(in->fxdomain_light_modulation_max),"#fxdomain_ligh
 inp_search_string(sim,&inp,in->fxdomain_modulation_type,"#fx_modulation_type");
 
 inp_search_int(sim,&inp,&(in->periods_to_fit),"#periods_to_fit");
-
-inp_search_int(sim,&inp,&(in->fxdomain_do_fit),"#fxdomain_do_fit");
+in->fxdomain_do_fit=inp_search_english(sim,&inp,"#fxdomain_do_fit");
 inp_search_gdouble(sim,&inp,&(in->fxdomain_L),"#fxdomain_L");
 
 

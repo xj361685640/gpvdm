@@ -1,8 +1,8 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -38,6 +38,8 @@ from PyQt5.QtGui import QPainter,QIcon
 from inp import inp_update_token_value
 from inp import inp_get_token_value
 
+from tab import tab_class
+
 class fxexperiment_tab(QTabWidget):
 
 	def update(self):
@@ -48,18 +50,18 @@ class fxexperiment_tab(QTabWidget):
 		tab.save_image()
 	
 	def update_mode(self,new_mode):
-		inp_update_token_value("fxdomain"+str(self.index)+".inp", "#fx_modulation_type", new_mode)
+		inp_update_token_value(self.file_name, "#fx_modulation_type", new_mode)
 
 	def get_mode(self):
-		return inp_get_token_value("fxdomain"+str(self.index)+".inp", "#fx_modulation_type")
+		return inp_get_token_value(self.file_name, "#fx_modulation_type")
 
 	def init(self,index):
 		QTabWidget.__init__(self)
 
 		self.index=index
 		lines=[]
-
-		if inp_load_file(lines,"fxdomain"+str(self.index)+".inp")==True:
+		self.file_name="fxdomain"+str(self.index)+".inp"
+		if inp_load_file(lines,self.file_name)==True:
 			self.tab_name=inp_search_token_value(lines, "#sim_menu_name")
 		else:
 			self.tab_name=""
@@ -72,7 +74,9 @@ class fxexperiment_tab(QTabWidget):
 
 		self.addTab(self.circuit,_("Circuit"))
 
-
+		widget=tab_class()
+		widget.init(self.file_name,_("Configure"))
+		self.addTab(widget,_("Configure"))
 
 	def set_tab_caption(self,name):
 		mytext=name
@@ -83,7 +87,7 @@ class fxexperiment_tab(QTabWidget):
 
 	def rename(self,tab_name):
 		self.tab_name=tab_name+"@"+self.tab_name.split("@")[1]
-		inp_update_token_value("fxdomain"+str(self.index)+".inp", "#sim_menu_name", self.tab_name)
+		inp_update_token_value(self.file_name, "#sim_menu_name", self.tab_name)
 
 
 

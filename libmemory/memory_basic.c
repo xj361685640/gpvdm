@@ -115,6 +115,26 @@ int z=0;
 
 }
 
+void three_d_copy_gdouble(struct device *in, gdouble ***dst, gdouble ***src)
+{
+int x=0;
+int y=0;
+int z=0;
+
+	for (z = 0; z < in->zmeshpoints; z++)
+	{
+		for (x = 0; x < in->xmeshpoints; x++)
+		{
+			for (y = 0; y < in->ymeshpoints; y++)
+			{
+				dst[z][x][y]=src[z][x][y];
+			}
+			
+		}
+	}
+
+}
+
 void three_d_add_gdouble(struct device *in, gdouble ***var, gdouble ***add)
 {
 int x=0;
@@ -134,6 +154,27 @@ int z=0;
 	}
 
 }
+
+void three_d_mul_gdouble(struct device *in, gdouble ***src, gdouble val)
+{
+int x=0;
+int y=0;
+int z=0;
+
+	for (z = 0; z < in->zmeshpoints; z++)
+	{
+		for (x = 0; x < in->xmeshpoints; x++)
+		{
+			for (y = 0; y < in->ymeshpoints; y++)
+			{
+				src[z][x][y]*=val;
+			}
+			
+		}
+	}
+
+}
+
 void free_3d_gdouble(struct device *in, gdouble ***var)
 {
 	int x=0;

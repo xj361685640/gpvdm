@@ -114,13 +114,18 @@ def guess_dim(lines):
 
 		if len(temp)>0:
 			if is_number(temp)==True:
-				s=temp.split(" ")
-				if len(s)==1:
+				s=temp.split()
+				l=len(s)
+				if l>0:
+					if len(s[l-1])>0:
+						if s[l-1][0]=="#":
+							l=l-1
+				if l==1:
 					print("I can't do this file type yet")
 					return False,False,False
-				if len(s)==2:
+				if l==2:
 					y=y+1
-				if len(s)==3:
+				if l==3:
 					print("I can't do this file type yet")
 					return False,False,False
 	return 1,y,1
@@ -171,6 +176,7 @@ def dat_file_read(out,file_name,guess=True):
 	out.x_scale= [0.0]*out.x_len
 	out.y_scale= [0.0]*out.y_len
 	out.z_scale= [0.0]*out.z_len
+	out.labels=[]
 
 	data_started=False
 
@@ -178,16 +184,19 @@ def dat_file_read(out,file_name,guess=True):
 	y=0
 	z=0
 	dim=0
+	label=""
+	labels=False
 	for i in range(0, len(lines)):
+		label=""
 		temp=lines[i]
 
 		temp=re.sub(' +',' ',temp)
 		temp=re.sub('\t',' ',temp)
-		s=temp.split(" ")
+		s=temp.split()
+		l=len(s)
+		if l>0:
+							
 
-		if len(s)>0:
-
-			#if 
 			if data_started==False:
 				if is_number(s[0])==True:
 					data_started=True
@@ -196,46 +205,58 @@ def dat_file_read(out,file_name,guess=True):
 				break
 
 			if data_started==True:
+				
+				if len(s[l-1])>0:			#This checks for comments at the end of lines
+					if s[l-1][0]=="#":
+						l=l-1
+						labels=True
+
 				if temp.count("nan")>0:
 					#print("Warning nan found in data file",file_name)
 					return False
 
 				line_found=False
-				if len(s)==4:
+				if l==4:
 					line_found=True
 					out.data[z][x][y]=float(s[3])
 					a0=s[0]
 					a1=s[1]
 					a2=s[2]
+					if labels==True:
+						label=s[4]
 
-				if len(s)==3:
+				if l==3:
 					line_found=True
 					out.data[z][x][y]=float(s[2])
 					a0=s[0]
 					a1=s[1]
 					a2=0.0
-				elif len(s)==2:
+					if labels==True:
+						label=s[3]
+				elif l==2:
 					line_found=True
 					out.data[z][x][y]=float(s[1])
 					a0=s[0]
 					a1=0.0
 					a2=0.0
+					if labels==True:
+						label=s[2]
 #				else:
 #					print("skip")
 
 				if line_found==True:
-					if len(s)==2:
+					if l==2:
 						if x==0 and z==0:
 							out.y_scale[y]=float(a0)
 
-					if len(s)==3:
+					if l==3:
 						if x==0 and z==0:
 							out.y_scale[y]=float(a1)
 							
 						if z==0 and y==0:
 							out.x_scale[x]=float(a0)
 
-					if len(s)==4:
+					if l==4:
 						if x==0 and z==0:
 							out.y_scale[y]=float(a1)
 							
@@ -246,7 +267,8 @@ def dat_file_read(out,file_name,guess=True):
 							out.z_scale[z]=float(a2)
 					#if z==y:
 					#	out.z_scale[y]=float(a0)
-
+					if labels==True:
+						out.labels.append(label[1:])
 					y=y+1
 					if y==out.y_len:
 						y=0

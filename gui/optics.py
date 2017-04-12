@@ -184,7 +184,7 @@ class class_optical(QWidget):
 		self.notebook.addTab(self.fig_gen_rate,_("Generation rate"))
 
 		widget=tab_class()
-		widget.init("light.inp","Optical setup")
+		widget.init("light.inp",_("Optical setup"))
 		self.notebook.addTab(widget,_("Optical setup"))
 
 

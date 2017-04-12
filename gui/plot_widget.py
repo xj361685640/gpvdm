@@ -230,7 +230,13 @@ class plot_widget(QWidget):
 					files.append("$"+numbers_to_latex(str(self.labels[i]))+" "+pygtk_to_latex_subscript(self.data[0].key_units)+"$")
 
 				all_plots.append(cur_plot)
-
+				
+				if len(self.data[i].labels)!=0:
+					for ii in range(0,len(self.data[i].y_scale)):
+						fx_unit=fx_with_units(float(self.data[i].labels[ii]))
+						label_text=str(float(self.data[i].labels[ii])*fx_unit[0])+" "+fx_unit[1]
+						self.ax[i].annotate(label_text,xy = (self.data[i].y_scale[ii], self.data[i].data[0][0][ii]), xytext = (-20, 20),textcoords = 'offset points', ha = 'right', va = 'bottom',bbox = dict(boxstyle = 'round,pad=0.5', fc = 'yellow', alpha = 0.5),arrowprops = dict(arrowstyle = '->', connectionstyle = 'arc3,rad=0'))
+				#print(self.data[i].labels)
 		elif dim=="wireframe":
 			self.ax[0].set_xlabel(self.data[0].x_label+" ("+self.data[0].x_units+")")
 			self.ax[0].set_ylabel(self.data[0].y_label+" ("+self.data[0].y_units+")")

@@ -162,7 +162,7 @@ if (len>0)
 			y_out=(y[i]-min)/(max-min);
 		}
 
-		sprintf(string,"%Le %Le %Le\n",x_out,y_out,z[i]);
+		sprintf(string,"%Le %Le #%Le\n",x_out,y_out,z[i]);
 		buffer_add_string(in,string);
 	}
 }
