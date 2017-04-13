@@ -3,9 +3,9 @@ spectra
 #status
 public
 #spectra_equation_or_data
-data
+equation
 #changelog
-
+A green (505nm) LED with about a 30 nm line width.
 #ver
 1.0
 #end

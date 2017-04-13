@@ -58,7 +58,7 @@ class tb_item_mat_file(QWidget):
 		self.mode.addItem(_("Equation"))
 
 		value=inp_get_token_value(os.path.join(self.path,"mat.inp"), self.token)
-		if value=="auto":
+		if value=="data":
 			self.mode.setCurrentIndex(0)
 		else:
 			self.mode.setCurrentIndex(1)
@@ -77,7 +77,7 @@ class tb_item_mat_file(QWidget):
 	def call_back_mode_changed(self):
 		mode=self.mode.currentText()
 		if mode==_("Raw data"):
-			inp_update_token_value(os.path.join(self.path,"mat.inp"), self.token, "auto" )
+			inp_update_token_value(os.path.join(self.path,"mat.inp"), self.token, "data" )
 		if mode==_("Equation"):
 			inp_update_token_value(os.path.join(self.path,"mat.inp"), self.token, "equation" )
 

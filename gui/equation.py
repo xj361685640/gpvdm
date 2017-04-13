@@ -261,14 +261,6 @@ class equation(QWidget):
 		if self.im.ret==True:
 			self.update()
 
-	def callback_dir_open(self):
-		dialog=gpvdm_open(self.path)
-		dialog.show_inp_files=False
-		ret=dialog.exec_()
-
-		if ret==QDialog.Accepted:
-			desktop_open(dialog.get_filename())
-
 	def set_ylabel(self,value):
 		self.ylabel=value
 
@@ -297,10 +289,6 @@ class equation(QWidget):
 		self.import_data= QAction(QIcon_load("import"), _("Import data"), self)
 		self.import_data.triggered.connect(self.callback_import)
 		toolbar.addAction(self.import_data)
-
-		self.folder_open= QAction(QIcon_load("folder"), _("Open material directory"), self)
-		self.folder_open.triggered.connect(self.callback_dir_open)
-		toolbar.addAction(self.folder_open)
 
 		self.file_select=tb_item_mat_file(self.path,self.token)
 		#self.file_select.changed.connect(self.callback_sun)

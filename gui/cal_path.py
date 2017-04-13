@@ -196,6 +196,10 @@ def get_base_material_path():
 	global materials_path
 	return os.path.join(materials_path,"generic","generic_organic")
 
+def get_base_spectra_path():
+	global spectra_path
+	return os.path.join(spectra_path,"sun")
+
 def get_device_lib_path():
 	global device_lib_path
 	return device_lib_path

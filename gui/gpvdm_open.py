@@ -48,7 +48,11 @@ from gui_util import dlg_get_text
 from gui_util import yes_no_dlg
 
 from clone import clone_material
+from clone import clone_spectra
 from cal_path import get_base_material_path
+from cal_path import get_base_spectra_path
+
+from inp import inp_get_token_value
 
 COL_PATH = 0
 COL_PIXBUF = 1
@@ -64,6 +68,8 @@ class gpvdm_open(QDialog):
 
 	def __init__(self,path,show_inp_files=True):
 		QWidget.__init__(self)
+		self.menu_new_material_enabled=False
+		self.menu_new_spectra_enabled=False
 		self.show_inp_files=show_inp_files
 		self.show_directories=True
 		self.file_path=""
@@ -140,8 +146,15 @@ class gpvdm_open(QDialog):
 
 	def callback_menu(self,event):
 		menu = QMenu(self)
+		newmaterialAction=False
+		newspectraAction=False
 		newdirAction = menu.addAction(_("New directory"))
-		newmaterialAction = menu.addAction(_("New material"))
+		if self.menu_new_material_enabled==True:
+			newmaterialAction = menu.addAction(_("New material"))
+
+		if self.menu_new_spectra_enabled==True:
+			newspectraAction = menu.addAction(_("New spectra"))
+
 		deleteAction = menu.addAction(_("Delete file"))
 		renameAction = menu.addAction(_("Rename"))
 		renameAction.setEnabled(False)
@@ -167,7 +180,12 @@ class gpvdm_open(QDialog):
 			if new_sim_name!=None:
 				new_material=os.path.join(self.dir,new_sim_name)
 				clone_material(new_material,get_base_material_path())
-
+		elif action == newspectraAction:
+			new_sim_name=dlg_get_text( _("New spectra name:"), _("New spectra name"),"spectra_file")
+			new_sim_name=new_sim_name.ret
+			if new_sim_name!=None:
+				new_material=os.path.join(self.dir,new_sim_name)
+				clone_spectra(new_material,get_base_spectra_path())
 		elif action == deleteAction:
 			files=""
 			for i in self.listwidget.selectedItems():
@@ -184,6 +202,8 @@ class gpvdm_open(QDialog):
 
 			if new_sim_name!=None:
 				new_name=os.path.join(self.dir,new_sim_name)
+				old_name=os.path.join(self.dir,old_name)
+				print(old_name, new_name)
 				os.rename(old_name, new_name)
 
 		self.fill_store()
@@ -210,11 +230,12 @@ class gpvdm_open(QDialog):
 		for fl in all_files:
 			file_name=os.path.join(self.dir, fl)
 			if os.path.isdir(file_name):
-				if os.path.isfile(os.path.join(file_name,"spectra.inp")):
+				gpvdm_file_type=inp_get_token_value(os.path.join(file_name,"mat.inp"), "#gpvdm_file_type")
+				if gpvdm_file_type=="spectra":
 					itm = QListWidgetItem( fl )
 					itm.setIcon(self.spectra_icon)
 					self.listwidget.addItem(itm)
-				elif os.path.isfile(os.path.join(file_name,"mat.inp")):
+				elif gpvdm_file_type=="mat":
 					itm = QListWidgetItem( fl )
 					itm.setIcon(self.mat_icon)
 					self.listwidget.addItem(itm)
@@ -315,7 +336,7 @@ class gpvdm_open(QDialog):
 					ref=get_ref_text(ref_path)
 					if ref!=None:
 						summary=summary+ref
-					help_window().help_set_help(["organic_material.png",summary])
+					help_window().help_set_help(["organic_material",summary])
 					#get_ref_text(file_name,html=True)
 
 
