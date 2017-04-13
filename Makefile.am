@@ -74,6 +74,7 @@ gpvdm_core$(EXEEXT):
 
 install-data-hook:
 	cp materials $(DESTDIR)$(datadir)/gpvdm/materials -rf
+	cp spectra $(DESTDIR)$(datadir)/gpvdm/spectra -rf
 	cp ui $(DESTDIR)$(datadir)/gpvdm/ui -rf
 	find lang -name "*.mo" -exec cp --parents {} $(DESTDIR)$(datadir)/gpvdm/ ";"
 	ln -s $(pkgdatadir)/gui/gpvdm.py $(DESTDIR)$(bindir)/gpvdm

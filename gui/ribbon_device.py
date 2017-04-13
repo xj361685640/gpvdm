@@ -47,6 +47,7 @@ from materials_main import materials_main
 
 from parasitic import parasitic
 from plot_gen import plot_gen
+from cal_path import get_spectra_path
 
 class ribbon_device(QToolBar):
 	def __init__(self):
@@ -67,7 +68,11 @@ class ribbon_device(QToolBar):
 		self.materials = QAction(QIcon_load("organic_material"), _("Materials\ndatabase"), self)
 		self.materials.triggered.connect(self.callback_view_materials)
 		self.addAction(self.materials)
-	
+
+		self.materials = QAction(QIcon_load("spectra_file"), _("Optical\ndatabase"), self)
+		self.materials.triggered.connect(self.callback_view_optical)
+		self.addAction(self.materials)
+
 		self.cost = QAction(QIcon_load("cost"), _("Calculate\nthe cost"), self)
 		self.cost.triggered.connect(self.callback_cost)
 		self.addAction(self.cost)
@@ -131,9 +136,21 @@ class ribbon_device(QToolBar):
 			self.contacts_window.hide()
 		else:
 			self.contacts_window.show()
-			
+
 	def callback_view_materials(self):
 		dialog=gpvdm_open(get_materials_path())
+		dialog.show_inp_files=False
+		ret=dialog.exec_()
+
+		if ret==QDialog.Accepted:
+			if os.path.isfile(os.path.join(dialog.get_filename(),"mat.inp"))==True:
+				self.mat_window=materials_main(dialog.get_filename())
+				self.mat_window.show()
+			else:
+				plot_gen([dialog.get_filename()],[],"auto")
+
+	def callback_view_optical(self):
+		dialog=gpvdm_open(get_spectra_path())
 		dialog.show_inp_files=False
 		ret=dialog.exec_()
 

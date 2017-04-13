@@ -40,6 +40,7 @@ flag_path=None
 lang_path=None
 inp_file_path=None
 src_path=None
+spectra_path=None
 
 def to_native_path(path):
 	ret=path
@@ -161,6 +162,7 @@ def calculate_paths():
 	global inp_file_path
 	global src_path
 	global ui_path
+	global spectra_path
 	materials_path=search_known_paths("materials",[""],None)
 	device_lib_path=search_known_paths("device_lib",[""],None)
 	plugins_path=search_known_paths("plugins",[""],None)
@@ -172,6 +174,7 @@ def calculate_paths():
 	inp_file_path=os.path.dirname(search_known_paths("sim",[".gpvdm"],None))
 	src_path=os.path.dirname(search_known_paths("Makefile",[".am"],None))
 	ui_path=search_known_paths("ui",[""],None)
+	spectra_path=search_known_paths("spectra",[""],None)
 
 def get_share_path():
 	global share_path
@@ -180,6 +183,10 @@ def get_share_path():
 def get_src_path():
 	global src_path
 	return src_path
+
+def get_spectra_path():
+	global spectra_path
+	return spectra_path
 
 def get_materials_path():
 	global materials_path
@@ -251,5 +258,23 @@ def find_materials():
 			s=os.path.relpath(path, mat_path)
 			s=s.replace("\\","/")
 			ret.append(s)
+
+	return ret
+
+def find_light_source():
+	ret=[]
+
+	spectra_path=get_spectra_path()
+
+	for dirpath, dirnames, filenames in os.walk(spectra_path):
+		for filename in [f for f in filenames if f=="mat.inp"]:
+			path=os.path.join(dirpath, filename)
+			path=os.path.dirname(path)
+			s=os.path.relpath(path, spectra_path)
+			s=s.replace("\\","/")
+			ret.append(s)
+
+#	for file in glob.glob(os.path.join(path,"*.spectra")):
+#		ret.append(os.path.splitext(os.path.basename(file))[0])
 
 	return ret

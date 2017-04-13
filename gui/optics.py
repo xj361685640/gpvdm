@@ -52,7 +52,7 @@ from server import server_get
 
 from global_objects import global_object_run
 from global_objects import global_object_delete
-
+from cal_path import find_light_source
 def find_models():
 	ret=[]
 	path=get_plugins_path()
@@ -62,17 +62,6 @@ def find_models():
 		if file_name.startswith("light_"):
 			if file_name.endswith(".dll") or file_name.endswith(".so"):
 				ret.append(os.path.splitext(os.path.basename(file_name[6:]))[0])
-
-	return ret
-
-def find_light_source():
-	ret=[]
-
-	path=get_materials_path()
-
-
-	for file in glob.glob(os.path.join(path,"*.spectra")):
-		ret.append(os.path.splitext(os.path.basename(file))[0])
 
 	return ret
 

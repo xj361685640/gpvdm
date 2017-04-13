@@ -32,8 +32,11 @@ from shutil import copyfile
 from inp_util import inp_search_token_value
 from cal_path import get_materials_path
 from cp_gasses import copy_gasses
+from cal_path import find_materials
+from cal_path import find_light_source
+from cal_path import get_spectra_path
 
-def gpvdm_clone(dest,copy_dirs,materials=["all"]):
+def gpvdm_clone(dest,copy_dirs):
 	src_dir=get_inp_file_path()
 	src_archive=os.path.join(src_dir,"sim.gpvdm")
 	dest_archive=os.path.join(dest,"sim.gpvdm")
@@ -59,7 +62,8 @@ def gpvdm_clone(dest,copy_dirs,materials=["all"]):
 		if os.path.isdir(os.path.join(src_dir,"materials")):
 			shutil.copytree(os.path.join(src_dir,"materials"), os.path.join(dest,"materials"))
 
-		clone_materials(dest,materials)
+		clone_materials(dest)
+		clone_spectras(dest)
 
 def clone_material(dest_material_dir,src_material_dir):
 	if os.path.isdir(dest_material_dir)==False:
@@ -70,38 +74,38 @@ def clone_material(dest_material_dir,src_material_dir):
 		if os.path.isfile(src_mat_file)==True:
 			copyfile(src_mat_file,os.path.join(dest_material_dir,copy_file))
 
-def clone_materials(dest,materials=["all"]):
+def clone_spectra(dest_spectra_dir,src_spectra_dir):
+	if os.path.isdir(dest_spectra_dir)==False:
+		os.mkdir(dest_spectra_dir)
+
+	for copy_file in ["spectra_gen.inp","spectra.inp","mat.inp"]:
+		src_spectra_file=os.path.join(src_spectra_dir,copy_file)
+		if os.path.isfile(src_spectra_file)==True:
+			copyfile(src_spectra_file,os.path.join(dest_spectra_dir,copy_file))
+			
+def clone_materials(dest):
 	src_dir=os.path.join(get_materials_path())
 	dest_dir=os.path.join(dest,"materials")
 	if os.path.isdir(dest_dir)==False:
 		os.mkdir(dest_dir)
+
 	copy_gasses(dest_dir,src_dir)
 
-	files=os.listdir(src_dir)
+	files=find_materials()
 	for i in range(0,len(files)):
 		src_file=os.path.join(src_dir,files[i])
 		dest_file=os.path.join(dest_dir,files[i])
 
-		if files[i].endswith(".spectra"):
-			copyfile(src_file, dest_file)
+		clone_material(dest_file,src_file)
 
-		if os.path.isdir(src_file)==True:
-			lines=[]
-			mat_sub_path=os.path.join("materials",files[i],"mat.inp")
-			if read_lines_from_archive(lines,os.path.join(get_inp_file_path(),"sim.gpvdm"),mat_sub_path)==True:
-				do_copy=False
-				mat_type=inp_search_token_value(lines, "#material_type")
-				if mat_type!=False:
-					if materials.count("all")!=0:
-						do_copy=True
+def clone_spectras(dest):
+	src_dir=os.path.join(get_spectra_path())
+	dest_dir=os.path.join(dest,"spectra")
+	if os.path.isdir(dest_dir)==False:
+		os.mkdir(dest_dir)
 
-					if materials.count(mat_type)!=0:
-						do_copy=True
-
-
-				if do_copy==True:
-					print("copy ",dest_file)
-					clone_material(dest_file,src_file)
-				#else:
-				#	print("not copy",dest_file)
-
+	files=find_light_source()
+	for i in range(0,len(files)):
+		src_file=os.path.join(src_dir,files[i])
+		dest_file=os.path.join(dest_dir,files[i])
+		clone_spectra(dest_file,src_file)

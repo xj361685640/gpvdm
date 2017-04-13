@@ -210,7 +210,11 @@ class gpvdm_open(QDialog):
 		for fl in all_files:
 			file_name=os.path.join(self.dir, fl)
 			if os.path.isdir(file_name):
-				if os.path.isfile(os.path.join(file_name,"mat.inp")):
+				if os.path.isfile(os.path.join(file_name,"spectra.inp")):
+					itm = QListWidgetItem( fl )
+					itm.setIcon(self.spectra_icon)
+					self.listwidget.addItem(itm)
+				elif os.path.isfile(os.path.join(file_name,"mat.inp")):
 					itm = QListWidgetItem( fl )
 					itm.setIcon(self.mat_icon)
 					self.listwidget.addItem(itm)
@@ -249,11 +253,6 @@ class gpvdm_open(QDialog):
 				if (file_name.endswith(".inp")==True) and self.show_inp_files==True:
 					itm = QListWidgetItem( fl )
 					itm.setIcon(self.inp_icon)
-					self.listwidget.addItem(itm)
-
-				if (file_name.endswith(".spectra")==True):
-					itm = QListWidgetItem( fl )
-					itm.setIcon(self.spectra_icon)
 					self.listwidget.addItem(itm)
 					
 				if (file_name.endswith(".omat")==True):

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.88\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2017-04-12 13:21+0100\n"
+"POT-Creation-Date: 2017-04-13 12:38+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -90,33 +90,43 @@ msgstr ""
 msgid "load: materials"
 msgstr ""
 
-#: ../liblight/light_materials.c:59
-msgid "No optical materials found\n"
+#: ../liblight/light_materials.c:61
+msgid "Optical spectra directory not found\n"
 msgstr ""
 
-#: ../liblight/light_materials.c:159 ../liblight/light_materials.c:179
-#: ../lib/util.c:410 ../lib/util.c:530 ../lib/util.c:590 ../lib/util.c:680
+#: ../liblight/light_materials.c:83
+#, python-format
+msgid "spectrum file: I do not know what to do with %s"
+msgstr ""
+
+#: ../liblight/light_materials.c:88 ../liblight/light_materials.c:189
+#: ../liblight/light_materials.c:209 ../lib/util.c:410 ../lib/util.c:530
+#: ../lib/util.c:590 ../lib/util.c:680
 msgid "File not found"
 msgstr ""
 
-#: ../liblight/light_materials.c:209 ../liblight/light_materials.c:299
-#: ../liblight/light_materials.c:365
+#: ../liblight/light_materials.c:100
+msgid "No optical materials found\n"
+msgstr ""
+
+#: ../liblight/light_materials.c:239 ../liblight/light_materials.c:329
+#: ../liblight/light_materials.c:395
 msgid "file not found"
 msgstr ""
 
-#: ../liblight/light_materials.c:285
+#: ../liblight/light_materials.c:315
 msgid "Error at end of patch file\n"
 msgstr ""
 
-#: ../liblight/light_materials.c:345
+#: ../liblight/light_materials.c:375
 msgid "Error at end of inter file"
 msgstr ""
 
-#: ../liblight/light_materials.c:392 ../liblight/light_materials.c:444
+#: ../liblight/light_materials.c:422 ../liblight/light_materials.c:474
 msgid "Wavelength - Reflected light"
 msgstr ""
 
-#: ../liblight/light_materials.c:394 ../liblight/light_materials.c:446
+#: ../liblight/light_materials.c:424 ../liblight/light_materials.c:476
 #: ../libmeasure/probe.c:163 ../libmeasure/probe.c:165
 #: ../libmeasure/probe.c:188 ../libmeasure/probe.c:190
 #: ../libmeasure/probe.c:213 ../libmeasure/probe.c:215 ../gui/import_data.py:91

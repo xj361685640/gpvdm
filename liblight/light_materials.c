@@ -46,6 +46,7 @@ void light_load_materials(struct simulation *sim,struct light *in)
 printf_log(sim,"%s\n",_("load: materials"));
 struct buffer buf;
 int i=0;
+char temp[100];
 char fit_file[1000];
 char file_path[400];
 
@@ -53,6 +54,46 @@ DIR *theFolder;
 
 struct inp_file inp;
 
+/////////////////////////////////////////////////////
+theFolder = opendir(get_spectra_path(sim));
+if (theFolder==NULL)
+{
+	ewe(sim,_("Optical spectra directory not found\n"));
+}
+closedir (theFolder);
+inp_init(sim,&inp);
+
+join_path(3,file_path,get_spectra_path(sim),in->suns_spectrum_file,"mat.inp");
+
+inp_load(sim,&inp,file_path);
+inp_search_string(sim,&inp,temp,"#spectra_equation_or_data");
+
+inp_free(sim,&inp);
+	
+
+	if (strcmp(temp,"equation")==0)
+	{
+		join_path(3, file_path,get_spectra_path(sim),in->suns_spectrum_file,"spectra_gen.inp");
+	}else
+	if (strcmp(temp,"data")==0)
+	{
+		join_path(3,file_path,get_spectra_path(sim),in->suns_spectrum_file,"spectra.inp");
+	}else
+	{
+		ewe(sim,"%s: %s\n",_("spectrum file: I do not know what to do with %s"),temp);		
+	}
+
+	if (isfile(file_path)!=0)
+	{
+		ewe(sim,"%s: %s\n",_("File not found"),file_path);
+	}
+	
+inter_load(sim,&(in->sun_read),file_path);
+inter_sort(&(in->sun_read));
+
+
+
+/////////////////////////////////////////////////////
 theFolder = opendir(get_materials_path(sim));
 if (theFolder==NULL)
 {
@@ -60,17 +101,6 @@ if (theFolder==NULL)
 }
 closedir (theFolder);
 
-
-join_path(2,file_path,get_materials_path(sim),in->suns_spectrum_file);
-
-if (isfile(file_path)!=0)
-{
-	strcat(in->suns_spectrum_file,".spectra");
-	join_path(2,file_path,get_materials_path(sim),in->suns_spectrum_file);
-}
-
-inter_load(sim,&(in->sun_read),file_path);
-inter_sort(&(in->sun_read));
 
 in->mat=(struct istruct *)malloc(in->layers*sizeof(struct istruct));
 in->mat_n=(struct istruct *)malloc(in->layers*sizeof(struct istruct));

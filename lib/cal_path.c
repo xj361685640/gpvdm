@@ -183,9 +183,15 @@ strcpy(sim->input_path,cwd);
 set_path(sim,sim->plugins_path, "plugins");
 set_path(sim,sim->lang_path, "lang");
 set_path(sim,sim->materials_path, "materials");
-
+set_path(sim,sim->spectra_path, "spectra");
 
 }
+
+char *get_spectra_path(struct simulation *sim)
+{
+return sim->spectra_path;
+}
+
 
 char *get_materials_path(struct simulation *sim)
 {
