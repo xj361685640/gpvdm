@@ -21,7 +21,6 @@
 from clone import gpvdm_clone
 import os
 from import_archive import import_archive
-from window_list import windows
 from open_save_dlg import save_as_gpvdm
 
 import i18n
@@ -44,15 +43,8 @@ from help import help_window
 
 class new_simulation(QDialog):
 
-	# close the window and quit
-	#def delete_event(self, widget, event, data=None):
-	#	self.win_list.update(self.window,"new_simulation")
-	#	gtk.main_quit()
-	#	return False
-
 
 	def callback_close(self, widget, data=None):
-		#self.win_list.update(self.window,"new_simulation")
 		self.reject()
 
 
@@ -116,10 +108,6 @@ class new_simulation(QDialog):
 		print(get_exe_path())
 		self.ret_path=None
 		# Create a new window
-
-		#self.win_list=windows()
-		#self.win_list.load()
-		#self.win_list.set_window(self,"new_simulation")
 
 		self.listwidget.setIconSize(QSize(64,64))
 		self.listwidget.clear()

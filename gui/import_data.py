@@ -22,12 +22,11 @@
 
 import os
 from tab import tab_class
-from window_list import windows
 from icon_lib import QIcon_load
 
 #qt
 from PyQt5.QtCore import QSize, Qt 
-from PyQt5.QtWidgets import QWidget,QVBoxLayout,QHBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QTextEdit,QComboBox,QLabel,QLineEdit,QDialog
+from PyQt5.QtWidgets import QWidget,QVBoxLayout,QHBoxLayout,QSpinBox,QToolBar,QSizePolicy,QAction,QTabWidget,QTextEdit,QComboBox,QLabel,QLineEdit,QDialog
 from PyQt5.QtGui import QPainter,QIcon
 
 #python modules
@@ -55,10 +54,17 @@ from window_list import resize_window_to_be_sane
 from mesh import mesh_get_xlen
 from mesh import mesh_get_zlen
 
+from QWidgetSavePos import QWidgetSavePos
+from dat_file import dat_file_import_filter
+
+from util import wrap_text
+from plot_gen import plot_gen
+from cal_path import get_sim_path
+
 articles = []
 mesh_articles = []
 
-class graph_data_display(QWidget):
+class graph_data_display(QWidgetSavePos):
 	changed = pyqtSignal()
 	
 	def populate_boxes(self):
@@ -85,7 +91,7 @@ class graph_data_display(QWidget):
 		self.changed.emit()
 
 	def __init__(self):
-		QWidget.__init__(self)
+		QWidgetSavePos.__init__(self,"import")
 		self.items=[]
 		#input description+units	//output label // Output unit// equation to si //mull si to display
 		self.items.append([_("Wavelength"),"nm",_("Wavelength"),"nm","1e-9",1e9])
@@ -93,7 +99,7 @@ class graph_data_display(QWidget):
 		self.items.append([_("Wavelength"),"cm",_("Wavelength"),"nm","1e-3",1e9])
 		self.items.append([_("Wavelength"),"m",_("Wavelength"),"nm","1.0",1e9])
 		self.items.append([_("J"),"mA/cm2",_("J"),"A/m2","10000.0/1000.0",1.0])
-		self.items.append([_("J"),"m/m2",_("J"),"A/m2","1.0",1.0])
+		self.items.append([_("J"),"A/m2",_("J"),"A/m2","1.0",1.0])
 		self.items.append([_("Amps"),"A",_("J"),"A/m2","1.0/("+str(mesh_get_xlen())+"*"+str(mesh_get_zlen())+")",1.0])
 		self.items.append([_("-Amps"),"A",_("J"),"A/m2","-1.0/("+str(mesh_get_xlen())+"*"+str(mesh_get_zlen())+")",1.0])
 		self.items.append([_("Voltage"),"V",_("Voltage"),"V","1.0",1.0])
@@ -101,7 +107,8 @@ class graph_data_display(QWidget):
 		self.items.append([_("Voltage"),"mV",_("Voltage"),"V","1e-3",1.0])
 		self.items.append([_("Attenuation coefficient"),"au",_("Absorption"),"m^{-1}","4*3.14159/x",1.0])
 		self.items.append([_("Refractive index"),"au",_("Refractive index"),"au","1.0",1.0])
-
+		self.items.append([_("Time"),"s",_("Time"),"s","1.0",1.0])
+		
 		i=0
 		self.x_label=self.items[i][2]
 		self.x_units=self.items[i][3]
@@ -126,7 +133,6 @@ class graph_data_display(QWidget):
 		self.x_combo.currentIndexChanged.connect(self.callback_edited)
 		self.y_combo.currentIndexChanged.connect(self.callback_edited)
 
-
 		self.title_widget=QWidget()
 		self.title_hbox=QHBoxLayout()
 		self.title_label=QLabel(_("Title:"))
@@ -136,12 +142,22 @@ class graph_data_display(QWidget):
 		self.title_widget.setLayout(self.title_hbox)
 		self.main_vbox.addWidget(self.title_widget)
 
+
+
 		self.xlabel_widget=QWidget()
 		self.xlabel_hbox=QHBoxLayout()
 		self.xlabel_label=QLabel(_("x-label:"))
 		self.xlabel_entry=QLineEdit()
+		self.x_column_label=QLabel(_("x-column:"))
+		self.x_spin=QSpinBox()
+		self.x_spin.setValue(0)
+		self.x_spin.valueChanged.connect(self.callback_edited)
+
+		
 		self.xlabel_hbox.addWidget(self.xlabel_label)
 		self.xlabel_hbox.addWidget(self.xlabel_entry)
+		self.xlabel_hbox.addWidget(self.x_column_label)
+		self.xlabel_hbox.addWidget(self.x_spin)
 		self.xlabel_hbox.addWidget(self.units_x_label)
 		self.xlabel_hbox.addWidget(self.x_combo)
 		self.xlabel_widget.setLayout(self.xlabel_hbox)
@@ -151,8 +167,15 @@ class graph_data_display(QWidget):
 		self.ylabel_hbox=QHBoxLayout()
 		self.ylabel_label=QLabel(_("y-label:"))
 		self.ylabel_entry=QLineEdit()
+		self.y_column_label=QLabel(_("y-column:"))
+		self.y_spin=QSpinBox()
+		self.y_spin.setValue(1)
+		self.y_spin.valueChanged.connect(self.callback_edited)
+
 		self.ylabel_hbox.addWidget(self.ylabel_label)
 		self.ylabel_hbox.addWidget(self.ylabel_entry)
+		self.ylabel_hbox.addWidget(self.y_column_label)
+		self.ylabel_hbox.addWidget(self.y_spin)
 		self.ylabel_hbox.addWidget(self.units_data_label)
 		self.ylabel_hbox.addWidget(self.y_combo)
 		self.ylabel_widget.setLayout(self.ylabel_hbox)
@@ -163,8 +186,7 @@ class graph_data_display(QWidget):
 		self.title_entry.textEdited.connect(self.callback_edited)
 
 		self.setLayout(self.main_vbox)
-
-
+		
 	def set_xlabel(self,text):
 		self.xlabel_entry.blockSignals(True)
 		self.xlabel_entry.setText(text)
@@ -192,7 +214,7 @@ class graph_data_display(QWidget):
 
 	def get_ylabel(self):
 		return self.ylabel_entry.text()
-		
+
 class import_data(QDialog):
 
 	changed = pyqtSignal()
@@ -217,19 +239,27 @@ class import_data(QDialog):
 	
 
 		toolbar=QToolBar()
+		toolbar.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
 		toolbar.setIconSize(QSize(48, 48))
 
 		spacer = QWidget()
 		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 		
-		self.open_data= QAction(QIcon_load("document-open"), _("Open file"), self)
+		self.open_data= QAction(QIcon_load("document-open"), wrap_text(_("Open data file"),4), self)
 		self.open_data.triggered.connect(self.callback_open)
 		toolbar.addAction(self.open_data)
 
-		self.import_data= QAction(QIcon_load("document-save-as"), _("Import data to model"), self)
+		self.import_data= QAction(QIcon_load("document-save-as"), wrap_text(_("Save"),4), self)
 		self.import_data.triggered.connect(self.callback_import)
 		self.import_data.setEnabled(False)
 		toolbar.addAction(self.import_data)
+
+		self.plot= QAction(QIcon_load("plot"), wrap_text(_("Plot"),4), self)
+		self.plot.triggered.connect(self.callback_plot)
+		self.plot.setEnabled(False)
+		toolbar.addAction(self.plot)
+		
+
 		
 		toolbar.addWidget(spacer)
 
@@ -289,19 +319,11 @@ class import_data(QDialog):
 		self.setLayout(self.main_vbox)
 
 		self.out_data_path.setText(self.out_file)
-		
-		self.win_list=windows()
-		self.win_list.load()
-		self.win_list.set_window(self,"import_window")
 
 		self.ret=self.load_file()
 			
 	def callback_help(self,widget):
 		webbrowser.open('https://www.gpvdm.com/man/index.html')
-
-	def closeEvent(self, event):
-		self.win_list.update(self,"config_window")
-		#self.hide()
 
 	def gen_output(self):
 		text="#gpvdm\n"
@@ -322,6 +344,9 @@ class import_data(QDialog):
 		self.out_data.setText(text)
 
 	def update(self):
+		if dat_file_import_filter(self.data,self.file_name,x_col=self.unit_sel.x_spin.value(),y_col=self.unit_sel.y_spin.value())==True:
+			self.unit_sel.populate_boxes()
+		
 		self.info_token.title=self.unit_sel.get_title()
 
 		self.info_token.x_label=self.unit_sel.get_xlabel()
@@ -339,6 +364,12 @@ class import_data(QDialog):
 				
 		self.gen_output()
 
+	def callback_plot(self):
+		file_name=os.path.join(get_sim_path(),"temp.dat")
+		a = open(file_name, "w")
+		a.write(self.out_data.toPlainText())
+		a.close()
+		plot_gen([file_name],[],"auto")
 		
 	def callback_import(self):
 		a = open(self.out_file, "w")
@@ -347,32 +378,23 @@ class import_data(QDialog):
 		self.close()
 
 	def load_file(self):
-		file_name=open_as_filter(self,"dat (*.dat);;csv (*.csv);;txt (*.txt)",path=self.path)
+		self.file_name=open_as_filter(self,"dat (*.dat);;csv (*.csv);;txt (*.txt);;tdf (*.tdf)",path=self.path)
 
-		if file_name!=None:
-			f = open(file_name, "r")
+		if self.file_name!=None:
+			f = open(self.file_name, "r")
 			lines = f.readlines()
 			f.close()
 			text=""
 			for l in range(0, len(lines)):
 				text=text+lines[l].rstrip()+"\n"
-			self.raw_data_path.setText(file_name)
+			self.raw_data_path.setText(self.file_name)
 			self.raw_data.setText(text)
 
-			got_info=plot_load_info(self.info_token,file_name)
+			got_info=plot_load_info(self.info_token,self.file_name)
 			self.import_data.setEnabled(True)
+			self.plot.setEnabled(True)
 
-			if dat_file_read(self.data,file_name)==True:
-				#if got_info==False:
-				self.unit_sel.populate_boxes()
 
-				self.gen_output()
-				return True
-				#print("importing file",file_name)
-				#shutil.copy(file_name, os.path.join(os.getcwd(),"fit_data"+str(self.index)+".inp"))
-				#self.update()
-		else:
-			return False
 
 	def callback_open(self):
 		self.load_file()

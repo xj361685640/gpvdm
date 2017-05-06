@@ -24,7 +24,7 @@ from inp import inp_load_file
 from inp_util import inp_search_token_value
 from util_zip import zip_get_data_file
 from util import str2bool
-from inp import inp_save_lines
+from inp import inp_save_lines_to_file
 
 def plot_load_info(plot_token,file_name_in):
 	#print "whoo",file_name_in
@@ -200,7 +200,7 @@ def plot_save_oplot_file(config_file,plot_token):
 		lines.append("#end")
 
 		#print(lines)
-		inp_save_lines(save_name,lines)
+		inp_save_lines_to_file(save_name,lines)
 
 def get_plot_file_info(output,file_name):
 	found,lines=zip_get_data_file(file_name)

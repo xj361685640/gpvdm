@@ -22,13 +22,11 @@
 
 import os
 from cal_path import find_materials
-#from inp import inp_write_lines_to_file
 from util import str2bool
 from inp_util import inp_search_token_value
 from scan_item import scan_item_add
 from scan_item import scan_remove_file
 from icon_lib import QIcon_load
-from plot_gen import plot_gen
 from gpvdm_open import gpvdm_open
 from cal_path import get_materials_path
 from global_objects import global_object_get
@@ -84,7 +82,7 @@ from i18n import yes_no
 from gpvdm_select import gpvdm_select
 
 from code_ctrl import enable_betafeatures
-
+from cal_path import get_sim_path
 
 class layer_widget(QWidget):
 
@@ -115,10 +113,10 @@ class layer_widget(QWidget):
 				tot=tot+float(self.model[i][COLUMN_THICKNES])
 
 		lines=[]
-		if inp_load_file(lines,os.path.join(os.getcwd(),"mesh_y.inp"))==True:
+		if inp_load_file(lines,os.path.join(get_sim_path(),"mesh_y.inp"))==True:
 			mesh_layers=int(inp_search_token_value(lines, "#mesh_layers"))
 			if mesh_layers==1:
-				inp_update_token_value(os.path.join(os.getcwd(),"mesh_y.inp"), "#mesh_layer_length0", str(tot))
+				inp_update_token_value(os.path.join(get_sim_path(),"mesh_y.inp"), "#mesh_layer_length0", str(tot))
 
 	def layer_type_edit(self):
 		for i in range(0,self.tab.rowCount()):
@@ -344,7 +342,7 @@ class layer_widget(QWidget):
 		if ret==False:
 			error_dlg(self,_("Error in epitaxy, check the input values."))
 
-		epitaxy_save()
+		epitaxy_save(get_sim_path())
 		self.clean_dos_files()
 		#self.sync_to_electrical_mesh()
 

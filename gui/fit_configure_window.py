@@ -22,7 +22,6 @@
 
 import os
 from tab import tab_class
-from window_list import windows
 from icon_lib import QIcon_load
 
 #qt
@@ -41,18 +40,21 @@ from fit_vars import fit_vars
 from constraints import constraints
 from PyQt5.QtCore import pyqtSignal
 
+from cal_path import get_sim_path
+from QWidgetSavePos import QWidgetSavePos
+
 articles = []
 mesh_articles = []
 
-class fit_configure_window(QWidget):
+class fit_configure_window(QWidgetSavePos):
 
 	changed = pyqtSignal()
 	
 	def callback_tab_changed(self):
 		self.changed.emit()
 
-	def __init__(self):
-		QWidget.__init__(self)
+	def __init__(self,name):
+		QWidgetSavePos.__init__(self,name)
 		self.setMinimumSize(900, 600)
 		self.setWindowIcon(QIcon_load("preferences-system"))
 
@@ -84,7 +86,7 @@ class fit_configure_window(QWidget):
 
 		self.main_vbox.addWidget(self.notebook)
 
-		files=["fit.inp"]
+		files=[os.path.join(get_sim_path(),"fit.inp")]
 		description=[_("Configure minimizer")]
 
 		for i in range(0,len(files)):
@@ -102,22 +104,8 @@ class fit_configure_window(QWidget):
 		self.notebook.addTab(self.constraints_window,_("Fit constraints"))
 		
 		self.setLayout(self.main_vbox)
-		self.win_list=windows()
-		self.win_list.load()
-		self.win_list.set_window(self,"fit_config_window")
 
-		#self.connect("delete-event", self.callback_close_window) 
-
-		#self.hide()
 
 	def callback_help(self,widget):
 		webbrowser.open('http://www.gpvdm.com/man/index.html')
 
-	def closeEvent(self, event):
-		self.win_list.update(self,"fit_config_window")
-		#self.hide()
-
-
-
-		#help_window().help_set_help(["duplicate.png",_("<big><b>The fitting variables window</b></big><br> Use this window to select the variables use to perform the fit.")])
-		#help_window().help_set_help(["vars.png",_("<big><b>The fitting variables window</b></big><br> Use this window to select the variables use to perform the fit.")])

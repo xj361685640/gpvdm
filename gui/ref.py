@@ -38,10 +38,9 @@ from inp import inp_isfile
 from inp import inp_get_token_array
 from inp import inp_check_ver
 from inp import inp_new_file
-from inp import inp_write_lines_to_file
 from inp import inp_add_token
 from inp import inp_load_file
-from inp import inp_save_lines
+from inp import inp_save_lines_to_file
 from inp import inp_get_token_value_from_list
 from tab import tab_class
 
@@ -146,7 +145,7 @@ class ref_window(QWidget):
 			lines.append("1.0")
 			lines.append("#end")
 
-			inp_save_lines(self.file_name,lines)
+			inp_save_lines_to_file(self.file_name,lines)
 
 	def load(self):
 		ret=inp_get_token_array(self.file_name, self.token)
@@ -160,12 +159,12 @@ class ref_window(QWidget):
 				inp_load_file(lines,self.file_name)
 				lines=inp_add_token(lines,self.token,self.ui.text.toPlainText())
 				print("written to 1",self.file_name)
-				inp_save_lines(self.file_name,lines)
+				inp_save_lines_to_file(self.file_name,lines)
 			else:											#The file does not exist or there is an error
 				lines=inp_new_file()
 				lines=inp_add_token(lines,self.token,self.ui.text.toPlainText())
 				print("written to 2",self.file_name,lines)
-				inp_save_lines(self.file_name,lines)
+				inp_save_lines_to_file(self.file_name,lines)
 
 	def callback_help(self):
 		webbrowser.open('http://www.gpvdm.com/man/index.html')

@@ -1,6 +1,6 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
 #	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -54,6 +54,9 @@ _ = i18n.language.gettext
 import zlib
 from cal_path import get_src_path
 from progress import progress_class
+from PyQt5.QtCore import pyqtSignal
+
+from cal_path import get_sim_path
 
 def strip_slash(tx_name):
 	start=0
@@ -84,13 +87,16 @@ class tx_struct:
 	exe_name=""
 	zip=0
 	uzipsize=0
+	cpus=-1
 
 class cluster:
+	load_update = pyqtSignal()
+	
 	def cluster_init(self):
 		self.socket = False
 		self.cluster=False
 		self.nodes=[]
-		self.server_ip=inp_get_token_value("server.inp","#server_ip")
+		self.server_ip=inp_get_token_value(os.path.join(get_sim_path(),"server.inp"),"#server_ip")
 		self.cluster_jobs = []
 
 	def connect(self):
@@ -98,7 +104,7 @@ class cluster:
 			encrypt_load()
 			print("conecting to:",self.server_ip)
 			self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-			port=int(inp_get_token_value("server.inp","#port"))
+			port=int(inp_get_token_value(os.path.join(get_sim_path(),"server.inp"),"#port"))
 			try:
 				self.socket.connect((self.server_ip, port))
 			except:
@@ -159,6 +165,7 @@ class cluster:
 				print("not packet")
 				return None
 			data += packet
+			#print(100.0*len(data)/n)
 		data=decrypt(data)
 		return data
 
@@ -166,7 +173,7 @@ class cluster:
 		data=tx_struct()
 		data.id="gpvdmheadexe"
 		data.dir_name="src"
-		data.command=inp_get_token_value("server.inp","#make_command")
+		data.command=inp_get_token_value(os.path.join(get_sim_path(),"server.inp"),"#make_command")
 		self.tx_packet(data)
 
 	def sync_dir(self,path,target):
@@ -250,13 +257,12 @@ class cluster:
 		for i in range(0,len(file_list)):
 			add=True
 			for ii in range(0,len(banned_dirs)):
-				if file_list[i].startswith(banned_dirs[ii])==True:
+				if file_list[i].startswith(banned_dirs[ii]+os.path.sep)==True:
 					add=False
 					break
 
 			if add==True:
 				f.append(file_list[i])
-
 		return f
 
 	def send_dir(self,src,target):
@@ -302,6 +308,9 @@ class cluster:
 
 		if data.command!="":
 			header=header+"#command\n"+data.command+"\n"
+
+		if data.cpus!=-1:
+			header=header+"#cpus\n"+str(data.cpus)+"\n"
 
 		if data.zip==True:
 			header=header+"#zip\n"+"1"+"\n#uzipsize\n"+str(data.uzipsize)+"\n"
@@ -361,7 +370,7 @@ class cluster:
 		data=data.split("\n")
 		for i in range(0,len(data)-1):
 			self.nodes.append(data[i].split(":"))
-		print(self.nodes)
+		#print(self.nodes)
 
 	def process_job_list(self,data):
 		ret=self.rx_packet(data)
@@ -369,9 +378,10 @@ class cluster:
 		self.cluster_jobs=[]
 		for line in lines:
 			act=line.split()
-			print(len(act),act)
 			if len(act)==9:
 				self.cluster_jobs.append([act[0], act[1], act[2], act[3],act[4], act[5], act[6], act[7]])
+			else:
+				print(line)
 
 		print(ret.data,"jim")
 
@@ -403,17 +413,20 @@ class cluster:
 	def rx_packet(self,data):
 		ret=tx_struct()
 
-		lines=data.decode("utf-8").split("\n")
+		lines=data[0:512].decode("utf-8").split("\n")
 		ret.file_name=inp_search_token_value(lines, "#file_name")
 		ret.size=int(inp_search_token_value(lines, "#size"))
 		ret.target=inp_search_token_value(lines, "#target")
 		ret.zip=int(inp_search_token_value(lines, "#zip"))
 		ret.uzipsize=int(inp_search_token_value(lines, "#uzipsize"))
 
+		print(ret.file_name,ret.size,ret.uzipsize,len(data))
 
 		if ret.size!=0:
 			packet_len=int(int(ret.size)/int(512)+1)*512
 			ret.data = self.recvall(packet_len)
+			if len(ret.data)!=packet_len:
+				print("packet len does not match size",len(ret.data),packet_len)
 			ret.data=ret.data[0:ret.size]
 			if ret.zip==1:
 				ret.data = zlib.decompress(ret.data)
@@ -422,18 +435,18 @@ class cluster:
 		return ret
 
 	def rx_file(self,data):
-		pwd=os.getcwd()
+		pwd=get_sim_path()
 		ret=self.rx_packet(data)
 
 		target=ret.target+ret.file_name
 
 		if target.startswith(pwd):
+			my_dir=os.path.dirname(target)
+
+			if os.path.isdir(my_dir)==False:
+				os.makedirs(my_dir)
+
 			if ret.size>0:
-
-				my_dir=os.path.dirname(target)
-
-				if os.path.isdir(my_dir)==False:
-					os.makedirs(my_dir)
 
 				print("write:",target)
 				f = open(target, "wb")
@@ -464,7 +477,7 @@ class cluster:
 			if path==None:
 				return
 			self.sync_dir(path,"src")
-			path=inp_get_token_value("server.inp","#path_to_libs")
+			path=inp_get_token_value(os.path.join(get_sim_path(),"server.inp"),"#path_to_libs")
 			self.sync_dir(path,"src")
 		
 	def copy_src_to_cluster(self):
@@ -473,7 +486,7 @@ class cluster:
 			if path==None:
 				return
 			self.send_dir(path,"src")
-			path=inp_get_token_value("server.inp","#path_to_libs")
+			path=inp_get_token_value(os.path.join(get_sim_path(),"server.inp"),"#path_to_libs")
 			self.send_dir(path,"src")
 
 
@@ -522,7 +535,7 @@ class cluster:
 		self.stop()
 
 	def cluster_run_jobs(self):
-		exe_name=inp_get_token_value("server.inp","#exe_name")
+		exe_name=inp_get_token_value(os.path.join(get_sim_path(),"server.inp"),"#exe_name")
 		data=tx_struct()
 		data.id="gpvdmrunjobs"
 		data.exe_name=exe_name
@@ -546,6 +559,9 @@ class cluster:
 		data=tx_struct()
 		data.id="gpvdmaddjob"
 		data.target=job_orig_path
+		data.cpus=int(inp_get_token_value(os.path.join(get_sim_path(),"server.inp"),"#server_cpus"))
+		if data.cpus==0:
+			data.cpus=1
 		self.tx_packet(data)
 
 	def cluster_clean(self):
@@ -570,7 +586,7 @@ class cluster:
 			if data==None:
 				break
 
-			print("command=",data,len(data))
+			#print("command=",data,len(data))
 			if data.startswith(str.encode("gpvdmfile")):
 				self.rx_file(data)
 				understood=True
@@ -598,6 +614,7 @@ class cluster:
 
 			if data.startswith(str.encode("gpvdmnodelist")):
 				self.process_node_list(data)
+				self.load_update.emit()
 				understood=True
 
 			if data.startswith(str.encode("gpvdm_sync_packet_two")):
@@ -613,7 +630,10 @@ class cluster:
 				understood=True
 
 			if data.startswith(str.encode("gpvdm_message")):
-				print(data)
+				d=data.decode('UTF-8')
+				d=d.split("\n")
+				message=inp_search_token_value(d, "#message")
+				print("message:",message)
 				understood=True
 
 			if understood==False:

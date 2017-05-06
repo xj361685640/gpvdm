@@ -21,7 +21,6 @@
 
 import os
 from tab import tab_class
-from window_list import windows
 from icon_lib import QIcon_load
 
 #qt
@@ -33,11 +32,12 @@ from PyQt5.QtGui import QPainter,QIcon
 import webbrowser
 
 from help import help_window
+from QWidgetSavePos import QWidgetSavePos
 
 articles = []
 mesh_articles = []
 
-class jv(QWidget):
+class jv(QWidgetSavePos):
 
 	def changed_click(self):
 		if self.notebook.tabText(self.notebook.currentIndex()).strip()==_("JV simulation"):
@@ -49,15 +49,11 @@ class jv(QWidget):
 		if self.notebook.tabText(self.notebook.currentIndex()).strip()==_("Suns v.s. Voc"):
 			help_window().help_set_help(["jv.png",_("<big><b>Suns v.s. Voc</b></big><br>Configure the sun v.s. Voc plot.")])
 
-	def callback_close(self, widget, data=None):
-		self.hide()
-		return True
-
 	def callback_help(self):
 		webbrowser.open('http://www.gpvdm.com/man/index.html')
 
 	def __init__(self):
-		QWidget.__init__(self)
+		QWidgetSavePos.__init__(self,"jv")
 		self.setFixedSize(900, 600)
 		self.setWindowIcon(QIcon_load("jv"))
 
@@ -100,16 +96,8 @@ class jv(QWidget):
 
 
 		self.setLayout(self.main_vbox)
-		self.win_list=windows()
-		self.win_list.load()
-		self.win_list.set_window(self,"jv_window")
 		
 		self.notebook.currentChanged.connect(self.changed_click)
-
-	def closeEvent(self, event):
-		self.win_list.update(self,"jv_window")
-		self.hide()
-		event.accept()
 
 
 

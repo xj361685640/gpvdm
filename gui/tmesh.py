@@ -36,7 +36,7 @@ from inp import inp_load_file
 from inp import inp_read_next_item
 from inp_util import inp_search_token_value
 from inp import inp_get_token_value
-from inp import inp_write_lines_to_file
+from inp import inp_save
 
 #matplotlib
 import matplotlib
@@ -56,6 +56,7 @@ from gui_util import tab_move_down
 from gui_util import tab_remove
 from gui_util import tab_get_value
 from open_save_dlg import save_as_image
+from cal_path import get_sim_path
 
 import i18n
 _ = i18n.language.gettext
@@ -65,19 +66,9 @@ mesh_articles = []
 
 
 class tab_time_mesh(QWidget):
-	lines=[]
-	edit_list=[]
-
-	line_number=[]
-	save_file_name=""
-
-	file_name=""
-	name=""
-	visible=1
 
 	def save_data(self):
-		file_name="time_mesh_config"+str(self.index)+".inp"
-		scan_remove_file(file_name)
+		scan_remove_file(self.file_name)
 
 		out_text=[]
 		out_text.append("#start_time")
@@ -113,21 +104,20 @@ class tab_time_mesh(QWidget):
 		out_text.append("1.1")
 		out_text.append("#end")
 
-		inp_write_lines_to_file(os.path.join(os.getcwd(),file_name),out_text)
+		inp_save(os.path.join(get_sim_path(),self.file_name),out_text)
 		self.update_scan_tokens()
 
 	def update_scan_tokens(self):
-		file_name="time_mesh_config"+str(self.index)+".inp"
-		scan_remove_file(file_name)
+		scan_remove_file(self.file_name)
 
 		for i in range(0,len(self.list)):
-			scan_item_add(file_name,"#time_segment"+str(i)+"_len",_("Part ")+str(i)+_(" period"),1)
-			scan_item_add(file_name,"#time_segment"+str(i)+"_dt",_("Part ")+str(i)+_(" dt"),1)
-			scan_item_add(file_name,"#time_segment"+str(i)+"_voltage_start",_("Part ")+str(i)+_(" start voltage"),1)
-			scan_item_add(file_name,"#time_segment"+str(i)+"_voltage_stop",_("Part ")+str(i)+_(" stop voltage"),1)
-			scan_item_add(file_name,"#time_segment"+str(i)+"_mul",_("Part ")+str(i)+_(" mul"),1)
-			scan_item_add(file_name,"#time_segment"+str(i)+"_sun",_("Part ")+str(i)+_(" Sun"),1)
-			scan_item_add(file_name,"#time_segment"+str(i)+"_laser",_("Part ")+str(i)+_(" CW laser"),1)
+			scan_item_add(self.file_name,"#time_segment"+str(i)+"_len",_("Part ")+str(i)+_(" period"),1)
+			scan_item_add(self.file_name,"#time_segment"+str(i)+"_dt",_("Part ")+str(i)+_(" dt"),1)
+			scan_item_add(self.file_name,"#time_segment"+str(i)+"_voltage_start",_("Part ")+str(i)+_(" start voltage"),1)
+			scan_item_add(self.file_name,"#time_segment"+str(i)+"_voltage_stop",_("Part ")+str(i)+_(" stop voltage"),1)
+			scan_item_add(self.file_name,"#time_segment"+str(i)+"_mul",_("Part ")+str(i)+_(" mul"),1)
+			scan_item_add(self.file_name,"#time_segment"+str(i)+"_sun",_("Part ")+str(i)+_(" Sun"),1)
+			scan_item_add(self.file_name,"#time_segment"+str(i)+"_laser",_("Part ")+str(i)+_(" CW laser"),1)
 
 
 	def callback_add_section(self):
@@ -268,9 +258,8 @@ class tab_time_mesh(QWidget):
 
 		self.tab.setHorizontalHeaderLabels([_("Length"),_("dt"), _("Start Voltage"), _("Stop Voltage"), _("step multiplyer"), _("Suns"),_("Laser")])
 
-		file_name="time_mesh_config"+str(self.index)+".inp"
-		print("loading",file_name)
-		ret=inp_load_file(lines,file_name)
+		print("loading",self.file_name)
+		ret=inp_load_file(lines,self.file_name)
 		if ret==True:
 			if inp_search_token_value(lines, "#ver")=="1.1":
 				pos=0
@@ -297,11 +286,11 @@ class tab_time_mesh(QWidget):
 
 				return True
 			else:
-				print("file "+file_name+"wrong version")
+				print("file "+self.file_name+"wrong version")
 				exit("")
 				return False
 		else:
-			print("file "+file_name+" not found")
+			print("file "+self.file_name+" not found")
 			return False
 
 		return False
@@ -318,9 +307,9 @@ class tab_time_mesh(QWidget):
 		laser_pulse_width=0.0
 
 
-		sun_steady_state=float(inp_get_token_value("light.inp", "#Psun"))
+		sun_steady_state=float(inp_get_token_value(os.path.join(get_sim_path(),"light.inp"), "#Psun"))
 
-		voltage_bias=float(inp_get_token_value("pulse"+str(self.index)+".inp", "#pulse_bias"))
+		voltage_bias=float(inp_get_token_value(os.path.join(get_sim_path(),"pulse"+str(self.index)+".inp"), "#pulse_bias"))
 
 
 		seg=0
@@ -375,8 +364,7 @@ class tab_time_mesh(QWidget):
 
 	def __init__(self,index):
 		self.index=index
-		print("index=",index)
-
+		self.file_name=os.path.join(get_sim_path(),"time_mesh_config"+str(self.index)+".inp")
 		QWidget.__init__(self)
 		self.main_vbox = QVBoxLayout()
 		self.time=[]

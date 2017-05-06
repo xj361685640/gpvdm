@@ -22,7 +22,6 @@
 
 import os
 import shutil
-from window_list import windows
 import webbrowser
 from code_ctrl import enable_betafeatures
 from util_zip import zip_lsdir
@@ -46,7 +45,7 @@ from fit_configure_window import fit_configure_window
 
 #qt
 from PyQt5.QtCore import QSize, Qt 
-from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QMenuBar,QStatusBar, QMenu, QTableWidget, QAbstractItemView
+from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QStatusBar, QTableWidget, QAbstractItemView
 from PyQt5.QtGui import QPainter,QIcon,QCursor
 
 #windows
@@ -61,6 +60,10 @@ from fit_progress import fit_progress
 from inp import inp_get_token_value
 from util import str2bool
 
+from util import wrap_text
+from cal_path import get_sim_path
+from QWidgetSavePos import QWidgetSavePos
+
 def fit_new_filename():
 	for i in range(0,20):
 		pulse_name="fit"+str(i)+".inp"
@@ -68,17 +71,12 @@ def fit_new_filename():
 			return i
 	return -1
 
-class fit_window(QWidget):
+class fit_window(QWidgetSavePos):
 
 	def update(self):
 		for i in range(0,self.notebook.count()):
 			tab = self.notebook.widget(i)
 			tab.update()
-
-	def callback_close(self):
-		self.win_list.update(self,"fit_window")
-		self.hide()
-		return True
 
 	def callback_stop(self):
 		my_server=server_get()
@@ -86,7 +84,7 @@ class fit_window(QWidget):
 
 	def callback_configure(self):
 		if self.fit_configure_window==None:
-			self.fit_configure_window=fit_configure_window()
+			self.fit_configure_window=fit_configure_window("fit_config")
 			
 		help_window().help_set_help(["vars.png",_("<big><b>The fitting variables window</b></big><br> Use this window to select the variables use to perform the fit.")])
 		if self.fit_configure_window.isVisible()==True:
@@ -102,10 +100,11 @@ class fit_window(QWidget):
 
 		if new_sim_name.ret!=None:
 			index=fit_new_filename()
-			shutil.copy("fit0.inp","fit"+str(index)+".inp")
-			shutil.copy("fit_data0.inp","fit_data"+str(index)+".inp")
-			shutil.copy("fit_patch0.inp","fit_patch"+str(index)+".inp")
-			inp_update_token_value("fit"+str(index)+".inp", "#fit_name", new_sim_name.ret)
+			shutil.copy(os.path.join(get_sim_path(),"fit0.inp"),os.path.join(get_sim_path(),"fit"+str(index)+".inp"))
+			shutil.copy(os.path.join(get_sim_path(),"fit_data0.inp"),os.path.join(get_sim_path(),"fit_data"+str(index)+".inp"))
+			shutil.copy(os.path.join(get_sim_path(),"fit_patch0.inp"),os.path.join(get_sim_path(),"fit_patch"+str(index)+".inp"))
+			shutil.copy(os.path.join(get_sim_path(),"fit_math0.inp"),os.path.join(get_sim_path(),"fit_math"+str(index)+".inp"))
+			inp_update_token_value(os.path.join(get_sim_path(),"fit"+str(index)+".inp"), "#fit_name", new_sim_name.ret)
 			self.add_page(index)
 
 	def callback_remove_page(self,widget,name):
@@ -119,11 +118,12 @@ class fit_window(QWidget):
 		if new_sim_name.ret!=None:
 			index=fit_new_filename()
 
-			shutil.copy("fit"+str(old_index)+".inp","fit"+str(index)+".inp")
-			shutil.copy("fit_data"+str(old_index)+".inp","fit_data"+str(index)+".inp")
-			shutil.copy("fit_patch"+str(old_index)+".inp","fit_patch"+str(index)+".inp")
+			shutil.copy(os.path.join(get_sim_path(),"fit"+str(old_index)+".inp"),os.path.join(get_sim_path(),"fit"+str(index)+".inp"))
+			shutil.copy(os.path.join(get_sim_path(),"fit_data"+str(old_index)+".inp"),os.path.join(get_sim_path(),"fit_data"+str(index)+".inp"))
+			shutil.copy(os.path.join(get_sim_path(),"fit_patch"+str(old_index)+".inp"),os.path.join(get_sim_path(),"fit_patch"+str(index)+".inp"))
+			shutil.copy(os.path.join(get_sim_path(),"fit_math"+str(old_index)+".inp"),os.path.join(get_sim_path(),"fit_math"+str(index)+".inp"))
 
-			inp_update_token_value("fit"+str(index)+".inp", "#fit_name", new_sim_name.ret)
+			inp_update_token_value(os.path.join(get_sim_path(),"fit"+str(index)+".inp"), "#fit_name", new_sim_name.ret)
 			self.add_page(index)
 
 
@@ -142,6 +142,9 @@ class fit_window(QWidget):
 			index=self.notebook.currentIndex() 
 			self.notebook.setTabText(index, new_sim_name.ret)
 
+	def callback_import(self):
+		tab = self.notebook.currentWidget()
+		tab.import_data()
 
 	def callback_delete_page(self):
 		tab = self.notebook.currentWidget()
@@ -151,6 +154,7 @@ class fit_window(QWidget):
 			inp_remove_file("fit"+str(tab.index)+".inp")
 			inp_remove_file("fit_data"+str(tab.index)+".inp")
 			inp_remove_file("fit_patch"+str(tab.index)+".inp")
+			inp_remove_file("fit_math"+str(tab.index)+".inp")
 			index=self.notebook.currentIndex() 
 			self.notebook.removeTab(index)
 
@@ -160,7 +164,7 @@ class fit_window(QWidget):
 
 	def load_tabs(self):
 
-		file_list=zip_lsdir(os.path.join(os.getcwd(),"sim.gpvdm"))
+		file_list=zip_lsdir(os.path.join(get_sim_path(),"sim.gpvdm"))
 		files=[]
 		for i in range(0,len(file_list)):
 			if file_list[i].startswith("fit") and file_list[i].endswith(".inp"):
@@ -173,7 +177,7 @@ class fit_window(QWidget):
 		for i in range(0,len(files)):
 			value=strextract_interger(files[i])
 			if value!=-1:
-				token=inp_get_token_value(files[i], "#fit_hidden")
+				token=inp_get_token_value(os.path.join(get_sim_path(),files[i]), "#fit_hidden")
 				if str2bool(token)==False:
 					self.add_page(value)
 
@@ -200,95 +204,67 @@ class fit_window(QWidget):
 	def callback_one_fit(self):
 		my_server=server_get()
 		my_server.clear_cache()
-		my_server.add_job(os.getcwd(),"--1fit")
+		my_server.add_job(get_sim_path(),"--1fit")
 		my_server.set_callback_when_done(self.rod)
 		my_server.start()
 
 	def callback_do_fit(self):
 		my_server=server_get()
 		my_server.clear_cache()
-		my_server.add_job(os.getcwd(),"--fit")
+		my_server.add_job(get_sim_path(),"--fit")
 		my_server.start()
 
 
-	def init(self):
-		QWidget.__init__(self)
-
-		self.win_list=windows()
-		self.win_list.load()
-		self.win_list.set_window(self,"fit_window")
+	def __init__(self,name):
+		QWidgetSavePos.__init__(self,name)
 
 		self.main_vbox = QVBoxLayout()
 
-		menubar = QMenuBar()
-
-		file_menu = menubar.addMenu("&"+_("File"))
-		self.menu_close=file_menu.addAction(_("Close"))
-		self.menu_close.triggered.connect(self.callback_close)
-
-
-		self.menu_fit=menubar.addMenu(_("Fits"))
-		self.menu_fit_new=self.menu_fit.addAction("&"+_("New"))
-		self.menu_fit_new.triggered.connect(self.callback_add_page)
-
-		self.menu_fit_delete=self.menu_fit.addAction("&"+_("Delete fit"))
-		self.menu_fit_delete.triggered.connect(self.callback_delete_page)
-
-		self.menu_fit_rename=self.menu_fit.addAction("&"+_("Rename fit"))
-		self.menu_fit_rename.triggered.connect(self.callback_rename_page)
-
-		self.menu_fit_clone=self.menu_fit.addAction("&"+_("Clone fit"))
-		self.menu_fit_clone.triggered.connect(self.callback_copy_page)
-
-
-		self.menu_help=menubar.addMenu(_("Help"))
-		self.menu_help_help=self.menu_help.addAction(_("Help"))
-		self.menu_help_help.triggered.connect(self.callback_help)
-
-
-		self.main_vbox.addWidget(menubar)
-
-
 		#self.setFixedSize(900, 700)
-		self.setWindowTitle(_("Fit window - gpvdm"))   
+		self.setWindowTitle(_("Fit window")+" https://www.gpvdm.com")   
 		self.setWindowIcon(QIcon_load("fit"))
 
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
+		toolbar.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
 
-		self.new = QAction(QIcon_load("document-new"), _("New fit"), self)
+		self.new = QAction(QIcon_load("document-new"), wrap_text(_("New fit"),4), self)
 		self.new.triggered.connect(self.callback_add_page)
 		toolbar.addAction(self.new)
 
-		self.new = QAction(QIcon_load("edit-delete"), _("Delete fit"), self)
+		self.new = QAction(QIcon_load("edit-delete"), wrap_text(_("Delete fit"),4), self)
 		self.new.triggered.connect(self.callback_delete_page)
 		toolbar.addAction(self.new)
 
-		self.clone = QAction(QIcon_load("clone"), _("Clone fit"), self)
+		self.clone = QAction(QIcon_load("clone"), wrap_text(_("Clone fit"),4), self)
 		self.clone.triggered.connect(self.callback_copy_page)
 		toolbar.addAction(self.clone)
 
-		self.clone = QAction(QIcon_load("rename"), _("Rename fit"), self)
+		self.clone = QAction(QIcon_load("rename"), wrap_text(_("Rename fit"),4), self)
 		self.clone.triggered.connect(self.callback_rename_page)
 		toolbar.addAction(self.clone)
 
 		toolbar.addSeparator()
 
-		self.tb_configure= QAction(QIcon_load("preferences-system"), _("Configure"), self)
+		self.tb_configure= QAction(QIcon_load("preferences-system"), wrap_text(_("Configure"),4), self)
 		self.tb_configure.triggered.connect(self.callback_configure)
 		toolbar.addAction(self.tb_configure)
-				
+
+		self.import_data= QAction(QIcon_load("import"), _("Import data"), self)
+		self.import_data.triggered.connect(self.callback_import)
+		toolbar.addAction(self.import_data)
+
 		toolbar.addSeparator()
 
-		self.play= QAction(QIcon_load("media-playback-start"), _("Run a single fit"), self)
+		self.play= QAction(QIcon_load("media-playback-start"), wrap_text(_("Run a single fit"),4), self)
 		self.play.triggered.connect(self.callback_one_fit)
 		toolbar.addAction(self.play)
 		
-		self.play= QAction(QIcon_load("forward"), _("Start the fitting process"), self)
+		self.play= QAction(QIcon_load("forward"),wrap_text( _("Start the fitting process"),4), self)
 		self.play.triggered.connect(self.callback_do_fit)
 		toolbar.addAction(self.play)
 
-		self.pause= QAction(QIcon_load("pause"), _("Stop the simulation"), self)
+		self.pause= QAction(QIcon_load("media-playback-pause"), wrap_text(_("Stop the simulation"),4), self)
 		self.pause.triggered.connect(self.callback_stop)
 		toolbar.addAction(self.pause)
 

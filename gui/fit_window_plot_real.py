@@ -40,10 +40,10 @@ from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as Navigatio
 
 from open_save_dlg import open_as_filter
 
-from import_data import import_data
 mesh_articles = []
 
 from icon_lib import QIcon_load
+from cal_path import get_sim_path
 
 class fit_window_plot_real(QWidget):
 	lines=[]
@@ -65,7 +65,7 @@ class fit_window_plot_real(QWidget):
 		x=[]
 		y=[]
 		z=[]
-		if read_xyz_data(x,y,z,"fit_data"+str(self.index)+".inp")==True:
+		if read_xyz_data(x,y,z,os.path.join(get_sim_path(),"fit_data"+str(self.index)+".inp"))==True:
 
 			self.fig.clf()
 			self.fig.subplots_adjust(bottom=0.2)
@@ -87,13 +87,6 @@ class fit_window_plot_real(QWidget):
 
 		if file_name!=None:
 			self.save_image(file_name)
-
-	def callback_import(self):
-		self.im=import_data(os.path.join(os.getcwd(),"fit_data"+str(self.index)+".inp"))
-		self.im.run()
-		print("return value",self.im)
-		if self.im.ret==True:
-			self.update()
 
 	def __init__(self,index):
 		QWidget.__init__(self)
@@ -123,10 +116,6 @@ class fit_window_plot_real(QWidget):
 
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
-
-		self.import_data= QAction(QIcon_load("import"), _("Import data"), self)
-		self.import_data.triggered.connect(self.callback_import)
-		toolbar.addAction(self.import_data)
 
 		self.tb_save = QAction(QIcon_load("document-save-as"), _("Save graph"), self)
 		self.tb_save.triggered.connect(self.callback_save)

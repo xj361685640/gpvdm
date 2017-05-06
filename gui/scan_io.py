@@ -53,10 +53,12 @@ def scan_list_simulations(dir_to_search):
 	return found_dirs
 
 def scan_plot_fits(dir_to_search):
+	print("search=",dir_to_search)
 
 	sim_dirs=tree_load_flat_list(dir_to_search)
 	
 	for i in range(0,len(sim_dirs)):
+		print(sim_dirs[i])
 		os.chdir(sim_dirs[i])
 		name=sim_dirs[i].replace("/","_")
 		

@@ -54,6 +54,7 @@ def archive_make_empty(archive_path):
 		zf.close()
 
 def zip_lsdir(file_name):
+	"""Input: path to a .gpvdm file"""
 	my_list=[]
 	my_dir=os.path.dirname(file_name)
 
@@ -205,6 +206,17 @@ def write_lines_to_archive(archive_path,file_name,lines):
 		return True
 	else:
 		return replace_file_in_zip_archive(archive_path,file_name,lines)
+
+def archive_compact_files(archive_path):
+	if os.path.isfile(archive_path)==True:
+		lines=[]
+		dir_name=os.path.dirname(archive_path)
+		for file_name in os.listdir(dir_name):
+			full_name=os.path.join(dir_name,file_name)
+			if file_name.endswith(".inp")==True:
+				read_lines_from_archive(lines,archive_path,file_name)
+				replace_file_in_zip_archive(archive_path,file_name,lines)
+				os.remove(full_name)
 
 def archive_add_file(archive_path,file_name,base_dir):
 		lines=[]

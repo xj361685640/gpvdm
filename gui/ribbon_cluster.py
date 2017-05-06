@@ -36,7 +36,6 @@ from PyQt5.QtCore import QSize, Qt,QFile,QIODevice
 from PyQt5.QtWidgets import QWidget,QSizePolicy,QVBoxLayout,QHBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QMessageBox, QLineEdit, QToolButton
 from PyQt5.QtWidgets import QTabWidget
 
-from plot_gen import plot_gen
 from info import sim_info
 from win_lin import desktop_open
 
@@ -76,10 +75,6 @@ class ribbon_cluster(QToolBar):
 		self.addAction(self.cluster_get_data)
 		self.cluster_get_data.setEnabled(False)
 
-		self.cluster_get_info = QAction(QIcon_load("server_get_info"), wrap_text(_("Cluster get info"),8), self)
-		self.addAction(self.cluster_get_info)
-		self.cluster_get_info.setEnabled(False)
-
 		self.cluster_copy_src = QAction(QIcon_load("server_copy_src"), wrap_text(_("Copy src to cluster"),8), self)
 		self.cluster_copy_src.triggered.connect(self.callback_cluster_copy_src)
 		self.addAction(self.cluster_copy_src)
@@ -106,21 +101,11 @@ class ribbon_cluster(QToolBar):
 		self.addAction(self.cluster_sync)
 		self.cluster_sync.setEnabled(False)
 
-		self.cluster_stop = QAction(QIcon_load("media-playback-pause"),  _("Stop"), self)
-		self.cluster_stop.triggered.connect(self.callback_cluster_stop)
-		self.addAction(self.cluster_stop)
-		self.cluster_stop.setEnabled(False)
-
 
 		self.cluster_jobs = QAction(QIcon_load("server_jobs"),  _("Get jobs"), self)
 		self.cluster_jobs.triggered.connect(self.callback_cluster_jobs)
 		self.addAction(self.cluster_jobs)
 		self.cluster_jobs.setEnabled(False)
-
-		self.cluster_view_button = QAction(QIcon_load("server"),  wrap_text(_("Configure cluster"),8), self)
-		self.cluster_view_button.triggered.connect(self.callback_cluster_view_button)
-		self.addAction(self.cluster_view_button)
-		self.cluster_view_button.setEnabled(False)
 
 		spacer = QWidget()
 		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
@@ -131,9 +116,6 @@ class ribbon_cluster(QToolBar):
 		
 	def callback_cluster_make(self):
 		self.myserver.cluster_make()
-
-	def callback_cluster_stop(self):
-		self.myserver.killall()
 
 	def callback_cluster_clean(self):
 		self.myserver.cluster_clean()
@@ -148,6 +130,7 @@ class ribbon_cluster(QToolBar):
 
 	def callback_cluster_jobs(self):
 		self.myserver.cluster_list_jobs()
+		print(self.myserver.cluster_jobs)
 		self.cluster_tab.jview.load_data(self.myserver.cluster_jobs)
 
 	def callback_cluster_sleep(self):
@@ -164,7 +147,6 @@ class ribbon_cluster(QToolBar):
 
 	def callback_cluster_connect(self):
 		self.cluster_tab=global_object_get("cluster_tab")
-		self.cluster_get_info.triggered.connect(self.cluster_tab.callback_cluster_get_info)
 		global_object_get("notebook_goto_page")(_("Terminal"))
 		if self.myserver.connect()==False:
 			error_dlg(self,_("Can not connect to cluster."))
@@ -181,26 +163,20 @@ class ribbon_cluster(QToolBar):
 			self.cluster_clean.setEnabled(True)
 			self.cluster_make.setEnabled(True)
 			self.cluster_copy_src.setEnabled(True)
-			self.cluster_get_info.setEnabled(True)
 			self.cluster_get_data.setEnabled(True)
 			self.cluster_off.setEnabled(True)
 			self.cluster_sync.setEnabled(True)
 			self.cluster_jobs.setEnabled(True)
-			self.cluster_stop.setEnabled(True)
-			self.cluster_view_button.setEnabled(True)
 
 		else:
 			self.cluster_button.setIcon(QIcon_load("not_connected"))
 			self.cluster_clean.setEnabled(False)
 			self.cluster_make.setEnabled(False)
 			self.cluster_copy_src.setEnabled(False)
-			self.cluster_get_info.setEnabled(False)
 			self.cluster_get_data.setEnabled(False)
 			self.cluster_off.setEnabled(False)
 			self.cluster_sync.setEnabled(False)
 			self.cluster_jobs.setEnabled(False)
-			self.cluster_stop.setEnabled(False)
-			self.cluster_view_button.setEnabled(False)
 
 	def setEnabled(self,val):
 		print("")
@@ -212,9 +188,3 @@ class ribbon_cluster(QToolBar):
 	def callback_cluster_copy_src(self, widget, data=None):
 		self.myserver.copy_src_to_cluster()
 		
-	def callback_cluster_view_button(self, widget, data=None):
-
-		if self.hpc_window.get_property("visible")==True:
-			self.hpc_window.hide()
-		else:
-			self.hpc_window.show()

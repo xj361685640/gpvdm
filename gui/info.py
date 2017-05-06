@@ -21,7 +21,6 @@
 
 import os
 from tab import tab_class
-from window_list import windows
 from icon_lib import QIcon_load
 
 #qt
@@ -33,21 +32,18 @@ from PyQt5.QtGui import QPainter,QIcon
 import webbrowser
 
 from help import help_window
+from QWidgetSavePos import QWidgetSavePos
 
 articles = []
 mesh_articles = []
 
-class sim_info(QWidget):
-
-	def callback_close(self, widget, data=None):
-		self.hide()
-		return True
+class sim_info(QWidgetSavePos):
 
 	def callback_help(self):
 		webbrowser.open("https://www.gpvdm.com/man/index.html")
 
 	def __init__(self,file_name):
-		QWidget.__init__(self)
+		QWidgetSavePos.__init__(self,"info")
 		self.setFixedSize(900, 600)
 		self.setWindowIcon(QIcon_load("jv"))
 
@@ -89,16 +85,7 @@ class sim_info(QWidget):
 			tab.init(files[i],description[i])
 			self.notebook.addTab(tab,description[i])
 
-
 		self.setLayout(self.main_vbox)
-		self.win_list=windows()
-		self.win_list.load()
-		self.win_list.set_window(self,"sim_info_window")
-
-	def callback_close_window(self):
-		self.win_list.update(self,"sim_info_window")
-		self.hide()
-		return True
 
 
 

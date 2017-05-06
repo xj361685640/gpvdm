@@ -20,7 +20,6 @@
 
 
 import os
-from window_list import windows
 from scan_item import scan_items_get_list
 from scan_item import scan_items_get_file
 from scan_item import scan_items_get_token
@@ -46,7 +45,6 @@ class select_param(QWidget):
 
 	def __init__(self):
 		QWidget.__init__(self)
-		self.win_list=windows()
 		self.setFixedSize(400,700)
 		self.file_name_tab_pos=0
 		self.token_tab_pos=1
@@ -121,7 +119,6 @@ class select_param(QWidget):
 	 
 
 	def on_destroy(self):
-		self.win_list.update(self,"scan_select")
 		self.hide()
 		return True
 

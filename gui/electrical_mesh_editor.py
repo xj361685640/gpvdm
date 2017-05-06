@@ -26,7 +26,6 @@ from scan_item import scan_item_add
 from icon_lib import QIcon_load
 
 #inp
-from inp import inp_write_lines_to_file
 from inp import inp_load_file
 
 #qt

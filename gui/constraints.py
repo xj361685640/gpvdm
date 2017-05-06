@@ -44,7 +44,6 @@ from scan_item import scan_items_get_token
 
 from gpvdm_select import gpvdm_select
 
-from window_list import windows
 
 from util import str2bool
 
@@ -60,46 +59,75 @@ from gui_util import tab_add
 from gui_util import tab_remove
 from gui_util import tab_get_value
 
-from inp import inp_save_lines
+from inp import inp_save_lines_to_file
 from inp import inp_load_file
 
 from scan_item import scan_items_lookup_item
+from cal_path import get_sim_path
 
 class constraints(QWidget):
 
-	def insert_row(self,i,constraint_type,file_name,token,path,function,max_value,min_value,error):
-		self.tab.blockSignals(True)
-		self.tab.insertRow(i)
-
-		item = QTableWidgetItem(constraint_type)
-		self.tab.setItem(i,0,item)
+	def insert_row_mm(self,i,file_name,token,path,function,max_value,min_value,error):
+		self.tab_mm.blockSignals(True)
+		self.tab_mm.insertRow(i)
 
 		item = QTableWidgetItem(file_name)
-		self.tab.setItem(i,1,item)
+		self.tab_mm.setItem(i,0,item)
 
 		item = QTableWidgetItem(token)
-		self.tab.setItem(i,2,item)
+		self.tab_mm.setItem(i,1,item)
 
 		self.item = gpvdm_select()
 		self.item.setText(path)
 		self.item.button.clicked.connect(self.callback_show_list_src)
-		self.tab.setCellWidget(i,3,self.item)
+		self.tab_mm.setCellWidget(i,2,self.item)
 
 
 		item = QTableWidgetItem(function)
-		self.tab.setItem(i,4,item)
+		self.tab_mm.setItem(i,3,item)
 
 		item = QTableWidgetItem(max_value)
-		self.tab.setItem(i,5,item)
+		self.tab_mm.setItem(i,4,item)
 
 		item = QTableWidgetItem(min_value)
-		self.tab.setItem(i,6,item)
+		self.tab_mm.setItem(i,5,item)
 
 		item = QTableWidgetItem(error)
-		self.tab.setItem(i,7,item)
+		self.tab_mm.setItem(i,6,item)
 		
-		self.tab.blockSignals(False)
+		self.tab_mm.blockSignals(False)
 
+	def insert_row_math(self,i,file_a,token_a,path_a,file_b,token_b,path_b,equation):
+		self.tab_math.blockSignals(True)
+		self.tab_math.insertRow(i)
+
+		item = QTableWidgetItem(file_a)
+		self.tab_math.setItem(i,0,item)
+
+		item = QTableWidgetItem(token_a)
+		self.tab_math.setItem(i,1,item)
+
+		self.item = gpvdm_select()
+		self.item.setText(path_a)
+		#self.item.button.clicked.connect(self.callback_show_list_src)
+		self.tab_math.setCellWidget(i,2,self.item)
+
+		item = QTableWidgetItem(file_b)
+		self.tab_math.setItem(i,3,item)
+
+		item = QTableWidgetItem(token_b)
+		self.tab_math.setItem(i,4,item)
+
+		self.item = gpvdm_select()
+		self.item.setText(path_b)
+		#self.item.button.clicked.connect(self.callback_show_list_src)
+		self.tab_math.setCellWidget(i,5,self.item)
+
+		item = QTableWidgetItem(equation)
+		self.tab_math.setItem(i,6,item)
+
+		self.tab_math.blockSignals(False)
+		
 	def callback_show_list_src(self):
 		self.select_param_window_src.update()
 		self.select_param_window_src.show()
@@ -108,36 +136,50 @@ class constraints(QWidget):
 		self.select_param_window_dest.update()
 		self.select_param_window_dest.show()
 		
-	def callback_add_item(self):
-		self.insert_row(self.tab.rowCount(),_("Constraint type"),_("File"),_("Token"),_("Path"),_("Function"),_("Max"),_("Min"),_("Error"))
+	def callback_add_item_mm(self):
+		self.insert_row_mm(self.tab_mm.rowCount(),_("File"),_("Token"),_("Path"),_("Function"),_("Max"),_("Min"),_("Error"))
 		self.save_combo()
 
-	def callback_delete_item(self):
-		tab_remove(self.tab)
+	def callback_delete_item_mm(self):
+		tab_remove(self.tab_mm)
+		self.save_combo()
+
+	def callback_add_item_math(self):
+		self.insert_row_math(self.tab_math.rowCount(),_("File (a)"),_("Token (a)"),_("Path (a)"),_("File (b)"),_("Token (b)"),_("Path (b)"),_("Equation"))
+		self.save_combo()
+
+	def callback_delete_item_math(self):
+		tab_remove(self.tab_math)
 		self.save_combo()
 
 	def save_combo(self):
 		lines=[]
-		for i in range(0,self.tab.rowCount()):
-			line=str(tab_get_value(self.tab,i, 0))+" "+str(tab_get_value(self.tab,i, 1))+" "+str(tab_get_value(self.tab,i, 2))+" "+str(tab_get_value(self.tab,i, 4))+" "+str(tab_get_value(self.tab,i, 5))+" "+str(tab_get_value(self.tab,i, 6))+" "+str(tab_get_value(self.tab,i, 7))
+		for i in range(0,self.tab_mm.rowCount()):
+			line="mm "+str(tab_get_value(self.tab_mm,i, 0))+" "+str(tab_get_value(self.tab_mm,i, 1))+" "+str(tab_get_value(self.tab_mm,i, 3))+" "+str(tab_get_value(self.tab_mm,i, 4))+" "+str(tab_get_value(self.tab_mm,i, 5))+" "+str(tab_get_value(self.tab_mm,i, 6))
 			lines.append(line)
+			
+		for i in range(0,self.tab_math.rowCount()):
+			line="math "+str(tab_get_value(self.tab_math,i, 0))+" "+str(tab_get_value(self.tab_math,i, 1))+" "+str(tab_get_value(self.tab_math,i, 3))+" "+str(tab_get_value(self.tab_math,i, 4))+" "+str(tab_get_value(self.tab_math,i, 6))
+			lines.append(line)
+
 		lines.append("#end")
 		print("save as",self.file_name)
-		inp_save_lines(self.file_name,lines)
+		inp_save_lines_to_file(self.file_name,lines)
 
 
 	def tab_changed(self):
+		print("here")
 		self.save_combo()
 		
 
-	def create_model(self):
-		self.tab.clear()
-		self.tab.setColumnCount(8)
-		self.tab.setSelectionBehavior(QAbstractItemView.SelectRows)
-		self.tab.setHorizontalHeaderLabels([_("Constraint type"), _("File"), _("Token"),_("Path"),_("Function"), _("Max"), _("Min"),_("Error")])
-		#self.tab.setColumnWidth(2, 200)
-		#self.tab.setColumnWidth(5, 200)
-		self.file_name="constraints.inp"
+	def create_model_mm(self):
+		self.tab_mm.clear()
+		self.tab_mm.setColumnCount(7)
+		self.tab_mm.setSelectionBehavior(QAbstractItemView.SelectRows)
+		self.tab_mm.setHorizontalHeaderLabels([ _("File"), _("Token"),_("Path"),_("Function"), _("Max"), _("Min"),_("Error")])
+		self.tab_mm.setColumnWidth(2, 300)
+		#self.tab_mm.setColumnWidth(5, 200)
+
 
 		lines=[]
 		pos=0
@@ -150,58 +192,117 @@ class constraints(QWidget):
 					break
 				line=lines[pos].split()
 				print(line)
-				path=scan_items_lookup_item(line[1],line[2])
-				self.insert_row(self.tab.rowCount(),line[0],line[1],line[2],path,line[3],line[4],line[5],line[6])
+				if line[0]=="mm":
+					path=scan_items_lookup_item(line[1],line[2])
+					self.insert_row_mm(self.tab_mm.rowCount(),line[1],line[2],path,line[3],line[4],line[5],line[6])
 
 				pos=pos+1
 
+	def create_model_math(self):
+		self.tab_math.clear()
+		self.tab_math.setColumnCount(7)
+		self.tab_math.setSelectionBehavior(QAbstractItemView.SelectRows)
+		#math fit_target2.inp #fxdomain_Ji ./sim/39.811Hz/sim_info.dat #fxdomain_Ji abs(20*(a-b))
+		self.tab_math.setHorizontalHeaderLabels([ _("File (a)"), _("Token (a)"),_("Path (a)"),_("File (b)"),_("Token (b)"),_("Path (b)"), _("Equation")])
+
+		lines=[]
+		pos=0
+
+		if inp_load_file(lines,self.file_name)==True:
+			mylen=len(lines)
+			while(1):
+
+				if lines[pos]=="#end":
+					break
+				line=lines[pos].split()
+				if line[0]=="math":
+					print(line)
+					path_a=scan_items_lookup_item(line[1],line[2])
+					path_b=scan_items_lookup_item(line[3],line[4])
+					self.insert_row_math(self.tab_math.rowCount(),line[1],line[2],path_a,line[3],line[4],path_b,line[5])
+
+				pos=pos+1
 
 	def __init__(self):
 		QWidget.__init__(self)
+		self.file_name=os.path.join(get_sim_path(),"constraints.inp")
 		self.setWindowTitle(_("Fit constraints window")+" - https://www.gpvdm.com")   
 		self.setWindowIcon(QIcon_load("constraints"))
 		self.setFixedSize(900, 700)
 
-		self.win_list=windows()
-		self.win_list.load()
-		self.win_list.set_window(self,"fit_constraints_window")
 		
 		self.vbox=QVBoxLayout()
 
-		toolbar=QToolBar()
-		toolbar.setIconSize(QSize(48, 48))
+		########################mm##########################
+		toolbar_mm=QToolBar()
+		toolbar_mm.setIconSize(QSize(48, 48))
 
 		self.tb_save = QAction(QIcon_load("list-add"), _("Add"), self)
-		self.tb_save.triggered.connect(self.callback_add_item)
-		toolbar.addAction(self.tb_save)
+		self.tb_save.triggered.connect(self.callback_add_item_mm)
+		toolbar_mm.addAction(self.tb_save)
 
 		self.tb_save = QAction(QIcon_load("list-remove"), _("Minus"), self)
-		self.tb_save.triggered.connect(self.callback_delete_item)
-		toolbar.addAction(self.tb_save)
+		self.tb_save.triggered.connect(self.callback_delete_item_mm)
+		toolbar_mm.addAction(self.tb_save)
 
-		self.vbox.addWidget(toolbar)
+		self.vbox.addWidget(toolbar_mm)
 
-		self.tab = QTableWidget()
-		self.tab.resizeColumnsToContents()
+		self.tab_mm = QTableWidget()
+		self.tab_mm.resizeColumnsToContents()
 
-		self.tab.verticalHeader().setVisible(False)
-		self.create_model()
+		self.tab_mm.verticalHeader().setVisible(False)
+		self.create_model_mm()
 
-		self.tab.cellChanged.connect(self.tab_changed)
+		self.tab_mm.cellChanged.connect(self.tab_changed)
 
-		self.select_param_window_src=select_param()
-		self.select_param_window_src.init(self.tab)
-		self.select_param_window_src.set_save_function(self.save_combo)
-		self.select_param_window_src.file_name_tab_pos=1
-		self.select_param_window_src.token_tab_pos=2
-		self.select_param_window_src.path_tab_pos=3
+		self.select_param_window_mm=select_param()
+		self.select_param_window_mm.init(self.tab_mm)
+		self.select_param_window_mm.set_save_function(self.save_combo)
+		self.select_param_window_mm.file_name_tab_pos=0
+		self.select_param_window_mm.token_tab_pos=1
+		self.select_param_window_mm.path_tab_pos=2
 
 		
-		self.vbox.addWidget(self.tab)
+		self.vbox.addWidget(self.tab_mm)
 
+		#####################math##########################
+		toolbar_math=QToolBar()
+		toolbar_math.setIconSize(QSize(48, 48))
 
+		self.tb_save = QAction(QIcon_load("list-add"), _("Add"), self)
+		self.tb_save.triggered.connect(self.callback_add_item_math)
+		toolbar_math.addAction(self.tb_save)
+
+		self.tb_save = QAction(QIcon_load("list-remove"), _("Minus"), self)
+		self.tb_save.triggered.connect(self.callback_delete_item_math)
+		toolbar_math.addAction(self.tb_save)
+
+		self.vbox.addWidget(toolbar_math)
+		self.tab_math = QTableWidget()
+		self.tab_math.resizeColumnsToContents()
+
+		self.tab_math.verticalHeader().setVisible(False)
+
+		self.create_model_math()
+
+		self.tab_math.cellChanged.connect(self.tab_changed)
+
+		self.select_param_window_math_a=select_param()
+		self.select_param_window_math_a.init(self.tab_math)
+		self.select_param_window_math_a.set_save_function(self.save_combo)
+		self.select_param_window_math_a.file_name_tab_pos=0
+		self.select_param_window_math_a.token_tab_pos=1
+		self.select_param_window_math_a.path_tab_pos=2
+
+		self.select_param_window_math_a=select_param()
+		self.select_param_window_math_a.init(self.tab_math)
+		self.select_param_window_math_a.set_save_function(self.save_combo)
+		self.select_param_window_math_a.file_name_tab_pos=4
+		self.select_param_window_math_a.token_tab_pos=5
+		self.select_param_window_math_a.path_tab_pos=6
+		self.vbox.addWidget(self.tab_math)
+		
 		self.setLayout(self.vbox)
 
 	def closeEvent(self, event):
-		self.win_list.update(self,"fit_constraints_window")
 		self.hide()

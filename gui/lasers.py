@@ -19,7 +19,6 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 import os
-from window_list import windows
 import webbrowser
 from inp import inp_update_token_value
 from inp import inp_get_token_value
@@ -43,17 +42,21 @@ from PyQt5.QtWidgets import QWidget,QSizePolicy,QVBoxLayout,QPushButton,QDialog,
 #window
 from gui_util import yes_no_dlg
 from gui_util import dlg_get_text
- 
+from util import wrap_text
+
+from QWidgetSavePos import QWidgetSavePos
+from cal_path import get_sim_path
+
 def laser_new_filename():
 	for i in range(0,20):
 		pulse_name="laser"+str(i)+".inp"
-		if inp_isfile(pulse_name)==False:
+		if inp_isfile(os.path.join(get_sim_path(),pulse_name))==False:
 			return i
 	return -1
 
 
 
-class lasers(QWidget):
+class lasers(QWidgetSavePos):
 
 	def update(self):
 		for item in self.notebook.get_children():
@@ -71,11 +74,6 @@ class lasers(QWidget):
 
 		return item_factory.get_widget("<main>")
 
-	def callback_close(self, widget, data=None):
-		self.win_list.update(self,"lasers_window")
-		self.hide()
-		return True
-
 	def callback_help(self, widget, data=None):
 		webbrowser.open('http://www.gpvdm.com/man/index.html')
 
@@ -90,15 +88,17 @@ class lasers(QWidget):
 
 	def callback_copy_page(self):
 		tab = self.notebook.currentWidget()
-		new_sim_name=dlg_get_text(_("Clone the current laser to a new laser called:"), "clone.png")
+		index=laser_new_filename()
+		new_file="laser"+str(index)+".inp"
+		new_sim_name=dlg_get_text(_("Clone the current laser to a new laser called:"), tab.tab_name+"_new","clone.png")
 
 		if new_sim_name.ret!=None:
-			index=laser_new_filename()
-			if inp_copy_file("laser"+str(index)+".inp",tab.file_name)==False:
-				print ("Error copying file"+tab.file_name)
+			dest=os.path.join(get_sim_path(),new_file)
+			if inp_copy_file(dest,tab.file_name)==False:
+				print ("Error copying file"+dest+" "+tab.file_name)
 				return
 
-			inp_update_token_value("laser"+str(index)+".inp", "#laser_name", new_sim_name.ret)
+			inp_update_token_value(dest, "#laser_name", new_sim_name.ret)
 			self.add_page(index)
 
 
@@ -127,7 +127,7 @@ class lasers(QWidget):
 
 	def load_tabs(self):
 
-		file_list=zip_lsdir(os.path.join(os.getcwd(),"sim.gpvdm"))
+		file_list=zip_lsdir(os.path.join(get_sim_path(),"sim.gpvdm"))
 		files=[]
 		for i in range(0,len(file_list)):
 			if file_list[i].startswith("laser") and file_list[i].endswith(".inp"):
@@ -138,16 +138,9 @@ class lasers(QWidget):
 			if value!=-1:
 				self.add_page(value)
 
-	def clear_pages(self):
-		for items in self.tab_menu.get_children():
-			self.tab_menu.remove(items)
-
-		for child in self.notebook.get_children():
-    			self.notebook.remove(child)
-
 
 	def add_page(self,index):
-		file_name="laser"+str(index)+".inp"
+		file_name=os.path.join(get_sim_path(),"laser"+str(index)+".inp")
 		laser_name=inp_get_token_value(file_name, "#laser_name")
 		tab=tab_class()
 		tab.init(file_name,laser_name)
@@ -162,65 +155,33 @@ class lasers(QWidget):
 		self.status_bar.push(self.context_id, "Laser "+str(pageNum))
 
 	def __init__(self):
-		QWidget.__init__(self)
+		QWidgetSavePos.__init__(self,"lasers")
 
-		self.win_list=windows()
-		self.win_list.load()
-		self.win_list.set_window(self,"laser_window")
 
 		self.main_vbox = QVBoxLayout()
 
-		menubar = QMenuBar()
-
-		file_menu = menubar.addMenu("&"+_("File"))
-		self.menu_close=file_menu.addAction(_("Close"))
-		self.menu_close.triggered.connect(self.callback_close)
-
-
-		self.menu_lasers=menubar.addMenu(_("Lasers"))
-		self.menu_lasers_new=self.menu_lasers.addAction("&"+_("New"))
-		self.menu_lasers_new.triggered.connect(self.callback_add_page)
-
-		self.menu_lasers_delete=self.menu_lasers.addAction("&"+_("Delete laser"))
-		self.menu_lasers_delete.triggered.connect(self.callback_delete_page)
-
-		self.menu_lasers_rename=self.menu_lasers.addAction("&"+_("Rename laser"))
-		self.menu_lasers_rename.triggered.connect(self.callback_rename_page)
-
-		self.menu_lasers_rename=self.menu_lasers.addAction("&"+_("Rename laser"))
-		self.menu_lasers_rename.triggered.connect(self.callback_rename_page)
-
-		self.menu_lasers_clone=self.menu_lasers.addAction("&"+_("Clone laser"))
-		self.menu_lasers_clone.triggered.connect(self.callback_copy_page)
-
-
-		self.menu_help=menubar.addMenu(_("Help"))
-		self.menu_help_help=self.menu_help.addAction(_("Help"))
-		self.menu_help_help.triggered.connect(self.callback_help)
-
-
-		self.main_vbox.addWidget(menubar)
 
 		self.setFixedSize(900, 500)
 		self.setWindowTitle(_("Laser configuration window")+" https://www.gpvdm.com")   
 		self.setWindowIcon(QIcon_load("lasers"))
 
 		toolbar=QToolBar()
+		toolbar.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
 		toolbar.setIconSize(QSize(48, 48))
 
-		self.new = QAction(QIcon_load("document-new"), _("New laser"), self)
+		self.new = QAction(QIcon_load("document-new"), wrap_text(_("New laser"),2), self)
 		self.new.triggered.connect(self.callback_add_page)
 		toolbar.addAction(self.new)
 
-		self.new = QAction(QIcon_load("edit-delete"), _("Delete laser"), self)
+		self.new = QAction(QIcon_load("edit-delete"), wrap_text(_("Delete laser"),3), self)
 		self.new.triggered.connect(self.callback_delete_page)
 		toolbar.addAction(self.new)
 
-		self.clone = QAction(QIcon_load("clone.png"), _("Clone laser"), self)
+		self.clone = QAction(QIcon_load("clone.png"), wrap_text(_("Clone laser"),3), self)
 		self.clone.triggered.connect(self.callback_copy_page)
 		toolbar.addAction(self.clone)
 
-		self.clone = QAction(QIcon_load("rename"), _("Rename laser"), self)
+		self.clone = QAction(QIcon_load("rename"), wrap_text(_("Rename laser"),3), self)
 		self.clone.triggered.connect(self.callback_rename_page)
 		toolbar.addAction(self.clone)
 

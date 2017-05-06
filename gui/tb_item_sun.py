@@ -20,6 +20,7 @@
 
 
 #inp
+import os
 from inp import inp_update_token_value
 from inp import inp_get_token_value
 
@@ -36,13 +37,15 @@ from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtWidgets import QWidget,QSizePolicy,QVBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QLabel,QComboBox
 from PyQt5.QtCore import pyqtSignal
 
+from cal_path import get_sim_path
+
 class tb_item_sun(QWidget):
 
 	changed = pyqtSignal()
 	
 	def call_back_light_changed(self):
 		light_power=self.light.currentText()
-		inp_update_token_value("light.inp", "#Psun", light_power)
+		inp_update_token_value(os.path.join(get_sim_path(),"light.inp"), "#Psun", light_power)
 		self.changed.emit()
 
 	def update(self):
@@ -50,7 +53,7 @@ class tb_item_sun(QWidget):
 		self.light.clear()
 		sun_values=["0.0","0.01","0.1","1.0","10"]
 
-		token=inp_get_token_value("light.inp", "#Psun")
+		token=inp_get_token_value(os.path.join(get_sim_path(),"light.inp"), "#Psun")
 		if sun_values.count(token)==0:
 			sun_values.append(token)
 
@@ -83,6 +86,6 @@ class tb_item_sun(QWidget):
 		self.update()
 		
 		self.light.currentIndexChanged.connect(self.call_back_light_changed)
-
+		self.light.editTextChanged.connect(self.call_back_light_changed)
 
 

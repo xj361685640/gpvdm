@@ -23,7 +23,6 @@ import os
 from icon_lib import QIcon_load
 from search import find_fit_log
 from search import find_fit_speed_log
-from window_list import windows
 from inp import inp_load_file
 from inp_util import inp_search_token_value
 from status_icon import status_icon_stop
@@ -113,7 +112,7 @@ class node_indicator(QWidget):
 		else:
 			prog=0.0
 
-		print("setting CPUs",self.load,self.cpus,prog)
+		#print("setting CPUs",self.load,self.cpus,prog)
 		
 		if prog>1.0:
 			prog=1.0
@@ -135,54 +134,52 @@ class hpc_class(QWidget):
 			ip.append(item.ip)
 			loads.append(item.max_cpus)
 		self.myserver.set_cluster_loads(ip,loads)
-
+	
 	def callback_cluster_get_info(self):
-		self.myserver.cluster_get_info()
+		if self.updating==False:
+			self.updating=True
+			#print("a",len(self.myserver.nodes),self.node_view_vbox.count())
+			if len(self.myserver.nodes)>self.node_view_vbox.count():
+				needed=len(self.myserver.nodes)-self.node_view_vbox.count()
+				for i in range(0,needed):
+					self.node_widget=node_indicator()
+					self.node_widget.show()
+					self.node_widget.slider.valueChanged.connect(self.slider_changed)
+					self.node_view_vbox.addWidget(self.node_widget)
+					print("Add widget",i)
 
-		if len(self.myserver.nodes)>self.node_view_vbox.count():
-			needed=len(self.myserver.nodes)-self.node_view_vbox.count()
-			for i in range(0,needed):
-				self.node_widget=node_indicator()
-				self.node_widget.show()
-				self.node_widget.slider.valueChanged.connect(self.slider_changed)
-				self.node_view_vbox.addWidget(self.node_widget)
-				print("Add widget",i)
+			#print("b",len(self.myserver.nodes),self.node_view_vbox.count())
+			if self.node_view_vbox.count()>len(self.myserver.nodes):
+				for i in range(len(self.myserver.nodes), self.node_view_vbox.count()):
+					item=self.node_view_vbox.itemAt(i).widget()
+					item.deleteLater()
+					print("delete",i)
 
-		if self.node_view_vbox.count()>len(self.myserver.nodes):
-			for i in range(len(self.myserver.nodes), len(self.button)):
+			for i in range(0, self.node_view_vbox.count()):
 				item=self.node_view_vbox.itemAt(i).widget()
-				item.deleteLater()
+				item.block_signals(True)
+				item.set_name(self.myserver.nodes[i][0])
+				item.set_ip(self.myserver.nodes[i][1])
+				item.set_cpus(int(self.myserver.nodes[i][2]))
+				item.set_load(self.myserver.nodes[i][4])
+				item.set_max_cpus(int(self.myserver.nodes[i][5]))
+				item.set_last_seen(self.myserver.nodes[i][6])
 
-		for i in range(0, self.node_view_vbox.count()):
-			item=self.node_view_vbox.itemAt(i).widget()
-			item.block_signals(True)
-			item.set_name(self.myserver.nodes[i][0])
-			item.set_ip(self.myserver.nodes[i][1])
-			item.set_cpus(int(self.myserver.nodes[i][2]))
-			item.set_load(self.myserver.nodes[i][4])
-			item.set_max_cpus(int(self.myserver.nodes[i][5]))
-			item.set_last_seen(self.myserver.nodes[i][6])
-
-			item.update()
-			item.block_signals(False)
-
-	def closeEvent(self, event):
-		self.win_list.update(self,"hpc_window")
-		self.hide()
-		event.accept()
+				item.update()
+				item.block_signals(False)
+			self.updating=False
+		else:
+			print("not updating")
 
 
 	def __init__(self):
 		QWidget.__init__(self)
-
+		self.updating=False
 		self.setMinimumSize(900, 600)
 		self.setWindowIcon(QIcon_load("connected"))
 		self.setWindowTitle(_("Cluster status (www.gpvdm.com)")) 
 
 		self.myserver=server_get()
-		self.win_list=windows()
-		self.win_list.load()
-		self.win_list.set_window(self,"hpc_window")
 
 		self.node_view=QWidget()
 		self.node_view_vbox=QVBoxLayout()
@@ -212,8 +209,7 @@ class hpc_class(QWidget):
 
 		self.setLayout(self.main_vbox)
 
-		self.win_list.set_window(self,"hpc_window")
-		
+		self.myserver.load_update.connect(self.callback_cluster_get_info)
 
 
 

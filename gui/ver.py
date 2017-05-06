@@ -1,6 +1,6 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
 #	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -26,6 +26,8 @@ from cal_path import get_bin_path
 from inp import inp_load_file
 from inp import inp_update_token_value
 from util_zip import read_lines_from_archive
+
+from cal_path import get_sim_path
 
 global core
 global mat
@@ -65,12 +67,12 @@ def ver_load_info():
 
 	ver_file_path=os.path.join(get_inp_file_path(),"ver.inp")
 
-	if inp_load_file(lines,ver_file_path)==True:
+	if inp_load_file(lines,ver_file_path,archive="base.gpvdm")==True:
 		core=lines[1]
 		mat=lines[5]
 		return True
 	else:
-		ver_error="I can not find the file sim.gpvdm/ver.inp.\n\nI have tried looking in "+ver_file_path+"\n\nThe share path is"+get_share_path()+"\n\nThe bin path is"+get_bin_path()+"\n\nThe current working dir is "+os.getcwd()+"\n\nTry reinstalling a new version of gpvdm and/or report the bug to me at  roderick.mackenzie@nottingham.ac.uk."
+		ver_error="I can not find the file sim.gpvdm/ver.inp.\n\nI have tried looking in "+ver_file_path+"\n\nThe share path is"+get_share_path()+"\n\nThe bin path is"+get_bin_path()+"\n\nThe current working dir is "+get_sim_path()+"\n\nTry reinstalling a new version of gpvdm and/or report the bug to me at  roderick.mackenzie@nottingham.ac.uk."
 		return False
 
 def ver_sync_ver():

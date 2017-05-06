@@ -22,7 +22,6 @@ import os
 import sys
 from scan_item import scan_item_add
 from gui_util import dlg_get_text
-from inp import inp_write_lines_to_file
 import webbrowser
 from util import fx_with_units
 from icon_lib import QIcon_load
@@ -53,6 +52,7 @@ from gui_util import tab_add
 from gui_util import tab_move_down
 from gui_util import tab_remove
 from gui_util import tab_get_value
+from gui_util import tab_set_value
 from open_save_dlg import save_as_jpg
 
 from dat_file import dat_file
@@ -68,7 +68,9 @@ from tb_item_mat_file import tb_item_mat_file
 from import_data import import_data
 from gpvdm_open import gpvdm_open
 from win_lin import desktop_open
+from fit_poly import fit_poly
 
+from gui_util import tab_get_selected
 #window
 
 mesh_articles = []
@@ -155,15 +157,15 @@ class equation(QWidget):
 			frequency, = self.ax1.plot(x_nm,self.y, 'ro-', linewidth=3 ,alpha=1.0)
 
 		if os.path.isfile(os.path.join(self.path,self.exp_file))==True:
-			data=dat_file()
-			dat_file_read(data,os.path.join(self.path,self.exp_file))
-			title=get_ref_text(os.path.join(self.path,self.exp_file)	,html=False)
+
+			dat_file_read(self.data,os.path.join(self.path,self.exp_file))
+			title=get_ref_text(os.path.join(self.path,self.exp_file), html=False)
 
 			if title!=None:
 				self.fig.suptitle(title)
 
-			x_nm= [x * 1e9 for x in data.y_scale]
-			frequency, = self.ax1.plot(x_nm,data.data[0][0], 'bo-', linewidth=3 ,alpha=1.0)
+			x_nm= [x * 1e9 for x in self.data.y_scale]
+			frequency, = self.ax1.plot(x_nm,self.data.data[0][0], 'bo-', linewidth=3 ,alpha=1.0)
 
 		self.ax1.set_xlabel(_("Wavelength")+" (nm)")
 
@@ -267,8 +269,21 @@ class equation(QWidget):
 	def callback_ref(self):
 		self.ref_window=ref_window(os.path.join(self.path,self.exp_file))
 		self.ref_window.show()
-		
+	
+	def callback_fit(self):
+		data=tab_get_selected(self.tab)
+		d=fit_poly(float(data[0]),float(data[1]),self.data)
+		d.run()
+		if d.ret_math!=None:
+			a=self.tab.selectionModel().selectedRows()
+
+			if len(a)>0:
+				a=a[0].row()
+			tab_set_value(self.tab,a,2,d.ret_math)
+			print(d.ret_math)
+
 	def init(self):
+		self.data=dat_file()
 		self.fig = Figure(figsize=(5,4), dpi=100)
 		self.canvas = FigureCanvas(self.fig)
 		self.canvas.figure.patch.set_facecolor('white')
@@ -293,7 +308,6 @@ class equation(QWidget):
 		self.file_select=tb_item_mat_file(self.path,self.token)
 		#self.file_select.changed.connect(self.callback_sun)
 		toolbar.addWidget(self.file_select)
-		
 		
 
 		self.main_vbox.addWidget(toolbar)
@@ -321,7 +335,11 @@ class equation(QWidget):
 		self.tb_play = QAction(QIcon_load("media-playback-start"), _("Calculate"), self)
 		self.tb_play.triggered.connect(self.callback_play)
 		toolbar2.addAction(self.tb_play)
-		
+
+		self.tb_fit = QAction(QIcon_load("fit"), _("Fit data"), self)
+		self.tb_fit.triggered.connect(self.callback_fit)
+		toolbar2.addAction(self.tb_fit)
+
 		self.main_vbox.addWidget(toolbar2)
 
 		self.tab = QTableWidget()
@@ -350,7 +368,7 @@ class equation(QWidget):
 		self.x=None
 		self.y=None
 		QWidget.__init__(self)
-		self.points=200
+		self.points=4000
 		self.default_value="3.0"
 		self.path=path
 		self.file_name=file_name

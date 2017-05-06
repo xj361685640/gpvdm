@@ -45,6 +45,7 @@ from gl_cmp import gl_cmp
 from util import str2bool
 from fx_selector import fx_selector
 
+from cal_path import get_sim_path
 open_gl_working=False
 
 def is_open_gl_working():
@@ -70,14 +71,14 @@ class display_widget(QWidget):
 		self.hbox.addWidget(self.display)
 	
 	def update_ray_file(self):
-		self.display.ray_file=os.path.join(os.getcwd(),"light_dump","light_ray_"+self.fx_box.get_text()+".dat")
+		self.display.ray_file=os.path.join(get_sim_path(),"light_dump","light_ray_"+self.fx_box.get_text()+".dat")
 
 	def __init__(self):
 		QWidget.__init__(self)
 		self.complex_display=False
 
 		self.hbox=QVBoxLayout()
-		self.gl_cmp=gl_cmp(os.path.join(os.getcwd(),"snapshots"))
+		self.gl_cmp=gl_cmp(os.path.join(get_sim_path(),"snapshots"))
 		
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(42, 42))
@@ -118,7 +119,7 @@ class display_widget(QWidget):
 
 		self.hbox.addWidget(toolbar)
 		
-		enable_3d=inp_get_token_value(os.path.join(os.getcwd(),"config.inp") , "#gui_config_3d_enabled")
+		enable_3d=inp_get_token_value(os.path.join(get_sim_path(),"config.inp") , "#gui_config_3d_enabled")
 		if enable_3d==None:
 			enable_3d="True"
 		enable_3d=str2bool(enable_3d)

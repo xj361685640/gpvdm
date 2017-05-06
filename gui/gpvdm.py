@@ -20,6 +20,7 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+import os
 import sys
 
 #paths
@@ -33,6 +34,7 @@ from cal_path import get_image_file_path
 from cal_path import calculate_paths
 from cal_path import calculate_paths_init
 from cal_path import get_share_path
+from cal_path import set_sim_path
 
 calculate_paths_init()
 calculate_paths()
@@ -61,7 +63,6 @@ command_args(len(sys.argv),sys.argv)
 
 from import_archive import update_simulaton_to_new_ver
 
-import os
 from inp import inp_get_token_value
 
 from scan_item import scan_items_clear
@@ -72,7 +73,6 @@ from help import help_init
 from help import language_advert
 from notice import notice
 from scan_item import scan_item_add
-from window_list import windows
 from window_list import resize_window_to_be_sane
 
 
@@ -140,6 +140,9 @@ from ribbon import ribbon
 from gui_util import error_dlg
 
 from cal_path import to_native_path
+from cal_path import get_sim_path
+from clone import clone_materials
+from window_list import wpos_load
 
 class gpvdm_main_window(QMainWindow):
 
@@ -181,12 +184,11 @@ class gpvdm_main_window(QMainWindow):
 	def callback_simulate(self):
 
 		self.my_server.clear_cache()
-		self.my_server.add_job(os.getcwd(),"")
+		self.my_server.add_job(get_sim_path(),"")
 		self.my_server.start()
 
 
 	def close_now(self):
-		self.win_list.update(self,"main_window")
 		QApplication.quit()
 		
 
@@ -197,7 +199,7 @@ class gpvdm_main_window(QMainWindow):
 
 	def callback_last_menu_click(self, widget, data):
 		#self.plot_open.set_sensitive(True)
-		file_to_load=os.path.join(os.getcwd(),data.file0)
+		file_to_load=os.path.join(get_sim_path(),data.file0)
 		plot_gen([file_to_load],[],"auto")
 		self.plot_after_run_file=file_to_load
 
@@ -208,8 +210,8 @@ class gpvdm_main_window(QMainWindow):
 		path=device_lib.file_path
 		if path != "":
 			device_lib.destroy()
-			import_archive(path,os.path.join(os.getcwd(),"sim.gpvdm"),False)
-			self.change_dir_and_refresh_interface(os.getcwd())
+			import_archive(path,os.path.join(get_sim_path(),"sim.gpvdm"),False)
+			self.change_dir_and_refresh_interface(get_sim_path())
 			print(_("file opened"),path)
 
 
@@ -227,13 +229,13 @@ class gpvdm_main_window(QMainWindow):
 	def change_dir_and_refresh_interface(self,new_dir):
 		scan_items_clear()
 		scan_items_populate_from_known_tokens()
-		os.chdir(new_dir)
+		set_sim_path(new_dir)
 		calculate_paths()
-		epitaxy_load()
+		epitaxy_load(get_sim_path())
 		contacts_load()
 		mesh_load_all()
 
-		self.statusBar().showMessage(os.getcwd())
+		self.statusBar().showMessage(get_sim_path())
 
 		if self.notebook.load()==True:
 			#self.ti_light.connect('refresh', self.notebook.main_tab.update)
@@ -285,11 +287,16 @@ class gpvdm_main_window(QMainWindow):
 		if ver_check_compatibility(filename)==True:
 			self.change_dir_and_refresh_interface(new_path)
 		else:
-			reply = yes_no_dlg(self,"The simulation you want to import looks like it was made on an old version of gpvdm, do you want to try to open it anyway?")
+			update = yes_no_dlg(self,_("The simulation you want to import looks like it was made on an old version of gpvdm, do you want to try to open it anyway?"))
 
-			if reply == True:
-				update_simulaton_to_new_ver(dialog.selectedFiles()[0])
+			if update == True:
+				update_simulaton_to_new_ver(filename)
 				self.change_dir_and_refresh_interface(new_path)
+
+			if os.path.isfile(os.path.join(new_path,"materials"))==False:
+				copy = yes_no_dlg(self,_("It looks like there is no materials database in the simulation directory should I import one?"))
+				if copy==True:
+					clone_materials(new_path)
 
 	def callback_open(self, widget, data=None):
 		dialog = QFileDialog(self)
@@ -336,9 +343,11 @@ class gpvdm_main_window(QMainWindow):
 	def __init__(self):
 		server_init()
 		self.my_server=server_get()
-		self.my_server.init(os.getcwd())
+
+		self.my_server.init(get_sim_path())
 
 		self.undo_list=undo_list_class()
+
 		self.ribbon=ribbon()
 
 		self.notebook_active_page=None
@@ -355,8 +364,7 @@ class gpvdm_main_window(QMainWindow):
 
 		help_init()
 		#help_window().help_set_help(["star.png",_("<big><b>Update available!</b></big><br>")])
-		self.win_list=windows()
-		self.win_list.load()
+		wpos_load()
 
 		#self.show()
 
@@ -383,7 +391,6 @@ class gpvdm_main_window(QMainWindow):
 		self.statusBar()
 
 		self.splash=splash_window()
-		self.splash.init()
 
 		temp_error=ver_error()
 		#print(temp_error)
@@ -417,16 +424,10 @@ class gpvdm_main_window(QMainWindow):
 		self.ribbon.home.help.triggered.connect(self.callback_on_line_help)
 
 	
-		self.win_list.set_window(self,"main_window")
 		resize_window_to_be_sane(self,0.7,0.7)
 
+		self.change_dir_and_refresh_interface(get_sim_path())
 
-		self.change_dir_and_refresh_interface(os.getcwd())
-
-
-#		self.window.show()
-
-#		process_events()
 
 		self.show()
 

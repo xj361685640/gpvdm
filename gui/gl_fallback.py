@@ -52,6 +52,7 @@ from dat_file import dat_file
 from dat_file import dat_file_read
 from global_objects import global_object_register
 from inp import inp_search_token_array
+from cal_path import get_sim_path
 
 class gl_fallback(QWidget):
 
@@ -108,7 +109,7 @@ class gl_fallback(QWidget):
 		step=50.0
 
 		lines=[]
-		if inp_load_file(lines,os.path.join(os.getcwd(),"light.inp"))==True:
+		if inp_load_file(lines,os.path.join(get_sim_path(),"light.inp"))==True:
 			self.sun=float(inp_search_token_value(lines, "#Psun"))
 
 		if self.sun<=0.01:
@@ -205,7 +206,7 @@ class gl_fallback(QWidget):
 
 		qp.setPen(pen)
 		data=dat_file()
-		if dat_file_read(data,os.path.join(os.getcwd(),"light_dump","light_1d_photons_tot_norm.dat"))==True:
+		if dat_file_read(data,os.path.join(get_sim_path(),"light_dump","light_1d_photons_tot_norm.dat"))==True:
 			for i in range(1,data.y_len):
 				
 				x0=(start_x-data.data[0][0][i-1]*40-10)

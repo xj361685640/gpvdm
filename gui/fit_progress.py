@@ -38,6 +38,7 @@ from PyQt5.QtGui import QPainter,QIcon,QCursor
 from open_save_dlg import save_as_filter
 from plot_widget import plot_widget
 
+from cal_path import get_sim_path
 mesh_articles = []
 
 class fit_progress(QTabWidget):
@@ -51,14 +52,15 @@ class fit_progress(QTabWidget):
 
 		self.setMovable(True)
 		self.plot_widgets=[]
-		for file_name in ["fitlog.dat","fitlog_time_error.dat","fitlog_time_odes.dat",]:
+		for file_name in ["fitlog.dat","fitlog_time_error.dat","fitlog_time_odes.dat"]:
+			f_name=os.path.join(get_sim_path(),file_name)
 			self.plot_widgets.append(plot_widget())
 			self.plot_widgets[-1].init(menu=False)
-			self.plot_widgets[-1].set_labels([file_name])
-			self.plot_widgets[-1].load_data([file_name],os.path.splitext(file_name)[0]+".oplot")
+			self.plot_widgets[-1].set_labels([f_name])
+			self.plot_widgets[-1].load_data([f_name],os.path.splitext(f_name)[0]+".oplot")
 			self.plot_widgets[-1].do_plot()
 
-			self.addTab(self.plot_widgets[-1],file_name)
+			self.addTab(self.plot_widgets[-1],f_name)
 		
 
 	def rename(self,tab_name):

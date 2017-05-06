@@ -21,7 +21,6 @@
 
 import os
 from tab import tab_class
-from window_list import windows
 
 #qt
 from PyQt5.QtCore import QSize, Qt 

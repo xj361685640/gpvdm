@@ -42,7 +42,6 @@ from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtWidgets import QWidget,QSizePolicy,QHBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QMessageBox,QVBoxLayout
 
 #windows
-from window_list import windows
 from mesh import mesh_load_all
 
 from mesh import mesh_get_xpoints
@@ -174,9 +173,6 @@ class tab_electrical_mesh(QWidget):
 
 		self.main_vbox.addWidget(toolbar)
 		
-		self.win_list=windows()
-		self.win_list.load()
-		self.win_list.set_window(self,"emesh_window")
 
 		widget=QWidget()
 		mesh_hbox=QHBoxLayout()

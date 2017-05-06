@@ -31,6 +31,7 @@ from util import pygtk_to_latex_subscript
 from workbook import gen_workbook
 
 import glob
+from cal_path import get_sim_path
 
 def to_exp(data):
 	ret=data
@@ -50,7 +51,7 @@ def export_as(output):
 	ext= os.path.splitext(output)[1]
 	line=""
 	if ext==".xlsx":
-		gen_workbook(os.getcwd(),output)
+		gen_workbook(get_sim_path(),output)
 	elif (ext==".pdf") or (ext==".jpg") or (ext==".tex")  or (ext==".csv"):
 		if ext==".csv":
 			tex=False

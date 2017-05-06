@@ -57,10 +57,10 @@ def gen_workbook(input_file_or_dir,output_file):
 		files=glob.glob(os.path.join(input_file_or_dir,"*.dat"))
 	else:
 		return
-	
+
 	for my_file in files:
 		#print("about to save1",my_file)
-		print(my_file)
+		#print(my_file)
 		data=dat_file()
 		if dat_file_read(data,my_file,guess=False)==True:
 			x=[]
@@ -91,7 +91,6 @@ def gen_workbook(input_file_or_dir,output_file):
 				series = Series(ydata,xdata,  title_from_data=True)
 				c1.series.append(series)
 				ws.add_chart(c1, "G4")
-		print(my_file)
 	#print("about to save1")
 	try:
 		wb.save(filename = output_file)

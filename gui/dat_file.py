@@ -26,7 +26,7 @@ import hashlib
 import glob
 from util_zip import zip_get_data_file
 from dat_file_class import dat_file
-
+from inp import inp_load_file
 
 #search first 40 lines for dims
 def dat_file_load_info(output,lines):
@@ -146,6 +146,42 @@ def is_number(data_in):
 					return False
 
 	return False
+
+def dat_file_import_filter(out,file_name,x_col=0,y_col=1):
+	"""This is an import filter for xy data"""
+	lines=[]
+	out.x_scale=[]
+	out.y_scale=[]
+	out.z_scale=[]
+	out.data=[]
+	data_started=False
+	out.data=[[[0.0 for k in range(0)] for j in range(1)] for i in range(1)]
+	if inp_load_file(lines,file_name)==True:
+		for i in range(0, len(lines)):
+			temp=lines[i]
+
+			temp=re.sub(' +',' ',temp)
+			temp=re.sub('\t',' ',temp)
+			s=temp.split()
+			l=len(s)
+			if l>0:
+
+				if data_started==False:
+					if is_number(s[0])==True:
+						data_started=True
+
+				if s[0]=="#end":
+					break
+
+				if data_started==True:
+					if max(x_col,y_col)<l:
+						out.y_scale.append(float(s[x_col]))
+						out.data[0][0].append(float(s[y_col]))
+
+		out.x_len=1
+		out.y_len=len(out.data[0][0])
+		out.z_len=1
+
 
 def dat_file_read(out,file_name,guess=True):
 	out.valid_data=False

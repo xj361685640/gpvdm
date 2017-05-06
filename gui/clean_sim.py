@@ -23,6 +23,8 @@
 #import sys
 import os
 import shutil
+from cal_path import get_sim_path
+
 #import glob
 
 def remove_bin(directory):
@@ -53,28 +55,28 @@ def clean_sim_dir():
 	remove_bin("plugins")
 	remove_bin("solvers")
 
-	del_file=os.path.join(os.getcwd(),"pub")
+	del_file=os.path.join(get_sim_path(),"pub")
 	if os.path.isdir(del_file):
 		print("Deleteing "+del_file)
 		shutil.rmtree(del_file)
 
-	del_file=os.path.join(os.getcwd(),"dynamic")
+	del_file=os.path.join(get_sim_path(),"dynamic")
 	if os.path.isdir(del_file):
 		print("Deleteing "+del_file)
 		shutil.rmtree(del_file)
 
-	del_file=os.path.join(os.getcwd(),"snapshots")
+	del_file=os.path.join(get_sim_path(),"snapshots")
 	if os.path.isdir(del_file):
 		print("Deleteing "+del_file)
 		shutil.rmtree(del_file)
 
-	files = os.listdir(os.getcwd())
+	files = os.listdir(get_sim_path())
 	for file in files:
 		if file.startswith("snapshots_"):
 			print("deleting dir",file)
 			shutil.rmtree(file)
 
-	files = os.listdir(os.getcwd())
+	files = os.listdir(get_sim_path())
 	for file in files:
 		remove=False
 		if file.endswith(".txt"):

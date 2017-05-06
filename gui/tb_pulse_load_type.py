@@ -33,6 +33,8 @@ from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtWidgets import QWidget,QSizePolicy,QHBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QLabel,QComboBox
 from PyQt5.QtCore import pyqtSignal
 
+from cal_path import get_sim_path
+
 class tb_pulse_load_type(QWidget):
 
 	changed = pyqtSignal()
@@ -61,10 +63,10 @@ class tb_pulse_load_type(QWidget):
 		self.sim_mode.addItem("ideal_diode_ideal_load")
 
 
-		lines=[]
-		inp_load_file(lines,os.path.join(get_inp_file_path(),"pulse"+str(self.index)+".inp"))
+		#lines=[]
+		#inp_load_file(lines,os.path.join(get_inp_file_path(),"pulse"+str(self.index)+".inp"))
 
-		token=inp_get_token_value("pulse"+str(self.index)+".inp", "#pulse_sim_mode")
+		token=inp_get_token_value(os.path.join(get_sim_path(),"pulse"+str(self.index)+".inp"), "#pulse_sim_mode")
 
 		all_items  = [self.sim_mode.itemText(i) for i in range(self.sim_mode.count())]
 		for i in range(0,len(all_items)):
@@ -76,8 +78,6 @@ class tb_pulse_load_type(QWidget):
 
 	def call_back_sim_mode_changed(self):
 		mode=self.sim_mode.currentText()
-		inp_update_token_value("pulse"+str(self.index)+".inp", "#pulse_sim_mode", mode)
+		inp_update_token_value(os.path.join(get_sim_path(),"pulse"+str(self.index)+".inp"), "#pulse_sim_mode", mode)
 		self.changed.emit()
 
-#gobject.type_register(tb_pulse_load_type)
-#gobject.signal_new("changed", tb_pulse_load_type, gobject.SIGNAL_RUN_FIRST,gobject.TYPE_NONE, ())

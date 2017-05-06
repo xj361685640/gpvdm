@@ -121,7 +121,7 @@ lib.append(my_data("jv.inp","#Vstart","V",_("Start voltage"),"e",1.0,"QLineEdit"
 lib.append(my_data("jv.inp","#Vstop","V",_("Stop voltage"),"e",1.0,"QLineEdit"))
 lib.append(my_data("jv.inp","#Vstep","V",_("Voltage step"),"e",1.0,"QLineEdit"))
 
-#sim_info.dat
+#sim_info.dat (jv plugin)
 lib.append(my_data("","#voc","V",_("V_{oc}"),"e",1.0,"QLineEdit"))
 lib.append(my_data("","#pce","Percent",_("Power conversion efficiency"),"e",1.0,"QLineEdit"))
 lib.append(my_data("","#ff","a.u.",_("Fill factor"),"e",1.0,"QLineEdit"))
@@ -136,6 +136,17 @@ lib.append(my_data("","#voc_R","m^{-3}s^{-1}",_("Recombination rate at Voc"),"e"
 lib.append(my_data("","#voc_J","A m^{-2}",_("Current density at Voc"),"e",1.0,"QLineEdit"))
 lib.append(my_data("","#jsc","A m^{-2}",_("J_{sc}"),"e",1.0,"QLineEdit"))
 
+#sim_info.dat (fxdomain plugin)
+lib.append(my_data("","#fxdomain_r","",_("Re(i)"),"e",1.0,"QLineEdit"))
+lib.append(my_data("","#fxdomain_i","V",_("Im(i)"),"e",1.0,"QLineEdit"))
+lib.append(my_data("","#fxdomain_Jr","Am^{-2}",_("Re(J)"),"e",1.0,"QLineEdit"))
+lib.append(my_data("","#fxdomain_Ji","Am^{-2}",_("Im(J)"),"e",1.0,"QLineEdit"))
+lib.append(my_data("","#fxdomain_fx","Hz",_("fx"),"e",1.0,"QLineEdit"))
+lib.append(my_data("","#fxdomain_delta_i","s",_("di"),"e",1.0,"QLineEdit"))
+lib.append(my_data("","#fxdomain_delta_g","s",_("dmodulation"),"e",1.0,"QLineEdit"))
+lib.append(my_data("","#fxdomain_delta_phase","rads",_("dphase"),"e",1.0,"QLineEdit"))
+
+	
 #server.inp
 lib.append(my_data("","#server_cpus","au",_("Number of CPUs"),"e",1.0,"QLineEdit"))
 lib.append(my_data("","#server_stall_time","","","e",1.0,"QLineEdit"))
@@ -207,6 +218,7 @@ lib.append(my_data("dump.inp","#dump_slices_by_time",_("True/False"),_("dump sli
 lib.append(my_data("dump.inp","#dump_1d_slices",_("True/False"),_("Dump 1D slices"),"e",1.0,"gtkswitch"))
 lib.append(my_data("dump.inp","#dump_slices",_("True/False"),_("Dump slices"),"e",1.0,"gtkswitch"))
 lib.append(my_data("dump.inp","#dump_dynamic",_("True/False"),_("Dump dynamic"),"e",1.0,"gtkswitch"))
+lib.append(my_data("dump.inp","#dump_fx",_("True/False"),_("Dump fx domain data"),"e",1.0,"gtkswitch"))
 lib.append(my_data("dump.inp","#dump_zip_files",_("True/False"),_("Dump zip files"),"e",1.0,"gtkswitch"))
 lib.append(my_data("dump.inp","#dump_write_out_band_structure",_("True/False"),_("Write out band structure"),"e",1.0,"gtkswitch"))
 lib.append(my_data("dump.inp","#dump_iodump","","","e",1.0,"QLineEdit"))
@@ -258,12 +270,13 @@ lib.append(my_data("","#fxdomain_Vexternal","au",_("V_{external}"),"e",1.0,"QLin
 lib.append(my_data("","#fxdomain_voltage_modulation_max","au",_("Voltage modulation depth"),"e",1.0,"QLineEdit"))
 
 if enable_betafeatures()==True:
-	lib.append(my_data("","#fxdomain_light_modulation_max","au",_("Light modulation depth"),"e",1.0,"QLineEdit"))
+	lib.append(my_data("","#fxdomain_light_modulation_depth","au",_("Light modulation depth"),"e",1.0,"QLineEdit"))
 lib.append(my_data("","#fxdomain_do_fit","au",_("Run fit after simulation"),"e",1.0,"gtkswitch"))
 lib.append(my_data("","#periods_to_fit","au",_("Periods to fit"),"e",1.0,"QLineEdit"))
 
-
-
+#crypto.inp
+lib.append(my_data("","#iv","au",_("Initialization vector"),"e",1.0,"QLineEdit"))
+lib.append(my_data("","#key","au",_("Cryptographic key"),"e",1.0,"QLineEdit"))
 
 lib.append(my_data("","#I0","Apms",_("I0"),"e",1.0,"QLineEdit"))
 lib.append(my_data("","#nid","(a.u.)",_("ideality factor"),"e",1.0,"QLineEdit"))
@@ -426,6 +439,8 @@ lib.append(my_data("","#band_bend_max","percent","band bend max","e",1.0,"QLineE
 #config.inp
 lib.append(my_data("","#gui_config_3d_enabled",_("True/False"),_("Enable 3d effects"),"e",1.0,"gtkswitch"))
 lib.append(my_data("","#gui_use_icon_theme",_("True/False"),_("Use icons from OS"),"e",1.0,"gtkswitch"))
+lib.append(my_data("","#matlab_interpreter",_("au"),_("Matlab interpreter"),"e",1.0,"QLineEdit"))
+
 
 #fit
 lib.append(my_data("","#enabled",_("True/False"),_("Enable fit"),"e",1.0,"gtkswitch"))
@@ -433,6 +448,7 @@ lib.append(my_data("","#time_shift","s","time shift","e",1.0,"QLineEdit"))
 lib.append(my_data("","#start","s","start","e",1.0,"QLineEdit"))
 lib.append(my_data("","#stop","s","stop","e",1.0,"QLineEdit"))
 lib.append(my_data("","#log_x",_("True/False"),_("log x"),"e",1.0,"gtkswitch"))
+lib.append(my_data("","#log_y",_("True/False"),_("log y"),"e",1.0,"gtkswitch"))
 lib.append(my_data("","#sim_data",_("filename"),"Fit file name","e",1.0,"QLineEdit"))
 lib.append(my_data("","#fit_invert_simulation_y",_("True/False"),_("Invert simulated data (y)"),"e",1.0,"gtkswitch"))
 

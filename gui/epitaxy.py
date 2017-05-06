@@ -20,7 +20,7 @@
 
 
 import os
-from inp import inp_write_lines_to_file
+from inp import inp_save
 from inp import inp_load_file
 from util import isnumber
 
@@ -32,7 +32,7 @@ electrical_layer=[]
 pl_file=[]
 name=[]
 
-def epitaxy_load():
+def epitaxy_load(path):
 	lines=[]
 	global layers
 	global electrical_layers
@@ -50,7 +50,7 @@ def epitaxy_load():
 	pl_file=[]
 	name=[]
 
-	if inp_load_file(lines,"epitaxy.inp")==True:
+	if inp_load_file(lines,os.path.join(path,"epitaxy.inp"))==True:
 		pos=0
 		pos=pos+1
 
@@ -156,7 +156,7 @@ def epitaxy_print():
 		print(pl_file[i])
 		layer=layer+1
 		
-def epitaxy_save():
+def epitaxy_save(path):
 	global layers
 	global electrical_layers
 	global width
@@ -188,7 +188,7 @@ def epitaxy_save():
 	lines.append("1.3")
 	lines.append("#end")
 
-	inp_write_lines_to_file(os.path.join(os.getcwd(),"epitaxy.inp"),lines)
+	inp_save(os.path.join(path,"epitaxy.inp"),lines)
 
 def epitaxy_get_dos_files():
 	global electrical_layer

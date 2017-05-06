@@ -27,7 +27,9 @@ import zipfile
 #from util_zip import archive_add_file
 from progress import progress_class
 from gui_util import process_events
-from cal_path import remove_cwdfrompath
+from cal_path import remove_simpathfrompath
+
+from cal_path import get_sim_path
 
 def export_archive(target,everything):
 	if target.endswith(".gpvdm")==False:
@@ -41,15 +43,15 @@ def export_archive(target,everything):
 	process_events()
 
 	if everything==True:
-		for path, dirs, files in os.walk(os.getcwd()):
+		for path, dirs, files in os.walk(get_sim_path()):
 			for file_name in files:
 				if file_name.endswith(".inp") or file_name.endswith(".dat") or file_name.endswith(".omat"):
 					file_list.append(os.path.join(path,file_name))
 	else:
-		files=os.listdir(os.getcwd())
+		files=os.listdir(get_sim_path())
 		for file_name in files:
 			if file_name.endswith(".inp"):
-				file_list.append(os.path.join(os.getcwd(),file_name))
+				file_list.append(os.path.join(get_sim_path(),file_name))
 
 	zf = zipfile.ZipFile(target, 'a')
 
@@ -63,12 +65,12 @@ def export_archive(target,everything):
 			f.close()
 
 
-			zf.writestr(remove_cwdfrompath(cur_file), lines)
+			zf.writestr(remove_simpathfrompath(cur_file), lines)
 			progress_window.set_fraction(float(i)/float(len(file_list)))
-			progress_window.set_text("Adding"+cur_file[len(os.getcwd()):])
+			progress_window.set_text("Adding"+cur_file[len(get_sim_path()):])
 			process_events()
 
-	src_zf = zipfile.ZipFile(os.path.join(os.getcwd(),"sim.gpvdm"), 'r')
+	src_zf = zipfile.ZipFile(os.path.join(get_sim_path(),"sim.gpvdm"), 'r')
 
 	for file_name in src_zf.namelist():
 		if file_name not in zf.namelist():

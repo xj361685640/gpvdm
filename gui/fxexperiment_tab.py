@@ -39,6 +39,7 @@ from inp import inp_update_token_value
 from inp import inp_get_token_value
 
 from tab import tab_class
+from cal_path import get_sim_path
 
 class fxexperiment_tab(QTabWidget):
 
@@ -60,7 +61,7 @@ class fxexperiment_tab(QTabWidget):
 
 		self.index=index
 		lines=[]
-		self.file_name="fxdomain"+str(self.index)+".inp"
+		self.file_name=os.path.join(get_sim_path(),"fxdomain"+str(self.index)+".inp")
 		if inp_load_file(lines,self.file_name)==True:
 			self.tab_name=inp_search_token_value(lines, "#sim_menu_name")
 		else:

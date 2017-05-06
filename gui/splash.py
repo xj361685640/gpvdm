@@ -28,44 +28,70 @@ import time
 from PyQt5.QtGui import QIcon,QTransform
 from PyQt5.QtCore import QSize, Qt, QTimer
 from PyQt5.uic import loadUi
-from PyQt5.QtWidgets import QApplication,QGraphicsScene
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtWidgets import QApplication,QGraphicsScene,QWidget,QGraphicsView,QLabel
+from PyQt5.QtGui import QPixmap,QFont
 
 #cal_path
 from cal_path import get_image_file_path
 from cal_path import get_ui_path
+import datetime
 
-class splash_window():
+class splash_window(QWidget):
 
 	def center(self):
-		frameGm = self.window.frameGeometry()
+		frameGm = self.frameGeometry()
 		screen = QApplication.desktop().screenNumber(QApplication.desktop().cursor().pos())
 		centerPoint = QApplication.desktop().screenGeometry(screen).center()
 		frameGm.moveCenter(centerPoint)
-		self.window.move(frameGm.topLeft())
+		self.move(frameGm.topLeft())
 
 	def callback_destroy(self):
-		self.window.close()
+		self.close()
 
+	def __init__(self):
+		QWidget.__init__(self)
 
-	def init(self):
-		self.window = loadUi(os.path.join(get_ui_path(),"splash.ui"))
-		self.window.setWindowFlags(Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint)
+		self.setFixedSize(459, 260)
 		self.center()
-		self.window.li.setText(notice()+"\n"+version())
-		self.window.setModal(Qt.WindowModal)
-		self.window.image.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-		self.window.image.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+		
+		self.view=QGraphicsView(self)
+		self.view.setFixedSize(461,261)
+		self.view.move(0,0)
+		self.setWindowFlags(Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint)
+		self.li=QLabel("ver",self)
+		self.li.move(30,180)
 
-		window_h=self.window.height()
-		window_w=self.window.width()
-		#r=random.randint(2, 3)
-		#image=QPixmap(os.path.join(get_image_file_path(),"splash"+str(r)+".png"))
+		self.font = QFont()
+		self.font.setFamily('DejaVu Sans')
+		self.font.setBold(True)
+		self.font.setStyleHint(QFont.Monospace)
+		self.font.setFixedPitch(True)
+		self.font.setPointSize(int(72))
+
+		self.terminals=[]
+		self.process=[]
+	
+		self.gpvdm=QLabel("gpvdm",self)
+		self.gpvdm.setFont(self.font)
+		self.gpvdm.move(80,40)
+
+
+		self.li.setText(notice()+"\n"+version())
+		self.view.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+		self.view.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+		window_h=self.height()
+		window_w=self.width()
+
+		QTimer.singleShot(1500, self.callback_destroy)
 
 		r=random.randint(0, 2)
 		files=["splash2.png","splash3.png","splash4.jpg"]
-
-		image_path=os.path.join(get_image_file_path(),"splash",files[r])
+		image_file=files[r]
+		d=datetime.date.today()
+		if d.day==2:	#Tuesday
+			image_file="splash2.png"
+		
+		image_path=os.path.join(get_image_file_path(),"splash",image_file)
 		if os.path.isfile(image_path):
 			image=QPixmap(image_path)
 		
@@ -86,14 +112,11 @@ class splash_window():
 
 			scene=QGraphicsScene();
 			scene.setSceneRect(xpos, 0, 0, h)
-			self.window.image.setScene(scene)
+			self.view.setScene(scene)
 
 
 			scene.addPixmap(image);
 		else:
 			print("Image not found",image_path)
 
-		self.window.show()
-
-		QTimer.singleShot(1500, self.callback_destroy)
-
+		self.show()

@@ -22,7 +22,6 @@
 
 import os
 from gui_util import dlg_get_text
-from window_list import windows
 import webbrowser
 from code_ctrl import enable_betafeatures
 from inp import inp_update_token_value
@@ -47,27 +46,25 @@ from experiment_tab import experiment_tab
 from QHTabBar import QHTabBar
 from gui_util import yes_no_dlg
 from PyQt5.QtCore import pyqtSignal
+from util import wrap_text
+from QWidgetSavePos import QWidgetSavePos
+from cal_path import get_sim_path
 
 def experiment_new_filename():
 	for i in range(0,20):
 		pulse_name="pulse"+str(i)+".inp"
-		if inp_isfile(pulse_name)==False:
+		if inp_isfile(os.path.join(get_sim_path(),pulse_name))==False:
 			return i
 	return -1
 
 
-class experiment(QWidget):
+class experiment(QWidgetSavePos):
 
 	changed = pyqtSignal()
 	
 	def update(self):
 		for item in self.notebook.get_children():
 			item.update()
-
-	def callback_close(self):
-		self.win_list.update(self,"experiment_window")
-		self.hide()
-		return True
 
 	def callback_help(self):
 		webbrowser.open('http://www.gpvdm.com/man/index.html')
@@ -77,9 +74,9 @@ class experiment(QWidget):
 
 		if new_sim_name.ret!=None:
 			index=experiment_new_filename()
-			inp_copy_file("pulse"+str(index)+".inp","pulse0.inp")
-			inp_copy_file("time_mesh_config"+str(index)+".inp","time_mesh_config0.inp")
-			inp_update_token_value("pulse"+str(index)+".inp", "#sim_menu_name", new_sim_name.ret+"@pulse")
+			inp_copy_file(os.path.join(get_sim_path(),"pulse"+str(index)+".inp"),os.path.join(get_sim_path(),"pulse0.inp"))
+			inp_copy_file(os.path.join(get_sim_path(),"time_mesh_config"+str(index)+".inp"),os.path.join(get_sim_path(),"time_mesh_config0.inp"))
+			inp_update_token_value(os.path.join(get_sim_path(),"pulse"+str(index)+".inp"), "#sim_menu_name", new_sim_name.ret+"@pulse")
 			self.add_page(index)
 			self.changed.emit()
 
@@ -92,14 +89,14 @@ class experiment(QWidget):
 		if new_sim_name!=None:
 			new_sim_name=new_sim_name+"@"+tab.tab_name.split("@")[1]
 			index=experiment_new_filename()
-			if inp_copy_file("pulse"+str(index)+".inp","pulse"+str(old_index)+".inp")==False:
+			if inp_copy_file(os.path.join(get_sim_path(),"pulse"+str(index)+".inp"),os.path.join(get_sim_path(),"pulse"+str(old_index)+".inp"))==False:
 				print(_("Error copying file")+"pulse"+str(old_index)+".inp")
 				return
-			if inp_copy_file("time_mesh_config"+str(index)+".inp","time_mesh_config"+str(old_index)+".inp")==False:
+			if inp_copy_file(os.path.join(get_sim_path(),"time_mesh_config"+str(index)+".inp"),os.path.join(get_sim_path(),"time_mesh_config"+str(old_index)+".inp"))==False:
 				print(_("Error copying file")+"pulse"+str(old_index)+".inp")
 				return
 
-			inp_update_token_value("pulse"+str(index)+".inp", "#sim_menu_name", new_sim_name)
+			inp_update_token_value(os.path.join(get_sim_path(),"pulse"+str(index)+".inp"), "#sim_menu_name", new_sim_name)
 			self.add_page(index)
 			self.changed.emit()
 
@@ -131,15 +128,15 @@ class experiment(QWidget):
 
 
 		if response == True:
-			inp_remove_file("pulse"+str(tab.index)+".inp")
-			inp_remove_file("time_mesh_config"+str(tab.index)+".inp")
+			inp_remove_file(os.path.join(get_sim_path(),"pulse"+str(tab.index)+".inp"))
+			inp_remove_file(os.path.join(get_sim_path(),"time_mesh_config"+str(tab.index)+".inp"))
 			index=self.notebook.currentIndex() 
 			self.notebook.removeTab(index)
 			self.changed.emit()
 
 	def load_tabs(self):
 
-		file_list=zip_lsdir(os.path.join(os.getcwd(),"sim.gpvdm"))
+		file_list=zip_lsdir(os.path.join(get_sim_path(),"sim.gpvdm"))
 		files=[]
 		for i in range(0,len(file_list)):
 			if file_list[i].startswith("pulse") and file_list[i].endswith(".inp"):
@@ -164,65 +161,32 @@ class experiment(QWidget):
 		self.status_bar.push(self.context_id, tab.tab_name)
 
 	def __init__(self):
-		QWidget.__init__(self)
-
-		self.win_list=windows()
-		self.win_list.load()
-		self.win_list.set_window(self,"experiments_window")
+		QWidgetSavePos.__init__(self,"experiment")
 
 		self.main_vbox = QVBoxLayout()
 
-		menubar = QMenuBar()
-
-		file_menu = menubar.addMenu("&"+_("File"))
-		self.menu_close=file_menu.addAction(_("Close"))
-		self.menu_close.triggered.connect(self.callback_close)
-
-
-		self.menu_experiment=menubar.addMenu(_("Experiments"))
-		self.menu_experiment_new=self.menu_experiment.addAction("&"+_("New"))
-		self.menu_experiment_new.triggered.connect(self.callback_add_page)
-
-		self.menu_experiment_delete=self.menu_experiment.addAction("&"+_("Delete experiment"))
-		self.menu_experiment_delete.triggered.connect(self.callback_delete_page)
-
-		self.menu_experiment_rename=self.menu_experiment.addAction("&"+_("Rename experiment"))
-		self.menu_experiment_rename.triggered.connect(self.callback_rename_page)
-
-		self.menu_experiment_rename=self.menu_experiment.addAction("&"+_("Rename experiment"))
-		self.menu_experiment_rename.triggered.connect(self.callback_rename_page)
-
-		self.menu_experiment_clone=self.menu_experiment.addAction("&"+_("Clone experiment"))
-		self.menu_experiment_clone.triggered.connect(self.callback_copy_page)
-
-
-		self.menu_help=menubar.addMenu(_("Help"))
-		self.menu_help_help=self.menu_help.addAction(_("Help"))
-		self.menu_help_help.triggered.connect(self.callback_help)
-
-
-		self.main_vbox.addWidget(menubar)
 
 		self.setMinimumSize(1200, 700)
 		self.setWindowTitle(_("Time domain experiment window")+" (https://www.gpvdm.com)") 
 		self.setWindowIcon(QIcon_load("icon"))
 
 		toolbar=QToolBar()
+		toolbar.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
 		toolbar.setIconSize(QSize(48, 48))
 
-		self.new = QAction(QIcon_load("document-new"), _("New experiment"), self)
+		self.new = QAction(QIcon_load("document-new"), wrap_text(_("New experiment"),2), self)
 		self.new.triggered.connect(self.callback_add_page)
 		toolbar.addAction(self.new)
 
-		self.new = QAction(QIcon_load("edit-delete"), _("Delete experiment"), self)
+		self.new = QAction(QIcon_load("edit-delete"), wrap_text(_("Delete experiment"),3), self)
 		self.new.triggered.connect(self.callback_delete_page)
 		toolbar.addAction(self.new)
 
-		self.clone = QAction(QIcon_load("clone"), _("Clone experiment"), self)
+		self.clone = QAction(QIcon_load("clone"), wrap_text(_("Clone experiment"),3), self)
 		self.clone.triggered.connect(self.callback_copy_page)
 		toolbar.addAction(self.clone)
 
-		self.clone = QAction(QIcon_load("rename"), _("Rename experiment"), self)
+		self.clone = QAction(QIcon_load("rename"), wrap_text(_("Rename experiment"),3), self)
 		self.clone.triggered.connect(self.callback_rename_page)
 		toolbar.addAction(self.clone)
 

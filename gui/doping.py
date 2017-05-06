@@ -24,7 +24,6 @@ import os
 from numpy import *
 import webbrowser
 from icon_lib import QIcon_load
-from window_list import windows
 
 #inp
 from inp import inp_update_token_value
@@ -51,19 +50,19 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 
 from open_save_dlg import save_as_gpvdm
+from QWidgetSavePos import QWidgetSavePos
+from cal_path import get_sim_path
 
-class doping_window(QWidget):
+class doping_window(QWidgetSavePos):
 	lines=[]
 
 
 	def save_data(self):
 		print("save")
 		for i in range(0,self.tab.rowCount()):
-			inp_update_token_value(self.tab.item(i, 0).text()+".inp", "#doping_start", self.tab.item(i, 2).text())
-			inp_update_token_value(self.tab.item(i, 0).text()+".inp", "#doping_stop", self.tab.item(i, 3).text())
-
-
-
+			file_name=os.path.join(get_sim_path(),self.tab.item(i, 0).text()+".inp")
+			inp_update_token_value(file_name, "#doping_start", self.tab.item(i, 2).text())
+			inp_update_token_value(file_name, "#doping_stop", self.tab.item(i, 3).text())
 
 	def update(self):
 		self.build_mesh()
@@ -72,18 +71,11 @@ class doping_window(QWidget):
 
 
 	def draw_graph(self):
-
-#		n=0
-
 		self.fig.clf()
 		self.fig.subplots_adjust(bottom=0.2)
 		self.fig.subplots_adjust(left=0.1)
 		self.ax1 = self.fig.add_subplot(111)
 		self.ax1.ticklabel_format(useOffset=False)
-		#ax2 = ax1.twinx()
-#		x_pos=0.0
-#		layer=0
-#		color =['r','g','b','y','o','r','g','b','y','o']
 
 		self.ax1.set_ylabel(_("Doping (m^{-3})"))
 		x_plot=[]
@@ -125,7 +117,8 @@ class doping_window(QWidget):
 			if dos_file!="none":
 				lines=[]
 				print("loading",dos_file)
-				if inp_load_file(lines,dos_file+".inp")==True:
+				file_name=os.path.join(get_sim_path(),dos_file+".inp")
+				if inp_load_file(lines,file_name)==True:
 					doping_start=float(inp_search_token_value(lines, "#doping_start"))
 					doping_stop=float(inp_search_token_value(lines, "#doping_stop"))
 
@@ -168,10 +161,6 @@ class doping_window(QWidget):
 
 		return True
 
-	def callback_close(self, widget, data=None):
-		self.win_list.update(self,"doping")
-		self.hide()
-		return True
 
 	def tab_changed(self, x,y):
 		self.build_mesh()
@@ -181,13 +170,11 @@ class doping_window(QWidget):
 
 
 	def __init__(self):
-		QWidget.__init__(self)
-		self.win_list=windows()
+		QWidgetSavePos.__init__(self,"doping")
 		self.setFixedSize(900, 600)
 		self.setWindowIcon(QIcon_load("doping"))
 		self.setWindowTitle(_("Doping profile editor")+" (https://www.gpvdm.com)") 
 
-		self.win_list.set_window(self,"doping")
 		self.main_vbox=QVBoxLayout()
 
 		toolbar=QToolBar()

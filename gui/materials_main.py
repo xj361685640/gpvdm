@@ -21,12 +21,11 @@
 
 import os
 from tab import tab_class
-from window_list import windows
 from icon_lib import QIcon_load
 
 #qt
 from PyQt5.QtCore import QSize, Qt 
-from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget
+from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QDialog
 from PyQt5.QtGui import QPainter,QIcon
 
 #python modules
@@ -40,10 +39,12 @@ from win_lin import desktop_open
 from ref import get_ref_text
 from gpvdm_open import gpvdm_open
 
+from QWidgetSavePos import QWidgetSavePos
+
 articles = []
 mesh_articles = []
 
-class materials_main(QWidget):
+class materials_main(QWidgetSavePos):
 
 	def changed_click(self):
 		if self.notebook.tabText(self.notebook.currentIndex()).strip()==_("Electrical parameters"):
@@ -71,7 +72,7 @@ class materials_main(QWidget):
 		webbrowser.open("https://www.gpvdm.com/man/index.html")
 
 	def __init__(self,path):
-		QWidget.__init__(self)
+		QWidgetSavePos.__init__(self,"materials_main")
 		self.path=path
 		self.setFixedSize(900, 600)
 		self.setWindowIcon(QIcon_load("organic_material"))
@@ -138,16 +139,8 @@ class materials_main(QWidget):
 
 
 		self.setLayout(self.main_vbox)
-		self.win_list=windows()
-		self.win_list.load()
-		self.win_list.set_window(self,"materials_window")
 		
 		self.notebook.currentChanged.connect(self.changed_click)
-
-	def closeEvent(self, event):
-		self.win_list.update(self,"materials_window")
-		self.hide()
-		event.accept()
 
 
 	def callback_dir_open(self):

@@ -21,7 +21,6 @@
 
 import os
 from tab import tab_class
-from window_list import windows
 from icon_lib import QIcon_load
 
 #qt
@@ -32,23 +31,20 @@ from PyQt5.QtGui import QPainter,QIcon
 #python modules
 import webbrowser
 
+from QWidgetSavePos import QWidgetSavePos
 from help import help_window
+from cal_path import get_sim_path
 
 articles = []
 mesh_articles = []
 
-class parasitic(QWidget):
-
-
-	def callback_close(self, widget, data=None):
-		self.hide()
-		return True
+class parasitic(QWidgetSavePos):
 
 	def callback_help(self):
 		webbrowser.open('http://www.gpvdm.com/man/index.html')
 
-	def __init__(self):
-		QWidget.__init__(self)
+	def __init__(self,name):
+		QWidgetSavePos.__init__(self,name)
 		self.setFixedSize(900, 600)
 		self.setWindowIcon(QIcon_load("parasitic"))
 
@@ -86,20 +82,13 @@ class parasitic(QWidget):
 
 		for i in range(0,len(files)):
 			tab=tab_class()
-			tab.init(files[i],description[i])
+			tab.init(os.path.join(get_sim_path(),files[i]),description[i])
 			self.notebook.addTab(tab,description[i])
 
 
 		self.setLayout(self.main_vbox)
-		self.win_list=windows()
-		self.win_list.load()
-		self.win_list.set_window(self,"parasitic_window")
 		
 
-	def closeEvent(self, event):
-		self.win_list.update(self,"parasitic_window")
-		self.hide()
-		event.accept()
 
 
 

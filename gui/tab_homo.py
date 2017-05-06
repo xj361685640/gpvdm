@@ -24,7 +24,7 @@
 import os
 from inp import inp_isfile
 from inp import inp_load_file
-from inp import inp_write_lines_to_file
+from inp import inp_save
 from numpy import *
 from scan_item import scan_item_add
 from tab_base import tab_base
@@ -178,7 +178,7 @@ class equation_editor(QGroupBox):
 		lines.append("#ver")
 		lines.append("#1.0")
 		lines.append("#end")
-		inp_write_lines_to_file(self.file_name,lines)
+		inp_save(self.file_name,lines)
 
 		
 ############

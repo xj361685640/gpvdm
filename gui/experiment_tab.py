@@ -1,6 +1,6 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012-2016 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012-2016 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
 #	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -36,6 +36,7 @@ _ = i18n.language.gettext
 from PyQt5.QtCore import QSize, Qt 
 from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QTabWidget
 from PyQt5.QtGui import QPainter,QIcon
+from cal_path import get_sim_path
 
 class experiment_tab(QTabWidget):
 
@@ -47,8 +48,8 @@ class experiment_tab(QTabWidget):
 
 		self.index=index
 		lines=[]
-
-		if inp_load_file(lines,"pulse"+str(self.index)+".inp")==True:
+		self.file_name=os.path.join(get_sim_path(),"pulse"+str(self.index)+".inp")
+		if inp_load_file(lines,self.file_name)==True:
 			self.tab_name=inp_search_token_value(lines, "#sim_menu_name")
 		else:
 			self.tab_name=""
@@ -66,7 +67,7 @@ class experiment_tab(QTabWidget):
 		self.addTab(self.circuit,_("Circuit"))
 
 		tab=tab_class()
-		tab.init("pulse"+str(self.index)+".inp",_("Configure"))
+		tab.init(self.file_name,_("Configure"))
 		self.addTab(tab,_("Configure"))
 
 
@@ -79,6 +80,6 @@ class experiment_tab(QTabWidget):
 
 	def rename(self,tab_name):
 		self.tab_name=tab_name+"@"+self.tab_name.split("@")[1]
-		inp_update_token_value("pulse"+str(self.index)+".inp", "#sim_menu_name", self.tab_name)
+		inp_update_token_value(self.file_name, "#sim_menu_name", self.tab_name)
 
 

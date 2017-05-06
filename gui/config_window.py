@@ -21,7 +21,6 @@
 
 
 import os
-from window_list import windows
 from icon_lib import QIcon_load
 
 #qt
@@ -39,10 +38,15 @@ from tab_lang import language_tab_class
 from PyQt5.QtCore import pyqtSignal
 from global_objects import global_object_run
 
+from inp import inp_isfile
+
+from cal_path import get_sim_path
+from QWidgetSavePos import QWidgetSavePos
+
 articles = []
 mesh_articles = []
 
-class class_config_window(QWidget):
+class class_config_window(QWidgetSavePos):
 
 	changed = pyqtSignal()
 	
@@ -82,23 +86,22 @@ class class_config_window(QWidget):
 
 		self.main_vbox.addWidget(self.notebook)
 
-		files=["math.inp","dump.inp","thermal.inp","led.inp","config.inp","server.inp"]
-		description=[_("Solver configuration"),_("Output files"),_("Thermal"),_("LED"),_("GUI configuration"),_("Server configuration")]
+		files=["math.inp","dump.inp","thermal.inp","led.inp","config.inp","server.inp","crypto.inp"]
+		description=[_("Solver configuration"),_("Output files"),_("Thermal"),_("LED"),_("GUI configuration"),_("Server configuration"),_("Cryptography")]
 
 		for i in range(0,len(files)):
-			tab=tab_class()
-			tab.init(files[i],description[i])
-			self.notebook.addTab(tab,description[i])
-			if files[i]=="dump.inp":
-				tab.changed.connect(self.callback_tab_changed)
+			file_name=os.path.join(get_sim_path(),files[i])
+			if inp_isfile(file_name)==True:
+				tab=tab_class()
+				tab.init(file_name,description[i])
+				self.notebook.addTab(tab,description[i])
+				if os.path.basename(file_name)=="dump.inp":
+					tab.changed.connect(self.callback_tab_changed)
 
 		lang_tab=language_tab_class()
 		self.notebook.addTab(lang_tab,_("Language"))
 
 		self.setLayout(self.main_vbox)
-		self.win_list=windows()
-		self.win_list.load()
-		self.win_list.set_window(self,"config_window")
 
 		#self.connect("delete-event", self.callback_close_window) 
 
@@ -107,9 +110,6 @@ class class_config_window(QWidget):
 	def callback_help(self,widget):
 		webbrowser.open('http://www.gpvdm.com/man/index.html')
 
-	def closeEvent(self, event):
-		self.win_list.update(self,"config_window")
-		#self.hide()
 
 
 

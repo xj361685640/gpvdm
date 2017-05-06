@@ -90,6 +90,7 @@ from gpvdm_select import gpvdm_select
 from help import help_window
 from code_ctrl import enable_betafeatures
 
+from cal_path import get_sim_path
 
 class scan_vbox(QWidget):
 
@@ -194,8 +195,6 @@ class scan_vbox(QWidget):
 			os.makedirs(self.sim_dir)
 
 
-	def stop_simulation(self):
-		self.myserver.killall()
 
 	def clean_scan_dir(self):
 		scan_clean_dir(self,self.sim_dir)
@@ -224,7 +223,7 @@ class scan_vbox(QWidget):
 
 	def simulate(self,run_simulation,generate_simulations,args):
 
-		base_dir=os.getcwd()
+		base_dir=get_sim_path()
 		run=True
 
 		if self.tab.rowCount() == 0:
@@ -473,9 +472,6 @@ class scan_vbox(QWidget):
 		self.simulate(True,True,args)
 
 
-	def callback_stop_simulation(self):
-		self.stop_simulation()
-
 	def callback_examine(self):
 		mycmp=cmp_class()
 		#ret=mycmp.init(self.sim_dir,get_exe_command())
@@ -502,7 +498,7 @@ class scan_vbox(QWidget):
 		self.select_param_window.set_save_function(self.save_combo)
 		
 		toolbar=QToolBar()
-		toolbar.setIconSize(QSize(48, 48))
+		toolbar.setIconSize(QSize(32, 32))
 
 		self.tb_add = QAction(QIcon_load("list-add"), _("Add parameter to scan"), self)
 		self.tb_add.triggered.connect(self.callback_add_item)
@@ -523,22 +519,6 @@ class scan_vbox(QWidget):
 		#self.tb_notes = QAction(QIcon_load("select"), _("Select parameter to change"), self)
 		#self.tb_notes.triggered.connect(self.callback_show_list)
 		#toolbar.addAction(self.tb_notes)
-
-		self.tb_simulate = QAction(QIcon_load("forward"), _("Run simulation"), self)
-		self.tb_simulate.triggered.connect(self.callback_run_simulation)
-		toolbar.addAction(self.tb_simulate)
-
-		self.tb_stop = QAction(QIcon_load("media-playback-pause"), _("Stop the simulation"), self)
-		self.tb_stop.triggered.connect(self.callback_stop_simulation)
-		toolbar.addAction(self.tb_stop)
-
-		self.tb_plot = QAction(QIcon_load("plot"), _("Find a file to plot"), self)
-		self.tb_plot.triggered.connect(self.callback_gen_plot_command)
-		toolbar.addAction(self.tb_plot)
-
-		self.tb_plot_time = QAction(QIcon_load("plot_time"), _("Examine results in time domain"), self)
-		self.tb_plot_time.triggered.connect(self.callback_examine)
-		toolbar.addAction(self.tb_plot_time)
 
 		self.tb_command = QAction(QIcon_load("utilities-terminal"), _("Insert python command"), self)
 		self.tb_command.triggered.connect(self.callback_insert_command)

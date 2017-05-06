@@ -21,7 +21,7 @@
 import os
 from scan_item import scan_item_add
 from gui_util import dlg_get_text
-from inp import inp_write_lines_to_file
+from inp import inp_save
 import webbrowser
 from util import fx_with_units
 from icon_lib import QIcon_load
@@ -55,6 +55,8 @@ from gui_util import tab_get_value
 from open_save_dlg import save_as_jpg
 
 from colors import get_color
+from cal_path import get_sim_path
+
 mesh_articles = []
 
 class tab_fxmesh(QWidget):
@@ -95,7 +97,7 @@ class tab_fxmesh(QWidget):
 		out_text.append("1.1")
 		out_text.append("#end")
 
-		inp_write_lines_to_file(os.path.join(os.getcwd(),file_name),out_text)
+		inp_save(file_name,out_text)
 		self.update_scan_tokens()
 
 	def update_scan_tokens(self):
@@ -193,7 +195,7 @@ class tab_fxmesh(QWidget):
 
 		file_name="fxmesh"+str(self.index)+".inp"
 
-		ret=inp_load_file(lines,file_name)
+		ret=inp_load_file(lines,os.path.join(get_sim_path(),file_name))
 		if ret==True:
 			if inp_search_token_value(lines, "#ver")=="1.1":
 				pos=0

@@ -42,6 +42,7 @@ from inp_util import inp_search_token_value
 
 #path
 from cal_path import get_materials_path
+from cal_path import get_sim_path
 
 #contacts
 from contacts_io import contacts_get_contacts
@@ -126,7 +127,7 @@ def draw_mode(z_size,depth):
 	start=0.0
 	data=dat_file()
 			
-	path=os.path.join(os.getcwd(),"light_dump","light_1d_photons_tot_norm.dat")
+	path=os.path.join(get_sim_path(),"light_dump","light_1d_photons_tot_norm.dat")
 	if dat_file_read(data,path)==True:
 		array_len=data.y_len
 		s=data.data[0][0]
@@ -499,14 +500,14 @@ if open_gl_ok==True:
 			self.ray_model=False
 			
 			lines=[]
-			if inp_load_file(lines,"led.inp")==True:
+			if inp_load_file(lines,os.path.join(get_sim_path(),"led.inp"))==True:
 				self.ray_model=val=str2bool(inp_search_token_value(lines, "#led_on"))
 				
 			lines=[]
 
 			for i in range(0,epitaxy_get_layers()):
 				if epitaxy_get_pl_file(i)!="none":
-					if inp_load_file(lines,epitaxy_get_pl_file(i)+".inp")==True:
+					if inp_load_file(lines,os.path.join(get_sim_path(),epitaxy_get_pl_file(i)+".inp"))==True:
 						if str2bool(lines[1])==True:
 							self.emission=True
 					
@@ -543,7 +544,7 @@ if open_gl_ok==True:
 				if i==l-self.selected_layer:
 					box_lines(0.0,pos,0,max_gui_device_x,thick,max_gui_device_z)
 
-				if epitaxy_get_electrical_layer(l-i).startswith("dos")==True:
+				if epitaxy_get_electrical_layer(l-i).startswith("dos")==True and ypoints!=0 and xpoints!=0 and zpoints!=0:
 					dy=thick/float(ypoints)
 					dx=max_gui_device_x/float(xpoints)
 					dz=max_gui_device_z/float(zpoints)
@@ -636,24 +637,34 @@ if open_gl_ok==True:
 				#print(self.graph_path)
 				self.graph_z_max,self.graph_z_min=dat_file_max_min(self.graph_data)
 				#print(self.graph_z_max,self.graph_z_min)
-			val=inp_get_token_value("light.inp", "#Psun")
-			self.suns=float(val)
+			val=inp_get_token_value(os.path.join(get_sim_path(),"light.inp"), "#Psun")
+			try:
+				self.suns=float(val)
+			except:
+				self.suns=0.0
+
 			l=epitaxy_get_layers()-1
 			for i in range(0,epitaxy_get_layers()):
 
 				path=os.path.join(get_materials_path(),epitaxy_get_mat_file(l-i),"mat.inp")
 
-
-				if inp_load_file(lines,path)==True:
+				loaded=True
+				if inp_load_file(lines,os.path.join(get_sim_path(),path))==True:
 					ret=inp_search_token_array(lines, "#red_green_blue")
-					red=float(ret[0])
-					green=float(ret[1])
-					blue=float(ret[2])
-					#red=float(inp_search_token_value(lines, "#Red"))
-					#green=float(inp_search_token_value(lines, "#Green"))
-					#blue=float(inp_search_token_value(lines, "#Blue"))
-					alpha=float(inp_search_token_value(lines, "#mat_alpha"))
+					if ret!=False:
+						red=float(ret[0])
+						green=float(ret[1])
+						blue=float(ret[2])
+						#red=float(inp_search_token_value(lines, "#Red"))
+						#green=float(inp_search_token_value(lines, "#Green"))
+						#blue=float(inp_search_token_value(lines, "#Blue"))
+						alpha=float(inp_search_token_value(lines, "#mat_alpha"))
+					else:
+						loaded=False
 				else:
+					loaded=False
+					
+				if loaded==False:
 					red=0.0
 					green=0.0
 					blue=0.0

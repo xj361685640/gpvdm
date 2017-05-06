@@ -22,10 +22,12 @@
 #import sys
 import os
 #import shutil
-from inp import inp_write_lines_to_file
+from inp import inp_save
 from inp import inp_load_file
 from code_ctrl import enable_betafeatures
 from scan_item import scan_item_add
+
+from cal_path import get_sim_path
 
 xlist=[]
 ylist=[]
@@ -66,7 +68,7 @@ def mesh_load(vector):
 	pos=0
 	lines=[]
 
-	if inp_load_file(lines,os.path.join(os.getcwd(),file_name))==True:
+	if inp_load_file(lines,os.path.join(get_sim_path(),file_name))==True:
 		pos=pos+1	#first comment
 		mesh_layers=int(lines[pos])
 		for i in range(0, mesh_layers):
@@ -100,7 +102,7 @@ def mesh_save(file_name,my_list):
 	lines.append("1.0")
 	lines.append("#end")
 
-	inp_write_lines_to_file(os.path.join(os.getcwd(),file_name),lines)
+	inp_save(os.path.join(get_sim_path(),file_name),lines)
 
 def mesh_save_all():
 	global xlist

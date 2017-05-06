@@ -49,6 +49,8 @@ from code_ctrl import enable_cluster
 from win_lin import running_on_linux
 from inp import inp_update_token_value
 from device_lib import device_lib_replace
+from cal_path import test_arg_for_sim_file
+from cal_path import set_sim_path
 
 import i18n
 _ = i18n.language.gettext
@@ -72,13 +74,15 @@ parser.add_argument("--clonesrc", help=_("Clone the source code."), action='stor
 parser.add_argument("--editvalue", help=_("edits a value in a .gpvdm archive. Usage --edit-value /path/to/sim.gpvdm #token_to_change new_value "), nargs=3)
 parser.add_argument("--scanplot", help=_("Runs an oplot file, usage --scanplot /path/to/oplot/file.oplot "), nargs=1)
 parser.add_argument("--runscan", help=_("Runs a scan, usage --runscan /path/containing/base/files/ /path/to/scan/dir/ "), nargs=2)
-parser.add_argument("--load", help=_("Runs a scan, usage --load /path/containing/simulation/sim.gpvdm"), nargs=1)
-args = parser.parse_args()
+parser.add_argument("--load", help=_("Loads a simulation --load /path/containing/simulation/sim.gpvdm"), nargs=1)
 
-
-
+if test_arg_for_sim_file()==False:
+	args = parser.parse_args()
 
 def command_args(argc,argv):
+	if test_arg_for_sim_file()!=False:
+		return
+
 	if argc>=2:
 		if args.version:
 			print(version())
@@ -126,7 +130,7 @@ def command_args(argc,argv):
 			inp_update_token_value(args.editvalue[0], args.editvalue[1], args.editvalue[2])
 			sys.exit(0)
 		elif args.load:
-			print("Loading file",args.load[0])
+			set_sim_path(os.path.dirname(args.load[0]))
 		elif args.scanplot:
 			plot_token=dat_file()
 			oplot_file=args.scan-plot[0]

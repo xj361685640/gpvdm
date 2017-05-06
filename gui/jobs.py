@@ -23,7 +23,6 @@
 import os
 from search import find_fit_log
 from search import find_fit_speed_log
-from window_list import windows
 from inp import inp_load_file
 from inp_util import inp_search_token_value
 from status_icon import status_icon_stop

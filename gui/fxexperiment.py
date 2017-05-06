@@ -22,7 +22,6 @@
 
 import os
 from gui_util import dlg_get_text
-from window_list import windows
 import webbrowser
 from inp import inp_update_token_value
 from fxexperiment_tab import fxexperiment_tab
@@ -52,6 +51,9 @@ from PyQt5.QtCore import pyqtSignal
 from util import wrap_text
 from tb_item_is_imps import tb_item_is_imps
 
+from cal_path import get_sim_path
+from QWidgetSavePos import QWidgetSavePos
+
 def experiment_new_filename():
 	for i in range(0,20):
 		name="fxdomain"+str(i)+".inp"
@@ -59,14 +61,9 @@ def experiment_new_filename():
 			return i
 	return -1
 
-class fxexperiment(QWidget):
+class fxexperiment(QWidgetSavePos):
 
 	changed = pyqtSignal()
-
-	def callback_close(self):
-		self.win_list.update(self,"experiment_window")
-		self.hide()
-		return True
 
 	def callback_help(self):
 		webbrowser.open("https://www.gpvdm.com/man/index.html")
@@ -78,9 +75,9 @@ class fxexperiment(QWidget):
 
 		if new_sim_name!=None:
 			index=experiment_new_filename()
-			inp_copy_file("fxdomain"+str(index)+".inp","fxdomain0.inp")
-			inp_copy_file("fxmesh"+str(index)+".inp","fxmesh0.inp")
-			inp_update_token_value("fxdomain"+str(index)+".inp", "#sim_menu_name", new_sim_name+"@fxdomain")
+			inp_copy_file(os.path.join(get_sim_path(),"fxdomain"+str(index)+".inp"),os.path.join(get_sim_path(),"fxdomain0.inp"))
+			inp_copy_file(os.path.join(get_sim_path(),"fxmesh"+str(index)+".inp"),os.path.join(get_sim_path(),"fxmesh0.inp"))
+			inp_update_token_value(os.path.join(get_sim_path(),"fxdomain"+str(index)+".inp"), "#sim_menu_name", new_sim_name+"@fxdomain")
 			self.add_page(index)
 			self.changed.emit()
 
@@ -93,14 +90,14 @@ class fxexperiment(QWidget):
 		if new_sim_name!=None:
 			new_sim_name=new_sim_name+"@"+tab.tab_name.split("@")[1]
 			index=experiment_new_filename()
-			if inp_copy_file("fxdomain"+str(index)+".inp","fxdomain"+str(old_index)+".inp")==False:
-				print("Error copying file"+"fxdomain"+str(old_index)+".inp")
+			if inp_copy_file(os.path.join(get_sim_path(),"fxdomain"+str(index)+".inp"),os.path.join(get_sim_path(),"fxdomain"+str(old_index)+".inp"))==False:
+				print("Error copying file"+os.path.join(get_sim_path(),"fxdomain"+str(old_index)+".inp"))
 				return
-			if inp_copy_file("fxmesh"+str(index)+".inp","fxmesh"+str(old_index)+".inp")==False:
-				print("Error copying file"+"fxdomain"+str(old_index)+".inp")
+			if inp_copy_file(os.path.join(get_sim_path(),"fxmesh"+str(index)+".inp"),os.path.join(get_sim_path(),"fxmesh"+str(old_index)+".inp"))==False:
+				print("Error copying file"+os.path.join(get_sim_path(),"fxdomain"+str(old_index)+".inp"))
 				return
 
-			inp_update_token_value("fxdomain"+str(index)+".inp", "#sim_menu_name", new_sim_name)
+			inp_update_token_value(os.path.join(get_sim_path(),"fxdomain"+str(index)+".inp"), "#sim_menu_name", new_sim_name)
 			self.add_page(index)
 			self.changed.emit()
 
@@ -138,8 +135,8 @@ class fxexperiment(QWidget):
 		response=yes_no_dlg(self,_("Should I remove the experiment file")+" "+tab.tab_name.split("@")[0])
 
 		if response == True:
-			inp_remove_file("fxdomain"+str(tab.index)+".inp")
-			inp_remove_file("fxmesh"+str(tab.index)+".inp")
+			inp_remove_file(os.path.join(get_sim_path(),"fxdomain"+str(tab.index)+".inp"))
+			inp_remove_file(os.path.join(get_sim_path(),"fxmesh"+str(tab.index)+".inp"))
 			index=self.notebook.currentIndex() 
 			self.notebook.removeTab(index)
 			self.changed.emit()
@@ -147,7 +144,7 @@ class fxexperiment(QWidget):
 
 	def load_tabs(self):
 
-		file_list=zip_lsdir(os.path.join(os.getcwd(),"sim.gpvdm"))
+		file_list=zip_lsdir(os.path.join(get_sim_path(),"sim.gpvdm"))
 		files=[]
 		for i in range(0,len(file_list)):
 			if file_list[i].startswith("fxdomain") and file_list[i].endswith(".inp"):
@@ -177,11 +174,8 @@ class fxexperiment(QWidget):
 		tab.save_image()
 	
 	def __init__(self):
-		QWidget.__init__(self)
+		QWidgetSavePos.__init__(self,"fxexperiment")
 		self.setMinimumSize(1200, 700)
-		self.win_list=windows()
-		self.win_list.load()
-		self.win_list.set_window(self,"fxexperiments_window")
 
 		self.main_vbox = QVBoxLayout()
 

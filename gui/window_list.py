@@ -18,10 +18,12 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-
+import os
 from inp import inp_load_file
-from inp import inp_write_lines_to_file
+from inp import inp_save
 
+from cal_path import get_sim_path
+from inp import inp_read_next_item
 from PyQt5.QtWidgets import QWidget, QDesktopWidget
 
 def resize_window_to_be_sane(window,x,y):
@@ -37,74 +39,91 @@ class window_item:
 
 wlist=[]
 
-class windows():
-	def update(self,window,name):
-		global wlist
-		pos=-1
-		x=window.x()
-		y=window.y()
+def wpos_set_window(window,name):
+	global wlist
+	for i in range(0,len(wlist)):
+		if wlist[i].name==name:
+			shape=QDesktopWidget().screenGeometry()
 
-		for i in range(0,len(wlist)):
-			if wlist[i].name==name:
-				pos=i
-				wlist[i].x=x
-				wlist[i].y=y
+			desktop_w=shape.width()
+			desktop_h=shape.height()
+
+			w=window.width()
+			h=window.height()
+
+			x=int(wlist[i].x)
+			y=int(wlist[i].y)
+			if (x+w>desktop_w):
+				x=0
+				#print("Reset with")
+			if (y+h>desktop_h):
+				y=0
+				#print("Reset height")
+
+			window.move(x,y)
+			break
+
+def wpos_dump():
+	for i in range(0,len(wlist)):
+		print(wlist[i].name,wlist[i].x,wlist[i].y)
+		
+def wpos_update(window,name):
+	global wlist
+	found=False
+	x=window.x()
+	y=window.y()
+
+	for i in range(0,len(wlist)):
+		if wlist[i].name==name:
+			found=True
+			wlist[i].x=x
+			wlist[i].y=y
+			break
+
+	if found==False:
+		a=window_item()
+		a.name=name
+		a.x=x
+		a.y=y
+		wlist.append(a)
+			
+def wpos_load():
+	global wlist
+	wlist=[]
+	lines=[]
+	pos=0
+	if inp_load_file(lines,os.path.join(get_sim_path(),"window_list2.inp"))==True:
+		while(1):
+			token,name,pos=inp_read_next_item(lines,pos)
+			if token=="#end" or token=="#ver":
 				break
 
-		if pos==-1:
+			token,x,pos=inp_read_next_item(lines,pos)
+
+			token,y,pos=inp_read_next_item(lines,pos)
+		
 			a=window_item()
 			a.name=name
-			a.x=x
-			a.y=y
+			a.x=float(x)
+			a.y=float(y)
 			wlist.append(a)
-			pos=len(wlist)-1
 
 
-		lines=[]
-		lines.append(str(len(wlist)))
+def wpos_save():
+	global wlist
+	lines=[]
 
-		for i in range(0,len(wlist)):
-			lines.append(wlist[i].name)
-			lines.append(str(wlist[i].x))
-			lines.append(str(wlist[i].y))
+	for i in range(0,len(wlist)):
+		lines.append("#window_name_"+wlist[i].name)
+		lines.append(wlist[i].name)
+		lines.append("#window_x_"+wlist[i].name)
+		lines.append(str(wlist[i].x))
+		lines.append("#window_y_"+wlist[i].name)
+		lines.append(str(wlist[i].y))
+	
+	lines.append("#ver")
+	lines.append("1.0")
+	lines.append("#end")
 
-		return inp_write_lines_to_file("window_list.inp",lines)
-
-	def set_window(self,window,name):
-		global wlist
-		for i in range(0,len(wlist)):
-			if wlist[i].name==name:
-				shape=QDesktopWidget().screenGeometry()
-
-				desktop_w=shape.width()
-				desktop_h=shape.height()
-
-				w=window.width()
-				h=window.height()
-
-				x=int(wlist[i].x)
-				y=int(wlist[i].y)
-				if (x+w>desktop_w):
-					x=0
-					#print("Reset with")
-				if (y+h>desktop_h):
-					y=0
-					#print("Reset height")
-
-				window.move(x,y)
-				break
-
-	def load(self):
-		global wlist
-		wlist=[]
-		lines=[]
-		if inp_load_file(lines,"window_list.inp")==True:
-			number=int(lines[0])
-			for i in range(0,number):
-				a=window_item()
-				a.name=lines[i*3+1]
-				a.x=lines[i*3+2]
-				a.y=lines[i*3+3]
-				wlist.append(a)
-
-
+	ret=inp_save(os.path.join(get_sim_path(),"window_list2.inp"),lines)
+	return ret

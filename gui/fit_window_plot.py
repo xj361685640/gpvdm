@@ -42,6 +42,8 @@ from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as Navigatio
 
 from open_save_dlg import save_as_jpg
 
+from cal_path import get_sim_path
+
 class fit_window_plot(QWidget):
 	lines=[]
 	edit_list=[]
@@ -59,7 +61,11 @@ class fit_window_plot(QWidget):
 	def draw_graph(self):
 
 		self.plot_widget.set_labels(["Simulation","Experiment","Delta"])
-		self.plot_widget.load_data(["fit_error_sim"+str(self.index)+".dat","fit_error_exp"+str(self.index)+".dat","fit_error_delta"+str(self.index)+".dat"],"fit_error_sim"+str(self.index)+".oplot")
+		error_sim=os.path.join(get_sim_path(),"fit_error_sim"+str(self.index)+".dat")
+		error_exp=os.path.join(get_sim_path(),"fit_error_exp"+str(self.index)+".dat")
+		delta=os.path.join(get_sim_path(),"fit_error_delta"+str(self.index)+".dat")
+		oplot_file=os.path.join(get_sim_path(),"fit_error_sim"+str(self.index)+".oplot")
+		self.plot_widget.load_data([error_sim,error_exp,delta],oplot_file)
 
 		self.plot_widget.do_plot()
 

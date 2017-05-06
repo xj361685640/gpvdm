@@ -52,6 +52,8 @@ from global_objects import global_object_run
 from util import isfiletype
 from icon_lib import QIcon_load
 
+from cal_path import get_sim_path
+
 class ribbon_home(QToolBar):
 	def __init__(self):
 		QToolBar.__init__(self)
@@ -136,7 +138,7 @@ class ribbon_home(QToolBar):
 	def callback_plot_select(self):
 		help_window().help_set_help(["dat_file.png",_("<big>Select a file to plot</big><br>Single clicking shows you the content of the file")])
 
-		dialog=gpvdm_open(os.getcwd(),show_inp_files=False)
+		dialog=gpvdm_open(get_sim_path(),show_inp_files=False)
 		dialog.show_directories=False
 		ret=dialog.exec_()
 		if ret==QDialog.Accepted:
@@ -184,8 +186,7 @@ class ribbon_home(QToolBar):
 
 	def callback_run_fit(self, widget):
 		if self.fit_window==None:
-			self.fit_window=fit_window()
-			self.fit_window.init()
+			self.fit_window=fit_window("fit")
 			server_get().set_fit_update_function(self.fit_window.update)
 
 		help_window().help_set_help(["fit.png",_("<big><b>Fit window</b></big><br> Use this window to fit the simulation to experimental data.")])

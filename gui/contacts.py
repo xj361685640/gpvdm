@@ -26,7 +26,6 @@ from inp import inp_load_file
 import webbrowser
 from inp_util import inp_search_token_value
 from icon_lib import QIcon_load
-from window_list import windows
 
 from epitaxy import epitaxy_get_layers
 from epitaxy import epitaxy_get_dos_file
@@ -66,8 +65,9 @@ from gui_util import error_dlg
 from global_objects import global_object_run
 
 from QComboBoxLang import QComboBoxLang
+from QWidgetSavePos import QWidgetSavePos
 
-class contacts_window(QWidget):
+class contacts_window(QWidgetSavePos):
 
 	visible=1
 	
@@ -144,10 +144,6 @@ class contacts_window(QWidget):
 		else:
 			error_dlg(self,_("There are some non numeric values in the table"))
 
-	def callback_close(self, widget, data=None):
-		self.win_list.update(self,"contact")
-		self.hide()
-		return True
 
 	def callback_help(self):
 		webbrowser.open('http://www.gpvdm.com/man/index.html')
@@ -169,11 +165,8 @@ class contacts_window(QWidget):
 
 
 	def __init__(self):
-		QWidget.__init__(self)
+		QWidgetSavePos.__init__(self,"contacts")
 		self.setFixedSize(750, 400)
-
-		self.win_list=windows()
-		self.win_list.set_window(self,"contacts")
 
 		self.setWindowIcon(QIcon_load("contact"))
 

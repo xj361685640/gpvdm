@@ -42,8 +42,6 @@ from icon_lib import QIcon_load
 from scan_item import scan_items_get_file
 from scan_item import scan_items_get_token
 
-from window_list import windows
-
 from util import str2bool
 
 import i18n
@@ -58,11 +56,12 @@ from gui_util import tab_remove
 from gui_util import tab_get_value
 
 from inp import inp_load_file
-from inp import inp_save_lines
+from inp import inp_save_lines_to_file
 from gpvdm_select import gpvdm_select
 
 from open_save_dlg import open_as_filter
 from gui_util import error_dlg
+from cal_path import get_sim_path
 
 class fit_vars(QWidget):
 
@@ -114,7 +113,7 @@ class fit_vars(QWidget):
 				error_dlg(self,_("The data file does not have a #begin or #end token indicating where the data starts and ends."))
 				return
 
-			rel_path=os.path.relpath(file_name, os.getcwd())
+			rel_path=os.path.relpath(file_name, get_sim_path())
 			self.insert_row(self.tab.rowCount(),rel_path,"#data",rel_path,str(end-begin),"1")
 			self.save_combo()
 
@@ -140,14 +139,10 @@ class fit_vars(QWidget):
 		lines.append("1.0")
 		lines.append("#end")
 
-		inp_save_lines(self.file_name,lines)
+		inp_save_lines_to_file(self.file_name,lines)
 
 	def tab_changed(self):
 		self.save_combo()
-
-	def closeEvent(self, event):
-		self.win_list.update(self,"fit_vars_window")
-		self.hide()
 
 	def create_model(self):
 		self.tab.clear()
@@ -155,7 +150,7 @@ class fit_vars(QWidget):
 		self.tab.setSelectionBehavior(QAbstractItemView.SelectRows)
 		self.tab.setHorizontalHeaderLabels([_("File"), _("Token"), _("Path"),_("Lines to edit"),_("Line section to edit")])
 		self.tab.setColumnWidth(2, 400)
-		self.file_name="fit_vars.inp"
+		self.file_name=os.path.join(get_sim_path(),"fit_vars.inp")
 
 		lines=[]
 		pos=0
@@ -198,9 +193,6 @@ class fit_vars(QWidget):
 
 	def __init__(self):
 		QWidget.__init__(self)
-		self.win_list=windows()
-		self.win_list.load()
-		self.win_list.set_window(self,"fit_vars_window")
 
 		self.setWindowTitle(_("Fit vars window - gpvdm"))   
 		self.setWindowIcon(QIcon_load("fit"))

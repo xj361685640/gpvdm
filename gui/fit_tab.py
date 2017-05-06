@@ -40,7 +40,12 @@ from fit_window_plot import fit_window_plot
 from fit_window_plot_real import fit_window_plot_real
 
 from open_save_dlg import save_as_filter
+from cal_path import get_sim_path
 from util import str2bool
+
+from matlab_editor import matlab_editor
+
+from import_data import import_data
 
 mesh_articles = []
 
@@ -48,7 +53,7 @@ class fit_tab(QTabWidget):
 
 	def update(self):
 		lines=[]
-		if inp_load_file(lines,"fit"+str(self.index)+".inp")==True:
+		if inp_load_file(lines,os.path.join(get_sim_path(),"fit"+str(self.index)+".inp"))==True:
 			enabled=str2bool(inp_search_token_value(lines, "#enabled"))
 			if enabled==True:
 				self.tmesh_real.update()
@@ -59,26 +64,29 @@ class fit_tab(QTabWidget):
 		lines=[]
 		self.index=index
 
-		if inp_load_file(lines,"fit"+str(self.index)+".inp")==True:
+		if inp_load_file(lines,os.path.join(get_sim_path(),"fit"+str(self.index)+".inp"))==True:
 			self.tab_name=inp_search_token_value(lines, "#fit_name")
 		else:
 			self.tab_name=""
 
 		#self.setTabsClosable(True)
-		self.setMovable(True)
-
-		self.tmesh_real = fit_window_plot_real(self.index)
-		self.addTab(self.tmesh_real,_("Experimental data"))
+		#self.setMovable(True)
 
 		self.tmesh = fit_window_plot(self.index)
 		self.addTab(self.tmesh,_("Fit error"))
 
+		config=tab_class()
+		config.init(os.path.join(get_sim_path(),"fit"+str(self.index)+".inp"),self.tab_name)
+		self.addTab(config,_("Configure fit"))
+		
+		self.tmesh_real = fit_window_plot_real(self.index)
+		self.addTab(self.tmesh_real,_("Experimental data"))
+
 		self.fit_patch = fit_patch(self.index)
 		self.addTab(self.fit_patch, _("Fit patch"))
 
-		config=tab_class()
-		config.init("fit"+str(self.index)+".inp",self.tab_name)
-		self.addTab(config,_("Configure fit"))
+		self.matlab_editor = matlab_editor(self.index)
+		self.addTab(self.matlab_editor, _("MATLAB code"))
 
 		
 	def init(self,index):
@@ -91,7 +99,13 @@ class fit_tab(QTabWidget):
 				mytext=mytext+" "
 		self.label.set_text(mytext)
 
+	def import_data(self):
+		self.im=import_data(os.path.join(get_sim_path(),"fit_data"+str(self.index)+".inp"))
+		self.im.run()
+		if self.im.ret==True:
+			self.update()
+
 	def rename(self,tab_name):
 		self.tab_name=tab_name
-		inp_update_token_value("fit"+str(self.index)+".inp", "#fit_name", self.tab_name)
+		inp_update_token_value(os.path.join(get_sim_path(),"fit"+str(self.index)+".inp"), "#fit_name", self.tab_name)
 

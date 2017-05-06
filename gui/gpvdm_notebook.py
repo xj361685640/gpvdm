@@ -1,6 +1,6 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012-2017 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012-2017 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
 #	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -64,7 +64,7 @@ import i18n
 _ = i18n.language.gettext
 
 from global_objects import global_object_register
-
+from cal_path import get_sim_path
 
 class gpvdm_notebook(QTabWidget):
 	#progress=progress_class()
@@ -143,7 +143,7 @@ class gpvdm_notebook(QTabWidget):
 
 		#self.setTabsClosable(True)
 		self.setMovable(True)
-		if (os.path.exists("sim.gpvdm")==True) and (os.path.normcase(os.getcwd())!=os.path.normcase(get_bin_path())):
+		if (os.path.isfile(os.path.join(get_sim_path(),"sim.gpvdm"))==True):
 			self.finished_loading=False
 			#self.progress.init()
 			#self.progress.show()

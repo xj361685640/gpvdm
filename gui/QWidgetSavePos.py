@@ -1,6 +1,7 @@
+# -*- coding: utf-8 -*-
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012-2017 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012-2017 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
 #	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -18,42 +19,26 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-import uuid
-import os
-from inp import inp_load_file
-from cal_path import get_exe_path
-from inp import inp_save
-from inp_util import inp_search_token_value
-from os.path import expanduser
-from win_lin import running_on_linux
+from PyQt5.QtWidgets import QWidget
 
-def uid_get():
-	uid=""
-	if running_on_linux()==True:
-		path=os.path.join(expanduser("~"),".gpvdm_uid.inp")
-	else:
-		path=os.path.join(get_exe_path(),"uid.inp")
+from window_list import wpos_update
+from window_list import wpos_dump
+from window_list import wpos_save
+from window_list import wpos_set_window
 
-	try:
-		lines=[]
-		found=False
+class QWidgetSavePos(QWidget):
 
-		if inp_load_file(lines,path)==True:
-			uid=inp_search_token_value(lines, "#uid")
-			found=True
+	def closeEvent(self, event):
+		wpos_save()
+		event.accept()
+		
+	def moveEvent(self,event):
+		wpos_update(self,self.window_name)
+#		wpos_dump()
+		event.accept()
 
-		if found==False:
-			uid=str(uuid.uuid4())[0:8]
-			lines=[]
-			lines.append("#uid")
-			lines.append(uid)
-			lines.append("#ver")
-			lines.append("1.0")
-			lines.append("#end")
-
-			inp_save(path,lines)
-	except:
-		print("uid error")
-
-	return uid
+	def __init__(self,window_name):
+		QWidget.__init__(self)
+		self.window_name=window_name
+		wpos_set_window(self,self.window_name)
 

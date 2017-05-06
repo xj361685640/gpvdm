@@ -50,7 +50,7 @@ def inp_search_token_value_multiline(lines, token):
 def inp_merge(dest,src):
 	ret=[]
 	for i in range(0,len(dest)):
-		if dest[i].startswith("#") and dest[i]!="#ver" and dest[i]!="#end":
+		if dest[i].startswith("#") and dest[i]!="#ver" and dest[i]!="#end"  and dest[i]!="#core":
 			lookfor=dest[i]
 			found=False
 			for ii in range(0,len(src)):

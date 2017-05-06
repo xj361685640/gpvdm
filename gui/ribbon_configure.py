@@ -88,7 +88,7 @@ class ribbon_configure(QToolBar):
 	def callback_config_window(self):
 
 		if self.config_window==None:
-			self.config_window=class_config_window()
+			self.config_window=class_config_window("config")
 			self.config_window.init()
 			self.config_window.changed.connect(self.dump.refresh)
 

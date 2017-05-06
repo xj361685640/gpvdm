@@ -63,6 +63,7 @@ from workbook import gen_workbook
 import time
 from gui_util import process_events
 from PyQt5.QtCore import QTimer
+from cal_path import get_sim_path
 
 my_server=False
 
@@ -300,7 +301,6 @@ class server(QWidget,cluster):
 				break
 
 	def my_timer(self):
-		print("Server timer check")
 		#This is to give the QProcess timer enough time to update
 		if self.terminal.test_free_cpus()!=0:
 			self.process_jobs()
@@ -324,9 +324,11 @@ class server(QWidget,cluster):
 					if self.finished_jobs.count(data)==0:
 						job=int(data[4:])
 						self.finished_jobs.append(data)
-						if str2bool(inp_get_token_value("dump.inp","#dump_workbook"))==True:
-							if gen_workbook(self.jobs[job],os.path.join(self.jobs[job],"data.xlsx"))==False:
-								self.excel_workbook_gen_error=self.excel_workbook_gen_error or True
+						make_work_book=inp_get_token_value(os.path.join(get_sim_path(),"dump.inp"),"#dump_workbook")
+						if make_work_book!=None:
+							if str2bool(make_work_book)==True:
+								if gen_workbook(self.jobs[job],os.path.join(self.jobs[job],"data.xlsx"))==False:
+									self.excel_workbook_gen_error=self.excel_workbook_gen_error or True
 						self.jobs_run=self.jobs_run+1
 						self.jobs_running=self.jobs_running-1
 						self.progress_window.set_fraction(float(self.jobs_run)/float(len(self.jobs)))

@@ -22,11 +22,10 @@
 
 import os
 from inp import inp_update_token_value
-from inp import inp_write_lines_to_file
+from inp import inp_save
 from inp import inp_load_file
 from inp_util import inp_search_token_value
 from plot_widget import plot_widget
-from window_list import windows
 from dat_file_class import dat_file
 from plot_io import plot_load_info
 from cal_path import get_exe_command
@@ -45,8 +44,10 @@ from open_save_dlg import save_as_filter
 from PyQt5.QtWidgets import QApplication
 
 from help import help_window
+from QWidgetSavePos import QWidgetSavePos
+from cal_path import get_sim_path
 
-class cmp_class(QWidget):
+class cmp_class(QWidgetSavePos):
 	mix_y=None
 	max_y=None
 	max_z=1e24
@@ -64,9 +65,6 @@ class cmp_class(QWidget):
 		else:
 			return False
 
-	def callback_close(self, widget, data=None):
-		self.win_list.update(self,"cmp_class")
-		return False
 
 	def do_clip(self):
 
@@ -156,7 +154,7 @@ class cmp_class(QWidget):
 		lines.append(self.entry2.get_text())
 		lines.append("#entry3")
 		lines.append(self.entry3.get_text())
-		inp_write_lines_to_file("gui_cmp_config.inp",lines)
+		inp_save("gui_cmp_config.inp",lines)
 		self.plot.gen_colors(2)
 		self.count_dumps()
 
@@ -242,7 +240,7 @@ class cmp_class(QWidget):
 	def find_snapshots(self):
 
 		matches = []
-		for root, dirnames, filenames in os.walk(os.getcwd()):
+		for root, dirnames, filenames in os.walk(get_sim_path()):
 			for filename in filenames:
 				my_file=os.path.join(root,filename)
 				if my_file.endswith("snapshots.inp")==True:
@@ -254,7 +252,7 @@ class cmp_class(QWidget):
 		self.slider.set_path(self.snapshots_combobox.currentText())
 		
 	def __init__(self):
-		QWidget.__init__(self)
+		QWidgetSavePos.__init__(self,"cmpclass")
 		self.setWindowTitle(_("Examine simulation results in time domain")) 
 
 		self.snapshots_hbox = QHBoxLayout()
@@ -274,7 +272,7 @@ class cmp_class(QWidget):
 		self.main_vbox = QVBoxLayout()
 
 		self.slider=snapshot_slider()
-		self.slider.set_path(os.path.join(os.getcwd(),"snapshots"))
+		self.slider.set_path(os.path.join(get_sim_path(),"snapshots"))
 		self.slider.changed.connect(self.update)
 		self.plot=plot_widget()
 		self.plot.init()
@@ -311,11 +309,7 @@ class cmp_class(QWidget):
 
 		self.setLayout(self.main_vbox)
 
-		self.win_list=windows()
-		self.win_list.load()
-		self.win_list.set_window(self,"cmp_class")
-
-		if os.path.isfile(os.path.join(os.getcwd(),"snapshots","0","Ec.dat"))==False:
+		if os.path.isfile(os.path.join(get_sim_path(),"snapshots","0","Ec.dat"))==False:
 			help_window().help_append(["warning.png",_("No electrical slice data has been stored in the snapshots directory.  To turn this on set Simulation->Configure->Dump->Dump 1D Slices to on.  This will dump a lot of data and slow down your simulations.")])
 		
 		#self.light.currentIndexChanged.connect(self.call_back_light_changed)

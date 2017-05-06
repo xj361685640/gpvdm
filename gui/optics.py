@@ -53,6 +53,8 @@ from server import server_get
 from global_objects import global_object_run
 from global_objects import global_object_delete
 from cal_path import find_light_source
+from cal_path import get_sim_path
+
 def find_models():
 	ret=[]
 	path=get_plugins_path()
@@ -86,9 +88,9 @@ class class_optical(QWidget):
 		self.line_number=[]
 		self.articles=[]
 		input_files=[]
-		input_files.append(os.path.join(os.getcwd(),"light_dump","light_2d_photons.dat"))
-		input_files.append(os.path.join(os.getcwd(),"light_dump","light_2d_photons_asb.dat"))
-		input_files.append(os.path.join(os.getcwd(),"light_dump","reflect.dat"))
+		input_files.append(os.path.join(get_sim_path(),"light_dump","light_2d_photons.dat"))
+		input_files.append(os.path.join(get_sim_path(),"light_dump","light_2d_photons_asb.dat"))
+		input_files.append(os.path.join(get_sim_path(),"light_dump","reflect.dat"))
 
 		plot_labels=[]
 		plot_labels.append(_("Photon distribution"))
@@ -173,7 +175,7 @@ class class_optical(QWidget):
 		self.notebook.addTab(self.fig_gen_rate,_("Generation rate"))
 
 		widget=tab_class()
-		widget.init("light.inp",_("Optical setup"))
+		widget.init(os.path.join(get_sim_path(),"light.inp"),_("Optical setup"))
 		self.notebook.addTab(widget,_("Optical setup"))
 
 
@@ -208,7 +210,7 @@ class class_optical(QWidget):
 		for i in range(0,len(self.layer_end)):
 			if (self.layer_end[i]>event.xdata):
 				break
-		pwd=os.getcwd()
+		pwd=get_sim_path()
 		plot_gen([os.path.join(pwd,"materials",self.layer_name[i],"alpha.omat")],[],None,"")
 
 
@@ -224,16 +226,16 @@ class class_optical(QWidget):
 		for i in range(0, len(models)):
 			self.cb_model.addItem(models[i])
 
-		used_model=inp_get_token_value("light.inp", "#light_model")
+		used_model=inp_get_token_value(os.path.join(get_sim_path(),"light.inp"), "#light_model")
 		print(models,used_model)
 		if models.count(used_model)==0:
 			used_model="exp"
-			inp_update_token_value("light.inp", "#light_model","exp")
+			inp_update_token_value(os.path.join(get_sim_path(),"light.inp"), "#light_model","exp")
 			self.cb_model.setCurrentIndex(self.cb_model.findText(used_model))
 		else:
 			self.cb_model.setCurrentIndex(self.cb_model.findText(used_model))
 
-		scan_item_add("light.inp","#light_model",_("Optical model"),1)
+		scan_item_add(os.path.join(get_sim_path(),"light.inp"),"#light_model",_("Optical model"),1)
 
 		self.cb_model.blockSignals(False)
 
@@ -243,11 +245,11 @@ class class_optical(QWidget):
 		for i in range(0, len(models)):
 			self.light_source_model.addItem(models[i])
 
-		used_model=inp_get_token_value("light.inp", "#sun")
+		used_model=inp_get_token_value(os.path.join(get_sim_path(),"light.inp"), "#sun")
 
 		if models.count(used_model)==0:
 			used_model="sun"
-			inp_update_token_value("light.inp", "#sun","sun")
+			inp_update_token_value(os.path.join(get_sim_path(),"light.inp"), "#sun","sun")
 
 		self.light_source_model.setCurrentIndex(self.light_source_model.findText(used_model))
 		scan_item_add("light.inp","#sun","Light source",1)
@@ -279,51 +281,51 @@ class class_optical(QWidget):
 		
 	def callback_run(self):
 		self.my_server=server_get()
-		dump_optics=inp_get_token_value("dump.inp", "#dump_optics")
-		dump_optics_verbose=inp_get_token_value("dump.inp", "#dump_optics_verbose")
+		dump_optics=inp_get_token_value(os.path.join(get_sim_path(),"dump.inp"), "#dump_optics")
+		dump_optics_verbose=inp_get_token_value(os.path.join(get_sim_path(),"dump.inp"), "#dump_optics_verbose")
 
-		inp_update_token_value("dump.inp", "#dump_optics","true")
-		inp_update_token_value("dump.inp", "#dump_optics_verbose","true")
-
+		inp_update_token_value(os.path.join(get_sim_path(),"dump.inp"), "#dump_optics","true")
+		inp_update_token_value(os.path.join(get_sim_path(),"dump.inp"), "#dump_optics_verbose","true")
+		pwd=os.getcwd()
+		os.chdir(get_sim_path())
 		cmd = get_exe_command()+' --simmode opticalmodel@optics'
 		print(cmd)
 		ret= os.system(cmd)
-
+		os.chdir(pwd)
 		#self.my_server.clear_cache()
-		#self.my_server.add_job(os.getcwd(),"--simmode opticalmodel@optics")
+		#self.my_server.add_job(get_sim_path(),"--simmode opticalmodel@optics")
 		#self.my_server.start()
 		
-		inp_update_token_value("dump.inp", "#dump_optics",dump_optics)
-		inp_update_token_value("dump.inp", "#dump_optics_verbose",dump_optics_verbose)
+		inp_update_token_value(os.path.join(get_sim_path(),"dump.inp"), "#dump_optics",dump_optics)
+		inp_update_token_value(os.path.join(get_sim_path(),"dump.inp"), "#dump_optics_verbose",dump_optics_verbose)
 		
 		self.force_redraw()
 		self.fx_box.update()
 
-		inp_update_token_value("dump.inp", "#dump_optics","true")
-		inp_update_token_value("dump.inp", "#dump_optics_verbose","true")
+		inp_update_token_value(os.path.join(get_sim_path(),"dump.inp"), "#dump_optics","true")
+		inp_update_token_value(os.path.join(get_sim_path(),"dump.inp"), "#dump_optics_verbose","true")
 		
 
 	def mode_changed(self):
 		cb_text=self.fx_box.get_text()
-
 		if cb_text=="all":
 			self.fig_photon_density.set_data_file("light_1d_photons_tot_norm.dat")
 			self.fig_photon_abs.set_data_file("light_1d_photons_tot_abs_norm.dat")
 		else:
 			self.fig_photon_density.set_data_file("light_1d_"+cb_text+"_photons_norm.dat")
 			self.fig_photon_abs.set_data_file("light_1d_"+cb_text+"_photons_abs.dat")
-
+		self.force_redraw()
 		self.update()
 
 	def on_cb_model_changed(self):
 		cb_text=self.cb_model.currentText()
-		inp_update_token_value("light.inp", "#light_model", cb_text)
+		inp_update_token_value(os.path.join(get_sim_path(),"light.inp"), "#light_model", cb_text)
 
 
 	def on_light_source_model_changed(self):
 		cb_text=self.light_source_model.currentText()
 		cb_text=cb_text
-		inp_update_token_value("light.inp", "#sun", cb_text)
+		inp_update_token_value(os.path.join(get_sim_path(),"light.inp"), "#sun", cb_text)
 
 	def callback_help(self, widget, data=None):
 		webbrowser.open('https://www.gpvdm.com/man/index.html')

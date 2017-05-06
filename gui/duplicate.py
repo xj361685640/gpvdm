@@ -44,8 +44,6 @@ from scan_item import scan_items_get_token
 
 from gpvdm_select import gpvdm_select
 
-from window_list import windows
-
 from util import str2bool
 
 import i18n
@@ -60,7 +58,7 @@ from gui_util import tab_add
 from gui_util import tab_remove
 from gui_util import tab_get_value
 
-from inp import inp_save_lines
+from inp import inp_save_lines_to_file
 from inp import inp_load_file
 
 class duplicate(QWidget):
@@ -121,7 +119,7 @@ class duplicate(QWidget):
 			
 		lines.append("#end")
 		print("save as",self.file_name)
-		inp_save_lines(self.file_name,lines)
+		inp_save_lines_to_file(self.file_name,lines)
 
 
 	def tab_changed(self):
@@ -183,10 +181,6 @@ class duplicate(QWidget):
 		self.setWindowTitle(_("Fit variables duplicate window")+" - https://www.gpvdm.com")   
 		self.setWindowIcon(QIcon_load("duplicate"))
 		self.setFixedSize(900, 700)
-
-		self.win_list=windows()
-		self.win_list.load()
-		self.win_list.set_window(self,"fit_duplicate_window")
 		
 		self.vbox=QVBoxLayout()
 
@@ -230,7 +224,3 @@ class duplicate(QWidget):
 
 
 		self.setLayout(self.vbox)
-
-	def closeEvent(self, event):
-		self.win_list.update(self,"fit_duplicate_window")
-		self.hide()

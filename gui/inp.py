@@ -38,6 +38,7 @@ from util_zip import read_lines_from_archive
 from util_zip import archive_isfile
 from util_zip import zip_lsdir
 
+from cal_path import get_sim_path
 
 def inp_issequential_file(data,search):
 	if data.startswith(search) and data.endswith("inp"):
@@ -51,11 +52,15 @@ def inp_issequential_file(data,search):
 ## List the content of an archive and directory in one list
 #  @param file_name /path/to/gpvdm.sim
 def inp_lsdir(file_name):
-	return zip_lsdir(file_name)
+	full_path=default_to_sim_path(file_name)
+	return zip_lsdir(full_path)
 
 
-def inp_remove_file(file_name):
-	zip_remove_file("sim.gpvdm",file_name)
+def inp_remove_file(file_name,archive="sim.gpvdm"):
+	full_name=default_to_sim_path(file_name)
+
+	archive_path=os.path.join(os.path.dirname(full_name),archive)
+	zip_remove_file(archive_path,os.path.basename(full_name))
 
 def inp_read_next_item(lines,pos):
 	token=lines[pos]
@@ -63,6 +68,7 @@ def inp_read_next_item(lines,pos):
 	value=lines[pos]
 	pos=pos+1
 	return token,value,pos
+
 
 def inp_replace_token_value(lines,token,replace):
 	replaced=False
@@ -113,7 +119,7 @@ def inp_add_token(lines,token,value):
 
 def inp_update_token_array(file_path, token, replace):
 	lines=[]
-
+	base_name=os.path.basename(file_path)
 	path=os.path.dirname(file_path)
 
 	zip_file_name=os.path.join(path,"sim.gpvdm")
@@ -122,10 +128,7 @@ def inp_update_token_array(file_path, token, replace):
 
 	lines=inp_replace_token_array(lines,token,replace)
 
-	if os.path.isfile(file_path):
-		inp_save_lines(file_path,lines)
-	else:
-		replace_file_in_zip_archive(zip_file_name,os.path.basename(file_path),lines)
+	write_lines_to_archive(zip_file_name,base_name,lines)
 
 def inp_update_token_value(file_path, token, replace):
 	lines=[]
@@ -142,76 +145,64 @@ def inp_update_token_value(file_path, token, replace):
 					upper_temp="300.0"
 				inp_update_token_value(files[i], "#Tstop", upper_temp)
 
-	path=os.path.dirname(file_path)
-
-	zip_file_name=os.path.join(path,"sim.gpvdm")
-
-	read_lines_from_archive(lines,zip_file_name,os.path.basename(file_path))
+	inp_load_file(lines,file_path)
 
 	inp_replace_token_value(lines,token,replace)
 
+	inp_save(file_path,lines)
 
-	if os.path.isfile(file_path):
-		inp_save_lines(file_path,lines)
-	else:
-		replace_file_in_zip_archive(zip_file_name,os.path.basename(file_path),lines)
-
-def inp_isfile(file_path):
-
-	zip_file_name=os.path.join(os.path.dirname(file_path),"sim.gpvdm")
-	return archive_isfile(zip_file_name,os.path.basename(file_path))
+def inp_isfile(file_path,archive="sim.gpvdm"):
+	file_name=default_to_sim_path(file_path)
+	
+	zip_file_name=os.path.join(os.path.dirname(file_name),archive)
+	return archive_isfile(zip_file_name,os.path.basename(file_name))
 
 def inp_copy_file(dest,src):
 	lines=[]
 	if inp_load_file(lines,src)==True:
-		inp_write_lines_to_file(dest,lines)
+		inp_save(dest,lines)
 		return True
 	else:
 		return False
 
-def inp_load_file(lines,file_path):
-	zip_file_path=os.path.join(os.path.dirname(file_path),"sim.gpvdm")
-	file_name=os.path.basename(file_path)
+def default_to_sim_path(file_path):
+	"""For file names with no path assume it is in the simulation directory"""
+	head,tail=os.path.split(file_path)
+	if head=="":
+		return os.path.join(get_sim_path(),file_path)
+	else:
+		return file_path
+
+def inp_load_file(lines,file_path,archive="sim.gpvdm"):
+	"""load file"""
+	file_name=default_to_sim_path(file_path)
+	
+	zip_file_path=os.path.join(os.path.dirname(file_name),archive)
+	file_name=os.path.basename(file_name)
 	return read_lines_from_archive(lines,zip_file_path,file_name)
 
-def inp_write_lines_to_file(file_path,lines):
-	"""Write lines to a file"""
-	archive_path=os.path.join(os.path.dirname(file_path),"sim.gpvdm")
-	file_name=os.path.basename(file_path)
+def inp_save(file_path,lines,archive="sim.gpvdm"):
+	"""Write save lines to a file"""
+	full_path=default_to_sim_path(file_path)
+
+	archive_path=os.path.join(os.path.dirname(full_path),archive)
+	file_name=os.path.basename(full_path)
 	return write_lines_to_archive(archive_path,file_name,lines)
 
-def inp_save_lines(file_path,lines):
-	"""Save the lines"""
-
+def inp_save_lines_to_file(file_path,lines):
+	"""This will save lines to a text file"""
+	file_name=default_to_sim_path(file_path)
 	dump='\n'.join(lines)
 
 	dump=dump.rstrip("\n")
 	dump=dump.encode('utf-8')
 	try:
-		f=open(file_path, mode='wb')
+		f=open(file_name, mode='wb')
 	except:
 		return False
 	written = f.write(dump)
 	f.close()
 
-	return True
-
-def inp_load_lines(file_path,lines):
-	"""Save the lines"""
-	dump=""
-	for item in lines:
-		#print(type(dump),type(item),item)
-		dump=dump+item+"\n"
-
-	dump=dump.rstrip("\n")
-	dump=dump.encode('utf-8')
-	try:
-		f=open(file_path, mode='wb')
-	except:
-		return False
-
-	lines = f.write(dump)
-	f.close()
 	return True
 
 def inp_new_file():

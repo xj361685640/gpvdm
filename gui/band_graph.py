@@ -60,6 +60,7 @@ from inp import inp_get_token_value
 from icon_lib import QIcon_load
 
 from open_save_dlg import save_as_filter
+from cal_path import get_sim_path
 
 class band_graph(QWidget):
 	def init(self):
@@ -123,7 +124,7 @@ class band_graph(QWidget):
 			self.my_figure.savefig(response)
 
 	def set_data_file(self,file):
-		self.optical_mode_file=os.path.join(os.getcwd(),"light_dump",file)
+		self.optical_mode_file=os.path.join(get_sim_path(),"light_dump",file)
 
 	def draw_graph(self):
 		self.layer_end=[]
@@ -156,14 +157,14 @@ class band_graph(QWidget):
 			delta=float(layer_ticknes)*1e9
 			#print(epitaxy_get_electrical_layer(i))
 			lines=[]
-			material_type=inp_get_token_value(os.path.join(os.getcwd(),'materials',layer_material,'mat.inp'), "#material_type")
+			material_type=inp_get_token_value(os.path.join(get_sim_path(),'materials',layer_material,'mat.inp'), "#material_type")
 			if epitaxy_get_electrical_layer(i).startswith("dos")==False:
-				if inp_load_file(lines,os.path.join(os.getcwd(),'materials',layer_material,'dos.inp'))==True:
+				if inp_load_file(lines,os.path.join(get_sim_path(),'materials',layer_material,'dos.inp'))==True:
 					lumo=-float(inp_search_token_value(lines, "#Xi"))
 					Eg=float(inp_search_token_value(lines, "#Eg"))
 			else:
 
-				if inp_load_file(lines,epitaxy_get_electrical_layer(i)+".inp")==True:
+				if inp_load_file(lines,os.path.join(get_sim_path(),epitaxy_get_electrical_layer(i)+".inp"))==True:
 					lumo=-float(inp_search_token_value(lines, "#Xi"))
 					Eg=float(inp_search_token_value(lines, "#Eg"))
 

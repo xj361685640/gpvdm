@@ -23,9 +23,10 @@
 import os
 from inp import inp_load_file
 from inp_util import inp_search_token_value
-from inp import inp_write_lines_to_file
+from inp import inp_save
 
 from util import str2bool
+from cal_path import get_sim_path
 
 class segment():
 	def __init__(self):
@@ -116,7 +117,7 @@ def contacts_save():
 	lines.append("1.1")
 	lines.append("#end")
 	
-	inp_write_lines_to_file(os.path.join(os.getcwd(),"contacts.inp"),lines)
+	inp_save(os.path.join(get_sim_path(),"contacts.inp"),lines)
 
 
 def contacts_load():
@@ -124,7 +125,7 @@ def contacts_load():
 	store=[]
 	lines=[]
 	pos=0
-	if inp_load_file(lines,os.path.join(os.getcwd(),"contacts.inp"))==True:
+	if inp_load_file(lines,os.path.join(get_sim_path(),"contacts.inp"))==True:
 		pos=pos+1	#first comment
 		layers=int(lines[pos])
 

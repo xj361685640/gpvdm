@@ -21,7 +21,6 @@
 
 import os
 from tab import tab_class
-from window_list import windows
 from icon_lib import QIcon_load
 
 #qt
@@ -54,21 +53,19 @@ from gui_util import tab_add
 from cal_path import get_materials_path
 
 from inp import inp_get_token_value
+from QWidgetSavePos import QWidgetSavePos
 
 articles = []
 mesh_articles = []
 
-class cost(QWidget):
+class cost(QWidgetSavePos):
 
-	def callback_close(self, widget, data=None):
-		self.hide()
-		return True
 
 	def callback_help(self):
 		webbrowser.open('http://www.gpvdm.com/man/index.html')
 
 	def __init__(self):
-		QWidget.__init__(self)
+		QWidgetSavePos.__init__(self,"cost")
 		self.setFixedSize(900, 600)
 		self.setWindowIcon(QIcon_load("jv"))
 
@@ -103,9 +100,6 @@ class cost(QWidget):
 
 
 		self.setLayout(self.main_vbox)
-		self.win_list=windows()
-		self.win_list.load()
-		self.win_list.set_window(self,"costs_window")
 
 		self.update()
 
@@ -157,11 +151,7 @@ class cost(QWidget):
 		
 		tab_add(self.tab,["sum","","",str(cost_tot),str(energy_tot)])
 		tab_add(self.tab,["","","pay back time=",str(payback_time),"years"])
-		
-	def closeEvent(self, event):
-		self.win_list.update(self,"costs_window")
-		self.hide()
-		event.accept()
+
 
 
 

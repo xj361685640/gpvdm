@@ -22,7 +22,6 @@
 import os
 from inp import inp_update_token_value
 from inp import inp_get_token_value
-from plot_gen import plot_gen
 import zipfile
 import glob
 from tab import tab_class
@@ -32,11 +31,13 @@ from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtWidgets import QWidget,QHBoxLayout,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QSystemTrayIcon,QMenu, QComboBox, QMenuBar, QLabel
 from PyQt5.QtGui import QIcon
 
+from cal_path import get_sim_path
+
 class fx_selector(QWidget):
 
 	def __init__(self):
 		QWidget.__init__(self)
-		self.dump_dir=os.path.join(os.getcwd(),"light_dump")
+		self.dump_dir=os.path.join(get_sim_path(),"light_dump")
 
 		self.layout=QHBoxLayout()
 		label=QLabel(_("Wavelengths")+":")
@@ -64,8 +65,7 @@ class fx_selector(QWidget):
 	def find_modes(self,path):
 		result = []
 		lines=[]
-		pwd=os.getcwd()
-		path=os.path.join(os.getcwd(),"light_dump","wavelengths.dat")
+		path=os.path.join(get_sim_path(),"light_dump","wavelengths.dat")
 		if os.path.isfile(path)==True:
 
 			f = open(path, "r")

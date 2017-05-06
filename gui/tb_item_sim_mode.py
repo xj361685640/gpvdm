@@ -20,6 +20,7 @@
 
 
 
+import os
 
 #inp
 from inp import inp_update_token_value
@@ -33,6 +34,8 @@ from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSize, Qt 
 from PyQt5.QtWidgets import QWidget,QSizePolicy,QVBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QLabel,QComboBox
+
+from cal_path import get_sim_path
 
 import i18n
 _ = i18n.language.gettext
@@ -83,8 +86,8 @@ class tb_item_sim_mode(QWidget):
 			if found==False:
 				for i in range(0,len(self.store_list)):
 					if self.store_list[i].token=="jv":
-						self.sim_mode.activated(i)
-						inp_update_token_value("sim.inp", "#simmode", "jv@jv")
+						self.sim_mode.setCurrentIndex(i)
+						inp_update_token_value(os.path.join(get_sim_path(),"sim.inp"), "#simmode", "jv@jv")
 						break
 
 	def __init__(self):
@@ -113,6 +116,6 @@ class tb_item_sim_mode(QWidget):
 		mode=self.sim_mode.currentText()
 		for i in range(0,len(self.store_list)):
 			if self.store_list[i].token==mode:
-				inp_update_token_value("sim.inp", "#simmode", mode+"@"+self.store_list[i].file)
+				inp_update_token_value(os.path.join(get_sim_path(),"sim.inp"), "#simmode", mode+"@"+self.store_list[i].file)
 
 

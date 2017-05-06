@@ -57,12 +57,14 @@ from gui_util import tab_add
 from gui_util import tab_remove
 from gui_util import tab_get_value
 
-from inp import inp_save_lines
+from inp import inp_save_lines_to_file
 from inp import inp_load_file
 
 from gpvdm_select import gpvdm_select
 
 from scan_select import select_param
+
+from cal_path import get_sim_path
 
 class fit_patch(QWidget):
 
@@ -109,7 +111,7 @@ class fit_patch(QWidget):
 
 		lines.append("#end")
 		print("save as",self.file_name)
-		inp_save_lines(self.file_name,lines)
+		inp_save_lines_to_file(self.file_name,lines)
 
 
 	def tab_changed(self):
@@ -123,7 +125,7 @@ class fit_patch(QWidget):
 		self.tab.setSelectionBehavior(QAbstractItemView.SelectRows)
 		self.tab.setHorizontalHeaderLabels([_("File"), _("Token"), _("Path"), _("Values")])
 		self.tab.setColumnWidth(2, 300)
-		self.file_name="fit_patch"+str(self.index)+".inp"
+		self.file_name=os.path.join(get_sim_path(),"fit_patch"+str(self.index)+".inp")
 
 		if inp_load_file(lines,self.file_name)==True:
 

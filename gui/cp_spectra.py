@@ -59,6 +59,8 @@ if args.copy:
 				safe_cpy(dst_mat_path,src_mat_path,"spectra.inp")
 				
 				safe_cpy(dst_mat_path,src_mat_path,"mat.inp")
+
+				safe_cpy(dst_mat_path,src_mat_path,"spectra_eq.inp")
 				
 
 

@@ -21,7 +21,6 @@
 
 import os
 from tab import tab_class
-from window_list import windows
 from icon_lib import QIcon_load
 
 #qt
@@ -38,11 +37,11 @@ from equation import equation
 from win_lin import desktop_open
 
 from ref import get_ref_text
-
+from QWidgetSavePos import QWidgetSavePos
 articles = []
 mesh_articles = []
 
-class spectra_main(QWidget):
+class spectra_main(QWidgetSavePos):
 
 	def changed_click(self):
 
@@ -56,7 +55,7 @@ class spectra_main(QWidget):
 		webbrowser.open("https://www.gpvdm.com/man/index.html")
 
 	def __init__(self,path):
-		QWidget.__init__(self)
+		QWidgetSavePos.__init__(self,"spectra_main")
 		self.path=path
 		self.setFixedSize(900, 600)
 		self.setWindowIcon(QIcon_load("spectra_file"))
@@ -105,16 +104,8 @@ class spectra_main(QWidget):
 
 
 		self.setLayout(self.main_vbox)
-		self.win_list=windows()
-		self.win_list.load()
-		self.win_list.set_window(self,"spectra_window")
 		
 		self.notebook.currentChanged.connect(self.changed_click)
-
-	def closeEvent(self, event):
-		self.win_list.update(self,"spectra_window")
-		self.hide()
-		event.accept()
 
 
 

@@ -40,6 +40,7 @@ from util_zip import archive_merge_file
 from util_zip import archive_get_file_ver
 
 from cal_path import get_materials_path
+from util_zip import archive_compact_files
 
 def update_simulaton_to_new_ver(file_name):
 	pre, ext = os.path.splitext(file_name)
@@ -47,6 +48,7 @@ def update_simulaton_to_new_ver(file_name):
 
 
 	if os.path.isfile(back_file)==False:
+		archive_compact_files(file_name)
 		os.rename(file_name, back_file)
 
 		dest_dir = os.path.dirname(file_name)
@@ -138,7 +140,7 @@ def merge_archives(src_archive,dest_archive,only_over_write):
 		print("merged",dest_archive,src_archive,files[i],ret)
 
 
-	files=[ "epitaxy.inp", "contacts.inp", "fit.inp", "constraints.inp","duplicate.inp", "thermal.inp","mesh_x.inp","mesh_y.inp","mesh_z.inp" ]
+	files=[ "windows_list2.inp","epitaxy.inp", "contacts.inp", "fit.inp", "constraints.inp","duplicate.inp", "thermal.inp","mesh_x.inp","mesh_y.inp","mesh_z.inp" ]
 	base_file=files[:]
 
 	ls=zip_lsdir(src_archive)

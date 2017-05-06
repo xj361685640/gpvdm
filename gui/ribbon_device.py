@@ -168,7 +168,7 @@ class ribbon_device(QToolBar):
 		help_window().help_set_help(["parasitic.png",_("<big><b>Parasitic components</b></big>\nUse this window to edit the shunt and series resistance.")])
 
 		if self.parasitic_window==None:
-			self.parasitic_window=parasitic()
+			self.parasitic_window=parasitic("parasitic")
 
 		if self.parasitic_window.isVisible()==True:
 			self.parasitic_window.hide()

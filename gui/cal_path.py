@@ -41,6 +41,7 @@ lang_path=None
 inp_file_path=None
 src_path=None
 spectra_path=None
+sim_path=None
 
 def to_native_path(path):
 	ret=path
@@ -53,6 +54,12 @@ def remove_cwdfrompath(path):
 	tmp=path
 	if tmp.startswith(os.getcwd()):
 		tmp=tmp[len(os.getcwd())+1:]
+	return tmp
+
+def remove_simpathfrompath(path):
+	tmp=path
+	if tmp.startswith(get_sim_path()):
+		tmp=tmp[len(get_sim_path())+1:]
 	return tmp
 
 def join_path(one,two):
@@ -95,7 +102,7 @@ def cal_share_path():
 		elif os.path.isdir("/usr/lib/gpvdm"):
 			share_path="/usr/lib/gpvdm/"
 		else:
-			share_path="/usr/lib64/gpvdm/"
+			share_path=os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 			print("I don't know where the shared files are assuming ",share_path)
 
 def search_known_paths(file_or_dir_to_find,ext,key_file):
@@ -108,6 +115,7 @@ def search_known_paths(file_or_dir_to_find,ext,key_file):
 		paths.append(os.path.join(os.path.abspath(os.path.join(os.getcwd(), os.pardir)),file_or_dir_to_find)+ex)
 		paths.append(os.path.join(share_path,file_or_dir_to_find)+ex)
 		paths.append(os.path.join(bin_path,file_or_dir_to_find)+ex)
+		paths.append(os.path.join(get_sim_path(),file_or_dir_to_find)+ex)
 		if running_on_linux()==True:
 			paths.append(os.path.join("/usr/share/gpvdm/",file_or_dir_to_find)+ex)
 			paths.append(os.path.join("/usr/local/bin/",file_or_dir_to_find)+ex)
@@ -131,8 +139,21 @@ def cal_bin_path():
 	else:
 			bin_path=share_path
 
+def test_arg_for_sim_file():
+	if len(sys.argv)>1:
+		f=os.path.realpath(sys.argv[1])
+		if os.path.isfile(f)==True and f.endswith("sim.gpvdm"):
+			return os.path.dirname(f)
+		elif os.path.isdir(f)==True and os.path.isfile(os.path.join(f,"sim.gpvdm"))==True:
+			return f
+	return False
 
 def calculate_paths_init():
+	set_sim_path(os.getcwd())
+	path=test_arg_for_sim_file()
+	if path!=False:
+		set_sim_path(path)
+
 	cal_share_path()
 	cal_bin_path()
 
@@ -171,7 +192,7 @@ def calculate_paths():
 	flag_path=search_known_paths("flags",[""],"gb.png")
 	lang_path=search_known_paths("lang",[""],None)
 	exe_command=search_known_paths("gpvdm_core",["",".exe",".o"],None)
-	inp_file_path=os.path.dirname(search_known_paths("sim",[".gpvdm"],None))
+	inp_file_path=os.path.dirname(search_known_paths("base",[".gpvdm"],None))
 	src_path=os.path.dirname(search_known_paths("Makefile",[".am"],None))
 	ui_path=search_known_paths("ui",[""],None)
 	spectra_path=search_known_paths("spectra",[""],None)
@@ -248,6 +269,18 @@ def get_lang_path():
 def get_ui_path():
 	global ui_path
 	return ui_path
+
+def set_sim_path(path):
+	global sim_path
+	sim_path=os.path.abspath(path)
+
+def get_sim_path():
+	global sim_path
+	if sim_path==None:
+		print("sim_path set to Null!")
+		aasdsad
+		sys.exit()			#if the sim path has not been set somthing has gone very wrong
+	return sim_path
 
 def get_exe_args():
 	return "--gui --html" #--english

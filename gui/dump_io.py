@@ -32,6 +32,8 @@ from help import help_window
 from inp import inp_update_token_value
 from inp import inp_get_token_value
 
+from cal_path import get_sim_path
+
 dump_fast=0
 dump_slow=1
 dump_custom=2
@@ -40,7 +42,7 @@ class dump_io(QAction):
 	def cal_state(self):
 		val=False
 		for token in self.tokens:
-			v=inp_get_token_value("dump.inp", token )
+			v=inp_get_token_value(os.path.join(get_sim_path(),"dump.inp"), token )
 			if v==None:
 				return None
 			val = val + int(str2bool(v))
@@ -55,10 +57,10 @@ class dump_io(QAction):
 
 	def set_state(self,val):
 		for token in self.tokens:
-			inp_update_token_value("dump.inp", token,str(val).lower())
+			inp_update_token_value(os.path.join(get_sim_path(),"dump.inp"), token,str(val).lower())
 
 		for token in self.const_tokens:
-			inp_update_token_value("dump.inp", token[0],str(token[1]).lower())
+			inp_update_token_value(os.path.join(get_sim_path(),"dump.inp"), token[0],str(token[1]).lower())
 
 
 
