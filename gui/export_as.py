@@ -87,7 +87,7 @@ def export_as(output):
 		dos_lines=[]
 		for i in range(0,len(files)):
 			lines=[]
-			inp_load_file(lines,files[i])
+			lines=inp_load_file(files[i])
 			dos_lines.append(lines)
 
 		t=tokens()
@@ -134,12 +134,12 @@ def export_as(output):
 
 		config_lines=[]
 		cur_file=0
-		inp_load_file(config_lines,"latex_export_info.inp")
+		config_lines=inp_load_file("latex_export_info.inp")
 		for cur_file in range(0,len(files)):
 
 
 			if os.path.isfile(files[cur_file])==True:
-				inp_load_file(lines,files[cur_file])
+				lines=inp_load_file(files[cur_file])
 				t=tokens()
 
 				for i in range(0,len(lines),2):

@@ -97,14 +97,17 @@ lib.append(my_data("","#ref_volume","au",_("Volume"),"e",1.0,"QLineEdit"))
 lib.append(my_data("","#ref_pages","au",_("Pages"),"e",1.0,"QLineEdit"))
 lib.append(my_data("","#ref_year","au",_("Year"),"e",1.0,"QLineEdit"))
 lib.append(my_data("","#ref_md5","au",_("md5 sum"),"e",1.0,"QLineEdit"))
+lib.append(my_data("","#ref_doi","au",_("DOI"),"e",1.0,"QLineEdit"))
+
 
 #pulse
 lib.append(my_data("","#Rshort_pulse","Ohms",_("R_{short}"),"e",1.0,"QLineEdit"))
 lib.append(my_data("","#pulse_bias","V",_("V_{bias}"),"e",1.0,"QLineEdit"))
 lib.append(my_data("","#pulse_light_efficiency","au",_("Efficiency of light"),"e",1.0,"QLineEdit"))
+lib.append(my_data("","#pulse_subtract_dc",_("True/False"),_("subtract DC"),"e",1.0,"gtkswitch"))
 
 #mat.inp
-lib.append(my_data("","#material_type","type",_("Material type"),"e",1.0,"QComboBoxLang",defaults=[[("organic"),_("Organic")],["inorganic",_("Inorganic")],["metal",_("Metal")],["other",_("Other")]]))
+lib.append(my_data("","#material_type","type",_("Material type"),"e",1.0,"QComboBoxLang",defaults=[[("organic"),_("Organic")],["oxide",_("Oxide")],["inorganic",_("Inorganic")],["metal",_("Metal")],["other",_("Other")]]))
 lib.append(my_data("","#mat_alpha","0-1.0",_("Alpha channel"),"e",1.0,"QLineEdit"))
 lib.append(my_data("","#red_green_blue","rgb",_("Color"),"e",1.0,"QColorPicker"))
 lib.append(my_data("","#mat_alpha","0-1",_("Transparency"),"e",1.0,"QLineEdit"))
@@ -146,7 +149,15 @@ lib.append(my_data("","#fxdomain_delta_i","s",_("di"),"e",1.0,"QLineEdit"))
 lib.append(my_data("","#fxdomain_delta_g","s",_("dmodulation"),"e",1.0,"QLineEdit"))
 lib.append(my_data("","#fxdomain_delta_phase","rads",_("dphase"),"e",1.0,"QLineEdit"))
 
-	
+#sim_info.dat (equlibrium)
+lib.append(my_data("","#left_holes","m^{-3}",_("Left hole density"),"e",1.0,"QLineEdit"))
+lib.append(my_data("","#left_electrons","m^{-3}",_("Left electron density"),"e",1.0,"QLineEdit"))
+lib.append(my_data("","#right_holes","m^{-3}",_("Right hole density"),"e",1.0,"QLineEdit"))
+lib.append(my_data("","#right_electrons","m^{-3}",_("Right electron density"),"e",1.0,"QLineEdit"))
+lib.append(my_data("","#Vbi","m^{-3}",_("Built in potential"),"e",1.0,"QLineEdit"))
+lib.append(my_data("","#electron_affinity_left","eV",_("Electron affinity left"),"e",1.0,"QLineEdit"))
+lib.append(my_data("","#electron_affinity_right","eV",_("Electron affinity right"),"e",1.0,"QLineEdit"))
+
 #server.inp
 lib.append(my_data("","#server_cpus","au",_("Number of CPUs"),"e",1.0,"QLineEdit"))
 lib.append(my_data("","#server_stall_time","","","e",1.0,"QLineEdit"))
@@ -238,6 +249,8 @@ lib.append(my_data("dump.inp","#dump_ray_trace_map",_("True/False"),_("Dump rayt
 lib.append(my_data("dump.inp","#dumpitdos","","","e",1.0,"QLineEdit"))
 lib.append(my_data("dump.inp","#dump_workbook",_("True/False"),_("Dump an excel workbook for each simulation run congaing the results."),"e",1.0,"gtkswitch"))
 lib.append(my_data("dump.inp","#dump_file_access_log",_("True/False"),_("Write file access log to disk."),"e",1.0,"gtkswitch"))
+lib.append(my_data("dump.inp","#dump_use_cache",_("True/False"),_("Use cache for file writes"),"e",1.0,"gtkswitch"))
+lib.append(my_data("dump.inp","#dump_write_headers",_("True/False"),_("Write headers to output files"),"e",1.0,"gtkswitch"))
 
 #led.inp
 lib.append(my_data("","#led_on",_("True/False"),_("Turn on LED"),"e",1.0,"gtkswitch"))
@@ -253,6 +266,9 @@ lib.append(my_data("","#rcharge","m^{-3}",_("Charge on right contact"),"e",1.0,"
 lib.append(my_data("parasitic.inp","#Rshunt","Ohms",_("Shunt resistance"),"e",1.0,"QLineEdit"))
 lib.append(my_data("parasitic.inp","#Rcontact","Ohms",_("Series resistance"),"e",1.0,"QLineEdit"))
 lib.append(my_data("parasitic.inp","#otherlayers","m",_("Other layers"),"e",1.0,"QLineEdit"))
+
+#mesh?.inp
+lib.append(my_data("","#remesh_enable","au",_("Automatic remesh"),"e",1.0,"gtkswitch"))
 
 #pl?.inp
 lib.append(my_data("","#pl_enabled",_("True/False"),_("Turn on luminescence"),"e",1.0,"gtkswitch"))

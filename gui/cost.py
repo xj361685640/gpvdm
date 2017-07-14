@@ -69,7 +69,7 @@ class cost(QWidgetSavePos):
 		self.setFixedSize(900, 600)
 		self.setWindowIcon(QIcon_load("jv"))
 
-		self.setWindowTitle(_("Cost and energy payback calculator (BETA - missing realistic data at the moment!!!)")) 
+		self.setWindowTitle(_("Cost and energy payback calculator")) 
 		
 
 		self.main_vbox = QVBoxLayout()

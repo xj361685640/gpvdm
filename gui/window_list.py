@@ -55,11 +55,10 @@ def wpos_set_window(window,name):
 			y=int(wlist[i].y)
 			if (x+w>desktop_w):
 				x=0
-				#print("Reset with")
+				print("Reset with")
 			if (y+h>desktop_h):
 				y=0
-				#print("Reset height")
-
+				print("Reset height")
 			window.move(x,y)
 			break
 
@@ -92,7 +91,8 @@ def wpos_load():
 	wlist=[]
 	lines=[]
 	pos=0
-	if inp_load_file(lines,os.path.join(get_sim_path(),"window_list2.inp"))==True:
+	lines=inp_load_file("window_list2.inp")
+	if lines!=False:
 		while(1):
 			token,name,pos=inp_read_next_item(lines,pos)
 			if token=="#end" or token=="#ver":
@@ -125,5 +125,5 @@ def wpos_save():
 	lines.append("1.0")
 	lines.append("#end")
 
-	ret=inp_save(os.path.join(get_sim_path(),"window_list2.inp"),lines)
+	ret=inp_save("window_list2.inp",lines)
 	return ret

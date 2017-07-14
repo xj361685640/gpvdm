@@ -25,7 +25,6 @@ import os
 #inp
 from inp import inp_update_token_value
 from inp import inp_get_token_value
-from inp import inp_load_file
 from inp import inp_lsdir
 from inp_util import inp_search_token_value
 

@@ -27,7 +27,6 @@ from PyQt5.QtCore import QTimer
 
 class gpvdm_progress(QWidget):
 	def update(self):
-		print("a")
 		self.setValue()
 		self.repaint()
 		
@@ -35,30 +34,17 @@ class gpvdm_progress(QWidget):
 		QWidget.__init__(self)
 		self.setMaximumHeight(40)
 		self.pulse_direction=True
-		# self.widget = glWidget(self)
 
-		#self.button = QPushButton('Test', self)
-
-		#mainLayout = QHBoxLayout()
-		#mainLayout.addWidget(self.widget)
-		#mainLayout.addWidget(self.button)
-
-		#self.setLayout(mainLayout)
 		self.value=0.0
 		self.enable_pulse=False
 
-		#self.timer=QTimer()
-		#self.timer.timeout.connect(self.update)
-		#self.timer.start(100);
+
+	def enablePulse(self,value):
+		self.enable_pulse=value
 
 	def setValue(self,v):
 		self.value=v
 		self.repaint()
-		
-	#def setValue(self):
-	#	self.value=self.value+0.02
-	#	if self.value>1.0:
-	#		self.value=0
 
 	def pulse(self):
 		self.enable_pulse=True

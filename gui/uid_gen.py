@@ -37,8 +37,9 @@ def uid_get():
 	try:
 		lines=[]
 		found=False
-
-		if inp_load_file(lines,path)==True:
+		
+		lines=inp_load_file(path)
+		if lines!=False:
 			uid=inp_search_token_value(lines, "#uid")
 			found=True
 

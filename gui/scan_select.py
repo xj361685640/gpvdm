@@ -31,6 +31,7 @@ _ = i18n.language.gettext
 from PyQt5.QtCore import QSize, Qt 
 from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QTableWidget,QAbstractItemView, QTreeWidget, QPushButton, QHBoxLayout, QTreeWidgetItem
 from PyQt5.QtGui import QPainter,QIcon
+from PyQt5.QtGui import QFont
 
 from icon_lib import QIcon_load
 from gui_util import tab_set_value
@@ -45,7 +46,7 @@ class select_param(QWidget):
 
 	def __init__(self):
 		QWidget.__init__(self)
-		self.setFixedSize(400,700)
+		self.setFixedSize(500,700)
 		self.file_name_tab_pos=0
 		self.token_tab_pos=1
 		self.path_tab_pos=2
@@ -61,7 +62,15 @@ class select_param(QWidget):
 		self.tab = QTreeWidget()
 		#self.tab.setHeaderItem("Scan items")
 
-
+		self.font = QFont()
+#		self.font.setFamily('DejaVu Sans')
+#		self.font.setBold(True)
+#		self.font.setStyleHint(QFont.Monospace)
+#		self.font.setFixedPitch(True)
+		self.font.setPointSize(int(20))
+	
+		self.tab.setFont(self.font)
+		
 		self.main_vbox.addWidget(self.tab)
 
 		self.hwidget=QWidget()

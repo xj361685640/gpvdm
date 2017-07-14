@@ -162,8 +162,8 @@ class gpvdm_notebook(QTabWidget):
 
 			lines=[]
 			pos=0
-
-			if inp_load_file(lines,"gui_config.inp")==True:
+			lines=inp_load_file("gui_config.inp")
+			if lines!=False:
 				pos=0
 				tab_number=0
 				tabs=(len(lines)-3)/2
@@ -221,7 +221,6 @@ class gpvdm_notebook(QTabWidget):
 							for i in range(len(mytext),10):
 								mytext=mytext+" "
 						self.addTab(widget,mytext)
-
 
 			self.terminal=tab_terminal()
 			self.terminal.init()

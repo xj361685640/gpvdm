@@ -50,6 +50,7 @@ from PyQt5.QtGui import QPainter,QIcon
 #windows
 from gui_util import tab_add
 from gui_util import tab_move_down
+from gui_util import tab_move_up
 from gui_util import tab_remove
 from gui_util import tab_get_value
 from gui_util import tab_set_value
@@ -72,6 +73,10 @@ from fit_poly import fit_poly
 
 from gui_util import tab_get_selected
 #window
+
+from code_ctrl import enable_betafeatures
+from solar_main import solar_main
+from help import help_window
 
 mesh_articles = []
 
@@ -138,6 +143,14 @@ class equation(QWidget):
 		self.fig.canvas.draw()
 		self.save_data()
 
+	def callback_move_up(self):
+
+		tab_move_up(self.tab)
+
+		self.build_mesh()
+		self.draw_graph()
+		self.fig.canvas.draw()
+		self.save_data()
 
 	def update(self):
 		self.build_mesh()
@@ -188,7 +201,8 @@ class equation(QWidget):
 		self.tab.setColumnWidth(2, 500)
 		lines=[]
 		pos=0
-		if inp_load_file(lines,os.path.join(self.path,self.file_name))==True:
+		lines=inp_load_file(os.path.join(self.path,self.file_name))
+		if lines!=False:
 			token,self.points,pos=inp_read_next_item(lines,pos)		
 			token,equations,pos=inp_read_next_item(lines,pos)
 			equations=int(equations)
@@ -257,11 +271,25 @@ class equation(QWidget):
 		self.default_value=value
 
 	def callback_import(self):
-		self.im=import_data(os.path.join(self.path,self.exp_file))
+		output_file=os.path.join(self.path,self.exp_file)
+		config_file=os.path.join(self.path,self.exp_file+"import.inp")
+		self.im=import_data(output_file,config_file)
 		self.im.run()
-		print("return value",self.im)
-		if self.im.ret==True:
-			self.update()
+		self.update()
+
+	def callback_solar_spectra(self):
+		if self.solar_spectrum_window==None:
+			self.solar_spectrum_window=solar_main(self.path)
+			self.solar_spectrum_window.update.connect(self.update)
+
+			#self.solar_spectrum_window.changed.connect(self.mode.update)
+
+		help_window().help_set_help(["weather-few-clouds.png",_("<big><b>Solar spectrum editor</b></big><br> Use this tool to generate custom solar spectra.")])
+		if self.solar_spectrum_window.isVisible()==True:
+			self.solar_spectrum_window.hide()
+		else:
+			self.solar_spectrum_window.show()
+
 
 	def set_ylabel(self,value):
 		self.ylabel=value
@@ -305,6 +333,12 @@ class equation(QWidget):
 		self.import_data.triggered.connect(self.callback_import)
 		toolbar.addAction(self.import_data)
 
+		if self.show_solar_spectra==True:
+			if enable_betafeatures()==True:
+				self.solar_spectra= QAction(QIcon_load("weather-few-clouds"), _("Solar spectra"), self)
+				self.solar_spectra.triggered.connect(self.callback_solar_spectra)
+				toolbar.addAction(self.solar_spectra)
+
 		self.file_select=tb_item_mat_file(self.path,self.token)
 		#self.file_select.changed.connect(self.callback_sun)
 		toolbar.addWidget(self.file_select)
@@ -318,7 +352,7 @@ class equation(QWidget):
 		#toolbar 2
 
 		toolbar2=QToolBar()
-		toolbar2.setIconSize(QSize(48, 48))
+		toolbar2.setIconSize(QSize(32, 32))
 
 		self.tb_add = QAction(QIcon_load("list-add"), _("Add section"), self)
 		self.tb_add.triggered.connect(self.callback_add_section)
@@ -331,6 +365,10 @@ class equation(QWidget):
 		self.tb_move = QAction(QIcon_load("go-down"), _("Move down"), self)
 		self.tb_move.triggered.connect(self.callback_move_down)
 		toolbar2.addAction(self.tb_move)
+
+		self.tb_move_up = QAction(QIcon_load("go-up"), _("Move up"), self)
+		self.tb_move_up.triggered.connect(self.callback_move_up)
+		toolbar2.addAction(self.tb_move_up)
 
 		self.tb_play = QAction(QIcon_load("media-playback-start"), _("Calculate"), self)
 		self.tb_play.triggered.connect(self.callback_play)
@@ -375,8 +413,8 @@ class equation(QWidget):
 		self.token=token
 		self.out_file=out_file
 		self.exp_file=exp_file
-
-
+		self.show_solar_spectra=False
+		self.solar_spectrum_window=None
 
 
 

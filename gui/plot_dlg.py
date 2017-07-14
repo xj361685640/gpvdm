@@ -39,7 +39,7 @@ class plot_dlg_class(QDialog):
 	def populate_combo_box_using_input_file(self,combobox,input_file):
 #		try:
 		lines=[]
-		inp_load_file(lines,os.path.join(self.path,input_file))
+		lines=inp_load_file(os.path.join(self.path,input_file))
 		combobox.clear()
 
 		for i in range(0, len(lines)):

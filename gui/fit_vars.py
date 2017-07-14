@@ -41,6 +41,7 @@ from cal_path import get_exe_command
 from icon_lib import QIcon_load
 from scan_item import scan_items_get_file
 from scan_item import scan_items_get_token
+from gui_util import tab_insert_row
 
 from util import str2bool
 
@@ -62,36 +63,46 @@ from gpvdm_select import gpvdm_select
 from open_save_dlg import open_as_filter
 from gui_util import error_dlg
 from cal_path import get_sim_path
+from gtkswitch import gtkswitch
+from util import str2bool
+
+from gui_util import tab_move_up
+from gui_util import tab_move_down
 
 class fit_vars(QWidget):
 
-	def insert_row(self,i,f,t,p,v,section):
+	def insert_row(self,i,enabled,f,t,p,v,section):
 		self.tab.blockSignals(True)
-		self.tab.insertRow(i)
 
+		self.item = gtkswitch()
+		self.item.set_value(str2bool(enabled))
+		self.item.changed.connect(self.tab_changed)
+		self.tab.setCellWidget(i,0,self.item)
+		
 		item = QTableWidgetItem(f)
-		self.tab.setItem(i,0,item)
+		self.tab.setItem(i,1,item)
 
 		item = QTableWidgetItem(t)
-		self.tab.setItem(i,1,item)
+		self.tab.setItem(i,2,item)
 
 
 		self.item = gpvdm_select()
 		self.item.setText(p)
 		self.item.button.clicked.connect(self.callback_show_list)
 
-		self.tab.setCellWidget(i,2,self.item)
+		self.tab.setCellWidget(i,3,self.item)
 
 		item = QTableWidgetItem(v)
-		self.tab.setItem(i,3,item)
+		self.tab.setItem(i,4,item)
 
 		item = QTableWidgetItem(section)
-		self.tab.setItem(i,4,item)
+		self.tab.setItem(i,5,item)
 
 		self.tab.blockSignals(False)
 		
 	def callback_add_item(self):
-		self.insert_row(self.tab.rowCount(),_("File"),_("token"),_("path"),"1","0")
+		pos=tab_insert_row(self.tab)
+		self.insert_row(pos,"true",_("File"),_("token"),_("path"),"1","0")
 		self.save_combo()
 		
 	def callback_open(self):
@@ -99,7 +110,7 @@ class fit_vars(QWidget):
 
 		if file_name!=None:
 			lines=[]
-			inp_load_file(lines,file_name)
+			lines=inp_load_file(file_name)
 			begin=-1
 			end=-1
 
@@ -114,7 +125,8 @@ class fit_vars(QWidget):
 				return
 
 			rel_path=os.path.relpath(file_name, get_sim_path())
-			self.insert_row(self.tab.rowCount(),rel_path,"#data",rel_path,str(end-begin),"1")
+			self.tab.insertRow(self.tab.rowCount())
+			self.insert_row(self.tab.rowCount(),"true",rel_path,"#data",rel_path,str(end-begin),"1")
 			self.save_combo()
 
 	def callback_show_list(self):
@@ -129,14 +141,15 @@ class fit_vars(QWidget):
 		lines=[]
 
 		for i in range(0,self.tab.rowCount()):
-			lines.append(str(tab_get_value(self.tab,i, 1)))
-			lines.append(str(tab_get_value(self.tab,i, 0)))
 			lines.append(str(tab_get_value(self.tab,i, 2)))
+			lines.append(str(tab_get_value(self.tab,i, 1)))
 			lines.append(str(tab_get_value(self.tab,i, 3)))
+			lines.append(str(tab_get_value(self.tab,i, 0)))			
 			lines.append(str(tab_get_value(self.tab,i, 4)))
+			lines.append(str(tab_get_value(self.tab,i, 5)))
 
 		lines.append("#ver")
-		lines.append("1.0")
+		lines.append("1.1")
 		lines.append("#end")
 
 		inp_save_lines_to_file(self.file_name,lines)
@@ -146,34 +159,39 @@ class fit_vars(QWidget):
 
 	def create_model(self):
 		self.tab.clear()
-		self.tab.setColumnCount(5)
+		self.tab.setColumnCount(6)
 		self.tab.setSelectionBehavior(QAbstractItemView.SelectRows)
-		self.tab.setHorizontalHeaderLabels([_("File"), _("Token"), _("Path"),_("Lines to edit"),_("Line section to edit")])
-		self.tab.setColumnWidth(2, 400)
+		self.tab.setHorizontalHeaderLabels([_("Enabled"),_("File"), _("Token"), _("Path"),_("Lines to edit"),_("Line section to edit")])
+		self.tab.setColumnWidth(3, 400)
 		self.file_name=os.path.join(get_sim_path(),"fit_vars.inp")
 
 		lines=[]
 		pos=0
-
-		if inp_load_file(lines,self.file_name)==True:
+		lines=inp_load_file(self.file_name)
+		if inp_load_file(self.file_name)!=False:
 			mylen=len(lines)
 			line=0
 			while(1):
-				t=lines[pos]
-				if t=="#end":
+				token=lines[pos]
+				if token=="#end":
 					break
 				pos=pos+1
 
-				f=lines[pos]
-				if f=="#end":
+				file=lines[pos]
+				if file=="#end":
 					break
 				pos=pos+1
 
-				p=lines[pos]
-				if p=="#end":
+				path=lines[pos]
+				if path=="#end":
 					break
 				pos=pos+1
 
+				enabled=lines[pos]
+				if enabled=="#end":
+					break
+				pos=pos+1
+				
 				v=lines[pos]
 				if v=="#end":
 					break
@@ -184,26 +202,38 @@ class fit_vars(QWidget):
 					break
 				pos=pos+1
 				
-				self.insert_row(line,f,t,p,v,section)
+				self.tab.insertRow(line)
+				self.insert_row(line,enabled,file,token,path,v,section)
 
 				if pos>mylen:
 					break
 
 				line=line+1
 
+	def on_move_down(self):
+		tab_move_down(self.tab)
+		self.save_combo()
+		
+	def on_move_up(self):
+		tab_move_up(self.tab)
+		self.save_combo()
+
 	def __init__(self):
 		QWidget.__init__(self)
 
 		self.setWindowTitle(_("Fit vars window - gpvdm"))   
 		self.setWindowIcon(QIcon_load("fit"))
-		self.setFixedSize(900, 700)
+		#self.setFixedSize(900, 700)
 
 		self.select_param_window=select_param()
+		self.select_param_window.file_name_tab_pos=1
+		self.select_param_window.token_tab_pos=2
+		self.select_param_window.path_tab_pos=3
 
 		self.vbox=QVBoxLayout()
 
 		toolbar=QToolBar()
-		toolbar.setIconSize(QSize(48, 48))
+		toolbar.setIconSize(QSize(32, 32))
 
 		self.tb_save = QAction(QIcon_load("list-add"), _("Add line"), self)
 		self.tb_save.triggered.connect(self.callback_add_item)
@@ -212,6 +242,14 @@ class fit_vars(QWidget):
 		self.tb_save = QAction(QIcon_load("list-remove"), _("Remove line"), self)
 		self.tb_save.triggered.connect(self.callback_delete_item)
 		toolbar.addAction(self.tb_save)
+
+		self.tb_down= QAction(QIcon_load("go-down"), _("Move down"), self)
+		self.tb_down.triggered.connect(self.on_move_down)
+		toolbar.addAction(self.tb_down)
+
+		self.tb_up= QAction(QIcon_load("go-up"), _("Move up"), self)
+		self.tb_up.triggered.connect(self.on_move_up)
+		toolbar.addAction(self.tb_up)
 
 		self.tb_open = QAction(QIcon_load("document-open"), _("Open"), self)
 		self.tb_open.triggered.connect(self.callback_open)

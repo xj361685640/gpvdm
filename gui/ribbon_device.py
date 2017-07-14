@@ -71,9 +71,9 @@ class ribbon_device(QToolBar):
 		self.materials.triggered.connect(self.callback_view_materials)
 		self.addAction(self.materials)
 
-		self.materials = QAction(QIcon_load("spectra_file"), _("Optical\ndatabase"), self)
-		self.materials.triggered.connect(self.callback_view_optical)
-		self.addAction(self.materials)
+		self.spectra_file = QAction(QIcon_load("spectra_file"), _("Optical\ndatabase"), self)
+		self.spectra_file.triggered.connect(self.callback_view_optical)
+		self.addAction(self.spectra_file)
 
 		self.cost = QAction(QIcon_load("cost"), _("Calculate\nthe cost"), self)
 		self.cost.triggered.connect(self.callback_cost)
@@ -91,10 +91,6 @@ class ribbon_device(QToolBar):
 		if self.cost_window!=None:
 			del self.cost_window
 			self.cost_window=None
-
-		if self.parasitic!=None:
-			del self.parasitic
-			self.parasitic=None
 			
 		if self.doping_window!=None:
 			del self.doping_window
@@ -114,6 +110,8 @@ class ribbon_device(QToolBar):
 		self.materials.setEnabled(val)
 		self.cost.setEnabled(val)
 		self.contacts.setEnabled(val)
+		self.parasitic.setEnabled(val)
+		self.spectra_file.setEnabled(val)
 
 	def callback_doping(self):
 		help_window().help_set_help(["doping.png",_("<big><b>Doping window</b></big>\nUse this window to add doping to the simulation")])

@@ -38,6 +38,8 @@ from win_lin import desktop_open
 
 from ref import get_ref_text
 from QWidgetSavePos import QWidgetSavePos
+
+
 articles = []
 mesh_articles = []
 
@@ -92,6 +94,7 @@ class spectra_main(QWidgetSavePos):
 		description=[_("Parameters")]
 
 		eq=equation(self.path,"spectra_eq.inp","spectra_gen.inp","spectra.inp","#spectra_equation_or_data")
+		eq.show_solar_spectra=True
 		eq.set_default_value("3")
 		eq.set_ylabel(_("Intensity")+" (au)")
 		eq.init()

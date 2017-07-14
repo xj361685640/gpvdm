@@ -67,16 +67,6 @@ class band_graph(QWidget):
 
 		self.main_vbox = QVBoxLayout()
 
-		toolbar=QToolBar()
-		toolbar.setIconSize(QSize(32, 32))
-
-		self.tb_save = QAction(QIcon_load("save"), _("Save image"), self)
-		self.tb_save.setStatusTip(_("Close"))
-		self.tb_save.triggered.connect(self.callback_save_image)
-		toolbar.addAction(self.tb_save)
-
-		self.main_vbox.addWidget(toolbar)
-
 		self.my_figure=Figure(figsize=(5,4), dpi=100)
 		self.canvas = FigureCanvas(self.my_figure)
 		self.canvas.mpl_connect('key_press_event', self.press)
@@ -117,18 +107,20 @@ class band_graph(QWidget):
 		QApplication.clipboard().setImage(QImage.fromData(buf.getvalue()))
 		buf.close()
 
-	def callback_save_image(self):
+	def save_image(self):
 		response=save_as_filter(self,"png (*.png);;jpg (*.jpg)")
 		if response != None:
 			print(response)
 			self.my_figure.savefig(response)
 
 	def set_data_file(self,file):
-		self.optical_mode_file=os.path.join(get_sim_path(),"light_dump",file)
+		self.data_file=file
 
 	def draw_graph(self):
+
 		self.layer_end=[]
 		self.layer_name=[]
+		self.optical_mode_file=os.path.join(get_sim_path(),"light_dump",self.data_file)
 
 		n=0
 		self.my_figure.clf()
@@ -159,12 +151,13 @@ class band_graph(QWidget):
 			lines=[]
 			material_type=inp_get_token_value(os.path.join(get_sim_path(),'materials',layer_material,'mat.inp'), "#material_type")
 			if epitaxy_get_electrical_layer(i).startswith("dos")==False:
-				if inp_load_file(lines,os.path.join(get_sim_path(),'materials',layer_material,'dos.inp'))==True:
+				lines=inp_load_file(os.path.join(get_sim_path(),'materials',layer_material,'dos.inp'))
+				if lines!=False:
 					lumo=-float(inp_search_token_value(lines, "#Xi"))
 					Eg=float(inp_search_token_value(lines, "#Eg"))
 			else:
-
-				if inp_load_file(lines,os.path.join(get_sim_path(),epitaxy_get_electrical_layer(i)+".inp"))==True:
+				lines=inp_load_file(os.path.join(get_sim_path(),epitaxy_get_electrical_layer(i)+".inp"))
+				if lines!=False:
 					lumo=-float(inp_search_token_value(lines, "#Xi"))
 					Eg=float(inp_search_token_value(lines, "#Eg"))
 

@@ -28,7 +28,6 @@ from undo import undo_list_class
 from tab_base import tab_base
 from util import str2bool
 from scan_item import scan_remove_file
-from inp import inp_load_file
 from inp import inp_update_token_value
 from inp import inp_get_token_value
 from util import latex_to_html

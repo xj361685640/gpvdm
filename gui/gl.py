@@ -470,6 +470,7 @@ if open_gl_ok==True:
 							draw_photon(x[i]+0.1,y[ii]+0.1,True)
 
 		def do_draw(self):
+			#print("do draw")
 			dos_start=-1
 			dos_stop=-1
 			epi_y_len=epitaxy_get_y_len()
@@ -484,6 +485,7 @@ if open_gl_ok==True:
 
 
 			x_len=mesh_get_xlen()
+
 			max_gui_device_x=x_len*self.x_mul
 			max_gui_device_y=1.0
 			max_gui_device_z=mesh_get_zlen()*self.z_mul
@@ -494,20 +496,28 @@ if open_gl_ok==True:
 			ypoints=int(mesh_get_ypoints())
 			zpoints=int(mesh_get_zpoints())
 
-
+			if ypoints>10:
+				ypoints=10
+			
+			if xpoints>10:
+				xpoints=10
+				
+			if ypoints>10:
+				ypoints=10
 
 			self.emission=False
 			self.ray_model=False
 			
-			lines=[]
-			if inp_load_file(lines,os.path.join(get_sim_path(),"led.inp"))==True:
+			lines=inp_load_file(os.path.join(get_sim_path(),"led.inp"))
+			if lines!=False:
 				self.ray_model=val=str2bool(inp_search_token_value(lines, "#led_on"))
 				
 			lines=[]
 
 			for i in range(0,epitaxy_get_layers()):
 				if epitaxy_get_pl_file(i)!="none":
-					if inp_load_file(lines,os.path.join(get_sim_path(),epitaxy_get_pl_file(i)+".inp"))==True:
+					lines=inp_load_file(os.path.join(get_sim_path(),epitaxy_get_pl_file(i)+".inp"))
+					if lines!=False:
 						if str2bool(lines[1])==True:
 							self.emission=True
 					
@@ -623,7 +633,9 @@ if open_gl_ok==True:
 			draw_grid()
 			if self.viewpoint.zoom<-60:
 				draw_stars()
-				
+
+			#print("do draw end")
+
 
 		def paintGL(self):
 			if self.failed==False:
@@ -649,7 +661,8 @@ if open_gl_ok==True:
 				path=os.path.join(get_materials_path(),epitaxy_get_mat_file(l-i),"mat.inp")
 
 				loaded=True
-				if inp_load_file(lines,os.path.join(get_sim_path(),path))==True:
+				lines=inp_load_file(os.path.join(get_sim_path(),path))
+				if lines!=False:
 					ret=inp_search_token_array(lines, "#red_green_blue")
 					if ret!=False:
 						red=float(ret[0])

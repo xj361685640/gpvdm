@@ -51,6 +51,7 @@ from global_objects import global_object_get
 
 from cal_path import get_sim_path
 from QWidgetSavePos import QWidgetSavePos
+from scan_ribbon import scan_ribbon
 
 class scan_class(QWidgetSavePos):
 
@@ -233,112 +234,50 @@ class scan_class(QWidgetSavePos):
 		self.rod=[]
 		self.sim_dir=get_sim_path()
 
-
-
 		self.main_vbox = QVBoxLayout()
+		self.ribbon=scan_ribbon()
+		self.main_vbox.addWidget(self.ribbon)
 
-		menubar = QMenuBar()
+		self.ribbon.menu_plot_fits.triggered.connect(self.callback_plot_fits)
 
-		file_menu = menubar.addMenu("&"+_("File"))
-		self.menu_change_dir=file_menu.addAction(_("Change dir"))
-		self.menu_change_dir.triggered.connect(self.callback_change_dir)
+		self.ribbon.menu_run_nested.triggered.connect(self.callback_nested_simulation)
 
+		self.ribbon.sim_no_gen.triggered.connect(self.callback_run_simulation_nogen)
 
+		self.ribbon.single_fit.triggered.connect(self.callback_run_single_fit)
 
-		self.menu_advanced=menubar.addMenu(_("Advanced"))
+		self.ribbon.sim_clean.triggered.connect(self.callback_clean_simulation)
 
-		self.menu_plot_fits=self.menu_advanced.addAction("&"+_("Plot fits"))
-		self.menu_plot_fits.triggered.connect(self.callback_plot_fits)
+		self.ribbon.clean_unconverged.triggered.connect(self.callback_clean_unconverged_simulation)
 
-		self.menu_run_nested=self.menu_advanced.addAction("&"+_("Run nested simulation"))
-		self.menu_run_nested.triggered.connect(self.callback_nested_simulation)
+		self.ribbon.clean_sim_output.triggered.connect(self.callback_clean_simulation_output)
 
-		self.menu_run_nested=self.menu_advanced.addAction("&"+_("Run simulation no generation"))
-		self.menu_run_nested.triggered.connect(self.callback_run_simulation_nogen)
+		self.ribbon.push_unconverged_to_hpc.triggered.connect(self.callback_push_unconverged_to_hpc)
 
-		self.menu_run_nested=self.menu_advanced.addAction("&"+_("Run simulation no generation"))
-		self.menu_run_nested.triggered.connect(self.callback_run_simulation_nogen)
-
-		self.menu_run_single_fit=self.menu_advanced.addAction("&"+_("Run single fit"))
-		self.menu_run_single_fit.triggered.connect(self.callback_run_single_fit)
-
-		self.menu_clean_simulation=self.menu_advanced.addAction("&"+_("Clean simulation"))
-		self.menu_clean_simulation.triggered.connect(self.callback_clean_simulation)
-
-		self.menu_clean_unconverged_simulation=self.menu_advanced.addAction("&"+_("Clean unconverged simulation"))
-		self.menu_clean_unconverged_simulation.triggered.connect(self.callback_clean_unconverged_simulation)
-
-		self.menu_clean_simulation_output=self.menu_advanced.addAction("&"+_("Clean simulation output"))
-		self.menu_clean_simulation_output.triggered.connect(self.callback_clean_simulation_output)
-
-		self.menu_clean_simulation_output=self.menu_advanced.addAction("&"+_("Clean simulation output"))
-		self.menu_clean_simulation_output.triggered.connect(self.callback_clean_simulation_output)
-
-		self.menu_advanced.addSeparator()
-
-		self.menu_push_to_hpc=self.menu_advanced.addAction("&"+_("Push unconverged to hpc"))
-		self.menu_push_to_hpc.triggered.connect(self.callback_push_unconverged_to_hpc)
-
-		self.main_vbox.addWidget(menubar)		
-
-
-		toolbar=QToolBar()
-		toolbar.setIconSize(QSize(48, 48))
-		toolbar.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
-
-		self.tb_new = QAction(QIcon_load("document-new"), wrap_text(_("New scan"),2), self)
-		self.tb_new.triggered.connect(self.callback_add_page)
-		toolbar.addAction(self.tb_new)
-
-		self.tb_delete = QAction(QIcon_load("edit-delete"), wrap_text(_("Delete scan"),3), self)
-		self.tb_delete.triggered.connect(self.callback_delete_page)
-		toolbar.addAction(self.tb_delete)
-
-		self.tb_clone = QAction(QIcon_load("clone"), wrap_text(_("Clone scan"),3), self)
-		self.tb_clone.triggered.connect(self.callback_copy_page)
-		toolbar.addAction(self.tb_clone)
-
-		self.tb_rename = QAction(QIcon_load("rename"), wrap_text(_("Rename scan"),3), self)
-		self.tb_rename.triggered.connect(self.callback_rename_page)
-		toolbar.addAction(self.tb_rename)
-
-
-		toolbar.addSeparator()
+		self.ribbon.change_dir.triggered.connect(self.callback_change_dir)
 		
-		self.tb_simulate = QAction(QIcon_load("forward"), wrap_text(_("Run scan"),2), self)
-		self.tb_simulate.triggered.connect(self.callback_run_simulation)
-		toolbar.addAction(self.tb_simulate)
 
-		self.tb_run_all = QAction(QIcon_load("forward2"), wrap_text(_("Run all scans"),3), self)
-		self.tb_run_all.triggered.connect(self.callback_run_all_simulations)
-		toolbar.addAction(self.tb_run_all)
+		self.ribbon.tb_new.triggered.connect(self.callback_add_page)
 
+		self.ribbon.tb_delete.triggered.connect(self.callback_delete_page)
 
-		self.tb_stop = QAction(QIcon_load("media-playback-pause"), wrap_text(_("Stop"),3), self)
-		self.tb_stop.triggered.connect(self.callback_stop_simulation)
-		toolbar.addAction(self.tb_stop)
+		self.ribbon.tb_clone.triggered.connect(self.callback_copy_page)
 
-		toolbar.addSeparator()
+		self.ribbon.tb_rename.triggered.connect(self.callback_rename_page)
+		
+		self.ribbon.tb_simulate.triggered.connect(self.callback_run_simulation)
 
-		self.tb_plot = QAction(QIcon_load("plot"), wrap_text(_("Plot"),4), self)
-		self.tb_plot.triggered.connect(self.callback_plot)
-		toolbar.addAction(self.tb_plot)
+		self.ribbon.tb_run_all.triggered.connect(self.callback_run_all_simulations)
+
+		self.ribbon.tb_stop.triggered.connect(self.callback_stop_simulation)
+
+		self.ribbon.tb_plot.triggered.connect(self.callback_plot)
 	
-		self.tb_plot_time = QAction(QIcon_load("plot_time"), wrap_text(_("Time domain plot"),6), self)
-		self.tb_plot_time.triggered.connect(self.callback_examine)
-		toolbar.addAction(self.tb_plot_time)
+		self.ribbon.tb_plot_time.triggered.connect(self.callback_examine)
 
 		spacer = QWidget()
 		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-		toolbar.addWidget(spacer)
 
-
-		self.help = QAction(QIcon_load("help"), _("Help"), self)
-		self.help.setStatusTip(_("Close"))
-		self.help.triggered.connect(self.callback_help)
-		toolbar.addAction(self.help)
-
-		self.main_vbox.addWidget(toolbar)
 
 		self.notebook = QTabWidget()
 		self.notebook.setTabBar(QHTabBar())

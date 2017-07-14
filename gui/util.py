@@ -27,6 +27,11 @@ import glob
 from util_zip import zip_get_data_file
 from math import pow
 
+def set_file_ext(file_name,ext):
+	if ext[0]!=".":
+		ext="."+ext
+	return os.path.splitext(file_name)[0]+ext
+
 def wrap_text(text,width):
 	count=0
 	r=False
@@ -224,6 +229,24 @@ def fx_with_units(fx):
 	elif (fx<1e12):
 		ret="GHz"
 		mul=1e-9
+
+	return mul,ret
+
+def distance_with_units(distance):
+	ret=str(distance)
+	if (distance<1e-9):
+		ret="pm"
+		mul=1e12
+	elif (distance<1e-6):
+		ret="nm"
+		mul=1e9
+	elif (distance<1e-3):
+		ret="um"
+		mul=1e6
+	else:
+		ret="mm"
+		mul=1e3
+
 
 	return mul,ret
 

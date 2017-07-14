@@ -30,8 +30,10 @@ import shutil
 from util_zip import replace_file_in_zip_archive
 #import subprocess
 from tempfile import mkstemp
+
 #import logging
 #import zipfile
+from win_lin import running_on_linux
 from util_zip import zip_remove_file
 from util_zip import write_lines_to_archive
 from util_zip import read_lines_from_archive
@@ -40,6 +42,11 @@ from util_zip import zip_lsdir
 
 from cal_path import get_sim_path
 
+
+if running_on_linux()==True:
+	import hashlib
+	from Crypto.Cipher import AES
+	
 def inp_issequential_file(data,search):
 	if data.startswith(search) and data.endswith("inp"):
 		cut=data[len(search):-4]
@@ -117,6 +124,8 @@ def inp_add_token(lines,token,value):
 	ret=a + lines
 	return ret
 
+
+
 def inp_update_token_array(file_path, token, replace):
 	lines=[]
 	base_name=os.path.basename(file_path)
@@ -124,32 +133,33 @@ def inp_update_token_array(file_path, token, replace):
 
 	zip_file_name=os.path.join(path,"sim.gpvdm")
 
-	read_lines_from_archive(lines,zip_file_name,os.path.basename(file_path))
+	lines=read_lines_from_archive(zip_file_name,os.path.basename(file_path))
 
 	lines=inp_replace_token_array(lines,token,replace)
 
 	write_lines_to_archive(zip_file_name,base_name,lines)
 
-def inp_update_token_value(file_path, token, replace):
+def inp_update_token_value(file_path, token, replace,archive="sim.gpvdm"):
 	lines=[]
 	if token=="#Tll":
-		inp_update_token_value("thermal.inp", "#Tlr", replace)
+		inp_update_token_value("thermal.inp", "#Tlr", replace,archive)
 		files=inp_lsdir(os.path.join(os.path.dirname(file_path),"sim.gpvdm"))
 		for i in range(0,len(files)):
 			if files[i].startswith("dos") and files[i].endswith(".inp"):
 
-				inp_update_token_value(files[i], "#Tstart", replace)
+				inp_update_token_value(files[i], "#Tstart", replace,archive)
 				try:
 					upper_temp=str(float(replace)+5)
 				except:
 					upper_temp="300.0"
-				inp_update_token_value(files[i], "#Tstop", upper_temp)
-
-	inp_load_file(lines,file_path)
+				inp_update_token_value(files[i], "#Tstop", upper_temp,archive)
+	#print("load>",file_path)
+	lines=inp_load_file(file_path,archive=archive)
 
 	inp_replace_token_value(lines,token,replace)
+	#print("update>",token,replace,lines)
 
-	inp_save(file_path,lines)
+	inp_save(file_path,lines,archive=archive)
 
 def inp_isfile(file_path,archive="sim.gpvdm"):
 	file_name=default_to_sim_path(file_path)
@@ -159,7 +169,8 @@ def inp_isfile(file_path,archive="sim.gpvdm"):
 
 def inp_copy_file(dest,src):
 	lines=[]
-	if inp_load_file(lines,src)==True:
+	lines=inp_load_file(src)
+	if lines!=False:
 		inp_save(dest,lines)
 		return True
 	else:
@@ -173,13 +184,16 @@ def default_to_sim_path(file_path):
 	else:
 		return file_path
 
-def inp_load_file(lines,file_path,archive="sim.gpvdm"):
+def inp_load_file(file_path,archive="sim.gpvdm",mode="l"):
 	"""load file"""
 	file_name=default_to_sim_path(file_path)
-	
+	#print(">",file_name)
 	zip_file_path=os.path.join(os.path.dirname(file_name),archive)
+	#print(">>",zip_file_path)
 	file_name=os.path.basename(file_name)
-	return read_lines_from_archive(lines,zip_file_path,file_name)
+	ret=read_lines_from_archive(zip_file_path,file_name,mode=mode)
+
+	return ret
 
 def inp_save(file_path,lines,archive="sim.gpvdm"):
 	"""Write save lines to a file"""
@@ -187,6 +201,9 @@ def inp_save(file_path,lines,archive="sim.gpvdm"):
 
 	archive_path=os.path.join(os.path.dirname(full_path),archive)
 	file_name=os.path.basename(full_path)
+	#print("archive",archive_path)
+	#print("file",file_name)
+	#print(lines)
 	return write_lines_to_archive(archive_path,file_name,lines)
 
 def inp_save_lines_to_file(file_path,lines):
@@ -214,16 +231,22 @@ def inp_new_file():
 	return ret
 
 
-def inp_get_next_token_array(lines,pos):
+def inp_get_next_token_array(lines,start):
 	"""Get the next token"""
 	ret=[]
-	while (1):
-		ret.append(lines[pos])
-		pos=pos+1
-		if (len(lines[pos])>0):
-			if lines[pos][0]=="#":
-				break
-	return ret,pos
+	if start>=len(lines):
+		return None,start
+
+	for i in range(start,len(lines)):
+		if i!=start:
+			if len(lines[i])>0:
+				if lines[i][0]=="#":
+					break
+
+		ret.append(lines[i])
+			
+
+	return ret,i
 
 
 def inp_search_token_array(lines, token):
@@ -245,7 +268,7 @@ def inp_get_token_array(file_path, token):
 	"""Get an array of data assosiated with a token"""
 	lines=[]
 	ret=[]
-	inp_load_file(lines,file_path)
+	lines=inp_load_file(file_path)
 
 	ret=inp_search_token_array(lines, token)
 
@@ -253,8 +276,8 @@ def inp_get_token_array(file_path, token):
 
 def inp_check_ver(file_path, ver):
 	"""Check ver of file"""
-	lines=[]
-	if inp_load_file(lines,file_path)==False:
+	lines=inp_load_file(file_path)
+	if lines==False:
 		return False
 
 	for i in range(0, len(lines)):
@@ -275,10 +298,13 @@ def inp_get_token_value_from_list(lines, token):
 
 	return None
 
-def inp_get_token_value(file_path, token):
+def inp_get_token_value(file_path, token,archive="sim.gpvdm"):
 	"""Get the value of a token from a file"""
+	#print(file_path,token,archive)
 	lines=[]
-	inp_load_file(lines,file_path)
+	lines=inp_load_file(file_path,archive=archive)
+	if lines==False:
+		return None
 
 	for i in range(0, len(lines)):
 		if lines[i]==token:
@@ -295,3 +321,42 @@ def inp_sum_items(lines,token):
 	return my_sum
 
 
+def inp_encrypt(file_name):
+	iv="reallybadiv"
+	ls=zip_lsdir(file_name)
+	files_to_encrypt=[]
+	bs=32
+	
+	password=inp_get_token_value("info.inp", "#info_password",archive=file_name)
+	if password=="":
+		return False
+
+	for i in range(0,len(ls)):
+		if ls[i].endswith(".inp")==True and ls[i]!="info.inp":
+			lines=[]
+			lines=inp_load_file(ls[i],archive=file_name,mode="b")
+
+			m = hashlib.md5()
+			m.update(password.encode('utf-8'))
+			key_hash=m.digest()
+
+			m = hashlib.md5()
+			m.update(iv.encode('utf-8'))
+			iv_hash=m.digest()
+
+			encryptor = AES.new(key_hash, AES.MODE_CBC, IV=iv_hash)
+			start="encrypt"
+			start=start.encode('utf-8')
+			s=(int((len(lines))/16.0)+1)*16
+			data=bytearray(int(s))
+				
+			for ii in range(0,len(lines)):
+				data[ii]=lines[ii]
+			
+			ret= encryptor.encrypt(bytes(data))
+
+			data=start+ret
+
+			replace_file_in_zip_archive(file_name,ls[i],data,mode="b")
+
+	inp_update_token_value("info.inp", "#info_password","encrypted",archive=file_name)

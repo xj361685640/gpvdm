@@ -129,12 +129,12 @@ class constraints(QWidget):
 		self.tab_math.blockSignals(False)
 		
 	def callback_show_list_src(self):
-		self.select_param_window_src.update()
-		self.select_param_window_src.show()
+		self.select_param_window_mm.update()
+		self.select_param_window_mm.show()
 
-	def callback_show_list_dest(self):
-		self.select_param_window_dest.update()
-		self.select_param_window_dest.show()
+	#def callback_show_list_dest(self):
+	#	self.select_param_window_dest.update()
+	#	self.select_param_window_dest.show()
 		
 	def callback_add_item_mm(self):
 		self.insert_row_mm(self.tab_mm.rowCount(),_("File"),_("Token"),_("Path"),_("Function"),_("Max"),_("Min"),_("Error"))
@@ -183,8 +183,8 @@ class constraints(QWidget):
 
 		lines=[]
 		pos=0
-
-		if inp_load_file(lines,self.file_name)==True:
+		lines=inp_load_file(self.file_name)
+		if lines!=False:
 			mylen=len(lines)
 			while(1):
 
@@ -207,8 +207,8 @@ class constraints(QWidget):
 
 		lines=[]
 		pos=0
-
-		if inp_load_file(lines,self.file_name)==True:
+		lines=inp_load_file(self.file_name)
+		if lines!=False:
 			mylen=len(lines)
 			while(1):
 
@@ -230,7 +230,6 @@ class constraints(QWidget):
 		self.setWindowIcon(QIcon_load("constraints"))
 		self.setFixedSize(900, 700)
 
-		
 		self.vbox=QVBoxLayout()
 
 		########################mm##########################

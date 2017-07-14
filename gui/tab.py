@@ -58,9 +58,19 @@ _ = i18n.language.gettext
 import functools
 from inp import inp_update_token_array
 
+
 class QChangeLog(QTextEdit):
 	def __init__(self):
 		QTextEdit.__init__(self)
+
+class QLabel_click(QLabel):
+	clicked = pyqtSignal()
+
+	def __init(self, parent):
+		QLabel.__init__(self, parent)
+
+	def mouseDoubleClickEvent(self, ev):
+		self.clicked.emit()
 
 class tab_class(QWidget,tab_base):
 
@@ -105,7 +115,12 @@ class tab_class(QWidget,tab_base):
 
 	def set_edit(self,editable):
 		self.editable=editable
-		
+
+	def callback_ref(self,file_name,token,widget):
+		from ref import ref_window
+		self.ref_window=ref_window(os.path.splitext(file_name)[0]+"_"+token[1:])
+		self.ref_window.show()
+
 	def init(self,filename,tab_name):
 		self.scroll=QScrollArea()
 		self.main_box_widget=QWidget()
@@ -123,12 +138,13 @@ class tab_class(QWidget,tab_base):
 		scan_remove_file(filename)
 
 		self.edit_list=[]
-		inp_load_file(self.lines,filename)
+		self.lines=inp_load_file(filename)
 
 		n=0
 		pos=0
 		my_token_lib=tokens()
 		widget_number=0
+
 		while (1):
 			ret,pos=inp_get_next_token_array(self.lines,pos)
 
@@ -153,8 +169,12 @@ class tab_class(QWidget,tab_base):
 				
 				#self.set_size_request(600,-1)
 				if show == True :
-					description=QLabel()
+					description=QLabel_click()
 					description.setText(latex_to_html(text_info))
+					if os.path.isfile(os.path.splitext(filename)[0]+"_"+token[1:]+".ref"):
+						description.setStyleSheet('color: green')
+
+					description.clicked.connect(functools.partial(self.callback_ref,filename,token,description))
 
 
 					if result.widget=="gtkswitch":

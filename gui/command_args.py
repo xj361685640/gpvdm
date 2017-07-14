@@ -51,6 +51,8 @@ from inp import inp_update_token_value
 from device_lib import device_lib_replace
 from cal_path import test_arg_for_sim_file
 from cal_path import set_sim_path
+from import_archive import patch_file
+from inp import inp_encrypt
 
 import i18n
 _ = i18n.language.gettext
@@ -67,6 +69,7 @@ parser.add_argument("--makeman", help=_("Generate the manual pages referring to 
 parser.add_argument("--importscandirs", help=_("Only imports the scan directories."), nargs=1)
 parser.add_argument("--cleanscandirs", help=_("Deletes the content of all scan directories."), nargs=1)
 parser.add_argument("--patch", help=_("Patch a .gpvdm file with an older .gpvdm file."), nargs=2)
+parser.add_argument("--patchfile", help=_("Patch an .inp file with an older .inp file. usage --patchfile dest_file base_file input_file"), nargs=3)
 parser.add_argument("--importfile", help=_("usage --import abc.gpvdm ./path/to/output/ "), nargs=2)
 parser.add_argument("--dumptab", help=_("Dumps simulation parameters as jpg, usage: --dump-tab output_path"), nargs=1)
 parser.add_argument("--clone", help=_("Generate a clean simulation in the current directory"), action='store_true')
@@ -75,6 +78,8 @@ parser.add_argument("--editvalue", help=_("edits a value in a .gpvdm archive. Us
 parser.add_argument("--scanplot", help=_("Runs an oplot file, usage --scanplot /path/to/oplot/file.oplot "), nargs=1)
 parser.add_argument("--runscan", help=_("Runs a scan, usage --runscan /path/containing/base/files/ /path/to/scan/dir/ "), nargs=2)
 parser.add_argument("--load", help=_("Loads a simulation --load /path/containing/simulation/sim.gpvdm"), nargs=1)
+parser.add_argument("--encrypt", help=_("Encrypt a gpvdm file --file sim.gpvdm"), nargs=1)
+
 
 if test_arg_for_sim_file()==False:
 	args = parser.parse_args()
@@ -120,6 +125,9 @@ def command_args(argc,argv):
 		elif args.patch:
 			import_archive(args.patch[0],args.patch[1],True)
 			sys.exit(0)
+		elif args.patchfile:
+			patch_file(args.patchfile[0],args.patchfile[1],args.patchfile[2])
+			sys.exit(0)
 		elif args.clone:
 			gpvdm_clone(os.getcwd(),True)
 			sys.exit(0)
@@ -131,6 +139,9 @@ def command_args(argc,argv):
 			sys.exit(0)
 		elif args.load:
 			set_sim_path(os.path.dirname(args.load[0]))
+		elif args.encrypt:
+			inp_encrypt(args.encrypt[0])
+			sys.exit(0)
 		elif args.scanplot:
 			plot_token=dat_file()
 			oplot_file=args.scan-plot[0]

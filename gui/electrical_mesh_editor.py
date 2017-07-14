@@ -25,9 +25,6 @@ from code_ctrl import enable_betafeatures
 from scan_item import scan_item_add
 from icon_lib import QIcon_load
 
-#inp
-from inp import inp_load_file
-
 #qt
 from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication
 from PyQt5.QtGui import QIcon
@@ -35,40 +32,75 @@ from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtWidgets import QWidget,QSizePolicy,QHBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar, QMessageBox, QVBoxLayout, QGroupBox, QTableWidget,QAbstractItemView, QTableWidgetItem
 from PyQt5.QtCore import pyqtSignal
 
+#matplotlib
+import matplotlib
+matplotlib.use('Qt5Agg')
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
+import matplotlib.cm as cm
+from matplotlib import rcParams
+
 from mesh import mesh_get_xlayers
 from mesh import mesh_get_ylayers
 from mesh import mesh_get_zlayers
-from mesh import mesh_get_xlist
-from mesh import mesh_get_ylist
-from mesh import mesh_get_zlist
+from mesh import mesh_get_xmesh
+from mesh import mesh_get_ymesh
+from mesh import mesh_get_zmesh
 from mesh import mesh_save_all
 from mesh import mesh_add
 
 from mesh import mesh_clear_xlist
 from mesh import mesh_clear_ylist
 from mesh import mesh_clear_zlist
+from mesh import mesh_save_y
+from mesh import mesh_save_x
+from mesh import mesh_save_z
+
+import numpy as np
+
+from util import distance_with_units
+
+from leftright import leftright
+from util import str2bool
+from gui_util import tab_get_value
 
 class electrical_mesh_editor(QGroupBox):
 
 	changed = pyqtSignal()
+
+	def insert_row(self,pos,thick,points,mul,left_right):
+
+		item=QTableWidgetItem(str(thick))
+		self.tab.setItem(pos,0,item)
+
+		item=QTableWidgetItem(str(points))
+		self.tab.setItem(pos,1,item)
+
+		item=QTableWidgetItem(str(mul))
+		self.tab.setItem(pos,2,item)
+
+		self.item = leftright()
+		self.item.set_value(str2bool(left_right))
+		self.item.changed.connect(self.tab_changed)
+		self.tab.setCellWidget(pos,3,self.item)
 	
 	def on_add_mesh_clicked(self):
 		self.tab.blockSignals(True)
 		index = self.tab.selectionModel().selectedRows()
 
-		print(index)
 		if len(index)>0:
 			pos=index[0].row()+1
 		else:
 			pos = self.tab.rowCount()
 
 		self.tab.insertRow(pos)
+		self.insert_row(pos,100e-9,20,1.1,"left")
 
-		self.tab.setItem(pos,0,QTableWidgetItem("100e-9"))
-
-		self.tab.setItem(pos,1,QTableWidgetItem("20"))
+		#self.tab.setItem(pos,3,QTableWidgetItem("left"))
 
 		self.save()
+		self.redraw()
 		self.tab.blockSignals(False)
 		self.changed.emit()
 
@@ -76,12 +108,12 @@ class electrical_mesh_editor(QGroupBox):
 		self.tab.blockSignals(True)
 		index = self.tab.selectionModel().selectedRows()
 
-		print(index)
 		if len(index)>0:
 			pos=index[0].row()
 			self.tab.removeRow(pos)
 
 		self.save()
+		self.redraw()
 		self.tab.blockSignals(False)
 		self.changed.emit()
 
@@ -89,77 +121,131 @@ class electrical_mesh_editor(QGroupBox):
 		if self.xyz=="y":
 			mesh_clear_ylist()
 		elif self.xyz=="x":
-			print("cleared")
 			mesh_clear_xlist()
 		elif self.xyz=="z":
 			mesh_clear_zlist()
 
 		for i in range(0,self.tab.rowCount()):
-			mesh_add(self.xyz,float(self.tab.item(i, 0).text()),float(self.tab.item(i, 1).text()))
+			mesh_add(self.xyz,float(self.tab.item(i, 0).text()),float(self.tab.item(i, 1).text()),float(self.tab.item(i, 2).text()),tab_get_value(self.tab,i, 3))
+		
+		if self.xyz=="y":
+			mesh_save_y()
+		elif self.xyz=="x":
+			mesh_save_x()
+		elif self.xyz=="z":
+			mesh_save_z()
 
-		mesh_save_all()
+
+	def redraw(self):
+		self.ax1.clear()
+		self.x=[]
+		self.mag=[]
+		pos=0
+		ii=0
+		tot=0.0
+		for i in range(0,self.tab.rowCount()):
+			tot=tot+float(self.tab.item(i, 0).text())
+			
+		mul,unit=distance_with_units(tot)
+		total_pos=0.0
+		for i in range(0,self.tab.rowCount()):
+			layer_length=float(self.tab.item(i, 0).text())
+			layer_points=float(self.tab.item(i, 1).text())
+			layer_mul=float(self.tab.item(i, 2).text())
+			layer_left_right=tab_get_value(self.tab,i, 3)
+			dx=layer_length/layer_points
+			pos=dx/2
+			ii=0
+			temp_x=[]
+			temp_mag=[]
+			while(pos<layer_length):
+				temp_x.append(pos)
+				temp_mag.append(1.0)
+
+				pos=pos+dx*pow(layer_mul,ii)
+
+				ii=ii+1
+				#dx=dx*layer_mul
+			for i in range(0,len(temp_x)):
+				if layer_left_right=="left":
+					self.x.append((temp_x[i]+total_pos)*mul)
+				else:
+					self.x.append((layer_length-temp_x[i]+total_pos)*mul)
+
+				self.mag.append(temp_mag[i])
+			total_pos=total_pos+layer_length
+
+		c = np.linspace(0, 10, len(self.x))
+		
+		self.ax1.set_ylabel(_("Magnitude"))
+		cmap = cm.jet
+		self.ax1.clear()
+		self.ax1.scatter(self.x,self.mag ,c=c, cmap=cmap)
+		self.fig.canvas.draw()
+		self.ax1.set_xlabel(_("Thickness")+" ("+unit+")")
 
 	def update(self):
 		self.load()
 
 	def disable_dim(self):
 		self.tab.setItem(0,1,QTableWidgetItem("1"))
+		self.redraw()
 		self.save()
 
 	def enable_dim(self):
 		if int(self.tab.rowCount())==1:
 			self.tab.setItem(0,1,QTableWidgetItem("10"))
+			self.redraw()
 			self.save()
 
 
 	def load(self):
 		self.tab.blockSignals(True)
 		self.tab.clear()
-		self.tab.setHorizontalHeaderLabels([_("Thicknes"), _("Mesh points")])
+		self.tab.setHorizontalHeaderLabels([_("Thicknes"), _("Mesh points"), _("Step multiply"), _("Left/Right")])
 		lines=[]
 		pos=0
-		
+
 		if self.xyz=="y":
 			mesh_layers=mesh_get_ylayers()
-			layer_list=mesh_get_ylist()
+			layer_list=mesh_get_ymesh().layers
 		elif self.xyz=="x":
 			mesh_layers=mesh_get_xlayers()
-			layer_list=mesh_get_xlist()
+			layer_list=mesh_get_xmesh().layers
 		elif self.xyz=="z":
 			mesh_layers=mesh_get_zlayers()
-			layer_list=mesh_get_zlist()
+			layer_list=mesh_get_zmesh().layers
 
 		self.tab.setRowCount(mesh_layers)
 		for i in range(0, mesh_layers):
-			value = QTableWidgetItem(str(layer_list[i].thick))
-			self.tab.setItem(i,0,value)
+			self.insert_row(i,layer_list[i].thick,layer_list[i].points,layer_list[i].mul,layer_list[i].left_right)
 
-			value = QTableWidgetItem(str(int(layer_list[i].points)))
-			self.tab.setItem(i,1,value)
+		self.redraw()
 		self.tab.blockSignals(False)
-
-	def tab_changed(self, x,y):
-		print(x,y)
+		
+	def tab_changed(self):
 		self.save()
+		self.redraw()
 		self.changed.emit()
 
 
 	def __init__(self,xyz):
 		self.xyz=xyz
 		QGroupBox.__init__(self)
+		rcParams.update({'figure.autolayout': True})
 		self.setTitle(self.xyz)
 		self.setStyleSheet("QGroupBox {  border: 1px solid gray;}")
 		vbox=QVBoxLayout()
 		self.setLayout(vbox)
 
 		toolbar=QToolBar()
-		toolbar.setIconSize(QSize(48, 48))
+		toolbar.setIconSize(QSize(32, 32))
 
-		add = QAction(QIcon_load("list-add.png",size=16),  _("Add "+self.xyz+" mesh layer"), self)
+		add = QAction(QIcon_load("list-add",size=32),  _("Add "+self.xyz+" mesh layer"), self)
 		add.triggered.connect(self.on_add_mesh_clicked)
 		toolbar.addAction(add)
 
-		remove = QAction(QIcon_load("list-remove.png",size=16),  _("Remove "+self.xyz+" mesh layer"), self)
+		remove = QAction(QIcon_load("list-remove",size=32),  _("Remove "+self.xyz+" mesh layer"), self)
 		remove.triggered.connect(self.on_remove_click)
 		toolbar.addAction(remove)
 
@@ -172,11 +258,22 @@ class electrical_mesh_editor(QGroupBox):
 		self.tab.verticalHeader().setVisible(False)
 
 		self.tab.clear()
-		self.tab.setColumnCount(2)
+		self.tab.setColumnCount(4)
 		self.tab.setSelectionBehavior(QAbstractItemView.SelectRows)
-
-		self.load()
 
 		self.tab.cellChanged.connect(self.tab_changed)
 
 		vbox.addWidget(self.tab)
+
+		self.fig = Figure(figsize=(5,2), dpi=100)
+		self.canvas = FigureCanvas(self.fig)
+		self.canvas.figure.patch.set_facecolor('white')
+		
+		self.fig.subplots_adjust(bottom=0.2)
+		self.fig.subplots_adjust(left=0.1)
+		self.ax1 = self.fig.add_subplot(111)
+		self.ax1.ticklabel_format(useOffset=False)
+
+		vbox.addWidget(self.canvas)
+
+		self.load()

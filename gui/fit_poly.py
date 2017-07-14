@@ -32,7 +32,6 @@ _ = i18n.language.gettext
 
 #inp
 from inp_util import inp_search_token_value
-from inp import inp_load_file
 from inp import inp_read_next_item
 
 #matplotlib

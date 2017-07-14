@@ -303,7 +303,7 @@ class plot_widget(QWidget):
 		self.fig.canvas.draw()
 		#print("exit do plot")
 
-	def callback_plot_save(self):
+	def save_image(self):
 		response=save_as_image(self)
 		if response != None:
 			plot_export(response,self.input_files,self.data[0],self.fig)
@@ -527,7 +527,7 @@ class plot_widget(QWidget):
 	def callback_refresh(self):
 		self.update()
 
-	def init(self,menu=True):
+	def init(self,menu=True,save_refresh=True):
 		self.main_vbox = QVBoxLayout()
 		self.config_file=""
 		self.labels=[]
@@ -540,14 +540,14 @@ class plot_widget(QWidget):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
+		if save_refresh==True:
+			self.tb_save = QAction(QIcon_load("document-save-as"), _("Save graph"), self)
+			self.tb_save.triggered.connect(self.save_image)
+			toolbar.addAction(self.tb_save)
 
-		self.tb_save = QAction(QIcon_load("document-save-as"), _("Save graph"), self)
-		self.tb_save.triggered.connect(self.callback_plot_save)
-		toolbar.addAction(self.tb_save)
-
-		self.tb_refresh = QAction(QIcon_load("view-refresh"), _("Refresh graph"), self)
-		self.tb_refresh .triggered.connect(self.callback_refresh)
-		toolbar.addAction(self.tb_refresh )
+			self.tb_refresh = QAction(QIcon_load("view-refresh"), _("Refresh graph"), self)
+			self.tb_refresh .triggered.connect(self.callback_refresh)
+			toolbar.addAction(self.tb_refresh )
 
 		nav_bar=NavigationToolbar(self.canvas,self)
 		toolbar.addWidget(nav_bar)
@@ -566,7 +566,7 @@ class plot_widget(QWidget):
 			self.menu_save.triggered.connect(self.callback_save)
 
 			self.menu_save_as=file_menu.addAction("&"+_("Save as"))
-			self.menu_save_as.triggered.connect(self.callback_plot_save)
+			self.menu_save_as.triggered.connect(self.save_image)
 
 
 			key_menu = menubar.addMenu("&"+_("Key"))

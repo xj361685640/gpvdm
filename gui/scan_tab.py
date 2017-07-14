@@ -75,6 +75,7 @@ from scan_select import select_param
 #from notes import notes
 from gui_util import tab_add
 from gui_util import tab_move_down
+from gui_util import tab_move_up
 from gui_util import tab_remove
 from gui_util import tab_get_value
 from gui_util import error_dlg
@@ -110,6 +111,8 @@ class scan_vbox(QWidget):
 	def callback_move_down(self):
 		tab_move_down(self.tab)
 
+	def callback_move_up(self):
+		tab_move_up(self.tab)
 
 	def callback_insert_command(self):
 		a=self.tab.selectionModel().selectedRows()
@@ -295,7 +298,7 @@ class scan_vbox(QWidget):
 
 	def callback_gen_plot_command(self):
 		dialog=gpvdm_open(self.sim_dir)
-		ret=dialog.window.exec_()
+		ret=dialog.exec_()
 
 		if ret==QDialog.Accepted:
 			full_file_name=dialog.get_filename()
@@ -358,7 +361,24 @@ class scan_vbox(QWidget):
 		self.rebuild_op_type_widgets()
 		self.save_combo()
 
-	def combo_mirror_changed(self, widget, path, text, model):
+	def combo_mirror_changed(self):
+		print("combo changed")
+		for i in range(0,self.tab.rowCount()):
+			value=tab_get_value(self.tab,i,4)
+
+			if value == "constant" and tab_get_value(self.tab,i,3)=="mirror":
+				tab_set_value(self.tab,i,3,"0.0")
+
+			if value == "scan" and tab_get_value(self.tab,i,3)=="mirror":
+				tab_set_value(self.tab,i,3,"0.0 0.0 0.0")
+
+			if value == "python_code" and tab_get_value(self.tab,i,3)=="mirror":
+				tab_set_value(self.tab,i,3,"0.0")
+			
+			if value != "constant" and value != "scan" and value != "python_code":
+				tab_set_value(self.tab,i,3,"mirror")
+			#print(value)
+		return
 		model[path][4] = text
 		if model[path][4]!="constant":
 			if model[path][4]!="scan":
@@ -455,6 +475,7 @@ class scan_vbox(QWidget):
 			self.tab.setCellWidget(i,4, combobox)
 			
 			tab_set_value(self.tab,i,4,save_value)
+			combobox.currentIndexChanged.connect(self.combo_mirror_changed)
 		self.tab.blockSignals(False)
 
 	def set_tab_caption(self,name):
@@ -466,7 +487,7 @@ class scan_vbox(QWidget):
 
 
 	def callback_run_simulation(self):
-		args=inp_get_token_value(os.path.join("scan_config.inp",self.sim_dir),"#args")
+		args=inp_get_token_value(os.path.join(self.sim_dir,"scan_config.inp"),"#args")
 		if args==None:
 			args=""
 		self.simulate(True,True,args)
@@ -512,6 +533,10 @@ class scan_vbox(QWidget):
 		self.tb_down.triggered.connect(self.callback_move_down)
 		toolbar.addAction(self.tb_down)
 
+		self.tb_up = QAction(QIcon_load("go-up"), _("Move up"), self)
+		self.tb_up.triggered.connect(self.callback_move_up)
+		toolbar.addAction(self.tb_up)
+		
 		#self.tb_notes = QAction(QIcon_load("go-down.png"), _("Notes"), self)
 		#self.tb_notes.triggered.connect(self.callback_notes)
 		#toolbar.addAction(self.tb_notes)

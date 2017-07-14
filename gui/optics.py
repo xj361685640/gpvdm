@@ -34,7 +34,6 @@ from help import my_help_class
 
 #path
 from cal_path import get_materials_path
-from cal_path import get_plugins_path
 from cal_path import get_exe_command
 
 #qt
@@ -52,20 +51,10 @@ from server import server_get
 
 from global_objects import global_object_run
 from global_objects import global_object_delete
-from cal_path import find_light_source
 from cal_path import get_sim_path
 
-def find_models():
-	ret=[]
-	path=get_plugins_path()
+from optics_ribbon import optics_ribbon
 
-	for file in glob.glob(os.path.join(path,"*")):
-		file_name=os.path.basename(file)
-		if file_name.startswith("light_"):
-			if file_name.endswith(".dll") or file_name.endswith(".so"):
-				ret.append(os.path.splitext(os.path.basename(file_name[6:]))[0])
-
-	return ret
 
 class class_optical(QWidget):
 
@@ -79,10 +68,11 @@ class class_optical(QWidget):
 
 	def __init__(self):
 		QWidget.__init__(self)
-		find_models()
 		self.setWindowIcon(QIcon_load("image"))
 
 		self.setMinimumSize(1000, 600)
+
+		self.ribbon=optics_ribbon()
 
 		self.edit_list=[]
 		self.line_number=[]
@@ -105,51 +95,15 @@ class class_optical(QWidget):
 
 		self.main_vbox=QVBoxLayout()
 
+		self.ribbon.run.triggered.connect(self.callback_run)
 
+		self.ribbon.fx_box.cb.currentIndexChanged.connect(self.mode_changed)
 
-		toolbar=QToolBar()
+		self.ribbon.help.triggered.connect(self.callback_help)
 
-		toolbar.setIconSize(QSize(48, 48))
-
-		self.run = QAction(QIcon_load("media-playback-start"), _("Run"), self)
-		self.run.triggered.connect(self.callback_run)
-		toolbar.addAction(self.run)
-
-		self.fx_box=fx_selector()
-		self.fx_box.show_all=True
-		self.fx_box.file_name_set_start("light_1d_") 
-		self.fx_box.file_name_set_end("_photons_abs.dat")
-		self.fx_box.update()
-
-		self.fx_box.cb.currentIndexChanged.connect(self.mode_changed)
-		toolbar.addWidget(self.fx_box)
-
-		label=QLabel(_("Optical model")+":")
-		toolbar.addWidget(label)
-
-		self.cb_model = QComboBox()
-		toolbar.addWidget(self.cb_model)
-		self.update_cb_model()
+		self.ribbon.tb_save.triggered.connect(self.callback_save)
 		
-		self.cb_model.activated.connect(self.on_cb_model_changed)
-
-		label=QLabel(_("Solar spectrum")+":")
-		toolbar.addWidget(label)
-		self.light_source_model = QComboBox()
-		self.update_light_source_model()
-		toolbar.addWidget(self.light_source_model)
-		self.light_source_model.activated.connect(self.on_light_source_model_changed)
-		
-		spacer = QWidget()
-		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-		toolbar.addWidget(spacer)
-
-
-		self.help = QAction(QIcon_load("help"), _("Help"), self)
-		self.help.triggered.connect(self.callback_help)
-		toolbar.addAction(self.help)
-
-		self.main_vbox.addWidget(toolbar)
+		self.main_vbox.addWidget(self.ribbon)
 
 
 		self.progress_window=progress_class()
@@ -183,7 +137,7 @@ class class_optical(QWidget):
 		self.progress_window.start()
 		for i in range(0,len(input_files)):
 			self.plot_widgets.append(plot_widget())
-			self.plot_widgets[i].init()
+			self.plot_widgets[i].init(save_refresh=False)
 			self.plot_widgets[i].set_labels([plot_labels[0]])
 			self.plot_widgets[i].load_data([input_files[i]],os.path.splitext(input_files[i])[0]+".oplot")
 
@@ -206,55 +160,16 @@ class class_optical(QWidget):
 		return
 
 
+	def callback_save(self):
+		tab = self.notebook.currentWidget()
+		tab.save_image()
+
 	def onclick(self, event):
 		for i in range(0,len(self.layer_end)):
 			if (self.layer_end[i]>event.xdata):
 				break
 		pwd=get_sim_path()
 		plot_gen([os.path.join(pwd,"materials",self.layer_name[i],"alpha.omat")],[],None,"")
-
-
-	def update_cb_model(self):
-		self.cb_model.blockSignals(True)
-
-		self.cb_model.clear()
-		models=find_models()
-		if len(models)==0:
-			error_dlg(self,_("I can't find any optical plugins, I think the model is not installed properly."))
-			return
-
-		for i in range(0, len(models)):
-			self.cb_model.addItem(models[i])
-
-		used_model=inp_get_token_value(os.path.join(get_sim_path(),"light.inp"), "#light_model")
-		print(models,used_model)
-		if models.count(used_model)==0:
-			used_model="exp"
-			inp_update_token_value(os.path.join(get_sim_path(),"light.inp"), "#light_model","exp")
-			self.cb_model.setCurrentIndex(self.cb_model.findText(used_model))
-		else:
-			self.cb_model.setCurrentIndex(self.cb_model.findText(used_model))
-
-		scan_item_add(os.path.join(get_sim_path(),"light.inp"),"#light_model",_("Optical model"),1)
-
-		self.cb_model.blockSignals(False)
-
-	def update_light_source_model(self):
-		self.light_source_model.blockSignals(True)
-		models=find_light_source()
-		for i in range(0, len(models)):
-			self.light_source_model.addItem(models[i])
-
-		used_model=inp_get_token_value(os.path.join(get_sim_path(),"light.inp"), "#sun")
-
-		if models.count(used_model)==0:
-			used_model="sun"
-			inp_update_token_value(os.path.join(get_sim_path(),"light.inp"), "#sun","sun")
-
-		self.light_source_model.setCurrentIndex(self.light_source_model.findText(used_model))
-		scan_item_add("light.inp","#sun","Light source",1)
-		self.light_source_model.blockSignals(False)
-
 
 
 	def closeEvent(self, event):
@@ -281,11 +196,11 @@ class class_optical(QWidget):
 		
 	def callback_run(self):
 		self.my_server=server_get()
-		dump_optics=inp_get_token_value(os.path.join(get_sim_path(),"dump.inp"), "#dump_optics")
-		dump_optics_verbose=inp_get_token_value(os.path.join(get_sim_path(),"dump.inp"), "#dump_optics_verbose")
+		dump_optics=inp_get_token_value("dump.inp", "#dump_optics")
+		dump_optics_verbose=inp_get_token_value("dump.inp", "#dump_optics_verbose")
 
-		inp_update_token_value(os.path.join(get_sim_path(),"dump.inp"), "#dump_optics","true")
-		inp_update_token_value(os.path.join(get_sim_path(),"dump.inp"), "#dump_optics_verbose","true")
+		inp_update_token_value("dump.inp", "#dump_optics","true")
+		inp_update_token_value("dump.inp", "#dump_optics_verbose","true")
 		pwd=os.getcwd()
 		os.chdir(get_sim_path())
 		cmd = get_exe_command()+' --simmode opticalmodel@optics'
@@ -296,18 +211,18 @@ class class_optical(QWidget):
 		#self.my_server.add_job(get_sim_path(),"--simmode opticalmodel@optics")
 		#self.my_server.start()
 		
-		inp_update_token_value(os.path.join(get_sim_path(),"dump.inp"), "#dump_optics",dump_optics)
-		inp_update_token_value(os.path.join(get_sim_path(),"dump.inp"), "#dump_optics_verbose",dump_optics_verbose)
+		inp_update_token_value("dump.inp", "#dump_optics",dump_optics)
+		inp_update_token_value("dump.inp", "#dump_optics_verbose",dump_optics_verbose)
 		
 		self.force_redraw()
-		self.fx_box.update()
+		self.ribbon.update()
 
-		inp_update_token_value(os.path.join(get_sim_path(),"dump.inp"), "#dump_optics","true")
-		inp_update_token_value(os.path.join(get_sim_path(),"dump.inp"), "#dump_optics_verbose","true")
+		inp_update_token_value("dump.inp", "#dump_optics","true")
+		inp_update_token_value("dump.inp", "#dump_optics_verbose","true")
 		
 
 	def mode_changed(self):
-		cb_text=self.fx_box.get_text()
+		cb_text=self.ribbon.fx_box.get_text()
 		if cb_text=="all":
 			self.fig_photon_density.set_data_file("light_1d_photons_tot_norm.dat")
 			self.fig_photon_abs.set_data_file("light_1d_photons_tot_abs_norm.dat")
@@ -317,15 +232,6 @@ class class_optical(QWidget):
 		self.force_redraw()
 		self.update()
 
-	def on_cb_model_changed(self):
-		cb_text=self.cb_model.currentText()
-		inp_update_token_value(os.path.join(get_sim_path(),"light.inp"), "#light_model", cb_text)
-
-
-	def on_light_source_model_changed(self):
-		cb_text=self.light_source_model.currentText()
-		cb_text=cb_text
-		inp_update_token_value(os.path.join(get_sim_path(),"light.inp"), "#sun", cb_text)
 
 	def callback_help(self, widget, data=None):
 		webbrowser.open('https://www.gpvdm.com/man/index.html')

@@ -51,6 +51,7 @@ if args.copy:
 			if status=="public_all" or status=="public":
 				print("copy materials",mat_f_name,status)
 				src_mat_path=os.path.dirname(mat_f_name)
+
 				delta_path=src_mat_path[len(src):]
 				dst_mat_path=os.path.join(dest,delta_path)
 				if not os.path.exists(dst_mat_path):
@@ -80,4 +81,7 @@ if args.copy:
 					safe_cpy(dst_mat_path,src_mat_path,"n.ref")
 
 
-
+				files=os.listdir(src_mat_path)
+				for i in range(0,len(files)):
+					if files[i].endswith(".ref")==True:
+						safe_cpy(dst_mat_path,src_mat_path,files[i])

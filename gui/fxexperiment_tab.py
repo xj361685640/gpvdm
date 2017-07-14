@@ -62,7 +62,8 @@ class fxexperiment_tab(QTabWidget):
 		self.index=index
 		lines=[]
 		self.file_name=os.path.join(get_sim_path(),"fxdomain"+str(self.index)+".inp")
-		if inp_load_file(lines,self.file_name)==True:
+		lines=inp_load_file(self.file_name)
+		if lines!=False:
 			self.tab_name=inp_search_token_value(lines, "#sim_menu_name")
 		else:
 			self.tab_name=""

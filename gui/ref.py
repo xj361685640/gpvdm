@@ -48,6 +48,7 @@ import webbrowser
 
 from ref_io import ref
 from ref_io import load_ref
+from QWidgetSavePos import QWidgetSavePos
 
 def get_ref_text(file_name,html=True):
 	r=load_ref(file_name)
@@ -66,9 +67,9 @@ def get_ref_text(file_name,html=True):
 		return text
 	return None
 	
-class ref_window(QWidget):
+class ref_window(QWidgetSavePos):
 	def __init__(self,file_name):
-		QWidget.__init__(self)
+		QWidgetSavePos.__init__(self,"ref_window")
 		resize_window_to_be_sane(self,0.5,0.5)
 		self.file_name=os.path.splitext(file_name)[0]+".ref"
 		self.gen_file()
@@ -116,8 +117,8 @@ class ref_window(QWidget):
 
 	def gen_file(self):
 		make_new=True
-		lines=[]
-		if inp_load_file(lines,self.file_name)==True:
+		lines=inp_load_file(self.file_name)
+		if lines!=False:
 			if inp_check_ver(self.file_name, "1.0")==True:
 				make_new=False
 		
@@ -156,7 +157,7 @@ class ref_window(QWidget):
 
 			if inp_check_ver(self.file_name, "1.0")==True:	#The file exists but there is no token.
 				lines=[]
-				inp_load_file(lines,self.file_name)
+				lines=inp_load_file(self.file_name)
 				lines=inp_add_token(lines,self.token,self.ui.text.toPlainText())
 				print("written to 1",self.file_name)
 				inp_save_lines_to_file(self.file_name,lines)

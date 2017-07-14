@@ -29,10 +29,8 @@ import webbrowser
 from electrical_mesh_editor import electrical_mesh_editor
 from inp_util import inp_search_token_value
 from epitaxy import epitaxy_get_dos_files
-#from mesh_dump_ctl import mesh_dump_ctl
 
 #inp
-from inp import inp_load_file
 from inp import inp_sum_items
 
 #qt
@@ -56,16 +54,11 @@ from matplotlib.figure import Figure
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
 
 from global_objects import global_object_run
+from QWidgetSavePos import QWidgetSavePos
 
-class tab_electrical_mesh(QWidget):
-	lines=[]
-	edit_list=[]
+from mesh_configure import mesh_configure
 
-	line_number=[]
-
-	file_name=""
-	name=""
-	visible=1
+class tab_electrical_mesh(QWidgetSavePos):
 
 	def save_image(self,file_name):
 		self.fig.savefig(file_name)
@@ -75,13 +68,6 @@ class tab_electrical_mesh(QWidget):
 		self.emesh_editor_y.update()
 		self.emesh_editor_z.update()
 		self.update_dim()
-		#self.update_graph()
-
-
-	def callback_close(self, widget, data=None):
-		self.hide()
-		return True
-
 
 	def callback_help(self, widget, data=None):
 		webbrowser.open('https://www.gpvdm.com/man/index.html')
@@ -113,6 +99,9 @@ class tab_electrical_mesh(QWidget):
 			self.emesh_editor_y.setEnabled(True)
 			self.emesh_editor_x.setEnabled(False)
 			self.emesh_editor_z.setEnabled(False)
+			self.emesh_editor_y.show()
+			self.emesh_editor_x.hide()
+			self.emesh_editor_z.hide()
 
 
 		if mesh_get_xpoints()>1 and mesh_get_zpoints()==1:
@@ -122,7 +111,9 @@ class tab_electrical_mesh(QWidget):
 			self.emesh_editor_y.setEnabled(True)
 			self.emesh_editor_x.setEnabled(True)
 			self.emesh_editor_z.setEnabled(False)
-
+			self.emesh_editor_y.show()
+			self.emesh_editor_x.show()
+			self.emesh_editor_z.hide()
 
 		if mesh_get_xpoints()>1 and mesh_get_zpoints()>1:
 			self.one_d.setEnabled(True)
@@ -131,6 +122,9 @@ class tab_electrical_mesh(QWidget):
 			self.emesh_editor_y.setEnabled(True)
 			self.emesh_editor_x.setEnabled(True)
 			self.emesh_editor_z.setEnabled(True)
+			self.emesh_editor_y.show()
+			self.emesh_editor_x.show()
+			self.emesh_editor_z.show()
 
 		self.emit_now()
 
@@ -138,8 +132,9 @@ class tab_electrical_mesh(QWidget):
 		global_object_run("gl_force_redraw")
 		
 	def __init__(self):
-		QWidget.__init__(self)
-		self.setFixedSize(900, 600)
+		QWidgetSavePos.__init__(self,"emesh")
+
+		self.setMinimumSize(1200, 600)
 		self.setWindowIcon(QIcon_load("mesh"))
 
 		self.setWindowTitle(_("Electrical Mesh Editor")+" - (https://www.gpvdm.com)") 
@@ -161,6 +156,10 @@ class tab_electrical_mesh(QWidget):
 		self.three_d = QAction(QIcon_load("3d"), _("3D simulation"), self)
 		self.three_d.triggered.connect(self.callback_dim_3d)
 		toolbar.addAction(self.three_d)
+
+		configure = QAction(QIcon_load("preferences-system",size=32),  _("Configure mesh"), self)
+		configure.triggered.connect(self.on_configure_click)
+		toolbar.addAction(configure)
 
 		spacer = QWidget()
 		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
@@ -197,3 +196,9 @@ class tab_electrical_mesh(QWidget):
 		self.update_dim()
 
 		self.setLayout(self.main_vbox)
+		self.mesh_config=None
+
+	def on_configure_click(self):
+		if self.mesh_config==None:
+			self.mesh_config=mesh_configure()
+		self.mesh_config.show()

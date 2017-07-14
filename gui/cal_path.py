@@ -42,6 +42,7 @@ inp_file_path=None
 src_path=None
 spectra_path=None
 sim_path=None
+materials_base_path=None
 
 def to_native_path(path):
 	ret=path
@@ -184,7 +185,9 @@ def calculate_paths():
 	global src_path
 	global ui_path
 	global spectra_path
-	materials_path=search_known_paths("materials",[""],None)
+	global materials_base_path
+	materials_path=os.path.join(get_sim_path(),"materials")#search_known_paths("materials",[""],None)
+	materials_base_path=search_known_paths("materials",[""],None)
 	device_lib_path=search_known_paths("device_lib",[""],None)
 	plugins_path=search_known_paths("plugins",[""],None)
 	image_path=search_known_paths("images",[""],"image.jpg")
@@ -214,8 +217,8 @@ def get_materials_path():
 	return materials_path
 
 def get_base_material_path():
-	global materials_path
-	return os.path.join(materials_path,"generic","generic_organic")
+	global materials_base_path
+	return materials_base_path
 
 def get_base_spectra_path():
 	global spectra_path

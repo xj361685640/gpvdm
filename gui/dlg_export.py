@@ -37,6 +37,8 @@ import i18n
 _ = i18n.language.gettext
 
 from workbook import gen_workbook
+from util import set_file_ext
+from cal_path import get_sim_path
 
 def dlg_export(parent):
 
@@ -58,6 +60,7 @@ def dlg_export(parent):
 
 	if dialog.exec_() == QDialog.Accepted:
 		file_name = dialog.selectedFiles()[0]
+		print(dialog.selectedNameFilter())
 		if dialog.selectedNameFilter()==_("gpvdm archive input+output files")+" (*.gpvdm)":
 			export_archive(file_name,True)
 		elif dialog.selectedNameFilter()==_("gpvdm archive input files")+" (*.gpvdm)":
@@ -67,5 +70,5 @@ def dlg_export(parent):
 		elif dialog.selectedNameFilter()==_("pdf file")+" (*.pdf)" or dialog.selectedNameFilter()==_("jpg image")+" (*.jpg)" or dialog.selectedNameFilter()==_("tex file")+" (*.tex)":
 			export_as(file_name)
 		elif dialog.selectedNameFilter()==_("Excel file")+" (*.xlsx)":
-			gen_workbook(os.getcwd(),file_name)
+			gen_workbook(get_sim_path(),set_file_ext(file_name,".xlsx"))
 

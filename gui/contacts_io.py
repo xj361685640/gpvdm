@@ -125,7 +125,8 @@ def contacts_load():
 	store=[]
 	lines=[]
 	pos=0
-	if inp_load_file(lines,os.path.join(get_sim_path(),"contacts.inp"))==True:
+	lines=inp_load_file(os.path.join(get_sim_path(),"contacts.inp"))
+	if lines!=False:
 		pos=pos+1	#first comment
 		layers=int(lines[pos])
 

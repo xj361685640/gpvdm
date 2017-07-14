@@ -77,7 +77,8 @@ class gl_fallback(QWidget):
 		lines=[]
 		for i in range(0,epitaxy_get_layers()):
 			if epitaxy_get_pl_file(i)!="none":
-				if inp_load_file(lines,epitaxy_get_pl_file(i)+".inp")==True:
+				lines=inp_load_file(epitaxy_get_pl_file(i)+".inp")
+				if lines!=False:
 					if str2bool(lines[1])==True:
 						emission=True
 
@@ -93,8 +94,8 @@ class gl_fallback(QWidget):
 			thick=200.0*epitaxy_get_width(l-i)/tot
 			pos=pos+thick
 			path=os.path.join(get_materials_path(),epitaxy_get_mat_file(l-i),"mat.inp")
-
-			if inp_load_file(lines,path)==True:
+			lines=inp_load_file(path)
+			if lines!=False:
 				ret=inp_search_token_array(lines, "#red_green_blue")
 				red=float(ret[0])
 				green=float(ret[1])
@@ -108,8 +109,8 @@ class gl_fallback(QWidget):
 			self.draw_box(qp,200,450.0-pos,thick*0.9,red,green,blue,l-i)
 		step=50.0
 
-		lines=[]
-		if inp_load_file(lines,os.path.join(get_sim_path(),"light.inp"))==True:
+		lines=inp_load_file(os.path.join(get_sim_path(),"light.inp"))
+		if lines!=False:
 			self.sun=float(inp_search_token_value(lines, "#Psun"))
 
 		if self.sun<=0.01:
@@ -219,8 +220,8 @@ class gl_fallback(QWidget):
 					x1=(int)(x1)
 					y1=(int)(y1)
 					qp.drawLine(x0,y0,x1,y1)
-		else:
-			print("no mode")
+		#else:
+		#	print("no mode")
 
 
 	def set_sun(self,sun):

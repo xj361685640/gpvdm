@@ -184,7 +184,7 @@ class about_dlg(QDialog):
 		
 	def fill_store(self):
 		self.materials.clear()
-	
+		print(get_materials_path())
 		all_files=find_materials()
 		for fl in all_files:
 			text=get_ref_text(os.path.join(get_materials_path(),fl,"n.omat"),html=False)

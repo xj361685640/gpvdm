@@ -156,7 +156,8 @@ def dat_file_import_filter(out,file_name,x_col=0,y_col=1):
 	out.data=[]
 	data_started=False
 	out.data=[[[0.0 for k in range(0)] for j in range(1)] for i in range(1)]
-	if inp_load_file(lines,file_name)==True:
+	lines=inp_load_file(file_name)
+	if lines!=False:
 		for i in range(0, len(lines)):
 			temp=lines[i]
 

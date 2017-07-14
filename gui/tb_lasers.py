@@ -46,7 +46,7 @@ class tb_lasers(QWidget):
 		if files!=False:
 			for i in range(0,len(files)):
 				if files[i].endswith(".inp"):
-					inp_load_file(lines,files[i])
+					lines=inp_load_file(files[i])
 					value=inp_search_token_value(lines, "#laser_name")
 					if value!=False:
 						value=value.rstrip()

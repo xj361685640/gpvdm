@@ -244,18 +244,6 @@ class server(QWidget,cluster):
 
 		return message
 
-	def force_stop(self):
-		if running_on_linux()==True:
-			cmd = 'killall '+get_exe_name()
-			os.system(cmd)
-			print(cmd)
-		else:
-			cmd="taskkill /im "+get_exe_name()
-			print(cmd)
-			os.system(cmd)
-
-		self.stop()
-
 	def stop(self):
 		self.timer.stop()
 		
@@ -344,6 +332,11 @@ class server(QWidget,cluster):
 						self.progress_window.set_text(text)
 					#self.progress_window.progress.set_pulse_step(0.01)
 					self.progress_window.pulse()
+			elif (data.startswith("enable_pulse")):
+				splitup=data.split(":")
+				if len(splitup)>1:
+					value=str2bool(data.split(":")[1])
+					self.progress_window.enable_pulse(value)
 			elif (data.startswith("percent")):
 				if len(self.jobs)==1:
 					splitup=data.split(":")

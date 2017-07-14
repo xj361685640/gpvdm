@@ -143,6 +143,7 @@ from cal_path import to_native_path
 from cal_path import get_sim_path
 from clone import clone_materials
 from window_list import wpos_load
+from global_objects import global_object_run
 
 class gpvdm_main_window(QMainWindow):
 
@@ -166,7 +167,8 @@ class gpvdm_main_window(QMainWindow):
 		message=""
 		if self.notebook_active_page!=None:
 			self.notebook.goto_page(self.notebook_active_page)
-
+		global_object_run("display_recalculate")
+	
 	def callback_plot_after_run_toggle(self, widget, data):
 		self.plot_after_run=data.get_active()
 		self.config.set_value("#plot_after_simulation",data.get_active())
@@ -347,13 +349,14 @@ class gpvdm_main_window(QMainWindow):
 		self.my_server.init(get_sim_path())
 
 		self.undo_list=undo_list_class()
+		wpos_load()
 
 		self.ribbon=ribbon()
 
 		self.notebook_active_page=None
 		super(gpvdm_main_window,self).__init__()
 		self.setAcceptDrops(True)
-		self.setGeometry(200, 100, 1300, 600)
+		#self.setGeometry(200, 100, 1300, 600)
 		self.setWindowTitle("General-purpose Photovoltaic Device Model (https://www.gpvdm.com)")
 
 		#super(gpvdm_main_window, self).__init__(parent, QtCore.Qt.FramelessWindowHint)
@@ -364,7 +367,7 @@ class gpvdm_main_window(QMainWindow):
 
 		help_init()
 		#help_window().help_set_help(["star.png",_("<big><b>Update available!</b></big><br>")])
-		wpos_load()
+
 
 		#self.show()
 

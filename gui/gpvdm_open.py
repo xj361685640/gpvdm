@@ -53,6 +53,8 @@ from cal_path import get_base_material_path
 from cal_path import get_base_spectra_path
 
 from inp import inp_get_token_value
+from util import isfiletype
+from win_lin import desktop_open
 
 COL_PATH = 0
 COL_PIXBUF = 1
@@ -122,6 +124,7 @@ class gpvdm_open(QDialog):
 		self.xls_icon = QIcon_load("wps-office-xls")
 		self.info_icon = self.get_icon("info")
 		self.pdf_icon = QIcon_load("pdf")
+		self.jpg_icon = QIcon_load("image-x-generic")
 		self.spectra_icon = self.get_icon("spectra")
 		self.mat_icon = QIcon_load("organic_material")
 
@@ -139,7 +142,7 @@ class gpvdm_open(QDialog):
 
 		self.listwidget.itemDoubleClicked.connect(self.on_item_activated)
 		self.listwidget.setContextMenuPolicy(Qt.CustomContextMenu)
-		self.listwidget.itemClicked.connect(self.on_selection_changed)
+		self.listwidget.itemSelectionChanged.connect(self.on_selection_changed)
 		self.listwidget.customContextMenuRequested.connect(self.callback_menu)
 		self.resizeEvent=self.resizeEvent
 		self.show()
@@ -179,7 +182,7 @@ class gpvdm_open(QDialog):
 			new_sim_name=new_sim_name.ret
 			if new_sim_name!=None:
 				new_material=os.path.join(self.dir,new_sim_name)
-				clone_material(new_material,get_base_material_path())
+				clone_material(new_material,os.path.join(get_base_material_path(),"generic","generic_organic"))
 		elif action == newspectraAction:
 			new_sim_name=dlg_get_text( _("New spectra name:"), _("New spectra name"),"spectra_file")
 			new_sim_name=new_sim_name.ret
@@ -281,9 +284,14 @@ class gpvdm_open(QDialog):
 					itm.setIcon(self.mat_icon)
 					self.listwidget.addItem(itm)
 
-				if file_name.endswith(".pdf")==True==True:
+				if file_name.endswith(".pdf")==True:
 					itm = QListWidgetItem( fl )
 					itm.setIcon(self.pdf_icon)
+					self.listwidget.addItem(itm)
+
+				if file_name.endswith(".jpg")==True:
+					itm = QListWidgetItem( fl )
+					itm.setIcon(self.jpg_icon)
 					self.listwidget.addItem(itm)
 
 				if os.path.basename(file_name)=="sim_info.dat":
@@ -293,7 +301,7 @@ class gpvdm_open(QDialog):
 
 	def on_home_clicked(self, widget):
 		self.dir = self.root_dir
-		self.fill_store()
+		self.change_path()
 
 
 	def on_item_activated(self,item):
@@ -302,6 +310,14 @@ class gpvdm_open(QDialog):
 		print(full_path,os.path.isfile(full_path))
 		if os.path.isfile(full_path)==True:
 			self.file_path=full_path
+			if isfiletype(full_path,"xls")==True or isfiletype(full_path,"xlsx")==True:
+				desktop_open(full_path)
+				self.reject()
+				return
+			elif isfiletype(full_path,"jpg")==True:
+				desktop_open(full_path)
+				self.reject()
+				return
 			self.accept()
 		else:
 			if os.path.isfile(os.path.join(full_path,"mat.inp"))==True:
@@ -311,7 +327,12 @@ class gpvdm_open(QDialog):
 				self.dir = full_path
 				self.change_path()
 
-	def on_selection_changed(self,item):
+	def on_selection_changed(self):
+		if len(self.listwidget.selectedItems())>0:
+			item=self.listwidget.selectedItems()[0]
+		else:
+			return
+
 		if type(item)!=None:
 			file_name=item.text()
 

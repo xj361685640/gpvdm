@@ -50,6 +50,7 @@ from PyQt5.QtGui import QPainter,QIcon
 #windows
 from gui_util import tab_add
 from gui_util import tab_move_down
+from gui_util import tab_move_up
 from gui_util import tab_remove
 from gui_util import tab_get_value
 from open_save_dlg import save_as_jpg
@@ -137,6 +138,15 @@ class tab_fxmesh(QWidget):
 		self.fig.canvas.draw()
 		self.save_data()
 
+	def callback_move_up(self):
+
+		tab_move_up(self.tab)
+
+		self.build_mesh()
+		self.draw_graph()
+		self.fig.canvas.draw()
+		self.save_data()
+
 	def update(self):
 		self.build_mesh()
 		self.draw_graph()
@@ -195,8 +205,8 @@ class tab_fxmesh(QWidget):
 
 		file_name="fxmesh"+str(self.index)+".inp"
 
-		ret=inp_load_file(lines,os.path.join(get_sim_path(),file_name))
-		if ret==True:
+		lines=inp_load_file(os.path.join(get_sim_path(),file_name))
+		if lines!=False:
 			if inp_search_token_value(lines, "#ver")=="1.1":
 				pos=0
 
@@ -291,7 +301,7 @@ class tab_fxmesh(QWidget):
 		#toolbar 2
 
 		toolbar2=QToolBar()
-		toolbar2.setIconSize(QSize(48, 48))
+		toolbar2.setIconSize(QSize(32, 32))
 
 		self.tb_add = QAction(QIcon_load("list-add"), _("Add section"), self)
 		self.tb_add.triggered.connect(self.callback_add_section)
@@ -304,6 +314,10 @@ class tab_fxmesh(QWidget):
 		self.tb_move = QAction(QIcon_load("go-down"), _("Move down"), self)
 		self.tb_move.triggered.connect(self.callback_move_down)
 		toolbar2.addAction(self.tb_move)
+
+		self.tb_move_up = QAction(QIcon_load("go-up"), _("Move up"), self)
+		self.tb_move_up.triggered.connect(self.callback_move_up)
+		toolbar2.addAction(self.tb_move_up)
 
 		self.main_vbox.addWidget(toolbar2)
 

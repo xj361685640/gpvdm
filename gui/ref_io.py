@@ -39,8 +39,8 @@ def load_ref(file_name):
 	if os.path.isfile(file_name)==False:
 		return None
 
-	lines=[]
-	if inp_load_file(lines,file_name):
+	lines=inp_load_file(file_name)
+	if lines!=False:
 		text=""
 		r.group=inp_get_token_value_from_list(lines, "#ref_research_group")
 		r.author=inp_get_token_value_from_list(lines, "#ref_autors")

@@ -49,8 +49,8 @@ def epitaxy_load(path):
 	electrical_layer=[]
 	pl_file=[]
 	name=[]
-
-	if inp_load_file(lines,os.path.join(path,"epitaxy.inp"))==True:
+	lines=inp_load_file(os.path.join(path,"epitaxy.inp"))
+	if lines!=False:
 		pos=0
 		pos=pos+1
 

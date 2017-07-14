@@ -159,8 +159,8 @@ class cmp_class(QWidgetSavePos):
 		self.count_dumps()
 
 	def config_load(self):
-		lines=[]
-		if inp_load_file(lines,"gui_cmp_config.inp")==True:
+		lines=inp_load_file("gui_cmp_config.inp")
+		if lines!=False:
 
 			if self.snapshot_list.count(inp_search_token_value(lines, "#entry0"))!=0:
 				self.entry0.set_active(self.snapshot_list.index(inp_search_token_value(lines, "#entry0")))

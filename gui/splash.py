@@ -50,13 +50,13 @@ class splash_window(QWidget):
 
 	def __init__(self):
 		QWidget.__init__(self)
-
-		self.setFixedSize(459, 260)
+		width=459
+		self.setFixedSize(width, 260)
 		self.center()
 		
 		self.view=QGraphicsView(self)
-		self.view.setFixedSize(461,261)
-		self.view.move(0,0)
+		self.view.setFixedSize(width+2+2,261)
+		self.view.move(-2,0)
 		self.setWindowFlags(Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint)
 		self.li=QLabel("ver",self)
 		self.li.move(30,180)
@@ -85,12 +85,21 @@ class splash_window(QWidget):
 		QTimer.singleShot(1500, self.callback_destroy)
 
 		r=random.randint(0, 2)
-		files=["splash2.png","splash3.png","splash4.jpg"]
+		files=["splash1.png","splash2.png","splash3.png","splash4.jpg","splash5.jpg"]
+
+		d=datetime.date.today().weekday()
+
+		if d==2:	#Tuesday
+			r=0
+		if d==3:	#Wednesday
+			r=1
+		if d==4:	#Friday
+			r=2
+		if d==6:	#Saturday
+			r=4
+
 		image_file=files[r]
-		d=datetime.date.today()
-		if d.day==2:	#Tuesday
-			image_file="splash2.png"
-		
+				
 		image_path=os.path.join(get_image_file_path(),"splash",image_file)
 		if os.path.isfile(image_path):
 			image=QPixmap(image_path)

@@ -53,10 +53,12 @@ from PyQt5.QtGui import QPainter,QIcon
 #windows
 from gui_util import tab_add
 from gui_util import tab_move_down
+from gui_util import tab_move_up
 from gui_util import tab_remove
 from gui_util import tab_get_value
 from open_save_dlg import save_as_image
 from cal_path import get_sim_path
+from icon_lib import QIcon_load
 
 import i18n
 _ = i18n.language.gettext
@@ -144,7 +146,13 @@ class tab_time_mesh(QWidget):
 		self.fig.canvas.draw()
 		self.save_data()
 
-			
+	def callback_move_up(self):
+		tab_move_up(self.tab)
+		self.build_mesh()
+		self.draw_graph()
+		self.fig.canvas.draw()
+		self.save_data()
+
 	def callback_laser(self):
 		new_time=dlg_get_text( _("Enter the time at which the laser pulse will fire (-1) to turn it off"), str(self.fs_laser_time),"laser.png")
 		new_time=new_time.ret
@@ -228,21 +236,16 @@ class tab_time_mesh(QWidget):
 			else:
 				self.fig.legend((voltage, sun), (_("Voltage"), _("Sun")), 'upper right')
 
-
-
-	def save_image(self,file_name):
-		self.fig.savefig(file_name)
-
-	def callback_save(self):
+	def image_save(self):
 		response=save_as_image(self)
 		if response != None:
 			file_name=response
 
 			if os.path.splitext(file_name)[1]:
-				self.save_image(file_name)
+				self.fig.savefig(file_name)
 			else:
 				filter=response
-				self.save_image(file_name+".png")
+				self.fig.savefig(file_name+".png")
 
 
 
@@ -259,8 +262,8 @@ class tab_time_mesh(QWidget):
 		self.tab.setHorizontalHeaderLabels([_("Length"),_("dt"), _("Start Voltage"), _("Stop Voltage"), _("step multiplyer"), _("Suns"),_("Laser")])
 
 		print("loading",self.file_name)
-		ret=inp_load_file(lines,self.file_name)
-		if ret==True:
+		lines=inp_load_file(self.file_name)
+		if lines!=False:
 			if inp_search_token_value(lines, "#ver")=="1.1":
 				pos=0
 				token,value,pos=inp_read_next_item(lines,pos)
@@ -383,11 +386,7 @@ class tab_time_mesh(QWidget):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
-		self.tb_save = QAction(QIcon(get_icon_path("32_document-save-as")), _("Save image"), self)
-		self.tb_save.triggered.connect(self.callback_save)
-		toolbar.addAction(self.tb_save)
-
-		self.tb_laser = QAction(QIcon(get_icon_path("laser")), _("Laser start time"), self)
+		self.tb_laser = QAction(QIcon_load("laser"), _("Laser start time"), self)
 		self.tb_laser.triggered.connect(self.callback_laser)
 		toolbar.addAction(self.tb_laser)
 
@@ -395,7 +394,7 @@ class tab_time_mesh(QWidget):
 		self.lasers=tb_lasers("pulse"+str(self.index)+".inp")
 		toolbar.addWidget(self.lasers)
 
-		self.tb_start = QAction(QIcon(get_icon_path("start")), _("Simulation start time"), self)
+		self.tb_start = QAction(QIcon_load("start"), _("Simulation start time"), self)
 		self.tb_start.triggered.connect(self.callback_start_time)
 		toolbar.addAction(self.tb_start)
 
@@ -423,19 +422,23 @@ class tab_time_mesh(QWidget):
 		#toolbar 2
 
 		toolbar2=QToolBar()
-		toolbar2.setIconSize(QSize(48, 48))
+		toolbar2.setIconSize(QSize(32, 32))
 
-		self.tb_add = QAction(QIcon(get_icon_path("list-add")), _("Add section"), self)
+		self.tb_add = QAction(QIcon_load("list-add"), _("Add section"), self)
 		self.tb_add.triggered.connect(self.callback_add_section)
 		toolbar2.addAction(self.tb_add)
 
-		self.tb_remove = QAction(QIcon(get_icon_path("list-remove")), _("Delete section"), self)
+		self.tb_remove = QAction(QIcon_load("list-remove"), _("Delete section"), self)
 		self.tb_remove.triggered.connect(self.callback_remove_item)
 		toolbar2.addAction(self.tb_remove)
 
-		self.tb_move = QAction(QIcon(get_icon_path("go-down")), _("Move down"), self)
+		self.tb_move = QAction(QIcon_load("go-down"), _("Move down"), self)
 		self.tb_move.triggered.connect(self.callback_move_down)
 		toolbar2.addAction(self.tb_move)
+
+		self.tb_move_up = QAction(QIcon_load("go-up"), _("Move up"), self)
+		self.tb_move_up.triggered.connect(self.callback_move_up)
+		toolbar2.addAction(self.tb_move_up)
 
 		self.main_vbox.addWidget(toolbar2)
 

@@ -36,6 +36,9 @@ from cal_path import get_ui_path
 from icon_lib import QIcon_load
 
 from gpvdm_select import gpvdm_select
+from gtkswitch import gtkswitch
+from leftright import leftright
+from util import str2bool
 
 class dlg_get_text():
 	def __init__(self,text,default,image):
@@ -64,6 +67,10 @@ def tab_get_value(tab,y,x):
 		return tab.cellWidget(y, x).currentText_english()
 	elif type(tab.cellWidget(y,x))==gpvdm_select:
 		return tab.cellWidget(y, x).text()
+	elif type(tab.cellWidget(y,x))==leftright:
+		return tab.cellWidget(y, x).get_value()
+	elif type(tab.cellWidget(y,x))==gtkswitch:
+		return tab.cellWidget(y, x).get_value()
 	else:
 		return tab.item(y, x).text()
 
@@ -79,6 +86,10 @@ def tab_set_value(tab,y,x,value):
 	elif type(tab.cellWidget(y,x))==gpvdm_select:
 		tab.cellWidget(y, x).blockSignals(True)
 		tab.cellWidget(y, x).setText(value)
+		tab.cellWidget(y, x).blockSignals(False)
+	elif type(tab.cellWidget(y,x))==gtkswitch:
+		tab.cellWidget(y, x).blockSignals(True)
+		tab.cellWidget(y, x).set_value(str2bool(value))
 		tab.cellWidget(y, x).blockSignals(False)
 	else:
 		item = QTableWidgetItem(str(value))
@@ -130,6 +141,37 @@ def tab_move_down(tab):
 	else:
 		return
 
+def tab_move_up(tab):
+	if tab.rowCount()==0:
+		return
+
+	tab.blockSignals(True)
+	a=tab.selectionModel().selectedRows()
+
+	if len(a)>0:
+		a=a[0].row()
+
+		b=a-1
+		if b<0:
+			b=tab.rowCount()-1
+
+		av=[]
+		for i in range(0,tab.columnCount()):
+			av.append(str(tab_get_value(tab,a,i)))
+
+		bv=[]
+		for i in range(0,tab.columnCount()):
+			bv.append(str(tab_get_value(tab,b,i)))
+
+		for i in range(0,tab.columnCount()):
+			tab_set_value(tab,b,i,str(av[i]))
+			tab_set_value(tab,a,i,str(bv[i]))
+
+		tab.selectRow(b)
+		tab.blockSignals(False)
+	else:
+		return
+	
 def tab_insert_row(tab):
 	tab.blockSignals(True)
 	index = tab.selectionModel().selectedRows()

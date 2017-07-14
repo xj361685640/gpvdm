@@ -57,6 +57,7 @@ from progress import progress_class
 from PyQt5.QtCore import pyqtSignal
 
 from cal_path import get_sim_path
+from cal_path import get_exe_name
 
 def strip_slash(tx_name):
 	start=0
@@ -528,9 +529,13 @@ class cluster:
 		else:
 			print("stop jobs")
 			if running_on_linux()==True:
-				exe_name=os.path.basename(get_exe_command())
-				cmd = 'killall '+exe_name
-				ret= os.system(cmd)
+				cmd = 'killall '+get_exe_name()
+				os.system(cmd)
+				print(cmd)
+			else:
+				cmd="taskkill /im "+get_exe_name()
+				print(cmd)
+				os.system(cmd)
 
 		self.stop()
 

@@ -50,6 +50,8 @@ from util import wrap_text
 from QWidgetSavePos import QWidgetSavePos
 from cal_path import get_sim_path
 
+from inp import inp_get_token_value
+
 def experiment_new_filename():
 	for i in range(0,20):
 		pulse_name="pulse"+str(i)+".inp"
@@ -79,6 +81,10 @@ class experiment(QWidgetSavePos):
 			inp_update_token_value(os.path.join(get_sim_path(),"pulse"+str(index)+".inp"), "#sim_menu_name", new_sim_name.ret+"@pulse")
 			self.add_page(index)
 			self.changed.emit()
+
+	def callback_save(self):
+		tab = self.notebook.currentWidget()
+		tab.image_save()
 
 	def callback_copy_page(self):
 		tab = self.notebook.currentWidget()
@@ -140,10 +146,13 @@ class experiment(QWidgetSavePos):
 		files=[]
 		for i in range(0,len(file_list)):
 			if file_list[i].startswith("pulse") and file_list[i].endswith(".inp"):
-				files.append(file_list[i])
+				name=inp_get_token_value(file_list[i], "#sim_menu_name")
+				files.append([name,file_list[i]])
+
+		files.sort()
 
 		for i in range(0,len(files)):
-			value=strextract_interger(files[i])
+			value=strextract_interger(files[i][1])
 			if value!=-1:
 				self.add_page(value)
 
@@ -189,6 +198,10 @@ class experiment(QWidgetSavePos):
 		self.clone = QAction(QIcon_load("rename"), wrap_text(_("Rename experiment"),3), self)
 		self.clone.triggered.connect(self.callback_rename_page)
 		toolbar.addAction(self.clone)
+
+		self.tb_save = QAction(QIcon_load(("document-save")), wrap_text(_("Save image"),3), self)
+		self.tb_save.triggered.connect(self.callback_save)
+		toolbar.addAction(self.tb_save)
 
 		spacer = QWidget()
 		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)

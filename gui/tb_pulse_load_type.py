@@ -63,9 +63,6 @@ class tb_pulse_load_type(QWidget):
 		self.sim_mode.addItem("ideal_diode_ideal_load")
 
 
-		#lines=[]
-		#inp_load_file(lines,os.path.join(get_inp_file_path(),"pulse"+str(self.index)+".inp"))
-
 		token=inp_get_token_value(os.path.join(get_sim_path(),"pulse"+str(self.index)+".inp"), "#pulse_sim_mode")
 
 		all_items  = [self.sim_mode.itemText(i) for i in range(self.sim_mode.count())]

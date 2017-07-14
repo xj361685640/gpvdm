@@ -43,19 +43,22 @@ class experiment_tab(QTabWidget):
 	def update(self):
 		self.tmesh.update()
 
+	def image_save(self):
+		self.tmesh.image_save()
+
 	def __init__(self,index):
 		QTabWidget.__init__(self)
 
 		self.index=index
 		lines=[]
 		self.file_name=os.path.join(get_sim_path(),"pulse"+str(self.index)+".inp")
-		if inp_load_file(lines,self.file_name)==True:
+		lines=inp_load_file(self.file_name)
+		if lines!=False:
 			self.tab_name=inp_search_token_value(lines, "#sim_menu_name")
 		else:
 			self.tab_name=""
 
 
-		self.setTabsClosable(True)
 		self.setMovable(True)
 
 		self.tmesh = tab_time_mesh(self.index)

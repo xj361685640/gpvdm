@@ -114,7 +114,7 @@ def scan_items_index_item(item):
 
 def scan_populate_from_file(filename):
 	lines=[]
-	inp_load_file(lines,filename)
+	lines=inp_load_file(filename)
 
 	my_token_lib=tokens()
 

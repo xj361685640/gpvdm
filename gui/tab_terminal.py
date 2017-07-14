@@ -71,6 +71,7 @@ class tab_terminal(QWidget,tab_base):
 	
 			if self.process[i].state()==QProcess.NotRunning:
 				cursor = self.terminals[i].textCursor()
+				self.terminals[i].clear()
 				cursor.insertHtml(_("Running: ")+command+"<br>")
 				self.process[i].setWorkingDirectory(path)
 

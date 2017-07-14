@@ -38,8 +38,8 @@ def plot_load_info(plot_token,file_name_in):
 	return True
 
 def plot_load_oplot_file(plot_token,file_name):
-	lines=[]
-	if inp_load_file(lines,file_name)==True:
+	lines=inp_load_file(file_name)
+	if lines!=False:
 		plot_token.logy=str2bool(inp_search_token_value(lines, "#logy"))
 		plot_token.logx=str2bool(inp_search_token_value(lines, "#logx"))
 		plot_token.logz=str2bool(inp_search_token_value(lines, "#logz"))

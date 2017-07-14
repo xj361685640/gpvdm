@@ -52,8 +52,8 @@ mesh_articles = []
 class fit_tab(QTabWidget):
 
 	def update(self):
-		lines=[]
-		if inp_load_file(lines,os.path.join(get_sim_path(),"fit"+str(self.index)+".inp"))==True:
+		lines=inp_load_file(os.path.join(get_sim_path(),"fit"+str(self.index)+".inp"))
+		if lines!=False:
 			enabled=str2bool(inp_search_token_value(lines, "#enabled"))
 			if enabled==True:
 				self.tmesh_real.update()
@@ -63,8 +63,8 @@ class fit_tab(QTabWidget):
 		QTabWidget.__init__(self)
 		lines=[]
 		self.index=index
-
-		if inp_load_file(lines,os.path.join(get_sim_path(),"fit"+str(self.index)+".inp"))==True:
+		lines=inp_load_file(os.path.join(get_sim_path(),"fit"+str(self.index)+".inp"))
+		if lines!=False:
 			self.tab_name=inp_search_token_value(lines, "#fit_name")
 		else:
 			self.tab_name=""
@@ -100,10 +100,11 @@ class fit_tab(QTabWidget):
 		self.label.set_text(mytext)
 
 	def import_data(self):
-		self.im=import_data(os.path.join(get_sim_path(),"fit_data"+str(self.index)+".inp"))
+		target=os.path.join(get_sim_path(),"fit_data"+str(self.index)+".inp")
+		config=os.path.join(get_sim_path(),"fit_import_config"+str(self.index)+".inp")
+		self.im=import_data(target,config)
 		self.im.run()
-		if self.im.ret==True:
-			self.update()
+		self.update()
 
 	def rename(self,tab_name):
 		self.tab_name=tab_name

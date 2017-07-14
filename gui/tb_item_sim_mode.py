@@ -52,21 +52,25 @@ class tb_item_sim_mode(QWidget):
 		
 		lines=[]
 		self.store_list=[]
-
+		temp=[]
 		files=inp_lsdir("sim.gpvdm")
 		if files!=False:
 			for i in range(0,len(files)):
 				if files[i].endswith(".inp"):
-					inp_load_file(lines,files[i])
+					lines=inp_load_file(files[i])
 					value=inp_search_token_value(lines, "#sim_menu_name")
 					if value!=False:
 						if value.count("@")==1:
-							value=value.rstrip()
-							command,module=value.split("@")
-							self.sim_mode.addItem(command)
-							a=store(command,module)
-							self.store_list.append(a)
+							temp.append(value)
 
+			temp.sort()
+
+			for i in range(0,len(temp)):
+				value=temp[i].rstrip()
+				command,module=value.split("@")
+				self.sim_mode.addItem(command)
+				a=store(command,module)
+				self.store_list.append(a)
 
 			token=inp_get_token_value("sim.inp", "#simmode")
 			if token.count("@")!=0:

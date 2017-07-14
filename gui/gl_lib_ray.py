@@ -83,18 +83,25 @@ def fast_load(d,file_name):
 def draw_rays(ray_file,top,width,y_mul,w):
 	global ray_fast
 	d=ray_fast
+	
 	if fast_load(d,ray_file)==True:
-
 		if len(d.out)>2:
 			head, tail = os.path.split(ray_file)
 			out=d.out
 			m=d.m
 			std=d.std
-			
+
+			#for i in range(0,len(out)):
+			#	print(out[i].x,out[i].x)
+			#print(ray_file)
 			glLineWidth(2)
 			num=tail[10:-4]
 			if isnumber(num)==False:
-				print("not a number")
+				#print("not a number")
+				return
+
+			if std==0.0:
+				#print("std is zero")
 				return
 
 			wavelength=float(num)
@@ -108,6 +115,9 @@ def draw_rays(ray_file,top,width,y_mul,w):
 			mm=0
 
 			std_mul=0.05
+			print(len(d.out))
+			print(d.m)
+			print(d.std)
 			x_mul=width/(std*std_mul)
 			i=0
 			#step=((int)(len(out)/6000))*2

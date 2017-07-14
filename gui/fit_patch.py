@@ -127,7 +127,8 @@ class fit_patch(QWidget):
 		self.tab.setColumnWidth(2, 300)
 		self.file_name=os.path.join(get_sim_path(),"fit_patch"+str(self.index)+".inp")
 
-		if inp_load_file(lines,self.file_name)==True:
+		lines=inp_load_file(self.file_name)
+		if lines!=False:
 
 			pos=0
 			mylen=len(lines)

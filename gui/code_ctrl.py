@@ -25,7 +25,6 @@ from cal_path import get_inp_file_path
 from cal_path import get_share_path
 from cal_path import get_bin_path
 from inp import inp_load_file
-from util_zip import read_lines_from_archive
 from i18n import yes_no
 from inp_util import inp_search_token_value
 
@@ -54,12 +53,14 @@ def code_ctrl_load():
 	global store_enable_webbrowser
 	global store_enable_cluster
 	global store_enable_betafeatures
-
-	if inp_load_file(lines,os.path.join(get_inp_file_path(),"ver.inp"),archive="base.gpvdm")==True:
+	lines=inp_load_file(os.path.join(get_inp_file_path(),"ver.inp"),archive="base.gpvdm")
+	if lines!=False:
 		store_enable_webupdates=yes_no(inp_search_token_value(lines, "#enable_webupdates"))
 		store_enable_webbrowser=yes_no(inp_search_token_value(lines, "#enable_webbrowser"))
 		store_enable_cluster=yes_no(inp_search_token_value(lines, "#enable_cluster"))
 		store_enable_betafeatures=yes_no(inp_search_token_value(lines, "#enable_betafeatures"))
+		if os.path.isdir(os.path.join(get_inp_file_path(),"enablebeta"))==True:
+			store_enable_betafeatures=True
 	else:
 		print("Can not load ver.inp file")
 		store_enable_webupdates=False

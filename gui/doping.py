@@ -118,7 +118,8 @@ class doping_window(QWidgetSavePos):
 				lines=[]
 				print("loading",dos_file)
 				file_name=os.path.join(get_sim_path(),dos_file+".inp")
-				if inp_load_file(lines,file_name)==True:
+				lines=inp_load_file(file_name)
+				if lines!=False:
 					doping_start=float(inp_search_token_value(lines, "#doping_start"))
 					doping_stop=float(inp_search_token_value(lines, "#doping_stop"))
 
@@ -167,7 +168,6 @@ class doping_window(QWidgetSavePos):
 		self.draw_graph()
 		self.fig.canvas.draw()
 		self.save_data()
-
 
 	def __init__(self):
 		QWidgetSavePos.__init__(self,"doping")

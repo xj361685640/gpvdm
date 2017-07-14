@@ -36,6 +36,14 @@ from dat_file import dat_file_read
 from dat_file import dat_file
 
 from help import help_window
+from inp import inp_load_file
+from inp import inp_get_next_token_array
+from token_lib import tokens
+
+from epitaxy import epitaxy_get_dos_files
+from epitaxy import epitaxy_get_layers
+from epitaxy import epitaxy_get_electrical_layer
+from epitaxy import epitaxy_get_name
 
 def title_truncate(title):
 	ret=title
@@ -45,11 +53,57 @@ def title_truncate(title):
 
 	return ret
 
+def is_number(s):
+    try:
+        float(s)
+        return True
+    except ValueError:
+        return False
+	
+def workbook_from_inp(ws,my_row,filename,title=""):
+	lines=[]
+	if title!="":
+		ws.cell(column=1, row=my_row, value=title)
+		my_row=my_row+1
+
+	lines=inp_load_file(filename)
+	pos=0
+	my_token_lib=tokens()
+
+	while (1):
+		ret,pos=inp_get_next_token_array(lines,pos)
+
+		token=ret[0]
+		if token=="#ver":
+			break
+
+		if token=="#end":
+			break
+
+		if token.startswith("#"):
+			show=False
+			units="Units"
+
+			value=ret[1]
+
+			result=my_token_lib.find(token)
+			if result!=False:
+				units=result.units
+				text_info=result.info
+				show=True
+
+			if show == True and is_number(value):
+				ws.cell(column=1, row=my_row, value=text_info)
+				ws.cell(column=2, row=my_row, value=float(value))
+				my_row=my_row+1
+				
+	return my_row
+
 def gen_workbook(input_file_or_dir,output_file):
 	if work_book_enabled==False:
 		print("python3-openpyxl not found")
 		return
-
+	
 	wb = Workbook()
 	if os.path.isfile(input_file_or_dir):
 		files=[input_file_or_dir]
@@ -58,6 +112,14 @@ def gen_workbook(input_file_or_dir,output_file):
 	else:
 		return
 
+	ws = wb.active
+	pos=1
+	for i in range(0,epitaxy_get_layers()):
+		dos_layer=epitaxy_get_electrical_layer(i)
+		if dos_layer.startswith("dos")==True:
+			pos=workbook_from_inp(ws,pos,dos_layer+".inp",title=epitaxy_get_name(i))
+
+	
 	for my_file in files:
 		#print("about to save1",my_file)
 		#print(my_file)
@@ -96,6 +158,6 @@ def gen_workbook(input_file_or_dir,output_file):
 		wb.save(filename = output_file)
 	except:
 		return False
-	print("exit")
+
 	return True
 	#print("about to save0")

@@ -52,6 +52,8 @@ class progress_class(QWidget):
 
 		self.setLayout(main_vbox)
 
+	def enable_pulse(self,value):
+		self.progress.enablePulse(value)
 
 	def set_fraction(self,fraction):
 		self.progress.setValue(fraction)

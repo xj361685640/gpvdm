@@ -41,11 +41,12 @@ class mesh_dump_ctl(gtk.VBox):
 	def init(self):
 		total=0
 		self.pos=0
-		lines=[]
-		if inp_load_file(lines,"mesh_y.inp")==True:
+		lines=inp_load_file(lines,"mesh_y.inp")
+		if lines!=False:
 			total=inp_sum_items(lines, "#mesh_layer_points0")
 
-		if inp_load_file(lines,"dump.inp")==True:
+		lines=inp_load_file(lines,"dump.inp")
+		if lines!=False:
 			self.pos=str2bool(inp_search_token_value(lines, "#dump_energy_slice_pos"))
 
 
@@ -66,7 +67,8 @@ class mesh_dump_ctl(gtk.VBox):
 
 
 		self.enable=False
-		if inp_load_file(lines,"dump.inp")==True:
+		lines=inp_load_file(lines,"dump.inp")
+		if lines!=False:
 			self.enable=str2bool(inp_search_token_value(lines, "#dump_energy_slice_switch"))
 
 		check.set_active(self.enable)

@@ -28,7 +28,7 @@ _ = i18n.language.gettext
 
 #qt
 from PyQt5.QtCore import QSize, Qt 
-from PyQt5.QtWidgets import QPushButton,QHBoxLayout,QLabel,QWidget,QDialog,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QSystemTrayIcon,QMenu,QListWidget,QListWidgetItem
+from PyQt5.QtWidgets import QPushButton,QCheckBox,QHBoxLayout,QLabel,QWidget,QDialog,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QSystemTrayIcon,QMenu,QListWidget,QListWidgetItem
 from PyQt5.QtGui import QIcon
 from PyQt5.uic import loadUi
 
@@ -40,9 +40,20 @@ from gui_util import error_dlg
 from cal_path import get_exe_path
 
 from help import help_window
+from inp import inp_load_file
+from inp import inp_get_token_value_from_list
+from inp import inp_get_token_value
+
+from util import str2bool
+from gui_util import dlg_get_text
+
+class simulation():
+	name=""
+	file_name=""
+	icon=None
+	hidden=False
 
 class new_simulation(QDialog):
-
 
 	def callback_close(self, widget, data=None):
 		self.reject()
@@ -52,16 +63,24 @@ class new_simulation(QDialog):
 		help_window().help_set_help(["document-save-as.png",_("<big><b>Now save the simulation</b></big><br>Now select where you would like to save the simulation directory.")])
 
 		if len(self.listwidget.selectedItems())>0:
+			selection=self.listwidget.selectedItems()[0].text()
+			selection_file=selection[selection.find("(")+1:selection.find(")")]
+			lib_file=os.path.join(get_device_lib_path(),selection_file)
+			
+			password=inp_get_token_value("info.inp", "#info_password",archive=lib_file)
+			if password!="":
+				pw_dlg=dlg_get_text( _("password:"), "","document-new")
+				if password!=pw_dlg.ret:
+					return
 
 			file_path=save_as_gpvdm(self)
-			print(file_path,get_exe_path())
+			#print(file_path,get_exe_path())
 			if file_path!=None:
 				if file_path.startswith(get_exe_path())==True:
 					error_dlg(self,_("It's not a good idea to save the simulation in the gpvdm installation directory."))
 					return
 
-				selection=self.listwidget.selectedItems()[0].text()
-				selection_file=selection[selection.find("(")+1:selection.find(")")]
+
 
 				if not os.path.exists(file_path):
 					os.makedirs(file_path)
@@ -69,7 +88,7 @@ class new_simulation(QDialog):
 				self.ret_path=file_path
 				os.chdir(self.ret_path)
 				gpvdm_clone(os.getcwd(),True)
-				import_archive(os.path.join(get_device_lib_path(),selection_file),os.path.join(os.getcwd(),"sim.gpvdm"),False)
+				import_archive(lib_file,os.path.join(os.getcwd(),"sim.gpvdm"),False)
 				self.close()
 		else:
 			error_dlg(self,_("Please select a device before clicking next"))
@@ -77,6 +96,48 @@ class new_simulation(QDialog):
 
 	def get_return_path(self):
 		return self.ret_path
+	
+	def fill_list(self):
+		self.files=[]
+		files=os.listdir(get_device_lib_path())
+		for i in range(0,len(files)):
+			lines=[]
+			if files[i]!="default.gpvdm":
+				print(os.path.join(get_device_lib_path(),files[i]))
+				lines=inp_load_file("info.inp",archive=os.path.join(get_device_lib_path(),files[i]))
+				if lines!=False:
+					a=simulation()
+					a.name=inp_get_token_value_from_list(lines, "#info_name")
+					a.file_name=files[i]
+					a.icon=inp_get_token_value_from_list(lines, "#info_icon")
+					a.hidden=str2bool(inp_get_token_value_from_list(lines, "#info_hidden"))
+					self.files.append(a)
+
+		for i in range(0,len(self.files)):
+			if self.files[i].file_name=="p3htpcbm.gpvdm":
+				self.files.insert(0, self.files.pop(i))
+				break
+
+	def refresh(self):
+		self.listwidget.clear()
+		for i in range(0,len(self.files)):
+			if self.files[i].hidden==False or self.show_hidden.isChecked()==True:
+				itm = QListWidgetItem( _(self.files[i].name)+" ("+self.files[i].file_name+")" )
+				itm.setIcon(QIcon_load(self.files[i].icon))
+				self.listwidget.addItem(itm)
+
+		return
+
+		print(_("Organic LED"))
+		print(_("Crystalline silicon solar cell"))
+		print(_("a-Si solar cell "))
+		print(_("polycrystalline silicon "))
+		print(_("OFET "))
+		print(_("Perovskite solar cell"))
+		print(_("CIGS Solar cell"))
+
+	def callback_refresh(self):
+		self.refresh()
 
 	def __init__(self):
 		QDialog.__init__(self)
@@ -95,7 +156,13 @@ class new_simulation(QDialog):
 		self.nextButton = QPushButton(_("Next"))
 		self.cancelButton = QPushButton(_("Cancel"))
 
+		self.files=[]
+		self.fill_list()
+
 		hbox = QHBoxLayout()
+		self.show_hidden=QCheckBox(_("Show hidden"))
+		self.show_hidden.clicked.connect(self.callback_refresh)
+		hbox.addWidget(self.show_hidden)
 		hbox.addStretch(1)
 		hbox.addWidget(self.cancelButton)
 		hbox.addWidget(self.nextButton)
@@ -105,44 +172,12 @@ class new_simulation(QDialog):
 
 		self.setLayout(self.main_vbox)
 		self.show()
-		print(get_exe_path())
+
 		self.ret_path=None
 		# Create a new window
 
 		self.listwidget.setIconSize(QSize(64,64))
-		self.listwidget.clear()
-
-		itm = QListWidgetItem( _("Organic solar cell")+" (p3htpcbm.gpvdm)" )
-		itm.setIcon(QIcon_load("icon"))
-		self.listwidget.addItem(itm)
-
-		itm = QListWidgetItem( _("Organic LED")+" (oled.gpvdm)" )
-		itm.setIcon(QIcon_load("oled"))
-		self.listwidget.addItem(itm)
-
-		itm = QListWidgetItem( _("Crystalline silicon solar cell")+" (silicon.gpvdm)" )
-		itm.setIcon(QIcon_load("si"))
-		self.listwidget.addItem(itm)
-
-		itm = QListWidgetItem( _("a-Si solar cell ")+" (a-silicon.gpvdm)" )
-		itm.setIcon(QIcon_load("asi"))
-		self.listwidget.addItem(itm)
-
-		itm = QListWidgetItem( _("polycrystalline silicon ")+" (silicon.gpvdm)" )
-		itm.setIcon(QIcon_load("psi"))
-		self.listwidget.addItem(itm)
-
-		itm = QListWidgetItem( _("OFET ")+" (ofet.gpvdm)" )
-		itm.setIcon(QIcon_load("ofet"))
-		self.listwidget.addItem(itm)
-
-		itm = QListWidgetItem( _("Perovskite solar cell")+" (perovskite.gpvdm)" )
-		itm.setIcon(QIcon_load("perovskite"))
-		self.listwidget.addItem(itm)
-		
-		itm = QListWidgetItem( _("CIGS Solar cell")+" (cigs.gpvdm)" )
-		itm.setIcon(QIcon_load("cigs"))
-		self.listwidget.addItem(itm)
+		self.refresh()
 		
 		self.listwidget.itemDoubleClicked.connect(self.callback_next)
 		self.nextButton.clicked.connect(self.callback_next)

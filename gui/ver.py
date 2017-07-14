@@ -67,7 +67,8 @@ def ver_load_info():
 
 	ver_file_path=os.path.join(get_inp_file_path(),"ver.inp")
 
-	if inp_load_file(lines,ver_file_path,archive="base.gpvdm")==True:
+	lines=inp_load_file(ver_file_path,archive="base.gpvdm")
+	if lines!=False:
 		core=lines[1]
 		mat=lines[5]
 		return True
@@ -91,7 +92,9 @@ def ver_sync_ver():
 
 	if found==True:
 		print("seting ver to: ",text)
-		inp_update_token_value("ver.inp","#core",text)
+		inp_update_token_value("ver.inp","#core",text,archive="sim.gpvdm")
+		inp_update_token_value("ver.inp","#core",text,archive="base.gpvdm")
+		
 	else:
 		print(_("version.h not found"))
 
@@ -101,7 +104,8 @@ def ver_check_compatibility(file_name):
 	core=""
 	mat=""
 
-	if read_lines_from_archive(lines,file_name,"ver.inp")==True:
+	lines=read_lines_from_archive(file_name,"ver.inp")
+	if lines!=False:
 		core=lines[1]
 		if core==ver_core():
 			return True

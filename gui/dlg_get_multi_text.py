@@ -28,8 +28,6 @@ from PyQt5.QtGui import QPainter,QIcon,QImage
 
 from PyQt5.QtCore import QSize, Qt
 
-from inp import inp_load_file
-
 class dlg_get_multi_text(QDialog):
 
 #	def callback_edit2(self):

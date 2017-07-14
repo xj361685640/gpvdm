@@ -63,8 +63,8 @@ class device_lib_class(QDialog):
 		files=glob.glob(os.path.join(get_device_lib_path(),"*.gpvdm"))
 		for i in range(0,len(files)):
 			print("working on",files[i],zip_lsdir(files[i]))
-			lines=[]
-			if read_lines_from_archive(lines,files[i],"info.inp")==True:
+			lines=read_lines_from_archive(lines,files[i],"info.inp")
+			if lines!=False:
 				tab_add(self.tab,[os.path.basename(files[i]), " ".join(inp_search_token_value_multiline(lines,"#info_device_type"))," ".join(inp_search_token_value_multiline(lines,"#info_description"))])
 
 

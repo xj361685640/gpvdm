@@ -143,10 +143,7 @@ class ribbon_home(QToolBar):
 		ret=dialog.exec_()
 		if ret==QDialog.Accepted:
 			file_name=dialog.get_filename()
-			if isfiletype(file_name,"xls")==True or isfiletype(file_name,"xlsx")==True:
-				desktop_open(dialog.get_filename())
-				return
-				
+			
 			if os.path.basename(dialog.get_filename())=="sim_info.dat":
 				self.sim_info_window=sim_info(dialog.get_filename())
 				self.sim_info_window.show()
@@ -182,7 +179,7 @@ class ribbon_home(QToolBar):
 			return
 		
 	def callback_simulate_stop(self):
-		server_get().force_stop()
+		server_get().killall()
 
 	def callback_run_fit(self, widget):
 		if self.fit_window==None:

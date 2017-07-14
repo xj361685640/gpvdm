@@ -46,6 +46,8 @@ from util import str2bool
 from fx_selector import fx_selector
 
 from cal_path import get_sim_path
+from global_objects import global_object_register
+
 open_gl_working=False
 
 def is_open_gl_working():
@@ -91,6 +93,7 @@ class display_widget(QWidget):
 		self.fx_box.file_name_set_start("light_ray_") 
 		self.fx_box.file_name_set_end(".dat")
 		self.fx_box.update()
+
 		self.fx_box.cb.currentIndexChanged.connect(self.fx_box_changed)
 
 		#self.fx_box.cb.currentIndexChanged.connect(self.mode_changed)
@@ -134,11 +137,12 @@ class display_widget(QWidget):
 			self.timer=QTimer()
 			self.timer.setSingleShot(True)
 			self.timer.timeout.connect(self.timer_update)
-			self.timer.start(2000)
+			self.timer.start(5000)
 		else:
 			self.add_fallback()
 			
 		self.setLayout(self.hbox)
+		global_object_register("display_recalculate",self.recalculate)
 
 	def callback_xy(self):
 		self.display.xy()
@@ -179,6 +183,7 @@ class display_widget(QWidget):
 		if open_gl_working==True:
 			self.display.selected_layer=n
 
+	#This will reclaculate all the display elements in the display widget.
 	def recalculate(self):
 		self.fx_box.update()
 		self.update_ray_file()

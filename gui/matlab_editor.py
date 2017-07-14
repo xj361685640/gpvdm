@@ -58,8 +58,6 @@ from gui_util import tab_add
 from gui_util import tab_remove
 from gui_util import tab_get_value
 
-from inp import inp_load_file
-
 from gpvdm_select import gpvdm_select
 
 from scan_select import select_param

@@ -48,7 +48,7 @@ def gpvdm_clone(dest,copy_dirs):
 
 	for i in range(0,len(files)):
 		if files[i].endswith(".inp"):
-			read_lines_from_archive(lines,src_archive,files[i])
+			lines=read_lines_from_archive(src_archive,files[i])
 			write_lines_to_archive(dest_archive,files[i],lines)
 
 
@@ -69,10 +69,11 @@ def clone_material(dest_material_dir,src_material_dir):
 	if os.path.isdir(dest_material_dir)==False:
 		os.mkdir(dest_material_dir)
 
-	for copy_file in ["n.ref","alpha.ref","alpha_eq.inp","alpha.omat","dos.inp","n_eq.inp","n.omat","alpha_gen.omat","cost.xlsx","fit.inp","mat.inp","n_gen.omat","pl.inp"]:
-		src_mat_file=os.path.join(src_material_dir,copy_file)
+	files=os.listdir(src_material_dir)
+	for i in range(0,len(files)):
+		src_mat_file=os.path.join(src_material_dir,files[i])
 		if os.path.isfile(src_mat_file)==True:
-			copyfile(src_mat_file,os.path.join(dest_material_dir,copy_file))
+			copyfile(src_mat_file,os.path.join(dest_material_dir,files[i]))
 
 def clone_spectra(dest_spectra_dir,src_spectra_dir):
 	if os.path.isdir(dest_spectra_dir)==False:

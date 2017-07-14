@@ -24,7 +24,6 @@
 import os
 import glob
 from cal_path import get_device_lib_path
-from util_zip import read_lines_from_archive
 from inp_util import inp_search_token_value_multiline
 from util_zip import zip_lsdir
 from util_zip import archive_add_file
@@ -82,7 +81,8 @@ class widget_error_han(QDialog):
 		h_box=QHBoxLayout()
 		h_widget.setLayout(h_box)
 		image=QLabel()
-		image.setPixmap(QIcon_load("warning"))
+		icon=QIcon_load("warning")
+		image.setPixmap(icon.pixmap(icon.actualSize(QSize(48, 48))))
 		h_box.addWidget(image)
 
 		h_box.setAlignment(image,Qt.AlignTop)

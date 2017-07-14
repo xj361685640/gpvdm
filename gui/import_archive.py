@@ -40,7 +40,11 @@ from util_zip import archive_merge_file
 from util_zip import archive_get_file_ver
 
 from cal_path import get_materials_path
+from cal_path import get_base_material_path
 from util_zip import archive_compact_files
+from util_zip import extract_file_from_archive
+
+from inp_util import inp_merge
 
 def update_simulaton_to_new_ver(file_name):
 	pre, ext = os.path.splitext(file_name)
@@ -101,7 +105,8 @@ def remove_non_used_index_files(dest_archive,src_archive):
 def merge_archives(src_archive,dest_archive,only_over_write):
 #	src_dir=os.path.dirname(src_archive)
 #	dest_dir=os.path.dirname(dest_archive)
-	template_archive=os.path.join(get_inp_file_path(),"sim.gpvdm")
+	dest_path=os.path.dirname(dest_archive)
+	template_archive=os.path.join(get_inp_file_path(),"base.gpvdm")
 
 	remove_non_used_index_files(dest_archive,src_archive)
 
@@ -111,14 +116,15 @@ def merge_archives(src_archive,dest_archive,only_over_write):
 
 	print(src_archive)
 	ls=zip_lsdir(src_archive)
+
 	for i in range(0,len(ls)):
 		if inp_issequential_file(ls[i],"dos"):
 			files.append(ls[i])
-			base_file.append(os.path.join(get_materials_path(),"generic","generic_organic","dos.inp"))
+			base_file.append(os.path.join(get_base_material_path(),"generic","generic_organic","dos.inp"))
 
 		if inp_issequential_file(ls[i],"pl"):
 			files.append(ls[i])
-			base_file.append(os.path.join(get_materials_path(),"generic","generic_organic","pl.inp"))
+			base_file.append(os.path.join(get_base_material_path(),"generic","generic_organic","pl.inp"))
 
 		if inp_issequential_file(ls[i],"pulse"):
 			files.append(ls[i])
@@ -129,7 +135,13 @@ def merge_archives(src_archive,dest_archive,only_over_write):
 			base_file.append("laser0.inp")
 
 	for i in range(0,len(files)):
-		print("Importing",files[i],"to",dest_archive,template_archive,base_file[i])
+		print("Importing",files[i])
+		print("dest_archive:",dest_archive)
+		print("src_archive",src_archive)
+		print("template:",template_archive)
+		print("base_file:",base_file[i])
+		print("only overwrite",only_over_write)
+
 		if only_over_write==False:
 			if archive_isfile(dest_archive,files[i])==False:
 				if archive_copy_file(dest_archive,files[i],template_archive,base_file[i])==False:
@@ -137,8 +149,8 @@ def merge_archives(src_archive,dest_archive,only_over_write):
 				print("made new file",dest_archive,files[i])
 
 		ret=archive_merge_file(dest_archive,src_archive,files[i])
-		print("merged",dest_archive,src_archive,files[i],ret)
-
+		print("ret=",ret)
+		print("-----------------------")
 
 	files=[ "windows_list2.inp","epitaxy.inp", "contacts.inp", "fit.inp", "constraints.inp","duplicate.inp", "thermal.inp","mesh_x.inp","mesh_y.inp","mesh_z.inp" ]
 	base_file=files[:]
@@ -159,17 +171,49 @@ def merge_archives(src_archive,dest_archive,only_over_write):
 			base_file.append("lumo0.inp")
 
 	for i in range(0,len(files)):
-		print("Importing",files[i])
+
 		template_ver=archive_get_file_ver(template_archive,base_file[i])
 		src_ver=archive_get_file_ver(src_archive,files[i])
-		print(template_ver,src_ver,template_ver==src_ver,template_archive,files[i],src_archive)
+		print("Importing",files[i])
+		print("template ver",template_ver)
+		print("src_ver",src_ver)
+		print("template_archive",template_archive)
+		print("src_archive",src_archive)
+		print("dest_archive",dest_archive)
 
 		if template_ver!="" and src_ver!="":
 			if template_ver==src_ver:
 				archive_copy_file(dest_archive,files[i],src_archive,files[i])
-				print("complex copy",dest_archive,files[i],src_archive,files[i])
+				print("complex copy")
 
+		print("-----------------------")
 
+	#copy files without checking ver
+	for i in range(0,len(ls)):
+		if inp_issequential_file(ls[i],"genrate"):
+			archive_copy_file(dest_archive,ls[i],src_archive,ls[i],dest="file")
+
+	#if you find a materials directory in the archive try to merge it
+	for i in range(0,len(ls)):
+		zip_dir_name=ls[i].split("/")
+		if zip_dir_name[0]=="materials":
+			print("Try to read",src_archive,ls[i])
+			extract_file_from_archive(dest_path,src_archive,ls[i])
+
+	#search for scan directories
+	scan_dirs=[]
+	for i in range(0,len(ls)):
+		if ls[i].endswith("gpvdm_gui_config.inp"):
+			scan_dirs.append(os.path.dirname(ls[i]))
+
+	#extract scan directories
+	for i in range(0,len(ls)):
+		for ii in range(0,len(scan_dirs)):
+			if ls[i].startswith(scan_dirs[ii])==True:
+				print("Try to read",src_archive,ls[i])
+				extract_file_from_archive(dest_path,src_archive,ls[i])
+	print("search",scan_dirs)
+		
 def import_archive(src_archive,dest_archive,only_over_write):
 	src_dir=os.path.dirname(src_archive)
 	dest_dir=os.path.dirname(dest_archive)
@@ -214,5 +258,32 @@ def clean_scan_dirs(path):
 				print("remove dir",file_name)
 				shutil.rmtree(file_name)
 
+def read_lines_from_file(file_name):
+	if os.path.isfile(file_name)==True:
+		f = open(file_name, mode='rb')
+		lines = f.read()
+		f.close()
 
+	try:
+		lines=lines.decode('utf-8')
+		lines=lines.split("\n")
+	except:
+		lines=[]
+		
+	return lines
 
+def patch_file(dest_file,base_file,input_file):
+	
+	src_lines=[]
+	dest_lines=[]
+
+	base_file_lines=read_lines_from_file(base_file)
+	
+	input_file_lines=read_lines_from_file(input_file)
+	
+
+	errors=inp_merge(base_file_lines,input_file_lines)
+
+	f=open(dest_file, mode='wb')
+	lines = f.write(str.encode('\n'.join(base_file_lines)))
+	f.close()

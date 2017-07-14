@@ -54,6 +54,7 @@ from epitaxy import epitay_get_next_dos
 
 #windows
 from gui_util import tab_move_down
+from gui_util import tab_move_up
 from gui_util import tab_add
 from gui_util import tab_remove
 from gui_util import tab_get_value
@@ -105,15 +106,16 @@ class layer_widget(QWidget):
 		
 	def emit_structure_changed(self):		#This will emit when there has been an edit
 		global_object_run("optics_force_redraw")
-		
+		global_object_run("gl_force_redraw")
+
 	def sync_to_electrical_mesh(self):
 		tot=0
 		for i in range(0,len(self.model)):
 			if yes_no(self.model[i][COLUMN_DEVICE])==True:
 				tot=tot+float(self.model[i][COLUMN_THICKNES])
 
-		lines=[]
-		if inp_load_file(lines,os.path.join(get_sim_path(),"mesh_y.inp"))==True:
+		lines=inp_load_file(lines,os.path.join(get_sim_path(),"mesh_y.inp"))
+		if lines!=False:
 			mesh_layers=int(inp_search_token_value(lines, "#mesh_layers"))
 			if mesh_layers==1:
 				inp_update_token_value(os.path.join(get_sim_path(),"mesh_y.inp"), "#mesh_layer_length0", str(tot))
@@ -165,6 +167,12 @@ class layer_widget(QWidget):
 		self.emit_change()
 		self.emit_structure_changed()
 
+	def on_move_up(self):
+		tab_move_up(self.tab)
+		self.save_model()
+		self.emit_change()
+		self.emit_structure_changed()
+
 	def __init__(self):
 		QWidget.__init__(self)
 		self.rebuild_mat_list()
@@ -184,9 +192,13 @@ class layer_widget(QWidget):
 		self.toolbar.addAction(self.tb_remove)
 
 
-		self.tb_remove= QAction(QIcon_load("go-down"), _("Move device layer"), self)
-		self.tb_remove.triggered.connect(self.on_move_down)
-		self.toolbar.addAction(self.tb_remove)
+		self.tb_down= QAction(QIcon_load("go-down"), _("Move device layer"), self)
+		self.tb_down.triggered.connect(self.on_move_down)
+		self.toolbar.addAction(self.tb_down)
+
+		self.tb_up= QAction(QIcon_load("go-up"), _("Move device layer"), self)
+		self.tb_up.triggered.connect(self.on_move_up)
+		self.toolbar.addAction(self.tb_up)
 		
 		self.main_vbox.addWidget(self.toolbar)
 	

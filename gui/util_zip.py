@@ -36,12 +36,12 @@ import zipfile
 from inp_util import inp_merge
 from inp_util import inp_search_token_value
 
-def archive_copy_file(dest_archive,dest_file_name,src_archive,file_name):
-	lines=[]
-	if read_lines_from_archive(lines,src_archive,file_name)==False:
+def archive_copy_file(dest_archive,dest_file_name,src_archive,file_name,dest="archive"):
+	lines=read_lines_from_archive(src_archive,file_name)
+	if lines==False:
 		return False
 
-	write_lines_to_archive(dest_archive,dest_file_name,lines)
+	write_lines_to_archive(dest_archive,dest_file_name,lines,dest=dest)
 	return True
 
 
@@ -77,6 +77,7 @@ def zip_lsdir(file_name):
 		return my_list
 
 	return False
+
 
 def zip_get_data_file(file_name):
 	found=False
@@ -119,7 +120,7 @@ def check_is_config_file(name):
 	return found
 
 
-def replace_file_in_zip_archive(zip_file_name,target,lines):
+def replace_file_in_zip_archive(zip_file_name,target,lines,mode="l"):
 	if os.path.isfile(zip_file_name)==True:
 		fh, abs_path = mkstemp()
 		source = zipfile.ZipFile(zip_file_name, 'r')
@@ -132,8 +133,12 @@ def replace_file_in_zip_archive(zip_file_name,target,lines):
 
 		source.close()
 
-		build='\n'.join(lines)
+		if mode=="l":
+			build='\n'.join(lines)
 
+		if mode=="b":
+			build=lines
+			
 		#for i in range(0,len(lines)):
 		#	build=build+lines[i]+"\n"
 
@@ -187,25 +192,28 @@ def zip_remove_file(zip_file_name,target):
 			shutil.move(abs_path, zip_file_name)
 
 
-def write_lines_to_archive(archive_path,file_name,lines):
+def write_lines_to_archive(archive_path,file_name,lines,mode="l",dest="archive"):
 
 	file_path=os.path.join(os.path.dirname(archive_path),file_name)
 
-	if os.path.isfile(file_path)==True or os.path.isfile(archive_path)==False:
+	if os.path.isfile(file_path)==True or os.path.isfile(archive_path)==False or dest=="file":
 		zip_remove_file(archive_path,file_name)
 
-		dump=""
-		for item in lines:
-			dump=dump+item+"\n"
+		if mode=="l":
+			dump=""
+			for item in lines:
+				dump=dump+item+"\n"
 
-		dump=dump.rstrip("\n")
-
+			dump=dump.rstrip("\n")
+		if mode=="b":
+			dump=lines
+			
 		f=open(file_path, mode='wb')
 		lines = f.write(str.encode(dump))
 		f.close()
 		return True
 	else:
-		return replace_file_in_zip_archive(archive_path,file_name,lines)
+		return replace_file_in_zip_archive(archive_path,file_name,lines,mode=mode)
 
 def archive_compact_files(archive_path):
 	if os.path.isfile(archive_path)==True:
@@ -214,7 +222,7 @@ def archive_compact_files(archive_path):
 		for file_name in os.listdir(dir_name):
 			full_name=os.path.join(dir_name,file_name)
 			if file_name.endswith(".inp")==True:
-				read_lines_from_archive(lines,archive_path,file_name)
+				lines=read_lines_from_archive(archive_path,file_name)
 				replace_file_in_zip_archive(archive_path,file_name,lines)
 				os.remove(full_name)
 
@@ -237,7 +245,7 @@ def archive_add_file(archive_path,file_name,base_dir):
 		zf.close()
 		return True
 
-def read_lines_from_archive(lines,zip_file_path,file_name):
+def read_lines_from_archive(zip_file_path,file_name,mode="l"):
 
 	file_path=os.path.join(os.path.dirname(zip_file_path),file_name)
 
@@ -248,27 +256,77 @@ def read_lines_from_archive(lines,zip_file_path,file_name):
 		read_lines = f.read()
 		f.close()
 	else:
+		found=False
+
 		if os.path.isfile(zip_file_path):
 			zf = zipfile.ZipFile(zip_file_path, 'r')
 			if zip_search_file(zf,os.path.basename(file_path))==True:
 				read_lines = zf.read(file_name)
-				zf.close()
-			else:
-				zf.close()
-				return False
-		else:
+				found=True
+			elif zip_search_file(zf,file_name)==True:
+				read_lines = zf.read(file_name)
+				found=True
+
+			zf.close()
+
+		if found==False:
 			return False
 	#print(">",file_path,"<",read_lines)
-	read_lines=read_lines.decode('utf-8')#.decode("utf-8") 
-	read_lines=read_lines.split("\n")
+	if mode=="l":
+		read_lines=read_lines.decode('utf-8')#.decode("utf-8") 
+		read_lines=read_lines.split("\n")
+		
+		lines=[]
 
-	del lines[:]
+		for i in range(0, len(read_lines)):
+			lines.append(read_lines[i].rstrip())
 
-	for i in range(0, len(read_lines)):
-		lines.append(read_lines[i].rstrip())
+		if lines[len(lines)-1]=='\n':
+			del lines[len(lines)-1]
+	elif mode=="b":
+		lines=read_lines
 
-	if lines[len(lines)-1]=='\n':
-		del lines[len(lines)-1]
+	return lines
+
+def extract_file_from_archive(dest,zip_file_path,file_name):
+
+	file_path=os.path.join(os.path.dirname(zip_file_path),file_name)
+
+	read_lines=[]
+
+	if os.path.isfile(file_path):
+		f=open(file_path, mode='rb')
+		read_lines = f.read()
+		f.close()
+	else:
+		found=False
+
+		if os.path.isfile(zip_file_path):
+			zf = zipfile.ZipFile(zip_file_path, 'r')
+			if zip_search_file(zf,os.path.basename(file_path))==True:
+				read_lines = zf.read(file_name)
+				found=True
+			elif zip_search_file(zf,file_name)==True:
+				read_lines = zf.read(file_name)
+				found=True
+
+			zf.close()
+
+		if found==False:
+			print("not found",file_name)
+			return False
+
+	if file_name.endswith("/")==True:
+		if os.path.isdir(file_name)==False:
+			os.makedirs(os.path.join(dest,file_name))
+		return True
+	else:
+		if os.path.isdir(os.path.join(dest,os.path.dirname(file_name)))==False:
+			os.makedirs(os.path.join(dest,os.path.dirname(file_name)))
+
+		f=open(os.path.join(dest,file_name), mode='wb')
+		lines = f.write(read_lines)
+		f.close()
 
 	return True
 
@@ -298,15 +356,15 @@ def archive_merge_file(dest_archive,src_archive,file_name):
 	src_lines=[]
 	dest_lines=[]
 
-	orig_exists=read_lines_from_archive(src_lines,src_archive,file_name)
+	src_lines=read_lines_from_archive(src_archive,file_name)
 
-	if orig_exists==False:
+	if src_lines==False:
 		print("Warning: ",src_archive,file_name," no origonal file to copy")
 		return False
 
-	dest_exists=read_lines_from_archive(dest_lines,dest_archive,file_name)
+	dest_lines=read_lines_from_archive(dest_archive,file_name)
 
-	if dest_exists==False:
+	if dest_lines==False:
 		print("Warning: ",dest_archive,file_name," no final copy found")
 		return False
 
@@ -322,9 +380,9 @@ def archive_merge_file(dest_archive,src_archive,file_name):
 
 def archive_get_file_ver(archive,file_name):
 	lines=[]
-	exists=read_lines_from_archive(lines,archive,file_name)
+	lines=read_lines_from_archive(archive,file_name)
 
-	if exists==True:
+	if lines!=False:
 		ver=inp_search_token_value(lines, "#ver")
 	else:
 		return ""

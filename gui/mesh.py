@@ -28,29 +28,39 @@ from code_ctrl import enable_betafeatures
 from scan_item import scan_item_add
 
 from cal_path import get_sim_path
+from util import str2bool
 
-xlist=[]
-ylist=[]
-zlist=[]
+class mesh:
+	layers=[]
+	remesh=False
+
+xlist=mesh()
+ylist=mesh()
+zlist=mesh()
 
 class mlayer():
 	def __init__(self):
 		self.thick=0.0
 		self.points=0
+		self.mul=1.0
+		self.left_right="left"
+		
 
-def mesh_add(vector,thick,points):
+def mesh_add(vector,thick,points,mul,left_right):
 	a=mlayer()
 	a.thick=float(thick)
 	a.points=float(points)
+	a.mul=float(mul)
+	a.left_right=left_right
 	if vector=="x":
 		global xlist
-		xlist.append(a)
+		xlist.layers.append(a)
 	elif vector=="y":
 		global ylist
-		ylist.append(a)
+		ylist.layers.append(a)
 	elif vector=="z":
 		global zlist
-		zlist.append(a)
+		zlist.layers.append(a)
 		
 	
 def mesh_load(vector):
@@ -63,46 +73,86 @@ def mesh_load(vector):
 	elif vector=="z":
 		mesh_clear_zlist()
 
-	global xlist
 	my_list=[]
 	pos=0
-	lines=[]
+	lines=inp_load_file(file_name)
 
-	if inp_load_file(lines,os.path.join(get_sim_path(),file_name))==True:
+	if lines!=False:
+		pos=pos+1	#first comment
+		remesh=str2bool(lines[pos])
+		pos=pos+1	#remesh
+
+		if vector=="x":
+			global xlist
+			xlist.remesh=remesh
+		elif vector=="y":
+			global ylist
+			ylist.remesh=remesh
+		elif vector=="z":
+			global zlist
+			zlist.remesh=remesh
+
 		pos=pos+1	#first comment
 		mesh_layers=int(lines[pos])
 		for i in range(0, mesh_layers):
 			#thick
-			pos=pos+1					#token
+			pos=pos+1			#token
 			token=lines[pos]
 			pos=pos+1
-			thick=lines[pos]	#read value
+			thick=lines[pos]	#length
 
-
-			#points
-			pos=pos+1					#token
+			pos=pos+1			#token
 			token=lines[pos]
 			pos=pos+1
-			points=lines[pos] 		#read value
-			mesh_add(vector,thick,points)
+			points=lines[pos] 	#points
+			
+			pos=pos+1			#token
+			token=lines[pos]
+			pos=pos+1
+			mul=lines[pos] 		#mul
+
+			pos=pos+1			#token
+			token=lines[pos]
+			pos=pos+1
+			left_right=lines[pos] 		#left_right
+
+			mesh_add(vector,thick,points,mul,left_right)
 
 
-def mesh_save(file_name,my_list):
+def mesh_save(file_name,mesh_class):
 	lines=[]
+	lines.append("#remesh_enable")
+	lines.append(str(mesh_class.remesh))	
 	lines.append("#mesh_layers")
-	lines.append(str(len(my_list)))
+	lines.append(str(len(mesh_class.layers)))
 	i=0
-	for item in my_list:
+	for item in mesh_class.layers:
 		lines.append("#mesh_layer_length"+str(i))
 		lines.append(str(item.thick))
 		lines.append("#mesh_layer_points"+str(i))
 		lines.append(str(item.points))
+		lines.append("#mesh_layer_mul"+str(i))
+		lines.append(str(item.mul))
+		lines.append("#mesh_layer_left_right"+str(i))
+		lines.append(str(item.left_right))
 		i=i+1
 	lines.append("#ver")
 	lines.append("1.0")
 	lines.append("#end")
+	print("save as",file_name)
+	inp_save(file_name,lines)
 
-	inp_save(os.path.join(get_sim_path(),file_name),lines)
+def mesh_save_x():
+	global xlist
+	mesh_save("mesh_x.inp",xlist)
+
+def mesh_save_y():
+	global ylist
+	mesh_save("mesh_y.inp",ylist)
+
+def mesh_save_z():
+	global zlist
+	mesh_save("mesh_z.inp",zlist)
 
 def mesh_save_all():
 	global xlist
@@ -131,80 +181,83 @@ def mesh_load_z():
 def mesh_get_xlen():
 	global xlist
 	tot=0.0
-	for a in xlist:
+	for a in xlist.layers:
 		tot=tot+a.thick
 	return tot
 
 def mesh_get_ylen():
 	global ylist
 	tot=0.0
-	for a in ylist:
+	for a in ylist.layers:
 		tot=tot+a.thick
 	return tot
 
 def mesh_get_zlen():
 	global zlist
 	tot=0.0
-	for a in zlist:
+	for a in zlist.layers:
 		tot=tot+a.thick
 	return tot
 
 def mesh_get_xpoints():
 	global xlist
 	tot=0.0
-	for a in xlist:
+	for a in xlist.layers:
 		tot=tot+a.points
 	return tot
 
 def mesh_get_ypoints():
 	global ylist
 	tot=0.0
-	for a in ylist:
+	for a in ylist.layers:
 		tot=tot+a.points
 	return tot
 
 def mesh_get_zpoints():
 	global zlist
 	tot=0.0
-	for a in zlist:
+	for a in zlist.layers:
 		tot=tot+a.points
 	return tot
 
 def mesh_get_xlayers():
 	global xlist
-	return len(xlist)
+	return len(xlist.layers)
 
 def mesh_get_ylayers():
 	global ylist
-	return len(ylist)
+	return len(ylist.layers)
 
 def mesh_get_zlayers():
 	global zlist
-	return len(zlist)
+	return len(zlist.layers)
 
-def mesh_get_xlist():
+def mesh_get_xmesh():
 	global xlist
 	return xlist
 
-def mesh_get_ylist():
+def mesh_get_ymesh():
 	global ylist
 	return ylist
 
-def mesh_get_zlist():
+def mesh_get_zmesh():
 	global zlist
 	return zlist
 
 def mesh_clear_xlist():
 	global xlist
-	xlist=[]
+	zlist.remesh=True
+	xlist.layers=[]
 
 def mesh_clear_ylist():
 	global ylist
-	ylist=[]
+	zlist.remesh=True
+	ylist.layers=[]
 
 def mesh_clear_zlist():
 	global zlist
-	zlist=[]
+	zlist.remesh=True
+	zlist.layers=[]
 	
 def mesh_clear():
 	mesh_clear_xlist()
