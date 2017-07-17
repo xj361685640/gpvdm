@@ -149,6 +149,12 @@ lib.append(my_data("","#fxdomain_delta_i","s",_("di"),"e",1.0,"QLineEdit"))
 lib.append(my_data("","#fxdomain_delta_g","s",_("dmodulation"),"e",1.0,"QLineEdit"))
 lib.append(my_data("","#fxdomain_delta_phase","rads",_("dphase"),"e",1.0,"QLineEdit"))
 
+lib.append(my_data("","#fxdomain_modulation_rolloff_start_fx","Hz",_("Modulation roll off start"),"e",1.0,"QLineEdit"))
+lib.append(my_data("","#fxdomain_modulation_rolloff_speed","0-1/Hz",_("Modulation roll off speed"),"e",1.0,"QLineEdit"))
+
+
+#fxdomain_modulation_rolloff_speed
+
 #sim_info.dat (equlibrium)
 lib.append(my_data("","#left_holes","m^{-3}",_("Left hole density"),"e",1.0,"QLineEdit"))
 lib.append(my_data("","#left_electrons","m^{-3}",_("Left electron density"),"e",1.0,"QLineEdit"))
