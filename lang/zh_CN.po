@@ -8,19 +8,19 @@ msgstr ""
 "Project-Id-Version: gpvdm 4.88\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
 "POT-Creation-Date: 2017-03-18 18:59+0000\n"
-"PO-Revision-Date: 2017-03-18 18:59+0000\n"
+"PO-Revision-Date: 2017-03-23 22:39+0800\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.8\n"
+"X-Generator: Poedit 1.8.12\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: ../liblight/light_config.c:59 ../liblight/light_config.c:109
 msgid "load"
-msgstr ""
+msgstr "加载"
 
 #: ../liblight/light_dump.c:471
 msgid "Electron generation rate"
@@ -89,7 +89,7 @@ msgstr "未找到dll函数light_dll_ver\n"
 
 #: ../liblight/light_materials.c:46
 msgid "load: materials"
-msgstr ""
+msgstr "加载:材料"
 
 #: ../liblight/light_materials.c:59
 msgid "No optical materials found\n"
@@ -98,7 +98,7 @@ msgstr "未找到光学材料\n"
 #: ../liblight/light_materials.c:173 ../liblight/light_materials.c:263
 #: ../liblight/light_materials.c:329
 msgid "file not found"
-msgstr ""
+msgstr "未找到文件"
 
 #: ../liblight/light_materials.c:249
 msgid "Error at end of patch file\n"
@@ -106,11 +106,11 @@ msgstr "补丁文件末尾有错误\n"
 
 #: ../liblight/light_materials.c:309
 msgid "Error at end of inter file"
-msgstr ""
+msgstr "内部文件末尾有错误"
 
 #: ../liblight/light_materials.c:356 ../liblight/light_materials.c:408
 msgid "Wavelength - Reflected light"
-msgstr ""
+msgstr "波长-反射光"
 
 #: ../liblight/light_materials.c:358 ../liblight/light_materials.c:410
 #: ../libmeasure/probe.c:163 ../libmeasure/probe.c:165
@@ -220,11 +220,11 @@ msgstr "未找到dll函数dll_matrix_solver_free \n"
 
 #: ../lib/solver_interface.c:152
 msgid "Freeing memory"
-msgstr ""
+msgstr "正在释放内存"
 
 #: ../lib/solver_interface.c:156
 msgid "Error closing dll"
-msgstr ""
+msgstr "关闭dll文件错误"
 
 #: ../libmesh/time.c:96
 msgid "You must load the optical plugin before making the time mesh"
@@ -376,7 +376,7 @@ msgstr "在这个位置求解光学层："
 
 #: ../plugins/light_full/light.c:232
 msgid "I can't solve the matrix because I don't have enough equations."
-msgstr ""
+msgstr "因为缺少足够的方程，此矩阵无法解得"
 
 #: ../plugins/jv/jv.c:46
 msgid "Running JV simulation\n"
@@ -448,7 +448,7 @@ msgstr "服务器已经关闭"
 
 #: ../libserver/server.c:237
 msgid "Number of CPUs:"
-msgstr ""
+msgstr "CPU数量："
 
 #: ../libserver/server.c:246
 msgid "Start time"
@@ -585,23 +585,23 @@ msgstr "右接触层的电子"
 
 #: ../src/main.c:116 ../src/main.c:137
 msgid "Copyright (C) 2012-2017 Roderick C. I. MacKenzie, Releced under GPLv2"
-msgstr ""
+msgstr "版权 (C) 2012-2017 Roderick C. I. MacKenzie,   发布在 GPLv2 下"
 
 #: ../src/main.c:118
 msgid "options"
-msgstr ""
+msgstr "选项"
 
 #: ../src/main.c:120
 msgid "Options"
-msgstr ""
+msgstr "选项"
 
 #: ../src/main.c:122
 msgid "output data path"
-msgstr ""
+msgstr "输出数据路径"
 
 #: ../src/main.c:123
 msgid "sets the input path"
-msgstr ""
+msgstr "设置输入路径"
 
 #: ../src/main.c:124 ../gui/command_args.py:58 ../gui/command_args.py:59
 msgid "displays the current version"
@@ -609,24 +609,24 @@ msgstr "运行当前版本"
 
 #: ../src/main.c:125
 msgid "zip the results"
-msgstr ""
+msgstr "压缩结果"
 
 #: ../src/main.c:126
 msgid "Forces a simulation mode."
-msgstr ""
+msgstr "构造仿真模型"
 
 #: ../src/main.c:127
 msgid "sets the number of CPUs"
-msgstr ""
+msgstr "设置CPU数量 "
 
 #: ../src/main.c:129
 msgid ""
 "Additional information about gpvdm is available at https://www.gpvdm.com."
-msgstr ""
+msgstr "详细信息请访问https://www.gpvdm.com. "
 
 #: ../src/main.c:131
 msgid "Report bugs to: roderick.mackenzie@nottingham.ac.uk"
-msgstr ""
+msgstr "若有错误，请向此邮箱报错：roderick.mackenzie@nottingham.ac.uk"
 
 #: ../src/main.c:136
 #, python-format
@@ -635,7 +635,7 @@ msgstr "gpvdm_core,版本%s\n"
 
 #: ../src/main.c:138
 msgid "This is free software; see the source code for copying conditions."
-msgstr ""
+msgstr "本软件完全免费，若想拷贝请参见源代码。"
 
 #: ../src/main.c:139
 msgid "There is ABSOLUTELY NO WARRANTY; not even for MERCHANTABILITY or\n"
@@ -688,27 +688,27 @@ msgstr "加载DoS"
 
 #: ../src/pos.c:65
 msgid "Intrinsic Fermi - position"
-msgstr ""
+msgstr "本征费米 - 位置 "
 
 #: ../src/pos.c:82
 msgid "LUMO energy - position"
-msgstr ""
+msgstr "LUMO能量 - 位置 "
 
 #: ../src/pos.c:99
 msgid "HOMO energy - position"
-msgstr ""
+msgstr "HOMO能量 - 位置 "
 
 #: ../src/pos.c:117
 msgid "Electron density - position"
-msgstr ""
+msgstr "电子密度 - 位置 "
 
 #: ../src/pos.c:135
 msgid "Hole density - position"
-msgstr ""
+msgstr "空穴密度 - 位置 "
 
 #: ../src/pos.c:152
 msgid "Potential - position"
-msgstr ""
+msgstr "势能 - 位置 "
 
 #: ../src/pos.c:155 ../libdump/dump_1d_slice.c:448
 #: ../libdump/dump_1d_slice.c:453 ../libdump/dump_1d_slice.c:477
@@ -718,27 +718,27 @@ msgstr "势能"
 
 #: ../src/pos.c:206
 msgid "Solving Poisson's equation"
-msgstr ""
+msgstr "正在解决泊松方程 "
 
 #: ../src/pos.c:525
 msgid "Poisson solver error"
-msgstr ""
+msgstr "泊松方程分析器错误 "
 
 #: ../src/pos.c:596
 msgid "Solved Poisson's equation"
-msgstr ""
+msgstr "已解决泊松方程"
 
 #: ../src/config.c:45
 msgid "load: config files"
-msgstr ""
+msgstr "加载：配置文件 "
 
 #: ../src/sim_find_n0.c:39
 msgid "Finding equilibrium conditions"
-msgstr ""
+msgstr "正在寻找平衡条件 "
 
 #: ../src/sim_find_n0.c:105
 msgid "Finished finding equilibrium conditions"
-msgstr ""
+msgstr "寻找平衡条件完成 "
 
 #: ../gui/pl_main.py:77
 msgid "Luminescence of "
@@ -1200,7 +1200,7 @@ msgstr "未选择任何参数来扫描。使用添加按钮。"
 
 #: ../gui/scan_tab.py:236
 msgid "No sim dir name"
-msgstr ""
+msgstr "没有sim dir文件名"
 
 #: ../gui/scan_tab.py:253
 msgid "Problem generating tree."
@@ -1313,7 +1313,7 @@ msgstr "接触"
 
 #: ../gui/layer_widget.py:268
 msgid "active layer"
-msgstr ""
+msgstr "活动层 "
 
 #: ../gui/layer_widget.py:269
 msgid "other"
@@ -2208,7 +2208,7 @@ msgstr "强度调制光电流谱"
 
 #: ../gui/inp_description.py:48
 msgid "Light Exp"
-msgstr ""
+msgstr "光通道"
 
 #: ../gui/inp_description.py:50
 msgid "Sun Voc"
@@ -2316,7 +2316,7 @@ msgstr "清除仿真输出"
 
 #: ../gui/scan.py:313
 msgid "Push unconverged to hpc"
-msgstr ""
+msgstr "把未聚合的到hpc"
 
 #: ../gui/scan.py:344
 msgid "Run all simulations"
@@ -2328,7 +2328,7 @@ msgstr "仿真信息"
 
 #: ../gui/info.py:83
 msgid "Simulation Information"
-msgstr ""
+msgstr "仿真信息 "
 
 #: ../gui/snapshot_slider.py:99
 msgid "Snapshot slider"
@@ -2726,7 +2726,7 @@ msgstr "软件使用指南"
 
 #: ../gui/cool_menu.py:62
 msgid "Youtube"
-msgstr ""
+msgstr "Youtube"
 
 #: ../gui/cool_menu.py:65
 msgid "Citing the model"
@@ -2734,15 +2734,15 @@ msgstr "关于引用模型的声明"
 
 #: ../gui/tab_terminal.py:64
 msgid "Running: "
-msgstr ""
+msgstr "正在运行： "
 
 #: ../gui/tab_terminal.py:76
 msgid "I could not find a free cpu to run the command on"
-msgstr ""
+msgstr "CPU无空闲，无法运行命令 "
 
 #: ../gui/tab_terminal.py:109
 msgid "CPU"
-msgstr ""
+msgstr "CPU(中央处理单元)"
 
 #: ../gui/gpvdm_open.py:123
 msgid "The directory is gone, so I can't open it.  Did you delete it?"
@@ -3109,7 +3109,7 @@ msgstr "自由空穴到被俘获空穴"
 #: ../gui/token_lib.py:69
 #, python-brace-format
 msgid "n_{free} to p_{free} Recombination rate constant"
-msgstr "自由n型到自由p型 复合率是常数"
+msgstr "n型{自由}到p型{自由}  复合率是常数 "
 
 #: ../gui/token_lib.py:73
 msgid "startime"
@@ -3212,11 +3212,11 @@ msgstr "JV 曲线光子产生效率"
 #: ../gui/token_lib.py:106
 #, python-brace-format
 msgid "Average carrier density at P_{max}"
-msgstr ""
+msgstr "P_{max}平均携带密度 "
 
 #: ../gui/token_lib.py:107
 msgid "Recombination time constant"
-msgstr ""
+msgstr "复合时间常数 "
 
 #: ../gui/token_lib.py:110
 #, python-brace-format
@@ -3237,43 +3237,43 @@ msgstr "最大功率"
 
 #: ../gui/token_lib.py:114
 msgid "Trapped electrons at Voc"
-msgstr ""
+msgstr "开路电压下被俘获的电子"
 
 #: ../gui/token_lib.py:115
 msgid "Trapped holes at Voc"
-msgstr ""
+msgstr "开路电压下被俘获的空穴"
 
 #: ../gui/token_lib.py:116
 msgid "Free electrons at Voc"
-msgstr ""
+msgstr "开路电压下的自由电子"
 
 #: ../gui/token_lib.py:117
 msgid "Free holes at Voc"
-msgstr ""
+msgstr "开路电压下的自由空穴"
 
 #: ../gui/token_lib.py:118
 msgid "Total carriers (n+p)/2 at Voc"
-msgstr ""
+msgstr "开路电压下总载流子数 (n+p)/2"
 
 #: ../gui/token_lib.py:119
 msgid "Recombination time constant at Voc"
-msgstr ""
+msgstr "开路电压下复合时间常数"
 
 #: ../gui/token_lib.py:120
 msgid "Recombination rate at Voc"
-msgstr ""
+msgstr "开路电压下的复合率"
 
 #: ../gui/token_lib.py:121
 msgid "Current density at Voc"
-msgstr ""
+msgstr "开路电压下的电流密度"
 
 #: ../gui/token_lib.py:124
 msgid "Number of CPUs"
-msgstr ""
+msgstr "CPU个数"
 
 #: ../gui/token_lib.py:139
 msgid "Max Electrical itterations (first step)"
-msgstr ""
+msgstr "最大电子迭代步（第一步） "
 
 #: ../gui/token_lib.py:140
 msgid "Electrical clamp (first step)"
@@ -3341,15 +3341,15 @@ msgstr "使用牛顿解决器"
 
 #: ../gui/token_lib.py:152
 msgid "Slotboom T0"
-msgstr ""
+msgstr "Slotboom T0"
 
 #: ../gui/token_lib.py:153
 msgid "Slotboom D0"
-msgstr ""
+msgstr "Slotboom D0"
 
 #: ../gui/token_lib.py:154
 msgid "Slotboom n0"
-msgstr ""
+msgstr "Slotboom n0"
 
 #: ../gui/token_lib.py:158
 msgid "Fit error multiplyer"
@@ -3385,7 +3385,7 @@ msgstr "简化重设步骤"
 
 #: ../gui/token_lib.py:166
 msgid "Fiting method"
-msgstr ""
+msgstr "拟合方法 "
 
 #: ../gui/token_lib.py:169
 msgid "Subtract lowest point"
@@ -3417,7 +3417,7 @@ msgstr "空穴热模型"
 
 #: ../gui/token_lib.py:178
 msgid "Thermal conductivity"
-msgstr ""
+msgstr "导热系数 "
 
 #: ../gui/token_lib.py:179
 msgid "Isothermal boundary on left"
@@ -3429,11 +3429,11 @@ msgstr "右隔离热边界"
 
 #: ../gui/token_lib.py:181
 msgid "Electron relaxation time"
-msgstr ""
+msgstr "电子弛豫时间"
 
 #: ../gui/token_lib.py:182
 msgid "Hole relaxation time"
-msgstr ""
+msgstr "空穴弛豫时间"
 
 #: ../gui/token_lib.py:185
 msgid "Dump from newton solver"
@@ -3713,11 +3713,11 @@ msgstr "DoS分布"
 
 #: ../gui/token_lib.py:289
 msgid "exponential"
-msgstr ""
+msgstr "指数 "
 
 #: ../gui/token_lib.py:289
 msgid "complex"
-msgstr ""
+msgstr "复数 "
 
 #: ../gui/token_lib.py:291
 msgid "Single point"
@@ -3749,11 +3749,11 @@ msgstr "器件宽度"
 
 #: ../gui/token_lib.py:365
 msgid "Solve Kirchhoff's current law in Newton solver"
-msgstr ""
+msgstr "在牛顿分析器中分析基尔霍夫电流定律 "
 
 #: ../gui/token_lib.py:394
 msgid "Enable 3d effects"
-msgstr ""
+msgstr "开启三维效果"
 
 #: ../gui/token_lib.py:397
 msgid "Enable fit"
@@ -3769,11 +3769,11 @@ msgstr "逆变模拟数据"
 
 #: ../gui/token_lib.py:407
 msgid "Active layer width"
-msgstr ""
+msgstr "活动层宽度 "
 
 #: ../gui/token_lib.py:423
 msgid "External load resistor"
-msgstr ""
+msgstr "外部负载电阻 "
 
 #: ../gui/token_lib.py:426
 msgid "Filp the opticl field"
@@ -3791,22 +3791,22 @@ msgstr "自由n{free}到自由p{free}光子产生效率"
 #: ../gui/token_lib.py:431
 #, python-brace-format
 msgid "n_{free} to n_{trap} photon generation efficiency"
-msgstr "自由n到陷阱n光子产生效率"
+msgstr "n型{自由}到n型{陷阱}光子产生效率 "
 
 #: ../gui/token_lib.py:432
 #, python-brace-format
 msgid "n_{trap} to p_{free} photon generation efficiency"
-msgstr "陷阱n到自由p光子产生效率"
+msgstr "n型{陷阱}到p型{自由}光子产生效率 "
 
 #: ../gui/token_lib.py:433
 #, python-brace-format
 msgid "p_{trap} to n_{free} photon generation efficiency"
-msgstr "陷阱p到自由n光子产生效率"
+msgstr "p型{陷阱}到n型{自由}光子产生效率 "
 
 #: ../gui/token_lib.py:434
 #, python-brace-format
 msgid "p_{free} to p_{trap} photon generation efficiency"
-msgstr "自由p到陷阱p光子产生效率"
+msgstr "p型{自由}到p型{陷阱}光子产生效率 "
 
 #: ../gui/jobs.py:86
 msgid "done"
@@ -3982,7 +3982,7 @@ msgstr "值"
 
 #: ../gui/gl.py:479
 msgid "active"
-msgstr ""
+msgstr "活动的 "
 
 #: ../gui/error_han.py:77 ../libfit/fit_dump.c:62 ../libfit/fit_dump.c:85
 #: ../libfit/fit_dump.c:108
