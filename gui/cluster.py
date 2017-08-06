@@ -325,7 +325,7 @@ class cluster:
 
 		buf += dat
 		#buf=buf+bytes
-		print("I am sending",len(buf),data.id,len(buf),len(dat))
+		print("I am encrypting",len(buf),data.id,len(buf),len(dat))
 		buf=encrypt(buf)
 		print("I am sending",len(buf),data.id)
 		self.socket.sendall(buf)

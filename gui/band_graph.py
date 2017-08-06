@@ -155,14 +155,17 @@ class band_graph(QWidget):
 				if lines!=False:
 					lumo=-float(inp_search_token_value(lines, "#Xi"))
 					Eg=float(inp_search_token_value(lines, "#Eg"))
+					#print("a",os.path.join(get_sim_path(),'materials',layer_material,'dos.inp'))
 			else:
 				lines=inp_load_file(os.path.join(get_sim_path(),epitaxy_get_electrical_layer(i)+".inp"))
 				if lines!=False:
 					lumo=-float(inp_search_token_value(lines, "#Xi"))
 					Eg=float(inp_search_token_value(lines, "#Eg"))
+					#print("b")
 
 			x = [x_pos,x_pos+delta,x_pos+delta,x_pos]
 
+			#print("lumo=",lumo)
 			lumo_delta=lumo-0.1
 			homo=lumo-Eg
 			homo_delta=homo-0.1

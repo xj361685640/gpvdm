@@ -43,6 +43,8 @@ from inp import inp_isfile
 from cal_path import get_sim_path
 from QWidgetSavePos import QWidgetSavePos
 
+from dump_select import dump_select
+
 articles = []
 mesh_articles = []
 
@@ -97,9 +99,14 @@ class class_config_window(QWidgetSavePos):
 				self.notebook.addTab(tab,description[i])
 				if os.path.basename(file_name)=="dump.inp":
 					tab.changed.connect(self.callback_tab_changed)
+					
+					self.detailed_file_select=dump_select()
+					self.notebook.addTab(self.detailed_file_select,_("Detailed dump control"))
 
 		lang_tab=language_tab_class()
 		self.notebook.addTab(lang_tab,_("Language"))
+
+		
 
 		self.setLayout(self.main_vbox)
 

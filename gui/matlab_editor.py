@@ -83,7 +83,10 @@ class matlab_editor(QWidget):
 		octave=inp_get_token_value(os.path.join(get_sim_path(),"config.inp"), "#matlab_interpreter")
 		command=octave+" "+self.file_name+" "+self.exp_file_name+" "+self.fit_target
 		print(command)
+		old_path=os.getcwd()
+		os.chdir(get_sim_path())
 		os.system(command)
+		os.chdir(old_path)
 
 	def __init__(self,index):
 		QWidget.__init__(self)

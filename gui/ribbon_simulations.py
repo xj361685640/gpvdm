@@ -46,6 +46,7 @@ from jv import jv
 from qe import qe_window
 from optics import class_optical
 from global_objects import global_object_register
+from measure import measure
 
 class ribbon_simulations(QToolBar):
 	def __init__(self):
@@ -57,6 +58,7 @@ class ribbon_simulations(QToolBar):
 		self.optics_window=False
 		self.qe_window=None
 		self.lasers_window=None
+		self.measure_window=None
 		self.solar_spectrum_window=None
 		
 		self.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
@@ -95,6 +97,9 @@ class ribbon_simulations(QToolBar):
 		self.lasers.triggered.connect(self.callback_configure_lasers)
 		self.addAction(self.lasers)
 
+		self.measure = QAction(QIcon_load("measure"), _("Measure"), self)
+		self.measure.triggered.connect(self.callback_configure_measure)
+		self.addAction(self.measure)
 
 	def update(self):
 		if self.qe_window!=None:
@@ -166,6 +171,18 @@ class ribbon_simulations(QToolBar):
 			self.lasers_window.hide()
 		else:
 			self.lasers_window.show()
+
+	def callback_configure_measure(self):
+
+		if self.measure_window==None:
+			self.measure_window=measure()
+
+		help_window().help_set_help(["measure.png",_("<big><b>Measure window</b></big><br>Use this window to set up measurement points.  If for example you want to extract the value of current density from jv.dat at 0.2 Volts, set a measurement point for jv.dat to 0.2 V.  This will work with any file")])
+		if self.measure_window.isVisible()==True:
+			self.measure_window.hide()
+		else:
+			self.measure_window.show()
+			
 
 	def callback_jv_window(self):
 

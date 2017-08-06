@@ -145,6 +145,7 @@ from clone import clone_materials
 from window_list import wpos_load
 from global_objects import global_object_run
 
+
 class gpvdm_main_window(QMainWindow):
 
 	plot_after_run=False
@@ -295,7 +296,7 @@ class gpvdm_main_window(QMainWindow):
 				update_simulaton_to_new_ver(filename)
 				self.change_dir_and_refresh_interface(new_path)
 
-			if os.path.isfile(os.path.join(new_path,"materials"))==False:
+			if os.path.isdir(os.path.join(new_path,"materials"))==False:
 				copy = yes_no_dlg(self,_("It looks like there is no materials database in the simulation directory should I import one?"))
 				if copy==True:
 					clone_materials(new_path)

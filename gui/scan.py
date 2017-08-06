@@ -55,6 +55,9 @@ from scan_ribbon import scan_ribbon
 
 class scan_class(QWidgetSavePos):
 
+	def callback_report(self):
+		tab = self.notebook.currentWidget()
+		tab.gen_report()
 
 	def callback_change_dir(self):
 		dialog = gtk.FileChooserDialog(_("Change directory"),
@@ -256,6 +259,8 @@ class scan_class(QWidgetSavePos):
 
 		self.ribbon.change_dir.triggered.connect(self.callback_change_dir)
 		
+		self.ribbon.report.triggered.connect(self.callback_report)
+
 
 		self.ribbon.tb_new.triggered.connect(self.callback_add_page)
 

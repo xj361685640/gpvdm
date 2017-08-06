@@ -149,6 +149,7 @@ lib.append(my_data("","#fxdomain_delta_i","s",_("di"),"e",1.0,"QLineEdit"))
 lib.append(my_data("","#fxdomain_delta_g","s",_("dmodulation"),"e",1.0,"QLineEdit"))
 lib.append(my_data("","#fxdomain_delta_phase","rads",_("dphase"),"e",1.0,"QLineEdit"))
 
+lib.append(my_data("","#fxdomain_modulation_rolloff_enable",_("True/False"),_("Modulation roll off enable"),"e",1.0,"gtkswitch"))
 lib.append(my_data("","#fxdomain_modulation_rolloff_start_fx","Hz",_("Modulation roll off start"),"e",1.0,"QLineEdit"))
 lib.append(my_data("","#fxdomain_modulation_rolloff_speed","0-1/Hz",_("Modulation roll off speed"),"e",1.0,"QLineEdit"))
 
@@ -257,6 +258,10 @@ lib.append(my_data("dump.inp","#dump_workbook",_("True/False"),_("Dump an excel 
 lib.append(my_data("dump.inp","#dump_file_access_log",_("True/False"),_("Write file access log to disk."),"e",1.0,"gtkswitch"))
 lib.append(my_data("dump.inp","#dump_use_cache",_("True/False"),_("Use cache for file writes"),"e",1.0,"gtkswitch"))
 lib.append(my_data("dump.inp","#dump_write_headers",_("True/False"),_("Write headers to output files"),"e",1.0,"gtkswitch"))
+lib.append(my_data("dump.inp","#dump_energy_slice_switch",_("True/False"),_("Write energetic distribution of carriers"),"e",1.0,"gtkswitch"))
+lib.append(my_data("dump.inp","#dump_energy_slice_pos","au",_("Position energetic distribution to dump"),"e",1.0,"QLineEdit"))
+lib.append(my_data("dump.inp","#dump_first_guess",_("True/False"),_("Write first guess to equations"),"e",1.0,"gtkswitch"))
+
 
 #led.inp
 lib.append(my_data("","#led_on",_("True/False"),_("Turn on LED"),"e",1.0,"gtkswitch"))

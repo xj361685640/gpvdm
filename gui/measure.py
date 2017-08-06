@@ -67,28 +67,24 @@ from gpvdm_select import gpvdm_select
 from scan_select import select_param
 
 from cal_path import get_sim_path
+from QWidgetSavePos import QWidgetSavePos
+from window_list import resize_window_to_be_sane
 
-class fit_patch(QWidget):
+class measure(QWidgetSavePos):
 
-	def insert_row(self,i,file_name,token,path,value):
+	def insert_row(self,i,file_name,position,output_token):
 		self.tab.blockSignals(True)
 		self.tab.insertRow(i)
 
 		item = QTableWidgetItem(file_name)
 		self.tab.setItem(i,0,item)
 
-		item = QTableWidgetItem(token)
+		item = QTableWidgetItem(position)
 		self.tab.setItem(i,1,item)
 
+		item = QTableWidgetItem(output_token)
+		self.tab.setItem(i,2,item)
 
-		self.item = gpvdm_select()
-		self.item.setText(path)
-		self.item.button.clicked.connect(self.callback_show_list)
-
-		self.tab.setCellWidget(i,2,self.item)
-
-		item = QTableWidgetItem(value)
-		self.tab.setItem(i,3,item)
 		self.tab.blockSignals(False)
 
 	def callback_show_list(self):
@@ -96,7 +92,7 @@ class fit_patch(QWidget):
 		self.select_param_window.show()
 		
 	def callback_add_item(self):
-		self.insert_row(self.tab.rowCount(),"File","token","path",_("value"))
+		self.insert_row(self.tab.rowCount(),_("File"),_("Position"),_("Output token"))
 		self.save_combo()
 
 	def callback_delete_item(self):
@@ -106,13 +102,16 @@ class fit_patch(QWidget):
 	def save_combo(self):
 		lines=[]
 		for i in range(0,self.tab.rowCount()):
-			lines.append(str(tab_get_value(self.tab,i, 1)))
+			lines.append("#measure_file_"+str(i))
 			lines.append(str(tab_get_value(self.tab,i, 0)))
+			lines.append("#measure_pos_"+str(i))
+			lines.append(str(tab_get_value(self.tab,i, 1)))
+			lines.append("#measure_token_"+str(i))
 			lines.append(str(tab_get_value(self.tab,i, 2)))
-			lines.append(str(tab_get_value(self.tab,i, 3)))
-
+		lines.append("#ver")
+		lines.append("1.0")
 		lines.append("#end")
-		print("save as",self.file_name)
+
 		inp_save_lines_to_file(self.file_name,lines)
 
 
@@ -123,11 +122,11 @@ class fit_patch(QWidget):
 	def create_model(self):
 		lines=[]
 		self.tab.clear()
-		self.tab.setColumnCount(4)
+		self.tab.setColumnCount(3)
 		self.tab.setSelectionBehavior(QAbstractItemView.SelectRows)
-		self.tab.setHorizontalHeaderLabels([_("File"), _("Token"), _("Path"), _("Values")])
+		self.tab.setHorizontalHeaderLabels([_("File"), _("Position"), _("Output token")])
 		self.tab.setColumnWidth(2, 300)
-		self.file_name=os.path.join(get_sim_path(),"fit_patch"+str(self.index)+".inp")
+		self.file_name=os.path.join(get_sim_path(),"measure.inp")
 
 		lines=inp_load_file(self.file_name)
 		if lines!=False:
@@ -135,37 +134,38 @@ class fit_patch(QWidget):
 			pos=0
 			mylen=len(lines)
 			while(1):
-				t=lines[pos]
-				if t=="#end":
+				temp=lines[pos]
+				if temp=="#end" or temp=="#ver":
 					break
 				pos=pos+1
 
 				f=lines[pos]
-				if f=="#end":
-					break
 				pos=pos+1
 
-				path=lines[pos]
-				if f=="#end":
-					break
+				temp=lines[pos]
 				pos=pos+1
-				
-				v=lines[pos]
-				if v=="#end":
-					break
+	
+				p=lines[pos]
 				pos=pos+1
 
-				self.insert_row(self.tab.rowCount(),f,t,path,v)
+				temp=lines[pos]
+				pos=pos+1
+				output=lines[pos]
+				pos=pos+1
+
+				self.insert_row(self.tab.rowCount(),f,p,output)
 
 				if pos>mylen:
 					break
 
-	def __init__(self,index):
-		QWidget.__init__(self)
+	def __init__(self):
+		QWidgetSavePos.__init__(self,"measure_window")
+		resize_window_to_be_sane(self,0.5,0.5)
+
+		self.setWindowIcon(QIcon_load("measure"))
+		self.setWindowTitle(_("Measurment editor")+" (https://www.gpvdm.com)")
 
 
-		self.index=index
-		
 		self.vbox=QVBoxLayout()
 
 		toolbar=QToolBar()

@@ -49,6 +49,7 @@ from scan_io import scan_nested_simulation
 from scan_io import scan_push_to_hpc
 from scan_io import scan_import_from_hpc
 from scan_io import scan_plot_fits
+from scan_io import scan_gen_report
 
 #scan_tree
 from scan_tree import tree_gen
@@ -192,6 +193,8 @@ class scan_vbox(QWidget):
 
 		return ""
 
+	def gen_report(self):
+		scan_gen_report(self.sim_dir)
 
 	def make_sim_dir(self):
 		if os.path.isdir(self.sim_dir)==False:

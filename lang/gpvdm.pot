@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.97\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2017-07-17 07:45+0100\n"
+"POT-Creation-Date: 2017-08-04 17:12+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,34 +32,34 @@ msgstr ""
 #: ../liblight/light_dump.c:840 ../src/initial.c:52 ../src/initial.c:76
 #: ../src/initial.c:100 ../src/initial.c:124 ../src/initial.c:148
 #: ../src/pos.c:67 ../src/pos.c:84 ../src/pos.c:119 ../src/pos.c:137
-#: ../src/pos.c:154 ../gui/band_graph.py:195 ../gui/qe.py:60
-#: ../libdump/dump_1d_slice.c:62 ../libdump/dump_1d_slice.c:149
-#: ../libdump/dump_1d_slice.c:207 ../libdump/dump_1d_slice.c:236
-#: ../libdump/dump_1d_slice.c:265 ../libdump/dump_1d_slice.c:323
-#: ../libdump/dump_1d_slice.c:352 ../libdump/dump_1d_slice.c:440
-#: ../libdump/dump_1d_slice.c:503 ../libdump/dump_1d_slice.c:535
-#: ../libdump/dump_1d_slice.c:564 ../libdump/dump_1d_slice.c:594
-#: ../libdump/dump_1d_slice.c:623 ../libdump/dump_1d_slice.c:659
-#: ../libdump/dump_1d_slice.c:693 ../libdump/dump_1d_slice.c:722
-#: ../libdump/dump_1d_slice.c:752 ../libdump/dump_1d_slice.c:781
-#: ../libdump/dump_1d_slice.c:882 ../libdump/dump_1d_slice.c:912
-#: ../libdump/dump_1d_slice.c:942 ../libdump/dump_1d_slice.c:971
-#: ../libdump/dump_1d_slice.c:1000 ../libdump/dump_1d_slice.c:1035
-#: ../libdump/dump_1d_slice.c:1069 ../libdump/dump_1d_slice.c:1105
-#: ../libdump/dump_1d_slice.c:1141 ../libdump/dump_1d_slice.c:1183
-#: ../libdump/dump_1d_slice.c:1220 ../libdump/dump_1d_slice.c:1254
-#: ../libdump/dump_1d_slice.c:1288 ../libdump/dump_1d_slice.c:1317
-#: ../libdump/dump_1d_slice.c:1347 ../libdump/dump_1d_slice.c:1376
-#: ../libdump/dump_1d_slice.c:1406 ../libdump/dump_1d_slice.c:1447
-#: ../libdump/dump_1d_slice.c:1488 ../libdump/dump_1d_slice.c:1522
-#: ../libdump/dump_1d_slice.c:1560 ../libdump/dump_1d_slice.c:1590
-#: ../libdump/dump_1d_slice.c:1648
+#: ../src/pos.c:154 ../gui/band_graph.py:198 ../gui/qe.py:60
+#: ../gui/measure.py:95 ../gui/measure.py:127 ../libdump/dump_1d_slice.c:62
+#: ../libdump/dump_1d_slice.c:149 ../libdump/dump_1d_slice.c:207
+#: ../libdump/dump_1d_slice.c:236 ../libdump/dump_1d_slice.c:265
+#: ../libdump/dump_1d_slice.c:323 ../libdump/dump_1d_slice.c:352
+#: ../libdump/dump_1d_slice.c:440 ../libdump/dump_1d_slice.c:503
+#: ../libdump/dump_1d_slice.c:535 ../libdump/dump_1d_slice.c:564
+#: ../libdump/dump_1d_slice.c:594 ../libdump/dump_1d_slice.c:623
+#: ../libdump/dump_1d_slice.c:659 ../libdump/dump_1d_slice.c:693
+#: ../libdump/dump_1d_slice.c:722 ../libdump/dump_1d_slice.c:752
+#: ../libdump/dump_1d_slice.c:781 ../libdump/dump_1d_slice.c:882
+#: ../libdump/dump_1d_slice.c:912 ../libdump/dump_1d_slice.c:942
+#: ../libdump/dump_1d_slice.c:971 ../libdump/dump_1d_slice.c:1000
+#: ../libdump/dump_1d_slice.c:1035 ../libdump/dump_1d_slice.c:1069
+#: ../libdump/dump_1d_slice.c:1105 ../libdump/dump_1d_slice.c:1141
+#: ../libdump/dump_1d_slice.c:1183 ../libdump/dump_1d_slice.c:1220
+#: ../libdump/dump_1d_slice.c:1254 ../libdump/dump_1d_slice.c:1288
+#: ../libdump/dump_1d_slice.c:1317 ../libdump/dump_1d_slice.c:1347
+#: ../libdump/dump_1d_slice.c:1376 ../libdump/dump_1d_slice.c:1406
+#: ../libdump/dump_1d_slice.c:1447 ../libdump/dump_1d_slice.c:1488
+#: ../libdump/dump_1d_slice.c:1522 ../libdump/dump_1d_slice.c:1560
+#: ../libdump/dump_1d_slice.c:1590 ../libdump/dump_1d_slice.c:1648
 msgid "Position"
 msgstr ""
 
 #: ../liblight/light_dump.c:472 ../liblight/light_dump.c:499
-#: ../libmeasure/probe.c:273 ../libmeasure/probe.c:298
-#: ../plugins/pulse/pulse.c:301 ../gui/optics.py:129
+#: ../libmeasure/probe.c:284 ../libmeasure/probe.c:309
+#: ../plugins/pulse/pulse.c:302 ../gui/optics.py:129
 #: ../libdump/dump_dynamic.c:428 ../libdump/dump_1d_slice.c:1293
 #: ../libdump/dump_1d_slice.c:1322
 msgid "Generation rate"
@@ -95,7 +95,7 @@ msgstr ""
 
 #: ../liblight/light_dump.c:841 ../gui/materials_main.py:56
 #: ../gui/materials_main.py:130 ../gui/import_data.py:314
-#: ../gui/token_lib.py:365
+#: ../gui/token_lib.py:370
 msgid "Absorption"
 msgstr ""
 
@@ -161,9 +161,9 @@ msgid "Wavelength - Reflected light"
 msgstr ""
 
 #: ../liblight/light_materials.c:425 ../liblight/light_materials.c:477
-#: ../libmeasure/probe.c:163 ../libmeasure/probe.c:165
-#: ../libmeasure/probe.c:188 ../libmeasure/probe.c:190
-#: ../libmeasure/probe.c:213 ../libmeasure/probe.c:215
+#: ../libmeasure/probe.c:168 ../libmeasure/probe.c:170
+#: ../libmeasure/probe.c:193 ../libmeasure/probe.c:195
+#: ../libmeasure/probe.c:218 ../libmeasure/probe.c:220
 #: ../gui/import_data.py:303 ../gui/import_data.py:304
 #: ../gui/import_data.py:305 ../gui/import_data.py:306 ../gui/equation.py:183
 msgid "Wavelength"
@@ -201,7 +201,7 @@ msgstr ""
 msgid "Token not found in file"
 msgstr ""
 
-#: ../lib/util.c:894
+#: ../lib/util.c:875
 msgid "Deleting directory"
 msgstr ""
 
@@ -276,18 +276,18 @@ msgstr ""
 msgid "You must load the optical plugin before making the time mesh"
 msgstr ""
 
-#: ../libmeasure/probe.c:270 ../libmeasure/probe.c:272
-#: ../libmeasure/probe.c:295 ../libmeasure/probe.c:297
-#: ../plugins/pulse/pulse.c:208 ../plugins/pulse/pulse.c:210
-#: ../plugins/pulse/pulse.c:231 ../plugins/pulse/pulse.c:233
-#: ../plugins/pulse/pulse.c:255 ../plugins/pulse/pulse.c:257
-#: ../plugins/pulse/pulse.c:278 ../plugins/pulse/pulse.c:280
-#: ../plugins/pulse/pulse.c:298 ../plugins/pulse/pulse.c:300
-#: ../plugins/fxdomain/fxdomain.c:341 ../plugins/fxdomain/fxdomain.c:343
-#: ../plugins/fxdomain/fxdomain.c:364 ../plugins/fxdomain/fxdomain.c:366
-#: ../plugins/fxdomain/fxdomain.c:389 ../plugins/fxdomain/fxdomain.c:393
-#: ../plugins/fxdomain/fxdomain.c:398 ../plugins/fxdomain/fxdomain.c:444
-#: ../plugins/fxdomain/fxdomain.c:448 ../plugins/fxdomain/fxdomain.c:453
+#: ../libmeasure/probe.c:281 ../libmeasure/probe.c:283
+#: ../libmeasure/probe.c:306 ../libmeasure/probe.c:308
+#: ../plugins/pulse/pulse.c:209 ../plugins/pulse/pulse.c:211
+#: ../plugins/pulse/pulse.c:232 ../plugins/pulse/pulse.c:234
+#: ../plugins/pulse/pulse.c:256 ../plugins/pulse/pulse.c:258
+#: ../plugins/pulse/pulse.c:279 ../plugins/pulse/pulse.c:281
+#: ../plugins/pulse/pulse.c:299 ../plugins/pulse/pulse.c:301
+#: ../plugins/fxdomain/fxdomain.c:356 ../plugins/fxdomain/fxdomain.c:358
+#: ../plugins/fxdomain/fxdomain.c:379 ../plugins/fxdomain/fxdomain.c:381
+#: ../plugins/fxdomain/fxdomain.c:404 ../plugins/fxdomain/fxdomain.c:408
+#: ../plugins/fxdomain/fxdomain.c:413 ../plugins/fxdomain/fxdomain.c:459
+#: ../plugins/fxdomain/fxdomain.c:463 ../plugins/fxdomain/fxdomain.c:468
 #: ../gui/tmesh.py:204 ../gui/import_data.py:316 ../libdump/dump_dynamic.c:207
 #: ../libdump/dump_dynamic.c:230 ../libdump/dump_dynamic.c:254
 #: ../libdump/dump_dynamic.c:273 ../libdump/dump_dynamic.c:292
@@ -312,20 +312,20 @@ msgstr ""
 msgid "Time"
 msgstr ""
 
-#: ../libmeasure/probe.c:270 ../libmeasure/probe.c:295
-#: ../plugins/pulse/pulse.c:298
+#: ../libmeasure/probe.c:281 ../libmeasure/probe.c:306
+#: ../plugins/pulse/pulse.c:299
 msgid "Photogeneration rate"
 msgstr ""
 
-#: ../libmeasure/probe.c:326
+#: ../libmeasure/probe.c:339
 msgid "Probe load configuration"
 msgstr ""
 
-#: ../libmeasure/probe.c:349
+#: ../libmeasure/probe.c:364
 msgid "Probe calculate modes"
 msgstr ""
 
-#: ../libmeasure/probe.c:392
+#: ../libmeasure/probe.c:412
 msgid "Probe free memory"
 msgstr ""
 
@@ -333,47 +333,47 @@ msgstr ""
 msgid "no pulse config file found"
 msgstr ""
 
-#: ../plugins/pulse/pulse.c:118 ../plugins/pulse/pulse.c:167
+#: ../plugins/pulse/pulse.c:118 ../plugins/pulse/pulse.c:168
 msgid "pulse mode not known\n"
 msgstr ""
 
-#: ../plugins/pulse/pulse.c:174
+#: ../plugins/pulse/pulse.c:175
 msgid "pulse time"
 msgstr ""
 
-#: ../plugins/pulse/pulse.c:174 ../plugins/fxdomain/fxdomain.c:245
+#: ../plugins/pulse/pulse.c:175 ../plugins/fxdomain/fxdomain.c:260
 msgid "step"
 msgstr ""
 
-#: ../plugins/pulse/pulse.c:175 ../plugins/pulse/pulse.c:255
-#: ../plugins/fxdomain/fxdomain.c:246 ../plugins/fxdomain/fxdomain.c:341
-#: ../plugins/fxdomain/fxdomain.c:364
+#: ../plugins/pulse/pulse.c:176 ../plugins/pulse/pulse.c:256
+#: ../plugins/fxdomain/fxdomain.c:261 ../plugins/fxdomain/fxdomain.c:356
+#: ../plugins/fxdomain/fxdomain.c:379
 msgid "current"
 msgstr ""
 
-#: ../plugins/pulse/pulse.c:208 ../plugins/pulse/pulse.c:211
-#: ../plugins/pulse/pulse.c:258 ../plugins/fxdomain/fxdomain.c:344
-#: ../plugins/fxdomain/fxdomain.c:367 ../plugins/jv/jv.c:242
-#: ../plugins/jv/jv.c:417 ../plugins/jv/jv.c:454 ../gui/token_lib.py:431
+#: ../plugins/pulse/pulse.c:209 ../plugins/pulse/pulse.c:212
+#: ../plugins/pulse/pulse.c:259 ../plugins/fxdomain/fxdomain.c:359
+#: ../plugins/fxdomain/fxdomain.c:382 ../plugins/jv/jv.c:243
+#: ../plugins/jv/jv.c:418 ../plugins/jv/jv.c:455 ../gui/token_lib.py:436
 #: ../libdump/dump_dynamic.c:398 ../libdump/dump_contacts.c:72
 msgid "Current"
 msgstr ""
 
-#: ../plugins/pulse/pulse.c:231
+#: ../plugins/pulse/pulse.c:232
 msgid "current density"
 msgstr ""
 
-#: ../plugins/pulse/pulse.c:234 ../plugins/jv/jv.c:357 ../plugins/jv/jv.c:360
-#: ../plugins/jv/jv.c:376 ../plugins/jv/jv.c:379 ../plugins/jv/jv.c:395
-#: ../plugins/jv/jv.c:398 ../libdump/dump_dynamic.c:231
+#: ../plugins/pulse/pulse.c:235 ../plugins/jv/jv.c:358 ../plugins/jv/jv.c:361
+#: ../plugins/jv/jv.c:377 ../plugins/jv/jv.c:380 ../plugins/jv/jv.c:396
+#: ../plugins/jv/jv.c:399 ../libdump/dump_dynamic.c:231
 #: ../libdump/dump_1d_slice.c:503 ../libdump/dump_1d_slice.c:535
 msgid "Current density"
 msgstr ""
 
-#: ../plugins/pulse/pulse.c:278 ../plugins/pulse/pulse.c:283
-#: ../plugins/fxdomain/fxdomain.c:389 ../plugins/fxdomain/fxdomain.c:403
-#: ../plugins/fxdomain/fxdomain.c:444 ../plugins/fxdomain/fxdomain.c:458
-#: ../plugins/jv/jv.c:242 ../plugins/jv/jv.c:293 ../plugins/jv/jv.c:433
+#: ../plugins/pulse/pulse.c:279 ../plugins/pulse/pulse.c:284
+#: ../plugins/fxdomain/fxdomain.c:404 ../plugins/fxdomain/fxdomain.c:418
+#: ../plugins/fxdomain/fxdomain.c:459 ../plugins/fxdomain/fxdomain.c:473
+#: ../plugins/jv/jv.c:243 ../plugins/jv/jv.c:294 ../plugins/jv/jv.c:434
 #: ../plugins/equilibrium/equilibrium.c:125 ../gui/tmesh.py:230
 #: ../gui/tmesh.py:232 ../gui/tmesh.py:235 ../gui/tmesh.py:237
 #: ../gui/contacts.py:155 ../gui/import_data.py:311 ../gui/import_data.py:312
@@ -382,8 +382,8 @@ msgstr ""
 msgid "Voltage"
 msgstr ""
 
-#: ../plugins/pulse/pulse.c:281 ../plugins/jv/jv.c:380 ../plugins/jv/jv.c:399
-#: ../plugins/jv/jv.c:418 ../gui/fxmesh.py:187
+#: ../plugins/pulse/pulse.c:282 ../plugins/jv/jv.c:381 ../plugins/jv/jv.c:400
+#: ../plugins/jv/jv.c:419 ../gui/fxmesh.py:187
 msgid "Volts"
 msgstr ""
 
@@ -391,44 +391,44 @@ msgstr ""
 msgid "no fxdomain config file found"
 msgstr ""
 
-#: ../plugins/fxdomain/fxdomain.c:138
+#: ../plugins/fxdomain/fxdomain.c:139
 msgid "Running frequency"
 msgstr ""
 
-#: ../plugins/fxdomain/fxdomain.c:178 ../plugins/fxdomain/fxdomain.c:239
+#: ../plugins/fxdomain/fxdomain.c:179 ../plugins/fxdomain/fxdomain.c:254
 msgid "fxdomain mode not known"
 msgstr ""
 
-#: ../plugins/fxdomain/fxdomain.c:245
+#: ../plugins/fxdomain/fxdomain.c:260
 msgid "fxdomain time"
 msgstr ""
 
-#: ../plugins/fxdomain/fxdomain.c:393 ../plugins/fxdomain/fxdomain.c:448
+#: ../plugins/fxdomain/fxdomain.c:408 ../plugins/fxdomain/fxdomain.c:463
 #: ../gui/tb_item_sun.py:75
 msgid "Light intensity"
 msgstr ""
 
-#: ../plugins/fxdomain/fxdomain.c:407 ../plugins/fxdomain/fxdomain.c:420
-#: ../plugins/fxdomain/fxdomain.c:462 ../plugins/fxdomain/fxdomain.c:475
+#: ../plugins/fxdomain/fxdomain.c:422 ../plugins/fxdomain/fxdomain.c:435
+#: ../plugins/fxdomain/fxdomain.c:477 ../plugins/fxdomain/fxdomain.c:490
 #: ../gui/tmesh.py:262 ../gui/tb_item_sun.py:75
 msgid "Suns"
 msgstr ""
 
-#: ../plugins/fxdomain/fxdomain.c:512
+#: ../plugins/fxdomain/fxdomain.c:527
 msgid "Real"
 msgstr ""
 
-#: ../plugins/fxdomain/fxdomain.c:512
+#: ../plugins/fxdomain/fxdomain.c:527
 msgid "Imaginary"
 msgstr ""
 
-#: ../plugins/fxdomain/fxdomain.c:514 ../gui/token_lib.py:143
-#: ../gui/token_lib.py:340
+#: ../plugins/fxdomain/fxdomain.c:529 ../gui/token_lib.py:143
+#: ../gui/token_lib.py:345
 msgid "Re(i)"
 msgstr ""
 
-#: ../plugins/fxdomain/fxdomain.c:515 ../gui/token_lib.py:144
-#: ../gui/token_lib.py:341
+#: ../plugins/fxdomain/fxdomain.c:530 ../gui/token_lib.py:144
+#: ../gui/token_lib.py:346
 msgid "Im(i)"
 msgstr ""
 
@@ -444,20 +444,20 @@ msgstr ""
 msgid "I can't solve the matrix because I don't have enough equations."
 msgstr ""
 
-#: ../plugins/jv/jv.c:46
+#: ../plugins/jv/jv.c:47
 msgid "Running JV simulation\n"
 msgstr ""
 
-#: ../plugins/jv/jv.c:234
+#: ../plugins/jv/jv.c:235
 #, python-format
 msgid "Stopping because of Vexternal %Le>%Le\n"
 msgstr ""
 
-#: ../plugins/jv/jv.c:295 ../plugins/equilibrium/equilibrium.c:127
+#: ../plugins/jv/jv.c:296 ../plugins/equilibrium/equilibrium.c:127
 msgid "Efficiency"
 msgstr ""
 
-#: ../plugins/jv/jv.c:333 ../plugins/jv/jv.c:336 ../libdump/dump_1d_slice.c:334
+#: ../plugins/jv/jv.c:334 ../plugins/jv/jv.c:337 ../libdump/dump_1d_slice.c:334
 #: ../libdump/dump_1d_slice.c:953 ../libdump/dump_1d_slice.c:982
 #: ../libdump/dump_1d_slice.c:1011 ../libdump/dump_1d_slice.c:1046
 #: ../libdump/dump_1d_slice.c:1116 ../libdump/dump_1d_slice.c:1152
@@ -466,25 +466,25 @@ msgstr ""
 msgid "Charge density"
 msgstr ""
 
-#: ../plugins/jv/jv.c:333 ../plugins/jv/jv.c:357 ../plugins/jv/jv.c:376
-#: ../plugins/jv/jv.c:395 ../plugins/jv/jv.c:414
+#: ../plugins/jv/jv.c:334 ../plugins/jv/jv.c:358 ../plugins/jv/jv.c:377
+#: ../plugins/jv/jv.c:396 ../plugins/jv/jv.c:415
 msgid "Applied voltage"
 msgstr ""
 
-#: ../plugins/jv/jv.c:335 ../plugins/jv/jv.c:359 ../plugins/jv/jv.c:378
-#: ../plugins/jv/jv.c:397 ../plugins/jv/jv.c:416
+#: ../plugins/jv/jv.c:336 ../plugins/jv/jv.c:360 ../plugins/jv/jv.c:379
+#: ../plugins/jv/jv.c:398 ../plugins/jv/jv.c:417
 msgid "Applied Voltage"
 msgstr ""
 
-#: ../plugins/jv/jv.c:414
+#: ../plugins/jv/jv.c:415
 msgid "Current "
 msgstr ""
 
-#: ../plugins/jv/jv.c:433 ../plugins/jv/jv.c:454
+#: ../plugins/jv/jv.c:434 ../plugins/jv/jv.c:455
 msgid "Light generated"
 msgstr ""
 
-#: ../plugins/jv/jv.c:457
+#: ../plugins/jv/jv.c:458
 msgid "Light power"
 msgstr ""
 
@@ -724,8 +724,8 @@ msgstr ""
 msgid "FITNESS FOR A PARTICULAR PURPOSE.\n"
 msgstr ""
 
-#: ../src/main.c:198 ../gui/scan_tab.py:424 ../gui/constraints.py:140
-#: ../gui/constraints.py:179 ../gui/fit_vars.py:164 ../gui/fit_patch.py:126
+#: ../src/main.c:198 ../gui/scan_tab.py:427 ../gui/constraints.py:148
+#: ../gui/constraints.py:187 ../gui/fit_vars.py:164 ../gui/fit_patch.py:128
 msgid "Token"
 msgstr ""
 
@@ -753,15 +753,15 @@ msgstr ""
 msgid "dll function dll_run_simulation not found\n"
 msgstr ""
 
-#: ../src/sim_run.c:46
+#: ../src/sim_run.c:48
 msgid "Runing simulation"
 msgstr ""
 
-#: ../src/sim_run.c:111
+#: ../src/sim_run.c:128
 msgid "Loading DoS layers"
 msgstr ""
 
-#: ../src/sim_run.c:120
+#: ../src/sim_run.c:137
 msgid "Load DoS"
 msgstr ""
 
@@ -842,8 +842,8 @@ msgstr ""
 
 #: ../gui/cmp_class.py:297 ../gui/fit_configure_window.py:74
 #: ../gui/optics_ribbon.py:87 ../gui/experiment.py:211 ../gui/contacts.py:192
-#: ../gui/mesh_configure.py:64 ../gui/config_window.py:74
-#: ../gui/config_window.py:75 ../gui/ribbon_home.py:110
+#: ../gui/mesh_configure.py:64 ../gui/config_window.py:76
+#: ../gui/config_window.py:77 ../gui/ribbon_home.py:110
 #: ../gui/materials_main.py:105 ../gui/jv.py:73 ../gui/emesh.py:168
 #: ../gui/ribbon_solar.py:74 ../gui/ribbon_information.py:75
 #: ../gui/ribbon.py:77 ../gui/info.py:63 ../gui/cost.py:89
@@ -887,7 +887,7 @@ msgid "Circuit"
 msgstr ""
 
 #: ../gui/experiment_tab.py:73 ../gui/experiment_tab.py:74
-#: ../gui/ribbon_configure.py:54 ../gui/config_window.py:61
+#: ../gui/ribbon_configure.py:54 ../gui/config_window.py:63
 #: ../gui/ribbon.py:123 ../gui/fit_window.py:249 ../gui/fxexperiment_tab.py:80
 #: ../gui/fxexperiment_tab.py:81
 msgid "Configure"
@@ -897,7 +897,7 @@ msgstr ""
 msgid "Results viewer"
 msgstr ""
 
-#: ../gui/band_graph.py:196 ../gui/qe.py:59 ../gui/cost.py:111
+#: ../gui/band_graph.py:199 ../gui/qe.py:59 ../gui/cost.py:111
 #: ../libdump/dump_1d_slice.c:698
 msgid "Energy"
 msgstr ""
@@ -915,7 +915,7 @@ msgstr ""
 msgid "Save graph"
 msgstr ""
 
-#: ../gui/qe.py:123 ../gui/matlab_editor.py:101
+#: ../gui/qe.py:123 ../gui/matlab_editor.py:104
 msgid "Run"
 msgstr ""
 
@@ -1106,14 +1106,16 @@ msgstr ""
 msgid "Delete section"
 msgstr ""
 
-#: ../gui/tmesh.py:435 ../gui/fxmesh.py:314 ../gui/scan_tab.py:532
-#: ../gui/scan_tab.py:602 ../gui/scan_tab.py:606 ../gui/duplicate.py:224
-#: ../gui/fit_vars.py:246 ../gui/equation.py:365
+#: ../gui/tmesh.py:435 ../gui/fxmesh.py:314 ../gui/scan_tab.py:535
+#: ../gui/scan_tab.py:605 ../gui/scan_tab.py:609 ../gui/measure.py:182
+#: ../gui/duplicate.py:224 ../gui/fit_vars.py:246 ../gui/equation.py:365
+#: ../gui/fit_patch.py:182
 msgid "Move down"
 msgstr ""
 
-#: ../gui/tmesh.py:439 ../gui/fxmesh.py:318 ../gui/scan_tab.py:536
-#: ../gui/duplicate.py:228 ../gui/fit_vars.py:250 ../gui/equation.py:369
+#: ../gui/tmesh.py:439 ../gui/fxmesh.py:318 ../gui/scan_tab.py:539
+#: ../gui/measure.py:186 ../gui/duplicate.py:228 ../gui/fit_vars.py:250
+#: ../gui/equation.py:369 ../gui/fit_patch.py:186
 msgid "Move up"
 msgstr ""
 
@@ -1154,7 +1156,7 @@ msgid "Run optical simulation"
 msgstr ""
 
 #: ../gui/optics_ribbon.py:113 ../gui/ribbon_solar.py:97 ../gui/ribbon.py:108
-#: ../gui/cool_menu.py:68 ../gui/scan_ribbon.py:166 ../gui/about.py:50
+#: ../gui/cool_menu.py:68 ../gui/scan_ribbon.py:169 ../gui/about.py:50
 #: ../gui/about.py:82 ../gui/status_icon.py:48
 msgid "About"
 msgstr ""
@@ -1178,7 +1180,7 @@ msgid "stop"
 msgstr ""
 
 #: ../gui/fxmesh.py:90 ../gui/fxmesh.py:111 ../gui/fxmesh.py:199
-#: ../gui/token_lib.py:348
+#: ../gui/token_lib.py:353
 msgid "points"
 msgstr ""
 
@@ -1186,7 +1188,7 @@ msgstr ""
 msgid "mul"
 msgstr ""
 
-#: ../gui/fxmesh.py:192 ../gui/token_lib.py:344
+#: ../gui/fxmesh.py:192 ../gui/token_lib.py:349
 msgid "Frequency"
 msgstr ""
 
@@ -1299,7 +1301,7 @@ msgid ""
 "properly."
 msgstr ""
 
-#: ../gui/scan_tab.py:127
+#: ../gui/scan_tab.py:128
 msgid ""
 "<big><b>The scan window</b></big><br> Now using the drop down menu in the "
 "prameter to change 'column', select the device parameter you wish to vary, "
@@ -1308,68 +1310,68 @@ msgid ""
 "1e-6'.  And hit the double arrorw to run the simulation."
 msgstr ""
 
-#: ../gui/scan_tab.py:137
+#: ../gui/scan_tab.py:138
 msgid "Select parameter"
 msgstr ""
 
-#: ../gui/scan_tab.py:233
+#: ../gui/scan_tab.py:236
 msgid ""
 "You have not selected any parameters to scan through.  Use the add button."
 msgstr ""
 
-#: ../gui/scan_tab.py:238
+#: ../gui/scan_tab.py:241
 msgid "No sim dir name"
 msgstr ""
 
-#: ../gui/scan_tab.py:255
+#: ../gui/scan_tab.py:258
 msgid "Problem generating tree."
 msgstr ""
 
-#: ../gui/scan_tab.py:424 ../gui/gpvdm.py:261 ../gui/constraints.py:140
-#: ../gui/constraints.py:179 ../gui/ribbon.py:114 ../gui/snapshot_slider.py:131
-#: ../gui/fit_vars.py:105 ../gui/fit_vars.py:164 ../gui/plot_widget.py:563
-#: ../gui/fit_patch.py:126
+#: ../gui/scan_tab.py:427 ../gui/measure.py:95 ../gui/measure.py:127
+#: ../gui/gpvdm.py:262 ../gui/constraints.py:148 ../gui/constraints.py:187
+#: ../gui/ribbon.py:114 ../gui/snapshot_slider.py:131 ../gui/fit_vars.py:105
+#: ../gui/fit_vars.py:164 ../gui/plot_widget.py:563 ../gui/fit_patch.py:128
 msgid "File"
 msgstr ""
 
-#: ../gui/scan_tab.py:424
+#: ../gui/scan_tab.py:427
 msgid "Parameter to change"
 msgstr ""
 
-#: ../gui/scan_tab.py:424 ../gui/fit_patch.py:126
+#: ../gui/scan_tab.py:427 ../gui/fit_patch.py:128
 msgid "Values"
 msgstr ""
 
-#: ../gui/scan_tab.py:424
+#: ../gui/scan_tab.py:427
 msgid "Opperation"
 msgstr ""
 
-#: ../gui/scan_tab.py:501 ../gui/ribbon_home.py:178
+#: ../gui/scan_tab.py:504 ../gui/ribbon_home.py:178
 msgid ""
 "Re-run the simulation with 'dump all slices' set to one to use this tool."
 msgstr ""
 
-#: ../gui/scan_tab.py:524
+#: ../gui/scan_tab.py:527
 msgid "Add parameter to scan"
 msgstr ""
 
-#: ../gui/scan_tab.py:528 ../gui/scan_tab.py:584
+#: ../gui/scan_tab.py:531 ../gui/scan_tab.py:587
 msgid "Delete item"
 msgstr ""
 
-#: ../gui/scan_tab.py:548
+#: ../gui/scan_tab.py:551
 msgid "Insert python command"
 msgstr ""
 
-#: ../gui/scan_tab.py:588
+#: ../gui/scan_tab.py:591
 msgid "Copy"
 msgstr ""
 
-#: ../gui/scan_tab.py:592
+#: ../gui/scan_tab.py:595
 msgid "Paste"
 msgstr ""
 
-#: ../gui/scan_tab.py:598
+#: ../gui/scan_tab.py:601
 msgid "Add item"
 msgstr ""
 
@@ -1621,6 +1623,24 @@ msgstr ""
 msgid "Open file"
 msgstr ""
 
+#: ../gui/measure.py:95 ../gui/measure.py:127
+msgid "Output token"
+msgstr ""
+
+#: ../gui/measure.py:166
+msgid "Measurment editor"
+msgstr ""
+
+#: ../gui/measure.py:174 ../gui/constraints.py:247 ../gui/constraints.py:279
+#: ../gui/duplicate.py:216 ../gui/fit_patch.py:174
+msgid "Add"
+msgstr ""
+
+#: ../gui/measure.py:178 ../gui/constraints.py:251 ../gui/constraints.py:283
+#: ../gui/duplicate.py:220 ../gui/fit_patch.py:178
+msgid "Minus"
+msgstr ""
+
 #: ../gui/contacts.py:98
 msgid "top"
 msgstr ""
@@ -1697,35 +1717,39 @@ msgstr ""
 msgid "Mesh z"
 msgstr ""
 
-#: ../gui/config_window.py:90
+#: ../gui/config_window.py:92
 msgid "Solver configuration"
 msgstr ""
 
-#: ../gui/config_window.py:90
+#: ../gui/config_window.py:92 ../gui/dump_select.py:322
 msgid "Output files"
 msgstr ""
 
-#: ../gui/config_window.py:90 ../gui/inp_description.py:49
+#: ../gui/config_window.py:92 ../gui/inp_description.py:49
 msgid "Thermal"
 msgstr ""
 
-#: ../gui/config_window.py:90
+#: ../gui/config_window.py:92
 msgid "LED"
 msgstr ""
 
-#: ../gui/config_window.py:90
+#: ../gui/config_window.py:92
 msgid "GUI configuration"
 msgstr ""
 
-#: ../gui/config_window.py:90
+#: ../gui/config_window.py:92
 msgid "Server configuration"
 msgstr ""
 
-#: ../gui/config_window.py:90
+#: ../gui/config_window.py:92
 msgid "Cryptography"
 msgstr ""
 
-#: ../gui/config_window.py:102
+#: ../gui/config_window.py:104
+msgid "Detailed dump control"
+msgstr ""
+
+#: ../gui/config_window.py:107
 msgid "Language"
 msgstr ""
 
@@ -1860,99 +1884,103 @@ msgstr ""
 msgid "Don't run me as root!!"
 msgstr ""
 
-#: ../gui/gpvdm.py:164 ../gui/gpvdm_notebook.py:104
+#: ../gui/gpvdm.py:165 ../gui/gpvdm_notebook.py:104
 #: ../gui/gpvdm_notebook.py:227 ../gui/ribbon_cluster.py:150
 msgid "Terminal"
 msgstr ""
 
-#: ../gui/gpvdm.py:217
+#: ../gui/gpvdm.py:218
 msgid "file opened"
 msgstr ""
 
-#: ../gui/gpvdm.py:222
+#: ../gui/gpvdm.py:223
 msgid ""
 "<big><b>New simulation!</b></big><br> Now selected the type of device you "
 "would like to simulate."
 msgstr ""
 
-#: ../gui/gpvdm.py:248
+#: ../gui/gpvdm.py:249
 msgid ""
 "<big><b>Now run the simulation</b></big><br> Click on the play icon to start "
 "a simulation."
 msgstr ""
 
-#: ../gui/gpvdm.py:253 ../gui/ribbon.py:117
+#: ../gui/gpvdm.py:254 ../gui/ribbon.py:117
 msgid "Home"
 msgstr ""
 
-#: ../gui/gpvdm.py:262
+#: ../gui/gpvdm.py:263
 msgid ""
 "<big><b>Hi!</b></big><br> I'm the on-line help system :).  If you find any "
 "bugs please report them to <a href=\"mailto:roderick.mackenzie@nottingham.ac."
 "uk\">roderick.mackenzie@nottingham.ac.uk</a>."
 msgstr ""
 
-#: ../gui/gpvdm.py:262
+#: ../gui/gpvdm.py:263
 msgid "Click on the new icon to make a new simulation directory."
 msgstr ""
 
-#: ../gui/gpvdm.py:286
+#: ../gui/gpvdm.py:287
 msgid "You should not try to open simulations in the root gpvdm directory."
 msgstr ""
 
-#: ../gui/gpvdm.py:292
+#: ../gui/gpvdm.py:293
 msgid ""
 "The simulation you want to import looks like it was made on an old version "
 "of gpvdm, do you want to try to open it anyway?"
 msgstr ""
 
-#: ../gui/gpvdm.py:299
+#: ../gui/gpvdm.py:300
 msgid ""
 "It looks like there is no materials database in the simulation directory "
 "should I import one?"
 msgstr ""
 
-#: ../gui/gpvdm.py:305
+#: ../gui/gpvdm.py:306
 msgid "Open an existing gpvdm simulation"
 msgstr ""
 
-#: ../gui/ribbon_simulations.py:65
+#: ../gui/ribbon_simulations.py:67
 msgid ""
 "Time domain\n"
 "simulation editor."
 msgstr ""
 
-#: ../gui/ribbon_simulations.py:70
+#: ../gui/ribbon_simulations.py:72
 msgid ""
 "Frequency domain\n"
 "simulation editor"
 msgstr ""
 
-#: ../gui/ribbon_simulations.py:75
+#: ../gui/ribbon_simulations.py:77
 msgid ""
 "Steady state\n"
 "simulation editor"
 msgstr ""
 
-#: ../gui/ribbon_simulations.py:80
+#: ../gui/ribbon_simulations.py:82
 msgid ""
 "Quantum\n"
 "efficiency"
 msgstr ""
 
-#: ../gui/ribbon_simulations.py:90
+#: ../gui/ribbon_simulations.py:92
 msgid ""
 "Optical\n"
 "Simulation"
 msgstr ""
 
-#: ../gui/ribbon_simulations.py:94
+#: ../gui/ribbon_simulations.py:96
 msgid ""
 "Laser\n"
 "editor"
 msgstr ""
 
-#: ../gui/ribbon_simulations.py:141
+#: ../gui/ribbon_simulations.py:100
+msgid "Measure"
+msgstr ""
+
+#: ../gui/ribbon_simulations.py:146
 msgid ""
 "<big><b>The time mesh editor</b></big><br> To do time domain simulations one "
 "must define how voltage the light vary as a function of time.  This can be "
@@ -1960,7 +1988,7 @@ msgid ""
 "and time step."
 msgstr ""
 
-#: ../gui/ribbon_simulations.py:153
+#: ../gui/ribbon_simulations.py:158
 msgid ""
 "<big><b>Frequency domain mesh editor</b></big><br> Some times it is useful "
 "to do frequency domain simulations such as when simulating impedance "
@@ -1968,30 +1996,38 @@ msgid ""
 "be simulated."
 msgstr ""
 
-#: ../gui/ribbon_simulations.py:164
+#: ../gui/ribbon_simulations.py:169
 msgid ""
 "<big><b>Laser setup</b></big><br> Use this window to set up your lasers."
 msgstr ""
 
-#: ../gui/ribbon_simulations.py:175
+#: ../gui/ribbon_simulations.py:180
+msgid ""
+"<big><b>Measure window</b></big><br>Use this window to set up measurement "
+"points.  If for example you want to extract the value of current density "
+"from jv.dat at 0.2 Volts, set a measurement point for jv.dat to 0.2 V.  This "
+"will work with any file"
+msgstr ""
+
+#: ../gui/ribbon_simulations.py:192
 msgid ""
 "<big><b>JV simulation editor</b></big><br> Use this window to select the "
 "step size and parameters of the JV simulations."
 msgstr ""
 
-#: ../gui/ribbon_simulations.py:182
+#: ../gui/ribbon_simulations.py:199
 msgid ""
 "<big><b>The optical simulation window</b></big><br>Use this window to "
 "perform optical simulations.  Click on the play button to run a simulation."
 msgstr ""
 
-#: ../gui/ribbon_simulations.py:182
+#: ../gui/ribbon_simulations.py:199
 msgid ""
 "Click on the play button to run an optical simulation.  The results will be "
 "displayed in the tabs to the right."
 msgstr ""
 
-#: ../gui/tab_homo.py:65 ../gui/constraints.py:140 ../gui/constraints.py:179
+#: ../gui/tab_homo.py:65 ../gui/constraints.py:148 ../gui/constraints.py:187
 msgid "Function"
 msgstr ""
 
@@ -2058,65 +2094,55 @@ msgstr ""
 msgid "Steady state simulation"
 msgstr ""
 
-#: ../gui/constraints.py:140 ../gui/constraints.py:179 ../gui/fit_vars.py:164
-#: ../gui/fit_patch.py:126
+#: ../gui/constraints.py:148 ../gui/constraints.py:187 ../gui/fit_vars.py:164
+#: ../gui/fit_patch.py:128
 msgid "Path"
 msgstr ""
 
-#: ../gui/constraints.py:140 ../gui/constraints.py:179
+#: ../gui/constraints.py:148 ../gui/constraints.py:187
 msgid "Max"
 msgstr ""
 
-#: ../gui/constraints.py:140 ../gui/constraints.py:179
+#: ../gui/constraints.py:148 ../gui/constraints.py:187
 msgid "Min"
 msgstr ""
 
-#: ../gui/constraints.py:140 ../gui/constraints.py:179 ../gui/error_han.py:76
+#: ../gui/constraints.py:148 ../gui/constraints.py:187 ../gui/error_han.py:76
 #: ../libfit/fit_dump.c:62 ../libfit/fit_dump.c:85 ../libfit/fit_dump.c:108
 msgid "Error"
 msgstr ""
 
-#: ../gui/constraints.py:148 ../gui/constraints.py:206
+#: ../gui/constraints.py:156 ../gui/constraints.py:214
 msgid "File (a)"
 msgstr ""
 
-#: ../gui/constraints.py:148 ../gui/constraints.py:206
+#: ../gui/constraints.py:156 ../gui/constraints.py:214
 msgid "Token (a)"
 msgstr ""
 
-#: ../gui/constraints.py:148 ../gui/constraints.py:206
+#: ../gui/constraints.py:156 ../gui/constraints.py:214
 msgid "Path (a)"
 msgstr ""
 
-#: ../gui/constraints.py:148 ../gui/constraints.py:206
+#: ../gui/constraints.py:156 ../gui/constraints.py:214
 msgid "File (b)"
 msgstr ""
 
-#: ../gui/constraints.py:148 ../gui/constraints.py:206
+#: ../gui/constraints.py:156 ../gui/constraints.py:214
 msgid "Token (b)"
 msgstr ""
 
-#: ../gui/constraints.py:148 ../gui/constraints.py:206
+#: ../gui/constraints.py:156 ../gui/constraints.py:214
 msgid "Path (b)"
 msgstr ""
 
-#: ../gui/constraints.py:148 ../gui/constraints.py:206
+#: ../gui/constraints.py:156 ../gui/constraints.py:214
 #: ../gui/tb_item_mat_file.py:57 ../gui/tb_item_mat_file.py:80
 msgid "Equation"
 msgstr ""
 
-#: ../gui/constraints.py:229
+#: ../gui/constraints.py:237
 msgid "Fit constraints window"
-msgstr ""
-
-#: ../gui/constraints.py:239 ../gui/constraints.py:271 ../gui/duplicate.py:216
-#: ../gui/fit_patch.py:172
-msgid "Add"
-msgstr ""
-
-#: ../gui/constraints.py:243 ../gui/constraints.py:275 ../gui/duplicate.py:220
-#: ../gui/fit_patch.py:176
-msgid "Minus"
 msgstr ""
 
 #: ../gui/tab_main.py:92
@@ -2365,7 +2391,7 @@ msgid ""
 "data"
 msgstr ""
 
-#: ../gui/ribbon.py:120 ../gui/scan_ribbon.py:175
+#: ../gui/ribbon.py:120 ../gui/scan_ribbon.py:178
 msgid "Simulations"
 msgstr ""
 
@@ -2433,43 +2459,43 @@ msgstr ""
 msgid "Density of States"
 msgstr ""
 
-#: ../gui/scan.py:60
+#: ../gui/scan.py:63
 msgid "Change directory"
 msgstr ""
 
-#: ../gui/scan.py:69
+#: ../gui/scan.py:72
 msgid "All files"
 msgstr ""
 
-#: ../gui/scan.py:92
+#: ../gui/scan.py:95
 msgid "New simulation name:"
 msgstr ""
 
-#: ../gui/scan.py:92
+#: ../gui/scan.py:95
 msgid "Simulation "
 msgstr ""
 
-#: ../gui/scan.py:112
+#: ../gui/scan.py:115
 msgid "Clone the current simulation to a new simulation called:"
 msgstr ""
 
-#: ../gui/scan.py:120
+#: ../gui/scan.py:123
 msgid "I want to copy"
 msgstr ""
 
-#: ../gui/scan.py:169
+#: ../gui/scan.py:172
 msgid "Rename the simulation to be called:"
 msgstr ""
 
-#: ../gui/scan.py:185
+#: ../gui/scan.py:188
 msgid "Should I remove the simulation directory "
 msgstr ""
 
-#: ../gui/scan.py:190
+#: ../gui/scan.py:193
 msgid "I am going to delete file"
 msgstr ""
 
-#: ../gui/scan.py:231
+#: ../gui/scan.py:234
 msgid "Parameter scan - gpvdm"
 msgstr ""
 
@@ -2770,6 +2796,14 @@ msgstr ""
 msgid "New file"
 msgstr ""
 
+#: ../gui/dump_select.py:55
+msgid "Dump File Selector"
+msgstr ""
+
+#: ../gui/dump_select.py:75
+msgid "Refresh"
+msgstr ""
+
 #: ../gui/device_lib.py:59
 msgid "File name"
 msgstr ""
@@ -3067,11 +3101,15 @@ msgstr ""
 msgid "Change dir"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:172
+#: ../gui/scan_ribbon.py:139
+msgid "Report"
+msgstr ""
+
+#: ../gui/scan_ribbon.py:175
 msgid "Scan"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:180
+#: ../gui/scan_ribbon.py:183
 msgid "Advanced"
 msgstr ""
 
@@ -3317,7 +3355,7 @@ msgstr ""
 msgid "Hole generation efficiency"
 msgstr ""
 
-#: ../gui/token_lib.py:54 ../gui/token_lib.py:474
+#: ../gui/token_lib.py:54 ../gui/token_lib.py:479
 msgid "filename"
 msgstr ""
 
@@ -3481,7 +3519,7 @@ msgstr ""
 msgid "DOI"
 msgstr ""
 
-#: ../gui/token_lib.py:104 ../gui/token_lib.py:332
+#: ../gui/token_lib.py:104 ../gui/token_lib.py:337
 #, python-brace-format
 msgid "R_{short}"
 msgstr ""
@@ -3495,21 +3533,22 @@ msgstr ""
 msgid "Efficiency of light"
 msgstr ""
 
-#: ../gui/token_lib.py:107 ../gui/token_lib.py:186 ../gui/token_lib.py:192
-#: ../gui/token_lib.py:203 ../gui/token_lib.py:215 ../gui/token_lib.py:220
+#: ../gui/token_lib.py:107 ../gui/token_lib.py:152 ../gui/token_lib.py:187
+#: ../gui/token_lib.py:193 ../gui/token_lib.py:204 ../gui/token_lib.py:216
 #: ../gui/token_lib.py:221 ../gui/token_lib.py:222 ../gui/token_lib.py:223
-#: ../gui/token_lib.py:225 ../gui/token_lib.py:226 ../gui/token_lib.py:231
-#: ../gui/token_lib.py:232 ../gui/token_lib.py:234 ../gui/token_lib.py:235
+#: ../gui/token_lib.py:224 ../gui/token_lib.py:226 ../gui/token_lib.py:227
+#: ../gui/token_lib.py:232 ../gui/token_lib.py:233 ../gui/token_lib.py:235
 #: ../gui/token_lib.py:236 ../gui/token_lib.py:237 ../gui/token_lib.py:238
-#: ../gui/token_lib.py:239 ../gui/token_lib.py:240 ../gui/token_lib.py:243
-#: ../gui/token_lib.py:245 ../gui/token_lib.py:246 ../gui/token_lib.py:247
+#: ../gui/token_lib.py:239 ../gui/token_lib.py:240 ../gui/token_lib.py:241
+#: ../gui/token_lib.py:244 ../gui/token_lib.py:246 ../gui/token_lib.py:247
 #: ../gui/token_lib.py:248 ../gui/token_lib.py:249 ../gui/token_lib.py:250
 #: ../gui/token_lib.py:251 ../gui/token_lib.py:252 ../gui/token_lib.py:253
-#: ../gui/token_lib.py:254 ../gui/token_lib.py:256 ../gui/token_lib.py:257
-#: ../gui/token_lib.py:258 ../gui/token_lib.py:259 ../gui/token_lib.py:262
-#: ../gui/token_lib.py:280 ../gui/token_lib.py:325 ../gui/token_lib.py:462
-#: ../gui/token_lib.py:463 ../gui/token_lib.py:468 ../gui/token_lib.py:472
-#: ../gui/token_lib.py:473 ../gui/token_lib.py:475
+#: ../gui/token_lib.py:254 ../gui/token_lib.py:255 ../gui/token_lib.py:257
+#: ../gui/token_lib.py:258 ../gui/token_lib.py:259 ../gui/token_lib.py:260
+#: ../gui/token_lib.py:261 ../gui/token_lib.py:263 ../gui/token_lib.py:267
+#: ../gui/token_lib.py:285 ../gui/token_lib.py:330 ../gui/token_lib.py:467
+#: ../gui/token_lib.py:468 ../gui/token_lib.py:473 ../gui/token_lib.py:477
+#: ../gui/token_lib.py:478 ../gui/token_lib.py:480
 msgid "True/False"
 msgstr ""
 
@@ -3660,11 +3699,11 @@ msgstr ""
 msgid "J_{sc}"
 msgstr ""
 
-#: ../gui/token_lib.py:145 ../gui/token_lib.py:342
+#: ../gui/token_lib.py:145 ../gui/token_lib.py:347
 msgid "Re(J)"
 msgstr ""
 
-#: ../gui/token_lib.py:146 ../gui/token_lib.py:343
+#: ../gui/token_lib.py:146 ../gui/token_lib.py:348
 msgid "Im(J)"
 msgstr ""
 
@@ -3685,601 +3724,617 @@ msgid "dphase"
 msgstr ""
 
 #: ../gui/token_lib.py:152
-msgid "Modulation roll off start"
+msgid "Modulation roll off enable"
 msgstr ""
 
 #: ../gui/token_lib.py:153
+msgid "Modulation roll off start"
+msgstr ""
+
+#: ../gui/token_lib.py:154
 msgid "Modulation roll off speed"
 msgstr ""
 
-#: ../gui/token_lib.py:159
+#: ../gui/token_lib.py:160
 msgid "Left hole density"
 msgstr ""
 
-#: ../gui/token_lib.py:160
+#: ../gui/token_lib.py:161
 msgid "Left electron density"
 msgstr ""
 
-#: ../gui/token_lib.py:161
+#: ../gui/token_lib.py:162
 msgid "Right hole density"
 msgstr ""
 
-#: ../gui/token_lib.py:162
+#: ../gui/token_lib.py:163
 msgid "Right electron density"
 msgstr ""
 
-#: ../gui/token_lib.py:163
+#: ../gui/token_lib.py:164
 msgid "Built in potential"
 msgstr ""
 
-#: ../gui/token_lib.py:164
+#: ../gui/token_lib.py:165
 msgid "Electron affinity left"
 msgstr ""
 
-#: ../gui/token_lib.py:165
+#: ../gui/token_lib.py:166
 msgid "Electron affinity right"
 msgstr ""
 
-#: ../gui/token_lib.py:168
+#: ../gui/token_lib.py:169
 msgid "Number of CPUs"
 msgstr ""
 
-#: ../gui/token_lib.py:183
+#: ../gui/token_lib.py:184
 msgid "Max Electrical itterations (first step)"
 msgstr ""
 
-#: ../gui/token_lib.py:184
+#: ../gui/token_lib.py:185
 msgid "Electrical clamp (first step)"
 msgstr ""
 
-#: ../gui/token_lib.py:185
+#: ../gui/token_lib.py:186
 msgid "Desired electrical solver error (first step)"
 msgstr ""
 
-#: ../gui/token_lib.py:186
+#: ../gui/token_lib.py:187
 msgid "Enable poisson solver"
 msgstr ""
 
-#: ../gui/token_lib.py:187
+#: ../gui/token_lib.py:188
 msgid "Max electrical itterations"
 msgstr ""
 
-#: ../gui/token_lib.py:188
+#: ../gui/token_lib.py:189
 msgid "Electrical clamp"
 msgstr ""
 
-#: ../gui/token_lib.py:189
+#: ../gui/token_lib.py:190
 msgid "Poisson clamping"
 msgstr ""
 
-#: ../gui/token_lib.py:190
+#: ../gui/token_lib.py:191
 msgid "Minimum electrical error"
 msgstr ""
 
-#: ../gui/token_lib.py:191
+#: ../gui/token_lib.py:192
 msgid "Poisson solver max itterations"
 msgstr ""
 
-#: ../gui/token_lib.py:193
+#: ../gui/token_lib.py:194
 msgid "Newton minimum iterations"
 msgstr ""
 
-#: ../gui/token_lib.py:194 ../gui/token_lib.py:195
+#: ../gui/token_lib.py:195 ../gui/token_lib.py:196
 msgid "dll name"
 msgstr ""
 
-#: ../gui/token_lib.py:194
+#: ../gui/token_lib.py:195
 msgid "Matrix solver to use"
 msgstr ""
 
-#: ../gui/token_lib.py:195
+#: ../gui/token_lib.py:196
 msgid "Newton solver to use"
 msgstr ""
 
-#: ../gui/token_lib.py:196
+#: ../gui/token_lib.py:197
 msgid "Slotboom T0"
 msgstr ""
 
-#: ../gui/token_lib.py:197
+#: ../gui/token_lib.py:198
 msgid "Slotboom D0"
 msgstr ""
 
-#: ../gui/token_lib.py:198
+#: ../gui/token_lib.py:199
 msgid "Slotboom n0"
 msgstr ""
 
-#: ../gui/token_lib.py:202
+#: ../gui/token_lib.py:203
 msgid "Fit error multiplyer"
 msgstr ""
 
-#: ../gui/token_lib.py:203
+#: ../gui/token_lib.py:204
 msgid "Randomize fit"
 msgstr ""
 
-#: ../gui/token_lib.py:204
+#: ../gui/token_lib.py:205
 msgid "Number of iterations between random reset"
 msgstr ""
 
-#: ../gui/token_lib.py:205
+#: ../gui/token_lib.py:206
 msgid "Stall steps"
 msgstr ""
 
-#: ../gui/token_lib.py:206
+#: ../gui/token_lib.py:207
 msgid "Disable reset at level"
 msgstr ""
 
-#: ../gui/token_lib.py:207
+#: ../gui/token_lib.py:208
 msgid "Fit define convergence"
 msgstr ""
 
-#: ../gui/token_lib.py:208
+#: ../gui/token_lib.py:209
 msgid "Enable simplex reset"
 msgstr ""
 
-#: ../gui/token_lib.py:209 ../gui/token_lib.py:212
+#: ../gui/token_lib.py:210 ../gui/token_lib.py:213
 msgid "Simplex reset steps"
 msgstr ""
 
-#: ../gui/token_lib.py:210
+#: ../gui/token_lib.py:211
 msgid "Fiting method"
 msgstr ""
 
-#: ../gui/token_lib.py:211
+#: ../gui/token_lib.py:212
 msgid "Start simplex step multiplication"
 msgstr ""
 
-#: ../gui/token_lib.py:215
+#: ../gui/token_lib.py:216
 msgid "Subtract lowest point"
 msgstr ""
 
-#: ../gui/token_lib.py:218
+#: ../gui/token_lib.py:219
 msgid "Device temperature on left"
 msgstr ""
 
-#: ../gui/token_lib.py:219
+#: ../gui/token_lib.py:220
 msgid "Device temperature on right"
 msgstr ""
 
-#: ../gui/token_lib.py:220
+#: ../gui/token_lib.py:221
 msgid "Enable thermal solver"
 msgstr ""
 
-#: ../gui/token_lib.py:221
+#: ../gui/token_lib.py:222
 msgid "Lattice heat model"
 msgstr ""
 
-#: ../gui/token_lib.py:222
+#: ../gui/token_lib.py:223
 msgid "Electron heat model"
 msgstr ""
 
-#: ../gui/token_lib.py:223
+#: ../gui/token_lib.py:224
 msgid "Hole heat model"
 msgstr ""
 
-#: ../gui/token_lib.py:224
+#: ../gui/token_lib.py:225
 msgid "Thermal conductivity"
 msgstr ""
 
-#: ../gui/token_lib.py:225
+#: ../gui/token_lib.py:226
 msgid "Isothermal boundary on left"
 msgstr ""
 
-#: ../gui/token_lib.py:226
+#: ../gui/token_lib.py:227
 msgid "Isothermal boundary on right"
 msgstr ""
 
-#: ../gui/token_lib.py:227
+#: ../gui/token_lib.py:228
 msgid "Electron relaxation time"
 msgstr ""
 
-#: ../gui/token_lib.py:228
+#: ../gui/token_lib.py:229
 msgid "Hole relaxation time"
 msgstr ""
 
-#: ../gui/token_lib.py:231
+#: ../gui/token_lib.py:232
 msgid "Dump from newton solver"
 msgstr ""
 
-#: ../gui/token_lib.py:232
+#: ../gui/token_lib.py:233
 msgid "Plot bands etc.. "
 msgstr ""
 
-#: ../gui/token_lib.py:234
+#: ../gui/token_lib.py:235
 msgid "dump slices by time"
 msgstr ""
 
-#: ../gui/token_lib.py:235
+#: ../gui/token_lib.py:236
 msgid "Dump 1D slices"
 msgstr ""
 
-#: ../gui/token_lib.py:236
+#: ../gui/token_lib.py:237
 msgid "Dump slices"
 msgstr ""
 
-#: ../gui/token_lib.py:237
+#: ../gui/token_lib.py:238
 msgid "Dump dynamic"
 msgstr ""
 
-#: ../gui/token_lib.py:238
+#: ../gui/token_lib.py:239
 msgid "Dump fx domain data"
 msgstr ""
 
-#: ../gui/token_lib.py:239
+#: ../gui/token_lib.py:240
 msgid "Dump zip files"
 msgstr ""
 
-#: ../gui/token_lib.py:240
+#: ../gui/token_lib.py:241
 msgid "Write out band structure"
 msgstr ""
 
-#: ../gui/token_lib.py:243
+#: ../gui/token_lib.py:244
 msgid "Dump optical information"
 msgstr ""
 
-#: ../gui/token_lib.py:245
+#: ../gui/token_lib.py:246
 msgid "Print newton error"
 msgstr ""
 
-#: ../gui/token_lib.py:246
+#: ../gui/token_lib.py:247
 msgid "Print solver convergence"
 msgstr ""
 
-#: ../gui/token_lib.py:247
+#: ../gui/token_lib.py:248
 msgid "Write newton solver convergence to disk"
 msgstr ""
 
-#: ../gui/token_lib.py:248
+#: ../gui/token_lib.py:249
 msgid "Print poisson solver convergence"
 msgstr ""
 
-#: ../gui/token_lib.py:249
+#: ../gui/token_lib.py:250
 msgid "Dump PL spectra"
 msgstr ""
 
-#: ../gui/token_lib.py:250
+#: ../gui/token_lib.py:251
 msgid "Normalize output x-time to one"
 msgstr ""
 
-#: ../gui/token_lib.py:251
+#: ../gui/token_lib.py:252
 msgid "Dump the built in voltage."
 msgstr ""
 
-#: ../gui/token_lib.py:252
+#: ../gui/token_lib.py:253
 msgid "Dump optical probe spectrum"
 msgstr ""
 
-#: ../gui/token_lib.py:253
+#: ../gui/token_lib.py:254
 msgid "Dump optical summary"
 msgstr ""
 
-#: ../gui/token_lib.py:254
+#: ../gui/token_lib.py:255
 msgid "Dump raytrace plots"
 msgstr ""
 
-#: ../gui/token_lib.py:256
+#: ../gui/token_lib.py:257
 msgid "Dump an excel workbook for each simulation run congaing the results."
 msgstr ""
 
-#: ../gui/token_lib.py:257
+#: ../gui/token_lib.py:258
 msgid "Write file access log to disk."
 msgstr ""
 
-#: ../gui/token_lib.py:258
+#: ../gui/token_lib.py:259
 msgid "Use cache for file writes"
 msgstr ""
 
-#: ../gui/token_lib.py:259
+#: ../gui/token_lib.py:260
 msgid "Write headers to output files"
 msgstr ""
 
+#: ../gui/token_lib.py:261
+msgid "Write energetic distribution of carriers"
+msgstr ""
+
 #: ../gui/token_lib.py:262
-msgid "Turn on LED"
+msgid "Position energetic distribution to dump"
 msgstr ""
 
 #: ../gui/token_lib.py:263
-msgid "LED emission wavelength"
-msgstr ""
-
-#: ../gui/token_lib.py:264
-msgid "LED extraction efficiency"
+msgid "Write first guess to equations"
 msgstr ""
 
 #: ../gui/token_lib.py:267
-msgid "Invert applied bias"
+msgid "Turn on LED"
 msgstr ""
 
 #: ../gui/token_lib.py:268
-msgid "Charge on left contact"
+msgid "LED emission wavelength"
 msgstr ""
 
 #: ../gui/token_lib.py:269
-msgid "Charge on right contact"
+msgid "LED extraction efficiency"
 msgstr ""
 
 #: ../gui/token_lib.py:272
-msgid "Shunt resistance"
+msgid "Invert applied bias"
 msgstr ""
 
 #: ../gui/token_lib.py:273
-msgid "Series resistance"
+msgid "Charge on left contact"
 msgstr ""
 
 #: ../gui/token_lib.py:274
-msgid "Other layers"
+msgid "Charge on right contact"
 msgstr ""
 
 #: ../gui/token_lib.py:277
+msgid "Shunt resistance"
+msgstr ""
+
+#: ../gui/token_lib.py:278
+msgid "Series resistance"
+msgstr ""
+
+#: ../gui/token_lib.py:279
+msgid "Other layers"
+msgstr ""
+
+#: ../gui/token_lib.py:282
 msgid "Automatic remesh"
 msgstr ""
 
-#: ../gui/token_lib.py:280
+#: ../gui/token_lib.py:285
 msgid "Turn on luminescence"
 msgstr ""
 
-#: ../gui/token_lib.py:281
+#: ../gui/token_lib.py:286
 #, python-brace-format
 msgid "n_{free} to p_{free} photon generation efficiency"
 msgstr ""
 
-#: ../gui/token_lib.py:282
+#: ../gui/token_lib.py:287
 #, python-brace-format
 msgid "n_{free} to n_{trap} photon generation efficiency"
 msgstr ""
 
-#: ../gui/token_lib.py:283
+#: ../gui/token_lib.py:288
 #, python-brace-format
 msgid "n_{trap} to p_{free} photon generation efficiency"
 msgstr ""
 
-#: ../gui/token_lib.py:284
+#: ../gui/token_lib.py:289
 #, python-brace-format
 msgid "p_{trap} to n_{free} photon generation efficiency"
 msgstr ""
 
-#: ../gui/token_lib.py:285
+#: ../gui/token_lib.py:290
 #, python-brace-format
 msgid "p_{free} to p_{trap} photon generation efficiency"
 msgstr ""
 
-#: ../gui/token_lib.py:288
+#: ../gui/token_lib.py:293
 msgid "Load resistor"
 msgstr ""
 
-#: ../gui/token_lib.py:289
+#: ../gui/token_lib.py:294
 msgid "fx domain mesh points"
 msgstr ""
 
-#: ../gui/token_lib.py:290
+#: ../gui/token_lib.py:295
 msgid "Cycles to simulate"
 msgstr ""
 
-#: ../gui/token_lib.py:291
+#: ../gui/token_lib.py:296
 #, python-brace-format
 msgid "V_{external}"
 msgstr ""
 
-#: ../gui/token_lib.py:292
+#: ../gui/token_lib.py:297
 msgid "Voltage modulation depth"
 msgstr ""
 
-#: ../gui/token_lib.py:295
+#: ../gui/token_lib.py:300
 msgid "Light modulation depth"
 msgstr ""
 
-#: ../gui/token_lib.py:296
+#: ../gui/token_lib.py:301
 msgid "Run fit after simulation"
 msgstr ""
 
-#: ../gui/token_lib.py:297
+#: ../gui/token_lib.py:302
 msgid "Periods to fit"
 msgstr ""
 
-#: ../gui/token_lib.py:300
+#: ../gui/token_lib.py:305
 msgid "Initialization vector"
 msgstr ""
 
-#: ../gui/token_lib.py:301
+#: ../gui/token_lib.py:306
 msgid "Cryptographic key"
 msgstr ""
 
-#: ../gui/token_lib.py:303
+#: ../gui/token_lib.py:308
 msgid "I0"
 msgstr ""
 
-#: ../gui/token_lib.py:304
+#: ../gui/token_lib.py:309
 msgid "ideality factor"
 msgstr ""
 
-#: ../gui/token_lib.py:307
+#: ../gui/token_lib.py:312
 msgid "#saturation_n0"
 msgstr ""
 
-#: ../gui/token_lib.py:308
+#: ../gui/token_lib.py:313
 msgid "#saturation_rate"
 msgstr ""
 
-#: ../gui/token_lib.py:309
+#: ../gui/token_lib.py:314
 msgid "#imps_saturate"
 msgstr ""
 
-#: ../gui/token_lib.py:312 ../gui/optics.py:119
+#: ../gui/token_lib.py:317 ../gui/optics.py:119
 msgid "Photon density"
 msgstr ""
 
-#: ../gui/token_lib.py:313
+#: ../gui/token_lib.py:318
 msgid "Absorption of material"
 msgstr ""
 
-#: ../gui/token_lib.py:314
+#: ../gui/token_lib.py:319
 msgid "#simmode"
 msgstr ""
 
-#: ../gui/token_lib.py:315
+#: ../gui/token_lib.py:320
 msgid "Mesh points (x)"
 msgstr ""
 
-#: ../gui/token_lib.py:317
+#: ../gui/token_lib.py:322
 msgid "#function"
 msgstr ""
 
-#: ../gui/token_lib.py:318
+#: ../gui/token_lib.py:323
 msgid "left/right"
 msgstr ""
 
-#: ../gui/token_lib.py:318
+#: ../gui/token_lib.py:323
 msgid "Hole majority contact on left/right of device."
 msgstr ""
 
-#: ../gui/token_lib.py:319
+#: ../gui/token_lib.py:324
 msgid "start voltage"
 msgstr ""
 
-#: ../gui/token_lib.py:320
+#: ../gui/token_lib.py:325
 msgid "Max voltage"
 msgstr ""
 
-#: ../gui/token_lib.py:321
+#: ../gui/token_lib.py:326
 msgid "Eg"
 msgstr ""
 
-#: ../gui/token_lib.py:322
+#: ../gui/token_lib.py:327
 msgid "Xi"
 msgstr ""
 
-#: ../gui/token_lib.py:323
+#: ../gui/token_lib.py:328
 msgid "Time of pause"
 msgstr ""
 
-#: ../gui/token_lib.py:324
+#: ../gui/token_lib.py:329
 msgid "Pause between iterations"
 msgstr ""
 
-#: ../gui/token_lib.py:325
+#: ../gui/token_lib.py:330
 msgid "Invert output"
 msgstr ""
 
-#: ../gui/token_lib.py:328
+#: ../gui/token_lib.py:333
 msgid "Use capacitor"
 msgstr ""
 
-#: ../gui/token_lib.py:333
+#: ../gui/token_lib.py:338
 msgid "Backgroud light bias"
 msgstr ""
 
-#: ../gui/token_lib.py:334
+#: ../gui/token_lib.py:339
 msgid "Modulation depth"
 msgstr ""
 
-#: ../gui/token_lib.py:335
+#: ../gui/token_lib.py:340
 msgid "Modulation frequency"
 msgstr ""
 
-#: ../gui/token_lib.py:336
+#: ../gui/token_lib.py:341
 msgid "High light multiplyer"
 msgstr ""
 
-#: ../gui/token_lib.py:345 ../gui/token_lib.py:346 ../gui/token_lib.py:347
+#: ../gui/token_lib.py:350 ../gui/token_lib.py:351 ../gui/token_lib.py:352
 msgid "Phase shift"
 msgstr ""
 
-#: ../gui/token_lib.py:349
+#: ../gui/token_lib.py:354
 msgid "Wavelengths to simulate"
 msgstr ""
 
-#: ../gui/token_lib.py:350
+#: ../gui/token_lib.py:355
 msgid "External voltage"
 msgstr ""
 
-#: ../gui/token_lib.py:352
+#: ../gui/token_lib.py:357
 msgid "External C"
 msgstr ""
 
-#: ../gui/token_lib.py:353
+#: ../gui/token_lib.py:358
 msgid "External R"
 msgstr ""
 
-#: ../gui/token_lib.py:355
+#: ../gui/token_lib.py:360
 msgid "Resistance of scope"
 msgstr ""
 
-#: ../gui/token_lib.py:356
+#: ../gui/token_lib.py:361
 msgid "Number of traps"
 msgstr ""
 
-#: ../gui/token_lib.py:358
+#: ../gui/token_lib.py:363
 msgid "Single point"
 msgstr ""
 
-#: ../gui/token_lib.py:359
+#: ../gui/token_lib.py:364
 msgid "Start intensity"
 msgstr ""
 
-#: ../gui/token_lib.py:360
+#: ../gui/token_lib.py:365
 msgid "Stop intensity"
 msgstr ""
 
-#: ../gui/token_lib.py:361
+#: ../gui/token_lib.py:366
 msgid "step multiplier"
 msgstr ""
 
-#: ../gui/token_lib.py:364
+#: ../gui/token_lib.py:369
 msgid "Photon Flux"
 msgstr ""
 
-#: ../gui/token_lib.py:366
+#: ../gui/token_lib.py:371
 msgid "device width"
 msgstr ""
 
-#: ../gui/token_lib.py:367
+#: ../gui/token_lib.py:372
 msgid "device breadth"
 msgstr ""
 
-#: ../gui/token_lib.py:432
+#: ../gui/token_lib.py:437
 msgid "Solve Kirchhoff's current law in Newton solver"
 msgstr ""
 
-#: ../gui/token_lib.py:462
+#: ../gui/token_lib.py:467
 msgid "Enable 3d effects"
 msgstr ""
 
-#: ../gui/token_lib.py:463
+#: ../gui/token_lib.py:468
 msgid "Use icons from OS"
 msgstr ""
 
-#: ../gui/token_lib.py:464 ../libfit/fit_dump.c:63 ../libfit/fit_dump.c:64
+#: ../gui/token_lib.py:469 ../libfit/fit_dump.c:63 ../libfit/fit_dump.c:64
 #: ../libfit/fit_dump.c:181
 msgid "au"
 msgstr ""
 
-#: ../gui/token_lib.py:464
+#: ../gui/token_lib.py:469
 msgid "Matlab interpreter"
 msgstr ""
 
-#: ../gui/token_lib.py:468
+#: ../gui/token_lib.py:473
 msgid "Enable fit"
 msgstr ""
 
-#: ../gui/token_lib.py:472
+#: ../gui/token_lib.py:477
 msgid "log x"
 msgstr ""
 
-#: ../gui/token_lib.py:473
+#: ../gui/token_lib.py:478
 msgid "log y"
 msgstr ""
 
-#: ../gui/token_lib.py:475
+#: ../gui/token_lib.py:480
 msgid "Invert simulated data (y)"
 msgstr ""
 
-#: ../gui/token_lib.py:479
+#: ../gui/token_lib.py:484
 msgid "Active layer width"
 msgstr ""
 
-#: ../gui/token_lib.py:495
+#: ../gui/token_lib.py:500
 msgid "External load resistor"
 msgstr ""
 
-#: ../gui/token_lib.py:498
+#: ../gui/token_lib.py:503
 msgid "Filp the opticl field"
 msgstr ""
 
@@ -4451,7 +4506,7 @@ msgstr ""
 msgid "Optical setup"
 msgstr ""
 
-#: ../gui/fit_patch.py:97
+#: ../gui/fit_patch.py:99
 msgid "value"
 msgstr ""
 

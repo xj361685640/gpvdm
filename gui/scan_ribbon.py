@@ -136,6 +136,9 @@ class scan_ribbon(QTabWidget):
 		self.change_dir = QAction(QIcon_load("forward"), wrap_text(_("Change dir"),5), self)
 		toolbar.addAction(self.change_dir)
 
+		self.report = QAction(QIcon_load("forward"), wrap_text(_("Report"),5), self)
+		toolbar.addAction(self.report)
+
 		return toolbar
 
 	def readStyleSheet(self,fileName):

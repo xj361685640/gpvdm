@@ -1,8 +1,8 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -116,6 +116,35 @@ def scan_ask_to_delete(parent,dirs_to_del):
 		elif response == "cancel":
 			#run=False
 			print("Cancel")
+
+class report_token():
+	def __init__(self,file_name,token):
+		self.file_name=file_name
+		self.token=token
+		self.values=[]
+
+def scan_gen_report(path):
+	tokens=[]
+	tokens.append(report_token("dos0.inp","#Etrape"))
+	tokens.append(report_token("dos0.inp","#mueffe"))
+	tokens.append(report_token("dos0.inp","#Ntrape"))
+	tokens.append(report_token("dos0.inp","#srhsigman_e"))
+	tokens.append(report_token("dos0.inp","#srhsigmap_e"))
+	tokens.append(report_token("dos0.inp","#srhsigman_h"))
+	tokens.append(report_token("dos0.inp","#srhsigmap_h"))
+
+	print(tokens[0].file_name)
+	simulation_dirs=tree_load_flat_list(path)
+	for i in range(0,len(simulation_dirs)):
+		for ii in range(0,len(tokens)):
+			value=inp_get_token_value(os.path.join(simulation_dirs[i],tokens[ii].file_name), tokens[ii].token)
+			print(os.path.join(simulation_dirs[i],tokens[ii].file_name), tokens[ii].token,value)
+			if value!=None:
+				tokens[ii].values.append(value)
+
+	for ii in range(0,len(tokens)):
+		print(tokens[ii].values)
+
 
 def scan_clean_simulation_output(dir_to_clean):
 		#dirs_to_del=[]

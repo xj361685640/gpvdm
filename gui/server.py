@@ -213,6 +213,7 @@ class server(QWidget,cluster):
 
 					full_command=get_exe_command()+" --lock "+"lock"+str(i)+" "+self.args[i]+" "+get_exe_args()
 					if self.terminal.run(self.jobs[i],full_command)==True:
+						time.sleep(0.1)
 						return True
 					else:
 						return False

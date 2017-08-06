@@ -109,7 +109,7 @@ class constraints(QWidget):
 
 		self.item = gpvdm_select()
 		self.item.setText(path_a)
-		#self.item.button.clicked.connect(self.callback_show_list_src)
+		self.item.button.clicked.connect(self.callback_show_list_equation_a)
 		self.tab_math.setCellWidget(i,2,self.item)
 
 		item = QTableWidgetItem(file_b)
@@ -120,14 +120,22 @@ class constraints(QWidget):
 
 		self.item = gpvdm_select()
 		self.item.setText(path_b)
-		#self.item.button.clicked.connect(self.callback_show_list_src)
+		self.item.button.clicked.connect(self.callback_show_list_equation_b)
 		self.tab_math.setCellWidget(i,5,self.item)
 
 		item = QTableWidgetItem(equation)
 		self.tab_math.setItem(i,6,item)
 
 		self.tab_math.blockSignals(False)
-		
+
+	def callback_show_list_equation_a(self):
+		self.select_param_window_math_a.update()
+		self.select_param_window_math_a.show()
+
+	def callback_show_list_equation_b(self):
+		self.select_param_window_math_b.update()
+		self.select_param_window_math_b.show()
+
 	def callback_show_list_src(self):
 		self.select_param_window_mm.update()
 		self.select_param_window_mm.show()
@@ -266,7 +274,7 @@ class constraints(QWidget):
 
 		#####################math##########################
 		toolbar_math=QToolBar()
-		toolbar_math.setIconSize(QSize(48, 48))
+		toolbar_math.setIconSize(QSize(32, 32))
 
 		self.tb_save = QAction(QIcon_load("list-add"), _("Add"), self)
 		self.tb_save.triggered.connect(self.callback_add_item_math)
@@ -293,12 +301,12 @@ class constraints(QWidget):
 		self.select_param_window_math_a.token_tab_pos=1
 		self.select_param_window_math_a.path_tab_pos=2
 
-		self.select_param_window_math_a=select_param()
-		self.select_param_window_math_a.init(self.tab_math)
-		self.select_param_window_math_a.set_save_function(self.save_combo)
-		self.select_param_window_math_a.file_name_tab_pos=4
-		self.select_param_window_math_a.token_tab_pos=5
-		self.select_param_window_math_a.path_tab_pos=6
+		self.select_param_window_math_b=select_param()
+		self.select_param_window_math_b.init(self.tab_math)
+		self.select_param_window_math_b.set_save_function(self.save_combo)
+		self.select_param_window_math_b.file_name_tab_pos=4
+		self.select_param_window_math_b.token_tab_pos=5
+		self.select_param_window_math_b.path_tab_pos=6
 		self.vbox.addWidget(self.tab_math)
 		
 		self.setLayout(self.vbox)

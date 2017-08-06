@@ -38,23 +38,36 @@ class win_pipe(QWidget):
 	def __init__(self):
 		QWidget.__init__(self)
 
-	def foo(self,n):
-		p = win32pipe.CreateNamedPipe(r'\\.\pipe\gpvdm_pipe',
-			win32pipe.PIPE_ACCESS_INBOUND,
-			win32pipe.PIPE_TYPE_MESSAGE | win32pipe.PIPE_WAIT,
-			1, 65536, 65536,300,None)
-
+	def rod(self,p):
 		while(1):
 			#print "going to read"
+			try:
+				res,data = win32file.ReadFile(p, 4096)
+				#print res,data
+				if res != winerror.ERROR_MORE_DATA:
+					data=data.decode("utf-8") 
+					self.new_data.emit(data)
+				else:
+					print("no more data")
+					break
+			except:
+				print("pipe closed")
+				break
+#		win32pipe.DisconnectNamedPipe(p)
+
+
+	def foo(self,n):
+		while(1):
+			p = win32pipe.CreateNamedPipe(r'\\.\pipe\gpvdm_pipe',
+				win32pipe.PIPE_ACCESS_INBOUND,
+				win32pipe.PIPE_TYPE_MESSAGE | win32pipe.PIPE_WAIT,
+				255, 65536, 65536,300,None)
+
 			win32pipe.ConnectNamedPipe(p, None)
-			res,data = win32file.ReadFile(p, 4096)
-			#print res,data
-			if res != winerror.ERROR_MORE_DATA:
-				data=data.decode("utf-8") 
-				self.new_data.emit(data)
-			else:
-				print("no more data")
-			win32pipe.DisconnectNamedPipe(p)
+		
+			th = Thread(target=self.rod, args=(p,))
+			th.daemon = True
+			th.start()
 
 	def start(self):
 		p = Thread(target=self.foo, args=(10,))
