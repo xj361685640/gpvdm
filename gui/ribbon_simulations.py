@@ -69,9 +69,9 @@ class ribbon_simulations(QToolBar):
 		self.addAction(self.time )
 
 
-		self.fx = QAction(QIcon_load("spectrum"), _("Frequency domain\nsimulation editor"), self)
-		self.fx.triggered.connect(self.callback_fxexperiment_window)
-		self.addAction(self.fx)
+		#self.fx = QAction(QIcon_load("spectrum"), _("Frequency domain\nsimulation editor"), self)
+		#self.fx.triggered.connect(self.callback_fxexperiment_window)
+		#self.addAction(self.fx)
 
 
 		self.jv = QAction(QIcon_load("jv"), _("Steady state\nsimulation editor"), self)
@@ -130,7 +130,7 @@ class ribbon_simulations(QToolBar):
 
 	def setEnabled(self,val):
 		self.time.setEnabled(val)
-		self.fx.setEnabled(val)
+		#self.fx.setEnabled(val)
 		self.jv.setEnabled(val)
 		self.qe.setEnabled(val)
 		self.mode.setEnabled(val)

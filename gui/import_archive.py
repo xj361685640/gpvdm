@@ -110,7 +110,7 @@ def merge_archives(src_archive,dest_archive,only_over_write):
 
 	remove_non_used_index_files(dest_archive,src_archive)
 
-	files=[ "ver.inp","sim.inp", "device.inp", "parasitic.inp", "led.inp","ray.inp","stark.inp" ,"shg.inp"   ,"jv.inp" , "math.inp",  "dump.inp",  "dump_file.inp"  , "light.inp", "server.inp", "light_exp.inp","info.inp","config.inp" ]
+	files=[ "ver.inp","sim.inp", "device.inp", "parasitic.inp", "led.inp","ray.inp","stark.inp" ,"shg.inp"   ,"jv.inp" , "math.inp",  "dump.inp" , "light.inp", "server.inp", "light_exp.inp","info.inp","config.inp" ]
 
 	base_file=files[:]
 
@@ -152,7 +152,7 @@ def merge_archives(src_archive,dest_archive,only_over_write):
 		print("ret=",ret)
 		print("-----------------------")
 
-	files=[ "windows_list2.inp","epitaxy.inp", "contacts.inp", "fit.inp", "constraints.inp","duplicate.inp", "thermal.inp","mesh_x.inp","mesh_y.inp","mesh_z.inp" ]
+	files=[ "windows_list2.inp","epitaxy.inp", "contacts.inp", "fit.inp", "constraints.inp","duplicate.inp", "thermal.inp","mesh_x.inp","mesh_y.inp","mesh_z.inp", "dump_file.inp" ]
 	base_file=files[:]
 
 	ls=zip_lsdir(src_archive)

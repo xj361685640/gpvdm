@@ -76,7 +76,7 @@ class language_tab_class(QWidget,tab_base):
 		for i in range(0,len(langs)):
 			self.lang_box.addItem(langs[i])
 
-		token=inp_get_token_value(self.file_path, "#lang")
+		token=inp_get_token_value(self.file_path, "#lang",archive="base.gpvdm")
 		all_items  = [self.lang_box.itemText(i) for i in range(self.lang_box.count())]
 		for i in range(0,len(all_items)):
 			if all_items[i] == token:
@@ -98,7 +98,8 @@ class language_tab_class(QWidget,tab_base):
 		self.setLayout(self.vbox)
 
 	def callback_edit(self):
-		inp_update_token_value(self.file_path, "#lang", self.lang_box.itemText(self.lang_box.currentIndex()))
+		print("updating lang file",self.file_path)
+		inp_update_token_value(self.file_path, "#lang", self.lang_box.itemText(self.lang_box.currentIndex()),archive="base.gpvdm")
 		error_dlg(self,"Please restart gpvdm for the changes to take effect.")
 
 	def help(self):

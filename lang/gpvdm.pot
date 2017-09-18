@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.97\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2017-08-04 17:12+0100\n"
+"POT-Creation-Date: 2017-09-18 20:10+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -133,34 +133,34 @@ msgstr ""
 msgid "spectrum file: I do not know what to do with %s"
 msgstr ""
 
-#: ../liblight/light_materials.c:88 ../liblight/light_materials.c:190
-#: ../liblight/light_materials.c:210 ../lib/util.c:410 ../lib/util.c:530
+#: ../liblight/light_materials.c:88 ../liblight/light_materials.c:199
+#: ../liblight/light_materials.c:219 ../lib/util.c:410 ../lib/util.c:530
 #: ../lib/util.c:590 ../lib/util.c:680
 msgid "File not found"
 msgstr ""
 
-#: ../liblight/light_materials.c:101
+#: ../liblight/light_materials.c:110
 msgid "No optical materials found\n"
 msgstr ""
 
-#: ../liblight/light_materials.c:240 ../liblight/light_materials.c:330
-#: ../liblight/light_materials.c:396
+#: ../liblight/light_materials.c:249 ../liblight/light_materials.c:339
+#: ../liblight/light_materials.c:405
 msgid "file not found"
 msgstr ""
 
-#: ../liblight/light_materials.c:316
+#: ../liblight/light_materials.c:325
 msgid "Error at end of patch file\n"
 msgstr ""
 
-#: ../liblight/light_materials.c:376
+#: ../liblight/light_materials.c:385
 msgid "Error at end of inter file"
 msgstr ""
 
-#: ../liblight/light_materials.c:423 ../liblight/light_materials.c:475
+#: ../liblight/light_materials.c:432 ../liblight/light_materials.c:484
 msgid "Wavelength - Reflected light"
 msgstr ""
 
-#: ../liblight/light_materials.c:425 ../liblight/light_materials.c:477
+#: ../liblight/light_materials.c:434 ../liblight/light_materials.c:486
 #: ../libmeasure/probe.c:168 ../libmeasure/probe.c:170
 #: ../libmeasure/probe.c:193 ../libmeasure/probe.c:195
 #: ../libmeasure/probe.c:218 ../libmeasure/probe.c:220
@@ -173,7 +173,7 @@ msgstr ""
 msgid "Freeing memory from the optical model\n"
 msgstr ""
 
-#: ../liblight/light_utils.c:299
+#: ../liblight/light_utils.c:298
 msgid "It was dark I did not solve any slices\n"
 msgstr ""
 
@@ -1721,7 +1721,7 @@ msgstr ""
 msgid "Solver configuration"
 msgstr ""
 
-#: ../gui/config_window.py:92 ../gui/dump_select.py:322
+#: ../gui/config_window.py:92 ../gui/dump_select.py:323
 msgid "Output files"
 msgstr ""
 
@@ -1944,12 +1944,6 @@ msgstr ""
 msgid ""
 "Time domain\n"
 "simulation editor."
-msgstr ""
-
-#: ../gui/ribbon_simulations.py:72
-msgid ""
-"Frequency domain\n"
-"simulation editor"
 msgstr ""
 
 #: ../gui/ribbon_simulations.py:77
@@ -2764,7 +2758,7 @@ msgstr ""
 msgid "Running job "
 msgstr ""
 
-#: ../gui/server.py:309
+#: ../gui/server.py:310
 msgid "I did not think I was running any jobs"
 msgstr ""
 

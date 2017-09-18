@@ -118,6 +118,8 @@ class about_dlg(QDialog):
 		text=text+"<br>"
 		text=text+"<b>Chinese</b>:Liu Di (刘迪) and Zhao Chenyao (赵辰尧)"
 		text=text+"<br>"
+		text=text+"<b>Russian</b>: Timofey Golubev (Тимофей Голубев)"
+		text=text+"<br>"
 		text=text+"<b>German</b>: Roderick C. I. MacKenzie"
 		text=text+"<br>"
 		text=text+"<b>Spanish</b>:Translator needed!"

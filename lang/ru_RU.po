@@ -1,0 +1,4988 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR Roderick C. I. MacKenzie
+# This file is distributed under the same license as the gpvdm package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: gpvdm 4.97\n"
+"Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
+"POT-Creation-Date: 2017-07-17 07:45+0100\n"
+"PO-Revision-Date: 2017-09-18 13:05-0400\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.3\n"
+"Last-Translator: \n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Language: ru_RU\n"
+
+#: ../liblight/light_config.c:59 ../liblight/light_config.c:110
+msgid "load"
+msgstr "загрузить"
+
+#: ../liblight/light_dump.c:469
+msgid "Electron generation rate"
+msgstr "Скорость генерации электронов"
+
+#: ../liblight/light_dump.c:471 ../liblight/light_dump.c:498
+#: ../liblight/light_dump.c:626 ../liblight/light_dump.c:660
+#: ../liblight/light_dump.c:694 ../liblight/light_dump.c:729
+#: ../liblight/light_dump.c:766 ../liblight/light_dump.c:804
+#: ../liblight/light_dump.c:840 ../src/initial.c:52 ../src/initial.c:76
+#: ../src/initial.c:100 ../src/initial.c:124 ../src/initial.c:148
+#: ../src/pos.c:67 ../src/pos.c:84 ../src/pos.c:119 ../src/pos.c:137
+#: ../src/pos.c:154 ../gui/band_graph.py:195 ../gui/qe.py:60
+#: ../libdump/dump_1d_slice.c:62 ../libdump/dump_1d_slice.c:149
+#: ../libdump/dump_1d_slice.c:207 ../libdump/dump_1d_slice.c:236
+#: ../libdump/dump_1d_slice.c:265 ../libdump/dump_1d_slice.c:323
+#: ../libdump/dump_1d_slice.c:352 ../libdump/dump_1d_slice.c:440
+#: ../libdump/dump_1d_slice.c:503 ../libdump/dump_1d_slice.c:535
+#: ../libdump/dump_1d_slice.c:564 ../libdump/dump_1d_slice.c:594
+#: ../libdump/dump_1d_slice.c:623 ../libdump/dump_1d_slice.c:659
+#: ../libdump/dump_1d_slice.c:693 ../libdump/dump_1d_slice.c:722
+#: ../libdump/dump_1d_slice.c:752 ../libdump/dump_1d_slice.c:781
+#: ../libdump/dump_1d_slice.c:882 ../libdump/dump_1d_slice.c:912
+#: ../libdump/dump_1d_slice.c:942 ../libdump/dump_1d_slice.c:971
+#: ../libdump/dump_1d_slice.c:1000 ../libdump/dump_1d_slice.c:1035
+#: ../libdump/dump_1d_slice.c:1069 ../libdump/dump_1d_slice.c:1105
+#: ../libdump/dump_1d_slice.c:1141 ../libdump/dump_1d_slice.c:1183
+#: ../libdump/dump_1d_slice.c:1220 ../libdump/dump_1d_slice.c:1254
+#: ../libdump/dump_1d_slice.c:1288 ../libdump/dump_1d_slice.c:1317
+#: ../libdump/dump_1d_slice.c:1347 ../libdump/dump_1d_slice.c:1376
+#: ../libdump/dump_1d_slice.c:1406 ../libdump/dump_1d_slice.c:1447
+#: ../libdump/dump_1d_slice.c:1488 ../libdump/dump_1d_slice.c:1522
+#: ../libdump/dump_1d_slice.c:1560 ../libdump/dump_1d_slice.c:1590
+#: ../libdump/dump_1d_slice.c:1648
+msgid "Position"
+msgstr "Положение"
+
+#: ../liblight/light_dump.c:472 ../liblight/light_dump.c:499
+#: ../libmeasure/probe.c:273 ../libmeasure/probe.c:298
+#: ../plugins/pulse/pulse.c:301 ../gui/optics.py:129
+#: ../libdump/dump_dynamic.c:428 ../libdump/dump_1d_slice.c:1293
+#: ../libdump/dump_1d_slice.c:1322
+msgid "Generation rate"
+msgstr "Скорость генерации"
+
+#: ../liblight/light_dump.c:496 ../src/main.c:67
+msgid "Hole generation rate"
+msgstr "Скорость генерации дырок"
+
+#: ../liblight/light_dump.c:627
+msgid "Layer number"
+msgstr "Номер слоя"
+
+#: ../liblight/light_dump.c:661
+msgid "|Electric field|"
+msgstr "|электрическое поле|"
+
+#: ../liblight/light_dump.c:695
+msgid "Transmittance"
+msgstr "Светопроницаемость"
+
+#: ../liblight/light_dump.c:730
+msgid "Reflectance"
+msgstr "Kоэффициент отражения"
+
+#: ../liblight/light_dump.c:767
+msgid "Photons absorbed"
+msgstr "Число поглощеных фотонов"
+
+#: ../liblight/light_dump.c:805
+msgid "Real refractive index"
+msgstr "Действительный показатель преломления"
+
+#: ../liblight/light_dump.c:841 ../gui/materials_main.py:56
+#: ../gui/materials_main.py:130 ../gui/import_data.py:314
+#: ../gui/token_lib.py:365
+msgid "Absorption"
+msgstr "Поглощение"
+
+#: ../liblight/light_interface.c:52
+msgid "Initializing optical model"
+msgstr "Инициализация оптической модели"
+
+#: ../liblight/light_interface.c:92 ../lib/newton_interface.c:88
+#: ../lib/solver_interface.c:89 ../src/run_electrical_dll.c:79
+msgid "dll not loaded"
+msgstr "dll не загружен"
+
+#: ../liblight/light_interface.c:98
+msgid "dll function light_dll_init not found\n"
+msgstr "функция dll light_dll_init не найдена\n"
+
+#: ../liblight/light_interface.c:104
+msgid "dll function light_dll_solve_lam_slice not found\n"
+msgstr "функция dll light_dll_solve_lam_slice не найдена\n"
+
+#: ../liblight/light_interface.c:110
+msgid "dll function light_dll_ver not found\n"
+msgstr "функция dll light_dll_ver не найдена\n"
+
+#: ../liblight/light_materials.c:46
+msgid "load: materials"
+msgstr "загрузитъ: материалы"
+
+#: ../liblight/light_materials.c:61
+msgid "Optical spectra directory not found\n"
+msgstr "Каталог оптических спектров не найден\n"
+
+#: ../liblight/light_materials.c:83
+#, python-format
+msgid "spectrum file: I do not know what to do with %s"
+msgstr "файл спектра: я не знаю, что делать с %s"
+
+#: ../liblight/light_materials.c:88 ../liblight/light_materials.c:190
+#: ../liblight/light_materials.c:210 ../lib/util.c:410 ../lib/util.c:530
+#: ../lib/util.c:590 ../lib/util.c:680
+msgid "File not found"
+msgstr "Файл не найден"
+
+#: ../liblight/light_materials.c:101
+msgid "No optical materials found\n"
+msgstr "Не найдены оптические материалы\n"
+
+#: ../liblight/light_materials.c:240 ../liblight/light_materials.c:330
+#: ../liblight/light_materials.c:396
+msgid "file not found"
+msgstr "файл не найден"
+
+#: ../liblight/light_materials.c:316
+msgid "Error at end of patch file\n"
+msgstr "Ошибка в конце файла патча\n"
+
+#: ../liblight/light_materials.c:376
+msgid "Error at end of inter file"
+msgstr "Ошибка в конце файла inter"
+
+#: ../liblight/light_materials.c:423 ../liblight/light_materials.c:475
+msgid "Wavelength - Reflected light"
+msgstr "Длина волны - Oтраженный свет"
+
+#: ../liblight/light_materials.c:425 ../liblight/light_materials.c:477
+#: ../libmeasure/probe.c:163 ../libmeasure/probe.c:165
+#: ../libmeasure/probe.c:188 ../libmeasure/probe.c:190
+#: ../libmeasure/probe.c:213 ../libmeasure/probe.c:215
+#: ../gui/import_data.py:303 ../gui/import_data.py:304
+#: ../gui/import_data.py:305 ../gui/import_data.py:306 ../gui/equation.py:183
+msgid "Wavelength"
+msgstr "Длина волны"
+
+#: ../liblight/light_memory.c:192
+msgid "Freeing memory from the optical model\n"
+msgstr "Освобождение памяти из оптической модели\n"
+
+#: ../liblight/light_utils.c:299
+#, fuzzy
+msgid "It was dark I did not solve any slices\n"
+msgstr "Было темно, я не разрешал никаких разрезов\n"
+
+#: ../lib/util.c:182 ../lib/util.c:200
+msgid "Error writing file"
+msgstr "Ошибка записи файла"
+
+#: ../lib/util.c:367
+msgid "I don't understand the command"
+msgstr "Я не понимаю команду"
+
+#: ../lib/util.c:379
+msgid "Can not read file"
+msgstr "Не удается прочитать файл"
+
+#: ../lib/util.c:568 ../lib/util.c:628 ../lib/util.c:726
+msgid "Can not write file"
+msgstr "Не удается записать файл"
+
+#: ../lib/util.c:643 ../lib/util.c:651
+msgid "Can not open file"
+msgstr "Не удается открыть файл"
+
+#: ../lib/util.c:718
+msgid "Token not found in file"
+msgstr "Токен не найден в файле"
+
+#: ../lib/util.c:894
+msgid "Deleting directory"
+msgstr "Удаление каталога"
+
+#: ../lib/complex_solver.c:44
+msgid "out of memory!\n"
+msgstr ""
+"и\n"
+"з памяти! \\ n\n"
+
+#: ../lib/complex_solver.c:47
+msgid "matrix is singular!\n"
+msgstr "матрица сингулярна! \n"
+
+#: ../lib/complex_solver.c:81
+#, fuzzy
+msgid "Matrix dumped\n"
+msgstr "Матрица сбрасывается \\ n\n"
+
+#: ../lib/complex_solver.c:100
+#, fuzzy
+msgid "Complex solver free\n"
+msgstr "Комплексный решатель свободный\n"
+
+#: ../lib/complex_solver.c:132 ../lib/complex_solver.c:141
+#: ../lib/complex_solver.c:150 ../lib/complex_solver.c:159
+#: ../lib/complex_solver.c:168 ../lib/complex_solver.c:177
+msgid "complex_solver realloc memory error"
+msgstr "ошибка памяти realloc complex_solver"
+
+#: ../lib/newton_interface.c:49
+msgid "Solver initialization\n"
+msgstr "Инициализация решателя\n"
+
+#: ../lib/newton_interface.c:94
+msgid "dll function dll_solve_cur not found\n"
+msgstr "Функция dll dll_solve_cur не найдена\n"
+
+#: ../lib/newton_interface.c:101
+msgid "dll function dll_solver_realloc not found\n"
+msgstr "dll-функция dll_solver_realloc не найдена\n"
+
+#: ../lib/newton_interface.c:107
+msgid "dll function dll_solver_free_memory not found\n"
+msgstr "Функция dll dll_solver_free_memory не найдена\n"
+
+#: ../lib/log.c:69
+#, python-format
+msgid "File access log written to %s\n"
+msgstr "Журнал доступа к файлам, записанный в %s \n"
+
+#: ../lib/solver_interface.c:95
+msgid "dll function dll_matrix_solve not found\n"
+msgstr "dll function dll_matrix_solve не найден\n"
+
+#: ../lib/solver_interface.c:101
+msgid "dll function dll_matrix_dump not found\n"
+msgstr "dll function dll_matrix_dump не найден\n"
+
+#: ../lib/solver_interface.c:107 ../src/run_electrical_dll.c:85
+msgid "dll function set_interface not found\n"
+msgstr "dll function set_interface не найден\n"
+
+#: ../lib/solver_interface.c:113
+msgid "dll function dll_matrix_solver_free not found\n"
+msgstr "Функция dll dll_matrix_solver_free не найдена\n"
+
+#: ../lib/solver_interface.c:152
+msgid "Freeing memory"
+msgstr "Освобождение памяти"
+
+#: ../lib/solver_interface.c:156
+msgid "Error closing dll"
+msgstr "Ошибка закрытия dll"
+
+#: ../libmesh/time.c:96
+msgid "You must load the optical plugin before making the time mesh"
+msgstr "Вы должны загрузить оптический плагин, прежде чем создавать временную сетку"
+
+#: ../libmeasure/probe.c:270 ../libmeasure/probe.c:272
+#: ../libmeasure/probe.c:295 ../libmeasure/probe.c:297
+#: ../plugins/pulse/pulse.c:208 ../plugins/pulse/pulse.c:210
+#: ../plugins/pulse/pulse.c:231 ../plugins/pulse/pulse.c:233
+#: ../plugins/pulse/pulse.c:255 ../plugins/pulse/pulse.c:257
+#: ../plugins/pulse/pulse.c:278 ../plugins/pulse/pulse.c:280
+#: ../plugins/pulse/pulse.c:298 ../plugins/pulse/pulse.c:300
+#: ../plugins/fxdomain/fxdomain.c:341 ../plugins/fxdomain/fxdomain.c:343
+#: ../plugins/fxdomain/fxdomain.c:364 ../plugins/fxdomain/fxdomain.c:366
+#: ../plugins/fxdomain/fxdomain.c:389 ../plugins/fxdomain/fxdomain.c:393
+#: ../plugins/fxdomain/fxdomain.c:398 ../plugins/fxdomain/fxdomain.c:444
+#: ../plugins/fxdomain/fxdomain.c:448 ../plugins/fxdomain/fxdomain.c:453
+#: ../gui/tmesh.py:204 ../gui/import_data.py:316 ../libdump/dump_dynamic.c:207
+#: ../libdump/dump_dynamic.c:230 ../libdump/dump_dynamic.c:254
+#: ../libdump/dump_dynamic.c:273 ../libdump/dump_dynamic.c:292
+#: ../libdump/dump_dynamic.c:311 ../libdump/dump_dynamic.c:330
+#: ../libdump/dump_dynamic.c:349 ../libdump/dump_dynamic.c:368
+#: ../libdump/dump_dynamic.c:397 ../libdump/dump_dynamic.c:427
+#: ../libdump/dump_dynamic.c:446 ../libdump/dump_dynamic.c:471
+#: ../libdump/dump_dynamic.c:491 ../libdump/dump_dynamic.c:512
+#: ../libdump/dump_dynamic.c:532 ../libdump/dump_dynamic.c:573
+#: ../libdump/dump_dynamic.c:592 ../libdump/dump_dynamic.c:611
+#: ../libdump/dump_dynamic.c:630 ../libdump/dump_dynamic.c:649
+#: ../libdump/dump_dynamic.c:668 ../libdump/dump_dynamic.c:723
+#: ../libdump/dump_dynamic.c:742 ../libdump/dump_dynamic.c:767
+#: ../libdump/dump_dynamic.c:787 ../libdump/dump_dynamic.c:829
+#: ../libdump/dump_dynamic.c:857 ../libdump/dump_dynamic.c:878
+#: ../libdump/dump_dynamic.c:897 ../libdump/dump_dynamic.c:916
+#: ../libdump/dump_dynamic.c:935 ../libdump/dump_dynamic.c:954
+#: ../libdump/dump_dynamic.c:973 ../libdump/dump_dynamic.c:992
+#: ../libdump/dump_dynamic.c:1011 ../libdump/dump_dynamic.c:1030
+#: ../libdump/dump_dynamic.c:1049 ../libfit/fit_dump.c:107
+#: ../libfit/fit_dump.c:130 ../libfit/fit_dump.c:154 ../libfit/fit_dump.c:178
+msgid "Time"
+msgstr "Время"
+
+#: ../libmeasure/probe.c:270 ../libmeasure/probe.c:295
+#: ../plugins/pulse/pulse.c:298
+msgid "Photogeneration rate"
+msgstr "Скорость фотогенерации"
+
+#: ../libmeasure/probe.c:326
+#, fuzzy
+msgid "Probe load configuration"
+msgstr "Конфигурация нагрузки зонда"
+
+#: ../libmeasure/probe.c:349
+#, fuzzy
+msgid "Probe calculate modes"
+msgstr "Режимы расчета зонда"
+
+#: ../libmeasure/probe.c:392
+#, fuzzy
+msgid "Probe free memory"
+msgstr "Свободная память зонда"
+
+#: ../plugins/pulse/pulse.c:68
+#, fuzzy
+msgid "no pulse config file found"
+msgstr "не найден конфигурационный файл пульса"
+
+#: ../plugins/pulse/pulse.c:118 ../plugins/pulse/pulse.c:167
+msgid "pulse mode not known\n"
+msgstr "импульсный режим неизвестен \n"
+
+#: ../plugins/pulse/pulse.c:174
+#, fuzzy
+msgid "pulse time"
+msgstr "время импульса"
+
+#: ../plugins/pulse/pulse.c:174 ../plugins/fxdomain/fxdomain.c:245
+msgid "step"
+msgstr "шаг"
+
+#: ../plugins/pulse/pulse.c:175 ../plugins/pulse/pulse.c:255
+#: ../plugins/fxdomain/fxdomain.c:246 ../plugins/fxdomain/fxdomain.c:341
+#: ../plugins/fxdomain/fxdomain.c:364
+msgid "current"
+msgstr "ток"
+
+#: ../plugins/pulse/pulse.c:208 ../plugins/pulse/pulse.c:211
+#: ../plugins/pulse/pulse.c:258 ../plugins/fxdomain/fxdomain.c:344
+#: ../plugins/fxdomain/fxdomain.c:367 ../plugins/jv/jv.c:242
+#: ../plugins/jv/jv.c:417 ../plugins/jv/jv.c:454 ../gui/token_lib.py:431
+#: ../libdump/dump_dynamic.c:398 ../libdump/dump_contacts.c:72
+msgid "Current"
+msgstr "Ток"
+
+#: ../plugins/pulse/pulse.c:231
+msgid "current density"
+msgstr "плотность тока"
+
+#: ../plugins/pulse/pulse.c:234 ../plugins/jv/jv.c:357 ../plugins/jv/jv.c:360
+#: ../plugins/jv/jv.c:376 ../plugins/jv/jv.c:379 ../plugins/jv/jv.c:395
+#: ../plugins/jv/jv.c:398 ../libdump/dump_dynamic.c:231
+#: ../libdump/dump_1d_slice.c:503 ../libdump/dump_1d_slice.c:535
+msgid "Current density"
+msgstr "Pлотность тока"
+
+#: ../plugins/pulse/pulse.c:278 ../plugins/pulse/pulse.c:283
+#: ../plugins/fxdomain/fxdomain.c:389 ../plugins/fxdomain/fxdomain.c:403
+#: ../plugins/fxdomain/fxdomain.c:444 ../plugins/fxdomain/fxdomain.c:458
+#: ../plugins/jv/jv.c:242 ../plugins/jv/jv.c:293 ../plugins/jv/jv.c:433
+#: ../plugins/equilibrium/equilibrium.c:125 ../gui/tmesh.py:230
+#: ../gui/tmesh.py:232 ../gui/tmesh.py:235 ../gui/tmesh.py:237
+#: ../gui/contacts.py:155 ../gui/import_data.py:311 ../gui/import_data.py:312
+#: ../gui/import_data.py:313 ../libdump/dump_dynamic.c:830
+#: ../libdump/dump_contacts.c:70
+msgid "Voltage"
+msgstr "Напряжение"
+
+#: ../plugins/pulse/pulse.c:281 ../plugins/jv/jv.c:380 ../plugins/jv/jv.c:399
+#: ../plugins/jv/jv.c:418 ../gui/fxmesh.py:187
+msgid "Volts"
+msgstr "Вольт"
+
+#: ../plugins/fxdomain/fxdomain.c:99
+msgid "no fxdomain config file found"
+msgstr "нет файла конфигурации fxdomain"
+
+#: ../plugins/fxdomain/fxdomain.c:138
+msgid "Running frequency"
+msgstr "Выполняется частота"
+
+#: ../plugins/fxdomain/fxdomain.c:178 ../plugins/fxdomain/fxdomain.c:239
+msgid "fxdomain mode not known"
+msgstr "режим fxdomain не известен"
+
+#: ../plugins/fxdomain/fxdomain.c:245
+msgid "fxdomain time"
+msgstr "время в fxdomain"
+
+#: ../plugins/fxdomain/fxdomain.c:393 ../plugins/fxdomain/fxdomain.c:448
+#: ../gui/tb_item_sun.py:75
+msgid "Light intensity"
+msgstr "Интенсивность света"
+
+#: ../plugins/fxdomain/fxdomain.c:407 ../plugins/fxdomain/fxdomain.c:420
+#: ../plugins/fxdomain/fxdomain.c:462 ../plugins/fxdomain/fxdomain.c:475
+#: ../gui/tmesh.py:262 ../gui/tb_item_sun.py:75
+msgid "Suns"
+msgstr ""
+
+#: ../plugins/fxdomain/fxdomain.c:512
+msgid "Real"
+msgstr "Действительный"
+
+#: ../plugins/fxdomain/fxdomain.c:512
+msgid "Imaginary"
+msgstr "Мнимыи"
+
+#: ../plugins/fxdomain/fxdomain.c:514 ../gui/token_lib.py:143
+#: ../gui/token_lib.py:340
+msgid "Re(i)"
+msgstr "Re(i)"
+
+#: ../plugins/fxdomain/fxdomain.c:515 ../gui/token_lib.py:144
+#: ../gui/token_lib.py:341
+msgid "Im(i)"
+msgstr "Im(i)"
+
+#: ../plugins/light_full/light.c:41
+msgid "Full transfer matrix based light model"
+msgstr "Оптическая модель на основе матриц перехода"
+
+#: ../plugins/light_full/light.c:54
+msgid "Solve optical slice at"
+msgstr "Решить оптический срез при"
+
+#: ../plugins/light_full/light.c:232
+msgid "I can't solve the matrix because I don't have enough equations."
+msgstr "Я не могу решить матрицу, потому что у меня недостаточно уравнений."
+
+#: ../plugins/jv/jv.c:46
+msgid "Running JV simulation\n"
+msgstr "Выполняется моделирования ВАХ\n"
+
+#: ../plugins/jv/jv.c:234
+#, fuzzy, python-format
+msgid "Stopping because of Vexternal %Le>%Le\n"
+msgstr "Остановка из-за Vexternal % Le>% Le \n"
+
+#: ../plugins/jv/jv.c:295 ../plugins/equilibrium/equilibrium.c:127
+msgid "Efficiency"
+msgstr "Эффективность"
+
+#: ../plugins/jv/jv.c:333 ../plugins/jv/jv.c:336 ../libdump/dump_1d_slice.c:334
+#: ../libdump/dump_1d_slice.c:953 ../libdump/dump_1d_slice.c:982
+#: ../libdump/dump_1d_slice.c:1011 ../libdump/dump_1d_slice.c:1046
+#: ../libdump/dump_1d_slice.c:1116 ../libdump/dump_1d_slice.c:1152
+#: ../libdump/dump_1d_slice.c:1194 ../libdump/dump_1d_slice.c:1231
+#: ../libdump/dump_1d_slice.c:1265
+msgid "Charge density"
+msgstr "Плотность заряда"
+
+#: ../plugins/jv/jv.c:333 ../plugins/jv/jv.c:357 ../plugins/jv/jv.c:376
+#: ../plugins/jv/jv.c:395 ../plugins/jv/jv.c:414
+msgid "Applied voltage"
+msgstr "Применяемое напряжение"
+
+#: ../plugins/jv/jv.c:335 ../plugins/jv/jv.c:359 ../plugins/jv/jv.c:378
+#: ../plugins/jv/jv.c:397 ../plugins/jv/jv.c:416
+msgid "Applied Voltage"
+msgstr "Применяемое напряжение"
+
+#: ../plugins/jv/jv.c:414
+msgid "Current "
+msgstr "Ток "
+
+#: ../plugins/jv/jv.c:433 ../plugins/jv/jv.c:454
+msgid "Light generated"
+msgstr "Сгенерированный свет"
+
+#: ../plugins/jv/jv.c:457
+msgid "Light power"
+msgstr "Мощность света"
+
+#: ../plugins/equilibrium/equilibrium.c:49
+msgid "Holes on left contact"
+msgstr "Дырки на левом контакте"
+
+#: ../plugins/equilibrium/equilibrium.c:50
+msgid "Electrons on left contact"
+msgstr "Электроны на левом контакте"
+
+#: ../plugins/equilibrium/equilibrium.c:52
+msgid "Holes on right contact"
+msgstr "Дырки на правом контакте"
+
+#: ../plugins/equilibrium/equilibrium.c:53
+msgid "Electrons on right contact"
+msgstr "Электроны на правом контакте"
+
+#: ../plugins/equilibrium/equilibrium.c:75
+msgid "Running equilibrium simulation\n"
+msgstr "Выполняется моделирование равновесного состояния \n"
+
+#: ../libserver/server.c:111
+msgid "Job stalled. Time since last run:"
+msgstr "Работа застопорилась. Время с момента последнего запуска:"
+
+#: ../libserver/server.c:154
+msgid "Bytes written"
+msgstr "Количество записанных байт"
+
+#: ../libserver/server.c:155
+msgid "Bytes read"
+msgstr "Kоличество байтов прочитано"
+
+#: ../libserver/server.c:156
+msgid "Files read"
+msgstr "Файлы, прочитаны"
+
+#: ../libserver/server.c:157
+msgid "Files written"
+msgstr "Файлы, написанные"
+
+#: ../libserver/server.c:161
+msgid "I have shut down the server"
+msgstr "Я закрыл сервер"
+
+#: ../libserver/server.c:237
+msgid "Number of CPUs:"
+msgstr "Количество процессоров:"
+
+#: ../libserver/server.c:246
+msgid "Start time"
+msgstr "Началное время"
+
+#: ../libserver/server.c:249
+msgid "End time"
+msgstr "Конечное время"
+
+#: ../libserver/server.c:505
+msgid "All jobs finished jobs"
+msgstr "Все работы завершены"
+
+#: ../libserver/server.c:511
+msgid "I have finished all my jobs"
+msgstr "Я закончил все мои работы"
+
+#: ../libserver/server.c:518
+msgid "The server has detected a crash"
+msgstr "Сервер обнаружил сбой"
+
+#: ../libdos/dos.c:218
+msgid "Loading file"
+msgstr "Загрузка файла"
+
+#: ../libdos/dos.c:264 ../libdos/dos.c:270
+msgid "DOS file not found\n"
+msgstr "Файл DOS не найден\n"
+
+#: ../libdos/dos.c:305
+msgid "DoS n file not found\n"
+msgstr "Файл DoS n не найден\n"
+
+#: ../libdos/gendosfdgaus.c:840
+msgid "Expected dos size is different from generated\n"
+msgstr "Ожидаемый размер dos отличается от сгенерированного\n"
+
+#: ../libdos/gendosfdgaus.c:1304
+msgid "Finished generating DoS....\n"
+msgstr "Завершено создание DoS .... \n"
+
+#: ../src/initial.c:50
+msgid "Equilibrium Fermi-level"
+msgstr "Равновесный уровень Ферми"
+
+#: ../src/initial.c:50 ../src/initial.c:74 ../src/initial.c:98
+#: ../src/initial.c:122 ../src/initial.c:146 ../libdump/dump_1d_slice.c:91
+#: ../libdump/dump_1d_slice.c:120 ../libdump/dump_1d_slice.c:178
+#: ../libdump/dump_1d_slice.c:294 ../libdump/dump_1d_slice.c:381
+#: ../libdump/dump_1d_slice.c:410 ../libdump/dump_1d_slice.c:1619
+msgid "position"
+msgstr "положение"
+
+#: ../src/initial.c:56 ../src/initial.c:80 ../src/initial.c:104
+#: ../src/initial.c:128 ../src/initial.c:152 ../libdump/dump_1d_slice.c:72
+#: ../libdump/dump_1d_slice.c:101 ../libdump/dump_1d_slice.c:130
+#: ../libdump/dump_1d_slice.c:159 ../libdump/dump_1d_slice.c:188
+#: ../libdump/dump_1d_slice.c:217 ../libdump/dump_1d_slice.c:246
+#: ../libdump/dump_1d_slice.c:275 ../libdump/dump_1d_slice.c:304
+#: ../libdump/dump_1d_slice.c:333 ../libdump/dump_1d_slice.c:362
+#: ../libdump/dump_1d_slice.c:391 ../libdump/dump_1d_slice.c:420
+#: ../libdump/dump_1d_slice.c:450 ../libdump/dump_1d_slice.c:513
+#: ../libdump/dump_1d_slice.c:545 ../libdump/dump_1d_slice.c:574
+#: ../libdump/dump_1d_slice.c:604 ../libdump/dump_1d_slice.c:633
+#: ../libdump/dump_1d_slice.c:669 ../libdump/dump_1d_slice.c:703
+#: ../libdump/dump_1d_slice.c:732 ../libdump/dump_1d_slice.c:762
+#: ../libdump/dump_1d_slice.c:791 ../libdump/dump_1d_slice.c:820
+#: ../libdump/dump_1d_slice.c:858 ../libdump/dump_1d_slice.c:892
+#: ../libdump/dump_1d_slice.c:922 ../libdump/dump_1d_slice.c:952
+#: ../libdump/dump_1d_slice.c:981 ../libdump/dump_1d_slice.c:1010
+#: ../libdump/dump_1d_slice.c:1045 ../libdump/dump_1d_slice.c:1079
+#: ../libdump/dump_1d_slice.c:1115 ../libdump/dump_1d_slice.c:1151
+#: ../libdump/dump_1d_slice.c:1193 ../libdump/dump_1d_slice.c:1230
+#: ../libdump/dump_1d_slice.c:1264 ../libdump/dump_1d_slice.c:1298
+#: ../libdump/dump_1d_slice.c:1327 ../libdump/dump_1d_slice.c:1357
+#: ../libdump/dump_1d_slice.c:1386 ../libdump/dump_1d_slice.c:1416
+#: ../libdump/dump_1d_slice.c:1457 ../libdump/dump_1d_slice.c:1498
+#: ../libdump/dump_1d_slice.c:1532 ../libdump/dump_1d_slice.c:1570
+#: ../libdump/dump_1d_slice.c:1600 ../libdump/dump_1d_slice.c:1629
+#: ../libdump/dump_1d_slice.c:1658
+#, fuzzy
+msgid "1D position space output"
+msgstr "1D выходное пространство"
+
+#: ../src/initial.c:57 ../src/initial.c:81 ../src/initial.c:105
+#: ../src/initial.c:129 ../src/initial.c:153 ../libdump/dump_1d_slice.c:73
+#: ../libdump/dump_1d_slice.c:102 ../libdump/dump_1d_slice.c:131
+#: ../libdump/dump_1d_slice.c:160 ../libdump/dump_1d_slice.c:247
+#: ../libdump/dump_1d_slice.c:276 ../libdump/dump_1d_slice.c:305
+#: ../libdump/dump_1d_slice.c:514 ../libdump/dump_1d_slice.c:546
+#: ../libdump/dump_1d_slice.c:575 ../libdump/dump_1d_slice.c:605
+#: ../libdump/dump_1d_slice.c:634 ../libdump/dump_1d_slice.c:670
+msgid "Transport"
+msgstr "Транспортировка"
+
+#: ../src/initial.c:74 ../libdump/dump_1d_slice.c:178
+msgid "LUMO"
+msgstr "НВМО (LUMO)"
+
+#: ../src/initial.c:98 ../libdump/dump_1d_slice.c:207
+msgid "HOMO"
+msgstr "ВЗМО (HOMO)"
+
+#: ../src/initial.c:122 ../src/pos.c:120 ../libdump/dump_dynamic.c:612
+#: ../libdump/dump_dynamic.c:650 ../libdump/dump_dynamic.c:768
+#: ../libdump/dump_1d_slice.c:1225
+msgid "Electron density"
+msgstr "Плотность электронов"
+
+#: ../src/initial.c:146 ../src/pos.c:138 ../libdump/dump_dynamic.c:631
+#: ../libdump/dump_dynamic.c:669 ../libdump/dump_dynamic.c:788
+#: ../libdump/dump_1d_slice.c:1259
+msgid "Hole density"
+msgstr "Плотность дырок"
+
+#: ../src/initial.c:149 ../gui/jobs.py:80
+msgid "n"
+msgstr "n"
+
+#: ../src/mesh.c:78
+#, fuzzy
+msgid "The mesh does not match the device length and I am not alowed to remesh it"
+msgstr "Сетка не соответствует длине устройства, и я не могу ее повторно отремонтировать"
+
+#: ../src/mesh.c:279
+msgid "Direction wrong"
+msgstr "Неправильное направление"
+
+#: ../src/main.c:123 ../src/main.c:144
+msgid "Copyright (C) 2012-2017 Roderick C. I. MacKenzie, Releced under GPLv2"
+msgstr "Copyright (C) 2012-2017 гг. Roderick C. I. MacKenzie, выпущенный под GPLv2"
+
+#: ../src/main.c:125
+msgid "options"
+msgstr "опции"
+
+#: ../src/main.c:127
+msgid "Options"
+msgstr "Опции"
+
+#: ../src/main.c:129
+msgid "output data path"
+msgstr "выходной путь данных"
+
+#: ../src/main.c:130
+#, fuzzy
+msgid "sets the input path"
+msgstr "устанавливает входной путь"
+
+#: ../src/main.c:131 ../gui/command_args.py:62 ../gui/command_args.py:63
+msgid "displays the current version"
+msgstr "отображает текущую версию"
+
+#: ../src/main.c:132
+msgid "zip the results"
+msgstr "конвертировать результаты в zip"
+
+#: ../src/main.c:133
+#, fuzzy
+msgid "Forces a simulation mode."
+msgstr "Заставляет режим симуляции."
+
+#: ../src/main.c:134
+msgid "sets the number of CPUs"
+msgstr "устанавливает количество процессоров"
+
+#: ../src/main.c:136
+msgid "Additional information about gpvdm is available at https://www.gpvdm.com."
+msgstr "Дополнительную информацию о gpvdm можно найти на странице https://www.gpvdm.com."
+
+#: ../src/main.c:138
+msgid "Report bugs to: roderick.mackenzie@nottingham.ac.uk"
+msgstr "Сообщить об ошибке: roderick.mackenzie@nottingham.ac.uk"
+
+#: ../src/main.c:143
+#, python-format
+msgid "gpvdm_core, Version %s\n"
+msgstr "gpvdm_core, версия %s \n"
+
+#: ../src/main.c:145
+msgid "This is free software; see the source code for copying conditions."
+msgstr "Это бесплатное программное обеспечение; см. исходный код условий копирования."
+
+#: ../src/main.c:146
+msgid "There is ABSOLUTELY NO WARRANTY; not even for MERCHANTABILITY or\n"
+msgstr "Абсолютно никакой гарантии нет; даже для КОММЕРЧЕСКОЙ ЦЕННОСТИ или \n"
+
+#: ../src/main.c:147
+msgid "FITNESS FOR A PARTICULAR PURPOSE.\n"
+msgstr "ПРИГОДНОСТЬ ДЛЯ ОПРЕДЕЛЕННОЙ ЦЕЛИ. \n"
+
+#: ../src/main.c:198 ../gui/scan_tab.py:424 ../gui/constraints.py:140
+#: ../gui/constraints.py:179 ../gui/fit_vars.py:164 ../gui/fit_patch.py:126
+msgid "Token"
+msgstr "Токен"
+
+#: ../src/main.c:200
+msgid "General-purpose Photovoltaic Device Model (https://www.gpvdm.com)\n"
+msgstr "Модель фотогальванического устройства общего назначения (https://www.gpvdm.com)\n"
+
+#: ../src/main.c:201
+msgid "You should have received a copy of the GNU General Public License\n"
+msgstr "Вы должны были получить копию GNU General Public License\n"
+
+#: ../src/main.c:202
+msgid "along with this software.  If not, see www.gnu.org/licenses/.\n"
+msgstr "с этим программным обеспечением. Если нет, см. www.gnu.org/licenses/.\n"
+
+#: ../src/main.c:204
+msgid "If you wish to collaborate in anyway please get in touch:\n"
+msgstr "Если вы хотите сотрудничать, пожалуйста, свяжитесь:\n"
+
+#: ../src/run_electrical_dll.c:46
+msgid "Loading electrical dll\n"
+msgstr "Загрузка электрической dll \n"
+
+#: ../src/run_electrical_dll.c:92
+msgid "dll function dll_run_simulation not found\n"
+msgstr "Функция dll dll_run_simulation не найдена \n"
+
+#: ../src/sim_run.c:46
+msgid "Runing simulation"
+msgstr "Выполняется симуляция"
+
+#: ../src/sim_run.c:111
+msgid "Loading DoS layers"
+msgstr "Загрузка слоёв DoS"
+
+#: ../src/sim_run.c:120
+msgid "Load DoS"
+msgstr "Загрузить DoS"
+
+#: ../src/pos.c:65
+msgid "Intrinsic Fermi - position"
+msgstr "Собственный уровень Ферми - положение"
+
+#: ../src/pos.c:82
+msgid "LUMO energy - position"
+msgstr "Энергия НВМО - положение"
+
+#: ../src/pos.c:99
+msgid "HOMO energy - position"
+msgstr "Энергия ВЕМО - положение"
+
+#: ../src/pos.c:117
+msgid "Electron density - position"
+msgstr "Плотность электронов - положение"
+
+#: ../src/pos.c:135
+msgid "Hole density - position"
+msgstr "Плотность дырок - положение"
+
+#: ../src/pos.c:152
+msgid "Potential - position"
+msgstr "Потенциал - положение"
+
+#: ../src/pos.c:155 ../libdump/dump_1d_slice.c:440
+#: ../libdump/dump_1d_slice.c:445 ../libdump/dump_1d_slice.c:469
+#: ../libdump/dump_1d_slice.c:474
+msgid "Potential"
+msgstr "Потенциал"
+
+#: ../src/pos.c:206
+msgid "Solving Poisson's equation"
+msgstr "Решение уравнения Пуассона"
+
+#: ../src/pos.c:525
+msgid "Poisson solver error"
+msgstr "Ошибка решетеля Пуассона"
+
+#: ../src/pos.c:596
+msgid "Solved Poisson's equation"
+msgstr "Yравнение Пуассона решено"
+
+#: ../src/config.c:45
+msgid "load: config files"
+msgstr "загрузить: файлы конфигурации"
+
+#: ../src/sim_find_n0.c:39
+msgid "Finding equilibrium conditions"
+msgstr "Поиск равновесных условий"
+
+#: ../src/sim_find_n0.c:101
+msgid "Finished finding equilibrium conditions"
+msgstr "Закончен поиск равновесных условий"
+
+#: ../gui/pl_main.py:77
+msgid "Luminescence of "
+msgstr "Люминесценция "
+
+#: ../gui/pl_main.py:87 ../gui/gpvdm_notebook.py:102
+#, fuzzy
+msgid ""
+"<big><b>Luminescence</b></big>\n"
+"If you set 'Turn on luminescence' to true, the simulation will assume recombination is a raditave process and intergrate it to produce Voltage-Light intensity curves (lv.dat).  Each number in the tab tells the model how efficient each recombination mechanism is at producing photons."
+msgstr ""
+"<big> <b> Люминесценция </b> </big> \n"
+"Если вы установите значение «Включить люминесценцию» на значение верно, симуляция будет предполагать, что рекомбинация является радиосигналом и проинтегрирует ее для создания кривых интенсивности напряжения-света (lv.dat ). Каждое число на вкладке указывает модели, насколько эффективен каждый механизм рекомбинации при производстве фотонов."
+
+#: ../gui/cmp_class.py:256
+msgid "Examine simulation results in time domain"
+msgstr "Изучить результаты симуляции во временной области"
+
+#: ../gui/cmp_class.py:283
+msgid "Save video"
+msgstr "Сохранить видео"
+
+#: ../gui/cmp_class.py:297 ../gui/fit_configure_window.py:74
+#: ../gui/optics_ribbon.py:87 ../gui/experiment.py:211 ../gui/contacts.py:192
+#: ../gui/mesh_configure.py:64 ../gui/config_window.py:74
+#: ../gui/config_window.py:75 ../gui/ribbon_home.py:110
+#: ../gui/materials_main.py:105 ../gui/jv.py:73 ../gui/emesh.py:168
+#: ../gui/ribbon_solar.py:74 ../gui/ribbon_information.py:75
+#: ../gui/ribbon.py:77 ../gui/info.py:63 ../gui/cost.py:89
+#: ../gui/fxexperiment.py:219 ../gui/fit_window.py:276
+#: ../gui/ribbon_cluster.py:114 ../gui/ref.py:89 ../gui/ref.py:90
+#: ../gui/lasers.py:193 ../gui/import_data.py:235 ../gui/import_data.py:236
+#: ../gui/scan_ribbon.py:77 ../gui/parasitic.py:64 ../gui/spectra_main.py:79
+#: ../gui/doping.py:192
+msgid "Help"
+msgstr "Помощь"
+
+#: ../gui/cmp_class.py:298 ../gui/fit_configure_window.py:75
+#: ../gui/experiment.py:212 ../gui/contacts.py:193 ../gui/mesh_configure.py:65
+#: ../gui/jv.py:74 ../gui/emesh.py:169 ../gui/info.py:64
+#: ../gui/fxexperiment.py:220 ../gui/ref.py:109 ../gui/lasers.py:194
+#: ../gui/about.py:154 ../gui/help.py:132 ../gui/parasitic.py:65
+msgid "Close"
+msgstr "Закрыть"
+
+#: ../gui/cmp_class.py:313
+msgid "No electrical slice data has been stored in the snapshots directory.  To turn this on set Simulation->Configure->Dump->Dump 1D Slices to on.  This will dump a lot of data and slow down your simulations."
+msgstr "В каталоге моментальных снимков данные о электрическом срезе не хранятся. Чтобы включить это, установите Симуляция-> Конфигурация-> Дамп-> Дамп 1D срезов. Это сбрасывает много данных и замедляет ваши симуляции."
+
+#: ../gui/gtkswitch.py:79
+msgid "ON"
+msgstr "ВКЛ"
+
+#: ../gui/gtkswitch.py:85
+msgid "OFF"
+msgstr "ВЫКЛ"
+
+#: ../gui/experiment_tab.py:65
+msgid "time mesh"
+msgstr "временная сетка"
+
+#: ../gui/experiment_tab.py:70 ../gui/fxexperiment_tab.py:77
+msgid "Circuit"
+msgstr "Cема"
+
+#: ../gui/experiment_tab.py:73 ../gui/experiment_tab.py:74
+#: ../gui/ribbon_configure.py:54 ../gui/config_window.py:61
+#: ../gui/ribbon.py:123 ../gui/fit_window.py:249 ../gui/fxexperiment_tab.py:80
+#: ../gui/fxexperiment_tab.py:81
+msgid "Configure"
+msgstr "Конфигурировать"
+
+#: ../gui/gl_cmp.py:38
+msgid "Results viewer"
+msgstr "Просмотр результатов"
+
+#: ../gui/band_graph.py:196 ../gui/qe.py:59 ../gui/cost.py:111
+#: ../libdump/dump_1d_slice.c:698
+msgid "Energy"
+msgstr "Энергия"
+
+#: ../gui/qe.py:81
+msgid "No file"
+msgstr "Нет файла"
+
+#: ../gui/qe.py:101
+msgid "Quantum Efficiency calculator"
+msgstr "Калькулятор квантовой эффективности"
+
+#: ../gui/qe.py:119 ../gui/optics_ribbon.py:65
+#: ../gui/fit_window_plot_real.py:120 ../gui/plot_widget.py:544
+msgid "Save graph"
+msgstr "Сохранить график"
+
+#: ../gui/qe.py:123 ../gui/matlab_editor.py:101
+msgid "Run"
+msgstr "Запустить"
+
+#: ../gui/tb_pulse_load_type.py:50
+msgid "Load type"
+msgstr "Тип электрической нагрузки"
+
+#: ../gui/solar_main.py:57
+msgid "Solar Spectrum Generator"
+msgstr "Генератор Солнечного Спектра"
+
+#: ../gui/ribbon_configure.py:62
+msgid ""
+"Electrical\n"
+"mesh"
+msgstr "Электрическая сетка"
+
+#: ../gui/ribbon_configure.py:81
+msgid ""
+"<big><b>Mesh editor</b></big>\n"
+"Use this window to setup the mesh, the window can also be used to change the dimensionality of the simulation."
+msgstr ""
+"<big> <b> Редактор Сетки </b> </big> \n"
+"Используйте это окно для настройки сетки, это окно также можно использовать для изменения размерности симуляции."
+
+#: ../gui/ribbon_configure.py:95
+msgid "<big><b>Configuration editor</b></big><br> Use this window to control advanced simulation parameters."
+msgstr "<big> <b> Редактор конфигурации </b> </big> <br> Используйте это окно для управления расширенными параметрами симуляциия."
+
+#: ../gui/tb_item_is_imps.py:74
+msgid "Modulation type"
+msgstr "Тип модуляции"
+
+#: ../gui/fx_selector.py:43
+msgid "Wavelengths"
+msgstr "Длины волн"
+
+#: ../gui/progress.py:49
+msgid "Running"
+msgstr "Выполняется"
+
+#: ../gui/fit_tab.py:76 ../libfit/fit_dump.c:59 ../libfit/fit_dump.c:82
+#: ../libfit/fit_dump.c:105 ../libfit/fit_dump.c:128 ../libfit/fit_dump.c:152
+#: ../libfit/fit_dump.c:176
+msgid "Fit error"
+msgstr "Ошибка в приближение"
+
+#: ../gui/fit_tab.py:80
+msgid "Configure fit"
+msgstr "Настроить приближение"
+
+#: ../gui/fit_tab.py:83
+msgid "Experimental data"
+msgstr "Экспериментальные данные"
+
+#: ../gui/fit_tab.py:86
+msgid "Fit patch"
+msgstr "Пачь приближение кривых"
+
+#: ../gui/fit_tab.py:89
+msgid "MATLAB code"
+msgstr "Код MATLAB"
+
+#: ../gui/fit_configure_window.py:61
+msgid "Fit configure"
+msgstr "Конфигурация приближение кривых"
+
+#: ../gui/fit_configure_window.py:90
+msgid "Configure minimizer"
+msgstr "Настроить минимизатор"
+
+#: ../gui/fit_configure_window.py:98
+msgid "Duplicate window"
+msgstr "Дублируемое окно"
+
+#: ../gui/fit_configure_window.py:101
+#, fuzzy
+msgid "Fit variable window"
+msgstr "Окно неизвесных приближение кривых"
+
+#: ../gui/fit_configure_window.py:104
+#, fuzzy
+msgid "Fit constraints"
+msgstr "Ограничения приближение кривых"
+
+#: ../gui/tmesh.py:116 ../gui/tmesh.py:117 ../gui/tmesh.py:118
+#: ../gui/tmesh.py:119 ../gui/tmesh.py:120 ../gui/tmesh.py:121
+#: ../gui/tmesh.py:122 ../gui/fxmesh.py:82 ../gui/fxmesh.py:86
+#: ../gui/fxmesh.py:90 ../gui/fxmesh.py:94 ../gui/fxmesh.py:109
+#: ../gui/fxmesh.py:110 ../gui/fxmesh.py:111 ../gui/fxmesh.py:112
+msgid "Part "
+msgstr "Часть "
+
+#: ../gui/tmesh.py:116
+#, fuzzy
+msgid " period"
+msgstr " be period"
+
+#: ../gui/tmesh.py:117
+msgid " dt"
+msgstr " dt"
+
+#: ../gui/tmesh.py:118
+msgid " start voltage"
+msgstr " начальное напряжение"
+
+#: ../gui/tmesh.py:119
+msgid " stop voltage"
+msgstr " конечное напряжение"
+
+#: ../gui/tmesh.py:120
+#, fuzzy
+msgid " mul"
+msgstr " мул"
+
+#: ../gui/tmesh.py:121
+#, fuzzy
+msgid " Sun"
+msgstr " Вс"
+
+#: ../gui/tmesh.py:122
+#, fuzzy
+msgid " CW laser"
+msgstr " CW-лазер"
+
+#: ../gui/tmesh.py:157
+#, fuzzy
+msgid "Enter the time at which the laser pulse will fire (-1) to turn it off"
+msgstr "Введите время, в течение которого лазерный импульс будет гореть (-1), чтобы выключить его"
+
+#: ../gui/tmesh.py:201
+msgid "Voltage (Volts)"
+msgstr "Напряжение (вольт)"
+
+#: ../gui/tmesh.py:207 ../gui/fxmesh.py:187
+#: ../gui/electrical_mesh_editor.py:180
+msgid "Magnitude"
+msgstr "Величина"
+
+#: ../gui/tmesh.py:230 ../gui/tmesh.py:232 ../gui/tmesh.py:235
+#: ../gui/tmesh.py:237
+#, fuzzy
+msgid "Sun"
+msgstr "Вс"
+
+#: ../gui/tmesh.py:230 ../gui/tmesh.py:232
+#, fuzzy
+msgid "CW laser"
+msgstr "CW-лазер"
+
+#: ../gui/tmesh.py:230 ../gui/tmesh.py:235
+msgid "fs laser"
+msgstr "фс лазер"
+
+#: ../gui/tmesh.py:262
+msgid "Length"
+msgstr "Длина"
+
+#: ../gui/tmesh.py:262 ../gui/token_lib.py:83
+msgid "dt"
+msgstr "dt"
+
+#: ../gui/tmesh.py:262
+msgid "Start Voltage"
+msgstr "Начальное напряжение"
+
+#: ../gui/tmesh.py:262
+msgid "Stop Voltage"
+msgstr "К66онечное напряжение"
+
+#: ../gui/tmesh.py:262
+msgid "step multiplyer"
+msgstr "Умножитель шагов"
+
+#: ../gui/tmesh.py:262
+msgid "Laser"
+msgstr "Лазер"
+
+#: ../gui/tmesh.py:357
+msgid "Enter the start time of the simulation"
+msgstr "Введите время начала симуляции"
+
+#: ../gui/tmesh.py:389
+msgid "Laser start time"
+msgstr "Время запуска лазера"
+
+#: ../gui/tmesh.py:397
+msgid "Simulation start time"
+msgstr "Время начала симуляции"
+
+#: ../gui/tmesh.py:427 ../gui/fxmesh.py:306 ../gui/equation.py:357
+msgid "Add section"
+msgstr "Добавить раздел"
+
+#: ../gui/tmesh.py:431 ../gui/fxmesh.py:310 ../gui/equation.py:361
+msgid "Delete section"
+msgstr "Удалить раздел"
+
+#: ../gui/tmesh.py:435 ../gui/fxmesh.py:314 ../gui/scan_tab.py:532
+#: ../gui/scan_tab.py:602 ../gui/scan_tab.py:606 ../gui/duplicate.py:224
+#: ../gui/fit_vars.py:246 ../gui/equation.py:365
+msgid "Move down"
+msgstr "Вниз"
+
+#: ../gui/tmesh.py:439 ../gui/fxmesh.py:318 ../gui/scan_tab.py:536
+#: ../gui/duplicate.py:228 ../gui/fit_vars.py:250 ../gui/equation.py:369
+msgid "Move up"
+msgstr "Вверх"
+
+#: ../gui/dlg_export.py:46
+msgid "Export the simulation as"
+msgstr "Экспортоватъ симуляцию как"
+
+#: ../gui/dlg_export.py:49 ../gui/dlg_export.py:64
+msgid "gpvdm archive input+output files"
+msgstr "архивные входные файлы gpvdm + выходные файлы"
+
+#: ../gui/dlg_export.py:50 ../gui/dlg_export.py:66
+msgid "gpvdm archive input files"
+msgstr "файлы ввода архива gpvdm"
+
+#: ../gui/dlg_export.py:51 ../gui/dlg_export.py:68
+msgid "optical materials database"
+msgstr "база данных оптических материалов"
+
+#: ../gui/dlg_export.py:52 ../gui/dlg_export.py:70
+msgid "pdf file"
+msgstr "файл pdf "
+
+#: ../gui/dlg_export.py:53 ../gui/dlg_export.py:70
+msgid "jpg image"
+msgstr "Изображение jpg"
+
+#: ../gui/dlg_export.py:54 ../gui/dlg_export.py:70
+msgid "tex file"
+msgstr "файл tex"
+
+#: ../gui/dlg_export.py:55 ../gui/dlg_export.py:72
+msgid "Excel file"
+msgstr "Файл Excel"
+
+#: ../gui/optics_ribbon.py:62
+msgid "Run optical simulation"
+msgstr "Запуститъ оптическое моделирование"
+
+#: ../gui/optics_ribbon.py:113 ../gui/ribbon_solar.py:97 ../gui/ribbon.py:108
+#: ../gui/cool_menu.py:68 ../gui/scan_ribbon.py:166 ../gui/about.py:50
+#: ../gui/about.py:82 ../gui/status_icon.py:48
+#, fuzzy
+msgid "About"
+msgstr "Около"
+
+#: ../gui/optics_ribbon.py:119
+msgid "Optics"
+msgstr "Оптика"
+
+#: ../gui/tb_spectrum.py:45
+msgid "Solar spectrum"
+msgstr "Солнечный спектр"
+
+#: ../gui/fxmesh.py:82 ../gui/fxmesh.py:109 ../gui/equation.py:200
+#: ../gui/jobs.py:80
+msgid "start"
+msgstr "начать"
+
+#: ../gui/fxmesh.py:86 ../gui/fxmesh.py:110 ../gui/equation.py:200
+#: ../gui/token_lib.py:85 ../gui/jobs.py:80
+msgid "stop"
+msgstr "стоп"
+
+#: ../gui/fxmesh.py:90 ../gui/fxmesh.py:111 ../gui/fxmesh.py:199
+#: ../gui/token_lib.py:348
+msgid "points"
+msgstr "точок"
+
+#: ../gui/fxmesh.py:94 ../gui/fxmesh.py:112
+#, fuzzy
+msgid "mul"
+msgstr "мул"
+
+#: ../gui/fxmesh.py:192 ../gui/token_lib.py:344
+msgid "Frequency"
+msgstr "Частота"
+
+#: ../gui/fxmesh.py:199
+msgid "Frequency start"
+msgstr "Начальная частота"
+
+#: ../gui/fxmesh.py:199
+msgid "Frequency stop"
+msgstr "Конечная частота"
+
+#: ../gui/fxmesh.py:199
+msgid "Multiply"
+msgstr "Умножить"
+
+#: ../gui/command_args.py:61
+msgid "Additional information about gpvdm is available at"
+msgstr "Дополнительная информация о gpvdm доступна по адресу"
+
+#: ../gui/command_args.py:61
+msgid "Report bugs to:"
+msgstr "Сообщить об ошибках:"
+
+#: ../gui/command_args.py:64
+#, fuzzy
+msgid "replaces file in device lib"
+msgstr "заменяет файл в библиотеке устройства"
+
+#: ../gui/command_args.py:65
+#, fuzzy
+msgid "cleans the current simulation directory deleting .dat files but not  scan dirs"
+msgstr "очищает текущий каталог симуляции, удаляя файлы .dat, но не  scan dirs"
+
+#: ../gui/command_args.py:66
+msgid "export a simulation to a gz file"
+msgstr "экспортировать симуляцию в файл gz"
+
+#: ../gui/command_args.py:67
+msgid "Synchronizes the saved file version to that of the source code."
+msgstr "Синхронизирует сохраненную версию файла с версией исходного кода."
+
+#: ../gui/command_args.py:68
+msgid "Generate the manual pages referring to the output files.."
+msgstr "Создайте страницы руководства, ссылаясь на выходные файлы."
+
+#: ../gui/command_args.py:69
+msgid "Only imports the scan directories."
+msgstr "Импортирует только каталоги сканирования."
+
+#: ../gui/command_args.py:70
+msgid "Deletes the content of all scan directories."
+msgstr "Удаляет содержимое всех каталогов сканирования."
+
+#: ../gui/command_args.py:71
+#, fuzzy
+msgid "Patch a .gpvdm file with an older .gpvdm file."
+msgstr "Запустите файл .gpvdm со старым файлом .gpvdm."
+
+#: ../gui/command_args.py:72
+#, fuzzy
+msgid "Patch an .inp file with an older .inp file. usage --patchfile dest_file base_file input_file"
+msgstr "Запустите файл .inp со старым .inp-файлом. использование --patchfile dest_file base_file input_file"
+
+#: ../gui/command_args.py:73
+msgid "usage --import abc.gpvdm ./path/to/output/ "
+msgstr "использование --import abc.gpvdm ./path/to/output/ "
+
+#: ../gui/command_args.py:74
+#, fuzzy
+msgid "Dumps simulation parameters as jpg, usage: --dump-tab output_path"
+msgstr "Параметры симуляции дампов как jpg, использование: --dump-tab output_path"
+
+#: ../gui/command_args.py:75
+msgid "Generate a clean simulation in the current directory"
+msgstr "Создать чистую симуляцию в текущем каталоге"
+
+#: ../gui/command_args.py:76
+msgid "Clone the source code."
+msgstr "Клонировать исходный код."
+
+#: ../gui/command_args.py:77
+#, fuzzy
+msgid "edits a value in a .gpvdm archive. Usage --edit-value /path/to/sim.gpvdm #token_to_change new_value "
+msgstr "редактирует значение в архиве .gpvdm. Использование --edit-value /path/to/sim.gpvdm #token_to_change new_value "
+
+#: ../gui/command_args.py:78
+#, fuzzy
+msgid "Runs an oplot file, usage --scanplot /path/to/oplot/file.oplot "
+msgstr "Запускает файл oplot, использование --scanplot /path/to/oplot/file.oplot "
+
+#: ../gui/command_args.py:79
+#, fuzzy
+msgid "Runs a scan, usage --runscan /path/containing/base/files/ /path/to/scan/dir/ "
+msgstr "Выполняет сканирование, использование --runscan / path / contains / base / files / / path / to / scan / dir / "
+
+#: ../gui/command_args.py:80
+#, fuzzy
+msgid "Loads a simulation --load /path/containing/simulation/sim.gpvdm"
+msgstr "Загружает симуляцию --load /path/containing/simulation/sim.gpvdm"
+
+#: ../gui/command_args.py:81
+msgid "Encrypt a gpvdm file --file sim.gpvdm"
+msgstr "Зашифровать файл gpvdm--файл sim.gpvdm"
+
+#: ../gui/tb_optical_model.py:44
+msgid "Optical model"
+msgstr "Оптическая модель"
+
+#: ../gui/tb_optical_model.py:88
+msgid "I can't find any optical plugins, I think the model is not installed properly."
+msgstr "Я не могу найти никаких оптических плагинов, я думаю, что модель не установлена ​​должным образом."
+
+#: ../gui/scan_tab.py:127
+msgid "<big><b>The scan window</b></big><br> Now using the drop down menu in the prameter to change 'column', select the device parameter you wish to vary, an example may be dos0/Electron Mobility. Now enter the values you would like it to scan oveer in the  'Values', an example could be '1e-3 1e-4 1e-5 1e-6'.  And hit the double arrorw to run the simulation."
+msgstr "<big> <b> Окно сканирования </b> </big> <br> Теперь, используя раскрывающееся меню в парамитре для изменения столбца, выберите параметр устройства, который вы хотите изменить, примером может быть dos0/Электронная мобильность. Теперь введите значения, которые вы хотите сканироватъ в «Значениях», примером может быть «1e-3 1e-4 1e-5 1e-6». И нажмите двойннюю стрелку, чтобы запустить симуляцию."
+
+#: ../gui/scan_tab.py:137
+msgid "Select parameter"
+msgstr "Выбрать параметр"
+
+#: ../gui/scan_tab.py:233
+msgid "You have not selected any parameters to scan through.  Use the add button."
+msgstr "Вы не выбрали какие-либо параметры для сканирования. Используйте кнопку «добавит»."
+
+#: ../gui/scan_tab.py:238
+#, fuzzy
+msgid "No sim dir name"
+msgstr "Нет имени sim dir"
+
+#: ../gui/scan_tab.py:255
+msgid "Problem generating tree."
+msgstr "Проблема генерации дерева."
+
+#: ../gui/scan_tab.py:424 ../gui/gpvdm.py:261 ../gui/constraints.py:140
+#: ../gui/constraints.py:179 ../gui/ribbon.py:114 ../gui/snapshot_slider.py:131
+#: ../gui/fit_vars.py:105 ../gui/fit_vars.py:164 ../gui/plot_widget.py:563
+#: ../gui/fit_patch.py:126
+msgid "File"
+msgstr "Файл"
+
+#: ../gui/scan_tab.py:424
+#, fuzzy
+msgid "Parameter to change"
+msgstr "Параметр изменения"
+
+#: ../gui/scan_tab.py:424 ../gui/fit_patch.py:126
+msgid "Values"
+msgstr "Значения"
+
+#: ../gui/scan_tab.py:424
+msgid "Opperation"
+msgstr ""
+
+#: ../gui/scan_tab.py:501 ../gui/ribbon_home.py:178
+#, fuzzy
+msgid "Re-run the simulation with 'dump all slices' set to one to use this tool."
+msgstr "Повторите запуск симуляции с помощью «дампа всех срезов», установленного на единицу, чтобы использовать этот инструмент."
+
+#: ../gui/scan_tab.py:524
+msgid "Add parameter to scan"
+msgstr "Добавить параметр для сканирования"
+
+#: ../gui/scan_tab.py:528 ../gui/scan_tab.py:584
+msgid "Delete item"
+msgstr "Удалить элемент"
+
+#: ../gui/scan_tab.py:548
+msgid "Insert python command"
+msgstr "Вставить команду python"
+
+#: ../gui/scan_tab.py:588
+msgid "Copy"
+msgstr "Копировать"
+
+#: ../gui/scan_tab.py:592
+msgid "Paste"
+msgstr "Вставить"
+
+#: ../gui/scan_tab.py:598
+msgid "Add item"
+msgstr "Добавить элемент"
+
+#: ../gui/layer_widget.py:186
+msgid "Add device layer"
+msgstr "Добавить слой устройства"
+
+#: ../gui/layer_widget.py:190
+msgid "Delete device layer"
+msgstr "Удалить слой устройства"
+
+#: ../gui/layer_widget.py:195 ../gui/layer_widget.py:199
+msgid "Move device layer"
+msgstr "Переместить слой устройства"
+
+#: ../gui/layer_widget.py:228
+msgid "Layer name"
+msgstr "Название слоя"
+
+#: ../gui/layer_widget.py:228 ../gui/electrical_mesh_editor.py:205
+msgid "Thicknes"
+msgstr "Толщина"
+
+#: ../gui/layer_widget.py:228
+msgid "Optical material"
+msgstr "Оптический материал"
+
+#: ../gui/layer_widget.py:228
+msgid "Layer type"
+msgstr "Тип слоя"
+
+#: ../gui/layer_widget.py:228
+msgid "DoS Layer"
+msgstr "слой DoS"
+
+#: ../gui/layer_widget.py:228
+msgid "PL Layer"
+msgstr "слой PL"
+
+#: ../gui/layer_widget.py:277
+msgid "contact"
+msgstr "контакт"
+
+#: ../gui/layer_widget.py:278
+msgid "active layer"
+msgstr "ативный слой"
+
+#: ../gui/layer_widget.py:279
+msgid "other"
+msgstr "прочие"
+
+#: ../gui/layer_widget.py:291
+msgid "Material for "
+msgstr "Материал для "
+
+#: ../gui/layer_widget.py:292
+msgid "Layer width "
+msgstr "Ширина слоя "
+
+#: ../gui/layer_widget.py:355
+msgid "Error in epitaxy, check the input values."
+msgstr "Ошибка в эпитаксии, проверьте входные значения."
+
+#: ../gui/dump_io.py:71
+msgid "<big><b>Write all data to disk (slow)</b></big><br>"
+msgstr "<big> <b> Записать все данные на диск (медленно) </b> </big> <br>"
+
+#: ../gui/dump_io.py:76
+msgid "<big><b>Write minimal data to disk (fast)</b></big><br>"
+msgstr "<big> <b> Записать минимальные данные на диск (быстро) </b> </big> <br>"
+
+#: ../gui/dump_io.py:102
+msgid ""
+"Data dump\n"
+"control"
+msgstr ""
+"Контрол \n"
+"дампа данных"
+
+#: ../gui/experiment.py:75 ../gui/fxexperiment.py:72
+msgid "New experiment name"
+msgstr "Название нового эксперимента"
+
+#: ../gui/experiment.py:75 ../gui/fxexperiment.py:72
+msgid "experiment "
+msgstr "эксперимент "
+
+#: ../gui/experiment.py:93
+msgid "Clone the current experiment to a new experiment called:"
+msgstr "Клонировать текущий эксперимент к новому эксперименту с названием:"
+
+#: ../gui/experiment.py:99 ../gui/experiment.py:102
+msgid "Error copying file"
+msgstr "Ошибка копирования файла"
+
+#: ../gui/experiment.py:115 ../gui/fxexperiment.py:121
+msgid "Rename the experiment to be called"
+msgstr "Переименуть указанный эксперимент"
+
+#: ../gui/experiment.py:133
+msgid "Should I remove the experiment file "
+msgstr "Удалить файл эксперимента? "
+
+#: ../gui/experiment.py:179
+msgid "Time domain experiment window"
+msgstr "Окно эксперимента во временной области"
+
+#: ../gui/experiment.py:186 ../gui/fxexperiment.py:189
+msgid "New experiment"
+msgstr "Новый эксперимент"
+
+#: ../gui/experiment.py:190 ../gui/fxexperiment.py:193
+msgid "Delete experiment"
+msgstr "Удалить эксперимент"
+
+#: ../gui/experiment.py:194 ../gui/fxexperiment.py:197
+msgid "Clone experiment"
+msgstr "Клонировать эксперимент"
+
+#: ../gui/experiment.py:198 ../gui/fxexperiment.py:201
+msgid "Rename experiment"
+msgstr "Переименовать эксперимент"
+
+#: ../gui/experiment.py:202 ../gui/fxexperiment.py:205 ../gui/equation.py:324
+msgid "Save image"
+msgstr "Сохранить изображение"
+
+#: ../gui/information_noweb.py:63
+msgid "Click to find out more"
+msgstr "Нажмите, чтобы узнать больше"
+
+#: ../gui/information_noweb.py:65
+msgid "To make a new simulation click <i><u>N</u>ew Simulation</i> in the menu or to open an existing simulation select <i><u>O</u>pen simulation</i>. "
+msgstr "Чтобы создать новую симуляцию, нажмите <i> <u> Н </u>овое симуляция </i> в меню или, чтобы открыть существующую симуляцию, выберите <i> <u> О </u>ткрыть симуляцию </i>"
+
+#: ../gui/information_noweb.py:67
+msgid "There is more help on the <a href=\"http://www.gpvdm.com/man/index.html\">man pages</a>."
+msgstr "Более подробная информация содержится в <a href=\"http://www.gpvdm.com/man/index.html\"> страницах руководства </a>."
+
+#: ../gui/information_noweb.py:69
+msgid "Please report bugs to <br><a href=\"mailto:roderick.mackenzie@nottingham.ac.uk?Subject=gpvdm%20bug\">"
+msgstr "Сообщите об ошибках на <br><a href=\"mailto:roderick.mackenzie@nottingham.ac.uk?Subject=gpvdm%20bug\">"
+
+#: ../gui/information_noweb.py:90
+msgid ""
+"<big><b>Welcome to gpvdm</b></big>\n"
+" The window will provide you with information about new versions and bugs in gpvdm."
+msgstr ""
+"<big> <b> Добро пожаловать в gpvdm </b> </big> \n"
+" В окне будет предоставлена ​информация о новых версиях и ошибках в gpvdm."
+
+#: ../gui/new_simulation.py:63
+msgid "<big><b>Now save the simulation</b></big><br>Now select where you would like to save the simulation directory."
+msgstr "<big> <b> Теперь сохраните симуляцию </b> </big> <br>Теперь выберите, где вы хотите сохранить каталог симуляции."
+
+#: ../gui/new_simulation.py:72
+msgid "password:"
+msgstr "пароль:"
+
+#: ../gui/new_simulation.py:80
+msgid "It's not a good idea to save the simulation in the gpvdm installation directory."
+msgstr "Не рекомендуется сохранять симуляцию в каталоге установки gpvdm."
+
+#: ../gui/new_simulation.py:94
+msgid "Please select a device before clicking next"
+msgstr "Пожалуйста, выберите устройство, прежде чем нажать Далее"
+
+#: ../gui/new_simulation.py:131
+msgid "Organic LED"
+msgstr "Органический светодиод"
+
+#: ../gui/new_simulation.py:132
+msgid "Crystalline silicon solar cell"
+msgstr "Кристаллический кремниевый солнечный элемент"
+
+#: ../gui/new_simulation.py:133
+msgid "a-Si solar cell "
+msgstr "солнечный элемент a-Si "
+
+#: ../gui/new_simulation.py:134
+msgid "polycrystalline silicon "
+msgstr "поликристаллический кремний "
+
+#: ../gui/new_simulation.py:135
+msgid "OFET "
+msgstr "Органический полевой транзистор (OFET) "
+
+#: ../gui/new_simulation.py:136
+#, fuzzy
+msgid "Perovskite solar cell"
+msgstr "Перовскитовый солнечный элемент"
+
+#: ../gui/new_simulation.py:137
+msgid "CIGS Solar cell"
+msgstr "Солнечные батареи CIGS"
+
+#: ../gui/new_simulation.py:146 ../gui/ribbon.py:63
+msgid "New simulation"
+msgstr "Создать новое симуляцию"
+
+#: ../gui/new_simulation.py:148
+msgid "Which type of device would you like to simulate?"
+msgstr "Какой тип устройства вы хотели бы симулировать?"
+
+#: ../gui/new_simulation.py:156 ../gui/help.py:116
+msgid "Next"
+msgstr "Далее"
+
+#: ../gui/new_simulation.py:157 ../gui/dlg_get_multi_text.py:68
+#: ../gui/scan_select.py:79
+msgid "Cancel"
+msgstr "Отмена"
+
+#: ../gui/new_simulation.py:163
+msgid "Show hidden"
+msgstr "Показать скрытое"
+
+#: ../gui/scan_io.py:103
+msgid "and "
+msgstr "и "
+
+#: ../gui/scan_io.py:103
+msgid " more."
+msgstr " больше."
+
+#: ../gui/scan_io.py:108
+msgid "Should I delete these files?:\n"
+msgstr "Удалить эти файлы?:\n"
+
+#: ../gui/open_save_dlg.py:31
+msgid "Save a the simulation as"
+msgstr "Сохранить симуляцию как"
+
+#: ../gui/open_save_dlg.py:32
+msgid "Directory"
+msgstr "Каталог"
+
+#: ../gui/open_save_dlg.py:45 ../gui/plot_widget.py:568
+msgid "Save as"
+msgstr "Имя файла"
+
+#: ../gui/open_save_dlg.py:71 ../gui/gpvdm_open.py:94
+msgid "Open file"
+msgstr "Открыть файл"
+
+#: ../gui/contacts.py:98
+msgid "top"
+msgstr "верх"
+
+#: ../gui/contacts.py:99
+msgid "bottom"
+msgstr "низ"
+
+#: ../gui/contacts.py:107
+msgid "true"
+msgstr "верно"
+
+#: ../gui/contacts.py:108
+msgid "false"
+msgstr "неверно"
+
+#: ../gui/contacts.py:144
+msgid "There are some non numeric values in the table"
+msgstr "В таблице есть некоторые не численные значения"
+
+#: ../gui/contacts.py:155
+msgid "Name"
+msgstr "Имя"
+
+#: ../gui/contacts.py:155
+msgid "Top/Bottom"
+msgstr "Верх / Низ"
+
+#: ../gui/contacts.py:155
+msgid "Active contact"
+msgstr "Активный контакт"
+
+#: ../gui/contacts.py:155 ../gui/doping.py:111
+msgid "Start"
+msgstr "Начать"
+
+#: ../gui/contacts.py:155 ../gui/doping.py:111
+msgid "Width"
+msgstr "Ширина"
+
+#: ../gui/contacts.py:155
+msgid "Depth"
+msgstr "Глубина"
+
+#: ../gui/contacts.py:172
+msgid "Edit contacts"
+msgstr "Изменить контакты"
+
+#: ../gui/contacts.py:179
+msgid "Add contact"
+msgstr "Добавить контакт"
+
+#: ../gui/contacts.py:183
+msgid "Remove contacts"
+msgstr "Удалить контакты"
+
+#: ../gui/dlg_get_multi_text.py:66 ../gui/scan_select.py:78
+msgid "OK"
+msgstr "ОК"
+
+#: ../gui/mesh_configure.py:51
+msgid "Mesh configuration"
+msgstr "Конфигурация сетки"
+
+#: ../gui/mesh_configure.py:80
+msgid "Mesh x"
+msgstr "Сетка x"
+
+#: ../gui/mesh_configure.py:80
+msgid "Mesh y"
+msgstr "Сетка y"
+
+#: ../gui/mesh_configure.py:80
+msgid "Mesh z"
+msgstr "Сетка z"
+
+#: ../gui/config_window.py:90
+msgid "Solver configuration"
+msgstr "Конфигурация решателя"
+
+#: ../gui/config_window.py:90
+msgid "Output files"
+msgstr "Выходные файлы"
+
+#: ../gui/config_window.py:90 ../gui/inp_description.py:49
+#, fuzzy
+msgid "Thermal"
+msgstr "Тепловидение"
+
+#: ../gui/config_window.py:90
+msgid "LED"
+msgstr "Светодиод"
+
+#: ../gui/config_window.py:90
+msgid "GUI configuration"
+msgstr "Конфигурация графического интерфейса"
+
+#: ../gui/config_window.py:90
+msgid "Server configuration"
+msgstr "Конфигурация сервера"
+
+#: ../gui/config_window.py:90
+msgid "Cryptography"
+msgstr "Криптография"
+
+#: ../gui/config_window.py:102
+msgid "Language"
+msgstr "Язык"
+
+#: ../gui/ribbon_home.py:66
+msgid "Undo"
+msgstr "Отмена"
+
+#: ../gui/ribbon_home.py:71
+msgid "Run simulation"
+msgstr "Запустить симуляцию"
+
+#: ../gui/ribbon_home.py:74
+msgid ""
+"Stop\n"
+"simulation"
+msgstr ""
+"Остановить\n"
+"симуляцию"
+
+#: ../gui/ribbon_home.py:80
+msgid ""
+"Parameter\n"
+"scan"
+msgstr ""
+"Сканирование \n"
+"параметров"
+
+#: ../gui/ribbon_home.py:87
+msgid ""
+"Fit\n"
+"data"
+msgstr ""
+"Приближение\n"
+"данных"
+
+#: ../gui/ribbon_home.py:92
+#, fuzzy
+msgid ""
+"Plot\n"
+"File"
+msgstr ""
+"Файл\n"
+"граффика"
+
+#: ../gui/ribbon_home.py:96
+msgid ""
+"Examine results\n"
+"in time domain"
+msgstr ""
+"Изучить результаты \n"
+"во временной области"
+
+#: ../gui/ribbon_home.py:139
+msgid "<big>Select a file to plot</big><br>Single clicking shows you the content of the file"
+msgstr "<big> Выберите файл для печати </big> <br> Один щелчок показывает вам содержимое файла"
+
+#: ../gui/ribbon_home.py:158
+msgid "<big><b>The scan window</b></big><br> Very often it is useful to be able to systematically very a device parameter such as mobility or density of trap states.  This window allows you to do just that."
+msgstr "<big> <b> Окно сканирования </b> </big> <br> Очень часто полезно иметь возможность систематически настраивать параметры устройства, такие как подвижность или плотность состояний ловушек. Это окно позволяет вам сделать именно это."
+
+#: ../gui/ribbon_home.py:158
+msgid "Use the plus icon to add a new scan line to the list."
+msgstr "Используйте значок «плюс», чтобы добавить новую строку сканирования в список."
+
+#: ../gui/ribbon_home.py:171
+#, fuzzy
+msgid "<big><b>Examine the results in time domain</b></big><br> After you have run a simulation in time domain, if is often nice to be able to step through the simulation and look at the results.  This is what this window does.  Use the slider bar to move through the simulation.  When you are simulating a JV curve, the slider sill step through voltage points rather than time points."
+msgstr "<big> <b> Изучить результаты во временной области </b> </big> <br> После запуска симуляции во временной области, часто полезно проходить через симуляцию и смотреть на результаты , Это то, что делает это окно. Используйте ползунок для перемещения по симуляции. Когда вы имитируете кривую ВАХ, ползунок ползунка проходит через точки напряжения, а не точки времени."
+
+#: ../gui/ribbon_home.py:189
+msgid "<big><b>Fit window</b></big><br> Use this window to fit the simulation to experimental data."
+msgstr "<big> <b> Окно приближения </b> </big> <br> Используйте это окно, чтобы приблизить симуляцию к экспериментальным данным."
+
+#: ../gui/materials_main.py:50 ../gui/materials_main.py:120
+msgid "Electrical parameters"
+msgstr "Электрические параметры"
+
+#: ../gui/materials_main.py:51
+msgid "<big><b>Electrical parameters</b></big><br>Use this tab to configure the electrical parameters for the material."
+msgstr "<big> <b> Электрические параметры </b> </big> <br> Используйте эту вкладку для настройки электрических параметров материала."
+
+#: ../gui/materials_main.py:53 ../gui/materials_main.py:120
+#: ../gui/gpvdm_notebook.py:101 ../gui/inp_description.py:55
+msgid "Luminescence"
+msgstr "Люминесценция"
+
+#: ../gui/materials_main.py:54
+msgid "<big><b>Luminescence</b></big><br>Use this tab to edit the materials Luminescence."
+msgstr "<big> <b> Люминесценция </b> </big> <br> Используйте эту вкладку, чтобы редактировать люминесценцию материалов."
+
+#: ../gui/materials_main.py:60
+msgid "<big><b>Absorption</b></big><br>"
+msgstr "<big><b> Поглощение </b> </big><br>"
+
+#: ../gui/materials_main.py:62 ../gui/materials_main.py:136
+#: ../gui/materials_main.py:138 ../gui/import_data.py:315
+#: ../gui/spectra_main.py:50
+msgid "Refractive index"
+msgstr "Показатель преломления"
+
+#: ../gui/materials_main.py:66 ../gui/spectra_main.py:54
+msgid "<big><b>Refractive index</b></big><br>"
+msgstr "<big> <b> Показатель преломления </b> </big> <br>"
+
+#: ../gui/materials_main.py:80
+msgid "Material editor"
+msgstr "Редактор материалов"
+
+#: ../gui/materials_main.py:89 ../gui/cost.py:111
+msgid "Cost"
+msgstr "Стоимость"
+
+#: ../gui/materials_main.py:90
+msgid "Cost of material"
+msgstr "Стоимость материала"
+
+#: ../gui/materials_main.py:95
+msgid ""
+"Material\n"
+"directory"
+msgstr ""
+"Материал \n"
+"каталог"
+
+#: ../gui/materials_main.py:120
+msgid "Basic"
+msgstr "Основная"
+
+#: ../gui/gpvdm.py:128
+msgid "Don't run me as root!!"
+msgstr "Не запускай меня как корень!"
+
+#: ../gui/gpvdm.py:164 ../gui/gpvdm_notebook.py:104
+#: ../gui/gpvdm_notebook.py:227 ../gui/ribbon_cluster.py:150
+msgid "Terminal"
+msgstr "Терминал"
+
+#: ../gui/gpvdm.py:217
+msgid "file opened"
+msgstr "файл открыт"
+
+#: ../gui/gpvdm.py:222
+msgid "<big><b>New simulation!</b></big><br> Now selected the type of device you would like to simulate."
+msgstr "<big> <b> Новая симуляция! </b> </big> <br> Теперь выбырите тип устройства, которое вы хотели бы симулировать."
+
+#: ../gui/gpvdm.py:248
+msgid "<big><b>Now run the simulation</b></big><br> Click on the play icon to start a simulation."
+msgstr "<big> <b> Теперь запустите симуляцию </b> </big> <br> Нажмите на значок воспроизведения, чтобы начать симуляцию."
+
+#: ../gui/gpvdm.py:253 ../gui/ribbon.py:117
+msgid "Home"
+msgstr "Домой"
+
+#: ../gui/gpvdm.py:262
+msgid "<big><b>Hi!</b></big><br> I'm the on-line help system :).  If you find any bugs please report them to <a href=\"mailto:roderick.mackenzie@nottingham.ac.uk\">roderick.mackenzie@nottingham.ac.uk</a>."
+msgstr "<big> <b> Здравствуйте! </b> </big> <br> Я - онлайн-справочная система :). Если вы найдете какие-либо ошибки, сообщите их <a href=\"mailto:roderick.mackenzie@nottingham.ac.uk\"> roderick.mackenzie@nottingham.ac.uk </a>."
+
+#: ../gui/gpvdm.py:262
+msgid "Click on the new icon to make a new simulation directory."
+msgstr "Нажмите значок «новый», чтобы создать новый каталог симуляции."
+
+#: ../gui/gpvdm.py:286
+msgid "You should not try to open simulations in the root gpvdm directory."
+msgstr "Вы не должны пытаться открывать симуляции в корневом каталоге gpvdm."
+
+#: ../gui/gpvdm.py:292
+msgid "The simulation you want to import looks like it was made on an old version of gpvdm, do you want to try to open it anyway?"
+msgstr "Симуляция, которую вы хотите импортировать, выглядит так, как будто она была сделана на старой версии gpvdm, вы хотите попробовать ее открыть?"
+
+#: ../gui/gpvdm.py:299
+msgid "It looks like there is no materials database in the simulation directory should I import one?"
+msgstr "Похоже, нет базы данных материалов в каталоге симуляции, следует ли импортировать ее?"
+
+#: ../gui/gpvdm.py:305
+msgid "Open an existing gpvdm simulation"
+msgstr "Откройте существующую симуляцию gpvdm"
+
+#: ../gui/ribbon_simulations.py:65
+msgid ""
+"Time domain\n"
+"simulation editor."
+msgstr ""
+"Редактор \n"
+"временной области."
+
+#: ../gui/ribbon_simulations.py:70
+msgid ""
+"Frequency domain\n"
+"simulation editor"
+msgstr "Редактор частотной области"
+
+#: ../gui/ribbon_simulations.py:75
+msgid ""
+"Steady state\n"
+"simulation editor"
+msgstr ""
+"Редактор \n"
+"стабильного состояния"
+
+#: ../gui/ribbon_simulations.py:80
+msgid ""
+"Quantum\n"
+"efficiency"
+msgstr ""
+"Квантовая\n"
+"эффективность"
+
+#: ../gui/ribbon_simulations.py:90
+msgid ""
+"Optical\n"
+"Simulation"
+msgstr ""
+"Оптическая\n"
+"Симуляция"
+
+#: ../gui/ribbon_simulations.py:94
+msgid ""
+"Laser\n"
+"editor"
+msgstr ""
+"Редактор \n"
+"лазера"
+
+#: ../gui/ribbon_simulations.py:141
+msgid "<big><b>The time mesh editor</b></big><br> To do time domain simulations one must define how voltage the light vary as a function of time.  This can be done in this window.  Also use this window to define the simulation length and time step."
+msgstr "<big> <b> Редактор времени сетки </b> </big> <br> Чтобы выполнить моделирование во временной области, нужно определить, как напряжение изменяется в зависимости от времени. Это можно сделать в этом окне. Также используйте это окно, чтобы определить продолжительность и время симуляции."
+
+#: ../gui/ribbon_simulations.py:153
+msgid "<big><b>Frequency domain mesh editor</b></big><br> Some times it is useful to do frequency domain simulations such as when simulating impedance spectroscopy.  This window will allow you to choose which frequencies will be simulated."
+msgstr "<big> <b> Редактор сетки частотной области </b> </big> <br> Иногда полезно выполнять симуляцию частотной области, например, при моделировании импедансной спектроскопии. Это окно позволит вам выбрать, какие частоты будут моделироваться."
+
+#: ../gui/ribbon_simulations.py:164
+msgid "<big><b>Laser setup</b></big><br> Use this window to set up your lasers."
+msgstr "<big> <b> Настройка лазера </b> </big> <br> Используйте это окно для настройки ваших лазеров."
+
+#: ../gui/ribbon_simulations.py:175
+msgid "<big><b>JV simulation editor</b></big><br> Use this window to select the step size and parameters of the JV simulations."
+msgstr "<big> <b> Редактор моделирования ВАХ</b> </big> <br> Используйте это окно, чтобы выбрать размер шага и параметры моделирования ВАХ."
+
+#: ../gui/ribbon_simulations.py:182
+msgid "<big><b>The optical simulation window</b></big><br>Use this window to perform optical simulations.  Click on the play button to run a simulation."
+msgstr "<big> <b> Окно оптическово моделирования</b> </big> <br> Используйте это окно для выполнения оптического моделирования. Нажмите кнопку воспроизведения, чтобы запустить симуляцию."
+
+#: ../gui/ribbon_simulations.py:182
+msgid "Click on the play button to run an optical simulation.  The results will be displayed in the tabs to the right."
+msgstr "Нажмите кнопку воспроизведения, чтобы запустить оптическое моделирование. Результаты будут отображаться на вкладках справа."
+
+#: ../gui/tab_homo.py:65 ../gui/constraints.py:140 ../gui/constraints.py:179
+msgid "Function"
+msgstr "Функция"
+
+#: ../gui/tab_homo.py:65 ../gui/duplicate.py:112 ../gui/duplicate.py:153
+#: ../gui/fit_vars.py:164
+msgid "Enabled"
+msgstr "Включены"
+
+#: ../gui/tab_homo.py:65
+msgid "a"
+msgstr "a"
+
+#: ../gui/tab_homo.py:65
+msgid "b"
+msgstr "b"
+
+#: ../gui/tab_homo.py:65
+msgid "c"
+msgstr "c"
+
+#: ../gui/tab_homo.py:125 ../gui/electrical_mesh_editor.py:244
+msgid "Add "
+msgstr "Добавить "
+
+#: ../gui/tab_homo.py:129 ../gui/electrical_mesh_editor.py:248
+msgid "Remove "
+msgstr "Удалить "
+
+#: ../gui/tab_homo.py:281 ../gui/import_data.py:220 ../gui/plot_widget.py:565
+#: ../gui/doping.py:183
+msgid "Save"
+msgstr "Сохранить"
+
+#: ../gui/jv.py:43 ../gui/jv.py:89
+msgid "JV simulation"
+msgstr "Моделирование ВАХ"
+
+#: ../gui/jv.py:44
+msgid "<big><b>JV simulation</b></big><br>This controls the jv curve simulation. You can set paramets such as start voltage, stop voltage and voltage step."
+msgstr "<big> <b> Моделирование ВАХ </b> </big> <br> Это контролирует симуляцию ВАХ. Вы можете установить параметры, такие как начальное напряжение, конечное напряжения и шаг напряжение."
+
+#: ../gui/jv.py:46 ../gui/jv.py:89
+msgid "Diode equation"
+msgstr "Диодное уравнение"
+
+#: ../gui/jv.py:47
+msgid "<big><b>Diode equation</b></big><br>The model can also use the standard diode equtaion to simulate solar cells (rather than a complex model).  Use this window to configure the simulation."
+msgstr "<big> <b> Диодное уравнение </b> </big> <br> Модель также может использовать стандартное диодное уравнение для моделирования солнечных элементов (вместо сложной модели). Используйте это окно для настройки моделирования."
+
+#: ../gui/jv.py:49 ../gui/jv.py:89
+#, fuzzy
+msgid "Suns v.s. Voc"
+msgstr "Солнца против Voc"
+
+#: ../gui/jv.py:50
+msgid "<big><b>Suns v.s. Voc</b></big><br>Configure the sun v.s. Voc plot."
+msgstr "<big> <b> Солнца против Voc </b> </big> <br> Настройте график солнца и Voc."
+
+#: ../gui/jv.py:60
+msgid "Steady state simulation"
+msgstr "Симуляция стабильного состояния"
+
+#: ../gui/constraints.py:140 ../gui/constraints.py:179 ../gui/fit_vars.py:164
+#: ../gui/fit_patch.py:126
+msgid "Path"
+msgstr "Путь"
+
+#: ../gui/constraints.py:140 ../gui/constraints.py:179
+msgid "Max"
+msgstr "МАКС"
+
+#: ../gui/constraints.py:140 ../gui/constraints.py:179
+msgid "Min"
+msgstr "МИН"
+
+#: ../gui/constraints.py:140 ../gui/constraints.py:179 ../gui/error_han.py:76
+#: ../libfit/fit_dump.c:62 ../libfit/fit_dump.c:85 ../libfit/fit_dump.c:108
+msgid "Error"
+msgstr "Ошибка"
+
+#: ../gui/constraints.py:148 ../gui/constraints.py:206
+msgid "File (a)"
+msgstr "Файл (a)"
+
+#: ../gui/constraints.py:148 ../gui/constraints.py:206
+msgid "Token (a)"
+msgstr "Токен (а)"
+
+#: ../gui/constraints.py:148 ../gui/constraints.py:206
+msgid "Path (a)"
+msgstr "Путь (а)"
+
+#: ../gui/constraints.py:148 ../gui/constraints.py:206
+msgid "File (b)"
+msgstr "Файл (b)"
+
+#: ../gui/constraints.py:148 ../gui/constraints.py:206
+msgid "Token (b)"
+msgstr "Токен (б)"
+
+#: ../gui/constraints.py:148 ../gui/constraints.py:206
+msgid "Path (b)"
+msgstr "Путь (б)"
+
+#: ../gui/constraints.py:148 ../gui/constraints.py:206
+#: ../gui/tb_item_mat_file.py:57 ../gui/tb_item_mat_file.py:80
+msgid "Equation"
+msgstr "Уравнение"
+
+#: ../gui/constraints.py:229
+msgid "Fit constraints window"
+msgstr "Окно ограничений приближения"
+
+#: ../gui/constraints.py:239 ../gui/constraints.py:271 ../gui/duplicate.py:216
+#: ../gui/fit_patch.py:172
+msgid "Add"
+msgstr "Добавить"
+
+#: ../gui/constraints.py:243 ../gui/constraints.py:275 ../gui/duplicate.py:220
+#: ../gui/fit_patch.py:176
+msgid "Minus"
+msgstr "Минус"
+
+#: ../gui/tab_main.py:92
+msgid ""
+"<big><b>The device structure tab</b></big>\n"
+" Use this tab to change the structure of the device, the layer thicknesses and to perform optical simulations.  You can also browse the materials data base and  edit the electrical mesh."
+msgstr ""
+"<big> <b> Вкладка структуры устройства </b> </big>\n"
+"Используйте эту вкладку, чтобы изменить структуру устройства, толщину слоя и выполнить оптическое моделирование. Вы также можете просмотреть базу данных материалов и отредактировать электрическую сетку."
+
+#: ../gui/tab_main.py:96
+msgid "<big><b>Update available!</b></big><br>"
+msgstr "<big> <b> Обновление доступно! </b> </big> <br>"
+
+#: ../gui/ribbon_device.py:66 ../libdump/dump_1d_slice.c:323
+msgid "Doping"
+msgstr "Допирования"
+
+#: ../gui/ribbon_device.py:70
+msgid ""
+"Materials\n"
+"database"
+msgstr ""
+"Материалы \n"
+"База данных"
+
+#: ../gui/ribbon_device.py:74
+msgid ""
+"Optical\n"
+"database"
+msgstr ""
+"Оптическая\n"
+"База данных"
+
+#: ../gui/ribbon_device.py:78
+msgid ""
+"Calculate\n"
+"the cost"
+msgstr ""
+"Рассчитать\n"
+"стоимость"
+
+#: ../gui/ribbon_device.py:82
+msgid "Contacts"
+msgstr "Контакты"
+
+#: ../gui/ribbon_device.py:86
+msgid ""
+"Parasitic\n"
+" components"
+msgstr ""
+"Паразитные \n"
+"компоненты"
+
+#: ../gui/ribbon_device.py:117
+msgid ""
+"<big><b>Doping window</b></big>\n"
+"Use this window to add doping to the simulation"
+msgstr ""
+"<big> <b> Окно допирования </b> </big> \n"
+"Используйте это окно для добавления допинга к симуляции"
+
+#: ../gui/ribbon_device.py:130
+msgid ""
+"<big><b>Contacts window</b></big>\n"
+"Use this window to change the layout of the contacts on the device"
+msgstr ""
+"<big> <b> Окно контактов </b> </big> \n"
+"Используйте это окно, чтобы изменить расположение контактов на устройстве"
+
+#: ../gui/ribbon_device.py:166
+msgid ""
+"<big><b>Parasitic components</b></big>\n"
+"Use this window to edit the shunt and series resistance."
+msgstr ""
+"<big> <b> Паразитные компоненты </b> </big>\n"
+"Используйте это окно для редактирования сопротивления шунта и серии."
+
+#: ../gui/ribbon_device.py:177
+msgid ""
+"<big><b>Costs window</b></big>\n"
+"Use this window to calculate the cost of the solar cell and the energy payback time."
+msgstr ""
+"<big> <b> Окно затрат </b> </big> \n"
+"Используйте это окно, чтобы рассчитать стоимость солнечного элемента и время окупаемости энергии."
+
+#: ../gui/tb_lasers.py:70
+msgid "Laser:"
+msgstr "Лазер:"
+
+#: ../gui/emesh.py:140
+msgid "Electrical Mesh Editor"
+msgstr "Редактор электрической сетки"
+
+#: ../gui/emesh.py:148
+msgid "1D simulation"
+msgstr "1D моделирование"
+
+#: ../gui/emesh.py:152
+msgid "2D simulation"
+msgstr "2D-моделирование"
+
+#: ../gui/emesh.py:156
+msgid "3D simulation"
+msgstr "3D-моделирование"
+
+#: ../gui/emesh.py:160
+msgid "Configure mesh"
+msgstr "Настроить сетку"
+
+#: ../gui/display.py:88
+msgid "Configuration"
+msgstr "Конфигурация"
+
+#: ../gui/display.py:106
+msgid "xy"
+msgstr "xy"
+
+#: ../gui/display.py:110
+msgid "yz"
+msgstr "yz"
+
+#: ../gui/display.py:114
+msgid "xz"
+msgstr "xz"
+
+#: ../gui/display.py:118
+msgid "Rotate"
+msgstr "Повернуть"
+
+#: ../gui/display.py:179
+msgid "<big><b>OpenGL warning</b></big><br>It looks as if you don't have working 3D graphics acceleration on your computer.  gpvdm will therefore fallback to 2D mode. The model will still be fully functional, but not look quite so nice."
+msgstr "<big> <b> Предупреждение OpenGL </b> </big> <br> Похоже, что у вас нет рабочего 3D-ускорения на вашем компьютере. Поэтому gpvdm будет возвращаться в режим 2D. Модель по-прежнему будет полностью функционировать, но не выглядит такой приятной."
+
+#: ../gui/fit_poly.py:53
+msgid "Poly fit"
+msgstr "Приближение полиномами"
+
+#: ../gui/fit_poly.py:67
+msgid "Polynomial coefficients"
+msgstr "Полиномиальные коэффициенты"
+
+#: ../gui/fit_poly.py:71
+msgid "Ok"
+msgstr "Оk"
+
+#: ../gui/gpvdm_notebook.py:89 ../gui/ribbon.py:126
+#: ../gui/inp_description.py:37
+msgid "Device"
+msgstr "Устройство"
+
+#: ../gui/gpvdm_notebook.py:90
+msgid "<big><b>Device tab</b></big><br>This tab contains information about the device, such as width breadth, carrier density on the contacts, shunt and contact resistance."
+msgstr "<big> <b> Вкладка «Устройство» </b> </big> <br> <br> Эта вкладка содержит информацию об устройстве, такую ​​как ширина, плотность носитилей на контактах, сопротивление шунтированию и контакту."
+
+#: ../gui/gpvdm_notebook.py:92 ../gui/gpvdm_notebook.py:159
+#: ../gui/gpvdm_notebook.py:241
+msgid "Device structure"
+msgstr "Структура устройства"
+
+#: ../gui/gpvdm_notebook.py:93
+msgid "<big><b>The device structure tab</b></big><br> Use this tab to change the structure of the device, the layer thicknesses and to perform optical simulations.  You can also browse the materials data base and  edit the electrical mesh."
+msgstr "<big> <b> Вкладка структуры устройства </b> </big> <br> Используйте эту вкладку, чтобы изменить структуру устройства, толщину слоя и выполнить оптическое моделирование. Вы также можете просмотреть базу данных материалов и отредактировать электрическую сетку."
+
+#: ../gui/gpvdm_notebook.py:95 ../gui/inp_description.py:53
+msgid "Bands"
+msgstr "энергетические зоны "
+
+#: ../gui/gpvdm_notebook.py:96
+#, fuzzy
+msgid "<big><b>The bands tab</b></big><br> Use this tab to edit the energetic distribution of the density of states."
+msgstr "<big> <b> Вкладка «Группы» </ b> </ big> <br> Используйте эту вкладку, чтобы отредактировать энергетическое распределение плотности состояний."
+
+#: ../gui/gpvdm_notebook.py:98
+msgid "Density of states"
+msgstr "Плотность состояний"
+
+#: ../gui/gpvdm_notebook.py:99
+#, fuzzy
+msgid ""
+"<big><b>Density of States</b></big>\n"
+"This tab contains the electrical model parameters, such as mobility, tail slope energy, and band gap."
+msgstr ""
+"<big> <b> Плотность состояний </b> </big>\n"
+"Эта вкладка содержит параметры электрической модели, такие как мобильность, энергия наклона хвоста и зазор между полосами."
+
+#: ../gui/gpvdm_notebook.py:105
+msgid ""
+"<big><b>The terminal window</b></big>\n"
+"The output of the model will be displayed in this window, watch this screen for debugging and convergence information."
+msgstr ""
+"<big> <b> Окно терминала </b> </big> \n"
+"В этом окне отобразится вывод модели, посмотрите этот экран для информации об отладке и конвергенции."
+
+#: ../gui/gpvdm_notebook.py:107 ../gui/gpvdm_notebook.py:138
+#: ../gui/gpvdm_notebook.py:245 ../gui/ribbon.py:133
+msgid "Information"
+msgstr "Информация"
+
+#: ../gui/gpvdm_notebook.py:108
+msgid ""
+"<big><b>On-line help</b></big>\n"
+"You can view the on-line help and manual here."
+msgstr ""
+"<big> <b> Онлайн помошь </b> </big> \n"
+"Вы можете просмотреть онлайн помошь и справочную информацию здесь."
+
+#: ../gui/ribbon_solar.py:62 ../gui/equation.py:373
+msgid "Calculate"
+msgstr "вычислять"
+
+#: ../gui/ribbon_solar.py:65
+msgid "Export spectrum"
+msgstr "Экспортировать спектр"
+
+#: ../gui/ribbon_solar.py:103
+msgid "Spectrum"
+msgstr "Спектр"
+
+#: ../gui/ribbon_information.py:51 ../gui/cool_menu.py:59 ../gui/about.py:108
+msgid "License"
+msgstr "Лицензия"
+
+#: ../gui/ribbon_information.py:55
+msgid ""
+"How to\n"
+"cite"
+msgstr "Как цицировать "
+
+#: ../gui/ribbon_information.py:59
+#, fuzzy
+msgid ""
+"Hints\n"
+"Window"
+msgstr ""
+"Окно\n"
+"Советов"
+
+#: ../gui/ribbon_information.py:71
+msgid ""
+"Youtube\n"
+"channel"
+msgstr ""
+"Youtube\n"
+"канал"
+
+#: ../gui/tb_item_sim_mode.py:101
+msgid "Simulation mode:"
+msgstr "Режим симуляции:"
+
+#: ../gui/ribbon.py:67
+msgid ""
+"Open\n"
+"simulation"
+msgstr ""
+"Открыть\n"
+"симуляцию"
+
+#: ../gui/ribbon.py:70
+msgid ""
+"Export\n"
+"data"
+msgstr ""
+"Экспортировать\n"
+"даные"
+
+#: ../gui/ribbon.py:120 ../gui/scan_ribbon.py:175
+msgid "Simulations"
+msgstr "Симуляции"
+
+#: ../gui/ribbon.py:130 ../gui/tab_terminal.py:134
+msgid "Cluster"
+msgstr "Кластер"
+
+#: ../gui/inp_description.py:38
+msgid "JV"
+msgstr "ВАХ"
+
+#: ../gui/inp_description.py:39
+msgid "JV Simple"
+msgstr "Простой ВАХ"
+
+#: ../gui/inp_description.py:40
+msgid "Dump"
+msgstr "Дамп"
+
+#: ../gui/inp_description.py:41
+#, fuzzy
+msgid "CELIV"
+msgstr "CELIV"
+
+#: ../gui/inp_description.py:42 ../gui/plot_widget.py:597
+msgid "Math"
+msgstr "Математика"
+
+#: ../gui/inp_description.py:43
+#, fuzzy
+msgid "ToF"
+msgstr "ToF"
+
+#: ../gui/inp_description.py:44
+#, fuzzy
+msgid "Stark"
+msgstr "застывший"
+
+#: ../gui/inp_description.py:45
+msgid "Pulse"
+msgstr "Импульс"
+
+#: ../gui/inp_description.py:46
+#, fuzzy
+msgid "Pulse Voc"
+msgstr "Pulse Voc"
+
+#: ../gui/inp_description.py:47
+#, fuzzy
+msgid "IMPS"
+msgstr "IMPS"
+
+#: ../gui/inp_description.py:48
+#, fuzzy
+msgid "Light Exp"
+msgstr "Light Exp"
+
+#: ../gui/inp_description.py:50
+#, fuzzy
+msgid "Sun Voc"
+msgstr "Sun Voc"
+
+#: ../gui/inp_description.py:51
+#, fuzzy
+msgid "TPC"
+msgstr "TPC"
+
+#: ../gui/inp_description.py:52
+msgid "Fit"
+msgstr "Приближение"
+
+#: ../gui/inp_description.py:54
+msgid "Density of States"
+msgstr "Плотность состояний"
+
+#: ../gui/scan.py:60
+msgid "Change directory"
+msgstr "Сменить каталог"
+
+#: ../gui/scan.py:69
+msgid "All files"
+msgstr "Все файлы"
+
+#: ../gui/scan.py:92
+msgid "New simulation name:"
+msgstr "Новое название симуляции:"
+
+#: ../gui/scan.py:92
+msgid "Simulation "
+msgstr "Симуляция "
+
+#: ../gui/scan.py:112
+#, fuzzy
+msgid "Clone the current simulation to a new simulation called:"
+msgstr "Клонирование текущеи симуляция для нового моделирования называется:"
+
+#: ../gui/scan.py:120
+msgid "I want to copy"
+msgstr "Я хочу скопировать"
+
+#: ../gui/scan.py:169
+msgid "Rename the simulation to be called:"
+msgstr "Переименуйте симуляцию в"
+
+#: ../gui/scan.py:185
+msgid "Should I remove the simulation directory "
+msgstr "Должен ли я удалить каталог симуляции"
+
+#: ../gui/scan.py:190
+msgid "I am going to delete file"
+msgstr "Я собираюсь удалить файл"
+
+#: ../gui/scan.py:231
+msgid "Parameter scan - gpvdm"
+msgstr "Сканирование параметров - gpvdm"
+
+#: ../gui/info.py:50
+msgid "Simulation information"
+msgstr "Информация о симуляции"
+
+#: ../gui/info.py:79
+msgid "Simulation Information"
+msgstr "Информация о симуляции"
+
+#: ../gui/snapshot_slider.py:97
+#, fuzzy
+msgid "Snapshot slider"
+msgstr "Ползунок моментального снимка"
+
+#: ../gui/cost.py:72
+msgid "Cost and energy payback calculator"
+msgstr "Калькулятор затрат и энергетической окупаемости"
+
+#: ../gui/cost.py:80
+msgid "Re-calcualte"
+msgstr "Пересчитать"
+
+#: ../gui/cost.py:111
+msgid "material"
+msgstr "материал"
+
+#: ../gui/cost.py:111 ../gui/token_lib.py:96
+msgid "Volume"
+msgstr "Объем"
+
+#: ../gui/cost.py:111
+msgid "Mass"
+msgstr "Масса"
+
+#: ../gui/cost.py:117
+msgid "pyton3-openpyxl not found"
+msgstr "pyton3-openpyxl не найден"
+
+#: ../gui/duplicate.py:112
+msgid "Source file"
+msgstr "Исходный файл"
+
+#: ../gui/duplicate.py:112
+msgid "Source token"
+msgstr "Исходный токен"
+
+#: ../gui/duplicate.py:112 ../gui/duplicate.py:153
+msgid "Source path"
+msgstr "Исходный путь"
+
+#: ../gui/duplicate.py:112
+msgid "Destination file"
+msgstr "Файл назначения"
+
+#: ../gui/duplicate.py:112
+msgid "Destination token"
+msgstr "Точка назначения"
+
+#: ../gui/duplicate.py:112 ../gui/duplicate.py:153
+msgid "Destination path"
+msgstr "Путь назначения"
+
+#: ../gui/duplicate.py:153
+msgid "Source File"
+msgstr "Исходный файл"
+
+#: ../gui/duplicate.py:153
+msgid "Source Token"
+msgstr "Исходный токен"
+
+#: ../gui/duplicate.py:153
+msgid "Destination File"
+msgstr "Файл назначения"
+
+#: ../gui/duplicate.py:153
+msgid "Destination Token"
+msgstr "Токен назначения"
+
+#: ../gui/duplicate.py:208
+#, fuzzy
+msgid "Fit variables duplicate window"
+msgstr "Вставить дубликаты переменных"
+
+#: ../gui/fxexperiment.py:88
+msgid "Clone the current experiment to a new experiment called"
+msgstr "Клонировать текущий эксперимент к новому эксперименту с названием:"
+
+#: ../gui/fxexperiment.py:135
+msgid "Should I remove the experiment file"
+msgstr "Должен ли я удалить файл эксперимента"
+
+#: ../gui/fxexperiment.py:182
+msgid "Frequency domain experiment editor"
+msgstr "Редактор эксперимента по частотной области"
+
+#: ../gui/fit_window.py:89
+msgid "<big><b>The fitting variables window</b></big><br> Use this window to select the variables use to perform the fit."
+msgstr "<big> <b> Окно переменных приближении </b> </big> <br> Используйте это окно, чтобы выбрать переменные, используемые для выполнения приближении графика."
+
+#: ../gui/fit_window.py:99
+msgid "New fit name:"
+msgstr "Новое имя приближении:"
+
+#: ../gui/fit_window.py:99
+msgid "fit "
+msgstr "приближение"
+
+#: ../gui/fit_window.py:117
+#, fuzzy
+msgid "Clone the current fit to a new fit called:"
+msgstr "Клонирование текущей подгонки к новой подгонке под названием:"
+
+#: ../gui/fit_window.py:135
+#, fuzzy
+msgid "Rename the fit to be called:"
+msgstr "Переименуйте приближение под названием:"
+
+#: ../gui/fit_window.py:151
+#, fuzzy
+msgid "Should I remove the fit file "
+msgstr "Должен ли я удалить файл соответствия "
+
+#: ../gui/fit_window.py:224
+msgid "Fit window"
+msgstr "Окно приближение"
+
+#: ../gui/fit_window.py:231
+msgid "New fit"
+msgstr "Новое приближение"
+
+#: ../gui/fit_window.py:235
+msgid "Delete fit"
+msgstr "Удалить приближение"
+
+#: ../gui/fit_window.py:239
+msgid "Clone fit"
+msgstr "Клонировать приближение"
+
+#: ../gui/fit_window.py:243
+msgid "Rename fit"
+msgstr "Переименовать приближение"
+
+#: ../gui/fit_window.py:253 ../gui/import_data.py:204 ../gui/equation.py:332
+msgid "Import data"
+msgstr "Импорт данных"
+
+#: ../gui/fit_window.py:259
+msgid "Run a single fit"
+msgstr "Запустить одно приближение"
+
+#: ../gui/fit_window.py:263
+msgid "Start the fitting process"
+msgstr "Начать процесс приближение"
+
+#: ../gui/fit_window.py:267
+msgid "Stop the simulation"
+msgstr "Остановить симуляцию"
+
+#: ../gui/fit_vars.py:105
+msgid "token"
+msgstr "токен"
+
+#: ../gui/fit_vars.py:105
+msgid "path"
+msgstr "путь"
+
+#: ../gui/fit_vars.py:124
+msgid "The data file does not have a #begin or #end token indicating where the data starts and ends."
+msgstr "Файл данных не имеет токена #begin или #end, указывающего, где данные начинаются и заканчиваются."
+
+#: ../gui/fit_vars.py:164
+msgid "Lines to edit"
+msgstr "Строки для редактирования"
+
+#: ../gui/fit_vars.py:164
+msgid "Line section to edit"
+msgstr "Строка для редактирования"
+
+#: ../gui/fit_vars.py:224
+#, fuzzy
+msgid "Fit vars window - gpvdm"
+msgstr "Окно неизвестных приближение  - gpvdm"
+
+#: ../gui/fit_vars.py:238
+msgid "Add line"
+msgstr "Добавить строку"
+
+#: ../gui/fit_vars.py:242
+msgid "Remove line"
+msgstr "Удалить строку"
+
+#: ../gui/fit_vars.py:254
+msgid "Open"
+msgstr "Открыть"
+
+#: ../gui/ribbon_cluster.py:69
+msgid "Connect to cluster"
+msgstr "Подключение к кластеру"
+
+#: ../gui/ribbon_cluster.py:73
+#, fuzzy
+msgid "Cluster get data"
+msgstr "Kластер "
+
+#: ../gui/ribbon_cluster.py:78
+msgid "Copy src to cluster"
+msgstr "Скопировать src в кластер"
+
+#: ../gui/ribbon_cluster.py:83
+msgid "Make on cluster"
+msgstr "Сделать кластер"
+
+#: ../gui/ribbon_cluster.py:88
+msgid "Clean cluster"
+msgstr "Очистить кластер"
+
+#: ../gui/ribbon_cluster.py:93
+msgid "Kill all cluster code"
+msgstr "Убить весь код кластера"
+
+#: ../gui/ribbon_cluster.py:99
+msgid "Sync"
+msgstr "Синхронизация"
+
+#: ../gui/ribbon_cluster.py:105
+msgid "Get jobs"
+msgstr "Получить работы"
+
+#: ../gui/ribbon_cluster.py:152
+msgid "Can not connect to cluster."
+msgstr "Не удается подключиться к кластеру."
+
+#: ../gui/leftright.py:85
+msgid "Right"
+msgstr "Правый"
+
+#: ../gui/leftright.py:91
+msgid "Left"
+msgstr "Левый"
+
+#: ../gui/hpc.py:179
+msgid "Cluster status (www.gpvdm.com)"
+msgstr "Статус кластера (www.gpvdm.com)"
+
+#: ../gui/fit_window_plot_real.py:76
+msgid "x"
+msgstr "x"
+
+#: ../gui/fit_window_plot_real.py:77
+msgid "y"
+msgstr "y"
+
+#: ../gui/server.py:133
+msgid "<big><b>Simulation finished!</b></big><br>Click on the plot icon to plot the results"
+msgstr "<big> <b> Моделирование закончено! </b> </big> <br> Нажмите на значок графика, чтобы отобразить результаты"
+
+#: ../gui/server.py:143
+msgid "<big><b>Excel workbook error</b></big><br>I can't write new data to the file data.xlsx, I think you have are viewing it using another program.  Please close data.xlsx to enable me to write new data to it."
+msgstr "<big> <b> Ошибка рабочей книги Excel </b> </big> <br> Я не могу записать новые данные в файл data.xlsx, я думаю, что вы просматриваете его с помощью другой программы. Закройте файл data.xlsx, чтобы включить в него новые данные."
+
+#: ../gui/server.py:207
+msgid "Running job "
+msgstr "Выполняется работа"
+
+#: ../gui/server.py:309
+msgid "I did not think I was running any jobs"
+msgstr "Я не думал, что у меня выполнялись какие-либо работы"
+
+#: ../gui/information_webkit.py:66
+msgid "back"
+msgstr "назад"
+
+#: ../gui/information_webkit.py:70
+msgid "home"
+msgstr "домой"
+
+#: ../gui/ref.py:59 ../gui/ref.py:64
+msgid "Data provided by"
+msgstr "Данные, предоставленные"
+
+#: ../gui/ref.py:60
+#, fuzzy
+msgid "Associated paper"
+msgstr "Связанная бумага"
+
+#: ../gui/ref.py:77
+msgid "Reference manager"
+msgstr "Менеджер ссылок"
+
+#: ../gui/ref.py:97
+msgid "Reference"
+msgstr "Ссылка"
+
+#: ../gui/ref.py:156
+msgid "New file"
+msgstr "Новый файл"
+
+#: ../gui/device_lib.py:59
+msgid "File name"
+msgstr "Имя файла"
+
+#: ../gui/device_lib.py:59
+msgid "Device type"
+msgstr "Тип устройства"
+
+#: ../gui/device_lib.py:59
+msgid "Description"
+msgstr "Описание"
+
+#: ../gui/device_lib.py:112
+msgid "You have not selected anything"
+msgstr "Вы ничего не выбрали"
+
+#: ../gui/lasers.py:81
+msgid "New laser name:"
+msgstr "Новое имя лазера:"
+
+#: ../gui/lasers.py:81
+msgid "laser "
+msgstr "лазер "
+
+#: ../gui/lasers.py:93
+msgid "Clone the current laser to a new laser called:"
+msgstr "Клонирование текущего лазера к новым лазером с названием:"
+
+#: ../gui/lasers.py:110
+msgid "Rename the laser to be called:"
+msgstr "Переименовать лазер в:"
+
+#: ../gui/lasers.py:120
+msgid "Should I remove the laser file "
+msgstr "Должен ли я удалить лазерный файл "
+
+#: ../gui/lasers.py:165
+msgid "Laser configuration window"
+msgstr "Окно настройки лазера"
+
+#: ../gui/lasers.py:172
+msgid "New laser"
+msgstr "Новый лазер"
+
+#: ../gui/lasers.py:176
+msgid "Delete laser"
+msgstr "Удалить лазер"
+
+#: ../gui/lasers.py:180
+msgid "Clone laser"
+msgstr "Клонировать лазер"
+
+#: ../gui/lasers.py:184
+msgid "Rename laser"
+msgstr "Переименовать лазер"
+
+#: ../gui/cool_menu.py:53
+msgid "Help window"
+msgstr "Окно справки"
+
+#: ../gui/cool_menu.py:56 ../gui/status_icon.py:50
+msgid "Manual"
+msgstr "Руководство"
+
+#: ../gui/cool_menu.py:62
+msgid "Youtube"
+msgstr "Youtube"
+
+#: ../gui/cool_menu.py:65
+msgid "Citing the model"
+msgstr "Цицировать модель"
+
+#: ../gui/tab_terminal.py:75
+msgid "Running: "
+msgstr "Выполняется:"
+
+#: ../gui/tab_terminal.py:87
+msgid "I could not find a free cpu to run the command on"
+msgstr "Я не мог найти свободный процессор для запуска команды"
+
+#: ../gui/tab_terminal.py:130
+msgid "CPU"
+msgstr "ЦПУ"
+
+#: ../gui/gpvdm_open.py:154 ../gui/gpvdm_open.py:174
+msgid "New directory"
+msgstr "Новый каталог"
+
+#: ../gui/gpvdm_open.py:156
+msgid "New material"
+msgstr "Новый материал"
+
+#: ../gui/gpvdm_open.py:159
+msgid "New spectra"
+msgstr "Новые спектры"
+
+#: ../gui/gpvdm_open.py:161
+msgid "Delete file"
+msgstr "Удалить файл"
+
+#: ../gui/gpvdm_open.py:162
+msgid "Rename"
+msgstr "Переименовать "
+
+#: ../gui/gpvdm_open.py:174
+msgid "New directory name:"
+msgstr "Имя нового каталога:"
+
+#: ../gui/gpvdm_open.py:181
+msgid "New material name:"
+msgstr "Название нового материала:"
+
+#: ../gui/gpvdm_open.py:181
+msgid "New material name"
+msgstr "Название нового материала"
+
+#: ../gui/gpvdm_open.py:187
+msgid "New spectra name:"
+msgstr "Новое имя спектра:"
+
+#: ../gui/gpvdm_open.py:187
+msgid "New spectra name"
+msgstr "Новое имя спектра"
+
+#: ../gui/gpvdm_open.py:196
+msgid "Are you sure you want to delete the files ?"
+msgstr "Вы действительно хотите удалить файлы?"
+
+#: ../gui/gpvdm_open.py:203
+msgid "Rename:"
+msgstr "Переименовать:"
+
+#: ../gui/gpvdm_open.py:228
+msgid "The directory is gone, so I can't open it.  Did you delete it?"
+msgstr "Каталог исчез, поэтому я не могу его открыть. Вы его удалили?"
+
+#: ../gui/gpvdm_open.py:344
+msgid "title"
+msgstr "заглавие"
+
+#: ../gui/gpvdm_open.py:344
+msgid "x axis"
+msgstr "ось x"
+
+#: ../gui/gpvdm_open.py:344
+msgid "y axis"
+msgstr "ось y"
+
+#: ../gui/gpvdm_open.py:344
+msgid "Double click to open"
+msgstr "Дважды щелкните, чтобы открыть"
+
+#: ../gui/gpvdm_open.py:350
+msgid "equilibrium"
+msgstr "равновесие"
+
+#: ../gui/gpvdm_open.py:350
+msgid "This contains the simulation output at 0V in the dark."
+msgstr "Это содержит результаты симуляции при 0 В в темноте."
+
+#: ../gui/import_data.py:216
+msgid "Open data file"
+msgstr "Открыть файл данных"
+
+#: ../gui/import_data.py:225 ../gui/scan_ribbon.py:99
+msgid "Plot"
+msgstr "Построить график"
+
+#: ../gui/import_data.py:254
+msgid "The file to import:"
+msgstr "Файл для импорта:"
+
+#: ../gui/import_data.py:269
+msgid "The imported file, the numbers should now be in SI units"
+msgstr "Импортируемый файл, числа теперь должны быть в единицах СИ"
+
+#: ../gui/import_data.py:307 ../gui/import_data.py:308
+#: ../gui/import_data.py:309 ../gui/import_data.py:310
+#, fuzzy
+msgid "J"
+msgstr "J"
+
+#: ../gui/import_data.py:309
+msgid "Amps"
+msgstr "Ампер"
+
+#: ../gui/import_data.py:310
+msgid "-Amps"
+msgstr "-Ампер"
+
+#: ../gui/import_data.py:312
+msgid "-Voltage"
+msgstr "-Напряжение"
+
+#: ../gui/import_data.py:314
+msgid "Attenuation coefficient"
+msgstr "Коэффициент затухания"
+
+#: ../gui/import_data.py:336
+msgid "x units:"
+msgstr "еденицы х:"
+
+#: ../gui/import_data.py:337
+msgid "y units:"
+msgstr "еденицы y:"
+
+#: ../gui/import_data.py:345
+msgid "Title:"
+msgstr "Заглавие:"
+
+#: ../gui/import_data.py:356
+msgid "x-label:"
+msgstr "х-метка:"
+
+#: ../gui/import_data.py:358
+msgid "x-column:"
+msgstr "х-колонка:"
+
+#: ../gui/import_data.py:375
+msgid "y-label:"
+msgstr "у метки:"
+
+#: ../gui/import_data.py:377
+msgid "y-column:"
+msgstr "у колонка:"
+
+#: ../gui/import_data.py:393
+msgid "device area:"
+msgstr "область устройства:"
+
+#: ../gui/scan_ribbon.py:60
+msgid "New scan"
+msgstr "Новое сканирование"
+
+#: ../gui/scan_ribbon.py:63
+msgid "Delete scan"
+msgstr "Удалить сканирование"
+
+#: ../gui/scan_ribbon.py:66
+msgid "Clone scan"
+msgstr "Клонировать сканирование"
+
+#: ../gui/scan_ribbon.py:69
+msgid "Rename scan"
+msgstr "Переименовать сканирование"
+
+#: ../gui/scan_ribbon.py:87
+msgid "Run scan"
+msgstr "Запустить сканирование"
+
+#: ../gui/scan_ribbon.py:90
+msgid "Run all scans"
+msgstr "Запуск всех сканов"
+
+#: ../gui/scan_ribbon.py:94 ../gui/doping.py:111
+msgid "Stop"
+msgstr "Стоп"
+
+#: ../gui/scan_ribbon.py:102
+msgid "Time domain plot"
+msgstr "График во временной области"
+
+#: ../gui/scan_ribbon.py:112
+msgid "Plot fits"
+msgstr "Построить приближении"
+
+#: ../gui/scan_ribbon.py:115
+msgid "Run nested simulation"
+msgstr "Выполнение вложенного моделирования"
+
+#: ../gui/scan_ribbon.py:118
+msgid "Run simulation no generation"
+msgstr "Запустить симуляцию без генерации"
+
+#: ../gui/scan_ribbon.py:121
+msgid "Run single fit"
+msgstr "Запустить одно приближение"
+
+#: ../gui/scan_ribbon.py:124
+msgid "Clean simulation"
+msgstr "Очистеть симуляцию"
+
+#: ../gui/scan_ribbon.py:127
+msgid "Clean unconverged simulation"
+msgstr "Очистеть не конвергентную симуляцию"
+
+#: ../gui/scan_ribbon.py:130
+msgid "Clean simulation output"
+msgstr "Очистеть результат симуляции"
+
+#: ../gui/scan_ribbon.py:133
+#, fuzzy
+msgid "Push unconverged to hpc"
+msgstr "Нажимать unconverged на hpc"
+
+#: ../gui/scan_ribbon.py:136
+msgid "Change dir"
+msgstr "Изменить каталог"
+
+#: ../gui/scan_ribbon.py:172
+msgid "Scan"
+msgstr "сканирование"
+
+#: ../gui/scan_ribbon.py:180
+msgid "Advanced"
+msgstr "Расширенные"
+
+#: ../gui/about.py:54
+msgid "Written by Roderick MacKenzie 2012-2017, published under GPL v2.0"
+msgstr "Автор Roderick MacKenzie 2012-2017, опубликованный под GPL v2.0"
+
+#: ../gui/about.py:56
+msgid "Version "
+msgstr "Версия "
+
+#: ../gui/about.py:69
+msgid "gpvdm is a free general-purpose tool for simulation of light harvesting devices. It was originally written to simulate organic solar cells and OLEDs, but it has recently been extended to simulate other devices including silicon based devices. Currently the model can sumulate:"
+msgstr "gpvdm - это бесплатный инструмент общего назначения для моделирования устройств улавливания света. Первоначально он был написан для моделирования органических солнечных элементов и органических светодиодных-систем, но недавно он был расширен, чтобы симулировать другие устройства, включая устройства на основе кремния. В настоящее время модель может симулировать:"
+
+#: ../gui/about.py:71
+msgid "Organic solar cells"
+msgstr "Органические солнечные элементы"
+
+#: ../gui/about.py:72
+msgid "Organic LEDs"
+msgstr "Органические светодиоды"
+
+#: ../gui/about.py:73
+msgid "Crystalline silicon solar cells"
+msgstr "Кристаллические кремниевые солнечные элементы"
+
+#: ../gui/about.py:74
+msgid "a-Si solar cells"
+msgstr "солнечные элементы a-Si"
+
+#: ../gui/about.py:75
+msgid "CIGS solar cells"
+msgstr "Солнечные элементы CIGS"
+
+#: ../gui/about.py:77
+#, fuzzy
+msgid "The model solves both electron and hole drift-diffusion, and carrier continuity equations in position space to describe the movement of charge within the device. The model also solves Poisson's equation to calculate the internal electrostatic potential. Recombination and carrier trapping are described within the model using a Shockley-Read-Hall (SRH) formalism, the distribution of trap sates can be arbitrarily defined. All equations can be solved either in steady state or in time domain. A fuller description of the model can be found in the here, in the associated publications and in the manual."
+msgstr "Модель решает уравнения дрейфа-диффузии электронов и дырок вместе с уравнением непрерывности носитилей в пространстве для описания движения заряда внутри устройства. Модель также решает уравнение Пуассона для расчета внутреннего электростатического потенциала. Рекомбинация и захват носителей описаны в модели с использованием формализма Шокли-Рида-Холла, распределение ловушек может быть произвольно определено. Все уравнения могут быть решены либо в стационарном состоянии, либо во временной области. Более полное описание модели можно найти здесь, в соответствующих публикациях и в руководстве."
+
+#: ../gui/about.py:86
+msgid "General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall model"
+msgstr "Модель фотогальванического устройства общего назначения - модель на базе дрейвой диффузионной модели и модели Шокли-Рида-Холла"
+
+#: ../gui/about.py:90
+msgid "This program is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License v2.0, as published by the Free Software Foundation."
+msgstr "Эта программа является бесплатным программным обеспечением; вы можете перераспределить его и / или изменить его в соответствии с GNU General Public License v2.0, опубликованным Free Software Foundation."
+
+#: ../gui/about.py:94
+msgid "This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details."
+msgstr "Эта программа распространяется в надежде, что она будет полезна, но БЕЗ КАКИХ-ЛИБО ГАРАНТИЙ; даже без подразумеваемой гарантии КОММЕРЧЕСКОЙ ЦЕННОСТИ или ПРИГОДНОСТИ ДЛЯ ОПРЕДЕЛЕННОЙ ЦЕЛИ. Дополнительную информацию см. В GNU General Public License."
+
+#: ../gui/about.py:98
+msgid "You should have received a copy of the GNU General Public License along with this program; if not, write to the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA."
+msgstr "Вы должны были получить копию GNU General Public License вместе с этой программой; если нет, напишите в Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA."
+
+#: ../gui/about.py:102
+msgid "When you start gpvdm the software checks the gpvdm.com server for updates and bug reports.  To do this it transmits your opperating system type, gpvdm version number.  It also tells the gpvdm.com server if opengl is working on your pc.  By installing gpvdm you agree that the gpvdm software may transmit this information to the gpvdm.com server.  The communications  process between gpvdm software and the gpvdm.com server is described in more detail in the manual."
+msgstr "Когда вы запускаете gpvdm, программное обеспечение проверяет сервер gpvdm.com на наличие обновлений и отчетов об ошибках. Для этого он передает ваш тип операционной системы, номер версии gpvdm. Он также сообщает серверу gpvdm.com, если opengl работает на вашем компьютере. Установив gpvdm, вы соглашаетесь с тем, что программное обеспечение gpvdm может передавать эту информацию на сервер gpvdm.com. Процесс связи между программным обеспечением gpvdm и сервером gpvdm.com более подробно описан в руководстве."
+
+#: ../gui/about.py:141
+msgid "Translations"
+msgstr "Переводы"
+
+#: ../gui/about.py:144
+msgid "Materials"
+msgstr "Материалы"
+
+#: ../gui/scan_select.py:59
+msgid "Select simulation parameter"
+msgstr "Выберите параметр моделирования"
+
+#: ../gui/scan_select.py:118
+msgid "Simulation parameters"
+msgstr "Параметры симуляции"
+
+#: ../gui/scan_select.py:170
+msgid "No row selected in the scan window, can't insert the selection"
+msgstr "Строка не выбранная в окне сканирования, не могу вставить выбор"
+
+#: ../gui/equation.py:200
+msgid "Python Equation"
+msgstr "Уравнение Python"
+
+#: ../gui/equation.py:247
+msgid "You've made a mistake in the equation, use w for wavelength. "
+msgstr "Вы сделали ошибку в уравнении, используйте w для длины волны. "
+
+#: ../gui/equation.py:287
+msgid "<big><b>Solar spectrum editor</b></big><br> Use this tool to generate custom solar spectra."
+msgstr "<big> <b> Редактор спектра солнечной энергии </b> </big> <br> Используйте этот инструмент для создания пользовательских солнечных спектров."
+
+#: ../gui/equation.py:328
+msgid "Insert reference information"
+msgstr "Вставить справочную информацию"
+
+#: ../gui/equation.py:338
+msgid "Solar spectra"
+msgstr "Солнечные спектры"
+
+#: ../gui/equation.py:377
+msgid "Fit data"
+msgstr "Данные приближения"
+
+#: ../gui/ver.py:99
+msgid "version.h not found"
+msgstr "version.h не найден"
+
+#: ../gui/help.py:112
+msgid "Back"
+msgstr "Назад"
+
+#: ../gui/help.py:126
+msgid "Online help"
+msgstr "Помощь онлайн"
+
+#: ../gui/help.py:127
+msgid "On line help"
+msgstr "Помощь онлайн"
+
+#: ../gui/help.py:131
+msgid "Hide"
+msgstr "Спрятать"
+
+#: ../gui/help.py:243
+msgid "gpvdm in your language!"
+msgstr "gpvdm на вашем языке!"
+
+#: ../gui/help.py:245
+msgid "gpvdm translated by:"
+msgstr "gpvdm перевёл:"
+
+#: ../gui/parasitic.py:51
+msgid "Edit parasitic components"
+msgstr "Редактировать паразитные компоненты"
+
+#: ../gui/parasitic.py:80
+msgid "Parasitic components"
+msgstr "Паразитные компоненты"
+
+#: ../gui/fxexperiment_tab.py:72
+msgid "Frequency mesh"
+msgstr "Частотная сетка"
+
+#: ../gui/electrical_mesh_editor.py:185
+msgid "Thickness"
+msgstr "Толщина"
+
+#: ../gui/electrical_mesh_editor.py:205
+msgid "Mesh points"
+msgstr "Точки сетки"
+
+#: ../gui/electrical_mesh_editor.py:205
+msgid "Step multiply"
+msgstr "Умножить шаг"
+
+#: ../gui/electrical_mesh_editor.py:205
+msgid "Left/Right"
+msgstr "Левый/правый"
+
+#: ../gui/tb_item_mat_file.py:50
+msgid "Use:"
+msgstr "Использовать:"
+
+#: ../gui/tb_item_mat_file.py:56 ../gui/tb_item_mat_file.py:78
+msgid "Raw data"
+msgstr "Исходные данные"
+
+#: ../gui/token_lib.py:43
+msgid "Mesh points (lambda)"
+msgstr "Точки сетки (лямбда)"
+
+#: ../gui/token_lib.py:44
+msgid "Lambda start"
+msgstr "Начальное лямбда"
+
+#: ../gui/token_lib.py:45
+msgid "Lambda stop"
+msgstr "конечное лямбда"
+
+#: ../gui/token_lib.py:46
+msgid "Laser wavelength"
+msgstr "Длина волны лазера"
+
+#: ../gui/token_lib.py:47
+msgid "Spot size x"
+msgstr "Размер пятна x"
+
+#: ../gui/token_lib.py:48
+msgid "Spot size y"
+msgstr "Размер пятна y"
+
+#: ../gui/token_lib.py:49
+msgid "Energy in pulse"
+msgstr "Энергия в импульсе"
+
+#: ../gui/token_lib.py:50
+#, fuzzy
+msgid "#gather"
+msgstr "Сбор"
+
+#: ../gui/token_lib.py:51
+msgid "Length of pulse"
+msgstr "Длительность импульса"
+
+#: ../gui/token_lib.py:52
+msgid "Electron generation efficiency"
+msgstr "Эффективность генерации электронов"
+
+#: ../gui/token_lib.py:53
+msgid "Hole generation efficiency"
+msgstr "Эффективность образования дырок"
+
+#: ../gui/token_lib.py:54 ../gui/token_lib.py:474
+msgid "filename"
+msgstr "имя файла"
+
+#: ../gui/token_lib.py:54
+msgid "Sun's spectra"
+msgstr "Спектры Солнца"
+
+#: ../gui/token_lib.py:55
+msgid "File containing generation rate"
+msgstr "Файл, содержащий скорость генерации"
+
+#: ../gui/token_lib.py:56
+msgid "Photon efficiency"
+msgstr "Эффективность фотонов"
+
+#: ../gui/token_lib.py:60
+msgid "DoS distribution"
+msgstr "Распределение DoS"
+
+#: ../gui/token_lib.py:60
+msgid "exponential"
+msgstr "экспоненциальный"
+
+#: ../gui/token_lib.py:60
+#, fuzzy
+msgid "complex"
+msgstr "комплекса"
+
+#: ../gui/token_lib.py:61
+msgid "Effective density of free electron states"
+msgstr "Эффективная плотность состояний свободных электронов"
+
+#: ../gui/token_lib.py:62
+msgid "Effective density of free hole states"
+msgstr "Эффективная плотность состояний свободных дырок"
+
+#: ../gui/token_lib.py:63 ../libdump/dump_dynamic.c:721
+#: ../libdump/dump_1d_slice.c:752 ../libdump/dump_1d_slice.c:757
+msgid "Electron mobility"
+msgstr "Подвижность электронов"
+
+#: ../gui/token_lib.py:64 ../libdump/dump_dynamic.c:740
+#: ../libdump/dump_1d_slice.c:781 ../libdump/dump_1d_slice.c:786
+msgid "Hole mobility"
+msgstr "Подвижность дырок"
+
+#: ../gui/token_lib.py:65
+msgid "Electron trap density"
+msgstr "Плотность электронных ловушек"
+
+#: ../gui/token_lib.py:66
+msgid "Hole trap density"
+msgstr "Плотность дырочных ловушек"
+
+#: ../gui/token_lib.py:67
+#, fuzzy
+msgid "Electron tail slope"
+msgstr "Угловой хвост электрона"
+
+#: ../gui/token_lib.py:68
+#, fuzzy
+msgid "Hole tail slope"
+msgstr "Отверстие хвоста"
+
+#: ../gui/token_lib.py:69 ../libdump/dump_1d_slice.c:722
+#: ../libdump/dump_1d_slice.c:727
+msgid "Relative permittivity"
+msgstr "Относительная диэлектрическая проницаемость"
+
+#: ../gui/token_lib.py:70
+#, fuzzy
+msgid "Free electron to Trapped electron"
+msgstr "Свободный электрон для захваченного электрона"
+
+#: ../gui/token_lib.py:71
+#, fuzzy
+msgid "Trapped electron to Free hole"
+msgstr "Захваченный электрон до свободной дыры"
+
+#: ../gui/token_lib.py:72
+#, fuzzy
+msgid "Trapped hole to Free electron"
+msgstr "Захваченное отверстие для свободных электронов"
+
+#: ../gui/token_lib.py:73
+#, fuzzy
+msgid "Free hole to Trapped hole"
+msgstr "Свободное отверстие для захваченного отверстия"
+
+#: ../gui/token_lib.py:74
+#, fuzzy, python-brace-format
+msgid "n_{free} to p_{free} Recombination rate constant"
+msgstr "n_ {free} до p_ {free} Константа скорости рекомбинации"
+
+#: ../gui/token_lib.py:77
+msgid "startime"
+msgstr ""
+
+#: ../gui/token_lib.py:78
+msgid "ea_factor"
+msgstr "ea_factor"
+
+#: ../gui/token_lib.py:79
+msgid "Np"
+msgstr "Np"
+
+#: ../gui/token_lib.py:80
+msgid "den"
+msgstr "den"
+
+#: ../gui/token_lib.py:81
+msgid "externalv"
+msgstr "externalv"
+
+#: ../gui/token_lib.py:82
+msgid "dt_neg_time"
+msgstr "dt_neg_time"
+
+#: ../gui/token_lib.py:84
+msgid "dt_mull"
+msgstr "dt_mull"
+
+#: ../gui/token_lib.py:86
+msgid "stark"
+msgstr "stark"
+
+#: ../gui/token_lib.py:87
+msgid "lasereff"
+msgstr "lasereff"
+
+#: ../gui/token_lib.py:88
+msgid "wavelength"
+msgstr "длина волны"
+
+#: ../gui/token_lib.py:89
+msgid "sim_contacts"
+msgstr "sim_contacts"
+
+#: ../gui/token_lib.py:92
+msgid "Website"
+msgstr "Сайт"
+
+#: ../gui/token_lib.py:93
+msgid "Research group"
+msgstr "Исследовательская группа"
+
+#: ../gui/token_lib.py:94
+msgid "Authors"
+msgstr "Авторы"
+
+#: ../gui/token_lib.py:95
+msgid "Journal"
+msgstr "Дневник"
+
+#: ../gui/token_lib.py:97
+msgid "Pages"
+msgstr "Страницы"
+
+#: ../gui/token_lib.py:98
+msgid "Year"
+msgstr "Год"
+
+#: ../gui/token_lib.py:99
+msgid "md5 sum"
+msgstr "сумма md5"
+
+#: ../gui/token_lib.py:100
+msgid "DOI"
+msgstr ""
+
+#: ../gui/token_lib.py:104 ../gui/token_lib.py:332
+#, fuzzy, python-brace-format
+msgid "R_{short}"
+msgstr "R_ {} Короче говоря"
+
+#: ../gui/token_lib.py:105
+#, fuzzy, python-brace-format
+msgid "V_{bias}"
+msgstr "V_ {смещения}"
+
+#: ../gui/token_lib.py:106
+msgid "Efficiency of light"
+msgstr "Эффективность света"
+
+#: ../gui/token_lib.py:107 ../gui/token_lib.py:186 ../gui/token_lib.py:192
+#: ../gui/token_lib.py:203 ../gui/token_lib.py:215 ../gui/token_lib.py:220
+#: ../gui/token_lib.py:221 ../gui/token_lib.py:222 ../gui/token_lib.py:223
+#: ../gui/token_lib.py:225 ../gui/token_lib.py:226 ../gui/token_lib.py:231
+#: ../gui/token_lib.py:232 ../gui/token_lib.py:234 ../gui/token_lib.py:235
+#: ../gui/token_lib.py:236 ../gui/token_lib.py:237 ../gui/token_lib.py:238
+#: ../gui/token_lib.py:239 ../gui/token_lib.py:240 ../gui/token_lib.py:243
+#: ../gui/token_lib.py:245 ../gui/token_lib.py:246 ../gui/token_lib.py:247
+#: ../gui/token_lib.py:248 ../gui/token_lib.py:249 ../gui/token_lib.py:250
+#: ../gui/token_lib.py:251 ../gui/token_lib.py:252 ../gui/token_lib.py:253
+#: ../gui/token_lib.py:254 ../gui/token_lib.py:256 ../gui/token_lib.py:257
+#: ../gui/token_lib.py:258 ../gui/token_lib.py:259 ../gui/token_lib.py:262
+#: ../gui/token_lib.py:280 ../gui/token_lib.py:325 ../gui/token_lib.py:462
+#: ../gui/token_lib.py:463 ../gui/token_lib.py:468 ../gui/token_lib.py:472
+#: ../gui/token_lib.py:473 ../gui/token_lib.py:475
+msgid "True/False"
+msgstr "Верно/ Неверно"
+
+#: ../gui/token_lib.py:107
+#, fuzzy
+msgid "subtract DC"
+msgstr "вычесть DC"
+
+#: ../gui/token_lib.py:110
+msgid "Material type"
+msgstr "Тип материала"
+
+#: ../gui/token_lib.py:110
+msgid "Organic"
+msgstr "Органический"
+
+#: ../gui/token_lib.py:110
+msgid "Oxide"
+msgstr "Окись"
+
+#: ../gui/token_lib.py:110
+msgid "Inorganic"
+msgstr "Неорганический"
+
+#: ../gui/token_lib.py:110
+msgid "Metal"
+msgstr "Металл"
+
+#: ../gui/token_lib.py:110
+msgid "Other"
+msgstr "Другой"
+
+#: ../gui/token_lib.py:111
+msgid "Alpha channel"
+msgstr "Альфа-канал"
+
+#: ../gui/token_lib.py:112 ../gui/plot_widget.py:574 ../gui/plot_widget.py:581
+msgid "Color"
+msgstr "Цвет"
+
+#: ../gui/token_lib.py:113
+msgid "Transparency"
+msgstr "Прозрачность"
+
+#: ../gui/token_lib.py:114
+msgid "Publish material data?"
+msgstr "Опубликовать данные материала?"
+
+#: ../gui/token_lib.py:114
+msgid "Public"
+msgstr "Общие"
+
+#: ../gui/token_lib.py:114
+msgid "Public all"
+msgstr "Все общие"
+
+#: ../gui/token_lib.py:114
+msgid "Private"
+msgstr "Личное"
+
+#: ../gui/token_lib.py:115
+msgid "Change log"
+msgstr "Список изменений"
+
+#: ../gui/token_lib.py:118
+msgid "JV voltage step multiplyer"
+msgstr "Умножитель шага напряжения для ВАХ"
+
+#: ../gui/token_lib.py:119
+msgid "Maximum current density"
+msgstr "Максимальная плотность тока"
+
+#: ../gui/token_lib.py:120
+msgid "JV curve photon generation efficiency"
+msgstr "Эффективность генерации фотонов для ВАХ"
+
+#: ../gui/token_lib.py:121
+#, fuzzy, python-brace-format
+msgid "Average carrier density at P_{max}"
+msgstr "Средняя плотность носителей при P_ {max}"
+
+#: ../gui/token_lib.py:122
+msgid "Recombination time constant"
+msgstr "Постоянная времени рекомбинации"
+
+#: ../gui/token_lib.py:123
+msgid "Start voltage"
+msgstr "Начать напряжение"
+
+#: ../gui/token_lib.py:124
+msgid "Stop voltage"
+msgstr "Остановить напряжение"
+
+#: ../gui/token_lib.py:125
+msgid "Voltage step"
+msgstr "Шаг напряжения"
+
+#: ../gui/token_lib.py:128
+#, fuzzy, python-brace-format
+msgid "V_{oc}"
+msgstr "V_{oc}"
+
+#: ../gui/token_lib.py:129
+msgid "Power conversion efficiency"
+msgstr "Эффективность преобразования мощности"
+
+#: ../gui/token_lib.py:130
+msgid "Fill factor"
+msgstr "Коэффициент заполнения"
+
+#: ../gui/token_lib.py:131
+msgid "Max power"
+msgstr "МАКС мощность"
+
+#: ../gui/token_lib.py:132
+msgid "Trapped electrons at Voc"
+msgstr "Захваченные электроны в Voc"
+
+#: ../gui/token_lib.py:133
+msgid "Trapped holes at Voc"
+msgstr "Захваченные отверстия в Voc"
+
+#: ../gui/token_lib.py:134
+msgid "Free electrons at Voc"
+msgstr "Свободные электроны в Voc"
+
+#: ../gui/token_lib.py:135
+msgid "Free holes at Voc"
+msgstr "Свободные дыры в Voc"
+
+#: ../gui/token_lib.py:136
+msgid "Total carriers (n+p)/2 at Voc"
+msgstr "Общие носители (n + p) / 2 в Voc"
+
+#: ../gui/token_lib.py:137
+msgid "Recombination time constant at Voc"
+msgstr "Постоянная времени рекомбинации в Voc"
+
+#: ../gui/token_lib.py:138
+msgid "Recombination rate at Voc"
+msgstr "Скорость рекомбинации в Voc"
+
+#: ../gui/token_lib.py:139
+msgid "Current density at Voc"
+msgstr "Плотность тока в Voc"
+
+#: ../gui/token_lib.py:140
+#, python-brace-format
+msgid "J_{sc}"
+msgstr "J_{sc}"
+
+#: ../gui/token_lib.py:145 ../gui/token_lib.py:342
+msgid "Re(J)"
+msgstr "Re(J)"
+
+#: ../gui/token_lib.py:146 ../gui/token_lib.py:343
+msgid "Im(J)"
+msgstr "Im (J)"
+
+#: ../gui/token_lib.py:147
+msgid "fx"
+msgstr "fx"
+
+#: ../gui/token_lib.py:148
+msgid "di"
+msgstr "di"
+
+#: ../gui/token_lib.py:149
+msgid "dmodulation"
+msgstr "dmodulation"
+
+#: ../gui/token_lib.py:150
+msgid "dphase"
+msgstr "dphase"
+
+#: ../gui/token_lib.py:152
+#, fuzzy
+msgid "Modulation roll off start"
+msgstr "Сброс модуляции"
+
+#: ../gui/token_lib.py:153
+#, fuzzy
+msgid "Modulation roll off speed"
+msgstr "Скорость отката модуляции"
+
+#: ../gui/token_lib.py:159
+msgid "Left hole density"
+msgstr "Плотность левых дырок"
+
+#: ../gui/token_lib.py:160
+msgid "Left electron density"
+msgstr "Левая плотность электронов"
+
+#: ../gui/token_lib.py:161
+msgid "Right hole density"
+msgstr "Плотность правых дырок"
+
+#: ../gui/token_lib.py:162
+msgid "Right electron density"
+msgstr "Плотность правых электронов"
+
+#: ../gui/token_lib.py:163
+msgid "Built in potential"
+msgstr "Встроенный потенциал"
+
+#: ../gui/token_lib.py:164
+msgid "Electron affinity left"
+msgstr "Сродство к электрону слева"
+
+#: ../gui/token_lib.py:165
+msgid "Electron affinity right"
+msgstr "Сродство к электрону справа"
+
+#: ../gui/token_lib.py:168
+msgid "Number of CPUs"
+msgstr "Количество процессоров"
+
+#: ../gui/token_lib.py:183
+msgid "Max Electrical itterations (first step)"
+msgstr "Макс. Электрические итерации (первый шаг)"
+
+#: ../gui/token_lib.py:184
+msgid "Electrical clamp (first step)"
+msgstr "Электрический зажим (первый шаг)"
+
+#: ../gui/token_lib.py:185
+msgid "Desired electrical solver error (first step)"
+msgstr "Требуемая ошибка электрического решателя (первый шаг)"
+
+#: ../gui/token_lib.py:186
+msgid "Enable poisson solver"
+msgstr "Включить решитель пуассона"
+
+#: ../gui/token_lib.py:187
+msgid "Max electrical itterations"
+msgstr "Максимальные электрические итерации"
+
+#: ../gui/token_lib.py:188
+#, fuzzy
+msgid "Electrical clamp"
+msgstr "Электрический зажим"
+
+#: ../gui/token_lib.py:189
+#, fuzzy
+msgid "Poisson clamping"
+msgstr "Пуассоновский зажим"
+
+#: ../gui/token_lib.py:190
+msgid "Minimum electrical error"
+msgstr "Минимальная электрическая ошибка"
+
+#: ../gui/token_lib.py:191
+msgid "Poisson solver max itterations"
+msgstr "Максимальное количество повторений решателя Пуассона"
+
+#: ../gui/token_lib.py:193
+msgid "Newton minimum iterations"
+msgstr "Минимальные итерации Ньютона"
+
+#: ../gui/token_lib.py:194 ../gui/token_lib.py:195
+msgid "dll name"
+msgstr "имя dll"
+
+#: ../gui/token_lib.py:194
+msgid "Matrix solver to use"
+msgstr "Матричный решатель для использования"
+
+#: ../gui/token_lib.py:195
+msgid "Newton solver to use"
+msgstr "Решатель Ньютона для использования"
+
+#: ../gui/token_lib.py:196
+#, fuzzy
+msgid "Slotboom T0"
+msgstr "Slotboom T0"
+
+#: ../gui/token_lib.py:197
+#, fuzzy
+msgid "Slotboom D0"
+msgstr "Slotboom D0"
+
+#: ../gui/token_lib.py:198
+#, fuzzy
+msgid "Slotboom n0"
+msgstr "Slotboom n0"
+
+#: ../gui/token_lib.py:202
+msgid "Fit error multiplyer"
+msgstr "Умнажатель ошибки приближение"
+
+#: ../gui/token_lib.py:203
+msgid "Randomize fit"
+msgstr "Рандомизировать приближение"
+
+#: ../gui/token_lib.py:204
+msgid "Number of iterations between random reset"
+msgstr "Количество итераций между случайным сбросом"
+
+#: ../gui/token_lib.py:205
+#, fuzzy
+msgid "Stall steps"
+msgstr "Стоячие ступени"
+
+#: ../gui/token_lib.py:206
+msgid "Disable reset at level"
+msgstr "Отключить сброс на уровне"
+
+#: ../gui/token_lib.py:207
+msgid "Fit define convergence"
+msgstr "Определить сходимость"
+
+#: ../gui/token_lib.py:208
+msgid "Enable simplex reset"
+msgstr "Включить сброс simplex"
+
+#: ../gui/token_lib.py:209 ../gui/token_lib.py:212
+msgid "Simplex reset steps"
+msgstr "Шаги сброса Simplex"
+
+#: ../gui/token_lib.py:210
+msgid "Fiting method"
+msgstr "Метод приближение"
+
+#: ../gui/token_lib.py:211
+msgid "Start simplex step multiplication"
+msgstr "Начать умножение шага симплекса"
+
+#: ../gui/token_lib.py:215
+msgid "Subtract lowest point"
+msgstr "Вычeсть нижнюю точку"
+
+#: ../gui/token_lib.py:218
+msgid "Device temperature on left"
+msgstr "Температура устройства слева"
+
+#: ../gui/token_lib.py:219
+msgid "Device temperature on right"
+msgstr "Температура устройства справа"
+
+#: ../gui/token_lib.py:220
+msgid "Enable thermal solver"
+msgstr "Включить термальный решатель"
+
+#: ../gui/token_lib.py:221
+msgid "Lattice heat model"
+msgstr "Решетчатая тепловая модель"
+
+#: ../gui/token_lib.py:222
+msgid "Electron heat model"
+msgstr "Электронная тепловая модель"
+
+#: ../gui/token_lib.py:223
+msgid "Hole heat model"
+msgstr "Тепловая модель дырок"
+
+#: ../gui/token_lib.py:224
+msgid "Thermal conductivity"
+msgstr "Теплопроводность"
+
+#: ../gui/token_lib.py:225
+msgid "Isothermal boundary on left"
+msgstr "Изотермическая граница слева"
+
+#: ../gui/token_lib.py:226
+msgid "Isothermal boundary on right"
+msgstr "Изотермическая граница справа"
+
+#: ../gui/token_lib.py:227
+msgid "Electron relaxation time"
+msgstr "Время релаксации электронов"
+
+#: ../gui/token_lib.py:228
+msgid "Hole relaxation time"
+msgstr "Время релаксации дырок"
+
+#: ../gui/token_lib.py:231
+msgid "Dump from newton solver"
+msgstr "Дамп от решателя Newton"
+
+#: ../gui/token_lib.py:232
+msgid "Plot bands etc.. "
+msgstr "Построить энергетические зоны"
+
+#: ../gui/token_lib.py:234
+#, fuzzy
+msgid "dump slices by time"
+msgstr "Дамп срезы по времени"
+
+#: ../gui/token_lib.py:235
+msgid "Dump 1D slices"
+msgstr "Дамп 1D срезы"
+
+#: ../gui/token_lib.py:236
+msgid "Dump slices"
+msgstr "Дамп срезы"
+
+#: ../gui/token_lib.py:237
+msgid "Dump dynamic"
+msgstr "Дамп dynamic"
+
+#: ../gui/token_lib.py:238
+msgid "Dump fx domain data"
+msgstr "Дамп данных домена fx"
+
+#: ../gui/token_lib.py:239
+msgid "Dump zip files"
+msgstr "Дамп zip-файлы"
+
+#: ../gui/token_lib.py:240
+#, fuzzy
+msgid "Write out band structure"
+msgstr "Выписать структуру энергетических зон"
+
+#: ../gui/token_lib.py:243
+#, fuzzy
+msgid "Dump optical information"
+msgstr "Дамп оптической информации"
+
+#: ../gui/token_lib.py:245
+msgid "Print newton error"
+msgstr "Печать ошибку решателя "
+
+#: ../gui/token_lib.py:246
+msgid "Print solver convergence"
+msgstr "Печать конвергенция решателья"
+
+#: ../gui/token_lib.py:247
+msgid "Write newton solver convergence to disk"
+msgstr "Записать конвергенцию решения Newton на диск"
+
+#: ../gui/token_lib.py:248
+msgid "Print poisson solver convergence"
+msgstr "Печать конвергенции решателья Poisson"
+
+#: ../gui/token_lib.py:249
+msgid "Dump PL spectra"
+msgstr "Дамп PL спектры"
+
+#: ../gui/token_lib.py:250
+msgid "Normalize output x-time to one"
+msgstr "Нормализовать выход x-time к одному"
+
+#: ../gui/token_lib.py:251
+msgid "Dump the built in voltage."
+msgstr "Дамп встроенново напряжение."
+
+#: ../gui/token_lib.py:252
+#, fuzzy
+msgid "Dump optical probe spectrum"
+msgstr "Дайфовый спектр оптического зонда"
+
+#: ../gui/token_lib.py:253
+msgid "Dump optical summary"
+msgstr "Дамп оптической сводки"
+
+#: ../gui/token_lib.py:254
+#, fuzzy
+msgid "Dump raytrace plots"
+msgstr "Сплошные участки"
+
+#: ../gui/token_lib.py:256
+msgid "Dump an excel workbook for each simulation run congaing the results."
+msgstr "Выгрузите книгу excel для каждого симулятора, чтобы показать результаты."
+
+#: ../gui/token_lib.py:257
+msgid "Write file access log to disk."
+msgstr "Запись журнала доступа к файлу на диск."
+
+#: ../gui/token_lib.py:258
+msgid "Use cache for file writes"
+msgstr "Использовать кеш для записи файлов"
+
+#: ../gui/token_lib.py:259
+msgid "Write headers to output files"
+msgstr "Запись заголовков в выходные файлы"
+
+#: ../gui/token_lib.py:262
+msgid "Turn on LED"
+msgstr "Включить светодиод"
+
+#: ../gui/token_lib.py:263
+msgid "LED emission wavelength"
+msgstr "Длина волны излучения светодиода"
+
+#: ../gui/token_lib.py:264
+msgid "LED extraction efficiency"
+msgstr "Эффективность извлечения светодиода"
+
+#: ../gui/token_lib.py:267
+#, fuzzy
+msgid "Invert applied bias"
+msgstr "Инвертировать применяемое смещение"
+
+#: ../gui/token_lib.py:268
+msgid "Charge on left contact"
+msgstr "Заряд на левом контакте"
+
+#: ../gui/token_lib.py:269
+msgid "Charge on right contact"
+msgstr "Заряд на правом контакте"
+
+#: ../gui/token_lib.py:272
+msgid "Shunt resistance"
+msgstr "Шунтирующее сопротивление"
+
+#: ../gui/token_lib.py:273
+msgid "Series resistance"
+msgstr "Серийное сопротивление"
+
+#: ../gui/token_lib.py:274
+msgid "Other layers"
+msgstr "Другие слои"
+
+#: ../gui/token_lib.py:277
+msgid "Automatic remesh"
+msgstr "Автоматический ремеш"
+
+#: ../gui/token_lib.py:280
+msgid "Turn on luminescence"
+msgstr "Включить люминесценцию"
+
+#: ../gui/token_lib.py:281
+#, python-brace-format
+msgid "n_{free} to p_{free} photon generation efficiency"
+msgstr "n_ {free} до p_ {free} эффективности генерации фотонов"
+
+#: ../gui/token_lib.py:282
+#, python-brace-format
+msgid "n_{free} to n_{trap} photon generation efficiency"
+msgstr "n_ {free} до n_ {trap} эффективности генерации фотона"
+
+#: ../gui/token_lib.py:283
+#, python-brace-format
+msgid "n_{trap} to p_{free} photon generation efficiency"
+msgstr "n_ {trap} до p_ {free} эффективности генерации фотонов"
+
+#: ../gui/token_lib.py:284
+#, python-brace-format
+msgid "p_{trap} to n_{free} photon generation efficiency"
+msgstr "p_ {trap} до n_ {free} эффективности генерации фотонов"
+
+#: ../gui/token_lib.py:285
+#, python-brace-format
+msgid "p_{free} to p_{trap} photon generation efficiency"
+msgstr "p_ {free} до p_ {trap} эффективности генерации фотонов"
+
+#: ../gui/token_lib.py:288
+msgid "Load resistor"
+msgstr "Нагрузочный резистор"
+
+#: ../gui/token_lib.py:289
+msgid "fx domain mesh points"
+msgstr "Сетевые точки fx"
+
+#: ../gui/token_lib.py:290
+msgid "Cycles to simulate"
+msgstr "Циклы для симуляции"
+
+#: ../gui/token_lib.py:291
+#, fuzzy, python-brace-format
+msgid "V_{external}"
+msgstr "V_{external}"
+
+#: ../gui/token_lib.py:292
+msgid "Voltage modulation depth"
+msgstr "Глубина модуляции напряжения"
+
+#: ../gui/token_lib.py:295
+msgid "Light modulation depth"
+msgstr "Глубина модуляции света"
+
+#: ../gui/token_lib.py:296
+msgid "Run fit after simulation"
+msgstr "Запустить приближение после моделирования"
+
+#: ../gui/token_lib.py:297
+#, fuzzy
+msgid "Periods to fit"
+msgstr "Периоды, подходящие"
+
+#: ../gui/token_lib.py:300
+msgid "Initialization vector"
+msgstr "Вектор инициализации"
+
+#: ../gui/token_lib.py:301
+msgid "Cryptographic key"
+msgstr "Криптографический ключ"
+
+#: ../gui/token_lib.py:303
+msgid "I0"
+msgstr ""
+
+#: ../gui/token_lib.py:304
+msgid "ideality factor"
+msgstr "фактор идеальности"
+
+#: ../gui/token_lib.py:307
+msgid "#saturation_n0"
+msgstr "# saturation_n0"
+
+#: ../gui/token_lib.py:308
+msgid "#saturation_rate"
+msgstr "#saturation_rate"
+
+#: ../gui/token_lib.py:309
+msgid "#imps_saturate"
+msgstr "#imps_saturate"
+
+#: ../gui/token_lib.py:312 ../gui/optics.py:119
+msgid "Photon density"
+msgstr "Плотность фотонов"
+
+#: ../gui/token_lib.py:313
+msgid "Absorption of material"
+msgstr "Поглощение материала"
+
+#: ../gui/token_lib.py:314
+msgid "#simmode"
+msgstr "#simmode"
+
+#: ../gui/token_lib.py:315
+msgid "Mesh points (x)"
+msgstr "Точки сетки (x)"
+
+#: ../gui/token_lib.py:317
+msgid "#function"
+msgstr "#функция"
+
+#: ../gui/token_lib.py:318
+msgid "left/right"
+msgstr "левый/правый"
+
+#: ../gui/token_lib.py:318
+#, fuzzy
+msgid "Hole majority contact on left/right of device."
+msgstr "Основной контакт с отверстиями слева или справа от устройства."
+
+#: ../gui/token_lib.py:319
+msgid "start voltage"
+msgstr "пусковое напряжение"
+
+#: ../gui/token_lib.py:320
+msgid "Max voltage"
+msgstr "Максимальное напряжение"
+
+#: ../gui/token_lib.py:321
+msgid "Eg"
+msgstr "Еg"
+
+#: ../gui/token_lib.py:322
+msgid "Xi"
+msgstr "Xi"
+
+#: ../gui/token_lib.py:323
+msgid "Time of pause"
+msgstr "Время паузы"
+
+#: ../gui/token_lib.py:324
+msgid "Pause between iterations"
+msgstr "Пауза между итерациями"
+
+#: ../gui/token_lib.py:325
+#, fuzzy
+msgid "Invert output"
+msgstr "Инвертировать выход"
+
+#: ../gui/token_lib.py:328
+msgid "Use capacitor"
+msgstr "Использовать конденсатор"
+
+#: ../gui/token_lib.py:333
+#, fuzzy
+msgid "Backgroud light bias"
+msgstr "Подсветка световой волны"
+
+#: ../gui/token_lib.py:334
+msgid "Modulation depth"
+msgstr "Глубина модуляции"
+
+#: ../gui/token_lib.py:335
+msgid "Modulation frequency"
+msgstr "Частота модуляции"
+
+#: ../gui/token_lib.py:336
+#, fuzzy
+msgid "High light multiplyer"
+msgstr "Многократный свет"
+
+#: ../gui/token_lib.py:345 ../gui/token_lib.py:346 ../gui/token_lib.py:347
+msgid "Phase shift"
+msgstr "Сдвиг фазы"
+
+#: ../gui/token_lib.py:349
+msgid "Wavelengths to simulate"
+msgstr "Длины волн для симуляции"
+
+#: ../gui/token_lib.py:350
+msgid "External voltage"
+msgstr "Внешнее напряжение"
+
+#: ../gui/token_lib.py:352
+msgid "External C"
+msgstr "Внешний C"
+
+#: ../gui/token_lib.py:353
+msgid "External R"
+msgstr "Внешний R"
+
+#: ../gui/token_lib.py:355
+#, fuzzy
+msgid "Resistance of scope"
+msgstr "Сопротивление области"
+
+#: ../gui/token_lib.py:356
+msgid "Number of traps"
+msgstr "Количество ловушек"
+
+#: ../gui/token_lib.py:358
+msgid "Single point"
+msgstr "Единая точка"
+
+#: ../gui/token_lib.py:359
+msgid "Start intensity"
+msgstr "Начальное интенсивность"
+
+#: ../gui/token_lib.py:360
+msgid "Stop intensity"
+msgstr "Конечное интенсивность"
+
+#: ../gui/token_lib.py:361
+msgid "step multiplier"
+msgstr "умножитель шага"
+
+#: ../gui/token_lib.py:364
+#, fuzzy
+msgid "Photon Flux"
+msgstr "Поток фотонов"
+
+#: ../gui/token_lib.py:366
+msgid "device width"
+msgstr "ширина устройства"
+
+#: ../gui/token_lib.py:367
+msgid "device breadth"
+msgstr "ширина устройства"
+
+#: ../gui/token_lib.py:432
+#, fuzzy
+msgid "Solve Kirchhoff's current law in Newton solver"
+msgstr "Решить существующий закон Кирхгофа в решении Ньютона"
+
+#: ../gui/token_lib.py:462
+msgid "Enable 3d effects"
+msgstr "Включить 3d-эффекты"
+
+#: ../gui/token_lib.py:463
+msgid "Use icons from OS"
+msgstr "Использовать значки из ОС"
+
+#: ../gui/token_lib.py:464 ../libfit/fit_dump.c:63 ../libfit/fit_dump.c:64
+#: ../libfit/fit_dump.c:181
+msgid "au"
+msgstr "au"
+
+#: ../gui/token_lib.py:464
+msgid "Matlab interpreter"
+msgstr "Переводчик Matlab"
+
+#: ../gui/token_lib.py:468
+msgid "Enable fit"
+msgstr "Включить приближение кривой "
+
+#: ../gui/token_lib.py:472
+msgid "log x"
+msgstr "log x"
+
+#: ../gui/token_lib.py:473
+msgid "log y"
+msgstr "log y"
+
+#: ../gui/token_lib.py:475
+msgid "Invert simulated data (y)"
+msgstr "Инвертировать смоделированные данные (y)"
+
+#: ../gui/token_lib.py:479
+msgid "Active layer width"
+msgstr "Ширина активного слоя"
+
+#: ../gui/token_lib.py:495
+msgid "External load resistor"
+msgstr "Внешний нагрузочный резистор"
+
+#: ../gui/token_lib.py:498
+#, fuzzy
+msgid "Filp the opticl field"
+msgstr "Фильтрация оптического поля"
+
+#: ../gui/spectra_main.py:65
+msgid "Optical spectrum editor"
+msgstr "Редактор оптического спектра"
+
+#: ../gui/spectra_main.py:94
+msgid "Parameters"
+msgstr "параметры"
+
+#: ../gui/spectra_main.py:99 ../gui/spectra_main.py:101
+msgid "Intensity"
+msgstr "Интенсивность"
+
+#: ../gui/plot_dlg.py:81
+msgid "Steady state simulation (www.gpvdm.com)"
+msgstr "Моделирование стационарного состояния (www.gpvdm.com)"
+
+#: ../gui/jobs.py:80
+msgid "name"
+msgstr "Название"
+
+#: ../gui/jobs.py:80
+msgid "done"
+msgstr "сделано"
+
+#: ../gui/jobs.py:80
+msgid "status"
+msgstr "статус"
+
+#: ../gui/jobs.py:80
+msgid "target"
+msgstr "цель"
+
+#: ../gui/jobs.py:80
+msgid "ip"
+msgstr ""
+
+#: ../gui/jobs.py:80
+msgid "copy state"
+msgstr "копировать состояние"
+
+#: ../gui/plot_widget.py:173
+msgid "I don't know how to process this type of file!"
+msgstr "Я не знаю, как обрабатывать этот тип файла!"
+
+#: ../gui/plot_widget.py:179 ../libdump/dump_dynamic.c:510
+#: ../libdump/dump_dynamic.c:530 ../libdump/dump_dynamic.c:895
+#: ../libdump/dump_dynamic.c:914 ../libdump/dump_dynamic.c:933
+#: ../libdump/dump_dynamic.c:952 ../libdump/dump_dynamic.c:971
+#: ../libdump/dump_dynamic.c:990 ../libdump/dump_dynamic.c:1009
+#: ../libdump/dump_dynamic.c:1028 ../libdump/dump_dynamic.c:1047
+msgid "time"
+msgstr "Время"
+
+#: ../gui/plot_widget.py:548
+msgid "Refresh graph"
+msgstr "Обновить график"
+
+#: ../gui/plot_widget.py:572
+msgid "Key"
+msgstr "Ключ"
+
+#: ../gui/plot_widget.py:575
+msgid "Black"
+msgstr "Черный"
+
+#: ../gui/plot_widget.py:578
+msgid "Rainbow"
+msgstr "Радуга"
+
+#: ../gui/plot_widget.py:582
+#, fuzzy
+msgid "Autoscale"
+msgstr "Autoscale"
+
+#: ../gui/plot_widget.py:585
+#, fuzzy
+msgid "Set log scale y"
+msgstr "Установите масштаб журнала y"
+
+#: ../gui/plot_widget.py:588 ../gui/plot_widget.py:591
+#, fuzzy
+msgid "Set log scale x"
+msgstr "Установить масштаб журнала x"
+
+#: ../gui/plot_widget.py:594
+msgid "Label data"
+msgstr "Пометить данные"
+
+#: ../gui/plot_widget.py:599
+msgid "Subtract first point"
+msgstr "Вычесть первую точку"
+
+#: ../gui/plot_widget.py:602
+msgid "Add min point"
+msgstr "Добавить минимальную точку"
+
+#: ../gui/plot_widget.py:605
+msgid "Invert y-axis"
+msgstr "Инвертный Y-ось"
+
+#: ../gui/plot_widget.py:608
+msgid "Norm to 1.0 y"
+msgstr "Нормализовать до 1,0 y"
+
+#: ../gui/plot_widget.py:611
+msgid "Norm to peak of all data"
+msgstr "Нормализовать до пика всех данных"
+
+#: ../gui/plot_widget.py:614
+msgid "Heat map"
+msgstr "Тепловая карта"
+
+#: ../gui/plot_widget.py:617
+msgid "Heat map edit"
+msgstr "Редактирование тепловой карты"
+
+#: ../gui/status_icon.py:53
+msgid "Youtube channel"
+msgstr "YouTube канал"
+
+#: ../gui/status_icon.py:57
+msgid "Quit"
+msgstr "Выход"
+
+#: ../gui/update.py:122
+#, fuzzy
+msgid "This feature is sill under development.  It searches the gpvdm web page for updates then uses them to update gpvdm.  Use it at your own risk - I take no responsibility for any data loss!  Do you wish to continue?"
+msgstr "Эта особенность - порог в разработке. Он ищет веб-страницу gpvdm для обновлений, а затем использует их для обновления gpvdm. Используйте его на свой страх и риск - я не несу ответственности за потерю данных! Вы хотите продолжить?"
+
+#: ../gui/doping.py:80
+msgid "Doping (m^{-3})"
+msgstr "Допирование (m^{-3} )"
+
+#: ../gui/doping.py:87
+msgid "Position (nm)"
+msgstr "Положение (нм)"
+
+#: ../gui/doping.py:111
+msgid "File Name"
+msgstr "Имя файла"
+
+#: ../gui/doping.py:176
+msgid "Doping profile editor"
+msgstr "Редактор профиля легирование"
+
+#: ../gui/optics.py:86
+msgid "Photon distribution"
+msgstr "Распределение фотонов"
+
+#: ../gui/optics.py:87
+msgid "Photon distribution absorbed"
+msgstr "Распределение поглощенных фотонов"
+
+#: ../gui/optics.py:88
+msgid "Reflection"
+msgstr "Отражение"
+
+#: ../gui/optics.py:92
+msgid "Optical simulation editor"
+msgstr "Редактор оптической симуляции"
+
+#: ../gui/optics.py:124
+msgid "Photon absorbed"
+msgstr "Фотон поглощен"
+
+#: ../gui/optics.py:132 ../gui/optics.py:133
+msgid "Optical setup"
+msgstr "Оптическая установка"
+
+#: ../gui/fit_patch.py:97
+#, fuzzy
+msgid "value"
+msgstr "ценость"
+
+#: ../gui/gl.py:615
+msgid "active"
+msgstr "активны"
+
+#: ../gui/error_han.py:101
+msgid "Reporting error...."
+msgstr "Ошибка отчетности ...."
+
+#: ../libmemory/memory.c:253
+msgid "Solved"
+msgstr "решаемая"
+
+#: ../libmemory/memory.c:253
+msgid "Equations"
+msgstr "Уравнение"
+
+#: ../libmemory/memory.c:262
+msgid "I can't allocate a device with less than 1 mesh point."
+msgstr "Я не могу выделить устройство с меньше чем 1 точкой сетки"
+
+#: ../libmemory/memory.c:267
+msgid "You are asking me to simulate a device with more than 50000 mesh points, although I could do this I am not going to because it seems a bad idea to me."
+msgstr "Вы просите меня смоделировать устройство с более чем 50000 точек сетки, хотя я мог бы сделать это, я не собираюсь, потому что мне кажется плохой идеей."
+
+#: ../libdump/cache.c:50 ../libdump/cache.c:57
+msgid "Writing files to disk"
+msgstr "Запись файлов на диск"
+
+#: ../libdump/dump_dynamic.c:181 ../libdump/dump_dynamic.c:309
+msgid "Hole drift current"
+msgstr "Дрейфовый ток дырок"
+
+#: ../libdump/dump_dynamic.c:181
+msgid " Hole diffusion current"
+msgstr " Диффузионный ток дырок"
+
+#: ../libdump/dump_dynamic.c:205 ../libdump/dump_dynamic.c:271
+msgid "Electron drift current"
+msgstr "Дрейфовый ток электронов"
+
+#: ../libdump/dump_dynamic.c:205 ../libdump/dump_dynamic.c:290
+msgid "Electron diffusion current"
+msgstr "Диффузионный ток электронов"
+
+#: ../libdump/dump_dynamic.c:208 ../libdump/dump_dynamic.c:312
+#: ../libdump/dump_dynamic.c:331 ../libdump/dump_dynamic.c:369
+#: ../libdump/dump_1d_slice.c:540 ../libdump/dump_1d_slice.c:599
+msgid "Hole current density"
+msgstr "Плотность тока дырок"
+
+#: ../libdump/dump_dynamic.c:228
+msgid "Current density at contacts"
+msgstr "Плотность тока в контактах"
+
+#: ../libdump/dump_dynamic.c:252
+msgid "Change in charge distribution"
+msgstr "Изменение распределения заряда"
+
+#: ../libdump/dump_dynamic.c:255 ../libdump/dump_dynamic.c:1052
+msgid "percent"
+msgstr "процент"
+
+#: ../libdump/dump_dynamic.c:274 ../libdump/dump_dynamic.c:293
+#: ../libdump/dump_dynamic.c:350 ../libdump/dump_1d_slice.c:508
+#: ../libdump/dump_1d_slice.c:569
+msgid "Electron current density"
+msgstr "Плотность тока электронов"
+
+#: ../libdump/dump_dynamic.c:328
+msgid "Hole diffusion current"
+msgstr " Диффузионный ток дырок"
+
+#: ../libdump/dump_dynamic.c:347
+msgid "Jn at contacts"
+msgstr "Jn в контактах"
+
+#: ../libdump/dump_dynamic.c:366
+msgid "Jp at contacts"
+msgstr "Jp в контактах"
+
+#: ../libdump/dump_dynamic.c:395
+msgid "External Current"
+msgstr "Внешний ток"
+
+#: ../libdump/dump_dynamic.c:425
+msgid "Free carrier generation rate"
+msgstr "Скорость генерации свободных носителей"
+
+#: ../libdump/dump_dynamic.c:444
+msgid "Dynamic quantum efficiency"
+msgstr "Динамическая квантовая эффективность"
+
+#: ../libdump/dump_dynamic.c:447
+msgid "Percent"
+msgstr "Процент"
+
+#: ../libdump/dump_dynamic.c:469
+msgid "Free hole recombination"
+msgstr "Рекомбинация свободных дырок"
+
+#: ../libdump/dump_dynamic.c:472 ../libdump/dump_dynamic.c:492
+#: ../libdump/dump_1d_slice.c:1299 ../libdump/dump_1d_slice.c:1328
+#: ../libdump/dump_1d_slice.c:1358 ../libdump/dump_1d_slice.c:1387
+#: ../libdump/dump_1d_slice.c:1417 ../libdump/dump_1d_slice.c:1458
+#: ../libdump/dump_1d_slice.c:1571 ../libdump/dump_1d_slice.c:1601
+#: ../libdump/dump_1d_slice.c:1630 ../libdump/dump_1d_slice.c:1659
+msgid "Recombination"
+msgstr "рекомбинация"
+
+#: ../libdump/dump_dynamic.c:489
+msgid "Free electron recombination"
+msgstr "Рекомбинация свободных электронов"
+
+#: ../libdump/dump_dynamic.c:510 ../libdump/dump_dynamic.c:513
+msgid "Free electron loss"
+msgstr "Потери свободных электронов"
+
+#: ../libdump/dump_dynamic.c:530 ../libdump/dump_dynamic.c:533
+msgid "Free hole loss"
+msgstr "Потери свободных дуырок"
+
+#: ../libdump/dump_dynamic.c:571
+msgid "Electron relaxation"
+msgstr "Электронная релаксация"
+
+#: ../libdump/dump_dynamic.c:574 ../libdump/dump_dynamic.c:593
+msgid "Relaxation"
+msgstr "Релаксация"
+
+#: ../libdump/dump_dynamic.c:590
+msgid "Hole relaxation"
+msgstr "Релаксация дырок"
+
+#: ../libdump/dump_dynamic.c:609
+msgid "Trapped electron density"
+msgstr "Плотность захваченных электронов"
+
+#: ../libdump/dump_dynamic.c:628
+msgid "Trapped hole density"
+msgstr "Плотность захваченных дырок"
+
+#: ../libdump/dump_dynamic.c:647
+msgid "Free electron density"
+msgstr "Плотность свободных электронов"
+
+#: ../libdump/dump_dynamic.c:666
+msgid "Free hole density"
+msgstr "Плотность свободных дырок"
+
+#: ../libdump/dump_dynamic.c:724 ../libdump/dump_dynamic.c:743
+#: ../libdump/dump_1d_slice.c:815 ../libdump/dump_1d_slice.c:853
+msgid "Mobility"
+msgstr "Подвижность"
+
+#: ../libdump/dump_dynamic.c:765 ../libdump/dump_1d_slice.c:1035
+msgid "Total electron density"
+msgstr "Общая плотность электронов"
+
+#: ../libdump/dump_dynamic.c:785 ../libdump/dump_1d_slice.c:1000
+msgid "Total hole density"
+msgstr "Общая плотность дырок"
+
+#: ../libdump/dump_dynamic.c:827
+msgid "Voltage applied to diode"
+msgstr "Напряжение, применяемое на диод"
+
+#: ../libdump/dump_dynamic.c:855
+msgid "PL intensity"
+msgstr "Интенсивность PL"
+
+#: ../libdump/dump_dynamic.c:858 ../libdump/dump_dynamic.c:879
+msgid "PL Intensity"
+msgstr "Интенсивность PL"
+
+#: ../libdump/dump_dynamic.c:876
+msgid "PL intensity normalized"
+msgstr "Нормализованная интенсивность PL"
+
+#: ../libdump/dump_dynamic.c:1047
+msgid "band bend (percent)"
+msgstr "искривления энергетической зоны (в процентах)"
+
+#: ../libdump/dump_dynamic.c:1050
+msgid "band bend"
+msgstr "искривления энергетической зоны"
+
+#: ../libdump/dump_contacts.c:68
+msgid "Voltage - Current"
+msgstr "Напряжение - Tок"
+
+#: ../libdump/dump_1d_slice.c:62 ../libdump/dump_1d_slice.c:120
+msgid "Drift current density"
+msgstr "Плотность дрейфовова тока"
+
+#: ../libdump/dump_1d_slice.c:64 ../libdump/dump_1d_slice.c:93
+#: ../libdump/dump_1d_slice.c:122 ../libdump/dump_1d_slice.c:151
+#: ../libdump/dump_1d_slice.c:180 ../libdump/dump_1d_slice.c:209
+#: ../libdump/dump_1d_slice.c:238 ../libdump/dump_1d_slice.c:267
+#: ../libdump/dump_1d_slice.c:296 ../libdump/dump_1d_slice.c:325
+#: ../libdump/dump_1d_slice.c:354 ../libdump/dump_1d_slice.c:383
+#: ../libdump/dump_1d_slice.c:412 ../libdump/dump_1d_slice.c:442
+#: ../libdump/dump_1d_slice.c:471 ../libdump/dump_1d_slice.c:505
+#: ../libdump/dump_1d_slice.c:537 ../libdump/dump_1d_slice.c:566
+#: ../libdump/dump_1d_slice.c:596 ../libdump/dump_1d_slice.c:625
+#: ../libdump/dump_1d_slice.c:661 ../libdump/dump_1d_slice.c:695
+#: ../libdump/dump_1d_slice.c:724 ../libdump/dump_1d_slice.c:754
+#: ../libdump/dump_1d_slice.c:783 ../libdump/dump_1d_slice.c:812
+#: ../libdump/dump_1d_slice.c:850 ../libdump/dump_1d_slice.c:884
+#: ../libdump/dump_1d_slice.c:914 ../libdump/dump_1d_slice.c:944
+#: ../libdump/dump_1d_slice.c:973 ../libdump/dump_1d_slice.c:1002
+#: ../libdump/dump_1d_slice.c:1037 ../libdump/dump_1d_slice.c:1071
+#: ../libdump/dump_1d_slice.c:1107 ../libdump/dump_1d_slice.c:1143
+#: ../libdump/dump_1d_slice.c:1185 ../libdump/dump_1d_slice.c:1222
+#: ../libdump/dump_1d_slice.c:1256 ../libdump/dump_1d_slice.c:1290
+#: ../libdump/dump_1d_slice.c:1319 ../libdump/dump_1d_slice.c:1349
+#: ../libdump/dump_1d_slice.c:1378 ../libdump/dump_1d_slice.c:1408
+#: ../libdump/dump_1d_slice.c:1449 ../libdump/dump_1d_slice.c:1490
+#: ../libdump/dump_1d_slice.c:1524 ../libdump/dump_1d_slice.c:1562
+#: ../libdump/dump_1d_slice.c:1592 ../libdump/dump_1d_slice.c:1621
+#: ../libdump/dump_1d_slice.c:1650
+msgid "x-position"
+msgstr "х-положениe"
+
+#: ../libdump/dump_1d_slice.c:65 ../libdump/dump_1d_slice.c:94
+#: ../libdump/dump_1d_slice.c:123 ../libdump/dump_1d_slice.c:152
+#: ../libdump/dump_1d_slice.c:181 ../libdump/dump_1d_slice.c:210
+#: ../libdump/dump_1d_slice.c:239 ../libdump/dump_1d_slice.c:268
+#: ../libdump/dump_1d_slice.c:297 ../libdump/dump_1d_slice.c:326
+#: ../libdump/dump_1d_slice.c:355 ../libdump/dump_1d_slice.c:384
+#: ../libdump/dump_1d_slice.c:413 ../libdump/dump_1d_slice.c:443
+#: ../libdump/dump_1d_slice.c:472 ../libdump/dump_1d_slice.c:506
+#: ../libdump/dump_1d_slice.c:538 ../libdump/dump_1d_slice.c:567
+#: ../libdump/dump_1d_slice.c:597 ../libdump/dump_1d_slice.c:626
+#: ../libdump/dump_1d_slice.c:662 ../libdump/dump_1d_slice.c:696
+#: ../libdump/dump_1d_slice.c:725 ../libdump/dump_1d_slice.c:755
+#: ../libdump/dump_1d_slice.c:784 ../libdump/dump_1d_slice.c:813
+#: ../libdump/dump_1d_slice.c:851 ../libdump/dump_1d_slice.c:885
+#: ../libdump/dump_1d_slice.c:915 ../libdump/dump_1d_slice.c:945
+#: ../libdump/dump_1d_slice.c:974 ../libdump/dump_1d_slice.c:1003
+#: ../libdump/dump_1d_slice.c:1038 ../libdump/dump_1d_slice.c:1072
+#: ../libdump/dump_1d_slice.c:1108 ../libdump/dump_1d_slice.c:1144
+#: ../libdump/dump_1d_slice.c:1186 ../libdump/dump_1d_slice.c:1223
+#: ../libdump/dump_1d_slice.c:1257 ../libdump/dump_1d_slice.c:1291
+#: ../libdump/dump_1d_slice.c:1320 ../libdump/dump_1d_slice.c:1350
+#: ../libdump/dump_1d_slice.c:1379 ../libdump/dump_1d_slice.c:1409
+#: ../libdump/dump_1d_slice.c:1450 ../libdump/dump_1d_slice.c:1491
+#: ../libdump/dump_1d_slice.c:1525 ../libdump/dump_1d_slice.c:1563
+#: ../libdump/dump_1d_slice.c:1593 ../libdump/dump_1d_slice.c:1622
+#: ../libdump/dump_1d_slice.c:1651
+msgid "y-position"
+msgstr "Y-положение"
+
+#: ../libdump/dump_1d_slice.c:66 ../libdump/dump_1d_slice.c:95
+#: ../libdump/dump_1d_slice.c:124 ../libdump/dump_1d_slice.c:153
+#: ../libdump/dump_1d_slice.c:182 ../libdump/dump_1d_slice.c:211
+#: ../libdump/dump_1d_slice.c:240 ../libdump/dump_1d_slice.c:269
+#: ../libdump/dump_1d_slice.c:298 ../libdump/dump_1d_slice.c:327
+#: ../libdump/dump_1d_slice.c:356 ../libdump/dump_1d_slice.c:385
+#: ../libdump/dump_1d_slice.c:414 ../libdump/dump_1d_slice.c:444
+#: ../libdump/dump_1d_slice.c:473 ../libdump/dump_1d_slice.c:507
+#: ../libdump/dump_1d_slice.c:539 ../libdump/dump_1d_slice.c:568
+#: ../libdump/dump_1d_slice.c:598 ../libdump/dump_1d_slice.c:627
+#: ../libdump/dump_1d_slice.c:663 ../libdump/dump_1d_slice.c:697
+#: ../libdump/dump_1d_slice.c:726 ../libdump/dump_1d_slice.c:756
+#: ../libdump/dump_1d_slice.c:785 ../libdump/dump_1d_slice.c:814
+#: ../libdump/dump_1d_slice.c:852 ../libdump/dump_1d_slice.c:886
+#: ../libdump/dump_1d_slice.c:916 ../libdump/dump_1d_slice.c:946
+#: ../libdump/dump_1d_slice.c:975 ../libdump/dump_1d_slice.c:1004
+#: ../libdump/dump_1d_slice.c:1039 ../libdump/dump_1d_slice.c:1073
+#: ../libdump/dump_1d_slice.c:1109 ../libdump/dump_1d_slice.c:1145
+#: ../libdump/dump_1d_slice.c:1187 ../libdump/dump_1d_slice.c:1224
+#: ../libdump/dump_1d_slice.c:1258 ../libdump/dump_1d_slice.c:1292
+#: ../libdump/dump_1d_slice.c:1321 ../libdump/dump_1d_slice.c:1351
+#: ../libdump/dump_1d_slice.c:1380 ../libdump/dump_1d_slice.c:1410
+#: ../libdump/dump_1d_slice.c:1451 ../libdump/dump_1d_slice.c:1492
+#: ../libdump/dump_1d_slice.c:1526 ../libdump/dump_1d_slice.c:1564
+#: ../libdump/dump_1d_slice.c:1594 ../libdump/dump_1d_slice.c:1623
+#: ../libdump/dump_1d_slice.c:1652
+msgid "z-position"
+msgstr "z-положениe"
+
+#: ../libdump/dump_1d_slice.c:67
+msgid "Electron current density (drift)"
+msgstr "Плотность электронного тока (дрейф)"
+
+#: ../libdump/dump_1d_slice.c:91 ../libdump/dump_1d_slice.c:149
+msgid "Diffusion current density"
+msgstr "Плотность диффузионного тока"
+
+#: ../libdump/dump_1d_slice.c:96
+msgid "Electron current density (diffusion)"
+msgstr "Плотность тока электронов (диффузия)"
+
+#: ../libdump/dump_1d_slice.c:125
+msgid "Hole current density (drift)"
+msgstr "Плотность тока дырок (дрейф)"
+
+#: ../libdump/dump_1d_slice.c:154
+msgid "Hole current density (diffusion)"
+msgstr "Плотность тока дырок (диффузия)"
+
+#: ../libdump/dump_1d_slice.c:183 ../libdump/dump_1d_slice.c:212
+#: ../libdump/dump_1d_slice.c:357 ../libdump/dump_1d_slice.c:386
+#: ../libdump/dump_1d_slice.c:415
+msgid "Electron Energy"
+msgstr "Электронная энергия"
+
+#: ../libdump/dump_1d_slice.c:189 ../libdump/dump_1d_slice.c:218
+#: ../libdump/dump_1d_slice.c:363 ../libdump/dump_1d_slice.c:392
+#: ../libdump/dump_1d_slice.c:421 ../libdump/dump_1d_slice.c:451
+#: ../libdump/dump_1d_slice.c:480 ../libdump/dump_1d_slice.c:704
+#: ../libdump/dump_1d_slice.c:1533
+msgid "Band structure"
+msgstr "Зонная структура"
+
+#: ../libdump/dump_1d_slice.c:236
+msgid "Lattice temperature"
+msgstr "Температура решетки"
+
+#: ../libdump/dump_1d_slice.c:241 ../libdump/dump_1d_slice.c:270
+#: ../libdump/dump_1d_slice.c:299
+msgid "Temperature"
+msgstr "Температура"
+
+#: ../libdump/dump_1d_slice.c:265
+msgid "Electron temperature"
+msgstr "Температура электронов"
+
+#: ../libdump/dump_1d_slice.c:294
+msgid "Hole temperature"
+msgstr "Температура дырок"
+
+#: ../libdump/dump_1d_slice.c:328
+msgid "Doping density"
+msgstr "Плотность допирования"
+
+#: ../libdump/dump_1d_slice.c:352
+msgid "Band gap"
+msgstr "Ширина запрещённой зоны"
+
+#: ../libdump/dump_1d_slice.c:381
+msgid "Electron quasi Fermi-level"
+msgstr "Квазиуровень Ферми электронов"
+
+#: ../libdump/dump_1d_slice.c:410
+msgid "Hole quasi Fermi-level"
+msgstr "Квазиуровень Ферми дырок"
+
+#: ../libdump/dump_1d_slice.c:479
+#, fuzzy
+msgid "Change in 1D position space output"
+msgstr "Изменение в 1D-пространстве"
+
+#: ../libdump/dump_1d_slice.c:564 ../libdump/dump_1d_slice.c:594
+msgid "Electron current density x"
+msgstr "х плотность тока электронов "
+
+#: ../libdump/dump_1d_slice.c:623 ../libdump/dump_1d_slice.c:628
+#: ../libdump/dump_1d_slice.c:659 ../libdump/dump_1d_slice.c:664
+msgid "Total current density (Jn+Jp)"
+msgstr "Общая плотность тока (Jn + Jp)"
+
+#: ../libdump/dump_1d_slice.c:693
+msgid "Equlibrium Fermi-level"
+msgstr "Уровень Ферми при равновесии"
+
+#: ../libdump/dump_1d_slice.c:733 ../libdump/dump_1d_slice.c:763
+#: ../libdump/dump_1d_slice.c:792 ../libdump/dump_1d_slice.c:821
+#: ../libdump/dump_1d_slice.c:859 ../libdump/dump_1d_slice.c:893
+#: ../libdump/dump_1d_slice.c:923
+msgid "Material parameters"
+msgstr "Параметры материала"
+
+#: ../libdump/dump_1d_slice.c:810 ../libdump/dump_1d_slice.c:848
+msgid "Average electron mobility"
+msgstr "Средняя подвижность электронов"
+
+#: ../libdump/dump_1d_slice.c:882
+msgid "Free electron carrier density"
+msgstr "Плотность свободных электронов"
+
+#: ../libdump/dump_1d_slice.c:887 ../libdump/dump_1d_slice.c:917
+#: ../libdump/dump_1d_slice.c:947 ../libdump/dump_1d_slice.c:976
+#: ../libdump/dump_1d_slice.c:1005 ../libdump/dump_1d_slice.c:1040
+#: ../libdump/dump_1d_slice.c:1074 ../libdump/dump_1d_slice.c:1110
+#: ../libdump/dump_1d_slice.c:1146 ../libdump/dump_1d_slice.c:1188
+msgid "Carrier density"
+msgstr "Плотность несителей"
+
+#: ../libdump/dump_1d_slice.c:912
+msgid "Free hole carrier density"
+msgstr "Плотность свободных дырок"
+
+#: ../libdump/dump_1d_slice.c:942
+msgid "Trapped electron carrier density"
+msgstr "Плотность захваченных электронов"
+
+#: ../libdump/dump_1d_slice.c:971
+msgid "Trapped hole carrier density"
+msgstr "Плотность захваченных дырок"
+
+#: ../libdump/dump_1d_slice.c:1069
+msgid "Change in electron population"
+msgstr "Изменение популяции электронов"
+
+#: ../libdump/dump_1d_slice.c:1080
+msgid "Chaerge density"
+msgstr "Плотность заряда"
+
+#: ../libdump/dump_1d_slice.c:1105
+msgid "Total charge"
+msgstr "Общый заряд"
+
+#: ../libdump/dump_1d_slice.c:1141
+msgid "Change in total charge"
+msgstr "Изменение общего заряда"
+
+#: ../libdump/dump_1d_slice.c:1183
+msgid "Change in hole population"
+msgstr "Изменение популяции дырок"
+
+#: ../libdump/dump_1d_slice.c:1220
+msgid "Excess electron density"
+msgstr "Плотность избыточных электронов"
+
+#: ../libdump/dump_1d_slice.c:1254
+msgid "Excess hole density"
+msgstr "Плотность избыточных дырок"
+
+#: ../libdump/dump_1d_slice.c:1288
+msgid "Free electron generation rate"
+msgstr "Скорость генерации свободных электронов"
+
+#: ../libdump/dump_1d_slice.c:1317
+msgid "Free hole generation rate"
+msgstr "Скорость генерации свободных дырок"
+
+#: ../libdump/dump_1d_slice.c:1347
+msgid "Electron recombination rate"
+msgstr "Скорость рекомбинации электронов"
+
+#: ../libdump/dump_1d_slice.c:1352 ../libdump/dump_1d_slice.c:1381
+msgid "Recombination rate"
+msgstr "Скорость рекомбинации"
+
+#: ../libdump/dump_1d_slice.c:1376
+msgid "Hole recombination rate"
+msgstr "Скорость рекомбинации дырок"
+
+#: ../libdump/dump_1d_slice.c:1406 ../libdump/dump_1d_slice.c:1447
+msgid "Trap fermi level"
+msgstr "Уровень фермы ловушok"
+
+#: ../libdump/dump_1d_slice.c:1411 ../libdump/dump_1d_slice.c:1452
+msgid "Electron Fermi level"
+msgstr "Уровень ферми электронов"
+
+#: ../libdump/dump_1d_slice.c:1488 ../libdump/dump_1d_slice.c:1522
+msgid "Material number"
+msgstr "Номер материала"
+
+#: ../libdump/dump_1d_slice.c:1493 ../libdump/dump_1d_slice.c:1527
+msgid "Number"
+msgstr "Число"
+
+#: ../libdump/dump_1d_slice.c:1499
+msgid "Model"
+msgstr "Модель"
+
+#: ../libdump/dump_1d_slice.c:1560
+msgid "Free hole to trapped electron"
+msgstr "Свободная дырка к захваченному электрону"
+
+#: ../libdump/dump_1d_slice.c:1565 ../libdump/dump_1d_slice.c:1595
+#: ../libdump/dump_1d_slice.c:1624 ../libdump/dump_1d_slice.c:1653
+msgid "Rate"
+msgstr "Скорость"
+
+#: ../libdump/dump_1d_slice.c:1590
+msgid "Free electron to trapped hole"
+msgstr "Свободный электрон к захваченной дырки"
+
+#: ../libdump/dump_1d_slice.c:1619
+msgid "Hole relaxation rate"
+msgstr "Скорость релаксации дырок"
+
+#: ../libdump/dump_1d_slice.c:1648
+msgid "Electron relaxation rate"
+msgstr "Скорость релаксации электронов"
+
+#: ../libfit/fit_dump.c:61 ../libfit/fit_dump.c:84
+msgid "Step"
+msgstr "Шаг"
+
+#: ../libfit/fit_dump.c:65 ../libfit/fit_dump.c:66 ../libfit/fit_dump.c:88
+#: ../libfit/fit_dump.c:89 ../libfit/fit_dump.c:111 ../libfit/fit_dump.c:112
+#: ../libfit/fit_dump.c:134 ../libfit/fit_dump.c:135 ../libfit/fit_dump.c:158
+#: ../libfit/fit_dump.c:159 ../libfit/fit_dump.c:182 ../libfit/fit_dump.c:183
+msgid "Fitting"
+msgstr "Приближение"
+
+#: ../libfit/fit_dump.c:131 ../libfit/fit_dump.c:155
+msgid "Speed"
+msgstr "Скорость"
+
+#: ../libfit/fit_dump.c:133 ../libfit/fit_dump.c:157
+#, fuzzy
+msgid "odes/s"
+msgstr "оды / с"
+
+#: ../libfit/fit_dump.c:179
+msgid "Reset flag"
+msgstr "Сброс флага"

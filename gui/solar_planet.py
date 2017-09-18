@@ -77,6 +77,8 @@ class planet(QWidget):
 		dump=dump+"#x 1\n"
 		dump=dump+"#y "+str(len(self.lam))+"\n"
 		dump=dump+"#z 1\n"
+		dump=dump+"#Psun "+str(self.irradiance)+" \n"
+
 		dump=dump+"#begin\n"
 		for i in range(0,len(self.lam)):
 			dump=dump+str(self.lam[i])+" "+str(self.I_total[i])+"\n"

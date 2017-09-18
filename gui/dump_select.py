@@ -266,6 +266,7 @@ class dump_select(QWidget):
 		param_list=[]
 		true_false_list=[]
 		lines=inp_load_file("dump_file.inp")
+
 		if lines!=False:
 			pos=0
 			while(1):
