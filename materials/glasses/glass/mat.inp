@@ -11,7 +11,7 @@ public
 #mat_alpha
 0.5
 #mat_default_file_alpha
-auto
+equation
 #mat_default_file_n
 auto
 #changelog
