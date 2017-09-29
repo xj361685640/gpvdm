@@ -67,7 +67,7 @@ def gpvdm_clone(dest,copy_dirs):
 
 def clone_material(dest_material_dir,src_material_dir):
 	if os.path.isdir(dest_material_dir)==False:
-		os.mkdir(dest_material_dir)
+		os.makedirs(dest_material_dir)
 
 	files=os.listdir(src_material_dir)
 	for i in range(0,len(files)):
@@ -88,7 +88,7 @@ def clone_materials(dest):
 	src_dir=os.path.join(get_materials_path())
 	dest_dir=os.path.join(dest,"materials")
 	if os.path.isdir(dest_dir)==False:
-		os.mkdir(dest_dir)
+		os.makedirs(dest_dir)
 
 	copy_gasses(dest_dir,src_dir)
 

@@ -91,14 +91,15 @@ lib.append(my_data("","#stark_sim_contacts","1/0",_("sim_contacts"),"e",1.0,"QLi
 #ref
 lib.append(my_data("","#ref_website","au",_("Website"),"e",1.0,"QLineEdit"))
 lib.append(my_data("","#ref_research_group","au",_("Research group"),"e",1.0,"QLineEdit"))
-lib.append(my_data("","#ref_autors","au",_("Authors"),"e",1.0,"QLineEdit"))
+lib.append(my_data("","#ref_authors","au",_("Authors"),"e",1.0,"QLineEdit"))
 lib.append(my_data("","#ref_jounral","au",_("Journal"),"e",1.0,"QLineEdit"))
+lib.append(my_data("","#ref_title","au",_("Title"),"e",1.0,"QLineEdit"))
 lib.append(my_data("","#ref_volume","au",_("Volume"),"e",1.0,"QLineEdit"))
 lib.append(my_data("","#ref_pages","au",_("Pages"),"e",1.0,"QLineEdit"))
 lib.append(my_data("","#ref_year","au",_("Year"),"e",1.0,"QLineEdit"))
 lib.append(my_data("","#ref_md5","au",_("md5 sum"),"e",1.0,"QLineEdit"))
 lib.append(my_data("","#ref_doi","au",_("DOI"),"e",1.0,"QLineEdit"))
-
+lib.append(my_data("","#ref_unformatted","au",_("Scraped text"),"e",1.0,"QLineEdit"))
 
 #pulse
 lib.append(my_data("","#Rshort_pulse","Ohms",_("R_{short}"),"e",1.0,"QLineEdit"))

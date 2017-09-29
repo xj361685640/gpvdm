@@ -87,6 +87,11 @@ class ribbon_device(QToolBar):
 		self.parasitic.triggered.connect(self.callback_parasitic)
 		self.addAction(self.parasitic)
 
+		if enable_betafeatures()==True:
+			self.parasitic = QAction(QIcon_load("sync"), _("Update materials\nfrom PVLighthouse"), self)
+			self.parasitic.triggered.connect(self.callback_pvlighthouse)
+			self.addAction(self.parasitic)
+
 	def update(self):
 		if self.cost_window!=None:
 			del self.cost_window
@@ -123,7 +128,7 @@ class ribbon_device(QToolBar):
 			self.doping_window.hide()
 		else:
 			self.doping_window.show()
-			
+		
 	def callback_contacts(self):
 		
 		
@@ -183,3 +188,7 @@ class ribbon_device(QToolBar):
 			self.cost_window.hide()
 		else:
 			self.cost_window.show()
+			
+	def callback_pvlighthouse(self):
+		from pvlighthouse import pvlighthouse_sync
+		pvlighthouse_sync()

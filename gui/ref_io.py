@@ -27,11 +27,13 @@ class ref:
 		self.group=""
 		self.author=""
 		self.journal=""
+		self.title=""
 		self.volume=""
 		self.pages=""
 		self.year=""
 		self.doi=""
-	
+		self.unformatted=""
+
 def load_ref(file_name):
 	r=ref()
 	file_name=os.path.splitext(file_name)[0]+".ref"
@@ -43,12 +45,16 @@ def load_ref(file_name):
 	if lines!=False:
 		text=""
 		r.group=inp_get_token_value_from_list(lines, "#ref_research_group")
-		r.author=inp_get_token_value_from_list(lines, "#ref_autors")
+		r.author=inp_get_token_value_from_list(lines, "#ref_authors")
+		if r.author==None:
+			r.author=""
 		r.journal=inp_get_token_value_from_list(lines, "#ref_jounral")
+		r.title=inp_get_token_value_from_list(lines, "#ref_title")
 		r.volume=inp_get_token_value_from_list(lines, "#ref_volume")
 		r.pages=inp_get_token_value_from_list(lines, "#ref_pages")
 		r.year=inp_get_token_value_from_list(lines, "#ref_year")
 		r.doi=inp_get_token_value_from_list(lines, "#ref_doi")
+		r.doi=inp_get_token_value_from_list(lines, "#ref_unformatted")
 
 	return r
 	
