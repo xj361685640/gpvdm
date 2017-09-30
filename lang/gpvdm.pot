@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.97\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2017-09-30 14:58+0100\n"
+"POT-Creation-Date: 2017-09-30 21:22+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -819,11 +819,11 @@ msgstr ""
 msgid "Finished finding equilibrium conditions"
 msgstr ""
 
-#: ../gui/pl_main.py:77
+#: ../gui/pl_main.py:69
 msgid "Luminescence of "
 msgstr ""
 
-#: ../gui/pl_main.py:87 ../gui/gpvdm_notebook.py:102
+#: ../gui/pl_main.py:79 ../gui/electrical.py:66
 msgid ""
 "<big><b>Luminescence</b></big>\n"
 "If you set 'Turn on luminescence' to true, the simulation will assume "
@@ -841,13 +841,13 @@ msgid "Save video"
 msgstr ""
 
 #: ../gui/cmp_class.py:297 ../gui/fit_configure_window.py:74
-#: ../gui/optics_ribbon.py:87 ../gui/experiment.py:211 ../gui/contacts.py:192
-#: ../gui/mesh_configure.py:64 ../gui/config_window.py:76
-#: ../gui/config_window.py:77 ../gui/ribbon_home.py:110
-#: ../gui/materials_main.py:105 ../gui/jv.py:73 ../gui/emesh.py:168
-#: ../gui/ribbon_solar.py:74 ../gui/ribbon_information.py:75
-#: ../gui/ribbon.py:78 ../gui/info.py:63 ../gui/cost.py:89
-#: ../gui/fxexperiment.py:219 ../gui/fit_window.py:276
+#: ../gui/optics_ribbon.py:87 ../gui/electrical.py:87 ../gui/electrical.py:88
+#: ../gui/experiment.py:211 ../gui/contacts.py:192 ../gui/mesh_configure.py:64
+#: ../gui/config_window.py:76 ../gui/config_window.py:77
+#: ../gui/ribbon_home.py:110 ../gui/materials_main.py:105 ../gui/jv.py:73
+#: ../gui/emesh.py:168 ../gui/ribbon_solar.py:74
+#: ../gui/ribbon_information.py:75 ../gui/ribbon.py:78 ../gui/info.py:63
+#: ../gui/cost.py:89 ../gui/fxexperiment.py:219 ../gui/fit_window.py:276
 #: ../gui/ribbon_cluster.py:114 ../gui/ref.py:89 ../gui/ref.py:90
 #: ../gui/lasers.py:193 ../gui/import_data.py:235 ../gui/import_data.py:236
 #: ../gui/scan_ribbon.py:77 ../gui/parasitic.py:64 ../gui/spectra_main.py:79
@@ -1185,6 +1185,41 @@ msgstr ""
 
 #: ../gui/tb_spectrum.py:45
 msgid "Solar spectrum"
+msgstr ""
+
+#: ../gui/electrical.py:59 ../gui/electrical.py:101 ../gui/electrical.py:102
+#: ../gui/ribbon.py:128 ../gui/inp_description.py:37
+msgid "Device"
+msgstr ""
+
+#: ../gui/electrical.py:60
+msgid ""
+"<big><b>Device tab</b></big><br>This tab contains information about the "
+"device, such as width breadth, carrier density on the contacts, shunt and "
+"contact resistance."
+msgstr ""
+
+#: ../gui/electrical.py:62 ../gui/inp_description.py:53
+msgid "Bands"
+msgstr ""
+
+#: ../gui/electrical.py:63
+msgid ""
+"<big><b>The bands tab</b></big><br> Use this tab to edit the energetic "
+"distribution of the density of states."
+msgstr ""
+
+#: ../gui/electrical.py:65 ../gui/electrical.py:110 ../gui/materials_main.py:53
+#: ../gui/materials_main.py:120 ../gui/inp_description.py:55
+msgid "Luminescence"
+msgstr ""
+
+#: ../gui/electrical.py:74
+msgid "Electrical parameter editor"
+msgstr ""
+
+#: ../gui/electrical.py:106
+msgid "DoS"
 msgstr ""
 
 #: ../gui/fxmesh.py:82 ../gui/fxmesh.py:109 ../gui/equation.py:200
@@ -1856,11 +1891,6 @@ msgid ""
 "electrical parameters for the material."
 msgstr ""
 
-#: ../gui/materials_main.py:53 ../gui/materials_main.py:120
-#: ../gui/gpvdm_notebook.py:101 ../gui/inp_description.py:55
-msgid "Luminescence"
-msgstr ""
-
 #: ../gui/materials_main.py:54
 msgid ""
 "<big><b>Luminescence</b></big><br>Use this tab to edit the materials "
@@ -1907,8 +1937,8 @@ msgstr ""
 msgid "Don't run me as root!!"
 msgstr ""
 
-#: ../gui/gpvdm.py:164 ../gui/gpvdm_notebook.py:104
-#: ../gui/gpvdm_notebook.py:227 ../gui/ribbon_cluster.py:150
+#: ../gui/gpvdm.py:164 ../gui/gpvdm_notebook.py:94 ../gui/gpvdm_notebook.py:203
+#: ../gui/ribbon_cluster.py:150
 msgid "Terminal"
 msgstr ""
 
@@ -2162,7 +2192,7 @@ msgstr ""
 msgid "Fit constraints window"
 msgstr ""
 
-#: ../gui/tab_main.py:80
+#: ../gui/tab_main.py:82
 msgid ""
 "<big><b>The device structure tab</b></big>\n"
 " Use this tab to change the structure of the device, the layer thicknesses "
@@ -2170,61 +2200,62 @@ msgid ""
 "base and  edit the electrical mesh."
 msgstr ""
 
-#: ../gui/tab_main.py:84
+#: ../gui/tab_main.py:86
 msgid "<big><b>Update available!</b></big><br>"
 msgstr ""
 
-#: ../gui/ribbon_device.py:68 ../libdump/dump_1d_slice.c:323
+#: ../gui/ribbon_device.py:72 ../libdump/dump_1d_slice.c:323
 msgid "Doping"
 msgstr ""
 
-#: ../gui/ribbon_device.py:72
+#: ../gui/ribbon_device.py:76
 msgid ""
 "Calculate\n"
 "the cost"
 msgstr ""
 
-#: ../gui/ribbon_device.py:76
+#: ../gui/ribbon_device.py:80
 msgid "Contacts"
 msgstr ""
 
-#: ../gui/ribbon_device.py:80
+#: ../gui/ribbon_device.py:84
 msgid ""
 "Parasitic\n"
 " components"
 msgstr ""
 
-#: ../gui/ribbon_device.py:84
+#: ../gui/ribbon_device.py:88
 msgid ""
 "Layer\n"
 "editor"
 msgstr ""
 
-#: ../gui/ribbon_device.py:88
+#: ../gui/ribbon_device.py:93
 msgid ""
 "Electrical\n"
 "parameters"
 msgstr ""
 
-#: ../gui/ribbon_device.py:120
+#: ../gui/ribbon_device.py:131
 msgid ""
 "<big><b>Doping window</b></big>\n"
 "Use this window to add doping to the simulation"
 msgstr ""
 
-#: ../gui/ribbon_device.py:133
+#: ../gui/ribbon_device.py:144
 msgid ""
 "<big><b>Contacts window</b></big>\n"
 "Use this window to change the layout of the contacts on the device"
 msgstr ""
 
-#: ../gui/ribbon_device.py:145 ../gui/ribbon_device.py:156
+#: ../gui/ribbon_device.py:156 ../gui/ribbon_device.py:167
+#: ../gui/ribbon_device.py:178
 msgid ""
 "<big><b>Parasitic components</b></big>\n"
 "Use this window to edit the shunt and series resistance."
 msgstr ""
 
-#: ../gui/ribbon_device.py:169
+#: ../gui/ribbon_device.py:189
 msgid ""
 "<big><b>Costs window</b></big>\n"
 "Use this window to calculate the cost of the solar cell and the energy "
@@ -2255,27 +2286,27 @@ msgstr ""
 msgid "Configure mesh"
 msgstr ""
 
-#: ../gui/display.py:88
-msgid "Configuration"
-msgstr ""
-
-#: ../gui/display.py:106
+#: ../gui/display.py:99
 msgid "xy"
 msgstr ""
 
-#: ../gui/display.py:110
+#: ../gui/display.py:103
 msgid "yz"
 msgstr ""
 
-#: ../gui/display.py:114
+#: ../gui/display.py:107
 msgid "xz"
 msgstr ""
 
-#: ../gui/display.py:118
+#: ../gui/display.py:111
 msgid "Rotate"
 msgstr ""
 
-#: ../gui/display.py:182
+#: ../gui/display.py:116
+msgid "Configuration"
+msgstr ""
+
+#: ../gui/display.py:187
 msgid ""
 "<big><b>OpenGL warning</b></big><br>It looks as if you don't have working 3D "
 "graphics acceleration on your computer.  gpvdm will therefore fallback to 2D "
@@ -2294,24 +2325,12 @@ msgstr ""
 msgid "Ok"
 msgstr ""
 
-#: ../gui/gpvdm_notebook.py:89 ../gui/ribbon.py:128
-#: ../gui/inp_description.py:37
-msgid "Device"
-msgstr ""
-
-#: ../gui/gpvdm_notebook.py:90
-msgid ""
-"<big><b>Device tab</b></big><br>This tab contains information about the "
-"device, such as width breadth, carrier density on the contacts, shunt and "
-"contact resistance."
-msgstr ""
-
-#: ../gui/gpvdm_notebook.py:92 ../gui/gpvdm_notebook.py:159
-#: ../gui/gpvdm_notebook.py:241
+#: ../gui/gpvdm_notebook.py:88 ../gui/gpvdm_notebook.py:149
+#: ../gui/gpvdm_notebook.py:217
 msgid "Device structure"
 msgstr ""
 
-#: ../gui/gpvdm_notebook.py:93
+#: ../gui/gpvdm_notebook.py:89
 msgid ""
 "<big><b>The device structure tab</b></big><br> Use this tab to change the "
 "structure of the device, the layer thicknesses and to perform optical "
@@ -2319,40 +2338,30 @@ msgid ""
 "electrical mesh."
 msgstr ""
 
-#: ../gui/gpvdm_notebook.py:95 ../gui/inp_description.py:53
-msgid "Bands"
-msgstr ""
-
-#: ../gui/gpvdm_notebook.py:96
-msgid ""
-"<big><b>The bands tab</b></big><br> Use this tab to edit the energetic "
-"distribution of the density of states."
-msgstr ""
-
-#: ../gui/gpvdm_notebook.py:98
+#: ../gui/gpvdm_notebook.py:91
 msgid "Density of states"
 msgstr ""
 
-#: ../gui/gpvdm_notebook.py:99
+#: ../gui/gpvdm_notebook.py:92
 msgid ""
 "<big><b>Density of States</b></big>\n"
 "This tab contains the electrical model parameters, such as mobility, tail "
 "slope energy, and band gap."
 msgstr ""
 
-#: ../gui/gpvdm_notebook.py:105
+#: ../gui/gpvdm_notebook.py:95
 msgid ""
 "<big><b>The terminal window</b></big>\n"
 "The output of the model will be displayed in this window, watch this screen "
 "for debugging and convergence information."
 msgstr ""
 
-#: ../gui/gpvdm_notebook.py:107 ../gui/gpvdm_notebook.py:138
-#: ../gui/gpvdm_notebook.py:245 ../gui/ribbon.py:138
+#: ../gui/gpvdm_notebook.py:97 ../gui/gpvdm_notebook.py:128
+#: ../gui/gpvdm_notebook.py:221 ../gui/ribbon.py:138
 msgid "Information"
 msgstr ""
 
-#: ../gui/gpvdm_notebook.py:108
+#: ../gui/gpvdm_notebook.py:98
 msgid ""
 "<big><b>On-line help</b></big>\n"
 "You can view the on-line help and manual here."

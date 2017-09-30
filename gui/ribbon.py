@@ -35,7 +35,7 @@ from PyQt5.QtCore import QSize, Qt,QFile,QIODevice
 from PyQt5.QtWidgets import QWidget,QSizePolicy,QVBoxLayout,QHBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QMessageBox, QLineEdit, QToolButton
 from PyQt5.QtWidgets import QTabWidget
 
-from ribbon_device import ribbon_device
+#from ribbon_device import ribbon_device
 from ribbon_database import ribbon_database
 from ribbon_simulations import ribbon_simulations
 from ribbon_configure import ribbon_configure
@@ -90,7 +90,7 @@ class ribbon(QTabWidget):
 		return css
 
 	def update(self):
-		self.device.update()
+		#self.device.update()
 		self.database.update()
 		self.simulations.update()
 		self.configure.update()
@@ -124,8 +124,8 @@ class ribbon(QTabWidget):
 		self.configure=ribbon_configure()
 		self.addTab(self.configure,_("Configure"))
 		
-		self.device=ribbon_device()
-		self.addTab(self.device,_("Device"))
+		#self.device=ribbon_device()
+		#self.addTab(self.device,_("Device"))
 		
 		self.database=ribbon_database()
 		self.addTab(self.database,_("Databases"))

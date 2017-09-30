@@ -86,9 +86,9 @@ class display_widget(QWidget):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(42, 42))
 
-		self.tb_layer_editor = QAction(QIcon_load("layers"), _("Layer\neditor"), self)
-		self.tb_layer_editor.triggered.connect(self.callback_layer_editor)
-		toolbar.addAction(self.tb_layer_editor)
+		#self.tb_layer_editor = QAction(QIcon_load("layers"), _("Layer\neditor"), self)
+		#self.tb_layer_editor.triggered.connect(self.callback_layer_editor)
+		#toolbar.addAction(self.tb_layer_editor)
 		
 
 
@@ -212,5 +212,5 @@ class display_widget(QWidget):
 		else:
 			self.gl_cmp.show()
 
-	def callback_layer_editor(self):
-		global_object_run("show_layer_editor")
+	#def callback_layer_editor(self):
+	#	global_object_run("show_layer_editor")

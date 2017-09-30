@@ -262,6 +262,10 @@ def pvlighthouse_sync():
 
 				clean_measurment_name=measurments[ii].replace("[","")
 				clean_measurment_name=clean_measurment_name.replace("]","")
+				clean_measurment_name=clean_measurment_name.replace(" ","_")
+				clean_measurment_name=clean_measurment_name.replace("(","")
+				clean_measurment_name=clean_measurment_name.replace(")","")
+
 
 				#extract_details(driver)
 				html_source=driver.page_source.split("\n")

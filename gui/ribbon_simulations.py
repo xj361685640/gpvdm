@@ -47,6 +47,7 @@ from qe import qe_window
 from optics import class_optical
 from global_objects import global_object_register
 from measure import measure
+from cost import cost
 
 class ribbon_simulations(QToolBar):
 	def __init__(self):
@@ -60,7 +61,8 @@ class ribbon_simulations(QToolBar):
 		self.lasers_window=None
 		self.measure_window=None
 		self.solar_spectrum_window=None
-		
+		self.cost_window=None
+
 		self.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
 		self.setIconSize(QSize(42, 42))
 
@@ -101,6 +103,10 @@ class ribbon_simulations(QToolBar):
 		self.measure.triggered.connect(self.callback_configure_measure)
 		self.addAction(self.measure)
 
+		self.tb_cost = QAction(QIcon_load("cost"), _("Calculate\nthe cost"), self)
+		self.tb_cost.triggered.connect(self.callback_cost)
+		self.addAction(self.tb_cost)
+
 	def update(self):
 		if self.qe_window!=None:
 			del self.qe_window
@@ -126,6 +132,10 @@ class ribbon_simulations(QToolBar):
 			del self.solar_spectrum_window
 			self.solar_spectrum_window=None
 
+		if self.cost_window!=None:
+			del self.cost_window
+			self.cost_window=None
+
 		self.mode.update()
 
 	def setEnabled(self,val):
@@ -136,6 +146,7 @@ class ribbon_simulations(QToolBar):
 		self.mode.setEnabled(val)
 		self.optics.setEnabled(val)
 		self.lasers.setEnabled(val)
+		self.tb_cost.setEnabled(val)
 		
 	def callback_edit_experiment_window(self):
 
@@ -217,3 +228,14 @@ class ribbon_simulations(QToolBar):
 			self.qe_window.hide()
 		else:
 			self.qe_window.show()
+
+	def callback_cost(self):
+		help_window().help_set_help(["cost.png",_("<big><b>Costs window</b></big>\nUse this window to calculate the cost of the solar cell and the energy payback time.")])
+
+		if self.cost_window==None:
+			self.cost_window=cost()
+
+		if self.cost_window.isVisible()==True:
+			self.cost_window.hide()
+		else:
+			self.cost_window.show()

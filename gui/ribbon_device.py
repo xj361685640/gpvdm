@@ -42,7 +42,6 @@ from cal_path import get_materials_path
 from gpvdm_open import gpvdm_open
 
 from help import help_window
-from cost import cost
 from materials_main import materials_main
 
 from parasitic import parasitic
@@ -66,28 +65,25 @@ class ribbon_device(QToolBar):
 		self.electrical_editor=None
 
 		self.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
+		self.setOrientation(Qt.Vertical);
 		self.setIconSize(QSize(42, 42))
 
-		self.doping = QAction(QIcon_load("doping"), _("Doping"), self)
-		self.doping.triggered.connect(self.callback_doping)
-		self.addAction(self.doping)
-
-		self.cost = QAction(QIcon_load("cost"), _("Calculate\nthe cost"), self)
-		self.cost.triggered.connect(self.callback_cost)
-		self.addAction(self.cost)
+		self.tb_layer_editor = QAction(QIcon_load("layers"), _("Layer\neditor"), self)
+		self.tb_layer_editor.triggered.connect(self.callback_layer_editor)
+		self.addAction(self.tb_layer_editor)
+		global_object_register("show_layer_editor",self.callback_layer_editor)
 		
 		self.contacts = QAction(QIcon_load("contact"), _("Contacts"), self)
 		self.contacts.triggered.connect(self.callback_contacts)
 		self.addAction(self.contacts)
 		
+		self.doping = QAction(QIcon_load("doping"), _("Doping"), self)
+		self.doping.triggered.connect(self.callback_doping)
+		self.addAction(self.doping)
+
 		self.parasitic = QAction(QIcon_load("parasitic"), _("Parasitic\n components"), self)
 		self.parasitic.triggered.connect(self.callback_parasitic)
 		self.addAction(self.parasitic)
-		
-		self.tb_layer_editor = QAction(QIcon_load("layers"), _("Layer\neditor"), self)
-		self.tb_layer_editor.triggered.connect(self.callback_layer_editor)
-		self.addAction(self.tb_layer_editor)
-		global_object_register("show_layer_editor",self.callback_layer_editor)
 
 		self.tb_electrical_editor = QAction(QIcon_load("electrical"), _("Electrical\nparameters"), self)
 		self.tb_electrical_editor.triggered.connect(self.callback_electrical_editor)
@@ -184,13 +180,3 @@ class ribbon_device(QToolBar):
 		else:
 			self.electrical_editor.show()
 
-	def callback_cost(self):
-		help_window().help_set_help(["cost.png",_("<big><b>Costs window</b></big>\nUse this window to calculate the cost of the solar cell and the energy payback time.")])
-
-		if self.cost_window==None:
-			self.cost_window=cost()
-
-		if self.cost_window.isVisible()==True:
-			self.cost_window.hide()
-		else:
-			self.cost_window.show()

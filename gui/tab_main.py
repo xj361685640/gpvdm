@@ -42,6 +42,8 @@ from update import update_thread
 from PyQt5.QtWidgets import QWidget,QHBoxLayout,QSplitter
 from PyQt5.QtCore import Qt
 
+from ribbon_device import ribbon_device
+
 import i18n
 _ = i18n.language.gettext
 
@@ -59,11 +61,11 @@ class tab_main(QWidget,tab_base):
 		self.three_d=display_widget()
 		self.three_d.show()
 
-		#self.frame=layer_widget()
+		self.frame=ribbon_device()
 
 		
-		#mainLayout.addWidget(self.frame)
-		#self.frame.setMinimumSize(500, 0)
+		mainLayout.addWidget(self.frame)
+		self.frame.setMinimumSize(100, 0)
 		mainLayout.addWidget(self.three_d)
 		mainLayout.setStretchFactor ( 1, 1 )
 		hbox.addWidget(mainLayout)

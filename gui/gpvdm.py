@@ -244,7 +244,7 @@ class gpvdm_main_window(QMainWindow):
 			self.ribbon.home.setEnabled(True)
 			self.ribbon.simulations.setEnabled(True)
 			#self.save_sim.setEnabled(True)
-			self.ribbon.device.setEnabled(True)
+			#self.ribbon.device.setEnabled(True)
 			help_window().help_set_help(["media-playback-start",_("<big><b>Now run the simulation</b></big><br> Click on the play icon to start a simulation.")])
 
 			self.ribbon.home_export.setEnabled(True)
@@ -257,7 +257,7 @@ class gpvdm_main_window(QMainWindow):
 			self.ribbon.home.setEnabled(False)
 
 			self.ribbon.simulations.setEnabled(False)
-			self.ribbon.device.setEnabled(False)
+			#self.ribbon.device.setEnabled(False)
 			self.ribbon.goto_page(_("File"))
 			help_window().help_set_help(["icon.png",_("<big><b>Hi!</b></big><br> I'm the on-line help system :).  If you find any bugs please report them to <a href=\"mailto:roderick.mackenzie@nottingham.ac.uk\">roderick.mackenzie@nottingham.ac.uk</a>."),"document-new.png",_("Click on the new icon to make a new simulation directory.")])
 			language_advert()
