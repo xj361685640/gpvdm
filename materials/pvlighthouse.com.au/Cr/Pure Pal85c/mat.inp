@@ -7,7 +7,7 @@ mat
 #material_type
 other
 #status
-public
+public_all
 #mat_alpha
 0.5
 #mat_default_file_alpha
