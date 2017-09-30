@@ -36,6 +36,7 @@ from PyQt5.QtWidgets import QWidget,QSizePolicy,QVBoxLayout,QHBoxLayout,QPushBut
 from PyQt5.QtWidgets import QTabWidget
 
 from ribbon_device import ribbon_device
+from ribbon_database import ribbon_database
 from ribbon_simulations import ribbon_simulations
 from ribbon_configure import ribbon_configure
 from ribbon_information import ribbon_information
@@ -90,6 +91,7 @@ class ribbon(QTabWidget):
 
 	def update(self):
 		self.device.update()
+		self.database.update()
 		self.simulations.update()
 		self.configure.update()
 		self.information.update()
@@ -124,6 +126,9 @@ class ribbon(QTabWidget):
 		
 		self.device=ribbon_device()
 		self.addTab(self.device,_("Device"))
+		
+		self.database=ribbon_database()
+		self.addTab(self.database,_("Databases"))
 
 		if enable_betafeatures()==True:
 			self.tb_cluster=ribbon_cluster()

@@ -32,6 +32,7 @@ electrical_layer=[]
 pl_file=[]
 name=[]
 
+
 def epitaxy_load(path):
 	lines=[]
 	global layers

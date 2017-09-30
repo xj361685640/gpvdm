@@ -47,6 +47,7 @@ from fx_selector import fx_selector
 
 from cal_path import get_sim_path
 from global_objects import global_object_register
+from global_objects import global_object_run
 
 open_gl_working=False
 
@@ -85,19 +86,11 @@ class display_widget(QWidget):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(42, 42))
 
-		self.tb_config = QAction(QIcon_load("preferences-system"), _("Configuration"), self)
-		self.tb_config.triggered.connect(self.callback_configure)
-		toolbar.addAction(self.tb_config)
+		self.tb_layer_editor = QAction(QIcon_load("layers"), _("Layer\neditor"), self)
+		self.tb_layer_editor.triggered.connect(self.callback_layer_editor)
+		toolbar.addAction(self.tb_layer_editor)
+		
 
-		self.fx_box=fx_selector()
-		self.fx_box.file_name_set_start("light_ray_") 
-		self.fx_box.file_name_set_end(".dat")
-		self.fx_box.update()
-
-		self.fx_box.cb.currentIndexChanged.connect(self.fx_box_changed)
-
-		#self.fx_box.cb.currentIndexChanged.connect(self.mode_changed)
-		toolbar.addWidget(self.fx_box)
 
 		spacer = QWidget()
 		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
@@ -119,6 +112,18 @@ class display_widget(QWidget):
 		self.tb_rotate.triggered.connect(self.tb_rotate_click)
 		toolbar.addAction(self.tb_rotate)
 		self.tb_rotate.setEnabled(True)
+		
+		self.tb_config = QAction(QIcon_load("preferences-system"), _("Configuration"), self)
+		self.tb_config.triggered.connect(self.callback_configure)
+		toolbar.addAction(self.tb_config)
+
+		self.fx_box=fx_selector()
+		self.fx_box.file_name_set_start("light_ray_") 
+		self.fx_box.file_name_set_end(".dat")
+		self.fx_box.update()
+
+		self.fx_box.cb.currentIndexChanged.connect(self.fx_box_changed)
+		toolbar.addWidget(self.fx_box)
 
 		self.hbox.addWidget(toolbar)
 		
@@ -143,6 +148,9 @@ class display_widget(QWidget):
 			
 		self.setLayout(self.hbox)
 		global_object_register("display_recalculate",self.recalculate)
+		global_object_register("display_set_selected_layer",self.set_selected_layer)
+
+		
 
 	def callback_xy(self):
 		self.display.xy()
@@ -204,4 +212,5 @@ class display_widget(QWidget):
 		else:
 			self.gl_cmp.show()
 
-
+	def callback_layer_editor(self):
+		global_object_run("show_layer_editor")

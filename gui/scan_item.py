@@ -23,6 +23,9 @@
 import os
 from inp import inp_load_file
 from token_lib import tokens
+from cal_path import find_materials
+from cal_path import get_materials_path
+
 
 #import shutil
 
@@ -54,7 +57,15 @@ def scan_items_populate_from_known_tokens():
 	for i in range(0,len(my_token_lib)):
 		if my_token_lib[i].file_name!="":
 			scan_item_add(my_token_lib[i].file_name,my_token_lib[i].token,my_token_lib[i].info,1)
-	
+
+	mat=find_materials()
+
+	for i in range(0,len(mat)):
+		scan_remove_file(os.path.join(get_materials_path(),mat[i]))			
+		scan_item_add(os.path.join("materials",mat[i],"fit.inp"),"#wavelength_shift_alpha","Absorption spectrum wavelength shift",1)
+		scan_item_add(os.path.join("materials",mat[i],"fit.inp"),"#n_mul","Refractive index spectrum multiplier",1)
+		scan_item_add(os.path.join("materials",mat[i],"fit.inp"),"#alpha_mul","Absorption spectrum multiplier",1)
+		
 def scan_item_save(file_name):
 	global check_list
 	f = open(file_name,'w')

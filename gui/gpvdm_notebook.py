@@ -32,7 +32,6 @@ from inp_description import inp_file_to_description
 #tabs
 from tab_main import tab_main
 from tab import tab_class
-from tab_homo import tab_bands
 
 #util
 from win_lin import running_on_linux
@@ -50,7 +49,6 @@ from PyQt5.QtWidgets import QTabWidget,QWidget
 
 #window
 from dos_main import dos_main
-from pl_main import pl_main
 from tab_terminal import tab_terminal
 
 if enable_webbrowser()==True:
@@ -86,20 +84,12 @@ class gpvdm_notebook(QTabWidget):
 			w.update()
 
 	def changed_click(self):
-		if self.tabText(self.currentIndex()).strip()==_("Device"):
-			help_window().help_set_help(["tab.png",_("<big><b>Device tab</b></big><br>This tab contains information about the device, such as width breadth, carrier density on the contacts, shunt and contact resistance.")])
 
 		if self.tabText(self.currentIndex()).strip()==_("Device structure"):
 			help_window().help_set_help(["device.png",_("<big><b>The device structure tab</b></big><br> Use this tab to change the structure of the device, the layer thicknesses and to perform optical simulations.  You can also browse the materials data base and  edit the electrical mesh.")])
 
-		if self.tabText(self.currentIndex()).strip()==_("Bands"):
-			help_window().help_set_help(["tab.png",_("<big><b>The bands tab</b></big><br> Use this tab to edit the energetic distribution of the density of states.")])
-
 		if self.tabText(self.currentIndex()).strip()==_("Density of states"):
 			help_window().help_set_help(["tab.png",_("<big><b>Density of States</b></big>\nThis tab contains the electrical model parameters, such as mobility, tail slope energy, and band gap.")])
-
-		if self.tabText(self.currentIndex()).strip()==_("Luminescence"):
-			help_window().help_set_help(["tab.png",_("<big><b>Luminescence</b></big>\nIf you set 'Turn on luminescence' to true, the simulation will assume recombination is a raditave process and intergrate it to produce Voltage-Light intensity curves (lv.dat).  Each number in the tab tells the model how efficient each recombination mechanism is at producing photons.")])
 
 		if self.tabText(self.currentIndex()).strip()==_("Terminal"):
 			help_window().help_set_help(["utilities-terminal.png",_("<big><b>The terminal window</b></big>\nThe output of the model will be displayed in this window, watch this screen for debugging and convergence information.")])
@@ -189,22 +179,8 @@ class gpvdm_notebook(QTabWidget):
 					#self.progress.set_text(_("Loading ")+name)
 					#process_events()
 
-					if file_name=="lumo0.inp":
-						widget=tab_bands()
-						#tab.update()
-						add_to_widget=True
-						widget.visible=visible
-						widget.label_name=name
-						widget.file_name=file_name
-					elif file_name=="epitaxy.inp":
+					if file_name=="epitaxy.inp":
 						widget=dos_main()
-						widget.update()
-						add_to_widget=True
-						widget.visible=visible
-						widget.label_name=name
-						widget.file_name=file_name
-					elif file_name=="pl0.inp":
-						widget=pl_main()
 						widget.update()
 						add_to_widget=True
 						widget.visible=visible

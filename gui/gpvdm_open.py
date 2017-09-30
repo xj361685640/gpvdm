@@ -132,9 +132,10 @@ class gpvdm_open(QDialog):
 		self.listwidget.setViewMode(QListView.IconMode)
 		self.listwidget.setSpacing(8)
 		self.listwidget.setWordWrap(True)
+		self.listwidget.setTextElideMode ( Qt.ElideNone)
 		gridsize=self.listwidget.size()
-		gridsize.setWidth(80)
-		gridsize.setHeight(80)
+		gridsize.setWidth(100)
+		gridsize.setHeight(90)
 
 		self.listwidget.setGridSize(gridsize)
 

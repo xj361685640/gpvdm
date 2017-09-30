@@ -38,15 +38,7 @@ from about import about_dlg
 #windows
 from QHTabBar import QHTabBar
 
-class pl_main(QWidget,tab_base):
-
-	lines=[]
-	edit_list=[]
-	file_name=""
-	line_number=[]
-	save_file_name=""
-	name="Luminescence"
-
+class pl_main(QWidget):
 
 	def __init__(self):
 		QWidget.__init__(self)

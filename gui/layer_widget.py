@@ -73,6 +73,9 @@ from PyQt5.QtWidgets import QWidget
 
 from global_objects import global_object_run
 
+from global_objects import global_isobject
+from global_objects import global_object_get
+
 from QComboBoxLang import QComboBoxLang
 
 import i18n
@@ -84,8 +87,10 @@ from gpvdm_select import gpvdm_select
 
 from code_ctrl import enable_betafeatures
 from cal_path import get_sim_path
+from materials_select import materials_select
+from QWidgetSavePos import QWidgetSavePos
 
-class layer_widget(QWidget):
+class layer_widget(QWidgetSavePos):
 
 	
 	def combo_changed(self):
@@ -149,18 +154,6 @@ class layer_widget(QWidget):
 		self.save_model()
 		self.emit_change()
 
-
-	def rebuild_mat_list(self):
-		self.material_files=[]
-		mat=find_materials()
-
-		for i in range(0,len(mat)):
-			self.material_files.append(mat[i])
-			scan_remove_file(os.path.join(get_materials_path(),mat[i]))			
-			scan_item_add(os.path.join("materials",mat[i],"fit.inp"),"#wavelength_shift_alpha","Absorption spectrum wavelength shift",1)
-			scan_item_add(os.path.join("materials",mat[i],"fit.inp"),"#n_mul","Refractive index spectrum multiplier",1)
-			scan_item_add(os.path.join("materials",mat[i],"fit.inp"),"#alpha_mul","Absorption spectrum multiplier",1)
-
 	def on_move_down(self):
 		tab_move_down(self.tab)
 		self.save_model()
@@ -174,8 +167,12 @@ class layer_widget(QWidget):
 		self.emit_structure_changed()
 
 	def __init__(self):
-		QWidget.__init__(self)
-		self.rebuild_mat_list()
+		QWidgetSavePos.__init__(self,"layer_widget")
+
+		self.setWindowTitle(_("Layer editor")+" https://www.gpvdm.com")
+		self.setWindowIcon(QIcon_load("layers"))
+		self.resize(800,500)
+
 		self.cost_window=False
 
 		self.main_vbox=QVBoxLayout()
@@ -203,7 +200,8 @@ class layer_widget(QWidget):
 		self.main_vbox.addWidget(self.toolbar)
 	
 		self.tab = QTableWidget()
-		self.tab.resizeColumnsToContents()
+		#self.tab.resizeColumnsToContents()
+
 
 		self.tab.verticalHeader().setVisible(False)
 		self.create_model()
@@ -214,7 +212,7 @@ class layer_widget(QWidget):
 
 		self.setLayout(self.main_vbox)
 
-
+		self.tab.itemSelectionChanged.connect(self.layer_selection_changed)
 
 
 	def create_model(self):
@@ -226,7 +224,7 @@ class layer_widget(QWidget):
 
 		self.tab.setSelectionBehavior(QAbstractItemView.SelectRows)
 		self.tab.setHorizontalHeaderLabels([_("Layer name"), _("Thicknes"), _("Optical material"), _("Layer type"), _("DoS Layer"),_("PL Layer")])
-
+		self.tab.setColumnWidth(2, 250)
 		self.tab.setRowCount(epitaxy_get_layers())
 
 		for i in range(0,epitaxy_get_layers()):
@@ -255,19 +253,18 @@ class layer_widget(QWidget):
 		item2 = QTableWidgetItem(str(thick))
 		self.tab.setItem(i,1,item2)
 
-		combobox = QComboBox()
 
-		#combobox.setEditable(True)
-
-		for a in self.material_files:
-			combobox.addItem(str(a))
+		combobox = gpvdm_select()
+		combobox.setText(material)
+		combobox.button.clicked.connect(self.callback_material_select)
+		
 		self.tab.setCellWidget(i,2, combobox)
-		combobox.setCurrentIndex(combobox.findText(material))
+#		combobox.setCurrentIndex(combobox.findText(material))
 
-		p=combobox.palette()
-		p.setColor(QPalette.Active, QPalette.Button, Qt.white);
-		p.setColor(QPalette.Inactive, QPalette.Button, Qt.white);
-		combobox.setPalette(p)
+		#p=combobox.palette()
+		#p.setColor(QPalette.Active, QPalette.Button, Qt.white);
+		#p.setColor(QPalette.Inactive, QPalette.Button, Qt.white);
+		#combobox.setPalette(p)
 		
 		#item3 = QTableWidgetItem(str(dos_file))
 		#self.tab.setItem(i,3,item3)
@@ -291,11 +288,17 @@ class layer_widget(QWidget):
 		scan_item_add("epitaxy.inp","#layer_material_file"+str(i),_("Material for ")+name,2)
 		scan_item_add("epitaxy.inp","#layer_width"+str(i),_("Layer width ")+name,1)
 
-		combobox.currentIndexChanged.connect(self.combo_changed)
+		#combobox.currentIndexChanged.connect(self.combo_changed)
 		combobox_layer_type.currentIndexChanged.connect(self.layer_type_edit)
 
 		self.tab.blockSignals(False)
 
+	def callback_material_select(self):
+		self.mat_select=materials_select()
+		self.mat_select.init(self.tab)
+		self.mat_select.set_save_function(self.combo_changed)
+		self.mat_select.show()
+		
 	def clean_dos_files(self):
 		files=inp_lsdir("sim.gpvdm")
 		tab=[]
@@ -358,4 +361,17 @@ class layer_widget(QWidget):
 		self.clean_dos_files()
 		#self.sync_to_electrical_mesh()
 
+	def layer_selection_changed(self):
+		a=self.tab.selectionModel().selectedRows()
 
+		if len(a)>0:
+			y=a[0].row()
+		else:
+			y=-1
+		
+		if global_isobject("display_set_selected_layer")==True:
+			global_object_get("display_set_selected_layer")(y)
+		global_object_run("gl_force_redraw")
+
+		#self.three_d.set_selected_layer(y)
+		#self.three_d.update()

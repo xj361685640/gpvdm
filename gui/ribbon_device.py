@@ -50,6 +50,9 @@ from plot_gen import plot_gen
 from cal_path import get_spectra_path
 
 from spectra_main import spectra_main
+from layer_widget import layer_widget
+from electrical import electrical
+from global_objects import global_object_register
 
 class ribbon_device(QToolBar):
 	def __init__(self):
@@ -59,21 +62,15 @@ class ribbon_device(QToolBar):
 		self.parasitic=None
 		self.contacts_window=None
 		self.parasitic_window=None
-		
+		self.layer_editor=None
+		self.electrical_editor=None
+
 		self.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
 		self.setIconSize(QSize(42, 42))
 
 		self.doping = QAction(QIcon_load("doping"), _("Doping"), self)
 		self.doping.triggered.connect(self.callback_doping)
 		self.addAction(self.doping)
-		
-		self.materials = QAction(QIcon_load("organic_material"), _("Materials\ndatabase"), self)
-		self.materials.triggered.connect(self.callback_view_materials)
-		self.addAction(self.materials)
-
-		self.spectra_file = QAction(QIcon_load("spectra_file"), _("Optical\ndatabase"), self)
-		self.spectra_file.triggered.connect(self.callback_view_optical)
-		self.addAction(self.spectra_file)
 
 		self.cost = QAction(QIcon_load("cost"), _("Calculate\nthe cost"), self)
 		self.cost.triggered.connect(self.callback_cost)
@@ -86,11 +83,16 @@ class ribbon_device(QToolBar):
 		self.parasitic = QAction(QIcon_load("parasitic"), _("Parasitic\n components"), self)
 		self.parasitic.triggered.connect(self.callback_parasitic)
 		self.addAction(self.parasitic)
+		
+		self.tb_layer_editor = QAction(QIcon_load("layers"), _("Layer\neditor"), self)
+		self.tb_layer_editor.triggered.connect(self.callback_layer_editor)
+		self.addAction(self.tb_layer_editor)
+		global_object_register("show_layer_editor",self.callback_layer_editor)
 
-		if enable_betafeatures()==True:
-			self.parasitic = QAction(QIcon_load("sync"), _("Update materials\nfrom PVLighthouse"), self)
-			self.parasitic.triggered.connect(self.callback_pvlighthouse)
-			self.addAction(self.parasitic)
+		self.tb_electrical_editor = QAction(QIcon_load("electrical"), _("Electrical\nparameters"), self)
+		self.tb_electrical_editor.triggered.connect(self.callback_electrical_editor)
+		self.addAction(self.tb_electrical_editor)
+
 
 	def update(self):
 		if self.cost_window!=None:
@@ -109,15 +111,21 @@ class ribbon_device(QToolBar):
 			del self.parasitic_window
 			self.parasitic_window=None
 
+		if self.layer_editor!=None:
+			del self.layer_editor
+			self.layer_editor=None
+
+		if self.electrical_editor!=None:
+			del self.electrical_editor
+			self.electrical_editor=None
 
 	def setEnabled(self,val):
 		self.doping.setEnabled(val)
-		self.materials.setEnabled(val)
 		self.cost.setEnabled(val)
 		self.contacts.setEnabled(val)
 		self.parasitic.setEnabled(val)
-		self.spectra_file.setEnabled(val)
-
+		self.tb_electrical_editor.setEnabled(val)
+		
 	def callback_doping(self):
 		help_window().help_set_help(["doping.png",_("<big><b>Doping window</b></big>\nUse this window to add doping to the simulation")])
 
@@ -142,30 +150,6 @@ class ribbon_device(QToolBar):
 		else:
 			self.contacts_window.show()
 
-	def callback_view_materials(self):
-		dialog=gpvdm_open(get_materials_path())
-		dialog.show_inp_files=False
-		dialog.menu_new_material_enabled=True
-		ret=dialog.exec_()
-
-		if ret==QDialog.Accepted:
-			if os.path.isfile(os.path.join(dialog.get_filename(),"mat.inp"))==True:
-				self.mat_window=materials_main(dialog.get_filename())
-				self.mat_window.show()
-			else:
-				plot_gen([dialog.get_filename()],[],"auto")
-
-	def callback_view_optical(self):
-		dialog=gpvdm_open(get_spectra_path())
-		dialog.menu_new_spectra_enabled=True
-		dialog.show_inp_files=False
-		ret=dialog.exec_()
-
-		if ret==QDialog.Accepted:
-			if os.path.isfile(os.path.join(dialog.get_filename(),"mat.inp"))==True:
-				self.mat_window=spectra_main(dialog.get_filename())
-				self.mat_window.show()
-
 
 	def callback_parasitic(self):
 		help_window().help_set_help(["parasitic.png",_("<big><b>Parasitic components</b></big>\nUse this window to edit the shunt and series resistance.")])
@@ -177,7 +161,29 @@ class ribbon_device(QToolBar):
 			self.parasitic_window.hide()
 		else:
 			self.parasitic_window.show()
-			
+
+	def callback_layer_editor(self):
+		help_window().help_set_help(["layers.png",_("<big><b>Parasitic components</b></big>\nUse this window to edit the shunt and series resistance.")])
+
+		if self.layer_editor==None:
+			self.layer_editor=layer_widget()
+
+		if self.layer_editor.isVisible()==True:
+			self.layer_editor.hide()
+		else:
+			self.layer_editor.show()
+
+	def callback_electrical_editor(self):
+		help_window().help_set_help(["electrical.png",_("<big><b>Parasitic components</b></big>\nUse this window to edit the shunt and series resistance.")])
+
+		if self.electrical_editor==None:
+			self.electrical_editor=electrical()
+
+		if self.electrical_editor.isVisible()==True:
+			self.electrical_editor.hide()
+		else:
+			self.electrical_editor.show()
+
 	def callback_cost(self):
 		help_window().help_set_help(["cost.png",_("<big><b>Costs window</b></big>\nUse this window to calculate the cost of the solar cell and the energy payback time.")])
 
@@ -188,7 +194,3 @@ class ribbon_device(QToolBar):
 			self.cost_window.hide()
 		else:
 			self.cost_window.show()
-			
-	def callback_pvlighthouse(self):
-		from pvlighthouse import pvlighthouse_sync
-		pvlighthouse_sync()

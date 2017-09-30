@@ -1,0 +1,129 @@
+#    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
+#    model for 1st, 2nd and 3rd generation solar cells.
+#    Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
+#
+#	https://www.gpvdm.com
+#	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
+#
+#    This program is free software; you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License v2.0, as published by
+#    the Free Software Foundation.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License along
+#    with this program; if not, write to the Free Software Foundation, Inc.,
+#    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+
+
+
+import os
+from icon_lib import QIcon_load
+
+#qt
+from PyQt5.QtCore import QSize, Qt 
+from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget
+from PyQt5.QtGui import QPainter,QIcon
+
+#python modules
+import webbrowser
+
+#windows
+from tab import tab_class
+from tab_lang import language_tab_class
+
+from PyQt5.QtCore import pyqtSignal
+from global_objects import global_object_run
+
+from inp import inp_isfile
+
+from cal_path import get_sim_path
+from QWidgetSavePos import QWidgetSavePos
+
+from dump_select import dump_select
+from pl_main import pl_main
+from tab_homo import tab_bands
+
+articles = []
+mesh_articles = []
+
+class electrical(QWidgetSavePos):
+
+	changed = pyqtSignal()
+	
+	def changed_click(self):
+
+		if self.tabText(self.currentIndex()).strip()==_("Device"):
+			help_window().help_set_help(["tab.png",_("<big><b>Device tab</b></big><br>This tab contains information about the device, such as width breadth, carrier density on the contacts, shunt and contact resistance.")])
+
+		if self.tabText(self.currentIndex()).strip()==_("Bands"):
+			help_window().help_set_help(["tab.png",_("<big><b>The bands tab</b></big><br> Use this tab to edit the energetic distribution of the density of states.")])
+
+		if self.tabText(self.currentIndex()).strip()==_("Luminescence"):
+			help_window().help_set_help(["tab.png",_("<big><b>Luminescence</b></big>\nIf you set 'Turn on luminescence' to true, the simulation will assume recombination is a raditave process and intergrate it to produce Voltage-Light intensity curves (lv.dat).  Each number in the tab tells the model how efficient each recombination mechanism is at producing photons.")])
+		
+
+	def __init__(self):
+		QWidgetSavePos.__init__(self,"electrical")
+		self.setFixedSize(1000, 600)
+		self.setWindowIcon(QIcon_load("preferences-system"))
+
+		self.setWindowTitle(_("Electrical parameter editor")+" (https://www.gpvdm.com)") 
+		
+
+		self.main_vbox = QVBoxLayout()
+
+		toolbar=QToolBar()
+		toolbar.setIconSize(QSize(48, 48))
+
+		spacer = QWidget()
+		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+		toolbar.addWidget(spacer)
+
+
+		self.undo = QAction(QIcon_load("help"), _("Help"), self)
+		self.undo.setStatusTip(_("Help"))
+		self.undo.triggered.connect(self.callback_help)
+		toolbar.addAction(self.undo)
+
+		self.main_vbox.addWidget(toolbar)
+
+		self.notebook = QTabWidget()
+
+		self.notebook.setMovable(True)
+
+		self.main_vbox.addWidget(self.notebook)
+
+		widget=tab_class()
+		widget.init("device.inp",_("Device"))
+		self.notebook.addTab(widget,_("Device"))
+
+		widget=tab_bands()
+		widget.update()
+		self.notebook.addTab(widget,_("DoS"))
+		
+		widget=pl_main()
+		widget.update()
+		self.notebook.addTab(widget,_("Luminescence"))
+
+
+
+						
+		self.setLayout(self.main_vbox)
+
+		#self.connect("delete-event", self.callback_close_window) 
+
+		#self.hide()
+
+	def callback_help(self,widget):
+		webbrowser.open('http://www.gpvdm.com/man/index.html')
+
+	def update(self):
+		for i in range(0,self.count()):
+			w=self.widget(i)
+			w.update()
+
+

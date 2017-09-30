@@ -145,7 +145,6 @@ from clone import clone_materials
 from window_list import wpos_load
 from global_objects import global_object_run
 
-
 class gpvdm_main_window(QMainWindow):
 
 	plot_after_run=False
@@ -438,6 +437,7 @@ class gpvdm_main_window(QMainWindow):
 		
 		self.ribbon.home.sun.changed.connect(self.notebook.update)
 		self.ribbon.setAutoFillBackground(True)
+
 
 	def dragEnterEvent(self, event):
 		if event.mimeData().hasUrls:
