@@ -1,0 +1,15 @@
+#pl_enabled
+true
+#pl_fe_fh
+1.0
+#pl_fe_te
+0.0
+#pl_te_fh
+0.0
+#pl_th_fe
+0.0
+#pl_fh_th
+0.0
+#ver
+1.0
+#end

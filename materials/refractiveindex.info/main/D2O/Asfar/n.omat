@@ -1,0 +1,22 @@
+#gpvdm
+#title Refractive index
+#type xy
+#x_mul 1e9
+#y_mul 1.000000
+#x_label Wavelength
+#data_label Refractive index
+#x_units nm
+#data_units m^{-1}
+#logscale_x 0
+#logscale_y 0
+#section_one Materials
+#section_two Refractive index
+#data
+0.00025 2.02
+0.00028569999999999995 2.05
+0.00033329999999999997 2.09
+0.00039999999999999996 2.14
+0.0005 2.19
+0.0006667 2.28
+0.001 2.43
+0.002 3.02

@@ -68,9 +68,13 @@ class ribbon_database(QToolBar):
 		self.addAction(self.spectra_file)
 
 		if enable_betafeatures()==True:
-			self.parasitic = QAction(QIcon_load("sync"), _("Update materials\nfrom PVLighthouse"), self)
-			self.parasitic.triggered.connect(self.callback_pvlighthouse)
-			self.addAction(self.parasitic)
+			self.tb_import_pvlighthouse = QAction(QIcon_load("sync"), _("Update materials\nfrom PVLighthouse"), self)
+			self.tb_import_pvlighthouse.triggered.connect(self.callback_pvlighthouse)
+			self.addAction(self.tb_import_pvlighthouse)
+
+			self.tb_import_refractiveindex = QAction(QIcon_load("sync"), _("Update materials\nfrom refractiveindex.info"), self)
+			self.tb_import_refractiveindex.triggered.connect(self.callback_refractiveindex)
+			self.addAction(self.tb_import_refractiveindex)
 
 	def update(self):
 		return
@@ -109,3 +113,7 @@ class ribbon_database(QToolBar):
 	def callback_pvlighthouse(self):
 		from pvlighthouse import pvlighthouse_sync
 		pvlighthouse_sync()
+
+	def callback_refractiveindex(self):
+		from refractiveindex_info import refractiveindex_info_sync
+		refractiveindex_info_sync()

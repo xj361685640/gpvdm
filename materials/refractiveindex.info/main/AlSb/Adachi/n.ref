@@ -1,0 +1,25 @@
+#ref_website
+refractiveindex.info
+#ref_research_group
+
+#ref_authors
+
+#ref_jounral
+
+#ref_title
+
+#ref_volume
+
+#ref_pages
+-
+#ref_year
+
+#ref_md5
+
+#ref_doi
+
+#ref_unformatted
+S. Adachi. Optical dispersion relations for AlSb from E=0 to 6.0 eV, <a href="https://doi.org/10.1063/1.345115"><i>J. Appl. Phys.</i> <b>67</b>, 6427-6431 (1990)</a><br>[<a href="https://github.com/polyanskiy/refractiveindex.info-scripts/blob/master/scripts/Adachi%201990%20-%20AlSb.py">Calculation script (Python)</a>]
+#ver
+1.0
+#end
