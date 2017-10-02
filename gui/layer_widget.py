@@ -90,6 +90,8 @@ from cal_path import get_sim_path
 from materials_select import materials_select
 from QWidgetSavePos import QWidgetSavePos
 
+from epitaxy_mesh_update import epitaxy_mesh_update
+
 class layer_widget(QWidgetSavePos):
 
 	
@@ -110,20 +112,9 @@ class layer_widget(QWidgetSavePos):
 		global_object_run("gl_force_redraw")
 		
 	def emit_structure_changed(self):		#This will emit when there has been an edit
+		global_object_run("mesh_update")
 		global_object_run("optics_force_redraw")
 		global_object_run("gl_force_redraw")
-
-	def sync_to_electrical_mesh(self):
-		tot=0
-		for i in range(0,len(self.model)):
-			if yes_no(self.model[i][COLUMN_DEVICE])==True:
-				tot=tot+float(self.model[i][COLUMN_THICKNES])
-
-		lines=inp_load_file(lines,os.path.join(get_sim_path(),"mesh_y.inp"))
-		if lines!=False:
-			mesh_layers=int(inp_search_token_value(lines, "#mesh_layers"))
-			if mesh_layers==1:
-				inp_update_token_value(os.path.join(get_sim_path(),"mesh_y.inp"), "#mesh_layer_length0", str(tot))
 
 	def layer_type_edit(self):
 		for i in range(0,self.tab.rowCount()):
@@ -153,6 +144,8 @@ class layer_widget(QWidgetSavePos):
 
 		self.save_model()
 		self.emit_change()
+		global_object_run("dos_update")
+		global_object_run("pl_update")
 
 	def on_move_down(self):
 		tab_move_down(self.tab)
@@ -284,10 +277,6 @@ class layer_widget(QWidgetSavePos):
 		item3 = QTableWidgetItem(str(pl_file))
 		self.tab.setItem(i,5,item3)
 
-
-		scan_item_add("epitaxy.inp","#layer_material_file"+str(i),_("Material for ")+name,2)
-		scan_item_add("epitaxy.inp","#layer_width"+str(i),_("Layer width ")+name,1)
-
 		#combobox.currentIndexChanged.connect(self.combo_changed)
 		combobox_layer_type.currentIndexChanged.connect(self.layer_type_edit)
 
@@ -359,7 +348,7 @@ class layer_widget(QWidgetSavePos):
 
 		epitaxy_save(get_sim_path())
 		self.clean_dos_files()
-		#self.sync_to_electrical_mesh()
+		epitaxy_mesh_update()
 
 	def layer_selection_changed(self):
 		a=self.tab.selectionModel().selectedRows()

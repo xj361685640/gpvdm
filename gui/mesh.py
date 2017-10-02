@@ -139,7 +139,7 @@ def mesh_save(file_name,mesh_class):
 	lines.append("#ver")
 	lines.append("1.0")
 	lines.append("#end")
-	print("save as",file_name)
+	print("save as",file_name,lines)
 	inp_save(file_name,lines)
 
 def mesh_save_x():

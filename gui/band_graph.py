@@ -61,7 +61,7 @@ from icon_lib import QIcon_load
 
 from open_save_dlg import save_as_filter
 from cal_path import get_sim_path
-
+from cal_path import get_materials_path
 class band_graph(QWidget):
 	def init(self):
 
@@ -149,13 +149,13 @@ class band_graph(QWidget):
 			delta=float(layer_ticknes)*1e9
 			#print(epitaxy_get_electrical_layer(i))
 			lines=[]
-			material_type=inp_get_token_value(os.path.join(get_sim_path(),'materials',layer_material,'mat.inp'), "#material_type")
+			material_type=inp_get_token_value(os.path.join(get_materials_path(),layer_material,'mat.inp'), "#material_type")
 			if epitaxy_get_electrical_layer(i).startswith("dos")==False:
-				lines=inp_load_file(os.path.join(get_sim_path(),'materials',layer_material,'dos.inp'))
+				lines=inp_load_file(os.path.join(get_materials_path(),layer_material,'dos.inp'))
 				if lines!=False:
 					lumo=-float(inp_search_token_value(lines, "#Xi"))
 					Eg=float(inp_search_token_value(lines, "#Eg"))
-					#print("a",os.path.join(get_sim_path(),'materials',layer_material,'dos.inp'))
+					#print("a",os.path.join(get_materials_path(),layer_material,'dos.inp'))
 			else:
 				lines=inp_load_file(os.path.join(get_sim_path(),epitaxy_get_electrical_layer(i)+".inp"))
 				if lines!=False:

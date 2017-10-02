@@ -59,10 +59,10 @@ def gpvdm_clone(dest,copy_dirs):
 		if os.path.isdir(os.path.join(src_dir,"exp")):
 			shutil.copytree(os.path.join(src_dir,"exp"), os.path.join(dest,"exp"))
 
-		if os.path.isdir(os.path.join(src_dir,"materials")):
-			shutil.copytree(os.path.join(src_dir,"materials"), os.path.join(dest,"materials"))
+		#if os.path.isdir(os.path.join(src_dir,"materials")):
+		#	shutil.copytree(os.path.join(src_dir,"materials"), os.path.join(dest,"materials"))
 
-		clone_materials(dest)
+		#clone_materials(dest)
 		clone_spectras(dest)
 
 def clone_material(dest_material_dir,src_material_dir):

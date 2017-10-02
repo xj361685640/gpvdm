@@ -317,7 +317,7 @@ def extract_file_from_archive(dest,zip_file_path,file_name):
 			return False
 
 	if file_name.endswith("/")==True:
-		if os.path.isdir(file_name)==False:
+		if os.path.isdir(os.path.join(dest,file_name))==False:
 			os.makedirs(os.path.join(dest,file_name))
 		return True
 	else:

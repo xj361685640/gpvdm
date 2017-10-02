@@ -186,7 +186,11 @@ def calculate_paths():
 	global ui_path
 	global spectra_path
 	global materials_base_path
-	materials_path=os.path.join(get_sim_path(),"materials")#search_known_paths("materials",[""],None)
+
+	materials_path=os.path.join(get_sim_path(),"materials")
+	if os.path.isdir(materials_path)==False:
+		materials_path=search_known_paths("materials",[""],None)
+
 	materials_base_path=search_known_paths("materials",[""],None)
 	device_lib_path=search_known_paths("device_lib",[""],None)
 	plugins_path=search_known_paths("plugins",[""],None)
@@ -281,7 +285,7 @@ def get_sim_path():
 	global sim_path
 	if sim_path==None:
 		print("sim_path set to Null!")
-		aasdsad
+		asdasa
 		sys.exit()			#if the sim path has not been set somthing has gone very wrong
 	return sim_path
 

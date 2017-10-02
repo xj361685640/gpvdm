@@ -47,6 +47,8 @@ from dump_select import dump_select
 from pl_main import pl_main
 from tab_homo import tab_bands
 
+from help import help_window
+
 articles = []
 mesh_articles = []
 
@@ -56,13 +58,13 @@ class electrical(QWidgetSavePos):
 	
 	def changed_click(self):
 
-		if self.tabText(self.currentIndex()).strip()==_("Device"):
-			help_window().help_set_help(["tab.png",_("<big><b>Device tab</b></big><br>This tab contains information about the device, such as width breadth, carrier density on the contacts, shunt and contact resistance.")])
+		if self.notebook.tabText(self.notebook.currentIndex()).strip()==_("Device"):
+			help_window().help_set_help(["tab.png",_("<big><b>Device tab</b></big><br>This tab contains information about the device,carrier density on the contacts.")])
 
-		if self.tabText(self.currentIndex()).strip()==_("Bands"):
-			help_window().help_set_help(["tab.png",_("<big><b>The bands tab</b></big><br> Use this tab to edit the energetic distribution of the density of states.")])
+		if self.notebook.tabText(self.notebook.currentIndex()).strip()==_("Complex DoS"):
+			help_window().help_set_help(["tab.png",_("<big><b>The Complex DoS tab</b></big><br> Use this tab to edit the energetic distribution of the density of states. <b>If you want to use this feature contact me.</b>")])
 
-		if self.tabText(self.currentIndex()).strip()==_("Luminescence"):
+		if self.notebook.tabText(self.notebook.currentIndex()).strip()==_("Luminescence"):
 			help_window().help_set_help(["tab.png",_("<big><b>Luminescence</b></big>\nIf you set 'Turn on luminescence' to true, the simulation will assume recombination is a raditave process and intergrate it to produce Voltage-Light intensity curves (lv.dat).  Each number in the tab tells the model how efficient each recombination mechanism is at producing photons.")])
 		
 
@@ -103,7 +105,7 @@ class electrical(QWidgetSavePos):
 
 		widget=tab_bands()
 		widget.update()
-		self.notebook.addTab(widget,_("DoS"))
+		self.notebook.addTab(widget,_("Complex DoS"))
 		
 		widget=pl_main()
 		widget.update()
@@ -115,7 +117,7 @@ class electrical(QWidgetSavePos):
 		self.setLayout(self.main_vbox)
 
 		#self.connect("delete-event", self.callback_close_window) 
-
+		self.notebook.currentChanged.connect(self.changed_click)
 		#self.hide()
 
 	def callback_help(self,widget):

@@ -23,6 +23,9 @@ import os
 from inp import inp_save
 from inp import inp_load_file
 from util import isnumber
+from scan_item import scan_item_add
+from scan_item import scan_remove_file
+
 
 layers=0
 electrical_layers=0
@@ -31,6 +34,21 @@ mat_file=[]
 electrical_layer=[]
 pl_file=[]
 name=[]
+
+def epitaxy_update_scan():
+	global layers
+	global electrical_layers
+	global width
+	global mat_file
+	global electrical_layer
+	global pl_file
+	global name
+	scan_remove_file("epitaxy.inp")
+	layer=0
+	for i in range(0,layers):
+		scan_item_add("epitaxy.inp","#layer_material_file"+str(i),_("Material for ")+str(name[i]),2)
+		scan_item_add("epitaxy.inp","#layer_width"+str(i),_("Layer width ")+str(name[i]),1)
+		layer=layer+1
 
 
 def epitaxy_load(path):
@@ -50,6 +68,7 @@ def epitaxy_load(path):
 	electrical_layer=[]
 	pl_file=[]
 	name=[]
+	
 	lines=inp_load_file(os.path.join(path,"epitaxy.inp"))
 	if lines!=False:
 		pos=0
@@ -80,6 +99,8 @@ def epitaxy_load(path):
 			pl_file.append(lines[pos])		#value
 
 			layers=layers+1
+	
+	epitaxy_update_scan()
 
 def epitay_get_next_dos():
 	global electrical_layer
@@ -127,13 +148,15 @@ def epitaxy_load_from_arrays(in_name,in_width,in_material,in_dos_layer,in_pl_fil
 
 		electrical_layer.append(in_dos_layer[i])		#value
 
-		pl_file.append(in_pl_file[i])			#value
+		pl_file.append(in_pl_file[i])					#value
 
 		if in_dos_layer[i].startswith("dos")==True:
 			electrical_layers=electrical_layers+1
 
 
 		layers=layers+1
+
+	epitaxy_update_scan()
 
 	return True
 

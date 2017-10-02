@@ -139,7 +139,8 @@ class tab_class(QWidget,tab_base):
 
 		self.edit_list=[]
 		self.lines=inp_load_file(filename)
-
+		if self.lines==False:
+			print("file not found",filename)
 		n=0
 		pos=0
 		my_token_lib=tokens()

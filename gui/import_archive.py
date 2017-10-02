@@ -197,7 +197,13 @@ def merge_archives(src_archive,dest_archive,only_over_write):
 	for i in range(0,len(ls)):
 		zip_dir_name=ls[i].split("/")
 		if zip_dir_name[0]=="materials":
-			print("Try to read",src_archive,ls[i])
+			dest=os.path.join(os.path.dirname(get_materials_path()))
+			print("Try to read",src_archive,ls[i],dest)
+			extract_file_from_archive(dest,src_archive,ls[i])
+
+	for i in range(0,len(ls)):
+		zip_dir_name=ls[i].split("/")
+		if zip_dir_name[0]=="sim":
 			extract_file_from_archive(dest_path,src_archive,ls[i])
 
 	#search for scan directories

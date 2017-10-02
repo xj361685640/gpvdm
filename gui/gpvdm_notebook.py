@@ -88,8 +88,8 @@ class gpvdm_notebook(QTabWidget):
 		if self.tabText(self.currentIndex()).strip()==_("Device structure"):
 			help_window().help_set_help(["device.png",_("<big><b>The device structure tab</b></big><br> Use this tab to change the structure of the device, the layer thicknesses and to perform optical simulations.  You can also browse the materials data base and  edit the electrical mesh.")])
 
-		if self.tabText(self.currentIndex()).strip()==_("Density of states"):
-			help_window().help_set_help(["tab.png",_("<big><b>Density of States</b></big>\nThis tab contains the electrical model parameters, such as mobility, tail slope energy, and band gap.")])
+		if self.tabText(self.currentIndex()).strip()==_("Electrical parameters"):
+			help_window().help_set_help(["tab.png",_("<big><b>The electrical parameters</b></big>\nThis tab contains the electrical model parameters, such as mobility, tail slope energy, and band gap.")])
 
 		if self.tabText(self.currentIndex()).strip()==_("Terminal"):
 			help_window().help_set_help(["utilities-terminal.png",_("<big><b>The terminal window</b></big>\nThe output of the model will be displayed in this window, watch this screen for debugging and convergence information.")])
@@ -150,53 +150,9 @@ class gpvdm_notebook(QTabWidget):
 
 			self.update_display_function=widget.update
 
-			lines=[]
-			pos=0
-			lines=inp_load_file("gui_config.inp")
-			if lines!=False:
-				pos=0
-				tab_number=0
-				tabs=(len(lines)-3)/2
-				while (1):
-					add_to_widget=False
-					ret,pos=inp_get_next_token_array(lines,pos)
-
-					if ret[0]=="#ver":
-						break
-
-					file_name=ret[0]
-					if file_name[0]=="#":
-						file_name=file_name[1:]
-					name=inp_file_to_description(file_name)
-					if name==False:
-						print("name not found",name)
-						break
-					visible=bool(int(ret[1]))
-
-					#self.progress.set_fraction(float(tab_number)/float(tabs))
-
-					tab_number=tab_number+1
-					#self.progress.set_text(_("Loading ")+name)
-					#process_events()
-
-					if file_name=="epitaxy.inp":
-						widget=dos_main()
-						widget.update()
-						add_to_widget=True
-						widget.visible=visible
-						widget.label_name=name
-						widget.file_name=file_name
-					elif inp_isfile(file_name)==True:
-						add_to_widget=True
-						widget=tab_class()
-						widget.init(file_name,name)
-
-					if add_to_widget==True:
-						mytext=name
-						if len(mytext)<10:
-							for i in range(len(mytext),10):
-								mytext=mytext+" "
-						self.addTab(widget,mytext)
+			widget=dos_main()
+			widget.update()
+			self.addTab(widget,_("Electrical parameters"))
 
 			self.terminal=tab_terminal()
 			self.terminal.init()

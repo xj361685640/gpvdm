@@ -85,7 +85,7 @@ class ribbon_device(QToolBar):
 		self.parasitic.triggered.connect(self.callback_parasitic)
 		self.addAction(self.parasitic)
 
-		self.tb_electrical_editor = QAction(QIcon_load("electrical"), _("Electrical\nparameters"), self)
+		self.tb_electrical_editor = QAction(QIcon_load("electrical"), _("Advanced\nElectrical\nparameters"), self)
 		self.tb_electrical_editor.triggered.connect(self.callback_electrical_editor)
 		self.addAction(self.tb_electrical_editor)
 
@@ -159,7 +159,7 @@ class ribbon_device(QToolBar):
 			self.parasitic_window.show()
 
 	def callback_layer_editor(self):
-		help_window().help_set_help(["layers.png",_("<big><b>Parasitic components</b></big>\nUse this window to edit the shunt and series resistance.")])
+		help_window().help_set_help(["layers.png",_("<big><b>Device layers</b></big>\nUse this window to configure the structure of the device.")])
 
 		if self.layer_editor==None:
 			self.layer_editor=layer_widget()
@@ -170,7 +170,7 @@ class ribbon_device(QToolBar):
 			self.layer_editor.show()
 
 	def callback_electrical_editor(self):
-		help_window().help_set_help(["electrical.png",_("<big><b>Parasitic components</b></big>\nUse this window to edit the shunt and series resistance.")])
+		help_window().help_set_help(["electrical.png",_("<big><b>Advanced electrical parameters</b></big>\nUse this window to change the advanced electrical parameters.")])
 
 		if self.electrical_editor==None:
 			self.electrical_editor=electrical()

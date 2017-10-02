@@ -36,16 +36,9 @@ from about import about_dlg
 
 #windows
 from QHTabBar import QHTabBar
+from global_objects import global_object_register
 
 class dos_main(QWidget,tab_base):
-
-	lines=[]
-	edit_list=[]
-	file_name=""
-	line_number=[]
-	save_file_name=""
-	name="Desnity of states"
-
 
 	def __init__(self):
 		QWidget.__init__(self)
@@ -60,7 +53,7 @@ class dos_main(QWidget,tab_base):
 		self.notebook.setTabBar(QHTabBar())
 		self.notebook.setTabPosition(QTabWidget.West)
 
-		#global_object_register("dos-update",self.update)
+		global_object_register("dos_update",self.update)
 
 	def update(self):
 		self.notebook.clear()
@@ -72,7 +65,6 @@ class dos_main(QWidget,tab_base):
 				#add_to_widget=True
 
 				name="DoS of "+epitaxy_get_name(i)
-				#print(dos_layer,files)
 
 				widget=tab_class()
 				widget.init(dos_layer+".inp",name)
@@ -82,6 +74,4 @@ class dos_main(QWidget,tab_base):
 	def help(self):
 		help_window().help_set_help(["tab.png","<big><b>Density of States</b></big>\nThis tab contains the electrical model parameters, such as mobility, tail slope energy, and band gap."])
 
-#gobject.type_register(dos_main)
-#gobject.signal_new("update", dos_main, gobject.SIGNAL_RUN_FIRST,gobject.TYPE_NONE, ())
 

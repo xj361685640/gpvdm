@@ -55,6 +55,7 @@ class pl_main(QWidget):
 		self.notebook.setTabBar(bar)
 		self.notebook.setTabPosition(QTabWidget.West)
 
+		global_object_register("pl_update",self.update)
 
 
 	def update(self):
@@ -67,7 +68,6 @@ class pl_main(QWidget):
 				widget	= QWidget()
  
 				name=_("Luminescence of ")+epitaxy_get_name(i)
-				print(pl_file,files)
 
 				widget=tab_class()
 				widget.init(pl_file+".inp",name)

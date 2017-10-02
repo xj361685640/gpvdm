@@ -57,6 +57,7 @@ from global_objects import global_object_run
 from QWidgetSavePos import QWidgetSavePos
 
 from mesh_configure import mesh_configure
+from global_objects import global_object_register
 
 class tab_electrical_mesh(QWidgetSavePos):
 
@@ -197,7 +198,8 @@ class tab_electrical_mesh(QWidgetSavePos):
 
 		self.setLayout(self.main_vbox)
 		self.mesh_config=None
-
+		global_object_register("mesh_update",self.update)
+	
 	def on_configure_click(self):
 		if self.mesh_config==None:
 			self.mesh_config=mesh_configure()
