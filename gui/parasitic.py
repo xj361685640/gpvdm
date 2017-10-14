@@ -43,8 +43,8 @@ class parasitic(QWidgetSavePos):
 	def callback_help(self):
 		webbrowser.open('http://www.gpvdm.com/man/index.html')
 
-	def __init__(self,name):
-		QWidgetSavePos.__init__(self,name)
+	def __init__(self):
+		QWidgetSavePos.__init__(self,"parasitic")
 		self.setFixedSize(900, 600)
 		self.setWindowIcon(QIcon_load("parasitic"))
 

@@ -91,20 +91,20 @@ class gl_fallback(QWidget):
 		lines=[]
 
 		for i in range(0,epitaxy_get_layers()):
+			red=0.0
+			green=0.0
+			blue=0.0
+
 			thick=200.0*epitaxy_get_width(l-i)/tot
 			pos=pos+thick
 			path=os.path.join(get_materials_path(),epitaxy_get_mat_file(l-i),"mat.inp")
 			lines=inp_load_file(path)
 			if lines!=False:
 				ret=inp_search_token_array(lines, "#red_green_blue")
-				red=float(ret[0])
-				green=float(ret[1])
-				blue=float(ret[2])
-			else:
-				print("Could not load",path)
-				red=0.0
-				green=0.0
-				blue=0.0
+				if ret!=False:
+					red=float(ret[0])
+					green=float(ret[1])
+					blue=float(ret[2])
 
 			self.draw_box(qp,200,450.0-pos,thick*0.9,red,green,blue,l-i)
 		step=50.0

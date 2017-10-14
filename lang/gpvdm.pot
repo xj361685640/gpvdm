@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.97\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2017-09-30 21:22+0100\n"
+"POT-Creation-Date: 2017-10-12 14:34+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -50,10 +50,11 @@ msgstr ""
 #: ../libdump/dump_1d_slice.c:1183 ../libdump/dump_1d_slice.c:1220
 #: ../libdump/dump_1d_slice.c:1254 ../libdump/dump_1d_slice.c:1288
 #: ../libdump/dump_1d_slice.c:1317 ../libdump/dump_1d_slice.c:1347
-#: ../libdump/dump_1d_slice.c:1376 ../libdump/dump_1d_slice.c:1406
-#: ../libdump/dump_1d_slice.c:1447 ../libdump/dump_1d_slice.c:1488
-#: ../libdump/dump_1d_slice.c:1522 ../libdump/dump_1d_slice.c:1560
-#: ../libdump/dump_1d_slice.c:1590 ../libdump/dump_1d_slice.c:1648
+#: ../libdump/dump_1d_slice.c:1377 ../libdump/dump_1d_slice.c:1406
+#: ../libdump/dump_1d_slice.c:1435 ../libdump/dump_1d_slice.c:1464
+#: ../libdump/dump_1d_slice.c:1505 ../libdump/dump_1d_slice.c:1546
+#: ../libdump/dump_1d_slice.c:1580 ../libdump/dump_1d_slice.c:1618
+#: ../libdump/dump_1d_slice.c:1648 ../libdump/dump_1d_slice.c:1706
 msgid "Position"
 msgstr ""
 
@@ -584,7 +585,7 @@ msgstr ""
 #: ../src/initial.c:122 ../src/initial.c:146 ../libdump/dump_1d_slice.c:91
 #: ../libdump/dump_1d_slice.c:120 ../libdump/dump_1d_slice.c:178
 #: ../libdump/dump_1d_slice.c:294 ../libdump/dump_1d_slice.c:381
-#: ../libdump/dump_1d_slice.c:410 ../libdump/dump_1d_slice.c:1619
+#: ../libdump/dump_1d_slice.c:410 ../libdump/dump_1d_slice.c:1677
 msgid "position"
 msgstr ""
 
@@ -610,11 +611,12 @@ msgstr ""
 #: ../libdump/dump_1d_slice.c:1193 ../libdump/dump_1d_slice.c:1230
 #: ../libdump/dump_1d_slice.c:1264 ../libdump/dump_1d_slice.c:1298
 #: ../libdump/dump_1d_slice.c:1327 ../libdump/dump_1d_slice.c:1357
-#: ../libdump/dump_1d_slice.c:1386 ../libdump/dump_1d_slice.c:1416
-#: ../libdump/dump_1d_slice.c:1457 ../libdump/dump_1d_slice.c:1498
-#: ../libdump/dump_1d_slice.c:1532 ../libdump/dump_1d_slice.c:1570
-#: ../libdump/dump_1d_slice.c:1600 ../libdump/dump_1d_slice.c:1629
-#: ../libdump/dump_1d_slice.c:1658
+#: ../libdump/dump_1d_slice.c:1387 ../libdump/dump_1d_slice.c:1416
+#: ../libdump/dump_1d_slice.c:1445 ../libdump/dump_1d_slice.c:1474
+#: ../libdump/dump_1d_slice.c:1515 ../libdump/dump_1d_slice.c:1556
+#: ../libdump/dump_1d_slice.c:1590 ../libdump/dump_1d_slice.c:1628
+#: ../libdump/dump_1d_slice.c:1658 ../libdump/dump_1d_slice.c:1687
+#: ../libdump/dump_1d_slice.c:1716
 msgid "1D position space output"
 msgstr ""
 
@@ -819,11 +821,11 @@ msgstr ""
 msgid "Finished finding equilibrium conditions"
 msgstr ""
 
-#: ../gui/pl_main.py:69
+#: ../gui/pl_main.py:70
 msgid "Luminescence of "
 msgstr ""
 
-#: ../gui/pl_main.py:79 ../gui/electrical.py:66
+#: ../gui/pl_main.py:79 ../gui/electrical.py:68
 msgid ""
 "<big><b>Luminescence</b></big>\n"
 "If you set 'Turn on luminescence' to true, the simulation will assume "
@@ -841,11 +843,11 @@ msgid "Save video"
 msgstr ""
 
 #: ../gui/cmp_class.py:297 ../gui/fit_configure_window.py:74
-#: ../gui/optics_ribbon.py:87 ../gui/electrical.py:87 ../gui/electrical.py:88
+#: ../gui/optics_ribbon.py:87 ../gui/electrical.py:89 ../gui/electrical.py:90
 #: ../gui/experiment.py:211 ../gui/contacts.py:192 ../gui/mesh_configure.py:64
 #: ../gui/config_window.py:76 ../gui/config_window.py:77
 #: ../gui/ribbon_home.py:110 ../gui/materials_main.py:105 ../gui/jv.py:73
-#: ../gui/emesh.py:168 ../gui/ribbon_solar.py:74
+#: ../gui/emesh.py:169 ../gui/ribbon_solar.py:74
 #: ../gui/ribbon_information.py:75 ../gui/ribbon.py:78 ../gui/info.py:63
 #: ../gui/cost.py:89 ../gui/fxexperiment.py:219 ../gui/fit_window.py:276
 #: ../gui/ribbon_cluster.py:114 ../gui/ref.py:89 ../gui/ref.py:90
@@ -857,7 +859,7 @@ msgstr ""
 
 #: ../gui/cmp_class.py:298 ../gui/fit_configure_window.py:75
 #: ../gui/experiment.py:212 ../gui/contacts.py:193 ../gui/mesh_configure.py:65
-#: ../gui/jv.py:74 ../gui/emesh.py:169 ../gui/info.py:64
+#: ../gui/jv.py:74 ../gui/emesh.py:170 ../gui/info.py:64
 #: ../gui/fxexperiment.py:220 ../gui/ref.py:109 ../gui/lasers.py:194
 #: ../gui/about.py:156 ../gui/help.py:132 ../gui/parasitic.py:65
 msgid "Close"
@@ -970,6 +972,12 @@ msgstr ""
 msgid ""
 "Update materials\n"
 "from PVLighthouse"
+msgstr ""
+
+#: ../gui/ribbon_database.py:75
+msgid ""
+"Update materials\n"
+"from refractiveindex.info"
 msgstr ""
 
 #: ../gui/progress.py:49
@@ -1187,39 +1195,35 @@ msgstr ""
 msgid "Solar spectrum"
 msgstr ""
 
-#: ../gui/electrical.py:59 ../gui/electrical.py:101 ../gui/electrical.py:102
-#: ../gui/ribbon.py:128 ../gui/inp_description.py:37
+#: ../gui/electrical.py:61 ../gui/electrical.py:103 ../gui/electrical.py:104
+#: ../gui/inp_description.py:37
 msgid "Device"
 msgstr ""
 
-#: ../gui/electrical.py:60
+#: ../gui/electrical.py:62
 msgid ""
 "<big><b>Device tab</b></big><br>This tab contains information about the "
-"device, such as width breadth, carrier density on the contacts, shunt and "
-"contact resistance."
+"device,carrier density on the contacts."
 msgstr ""
 
-#: ../gui/electrical.py:62 ../gui/inp_description.py:53
-msgid "Bands"
+#: ../gui/electrical.py:64 ../gui/electrical.py:108
+msgid "Complex DoS"
 msgstr ""
 
-#: ../gui/electrical.py:63
+#: ../gui/electrical.py:65
 msgid ""
-"<big><b>The bands tab</b></big><br> Use this tab to edit the energetic "
-"distribution of the density of states."
+"<big><b>The Complex DoS tab</b></big><br> Use this tab to edit the energetic "
+"distribution of the density of states. <b>If you want to use this feature "
+"contact me.</b>"
 msgstr ""
 
-#: ../gui/electrical.py:65 ../gui/electrical.py:110 ../gui/materials_main.py:53
+#: ../gui/electrical.py:67 ../gui/electrical.py:112 ../gui/materials_main.py:53
 #: ../gui/materials_main.py:120 ../gui/inp_description.py:55
 msgid "Luminescence"
 msgstr ""
 
-#: ../gui/electrical.py:74
+#: ../gui/electrical.py:76
 msgid "Electrical parameter editor"
-msgstr ""
-
-#: ../gui/electrical.py:106
-msgid "DoS"
 msgstr ""
 
 #: ../gui/fxmesh.py:82 ../gui/fxmesh.py:109 ../gui/equation.py:200
@@ -1428,67 +1432,59 @@ msgstr ""
 msgid "Add item"
 msgstr ""
 
-#: ../gui/layer_widget.py:172
+#: ../gui/layer_widget.py:165
 msgid "Layer editor"
 msgstr ""
 
-#: ../gui/layer_widget.py:183
+#: ../gui/layer_widget.py:176
 msgid "Add device layer"
 msgstr ""
 
-#: ../gui/layer_widget.py:187
+#: ../gui/layer_widget.py:180
 msgid "Delete device layer"
 msgstr ""
 
-#: ../gui/layer_widget.py:192 ../gui/layer_widget.py:196
+#: ../gui/layer_widget.py:185 ../gui/layer_widget.py:189
 msgid "Move device layer"
 msgstr ""
 
-#: ../gui/layer_widget.py:226
+#: ../gui/layer_widget.py:219
 msgid "Layer name"
 msgstr ""
 
-#: ../gui/layer_widget.py:226 ../gui/electrical_mesh_editor.py:205
+#: ../gui/layer_widget.py:219 ../gui/electrical_mesh_editor.py:205
 msgid "Thicknes"
 msgstr ""
 
-#: ../gui/layer_widget.py:226
+#: ../gui/layer_widget.py:219
 msgid "Optical material"
 msgstr ""
 
-#: ../gui/layer_widget.py:226
+#: ../gui/layer_widget.py:219
 msgid "Layer type"
 msgstr ""
 
-#: ../gui/layer_widget.py:226
+#: ../gui/layer_widget.py:219
 msgid "DoS Layer"
 msgstr ""
 
-#: ../gui/layer_widget.py:226
+#: ../gui/layer_widget.py:219
 msgid "PL Layer"
 msgstr ""
 
-#: ../gui/layer_widget.py:274
+#: ../gui/layer_widget.py:267
 msgid "contact"
 msgstr ""
 
-#: ../gui/layer_widget.py:275
+#: ../gui/layer_widget.py:268
 msgid "active layer"
 msgstr ""
 
-#: ../gui/layer_widget.py:276
+#: ../gui/layer_widget.py:269
 msgid "other"
 msgstr ""
 
-#: ../gui/layer_widget.py:288
-msgid "Material for "
-msgstr ""
-
-#: ../gui/layer_widget.py:289
-msgid "Layer width "
-msgstr ""
-
-#: ../gui/layer_widget.py:358
+#: ../gui/layer_widget.py:347
 msgid "Error in epitaxy, check the input values."
 msgstr ""
 
@@ -1882,6 +1878,7 @@ msgid ""
 msgstr ""
 
 #: ../gui/materials_main.py:50 ../gui/materials_main.py:120
+#: ../gui/gpvdm_notebook.py:91 ../gui/gpvdm_notebook.py:155
 msgid "Electrical parameters"
 msgstr ""
 
@@ -1937,7 +1934,7 @@ msgstr ""
 msgid "Don't run me as root!!"
 msgstr ""
 
-#: ../gui/gpvdm.py:164 ../gui/gpvdm_notebook.py:94 ../gui/gpvdm_notebook.py:203
+#: ../gui/gpvdm.py:164 ../gui/gpvdm_notebook.py:94 ../gui/gpvdm_notebook.py:159
 #: ../gui/ribbon_cluster.py:150
 msgid "Terminal"
 msgstr ""
@@ -1993,41 +1990,47 @@ msgstr ""
 msgid "Open an existing gpvdm simulation"
 msgstr ""
 
-#: ../gui/ribbon_simulations.py:67
+#: ../gui/ribbon_simulations.py:69
 msgid ""
 "Time domain\n"
 "simulation editor."
 msgstr ""
 
-#: ../gui/ribbon_simulations.py:77
+#: ../gui/ribbon_simulations.py:79
 msgid ""
 "Steady state\n"
 "simulation editor"
 msgstr ""
 
-#: ../gui/ribbon_simulations.py:82
+#: ../gui/ribbon_simulations.py:84
 msgid ""
 "Quantum\n"
 "efficiency"
 msgstr ""
 
-#: ../gui/ribbon_simulations.py:92
+#: ../gui/ribbon_simulations.py:94
 msgid ""
 "Optical\n"
 "Simulation"
 msgstr ""
 
-#: ../gui/ribbon_simulations.py:96
+#: ../gui/ribbon_simulations.py:98
 msgid ""
 "Laser\n"
 "editor"
 msgstr ""
 
-#: ../gui/ribbon_simulations.py:100
+#: ../gui/ribbon_simulations.py:102
 msgid "Measure"
 msgstr ""
 
-#: ../gui/ribbon_simulations.py:146
+#: ../gui/ribbon_simulations.py:106
+msgid ""
+"Calculate\n"
+"the cost"
+msgstr ""
+
+#: ../gui/ribbon_simulations.py:157
 msgid ""
 "<big><b>The time mesh editor</b></big><br> To do time domain simulations one "
 "must define how voltage the light vary as a function of time.  This can be "
@@ -2035,7 +2038,7 @@ msgid ""
 "and time step."
 msgstr ""
 
-#: ../gui/ribbon_simulations.py:158
+#: ../gui/ribbon_simulations.py:169
 msgid ""
 "<big><b>Frequency domain mesh editor</b></big><br> Some times it is useful "
 "to do frequency domain simulations such as when simulating impedance "
@@ -2043,12 +2046,12 @@ msgid ""
 "be simulated."
 msgstr ""
 
-#: ../gui/ribbon_simulations.py:169
+#: ../gui/ribbon_simulations.py:180
 msgid ""
 "<big><b>Laser setup</b></big><br> Use this window to set up your lasers."
 msgstr ""
 
-#: ../gui/ribbon_simulations.py:180
+#: ../gui/ribbon_simulations.py:191
 msgid ""
 "<big><b>Measure window</b></big><br>Use this window to set up measurement "
 "points.  If for example you want to extract the value of current density "
@@ -2056,22 +2059,29 @@ msgid ""
 "will work with any file"
 msgstr ""
 
-#: ../gui/ribbon_simulations.py:192
+#: ../gui/ribbon_simulations.py:203
 msgid ""
 "<big><b>JV simulation editor</b></big><br> Use this window to select the "
 "step size and parameters of the JV simulations."
 msgstr ""
 
-#: ../gui/ribbon_simulations.py:199
+#: ../gui/ribbon_simulations.py:210
 msgid ""
 "<big><b>The optical simulation window</b></big><br>Use this window to "
 "perform optical simulations.  Click on the play button to run a simulation."
 msgstr ""
 
-#: ../gui/ribbon_simulations.py:199
+#: ../gui/ribbon_simulations.py:210
 msgid ""
 "Click on the play button to run an optical simulation.  The results will be "
 "displayed in the tabs to the right."
+msgstr ""
+
+#: ../gui/ribbon_simulations.py:233
+msgid ""
+"<big><b>Costs window</b></big>\n"
+"Use this window to calculate the cost of the solar cell and the energy "
+"payback time."
 msgstr ""
 
 #: ../gui/tab_homo.py:65 ../gui/constraints.py:148 ../gui/constraints.py:187
@@ -2204,18 +2214,18 @@ msgstr ""
 msgid "<big><b>Update available!</b></big><br>"
 msgstr ""
 
-#: ../gui/ribbon_device.py:72 ../libdump/dump_1d_slice.c:323
-msgid "Doping"
+#: ../gui/ribbon_device.py:71
+msgid ""
+"Layer\n"
+"editor"
 msgstr ""
 
 #: ../gui/ribbon_device.py:76
-msgid ""
-"Calculate\n"
-"the cost"
+msgid "Contacts"
 msgstr ""
 
-#: ../gui/ribbon_device.py:80
-msgid "Contacts"
+#: ../gui/ribbon_device.py:80 ../libdump/dump_1d_slice.c:323
+msgid "Doping"
 msgstr ""
 
 #: ../gui/ribbon_device.py:84
@@ -2226,63 +2236,62 @@ msgstr ""
 
 #: ../gui/ribbon_device.py:88
 msgid ""
-"Layer\n"
-"editor"
-msgstr ""
-
-#: ../gui/ribbon_device.py:93
-msgid ""
+"Advanced\n"
 "Electrical\n"
 "parameters"
 msgstr ""
 
-#: ../gui/ribbon_device.py:131
+#: ../gui/ribbon_device.py:126
 msgid ""
 "<big><b>Doping window</b></big>\n"
 "Use this window to add doping to the simulation"
 msgstr ""
 
-#: ../gui/ribbon_device.py:144
+#: ../gui/ribbon_device.py:139
 msgid ""
 "<big><b>Contacts window</b></big>\n"
 "Use this window to change the layout of the contacts on the device"
 msgstr ""
 
-#: ../gui/ribbon_device.py:156 ../gui/ribbon_device.py:167
-#: ../gui/ribbon_device.py:178
+#: ../gui/ribbon_device.py:151
 msgid ""
 "<big><b>Parasitic components</b></big>\n"
 "Use this window to edit the shunt and series resistance."
 msgstr ""
 
-#: ../gui/ribbon_device.py:189
+#: ../gui/ribbon_device.py:162
 msgid ""
-"<big><b>Costs window</b></big>\n"
-"Use this window to calculate the cost of the solar cell and the energy "
-"payback time."
+"<big><b>Device layers</b></big>\n"
+"Use this window to configure the structure of the device."
+msgstr ""
+
+#: ../gui/ribbon_device.py:173
+msgid ""
+"<big><b>Advanced electrical parameters</b></big>\n"
+"Use this window to change the advanced electrical parameters."
 msgstr ""
 
 #: ../gui/tb_lasers.py:70
 msgid "Laser:"
 msgstr ""
 
-#: ../gui/emesh.py:140
+#: ../gui/emesh.py:141
 msgid "Electrical Mesh Editor"
 msgstr ""
 
-#: ../gui/emesh.py:148
+#: ../gui/emesh.py:149
 msgid "1D simulation"
 msgstr ""
 
-#: ../gui/emesh.py:152
+#: ../gui/emesh.py:153
 msgid "2D simulation"
 msgstr ""
 
-#: ../gui/emesh.py:156
+#: ../gui/emesh.py:157
 msgid "3D simulation"
 msgstr ""
 
-#: ../gui/emesh.py:160
+#: ../gui/emesh.py:161
 msgid "Configure mesh"
 msgstr ""
 
@@ -2326,7 +2335,7 @@ msgid "Ok"
 msgstr ""
 
 #: ../gui/gpvdm_notebook.py:88 ../gui/gpvdm_notebook.py:149
-#: ../gui/gpvdm_notebook.py:217
+#: ../gui/gpvdm_notebook.py:173
 msgid "Device structure"
 msgstr ""
 
@@ -2338,13 +2347,9 @@ msgid ""
 "electrical mesh."
 msgstr ""
 
-#: ../gui/gpvdm_notebook.py:91
-msgid "Density of states"
-msgstr ""
-
 #: ../gui/gpvdm_notebook.py:92
 msgid ""
-"<big><b>Density of States</b></big>\n"
+"<big><b>The electrical parameters</b></big>\n"
 "This tab contains the electrical model parameters, such as mobility, tail "
 "slope energy, and band gap."
 msgstr ""
@@ -2357,7 +2362,7 @@ msgid ""
 msgstr ""
 
 #: ../gui/gpvdm_notebook.py:97 ../gui/gpvdm_notebook.py:128
-#: ../gui/gpvdm_notebook.py:221 ../gui/ribbon.py:138
+#: ../gui/gpvdm_notebook.py:177 ../gui/ribbon.py:138
 msgid "Information"
 msgstr ""
 
@@ -2483,6 +2488,10 @@ msgstr ""
 
 #: ../gui/inp_description.py:52
 msgid "Fit"
+msgstr ""
+
+#: ../gui/inp_description.py:53
+msgid "Bands"
 msgstr ""
 
 #: ../gui/inp_description.py:54
@@ -4504,6 +4513,14 @@ msgid ""
 "responsibility for any data loss!  Do you wish to continue?"
 msgstr ""
 
+#: ../gui/epitaxy.py:49
+msgid "Material for "
+msgstr ""
+
+#: ../gui/epitaxy.py:50
+msgid "Layer width "
+msgstr ""
+
 #: ../gui/doping.py:80
 msgid "Doping (m^{-3})"
 msgstr ""
@@ -4564,19 +4581,19 @@ msgstr ""
 msgid "Reporting error...."
 msgstr ""
 
-#: ../libmemory/memory.c:253
+#: ../libmemory/memory.c:254
 msgid "Solved"
 msgstr ""
 
-#: ../libmemory/memory.c:253
+#: ../libmemory/memory.c:254
 msgid "Equations"
 msgstr ""
 
-#: ../libmemory/memory.c:262
+#: ../libmemory/memory.c:263
 msgid "I can't allocate a device with less than 1 mesh point."
 msgstr ""
 
-#: ../libmemory/memory.c:267
+#: ../libmemory/memory.c:268
 msgid ""
 "You are asking me to simulate a device with more than 50000 mesh points, "
 "although I could do this I am not going to because it seems a bad idea to me."
@@ -4660,10 +4677,11 @@ msgstr ""
 
 #: ../libdump/dump_dynamic.c:472 ../libdump/dump_dynamic.c:492
 #: ../libdump/dump_1d_slice.c:1299 ../libdump/dump_1d_slice.c:1328
-#: ../libdump/dump_1d_slice.c:1358 ../libdump/dump_1d_slice.c:1387
-#: ../libdump/dump_1d_slice.c:1417 ../libdump/dump_1d_slice.c:1458
-#: ../libdump/dump_1d_slice.c:1571 ../libdump/dump_1d_slice.c:1601
-#: ../libdump/dump_1d_slice.c:1630 ../libdump/dump_1d_slice.c:1659
+#: ../libdump/dump_1d_slice.c:1358 ../libdump/dump_1d_slice.c:1388
+#: ../libdump/dump_1d_slice.c:1417 ../libdump/dump_1d_slice.c:1446
+#: ../libdump/dump_1d_slice.c:1475 ../libdump/dump_1d_slice.c:1516
+#: ../libdump/dump_1d_slice.c:1629 ../libdump/dump_1d_slice.c:1659
+#: ../libdump/dump_1d_slice.c:1688 ../libdump/dump_1d_slice.c:1717
 msgid "Recombination"
 msgstr ""
 
@@ -4773,11 +4791,12 @@ msgstr ""
 #: ../libdump/dump_1d_slice.c:1185 ../libdump/dump_1d_slice.c:1222
 #: ../libdump/dump_1d_slice.c:1256 ../libdump/dump_1d_slice.c:1290
 #: ../libdump/dump_1d_slice.c:1319 ../libdump/dump_1d_slice.c:1349
-#: ../libdump/dump_1d_slice.c:1378 ../libdump/dump_1d_slice.c:1408
-#: ../libdump/dump_1d_slice.c:1449 ../libdump/dump_1d_slice.c:1490
-#: ../libdump/dump_1d_slice.c:1524 ../libdump/dump_1d_slice.c:1562
-#: ../libdump/dump_1d_slice.c:1592 ../libdump/dump_1d_slice.c:1621
-#: ../libdump/dump_1d_slice.c:1650
+#: ../libdump/dump_1d_slice.c:1379 ../libdump/dump_1d_slice.c:1408
+#: ../libdump/dump_1d_slice.c:1437 ../libdump/dump_1d_slice.c:1466
+#: ../libdump/dump_1d_slice.c:1507 ../libdump/dump_1d_slice.c:1548
+#: ../libdump/dump_1d_slice.c:1582 ../libdump/dump_1d_slice.c:1620
+#: ../libdump/dump_1d_slice.c:1650 ../libdump/dump_1d_slice.c:1679
+#: ../libdump/dump_1d_slice.c:1708
 msgid "x-position"
 msgstr ""
 
@@ -4802,11 +4821,12 @@ msgstr ""
 #: ../libdump/dump_1d_slice.c:1186 ../libdump/dump_1d_slice.c:1223
 #: ../libdump/dump_1d_slice.c:1257 ../libdump/dump_1d_slice.c:1291
 #: ../libdump/dump_1d_slice.c:1320 ../libdump/dump_1d_slice.c:1350
-#: ../libdump/dump_1d_slice.c:1379 ../libdump/dump_1d_slice.c:1409
-#: ../libdump/dump_1d_slice.c:1450 ../libdump/dump_1d_slice.c:1491
-#: ../libdump/dump_1d_slice.c:1525 ../libdump/dump_1d_slice.c:1563
-#: ../libdump/dump_1d_slice.c:1593 ../libdump/dump_1d_slice.c:1622
-#: ../libdump/dump_1d_slice.c:1651
+#: ../libdump/dump_1d_slice.c:1380 ../libdump/dump_1d_slice.c:1409
+#: ../libdump/dump_1d_slice.c:1438 ../libdump/dump_1d_slice.c:1467
+#: ../libdump/dump_1d_slice.c:1508 ../libdump/dump_1d_slice.c:1549
+#: ../libdump/dump_1d_slice.c:1583 ../libdump/dump_1d_slice.c:1621
+#: ../libdump/dump_1d_slice.c:1651 ../libdump/dump_1d_slice.c:1680
+#: ../libdump/dump_1d_slice.c:1709
 msgid "y-position"
 msgstr ""
 
@@ -4831,11 +4851,12 @@ msgstr ""
 #: ../libdump/dump_1d_slice.c:1187 ../libdump/dump_1d_slice.c:1224
 #: ../libdump/dump_1d_slice.c:1258 ../libdump/dump_1d_slice.c:1292
 #: ../libdump/dump_1d_slice.c:1321 ../libdump/dump_1d_slice.c:1351
-#: ../libdump/dump_1d_slice.c:1380 ../libdump/dump_1d_slice.c:1410
-#: ../libdump/dump_1d_slice.c:1451 ../libdump/dump_1d_slice.c:1492
-#: ../libdump/dump_1d_slice.c:1526 ../libdump/dump_1d_slice.c:1564
-#: ../libdump/dump_1d_slice.c:1594 ../libdump/dump_1d_slice.c:1623
-#: ../libdump/dump_1d_slice.c:1652
+#: ../libdump/dump_1d_slice.c:1381 ../libdump/dump_1d_slice.c:1410
+#: ../libdump/dump_1d_slice.c:1439 ../libdump/dump_1d_slice.c:1468
+#: ../libdump/dump_1d_slice.c:1509 ../libdump/dump_1d_slice.c:1550
+#: ../libdump/dump_1d_slice.c:1584 ../libdump/dump_1d_slice.c:1622
+#: ../libdump/dump_1d_slice.c:1652 ../libdump/dump_1d_slice.c:1681
+#: ../libdump/dump_1d_slice.c:1710
 msgid "z-position"
 msgstr ""
 
@@ -4869,7 +4890,7 @@ msgstr ""
 #: ../libdump/dump_1d_slice.c:363 ../libdump/dump_1d_slice.c:392
 #: ../libdump/dump_1d_slice.c:421 ../libdump/dump_1d_slice.c:451
 #: ../libdump/dump_1d_slice.c:480 ../libdump/dump_1d_slice.c:704
-#: ../libdump/dump_1d_slice.c:1533
+#: ../libdump/dump_1d_slice.c:1591
 msgid "Band structure"
 msgstr ""
 
@@ -4994,56 +5015,65 @@ msgstr ""
 msgid "Free hole generation rate"
 msgstr ""
 
-#: ../libdump/dump_1d_slice.c:1347
-msgid "Electron recombination rate"
+#: ../libdump/dump_1d_slice.c:1347 ../libdump/dump_1d_slice.c:1352
+msgid "Photon generation rate"
 msgstr ""
 
-#: ../libdump/dump_1d_slice.c:1352 ../libdump/dump_1d_slice.c:1381
+#: ../libdump/dump_1d_slice.c:1377
+msgid "SRH electron recombination rate"
+msgstr ""
+
+#: ../libdump/dump_1d_slice.c:1382 ../libdump/dump_1d_slice.c:1411
+#: ../libdump/dump_1d_slice.c:1440
 msgid "Recombination rate"
 msgstr ""
 
-#: ../libdump/dump_1d_slice.c:1376
-msgid "Hole recombination rate"
+#: ../libdump/dump_1d_slice.c:1406
+msgid "SRH hole recombination rate"
 msgstr ""
 
-#: ../libdump/dump_1d_slice.c:1406 ../libdump/dump_1d_slice.c:1447
+#: ../libdump/dump_1d_slice.c:1435
+msgid "Free electron-hole recombination rate"
+msgstr ""
+
+#: ../libdump/dump_1d_slice.c:1464 ../libdump/dump_1d_slice.c:1505
 msgid "Trap fermi level"
 msgstr ""
 
-#: ../libdump/dump_1d_slice.c:1411 ../libdump/dump_1d_slice.c:1452
+#: ../libdump/dump_1d_slice.c:1469 ../libdump/dump_1d_slice.c:1510
 msgid "Electron Fermi level"
 msgstr ""
 
-#: ../libdump/dump_1d_slice.c:1488 ../libdump/dump_1d_slice.c:1522
+#: ../libdump/dump_1d_slice.c:1546 ../libdump/dump_1d_slice.c:1580
 msgid "Material number"
 msgstr ""
 
-#: ../libdump/dump_1d_slice.c:1493 ../libdump/dump_1d_slice.c:1527
+#: ../libdump/dump_1d_slice.c:1551 ../libdump/dump_1d_slice.c:1585
 msgid "Number"
 msgstr ""
 
-#: ../libdump/dump_1d_slice.c:1499
+#: ../libdump/dump_1d_slice.c:1557
 msgid "Model"
 msgstr ""
 
-#: ../libdump/dump_1d_slice.c:1560
+#: ../libdump/dump_1d_slice.c:1618
 msgid "Free hole to trapped electron"
 msgstr ""
 
-#: ../libdump/dump_1d_slice.c:1565 ../libdump/dump_1d_slice.c:1595
-#: ../libdump/dump_1d_slice.c:1624 ../libdump/dump_1d_slice.c:1653
+#: ../libdump/dump_1d_slice.c:1623 ../libdump/dump_1d_slice.c:1653
+#: ../libdump/dump_1d_slice.c:1682 ../libdump/dump_1d_slice.c:1711
 msgid "Rate"
 msgstr ""
 
-#: ../libdump/dump_1d_slice.c:1590
+#: ../libdump/dump_1d_slice.c:1648
 msgid "Free electron to trapped hole"
 msgstr ""
 
-#: ../libdump/dump_1d_slice.c:1619
+#: ../libdump/dump_1d_slice.c:1677
 msgid "Hole relaxation rate"
 msgstr ""
 
-#: ../libdump/dump_1d_slice.c:1648
+#: ../libdump/dump_1d_slice.c:1706
 msgid "Electron relaxation rate"
 msgstr ""
 

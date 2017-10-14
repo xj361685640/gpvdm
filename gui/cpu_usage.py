@@ -69,7 +69,11 @@ class cpu_usage(QWidget):
 		self.load[len(self.load)-1]=a
 		self.load.pop(0)
 
-		w_temp=disk_io_counters()[3]/1000
+		try:		#user reported bug, This is a problem with the underlying function.
+			w_temp=disk_io_counters()[3]/1000
+		except:
+			w_temp=0
+
 		w_delta=w_temp-self.wait_last
 		self.wait_last=w_temp
 

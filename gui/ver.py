@@ -32,6 +32,7 @@ from cal_path import get_sim_path
 global core
 global mat
 global ver_error
+global subver
 
 def ver_error():
 	global ver_error
@@ -41,9 +42,9 @@ def ver_core():
 	global core
 	return core
 
-def ver_mat():
-	global mat
-	return mat
+def ver_subver():
+	global subver
+	return subver
 
 def version():
 	global core
@@ -60,10 +61,12 @@ def ver_load_info():
 	global core
 	global mat
 	global ver_error
-
+	global subver
+	
 	core=""
 	mat=""
 	ver_error=""
+	subver="002"
 
 	ver_file_path=os.path.join(get_inp_file_path(),"ver.inp")
 

@@ -147,10 +147,13 @@ def replace_file_in_zip_archive(zip_file_name,target,lines,mode="l"):
 		zf.close()
 		os.close(fh)
 
-		if os.path.isfile(zip_file_name):
+		if os.path.isfile(zip_file_name)==True:
 			os.remove(zip_file_name)
+			shutil.move(abs_path, zip_file_name)
+		else:
+			shutil.move(abs_path, zip_file_name)
 
-		shutil.move(abs_path, zip_file_name)
+		#print(">>>>>>>>>>>>>>>>>>>>",abs_path, zip_file_name)
 		return True
 	else:
 		return False

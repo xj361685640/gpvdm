@@ -49,6 +49,10 @@ from tab_homo import tab_bands
 
 from help import help_window
 
+from code_ctrl import enable_betafeatures
+
+from dos_main import dos_main
+
 articles = []
 mesh_articles = []
 
@@ -103,9 +107,14 @@ class electrical(QWidgetSavePos):
 		widget.init("device.inp",_("Device"))
 		self.notebook.addTab(widget,_("Device"))
 
-		widget=tab_bands()
+		widget=dos_main()
 		widget.update()
-		self.notebook.addTab(widget,_("Complex DoS"))
+		self.notebook.addTab(widget,_("Electrical parameters"))
+
+		if enable_betafeatures()==True:
+			widget=tab_bands()
+			widget.update()
+			self.notebook.addTab(widget,_("Complex DoS"))
 		
 		widget=pl_main()
 		widget.update()

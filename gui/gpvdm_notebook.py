@@ -48,7 +48,6 @@ from epitaxy import epitaxy_print
 from PyQt5.QtWidgets import QTabWidget,QWidget
 
 #window
-from dos_main import dos_main
 from tab_terminal import tab_terminal
 
 if enable_webbrowser()==True:
@@ -128,6 +127,7 @@ class gpvdm_notebook(QTabWidget):
 		self.addTab(browser,_("Information"))
 
 	def load(self):
+		self.clear()
 		self.clean_menu()
 		self.last_page=0
 
@@ -141,7 +141,6 @@ class gpvdm_notebook(QTabWidget):
 			#self.progress.set_text("Loading..")
 			#process_events()
 
-			self.clear()
 
 #			dos_files=inp_get_token_value("device_epitaxy.inp", "#layers")
 
@@ -149,10 +148,6 @@ class gpvdm_notebook(QTabWidget):
 			self.addTab(widget,_("Device structure"))
 
 			self.update_display_function=widget.update
-
-			widget=dos_main()
-			widget.update()
-			self.addTab(widget,_("Electrical parameters"))
 
 			self.terminal=tab_terminal()
 			self.terminal.init()

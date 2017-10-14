@@ -1,8 +1,8 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -23,8 +23,6 @@ import os
 from win_lin import running_on_linux
 from threading import Thread
 from ver import ver_core
-from ver import ver_subver
-
 import platform
 from gpvdm_http import get_data_from_web
 from cal_path import get_share_path
@@ -32,43 +30,53 @@ import hashlib
 from sim_warnings import sim_warnings
 from code_ctrl import enable_webupdates
 import i18n
+from i18n import get_full_language
+
 _ = i18n.language.gettext
 from ver import ver
 
 #qt
 from PyQt5.QtCore import QSize, Qt
-from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QWidget
-from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QWidget
 
-from urllib.parse import quote
 from PyQt5.QtCore import QTimer
 
+import time
 
-class report_error(QWidget):
-	reported = pyqtSignal(bool)
+class check_sim_exists(QWidget):
+	sim_gone = pyqtSignal()
 
 	def __init__(self):
 		QWidget.__init__(self)
-		self.error=""
+		self.sim_dir=""
+			
+	def foo(self,n):
+		count=0
+		while(1):
+			if self.sim_dir!="":
+				if os.path.isdir(self.sim_dir)==False:
+					count=count+1
+				else:
+					count=0
 
-	def tx_error(self,n):
-		page="http://www.gpvdm.com/bug.html?ver_core="+ver_core()+"."+ver_subver()+"error="+quote(self.error)
-		message=get_data_from_web(page)
-		print("from web:",message)
-		if message.startswith("ok")==True:
-			self.reported.emit(True)
-		else:
-			self.reported.emit(False)
+			if count>5:
+				self.sim_dir=""
+				self.sim_gone.emit()
+				count=0
 
-	def set_error(self,error):
-		self.error=error
+			time.sleep(1)
 
-	def start(self):
-		p = Thread(target=self.tx_error, args=(10,))
+	def set_dir(self,sim_dir):
+		self.sim_dir=sim_dir
+
+	def start_thread(self):
+		p = Thread(target=self.foo, args=(10,))
+		#multiprocessing.Process(target=self.foo, name="Foo", args=(10,))
 		p.daemon = True
-		p.start()		
+		p.start()
+
+		
 
 

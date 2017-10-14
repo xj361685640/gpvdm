@@ -115,9 +115,9 @@ def draw_rays(ray_file,top,width,y_mul,w):
 			mm=0
 
 			std_mul=0.05
-			print(len(d.out))
-			print(d.m)
-			print(d.std)
+			#print(len(d.out))
+			#print(d.m)
+			#print(d.std)
 			x_mul=width/(std*std_mul)
 			i=0
 			#step=((int)(len(out)/6000))*2

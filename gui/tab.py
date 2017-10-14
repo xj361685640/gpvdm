@@ -57,7 +57,7 @@ _ = i18n.language.gettext
 
 import functools
 from inp import inp_update_token_array
-
+from gui_util import error_dlg
 
 class QChangeLog(QTextEdit):
 	def __init__(self):
@@ -140,7 +140,8 @@ class tab_class(QWidget,tab_base):
 		self.edit_list=[]
 		self.lines=inp_load_file(filename)
 		if self.lines==False:
-			print("file not found",filename)
+			error_dlg(self,_("File not found.")+" "+filename)
+			return
 		n=0
 		pos=0
 		my_token_lib=tokens()

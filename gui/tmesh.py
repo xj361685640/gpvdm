@@ -1,6 +1,6 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
 #	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -59,6 +59,7 @@ from gui_util import tab_get_value
 from open_save_dlg import save_as_image
 from cal_path import get_sim_path
 from icon_lib import QIcon_load
+from gui_util import error_dlg
 
 import i18n
 _ = i18n.language.gettext
@@ -170,10 +171,13 @@ class tab_time_mesh(QWidget):
 		self.fig.canvas.draw()
 
 	def on_cell_edited(self, x,y):
-		self.save_data()
-		self.build_mesh()
-		self.draw_graph()
-		self.fig.canvas.draw()
+		if self.check_mesh()==False:
+			error_dlg(self,_("You have entered a non numeric value."))
+		else:
+			self.save_data()
+			self.build_mesh()
+			self.draw_graph()
+			self.fig.canvas.draw()
 
 	def gaussian(self,x, mu, sig):
 		return exp(-power(x - mu, 2.) / (2 * power(sig, 2.)))
@@ -297,6 +301,20 @@ class tab_time_mesh(QWidget):
 			return False
 
 		return False
+
+	def check_mesh(self):
+		try:
+			for i in range(0,self.tab.rowCount()):
+				length=float(tab_get_value(self.tab,i, 0))
+				dt=float(tab_get_value(self.tab,i, 1))
+				voltage_start=float(tab_get_value(self.tab,i, 2))
+				voltage_stop=float(tab_get_value(self.tab,i, 3))
+				mul=float(tab_get_value(self.tab,i, 4))
+				sun=float(tab_get_value(self.tab,i, 5))
+				laser=float(tab_get_value(self.tab,i, 6))
+			return True
+		except:
+			return False
 
 	def build_mesh(self):
 		self.laser=[]

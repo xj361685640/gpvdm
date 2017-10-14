@@ -144,6 +144,7 @@ from cal_path import get_sim_path
 from clone import clone_materials
 from window_list import wpos_load
 from global_objects import global_object_run
+from check_sim_exists import check_sim_exists
 
 class gpvdm_main_window(QMainWindow):
 
@@ -228,19 +229,10 @@ class gpvdm_main_window(QMainWindow):
 			self.change_dir_and_refresh_interface(dialog.ret_path)
 
 
-	def change_dir_and_refresh_interface(self,new_dir):
-		scan_items_clear()
-		scan_items_populate_from_known_tokens()
-		set_sim_path(new_dir)
-		calculate_paths()
-		epitaxy_load(get_sim_path())
-		contacts_load()
-		mesh_load_all()
-
-		self.statusBar().showMessage(get_sim_path())
-
+	def update_interface(self):
 		if self.notebook.load()==True:
 			#self.ti_light.connect('refresh', self.notebook.main_tab.update)
+			self.check_sim_exists.set_dir(get_sim_path())
 			self.ribbon.home.setEnabled(True)
 			self.ribbon.simulations.setEnabled(True)
 			#self.save_sim.setEnabled(True)
@@ -254,6 +246,7 @@ class gpvdm_main_window(QMainWindow):
 			if enable_betafeatures()==True:
 				self.ribbon.simulations.qe.setVisible(True)
 		else:
+			self.check_sim_exists.set_dir("")
 			self.ribbon.home.setEnabled(False)
 
 			self.ribbon.simulations.setEnabled(False)
@@ -266,6 +259,19 @@ class gpvdm_main_window(QMainWindow):
 			self.ribbon.configure.setEnabled(False)
 			if enable_betafeatures()==True:
 				self.ribbon.simulations.qe.setVisible(True)
+
+	def change_dir_and_refresh_interface(self,new_dir):
+		scan_items_clear()
+		scan_items_populate_from_known_tokens()
+		set_sim_path(new_dir)
+		calculate_paths()
+		epitaxy_load(get_sim_path())
+		contacts_load()
+		mesh_load_all()
+
+		self.statusBar().showMessage(get_sim_path())
+
+		self.update_interface()
 
 		if self.notebook.terminal!=None:
 			self.my_server.set_terminal(self.notebook.terminal)
@@ -341,9 +347,15 @@ class gpvdm_main_window(QMainWindow):
 
 			l.pop()
 
-			
+	def sim_gone(self):
+		error_dlg(self,_("The simulation directory has been deleted."))
+		self.update_interface()
+
 	def __init__(self):
 		server_init()
+		self.check_sim_exists=check_sim_exists()
+		self.check_sim_exists.start_thread()
+		self.check_sim_exists.sim_gone.connect(self.sim_gone)
 		self.my_server=server_get()
 
 		self.my_server.init(get_sim_path())

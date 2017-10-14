@@ -40,6 +40,7 @@ class window_item:
 wlist=[]
 
 def wpos_set_window(window,name):
+	#print("set")
 	global wlist
 	for i in range(0,len(wlist)):
 		if wlist[i].name==name:
@@ -53,25 +54,25 @@ def wpos_set_window(window,name):
 
 			x=int(wlist[i].x)
 			y=int(wlist[i].y)
-			if (x+w>desktop_w):
-				x=0
-				print("Reset with")
-			if (y+h>desktop_h):
-				y=0
-				print("Reset height")
+			if (x+w>desktop_w) or x<0:
+				x=desktop_w/2-w/2
+				#print("Reset with",x)
+			if (y+h>desktop_h) or y<0:
+				y=desktop_h/2-h/2
+				#print("Reset height",y)
 			window.move(x,y)
 			break
 
 def wpos_dump():
 	for i in range(0,len(wlist)):
 		print(wlist[i].name,wlist[i].x,wlist[i].y)
-		
+
 def wpos_update(window,name):
 	global wlist
 	found=False
 	x=window.x()
 	y=window.y()
-
+	#print(x,y)
 	for i in range(0,len(wlist)):
 		if wlist[i].name==name:
 			found=True
@@ -87,6 +88,7 @@ def wpos_update(window,name):
 		wlist.append(a)
 			
 def wpos_load():
+	#print("load")
 	global wlist
 	wlist=[]
 	lines=[]
@@ -110,6 +112,7 @@ def wpos_load():
 
 
 def wpos_save():
+	#print("save")
 	global wlist
 	lines=[]
 

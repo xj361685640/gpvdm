@@ -80,7 +80,9 @@ class new_simulation(QDialog):
 					error_dlg(self,_("It's not a good idea to save the simulation in the gpvdm installation directory."))
 					return
 
-
+				if os.path.isdir(file_path)==True:
+					error_dlg(self,_("That directory already exists.  Pick another name or delete the old one."))
+					return
 
 				if not os.path.exists(file_path):
 					os.makedirs(file_path)

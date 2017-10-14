@@ -23,7 +23,7 @@ import os
 from win_lin import running_on_linux
 from threading import Thread
 from ver import ver_core
-from ver import ver_mat
+from ver import ver_subver
 import platform
 from gpvdm_http import get_data_from_web
 from cal_path import get_share_path
@@ -140,7 +140,7 @@ class update_thread(QWidget):
 		self.text=""
 
 	def get_from_web(self,url):
-			page="http://www.gpvdm.com/download_windows/update.php?ver_core="+ver_core()+"&uid="+uid_get()+"&os="+platform.platform()+"&opengl="+is_open_gl_working()+"&lang="+get_full_language()
+			page="http://www.gpvdm.com/download_windows/update.php?ver_core="+ver_core()+"."+ver_subver()+"&uid="+uid_get()+"&os="+platform.platform()+"&opengl="+is_open_gl_working()+"&lang="+get_full_language()
 			message=get_data_from_web(page)
 
 			message=message.split("\n")
