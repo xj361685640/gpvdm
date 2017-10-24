@@ -104,7 +104,7 @@ class new_simulation(QDialog):
 		files=os.listdir(get_device_lib_path())
 		for i in range(0,len(files)):
 			lines=[]
-			if files[i]!="default.gpvdm":
+			if files[i]!="default.gpvdm" and files[i].endswith(".gpvdm"):
 				print(os.path.join(get_device_lib_path(),files[i]))
 				lines=inp_load_file("info.inp",archive=os.path.join(get_device_lib_path(),files[i]))
 				if lines!=False:
@@ -114,6 +114,8 @@ class new_simulation(QDialog):
 					a.icon=inp_get_token_value_from_list(lines, "#info_icon")
 					a.hidden=str2bool(inp_get_token_value_from_list(lines, "#info_hidden"))
 					self.files.append(a)
+				else:
+					print("problem opening",os.path.join(get_device_lib_path(),files[i]))
 
 		for i in range(0,len(self.files)):
 			if self.files[i].file_name=="p3htpcbm.gpvdm":
@@ -121,6 +123,9 @@ class new_simulation(QDialog):
 				break
 
 	def refresh(self):
+		if len(self.files)==0:
+			error_dlg(self,_("The device lib directory is empty, please report this error!"))
+	
 		self.listwidget.clear()
 		for i in range(0,len(self.files)):
 			if self.files[i].hidden==False or self.show_hidden.isChecked()==True:

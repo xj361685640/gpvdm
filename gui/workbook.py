@@ -62,11 +62,15 @@ def is_number(s):
 	
 def workbook_from_inp(ws,my_row,filename,title=""):
 	lines=[]
+
+	lines=inp_load_file(filename)
+	if lines==False:
+		return my_row
+
 	if title!="":
 		ws.cell(column=1, row=my_row, value=title)
 		my_row=my_row+1
 
-	lines=inp_load_file(filename)
 	pos=0
 	my_token_lib=tokens()
 

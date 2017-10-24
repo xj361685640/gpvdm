@@ -45,16 +45,40 @@ def load_ref(file_name):
 	if lines!=False:
 		text=""
 		r.group=inp_get_token_value_from_list(lines, "#ref_research_group")
+		if r.group==None:
+			r.group=""
+			
 		r.author=inp_get_token_value_from_list(lines, "#ref_authors")
 		if r.author==None:
 			r.author=""
+
 		r.journal=inp_get_token_value_from_list(lines, "#ref_jounral")
+		if r.journal==None:
+			r.journal=""
+
 		r.title=inp_get_token_value_from_list(lines, "#ref_title")
+		if r.title==None:
+			r.title=""
+
 		r.volume=inp_get_token_value_from_list(lines, "#ref_volume")
+		if r.volume==None:
+			r.volume=""
+
 		r.pages=inp_get_token_value_from_list(lines, "#ref_pages")
+		if r.pages==None:
+			r.pages=""
+
 		r.year=inp_get_token_value_from_list(lines, "#ref_year")
+		if r.year==None:
+			r.year=""
+
 		r.doi=inp_get_token_value_from_list(lines, "#ref_doi")
-		r.doi=inp_get_token_value_from_list(lines, "#ref_unformatted")
+		if r.doi==None:
+			r.doi=""
+
+		r.unformatted=inp_get_token_value_from_list(lines, "#ref_unformatted")
+		if r.unformatted==None:
+			r.unformatted=""
 
 	return r
 	

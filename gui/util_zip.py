@@ -262,15 +262,21 @@ def read_lines_from_archive(zip_file_path,file_name,mode="l"):
 		found=False
 
 		if os.path.isfile(zip_file_path):
-			zf = zipfile.ZipFile(zip_file_path, 'r')
-			if zip_search_file(zf,os.path.basename(file_path))==True:
-				read_lines = zf.read(file_name)
-				found=True
-			elif zip_search_file(zf,file_name)==True:
-				read_lines = zf.read(file_name)
-				found=True
+			zip_file_open_ok=True
+			try:
+				zf = zipfile.ZipFile(zip_file_path, 'r')
+			except:
+				zip_file_open_ok=False
 
-			zf.close()
+			if zip_file_open_ok==True:
+				if zip_search_file(zf,os.path.basename(file_path))==True:
+					read_lines = zf.read(file_name)
+					found=True
+				elif zip_search_file(zf,file_name)==True:
+					read_lines = zf.read(file_name)
+					found=True
+
+				zf.close()
 
 		if found==False:
 			return False
