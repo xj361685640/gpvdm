@@ -199,8 +199,8 @@ class server(QWidget,cluster):
 			if (self.jobs_running<self.cpus):
 				if self.status[i]==0:
 					self.status[i]=1
-					for r in range(0,len(self.jobs)):
-						print(self.jobs[i],self.args[i])
+					#for r in range(0,len(self.jobs)):
+					#	print(self.jobs[i],self.args[i])
 						
 					print("Running job",self.jobs[i],self.args[i])
 					if self.enable_gui==True:

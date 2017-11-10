@@ -25,15 +25,6 @@ from scan_select import select_param
 from token_lib import tokens
 from scan_item import scan_items_get_list
 
-from scan_item import scan_item_save
-from scan_plot import scan_gen_plot_data
-from scan_io import scan_clean_dir
-from scan_io import scan_clean_unconverged
-from scan_io import scan_clean_simulation_output
-from scan_io import scan_nested_simulation
-from server import server_find_simulations_to_run
-from scan_io import scan_plot_fits
-
 from plot_io import plot_save_oplot_file
 from scan_io import scan_push_to_hpc
 from scan_io import scan_import_from_hpc
@@ -72,7 +63,7 @@ from window_list import resize_window_to_be_sane
 
 class measure(QWidgetSavePos):
 
-	def insert_row(self,i,file_name,position,output_token):
+	def insert_row(self,i,file_name,position,output_token,math):
 		self.tab.blockSignals(True)
 		self.tab.insertRow(i)
 
@@ -85,6 +76,9 @@ class measure(QWidgetSavePos):
 		item = QTableWidgetItem(output_token)
 		self.tab.setItem(i,2,item)
 
+		item = QTableWidgetItem(math)
+		self.tab.setItem(i,3,item)
+
 		self.tab.blockSignals(False)
 
 	def callback_show_list(self):
@@ -92,7 +86,7 @@ class measure(QWidgetSavePos):
 		self.select_param_window.show()
 		
 	def callback_add_item(self):
-		self.insert_row(self.tab.rowCount(),_("File"),_("Position"),_("Output token"))
+		self.insert_row(self.tab.rowCount(),_("File"),_("Position"),_("Output token"),_("Mathematical operation"))
 		self.save_combo()
 
 	def callback_delete_item(self):
@@ -101,6 +95,13 @@ class measure(QWidgetSavePos):
 
 	def save_combo(self):
 		lines=[]
+
+		lines.append("#measure_enable")
+		lines.append(str(self.measure_enable))
+
+		lines.append("#compile_to_vector")
+		lines.append(str(self.compile_to_vector))
+
 		for i in range(0,self.tab.rowCount()):
 			lines.append("#measure_file_"+str(i))
 			lines.append(str(tab_get_value(self.tab,i, 0)))
@@ -108,6 +109,8 @@ class measure(QWidgetSavePos):
 			lines.append(str(tab_get_value(self.tab,i, 1)))
 			lines.append("#measure_token_"+str(i))
 			lines.append(str(tab_get_value(self.tab,i, 2)))
+			lines.append("#measure_math_"+str(i))
+			lines.append(str(tab_get_value(self.tab,i, 3)))
 		lines.append("#ver")
 		lines.append("1.0")
 		lines.append("#end")
@@ -122,16 +125,31 @@ class measure(QWidgetSavePos):
 	def create_model(self):
 		lines=[]
 		self.tab.clear()
-		self.tab.setColumnCount(3)
+		self.tab.setColumnCount(4)
 		self.tab.setSelectionBehavior(QAbstractItemView.SelectRows)
-		self.tab.setHorizontalHeaderLabels([_("File"), _("Position"), _("Output token")])
-		self.tab.setColumnWidth(2, 300)
+		self.tab.setHorizontalHeaderLabels([_("File"), _("Position"), _("Output token"),_("Mathematical operation")])
+		self.tab.setColumnWidth(2, 200)
+		self.tab.setColumnWidth(3, 200)
 		self.file_name=os.path.join(get_sim_path(),"measure.inp")
 
 		lines=inp_load_file(self.file_name)
 		if lines!=False:
 
 			pos=0
+
+			token=lines[pos]
+			pos=pos+1
+			
+			self.measure_enable=str2bool(lines[pos])
+			pos=pos+1
+
+
+			token=lines[pos]
+			pos=pos+1
+
+			self.compile_to_vector=str2bool(lines[pos])
+			pos=pos+1
+
 			mylen=len(lines)
 			while(1):
 				temp=lines[pos]
@@ -150,10 +168,17 @@ class measure(QWidgetSavePos):
 
 				temp=lines[pos]
 				pos=pos+1
+
 				output=lines[pos]
 				pos=pos+1
 
-				self.insert_row(self.tab.rowCount(),f,p,output)
+				temp=lines[pos]
+				pos=pos+1
+
+				math=lines[pos]
+				pos=pos+1
+
+				self.insert_row(self.tab.rowCount(),f,p,output,math)
 
 				if pos>mylen:
 					break

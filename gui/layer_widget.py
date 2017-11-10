@@ -87,6 +87,7 @@ from gpvdm_select import gpvdm_select
 
 from code_ctrl import enable_betafeatures
 from cal_path import get_sim_path
+from cal_path import get_default_material_path
 from materials_select import materials_select
 from QWidgetSavePos import QWidgetSavePos
 
@@ -126,7 +127,10 @@ class layer_widget(QWidgetSavePos):
 				
 				new_file=tab_get_value(self.tab,i,4)+".inp"
 				if inp_isfile(new_file)==False:
-					inp_copy_file(new_file,os.path.join(mat_dir,"dos.inp"))
+					dos_path=os.path.join(mat_dir,"dos.inp")
+					if os.path.isfile(dos_path)==False:
+						dos_path=os.path.join(get_default_material_path(),"dos.inp")
+					inp_copy_file(new_file,dos_path)
 
 				new_file=tab_get_value(self.tab,i,5)+".inp"
 				if inp_isfile(new_file)==False:

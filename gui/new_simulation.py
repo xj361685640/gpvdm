@@ -89,7 +89,7 @@ class new_simulation(QDialog):
 
 				self.ret_path=file_path
 				os.chdir(self.ret_path)
-				gpvdm_clone(os.getcwd(),True)
+				gpvdm_clone(os.getcwd(),copy_dirs=True)
 				import_archive(lib_file,os.path.join(os.getcwd(),"sim.gpvdm"),False)
 				self.close()
 		else:

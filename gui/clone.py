@@ -36,11 +36,12 @@ from cal_path import find_materials
 from cal_path import find_light_source
 from cal_path import get_spectra_path
 
-def gpvdm_clone(dest,copy_dirs):
-	src_dir=get_inp_file_path()
-	src_archive=os.path.join(src_dir,"base.gpvdm")
-	dest_archive=os.path.join(dest,"sim.gpvdm")
-	print(src_archive)
+def gpvdm_clone(path,src_archive="",copy_dirs=False,dest="archive"):
+	if src_archive=="":
+		src_dir=get_inp_file_path()
+		src_archive=os.path.join(src_dir,"base.gpvdm")
+		
+	dest_archive=os.path.join(path,"sim.gpvdm")
 	files=zip_lsdir(src_archive)
 	lines=[]
 
@@ -54,16 +55,16 @@ def gpvdm_clone(dest,copy_dirs):
 
 	if copy_dirs==True:
 		if os.path.isdir(os.path.join(src_dir,"plot")):
-			shutil.copytree(os.path.join(src_dir,"plot"), os.path.join(dest,"plot"))
+			shutil.copytree(os.path.join(src_dir,"plot"), os.path.join(path,"plot"))
 
 		if os.path.isdir(os.path.join(src_dir,"exp")):
-			shutil.copytree(os.path.join(src_dir,"exp"), os.path.join(dest,"exp"))
+			shutil.copytree(os.path.join(src_dir,"exp"), os.path.join(path,"exp"))
 
 		#if os.path.isdir(os.path.join(src_dir,"materials")):
-		#	shutil.copytree(os.path.join(src_dir,"materials"), os.path.join(dest,"materials"))
+		#	shutil.copytree(os.path.join(src_dir,"materials"), os.path.join(path,"materials"))
 
-		#clone_materials(dest)
-		clone_spectras(dest)
+		#clone_materials(path)
+		clone_spectras(path)
 
 def clone_material(dest_material_dir,src_material_dir):
 	if os.path.isdir(dest_material_dir)==False:

@@ -141,6 +141,17 @@ class scan_ribbon(QTabWidget):
 
 		return toolbar
 
+	def ml(self):
+		toolbar = QToolBar()
+		toolbar.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
+		toolbar.setIconSize(QSize(42, 42))
+
+		self.tb_ml_build_vectors = QAction(QIcon_load("ml"), wrap_text(_("Build vectors"),4), self)
+		toolbar.addAction(self.tb_ml_build_vectors)
+
+
+		return toolbar
+
 	def readStyleSheet(self,fileName):
 		css=None
 		file = QFile(fileName)
@@ -162,7 +173,7 @@ class scan_ribbon(QTabWidget):
 
 	def __init__(self):
 		QTabWidget.__init__(self)
-		self.setMaximumHeight(120)
+		self.setMaximumHeight(130)
 		#self.setStyleSheet("QWidget {	background-color:cyan; }")
 
 		self.about = QToolButton(self)
@@ -182,26 +193,10 @@ class scan_ribbon(QTabWidget):
 		if enable_betafeatures()==True:
 			self.addTab(w,_("Advanced"))
 
-		#self.home=ribbon_home()
-		#self.addTab(self.home,_("Home"))
-		
-		#self.simulations=ribbon_simulations()
-		#self.addTab(self.simulations,_("Simulations"))
-		
-		#self.configure=ribbon_configure()
-		#self.addTab(self.configure,_("Configure"))
-		
-		#self.device=ribbon_device()
-		#self.addTab(self.device,_("Device"))
+		w=self.ml()
+		if enable_betafeatures()==True:
+			self.addTab(w,_("ML"))
 
-		#if enable_betafeatures()==True:
-		#	self.tb_cluster=ribbon_cluster()
-		#	self.addTab(self.tb_cluster,_("Cluster"))
-
-		#self.information=ribbon_information()
-		#self.addTab(self.information,_("Information"))
-
-		#self.setStyleSheet("QWidget {	background-color:cyan; }") 
 		sheet=self.readStyleSheet(os.path.join(get_css_path(),"style.css"))
 		if sheet!=None:
 			sheet=str(sheet,'utf-8')

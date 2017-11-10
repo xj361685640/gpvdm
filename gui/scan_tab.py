@@ -94,6 +94,8 @@ from code_ctrl import enable_betafeatures
 
 from cal_path import get_sim_path
 
+from scan_ml import scan_ml_build_vector
+
 class scan_vbox(QWidget):
 
 	def rename(self,new_name):
@@ -150,13 +152,15 @@ class scan_vbox(QWidget):
 		cb = QApplication.clipboard()
 		text=cb.text()
 		lines=text.rstrip().split(';')
-		print("text=",lines)
-		row=self.tab.selectionModel().selectedRows()
-		if len(row)>0:
-			row=row[0].row()
-			if len(lines)>=4:
-				for i in range(0,len(lines)):
-					tab_set_value(self.tab,row,i,lines[i])
+		#print("text=",lines)
+		tab_add(self.tab,lines)
+		self.save_combo()
+#		row=self.tab.selectionModel().selectedRows()
+#		if len(row)>0:
+#			row=row[0].row()
+#			if len(lines)>=4:
+#				for i in range(0,len(lines)):
+#					tab_set_value(self.tab,row,i,lines[i])
 
 	def callback_show_list(self):
 		self.select_param_window.update()
@@ -169,9 +173,9 @@ class scan_vbox(QWidget):
 
 	def plot_results(self,plot_token):
 		plot_token.key_units=self.get_units()
-		print("scanning",self.sim_dir)
+		#print("scanning",self.sim_dir)
 		plot_files, plot_labels, config_file = scan_gen_plot_data(plot_token,self.sim_dir)
-		print(plot_files, plot_labels)
+		#print(plot_files, plot_labels)
 		plot_save_oplot_file(config_file,plot_token)
 		plot_gen(plot_files,plot_labels,config_file)
 
@@ -214,6 +218,9 @@ class scan_vbox(QWidget):
 	def import_from_hpc(self):
 		scan_import_from_hpc(self.sim_dir)
 
+	def scan_tab_ml_build_vector(self):
+		scan_ml_build_vector(self.sim_dir)
+
 	def plot_fits(self):
 		scan_plot_fits(self.sim_dir)
 
@@ -245,12 +252,12 @@ class scan_vbox(QWidget):
 		if generate_simulations==True:
 			scan_clean_dir(self,self.sim_dir)
 
-		print("Running")
+		#print("Running")
 		program_list=[]
 		for i in range(0,self.tab.rowCount()):
 			program_list.append([tab_get_value(self.tab,i,0),tab_get_value(self.tab,i,1),tab_get_value(self.tab,i,3),tab_get_value(self.tab,i,4)])
 
-		print(program_list)
+		#print(program_list)
 		tree_load_config(self.sim_dir)
 		if generate_simulations==True:
 			flat_simulation_list=[]
@@ -258,11 +265,11 @@ class scan_vbox(QWidget):
 				error_dlg(self,_("Problem generating tree."))
 				return
 
-			print("flat list",flat_simulation_list)
+			#print("flat list",flat_simulation_list)
 			tree_save_flat_list(self.sim_dir,flat_simulation_list)
 
 		commands=tree_load_flat_list(self.sim_dir)
-		print("loaded commands",commands)
+		#print("loaded commands",commands)
 		if run_simulation==True:
 			self.send_commands_to_server(commands,args)
 
@@ -275,7 +282,7 @@ class scan_vbox(QWidget):
 
 		for i in range(0, len(commands)):
 			self.myserver.add_job(commands[i],args)
-			print("Adding job"+commands[i])
+			#print("Adding job"+commands[i])
 
 		self.myserver.start()
 
@@ -283,7 +290,7 @@ class scan_vbox(QWidget):
 		self.plot_results(self.last_plot_data)
 
 	def callback_last_menu_click(self, widget, data):
-		print("here one!")
+		#print("here one!")
 		self.plot_results(data)
 
 	def callback_reopen_xy_window(self, widget, data=None):
@@ -340,10 +347,10 @@ class scan_vbox(QWidget):
 		a = open(os.path.join(self.sim_dir,"gpvdm_gui_config.inp"), "w")
 		a.write(str(self.tab.rowCount())+"\n")
 
-		print(self.tab.rowCount())
+		#print(self.tab.rowCount())
 		
 		for i in range(0,self.tab.rowCount()):
-			print(i)
+			#print(i)
 			a.write(tab_get_value(self.tab,i,0)+"\n")
 			a.write(tab_get_value(self.tab,i,1)+"\n")
 			a.write(tab_get_value(self.tab,i,2)+"\n")
@@ -354,8 +361,10 @@ class scan_vbox(QWidget):
 
 		if os.path.isfile(os.path.join(self.sim_dir,"scan_config.inp"))==False:
 			a = open(os.path.join(self.sim_dir,"scan_config.inp"), "w")
-			a.write("#args\n")
+			a.write("#scan_config_args\n")
 			a.write("\n")
+			a.write("#scan_config_compress\n")
+			a.write("false\n")
 			a.write("#end\n")
 
 			a.close()
@@ -365,34 +374,41 @@ class scan_vbox(QWidget):
 		self.save_combo()
 
 	def combo_mirror_changed(self):
-		print("combo changed")
+		#print("combo changed")
 		for i in range(0,self.tab.rowCount()):
+			found=False
 			value=tab_get_value(self.tab,i,4)
 
-			if value == "constant" and tab_get_value(self.tab,i,3)=="mirror":
-				tab_set_value(self.tab,i,3,"0.0")
+			if value == "constant":
+				found=True
+				if tab_get_value(self.tab,i,3)=="mirror":
+					tab_set_value(self.tab,i,3,"0.0")
+	
+			if value == "scan":
+				found=True
+				if tab_get_value(self.tab,i,3)=="mirror":
+					tab_set_value(self.tab,i,3,"0.0 0.0 0.0")
 
-			if value == "scan" and tab_get_value(self.tab,i,3)=="mirror":
-				tab_set_value(self.tab,i,3,"0.0 0.0 0.0")
+			if value == "python_code":
+				found=True
+				if tab_get_value(self.tab,i,3)=="mirror":
+					tab_set_value(self.tab,i,3,"0.0")
 
-			if value == "python_code" and tab_get_value(self.tab,i,3)=="mirror":
-				tab_set_value(self.tab,i,3,"0.0")
-			
-			if value != "constant" and value != "scan" and value != "python_code":
+			if value == "random_file_name":
+				found=True
+				tab_set_value(self.tab,i,0,"not needed")
+				tab_set_value(self.tab,i,1,"not needed")
+				tab_set_value(self.tab,i,2,"not needed")
+				if tab_get_value(self.tab,i,3)=="mirror":
+					tab_set_value(self.tab,i,3,"10")
+
+			if found==False:
 				tab_set_value(self.tab,i,3,"mirror")
-			#print(value)
-		return
-		model[path][4] = text
-		if model[path][4]!="constant":
-			if model[path][4]!="scan":
-				if model[path][4]!="python_code":
-					model[path][3] = "mirror"
-		self.save_combo()
 
 
 	def toggled_cb( self, cell, path, model ):
 		model[path][3] = not model[path][3]
-		print(model[path][2],model[path][3])
+		#print(model[path][2],model[path][3])
 		self.save_combo()
 		return
 
@@ -441,7 +457,7 @@ class scan_vbox(QWidget):
 			mylen=int(config[0])
 			pos=pos+1
 			
-			print(config)
+			#print(config)
 
 			for i in range(0, mylen):
 				self.insert_row(i,config[pos+0],config[pos+1],config[pos+2],config[pos+3],config[pos+4])
@@ -464,6 +480,7 @@ class scan_vbox(QWidget):
 		items.append("scan")
 		items.append("constant")
 		items.append("python_code")
+		items.append("random_file_name")
 
 		for i in range(0,self.tab.rowCount()):
 			items.append(str(tab_get_value(self.tab,i,2)))
@@ -490,7 +507,7 @@ class scan_vbox(QWidget):
 
 
 	def callback_run_simulation(self):
-		args=inp_get_token_value(os.path.join(self.sim_dir,"scan_config.inp"),"#args")
+		args=inp_get_token_value(os.path.join(self.sim_dir,"scan_config.inp"),"#scan_config_args")
 		if args==None:
 			args=""
 		self.simulate(True,True,args)
@@ -516,7 +533,6 @@ class scan_vbox(QWidget):
 		#self.tab_label=tab_label
 
 		self.sim_dir=os.path.join(scan_root_dir,sim_name)
-		self.tab_name=os.path.basename(os.path.normpath(self.sim_dir))
 
 		self.select_param_window=select_param()
 		self.select_param_window.set_save_function(self.save_combo)

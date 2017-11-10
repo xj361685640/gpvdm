@@ -98,15 +98,15 @@ def tab_set_value(tab,y,x,value):
 def tab_get_selected(tab):
 	a=tab.selectionModel().selectedRows()
 
-	if len(a)>0:
-		y=a[0].row()
-	else:
+	if len(a)<=0:
 		return False
 
 	ret=[]
 	
-	for i in range(0,tab.columnCount()):
-		ret.append(str(tab_get_value(tab,y,i)))
+	for ii in range(0,len(a)):
+		y=a[ii].row()
+		for i in range(0,tab.columnCount()):
+			ret.append(str(tab_get_value(tab,y,i)))
 
 	return ret
 
@@ -195,11 +195,19 @@ def tab_add(tab,data):
 	else:
 		pos = tab.rowCount()
 
-	tab.insertRow(pos)
+	if tab.columnCount()==len(data):
+		tab.insertRow(pos)
+		for i in range(0,len(data)):
+			tab.setItem(pos,i,QTableWidgetItem(data[i]))
 
-	for i in range(0,len(data)):
-		tab.setItem(pos,i,QTableWidgetItem(data[i]))
-
+	if len(data)>tab.columnCount():
+		rows=int(len(data)/tab.columnCount())
+		for ii in range(0,rows):
+			tab.insertRow(pos)
+			for i in range(0,tab.columnCount()):
+				tab.setItem(pos,i,QTableWidgetItem(data[ii*tab.columnCount()+i]))
+			pos=pos+1
+				
 	tab.blockSignals(False)
 
 
@@ -208,8 +216,9 @@ def tab_remove(tab):
 	index = tab.selectionModel().selectedRows()
 
 	if len(index)>0:
-		pos=index[0].row()
-		tab.removeRow(pos)
+		for i in range(0,len(index)):
+			pos=index[i].row()
+			tab.removeRow(pos)
 	tab.blockSignals(False)
 
 def error_dlg(parent,text):

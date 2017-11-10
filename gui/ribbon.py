@@ -46,7 +46,7 @@ from icon_lib import QIcon_load
 from about import about_dlg
 
 from ribbon_cluster import ribbon_cluster
-
+from css import css_apply
 class ribbon(QTabWidget):
 	def goto_page(self,page):
 		self.blockSignals(True)
@@ -80,14 +80,6 @@ class ribbon(QTabWidget):
 
 		return toolbar
 
-			
-	def readStyleSheet(self,fileName):
-		css=None
-		file = QFile(fileName)
-		if file.open(QIODevice.ReadOnly) :
-			css = file.readAll()
-			file.close()
-		return css
 
 	def update(self):
 		#self.device.update()
@@ -138,8 +130,6 @@ class ribbon(QTabWidget):
 		self.addTab(self.information,_("Information"))
 
 		#self.setStyleSheet("QWidget {	background-color:cyan; }") 
-		sheet=self.readStyleSheet(os.path.join(get_css_path(),"style.css"))
-		if sheet!=None:
-			sheet=str(sheet,'utf-8')
-			self.setStyleSheet(sheet)
+		css_apply(self,"style.css")
+			
 

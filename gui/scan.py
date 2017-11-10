@@ -52,6 +52,7 @@ from global_objects import global_object_get
 from cal_path import get_sim_path
 from QWidgetSavePos import QWidgetSavePos
 from scan_ribbon import scan_ribbon
+from css import css_apply
 
 class scan_class(QWidgetSavePos):
 
@@ -102,7 +103,8 @@ class scan_class(QWidgetSavePos):
 
 	def callback_cluster_fit_log(self):
 		tab = self.notebook.currentWidget()
-		name=tab.tab_name
+		index=self.notebook.currentIndex()
+		name=self.notebook.tabText(index)
 		path=os.path.join(self.sim_dir,name)
 		find_fit_log("./fit.dat",path)
 		os.system("gnuplot -persist ./fit.dat &\n")
@@ -110,7 +112,8 @@ class scan_class(QWidgetSavePos):
 
 	def callback_copy_page(self):
 		tab = self.notebook.currentWidget()
-		name=tab.tab_name
+		index=self.notebook.currentIndex()
+		name=self.notebook.tabText(index)
 		old_dir=os.path.join(self.sim_dir,name)
 		new_sim_name=dlg_get_text( _("Clone the current simulation to a new simulation called:"), name,"clone.png")
 		new_sim_name=new_sim_name.ret
@@ -120,7 +123,6 @@ class scan_class(QWidgetSavePos):
 			new_dir=os.path.join(self.sim_dir,new_sim_name)
 
 			copy_scan_dir(new_dir,old_dir)
-			print(_("I want to copy"),new_dir,old_dir)
 			self.add_page(new_sim_name)
 
 	def callback_run_simulation(self):
@@ -166,7 +168,9 @@ class scan_class(QWidgetSavePos):
 
 	def callback_rename_page(self):
 		tab = self.notebook.currentWidget()
-		name=tab.tab_name
+
+		index=self.notebook.currentIndex()
+		name=self.notebook.tabText(index)
 		old_dir=os.path.join(self.sim_dir,name)
 
 		new_sim_name=dlg_get_text( _("Rename the simulation to be called:"), name,"rename.png")
@@ -182,7 +186,9 @@ class scan_class(QWidgetSavePos):
 
 	def callback_delete_page(self):
 		tab = self.notebook.currentWidget()
-		name=tab.tab_name
+		index=self.notebook.currentIndex()
+		name=self.notebook.tabText(index)
+		
 		dir_to_del=os.path.join(self.sim_dir,name)
 
 		response=yes_no_dlg(self,_("Should I remove the simulation directory ")+dir_to_del)
@@ -190,7 +196,6 @@ class scan_class(QWidgetSavePos):
 		if response==True:
 			index=self.notebook.currentIndex() 
 			self.notebook.removeTab(index)
-			print(_("I am going to delete file"),dir_to_del)
 			delete_second_level_link_tree(dir_to_del)
 
 
@@ -208,7 +213,6 @@ class scan_class(QWidgetSavePos):
 
 		get_scan_dirs(sim_dirs,self.sim_dir)
 
-		print(sim_dirs,self.sim_dir)
 
 		if len(sim_dirs)==0:
 			sim_dirs.append("scan1")
@@ -226,6 +230,9 @@ class scan_class(QWidgetSavePos):
 		tab=scan_vbox(self.myserver,self.status_bar,self.sim_dir,name)
 		self.notebook.addTab(tab,os.path.basename(name))
 
+	def callback_mb_build_vectors(self):
+		tab = self.notebook.currentWidget()
+		tab.scan_tab_ml_build_vector()
 
 	def __init__(self,my_server):
 		QWidgetSavePos.__init__(self,"scan_window")
@@ -280,12 +287,15 @@ class scan_class(QWidgetSavePos):
 	
 		self.ribbon.tb_plot_time.triggered.connect(self.callback_examine)
 
+		self.ribbon.tb_ml_build_vectors.triggered.connect(self.callback_mb_build_vectors)
+
 		spacer = QWidget()
 		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 
 
 		self.notebook = QTabWidget()
 		self.notebook.setTabBar(QHTabBar())
+		css_apply(self.notebook,"style_h.css")
 
 		self.notebook.setTabPosition(QTabWidget.West)
 		self.notebook.setMovable(True)

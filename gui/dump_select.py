@@ -189,6 +189,22 @@ class dump_select(QWidget):
 					#print(os.path.join(root, name))	
 		return outout_files,true_false_list
 
+	def scan_root_dir(self):
+		outout_files=[]
+		true_false_list=[]
+		for name in os.listdir():
+			if name.endswith(".dat")==True:
+				name=self.wildcard_replace(name)
+					
+				full_name="root/"+name
+
+				if outout_files.count(full_name)==0:
+					outout_files.append(full_name)
+					true_false_list.append(True)
+				#print(os.path.join(root, name))	
+
+		return outout_files,true_false_list
+
 	def set_state(self,value):
 		self.tab.blockSignals(True)
 		iterator = QTreeWidgetItemIterator(self.tab)
@@ -242,10 +258,10 @@ class dump_select(QWidget):
 			while item is not None:
 				path.append(str(item.text(0)))
 				item = item.parent()
-
+			
 			path="/".join(reversed(path))
 			path=path.split('/', 1)[-1]
-			
+			print(path)
 			if path.count("/")!=0:
 				out.append("#file"+str(count))
 				out.append(path)
@@ -317,6 +333,10 @@ class dump_select(QWidget):
 		tf_list.extend(true_false)
 
 		files,true_false=self.scan_dir("equilibrium")
+		param_list.extend(files)
+		tf_list.extend(true_false)
+
+		files,true_false=self.scan_root_dir()
 		param_list.extend(files)
 		tf_list.extend(true_false)
 

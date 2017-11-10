@@ -41,10 +41,11 @@ from util_zip import archive_get_file_ver
 
 from cal_path import get_materials_path
 from cal_path import get_base_material_path
-from util_zip import archive_compact_files
+from util_zip import archive_compress
 from util_zip import extract_file_from_archive
 
 from inp_util import inp_merge
+from cal_path import get_default_material_path
 
 def update_simulaton_to_new_ver(file_name):
 	pre, ext = os.path.splitext(file_name)
@@ -52,7 +53,7 @@ def update_simulaton_to_new_ver(file_name):
 
 
 	if os.path.isfile(back_file)==False:
-		archive_compact_files(file_name)
+		archive_compress(file_name)
 		os.rename(file_name, back_file)
 
 		dest_dir = os.path.dirname(file_name)
@@ -60,7 +61,7 @@ def update_simulaton_to_new_ver(file_name):
 		pre, ext = os.path.splitext(file_name)
 		dest_archive = pre + ".gpvdm"
 
-		gpvdm_clone(dest_dir,False)
+		gpvdm_clone(dest_dir,copy_dirs=False)
 
 		merge_archives(back_file,dest_archive,False)
 	else:
@@ -120,11 +121,11 @@ def merge_archives(src_archive,dest_archive,only_over_write):
 	for i in range(0,len(ls)):
 		if inp_issequential_file(ls[i],"dos"):
 			files.append(ls[i])
-			base_file.append(os.path.join(get_base_material_path(),"generic","generic_organic","dos.inp"))
+			base_file.append(os.path.join(get_default_material_path(),"dos.inp"))
 
 		if inp_issequential_file(ls[i],"pl"):
 			files.append(ls[i])
-			base_file.append(os.path.join(get_base_material_path(),"generic","generic_organic","pl.inp"))
+			base_file.append(os.path.join(get_default_material_path(),"pl.inp"))
 
 		if inp_issequential_file(ls[i],"pulse"):
 			files.append(ls[i])

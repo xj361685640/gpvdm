@@ -53,6 +53,7 @@ from cal_path import test_arg_for_sim_file
 from cal_path import set_sim_path
 from import_archive import patch_file
 from inp import inp_encrypt
+from util_zip import archive_decompress
 
 import i18n
 _ = i18n.language.gettext
@@ -79,6 +80,8 @@ parser.add_argument("--scanplot", help=_("Runs an oplot file, usage --scanplot /
 parser.add_argument("--runscan", help=_("Runs a scan, usage --runscan /path/containing/base/files/ /path/to/scan/dir/ "), nargs=2)
 parser.add_argument("--load", help=_("Loads a simulation --load /path/containing/simulation/sim.gpvdm"), nargs=1)
 parser.add_argument("--encrypt", help=_("Encrypt a gpvdm file --file sim.gpvdm"), nargs=1)
+parser.add_argument("--extract", help=_("Extract the sim.gpvdm archive --extract"), action='store_true')
+
 
 
 if test_arg_for_sim_file()==False:
@@ -129,7 +132,7 @@ def command_args(argc,argv):
 			patch_file(args.patchfile[0],args.patchfile[1],args.patchfile[2])
 			sys.exit(0)
 		elif args.clone:
-			gpvdm_clone(os.getcwd(),True)
+			gpvdm_clone(os.getcwd(),copy_dirs=True)
 			sys.exit(0)
 		elif args.clonesrc:
 			gpvdm_copy_src(clone-src[0])
@@ -141,6 +144,9 @@ def command_args(argc,argv):
 			set_sim_path(os.path.dirname(args.load[0]))
 		elif args.encrypt:
 			inp_encrypt(args.encrypt[0])
+			sys.exit(0)
+		elif args.extract:
+			archive_decompress("sim.gpvdm")
 			sys.exit(0)
 		elif args.scanplot:
 			plot_token=dat_file()

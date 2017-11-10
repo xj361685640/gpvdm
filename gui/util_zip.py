@@ -19,20 +19,10 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-#import sys
 import os
 import shutil
-#import signal
-#import subprocess
 from tempfile import mkstemp
-#import logging
 import zipfile
-#import re
-#from numpy import zeros
-#import hashlib
-#import glob
-#from win_lin import running_on_linux
-#from cal_path import get_inp_file_path
 from inp_util import inp_merge
 from inp_util import inp_search_token_value
 
@@ -50,7 +40,7 @@ def archive_copy_file(dest_archive,dest_file_name,src_archive,file_name,dest="ar
 def archive_make_empty(archive_path):
 		zf = zipfile.ZipFile(archive_path, 'w')
 
-		zf.writestr("gpvdm.txt", "")
+		#zf.writestr("gpvdm.txt", "")
 		zf.close()
 
 def zip_lsdir(file_name):
@@ -120,38 +110,22 @@ def check_is_config_file(name):
 	return found
 
 
-def replace_file_in_zip_archive(zip_file_name,target,lines,mode="l"):
+def replace_file_in_zip_archive(zip_file_name,target,lines,mode="l",delete_first=True):
 	if os.path.isfile(zip_file_name)==True:
-		fh, abs_path = mkstemp()
-		source = zipfile.ZipFile(zip_file_name, 'r')
+		if delete_first==True:
+			zip_remove_file(zip_file_name,target)
 
-		zf = zipfile.ZipFile(abs_path, 'w')
-
-		for file in source.filelist:
-			if not file.filename.startswith(target):
-				zf.writestr(file.filename, source.read(file))
-
-		source.close()
+		zf = zipfile.ZipFile(zip_file_name, 'a')
 
 		if mode=="l":
 			build='\n'.join(lines)
 
 		if mode=="b":
 			build=lines
-			
-		#for i in range(0,len(lines)):
-		#	build=build+lines[i]+"\n"
 
 		zf.writestr(target, build)
 
 		zf.close()
-		os.close(fh)
-
-		if os.path.isfile(zip_file_name)==True:
-			os.remove(zip_file_name)
-			shutil.move(abs_path, zip_file_name)
-		else:
-			shutil.move(abs_path, zip_file_name)
 
 		#print(">>>>>>>>>>>>>>>>>>>>",abs_path, zip_file_name)
 		return True
@@ -170,7 +144,8 @@ def zip_remove_file(zip_file_name,target):
 	if os.path.isfile(file_path)==True:
 		os.remove(file_path)
 
-	if os.path.isfile(zip_file_name):
+
+	if archive_isfile(zip_file_name,target)==True:
 		source = zipfile.ZipFile(zip_file_name, 'r')
 
 		found=zip_search_file(source,target)
@@ -218,7 +193,10 @@ def write_lines_to_archive(archive_path,file_name,lines,mode="l",dest="archive")
 	else:
 		return replace_file_in_zip_archive(archive_path,file_name,lines,mode=mode)
 
-def archive_compact_files(archive_path):
+def archive_compress(archive_path):
+	if os.path.isfile(archive_path)==False:
+		archive_make_empty(archive_path)
+
 	if os.path.isfile(archive_path)==True:
 		lines=[]
 		dir_name=os.path.dirname(archive_path)
@@ -226,8 +204,9 @@ def archive_compact_files(archive_path):
 			full_name=os.path.join(dir_name,file_name)
 			if file_name.endswith(".inp")==True:
 				lines=read_lines_from_archive(archive_path,file_name)
-				replace_file_in_zip_archive(archive_path,file_name,lines)
 				os.remove(full_name)
+				replace_file_in_zip_archive(archive_path,file_name,lines,delete_first=False)
+
 
 def archive_add_file(archive_path,file_name,base_dir):
 		lines=[]
@@ -296,6 +275,23 @@ def read_lines_from_archive(zip_file_path,file_name,mode="l"):
 		lines=read_lines
 
 	return lines
+
+def archive_decompress(zip_file_path):
+
+	if os.path.isfile(zip_file_path):
+		zf = zipfile.ZipFile(zip_file_path, 'r')
+		for file_name in zf.filelist:
+			read_lines = zf.read(file_name)
+
+			f=open(os.path.join(os.path.dirname(zip_file_path),file_name.filename), mode='wb')
+			f.write(read_lines)
+			f.close()
+
+		zf.close()
+
+		os.remove(zip_file_path)
+
+	return
 
 def extract_file_from_archive(dest,zip_file_path,file_name):
 

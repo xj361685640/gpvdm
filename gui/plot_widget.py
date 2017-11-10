@@ -297,7 +297,8 @@ class plot_widget(QWidget):
 		if self.data[0].legend_pos=="No key":
 			self.ax[i].legend_ = None
 		else:
-			self.fig.legend(all_plots, files, self.data[0].legend_pos)
+			if len(files)<40:
+				self.fig.legend(all_plots, files, self.data[0].legend_pos)
 			
 		#self.fig.tight_layout(pad=0.0, w_pad=0.0, h_pad=0.0)
 		self.fig.canvas.draw()

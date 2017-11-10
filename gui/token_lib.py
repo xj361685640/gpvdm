@@ -243,7 +243,7 @@ lib.append(my_data("dump.inp","#dump_write_out_band_structure",_("True/False"),_
 lib.append(my_data("dump.inp","#dump_iodump","","","e",1.0,"QLineEdit"))
 lib.append(my_data("dump.inp","#dump_movie","","","e",1.0,"QLineEdit"))
 lib.append(my_data("dump.inp","#dump_optics",_("True/False"),_("Dump optical information"),"e",1.0,"gtkswitch"))
-lib.append(my_data("dump.inp","#dump_optics_verbose","","","e",1.0,"QLineEdit"))
+lib.append(my_data("dump.inp","#dump_optics_verbose",_("True/False"),_("Dump optics verbose"),"e",1.0,"gtkswitch"))
 lib.append(my_data("dump.inp","#dump_print_newtonerror",_("True/False"),_("Print newton error"),"e",1.0,"gtkswitch"))
 lib.append(my_data("dump.inp","#dump_print_converge",_("True/False"),_("Print solver convergence"),"e",1.0,"gtkswitch"))
 lib.append(my_data("dump.inp","#dump_write_converge",_("True/False"),_("Write newton solver convergence to disk"),"e",1.0,"gtkswitch"))
@@ -262,6 +262,7 @@ lib.append(my_data("dump.inp","#dump_write_headers",_("True/False"),_("Write hea
 lib.append(my_data("dump.inp","#dump_energy_slice_switch",_("True/False"),_("Write energetic distribution of carriers"),"e",1.0,"gtkswitch"))
 lib.append(my_data("dump.inp","#dump_energy_slice_pos","au",_("Position energetic distribution to dump"),"e",1.0,"QLineEdit"))
 lib.append(my_data("dump.inp","#dump_first_guess",_("True/False"),_("Write first guess to equations"),"e",1.0,"gtkswitch"))
+lib.append(my_data("dump.inp","#dump_log_level","au",_("Log verbocity"),"s",1.0,"QComboBoxLang",defaults=[[("none"),_("None")],["screen",_("Screen")],["disk",_("Disk")],["screen_and_disk",_("Screen and disk")]]))
 
 
 #led.inp

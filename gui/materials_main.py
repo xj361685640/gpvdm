@@ -122,8 +122,10 @@ class materials_main(QWidgetSavePos):
 
 		for i in range(0,len(files)):
 			tab=tab_class()
-			tab.init(os.path.join(self.path,files[i]),description[i])
-			self.notebook.addTab(tab,description[i])
+			full_path=os.path.join(self.path,files[i])
+			if os.path.isfile(full_path)==True:
+				tab.init(os.path.join(self.path,files[i]),description[i])
+				self.notebook.addTab(tab,description[i])
 
 		alpha=equation(self.path,"alpha_eq.inp","alpha_gen.omat","alpha.omat","#mat_default_file_alpha")
 		alpha.set_default_value("1e7")
