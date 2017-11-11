@@ -9,10 +9,11 @@ all: main.c $(OBJS)
 	$(CC) main.c $(OBJS) -o ../gpvdm_core@EXE_EXT@ @WIN_RES_FILE@ $(inc) @COMPILE_FLAG@ -Wl,--whole-archive @LOCAL_LINK@ -Wl,--no-whole-archive @LDFLAGS@ @LIBS@
 	ln -s -f gpvdm_core ../go.o
 	ln -s -f ./gui/gpvdm.py ../gpvdm
+	cp ../sim.gpvdm ../base.gpvdm -f
 
 
 .c.o : 
 	$(CC) -c $(DEFINE_FLAGS) $(inc) $(CPPFLAGS) $(warn) @COMPILE_FLAG@ $< -o $@
 
 clean:
-	rm *.o *.a *.dll *.exe -f
+	rm *.o *.a *.dll *.exe ../base.gpvdm -f

@@ -38,6 +38,7 @@ static int unused __attribute__((unused));
 void sim_optics(struct simulation *sim,struct device *in)
 {
 
+	dumpfiles_turn_on_dir(sim,"light_dump");
 	set_dump_status(sim,dump_lock, FALSE);
 	//set_dump_status(sim,dump_optics, TRUE);
 	//set_dump_status(sim,dump_optics_verbose, TRUE);
@@ -53,6 +54,9 @@ void sim_optics(struct simulation *sim,struct device *in)
 
 
 	light_load_config(sim,&two);
+
+	light_setup_dump_dir(sim,&two);
+
 	//two.Psun=1.0;
 	light_load_dlls(sim,&two);
 	//light_set_dx(&cell.mylight,cell.ymesh[1]-cell.ymesh[0]);

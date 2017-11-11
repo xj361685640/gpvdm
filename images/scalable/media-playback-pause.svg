@@ -15,7 +15,7 @@
    id="svg3885"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="pause.svg"
+   sodipodi:docname="media-playback-pause.svg"
    inkscape:export-filename="/home/rod/wolfgang/hpc/3/orig/gui/pause.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
@@ -182,23 +182,6 @@
        id="linearGradient3960"
        xlink:href="#linearGradient3810-5"
        inkscape:collect="always" />
-    <filter
-       inkscape:collect="always"
-       id="filter3992">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="0.17183353"
-         id="feGaussianBlur3994" />
-    </filter>
-    <filter
-       color-interpolation-filters="sRGB"
-       inkscape:collect="always"
-       id="filter3992-5">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="0.17183353"
-         id="feGaussianBlur3994-1" />
-    </filter>
     <linearGradient
        inkscape:collect="always"
        xlink:href="#linearGradient3810-4"
@@ -281,17 +264,17 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="5.547257"
-     inkscape:cx="-88.105085"
-     inkscape:cy="81.917158"
+     inkscape:zoom="11.094514"
+     inkscape:cx="-11.646504"
+     inkscape:cy="41.120197"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:grid-bbox="true"
      inkscape:document-units="px"
-     inkscape:window-width="1440"
-     inkscape:window-height="818"
+     inkscape:window-width="1920"
+     inkscape:window-height="953"
      inkscape:window-x="0"
-     inkscape:window-y="29"
+     inkscape:window-y="49"
      inkscape:window-maximized="1" />
   <metadata
      id="metadata3890">
@@ -301,7 +284,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
         <dc:creator>
           <cc:Agent>
             <dc:title>Roderick C. I. MacKenzie</dc:title>
@@ -316,7 +299,7 @@
      inkscape:groupmode="layer">
     <g
        id="g3979"
-       style="filter:url(#filter3992)"
+       style=""
        transform="translate(1.316659,0.43888634)">
       <path
          sodipodi:nodetypes="ccccc"
@@ -340,7 +323,7 @@
     <g
        transform="translate(13.865432,0.27344668)"
        id="g3979-0"
-       style="filter:url(#filter3992-5)">
+       style="">
       <path
          sodipodi:nodetypes="ccccc"
          inkscape:connector-curvature="0"

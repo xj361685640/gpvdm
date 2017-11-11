@@ -2,7 +2,7 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012-2017 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+//  Copyright (C) 2012-2017 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
 //	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -43,6 +43,7 @@ static struct istruct spectrum_first;
 //static struct istruct spectrum_reflect_first;
 //static struct istruct reflect;
 static int first=FALSE;
+static int probe_enable=TRUE;
 
 gdouble probe_cal(struct simulation *sim,struct device *in,	gdouble wavelength)
 {

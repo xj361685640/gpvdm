@@ -246,9 +246,9 @@ int i;
 
 gdouble E=0.0;
 //gdouble tot0=0.0;
-for  (i=0;i<in->lpoints;i++)
+for (i=0;i<in->lpoints;i++)
 {
-	in->sun[i]=in->sun_norm[i]*power*1000.0;		//The 1000 is because it is 1000 W/m2
+	in->sun[i]=in->sun_norm[i]*power*in->Psun0;
 
 	E=hp*cl/in->l[i];
 	in->sun_photons[i]=in->sun[i]/E;
@@ -262,7 +262,6 @@ for  (i=0;i<in->lpoints;i++)
 	}
 
 	in->sun_E[i]=gpow(2.0*(in->sun_photons[i]*E)/(epsilon0*cl*in->n[i][0]),0.5);
-
 
 }
 

@@ -2,7 +2,7 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012-2017 Roderick C. I. MacKenzie r.c.i.mackenzie AT googlemail.com
+//  Copyright (C) 2012-2017 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
 //	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -23,6 +23,7 @@
 #include "dump.h"
 #include "inp.h"
 #include "log.h"
+#include "dump.h"
 #include <cal_path.h>
 
 void dump_load_config(struct simulation* sim,struct device *in)
@@ -33,7 +34,7 @@ void dump_load_config(struct simulation* sim,struct device *in)
 
 	inp_load_from_path(sim,&inp,get_input_path(sim),"dump.inp");
 
-	inp_check(sim,&inp,1.44);
+	inp_check(sim,&inp,1.50);
 
 	dump=inp_search_english(sim,&inp,"#plot");
 	set_dump_status(sim,dump_plot,dump);
@@ -43,6 +44,9 @@ void dump_load_config(struct simulation* sim,struct device *in)
 
 	dump=inp_search_english(sim,&inp,"#dump_dynamic");
 	set_dump_status(sim,dump_dynamic, dump);
+
+	dump=inp_search_english(sim,&inp,"#dump_fx");
+	set_dump_status(sim,dump_fx, dump);
 
 	in->stop_start=inp_search_english(sim,&inp,"#startstop");
 
@@ -97,9 +101,6 @@ void dump_load_config(struct simulation* sim,struct device *in)
 	dump=inp_search_english(sim,&inp,"#dump_write_out_band_structure");
 	set_dump_status(sim,dump_write_out_band_structure, dump);
 
-	dump=inp_search_english(sim,&inp,"#dump_equilibrium");
-	set_dump_status(sim,dump_equilibrium, dump);
-
 	dump=inp_search_english(sim,&inp,"#dump_first_guess");
 	set_dump_status(sim,dump_first_guess, dump);
 
@@ -121,15 +122,18 @@ void dump_load_config(struct simulation* sim,struct device *in)
 	dump=inp_search_english(sim,&inp,"#dump_info_text");
 	set_dump_status(sim,dump_info_text, dump);
 
-	dump=inp_search_english(sim,&inp,"#dump_built_in_voltage");
-	set_dump_status(sim,dump_built_in_voltage, dump);
-
 	dump=inp_search_english(sim,&inp,"#dump_ray_trace_map");
 	set_dump_status(sim,dump_ray_trace_map, dump);
 
 	dump=inp_search_english(sim,&inp,"#dump_file_access_log");
 	set_dump_status(sim,dump_file_access_log, dump);
-	
+
+	dump=inp_search_english(sim,&inp,"#dump_use_cache");
+	set_dump_status(sim,dump_use_cache, dump);
+
+	dump=inp_search_english(sim,&inp,"#dump_write_headers");
+	set_dump_status(sim,dump_write_headers, dump);	
+
 	inp_free(sim,&inp);
 
 

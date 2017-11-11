@@ -36,4 +36,8 @@ void set_output_path(struct simulation *sim,char *in);
 int find_dll(struct simulation *sim, char *lib_path,char *lib_name);
 void join_path(int max, ...);
 void assert_platform_path(char * path);
+void get_file_name_from_path(char *out,char *in);
+void get_nth_dir_name_from_path(char *out,char *in,int n);
+int is_dir_in_path(char *long_path, char* search_dir);
+int get_delta_path(struct simulation *sim,char *out, char *root,char *file_name);
 #endif

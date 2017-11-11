@@ -2,7 +2,7 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 -2016 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+//  Copyright (C) 2012 -2016 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
 //	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -39,7 +39,7 @@ dump_number=0;
 set_dump_status(sim,dump_lock, FALSE);
 }
 
-void buffer_add_3d_device_data(struct buffer *buf,struct device *in,gdouble ***data)
+void buffer_add_3d_device_data(struct simulation *sim,struct buffer *buf,struct device *in,gdouble ***data)
 {
 int x=0;
 int y=0;
@@ -50,10 +50,12 @@ gdouble ypos=0.0;
 gdouble zpos=0.0;
 
 char string[200];
+if (get_dump_status(sim,dump_write_headers)==TRUE)
+{
+	sprintf(string,"#data\n");
+	buffer_add_string(buf,string);
+}
 
-sprintf(string,"#data\n");
-buffer_add_string(buf,string);
-			
 if ((in->xmeshpoints>1)&&(in->ymeshpoints>1)&&(in->zmeshpoints>1))
 {
 	for (z=0;z<in->zmeshpoints;z++)
@@ -91,8 +93,96 @@ if ((in->xmeshpoints>1)&&(in->ymeshpoints>1))
 	}
 }
 
-sprintf(string,"#end\n");
-buffer_add_string(buf,string);
+if (get_dump_status(sim,dump_write_headers)==TRUE)
+{
+	sprintf(string,"#end\n");
+	buffer_add_string(buf,string);
+}
+	
+}
+
+void buffer_add_3d_device_data_including_boundaries(struct simulation *sim,struct buffer *buf,struct device *in,gdouble ***data,long double left,long double right)
+{
+int x=0;
+int y=0;
+int z=0;
+
+gdouble xpos=0.0;
+gdouble ypos=0.0;
+gdouble zpos=0.0;
+
+char string[200];
+
+if (get_dump_status(sim,dump_write_headers)==TRUE)
+{
+	sprintf(string,"#data\n");
+	buffer_add_string(buf,string);
+}
+
+if ((in->xmeshpoints>1)&&(in->ymeshpoints>1)&&(in->zmeshpoints>1))
+{
+	for (z=0;z<in->zmeshpoints;z++)
+	{
+		for (x=0;x<in->xmeshpoints;x++)
+		{
+			sprintf(string,"%Le %Le\n",(long double)0.0,left);
+			buffer_add_string(buf,string);
+
+			for (y=0;y<in->ymeshpoints;y++)
+			{
+				sprintf(string,"%Le %Le %Le %Le\n",in->xmesh[x],in->ymesh[y],in->zmesh[z],data[z][x][y]);
+				buffer_add_string(buf,string);
+			}
+
+			sprintf(string,"%Le %Le\n",in->ylen,right);
+			buffer_add_string(buf,string);
+
+		}
+	}
+}else
+if ((in->xmeshpoints>1)&&(in->ymeshpoints>1))
+{
+	z=0;
+	for (x=0;x<in->xmeshpoints;x++)
+	{
+		sprintf(string,"%Le %Le\n",(long double)0.0,left);
+		buffer_add_string(buf,string);
+
+		for (y=0;y<in->ymeshpoints;y++)
+		{
+			sprintf(string,"%Le %Le %Le\n",in->xmesh[x],in->ymesh[y],data[z][x][y]);
+			buffer_add_string(buf,string);
+		}
+
+		sprintf(string,"%Le %Le\n",in->ylen,right);
+		buffer_add_string(buf,string);
+
+		buffer_add_string(buf,"\n");
+	}
+}else
+{
+	x=0;
+	z=0;
+	sprintf(string,"%Le %Le\n",(long double)0.0,left);
+	buffer_add_string(buf,string);
+
+	for (y=0;y<in->ymeshpoints;y++)
+	{
+		sprintf(string,"%Le %Le\n",in->ymesh[y],data[z][x][y]);
+		buffer_add_string(buf,string);
+	}
+
+	sprintf(string,"%Le %Le\n",in->ylen,right);
+	buffer_add_string(buf,string);
+
+}
+
+if (get_dump_status(sim,dump_write_headers)==TRUE)
+{
+	sprintf(string,"#end\n");
+	buffer_add_string(buf,string);
+}
+
 }
 
 void buffer_set_graph_type(struct buffer *buf,struct device *in)
@@ -119,6 +209,8 @@ char out_dir[PATH_MAX];
 char slice_info_file[PATH_MAX];
 char snapshot_dir[PATH_MAX];
 char sim_name[PATH_MAX];
+struct buffer buf;
+buffer_init(&buf);
 
 strextract_name(sim_name,in->simmode);
 
@@ -126,48 +218,52 @@ sprintf(snapshot_dir,"snapshots");
 
 int dumped=FALSE;
 FILE* out;
-struct stat st = {0};
 
 	sprintf(postfix,"%d",dump_number);
 	if ((get_dump_status(sim,dump_pl)==TRUE)||(get_dump_status(sim,dump_energy_slice_switch)==TRUE)||(get_dump_status(sim,dump_1d_slices)==TRUE)||(get_dump_status(sim,dump_optical_probe_spectrum)==TRUE))
 	{
 		join_path(2,snapshots_dir,get_output_path(sim),snapshot_dir);
 
-		if (stat(snapshots_dir, &st) == -1)
-		{
-				mkdir(snapshots_dir, 0700);
-			
-		}
 
-		join_path(2,temp,snapshots_dir,"snapshots.inp");
-		out=fopen(temp,"w");
-		fprintf(out,"#end");
-		fclose(out);
+		buffer_add_dir(sim,snapshots_dir);
+
+		buffer_malloc(&buf);
+
+		sprintf(temp,"#end\n");
+		buffer_add_string(&buf,temp);
+
+		buffer_dump_path(sim,snapshots_dir,"snapshots.inp",&buf);
+		buffer_free(&buf);
 
 		join_path(2,out_dir,snapshots_dir,postfix);
 
-		if (stat(out_dir, &st) == -1)
-		{
-			mkdir(out_dir, 0700);
-		}
+		buffer_add_dir(sim,out_dir);
 
-		join_path(2,slice_info_file,out_dir,"snapshot_info.dat");
+		buffer_malloc(&buf);
 
-		out=fopen(slice_info_file,"w");
-		if (out!=NULL)
-		{
-			fprintf(out,"#dump_voltage\n");
-			fprintf(out,"%Lf\n",get_equiv_V(sim,in));
-			fprintf(out,"#dump_time\n");
-			fprintf(out,"%Lf\n",in->time);
-			fprintf(out,"#ver\n");
-			fprintf(out,"1.0\n");
-			fprintf(out,"#end\n");
-			fclose(out);
-		}else
-		{
-			ewe(sim,"Can't write to file %s\n",slice_info_file);
-		}
+		sprintf(temp,"#dump_voltage\n");
+		buffer_add_string(&buf,temp);
+
+		sprintf(temp,"%Lf\n",get_equiv_V(sim,in));
+		buffer_add_string(&buf,temp);
+
+		sprintf(temp,"#dump_time\n");
+		buffer_add_string(&buf,temp);
+
+		sprintf(temp,"%Lf\n",in->time);
+		buffer_add_string(&buf,temp);
+
+		sprintf(temp,"#ver\n");
+		buffer_add_string(&buf,temp);
+
+		sprintf(temp,"1.0\n");
+		buffer_add_string(&buf,temp);
+
+		sprintf(temp,"#end\n");
+		buffer_add_string(&buf,temp);
+
+		buffer_dump_path(sim,out_dir,"snapshot_info.dat",&buf);
+		buffer_free(&buf);
 
 	}
 

@@ -3739,7 +3739,7 @@ fi
 
 done
 
-DLL_LINKER="-L/home/rod/windll/compiled_dlls/ -Wl,--out-implib,plugin.a -lgpvdm_light -lgpvdm_lib -lgpvdm_dump -lgpvdm_measure -lgpvdm_dos -lgpvdm_dumpctrl -lgpvdm_light -lgpvdm_i -lzip-2 -lumfpack -lgpvdm_mesh -lgpvdm_memory -lintl"
+DLL_LINKER="-L/home/rod/windll/compiled_dlls/ -Wl,--out-implib,plugin.a -Wl,--start-group -lgpvdm_light -lgpvdm_lib -lgpvdm_dump -lgpvdm_measure -lgpvdm_contacts -lgpvdm_dos -lgpvdm_dumpctrl -lgpvdm_light -lgpvdm_i -lzip-2 -lumfpack -lgpvdm_mesh -lgpvdm_memory -lintl -Wl,--end-group"
 
 DLL_COMPILE="-DBUILDING_EXAMPLE_DLL"
 
@@ -5908,9 +5908,9 @@ fi
 #i?86
 #x86_64
 
-BUILD_DIRS=" lang libi libmemory lib libdos liblight libmeasure libdump libdumpctrl libserver libmesh libfit plugins/optics plugins/newton plugins/nr_d plugins/pulse plugins/fxdomain plugins/light_flat plugins/light_ray plugins/li plugins/light_full plugins/newton_2d plugins/fit_stark plugins/nr_ld plugins/photon_extraction plugins/jv plugins/light_exp plugins/qe plugins/umfpack plugins/jv_one_point plugins/jv_simple plugins/sun_voc plugins/light_fromfile plugins/newton_norm src images/16x16 images/32x32 images/48x32 images/64x64 css man "
+BUILD_DIRS=" lang libi librpn libmemory libdos liblight libmeasure libcontacts lib libdump libdumpctrl libserver libmesh libfit plugins/umfpack plugins/qe plugins/light_exp plugins/pulse plugins/light_fromfile plugins/jv_simple plugins/newton plugins/light_ray plugins/jv plugins/fxdomain plugins/li plugins/nr_ld plugins/optics plugins/nr_d plugins/photon_extraction plugins/sun_voc plugins/equilibrium plugins/light_full plugins/newton_norm plugins/fit_stark plugins/newton_2d plugins/light_flat plugins/jv_one_point src images/16x16 images/32x32 images/48x32 images/64x64 css man "
 
-LOCAL_LINK=" -lgpvdm_i -lgpvdm_memory -lgpvdm_lib -lgpvdm_dos -lgpvdm_light -lgpvdm_measure -lgpvdm_dump -lgpvdm_dumpctrl -lgpvdm_server -lgpvdm_mesh -lgpvdm_fit"
+LOCAL_LINK=" -lgpvdm_i -lgpvdm_rpn -lgpvdm_memory -lgpvdm_dos -lgpvdm_light -lgpvdm_measure -lgpvdm_contacts -lgpvdm_lib -lgpvdm_dump -lgpvdm_dumpctrl -lgpvdm_server -lgpvdm_mesh -lgpvdm_fit"
 
 
 if test -n "$ac_tool_prefix"; then
@@ -6185,15 +6185,19 @@ ac_config_files="$ac_config_files lang/Makefile"
 
 ac_config_files="$ac_config_files libi/Makefile"
 
-ac_config_files="$ac_config_files libmemory/Makefile"
+ac_config_files="$ac_config_files librpn/Makefile"
 
-ac_config_files="$ac_config_files lib/Makefile"
+ac_config_files="$ac_config_files libmemory/Makefile"
 
 ac_config_files="$ac_config_files libdos/Makefile"
 
 ac_config_files="$ac_config_files liblight/Makefile"
 
 ac_config_files="$ac_config_files libmeasure/Makefile"
+
+ac_config_files="$ac_config_files libcontacts/Makefile"
+
+ac_config_files="$ac_config_files lib/Makefile"
 
 ac_config_files="$ac_config_files libdump/Makefile"
 
@@ -6205,49 +6209,51 @@ ac_config_files="$ac_config_files libmesh/Makefile"
 
 ac_config_files="$ac_config_files libfit/Makefile"
 
-ac_config_files="$ac_config_files plugins/optics/Makefile"
-
-ac_config_files="$ac_config_files plugins/newton/Makefile"
-
-ac_config_files="$ac_config_files plugins/nr_d/Makefile"
-
-ac_config_files="$ac_config_files plugins/pulse/Makefile"
-
-ac_config_files="$ac_config_files plugins/fxdomain/Makefile"
-
-ac_config_files="$ac_config_files plugins/light_flat/Makefile"
-
-ac_config_files="$ac_config_files plugins/light_ray/Makefile"
-
-ac_config_files="$ac_config_files plugins/li/Makefile"
-
-ac_config_files="$ac_config_files plugins/light_full/Makefile"
-
-ac_config_files="$ac_config_files plugins/newton_2d/Makefile"
-
-ac_config_files="$ac_config_files plugins/fit_stark/Makefile"
-
-ac_config_files="$ac_config_files plugins/nr_ld/Makefile"
-
-ac_config_files="$ac_config_files plugins/photon_extraction/Makefile"
-
-ac_config_files="$ac_config_files plugins/jv/Makefile"
-
-ac_config_files="$ac_config_files plugins/light_exp/Makefile"
+ac_config_files="$ac_config_files plugins/umfpack/Makefile"
 
 ac_config_files="$ac_config_files plugins/qe/Makefile"
 
-ac_config_files="$ac_config_files plugins/umfpack/Makefile"
+ac_config_files="$ac_config_files plugins/light_exp/Makefile"
 
-ac_config_files="$ac_config_files plugins/jv_one_point/Makefile"
-
-ac_config_files="$ac_config_files plugins/jv_simple/Makefile"
-
-ac_config_files="$ac_config_files plugins/sun_voc/Makefile"
+ac_config_files="$ac_config_files plugins/pulse/Makefile"
 
 ac_config_files="$ac_config_files plugins/light_fromfile/Makefile"
 
+ac_config_files="$ac_config_files plugins/jv_simple/Makefile"
+
+ac_config_files="$ac_config_files plugins/newton/Makefile"
+
+ac_config_files="$ac_config_files plugins/light_ray/Makefile"
+
+ac_config_files="$ac_config_files plugins/jv/Makefile"
+
+ac_config_files="$ac_config_files plugins/fxdomain/Makefile"
+
+ac_config_files="$ac_config_files plugins/li/Makefile"
+
+ac_config_files="$ac_config_files plugins/nr_ld/Makefile"
+
+ac_config_files="$ac_config_files plugins/optics/Makefile"
+
+ac_config_files="$ac_config_files plugins/nr_d/Makefile"
+
+ac_config_files="$ac_config_files plugins/photon_extraction/Makefile"
+
+ac_config_files="$ac_config_files plugins/sun_voc/Makefile"
+
+ac_config_files="$ac_config_files plugins/equilibrium/Makefile"
+
+ac_config_files="$ac_config_files plugins/light_full/Makefile"
+
 ac_config_files="$ac_config_files plugins/newton_norm/Makefile"
+
+ac_config_files="$ac_config_files plugins/fit_stark/Makefile"
+
+ac_config_files="$ac_config_files plugins/newton_2d/Makefile"
+
+ac_config_files="$ac_config_files plugins/light_flat/Makefile"
+
+ac_config_files="$ac_config_files plugins/jv_one_point/Makefile"
 
 ac_config_files="$ac_config_files src/Makefile"
 
@@ -7042,38 +7048,41 @@ do
     "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
     "lang/Makefile") CONFIG_FILES="$CONFIG_FILES lang/Makefile" ;;
     "libi/Makefile") CONFIG_FILES="$CONFIG_FILES libi/Makefile" ;;
+    "librpn/Makefile") CONFIG_FILES="$CONFIG_FILES librpn/Makefile" ;;
     "libmemory/Makefile") CONFIG_FILES="$CONFIG_FILES libmemory/Makefile" ;;
-    "lib/Makefile") CONFIG_FILES="$CONFIG_FILES lib/Makefile" ;;
     "libdos/Makefile") CONFIG_FILES="$CONFIG_FILES libdos/Makefile" ;;
     "liblight/Makefile") CONFIG_FILES="$CONFIG_FILES liblight/Makefile" ;;
     "libmeasure/Makefile") CONFIG_FILES="$CONFIG_FILES libmeasure/Makefile" ;;
+    "libcontacts/Makefile") CONFIG_FILES="$CONFIG_FILES libcontacts/Makefile" ;;
+    "lib/Makefile") CONFIG_FILES="$CONFIG_FILES lib/Makefile" ;;
     "libdump/Makefile") CONFIG_FILES="$CONFIG_FILES libdump/Makefile" ;;
     "libdumpctrl/Makefile") CONFIG_FILES="$CONFIG_FILES libdumpctrl/Makefile" ;;
     "libserver/Makefile") CONFIG_FILES="$CONFIG_FILES libserver/Makefile" ;;
     "libmesh/Makefile") CONFIG_FILES="$CONFIG_FILES libmesh/Makefile" ;;
     "libfit/Makefile") CONFIG_FILES="$CONFIG_FILES libfit/Makefile" ;;
-    "plugins/optics/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/optics/Makefile" ;;
-    "plugins/newton/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/newton/Makefile" ;;
-    "plugins/nr_d/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/nr_d/Makefile" ;;
-    "plugins/pulse/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/pulse/Makefile" ;;
-    "plugins/fxdomain/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/fxdomain/Makefile" ;;
-    "plugins/light_flat/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/light_flat/Makefile" ;;
-    "plugins/light_ray/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/light_ray/Makefile" ;;
-    "plugins/li/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/li/Makefile" ;;
-    "plugins/light_full/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/light_full/Makefile" ;;
-    "plugins/newton_2d/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/newton_2d/Makefile" ;;
-    "plugins/fit_stark/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/fit_stark/Makefile" ;;
-    "plugins/nr_ld/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/nr_ld/Makefile" ;;
-    "plugins/photon_extraction/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/photon_extraction/Makefile" ;;
-    "plugins/jv/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/jv/Makefile" ;;
-    "plugins/light_exp/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/light_exp/Makefile" ;;
-    "plugins/qe/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/qe/Makefile" ;;
     "plugins/umfpack/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/umfpack/Makefile" ;;
-    "plugins/jv_one_point/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/jv_one_point/Makefile" ;;
-    "plugins/jv_simple/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/jv_simple/Makefile" ;;
-    "plugins/sun_voc/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/sun_voc/Makefile" ;;
+    "plugins/qe/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/qe/Makefile" ;;
+    "plugins/light_exp/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/light_exp/Makefile" ;;
+    "plugins/pulse/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/pulse/Makefile" ;;
     "plugins/light_fromfile/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/light_fromfile/Makefile" ;;
+    "plugins/jv_simple/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/jv_simple/Makefile" ;;
+    "plugins/newton/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/newton/Makefile" ;;
+    "plugins/light_ray/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/light_ray/Makefile" ;;
+    "plugins/jv/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/jv/Makefile" ;;
+    "plugins/fxdomain/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/fxdomain/Makefile" ;;
+    "plugins/li/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/li/Makefile" ;;
+    "plugins/nr_ld/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/nr_ld/Makefile" ;;
+    "plugins/optics/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/optics/Makefile" ;;
+    "plugins/nr_d/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/nr_d/Makefile" ;;
+    "plugins/photon_extraction/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/photon_extraction/Makefile" ;;
+    "plugins/sun_voc/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/sun_voc/Makefile" ;;
+    "plugins/equilibrium/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/equilibrium/Makefile" ;;
+    "plugins/light_full/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/light_full/Makefile" ;;
     "plugins/newton_norm/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/newton_norm/Makefile" ;;
+    "plugins/fit_stark/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/fit_stark/Makefile" ;;
+    "plugins/newton_2d/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/newton_2d/Makefile" ;;
+    "plugins/light_flat/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/light_flat/Makefile" ;;
+    "plugins/jv_one_point/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/jv_one_point/Makefile" ;;
     "src/Makefile") CONFIG_FILES="$CONFIG_FILES src/Makefile" ;;
     "images/16x16/Makefile") CONFIG_FILES="$CONFIG_FILES images/16x16/Makefile" ;;
     "images/32x32/Makefile") CONFIG_FILES="$CONFIG_FILES images/32x32/Makefile" ;;

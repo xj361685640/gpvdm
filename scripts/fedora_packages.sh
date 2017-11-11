@@ -20,11 +20,16 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-yum install texlive ghostscript ImageMagick python-inotify vte mencoder pywebkitgtk python-matplotlib unifdef indent numpy zlib-devel libzip-devel suitesparse-devel openssl-devel gsl-devel libcurl-devel blas-devel help2man librsvg2-tools
+yum install texlive ghostscript ImageMagick vte mencoder unifdef indent zlib-devel libzip-devel suitesparse-devel openssl-devel gsl-devel libcurl-devel blas-devel help2man librsvg2-tools
 
 yum install libmatheval-devel valgrind @development-tools fedora-packager pciutils-devel python-crypto python-awake mingw32-gcc
 
-yum install suitesparse-devel openssl-libs openssl-libs-devel openssl-devel libzip libzip-devel gsl-devel blas-devel numpy notify-python python-inotify.noarch python-matplotlib webkitgtk-devel pywebkitgtk
+yum install suitesparse-devel openssl-libs openssl-libs-devel openssl-devel libzip libzip-devel gsl-devel blas-devel 
 
-yum install unifdef indent libcurl-devel python2-matplotlib-gtk poedit
+#libs
 
+#tools
+yum install unifdef indent libcurl-devel poedit ElectricFence kcachegrind
+
+#python packages
+yum install python3-qt5-devel python3-crypto python3-matplotlib-qt5 python3-openpyxl python3-pyopengl numpy notify-python python-inotify.noarch python-matplotlib python-inotify python-matplotlib

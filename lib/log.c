@@ -49,14 +49,17 @@ void log_clear(struct simulation *sim)
 	FILE* out;
 	char temp[500];
 	join_path(2,temp,get_output_path(sim),"log.dat");
-	out=fopen(temp,"w");
-	fprintf(out,"gpvdm log file:\n");
-	fclose(out);
+	remove(temp);
+	//out=fopen(temp,"w");
+	//fprintf(out,"gpvdm log file:\n");
+	//fclose(out);
 	
 	join_path(2,temp,sim->root_simulation_path,"log_file_access.dat");
-	out=fopen(temp,"w");
-	fprintf(out,"gpvdm file access log file:\n");
-	fclose(out);
+	remove(temp);
+
+	//out=fopen(temp,"w");
+	//fprintf(out,"gpvdm file access log file:\n");
+	//fclose(out);
 		
 }
 

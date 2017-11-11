@@ -35,5 +35,4 @@ struct jv
 
 void sim_jv(struct simulation *sim,struct device *in);
 void jv_load_config(struct simulation *sim,struct jv* in,struct device *dev);
-void newton_sim_jv(struct simulation  *sim,struct device *in);
 #endif

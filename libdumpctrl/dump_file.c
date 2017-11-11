@@ -26,18 +26,46 @@
 
 int dumpfiles_should_dump(struct simulation* sim,char *name)
 {
+	char rel_path[1000];
+	get_delta_path(sim,rel_path, get_output_path(sim),name);
+
+	if (sim->dumpfiles<1)
+	{
+		return 0;
+	}
+
+	int in_path=FALSE;
+	char file_name[200];
+	char dir_name[200];
+	get_file_name_from_path(file_name,rel_path);
+
 	int i;
 	for (i=0;i<sim->dumpfiles;i++)
 	{
- 	
-		if (fnmatch2(sim->dumpfile[i].filename, name)==0)
+
+		//printf("'%s' '%s' %d\n",sim->dumpfile[i].file_name,file_name,fnmatch2(sim->dumpfile[i].file_name, file_name));
+		if (fnmatch2(sim->dumpfile[i].file_name, file_name)==0)
 		{
-			if (sim->dumpfile[i].dump==TRUE)
+
+			in_path=is_dir_in_path(rel_path, sim->dumpfile[i].path_name);
+
+			get_dir_name_from_path(dir_name, rel_path);
+			if ((strcmp(sim->dumpfile[i].path_name,"root")==0)&&(strcmp(dir_name,"")==0))
 			{
-				return 0;
-			}else
+				in_path=0;
+			}
+
+			//printf("%s match a>%s b>%s %d %s '%s' %d\n",dir_name,sim->dumpfile[i].file_name, file_name,in_path,rel_path, sim->dumpfile[i].path_name,sim->dumpfile[i].write_out);
+
+			if (in_path==0)
 			{
-				return -1;
+				if (sim->dumpfile[i].write_out==TRUE)
+				{
+					return 0;
+				}else
+				{
+					return -1;
+				}
 			}
 		}
 	}
@@ -47,7 +75,8 @@ return 0;
 
 void dumpfiles_process(struct simulation* sim,struct istruct *in,char *name)
 {
-	int i;
+	return;
+/*	int i;
 	for (i=0;i<sim->dumpfiles;i++)
 	{
 
@@ -63,84 +92,84 @@ void dumpfiles_process(struct simulation* sim,struct istruct *in,char *name)
 
 
 	}
-
+*/
 }
 
 void dumpfiles_free(struct simulation* sim)
 {
+	return;
 	free(sim->dumpfile);
 	sim->dumpfiles=-1;
 }
 
 void dumpfiles_load(struct simulation* sim)
 {
+	int i;
 	int dump;
 	struct inp_file inp;
 	inp_init(sim,&inp);
 	char file[100];
+	char file_name[200];
 	int dump_file=0;
 	int norm_y=0;
 	char *line;
 	int ret=0;
-	int pos=0;
+
 	if (inp_load_from_path(sim,&inp,get_input_path(sim),"dump_file.inp")!=0)
 	{
-		ewe(sim,"Error opening dump_file.inp");
+		sim->dumpfiles=0;
+		printf_log(sim,"Error opening dump_file.inp");
 	}
 
-	sim->dumpfiles=inp_count_hash_tags(sim,&inp)-1;
+	sim->dumpfiles=inp_count_hash_tags(sim,&inp)-2;
 
 	if (sim->dumpfiles<=0)
 	{
-		ewe(sim,"Error reading dump_file.inp");
+		printf_log(sim,"Error reading dump_file.inp");
+		inp_free(sim,&inp);
+		return;
 	}
 
 	sim->dumpfile=(struct dumpfiles_struct*)malloc(sizeof(struct dumpfiles_struct)*sim->dumpfiles);
 
 	inp_reset_read(sim,&inp);
 
-	do
+	for (i=0;i<sim->dumpfiles;i++)
 	{
-		line  = inp_get_string(sim,&inp);
+		line  = inp_get_string(sim,&inp);		//token
 
-		if (line==NULL)
-		{
-			break;
-		}
+		line  = inp_get_string(sim,&inp);		//full_path
 
-		if (strcmp(line,"#end")==0)
-		{
-			break;
-		}
+//		printf(">%s\n",line);
+//		getchar();
+		get_file_name_from_path(sim->dumpfile[i].file_name,line);
+//		printf(">%s\n",sim->dumpfile[pos].file_name);
+//		getchar();
+		get_nth_dir_name_from_path(sim->dumpfile[i].path_name,line,0);
 
-		strcpy(sim->dumpfile[pos].filename,(line+1));
+		line  = inp_get_string(sim,&inp);		//true false
+		
+		sim->dumpfile[i].write_out=english_to_bin(sim, line);
 
-
-		line  = inp_get_string(sim,&inp);
-
-		if (line==NULL)
-		{
-			break;
-		}
-
-		sim->dumpfile[pos].dump=english_to_bin(sim, line);
-
-
-		line  = inp_get_string(sim,&inp);
-
-		if (line==NULL)
-		{
-			break;
-		}
-
-		sim->dumpfile[pos].ynorm=english_to_bin(sim, line);
-		pos++;
-
-
-	}while(1);
+	}
 
 
 	inp_free(sim,&inp);
 
+
+}
+
+void dumpfiles_turn_on_dir(struct simulation* sim,char *in)
+{
+int i;
+
+	for (i=0;i<sim->dumpfiles;i++)
+	{
+		//printf("%s\n",sim->dumpfile[i].path_name);
+		if (strcmp(sim->dumpfile[i].path_name,in)==0)
+		{
+			sim->dumpfile[i].write_out=TRUE;
+		}
+	}
 
 }

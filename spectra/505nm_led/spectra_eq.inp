@@ -1,0 +1,13 @@
+#points
+200
+#equations
+1
+#start0
+100e-9
+#stop0
+1000e-9
+#equation0
+2e-17/(pow((505e-9)-w,2)+2e-17)
+#ver
+1.0
+#end

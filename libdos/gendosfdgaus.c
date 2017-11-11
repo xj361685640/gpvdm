@@ -468,7 +468,7 @@ if (get_dump_status(sim,dump_write_out_band_structure)==TRUE)
 		strcpy(dos_out.y_units,"m^{-3}eV^{-1}");
 		dos_out.logscale_x=0;
 		dos_out.logscale_y=0;
-		buffer_add_info(&dos_out);
+		buffer_add_info(sim,&dos_out);
 	}else
 	{
 		buffer_malloc(&dos_out);
@@ -482,7 +482,7 @@ if (get_dump_status(sim,dump_write_out_band_structure)==TRUE)
 		strcpy(dos_out.y_units,"m^{-3}eV^{-1}");
 		dos_out.logscale_x=0;
 		dos_out.logscale_y=0;
-		buffer_add_info(&dos_out);
+		buffer_add_info(sim,&dos_out);
 	}
 }
 

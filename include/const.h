@@ -80,7 +80,6 @@
 #define dump_zip_files 10
 #define dump_lock 11
 #define dump_norm_time_to_one 12
-#define dump_equilibrium 13
 #define dump_band_structure 14
 #define dump_print_newtonerror 15
 #define dump_print_converge 16
@@ -96,9 +95,11 @@
 #define dump_optical_probe 27
 #define dump_info_text 28
 #define dump_optical_probe_spectrum 29
-#define dump_built_in_voltage 30
 #define dump_ray_trace_map 31
 #define dump_file_access_log 32
+#define dump_fx 33
+#define dump_use_cache 34
+#define dump_write_headers 37
 
 //dos types
 #define dos_exp		0

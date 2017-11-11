@@ -97,7 +97,7 @@ in->kl_in_newton=FALSE;
 solver_realloc(sim,in);
 
 Vapplied=from;
-contact_set_voltage(sim,in,0,Vapplied);
+contact_set_active_contact_voltage(sim,in,Vapplied);
 
 newton_push_state(in);
 gdouble dV=0.20;
@@ -115,7 +115,7 @@ if (fabs(to-from)<=fabs(dV)) return;
 do
 {
 	Vapplied+=dV;
-	contact_set_voltage(sim,in,0,Vapplied);
+	contact_set_active_contact_voltage(sim,in,Vapplied);
 	//if (in->Vapplied<-4.0) dV= -0.3;
 
 	if (get_dump_status(sim,dump_print_text)==TRUE)
@@ -140,7 +140,7 @@ newton_pop_state(in);
 if (Vapplied!=to)
 {
 	Vapplied=to;
-	contact_set_voltage(sim,in,0,Vapplied);
+	contact_set_active_contact_voltage(sim,in,Vapplied);
 	solve_all(sim,in);
 }
 
@@ -200,7 +200,7 @@ return FALSE;
 }
 printf_log(sim,"Loading state\n");
 
-contact_set_voltage(sim,in,0,vtest);
+contact_set_active_contact_voltage(sim,in,vtest);
 
 for (i=0;i<in->ymeshpoints;i++)
 {
@@ -237,7 +237,7 @@ gdouble itot=i0+Vapplied/in->Rshunt;
 
 e0=fabs(itot*Rs+Vapplied-wantedv);
 Vapplied+=step;
-contact_set_voltage(sim,in,0,Vapplied);
+contact_set_active_contact_voltage(sim,in,Vapplied);
 
 solve_all(sim,in);
 
@@ -250,7 +250,7 @@ deriv=(e1-e0)/step;
 step= -e1/deriv;
 //step=step/(1.0+fabs(step/clamp));
 Vapplied+=step;
-contact_set_voltage(sim,in,0,Vapplied);
+contact_set_active_contact_voltage(sim,in,Vapplied);
 int count=0;
 int max=1000;
 do
@@ -267,7 +267,7 @@ step= -e1/deriv;
 //step=step/(1.0+fabs(step/clamp));
 step=step/(1.0+fabs(step/clamp));
 Vapplied+=step;
-contact_set_voltage(sim,in,0,Vapplied);
+contact_set_active_contact_voltage(sim,in,Vapplied);
 if (count>max) break;
 count++;
 }while(e1>1e-8);
@@ -327,9 +327,11 @@ for (z=0;z<in->zmeshpoints;z++)
 
 }
 
+void newton_sim_simple(struct simulation  *sim,struct device *in)
+{
+in->kl_in_newton=FALSE;
+solver_realloc(sim,in);
 
-
-
-
-
+solve_all(sim,in);
+}
 

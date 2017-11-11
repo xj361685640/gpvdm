@@ -2,9 +2,9 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+//  Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
-//	www.rodmack.com
+//	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
@@ -40,14 +40,14 @@ solve_all(sim,in);
 if (glob_use_cap==FALSE) C=0.0;
 
 
-Vapplied_last=contact_get_voltage_last(sim,in,0);
-Vapplied=contact_get_voltage(sim,in,0);
+Vapplied_last=contact_get_active_contact_voltage_last(sim,in);
+Vapplied=contact_get_active_contact_voltage(sim,in);
 return get_I(in)+Vapplied/in->Rshunt+C*(Vapplied-Vapplied_last)/in->dt;
 }
 
 gdouble newton_externalv_simple(struct simulation *sim,struct device *in,gdouble V)
 {
-contact_set_voltage(sim,in,0,V);
+contact_set_active_contact_voltage(sim,in,V);
 in->kl_in_newton=FALSE;
 solver_realloc(sim,in);
 solve_all(sim,in);

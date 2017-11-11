@@ -85,7 +85,7 @@ void inter_log_y(struct istruct* in);
 void inter_mul(struct istruct* in,gdouble mul);
 void inter_log_x(struct istruct* in);
 void inter_save(struct istruct* in,char *name);
-void inter_load(struct simulation *sim,struct istruct* in,char *name);
+int inter_load(struct simulation *sim,struct istruct* in,char *name);
 gdouble inter_get_hard(struct istruct* in,gdouble x);
 gdouble inter_get(struct istruct* in,gdouble x);
 void inter_print(struct istruct* in);
@@ -111,4 +111,5 @@ void inter_reset(struct istruct* in);
 void inter_find_peaks(struct istruct* out,struct istruct* in,int find_max);
 void inter_sin(struct istruct *in,gdouble mag,gdouble fx,gdouble delta);
 void inter_purge_x_zero(struct istruct* in);
+int inter_search_token(struct simulation *sim,long double *value,char *token,char *name);
 #endif

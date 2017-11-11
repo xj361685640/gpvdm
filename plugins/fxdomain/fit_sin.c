@@ -30,6 +30,7 @@
 #include "fit_sin.h"
 #include "i.h"
 #include "log.h"
+#include <cal_path.h>
 
 struct istruct out_i;
 struct istruct fit_data;
@@ -43,8 +44,6 @@ gdouble last_error=0.0;
 struct simulation *local_sim;
 double sin_f (const gsl_vector *v, void *params)
 {
-int dump_all=TRUE;
-
 struct buffer buf;
 buffer_init(&buf);
 buf.norm_x_axis=FALSE;
@@ -61,7 +60,7 @@ gdouble avg=inter_avg(&test_i);
 inter_sub_gdouble(&test_i,avg);
 //char name[200];
 
-if (dump_all==TRUE)
+if (get_dump_status(local_sim,dump_fx)==TRUE)
 {
 	buffer_malloc(&buf);
 	buf.y_mul=1.0;
@@ -77,16 +76,16 @@ if (dump_all==TRUE)
 	buf.x=1;
 	buf.y=fit_data.len;
 	buf.z=1;
-	buffer_add_info(&buf);
-	buffer_add_xy_data(&buf,fit_data.x, fit_data.data, fit_data.len);
+	buffer_add_info(local_sim,&buf);
+	buffer_add_xy_data(local_sim,&buf,fit_data.x, fit_data.data, fit_data.len);
 	sprintf(name,"fx_fit_%s_orig.dat",fit_file_prefix);
-	buffer_dump(local_sim,name,&buf);
+	buffer_dump_path(local_sim,get_output_path(local_sim),name,&buf);
 	buffer_free(&buf);
 }
 
 inter_sin(&test_i,mag,fit_fx,(gdouble)delta);
 
-if (dump_all==TRUE)
+if (get_dump_status(local_sim,dump_fx)==TRUE)
 {
 	buffer_malloc(&buf);
 	buf.y_mul=1.0;
@@ -102,16 +101,16 @@ if (dump_all==TRUE)
 	buf.x=1;
 	buf.y=test_i.len;
 	buf.z=1;
-	buffer_add_info(&buf);
-	buffer_add_xy_data(&buf,test_i.x, test_i.data, test_i.len);
+	buffer_add_info(local_sim,&buf);
+	buffer_add_xy_data(local_sim,&buf,test_i.x, test_i.data, test_i.len);
 	sprintf(name,"fx_fit_%s_guess.dat",fit_file_prefix);
-	buffer_dump(local_sim,name,&buf);
+	buffer_dump_path(local_sim,get_output_path(local_sim),name,&buf);
 	buffer_free(&buf);
 }
 
 inter_sub(local_sim,&test_i,&fit_data);
 
-if (dump_all==TRUE)
+if (get_dump_status(local_sim,dump_fx)==TRUE)
 {
 	buffer_malloc(&buf);
 	buf.y_mul=1.0;
@@ -127,10 +126,10 @@ if (dump_all==TRUE)
 	buf.x=1;
 	buf.y=test_i.len;
 	buf.z=1;
-	buffer_add_info(&buf);
-	buffer_add_xy_data(&buf,test_i.x, test_i.data, test_i.len);
+	buffer_add_info(local_sim,&buf);
+	buffer_add_xy_data(local_sim,&buf,test_i.x, test_i.data, test_i.len);
 	sprintf(name,"fx_fit_%s_delta.dat",fit_file_prefix);
-	buffer_dump(local_sim,name,&buf);
+	buffer_dump_path(local_sim,get_output_path(local_sim),name,&buf);
 	buffer_free(&buf);
 }
 
@@ -159,7 +158,7 @@ gdouble avg=inter_avg(&fit_data);
 inter_sub_gdouble(&fit_data,avg);
 
 struct istruct peaks;
-inter_init(sim,&peaks);
+inter_init(local_sim,&peaks);
 inter_find_peaks(&peaks,&fit_data,TRUE);
 
 double mag=(double)peaks.data[0];
@@ -174,7 +173,6 @@ gsl_vector *ss;
 
 x = gsl_vector_alloc (fitvars);
 ss = gsl_vector_alloc (fitvars);
-
 
 int pos=0;
 gsl_vector_set (x, pos, mag);
@@ -205,19 +203,19 @@ pos++;
 
 		//if (status == GSL_SUCCESS)
 		//{
-		//	printf_log (sim,"converged to minimum at\n");
+		//	printf_log (local_sim,"converged to minimum at\n");
 		//}
-		printf_log(sim,"step=%d error=%Le mag=%le delta=%le fx=%Le\n",ittr,last_error,mag, delta,fx);
+		printf_log(local_sim,"step=%d error=%Le mag=%le delta=%le fx=%Le\n",ittr,last_error,mag, delta,fx);
 
 
 		if (status != GSL_CONTINUE)
 		{
-			printf_log(sim,"Fitting stopped\n");
+			printf_log(local_sim,"Fitting stopped\n");
 			stop=TRUE;
 		}
 		mag=gsl_vector_get(s->x, 0);
 		delta=gsl_vector_get(s->x, 1);
-		//printf_log(sim,"%s %le %10.3e delta=%10.3e\n",prefix,s->fval,mag,delta);
+		//printf_log(local_sim,"%s %le %10.3e delta=%10.3e\n",prefix,s->fval,mag,delta);
 
 		if (ittr>200)
 		{
@@ -229,7 +227,6 @@ pos++;
 //getchar();
 *ret_mag=(gdouble)last_magnitude;
 *ret_delta=(gdouble)last_d;
-
 gsl_multimin_fminimizer_free (s);
 gsl_vector_free(x);
 gsl_vector_free(ss);

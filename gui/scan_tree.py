@@ -85,7 +85,9 @@ def tree_save_flat_list(sim_dir,flat_list):
 
 	return config
 
-def tree_load_program(program_list,sim_dir):
+def tree_load_program(sim_dir):
+
+	program_list=[]
 
 	file_name=os.path.join(sim_dir,'gpvdm_gui_config.inp')
 
@@ -104,6 +106,7 @@ def tree_load_program(program_list,sim_dir):
 		for i in range(0, mylen):
 			program_list.append([config[pos],config[pos+1],config[pos+3], config[pos+4]])
 			pos=pos+6
+	return program_list
 
 def tree_load_config(sim_dir):
 	global copy_materials

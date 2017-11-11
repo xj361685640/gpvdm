@@ -2,7 +2,7 @@ COMPILE_FLAG=@COMPILE_FLAG@
 LINK_FLAG=@LINK_FLAG@
 
 inc=-I../include/
-OBJS=exp.o pl.o probe.o
+OBJS=exp.o pl.o probe.o measure.o
 
 all: $(OBJS)
 	$(AR) rcs libgpvdm_measure.@SLIB_EXT@ $(OBJS)

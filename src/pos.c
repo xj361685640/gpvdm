@@ -40,7 +40,7 @@ if (get_dump_status(sim,dump_first_guess)==TRUE)
 {
 	struct stat st = {0};
 
-	char out_dir[1000];
+	char out_dir[PATHLEN];
 	join_path(2,out_dir,get_output_path(sim),"equilibrium");
 
 	if (stat(out_dir, &st) == -1)
@@ -66,8 +66,8 @@ if (get_dump_status(sim,dump_first_guess)==TRUE)
 	strcpy(buf.y_units,"$E_{LUMO}$");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
-	buffer_add_info(&buf);
-	buffer_add_3d_device_data(&buf,in, in->Fi);
+	buffer_add_info(sim,&buf);
+	buffer_add_3d_device_data(sim,&buf,in, in->Fi);
 	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -83,8 +83,8 @@ if (get_dump_status(sim,dump_first_guess)==TRUE)
 	strcpy(buf.y_units,"$E_{LUMO}$");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
-	buffer_add_info(&buf);
-	buffer_add_3d_device_data(&buf,in, in->Ec);
+	buffer_add_info(sim,&buf);
+	buffer_add_3d_device_data(sim,&buf,in, in->Ec);
 	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -100,8 +100,8 @@ if (get_dump_status(sim,dump_first_guess)==TRUE)
 	strcpy(buf.y_units,"$E_{HOMO}$");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
-	buffer_add_info(&buf);
-	buffer_add_3d_device_data(&buf,in, in->Ev);
+	buffer_add_info(sim,&buf);
+	buffer_add_3d_device_data(sim,&buf,in, in->Ev);
 	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -118,8 +118,8 @@ if (get_dump_status(sim,dump_first_guess)==TRUE)
 	strcpy(buf.y_units,"m^{-3}");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
-	buffer_add_info(&buf);
-	buffer_add_3d_device_data(&buf,in, in->n);
+	buffer_add_info(sim,&buf);
+	buffer_add_3d_device_data(sim,&buf,in, in->n);
 	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -136,8 +136,8 @@ if (get_dump_status(sim,dump_first_guess)==TRUE)
 	strcpy(buf.y_units,"m^{-3}");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
-	buffer_add_info(&buf);
-	buffer_add_3d_device_data(&buf,in, in->p);
+	buffer_add_info(sim,&buf);
+	buffer_add_3d_device_data(sim,&buf,in, in->p);
 	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -153,8 +153,8 @@ if (get_dump_status(sim,dump_first_guess)==TRUE)
 	strcpy(buf.y_units,"V");
 	buf.logscale_x=0;
 	buf.logscale_y=0;
-	buffer_add_info(&buf);
-	buffer_add_3d_device_data(&buf,in, in->phi);
+	buffer_add_info(sim,&buf);
+	buffer_add_3d_device_data(sim,&buf,in, in->phi);
 	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 

@@ -4,7 +4,7 @@
 // 
 //  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 //
-//	www.rodmack.com
+//	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
@@ -173,6 +173,76 @@ int z=0;
 		}
 	}
 
+}
+
+long double three_d_avg(struct device *in, long double ***src)
+{
+int x=0;
+int y=0;
+int z=0;
+long double sum=0.0;
+long double ret=0.0;
+	for (z = 0; z < in->zmeshpoints; z++)
+	{
+		for (x = 0; x < in->xmeshpoints; x++)
+		{
+			for (y = 0; y < in->ymeshpoints; y++)
+			{
+				sum+=src[z][x][y]*in->dxmesh[x]*in->dymesh[y]*in->dzmesh[z];
+//				printf("%Le %Le %Le %Le %Le %Le\n",in->dxmesh[x],in->dymesh[y],in->dzmesh[z],in->zlen,in->xlen,in->ylen);
+			}
+			
+		}
+	}
+
+ret=sum/(in->zlen*in->xlen*in->ylen);
+//printf("ret=%Le\n",ret);
+return ret;
+}
+
+void three_d_printf(struct device *in, long double ***src)
+{
+int x=0;
+int y=0;
+int z=0;
+long double sum=0.0;
+long double ret=0.0;
+	for (z = 0; z < in->zmeshpoints; z++)
+	{
+		for (x = 0; x < in->xmeshpoints; x++)
+		{
+			for (y = 0; y < in->ymeshpoints; y++)
+			{
+				printf("%Le\n",src[z][x][y]);
+			}
+			
+		}
+	}
+
+return;
+}
+
+long double three_d_avg_fabsl(struct device *in, long double ***src)
+{
+int x=0;
+int y=0;
+int z=0;
+long double sum=0.0;
+long double ret=0.0;
+	for (z = 0; z < in->zmeshpoints; z++)
+	{
+		for (x = 0; x < in->xmeshpoints; x++)
+		{
+			for (y = 0; y < in->ymeshpoints; y++)
+			{
+				sum+=fabsl(src[z][x][y])*in->dxmesh[x]*in->dymesh[y]*in->dzmesh[z];
+			}
+			
+		}
+	}
+
+ret=sum/(in->zlen*in->xlen*in->ylen);
+return ret;
 }
 
 void free_3d_gdouble(struct device *in, gdouble ***var)

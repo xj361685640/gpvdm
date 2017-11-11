@@ -259,6 +259,19 @@ void contact_set_active_contact_voltage(struct simulation *sim,struct device *in
 
 }
 
+gdouble contact_get_active_contact_voltage_last(struct simulation *sim,struct device *in)
+{
+	int i=0;
+
+	for (i=0;i<in->ncontacts;i++)
+	{
+		if (in->contacts[i].active==TRUE)
+		{
+			return in->contacts[i].voltage_last;
+		}
+	}
+}
+
 long double contact_get_active_contact_voltage(struct simulation *sim,struct device *in)
 {
 	int i=0;

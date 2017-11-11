@@ -228,29 +228,29 @@ in->Ilast=get_I(in);
 
 void device_timestep(struct simulation *sim,struct device *in)
 {
-
 time_store(sim,in);
-
-if (in->tm_use_mesh==TRUE)
+if (in->go_time==TRUE)
 {
-	if (in->tm_mesh_pos<(in->tm_mesh_len-1))
+	if (in->tm_use_mesh==TRUE)
 	{
-		in->tm_mesh_pos++;
-		in->time=in->tm_time_mesh[in->tm_mesh_pos];
-		if (in->tm_mesh_pos==(in->tm_mesh_len-1))
+		if (in->tm_mesh_pos<(in->tm_mesh_len-1))
 		{
-			in->dt=(in->tm_time_mesh[in->tm_mesh_pos]-in->tm_time_mesh[in->tm_mesh_pos-1]);
-		}else
-		{
-			in->dt=(in->tm_time_mesh[in->tm_mesh_pos+1]-in->tm_time_mesh[in->tm_mesh_pos]);
+			in->tm_mesh_pos++;
+			in->time=in->tm_time_mesh[in->tm_mesh_pos];
+			if (in->tm_mesh_pos==(in->tm_mesh_len-1))
+			{
+				in->dt=(in->tm_time_mesh[in->tm_mesh_pos]-in->tm_time_mesh[in->tm_mesh_pos-1]);
+			}else
+			{
+				in->dt=(in->tm_time_mesh[in->tm_mesh_pos+1]-in->tm_time_mesh[in->tm_mesh_pos]);
+			}
+
 		}
-
+	}else
+	{
+		in->time+=in->dt;
 	}
-}else
-{
-	in->time+=in->dt;
 }
-
 }
 
 int time_test_last_point(struct device *in)

@@ -122,6 +122,10 @@ int z=0;
 				in->epsilonr[z][x][y]=get_dos_epsilonr(in,in->imat[z][x][y]);
 
 				in->Eg[z][x][y]=get_dos_Eg(in,in->imat[z][x][y]);
+
+				//printf("%d %d %d %Lf %d\n",z,x,y,in->Eg[z][x][y],in->imat[z][x][y]);
+				//getchar();
+
 				in->B[z][x][y]=get_dos_B(in,in->imat[z][x][y]);
 				in->Dex[z][x][y]=0.0;//get_mat_param(&(in->mat.l[in->imat[z][x][y]]),mat_Dex);
 

@@ -773,18 +773,6 @@ for (i=len;i>=0;i--)
 return 0;
 }
 
-char *get_file_name_from_path(char *in)
-{
-int i=0;
-for (i=strlen(in)-1;i>0;i--)
-{
-		if (in[i]=='/')
-		{
-			return (in+i+1);
-		}
-}
-return in;
-}
 
 int get_dir_name_from_path(char *out, char *in)
 {
@@ -794,11 +782,19 @@ int i=0;
 int len=strlen(in);
 for (i=len;i>0;i--)
 {
-		if (in[i]=='/')
+	//#ifdef windows
+		if ((in[i]=='\\')||(in[i]=='/'))
 		{
 			out[i]=0;
 			return 0;
 		}
+	//#else
+	//	if (in[i]=='/')
+	//	{
+	//		out[i]=0;
+	//		return 0;
+	//	}
+	//#endif
 }
 
 if (len>0)

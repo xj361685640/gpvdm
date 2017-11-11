@@ -2,7 +2,7 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012-2016 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+//  Copyright (C) 2012-2016 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
 //	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -36,15 +36,20 @@
 #include <cal_path.h>
 #include <string.h>
 #include <contacts.h>
+#include <cache.h>
+#include <sys/stat.h>
+#include "measure.h"
 
 int run_simulation(struct simulation *sim)
 {
 struct device cell;
 log_clear(sim);
-
+struct stat st = {0};
+	
 printf_log(sim,"%s\n",_("Runing simulation"));
 
 device_init(&cell);
+cache_init(sim);
 cell.onlypos=FALSE;
 
 dump_init(sim,&cell);
@@ -53,7 +58,7 @@ set_dump_status(sim,dump_stop_plot, FALSE);
 set_dump_status(sim,dump_print_text, TRUE);
 
 
-char temp[1000];
+char temp[PATHLEN];
 
 cell.kl_in_newton=FALSE;
 
@@ -75,10 +80,21 @@ remove(temp);
 join_path(2,temp,get_output_path(sim),"equilibrium");
 remove_dir(sim,temp);
 
+join_path(2,temp,get_output_path(sim),"solver");
+remove_dir(sim,temp);
+
+if (get_dump_status(sim,dump_newton)==TRUE)
+{
+	join_path(2,temp,get_output_path(sim),"solver");
+
+	if (stat(temp, &st) == -1)
+	{
+		mkdir(temp, 0700);
+	}
+}
 
 join_path(2,temp,get_output_path(sim),"snapshots");
 remove_dir(sim,temp);
-
 
 join_path(2,temp,get_output_path(sim),"light_dump");
 remove_dir(sim,temp);
@@ -180,6 +196,8 @@ if (strcmp(cell.simmode,"opticalmodel@optics")!=0)
 
 	cell.C=cell.xlen*cell.zlen*epsilon0*cell.epsilonr[0][0][0]/(cell.ylen+cell.other_layers);
 	if (get_dump_status(sim,dump_print_text)==TRUE) printf_log(sim,"C=%Le\n",cell.C);
+	//printf("%Le\n",cell.C);
+	//getchar();
 	cell.A=cell.xlen*cell.zlen;
 	cell.Vol=cell.xlen*cell.zlen*cell.ylen;
 
@@ -191,6 +209,12 @@ if (strcmp(cell.simmode,"opticalmodel@optics")!=0)
 	light_set_dx(&cell.mylight,cell.ymesh[1]-cell.ymesh[0]);
 	light_load_config(sim,&cell.mylight);
 
+	//printf("%d %d\n",get_dump_status(sim,dump_optics_verbose), get_dump_status(sim,dump_optics_summary));
+	//getchar();
+	if ((get_dump_status(sim,dump_optics_verbose)==TRUE) || (get_dump_status(sim,dump_optics_summary)==TRUE))
+	{
+		light_setup_dump_dir(sim,&cell.mylight);
+	}
 
 	if (cell.led_on==TRUE)
 	{
@@ -270,6 +294,8 @@ if (strcmp(cell.simmode,"opticalmodel@optics")!=0)
 	{
 		join_path(2,temp,get_output_path(sim),"equilibrium");
 		dump_1d_slice(sim,&cell,temp);
+		cache_dump(sim);
+		cache_free(sim);
 		device_free(sim,&cell);
 		device_free_traps(&cell);
 		mesh_free(sim,&cell);
@@ -300,9 +326,12 @@ if (is_domain(cell.simmode)!=0)
 run_electrical_dll(sim,&cell,strextract_domain(cell.simmode));
 
 
+cache_dump(sim);
+cache_free(sim);
 
 if (strcmp(cell.simmode,"opticalmodel@optics")!=0)
 {
+
 	device_free(sim,&cell);
 	device_free_traps(&cell);
 	mesh_free(sim,&cell);
@@ -318,7 +347,7 @@ if (strcmp(cell.simmode,"opticalmodel@optics")!=0)
 	light_free(sim,&cell.mylight);
 }
 
-
+measure(sim);
 
 return cell.odes;
 }

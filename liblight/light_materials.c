@@ -90,8 +90,18 @@ inp_free(sim,&inp);
 	
 inter_load(sim,&(in->sun_read),file_path);
 inter_sort(&(in->sun_read));
+inter_mod(&(in->sun_read));
+long double sun_value=0.0;
 
-
+int ret=0;
+ret=inter_search_token(sim,&sun_value,"#Psun",file_path);
+if (ret==0)
+{
+	in->Psun0=sun_value;
+}else
+{
+	in->Psun0=1000.0;		//The 1000 is because it is 1000 W/m2	
+}
 
 /////////////////////////////////////////////////////
 theFolder = opendir(get_materials_path(sim));
@@ -427,8 +437,8 @@ for (i=0;i<in->layers;i++)
 		strcpy(buf.data_units,"a.u.");
 		buf.logscale_x=0;
 		buf.logscale_y=0;
-		buffer_add_info(&buf);
-		buffer_add_xy_data(&buf,in->mat_n[i].x, in->mat_n[i].data, in->mat_n[i].len);
+		buffer_add_info(sim,&buf);
+		buffer_add_xy_data(sim,&buf,in->mat_n[i].x, in->mat_n[i].data, in->mat_n[i].len);
 		buffer_dump_path(sim,out_file,"n_out.dat",&buf);
 		buffer_free(&buf);
 
@@ -479,8 +489,8 @@ for (i=0;i<in->layers;i++)
 		strcpy(buf.y_units,"a.u.");
 		buf.logscale_x=0;
 		buf.logscale_y=0;
-		buffer_add_info(&buf);
-		buffer_add_xy_data(&buf,in->mat[i].x, in->mat[i].data, in->mat[i].len);
+		buffer_add_info(sim,&buf);
+		buffer_add_xy_data(sim,&buf,in->mat[i].x, in->mat[i].data, in->mat[i].len);
 		buffer_dump_path(sim,out_file,"alpha_out.dat",&buf);
 		buffer_free(&buf);
 

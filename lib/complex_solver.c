@@ -55,7 +55,7 @@ struct buffer buf;
 buffer_init(&buf);
 buffer_malloc(&buf);
 strcpy(buf.type,"map");
-buffer_add_info(&buf);
+buffer_add_info(sim,&buf);
 int i;
 for (i=0;i<nz;i++)
 {

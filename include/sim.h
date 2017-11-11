@@ -33,6 +33,7 @@
 #include "light_interface.h"
 #include "newton_interface.h"
 
+
 //newtonsolver
 int solve_cur_thermal(struct device *in,int thermal, int z, int x);
 int solve_pos(struct simulation *sim,struct device *in, int z, int x);

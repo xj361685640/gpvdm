@@ -1470,11 +1470,49 @@ char *fgets_safe(char *buf,int len,FILE *file)
 	return 0;
 }
 
+int inter_search_token(struct simulation *sim,long double *value,char *token,char *name)
+{
+//I love anne, please help us be together forever.  Let it work out.  Remove things stopping us being together.
+int found=FALSE;
+char temp[1000];
+char temp2[1000];
+FILE *file;
+file=fopen(name,"r");
+if (file == NULL)
+{
+	printf_log(sim,"inter_load can not open file %s\n",name);
+	return -1;
+}
+
+do
+{
+	temp[0]=0;
+	unused_pchar=fgets_safe(temp, 1000, file);
+
+	if (strcmp_begin(temp,token)==0)
+	{
+		sscanf(temp,"%s %Le",temp2,value);
+		found=TRUE;
+		break;
+	}
+
+
+}while(!feof(file));
+fclose(file);
+
+if (found==TRUE)
+{
+	return 0;
+}
+
+return -1;
+}
+
 /**Load data from a file
 @param in the istruct holding the data
 @param name The file name.
 */
-void inter_load(struct simulation *sim,struct istruct* in,char *name)
+int inter_load(struct simulation *sim,struct istruct* in,char *name)
 {
 char temp[1000];
 gdouble x;
@@ -1487,7 +1525,7 @@ file=fopen(name,"r");
 if (file == NULL)
 {
 	printf_log(sim,"inter_load can not open file %s\n",name);
-	exit(0);
+	return -1;
 }
 
 inter_init(sim,in);
@@ -1506,6 +1544,7 @@ do
 
 }while(!feof(file));
 fclose(file);
+return 0;
 }
 
 void inter_set_value(struct istruct* in,gdouble value)

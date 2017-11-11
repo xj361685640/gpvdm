@@ -95,7 +95,6 @@ if (get_dump_status(sim,dump_optical_probe)==TRUE)
 {
 	probe_init(sim,in);
 }
-
 if (pulse_config.pulse_sim_mode==pulse_load)
 {
 	sim_externalv(sim,in,time_get_voltage(in)+pulse_config.pulse_bias);
@@ -113,6 +112,7 @@ if (pulse_config.pulse_sim_mode==pulse_open_circuit)
 	in->Rload=1e6;
 	newton_sim_voc(sim,in);
 	newton_sim_voc_fast(sim,in,FALSE);
+	
 }else
 {
 	ewe(sim,_("pulse mode not known\n"));
@@ -120,7 +120,6 @@ if (pulse_config.pulse_sim_mode==pulse_open_circuit)
 
 //device_timestep(sim,in);
 time_store(sim,in);
-
 in->go_time=TRUE;
 
 gdouble i0=0;
@@ -199,6 +198,10 @@ struct istruct out_j;
 dump_dynamic_save(sim,get_output_path(sim),&store);
 dump_dynamic_free(sim,in,&store);
 
+if (pulse_config.pulse_subtract_dc==TRUE)
+{
+	inter_sub_gdouble(&out_i,out_i.data[0]);	
+}
 
 buffer_malloc(&buf);
 buf.y_mul=1e3;
@@ -214,8 +217,8 @@ buf.logscale_y=0;
 buf.x=1;
 buf.y=out_i.len;
 buf.z=1;
-buffer_add_info(&buf);
-buffer_add_xy_data(&buf,out_i.x, out_i.data, out_i.len);
+buffer_add_info(sim,&buf);
+buffer_add_xy_data(sim,&buf,out_i.x, out_i.data, out_i.len);
 buffer_dump_path(sim,get_output_path(sim),"pulse_i.dat",&buf);
 buffer_free(&buf);
 
@@ -237,8 +240,8 @@ buf.logscale_y=0;
 buf.x=1;
 buf.y=out_j.len;
 buf.z=1;
-buffer_add_info(&buf);
-buffer_add_xy_data(&buf,out_j.x, out_j.data, out_j.len);
+buffer_add_info(sim,&buf);
+buffer_add_xy_data(sim,&buf,out_j.x, out_j.data, out_j.len);
 buffer_dump_path(sim,get_output_path(sim),"pulse_j.dat",&buf);
 buffer_free(&buf);
 
@@ -261,8 +264,8 @@ buf.logscale_y=0;
 buf.x=1;
 buf.y=out_flip.len;
 buf.z=1;
-buffer_add_info(&buf);
-buffer_add_xy_data(&buf,out_flip.x, out_flip.data, out_flip.len);
+buffer_add_info(sim,&buf);
+buffer_add_xy_data(sim,&buf,out_flip.x, out_flip.data, out_flip.len);
 buffer_dump_path(sim,get_output_path(sim),"pulse_i_pos.dat",&buf);
 buffer_free(&buf);
 
@@ -284,8 +287,8 @@ buf.logscale_y=0;
 buf.x=1;
 buf.y=out_v.len;
 buf.z=1;
-buffer_add_info(&buf);
-buffer_add_xy_data(&buf,out_v.x, out_v.data, out_v.len);
+buffer_add_info(sim,&buf);
+buffer_add_xy_data(sim,&buf,out_v.x, out_v.data, out_v.len);
 buffer_dump_path(sim,get_output_path(sim),"pulse_v.dat",&buf);
 buffer_free(&buf);
 
@@ -304,8 +307,8 @@ buf.logscale_y=0;
 buf.x=1;
 buf.y=out_G.len;
 buf.z=1;
-buffer_add_info(&buf);
-buffer_add_xy_data(&buf,out_G.x, out_G.data, out_G.len);
+buffer_add_info(sim,&buf);
+buffer_add_xy_data(sim,&buf,out_G.x, out_G.data, out_G.len);
 buffer_dump_path(sim,get_output_path(sim),"pulse_G.dat",&buf);
 buffer_free(&buf);
 
@@ -339,7 +342,7 @@ char laser_name[200];
 struct inp_file inp;
 inp_init(sim,&inp);
 inp_load_from_path(sim,&inp,get_input_path(sim),config_file_name);
-inp_check(sim,&inp,1.29);
+inp_check(sim,&inp,1.30);
 
 inp_search_gdouble(sim,&inp,&(in->pulse_shift),"#pulse_shift");
 inp_search_string(sim,&inp,name,"#pulse_sim_mode");
@@ -347,6 +350,7 @@ inp_search_gdouble(sim,&inp,&(dev->L),"#pulse_L");
 inp_search_gdouble(sim,&inp,&(dev->Rload),"#Rload");
 inp_search_gdouble(sim,&inp,&(in->pulse_bias),"#pulse_bias");
 inp_search_string(sim,&inp,laser_name,"#pump_laser");
+in->pulse_subtract_dc=inp_search_english(sim,&inp,"#pulse_subtract_dc");
 
 inp_search_gdouble(sim,&inp,&(in->pulse_light_efficiency),"#pulse_light_efficiency");
 in->pulse_light_efficiency=gfabs(in->pulse_light_efficiency);

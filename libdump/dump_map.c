@@ -32,7 +32,6 @@ static int unused __attribute__((unused));
 void dump_device_map(struct simulation *sim,char* out_dir,struct device *in)
 {
 struct buffer buf;
-char name[200];
 char temp[1000];
 int i;
 int band;
@@ -40,7 +39,6 @@ buffer_init(&buf);
 
 
 buffer_malloc(&buf);
-join_path(2,name,out_dir,"nt_map.dat");
 
 
 buf.y_mul=1.0;
@@ -53,7 +51,7 @@ strcpy(buf.x_units,"nm");
 strcpy(buf.y_units,"m^{-3} eV^{-1}");
 buf.logscale_x=0;
 buf.logscale_y=0;
-buffer_add_info(&buf);
+buffer_add_info(sim,&buf);
 for (i=0;i<in->ymeshpoints;i++)
 {
 	for (band=0;band<in->srh_bands;band++)
@@ -62,13 +60,13 @@ for (i=0;i<in->ymeshpoints;i++)
 		buffer_add_string(&buf,temp);
 	}
 }
-buffer_dump(sim,name,&buf);
+
+buffer_dump_path(sim,out_dir,"nt_map.dat",&buf);
 buffer_free(&buf);
 
 
 buffer_malloc(&buf);
 
-join_path(2,name,out_dir,"nt_map.dat");
 buf.y_mul=1.0;
 buf.x_mul=1e9;
 strcpy(buf.title,"Charge carrier density - position");
@@ -79,7 +77,7 @@ strcpy(buf.x_units,"nm");
 strcpy(buf.y_units,"m^{-3} eV^{-1}");
 buf.logscale_x=0;
 buf.logscale_y=0;
-buffer_add_info(&buf);
+buffer_add_info(sim,&buf);
 for (i=0;i<in->ymeshpoints;i++)
 {
 	for (band=0;band<in->srh_bands;band++)
@@ -88,7 +86,9 @@ for (i=0;i<in->ymeshpoints;i++)
 		buffer_add_string(&buf,temp);
 	}
 }
-buffer_dump(sim,name,&buf);
+
+buffer_dump_path(sim,out_dir,"pt_map.dat",&buf);
+
 buffer_free(&buf);
 
 }

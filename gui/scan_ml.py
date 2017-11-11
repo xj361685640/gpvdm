@@ -29,9 +29,6 @@ from inp import inp_get_token_value
 from scan_tree import tree_load_flat_list
 from util import copy_scan_dir
 
-from scan_tree import tree_load_program
-from scan_tree import tree_gen
-
 from server_io import server_find_simulations_to_run
 from util_zip import read_lines_from_archive
 

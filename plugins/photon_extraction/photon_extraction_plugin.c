@@ -38,8 +38,6 @@ static int unused __attribute__((unused));
 void sim_optics(struct simulation *sim,struct device *in)
 {
 
-	char out_dir[2000];
-
 	set_dump_status(sim,dump_lock, FALSE);
 	//set_dump_status(sim,dump_optics, TRUE);
 	//set_dump_status(sim,dump_optics_verbose, TRUE);
@@ -55,7 +53,7 @@ void sim_optics(struct simulation *sim,struct device *in)
 
 
 	light_load_config(sim,&two);
-	light_setup_dump_dir(sim,&two,out_dir);
+	light_setup_dump_dir(sim,&two);
 
 	strcpy(two.mode,"ray");
 	//two.Psun=1.0;
@@ -94,9 +92,9 @@ void sim_optics(struct simulation *sim,struct device *in)
 	buf.x=1;
 	buf.y=two.lpoints;
 	buf.z=1;
-	buffer_add_info(&buf);
-	buffer_add_xy_data(&buf,two.l, two.extract_eff, two.lpoints);
-	buffer_dump_path(sim,out_dir,"light_escape_probability.dat",&buf);
+	buffer_add_info(sim,&buf);
+	buffer_add_xy_data(sim,&buf,two.l, two.extract_eff, two.lpoints);
+	buffer_dump_path(sim,two.dump_dir,"light_escape_probability.dat",&buf);
 	buffer_free(&buf);
 	
 	light_dump(sim,&two);

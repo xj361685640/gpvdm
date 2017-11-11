@@ -71,5 +71,9 @@ void sim_init(struct simulation *sim)
 	sim->D0=243.75;
 	sim->n0=1e20;
 	sim->x_matrix_offset=0;
+
+	sim->cache_len=-1;
+	sim->cache_max=-1;
+	sim->cache=NULL;
 }
 

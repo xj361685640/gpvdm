@@ -47,15 +47,18 @@ return tot;
 void exp_cal_emission(struct simulation *sim,int number,struct device *in)
 {
 
-double Re_h=0.0;
-double Re_e=0.0;
-double Rh_e=0.0;
-double Rh_h=0.0;
+long double Re_h=0.0;
+long double Re_e=0.0;
+long double Rh_e=0.0;
+long double Rh_h=0.0;
+long double Rfree_e_h=0.0;
 
-double dEe_e=0.0;
-double dEe_h=0.0;
-double dEh_e=0.0;
-double dEh_h=0.0;
+long double dEe_e=0.0;
+long double dEe_h=0.0;
+long double dEh_e=0.0;
+long double dEh_h=0.0;
+
+
 char name[100];
 char out_dir[400];
 
@@ -67,11 +70,12 @@ int band;
 struct buffer buf;
 char temp[200];
 int mat=0;
-double pl_fe_fh=0.0;
-double pl_fe_te=0.0;
-double pl_te_fh=0.0;
-double pl_th_fe=0.0;
-double pl_ft_th=0.0;
+long double pl_fe_fh=0.0;
+long double pl_fe_te=0.0;
+long double pl_te_fh=0.0;
+long double pl_th_fe=0.0;
+long double pl_ft_th=0.0;
+
 int pl_enabled=0;
 char snapshot_dir[200];
 char sim_name[200];
@@ -125,17 +129,24 @@ for (z=0;z<in->zmeshpoints;z++)
 		for (y=0;y<in->ymeshpoints;y++)
 		{
 			mat=in->imat[z][x][y];
-			pl_fe_fh=get_pl_fe_fh(in,mat);
-			pl_fe_te=get_pl_fe_te(in,mat);
-			pl_te_fh=get_pl_te_fh(in,mat);
-			pl_th_fe=get_pl_th_fe(in,mat);
-			pl_ft_th=get_pl_ft_th(in,mat);
 			pl_enabled=get_pl_enabled(in,mat);
 
 				if (pl_enabled==TRUE)
 				{
+					pl_fe_fh=get_pl_fe_fh(in,mat);
+					pl_fe_te=get_pl_fe_te(in,mat);
+					pl_te_fh=get_pl_te_fh(in,mat);
+					pl_th_fe=get_pl_th_fe(in,mat);
+					pl_ft_th=get_pl_ft_th(in,mat);
+
 					pl_data_added=TRUE;
-					inter_append(&fe_to_fh,in->Eg[z][x][y],in->Rfree[z][x][y]*pl_fe_fh);
+					Rfree_e_h=in->Rfree[z][x][y]*pl_fe_fh;
+					if (Rfree_e_h<0.0)
+					{
+						Rfree_e_h=0.0;
+					}
+
+					inter_append(&fe_to_fh,in->Eg[z][x][y],Rfree_e_h);
 
 					for (band=0;band<in->srh_bands;band++)
 					{
@@ -159,7 +170,8 @@ for (z=0;z<in->zmeshpoints;z++)
 
 
 					}
-
+					
+					in->Photon_gen[z][x][y]=Rfree_e_h;//+Re_e+Re_h+Rh_e+Rh_h;
 				}
 		}
 	}
@@ -217,8 +229,8 @@ if (pl_data_added==TRUE)
 	buf.logscale_y=0;
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
-	buffer_add_info(&buf);
-	buffer_add_xy_data(&buf,fe_to_fh.x, fe_to_fh.data, fe_to_fh.len);
+	buffer_add_info(sim,&buf);
+	buffer_add_xy_data(sim,&buf,fe_to_fh.x, fe_to_fh.data, fe_to_fh.len);
 	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -236,8 +248,8 @@ if (pl_data_added==TRUE)
 	buf.logscale_y=0;
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
-	buffer_add_info(&buf);
-	buffer_add_xy_data(&buf,te_to_fh.x, te_to_fh.data, te_to_fh.len);
+	buffer_add_info(sim,&buf);
+	buffer_add_xy_data(sim,&buf,te_to_fh.x, te_to_fh.data, te_to_fh.len);
 	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -255,8 +267,8 @@ if (pl_data_added==TRUE)
 	buf.logscale_y=0;
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
-	buffer_add_info(&buf);
-	buffer_add_xy_data(&buf,fe_to_te.x, fe_to_te.data, fe_to_te.len);
+	buffer_add_info(sim,&buf);
+	buffer_add_xy_data(sim,&buf,fe_to_te.x, fe_to_te.data, fe_to_te.len);
 	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -275,8 +287,8 @@ if (pl_data_added==TRUE)
 	buf.logscale_y=0;
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
-	buffer_add_info(&buf);
-	buffer_add_xy_data(&buf,th_to_fe.x, th_to_fe.data, th_to_fe.len);
+	buffer_add_info(sim,&buf);
+	buffer_add_xy_data(sim,&buf,th_to_fe.x, th_to_fe.data, th_to_fe.len);
 	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -295,8 +307,8 @@ if (pl_data_added==TRUE)
 	buf.logscale_y=0;
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
-	buffer_add_info(&buf);
-	buffer_add_xy_data(&buf,fh_to_th.x, fh_to_th.data, fh_to_th.len);
+	buffer_add_info(sim,&buf);
+	buffer_add_xy_data(sim,&buf,fh_to_th.x, fh_to_th.data, fh_to_th.len);
 	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 	
@@ -320,7 +332,7 @@ if (pl_data_added==TRUE)
 	buf.logscale_y=0;
 	buf.time=in->time;
 	buf.Vexternal=Vexternal;
-	buffer_add_info(&buf);
+	buffer_add_info(sim,&buf);
 	buffer_add_xy_data(&buf,luminescence_tot.x, luminescence_tot.data, luminescence_tot.len);
 	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);*/

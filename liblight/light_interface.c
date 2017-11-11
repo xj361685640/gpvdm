@@ -115,7 +115,6 @@ void light_solve_and_update(struct simulation *sim,struct device *cell,struct li
 
 	light_transfer_gen_rate_to_device(cell,in);
 
-
 	if (in->flip_field==TRUE)
 	{
 		gdouble ***Gn;
@@ -147,7 +146,18 @@ void light_solve_and_update(struct simulation *sim,struct device *cell,struct li
 				{
 					cell->Gn[z][x][cell->ymeshpoints-y-1]=Gn[z][x][y];
 					cell->Gp[z][x][cell->ymeshpoints-y-1]=Gp[z][x][y];
+				}
+			}
+		}
 
+		for (z=0;z<cell->zmeshpoints;z++)
+		{
+			for (x=0;x<cell->xmeshpoints;x++)
+			{
+				for (y=0;y<cell->ymeshpoints;y++)
+				{
+					cell->Gn[z][x][cell->ymeshpoints-y-1]=Gn[z][x][y];
+					cell->Gp[z][x][cell->ymeshpoints-y-1]=Gp[z][x][y];
 				}
 			}
 		}

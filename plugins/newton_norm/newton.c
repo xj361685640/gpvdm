@@ -1151,7 +1151,7 @@ if (in->interfaceright==TRUE)
 			{
 				build= -(deriv);
 
-				build+= -(-(pc-nc-Nad));
+				build+= -(-(pc-nc+Nad));
 
 				for (band=0;band<in->srh_bands;band++)
 				{
@@ -1444,6 +1444,7 @@ int stop=FALSE;
 int thermalrun=0;
 gdouble check[10];
 int cpos=0;
+char temp[PATHLEN];
 
 gdouble abs_error=0.0;
 	do
@@ -1545,7 +1546,8 @@ in->newton_last_ittr=ittr;
 
 if (get_dump_status(sim,dump_newton)==TRUE)
 {
-	dump_1d_slice(sim,in,get_output_path(sim));
+	join_path(2,temp,get_output_path(sim),"solver");
+	dump_1d_slice(sim,in,temp);
 }
 
 //plot_now(in,"plot");

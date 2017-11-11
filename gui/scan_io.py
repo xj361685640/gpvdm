@@ -31,6 +31,7 @@ from util import copy_scan_dir
 
 from scan_tree import tree_load_program
 from scan_tree import tree_gen
+from scan_tree import tree_save_flat_list
 
 from server_io import server_find_simulations_to_run
 
@@ -149,22 +150,36 @@ def scan_clean_simulation_output(dir_to_clean):
 		clean_simulation(dir_to_clean,simulation_dirs)
 
 def scan_nested_simulation(root_simulation,nest_simulation):
+	program_list=tree_load_program(nest_simulation)
+
 	names=tree_load_flat_list(root_simulation)
 	commands=[]
+
+	flat_simulation_list=[]
+	#tree_save_flat_list(self.sim_dir,flat_simulation_list)
+
 	for i in range(0,len(names)):
-		dest_name=os.path.join(names[i],os.path.basename(nest_simulation))
-		copy_scan_dir(dest_name,nest_simulation)
+		dest_name=os.path.join(root_simulation,names[i])
+		tree_gen(flat_simulation_list,program_list,dest_name,dest_name)
 
-		program_list=[]
-		flat_list=[]
-		tree_load_program(program_list,dest_name)
+		files = os.listdir(dest_name)
+		for file in files:
+			if file.endswith(".inp") or file.endswith(".gpvdm") or file.endswith(".dat") :
+				os.remove(os.path.join(dest_name,file))
+
+		print(names[i],flat_simulation_list)
+	tree_save_flat_list(root_simulation,flat_simulation_list)
+#		copy_scan_dir(dest_name,nest_simulation)
+
+#		flat_list=[]
+#		program_list=tree_load_program(dest_name)
 		#print("call=",names[i],dest_name)
-		tree_gen(flat_list,program_list,names[i],dest_name)
+#		tree_gen(flat_list,program_list,names[i],dest_name)
 
 
-		server_find_simulations_to_run(commands,dest_name)
+#		server_find_simulations_to_run(commands,dest_name)
 
-	return commands
+	#return commands
 
 def clean_simulation(parent,dir_to_clean,simulation_dirs):
 	files_to_delete=[]

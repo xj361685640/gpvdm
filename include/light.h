@@ -30,6 +30,7 @@
 struct light
 {
 char config_file[300];
+char dump_dir[1024];
 int points;
 int lpoints;
 gdouble *x;
@@ -124,6 +125,9 @@ int align_mesh;
 int flip_field;
 int disable_transfer_to_electrical_mesh;
 int disable_cal_photon_density;
+long double light_file_generation_shift;
+
+gdouble Psun0;
 };
 
 void light_norm_photon_density(struct light *in);
@@ -159,5 +163,5 @@ void light_dump_summary(struct simulation *sim,struct light *in);
 void light_set_sun_delta_at_wavelength(struct simulation *sim,struct light *in,long double lam);
 void light_free_dlls(struct simulation *sim,struct light *in);
 int light_get_pos_from_wavelength(struct simulation *sim,struct light *in,double lam);
-void light_setup_dump_dir(struct simulation *sim,struct light *in,char *dir);
+void light_setup_dump_dir(struct simulation *sim,struct light *in);
 #endif

@@ -38,13 +38,16 @@ char *buffer;
 unsigned long len;
 long l;
 char chkfile[100];
+char temp[100];
 
-sprintf(chkfile,"%s.chk",get_file_name_from_path(file_name));
+get_file_name_from_path(temp,file_name);
+
+sprintf(chkfile,"%s.chk",temp);
 
 inp_read_buffer(sim,&buffer, &l,file_name);
 len=(unsigned int)l;
 
-char temp[100];
+
 
 checksum(temp,buffer, len);
 

@@ -26,7 +26,7 @@
 #include "hard_limit.h"
 #include <log.h>
 #include <cal_path.h>
-
+#include <lang.h>
 
 void mesh_check_y(struct simulation *sim,struct device *in)
 {
@@ -50,25 +50,33 @@ gdouble mesh_len=0.0;
 void mesh_remesh_y(struct simulation *sim,struct device *in)
 {
 	char device_file_path[1000];
-	in->ymeshlayers=1;
-	in->meshdata_y[0].len=in->ylen;
-	if (in->my_epitaxy.electrical_layers==1)
+	if (in->remesh_y==TRUE)
 	{
-		in->meshdata_y[0].number=10;
+		in->ymeshlayers=1;
+		in->meshdata_y[0].len=in->ylen;
+		if (in->my_epitaxy.electrical_layers==1)
+		{
+			in->meshdata_y[0].n_points=10;
+		}else
+		{
+			in->meshdata_y[0].n_points=40;
+		}
+		in->meshdata_y[0].mul=1.0;
+		in->meshdata_y[0].left_right=FALSE;
+		mesh_save_y(sim,in);
+		device_free(sim,in);
+		mesh_free(sim,in);
+
+		join_path(2,device_file_path,get_input_path(sim),"epitaxy.inp");
+		epitaxy_load(sim,&(in->my_epitaxy),device_file_path);
+
+		mesh_load(sim,in);
+		device_get_memory(sim,in);
+		mesh_build(sim,in);
 	}else
 	{
-		in->meshdata_y[0].number=40;
-	}		
-	mesh_save_y(sim,in);
-	device_free(sim,in);
-	mesh_free(sim,in);
-
-	join_path(2,device_file_path,get_input_path(sim),"epitaxy.inp");
-	epitaxy_load(sim,&(in->my_epitaxy),device_file_path);
-
-	mesh_load(sim,in);
-	device_get_memory(sim,in);
-	mesh_build(sim,in);
+		ewe(sim,"%s\n",_("The mesh does not match the device length and I am not alowed to remesh it"));
+	}
 
 
 }
@@ -81,6 +89,8 @@ void mesh_save_y(struct simulation *sim,struct device *in)
 	char full_file_name[200];
 
 	strcpy(buffer,"");
+	strcat(buffer,"#remesh_enable\n");
+	strcat(buffer,"True\n");
 	strcat(buffer,"#mesh_layers\n");
 
 	sprintf(temp,"%d\n",in->ymeshlayers);
@@ -95,7 +105,17 @@ void mesh_save_y(struct simulation *sim,struct device *in)
 
 		strcat(buffer,"#mesh_layer_points0\n");
 
-		sprintf(temp,"%d\n",(int)(in->meshdata_y[i].number));
+		sprintf(temp,"%d\n",(int)(in->meshdata_y[i].n_points));
+		strcat(buffer,temp);
+		
+		strcat(buffer,"#mesh_layer_mul0\n");
+
+		sprintf(temp,"%d\n",(int)(in->meshdata_y[i].mul));
+		strcat(buffer,temp);
+		
+		strcat(buffer,"#mesh_layer_left_right0\n");
+
+		sprintf(temp,"%d\n",(int)(in->meshdata_y[i].left_right));
 		strcat(buffer,temp);
 	}
 
@@ -111,188 +131,283 @@ void mesh_save_y(struct simulation *sim,struct device *in)
 
 void mesh_free(struct simulation *sim,struct device *in)
 {
+	int i=0;
+	for (i=0;i<in->zmeshlayers;i++)
+	{
+		free(in->meshdata_z[i].dmesh);
+	}
 	in->zmeshpoints=0;
 	free(in->meshdata_z);
 
+	for (i=0;i<in->xmeshlayers;i++)
+	{
+		free(in->meshdata_x[i].dmesh);
+	}
 	in->xmeshpoints=0;
 	free(in->meshdata_x);
 
+	for (i=0;i<in->ymeshlayers;i++)
+	{
+		free(in->meshdata_y[i].dmesh);
+	}
 	in->ymeshpoints=0;
 	free(in->meshdata_y);
 }
 
-void mesh_load(struct simulation *sim,struct device *in)
+void mesh_load_file(struct simulation * sim,int *meshpoints,int *remesh, int *meshlayers, struct mesh **meshdata,char *file)
 {
 	int i;
 	struct inp_file inp;
 	char token0[200];
 	char token1[200];
+	char val[200];
+	long double dx=0.0;
+	int points=0;
+	long double pos=0.0;
 
-
-	//z
 	inp_init(sim,&inp);
-	inp_load_from_path(sim,&inp,get_input_path(sim),"mesh_z.inp");
+	inp_load_from_path(sim,&inp,get_input_path(sim),file);
 	inp_check(sim,&inp,1.0);
 	inp_reset_read(sim,&inp);
-	inp_get_string(sim,&inp);//"#mesh_layers"
-	sscanf(inp_get_string(sim,&inp),"%d",&(in->zmeshlayers));
 
-	in->meshdata_z = malloc (in->zmeshlayers * sizeof(struct mesh));
-	in->zmeshpoints=0;
+	inp_get_string(sim,&inp);			//remesh
+	strcpy(val,inp_get_string(sim,&inp));
+	(*remesh)=english_to_bin(sim,val);
 
+	inp_get_string(sim,&inp);			//layers
+	sscanf(inp_get_string(sim,&inp),"%d",meshlayers);
 
-	for (i=0;i<in->zmeshlayers;i++)
+	(*meshdata) = malloc (*meshlayers * sizeof(struct mesh));
+
+	for (i=0;i<*meshlayers;i++)
 	{
 		sscanf(inp_get_string(sim,&inp),"%s",token0);
-		sscanf(inp_get_string(sim,&inp),"%Lf",&(in->meshdata_z[i].len));
+		sscanf(inp_get_string(sim,&inp),"%Lf",&((*meshdata)[i].len));
 
 		sscanf(inp_get_string(sim,&inp),"%s",token1);
-		sscanf(inp_get_string(sim,&inp),"%Lf",&(in->meshdata_z[i].number));
+		sscanf(inp_get_string(sim,&inp),"%ld",&((*meshdata)[i].n_points));
+		(*meshdata)[i].dx=(*meshdata)[i].len/((long double)(*meshdata)[i].n_points);
 
-		in->meshdata_z[i].len=fabs(in->meshdata_z[i].len);
-		hard_limit(sim,token0,&(in->meshdata_z[i].len));
-		in->meshdata_z[i].den=in->meshdata_z[i].len/in->meshdata_z[i].number;
-		in->zmeshpoints+=in->meshdata_z[i].number;
+		sscanf(inp_get_string(sim,&inp),"%s",token1);
+		sscanf(inp_get_string(sim,&inp),"%Lf",&((*meshdata)[i].mul));
+
+		sscanf(inp_get_string(sim,&inp),"%s",token1);
+		sscanf(inp_get_string(sim,&inp),"%s",val);
+		(*meshdata)[i].left_right=english_to_bin(sim,val);
+
+		(*meshdata)[i].len=fabs((*meshdata)[i].len);
+		hard_limit(sim,token0,&((*meshdata)[i].len));
+
 	}
 
 	inp_free(sim,&inp);
 
-	//x
-	inp_init(sim,&inp);
-	inp_load_from_path(sim,&inp,get_input_path(sim),"mesh_x.inp");
-	inp_check(sim,&inp,1.0);
-	inp_reset_read(sim,&inp);
-	inp_get_string(sim,&inp);//"#mesh_layers"
-	sscanf(inp_get_string(sim,&inp),"%d",&(in->xmeshlayers));
-
-	in->meshdata_x = malloc (in->xmeshlayers * sizeof(struct mesh));
-	in->xmeshpoints=0;
-
-
-	for (i=0;i<in->xmeshlayers;i++)
+	for (i=0;i<*meshlayers;i++)
 	{
-		sscanf(inp_get_string(sim,&inp),"%s",token0);
-		sscanf(inp_get_string(sim,&inp),"%Lf",&(in->meshdata_x[i].len));
+		dx=(*meshdata)[i].len/((long double)(*meshdata)[i].n_points);
+		pos=0.0;
+		(*meshdata)[i].n_points=0;
+		while(pos<(*meshdata)[i].len)
+		{
+			pos+=dx/2.0;
+			//printf("%Le %Le\n",pos,(*meshdata)[i].len);
+			//getchar();
+			if (pos>(*meshdata)[i].len)
+			{
+				break;
+			}
 
-		sscanf(inp_get_string(sim,&inp),"%s",token1);
-		sscanf(inp_get_string(sim,&inp),"%Lf",&(in->meshdata_x[i].number));
+			(*meshdata)[i].n_points++;
+			points++;
+			pos+=dx/2.0;
+			dx=dx*(*meshdata)[i].mul;
+		}
 
-		in->meshdata_x[i].len=fabs(in->meshdata_x[i].len);
-		hard_limit(sim,token0,&(in->meshdata_x[i].len));
-		in->meshdata_x[i].den=in->meshdata_x[i].len/in->meshdata_x[i].number;
-		in->xmeshpoints+=in->meshdata_x[i].number;
+		(*meshdata)[i].dmesh=malloc ( (*meshdata)[i].n_points * sizeof(long double));
+
 	}
 
-	inp_free(sim,&inp);
-
-	//y
-	inp_init(sim,&inp);
-	inp_load_from_path(sim,&inp,get_input_path(sim),"mesh_y.inp");
-	inp_check(sim,&inp,1.0);
-	inp_reset_read(sim,&inp);
-	inp_get_string(sim,&inp);//"#mesh_layers"
-	sscanf(inp_get_string(sim,&inp),"%d",&(in->ymeshlayers));
-
-	in->meshdata_y = malloc (in->ymeshlayers * sizeof(struct mesh));
-	in->ymeshpoints=0;
-
-
-	for (i=0;i<in->ymeshlayers;i++)
-	{
-		sscanf(inp_get_string(sim,&inp),"%s",token0);
-		sscanf(inp_get_string(sim,&inp),"%Lf",&(in->meshdata_y[i].len));
-
-		sscanf(inp_get_string(sim,&inp),"%s",token1);
-		sscanf(inp_get_string(sim,&inp),"%Lf",&(in->meshdata_y[i].number));
-
-		in->meshdata_y[i].len=fabs(in->meshdata_y[i].len);
-		hard_limit(sim,token0,&(in->meshdata_y[i].len));
-		in->meshdata_y[i].den=in->meshdata_y[i].len/in->meshdata_y[i].number;
-
-		in->ymeshpoints+=in->meshdata_y[i].number;
-	}
-
-	inp_free(sim,&inp);
-
-
+	(*meshpoints)=points;
 }
 
-void mesh_build(struct simulation *sim,struct device *in)
+void mesh_build_from_submesh(struct simulation *sim,struct device *in,char direction)
 {
-
 	int pos=0;
 	int i=0;
 	int ii=0;
 	int z=0;
 	int x=0;
 	gdouble dpos=0.0;
+	long double dx=0.0;
+	long double len=0.0;
 
-	//z
-	pos=0;
-	dpos=0.0;
-	for (i=0;i<in->zmeshlayers;i++)
+	int meshlayers=0;
+	struct mesh *meshdata=NULL;
+	long double *ret_len=NULL;
+	long double *mesh=NULL;
+	long double *dmesh=NULL;
+	int meshpoints=0;
+
+	if (direction=='x')
 	{
-
-		for (ii=0;ii<in->meshdata_z[i].number;ii++)
-		{
-			dpos+=in->meshdata_z[i].den/2.0;
-			in->zmesh[pos]=dpos;
-			dpos+=in->meshdata_z[i].den/2.0;
-			pos++;
-		}
+		meshlayers=in->xmeshlayers;
+		meshdata=in->meshdata_x;
+		ret_len=&(in->xlen);
+		mesh=in->xmesh;
+		dmesh=in->dxmesh;
+		meshpoints=in->xmeshpoints;
+	}else
+	if (direction=='y')
+	{
+		meshlayers=in->ymeshlayers;
+		meshdata=in->meshdata_y;
+		ret_len=&(in->ylen);
+		mesh=in->ymesh;
+		dmesh=in->dymesh;
+		meshpoints=in->ymeshpoints;
+	}else
+	if (direction=='z')
+	{
+		meshlayers=in->zmeshlayers;
+		meshdata=in->meshdata_z;
+		ret_len=&(in->zlen);
+		mesh=in->zmesh;
+		dmesh=in->dzmesh;
+		meshpoints=in->zmeshpoints;
+	}else
+	{
+		ewe(sim,"%s",_("Direction wrong"));
 	}
 
-	in->zlen=dpos;
-
-	//x
-	pos=0;
-	dpos=0.0;
-	for (i=0;i<in->xmeshlayers;i++)
+	len=0.0;
+	for (i=0;i<meshlayers;i++)
 	{
-
-		for (ii=0;ii<in->meshdata_x[i].number;ii++)
+		pos=0;
+		dpos=0.0;
+		dx=meshdata[i].dx;
+		//printf("going to build %ld\n",meshdata[i].n_points);
+		//getchar();
+		for (ii=0;ii<meshdata[i].n_points;ii++)
 		{
-			dpos+=in->meshdata_x[i].den/2.0;
-			in->xmesh[pos]=dpos;
-			dpos+=in->meshdata_x[i].den/2.0;
+			dpos+=dx/2.0;
+			meshdata[i].dmesh[ii]=dpos;
+			dpos+=dx/2.0;
+			dx*=meshdata[i].mul;
 			pos++;
 		}
+		len+=meshdata[i].len;
 	}
 
-	in->xlen=dpos;
+	(*ret_len)=len;
 
-
-	//y
+	len=0.0;
 	pos=0;
-	dpos=0.0;
-	for (i=0;i<in->ymeshlayers;i++)
+	for (i=0;i<meshlayers;i++)
 	{
-
-		for (ii=0;ii<in->meshdata_y[i].number;ii++)
+		for (ii=0;ii<meshdata[i].n_points;ii++)
 		{
-			dpos+=in->meshdata_y[i].den/2.0;
-			in->ymesh[pos]=dpos;
-			in->imat[0][0][pos]=epitaxy_get_electrical_material_layer(&(in->my_epitaxy),dpos);
-			in->imat_epitaxy[0][0][pos]=epitaxy_get_epitaxy_layer_using_electrical_pos(&(in->my_epitaxy),dpos);
-
-			//printf_log(sim,"%s\n",sim->output_path);
-			//printf_log(sim,"here %d %d %Le %Le %Le %Le\n",in->imat[0][0][pos],pos,dpos,in->meshdata_y[i].den,in->meshdata_y[i].len,in->meshdata_y[i].number);
-			//getchar();
-			for (z=0;z<in->zmeshlayers;z++)
+			if (meshdata[i].left_right==FALSE)
 			{
-				for (x=0;x<in->xmeshlayers;x++)
-				{
-					//printf_log("%ld %ld %d\n",z,x,pos);
-					in->imat[z][x][pos]=in->imat[0][0][pos];
-				}
+				mesh[pos]=len+meshdata[i].dmesh[ii];
+			}else
+			{
+				mesh[pos]=len+meshdata[i].len-meshdata[i].dmesh[meshdata[i].n_points-1-ii];
 			}
-			dpos+=in->meshdata_y[i].den/2.0;
+			//printf("%c %ld %Le %d %d %ld\n",direction,pos,mesh[pos],i,ii,meshdata[i].n_points);
 			pos++;
 		}
+		len+=meshdata[i].len;
 	}
 
+	long double last=0.0;
+	long double next=0.0;
+	long double sum=0.0;
+	for (i=0;i<meshpoints;i++)
+	{
+		if ((meshpoints-1)==i)
+		{
+			next=(*ret_len);
+		}else
+		{
+			next=(mesh[i]+mesh[i+1])/2.0;
+		}
+		
+		dx=next-last;
+		dmesh[i]=dx;
+		sum=sum+dx;
+		last=next;
+	}
+
+}
+
+void mesh_dump_x(struct simulation *sim,struct device *in)
+{
+	int x=0;
+
+	for (x=0;x<in->xmeshpoints;x++)
+	{
+		printf("%Le\n",in->xmesh[x]);
+	}
+}
+
+void mesh_dump_y(struct simulation *sim,struct device *in)
+{
+	int y=0;
+
+	for (y=0;y<in->ymeshpoints;y++)
+	{
+		printf("%Le\n",in->ymesh[y]);
+	}
+}
+
+void mesh_load(struct simulation *sim,struct device *in)
+{
+	mesh_load_file(sim,&(in->zmeshpoints),&(in->remesh_z),&(in->zmeshlayers), &(in->meshdata_z),"mesh_z.inp");
+	mesh_load_file(sim,&(in->xmeshpoints),&(in->remesh_x),&(in->xmeshlayers), &(in->meshdata_x),"mesh_x.inp");
+	mesh_load_file(sim,&(in->ymeshpoints),&(in->remesh_y),&(in->ymeshlayers), &(in->meshdata_y),"mesh_y.inp");
+}
 
 
+void mesh_build(struct simulation *sim,struct device *in)
+{
+
+	int pos=0;
+	int z=0;
+	int x=0;
+	int y=0;
+
+	gdouble dpos=0.0;
+	long double dx=0.0;
+	long double len=0.0;
+
+	//printf("%d\n",in->meshdata_y[0].n_points);
+	//getchar();
+	mesh_build_from_submesh(sim,in,'z');
+	mesh_build_from_submesh(sim,in,'x');
+	mesh_build_from_submesh(sim,in,'y');
+
+	//mesh_dump_y(sim,in);
+	//getchar();
+	//in->zmesh[pos]=dpos;
+	//in->xmesh[pos]=dpos;
+	//in->ymesh[pos]=dpos;
+
+	len=0.0;
+	for (y=0;y<in->ymeshpoints;y++)
+	{
+		dpos=in->ymesh[y];
+		in->imat[0][0][y]=epitaxy_get_electrical_material_layer(&(in->my_epitaxy),dpos);
+		in->imat_epitaxy[0][0][y]=epitaxy_get_epitaxy_layer_using_electrical_pos(&(in->my_epitaxy),dpos);
+
+		for (z=0;z<in->zmeshpoints;z++)
+		{
+			for (x=0;x<in->xmeshpoints;x++)
+			{
+				in->imat[z][x][y]=in->imat[0][0][y];
+			}
+		}
+
+	}
 }
 void mesh_cal_layer_widths(struct device *in)
 {

@@ -231,12 +231,27 @@ class scan_vbox(QWidget):
 		scan_push_to_hpc(self.sim_dir,True)
 
 	def nested_simulation(self):
-		commands=scan_nested_simulation(self.sim_dir,os.path.join(os.path.expanduser('~'),"juan/hpc/final_graphs/orig/probe"))
-		self.send_commands_to_server(commands,"")
+		commands=scan_nested_simulation(self.sim_dir,"/home/rod/test/gpvdm4.97/sub_sim")
+		#self.send_commands_to_server(commands,"")
 
-	def simulate(self,run_simulation,generate_simulations,args):
+	def build_scan(self):
+		scan_clean_dir(self,self.sim_dir)
 
-		base_dir=get_sim_path()
+		flat_simulation_list=[]
+		program_list=tree_load_program(self.sim_dir)
+		if tree_gen(flat_simulation_list,program_list,get_sim_path(),self.sim_dir)==False:
+			error_dlg(self,_("Problem generating tree."))
+			return
+
+		tree_save_flat_list(self.sim_dir,flat_simulation_list)
+
+	def scan_run(self,args=""):
+		commands=tree_load_flat_list(self.sim_dir)
+		self.send_commands_to_server(commands,args)
+
+
+	def simulate(self,run_simulation,generate_simulations,args=""):
+
 		run=True
 
 		if self.tab.rowCount() == 0:
@@ -249,32 +264,16 @@ class scan_vbox(QWidget):
 			return
 
 		self.make_sim_dir()
-		if generate_simulations==True:
-			scan_clean_dir(self,self.sim_dir)
 
-		#print("Running")
-		program_list=[]
-		for i in range(0,self.tab.rowCount()):
-			program_list.append([tab_get_value(self.tab,i,0),tab_get_value(self.tab,i,1),tab_get_value(self.tab,i,3),tab_get_value(self.tab,i,4)])
-
-		#print(program_list)
 		tree_load_config(self.sim_dir)
 		if generate_simulations==True:
-			flat_simulation_list=[]
-			if tree_gen(flat_simulation_list,program_list,base_dir,self.sim_dir)==False:
-				error_dlg(self,_("Problem generating tree."))
-				return
+			self.build_scan()
 
-			#print("flat list",flat_simulation_list)
-			tree_save_flat_list(self.sim_dir,flat_simulation_list)
-
-		commands=tree_load_flat_list(self.sim_dir)
-		#print("loaded commands",commands)
 		if run_simulation==True:
-			self.send_commands_to_server(commands,args)
+			self.scan_run(args=args)
 
 		self.save_combo()
-		os.chdir(base_dir)
+		os.chdir(get_sim_path())
 		gc.collect()
 
 	def send_commands_to_server(self,commands,args):

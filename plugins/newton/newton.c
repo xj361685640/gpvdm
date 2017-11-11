@@ -897,8 +897,8 @@ if (in->interfaceright==TRUE)
 			//band=0;
 
 
-			in->Rn[z][x][i]=Rtrapn;
-			in->Rp[z][x][i]=Rtrapp;
+			in->Rn[z][x][i]=Rtrapn+Rfree;
+			in->Rp[z][x][i]=Rtrapp+Rfree;
 			//Rtrapp=1e24;
 			//Rtrapn=1e24;
 
@@ -1135,7 +1135,7 @@ if (in->interfaceright==TRUE)
 			{
 				build= -(deriv);
 
-				build+= -(-(pc-nc-Nad)*Q);
+				build+= -(-(pc-nc+Nad)*Q);
 
 				for (band=0;band<in->srh_bands;band++)
 				{
@@ -1614,6 +1614,7 @@ int dllinternal_solve_cur(struct simulation *sim,struct device *in, int z, int x
 {
 gdouble error=0.0;
 int ittr=0;
+char temp[PATHLEN];
 if (get_dump_status(sim,dump_print_newtonerror)==TRUE)
 {
 	printf_log(sim,"Solve cur\n");
@@ -1665,6 +1666,7 @@ int cpos=0;
 			printf_log(sim,"%d Cur error = %Le %Le I=%Le",ittr,error,contact_get_active_contact_voltage(sim,in),get_I(in));
 
 			printf_log(sim,"\n");
+			//printf_log(sim,"%Le\n",get_equiv_V(sim,in));
 		}
 
 		in->last_error=error;
@@ -1733,7 +1735,8 @@ if (error>1e-3)
 //getchar();
 if (get_dump_status(sim,dump_newton)==TRUE)
 {
-	dump_1d_slice(sim,in,get_output_path(sim));
+	join_path(2,temp,get_output_path(sim),"solver");
+	dump_1d_slice(sim,in,temp);
 }
 //plot_now(sim,in,"plot");
 //getchar();

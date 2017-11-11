@@ -10,15 +10,15 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="48px"
-   height="48px"
-   id="svg3885"
-   version="1.1"
-   inkscape:version="0.91 r13725"
-   sodipodi:docname="sync.svg"
-   inkscape:export-filename="/home/rod/wolfgang/hpc/4/orig/gui/server.png"
+   inkscape:export-ydpi="90"
    inkscape:export-xdpi="90"
-   inkscape:export-ydpi="90">
+   inkscape:export-filename="/home/rod/wolfgang/hpc/4/orig/gui/server.png"
+   sodipodi:docname="sync.svg"
+   inkscape:version="0.92+devel unknown"
+   version="1.1"
+   id="svg3885"
+   height="48px"
+   width="48px">
   <defs
      id="defs3887">
     <linearGradient
@@ -508,24 +508,25 @@
     </filter>
   </defs>
   <sodipodi:namedview
-     id="base"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0.0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="6.8257266"
-     inkscape:cx="-35.331904"
-     inkscape:cy="7.8914209"
-     inkscape:current-layer="layer1"
-     showgrid="true"
-     inkscape:grid-bbox="true"
+     inkscape:document-rotation="0"
+     inkscape:window-maximized="0"
+     inkscape:window-y="63"
+     inkscape:window-x="517"
+     inkscape:window-height="936"
+     inkscape:window-width="1397"
      inkscape:document-units="px"
-     inkscape:window-width="1920"
-     inkscape:window-height="953"
-     inkscape:window-x="0"
-     inkscape:window-y="49"
-     inkscape:window-maximized="1" />
+     inkscape:grid-bbox="true"
+     showgrid="true"
+     inkscape:current-layer="layer1"
+     inkscape:cy="23.069198"
+     inkscape:cx="-10.949787"
+     inkscape:zoom="7.2604165"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base" />
   <metadata
      id="metadata3890">
     <rdf:RDF>
@@ -888,29 +889,5 @@
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccccccccc"
        transform="matrix(0.84924273,-0.00840694,0.00857143,0.83294605,4.1360632,3.8598438)" />
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="29.006422"
-       y="14.435427"
-       id="text4255"
-       sodipodi:linespacing="125%"><tspan
-         sodipodi:role="line"
-         id="tspan4257"
-         x="29.006422"
-         y="14.435427"
-         style="font-size:15px">.c</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:40px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="1.0177482"
-       y="16.493816"
-       id="text4255-0"
-       sodipodi:linespacing="125%"><tspan
-         sodipodi:role="line"
-         id="tspan4257-3"
-         x="1.0177482"
-         y="16.493816"
-         style="font-size:15px">.h</tspan></text>
   </g>
 </svg>

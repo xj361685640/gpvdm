@@ -129,6 +129,14 @@ class scan_class(QWidgetSavePos):
 		tab = self.notebook.currentWidget()
 		tab.simulate(True,False,"")
 
+	def callback_build_scan(self):
+		tab = self.notebook.currentWidget()
+		tab.build_scan()
+
+	def callback_scan_run(self):
+		tab = self.notebook.currentWidget()
+		tab.scan_run()
+
 	def callback_run_single_fit(self):
 		tab = self.notebook.currentWidget()
 		tab.simulate(True,False,"--1fit")
@@ -278,6 +286,10 @@ class scan_class(QWidgetSavePos):
 		self.ribbon.tb_rename.triggered.connect(self.callback_rename_page)
 		
 		self.ribbon.tb_simulate.triggered.connect(self.callback_run_simulation)
+		
+		self.ribbon.tb_build.triggered.connect(self.callback_build_scan)
+
+		self.ribbon.tb_rerun.triggered.connect(self.callback_scan_run)
 
 		self.ribbon.tb_run_all.triggered.connect(self.callback_run_all_simulations)
 

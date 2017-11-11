@@ -1,4 +1,4 @@
-OBJS=plugin.o jv.o jv_ntricks.o
+OBJS=plugin.o jv.o
 
 lib=-L../../
 inc=-I../../include/

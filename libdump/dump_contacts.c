@@ -76,8 +76,8 @@ void dump_contacts_save(struct simulation *sim,struct device *in,struct contacts
 			buf.x=1;
 			buf.y=store->i[i].len;
 			buf.z=1;
-			buffer_add_info(&buf);
-			buffer_add_xy_data(&buf,store->i[i].x, store->i[i].data, store->i[i].len);
+			buffer_add_info(sim,&buf);
+			buffer_add_xy_data(sim,&buf,store->i[i].x, store->i[i].data, store->i[i].len);
 			sprintf(temp,"contact%d_i.dat",i);
 			buffer_dump_path(sim,sim->output_path,temp,&buf);
 			buffer_free(&buf);

@@ -36,6 +36,30 @@
 
 #include <limits.h>
 
+int get_delta_path(struct simulation *sim,char *out, char *root,char *file_name)
+{
+int root_len=strlen(root);
+int file_name_len=strlen(file_name);
+if (root_len>file_name_len)
+{
+	strcpy(out,file_name);
+	return -1;
+}
+
+if (root_len==0)
+{
+	strcpy(out,file_name);
+	return 0;
+}
+if (strcmp_begin(file_name,root)==0)
+{
+	strcpy(out,file_name+root_len+1);
+	return 0;
+}
+
+return -1;
+}
+
 int find_dll(struct simulation *sim, char *lib_path,char *lib_name)
 {
 char full_name[PATHLEN];
@@ -135,6 +159,90 @@ char temp[PATHLEN];
 
 }
 
+void get_file_name_from_path(char *out,char *in)
+{
+	int i=0;
+
+	strcpy(out,in);
+
+	if (strlen(in)==0)
+	{
+		return;
+	}
+
+	for (i=strlen(in)-1;i>=0;i--)
+	{
+		if ((in[i]=='\\') || (in[i]=='/'))
+		{
+			i++;
+			strcpy(out,(char*)(in+i));
+			return;
+		}
+	}
+	
+}
+
+int is_dir_in_path(char *long_path, char* search_dir)
+{
+	if( strstr(long_path, search_dir) != NULL)
+	{
+		return 0;
+	}else
+	{
+		return -1;
+	}
+return -1;
+}
+
+void get_nth_dir_name_from_path(char *out,char *in,int n)
+{
+	int i=0;
+	int ii=0;
+	int pos=0;
+	int start=0;
+	int stop=0;
+	int count=0;
+	strcpy(out,in);
+
+	if (strlen(in)==0)
+	{
+		return;
+	}
+
+	for (i=0;i<strlen(in);i++)
+	{
+		if ((in[i]=='\\') || (in[i]=='/') || (i==strlen(in)-1))
+		{
+			if (i!=0)
+			{
+				stop=i;
+				if (i==strlen(in)-1)
+				{
+					stop++;
+				}
+
+
+				if (count==n)
+				{
+
+					for (ii=start;ii<stop;ii++)
+					{
+						out[pos]=in[ii];
+						pos++;
+					}
+					out[pos]=0;
+					return;
+				}
+				start=stop+1;
+				count++;
+			}else
+			{
+				start=i+1;		// move it past the first / in a unix string
+			}
+		}
+	}
+	
+}
 void cal_path(struct simulation *sim)
 {
 char cwd[PATHLEN];

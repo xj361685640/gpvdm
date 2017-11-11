@@ -25,6 +25,7 @@
 
 #include "contact_struct.h"
 
+gdouble contact_get_active_contact_voltage_last(struct simulation *sim,struct device *in);
 void contacts_passivate(struct simulation *sim,struct device *in);
 void contacts_load(struct simulation *sim,struct device *in);
 void contacts_update(struct simulation *sim,struct device *in);

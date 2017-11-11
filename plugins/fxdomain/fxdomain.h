@@ -30,11 +30,14 @@ struct fxdomain
 	int fxdomain_n;
 	long double fxdomain_Vexternal;
 	long double fxdomain_voltage_modulation_max;
-	long double fxdomain_light_modulation_max;
+	long double fxdomain_light_modulation_depth;
 	int fxdomain_do_fit;
 	char fxdomain_modulation_type[100];
 	long double fxdomain_L;
 	int periods_to_fit;
+	int fxdomain_modulation_rolloff_enable;
+	long double fxdomain_modulation_rolloff_start_fx;
+	long double fxdomain_modulation_rolloff_speed;
 
 };
 

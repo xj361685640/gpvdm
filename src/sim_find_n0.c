@@ -41,17 +41,12 @@ gdouble oldsun=light_get_sun(&(in->mylight));
 
 contacts_force_to_zero(sim,in);
 
-char temp[200];
+
 
 light_set_sun(&(in->mylight),0);
 
 light_solve_and_update(sim,in,&(in->mylight),0.0);
 
-if (get_dump_status(sim,dump_equilibrium)==TRUE)
-{
-	join_path(2,temp,get_output_path(sim),"equilibrium");
-	dump_1d_slice(sim,in,temp);
-}
 
 
 for (z=0;z<in->zmeshpoints;z++)
@@ -64,6 +59,7 @@ for (z=0;z<in->zmeshpoints;z++)
 		}
 	}
 }
+
 
 gdouble save_clamp=in->electrical_clamp;
 int save_ittr=in->max_electrical_itt;

@@ -137,6 +137,8 @@ inp_load_from_path(sim,&inp,get_input_path(sim),"parasitic.inp");
 inp_check(sim,&inp,1.0);
 
 inp_search_gdouble(sim,&inp,&(in->other_layers),"#otherlayers");
+in->other_layers=fabs(in->other_layers);
+hard_limit(sim,"#other_layers",&(in->other_layers));
 
 inp_search_gdouble(sim,&inp,&(in->Rshunt),"#Rshunt");
 in->Rshunt=fabs(in->Rshunt);

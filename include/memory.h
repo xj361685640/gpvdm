@@ -36,8 +36,10 @@ void malloc_zx_int(struct device *in, int * (**var));
 void free_zx_int(struct device *in, int **var);
 
 //3d opps
+long double three_d_avg(struct device *in, gdouble ***src);
+long double three_d_avg_fabsl(struct device *in, long double ***src);
+void three_d_printf(struct device *in, long double ***src);
 void three_d_set_gdouble(struct device *in, gdouble ***var, gdouble val);
 void three_d_sub_gdouble(struct device *in, gdouble ***var, gdouble ***sub);
 void three_d_add_gdouble(struct device *in, gdouble ***var, gdouble ***add);
-
 #endif

@@ -44,8 +44,6 @@ gdouble get_avg_recom_n(struct device *in);
 gdouble get_avg_recom_p(struct device *in);
 gdouble get_avg_Rn(struct device *in);
 gdouble get_avg_Rp(struct device *in);
-gdouble get_J_recom_n(struct device *in);
-gdouble get_J_recom_p(struct device *in);
 gdouble get_avg_k(struct device *in);
 gdouble get_avg_mue(struct device *in);
 gdouble get_avg_muh(struct device *in);

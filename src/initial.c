@@ -29,6 +29,9 @@
 #include <lang.h>
 #include <string.h>
 #include <contacts.h>
+#include <cal_path.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 
 void init_dump(struct simulation *sim,struct device *in)
 {
@@ -36,10 +39,19 @@ struct buffer buf;
 char out_dir[400];
 char name[400];
 
-if (get_dump_status(sim,dump_iodump)==TRUE)
+if (get_dump_status(sim,dump_first_guess)==TRUE)
 {
+	struct stat st = {0};
 
-	strcpy(out_dir,"");
+	char out_dir[PATHLEN];
+	join_path(2,out_dir,get_output_path(sim),"equilibrium");
+
+	if (stat(out_dir, &st) == -1)
+	{
+		mkdir(out_dir, 0700);
+	}
+
+	strcpy(out_dir,"equilibrium");
 
 	buffer_init(&buf);
 
@@ -62,8 +74,8 @@ if (get_dump_status(sim,dump_iodump)==TRUE)
 	buf.z=in->zmeshpoints;
 	buf.time=in->time;
 	buf.Vexternal=0.0;
-	buffer_add_info(&buf);
-	buffer_add_3d_device_data(&buf,in,  in->Fi);
+	buffer_add_info(sim,&buf);
+	buffer_add_3d_device_data(sim,&buf,in,  in->Fi);
 	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -86,8 +98,8 @@ if (get_dump_status(sim,dump_iodump)==TRUE)
 	buf.z=in->zmeshpoints;
 	buf.time=in->time;
 	buf.Vexternal=0.0;
-	buffer_add_info(&buf);
-	buffer_add_3d_device_data(&buf,in,  in->Ec);
+	buffer_add_info(sim,&buf);
+	buffer_add_3d_device_data(sim,&buf,in,  in->Ec);
 	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -110,8 +122,8 @@ if (get_dump_status(sim,dump_iodump)==TRUE)
 	buf.z=in->zmeshpoints;
 	buf.time=in->time;
 	buf.Vexternal=0.0;
-	buffer_add_info(&buf);
-	buffer_add_3d_device_data(&buf,in,  in->Ev);
+	buffer_add_info(sim,&buf);
+	buffer_add_3d_device_data(sim,&buf,in,  in->Ev);
 	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -134,8 +146,8 @@ if (get_dump_status(sim,dump_iodump)==TRUE)
 	buf.z=in->zmeshpoints;
 	buf.time=in->time;
 	buf.Vexternal=0.0;
-	buffer_add_info(&buf);
-	buffer_add_3d_device_data(&buf,in,  in->n);
+	buffer_add_info(sim,&buf);
+	buffer_add_3d_device_data(sim,&buf,in,  in->n);
 	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -158,8 +170,8 @@ if (get_dump_status(sim,dump_iodump)==TRUE)
 	buf.z=in->zmeshpoints;
 	buf.time=in->time;
 	buf.Vexternal=0.0;
-	buffer_add_info(&buf);
-	buffer_add_3d_device_data(&buf,in,  in->p);
+	buffer_add_info(sim,&buf);
+	buffer_add_3d_device_data(sim,&buf,in,  in->p);
 	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 }
@@ -191,33 +203,35 @@ charge_left=in->lcharge;
 charge_right=in->rcharge;
 top_l=0.0;
 top_r=0.0;
+long double left_ref_to_zero=0.0;
+long double right_ref_to_zero=0.0;
+gdouble delta_phi=0.0;
 
-if (in->interfaceleft==TRUE)
+if (in->lr_pcontact==LEFT)
 {
-	top_l=in->phibleft-Eg;
+	top_l=get_top_from_p(in,charge_left,in->Te[0][0][0],in->imat[0][0][0]);
+	in->electron_affinity_left= -in->Xi[0][0][0]-in->Eg[0][0][0]-get_top_from_p(in,charge_left,in->Te[0][0][0],in->imat[0][0][0]);
+	Ef= -(top_l+Xi+Eg);
+	left_ref_to_zero=-(Eg+top_l)-in->Xi[0][0][0];
 }else
 {
-	if (in->lr_pcontact==LEFT)
-	{
-		top_l=get_top_from_p(in,charge_left,in->Te[0][0][0],in->imat[0][0][0]);
-	}else
-	{
-		top_l= -(in->Eg[0][0][0]+get_top_from_n(in,charge_left,in->Te[0][0][0],in->imat[0][0][0]));
-	}
+	top_l= get_top_from_n(in,charge_left,in->Te[0][0][0],in->imat[0][0][0]);
+	in->electron_affinity_left= -in->Xi[0][0][0]+top_l;
+	Ef= -Xi+top_l;
+	left_ref_to_zero=top_l-in->Xi[0][0][0];
 }
 
-if (in->interfaceright==TRUE)
+
+if (in->lr_pcontact==LEFT)
 {
-	top_r= -in->phibright;
+	top_r=get_top_from_n(in,charge_right,in->Te[0][0][in->ymeshpoints-1],in->imat[0][0][in->ymeshpoints-1]);
+	in->electron_affinity_right= -in->Xi[0][0][in->ymeshpoints-1]+top_r;
+	right_ref_to_zero=top_r-in->Xi[0][0][in->ymeshpoints-1];
 }else
 {
-	if (in->lr_pcontact==LEFT)
-	{
-		top_r=get_top_from_n(in,charge_right,in->Te[0][0][in->ymeshpoints-1],in->imat[0][0][in->ymeshpoints-1]);
-	}else
-	{
-		top_r= -(Eg+get_top_from_p(in,charge_right,in->Te[0][0][in->ymeshpoints-1],in->imat[0][0][in->ymeshpoints-1]));
-	}
+	top_r= get_top_from_p(in,charge_right,in->Te[0][0][in->ymeshpoints-1],in->imat[0][0][in->ymeshpoints-1]);
+	in->electron_affinity_right= -in->Xi[0][0][in->ymeshpoints-1]-in->Eg[0][0][in->ymeshpoints-1]-get_top_from_p(in,charge_right,in->Te[0][0][in->ymeshpoints-1],in->imat[0][0][in->ymeshpoints-1]);
+	right_ref_to_zero=-(in->Eg[0][0][in->ymeshpoints-1]+top_r)-in->Xi[0][0][in->ymeshpoints-1];
 }
 
 if (get_dump_status(sim,dump_info_text)==TRUE)
@@ -226,21 +240,23 @@ if (get_dump_status(sim,dump_info_text)==TRUE)
 	printf_log(sim,"check2= %Le %Le\n",get_n_den(in,top_r,in->Te[0][0][in->ymeshpoints-1],in->imat[0][0][in->ymeshpoints-1]),charge_right);
 }
 
-gdouble delta_phi=top_l+top_r+in->Eg[0][0][0]+in->Xi[0][0][0]-in->Xi[0][0][in->ymeshpoints-1];
-gdouble test_l= -in->Xi[0][0][0]+top_r;
-gdouble test_r= -in->Xi[0][0][0]-in->Eg[0][0][0]-top_l;
+delta_phi=right_ref_to_zero-left_ref_to_zero;
+
+
+//printf("%Le %Le %Le %Le %Le\n",left_ref_to_zero,right_ref_to_zero,delta_phi,top_l,charge_left);
+//getchar();
 in->vbi=delta_phi;
 if (get_dump_status(sim,dump_print_text)==TRUE)
 {
 printf_log(sim,"delta=%Le\n",delta_phi);
 printf_log(sim,">>>>top_l= %Le\n",top_l+Eg);
 printf_log(sim,">>>>top_r= %Le\n",-top_r);
-printf_log(sim,"left= %Le right = %Le  %Le %Le\n",test_l,test_r,test_r-test_l,delta_phi);
+printf_log(sim,"left= %Le right = %Le  %Le %Le\n",in->electron_affinity_left,in->electron_affinity_right,in->electron_affinity_right-in->electron_affinity_left,delta_phi);
 printf_log(sim,"%Le %Le %Le %Le %Le\n",top_l,top_r,Eg,delta_phi,in->phi[0][0][0]);
 }
 
-Ef= -(top_l+Xi+Eg);
 
+printf("%Lf %Lf %Lf %Lf\n",top_l,Xi,Eg,top_r);
 gdouble Lp=get_p_den(in,(-in->Xi[0][0][0]-in->phi[0][0][0]-Eg)-Ef,in->Th[0][0][0],in->imat[0][0][0]);
 gdouble Ln=get_n_den(in,Ef-(-in->Xi[0][0][0]-in->phi[0][0][0]),in->Te[0][0][0],in->imat[0][0][0]);
 gdouble Rp=get_p_den(in,(-in->Xi[0][0][in->ymeshpoints-1]-delta_phi-Eg)-Ef,in->Th[0][0][in->ymeshpoints-1],in->imat[0][0][in->ymeshpoints-1]);
@@ -250,31 +266,6 @@ in->l_electrons=Ln;
 in->l_holes=Lp;
 in->r_electrons=Rn;
 in->r_holes=Rp;
-
-if (get_dump_status(sim,dump_built_in_voltage)==TRUE)
-{
-printf_log(sim,"Ef=%Le\n",Ef);
-printf_log(sim,"%s = %Le\n", _("Holes on left contact"),Lp);
-printf_log(sim,"%s = %Le\n",_("Electrons on left contact"), Ln);
-
-printf_log(sim,"%s = %Le\n",_("Holes on right contact"), Rp);
-printf_log(sim,"%s = %Le\n",_("Electrons on right contact"), Rn);
-
-FILE *contacts=fopena(get_output_path(sim),"initial.dat","w");
-fprintf (contacts,"#left_holes\n");
-fprintf (contacts,"%Le\n", Lp);
-fprintf (contacts,"#left_electrons\n");
-fprintf (contacts,"%Le\n", Ln);
-
-fprintf (contacts,"#right_holes\n");
-fprintf (contacts,"%Le\n", Rp);
-fprintf (contacts,"#right_electrons\n");
-fprintf (contacts,"%Le\n", Rn);
-fprintf (contacts,"#Vbi\n");
-fprintf (contacts,"%Le\n", in->vbi);
-fprintf (contacts,"#end\n");
-fclose(contacts);
-}
 
 int band;
 for (z=0;z<in->zmeshpoints;z++)

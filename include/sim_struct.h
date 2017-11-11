@@ -24,12 +24,21 @@
 
 #include <stdio.h>
 #include <server_struct.h>
+#include "cache_struct.h"
+
+#ifdef dbus
+	#include <dbus/dbus.h>
+#endif
+
+#ifdef windows
+	#include <windows.h>
+#endif
 
 struct dumpfiles_struct
 {
-char filename[100];
-int dump;
-int ynorm;
+char file_name[100];
+char path_name[100];
+int write_out;
 };
 
 struct simulation
@@ -105,6 +114,19 @@ struct simulation
 	long double T0;
 	long double D0;
 	long double n0;
+
+	int cache_len;
+	int cache_max;
+	struct cache_item *cache;
+	
+	//gui
+	#ifdef dbus
+		DBusConnection *connection;
+	#endif
+
+	#ifdef windows
+		HANDLE connection;
+	#endif
 
 };
 

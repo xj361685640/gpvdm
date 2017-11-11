@@ -96,6 +96,7 @@ in->device_ylen=epitaxy_get_electrical_length(&in->my_epitaxy);
 void light_load_config_file(struct simulation *sim,struct light *in)
 {
 	char path_temp[1000];
+
 	gdouble temp=0.0;
 	struct inp_file inp;
 
@@ -111,7 +112,7 @@ void light_load_config_file(struct simulation *sim,struct light *in)
 	inp_init(sim,&inp);
 	inp_load_from_path(sim,&inp,get_input_path(sim),"light.inp");
 
-	inp_check(sim,&inp,1.30);
+	inp_check(sim,&inp,1.31);
 
 	inp_search_string(sim,&inp,in->suns_spectrum_file,"#sun");
 
@@ -148,8 +149,10 @@ void light_load_config_file(struct simulation *sim,struct light *in)
 	inp_search_gdouble(sim,&inp,&(temp),"#high_sun_scale");
 
 	inp_search_string(sim,&inp,in->light_file_generation,"#light_file_generation");
-		
+
 	in->Psun*=fabs(temp);
+
+	inp_search_gdouble(sim,&inp,&(in->light_file_generation_shift),"#light_file_generation_shift");
 
 	inp_free(sim,&inp);
 

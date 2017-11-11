@@ -30,7 +30,7 @@
 #include <cal_path.h>
 #include <lang.h>
 
-void light_setup_dump_dir(struct simulation *sim,struct light *in,char *dir)
+void light_setup_dump_dir(struct simulation *sim,struct light *in)
 {
 FILE *out;
 char out_dir[1024];
@@ -50,10 +50,9 @@ int i;
 	{
 		fprintf(out,"%.0Lf\n",in->l[i]*1e9);
 	}
-	
 	fclose(out);
 	
-strcpy(dir,out_dir);
+strcpy(in->dump_dir,out_dir);
 }
 
 void light_dump(struct simulation *sim,struct light *in)
@@ -62,14 +61,13 @@ FILE *out;
 int i;
 int ii;
 struct buffer buf;
-char out_dir[1024];
 char line[1024];
 char temp[1024];
 if (get_dump_status(sim,dump_optics_verbose)==TRUE)
 {
-	light_setup_dump_dir(sim,in,out_dir);
+	buffer_init(&buf);
 
-	out=fopena(out_dir,"light_2d_Ep.dat","w");
+	out=fopena(in->dump_dir,"light_2d_Ep.dat","w");
 	for (i=0;i<in->lpoints;i++)
 	{
 		for (ii=0;ii<in->points;ii++)
@@ -82,7 +80,7 @@ if (get_dump_status(sim,dump_optics_verbose)==TRUE)
 	}
 	fclose(out);
 
-	out=fopena(out_dir,"light_2d_En.dat","w");
+	out=fopena(in->dump_dir,"light_2d_En.dat","w");
 	for (i=0;i<in->lpoints;i++)
 	{
 		for (ii=0;ii<in->points;ii++)
@@ -94,7 +92,7 @@ if (get_dump_status(sim,dump_optics_verbose)==TRUE)
 	}
 	fclose(out);
 
-	out=fopena(out_dir,"light_2d_E_mod.dat","w");
+	out=fopena(in->dump_dir,"light_2d_E_mod.dat","w");
 	for (i=0;i<in->lpoints;i++)
 	{
 		for (ii=0;ii<in->points;ii++)
@@ -106,7 +104,6 @@ if (get_dump_status(sim,dump_optics_verbose)==TRUE)
 	}
 	fclose(out);
 
-	buffer_init(&buf);
 
 	buffer_malloc(&buf);
 	buf.y_mul=1e9;
@@ -124,7 +121,7 @@ if (get_dump_status(sim,dump_optics_verbose)==TRUE)
 	buf.x=in->lpoints;
 	buf.y=in->points;
 	buf.z=1;
-	buffer_add_info(&buf);
+	buffer_add_info(sim,&buf);
 
 	sprintf(temp,"#data\n");
 	buffer_add_string(&buf,temp);
@@ -143,7 +140,7 @@ if (get_dump_status(sim,dump_optics_verbose)==TRUE)
 	sprintf(temp,"#end\n");
 	buffer_add_string(&buf,temp);
 
-	buffer_dump_path(sim,out_dir,"light_2d_photons.dat",&buf);
+	buffer_dump_path(sim,in->dump_dir,"light_2d_photons.dat",&buf);
 	buffer_free(&buf);
 
 
@@ -163,7 +160,7 @@ if (get_dump_status(sim,dump_optics_verbose)==TRUE)
 	buf.x=in->lpoints;
 	buf.y=in->points;
 	buf.z=1;
-	buffer_add_info(&buf);
+	buffer_add_info(sim,&buf);
 
 	sprintf(temp,"#data\n");
 	buffer_add_string(&buf,temp);
@@ -182,11 +179,11 @@ if (get_dump_status(sim,dump_optics_verbose)==TRUE)
 	sprintf(temp,"#end\n");
 	buffer_add_string(&buf,temp);
 	
-	buffer_dump_path(sim,out_dir,"light_2d_photons_asb.dat",&buf);
+	buffer_dump_path(sim,in->dump_dir,"light_2d_photons_asb.dat",&buf);
 	buffer_free(&buf);
 
 
-	out=fopena(out_dir,"light_2d_n.dat","w");
+	out=fopena(in->dump_dir,"light_2d_n.dat","w");
 	for (i=0;i<in->lpoints;i++)
 	{
 		for (ii=0;ii<in->points;ii++)
@@ -198,21 +195,21 @@ if (get_dump_status(sim,dump_optics_verbose)==TRUE)
 	}
 	fclose(out);
 
-	out=fopena(out_dir,"light_lambda_sun.dat","w");
+	out=fopena(in->dump_dir,"light_lambda_sun.dat","w");
 	for (i=0;i<in->lpoints;i++)
 	{
 		fprintf(out,"%Le %Le\n",in->l[i],in->sun[i]);
 	}
 	fclose(out);
 
-	out=fopena(out_dir,"light_lambda_sun_norm.dat","w");
+	out=fopena(in->dump_dir,"light_lambda_sun_norm.dat","w");
 	for (i=0;i<in->lpoints;i++)
 	{
 		fprintf(out,"%Le %Le\n",in->l[i],in->sun_norm[i]);
 	}
 	fclose(out);
 
-	out=fopena(out_dir,"light_lambda_sun_photons.dat","w");
+	out=fopena(in->dump_dir,"light_lambda_sun_photons.dat","w");
 	for (i=0;i<in->lpoints;i++)
 	{
 		fprintf(out,"%Le %Le\n",in->l[i],in->sun_photons[i]);
@@ -235,7 +232,7 @@ if (get_dump_status(sim,dump_optics_verbose)==TRUE)
 	buf.x=in->lpoints;
 	buf.y=in->points;
 	buf.z=1;
-	buffer_add_info(&buf);
+	buffer_add_info(sim,&buf);
 
 	sprintf(temp,"#data\n");
 	buffer_add_string(&buf,temp);
@@ -254,7 +251,7 @@ if (get_dump_status(sim,dump_optics_verbose)==TRUE)
 	sprintf(temp,"#end\n");
 	buffer_add_string(&buf,temp);
 	
-	buffer_dump_path(sim,out_dir,"light_lambda_alpha.dat",&buf);
+	buffer_dump_path(sim,in->dump_dir,"light_lambda_alpha.dat",&buf);
 	buffer_free(&buf);
 
 	buffer_malloc(&buf);
@@ -273,7 +270,7 @@ if (get_dump_status(sim,dump_optics_verbose)==TRUE)
 	buf.x=in->lpoints;
 	buf.y=in->points;
 	buf.z=1;
-	buffer_add_info(&buf);
+	buffer_add_info(sim,&buf);
 
 	sprintf(temp,"#data\n");
 	buffer_add_string(&buf,temp);
@@ -292,10 +289,15 @@ if (get_dump_status(sim,dump_optics_verbose)==TRUE)
 	sprintf(temp,"#end\n");
 	buffer_add_string(&buf,temp);
 	
-	buffer_dump_path(sim,out_dir,"light_lambda_n.dat",&buf);
+	buffer_dump_path(sim,in->dump_dir,"light_lambda_n.dat",&buf);
 	buffer_free(&buf);
 
-
+	out=fopena(in->dump_dir,"light_sun_wavelength_E.dat","w");
+	for (ii=0;ii<in->lpoints;ii++)
+	{
+		fprintf(out,"%Le %Le\n",in->l[ii],in->sun_E[ii]);
+	}
+	fclose(out);
 }
 
 
@@ -306,10 +308,8 @@ if (get_dump_status(sim,dump_optics_verbose)==TRUE)
 void light_dump_summary(struct simulation *sim,struct light *in)
 {
 struct buffer buf;
-char out_dir[1024];
 if (get_dump_status(sim,dump_optics_summary)==TRUE)
 {
-	light_setup_dump_dir(sim,in,out_dir);
 
 
 	buffer_malloc(&buf);
@@ -326,9 +326,9 @@ if (get_dump_status(sim,dump_optics_summary)==TRUE)
 	buf.x=1;
 	buf.y=in->lpoints;
 	buf.z=1;
-	buffer_add_info(&buf);
-	buffer_add_xy_data(&buf,in->l, in->reflect, in->lpoints);
-	buffer_dump_path(sim,out_dir,"reflect.dat",&buf);
+	buffer_add_info(sim,&buf);
+	buffer_add_xy_data(sim,&buf,in->l, in->reflect, in->lpoints);
+	buffer_dump_path(sim,in->dump_dir,"reflect.dat",&buf);
 	buffer_free(&buf);
 }
 
@@ -337,11 +337,10 @@ if (get_dump_status(sim,dump_optics_summary)==TRUE)
 }
 void light_dump_1d(struct simulation *sim,struct light *in, int i,char *ext)
 {
-
-char out_dir[1024];
 char line[1024];
 char out_name[200];
 char temp_name[400];
+char temp[1024];
 
 struct buffer data_photons;
 struct buffer data_photons_norm;
@@ -373,10 +372,8 @@ buffer_init(&buf);
 if (get_dump_status(sim,dump_optics)==TRUE)
 {
 
-	light_setup_dump_dir(sim,in,out_dir);
 
 
-	FILE *out;
 	int ii;
 	char name[400];
 	double max=0.0;
@@ -401,7 +398,7 @@ if (get_dump_status(sim,dump_optics)==TRUE)
 		buf.y=in->points;
 		buf.z=1;
 
-		buffer_add_info(&buf);
+		buffer_add_info(sim,&buf);
 
 		buffer_add_string(&buf,"#data\n");
 
@@ -414,8 +411,9 @@ if (get_dump_status(sim,dump_optics)==TRUE)
 		buffer_add_string(&buf,"#end");
 
 		sprintf(out_name,"light_1d_photons_tot_norm%s.dat",ext);
-		buffer_dump_path(sim,out_dir,out_name,&buf);
+		buffer_dump_path(sim,in->dump_dir,out_name,&buf);
 		buffer_free(&buf);
+		printf("Write.....%s %s\n",in->dump_dir,out_name);
 
 		sprintf(temp_name,"light_1d_photons_tot%s.dat",ext);
 
@@ -428,7 +426,7 @@ if (get_dump_status(sim,dump_optics)==TRUE)
 
 		}
 
-		buffer_dump_path(sim,out_dir,temp_name,&data_1d_photons_tot);
+		buffer_dump_path(sim,in->dump_dir,temp_name,&data_1d_photons_tot);
 
 
 
@@ -448,7 +446,7 @@ if (get_dump_status(sim,dump_optics)==TRUE)
 		buf.x=1;
 		buf.y=in->points;
 		buf.z=1;
-		buffer_add_info(&buf);
+		buffer_add_info(sim,&buf);
 
 		for (ii=0;ii<in->points;ii++)
 		{
@@ -457,7 +455,7 @@ if (get_dump_status(sim,dump_optics)==TRUE)
 		}
 
 		sprintf(out_name,"light_1d_photons_tot_abs_norm%s.dat",ext);
-		buffer_dump_path(sim,out_dir,out_name,&buf);
+		buffer_dump_path(sim,in->dump_dir,out_name,&buf);
 		buffer_free(&buf);
 
 
@@ -475,7 +473,7 @@ if (get_dump_status(sim,dump_optics)==TRUE)
 		buf.x=1;
 		buf.y=in->points;
 		buf.z=1;
-		buffer_add_info(&buf);
+		buffer_add_info(sim,&buf);
 
 		for (ii=0;ii<in->points;ii++)
 		{
@@ -483,7 +481,7 @@ if (get_dump_status(sim,dump_optics)==TRUE)
 			buffer_add_string(&buf,line);
 		}
 
-		buffer_dump_path(sim,out_dir,"light_1d_Gn.dat",&buf);
+		buffer_dump_path(sim,in->dump_dir,"light_1d_Gn.dat",&buf);
 		buffer_free(&buf);
 
 
@@ -502,7 +500,7 @@ if (get_dump_status(sim,dump_optics)==TRUE)
 		buf.x=1;
 		buf.y=in->points;
 		buf.z=1;
-		buffer_add_info(&buf);
+		buffer_add_info(sim,&buf);
 
 		for (ii=0;ii<in->points;ii++)
 		{
@@ -510,7 +508,7 @@ if (get_dump_status(sim,dump_optics)==TRUE)
 			buffer_add_string(&buf,line);
 		}
 
-		buffer_dump_path(sim,out_dir,"light_1d_Gp.dat",&buf);
+		buffer_dump_path(sim,in->dump_dir,"light_1d_Gp.dat",&buf);
 		buffer_free(&buf);
 		
 	}
@@ -582,16 +580,16 @@ if (get_dump_status(sim,dump_optics)==TRUE)
 		buffer_add_string(&data_alpha,line);
 	}
 
-	buffer_dump_path(sim,out_dir,name_photons,&data_photons);
-	buffer_dump_path(sim,out_dir,name_photons_norm,&data_photons_norm);
-	buffer_dump_path(sim,out_dir,name_light_1d_Ep,&data_light_1d_Ep);
-	buffer_dump_path(sim,out_dir,name_light_1d_En,&data_light_1d_En);
-	buffer_dump_path(sim,out_dir,name_pointing,&data_pointing);
-	buffer_dump_path(sim,out_dir,name_E_tot,&data_E_tot);
-	buffer_dump_path(sim,out_dir,name_r,&data_r);
-	buffer_dump_path(sim,out_dir,name_t,&data_t);
-	buffer_dump_path(sim,out_dir,name_n,&data_n);
-	buffer_dump_path(sim,out_dir,name_alpha,&data_alpha);
+	buffer_dump_path(sim,in->dump_dir,name_photons,&data_photons);
+	buffer_dump_path(sim,in->dump_dir,name_photons_norm,&data_photons_norm);
+	buffer_dump_path(sim,in->dump_dir,name_light_1d_Ep,&data_light_1d_Ep);
+	buffer_dump_path(sim,in->dump_dir,name_light_1d_En,&data_light_1d_En);
+	buffer_dump_path(sim,in->dump_dir,name_pointing,&data_pointing);
+	buffer_dump_path(sim,in->dump_dir,name_E_tot,&data_E_tot);
+	buffer_dump_path(sim,in->dump_dir,name_r,&data_r);
+	buffer_dump_path(sim,in->dump_dir,name_t,&data_t);
+	buffer_dump_path(sim,in->dump_dir,name_n,&data_n);
+	buffer_dump_path(sim,in->dump_dir,name_alpha,&data_alpha);
 
 
 
@@ -615,79 +613,254 @@ if (get_dump_status(sim,dump_optics)==TRUE)
 
 	if (get_dump_status(sim,dump_optics_verbose)==TRUE)
 	{
-		sprintf(name,"%s/light_1d_%.0Lf_layer%s.dat",out_dir,in->l[i]*1e9,ext);
-		out=fopen(name,"w");
+
+		buffer_malloc(&buf);
+		buf.y_mul=1.0;
+		buf.x_mul=1e9;
+		strcpy(buf.title,"Layer number vs position");
+		strcpy(buf.type,"xy");
+		strcpy(buf.x_label,_("Position"));
+		strcpy(buf.data_label,_("Layer number"));
+		strcpy(buf.x_units,"nm");
+		strcpy(buf.data_units,"au");
+		buf.logscale_x=0;
+		buf.logscale_y=0;
+		buf.x=1;
+		buf.y=in->points;
+		buf.z=1;
+		buffer_add_info(sim,&buf);
+
+		sprintf(temp,"#data\n");
+		buffer_add_string(&buf,temp);
+	
 		for (ii=0;ii<in->points;ii++)
 		{
-			fprintf(out,"%Le %d\n",in->x[ii]-in->device_start,in->layer[ii]);
+			sprintf(line,"%Le %d\n",in->x[ii]-in->device_start,in->layer[ii]);
+			buffer_add_string(&buf,line);
 		}
-		fclose(out);
 
 
-		sprintf(name,"%s/light_1d_%.0Lf_E%s.dat",out_dir,in->l[i]*1e9,ext);
-		out=fopen(name,"w");
+		sprintf(temp,"#end\n");
+		buffer_add_string(&buf,temp);
+
+		sprintf(name,"light_1d_%.0Lf_layer%s.dat",in->l[i]*1e9,ext);
+		buffer_dump_path(sim,in->dump_dir,name,&buf);
+		buffer_free(&buf);
+
+
+		buffer_malloc(&buf);
+		buf.y_mul=1.0;
+		buf.x_mul=1e9;
+		strcpy(buf.title,"|Electric field| vs position");
+		strcpy(buf.type,"xy");
+		strcpy(buf.x_label,_("Position"));
+		strcpy(buf.data_label,_("|Electric field|"));
+		strcpy(buf.x_units,"nm");
+		strcpy(buf.data_units,"V/m");
+		buf.logscale_x=0;
+		buf.logscale_y=0;
+		buf.x=1;
+		buf.y=in->points;
+		buf.z=1;
+		buffer_add_info(sim,&buf);
+
+		sprintf(temp,"#data\n");
+		buffer_add_string(&buf,temp);
+	
 		for (ii=0;ii<in->points;ii++)
 		{
-			fprintf(out,"%Le %Le\n",in->x[ii]-in->device_start,gpow(gpow(in->Ep[i][ii]+in->En[i][ii],2.0)+gpow(in->Enz[i][ii]+in->Epz[i][ii],2.0),0.5));
+			sprintf(line,"%Le %Le\n",in->x[ii]-in->device_start,gpow(gpow(in->Ep[i][ii]+in->En[i][ii],2.0)+gpow(in->Enz[i][ii]+in->Epz[i][ii],2.0),0.5));
+			buffer_add_string(&buf,line);
 		}
-		fclose(out);
 
 
+		sprintf(temp,"#end\n");
+		buffer_add_string(&buf,temp);
 
-		sprintf(name,"%s/light_1d_%.0Lf_t%s.dat",out_dir,in->l[i]*1e9,ext);
-		out=fopen(name,"w");
+		sprintf(name,"light_1d_%.0Lf_E%s.dat",in->l[i]*1e9,ext);
+		buffer_dump_path(sim,in->dump_dir,name,&buf);
+		buffer_free(&buf);
+
+
+		buffer_malloc(&buf);
+		buf.y_mul=1.0;
+		buf.x_mul=1e9;
+		strcpy(buf.title,"Transmittance vs position");
+		strcpy(buf.type,"xy");
+		strcpy(buf.x_label,_("Position"));
+		strcpy(buf.data_label,_("Transmittance"));
+		strcpy(buf.x_units,"nm");
+		strcpy(buf.data_units,"au");
+		buf.logscale_x=0;
+		buf.logscale_y=0;
+		buf.x=1;
+		buf.y=in->points;
+		buf.z=1;
+		buffer_add_info(sim,&buf);
+
+		sprintf(temp,"#data\n");
+		buffer_add_string(&buf,temp);
+	
 		for (ii=0;ii<in->points;ii++)
 		{
-			fprintf(out,"%Le %Le\n",in->x[ii]-in->device_start,gcabs(in->t[i][ii]));
+			sprintf(line,"%Le %Le\n",in->x[ii]-in->device_start,gcabs(in->t[i][ii]));
+			buffer_add_string(&buf,line);
 		}
-		fclose(out);
 
-		sprintf(name,"%s/light_1d_%.0Lf_r%s.dat",out_dir,in->l[i]*1e9,ext);
-		out=fopen(name,"w");
+
+		sprintf(temp,"#end\n");
+		buffer_add_string(&buf,temp);
+
+		sprintf(name,"light_1d_%.0Lf_t%s.dat",in->l[i]*1e9,ext);
+		buffer_dump_path(sim,in->dump_dir,name,&buf);
+		buffer_free(&buf);
+
+
+
+		buffer_malloc(&buf);
+		buf.y_mul=1.0;
+		buf.x_mul=1e9;
+		strcpy(buf.title,"Reflectance vs position");
+		strcpy(buf.type,"xy");
+		strcpy(buf.x_label,_("Position"));
+		strcpy(buf.data_label,_("Reflectance"));
+		strcpy(buf.x_units,"nm");
+		strcpy(buf.data_units,"au");
+		buf.logscale_x=0;
+		buf.logscale_y=0;
+		buf.x=1;
+		buf.y=in->points;
+		buf.z=1;
+		buffer_add_info(sim,&buf);
+
+		sprintf(temp,"#data\n");
+		buffer_add_string(&buf,temp);
+	
 		for (ii=0;ii<in->points;ii++)
 		{
-			fprintf(out,"%Le %Le\n",in->x[ii]-in->device_start,gcabs(in->r[i][ii]));
+			sprintf(line,"%Le %Le\n",in->x[ii]-in->device_start,gcabs(in->r[i][ii]));
+			buffer_add_string(&buf,line);
 		}
-		fclose(out);
 
-		sprintf(name,"%s/light_1d_%.0Lf_photons_abs%s.dat",out_dir,in->l[i]*1e9,ext);
-		out=fopen(name,"w");
+
+		sprintf(temp,"#end\n");
+		buffer_add_string(&buf,temp);
+
+		sprintf(name,"light_1d_%.0Lf_r%s.dat",in->l[i]*1e9,ext);
+		buffer_dump_path(sim,in->dump_dir,name,&buf);
+		buffer_free(&buf);
+
+
+
+
+
+		buffer_malloc(&buf);
+		buf.y_mul=1.0;
+		buf.x_mul=1e9;
+		strcpy(buf.title,"Photons absorbed vs position");
+		strcpy(buf.type,"xy");
+		strcpy(buf.x_label,_("Position"));
+		strcpy(buf.data_label,_("Photons absorbed"));
+		strcpy(buf.x_units,"nm");
+		strcpy(buf.data_units,"m^{-3} m^{-1}");
+		buf.logscale_x=0;
+		buf.logscale_y=0;
+		buf.x=1;
+		buf.y=in->points;
+		buf.z=1;
+		buffer_add_info(sim,&buf);
+
+		sprintf(temp,"#data\n");
+		buffer_add_string(&buf,temp);
+	
 		for (ii=0;ii<in->points;ii++)
 		{
-			fprintf(out,"%Le %Le\n",in->x[ii]-in->device_start,in->photons_asb[i][ii]);
+			sprintf(line,"%Le %Le\n",in->x[ii]-in->device_start,in->photons_asb[i][ii]);
+			buffer_add_string(&buf,line);
 		}
-		fclose(out);
 
 
-		sprintf(name,"%s/light_1d_%.0Lf_n%s.dat",out_dir,in->l[i]*1e9,ext);
-		out=fopen(name,"w");
+		sprintf(temp,"#end\n");
+		buffer_add_string(&buf,temp);
 
+		sprintf(name,"light_1d_%.0Lf_photons_abs%s.dat",in->l[i]*1e9,ext);
+		buffer_dump_path(sim,in->dump_dir,name,&buf);
+		buffer_free(&buf);
+
+
+
+
+
+
+		buffer_malloc(&buf);
+		buf.y_mul=1.0;
+		buf.x_mul=1e9;
+		strcpy(buf.title,"Real refractive index (n) vs position");
+		strcpy(buf.type,"xy");
+		strcpy(buf.x_label,_("Position"));
+		strcpy(buf.data_label,_("Real refractive index"));
+		strcpy(buf.x_units,"nm");
+		strcpy(buf.data_units,"au");
+		buf.logscale_x=0;
+		buf.logscale_y=0;
+		buf.x=1;
+		buf.y=in->points;
+		buf.z=1;
+		buffer_add_info(sim,&buf);
+
+		sprintf(temp,"#data\n");
+		buffer_add_string(&buf,temp);
+	
 		for (ii=0;ii<in->points;ii++)
 		{
-			fprintf(out,"%Le %Le\n",in->x[ii]-in->device_start,in->n[i][ii]);
+			sprintf(line,"%Le %Le\n",in->x[ii]-in->device_start,in->n[i][ii]);
+			buffer_add_string(&buf,line);
 		}
 
 
-		fclose(out);
+		sprintf(temp,"#end\n");
+		buffer_add_string(&buf,temp);
 
-		sprintf(name,"%s/light_1d_%.0Lf_alpha%s.dat",out_dir,in->l[i]*1e9,ext);
-		out=fopen(name,"w");
+		sprintf(name,"light_1d_%.0Lf_n%s.dat",in->l[i]*1e9,ext);
+		buffer_dump_path(sim,in->dump_dir,name,&buf);
+		buffer_free(&buf);
 
+
+
+
+		buffer_malloc(&buf);
+		buf.y_mul=1.0;
+		buf.x_mul=1e9;
+		strcpy(buf.title,"Absorption vs position");
+		strcpy(buf.type,"xy");
+		strcpy(buf.x_label,_("Position"));
+		strcpy(buf.data_label,_("Absorption"));
+		strcpy(buf.x_units,"nm");
+		strcpy(buf.data_units,"m^{-1}");
+		buf.logscale_x=0;
+		buf.logscale_y=0;
+		buf.x=1;
+		buf.y=in->points;
+		buf.z=1;
+		buffer_add_info(sim,&buf);
+
+		sprintf(temp,"#data\n");
+		buffer_add_string(&buf,temp);
+	
 		for (ii=0;ii<in->points;ii++)
 		{
-			fprintf(out,"%Le %Le\n",in->x[ii]-in->device_start,in->alpha[i][ii]);
+			sprintf(line,"%Le %Le\n",in->x[ii]-in->device_start,in->alpha[i][ii]);
+			buffer_add_string(&buf,line);
 		}
 
 
-		fclose(out);
+		sprintf(temp,"#end\n");
+		buffer_add_string(&buf,temp);
 
+		sprintf(name,"light_1d_%.0Lf_alpha%s.dat",in->l[i]*1e9,ext);
+		buffer_dump_path(sim,in->dump_dir,name,&buf);
+		buffer_free(&buf);
 
-		out=fopena(out_dir,"light_sun_wavelength_E.dat","w");
-		for (ii=0;ii<in->lpoints;ii++)
-		{
-			fprintf(out,"%Le %Le\n",in->l[ii],in->sun_E[ii]);
-		}
-		fclose(out);
 
 		
 	}

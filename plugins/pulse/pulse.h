@@ -29,6 +29,8 @@ struct pulse
 	gdouble pulse_bias;
 	gdouble pulse_light_efficiency;
 	int pulse_sim_mode;
+	int pulse_subtract_dc;
+
 };
 
 

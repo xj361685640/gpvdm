@@ -31,9 +31,12 @@
 
 struct mesh
 {
-gdouble number;
-gdouble len;
-gdouble den;
+long double dx;
+long double len;
+long double mul;
+long double *dmesh;
+int n_points;
+int left_right;
 };
 
 
@@ -49,6 +52,9 @@ struct device
 		int ymeshpoints;
 
 		int remesh;
+		int remesh_x;
+		int remesh_y;
+		int remesh_z;
 		int newmeshsize;
 		gdouble Vl;
 		gdouble Vr;
@@ -72,6 +78,10 @@ struct device
 		gdouble *xmesh;
 		gdouble *zmesh;
 
+		gdouble *dymesh;
+		gdouble *dxmesh;
+		gdouble *dzmesh;
+
 		//2D arrays
 		gdouble **Vapplied_r;
 		gdouble **Vapplied_l;		
@@ -89,6 +99,8 @@ struct device
 		gdouble ***G;
 		gdouble ***Gn;
 		gdouble ***Gp;
+		gdouble ***Photon_gen;
+
 		gdouble ***n;
 		gdouble ***p;
 		gdouble ***dn;
@@ -329,6 +341,8 @@ struct device
 
 	int interfaceleft;
 	int interfaceright;
+	gdouble electron_affinity_left;
+	gdouble electron_affinity_right;
 	gdouble phibleft;
 	gdouble phibright;
 	gdouble vl_e;
@@ -437,6 +451,7 @@ struct device
 	//LED
 	int led_on;
 	long double led_wavelength;
+
 };
 
 void device_init(struct device *in);

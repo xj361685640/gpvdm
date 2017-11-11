@@ -2,9 +2,9 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+//  Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
-//	www.rodmack.com
+//	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
@@ -35,9 +35,16 @@ gdouble newton_sim_voc_fast(struct simulation *sim,struct device *in,int do_LC)
 {
 gdouble Vapplied=0.0;
 gdouble Vapplied_last=0.0;
+//long double photon_density=0.0;
 
-Vapplied=contact_get_voltage(sim,in,0);
-Vapplied_last=contact_get_voltage_last(sim,in,0);
+//photon_density=three_d_avg(in, in->Gn);
+//if (photon_density<1.0)
+//{
+//	return 0.0;
+//}
+
+Vapplied=contact_get_active_contact_voltage(sim,in);
+Vapplied_last=contact_get_active_contact_voltage_last(sim,in);
 
 newton_sim_voc(sim,in);
 
@@ -47,6 +54,13 @@ return get_I(in)+in->C*(Vapplied-Vapplied_last)+Vapplied/in->Rshunt;
 gdouble newton_sim_voc(struct simulation *sim, struct device *in)
 {
 printf_log(sim,"Looking for Voc\n");
+//long double photon_density=0.0;
+//photon_density=three_d_avg(in, in->Gn);
+//if (photon_density<1.0)
+//{
+//	return 0.0;
+//}
+
 gdouble C=in->C;
 gdouble clamp=0.1;
 gdouble step=0.01;
@@ -59,15 +73,15 @@ gdouble Rdrain=in->Rload+in->Rcontact;
 gdouble Vapplied=0.0;
 gdouble Vapplied_last=0.0;
 
-Vapplied=contact_get_voltage(sim,in,0);
-Vapplied_last=contact_get_voltage_last(sim,in,0);
+Vapplied=contact_get_active_contact_voltage(sim,in);
+Vapplied_last=contact_get_active_contact_voltage_last(sim,in);
 
 solve_all(sim,in);
 i0=get_I(in);
 e0=fabs(i0+Vapplied*(1.0/in->Rshunt-1.0/Rdrain));
 
 Vapplied+=step;
-contact_set_voltage(sim,in,0,Vapplied);
+contact_set_active_contact_voltage(sim,in,Vapplied);
 solve_all(sim,in);
 i1=get_I(in);
 e1=fabs(i1+Vapplied*(1.0/in->Rshunt-1.0/Rdrain));
@@ -77,10 +91,11 @@ step=-e1/deriv;
 
 step=step/(1.0+fabs(step/clamp));
 Vapplied+=step;
-contact_set_voltage(sim,in,0,Vapplied);
+contact_set_active_contact_voltage(sim,in,Vapplied);
 
 int count=0;
 int max=200;
+long double error_diff=0.0;
 do
 {
 	e0=e1;
@@ -89,10 +104,11 @@ do
 	e1=fabs(i1+Vapplied*(1.0/in->Rshunt-1.0/Rdrain));
 	deriv=(e1-e0)/step;
 	step=-e1/deriv;
+	error_diff=e1-e0;
 
 	step=step/(1.0+fabs(step/clamp));
 	Vapplied+=step;
-	contact_set_voltage(sim,in,0,Vapplied);
+	contact_set_active_contact_voltage(sim,in,Vapplied);
 
 	if (get_dump_status(sim,dump_print_text)==TRUE)
 	{
@@ -101,7 +117,14 @@ do
 	if (count>max) break;
 	count++;
 
-}while(e1>1e-12);
+	
+	if (error_diff>0)
+	{
+		clamp/=1.1;
+		printf_log(sim,"*");
+	}
+		
+	}while(e1>1e-12);
 
 gdouble ret=Vapplied-C*(i1-in->Ilast)/in->dt;
 return ret;

@@ -160,10 +160,9 @@ def command_args(argc,argv):
 			sys.exit(0)
 		if args.runscan:
 			scan_dir_path=args.runscan[1]	#program file
-			program_list=[]
 			base_dir=args.runscan[0]				#base dir
 			exe_command   =  get_exe_command()
-			tree_load_program(program_list,scan_dir_path)
+			program_list=tree_load_program(scan_dir_path)
 
 			watch_dir=os.path.join(os.getcwd(),scan_dir_path)
 			#print(program_list,pwd,scan_dir_path)

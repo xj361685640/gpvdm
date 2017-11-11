@@ -50,13 +50,13 @@
 #include <advmath.h>
 #include <plot.h>
 #include <assert.h>
+#include <rpn.h>
 
 static int unused __attribute__((unused));
 
 
 int main (int argc, char *argv[])
 {
-
 //setlocale(LC_ALL,"");
 //bindtextdomain("gpvdm","./lang/");
 //textdomain("gpvdm");
@@ -67,6 +67,12 @@ int run=FALSE;
 struct simulation sim;
 sim_init(&sim);
 
+/*struct rpn rpn_cal;
+rpn_init(&sim,&rpn_cal);
+rpn_add_var(&sim,&rpn_cal,"a",1e-10);
+double value1=rpn_evaluate(&sim,&rpn_cal,"log(a)");
+printf("rodeval: %le\n",value1);
+return 0;*/
 
 if (scanarg( argv,argc,"--gui")==TRUE)
 {

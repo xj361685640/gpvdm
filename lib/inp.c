@@ -34,6 +34,15 @@
 #include <log.h>
 #include <cal_path.h>
 
+int inp_test_end_of_data(char *line)
+{
+if ((line==NULL)||(strcmp(line,"#end")==0)||(strcmp(line,"#ver")==0))
+{
+	return 0;
+}
+
+return -1;
+}
 int search_for_token(struct simulation *sim,char *ret,char *dir_name,char* token,char *search_value)
 {
 int i=0;
@@ -276,8 +285,9 @@ int zip_is_in_archive(char *full_file_name)
 {
 	char zip_path[1000];
 	char file_path[1000];
+	char file_name[1000];
 	get_dir_name_from_path(file_path,full_file_name);
-	char *file_name=get_file_name_from_path(full_file_name);
+	get_file_name_from_path(file_name,full_file_name);
 
 	join_path(2,zip_path,file_path,"sim.gpvdm");
 
@@ -411,9 +421,10 @@ if (f!=NULL)
 {
 	char zip_path[1000];
 	char file_path[1000];
-	get_dir_name_from_path(file_path,full_file_name);
+	char file_name[1000];
 
-	char *file_name=get_file_name_from_path(full_file_name);
+	get_dir_name_from_path(file_path,full_file_name);
+	get_file_name_from_path(file_name,full_file_name);
 
 	join_path(2,zip_path,file_path,"sim.gpvdm");
 
@@ -631,8 +642,10 @@ if ((in_zip_file!=0)||(outside_zip_file==0))
 {
 	char zip_path[1000];
 	char file_path[1000];
+	char file_name[1000];
+
 	get_dir_name_from_path(file_path,full_file_name);
-	char *file_name=get_file_name_from_path(full_file_name);
+	get_file_name_from_path(file_name,full_file_name);
 
 	join_path(2,zip_path,file_path,"sim.gpvdm");
 
@@ -689,26 +702,27 @@ void inp_free(struct simulation *sim,struct inp_file *in)
 	inp_init(sim,in);
 }
 
-void inp_search_gdouble(struct simulation *sim,struct inp_file *in,gdouble* out,char* token)
+int inp_search_gdouble(struct simulation *sim,struct inp_file *in,gdouble* out,char* token)
 {
 char temp[200];
 if (inp_search(sim,temp,in,token)==0)
 {
 	sscanf(temp,"%Le",out);
-	return;
+	return 0;
 }
-ewe(sim,"token %s not found in file %s\n",token,in->full_name);
+return -1;
+//ewe(sim,"token %s not found in file %s\n",token,in->full_name);
 }
 
-void inp_search_double(struct simulation *sim,struct inp_file *in,double* out,char* token)
+int inp_search_double(struct simulation *sim,struct inp_file *in,double* out,char* token)
 {
 char temp[200];
 if (inp_search(sim,temp,in,token)==0)
 {
 	sscanf(temp,"%le",out);
-	return;
+	return 0;
 }
-ewe(sim,"token %s not found in file %s\n",token,in->full_name);
+return -1;
 }
 
 void inp_search_double_offset(struct simulation *sim,struct inp_file *in,double* out,char* token,int offset)

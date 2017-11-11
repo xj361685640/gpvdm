@@ -62,6 +62,8 @@ if (lam==2)
 
 	inter_load(sim,&data,in->light_file_generation);
 
+	inter_add_x(&data,in->light_file_generation_shift);
+
 	for (i=0;i<in->points;i++)
 	{
 		in->Gn[i]=inter_get_hard(&data,in->x[i]);

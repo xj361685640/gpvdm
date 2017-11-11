@@ -48,11 +48,11 @@ config_files.append("lang")
 config_files.append("libi")
 link_libs=link_libs+" -lgpvdm_i"
 
+config_files.append("librpn")
+link_libs=link_libs+" -lgpvdm_rpn"
+
 config_files.append("libmemory")
 link_libs=link_libs+" -lgpvdm_memory"
-
-config_files.append("lib")
-link_libs=link_libs+" -lgpvdm_lib"
 
 config_files.append("libdos")
 link_libs=link_libs+" -lgpvdm_dos"
@@ -62,6 +62,12 @@ link_libs=link_libs+" -lgpvdm_light"
 
 config_files.append("libmeasure")
 link_libs=link_libs+" -lgpvdm_measure"
+
+config_files.append("libcontacts")
+link_libs=link_libs+" -lgpvdm_contacts"
+
+config_files.append("lib")
+link_libs=link_libs+" -lgpvdm_lib"
 
 config_files.append("libdump")
 link_libs=link_libs+" -lgpvdm_dump"

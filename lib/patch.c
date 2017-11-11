@@ -70,7 +70,7 @@ do
 
 	if (token[0]!='#')
 	{
-		ewe(sim,"error token does not begin with #\n",token);
+		ewe(sim,"error token does not begin with # >%s< >%s<\n",token,patch_file);
 	}
 	else
 	{

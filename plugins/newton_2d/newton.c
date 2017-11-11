@@ -1577,7 +1577,7 @@ do
 
 				build= -(deriv);
 
-				build+= -(-(pc-nc-Nad)*Q);
+				build+= -(-(pc-nc+Nad)*Q);
 
 				for (band=0;band<in->srh_bands;band++)
 				{
@@ -2102,6 +2102,7 @@ int dllinternal_solve_cur(struct simulation *sim,struct device *in, int z, int x
 {
 gdouble error=0.0;
 int ittr=0;
+char temp[PATHLEN];
 
 if (get_dump_status(sim,dump_print_newtonerror)==TRUE)
 {
@@ -2222,7 +2223,8 @@ if (error>1e-3)
 //getchar();
 if (get_dump_status(sim,dump_newton)==TRUE)
 {
-	dump_1d_slice(sim,in,get_output_path(sim));
+	join_path(2,temp,get_output_path(sim),"solver");
+	dump_1d_slice(sim,in,temp);
 }
 //plot_now(sim,in,"plot");
 //getchar();

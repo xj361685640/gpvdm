@@ -19,7 +19,7 @@ image64dir = $(pkgdatadir)/images/64x64
 image64_DATA = images/64x64/*.png
 
 splashdir = $(pkgdatadir)/images/splash
-splash_DATA = images/splash/*.png
+splash_DATA = images/splash/*.png images/splash/*.jpg
 
 flagdir = $(pkgdatadir)/images/48x32
 flag_DATA = images/48x32/*.png
@@ -28,7 +28,7 @@ cssdir = $(pkgdatadir)/css
 css_DATA = css/*.css
 endif
 
-dist_pkgdata_DATA = sim.gpvdm
+dist_pkgdata_DATA = base.gpvdm
 
 device_libdir = $(pkgdatadir)/device_lib
 device_lib_DATA=device_lib/*.gpvdm
@@ -53,6 +53,9 @@ endif
 if INCLUDE_IMAGES
 appicondir=$(pkgdatadir)/images
 appicon_DATA=$(srcdir)/desktop/application-gpvdm.svg
+
+iconsdir=$(datadir)/icons/hicolor/scalable/mimetypes
+icons_DATA=$(srcdir)/desktop/simulation-gpvdm.svg
 endif
 
 if INCLUDE_DESKTOP
@@ -61,6 +64,7 @@ desktop_DATA = $(srcdir)/desktop/gpvdm.desktop
 
 packagesdir = $(datadir)/mime/packages
 packages_DATA = $(srcdir)/desktop/gpvdm-gpvdm.xml
+
 endif
 
 clean-local:

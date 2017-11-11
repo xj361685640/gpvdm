@@ -35,14 +35,13 @@
 #include <cal_path.h>
 #include <contacts.h>
 #include <contacts_vti_store.h>
+#include "measure.h"
 
 static int unused __attribute__((unused));
 
 void sim_jv(struct simulation *sim,struct device *in)
 {
 int lam=0;
-FILE *outf=fopen("o.dat","w");
-fclose(outf);
 printf_log(sim,_("Running JV simulation\n"));
 struct buffer buf;
 buffer_init(&buf);
@@ -127,7 +126,7 @@ newton_set_min_ittr(in,30);
 Vapplied=config.Vstart;
 contact_set_active_contact_voltage(sim,in,Vapplied);
 V=Vapplied;
-newton_sim_jv(sim,in);
+newton_sim_simple(sim,in);
 
 newton_pop_state(in);
 //newton_set_min_ittr(in,0);
@@ -150,7 +149,7 @@ in->stop=FALSE;
 
 		Vapplied=V;
 		contact_set_active_contact_voltage(sim,in,Vapplied);
-		newton_sim_jv(sim,in);
+		newton_sim_simple(sim,in);
 
 		J=get_equiv_J(sim,in);
 
@@ -295,8 +294,10 @@ if (get_dump_status(sim,dump_print_text)==TRUE)
 	printf_log(sim,"%s= %Lf percent\n",_("Efficiency"),gfabs(in->Pmax/light_get_sun(&(in->mylight))/1000)*100.0);
 }
 
+if (dumpfiles_should_dump(sim,"sim_info.dat")==0)
+{
 	FILE *out;
-	out=fopena(get_input_path(sim),"sim_info.dat","w");
+	out=fopena(get_output_path(sim),"sim_info.dat","w");
 	fprintf(out,"#ff\n%Lf\n",in->FF);
 	fprintf(out,"#pce\n%Lf\n",gfabs(100.0*in->Pmax/(1000.0*light_get_sun(&(in->mylight)))));
 	fprintf(out,"#Pmax\n%Lf\n",in->Pmax);
@@ -318,14 +319,27 @@ if (get_dump_status(sim,dump_print_text)==TRUE)
 	fprintf(out,"#led_extract_eff\n%Le\n",in->mylight.extract_eff[lam]);
 	fprintf(out,"#end");
 	fclose(out);
-
-
-if (get_dump_status(sim,dump_iodump)==TRUE)
-{
-
-	inter_save_a(&klist,get_output_path(sim),"k.dat");
-	inter_free(&klist);
 }
+
+buffer_malloc(&buf);
+buf.y_mul=1.0;
+buf.x_mul=1.0;
+sprintf(buf.title,"%s - %s",_("Recombination prefactor"),_("Applied voltage"));
+strcpy(buf.type,"xy");
+strcpy(buf.x_label,_("Applied Voltage"));
+strcpy(buf.data_label,_("Recombination prefactor"));
+strcpy(buf.x_units,"Volts");
+strcpy(buf.data_units,"m^{-6}s^{-1}");
+buf.logscale_x=0;
+buf.logscale_y=0;
+buf.logscale_z=0;
+buf.x=1;
+buf.y=charge.len;
+buf.z=1;
+buffer_add_info(sim,&buf);
+buffer_add_xy_data(sim,&buf,klist.x, klist.data, charge.len);
+buffer_dump_path(sim,get_output_path(sim),"k.dat",&buf);
+buffer_free(&buf);
 
 buffer_malloc(&buf);
 buf.y_mul=1.0;
@@ -342,14 +356,30 @@ buf.logscale_z=0;
 buf.x=1;
 buf.y=charge.len;
 buf.z=1;
-buffer_add_info(&buf);
-buffer_add_xy_data(&buf,charge.x, charge.data, charge.len);
+buffer_add_info(sim,&buf);
+buffer_add_xy_data(sim,&buf,charge.x, charge.data, charge.len);
 buffer_dump_path(sim,get_output_path(sim),"charge.dat",&buf);
 buffer_free(&buf);
 
-inter_save_a(&charge_tot,get_output_path(sim),"charge_tot.dat");
-inter_free(&charge_tot);
-
+buffer_malloc(&buf);
+buf.y_mul=1.0;
+buf.x_mul=1.0;
+sprintf(buf.title,"%s - %s",_("Total charge density"),_("Applied voltage"));
+strcpy(buf.type,"xy");
+strcpy(buf.x_label,_("Applied Voltage"));
+strcpy(buf.data_label,_("Total charge density"));
+strcpy(buf.x_units,"Volts");
+strcpy(buf.data_units,"m^{-3}");
+buf.logscale_x=0;
+buf.logscale_y=0;
+buf.logscale_z=0;
+buf.x=1;
+buf.y=charge.len;
+buf.z=1;
+buffer_add_info(sim,&buf);
+buffer_add_xy_data(sim,&buf,charge_tot.x, charge_tot.data, charge.len);
+buffer_dump_path(sim,get_output_path(sim),"charge_tot.dat",&buf);
+buffer_free(&buf);
 
 buffer_malloc(&buf);
 buf.y_mul=1.0;
@@ -365,8 +395,8 @@ buf.logscale_y=0;
 buf.x=1;
 buf.y=jvexternal.len;
 buf.z=1;
-buffer_add_info(&buf);
-buffer_add_xy_data(&buf,jvexternal.x, jvexternal.data, jvexternal.len);
+buffer_add_info(sim,&buf);
+buffer_add_xy_data(sim,&buf,jvexternal.x, jvexternal.data, jvexternal.len);
 buffer_dump_path(sim,get_output_path(sim),"jv.dat",&buf);
 buffer_free(&buf);
 
@@ -384,8 +414,8 @@ buf.logscale_y=0;
 buf.x=1;
 buf.y=jv.len;
 buf.z=1;
-buffer_add_info(&buf);
-buffer_add_xy_data(&buf,jv.x, jv.data, jv.len);
+buffer_add_info(sim,&buf);
+buffer_add_xy_data(sim,&buf,jv.x, jv.data, jv.len);
 buffer_dump_path(sim,get_output_path(sim),"jv_internal.dat",&buf);
 buffer_free(&buf);
 
@@ -403,8 +433,8 @@ buf.logscale_y=0;
 buf.x=1;
 buf.y=jvavg.len;
 buf.z=1;
-buffer_add_info(&buf);
-buffer_add_xy_data(&buf,jvavg.x, jvavg.data, jvavg.len);
+buffer_add_info(sim,&buf);
+buffer_add_xy_data(sim,&buf,jvavg.x, jvavg.data, jvavg.len);
 buffer_dump_path(sim,get_output_path(sim),"jv_avg.dat",&buf);
 buffer_free(&buf);
 
@@ -422,8 +452,8 @@ buf.logscale_y=0;
 buf.x=1;
 buf.y=jvexternal.len;
 buf.z=1;
-buffer_add_info(&buf);
-buffer_add_xy_data(&buf,jvexternal.x, jvexternal.data, jvexternal.len);
+buffer_add_info(sim,&buf);
+buffer_add_xy_data(sim,&buf,jvexternal.x, jvexternal.data, jvexternal.len);
 buffer_dump_path(sim,get_output_path(sim),"iv.dat",&buf);
 buffer_free(&buf);
 
@@ -441,8 +471,8 @@ buf.logscale_y=0;
 buf.x=1;
 buf.y=lv.len;
 buf.z=1;
-buffer_add_info(&buf);
-buffer_add_xy_data(&buf,lv.x, lv.data, lv.len);
+buffer_add_info(sim,&buf);
+buffer_add_xy_data(sim,&buf,lv.x, lv.data, lv.len);
 buffer_dump_path(sim,get_output_path(sim),"lv.dat",&buf);
 buffer_free(&buf);
 
@@ -462,8 +492,8 @@ buf.logscale_y=0;
 buf.x=1;
 buf.y=li.len;
 buf.z=1;
-buffer_add_info(&buf);
-buffer_add_xy_data(&buf,li.x, li.data, li.len);
+buffer_add_info(sim,&buf);
+buffer_add_xy_data(sim,&buf,li.x, li.data, li.len);
 buffer_dump_path(sim,get_output_path(sim),"li.dat",&buf);
 buffer_free(&buf);
 
@@ -474,7 +504,7 @@ inter_free(&charge);
 inter_free(&ivexternal);
 inter_free(&lv);
 inter_free(&li);
-
+inter_free(&klist);
 
 dump_dynamic_save(sim,get_output_path(sim),&store);
 dump_dynamic_free(sim,in,&store);

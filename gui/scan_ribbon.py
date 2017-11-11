@@ -102,6 +102,15 @@ class scan_ribbon(QTabWidget):
 		self.tb_plot_time = QAction(QIcon_load("plot_time"), wrap_text(_("Time domain plot"),6), self)
 		toolbar.addAction(self.tb_plot_time)
 
+		self.tb_build = QAction(QIcon_load("cog"), wrap_text(_("Build scan"),2), self)
+		toolbar.addAction(self.tb_build)
+
+		self.tb_rerun = QAction(QIcon_load("play-green"), wrap_text(_("Rerun"),2), self)
+		toolbar.addAction(self.tb_rerun)
+
+		self.tb_clean = QAction(QIcon_load("edit-delete"), wrap_text(_("Clean simulation"),4), self)
+		toolbar.addAction(self.tb_clean )
+
 		return toolbar
 
 	def advanced(self):
@@ -120,9 +129,6 @@ class scan_ribbon(QTabWidget):
 
 		self.single_fit = QAction(QIcon_load("forward"), wrap_text(_("Run single fit"),5), self)
 		toolbar.addAction(self.single_fit)
-
-		self.sim_clean = QAction(QIcon_load("edit-delete"), wrap_text(_("Clean simulation"),4), self)
-		toolbar.addAction(self.sim_clean )
 
 		self.clean_unconverged = QAction(QIcon_load("forward"), wrap_text(_("Clean unconverged simulation"),5), self)
 		toolbar.addAction(self.clean_unconverged)

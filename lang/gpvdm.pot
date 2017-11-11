@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.97\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2017-11-09 13:34+0000\n"
+"POT-Creation-Date: 2017-11-11 12:29+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,7 +33,7 @@ msgstr ""
 #: ../src/initial.c:116 ../src/initial.c:140 ../src/initial.c:164
 #: ../src/pos.c:67 ../src/pos.c:84 ../src/pos.c:119 ../src/pos.c:137
 #: ../src/pos.c:154 ../gui/band_graph.py:203 ../gui/qe.py:60
-#: ../gui/measure.py:98 ../gui/measure.py:139 ../libdump/dump_1d_slice.c:62
+#: ../gui/measure.py:89 ../gui/measure.py:130 ../libdump/dump_1d_slice.c:62
 #: ../libdump/dump_1d_slice.c:149 ../libdump/dump_1d_slice.c:207
 #: ../libdump/dump_1d_slice.c:236 ../libdump/dump_1d_slice.c:265
 #: ../libdump/dump_1d_slice.c:323 ../libdump/dump_1d_slice.c:352
@@ -746,8 +746,8 @@ msgstr ""
 msgid "FITNESS FOR A PARTICULAR PURPOSE.\n"
 msgstr ""
 
-#: ../src/main.c:198 ../gui/scan_tab.py:443 ../gui/constraints.py:148
-#: ../gui/constraints.py:187 ../gui/fit_vars.py:164 ../gui/fit_patch.py:128
+#: ../src/main.c:198 ../gui/scan_tab.py:442 ../gui/constraints.py:139
+#: ../gui/constraints.py:178 ../gui/fit_vars.py:155 ../gui/fit_patch.py:119
 msgid "Token"
 msgstr ""
 
@@ -937,7 +937,7 @@ msgstr ""
 msgid "Save graph"
 msgstr ""
 
-#: ../gui/qe.py:123 ../gui/matlab_editor.py:104
+#: ../gui/qe.py:123 ../gui/matlab_editor.py:95
 msgid "Run"
 msgstr ""
 
@@ -1156,16 +1156,16 @@ msgstr ""
 msgid "Delete section"
 msgstr ""
 
-#: ../gui/tmesh.py:453 ../gui/fxmesh.py:314 ../gui/scan_tab.py:551
-#: ../gui/scan_tab.py:621 ../gui/scan_tab.py:625 ../gui/measure.py:216
-#: ../gui/duplicate.py:224 ../gui/fit_vars.py:246 ../gui/equation.py:365
-#: ../gui/fit_patch.py:182
+#: ../gui/tmesh.py:453 ../gui/fxmesh.py:314 ../gui/scan_tab.py:550
+#: ../gui/scan_tab.py:620 ../gui/scan_tab.py:624 ../gui/measure.py:207
+#: ../gui/duplicate.py:215 ../gui/fit_vars.py:237 ../gui/equation.py:365
+#: ../gui/fit_patch.py:173
 msgid "Move down"
 msgstr ""
 
-#: ../gui/tmesh.py:457 ../gui/fxmesh.py:318 ../gui/scan_tab.py:555
-#: ../gui/measure.py:220 ../gui/duplicate.py:228 ../gui/fit_vars.py:250
-#: ../gui/equation.py:369 ../gui/fit_patch.py:186
+#: ../gui/tmesh.py:457 ../gui/fxmesh.py:318 ../gui/scan_tab.py:554
+#: ../gui/measure.py:211 ../gui/duplicate.py:219 ../gui/fit_vars.py:241
+#: ../gui/equation.py:369 ../gui/fit_patch.py:177
 msgid "Move up"
 msgstr ""
 
@@ -1206,7 +1206,7 @@ msgid "Run optical simulation"
 msgstr ""
 
 #: ../gui/optics_ribbon.py:113 ../gui/ribbon_solar.py:97 ../gui/ribbon.py:102
-#: ../gui/cool_menu.py:68 ../gui/scan_ribbon.py:180 ../gui/about.py:50
+#: ../gui/cool_menu.py:68 ../gui/scan_ribbon.py:183 ../gui/about.py:50
 #: ../gui/about.py:82 ../gui/status_icon.py:48
 msgid "About"
 msgstr ""
@@ -1405,63 +1405,63 @@ msgid "Select parameter"
 msgstr ""
 
 #: ../gui/scan_tab.py:243
+msgid "Problem generating tree."
+msgstr ""
+
+#: ../gui/scan_tab.py:253
 msgid ""
 "You have not selected any parameters to scan through.  Use the add button."
 msgstr ""
 
-#: ../gui/scan_tab.py:248
+#: ../gui/scan_tab.py:258
 msgid "No sim dir name"
 msgstr ""
 
-#: ../gui/scan_tab.py:265
-msgid "Problem generating tree."
-msgstr ""
-
-#: ../gui/scan_tab.py:443 ../gui/measure.py:98 ../gui/measure.py:139
-#: ../gui/gpvdm.py:254 ../gui/constraints.py:148 ../gui/constraints.py:187
-#: ../gui/ribbon.py:108 ../gui/snapshot_slider.py:131 ../gui/fit_vars.py:105
-#: ../gui/fit_vars.py:164 ../gui/plot_widget.py:564 ../gui/fit_patch.py:128
+#: ../gui/scan_tab.py:442 ../gui/measure.py:89 ../gui/measure.py:130
+#: ../gui/gpvdm.py:255 ../gui/constraints.py:139 ../gui/constraints.py:178
+#: ../gui/ribbon.py:108 ../gui/snapshot_slider.py:131 ../gui/fit_vars.py:96
+#: ../gui/fit_vars.py:155 ../gui/plot_widget.py:564 ../gui/fit_patch.py:119
 msgid "File"
 msgstr ""
 
-#: ../gui/scan_tab.py:443
+#: ../gui/scan_tab.py:442
 msgid "Parameter to change"
 msgstr ""
 
-#: ../gui/scan_tab.py:443 ../gui/fit_patch.py:128
+#: ../gui/scan_tab.py:442 ../gui/fit_patch.py:119
 msgid "Values"
 msgstr ""
 
-#: ../gui/scan_tab.py:443
+#: ../gui/scan_tab.py:442
 msgid "Opperation"
 msgstr ""
 
-#: ../gui/scan_tab.py:521 ../gui/ribbon_home.py:178
+#: ../gui/scan_tab.py:520 ../gui/ribbon_home.py:178
 msgid ""
 "Re-run the simulation with 'dump all slices' set to one to use this tool."
 msgstr ""
 
-#: ../gui/scan_tab.py:543
+#: ../gui/scan_tab.py:542
 msgid "Add parameter to scan"
 msgstr ""
 
-#: ../gui/scan_tab.py:547 ../gui/scan_tab.py:603
+#: ../gui/scan_tab.py:546 ../gui/scan_tab.py:602
 msgid "Delete item"
 msgstr ""
 
-#: ../gui/scan_tab.py:567
+#: ../gui/scan_tab.py:566
 msgid "Insert python command"
 msgstr ""
 
-#: ../gui/scan_tab.py:607
+#: ../gui/scan_tab.py:606
 msgid "Copy"
 msgstr ""
 
-#: ../gui/scan_tab.py:611
+#: ../gui/scan_tab.py:610
 msgid "Paste"
 msgstr ""
 
-#: ../gui/scan_tab.py:617
+#: ../gui/scan_tab.py:616
 msgid "Add item"
 msgstr ""
 
@@ -1690,15 +1690,15 @@ msgstr ""
 msgid "Show hidden"
 msgstr ""
 
-#: ../gui/scan_io.py:100
+#: ../gui/scan_io.py:101
 msgid "and "
 msgstr ""
 
-#: ../gui/scan_io.py:100
+#: ../gui/scan_io.py:101
 msgid " more."
 msgstr ""
 
-#: ../gui/scan_io.py:105
+#: ../gui/scan_io.py:106
 msgid "Should I delete these files?:\n"
 msgstr ""
 
@@ -1718,25 +1718,25 @@ msgstr ""
 msgid "Open file"
 msgstr ""
 
-#: ../gui/measure.py:98 ../gui/measure.py:139
+#: ../gui/measure.py:89 ../gui/measure.py:130
 msgid "Output token"
 msgstr ""
 
-#: ../gui/measure.py:98 ../gui/measure.py:139
+#: ../gui/measure.py:89 ../gui/measure.py:130
 msgid "Mathematical operation"
 msgstr ""
 
-#: ../gui/measure.py:200
+#: ../gui/measure.py:191
 msgid "Measurment editor"
 msgstr ""
 
-#: ../gui/measure.py:208 ../gui/constraints.py:247 ../gui/constraints.py:279
-#: ../gui/duplicate.py:216 ../gui/fit_patch.py:174
+#: ../gui/measure.py:199 ../gui/constraints.py:238 ../gui/constraints.py:270
+#: ../gui/duplicate.py:207 ../gui/fit_patch.py:165
 msgid "Add"
 msgstr ""
 
-#: ../gui/measure.py:212 ../gui/constraints.py:251 ../gui/constraints.py:283
-#: ../gui/duplicate.py:220 ../gui/fit_patch.py:178
+#: ../gui/measure.py:203 ../gui/constraints.py:242 ../gui/constraints.py:274
+#: ../gui/duplicate.py:211 ../gui/fit_patch.py:169
 msgid "Minus"
 msgstr ""
 
@@ -1975,67 +1975,67 @@ msgstr ""
 msgid "Basic"
 msgstr ""
 
-#: ../gui/gpvdm.py:128
+#: ../gui/gpvdm.py:129
 msgid "Don't run me as root!!"
 msgstr ""
 
-#: ../gui/gpvdm.py:165 ../gui/gpvdm_notebook.py:93 ../gui/gpvdm_notebook.py:154
+#: ../gui/gpvdm.py:166 ../gui/gpvdm_notebook.py:93 ../gui/gpvdm_notebook.py:154
 #: ../gui/ribbon_cluster.py:150
 msgid "Terminal"
 msgstr ""
 
-#: ../gui/gpvdm.py:218
+#: ../gui/gpvdm.py:219
 msgid "file opened"
 msgstr ""
 
-#: ../gui/gpvdm.py:223
+#: ../gui/gpvdm.py:224
 msgid ""
 "<big><b>New simulation!</b></big><br> Now selected the type of device you "
 "would like to simulate."
 msgstr ""
 
-#: ../gui/gpvdm.py:240
+#: ../gui/gpvdm.py:241
 msgid ""
 "<big><b>Now run the simulation</b></big><br> Click on the play icon to start "
 "a simulation."
 msgstr ""
 
-#: ../gui/gpvdm.py:245 ../gui/ribbon.py:111
+#: ../gui/gpvdm.py:246 ../gui/ribbon.py:111
 msgid "Home"
 msgstr ""
 
-#: ../gui/gpvdm.py:255
+#: ../gui/gpvdm.py:256
 msgid ""
 "<big><b>Hi!</b></big><br> I'm the on-line help system :).  If you find any "
 "bugs please report them to <a href=\"mailto:roderick.mackenzie@nottingham.ac."
 "uk\">roderick.mackenzie@nottingham.ac.uk</a>."
 msgstr ""
 
-#: ../gui/gpvdm.py:255
+#: ../gui/gpvdm.py:256
 msgid "Click on the new icon to make a new simulation directory."
 msgstr ""
 
-#: ../gui/gpvdm.py:292
+#: ../gui/gpvdm.py:294
 msgid "You should not try to open simulations in the root gpvdm directory."
 msgstr ""
 
-#: ../gui/gpvdm.py:298
+#: ../gui/gpvdm.py:300
 msgid ""
 "The simulation you want to import looks like it was made on an old version "
 "of gpvdm, do you want to try to open it anyway?"
 msgstr ""
 
-#: ../gui/gpvdm.py:305
+#: ../gui/gpvdm.py:307
 msgid ""
 "It looks like there is no materials database in the simulation directory "
 "should I import one?"
 msgstr ""
 
-#: ../gui/gpvdm.py:311
+#: ../gui/gpvdm.py:313
 msgid "Open an existing gpvdm simulation"
 msgstr ""
 
-#: ../gui/gpvdm.py:351
+#: ../gui/gpvdm.py:353
 msgid "The simulation directory has been deleted."
 msgstr ""
 
@@ -2133,12 +2133,12 @@ msgid ""
 "payback time."
 msgstr ""
 
-#: ../gui/tab_homo.py:65 ../gui/constraints.py:148 ../gui/constraints.py:187
+#: ../gui/tab_homo.py:65 ../gui/constraints.py:139 ../gui/constraints.py:178
 msgid "Function"
 msgstr ""
 
-#: ../gui/tab_homo.py:65 ../gui/duplicate.py:112 ../gui/duplicate.py:153
-#: ../gui/fit_vars.py:164
+#: ../gui/tab_homo.py:65 ../gui/duplicate.py:103 ../gui/duplicate.py:144
+#: ../gui/fit_vars.py:155
 msgid "Enabled"
 msgstr ""
 
@@ -2200,54 +2200,54 @@ msgstr ""
 msgid "Steady state simulation"
 msgstr ""
 
-#: ../gui/constraints.py:148 ../gui/constraints.py:187 ../gui/fit_vars.py:164
-#: ../gui/fit_patch.py:128
+#: ../gui/constraints.py:139 ../gui/constraints.py:178 ../gui/fit_vars.py:155
+#: ../gui/fit_patch.py:119
 msgid "Path"
 msgstr ""
 
-#: ../gui/constraints.py:148 ../gui/constraints.py:187
+#: ../gui/constraints.py:139 ../gui/constraints.py:178
 msgid "Max"
 msgstr ""
 
-#: ../gui/constraints.py:148 ../gui/constraints.py:187
+#: ../gui/constraints.py:139 ../gui/constraints.py:178
 msgid "Min"
 msgstr ""
 
-#: ../gui/constraints.py:148 ../gui/constraints.py:187 ../gui/error_han.py:76
+#: ../gui/constraints.py:139 ../gui/constraints.py:178 ../gui/error_han.py:76
 #: ../libfit/fit_dump.c:62 ../libfit/fit_dump.c:85 ../libfit/fit_dump.c:108
 msgid "Error"
 msgstr ""
 
-#: ../gui/constraints.py:156 ../gui/constraints.py:214
+#: ../gui/constraints.py:147 ../gui/constraints.py:205
 msgid "File (a)"
 msgstr ""
 
-#: ../gui/constraints.py:156 ../gui/constraints.py:214
+#: ../gui/constraints.py:147 ../gui/constraints.py:205
 msgid "Token (a)"
 msgstr ""
 
-#: ../gui/constraints.py:156 ../gui/constraints.py:214
+#: ../gui/constraints.py:147 ../gui/constraints.py:205
 msgid "Path (a)"
 msgstr ""
 
-#: ../gui/constraints.py:156 ../gui/constraints.py:214
+#: ../gui/constraints.py:147 ../gui/constraints.py:205
 msgid "File (b)"
 msgstr ""
 
-#: ../gui/constraints.py:156 ../gui/constraints.py:214
+#: ../gui/constraints.py:147 ../gui/constraints.py:205
 msgid "Token (b)"
 msgstr ""
 
-#: ../gui/constraints.py:156 ../gui/constraints.py:214
+#: ../gui/constraints.py:147 ../gui/constraints.py:205
 msgid "Path (b)"
 msgstr ""
 
-#: ../gui/constraints.py:156 ../gui/constraints.py:214
+#: ../gui/constraints.py:147 ../gui/constraints.py:205
 #: ../gui/tb_item_mat_file.py:57 ../gui/tb_item_mat_file.py:80
 msgid "Equation"
 msgstr ""
 
-#: ../gui/constraints.py:237
+#: ../gui/constraints.py:228
 msgid "Fit constraints window"
 msgstr ""
 
@@ -2470,7 +2470,7 @@ msgid ""
 "data"
 msgstr ""
 
-#: ../gui/ribbon.py:114 ../gui/scan_ribbon.py:189
+#: ../gui/ribbon.py:114 ../gui/scan_ribbon.py:192
 msgid "Simulations"
 msgstr ""
 
@@ -2566,15 +2566,15 @@ msgstr ""
 msgid "Clone the current simulation to a new simulation called:"
 msgstr ""
 
-#: ../gui/scan.py:176
+#: ../gui/scan.py:180
 msgid "Rename the simulation to be called:"
 msgstr ""
 
-#: ../gui/scan.py:194
+#: ../gui/scan.py:198
 msgid "Should I remove the simulation directory "
 msgstr ""
 
-#: ../gui/scan.py:241
+#: ../gui/scan.py:245
 msgid "Parameter scan - gpvdm"
 msgstr ""
 
@@ -2614,47 +2614,47 @@ msgstr ""
 msgid "pyton3-openpyxl not found"
 msgstr ""
 
-#: ../gui/duplicate.py:112
+#: ../gui/duplicate.py:103
 msgid "Source file"
 msgstr ""
 
-#: ../gui/duplicate.py:112
+#: ../gui/duplicate.py:103
 msgid "Source token"
 msgstr ""
 
-#: ../gui/duplicate.py:112 ../gui/duplicate.py:153
+#: ../gui/duplicate.py:103 ../gui/duplicate.py:144
 msgid "Source path"
 msgstr ""
 
-#: ../gui/duplicate.py:112
+#: ../gui/duplicate.py:103
 msgid "Destination file"
 msgstr ""
 
-#: ../gui/duplicate.py:112
+#: ../gui/duplicate.py:103
 msgid "Destination token"
 msgstr ""
 
-#: ../gui/duplicate.py:112 ../gui/duplicate.py:153
+#: ../gui/duplicate.py:103 ../gui/duplicate.py:144
 msgid "Destination path"
 msgstr ""
 
-#: ../gui/duplicate.py:153
+#: ../gui/duplicate.py:144
 msgid "Source File"
 msgstr ""
 
-#: ../gui/duplicate.py:153
+#: ../gui/duplicate.py:144
 msgid "Source Token"
 msgstr ""
 
-#: ../gui/duplicate.py:153
+#: ../gui/duplicate.py:144
 msgid "Destination File"
 msgstr ""
 
-#: ../gui/duplicate.py:153
+#: ../gui/duplicate.py:144
 msgid "Destination Token"
 msgstr ""
 
-#: ../gui/duplicate.py:208
+#: ../gui/duplicate.py:199
 msgid "Fit variables duplicate window"
 msgstr ""
 
@@ -2732,41 +2732,41 @@ msgstr ""
 msgid "Stop the simulation"
 msgstr ""
 
-#: ../gui/fit_vars.py:105
+#: ../gui/fit_vars.py:96
 msgid "token"
 msgstr ""
 
-#: ../gui/fit_vars.py:105
+#: ../gui/fit_vars.py:96
 msgid "path"
 msgstr ""
 
-#: ../gui/fit_vars.py:124
+#: ../gui/fit_vars.py:115
 msgid ""
 "The data file does not have a #begin or #end token indicating where the data "
 "starts and ends."
 msgstr ""
 
-#: ../gui/fit_vars.py:164
+#: ../gui/fit_vars.py:155
 msgid "Lines to edit"
 msgstr ""
 
-#: ../gui/fit_vars.py:164
+#: ../gui/fit_vars.py:155
 msgid "Line section to edit"
 msgstr ""
 
-#: ../gui/fit_vars.py:224
+#: ../gui/fit_vars.py:215
 msgid "Fit vars window - gpvdm"
 msgstr ""
 
-#: ../gui/fit_vars.py:238
+#: ../gui/fit_vars.py:229
 msgid "Add line"
 msgstr ""
 
-#: ../gui/fit_vars.py:242
+#: ../gui/fit_vars.py:233
 msgid "Remove line"
 msgstr ""
 
-#: ../gui/fit_vars.py:254
+#: ../gui/fit_vars.py:245
 msgid "Open"
 msgstr ""
 
@@ -3144,59 +3144,63 @@ msgstr ""
 msgid "Time domain plot"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:112
-msgid "Plot fits"
+#: ../gui/scan_ribbon.py:105
+msgid "Build scan"
 msgstr ""
 
 #: ../gui/scan_ribbon.py:115
-msgid "Run nested simulation"
+msgid "Plot fits"
 msgstr ""
 
 #: ../gui/scan_ribbon.py:118
-msgid "Run simulation no generation"
+msgid "Run nested simulation"
 msgstr ""
 
 #: ../gui/scan_ribbon.py:121
-msgid "Run single fit"
+msgid "Run simulation no generation"
 msgstr ""
 
 #: ../gui/scan_ribbon.py:124
-msgid "Clean simulation"
+msgid "Run single fit"
 msgstr ""
 
 #: ../gui/scan_ribbon.py:127
-msgid "Clean unconverged simulation"
+msgid "Clean simulation"
 msgstr ""
 
 #: ../gui/scan_ribbon.py:130
-msgid "Clean simulation output"
+msgid "Clean unconverged simulation"
 msgstr ""
 
 #: ../gui/scan_ribbon.py:133
-msgid "Push unconverged to hpc"
+msgid "Clean simulation output"
 msgstr ""
 
 #: ../gui/scan_ribbon.py:136
-msgid "Change dir"
+msgid "Push unconverged to hpc"
 msgstr ""
 
 #: ../gui/scan_ribbon.py:139
+msgid "Change dir"
+msgstr ""
+
+#: ../gui/scan_ribbon.py:142
 msgid "Report"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:149
+#: ../gui/scan_ribbon.py:152
 msgid "Build vectors"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:186
+#: ../gui/scan_ribbon.py:189
 msgid "Scan"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:194
+#: ../gui/scan_ribbon.py:197
 msgid "Advanced"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:198
+#: ../gui/scan_ribbon.py:201
 msgid "ML"
 msgstr ""
 
@@ -4633,7 +4637,7 @@ msgstr ""
 msgid "Optical setup"
 msgstr ""
 
-#: ../gui/fit_patch.py:99
+#: ../gui/fit_patch.py:90
 msgid "value"
 msgstr ""
 
