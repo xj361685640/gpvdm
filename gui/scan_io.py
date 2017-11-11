@@ -109,11 +109,11 @@ def scan_ask_to_delete(parent,dirs_to_del):
 			
 		if response == "yes":
 			scan_delete_files(dirs_to_del)
+			return "yes"
 		elif response == "no":
-			print("Not deleting")
+			return "no"
 		elif response == "cancel":
-			#run=False
-			print("Cancel")
+			return "cancel"
 
 class report_token():
 	def __init__(self,file_name,token):
@@ -141,13 +141,6 @@ def scan_gen_report(path):
 
 	#for ii in range(0,len(tokens)):
 	#	print(tokens[ii].values)
-
-
-def scan_clean_simulation_output(dir_to_clean):
-		#dirs_to_del=[]
-		simulation_dirs=scan_list_simulations(dir_to_clean)
-
-		clean_simulation(dir_to_clean,simulation_dirs)
 
 def scan_nested_simulation(root_simulation,nest_simulation):
 	program_list=tree_load_program(nest_simulation)
@@ -181,64 +174,75 @@ def scan_nested_simulation(root_simulation,nest_simulation):
 
 	#return commands
 
-def clean_simulation(parent,dir_to_clean,simulation_dirs):
-	files_to_delete=[]
-	sims_we_should_have=tree_load_flat_list(dir_to_clean)
-	for i in range(0,len(simulation_dirs)):
-		if sims_we_should_have.count(simulation_dirs[i])==0:
-			files_to_delete.append(simulation_dirs[i])
-		else:
-			listing=os.listdir(simulation_dirs[i])
+#def clean_simulation(parent_window,dir_to_clean):
+#	files_to_delete=[]
+#	listing=os.listdir(dir_to_clean)
 
-			for ii in range(0,len(listing)):
-				delete=True
-				path=os.path.join(simulation_dirs[i],listing[ii])
-				if path.endswith(".inp"):
-					delete=False
+#	for i in range(0,len(listing)):
+#		if os.path.isdir(listing[i])==True:
+#			files_to_delete.append(listing[i])
+	
+	#simulation_dirs=scan_list_simulations(dir_to_clean)
 
-				if path.endswith("exp"):
-					delete=False
+	#sims_we_should_have=tree_load_flat_list(dir_to_clean)
+	#for i in range(0,len(simulation_dirs)):
+		#if sims_we_should_have.count(simulation_dirs[i])==0:
+			#files_to_delete.append(simulation_dirs[i])
+		#else:
+			#listing=os.listdir(simulation_dirs[i])
 
-				if path.endswith("materials"):
-					delete=False
+			#for ii in range(0,len(listing)):
+				#delete=True
+				#path=os.path.join(simulation_dirs[i],listing[ii])
+				#if path.endswith(".inp"):
+					#delete=False
 
-				if path.endswith(".gpvdm"):
-					delete=False
+				#if path.endswith("exp"):
+					#delete=False
 
-				elif path.endswith(".gpvdm"):
-					delete=False
+				#if path.endswith("materials"):
+					#delete=False
 
-				elif path.endswith("fitlog_time_error.dat"):
-					delete=False
+				#if path.endswith(".gpvdm"):
+					#delete=False
 
-				elif path.endswith("fitlog_time_speed.dat"):
-					delete=False
+				#elif path.endswith(".gpvdm"):
+					#delete=False
 
-				elif path.endswith("fitlog_time_odes.dat"):
-					delete=False
+				#elif path.endswith("fitlog_time_error.dat"):
+					#delete=False
 
-				elif path.endswith("fitlog.dat"):
-					delete=False
+				#elif path.endswith("fitlog_time_speed.dat"):
+					#delete=False
 
-				elif path.endswith("fitlog_speed.dat"):
-					delete=False
+				#elif path.endswith("fitlog_time_odes.dat"):
+					#delete=False
 
-				elif path.endswith("fiterror.dat"):
-					delete=False
+				#elif path.endswith("fitlog.dat"):
+					#delete=False
 
-				if delete==True:
-					#print("delete",path)
-					files_to_delete.append(path)
+				#elif path.endswith("fitlog_speed.dat"):
+					#delete=False
 
-	scan_ask_to_delete(parent,files_to_delete)
+				#elif path.endswith("fiterror.dat"):
+					#delete=False
 
-def scan_clean_dir(parent,dir_to_clean):
-		dirs_to_del=[]
-		dirs_to_del=scan_list_simulations(dir_to_clean)
+				#if delete==True:
+					##print("delete",path)
+					#files_to_delete.append(path)
 
-		#print(dirs_to_del,dir_to_clean)
+	scan_ask_to_delete(parent_window,files_to_delete)
 
-		scan_ask_to_delete(parent,dirs_to_del)
+def scan_clean_dir(parent_window,dir_to_clean):
+	dirs_to_del=[]
+	listing=os.listdir(dir_to_clean)
+
+	for i in range(0,len(listing)):
+		full_path=os.path.join(dir_to_clean,listing[i])
+		if os.path.isdir(full_path)==True:
+			dirs_to_del.append(full_path)
+
+	scan_ask_to_delete(parent_window,dirs_to_del)
 
 def scan_clean_unconverged(parent,dir_to_clean):
 		dirs_to_del=[]

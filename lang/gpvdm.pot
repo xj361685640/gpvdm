@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.97\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2017-11-11 12:29+0000\n"
+"POT-Creation-Date: 2017-11-11 13:55+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,18 +21,18 @@ msgstr ""
 msgid "load"
 msgstr ""
 
-#: ../liblight/light_dump.c:469
+#: ../liblight/light_dump.c:465
 msgid "Electron generation rate"
 msgstr ""
 
-#: ../liblight/light_dump.c:471 ../liblight/light_dump.c:498
-#: ../liblight/light_dump.c:626 ../liblight/light_dump.c:660
-#: ../liblight/light_dump.c:694 ../liblight/light_dump.c:729
-#: ../liblight/light_dump.c:766 ../liblight/light_dump.c:804
-#: ../liblight/light_dump.c:840 ../src/initial.c:68 ../src/initial.c:92
-#: ../src/initial.c:116 ../src/initial.c:140 ../src/initial.c:164
-#: ../src/pos.c:67 ../src/pos.c:84 ../src/pos.c:119 ../src/pos.c:137
-#: ../src/pos.c:154 ../gui/band_graph.py:203 ../gui/qe.py:60
+#: ../liblight/light_dump.c:467 ../liblight/light_dump.c:494
+#: ../liblight/light_dump.c:622 ../liblight/light_dump.c:656
+#: ../liblight/light_dump.c:690 ../liblight/light_dump.c:725
+#: ../liblight/light_dump.c:762 ../liblight/light_dump.c:800
+#: ../liblight/light_dump.c:836 ../src/initial.c:64 ../src/initial.c:88
+#: ../src/initial.c:112 ../src/initial.c:136 ../src/initial.c:160
+#: ../src/pos.c:63 ../src/pos.c:80 ../src/pos.c:115 ../src/pos.c:133
+#: ../src/pos.c:150 ../gui/band_graph.py:203 ../gui/qe.py:60
 #: ../gui/measure.py:89 ../gui/measure.py:130 ../libdump/dump_1d_slice.c:62
 #: ../libdump/dump_1d_slice.c:149 ../libdump/dump_1d_slice.c:207
 #: ../libdump/dump_1d_slice.c:236 ../libdump/dump_1d_slice.c:265
@@ -58,67 +58,49 @@ msgstr ""
 msgid "Position"
 msgstr ""
 
-#: ../liblight/light_dump.c:472 ../liblight/light_dump.c:499
-#: ../libmeasure/probe.c:284 ../libmeasure/probe.c:309
+#: ../liblight/light_dump.c:468 ../liblight/light_dump.c:495
 #: ../plugins/pulse/pulse.c:302 ../gui/optics.py:129
 #: ../libdump/dump_dynamic.c:428 ../libdump/dump_1d_slice.c:1293
 #: ../libdump/dump_1d_slice.c:1322
 msgid "Generation rate"
 msgstr ""
 
-#: ../liblight/light_dump.c:496 ../src/main.c:67
+#: ../liblight/light_dump.c:492 ../src/main.c:64
 msgid "Hole generation rate"
 msgstr ""
 
-#: ../liblight/light_dump.c:627
+#: ../liblight/light_dump.c:623
 msgid "Layer number"
 msgstr ""
 
-#: ../liblight/light_dump.c:661
+#: ../liblight/light_dump.c:657
 msgid "|Electric field|"
 msgstr ""
 
-#: ../liblight/light_dump.c:695
+#: ../liblight/light_dump.c:691
 msgid "Transmittance"
 msgstr ""
 
-#: ../liblight/light_dump.c:730
+#: ../liblight/light_dump.c:726
 msgid "Reflectance"
 msgstr ""
 
-#: ../liblight/light_dump.c:767
+#: ../liblight/light_dump.c:763
 msgid "Photons absorbed"
 msgstr ""
 
-#: ../liblight/light_dump.c:805
+#: ../liblight/light_dump.c:801
 msgid "Real refractive index"
 msgstr ""
 
-#: ../liblight/light_dump.c:841 ../gui/materials_main.py:56
+#: ../liblight/light_dump.c:837 ../gui/materials_main.py:56
 #: ../gui/materials_main.py:132 ../gui/import_data.py:314
 #: ../gui/token_lib.py:372
 msgid "Absorption"
 msgstr ""
 
-#: ../liblight/light_interface.c:52
+#: ../liblight/light_interface.c:48
 msgid "Initializing optical model"
-msgstr ""
-
-#: ../liblight/light_interface.c:92 ../lib/newton_interface.c:88
-#: ../lib/solver_interface.c:89 ../src/run_electrical_dll.c:79
-msgid "dll not loaded"
-msgstr ""
-
-#: ../liblight/light_interface.c:98
-msgid "dll function light_dll_init not found\n"
-msgstr ""
-
-#: ../liblight/light_interface.c:104
-msgid "dll function light_dll_solve_lam_slice not found\n"
-msgstr ""
-
-#: ../liblight/light_interface.c:110
-msgid "dll function light_dll_ver not found\n"
 msgstr ""
 
 #: ../liblight/light_materials.c:46
@@ -135,8 +117,8 @@ msgid "spectrum file: I do not know what to do with %s"
 msgstr ""
 
 #: ../liblight/light_materials.c:88 ../liblight/light_materials.c:199
-#: ../liblight/light_materials.c:219 ../lib/util.c:410 ../lib/util.c:530
-#: ../lib/util.c:590 ../lib/util.c:680
+#: ../liblight/light_materials.c:219 ../lib/util.c:403 ../lib/util.c:523
+#: ../lib/util.c:583 ../lib/util.c:673
 msgid "File not found"
 msgstr ""
 
@@ -162,9 +144,6 @@ msgid "Wavelength - Reflected light"
 msgstr ""
 
 #: ../liblight/light_materials.c:434 ../liblight/light_materials.c:486
-#: ../libmeasure/probe.c:168 ../libmeasure/probe.c:170
-#: ../libmeasure/probe.c:193 ../libmeasure/probe.c:195
-#: ../libmeasure/probe.c:218 ../libmeasure/probe.c:220
 #: ../gui/import_data.py:303 ../gui/import_data.py:304
 #: ../gui/import_data.py:305 ../gui/import_data.py:306 ../gui/equation.py:183
 msgid "Wavelength"
@@ -178,70 +157,58 @@ msgstr ""
 msgid "It was dark I did not solve any slices\n"
 msgstr ""
 
-#: ../lib/util.c:182 ../lib/util.c:200
+#: ../lib/util.c:175 ../lib/util.c:193
 msgid "Error writing file"
 msgstr ""
 
-#: ../lib/util.c:367
+#: ../lib/util.c:360
 msgid "I don't understand the command"
 msgstr ""
 
-#: ../lib/util.c:379
+#: ../lib/util.c:372
 msgid "Can not read file"
 msgstr ""
 
-#: ../lib/util.c:568 ../lib/util.c:628 ../lib/util.c:726
+#: ../lib/util.c:561 ../lib/util.c:621 ../lib/util.c:719
 msgid "Can not write file"
 msgstr ""
 
-#: ../lib/util.c:643 ../lib/util.c:651
+#: ../lib/util.c:636 ../lib/util.c:644
 msgid "Can not open file"
 msgstr ""
 
-#: ../lib/util.c:718
+#: ../lib/util.c:711
 msgid "Token not found in file"
 msgstr ""
 
-#: ../lib/util.c:875
+#: ../lib/util.c:868
 msgid "Deleting directory"
 msgstr ""
 
-#: ../lib/complex_solver.c:44
+#: ../lib/complex_solver.c:40
 msgid "out of memory!\n"
 msgstr ""
 
-#: ../lib/complex_solver.c:47
+#: ../lib/complex_solver.c:43
 msgid "matrix is singular!\n"
 msgstr ""
 
-#: ../lib/complex_solver.c:81
+#: ../lib/complex_solver.c:77
 msgid "Matrix dumped\n"
 msgstr ""
 
-#: ../lib/complex_solver.c:100
+#: ../lib/complex_solver.c:96
 msgid "Complex solver free\n"
 msgstr ""
 
-#: ../lib/complex_solver.c:132 ../lib/complex_solver.c:141
-#: ../lib/complex_solver.c:150 ../lib/complex_solver.c:159
-#: ../lib/complex_solver.c:168 ../lib/complex_solver.c:177
+#: ../lib/complex_solver.c:128 ../lib/complex_solver.c:137
+#: ../lib/complex_solver.c:146 ../lib/complex_solver.c:155
+#: ../lib/complex_solver.c:164 ../lib/complex_solver.c:173
 msgid "complex_solver realloc memory error"
 msgstr ""
 
-#: ../lib/newton_interface.c:49
+#: ../lib/newton_interface.c:45
 msgid "Solver initialization\n"
-msgstr ""
-
-#: ../lib/newton_interface.c:94
-msgid "dll function dll_solve_cur not found\n"
-msgstr ""
-
-#: ../lib/newton_interface.c:101
-msgid "dll function dll_solver_realloc not found\n"
-msgstr ""
-
-#: ../lib/newton_interface.c:107
-msgid "dll function dll_solver_free_memory not found\n"
 msgstr ""
 
 #: ../lib/log.c:72
@@ -249,85 +216,16 @@ msgstr ""
 msgid "File access log written to %s\n"
 msgstr ""
 
-#: ../lib/solver_interface.c:95
-msgid "dll function dll_matrix_solve not found\n"
-msgstr ""
-
-#: ../lib/solver_interface.c:101
-msgid "dll function dll_matrix_dump not found\n"
-msgstr ""
-
-#: ../lib/solver_interface.c:107 ../src/run_electrical_dll.c:85
-msgid "dll function set_interface not found\n"
-msgstr ""
-
-#: ../lib/solver_interface.c:113
-msgid "dll function dll_matrix_solver_free not found\n"
-msgstr ""
-
-#: ../lib/solver_interface.c:152
+#: ../lib/solver_interface.c:110
 msgid "Freeing memory"
 msgstr ""
 
-#: ../lib/solver_interface.c:156
+#: ../lib/solver_interface.c:114
 msgid "Error closing dll"
 msgstr ""
 
 #: ../libmesh/time.c:96
 msgid "You must load the optical plugin before making the time mesh"
-msgstr ""
-
-#: ../libmeasure/probe.c:281 ../libmeasure/probe.c:283
-#: ../libmeasure/probe.c:306 ../libmeasure/probe.c:308
-#: ../plugins/pulse/pulse.c:209 ../plugins/pulse/pulse.c:211
-#: ../plugins/pulse/pulse.c:232 ../plugins/pulse/pulse.c:234
-#: ../plugins/pulse/pulse.c:256 ../plugins/pulse/pulse.c:258
-#: ../plugins/pulse/pulse.c:279 ../plugins/pulse/pulse.c:281
-#: ../plugins/pulse/pulse.c:299 ../plugins/pulse/pulse.c:301
-#: ../plugins/fxdomain/fxdomain.c:356 ../plugins/fxdomain/fxdomain.c:358
-#: ../plugins/fxdomain/fxdomain.c:379 ../plugins/fxdomain/fxdomain.c:381
-#: ../plugins/fxdomain/fxdomain.c:404 ../plugins/fxdomain/fxdomain.c:408
-#: ../plugins/fxdomain/fxdomain.c:413 ../plugins/fxdomain/fxdomain.c:459
-#: ../plugins/fxdomain/fxdomain.c:463 ../plugins/fxdomain/fxdomain.c:468
-#: ../gui/tmesh.py:208 ../gui/import_data.py:316 ../libdump/dump_dynamic.c:207
-#: ../libdump/dump_dynamic.c:230 ../libdump/dump_dynamic.c:254
-#: ../libdump/dump_dynamic.c:273 ../libdump/dump_dynamic.c:292
-#: ../libdump/dump_dynamic.c:311 ../libdump/dump_dynamic.c:330
-#: ../libdump/dump_dynamic.c:349 ../libdump/dump_dynamic.c:368
-#: ../libdump/dump_dynamic.c:397 ../libdump/dump_dynamic.c:427
-#: ../libdump/dump_dynamic.c:446 ../libdump/dump_dynamic.c:471
-#: ../libdump/dump_dynamic.c:491 ../libdump/dump_dynamic.c:512
-#: ../libdump/dump_dynamic.c:532 ../libdump/dump_dynamic.c:573
-#: ../libdump/dump_dynamic.c:592 ../libdump/dump_dynamic.c:611
-#: ../libdump/dump_dynamic.c:630 ../libdump/dump_dynamic.c:649
-#: ../libdump/dump_dynamic.c:668 ../libdump/dump_dynamic.c:723
-#: ../libdump/dump_dynamic.c:742 ../libdump/dump_dynamic.c:767
-#: ../libdump/dump_dynamic.c:787 ../libdump/dump_dynamic.c:829
-#: ../libdump/dump_dynamic.c:857 ../libdump/dump_dynamic.c:878
-#: ../libdump/dump_dynamic.c:897 ../libdump/dump_dynamic.c:916
-#: ../libdump/dump_dynamic.c:935 ../libdump/dump_dynamic.c:954
-#: ../libdump/dump_dynamic.c:973 ../libdump/dump_dynamic.c:992
-#: ../libdump/dump_dynamic.c:1011 ../libdump/dump_dynamic.c:1030
-#: ../libdump/dump_dynamic.c:1049 ../libfit/fit_dump.c:107
-#: ../libfit/fit_dump.c:130 ../libfit/fit_dump.c:154 ../libfit/fit_dump.c:178
-msgid "Time"
-msgstr ""
-
-#: ../libmeasure/probe.c:281 ../libmeasure/probe.c:306
-#: ../plugins/pulse/pulse.c:299
-msgid "Photogeneration rate"
-msgstr ""
-
-#: ../libmeasure/probe.c:339
-msgid "Probe load configuration"
-msgstr ""
-
-#: ../libmeasure/probe.c:364
-msgid "Probe calculate modes"
-msgstr ""
-
-#: ../libmeasure/probe.c:412
-msgid "Probe free memory"
 msgstr ""
 
 #: ../libmeasure/measure.c:134
@@ -352,19 +250,51 @@ msgstr ""
 msgid "pulse time"
 msgstr ""
 
-#: ../plugins/pulse/pulse.c:175 ../plugins/fxdomain/fxdomain.c:260
+#: ../plugins/pulse/pulse.c:175 ../plugins/fxdomain/fxdomain.c:210
 msgid "step"
 msgstr ""
 
 #: ../plugins/pulse/pulse.c:176 ../plugins/pulse/pulse.c:256
-#: ../plugins/fxdomain/fxdomain.c:261 ../plugins/fxdomain/fxdomain.c:356
-#: ../plugins/fxdomain/fxdomain.c:379
+#: ../plugins/fxdomain/fxdomain.c:211 ../plugins/fxdomain/fxdomain.c:299
+#: ../plugins/fxdomain/fxdomain.c:322
 msgid "current"
 msgstr ""
 
+#: ../plugins/pulse/pulse.c:209 ../plugins/pulse/pulse.c:211
+#: ../plugins/pulse/pulse.c:232 ../plugins/pulse/pulse.c:234
+#: ../plugins/pulse/pulse.c:256 ../plugins/pulse/pulse.c:258
+#: ../plugins/pulse/pulse.c:279 ../plugins/pulse/pulse.c:281
+#: ../plugins/pulse/pulse.c:299 ../plugins/pulse/pulse.c:301
+#: ../plugins/fxdomain/fxdomain.c:299 ../plugins/fxdomain/fxdomain.c:301
+#: ../plugins/fxdomain/fxdomain.c:322 ../plugins/fxdomain/fxdomain.c:324
+#: ../plugins/fxdomain/fxdomain.c:343 ../plugins/fxdomain/fxdomain.c:346
+#: ../plugins/fxdomain/fxdomain.c:368 ../plugins/fxdomain/fxdomain.c:371
+#: ../gui/tmesh.py:208 ../gui/import_data.py:316 ../libdump/dump_dynamic.c:207
+#: ../libdump/dump_dynamic.c:230 ../libdump/dump_dynamic.c:254
+#: ../libdump/dump_dynamic.c:273 ../libdump/dump_dynamic.c:292
+#: ../libdump/dump_dynamic.c:311 ../libdump/dump_dynamic.c:330
+#: ../libdump/dump_dynamic.c:349 ../libdump/dump_dynamic.c:368
+#: ../libdump/dump_dynamic.c:397 ../libdump/dump_dynamic.c:427
+#: ../libdump/dump_dynamic.c:446 ../libdump/dump_dynamic.c:471
+#: ../libdump/dump_dynamic.c:491 ../libdump/dump_dynamic.c:512
+#: ../libdump/dump_dynamic.c:532 ../libdump/dump_dynamic.c:573
+#: ../libdump/dump_dynamic.c:592 ../libdump/dump_dynamic.c:611
+#: ../libdump/dump_dynamic.c:630 ../libdump/dump_dynamic.c:649
+#: ../libdump/dump_dynamic.c:668 ../libdump/dump_dynamic.c:723
+#: ../libdump/dump_dynamic.c:742 ../libdump/dump_dynamic.c:767
+#: ../libdump/dump_dynamic.c:787 ../libdump/dump_dynamic.c:829
+#: ../libdump/dump_dynamic.c:857 ../libdump/dump_dynamic.c:878
+#: ../libdump/dump_dynamic.c:897 ../libdump/dump_dynamic.c:916
+#: ../libdump/dump_dynamic.c:935 ../libdump/dump_dynamic.c:954
+#: ../libdump/dump_dynamic.c:973 ../libdump/dump_dynamic.c:992
+#: ../libdump/dump_dynamic.c:1011 ../libdump/dump_dynamic.c:1030
+#: ../libdump/dump_dynamic.c:1049
+msgid "Time"
+msgstr ""
+
 #: ../plugins/pulse/pulse.c:209 ../plugins/pulse/pulse.c:212
-#: ../plugins/pulse/pulse.c:259 ../plugins/fxdomain/fxdomain.c:359
-#: ../plugins/fxdomain/fxdomain.c:382 ../plugins/jv/jv.c:241
+#: ../plugins/pulse/pulse.c:259 ../plugins/fxdomain/fxdomain.c:302
+#: ../plugins/fxdomain/fxdomain.c:325 ../plugins/jv/jv.c:241
 #: ../plugins/jv/jv.c:447 ../plugins/jv/jv.c:484 ../gui/token_lib.py:438
 #: ../libdump/dump_dynamic.c:398 ../libdump/dump_contacts.c:72
 msgid "Current"
@@ -382,8 +312,8 @@ msgid "Current density"
 msgstr ""
 
 #: ../plugins/pulse/pulse.c:279 ../plugins/pulse/pulse.c:284
-#: ../plugins/fxdomain/fxdomain.c:404 ../plugins/fxdomain/fxdomain.c:418
-#: ../plugins/fxdomain/fxdomain.c:459 ../plugins/fxdomain/fxdomain.c:473
+#: ../plugins/fxdomain/fxdomain.c:343 ../plugins/fxdomain/fxdomain.c:347
+#: ../plugins/fxdomain/fxdomain.c:368 ../plugins/fxdomain/fxdomain.c:372
 #: ../plugins/jv/jv.c:241 ../plugins/jv/jv.c:292 ../plugins/jv/jv.c:463
 #: ../plugins/equilibrium/equilibrium.c:125 ../gui/tmesh.py:234
 #: ../gui/tmesh.py:236 ../gui/tmesh.py:239 ../gui/tmesh.py:241
@@ -398,47 +328,40 @@ msgstr ""
 msgid "Volts"
 msgstr ""
 
-#: ../plugins/fxdomain/fxdomain.c:99
+#: ../plugins/pulse/pulse.c:299
+msgid "Photogeneration rate"
+msgstr ""
+
+#: ../plugins/fxdomain/fxdomain.c:95
 msgid "no fxdomain config file found"
 msgstr ""
 
-#: ../plugins/fxdomain/fxdomain.c:139
+#: ../plugins/fxdomain/fxdomain.c:126
 msgid "Running frequency"
 msgstr ""
 
-#: ../plugins/fxdomain/fxdomain.c:179 ../plugins/fxdomain/fxdomain.c:254
+#: ../plugins/fxdomain/fxdomain.c:166 ../plugins/fxdomain/fxdomain.c:204
 msgid "fxdomain mode not known"
 msgstr ""
 
-#: ../plugins/fxdomain/fxdomain.c:260
+#: ../plugins/fxdomain/fxdomain.c:210
 msgid "fxdomain time"
 msgstr ""
 
-#: ../plugins/fxdomain/fxdomain.c:408 ../plugins/fxdomain/fxdomain.c:463
-#: ../gui/tb_item_sun.py:75
-msgid "Light intensity"
-msgstr ""
-
-#: ../plugins/fxdomain/fxdomain.c:422 ../plugins/fxdomain/fxdomain.c:435
-#: ../plugins/fxdomain/fxdomain.c:477 ../plugins/fxdomain/fxdomain.c:490
-#: ../gui/tmesh.py:266 ../gui/tb_item_sun.py:75
-msgid "Suns"
-msgstr ""
-
-#: ../plugins/fxdomain/fxdomain.c:527
+#: ../plugins/fxdomain/fxdomain.c:406
 msgid "Real"
 msgstr ""
 
-#: ../plugins/fxdomain/fxdomain.c:527
+#: ../plugins/fxdomain/fxdomain.c:406
 msgid "Imaginary"
 msgstr ""
 
-#: ../plugins/fxdomain/fxdomain.c:529 ../gui/token_lib.py:144
+#: ../plugins/fxdomain/fxdomain.c:408 ../gui/token_lib.py:144
 #: ../gui/token_lib.py:347
 msgid "Re(i)"
 msgstr ""
 
-#: ../plugins/fxdomain/fxdomain.c:530 ../gui/token_lib.py:145
+#: ../plugins/fxdomain/fxdomain.c:409 ../gui/token_lib.py:145
 #: ../gui/token_lib.py:348
 msgid "Im(i)"
 msgstr ""
@@ -529,88 +452,40 @@ msgstr ""
 msgid "Running equilibrium simulation\n"
 msgstr ""
 
-#: ../libserver/server.c:111
-msgid "Job stalled. Time since last run:"
-msgstr ""
-
-#: ../libserver/server.c:154
-msgid "Bytes written"
-msgstr ""
-
-#: ../libserver/server.c:155
-msgid "Bytes read"
-msgstr ""
-
-#: ../libserver/server.c:156
-msgid "Files read"
-msgstr ""
-
-#: ../libserver/server.c:157
-msgid "Files written"
-msgstr ""
-
-#: ../libserver/server.c:161
-msgid "I have shut down the server"
-msgstr ""
-
-#: ../libserver/server.c:237
-msgid "Number of CPUs:"
-msgstr ""
-
-#: ../libserver/server.c:246
-msgid "Start time"
-msgstr ""
-
-#: ../libserver/server.c:249
-msgid "End time"
-msgstr ""
-
-#: ../libserver/server.c:505
-msgid "All jobs finished jobs"
-msgstr ""
-
-#: ../libserver/server.c:511
-msgid "I have finished all my jobs"
-msgstr ""
-
-#: ../libserver/server.c:518
-msgid "The server has detected a crash"
-msgstr ""
-
-#: ../libdos/dos.c:218
+#: ../libdos/dos.c:216
 msgid "Loading file"
 msgstr ""
 
-#: ../libdos/dos.c:264 ../libdos/dos.c:270
+#: ../libdos/dos.c:257
 msgid "DOS file not found\n"
 msgstr ""
 
-#: ../libdos/dos.c:305
+#: ../libdos/dos.c:286
 msgid "DoS n file not found\n"
 msgstr ""
 
-#: ../libdos/gendosfdgaus.c:840
+#: ../libdos/gendosfdgaus.c:791
 msgid "Expected dos size is different from generated\n"
 msgstr ""
 
-#: ../libdos/gendosfdgaus.c:1304
+#: ../libdos/gendosfdgaus.c:1200
 msgid "Finished generating DoS....\n"
 msgstr ""
 
-#: ../src/initial.c:66
+#: ../src/initial.c:62
 msgid "Equilibrium Fermi-level"
 msgstr ""
 
-#: ../src/initial.c:66 ../src/initial.c:90 ../src/initial.c:114
-#: ../src/initial.c:138 ../src/initial.c:162 ../libdump/dump_1d_slice.c:91
+#: ../src/initial.c:62 ../src/initial.c:86 ../src/initial.c:110
+#: ../src/initial.c:134 ../src/initial.c:158 ../libdump/dump_1d_slice.c:91
 #: ../libdump/dump_1d_slice.c:120 ../libdump/dump_1d_slice.c:178
 #: ../libdump/dump_1d_slice.c:294 ../libdump/dump_1d_slice.c:381
 #: ../libdump/dump_1d_slice.c:410 ../libdump/dump_1d_slice.c:1677
 msgid "position"
 msgstr ""
 
-#: ../src/initial.c:72 ../src/initial.c:96 ../src/initial.c:120
-#: ../src/initial.c:144 ../src/initial.c:168 ../libdump/dump_1d_slice.c:72
+#: ../src/initial.c:68 ../src/initial.c:92 ../src/initial.c:116
+#: ../src/initial.c:140 ../src/initial.c:164 ../libdump/dump_1d_slice.c:72
 #: ../libdump/dump_1d_slice.c:101 ../libdump/dump_1d_slice.c:130
 #: ../libdump/dump_1d_slice.c:159 ../libdump/dump_1d_slice.c:188
 #: ../libdump/dump_1d_slice.c:217 ../libdump/dump_1d_slice.c:246
@@ -640,8 +515,8 @@ msgstr ""
 msgid "1D position space output"
 msgstr ""
 
-#: ../src/initial.c:73 ../src/initial.c:97 ../src/initial.c:121
-#: ../src/initial.c:145 ../src/initial.c:169 ../libdump/dump_1d_slice.c:73
+#: ../src/initial.c:69 ../src/initial.c:93 ../src/initial.c:117
+#: ../src/initial.c:141 ../src/initial.c:165 ../libdump/dump_1d_slice.c:73
 #: ../libdump/dump_1d_slice.c:102 ../libdump/dump_1d_slice.c:131
 #: ../libdump/dump_1d_slice.c:160 ../libdump/dump_1d_slice.c:247
 #: ../libdump/dump_1d_slice.c:276 ../libdump/dump_1d_slice.c:305
@@ -651,27 +526,27 @@ msgstr ""
 msgid "Transport"
 msgstr ""
 
-#: ../src/initial.c:90 ../libdump/dump_1d_slice.c:178
+#: ../src/initial.c:86 ../libdump/dump_1d_slice.c:178
 msgid "LUMO"
 msgstr ""
 
-#: ../src/initial.c:114 ../libdump/dump_1d_slice.c:207
+#: ../src/initial.c:110 ../libdump/dump_1d_slice.c:207
 msgid "HOMO"
 msgstr ""
 
-#: ../src/initial.c:138 ../src/pos.c:120 ../libdump/dump_dynamic.c:612
+#: ../src/initial.c:134 ../src/pos.c:116 ../libdump/dump_dynamic.c:612
 #: ../libdump/dump_dynamic.c:650 ../libdump/dump_dynamic.c:768
 #: ../libdump/dump_1d_slice.c:1225
 msgid "Electron density"
 msgstr ""
 
-#: ../src/initial.c:162 ../src/pos.c:138 ../libdump/dump_dynamic.c:631
+#: ../src/initial.c:158 ../src/pos.c:134 ../libdump/dump_dynamic.c:631
 #: ../libdump/dump_dynamic.c:669 ../libdump/dump_dynamic.c:788
 #: ../libdump/dump_1d_slice.c:1259
 msgid "Hole density"
 msgstr ""
 
-#: ../src/initial.c:165 ../gui/jobs.py:80
+#: ../src/initial.c:161 ../gui/jobs.py:80
 msgid "n"
 msgstr ""
 
@@ -684,148 +559,144 @@ msgstr ""
 msgid "Direction wrong"
 msgstr ""
 
-#: ../src/main.c:123 ../src/main.c:144
+#: ../src/main.c:112 ../src/main.c:133
 msgid "Copyright (C) 2012-2017 Roderick C. I. MacKenzie, Releced under GPLv2"
 msgstr ""
 
-#: ../src/main.c:125
+#: ../src/main.c:114
 msgid "options"
 msgstr ""
 
-#: ../src/main.c:127
+#: ../src/main.c:116
 msgid "Options"
 msgstr ""
 
-#: ../src/main.c:129
+#: ../src/main.c:118
 msgid "output data path"
 msgstr ""
 
-#: ../src/main.c:130
+#: ../src/main.c:119
 msgid "sets the input path"
 msgstr ""
 
-#: ../src/main.c:131 ../gui/command_args.py:63 ../gui/command_args.py:64
+#: ../src/main.c:120 ../gui/command_args.py:63 ../gui/command_args.py:64
 msgid "displays the current version"
 msgstr ""
 
-#: ../src/main.c:132
+#: ../src/main.c:121
 msgid "zip the results"
 msgstr ""
 
-#: ../src/main.c:133
+#: ../src/main.c:122
 msgid "Forces a simulation mode."
 msgstr ""
 
-#: ../src/main.c:134
+#: ../src/main.c:123
 msgid "sets the number of CPUs"
 msgstr ""
 
-#: ../src/main.c:136
+#: ../src/main.c:125
 msgid ""
 "Additional information about gpvdm is available at https://www.gpvdm.com."
 msgstr ""
 
-#: ../src/main.c:138
+#: ../src/main.c:127
 msgid "Report bugs to: roderick.mackenzie@nottingham.ac.uk"
 msgstr ""
 
-#: ../src/main.c:143
+#: ../src/main.c:132
 #, python-format
 msgid "gpvdm_core, Version %s\n"
 msgstr ""
 
-#: ../src/main.c:145
+#: ../src/main.c:134
 msgid "This is free software; see the source code for copying conditions."
 msgstr ""
 
-#: ../src/main.c:146
+#: ../src/main.c:135
 msgid "There is ABSOLUTELY NO WARRANTY; not even for MERCHANTABILITY or\n"
 msgstr ""
 
-#: ../src/main.c:147
+#: ../src/main.c:136
 msgid "FITNESS FOR A PARTICULAR PURPOSE.\n"
 msgstr ""
 
-#: ../src/main.c:198 ../gui/scan_tab.py:442 ../gui/constraints.py:139
+#: ../src/main.c:174 ../gui/scan_tab.py:441 ../gui/constraints.py:139
 #: ../gui/constraints.py:178 ../gui/fit_vars.py:155 ../gui/fit_patch.py:119
 msgid "Token"
 msgstr ""
 
-#: ../src/main.c:200
+#: ../src/main.c:176
 msgid "General-purpose Photovoltaic Device Model (https://www.gpvdm.com)\n"
 msgstr ""
 
-#: ../src/main.c:201
+#: ../src/main.c:177
 msgid "You should have received a copy of the GNU General Public License\n"
 msgstr ""
 
-#: ../src/main.c:202
+#: ../src/main.c:178
 msgid "along with this software.  If not, see www.gnu.org/licenses/.\n"
 msgstr ""
 
-#: ../src/main.c:204
+#: ../src/main.c:180
 msgid "If you wish to collaborate in anyway please get in touch:\n"
 msgstr ""
 
-#: ../src/run_electrical_dll.c:46
+#: ../src/run_electrical_dll.c:42
 msgid "Loading electrical dll\n"
-msgstr ""
-
-#: ../src/run_electrical_dll.c:92
-msgid "dll function dll_run_simulation not found\n"
 msgstr ""
 
 #: ../src/sim_run.c:49
 msgid "Runing simulation"
 msgstr ""
 
-#: ../src/sim_run.c:129
+#: ../src/sim_run.c:125
 msgid "Loading DoS layers"
 msgstr ""
 
-#: ../src/sim_run.c:138
+#: ../src/sim_run.c:134
 msgid "Load DoS"
 msgstr ""
 
-#: ../src/pos.c:65
+#: ../src/pos.c:61
 msgid "Intrinsic Fermi - position"
 msgstr ""
 
-#: ../src/pos.c:82
+#: ../src/pos.c:78
 msgid "LUMO energy - position"
 msgstr ""
 
-#: ../src/pos.c:99
+#: ../src/pos.c:95
 msgid "HOMO energy - position"
 msgstr ""
 
-#: ../src/pos.c:117
+#: ../src/pos.c:113
 msgid "Electron density - position"
 msgstr ""
 
-#: ../src/pos.c:135
+#: ../src/pos.c:131
 msgid "Hole density - position"
 msgstr ""
 
-#: ../src/pos.c:152
+#: ../src/pos.c:148
 msgid "Potential - position"
 msgstr ""
 
-#: ../src/pos.c:155 ../libdump/dump_1d_slice.c:440
+#: ../src/pos.c:151 ../libdump/dump_1d_slice.c:440
 #: ../libdump/dump_1d_slice.c:445 ../libdump/dump_1d_slice.c:469
 #: ../libdump/dump_1d_slice.c:474
 msgid "Potential"
 msgstr ""
 
-#: ../src/pos.c:206
+#: ../src/pos.c:202
 msgid "Solving Poisson's equation"
 msgstr ""
 
-#: ../src/pos.c:525
+#: ../src/pos.c:521
 msgid "Poisson solver error"
 msgstr ""
 
-#: ../src/pos.c:596
+#: ../src/pos.c:592
 msgid "Solved Poisson's equation"
 msgstr ""
 
@@ -1004,9 +875,7 @@ msgstr ""
 msgid "Running"
 msgstr ""
 
-#: ../gui/fit_tab.py:76 ../libfit/fit_dump.c:59 ../libfit/fit_dump.c:82
-#: ../libfit/fit_dump.c:105 ../libfit/fit_dump.c:128 ../libfit/fit_dump.c:152
-#: ../libfit/fit_dump.c:176
+#: ../gui/fit_tab.py:76
 msgid "Fit error"
 msgstr ""
 
@@ -1132,6 +1001,10 @@ msgstr ""
 msgid "step multiplyer"
 msgstr ""
 
+#: ../gui/tmesh.py:266 ../gui/tb_item_sun.py:75
+msgid "Suns"
+msgstr ""
+
 #: ../gui/tmesh.py:266
 msgid "Laser"
 msgstr ""
@@ -1156,14 +1029,14 @@ msgstr ""
 msgid "Delete section"
 msgstr ""
 
-#: ../gui/tmesh.py:453 ../gui/fxmesh.py:314 ../gui/scan_tab.py:550
-#: ../gui/scan_tab.py:620 ../gui/scan_tab.py:624 ../gui/measure.py:207
+#: ../gui/tmesh.py:453 ../gui/fxmesh.py:314 ../gui/scan_tab.py:549
+#: ../gui/scan_tab.py:619 ../gui/scan_tab.py:623 ../gui/measure.py:207
 #: ../gui/duplicate.py:215 ../gui/fit_vars.py:237 ../gui/equation.py:365
 #: ../gui/fit_patch.py:173
 msgid "Move down"
 msgstr ""
 
-#: ../gui/tmesh.py:457 ../gui/fxmesh.py:318 ../gui/scan_tab.py:554
+#: ../gui/tmesh.py:457 ../gui/fxmesh.py:318 ../gui/scan_tab.py:553
 #: ../gui/measure.py:211 ../gui/duplicate.py:219 ../gui/fit_vars.py:241
 #: ../gui/equation.py:369 ../gui/fit_patch.py:177
 msgid "Move up"
@@ -1206,7 +1079,7 @@ msgid "Run optical simulation"
 msgstr ""
 
 #: ../gui/optics_ribbon.py:113 ../gui/ribbon_solar.py:97 ../gui/ribbon.py:102
-#: ../gui/cool_menu.py:68 ../gui/scan_ribbon.py:183 ../gui/about.py:50
+#: ../gui/cool_menu.py:68 ../gui/scan_ribbon.py:199 ../gui/about.py:50
 #: ../gui/about.py:82 ../gui/status_icon.py:48
 msgid "About"
 msgstr ""
@@ -1391,7 +1264,7 @@ msgid ""
 "properly."
 msgstr ""
 
-#: ../gui/scan_tab.py:130
+#: ../gui/scan_tab.py:129
 msgid ""
 "<big><b>The scan window</b></big><br> Now using the drop down menu in the "
 "prameter to change 'column', select the device parameter you wish to vary, "
@@ -1400,68 +1273,68 @@ msgid ""
 "1e-6'.  And hit the double arrorw to run the simulation."
 msgstr ""
 
-#: ../gui/scan_tab.py:140
+#: ../gui/scan_tab.py:139
 msgid "Select parameter"
 msgstr ""
 
-#: ../gui/scan_tab.py:243
+#: ../gui/scan_tab.py:242
 msgid "Problem generating tree."
 msgstr ""
 
-#: ../gui/scan_tab.py:253
+#: ../gui/scan_tab.py:257
 msgid ""
 "You have not selected any parameters to scan through.  Use the add button."
 msgstr ""
 
-#: ../gui/scan_tab.py:258
+#: ../gui/scan_tab.py:262
 msgid "No sim dir name"
 msgstr ""
 
-#: ../gui/scan_tab.py:442 ../gui/measure.py:89 ../gui/measure.py:130
+#: ../gui/scan_tab.py:441 ../gui/measure.py:89 ../gui/measure.py:130
 #: ../gui/gpvdm.py:255 ../gui/constraints.py:139 ../gui/constraints.py:178
 #: ../gui/ribbon.py:108 ../gui/snapshot_slider.py:131 ../gui/fit_vars.py:96
 #: ../gui/fit_vars.py:155 ../gui/plot_widget.py:564 ../gui/fit_patch.py:119
 msgid "File"
 msgstr ""
 
-#: ../gui/scan_tab.py:442
+#: ../gui/scan_tab.py:441
 msgid "Parameter to change"
 msgstr ""
 
-#: ../gui/scan_tab.py:442 ../gui/fit_patch.py:119
+#: ../gui/scan_tab.py:441 ../gui/fit_patch.py:119
 msgid "Values"
 msgstr ""
 
-#: ../gui/scan_tab.py:442
+#: ../gui/scan_tab.py:441
 msgid "Opperation"
 msgstr ""
 
-#: ../gui/scan_tab.py:520 ../gui/ribbon_home.py:178
+#: ../gui/scan_tab.py:519 ../gui/ribbon_home.py:178
 msgid ""
 "Re-run the simulation with 'dump all slices' set to one to use this tool."
 msgstr ""
 
-#: ../gui/scan_tab.py:542
+#: ../gui/scan_tab.py:541
 msgid "Add parameter to scan"
 msgstr ""
 
-#: ../gui/scan_tab.py:546 ../gui/scan_tab.py:602
+#: ../gui/scan_tab.py:545 ../gui/scan_tab.py:601
 msgid "Delete item"
 msgstr ""
 
-#: ../gui/scan_tab.py:566
+#: ../gui/scan_tab.py:565
 msgid "Insert python command"
 msgstr ""
 
-#: ../gui/scan_tab.py:606
+#: ../gui/scan_tab.py:605
 msgid "Copy"
 msgstr ""
 
-#: ../gui/scan_tab.py:610
+#: ../gui/scan_tab.py:609
 msgid "Paste"
 msgstr ""
 
-#: ../gui/scan_tab.py:616
+#: ../gui/scan_tab.py:615
 msgid "Add item"
 msgstr ""
 
@@ -2214,7 +2087,6 @@ msgid "Min"
 msgstr ""
 
 #: ../gui/constraints.py:139 ../gui/constraints.py:178 ../gui/error_han.py:76
-#: ../libfit/fit_dump.c:62 ../libfit/fit_dump.c:85 ../libfit/fit_dump.c:108
 msgid "Error"
 msgstr ""
 
@@ -2470,7 +2342,7 @@ msgid ""
 "data"
 msgstr ""
 
-#: ../gui/ribbon.py:114 ../gui/scan_ribbon.py:192
+#: ../gui/ribbon.py:114 ../gui/scan_ribbon.py:208
 msgid "Simulations"
 msgstr ""
 
@@ -2566,15 +2438,15 @@ msgstr ""
 msgid "Clone the current simulation to a new simulation called:"
 msgstr ""
 
-#: ../gui/scan.py:180
+#: ../gui/scan.py:184
 msgid "Rename the simulation to be called:"
 msgstr ""
 
-#: ../gui/scan.py:198
+#: ../gui/scan.py:202
 msgid "Should I remove the simulation directory "
 msgstr ""
 
-#: ../gui/scan.py:245
+#: ../gui/scan.py:249
 msgid "Parameter scan - gpvdm"
 msgstr ""
 
@@ -2656,6 +2528,10 @@ msgstr ""
 
 #: ../gui/duplicate.py:199
 msgid "Fit variables duplicate window"
+msgstr ""
+
+#: ../gui/tb_item_sun.py:75
+msgid "Light intensity"
 msgstr ""
 
 #: ../gui/fxexperiment.py:88
@@ -3144,63 +3020,67 @@ msgstr ""
 msgid "Time domain plot"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:105
+#: ../gui/scan_ribbon.py:116
 msgid "Build scan"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:115
-msgid "Plot fits"
+#: ../gui/scan_ribbon.py:119
+msgid "Rerun"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:118
-msgid "Run nested simulation"
-msgstr ""
-
-#: ../gui/scan_ribbon.py:121
-msgid "Run simulation no generation"
-msgstr ""
-
-#: ../gui/scan_ribbon.py:124
-msgid "Run single fit"
-msgstr ""
-
-#: ../gui/scan_ribbon.py:127
+#: ../gui/scan_ribbon.py:122
 msgid "Clean simulation"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:130
+#: ../gui/scan_ribbon.py:134
+msgid "Plot fits"
+msgstr ""
+
+#: ../gui/scan_ribbon.py:137
+msgid "Run nested simulation"
+msgstr ""
+
+#: ../gui/scan_ribbon.py:140
+msgid "Run simulation no generation"
+msgstr ""
+
+#: ../gui/scan_ribbon.py:143
+msgid "Run single fit"
+msgstr ""
+
+#: ../gui/scan_ribbon.py:146
 msgid "Clean unconverged simulation"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:133
+#: ../gui/scan_ribbon.py:149
 msgid "Clean simulation output"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:136
+#: ../gui/scan_ribbon.py:152
 msgid "Push unconverged to hpc"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:139
+#: ../gui/scan_ribbon.py:155
 msgid "Change dir"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:142
+#: ../gui/scan_ribbon.py:158
 msgid "Report"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:152
+#: ../gui/scan_ribbon.py:168
 msgid "Build vectors"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:189
+#: ../gui/scan_ribbon.py:205
 msgid "Scan"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:197
+#: ../gui/scan_ribbon.py:213
 msgid "Advanced"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:201
+#: ../gui/scan_ribbon.py:217
 msgid "ML"
 msgstr ""
 
@@ -4424,8 +4304,7 @@ msgstr ""
 msgid "Use icons from OS"
 msgstr ""
 
-#: ../gui/token_lib.py:471 ../libfit/fit_dump.c:63 ../libfit/fit_dump.c:64
-#: ../libfit/fit_dump.c:181
+#: ../gui/token_lib.py:471
 msgid "au"
 msgstr ""
 
@@ -5151,27 +5030,4 @@ msgstr ""
 
 #: ../libdump/dump_1d_slice.c:1706
 msgid "Electron relaxation rate"
-msgstr ""
-
-#: ../libfit/fit_dump.c:61 ../libfit/fit_dump.c:84
-msgid "Step"
-msgstr ""
-
-#: ../libfit/fit_dump.c:65 ../libfit/fit_dump.c:66 ../libfit/fit_dump.c:88
-#: ../libfit/fit_dump.c:89 ../libfit/fit_dump.c:111 ../libfit/fit_dump.c:112
-#: ../libfit/fit_dump.c:134 ../libfit/fit_dump.c:135 ../libfit/fit_dump.c:158
-#: ../libfit/fit_dump.c:159 ../libfit/fit_dump.c:182 ../libfit/fit_dump.c:183
-msgid "Fitting"
-msgstr ""
-
-#: ../libfit/fit_dump.c:131 ../libfit/fit_dump.c:155
-msgid "Speed"
-msgstr ""
-
-#: ../libfit/fit_dump.c:133 ../libfit/fit_dump.c:157
-msgid "odes/s"
-msgstr ""
-
-#: ../libfit/fit_dump.c:179
-msgid "Reset flag"
 msgstr ""

@@ -1,0 +1,1 @@
+AC_SUBST(LOCAL_LINK," -lgpvdm_i -lgpvdm_rpn -lgpvdm_memory -lgpvdm_dos -lgpvdm_light -lgpvdm_measure -lgpvdm_contacts -lgpvdm_lib -lgpvdm_dump -lgpvdm_dumpctrl -lgpvdm_server -lgpvdm_mesh")

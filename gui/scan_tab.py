@@ -44,7 +44,6 @@ from util import str2bool
 #scan_io
 from scan_io import scan_clean_dir
 from scan_io import scan_clean_unconverged
-from scan_io import scan_clean_simulation_output
 from scan_io import scan_nested_simulation
 from scan_io import scan_push_to_hpc
 from scan_io import scan_import_from_hpc
@@ -213,7 +212,7 @@ class scan_vbox(QWidget):
 		scan_clean_unconverged(self,self.sim_dir)
 
 	def scan_clean_simulation_output(self):
-		scan_clean_simulation_output(self,self.sim_dir)
+		scan_clean_dir(self,self.sim_dir)
 
 	def import_from_hpc(self):
 		scan_import_from_hpc(self.sim_dir)

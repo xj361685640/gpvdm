@@ -91,8 +91,8 @@ target_triplet = @target@
 subdir = plugins/fxdomain
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/make_files.m4 \
-	$(top_srcdir)/local_link.m4 $(top_srcdir)/config_files.m4 \
-	$(top_srcdir)/configure.ac
+	$(top_srcdir)/local_link.m4 $(top_srcdir)/ar.m4 \
+	$(top_srcdir)/config_files.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
@@ -139,12 +139,21 @@ CPPFLAGS = @CPPFLAGS@
 CYGPATH_W = @CYGPATH_W@
 DEFS = @DEFS@
 DEPDIR = @DEPDIR@
+DLIB_EXT = @DLIB_EXT@
+DLL_COMPILE = @DLL_COMPILE@
+DLL_DEBUG = @DLL_DEBUG@
+DLL_LINKER = @DLL_LINKER@
 ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
 EGREP = @EGREP@
 EXEEXT = @EXEEXT@
+EXE_EXT = @EXE_EXT@
 GREP = @GREP@
+IMAGE_CONVERT_16 = @IMAGE_CONVERT_16@
+IMAGE_CONVERT_32 = @IMAGE_CONVERT_32@
+IMAGE_CONVERT_64 = @IMAGE_CONVERT_64@
+IMAGE_CONVERT_FLAG = @IMAGE_CONVERT_FLAG@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
@@ -167,12 +176,24 @@ PACKAGE_TARNAME = @PACKAGE_TARNAME@
 PACKAGE_URL = @PACKAGE_URL@
 PACKAGE_VERSION = @PACKAGE_VERSION@
 PATH_SEPARATOR = @PATH_SEPARATOR@
+PKG_CONFIG = @PKG_CONFIG@
+PKG_HELP2MAN = @PKG_HELP2MAN@
+PKG_IMAGEMAGICK = @PKG_IMAGEMAGICK@
+PKG_RSGV = @PKG_RSGV@
+PKG_XGETTEXT = @PKG_XGETTEXT@
+PYTHON = @PYTHON@
+PYTHON_EXEC_PREFIX = @PYTHON_EXEC_PREFIX@
+PYTHON_PLATFORM = @PYTHON_PLATFORM@
+PYTHON_PREFIX = @PYTHON_PREFIX@
+PYTHON_VERSION = @PYTHON_VERSION@
 RANLIB = @RANLIB@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
+SLIB_EXT = @SLIB_EXT@
 STRIP = @STRIP@
 VERSION = @VERSION@
-WIN_LINK_FLAGS = @WIN_LINK_FLAGS@
+WIN_ICON = @WIN_ICON@
+WIN_RES_FILE = @WIN_RES_FILE@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
 abs_top_builddir = @abs_top_builddir@
@@ -213,9 +234,13 @@ mandir = @mandir@
 mkdir_p = @mkdir_p@
 oldincludedir = @oldincludedir@
 pdfdir = @pdfdir@
+pkgpyexecdir = @pkgpyexecdir@
+pkgpythondir = @pkgpythondir@
 prefix = @prefix@
 program_transform_name = @program_transform_name@
 psdir = @psdir@
+pyexecdir = @pyexecdir@
+pythondir = @pythondir@
 sbindir = @sbindir@
 sharedstatedir = @sharedstatedir@
 srcdir = @srcdir@
@@ -228,13 +253,14 @@ target_vendor = @target_vendor@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-OBJS = plugin.o fxdomain.o fxdomain_voc_ntricks.o fx.o fit_sin.o
-link_command = -shared -Wl,-soname,plugin.so $(OBJS) -o plugin.so -g
-lib = -L../../ -L$(HOME)/windll/compiled_dlls/
+OBJS = plugin.o fxdomain.o fx.o fit_sin.o
+link_command = -shared -Wl,-soname,plugin.so $(OBJS) -o plugin.@DLIB_EXT@ -g
+lib = -L../../
 inc = -I../../include/
 all: all-am
 
 .SUFFIXES:
+.SUFFIXES: .c .o
 $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
@@ -416,11 +442,11 @@ uninstall-am:
 
 
 all: $(OBJS)
-	$(CC) $(link_command) $(CFLAGS) $(lib) @LDFLAGS@
-	mv plugin.so ../fxdomain.so
+	$(CC) -shared $(OBJS) @DLL_LINKER@ $(lib) @DLL_DEBUG@ -o plugin.@DLIB_EXT@ -lgsl -lgslcblas
+	mv plugin.@DLIB_EXT@ ../fxdomain.@DLIB_EXT@
 
-%.o : %.c
-	$(CC) $(inc) $(CFLAGS) -Wno-error=unused-but-set-variable -Wno-error=unused-variable -c $< -o $@
+.c.o : 
+	$(CC) -Wall -g $(inc) $(CPPFLAGS) @DLL_COMPILE@ @COMPILE_FLAG@ -c $< -o $@
 
 clean:
 	rm *.o *.dll *.so -f

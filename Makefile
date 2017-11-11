@@ -14,6 +14,8 @@
 
 
 
+
+
 am__is_gnu_make = { \
   if test -z '$(MAKELEVEL)'; then \
     false; \
@@ -88,19 +90,36 @@ POST_UNINSTALL = :
 build_triplet = x86_64-unknown-linux-gnu
 host_triplet = x86_64-unknown-linux-gnu
 target_triplet = x86_64-unknown-linux-gnu
+bin_PROGRAMS = gpvdm_core$(EXEEXT)
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/make_files.m4 \
+	$(top_srcdir)/local_link.m4 $(top_srcdir)/ar.m4 \
 	$(top_srcdir)/config_files.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 DIST_COMMON = $(srcdir)/Makefile.am $(top_srcdir)/configure \
-	$(am__configure_deps) $(am__DIST_COMMON)
+	$(am__configure_deps) $(python_PYTHON) $(dist_doc_DATA) \
+	$(dist_pkgdata_DATA) $(am__DIST_COMMON)
 am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno config.status.lineno
 mkinstalldirs = $(install_sh) -d
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
+am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(pythondir)" \
+	"$(DESTDIR)$(man1dir)" "$(DESTDIR)$(appicondir)" \
+	"$(DESTDIR)$(cssdir)" "$(DESTDIR)$(desktopdir)" \
+	"$(DESTDIR)$(device_libdir)" "$(DESTDIR)$(docdir)" \
+	"$(DESTDIR)$(pkgdatadir)" "$(DESTDIR)$(flagdir)" \
+	"$(DESTDIR)$(iconsdir)" "$(DESTDIR)$(imagedir)" \
+	"$(DESTDIR)$(image16dir)" "$(DESTDIR)$(image32dir)" \
+	"$(DESTDIR)$(image64dir)" "$(DESTDIR)$(packagesdir)" \
+	"$(DESTDIR)$(plotdir)" "$(DESTDIR)$(pluginsdir)" \
+	"$(DESTDIR)$(splashdir)"
+PROGRAMS = $(bin_PROGRAMS)
+am_gpvdm_core_OBJECTS =
+gpvdm_core_OBJECTS = $(am_gpvdm_core_OBJECTS)
+gpvdm_core_LDADD = $(LDADD)
 AM_V_P = $(am__v_P_$(V))
 am__v_P_ = $(am__v_P_$(AM_DEFAULT_VERBOSITY))
 am__v_P_0 = false
@@ -113,8 +132,21 @@ AM_V_at = $(am__v_at_$(V))
 am__v_at_ = $(am__v_at_$(AM_DEFAULT_VERBOSITY))
 am__v_at_0 = @
 am__v_at_1 = 
-SOURCES =
-DIST_SOURCES =
+DEFAULT_INCLUDES = -I.
+COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
+	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+AM_V_CC = $(am__v_CC_$(V))
+am__v_CC_ = $(am__v_CC_$(AM_DEFAULT_VERBOSITY))
+am__v_CC_0 = @echo "  CC      " $@;
+am__v_CC_1 = 
+CCLD = $(CC)
+LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
+AM_V_CCLD = $(am__v_CCLD_$(V))
+am__v_CCLD_ = $(am__v_CCLD_$(AM_DEFAULT_VERBOSITY))
+am__v_CCLD_0 = @echo "  CCLD    " $@;
+am__v_CCLD_1 = 
+SOURCES = $(gpvdm_core_SOURCES)
+DIST_SOURCES = $(gpvdm_core_SOURCES)
 RECURSIVE_TARGETS = all-recursive check-recursive cscopelist-recursive \
 	ctags-recursive dvi-recursive html-recursive info-recursive \
 	install-data-recursive install-dvi-recursive \
@@ -128,6 +160,45 @@ am__can_run_installinfo = \
     n|no|NO) false;; \
     *) (install-info --version) >/dev/null 2>&1;; \
   esac
+am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
+am__vpath_adj = case $$p in \
+    $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
+    *) f=$$p;; \
+  esac;
+am__strip_dir = f=`echo $$p | sed -e 's|^.*/||'`;
+am__install_max = 40
+am__nobase_strip_setup = \
+  srcdirstrip=`echo "$(srcdir)" | sed 's/[].[^$$\\*|]/\\\\&/g'`
+am__nobase_strip = \
+  for p in $$list; do echo "$$p"; done | sed -e "s|$$srcdirstrip/||"
+am__nobase_list = $(am__nobase_strip_setup); \
+  for p in $$list; do echo "$$p $$p"; done | \
+  sed "s| $$srcdirstrip/| |;"' / .*\//!s/ .*/ ./; s,\( .*\)/[^/]*$$,\1,' | \
+  $(AWK) 'BEGIN { files["."] = "" } { files[$$2] = files[$$2] " " $$1; \
+    if (++n[$$2] == $(am__install_max)) \
+      { print $$2, files[$$2]; n[$$2] = 0; files[$$2] = "" } } \
+    END { for (dir in files) print dir, files[dir] }'
+am__base_list = \
+  sed '$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;$$!N;s/\n/ /g' | \
+  sed '$$!N;$$!N;$$!N;$$!N;s/\n/ /g'
+am__uninstall_files_from_dir = { \
+  test -z "$$files" \
+    || { test ! -d "$$dir" && test ! -f "$$dir" && test ! -r "$$dir"; } \
+    || { echo " ( cd '$$dir' && rm -f" $$files ")"; \
+         $(am__cd) "$$dir" && rm -f $$files; }; \
+  }
+am__py_compile = PYTHON=$(PYTHON) $(SHELL) $(py_compile)
+am__pep3147_tweak = \
+  sed -e 's|\.py$$||' -e 's|[^/]*$$|__pycache__/&.*.py|'
+py_compile = $(top_srcdir)/py-compile
+man1dir = $(mandir)/man1
+NROFF = nroff
+MANS = $(man1_MANS)
+DATA = $(appicon_DATA) $(css_DATA) $(desktop_DATA) $(device_lib_DATA) \
+	$(dist_doc_DATA) $(dist_pkgdata_DATA) $(flag_DATA) \
+	$(icons_DATA) $(image_DATA) $(image16_DATA) $(image32_DATA) \
+	$(image64_DATA) $(packages_DATA) $(plot_DATA) $(plugins_DATA) \
+	$(splash_DATA)
 RECURSIVE_CLEAN_TARGETS = mostlyclean-recursive clean-recursive	\
   distclean-recursive maintainer-clean-recursive
 am__recursive_targets = \
@@ -157,10 +228,8 @@ ETAGS = etags
 CTAGS = ctags
 CSCOPE = cscope
 DIST_SUBDIRS = $(SUBDIRS)
-am__DIST_COMMON = $(srcdir)/Makefile.in $(top_srcdir)/../../ar-lib \
-	$(top_srcdir)/../../compile $(top_srcdir)/../../config.guess \
-	$(top_srcdir)/../../config.sub $(top_srcdir)/../../install-sh \
-	$(top_srcdir)/../../missing COPYING README
+am__DIST_COMMON = $(srcdir)/Makefile.in COPYING README ar-lib compile \
+	config.guess config.sub install-sh missing py-compile
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 distdir = $(PACKAGE)-$(VERSION)
 top_distdir = $(distdir)
@@ -203,31 +272,39 @@ distuninstallcheck_listfiles = find . -type f -print
 am__distuninstallcheck_listfiles = $(distuninstallcheck_listfiles) \
   | sed 's|^\./|$(prefix)/|' | grep -v '$(infodir)/dir$$'
 distcleancheck_listfiles = find . -type f -print
-ACLOCAL = ${SHELL} /home/rod/gpvdm/050416/missing aclocal-1.15
+ACLOCAL = ${SHELL} /home/rod/test/gpvdm4.97/pub/build/raw_code/missing aclocal-1.15
 AMTAR = $${TAR-tar}
 AM_DEFAULT_VERBOSITY = 1
 AR = ar
-AUTOCONF = ${SHELL} /home/rod/gpvdm/050416/missing autoconf
-AUTOHEADER = ${SHELL} /home/rod/gpvdm/050416/missing autoheader
-AUTOMAKE = ${SHELL} /home/rod/gpvdm/050416/missing automake-1.15
+AUTOCONF = ${SHELL} /home/rod/test/gpvdm4.97/pub/build/raw_code/missing autoconf
+AUTOHEADER = ${SHELL} /home/rod/test/gpvdm4.97/pub/build/raw_code/missing autoheader
+AUTOMAKE = ${SHELL} /home/rod/test/gpvdm4.97/pub/build/raw_code/missing automake-1.15
 AWK = gawk
-BUILD_DIRS =  lib libdos liblight libmeasure libdump libserver libmesh plugins/flat plugins/pulse plugins/newton_norm plugins/jv plugins/full plugins/umfpack plugins/exp plugins/newton plugins/fxdomain src images man 
+BUILD_DIRS =  lang libi librpn libmemory libdos liblight libmeasure libcontacts lib libdump libdumpctrl libserver libmesh plugins/optics plugins/newton plugins/pulse plugins/fxdomain plugins/light_flat plugins/light_ray plugins/light_full plugins/newton_2d plugins/photon_extraction plugins/jv plugins/light_exp plugins/umfpack plugins/equilibrium plugins/light_fromfile plugins/newton_norm src images/16x16 images/32x32 images/48x32 images/64x64 css man 
 CC = gcc
 CCDEPMODE = depmode=none
-#lib libdos liblight libmeasure libdump libserver libmesh libfit plugins/jv plugins/umfpack plugins/newton plugins/pulse plugins/exp plugins/full plugins/flat plugins/fxdomain plugins/jv_one_point plugins/jv_simple plugins/li plugins/newton_norm plugins/nr_d plugins/nr_ld plugins/qe plugins/sun_voc exp/stark500 images src man 
-CFLAGS = -D dbus -D roderick
-COMPILE_FLAG = -I/usr/include/dbus-1.0 -I/usr/lib64/dbus-1.0/include  -D enable_server
+CFLAGS = -g -O2
+COMPILE_FLAG = -D enable_fit -D enable_server -g -fPIC -I/usr/include/dbus-1.0 -I/usr/lib64/dbus-1.0/include -D dbus 
 CPP = gcc -E
-CPPFLAGS = 
+CPPFLAGS = -I/usr/include/
 CYGPATH_W = echo
-DEFS = -DPACKAGE_NAME=\"gpvdm\" -DPACKAGE_TARNAME=\"gpvdm\" -DPACKAGE_VERSION=\"4.40\" -DPACKAGE_STRING=\"gpvdm\ 4.40\" -DPACKAGE_BUGREPORT=\"\" -DPACKAGE_URL=\"\" -DPACKAGE=\"gpvdm\" -DVERSION=\"4.40\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_MATH_H=1 -DHAVE_STDLIB_H=1 -DHAVE_MALLOC=1
+DEFS = -DPACKAGE_NAME=\"gpvdm\" -DPACKAGE_TARNAME=\"gpvdm\" -DPACKAGE_VERSION=\"4.80\" -DPACKAGE_STRING=\"gpvdm\ 4.80\" -DPACKAGE_BUGREPORT=\"\" -DPACKAGE_URL=\"\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_LIBZIP=1 -DHAVE_SUITESPARSE_UMFPACK_H=1 -DHAVE_LIBMATHEVAL=1 -DPACKAGE=\"gpvdm\" -DVERSION=\"4.80\" -DHAVE_ZIP_H=1 -DHAVE_GSL_GSL_MULTIMIN_H=1 -DHAVE_MATH_H=1 -DHAVE_STDLIB_H=1 -DHAVE_MALLOC=1 -DHAVE_SQRT=1
 DEPDIR = .deps
+DLIB_EXT = so
+DLL_COMPILE = -fPIC
+DLL_DEBUG = -Wall -g
+DLL_LINKER =  -Wl,-soname,plugin.so
 ECHO_C = 
 ECHO_N = -n
 ECHO_T = 
 EGREP = /usr/bin/grep -E
 EXEEXT = 
+EXE_EXT = 
 GREP = /usr/bin/grep
+IMAGE_CONVERT_16 = rsvg-convert -w 16 -h 16 $< > 
+IMAGE_CONVERT_32 = rsvg-convert -w 32 -h 32 $< > 
+IMAGE_CONVERT_64 = rsvg-convert -w 64 -h 64 $< > 
+IMAGE_CONVERT_FLAG = rsvg-convert -w 48 -h 32 $< > 
 INSTALL = /usr/bin/install -c
 INSTALL_DATA = ${INSTALL} -m 644
 INSTALL_PROGRAM = ${INSTALL}
@@ -235,30 +312,43 @@ INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
 LDFLAGS = 
 LIBOBJS = 
-LIBS = 
+LIBS = -lmatheval -lumfpack -lm -lgsl -lgslcblas -rdynamic -export-dynamic -ldl -lzip -lz -g -ldbus-1
 LINK_FLAG = 
+LOCAL_LINK =  -lgpvdm_i -lgpvdm_rpn -lgpvdm_memory -lgpvdm_dos -lgpvdm_light -lgpvdm_measure -lgpvdm_contacts -lgpvdm_lib -lgpvdm_dump -lgpvdm_dumpctrl -lgpvdm_server -lgpvdm_mesh
 LTLIBOBJS = 
-MAKEINFO = ${SHELL} /home/rod/gpvdm/050416/missing makeinfo
+MAKEINFO = ${SHELL} /home/rod/test/gpvdm4.97/pub/build/raw_code/missing makeinfo
 MKDIR_P = /usr/bin/mkdir -p
 OBJEXT = o
 PACKAGE = gpvdm
 PACKAGE_BUGREPORT = 
 PACKAGE_NAME = gpvdm
-PACKAGE_STRING = gpvdm 4.40
+PACKAGE_STRING = gpvdm 4.80
 PACKAGE_TARNAME = gpvdm
 PACKAGE_URL = 
-PACKAGE_VERSION = 4.40
+PACKAGE_VERSION = 4.80
 PATH_SEPARATOR = :
+PKG_CONFIG = pkg-config
+PKG_HELP2MAN = help2man
+PKG_IMAGEMAGICK = 
+PKG_RSGV = yes
+PKG_XGETTEXT = xgettext
+PYTHON = /usr/bin/python3
+PYTHON_EXEC_PREFIX = ${exec_prefix}
+PYTHON_PLATFORM = linux
+PYTHON_PREFIX = ${prefix}
+PYTHON_VERSION = 3.5
 RANLIB = ranlib
 SET_MAKE = 
 SHELL = /bin/sh
+SLIB_EXT = a
 STRIP = 
-VERSION = 4.40
-WIN_LINK_FLAGS = -D roderick
-abs_builddir = /home/rod/gpvdm/050416/pub/gpvdm-4.40
-abs_srcdir = /home/rod/gpvdm/050416/pub/gpvdm-4.40
-abs_top_builddir = /home/rod/gpvdm/050416/pub/gpvdm-4.40
-abs_top_srcdir = /home/rod/gpvdm/050416/pub/gpvdm-4.40
+VERSION = 4.80
+WIN_ICON = 
+WIN_RES_FILE = 
+abs_builddir = /home/rod/test/gpvdm4.97/pub/build/raw_code
+abs_srcdir = /home/rod/test/gpvdm4.97/pub/build/raw_code
+abs_top_builddir = /home/rod/test/gpvdm4.97/pub/build/raw_code
+abs_top_srcdir = /home/rod/test/gpvdm4.97/pub/build/raw_code
 ac_ct_AR = ar
 ac_ct_CC = gcc
 am__include = include
@@ -286,7 +376,7 @@ host_vendor = unknown
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = ${SHELL} /home/rod/gpvdm/050416/install-sh
+install_sh = ${SHELL} /home/rod/test/gpvdm4.97/pub/build/raw_code/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
@@ -295,9 +385,13 @@ mandir = ${datarootdir}/man
 mkdir_p = $(MKDIR_P)
 oldincludedir = /usr/include
 pdfdir = ${docdir}
+pkgpyexecdir = ${pyexecdir}/gpvdm
+pkgpythondir = ${pythondir}/gpvdm
 prefix = /usr/local
 program_transform_name = s,x,x,
 psdir = ${docdir}
+pyexecdir = ${exec_prefix}/lib64/python3.5/site-packages
+pythondir = $(pkgdatadir)/gui
 sbindir = ${exec_prefix}/sbin
 sharedstatedir = ${prefix}/com
 srcdir = .
@@ -311,7 +405,42 @@ top_build_prefix =
 top_builddir = .
 top_srcdir = .
 AUTOMAKE_OPTIONS = foreign
-SUBDIRS =  lib libdos liblight libmeasure libdump libserver libmesh plugins/flat plugins/pulse plugins/newton_norm plugins/jv plugins/full plugins/umfpack plugins/exp plugins/newton plugins/fxdomain src images man 
+EXTRA_DIST = config.rpath m4/ChangeLog  materials
+SUBDIRS =  lang libi librpn libmemory libdos liblight libmeasure libcontacts lib libdump libdumpctrl libserver libmesh plugins/optics plugins/newton plugins/pulse plugins/fxdomain plugins/light_flat plugins/light_ray plugins/light_full plugins/newton_2d plugins/photon_extraction plugins/jv plugins/light_exp plugins/umfpack plugins/equilibrium plugins/light_fromfile plugins/newton_norm src images/16x16 images/32x32 images/48x32 images/64x64 css man 
+gpvdm_core_SOURCES = 
+imagedir = $(pkgdatadir)/images
+image_DATA = images/*.jpg images/*.png
+image16dir = $(pkgdatadir)/images/16x16
+image16_DATA = images/16x16/*.png
+image32dir = $(pkgdatadir)/images/32x32
+image32_DATA = images/32x32/*.png
+image64dir = $(pkgdatadir)/images/64x64
+image64_DATA = images/64x64/*.png
+splashdir = $(pkgdatadir)/images/splash
+splash_DATA = images/splash/*.png images/splash/*.jpg
+flagdir = $(pkgdatadir)/images/48x32
+flag_DATA = images/48x32/*.png
+cssdir = $(pkgdatadir)/css
+css_DATA = css/*.css
+dist_pkgdata_DATA = base.gpvdm
+device_libdir = $(pkgdatadir)/device_lib
+device_lib_DATA = device_lib/*.gpvdm
+plotdir = $(pkgdatadir)/plot
+plot_DATA = plot/*.plot
+pluginsdir = $(pkglibdir)/plugins
+plugins_DATA = plugins/*.so
+python_PYTHON = gui/*.py
+dist_doc_DATA = README
+man1_MANS = man/gpvdm.1 man/gpvdm_core.1
+appicondir = $(pkgdatadir)/images
+appicon_DATA = $(srcdir)/desktop/application-gpvdm.svg
+iconsdir = $(datadir)/icons/hicolor/scalable/mimetypes
+icons_DATA = $(srcdir)/desktop/simulation-gpvdm.svg
+desktopdir = $(datadir)/applications
+desktop_DATA = $(srcdir)/desktop/gpvdm.desktop
+packagesdir = $(datadir)/mime/packages
+packages_DATA = $(srcdir)/desktop/gpvdm-gpvdm.xml
+ACLOCAL_AMFLAGS = -I m4
 all: all-recursive
 
 .SUFFIXES:
@@ -348,6 +477,479 @@ $(top_srcdir)/configure:  $(am__configure_deps)
 $(ACLOCAL_M4):  $(am__aclocal_m4_deps)
 	$(am__cd) $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
 $(am__aclocal_m4_deps):
+install-binPROGRAMS: $(bin_PROGRAMS)
+	@$(NORMAL_INSTALL)
+	@list='$(bin_PROGRAMS)'; test -n "$(bindir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(bindir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(bindir)" || exit 1; \
+	fi; \
+	for p in $$list; do echo "$$p $$p"; done | \
+	sed 's/$(EXEEXT)$$//' | \
+	while read p p1; do if test -f $$p \
+	  ; then echo "$$p"; echo "$$p"; else :; fi; \
+	done | \
+	sed -e 'p;s,.*/,,;n;h' \
+	    -e 's|.*|.|' \
+	    -e 'p;x;s,.*/,,;s/$(EXEEXT)$$//;$(transform);s/$$/$(EXEEXT)/' | \
+	sed 'N;N;N;s,\n, ,g' | \
+	$(AWK) 'BEGIN { files["."] = ""; dirs["."] = 1 } \
+	  { d=$$3; if (dirs[d] != 1) { print "d", d; dirs[d] = 1 } \
+	    if ($$2 == $$4) files[d] = files[d] " " $$1; \
+	    else { print "f", $$3 "/" $$4, $$1; } } \
+	  END { for (d in files) print "f", d, files[d] }' | \
+	while read type dir files; do \
+	    if test "$$dir" = .; then dir=; else dir=/$$dir; fi; \
+	    test -z "$$files" || { \
+	      echo " $(INSTALL_PROGRAM_ENV) $(INSTALL_PROGRAM) $$files '$(DESTDIR)$(bindir)$$dir'"; \
+	      $(INSTALL_PROGRAM_ENV) $(INSTALL_PROGRAM) $$files "$(DESTDIR)$(bindir)$$dir" || exit $$?; \
+	    } \
+	; done
+
+uninstall-binPROGRAMS:
+	@$(NORMAL_UNINSTALL)
+	@list='$(bin_PROGRAMS)'; test -n "$(bindir)" || list=; \
+	files=`for p in $$list; do echo "$$p"; done | \
+	  sed -e 'h;s,^.*/,,;s/$(EXEEXT)$$//;$(transform)' \
+	      -e 's/$$/$(EXEEXT)/' \
+	`; \
+	test -n "$$list" || exit 0; \
+	echo " ( cd '$(DESTDIR)$(bindir)' && rm -f" $$files ")"; \
+	cd "$(DESTDIR)$(bindir)" && rm -f $$files
+
+clean-binPROGRAMS:
+	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
+
+mostlyclean-compile:
+	-rm -f *.$(OBJEXT)
+
+distclean-compile:
+	-rm -f *.tab.c
+install-pythonPYTHON: $(python_PYTHON)
+	@$(NORMAL_INSTALL)
+	@list='$(python_PYTHON)'; dlist=; list2=; test -n "$(pythondir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(pythondir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(pythondir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then b=; else b="$(srcdir)/"; fi; \
+	  if test -f $$b$$p; then \
+	    $(am__strip_dir) \
+	    dlist="$$dlist $$f"; \
+	    list2="$$list2 $$b$$p"; \
+	  else :; fi; \
+	done; \
+	for file in $$list2; do echo $$file; done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(pythondir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(pythondir)" || exit $$?; \
+	done || exit $$?; \
+	if test -n "$$dlist"; then \
+	  $(am__py_compile) --destdir "$(DESTDIR)" \
+	                    --basedir "$(pythondir)" $$dlist; \
+	else :; fi
+
+uninstall-pythonPYTHON:
+	@$(NORMAL_UNINSTALL)
+	@list='$(python_PYTHON)'; test -n "$(pythondir)" || list=; \
+	py_files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	test -n "$$py_files" || exit 0; \
+	dir='$(DESTDIR)$(pythondir)'; \
+	pyc_files=`echo "$$py_files" | sed 's|$$|c|'`; \
+	pyo_files=`echo "$$py_files" | sed 's|$$|o|'`; \
+	py_files_pep3147=`echo "$$py_files" | $(am__pep3147_tweak)`; \
+	echo "$$py_files_pep3147";\
+	pyc_files_pep3147=`echo "$$py_files_pep3147" | sed 's|$$|c|'`; \
+	pyo_files_pep3147=`echo "$$py_files_pep3147" | sed 's|$$|o|'`; \
+	st=0; \
+	for files in \
+	  "$$py_files" \
+	  "$$pyc_files" \
+	  "$$pyo_files" \
+	  "$$pyc_files_pep3147" \
+	  "$$pyo_files_pep3147" \
+	; do \
+	  $(am__uninstall_files_from_dir) || st=$$?; \
+	done; \
+	exit $$st
+install-man1: $(man1_MANS)
+	@$(NORMAL_INSTALL)
+	@list1='$(man1_MANS)'; \
+	list2=''; \
+	test -n "$(man1dir)" \
+	  && test -n "`echo $$list1$$list2`" \
+	  || exit 0; \
+	echo " $(MKDIR_P) '$(DESTDIR)$(man1dir)'"; \
+	$(MKDIR_P) "$(DESTDIR)$(man1dir)" || exit 1; \
+	{ for i in $$list1; do echo "$$i"; done;  \
+	if test -n "$$list2"; then \
+	  for i in $$list2; do echo "$$i"; done \
+	    | sed -n '/\.1[a-z]*$$/p'; \
+	fi; \
+	} | while read p; do \
+	  if test -f $$p; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; echo "$$p"; \
+	done | \
+	sed -e 'n;s,.*/,,;p;h;s,.*\.,,;s,^[^1][0-9a-z]*$$,1,;x' \
+	      -e 's,\.[0-9a-z]*$$,,;$(transform);G;s,\n,.,' | \
+	sed 'N;N;s,\n, ,g' | { \
+	list=; while read file base inst; do \
+	  if test "$$base" = "$$inst"; then list="$$list $$file"; else \
+	    echo " $(INSTALL_DATA) '$$file' '$(DESTDIR)$(man1dir)/$$inst'"; \
+	    $(INSTALL_DATA) "$$file" "$(DESTDIR)$(man1dir)/$$inst" || exit $$?; \
+	  fi; \
+	done; \
+	for i in $$list; do echo "$$i"; done | $(am__base_list) | \
+	while read files; do \
+	  test -z "$$files" || { \
+	    echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(man1dir)'"; \
+	    $(INSTALL_DATA) $$files "$(DESTDIR)$(man1dir)" || exit $$?; }; \
+	done; }
+
+uninstall-man1:
+	@$(NORMAL_UNINSTALL)
+	@list='$(man1_MANS)'; test -n "$(man1dir)" || exit 0; \
+	files=`{ for i in $$list; do echo "$$i"; done; \
+	} | sed -e 's,.*/,,;h;s,.*\.,,;s,^[^1][0-9a-z]*$$,1,;x' \
+	      -e 's,\.[0-9a-z]*$$,,;$(transform);G;s,\n,.,'`; \
+	dir='$(DESTDIR)$(man1dir)'; $(am__uninstall_files_from_dir)
+install-appiconDATA: $(appicon_DATA)
+	@$(NORMAL_INSTALL)
+	@list='$(appicon_DATA)'; test -n "$(appicondir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(appicondir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(appicondir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(appicondir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(appicondir)" || exit $$?; \
+	done
+
+uninstall-appiconDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(appicon_DATA)'; test -n "$(appicondir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(appicondir)'; $(am__uninstall_files_from_dir)
+install-cssDATA: $(css_DATA)
+	@$(NORMAL_INSTALL)
+	@list='$(css_DATA)'; test -n "$(cssdir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(cssdir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(cssdir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(cssdir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(cssdir)" || exit $$?; \
+	done
+
+uninstall-cssDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(css_DATA)'; test -n "$(cssdir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(cssdir)'; $(am__uninstall_files_from_dir)
+install-desktopDATA: $(desktop_DATA)
+	@$(NORMAL_INSTALL)
+	@list='$(desktop_DATA)'; test -n "$(desktopdir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(desktopdir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(desktopdir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(desktopdir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(desktopdir)" || exit $$?; \
+	done
+
+uninstall-desktopDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(desktop_DATA)'; test -n "$(desktopdir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(desktopdir)'; $(am__uninstall_files_from_dir)
+install-device_libDATA: $(device_lib_DATA)
+	@$(NORMAL_INSTALL)
+	@list='$(device_lib_DATA)'; test -n "$(device_libdir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(device_libdir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(device_libdir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(device_libdir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(device_libdir)" || exit $$?; \
+	done
+
+uninstall-device_libDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(device_lib_DATA)'; test -n "$(device_libdir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(device_libdir)'; $(am__uninstall_files_from_dir)
+install-dist_docDATA: $(dist_doc_DATA)
+	@$(NORMAL_INSTALL)
+	@list='$(dist_doc_DATA)'; test -n "$(docdir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(docdir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(docdir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(docdir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(docdir)" || exit $$?; \
+	done
+
+uninstall-dist_docDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(dist_doc_DATA)'; test -n "$(docdir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(docdir)'; $(am__uninstall_files_from_dir)
+install-dist_pkgdataDATA: $(dist_pkgdata_DATA)
+	@$(NORMAL_INSTALL)
+	@list='$(dist_pkgdata_DATA)'; test -n "$(pkgdatadir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(pkgdatadir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(pkgdatadir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(pkgdatadir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(pkgdatadir)" || exit $$?; \
+	done
+
+uninstall-dist_pkgdataDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(dist_pkgdata_DATA)'; test -n "$(pkgdatadir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(pkgdatadir)'; $(am__uninstall_files_from_dir)
+install-flagDATA: $(flag_DATA)
+	@$(NORMAL_INSTALL)
+	@list='$(flag_DATA)'; test -n "$(flagdir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(flagdir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(flagdir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(flagdir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(flagdir)" || exit $$?; \
+	done
+
+uninstall-flagDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(flag_DATA)'; test -n "$(flagdir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(flagdir)'; $(am__uninstall_files_from_dir)
+install-iconsDATA: $(icons_DATA)
+	@$(NORMAL_INSTALL)
+	@list='$(icons_DATA)'; test -n "$(iconsdir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(iconsdir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(iconsdir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(iconsdir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(iconsdir)" || exit $$?; \
+	done
+
+uninstall-iconsDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(icons_DATA)'; test -n "$(iconsdir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(iconsdir)'; $(am__uninstall_files_from_dir)
+install-imageDATA: $(image_DATA)
+	@$(NORMAL_INSTALL)
+	@list='$(image_DATA)'; test -n "$(imagedir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(imagedir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(imagedir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(imagedir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(imagedir)" || exit $$?; \
+	done
+
+uninstall-imageDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(image_DATA)'; test -n "$(imagedir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(imagedir)'; $(am__uninstall_files_from_dir)
+install-image16DATA: $(image16_DATA)
+	@$(NORMAL_INSTALL)
+	@list='$(image16_DATA)'; test -n "$(image16dir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(image16dir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(image16dir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(image16dir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(image16dir)" || exit $$?; \
+	done
+
+uninstall-image16DATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(image16_DATA)'; test -n "$(image16dir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(image16dir)'; $(am__uninstall_files_from_dir)
+install-image32DATA: $(image32_DATA)
+	@$(NORMAL_INSTALL)
+	@list='$(image32_DATA)'; test -n "$(image32dir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(image32dir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(image32dir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(image32dir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(image32dir)" || exit $$?; \
+	done
+
+uninstall-image32DATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(image32_DATA)'; test -n "$(image32dir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(image32dir)'; $(am__uninstall_files_from_dir)
+install-image64DATA: $(image64_DATA)
+	@$(NORMAL_INSTALL)
+	@list='$(image64_DATA)'; test -n "$(image64dir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(image64dir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(image64dir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(image64dir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(image64dir)" || exit $$?; \
+	done
+
+uninstall-image64DATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(image64_DATA)'; test -n "$(image64dir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(image64dir)'; $(am__uninstall_files_from_dir)
+install-packagesDATA: $(packages_DATA)
+	@$(NORMAL_INSTALL)
+	@list='$(packages_DATA)'; test -n "$(packagesdir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(packagesdir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(packagesdir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(packagesdir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(packagesdir)" || exit $$?; \
+	done
+
+uninstall-packagesDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(packages_DATA)'; test -n "$(packagesdir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(packagesdir)'; $(am__uninstall_files_from_dir)
+install-plotDATA: $(plot_DATA)
+	@$(NORMAL_INSTALL)
+	@list='$(plot_DATA)'; test -n "$(plotdir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(plotdir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(plotdir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(plotdir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(plotdir)" || exit $$?; \
+	done
+
+uninstall-plotDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(plot_DATA)'; test -n "$(plotdir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(plotdir)'; $(am__uninstall_files_from_dir)
+install-pluginsDATA: $(plugins_DATA)
+	@$(NORMAL_INSTALL)
+	@list='$(plugins_DATA)'; test -n "$(pluginsdir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(pluginsdir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(pluginsdir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(pluginsdir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(pluginsdir)" || exit $$?; \
+	done
+
+uninstall-pluginsDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(plugins_DATA)'; test -n "$(pluginsdir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(pluginsdir)'; $(am__uninstall_files_from_dir)
+install-splashDATA: $(splash_DATA)
+	@$(NORMAL_INSTALL)
+	@list='$(splash_DATA)'; test -n "$(splashdir)" || list=; \
+	if test -n "$$list"; then \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(splashdir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(splashdir)" || exit 1; \
+	fi; \
+	for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  echo "$$d$$p"; \
+	done | $(am__base_list) | \
+	while read files; do \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(splashdir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(splashdir)" || exit $$?; \
+	done
+
+uninstall-splashDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(splash_DATA)'; test -n "$(splashdir)" || list=; \
+	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
+	dir='$(DESTDIR)$(splashdir)'; $(am__uninstall_files_from_dir)
 
 # This directory's subdirectories are mostly independent; you can cd
 # into them and run 'make' without going through this Makefile.
@@ -520,7 +1122,7 @@ distdir: $(DISTFILES)
 	  ! -type d ! -perm -444 -exec $(install_sh) -c -m a+r {} {} \; \
 	|| chmod -R a+r "$(distdir)"
 dist-gzip: distdir
-	tardir=$(distdir) && $(am__tar) | GZIP=$(GZIP_ENV) gzip -c >$(distdir).tar.gz
+	tardir=$(distdir) && $(am__tar) | eval GZIP= gzip $(GZIP_ENV) -c >$(distdir).tar.gz
 	$(am__post_remove_distdir)
 
 dist-bzip2: distdir
@@ -546,7 +1148,7 @@ dist-shar: distdir
 	@echo WARNING: "Support for shar distribution archives is" \
 	               "deprecated." >&2
 	@echo WARNING: "It will be removed altogether in Automake 2.0" >&2
-	shar $(distdir) | GZIP=$(GZIP_ENV) gzip -c >$(distdir).shar.gz
+	shar $(distdir) | eval GZIP= gzip $(GZIP_ENV) -c >$(distdir).shar.gz
 	$(am__post_remove_distdir)
 
 dist-zip: distdir
@@ -564,7 +1166,7 @@ dist dist-all:
 distcheck: dist
 	case '$(DIST_ARCHIVES)' in \
 	*.tar.gz*) \
-	  GZIP=$(GZIP_ENV) gzip -dc $(distdir).tar.gz | $(am__untar) ;;\
+	  eval GZIP= gzip $(GZIP_ENV) -dc $(distdir).tar.gz | $(am__untar) ;;\
 	*.tar.bz2*) \
 	  bzip2 -dc $(distdir).tar.bz2 | $(am__untar) ;;\
 	*.tar.lz*) \
@@ -574,7 +1176,7 @@ distcheck: dist
 	*.tar.Z*) \
 	  uncompress -c $(distdir).tar.Z | $(am__untar) ;;\
 	*.shar.gz*) \
-	  GZIP=$(GZIP_ENV) gzip -dc $(distdir).shar.gz | unshar ;;\
+	  eval GZIP= gzip $(GZIP_ENV) -dc $(distdir).shar.gz | unshar ;;\
 	*.zip*) \
 	  unzip $(distdir).zip ;;\
 	esac
@@ -645,9 +1247,12 @@ distcleancheck: distclean
 	       exit 1; } >&2
 check-am: all-am
 check: check-recursive
-all-am: Makefile
+all-am: Makefile $(PROGRAMS) $(MANS) $(DATA)
 installdirs: installdirs-recursive
 installdirs-am:
+	for dir in "$(DESTDIR)$(bindir)" "$(DESTDIR)$(pythondir)" "$(DESTDIR)$(man1dir)" "$(DESTDIR)$(appicondir)" "$(DESTDIR)$(cssdir)" "$(DESTDIR)$(desktopdir)" "$(DESTDIR)$(device_libdir)" "$(DESTDIR)$(docdir)" "$(DESTDIR)$(pkgdatadir)" "$(DESTDIR)$(flagdir)" "$(DESTDIR)$(iconsdir)" "$(DESTDIR)$(imagedir)" "$(DESTDIR)$(image16dir)" "$(DESTDIR)$(image32dir)" "$(DESTDIR)$(image64dir)" "$(DESTDIR)$(packagesdir)" "$(DESTDIR)$(plotdir)" "$(DESTDIR)$(pluginsdir)" "$(DESTDIR)$(splashdir)"; do \
+	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
+	done
 install: install-recursive
 install-exec: install-exec-recursive
 install-data: install-data-recursive
@@ -680,12 +1285,13 @@ maintainer-clean-generic:
 	@echo "it deletes files that may require special tools to rebuild."
 clean: clean-recursive
 
-clean-am: clean-generic clean-local mostlyclean-am
+clean-am: clean-binPROGRAMS clean-generic clean-local mostlyclean-am
 
 distclean: distclean-recursive
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -f Makefile
-distclean-am: clean-am distclean-generic distclean-tags
+distclean-am: clean-am distclean-compile distclean-generic \
+	distclean-tags
 
 dvi: dvi-recursive
 
@@ -699,13 +1305,20 @@ info: info-recursive
 
 info-am:
 
-install-data-am:
-
+install-data-am: install-appiconDATA install-cssDATA \
+	install-desktopDATA install-device_libDATA \
+	install-dist_docDATA install-dist_pkgdataDATA install-flagDATA \
+	install-iconsDATA install-image16DATA install-image32DATA \
+	install-image64DATA install-imageDATA install-man \
+	install-packagesDATA install-plotDATA install-pluginsDATA \
+	install-pythonPYTHON install-splashDATA
+	@$(NORMAL_INSTALL)
+	$(MAKE) $(AM_MAKEFLAGS) install-data-hook
 install-dvi: install-dvi-recursive
 
 install-dvi-am:
 
-install-exec-am:
+install-exec-am: install-binPROGRAMS
 
 install-html: install-html-recursive
 
@@ -715,7 +1328,7 @@ install-info: install-info-recursive
 
 install-info-am:
 
-install-man:
+install-man: install-man1
 
 install-pdf: install-pdf-recursive
 
@@ -735,7 +1348,7 @@ maintainer-clean-am: distclean-am maintainer-clean-generic
 
 mostlyclean: mostlyclean-recursive
 
-mostlyclean-am: mostlyclean-generic
+mostlyclean-am: mostlyclean-compile mostlyclean-generic
 
 pdf: pdf-recursive
 
@@ -745,31 +1358,72 @@ ps: ps-recursive
 
 ps-am:
 
-uninstall-am:
+uninstall-am: uninstall-appiconDATA uninstall-binPROGRAMS \
+	uninstall-cssDATA uninstall-desktopDATA \
+	uninstall-device_libDATA uninstall-dist_docDATA \
+	uninstall-dist_pkgdataDATA uninstall-flagDATA \
+	uninstall-iconsDATA uninstall-image16DATA \
+	uninstall-image32DATA uninstall-image64DATA \
+	uninstall-imageDATA uninstall-man uninstall-packagesDATA \
+	uninstall-plotDATA uninstall-pluginsDATA \
+	uninstall-pythonPYTHON uninstall-splashDATA
 
-.MAKE: $(am__recursive_targets) install-am install-strip
+uninstall-man: uninstall-man1
+
+.MAKE: $(am__recursive_targets) install-am install-data-am \
+	install-strip
 
 .PHONY: $(am__recursive_targets) CTAGS GTAGS TAGS all all-am \
-	am--refresh check check-am clean clean-cscope clean-generic \
-	clean-local cscope cscopelist-am ctags ctags-am dist dist-all \
-	dist-bzip2 dist-gzip dist-lzip dist-shar dist-tarZ dist-xz \
-	dist-zip distcheck distclean distclean-generic distclean-tags \
+	am--refresh check check-am clean clean-binPROGRAMS \
+	clean-cscope clean-generic clean-local cscope cscopelist-am \
+	ctags ctags-am dist dist-all dist-bzip2 dist-gzip dist-lzip \
+	dist-shar dist-tarZ dist-xz dist-zip distcheck distclean \
+	distclean-compile distclean-generic distclean-tags \
 	distcleancheck distdir distuninstallcheck dvi dvi-am html \
-	html-am info info-am install install-am install-data \
-	install-data-am install-dvi install-dvi-am install-exec \
-	install-exec-am install-html install-html-am install-info \
-	install-info-am install-man install-pdf install-pdf-am \
-	install-ps install-ps-am install-strip installcheck \
-	installcheck-am installdirs installdirs-am maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-generic pdf \
-	pdf-am ps ps-am tags tags-am uninstall uninstall-am
+	html-am info info-am install install-am install-appiconDATA \
+	install-binPROGRAMS install-cssDATA install-data \
+	install-data-am install-data-hook install-desktopDATA \
+	install-device_libDATA install-dist_docDATA \
+	install-dist_pkgdataDATA install-dvi install-dvi-am \
+	install-exec install-exec-am install-flagDATA install-html \
+	install-html-am install-iconsDATA install-image16DATA \
+	install-image32DATA install-image64DATA install-imageDATA \
+	install-info install-info-am install-man install-man1 \
+	install-packagesDATA install-pdf install-pdf-am \
+	install-plotDATA install-pluginsDATA install-ps install-ps-am \
+	install-pythonPYTHON install-splashDATA install-strip \
+	installcheck installcheck-am installdirs installdirs-am \
+	maintainer-clean maintainer-clean-generic mostlyclean \
+	mostlyclean-compile mostlyclean-generic pdf pdf-am ps ps-am \
+	tags tags-am uninstall uninstall-am uninstall-appiconDATA \
+	uninstall-binPROGRAMS uninstall-cssDATA uninstall-desktopDATA \
+	uninstall-device_libDATA uninstall-dist_docDATA \
+	uninstall-dist_pkgdataDATA uninstall-flagDATA \
+	uninstall-iconsDATA uninstall-image16DATA \
+	uninstall-image32DATA uninstall-image64DATA \
+	uninstall-imageDATA uninstall-man uninstall-man1 \
+	uninstall-packagesDATA uninstall-plotDATA \
+	uninstall-pluginsDATA uninstall-pythonPYTHON \
+	uninstall-splashDATA
 
 .PRECIOUS: Makefile
 
 
 clean-local:
-	rm *.dat *.o ./plugins/*.so ./plugins/*.dll *.log -f
-	rm autom4te.cache -rf 
+	rm gpvdm_core *.dat *.o ./plugins/*.so ./plugins/*.dll *.log *.a  *.lib *.exe *.chk *.oplot -f
+	rm autom4te.cache -rf
+	find . -type f -name '.~lock*' -delete
+
+gpvdm_core$(EXEEXT):
+	@printf ""
+
+install-data-hook:
+	cp materials $(DESTDIR)$(datadir)/gpvdm/materials -rf
+	cp spectra $(DESTDIR)$(datadir)/gpvdm/spectra -rf
+	cp ui $(DESTDIR)$(datadir)/gpvdm/ui -rf
+	find lang -name "*.mo" -exec cp --parents {} $(DESTDIR)$(datadir)/gpvdm/ ";"
+	ln -s $(pkgdatadir)/gui/gpvdm.py $(DESTDIR)$(bindir)/gpvdm
+	chmod +x $(DESTDIR)$(pkgdatadir)/gui/gpvdm.py
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

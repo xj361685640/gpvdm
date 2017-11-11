@@ -264,7 +264,7 @@ class scan_class(QWidgetSavePos):
 
 		self.ribbon.single_fit.triggered.connect(self.callback_run_single_fit)
 
-		self.ribbon.sim_clean.triggered.connect(self.callback_clean_simulation)
+		self.ribbon.tb_clean.triggered.connect(self.callback_clean_simulation)
 
 		self.ribbon.clean_unconverged.triggered.connect(self.callback_clean_unconverged_simulation)
 

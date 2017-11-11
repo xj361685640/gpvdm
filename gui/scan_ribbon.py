@@ -102,15 +102,28 @@ class scan_ribbon(QTabWidget):
 		self.tb_plot_time = QAction(QIcon_load("plot_time"), wrap_text(_("Time domain plot"),6), self)
 		toolbar.addAction(self.tb_plot_time)
 
+
+		self.box_widget=QWidget()
+		self.box=QVBoxLayout()
+		self.box_widget.setLayout(self.box)
+		self.box_tb0=QToolBar()
+		self.box_tb0.setIconSize(QSize(32, 32))
+		self.box.addWidget(self.box_tb0)
+		self.box_tb1=QToolBar()
+		self.box_tb1.setIconSize(QSize(32, 32))
+		self.box.addWidget(self.box_tb1)
+		
 		self.tb_build = QAction(QIcon_load("cog"), wrap_text(_("Build scan"),2), self)
-		toolbar.addAction(self.tb_build)
+		self.box_tb0.addAction(self.tb_build)
 
 		self.tb_rerun = QAction(QIcon_load("play-green"), wrap_text(_("Rerun"),2), self)
-		toolbar.addAction(self.tb_rerun)
+		self.box_tb0.addAction(self.tb_rerun)
 
-		self.tb_clean = QAction(QIcon_load("edit-delete"), wrap_text(_("Clean simulation"),4), self)
-		toolbar.addAction(self.tb_clean )
+		self.tb_clean = QAction(QIcon_load("clean"), wrap_text(_("Clean simulation"),4), self)
+		self.box_tb1.addAction(self.tb_clean )
 
+		toolbar.addWidget(self.box_widget)
+		
 		return toolbar
 
 	def advanced(self):

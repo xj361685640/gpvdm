@@ -91,6 +91,7 @@ target_triplet = x86_64-unknown-linux-gnu
 subdir = plugins/newton
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/make_files.m4 \
+	$(top_srcdir)/local_link.m4 $(top_srcdir)/ar.m4 \
 	$(top_srcdir)/config_files.m4 $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
@@ -120,30 +121,39 @@ am__can_run_installinfo = \
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
 am__DIST_COMMON = $(srcdir)/Makefile.in
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
-ACLOCAL = ${SHELL} /home/rod/gpvdm/050416/missing aclocal-1.15
+ACLOCAL = ${SHELL} /home/rod/test/gpvdm4.97/pub/build/raw_code/missing aclocal-1.15
 AMTAR = $${TAR-tar}
 AM_DEFAULT_VERBOSITY = 1
 AR = ar
-AUTOCONF = ${SHELL} /home/rod/gpvdm/050416/missing autoconf
-AUTOHEADER = ${SHELL} /home/rod/gpvdm/050416/missing autoheader
-AUTOMAKE = ${SHELL} /home/rod/gpvdm/050416/missing automake-1.15
+AUTOCONF = ${SHELL} /home/rod/test/gpvdm4.97/pub/build/raw_code/missing autoconf
+AUTOHEADER = ${SHELL} /home/rod/test/gpvdm4.97/pub/build/raw_code/missing autoheader
+AUTOMAKE = ${SHELL} /home/rod/test/gpvdm4.97/pub/build/raw_code/missing automake-1.15
 AWK = gawk
-BUILD_DIRS =  lib libdos liblight libmeasure libdump libserver libmesh plugins/flat plugins/pulse plugins/newton_norm plugins/jv plugins/full plugins/umfpack plugins/exp plugins/newton plugins/fxdomain src images man 
+BUILD_DIRS =  lang libi librpn libmemory libdos liblight libmeasure libcontacts lib libdump libdumpctrl libserver libmesh plugins/optics plugins/newton plugins/pulse plugins/fxdomain plugins/light_flat plugins/light_ray plugins/light_full plugins/newton_2d plugins/photon_extraction plugins/jv plugins/light_exp plugins/umfpack plugins/equilibrium plugins/light_fromfile plugins/newton_norm src images/16x16 images/32x32 images/48x32 images/64x64 css man 
 CC = gcc
 CCDEPMODE = depmode=none
-CFLAGS = -Wall -g
-COMPILE_FLAG = -I/usr/include/dbus-1.0 -I/usr/lib64/dbus-1.0/include  -D enable_server
+CFLAGS = -g -O2
+COMPILE_FLAG = -D enable_fit -D enable_server -g -fPIC -I/usr/include/dbus-1.0 -I/usr/lib64/dbus-1.0/include -D dbus 
 CPP = gcc -E
-CPPFLAGS = 
+CPPFLAGS = -I/usr/include/
 CYGPATH_W = echo
-DEFS = -DPACKAGE_NAME=\"gpvdm\" -DPACKAGE_TARNAME=\"gpvdm\" -DPACKAGE_VERSION=\"4.40\" -DPACKAGE_STRING=\"gpvdm\ 4.40\" -DPACKAGE_BUGREPORT=\"\" -DPACKAGE_URL=\"\" -DPACKAGE=\"gpvdm\" -DVERSION=\"4.40\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_MATH_H=1 -DHAVE_STDLIB_H=1 -DHAVE_MALLOC=1
+DEFS = -DPACKAGE_NAME=\"gpvdm\" -DPACKAGE_TARNAME=\"gpvdm\" -DPACKAGE_VERSION=\"4.80\" -DPACKAGE_STRING=\"gpvdm\ 4.80\" -DPACKAGE_BUGREPORT=\"\" -DPACKAGE_URL=\"\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_LIBZIP=1 -DHAVE_SUITESPARSE_UMFPACK_H=1 -DHAVE_LIBMATHEVAL=1 -DPACKAGE=\"gpvdm\" -DVERSION=\"4.80\" -DHAVE_ZIP_H=1 -DHAVE_GSL_GSL_MULTIMIN_H=1 -DHAVE_MATH_H=1 -DHAVE_STDLIB_H=1 -DHAVE_MALLOC=1 -DHAVE_SQRT=1
 DEPDIR = .deps
+DLIB_EXT = so
+DLL_COMPILE = -fPIC
+DLL_DEBUG = -Wall -g
+DLL_LINKER =  -Wl,-soname,plugin.so
 ECHO_C = 
 ECHO_N = -n
 ECHO_T = 
 EGREP = /usr/bin/grep -E
 EXEEXT = 
+EXE_EXT = 
 GREP = /usr/bin/grep
+IMAGE_CONVERT_16 = rsvg-convert -w 16 -h 16 $< > 
+IMAGE_CONVERT_32 = rsvg-convert -w 32 -h 32 $< > 
+IMAGE_CONVERT_64 = rsvg-convert -w 64 -h 64 $< > 
+IMAGE_CONVERT_FLAG = rsvg-convert -w 48 -h 32 $< > 
 INSTALL = /usr/bin/install -c
 INSTALL_DATA = ${INSTALL} -m 644
 INSTALL_PROGRAM = ${INSTALL}
@@ -151,30 +161,43 @@ INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
 LDFLAGS = 
 LIBOBJS = 
-LIBS = 
+LIBS = -lmatheval -lumfpack -lm -lgsl -lgslcblas -rdynamic -export-dynamic -ldl -lzip -lz -g -ldbus-1
 LINK_FLAG = 
+LOCAL_LINK =  -lgpvdm_i -lgpvdm_rpn -lgpvdm_memory -lgpvdm_dos -lgpvdm_light -lgpvdm_measure -lgpvdm_contacts -lgpvdm_lib -lgpvdm_dump -lgpvdm_dumpctrl -lgpvdm_server -lgpvdm_mesh
 LTLIBOBJS = 
-MAKEINFO = ${SHELL} /home/rod/gpvdm/050416/missing makeinfo
+MAKEINFO = ${SHELL} /home/rod/test/gpvdm4.97/pub/build/raw_code/missing makeinfo
 MKDIR_P = /usr/bin/mkdir -p
 OBJEXT = o
 PACKAGE = gpvdm
 PACKAGE_BUGREPORT = 
 PACKAGE_NAME = gpvdm
-PACKAGE_STRING = gpvdm 4.40
+PACKAGE_STRING = gpvdm 4.80
 PACKAGE_TARNAME = gpvdm
 PACKAGE_URL = 
-PACKAGE_VERSION = 4.40
+PACKAGE_VERSION = 4.80
 PATH_SEPARATOR = :
+PKG_CONFIG = pkg-config
+PKG_HELP2MAN = help2man
+PKG_IMAGEMAGICK = 
+PKG_RSGV = yes
+PKG_XGETTEXT = xgettext
+PYTHON = /usr/bin/python3
+PYTHON_EXEC_PREFIX = ${exec_prefix}
+PYTHON_PLATFORM = linux
+PYTHON_PREFIX = ${prefix}
+PYTHON_VERSION = 3.5
 RANLIB = ranlib
 SET_MAKE = 
 SHELL = /bin/sh
+SLIB_EXT = a
 STRIP = 
-VERSION = 4.40
-WIN_LINK_FLAGS = -D roderick
-abs_builddir = /home/rod/gpvdm/050416/pub/gpvdm-4.40/plugins/newton
-abs_srcdir = /home/rod/gpvdm/050416/pub/gpvdm-4.40/plugins/newton
-abs_top_builddir = /home/rod/gpvdm/050416/pub/gpvdm-4.40
-abs_top_srcdir = /home/rod/gpvdm/050416/pub/gpvdm-4.40
+VERSION = 4.80
+WIN_ICON = 
+WIN_RES_FILE = 
+abs_builddir = /home/rod/test/gpvdm4.97/pub/build/raw_code/plugins/newton
+abs_srcdir = /home/rod/test/gpvdm4.97/pub/build/raw_code/plugins/newton
+abs_top_builddir = /home/rod/test/gpvdm4.97/pub/build/raw_code
+abs_top_srcdir = /home/rod/test/gpvdm4.97/pub/build/raw_code
 ac_ct_AR = ar
 ac_ct_CC = gcc
 am__include = include
@@ -202,7 +225,7 @@ host_vendor = unknown
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = ${SHELL} /home/rod/gpvdm/050416/install-sh
+install_sh = ${SHELL} /home/rod/test/gpvdm4.97/pub/build/raw_code/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
@@ -211,9 +234,13 @@ mandir = ${datarootdir}/man
 mkdir_p = $(MKDIR_P)
 oldincludedir = /usr/include
 pdfdir = ${docdir}
+pkgpyexecdir = ${pyexecdir}/gpvdm
+pkgpythondir = ${pythondir}/gpvdm
 prefix = /usr/local
 program_transform_name = s,x,x,
 psdir = ${docdir}
+pyexecdir = ${exec_prefix}/lib64/python3.5/site-packages
+pythondir = ${prefix}/lib/python3.5/site-packages
 sbindir = ${exec_prefix}/sbin
 sharedstatedir = ${prefix}/com
 srcdir = .
@@ -226,13 +253,13 @@ target_vendor = unknown
 top_build_prefix = ../../
 top_builddir = ../..
 top_srcdir = ../..
-lib_type = -fPIC
-link_command = -shared -lgpvdm_lib -Wl,-soname,plugin.so plugin.o newton.o -o plugin.so -g
-lib = -L../../lib/ -L../../libmeasure/
+OBJS = plugin.o newton.o
+lib = -L../../
 inc = -I../../include/
 all: all-am
 
 .SUFFIXES:
+.SUFFIXES: .c .o
 $(srcdir)/Makefile.in:  $(srcdir)/Makefile.am  $(am__configure_deps)
 	@for dep in $?; do \
 	  case '$(am__configure_deps)' in \
@@ -413,15 +440,12 @@ uninstall-am:
 .PRECIOUS: Makefile
 
 
-all: plugin.o newton.o
-	$(CC)  $(lib) $(link_command) $(CFLAGS)
+all: $(OBJS)
+	$(CC) -shared $(OBJS)  -Wl,-soname,plugin.so $(lib) -Wall -g -o plugin.so
 	mv plugin.so ../newton.so
 
-plugin.o: plugin.c
-	$(CC) $(lib_type) -c plugin.c -o plugin.o  $(inc) $(CFLAGS) 
-
-newton.o: newton.c
-	$(CC) $(lib_type) -c newton.c -o newton.o  $(inc) $(CFLAGS)
+.c.o : 
+	$(CC) -Wall -g $(inc) $(CPPFLAGS) -fPIC -D enable_fit -D enable_server -g -fPIC -I/usr/include/dbus-1.0 -I/usr/lib64/dbus-1.0/include -D dbus  -c $< -o $@
 
 clean:
 	rm *.o *.dll *.so -f
