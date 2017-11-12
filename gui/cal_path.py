@@ -44,6 +44,29 @@ spectra_path=None
 sim_path=None
 materials_base_path=None
 
+def subtract_paths(root,b_in):
+	a=root.replace("/","\\")
+	b=b_in.replace("/","\\")
+	a=a.split("\\")
+	b=b.split("\\")
+	a_len=len(a)
+	b_len=len(b)
+	m=a_len
+	if b_len<m:
+		m=b_len
+	pos=0
+
+	for i in range(0,m):
+		if a[i]!=b[i]:
+			break
+		pos=pos+1
+
+	ret=[]
+	for i in range(pos,b_len):
+		ret.append(b[i])
+
+	return "/".join(ret)
+
 def to_native_path(path):
 	ret=path
 	if running_on_linux()==False:

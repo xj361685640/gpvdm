@@ -27,6 +27,7 @@ import shutil
 from util import gpvdm_delete_file
 from inp import inp_get_token_value
 from scan_tree import tree_load_flat_list
+from scan_tree import tree_gen_flat_list
 from util import copy_scan_dir
 
 from scan_tree import tree_load_program
@@ -142,7 +143,11 @@ def scan_gen_report(path):
 	#for ii in range(0,len(tokens)):
 	#	print(tokens[ii].values)
 
+#maybe delete
 def scan_nested_simulation(root_simulation,nest_simulation):
+	a=tree_gen_flat_list(root_simulation,level=1)
+	print(a)
+	return
 	program_list=tree_load_program(nest_simulation)
 
 	names=tree_load_flat_list(root_simulation)
@@ -162,18 +167,50 @@ def scan_nested_simulation(root_simulation,nest_simulation):
 
 		print(names[i],flat_simulation_list)
 	tree_save_flat_list(root_simulation,flat_simulation_list)
-#		copy_scan_dir(dest_name,nest_simulation)
 
-#		flat_list=[]
-#		program_list=tree_load_program(dest_name)
-		#print("call=",names[i],dest_name)
-#		tree_gen(flat_list,program_list,names[i],dest_name)
+	return
+
+def scan_build_nested_simulation(root_simulation,nest_simulation):
+	
+	program_list=tree_load_program(nest_simulation)
+		
+	files = os.listdir(root_simulation)
+	simulations=[]
+	for i in range(0,len(files)):
+		if os.path.isfile(os.path.join(root_simulation,files[i],"sim.gpvdm"))==True:
+			simulations.append(files[i])
+
+	flat_simulation_list=[]
+
+	for i in range(0,len(simulations)):
+		print(i,len(simulations))
+		dest_name=os.path.join(root_simulation,simulations[i])
+		tree_gen(flat_simulation_list,program_list,dest_name,dest_name)
+
+	flat_simulation_list=tree_gen_flat_list(root_simulation,level=1)
+
+	print(flat_simulation_list)
+	tree_save_flat_list(root_simulation,flat_simulation_list)
+
+	return
+
+def scan_clean_nested_simulation(root_simulation,nest_simulation):
+	files = os.listdir(root_simulation)
+	simulations=[]
+	for i in range(0,len(files)):
+		if os.path.isfile(os.path.join(root_simulation,files[i],"sim.gpvdm"))==True:
+			simulations.append(files[i])
+
+	for i in range(0,len(simulations)):
+		dest_name=os.path.join(root_simulation,simulations[i])
+
+		files = os.listdir(dest_name)
+		for file in files:
+			if file.endswith(".inp") or file.endswith(".gpvdm") or file.endswith(".dat") :
+				os.remove(os.path.join(dest_name,file))
 
 
-#		server_find_simulations_to_run(commands,dest_name)
-
-	#return commands
-
+	return
 #def clean_simulation(parent_window,dir_to_clean):
 #	files_to_delete=[]
 #	listing=os.listdir(dir_to_clean)
@@ -231,7 +268,7 @@ def scan_nested_simulation(root_simulation,nest_simulation):
 					##print("delete",path)
 					#files_to_delete.append(path)
 
-	scan_ask_to_delete(parent_window,files_to_delete)
+	#scan_ask_to_delete(parent_window,files_to_delete)
 
 def scan_clean_dir(parent_window,dir_to_clean):
 	dirs_to_del=[]

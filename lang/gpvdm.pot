@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.97\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2017-11-11 13:34+0000\n"
+"POT-Creation-Date: 2017-11-12 09:38+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1206,7 +1206,7 @@ msgid "Run optical simulation"
 msgstr ""
 
 #: ../gui/optics_ribbon.py:113 ../gui/ribbon_solar.py:97 ../gui/ribbon.py:102
-#: ../gui/cool_menu.py:68 ../gui/scan_ribbon.py:199 ../gui/about.py:50
+#: ../gui/cool_menu.py:68 ../gui/scan_ribbon.py:206 ../gui/about.py:50
 #: ../gui/about.py:82 ../gui/status_icon.py:48
 msgid "About"
 msgstr ""
@@ -2470,7 +2470,7 @@ msgid ""
 "data"
 msgstr ""
 
-#: ../gui/ribbon.py:114 ../gui/scan_ribbon.py:208
+#: ../gui/ribbon.py:114 ../gui/scan_ribbon.py:215
 msgid "Simulations"
 msgstr ""
 
@@ -3047,7 +3047,7 @@ msgstr ""
 msgid "Open data file"
 msgstr ""
 
-#: ../gui/import_data.py:225 ../gui/scan_ribbon.py:99
+#: ../gui/import_data.py:225 ../gui/scan_ribbon.py:96
 msgid "Plot"
 msgstr ""
 
@@ -3132,79 +3132,79 @@ msgstr ""
 msgid "Run scan"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:90
-msgid "Run all scans"
-msgstr ""
-
-#: ../gui/scan_ribbon.py:94 ../gui/doping.py:111
+#: ../gui/scan_ribbon.py:91 ../gui/doping.py:111
 msgid "Stop"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:102
+#: ../gui/scan_ribbon.py:99
 msgid "Time domain plot"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:116
+#: ../gui/scan_ribbon.py:113
 msgid "Build scan"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:119
+#: ../gui/scan_ribbon.py:116
 msgid "Rerun"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:122
+#: ../gui/scan_ribbon.py:119
 msgid "Clean simulation"
 msgstr ""
 
+#: ../gui/scan_ribbon.py:122
+msgid "Run all scans"
+msgstr ""
+
 #: ../gui/scan_ribbon.py:134
+msgid "Build nested simulation"
+msgstr ""
+
+#: ../gui/scan_ribbon.py:144
 msgid "Plot fits"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:137
-msgid "Run nested simulation"
-msgstr ""
-
-#: ../gui/scan_ribbon.py:140
+#: ../gui/scan_ribbon.py:147
 msgid "Run simulation no generation"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:143
+#: ../gui/scan_ribbon.py:150
 msgid "Run single fit"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:146
+#: ../gui/scan_ribbon.py:153
 msgid "Clean unconverged simulation"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:149
+#: ../gui/scan_ribbon.py:156
 msgid "Clean simulation output"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:152
+#: ../gui/scan_ribbon.py:159
 msgid "Push unconverged to hpc"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:155
+#: ../gui/scan_ribbon.py:162
 msgid "Change dir"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:158
+#: ../gui/scan_ribbon.py:165
 msgid "Report"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:168
+#: ../gui/scan_ribbon.py:175
 msgid "Build vectors"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:205
+#: ../gui/scan_ribbon.py:212
 msgid "Scan"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:213
+#: ../gui/scan_ribbon.py:220
 msgid "Advanced"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:217
+#: ../gui/scan_ribbon.py:224
 msgid "ML"
 msgstr ""
 

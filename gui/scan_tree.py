@@ -42,6 +42,8 @@ import codecs
 from util_zip import archive_decompress
 from util_zip import archive_compress
 
+from cal_path import subtract_paths
+
 copy_materials=False
 
 def tree_load_flat_list(sim_dir):
@@ -71,19 +73,25 @@ def tree_save_flat_list(sim_dir,flat_list):
 	a = open(file_name, "w")
 	a.write(str(len(flat_list))+"\n")
 	for i in range(0,len(flat_list)):
-		rel_dir=flat_list[i][len(sim_dir):]
-
-		if rel_dir[0]=="/":
-			rel_dir=rel_dir[1:]
-
-		if rel_dir[0]=="\\":
-			rel_dir=rel_dir[1:]
-
+		rel_dir=subtract_paths(sim_dir,flat_list[i])
 		a.write(rel_dir+"\n")
 
 	a.close()
 
 	return config
+
+def tree_gen_flat_list(dir_to_search,level=0):
+	found_dirs=[]
+	for root, dirs, files in os.walk(dir_to_search):
+		for name in files:
+
+			if name=="sim.gpvdm":
+				full_name=os.path.join(root, name)
+				f=subtract_paths(dir_to_search,full_name)
+				f=os.path.dirname(f)
+				if len(f.split("/"))>level:
+					found_dirs.append(f)
+	return found_dirs
 
 def tree_load_program(sim_dir):
 

@@ -44,7 +44,7 @@ from util import str2bool
 #scan_io
 from scan_io import scan_clean_dir
 from scan_io import scan_clean_unconverged
-from scan_io import scan_nested_simulation
+from scan_io import scan_build_nested_simulation
 from scan_io import scan_push_to_hpc
 from scan_io import scan_import_from_hpc
 from scan_io import scan_plot_fits
@@ -230,7 +230,7 @@ class scan_vbox(QWidget):
 		scan_push_to_hpc(self.sim_dir,True)
 
 	def nested_simulation(self):
-		commands=scan_nested_simulation(self.sim_dir,"/home/rod/test/gpvdm4.97/sub_sim")
+		commands=scan_build_nested_simulation(self.sim_dir,"/home/rod/test/gpvdm4.97/sub_sim")
 		#self.send_commands_to_server(commands,"")
 
 	def build_scan(self):

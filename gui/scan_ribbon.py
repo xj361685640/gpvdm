@@ -84,11 +84,8 @@ class scan_ribbon(QTabWidget):
 		toolbar.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
 		toolbar.setIconSize(QSize(42, 42))
 
-		self.tb_simulate = QAction(QIcon_load("forward"), wrap_text(_("Run scan"),2), self)
+		self.tb_simulate = QAction(QIcon_load("build_play2"), wrap_text(_("Run scan"),2), self)
 		toolbar.addAction(self.tb_simulate)
-
-		self.tb_run_all = QAction(QIcon_load("forward2"), wrap_text(_("Run all scans"),3), self)
-		toolbar.addAction(self.tb_run_all)
 
 
 		self.tb_stop = QAction(QIcon_load("media-playback-pause"), wrap_text(_("Stop"),3), self)
@@ -122,8 +119,21 @@ class scan_ribbon(QTabWidget):
 		self.tb_clean = QAction(QIcon_load("clean"), wrap_text(_("Clean simulation"),4), self)
 		self.box_tb1.addAction(self.tb_clean )
 
+		self.tb_run_all = QAction(QIcon_load("forward2"), wrap_text(_("Run all scans"),3), self)
+		self.box_tb1.addAction(self.tb_run_all)
+
 		toolbar.addWidget(self.box_widget)
 		
+		return toolbar
+
+	def nested(self):
+		toolbar = QToolBar()
+		toolbar.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
+		toolbar.setIconSize(QSize(42, 42))
+
+		self.menu_run_nested = QAction(QIcon_load("nested"), wrap_text(_("Build nested simulation"),5), self)
+		toolbar.addAction(self.menu_run_nested)
+
 		return toolbar
 
 	def advanced(self):
@@ -133,9 +143,6 @@ class scan_ribbon(QTabWidget):
 
 		self.menu_plot_fits = QAction(QIcon_load("forward"), wrap_text(_("Plot fits"),5), self)
 		toolbar.addAction(self.menu_plot_fits)
-
-		self.menu_run_nested = QAction(QIcon_load("forward"), wrap_text(_("Run nested simulation"),5), self)
-		toolbar.addAction(self.menu_run_nested)
 
 		self.sim_no_gen = QAction(QIcon_load("forward"), wrap_text(_("Run simulation no generation"),5), self)
 		toolbar.addAction(self.sim_no_gen)
@@ -211,6 +218,10 @@ class scan_ribbon(QTabWidget):
 		w=self.advanced()
 		if enable_betafeatures()==True:
 			self.addTab(w,_("Advanced"))
+
+		w=self.nested()
+		if enable_betafeatures()==True:
+			self.addTab(w,_("Nested"))
 
 		w=self.ml()
 		if enable_betafeatures()==True:
