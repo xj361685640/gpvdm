@@ -3805,15 +3805,6 @@ else
   as_fn_error $? "libzip is needed but not found." "$LINENO" 5
 fi
 
-for ac_header in suitesparse/umfpack.h
-do :
-  ac_fn_c_check_header_mongrel "$LINENO" "suitesparse/umfpack.h" "ac_cv_header_suitesparse_umfpack_h" "$ac_includes_default"
-if test "x$ac_cv_header_suitesparse_umfpack_h" = xyes; then :
-  cat >>confdefs.h <<_ACEOF
-#define HAVE_SUITESPARSE_UMFPACK_H 1
-_ACEOF
-
-else
 
 for ac_header in umfpack.h
 do :
@@ -3824,17 +3815,11 @@ if test "x$ac_cv_header_umfpack_h" = xyes; then :
 _ACEOF
 
 else
-
-as_fn_error $? "suitesparse/umfpack.h or umfpack.h is needed but not found" "$LINENO" 5
-
+  as_fn_error $? "suitesparse/umfpack.h or umfpack.h is needed but not found" "$LINENO" 5
 fi
 
 done
 
-
-fi
-
-done
 
 SLIB_EXT="a"
 
