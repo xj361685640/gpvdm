@@ -54,7 +54,11 @@ _ = i18n.language.gettext
 import zlib
 from cal_path import get_src_path
 from progress import progress_class
-from PyQt5.QtCore import pyqtSignal
+
+from gui_enable import gui_get
+
+if gui_get()==True:
+	from PyQt5.QtCore import pyqtSignal
 
 from cal_path import get_sim_path
 from cal_path import get_exe_name
@@ -91,7 +95,8 @@ class tx_struct:
 	cpus=-1
 
 class cluster:
-	load_update = pyqtSignal()
+	if gui_get()==True:
+		load_update = pyqtSignal()
 	
 	def cluster_init(self):
 		self.socket = False

@@ -42,12 +42,6 @@ from gui_util import tab_get_selected
 
 from gui_util import yes_no_dlg
 
-def device_lib_replace(file_name):
-	archives=glob.glob(os.path.join(get_device_lib_path(),"*.gpvdm"))
-	for i in range(0,len(archives)):
-		print("replace ",archives[i],file_name)
-		archive_add_file(archives[i],file_name,"")
-
 class device_lib_class(QDialog):
 
 

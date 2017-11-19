@@ -18,73 +18,99 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+from gui_enable import gui_get
+if gui_get()==True:
+	from PyQt5.QtCore import QSize, Qt
+	from PyQt5.QtWidgets import QWidget, QVBoxLayout,QHBoxLayout,QLabel,QDesktopWidget
+	from gpvdm_progress import gpvdm_progress
+	from spinner import spinner
 
+	#from help import my_help_class
 
-from PyQt5.QtCore import QSize, Qt
-from PyQt5.QtWidgets import QWidget, QVBoxLayout,QHBoxLayout,QLabel,QDesktopWidget
-from gpvdm_progress import gpvdm_progress
-from spinner import spinner
+	class progress_class(QWidget):
 
-#from help import my_help_class
+		def __init__(self):
+			QWidget.__init__(self)
+			self.setWindowFlags(Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint)
+			self.setFixedSize(400, 70)
 
-class progress_class(QWidget):
+			main_vbox = QVBoxLayout()
+			hbox= QHBoxLayout()
+			hbox.setContentsMargins(0, 0, 0, 0)
+			self.progress = gpvdm_progress()
+			self.spinner=spinner()
+			hbox.addWidget(self.progress, 0)
+			hbox.addWidget(self.spinner, 0)
+			w=QWidget()
+			w.setLayout(hbox)
+			main_vbox.addWidget(w,0)
 
-	def __init__(self):
-		QWidget.__init__(self)
-		self.setWindowFlags(Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint)
-		self.setFixedSize(400, 70)
+			self.label=QLabel()
+			self.label.setText(_("Running")+"...")
 
-		main_vbox = QVBoxLayout()
-		hbox= QHBoxLayout()
-		hbox.setContentsMargins(0, 0, 0, 0)
-		self.progress = gpvdm_progress()
-		self.spinner=spinner()
-		hbox.addWidget(self.progress, 0)
-		hbox.addWidget(self.spinner, 0)
-		w=QWidget()
-		w.setLayout(hbox)
-		main_vbox.addWidget(w,0)
+			main_vbox.addWidget(self.label)
 
-		self.label=QLabel()
-		self.label.setText(_("Running")+"...")
+			self.setLayout(main_vbox)
 
-		main_vbox.addWidget(self.label)
+		def enable_pulse(self,value):
+			self.progress.enablePulse(value)
 
-		self.setLayout(main_vbox)
+		def set_fraction(self,fraction):
+			self.progress.setValue(fraction)
 
-	def enable_pulse(self,value):
-		self.progress.enablePulse(value)
+		def pulse(self):
+			self.progress.pulse()
+			
+		def start(self):
+			shape=QDesktopWidget().screenGeometry()
 
-	def set_fraction(self,fraction):
-		self.progress.setValue(fraction)
+			w=shape.width()
+			h=shape.height()
+			win_w=self.frameGeometry().width()
+			win_h=self.frameGeometry().height()
 
-	def pulse(self):
-		self.progress.pulse()
-		
-	def start(self):
-		shape=QDesktopWidget().screenGeometry()
+			x=w-win_w
+			y=0
+			self.move(x,y)
+			self.show()
 
-		w=shape.width()
-		h=shape.height()
-		win_w=self.frameGeometry().width()
-		win_h=self.frameGeometry().height()
+		def stop(self):
+			self.hide()
+			#self.spin.stop()
+			#my_help_class.help_show()
 
-		x=w-win_w
-		y=0
-		self.move(x,y)
-		self.show()
+		def set_text(self,text):
+			text=text
+			l=len(text)
+			if l>50:
+				l=l-50
+				text=text[l:]
 
-	def stop(self):
-		self.hide()
-		#self.spin.stop()
-		#my_help_class.help_show()
+			self.label.setText(text)
 
-	def set_text(self,text):
-		text=text
-		l=len(text)
-		if l>50:
-			l=l-50
-			text=text[l:]
+else:
+	class progress_class():
 
-		self.label.setText(text)
+		def __init__(self):
+			print("init")
 
+		def enable_pulse(self,value):
+			print("pulse")
+			
+		def set_fraction(self,fraction):
+			print(fraction)
+
+		def pulse(self):
+			print("pulse")
+			
+		def start(self):
+			print("start")
+
+		def show(self):
+			print("start")
+
+		def stop(self):
+			print("stop")
+
+		def set_text(self,text):
+			print(text)

@@ -30,11 +30,11 @@
 
 struct server_struct
 {
-
 char command[server_max][200];
 char output[server_max][200];
 int state[server_max];
 char dbus_finish_signal[200];
+char lock_file[200];
 int jobs;
 int jobs_running;
 int cpus;

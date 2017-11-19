@@ -37,7 +37,7 @@ from make_man import make_man
 from scan_tree import tree_load_program
 from scan_tree import tree_gen
 
-from server import server
+from server import base_server
 from cal_path import get_exe_command
 from dat_file_class import dat_file
 from plot_io import plot_load_info
@@ -48,12 +48,18 @@ from ver import ver_sync_ver
 from code_ctrl import enable_cluster
 from win_lin import running_on_linux
 from inp import inp_update_token_value
-from device_lib import device_lib_replace
+from device_lib_io import device_lib_replace
 from cal_path import test_arg_for_sim_file
 from cal_path import set_sim_path
 from import_archive import patch_file
 from inp import inp_encrypt
 from util_zip import archive_decompress
+from scan_io import build_scan
+from scan_io import scan_build_all_nested
+
+from scan_item import scan_items_clear
+from scan_item import scan_items_populate_from_known_tokens
+from scan_item import scan_items_populate_from_files
 
 import i18n
 _ = i18n.language.gettext
@@ -77,7 +83,9 @@ parser.add_argument("--clone", help=_("Generate a clean simulation in the curren
 parser.add_argument("--clonesrc", help=_("Clone the source code."), action='store_true')
 parser.add_argument("--editvalue", help=_("edits a value in a .gpvdm archive. Usage --edit-value /path/to/sim.gpvdm #token_to_change new_value "), nargs=3)
 parser.add_argument("--scanplot", help=_("Runs an oplot file, usage --scanplot /path/to/oplot/file.oplot "), nargs=1)
-parser.add_argument("--runscan", help=_("Runs a scan, usage --runscan /path/containing/base/files/ /path/to/scan/dir/ "), nargs=2)
+parser.add_argument("--runscan", help=_("Runs a scan, usage --runscan /path/to/scan/dir/ "), nargs=1)
+parser.add_argument("--buildscan", help=_("Builds a scan, usage --buildscan /path/to/scan/dir/ /path/containing/base/files/"), nargs=2)
+parser.add_argument("--buildnestedscan", help=_("Builds a nested scan, usage --buildnestedscan /path/to/scan/dir/"), nargs=1)
 parser.add_argument("--load", help=_("Loads a simulation --load /path/containing/simulation/sim.gpvdm"), nargs=1)
 parser.add_argument("--encrypt", help=_("Encrypt a gpvdm file --file sim.gpvdm"), nargs=1)
 parser.add_argument("--extract", help=_("Extract the sim.gpvdm archive --extract"), action='store_true')
@@ -159,36 +167,46 @@ def command_args(argc,argv):
 				print("Problem loading oplot file")
 			sys.exit(0)
 		if args.runscan:
-			scan_dir_path=args.runscan[1]	#program file
-			base_dir=args.runscan[0]				#base dir
-			exe_command   =  get_exe_command()
+			scan_dir_path=args.runscan[0]	#program file
+			exe_command=get_exe_command()
 			program_list=tree_load_program(scan_dir_path)
 
 			watch_dir=os.path.join(os.getcwd(),scan_dir_path)
-			#print(program_list,pwd,scan_dir_path)
-			#sys.exit(0)
-			#print(pwd,scan_dir_path)
-			#print(os.getcwd(),os.path.join(scan_dir_path))
-			#tree_gen(program_list,os.getcwd(),os.path.join(os.getcwd(),"suns"))
-			flat_list=[]
-			tree_gen(flat_list,program_list,base_dir,scan_dir_path)
+
 			commands=[]
 			server_find_simulations_to_run(commands,scan_dir_path)
-			myserver=server()
-			myserver.init(watch_dir)
-			myserver.clear_cache()
+			print(commands)
+			myserver=base_server()
+			myserver.base_server_init(watch_dir)
+
 			for i in range(0, len(commands)):
-				myserver.add_job(commands[i],"")
+				myserver.base_server_add_job(commands[i],"")
 				print("Adding job"+commands[i])
-			myserver.simple_run(exe_command)
+
+			myserver.print_jobs()
+			myserver.simple_run()
+			#simple_run(exe_command)
 
 			sys.exit(0)
-			
-		#if check_params(argv,"--file_info",0)==True:
-		#	data=plot_data()
-		#	data.dump_file()
-		#	sys.exit(0)
 
+		if args.buildscan:
+			scan_items_clear()
+			scan_items_populate_from_known_tokens()
+			scan_items_populate_from_files()
 
+			scan_dir_path=args.buildscan[0]	#program file
+			base_dir=args.buildscan[1]				#base dir
+			build_scan(scan_dir_path,base_dir)
 
+			sys.exit(0)
+
+		if args.buildnestedscan:
+			scan_items_clear()
+			scan_items_populate_from_known_tokens()
+			scan_items_populate_from_files()
+
+			scan_dir_path=os.path.abspath(args.buildnestedscan[0])	#program file
+			scan_build_all_nested(scan_dir_path)
+
+			sys.exit(0)
 

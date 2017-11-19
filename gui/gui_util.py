@@ -23,12 +23,18 @@ from cal_path import get_image_file_path
 import os
 
 #qt
-from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction,QApplication,QTableWidgetItem,QComboBox, QMessageBox, QDialog, QDialogButtonBox, QFileDialog
-from PyQt5.uic import loadUi
-from PyQt5.QtGui import QPixmap
-from PyQt5.QtCore import QSize
+from gui_enable import gui_get
 
-from QComboBoxLang import QComboBoxLang
+if gui_get()==True:
+	from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction,QApplication,QTableWidgetItem,QComboBox, QMessageBox, QDialog, QDialogButtonBox, QFileDialog
+	from PyQt5.QtWidgets import QGraphicsScene,QListWidgetItem,QListView,QLineEdit,QWidget,QHBoxLayout,QPushButton
+	from PyQt5.QtWidgets import QFileDialog
+	from PyQt5.uic import loadUi
+	from PyQt5.QtGui import QPixmap
+	from PyQt5.QtCore import QSize, Qt, QTimer
+	from PyQt5.QtCore import QPersistentModelIndex
+	from QComboBoxLang import QComboBoxLang
+	from PyQt5.QtGui import QIcon
 
 #windows
 from cal_path import get_ui_path
@@ -58,7 +64,8 @@ class dlg_get_text():
 
 
 def process_events():
-	QApplication.processEvents()
+	if gui_get()==True:
+		QApplication.processEvents()
 
 def tab_get_value(tab,y,x):
 	if type(tab.cellWidget(y, x))==QComboBox:
@@ -213,12 +220,20 @@ def tab_add(tab,data):
 
 def tab_remove(tab):
 	tab.blockSignals(True)
-	index = tab.selectionModel().selectedRows()
+	#index = tab.selectionModel().selectedRows()
 
-	if len(index)>0:
-		for i in range(0,len(index)):
-			pos=index[i].row()
-			tab.removeRow(pos)
+	#if len(index)>0:
+	#	for i in range(0,len(index)):
+	#		pos=index[i].row()
+	#		tab.removeRow(pos)
+	index_list = []                                                          
+	for model_index in tab.selectionModel().selectedRows():       
+		index = QPersistentModelIndex(model_index)         
+		index_list.append(index)                                             
+
+	for index in index_list:                                      
+		tab.removeRow(index.row()) 
+		
 	tab.blockSignals(False)
 
 def error_dlg(parent,text):

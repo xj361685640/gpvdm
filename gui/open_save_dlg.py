@@ -20,10 +20,19 @@
 
 import os
 
-#qt
-from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication,QTableWidgetItem,QComboBox, QMessageBox, QDialog, QDialogButtonBox, QFileDialog
-from PyQt5.uic import loadUi
-from PyQt5.QtGui import QPixmap
+try:
+	from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction,QApplication,QTableWidgetItem,QComboBox, QMessageBox, QDialog, QDialogButtonBox, QFileDialog
+	from PyQt5.QtWidgets import QGraphicsScene,QListWidgetItem,QListView,QLineEdit,QWidget,QHBoxLayout,QPushButton
+	from PyQt5.QtWidgets import QFileDialog
+	from PyQt5.uic import loadUi
+	from PyQt5.QtGui import QPixmap
+	from PyQt5.QtCore import QSize, Qt, QTimer
+	from PyQt5.QtCore import QPersistentModelIndex
+	from QComboBoxLang import QComboBoxLang
+	from PyQt5.QtGui import QIcon
+except:
+	pass
+
 from cal_path import to_native_path
 
 def save_as_gpvdm(parent):

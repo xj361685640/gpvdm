@@ -40,6 +40,7 @@ int server_run_jobs(struct simulation *sim,struct server_struct *myserver);
 double server_get_odes_per_s();
 double server_get_jobs_per_s();
 void change_cpus(struct simulation *sim,struct server_struct *myserver);
+void server_set_lock_file(struct server_struct *myserver, char *file_name);
 void server_check_wall_clock(struct simulation *sim,struct server_struct *myserver);
 void server_update_last_job_time();
 void server_set_dbus_finish_signal(struct server_struct *myserver, char *signal);

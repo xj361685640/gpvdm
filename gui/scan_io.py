@@ -36,11 +36,35 @@ from scan_tree import tree_save_flat_list
 
 from server_io import server_find_simulations_to_run
 
+
+from progress import progress_class
+from gui_util import process_events
+
 import i18n
 _ = i18n.language.gettext
 
-from gui_util import yes_no_cancel_dlg
+from yes_no_cancel_dlg import yes_no_cancel_dlg
 
+def scan_build_all_nested(sim_dir,parent_window=None):
+	commands=scan_build_nested_simulation(sim_dir,os.path.join(os.getcwd(),"sub_sim"))
+	commands=scan_build_nested_simulation(sim_dir,os.path.join(os.getcwd(),"sub_sim_tpc"))
+	commands=scan_build_nested_simulation(sim_dir,os.path.join(os.getcwd(),"sub_sim_tpv"))
+
+
+def build_scan(scan_path,base_path,parent_window=None):
+	scan_clean_dir(scan_path,parent_window=parent_window)
+
+	flat_simulation_list=[]
+	program_list=tree_load_program(scan_path)
+	path=os.getcwd()
+	if tree_gen(flat_simulation_list,program_list,base_path,scan_path)==False:
+		error_dlg(self,_("Problem generating tree."))
+		return
+	os.chdir(path)
+#	print(os.getcwd())
+
+	tree_save_flat_list(scan_path,flat_simulation_list)
+		
 def scan_delete_files(dirs_to_del):
 	for i in range(0, len(dirs_to_del)):
 		gpvdm_delete_file(dirs_to_del[i])
@@ -107,7 +131,7 @@ def scan_ask_to_delete(parent,dirs_to_del):
 		text=_("Should I delete these files?:\n")+"\n"+text_del_dirs
 
 		response = yes_no_cancel_dlg(parent,text)
-			
+
 		if response == "yes":
 			scan_delete_files(dirs_to_del)
 			return "yes"
@@ -171,7 +195,13 @@ def scan_nested_simulation(root_simulation,nest_simulation):
 	return
 
 def scan_build_nested_simulation(root_simulation,nest_simulation):
-	
+
+	progress_window=progress_class()
+	progress_window.show()
+	progress_window.start()
+
+	process_events()
+
 	program_list=tree_load_program(nest_simulation)
 		
 	files = os.listdir(root_simulation)
@@ -182,10 +212,18 @@ def scan_build_nested_simulation(root_simulation,nest_simulation):
 
 	flat_simulation_list=[]
 
+	path=os.getcwd()
 	for i in range(0,len(simulations)):
-		print(i,len(simulations))
 		dest_name=os.path.join(root_simulation,simulations[i])
 		tree_gen(flat_simulation_list,program_list,dest_name,dest_name)
+
+		progress_window.set_fraction(float(i)/float(len(simulations)))
+		progress_window.set_text(simulations[i])
+		process_events()
+
+	progress_window.stop()
+	
+	os.chdir(path)
 
 	flat_simulation_list=tree_gen_flat_list(root_simulation,level=1)
 
@@ -270,7 +308,7 @@ def scan_clean_nested_simulation(root_simulation,nest_simulation):
 
 	#scan_ask_to_delete(parent_window,files_to_delete)
 
-def scan_clean_dir(parent_window,dir_to_clean):
+def scan_clean_dir(dir_to_clean,parent_window=None):
 	dirs_to_del=[]
 	listing=os.listdir(dir_to_clean)
 

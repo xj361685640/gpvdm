@@ -233,6 +233,10 @@ if (scanarg( argv,argc,"--lock")==TRUE)
 	server_set_dbus_finish_signal(&(sim.server), get_arg_plusone( argv,argc,"--lock"));
 }
 
+if (scanarg( argv,argc,"--lockfile")==TRUE)
+{
+	server_set_lock_file(&(sim.server), get_arg_plusone( argv,argc,"--lockfile"));
+}
 
 int ret=0;
 

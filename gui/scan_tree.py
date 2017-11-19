@@ -37,12 +37,14 @@ from scan_item import scan_items_get_file
 from scan_item import scan_items_get_token
 from clone import gpvdm_clone
 #windows
-from gui_util import tab_add
 import codecs
 from util_zip import archive_decompress
 from util_zip import archive_compress
 
 from cal_path import subtract_paths
+
+from progress import progress_class
+from gui_util import process_events
 
 copy_materials=False
 
@@ -125,25 +127,7 @@ def tree_load_config(sim_dir):
 	copy_materials=str2bool(copy_materials)
 
 
-def tree_gen(flat_simulation_list,program_list,base_dir,sim_dir):
-	sim_dir=os.path.abspath(sim_dir)	# we are about to traverse the directory structure better to have the abs path
-	#print("here",program_list)
-	found_scan=False
-	found_random=False
-	for i in range(0,len(program_list)):
-		if program_list[i][3]=="scan":
-			found_scan=True
-
-		if program_list[i][3]=="random_file_name":
-			found_random=True
-
-	if found_scan==True and found_random==True:
-		return False
-	
-	if found_random==True:
-		tree_gen_random_files(sim_dir,flat_simulation_list,program_list,base_dir)
-		return
-
+def build_scan_tree(program_list):
 	tree_items=[[],[],[]]	#file,token,values,opp
 	for i in range(0,len(program_list)):
 		#print(i,program_list[i][0],program_list[i][1],program_list[i][2],program_list[i][3])
@@ -168,9 +152,30 @@ def tree_gen(flat_simulation_list,program_list,base_dir,sim_dir):
 						values=values[0:len(values)-1]
 
 			tree_items[2].append(values)
-			#tree_items[3].append(program_list[i][3])
 
-	#print("tree items=",tree_items)
+	return tree_items
+
+def tree_gen(flat_simulation_list,program_list,base_dir,sim_dir):
+	sim_dir=os.path.abspath(sim_dir)	# we are about to traverse the directory structure better to have the abs path
+	#print("here",program_list)
+	found_scan=False
+	found_random=False
+	for i in range(0,len(program_list)):
+		if program_list[i][3]=="scan":
+			found_scan=True
+
+		if program_list[i][3]=="random_file_name":
+			found_random=True
+
+	if found_scan==True and found_random==True:
+		return False
+	
+	if found_random==True:
+		tree_gen_random_files(sim_dir,flat_simulation_list,program_list,base_dir)
+		return
+
+	tree_items=build_scan_tree(program_list)			#tree_items[3].append(program_list[i][3])
+
 	ret=tree(flat_simulation_list,program_list,tree_items,base_dir,0,sim_dir,"","")
 
 	return ret
@@ -181,6 +186,7 @@ def tree_apply_mirror(directory,program_list):
 		if program_list[i][2]=="mirror":
 			f=scan_items_get_file(program_list[i][3])
 			t=scan_items_get_token(program_list[i][3])
+
 			#print(f,t,program_list[i][3])
 			src_value=inp_get_token_value(os.path.join(directory,f), t)
 			#print("mirror src",f,t,src_value)
@@ -219,12 +225,18 @@ def copy_simulation(base_dir,cur_dir):
 
 def tree_gen_random_files(sim_path,flat_simulation_list,program_list,base_dir):
 	length=0
+
 	for i in range(0,len(program_list)):
 		if program_list[i][3]=="random_file_name":
 			length=int(program_list[i][2])
+	
+	progress_window=progress_class()
+	progress_window.show()
+	progress_window.start()
+
+	process_events()
 
 	for i in range(0,length):
-		print(i,length)
 		rand=codecs.encode(os.urandom(int(16 / 2)), 'hex').decode()
 		cur_dir=os.path.join(sim_path,rand)
 
@@ -245,7 +257,13 @@ def tree_gen_random_files(sim_path,flat_simulation_list,program_list,base_dir):
 			archive_compress(os.path.join(cur_dir,"sim.gpvdm"))
 
 			flat_simulation_list.append(cur_dir)
-			
+
+			progress_window.set_fraction(float(i)/float(length))
+			progress_window.set_text("Adding "+cur_dir)
+			process_events()
+
+	progress_window.stop()
+
 def tree(flat_simulation_list,program_list,tree_items,base_dir,level,path,var_to_change,value_to_change):
 	#print(level,tree_items)
 	values=tree_items[2][level]

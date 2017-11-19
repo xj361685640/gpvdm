@@ -21,9 +21,12 @@
 from win_lin import running_on_linux
 import hashlib
 from inp import inp_get_token_value
-if running_on_linux()==True:
+enable_crypto=False
+try:
 	from Crypto.Cipher import AES
-	
+	enable_crypto=True
+except:
+	pass
 iv=""
 key=""
 
@@ -37,7 +40,8 @@ def encrypt_load():
 def encrypt(data):
 	global key
 	global iv
-	if running_on_linux()==True:
+	global enable_crypto
+	if enable_crypto==True:
 		ret=""
 		m = hashlib.md5()
 		m.update(key.encode('utf-8'))
@@ -61,7 +65,8 @@ def encrypt(data):
 def decrypt(data):
 	global key
 	global iv
-	if running_on_linux()==True:
+	global enable_crypto
+	if enable_crypto==True:
 		ret=""
 		m = hashlib.md5()
 		m.update(key.encode('utf-8'))

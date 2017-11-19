@@ -45,7 +45,7 @@ try:
 	from openpyxl import load_workbook
 	work_book_enabled=True
 except:
-	print("pyton3-openpyxl not found")
+	print("python3-openpyxl not found")
 
 from gui_util import tab_add
 
@@ -114,7 +114,7 @@ class cost(QWidgetSavePos):
 		self.tab.setColumnWidth(3, 200)
 		self.tab.setColumnWidth(4, 200)
 		if work_book_enabled==False:
-			print(_("pyton3-openpyxl not found"))
+			print(_("python3-openpyxl not found"))
 			return
 
 		energy_tot=0.0

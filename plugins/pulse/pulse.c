@@ -97,6 +97,10 @@ if (get_dump_status(sim,dump_optical_probe)==TRUE)
 }
 if (pulse_config.pulse_sim_mode==pulse_load)
 {
+	
+	//printf("%Le\n",time_get_voltage(in)+pulse_config.pulse_bias);
+	//getchar();
+	ramp_externalv(sim,in,V,time_get_voltage(in)+pulse_config.pulse_bias);
 	sim_externalv(sim,in,time_get_voltage(in)+pulse_config.pulse_bias);
 	newton_externv(sim,in,time_get_voltage(in)+pulse_config.pulse_bias,FALSE);
 }else
@@ -131,10 +135,10 @@ printf_log(sim,"Vapplied=%Le\n",Vapplied);
 do
 {
 
-if (get_dump_status(sim,dump_optical_probe)==TRUE)
-{
-probe_record_step(sim,in);
-}
+	if (get_dump_status(sim,dump_optical_probe)==TRUE)
+	{
+	probe_record_step(sim,in);
+	}
 
 	light_set_sun(&(in->mylight),time_get_sun(in)*pulse_config.pulse_light_efficiency);
 	light_solve_and_update(sim,in,&(in->mylight), (time_get_laser(in)+time_get_fs_laser(in))*pulse_config.pulse_light_efficiency);

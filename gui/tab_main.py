@@ -59,7 +59,7 @@ class tab_main(QWidget,tab_base):
 		mainLayout = QSplitter(Qt.Horizontal)
 		#splitter1 = QtGui.QSplitter(QtCore.Qt.Horizontal)
 		self.three_d=display_widget()
-		self.three_d.show()
+		#self.three_d.show()
 
 		self.frame=ribbon_device()
 

@@ -20,78 +20,81 @@
 
 import sys
 import os
-from icon_lib import QIcon_load
 
 from win_lin import running_on_linux
 
 import i18n
 _ = i18n.language.gettext
 
-from about import about_dlg
-
-#qt
-from PyQt5.QtCore import QSize, Qt 
-from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QSystemTrayIcon,QMenu,QApplication
-from PyQt5.QtGui import QIcon
+from gui_enable import gui_get
+if gui_get()==True:
+	from PyQt5.QtWidgets import QSystemTrayIcon,QMenu,QApplication
+	from about import about_dlg
+	import webbrowser
+	from icon_lib import QIcon_load
 
 from cluster import cluster
 
-import webbrowser
+
 
 statusicon = None
 
-class tray_icon(QSystemTrayIcon):
+if gui_get()==True:
+	class tray_icon(QSystemTrayIcon):
 
-	def __init__(self,  parent=None):
-		QSystemTrayIcon.__init__(self, QIcon_load("ball_green"), parent)
-		menu = QMenu(parent)
-		self.menu_about = menu.addAction(_("About"))
-		self.menu_about.triggered.connect(self.callback_about)
-		self.menu_man = menu.addAction(_("Manual"))
-		self.menu_man.triggered.connect(self.callback_man)
+		def __init__(self,  parent=None):
+			QSystemTrayIcon.__init__(self, QIcon_load("ball_green"), parent)
+			menu = QMenu(parent)
+			self.menu_about = menu.addAction(_("About"))
+			self.menu_about.triggered.connect(self.callback_about)
+			self.menu_man = menu.addAction(_("Manual"))
+			self.menu_man.triggered.connect(self.callback_man)
 
-		self.menu_youtube = menu.addAction("&"+_("Youtube channel"))
-		self.menu_youtube.triggered.connect(self.callback_youtube)
+			self.menu_youtube = menu.addAction("&"+_("Youtube channel"))
+			self.menu_youtube.triggered.connect(self.callback_youtube)
 
-		self.exitAction = menu.addSeparator()		
-		self.exitAction = menu.addAction(_("Quit"))
-		
-		self.exitAction.triggered.connect(self.callback_exit)
-		self.setContextMenu(menu)
+			self.exitAction = menu.addSeparator()		
+			self.exitAction = menu.addAction(_("Quit"))
+			
+			self.exitAction.triggered.connect(self.callback_exit)
+			self.setContextMenu(menu)
 
-	def callback_exit(self):
-		QApplication.quit()
+		def callback_exit(self):
+			QApplication.quit()
 
-	def callback_about(self):
-		dlg=about_dlg()
-		dlg.ui.exec_()
+		def callback_about(self):
+			dlg=about_dlg()
+			dlg.ui.exec_()
 
-	def callback_man(self):
-		webbrowser.open("https://www.gpvdm.com/man.html")
-	def	callback_youtube(self):
-		webbrowser.open("https://www.youtube.com/channel/UCbm_0AKX1SpbMMT7jilxFfA")
+		def callback_man(self):
+			webbrowser.open("https://www.gpvdm.com/man.html")
+		def	callback_youtube(self):
+			webbrowser.open("https://www.youtube.com/channel/UCbm_0AKX1SpbMMT7jilxFfA")
 
 
 def status_icon_init():
-	global statusicon
-	statusicon=tray_icon()
-	statusicon.show()
-
+	if gui_get()==True:
+		global statusicon
+		statusicon=tray_icon()
+		statusicon.show()
 
 def status_icon_run(cluster):
-	global statusicon
-	if cluster==False:
-		statusicon.setIcon(QIcon_load("ball_red"))
-	else:
-		statusicon.setIcon(QIcon_load("ball_red4"))
+	if gui_get()==True:
+		global statusicon
+		if cluster==False:
+			statusicon.setIcon(QIcon_load("ball_red"))
+		else:
+			statusicon.setIcon(QIcon_load("ball_red4"))
 
 def status_icon_stop(cluster):
-	global statusicon
-	if cluster==False:
-		statusicon.setIcon(QIcon_load("ball_green"))
-	else:
-		statusicon.setIcon(QIcon_load("ball_green4"))
+	if gui_get()==True:
+		global statusicon
+		if cluster==False:
+			statusicon.setIcon(QIcon_load("ball_green"))
+		else:
+			statusicon.setIcon(QIcon_load("ball_green4"))
 
 def status_icon_get():
-	global statusicon
-	return statusicon
+	if gui_get()==True:
+		global statusicon
+		return statusicon

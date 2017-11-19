@@ -43,7 +43,7 @@ static struct istruct spectrum_first;
 //static struct istruct spectrum_reflect_first;
 //static struct istruct reflect;
 static int first=FALSE;
-static int probe_enable=TRUE;
+static int probe_enable=FALSE;
 
 gdouble probe_cal(struct simulation *sim,struct device *in,	gdouble wavelength)
 {

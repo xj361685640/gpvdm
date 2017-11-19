@@ -49,7 +49,7 @@ matplotlib.use('Qt5Agg')
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 
-from open_save_dlg import save_as_gpvdm
+from open_save_dlg import save_as_image
 from QWidgetSavePos import QWidgetSavePos
 from cal_path import get_sim_path
 
@@ -92,13 +92,11 @@ class doping_window(QWidgetSavePos):
 		self.fig.savefig(file_name)
 
 	def callback_save(self, widget, data=None):
-		file_name=save_as_gpvdm(self)
+		file_name=save_as_image(self)
 		if file_name!=False:
-
 			if os.path.splitext(file_name)[1]:
 				self.save_image(file_name)
 			else:
-				filter=dialog.get_filter()
 				self.save_image(file_name+".png")
 
 

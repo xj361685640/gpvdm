@@ -31,7 +31,7 @@ try:
 	import openpyxl
 	work_book_enabled=True
 except:
-	print("pyton3-openpyxl not found")
+	print("python3-openpyxl not found")
 
 from solar_pref import *
 from solar_planet import *

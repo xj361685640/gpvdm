@@ -23,7 +23,8 @@ import sys
 import os
 #import shutil
 from win_lin import running_on_linux
-
+from gui_enable import gui_get
+	
 if running_on_linux()==False:
 	import winreg
 
@@ -317,7 +318,10 @@ def get_sim_path():
 	return sim_path
 
 def get_exe_args():
-	return "--gui --html" #--english
+	if gui_get()==True:
+		return "--gui --html" #--english
+	else:
+		return ""
 
 def find_materials():
 	ret=[]

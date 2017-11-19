@@ -1,8 +1,8 @@
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
-#    Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
+#    Copyright (C) 2012-2016 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -18,30 +18,20 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-
-#qt
-import os
-
-from gui_enable import gui_get
-import i18n
-_ = i18n.language.gettext
-if gui_get()==True:
-	from PyQt5.QtWidgets import QWidget
-	from PyQt5.uic import loadUi
-	from cal_path import get_ui_path
-
-	class sim_warnings(QWidget):
-
-		def callback_close(self):
-			self.window.hide()
-
-		def __init__(self,text):
-			QWidget.__init__(self)
-			self.window = loadUi(os.path.join(get_ui_path(),"simulation_errors.ui"))
-			self.window.text.setText(text)
-			self.window.ok.clicked.connect(self.callback_close)
-			self.window.show()
-else:
-	class sim_warnings():
-		def __init__(self,text):
-			print("sim warnings")
+import sys
+enabled=False
+def gui_test():
+	global enabled
+	try:
+		from PyQt5.QtWidgets import QWidget
+		enabled=True
+	except:
+		enabled=False
+		pass
+	
+	if len(sys.argv)>1:
+		enabled=False
+	
+def gui_get():
+	global enabled
+	return enabled

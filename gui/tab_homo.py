@@ -252,7 +252,7 @@ class tab_bands(QWidget,tab_base):
 
 				line, = ax1.plot(x_homo,y , color[pos], linewidth=3)
 				pos=pos+1
-
+ 
 
 	def callback_save(self):
 		file_name=save_as_image(self)

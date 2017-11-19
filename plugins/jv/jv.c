@@ -142,6 +142,8 @@ gdouble p_free_voc=0.0;
 gdouble np_voc_tot=0.0;
 gdouble r_pmax=0.0;
 gdouble n_pmax=0.0;
+gdouble mue_pmax=0.0;
+gdouble muh_pmax=0.0;
 in->stop=FALSE;
 
 	do
@@ -226,6 +228,8 @@ in->stop=FALSE;
 					in->Pmax_voltage=Vexternal;
 					r_pmax=get_avg_recom(in);
 					n_pmax=get_extracted_np(in);
+					mue_pmax=get_avg_mue(in);
+					muh_pmax=get_avg_muh(in);
 				}
 
 				if (Vexternal>Vstop)
@@ -307,6 +311,8 @@ if (dumpfiles_should_dump(sim,"sim_info.dat")==0)
 	fprintf(out,"#jv_voc_k\n%Le\n",r_voc/n_voc);
 	fprintf(out,"#jv_pmax_n\n%Le\n",n_pmax);
 	fprintf(out,"#jv_pmax_tau\n%Le\n",n_pmax/r_pmax);
+	fprintf(out,"#jv_pmax_mue\n%Le\n",mue_pmax);
+	fprintf(out,"#jv_pmax_muh\n%Le\n",muh_pmax);
 	fprintf(out,"#voc_nt\n%Le\n",n_trap_voc);
 	fprintf(out,"#voc_pt\n%Le\n",p_trap_voc);
 	fprintf(out,"#voc_nf\n%Le\n",n_free_voc);

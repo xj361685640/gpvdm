@@ -21,6 +21,7 @@
 
 import os
 
+from gui_util import dlg_get_text
 from scan_select import select_param
 from token_lib import tokens
 from scan_item import scan_items_get_list
@@ -52,6 +53,10 @@ from gui_util import tab_get_value
 
 from inp import inp_save_lines_to_file
 from inp import inp_load_file
+from inp import inp_isfile
+from inp import inp_copy_file
+from inp import inp_update_token_value
+from inp import inp_get_token_value
 
 from gpvdm_select import gpvdm_select
 
@@ -60,132 +65,47 @@ from scan_select import select_param
 from cal_path import get_sim_path
 from QWidgetSavePos import QWidgetSavePos
 from window_list import resize_window_to_be_sane
+from measure_ribbon import measure_ribbon
+from measure_tab import measure_tab
+from QHTabBar import QHTabBar
+from util_zip import zip_lsdir
+
+from util import strextract_interger
+
+def measure_new_filename():
+	for i in range(0,20):
+		pulse_name="measure"+str(i)+".inp"
+		if inp_isfile(os.path.join(get_sim_path(),pulse_name))==False:
+			return i
+	return -1
 
 class measure(QWidgetSavePos):
 
-	def insert_row(self,i,file_name,position,output_token,math):
-		self.tab.blockSignals(True)
-		self.tab.insertRow(i)
 
-		item = QTableWidgetItem(file_name)
-		self.tab.setItem(i,0,item)
+	def load_tabs(self):
 
-		item = QTableWidgetItem(position)
-		self.tab.setItem(i,1,item)
+		file_list=zip_lsdir(os.path.join(get_sim_path(),"sim.gpvdm"))
+		files=[]
+		for i in range(0,len(file_list)):
+			if file_list[i].startswith("measure") and file_list[i].endswith(".inp"):
+				name=inp_get_token_value(file_list[i], "#measurement_name")
+				files.append([name,file_list[i]])
 
-		item = QTableWidgetItem(output_token)
-		self.tab.setItem(i,2,item)
+		files.sort()
 
-		item = QTableWidgetItem(math)
-		self.tab.setItem(i,3,item)
+		for i in range(0,len(files)):
+			value=strextract_interger(files[i][1])
+			if value!=-1:
+				self.add_page(value)
 
-		self.tab.blockSignals(False)
-
-	def callback_show_list(self):
-		self.select_param_window.update()
-		self.select_param_window.show()
-		
-	def callback_add_item(self):
-		self.insert_row(self.tab.rowCount(),_("File"),_("Position"),_("Output token"),_("Mathematical operation"))
-		self.save_combo()
-
-	def callback_delete_item(self):
-		tab_remove(self.tab)
-		self.save_combo()
-
-	def save_combo(self):
-		lines=[]
-
-		lines.append("#measure_enable")
-		lines.append(str(self.measure_enable))
-
-		lines.append("#compile_to_vector")
-		lines.append(str(self.compile_to_vector))
-
-		for i in range(0,self.tab.rowCount()):
-			lines.append("#measure_file_"+str(i))
-			lines.append(str(tab_get_value(self.tab,i, 0)))
-			lines.append("#measure_pos_"+str(i))
-			lines.append(str(tab_get_value(self.tab,i, 1)))
-			lines.append("#measure_token_"+str(i))
-			lines.append(str(tab_get_value(self.tab,i, 2)))
-			lines.append("#measure_math_"+str(i))
-			lines.append(str(tab_get_value(self.tab,i, 3)))
-		lines.append("#ver")
-		lines.append("1.0")
-		lines.append("#end")
-
-		inp_save_lines_to_file(self.file_name,lines)
-
-
-	def tab_changed(self):
-		self.save_combo()
-		
-
-	def create_model(self):
-		lines=[]
-		self.tab.clear()
-		self.tab.setColumnCount(4)
-		self.tab.setSelectionBehavior(QAbstractItemView.SelectRows)
-		self.tab.setHorizontalHeaderLabels([_("File"), _("Position"), _("Output token"),_("Mathematical operation")])
-		self.tab.setColumnWidth(2, 200)
-		self.tab.setColumnWidth(3, 200)
-		self.file_name=os.path.join(get_sim_path(),"measure.inp")
-
-		lines=inp_load_file(self.file_name)
-		if lines!=False:
-
-			pos=0
-
-			token=lines[pos]
-			pos=pos+1
-			
-			self.measure_enable=str2bool(lines[pos])
-			pos=pos+1
-
-
-			token=lines[pos]
-			pos=pos+1
-
-			self.compile_to_vector=str2bool(lines[pos])
-			pos=pos+1
-
-			mylen=len(lines)
-			while(1):
-				temp=lines[pos]
-				if temp=="#end" or temp=="#ver":
-					break
-				pos=pos+1
-
-				f=lines[pos]
-				pos=pos+1
-
-				temp=lines[pos]
-				pos=pos+1
-	
-				p=lines[pos]
-				pos=pos+1
-
-				temp=lines[pos]
-				pos=pos+1
-
-				output=lines[pos]
-				pos=pos+1
-
-				temp=lines[pos]
-				pos=pos+1
-
-				math=lines[pos]
-				pos=pos+1
-
-				self.insert_row(self.tab.rowCount(),f,p,output,math)
-
-				if pos>mylen:
-					break
+	def add_page(self,index):
+		tab=measure_tab(index)
+		name=inp_get_token_value(tab.file_name, "#measure_name")
+		self.notebook.addTab(tab,name)
 
 	def __init__(self):
 		QWidgetSavePos.__init__(self,"measure_window")
-		resize_window_to_be_sane(self,0.5,0.5)
+		resize_window_to_be_sane(self,0.5,0.7)
 
 		self.setWindowIcon(QIcon_load("measure"))
 		self.setWindowTitle(_("Measurment editor")+" (https://www.gpvdm.com)")
@@ -193,47 +113,77 @@ class measure(QWidgetSavePos):
 
 		self.vbox=QVBoxLayout()
 
-		toolbar=QToolBar()
-		toolbar.setIconSize(QSize(32, 32))
+		self.ribbon=measure_ribbon()
+		self.ribbon.tb_new.triggered.connect(self.callback_add_page)
+		self.ribbon.tb_rename.triggered.connect(self.callback_rename_page)
+		self.ribbon.tb_clone.triggered.connect(self.callback_copy_page)
 
-		self.tb_save = QAction(QIcon_load("list-add"), _("Add"), self)
-		self.tb_save.triggered.connect(self.callback_add_item)
-		toolbar.addAction(self.tb_save)
 
-		self.tb_save = QAction(QIcon_load("list-remove"), _("Minus"), self)
-		self.tb_save.triggered.connect(self.callback_delete_item)
-		toolbar.addAction(self.tb_save)
+		self.vbox.addWidget(self.ribbon)
 
-		self.tb_down = QAction(QIcon_load("go-down"), _("Move down"), self)
-		self.tb_down.triggered.connect(self.callback_move_down)
-		toolbar.addAction(self.tb_down)
+		self.notebook = QTabWidget()
+		self.notebook.setTabBar(QHTabBar())
+		self.notebook.setTabPosition(QTabWidget.West)
+		self.notebook.setMovable(True)
 
-		self.tb_up = QAction(QIcon_load("go-up"), _("Move up"), self)
-		self.tb_up.triggered.connect(self.callback_move_up)
-		toolbar.addAction(self.tb_up)
-	
-		self.vbox.addWidget(toolbar)
+		self.vbox.addWidget(self.notebook)
 
-		self.tab = QTableWidget()
-		self.tab.resizeColumnsToContents()
-
-		self.tab.verticalHeader().setVisible(False)
-		
-		self.select_param_window=select_param()
-		self.select_param_window.init(self.tab)
-		self.select_param_window.set_save_function(self.save_combo)
-
-		self.create_model()
-
-		self.tab.cellChanged.connect(self.tab_changed)
-
-		self.vbox.addWidget(self.tab)
-
+		self.load_tabs()
 
 		self.setLayout(self.vbox)
 
-	def callback_move_down(self):
-		tab_move_down(self.tab)
 
-	def callback_move_up(self):
-		tab_move_up(self.tab)
+	def callback_add_page(self):
+		new_sim_name=dlg_get_text( _("New measurement name")+":", _("measurement ")+str(self.notebook.count()+1),"document-new.png")
+
+		if new_sim_name.ret!=None:
+			index=measure_new_filename()
+			inp_copy_file(os.path.join(get_sim_path(),"measure"+str(index)+".inp"),os.path.join(get_sim_path(),"measure0.inp"))
+			inp_update_token_value(os.path.join(get_sim_path(),"measure"+str(index)+".inp"), "#measure_name", new_sim_name.ret)
+			self.add_page(index)
+
+	def callback_copy_page(self):
+		tab = self.notebook.currentWidget()
+
+		old_index=tab.index
+		new_sim_name=dlg_get_text( _("Clone the current measurement to a new measurement called:"), _("measurement ")+str(self.notebook.count()+1),"clone.png")
+		new_sim_name=new_sim_name.ret
+		if new_sim_name!=None:
+			index=measure_new_filename()
+			if inp_copy_file(os.path.join(get_sim_path(),"measure"+str(index)+".inp"),os.path.join(get_sim_path(),"measure"+str(old_index)+".inp"))==False:
+				print(_("Error copying file")+"measure"+str(old_index)+".inp")
+				return
+
+			inp_update_token_value(os.path.join(get_sim_path(),"measure"+str(index)+".inp"), "#measure_name", new_sim_name)
+			self.add_page(index)
+
+	def remove_invalid(self,input_name):
+		return input_name.replace (" ", "_")
+
+	def callback_rename_page(self):
+		tab = self.notebook.currentWidget()
+		name=inp_get_token_value(tab.file_name, "#measure_name")
+
+		new_sim_name=dlg_get_text( _("Rename the measurement to be called")+":", name,"rename.png")
+
+		new_sim_name=new_sim_name.ret
+
+		if new_sim_name!=None:
+			tab.rename(new_sim_name)
+			index=self.notebook.currentIndex() 
+			self.notebook.setTabText(index, new_sim_name)
+
+
+	def callback_delete_page(self):
+
+		tab = self.notebook.currentWidget()
+
+		response=yes_no_dlg(self,_("Should I remove the experiment file ")+tab.tab_name.split("@")[0])
+
+
+		if response == True:
+			inp_remove_file(os.path.join(get_sim_path(),"pulse"+str(tab.index)+".inp"))
+			inp_remove_file(os.path.join(get_sim_path(),"time_mesh_config"+str(tab.index)+".inp"))
+			index=self.notebook.currentIndex() 
+			self.notebook.removeTab(index)
+			self.changed.emit()

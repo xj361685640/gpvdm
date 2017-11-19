@@ -23,6 +23,9 @@
 import os
 import sys
 
+from gui_enable import gui_test
+gui_test()
+
 #paths
 sys.path.append('./gui/')
 sys.path.append('/usr/lib/gpvdm/')
@@ -41,6 +44,7 @@ calculate_paths()
 
 import i18n
 _ = i18n.language.gettext
+
 
 from code_ctrl import enable_betafeatures
 from code_ctrl import code_ctrl_load
@@ -68,6 +72,7 @@ from inp import inp_get_token_value
 from scan_item import scan_items_clear
 from scan_item import scan_items_populate_from_known_tokens
 from scan_item import scan_items_populate_from_files
+
 from plot_gen import plot_gen
 from help import help_window
 from help import help_init

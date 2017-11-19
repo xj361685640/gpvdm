@@ -61,7 +61,11 @@ AC_MSG_NOTICE([*Setting up config for linux*])
 AC_MSG_NOTICE([*****************************])
 AC_SUBST(LINK_FLAG, "")
 AC_CHECK_LIB(zip, [main], [], [AC_MSG_ERROR([libzip is needed but not found.])])
-AC_CHECK_HEADERS([suitesparse/umfpack.h],[],[AC_MSG_ERROR([suitesparse/umfpack.h is needed but not found])])
+AC_CHECK_HEADERS([suitesparse/umfpack.h],[],[
+AC_CHECK_HEADERS([umfpack.h],[],[
+AC_MSG_ERROR([suitesparse/umfpack.h or umfpack.h is needed but not found])
+])
+])
 AC_SUBST(SLIB_EXT, "a")
 AC_SUBST(DLIB_EXT, "so")
 AC_SUBST(EXE_EXT, "")

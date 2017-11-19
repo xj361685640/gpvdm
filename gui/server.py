@@ -52,18 +52,22 @@ from status_icon import status_icon_run
 from status_icon import status_icon_stop
 
 import codecs
+from gui_enable import gui_get
 
-from help import help_window
-from PyQt5.QtCore import pyqtSignal
-from PyQt5.QtWidgets import QWidget
+if gui_get()==True:
+	from help import help_window
+	from PyQt5.QtCore import pyqtSignal
+	from PyQt5.QtWidgets import QWidget
+	from PyQt5.QtCore import QTimer
+	from gui_util import process_events
 
 from server_io import server_find_simulations_to_run
 
 from workbook import gen_workbook
 import time
-from gui_util import process_events
-from PyQt5.QtCore import QTimer
+
 from cal_path import get_sim_path
+from gui_enable import gui_get
 
 my_server=False
 
@@ -75,25 +79,12 @@ class node:
 	cpus=""
 
 
-class server(QWidget,cluster):
-	
-	sim_finished = pyqtSignal()
-		
+class base_server():
 	def __init__(self):
-		QWidget.__init__(self)
 		self.running=False
-		self.enable_gui=False
-		self.callback_when_done=False
-		self.display=False
-		self.fit_update=None
-		self.excel_workbook_gen_error=False
-		status_icon_init()
-		self.gui_update_time= time.time()
-		self.timer=QTimer()
+		self.progress_window=progress_class()
 
-	def init(self,sim_dir):
-		self.terminate_on_finish=False
-		self.mylock=False
+	def base_server_init(self,sim_dir):
 		self.cpus=multiprocessing.cpu_count()
 		self.jobs=[]
 		self.args=[]
@@ -101,122 +92,13 @@ class server(QWidget,cluster):
 		self.jobs_running=0
 		self.jobs_run=0
 		self.sim_dir=sim_dir
-		self.cluster_init()
-		#self.cluster=str2bool(inp_get_token_value("server.inp","#cluster"))
+
 		self.finished_jobs=[]
-
-
-	def set_terminal(self,terminal):
-		self.terminal=terminal
-	
-	def set_display_function(self,display):
-		self.display=display
-
-	def set_fit_update_function(self,fit_update):
-		self.fit_update=fit_update
-
-	def gui_sim_start(self):
-		help_window().hide()
-		self.progress_window.start()
-		status_icon_run(self.cluster)
-		self.extern_gui_sim_start()
-
-	def set_callback_when_done(self,proc):
-		self.callback_when_done=proc
-
-	def gui_sim_stop(self):
-		text=self.check_warnings()
-		self.progress_window.stop()
-		help_window().show()
-		status_icon_stop(self.cluster)
-
-		help_window().help_set_help(["plot.png",_("<big><b>Simulation finished!</b></big><br>Click on the plot icon to plot the results")])
-
-		if len(text)!=0:
-			self.dialog=sim_warnings(text)
-
-		if 	self.callback_when_done!=False:
-			self.callback_when_done()
-			self.callback_when_done=False
-
-		if self.excel_workbook_gen_error==True:
-			help_window().help_append(["warning.png",_("<big><b>Excel workbook error</b></big><br>I can't write new data to the file data.xlsx, I think you have are viewing it using another program.  Please close data.xlsx to enable me to write new data to it.")])
-
-		self.sim_finished.emit()
 		
-	def setup_gui(self,extern_gui_sim_start):
-		self.enable_gui=True
-		self.extern_gui_sim_start=extern_gui_sim_start
-		self.progress_window=progress_class()
-
-
-	def add_job(self,path,arg):
-		if self.cluster==False:
-			self.jobs.append(path)
-			self.args.append(arg)
-			self.status.append(0)
-		else:
-			self.add_remote_job(path)
-			self.send_dir(path,"")
-
-
-
-	def start(self):
-		self.excel_workbook_gen_error=False
-		self.finished_jobs=[]
-		if self.enable_gui==True:
-			self.progress_window.show()
-			self.gui_sim_start()
-
-		self.running=True
-		self.run_jobs()
-
-
-	def print_jobs(self):
-		print("server job list:")
-		for i in range(0, len(self.jobs)):
-			print("job",i,self.jobs[i],self.args[i],self.status[i])
-		print("jobs running=",self.jobs_running,"jobs run=",self.jobs_run,"cpus=",self.cpus)
-
-		#if self.cluster==True:
-		#	s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-		#	port = 8888;
-		#	s.sendto("print_jobs", (self.server_ip, port))
-		#	s.close()
-
-
-	def run_jobs(self):
-		if self.cluster==True:
-			self.cluster_run_jobs()
-		else:
-			self.timer_start()
-
-	def process_jobs(self):
-		if (len(self.jobs)==0):
-			return
-
-		for i in range(0, len(self.jobs)):
-			if (self.jobs_running<self.cpus):
-				if self.status[i]==0:
-					self.status[i]=1
-					#for r in range(0,len(self.jobs)):
-					#	print(self.jobs[i],self.args[i])
-						
-					print("Running job",self.jobs[i],self.args[i])
-					if self.enable_gui==True:
-						self.progress_window.set_text(_("Running job ")+self.jobs[i])
-					self.jobs_running=self.jobs_running+1
-
-					cmd="cd "+self.jobs[i]+";"
-					cmd=cmd+get_exe_command()+" --lock "+"lock"+str(i)+" "+self.args[i]+" "+get_exe_args()+" &"
-					print("command="+cmd)
-
-					full_command=get_exe_command()+" --lock "+"lock"+str(i)+" "+self.args[i]+" "+get_exe_args()
-					if self.terminal.run(self.jobs[i],full_command)==True:
-						time.sleep(0.1)
-						return True
-					else:
-						return False
+	def base_server_add_job(self,path,arg):
+		self.jobs.append(path)
+		self.args.append(arg)
+		self.status.append(0)
 
 	def check_warnings(self):
 		message=""
@@ -245,26 +127,27 @@ class server(QWidget,cluster):
 
 		return message
 
-	def stop(self):
-		self.timer.stop()
-		
-		self.progress_window.set_fraction(0.0)
+	def print_jobs(self):
+		print("server job list:")
+		for i in range(0, len(self.jobs)):
+			print("job",i,self.jobs[i],self.args[i],self.status[i])
+		print("jobs running=",self.jobs_running,"jobs run=",self.jobs_run,"cpus=",self.cpus)
 
-		self.gui_sim_stop()
+	def base_server_process_jobs(self):
+		path=True
+		while(path!=False):
+			path,command=self.base_server_get_next_job_to_run(lock_file=True)
+			if path!=False:
+				cmd="cd "+path+";"
+				cmd=cmd+command+" >/dev/null &\n"
+				#print(cmd)
+				os.system(cmd)
+	
+				self.progress_window.set_text(_("Running job ")+path)
+				self.progress_window.set_fraction(float(self.jobs_run)/float(len(self.jobs)))
 
-		self.jobs=[]
-		self.args=[]
-		self.status=[]
-		self.jobs_running=0
-		self.jobs_run=0
-		self.running=False
-
-		if self.display!=False:
-
-			self.display()
-			
-		#print(_("I have shut down the server."))
-
+			else:
+				return
 
 	def simple_run(self):
 		ls=os.listdir(self.sim_dir)
@@ -273,7 +156,8 @@ class server(QWidget,cluster):
 				del_file=os.path.join(self.sim_dir,ls[i])
 				print("delete file:",del_file)
 				os.remove(del_file)
-		self.run_jobs()
+				
+		self.base_server_process_jobs()
 
 		while(1):
 			ls=os.listdir(self.sim_dir)
@@ -283,80 +167,234 @@ class server(QWidget,cluster):
 					os.remove(os.path.join(self.sim_dir,lock_file))
 					self.jobs_run=self.jobs_run+1
 					self.jobs_running=self.jobs_running-1
-			self.run_jobs()
+			self.base_server_process_jobs()
 			time.sleep(0.1)
 
 			if self.jobs_run==len(self.jobs):
 				break
 
-	def my_timer(self):
-		#This is to give the QProcess timer enough time to update
-		if self.terminal.test_free_cpus()!=0:
-			self.process_jobs()
+	def base_server_get_next_job_to_run(self,lock_file=False):
+		if (len(self.jobs)==0):
+			return False,False
+
+		for i in range(0, len(self.jobs)):
+			if (self.jobs_running<self.cpus):
+				if self.status[i]==0:
+					self.status[i]=1
+					#for r in range(0,len(self.jobs)):
+					#	print(self.jobs[i],self.args[i])
+					
+					self.jobs_running=self.jobs_running+1
+
+					if lock_file==True:
+						command_lock=" --lockfile "+os.path.join(self.sim_dir,"lock"+str(i)+".dat")
+					else:
+						command_lock=" --lock "+"lock"+str(i)
+
+					full_command=get_exe_command()+command_lock+" "+self.args[i]+" "+get_exe_args()
+
+					return self.jobs[i],full_command
+
+		return False,False
 
 
-	def timer_start(self):
-		self.timer.timeout.connect(self.my_timer)
-		self.timer.start(100)
+if gui_get()==True:
+	class server(QWidget,base_server,cluster):
+		
+		sim_finished = pyqtSignal()
+			
+		def __init__(self):
+			QWidget.__init__(self)
+			self.enable_gui=False
+			self.callback_when_done=False
+			self.display=False
+			self.fit_update=None
+			self.excel_workbook_gen_error=False
+			status_icon_init()
+			self.gui_update_time= time.time()
+			self.timer=QTimer()
 
-	def callback_dbus(self,data_in):
-		if data_in.startswith("hex"):
-			data_in=data_in[3:]
-			data=codecs.decode(data_in, 'hex')
-			data=data.decode('ascii')
+		def init(self,sim_dir):
+			self.base_server_init(sim_dir)
 
-			if data.startswith("lock"):
-				if len(self.jobs)==0:
-					print(_("I did not think I was running any jobs"))
-					self.stop()
+			self.cluster_init()
+			#self.cluster=str2bool(inp_get_token_value("server.inp","#cluster"))
+
+
+
+		def set_terminal(self,terminal):
+			self.terminal=terminal
+		
+		def set_display_function(self,display):
+			self.display=display
+
+		def set_fit_update_function(self,fit_update):
+			self.fit_update=fit_update
+
+		def gui_sim_start(self):
+			help_window().hide()
+			self.progress_window.start()
+			status_icon_run(self.cluster)
+			self.extern_gui_sim_start()
+
+		def set_callback_when_done(self,proc):
+			self.callback_when_done=proc
+
+		def gui_sim_stop(self):
+			text=self.check_warnings()
+			self.progress_window.stop()
+			help_window().show()
+			status_icon_stop(self.cluster)
+
+			help_window().help_set_help(["plot.png",_("<big><b>Simulation finished!</b></big><br>Click on the plot icon to plot the results")])
+
+			if len(text)!=0:
+				self.dialog=sim_warnings(text)
+
+			if 	self.callback_when_done!=False:
+				self.callback_when_done()
+				self.callback_when_done=False
+
+			if self.excel_workbook_gen_error==True:
+				help_window().help_append(["warning.png",_("<big><b>Excel workbook error</b></big><br>I can't write new data to the file data.xlsx, I think you have are viewing it using another program.  Please close data.xlsx to enable me to write new data to it.")])
+
+			self.sim_finished.emit()
+			
+		def setup_gui(self,extern_gui_sim_start):
+			self.enable_gui=True
+			self.extern_gui_sim_start=extern_gui_sim_start
+
+
+		def add_job(self,path,arg):
+			if self.cluster==False:
+				self.base_server_add_job(path,arg)
+			else:
+				self.add_remote_job(path)
+				self.send_dir(path,"")
+
+
+
+		def start(self):
+			self.excel_workbook_gen_error=False
+			self.finished_jobs=[]
+			self.progress_window.show()
+
+			if self.enable_gui==True:
+				self.gui_sim_start()
+
+			self.running=True
+			self.run_jobs()
+
+
+		def run_jobs(self):
+			if self.cluster==True:
+				self.cluster_run_jobs()
+			else:
+				self.timer_start()
+
+		def process_jobs(self):
+			
+			path=True
+			while(path!=False):
+				path,command=self.base_server_get_next_job_to_run()
+
+				if path!=False:
+					if self.terminal.run(path,command)==True:
+						time.sleep(0.1)
+						return True
+					else:
+						return False
 				else:
-					if self.finished_jobs.count(data)==0:
-						job=int(data[4:])
-						self.finished_jobs.append(data)
-						make_work_book=inp_get_token_value(os.path.join(get_sim_path(),"dump.inp"),"#dump_workbook")
-						if make_work_book!=None:
-							if str2bool(make_work_book)==True:
-								if gen_workbook(self.jobs[job],os.path.join(self.jobs[job],"data.xlsx"))==False:
-									self.excel_workbook_gen_error=self.excel_workbook_gen_error or True
-						self.jobs_run=self.jobs_run+1
-						self.jobs_running=self.jobs_running-1
-						self.progress_window.set_fraction(float(self.jobs_run)/float(len(self.jobs)))
+					return
 
-						if (self.jobs_run==len(self.jobs)):
-							self.stop()
+		def stop(self):
+			self.timer.stop()
+			
+			self.progress_window.set_fraction(0.0)
 
-			elif (data=="pulse"):
-				if len(self.jobs)==1:
-					splitup=data.split(":")
-					if len(splitup)>1:
-						text=data.split(":")[1]
-						self.progress_window.set_text(text)
-					#self.progress_window.progress.set_pulse_step(0.01)
-					self.progress_window.pulse()
-			elif (data.startswith("enable_pulse")):
-				splitup=data.split(":")
-				if len(splitup)>1:
-					value=str2bool(data.split(":")[1])
-					self.progress_window.enable_pulse(value)
-			elif (data.startswith("percent")):
-				if len(self.jobs)==1:
-					splitup=data.split(":")
-					if len(splitup)>1:
-						frac=float(data.split(":")[1])
-						self.progress_window.set_fraction(frac)
-			elif (data.startswith("text")):
-				if len(self.jobs)==1:
-					splitup=data.split(":")
-					if len(splitup)>1:
-						self.progress_window.set_text(data.split(":")[1])
-			elif (data.startswith("fit_run")):
-				elapsed_time = time.time() - self.gui_update_time
-				if elapsed_time>5:
+			self.gui_sim_stop()
 
-					self.gui_update_time=time.time()
+			self.jobs=[]
+			self.args=[]
+			self.status=[]
+			self.jobs_running=0
+			self.jobs_run=0
+			self.running=False
+
+			if self.display!=False:
+
+				self.display()
 				
-					if self.fit_update!=None:
-						self.fit_update()
+			#print(_("I have shut down the server."))
+
+		def my_timer(self):
+			#This is to give the QProcess timer enough time to update
+			if self.terminal.test_free_cpus()!=0:
+				self.process_jobs()
+
+
+		def timer_start(self):
+			self.timer.timeout.connect(self.my_timer)
+			self.timer.start(100)
+
+		def callback_dbus(self,data_in):
+			if data_in.startswith("hex"):
+				data_in=data_in[3:]
+				data=codecs.decode(data_in, 'hex')
+				data=data.decode('ascii')
+
+				if data.startswith("lock"):
+					if len(self.jobs)==0:
+						print(_("I did not think I was running any jobs"))
+						self.stop()
+					else:
+						if self.finished_jobs.count(data)==0:
+							job=int(data[4:])
+							self.finished_jobs.append(data)
+							make_work_book=inp_get_token_value(os.path.join(get_sim_path(),"dump.inp"),"#dump_workbook")
+							if make_work_book!=None:
+								if str2bool(make_work_book)==True:
+									if gen_workbook(self.jobs[job],os.path.join(self.jobs[job],"data.xlsx"))==False:
+										self.excel_workbook_gen_error=self.excel_workbook_gen_error or True
+							self.jobs_run=self.jobs_run+1
+							self.jobs_running=self.jobs_running-1
+							self.progress_window.set_fraction(float(self.jobs_run)/float(len(self.jobs)))
+
+							if (self.jobs_run==len(self.jobs)):
+								self.stop()
+
+				elif (data=="pulse"):
+					if len(self.jobs)==1:
+						splitup=data.split(":")
+						if len(splitup)>1:
+							text=data.split(":")[1]
+							self.progress_window.set_text(text)
+						#self.progress_window.progress.set_pulse_step(0.01)
+						self.progress_window.pulse()
+				elif (data.startswith("enable_pulse")):
+					splitup=data.split(":")
+					if len(splitup)>1:
+						value=str2bool(data.split(":")[1])
+						self.progress_window.enable_pulse(value)
+				elif (data.startswith("percent")):
+					if len(self.jobs)==1:
+						splitup=data.split(":")
+						if len(splitup)>1:
+							frac=float(data.split(":")[1])
+							self.progress_window.set_fraction(frac)
+				elif (data.startswith("text")):
+					if len(self.jobs)==1:
+						splitup=data.split(":")
+						if len(splitup)>1:
+							self.progress_window.set_text(data.split(":")[1])
+				elif (data.startswith("fit_run")):
+					elapsed_time = time.time() - self.gui_update_time
+					if elapsed_time>5:
+
+						self.gui_update_time=time.time()
+					
+						if self.fit_update!=None:
+							self.fit_update()
 
 def server_init():
 	global my_server

@@ -74,6 +74,11 @@ void server_set_dbus_finish_signal(struct server_struct *myserver, char *signal)
 	strcpy(myserver->dbus_finish_signal,signal);
 }
 
+void server_set_lock_file(struct server_struct *myserver, char *file_name)
+{
+	strcpy(myserver->lock_file,file_name);
+}
+
 void server_shut_down(struct simulation *sim,struct server_struct *myserver)
 {
 	gui_send_finished_to_gui(sim);
@@ -97,7 +102,9 @@ void server_init(struct simulation *sim)
 {
 local_sim=sim;
 
-	strcpy(sim->server.dbus_finish_signal,"");
+strcpy(sim->server.dbus_finish_signal,"");
+strcpy(sim->server.lock_file,"");
+
 
 }
 

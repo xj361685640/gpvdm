@@ -49,6 +49,8 @@ from scan_io import scan_push_to_hpc
 from scan_io import scan_import_from_hpc
 from scan_io import scan_plot_fits
 from scan_io import scan_gen_report
+from scan_io import build_scan
+from scan_io import scan_build_all_nested
 
 #scan_tree
 from scan_tree import tree_gen
@@ -206,13 +208,13 @@ class scan_vbox(QWidget):
 
 
 	def clean_scan_dir(self):
-		scan_clean_dir(self,self.sim_dir)
+		scan_clean_dir(self.sim_dir,parent_window=self)
 
 	def scan_clean_unconverged(self):
 		scan_clean_unconverged(self,self.sim_dir)
 
 	def scan_clean_simulation_output(self):
-		scan_clean_dir(self,self.sim_dir)
+		scan_clean_dir(self.sim_dir,parent_window=self)
 
 	def import_from_hpc(self):
 		scan_import_from_hpc(self.sim_dir)
@@ -230,19 +232,9 @@ class scan_vbox(QWidget):
 		scan_push_to_hpc(self.sim_dir,True)
 
 	def nested_simulation(self):
-		commands=scan_build_nested_simulation(self.sim_dir,"/home/rod/test/gpvdm4.97/sub_sim")
+		scan_build_all_nested(self.sim_dir,parent_window=self)
+
 		#self.send_commands_to_server(commands,"")
-
-	def build_scan(self):
-		scan_clean_dir(self,self.sim_dir)
-
-		flat_simulation_list=[]
-		program_list=tree_load_program(self.sim_dir)
-		if tree_gen(flat_simulation_list,program_list,get_sim_path(),self.sim_dir)==False:
-			error_dlg(self,_("Problem generating tree."))
-			return
-
-		tree_save_flat_list(self.sim_dir,flat_simulation_list)
 
 	def scan_run(self,args=""):
 		commands=tree_load_flat_list(self.sim_dir)
@@ -266,7 +258,7 @@ class scan_vbox(QWidget):
 
 		tree_load_config(self.sim_dir)
 		if generate_simulations==True:
-			self.build_scan()
+			build_scan(self.sim_dir,get_sim_path())
 
 		if run_simulation==True:
 			self.scan_run(args=args)
@@ -274,6 +266,9 @@ class scan_vbox(QWidget):
 		self.save_combo()
 		os.chdir(get_sim_path())
 		gc.collect()
+
+	def build_scan(self):
+		build_scan(self.sim_dir,get_sim_path())
 
 	def send_commands_to_server(self,commands,args):
 #		self.myserver.init(self.sim_dir)

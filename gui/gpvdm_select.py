@@ -26,17 +26,22 @@ import os
 from plot_io import get_plot_file_info
 
 #qt
-from PyQt5.QtGui import QIcon
-from PyQt5.QtCore import QSize, Qt, QTimer
-from PyQt5.uic import loadUi
-from PyQt5.QtWidgets import QApplication,QGraphicsScene,QListWidgetItem,QListView,QLineEdit,QWidget,QHBoxLayout,QPushButton,QLineEdit
-from PyQt5.QtGui import QPixmap
+try:
+	from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction,QApplication,QTableWidgetItem,QComboBox, QMessageBox, QDialog, QDialogButtonBox, QFileDialog
+	from PyQt5.QtWidgets import QGraphicsScene,QListWidgetItem,QListView,QLineEdit,QWidget,QHBoxLayout,QPushButton
+	from PyQt5.QtWidgets import QFileDialog
+	from PyQt5.uic import loadUi
+	from PyQt5.QtGui import QPixmap
+	from PyQt5.QtCore import QSize, Qt, QTimer
+	from PyQt5.QtCore import QPersistentModelIndex
+	from QComboBoxLang import QComboBoxLang
+	from PyQt5.QtGui import QIcon
+except:
+	pass
 
 #cal_path
 from cal_path import get_ui_path
 from open_save_dlg import open_as_filter
-
-from help import help_window
 
 import i18n
 _ = i18n.language.gettext

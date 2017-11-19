@@ -44,7 +44,7 @@ struct probe_config config;
 static struct istruct spectrum_first;
 static int first=FALSE;
 
-void measure(struct simulation *sim)
+void measure_file(struct simulation *sim,char *file_name)
 {
 	int i;
 	int vector;
@@ -52,15 +52,18 @@ void measure(struct simulation *sim)
 	char vec_str[400];
 	char file[400];
 	char data_path[400];
-	char file_name[400];
 	long double position;
 	char output_token[400];
 	char temp[400];
+	char sim_name[400];
+
 	char math[400];
 	FILE *out;
 	struct inp_file inp;
 	struct inp_file inp_data;
 	char input_position[400];
+	char output_file[400];
+
 	struct rpn rpn_cal;
 	long double value;
 	long double y;
@@ -68,7 +71,7 @@ void measure(struct simulation *sim)
 	int ret=0;
 	strcpy(vec_str,"");
 
-	join_path(2, file,get_input_path(sim),"measure.inp");
+	join_path(2, file,get_input_path(sim),file_name);
 
 	inp_init(sim,&inp);
 	if (inp_load(sim, &inp , file)!=0)
@@ -81,7 +84,10 @@ void measure(struct simulation *sim)
 	struct istruct data;
 	inter_init(sim,&data);
 
-	inp_get_string(sim,&inp);	//token
+	inp_get_string(sim,&inp);	//name
+	strcpy(sim_name,inp_get_string(sim,&inp));	//
+
+	inp_get_string(sim,&inp);	//enable
 	strcpy(temp,inp_get_string(sim,&inp));
 	enable=english_to_bin(sim,temp);
 
@@ -91,11 +97,14 @@ void measure(struct simulation *sim)
 		return;
 	}
 
-	inp_get_string(sim,&inp);	//token
+	inp_get_string(sim,&inp);	//compile to vector
 	strcpy(temp,inp_get_string(sim,&inp));
 	vector=english_to_bin(sim,temp);
 
-	out=fopena(get_output_path(sim),"measure.dat","w");
+	sprintf(output_file,"measure_%s.dat",sim_name);
+
+	out=fopena(get_output_path(sim),output_file,"w");
+
 
 	while(1)
 	{
@@ -122,33 +131,33 @@ void measure(struct simulation *sim)
 		inp_get_string(sim,&inp);
 		strcpy(math,inp_get_string(sim,&inp));	//output token
 		
-		if (strcmp_end(data_path,".inp")==0)
+		if (strcmp_begin(input_position,"#")==0)
 		{
 				inp_init(sim,&inp_data);
 				if (inp_load(sim, &inp_data , data_path)==0)
 				{
 					ret=inp_search_gdouble(sim,&inp_data,&value,input_position);
-					//printf("%Le\n",value);
-					if (ret!=0)
-					{
-						ewe(sim,_("Token not found: %s"),input_position);
-					}
-					rpn_init(sim,&rpn_cal);
-					rpn_add_var(sim,&rpn_cal,"x",(double)value);
 
-					y=(long double)rpn_evaluate(sim,&rpn_cal,math);
-					//printf("%Le %s %Le %s\n",y,math,value,input_position);
-					//getchar();
-					inp_free(sim,&inp_data);
-					write=TRUE;
-					
+					if (ret==0)
+					{
+						rpn_init(sim,&rpn_cal);
+						rpn_add_var(sim,&rpn_cal,"x",(double)value);
+
+						y=(long double)rpn_evaluate(sim,&rpn_cal,math);
+						//printf("%Le %s %Le %s\n",y,math,value,input_position);
+						//getchar();
+						inp_free(sim,&inp_data);
+						write=TRUE;
+					}else
+					{
+						printf_log(sim,_("Token not found: %s"),input_position);
+					}
+
 				}else
 				{
-					ewe(sim,_("File not found: %s"),data_path);
+					printf_log(sim,_("File not found: %s"),data_path);
 				}
-		}
-		
-		if (strcmp_end(data_path,".dat")==0)
+		}else
 		{
 			if (inter_load(sim,&data,data_path)==0)
 			{
@@ -197,3 +206,24 @@ void measure(struct simulation *sim)
 	fclose(out);
 }
 
+
+void measure(struct simulation *sim)
+{
+int i=0;
+struct inp_list a;
+inp_listdir(sim,get_input_path(sim),&a);
+
+
+	for (i=0;i<a.len;i++)
+	{
+		if ((strcmp(a.names[i],".")!=0)&&(strcmp(a.names[i],"..")!=0))
+		{
+			if ((cmpstr_min(a.names[i],"measure")==0)&&(strcmp_end(a.names[i],".inp")==0))
+			{
+				measure_file(sim,a.names[i]);
+			}
+		}
+	}
+
+inp_list_free(&a);
+}

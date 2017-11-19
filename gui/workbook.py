@@ -35,7 +35,6 @@ from plot_io import plot_load_info
 from dat_file import dat_file_read
 from dat_file import dat_file
 
-from help import help_window
 from inp import inp_load_file
 from inp import inp_get_next_token_array
 from token_lib import tokens

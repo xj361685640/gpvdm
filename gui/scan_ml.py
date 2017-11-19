@@ -35,41 +35,123 @@ from math import log10
 
 import i18n
 _ = i18n.language.gettext
-def get_vectors(path,dir_name,start=0,stop=-1,dolog=False,div=1.0):
+def get_vectors(path,dir_name,file_name,dolog=False,div=1.0,fabs=False):
 	base=os.path.join(path,dir_name)
-	lines=read_lines_from_archive(os.path.join(base,"sim.gpvdm"),"measure.dat")
+	lines=read_lines_from_archive(os.path.join(base,"sim.gpvdm"),file_name)
 	if lines[0].count("nan")==0 and lines[0].count("inf")==0:
-		if stop==-1:
-			ret=lines[0].split()[start:]
-		else:
-			ret=lines[0].split()[start:stop]
+		ret=lines[0].split()
 
 		n=[]
 		for i in range(0,len(ret)):
+			print(ret[i])
 			r=float(ret[i])/div
+
+			if fabs==True:
+				r=abs(r)
+
 			if dolog==True:
-				r=log10(r)
+				print(r)
+				if r!=0.0:
+					r=log10(r)
+				else:
+					r=0.0
+
 			n.append(r)
 		print(n)
-		return n
 
+		s=""
+		for ii in range(0,len(n)):
+			s=s+'{:e}'.format(float(n[ii]))+" "
+
+		return s
+
+def get_vectors_binary(path,dir_name):
+	base=os.path.join(path,dir_name)
+	lines=read_lines_from_archive(os.path.join(base,"sim.gpvdm"),"measure_output.dat")
+
+	ret=lines[0].split()
+
+	n=[]
+
+	names=["#mueffe","#mueffh","#Etrape","#Etraph","#Ntrape","#Ntraph","#srhsigman_e","#srhsigmap_e","#srhsigman_h","#srhsigmap_h","#Rshunt","#Rcontact","#jv_pmax_tau","#jv_pmax_mue", "#jv_pmax_muh"]
+	s=""
+	for i in range(0,len(ret)):
+		r=int(float(ret[i]))
+		s=s+names[i]+"_bin\n"
+		if r==1:
+			s=s+"1 0\n"
+		else:
+			s=s+"0 1\n"
+
+	return s
+
+def scan_ml_build_token_vector(file_name,token,vector):
+	a=float(inp_get_token_value(file_name, token))
+	v=[]
+	for i in range(0,len(vector)):
+		v.append(0.0)
+		
+	if a<=vector[0]:
+		v[0]=1.0
+	elif a>=vector[len(vector)-1]:
+		v[len(v)-1]=1.0
+	else:
+		for i in range(1,len(vector)-1):
+			if a<vector[i]:
+				v[i]=1.0
+				break
+
+	s=token+"\n"
+	for i in range(0,len(v)):
+		if v[i]==0.0:
+			s=s+"0 "
+		else:
+			s=s+"1 "
+	
+	s=s[:-1]+"\n"
+
+	
+	vectors=[]
+
+	return s
 
 def scan_ml_build_vector(sim_dir):
-	vectors=[]
 	out=open(os.path.join(sim_dir,"vectors.dat"),'wb')
 
 	dirs=os.listdir(sim_dir)
 	for i in range(0,len(dirs)):
 		full_name=os.path.join(sim_dir, dirs[i])
 		if os.path.isdir(full_name)==True:
-			v=[]
-			v.extend(get_vectors(full_name,"0.0",stop=9,dolog=True))
-			v.extend(get_vectors(full_name,"1.0",stop=9,div=1e2))
-			v.extend(get_vectors(full_name,"1.0",start=9))
-			s=""
-			for ii in range(0,len(v)):
-				s=s+'{:e}'.format(float(v[ii]))+" "
-			out.write(str.encode(dirs[i]+" "+s+"\n"))
+			v="#ml_id\n"
+			v=v+dirs[i]+"\n"
+			v=v+"#ml_input_jv_dark\n"
+			v=v+get_vectors(full_name,"0.0","measure_jv.dat",dolog=True)+"\n"
+			v=v+"#ml_input_jv_light\n"
+			v=v+get_vectors(full_name,"1.0","measure_jv.dat",div=1e2)+"\n"
+			v=v+"#ml_input_tpc_neg\n"
+			v=v+get_vectors(full_name,"TPC","measure_tpc.dat",fabs=True,dolog=True)+"\n"
+			v=v+"#ml_input_tpc\n"
+			v=v+get_vectors(full_name,"TPC_0","measure_tpc.dat",fabs=True,dolog=True)+"\n"
+			v=v+"#ml_input_tpv\n"
+			v=v+get_vectors(full_name,"TPV","measure_tpv.dat",fabs=True)+"\n"
+			v=v+"#ml_input_celiv\n"
+			v=v+get_vectors(full_name,"CELIV","measure_celiv.dat",fabs=True)+"\n"
+
+			v=v+get_vectors_binary(full_name,"1.0")#get_vectors(full_name,"1.0","measure_output.dat")+"\n"
+
+			a=scan_ml_build_token_vector(os.path.join(full_name,"dos0.inp"),"#Etrape",[40e-3,80e-3,120e-3,140e-3])
+			v=v+a
+
+			a=scan_ml_build_token_vector(os.path.join(full_name,"dos0.inp"),"#Etraph",[40e-3,80e-3,120e-3,140e-3])
+			v=v+a
+
+			a=scan_ml_build_token_vector(os.path.join(full_name,"parasitic.inp"),"#Rshunt",[1e3,1e4,1e5,1e6,1e7])
+			v=v+a
+
+			a=scan_ml_build_token_vector(os.path.join(full_name,"dos0.inp"),"#mueffe",[1e-9, 1e-8, 1e-7,1e-6,1e-5,1e-4,1e-3])
+			v=v+a
+
+			out.write(str.encode(v))
 
 #			lines=read_lines_from_archive(os.path.join(root,"sim.gpvdm"),name)
 #			if lines[0].count("nan")==0 and lines[0].count("inf")==0:

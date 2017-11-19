@@ -140,6 +140,7 @@ class lasers(QWidgetSavePos):
 
 
 	def add_page(self,index):
+		print("here:",index)
 		file_name=os.path.join(get_sim_path(),"laser"+str(index)+".inp")
 		laser_name=inp_get_token_value(file_name, "#laser_name")
 		tab=tab_class()

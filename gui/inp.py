@@ -42,11 +42,14 @@ from util_zip import zip_lsdir
 
 from cal_path import get_sim_path
 
-
-if running_on_linux()==True:
-	import hashlib
+import hashlib
+enable_encrypt=False
+try:
+	enable_encrypt=True
 	from Crypto.Cipher import AES
-	
+except:
+	pass
+
 def inp_issequential_file(data,search):
 	if data.startswith(search) and data.endswith("inp"):
 		cut=data[len(search):-4]
@@ -197,8 +200,8 @@ def inp_load_file(file_path,archive="sim.gpvdm",mode="l"):
 
 def inp_save(file_path,lines,archive="sim.gpvdm"):
 	"""Write save lines to a file"""
-	full_path=default_to_sim_path(file_path)
 
+	full_path=default_to_sim_path(file_path)
 	archive_path=os.path.join(os.path.dirname(full_path),archive)
 	file_name=os.path.basename(full_path)
 	#print("archive",archive_path)
@@ -322,41 +325,43 @@ def inp_sum_items(lines,token):
 
 
 def inp_encrypt(file_name):
-	iv="reallybadiv"
-	ls=zip_lsdir(file_name)
-	files_to_encrypt=[]
-	bs=32
-	
-	password=inp_get_token_value("info.inp", "#info_password",archive=file_name)
-	if password=="":
-		return False
+	global enable_encrypt
+	if enable_encrypt==Ture:
+		iv="reallybadiv"
+		ls=zip_lsdir(file_name)
+		files_to_encrypt=[]
+		bs=32
 
-	for i in range(0,len(ls)):
-		if ls[i].endswith(".inp")==True and ls[i]!="info.inp":
-			lines=[]
-			lines=inp_load_file(ls[i],archive=file_name,mode="b")
+		password=inp_get_token_value("info.inp", "#info_password",archive=file_name)
+		if password=="":
+			return False
 
-			m = hashlib.md5()
-			m.update(password.encode('utf-8'))
-			key_hash=m.digest()
+		for i in range(0,len(ls)):
+			if ls[i].endswith(".inp")==True and ls[i]!="info.inp":
+				lines=[]
+				lines=inp_load_file(ls[i],archive=file_name,mode="b")
 
-			m = hashlib.md5()
-			m.update(iv.encode('utf-8'))
-			iv_hash=m.digest()
+				m = hashlib.md5()
+				m.update(password.encode('utf-8'))
+				key_hash=m.digest()
 
-			encryptor = AES.new(key_hash, AES.MODE_CBC, IV=iv_hash)
-			start="encrypt"
-			start=start.encode('utf-8')
-			s=(int((len(lines))/16.0)+1)*16
-			data=bytearray(int(s))
+				m = hashlib.md5()
+				m.update(iv.encode('utf-8'))
+				iv_hash=m.digest()
+
+				encryptor = AES.new(key_hash, AES.MODE_CBC, IV=iv_hash)
+				start="encrypt"
+				start=start.encode('utf-8')
+				s=(int((len(lines))/16.0)+1)*16
+				data=bytearray(int(s))
+					
+				for ii in range(0,len(lines)):
+					data[ii]=lines[ii]
 				
-			for ii in range(0,len(lines)):
-				data[ii]=lines[ii]
-			
-			ret= encryptor.encrypt(bytes(data))
+				ret= encryptor.encrypt(bytes(data))
 
-			data=start+ret
+				data=start+ret
 
-			replace_file_in_zip_archive(file_name,ls[i],data,mode="b")
+				replace_file_in_zip_archive(file_name,ls[i],data,mode="b")
 
-	inp_update_token_value("info.inp", "#info_password","encrypted",archive=file_name)
+		inp_update_token_value("info.inp", "#info_password","encrypted",archive=file_name)

@@ -19,29 +19,14 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-#qt
 import os
+import glob
+from cal_path import get_device_lib_path
+from util_zip import archive_add_file
 
-from gui_enable import gui_get
-import i18n
-_ = i18n.language.gettext
-if gui_get()==True:
-	from PyQt5.QtWidgets import QWidget
-	from PyQt5.uic import loadUi
-	from cal_path import get_ui_path
 
-	class sim_warnings(QWidget):
-
-		def callback_close(self):
-			self.window.hide()
-
-		def __init__(self,text):
-			QWidget.__init__(self)
-			self.window = loadUi(os.path.join(get_ui_path(),"simulation_errors.ui"))
-			self.window.text.setText(text)
-			self.window.ok.clicked.connect(self.callback_close)
-			self.window.show()
-else:
-	class sim_warnings():
-		def __init__(self,text):
-			print("sim warnings")
+def device_lib_replace(file_name):
+	archives=glob.glob(os.path.join(get_device_lib_path(),"*.gpvdm"))
+	for i in range(0,len(archives)):
+		print("replace ",archives[i],file_name)
+		archive_add_file(archives[i],file_name,"")

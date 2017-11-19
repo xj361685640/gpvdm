@@ -43,6 +43,15 @@ if (strcmp(sim->server.dbus_finish_signal,"")!=0)
 	gui_send_data(sim,sim->server.dbus_finish_signal);
 }
 
+if (strcmp(sim->server.lock_file,"")!=0)
+{
+	char lockname[500];
+	FILE *out=fopen(sim->server.lock_file,"w");
+	fclose(out);
+}
+
+
+
 
 #ifdef dbus
 dbus_connection_unref (sim->connection);
