@@ -22,7 +22,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <dump.h>
-#include <suitesparse/umfpack.h>
+#include <umfpack.h>
 #include "complex_solver.h"
 #include <math.h>
 #include "buffer.h"

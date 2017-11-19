@@ -20,7 +20,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <suitesparse/umfpack.h>
+#include <umfpack.h>
 #include <util.h>
 
 void error_report(int status, const char *file, const char *func, int line)
