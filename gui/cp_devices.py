@@ -41,12 +41,17 @@ if args.copy:
 
 	if not os.path.exists(dest):
 		os.makedirs(dest)
-				
-	files=glob.glob(src+"*.gpvdm")
-#	for dirpath, dirnames, filenames in os.walk(args.copy[0]):
-	for i in range(0,len(files)):
-		private=inp_get_token_value(os.path.join(os.path.dirname(files[i]),"info.inp"), "#private",archive=os.path.basename(files[i]))
-		print(files[i],"private=",private)
 
-		if str2bool(private)==False:
-			shutil.copyfile(files[i],os.path.join(dest,os.path.basename(files[i])))
+	for dirpath, dirnames, files in os.walk(src):
+		for name in files:
+			if name.endswith(".gpvdm")==True:
+				src_file=os.path.join(dirpath, name)
+				dst_file=os.path.join(dest,src_file[len(src):])
+				dst_dir=os.path.dirname(dst_file)
+				private=inp_get_token_value(os.path.join(os.path.dirname(src_file),"info.inp"), "#private",archive=os.path.basename(src_file))
+
+				if private!=None:
+					if str2bool(private)==False:
+						if os.path.isdir(dst_dir)==False:
+							os.makedirs(dst_dir)
+						shutil.copyfile(src_file,dst_file)

@@ -47,6 +47,7 @@ from inp import inp_get_token_value
 from util import str2bool
 from gui_util import dlg_get_text
 
+from gpvdm_viewer import gpvdm_viewer
 class simulation():
 	name=""
 	file_name=""
@@ -62,12 +63,9 @@ class new_simulation(QDialog):
 	def callback_next(self):
 		help_window().help_set_help(["document-save-as.png",_("<big><b>Now save the simulation</b></big><br>Now select where you would like to save the simulation directory.")])
 
-		if len(self.listwidget.selectedItems())>0:
-			selection=self.listwidget.selectedItems()[0].text()
-			selection_file=selection[selection.find("(")+1:selection.find(")")]
-			lib_file=os.path.join(get_device_lib_path(),selection_file)
+		if len(self.viewer.selectedItems())>0:
 			
-			password=inp_get_token_value("info.inp", "#info_password",archive=lib_file)
+			password=inp_get_token_value("info.inp", "#info_password",archive=self.viewer.file_path)
 			if password!="":
 				pw_dlg=dlg_get_text( _("password:"), "","document-new")
 				if password!=pw_dlg.ret:
@@ -90,7 +88,7 @@ class new_simulation(QDialog):
 				self.ret_path=file_path
 				os.chdir(self.ret_path)
 				gpvdm_clone(os.getcwd(),copy_dirs=True)
-				import_archive(lib_file,os.path.join(os.getcwd(),"sim.gpvdm"),False)
+				import_archive(self.viewer.file_path,os.path.join(os.getcwd(),"sim.gpvdm"),False)
 				self.close()
 		else:
 			error_dlg(self,_("Please select a device before clicking next"))
@@ -98,43 +96,8 @@ class new_simulation(QDialog):
 
 	def get_return_path(self):
 		return self.ret_path
-	
-	def fill_list(self):
-		self.files=[]
-		files=os.listdir(get_device_lib_path())
-		for i in range(0,len(files)):
-			lines=[]
-			if files[i]!="default.gpvdm" and files[i].endswith(".gpvdm"):
-				print(os.path.join(get_device_lib_path(),files[i]))
-				lines=inp_load_file("info.inp",archive=os.path.join(get_device_lib_path(),files[i]))
-				if lines!=False:
-					a=simulation()
-					a.name=inp_get_token_value_from_list(lines, "#info_name")
-					a.file_name=files[i]
-					a.icon=inp_get_token_value_from_list(lines, "#info_icon")
-					a.hidden=str2bool(inp_get_token_value_from_list(lines, "#info_hidden"))
-					self.files.append(a)
-				else:
-					print("problem opening",os.path.join(get_device_lib_path(),files[i]))
-
-		for i in range(0,len(self.files)):
-			if self.files[i].file_name=="p3htpcbm.gpvdm":
-				self.files.insert(0, self.files.pop(i))
-				break
-
-	def refresh(self):
-		if len(self.files)==0:
-			error_dlg(self,_("The device lib directory is empty, please report this error!"))
-	
-		self.listwidget.clear()
-		for i in range(0,len(self.files)):
-			if self.files[i].hidden==False or self.show_hidden.isChecked()==True:
-				itm = QListWidgetItem( _(self.files[i].name)+" ("+self.files[i].file_name+")" )
-				itm.setIcon(QIcon_load(self.files[i].icon))
-				self.listwidget.addItem(itm)
 
 		return
-
 		print(_("Organic LED"))
 		print(_("Crystalline silicon solar cell"))
 		print(_("a-Si solar cell "))
@@ -143,9 +106,11 @@ class new_simulation(QDialog):
 		print(_("Perovskite solar cell"))
 		print(_("CIGS Solar cell"))
 
-	def callback_refresh(self):
-		self.refresh()
-
+	def callback_toggle_hidden(self):
+		self.viewer.set_show_hidden(self.show_hidden.isChecked())
+		self.viewer.fill_store()
+		#print("toggle")
+	
 	def __init__(self):
 		QDialog.__init__(self)
 		self.main_vbox=QVBoxLayout()
@@ -154,9 +119,11 @@ class new_simulation(QDialog):
 		self.setWindowIcon(QIcon_load("si"))
 		self.title=QLabel("<big><b>"+_("Which type of device would you like to simulate?")+"</b></big>")
 
-		self.listwidget=QListWidget()
+		self.viewer=gpvdm_viewer(get_device_lib_path())
+		self.viewer.set_back_arrow(True)
+		self.viewer.set_enable_menu(False)
 		self.main_vbox.addWidget(self.title)
-		self.main_vbox.addWidget(self.listwidget)
+		self.main_vbox.addWidget(self.viewer)
 
 		self.hwidget=QWidget()
 
@@ -164,11 +131,10 @@ class new_simulation(QDialog):
 		self.cancelButton = QPushButton(_("Cancel"))
 
 		self.files=[]
-		self.fill_list()
 
 		hbox = QHBoxLayout()
 		self.show_hidden=QCheckBox(_("Show hidden"))
-		self.show_hidden.clicked.connect(self.callback_refresh)
+		self.show_hidden.clicked.connect(self.callback_toggle_hidden)
 		hbox.addWidget(self.show_hidden)
 		hbox.addStretch(1)
 		hbox.addWidget(self.cancelButton)
@@ -183,10 +149,8 @@ class new_simulation(QDialog):
 		self.ret_path=None
 		# Create a new window
 
-		self.listwidget.setIconSize(QSize(64,64))
-		self.refresh()
 		
-		self.listwidget.itemDoubleClicked.connect(self.callback_next)
+		self.viewer.accept.connect(self.callback_next)
 		self.nextButton.clicked.connect(self.callback_next)
 		self.cancelButton.clicked.connect(self.callback_close)
 

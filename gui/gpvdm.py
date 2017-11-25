@@ -360,6 +360,7 @@ class gpvdm_main_window(QMainWindow):
 
 	def __init__(self):
 		server_init()
+
 		self.check_sim_exists=check_sim_exists()
 		self.check_sim_exists.start_thread()
 		self.check_sim_exists.sim_gone.connect(self.sim_gone)

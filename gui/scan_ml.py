@@ -35,6 +35,10 @@ from math import log10
 
 import i18n
 _ = i18n.language.gettext
+
+from progress import progress_class
+from gui_util import process_events
+
 def get_vectors(path,dir_name,file_name,dolog=False,div=1.0,fabs=False):
 	base=os.path.join(path,dir_name)
 	lines=read_lines_from_archive(os.path.join(base,"sim.gpvdm"),file_name)
@@ -43,21 +47,21 @@ def get_vectors(path,dir_name,file_name,dolog=False,div=1.0,fabs=False):
 
 		n=[]
 		for i in range(0,len(ret)):
-			print(ret[i])
+			#print(ret[i])
 			r=float(ret[i])/div
 
 			if fabs==True:
 				r=abs(r)
 
 			if dolog==True:
-				print(r)
+				#print(r)
 				if r!=0.0:
 					r=log10(r)
 				else:
 					r=0.0
 
 			n.append(r)
-		print(n)
+		#print(n)
 
 		s=""
 		for ii in range(0,len(n)):
@@ -116,11 +120,16 @@ def scan_ml_build_token_vector(file_name,token,vector):
 	return s
 
 def scan_ml_build_vector(sim_dir):
+	progress_window=progress_class()
+	progress_window.show()
+	progress_window.start()
 	out=open(os.path.join(sim_dir,"vectors.dat"),'wb')
 
 	dirs=os.listdir(sim_dir)
+	items=len(dirs)
 	for i in range(0,len(dirs)):
 		full_name=os.path.join(sim_dir, dirs[i])
+		print(full_name)
 		if os.path.isdir(full_name)==True:
 			v="#ml_id\n"
 			v=v+dirs[i]+"\n"
@@ -153,6 +162,12 @@ def scan_ml_build_vector(sim_dir):
 
 			out.write(str.encode(v))
 
+			progress_window.set_fraction(float(i)/float(items))
+			progress_window.set_text(full_name)
+
+			process_events()
+
+	progress_window.stop()
 #			lines=read_lines_from_archive(os.path.join(root,"sim.gpvdm"),name)
 #			if lines[0].count("nan")==0 and lines[0].count("inf")==0:
 #				
