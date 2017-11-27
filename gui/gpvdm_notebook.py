@@ -63,6 +63,8 @@ _ = i18n.language.gettext
 from global_objects import global_object_register
 from cal_path import get_sim_path
 
+from tab_view import tab_view
+
 class gpvdm_notebook(QTabWidget):
 	#progress=progress_class()
 	finished_loading=False
@@ -149,11 +151,15 @@ class gpvdm_notebook(QTabWidget):
 
 			self.update_display_function=widget.update
 
+
 			self.terminal=tab_terminal()
 			self.terminal.init()
 			self.addTab(self.terminal,_("Terminal"))
 			self.terminal.run(os.getcwd(),get_exe_command()+" --version "+get_exe_args())
 			global_object_register("terminal",self.terminal)
+
+			widget=tab_view()
+			self.addTab(widget,_("Output"))
 
 			#self.add_info_page()
 

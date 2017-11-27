@@ -60,6 +60,8 @@ from win_lin import desktop_open
 
 from util import str2bool
 
+from plot_gen import plot_gen
+
 COL_PATH = 0
 COL_PIXBUF = 1
 COL_IS_DIRECTORY = 2
@@ -103,7 +105,7 @@ class gpvdm_viewer(QListWidget):
 		
 		self.icons={}
 		self.icons['folder']= QIcon_load("folder")
-		self.icons['.dat'] = self.get_icon("dat")
+		self.icons['dat_file'] = QIcon_load("dat_file")
 		self.icons['text-x-generic'] = QIcon_load("text-x-generic")
 		self.icons['wps-office-xls'] = QIcon_load("wps-office-xls")
 		self.icons['info'] = self.get_icon("info")
@@ -260,7 +262,7 @@ class gpvdm_viewer(QListWidget):
 				gpvdm_file_type=inp_get_token_value(os.path.join(file_name,"mat.inp"), "#gpvdm_file_type")
 				if gpvdm_file_type=="spectra":
 					itm.file_name=fl
-					itm.icon="spectra_icon"
+					itm.icon="spectra"
 
 				elif gpvdm_file_type=="mat":
 					itm.file_name=fl
@@ -292,11 +294,11 @@ class gpvdm_viewer(QListWidget):
 
 					if text==b"#gpvdm":
 						itm.file_name=fl
-						itm.icon="dat"
+						itm.icon="dat_file"
 
 				if (file_name.endswith(".inp")==True) and self.show_inp_files==True:
 					itm.file_name=fl
-					itm.icon="generic"
+					itm.icon="text-x-generic"
 					
 				if (file_name.endswith(".omat")==True):
 					itm.file_name=fl
@@ -356,6 +358,13 @@ class gpvdm_viewer(QListWidget):
 				itm.setIcon(self.icons[self.file_list[i].icon])
 				self.addItem(itm)
 
+	def decode_name(self,text):
+		fname=""
+		for i in range(0,len(self.file_list)):
+			if self.file_list[i].display_name==text:
+				fname=self.file_list[i].file_name
+				return fname
+
 	def on_item_activated(self,item):
 		text=item.text()
 		if text=="..":
@@ -363,17 +372,12 @@ class gpvdm_viewer(QListWidget):
 			self.fill_store()
 			return
 
-		fname=""
-		for i in range(0,len(self.file_list)):
-			if self.file_list[i].display_name==text:
-				fname=self.file_list[i].file_name
-				break
 		
-		full_path=os.path.join(self.path, fname)
+		full_path=os.path.join(self.path,self.decode_name(text))
 
 		if os.path.isfile(full_path)==True:
 			self.file_path=full_path
-			if isfiletype(full_path,"xls")==True or isfiletype(full_path,"xlsx")==True:
+			if isfiletype(full_path,"xls")==True or isfiletype(full_path,"xlsx")==True or isfiletype(full_path,"pdf")==True:
 				desktop_open(full_path)
 				self.reject.emit()
 				return
@@ -381,7 +385,15 @@ class gpvdm_viewer(QListWidget):
 				desktop_open(full_path)
 				self.reject.emit()
 				return
-			self.accept.emit()
+			elif os.path.basename(full_path)=="sim_info.dat":
+				self.sim_info_window=sim_info(full_path)
+				self.sim_info_window.show()
+				self.reject.emit()
+				return
+			elif isfiletype(full_path,"dat")==True:
+				plot_gen([full_path],[],"auto")
+				self.reject.emit()
+				return
 		else:
 			if os.path.isfile(os.path.join(full_path,"mat.inp"))==True:
 				self.file_path=full_path
@@ -393,13 +405,14 @@ class gpvdm_viewer(QListWidget):
 	def on_selection_changed(self):
 		if len(self.selectedItems())>0:
 			item=self.selectedItems()[0]
-		else:
+
+			if type(item)!=None:
+				file_name=self.decode_name(item.text())
+				if file_name==None:
+					return
+				
+				self.file_path=os.path.join(self.path, file_name)
 			return
-
-		if type(item)!=None:
-			file_name=item.text()
-
-			full_path=os.path.join(self.path, file_name)
 
 			if (file_name.endswith(".dat")==True):
 				state=dat_file()

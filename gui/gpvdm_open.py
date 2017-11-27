@@ -53,6 +53,7 @@ from cal_path import get_base_spectra_path
 from inp import inp_get_token_value
 from util import isfiletype
 from win_lin import desktop_open
+from gpvdm_viewer import gpvdm_viewer
 
 COL_PATH = 0
 COL_PIXBUF = 1
@@ -96,6 +97,11 @@ class gpvdm_open(QDialog):
 		self.listwidget.setStyleSheet("margin: 0; padding: 0; ")
 		self.vbox.addWidget(self.top_h_widget)
 		self.vbox.addWidget(self.listwidget)
+		
+		#self.viewer=gpvdm_viewer(path)
+		#self.viewer.set_directory_view(True)
+		#self.vbox.addWidget(self.viewer)
+		
 	
 		self.up.setFixedSize(42,42)
 		self.up.setStyleSheet("margin: 0; padding: 0; border: none;")
