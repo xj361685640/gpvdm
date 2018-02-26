@@ -56,7 +56,7 @@ class tb_item_sim_mode(QWidget):
 		files=inp_lsdir("sim.gpvdm")
 		if files!=False:
 			for i in range(0,len(files)):
-				if files[i].endswith(".inp"):
+				if files[i].endswith(".inp") and files[i].count("/")==0:
 					lines=inp_load_file(files[i])
 					value=inp_search_token_value(lines, "#sim_menu_name")
 					if value!=False:

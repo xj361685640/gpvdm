@@ -53,6 +53,7 @@ from cal_path import get_sim_path
 from QWidgetSavePos import QWidgetSavePos
 from scan_ribbon import scan_ribbon
 from css import css_apply
+from gui_util import error_dlg
 
 class scan_class(QWidgetSavePos):
 
@@ -121,6 +122,9 @@ class scan_class(QWidgetSavePos):
 		if new_sim_name!=None:
 			new_sim_name=self.remove_invalid(new_sim_name)
 			new_dir=os.path.join(self.sim_dir,new_sim_name)
+			if os.path.isdir(new_dir)==True:
+				error_dlg(self,_("This directory already exists."))
+				return
 
 			copy_scan_dir(new_dir,old_dir)
 			self.add_page(new_sim_name)
@@ -136,6 +140,10 @@ class scan_class(QWidgetSavePos):
 	def callback_scan_run(self):
 		tab = self.notebook.currentWidget()
 		tab.scan_run()
+
+	def callback_scan_archive(self):
+		tab = self.notebook.currentWidget()
+		tab.scan_archive()
 
 	def callback_run_single_fit(self):
 		tab = self.notebook.currentWidget()
@@ -290,6 +298,8 @@ class scan_class(QWidgetSavePos):
 		self.ribbon.tb_build.triggered.connect(self.callback_build_scan)
 
 		self.ribbon.tb_rerun.triggered.connect(self.callback_scan_run)
+
+		self.ribbon.tb_zip.triggered.connect(self.callback_scan_archive)
 
 		self.ribbon.tb_run_all.triggered.connect(self.callback_run_all_simulations)
 

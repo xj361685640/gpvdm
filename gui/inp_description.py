@@ -36,7 +36,7 @@ class descriptor():
 inp_files=[]
 inp_files.append(descriptor("device.inp",_("Device")))
 inp_files.append(descriptor("jv.inp",_("JV")))
-inp_files.append(descriptor("jv_simple.inp",_("JV Simple")))
+inp_files.append(descriptor("diode_equ.inp",_("JV Simple")))
 inp_files.append(descriptor("dump.inp",_("Dump")))
 inp_files.append(descriptor("celiv.inp",_("CELIV")))
 inp_files.append(descriptor("math.inp",_("Math")))

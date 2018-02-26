@@ -45,6 +45,8 @@ from QWidgetSavePos import QWidgetSavePos
 
 from dump_select import dump_select
 
+from css import css_apply
+
 articles = []
 mesh_articles = []
 
@@ -83,13 +85,13 @@ class class_config_window(QWidgetSavePos):
 		
 
 		self.notebook = QTabWidget()
-
+		css_apply(self.notebook,"tab_default.css")
 		self.notebook.setMovable(True)
 
 		self.main_vbox.addWidget(self.notebook)
 
-		files=["math.inp","dump.inp","thermal.inp","led.inp","config.inp","server.inp","crypto.inp"]
-		description=[_("Solver configuration"),_("Output files"),_("Thermal"),_("LED"),_("GUI configuration"),_("Server configuration"),_("Cryptography")]
+		files=["math.inp","dump.inp","thermal.inp","led.inp","config.inp","server.inp" ]
+		description=[_("Solver configuration"),_("Output files"),_("Thermal"),_("LED"),_("GUI configuration"),_("Server configuration")]
 
 		for i in range(0,len(files)):
 			file_name=os.path.join(get_sim_path(),files[i])

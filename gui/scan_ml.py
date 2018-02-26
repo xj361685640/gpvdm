@@ -38,12 +38,49 @@ _ = i18n.language.gettext
 
 from progress import progress_class
 from gui_util import process_events
+from server import server_break
+from util_zip import zip_lsdir
+from util_zip import extract_dir_from_archive
 
-def get_vectors(path,dir_name,file_name,dolog=False,div=1.0,fabs=False):
+import zipfile
+
+tindex=[]
+
+def tindex_add(token,value):
+	global tindex
+	for i in range(0,len(tindex)):
+		if tindex[i][0]==token:
+			return
+	tindex.append([token,value])		
+	return
+
+def tindex_dump(fname):
+	global tindex
+
+	f = open(fname, 'w')
+	for i in range(0,len(tindex)):
+		f.write(tindex[i][0]+" "+tindex[i][1]+'\n')
+	f.close()
+
+def get_vectors(path,dir_name,file_name,dolog=False,div=1.0,fabs=False,do_norm=False):
 	base=os.path.join(path,dir_name)
+
+
 	lines=read_lines_from_archive(os.path.join(base,"sim.gpvdm"),file_name)
+
+	if lines==False:
+		print("\n\nbase>>",base,"\n\n")
+		return False
+	
 	if lines[0].count("nan")==0 and lines[0].count("inf")==0:
 		ret=lines[0].split()
+
+		if do_norm==True:
+			mi=1e6
+			for i in range(0,len(ret)):
+				if float(ret[i])<mi:
+					mi=float(ret[i])
+			div=mi
 
 		n=[]
 		for i in range(0,len(ret)):
@@ -69,6 +106,45 @@ def get_vectors(path,dir_name,file_name,dolog=False,div=1.0,fabs=False):
 
 		return s
 
+def is_it_good(token,x):
+	if token=="#mueffe" and x>1e-4:
+		return True
+
+	if token=="#mueffh" and x>1e-4:
+		return True
+
+	if token=="#Etrape" and x<50e-3:
+		return True
+
+	if token=="#Etraph" and x<50e-3:
+		return True
+
+	if token=="#Ntrape" and x<1e24:
+		return True
+
+	if token=="#Ntraph" and x<1e24:
+		return True
+
+	if token=="#srhsigman_e" and x<1e-20:
+		return True
+
+	if token=="#srhsigmap_e" and x<1e-20:
+		return True
+
+	if token=="#srhsigman_h" and x<1e-20:
+		return True
+
+	if token=="#srhsigmap_h" and x<1e-20:
+		return True
+
+	if token=="#Rshunt" and x>1e5:
+		return True
+
+	if token=="#Rcontact" and x<15:
+		return True
+
+	return False
+	
 def get_vectors_binary(path,dir_name):
 	base=os.path.join(path,dir_name)
 	lines=read_lines_from_archive(os.path.join(base,"sim.gpvdm"),"measure_output.dat")
@@ -88,6 +164,42 @@ def get_vectors_binary(path,dir_name):
 			s=s+"0 1\n"
 
 	return s
+
+def scan_ml_both_good(file_name,token0,token1):
+	v0=float(inp_get_token_value(file_name, token0))
+	v1=float(inp_get_token_value(file_name, token1))
+	ret=token0+"_"+token1[1:]+"_good\n"
+	vector="0 1\n"
+	if is_it_good(token0,v0)==True and is_it_good(token1,v1)==True:
+		vector="1 0\n"
+	
+	ret=ret+vector
+	return ret
+
+def scan_ml_one_good(file_name,token0,token1):
+	v0=float(inp_get_token_value(file_name, token0))
+	v1=float(inp_get_token_value(file_name, token1))
+	ret=token0+"_"+token1[1:]+"_one_good\n"
+	vector="0 1\n"
+	if is_it_good(token0,v0)==True and is_it_good(token1,v1)==False:
+		vector="1 0\n"
+		
+	if  is_it_good(token0,v0)==False and is_it_good(token1,v1)==True:
+		vector="1 0\n"
+	
+	ret=ret+vector
+	return ret
+
+def scan_ml_both_bad(file_name,token0,token1):
+	v0=float(inp_get_token_value(file_name, token0))
+	v1=float(inp_get_token_value(file_name, token1))
+	ret=token0+"_"+token1[1:]+"_bad\n"
+	vector="0 1\n"
+	if is_it_good(token0,v0)==False and is_it_good(token1,v1)==False:
+		vector="1 0\n"
+	
+	ret=ret+vector
+	return ret
 
 def scan_ml_build_token_vector(file_name,token,vector):
 	a=float(inp_get_token_value(file_name, token))
@@ -119,55 +231,185 @@ def scan_ml_build_token_vector(file_name,token,vector):
 
 	return s
 
+def scan_ml_build_token_vectors(file_name,token0,token1,vector,min_max=""):
+
+	if token0==token1 and min_max=="min":
+		return ""
+
+	if token0==token1 and min_max=="max":
+		return ""
+
+	if min_max=="":
+		val=float(inp_get_token_value(file_name, token0))
+	elif min_max=="max":
+		v0=float(inp_get_token_value(file_name, token0))
+		v1=float(inp_get_token_value(file_name, token1))
+		val=v0
+		if v1>v0:
+			val=v1
+	elif min_max=="min":
+		v0=float(inp_get_token_value(file_name, token0))
+		v1=float(inp_get_token_value(file_name, token1))
+		val=v0
+		if v1<v0:
+			val=v1
+	elif min_max=="avg":
+		v0=float(inp_get_token_value(file_name, token0))
+		v1=float(inp_get_token_value(file_name, token1))
+		val=(v0+v1)/2.0
+
+	v=[]
+	s=""
+	for i in range(0,len(vector)):
+		full_token=token0+"_"+min_max+"_"+str(i)
+
+		tindex_add(full_token,">"+str(vector[i]))
+		s=s+full_token+"\n"
+		if val>vector[i]:
+			s=s+"0 1\n"
+		else:
+			s=s+"1 0\n"
+
+	return s
+
 def scan_ml_build_vector(sim_dir):
-	progress_window=progress_class()
-	progress_window.show()
-	progress_window.start()
+
+
 	out=open(os.path.join(sim_dir,"vectors.dat"),'wb')
 
-	dirs=os.listdir(sim_dir)
-	items=len(dirs)
-	for i in range(0,len(dirs)):
-		full_name=os.path.join(sim_dir, dirs[i])
-		print(full_name)
-		if os.path.isdir(full_name)==True:
-			v="#ml_id\n"
-			v=v+dirs[i]+"\n"
-			v=v+"#ml_input_jv_dark\n"
-			v=v+get_vectors(full_name,"0.0","measure_jv.dat",dolog=True)+"\n"
-			v=v+"#ml_input_jv_light\n"
-			v=v+get_vectors(full_name,"1.0","measure_jv.dat",div=1e2)+"\n"
-			v=v+"#ml_input_tpc_neg\n"
-			v=v+get_vectors(full_name,"TPC","measure_tpc.dat",fabs=True,dolog=True)+"\n"
-			v=v+"#ml_input_tpc\n"
-			v=v+get_vectors(full_name,"TPC_0","measure_tpc.dat",fabs=True,dolog=True)+"\n"
-			v=v+"#ml_input_tpv\n"
-			v=v+get_vectors(full_name,"TPV","measure_tpv.dat",fabs=True)+"\n"
-			v=v+"#ml_input_celiv\n"
-			v=v+get_vectors(full_name,"CELIV","measure_celiv.dat",fabs=True)+"\n"
+	for archive_name in os.listdir(sim_dir):
+		if archive_name.startswith("archive")==True and archive_name.endswith(".zip")==True:
+			progress_window=progress_class()
+			progress_window.show()
+			progress_window.start()
 
-			v=v+get_vectors_binary(full_name,"1.0")#get_vectors(full_name,"1.0","measure_output.dat")+"\n"
+			archive_path=os.path.join(sim_dir,archive_name)
 
-			a=scan_ml_build_token_vector(os.path.join(full_name,"dos0.inp"),"#Etrape",[40e-3,80e-3,120e-3,140e-3])
-			v=v+a
+			zf = zipfile.ZipFile(archive_path, 'r')
+			dirs=zip_lsdir(archive_path,zf=zf,sub_dir="/")
 
-			a=scan_ml_build_token_vector(os.path.join(full_name,"dos0.inp"),"#Etraph",[40e-3,80e-3,120e-3,140e-3])
-			v=v+a
+			items=len(dirs)
 
-			a=scan_ml_build_token_vector(os.path.join(full_name,"parasitic.inp"),"#Rshunt",[1e3,1e4,1e5,1e6,1e7])
-			v=v+a
+			for i in range(0,len(dirs)):
+				tmp_dir="/dev/shm/gpvdm"
+				if os.path.isdir(tmp_dir)==True:
+					shutil.rmtree(tmp_dir)
 
-			a=scan_ml_build_token_vector(os.path.join(full_name,"dos0.inp"),"#mueffe",[1e-9, 1e-8, 1e-7,1e-6,1e-5,1e-4,1e-3])
-			v=v+a
+				os.mkdir(tmp_dir)
 
-			out.write(str.encode(v))
+				extract_dir_from_archive(tmp_dir,"",dirs[i],zf=zf)
+	
+				full_name=tmp_dir
+				written=False
+				#print(dirs[i])
+				while(1):
+					v="#ml_id\n"
+					v=v+dirs[i]+"\n"
 
-			progress_window.set_fraction(float(i)/float(items))
-			progress_window.set_text(full_name)
+					v=v+"#ml_input_jv_dark\n"
+					ret=get_vectors(full_name,"0.0","measure_jv.dat",dolog=True)
+					if ret==False:
+						print("ml_input_jv_dark")
+						break
+					v=v+ret+"\n"
 
-			process_events()
+					v=v+"#ml_input_jv_light\n"
+					ret=get_vectors(full_name,"1.0","measure_jv.dat",div=1e2)
+					if ret==False:
+						print("ml_input_jv_ligh")
+						break
+					v=v+ret+"\n"
+			
+					v=v+"#ml_input_tpc_neg\n"
+					ret=get_vectors(full_name,"TPC","measure_tpc.dat",fabs=True,dolog=True)
+					if ret==False:
+						break
+					v=v+ret+"\n"
 
-	progress_window.stop()
+					v=v+"#ml_input_tpc\n"
+					ret=get_vectors(full_name,"TPC_0","measure_tpc.dat",fabs=True,dolog=True)
+					if ret==False:
+						break
+					v=v+ret+"\n"
+
+					v=v+"#ml_input_tpc_neg_norm\n"
+					ret=get_vectors(full_name,"TPC","measure_tpc.dat",fabs=True,dolog=True,do_norm=True)
+					if ret==False:
+						break
+					v=v+ret+"\n"
+
+					v=v+"#ml_input_tpc_norm\n"
+					ret=get_vectors(full_name,"TPC_0","measure_tpc.dat",fabs=True,dolog=True,do_norm=True)
+					if ret==False:
+						break
+					v=v+ret+"\n"
+
+					v=v+"#ml_input_tpc_ideal\n"
+					ret=get_vectors(full_name,"TPC_ideal","measure_tpc.dat",fabs=True,dolog=True)
+					if ret==False:
+						break
+					v=v+ret+"\n"
+
+					v=v+"#ml_input_tpc_ideal_norm\n"
+					ret=get_vectors(full_name,"TPC_ideal","measure_tpc.dat",fabs=True,dolog=True,do_norm=True)
+					if ret==False:
+						break
+					v=v+ret+"\n"
+
+					v=v+"#ml_input_tpv\n"
+					ret=get_vectors(full_name,"TPV","measure_tpv.dat",fabs=True)
+					if ret==False:
+						break
+					v=v+ret+"\n"
+
+					v=v+"#ml_input_celiv\n"
+					ret=get_vectors(full_name,"CELIV","measure_celiv.dat",fabs=True)
+					if ret==False:
+						break
+					v=v+ret+"\n"
+
+					v=v+get_vectors_binary(full_name,"1.0")
+					for min_max in ["min","max","avg"]:
+						a=scan_ml_build_token_vectors(os.path.join(full_name,"dos0.inp"),"#Etrape","#Etraph",[40e-3,50e-3,60e-3,70e-3,80e-3,90e-3,100e-3],min_max=min_max)
+						v=v+a
+
+						a=scan_ml_build_token_vectors(os.path.join(full_name,"dos0.inp"),"#mueffe","#mueffh",[1e-9, 1e-8, 1e-7,1e-6,1e-5,1e-4,1e-3],min_max=min_max)
+						v=v+a
+
+						a=scan_ml_build_token_vectors(os.path.join(full_name,"dos0.inp"),"#Ntraph","#Ntrape",[1e20,1e21,1e22,1e23,1e24,1e25,1e26,1e27],min_max=min_max)
+						v=v+a
+
+					a=scan_ml_build_token_vectors(os.path.join(full_name,"parasitic.inp"),"#Rshunt","#Rshunt",[1e2,1e3,1e4,1e5,1e6,1e7],min_max="avg")
+					v=v+a
+
+					a=scan_ml_build_token_vectors(os.path.join(full_name,"parasitic.inp"),"#Rcontact","#Rcontact",[5,10,15,20,25,30,35,40],min_max="avg")
+					v=v+a
+
+					a=scan_ml_build_token_vectors(os.path.join(full_name,"1.0","sim_info.dat"),"#jv_pmax_tau","#jv_pmax_tau",[1e-1,1e-2,1e-3,1e-4,1e-5,1e-6,1e-7],min_max="avg")
+					v=v+a
+
+					a=scan_ml_build_token_vectors(os.path.join(full_name,"1.0","sim_info.dat"),"#jv_pmax_mue","#jv_pmax_mue",[1e-9, 1e-8, 1e-7,1e-6,1e-5,1e-4,1e-3],min_max="avg")
+					v=v+a
+
+
+					out.write(str.encode(v))
+					written=True
+					break
+
+				if written==False:
+					print("Error",dirs[i])
+				progress_window.set_fraction(float(i)/float(len(dirs)))
+				progress_window.set_text(dirs[i])
+
+				#if server_break()==True:
+				#	break
+				process_events()
+				#return
+			progress_window.stop()
+
+	tindex_dump(os.path.join(sim_dir,"index.dat"))
+
+
 #			lines=read_lines_from_archive(os.path.join(root,"sim.gpvdm"),name)
 #			if lines[0].count("nan")==0 and lines[0].count("inf")==0:
 #				

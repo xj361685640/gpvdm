@@ -25,12 +25,12 @@ from cal_path import get_share_path
 from cal_path import get_bin_path
 from inp import inp_load_file
 from inp import inp_update_token_value
+from inp_util import inp_search_token_value
 from util_zip import read_lines_from_archive
 
 from cal_path import get_sim_path
 
 global core
-global mat
 global ver_error
 global subver
 
@@ -48,32 +48,31 @@ def ver_subver():
 
 def version():
 	global core
-	global mat
-	string="core: Version "+core+" materials: Version "+mat
+	global subver
+	string="core: Version "+core+"."+subver
 	return string
 
 def ver():
 	global core
-	return str(core)
+	global subver
+	return str(core)+"."+subver
 
 def ver_load_info():
 	lines=[]
 	global core
-	global mat
 	global ver_error
 	global subver
 	
 	core=""
-	mat=""
 	ver_error=""
-	subver="002"
+
 
 	ver_file_path=os.path.join(get_inp_file_path(),"ver.inp")
 
 	lines=inp_load_file(ver_file_path,archive="base.gpvdm")
 	if lines!=False:
-		core=lines[1]
-		mat=lines[5]
+		core=inp_search_token_value(lines,"#core")
+		subver=inp_search_token_value(lines,"#sub_ver")
 		return True
 	else:
 		ver_error="I can not find the file sim.gpvdm/ver.inp.\n\nI have tried looking in "+ver_file_path+"\n\nThe share path is"+get_share_path()+"\n\nThe bin path is"+get_bin_path()+"\n\nThe current working dir is "+get_sim_path()+"\n\nTry reinstalling a new version of gpvdm and/or report the bug to me at  roderick.mackenzie@nottingham.ac.uk."
@@ -105,11 +104,10 @@ def ver_sync_ver():
 def ver_check_compatibility(file_name):
 	lines=[]
 	core=""
-	mat=""
 
 	lines=read_lines_from_archive(file_name,"ver.inp")
 	if lines!=False:
-		core=lines[1]
+		core=inp_search_token_value(lines,"#core")
 		if core==ver_core():
 			return True
 		else:

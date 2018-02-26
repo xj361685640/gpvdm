@@ -116,6 +116,10 @@ class scan_ribbon(QTabWidget):
 		self.tb_rerun = QAction(QIcon_load("play-green"), wrap_text(_("Rerun"),2), self)
 		self.box_tb0.addAction(self.tb_rerun)
 
+		self.tb_zip = QAction(QIcon_load("package-x-generic"), wrap_text(_("Archive simulations"),2), self)
+		self.box_tb0.addAction(self.tb_zip)
+
+
 		self.tb_clean = QAction(QIcon_load("clean"), wrap_text(_("Clean simulation"),4), self)
 		self.box_tb1.addAction(self.tb_clean )
 
@@ -141,7 +145,7 @@ class scan_ribbon(QTabWidget):
 		toolbar.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
 		toolbar.setIconSize(QSize(42, 42))
 
-		self.menu_plot_fits = QAction(QIcon_load("forward"), wrap_text(_("Plot fits"),5), self)
+		self.menu_plot_fits = QAction(QIcon_load("scan2"), wrap_text(_("Plot fits"),5), self)
 		toolbar.addAction(self.menu_plot_fits)
 
 		self.sim_no_gen = QAction(QIcon_load("forward"), wrap_text(_("Run simulation no generation"),5), self)
@@ -150,7 +154,7 @@ class scan_ribbon(QTabWidget):
 		self.single_fit = QAction(QIcon_load("forward"), wrap_text(_("Run single fit"),5), self)
 		toolbar.addAction(self.single_fit)
 
-		self.clean_unconverged = QAction(QIcon_load("forward"), wrap_text(_("Clean unconverged simulation"),5), self)
+		self.clean_unconverged = QAction(QIcon_load("clean"), wrap_text(_("Clean unconverged simulation"),5), self)
 		toolbar.addAction(self.clean_unconverged)
 
 		self.clean_sim_output = QAction(QIcon_load("forward"), wrap_text(_("Clean simulation output"),5), self)
@@ -162,7 +166,7 @@ class scan_ribbon(QTabWidget):
 		self.change_dir = QAction(QIcon_load("forward"), wrap_text(_("Change dir"),5), self)
 		toolbar.addAction(self.change_dir)
 
-		self.report = QAction(QIcon_load("forward"), wrap_text(_("Report"),5), self)
+		self.report = QAction(QIcon_load("office-calendar"), wrap_text(_("Report"),5), self)
 		toolbar.addAction(self.report)
 
 		return toolbar

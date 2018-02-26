@@ -62,6 +62,12 @@ from util import str2bool
 
 from plot_gen import plot_gen
 
+from util_zip import zip_lsdir
+from util_zip import read_lines_from_archive
+
+import webbrowser
+from info import sim_info
+
 COL_PATH = 0
 COL_PIXBUF = 1
 COL_IS_DIRECTORY = 2
@@ -122,6 +128,10 @@ class gpvdm_viewer(QListWidget):
 		self.icons['psi'] = QIcon_load("psi")
 		self.icons['bi-layer'] = QIcon_load("bi-layer")
 		self.icons['go-previous'] = QIcon_load("go-previous")
+		self.icons['internet-web-browser'] = QIcon_load("internet-web-browser")
+		self.icons['tandem'] = QIcon_load("tandem")
+		self.icons['tof'] = QIcon_load("tof")
+
 
 		self.setIconSize(QSize(64,64))
 
@@ -327,7 +337,20 @@ class gpvdm_viewer(QListWidget):
 						itm.icon=icon_name
 						itm.hidden=str2bool(inp_get_token_value_from_list(lines, "#info_hidden"))
 
-
+						a=zip_lsdir(file_name,sub_dir="fs/") #,zf=None,sub_dir=None
+						if len(a)!=0:
+							for fname in a:
+								lines=ret=read_lines_from_archive(file_name,"fs/"+fname)
+								if lines!=False:
+									web_link=inp_get_token_value_from_list(lines, "#web_link")
+									name=inp_get_token_value_from_list(lines, "#name")
+									sub_itm=file_store()
+									sub_itm.icon="internet-web-browser"
+									sub_itm.display_name=name
+									sub_itm.file_name=web_link
+									sub_itm.hidden=False
+									self.file_list.append(sub_itm)
+									
 			if itm.display_name=="":
 				itm.display_name=itm.file_name
 
@@ -372,8 +395,12 @@ class gpvdm_viewer(QListWidget):
 			self.fill_store()
 			return
 
-		
-		full_path=os.path.join(self.path,self.decode_name(text))
+		decode=self.decode_name(text)
+		if self.decode_name(text).startswith("http"):
+			webbrowser.open(decode)
+			return
+
+		full_path=os.path.join(self.path,decode)
 
 		if os.path.isfile(full_path)==True:
 			self.file_path=full_path
@@ -393,6 +420,9 @@ class gpvdm_viewer(QListWidget):
 			elif isfiletype(full_path,"dat")==True:
 				plot_gen([full_path],[],"auto")
 				self.reject.emit()
+				return
+			else:
+				self.accept.emit()
 				return
 		else:
 			if os.path.isfile(os.path.join(full_path,"mat.inp"))==True:

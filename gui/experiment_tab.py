@@ -38,6 +38,8 @@ from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTa
 from PyQt5.QtGui import QPainter,QIcon
 from cal_path import get_sim_path
 
+from css import css_apply
+
 class experiment_tab(QTabWidget):
 
 	def update(self):
@@ -48,7 +50,7 @@ class experiment_tab(QTabWidget):
 
 	def __init__(self,index):
 		QTabWidget.__init__(self)
-
+		css_apply(self ,"tab_default.css")
 		self.index=index
 		lines=[]
 		self.file_name=os.path.join(get_sim_path(),"pulse"+str(self.index)+".inp")

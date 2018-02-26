@@ -19,9 +19,16 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 import sys
+import os
+
 enabled=False
 def gui_test():
 	global enabled
+	for arg in sys.argv:
+		if arg.startswith("--") and arg!="--load":
+			enabled=False
+			return
+
 	try:
 		from PyQt5.QtWidgets import QWidget
 		enabled=True
@@ -29,8 +36,10 @@ def gui_test():
 		enabled=False
 		pass
 	
-	if len(sys.argv)>1:
-		enabled=False
+	
+def set_gui(value):
+	global enabled
+	enabled=value
 	
 def gui_get():
 	global enabled

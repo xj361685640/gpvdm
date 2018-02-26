@@ -49,6 +49,8 @@ from global_objects import global_object_register
 from measure import measure
 from cost import cost
 
+from jvexperiment import jvexperiment
+
 class ribbon_simulations(QToolBar):
 	def __init__(self):
 		QToolBar.__init__(self)
@@ -56,6 +58,7 @@ class ribbon_simulations(QToolBar):
 		self.experiment_window=None
 		self.fxexperiment_window=None
 		self.jvexperiment_window=None
+		self.sunsvocexperiment_window=None
 		self.optics_window=False
 		self.qe_window=None
 		self.lasers_window=None
@@ -80,6 +83,9 @@ class ribbon_simulations(QToolBar):
 		self.jv.triggered.connect(self.callback_jv_window)
 		self.addAction(self.jv)
 
+		self.sunsvoc = QAction(QIcon_load("sunsvoc"), _("Suns Voc\nsimulation editor"), self)
+		self.sunsvoc.triggered.connect(self.callback_sunsvoc_window)
+		self.addAction(self.sunsvoc)
 
 		self.qe = QAction(QIcon_load("qe"), _("Quantum\nefficiency"), self)
 		self.qe.triggered.connect(self.callback_qe_window)
@@ -198,13 +204,24 @@ class ribbon_simulations(QToolBar):
 	def callback_jv_window(self):
 
 		if self.jvexperiment_window==None:
-			self.jvexperiment_window=jv()
+			self.jvexperiment_window=jvexperiment()
 
-		help_window().help_set_help(["jv.png",_("<big><b>JV simulation editor</b></big><br> Use this window to select the step size and parameters of the JV simulations.")])
+		help_window().help_set_help(["jv.png",_("<big><b>Suns voc simulation editor</b></big><br> Use this window to select the step size and parameters of the JV simulations.")])
 		if self.jvexperiment_window.isVisible()==True:
 			self.jvexperiment_window.hide()
 		else:
 			self.jvexperiment_window.show()
+
+	def callback_sunsvoc_window(self):
+
+		if self.sunsvocexperiment_window==None:
+			self.sunsvocexperiment_window=jv()
+
+		help_window().help_set_help(["jv.png",_("<big><b>JV simulation editor</b></big><br> Use this window to configure the Suns Voc simulations.")])
+		if self.sunsvocexperiment_window.isVisible()==True:
+			self.sunsvocexperiment_window.hide()
+		else:
+			self.sunsvocexperiment_window.show()
 			
 	def callback_optics_sim(self, widget, data=None):
 		help_window().help_set_help(["optics.png",_("<big><b>The optical simulation window</b></big><br>Use this window to perform optical simulations.  Click on the play button to run a simulation."),"media-playback-start",_("Click on the play button to run an optical simulation.  The results will be displayed in the tabs to the right.")])

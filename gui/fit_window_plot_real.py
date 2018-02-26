@@ -66,7 +66,6 @@ class fit_window_plot_real(QWidget):
 		y=[]
 		z=[]
 		if read_xyz_data(x,y,z,os.path.join(get_sim_path(),"fit_data"+str(self.index)+".inp"))==True:
-
 			self.fig.clf()
 			self.fig.subplots_adjust(bottom=0.2)
 			self.fig.subplots_adjust(left=0.1)

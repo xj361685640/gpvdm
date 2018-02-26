@@ -39,11 +39,54 @@ from server_io import server_find_simulations_to_run
 
 from progress import progress_class
 from gui_util import process_events
+from server import server_break
+from numpy import std
+from gui_util import error_dlg
 
 import i18n
 _ = i18n.language.gettext
 
 from yes_no_cancel_dlg import yes_no_cancel_dlg
+
+import zipfile
+from util_zip import archive_add_dir
+
+def scan_next_archive(sim_dir):
+	i=0
+	while(1):
+		name="archive"+str(i)+".zip"
+		full_name=os.path.join(sim_dir,name)
+		if os.path.isfile(full_name)==False:
+			return name
+		i=i+1
+
+def scan_archive(sim_dir):
+	progress_window=progress_class()
+	progress_window.show()
+	progress_window.start()
+	archive_path=os.path.join(sim_dir,"build_archive.zip")
+	if os.path.isfile(archive_path)==True:
+		os.remove(archive_path)
+	zf = zipfile.ZipFile(archive_path, 'a',zipfile.ZIP_DEFLATED)
+
+	l=os.listdir(sim_dir)
+	for i in range(0,len(l)):
+		dir_to_zip=os.path.join(sim_dir,l[i])
+		if os.path.isdir(dir_to_zip)==True:
+			archive_add_dir(archive_path,dir_to_zip,sim_dir,zf=zf,remove_src_dir=True)
+
+		progress_window.set_fraction(float(i)/float(len(l)))
+		progress_window.set_text(_("Adding: ")+l[i])
+
+		#if server_break()==True:
+		#	break
+		process_events()
+		
+	zf.close()
+
+	os.rename(archive_path, os.path.join(sim_dir,scan_next_archive(sim_dir)))
+
+	progress_window.stop()
 
 def scan_build_all_nested(sim_dir,parent_window=None):
 	commands=scan_build_nested_simulation(sim_dir,os.path.join(os.getcwd(),"sub_sim"))
@@ -57,6 +100,7 @@ def build_scan(scan_path,base_path,parent_window=None):
 	flat_simulation_list=[]
 	program_list=tree_load_program(scan_path)
 	path=os.getcwd()
+
 	if tree_gen(flat_simulation_list,program_list,base_path,scan_path)==False:
 		error_dlg(self,_("Problem generating tree."))
 		return
@@ -65,9 +109,23 @@ def build_scan(scan_path,base_path,parent_window=None):
 
 	tree_save_flat_list(scan_path,flat_simulation_list)
 		
-def scan_delete_files(dirs_to_del):
+def scan_delete_files(dirs_to_del,parent_window=None):
+	if parent_window!=None:
+		progress_window=progress_class()
+		progress_window.show()
+		progress_window.start()
+
+		process_events()
+	
 	for i in range(0, len(dirs_to_del)):
 		gpvdm_delete_file(dirs_to_del[i])
+		if parent_window!=None:
+			progress_window.set_fraction(float(i)/float(len(dirs_to_del)))
+			progress_window.set_text("Deleting"+dirs_to_del[i])
+			process_events()
+
+	if parent_window!=None:
+		progress_window.stop()
 
 def scan_list_simulations(dir_to_search):
 	found_dirs=[]
@@ -79,6 +137,11 @@ def scan_list_simulations(dir_to_search):
 	return found_dirs
 
 def scan_plot_fits(dir_to_search):
+	files=os.listdir(dir_to_search)
+	for i in range(0,len(files)):
+		if files[i].endswith(".jpg"):
+			os.remove(os.path.join(dir_to_search,files[i]))
+			#print("remove",os.path.join(dir_to_search,files[i]))
 
 	sim_dirs=tree_load_flat_list(dir_to_search)
 	
@@ -115,7 +178,7 @@ def scan_list_unconverged_simulations(dir_to_search):
 
 	return found_dirs
 
-def scan_ask_to_delete(parent,dirs_to_del):
+def scan_ask_to_delete(parent,dirs_to_del,parent_window=None):
 	if (len(dirs_to_del)!=0):
 
 
@@ -133,7 +196,7 @@ def scan_ask_to_delete(parent,dirs_to_del):
 		response = yes_no_cancel_dlg(parent,text)
 
 		if response == "yes":
-			scan_delete_files(dirs_to_del)
+			scan_delete_files(dirs_to_del,parent_window)
 			return "yes"
 		elif response == "no":
 			return "no"
@@ -155,6 +218,12 @@ def scan_gen_report(path):
 	tokens.append(report_token("dos0.inp","#srhsigmap_e"))
 	tokens.append(report_token("dos0.inp","#srhsigman_h"))
 	tokens.append(report_token("dos0.inp","#srhsigmap_h"))
+	tokens.append(report_token("sim/thick_light/sim_info.dat","#jv_pmax_tau"))
+	tokens.append(report_token("sim/thick_light/sim_info.dat","#jv_pmax_mue"))
+	tokens.append(report_token("sim/thick_light/sim_info.dat","#jv_pmax_muh"))
+	tokens.append(report_token("jv1.inp","#jv_Rcontact"))
+	tokens.append(report_token("jv1.inp","#jv_Rshunt"))
+
 
 	simulation_dirs=tree_load_flat_list(path)
 	for i in range(0,len(simulation_dirs)):
@@ -162,10 +231,13 @@ def scan_gen_report(path):
 			value=inp_get_token_value(os.path.join(simulation_dirs[i],tokens[ii].file_name), tokens[ii].token)
 			#print(os.path.join(simulation_dirs[i],tokens[ii].file_name), tokens[ii].token,value)
 			if value!=None:
-				tokens[ii].values.append(value)
+				tokens[ii].values.append(float(value))
 
-	#for ii in range(0,len(tokens)):
-	#	print(tokens[ii].values)
+	for ii in range(0,len(tokens)):
+		print(tokens[ii].token,tokens[ii].values,sum(tokens[ii].values)/len(tokens[ii].values),std(tokens[ii].values))
+
+	for ii in range(0,len(tokens)):
+		print(tokens[ii].token,sum(tokens[ii].values)/len(tokens[ii].values),std(tokens[ii].values))
 
 #maybe delete
 def scan_nested_simulation(root_simulation,nest_simulation):
@@ -317,7 +389,7 @@ def scan_clean_dir(dir_to_clean,parent_window=None):
 		if os.path.isdir(full_path)==True:
 			dirs_to_del.append(full_path)
 
-	scan_ask_to_delete(parent_window,dirs_to_del)
+	scan_ask_to_delete(parent_window,dirs_to_del,parent_window=parent_window)
 
 def scan_clean_unconverged(parent,dir_to_clean):
 		dirs_to_del=[]

@@ -116,14 +116,16 @@ lib.append(my_data("","#status","type",_("Publish material data?"),"e",1.0,"QCom
 lib.append(my_data("","#changelog","au",_("Change log"),"e",1.0,"QChangeLog"))
 
 #jv.inp
-lib.append(my_data("jv.inp","#jv_step_mul","0-2.0",_("JV voltage step multiplyer"),"e",1.0,"QLineEdit"))
-lib.append(my_data("jv.inp","#jv_max_j","A m^{-2}",_("Maximum current density"),"e",1.0,"QLineEdit"))
-lib.append(my_data("jv.inp","#jv_light_efficiency","au",_("JV curve photon generation efficiency"),"e",1.0,"QLineEdit"))
-lib.append(my_data("jv.inp","#jv_pmax_n","m^{-3}",_("Average carrier density at P_{max}"),"e",1.0,"QLineEdit"))
-lib.append(my_data("jv.inp","#jv_pmax_tau","m^{-1}",_("Recombination time constant"),"e",1.0,"QLineEdit"))
-lib.append(my_data("jv.inp","#Vstart","V",_("Start voltage"),"e",1.0,"QLineEdit"))
-lib.append(my_data("jv.inp","#Vstop","V",_("Stop voltage"),"e",1.0,"QLineEdit"))
-lib.append(my_data("jv.inp","#Vstep","V",_("Voltage step"),"e",1.0,"QLineEdit"))
+lib.append(my_data("","#jv_step_mul","0-2.0",_("JV voltage step multiplyer"),"e",1.0,"QLineEdit"))
+lib.append(my_data("","#jv_max_j","A m^{-2}",_("Maximum current density"),"e",1.0,"QLineEdit"))
+lib.append(my_data("","#jv_light_efficiency","au",_("JV curve photon generation efficiency"),"e",1.0,"QLineEdit"))
+lib.append(my_data("","#jv_pmax_n","m^{-3}",_("Average carrier density at P_{max}"),"e",1.0,"QLineEdit"))
+lib.append(my_data("","#jv_pmax_tau","m^{-1}",_("Recombination time constant"),"e",1.0,"QLineEdit"))
+lib.append(my_data("","#Vstart","V",_("Start voltage"),"e",1.0,"QLineEdit"))
+lib.append(my_data("","#Vstop","V",_("Stop voltage"),"e",1.0,"QLineEdit"))
+lib.append(my_data("","#Vstep","V",_("Voltage step"),"e",1.0,"QLineEdit"))
+lib.append(my_data("","#jv_Rcontact","V",_("Contact resistance"),"e",1.0,"QLineEdit"))
+lib.append(my_data("","#jv_Rshunt","V",_("Shunt resistance"),"e",1.0,"QLineEdit"))
 
 #sim_info.dat (jv plugin)
 lib.append(my_data("","#voc","V",_("V_{oc}"),"e",1.0,"QLineEdit"))
@@ -180,6 +182,9 @@ lib.append(my_data("","#path_to_src","au","Path to source code","e",1.0,"QLineEd
 lib.append(my_data("","#path_to_libs","au","Path to compiled libs for cluster","e",1.0,"QLineEdit"))
 lib.append(my_data("","#make_command","au","Make command","e",1.0,"QLineEdit"))
 lib.append(my_data("","#exe_name","au","exe name","e",1.0,"QLineEdit"))
+
+#cluster.inp
+lib.append(my_data("","#cluster_user_name","au","User name","e",1.0,"QLineEdit"))
 
 #math.inp
 lib.append(my_data("math.inp","#maxelectricalitt_first","au",_("Max Electrical itterations (first step)"),"e",1.0,"QLineEdit"))
@@ -263,6 +268,8 @@ lib.append(my_data("dump.inp","#dump_energy_slice_switch",_("True/False"),_("Wri
 lib.append(my_data("dump.inp","#dump_energy_slice_pos","au",_("Position energetic distribution to dump"),"e",1.0,"QLineEdit"))
 lib.append(my_data("dump.inp","#dump_first_guess",_("True/False"),_("Write first guess to equations"),"e",1.0,"gtkswitch"))
 lib.append(my_data("dump.inp","#dump_log_level","au",_("Log verbocity"),"s",1.0,"QComboBoxLang",defaults=[[("none"),_("None")],["screen",_("Screen")],["disk",_("Disk")],["screen_and_disk",_("Screen and disk")]]))
+lib.append(my_data("dump.inp","#dump_log_level","au",_("Log verbocity"),"s",1.0,"QComboBoxLang",defaults=[[("none"),_("None")],["screen",_("Screen")],["disk",_("Disk")],["screen_and_disk",_("Screen and disk")]]))
+lib.append(my_data("dump.inp","#dump_remove_dos_cache",_("True/False"),_("Clean up DoS cache files"),"e",1.0,"gtkswitch"))
 
 
 #led.inp

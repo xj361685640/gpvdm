@@ -47,6 +47,13 @@ from about import about_dlg
 
 from ribbon_cluster import ribbon_cluster
 from css import css_apply
+
+from status_icon import status_icon_stop
+from global_objects import global_object_get
+from server import server_get
+
+from connect_to_cluster import connect_to_cluster
+
 class ribbon(QTabWidget):
 	def goto_page(self,page):
 		self.blockSignals(True)
@@ -95,14 +102,31 @@ class ribbon(QTabWidget):
 
 	def __init__(self):
 		QTabWidget.__init__(self)
-		self.setMaximumHeight(120)
+		self.cluster_tab=None
+		self.setMaximumHeight(140)
+
 		#self.setStyleSheet("QWidget {	background-color:cyan; }")
+
+		self.myserver=server_get()
+
+		self.holder=QWidget()
+		self.hbox=QHBoxLayout()
+		self.holder.setLayout(self.hbox)
+		self.toolbar=QToolBar()
+		self.toolbar.setIconSize(QSize(32, 32))
 
 		self.about = QToolButton(self)
 		self.about.setText(_("About"))
 		self.about.pressed.connect(self.callback_about_dialog)
 
-		self.setCornerWidget(self.about)
+		self.cluster_button = QAction(QIcon_load("not_connected"), _("Connect to cluster"), self)
+		self.cluster_button.triggered.connect(self.callback_cluster_connect)
+		self.toolbar.addAction(self.cluster_button)
+		
+		self.hbox.addWidget(self.toolbar)
+		self.hbox.addWidget(self.about)
+
+		self.setCornerWidget(self.holder)
 
 		w=self.file()
 		self.addTab(w,_("File"))
@@ -132,4 +156,20 @@ class ribbon(QTabWidget):
 		#self.setStyleSheet("QWidget {	background-color:cyan; }") 
 		css_apply(self,"style.css")
 			
+
+	def callback_cluster_connect(self):
+		dialog=connect_to_cluster()
+		if dialog.exec_():
+			self.cluster_tab=global_object_get("cluster_tab")
+			global_object_get("notebook_goto_page")(_("Terminal"))
+			if self.myserver.connect()==False:
+				error_dlg(self,_("Can not connect to cluster."))
+
+			self.tb_cluster.update()
+			if self.myserver.cluster==True:
+				self.cluster_button.setIcon(QIcon_load("connected"))
+				status_icon_stop(True)
+			else:
+				status_icon_stop(False)
+				self.cluster_button.setIcon(QIcon_load("not_connected"))
 

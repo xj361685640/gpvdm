@@ -42,7 +42,7 @@ from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTa
 from PyQt5.QtGui import QPainter,QIcon
 
 #window
-from experiment_tab import experiment_tab
+from jvexperiment_tab import jvexperiment_tab
 from QHTabBar import QHTabBar
 from gui_util import yes_no_dlg
 from PyQt5.QtCore import pyqtSignal
@@ -51,14 +51,12 @@ from QWidgetSavePos import QWidgetSavePos
 from cal_path import get_sim_path
 
 from inp import inp_get_token_value
+
 from experiment_util import experiment_new_filename
 
 from css import css_apply
 
-from progress import progress_class
-from gui_util import process_events
-
-class experiment(QWidgetSavePos):
+class jvexperiment(QWidgetSavePos):
 
 	changed = pyqtSignal()
 	
@@ -73,16 +71,12 @@ class experiment(QWidgetSavePos):
 		new_sim_name=dlg_get_text( _("New experiment name")+":", _("experiment ")+str(self.notebook.count()+1),"document-new.png")
 
 		if new_sim_name.ret!=None:
-			index=experiment_new_filename("pulse")
-			inp_copy_file(os.path.join(get_sim_path(),"pulse"+str(index)+".inp"),os.path.join(get_sim_path(),"pulse0.inp"))
-			inp_copy_file(os.path.join(get_sim_path(),"time_mesh_config"+str(index)+".inp"),os.path.join(get_sim_path(),"time_mesh_config0.inp"))
-			inp_update_token_value(os.path.join(get_sim_path(),"pulse"+str(index)+".inp"), "#sim_menu_name", new_sim_name.ret+"@pulse")
+			index=experiment_new_filename("jv")
+			inp_copy_file(os.path.join(get_sim_path(),"jv"+str(index)+".inp"),os.path.join(get_sim_path(),"jv0.inp"))
+			inp_update_token_value(os.path.join(get_sim_path(),"jv"+str(index)+".inp"), "#sim_menu_name", new_sim_name.ret+"@jv")
 			self.add_page(index)
 			self.changed.emit()
 
-	def callback_save(self):
-		tab = self.notebook.currentWidget()
-		tab.image_save()
 
 	def callback_copy_page(self):
 		tab = self.notebook.currentWidget()
@@ -92,15 +86,12 @@ class experiment(QWidgetSavePos):
 		new_sim_name=new_sim_name.ret
 		if new_sim_name!=None:
 			new_sim_name=new_sim_name+"@"+tab.tab_name.split("@")[1]
-			index=experiment_new_filename("pulse")
-			if inp_copy_file(os.path.join(get_sim_path(),"pulse"+str(index)+".inp"),os.path.join(get_sim_path(),"pulse"+str(old_index)+".inp"))==False:
-				print(_("Error copying file")+"pulse"+str(old_index)+".inp")
-				return
-			if inp_copy_file(os.path.join(get_sim_path(),"time_mesh_config"+str(index)+".inp"),os.path.join(get_sim_path(),"time_mesh_config"+str(old_index)+".inp"))==False:
-				print(_("Error copying file")+"pulse"+str(old_index)+".inp")
+			index=experiment_new_filename("jv")
+			if inp_copy_file(os.path.join(get_sim_path(),"jv"+str(index)+".inp"),os.path.join(get_sim_path(),"jv"+str(old_index)+".inp"))==False:
+				print(_("Error copying file")+"jv"+str(old_index)+".inp")
 				return
 
-			inp_update_token_value(os.path.join(get_sim_path(),"pulse"+str(index)+".inp"), "#sim_menu_name", new_sim_name)
+			inp_update_token_value(os.path.join(get_sim_path(),"jv"+str(index)+".inp"), "#sim_menu_name", new_sim_name)
 			self.add_page(index)
 			self.changed.emit()
 
@@ -115,9 +106,6 @@ class experiment(QWidgetSavePos):
 		new_sim_name=new_sim_name.ret
 
 		if new_sim_name!=None:
-			#new_sim_name=self.remove_invalid(new_sim_name)
-			#new_dir=os.path.join(self.sim_dir,new_sim_name)
-			#shutil.move(old_dir, new_dir)
 			tab.rename(new_sim_name)
 			index=self.notebook.currentIndex() 
 			self.notebook.setTabText(index, new_sim_name)
@@ -132,24 +120,17 @@ class experiment(QWidgetSavePos):
 
 
 		if response == True:
-			inp_remove_file(os.path.join(get_sim_path(),"pulse"+str(tab.index)+".inp"))
-			inp_remove_file(os.path.join(get_sim_path(),"time_mesh_config"+str(tab.index)+".inp"))
+			inp_remove_file(os.path.join(get_sim_path(),"jv"+str(tab.index)+".inp"))
 			index=self.notebook.currentIndex() 
 			self.notebook.removeTab(index)
 			self.changed.emit()
 
 	def load_tabs(self):
 
-		progress_window=progress_class()
-		progress_window.show()
-		progress_window.start()
-
-		process_events()
-
 		file_list=zip_lsdir(os.path.join(get_sim_path(),"sim.gpvdm"))
 		files=[]
 		for i in range(0,len(file_list)):
-			if file_list[i].startswith("pulse") and file_list[i].endswith(".inp"):
+			if file_list[i].startswith("jv") and file_list[i].endswith(".inp") and file_list[i] != "jv_simple.inp":
 				name=inp_get_token_value(file_list[i], "#sim_menu_name")
 				files.append([name,file_list[i]])
 
@@ -160,17 +141,12 @@ class experiment(QWidgetSavePos):
 			if value!=-1:
 				self.add_page(value)
 
-			progress_window.set_fraction(float(i)/float(len(files)))
-			progress_window.set_text(_("Loading")+" "+files[i][0])
-			process_events()
-
-		progress_window.stop()
 
 	def clear_pages(self):
 		self.notebook.clear()
 
 	def add_page(self,index):
-		tab=experiment_tab(index)
+		tab=jvexperiment_tab(index)
 		self.notebook.addTab(tab,tab.tab_name.split("@")[0])
 
 	def switch_page(self,page, page_num, user_param1):
@@ -179,12 +155,13 @@ class experiment(QWidgetSavePos):
 		self.status_bar.push(self.context_id, tab.tab_name)
 
 	def __init__(self):
-		QWidgetSavePos.__init__(self,"experiment")
+		QWidgetSavePos.__init__(self,"jvexperiment")
+
 		self.main_vbox = QVBoxLayout()
 
 
 		self.setMinimumSize(1200, 700)
-		self.setWindowTitle(_("Time domain experiment window")+" (https://www.gpvdm.com)") 
+		self.setWindowTitle(_("JV experiment window")+" (https://www.gpvdm.com)") 
 		self.setWindowIcon(QIcon_load("icon"))
 
 		toolbar=QToolBar()
@@ -207,10 +184,6 @@ class experiment(QWidgetSavePos):
 		self.clone.triggered.connect(self.callback_rename_page)
 		toolbar.addAction(self.clone)
 
-		self.tb_save = QAction(QIcon_load(("document-save")), wrap_text(_("Save image"),3), self)
-		self.tb_save.triggered.connect(self.callback_save)
-		toolbar.addAction(self.tb_save)
-
 		spacer = QWidget()
 		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 		toolbar.addWidget(spacer)
@@ -225,8 +198,7 @@ class experiment(QWidgetSavePos):
 
 
 		self.notebook = QTabWidget()
-		css_apply(self.notebook ,"style_h.css")
-
+		css_apply(self.notebook,"style_h.css")
 		self.notebook.setTabBar(QHTabBar())
 		self.notebook.setTabPosition(QTabWidget.West)
 		self.notebook.setMovable(True)

@@ -32,20 +32,27 @@ from psutil import cpu_percent
 from psutil import cpu_times
 from psutil import disk_io_counters
 import random
+from server import server_get
+
+class store():
+	load=0.0
+	wait=0.0
+	cluster=0.0
+	color=[0,0,0]
 
 class cpu_usage(QWidget):
     
 	def __init__(self):
 		super().__init__()
+		self.server=server_get()
 		self.load=[]
-		self.wait=[]
+
 		self.wait_last=0.0
 		self.setMinimumSize(40, 40)
-		self.color=[]
+
 		for i in range(0,1000):
-			self.load.append(0)
-			self.wait.append(0)
-			self.color.append([0,0,0])
+			s=store()
+			self.load.append(s)
 
 		self.delta=0    
 		self.start()
@@ -61,14 +68,13 @@ class cpu_usage(QWidget):
 	def update(self):
 		a=0
 		tot=0
-		self.load.append(cpu_percent())
-		for i in range(len(self.load)-1,len(self.load)):
-			a=a+self.load[i]
-			tot=tot+1.0
-		a=a/tot
-		self.load[len(self.load)-1]=a
-		self.load.pop(0)
-
+		s=store()
+		s.load=cpu_percent()
+		self.load.append(s)
+		#for i in range(len(self.load)-1,len(self.load)):
+		#	a=a+self.load[i]
+		#	tot=tot+1.0
+		#a=a/tot
 		try:		#user reported bug, This is a problem with the underlying function.
 			w_temp=disk_io_counters()[3]/1000
 		except:
@@ -76,13 +82,13 @@ class cpu_usage(QWidget):
 
 		w_delta=w_temp-self.wait_last
 		self.wait_last=w_temp
-
-		self.wait.append(int(w_delta))
-		#print(w_delta)
-		self.wait.pop(0)
 		
-		self.color.append([255,0,0])
-		self.color.pop(0)
+		
+		s.wait=int(w_delta)
+		s.color=[255,0,0]
+		s.cluster=self.server.get_nodes_load()
+		self.load[len(self.load)-1]=s
+		self.load.pop(0)
 
 
 		self.repaint()
@@ -103,39 +109,27 @@ class cpu_usage(QWidget):
 		qp.setPen(QColor(0,0,0))
 		qp.drawRect(0, 0, w, h)
 		
-		
-#		dx=self.width()/len(self.load)
-
-#		for i in range(0,len(self.load)):
-#			qp.setBrush(QColor(self.color[i][0],self.color[i][1],self.color[i][2]))
-#			qp.setPen(QColor(self.color[i][0],self.color[i][1],self.color[i][2]))
-		
-#			dy=self.load[i]*h/100.0
-#			qp.drawRect(dx*i, h, dx, -dy)
 
 		dy=h/len(self.load)
 
 		for i in range(0,len(self.load)):
+			qp.setBrush(QColor(0,100,0))
+			qp.setPen(QColor(0,100,0))
+
+			dx=self.load[i].cluster*w/100.0
+			qp.drawRect(w, h-dy*i, -dx, dy)
+
 			qp.setBrush(QColor(0,0,255))
 			qp.setPen(QColor(0,0,255))
 
-			dx=self.wait[i]*w/100.0
+			dx=self.load[i].wait*w/100.0
 			qp.drawRect(w, h-dy*i, -dx, dy)
-##########
 			
 			
-			qp.setBrush(QColor(self.color[i][0],self.color[i][1],self.color[i][2]))
-			qp.setPen(QColor(self.color[i][0],self.color[i][1],self.color[i][2]))
+			qp.setBrush(QColor(self.load[i].color[0],self.load[i].color[1],self.load[i].color[2]))
+			qp.setPen(QColor(self.load[i].color[0],self.load[i].color[1],self.load[i].color[2]))
 		
-			dx=self.load[i]*w/100.0
+			dx=self.load[i].load*w/100.0
 			qp.drawRect(w, h-dy*i, -dx, dy)
 
-
-
-			
-		#for i in range(0,len(self.wait)):
-		#	dy=self.wait[i]*h/1000.0
-		#	qp.drawRect(dx*i, h, dx, -dy)
-
-        
 

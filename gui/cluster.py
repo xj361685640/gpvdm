@@ -56,12 +56,15 @@ from cal_path import get_src_path
 from progress import progress_class
 
 from gui_enable import gui_get
+from gui_util import process_events
 
 if gui_get()==True:
 	from PyQt5.QtCore import pyqtSignal
 
 from cal_path import get_sim_path
 from cal_path import get_exe_name
+
+from job import job
 
 def strip_slash(tx_name):
 	start=0
@@ -74,9 +77,13 @@ def strip_slash(tx_name):
 	return tx_name[start:]
 
 class node:
+	name=""
 	ip=""
-	load=""
-	cpus=""
+	cpus=0
+	load=0
+	max_cpus=0
+	last_seen=""
+
 
 class tx_struct:
 	id=0
@@ -97,20 +104,21 @@ class tx_struct:
 class cluster:
 	if gui_get()==True:
 		load_update = pyqtSignal()
-	
+		jobs_update = pyqtSignal()
+		new_message = pyqtSignal(str)
+
 	def cluster_init(self):
 		self.socket = False
 		self.cluster=False
 		self.nodes=[]
-		self.server_ip=inp_get_token_value(os.path.join(get_sim_path(),"server.inp"),"#server_ip")
-		self.cluster_jobs = []
+		self.server_ip=inp_get_token_value(os.path.join(get_sim_path(),"cluster.inp"),"#server_ip")
 
 	def connect(self):
 		if self.cluster==False:
 			encrypt_load()
 			print("conecting to:",self.server_ip)
 			self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-			port=int(inp_get_token_value(os.path.join(get_sim_path(),"server.inp"),"#port"))
+			port=int(inp_get_token_value(os.path.join(get_sim_path(),"cluster.inp"),"#port"))
 			try:
 				self.socket.connect((self.server_ip, port))
 			except:
@@ -141,6 +149,18 @@ class cluster:
 			print("not conected to cluster")
 
 		return True
+
+	def get_nodes_load(self):
+		cpus=0.0
+		load=0.0
+		for i in range(0,len(self.nodes)):
+			cpus=cpus+self.nodes[i].cpus
+			load=load+self.nodes[i].load
+
+		if cpus==0:
+			return 0
+
+		return 100.0*(load/cpus)
 
 	def wake_nodes(self):
 		if self.cluster==True:
@@ -179,7 +199,7 @@ class cluster:
 		data=tx_struct()
 		data.id="gpvdmheadexe"
 		data.dir_name="src"
-		data.command=inp_get_token_value(os.path.join(get_sim_path(),"server.inp"),"#make_command")
+		data.command=inp_get_token_value(os.path.join(get_sim_path(),"cluster.inp"),"#make_command")
 		self.tx_packet(data)
 
 	def sync_dir(self,path,target):
@@ -229,10 +249,13 @@ class cluster:
 		self.socket.sendall(buf)
 
 
-	def gen_dir_list(self,path):
+	def gen_dir_list(self,path,banned_types=None,banned_dirs=None):
 
-		banned_types=[".pdf",".png",".dll",".o",".so",".so",".a",".dat",".aprox",".ods",".xls",".xlsx",".log",".pptx",".dig",".old",".bak",".opj",".csv"]
-		banned_dirs=["equilibrium","man_src","images","snapshots", "plot","pub","gui","debian","desktop"]
+		if banned_types==None:
+			banned_types=[".pdf",".png",".dll",".o",".so",".so",".a",".dat",".aprox",".ods",".xls",".xlsx",".log",".pptx",".dig",".old",".bak",".opj",".csv"]
+
+		if banned_dirs==None:
+			banned_dirs=["equilibrium","man_src","images","snapshots", "plot","pub","gui","debian","desktop","device_lib"]
 
 		file_list=[]
 
@@ -243,10 +266,8 @@ class cluster:
 
 				tx=True
 
-				ext=os.path.splitext(name)
-				if len(ext)>0:
-					ext=ext[1]
-					if ext in banned_types:
+				for i in range(0,len(banned_types)):
+					if name.endswith(banned_types[i])==True:
 						tx=False
 
 				if tx==True:
@@ -336,12 +357,23 @@ class cluster:
 		self.socket.sendall(buf)
 
 	def send_files(self,target,src,files):
+		progress_window=progress_class()
+		progress_window.show()
+		progress_window.start()
+
+		process_events()
+		
 		count=0
 		banned=[]
 
-		for fname in files:
+		for i in range(0,len(files)):
 			data=tx_struct()
-			full_path=os.path.normpath(os.path.join(src,fname))
+
+			progress_window.set_fraction(float(i)/float(len(files)))
+			progress_window.set_text("Sending "+files[i])
+			process_events()
+
+			full_path=os.path.normpath(os.path.join(src,files[i]))
 
 			data.stat=os.stat(full_path)[ST_MODE]
 
@@ -361,11 +393,14 @@ class cluster:
 			data.uzipsize=len(bytes)
 			data.data=bytes
 			data.zip=True
-			data.file_name=strip_slash(fname)
+			data.file_name=strip_slash(files[i])
 			count=count+1
 			self.tx_packet(data)
 			#if count>2:
 			#	break
+			print("status>>>>>>>>",i,len(files))
+
+		progress_window.stop()
 
 		print("total=",count)
 
@@ -375,21 +410,37 @@ class cluster:
 		data=data.decode("utf-8") 
 		data=data.split("\n")
 		for i in range(0,len(data)-1):
-			self.nodes.append(data[i].split(":"))
-		#print(self.nodes)
+			n=node()
+			d=data[i].split(":")
+			n.name=d[0]
+			n.ip=d[1]
+			n.cpus=float(d[2])
+			n.load=float(d[4])
+			n.max_cpus=float(d[5])
+			n.last_seen=d[6]
+			self.nodes.append(n)
 
 	def process_job_list(self,data):
 		ret=self.rx_packet(data)
 		lines=ret.data.decode("utf-8").split("\n") 
-		self.cluster_jobs=[]
-		for line in lines:
-			act=line.split()
-			if len(act)==9:
-				self.cluster_jobs.append([act[0], act[1], act[2], act[3],act[4], act[5], act[6], act[7]])
-			else:
-				print(line)
+		self.jobs=[]
+		for i in range(1,len(lines)):
+			act=lines[i].split()
+			if len(act)==10:
+				j=job()
+				j.name=act[1]
+				j.path=act[4]
+				j.ip=act[5]
+				j.start=act[7]
+				j.stop=act[8]
+				j.cpus=int(act[9])
+				j.status=int(act[3])
+				self.jobs.append(j)
+				#print(act[0], act[1], act[2], act[3],act[4], act[5], act[6], act[7])
+				#self.cluster_jobs.append([act[0], act[1], act[2], act[3],act[4], act[5], act[6], act[7]])
 
-		print(ret.data,"jim")
+		self.jobs_update.emit()
+		#print(ret.data,"jim")
 
 	def process_sync_packet_two(self,data):
 		lines=data.split("\n")
@@ -426,7 +477,7 @@ class cluster:
 		ret.zip=int(inp_search_token_value(lines, "#zip"))
 		ret.uzipsize=int(inp_search_token_value(lines, "#uzipsize"))
 
-		print(ret.file_name,ret.size,ret.uzipsize,len(data))
+		#print(ret.file_name,ret.size,ret.uzipsize,len(data))
 
 		if ret.size!=0:
 			packet_len=int(int(ret.size)/int(512)+1)*512
@@ -483,7 +534,7 @@ class cluster:
 			if path==None:
 				return
 			self.sync_dir(path,"src")
-			path=inp_get_token_value(os.path.join(get_sim_path(),"server.inp"),"#path_to_libs")
+			path=inp_get_token_value(os.path.join(get_sim_path(),"cluster.inp"),"#path_to_libs")
 			self.sync_dir(path,"src")
 		
 	def copy_src_to_cluster(self):
@@ -491,8 +542,18 @@ class cluster:
 			path=get_src_path()
 			if path==None:
 				return
-			self.send_dir(path,"src")
-			path=inp_get_token_value(os.path.join(get_sim_path(),"server.inp"),"#path_to_libs")
+			
+			banned_types=[".pdf",".png",".dll",".o",".so",".so",".a",".dat",".aprox",".ods"]
+			banned_types.extend([".xls",".xlsx",".log",".pptx",".dig",".old",".bak",".opj",".csv",".jpg",".so.3",".so.5","gpvdm_core"])
+			banned_types.extend(["so.0",".zip"])
+
+
+			banned_dirs=["equilibrium","man_src","images","snapshots", "plot","pub","gui","debian","desktop","device_lib","sim"]
+
+			files=self.gen_dir_list(path,banned_types=banned_types,banned_dirs=banned_dirs)
+			self.send_files("src",path,files)
+			
+			path=inp_get_token_value(os.path.join(get_sim_path(),"cluster.inp"),"#path_to_libs")
 			self.send_dir(path,"src")
 
 
@@ -516,36 +577,24 @@ class cluster:
 			self.tx_packet(data)
 
 
-	def killall(self):
-		if self.cluster==True:
-			data=tx_struct()
+	def cluster_killall(self):
+		data=tx_struct()
 
-			data.id="gpvdm_stop_all_jobs"
-			self.tx_packet(data)
+		data.id="gpvdm_stop_all_jobs"
+		self.tx_packet(data)
 
-			data.id="gpvdmkillall"
-			self.tx_packet(data)
+		data.id="gpvdmkillall"
+		self.tx_packet(data)
 
-			sleep(1)
+		sleep(1)
 
-			data.id="gpvdm_delete_all_jobs"
-			self.tx_packet(data)
-
-		else:
-			print("stop jobs")
-			if running_on_linux()==True:
-				cmd = 'killall '+get_exe_name()
-				os.system(cmd)
-				print(cmd)
-			else:
-				cmd="taskkill /im "+get_exe_name()
-				print(cmd)
-				os.system(cmd)
+		data.id="gpvdm_delete_all_jobs"
+		self.tx_packet(data)
 
 		self.stop()
 
 	def cluster_run_jobs(self):
-		exe_name=inp_get_token_value(os.path.join(get_sim_path(),"server.inp"),"#exe_name")
+		exe_name=inp_get_token_value(os.path.join(get_sim_path(),"cluster.inp"),"#exe_name")
 		data=tx_struct()
 		data.id="gpvdmrunjobs"
 		data.exe_name=exe_name
@@ -569,7 +618,7 @@ class cluster:
 		data=tx_struct()
 		data.id="gpvdmaddjob"
 		data.target=job_orig_path
-		data.cpus=int(inp_get_token_value(os.path.join(get_sim_path(),"server.inp"),"#server_cpus"))
+		data.cpus=int(inp_get_token_value(os.path.join(get_sim_path(),"cluster.inp"),"#cluster_cpus"))
 		if data.cpus==0:
 			data.cpus=1
 		self.tx_packet(data)
@@ -640,10 +689,15 @@ class cluster:
 				understood=True
 
 			if data.startswith(str.encode("gpvdm_message")):
-				d=data.decode('UTF-8')
+				try:
+					d=data.decode('UTF-8')
+				except:
+					print(data)
+					sys.exit(0)
 				d=d.split("\n")
 				message=inp_search_token_value(d, "#message")
-				print("message:",message)
+				self.new_message.emit(message)
+
 				understood=True
 
 			if understood==False:

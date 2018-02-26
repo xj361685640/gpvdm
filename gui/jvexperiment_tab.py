@@ -19,48 +19,71 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
+
 import os
+from inp import inp_load_file
 from inp_util import inp_search_token_value
+from tmesh import tab_time_mesh
+from circuit import circuit
 from inp import inp_update_token_value
-from fit_patch import fit_patch
-import shutil
+from tab import tab_class
+
 
 import i18n
 _ = i18n.language.gettext
 
 #qt
 from PyQt5.QtCore import QSize, Qt 
-from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QMenuBar,QStatusBar, QMenu, QTableWidget, QAbstractItemView
-from PyQt5.QtGui import QPainter,QIcon,QCursor
-
-#windows
-from open_save_dlg import save_as_filter
-from plot_widget import plot_widget
-
+from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QTabWidget
+from PyQt5.QtGui import QPainter,QIcon
 from cal_path import get_sim_path
-mesh_articles = []
+from css import css_apply
 
-class fit_progress(QTabWidget):
+class jvexperiment_tab(QTabWidget):
 
 	def update(self):
-		for widget in self.plot_widgets:
-			widget.do_plot()
+		self.tmesh.update()
 
-	def __init__(self):
+	def image_save(self):
+		self.tmesh.image_save()
+
+	def __init__(self,index):
 		QTabWidget.__init__(self)
+		css_apply(self,"tab_default.css")
+		self.index=index
+		lines=[]
+		self.file_name=os.path.join(get_sim_path(),"jv"+str(self.index)+".inp")
+		lines=inp_load_file(self.file_name)
+		if lines!=False:
+			self.tab_name=inp_search_token_value(lines, "#sim_menu_name")
+		else:
+			self.tab_name=""
+
 
 		self.setMovable(True)
-		self.plot_widgets=[]
-		for file_name in ["fitlog.dat","fitlog_time_error.dat","fitlog_time_odes.dat"]:
-			f_name=os.path.join(get_sim_path(),file_name)
-			self.plot_widgets.append(plot_widget())
-			self.plot_widgets[-1].init(menu=False)
-			self.plot_widgets[-1].set_labels([f_name])
-			self.plot_widgets[-1].load_data([f_name],os.path.splitext(f_name)[0]+".oplot")
-			self.plot_widgets[-1].do_plot()
 
-			self.addTab(self.plot_widgets[-1],file_name)
-		
+		#self.tmesh = tab_time_mesh(self.index)
+		#self.addTab(self.tmesh,_("time mesh"))
+
+
+		#self.circuit=circuit(self.index)
+
+		#self.addTab(self.circuit,_("Circuit"))
+
+		tab=tab_class()
+		tab.init(self.file_name,_("Configure"))
+		self.addTab(tab,_("Configure"))
+
+
+	def set_tab_caption(self,name):
+		mytext=name
+		if len(mytext)<10:
+			for i in range(len(mytext),10):
+				mytext=mytext+" "
+		self.label.set_text(mytext)
 
 	def rename(self,tab_name):
-		return
+		self.tab_name=tab_name+"@"+self.tab_name.split("@")[1]
+		inp_update_token_value(self.file_name, "#sim_menu_name", self.tab_name)
+
+

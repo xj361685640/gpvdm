@@ -250,7 +250,7 @@ def get_base_material_path():
 
 def get_default_material_path():
 	global materials_base_path
-	return os.path.join(spectra_path,"generic","default")
+	return os.path.join(materials_base_path,"generic","default")
 
 def get_base_spectra_path():
 	global spectra_path

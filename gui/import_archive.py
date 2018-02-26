@@ -47,6 +47,99 @@ from util_zip import extract_file_from_archive
 from inp_util import inp_merge
 from cal_path import get_default_material_path
 
+from progress import progress_class
+from gui_util import process_events
+import re
+
+class file_type():
+	JUST_COPY=0
+	CHECK_VER_THEN_COPY=1
+	MERGE=2
+	
+	def __init__(self,name="fit_data",dest="archive",copy_opp=JUST_COPY,base_file=""):
+		self.name=name
+		self.dest=dest
+		self.copy_opp=copy_opp
+		self.base_file=base_file
+		if base_file=="":
+			self.base_file=name
+		if name.endswith(".inp")==True:
+			self.index_file=False
+		else:
+			self.index_file=True
+
+file_list=[]
+
+file_list.append(file_type(name="genrate",dest="file",copy_opp=file_type().JUST_COPY))
+file_list.append(file_type(name="fit",dest="archive",copy_opp=file_type().JUST_COPY))
+file_list.append(file_type(name="fit_data",dest="archive",copy_opp=file_type().JUST_COPY))
+file_list.append(file_type(name="fit_import_config",dest="archive",copy_opp=file_type().JUST_COPY))
+file_list.append(file_type(name="fit_math",dest="archive",copy_opp=file_type().JUST_COPY))
+file_list.append(file_type(name="fit_patch",dest="archive",copy_opp=file_type().JUST_COPY))
+file_list.append(file_type(name="fit_target",dest="archive",copy_opp=file_type().JUST_COPY))
+file_list.append(file_type(name="fit_vars.inp",dest="archive",copy_opp=file_type().JUST_COPY))
+file_list.append(file_type(name="fit.inp",dest="archive",copy_opp=file_type().JUST_COPY))
+
+file_list.append(file_type(name="fit_error_delta",dest="file",copy_opp=file_type().JUST_COPY))
+file_list.append(file_type(name="fit_error_exp",dest="file",copy_opp=file_type().JUST_COPY))
+file_list.append(file_type(name="fit_error_sim",dest="file",copy_opp=file_type().JUST_COPY))
+
+file_list.append(file_type(name="windows_list2.inp",dest="archive",copy_opp=file_type().CHECK_VER_THEN_COPY,base_file="windows_list2.inp"))
+file_list.append(file_type(name="epitaxy.inp",dest="archive",copy_opp=file_type().CHECK_VER_THEN_COPY,base_file="epitaxy.inp"))
+file_list.append(file_type(name="contacts.inp",dest="archive",copy_opp=file_type().CHECK_VER_THEN_COPY,base_file="contacts.inp"))
+
+file_list.append(file_type(name="constraints.inp",dest="archive",copy_opp=file_type().CHECK_VER_THEN_COPY,base_file="constraints.inp"))
+file_list.append(file_type(name="duplicate.inp",dest="archive",copy_opp=file_type().CHECK_VER_THEN_COPY,base_file="duplicate.inp"))
+file_list.append(file_type(name="thermal.inp",dest="archive",copy_opp=file_type().CHECK_VER_THEN_COPY,base_file="thermal.inp"))
+file_list.append(file_type(name="mesh_x.inp",dest="archive",copy_opp=file_type().CHECK_VER_THEN_COPY,base_file="mesh_x.inp"))
+file_list.append(file_type(name="mesh_y.inp",dest="archive",copy_opp=file_type().CHECK_VER_THEN_COPY,base_file="mesh_y.inp"))
+file_list.append(file_type(name="mesh_z.inp",dest="archive",copy_opp=file_type().CHECK_VER_THEN_COPY,base_file="mesh_z.inp"))
+file_list.append(file_type(name="dump_file.inp",dest="archive",copy_opp=file_type().CHECK_VER_THEN_COPY,base_file="dump_file.inp"))
+file_list.append(file_type(name="time_mesh_config",dest="archive",copy_opp=file_type().CHECK_VER_THEN_COPY,base_file="time_mesh_config0.inp"))
+file_list.append(file_type(name="homo",dest="archive",copy_opp=file_type().CHECK_VER_THEN_COPY,base_file="homo0.inp"))
+file_list.append(file_type(name="lumo",dest="archive",copy_opp=file_type().CHECK_VER_THEN_COPY,base_file="lumo0.inp"))
+
+
+file_list.append(file_type(name="dos",dest="archive",copy_opp=file_type().MERGE,base_file=os.path.join(get_default_material_path(),"dos.inp")))
+file_list.append(file_type(name="pl",dest="archive",copy_opp=file_type().MERGE,base_file=os.path.join(get_default_material_path(),"pl.inp")))
+file_list.append(file_type(name="pulse",dest="archive",copy_opp=file_type().MERGE,base_file="pulse0.inp"))
+file_list.append(file_type(name="laser",dest="archive",copy_opp=file_type().MERGE,base_file="laser0.inp"))
+file_list.append(file_type(name="jv",dest="archive",copy_opp=file_type().MERGE,base_file="jv0.inp"))
+
+file_list.append(file_type(name="ver.inp",copy_opp=file_type().MERGE))
+file_list.append(file_type(name="sim.inp",copy_opp=file_type().MERGE))
+file_list.append(file_type(name="device.inp",copy_opp=file_type().MERGE))
+file_list.append(file_type(name="parasitic.inp",copy_opp=file_type().MERGE))
+file_list.append(file_type(name="led.inp",copy_opp=file_type().MERGE))
+file_list.append(file_type(name="ray.inp",copy_opp=file_type().MERGE))
+file_list.append(file_type(name="stark.inp",copy_opp=file_type().MERGE))
+file_list.append(file_type(name="shg.inp",copy_opp=file_type().MERGE))
+file_list.append(file_type(name="math.inp",copy_opp=file_type().MERGE))
+file_list.append(file_type(name="dump.inp",copy_opp=file_type().MERGE))
+file_list.append(file_type(name="light.inp",copy_opp=file_type().MERGE))
+file_list.append(file_type(name="server.inp",copy_opp=file_type().MERGE))
+file_list.append(file_type(name="cluster.inp",copy_opp=file_type().MERGE))
+file_list.append(file_type(name="light_exp.inp",copy_opp=file_type().MERGE))
+file_list.append(file_type(name="info.inp",copy_opp=file_type().MERGE))
+file_list.append(file_type(name="config.inp",copy_opp=file_type().MERGE))
+
+
+def get_file_info(file_name):
+	match = re.match(r"([a-z_]+)([0-9]+)(.inp)", file_name, re.I)
+	if match==None:
+		match = re.match(r"([a-z_]+)([0-9]+)(.dat)", file_name, re.I)
+
+	if match!=None:
+		for i in range(0,len(file_list)):
+			if file_list[i].name==match.groups()[0]:
+				return file_list[i]
+	
+	for i in range(0,len(file_list)):
+		if file_list[i].name==file_name:
+			return file_list[i]
+		
+	return False
+	
 def update_simulaton_to_new_ver(file_name):
 	pre, ext = os.path.splitext(file_name)
 	back_file = pre + ".bak"
@@ -83,27 +176,22 @@ def remove_non_used_index_files(dest_archive,src_archive):
 	for my_file in ls_dest:
 
 		if my_file.endswith(".inp"):
-			if my_file.startswith("dos"):
-				if ls_src.count(my_file)==0:
-					zip_remove_file(dest_archive,my_file)
+			file_info=get_file_info(my_file)
+			if file_info!=False:
+				if file_info.index_file==True:
+					if ls_src.count(my_file)==0:
+						zip_remove_file(dest_archive,my_file)
 
-			if my_file.startswith("pulse"):
-				if ls_src.count(my_file)==0:
-					zip_remove_file(dest_archive,my_file)
-
-			if my_file.startswith("pl"):
-				if ls_src.count(my_file)==0:
-					zip_remove_file(dest_archive,my_file)
-
-			if my_file.startswith("time_mesh_config"):
-				if ls_src.count(my_file)==0:
-					zip_remove_file(dest_archive,my_file)
-
-			if my_file.startswith("laser"):
-				if ls_src.count(my_file)==0:
-					zip_remove_file(dest_archive,my_file)
 
 def merge_archives(src_archive,dest_archive,only_over_write):
+	debug=False
+
+	progress_window=progress_class()
+	progress_window.show()
+	progress_window.start()
+
+	process_events()
+
 #	src_dir=os.path.dirname(src_archive)
 #	dest_dir=os.path.dirname(dest_archive)
 	dest_path=os.path.dirname(dest_archive)
@@ -111,95 +199,45 @@ def merge_archives(src_archive,dest_archive,only_over_write):
 
 	remove_non_used_index_files(dest_archive,src_archive)
 
-	files=[ "ver.inp","sim.inp", "device.inp", "parasitic.inp", "led.inp","ray.inp","stark.inp" ,"shg.inp"   ,"jv.inp" , "math.inp",  "dump.inp" , "light.inp", "server.inp", "light_exp.inp","info.inp","config.inp" ]
-
-	base_file=files[:]
-
-	print(src_archive)
 	ls=zip_lsdir(src_archive)
-
-	for i in range(0,len(ls)):
-		if inp_issequential_file(ls[i],"dos"):
-			files.append(ls[i])
-			base_file.append(os.path.join(get_default_material_path(),"dos.inp"))
-
-		if inp_issequential_file(ls[i],"pl"):
-			files.append(ls[i])
-			base_file.append(os.path.join(get_default_material_path(),"pl.inp"))
-
-		if inp_issequential_file(ls[i],"pulse"):
-			files.append(ls[i])
-			base_file.append("pulse0.inp")
-
-		if inp_issequential_file(ls[i],"laser"):
-			files.append(ls[i])
-			base_file.append("laser0.inp")
-
-	for i in range(0,len(files)):
-		print("Importing",files[i])
-		print("dest_archive:",dest_archive)
-		print("src_archive",src_archive)
-		print("template:",template_archive)
-		print("base_file:",base_file[i])
-		print("only overwrite",only_over_write)
-
-		if only_over_write==False:
-			if archive_isfile(dest_archive,files[i])==False:
-				if archive_copy_file(dest_archive,files[i],template_archive,base_file[i])==False:
-					print("problem copying",template_archive,base_file[i])
-				print("made new file",dest_archive,files[i])
-
-		ret=archive_merge_file(dest_archive,src_archive,files[i])
-		print("ret=",ret)
-		print("-----------------------")
-
-	files=[ "windows_list2.inp","epitaxy.inp", "contacts.inp", "fit.inp", "constraints.inp","duplicate.inp", "thermal.inp","mesh_x.inp","mesh_y.inp","mesh_z.inp", "dump_file.inp" ]
-	base_file=files[:]
-
-	ls=zip_lsdir(src_archive)
-	for i in range(0,len(ls)):
-
-		if inp_issequential_file(ls[i],"time_mesh_config"):
-			files.append(ls[i])
-			base_file.append("time_mesh_config0.inp")
-
-		if inp_issequential_file(ls[i],"homo"):
-			files.append(ls[i])
-			base_file.append("homo0.inp")
-
-		if inp_issequential_file(ls[i],"lumo"):
-			files.append(ls[i])
-			base_file.append("lumo0.inp")
-
-	for i in range(0,len(files)):
-
-		template_ver=archive_get_file_ver(template_archive,base_file[i])
-		src_ver=archive_get_file_ver(src_archive,files[i])
-		print("Importing",files[i])
-		print("template ver",template_ver)
-		print("src_ver",src_ver)
-		print("template_archive",template_archive)
-		print("src_archive",src_archive)
-		print("dest_archive",dest_archive)
-
-		if template_ver!="" and src_ver!="":
-			if template_ver==src_ver:
-				archive_copy_file(dest_archive,files[i],src_archive,files[i])
-				print("complex copy")
-
-		print("-----------------------")
 
 	#copy files without checking ver
+
 	for i in range(0,len(ls)):
-		if inp_issequential_file(ls[i],"genrate"):
-			archive_copy_file(dest_archive,ls[i],src_archive,ls[i],dest="file")
+		info=get_file_info(ls[i])
+		if info!=False:
+			if info.copy_opp==file_type().JUST_COPY:
+				#print(ls[i])
+				archive_copy_file(dest_archive,ls[i],src_archive,ls[i],dest=info.dest)
+
+			if info.copy_opp==file_type().CHECK_VER_THEN_COPY:
+				template_ver=archive_get_file_ver(template_archive,info.base_file)
+				src_ver=archive_get_file_ver(src_archive,ls[i])
+
+				if template_ver!="" and src_ver!="":
+					if template_ver==src_ver:
+						archive_copy_file(dest_archive,ls[i],src_archive,ls[i])
+						#print("complex copy")
+
+			if info.copy_opp==file_type().MERGE:
+				if only_over_write==False:
+					if archive_isfile(dest_archive,ls[i])==False:
+						if archive_copy_file(dest_archive,ls[i],template_archive,info.base_file)==False:
+							print("problem copying",template_archive,info.base_file)
+						#print("made new file",dest_archive,ls[i])
+
+				ret=archive_merge_file(dest_archive,src_archive,ls[i])
+		
+		progress_window.set_fraction(float(i)/float(len(ls)))
+		progress_window.set_text("Importing "+ls[i])
+		process_events()
 
 	#if you find a materials directory in the archive try to merge it
 	for i in range(0,len(ls)):
 		zip_dir_name=ls[i].split("/")
 		if zip_dir_name[0]=="materials":
 			dest=os.path.join(os.path.dirname(get_materials_path()))
-			print("Try to read",src_archive,ls[i],dest)
+			#print("Try to read",src_archive,ls[i],dest)
 			extract_file_from_archive(dest,src_archive,ls[i])
 
 	for i in range(0,len(ls)):
@@ -217,10 +255,12 @@ def merge_archives(src_archive,dest_archive,only_over_write):
 	for i in range(0,len(ls)):
 		for ii in range(0,len(scan_dirs)):
 			if ls[i].startswith(scan_dirs[ii])==True:
-				print("Try to read",src_archive,ls[i])
+				#print("Try to read",src_archive,ls[i])
 				extract_file_from_archive(dest_path,src_archive,ls[i])
 	print("search",scan_dirs)
-		
+
+	progress_window.stop()
+
 def import_archive(src_archive,dest_archive,only_over_write):
 	src_dir=os.path.dirname(src_archive)
 	dest_dir=os.path.dirname(dest_archive)

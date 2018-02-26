@@ -64,7 +64,7 @@ if gui_get()==True:
 
 		def callback_about(self):
 			dlg=about_dlg()
-			dlg.ui.exec_()
+			dlg.exec_()
 
 		def callback_man(self):
 			webbrowser.open("https://www.gpvdm.com/man.html")

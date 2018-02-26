@@ -24,7 +24,7 @@ import os
 from tab_base import tab_base
 
 from PyQt5.QtWidgets import QTabWidget,QTextEdit,QWidget,QHBoxLayout
-from PyQt5.QtCore import QProcess
+from PyQt5.QtCore import QProcess, Qt
 from PyQt5.QtGui import QPalette,QColor,QFont
 
 from QHTabBar import QHTabBar
@@ -36,28 +36,65 @@ from win_lin import running_on_linux
 from hpc import hpc_class
 from code_ctrl import enable_betafeatures
 from global_objects import global_object_register
+from jobs import jobs_view
+from server import server_get
+
+from css import css_apply
+
+class output_box(QTextEdit):
+	def __init__(self,device_type):
+		QTextEdit.__init__(self)
+		self.font = QFont()
+		self.font.setFamily('Monospace')
+		self.font.setStyleHint(QFont.Monospace)
+		self.font.setFixedPitch(True)
+		self.font.setPointSize(int(12))
+		
+		self.setFont(self.font)
+		pal = QPalette()
+		bgc = QColor(0, 0, 0)
+		pal.setColor(QPalette.Base, bgc)
+		textc = QColor(230, 230, 230)
+		pal.setColor(QPalette.Text, textc)
+		self.setPalette(pal)
+		self.device_type=device_type
+		self.setAcceptRichText(False)
+		self.setContextMenuPolicy(Qt.NoContextMenu)
+		#self.setOpenLinks(False)
+		self.setReadOnly(True)
+		self.setUndoRedoEnabled(False)
+
+	def add_text(self,data):
+		self.setUpdatesEnabled(False);
+		cursor = self.textCursor()
+		cursor.movePosition(cursor.End,cursor.MoveAnchor)
+		self.setTextCursor(cursor)
+		cursor.insertHtml(data)
+		self.ensureCursorVisible()
+		self.setUpdatesEnabled(True)
 
 class tab_terminal(QWidget,tab_base):
 
 	def __init__(self):
 		QWidget.__init__(self)
 		self.tab=QTabWidget()
+		css_apply(self.tab,"style_h.css")
 		self.vbox=QHBoxLayout()
 		self.vbox.addWidget(self.tab)
 		self.usage=cpu_usage()
 		self.vbox.addWidget(self.usage)
 		self.setLayout(self.vbox)
+		self.my_server=server_get()
 
 	def dataReady(self,i):
-		cursor = self.terminals[i].textCursor()
-		cursor.movePosition(cursor.End,cursor.MoveAnchor)
-		self.terminals[i].setTextCursor(cursor)
+		#cursor = self.terminals[i].textCursor()
+		#cursor.movePosition(cursor.End,cursor.MoveAnchor)
+		#self.terminals[i].setTextCursor(cursor)
 		r=self.process[i].readAll()
-		#print(">",r,"<")
 		data=str(r,'utf-8',errors='ignore')
-		#data=data[:-1]
-		cursor.insertHtml(data)
-		self.terminals[i].ensureCursorVisible()
+
+		#cursor.insertHtml(data)
+		self.terminals[i].add_text(data)
 
 	def list_cpu_state(self):
 		for i in range(0,self.cpus):
@@ -103,25 +140,12 @@ class tab_terminal(QWidget,tab_base):
 		self.tab.setMovable(True)
 		self.tab.setTabBar(QHTabBar())
 		self.tab.setTabPosition(QTabWidget.West)
-		
-		self.font = QFont()
-		self.font.setFamily('Monospace')
-		self.font.setStyleHint(QFont.Monospace)
-		self.font.setFixedPitch(True)
-		self.font.setPointSize(int(12))
+
 
 		self.terminals=[]
 		self.process=[]
 		for i in range(0,self.cpus):
-			term=QTextEdit()
-			term.setFont(self.font)
-			
-			pal = QPalette()
-			bgc = QColor(0, 0, 0)
-			pal.setColor(QPalette.Base, bgc)
-			textc = QColor(230, 230, 230)
-			pal.setColor(QPalette.Text, textc)
-			term.setPalette(pal)
+			term=output_box("local_cpu")
 
 			proc=QProcess(self)
 			proc.readyRead.connect(functools.partial(self.dataReady,i))
@@ -129,10 +153,25 @@ class tab_terminal(QWidget,tab_base):
 			self.terminals.append(term)
 			self.tab.addTab(term,_("CPU")+" "+str(i))
 
+
+		self.cluster_output=output_box("cluster_node")
+		self.tab.addTab(self.cluster_output,_("Cluster"))
+					
+		self.jview=jobs_view()
+		#self.jview.load_data(self.myserver.cluster_jobs)
+		self.tab.addTab(self.jview,"Jobs list")
+
 		if enable_betafeatures()==True:
 			self.cluster=hpc_class()
-			self.tab.addTab(self.cluster,_("Cluster"))
+			self.tab.addTab(self.cluster,_("Nodes"))
 			global_object_register("cluster_tab",self.cluster)
+
+
+		self.my_server.new_message.connect(self.data_from_cluster)
+
+	def data_from_cluster(self,data):
+		#self.cluster_output.add_text(data+"\n")
+		print(data+"\n")
 
 	def help(self):
 		my_help_class.help_set_help(["utilities-terminal.png","<big><b>The terminal window</b></big>\nThe model will run in this window.  You can also use it to enter bash commands."])

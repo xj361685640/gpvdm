@@ -74,6 +74,9 @@ def scan_items_populate_from_files():
 		for i in range(0,len(file_list)):
 			if file_list[i].startswith("dos")==True and file_list[i].endswith(".inp")==True:
 				scan_populate_from_file(file_list[i])
+
+			if file_list[i].startswith("jv")==True and file_list[i].endswith(".inp")==True:
+				scan_populate_from_file(file_list[i])
 			#if my_token_lib[i].file_name!="":
 			#	scan_item_add(my_token_lib[i].file_name,my_token_lib[i].token,my_token_lib[i].info,1)
 

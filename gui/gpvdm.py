@@ -274,7 +274,9 @@ class gpvdm_main_window(QMainWindow):
 		calculate_paths()
 		epitaxy_load(get_sim_path())
 		contacts_load()
-		mesh_load_all()
+		if mesh_load_all()==False:
+			error_dlg(self,_("There was a problem loading the electrical mesh, I suspect you are trying to open a file generated in a very old version of gpvdm."))
+			return
 
 		self.statusBar().showMessage(get_sim_path())
 

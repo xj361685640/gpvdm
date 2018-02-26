@@ -65,6 +65,8 @@ from cal_path import get_sim_path
 
 from tab_view import tab_view
 
+from css import css_apply
+
 class gpvdm_notebook(QTabWidget):
 	#progress=progress_class()
 	finished_loading=False
@@ -74,6 +76,7 @@ class gpvdm_notebook(QTabWidget):
 		
 	def __init__(self):
 		QWidget.__init__(self)
+		css_apply(self,"tab_default.css")
 		self.terminal=None
 		self.update_display_function=None
 		self.currentChanged.connect(self.changed_click)

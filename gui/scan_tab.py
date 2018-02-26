@@ -97,6 +97,11 @@ from cal_path import get_sim_path
 
 from scan_ml import scan_ml_build_vector
 
+from progress import progress_class
+from gui_util import process_events
+
+from scan_io import scan_archive
+
 class scan_vbox(QWidget):
 
 	def rename(self,new_name):
@@ -240,6 +245,8 @@ class scan_vbox(QWidget):
 		commands=tree_load_flat_list(self.sim_dir)
 		self.send_commands_to_server(commands,args)
 
+	def scan_archive(self):
+		scan_archive(self.sim_dir)
 
 	def simulate(self,run_simulation,generate_simulations,args=""):
 
@@ -258,7 +265,7 @@ class scan_vbox(QWidget):
 
 		tree_load_config(self.sim_dir)
 		if generate_simulations==True:
-			build_scan(self.sim_dir,get_sim_path())
+			build_scan(self.sim_dir,get_sim_path(),parent_window=self)
 
 		if run_simulation==True:
 			self.scan_run(args=args)
@@ -335,7 +342,6 @@ class scan_vbox(QWidget):
 
 
 	def save_combo(self):
-
 		self.make_sim_dir()
 		a = open(os.path.join(self.sim_dir,"gpvdm_gui_config.inp"), "w")
 		a.write(str(self.tab.rowCount())+"\n")
@@ -398,6 +404,7 @@ class scan_vbox(QWidget):
 			if found==False:
 				tab_set_value(self.tab,i,3,"mirror")
 
+		self.save_combo()
 
 	def toggled_cb( self, cell, path, model ):
 		model[path][3] = not model[path][3]

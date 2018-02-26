@@ -47,6 +47,8 @@ from matlab_editor import matlab_editor
 
 from import_data import import_data
 
+from css import css_apply
+
 mesh_articles = []
 
 class fit_tab(QTabWidget):
@@ -61,6 +63,7 @@ class fit_tab(QTabWidget):
 
 	def __init__(self,index):
 		QTabWidget.__init__(self)
+		css_apply(self,"tab_default.css")
 		lines=[]
 		self.index=index
 		lines=inp_load_file(os.path.join(get_sim_path(),"fit"+str(self.index)+".inp"))

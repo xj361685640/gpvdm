@@ -53,10 +53,13 @@ from util import isfiletype
 from icon_lib import QIcon_load
 
 from cal_path import get_sim_path
+from inp import inp_isfile
 
 class ribbon_home(QToolBar):
 	def __init__(self):
 		QToolBar.__init__(self)
+		self.myserver=server_get()
+
 		self.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
 		self.setIconSize(QSize(42, 42))
 		
@@ -83,11 +86,12 @@ class ribbon_home(QToolBar):
 
 
 		self.addSeparator()
-		if enable_betafeatures()==True:
-			self.fit = QAction(QIcon_load("fit"), _("Fit\ndata"), self)
-			self.fit.triggered.connect(self.callback_run_fit)
-			self.addAction(self.fit)
-			self.addSeparator()
+
+		self.fit = QAction(QIcon_load("fit"), _("Fit\ndata"), self)
+		self.fit.triggered.connect(self.callback_run_fit)
+		self.addAction(self.fit)
+
+		self.addSeparator()
 		
 		self.plot = QAction(QIcon_load("plot"), _("Plot\nFile"), self)
 		self.plot.triggered.connect(self.callback_plot_select)
@@ -110,6 +114,8 @@ class ribbon_home(QToolBar):
 		self.help = QAction(QIcon_load("internet-web-browser"), _("Help"), self)
 		self.addAction(self.help)
 
+
+
 	def callback_sun(self):
 		global_object_run("gl_force_redraw")
 		
@@ -122,6 +128,11 @@ class ribbon_home(QToolBar):
 			del self.fit_window
 			self.fit_window=None
 		self.sun.update()
+		
+		if inp_isfile(os.path.join(get_sim_path(),"fit.inp"))==True:
+			self.fit.setVisible(True)
+		else:
+			self.fit.setVisible(False)
 
 	def setEnabled(self,val):
 		self.undo.setEnabled(val)
@@ -133,7 +144,7 @@ class ribbon_home(QToolBar):
 		self.sun.setEnabled(val)
 		self.help.setEnabled(val)
 		if enable_betafeatures()==True:
-			self.fit.setVisible(val)
+			self.fit.setEnabled(val)
 
 	def callback_plot_select(self):
 		help_window().help_set_help(["dat_file.png",_("<big>Select a file to plot</big><br>Single clicking shows you the content of the file")])

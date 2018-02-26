@@ -33,6 +33,7 @@ import webbrowser
 
 from help import help_window
 from QWidgetSavePos import QWidgetSavePos
+from css import css_apply
 
 articles = []
 mesh_articles = []
@@ -79,14 +80,14 @@ class jv(QWidgetSavePos):
 
 
 		self.notebook = QTabWidget()
-
+		css_apply(self.notebook,"tab_default.css")
 		self.notebook.setMovable(True)
 
 		self.main_vbox.addWidget(self.notebook)
 
 
-		files=["jv.inp","jv_simple.inp","sun_voc.inp"]
-		description=[_("JV simulation"),_("Diode equation"),_("Suns v.s. Voc")]
+		files=["diode_equ.inp","sun_voc.inp"]
+		description=[_("Diode equation"),_("Suns v.s. Voc")]
 
 
 		for i in range(0,len(files)):

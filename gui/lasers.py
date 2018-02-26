@@ -47,6 +47,8 @@ from util import wrap_text
 from QWidgetSavePos import QWidgetSavePos
 from cal_path import get_sim_path
 
+from css import css_apply
+
 def laser_new_filename():
 	for i in range(0,20):
 		pulse_name="laser"+str(i)+".inp"
@@ -200,6 +202,7 @@ class lasers(QWidgetSavePos):
 
 
 		self.notebook = QTabWidget()
+		css_apply(self.notebook,"tab_default.css")
 		self.notebook.setMovable(True)
 
 		self.load_tabs()

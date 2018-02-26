@@ -25,7 +25,6 @@ from search import find_fit_log
 from search import find_fit_speed_log
 from inp_util import inp_search_token_value
 from status_icon import status_icon_stop
-from jobs import jobs_view
 
 #qt
 from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication
@@ -58,6 +57,7 @@ class node_indicator(QWidget):
 		self.slider.valueChanged.connect(self.slider_changed)
 		self.slider.setTickPosition(QSlider.TicksBelow)
 		self.hbox.addWidget(self.label)
+		self.bar.hide_time()
 		self.hbox.addWidget(self.bar)
 		self.hbox.addWidget(self.slider)
 
@@ -157,12 +157,12 @@ class hpc_class(QWidget):
 			for i in range(0, self.node_view_vbox.count()):
 				item=self.node_view_vbox.itemAt(i).widget()
 				item.block_signals(True)
-				item.set_name(self.myserver.nodes[i][0])
-				item.set_ip(self.myserver.nodes[i][1])
-				item.set_cpus(int(self.myserver.nodes[i][2]))
-				item.set_load(self.myserver.nodes[i][4])
-				item.set_max_cpus(int(self.myserver.nodes[i][5]))
-				item.set_last_seen(self.myserver.nodes[i][6])
+				item.set_name(self.myserver.nodes[i].name)
+				item.set_ip(self.myserver.nodes[i].ip)
+				item.set_cpus(int(self.myserver.nodes[i].cpus))
+				item.set_load(self.myserver.nodes[i].load)
+				item.set_max_cpus(int(self.myserver.nodes[i].max_cpus))
+				item.set_last_seen(self.myserver.nodes[i].last_seen)
 
 				item.update()
 				item.block_signals(False)
@@ -186,25 +186,11 @@ class hpc_class(QWidget):
 
 		
 		self.main_vbox = QVBoxLayout()
-
-		self.tool_bar=QToolBar()
-
-		self.tool_bar.setIconSize(QSize(42, 42))
 		
-		self.main_vbox.addWidget(self.tool_bar)
-		
-		self.notebook = QTabWidget()
+		self.main_vbox.addWidget(self.node_view)
 
-		self.notebook.setMovable(True)
-
-		self.main_vbox.addWidget(self.notebook)
-
-		self.notebook.addTab(self.node_view,"Nodes")
 		self.node_view.show()
-		
-		self.jview=jobs_view()
-		self.jview.load_data(self.myserver.cluster_jobs)
-		self.notebook.addTab(self.jview,"Jobs list")
+
 
 		self.setLayout(self.main_vbox)
 

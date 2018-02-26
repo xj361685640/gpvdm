@@ -57,6 +57,7 @@ from inp import inp_isfile
 from inp import inp_copy_file
 from inp import inp_update_token_value
 from inp import inp_get_token_value
+from inp import inp_remove_file
 
 from gpvdm_select import gpvdm_select
 
@@ -71,6 +72,8 @@ from QHTabBar import QHTabBar
 from util_zip import zip_lsdir
 
 from util import strextract_interger
+
+from gui_util import yes_no_dlg
 
 def measure_new_filename():
 	for i in range(0,20):
@@ -117,6 +120,7 @@ class measure(QWidgetSavePos):
 		self.ribbon.tb_new.triggered.connect(self.callback_add_page)
 		self.ribbon.tb_rename.triggered.connect(self.callback_rename_page)
 		self.ribbon.tb_clone.triggered.connect(self.callback_copy_page)
+		self.ribbon.tb_delete.triggered.connect(self.callback_delete_page)		
 
 
 		self.vbox.addWidget(self.ribbon)
@@ -177,13 +181,11 @@ class measure(QWidgetSavePos):
 	def callback_delete_page(self):
 
 		tab = self.notebook.currentWidget()
+		name=inp_get_token_value(tab.file_name, "#measure_name")
 
-		response=yes_no_dlg(self,_("Should I remove the experiment file ")+tab.tab_name.split("@")[0])
-
+		response=yes_no_dlg(self,_("Should I remove the measurment file ")+name)
 
 		if response == True:
-			inp_remove_file(os.path.join(get_sim_path(),"pulse"+str(tab.index)+".inp"))
-			inp_remove_file(os.path.join(get_sim_path(),"time_mesh_config"+str(tab.index)+".inp"))
+			inp_remove_file(os.path.join(get_sim_path(),tab.file_name))
 			index=self.notebook.currentIndex() 
 			self.notebook.removeTab(index)
-			self.changed.emit()

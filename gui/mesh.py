@@ -78,6 +78,9 @@ def mesh_load(vector):
 	lines=inp_load_file(file_name)
 
 	if lines!=False:
+		if lines[pos]!="#remesh_enable":			#Check we are not trying to open an old version
+			return False
+
 		pos=pos+1	#first comment
 		remesh=str2bool(lines[pos])
 		pos=pos+1	#remesh
@@ -118,6 +121,7 @@ def mesh_load(vector):
 
 			mesh_add(vector,thick,points,mul,left_right)
 
+	return True
 
 def mesh_save(file_name,mesh_class):
 	lines=[]
@@ -164,19 +168,23 @@ def mesh_save_all():
 	
 
 def mesh_load_all():
-	mesh_load_x()
-	mesh_load_y()
-	mesh_load_z()	
-
+	ret=True
+	r=mesh_load_x()
+	ret=ret and r
+	r=mesh_load_y()
+	ret=ret and r
+	r=mesh_load_z()
+	ret=ret and r
+	return ret
 	
 def mesh_load_x():
-	mesh_load("x")
+	return mesh_load("x")
 
 def mesh_load_y():
-	mesh_load("y")
+	return mesh_load("y")
 
 def mesh_load_z():
-	mesh_load("z")
+	return mesh_load("z")
 
 def mesh_get_xlen():
 	global xlist

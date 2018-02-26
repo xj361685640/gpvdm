@@ -467,19 +467,20 @@ class import_data(QDialog):
 			self.load_file()
 			
 	def load_file(self):
-		if os.path.isfile(self.file_name)==True:
-			f = open(self.file_name, "r")
-			lines = f.readlines()
-			f.close()
-			text=""
-			for l in range(0, len(lines)):
-				text=text+lines[l].rstrip()+"\n"
-			self.raw_data_path.setText(self.file_name)
-			self.raw_data.setText(text)
+		if self.file_name!=None:
+			if os.path.isfile(self.file_name)==True:
+				f = open(self.file_name, "r")
+				lines = f.readlines()
+				f.close()
+				text=""
+				for l in range(0, len(lines)):
+					text=text+lines[l].rstrip()+"\n"
+				self.raw_data_path.setText(self.file_name)
+				self.raw_data.setText(text)
 
-			got_info=plot_load_info(self.info_token,self.file_name)
-			self.import_data.setEnabled(True)
-			self.plot.setEnabled(True)
+				got_info=plot_load_info(self.info_token,self.file_name)
+				self.import_data.setEnabled(True)
+				self.plot.setEnabled(True)
 
 
 

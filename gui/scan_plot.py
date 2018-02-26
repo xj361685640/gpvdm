@@ -29,6 +29,7 @@ from plot import check_info_file
 from win_lin import running_on_linux
 from inp import inp_get_token_value
 from plot import plot_populate_plot_token
+from gui_util import error_dlg
 
 def gen_plot_line(dirname,plot_token):
 	print(plot_token.file0,plot_token.file1)
@@ -187,31 +188,29 @@ def scan_gen_plot_data(plot_token,base_path):
 		plot_files, plot_labels, save_file = gen_infofile_plot(plot_files,base_path,plot_token)
 
 	else:
-		ret=plot_populate_plot_token(plot_token,plot_files[0])
-		if ret==False:
-			message = gtk.MessageDialog(type=gtk.MESSAGE_ERROR, buttons=gtk.BUTTONS_OK)
-			message.set_markup("This file "+file_name+" is not in the data base please file a bug report..")
-			message.run()
-			message.destroy()
-			return
+		if len(plot_files)>0:
+			ret=plot_populate_plot_token(plot_token,plot_files[0])
+			if ret==False:
+				error_dlg(self,"This file "+file_name+" is not in the data base please file a bug report..")
+				return
 
-		#build plot labels
-		for i in range(0,len(plot_files)):
-			text=plot_files[i][len(base_path):len(plot_files[i])-1-len(os.path.basename(plot_files[i]))]
-			if text.endswith("dynamic"):
-				text=text[:-7]
+			#build plot labels
+			for i in range(0,len(plot_files)):
+				text=plot_files[i][len(base_path):len(plot_files[i])-1-len(os.path.basename(plot_files[i]))]
+				if text.endswith("dynamic"):
+					text=text[:-7]
 
-			if text.endswith("light_dump"):
-				text=text[:-10]
+				if text.endswith("light_dump"):
+					text=text[:-10]
 
-			if text[0]=="/" or "\\":
-				text=text[1:]
-				
-			text=text.replace("\\","/")
+				if text[0]=="/" or "\\":
+					text=text[1:]
+					
+				text=text.replace("\\","/")
 
-			plot_labels.append(str(text))
+				plot_labels.append(str(text))
 
-		save_file=os.path.join(base_path,os.path.splitext(os.path.basename(plot_files[0]))[0])+".oplot"
+			save_file=os.path.join(base_path,os.path.splitext(os.path.basename(plot_files[0]))[0])+".oplot"
 
 
 	return plot_files, plot_labels, save_file

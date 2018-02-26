@@ -58,8 +58,9 @@ def draw_stars():
 		
 	for i in range(0,len(stars)):
 		glPointSize(stars[i][6])
-		glBegin(GL_POINTS)
 		glColor3f(stars[i][3],stars[i][4],stars[i][5])
+
+		glBegin(GL_POINTS)
 		glVertex3f(stars[i][0],stars[i][1],stars[i][2])
 		#glVertex3f(-1.0,-1.0,0.0)
 		glEnd()
@@ -104,12 +105,14 @@ def draw_photon(x,z,up):
 	else:
 		glColor3f(0.0, 1.0, 0.0)
 
-	glBegin(GL_LINES)
+
 	wx=np.arange(0, length , 0.025)
 	wy=np.sin(wx*3.14159*8)*0.2
 	
 	start_x=2.7
 	stop_x=2.7-length
+
+	glBegin(GL_LINES)
 	for i in range(1,len(wx)):
 		glVertex3f(x, start_x-wx[i-1], z+wy[i-1])
 		glVertex3f(x, start_x-wx[i], z+wy[i])
@@ -136,10 +139,10 @@ def draw_photon(x,z,up):
 def box_lines(x,y,z,w,h,d):
 
 	glLineWidth(10)
-	
-	glBegin(GL_LINES)
 
 	glColor3f(1.0,1.0,1.0)
+	
+	glBegin(GL_LINES)
 
 	#btm
 
@@ -215,16 +218,17 @@ def box(x,y,z,w,h,d,r,g,b,alpha):
 	green=g
 	blue=b
 
-	glBegin(GL_QUADS)
 
 	#btm
 	glColor4f(red,green,blue,alpha)
 
+	glBegin(GL_QUADS)
 	glVertex3f(x+0.0,y+0.0,z+0.0)
 	glVertex3f(x+w,y+ 0.0,z+0.0)
 	glVertex3f(x+w,y+ 0.0,z+d)
 	glVertex3f(x+ 0.0, y+0.0,z+ d) 
-
+	glEnd()
+	
 	#back
 	red=red*0.95
 	green=green*0.95
@@ -232,10 +236,12 @@ def box(x,y,z,w,h,d,r,g,b,alpha):
 
 	glColor4f(red,green,blue,alpha)
 
+	glBegin(GL_QUADS)
 	glVertex3f(x+0.0,y+h,z+0.0)
 	glVertex3f(x+w,y+ h,z+0.0)
 	glVertex3f(x+w,y+ h,z+d)
 	glVertex3f(x+ 0.0, y+h,z+ d) 
+	glEnd()
 
 	#right
 	red=red*0.95
@@ -243,10 +249,12 @@ def box(x,y,z,w,h,d,r,g,b,alpha):
 	blue=blue*0.95
 	glColor4f(red,green,blue,alpha)
 
+	glBegin(GL_QUADS)
 	glVertex3f(x+w,y,z)
 	glVertex3f(x+w,y+ h,z)
 	glVertex3f(x+w,y+ h,z+d)
 	glVertex3f(x+w, y,z+d) 
+	glEnd()
 
 	#left
 	red=red*0.95
@@ -254,21 +262,26 @@ def box(x,y,z,w,h,d,r,g,b,alpha):
 	blue=blue*0.95
 	glColor4f(red,green,blue,alpha)
 
+	glBegin(GL_QUADS)
 	glVertex3f(x,y,z)
 	glVertex3f(x,y+ h,z)
 	glVertex3f(x,y+ h,z+d)
 	glVertex3f(x, y,z+d) 
-
+	glEnd()
+	
 	#front
 	red=r
 	green=g
 	blue=b
 
 	glColor4f(red,green,blue,alpha)
+	
+	glBegin(GL_QUADS)
 	glVertex3f(x,y,z+d)
 	glVertex3f(x+w,y,z+d)
 	glVertex3f(x+w,y+h,z+d)
 	glVertex3f(x, y+h,z+d) 
+	glEnd()
 
 	red=red*0.8
 	green=green*0.8
@@ -276,9 +289,9 @@ def box(x,y,z,w,h,d,r,g,b,alpha):
 
 	#top
 	glColor4f(red,green,blue,alpha)
+	glBegin(GL_QUADS)
 	glVertex3f(x,y+h,z)
 	glVertex3f(x+w,y+ h,z)
 	glVertex3f(x+w,y+ h,z+ d)
 	glVertex3f(x, y+h,z+ d) 
-
 	glEnd()

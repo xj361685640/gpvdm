@@ -56,11 +56,14 @@ from inp import inp_load_file
 from scan_item import scan_items_lookup_item
 from cal_path import get_sim_path
 
+from gui_util import tab_move_up
+from gui_util import tab_move_down
+from gui_util import tab_insert_row
+
 class constraints(QWidget):
 
 	def insert_row_mm(self,i,file_name,token,path,function,max_value,min_value,error):
 		self.tab_mm.blockSignals(True)
-		self.tab_mm.insertRow(i)
 
 		item = QTableWidgetItem(file_name)
 		self.tab_mm.setItem(i,0,item)
@@ -136,7 +139,8 @@ class constraints(QWidget):
 	#	self.select_param_window_dest.show()
 		
 	def callback_add_item_mm(self):
-		self.insert_row_mm(self.tab_mm.rowCount(),_("File"),_("Token"),_("Path"),_("Function"),_("Max"),_("Min"),_("Error"))
+		pos=tab_insert_row(self.tab_mm)
+		self.insert_row_mm(pos,_("File"),_("Token"),_("Path"),_("Function"),_("Max"),_("Min"),_("Error"))
 		self.save_combo()
 
 	def callback_delete_item_mm(self):
@@ -193,7 +197,8 @@ class constraints(QWidget):
 				print(line)
 				if line[0]=="mm":
 					path=scan_items_lookup_item(line[1],line[2])
-					self.insert_row_mm(self.tab_mm.rowCount(),line[1],line[2],path,line[3],line[4],line[5],line[6])
+					self.tab_mm.insertRow(self.tab_mm.rowCount())
+					self.insert_row_mm(self.tab_mm.rowCount()-1,line[1],line[2],path,line[3],line[4],line[5],line[6])
 
 				pos=pos+1
 
@@ -233,7 +238,7 @@ class constraints(QWidget):
 
 		########################mm##########################
 		toolbar_mm=QToolBar()
-		toolbar_mm.setIconSize(QSize(48, 48))
+		toolbar_mm.setIconSize(QSize(32, 32))
 
 		self.tb_save = QAction(QIcon_load("list-add"), _("Add"), self)
 		self.tb_save.triggered.connect(self.callback_add_item_mm)
@@ -242,6 +247,14 @@ class constraints(QWidget):
 		self.tb_save = QAction(QIcon_load("list-remove"), _("Minus"), self)
 		self.tb_save.triggered.connect(self.callback_delete_item_mm)
 		toolbar_mm.addAction(self.tb_save)
+
+		self.tb_down= QAction(QIcon_load("go-down"), _("Move down"), self)
+		self.tb_down.triggered.connect(self.on_move_down)
+		toolbar_mm.addAction(self.tb_down)
+
+		self.tb_up= QAction(QIcon_load("go-up"), _("Move up"), self)
+		self.tb_up.triggered.connect(self.on_move_up)
+		toolbar_mm.addAction(self.tb_up)
 
 		self.vbox.addWidget(toolbar_mm)
 
@@ -304,3 +317,11 @@ class constraints(QWidget):
 
 	def closeEvent(self, event):
 		self.hide()
+
+	def on_move_down(self):
+		tab_move_down(self.tab_mm)
+		self.save_combo()
+		
+	def on_move_up(self):
+		tab_move_up(self.tab_mm)
+		self.save_combo()

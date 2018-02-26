@@ -64,6 +64,8 @@ from util import wrap_text
 from cal_path import get_sim_path
 from QWidgetSavePos import QWidgetSavePos
 
+from css import css_apply
+
 def fit_new_filename():
 	for i in range(0,20):
 		pulse_name="fit"+str(i)+".inp"
@@ -172,8 +174,6 @@ class fit_window(QWidgetSavePos):
 				if num.isdigit()==True:
 					files.append(file_list[i])
 
-		print("load tabs",files)
-
 		for i in range(0,len(files)):
 			value=strextract_interger(files[i])
 			if value!=-1:
@@ -280,8 +280,10 @@ class fit_window(QWidgetSavePos):
 		self.main_vbox.addWidget(toolbar)
 
 		self.notebook = QTabWidget()
+		css_apply(self.notebook,"style_h.css")
 		self.notebook.setTabBar(QHTabBar())
 		self.notebook.setTabPosition(QTabWidget.West)
+
 
 		self.notebook.setMovable(True)
 

@@ -55,6 +55,7 @@ from cal_path import get_sim_path
 
 from optics_ribbon import optics_ribbon
 
+from css import css_apply
 
 class class_optical(QWidget):
 
@@ -109,7 +110,7 @@ class class_optical(QWidget):
 		self.progress_window=progress_class()
 
 		self.notebook = QTabWidget()
-
+		css_apply(self.notebook,"tab_default.css")
 		self.notebook.setMovable(True)
 
 
@@ -193,6 +194,8 @@ class class_optical(QWidget):
 
 		for i in range(0,len(self.plot_widgets)):
 			self.plot_widgets[i].update()
+			
+		self.ribbon.update()
 		
 	def callback_run(self):
 		self.my_server=server_get()
@@ -201,24 +204,24 @@ class class_optical(QWidget):
 
 		inp_update_token_value("dump.inp", "#dump_optics","true")
 		inp_update_token_value("dump.inp", "#dump_optics_verbose","true")
-		pwd=os.getcwd()
-		os.chdir(get_sim_path())
-		cmd = get_exe_command()+' --simmode opticalmodel@optics'
-		print(cmd)
-		ret= os.system(cmd)
-		os.chdir(pwd)
-		#self.my_server.clear_cache()
-		#self.my_server.add_job(get_sim_path(),"--simmode opticalmodel@optics")
-		#self.my_server.start()
+		#pwd=os.getcwd()
+		#os.chdir(get_sim_path())
+		#cmd = get_exe_command()+' --simmode opticalmodel@optics'
+		#print(cmd)
+		#ret= os.system(cmd)
+		#os.chdir(pwd)
+		self.my_server.clear_cache()
+		self.my_server.add_job(get_sim_path(),"--simmode opticalmodel@optics")
+		self.my_server.set_callback_when_done(self.force_redraw)
+		self.my_server.start()
+
 		
 		inp_update_token_value("dump.inp", "#dump_optics",dump_optics)
 		inp_update_token_value("dump.inp", "#dump_optics_verbose",dump_optics_verbose)
 		
-		self.force_redraw()
-		self.ribbon.update()
 
-		inp_update_token_value("dump.inp", "#dump_optics","true")
-		inp_update_token_value("dump.inp", "#dump_optics_verbose","true")
+		#inp_update_token_value("dump.inp", "#dump_optics","true")
+		#inp_update_token_value("dump.inp", "#dump_optics_verbose","true")
 		
 
 	def mode_changed(self):

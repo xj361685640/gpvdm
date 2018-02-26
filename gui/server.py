@@ -68,9 +68,12 @@ import time
 
 from cal_path import get_sim_path
 from gui_enable import gui_get
+from job import job
+import socket
 
 my_server=False
 
+from datetime import datetime
 
 
 class node:
@@ -78,27 +81,39 @@ class node:
 	load=""
 	cpus=""
 
+class job:
+	name=""
+	path=""
+	ip=""
+	args=""
+	start=""
+	stop=""
+	cpus=1
+	status=0
 
 class base_server():
 	def __init__(self):
 		self.running=False
 		self.progress_window=progress_class()
-
-	def base_server_init(self,sim_dir):
+		self.stop_work=False
 		self.cpus=multiprocessing.cpu_count()
 		self.jobs=[]
-		self.args=[]
-		self.status=[]
 		self.jobs_running=0
 		self.jobs_run=0
+		self.finished_jobs=[]
+
+	def base_server_init(self,sim_dir):
 		self.sim_dir=sim_dir
 
-		self.finished_jobs=[]
+
 		
 	def base_server_add_job(self,path,arg):
-		self.jobs.append(path)
-		self.args.append(arg)
-		self.status.append(0)
+		j=job()
+		j.path=path
+		j.args=arg
+		j.status=0
+		j.name="job"+str(len(self.jobs))
+		self.jobs.append(j)
 
 	def check_warnings(self):
 		message=""
@@ -106,7 +121,7 @@ class base_server():
 		print(len(self.jobs))
 
 		for i in range(0,len(self.jobs)):
-			log_file=os.path.join(self.jobs[i],"log.dat")
+			log_file=os.path.join(self.jobs[i].path,"log.dat")
 			if os.path.isfile(log_file):
 				f = open(log_file, "r")
 				lines = f.readlines()
@@ -119,9 +134,9 @@ class base_server():
 						found=found+lines[l]+"\n"
 						problem_found=True
 				if len(found)!=0:
-					message=message+self.jobs[i]+":\n"+found+"\n"
+					message=message+self.jobs[i].path+":\n"+found+"\n"
 				else:
-					message=message+self.jobs[i]+":OK\n\n"
+					message=message+self.jobs[i].path+":OK\n\n"
 		if problem_found==False:
 			message=""
 
@@ -130,7 +145,7 @@ class base_server():
 	def print_jobs(self):
 		print("server job list:")
 		for i in range(0, len(self.jobs)):
-			print("job",i,self.jobs[i],self.args[i],self.status[i])
+			print("job",i,self.jobs[i].path,self.jobs[i].args,self.jobs[i].status)
 		print("jobs running=",self.jobs_running,"jobs run=",self.jobs_run,"cpus=",self.cpus)
 
 	def base_server_process_jobs(self):
@@ -149,13 +164,18 @@ class base_server():
 			else:
 				return
 
-	def simple_run(self):
+	def remove_lock_files(self):
 		ls=os.listdir(self.sim_dir)
+		#print(">>>>>>",ls)
 		for i in range(0, len(ls)):
 			if ls[i][:4]=="lock" and ls[i][-4:]==".dat":
 				del_file=os.path.join(self.sim_dir,ls[i])
-				print("delete file:",del_file)
+				#print("delete file:",del_file)
 				os.remove(del_file)
+
+	def simple_run(self):
+		self.stop_work=False
+		self.remove_lock_files()
 				
 		self.base_server_process_jobs()
 
@@ -171,6 +191,7 @@ class base_server():
 			time.sleep(0.1)
 
 			if self.jobs_run==len(self.jobs):
+				self.remove_lock_files()
 				break
 
 	def base_server_get_next_job_to_run(self,lock_file=False):
@@ -179,8 +200,10 @@ class base_server():
 
 		for i in range(0, len(self.jobs)):
 			if (self.jobs_running<self.cpus):
-				if self.status[i]==0:
-					self.status[i]=1
+				if self.jobs[i].status==0:
+					self.jobs[i].status=1
+					self.jobs[i].start=str(datetime.now())
+					self.jobs[i].ip=socket.gethostbyname(socket.gethostname())
 					#for r in range(0,len(self.jobs)):
 					#	print(self.jobs[i],self.args[i])
 					
@@ -191,12 +214,26 @@ class base_server():
 					else:
 						command_lock=" --lock "+"lock"+str(i)
 
-					full_command=get_exe_command()+command_lock+" "+self.args[i]+" "+get_exe_args()
+					full_command=get_exe_command()+command_lock+" "+self.jobs[i].args+" "+get_exe_args()
 
-					return self.jobs[i],full_command
+					return self.jobs[i].path,full_command
 
 		return False,False
 
+
+	def killall(self):
+		self.stop_work=True
+		if self.cluster==True:
+			self.cluster_killall()
+		else:
+			if running_on_linux()==True:
+				cmd = 'killall '+get_exe_name()
+				os.system(cmd)
+				print(cmd)
+			else:
+				cmd="taskkill /im "+get_exe_name()
+				print(cmd)
+				os.system(cmd)
 
 if gui_get()==True:
 	class server(QWidget,base_server,cluster):
@@ -205,6 +242,7 @@ if gui_get()==True:
 			
 		def __init__(self):
 			QWidget.__init__(self)
+			base_server.__init__(self)
 			self.enable_gui=False
 			self.callback_when_done=False
 			self.display=False
@@ -258,6 +296,7 @@ if gui_get()==True:
 			if self.excel_workbook_gen_error==True:
 				help_window().help_append(["warning.png",_("<big><b>Excel workbook error</b></big><br>I can't write new data to the file data.xlsx, I think you have are viewing it using another program.  Please close data.xlsx to enable me to write new data to it.")])
 
+			self.jobs_update.emit()
 			self.sim_finished.emit()
 			
 		def setup_gui(self,extern_gui_sim_start):
@@ -268,6 +307,7 @@ if gui_get()==True:
 		def add_job(self,path,arg):
 			if self.cluster==False:
 				self.base_server_add_job(path,arg)
+				self.jobs_update.emit()
 			else:
 				self.add_remote_job(path)
 				self.send_dir(path,"")
@@ -287,6 +327,7 @@ if gui_get()==True:
 
 
 		def run_jobs(self):
+			self.stop_work=False
 			if self.cluster==True:
 				self.cluster_run_jobs()
 			else:
@@ -297,7 +338,7 @@ if gui_get()==True:
 			path=True
 			while(path!=False):
 				path,command=self.base_server_get_next_job_to_run()
-
+				self.jobs_update.emit()
 				if path!=False:
 					if self.terminal.run(path,command)==True:
 						time.sleep(0.1)
@@ -315,8 +356,6 @@ if gui_get()==True:
 			self.gui_sim_stop()
 
 			self.jobs=[]
-			self.args=[]
-			self.status=[]
 			self.jobs_running=0
 			self.jobs_run=0
 			self.running=False
@@ -350,11 +389,14 @@ if gui_get()==True:
 					else:
 						if self.finished_jobs.count(data)==0:
 							job=int(data[4:])
+							self.jobs[job].status=2
+							self.jobs[job].stop=str(datetime.now())
+
 							self.finished_jobs.append(data)
 							make_work_book=inp_get_token_value(os.path.join(get_sim_path(),"dump.inp"),"#dump_workbook")
 							if make_work_book!=None:
 								if str2bool(make_work_book)==True:
-									if gen_workbook(self.jobs[job],os.path.join(self.jobs[job],"data.xlsx"))==False:
+									if gen_workbook(self.jobs[job].path,os.path.join(self.jobs[job].path,"data.xlsx"))==False:
 										self.excel_workbook_gen_error=self.excel_workbook_gen_error or True
 							self.jobs_run=self.jobs_run+1
 							self.jobs_running=self.jobs_running-1
@@ -395,6 +437,14 @@ if gui_get()==True:
 					
 						if self.fit_update!=None:
 							self.fit_update()
+
+def server_break():
+	global my_server
+	if my_server.stop_work==True:
+		my_server.stop_work=False
+		return True
+
+	return False
 
 def server_init():
 	global my_server

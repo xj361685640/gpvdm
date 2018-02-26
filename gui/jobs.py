@@ -37,6 +37,8 @@ from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QWidget
 
 from gui_util import tab_add
+from server import server_get
+
 
 class jobs_view(QWidget):
 
@@ -50,36 +52,31 @@ class jobs_view(QWidget):
 
 		self.tab.verticalHeader().setVisible(False)
 
-		self.create_model()
-
 #		self.tab.cellChanged.connect(self.tab_changed)
 		
 		self.main_vbox.addWidget(self.tab)
 
 		self.setLayout(self.main_vbox)
+
+		self.myserver=server_get()
+		self.myserver.jobs_update.connect(self.callback_cluster_get_jobs)
+
 		self.show()
 
+	def callback_cluster_get_jobs(self):
 
-	def add_items(self):
-		self.store.clear()
-		actresses = [("n","name","done","status","target","ip","copystate","start","stop")]
-
-		for act in actresses:
-			self.store.store.append([act[0], act[1], act[2], act[3],act[4], act[5], act[6], act[7]])
-
-	def load_data(self,jobs_list):
-		self.create_model()
-		for i in range(len(jobs_list)):
-			tab_add(self.tab,jobs_list[i])
-
-	def create_model(self):
 		self.tab.clear()
-		self.tab.setColumnCount(9)
-
-		self.tab.setSelectionBehavior(QAbstractItemView.SelectRows)
-		self.tab.setHorizontalHeaderLabels([_("n"), _("name"), _("done"), _("status"), _("target"), _("ip"),_("copy state"),_("start"),_("stop")])
-
+		self.tab.setColumnCount(7)
 		self.tab.setRowCount(0)
+		self.tab.setSelectionBehavior(QAbstractItemView.SelectRows)
+		self.tab.setHorizontalHeaderLabels([ _("name"), _("path"), _("ip"), _("start"), _("stop"), _("CPUs"), _("status")])
+
+
+		for job in self.myserver.jobs:
+			tab_add(self.tab,[job.name,job.path,job.ip,job.start,job.stop,str(job.cpus),str(job.status)])
+
+
+
 
 
 

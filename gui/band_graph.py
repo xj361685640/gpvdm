@@ -147,7 +147,9 @@ class band_graph(QWidget):
 #			label=epitaxy_get_mat_file(i)
 			layer_ticknes=epitaxy_get_width(i)
 			layer_material=epitaxy_get_mat_file(i)
-
+			lumo=0.0
+			homo=0.0
+			
 			delta=float(layer_ticknes)*1e9
 			#print(epitaxy_get_electrical_layer(i))
 			lines=[]

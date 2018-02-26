@@ -26,6 +26,8 @@ import zipfile
 from inp_util import inp_merge
 from inp_util import inp_search_token_value
 
+from cal_path import subtract_paths
+
 def archive_copy_file(dest_archive,dest_file_name,src_archive,file_name,dest="archive"):
 	lines=read_lines_from_archive(src_archive,file_name)
 	if lines==False:
@@ -38,12 +40,12 @@ def archive_copy_file(dest_archive,dest_file_name,src_archive,file_name,dest="ar
 
 
 def archive_make_empty(archive_path):
-		zf = zipfile.ZipFile(archive_path, 'w')
+		zf = zipfile.ZipFile(archive_path, 'w',zipfile.ZIP_DEFLATED)
 
 		#zf.writestr("gpvdm.txt", "")
 		zf.close()
 
-def zip_lsdir(file_name):
+def zip_lsdir(file_name,zf=None,sub_dir=None):
 	"""Input: path to a .gpvdm file"""
 	my_list=[]
 	my_dir=os.path.dirname(file_name)
@@ -58,12 +60,32 @@ def zip_lsdir(file_name):
 		return False
 
 	if os.path.isfile(file_name):
-		zf = zipfile.ZipFile(file_name, 'r')
+		do_close=False
+		if zf==None:
+			do_close=True
+			zf = zipfile.ZipFile(file_name, 'r')
+
 		items=zf.namelist()
-		for i in range(0,len(items)):
-			if my_list.count(items[i])==0:
-				my_list.append(items[i])
-		zf.close()
+		items.extend(my_list)
+		
+		my_list=list(set(items))
+
+		if sub_dir!=None:
+			l=[]
+			level=sub_dir.count("/")
+			for i in range(0,len(my_list)):
+				archive_file=my_list[i]
+
+				if archive_file.startswith(sub_dir)==True:
+					ret=subtract_paths(sub_dir,archive_file)
+					if ret!="":
+						l.append(ret)
+
+			my_list=list(set(l))
+
+		if do_close==True:
+			zf.close()
+
 		return my_list
 
 	return False
@@ -73,6 +95,9 @@ def zip_get_data_file(file_name):
 	found=False
 	lines=[]
 	zip_file=os.path.dirname(file_name)+".zip"
+	if os.path.isfile(zip_file)==False:
+		zip_file=os.path.join(os.path.dirname(file_name),"sim.gpvdm")
+
 	name=os.path.basename(file_name)
 	if os.path.isfile(file_name)==True:
 		f = open(file_name, mode='rb')
@@ -115,7 +140,7 @@ def replace_file_in_zip_archive(zip_file_name,target,lines,mode="l",delete_first
 		if delete_first==True:
 			zip_remove_file(zip_file_name,target)
 
-		zf = zipfile.ZipFile(zip_file_name, 'a')
+		zf = zipfile.ZipFile(zip_file_name, 'a',zipfile.ZIP_DEFLATED)
 
 		if mode=="l":
 			build='\n'.join(lines)
@@ -152,7 +177,7 @@ def zip_remove_file(zip_file_name,target):
 
 		if found==True:
 			fh, abs_path = mkstemp()
-			zf = zipfile.ZipFile(abs_path, 'w')
+			zf = zipfile.ZipFile(abs_path, 'w',zipfile.ZIP_DEFLATED)
 
 			for file in source.filelist:
 				if not file.filename.startswith(target):
@@ -208,11 +233,16 @@ def archive_compress(archive_path):
 				replace_file_in_zip_archive(archive_path,file_name,lines,delete_first=False)
 
 
-def archive_add_file(archive_path,file_name,base_dir):
-		lines=[]
-		name_of_file_in_archive=file_name[len(base_dir):]
+def archiv_move_file_to_archive(archive_path,file_name,base_dir,dont_delete=False):
+	archive_add_file(archive_path,file_name,base_dir,dont_delete)
+	os.remove(file_name)
 
-		zip_remove_file(archive_path,name_of_file_in_archive)
+def archive_add_file(archive_path,file_name,base_dir,dont_delete=False):
+		lines=[]
+		name_of_file_in_archive=subtract_paths(base_dir,file_name)#file_name[len(base_dir):]
+
+		if dont_delete==False:
+			zip_remove_file(archive_path,name_of_file_in_archive)
 
 		if os.path.isfile(file_name):
 			f=open(file_name, mode='rb')
@@ -221,11 +251,42 @@ def archive_add_file(archive_path,file_name,base_dir):
 		else:
 			return False
 
-		zf = zipfile.ZipFile(archive_path, 'a')
+		zf = zipfile.ZipFile(archive_path, 'a',zipfile.ZIP_DEFLATED)
 
 		zf.writestr(name_of_file_in_archive, lines)
 		zf.close()
 		return True
+
+def archive_add_dir(archive_path,dir_name,base_dir, remove_src_dir=False,zf=None):
+
+	close_file=False
+
+	if zf==None:
+		close_file=True
+		zf = zipfile.ZipFile(archive_path, 'a',zipfile.ZIP_DEFLATED)
+
+	for root, dirs, files in os.walk(dir_name):
+		for name in files:
+			file_name=os.path.join(root, name)
+
+			if os.path.isfile(file_name):
+				f=open(file_name, mode='rb')
+				lines = f.read()
+				f.close()
+
+				name_of_file_in_archive=subtract_paths(base_dir,file_name)
+				zf.writestr(name_of_file_in_archive, lines)
+
+
+	if close_file==True:
+		zf.close()
+
+	if remove_src_dir==True: 
+		if base_dir=="" or base_dir==dir_name or dir_name=="/" or dir_name=="/home/rod" or dir_name=="/home/rod/" or dir_name=="c:\\":	#paranoia
+			return
+
+		shutil.rmtree(dir_name)
+
 
 def read_lines_from_archive(zip_file_path,file_name,mode="l"):
 
@@ -276,6 +337,15 @@ def read_lines_from_archive(zip_file_path,file_name,mode="l"):
 
 	return lines
 
+## This will unpack an archive leaving a .gpvdm file with a ver.inp file inside it
+def archive_unpack(zip_file_path):
+	dir_name=os.path.dirname(zip_file_path)
+	ver_file=os.path.join(dir_name,"ver.inp")
+	archive_decompress(zip_file_path)
+	archive_make_empty(zip_file_path)
+	#archiv_move_file_to_archive(zip_file_path,ver_file,dir_name)
+
+## This will unpack an acrhive removing the .gpvdm file
 def archive_decompress(zip_file_path):
 
 	if os.path.isfile(zip_file_path):
@@ -334,6 +404,22 @@ def extract_file_from_archive(dest,zip_file_path,file_name):
 		f.close()
 
 	return True
+
+
+def extract_dir_from_archive(dest,zip_file_path,dir_name,zf=None):
+	items=zf.namelist()
+	for i in range(0,len(items)):
+		if items[i].startswith(dir_name)==True:
+			read_lines = zf.read(items[i])
+			output_file=os.path.join(dest,subtract_paths(dir_name,items[i]))
+			output_dir=os.path.dirname(output_file)
+
+			if os.path.isdir(output_dir)==False:
+				os.makedirs(output_dir)
+
+			f=open(output_file, mode='wb')
+			lines = f.write(read_lines)
+			f.close()
 
 def archive_isfile(zip_file_name,file_name):
 	ret=False

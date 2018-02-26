@@ -53,13 +53,7 @@ from tb_item_is_imps import tb_item_is_imps
 
 from cal_path import get_sim_path
 from QWidgetSavePos import QWidgetSavePos
-
-def experiment_new_filename():
-	for i in range(0,20):
-		name="fxdomain"+str(i)+".inp"
-		if inp_isfile(name)==False:
-			return i
-	return -1
+from experiment_util import experiment_new_filename
 
 class fxexperiment(QWidgetSavePos):
 
@@ -74,7 +68,7 @@ class fxexperiment(QWidgetSavePos):
 		new_sim_name=new_sim_name.ret
 
 		if new_sim_name!=None:
-			index=experiment_new_filename()
+			index=experiment_new_filename("fxdomain")
 			inp_copy_file(os.path.join(get_sim_path(),"fxdomain"+str(index)+".inp"),os.path.join(get_sim_path(),"fxdomain0.inp"))
 			inp_copy_file(os.path.join(get_sim_path(),"fxmesh"+str(index)+".inp"),os.path.join(get_sim_path(),"fxmesh0.inp"))
 			inp_update_token_value(os.path.join(get_sim_path(),"fxdomain"+str(index)+".inp"), "#sim_menu_name", new_sim_name+"@fxdomain")
@@ -89,7 +83,7 @@ class fxexperiment(QWidgetSavePos):
 		new_sim_name=new_sim_name.ret
 		if new_sim_name!=None:
 			new_sim_name=new_sim_name+"@"+tab.tab_name.split("@")[1]
-			index=experiment_new_filename()
+			index=experiment_new_filename("fxdomain")
 			if inp_copy_file(os.path.join(get_sim_path(),"fxdomain"+str(index)+".inp"),os.path.join(get_sim_path(),"fxdomain"+str(old_index)+".inp"))==False:
 				print("Error copying file"+os.path.join(get_sim_path(),"fxdomain"+str(old_index)+".inp"))
 				return

@@ -256,11 +256,17 @@ class equation(QWidget):
 				self.x.append(w)
 				self.y.append(val)
 				w=w+dx
-			
-			a = open(os.path.join(self.path,self.out_file), "w")
-			for i in range(0,len(self.y)):
-				a.write(str(self.x[i])+" "+str(self.y[i])+"\n")
-			a.close()
+
+			f_name=os.path.join(self.path,self.out_file)
+
+			try:
+				a = open(f_name, "w")
+				for i in range(0,len(self.y)):
+					a.write(str(self.x[i])+" "+str(self.y[i])+"\n")
+				a.close()
+			except IOError:
+				print("Could not read file:", f_name)
+
 
 	def on_cell_edited(self, x,y):
 		self.draw_graph()
@@ -300,6 +306,10 @@ class equation(QWidget):
 	
 	def callback_fit(self):
 		data=tab_get_selected(self.tab)
+		if data==False:
+			error_dlg(self,_("No items selected"))
+
+
 		d=fit_poly(float(data[0]),float(data[1]),self.data)
 		d.run()
 		if d.ret_math!=None:

@@ -169,7 +169,7 @@ def tree_gen(flat_simulation_list,program_list,base_dir,sim_dir):
 
 	if found_scan==True and found_random==True:
 		return False
-	
+
 	if found_random==True:
 		tree_gen_random_files(sim_dir,flat_simulation_list,program_list,base_dir)
 		return
@@ -229,7 +229,7 @@ def tree_gen_random_files(sim_path,flat_simulation_list,program_list,base_dir):
 	for i in range(0,len(program_list)):
 		if program_list[i][3]=="random_file_name":
 			length=int(program_list[i][2])
-	
+
 	progress_window=progress_class()
 	progress_window.show()
 	progress_window.start()

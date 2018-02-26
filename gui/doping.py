@@ -93,7 +93,7 @@ class doping_window(QWidgetSavePos):
 
 	def callback_save(self, widget, data=None):
 		file_name=save_as_image(self)
-		if file_name!=False:
+		if file_name!=None:
 			if os.path.splitext(file_name)[1]:
 				self.save_image(file_name)
 			else:

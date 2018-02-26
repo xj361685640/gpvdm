@@ -49,17 +49,28 @@ from code_ctrl import enable_cluster
 from win_lin import running_on_linux
 from inp import inp_update_token_value
 from device_lib_io import device_lib_replace
+from device_lib_io import device_lib_delete
 from cal_path import test_arg_for_sim_file
 from cal_path import set_sim_path
 from import_archive import patch_file
 from inp import inp_encrypt
 from util_zip import archive_decompress
 from scan_io import build_scan
-from scan_io import scan_build_all_nested
+from scan_io import scan_build_nested_simulation
+from scan_tree import tree_load_flat_list
 
 from scan_item import scan_items_clear
 from scan_item import scan_items_populate_from_known_tokens
 from scan_item import scan_items_populate_from_files
+
+from scan_ml import scan_ml_build_vector
+
+from scan_io import scan_archive
+
+from gui_enable import set_gui
+from gui_enable import gui_get
+
+from util_zip import archive_unpack
 
 import i18n
 _ = i18n.language.gettext
@@ -68,7 +79,8 @@ import argparse
 parser = argparse.ArgumentParser(epilog=_("Additional information about gpvdm is available at")+" https://www.gpvdm.com"+"\n"+_("Report bugs to:")+" roderick.mackenzie@nottingham.ac.uk")
 parser.add_argument("--version", help=_("displays the current version"), action='store_true')
 parser.add_argument("--ver", help=_("displays the current version"), action='store_true')
-parser.add_argument("--replace", help=_("replaces file in device lib"), nargs=1)
+parser.add_argument("--replace", help=_("replaces file in device lib --replace file.inp path_to_device_lib"), nargs=2)
+parser.add_argument("--delete", help=_("deletes file in device lib --delete file.inp path_to_device_lib"), nargs=2)
 parser.add_argument("--clean", help=_("cleans the current simulation directory deleting .dat files but not  scan dirs"), action='store_true')
 parser.add_argument("--export", help=_("export a simulation to a gz file"), nargs=1)
 parser.add_argument("--syncver", help=_("Synchronizes the saved file version to that of the source code."), action='store_true')
@@ -85,12 +97,13 @@ parser.add_argument("--editvalue", help=_("edits a value in a .gpvdm archive. Us
 parser.add_argument("--scanplot", help=_("Runs an oplot file, usage --scanplot /path/to/oplot/file.oplot "), nargs=1)
 parser.add_argument("--runscan", help=_("Runs a scan, usage --runscan /path/to/scan/dir/ "), nargs=1)
 parser.add_argument("--buildscan", help=_("Builds a scan, usage --buildscan /path/to/scan/dir/ /path/containing/base/files/"), nargs=2)
-parser.add_argument("--buildnestedscan", help=_("Builds a nested scan, usage --buildnestedscan /path/to/scan/dir/"), nargs=1)
+parser.add_argument("--buildnestedscan", help=_("Builds a nested scan, usage --buildnestedscan /path/to/scan/dir/ sim_to_nest"), nargs=2)
 parser.add_argument("--load", help=_("Loads a simulation --load /path/containing/simulation/sim.gpvdm"), nargs=1)
 parser.add_argument("--encrypt", help=_("Encrypt a gpvdm file --file sim.gpvdm"), nargs=1)
 parser.add_argument("--extract", help=_("Extract the sim.gpvdm archive --extract"), action='store_true')
-
-
+parser.add_argument("--scanarchive", help=_("Compress a scandir --scanarchive path_to_scan_dir"), nargs=1)
+parser.add_argument("--scanbuildvectors", help=_("Build vectors from scan dir --scanbuildvectors path_to_scan_dir"), nargs=1)
+parser.add_argument("--unpack", help=_("Unpacks a gpvdm archive --unpack path/to/gpvdm_file.gpvdm"), nargs=1)
 
 if test_arg_for_sim_file()==False:
 	args = parser.parse_args()
@@ -113,7 +126,10 @@ def command_args(argc,argv):
 			import_scan_dirs(os.getcwd(),args.importscandirs[0])
 			exit(0)
 		elif args.replace:
-			device_lib_replace(args.replace[0])
+			device_lib_replace(args.replace[0],dir_name=args.replace[1])
+			exit(0)
+		elif args.delete:
+			device_lib_delete(args.delete[0],dir_name=args.delete[1])
 			exit(0)
 		elif args.clean:
 			clean_sim_dir()
@@ -150,6 +166,7 @@ def command_args(argc,argv):
 			sys.exit(0)
 		elif args.load:
 			set_sim_path(os.path.dirname(args.load[0]))
+			#print("a")
 		elif args.encrypt:
 			inp_encrypt(args.encrypt[0])
 			sys.exit(0)
@@ -166,16 +183,23 @@ def command_args(argc,argv):
 			else:
 				print("Problem loading oplot file")
 			sys.exit(0)
+
+		if args.unpack:
+			archive_unpack(args.unpack[0])
+			sys.exit()
 		if args.runscan:
+			set_gui(False)
 			scan_dir_path=args.runscan[0]	#program file
 			exe_command=get_exe_command()
 			program_list=tree_load_program(scan_dir_path)
-
+	
 			watch_dir=os.path.join(os.getcwd(),scan_dir_path)
 
 			commands=[]
-			server_find_simulations_to_run(commands,scan_dir_path)
+			#server_find_simulations_to_run(commands,scan_dir_path)
+			commands=tree_load_flat_list(scan_dir_path)
 			print(commands)
+			
 			myserver=base_server()
 			myserver.base_server_init(watch_dir)
 
@@ -189,24 +213,39 @@ def command_args(argc,argv):
 
 			sys.exit(0)
 
+		if args.scanarchive:
+			set_gui(False)
+			scan_archive(args.scanarchive[0])
+			sys.exit(0)
+
 		if args.buildscan:
+			set_gui(False)
 			scan_items_clear()
 			scan_items_populate_from_known_tokens()
 			scan_items_populate_from_files()
 
 			scan_dir_path=args.buildscan[0]	#program file
 			base_dir=args.buildscan[1]				#base dir
+
 			build_scan(scan_dir_path,base_dir)
 
 			sys.exit(0)
 
+		if args.scanbuildvectors:
+			set_gui(False)
+			scan_ml_build_vector(args.scanbuildvectors[0])
+			sys.exit(0)
+
 		if args.buildnestedscan:
+			set_gui(False)
+
 			scan_items_clear()
 			scan_items_populate_from_known_tokens()
 			scan_items_populate_from_files()
 
 			scan_dir_path=os.path.abspath(args.buildnestedscan[0])	#program file
-			scan_build_all_nested(scan_dir_path)
+			sim_to_nest=os.path.abspath(args.buildnestedscan[1])	#program file
+			scan_build_nested_simulation(scan_dir_path,os.path.join(os.getcwd(),sim_to_nest))
 
 			sys.exit(0)
 

@@ -318,8 +318,13 @@ class plot_widget(QWidget):
 		self.input_files=input_files
 		self.config_file=config_file
 
+		if len(input_files)==0:
+			print(_("No files were given to load"))
+			return
+
 		if self.config_file=="":
-			self.config_file=os.path.splitext(input_files[0])[0]+".oplot"
+			base=os.path.splitext(input_files[0])
+			self.config_file=base[0]+".oplot"
 
 		self.data=[]
 
@@ -527,6 +532,11 @@ class plot_widget(QWidget):
 
 	def callback_refresh(self):
 		self.update()
+
+	def __init__(self):
+		self.input_files=[]
+		self.config_file=""
+		QWidget.__init__(self)
 
 	def init(self,menu=True,save_refresh=True):
 		self.main_vbox = QVBoxLayout()

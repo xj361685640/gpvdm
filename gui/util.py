@@ -104,10 +104,17 @@ def delete_second_level_link_tree(path):
 def gpvdm_delete_file(path):
 	if os.path.isdir(path)==True:
 		print("Delete",path)
-		shutil.rmtree(path)
+		try:
+			shutil.rmtree(path)
+		except IOError:
+			print("Could not delete the dir:", path)
+
 	elif os.path.isfile(path)==True:
 		print("Delete",path)
-		os.remove(path)
+		try:
+			os.remove(path)
+		except IOError:
+			print("Could not delete the file:", path)
 
 def numbers_to_latex(data):
 	out=""

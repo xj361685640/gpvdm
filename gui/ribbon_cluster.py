@@ -51,24 +51,16 @@ from cmp_class import cmp_class
 from global_objects import global_object_run
 from util import isfiletype
 
-from server import server_get
 from util import wrap_text
 
-from status_icon import status_icon_stop
-from global_objects import global_object_get
 
 class ribbon_cluster(QToolBar):
 	def __init__(self):
 		QToolBar.__init__(self)
-		self.cluster_tab=None
 		self.myserver=server_get()
 
 		self.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
 		self.setIconSize(QSize(42, 42))
-		
-		self.cluster_button = QAction(QIcon_load("not_connected"), wrap_text(_("Connect to cluster"),8), self)
-		self.cluster_button.triggered.connect(self.callback_cluster_connect)
-		self.addAction(self.cluster_button)
 
 		self.cluster_get_data = QAction(QIcon_load("server_get_data"), wrap_text(_("Cluster get data"),8), self)
 		self.cluster_get_data.triggered.connect(self.callback_cluster_get_data)
@@ -102,11 +94,6 @@ class ribbon_cluster(QToolBar):
 		self.cluster_sync.setEnabled(False)
 
 
-		self.cluster_jobs = QAction(QIcon_load("server_jobs"),  _("Get jobs"), self)
-		self.cluster_jobs.triggered.connect(self.callback_cluster_jobs)
-		self.addAction(self.cluster_jobs)
-		self.cluster_jobs.setEnabled(False)
-
 		spacer = QWidget()
 		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 		self.addWidget(spacer)
@@ -127,12 +114,6 @@ class ribbon_cluster(QToolBar):
 	def callback_cluster_sync(self):
 		self.myserver.copy_src_to_cluster_fast()
 
-
-	def callback_cluster_jobs(self):
-		self.myserver.cluster_list_jobs()
-		print(self.myserver.cluster_jobs)
-		self.cluster_tab.jview.load_data(self.myserver.cluster_jobs)
-
 	def callback_cluster_sleep(self):
 		self.myserver.sleep()
 
@@ -145,38 +126,23 @@ class ribbon_cluster(QToolBar):
 	def callback_wol(self, widget, data):
 		self.myserver.wake_nodes()
 
-	def callback_cluster_connect(self):
-		self.cluster_tab=global_object_get("cluster_tab")
-		global_object_get("notebook_goto_page")(_("Terminal"))
-		if self.myserver.connect()==False:
-			error_dlg(self,_("Can not connect to cluster."))
-
-		self.update()
-		if self.myserver.cluster==True:
-			status_icon_stop(True)
-		else:
-			status_icon_stop(False)
 			
 	def update(self):
 		if self.myserver.cluster==True:
-			self.cluster_button.setIcon(QIcon_load("connected"))
 			self.cluster_clean.setEnabled(True)
 			self.cluster_make.setEnabled(True)
 			self.cluster_copy_src.setEnabled(True)
 			self.cluster_get_data.setEnabled(True)
 			self.cluster_off.setEnabled(True)
 			self.cluster_sync.setEnabled(True)
-			self.cluster_jobs.setEnabled(True)
 
 		else:
-			self.cluster_button.setIcon(QIcon_load("not_connected"))
 			self.cluster_clean.setEnabled(False)
 			self.cluster_make.setEnabled(False)
 			self.cluster_copy_src.setEnabled(False)
 			self.cluster_get_data.setEnabled(False)
 			self.cluster_off.setEnabled(False)
 			self.cluster_sync.setEnabled(False)
-			self.cluster_jobs.setEnabled(False)
 
 	def setEnabled(self,val):
 		print("")

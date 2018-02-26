@@ -34,10 +34,11 @@ def encrypt_load():
 	global key
 	global iv
 	if running_on_linux()==True:
-		iv=inp_get_token_value("crypto.inp","#iv")
-		key=inp_get_token_value("crypto.inp","#key")
+		iv=inp_get_token_value("cluster.inp","#iv")
+		key=inp_get_token_value("cluster.inp","#key")
 
 def encrypt(data):
+	return data
 	global key
 	global iv
 	global enable_crypto
@@ -63,6 +64,7 @@ def encrypt(data):
 
 
 def decrypt(data):
+	return data
 	global key
 	global iv
 	global enable_crypto
