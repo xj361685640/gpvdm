@@ -275,7 +275,7 @@ lib.append(my_data("dump.inp","#dump_remove_dos_cache",_("True/False"),_("Clean 
 #led.inp
 lib.append(my_data("","#led_on",_("True/False"),_("Turn on LED"),"e",1.0,"gtkswitch"))
 lib.append(my_data("","#led_wavelength","m",_("LED emission wavelength"),"e",1.0,"QLineEdit"))
-lib.append(my_data("","#led_extract_eff","m",_("LED extraction efficiency"),"e",1.0,"QLineEdit"))
+lib.append(my_data("","#led_extract_eff","0.0-1.0",_("LED extraction efficiency"),"e",1.0,"QLineEdit"))
 
 #device.inp
 lib.append(my_data("","#invert_applied_bias","au",_("Invert applied bias"),"e",1.0,"gtkswitch"))

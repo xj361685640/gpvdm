@@ -155,6 +155,8 @@ struct device
 
 		gdouble ***Rn;
 		gdouble ***Rp;
+		gdouble ***Rn_srh;
+		gdouble ***Rp_srh;
 		gdouble ***kl;
 		gdouble ***ke;
 		gdouble ***kh;

@@ -183,6 +183,11 @@ class electrical_mesh_editor(QGroupBox):
 		self.ax1.scatter(self.x,self.mag ,c=c, cmap=cmap)
 		self.fig.canvas.draw()
 		self.ax1.set_xlabel(_("Thickness")+" ("+unit+")")
+		self.ax1.get_yaxis().set_visible(False)
+		self.ax1.spines['top'].set_visible(False)
+		self.ax1.spines['right'].set_visible(False)
+		#self.ax1.spines['bottom'].set_visible(False)
+		self.ax1.spines['left'].set_visible(False)
 
 	def update(self):
 		self.load()

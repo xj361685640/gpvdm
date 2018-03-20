@@ -94,19 +94,23 @@ from global_objects import global_object_register
 
 from inp import inp_search_token_array
 from math import fabs
-
+from gl_color import color
 # Rotations for cube.
 cube_rotate_x_rate = 0.2
 cube_rotate_y_rate = 0.2
 cube_rotate_z_rate = 0.2
 
 
+from gl_color import set_color
+from gl_color import clear_color
+from gl_color import set_color_alpha
+from gl_color import print_color
+from gl_color import set_false_color
+from gl_color import search_color
 
 def tab(x,y,z,w,h,d):
-
-
 	glBegin(GL_QUADS)
-	glColor3f(0.0,0.0,1.0)
+	set_color(0.0,0.0,1.0,"tab")
 	glVertex3f(x+w+0.05,y,z)
 	glVertex3f(x+w+0.2,y ,z)
 	glVertex3f(x+w+0.2,y+h ,z)
@@ -119,7 +123,7 @@ def tab(x,y,z,w,h,d):
 def draw_mode(z_size,depth):
 
 	glLineWidth(5)
-	glColor3f(1.0, 1.0, 1.0)
+	set_color(1.0, 1.0, 1.0,"mode")
 	glBegin(GL_LINES)
 	t=[]
 	s=[]
@@ -208,12 +212,6 @@ def graph(xstart,ystart,z,w,h,z_range,graph_data):
 
 		glEnd()
 	
-class color():
-	def __init__(self,r,g,b,alpha):
-		self.r=r
-		self.g=g
-		self.b=b
-		self.alpha=alpha
 
 class view_point():
 	def __init__(self):
@@ -289,6 +287,9 @@ if open_gl_ok==True:
 
 		colors=[]
 		def __init__(self, parent):
+			QGLWidget.__init__(self, parent)
+			self.setAutoBufferSwap(False)
+
 			self.failed=True
 			self.graph_path="./snapshots/159/Jn.dat"
 			self.graph_z_max=1.0
@@ -319,7 +320,6 @@ if open_gl_ok==True:
 			self.suns=0.0
 			self.selected_layer=-1
 			self.graph_data=dat_file()
-			QGLWidget.__init__(self, parent)
 			self.lastPos=None
 			self.ray_file=""
 			#glClearDepth(1.0)              
@@ -409,6 +409,21 @@ if open_gl_ok==True:
 			self.timer.timeout.connect(self.ftimer_target)
 			self.timer.start(25)
 
+		def mouseDoubleClickEvent(self,event):
+			x = event.x()
+			y = self.height()-event.y()
+			data=glReadPixelsub(x, y, 1, 1, GL_RGBA,GL_FLOAT)
+#glReadPixels(x, y, 1, 1, GL_RGB, GL_FLOAT, pixelf);
+			set_false_color(True)
+			self.render()
+			r=float(data[0][0][0])
+			g=float(data[0][0][1])
+			b=float(data[0][0][2])
+
+			print(x,y,r,g,b,search_color(r,g,b))
+			set_false_color(False)
+			
+
 		def mouseMoveEvent(self,event):
 			if 	self.timer!=None:
 				self.timer.stop()
@@ -467,10 +482,11 @@ if open_gl_ok==True:
 				y=np.arange(0, max_gui_device_z , den)
 				for i in range(0,len(x)):
 					for ii in range(0,len(y)):
-							draw_photon(x[i]+0.1,y[ii]+0.1,True)
+						draw_photon(x[i]+0.1,y[ii]+0.1,True)
 
-		def do_draw(self):
+		def render(self):
 			#print("do draw")
+			clear_color()
 			dos_start=-1
 			dos_stop=-1
 			epi_y_len=epitaxy_get_y_len()
@@ -616,7 +632,8 @@ if open_gl_ok==True:
 				else:
 					text=epitaxy_get_name(l-i)
 
-				glColor3f(1.0,1.0,1.0)
+				set_color(1.0,1.0,1.0,"text")
+
 				font = QFont("Arial")
 				font.setPointSize(18)
 				if self.viewpoint.zoom>-20:
@@ -634,8 +651,11 @@ if open_gl_ok==True:
 			if self.viewpoint.zoom<-60:
 				draw_stars()
 
-			#print("do draw end")
+			
 
+		def do_draw(self):
+			self.render()
+			self.swapBuffers() 
 
 		def paintGL(self):
 			if self.failed==False:

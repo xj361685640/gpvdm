@@ -20,6 +20,7 @@
 
 
 import os
+import random
 from tab_base import tab_base
 from help import my_help_class
 from cal_path import get_image_file_path
@@ -32,6 +33,7 @@ from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication
 from PyQt5.QtGui import QIcon,QPixmap,QPalette
 from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtWidgets import QWidget,QScrollArea,QSizePolicy,QHBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar, QMessageBox, QVBoxLayout, QGroupBox, QTableWidget,QAbstractItemView, QTableWidgetItem, QLabel
+from cal_path import get_html_path
 
 class information(QScrollArea,tab_base):
 
@@ -56,28 +58,33 @@ class information(QScrollArea,tab_base):
 		#self.label.setSizePolicy( QSizePolicy.Ignored, QSizePolicy.Ignored );
 		#self.label.setMaximumSize( QSize(16777215, 16777215) )
 		self.label.setWordWrap(True)
-		text="<b><font size=30>"
-		text=text+"General-purpose photovoltaic device model"
-		text=text+"</b><br>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<br></font>"
-		text=text+"<br><font size=12>(<a href=\"http://www.gpvdm.com\" title=\""
-		text=text+_("Click to find out more")
-		text=text+"\">www.gpvdm.com</a>)<br><br> "
-		text=text+_("To make a new simulation click <i><u>N</u>ew Simulation</i> in the menu or to open an existing simulation select <i><u>O</u>pen simulation</i>. ")
-		text=text+"<br> <br> "
-		text=text+_("There is more help on the <a href=\"http://www.gpvdm.com/man/index.html\">man pages</a>.")
-		text=text+"<br><br>"
-		text=text+_("Please report bugs to <br><a href=\"mailto:roderick.mackenzie@nottingham.ac.uk?Subject=gpvdm%20bug\">")
-		text=text+"roderick.mackenzie@nottingham.ac.uk</a>.<br><br><br> Rod<br>18/10/13<br>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<br><br><br><br></font>"
+
+		files=os.listdir(get_html_path())
+		info_files=[]
+		for i in range(0,len(files)):
+			if files[i].startswith("info") and files[i].endswith("html"):
+				info_files.append(files[i])
+		file_name=random.choice(info_files)
+
+		f = open(os.path.join(get_html_path(),file_name))
+		data = f.readlines()
+		f.close()
+		text=""
+		for i in range(0, len(data)):
+			text=text+'\n'+data[i].rstrip()
+
+		text=text.replace("get_image_file_path()",get_image_file_path())
+
 		self.label.setText(text)
 		#self.label.setMinimumSize( QSize(0,0) )
 
 		hbox.addWidget(self.label)
 
-		image = QLabel()
-		pixmap = QPixmap(os.path.join(get_image_file_path(),"image.jpg"))
-		image.setPixmap(pixmap)
+		#image = QLabel()
+		#pixmap = QPixmap(os.path.join(get_image_file_path(),"image.jpg"))
+		#image.setPixmap(pixmap)
 
-		hbox.addWidget(image)
+		#hbox.addWidget(image)
 
 		self.main_widget.setLayout(hbox)
 		self.main_widget.show()

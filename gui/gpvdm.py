@@ -32,6 +32,7 @@ sys.path.append('/usr/lib/gpvdm/')
 sys.path.append('/usr/lib64/gpvdm/')
 sys.path.append('/usr/share/gpvdm/gui/')	#debian
 sys.path.append('/usr/share/sip/PyQt5/')
+
 from win_lin import running_on_linux
 from cal_path import get_image_file_path
 from cal_path import calculate_paths
@@ -94,63 +95,107 @@ from server import server_get
 #mesh
 from mesh import mesh_load_all
 
+
+from PyQt5.QtWidgets import QMainWindow,QApplication
+from splash import splash_window
+from gui_util import process_events
+from error_han import error_han
+
 #qt
-from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication
+from PyQt5.QtWidgets import QTextEdit, QAction
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSize, Qt,QFile,QIODevice
 from PyQt5.QtWidgets import QWidget,QSizePolicy,QVBoxLayout,QHBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QMessageBox, QLineEdit, QToolButton
 
-#windows
-from splash import splash_window
-from new_simulation import new_simulation
-from dlg_export import dlg_export
-from device_lib import device_lib_class
-from cool_menu import cool_menu
+def do_import():
+	global new_simulation
+	global dlg_export
+	global device_lib_class
+	global cool_menu
 
-from equation import equation
+	global equation
 
-#python modules
-import webbrowser
+	global webbrowser
+	global ver_check_compatibility
+	global update_thread
+	global update_now
 
-#ver
-from ver import ver_check_compatibility
+	global gen_workbook
 
-#updates
-from update import update_thread
-from update import update_now
+	global plot_dlg_class
+	global yes_no_dlg
+	global isfiletype
+	global dbus
+	global DBusQtMainLoop
+	global win_pipe
 
-from workbook import gen_workbook
 
-from error_han import error_han
+	global QTabWidget
+	global ribbon
 
-from plot_dlg import plot_dlg_class
-from gui_util import yes_no_dlg
-from util import isfiletype
-if running_on_linux()==True:
-	import dbus
-	from dbus.mainloop.pyqt5 import DBusQtMainLoop
+	global error_dlg
 
-	if os.geteuid() == 0:
-		exit(_("Don't run me as root!!"))
-	
-else:
-	from windows_pipe import win_pipe
+	global to_native_path
+	global get_sim_path
+	global clone_materials	
+	global wpos_load
+	global global_object_run
+	global check_sim_exists
 
-print(notice())
+	#qt
+	from PyQt5.QtWidgets import QTextEdit, QAction
+	from PyQt5.QtGui import QIcon
+	from PyQt5.QtCore import QSize, Qt,QFile,QIODevice
+	from PyQt5.QtWidgets import QWidget,QSizePolicy,QVBoxLayout,QHBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QMessageBox, QLineEdit, QToolButton
 
-#gobject.threads_init()
+	#windows
+	from new_simulation import new_simulation
+	from dlg_export import dlg_export
+	from device_lib import device_lib_class
+	from cool_menu import cool_menu
 
-from PyQt5.QtWidgets import QTabWidget
-from ribbon import ribbon
+	from equation import equation
 
-from gui_util import error_dlg
+	#python modules
+	import webbrowser
 
-from cal_path import to_native_path
-from cal_path import get_sim_path
-from clone import clone_materials
-from window_list import wpos_load
-from global_objects import global_object_run
-from check_sim_exists import check_sim_exists
+	#ver
+	from ver import ver_check_compatibility
+
+	#updates
+	from update import update_thread
+	from update import update_now
+
+	from workbook import gen_workbook
+
+	from plot_dlg import plot_dlg_class
+	from gui_util import yes_no_dlg
+	from util import isfiletype
+	if running_on_linux()==True:
+		import dbus
+		from dbus.mainloop.pyqt5 import DBusQtMainLoop
+
+		if os.geteuid() == 0:
+			exit(_("Don't run me as root!!"))
+	else:
+		from windows_pipe import win_pipe
+
+	print(notice())
+
+	#gobject.threads_init()
+
+	from PyQt5.QtWidgets import QTabWidget
+	from ribbon import ribbon
+
+	from gui_util import error_dlg
+
+	from cal_path import to_native_path
+	from cal_path import get_sim_path
+	from clone import clone_materials	
+	from window_list import wpos_load
+	from global_objects import global_object_run
+	from check_sim_exists import check_sim_exists
+
 
 class gpvdm_main_window(QMainWindow):
 
@@ -268,19 +313,35 @@ class gpvdm_main_window(QMainWindow):
 
 	def change_dir_and_refresh_interface(self,new_dir):
 		scan_items_clear()
+		self.splash.inc_value()
+
 		scan_items_populate_from_known_tokens()
+		self.splash.inc_value()
+
 		scan_items_populate_from_files()
+		self.splash.inc_value()
+
 		set_sim_path(new_dir)
+		self.splash.inc_value()
+
 		calculate_paths()
+		self.splash.inc_value()
+
 		epitaxy_load(get_sim_path())
+		self.splash.inc_value()
+
 		contacts_load()
+		self.splash.inc_value()
+
 		if mesh_load_all()==False:
 			error_dlg(self,_("There was a problem loading the electrical mesh, I suspect you are trying to open a file generated in a very old version of gpvdm."))
 			return
 
 		self.statusBar().showMessage(get_sim_path())
+		self.splash.inc_value()
 
 		self.update_interface()
+		self.splash.inc_value()
 
 		if self.notebook.terminal!=None:
 			self.my_server.set_terminal(self.notebook.terminal)
@@ -294,6 +355,7 @@ class gpvdm_main_window(QMainWindow):
 		#scan_populate_from_file("light.inp")
 
 		self.ribbon.update()
+		self.splash.inc_value()
 
 	def load_sim(self,filename):
 		new_path=os.path.dirname(filename)
@@ -361,22 +423,41 @@ class gpvdm_main_window(QMainWindow):
 		self.update_interface()
 
 	def __init__(self):
+		super(gpvdm_main_window,self).__init__()
+		self.splash=splash_window()
+		self.splash.inc_value()
+		process_events()
+		process_events()
+
+		do_import()
+		self.splash.inc_value()
+		self.splash.inc_value()
+
 		server_init()
+		self.splash.inc_value()
 
 		self.check_sim_exists=check_sim_exists()
-		self.check_sim_exists.start_thread()
-		self.check_sim_exists.sim_gone.connect(self.sim_gone)
-		self.my_server=server_get()
+		self.splash.inc_value()
 
+		self.check_sim_exists.start_thread()
+		self.splash.inc_value()
+
+		self.check_sim_exists.sim_gone.connect(self.sim_gone)
+		self.splash.inc_value()
+
+		self.my_server=server_get()
 		self.my_server.init(get_sim_path())
+		self.splash.inc_value()
+
 
 		self.undo_list=undo_list_class()
 		wpos_load()
+		self.splash.inc_value()
 
 		self.ribbon=ribbon()
+		self.splash.inc_value()
 
 		self.notebook_active_page=None
-		super(gpvdm_main_window,self).__init__()
 		self.setAcceptDrops(True)
 		#self.setGeometry(200, 100, 1300, 600)
 		self.setWindowTitle("General-purpose Photovoltaic Device Model (https://www.gpvdm.com)")
@@ -385,9 +466,14 @@ class gpvdm_main_window(QMainWindow):
 		#gobject.GObject.__init__(self)
 
 		self.my_server.setup_gui(self.gui_sim_start)
+		self.splash.inc_value()
+
 		self.my_server.sim_finished.connect(self.gui_sim_stop)
+		self.splash.inc_value()
 
 		help_init()
+		self.splash.inc_value()
+
 		#help_window().help_set_help(["star.png",_("<big><b>Update available!</b></big><br>")])
 
 
@@ -405,17 +491,19 @@ class gpvdm_main_window(QMainWindow):
 
 		self.notebook=gpvdm_notebook()
 		vbox=QVBoxLayout()
-		
+		self.splash.inc_value()
+
 		vbox.addWidget(self.ribbon)
 		vbox.addWidget(self.notebook)
 		wvbox=QWidget()
+		self.splash.inc_value()
+
 		wvbox.setLayout(vbox)
 		self.setCentralWidget(wvbox)
-		self.show()
+
+		self.splash.inc_value()
 
 		self.statusBar()
-
-		self.splash=splash_window()
 
 		temp_error=ver_error()
 		#print(temp_error)
@@ -424,8 +512,8 @@ class gpvdm_main_window(QMainWindow):
 			return
 
 
-
 		self.setWindowIcon(QIcon(os.path.join(get_image_file_path(),"image.jpg")))		
+		self.splash.inc_value()
 
 		self.show_tabs = True
 		self.show_border = True
@@ -436,30 +524,29 @@ class gpvdm_main_window(QMainWindow):
 		#	self.help_menu_update=help_menu.addAction("&"+_("Check for updates"))
 		#	self.help_menu_update.triggered.connect(self.callback_update)
 
-
 		self.ribbon.home_new.triggered.connect(self.callback_new)
 		self.ribbon.home_open.triggered.connect(self.callback_open)
 		self.ribbon.home.undo.triggered.connect(self.callback_undo)
 		self.ribbon.home.run.triggered.connect(self.callback_simulate)
-		
+		self.splash.inc_value()
+
 		self.ribbon.home.stop.setEnabled(False)
 
 		self.ribbon.home.scan.setEnabled(False)
 		
 		self.ribbon.home.help.triggered.connect(self.callback_on_line_help)
 
-	
-		resize_window_to_be_sane(self,0.7,0.7)
+		resize_window_to_be_sane(self,0.7,0.75)
 
 		self.change_dir_and_refresh_interface(get_sim_path())
+		self.splash.inc_value()
 
 
-		self.show()
-
-		
 		self.ribbon.home.sun.changed.connect(self.notebook.update)
 		self.ribbon.setAutoFillBackground(True)
-
+		self.splash.inc_value()
+		self.show()
+		help_window().show()
 
 	def dragEnterEvent(self, event):
 		if event.mimeData().hasUrls:

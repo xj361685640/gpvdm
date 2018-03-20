@@ -44,6 +44,7 @@ src_path=None
 spectra_path=None
 sim_path=None
 materials_base_path=None
+html_path=None
 
 def subtract_paths(root,b_in):
 	a=root.replace("/","\\")
@@ -210,6 +211,7 @@ def calculate_paths():
 	global ui_path
 	global spectra_path
 	global materials_base_path
+	global html_path
 
 	materials_path=os.path.join(get_sim_path(),"materials")
 	if os.path.isdir(materials_path)==False:
@@ -228,6 +230,8 @@ def calculate_paths():
 	ui_path=search_known_paths("ui",[""],None)
 	spectra_path=search_known_paths("spectra",[""],None)
 
+	html_path=search_known_paths("html",[""],"info0.html")
+
 def get_share_path():
 	global share_path
 	return share_path
@@ -239,6 +243,10 @@ def get_src_path():
 def get_spectra_path():
 	global spectra_path
 	return spectra_path
+
+def get_html_path():
+	global html_path
+	return html_path
 
 def get_materials_path():
 	global materials_path

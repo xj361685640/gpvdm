@@ -143,7 +143,6 @@ def mesh_save(file_name,mesh_class):
 	lines.append("#ver")
 	lines.append("1.0")
 	lines.append("#end")
-	print("save as",file_name,lines)
 	inp_save(file_name,lines)
 
 def mesh_save_x():
@@ -185,6 +184,23 @@ def mesh_load_y():
 
 def mesh_load_z():
 	return mesh_load("z")
+
+def mesh_set_xlen(value):
+	global xlist
+	if len(xlist.layers)==1:
+		xlist.layers[0].thick=value
+		return True
+	else:
+		return False
+
+def mesh_set_zlen(value):
+	global zlist
+	if len(zlist.layers)==1:
+		zlist.layers[0].thick=value
+		return True
+	else:
+		return False
+
 
 def mesh_get_xlen():
 	global xlist

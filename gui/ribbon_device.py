@@ -50,6 +50,8 @@ from cal_path import get_spectra_path
 
 from spectra_main import spectra_main
 from layer_widget import layer_widget
+from dim_editor import dim_editor
+
 from electrical import electrical
 from global_objects import global_object_register
 
@@ -62,6 +64,7 @@ class ribbon_device(QToolBar):
 		self.contacts_window=None
 		self.parasitic_window=None
 		self.layer_editor=None
+		self.dim_editor=None
 		self.electrical_editor=None
 
 		self.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
@@ -89,6 +92,9 @@ class ribbon_device(QToolBar):
 		self.tb_electrical_editor.triggered.connect(self.callback_electrical_editor)
 		self.addAction(self.tb_electrical_editor)
 
+		self.tb_dimension_editor = QAction(QIcon_load("dimensions"), _("xz-size"), self)
+		self.tb_dimension_editor.triggered.connect(self.callback_dimension_editor)
+		self.addAction(self.tb_dimension_editor)
 
 	def update(self):
 		if self.cost_window!=None:
@@ -110,6 +116,10 @@ class ribbon_device(QToolBar):
 		if self.layer_editor!=None:
 			del self.layer_editor
 			self.layer_editor=None
+
+		if self.dim_editor!=None:
+			del self.dim_editor
+			self.dim_editor=None
 
 		if self.electrical_editor!=None:
 			del self.electrical_editor
@@ -168,6 +178,18 @@ class ribbon_device(QToolBar):
 			self.layer_editor.hide()
 		else:
 			self.layer_editor.show()
+
+	def callback_dimension_editor(self):
+		help_window().help_set_help(["dimension.png",_("<big><b>xz dimension editor</b></big>\nUse this window to configure the xz size of the device.")])
+
+		if self.dim_editor==None:
+			self.dim_editor=dim_editor()
+
+		if self.dim_editor.isVisible()==True:
+			self.dim_editor.hide()
+		else:
+			self.dim_editor.show()
+
 
 	def callback_electrical_editor(self):
 		help_window().help_set_help(["electrical.png",_("<big><b>Electrical parameters</b></big>\nUse this window to change the electrical parameters of each layer.")])

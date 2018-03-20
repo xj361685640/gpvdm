@@ -26,9 +26,9 @@ import random
 import time
 
 from PyQt5.QtGui import QIcon,QTransform
-from PyQt5.QtCore import QSize, Qt, QTimer
+from PyQt5.QtCore import QSize, Qt, QTimer, QBasicTimer
 from PyQt5.uic import loadUi
-from PyQt5.QtWidgets import QApplication,QGraphicsScene,QWidget,QGraphicsView,QLabel
+from PyQt5.QtWidgets import QApplication,QGraphicsScene,QWidget,QGraphicsView,QLabel,QVBoxLayout,QProgressBar
 from PyQt5.QtGui import QPixmap,QFont
 
 #cal_path
@@ -50,16 +50,22 @@ class splash_window(QWidget):
 
 	def __init__(self):
 		QWidget.__init__(self)
-		width=459
+		mul=1.1
+		self.counts=0
+		width=459*mul
 		self.setFixedSize(width, 260)
 		self.center()
-		
+
 		self.view=QGraphicsView(self)
+
+		self.view.setStyleSheet("QProgressBar { border: 2px solid grey; border-radius: 5px; text-align: center; }")
+
+
 		self.view.setFixedSize(width+2+2,261)
 		self.view.move(-2,0)
 		self.setWindowFlags(Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint)
 		self.li=QLabel("ver",self)
-		self.li.move(30,180)
+		self.li.move(30,170)
 
 		self.font = QFont()
 		self.font.setFamily('DejaVu Sans')
@@ -82,7 +88,7 @@ class splash_window(QWidget):
 		window_h=self.height()
 		window_w=self.width()
 
-		QTimer.singleShot(1500, self.callback_destroy)
+		QTimer.singleShot(2000, self.callback_destroy)
 
 		r=random.randint(0, 2)
 		files=["splash1.png","splash2.png","splash3.png","splash4.jpg","splash5.jpg"]
@@ -128,4 +134,30 @@ class splash_window(QWidget):
 		else:
 			print("Image not found",image_path)
 
+		self.pbar = QProgressBar(self)
+		self.pbar.setGeometry(0, 261-20, width-5, 15)
+		#self.pbar.move(50,150)
+		
+
+
 		self.show()
+
+	def inc_value(self):
+		#print(self.counts)
+		self.counts=self.counts+1
+		value=100.0*self.counts/29.0
+		self.pbar.setValue(value)
+		if value>=100.0:
+			self.pbar.hide()
+		QApplication.processEvents()
+
+	def set_value(self,value):
+		self.pbar.setValue(value)
+		QApplication.processEvents()
+		
+
+		    
+
+
+
+

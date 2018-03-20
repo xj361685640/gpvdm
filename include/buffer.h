@@ -23,6 +23,7 @@
 #define buffer_h
 #include "advmath.h"
 //#include <zip.h>
+#include <device.h>
 
 struct buffer
 {

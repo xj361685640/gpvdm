@@ -25,6 +25,7 @@ try:
 	from OpenGL.GLU import *
 	from PyQt5 import QtOpenGL
 	from PyQt5.QtOpenGL import QGLWidget
+	from gl_color import set_color
 	open_gl_ok=True
 except:
 	print("opengl error from gl_lib",sys.exc_info()[0])
@@ -58,7 +59,7 @@ def draw_stars():
 		
 	for i in range(0,len(stars)):
 		glPointSize(stars[i][6])
-		glColor3f(stars[i][3],stars[i][4],stars[i][5])
+		set_color(stars[i][3],stars[i][4],stars[i][5],"star")
 
 		glBegin(GL_POINTS)
 		glVertex3f(stars[i][0],stars[i][1],stars[i][2])
@@ -69,8 +70,7 @@ def draw_stars():
 def draw_grid():
 	glLineWidth(1)
 
-
-	glColor3f(0.5, 0.5, 0.5)
+	set_color(0.5, 0.5, 0.5,"grid")
 
 	start_x=-18.0
 	stop_x=20.0
@@ -101,9 +101,9 @@ def draw_photon(x,z,up):
 	glLineWidth(3)
 	length=0.9
 	if up==True:
-		glColor3f(0.0, 0.0, 1.0)
+		set_color(0.0, 0.0, 1.0,"photon")
 	else:
-		glColor3f(0.0, 1.0, 0.0)
+		set_color(0.0, 1.0, 0.0,"photon")
 
 
 	wx=np.arange(0, length , 0.025)
@@ -140,8 +140,8 @@ def box_lines(x,y,z,w,h,d):
 
 	glLineWidth(10)
 
-	glColor3f(1.0,1.0,1.0)
-	
+	set_color(1.0, 1.0, 0.0,"box_lines")
+
 	glBegin(GL_LINES)
 
 	#btm
@@ -220,7 +220,7 @@ def box(x,y,z,w,h,d,r,g,b,alpha):
 
 
 	#btm
-	glColor4f(red,green,blue,alpha)
+	set_color(red,green,blue,"box_lines",alpha=alpha)
 
 	glBegin(GL_QUADS)
 	glVertex3f(x+0.0,y+0.0,z+0.0)
@@ -234,7 +234,7 @@ def box(x,y,z,w,h,d,r,g,b,alpha):
 	green=green*0.95
 	blue=blue*0.95
 
-	glColor4f(red,green,blue,alpha)
+	set_color(red,green,blue,"box_lines",alpha=alpha)
 
 	glBegin(GL_QUADS)
 	glVertex3f(x+0.0,y+h,z+0.0)
@@ -247,7 +247,7 @@ def box(x,y,z,w,h,d,r,g,b,alpha):
 	red=red*0.95
 	green=green*0.95
 	blue=blue*0.95
-	glColor4f(red,green,blue,alpha)
+	set_color(red,green,blue,"box_lines",alpha=alpha)
 
 	glBegin(GL_QUADS)
 	glVertex3f(x+w,y,z)
@@ -260,7 +260,7 @@ def box(x,y,z,w,h,d,r,g,b,alpha):
 	red=red*0.95
 	green=green*0.95
 	blue=blue*0.95
-	glColor4f(red,green,blue,alpha)
+	set_color(red,green,blue,"box_lines",alpha=alpha)
 
 	glBegin(GL_QUADS)
 	glVertex3f(x,y,z)
@@ -274,7 +274,7 @@ def box(x,y,z,w,h,d,r,g,b,alpha):
 	green=g
 	blue=b
 
-	glColor4f(red,green,blue,alpha)
+	set_color(red,green,blue,"box_lines",alpha=alpha)
 	
 	glBegin(GL_QUADS)
 	glVertex3f(x,y,z+d)
@@ -288,7 +288,7 @@ def box(x,y,z,w,h,d,r,g,b,alpha):
 	blue=blue*0.8
 
 	#top
-	glColor4f(red,green,blue,alpha)
+	set_color(red,green,blue,"box_lines",alpha=alpha)
 	glBegin(GL_QUADS)
 	glVertex3f(x,y+h,z)
 	glVertex3f(x+w,y+ h,z)

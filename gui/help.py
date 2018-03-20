@@ -147,7 +147,6 @@ class help_class(QWidget):
 		self.vbox.addWidget(self.status_bar)
 		
 		self.setLayout(self.vbox)
-		self.show()
 
 
 	def callback_close(self,widget):

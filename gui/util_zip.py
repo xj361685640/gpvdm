@@ -76,10 +76,11 @@ def zip_lsdir(file_name,zf=None,sub_dir=None):
 			for i in range(0,len(my_list)):
 				archive_file=my_list[i]
 
-				if archive_file.startswith(sub_dir)==True:
-					ret=subtract_paths(sub_dir,archive_file)
-					if ret!="":
-						l.append(ret)
+				if archive_file.startswith(sub_dir)==True or sub_dir=="/":
+					s=archive_file.split("/")
+					if len(s)>level:
+						s=s[0:level]
+						l.append("/".join(s))
 
 			my_list=list(set(l))
 
@@ -89,7 +90,6 @@ def zip_lsdir(file_name,zf=None,sub_dir=None):
 		return my_list
 
 	return False
-
 
 def zip_get_data_file(file_name):
 	found=False

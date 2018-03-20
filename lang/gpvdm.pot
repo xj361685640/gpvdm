@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.97\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2018-02-26 15:31+0000\n"
+"POT-Creation-Date: 2018-03-20 23:18+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -368,7 +368,7 @@ msgstr ""
 #: ../plugins/pulse/pulse.c:237 ../plugins/pulse/pulse.c:240
 #: ../plugins/pulse/pulse.c:286 ../plugins/fxdomain/fxdomain.c:359
 #: ../plugins/fxdomain/fxdomain.c:382 ../plugins/jv/jv.c:266
-#: ../plugins/jv/jv.c:478 ../plugins/jv/jv.c:515 ../gui/token_lib.py:445
+#: ../plugins/jv/jv.c:479 ../plugins/jv/jv.c:516 ../gui/token_lib.py:445
 #: ../libdump/dump_dynamic.c:398 ../libdump/dump_contacts.c:72
 msgid "Current"
 msgstr ""
@@ -387,7 +387,7 @@ msgstr ""
 #: ../plugins/pulse/pulse.c:306 ../plugins/pulse/pulse.c:311
 #: ../plugins/fxdomain/fxdomain.c:404 ../plugins/fxdomain/fxdomain.c:418
 #: ../plugins/fxdomain/fxdomain.c:459 ../plugins/fxdomain/fxdomain.c:473
-#: ../plugins/jv/jv.c:266 ../plugins/jv/jv.c:317 ../plugins/jv/jv.c:494
+#: ../plugins/jv/jv.c:266 ../plugins/jv/jv.c:317 ../plugins/jv/jv.c:495
 #: ../plugins/equilibrium/equilibrium.c:125 ../gui/tmesh.py:234
 #: ../gui/tmesh.py:236 ../gui/tmesh.py:239 ../gui/tmesh.py:241
 #: ../gui/contacts.py:155 ../gui/import_data.py:311 ../gui/import_data.py:312
@@ -397,7 +397,7 @@ msgid "Voltage"
 msgstr ""
 
 #: ../plugins/pulse/pulse.c:309 ../plugins/jv/jv.c:441 ../plugins/jv/jv.c:460
-#: ../plugins/jv/jv.c:479 ../gui/fxmesh.py:187
+#: ../plugins/jv/jv.c:480 ../gui/fxmesh.py:187
 msgid "Volts"
 msgstr ""
 
@@ -481,13 +481,13 @@ msgstr ""
 
 #: ../plugins/jv/jv.c:358 ../plugins/jv/jv.c:378 ../plugins/jv/jv.c:398
 #: ../plugins/jv/jv.c:418 ../plugins/jv/jv.c:437 ../plugins/jv/jv.c:456
-#: ../plugins/jv/jv.c:475
+#: ../plugins/jv/jv.c:476
 msgid "Applied voltage"
 msgstr ""
 
 #: ../plugins/jv/jv.c:360 ../plugins/jv/jv.c:380 ../plugins/jv/jv.c:400
 #: ../plugins/jv/jv.c:420 ../plugins/jv/jv.c:439 ../plugins/jv/jv.c:458
-#: ../plugins/jv/jv.c:477
+#: ../plugins/jv/jv.c:478
 msgid "Applied Voltage"
 msgstr ""
 
@@ -504,15 +504,15 @@ msgstr ""
 msgid "Total charge density"
 msgstr ""
 
-#: ../plugins/jv/jv.c:475
+#: ../plugins/jv/jv.c:476
 msgid "Current "
 msgstr ""
 
-#: ../plugins/jv/jv.c:494 ../plugins/jv/jv.c:515
+#: ../plugins/jv/jv.c:495 ../plugins/jv/jv.c:516
 msgid "Light generated"
 msgstr ""
 
-#: ../plugins/jv/jv.c:518
+#: ../plugins/jv/jv.c:519
 msgid "Light power"
 msgstr ""
 
@@ -584,15 +584,15 @@ msgstr ""
 msgid "The server has detected a crash"
 msgstr ""
 
-#: ../libdos/dos.c:218
+#: ../libdos/dos.c:219
 msgid "Loading file"
 msgstr ""
 
-#: ../libdos/dos.c:264 ../libdos/dos.c:270
+#: ../libdos/dos.c:265 ../libdos/dos.c:271
 msgid "DOS file not found\n"
 msgstr ""
 
-#: ../libdos/dos.c:305
+#: ../libdos/dos.c:306
 msgid "DoS n file not found\n"
 msgstr ""
 
@@ -878,10 +878,10 @@ msgstr ""
 #: ../gui/ribbon_solar.py:74 ../gui/ribbon_information.py:75
 #: ../gui/ribbon.py:85 ../gui/info.py:63 ../gui/cost.py:89
 #: ../gui/fxexperiment.py:213 ../gui/fit_window.py:276
-#: ../gui/ribbon_cluster.py:101 ../gui/ref.py:89 ../gui/ref.py:90
-#: ../gui/lasers.py:196 ../gui/import_data.py:235 ../gui/import_data.py:236
-#: ../gui/scan_ribbon.py:77 ../gui/parasitic.py:64 ../gui/spectra_main.py:79
-#: ../gui/jvexperiment.py:192 ../gui/doping.py:190
+#: ../gui/ribbon_cluster.py:101 ../gui/dim_editor.py:127 ../gui/ref.py:89
+#: ../gui/ref.py:90 ../gui/lasers.py:196 ../gui/import_data.py:235
+#: ../gui/import_data.py:236 ../gui/scan_ribbon.py:77 ../gui/parasitic.py:64
+#: ../gui/spectra_main.py:79 ../gui/jvexperiment.py:192 ../gui/doping.py:190
 msgid "Help"
 msgstr ""
 
@@ -1215,80 +1215,80 @@ msgstr ""
 msgid "Excel file"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:176 ../gui/gpvdm_viewer.py:196
+#: ../gui/gpvdm_viewer.py:177 ../gui/gpvdm_viewer.py:197
 #: ../gui/gpvdm_open.py:159 ../gui/gpvdm_open.py:179
 msgid "New directory"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:178 ../gui/gpvdm_open.py:161
+#: ../gui/gpvdm_viewer.py:179 ../gui/gpvdm_open.py:161
 msgid "New material"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:181 ../gui/gpvdm_open.py:164
+#: ../gui/gpvdm_viewer.py:182 ../gui/gpvdm_open.py:164
 msgid "New spectra"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:183 ../gui/gpvdm_open.py:166
+#: ../gui/gpvdm_viewer.py:184 ../gui/gpvdm_open.py:166
 msgid "Delete file"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:184 ../gui/gpvdm_open.py:167
+#: ../gui/gpvdm_viewer.py:185 ../gui/gpvdm_open.py:167
 msgid "Rename"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:196 ../gui/gpvdm_open.py:179
+#: ../gui/gpvdm_viewer.py:197 ../gui/gpvdm_open.py:179
 msgid "New directory name:"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:203 ../gui/gpvdm_open.py:186
+#: ../gui/gpvdm_viewer.py:204 ../gui/gpvdm_open.py:186
 msgid "New material name:"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:203 ../gui/gpvdm_open.py:186
+#: ../gui/gpvdm_viewer.py:204 ../gui/gpvdm_open.py:186
 msgid "New material name"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:209 ../gui/gpvdm_open.py:192
+#: ../gui/gpvdm_viewer.py:210 ../gui/gpvdm_open.py:192
 msgid "New spectra name:"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:209 ../gui/gpvdm_open.py:192
+#: ../gui/gpvdm_viewer.py:210 ../gui/gpvdm_open.py:192
 msgid "New spectra name"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:218 ../gui/gpvdm_open.py:201
+#: ../gui/gpvdm_viewer.py:219 ../gui/gpvdm_open.py:201
 msgid "Are you sure you want to delete the files ?"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:225 ../gui/gpvdm_open.py:208
+#: ../gui/gpvdm_viewer.py:226 ../gui/gpvdm_open.py:208
 msgid "Rename:"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:259 ../gui/gpvdm_open.py:233
+#: ../gui/gpvdm_viewer.py:260 ../gui/gpvdm_open.py:233
 msgid "The directory is gone, so I can't open it.  Did you delete it?"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:449 ../gui/gpvdm_open.py:349
+#: ../gui/gpvdm_viewer.py:450 ../gui/gpvdm_open.py:349
 msgid "title"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:449 ../gui/gpvdm_open.py:349
+#: ../gui/gpvdm_viewer.py:450 ../gui/gpvdm_open.py:349
 msgid "x axis"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:449 ../gui/gpvdm_open.py:349
+#: ../gui/gpvdm_viewer.py:450 ../gui/gpvdm_open.py:349
 msgid "y axis"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:449 ../gui/gpvdm_open.py:349
+#: ../gui/gpvdm_viewer.py:450 ../gui/gpvdm_open.py:349
 msgid "Double click to open"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:455 ../gui/gpvdm_open.py:355
+#: ../gui/gpvdm_viewer.py:456 ../gui/gpvdm_open.py:355
 msgid "equilibrium"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:455 ../gui/gpvdm_open.py:355
+#: ../gui/gpvdm_viewer.py:456 ../gui/gpvdm_open.py:355
 msgid "This contains the simulation output at 0V in the dark."
 msgstr ""
 
@@ -1531,7 +1531,7 @@ msgstr ""
 msgid "No sim dir name"
 msgstr ""
 
-#: ../gui/scan_tab.py:443 ../gui/gpvdm.py:260 ../gui/constraints.py:143
+#: ../gui/scan_tab.py:443 ../gui/gpvdm.py:305 ../gui/constraints.py:143
 #: ../gui/constraints.py:182 ../gui/ribbon.py:132 ../gui/measure_tab.py:92
 #: ../gui/measure_tab.py:140 ../gui/snapshot_slider.py:131
 #: ../gui/fit_vars.py:96 ../gui/fit_vars.py:155 ../gui/plot_widget.py:574
@@ -1600,7 +1600,7 @@ msgstr ""
 msgid "Layer name"
 msgstr ""
 
-#: ../gui/layer_widget.py:223 ../gui/electrical_mesh_editor.py:205
+#: ../gui/layer_widget.py:223 ../gui/electrical_mesh_editor.py:210
 msgid "Thicknes"
 msgstr ""
 
@@ -1708,29 +1708,7 @@ msgstr ""
 msgid "Save image"
 msgstr ""
 
-#: ../gui/information_noweb.py:63
-msgid "Click to find out more"
-msgstr ""
-
-#: ../gui/information_noweb.py:65
-msgid ""
-"To make a new simulation click <i><u>N</u>ew Simulation</i> in the menu or "
-"to open an existing simulation select <i><u>O</u>pen simulation</i>. "
-msgstr ""
-
-#: ../gui/information_noweb.py:67
-msgid ""
-"There is more help on the <a href=\"http://www.gpvdm.com/man/index.html"
-"\">man pages</a>."
-msgstr ""
-
-#: ../gui/information_noweb.py:69
-msgid ""
-"Please report bugs to <br><a href=\"mailto:roderick.mackenzie@nottingham.ac."
-"uk?Subject=gpvdm%20bug\">"
-msgstr ""
-
-#: ../gui/information_noweb.py:90
+#: ../gui/information_noweb.py:97
 msgid ""
 "<big><b>Welcome to gpvdm</b></big>\n"
 " The window will provide you with information about new versions and bugs in "
@@ -2123,73 +2101,73 @@ msgstr ""
 msgid "Basic"
 msgstr ""
 
-#: ../gui/gpvdm.py:134
+#: ../gui/gpvdm.py:179
 msgid "Don't run me as root!!"
 msgstr ""
 
-#: ../gui/gpvdm.py:171 ../gui/gpvdm_notebook.py:98 ../gui/gpvdm_notebook.py:160
+#: ../gui/gpvdm.py:216 ../gui/gpvdm_notebook.py:98 ../gui/gpvdm_notebook.py:160
 #: ../gui/ribbon.py:164
 msgid "Terminal"
 msgstr ""
 
-#: ../gui/gpvdm.py:224
+#: ../gui/gpvdm.py:269
 msgid "file opened"
 msgstr ""
 
-#: ../gui/gpvdm.py:229
+#: ../gui/gpvdm.py:274
 msgid ""
 "<big><b>New simulation!</b></big><br> Now selected the type of device you "
 "would like to simulate."
 msgstr ""
 
-#: ../gui/gpvdm.py:246
+#: ../gui/gpvdm.py:291
 msgid ""
 "<big><b>Now run the simulation</b></big><br> Click on the play icon to start "
 "a simulation."
 msgstr ""
 
-#: ../gui/gpvdm.py:251 ../gui/ribbon.py:135
+#: ../gui/gpvdm.py:296 ../gui/ribbon.py:135
 msgid "Home"
 msgstr ""
 
-#: ../gui/gpvdm.py:261
+#: ../gui/gpvdm.py:306
 msgid ""
 "<big><b>Hi!</b></big><br> I'm the on-line help system :).  If you find any "
 "bugs please report them to <a href=\"mailto:roderick.mackenzie@nottingham.ac."
 "uk\">roderick.mackenzie@nottingham.ac.uk</a>."
 msgstr ""
 
-#: ../gui/gpvdm.py:261
+#: ../gui/gpvdm.py:306
 msgid "Click on the new icon to make a new simulation directory."
 msgstr ""
 
-#: ../gui/gpvdm.py:278
+#: ../gui/gpvdm.py:337
 msgid ""
 "There was a problem loading the electrical mesh, I suspect you are trying to "
 "open a file generated in a very old version of gpvdm."
 msgstr ""
 
-#: ../gui/gpvdm.py:301
+#: ../gui/gpvdm.py:363
 msgid "You should not try to open simulations in the root gpvdm directory."
 msgstr ""
 
-#: ../gui/gpvdm.py:307
+#: ../gui/gpvdm.py:369
 msgid ""
 "The simulation you want to import looks like it was made on an old version "
 "of gpvdm, do you want to try to open it anyway?"
 msgstr ""
 
-#: ../gui/gpvdm.py:314
+#: ../gui/gpvdm.py:376
 msgid ""
 "It looks like there is no materials database in the simulation directory "
 "should I import one?"
 msgstr ""
 
-#: ../gui/gpvdm.py:320
+#: ../gui/gpvdm.py:382
 msgid "Open an existing gpvdm simulation"
 msgstr ""
 
-#: ../gui/gpvdm.py:360
+#: ../gui/gpvdm.py:422
 msgid "The simulation directory has been deleted."
 msgstr ""
 
@@ -2320,11 +2298,11 @@ msgstr ""
 msgid "c"
 msgstr ""
 
-#: ../gui/tab_homo.py:125 ../gui/electrical_mesh_editor.py:244
+#: ../gui/tab_homo.py:125 ../gui/electrical_mesh_editor.py:249
 msgid "Add "
 msgstr ""
 
-#: ../gui/tab_homo.py:129 ../gui/electrical_mesh_editor.py:248
+#: ../gui/tab_homo.py:129 ../gui/electrical_mesh_editor.py:253
 msgid "Remove "
 msgstr ""
 
@@ -2439,57 +2417,67 @@ msgstr ""
 msgid "<big><b>Update available!</b></big><br>"
 msgstr ""
 
-#: ../gui/ribbon_device.py:71
+#: ../gui/ribbon_device.py:74
 msgid ""
 "Layer\n"
 "editor"
 msgstr ""
 
-#: ../gui/ribbon_device.py:76
+#: ../gui/ribbon_device.py:79
 msgid "Contacts"
 msgstr ""
 
-#: ../gui/ribbon_device.py:80 ../libdump/dump_1d_slice.c:323
+#: ../gui/ribbon_device.py:83 ../libdump/dump_1d_slice.c:323
 msgid "Doping"
 msgstr ""
 
-#: ../gui/ribbon_device.py:84
+#: ../gui/ribbon_device.py:87
 msgid ""
 "Parasitic\n"
 " components"
 msgstr ""
 
-#: ../gui/ribbon_device.py:88
+#: ../gui/ribbon_device.py:91
 msgid ""
 "Electrical\n"
 "parameters"
 msgstr ""
 
-#: ../gui/ribbon_device.py:126
+#: ../gui/ribbon_device.py:95
+msgid "xz-size"
+msgstr ""
+
+#: ../gui/ribbon_device.py:136
 msgid ""
 "<big><b>Doping window</b></big>\n"
 "Use this window to add doping to the simulation"
 msgstr ""
 
-#: ../gui/ribbon_device.py:139
+#: ../gui/ribbon_device.py:149
 msgid ""
 "<big><b>Contacts window</b></big>\n"
 "Use this window to change the layout of the contacts on the device"
 msgstr ""
 
-#: ../gui/ribbon_device.py:151
+#: ../gui/ribbon_device.py:161
 msgid ""
 "<big><b>Parasitic components</b></big>\n"
 "Use this window to edit the shunt and series resistance."
 msgstr ""
 
-#: ../gui/ribbon_device.py:162
+#: ../gui/ribbon_device.py:172
 msgid ""
 "<big><b>Device layers</b></big>\n"
 "Use this window to configure the structure of the device."
 msgstr ""
 
-#: ../gui/ribbon_device.py:173
+#: ../gui/ribbon_device.py:183
+msgid ""
+"<big><b>xz dimension editor</b></big>\n"
+"Use this window to configure the xz size of the device."
+msgstr ""
+
+#: ../gui/ribbon_device.py:195
 msgid ""
 "<big><b>Electrical parameters</b></big>\n"
 "Use this window to change the electrical parameters of each layer."
@@ -3014,6 +3002,10 @@ msgstr ""
 msgid "y"
 msgstr ""
 
+#: ../gui/dim_editor.py:109
+msgid "xz dimension editor"
+msgstr ""
+
 #: ../gui/server.py:161
 msgid "Running job "
 msgstr ""
@@ -3490,11 +3482,11 @@ msgstr ""
 msgid "Hide"
 msgstr ""
 
-#: ../gui/help.py:243
+#: ../gui/help.py:242
 msgid "gpvdm in your language!"
 msgstr ""
 
-#: ../gui/help.py:245
+#: ../gui/help.py:244
 msgid "gpvdm translated by:"
 msgstr ""
 
@@ -3514,15 +3506,15 @@ msgstr ""
 msgid "Thickness"
 msgstr ""
 
-#: ../gui/electrical_mesh_editor.py:205
+#: ../gui/electrical_mesh_editor.py:210
 msgid "Mesh points"
 msgstr ""
 
-#: ../gui/electrical_mesh_editor.py:205
+#: ../gui/electrical_mesh_editor.py:210
 msgid "Step multiply"
 msgstr ""
 
-#: ../gui/electrical_mesh_editor.py:205
+#: ../gui/electrical_mesh_editor.py:210
 msgid "Left/Right"
 msgstr ""
 
@@ -4790,7 +4782,7 @@ msgstr ""
 msgid "value"
 msgstr ""
 
-#: ../gui/gl.py:615
+#: ../gui/gl.py:631
 msgid "active"
 msgstr ""
 
@@ -4806,19 +4798,19 @@ msgstr ""
 msgid "Reporting error...."
 msgstr ""
 
-#: ../libmemory/memory.c:254
+#: ../libmemory/memory.c:256
 msgid "Solved"
 msgstr ""
 
-#: ../libmemory/memory.c:254
+#: ../libmemory/memory.c:256
 msgid "Equations"
 msgstr ""
 
-#: ../libmemory/memory.c:263
+#: ../libmemory/memory.c:265
 msgid "I can't allocate a device with less than 1 mesh point."
 msgstr ""
 
-#: ../libmemory/memory.c:268
+#: ../libmemory/memory.c:270
 msgid ""
 "You are asking me to simulate a device with more than 50000 mesh points, "
 "although I could do this I am not going to because it seems a bad idea to me."

@@ -272,11 +272,50 @@ def scan_ml_build_token_vectors(file_name,token0,token1,vector,min_max=""):
 
 	return s
 
+
+def scan_ml_build_token_abs(file_name,token0,token1,error,min_max=""):
+
+	if token0==token1 and min_max=="min":
+		return ""
+
+	if token0==token1 and min_max=="max":
+		return ""
+
+	if min_max=="":
+		val=float(inp_get_token_value(file_name, token0))
+	elif min_max=="max":
+		v0=float(inp_get_token_value(file_name, token0))
+		v1=float(inp_get_token_value(file_name, token1))
+		val=v0
+		if v1>v0:
+			val=v1
+	elif min_max=="min":
+		v0=float(inp_get_token_value(file_name, token0))
+		v1=float(inp_get_token_value(file_name, token1))
+		val=v0
+		if v1<v0:
+			val=v1
+	elif min_max=="avg":
+		v0=float(inp_get_token_value(file_name, token0))
+		v1=float(inp_get_token_value(file_name, token1))
+		val=(v0+v1)/2.0
+
+	v=[]
+	s=""
+
+	s=token0+"_"+min_max+"_abs\n"
+	s=s+str(val)+"\n"
+
+	full_token=token0+"_"+min_max+"_abs"
+
+	tindex_add(full_token,str(error))
+
+	return s
+
 def scan_ml_build_vector(sim_dir):
 
 
 	out=open(os.path.join(sim_dir,"vectors.dat"),'wb')
-
 	for archive_name in os.listdir(sim_dir):
 		if archive_name.startswith("archive")==True and archive_name.endswith(".zip")==True:
 			progress_window=progress_class()
@@ -289,7 +328,7 @@ def scan_ml_build_vector(sim_dir):
 			dirs=zip_lsdir(archive_path,zf=zf,sub_dir="/")
 
 			items=len(dirs)
-
+			print(items,archive_path,dirs)
 			for i in range(0,len(dirs)):
 				tmp_dir="/dev/shm/gpvdm"
 				if os.path.isdir(tmp_dir)==True:
@@ -382,6 +421,9 @@ def scan_ml_build_vector(sim_dir):
 					a=scan_ml_build_token_vectors(os.path.join(full_name,"parasitic.inp"),"#Rshunt","#Rshunt",[1e2,1e3,1e4,1e5,1e6,1e7],min_max="avg")
 					v=v+a
 
+					#a=scan_ml_build_token_abs(os.path.join(full_name,"parasitic.inp"),"#Rshunt","#Rshunt",min_max="avg")
+					#v=v+a
+
 					a=scan_ml_build_token_vectors(os.path.join(full_name,"parasitic.inp"),"#Rcontact","#Rcontact",[5,10,15,20,25,30,35,40],min_max="avg")
 					v=v+a
 
@@ -407,10 +449,3 @@ def scan_ml_build_vector(sim_dir):
 				#return
 			progress_window.stop()
 
-	tindex_dump(os.path.join(sim_dir,"index.dat"))
-
-
-#			lines=read_lines_from_archive(os.path.join(root,"sim.gpvdm"),name)
-#			if lines[0].count("nan")==0 and lines[0].count("inf")==0:
-#				
-	out.close()
