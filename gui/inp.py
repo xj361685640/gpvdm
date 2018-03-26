@@ -82,6 +82,9 @@ def inp_read_next_item(lines,pos):
 
 
 def inp_replace_token_value(lines,token,replace):
+	if type(lines)!=list:
+		return False
+
 	replaced=False
 	for i in range(0, len(lines)):
 		if lines[i]==token:
@@ -157,13 +160,18 @@ def inp_update_token_value(file_path, token, replace,archive="sim.gpvdm"):
 				except:
 					upper_temp="300.0"
 				inp_update_token_value(files[i], "#Tstop", upper_temp,archive)
-	#print("load>",file_path)
-	lines=inp_load_file(file_path,archive=archive)
 
-	inp_replace_token_value(lines,token,replace)
-	#print("update>",token,replace,lines)
+	lines=inp_load_file(file_path,archive=archive)
+	if lines==False:
+		return False
+
+	ret=inp_replace_token_value(lines,token,replace)
+	if ret==False:
+		return False
 
 	inp_save(file_path,lines,archive=archive)
+
+	return True
 
 def inp_isfile(file_path,archive="sim.gpvdm"):
 	file_name=default_to_sim_path(file_path)

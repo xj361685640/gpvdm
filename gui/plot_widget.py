@@ -69,6 +69,9 @@ from colors import get_color
 from colors import get_color_black
 from colors import get_marker
 
+from dat_file import dat_file_print
+from plot_ribbon import plot_ribbon
+
 class plot_widget(QWidget):
 
 	def keyPressEvent(self, event):
@@ -366,6 +369,11 @@ class plot_widget(QWidget):
 				for z in range(0,self.data[i].z_len):
 					self.data[i].z_scale[z]=self.data[i].z_scale[z]*self.data[i].z_mul
 
+				for x in range(0,self.data[i].x_len):
+					for y in range(0,self.data[i].y_len):
+						for z in range(0,self.data[i].z_len):
+							self.data[i].data[z][x][y]=self.data[i].data[z][x][y]*self.data[i].data_mul
+
 			if self.data[0].invert_y==True:
 				for i in range(0,len(self.input_files)):
 					dat_file_mul(self.data[i],-1)
@@ -382,13 +390,12 @@ class plot_widget(QWidget):
 					dat_file_sub_float(self.data[i],my_min)
 
 
+						
+						#if data.data[z][x][y]!=0:
 			#if self.plot_token.normalize==True:
 				#my_max,my_min=dat_file_max_min(self.data[0])
 				#for (i in range(0,len(self.input_files)):
-				#for x in range(0,data.x_len):
-					#for y in range(0,data.y_len):
-						#for z in range(0,data.z_len):
-							#if data.data[z][x][y]!=0:
+
 								#data.data[z][x][y]=data.data[z][x][y]/my_max
 							#else:
 								#data.data[z][x][y]=0.0
@@ -537,8 +544,9 @@ class plot_widget(QWidget):
 		self.input_files=[]
 		self.config_file=""
 		QWidget.__init__(self)
+		self.setWindowIcon(QIcon_load("plot"))
 
-	def init(self,menu=True,save_refresh=True):
+	def init(self,enable_toolbar=True):
 		self.main_vbox = QVBoxLayout()
 		self.config_file=""
 		self.labels=[]
@@ -548,89 +556,43 @@ class plot_widget(QWidget):
 		self.zero_frame_enable=False
 		self.zero_frame_list=[]
 
-		toolbar=QToolBar()
-		toolbar.setIconSize(QSize(48, 48))
 
-		if save_refresh==True:
-			self.tb_save = QAction(QIcon_load("document-save-as"), _("Save graph"), self)
-			self.tb_save.triggered.connect(self.save_image)
-			toolbar.addAction(self.tb_save)
+		if enable_toolbar==True:
+			self.plot_ribbon=plot_ribbon()
+
+			self.plot_ribbon.tb_save.triggered.connect(self.callback_save)
+			self.plot_ribbon.tb_save_as.triggered.connect(self.save_image)
+
 
 			self.tb_refresh = QAction(QIcon_load("view-refresh"), _("Refresh graph"), self)
 			self.tb_refresh .triggered.connect(self.callback_refresh)
-			toolbar.addAction(self.tb_refresh )
+			self.plot_ribbon.plot_toolbar.addAction(self.tb_refresh )
 
-		nav_bar=NavigationToolbar(self.canvas,self)
-		toolbar.addWidget(nav_bar)
+			nav_bar=NavigationToolbar(self.canvas,self)
+			nav_bar.setToolButtonStyle(Qt.ToolButtonTextUnderIcon)
+			nav_bar.setIconSize(QSize(42, 42))
+			self.plot_ribbon.plot_toolbar.addWidget(nav_bar)
 
+			self.fig.canvas.mpl_connect('motion_notify_event', self.mouse_move)
 
-		
+			self.plot_ribbon.tb_color_black.triggered.connect(self.callback_black)
+			self.plot_ribbon.tb_color_rainbow.triggered.connect(self.callback_rainbow)
 
-		self.fig.canvas.mpl_connect('motion_notify_event', self.mouse_move)
-
-		if menu==True:
-			menubar = QMenuBar()
-
-			file_menu = menubar.addMenu(_("File"))
-
-			self.menu_save=file_menu.addAction("&"+_("Save"))
-			self.menu_save.triggered.connect(self.callback_save)
-
-			self.menu_save_as=file_menu.addAction("&"+_("Save as"))
-			self.menu_save_as.triggered.connect(self.save_image)
+			self.plot_ribbon.tb_scale_autoscale.triggered.connect(self.callback_autoscale_y)
+			self.plot_ribbon.tb_scale_log_y.triggered.connect(self.callback_toggle_log_scale_y)
+			self.plot_ribbon.tb_scale_log_x.triggered.connect(self.callback_toggle_log_scale_x)
 
 
-			key_menu = menubar.addMenu("&"+_("Key"))
+			self.plot_ribbon.math_subtract_first_point.triggered.connect(self.callback_toggle_subtract_first_point)
+			self.plot_ribbon.math_add_min_point.triggered.connect(self.callback_toggle_add_min)
+			self.plot_ribbon.math_invert_y_axis.triggered.connect(self.callback_toggle_invert_y)
+			self.plot_ribbon.math_norm_y_to_one.triggered.connect(self.callback_normtoone_y)
+			self.plot_ribbon.math_norm_to_peak_of_all_data.triggered.connect(self.callback_norm_to_peak_of_all_data)
+			self.plot_ribbon.math_heat_map.triggered.connect(self.callback_set_heat_map)
+			self.plot_ribbon.math_heat_map_edit.triggered.connect(self.callback_heat_map_edit)
 
-			key_menu = menubar.addMenu("&"+_("Color"))
-			self.menu_black=key_menu.addAction("&"+_("Black"))
-			self.menu_black.triggered.connect(self.callback_black)
 
-			self.menu_rainbow=key_menu.addAction("&"+_("Rainbow"))
-			self.menu_rainbow.triggered.connect(self.callback_rainbow)
-
-			axis_menu = menubar.addMenu("&"+_("Color"))
-			menu=axis_menu.addAction("&"+_("Autoscale"))
-			menu.triggered.connect(self.callback_autoscale_y)
-
-			menu=axis_menu.addAction("&"+_("Set log scale y"))
-			menu.triggered.connect(self.callback_toggle_log_scale_y)
-
-			menu=axis_menu.addAction("&"+_("Set log scale x"))
-			menu.triggered.connect(self.callback_toggle_log_scale_x)
-
-			menu=axis_menu.addAction("&"+_("Set log scale x"))
-			menu.triggered.connect(self.callback_toggle_log_scale_x)
-
-			self.menu_rainbow=key_menu.addAction("&"+_("Label data"))
-			self.menu_rainbow.triggered.connect(self.callback_toggle_label_data)
-
-			math_menu = menubar.addMenu("&"+_("Math"))
-
-			menu=math_menu.addAction("&"+_("Subtract first point"))
-			menu.triggered.connect(self.callback_toggle_subtract_first_point)
-
-			menu=math_menu.addAction("&"+_("Add min point"))
-			menu.triggered.connect(self.callback_toggle_add_min)
-
-			menu=math_menu.addAction("&"+_("Invert y-axis"))
-			menu.triggered.connect(self.callback_toggle_invert_y)
-			
-			menu=math_menu.addAction("&"+_("Norm to 1.0 y"))
-			menu.triggered.connect(self.callback_normtoone_y)
-			
-			menu=math_menu.addAction("&"+_("Norm to peak of all data"))
-			menu.triggered.connect(self.callback_norm_to_peak_of_all_data)
-			
-			menu=math_menu.addAction("&"+_("Heat map"))
-			menu.triggered.connect(self.callback_set_heat_map)
-
-			menu=math_menu.addAction("&"+_("Heat map edit"))
-			menu.triggered.connect(self.callback_heat_map_edit)
-
-			self.main_vbox.addWidget(menubar)
-		
-		self.main_vbox.addWidget(toolbar)
+			self.main_vbox.addWidget(self.plot_ribbon)
 
 
 		self.canvas.figure.patch.set_facecolor("white")

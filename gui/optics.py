@@ -138,7 +138,7 @@ class class_optical(QWidget):
 		self.progress_window.start()
 		for i in range(0,len(input_files)):
 			self.plot_widgets.append(plot_widget())
-			self.plot_widgets[i].init(save_refresh=False)
+			self.plot_widgets[i].init(enable_toolbar=False)
 			self.plot_widgets[i].set_labels([plot_labels[0]])
 			self.plot_widgets[i].load_data([input_files[i]],os.path.splitext(input_files[i])[0]+".oplot")
 

@@ -66,11 +66,13 @@ class information(QScrollArea,tab_base):
 				info_files.append(files[i])
 		file_name=random.choice(info_files)
 
-		f = open(os.path.join(get_html_path(),file_name))
+		f = open(os.path.join(get_html_path(),file_name), encoding='utf-8')
 		data = f.readlines()
 		f.close()
 		text=""
 		for i in range(0, len(data)):
+			line=data[i]
+			line=bytes(line, 'utf-8').decode('utf-8', 'ignore')
 			text=text+'\n'+data[i].rstrip()
 
 		text=text.replace("get_image_file_path()",get_image_file_path())

@@ -52,6 +52,9 @@ def tree_load_flat_list(sim_dir):
 	config=[]
 	file_name=os.path.join(sim_dir,'flat_list.inp')
 
+	if os.path.isfile(file_name)==False:
+		return False
+
 	f = open(file_name)
 	lines = f.readlines()
 	f.close()

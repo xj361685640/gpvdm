@@ -243,6 +243,9 @@ class scan_vbox(QWidget):
 
 	def scan_run(self,args=""):
 		commands=tree_load_flat_list(self.sim_dir)
+		if commands==False:
+			error_dlg(self,_("I can't load flat_list.inp.  This usually means there is a problem with how you have set up your scan."))
+			return
 		self.send_commands_to_server(commands,args)
 
 	def scan_archive(self):

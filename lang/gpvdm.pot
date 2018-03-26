@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.97\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2018-03-20 23:18+0000\n"
+"POT-Creation-Date: 2018-03-26 18:24+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -368,8 +368,8 @@ msgstr ""
 #: ../plugins/pulse/pulse.c:237 ../plugins/pulse/pulse.c:240
 #: ../plugins/pulse/pulse.c:286 ../plugins/fxdomain/fxdomain.c:359
 #: ../plugins/fxdomain/fxdomain.c:382 ../plugins/jv/jv.c:266
-#: ../plugins/jv/jv.c:479 ../plugins/jv/jv.c:516 ../gui/token_lib.py:445
-#: ../libdump/dump_dynamic.c:398 ../libdump/dump_contacts.c:72
+#: ../plugins/jv/jv.c:479 ../gui/token_lib.py:445 ../libdump/dump_dynamic.c:398
+#: ../libdump/dump_contacts.c:72
 msgid "Current"
 msgstr ""
 
@@ -379,7 +379,7 @@ msgstr ""
 
 #: ../plugins/pulse/pulse.c:262 ../plugins/jv/jv.c:418 ../plugins/jv/jv.c:421
 #: ../plugins/jv/jv.c:437 ../plugins/jv/jv.c:440 ../plugins/jv/jv.c:456
-#: ../plugins/jv/jv.c:459 ../libdump/dump_dynamic.c:231
+#: ../plugins/jv/jv.c:459 ../plugins/jv/jv.c:517 ../libdump/dump_dynamic.c:231
 #: ../libdump/dump_1d_slice.c:503 ../libdump/dump_1d_slice.c:535
 msgid "Current density"
 msgstr ""
@@ -387,7 +387,7 @@ msgstr ""
 #: ../plugins/pulse/pulse.c:306 ../plugins/pulse/pulse.c:311
 #: ../plugins/fxdomain/fxdomain.c:404 ../plugins/fxdomain/fxdomain.c:418
 #: ../plugins/fxdomain/fxdomain.c:459 ../plugins/fxdomain/fxdomain.c:473
-#: ../plugins/jv/jv.c:266 ../plugins/jv/jv.c:317 ../plugins/jv/jv.c:495
+#: ../plugins/jv/jv.c:266 ../plugins/jv/jv.c:317 ../plugins/jv/jv.c:496
 #: ../plugins/equilibrium/equilibrium.c:125 ../gui/tmesh.py:234
 #: ../gui/tmesh.py:236 ../gui/tmesh.py:239 ../gui/tmesh.py:241
 #: ../gui/contacts.py:155 ../gui/import_data.py:311 ../gui/import_data.py:312
@@ -479,9 +479,8 @@ msgstr ""
 msgid "Recombination prefactor"
 msgstr ""
 
-#: ../plugins/jv/jv.c:358 ../plugins/jv/jv.c:378 ../plugins/jv/jv.c:398
-#: ../plugins/jv/jv.c:418 ../plugins/jv/jv.c:437 ../plugins/jv/jv.c:456
-#: ../plugins/jv/jv.c:476
+#: ../plugins/jv/jv.c:358 ../plugins/jv/jv.c:378 ../plugins/jv/jv.c:418
+#: ../plugins/jv/jv.c:437 ../plugins/jv/jv.c:456 ../plugins/jv/jv.c:476
 msgid "Applied voltage"
 msgstr ""
 
@@ -504,16 +503,16 @@ msgstr ""
 msgid "Total charge density"
 msgstr ""
 
+#: ../plugins/jv/jv.c:398
+msgid "App.ed voltage"
+msgstr ""
+
 #: ../plugins/jv/jv.c:476
 msgid "Current "
 msgstr ""
 
-#: ../plugins/jv/jv.c:495 ../plugins/jv/jv.c:516
-msgid "Light generated"
-msgstr ""
-
-#: ../plugins/jv/jv.c:519
-msgid "Light power"
+#: ../plugins/jv/jv.c:496 ../plugins/jv/jv.c:517 ../plugins/jv/jv.c:520
+msgid "Light flux"
 msgstr ""
 
 #: ../plugins/equilibrium/equilibrium.c:49
@@ -753,7 +752,7 @@ msgstr ""
 msgid "FITNESS FOR A PARTICULAR PURPOSE.\n"
 msgstr ""
 
-#: ../src/main.c:198 ../gui/scan_tab.py:443 ../gui/constraints.py:143
+#: ../src/main.c:198 ../gui/scan_tab.py:446 ../gui/constraints.py:143
 #: ../gui/constraints.py:182 ../gui/fit_vars.py:155 ../gui/fit_patch.py:119
 msgid "Token"
 msgstr ""
@@ -865,36 +864,11 @@ msgstr ""
 msgid "Examine simulation results in time domain"
 msgstr ""
 
-#: ../gui/cmp_class.py:283
+#: ../gui/cmp_class.py:281
 msgid "Save video"
 msgstr ""
 
-#: ../gui/cmp_class.py:297 ../gui/fit_configure_window.py:74
-#: ../gui/optics_ribbon.py:87 ../gui/electrical.py:93 ../gui/electrical.py:94
-#: ../gui/experiment.py:219 ../gui/contacts.py:192 ../gui/measure_ribbon.py:77
-#: ../gui/mesh_configure.py:64 ../gui/config_window.py:78
-#: ../gui/config_window.py:79 ../gui/ribbon_home.py:114
-#: ../gui/materials_main.py:105 ../gui/jv.py:74 ../gui/emesh.py:169
-#: ../gui/ribbon_solar.py:74 ../gui/ribbon_information.py:75
-#: ../gui/ribbon.py:85 ../gui/info.py:63 ../gui/cost.py:89
-#: ../gui/fxexperiment.py:213 ../gui/fit_window.py:276
-#: ../gui/ribbon_cluster.py:101 ../gui/dim_editor.py:127 ../gui/ref.py:89
-#: ../gui/ref.py:90 ../gui/lasers.py:196 ../gui/import_data.py:235
-#: ../gui/import_data.py:236 ../gui/scan_ribbon.py:77 ../gui/parasitic.py:64
-#: ../gui/spectra_main.py:79 ../gui/jvexperiment.py:192 ../gui/doping.py:190
-msgid "Help"
-msgstr ""
-
-#: ../gui/cmp_class.py:298 ../gui/fit_configure_window.py:75
-#: ../gui/experiment.py:220 ../gui/contacts.py:193 ../gui/mesh_configure.py:65
-#: ../gui/jv.py:75 ../gui/emesh.py:170 ../gui/info.py:64
-#: ../gui/fxexperiment.py:214 ../gui/ref.py:109 ../gui/lasers.py:197
-#: ../gui/about.py:156 ../gui/help.py:132 ../gui/parasitic.py:65
-#: ../gui/jvexperiment.py:193
-msgid "Close"
-msgstr ""
-
-#: ../gui/cmp_class.py:313
+#: ../gui/cmp_class.py:296
 msgid ""
 "No electrical slice data has been stored in the snapshots directory.  To "
 "turn this on set Simulation->Configure->Dump->Dump 1D Slices to on.  This "
@@ -943,7 +917,7 @@ msgid "Quantum Efficiency calculator"
 msgstr ""
 
 #: ../gui/qe.py:119 ../gui/optics_ribbon.py:65
-#: ../gui/fit_window_plot_real.py:119 ../gui/plot_widget.py:555
+#: ../gui/fit_window_plot_real.py:119
 msgid "Save graph"
 msgstr ""
 
@@ -1042,6 +1016,30 @@ msgstr ""
 
 #: ../gui/fit_configure_window.py:61
 msgid "Fit configure"
+msgstr ""
+
+#: ../gui/fit_configure_window.py:74 ../gui/optics_ribbon.py:87
+#: ../gui/electrical.py:93 ../gui/electrical.py:94 ../gui/experiment.py:219
+#: ../gui/contacts.py:192 ../gui/measure_ribbon.py:77
+#: ../gui/mesh_configure.py:64 ../gui/config_window.py:78
+#: ../gui/config_window.py:79 ../gui/ribbon_home.py:114
+#: ../gui/materials_main.py:105 ../gui/jv.py:74 ../gui/emesh.py:169
+#: ../gui/ribbon_solar.py:74 ../gui/ribbon_information.py:75
+#: ../gui/ribbon.py:85 ../gui/info.py:63 ../gui/cost.py:89
+#: ../gui/fxexperiment.py:213 ../gui/fit_window.py:276
+#: ../gui/ribbon_cluster.py:101 ../gui/dim_editor.py:127 ../gui/ref.py:89
+#: ../gui/ref.py:90 ../gui/lasers.py:196 ../gui/import_data.py:235
+#: ../gui/import_data.py:236 ../gui/scan_ribbon.py:77 ../gui/parasitic.py:64
+#: ../gui/spectra_main.py:79 ../gui/jvexperiment.py:192 ../gui/doping.py:190
+msgid "Help"
+msgstr ""
+
+#: ../gui/fit_configure_window.py:75 ../gui/experiment.py:220
+#: ../gui/contacts.py:193 ../gui/mesh_configure.py:65 ../gui/jv.py:75
+#: ../gui/emesh.py:170 ../gui/info.py:64 ../gui/fxexperiment.py:214
+#: ../gui/ref.py:109 ../gui/lasers.py:197 ../gui/about.py:156
+#: ../gui/help.py:132 ../gui/parasitic.py:65 ../gui/jvexperiment.py:193
+msgid "Close"
 msgstr ""
 
 #: ../gui/fit_configure_window.py:90
@@ -1170,14 +1168,14 @@ msgstr ""
 msgid "Delete section"
 msgstr ""
 
-#: ../gui/tmesh.py:453 ../gui/fxmesh.py:314 ../gui/scan_tab.py:551
-#: ../gui/scan_tab.py:621 ../gui/scan_tab.py:625 ../gui/constraints.py:251
+#: ../gui/tmesh.py:453 ../gui/fxmesh.py:314 ../gui/scan_tab.py:554
+#: ../gui/scan_tab.py:624 ../gui/scan_tab.py:628 ../gui/constraints.py:251
 #: ../gui/measure_tab.py:215 ../gui/duplicate.py:215 ../gui/fit_vars.py:237
 #: ../gui/equation.py:375 ../gui/fit_patch.py:173
 msgid "Move down"
 msgstr ""
 
-#: ../gui/tmesh.py:457 ../gui/fxmesh.py:318 ../gui/scan_tab.py:555
+#: ../gui/tmesh.py:457 ../gui/fxmesh.py:318 ../gui/scan_tab.py:558
 #: ../gui/constraints.py:255 ../gui/measure_tab.py:219 ../gui/duplicate.py:219
 #: ../gui/fit_vars.py:241 ../gui/equation.py:379 ../gui/fit_patch.py:177
 msgid "Move up"
@@ -1522,61 +1520,67 @@ msgstr ""
 msgid "Select parameter"
 msgstr ""
 
-#: ../gui/scan_tab.py:256
+#: ../gui/scan_tab.py:247
+msgid ""
+"I can't load flat_list.inp.  This usually means there is a problem with how "
+"you have set up your scan."
+msgstr ""
+
+#: ../gui/scan_tab.py:259
 msgid ""
 "You have not selected any parameters to scan through.  Use the add button."
 msgstr ""
 
-#: ../gui/scan_tab.py:261
+#: ../gui/scan_tab.py:264
 msgid "No sim dir name"
 msgstr ""
 
-#: ../gui/scan_tab.py:443 ../gui/gpvdm.py:305 ../gui/constraints.py:143
-#: ../gui/constraints.py:182 ../gui/ribbon.py:132 ../gui/measure_tab.py:92
-#: ../gui/measure_tab.py:140 ../gui/snapshot_slider.py:131
-#: ../gui/fit_vars.py:96 ../gui/fit_vars.py:155 ../gui/plot_widget.py:574
+#: ../gui/scan_tab.py:446 ../gui/plot_ribbon.py:143 ../gui/gpvdm.py:305
+#: ../gui/constraints.py:143 ../gui/constraints.py:182 ../gui/ribbon.py:132
+#: ../gui/measure_tab.py:92 ../gui/measure_tab.py:140
+#: ../gui/snapshot_slider.py:131 ../gui/fit_vars.py:96 ../gui/fit_vars.py:155
 #: ../gui/fit_patch.py:119
 msgid "File"
 msgstr ""
 
-#: ../gui/scan_tab.py:443
+#: ../gui/scan_tab.py:446
 msgid "Parameter to change"
 msgstr ""
 
-#: ../gui/scan_tab.py:443 ../gui/fit_patch.py:119
+#: ../gui/scan_tab.py:446 ../gui/fit_patch.py:119
 msgid "Values"
 msgstr ""
 
-#: ../gui/scan_tab.py:443
+#: ../gui/scan_tab.py:446
 msgid "Opperation"
 msgstr ""
 
-#: ../gui/scan_tab.py:521 ../gui/ribbon_home.py:189
+#: ../gui/scan_tab.py:524 ../gui/ribbon_home.py:189
 msgid ""
 "Re-run the simulation with 'dump all slices' set to one to use this tool."
 msgstr ""
 
-#: ../gui/scan_tab.py:543
+#: ../gui/scan_tab.py:546
 msgid "Add parameter to scan"
 msgstr ""
 
-#: ../gui/scan_tab.py:547 ../gui/scan_tab.py:603
+#: ../gui/scan_tab.py:550 ../gui/scan_tab.py:606
 msgid "Delete item"
 msgstr ""
 
-#: ../gui/scan_tab.py:567
+#: ../gui/scan_tab.py:570
 msgid "Insert python command"
 msgstr ""
 
-#: ../gui/scan_tab.py:607
+#: ../gui/scan_tab.py:610
 msgid "Copy"
 msgstr ""
 
-#: ../gui/scan_tab.py:611
+#: ../gui/scan_tab.py:614
 msgid "Paste"
 msgstr ""
 
-#: ../gui/scan_tab.py:617
+#: ../gui/scan_tab.py:620
 msgid "Add item"
 msgstr ""
 
@@ -1708,86 +1712,159 @@ msgstr ""
 msgid "Save image"
 msgstr ""
 
-#: ../gui/information_noweb.py:97
+#: ../gui/information_noweb.py:99
 msgid ""
 "<big><b>Welcome to gpvdm</b></big>\n"
 " The window will provide you with information about new versions and bugs in "
 "gpvdm."
 msgstr ""
 
-#: ../gui/new_simulation.py:64
+#: ../gui/new_simulation.py:68
 msgid ""
 "<big><b>Now save the simulation</b></big><br>Now select where you would like "
 "to save the simulation directory."
 msgstr ""
 
-#: ../gui/new_simulation.py:70
+#: ../gui/new_simulation.py:74
 msgid "password:"
 msgstr ""
 
-#: ../gui/new_simulation.py:78
+#: ../gui/new_simulation.py:82
 msgid ""
 "It's not a good idea to save the simulation in the gpvdm installation "
 "directory."
 msgstr ""
 
-#: ../gui/new_simulation.py:82
+#: ../gui/new_simulation.py:86
 msgid ""
 "That directory already exists.  Pick another name or delete the old one."
 msgstr ""
 
-#: ../gui/new_simulation.py:94
+#: ../gui/new_simulation.py:100
 msgid "Please select a device before clicking next"
 msgstr ""
 
-#: ../gui/new_simulation.py:101
+#: ../gui/new_simulation.py:107
 msgid "Organic LED"
 msgstr ""
 
-#: ../gui/new_simulation.py:102
+#: ../gui/new_simulation.py:108
 msgid "Crystalline silicon solar cell"
 msgstr ""
 
-#: ../gui/new_simulation.py:103
+#: ../gui/new_simulation.py:109
 msgid "a-Si solar cell "
 msgstr ""
 
-#: ../gui/new_simulation.py:104
+#: ../gui/new_simulation.py:110
 msgid "polycrystalline silicon "
 msgstr ""
 
-#: ../gui/new_simulation.py:105
+#: ../gui/new_simulation.py:111
 msgid "OFET "
 msgstr ""
 
-#: ../gui/new_simulation.py:106
+#: ../gui/new_simulation.py:112
 msgid "Perovskite solar cell"
 msgstr ""
 
-#: ../gui/new_simulation.py:107
+#: ../gui/new_simulation.py:113
 msgid "CIGS Solar cell"
 msgstr ""
 
-#: ../gui/new_simulation.py:118 ../gui/ribbon.py:71
+#: ../gui/new_simulation.py:124 ../gui/ribbon.py:71
 msgid "New simulation"
 msgstr ""
 
-#: ../gui/new_simulation.py:120
+#: ../gui/new_simulation.py:126
 msgid "Which type of device would you like to simulate?"
 msgstr ""
 
-#: ../gui/new_simulation.py:130 ../gui/help.py:116
+#: ../gui/new_simulation.py:136 ../gui/help.py:116
 msgid "Next"
 msgstr ""
 
-#: ../gui/new_simulation.py:131 ../gui/dlg_get_multi_text.py:68
+#: ../gui/new_simulation.py:137 ../gui/dlg_get_multi_text.py:68
 #: ../gui/scan_select.py:79 ../gui/connect_to_cluster.py:75
 #: ../gui/materials_select.py:75
 msgid "Cancel"
 msgstr ""
 
-#: ../gui/new_simulation.py:136
+#: ../gui/new_simulation.py:142
 msgid "Show hidden"
+msgstr ""
+
+#: ../gui/plot_ribbon.py:59 ../gui/tab_homo.py:281 ../gui/import_data.py:220
+#: ../gui/doping.py:181
+msgid "Save"
+msgstr ""
+
+#: ../gui/plot_ribbon.py:62 ../gui/open_save_dlg.py:54
+msgid "Save as"
+msgstr ""
+
+#: ../gui/plot_ribbon.py:72
+msgid "Black"
+msgstr ""
+
+#: ../gui/plot_ribbon.py:75
+msgid "Rainbow"
+msgstr ""
+
+#: ../gui/plot_ribbon.py:85
+msgid "Autoscale"
+msgstr ""
+
+#: ../gui/plot_ribbon.py:88
+msgid "Set log scale y"
+msgstr ""
+
+#: ../gui/plot_ribbon.py:91
+msgid "Set log scale x"
+msgstr ""
+
+#: ../gui/plot_ribbon.py:102
+msgid "Subtract first point"
+msgstr ""
+
+#: ../gui/plot_ribbon.py:105
+msgid "Add min point"
+msgstr ""
+
+#: ../gui/plot_ribbon.py:108
+msgid "Invert y-axis"
+msgstr ""
+
+#: ../gui/plot_ribbon.py:111
+msgid "Norm to 1.0 y"
+msgstr ""
+
+#: ../gui/plot_ribbon.py:114
+msgid "Norm to peak of all data"
+msgstr ""
+
+#: ../gui/plot_ribbon.py:117
+msgid "Heat map"
+msgstr ""
+
+#: ../gui/plot_ribbon.py:120
+msgid "Heat map edit"
+msgstr ""
+
+#: ../gui/plot_ribbon.py:140 ../gui/import_data.py:225 ../gui/scan_ribbon.py:96
+msgid "Plot"
+msgstr ""
+
+#: ../gui/plot_ribbon.py:146 ../gui/token_lib.py:113
+msgid "Color"
+msgstr ""
+
+#: ../gui/plot_ribbon.py:149
+msgid "Scale"
+msgstr ""
+
+#: ../gui/plot_ribbon.py:152 ../gui/inp_description.py:42
+msgid "Math"
 msgstr ""
 
 #: ../gui/scan_io.py:79
@@ -1798,15 +1875,15 @@ msgstr ""
 msgid "Problem generating tree."
 msgstr ""
 
-#: ../gui/scan_io.py:189
+#: ../gui/scan_io.py:188
 msgid "and "
 msgstr ""
 
-#: ../gui/scan_io.py:189
+#: ../gui/scan_io.py:188
 msgid " more."
 msgstr ""
 
-#: ../gui/scan_io.py:194
+#: ../gui/scan_io.py:193
 msgid "Should I delete these files?:\n"
 msgstr ""
 
@@ -1816,10 +1893,6 @@ msgstr ""
 
 #: ../gui/open_save_dlg.py:41
 msgid "Directory"
-msgstr ""
-
-#: ../gui/open_save_dlg.py:54 ../gui/plot_widget.py:579
-msgid "Save as"
 msgstr ""
 
 #: ../gui/open_save_dlg.py:80 ../gui/gpvdm_open.py:93
@@ -2217,7 +2290,7 @@ msgid ""
 "the cost"
 msgstr ""
 
-#: ../gui/ribbon_simulations.py:163
+#: ../gui/ribbon_simulations.py:165
 msgid ""
 "<big><b>The time mesh editor</b></big><br> To do time domain simulations one "
 "must define how voltage the light vary as a function of time.  This can be "
@@ -2225,7 +2298,7 @@ msgid ""
 "and time step."
 msgstr ""
 
-#: ../gui/ribbon_simulations.py:175
+#: ../gui/ribbon_simulations.py:177
 msgid ""
 "<big><b>Frequency domain mesh editor</b></big><br> Some times it is useful "
 "to do frequency domain simulations such as when simulating impedance "
@@ -2233,12 +2306,12 @@ msgid ""
 "be simulated."
 msgstr ""
 
-#: ../gui/ribbon_simulations.py:186
+#: ../gui/ribbon_simulations.py:188
 msgid ""
 "<big><b>Laser setup</b></big><br> Use this window to set up your lasers."
 msgstr ""
 
-#: ../gui/ribbon_simulations.py:197
+#: ../gui/ribbon_simulations.py:199
 msgid ""
 "<big><b>Measure window</b></big><br>Use this window to set up measurement "
 "points.  If for example you want to extract the value of current density "
@@ -2246,31 +2319,31 @@ msgid ""
 "will work with any file"
 msgstr ""
 
-#: ../gui/ribbon_simulations.py:209
+#: ../gui/ribbon_simulations.py:211
 msgid ""
 "<big><b>Suns voc simulation editor</b></big><br> Use this window to select "
 "the step size and parameters of the JV simulations."
 msgstr ""
 
-#: ../gui/ribbon_simulations.py:220
+#: ../gui/ribbon_simulations.py:222
 msgid ""
 "<big><b>JV simulation editor</b></big><br> Use this window to configure the "
 "Suns Voc simulations."
 msgstr ""
 
-#: ../gui/ribbon_simulations.py:227
+#: ../gui/ribbon_simulations.py:229
 msgid ""
 "<big><b>The optical simulation window</b></big><br>Use this window to "
 "perform optical simulations.  Click on the play button to run a simulation."
 msgstr ""
 
-#: ../gui/ribbon_simulations.py:227
+#: ../gui/ribbon_simulations.py:229
 msgid ""
 "Click on the play button to run an optical simulation.  The results will be "
 "displayed in the tabs to the right."
 msgstr ""
 
-#: ../gui/ribbon_simulations.py:250
+#: ../gui/ribbon_simulations.py:252
 msgid ""
 "<big><b>Costs window</b></big>\n"
 "Use this window to calculate the cost of the solar cell and the energy "
@@ -2304,11 +2377,6 @@ msgstr ""
 
 #: ../gui/tab_homo.py:129 ../gui/electrical_mesh_editor.py:253
 msgid "Remove "
-msgstr ""
-
-#: ../gui/tab_homo.py:281 ../gui/import_data.py:220 ../gui/plot_widget.py:576
-#: ../gui/doping.py:181
-msgid "Save"
 msgstr ""
 
 #: ../gui/jv.py:44
@@ -2672,10 +2740,6 @@ msgstr ""
 
 #: ../gui/inp_description.py:41
 msgid "CELIV"
-msgstr ""
-
-#: ../gui/inp_description.py:42 ../gui/plot_widget.py:608
-msgid "Math"
 msgstr ""
 
 #: ../gui/inp_description.py:43
@@ -3153,10 +3217,6 @@ msgstr ""
 
 #: ../gui/import_data.py:216
 msgid "Open data file"
-msgstr ""
-
-#: ../gui/import_data.py:225 ../gui/scan_ribbon.py:96
-msgid "Plot"
 msgstr ""
 
 #: ../gui/import_data.py:254
@@ -3806,10 +3866,6 @@ msgstr ""
 
 #: ../gui/token_lib.py:112
 msgid "Alpha channel"
-msgstr ""
-
-#: ../gui/token_lib.py:113 ../gui/plot_widget.py:585 ../gui/plot_widget.py:592
-msgid "Color"
 msgstr ""
 
 #: ../gui/token_lib.py:114
@@ -4630,11 +4686,11 @@ msgstr ""
 msgid "JV experiment window"
 msgstr ""
 
-#: ../gui/plot_widget.py:173
+#: ../gui/plot_widget.py:176
 msgid "I don't know how to process this type of file!"
 msgstr ""
 
-#: ../gui/plot_widget.py:179 ../libdump/dump_dynamic.c:510
+#: ../gui/plot_widget.py:182 ../libdump/dump_dynamic.c:510
 #: ../libdump/dump_dynamic.c:530 ../libdump/dump_dynamic.c:895
 #: ../libdump/dump_dynamic.c:914 ../libdump/dump_dynamic.c:933
 #: ../libdump/dump_dynamic.c:952 ../libdump/dump_dynamic.c:971
@@ -4643,68 +4699,12 @@ msgstr ""
 msgid "time"
 msgstr ""
 
-#: ../gui/plot_widget.py:322
+#: ../gui/plot_widget.py:325
 msgid "No files were given to load"
 msgstr ""
 
-#: ../gui/plot_widget.py:559
+#: ../gui/plot_widget.py:566
 msgid "Refresh graph"
-msgstr ""
-
-#: ../gui/plot_widget.py:583
-msgid "Key"
-msgstr ""
-
-#: ../gui/plot_widget.py:586
-msgid "Black"
-msgstr ""
-
-#: ../gui/plot_widget.py:589
-msgid "Rainbow"
-msgstr ""
-
-#: ../gui/plot_widget.py:593
-msgid "Autoscale"
-msgstr ""
-
-#: ../gui/plot_widget.py:596
-msgid "Set log scale y"
-msgstr ""
-
-#: ../gui/plot_widget.py:599 ../gui/plot_widget.py:602
-msgid "Set log scale x"
-msgstr ""
-
-#: ../gui/plot_widget.py:605
-msgid "Label data"
-msgstr ""
-
-#: ../gui/plot_widget.py:610
-msgid "Subtract first point"
-msgstr ""
-
-#: ../gui/plot_widget.py:613
-msgid "Add min point"
-msgstr ""
-
-#: ../gui/plot_widget.py:616
-msgid "Invert y-axis"
-msgstr ""
-
-#: ../gui/plot_widget.py:619
-msgid "Norm to 1.0 y"
-msgstr ""
-
-#: ../gui/plot_widget.py:622
-msgid "Norm to peak of all data"
-msgstr ""
-
-#: ../gui/plot_widget.py:625
-msgid "Heat map"
-msgstr ""
-
-#: ../gui/plot_widget.py:628
-msgid "Heat map edit"
 msgstr ""
 
 #: ../gui/status_icon.py:53
@@ -4715,7 +4715,7 @@ msgstr ""
 msgid "Quit"
 msgstr ""
 
-#: ../gui/update.py:122
+#: ../gui/update.py:123
 msgid ""
 "This feature is sill under development.  It searches the gpvdm web page for "
 "updates then uses them to update gpvdm.  Use it at your own risk - I take no "

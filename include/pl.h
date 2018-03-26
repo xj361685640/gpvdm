@@ -22,8 +22,8 @@
 #define pl_h
 #include <sim_struct.h>
 
-double calculate_photon_energy(struct istruct* in);
+long double calculate_photon_energy(struct istruct* in);
 void exp_cal_emission(struct simulation *sim,int number,struct device *in);
-double pl_get_light_energy();
+long double pl_get_light_energy();
 
 #endif

@@ -276,30 +276,13 @@ class cmp_class(QWidgetSavePos):
 		self.slider.changed.connect(self.update)
 		self.plot=plot_widget()
 		self.plot.init()
-		#Toolbar
-		toolbar=QToolBar()
-		toolbar.setIconSize(QSize(42, 42))
+
 
 		self.tb_video = QAction(QIcon_load("video"), _("Save video"), self)
 		self.tb_video.triggered.connect(self.callback_save)
-		toolbar.addAction(self.tb_video)
-
-		#self.tb_scale = QAction(QIcon_load("scale"), _("Scale"), self)
-		#self.tb_scale.triggered.connect(self.callback_scale)
-		#toolbar.addAction(self.tb_rotate)
+		self.plot.plot_ribbon.file_toolbar.addAction(self.tb_video)
 
 
-		spacer = QWidget()
-		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-		toolbar.addWidget(spacer)
-
-
-		self.help = QAction(QIcon_load("help"), _("Help"), self)
-		self.help.setStatusTip(_("Close"))
-		self.help.triggered.connect(self.callback_help)
-		toolbar.addAction(self.help)
-##############################################
-		self.main_vbox.addWidget(toolbar)
 
 		self.main_vbox.addWidget(self.plot)
 

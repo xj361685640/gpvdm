@@ -102,10 +102,9 @@ def build_scan(scan_path,base_path,parent_window=None):
 	path=os.getcwd()
 
 	if tree_gen(flat_simulation_list,program_list,base_path,scan_path)==False:
-		error_dlg(self,_("Problem generating tree."))
-		return
+		error_dlg(parent_window,_("Problem generating tree."))
+		return False
 	os.chdir(path)
-#	print(os.getcwd())
 
 	tree_save_flat_list(scan_path,flat_simulation_list)
 		

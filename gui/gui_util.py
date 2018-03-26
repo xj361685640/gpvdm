@@ -88,7 +88,7 @@ def tab_set_value(tab,y,x,value):
 		tab.cellWidget(y, x).blockSignals(False)
 	elif type(tab.cellWidget(y, x))==QComboBoxLang:
 		tab.cellWidget(y, x).blockSignals(True)
-		tab.cellWidget(y, x).setCurrentIndex(tab.cellWidget(y, x).findText(value))
+		tab.cellWidget(y, x).setValue_using_english(value)
 		tab.cellWidget(y, x).blockSignals(False)
 	elif type(tab.cellWidget(y,x))==gpvdm_select:
 		tab.cellWidget(y, x).blockSignals(True)

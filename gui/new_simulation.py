@@ -48,6 +48,10 @@ from util import str2bool
 from gui_util import dlg_get_text
 
 from gpvdm_viewer import gpvdm_viewer
+
+from bugs import bugs_add_action
+from bugs import bugs_clear
+
 class simulation():
 	name=""
 	file_name=""
@@ -87,6 +91,8 @@ class new_simulation(QDialog):
 
 				self.ret_path=file_path
 				os.chdir(self.ret_path)
+				bugs_clear()
+				bugs_add_action(os.path.basename(self.viewer.file_path))
 				gpvdm_clone(os.getcwd(),copy_dirs=True)
 				import_archive(self.viewer.file_path,os.path.join(os.getcwd(),"sim.gpvdm"),False)
 				self.close()

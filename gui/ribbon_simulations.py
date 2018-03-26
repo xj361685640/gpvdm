@@ -153,7 +153,9 @@ class ribbon_simulations(QToolBar):
 		self.optics.setEnabled(val)
 		self.lasers.setEnabled(val)
 		self.tb_cost.setEnabled(val)
-		
+		self.sunsvoc.setEnabled(val)
+		self.measure.setEnabled(val)
+
 	def callback_edit_experiment_window(self):
 
 		if self.experiment_window==None:

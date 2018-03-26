@@ -308,7 +308,7 @@ class equation(QWidget):
 		data=tab_get_selected(self.tab)
 		if data==False:
 			error_dlg(self,_("No items selected"))
-
+			return
 
 		d=fit_poly(float(data[0]),float(data[1]),self.data)
 		d.run()

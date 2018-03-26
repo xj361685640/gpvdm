@@ -1,9 +1,8 @@
-# -*- coding: utf-8 -*-
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
-#	https://www.gpvdm.com
+#	www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -20,47 +19,34 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-
 import os
-#import shutil
-#from token_lib import tokens
-from plot_widget import plot_widget
-from PyQt5.QtWidgets import QWidget
 
-class plot_window():
+bug_list=[]
+class bug():
 	def __init__(self):
-		self.shown=False
+		id=""
 
-	def destroy(self):
-		self.shown=False
-		self.window.destroy()
+def bugs_add_action(id):
+	global bug_list
+	a=bug()
+	a.id=id
+	bug_list.append(a)
+	
 
-	def callback_destroy(self,widget):
-		self.destroy()
+def bugs_clear():
+	global bug_list
+	bug_list=[]
 
-	def init(self,input_files,plot_labels,config_file):
-		self.shown=True
+def bugs_print():
+	global bug_list
+	for i in range(0,len(bug_list)):
+		print(bug_list[i].id)
 
-		self.plot=plot_widget()
-		self.plot.init()
+def bugs_to_url():
+	out=""
+	global bug_list
+	for i in range(0,len(bug_list)):
+		out=out+bug_list[i].id+","
+	out=out[:-1]
 
-		print("labels",plot_labels)
-		if len(plot_labels)==0:
-			for i in range(0,len(input_files)):
-				plot_labels.append(os.path.basename(input_files[i]).replace("_","\_"))
-
-		#print plot_labels
-		for i in range(0,len(plot_labels)):
-			if len(plot_labels[i])>0:
-				if plot_labels[i][0]=="\\":
-					plot_labels[i]=plot_labels[i][1:]
-			plot_labels[i].replace("\\","/")
-
-		self.plot.set_labels(plot_labels)
-		self.plot.load_data(input_files,config_file)
-
-		self.plot.do_plot()
-		self.plot.show()
-
-
-
+	return out
