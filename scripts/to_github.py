@@ -6,6 +6,7 @@ import sys
 from build_log import log
 import shutil
 from dialog import Dialog
+from os.path import expanduser
 
 def clean(dest,name):
 	shutil.rmtree(os.path.join(dest,name),ignore_errors=True)
@@ -37,17 +38,19 @@ def to_github(d):
 
 		os.chdir(dest)
 
-		#for root, dirs, files in os.walk(dest):
-		#	for name in files:
-		#		full_name=os.path.join(root, name)
-		#		if full_name.count(".git")==0:
-		#			print(full_name)
-		#			os.system("git add \""+full_name+"\"")
 		os.system("git add --all")
 		os.system("git commit -m \""+text+"\"")
 		os.system("git push origin master --force")
 		os.chdir(my_dir)
 
+def src_to_web(d):
+	zip_dir="./pub/build/"
+	web_path=os.path.join(expanduser("~"),"webpage/gpvdm.com/public_html/download_src")
+	for item in os.listdir(zip_dir):
+		full_path=os.path.join(zip_dir,item)
+		if full_path.endswith("tar.gz")==True:
+			shutil.copyfile(full_path,os.path.join(web_path,item))
+			#print(item)
 #if __name__ == "__main__":
 #	d = Dialog(dialog="dialog")
 #

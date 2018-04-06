@@ -2,6 +2,7 @@
 import os
 from dialog import Dialog
 from to_github import to_github
+from to_github import src_to_web
 
 def publish_menu(d):
 	code, tag = d.menu("publish for:",
@@ -20,4 +21,6 @@ def publish_menu(d):
 		if tag=="(github)":
 			os.system("./pub.sh --github")
 			to_github(d)
+			src_to_web(d)
+
 		print(tag)
