@@ -1,6 +1,6 @@
 OBJS=solver.o lib.o
 CFLAGS=-Wall
-inc=-I../../include/
+inc=-I../../include/ -I/usr/include/suitesparse/ #last line is for debian compatibility
 lib=-L../../
 
 all: $(OBJS)

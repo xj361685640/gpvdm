@@ -709,6 +709,12 @@ INCLUDE_MAN_FALSE
 INCLUDE_MAN_TRUE
 INCLUDE_PLOTS_FALSE
 INCLUDE_PLOTS_TRUE
+INCLUDE_CLUSTER_FALSE
+INCLUDE_CLUSTER_TRUE
+INCLUDE_DEVICELIB_FALSE
+INCLUDE_DEVICELIB_TRUE
+INCLUDE_HTML_FALSE
+INCLUDE_HTML_TRUE
 INCLUDE_IMAGES_FALSE
 INCLUDE_IMAGES_TRUE
 target_os
@@ -765,6 +771,9 @@ ac_subst_files=''
 ac_user_opts='
 enable_option_checking
 enable_noimages
+enable_nohtml
+enable_nodevicelib
+enable_nocluster
 enable_noplots
 enable_noman
 enable_nodesktop
@@ -1402,6 +1411,9 @@ Optional Features:
   --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
   --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
 "used to disable compilation of images"
+"used to disable compilation of html"
+"used to disable the device lib"
+"used to disable the cluster"
 "used to disable plot files"
 "used to disable man page generation"
 "used to disable desktop files for free desktop intergration"
@@ -2356,6 +2368,7 @@ $as_echo "$as_me: $target_cpu" >&6;}
 $as_echo "$as_me: $target_vendor" >&6;}
 { $as_echo "$as_me:${as_lineno-$LINENO}: $target_os" >&5
 $as_echo "$as_me: $target_os" >&6;}
+
 # Check whether --enable-noimages was given.
 if test "${enable_noimages+set}" = set; then :
   enableval=$enable_noimages;  if false; then
@@ -2377,6 +2390,76 @@ fi
 
 
 fi
+
+
+# Check whether --enable-nohtml was given.
+if test "${enable_nohtml+set}" = set; then :
+  enableval=$enable_nohtml;  if false; then
+  INCLUDE_HTML_TRUE=
+  INCLUDE_HTML_FALSE='#'
+else
+  INCLUDE_HTML_TRUE='#'
+  INCLUDE_HTML_FALSE=
+fi
+
+else
+   if true; then
+  INCLUDE_HTML_TRUE=
+  INCLUDE_HTML_FALSE='#'
+else
+  INCLUDE_HTML_TRUE='#'
+  INCLUDE_HTML_FALSE=
+fi
+
+
+fi
+
+
+# Check whether --enable-nodevicelib was given.
+if test "${enable_nodevicelib+set}" = set; then :
+  enableval=$enable_nodevicelib;  if false; then
+  INCLUDE_DEVICELIB_TRUE=
+  INCLUDE_DEVICELIB_FALSE='#'
+else
+  INCLUDE_DEVICELIB_TRUE='#'
+  INCLUDE_DEVICELIB_FALSE=
+fi
+
+else
+   if true; then
+  INCLUDE_DEVICELIB_TRUE=
+  INCLUDE_DEVICELIB_FALSE='#'
+else
+  INCLUDE_DEVICELIB_TRUE='#'
+  INCLUDE_DEVICELIB_FALSE=
+fi
+
+
+fi
+
+
+# Check whether --enable-nocluster was given.
+if test "${enable_nocluster+set}" = set; then :
+  enableval=$enable_nocluster;  if false; then
+  INCLUDE_CLUSTER_TRUE=
+  INCLUDE_CLUSTER_FALSE='#'
+else
+  INCLUDE_CLUSTER_TRUE='#'
+  INCLUDE_CLUSTER_FALSE=
+fi
+
+else
+   if true; then
+  INCLUDE_CLUSTER_TRUE=
+  INCLUDE_CLUSTER_FALSE='#'
+else
+  INCLUDE_CLUSTER_TRUE='#'
+  INCLUDE_CLUSTER_FALSE=
+fi
+
+
+fi
+
 
 
 # Check whether --enable-noplots was given.
@@ -3815,7 +3898,24 @@ if test "x$ac_cv_header_umfpack_h" = xyes; then :
 _ACEOF
 
 else
-  as_fn_error $? "suitesparse/umfpack.h or umfpack.h is needed but not found" "$LINENO" 5
+
+for ac_header in suitesparse/umfpack.h
+do :
+  ac_fn_c_check_header_mongrel "$LINENO" "suitesparse/umfpack.h" "ac_cv_header_suitesparse_umfpack_h" "$ac_includes_default"
+if test "x$ac_cv_header_suitesparse_umfpack_h" = xyes; then :
+  cat >>confdefs.h <<_ACEOF
+#define HAVE_SUITESPARSE_UMFPACK_H 1
+_ACEOF
+
+else
+
+as_fn_error $? "suitesparse/umfpack.h or umfpack.h is needed but not found" "$LINENO" 5
+
+fi
+
+done
+
+
 fi
 
 done
@@ -5910,7 +6010,7 @@ fi
 #i?86
 #x86_64
 
-BUILD_DIRS=" lang libi librpn libmemory libdos liblight libmeasure libcontacts lib libdump libdumpctrl libserver libmesh libfit plugins/optics plugins/newton plugins/nr_d plugins/pulse plugins/fxdomain plugins/light_flat plugins/light_ray plugins/li plugins/light_full plugins/newton_2d plugins/fit_stark plugins/nr_ld plugins/photon_extraction plugins/jv plugins/light_exp plugins/qe plugins/umfpack plugins/jv_one_point plugins/jv_simple plugins/sun_voc plugins/equilibrium plugins/light_fromfile plugins/newton_norm src images/16x16 images/32x32 images/48x32 images/64x64 css man "
+BUILD_DIRS=" lang libi librpn libmemory libdos liblight libmeasure libcontacts lib libdump libdumpctrl libserver libmesh libfit plugins/optics plugins/newton plugins/nr_d plugins/pulse plugins/fxdomain plugins/light_flat plugins/light_ray plugins/li plugins/light_full plugins/newton_2d plugins/fit_stark plugins/nr_ld plugins/photon_extraction plugins/jv plugins/light_exp plugins/qe plugins/umfpack plugins/jv_one_point plugins/jv_simple plugins/sun_voc plugins/equilibrium plugins/light_fromfile plugins/newton_norm src images/16x16 images/32x32 images/48x32 images/64x64 cluster_ css html man "
 
 LOCAL_LINK=" -lgpvdm_i -lgpvdm_rpn -lgpvdm_memory -lgpvdm_dos -lgpvdm_light -lgpvdm_measure -lgpvdm_contacts -lgpvdm_lib -lgpvdm_dump -lgpvdm_dumpctrl -lgpvdm_server -lgpvdm_mesh -lgpvdm_fit"
 
@@ -6267,7 +6367,11 @@ ac_config_files="$ac_config_files images/48x32/Makefile"
 
 ac_config_files="$ac_config_files images/64x64/Makefile"
 
+ac_config_files="$ac_config_files cluster_/Makefile"
+
 ac_config_files="$ac_config_files css/Makefile"
+
+ac_config_files="$ac_config_files html/Makefile"
 
 ac_config_files="$ac_config_files man/Makefile"
 
@@ -6424,6 +6528,30 @@ Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${INCLUDE_IMAGES_TRUE}" && test -z "${INCLUDE_IMAGES_FALSE}"; then
   as_fn_error $? "conditional \"INCLUDE_IMAGES\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${INCLUDE_HTML_TRUE}" && test -z "${INCLUDE_HTML_FALSE}"; then
+  as_fn_error $? "conditional \"INCLUDE_HTML\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${INCLUDE_HTML_TRUE}" && test -z "${INCLUDE_HTML_FALSE}"; then
+  as_fn_error $? "conditional \"INCLUDE_HTML\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${INCLUDE_DEVICELIB_TRUE}" && test -z "${INCLUDE_DEVICELIB_FALSE}"; then
+  as_fn_error $? "conditional \"INCLUDE_DEVICELIB\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${INCLUDE_DEVICELIB_TRUE}" && test -z "${INCLUDE_DEVICELIB_FALSE}"; then
+  as_fn_error $? "conditional \"INCLUDE_DEVICELIB\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${INCLUDE_CLUSTER_TRUE}" && test -z "${INCLUDE_CLUSTER_FALSE}"; then
+  as_fn_error $? "conditional \"INCLUDE_CLUSTER\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${INCLUDE_CLUSTER_TRUE}" && test -z "${INCLUDE_CLUSTER_FALSE}"; then
+  as_fn_error $? "conditional \"INCLUDE_CLUSTER\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${INCLUDE_PLOTS_TRUE}" && test -z "${INCLUDE_PLOTS_FALSE}"; then
@@ -7090,7 +7218,9 @@ do
     "images/32x32/Makefile") CONFIG_FILES="$CONFIG_FILES images/32x32/Makefile" ;;
     "images/48x32/Makefile") CONFIG_FILES="$CONFIG_FILES images/48x32/Makefile" ;;
     "images/64x64/Makefile") CONFIG_FILES="$CONFIG_FILES images/64x64/Makefile" ;;
+    "cluster_/Makefile") CONFIG_FILES="$CONFIG_FILES cluster_/Makefile" ;;
     "css/Makefile") CONFIG_FILES="$CONFIG_FILES css/Makefile" ;;
+    "html/Makefile") CONFIG_FILES="$CONFIG_FILES html/Makefile" ;;
     "man/Makefile") CONFIG_FILES="$CONFIG_FILES man/Makefile" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;

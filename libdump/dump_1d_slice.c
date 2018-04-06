@@ -1394,7 +1394,7 @@ buffer_init(&buf);
 	buf.y=in->ymeshpoints;
 	buf.z=in->zmeshpoints;
 	buffer_add_info(sim,&buf);
-	buffer_add_3d_device_data(sim,&buf,in,  in->Rn);
+	buffer_add_3d_device_data(sim,&buf,in,  in->Rn_srh);
 	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -1423,7 +1423,7 @@ buffer_init(&buf);
 	buf.y=in->ymeshpoints;
 	buf.z=in->zmeshpoints;
 	buffer_add_info(sim,&buf);
-	buffer_add_3d_device_data(sim,&buf,in,  in->Rp);
+	buffer_add_3d_device_data(sim,&buf,in,  in->Rp_srh);
 	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 

@@ -29,12 +29,12 @@
 #include "pl.h"
 #include <cal_path.h>
 
-static double light_energy=0.0;
+static long double light_energy=0.0;
 
-double calculate_photon_energy(struct istruct* in)
+long double calculate_photon_energy(struct istruct* in)
 {
 int i;
-double tot=0.0;
+long double tot=0.0;
 
 	for (i=0;i<in->len;i++)
 	{
@@ -80,7 +80,7 @@ int pl_enabled=0;
 char snapshot_dir[200];
 char sim_name[200];
 
-double Vexternal=get_equiv_V(sim,in);
+long double Vexternal=get_equiv_V(sim,in);
 //char zip_file_name[400];
 
 buffer_init(&buf);
@@ -95,7 +95,7 @@ struct istruct th_to_fe;
 
 //struct istruct luminescence_tot;
 
-double max_Eg=0.0;
+long double max_Eg=0.0;
 for (z=0;z<in->zmeshpoints;z++)
 {
 	for (x=0;x<in->xmeshpoints;x++)
@@ -177,11 +177,12 @@ for (z=0;z<in->zmeshpoints;z++)
 	}
 }
 
-inter_mul(&fe_to_fh,in->ylen/((double)in->ymeshpoints));
-inter_mul(&fe_to_te,in->ylen/((double)in->ymeshpoints));
-inter_mul(&te_to_fh,in->ylen/((double)in->ymeshpoints));
-inter_mul(&th_to_fe,in->ylen/((double)in->ymeshpoints));
-inter_mul(&fh_to_th,in->ylen/((double)in->ymeshpoints));
+inter_mul(&fe_to_fh,in->ylen/((long double)in->ymeshpoints));
+inter_mul(&fe_to_te,in->ylen/((long double)in->ymeshpoints));
+inter_mul(&te_to_fh,in->ylen/((long double)in->ymeshpoints));
+inter_mul(&th_to_fe,in->ylen/((long double)in->ymeshpoints));
+inter_mul(&fh_to_th,in->ylen/((long double)in->ymeshpoints));
+
 
 sprintf(temp,"%d",number);
 
@@ -209,11 +210,11 @@ if (pl_data_added==TRUE)
 
 	light_energy=0.0;
 
-	light_energy+=calculate_photon_energy(&fe_to_fh)*in->area;
-	light_energy+=calculate_photon_energy(&fe_to_te)*in->area;
-	light_energy+=calculate_photon_energy(&te_to_fh)*in->area;
-	light_energy+=calculate_photon_energy(&th_to_fe)*in->area;
-	light_energy+=calculate_photon_energy(&fh_to_th)*in->area;
+	light_energy+=calculate_photon_energy(&fe_to_fh);
+	light_energy+=calculate_photon_energy(&fe_to_te);
+	light_energy+=calculate_photon_energy(&te_to_fh);
+	light_energy+=calculate_photon_energy(&th_to_fe);
+	light_energy+=calculate_photon_energy(&fh_to_th);
 
 	buffer_malloc(&buf);
 	sprintf(name,"%s","fe_to_fh.dat");
@@ -349,7 +350,7 @@ inter_free(&fh_to_th);
 return;
 }
 
-double pl_get_light_energy()
+long double pl_get_light_energy()
 {
 return light_energy;
 }

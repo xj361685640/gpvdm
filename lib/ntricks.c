@@ -71,7 +71,7 @@ do
 	if (get_dump_status(sim,dump_print_text)==TRUE) printf_log(sim,"ramp: %Lf %Lf %d\n",V,to,in->kl_in_newton);
 	sim_externalv(sim,in,V);
 
-	plot_now(sim,in,"jv.plot");
+	//plot_now(sim,in,"jv.plot");
 	gui_send_data(sim,"pulse");
 
 	if (fabs(V-to)<fabs(dV))

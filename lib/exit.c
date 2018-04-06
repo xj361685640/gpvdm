@@ -33,6 +33,7 @@
 #include "lang.h"
 #include <signal.h>
 #include <server.h>
+#include <unistd.h>
 
 static char lock_name[100];
 static char lock_data[100];

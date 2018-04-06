@@ -541,6 +541,7 @@ class plot_widget(QWidget):
 		self.update()
 
 	def __init__(self):
+		self.data=[]
 		self.input_files=[]
 		self.config_file=""
 		QWidget.__init__(self)

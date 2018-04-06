@@ -54,7 +54,28 @@ dump_contacts_init(sim,in,&contact_store);
 
 
 struct jv config;
-jv_load_config(sim,&config,in);
+
+char config_file_name[200];
+
+if (find_config_file(sim,config_file_name,get_input_path(sim),in->simmode,"jv")!=0)
+{
+	ewe(sim,"%s %s %s\n",_("no jv config file found"),get_input_path(sim),in->simmode);
+}
+
+printf_log(sim,"%s\n",config_file_name);
+
+jv_load_config(sim,&config,in,config_file_name);
+
+if (config.jv_Rcontact!=-1.0)
+{
+	in->Rcontact=gfabs(config.jv_Rcontact);
+}
+
+if (config.jv_Rshunt!=-1.0)
+{
+	in->Rshunt=gfabs(config.jv_Rshunt);
+}
+
 gdouble V=0.0;
 gdouble Vstop=config.Vstop;
 gdouble Vstep=config.Vstep;
@@ -93,21 +114,20 @@ inter_init(sim,&klist);
 struct istruct lv;
 inter_init(sim,&lv);
 
-struct istruct li;
-inter_init(sim,&li);
+struct istruct lj;
+inter_init(sim,&lj);
 
 gdouble Vapplied=0.0;
 contact_set_active_contact_voltage(sim,in,Vapplied);
 
-/*if (gfabs(config.Vstart-in->Vapplied)>0.2)
+if (gfabs(config.Vstart-Vapplied)>0.2)
 {
-	ramp_externalv(in,0.0,config.Vstart);
+	ramp_externalv(sim,in,Vapplied,config.Vstart);
 }
 
-in->Vapplied=config.Vstart;
 
-sim_externalv(in,in->Vapplied);
-*/
+//sim_externalv(in,in->Vapplied);
+
 
 remesh_reset(in,Vapplied);
 //if (in->remesh==TRUE)
@@ -255,8 +275,8 @@ in->stop=FALSE;
 
 			inter_append(&lv,Vexternal,pl_get_light_energy()*in->mylight.extract_eff[lam]);
 
-			inter_append(&li,J,pl_get_light_energy()*in->mylight.extract_eff[lam]);
-
+			inter_append(&lj,J,pl_get_light_energy()*in->mylight.extract_eff[lam]);
+			//printf("%Le\n",pl_get_light_energy());
 			V+=Vstep;
 			Vstep*=config.jv_step_mul;
 			//dialog_set_progress ((in->Vstart+V)/(in->Vstop-in->Vstart));
@@ -297,6 +317,10 @@ if (get_dump_status(sim,dump_print_text)==TRUE)
 	printf_log(sim,"FF= %Lf\n",in->FF*100.0);
 	printf_log(sim,"%s= %Lf percent\n",_("Efficiency"),gfabs(in->Pmax/light_get_sun(&(in->mylight))/1000)*100.0);
 }
+
+long double added=0.0;
+added=get_tot_photons_abs(in);
+printf("photon density= %Le\n", added);
 
 if (dumpfiles_should_dump(sim,"sim_info.dat")==0)
 {
@@ -370,7 +394,7 @@ buffer_free(&buf);
 buffer_malloc(&buf);
 buf.y_mul=1.0;
 buf.x_mul=1.0;
-sprintf(buf.title,"%s - %s",_("Total charge density"),_("Applied voltage"));
+sprintf(buf.title,"%s - %s",_("Total charge density"),_("App.ed voltage"));
 strcpy(buf.type,"xy");
 strcpy(buf.x_label,_("Applied Voltage"));
 strcpy(buf.data_label,_("Total charge density"));
@@ -444,6 +468,7 @@ buffer_add_xy_data(sim,&buf,jvavg.x, jvavg.data, jvavg.len);
 buffer_dump_path(sim,get_output_path(sim),"jv_avg.dat",&buf);
 buffer_free(&buf);
 
+inter_mul(&jvexternal,in->area);
 buffer_malloc(&buf);
 buf.y_mul=1.0;
 buf.x_mul=1.0;
@@ -464,14 +489,15 @@ buffer_dump_path(sim,get_output_path(sim),"iv.dat",&buf);
 buffer_free(&buf);
 
 buffer_malloc(&buf);
-buf.y_mul=1000.0;
+buf.y_mul=1.0;
 buf.x_mul=1.0;
-sprintf(buf.title,"%s - %s",_("Voltage"),_("Light generated"));
+buf.data_mul=1;
+sprintf(buf.title,"%s - %s",_("Voltage"),_("Light flux"));
 strcpy(buf.type,"xy");
 strcpy(buf.x_label,("Applied Voltage"));
-strcpy(buf.data_label,("Light power"));
+strcpy(buf.data_label,("Light flux"));
 strcpy(buf.x_units,"Volts");
-strcpy(buf.data_units,"mW");
+strcpy(buf.data_units,"W m^{-2}");
 buf.logscale_x=0;
 buf.logscale_y=0;
 buf.x=1;
@@ -485,22 +511,22 @@ buffer_free(&buf);
 
 
 buffer_malloc(&buf);
-buf.y_mul=1000.0;
+buf.y_mul=1.0;
 buf.x_mul=1.0;
-sprintf(buf.title,"%s - %s",_("Current"),_("Light generated"));
+sprintf(buf.title,"%s - %s",_("Current density"),_("Light flux"));
 strcpy(buf.type,"xy");
-strcpy(buf.x_label,("Current"));
-strcpy(buf.data_label,_("Light power"));
+strcpy(buf.x_label,("Current density"));
+strcpy(buf.data_label,_("Light flux"));
 strcpy(buf.x_units,"A m^{-2}");
-strcpy(buf.data_units,"mW");
+strcpy(buf.data_units,"W m^{-2}");
 buf.logscale_x=0;
 buf.logscale_y=0;
 buf.x=1;
-buf.y=li.len;
+buf.y=lj.len;
 buf.z=1;
 buffer_add_info(sim,&buf);
-buffer_add_xy_data(sim,&buf,li.x, li.data, li.len);
-buffer_dump_path(sim,get_output_path(sim),"li.dat",&buf);
+buffer_add_xy_data(sim,&buf,lj.x, lj.data, lj.len);
+buffer_dump_path(sim,get_output_path(sim),"lj.dat",&buf);
 buffer_free(&buf);
 
 inter_free(&jvexternal);
@@ -509,7 +535,7 @@ inter_free(&jvavg);
 inter_free(&charge);
 inter_free(&ivexternal);
 inter_free(&lv);
-inter_free(&li);
+inter_free(&lj);
 inter_free(&klist);
 
 dump_dynamic_save(sim,get_output_path(sim),&store);
@@ -525,18 +551,23 @@ light_set_sun(&(in->mylight),sun_orig);
 
 
 
-void jv_load_config(struct simulation *sim,struct jv* in,struct device *dev)
+void jv_load_config(struct simulation *sim,struct jv* in,struct device *dev, char* config_file_name)
 {
 struct inp_file inp;
 inp_init(sim,&inp);
-inp_load_from_path(sim,&inp,get_input_path(sim),"jv.inp");
-inp_check(sim,&inp,1.21);
+inp_load_from_path(sim,&inp,get_input_path(sim),config_file_name);
+inp_check(sim,&inp,1.22);
 inp_search_gdouble(sim,&inp,&(in->Vstart),"#Vstart");
 inp_search_gdouble(sim,&inp,&(in->Vstop),"#Vstop");
 inp_search_gdouble(sim,&inp,&(in->Vstep),"#Vstep");
 inp_search_gdouble(sim,&inp,&(in->jv_step_mul),"#jv_step_mul");
 inp_search_gdouble(sim,&inp,&(in->jv_light_efficiency),"#jv_light_efficiency");
 inp_search_gdouble(sim,&inp,&(in->jv_max_j),"#jv_max_j");
+
+
+inp_search_gdouble(sim,&inp,&(in->jv_Rshunt),"#jv_Rshunt");
+inp_search_gdouble(sim,&inp,&(in->jv_Rcontact),"#jv_Rcontact");
+
 in->jv_light_efficiency=gfabs(in->jv_light_efficiency);
 inp_free(sim,&inp);
 

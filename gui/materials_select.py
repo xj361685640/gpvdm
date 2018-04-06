@@ -142,7 +142,7 @@ class materials_select(QWidget):
 
 		ret="/".join(reversed(path))
 		ret=ret.split('/', 1)[-1]
-		ret=ret.replace("/", os.path.sep)
+		#ret=ret.replace("/", os.path.sep)
 		return ret
 	
 	def tree_apply_click(self):

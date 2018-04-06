@@ -22,6 +22,7 @@
 #include <dll_export.h>
 #include <util.h>
 #include "lib.h"
+#include <log.h>
 
 struct dll_interface *fun;
 

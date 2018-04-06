@@ -275,7 +275,7 @@ for (z=0;z<in->zmeshpoints;z++)
 		for (y=0;y<in->ymeshpoints;y++)
 		{
 			phi_ramp=delta_phi*(in->ymesh[y]/in->ymesh[in->ymeshpoints-1]);
-
+			//printf("%ld %ld %ld %Le\n",x,y,z,phi_ramp);
 			in->Fi[z][x][y]=Ef;
 
 			in->Fn[z][x][y]=Ef;
@@ -314,10 +314,11 @@ for (z=0;z<in->zmeshpoints;z++)
 
 			for (band=0;band<in->srh_bands;band++)
 			{
-				in->Fnt[z][x][y][band]= -in->phi[z][x][y]-in->Xi[z][x][y]+dos_srh_get_fermi_n(in,in->n[z][x][y], in->p[z][x][y],band,in->imat[z][x][y],in->Te[z][x][y]);
-				in->Fpt[z][x][y][band]= -in->phi[z][x][y]-in->Xi[z][x][y]-in->Eg[z][x][y]-dos_srh_get_fermi_p(in,in->n[z][x][y], in->p[z][x][y],band,in->imat[z][x][y],in->Th[z][x][y]);
-
+				in->Fnt[z][x][y][band]= Ef;//-in->phi[z][x][y]-in->Xi[z][x][y]+dos_srh_get_fermi_n(in,in->n[z][x][y], in->p[z][x][y],band,in->imat[z][x][y],in->Te[z][x][y]);
+				//printf("d %ld %Le\n",band,dos_srh_get_fermi_n(in,in->n[z][x][y], in->p[z][x][y],band,in->imat[z][x][y],in->Te[z][x][y]));
+				in->Fpt[z][x][y][band]= Ef;//-in->phi[z][x][y]-in->Xi[z][x][y]-in->Eg[z][x][y]-dos_srh_get_fermi_p(in,in->n[z][x][y], in->p[z][x][y],band,in->imat[z][x][y],in->Th[z][x][y]);
 				in->xt[z][x][y][band]=in->phi[z][x][y]+in->Fnt[z][x][y][band];
+
 				in->nt[z][x][y][band]=get_n_pop_srh(sim,in,in->xt[z][x][y][band]+in->tt[z][x][y],in->Te[z][x][y],band,in->imat[z][x][y]);
 				in->dnt[z][x][y][band]=get_dn_pop_srh(sim,in,in->xt[z][x][y][band]+in->tt[z][x][y],in->Te[z][x][y],band,in->imat[z][x][y]);
 

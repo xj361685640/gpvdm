@@ -127,6 +127,18 @@ return diff;
 }
 
 
+/**
+* @brief Get the average recombination density
+*/
+gdouble get_tot_photons_abs(struct device *in)
+{
+long double ret=0.0;
+
+ret=three_d_integrate(in, in->Gn);
+
+return ret;
+}
+
 
 /**
 * @brief Get the average recombination density
@@ -317,10 +329,12 @@ return Rtot*Q;
 
 
 /**
-* @brief Calculate the average J and the std of J
+* @brief Calculate the average J but ignores and the std of J
+* throw away values of J which are outside a given std range of J
+* used when the current does not converge very well.
 * Not updated for variable mesh
 */
-gdouble get_avg_J(struct device *in)
+gdouble get_avg_J_std(struct device *in)
 {
 int x=0;
 int y=0;
@@ -378,6 +392,20 @@ Jtot/=(gdouble)in->xmeshpoints;
 Jtot/=(gdouble)in->ymeshpoints;
 Jtot/=(gdouble)in->zmeshpoints;
 
+
+return Javg;
+}
+
+/**
+* @brief Calculate the average J but ignores and the std of J
+* throw away values of J which are outside a given std range of J
+* used when the current does not converge very well.
+* Not updated for variable mesh
+*/
+gdouble get_avg_J(struct device *in)
+{
+gdouble Javg=0.0;
+Javg=(three_d_avg(in, in->Jn)+three_d_avg(in, in->Jp))/2.0;
 
 return Javg;
 }

@@ -58,7 +58,7 @@ void measure_file(struct simulation *sim,char *file_name)
 	char sim_name[400];
 
 	char math[400];
-	FILE *out;
+	FILE *out=NULL;
 	struct inp_file inp;
 	struct inp_file inp_data;
 	char input_position[400];
@@ -74,9 +74,10 @@ void measure_file(struct simulation *sim,char *file_name)
 	join_path(2, file,get_input_path(sim),file_name);
 
 	inp_init(sim,&inp);
+
 	if (inp_load(sim, &inp , file)!=0)
 	{
-		ewe(sim,"I can't find file %s\n",file);
+		ewe(sim,"Measure: I can't find file %s\n",file);
 	}
 
 	inp_check(sim,&inp,1.0);
@@ -102,8 +103,6 @@ void measure_file(struct simulation *sim,char *file_name)
 	vector=english_to_bin(sim,temp);
 
 	sprintf(output_file,"measure_%s.dat",sim_name);
-
-	out=fopena(get_output_path(sim),output_file,"w");
 
 
 	while(1)
@@ -178,6 +177,11 @@ void measure_file(struct simulation *sim,char *file_name)
 		
 		if (write==TRUE)
 		{
+			if (out==NULL)
+			{
+					out=fopena(get_output_path(sim),output_file,"w");
+			}
+
 			if (vector==FALSE)
 			{
 				fprintf(out,"#%s\n",output_token);
@@ -193,17 +197,21 @@ void measure_file(struct simulation *sim,char *file_name)
 
 	inp_free(sim,&inp);
 
-	if (vector==FALSE)
+	if (out!=NULL)
 	{
-		fprintf(out,"#ver\n");
-		fprintf(out,"#1.0\n");
-		fprintf(out,"#end\n");
-	}else
-	{
-		fprintf(out,"%s",vec_str);	
+		if (vector==FALSE)
+		{
+			fprintf(out,"#ver\n");
+			fprintf(out,"#1.0\n");
+			fprintf(out,"#end\n");
+		}else
+		{
+			fprintf(out,"%s",vec_str);	
+		}
+
+		fclose(out);
 	}
 
-	fclose(out);
 }
 
 

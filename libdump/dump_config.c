@@ -34,7 +34,7 @@ void dump_load_config(struct simulation* sim,struct device *in)
 
 	inp_load_from_path(sim,&inp,get_input_path(sim),"dump.inp");
 
-	inp_check(sim,&inp,1.50);
+	inp_check(sim,&inp,1.51);
 
 	dump=inp_search_english(sim,&inp,"#plot");
 	set_dump_status(sim,dump_plot,dump);
@@ -133,6 +133,9 @@ void dump_load_config(struct simulation* sim,struct device *in)
 
 	dump=inp_search_english(sim,&inp,"#dump_write_headers");
 	set_dump_status(sim,dump_write_headers, dump);	
+
+	dump=inp_search_english(sim,&inp,"#dump_remove_dos_cache");
+	set_dump_status(sim,dump_remove_dos_cache, dump);	
 
 	inp_free(sim,&inp);
 

@@ -28,6 +28,8 @@ QTabBar::tab:hover {
 
 QTabBar::tab:!selected {
 	border-bottom: 2px solid qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #90a0e0, stop:1 #303070);
+	height: 30px;
+	padding-top: 0px;
 }
 
 QTabBar::tab:selected {
@@ -37,3 +39,4 @@ QTabBar::tab:selected {
 	border: 1px solid #808090;
 	border-bottom: solid 0px;
 }
+

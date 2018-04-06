@@ -60,7 +60,7 @@ def dlg_export(parent):
 
 	if dialog.exec_() == QDialog.Accepted:
 		file_name = dialog.selectedFiles()[0]
-		print(dialog.selectedNameFilter())
+		#print(dialog.selectedNameFilter())
 		if dialog.selectedNameFilter()==_("gpvdm archive input+output files")+" (*.gpvdm)":
 			export_archive(file_name,True)
 		elif dialog.selectedNameFilter()==_("gpvdm archive input files")+" (*.gpvdm)":

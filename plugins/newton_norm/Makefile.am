@@ -8,7 +8,7 @@ all: $(OBJS)
 	mv plugin.@DLIB_EXT@ ../newton_norm.@DLIB_EXT@
 
 .c.o : 
-	$(CC) -Wall -g $(inc) $(CPPFLAGS) @DLL_COMPILE@ @COMPILE_FLAG@ -c $< -o $@
+	$(CC) -Wall -g $(inc) $(CPPFLAGS) -Wno-unused-variable @DLL_COMPILE@ @COMPILE_FLAG@ -c $< -o $@
 
 
 clean:

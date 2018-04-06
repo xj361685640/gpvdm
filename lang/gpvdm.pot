@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.97\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2018-03-26 18:24+0100\n"
+"POT-Creation-Date: 2018-04-06 01:15+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -367,8 +367,8 @@ msgstr ""
 #: ../plugins/pulse/pulse.c:218 ../plugins/pulse/pulse.c:221
 #: ../plugins/pulse/pulse.c:237 ../plugins/pulse/pulse.c:240
 #: ../plugins/pulse/pulse.c:286 ../plugins/fxdomain/fxdomain.c:359
-#: ../plugins/fxdomain/fxdomain.c:382 ../plugins/jv/jv.c:266
-#: ../plugins/jv/jv.c:479 ../gui/token_lib.py:445 ../libdump/dump_dynamic.c:398
+#: ../plugins/fxdomain/fxdomain.c:382 ../plugins/jv/jv.c:265
+#: ../plugins/jv/jv.c:478 ../gui/token_lib.py:445 ../libdump/dump_dynamic.c:398
 #: ../libdump/dump_contacts.c:72
 msgid "Current"
 msgstr ""
@@ -377,9 +377,9 @@ msgstr ""
 msgid "current density"
 msgstr ""
 
-#: ../plugins/pulse/pulse.c:262 ../plugins/jv/jv.c:418 ../plugins/jv/jv.c:421
-#: ../plugins/jv/jv.c:437 ../plugins/jv/jv.c:440 ../plugins/jv/jv.c:456
-#: ../plugins/jv/jv.c:459 ../plugins/jv/jv.c:517 ../libdump/dump_dynamic.c:231
+#: ../plugins/pulse/pulse.c:262 ../plugins/jv/jv.c:417 ../plugins/jv/jv.c:420
+#: ../plugins/jv/jv.c:436 ../plugins/jv/jv.c:439 ../plugins/jv/jv.c:455
+#: ../plugins/jv/jv.c:458 ../plugins/jv/jv.c:516 ../libdump/dump_dynamic.c:231
 #: ../libdump/dump_1d_slice.c:503 ../libdump/dump_1d_slice.c:535
 msgid "Current density"
 msgstr ""
@@ -387,7 +387,7 @@ msgstr ""
 #: ../plugins/pulse/pulse.c:306 ../plugins/pulse/pulse.c:311
 #: ../plugins/fxdomain/fxdomain.c:404 ../plugins/fxdomain/fxdomain.c:418
 #: ../plugins/fxdomain/fxdomain.c:459 ../plugins/fxdomain/fxdomain.c:473
-#: ../plugins/jv/jv.c:266 ../plugins/jv/jv.c:317 ../plugins/jv/jv.c:496
+#: ../plugins/jv/jv.c:265 ../plugins/jv/jv.c:316 ../plugins/jv/jv.c:495
 #: ../plugins/equilibrium/equilibrium.c:125 ../gui/tmesh.py:234
 #: ../gui/tmesh.py:236 ../gui/tmesh.py:239 ../gui/tmesh.py:241
 #: ../gui/contacts.py:155 ../gui/import_data.py:311 ../gui/import_data.py:312
@@ -396,8 +396,8 @@ msgstr ""
 msgid "Voltage"
 msgstr ""
 
-#: ../plugins/pulse/pulse.c:309 ../plugins/jv/jv.c:441 ../plugins/jv/jv.c:460
-#: ../plugins/jv/jv.c:480 ../gui/fxmesh.py:187
+#: ../plugins/pulse/pulse.c:309 ../plugins/jv/jv.c:440 ../plugins/jv/jv.c:459
+#: ../plugins/jv/jv.c:479 ../gui/fxmesh.py:187
 msgid "Volts"
 msgstr ""
 
@@ -466,31 +466,31 @@ msgstr ""
 msgid "no jv config file found"
 msgstr ""
 
-#: ../plugins/jv/jv.c:258
+#: ../plugins/jv/jv.c:257
 #, python-format
 msgid "Stopping because of Vexternal %Le>%Le\n"
 msgstr ""
 
-#: ../plugins/jv/jv.c:319 ../plugins/equilibrium/equilibrium.c:127
+#: ../plugins/jv/jv.c:318 ../plugins/equilibrium/equilibrium.c:127
 msgid "Efficiency"
 msgstr ""
 
-#: ../plugins/jv/jv.c:358 ../plugins/jv/jv.c:361
+#: ../plugins/jv/jv.c:357 ../plugins/jv/jv.c:360
 msgid "Recombination prefactor"
 msgstr ""
 
-#: ../plugins/jv/jv.c:358 ../plugins/jv/jv.c:378 ../plugins/jv/jv.c:418
-#: ../plugins/jv/jv.c:437 ../plugins/jv/jv.c:456 ../plugins/jv/jv.c:476
+#: ../plugins/jv/jv.c:357 ../plugins/jv/jv.c:377 ../plugins/jv/jv.c:417
+#: ../plugins/jv/jv.c:436 ../plugins/jv/jv.c:455 ../plugins/jv/jv.c:475
 msgid "Applied voltage"
 msgstr ""
 
-#: ../plugins/jv/jv.c:360 ../plugins/jv/jv.c:380 ../plugins/jv/jv.c:400
-#: ../plugins/jv/jv.c:420 ../plugins/jv/jv.c:439 ../plugins/jv/jv.c:458
-#: ../plugins/jv/jv.c:478
+#: ../plugins/jv/jv.c:359 ../plugins/jv/jv.c:379 ../plugins/jv/jv.c:399
+#: ../plugins/jv/jv.c:419 ../plugins/jv/jv.c:438 ../plugins/jv/jv.c:457
+#: ../plugins/jv/jv.c:477
 msgid "Applied Voltage"
 msgstr ""
 
-#: ../plugins/jv/jv.c:378 ../plugins/jv/jv.c:381 ../libdump/dump_1d_slice.c:334
+#: ../plugins/jv/jv.c:377 ../plugins/jv/jv.c:380 ../libdump/dump_1d_slice.c:334
 #: ../libdump/dump_1d_slice.c:953 ../libdump/dump_1d_slice.c:982
 #: ../libdump/dump_1d_slice.c:1011 ../libdump/dump_1d_slice.c:1046
 #: ../libdump/dump_1d_slice.c:1116 ../libdump/dump_1d_slice.c:1152
@@ -499,19 +499,19 @@ msgstr ""
 msgid "Charge density"
 msgstr ""
 
-#: ../plugins/jv/jv.c:398 ../plugins/jv/jv.c:401
+#: ../plugins/jv/jv.c:397 ../plugins/jv/jv.c:400
 msgid "Total charge density"
 msgstr ""
 
-#: ../plugins/jv/jv.c:398
+#: ../plugins/jv/jv.c:397
 msgid "App.ed voltage"
 msgstr ""
 
-#: ../plugins/jv/jv.c:476
+#: ../plugins/jv/jv.c:475
 msgid "Current "
 msgstr ""
 
-#: ../plugins/jv/jv.c:496 ../plugins/jv/jv.c:517 ../plugins/jv/jv.c:520
+#: ../plugins/jv/jv.c:495 ../plugins/jv/jv.c:516 ../plugins/jv/jv.c:519
 msgid "Light flux"
 msgstr ""
 
@@ -1214,79 +1214,79 @@ msgid "Excel file"
 msgstr ""
 
 #: ../gui/gpvdm_viewer.py:177 ../gui/gpvdm_viewer.py:197
-#: ../gui/gpvdm_open.py:159 ../gui/gpvdm_open.py:179
+#: ../gui/gpvdm_open.py:160 ../gui/gpvdm_open.py:180
 msgid "New directory"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:179 ../gui/gpvdm_open.py:161
+#: ../gui/gpvdm_viewer.py:179 ../gui/gpvdm_open.py:162
 msgid "New material"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:182 ../gui/gpvdm_open.py:164
+#: ../gui/gpvdm_viewer.py:182 ../gui/gpvdm_open.py:165
 msgid "New spectra"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:184 ../gui/gpvdm_open.py:166
+#: ../gui/gpvdm_viewer.py:184 ../gui/gpvdm_open.py:167
 msgid "Delete file"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:185 ../gui/gpvdm_open.py:167
+#: ../gui/gpvdm_viewer.py:185 ../gui/gpvdm_open.py:168
 msgid "Rename"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:197 ../gui/gpvdm_open.py:179
+#: ../gui/gpvdm_viewer.py:197 ../gui/gpvdm_open.py:180
 msgid "New directory name:"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:204 ../gui/gpvdm_open.py:186
+#: ../gui/gpvdm_viewer.py:204 ../gui/gpvdm_open.py:187
 msgid "New material name:"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:204 ../gui/gpvdm_open.py:186
+#: ../gui/gpvdm_viewer.py:204 ../gui/gpvdm_open.py:187
 msgid "New material name"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:210 ../gui/gpvdm_open.py:192
+#: ../gui/gpvdm_viewer.py:210 ../gui/gpvdm_open.py:196
 msgid "New spectra name:"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:210 ../gui/gpvdm_open.py:192
+#: ../gui/gpvdm_viewer.py:210 ../gui/gpvdm_open.py:196
 msgid "New spectra name"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:219 ../gui/gpvdm_open.py:201
+#: ../gui/gpvdm_viewer.py:219 ../gui/gpvdm_open.py:209
 msgid "Are you sure you want to delete the files ?"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:226 ../gui/gpvdm_open.py:208
+#: ../gui/gpvdm_viewer.py:226 ../gui/gpvdm_open.py:216
 msgid "Rename:"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:260 ../gui/gpvdm_open.py:233
+#: ../gui/gpvdm_viewer.py:260 ../gui/gpvdm_open.py:241
 msgid "The directory is gone, so I can't open it.  Did you delete it?"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:450 ../gui/gpvdm_open.py:349
+#: ../gui/gpvdm_viewer.py:450 ../gui/gpvdm_open.py:357
 msgid "title"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:450 ../gui/gpvdm_open.py:349
+#: ../gui/gpvdm_viewer.py:450 ../gui/gpvdm_open.py:357
 msgid "x axis"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:450 ../gui/gpvdm_open.py:349
+#: ../gui/gpvdm_viewer.py:450 ../gui/gpvdm_open.py:357
 msgid "y axis"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:450 ../gui/gpvdm_open.py:349
+#: ../gui/gpvdm_viewer.py:450 ../gui/gpvdm_open.py:357
 msgid "Double click to open"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:456 ../gui/gpvdm_open.py:355
+#: ../gui/gpvdm_viewer.py:456 ../gui/gpvdm_open.py:363
 msgid "equilibrium"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:456 ../gui/gpvdm_open.py:355
+#: ../gui/gpvdm_viewer.py:456 ../gui/gpvdm_open.py:363
 msgid "This contains the simulation output at 0V in the dark."
 msgstr ""
 
@@ -1895,7 +1895,7 @@ msgstr ""
 msgid "Directory"
 msgstr ""
 
-#: ../gui/open_save_dlg.py:80 ../gui/gpvdm_open.py:93
+#: ../gui/open_save_dlg.py:80 ../gui/gpvdm_open.py:94
 msgid "Open file"
 msgstr ""
 
@@ -3213,6 +3213,10 @@ msgstr ""
 
 #: ../gui/tab_terminal.py:166
 msgid "Nodes"
+msgstr ""
+
+#: ../gui/gpvdm_open.py:194 ../gui/gpvdm_open.py:203
+msgid "I can't open that file.  Is the file name valid?"
 msgstr ""
 
 #: ../gui/import_data.py:216
@@ -4703,7 +4707,7 @@ msgstr ""
 msgid "No files were given to load"
 msgstr ""
 
-#: ../gui/plot_widget.py:566
+#: ../gui/plot_widget.py:568
 msgid "Refresh graph"
 msgstr ""
 

@@ -36,6 +36,7 @@
 #include "cal_path.h"
 #include "const.h"
 #include <log.h>
+#include "inp.h"
 
 
 static int unused __attribute__((unused));
@@ -1515,35 +1516,38 @@ return -1;
 int inter_load(struct simulation *sim,struct istruct* in,char *name)
 {
 char temp[1000];
+struct inp_file data;
 gdouble x;
 gdouble y;
+long len;
 
 strcpy(in->name,name);
 
-FILE *file;
-file=fopen(name,"r");
-if (file == NULL)
+
+inp_init(sim,&data);
+if (inp_load(sim,&data,name)!=0)
 {
-	printf_log(sim,"inter_load can not open file %s\n",name);
 	return -1;
 }
 
-inter_init(sim,in);
-do
-{
-	temp[0]=0;
-	unused_pchar=fgets_safe(temp, 1000, file);
 
-	if ((temp[0]!='#')&&(temp[0]!='\n')&&(temp[0]!='\r')&&(temp[0]!=0)&&(temp[0]!=0x0D))
+inter_init(sim,in);
+
+char *line=inp_get_string(sim,&data);
+while(line!=NULL)
+{
+	//
+	//unused_pchar=fgets_safe(temp, 1000, file);
+	if ((line[0]!='#')&&(line[0]!='\n')&&(line[0]!='\r')&&(line[0]!=0)&&(line[0]!=0x0D))
 	{
-		sscanf(temp,"%Le %Le",&(x),&(y));
+		sscanf(line,"%Le %Le",&(x),&(y));
 
 		inter_append(in,x,y);
 	}
+	line=inp_get_string(sim,&data);
+}
 
-
-}while(!feof(file));
-fclose(file);
+inp_free(sim,&data);
 return 0;
 }
 

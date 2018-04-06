@@ -85,6 +85,7 @@ def epitaxy_load(path):
 
 			pos=pos+1		#token
 			pos=pos+1
+			lines[pos]=lines[pos].replace("\\", "/")
 			mat_file.append(lines[pos])
 
 			pos=pos+1		#token

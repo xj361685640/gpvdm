@@ -105,7 +105,8 @@ long double srh_ep=srh_vth*srh_sigmap*Nv*gexp((Q*(-1.0-in->dosn[mat].srh_E[band]
 long double f=0.0;
 f=(n*srh_vth*srh_sigman+srh_ep)/(n*srh_vth*srh_sigman+p*srh_vth*srh_sigmap+srh_en+srh_ep);
 long double level=0.0;
-level=in->dosn[mat].srh_E[band]-T*kb*log((1.0/f)-1.0)/Q;
+level=in->dosn[mat].srh_E[band]-T*kb*logl((1.0/f)-1.0)/Q;
+//printf("rod=%Le %Le %Le\n",logl((1.0/f)-1.0),(1.0/f)-1.0,f);
 return level;
 }
 
@@ -122,7 +123,7 @@ long double srh_en=srh_vth*srh_sigman*Nc*gexp((Q*(-1.0-in->dosp[mat].srh_E[band]
 long double f=0.0;
 f=(p*srh_vth*srh_sigmap+srh_en)/(p*srh_vth*srh_sigmap+n*srh_vth*srh_sigman+srh_ep+srh_en);
 long double level=0.0;
-level=in->dosp[mat].srh_E[band]-T*kb*log((1.0/f)-1.0)/Q;
+level=in->dosp[mat].srh_E[band]-T*kb*logl((1.0/f)-1.0)/Q;
 return level;
 }
 
@@ -641,7 +642,7 @@ int x=0;
 #ifdef dos_warn
 if ((in->dosn[mat].x[0]>top)||(in->dosn[mat].x[in->dosn[mat].xlen-1]<top))
 {
-	ewe(sim,"Electrons asking for %e but range %e %e\n",top,in->dosn[mat].x[0],in->dosn[mat].x[in->dosn[mat].xlen-1]);
+	ewe(sim,"Electrons asking for %Le but range %Le %Le\n",top,in->dosn[mat].x[0],in->dosn[mat].x[in->dosn[mat].xlen-1]);
 	//if (get_dump_status(dump_exit_on_dos_error)==TRUE)
 	//{
 	//server_stop_and_exit();
@@ -871,7 +872,7 @@ int x;
 #ifdef dos_warn
 if ((in->dosn[mat].x[0]>top)||(in->dosn[mat].x[in->dosn[mat].xlen-1]<top))
 {
-	ewe(sim,"Electrons asking for %e but range %e %e\n",top,in->dosn[mat].x[0],in->dosn[mat].x[in->dosn[mat].xlen-1]);
+	ewe(sim,"Electrons asking for %Le but range %Le %Le\n",top,in->dosn[mat].x[0],in->dosn[mat].x[in->dosn[mat].xlen-1]);
 	//if (get_dump_status(dump_exit_on_dos_error)==TRUE) server_stop_and_exit();
 	//exit(0);
 }
@@ -983,7 +984,7 @@ int x;
 #ifdef dos_warn
 if ((in->dosp[mat].x[0]>top)||(in->dosp[mat].x[in->dosp[mat].xlen-1]<top))
 {
-	ewe(sim,"Holes asking for %e but range %e %e\n",top,in->dosp[mat].x[0],in->dosp[mat].x[in->dosp[mat].xlen-1]);
+	ewe(sim,"Holes asking for %Le but range %Le %Le\n",top,in->dosp[mat].x[0],in->dosp[mat].x[in->dosp[mat].xlen-1]);
 	//if (get_dump_status(dump_exit_on_dos_error)==TRUE) server_stop_and_exit();
 	//exit(0);
 }
@@ -1095,7 +1096,7 @@ int x=0;
 #ifdef dos_warn
 if ((in->dosn[mat].x[0]>top)||(in->dosn[mat].x[in->dosn[mat].xlen-1]<top))
 {
-	ewe(sim,"Electrons asking for %e but range %e %e\n",top,in->dosn[mat].x[0],in->dosn[mat].x[in->dosn[mat].xlen-1]);
+	ewe(sim,"Electrons asking for %Le but range %Le %Le\n",top,in->dosn[mat].x[0],in->dosn[mat].x[in->dosn[mat].xlen-1]);
 	//if (get_dump_status(dump_exit_on_dos_error)==TRUE) server_stop_and_exit();
 	//exit(0);
 }
@@ -1159,7 +1160,7 @@ int x=0;
 #ifdef dos_warn
 if ((in->dosp[mat].x[0]>top)||(in->dosp[mat].x[in->dosp[mat].xlen-1]<top))
 {
-	ewe(sim,"Holes asking for %e but range %e %e\n",top,in->dosp[mat].x[0],in->dosp[mat].x[in->dosp[mat].xlen-1]);
+	ewe(sim,"Holes asking for %Le but range %Le %Le\n",top,in->dosp[mat].x[0],in->dosp[mat].x[in->dosp[mat].xlen-1]);
 	//if (get_dump_status(dump_exit_on_dos_error)==TRUE) server_stop_and_exit();
 	//exit(0);
 }
@@ -1227,7 +1228,7 @@ int x;
 #ifdef dos_warn
 if ((in->dosn[mat].x[0]>top)||(in->dosn[mat].x[in->dosn[mat].xlen-1]<top))
 {
-	ewe(sim,"Electrons asking for %e but range %e %e\n",top,in->dosn[mat].x[0],in->dosn[mat].x[in->dosn[mat].xlen-1]);
+	ewe(sim,"Electrons asking for %Le but range %Le %Le\n",top,in->dosn[mat].x[0],in->dosn[mat].x[in->dosn[mat].xlen-1]);
 	//if (get_dump_status(dump_exit_on_dos_error)==TRUE) server_stop_and_exit();
 	//exit(0);
 }
@@ -1296,7 +1297,7 @@ int x;
 #ifdef dos_warn
 if ((in->dosp[mat].x[0]>top)||(in->dosp[mat].x[in->dosp[mat].xlen-1]<top))
 {
-	ewe(sim,"Holes asking for %e but range %e %e\n",top,in->dosp[mat].x[0],in->dosp[mat].x[in->dosp[mat].xlen-1]);
+	ewe(sim,"Holes asking for %Le but range %Le %Le\n",top,in->dosp[mat].x[0],in->dosp[mat].x[in->dosp[mat].xlen-1]);
 	//if (get_dump_status(dump_exit_on_dos_error)==TRUE) server_stop_and_exit();
 	//exit(0);
 }

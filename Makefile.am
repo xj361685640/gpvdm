@@ -5,6 +5,12 @@ SUBDIRS = @BUILD_DIRS@
 bin_PROGRAMS=gpvdm_core
 gpvdm_core_SOURCES=
 
+if INCLUDE_HTML
+htmlsrcdir = $(pkgdatadir)/html
+htmlsrc_DATA = html/*.html
+
+endif
+
 if INCLUDE_IMAGES
 imagedir = $(pkgdatadir)/images
 image_DATA = images/*.jpg images/*.png
@@ -26,12 +32,25 @@ flag_DATA = images/48x32/*.png
 
 cssdir = $(pkgdatadir)/css
 css_DATA = css/*.css
+
 endif
+
+
 
 dist_pkgdata_DATA = base.gpvdm
 
+if INCLUDE_DEVICELIB
 device_libdir = $(pkgdatadir)/device_lib
 device_lib_DATA=device_lib/*.gpvdm
+
+device_lib_maeckel_et_aldir = $(pkgdatadir)/device_lib/maeckel_et_al/
+device_lib_maeckel_et_al_DATA=device_lib/maeckel_et_al/*.gpvdm
+endif
+
+if INCLUDE_CLUSTER
+device_libdir = $(pkgdatadir)/cluster_
+device_lib_DATA=cluster_/*.zip
+endif
 
 if INCLUDE_PLOTS
 plotdir = $(pkgdatadir)/plot
@@ -54,8 +73,6 @@ if INCLUDE_IMAGES
 appicondir=$(pkgdatadir)/images
 appicon_DATA=$(srcdir)/desktop/application-gpvdm.svg
 
-iconsdir=$(datadir)/icons/hicolor/scalable/mimetypes
-icons_DATA=$(srcdir)/desktop/simulation-gpvdm.svg
 endif
 
 if INCLUDE_DESKTOP
@@ -64,6 +81,9 @@ desktop_DATA = $(srcdir)/desktop/gpvdm.desktop
 
 packagesdir = $(datadir)/mime/packages
 packages_DATA = $(srcdir)/desktop/gpvdm-gpvdm.xml
+
+iconsdir=$(datadir)/icons/hicolor/scalable/mimetypes
+icons_DATA=$(srcdir)/desktop/simulation-gpvdm.svg
 
 endif
 
@@ -83,5 +103,12 @@ install-data-hook:
 	find lang -name "*.mo" -exec cp --parents {} $(DESTDIR)$(datadir)/gpvdm/ ";"
 	ln -s $(pkgdatadir)/gui/gpvdm.py $(DESTDIR)$(bindir)/gpvdm
 	chmod +x $(DESTDIR)$(pkgdatadir)/gui/gpvdm.py
+
+uninstall-hook:
+	-rm $(DESTDIR)$(pkgdatadir) -rf
+	-rm $(DESTDIR)$(bindir)/gpvdm
+	-rm $(DESTDIR)$(datadir)/icons/hicolor/scalable/mimetypes/simulation-gpvdm.svg
+	-rm $(DESTDIR)$(datadir)/mime/packages/gpvdm-gpvdm.xml
+	-rm $(DESTDIR)$(datadir)/applications/gpvdm.desktop
 
 ACLOCAL_AMFLAGS = -I m4

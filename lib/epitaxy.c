@@ -36,7 +36,7 @@ void epitaxy_load(struct simulation *sim,struct epitaxy *in, char *file)
 	inp_init(sim,&inp);
 	if (inp_load(sim, &inp , file)!=0)
 	{
-		ewe(sim,"I can't find file %s\n",file);
+		ewe(sim,"Epitaxy: I can't find file %s\n",file);
 	}
 
 	inp_check(sim,&inp,1.3);

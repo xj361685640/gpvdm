@@ -27,6 +27,7 @@ from inp_util import inp_merge
 from inp_util import inp_search_token_value
 
 from cal_path import subtract_paths
+import time
 
 def archive_copy_file(dest_archive,dest_file_name,src_archive,file_name,dest="archive"):
 	lines=read_lines_from_archive(src_archive,file_name)
@@ -163,9 +164,14 @@ def zip_search_file(source,target):
 			return True
 	return False
 
+
+
+
 def zip_remove_file(zip_file_name,target):
 	file_path=os.path.join(os.path.dirname(zip_file_name),target)
-
+	#if has_handle(zip_file_name)==True:
+	#	print("We are already open!",zip_file_name)
+	#	exit(0)
 	if os.path.isfile(file_path)==True:
 		os.remove(file_path)
 
@@ -189,11 +195,24 @@ def zip_remove_file(zip_file_name,target):
 		source.close()
 
 		if found==True:
+			#I think virus killers are opening the file on windows
+			i=0
+			while(i<3):
+				try:
+					if os.path.isfile(zip_file_name):
+						os.remove(zip_file_name)
+					shutil.move(abs_path, zip_file_name)
+					return
+				except:
+					print("Waiting for the file to close: ",zip_file_name)
+					print("... file a bug report if gpvdm does not work because of this.")
+					time.sleep(1)
+				i=i+1
+			#failed three times to open the file, so try again and expect to fail
 			if os.path.isfile(zip_file_name):
 				os.remove(zip_file_name)
-
 			shutil.move(abs_path, zip_file_name)
-
+			return
 
 def write_lines_to_archive(archive_path,file_name,lines,mode="l",dest="archive"):
 

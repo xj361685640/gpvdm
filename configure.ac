@@ -9,10 +9,27 @@ AC_MSG_NOTICE([$target_alias])
 AC_MSG_NOTICE([$target_cpu])
 AC_MSG_NOTICE([$target_vendor])
 AC_MSG_NOTICE([$target_os])
+
 AC_ARG_ENABLE(noimages, "used to disable compilation of images",
 [AM_CONDITIONAL([INCLUDE_IMAGES],[false])],
 [AM_CONDITIONAL([INCLUDE_IMAGES],[true])]
 )
+
+AC_ARG_ENABLE(nohtml, "used to disable compilation of html",
+[AM_CONDITIONAL([INCLUDE_HTML],[false])],
+[AM_CONDITIONAL([INCLUDE_HTML],[true])]
+)
+
+AC_ARG_ENABLE(nodevicelib, "used to disable the device lib",
+[AM_CONDITIONAL([INCLUDE_DEVICELIB],[false])],
+[AM_CONDITIONAL([INCLUDE_DEVICELIB],[true])]
+)
+
+AC_ARG_ENABLE(nocluster, "used to disable the cluster",
+[AM_CONDITIONAL([INCLUDE_CLUSTER],[false])],
+[AM_CONDITIONAL([INCLUDE_CLUSTER],[true])]
+)
+
 
 AC_ARG_ENABLE(noplots, "used to disable plot files",
 [AM_CONDITIONAL([INCLUDE_PLOTS],[false])],
@@ -62,7 +79,11 @@ AC_MSG_NOTICE([*****************************])
 AC_SUBST(LINK_FLAG, "")
 AC_CHECK_LIB(zip, [main], [], [AC_MSG_ERROR([libzip is needed but not found.])])
 
-AC_CHECK_HEADERS([umfpack.h],[],[AC_MSG_ERROR([suitesparse/umfpack.h or umfpack.h is needed but not found])])
+AC_CHECK_HEADERS([umfpack.h],[],[
+AC_CHECK_HEADERS([suitesparse/umfpack.h],[],[
+AC_MSG_ERROR([suitesparse/umfpack.h or umfpack.h is needed but not found])
+])
+])
 
 AC_SUBST(SLIB_EXT, "a")
 AC_SUBST(DLIB_EXT, "so")
@@ -99,7 +120,7 @@ AC_SUBST(LIBS, " -lumfpack -lm -lgsl -lgslcblas -rdynamic -export-dynamic -ldl -
 
 
 AC_PROG_RANLIB
-AM_INIT_AUTOMAKE
+AM_INIT_AUTOMAKE([-Wno-portability])
 AC_PROG_CC
 
 AC_ARG_ENABLE(hpc, "used to turn on HPC compatability",

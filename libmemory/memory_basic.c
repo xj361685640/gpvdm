@@ -245,6 +245,27 @@ ret=sum/(in->zlen*in->xlen*in->ylen);
 return ret;
 }
 
+long double three_d_integrate(struct device *in, long double ***src)
+{
+int x=0;
+int y=0;
+int z=0;
+long double sum=0.0;
+	for (z = 0; z < in->zmeshpoints; z++)
+	{
+		for (x = 0; x < in->xmeshpoints; x++)
+		{
+			for (y = 0; y < in->ymeshpoints; y++)
+			{
+				sum+=src[z][x][y]*in->dxmesh[x]*in->dymesh[y]*in->dzmesh[z];
+			}
+			
+		}
+	}
+
+return sum;
+}
+
 void free_3d_gdouble(struct device *in, gdouble ***var)
 {
 	int x=0;

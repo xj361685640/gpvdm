@@ -51,6 +51,9 @@ buffer_init(&buf);
 struct dynamic_store store;
 dump_dynamic_init(sim,&store,in);
 
+struct istruct out_j_int;
+inter_init(sim,&out_j_int);
+
 struct istruct out_i;
 inter_init(sim,&out_i);
 
@@ -185,6 +188,7 @@ do
 
 	plot_now(sim,in,"pulse.plot");
 	inter_append(&out_i,in->time,i0);
+	inter_append(&out_j_int,in->time,get_avg_J(in));
 	inter_append(&out_v,in->time,V);
 	inter_append(&out_G,in->time,in->Gn[0][0][0]);
 	//printf_log(sim,"%Le %d %Le\n",in->time,time_test_last_point(in),in->dt);
@@ -205,7 +209,27 @@ dump_dynamic_free(sim,in,&store);
 if (pulse_config.pulse_subtract_dc==TRUE)
 {
 	inter_sub_gdouble(&out_i,out_i.data[0]);	
+	inter_sub_gdouble(&out_j_int,out_j_int.data[0]);
 }
+
+buffer_malloc(&buf);
+buf.y_mul=1e3;
+buf.x_mul=1e6;
+sprintf(buf.title,"%s - %s",_("Time"),_("Current"));
+strcpy(buf.type,"xy");
+strcpy(buf.x_label,_("Time"));
+strcpy(buf.data_label,_("Current"));
+strcpy(buf.x_units,"\\ms");
+strcpy(buf.data_units,"m");
+buf.logscale_x=0;
+buf.logscale_y=0;
+buf.x=1;
+buf.y=out_j_int.len;
+buf.z=1;
+buffer_add_info(sim,&buf);
+buffer_add_xy_data(sim,&buf,out_j_int.x, out_j_int.data, out_j_int.len);
+buffer_dump_path(sim,get_output_path(sim),"pulse_j_int.dat",&buf);
+buffer_free(&buf);
 
 buffer_malloc(&buf);
 buf.y_mul=1e3;
@@ -225,7 +249,6 @@ buffer_add_info(sim,&buf);
 buffer_add_xy_data(sim,&buf,out_i.x, out_i.data, out_i.len);
 buffer_dump_path(sim,get_output_path(sim),"pulse_i.dat",&buf);
 buffer_free(&buf);
-
 
 inter_copy(&out_j,&out_i,TRUE);
 inter_mul(&out_j,1.0/(in->xlen*in->zlen));
@@ -330,6 +353,7 @@ if (get_dump_status(sim,dump_optical_probe)==TRUE)
 }
 inter_free(&out_G);
 inter_free(&out_i);
+inter_free(&out_j_int);
 inter_free(&out_v);
 
 time_memory_free(in);

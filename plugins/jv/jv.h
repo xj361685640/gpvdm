@@ -31,8 +31,10 @@ struct jv
 	gdouble jv_step_mul;
 	gdouble jv_light_efficiency;
 	gdouble jv_max_j;
+	long double jv_Rshunt;
+	long double jv_Rcontact;
 };
 
 void sim_jv(struct simulation *sim,struct device *in);
-void jv_load_config(struct simulation *sim,struct jv* in,struct device *dev);
+void jv_load_config(struct simulation *sim,struct jv* in,struct device *dev, char* config_file_name);
 #endif

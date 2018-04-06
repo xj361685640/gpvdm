@@ -261,7 +261,7 @@ class dump_select(QWidget):
 			
 			path="/".join(reversed(path))
 			path=path.split('/', 1)[-1]
-			print(path)
+			#print(path.encode('utf-8'))
 			if path.count("/")!=0:
 				out.append("#file"+str(count))
 				out.append(path)

@@ -28,11 +28,72 @@
 #include <pl.h>
 #include <probe.h>
 #include <string.h>
-
-
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <dirent.h>
+#include <inp.h>
 
 static int unused __attribute__((unused));
 static int dump_number;
+
+void dump_clean_cache_files(struct simulation* sim)
+{
+struct inp_file inp;
+char temp[200];
+DIR *d;
+struct dirent *dir;
+
+	if (get_dump_status(sim,dump_remove_dos_cache)==TRUE)
+	{
+		d = opendir(".");
+		if (d)
+		{
+			while ((dir = readdir(d)) != NULL)
+			{
+				printf("%s\n",dir->d_name);
+				if ((strcmp_end(dir->d_name,".inp.chk")==0)||(strcmp_end(dir->d_name,"_dosn.dat")==0)||(strcmp_end(dir->d_name,"_dosp.dat")==0))
+				{
+					remove(dir->d_name);
+				}
+			}
+
+			closedir(d);
+		}
+	}
+	
+
+	inp_init(sim,&inp);
+	if (inp_load(sim, &inp , "delete_files.inp")==0)
+	{
+		
+		inp_reset_read(sim,&inp);
+		strcpy(temp,inp_get_string(sim,&inp));
+		if (strcmp(temp,"#begin")!=0)
+		{
+			return;
+		}
+		
+		while(1)
+		{
+			strcpy(temp,inp_get_string(sim,&inp));
+			if (strcmp(temp,"#end")==0)
+			{
+				break;
+			}else
+			{
+				remove(temp);
+			}
+
+		}
+
+		inp_free(sim,&inp);
+	}
+
+
+
+}
+
 void dump_init(struct simulation *sim,struct device* in)
 {
 dump_number=0;

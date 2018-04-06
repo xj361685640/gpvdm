@@ -899,6 +899,9 @@ if (in->interfaceright==TRUE)
 
 			in->Rn[z][x][i]=Rtrapn+Rfree;
 			in->Rp[z][x][i]=Rtrapp+Rfree;
+
+			in->Rn_srh[z][x][i]=Rtrapn;
+			in->Rp_srh[z][x][i]=Rtrapp;
 			//Rtrapp=1e24;
 			//Rtrapn=1e24;
 

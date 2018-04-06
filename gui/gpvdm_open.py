@@ -44,6 +44,7 @@ from gui_util import error_dlg
 from ref import get_ref_text
 from gui_util import dlg_get_text
 from gui_util import yes_no_dlg
+from gui_util import error_dlg
 
 from clone import clone_material
 from clone import clone_spectra
@@ -187,13 +188,20 @@ class gpvdm_open(QDialog):
 			new_sim_name=new_sim_name.ret
 			if new_sim_name!=None:
 				new_material=os.path.join(self.dir,new_sim_name)
-				clone_material(new_material,os.path.join(get_base_material_path(),"generic","generic_organic"))
+				try:
+					clone_material(new_material,os.path.join(get_base_material_path(),"generic","generic_organic"))
+				except:
+					error_dlg(self,_("I can't open that file.  Is the file name valid?"))
 		elif action == newspectraAction:
 			new_sim_name=dlg_get_text( _("New spectra name:"), _("New spectra name"),"spectra_file")
 			new_sim_name=new_sim_name.ret
 			if new_sim_name!=None:
 				new_material=os.path.join(self.dir,new_sim_name)
-				clone_spectra(new_material,get_base_spectra_path())
+				try:
+					clone_spectra(new_material,get_base_spectra_path())
+				except:
+					error_dlg(self,_("I can't open that file.  Is the file name valid?"))
+
 		elif action == deleteAction:
 			files=""
 			for i in self.listwidget.selectedItems():

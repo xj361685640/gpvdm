@@ -105,7 +105,8 @@ remove_dir(sim,temp);
 join_path(2,temp,get_output_path(sim),"frequency");
 remove_dir(sim,temp);
 
-
+join_path(2,temp,get_output_path(sim),"sim");
+remove_dir(sim,temp);
 
 load_config(sim,&cell);
 
@@ -247,8 +248,8 @@ if (strcmp(cell.simmode,"opticalmodel@optics")!=0)
 
 	contacts_force_to_zero(sim,&cell);
 
-
 	get_initial(sim,&cell);
+
 
 
 	remesh_shrink(&cell);
@@ -348,7 +349,7 @@ if (strcmp(cell.simmode,"opticalmodel@optics")!=0)
 }
 
 measure(sim);
-
+dump_clean_cache_files(sim);
 return cell.odes;
 }
 

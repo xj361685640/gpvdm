@@ -29,6 +29,7 @@
 #include "cal_path.h"
 #include "dump.h"
 #include <log.h>
+#include <cache.h>
 
 void buffer_zip_set_name(struct buffer *in,char * name)
 {
