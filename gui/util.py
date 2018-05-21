@@ -92,14 +92,6 @@ def copy_scan_dir(new_dir,old_dir):
 		if os.path.isfile(filename):
 			shutil.copy(filename, new_dir)
 
-def delete_second_level_link_tree(path):
-	for filename in os.listdir(path):
-		full_name=os.path.join(path,filename)
-		if os.path.isdir(full_name):
-			print("Deleteing",full_name)
-			gpvdm_delete_file(full_name)
-
-	gpvdm_delete_file(path)
 
 def gpvdm_delete_file(path):
 	if os.path.isdir(path)==True:

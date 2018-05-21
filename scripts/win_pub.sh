@@ -21,6 +21,10 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 mkdir pub
+mkdir pub2
+
+make DESTDIR=./pub2 install
+
 cp gpvdm_core.exe ./pub/gpvdm_core.exe
 cp ~/windll/compiled_dlls/*.dll ./pub/
 cp ~/windll/opengl_dlls/*.dll ./pub/
@@ -69,7 +73,7 @@ cp ./ui/*.ui ./pub/ui/
 cp ./lang ./pub/lang -rf
 rm ./pub/lang/*.*
 
-cp ../../../update.sh ./pub/
+#cp ../../../update.sh ./pub/
 
 rm ~/windows/share/pub -rf
 cp pub ~/windows/share/ -rf

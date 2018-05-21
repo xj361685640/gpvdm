@@ -2,7 +2,9 @@
 #title Refractive index
 #type xy
 #x_mul 1e9
-#y_mul 1.000000
+#y_mul 1e9
+#x_mul 1e9
+#data_mul 1.0
 #x_label Wavelength
 #data_label Refractive index
 #x_units nm

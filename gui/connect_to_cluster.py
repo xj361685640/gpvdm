@@ -33,7 +33,7 @@ from PyQt5.uic import loadUi
 from cal_path import get_device_lib_path
 from icon_lib import QIcon_load
 from cal_path import get_ui_path
-from gui_util import error_dlg
+from error_dlg import error_dlg
 from cal_path import get_exe_path
 
 from help import help_window

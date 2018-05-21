@@ -13,7 +13,7 @@ endif
 
 if INCLUDE_IMAGES
 imagedir = $(pkgdatadir)/images
-image_DATA = images/*.jpg images/*.png
+image_DATA = images/*.jpg images/*.png  images/*.ico
 
 image16dir = $(pkgdatadir)/images/16x16
 image16_DATA = images/16x16/*.png
@@ -25,7 +25,7 @@ image64dir = $(pkgdatadir)/images/64x64
 image64_DATA = images/64x64/*.png
 
 splashdir = $(pkgdatadir)/images/splash
-splash_DATA = images/splash/*.png images/splash/*.jpg
+splash_DATA = images/splash/*.png
 
 flagdir = $(pkgdatadir)/images/48x32
 flag_DATA = images/48x32/*.png
@@ -48,8 +48,8 @@ device_lib_maeckel_et_al_DATA=device_lib/maeckel_et_al/*.gpvdm
 endif
 
 if INCLUDE_CLUSTER
-device_libdir = $(pkgdatadir)/cluster_
-device_lib_DATA=cluster_/*.zip
+clusterdir = $(pkgdatadir)/cluster
+cluster_DATA=cluster/*.zip
 endif
 
 if INCLUDE_PLOTS
@@ -61,7 +61,7 @@ pluginsdir = $(pkglibdir)/plugins
 plugins_DATA=plugins/*.@DLIB_EXT@
 
 pythondir = $(pkgdatadir)/gui
-python_PYTHON=gui/*.py
+python_PYTHON=gui/*.py gui/*.bat
 
 dist_doc_DATA = README
 
@@ -69,13 +69,10 @@ if INCLUDE_MAN
 man1_MANS = man/gpvdm.1 man/gpvdm_core.1
 endif
 
-if INCLUDE_IMAGES
+if INCLUDE_DESKTOP
 appicondir=$(pkgdatadir)/images
 appicon_DATA=$(srcdir)/desktop/application-gpvdm.svg
 
-endif
-
-if INCLUDE_DESKTOP
 desktopdir = $(datadir)/applications
 desktop_DATA = $(srcdir)/desktop/gpvdm.desktop
 

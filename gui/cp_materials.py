@@ -74,11 +74,11 @@ if args.copy:
 
 				safe_cpy(dst_mat_path,src_mat_path,"cost.xlsx")
 
-				if status=="public_all":
-					safe_cpy(dst_mat_path,src_mat_path,"alpha.omat")
-					safe_cpy(dst_mat_path,src_mat_path,"n.omat")
-					safe_cpy(dst_mat_path,src_mat_path,"alpha.ref")
-					safe_cpy(dst_mat_path,src_mat_path,"n.ref")
+
+				safe_cpy(dst_mat_path,src_mat_path,"alpha.omat")
+				safe_cpy(dst_mat_path,src_mat_path,"n.omat")
+				safe_cpy(dst_mat_path,src_mat_path,"alpha.ref")
+				safe_cpy(dst_mat_path,src_mat_path,"n.ref")
 
 
 				files=os.listdir(src_mat_path)

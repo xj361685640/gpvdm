@@ -61,7 +61,7 @@ from gui_util import tab_get_value
 from gui_util import tab_set_value
 from gui_util import yes_no_dlg
 from gui_util import tab_insert_row
-from gui_util import error_dlg
+from error_dlg import error_dlg
 
 #mesh
 from mesh import mesh_get_xlen

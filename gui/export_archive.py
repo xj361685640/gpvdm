@@ -26,7 +26,7 @@ import os
 import zipfile
 #from util_zip import archive_add_file
 from progress import progress_class
-from gui_util import process_events
+from process_events import process_events
 from cal_path import remove_simpathfrompath
 
 from cal_path import get_sim_path
@@ -60,12 +60,16 @@ def export_archive(target,everything):
 
 		lines=[]
 		if os.path.isfile(cur_file):
-			f=open(cur_file, mode='rb')
-			lines = f.read()
-			f.close()
+			try:
+				f=open(cur_file, mode='rb')
+				lines = f.read()
+				f.close()
 
 
-			zf.writestr(remove_simpathfrompath(cur_file), lines)
+				zf.writestr(remove_simpathfrompath(cur_file), lines)
+			except:
+				print(_("Can't open file ")+cur_file)
+
 			progress_window.set_fraction(float(i)/float(len(file_list)))
 			progress_window.set_text("Adding"+cur_file[len(get_sim_path()):])
 			process_events()

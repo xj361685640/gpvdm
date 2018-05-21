@@ -80,7 +80,7 @@ from gui_util import tab_move_down
 from gui_util import tab_move_up
 from gui_util import tab_remove
 from gui_util import tab_get_value
-from gui_util import error_dlg
+from error_dlg import error_dlg
 from gui_util import yes_no_dlg
 from gui_util import tab_get_selected
 from gui_util import tab_set_value
@@ -98,7 +98,7 @@ from cal_path import get_sim_path
 from scan_ml import scan_ml_build_vector
 
 from progress import progress_class
-from gui_util import process_events
+from process_events import process_events
 
 from scan_io import scan_archive
 

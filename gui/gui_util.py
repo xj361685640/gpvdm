@@ -63,10 +63,6 @@ class dlg_get_text():
 			self.ret=None
 
 
-def process_events():
-	if gui_get()==True:
-		QApplication.processEvents()
-
 def tab_get_value(tab,y,x):
 	if type(tab.cellWidget(y, x))==QComboBox:
 		return tab.cellWidget(y, x).currentText()
@@ -235,15 +231,6 @@ def tab_remove(tab):
 		tab.removeRow(index.row()) 
 		
 	tab.blockSignals(False)
-
-def error_dlg(parent,text):
-	msgBox = QMessageBox(parent)
-	msgBox.setIcon(QMessageBox.Critical)
-	msgBox.setText("gpvdm error:")
-	msgBox.setInformativeText(text)
-	msgBox.setStandardButtons(QMessageBox.Ok )
-	msgBox.setDefaultButton(QMessageBox.Ok)
-	reply = msgBox.exec_()
 
 def yes_no_dlg(parent,text):
 	msgBox = QMessageBox(parent)

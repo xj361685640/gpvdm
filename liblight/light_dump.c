@@ -304,6 +304,17 @@ if (get_dump_status(sim,dump_optics_verbose)==TRUE)
 
 }
 
+void light_dump_sim_info(struct simulation *sim,struct light *in)
+{
+long double ret=0.0;
+ret=light_calculate_photons_absorbed_in_active_layer(in);
+FILE *out;
+out=fopena(get_output_path(sim),"sim_info.dat","w");
+fprintf(out,"#light_photons_in_active_layer\n%Le\n",ret);
+fprintf(out,"#end");
+fclose(out);
+
+}
 
 void light_dump_summary(struct simulation *sim,struct light *in)
 {

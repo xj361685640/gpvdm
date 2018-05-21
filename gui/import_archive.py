@@ -26,7 +26,7 @@ from scan_io import get_scan_dirs
 
 from util import copy_scan_dir
 
-from util import delete_second_level_link_tree
+from util import gpvdm_delete_file
 
 
 from util_zip import zip_lsdir
@@ -48,7 +48,7 @@ from inp_util import inp_merge
 from cal_path import get_default_material_path
 
 from progress import progress_class
-from gui_util import process_events
+from process_events import process_events
 import re
 
 class file_type():
@@ -285,7 +285,7 @@ def import_scan_dirs(dest_dir,src_dir):
 		print("copy scan dir",my_file,"to",dest)
 
 		if os.path.exists(dest):
-			delete_second_level_link_tree(dest)
+			gpvdm_delete_file(dest)
 
 		copy_scan_dir(dest,my_file)
 

@@ -87,54 +87,55 @@ class plot_widget(QWidget):
 		else:
 			return
 
+
 		if keyname=="a":
 			self.do_plot()
-
-		elif keyname=='g':
-			if self.data[0].grid==False:
-				for i in range(0,len(self.ax)):
-					self.ax[i].grid(True)
-				self.data[0].grid=True
-			else:
-				for i in range(0,len(self.ax)):
-					self.ax[i].grid(False)
-				self.data[0].grid=False
-		elif keyname=="r":
-			if self.lx==None:
-				for i in range(0,len(self.ax)):
-					self.lx = self.ax[i].axhline(color='k')
-					self.ly = self.ax[i].axvline(color='k')
-			self.lx.set_ydata(self.ydata)
-			self.ly.set_xdata(self.xdata)
-
-		elif keyname=="l":
-			if self.data[0].logy==True:
-				self.data[0].logy=False
-				for i in range(0,len(self.ax)):
-					self.ax[i].set_yscale("linear")
-			else:
-				self.data[0].logy=True
-				for i in range(0,len(self.ax)):
-					self.ax[i].set_yscale("log")
-
-		elif keyname=="L":
-			if self.data[0].logx==True:
-				self.data[0].logx=False
-				for i in range(0,len(self.ax)):
-					self.ax[i].set_xscale("linear")
-			else:
-				self.data[0].logx=True
-				for i in range(0,len(self.ax)):
-					self.ax[i].set_xscale("log")
-
 		elif keyname=="q":
 			self.destroy()
-
 		elif  modifiers == Qt.ControlModifier and keyname=='c':
 			self.do_clip()
 
-		self.fig.canvas.draw()
-		plot_save_oplot_file(self.config_file,self.data[0])
+		if len(self.data)>0:
+			if keyname=='g':
+				if self.data[0].grid==False:
+					for i in range(0,len(self.ax)):
+						self.ax[i].grid(True)
+					self.data[0].grid=True
+				else:
+					for i in range(0,len(self.ax)):
+						self.ax[i].grid(False)
+					self.data[0].grid=False
+			elif keyname=="r":
+				if self.lx==None:
+					for i in range(0,len(self.ax)):
+						self.lx = self.ax[i].axhline(color='k')
+						self.ly = self.ax[i].axvline(color='k')
+				self.lx.set_ydata(self.ydata)
+				self.ly.set_xdata(self.xdata)
+
+			elif keyname=="l":
+				if self.data[0].logy==True:
+					self.data[0].logy=False
+					for i in range(0,len(self.ax)):
+						self.ax[i].set_yscale("linear")
+				else:
+					self.data[0].logy=True
+					for i in range(0,len(self.ax)):
+						self.ax[i].set_yscale("log")
+
+			elif keyname=="L":
+				if self.data[0].logx==True:
+					self.data[0].logx=False
+					for i in range(0,len(self.ax)):
+						self.ax[i].set_xscale("linear")
+				else:
+					self.data[0].logx=True
+					for i in range(0,len(self.ax)):
+						self.ax[i].set_xscale("log")
+
+
+			self.fig.canvas.draw()
+			plot_save_oplot_file(self.config_file,self.data[0])
 
 	def do_clip(self):
 		buf = io.BytesIO()
@@ -358,8 +359,7 @@ class plot_widget(QWidget):
 						dat_file_sub(self.data[i],self.data[0])
 					
 					dat_file_sub(self.data[0],self.data[0])
-
-			for i in range(0,len(self.input_files)):
+			for i in range(0,len(self.data)):
 				for x in range(0,self.data[i].x_len):
 					self.data[i].x_scale[x]=self.data[i].x_scale[x]*self.data[i].x_mul
 
@@ -427,74 +427,85 @@ class plot_widget(QWidget):
 
 
 	def callback_black(self):
-		plot_save_oplot_file(self.config_file,self.data[0])
-		self.do_plot()
+		if len(self.data)>0:
+			plot_save_oplot_file(self.config_file,self.data[0])
+			self.do_plot()
 
 	def callback_rainbow(self):
-		plot_save_oplot_file(self.config_file,self.data[0])
-		self.do_plot()
+		if len(self.data)>0:
+			plot_save_oplot_file(self.config_file,self.data[0])
+			self.do_plot()
 
 	def callback_save(self):
 		output_file=os.path.splitext(self.config_file)[0]+".png"
 		plot_export(output_file,self.input_files,self.data[0],self.fig)
 
 	def callback_key(self):
-		self.data[0].legend_pos=widget.get_label()
-		#print(self.config_file,self.data[0])
-		plot_save_oplot_file(self.config_file,self.data[0])
-		self.do_plot()
+		if len(self.data)>0:
+			self.data[0].legend_pos=widget.get_label()
+			#print(self.config_file,self.data[0])
+			plot_save_oplot_file(self.config_file,self.data[0])
+			self.do_plot()
 
 	def callback_units(self):
-		units=dlg_get_text( "Units:", self.data[0].key_units)
-		if units!=None:
-			self.data[0].key_units=units
-		plot_save_oplot_file(self.config_file,self.data[0])
-		self.do_plot()
+		if len(self.data)>0:
+			units=dlg_get_text( "Units:", self.data[0].key_units)
+			if units!=None:
+				self.data[0].key_units=units
+			plot_save_oplot_file(self.config_file,self.data[0])
+			self.do_plot()
 
 
 	def callback_autoscale_y(self):
-		if self.data[0].ymax==-1:
-			xmin, xmax, ymin, ymax = self.ax[0].axis()
-			self.data[0].ymax=ymax
-			self.data[0].ymin=ymin
-		else:
-			self.data[0].ymax=-1
-			self.data[0].ymin=-1
+		if len(self.data)>0:
+			if self.data[0].ymax==-1:
+				xmin, xmax, ymin, ymax = self.ax[0].axis()
+				self.data[0].ymax=ymax
+				self.data[0].ymin=ymin
+			else:
+				self.data[0].ymax=-1
+				self.data[0].ymin=-1
 
 	def callback_normtoone_y(self):
-		self.data[0].normalize= not self.data[0].normalize
-		plot_save_oplot_file(self.config_file,self.data[0])
-		self.norm_data()
-		self.do_plot()
+		if len(self.data)>0:
+			self.data[0].normalize= not self.data[0].normalize
+			plot_save_oplot_file(self.config_file,self.data[0])
+			self.norm_data()
+			self.do_plot()
 
 	def callback_norm_to_peak_of_all_data(self):
-		self.data[0].norm_to_peak_of_all_data=not self.data[0].norm_to_peak_of_all_data
-		plot_save_oplot_file(self.config_file,self.data[0])
-		self.norm_data()
-		self.do_plot()
+		if len(self.data)>0:
+			self.data[0].norm_to_peak_of_all_data=not self.data[0].norm_to_peak_of_all_data
+			plot_save_oplot_file(self.config_file,self.data[0])
+			self.norm_data()
+			self.do_plot()
 
 	def callback_toggle_log_scale_y(self):
-		self.data[0].logy=not self.data[0].logy
-		plot_save_oplot_file(self.config_file,self.data[0])
-		self.norm_data()
-		self.do_plot()
+		if len(self.data)>0:
+			self.data[0].logy=not self.data[0].logy
+			plot_save_oplot_file(self.config_file,self.data[0])
+			self.norm_data()
+			self.do_plot()
 
 	def callback_toggle_log_scale_x(self):
-		self.data[0].logx=not self.data[0].logx
-		plot_save_oplot_file(self.config_file,self.data[0])
-		self.norm_data()
-		self.do_plot()
+		if len(self.data)>0:
+			self.data[0].logx=not self.data[0].logx
+			plot_save_oplot_file(self.config_file,self.data[0])
+			self.norm_data()
+			self.do_plot()
 
 	def callback_toggle_label_data(self):
-		self.data[0].label_data=not self.data[0].label_data
-		plot_save_oplot_file(self.config_file,self.data[0])
-		self.do_plot()
+		if len(self.data)>0:
+			self.data[0].label_data=not self.data[0].label_data
+			plot_save_oplot_file(self.config_file,self.data[0])
+			self.do_plot()
 
 	def callback_set_heat_map(self):
-		self.data[0].type="heat"
-		plot_save_oplot_file(self.config_file,self.data[0])
-		plot_save_oplot_file(self.config_file,self.data[0])
-		self.do_plot()
+		if len(self.data)>0:
+			self.data[0].type="heat"
+			plot_save_oplot_file(self.config_file,self.data[0])
+			plot_save_oplot_file(self.config_file,self.data[0])
+			self.do_plot()
 
 	def callback_heat_map_edit(self):
 		ret = dlg_get_multi_text([["x start",str(self.data[0].x_start)],["x stop",str(self.data[0].x_stop)],["x points",str(self.data[0].x_points)],["y start",str(self.data[0].y_start)],["y stop",str(self.data[0].y_stop)],["y points",str(self.data[0].y_points)]],title="2D plot editor")
@@ -516,22 +527,25 @@ class plot_widget(QWidget):
 
 
 	def callback_toggle_invert_y(self):
-		self.data[0].invert_y=not self.data[0].invert_y
-		plot_save_oplot_file(self.config_file,self.data[0])
-		self.norm_data()
-		self.do_plot()
+		if len(self.data)>0:
+			self.data[0].invert_y=not self.data[0].invert_y
+			plot_save_oplot_file(self.config_file,self.data[0])
+			self.norm_data()
+			self.do_plot()
 
 	def callback_toggle_subtract_first_point(self):
-		self.data[0].subtract_first_point=not self.data[0].subtract_first_point
-		plot_save_oplot_file(self.config_file,self.data[0])
-		self.norm_data()
-		self.do_plot()
+		if len(self.data)>0:
+			self.data[0].subtract_first_point=not self.data[0].subtract_first_point
+			plot_save_oplot_file(self.config_file,self.data[0])
+			self.norm_data()
+			self.do_plot()
 
 	def callback_toggle_add_min(self):
-		self.data[0].add_min=not self.data[0].add_min
-		plot_save_oplot_file(self.config_file,self.data[0])
-		self.norm_data()
-		self.do_plot()
+		if len(self.data)>0:
+			self.data[0].add_min=not self.data[0].add_min
+			plot_save_oplot_file(self.config_file,self.data[0])
+			self.norm_data()
+			self.do_plot()
 
 	def update(self):
 		self.load_data(self.input_files,self.config_file)

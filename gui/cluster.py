@@ -56,7 +56,7 @@ from cal_path import get_src_path
 from progress import progress_class
 
 from gui_enable import gui_get
-from gui_util import process_events
+from process_events import process_events
 
 if gui_get()==True:
 	from PyQt5.QtCore import pyqtSignal

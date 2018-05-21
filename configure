@@ -701,6 +701,7 @@ DLIB_EXT
 SLIB_EXT
 COMPILE_FLAG
 LINK_FLAG
+GPVDM_DIR
 WIN_RES_FILE
 WIN_ICON
 INCLUDE_DESKTOP_FALSE
@@ -2369,6 +2370,7 @@ $as_echo "$as_me: $target_vendor" >&6;}
 { $as_echo "$as_me:${as_lineno-$LINENO}: $target_os" >&5
 $as_echo "$as_me: $target_os" >&6;}
 
+
 # Check whether --enable-noimages was given.
 if test "${enable_noimages+set}" = set; then :
   enableval=$enable_noimages;  if false; then
@@ -3797,6 +3799,8 @@ $as_echo "$as_me: *Setting up config for windows *" >&6;}
 { $as_echo "$as_me:${as_lineno-$LINENO}: ********************************" >&5
 $as_echo "$as_me: ********************************" >&6;}
 
+GPVDM_DIR=""
+
 LINK_FLAG="-posix"
 
 COMPILE_FLAG=" -D windows -posix"
@@ -3845,6 +3849,8 @@ $as_echo "$as_me: *****************************" >&6;}
 $as_echo "$as_me: *Setting up config for linux*" >&6;}
 { $as_echo "$as_me:${as_lineno-$LINENO}: *****************************" >&5
 $as_echo "$as_me: *****************************" >&6;}
+GPVDM_DIR="gpvdm"
+
 LINK_FLAG=""
 
 { $as_echo "$as_me:${as_lineno-$LINENO}: checking for main in -lzip" >&5
@@ -5520,7 +5526,7 @@ if ${am_cv_pathless_PYTHON+:} false; then :
   $as_echo_n "(cached) " >&6
 else
 
-	for am_cv_pathless_PYTHON in python python2 python3 python3.3 python3.2 python3.1 python3.0 python2.7  python2.6 python2.5 python2.4 python2.3 python2.2 python2.1 python2.0 none; do
+	for am_cv_pathless_PYTHON in python python2 python3 python3.5 python3.4 python3.3 python3.2 python3.1 python3.0 python2.7  python2.6 python2.5 python2.4 python2.3 python2.2 python2.1 python2.0 none; do
 	  test "$am_cv_pathless_PYTHON" = none && break
 	  prog="import sys
 # split strings by '.' and convert to numeric.  Append some zeros
@@ -6010,7 +6016,7 @@ fi
 #i?86
 #x86_64
 
-BUILD_DIRS=" lang libi librpn libmemory libdos liblight libmeasure libcontacts lib libdump libdumpctrl libserver libmesh libfit plugins/optics plugins/newton plugins/nr_d plugins/pulse plugins/fxdomain plugins/light_flat plugins/light_ray plugins/li plugins/light_full plugins/newton_2d plugins/fit_stark plugins/nr_ld plugins/photon_extraction plugins/jv plugins/light_exp plugins/qe plugins/umfpack plugins/jv_one_point plugins/jv_simple plugins/sun_voc plugins/equilibrium plugins/light_fromfile plugins/newton_norm src images/16x16 images/32x32 images/48x32 images/64x64 cluster_ css html man "
+BUILD_DIRS=" lang libi librpn libmemory libdos liblight libmeasure libcontacts lib libdump libdumpctrl libserver libmesh libfit plugins/optics plugins/newton plugins/nr_d plugins/pulse plugins/fxdomain plugins/light_flat plugins/light_ray plugins/li plugins/light_full plugins/newton_2d plugins/fit_stark plugins/nr_ld plugins/photon_extraction plugins/jv plugins/light_exp plugins/qe plugins/umfpack plugins/jv_one_point plugins/jv_simple plugins/sun_voc plugins/equilibrium plugins/light_fromfile plugins/newton_norm src images/16x16 images/32x32 images/48x32 images/64x64 css html cluster man "
 
 LOCAL_LINK=" -lgpvdm_i -lgpvdm_rpn -lgpvdm_memory -lgpvdm_dos -lgpvdm_light -lgpvdm_measure -lgpvdm_contacts -lgpvdm_lib -lgpvdm_dump -lgpvdm_dumpctrl -lgpvdm_server -lgpvdm_mesh -lgpvdm_fit"
 
@@ -6367,11 +6373,11 @@ ac_config_files="$ac_config_files images/48x32/Makefile"
 
 ac_config_files="$ac_config_files images/64x64/Makefile"
 
-ac_config_files="$ac_config_files cluster_/Makefile"
-
 ac_config_files="$ac_config_files css/Makefile"
 
 ac_config_files="$ac_config_files html/Makefile"
+
+ac_config_files="$ac_config_files cluster/Makefile"
 
 ac_config_files="$ac_config_files man/Makefile"
 
@@ -7218,9 +7224,9 @@ do
     "images/32x32/Makefile") CONFIG_FILES="$CONFIG_FILES images/32x32/Makefile" ;;
     "images/48x32/Makefile") CONFIG_FILES="$CONFIG_FILES images/48x32/Makefile" ;;
     "images/64x64/Makefile") CONFIG_FILES="$CONFIG_FILES images/64x64/Makefile" ;;
-    "cluster_/Makefile") CONFIG_FILES="$CONFIG_FILES cluster_/Makefile" ;;
     "css/Makefile") CONFIG_FILES="$CONFIG_FILES css/Makefile" ;;
     "html/Makefile") CONFIG_FILES="$CONFIG_FILES html/Makefile" ;;
+    "cluster/Makefile") CONFIG_FILES="$CONFIG_FILES cluster/Makefile" ;;
     "man/Makefile") CONFIG_FILES="$CONFIG_FILES man/Makefile" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;

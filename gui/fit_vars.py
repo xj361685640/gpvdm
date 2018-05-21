@@ -52,7 +52,7 @@ from inp import inp_save_lines_to_file
 from gpvdm_select import gpvdm_select
 
 from open_save_dlg import open_as_filter
-from gui_util import error_dlg
+from error_dlg import error_dlg
 from cal_path import get_sim_path
 from gtkswitch import gtkswitch
 from util import str2bool

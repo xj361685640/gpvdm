@@ -57,7 +57,8 @@ _ = i18n.language.gettext
 
 import functools
 from inp import inp_update_token_array
-from gui_util import error_dlg
+from error_dlg import error_dlg
+from QParasitic import QParasitic
 
 class QChangeLog(QTextEdit):
 	def __init__(self):
@@ -105,7 +106,8 @@ class tab_class(QWidget,tab_base):
 			a=undo_list_class()
 			a.add([file_name, token, inp_get_token_value(self.file_name, token),widget])
 			inp_update_token_array(file_name, token, widget.toPlainText().split("\n"))
-			
+		elif type(widget)==QParasitic:
+			inp_update_token_value(file_name, token, widget.text())
 		help_window().help_set_help(["document-save-as","<big><b>Saved to disk</b></big>\n"])
 		
 		self.changed.emit()
@@ -219,6 +221,12 @@ class tab_class(QWidget,tab_base):
 						edit_box.setValue_using_english(value)
 								
 						edit_box.currentIndexChanged.connect(functools.partial(self.callback_edit,filename,token,edit_box))
+					elif result.widget=="QParasitic":
+						edit_box=QParasitic()
+						edit_box.setFixedSize(300, 25)
+						edit_box.setValue(value)
+						edit_box.textChanged.connect(functools.partial(self.callback_edit,filename,token,edit_box))
+
 					elif result.widget=="QChangeLog":
 						edit_box=QChangeLog()
 						edit_box.setMinimumHeight(100)
@@ -239,7 +247,7 @@ class tab_class(QWidget,tab_base):
 								break
 								
 						edit_box.currentIndexChanged.connect(functools.partial(self.callback_edit,filename,token,edit_box))
-
+						
 					
 					unit=QLabel()
 					unit.setText(latex_to_html(units))

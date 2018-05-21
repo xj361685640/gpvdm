@@ -427,9 +427,12 @@ class import_data(QDialog):
 		self.out_data.setText(text)
 
 	def update(self):
-		if dat_file_import_filter(self.data,self.file_name,x_col=self.x_spin.value(),y_col=self.y_spin.value())==True:
+		ret=dat_file_import_filter(self.data,self.file_name,x_col=self.x_spin.value(),y_col=self.y_spin.value())
+		if ret==True:
 			self.populate_boxes()
-		
+		else:
+			return False
+
 		self.info_token.title=self.get_title()
 
 		self.info_token.x_label=self.get_xlabel()

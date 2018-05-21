@@ -69,6 +69,7 @@ def get_ref_text(file_name,html=True):
 	
 class ref_window(QWidgetSavePos):
 	def __init__(self,file_name):
+		"""Pass this the file name of the file you want referenced."""
 		QWidgetSavePos.__init__(self,"ref_window")
 		resize_window_to_be_sane(self,0.5,0.5)
 		self.file_name=os.path.splitext(file_name)[0]+".ref"

@@ -38,10 +38,11 @@ from server_io import server_find_simulations_to_run
 
 
 from progress import progress_class
-from gui_util import process_events
+from process_events import process_events
 from server import server_break
 from numpy import std
-from gui_util import error_dlg
+
+from error_dlg import error_dlg
 
 import i18n
 _ = i18n.language.gettext

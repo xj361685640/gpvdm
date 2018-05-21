@@ -98,7 +98,7 @@ from mesh import mesh_load_all
 
 from PyQt5.QtWidgets import QMainWindow,QApplication
 from splash import splash_window
-from gui_util import process_events
+from process_events import process_events
 from error_han import error_han
 
 #qt
@@ -187,7 +187,7 @@ def do_import():
 	from PyQt5.QtWidgets import QTabWidget
 	from ribbon import ribbon
 
-	from gui_util import error_dlg
+	from error_dlg import error_dlg
 
 	from cal_path import to_native_path
 	from cal_path import get_sim_path
@@ -430,6 +430,11 @@ class gpvdm_main_window(QMainWindow):
 		process_events()
 
 		do_import()
+
+		if os.path.isdir(os.path.dirname(sys.argv[0]))==False:
+			error_dlg(self,_("I can't run from inside a zip file!"))
+			sys.exit()
+
 		self.splash.inc_value()
 		self.splash.inc_value()
 

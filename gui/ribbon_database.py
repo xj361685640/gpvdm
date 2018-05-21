@@ -43,14 +43,12 @@ from gpvdm_open import gpvdm_open
 
 from help import help_window
 from cost import cost
-from materials_main import materials_main
+
 
 from parasitic import parasitic
 from plot_gen import plot_gen
 from cal_path import get_spectra_path
 
-from spectra_main import spectra_main
-from layer_widget import layer_widget
 
 class ribbon_database(QToolBar):
 	def __init__(self):
@@ -91,23 +89,11 @@ class ribbon_database(QToolBar):
 		dialog.menu_new_material_enabled=True
 		ret=dialog.exec_()
 
-		if ret==QDialog.Accepted:
-			if os.path.isfile(os.path.join(dialog.get_filename(),"mat.inp"))==True:
-				self.mat_window=materials_main(dialog.get_filename())
-				self.mat_window.show()
-			else:
-				plot_gen([dialog.get_filename()],[],"auto")
-
 	def callback_view_optical(self):
 		dialog=gpvdm_open(get_spectra_path())
 		dialog.menu_new_spectra_enabled=True
 		dialog.show_inp_files=False
 		ret=dialog.exec_()
-
-		if ret==QDialog.Accepted:
-			if os.path.isfile(os.path.join(dialog.get_filename(),"mat.inp"))==True:
-				self.mat_window=spectra_main(dialog.get_filename())
-				self.mat_window.show()
 
 
 	def callback_pvlighthouse(self):

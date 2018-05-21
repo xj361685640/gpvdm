@@ -59,7 +59,7 @@ if gui_get()==True:
 	from PyQt5.QtCore import pyqtSignal
 	from PyQt5.QtWidgets import QWidget
 	from PyQt5.QtCore import QTimer
-	from gui_util import process_events
+	from process_events import process_events
 
 from server_io import server_find_simulations_to_run
 

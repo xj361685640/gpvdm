@@ -198,6 +198,9 @@ def default_to_sim_path(file_path):
 
 def inp_load_file(file_path,archive="sim.gpvdm",mode="l"):
 	"""load file"""
+	if file_path==None:
+		return False
+
 	file_name=default_to_sim_path(file_path)
 	#print(">",file_name)
 	zip_file_path=os.path.join(os.path.dirname(file_name),archive)

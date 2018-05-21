@@ -4,6 +4,12 @@ from dialog import Dialog
 from make_m4 import make_m4
 
 from pathlib import Path
+from shutil import copyfile
+
+def test(d):
+	if d.yesno("Run gpvdm") == d.OK:
+		os.system("./go.o  >out.dat 2>out.dat &")
+		et=d.tailbox("out.dat", height=None, width=150)
 
 def make(d):
 	if d.yesno("Run make clean") == d.OK:
@@ -14,11 +20,8 @@ def make(d):
 		os.system("make  >out.dat 2>out.dat &")
 		et=d.tailbox("out.dat", height=None, width=150)
 
-	if d.yesno("Run gpvdm") == d.OK:
-		os.system("./go.o  >out.dat 2>out.dat &")
-		et=d.tailbox("out.dat", height=None, width=150)
-
     	#d.msgbox("You have been warned...")
+
 
 def build_configure():
 	os.system("aclocal")
@@ -41,6 +44,7 @@ def configure_menu(d):
 								("(suse)", "Open Suse (x86_64)"),
 								("(arch)", "Arch (x86_64)"),
 								("(win)", "Windows (x86_64)"),
+								("(debian-i386)","Debian (i386)")
 								])
 
 	if code == d.OK:
@@ -163,7 +167,20 @@ def configure_menu(d):
 
 			home=str(Path.home())
 			flags="-I"+home+"/windll/libzip/libzip-0.11.2/lib/ -I"+home+"/windll/gsl-1.16/ -I"+home+"/windll/umfpack/UFconfig/ -I"+home+"/windll/umfpack/AMD/Include/ -I"+home+"/windll/umfpack/UMFPACK/Include/"
-			os.system("./configure --host=i686-w64-mingw32 CPPFLAGS=\""+flags+"\"  --enable-noplots --enable-noman >out.dat 2>out.dat &")
+			os.system("./configure --host=i686-w64-mingw32 CPPFLAGS=\""+flags+"\"  --enable-noplots --enable-noman --docdir=/gpvdm/ --datadir=/ --bindir=/gpvdm/  --libdir=/ --enable-nodesktop >out.dat 2>out.dat &")
+			et=d.tailbox("out.dat", height=None, width=100)
+
+			make(d)
+
+			#windows_install(d)
+
+			d.msgbox("Built")
+
+		if tag=="(debian-i386)":
+			make_m4(hpc=False, win=False,usear=True)
+			#d.infobox("aclocal", width=0, height=0, title="configure")
+			build_configure()
+			os.system("./configure CPPFLAGS=\"-I/usr/include/\" --host=i686-linux-gnu --build=i686-linux-gnu CC=\"gcc -m32\" CXX=\"g++ -m32\" >out.dat 2>out.dat &")
 			et=d.tailbox("out.dat", height=None, width=100)
 
 			make(d)

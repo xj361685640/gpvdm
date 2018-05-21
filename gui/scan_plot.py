@@ -29,7 +29,7 @@ from plot import check_info_file
 from win_lin import running_on_linux
 from inp import inp_get_token_value
 from plot import plot_populate_plot_token
-from gui_util import error_dlg
+from error_dlg import error_dlg
 
 def gen_plot_line(dirname,plot_token):
 	print(plot_token.file0,plot_token.file1)

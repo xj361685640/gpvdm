@@ -11,17 +11,21 @@ import argparse
 from install import install
 from install import uninstall
 
+
 try:
 	from dialog import Dialog
 except:
-	print("The python3 module Dialog is not installed")
-	print("If you are on Ubuntu/Debian system, try apt-get install python3-dialog")
-	print("If you are on Fedora/Redhat system, try yum install python3-dialog")
-	sys.exit()
+	from menu import Dialog
+
+#	print("The python3 module Dialog is not installed")
+#	print("If you are on Ubuntu/Debian system, try apt-get install python3-dialog")
+#	print("If you are on Fedora/Redhat system, try yum install python3-dialog")
+#	sys.exit()
 
 from package_menu import package_menu
 from configure_menu import configure_menu
 from publish_menu import publish_menu
+from distributable import distributable
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--adv", help="Advanced options", action='store_true')
@@ -47,6 +51,7 @@ while(1):
 	menu.append(("(build)", "Build gpvdm"))
 	menu.append(("(install)", "Install gpvdm"))
 	menu.append(("(uninstall)", "Uninstall gpvdm"))
+	menu.append(("(distributable)", "Build rpm"))
 	menu.append(("(about)", "About"))
 
 	menu.append(("(exit)", "Exit"))
@@ -67,6 +72,9 @@ while(1):
 
 		if tag=="(uninstall)":
 			uninstall(d)
+
+		if tag=="(distributable)":
+			distributable(d)
 
 		if tag=="(about)":
 			d.msgbox("This is the gpvdm build system, use it to configure the build system, make, and install gpvdm. Copyright Roderick MacKenzie 2018.  Released under the GPL v2 license.")

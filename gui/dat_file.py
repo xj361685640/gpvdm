@@ -152,39 +152,44 @@ def is_number(data_in):
 def dat_file_import_filter(out,file_name,x_col=0,y_col=1):
 	"""This is an import filter for xy data"""
 	lines=[]
+	lines=inp_load_file(file_name)
+	if lines==False:
+		return False
+
 	out.x_scale=[]
 	out.y_scale=[]
 	out.z_scale=[]
 	out.data=[]
 	data_started=False
 	out.data=[[[0.0 for k in range(0)] for j in range(1)] for i in range(1)]
-	lines=inp_load_file(file_name)
-	if lines!=False:
-		for i in range(0, len(lines)):
-			temp=lines[i]
 
-			temp=re.sub(' +',' ',temp)
-			temp=re.sub('\t',' ',temp)
-			s=temp.split()
-			l=len(s)
-			if l>0:
+	for i in range(0, len(lines)):
+		temp=lines[i]
 
-				if data_started==False:
-					if is_number(s[0])==True:
-						data_started=True
+		temp=re.sub('\t',' ',temp)
+		temp=re.sub(' +',' ',temp)
 
-				if s[0]=="#end":
-					break
+		s=temp.split()
+		l=len(s)
+		if l>0:
 
-				if data_started==True:
-					if max(x_col,y_col)<l:
-						out.y_scale.append(float(s[x_col]))
-						out.data[0][0].append(float(s[y_col]))
+			if data_started==False:
+				if is_number(s[0])==True:
+					data_started=True
 
-		out.x_len=1
-		out.y_len=len(out.data[0][0])
-		out.z_len=1
+			if s[0]=="#end":
+				break
 
+			if data_started==True:
+				if max(x_col,y_col)<l:
+					out.y_scale.append(float(s[x_col]))
+					out.data[0][0].append(float(s[y_col]))
+
+	out.x_len=1
+	out.y_len=len(out.data[0][0])
+	out.z_len=1
+
+	return True
 
 def dat_file_read(out,file_name,guess=True):
 	out.valid_data=False

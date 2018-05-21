@@ -58,13 +58,13 @@ def scan_items_populate_from_known_tokens():
 		if my_token_lib[i].file_name!="":
 			scan_item_add(my_token_lib[i].file_name,my_token_lib[i].token,my_token_lib[i].info,1)
 
-	mat=find_materials()
+	#mat=find_materials()
 
-	for i in range(0,len(mat)):
-		scan_remove_file(os.path.join(get_materials_path(),mat[i]))			
-		scan_item_add(os.path.join("materials",mat[i],"fit.inp"),"#wavelength_shift_alpha","Absorption spectrum wavelength shift",1)
-		scan_item_add(os.path.join("materials",mat[i],"fit.inp"),"#n_mul","Refractive index spectrum multiplier",1)
-		scan_item_add(os.path.join("materials",mat[i],"fit.inp"),"#alpha_mul","Absorption spectrum multiplier",1)
+	#for i in range(0,len(mat)):
+	#	scan_remove_file(os.path.join(get_materials_path(),mat[i]))			
+	#	scan_item_add(os.path.join("materials",mat[i],"fit.inp"),"#wavelength_shift_alpha","Absorption spectrum wavelength shift",1)
+	#	scan_item_add(os.path.join("materials",mat[i],"fit.inp"),"#n_mul","Refractive index spectrum multiplier",1)
+	#	scan_item_add(os.path.join("materials",mat[i],"fit.inp"),"#alpha_mul","Absorption spectrum multiplier",1)
 
 def scan_items_populate_from_files():
 	name=os.path.join(get_sim_path(),"sim.gpvdm")

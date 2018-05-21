@@ -67,6 +67,7 @@ def make_m4(hpc=False, win=False,usear=False):
 	config_files.append("libmesh")
 	link_libs=link_libs+" -lgpvdm_mesh"
 
+
 	if win==False:
 		if os.path.isdir("libfit"):
 			config_files.append("libfit")
@@ -84,9 +85,9 @@ def make_m4(hpc=False, win=False,usear=False):
 		config_files.append("images/32x32")
 		config_files.append("images/48x32")
 		config_files.append("images/64x64")
-		config_files.append("cluster_")
 		config_files.append("css")
 		config_files.append("html")
+		config_files.append("cluster")
 		if win==False:
 			config_files.append("man")
 

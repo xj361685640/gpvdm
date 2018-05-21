@@ -19,6 +19,8 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 import sys
+from gl_save import gl_save_list
+from gl_save import gl_save_add
 
 try:
 	from OpenGL.GL import *
@@ -35,6 +37,26 @@ import numpy as np
 from math import pi,acos,sin,cos
 
 stars=[]
+
+def gl_save_draw():
+	save_list=gl_save_list()
+	delta=6
+	for i in range(0,len(save_list)):
+		split=save_list[i].vec.split()
+		if save_list[i].id=="box":
+			w=float(split[0])
+			h=float(split[1])
+			d=float(split[2])
+			r=float(split[3])
+			g=float(split[4])
+			b=float(split[5])
+			alpha=float(split[6])
+			box(save_list[i].x+delta,save_list[i].y,save_list[i].z,w,h,d,r,g,b,alpha)
+		elif save_list[i].id=="photon":
+			x=save_list[i].x
+			z=save_list[i].z
+			up=bool(split[0])
+			draw_photon(x+delta,z,up)
 
 def draw_stars():
 	global stars
@@ -98,6 +120,7 @@ def draw_grid():
 
 
 def draw_photon(x,z,up):
+	gl_save_add("photon",x,-1.0,z,[int(up)])
 	glLineWidth(3)
 	length=0.9
 	if up==True:
@@ -214,6 +237,7 @@ def box_lines(x,y,z,w,h,d):
 	glEnd()
 	
 def box(x,y,z,w,h,d,r,g,b,alpha):
+	gl_save_add("box",x,y,z,[w,h,d,r,g,b,alpha])
 	red=r
 	green=g
 	blue=b

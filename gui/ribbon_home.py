@@ -43,7 +43,7 @@ from win_lin import desktop_open
 from scan import scan_class 
 from help import help_window
 from gpvdm_open import gpvdm_open
-from gui_util import error_dlg
+from error_dlg import error_dlg
 from server import server_get
 from fit_window import fit_window
 from cmp_class import cmp_class

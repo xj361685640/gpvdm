@@ -32,7 +32,7 @@ from PyQt5.QtGui import QFont
 
 from icon_lib import QIcon_load
 from gui_util import tab_set_value
-from gui_util import error_dlg
+from error_dlg import error_dlg
 from cal_path import find_materials
 
 class materials_select(QWidget):
@@ -129,13 +129,13 @@ class materials_select(QWidget):
 		return True
 
 	def cal_path(self):
+		path = []
 		getSelected = self.tab.selectedItems()
 		if getSelected:
 			item = getSelected[0]
 #			getChildNode = baseNode.text(0)
 
 
-			path = []
 			while item is not None:
 				path.append(str(item.text(0)))
 				item = item.parent()
@@ -146,6 +146,11 @@ class materials_select(QWidget):
 		return ret
 	
 	def tree_apply_click(self):
+		getSelected = self.tab.selectedItems()
+		if len(getSelected)==0:
+			error_dlg(self,_("You need to select a material"))
+			return
+
 		index = self.dest_treeview.selectionModel().selectedRows()
 		if len(index)>0:
 			print("row=",index[0].row(),len(index))

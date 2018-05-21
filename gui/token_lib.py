@@ -112,7 +112,7 @@ lib.append(my_data("","#material_type","type",_("Material type"),"e",1.0,"QCombo
 lib.append(my_data("","#mat_alpha","0-1.0",_("Alpha channel"),"e",1.0,"QLineEdit"))
 lib.append(my_data("","#red_green_blue","rgb",_("Color"),"e",1.0,"QColorPicker"))
 lib.append(my_data("","#mat_alpha","0-1",_("Transparency"),"e",1.0,"QLineEdit"))
-lib.append(my_data("","#status","type",_("Publish material data?"),"e",1.0,"QComboBoxLang",defaults=[[("public"),_("Public")],[("public_all"),_("Public all")],["private",_("Private")]]))
+lib.append(my_data("","#status","type",_("Publish material data?"),"e",1.0,"QComboBoxLang",defaults=[[("public"),_("Public")],["private",_("Private")]]))
 lib.append(my_data("","#changelog","au",_("Change log"),"e",1.0,"QChangeLog"))
 
 #jv.inp
@@ -124,8 +124,8 @@ lib.append(my_data("","#jv_pmax_tau","m^{-1}",_("Recombination time constant"),"
 lib.append(my_data("","#Vstart","V",_("Start voltage"),"e",1.0,"QLineEdit"))
 lib.append(my_data("","#Vstop","V",_("Stop voltage"),"e",1.0,"QLineEdit"))
 lib.append(my_data("","#Vstep","V",_("Voltage step"),"e",1.0,"QLineEdit"))
-lib.append(my_data("","#jv_Rcontact","V",_("Contact resistance"),"e",1.0,"QLineEdit"))
-lib.append(my_data("","#jv_Rshunt","V",_("Shunt resistance"),"e",1.0,"QLineEdit"))
+lib.append(my_data("","#jv_Rcontact","V",_("Contact resistance"),"e",1.0,"QParasitic"))
+lib.append(my_data("","#jv_Rshunt","V",_("Shunt resistance"),"e",1.0,"QParasitic"))
 
 #sim_info.dat (jv plugin)
 lib.append(my_data("","#voc","V",_("V_{oc}"),"e",1.0,"QLineEdit"))
@@ -141,6 +141,9 @@ lib.append(my_data("","#voc_tau","s",_("Recombination time constant at Voc"),"e"
 lib.append(my_data("","#voc_R","m^{-3}s^{-1}",_("Recombination rate at Voc"),"e",1.0,"QLineEdit"))
 lib.append(my_data("","#voc_J","A m^{-2}",_("Current density at Voc"),"e",1.0,"QLineEdit"))
 lib.append(my_data("","#jsc","A m^{-2}",_("J_{sc}"),"e",1.0,"QLineEdit"))
+
+#sim_info.dat (optics plugin)
+lib.append(my_data("","#light_photons_in_active_layer","m^{-2}",_("Photos absorbed in active layer"),"e",1.0,"QLineEdit"))
 
 #sim_info.dat (fxdomain plugin)
 lib.append(my_data("","#fxdomain_r","",_("Re(i)"),"e",1.0,"QLineEdit"))
@@ -510,6 +513,8 @@ lib.append(my_data("","#Rload","Ohms",_("External load resistor"),"e",1.0,"QLine
 lib.append(my_data("","#pulse_shift","s","Shift of TPC signal","e",1.0,"QLineEdit"))
 
 lib.append(my_data("","#flip_field","au",_("Filp the opticl field"),"e",1.0,"QComboBox",defaults=["1","0"]))
+
+
 
 
 class tokens:

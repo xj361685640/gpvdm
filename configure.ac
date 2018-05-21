@@ -10,6 +10,7 @@ AC_MSG_NOTICE([$target_cpu])
 AC_MSG_NOTICE([$target_vendor])
 AC_MSG_NOTICE([$target_os])
 
+
 AC_ARG_ENABLE(noimages, "used to disable compilation of images",
 [AM_CONDITIONAL([INCLUDE_IMAGES],[false])],
 [AM_CONDITIONAL([INCLUDE_IMAGES],[true])]
@@ -57,6 +58,7 @@ AC_MSG_NOTICE([********************************])
 AC_MSG_NOTICE([*Setting up config for windows *])
 AC_MSG_NOTICE([********************************])
 
+AC_SUBST(GPVDM_DIR, "" )
 AC_SUBST(LINK_FLAG, "-posix")
 AC_SUBST(COMPILE_FLAG, " -D windows -posix")
 AC_SUBST(SLIB_EXT, "a")
@@ -76,6 +78,7 @@ AC_SUBST(WIN_ICON, "i686-w64-mingw32-windres gpvdm.rc -O coff -o gpvdm.res" )
 AC_MSG_NOTICE([*****************************])
 AC_MSG_NOTICE([*Setting up config for linux*])
 AC_MSG_NOTICE([*****************************])
+AC_SUBST(GPVDM_DIR, "gpvdm" )
 AC_SUBST(LINK_FLAG, "")
 AC_CHECK_LIB(zip, [main], [], [AC_MSG_ERROR([libzip is needed but not found.])])
 

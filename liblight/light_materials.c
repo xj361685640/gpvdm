@@ -139,36 +139,48 @@ for (i=0;i<in->layers;i++)
 	//fit.inp
 	join_path(3, fit_file,get_materials_path(sim),in->material_dir_name[i],"fit.inp");
 
-	inp_load(sim,&inp,fit_file);
+	if (isfile(fit_file)==0)
+	{
+		inp_load(sim,&inp,fit_file);
 
-	inp_search_gdouble(sim,&inp,&alpha_mul,"#alpha_mul");
-	alpha_mul=fabs(alpha_mul);
-	hard_limit(sim,"#alpha_mul",&alpha_mul);
+		inp_search_gdouble(sim,&inp,&alpha_mul,"#alpha_mul");
+		alpha_mul=fabs(alpha_mul);
+		hard_limit(sim,"#alpha_mul",&alpha_mul);
 
-	inp_search_gdouble(sim,&inp,&n_mul,"#n_mul");
-	n_mul=fabs(n_mul);
-	hard_limit(sim,"#n_mul",&n_mul);
+		inp_search_gdouble(sim,&inp,&n_mul,"#n_mul");
+		n_mul=fabs(n_mul);
+		hard_limit(sim,"#n_mul",&n_mul);
 
-	inp_search_gdouble(sim,&inp,&wavelength_shift_n,"#wavelength_shift_n");
-	hard_limit(sim,"#wavelength_shift_n",&wavelength_shift_n);
+		inp_search_gdouble(sim,&inp,&wavelength_shift_n,"#wavelength_shift_n");
+		hard_limit(sim,"#wavelength_shift_n",&wavelength_shift_n);
 
-	wavelength_shift_n-=40e-9;
+		wavelength_shift_n-=40e-9;
 
-	inp_search_gdouble(sim,&inp,&wavelength_shift_alpha,"#wavelength_shift_alpha");
-	hard_limit(sim,"#wavelength_shift_alpha",&wavelength_shift_alpha);
+		inp_search_gdouble(sim,&inp,&wavelength_shift_alpha,"#wavelength_shift_alpha");
+		hard_limit(sim,"#wavelength_shift_alpha",&wavelength_shift_alpha);
 
-	wavelength_shift_alpha-=40.0e-9;
+		wavelength_shift_alpha-=40.0e-9;
 
+		inp_search_int(sim,&inp,&patch,"#patch");
 
-	inp_search_int(sim,&inp,&patch,"#patch");
+		inp_search_int(sim,&inp,&inter,"#inter");
 
-	inp_search_int(sim,&inp,&inter,"#inter");
+		inp_search_int(sim,&inp,&spectrum,"#spectrum");
 
-	inp_search_int(sim,&inp,&spectrum,"#spectrum");
+		inp_search_int(sim,&inp,&spectrum_alpha,"#spectrum_alpha");
 
-	inp_search_int(sim,&inp,&spectrum_alpha,"#spectrum_alpha");
-
-	inp_free(sim,&inp);
+		inp_free(sim,&inp);
+	}else
+	{
+		alpha_mul=1.0;
+		n_mul=1.0;
+		wavelength_shift_n=0.0;
+		wavelength_shift_alpha=0.0;
+		patch=FALSE;
+		inter=FALSE;
+		spectrum=FALSE;
+		spectrum_alpha=FALSE;
+	}
 	
 	//mat.inp
 	join_path(3, fit_file,get_materials_path(sim),in->material_dir_name[i],"mat.inp");

@@ -78,6 +78,7 @@ void sim_optics(struct simulation *sim,struct device *in)
 	light_dump(sim,&two);
 	light_dump_summary(sim,&two);
 
+	light_dump_sim_info(sim,&two);
 	/*buffer_malloc(&buf);
 	buf.y_mul=1.0;
 	buf.x_mul=1e9;

@@ -50,9 +50,11 @@ def export_as(output):
 	eol=" \\\\"
 	ext= os.path.splitext(output)[1]
 	line=""
+	print(ext,output)
 	if ext==".xlsx":
 		gen_workbook(get_sim_path(),output)
 	elif (ext==".pdf") or (ext==".jpg") or (ext==".tex")  or (ext==".csv"):
+		print(ext)
 		if ext==".csv":
 			tex=False
 			dollar=""
@@ -170,6 +172,7 @@ def export_as(output):
 
 		text_file = open("doc.tex", "w")
 		text_file.write(line)
+		print(line)
 		text_file.close()
 
 		if (ext==".pdf"):

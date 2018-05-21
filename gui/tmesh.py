@@ -59,7 +59,7 @@ from gui_util import tab_get_value
 from open_save_dlg import save_as_image
 from cal_path import get_sim_path
 from icon_lib import QIcon_load
-from gui_util import error_dlg
+from error_dlg import error_dlg
 
 import i18n
 _ = i18n.language.gettext

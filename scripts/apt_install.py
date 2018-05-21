@@ -34,7 +34,7 @@ if apt_present==True:
 			log("start")
 
 		def finish_update(self):
-			log("finish")
+			log("Closing package cache")
 
 def apt_install(d,my_list):
 	f=open("out.dat", "w+")
@@ -59,26 +59,32 @@ def apt_install(d,my_list):
 
 
 
-
+		print("Installing "+str(len(my_list))+" packages")
+		installed=0
+		already_installed=0
 		for i in range(0,len(my_list)):
 			if my_list[i] in cache:
 				pkg = cache[my_list[i]]
 				if pkg.is_installed:
-					text=my_list[i]+" already installed"
+					text=my_list[i]+" (Installed)"
+					already_installed=already_installed+1
 				else:
-					text=my_list[i]
+					text=my_list[i]+" (Will install)"
+					installed=installed+1
 					pkg.mark_install()
 
 				log(text)
 			else:
-				log("Package not found "+my_list[i])
-		try:
-			log("commit")
-			prog=LogInstallProgress()
-			cache.commit(install_progress=prog)
-		except:
-			log( "Sorry, package installation failed")
+				log(my_list[i]+" Not found")
+		#try:
+		log("commit")
+		prog=LogInstallProgress()
+		cache.commit(install_progress=prog)
+		print("\nInstalled= "+str(installed)+" Already installed "+str(already_installed))
+		#except:
+		#	log( "Sorry, package installation failed")
 
+		cache.close()
 		sys.exit()
 
 #apt_install(["python3-xstatic-bootswatch"])

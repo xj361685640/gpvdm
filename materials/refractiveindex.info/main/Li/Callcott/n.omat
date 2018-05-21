@@ -1,0 +1,36 @@
+#gpvdm
+#title Refractive index
+#type xy
+#x_mul 1e9
+#y_mul 1e9
+#x_mul 1e9
+#data_mul 1e9
+#x_label Wavelength
+#data_label Refractive index
+#x_units nm
+#data_units m^{-1}
+#logscale_x 0
+#logscale_y 0
+#section_one Materials
+#section_two Refractive index
+#data
+1.153e-07 0.755
+1.1809999999999999e-07 0.747
+1.2099999999999998e-07 0.735
+1.24e-07 0.72
+1.272e-07 0.701
+1.305e-07 0.681
+1.34e-07 0.66
+1.378e-07 0.638
+1.4169999999999998e-07 0.615
+1.459e-07 0.59
+1.503e-07 0.567
+1.55e-07 0.542
+1.6e-07 0.52
+1.653e-07 0.498
+1.71e-07 0.478
+1.771e-07 0.462
+1.8369999999999998e-07 0.445
+1.907e-07 0.428
+1.9839999999999998e-07 0.414
+2.0659999999999998e-07 0.398

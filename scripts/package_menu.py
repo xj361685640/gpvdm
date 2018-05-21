@@ -28,14 +28,29 @@ def install_fedora(d):
 	all.extend(devel)
 
 	dnf_install(d,all)
-	#os.system("sudo yum install "+ libs+tools+python+devel+" &>out.dat &")
 
+def install_suse(d):
+	#to compile C
+	tools=["gcc","autoconf","make","libtool","automake","libzip","libzip-devel","suitesparse-devel","help2man","gsl-devel","gettext-tools","dbus-1-devel","zlib-devel","gnuplot"]
+
+	#for gui
+	python=["python-qt5-utils","python3-qt5-devel","python3-qt5","python3-pycrypto","python3-numpy","python3-matplotlib","python3-matplotlib-qt-shared","python3-psutil","python3-openpyxl","python3-opengl","texlive"]
+
+	#building rpm
+	devel=["rpmbuild","unifdef"]
+
+	all=[]
+	all.extend(tools)
+	all.extend(python)
+	all.extend(devel)
+
+	dnf_install(d,all)
 
 def install_debian(d):
 	libs=["libsuitesparse-dev","indent","unifdef","libsuitesparse-dev","libssl-dev","libedbus-dev","libzip-dev","libgsl-dev","libmatheval-dev","help2man","pluma","build-essential","imagemagick","license-reconcile","autoconf","librsvg2-bin","zip"]
 	#libs=" ".join(libs)+" "
 
-	tools=["rsync","pluma","build-essential","imagemagick","license-reconcile","autoconf","python-bashate","codespell","apt-file","gettext-lint inkscape","pep8","i18nspector","gettext","git"]
+	tools=["rsync","pluma","build-essential","imagemagick","license-reconcile","autoconf","python-bashate","codespell","apt-file","gettext-lint inkscape","pep8","i18nspector","gettext","git","texlive-latex-recommended","latex2html"]
 	#tools=" ".join(tools)+" "
 
 	python=["python3-numpy","python3","python3-matplotlib","python3-pyqt5","python3-pyqt5.qtopengl","python3-opengl","python3-numpy","python3-crypto","python3-dbus.mainloop.pyqt5","python3-psutil"]
@@ -74,6 +89,22 @@ def install_ubuntu(d):
 	apt_install(d,all)
 	#os.system("sudo apt-get install "+ libs+tools+python+devel+" &>out.dat &")
 
+def install_raspbian(d):
+
+	libs=["libsuitesparse-dev","indent","unifdef","libsuitesparse-dev","libssl-dev","libedbus-dev","libzip-dev","libgsl0-dev","libmatheval-dev","help2man","pluma","build-essential","imagemagick","license-reconcile","autoconf","librsvg2-bin"]
+
+	#python
+	python=["python3-numpy","python3","python3-matplotlib","python3-pyqt5.qtopengl","python3-opengl","python3-numpy","python3-crypto","python3-dbus.mainloop.pyqt5","python3-psutil"]
+
+	#usefull tools
+	tools=["rsync","pluma","build-essential","imagemagick","license-reconcile","autoconf","python-bashate","codespell","apt-file","gettext-lint","inkscape","pep8","i18nspector","qttools5-dev-tools","qtcreator"]
+
+	all=[]
+	all.extend(libs)
+	all.extend(python)
+	all.extend(tools)
+
+	apt_install(d,all)
 
 
 def install_centos(d):
@@ -93,6 +124,24 @@ def install_centos(d):
 
 
 
+def install_mint(d):
+	python=["python3","python3-matplotlib","python3-pyqt5.qtopengl","python3-opengl","python3-numpy","python3-crypto","python3-dbus.mainloop.pyqt5"]
+
+	libs=["libsuitesparse-dev","indent","unifdef","libsuitesparse-dev","libssl-dev","libedbus-dev","libzip-dev","libgsl0-dev","libmatheval-dev","help2man","pluma","build-essential","imagemagick","license-reconcile","autoconf","codespell","librsvg2-bin"]
+
+	tools=["rsync","pluma","build-essential","convert","imagemagick","license-reconcile","autoconf","python-bashate","codespell","complexity","apt-file","pofileSpell","gettext-lint","inkscape","spellintian","pep8","i18nspector","python-bashate","automake"]
+
+	devel=["dh-virtualenv","debhelper"]
+
+	all=[]
+
+	all.extend(python)
+	all.extend(libs)
+	all.extend(tools)
+	all.extend(devel)
+
+	apt_install(d,all)
+
 
 
 
@@ -104,9 +153,12 @@ def package_menu(d):
 	menu=[]
 
 	menu.append(("(fedora)", "Fedora rpms"))
+	menu.append(("(suse)","Open Suse rpms"))
 	menu.append(("(debian)", "Debian debs"))
 	menu.append(("(ubuntu)", "Ubuntu debs"))
 	menu.append(("(centos)", "Centos debs"))
+	menu.append(("(mint)","Mint debs"))
+	menu.append(("(raspbian)","raspbian debs"))
 
 	while(1):
 		code, tag = d.menu("publish for:", choices=menu)
@@ -127,6 +179,20 @@ def package_menu(d):
 			if tag=="(centos)":
 				install_centos(d)
 				ret=d.tailbox("out.dat", height=None, width=100)
+
+			if tag=="(mint)":
+				install_mint(d)
+				ret=d.tailbox("out.dat", hieght=None, width=100)
+
+			if tag=="(suse)":
+				install_suse(d)
+				ret=d.tailbox("out.dat",height=None, width=100)
+
+			if tag=="(raspbian)":
+				install_raspbian(d)
+				ret=d.tailbox("out.dat",height=None, width=100)
+
+
 		else:
 			return
 

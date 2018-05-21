@@ -54,12 +54,12 @@ from gui_util import tab_move_up
 from gui_util import tab_remove
 from gui_util import tab_get_value
 from gui_util import tab_set_value
-from open_save_dlg import save_as_jpg
+from open_save_dlg import save_as_filter
 
 from dat_file import dat_file
 from dat_file import dat_file_read
 
-from gui_util import error_dlg
+from error_dlg import error_dlg
 
 from ref import ref_window
 from ref import get_ref_text
@@ -67,8 +67,6 @@ from ref_io import ref
 from tb_item_mat_file import tb_item_mat_file
 
 from import_data import import_data
-from gpvdm_open import gpvdm_open
-from win_lin import desktop_open
 from fit_poly import fit_poly
 
 from gui_util import tab_get_selected
@@ -186,7 +184,7 @@ class equation(QWidget):
 		self.fig.savefig(file_name)
 
 	def callback_save(self):
-		file_name = save_as_jpg(self)
+		file_name = save_as_filter(self,"png (*.png)")
 		if file_name !=None:
 			self.save_image(file_name)
 

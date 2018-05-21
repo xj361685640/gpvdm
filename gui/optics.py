@@ -44,7 +44,7 @@ from PyQt5.QtGui import QIcon
 #windows
 from band_graph import band_graph
 from plot_widget import plot_widget
-from gui_util import error_dlg
+from error_dlg import error_dlg
 from fx_selector import fx_selector
 
 from server import server_get

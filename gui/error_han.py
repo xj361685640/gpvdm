@@ -43,7 +43,7 @@ from icon_lib import QIcon_load
 
 from spinner import spinner
 
-from gui_util import error_dlg
+from error_dlg import error_dlg
 from gui_util import yes_no_dlg
 
 import traceback

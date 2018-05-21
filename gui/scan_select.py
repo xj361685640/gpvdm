@@ -35,7 +35,7 @@ from PyQt5.QtGui import QFont
 
 from icon_lib import QIcon_load
 from gui_util import tab_set_value
-from gui_util import error_dlg
+from error_dlg import error_dlg
 
 class select_param(QWidget):
 	def init(self,treeview):

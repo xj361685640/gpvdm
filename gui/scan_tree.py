@@ -44,7 +44,7 @@ from util_zip import archive_compress
 from cal_path import subtract_paths
 
 from progress import progress_class
-from gui_util import process_events
+from process_events import process_events
 
 copy_materials=False
 

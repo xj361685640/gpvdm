@@ -20,9 +20,11 @@
 
 
 import os
+import glob
 from ver import version
 from notice import notice
 import random
+from random import randint
 import time
 
 from PyQt5.QtGui import QIcon,QTransform
@@ -34,7 +36,7 @@ from PyQt5.QtGui import QPixmap,QFont
 #cal_path
 from cal_path import get_image_file_path
 from cal_path import get_ui_path
-import datetime
+import time
 
 class splash_window(QWidget):
 
@@ -90,22 +92,17 @@ class splash_window(QWidget):
 
 		QTimer.singleShot(2000, self.callback_destroy)
 
-		r=random.randint(0, 2)
-		files=["splash1.png","splash2.png","splash3.png","splash4.jpg","splash5.jpg"]
+		files=glob.glob(os.path.join(get_image_file_path(),"splash","*.jpg"))
+		files.extend(glob.glob(os.path.join(get_image_file_path(),"splash","*.png")))
 
-		d=datetime.date.today().weekday()
+		number=time.localtime().tm_yday
+		number=number % len(files)
 
-		if d==2:	#Tuesday
-			r=0
-		if d==3:	#Wednesday
-			r=1
-		if d==4:	#Friday
-			r=2
-		if d==6:	#Saturday
-			r=4
+		if number>=len(files[number]):
+			number=0
 
-		image_file=files[r]
-				
+		image_file=files[number]
+
 		image_path=os.path.join(get_image_file_path(),"splash",image_file)
 		if os.path.isfile(image_path):
 			image=QPixmap(image_path)

@@ -32,7 +32,7 @@ except:
 
 from PyQt5 import QtGui
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QWidget, QHBoxLayout
+from PyQt5.QtWidgets import QWidget, QHBoxLayout,QMenu
 
 import os
 
@@ -107,6 +107,15 @@ from gl_color import set_color_alpha
 from gl_color import print_color
 from gl_color import set_false_color
 from gl_color import search_color
+
+from gl_save import gl_save_clear
+from gl_save import gl_save_print
+from gl_save import gl_save_save
+from gl_lib import gl_save_draw
+from gl_save import gl_save_load
+
+from open_save_dlg import save_as_filter
+import time
 
 def tab(x,y,z,w,h,d):
 	glBegin(GL_QUADS)
@@ -221,7 +230,7 @@ class view_point():
 		self.x_pos=-0.5
 		self.y_pos=-0.5
 		self.zoom=-12.0
-	
+
 	def shift(self,target):
 		stop=False
 		move=0.0
@@ -322,6 +331,7 @@ if open_gl_ok==True:
 			self.graph_data=dat_file()
 			self.lastPos=None
 			self.ray_file=""
+			self.mouse_click_time=0.0
 			#glClearDepth(1.0)              
 			#glDepthFunc(GL_LESS)
 			#glEnable(GL_DEPTH_TEST)
@@ -449,9 +459,29 @@ if open_gl_ok==True:
 			self.setFocus()
 			self.update()
 
+		def mousePressEvent(self,event):
+			self.mouse_click_time=time.time()
+
 		def mouseReleaseEvent(self,event):
+			if (time.time() - self.mouse_click_time)<0.2:
+				self.menu(event)
+
 			self.lastPos=None
-			
+		
+		def save_as(self):
+			ret=save_as_filter(self,"3d (*.3d)")
+			print(ret)
+			if ret!=False:
+				gl_save_save(ret)
+
+		def menu(self,event):
+			menu = QMenu(self)
+			action=menu.addAction(_("Save image"))
+			action.triggered.connect(self.save_as)
+
+			#menu.exec_(self.emailbtn.mapToGlobal(QtCore.QPoint(0,0)))
+			menu.exec_(event.globalPos())
+
 		def wheelEvent(self,event):
 			p=event.angleDelta()
 			self.viewpoint.zoom =self.viewpoint.zoom + p.y()/120
@@ -487,6 +517,9 @@ if open_gl_ok==True:
 		def render(self):
 			#print("do draw")
 			clear_color()
+			gl_save_clear()
+
+
 			dos_start=-1
 			dos_stop=-1
 			epi_y_len=epitaxy_get_y_len()
@@ -549,6 +582,12 @@ if open_gl_ok==True:
 			glColor3f( 1.0, 1.5, 0.0 )
 			glPolygonMode(GL_FRONT, GL_FILL);
 
+			threed_files=glob.glob("*.3d")
+			if len(threed_files)>0:
+				gl_save_load()
+				gl_save_draw()
+				draw_grid()
+				return
 
 			#glClearColor(0.92, 0.92, 0.92, 0.5) # Clear to black.
 			glClearColor(0.0, 0.0, 0.0, 0.5)
@@ -651,11 +690,11 @@ if open_gl_ok==True:
 			if self.viewpoint.zoom<-60:
 				draw_stars()
 
-			
 
 		def do_draw(self):
 			self.render()
-			self.swapBuffers() 
+			self.swapBuffers()
+			#gl_save_print()
 
 		def paintGL(self):
 			if self.failed==False:

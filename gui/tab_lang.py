@@ -44,7 +44,7 @@ from i18n import get_languages
 _ = i18n.language.gettext
 
 import functools
-from gui_util import error_dlg
+from error_dlg import error_dlg
 
 class language_tab_class(QWidget,tab_base):
 

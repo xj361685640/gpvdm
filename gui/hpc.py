@@ -32,7 +32,7 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSize, Qt 
 from PyQt5.QtWidgets import QWidget,QSizePolicy,QHBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QVBoxLayout,QTabWidget,QLabel,QSlider,QWidgetItem
 from about import about_dlg
-from gui_util import error_dlg
+from error_dlg import error_dlg
 
 from progress import progress_class
 from server import server_get

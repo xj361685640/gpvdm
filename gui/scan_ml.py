@@ -37,7 +37,7 @@ import i18n
 _ = i18n.language.gettext
 
 from progress import progress_class
-from gui_util import process_events
+from process_events import process_events
 from server import server_break
 from util_zip import zip_lsdir
 from util_zip import extract_dir_from_archive

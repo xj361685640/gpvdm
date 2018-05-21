@@ -124,7 +124,6 @@ class band_graph(QWidget):
 		self.layer_name=[]
 		self.optical_mode_file=os.path.join(get_sim_path(),"light_dump",self.data_file)
 
-		n=0
 		self.my_figure.clf()
 		ax1 = self.my_figure.add_subplot(111)
 		ax2 = ax1.twinx()
@@ -174,33 +173,40 @@ class band_graph(QWidget):
 
 			#print("lumo=",lumo)
 			lumo_delta=lumo-0.1
+
 			homo=lumo-Eg
 			homo_delta=homo-0.1
 
-			if material_type=="oxide" or material_type=="metal":
+			draw_homo=True
+			y_name_pos=lumo-Eg/2
+
+			if Eg==0.0 or material_type=="metal":
 				lumo_delta=-7.0
-				homo=0.0
-			lumo_shape = [lumo,lumo,lumo_delta,lumo_delta]
+				draw_homo=False
+				y_name_pos=lumo-1.0
+
 			x_pos=x_pos+delta
 			self.layer_end.append(x_pos)
 			self.layer_name.append(layer_material)
-			ax2.fill(x,lumo_shape, color[layer],alpha=0.4)
-			ax2.text(x_pos-delta/1.5, lumo-0.4, epitaxy_get_name(i))
 
-			if homo!=0.0:
+			item=ax2.text(x_pos-delta/1.5, y_name_pos, epitaxy_get_name(i))
+			item.set_fontsize(15)
+
+			lumo_shape = [lumo,lumo,lumo_delta,lumo_delta]
+			ax2.fill(x,lumo_shape, color[layer],alpha=0.4)
+			item=ax2.text(x_pos-delta/1.5, lumo+0.1, "%.2f eV" % lumo)
+			item.set_fontsize(15)
+
+			if draw_homo==True:
 				homo_shape = [homo,homo,homo_delta,homo_delta]
 				ax2.fill(x,homo_shape, color[layer],alpha=0.4)
+				item=ax2.text(x_pos-delta/1.5, lumo-Eg-0.4, "%.2f eV" % homo)
+				item.set_fontsize(15)
 
 			layer=layer+1
 
-			n=n+1
-
 		state=dat_file()
 		if dat_file_read(state,self.optical_mode_file)==True:
-			print(self.optical_mode_file,os.path.isfile(self.optical_mode_file))
-			#summary="<big><b>"+self.store[path[0]][0]+"</b></big>\n"+"\ntitle: "+state.title+"\nx axis: "+state.x_label+" ("+latex_to_pygtk_subscript(state.x_units)+")\ny axis: "++" ("+latex_to_pygtk_subscript(state.y_units)+")\n\n<big><b>Double click to open</b></big>"
-
-			#print("ROD!!!!",state.data_label,self.optical_mode_file)
 			ax1.set_ylabel(state.data_label+" ("+state.data_units+")")
 			ax1.set_xlabel(_("Position")+" (nm)")
 			ax2.set_ylabel(_("Energy")+" (eV)")

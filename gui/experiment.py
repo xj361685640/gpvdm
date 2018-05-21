@@ -56,7 +56,7 @@ from experiment_util import experiment_new_filename
 from css import css_apply
 
 from progress import progress_class
-from gui_util import process_events
+from process_events import process_events
 
 class experiment(QWidgetSavePos):
 

@@ -23,7 +23,7 @@ import os
 import shutil
 from icon_lib import QIcon_load
 from gui_util import dlg_get_text
-from util import delete_second_level_link_tree
+from util import gpvdm_delete_file
 from util import copy_scan_dir
 from search import return_file_list
 import webbrowser
@@ -53,7 +53,7 @@ from cal_path import get_sim_path
 from QWidgetSavePos import QWidgetSavePos
 from scan_ribbon import scan_ribbon
 from css import css_apply
-from gui_util import error_dlg
+from error_dlg import error_dlg
 
 class scan_class(QWidgetSavePos):
 
@@ -212,7 +212,7 @@ class scan_class(QWidgetSavePos):
 		if response==True:
 			index=self.notebook.currentIndex() 
 			self.notebook.removeTab(index)
-			delete_second_level_link_tree(dir_to_del)
+			gpvdm_delete_file(dir_to_del)
 
 
 	def callback_run_all_simulations(self):

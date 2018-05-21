@@ -1,0 +1,25 @@
+#gpvdm
+#title Absorption
+#type xy
+#x_mul 1e9
+#y_mul 1e9
+#z_mul 1e9
+#data_mul 1.000000
+#x_label Wavelength
+#data_label Absorption
+#x_units nm
+#data_units m^{-1}
+#logscale_x 0
+#logscale_y 0
+#section_one Materials
+#section_two Absorption
+#data
+2.536e-07 2774905.993690852
+3.022e-07 2952387.690271343
+3.126e-07 3135560.076775432
+3.341e-07 3385131.3977850936
+3.65e-07 4647831.7808219185
+4.0469999999999996e-07 11582041.709908575
+4.358e-07 18339157.77879761
+5.461e-07 24161651.71214063
+5.779999999999999e-07 25871917.647058826

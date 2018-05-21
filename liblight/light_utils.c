@@ -438,3 +438,31 @@ gdouble Gp=0.0;
 	}
 
 }
+
+long double light_calculate_photons_absorbed_in_active_layer(struct light *in)
+{
+
+int i;
+//long double tot=0.0;
+long double in_active=0.0;
+long double ret=-1.0;
+
+for (i=0;i<in->points;i++)
+{
+		if ((in->x[i]>in->device_start)&&(in->x[i]<in->device_start+in->device_ylen))
+		{
+			in_active+=(in->Gn[i]+in->Gp[i])/2.0;
+		}
+
+		//tot+=in->photons_tot[i];//(in->Gn[i]+in->Gp[i])/2.0;
+
+}
+
+//if ((tot!=0)&&(in_active!=0.0))
+//{
+//	ret=(in_active/tot);
+//}
+
+ret=in_active*in->device_ylen;
+return ret;
+}

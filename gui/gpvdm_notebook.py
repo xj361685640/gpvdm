@@ -20,7 +20,7 @@
 
 import os
 #from progress import progress_class
-#from gui_util import process_events
+#from process_events import process_events
 
 #inp files
 from inp import inp_load_file
@@ -167,8 +167,6 @@ class gpvdm_notebook(QTabWidget):
 			#self.add_info_page()
 
 			return True
-
-
 
 
 			self.finished_loading=True

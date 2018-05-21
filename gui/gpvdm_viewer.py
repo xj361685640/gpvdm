@@ -39,7 +39,7 @@ from cal_path import get_ui_path
 
 from help import help_window
 
-from gui_util import error_dlg
+from error_dlg import error_dlg
 
 from ref import get_ref_text
 from gui_util import dlg_get_text
@@ -68,6 +68,9 @@ from util_zip import read_lines_from_archive
 import webbrowser
 from info import sim_info
 
+
+
+
 COL_PATH = 0
 COL_PIXBUF = 1
 COL_IS_DIRECTORY = 2
@@ -89,7 +92,7 @@ class gpvdm_viewer(QListWidget):
 
 	accept = pyqtSignal()
 	reject = pyqtSignal()
-
+	path_changed = pyqtSignal()
 
 	def __init__(self,path,show_inp_files=True):
 		QWidget.__init__(self)
@@ -112,6 +115,7 @@ class gpvdm_viewer(QListWidget):
 		self.icons={}
 		self.icons['folder']= QIcon_load("folder")
 		self.icons['dat_file'] = QIcon_load("dat_file")
+		self.icons['omat'] = QIcon_load("dat_file")
 		self.icons['text-x-generic'] = QIcon_load("text-x-generic")
 		self.icons['wps-office-xls'] = QIcon_load("wps-office-xls")
 		self.icons['info'] = self.get_icon("info")
@@ -245,6 +249,7 @@ class gpvdm_viewer(QListWidget):
 
 	def set_path(self,path):
 		self.path=os.path.abspath(path)
+		self.path_changed.emit()
 
 	def add_back_arrow(self):
 		if self.show_back_arrow==True:
@@ -391,7 +396,7 @@ class gpvdm_viewer(QListWidget):
 	def on_item_activated(self,item):
 		text=item.text()
 		if text=="..":
-			self.path=os.path.dirname(self.path)
+			self.set_path(os.path.dirname(self.path))
 			self.fill_store()
 			return
 
@@ -427,9 +432,21 @@ class gpvdm_viewer(QListWidget):
 		else:
 			if os.path.isfile(os.path.join(full_path,"mat.inp"))==True:
 				self.file_path=full_path
+
+				gpvdm_file_type=inp_get_token_value(os.path.join(full_path,"mat.inp"), "#gpvdm_file_type")
+				if gpvdm_file_type=="spectra":
+					from spectra_main import spectra_main
+					self.mat_window=spectra_main(full_path)
+					self.mat_window.show()
+				elif gpvdm_file_type=="mat":
+					from materials_main import materials_main
+					self.mat_window=materials_main(full_path)
+					self.mat_window.show()
+
 				self.accept.emit()
 			else:
-				self.path = full_path
+				self.set_path(full_path)
+				#self.path = full_path
 				self.fill_store()
 
 	def on_selection_changed(self):
