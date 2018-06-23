@@ -3,8 +3,13 @@
 import os
 import sys
 import shutil
-from dialog import Dialog
-from rpm import make_rmp_dir
+try:
+	from dialog import Dialog
+except:
+	from menu import Dialog
+from build_rpm import make_rmp_dir
+from deb import make_deb
+
 from shutil import copyfile
 from shutil import rmtree
 
@@ -43,13 +48,19 @@ def distributable(d):
 	menu=[]
 
 	menu.append(("(rpm)", "Build rpm"))
+	menu.append(("(deb)", "Build deb"))
+
 	menu.append(("(win)", "Windows installer"))
+
 
 	while(1):
 		code, tag = d.menu("Build:", choices=menu)
 		if code == d.OK:
 			if tag=="(rpm)":
 				make_rmp_dir(d)
+
+			if tag=="(rpm)":
+				make_deb(d)
 
 			if tag=="(win)":
 				windows_install(d)

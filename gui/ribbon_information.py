@@ -67,6 +67,16 @@ class ribbon_information(QToolBar):
 		spacer = QWidget()
 		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 		self.addWidget(spacer)
+
+
+		self.twitter = QAction(QIcon_load("twitter.png"), _("twitter"), self)
+		self.twitter.triggered.connect(self.callback_twitter)
+		self.addAction(self.twitter)
+
+		self.fb = QAction(QIcon_load("fb.png"), _("Facebook"), self)
+		self.fb.triggered.connect(self.callback_fb)
+		self.addAction(self.fb)
+
 		
 		self.youtube = QAction(QIcon_load("youtube.png"), _("Youtube\nchannel"), self)
 		self.youtube.triggered.connect(self.callback_youtube)
@@ -91,6 +101,12 @@ class ribbon_information(QToolBar):
 		
 	def callback_youtube(self):
 		webbrowser.open("https://www.youtube.com/channel/UCbm_0AKX1SpbMMT7jilxFfA")
+
+	def callback_twitter(self):
+		webbrowser.open("https://twitter.com/gpvdm_info")
+
+	def callback_fb(self):
+		webbrowser.open("https://www.facebook.com/gpvdminfo/")
 
 	def callback_ref(self):
 		webbrowser.open("https://gpvdm.com/how_to_cite.html")

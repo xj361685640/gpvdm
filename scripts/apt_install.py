@@ -59,7 +59,7 @@ def apt_install(d,my_list):
 
 
 
-		print("Installing "+str(len(my_list))+" packages")
+		log("Installing "+str(len(my_list))+" packages")
 		installed=0
 		already_installed=0
 		for i in range(0,len(my_list)):
@@ -77,10 +77,10 @@ def apt_install(d,my_list):
 			else:
 				log(my_list[i]+" Not found")
 		#try:
-		log("commit")
+		log("commit (this could take a while.)")
 		prog=LogInstallProgress()
 		cache.commit(install_progress=prog)
-		print("\nInstalled= "+str(installed)+" Already installed "+str(already_installed))
+		log("\nInstalled= "+str(installed)+" Already installed "+str(already_installed))
 		#except:
 		#	log( "Sorry, package installation failed")
 

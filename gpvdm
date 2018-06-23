@@ -429,6 +429,11 @@ class gpvdm_main_window(QMainWindow):
 		process_events()
 		process_events()
 
+		#from wiz import wiz
+		#a=wiz()
+		#a.exec_()
+
+		#sys.exit()
 		do_import()
 
 		if os.path.isdir(os.path.dirname(sys.argv[0]))==False:

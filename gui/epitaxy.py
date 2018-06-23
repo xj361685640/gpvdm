@@ -25,49 +25,50 @@ from inp import inp_load_file
 from util import isnumber
 from scan_item import scan_item_add
 from scan_item import scan_remove_file
+from cal_path import get_materials_path
+
+from inp import inp_load_file
+from inp import inp_search_token_array
+from inp_util import inp_search_token_value
 
 
-layers=0
-electrical_layers=0
-width=[]
-mat_file=[]
-electrical_layer=[]
-pl_file=[]
-name=[]
+class epi_layer():
+	def __init__(self):
+		self.width=0
+		self.mat_file=""
+		self.name=""
+		self.pl_file=""
+		self.r=0
+		self.g=0
+		self.b=0
+		self.alpha=0
+
+epi=[]
 
 def epitaxy_update_scan():
-	global layers
-	global electrical_layers
-	global width
-	global mat_file
-	global electrical_layer
-	global pl_file
-	global name
+	global epi
 	scan_remove_file("epitaxy.inp")
-	layer=0
-	for i in range(0,layers):
-		scan_item_add("epitaxy.inp","#layer_material_file"+str(i),_("Material for ")+str(name[i]),2)
-		scan_item_add("epitaxy.inp","#layer_width"+str(i),_("Layer width ")+str(name[i]),1)
-		layer=layer+1
+	for i in range(0,len(epi)):
+		scan_item_add("epitaxy.inp","#layer_material_file"+str(i),_("Material for ")+str(epi[i].name),2)
+		scan_item_add("epitaxy.inp","#layer_width"+str(i),_("Layer width ")+str(epi[i].name),1)
 
+def epitaxy_populate_rgb():
+	global epi
+	path=os.path.join(get_materials_path(),epi[-1].mat_file,"mat.inp")
+	mat_lines=inp_load_file(path)
+	ret=inp_search_token_array(mat_lines, "#red_green_blue")
+
+	if ret!=False:
+		epi[-1].r=float(ret[0])
+		epi[-1].g=float(ret[1])
+		epi[-1].b=float(ret[2])
+		epi[-1].alpha=float(inp_search_token_value(mat_lines, "#mat_alpha"))
 
 def epitaxy_load(path):
 	lines=[]
-	global layers
-	global electrical_layers
-	global width
-	global mat_file
-	global electrical_layer
-	global pl_file
-	global name
+	global epi
 
-	layers=0
-	electrical_layers=0
-	width=[]
-	mat_file=[]
-	electrical_layer=[]
-	pl_file=[]
-	name=[]
+	epi=[]
 	
 	lines=inp_load_file(os.path.join(path,"epitaxy.inp"))
 	if lines!=False:
@@ -75,47 +76,65 @@ def epitaxy_load(path):
 		pos=pos+1
 
 		for i in range(0, int(lines[pos])):
+			a=epi_layer()
 			pos=pos+1		#token
 			pos=pos+1
-			name.append(lines[pos])
+			a.name=lines[pos]
 
 			pos=pos+1		#token
 			pos=pos+1
-			width.append(float(lines[pos]))
+			a.width=float(lines[pos])
 
 			pos=pos+1		#token
 			pos=pos+1
 			lines[pos]=lines[pos].replace("\\", "/")
-			mat_file.append(lines[pos])
+			a.mat_file=lines[pos]
 
 			pos=pos+1		#token
 			pos=pos+1
-			electrical_layer.append(lines[pos])		#value
-
-			if lines[pos].startswith("dos")==True:
-				electrical_layers=electrical_layers+1
+			a.electrical_layer=lines[pos]		#value
 
 			pos=pos+1		#token
 			pos=pos+1
-			pl_file.append(lines[pos])		#value
+			a.pl_file=lines[pos]		#value
 
-			layers=layers+1
-	
+
+			epi.append(a)
+			epitaxy_populate_rgb()
+
 	epitaxy_update_scan()
 
 def epitay_get_next_dos():
-	global electrical_layer
+	global epi
 	for i in range(0,20):
 		name="dos"+str(i)
-		if electrical_layer.count(name)==0:
+		found=False
+		for a in epi:
+			if a.electrical_layer==name:
+				found=True
+
+		if found==False:
 			return name
 
 def epitay_get_next_pl():
-	global pl_file
+	global epi
 	for i in range(0,20):
 		name="pl"+str(i)
-		if pl_file.count(name)==0:
+		found=False
+		for a in epi:
+			if a.pl_file==name:
+				found=True
+
+		if found==False:
 			return name
+
+def epitaxy_get_layer(i):
+	global epi
+	return epi[i]
+
+def epitaxy_get_epi():
+	global epi
+	return epi
 
 def epitaxy_load_from_arrays(in_name,in_width,in_material,in_dos_layer,in_pl_file):
 
@@ -123,90 +142,63 @@ def epitaxy_load_from_arrays(in_name,in_width,in_material,in_dos_layer,in_pl_fil
 		if isnumber(in_width[i])==False:
 			return False
 
-	global layers
-	global electrical_layers
-	global width
-	global mat_file
-	global electrical_layer
-	global pl_file
-	global name
+	global epi
 
-	layers=0
-	electrical_layers=0
-	width=[]
-	mat_file=[]
-	electrical_layer=[]
-	pl_file=[]
-	name=[]
+	epi=[]
 
 	for i in range(0, len(in_width)):
 
-		name.append(in_name[i])
+		a=epi_layer()
+		
+		a.name=in_name[i]
 
-		width.append(float(in_width[i]))
+		a.width=float(in_width[i])
+		a.mat_file=in_material[i]
 
-		mat_file.append(in_material[i])
+		a.electrical_layer=in_dos_layer[i]		#value
 
-		electrical_layer.append(in_dos_layer[i])		#value
+		a.pl_file=in_pl_file[i]							#value
 
-		pl_file.append(in_pl_file[i])					#value
-
-		if in_dos_layer[i].startswith("dos")==True:
-			electrical_layers=electrical_layers+1
-
-
-		layers=layers+1
+		epi.append(a)
+		epitaxy_populate_rgb()
 
 	epitaxy_update_scan()
 
 	return True
 
 def epitaxy_print():
-	global layers
-	global electrical_layers
-	global width
-	global mat_file
-	global electrical_layer
-	global pl_file
-	global name
+	global epi
 	print("Epitxy dump:")
-	layer=0
-	print("layers=",str(layers))
-	for i in range(0,layers):
+
+	print("layers=",str(len(epi)))
+	for i in range(0,len(epi)):
 		print("#layer"+str(layer))
-		print(str(name[i]))
-		print(str(width[i]))
-		print(mat_file[i])
-		print(electrical_layer[i])
-		print(pl_file[i])
-		layer=layer+1
+		print(str(epi[i].name))
+		print(str(epi[i].width))
+		print(epi[i].mat_file)
+		print(epi[i].electrical_layer)
+		print(epi[i].pl_file)
 		
 def epitaxy_save(path):
-	global layers
-	global electrical_layers
-	global width
-	global mat_file
-	global electrical_layer
-	global pl_file
-	global name
+	global epi
 
 	#dos_text=""
 	lines=[]
 	lines.append("#layers")
-	lines.append(str(layers))
+	lines.append(str(len(epi)))
 
 	layer=0
-	for i in range(0,layers):
+	for i in range(0,len(epi)):
 		lines.append("#layer_name"+str(layer))
-		lines.append(str(name[i]))
+		lines.append(str(epi[i].name))
 		lines.append("#layer_width"+str(layer))
-		lines.append(str(width[i]))
+		lines.append(str(epi[i].width))
 		lines.append("#layer_material_file"+str(layer))
-		lines.append(mat_file[i])
+		lines.append(epi[i].mat_file)
 		lines.append("#layer_dos_file"+str(layer))
-		lines.append(electrical_layer[i])
+		lines.append(epi[i].electrical_layer)
 		lines.append("#layer_pl_file"+str(layer))
-		lines.append(pl_file[i])
+		lines.append(epi[i].pl_file)
 		layer=layer+1
 
 	lines.append("#ver")
@@ -216,54 +208,51 @@ def epitaxy_save(path):
 	inp_save(os.path.join(path,"epitaxy.inp"),lines)
 
 def epitaxy_get_dos_files():
-	global electrical_layer
+	global epi
 	dos_file=[]
-	for i in range(0,len(electrical_layer)):
-		if electrical_layer[i].startswith("dos")==True:
-			dos_file.append(electrical_layer[i])
+	for i in range(0,len(epi)):
+		if epi[i].electrical_layer.startswith("dos")==True:
+			dos_file.append(epi[i].electrical_layer)
 
 	return dos_file
 
 def epitaxy_get_device_start():
-	global layers
-	global width
-	global electrical_layer
+	global epi
 
 	pos=0.0
-	for i in range(0, layers):
-		if electrical_layer[i].startswith("dos")==True:
+	for i in range(0, len(epi)):
+		if epi[i].electrical_layer.startswith("dos")==True:
 			return pos
 
 		pos=pos+width[i]
 			
 def epitaxy_get_layers():
-	global layers
-	return layers
+	global epi
+	return len(epi)
 
 def epitaxy_get_width(i):
-	global width
-	return width[i]
+	global epi
+	return epi[i].width
 
 def epitaxy_get_electrical_layer(i):
-	global electrical_layer
-	#print electrical_layer,i
-	return electrical_layer[i]
+	global epi
+	return epi[i].electrical_layer
 
 def epitaxy_get_mat_file(i):
-	global mat_file
-	return mat_file[i]
+	global epi
+	return epi[i].mat_file
 
 def epitaxy_get_pl_file(i):
-	global pl_file
-	return pl_file[i]
+	global epi
+	return epi[i].pl_file
 
 def epitaxy_get_dos_file(i):
-	global electrical_layer
-	return electrical_layer[i]
+	global epi
+	return epi[i].electrical_layer
 
 def epitaxy_get_name(i):
-	global name
-	return name[i]
+	global epi
+	return epi[i].name
 
 def epitaxy_get_y_len():
 	tot=0

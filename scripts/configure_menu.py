@@ -1,6 +1,10 @@
 
 import os
-from dialog import Dialog
+try:
+	from dialog import Dialog
+except:
+	from menu import Dialog
+
 from make_m4 import make_m4
 
 from pathlib import Path

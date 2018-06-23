@@ -94,8 +94,9 @@ class gpvdm_viewer(QListWidget):
 	reject = pyqtSignal()
 	path_changed = pyqtSignal()
 
-	def __init__(self,path,show_inp_files=True):
+	def __init__(self,path,show_inp_files=True,open_own_files=True):
 		QWidget.__init__(self)
+		self.open_own_files=open_own_files
 		self.file_list=[]
 		self.menu_new_material_enabled=False
 		self.menu_new_spectra_enabled=False
@@ -409,23 +410,24 @@ class gpvdm_viewer(QListWidget):
 
 		if os.path.isfile(full_path)==True:
 			self.file_path=full_path
-			if isfiletype(full_path,"xls")==True or isfiletype(full_path,"xlsx")==True or isfiletype(full_path,"pdf")==True:
-				desktop_open(full_path)
-				self.reject.emit()
-				return
-			elif isfiletype(full_path,"jpg")==True:
-				desktop_open(full_path)
-				self.reject.emit()
-				return
-			elif os.path.basename(full_path)=="sim_info.dat":
-				self.sim_info_window=sim_info(full_path)
-				self.sim_info_window.show()
-				self.reject.emit()
-				return
-			elif isfiletype(full_path,"dat")==True:
-				plot_gen([full_path],[],"auto")
-				self.reject.emit()
-				return
+			if self.open_own_files==True:
+				if isfiletype(full_path,"xls")==True or isfiletype(full_path,"xlsx")==True or isfiletype(full_path,"pdf")==True:
+					desktop_open(full_path)
+					self.reject.emit()
+					return
+				elif isfiletype(full_path,"jpg")==True:
+					desktop_open(full_path)
+					self.reject.emit()
+					return
+				elif os.path.basename(full_path)=="sim_info.dat":
+					self.sim_info_window=sim_info(full_path)
+					self.sim_info_window.show()
+					self.reject.emit()
+					return
+				elif isfiletype(full_path,"dat")==True:
+					plot_gen([full_path],[],"auto")
+					self.reject.emit()
+					return
 			else:
 				self.accept.emit()
 				return

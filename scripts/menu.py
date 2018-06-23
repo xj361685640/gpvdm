@@ -38,6 +38,9 @@ class Dialog():
 
 	def menu(self,text, choices=[]):
 		self.clear()
+		print("The python3 module Dialog is not installed")
+		print("If you are on Ubuntu/Debian system, try apt-get install python3-dialog")
+		print("If you are on Fedora/Redhat system, try yum install python3-dialog\n\n")
 		for i in range(0,len(choices)):
 			print(i,choices[i][1])
 

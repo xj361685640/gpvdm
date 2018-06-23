@@ -1,6 +1,11 @@
 import os
 import sys
-import pyinotify
+try:
+	import pyinotify
+except:
+	print("python3-pyinotify is not installed")
+	sys.exit(0)
+
 import re
 import time
 

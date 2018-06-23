@@ -24,6 +24,7 @@ import os
 import sys
 
 def log(text):
+	print(text)
 	f=open("out.dat", "a")
 	f.write(text+"\n")
 	f.close()

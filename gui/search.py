@@ -80,7 +80,7 @@ def find_fit_speed_log(out_file,path):
 	text_file.close()
 
 def return_file_list(result,start_dir,file_name):
-	print(start_dir, file_name)
+	#print(start_dir, file_name)
 	pattern=file_name
 	path=start_dir
 	for root, dirs, files in os.walk(path, followlinks=True):

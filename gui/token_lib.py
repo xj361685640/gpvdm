@@ -491,6 +491,11 @@ lib.append(my_data("","#log_y",_("True/False"),_("log y"),"e",1.0,"gtkswitch"))
 lib.append(my_data("","#sim_data",_("filename"),"Fit file name","e",1.0,"QLineEdit"))
 lib.append(my_data("","#fit_invert_simulation_y",_("True/False"),_("Invert simulated data (y)"),"e",1.0,"gtkswitch"))
 
+#epitaxy.inp
+lib.append(my_data("epitaxy.inp","#layer_width0","nm","start","e",1e9,"QLineEdit"))
+lib.append(my_data("epitaxy.inp","#layer_width1","nm","start","e",1e9,"QLineEdit"))
+lib.append(my_data("epitaxy.inp","#layer_width2","nm","start","e",1e9,"QLineEdit"))
+
 
 #
 lib.append(my_data("","#layer0","m",_("Active layer width"),"e",1.0,"QLineEdit"))

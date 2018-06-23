@@ -310,7 +310,7 @@ class scan_vbox(QWidget):
 				self.plotted_graphs.refresh()
 
 	def callback_gen_plot_command(self):
-		dialog=gpvdm_open(self.sim_dir)
+		dialog=gpvdm_open(self.sim_dir,act_as_browser=False)
 		ret=dialog.exec_()
 
 		if ret==QDialog.Accepted:

@@ -11,9 +11,9 @@ public_all
 #mat_alpha
 1.0
 #mat_default_file_alpha
-equation
+auto
 #mat_default_file_n
-equation
+auto
 #changelog
 *Equations from Philip Bennett
 *Raw data - could be Brabec

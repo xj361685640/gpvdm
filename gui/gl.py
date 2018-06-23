@@ -32,6 +32,7 @@ except:
 
 from PyQt5 import QtGui
 from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QScreen
 from PyQt5.QtWidgets import QWidget, QHBoxLayout,QMenu
 
 import os
@@ -64,6 +65,8 @@ from epitaxy import epitaxy_get_electrical_layer
 from epitaxy import epitaxy_get_pl_file
 from epitaxy import epitaxy_get_name
 from epitaxy import epitaxy_get_y_len
+from epitaxy import epitaxy_get_layer
+from epitaxy import epitaxy_get_epi
 
 #qt
 from PyQt5.QtGui import QFont
@@ -231,6 +234,7 @@ class view_point():
 		self.y_pos=-0.5
 		self.zoom=-12.0
 
+
 	def shift(self,target):
 		stop=False
 		move=0.0
@@ -294,7 +298,6 @@ class view_point():
 if open_gl_ok==True:		
 	class glWidget(QGLWidget):
 
-		colors=[]
 		def __init__(self, parent):
 			QGLWidget.__init__(self, parent)
 			self.setAutoBufferSwap(False)
@@ -323,7 +326,10 @@ if open_gl_ok==True:
 
 
 
-			
+			self.render_grid=True
+			self.render_photons=True
+			self.render_text=True
+
 			self.timer=None
 			
 			self.suns=0.0
@@ -332,12 +338,7 @@ if open_gl_ok==True:
 			self.lastPos=None
 			self.ray_file=""
 			self.mouse_click_time=0.0
-			#glClearDepth(1.0)              
-			#glDepthFunc(GL_LESS)
-			#glEnable(GL_DEPTH_TEST)
-			#glShadeModel(GL_SMOOTH)
-		
-			#self.setMinimumSize(650, 500)
+
 
 		def my_timer(self):
 			#self.xRot =self.xRot + 2
@@ -469,6 +470,8 @@ if open_gl_ok==True:
 			self.lastPos=None
 		
 		def save_as(self):
+			self.random_device()
+			return
 			ret=save_as_filter(self,"3d (*.3d)")
 			print(ret)
 			if ret!=False:
@@ -593,19 +596,19 @@ if open_gl_ok==True:
 			glClearColor(0.0, 0.0, 0.0, 0.5)
 			lines=[]
 
-
-			self.draw_photons(max_gui_device_x,max_gui_device_z)
+			if self.render_photons==True:
+				self.draw_photons(max_gui_device_x,max_gui_device_z)
 
 			pos=0.0
 				
 			for i in range(0,epitaxy_get_layers()):
 
 				thick=epitaxy_get_width(l-i)*self.y_mul
-
-				red=self.colors[l-i].r
-				green=self.colors[l-i].g
-				blue=self.colors[l-i].b
-				alpha=self.colors[l-i].alpha
+				obj=epitaxy_get_layer(l-i)
+				red=obj.r
+				green=obj.g
+				blue=obj.b
+				alpha=obj.alpha
 				if i==l-self.selected_layer:
 					box_lines(0.0,pos,0,max_gui_device_x,thick,max_gui_device_z)
 
@@ -666,17 +669,18 @@ if open_gl_ok==True:
 					box(0.0,pos,0,max_gui_device_x,thick,max_gui_device_z,red,green,blue,alpha)
 				
 
-				if epitaxy_get_electrical_layer(l-i).startswith("dos")==True:
-					text=epitaxy_get_name(l-i)+" ("+_("active")+")"
-				else:
-					text=epitaxy_get_name(l-i)
+				if self.render_text==True:
+					if epitaxy_get_electrical_layer(l-i).startswith("dos")==True:
+						text=epitaxy_get_name(l-i)+" ("+_("active")+")"
+					else:
+						text=epitaxy_get_name(l-i)
 
-				set_color(1.0,1.0,1.0,"text")
+					set_color(1.0,1.0,1.0,"text")
 
-				font = QFont("Arial")
-				font.setPointSize(18)
-				if self.viewpoint.zoom>-20:
-					self.renderText (max_gui_device_x+0.1,pos+thick/2,max_gui_device_z, text,font)
+					font = QFont("Arial")
+					font.setPointSize(18)
+					if self.viewpoint.zoom>-20:
+						self.renderText (max_gui_device_x+0.1,pos+thick/2,max_gui_device_z, text,font)
 
 				pos=pos+thick+dy_layer_offset
 
@@ -686,7 +690,10 @@ if open_gl_ok==True:
 
 			full_data_range=self.graph_z_max-self.graph_z_min
 			graph(0.0,dos_start,max_gui_device_z+0.5,max_gui_device_x,dos_stop-dos_start,full_data_range,self.graph_data)
-			draw_grid()
+
+			if self.render_grid==True:
+				draw_grid()
+
 			if self.viewpoint.zoom<-60:
 				draw_stars()
 
@@ -701,7 +708,6 @@ if open_gl_ok==True:
 				self.do_draw()
 					
 		def load_data(self):
-			self.colors=[]
 			lines=[]
 
 			if dat_file_read(self.graph_data,self.graph_path)==True:
@@ -714,38 +720,26 @@ if open_gl_ok==True:
 			except:
 				self.suns=0.0
 
-			l=epitaxy_get_layers()-1
-			for i in range(0,epitaxy_get_layers()):
+		def random_device(self):
+			self.render_grid=True
+			self.render_photons=True
+			self.render_text=False
 
-				path=os.path.join(get_materials_path(),epitaxy_get_mat_file(l-i),"mat.inp")
+			for i in range(0,100):
+				r=random.randint(0,epitaxy_get_layers()-1)
+				w=float(random.randint(20,100))*1e-9
+				e=epitaxy_get_epi()
+				e[r].width=w
+				levels = range(32,256,32)
+				color=tuple(random.choice(levels) for _ in range(3))
+				if r!=2:
+					e[r].r=color[0]/256.0
+					e[r].g=color[1]/256.0
+					e[r].b=color[2]/256.0
 
-				loaded=True
-				lines=inp_load_file(os.path.join(get_sim_path(),path))
-				if lines!=False:
-					ret=inp_search_token_array(lines, "#red_green_blue")
-					if ret!=False:
-						red=float(ret[0])
-						green=float(ret[1])
-						blue=float(ret[2])
-						#red=float(inp_search_token_value(lines, "#Red"))
-						#green=float(inp_search_token_value(lines, "#Green"))
-						#blue=float(inp_search_token_value(lines, "#Blue"))
-						alpha=float(inp_search_token_value(lines, "#mat_alpha"))
-					else:
-						loaded=False
-				else:
-					loaded=False
-					
-				if loaded==False:
-					red=0.0
-					green=0.0
-					blue=0.0
-					alpha=1.0
-				self.colors.append(color(red,green,blue,alpha))
-			self.colors.reverse()
-			#self.update()
-			#self.do_draw()
-
+				self.do_draw()
+				self.grabFrameBuffer().save("./one/a"+str(i)+".png")
+			
 		def force_redraw(self):
 			self.load_data()
 			self.update()

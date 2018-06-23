@@ -147,6 +147,14 @@ char temp[PATHLEN];
 		strcpy(out,temp);
 		return;
 	}
+ 
+	//Ubuntu
+	join_path(2,temp,"/usr/lib/x86_64-linux-gnu/gpvdm/",name);
+	if (isdir(temp)==0)
+	{
+		strcpy(out,temp);
+		return;
+	}
 
 	join_path(2,temp,sim->share_path,name);
 	if (isdir(temp)==0)

@@ -144,7 +144,8 @@ def scan_gen_plot_data(plot_token,base_path):
 
 	#search for the files
 	return_file_list(plot_files,base_path,file_name)
-	print("search_file=",plot_token.file0)
+	print("search_file=",plot_token.file0,file_name)
+	print("plot_files0=",plot_files)
 	#print("found_files=",plot_files)
 	#print("found_files=",base_path)
 	

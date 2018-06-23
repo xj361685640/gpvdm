@@ -1,5 +1,8 @@
 import os
-from dialog import Dialog
+try:
+	from dialog import Dialog
+except:
+	from menu import Dialog
 
 def install(d):
 	if os.geteuid() != 0:

@@ -4,6 +4,7 @@
 import os
 import sys
 from build_log import log
+
 try:
 	import dnf.rpm
 
@@ -45,12 +46,12 @@ try:
 				if action=="verify":
 					log("installed "+pkg_id)
 					#print()
-
+				print(action,ti_done, ti_total, ts_done, ts_total)
 				#print ("aaa %s %s"%(pkg_id, action),package, type(action), ti_done, ti_total, ts_done, ts_total)
 				#self.base.RPMProgress(
 				#pkg_id, action, te_current, te_total, ts_current, ts_total)
 except:
-	print("not a dnf system")
+	pass
 
 def check_installed(sack_query,name):
 	installed = sack_query.installed()
@@ -65,8 +66,6 @@ def dnf_install(d,packages):
 	newpid = os.fork()
 	if newpid == 0:
 		with dnf.Base() as base:
-			f=open("out.dat", "w+")
-			f.close()
 			# Substitutions are needed for correct interpretation of repo files.
 			RELEASEVER = dnf.rpm.detect_releasever(base.conf.installroot)
 			base.conf.substitutions['releasever'] = RELEASEVER

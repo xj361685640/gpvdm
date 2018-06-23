@@ -22,14 +22,14 @@ import sys
 import time
 from numpy import exp
 from gui_enable import gui_get
-
+	
 class progress_base():
 	def __init__(self):
 		self.start_time=time.time()
 		self.fraction=0.0
 		self.finish_time=""
 		self.avg=[]
-		print()
+		self.text=""
 
 	def left_time(self):
 		if self.fraction!=0:
@@ -48,7 +48,51 @@ class progress_base():
 				w_sum=w_sum+weight
 			t=t/w_sum
 			self.finish_time=time.strftime('%A %H:%M:%S', time.localtime(t))
-			
+
+	def draw(self):
+		length=40
+		full=int(self.fraction*length)
+		empty=int((1.0-self.fraction)*length)
+		sys.stdout.write('[')
+		for i in range(0,full):
+			sys.stdout.write('#')
+
+		for i in range(0,empty):
+			sys.stdout.write(' ')
+
+		sys.stdout.write("] "+str(self.fraction*100.0)+"% \n")
+		sys.stdout.write(self.text+"\n") 
+		if self.finish_time!="":
+			sys.stdout.write(_("Finish time:")+" "+self.finish_time+" \n")
+			sys.stdout.write("\033[F\033[F\033[F")
+		else:
+			sys.stdout.write("\033[F\033[F")
+		sys.stdout.flush()
+	
+	def enable_pulse(self,value):
+		print("pulse")
+		
+	def set_fraction(self,fraction):
+		self.fraction=fraction
+		self.draw()
+		self.left_time()
+
+	def pulse(self):
+		print("pulse")
+		
+	def start(self):
+		self.draw()
+
+	def show(self):
+		self.draw()
+
+	def stop(self):
+		print("stop")
+
+	def set_text(self,text):
+		self.text=text
+		self.draw()
+	
 if gui_get()==True:
 
 	from PyQt5.QtCore import QSize, Qt
@@ -137,48 +181,5 @@ else:
 
 		def __init__(self):
 			progress_base.__init__(self)
-			self.text=""
 
-		def draw(self):
-			length=40
-			full=int(self.fraction*length)
-			empty=int((1.0-self.fraction)*length)
-			sys.stdout.write('[')
-			for i in range(0,full):
-				sys.stdout.write('#')
 
-			for i in range(0,empty):
-				sys.stdout.write(' ')
-
-			sys.stdout.write("] "+str(self.fraction*100.0)+"% \n")
-			sys.stdout.write(self.text+"\n") 
-			if self.finish_time!="":
-				sys.stdout.write(_("Finish time:")+" "+self.finish_time+" \n")
-				sys.stdout.write("\033[F\033[F\033[F")
-			else:
-				sys.stdout.write("\033[F\033[F")
-			sys.stdout.flush()
-		
-		def enable_pulse(self,value):
-			print("pulse")
-			
-		def set_fraction(self,fraction):
-			self.fraction=fraction
-			self.draw()
-			self.left_time()
-
-		def pulse(self):
-			print("pulse")
-			
-		def start(self):
-			self.draw()
-
-		def show(self):
-			self.draw()
-
-		def stop(self):
-			print("stop")
-
-		def set_text(self,text):
-			self.text=text
-			self.draw()

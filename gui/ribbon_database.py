@@ -49,6 +49,11 @@ from parasitic import parasitic
 from plot_gen import plot_gen
 from cal_path import get_spectra_path
 
+from util import wrap_text
+from gui_util import dlg_get_text
+from clone import clone_material
+
+from cal_path import get_base_material_path
 
 class ribbon_database(QToolBar):
 	def __init__(self):
@@ -82,12 +87,23 @@ class ribbon_database(QToolBar):
 		self.spectra_file.setEnabled(val)
 
 
+	def on_new_materials_clicked(self):
+		new_sim_name=dlg_get_text( _("New material name:"), _("New material name"),"organic_material")
+		new_sim_name=new_sim_name.ret
+		if new_sim_name!=None:
+			new_material=os.path.join(self.dialog.viewer.path,new_sim_name)
+			clone_material(new_material,os.path.join(get_base_material_path(),"generic","air"))
+			self.dialog.viewer.fill_store()
 
 	def callback_view_materials(self):
-		dialog=gpvdm_open(get_materials_path())
-		dialog.show_inp_files=False
-		dialog.menu_new_material_enabled=True
-		ret=dialog.exec_()
+		self.dialog=gpvdm_open(get_materials_path(),big_toolbar=True)
+		self.new_materials = QAction(QIcon_load("add_material"), wrap_text(_("Add Material"),8), self)
+		self.new_materials.triggered.connect(self.on_new_materials_clicked)
+		self.dialog.toolbar.addAction(self.new_materials)
+
+		self.dialog.show_inp_files=False
+		self.dialog.menu_new_material_enabled=True
+		ret=self.dialog.exec_()
 
 	def callback_view_optical(self):
 		dialog=gpvdm_open(get_spectra_path())

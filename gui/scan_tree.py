@@ -220,7 +220,7 @@ def tree_apply_python_script(directory,program_list):
 
 def copy_simulation(base_dir,cur_dir):
 	global copy_materials
-	gpvdm_clone(cur_dir,src_archive=os.path.join(base_dir, "sim.gpvdm"))
+	gpvdm_clone(cur_dir,src_archive=os.path.join(base_dir, "sim.gpvdm"),dest="file")
 	
 	#print(">>>>>>>>>>>>>>>>>>>>>>>materials>>>>>>>>",copy_materials)
 	if copy_materials==True:

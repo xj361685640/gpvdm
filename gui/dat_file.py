@@ -212,7 +212,7 @@ def dat_file_read(out,file_name,guess=True):
 		else:
 			return False
 		if out.x_len==False:
-			print("No idea what to do with this file!")
+			print("No idea what to do with this file!",file_name)
 			return False
 
 	out.data=[[[0.0 for k in range(out.y_len)] for j in range(out.x_len)] for i in range(out.z_len)]

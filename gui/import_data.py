@@ -64,6 +64,8 @@ from inp import inp_save
 from inp import inp_load_file
 from inp import inp_get_token_value_from_list
 
+from ribbon_import import ribbon_import
+
 articles = []
 mesh_articles = []
 
@@ -205,41 +207,18 @@ class import_data(QDialog):
 
 		self.main_vbox = QVBoxLayout()
 	
-
-		toolbar=QToolBar()
-		toolbar.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
-		toolbar.setIconSize(QSize(48, 48))
-
-		spacer = QWidget()
-		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+		self.ribbon=ribbon_import()
 		
-		self.open_data= QAction(QIcon_load("document-open"), wrap_text(_("Open data file"),4), self)
-		self.open_data.triggered.connect(self.callback_open)
-		toolbar.addAction(self.open_data)
+		self.ribbon.open_data.triggered.connect(self.callback_open)
 
-		self.import_data= QAction(QIcon_load("document-save-as"), wrap_text(_("Save"),4), self)
-		self.import_data.triggered.connect(self.callback_import)
-		self.import_data.setEnabled(False)
-		toolbar.addAction(self.import_data)
+		self.ribbon.import_data.triggered.connect(self.callback_import)
 
-		self.plot= QAction(QIcon_load("plot"), wrap_text(_("Plot"),4), self)
-		self.plot.triggered.connect(self.callback_plot)
-		self.plot.setEnabled(False)
-		toolbar.addAction(self.plot)
+		self.ribbon.plot.triggered.connect(self.callback_plot)
+				
+		self.ribbon.tb_help.triggered.connect(self.callback_help)
+
+		self.main_vbox.addWidget(self.ribbon)
 		
-
-		
-		toolbar.addWidget(spacer)
-
-
-		self.tb_help = QAction(QIcon_load("help"), _("Help"), self)
-		self.tb_help.setStatusTip(_("Help"))
-		self.tb_help.triggered.connect(self.callback_help)
-		toolbar.addAction(self.tb_help)
-
-		self.main_vbox.addWidget(toolbar)
-
-
 		self.input_output_hbox=QHBoxLayout()
 
 		self.raw_data_widget=QWidget()
@@ -285,7 +264,7 @@ class import_data(QDialog):
 
 		self.main_vbox.addWidget(self.top_widget)
 		self.main_vbox.addWidget(self.input_output_widget)		
-
+		self.input_output_widget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 		self.setLayout(self.main_vbox)
 
 		self.out_data_path.setText(self.out_file)
@@ -311,8 +290,13 @@ class import_data(QDialog):
 		self.items.append([_("Voltage"),"V",_("Voltage"),"V","1.0",1.0,False])
 		self.items.append([_("-Voltage"),"V",_("Voltage"),"V","-1.0",1.0,False])
 		self.items.append([_("Voltage"),"mV",_("Voltage"),"V","1e-3",1.0,False])
-		self.items.append([_("Attenuation coefficient"),"au",_("Absorption"),"m^{-1}","4*3.14159/x",1.0,False])
+
+
 		self.items.append([_("Refractive index"),"au",_("Refractive index"),"au","1.0",1.0,False])
+		self.items.append([_("Absorption"),"m^{-1}",_("Absorption"),"m^{-1}","1.0",1.0,False])
+		self.items.append([_("Absorption"),"m^{-cm}",_("Absorption"),"m^{-1}","1.0",1e2,False])
+		self.items.append([_("Attenuation coefficient"),"au",_("Absorption"),"m^{-1}","4*3.14159/x",1.0,False])
+
 		self.items.append([_("Time"),"s",_("Time"),"s","1.0",1.0,False])
 		
 		i=0
@@ -482,8 +466,8 @@ class import_data(QDialog):
 				self.raw_data.setText(text)
 
 				got_info=plot_load_info(self.info_token,self.file_name)
-				self.import_data.setEnabled(True)
-				self.plot.setEnabled(True)
+				self.ribbon.import_data.setEnabled(True)
+				self.ribbon.plot.setEnabled(True)
 
 
 

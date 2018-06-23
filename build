@@ -3,6 +3,8 @@
 import sys
 
 sys.path.append('./scripts/')
+sys.path.append('./gui/')
+sys.path.append('../gui/')
 
 import os
 import locale
@@ -10,27 +12,36 @@ import argparse
 
 from install import install
 from install import uninstall
-
+from deb import make_deb
+from dnf_install import dnf_install
 
 try:
 	from dialog import Dialog
 except:
 	from menu import Dialog
-
-#	print("The python3 module Dialog is not installed")
-#	print("If you are on Ubuntu/Debian system, try apt-get install python3-dialog")
-#	print("If you are on Fedora/Redhat system, try yum install python3-dialog")
 #	sys.exit()
+
+import platform
 
 from package_menu import package_menu
 from configure_menu import configure_menu
 from publish_menu import publish_menu
 from distributable import distributable
+from to_web import rpm_to_web
+from to_web import package_to_lib
+from publish import publish_src
+from build_rpm import make_rmp_dir
+from build_paths import build_setup_paths
+
+build_setup_paths()
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--adv", help="Advanced options", action='store_true')
+parser.add_argument("--buildlinuxpackage", help="Build rpm or deb", action='store_true')
+
 
 args = parser.parse_args()
+
 
 hpc=False
 win=False
@@ -38,6 +49,28 @@ usear=True
 
 # You may want to use 'autowidgetsize=True' here (requires pythondialog >= 3.1)
 d = Dialog(dialog="dialog")
+#dnf_install(d,["gnuplot"])
+#sys.exit(0)
+
+if args.buildlinuxpackage:
+	ret=platform.dist()
+	distro=ret[0]
+	rel=ret[1]
+	if distro=="fedora":
+		publish_src(None,publication_mode="gpl_distro")
+		make_rmp_dir(None)
+		package_to_lib()
+		#rpm_to_web(None)
+	elif distro=="Ubuntu":
+		publish_src(None,distro="debian",publication_mode="gpl_distro")
+		make_deb(None)
+	elif distro=="debian":
+		publish_src(None,distro="debian",publication_mode="gpl_distro")
+		make_deb(None)
+	else:
+		print("distro not known",distro)
+	
+	sys.exit(0)
 
 # Dialog.set_background_title() requires pythondialog 2.13 or later
 d.set_background_title("https://www.gpvdm.com build configure, Roderick MacKenzie 2018")

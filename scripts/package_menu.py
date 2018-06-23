@@ -2,7 +2,11 @@
 
 import os
 import sys
-from dialog import Dialog
+try:
+	from dialog import Dialog
+except:
+	from menu import Dialog
+
 apt=True
 dnf=True
 from apt_install import apt_install
@@ -12,10 +16,10 @@ def install_fedora(d):
 	libs=["zlib-devel","libzip-devel","libmatheval-devel","suitesparse-devel","openssl-devel","gsl-devel","libcurl-devel","blas-devel","librsvg2-tools"]
 	#libs=" ".join(libs)
 
-	tools=["texlive","ghostscript","ImageMagick","mencoder", "valgrind","@development-tools","fedora-packager","mingw32-gcc"]
+	tools=["texlive","ghostscript","ImageMagick","mencoder", "valgrind","@development-tools","fedora-packager","mingw32-gcc","gnuplot"]
 	#tools=" ".join(tools)+" "
 
-	python=["python-crypto","python-awake", "python3-qt5-devel","python3-crypto","python3-matplotlib-qt5","python3-openpyxl","python3-pyopengl","numpy notify-python","python-inotify.noarch","python-matplotlib","python-inotify","python-matplotlib"]
+	python=["python-crypto","python-awake", "python3-qt5-devel","python3-crypto","python3-matplotlib-qt5","python3-openpyxl","python3-pyopengl","numpy","notify-python","python-inotify.noarch","python-matplotlib","python-inotify","python-matplotlib"]
 	#python=" ".join(python)+" "
 
 	devel=["indent","unifdef","indent","libcurl-devel","poedit","ElectricFence","kcachegrind","help2man"]
@@ -72,6 +76,8 @@ def install_ubuntu(d):
 	#libs=" ".join(libs)
 
 	tools=["rsync","pluma","build-essential","imagemagick","imagemagick","license-reconcile","autoconf","python-bashate","codespell","complexity" ,"apt-file","gettext-lint", "gettext-lint", "inkscape" ,"pep8" ,"i18nspector","python-bashate" ,"automake"]
+	tools.append("pbuilder")	#added for Ubuntu 18.04
+	tools.append("python3-dev")	#added for Ubuntu 18.04
 	#tools=" ".join(tools)+" "
 
 	python=["python3", "python3-matplotlib", "python3-pyqt5.qtopengl", "python3-opengl", "python3-numpy", "python3-crypto", "python3-dbus.mainloop.pyqt5","python3-psutil"]

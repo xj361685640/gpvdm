@@ -320,9 +320,7 @@ def set_sim_path(path):
 def get_sim_path():
 	global sim_path
 	if sim_path==None:
-		print("sim_path set to Null!")
-		asdasa
-		sys.exit()			#if the sim path has not been set somthing has gone very wrong
+		return os.getcwd()
 	return sim_path
 
 def get_exe_args():
