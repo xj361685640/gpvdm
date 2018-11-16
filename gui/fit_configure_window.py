@@ -22,7 +22,7 @@
 
 import os
 from tab import tab_class
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 
 #qt
 from PyQt5.QtCore import QSize, Qt 
@@ -56,7 +56,7 @@ class fit_configure_window(QWidgetSavePos):
 	def __init__(self,name):
 		QWidgetSavePos.__init__(self,name)
 		self.setMinimumSize(900, 600)
-		self.setWindowIcon(QIcon_load("preferences-system"))
+		self.setWindowIcon(icon_get("preferences-system"))
 
 		self.setWindowTitle(_("Fit configure")+" (https://www.gpvdm.com)") 
 		
@@ -71,7 +71,7 @@ class fit_configure_window(QWidgetSavePos):
 		toolbar.addWidget(spacer)
 
 
-		self.undo = QAction(QIcon_load("help"), _("Help"), self)
+		self.undo = QAction(icon_get("help"), _("Help"), self)
 		self.undo.setStatusTip(_("Close"))
 		self.undo.triggered.connect(self.callback_help)
 		toolbar.addAction(self.undo)

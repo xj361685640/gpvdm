@@ -23,7 +23,7 @@
 import os
 from code_ctrl import enable_betafeatures
 from scan_item import scan_item_add
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 
 #qt
 from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication
@@ -246,11 +246,11 @@ class electrical_mesh_editor(QGroupBox):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(32, 32))
 
-		add = QAction(QIcon_load("list-add",size=32),  _("Add "+self.xyz+" mesh layer"), self)
+		add = QAction(icon_get("list-add",size=32),  _("Add "+self.xyz+" mesh layer"), self)
 		add.triggered.connect(self.on_add_mesh_clicked)
 		toolbar.addAction(add)
 
-		remove = QAction(QIcon_load("list-remove",size=32),  _("Remove "+self.xyz+" mesh layer"), self)
+		remove = QAction(icon_get("list-remove",size=32),  _("Remove "+self.xyz+" mesh layer"), self)
 		remove.triggered.connect(self.on_remove_click)
 		toolbar.addAction(remove)
 

@@ -145,7 +145,11 @@ AC_ARG_ENABLE(hpc, "used to turn on HPC compatability",
 	if test "$PKG_RSGV" = "yes"; then
 		AC_SUBST(IMAGE_CONVERT_16, "rsvg-convert -w 16 -h 16 $< > ")
 		AC_SUBST(IMAGE_CONVERT_32, "rsvg-convert -w 32 -h 32 $< > ")
+		AC_SUBST(IMAGE_CONVERT_48, "rsvg-convert -w 48 -h 48 $< > ")
 		AC_SUBST(IMAGE_CONVERT_64, "rsvg-convert -w 64 -h 64 $< > ")
+		AC_SUBST(IMAGE_CONVERT_128, "rsvg-convert -w 128 -h 128 $< > ")
+		AC_SUBST(IMAGE_CONVERT_256, "rsvg-convert -w 256 -h 256 $< > ")
+		AC_SUBST(IMAGE_CONVERT_512, "rsvg-convert -w 512 -h 512 $< > ")
 		AC_SUBST(IMAGE_CONVERT_FLAG, "rsvg-convert -w 48 -h 32 $< > ")
 	else
 		AC_MSG_WARN([rsvg-convert is not installed, I'm going to look for ImageMagick instead.])

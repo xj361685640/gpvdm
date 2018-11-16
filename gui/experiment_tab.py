@@ -22,7 +22,7 @@
 
 import os
 from inp import inp_load_file
-from inp_util import inp_search_token_value
+from inp import inp_search_token_value
 from tmesh import tab_time_mesh
 from circuit import circuit
 from inp import inp_update_token_value

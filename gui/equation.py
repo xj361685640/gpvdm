@@ -24,14 +24,14 @@ from scan_item import scan_item_add
 from gui_util import dlg_get_text
 import webbrowser
 from util import fx_with_units
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 from scan_item import scan_remove_file
 
 import i18n
 _ = i18n.language.gettext
 
 #inp
-from inp_util import inp_search_token_value
+from inp import inp_search_token_value
 from inp import inp_load_file
 from inp import inp_read_next_item
 
@@ -329,21 +329,21 @@ class equation(QWidget):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
-		self.tb_save = QAction(QIcon_load("document-save-as"), _("Save image"), self)
+		self.tb_save = QAction(icon_get("document-save-as"), _("Save image"), self)
 		self.tb_save.triggered.connect(self.callback_save)
 		toolbar.addAction(self.tb_save)
 
-		self.tb_ref= QAction(QIcon_load("ref"), _("Insert reference information"), self)
+		self.tb_ref= QAction(icon_get("ref"), _("Insert reference information"), self)
 		self.tb_ref.triggered.connect(self.callback_ref)
 		toolbar.addAction(self.tb_ref)
 
-		self.import_data= QAction(QIcon_load("import"), _("Import data"), self)
+		self.import_data= QAction(icon_get("import"), _("Import data"), self)
 		self.import_data.triggered.connect(self.callback_import)
 		toolbar.addAction(self.import_data)
 
 		if self.show_solar_spectra==True:
 			if enable_betafeatures()==True:
-				self.solar_spectra= QAction(QIcon_load("weather-few-clouds"), _("Solar spectra"), self)
+				self.solar_spectra= QAction(icon_get("weather-few-clouds"), _("Solar spectra"), self)
 				self.solar_spectra.triggered.connect(self.callback_solar_spectra)
 				toolbar.addAction(self.solar_spectra)
 
@@ -362,27 +362,27 @@ class equation(QWidget):
 		toolbar2=QToolBar()
 		toolbar2.setIconSize(QSize(32, 32))
 
-		self.tb_add = QAction(QIcon_load("list-add"), _("Add section"), self)
+		self.tb_add = QAction(icon_get("list-add"), _("Add section"), self)
 		self.tb_add.triggered.connect(self.callback_add_section)
 		toolbar2.addAction(self.tb_add)
 
-		self.tb_remove = QAction(QIcon_load("list-remove"), _("Delete section"), self)
+		self.tb_remove = QAction(icon_get("list-remove"), _("Delete section"), self)
 		self.tb_remove.triggered.connect(self.callback_remove_item)
 		toolbar2.addAction(self.tb_remove)
 
-		self.tb_move = QAction(QIcon_load("go-down"), _("Move down"), self)
+		self.tb_move = QAction(icon_get("go-down"), _("Move down"), self)
 		self.tb_move.triggered.connect(self.callback_move_down)
 		toolbar2.addAction(self.tb_move)
 
-		self.tb_move_up = QAction(QIcon_load("go-up"), _("Move up"), self)
+		self.tb_move_up = QAction(icon_get("go-up"), _("Move up"), self)
 		self.tb_move_up.triggered.connect(self.callback_move_up)
 		toolbar2.addAction(self.tb_move_up)
 
-		self.tb_play = QAction(QIcon_load("media-playback-start"), _("Calculate"), self)
+		self.tb_play = QAction(icon_get("media-playback-start"), _("Calculate"), self)
 		self.tb_play.triggered.connect(self.callback_play)
 		toolbar2.addAction(self.tb_play)
 
-		self.tb_fit = QAction(QIcon_load("fit"), _("Fit data"), self)
+		self.tb_fit = QAction(icon_get("fit"), _("Fit data"), self)
 		self.tb_fit.triggered.connect(self.callback_fit)
 		toolbar2.addAction(self.tb_fit)
 

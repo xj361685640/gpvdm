@@ -185,7 +185,7 @@ void mesh_load_file(struct simulation * sim,int *meshpoints,int *remesh, int *me
 		sscanf(inp_get_string(sim,&inp),"%Lf",&((*meshdata)[i].len));
 
 		sscanf(inp_get_string(sim,&inp),"%s",token1);
-		sscanf(inp_get_string(sim,&inp),"%ld",&((*meshdata)[i].n_points));
+		sscanf(inp_get_string(sim,&inp),"%d",&((*meshdata)[i].n_points));
 		(*meshdata)[i].dx=(*meshdata)[i].len/((long double)(*meshdata)[i].n_points);
 
 		sscanf(inp_get_string(sim,&inp),"%s",token1);

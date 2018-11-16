@@ -24,7 +24,7 @@ from inp import inp_update_token_value
 from inp import inp_get_token_value
 from inp import inp_load_file
 from inp import inp_lsdir
-from inp_util import inp_search_token_value
+from inp import inp_search_token_value
 
 import i18n
 _ = i18n.language.gettext
@@ -33,12 +33,14 @@ _ = i18n.language.gettext
 from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSize, Qt 
-from PyQt5.QtWidgets import QWidget,QSizePolicy,QHBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QLabel,QComboBox
+from PyQt5.QtWidgets import QWidget,QSizePolicy,QVBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QLabel,QComboBox
 
 
 class tb_lasers(QWidget):
 
-	def update(self):
+	def update(self,config_file):
+		self.config_file=config_file
+		self.sim_mode.blockSignals(True)
 		self.sim_mode.clear()
 		lines=[]
 
@@ -47,7 +49,7 @@ class tb_lasers(QWidget):
 			for i in range(0,len(files)):
 				if files[i].endswith(".inp"):
 					lines=inp_load_file(files[i])
-					value=inp_search_token_value(lines, "#laser_name")
+					value=inp_search_token_value(lines, "#tab_name")
 					if value!=False:
 						value=value.rstrip()
 						self.sim_mode.addItem(value)
@@ -61,18 +63,18 @@ class tb_lasers(QWidget):
 					self.sim_mode.setCurrentIndex(i)
 					found=True
 
+		self.sim_mode.blockSignals(False)
 
-	def __init__(self,config_file):
-		self.config_file=config_file
+	def __init__(self):
+
 		QWidget.__init__(self)
-		layout=QHBoxLayout()
+		layout=QVBoxLayout()
 		label=QLabel()
 		label.setText(_("Laser:"))
 		layout.addWidget(label)
 
 		self.sim_mode = QComboBox(self)
 		self.sim_mode.setEditable(True)
-		self.update()
 
 		self.sim_mode.currentIndexChanged.connect(self.call_back_sim_mode_changed)
 

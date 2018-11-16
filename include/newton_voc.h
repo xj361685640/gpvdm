@@ -27,6 +27,7 @@ void newton_aux_voc(struct simulation *sim,struct device *in,gdouble V,gdouble* 
 gdouble newton_sim_voc_fast(struct simulation *sim,struct device *in,int do_LC);
 gdouble newton_sim_voc(struct simulation *sim, struct device *in);
 void set_light_for_voc(struct simulation *sim,struct device *in,gdouble Voc);
+void newton_aux_voc_simple(struct simulation *sim,struct device *in,gdouble V,gdouble* i,gdouble* didv,gdouble* didphi,gdouble* didxil,gdouble* didxipl,gdouble* didphir,gdouble* didxir,gdouble* didxipr);
 
 #endif
 

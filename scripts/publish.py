@@ -33,7 +33,8 @@ def publish_src(d,distro=None,publication_mode="gpl_distro"):
 	dest=os.path.join(build_dir,"gpvdm-"+str(ver))
 
 	#mkdir tree
-	shutil.rmtree(pub_dir)
+	if os.path.isdir(pub_dir)==True:
+		shutil.rmtree(pub_dir)
 
 	os.mkdir(pub_dir)
 	os.mkdir(build_dir)
@@ -74,6 +75,12 @@ def publish_src(d,distro=None,publication_mode="gpl_distro"):
 	dpath=os.path.join(dest,"man")
 	copy_files(dpath,spath,"Makefile.am")
 
+	spath=os.path.join(my_dir,"docs")
+	dpath=os.path.join(dest,"docs")
+	copy_files(dpath,spath,[".tex",".bib","Makefile.am",".bst"])
+
+	os.mkdir(os.path.join(dest,"docs","images"))
+
 	spath=os.path.join(my_dir,"desktop")
 	dpath=os.path.join(dest,"desktop")
 	copy_files(dpath,spath,[".svg",".desktop",".xml"])
@@ -95,6 +102,7 @@ def publish_src(d,distro=None,publication_mode="gpl_distro"):
 	copy_lib(dest,my_dir,"libserver",mode=publication_mode)
 	copy_lib(dest,my_dir,"libdos",mode=publication_mode)
 	copy_lib(dest,my_dir,"cluster",mode=publication_mode)
+	copy_lib(dest,my_dir,"cluster_",mode=publication_mode)
 
 	spath=os.path.join(my_dir,"include")
 	dpath=os.path.join(dest,"include")

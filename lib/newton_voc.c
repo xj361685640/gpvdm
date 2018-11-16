@@ -25,8 +25,105 @@
 #include <contacts.h>
 #include <newton_voc.h>
 
+void newton_aux_voc_simple(struct simulation *sim,struct device *in,gdouble V,gdouble* i,gdouble* didv,gdouble* didphi,gdouble* didxil,gdouble* didxipl,gdouble* didphir,gdouble* didxir,gdouble* didxipr)
+{
+gdouble i0=*i;
+gdouble didv0=*didv;
+gdouble didphi0=*didphi;
+gdouble didxil0=*didxil;
+gdouble didxipl0=*didxipl;
+gdouble didphir0=*didphir;
+gdouble didxir0=*didxir;
+gdouble didxipr0=*didxipr;
+
+gdouble S=1.0/(in->Rload+in->Rcontact);
+
+*i=i0+V/in->Rshunt;
+*didv= didv0+1.0/in->Rshunt;
+*didphi= didphi0;
+*didxil= didxil0;
+*didxipl= didxipl0;
+*didphir= didphir0;
+*didxir= didxir0;
+*didxipr= didxipr0;
+return;
+}
+
 void newton_aux_voc(struct simulation *sim,struct device *in,gdouble V,gdouble* i,gdouble* didv,gdouble* didphi,gdouble* didxil,gdouble* didxipl,gdouble* didphir,gdouble* didxir,gdouble* didxipr)
 {
+
+
+/*double C=in->C;
+gdouble i0=*i;
+gdouble Vapplied_last=0.0;
+Vapplied_last=contact_get_active_contact_voltage_last(sim,in);
+gdouble didv0=*didv;
+gdouble didphi0=*didphi;
+gdouble didxil0=*didxil;
+gdouble didxipl0=*didxipl;
+gdouble didphir0=*didphir;
+gdouble didxir0=*didxir;
+gdouble didxipr0=*didxipr;
+gdouble S=1.0/(pulse_config.pulse_Rload+in->Rcontact);
+gdouble L=pulse_config.pulse_L;
+*i=i0+C*(V-Vapplied_last)/in->dt+V/in->Rshunt-(V-L*(i0+C*(V-Vapplied_last)/in->dt+V/in->Rshunt-in->ilast)/in->dt)*S;
+*didv=didv0+C*(1.0)/in->dt+1.0/in->Rshunt-(1.0-L*(didv0+C*(1.0)/in->dt+1.0/in->Rshunt)/in->dt)*S;//didv0+C*(1.0)/in->dt-S;
+*didphi=didphi0-(-L*(didphi0)/in->dt)*S;//didphi0;
+*didxil=didxil0-(-L*(didxil0)/in->dt)*S;//didxil0;
+*didxipl=didxipl0-(-L*(didxipl0)/in->dt)*S;//didxipl0;
+*didphir=didphir0-(-L*(didphir0)/in->dt)*S;//didphir0;
+*didxir=didxir0-(-L*(didxir0)/in->dt)*S;//didxir0;
+*didxipr=didxipr0-(-L*(didxipr0)/in->dt)*S;//didxipr0;*/
+
+gdouble C=in->C;
+gdouble i0=*i;
+gdouble Vapplied_last=0.0;
+Vapplied_last=contact_get_active_contact_voltage_last(sim,in);
+gdouble didv0=*didv;
+gdouble didphi0=*didphi;
+gdouble didxil0=*didxil;
+gdouble didxipl0=*didxipl;
+gdouble didphir0=*didphir;
+gdouble didxir0=*didxir;
+gdouble didxipr0=*didxipr;
+gdouble S=1.0/(in->Rload+in->Rcontact);
+*i=i0+C*(V-Vapplied_last)/in->dt+V/in->Rshunt-V*S;
+*didv=didv0+C*(1.0)/in->dt+1.0/in->Rshunt-S;
+*didphi=didphi0;
+*didxil=didxil0;
+*didxipl=didxipl0;
+*didphir=didphir0;
+*didxir=didxir0;
+*didxipr=didxipr0;
+
+/*gdouble C=in->C;
+gdouble i0=*i;
+gdouble didv0=*didv;
+gdouble didphi0=*didphi;
+gdouble didxil0=*didxil;
+gdouble didxipl0=*didxipl;
+gdouble didphir0=*didphir;
+gdouble didxir0=*didxir;
+gdouble didxipr0=*didxipr;
+*i=i0+C*(V-Vapplied_last)/in->dt+V/in->Rshunt;
+*didv=didv0+C*(1.0)/in->dt+1.0/in->Rshunt;
+*didphi=didphi0;
+*didxil=didxil0;
+*didxipl=didxipl0;
+*didphir=didphir0;
+*didxir=didxir0;
+*didxipr=didxipr0;*/
+/*
+gdouble Rdrain=1.0/(1.0/in->Rshunt+1.0/(in->pulse_Rload+in->Rcontact));
+*i=(i0+C*(V-in->Vapplied_last)/in->dt)-V/Rdrain;
+*didv=(didv0+C*(1.0)/in->dt)-1.0/Rdrain;
+*didphi=didphi0;
+*didxil=didxil0;
+*didxipl=didxipl0;
+*didphir=didphir0;
+*didxir=didxir0;
+*didxipr=didxipr0;*/
+
 return;
 }
 
@@ -62,8 +159,8 @@ printf_log(sim,"Looking for Voc\n");
 //}
 
 gdouble C=in->C;
-gdouble clamp=0.1;
-gdouble step=0.01;
+gdouble clamp=0.05;
+gdouble step=0.05;
 gdouble e0;
 gdouble e1;
 gdouble i0;

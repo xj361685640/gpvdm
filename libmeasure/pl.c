@@ -46,7 +46,6 @@ return tot;
 
 void exp_cal_emission(struct simulation *sim,int number,struct device *in)
 {
-
 long double Re_h=0.0;
 long double Re_e=0.0;
 long double Rh_e=0.0;

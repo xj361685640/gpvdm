@@ -20,7 +20,7 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 import os
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 
 from dump_io import dump_io
 from tb_item_sim_mode import tb_item_sim_mode
@@ -42,7 +42,8 @@ from help import help_window
 from lasers import lasers
 from experiment import experiment
 from fxexperiment import fxexperiment
-from jv import jv
+from sunsvoc import sunsvoc
+from ideal_diode_editor import ideal_diode_editor
 from qe import qe_window
 from optics import class_optical
 from global_objects import global_object_register
@@ -50,6 +51,7 @@ from measure import measure
 from cost import cost
 
 from jvexperiment import jvexperiment
+from util import wrap_text
 
 class ribbon_simulations(QToolBar):
 	def __init__(self):
@@ -65,29 +67,35 @@ class ribbon_simulations(QToolBar):
 		self.measure_window=None
 		self.solar_spectrum_window=None
 		self.cost_window=None
+		self.diode_window=None
+
 
 		self.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
 		self.setIconSize(QSize(42, 42))
 
-		self.time = QAction(QIcon_load("time"), _("Time domain\nsimulation editor."), self)
+		self.time = QAction(icon_get("time"), _("Time domain\nsimulation editor."), self)
 		self.time.triggered.connect(self.callback_edit_experiment_window)
 		self.addAction(self.time )
 
 
-		#self.fx = QAction(QIcon_load("spectrum"), _("Frequency domain\nsimulation editor"), self)
+		#self.fx = QAction(icon_get("spectrum"), _("Frequency domain\nsimulation editor"), self)
 		#self.fx.triggered.connect(self.callback_fxexperiment_window)
 		#self.addAction(self.fx)
 
 
-		self.jv = QAction(QIcon_load("jv"), _("Steady state\nsimulation editor"), self)
+		self.jv = QAction(icon_get("jv"), _("Steady state\nsimulation editor"), self)
 		self.jv.triggered.connect(self.callback_jv_window)
 		self.addAction(self.jv)
 
-		self.sunsvoc = QAction(QIcon_load("sunsvoc"), _("Suns Voc\nsimulation editor"), self)
+		self.sunsvoc = QAction(icon_get("sunsvoc"), _("Suns Voc\nsimulation editor"), self)
 		self.sunsvoc.triggered.connect(self.callback_sunsvoc_window)
 		self.addAction(self.sunsvoc)
 
-		self.qe = QAction(QIcon_load("qe"), _("Quantum\nefficiency"), self)
+		self.diode = QAction(icon_get("diode"), wrap_text(_("Simple diode model"),8), self)
+		self.diode.triggered.connect(self.callback_diode_window)
+		self.addAction(self.diode)
+
+		self.qe = QAction(icon_get("qe"), _("Quantum\nefficiency"), self)
 		self.qe.triggered.connect(self.callback_qe_window)
 		self.addAction(self.qe)
 		self.qe.setVisible(False)
@@ -97,19 +105,19 @@ class ribbon_simulations(QToolBar):
 		self.addWidget(self.mode)
 		self.addSeparator()
 
-		self.optics = QAction(QIcon_load("optics"), _("Optical\nSimulation"), self)
+		self.optics = QAction(icon_get("optics"), _("Optical\nSimulation"), self)
 		self.optics.triggered.connect(self.callback_optics_sim)
 		self.addAction(self.optics)
 
-		self.lasers = QAction(QIcon_load("lasers"), _("Laser\neditor"), self)
+		self.lasers = QAction(icon_get("lasers"), _("Laser\neditor"), self)
 		self.lasers.triggered.connect(self.callback_configure_lasers)
 		self.addAction(self.lasers)
 
-		self.measure = QAction(QIcon_load("measure"), _("Measure"), self)
+		self.measure = QAction(icon_get("measure"), _("Measure"), self)
 		self.measure.triggered.connect(self.callback_configure_measure)
 		self.addAction(self.measure)
 
-		self.tb_cost = QAction(QIcon_load("cost"), _("Calculate\nthe cost"), self)
+		self.tb_cost = QAction(icon_get("cost"), _("Calculate\nthe cost"), self)
 		self.tb_cost.triggered.connect(self.callback_cost)
 		self.addAction(self.tb_cost)
 
@@ -208,7 +216,7 @@ class ribbon_simulations(QToolBar):
 		if self.jvexperiment_window==None:
 			self.jvexperiment_window=jvexperiment()
 
-		help_window().help_set_help(["jv.png",_("<big><b>Suns voc simulation editor</b></big><br> Use this window to select the step size and parameters of the JV simulations.")])
+		help_window().help_set_help(["jv.png",_("<big><b>JV simulation editor</b></big><br> Use this window to configure the Suns Voc simulations.")])
 		if self.jvexperiment_window.isVisible()==True:
 			self.jvexperiment_window.hide()
 		else:
@@ -217,13 +225,25 @@ class ribbon_simulations(QToolBar):
 	def callback_sunsvoc_window(self):
 
 		if self.sunsvocexperiment_window==None:
-			self.sunsvocexperiment_window=jv()
+			self.sunsvocexperiment_window=sunsvoc()
 
-		help_window().help_set_help(["jv.png",_("<big><b>JV simulation editor</b></big><br> Use this window to configure the Suns Voc simulations.")])
+		help_window().help_set_help(["jv.png",_("<big><b>Suns voc simulation editor</b></big><br> Use this window to select the step size and parameters of the JV simulations.")])
 		if self.sunsvocexperiment_window.isVisible()==True:
 			self.sunsvocexperiment_window.hide()
 		else:
 			self.sunsvocexperiment_window.show()
+
+	def callback_diode_window(self):
+
+		if self.diode_window==None:
+			self.diode_window=ideal_diode_editor()
+
+		help_window().help_set_help(["diode.png",_("<big><b>Ideal diode editor</b></big><br> Use this window to configure the ideal diode model based on the simple diode equation.")])
+		if self.diode_window.isVisible()==True:
+			self.diode_window.hide()
+		else:
+			self.diode_window.show()
+
 			
 	def callback_optics_sim(self, widget, data=None):
 		help_window().help_set_help(["optics.png",_("<big><b>The optical simulation window</b></big><br>Use this window to perform optical simulations.  Click on the play button to run a simulation."),"media-playback-start",_("Click on the play button to run an optical simulation.  The results will be displayed in the tabs to the right.")])

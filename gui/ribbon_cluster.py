@@ -20,7 +20,7 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 import os
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 
 from dump_io import dump_io
 from tb_item_sim_mode import tb_item_sim_mode
@@ -62,33 +62,33 @@ class ribbon_cluster(QToolBar):
 		self.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
 		self.setIconSize(QSize(42, 42))
 
-		self.cluster_get_data = QAction(QIcon_load("server_get_data"), wrap_text(_("Cluster get data"),8), self)
+		self.cluster_get_data = QAction(icon_get("server_get_data"), wrap_text(_("Cluster get data"),8), self)
 		self.cluster_get_data.triggered.connect(self.callback_cluster_get_data)
 		self.addAction(self.cluster_get_data)
 		self.cluster_get_data.setEnabled(False)
 
-		self.cluster_copy_src = QAction(QIcon_load("server_copy_src"), wrap_text(_("Copy src to cluster"),8), self)
+		self.cluster_copy_src = QAction(icon_get("server_copy_src"), wrap_text(_("Copy src to cluster"),8), self)
 		self.cluster_copy_src.triggered.connect(self.callback_cluster_copy_src)
 		self.addAction(self.cluster_copy_src)
 		self.cluster_copy_src.setEnabled(False)
 
-		self.cluster_make = QAction(QIcon_load("server_make"), wrap_text(_("Make on cluster"),6), self)
+		self.cluster_make = QAction(icon_get("server_make"), wrap_text(_("Make on cluster"),6), self)
 		self.cluster_make.triggered.connect(self.callback_cluster_make)
 		self.addAction(self.cluster_make)
 		self.cluster_make.setEnabled(False)
 
-		self.cluster_clean = QAction(QIcon_load("server_clean"), wrap_text(_("Clean cluster"),8), self)
+		self.cluster_clean = QAction(icon_get("server_clean"), wrap_text(_("Clean cluster"),8), self)
 		self.cluster_clean.triggered.connect(self.callback_cluster_clean)
 		self.addAction(self.cluster_clean)
 		self.cluster_clean.setEnabled(False)
 
-		self.cluster_off = QAction(QIcon_load("off"), wrap_text(_("Kill all cluster code"),8), self)
+		self.cluster_off = QAction(icon_get("off"), wrap_text(_("Kill all cluster code"),8), self)
 		self.cluster_off.triggered.connect(self.callback_cluster_off)
 		self.addAction(self.cluster_off)
 		self.cluster_off.setEnabled(False)
 
 
-		self.cluster_sync = QAction(QIcon_load("sync"),  _("Sync"), self)
+		self.cluster_sync = QAction(icon_get("sync"),  _("Sync"), self)
 		self.cluster_sync.triggered.connect(self.callback_cluster_sync)
 		self.addAction(self.cluster_sync)
 		self.cluster_sync.setEnabled(False)
@@ -98,7 +98,7 @@ class ribbon_cluster(QToolBar):
 		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 		self.addWidget(spacer)
 		
-		self.help = QAction(QIcon_load("internet-web-browser"), _("Help"), self)
+		self.help = QAction(icon_get("internet-web-browser"), _("Help"), self)
 		self.addAction(self.help)
 		
 	def callback_cluster_make(self):

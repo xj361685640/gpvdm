@@ -23,7 +23,7 @@ import math
 import os
 from cal_path import get_materials_path
 from inp import inp_load_file
-from inp_util import inp_search_token_value
+from inp import inp_search_token_value
 from util import str2bool
 from tab_base import tab_base
 from epitaxy import epitaxy_get_layers

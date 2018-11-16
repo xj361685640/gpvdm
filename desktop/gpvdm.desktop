@@ -3,6 +3,6 @@ Name=gpvdm
 Icon=/usr/share/gpvdm/images/application-gpvdm.svg
 Type=Application
 MimeType=application/gpvdm;
-Exec=gpvdm %F
+Exec=/usr/bin/gpvdm %F
 Terminal=true
 Categories=GTK;GNOME;Science;

@@ -35,7 +35,7 @@ from PyQt5.QtCore import QSize, Qt,QFile,QIODevice
 from PyQt5.QtWidgets import QWidget,QSizePolicy,QVBoxLayout,QHBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QMessageBox, QLineEdit, QToolButton
 from PyQt5.QtWidgets import QTabWidget
 
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 
 from about import about_dlg
 
@@ -43,14 +43,9 @@ from util import wrap_text
 
 from code_ctrl import enable_betafeatures
 
-class scan_ribbon(QTabWidget):
-	def goto_page(self,page):
-		self.blockSignals(True)
-		for i in range(0,self.count()):
-				if self.tabText(i)==page:
-					self.setCurrentIndex(i)
-					break
-		self.blockSignals(False)
+from ribbon_base import ribbon_base
+
+class scan_ribbon(ribbon_base):
 		
 	def scan(self):
 		toolbar = QToolBar()
@@ -69,12 +64,11 @@ class scan_ribbon(QTabWidget):
 		self.tb_rename = QAction(QIcon_load("rename"), wrap_text(_("Rename scan"),3), self)
 		toolbar.addAction(self.tb_rename)
 
-
 		spacer = QWidget()
 		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 		toolbar.addWidget(spacer)
 
-		self.home_help = QAction(QIcon_load("internet-web-browser"), _("Help"), self)
+		self.home_help = QAction(icon_get("internet-web-browser"), _("Help"), self)
 		toolbar.addAction(self.home_help)
 
 		return toolbar
@@ -84,19 +78,19 @@ class scan_ribbon(QTabWidget):
 		toolbar.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
 		toolbar.setIconSize(QSize(42, 42))
 
-		self.tb_simulate = QAction(QIcon_load("build_play2"), wrap_text(_("Run scan"),2), self)
+		self.tb_simulate = QAction(icon_get("build_play2"), wrap_text(_("Run scan"),2), self)
 		toolbar.addAction(self.tb_simulate)
 
 
-		self.tb_stop = QAction(QIcon_load("media-playback-pause"), wrap_text(_("Stop"),3), self)
+		self.tb_stop = QAction(icon_get("media-playback-pause"), wrap_text(_("Stop"),3), self)
 		toolbar.addAction(self.tb_stop)
 
 		toolbar.addSeparator()
 
-		self.tb_plot = QAction(QIcon_load("plot"), wrap_text(_("Plot"),4), self)
+		self.tb_plot = QAction(icon_get("plot"), wrap_text(_("Plot"),4), self)
 		toolbar.addAction(self.tb_plot)
 	
-		self.tb_plot_time = QAction(QIcon_load("plot_time"), wrap_text(_("Time domain plot"),6), self)
+		self.tb_plot_time = QAction(icon_get("plot_time"), wrap_text(_("Time domain plot"),6), self)
 		toolbar.addAction(self.tb_plot_time)
 
 
@@ -110,20 +104,20 @@ class scan_ribbon(QTabWidget):
 		self.box_tb1.setIconSize(QSize(32, 32))
 		self.box.addWidget(self.box_tb1)
 		
-		self.tb_build = QAction(QIcon_load("cog"), wrap_text(_("Build scan"),2), self)
+		self.tb_build = QAction(icon_get("cog"), wrap_text(_("Build scan"),2), self)
 		self.box_tb0.addAction(self.tb_build)
 
-		self.tb_rerun = QAction(QIcon_load("play-green"), wrap_text(_("Rerun"),2), self)
+		self.tb_rerun = QAction(icon_get("play-green"), wrap_text(_("Rerun"),2), self)
 		self.box_tb0.addAction(self.tb_rerun)
 
-		self.tb_zip = QAction(QIcon_load("package-x-generic"), wrap_text(_("Archive simulations"),2), self)
+		self.tb_zip = QAction(icon_get("package-x-generic"), wrap_text(_("Archive simulations"),2), self)
 		self.box_tb0.addAction(self.tb_zip)
 
 
-		self.tb_clean = QAction(QIcon_load("clean"), wrap_text(_("Clean simulation"),4), self)
+		self.tb_clean = QAction(icon_get("clean"), wrap_text(_("Clean simulation"),4), self)
 		self.box_tb1.addAction(self.tb_clean )
 
-		self.tb_run_all = QAction(QIcon_load("forward2"), wrap_text(_("Run all scans"),3), self)
+		self.tb_run_all = QAction(icon_get("forward2"), wrap_text(_("Run all scans"),3), self)
 		self.box_tb1.addAction(self.tb_run_all)
 
 		toolbar.addWidget(self.box_widget)
@@ -135,7 +129,7 @@ class scan_ribbon(QTabWidget):
 		toolbar.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
 		toolbar.setIconSize(QSize(42, 42))
 
-		self.menu_run_nested = QAction(QIcon_load("nested"), wrap_text(_("Build nested simulation"),5), self)
+		self.menu_run_nested = QAction(icon_get("nested"), wrap_text(_("Build nested simulation"),5), self)
 		toolbar.addAction(self.menu_run_nested)
 
 		return toolbar
@@ -145,28 +139,28 @@ class scan_ribbon(QTabWidget):
 		toolbar.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
 		toolbar.setIconSize(QSize(42, 42))
 
-		self.menu_plot_fits = QAction(QIcon_load("scan2"), wrap_text(_("Plot fits"),5), self)
+		self.menu_plot_fits = QAction(icon_get("scan2"), wrap_text(_("Plot fits"),5), self)
 		toolbar.addAction(self.menu_plot_fits)
 
-		self.sim_no_gen = QAction(QIcon_load("forward"), wrap_text(_("Run simulation no generation"),5), self)
+		self.sim_no_gen = QAction(icon_get("forward"), wrap_text(_("Run simulation no generation"),5), self)
 		toolbar.addAction(self.sim_no_gen)
 
-		self.single_fit = QAction(QIcon_load("forward"), wrap_text(_("Run single fit"),5), self)
+		self.single_fit = QAction(icon_get("forward"), wrap_text(_("Run single fit"),5), self)
 		toolbar.addAction(self.single_fit)
 
-		self.clean_unconverged = QAction(QIcon_load("clean"), wrap_text(_("Clean unconverged simulation"),5), self)
+		self.clean_unconverged = QAction(icon_get("clean"), wrap_text(_("Clean unconverged simulation"),5), self)
 		toolbar.addAction(self.clean_unconverged)
 
-		self.clean_sim_output = QAction(QIcon_load("forward"), wrap_text(_("Clean simulation output"),5), self)
+		self.clean_sim_output = QAction(icon_get("forward"), wrap_text(_("Clean simulation output"),5), self)
 		toolbar.addAction(self.clean_sim_output)
 
-		self.push_unconverged_to_hpc = QAction(QIcon_load("forward"), wrap_text(_("Push unconverged to hpc"),5), self)
+		self.push_unconverged_to_hpc = QAction(icon_get("forward"), wrap_text(_("Push unconverged to hpc"),5), self)
 		toolbar.addAction(self.push_unconverged_to_hpc)
 
-		self.change_dir = QAction(QIcon_load("forward"), wrap_text(_("Change dir"),5), self)
+		self.change_dir = QAction(icon_get("forward"), wrap_text(_("Change dir"),5), self)
 		toolbar.addAction(self.change_dir)
 
-		self.report = QAction(QIcon_load("office-calendar"), wrap_text(_("Report"),5), self)
+		self.report = QAction(icon_get("office-calendar"), wrap_text(_("Report"),5), self)
 		toolbar.addAction(self.report)
 
 		return toolbar
@@ -176,19 +170,11 @@ class scan_ribbon(QTabWidget):
 		toolbar.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
 		toolbar.setIconSize(QSize(42, 42))
 
-		self.tb_ml_build_vectors = QAction(QIcon_load("ml"), wrap_text(_("Build vectors"),4), self)
+		self.tb_ml_build_vectors = QAction(icon_get("ml"), wrap_text(_("Build vectors"),4), self)
 		toolbar.addAction(self.tb_ml_build_vectors)
 
 
 		return toolbar
-
-	def readStyleSheet(self,fileName):
-		css=None
-		file = QFile(fileName)
-		if file.open(QIODevice.ReadOnly) :
-			css = file.readAll()
-			file.close()
-		return css
 
 	def update(self):
 		print("update")
@@ -202,7 +188,7 @@ class scan_ribbon(QTabWidget):
 		dlg.exec_()
 
 	def __init__(self):
-		QTabWidget.__init__(self)
+		ribbon_base.__init__(self)
 		self.setMaximumHeight(130)
 		#self.setStyleSheet("QWidget {	background-color:cyan; }")
 

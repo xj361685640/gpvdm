@@ -26,14 +26,6 @@
 #import shutil
 #import signal
 
-def inp_search_token_value(lines, token):
-
-	for i in range(0, len(lines)):
-		if lines[i]==token:
-			return lines[i+1]
-
-	return False
-
 def inp_search_token_value_multiline(lines, token):
 	ret=[]
 	for i in range(0, len(lines)):

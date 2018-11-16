@@ -21,7 +21,7 @@
 
 import os
 from tab import tab_class
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 
 #qt
 from PyQt5.QtCore import QSize, Qt 
@@ -67,7 +67,7 @@ class cost(QWidgetSavePos):
 	def __init__(self):
 		QWidgetSavePos.__init__(self,"cost")
 		self.setFixedSize(900, 600)
-		self.setWindowIcon(QIcon_load("jv"))
+		self.setWindowIcon(icon_get("jv"))
 
 		self.setWindowTitle(_("Cost and energy payback calculator")) 
 		
@@ -77,7 +77,7 @@ class cost(QWidgetSavePos):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
-		self.play = QAction(QIcon_load("media-playback-start"), _("Re-calcualte"), self)
+		self.play = QAction(icon_get("media-playback-start"), _("Re-calcualte"), self)
 		self.play.triggered.connect(self.update)
 		toolbar.addAction(self.play)
 		
@@ -86,7 +86,7 @@ class cost(QWidgetSavePos):
 		toolbar.addWidget(spacer)
 
 
-		self.help = QAction(QIcon_load("help"), _("Help"), self)
+		self.help = QAction(icon_get("help"), _("Help"), self)
 		self.help.triggered.connect(self.callback_help)
 		toolbar.addAction(self.help)
 

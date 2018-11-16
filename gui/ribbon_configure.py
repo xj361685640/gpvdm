@@ -20,7 +20,7 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 import os
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 
 from dump_io import dump_io
 from tb_item_sim_mode import tb_item_sim_mode
@@ -43,6 +43,8 @@ from help import help_window
 
 from global_objects import global_object_register
 
+from gpvdm_open import gpvdm_open
+
 class ribbon_configure(QToolBar):
 	def __init__(self):
 		QToolBar.__init__(self)
@@ -51,7 +53,7 @@ class ribbon_configure(QToolBar):
 		self.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
 		self.setIconSize(QSize(42, 42))
 
-		self.configwindow = QAction(QIcon_load("preferences-system"), _("Configure"), self)
+		self.configwindow = QAction(icon_get("preferences-system"), _("Configure"), self)
 		self.configwindow.triggered.connect(self.callback_config_window)
 		self.addAction(self.configwindow)
 		
@@ -59,7 +61,7 @@ class ribbon_configure(QToolBar):
 		global_object_register("ribbon_configure_dump_refresh",self.dump.refresh)
 		self.addAction(self.dump)
 
-		self.mesh = QAction(QIcon_load("mesh"), _("Electrical\nmesh"), self)
+		self.mesh = QAction(icon_get("mesh"), _("Electrical\nmesh"), self)
 		self.mesh.triggered.connect(self.callback_edit_mesh)		
 		self.addAction(self.mesh)
 		
@@ -87,13 +89,11 @@ class ribbon_configure(QToolBar):
 			
 	def callback_config_window(self):
 
-		if self.config_window==None:
-			self.config_window=class_config_window("config")
-			self.config_window.init()
-			self.config_window.changed.connect(self.dump.refresh)
+		self.config_window=gpvdm_open("/gpvdmroot/gpvdm_configure",show_inp_files=False,title=_("Configure"))
+		self.config_window.toolbar.hide()
+		self.config_window.show_directories=False
+		ret=self.config_window.exec_()
+		#self.config_window.changed.connect(self.dump.refresh)
 
 		help_window().help_set_help(["preferences-system.png",_("<big><b>Configuration editor</b></big><br> Use this window to control advanced simulation parameters.")])
-		if self.config_window.isVisible()==True:
-			self.config_window.hide()
-		else:
-			self.config_window.show()
+

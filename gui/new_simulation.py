@@ -34,15 +34,17 @@ from PyQt5.uic import loadUi
 
 #calpath
 from cal_path import get_device_lib_path
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 from cal_path import get_ui_path
 from error_dlg import error_dlg
 from cal_path import get_exe_path
 
 from help import help_window
+
 from inp import inp_load_file
 from inp import inp_get_token_value_from_list
 from inp import inp_get_token_value
+from inp import inp_update_token_value
 
 from util import str2bool
 from gui_util import dlg_get_text
@@ -51,6 +53,8 @@ from gpvdm_viewer import gpvdm_viewer
 
 from bugs import bugs_add_action
 from bugs import bugs_clear
+
+from disk_speed import disk_test
 
 class simulation():
 	name=""
@@ -71,15 +75,16 @@ class new_simulation(QDialog):
 			
 			password=inp_get_token_value("info.inp", "#info_password",archive=self.viewer.file_path)
 			if password!="":
-				pw_dlg=dlg_get_text( _("password:"), "","document-new")
+				pw_dlg=dlg_get_text( _("password:"), "","gnome-dialog-password")
 				if password!=pw_dlg.ret:
+					error_dlg(self,_("Wrong password"))
 					return
 
 			file_path=save_as_gpvdm(self)
 			#print(file_path,get_exe_path())
 			if file_path!=None:
 				if file_path.startswith(get_exe_path())==True:
-					error_dlg(self,_("It's not a good idea to save the simulation in the gpvdm installation directory."))
+					error_dlg(self,_("It's not a good idea to save the simulation in the gpvdm installation directory.  Try saving it somewhere else, such as your desktop or home directory."))
 					return
 
 				if os.path.isdir(file_path)==True:
@@ -90,11 +95,35 @@ class new_simulation(QDialog):
 					os.makedirs(file_path)
 
 				self.ret_path=file_path
+
 				os.chdir(self.ret_path)
 				bugs_clear()
 				bugs_add_action(os.path.basename(self.viewer.file_path))
 				gpvdm_clone(os.getcwd(),copy_dirs=True)
 				import_archive(self.viewer.file_path,os.path.join(os.getcwd(),"sim.gpvdm"),False)
+
+				disk_speed=disk_test(file_path)
+				print("disk_speed=",file_path,disk_speed)
+
+				inp_update_token_value(os.path.join(file_path,"dump.inp"), "#dump_optics_verbose", "false")
+				inp_update_token_value(os.path.join(file_path,"dump.inp"), "#dump_print_newtonerror", "false")
+
+				if disk_speed<15000:
+					inp_update_token_value(os.path.join(file_path,"dump.inp"), "#newton_dump", "false")
+					inp_update_token_value(os.path.join(file_path,"dump.inp"), "#dump_energy_slice_switch", "false")
+					inp_update_token_value(os.path.join(file_path,"dump.inp"), "#dump_write_converge", "false")
+					inp_update_token_value(os.path.join(file_path,"dump.inp"), "#dump_first_guess", "false")
+
+				if disk_speed<10000:
+					inp_update_token_value(os.path.join(file_path,"dump.inp"), "#dump_workbook", "false")
+					inp_update_token_value(os.path.join(file_path,"dump.inp"), "#dump_file_access_log", "false")
+					inp_update_token_value(os.path.join(file_path,"dump.inp"), "#dump_write_out_band_structure", "false")
+					inp_update_token_value(os.path.join(file_path,"dump.inp"), "#dump_1d_slices", "false")
+
+				if disk_speed<1000:
+					inp_update_token_value(os.path.join(file_path,"dump.inp"), "#dump_log_level", "screen")
+
+
 				self.close()
 		else:
 			error_dlg(self,_("Please select a device before clicking next"))
@@ -122,10 +151,11 @@ class new_simulation(QDialog):
 		self.main_vbox=QVBoxLayout()
 		self.setFixedSize(450,580) 
 		self.setWindowTitle(_("New simulation")+" (https://www.gpvdm.com)")
-		self.setWindowIcon(QIcon_load("si"))
+		self.setWindowIcon(icon_get("si"))
 		self.title=QLabel("<big><b>"+_("Which type of device would you like to simulate?")+"</b></big>")
 
 		self.viewer=gpvdm_viewer(get_device_lib_path())
+		self.viewer.open_own_files=False
 		self.viewer.set_back_arrow(True)
 		self.viewer.set_enable_menu(False)
 		self.main_vbox.addWidget(self.title)

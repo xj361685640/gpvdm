@@ -50,7 +50,7 @@ from cmp_class import cmp_class
 
 from global_objects import global_object_run
 from util import isfiletype
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 
 from cal_path import get_sim_path
 from inp import inp_isfile
@@ -66,38 +66,38 @@ class ribbon_home(QToolBar):
 		self.scan_window=None
 		self.fit_window=None
 
-		self.undo = QAction(QIcon_load("edit-undo"), _("Undo"), self)
+		self.undo = QAction(icon_get("edit-undo"), _("Undo"), self)
 		self.addAction(self.undo)
 
 		self.addSeparator()
 
-		self.run = QAction(QIcon_load("media-playback-start"), _("Run simulation"), self)
+		self.run = QAction(icon_get("media-playback-start"), _("Run simulation"), self)
 		self.addAction(self.run)
 
-		self.stop = QAction(QIcon_load("media-playback-pause"), _("Stop\nsimulation"), self)
+		self.stop = QAction(icon_get("media-playback-pause"), _("Stop\nsimulation"), self)
 		self.stop.triggered.connect(self.callback_simulate_stop)
 		self.addAction(self.stop)
 
 		self.addSeparator()
 		
-		self.scan = QAction(QIcon_load("scan"), _("Parameter\nscan"), self)
+		self.scan = QAction(icon_get("scan"), _("Parameter\nscan"), self)
 		self.scan.triggered.connect(self.callback_scan)
 		self.addAction(self.scan)
 
 
 		self.addSeparator()
 
-		self.fit = QAction(QIcon_load("fit"), _("Fit\ndata"), self)
+		self.fit = QAction(icon_get("fit"), _("Fit\ndata"), self)
 		self.fit.triggered.connect(self.callback_run_fit)
 		self.addAction(self.fit)
 
 		self.addSeparator()
 		
-		self.plot = QAction(QIcon_load("plot"), _("Plot\nFile"), self)
+		self.plot = QAction(icon_get("plot"), _("Plot\nFile"), self)
 		self.plot.triggered.connect(self.callback_plot_select)
 		self.addAction(self.plot)
 
-		self.time = QAction(QIcon_load("plot_time"), _("Examine results\nin time domain"), self)
+		self.time = QAction(icon_get("plot_time"), _("Examine results\nin time domain"), self)
 		self.time.triggered.connect(self.callback_examine)
 		self.addAction(self.time)
 
@@ -111,7 +111,7 @@ class ribbon_home(QToolBar):
 		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 		self.addWidget(spacer)
 
-		self.help = QAction(QIcon_load("internet-web-browser"), _("Help"), self)
+		self.help = QAction(icon_get("internet-web-browser"), _("Help"), self)
 		self.addAction(self.help)
 
 

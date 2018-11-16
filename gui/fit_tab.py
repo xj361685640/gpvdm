@@ -21,7 +21,7 @@
 
 import os
 from inp import inp_load_file
-from inp_util import inp_search_token_value
+from inp import inp_search_token_value
 from inp import inp_update_token_value
 from tab import tab_class
 from fit_patch import fit_patch
@@ -48,6 +48,7 @@ from matlab_editor import matlab_editor
 from import_data import import_data
 
 from css import css_apply
+from order_widget import extract_number_from_file_name
 
 mesh_articles = []
 
@@ -61,11 +62,12 @@ class fit_tab(QTabWidget):
 				self.tmesh_real.update()
 				self.tmesh.update()
 
-	def __init__(self,index):
+	def __init__(self,file_name):
 		QTabWidget.__init__(self)
 		css_apply(self,"tab_default.css")
 		lines=[]
-		self.index=index
+		self.file_name=file_name
+		self.index=int(extract_number_from_file_name(file_name))
 		lines=inp_load_file(os.path.join(get_sim_path(),"fit"+str(self.index)+".inp"))
 		if lines!=False:
 			self.tab_name=inp_search_token_value(lines, "#fit_name")

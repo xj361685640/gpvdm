@@ -6,7 +6,7 @@ def copy_lib(dest,src,name,mode="gpl_distro"):
 	dest=os.path.join(dest,name)
 	src=os.path.join(src,name)
 	copy_unifdef(dest,src,[".c",".h",".inp"],mode=mode)
-	copy_files(dest,src,[".po",".pot",".ref",".rc","Makefile.am"])
+	copy_files(dest,src,[".po",".pot",".ref",".rc","Makefile.am","makefile"])
 
 def copy_plugin(dest,src,name,mode="gpl_distro"):
 	dest=os.path.join(dest,"plugin",name)

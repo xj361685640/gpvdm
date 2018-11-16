@@ -31,7 +31,7 @@ from inp import inp_copy_file
 from inp import inp_remove_file
 from util import strextract_interger
 from global_objects import global_object_get
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 from global_objects import global_object_register
 from code_ctrl import enable_betafeatures
 from gui_util import yes_no_dlg
@@ -94,12 +94,6 @@ class fxexperiment(QWidgetSavePos):
 			inp_update_token_value(os.path.join(get_sim_path(),"fxdomain"+str(index)+".inp"), "#sim_menu_name", new_sim_name)
 			self.add_page(index)
 			self.changed.emit()
-
-
-	#def callback_run_experiment(self,widget,data):
-	#	pageNum = self.notebook.get_current_page()
-	#	tab = self.notebook.get_nth_page(pageNum)
-	#	tab.simulate(True,True)
 
 
 	def remove_invalid(self,input_name):
@@ -174,29 +168,29 @@ class fxexperiment(QWidgetSavePos):
 		self.main_vbox = QVBoxLayout()
 
 		self.setWindowTitle(_("Frequency domain experiment editor")+" https://www.gpvdm.com") 
-		self.setWindowIcon(QIcon_load("spectrum"))
+		self.setWindowIcon(icon_get("spectrum"))
 
 		toolbar=QToolBar()
 		toolbar.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
 		toolbar.setIconSize(QSize(48, 48))
 
-		self.new = QAction(QIcon_load("document-new"), wrap_text(_("New experiment"),2), self)
+		self.new = QAction(icon_get("document-new"), wrap_text(_("New experiment"),2), self)
 		self.new.triggered.connect(self.callback_add_page)
 		toolbar.addAction(self.new)
 
-		self.new = QAction(QIcon_load("edit-delete"), wrap_text(_("Delete experiment"),4), self)
+		self.new = QAction(icon_get("edit-delete"), wrap_text(_("Delete experiment"),4), self)
 		self.new.triggered.connect(self.callback_delete_page)
 		toolbar.addAction(self.new)
 
-		self.clone = QAction(QIcon_load("clone"), wrap_text(_("Clone experiment"),4), self)
+		self.clone = QAction(icon_get("clone"), wrap_text(_("Clone experiment"),4), self)
 		self.clone.triggered.connect(self.callback_copy_page)
 		toolbar.addAction(self.clone)
 
-		self.clone = QAction(QIcon_load("rename"), wrap_text(_("Rename experiment"),4), self)
+		self.clone = QAction(icon_get("rename"), wrap_text(_("Rename experiment"),4), self)
 		self.clone.triggered.connect(self.callback_rename_page)
 		toolbar.addAction(self.clone)
 
-		self.tb_save = QAction(QIcon_load("document-save-as"), wrap_text(_("Save image"),3), self)
+		self.tb_save = QAction(icon_get("document-save-as"), wrap_text(_("Save image"),3), self)
 		self.tb_save.triggered.connect(self.callback_save)
 		toolbar.addAction(self.tb_save)
 
@@ -210,7 +204,7 @@ class fxexperiment(QWidgetSavePos):
 		toolbar.addWidget(spacer)
 
 
-		self.help = QAction(QIcon_load("help"), _("Help"), self)
+		self.help = QAction(icon_get("help"), _("Help"), self)
 		self.help.setStatusTip(_("Close"))
 		self.help.triggered.connect(self.callback_help)
 		toolbar.addAction(self.help)

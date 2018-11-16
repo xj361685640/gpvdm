@@ -20,10 +20,10 @@
 
 
 import os
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 from search import find_fit_log
 from search import find_fit_speed_log
-from inp_util import inp_search_token_value
+from inp import inp_search_token_value
 from status_icon import status_icon_stop
 
 #qt
@@ -175,7 +175,7 @@ class hpc_class(QWidget):
 		QWidget.__init__(self)
 		self.updating=False
 		#self.setMinimumSize(900, 600)
-		self.setWindowIcon(QIcon_load("connected"))
+		self.setWindowIcon(icon_get("connected"))
 		self.setWindowTitle(_("Cluster status (www.gpvdm.com)")) 
 
 		self.myserver=server_get()

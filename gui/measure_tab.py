@@ -29,7 +29,7 @@ from plot_io import plot_save_oplot_file
 from scan_io import scan_push_to_hpc
 from scan_io import scan_import_from_hpc
 from cal_path import get_exe_command
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 from scan_item import scan_items_get_file
 from scan_item import scan_items_get_token
 from util import str2bool
@@ -194,29 +194,28 @@ class measure_tab(QWidget):
 				if pos>mylen:
 					break
 
-	def __init__(self,index):
+	def __init__(self,file_name):
 		QWidget.__init__(self)
-		self.index=index
 		lines=[]
-		self.file_name=os.path.join(get_sim_path(),"measure"+str(self.index)+".inp")
+		self.file_name=os.path.join(get_sim_path(),file_name)
 		self.vbox=QVBoxLayout()
 
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(32, 32))
 
-		self.tb_save = QAction(QIcon_load("list-add"), _("Add"), self)
+		self.tb_save = QAction(icon_get("list-add"), _("Add"), self)
 		self.tb_save.triggered.connect(self.callback_add_item)
 		toolbar.addAction(self.tb_save)
 
-		self.tb_save = QAction(QIcon_load("list-remove"), _("Minus"), self)
+		self.tb_save = QAction(icon_get("list-remove"), _("Minus"), self)
 		self.tb_save.triggered.connect(self.callback_delete_item)
 		toolbar.addAction(self.tb_save)
 
-		self.tb_down = QAction(QIcon_load("go-down"), _("Move down"), self)
+		self.tb_down = QAction(icon_get("go-down"), _("Move down"), self)
 		self.tb_down.triggered.connect(self.callback_move_down)
 		toolbar.addAction(self.tb_down)
 
-		self.tb_up = QAction(QIcon_load("go-up"), _("Move up"), self)
+		self.tb_up = QAction(icon_get("go-up"), _("Move up"), self)
 		self.tb_up.triggered.connect(self.callback_move_up)
 		toolbar.addAction(self.tb_up)
 	
@@ -227,8 +226,7 @@ class measure_tab(QWidget):
 
 		self.tab.verticalHeader().setVisible(False)
 		
-		self.select_param_window=select_param()
-		self.select_param_window.init(self.tab)
+		self.select_param_window=select_param(self.tab)
 		self.select_param_window.set_save_function(self.save_combo)
 
 		self.create_model()
@@ -239,9 +237,6 @@ class measure_tab(QWidget):
 
 
 		self.setLayout(self.vbox)
-
-	def rename(self,tab_name):
-		inp_update_token_value(self.file_name, "#measure_name", tab_name)
 
 	def callback_move_down(self):
 		tab_move_down(self.tab)

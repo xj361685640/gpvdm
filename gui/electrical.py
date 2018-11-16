@@ -21,7 +21,7 @@
 
 
 import os
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 
 #qt
 from PyQt5.QtCore import QSize, Qt 
@@ -75,7 +75,7 @@ class electrical(QWidgetSavePos):
 	def __init__(self):
 		QWidgetSavePos.__init__(self,"electrical")
 		self.setFixedSize(1000, 600)
-		self.setWindowIcon(QIcon_load("preferences-system"))
+		self.setWindowIcon(icon_get("preferences-system"))
 
 		self.setWindowTitle(_("Electrical parameter editor")+" (https://www.gpvdm.com)") 
 		
@@ -90,7 +90,7 @@ class electrical(QWidgetSavePos):
 		toolbar.addWidget(spacer)
 
 
-		self.undo = QAction(QIcon_load("help"), _("Help"), self)
+		self.undo = QAction(icon_get("help"), _("Help"), self)
 		self.undo.setStatusTip(_("Help"))
 		self.undo.triggered.connect(self.callback_help)
 		toolbar.addAction(self.undo)

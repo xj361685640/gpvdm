@@ -197,10 +197,8 @@ return tot;
 
 int solve_pos(struct simulation *sim,struct device *in, int z, int x)
 {
-if (get_dump_status(sim,dump_iodump)==TRUE)
-{
-	printf_log(sim,"%s\n",_("Solving Poisson's equation"));
-}
+
+printf_log(sim,"%s\n",_("Solving Poisson's equation"));
 
 int i;
 int y;

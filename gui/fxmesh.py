@@ -24,14 +24,14 @@ from gui_util import dlg_get_text
 from inp import inp_save
 import webbrowser
 from util import fx_with_units
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 from scan_item import scan_remove_file
 
 import i18n
 _ = i18n.language.gettext
 
 #inp
-from inp_util import inp_search_token_value
+from inp import inp_search_token_value
 from inp import inp_load_file
 from inp import inp_read_next_item
 
@@ -303,19 +303,19 @@ class tab_fxmesh(QWidget):
 		toolbar2=QToolBar()
 		toolbar2.setIconSize(QSize(32, 32))
 
-		self.tb_add = QAction(QIcon_load("list-add"), _("Add section"), self)
+		self.tb_add = QAction(icon_get("list-add"), _("Add section"), self)
 		self.tb_add.triggered.connect(self.callback_add_section)
 		toolbar2.addAction(self.tb_add)
 
-		self.tb_remove = QAction(QIcon_load("list-remove"), _("Delete section"), self)
+		self.tb_remove = QAction(icon_get("list-remove"), _("Delete section"), self)
 		self.tb_remove.triggered.connect(self.callback_remove_item)
 		toolbar2.addAction(self.tb_remove)
 
-		self.tb_move = QAction(QIcon_load("go-down"), _("Move down"), self)
+		self.tb_move = QAction(icon_get("go-down"), _("Move down"), self)
 		self.tb_move.triggered.connect(self.callback_move_down)
 		toolbar2.addAction(self.tb_move)
 
-		self.tb_move_up = QAction(QIcon_load("go-up"), _("Move up"), self)
+		self.tb_move_up = QAction(icon_get("go-up"), _("Move up"), self)
 		self.tb_move_up.triggered.connect(self.callback_move_up)
 		toolbar2.addAction(self.tb_move_up)
 

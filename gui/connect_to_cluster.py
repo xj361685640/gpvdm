@@ -31,7 +31,7 @@ from PyQt5.uic import loadUi
 
 #calpath
 from cal_path import get_device_lib_path
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 from cal_path import get_ui_path
 from error_dlg import error_dlg
 from cal_path import get_exe_path
@@ -45,6 +45,10 @@ from util import str2bool
 from gui_util import dlg_get_text
 
 from tab import tab_class
+from inp import inp_find_active_file
+from cal_path import get_sim_path
+
+from server import server_get
 
 class connect_to_cluster(QDialog):
 
@@ -59,26 +63,32 @@ class connect_to_cluster(QDialog):
 		self.main_vbox=QVBoxLayout()
 		self.setFixedSize(600,450) 
 		self.setWindowTitle(_("Connect to cluster")+" (https://www.gpvdm.com)")
-		self.setWindowIcon(QIcon_load("si"))
+		self.setWindowIcon(icon_get("si"))
 		#self.title=QLabel("<big><b>"+_("Which type of device would you like to simulate?")+"</b></big>")
 
+		active_file=inp_find_active_file(os.path.join(get_sim_path(),"cluster"))
 		self.viewer=tab_class()
-		self.viewer.init("cluster.inp","cluster")
+		self.viewer.init(active_file,"cluster")
 				#gpvdm_viewer(get_device_lib_path())
 
 		self.main_vbox.addWidget(self.viewer)
 
 		self.hwidget=QWidget()
 
-		self.deploy= QPushButton(_("Deploy to cluster"))
-		self.nextButton = QPushButton(_("Connect"))
+
+		self.myserver=server_get()
+		if self.myserver.cluster==False:
+			self.nextButton = QPushButton(_("Connect"))
+		else:
+			self.nextButton = QPushButton(_("Disconnect"))
+
 		self.cancelButton = QPushButton(_("Cancel"))
 
 		self.files=[]
 
 		hbox = QHBoxLayout()
 
-		hbox.addWidget(self.deploy)
+
 		hbox.addStretch(1)
 		hbox.addWidget(self.cancelButton)
 		hbox.addWidget(self.nextButton)
@@ -90,6 +100,7 @@ class connect_to_cluster(QDialog):
 
 		self.nextButton.clicked.connect(self.callback_connect)
 		self.cancelButton.clicked.connect(self.callback_close)
+
 
 
 

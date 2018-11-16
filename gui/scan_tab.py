@@ -37,7 +37,7 @@ from server import server_find_simulations_to_run
 from plot_io import plot_save_oplot_file
 from gpvdm_open import gpvdm_open
 from cal_path import get_exe_command
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 
 from util import str2bool
 
@@ -169,7 +169,8 @@ class scan_vbox(QWidget):
 #					tab_set_value(self.tab,row,i,lines[i])
 
 	def callback_show_list(self):
-		self.select_param_window.update()
+		self.select_param_window=select_param(self.tab)
+		self.select_param_window.set_save_function(self.save_combo)
 		self.select_param_window.show()
 
 	def callback_delete_item(self):
@@ -193,7 +194,7 @@ class scan_vbox(QWidget):
 		for i in range(0,self.tab.rowCount()):
 			if tab_get_value(self.tab,i,4)=="scan":
 				for ii in range(0,len(self.param_list)):
-					if tab_get_value(self.tab,i,2)==self.param_list[ii].name:
+					if tab_get_value(self.tab,i,2)==self.param_list[ii].human_label:
 						token=self.param_list[ii].token
 				break
 		if token!="":
@@ -537,37 +538,36 @@ class scan_vbox(QWidget):
 
 		self.sim_dir=os.path.join(scan_root_dir,sim_name)
 
-		self.select_param_window=select_param()
-		self.select_param_window.set_save_function(self.save_combo)
+
 		
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(32, 32))
 
-		self.tb_add = QAction(QIcon_load("list-add"), _("Add parameter to scan"), self)
+		self.tb_add = QAction(icon_get("list-add"), _("Add parameter to scan"), self)
 		self.tb_add.triggered.connect(self.callback_add_item)
 		toolbar.addAction(self.tb_add)
 
-		self.tb_minus = QAction(QIcon_load("list-remove"), _("Delete item"), self)
+		self.tb_minus = QAction(icon_get("list-remove"), _("Delete item"), self)
 		self.tb_minus.triggered.connect(self.callback_delete_item)
 		toolbar.addAction(self.tb_minus)
 
-		self.tb_down = QAction(QIcon_load("go-down"), _("Move down"), self)
+		self.tb_down = QAction(icon_get("go-down"), _("Move down"), self)
 		self.tb_down.triggered.connect(self.callback_move_down)
 		toolbar.addAction(self.tb_down)
 
-		self.tb_up = QAction(QIcon_load("go-up"), _("Move up"), self)
+		self.tb_up = QAction(icon_get("go-up"), _("Move up"), self)
 		self.tb_up.triggered.connect(self.callback_move_up)
 		toolbar.addAction(self.tb_up)
 		
-		#self.tb_notes = QAction(QIcon_load("go-down.png"), _("Notes"), self)
+		#self.tb_notes = QAction(icon_get("go-down.png"), _("Notes"), self)
 		#self.tb_notes.triggered.connect(self.callback_notes)
 		#toolbar.addAction(self.tb_notes)
 
-		#self.tb_notes = QAction(QIcon_load("select"), _("Select parameter to change"), self)
+		#self.tb_notes = QAction(icon_get("select"), _("Select parameter to change"), self)
 		#self.tb_notes.triggered.connect(self.callback_show_list)
 		#toolbar.addAction(self.tb_notes)
 
-		self.tb_command = QAction(QIcon_load("utilities-terminal"), _("Insert python command"), self)
+		self.tb_command = QAction(icon_get("utilities-terminal"), _("Insert python command"), self)
 		self.tb_command.triggered.connect(self.callback_insert_command)
 		toolbar.addAction(self.tb_command)
 
@@ -579,7 +579,7 @@ class scan_vbox(QWidget):
 		
 		self.tab.verticalHeader().setVisible(False)
 
-		self.select_param_window.init(self.tab)
+
 		
 		self.tab.setColumnCount(5)
 		#if enable_betafeatures()==False:

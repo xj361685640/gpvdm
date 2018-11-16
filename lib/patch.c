@@ -47,7 +47,9 @@ if (inp_load(sim,&config_file,patch_file)!=0)
 
 
 char filetoedit[200];
-if (get_dump_status(sim,dump_iodump)==TRUE) printf_log(sim,"Patch %s\n",patch_file);
+
+printf_log(sim,"Patch %s\n",patch_file);
+
 int found=FALSE;
 
 struct inp_file ifile;

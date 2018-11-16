@@ -36,7 +36,7 @@ from PyQt5.QtGui import QFont
 
 from inp import inp_save
 from inp import inp_load_file
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 from gui_util import tab_set_value
 from error_dlg import error_dlg
 from util import str2bool
@@ -50,7 +50,7 @@ class dump_select(QWidget):
 		self.main_vbox=QVBoxLayout()
 		self.save_function=None
 		
-		self.setWindowIcon(QIcon_load("scan"))
+		self.setWindowIcon(icon_get("scan"))
 
 		self.setWindowTitle(_("Dump File Selector")+" (https://www.gpvdm.com)") 
 
@@ -72,7 +72,7 @@ class dump_select(QWidget):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(32, 32))
 
-		self.refresh = QAction(QIcon_load("view-refresh"), _("Refresh"), self)
+		self.refresh = QAction(icon_get("view-refresh"), _("Refresh"), self)
 		self.refresh.triggered.connect(self.callback_refresh)
 		toolbar.addAction(self.refresh)
 
@@ -165,7 +165,7 @@ class dump_select(QWidget):
 				pointer=QTreeWidgetItem(pointer, [text[depth]])
 				pointer.setFlags(pointer.flags() | Qt.ItemIsUserCheckable)
 				#if depth==0:
-				#	pointer.setIcon(0,QIcon_load("folder"))
+				#	pointer.setIcon(0,icon_get("folder"))
 
 				if true_false==True:
 					pointer.setCheckState(0, Qt.Checked ) 

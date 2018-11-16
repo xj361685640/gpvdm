@@ -39,7 +39,7 @@ import os
 
 #inp
 from inp import inp_load_file
-from inp_util import inp_search_token_value
+from inp import inp_search_token_value
 
 #path
 from cal_path import get_materials_path
@@ -70,6 +70,7 @@ from epitaxy import epitaxy_get_epi
 
 #qt
 from PyQt5.QtGui import QFont
+from PyQt5.QtGui import qRgba
 import numpy as np
 from inp import inp_get_token_value
 from util import str2bool
@@ -119,6 +120,10 @@ from gl_save import gl_save_load
 
 from open_save_dlg import save_as_filter
 import time
+import copy
+
+from thumb import thumb_nail_gen
+
 
 def tab(x,y,z,w,h,d):
 	glBegin(GL_QUADS)
@@ -233,7 +238,10 @@ class view_point():
 		self.x_pos=-0.5
 		self.y_pos=-0.5
 		self.zoom=-12.0
-
+		self.render_grid=True
+		self.render_photons=True
+		self.render_text=True
+		self.bg_color=[0.0,0.0,0.0]
 
 	def shift(self,target):
 		stop=False
@@ -307,16 +315,16 @@ if open_gl_ok==True:
 			self.graph_z_max=1.0
 			self.graph_z_min=1.0
 			#view pos
-			self.viewpoint=view_point()
-			self.viewpoint.xRot =25.0
-			self.viewpoint.yRot =-20.0
-			self.viewpoint.zRot =0.0
-			self.viewpoint.x_pos=-0.5
-			self.viewpoint.y_pos=-0.5
-			self.viewpoint.zoom=-12.0
+			self.view=view_point()
+			self.view.xRot =25.0
+			self.view.yRot =-20.0
+			self.view.zRot =0.0
+			self.view.x_pos=-0.5
+			self.view.y_pos=-0.5
+			self.view.zoom=-12.0
 
 			self.viewtarget=view_point()
-			#self.viewtarget.set_value(self.viewpoint)
+			#self.viewtarget.set_value(self.view)
 			self.viewtarget.xRot=0.0
 			self.viewtarget.yRot=0.0
 			self.viewtarget.zRot=0.0
@@ -324,11 +332,6 @@ if open_gl_ok==True:
 			self.viewtarget.y_pos=-1.7
 			self.viewtarget.zoom=-8.0
 
-
-
-			self.render_grid=True
-			self.render_photons=True
-			self.render_text=True
 
 			self.timer=None
 			
@@ -339,24 +342,42 @@ if open_gl_ok==True:
 			self.ray_file=""
 			self.mouse_click_time=0.0
 
+			self.tab_active_layers=True
+			self.gl_device_height=1.4
+			self.dy_layer_offset=0.05
 
+			#For image
+			#self.render_grid=False
+			#self.bg_color=[1.0,1.0,1.0]
+			#self.render_text=False
+			#self.tab_active_layers=False
+			#self.gl_device_height=2.0
+			#self.dy_layer_offset=0.1
+
+		def view_push(self):
+			self.stored_view=copy.copy(self.view)
+
+		def view_pop(self):
+			self.view=copy.copy(self.stored_view)
+			
 		def my_timer(self):
 			#self.xRot =self.xRot + 2
-			self.viewpoint.yRot =self.viewpoint.yRot + 2
+			self.view.yRot =self.view.yRot + 2
 			#self.zRot =self.zRot + 5
 			
 			self.update()
 
+
 		def ftimer_target(self):
-			stop=self.viewpoint.shift(self.viewtarget)
+			stop=self.view.shift(self.viewtarget)
 			
 			self.update()
 			if stop==True:
 				self.timer.stop()
 
 		def fzoom_timer(self):
-			self.viewpoint.zoom =self.viewpoint.zoom+4.0
-			if self.viewpoint.zoom>-12.0:
+			self.view.zoom =self.view.zoom+4.0
+			if self.view.zoom>-12.0:
 				self.timer.stop()
 			self.update()
 
@@ -379,8 +400,8 @@ if open_gl_ok==True:
 				if event.text()=="z":
 					if self.timer==None:
 						self.start_rotate()
-						if self.viewpoint.zoom>-40:
-							self.viewpoint.zoom =-400
+						if self.view.zoom>-40:
+							self.view.zoom =-400
 						self.timer=QTimer()
 						self.timer.timeout.connect(self.fzoom_timer)
 						self.timer.start(50)
@@ -431,7 +452,7 @@ if open_gl_ok==True:
 			g=float(data[0][0][1])
 			b=float(data[0][0][2])
 
-			print(x,y,r,g,b,search_color(r,g,b))
+			#print(x,y,r,g,b,search_color(r,g,b))
 			set_false_color(False)
 			
 
@@ -447,12 +468,12 @@ if open_gl_ok==True:
 
 			if event.buttons()==Qt.LeftButton:
 				
-				self.viewpoint.xRot =self.viewpoint.xRot + 1 * dy
-				self.viewpoint.yRot =self.viewpoint.yRot + 1 * dx
+				self.view.xRot =self.view.xRot + 1 * dy
+				self.view.yRot =self.view.yRot + 1 * dx
 
 			if event.buttons()==Qt.RightButton:
-				self.viewpoint.x_pos =self.viewpoint.x_pos + 0.1 * dx
-				self.viewpoint.y_pos =self.viewpoint.y_pos - 0.1 * dy
+				self.view.x_pos =self.view.x_pos + 0.1 * dx
+				self.view.y_pos =self.view.y_pos - 0.1 * dy
 
 
 			self.lastPos=event.pos()
@@ -461,6 +482,8 @@ if open_gl_ok==True:
 			self.update()
 
 		def mousePressEvent(self,event):
+			thumb_nail_gen()
+			print("whoo")
 			self.mouse_click_time=time.time()
 
 		def mouseReleaseEvent(self,event):
@@ -473,7 +496,7 @@ if open_gl_ok==True:
 			self.random_device()
 			return
 			ret=save_as_filter(self,"3d (*.3d)")
-			print(ret)
+			#print(ret)
 			if ret!=False:
 				gl_save_save(ret)
 
@@ -487,10 +510,10 @@ if open_gl_ok==True:
 
 		def wheelEvent(self,event):
 			p=event.angleDelta()
-			self.viewpoint.zoom =self.viewpoint.zoom + p.y()/120
+			self.view.zoom =self.view.zoom + p.y()/120
 			self.update()
 
-		def draw_photons(self,max_gui_device_x,max_gui_device_z):
+		def draw_photons(self,max_gui_device_x,y,max_gui_device_z):
 			if self.suns!=0:
 				if self.suns<=0.01:
 					den=1.4
@@ -502,12 +525,12 @@ if open_gl_ok==True:
 					den=0.3
 				else:
 					den=0.2
-			
+
 				x=np.arange(0, max_gui_device_x , den)
 				z=np.arange(0, max_gui_device_z , den)
 				for i in range(0,len(x)):
 					for ii in range(0,len(z)):
-						draw_photon(x[i],z[ii],False)
+						draw_photon(x[i],y+0.1,z[ii],False)
 
 			if self.emission==True and self.ray_model==False:
 				den=0.6
@@ -520,19 +543,19 @@ if open_gl_ok==True:
 		def render(self):
 			#print("do draw")
 			clear_color()
+			glClearColor(self.view.bg_color[0], self.view.bg_color[1], self.view.bg_color[2], 0.5)
 			gl_save_clear()
 
 
 			dos_start=-1
 			dos_stop=-1
 			epi_y_len=epitaxy_get_y_len()
-			dy_layer_offset=0.05
 			
 			if epi_y_len<=0:
 				return
 
 			self.x_mul=1e3
-			self.y_mul=1.4/epi_y_len
+			self.y_mul=self.gl_device_height/epi_y_len
 			self.z_mul=1e3
 
 
@@ -576,11 +599,11 @@ if open_gl_ok==True:
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 			glLoadIdentity()
 
-			glTranslatef(self.viewpoint.x_pos, self.viewpoint.y_pos, self.viewpoint.zoom) # Move Into The Screen
+			glTranslatef(self.view.x_pos, self.view.y_pos, self.view.zoom) # Move Into The Screen
 			
-			glRotatef(self.viewpoint.xRot, 1.0, 0.0, 0.0)
-			glRotatef(self.viewpoint.yRot, 0.0, 1.0, 0.0)
-			glRotatef(self.viewpoint.zRot, 0.0, 0.0, 1.0)
+			glRotatef(self.view.xRot, 1.0, 0.0, 0.0)
+			glRotatef(self.view.yRot, 0.0, 1.0, 0.0)
+			glRotatef(self.view.zRot, 0.0, 0.0, 1.0)
 
 			glColor3f( 1.0, 1.5, 0.0 )
 			glPolygonMode(GL_FRONT, GL_FILL);
@@ -593,11 +616,8 @@ if open_gl_ok==True:
 				return
 
 			#glClearColor(0.92, 0.92, 0.92, 0.5) # Clear to black.
-			glClearColor(0.0, 0.0, 0.0, 0.5)
-			lines=[]
 
-			if self.render_photons==True:
-				self.draw_photons(max_gui_device_x,max_gui_device_z)
+			lines=[]
 
 			pos=0.0
 				
@@ -637,7 +657,8 @@ if open_gl_ok==True:
 							for x in range(0,xpoints):
 								for z in range(0,zpoints):
 									box(dx*x,pos+y*(dy),z*dz,dx*xshrink,dy*0.8,dz*zshrink,red,green,blue,alpha)
-					tab(0.0,pos,max_gui_device_z,max_gui_device_x,thick,max_gui_device_z)
+					if self.tab_active_layers==True:
+						tab(0.0,pos,max_gui_device_z,max_gui_device_x,thick,max_gui_device_z)
 				
 				elif epitaxy_get_electrical_layer(l-i).lower()=="contact" and (i==l or i==0):
 					for c in contacts_get_array():
@@ -655,9 +676,9 @@ if open_gl_ok==True:
 							if c.depth>0.0:
 								etch_depth=c.depth*self.y_mul
 								if c.position=="top":
-									box(xstart,pos-etch_depth-dy_layer_offset,0,xwidth,etch_depth,max_gui_device_z,0.0,0.0,1.0,1.0)
+									box(xstart,pos-etch_depth-self.dy_layer_offset,0,xwidth,etch_depth,max_gui_device_z,0.0,0.0,1.0,1.0)
 								else:
-									box(xstart,pos+dy_layer_offset+thick,0,xwidth,etch_depth,max_gui_device_z,0.0,0.0,1.0,1.0)
+									box(xstart,pos+self.dy_layer_offset+thick,0,xwidth,etch_depth,max_gui_device_z,0.0,0.0,1.0,1.0)
 									
 							if c.active==True:
 								box(xstart,pos,0,xwidth,thick,max_gui_device_z,0.0,1.0,0.0,alpha)
@@ -669,7 +690,7 @@ if open_gl_ok==True:
 					box(0.0,pos,0,max_gui_device_x,thick,max_gui_device_z,red,green,blue,alpha)
 				
 
-				if self.render_text==True:
+				if self.view.render_text==True:
 					if epitaxy_get_electrical_layer(l-i).startswith("dos")==True:
 						text=epitaxy_get_name(l-i)+" ("+_("active")+")"
 					else:
@@ -679,22 +700,26 @@ if open_gl_ok==True:
 
 					font = QFont("Arial")
 					font.setPointSize(18)
-					if self.viewpoint.zoom>-20:
+					if self.view.zoom>-20:
 						self.renderText (max_gui_device_x+0.1,pos+thick/2,max_gui_device_z, text,font)
 
-				pos=pos+thick+dy_layer_offset
+				pos=pos+thick+self.dy_layer_offset
 
-			draw_mode(pos-dy_layer_offset,max_gui_device_z)
-			draw_rays(self.ray_file,pos-dy_layer_offset,max_gui_device_x,self.y_mul,max_gui_device_z*1.05)
+			draw_mode(pos-self.dy_layer_offset,max_gui_device_z)
+			draw_rays(self.ray_file,pos-self.dy_layer_offset,max_gui_device_x,self.y_mul,max_gui_device_z*1.05)
 			#print(self.graph_path)
+
+			if self.view.render_photons==True:
+				#print(pos)
+				self.draw_photons(max_gui_device_x,pos,max_gui_device_z)
 
 			full_data_range=self.graph_z_max-self.graph_z_min
 			graph(0.0,dos_start,max_gui_device_z+0.5,max_gui_device_x,dos_stop-dos_start,full_data_range,self.graph_data)
 
-			if self.render_grid==True:
+			if self.view.render_grid==True:
 				draw_grid()
 
-			if self.viewpoint.zoom<-60:
+			if self.view.zoom<-60:
 				draw_stars()
 
 
@@ -721,9 +746,9 @@ if open_gl_ok==True:
 				self.suns=0.0
 
 		def random_device(self):
-			self.render_grid=True
-			self.render_photons=True
-			self.render_text=False
+			self.view.render_grid=True
+			self.view.render_photons=True
+			self.view.render_text=False
 
 			for i in range(0,100):
 				r=random.randint(0,epitaxy_get_layers()-1)

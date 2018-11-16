@@ -49,7 +49,7 @@ from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTa
 from PyQt5.QtGui import QPainter,QIcon,QImage
 
 #calpath
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 from open_save_dlg import save_as_image
 
 from dat_file import dat_file_read
@@ -559,7 +559,7 @@ class plot_widget(QWidget):
 		self.input_files=[]
 		self.config_file=""
 		QWidget.__init__(self)
-		self.setWindowIcon(QIcon_load("plot"))
+		self.setWindowIcon(icon_get("plot"))
 
 	def init(self,enable_toolbar=True):
 		self.main_vbox = QVBoxLayout()
@@ -579,7 +579,7 @@ class plot_widget(QWidget):
 			self.plot_ribbon.tb_save_as.triggered.connect(self.save_image)
 
 
-			self.tb_refresh = QAction(QIcon_load("view-refresh"), _("Refresh graph"), self)
+			self.tb_refresh = QAction(icon_get("view-refresh"), _("Refresh graph"), self)
 			self.tb_refresh .triggered.connect(self.callback_refresh)
 			self.plot_ribbon.plot_toolbar.addAction(self.tb_refresh )
 

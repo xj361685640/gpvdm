@@ -29,12 +29,11 @@ from util import time_with_units
 from cal_path import get_icon_path
 from scan_item import scan_remove_file
 from code_ctrl import enable_betafeatures
-from tb_lasers import tb_lasers
 
 #inp
 from inp import inp_load_file
 from inp import inp_read_next_item
-from inp_util import inp_search_token_value
+from inp import inp_search_token_value
 from inp import inp_get_token_value
 from inp import inp_save
 
@@ -43,7 +42,8 @@ import matplotlib
 matplotlib.use('Qt5Agg')
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
-from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
+#from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
+import matplotlib.ticker as ticker
 
 #qt
 from PyQt5.QtCore import QSize, Qt 
@@ -58,7 +58,7 @@ from gui_util import tab_remove
 from gui_util import tab_get_value
 from open_save_dlg import save_as_image
 from cal_path import get_sim_path
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 from error_dlg import error_dlg
 
 import i18n
@@ -195,23 +195,34 @@ class tab_time_mesh(QWidget):
 		self.fig.clf()
 		self.fig.subplots_adjust(bottom=0.2)
 		self.fig.subplots_adjust(left=0.1)
-		self.ax1 = self.fig.add_subplot(111)
+
+
+		self.ax1 = self.fig.add_subplot(211)
 		self.ax1.ticklabel_format(useOffset=False)
-		#ax2 = ax1.twinx()
-		#x_pos=0.0
-		#layer=0
-		#color =['r','g','b','y','o','r','g','b','y','o']
-
+		self.ax1.spines['right'].set_visible(False)
+		self.ax1.spines['top'].set_visible(False)
+		self.ax1.yaxis.set_ticks_position('left')
+		self.ax1.xaxis.set_ticks_position('bottom')
+		self.ax1.yaxis.set_major_locator(ticker.MaxNLocator(4))
 		self.ax1.set_ylabel(_("Voltage (Volts)"))
-
+		self.ax1.set_xticklabels([])
+		self.ax1.grid(True)
 		voltage, = self.ax1.plot(time,self.voltage, 'ro-', linewidth=3 ,alpha=1.0)
-		self.ax1.set_xlabel(_("Time")+" ("+unit+')')
 
-		self.ax2 = self.ax1.twinx()
-		self.ax2.set_ylabel(_("Magnitude")+" (au)")
-		#ax2.set_ylabel('Energy (eV)')
 
+
+		self.ax2 = self.fig.add_subplot(212)
+		self.ax2.spines['right'].set_visible(False)
+		self.ax2.spines['top'].set_visible(False)
+		self.ax2.yaxis.set_ticks_position('left')
+		self.ax2.xaxis.set_ticks_position('bottom')
+		self.ax2.yaxis.set_major_locator(ticker.MaxNLocator(4))
+		self.ax2.set_ylabel(_("Suns")+" (Suns)")
+		self.ax2.set_xlabel(_("Time")+" ("+unit+')')
+		self.ax2.grid(True)
 		sun, = self.ax2.plot(time,self.sun, 'go-', linewidth=3 ,alpha=1.0)
+
+
 		if enable_betafeatures()==True:
 			laser, = self.ax2.plot(time,self.laser, 'bo-', linewidth=3 ,alpha=1.0)
 
@@ -229,16 +240,17 @@ class tab_time_mesh(QWidget):
 				fs_laser_enabled=True
 				self.ax2.ticklabel_format(style='sci', axis='x', scilimits=(0,0))
 
-		if enable_betafeatures()==True:
-			if fs_laser_enabled==True:
-				self.fig.legend((voltage, sun, laser,fs_laser), (_("Voltage"), _("Sun"), _("CW laser"), _("fs laser")), 'upper right')
-			else:
-				self.fig.legend((voltage, sun, laser), (_("Voltage"), _("Sun"), _("CW laser")), 'upper right')
-		else:
-			if fs_laser_enabled==True:
-				self.fig.legend((voltage, sun, fs_laser), (_("Voltage"), _("Sun"), _("fs laser")), 'upper right')
-			else:
-				self.fig.legend((voltage, sun), (_("Voltage"), _("Sun")), 'upper right')
+		self.fig.subplots_adjust(hspace=0)
+		#if enable_betafeatures()==True:
+		#	if fs_laser_enabled==True:
+		#		self.fig.legend((voltage, sun, laser,fs_laser), (_("Voltage"), _("Sun"), _("CW laser"), _("fs laser")), 'upper right')
+		#	else:
+		#		self.fig.legend((voltage, sun, laser), (_("Voltage"), _("Sun"), _("CW laser")), 'upper right')
+		#else:
+		#	if fs_laser_enabled==True:
+		#		self.fig.legend((voltage, sun, fs_laser), (_("Voltage"), _("Sun"), _("fs laser")), 'upper right')
+		#	else:
+		#		self.fig.legend((voltage, sun), (_("Voltage"), _("Sun")), 'upper right')
 
 	def image_save(self):
 		response=save_as_image(self)
@@ -401,30 +413,14 @@ class tab_time_mesh(QWidget):
 		self.canvas = FigureCanvas(self.fig)
 		self.canvas.figure.patch.set_facecolor('white')
 
-		toolbar=QToolBar()
-		toolbar.setIconSize(QSize(48, 48))
+		#toolbar=QToolBar()
+		#toolbar.setIconSize(QSize(48, 48))
 
-		self.tb_laser = QAction(QIcon_load("laser"), _("Laser start time"), self)
-		self.tb_laser.triggered.connect(self.callback_laser)
-		toolbar.addAction(self.tb_laser)
-
-
-		self.lasers=tb_lasers("pulse"+str(self.index)+".inp")
-		toolbar.addWidget(self.lasers)
-
-		self.tb_start = QAction(QIcon_load("start"), _("Simulation start time"), self)
-		self.tb_start.triggered.connect(self.callback_start_time)
-		toolbar.addAction(self.tb_start)
-
-		nav_bar=NavigationToolbar(self.canvas,self)
-		toolbar.addWidget(nav_bar)
+		#nav_bar=NavigationToolbar(self.canvas,self)
+		#toolbar.addWidget(nav_bar)
 
 
-		self.main_vbox.addWidget(toolbar)
-
-
-
-		gui_pos=0
+		#self.main_vbox.addWidget(toolbar)
 
 
 
@@ -442,19 +438,19 @@ class tab_time_mesh(QWidget):
 		toolbar2=QToolBar()
 		toolbar2.setIconSize(QSize(32, 32))
 
-		self.tb_add = QAction(QIcon_load("list-add"), _("Add section"), self)
+		self.tb_add = QAction(icon_get("list-add"), _("Add section"), self)
 		self.tb_add.triggered.connect(self.callback_add_section)
 		toolbar2.addAction(self.tb_add)
 
-		self.tb_remove = QAction(QIcon_load("list-remove"), _("Delete section"), self)
+		self.tb_remove = QAction(icon_get("list-remove"), _("Delete section"), self)
 		self.tb_remove.triggered.connect(self.callback_remove_item)
 		toolbar2.addAction(self.tb_remove)
 
-		self.tb_move = QAction(QIcon_load("go-down"), _("Move down"), self)
+		self.tb_move = QAction(icon_get("go-down"), _("Move down"), self)
 		self.tb_move.triggered.connect(self.callback_move_down)
 		toolbar2.addAction(self.tb_move)
 
-		self.tb_move_up = QAction(QIcon_load("go-up"), _("Move up"), self)
+		self.tb_move_up = QAction(icon_get("go-up"), _("Move up"), self)
 		self.tb_move_up.triggered.connect(self.callback_move_up)
 		toolbar2.addAction(self.tb_move_up)
 

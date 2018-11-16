@@ -149,6 +149,7 @@ long double ret=0.0;
 
 ret=three_d_avg(in, in->ptrap_to_n);
 ret+=three_d_avg(in, in->ntrap_to_p);
+ret+=three_d_avg(in, in->Rfree);
 
 return ret;
 }
@@ -541,6 +542,30 @@ sum_p+=three_d_avg(in, in->pt_all);
 sum_p-=three_d_avg(in, in->pt_save);
 
 return sum_p;
+}
+
+/**
+* @brief Calculate the maximum possible Jsc value from the generation rate.
+*/
+gdouble get_max_Jsc(struct device *in)
+{
+int x=0;
+int y=0;
+int z=0;
+
+gdouble tot=0.0;
+for (z=0;z<in->zmeshpoints;z++)
+{
+	for (x=0;x<in->xmeshpoints;x++)
+	{
+		for (y=0;y<in->ymeshpoints;y++)
+		{
+			tot+=in->Gn[z][x][y]*in->dymesh[y];
+		}
+	}
+}
+
+return -Q*tot;
 }
 
 gdouble get_background_charge(struct device *in)

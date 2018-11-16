@@ -153,25 +153,36 @@ def scan_plot_fits(dir_to_search):
 		os.system("gs -dNOPAUSE -r600 -dEPSCrop -sDEVICE=jpeg -sOutputFile="+os.path.join(dir_to_search,name+".jpg")+" plot.eps -c quit")
 	os.chdir(dir_to_search)
 
+def scan_get_converged_status(fit_log_path):
+	error=False
+
+	if os.path.isfile(fit_log_path):
+		f = open(fit_log_path, "r")
+		lines = f.readlines()
+		f.close()
+
+		for l in range(0, len(lines)):
+			lines[l]=lines[l].rstrip()
+
+		if len(lines)>4:
+			error=float(lines[len(lines)-2].split()[1])
+	
+	return error
+
 def scan_list_unconverged_simulations(dir_to_search):
 	found_dirs=[]
 	sim_dirs=tree_load_flat_list(dir_to_search)
 	
 	for i in range(0,len(sim_dirs)):
-		add=True
+		add=False
 		fit_log=os.path.join(sim_dirs[i],'fitlog.dat')
-		if os.path.isfile(fit_log):
-			f = open(fit_log, "r")
-			lines = f.readlines()
-			f.close()
 
-			for l in range(0, len(lines)):
-				lines[l]=lines[l].rstrip()
+		error=scan_get_converged_status(fit_log)
 
-			if len(lines)>4:
-				error=float(lines[len(lines)-2].split()[1])
-				if error<0.1:
-					add=False
+		if error==False:
+			add=True
+		elif error>0.1:
+			add=True
 
 		if add==True:
 			found_dirs.append(sim_dirs[i])
@@ -226,13 +237,23 @@ def scan_gen_report(path):
 
 
 	simulation_dirs=tree_load_flat_list(path)
+	errors=[]
 	for i in range(0,len(simulation_dirs)):
+		print(simulation_dirs[i])
+
+		error=scan_get_converged_status(os.path.join(simulation_dirs[i],"fitlog.dat"))
+		print("error",error)
+		errors.append(error)
+
 		for ii in range(0,len(tokens)):
 			value=inp_get_token_value(os.path.join(simulation_dirs[i],tokens[ii].file_name), tokens[ii].token)
 			#print(os.path.join(simulation_dirs[i],tokens[ii].file_name), tokens[ii].token,value)
 			if value!=None:
+				print(tokens[ii].token,str(value))
+
 				tokens[ii].values.append(float(value))
 
+	print("Errors:",errors)
 	for ii in range(0,len(tokens)):
 		print(tokens[ii].token,tokens[ii].values,sum(tokens[ii].values)/len(tokens[ii].values),std(tokens[ii].values))
 

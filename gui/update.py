@@ -53,6 +53,8 @@ from PyQt5.QtCore import QTimer
 from uid_gen import uid_get
 from bugs import bugs_to_url
 
+from disk_speed import get_disk_speed
+
 #Under windows, this class will connect to gpvdm.com and look for updates, a user prompt will be displayed if any are found.  It can also download updates if the user asks it to.  It's not called under linux because linux has it's own package management system.
 
 checked_web=False
@@ -141,7 +143,7 @@ class update_thread(QWidget):
 		self.text=""
 
 	def get_from_web(self,url):
-			page="http://www.gpvdm.com/download_windows/update.php?ver_core="+ver_core()+"."+ver_subver()+"&uid="+uid_get()+"&os="+platform.platform()+"&opengl="+is_open_gl_working()+"&lang="+get_full_language()+"&bugs="+bugs_to_url()
+			page="http://www.gpvdm.com/download_windows/update.php?ver_core="+ver_core()+"."+ver_subver()+"&uid="+uid_get()+"&os="+platform.platform()+"&opengl="+is_open_gl_working()+"&lang="+get_full_language()+"&bugs="+bugs_to_url()+"&disk_speed="+get_disk_speed()
 			message=get_data_from_web(page)
 
 			message=message.split("\n")

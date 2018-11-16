@@ -71,6 +71,7 @@ from gui_enable import set_gui
 from gui_enable import gui_get
 
 from util_zip import archive_unpack
+from materials_io import archive_materials
 
 import i18n
 _ = i18n.language.gettext
@@ -104,6 +105,8 @@ parser.add_argument("--extract", help=_("Extract the sim.gpvdm archive --extract
 parser.add_argument("--scanarchive", help=_("Compress a scandir --scanarchive path_to_scan_dir"), nargs=1)
 parser.add_argument("--scanbuildvectors", help=_("Build vectors from scan dir --scanbuildvectors path_to_scan_dir"), nargs=1)
 parser.add_argument("--unpack", help=_("Unpacks a gpvdm archive --unpack path/to/gpvdm_file.gpvdm"), nargs=1)
+parser.add_argument("--matcompress", help=_("Compresses the materials dir"), action='store_true')
+
 
 if test_arg_for_sim_file()==False:
 	args = parser.parse_args()
@@ -157,6 +160,9 @@ def command_args(argc,argv):
 			sys.exit(0)
 		elif args.clone:
 			gpvdm_clone(os.getcwd(),copy_dirs=True)
+			sys.exit(0)
+		elif args.matcompress:
+			archive_materials(os.path.join(os.getcwd(),"materials"))
 			sys.exit(0)
 		elif args.clonesrc:
 			gpvdm_copy_src(clone-src[0])

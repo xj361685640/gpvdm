@@ -26,7 +26,7 @@ import os
 from inp import inp_update_token_value
 from inp import inp_get_token_value
 from inp import inp_lsdir
-from inp_util import inp_search_token_value
+from inp import inp_search_token_value
 
 #qt
 from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication

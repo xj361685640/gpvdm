@@ -53,7 +53,7 @@ void* head_alarm_wakeup(void *in)
 		tx_job_list();
 		nodes_print();
 		jobs_print();
-		sleep(4);
+		sleep(1);
 	}
 	return NULL;
 }
@@ -95,6 +95,7 @@ calpath_set_store_path(file_store_path);
 	}
     /* Fill the local socket address struct */
 
+
     addr_local.sin_family = AF_INET; // Protocol Family
     addr_local.sin_port = htons(port); // Port number
     addr_local.sin_addr.s_addr = INADDR_ANY; // AutoFill local address
@@ -111,7 +112,6 @@ calpath_set_store_path(file_store_path);
 		printf("server: bind tcp port %d in addr 0.0.0.0 sucessfully.\n",port);
 	}
 
-
     /* Listen remote connect/calling */
     if(listen(sockfd,BACKLOG) == -1)
     {
@@ -122,6 +122,7 @@ calpath_set_store_path(file_store_path);
 	{
 		printf ("server: listening the port %d sucessfully.\n", port);
 	}
+
 
     int success=0;
 

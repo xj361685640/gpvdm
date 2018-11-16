@@ -493,7 +493,8 @@ gdouble f2=0.0;
 gdouble sum2=0.0;
 for (t=0;t<tsteps;t++)
 {
-if (get_dump_status(sim,dump_iodump)==TRUE) printf_log(sim,"%d/%d\n",t,(int)tsteps);
+
+printf_log(sim,"%d/%d\n",t,(int)tsteps);
 
 	for (x=0;x<in->npoints;x++)
 	{
@@ -843,7 +844,8 @@ void gen_dos_fd_gaus_n(struct simulation *sim,int mat)
 {
 
 char temp[100];
-if (get_dump_status(sim,dump_iodump)==TRUE) printf_log(sim,"Electrons.... %s\n",confige[mat].dos_name);
+
+printf_log(sim,"Electrons.... %s\n",confige[mat].dos_name);
 
 sprintf(temp,"%s_dosn.dat",confige[mat].dos_name);
 gen_do(sim,&confige[mat],&configh[mat],temp,TRUE,mat);
@@ -852,7 +854,9 @@ gen_do(sim,&confige[mat],&configh[mat],temp,TRUE,mat);
 void gen_dos_fd_gaus_p(struct simulation *sim,int mat)
 {
 char temp[100];
-if (get_dump_status(sim,dump_iodump)==TRUE) printf_log(sim,"Holes.... %s\n",configh[mat].dos_name);
+
+printf_log(sim,"Holes.... %s\n",configh[mat].dos_name);
+
 sprintf(temp,"%s_dosp.dat",configh[mat].dos_name);
 gen_do(sim,&configh[mat],&confige[mat],temp,FALSE,mat);
 }

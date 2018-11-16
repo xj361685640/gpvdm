@@ -23,7 +23,7 @@ import os
 from inp import inp_load_file
 from cal_path import get_exe_path
 from inp import inp_save
-from inp_util import inp_search_token_value
+from inp import inp_search_token_value
 from os.path import expanduser
 from win_lin import running_on_linux
 

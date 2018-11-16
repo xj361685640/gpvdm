@@ -34,7 +34,7 @@ void dump_load_config(struct simulation* sim,struct device *in)
 
 	inp_load_from_path(sim,&inp,get_input_path(sim),"dump.inp");
 
-	inp_check(sim,&inp,1.51);
+	inp_check(sim,&inp,1.52);
 
 	dump=inp_search_english(sim,&inp,"#plot");
 	set_dump_status(sim,dump_plot,dump);
@@ -55,9 +55,6 @@ void dump_load_config(struct simulation* sim,struct device *in)
 	inp_search_string(sim,&inp,in->plot_file,"#plotfile");
 
 	inp_search_gdouble(sim,&inp,&(in->start_stop_time),"#start_stop_time");
-
-	inp_search_int(sim,&inp,&(dump),"#dump_iodump");
-	set_dump_status(sim,dump_iodump,dump);
 
 	dump=inp_search_english(sim,&inp,"#dump_optics");
 	set_dump_status(sim,dump_optics, dump);

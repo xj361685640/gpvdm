@@ -10,8 +10,7 @@ import os
 import locale
 import argparse
 
-from install import install
-from install import uninstall
+from install import install_menu
 from deb import make_deb
 from dnf_install import dnf_install
 
@@ -82,8 +81,7 @@ while(1):
 		menu.append(("(publish)", "Publish"))
 	menu.append(("(packages)", "Install packages needed by gpvdm"))
 	menu.append(("(build)", "Build gpvdm"))
-	menu.append(("(install)", "Install gpvdm"))
-	menu.append(("(uninstall)", "Uninstall gpvdm"))
+	menu.append(("(install)", "Install/Remove"))
 	menu.append(("(distributable)", "Build rpm"))
 	menu.append(("(about)", "About"))
 
@@ -101,10 +99,8 @@ while(1):
 			configure_menu(d)
 
 		if tag=="(install)":
-			install(d)
+			install_menu(d)
 
-		if tag=="(uninstall)":
-			uninstall(d)
 
 		if tag=="(distributable)":
 			distributable(d)

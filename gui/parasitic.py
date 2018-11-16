@@ -21,7 +21,7 @@
 
 import os
 from tab import tab_class
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 
 #qt
 from PyQt5.QtCore import QSize, Qt 
@@ -46,7 +46,7 @@ class parasitic(QWidgetSavePos):
 	def __init__(self):
 		QWidgetSavePos.__init__(self,"parasitic")
 		self.setFixedSize(900, 600)
-		self.setWindowIcon(QIcon_load("parasitic"))
+		self.setWindowIcon(icon_get("parasitic"))
 
 		self.setWindowTitle(_("Edit parasitic components")+"  (https://www.gpvdm.com)") 
 		
@@ -61,7 +61,7 @@ class parasitic(QWidgetSavePos):
 		toolbar.addWidget(spacer)
 
 
-		self.help = QAction(QIcon_load("help"), _("Help"), self)
+		self.help = QAction(icon_get("help"), _("Help"), self)
 		self.help.setStatusTip(_("Close"))
 		self.help.triggered.connect(self.callback_help)
 		toolbar.addAction(self.help)

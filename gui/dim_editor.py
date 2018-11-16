@@ -21,12 +21,11 @@
 
 
 import os
-from cal_path import find_materials
 from util import str2bool
-from inp_util import inp_search_token_value
+from inp import inp_search_token_value
 from scan_item import scan_item_add
 from scan_item import scan_remove_file
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 from gpvdm_open import gpvdm_open
 from cal_path import get_materials_path
 from global_objects import global_object_get
@@ -107,7 +106,7 @@ class dim_editor(QWidgetSavePos):
 		QWidgetSavePos.__init__(self,"dim_editor")
 
 		self.setWindowTitle(_("xz dimension editor")+" https://www.gpvdm.com")
-		self.setWindowIcon(QIcon_load("dimensions"))
+		self.setWindowIcon(icon_get("dimensions"))
 		self.resize(400,200)
 
 		self.cost_window=False
@@ -124,7 +123,7 @@ class dim_editor(QWidgetSavePos):
 		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 		self.toolbar.addWidget(spacer)
 
-		self.help = QAction(QIcon_load("internet-web-browser"), _("Help"), self)
+		self.help = QAction(icon_get("internet-web-browser"), _("Help"), self)
 		self.toolbar.addAction(self.help)
 		
 		self.main_vbox.addWidget(self.toolbar)

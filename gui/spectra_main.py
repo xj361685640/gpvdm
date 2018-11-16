@@ -21,7 +21,7 @@
 
 import os
 from tab import tab_class
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 
 #qt
 from PyQt5.QtCore import QSize, Qt 
@@ -60,7 +60,7 @@ class spectra_main(QWidgetSavePos):
 		QWidgetSavePos.__init__(self,"spectra_main")
 		self.path=path
 		self.setFixedSize(900, 600)
-		self.setWindowIcon(QIcon_load("spectra_file"))
+		self.setWindowIcon(icon_get("spectra_file"))
 
 		self.setWindowTitle(_("Optical spectrum editor")+" (https://www.gpvdm.com)"+" "+os.path.basename(self.path)) 
 		
@@ -75,7 +75,7 @@ class spectra_main(QWidgetSavePos):
 		toolbar.addWidget(spacer)
 
 
-		self.help = QAction(QIcon_load("help"), 'Hide', self)
+		self.help = QAction(icon_get("help"), 'Hide', self)
 		self.help.setStatusTip(_("Help"))
 		self.help.triggered.connect(self.callback_help)
 		toolbar.addAction(self.help)

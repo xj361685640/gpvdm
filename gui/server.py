@@ -37,7 +37,7 @@ from progress import progress_class
 
 from cal_path import get_exe_command
 from sim_warnings import sim_warnings
-from inp_util import inp_search_token_value
+from inp import inp_search_token_value
 from stat import *
 from encrypt import encrypt
 from encrypt import decrypt
@@ -90,6 +90,7 @@ class job:
 	stop=""
 	cpus=1
 	status=0
+	full_command=""	#debug only
 
 class base_server():
 	def __init__(self):
@@ -101,6 +102,8 @@ class base_server():
 		self.jobs_running=0
 		self.jobs_run=0
 		self.finished_jobs=[]
+		self.start_time=0
+		self.jobs_per_second=0
 
 	def base_server_init(self,sim_dir):
 		self.sim_dir=sim_dir
@@ -145,20 +148,23 @@ class base_server():
 	def print_jobs(self):
 		print("server job list:")
 		for i in range(0, len(self.jobs)):
-			print("job",i,self.jobs[i].path,self.jobs[i].args,self.jobs[i].status)
+			print("job",i,self.jobs[i].path,self.jobs[i].args,self.jobs[i].status,self.jobs[i].start,self.jobs[i].stop)	#,self.jobs[i].full_command
 		print("jobs running=",self.jobs_running,"jobs run=",self.jobs_run,"cpus=",self.cpus)
+
 
 	def base_server_process_jobs(self):
 		path=True
 		while(path!=False):
+			#self.print_jobs()
 			path,command=self.base_server_get_next_job_to_run(lock_file=True)
 			if path!=False:
 				cmd="cd "+path+";"
-				cmd=cmd+command+" >/dev/null &\n"
+				cmd=cmd+command+" >/dev/null &\n"#" >"+"/fast/p3htpcbm/"+path+"/rod.dat &\n"
 				#print(cmd)
+				#aeds
 				os.system(cmd)
-	
-				self.progress_window.set_text(_("Running job ")+path)
+				jobs_per_second="%.2f" % self.jobs_per_second
+				self.progress_window.set_text(_("Running job ")+path+" jobs/s="+jobs_per_second)
 				self.progress_window.set_fraction(float(self.jobs_run)/float(len(self.jobs)))
 
 			else:
@@ -174,25 +180,39 @@ class base_server():
 				os.remove(del_file)
 
 	def simple_run(self):
+		self.start_time=time.time()
 		self.stop_work=False
 		self.remove_lock_files()
 				
 		self.base_server_process_jobs()
-
+		print(self.sim_dir)
 		while(1):
 			ls=os.listdir(self.sim_dir)
 			for i in range(0, len(ls)):
 				if ls[i][:4]=="lock" and ls[i][-4:]==".dat":
 					lock_file=ls[i]
 					os.remove(os.path.join(self.sim_dir,lock_file))
-					self.jobs_run=self.jobs_run+1
-					self.jobs_running=self.jobs_running-1
+					#os.rename(os.path.join(self.sim_dir,lock_file),os.path.join("./old",lock_file))
+					#self.jobs_run=self.jobs_run+1
+					#self.jobs_running=self.jobs_running-1
+					job=int(lock_file[4:-4])
+					self.base_job_finished(job)
 			self.base_server_process_jobs()
 			time.sleep(0.1)
 
 			if self.jobs_run==len(self.jobs):
 				self.remove_lock_files()
 				break
+
+	def base_job_finished(self,job):
+		if self.jobs[job].status!=1:
+			print("This job never ran!!!",self.jobs[job].status)
+			asdsadasd
+		self.jobs[job].status=2
+		self.jobs[job].stop=str(datetime.now())
+		self.jobs_run=self.jobs_run+1
+		self.jobs_running=self.jobs_running-1
+		self.jobs_per_second=self.jobs_run/(time.time()-self.start_time)
 
 	def base_server_get_next_job_to_run(self,lock_file=False):
 		if (len(self.jobs)==0):
@@ -215,7 +235,7 @@ class base_server():
 						command_lock=" --lock "+"lock"+str(i)
 
 					full_command=get_exe_command()+command_lock+" "+self.jobs[i].args+" "+get_exe_args()
-
+					self.jobs[i].full_command=full_command
 					return self.jobs[i].path,full_command
 
 		return False,False
@@ -389,8 +409,7 @@ if gui_get()==True:
 					else:
 						if self.finished_jobs.count(data)==0:
 							job=int(data[4:])
-							self.jobs[job].status=2
-							self.jobs[job].stop=str(datetime.now())
+							self.base_job_finished(job)
 
 							self.finished_jobs.append(data)
 							make_work_book=inp_get_token_value(os.path.join(get_sim_path(),"dump.inp"),"#dump_workbook")
@@ -398,8 +417,7 @@ if gui_get()==True:
 								if str2bool(make_work_book)==True:
 									if gen_workbook(self.jobs[job].path,os.path.join(self.jobs[job].path,"data.xlsx"))==False:
 										self.excel_workbook_gen_error=self.excel_workbook_gen_error or True
-							self.jobs_run=self.jobs_run+1
-							self.jobs_running=self.jobs_running-1
+
 							self.progress_window.set_fraction(float(self.jobs_run)/float(len(self.jobs)))
 
 							if (self.jobs_run==len(self.jobs)):

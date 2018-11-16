@@ -23,11 +23,6 @@
 
 import os
 import glob
-from cal_path import get_device_lib_path
-from inp_util import inp_search_token_value_multiline
-from util_zip import zip_lsdir
-from util_zip import archive_add_file
-
 #qt
 from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication
 from PyQt5.QtGui import QIcon
@@ -36,10 +31,7 @@ from PyQt5.QtWidgets import QWidget,QSizePolicy,QHBoxLayout,QPushButton,QDialog,
 from PyQt5.QtGui import QPixmap
 
 #gui_util
-from gui_util import tab_set_value
-from gui_util import tab_add
-from gui_util import tab_get_selected
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 
 from spinner import spinner
 
@@ -54,7 +46,12 @@ from code_ctrl import enable_betafeatures
 from report_error import report_error
 
 def error_han(type, value, tback):
+	print("error=",value,tback,"rod")
+	if value==KeyboardInterrupt:
+		print("hello")
+
 	if enable_betafeatures()==False:
+
 		#formatted_lines = traceback.format_exc().splitlines()
 		long_trace=traceback.format_exception(type, value, tback)
 		long_trace=str("<br>".join(long_trace))
@@ -81,7 +78,7 @@ class widget_error_han(QDialog):
 		h_box=QHBoxLayout()
 		h_widget.setLayout(h_box)
 		image=QLabel()
-		icon=QIcon_load("warning")
+		icon=icon_get("warning")
 		image.setPixmap(icon.pixmap(icon.actualSize(QSize(48, 48))))
 		h_box.addWidget(image)
 

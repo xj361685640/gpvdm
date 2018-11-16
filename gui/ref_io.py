@@ -33,52 +33,65 @@ class ref:
 		self.year=""
 		self.doi=""
 		self.unformatted=""
+		self.website=""
 
 def load_ref(file_name):
 	r=ref()
+	#we could have zipped the file
+	archive=os.path.basename(os.path.dirname(file_name))+".zip"
+
 	file_name=os.path.splitext(file_name)[0]+".ref"
 
-	if os.path.isfile(file_name)==False:
+	#if os.path.isfile(file_name)==False:
+	#	return None
+
+	lines=inp_load_file(file_name,archive=archive)
+
+	#print(file_name,lines)
+	if lines==False:
 		return None
 
-	lines=inp_load_file(file_name)
-	if lines!=False:
-		text=""
-		r.group=inp_get_token_value_from_list(lines, "#ref_research_group")
-		if r.group==None:
-			r.group=""
-			
-		r.author=inp_get_token_value_from_list(lines, "#ref_authors")
-		if r.author==None:
-			r.author=""
+	text=""
 
-		r.journal=inp_get_token_value_from_list(lines, "#ref_jounral")
-		if r.journal==None:
-			r.journal=""
+	r.website=inp_get_token_value_from_list(lines, "#ref_website")
+	if r.website==None:
+		r.website=""
 
-		r.title=inp_get_token_value_from_list(lines, "#ref_title")
-		if r.title==None:
-			r.title=""
+	r.group=inp_get_token_value_from_list(lines, "#ref_research_group")
+	if r.group==None:
+		r.group=""
+		
+	r.author=inp_get_token_value_from_list(lines, "#ref_authors")
+	if r.author==None:
+		r.author=""
 
-		r.volume=inp_get_token_value_from_list(lines, "#ref_volume")
-		if r.volume==None:
-			r.volume=""
+	r.journal=inp_get_token_value_from_list(lines, "#ref_jounral")
+	if r.journal==None:
+		r.journal=""
 
-		r.pages=inp_get_token_value_from_list(lines, "#ref_pages")
-		if r.pages==None:
-			r.pages=""
+	r.title=inp_get_token_value_from_list(lines, "#ref_title")
+	if r.title==None:
+		r.title=""
 
-		r.year=inp_get_token_value_from_list(lines, "#ref_year")
-		if r.year==None:
-			r.year=""
+	r.volume=inp_get_token_value_from_list(lines, "#ref_volume")
+	if r.volume==None:
+		r.volume=""
 
-		r.doi=inp_get_token_value_from_list(lines, "#ref_doi")
-		if r.doi==None:
-			r.doi=""
+	r.pages=inp_get_token_value_from_list(lines, "#ref_pages")
+	if r.pages==None:
+		r.pages=""
 
-		r.unformatted=inp_get_token_value_from_list(lines, "#ref_unformatted")
-		if r.unformatted==None:
-			r.unformatted=""
+	r.year=inp_get_token_value_from_list(lines, "#ref_year")
+	if r.year==None:
+		r.year=""
+
+	r.doi=inp_get_token_value_from_list(lines, "#ref_doi")
+	if r.doi==None:
+		r.doi=""
+
+	r.unformatted=inp_get_token_value_from_list(lines, "#ref_unformatted")
+	if r.unformatted==None:
+		r.unformatted=""
 
 	return r
 	

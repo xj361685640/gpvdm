@@ -213,8 +213,9 @@ def tree_apply_python_script(directory,program_list):
 			ret=eval(command)
 			file_path=os.path.join(directory,program_list[i][0])
 			#print("EXEC=",command,">",ret,"<")
-			inp_update_token_value(file_path, program_list[i][1], ret)
-			#print("Replace",file_path, program_list[i][1], ret)
+			error_status=inp_update_token_value(file_path, program_list[i][1], ret)
+			if error_status==False:
+				return False
 
 	return True
 

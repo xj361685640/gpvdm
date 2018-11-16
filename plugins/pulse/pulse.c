@@ -44,6 +44,8 @@ struct pulse pulse_config;
 
 void sim_pulse(struct simulation *sim,struct device *in)
 {
+light_solve_and_update(sim,in,&(in->mylight),0.0);
+
 char tunits[100];
 struct buffer buf;
 buffer_init(&buf);
@@ -218,9 +220,11 @@ buf.x_mul=1e6;
 sprintf(buf.title,"%s - %s",_("Time"),_("Current"));
 strcpy(buf.type,"xy");
 strcpy(buf.x_label,_("Time"));
-strcpy(buf.data_label,_("Current"));
 strcpy(buf.x_units,"\\ms");
-strcpy(buf.data_units,"m");
+
+strcpy(buf.data_label,_("Current"));
+strcpy(buf.data_units,"Am^{-2}");
+
 buf.logscale_x=0;
 buf.logscale_y=0;
 buf.x=1;
@@ -237,9 +241,10 @@ buf.x_mul=1e6;
 sprintf(buf.title,"%s - %s",_("Time"),_("Current"));
 strcpy(buf.type,"xy");
 strcpy(buf.x_label,_("Time"));
-strcpy(buf.data_label,_("Current"));
 strcpy(buf.x_units,"\\ms");
-strcpy(buf.data_units,"m");
+
+strcpy(buf.data_label,_("Current"));
+strcpy(buf.data_units,"A");
 buf.logscale_x=0;
 buf.logscale_y=0;
 buf.x=1;
@@ -259,9 +264,10 @@ buf.x_mul=1e6;
 sprintf(buf.title,"%s - %s",_("Time"),_("current density"));
 strcpy(buf.type,"xy");
 strcpy(buf.x_label,_("Time"));
-strcpy(buf.data_label,_("Current density"));
 strcpy(buf.x_units,"\\ms");
-strcpy(buf.data_units,"m");
+
+strcpy(buf.data_label,_("Current density"));
+strcpy(buf.data_units,"Am^{-2}");
 buf.logscale_x=0;
 buf.logscale_y=0;
 buf.x=1;
@@ -285,7 +291,7 @@ strcpy(buf.type,"xy");
 strcpy(buf.x_label,_("Time"));
 strcpy(buf.data_label,_("Current"));
 strcpy(buf.x_units,"\\ms");
-strcpy(buf.data_units,"mA");
+strcpy(buf.data_units,"A");
 buf.logscale_x=0;
 buf.logscale_y=0;
 buf.x=1;

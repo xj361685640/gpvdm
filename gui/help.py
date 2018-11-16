@@ -34,7 +34,7 @@ from i18n import get_full_desired_lang_path
 
 from ref_io import load_ref
 
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 my_help_class=None
 
 class help_data():
@@ -109,11 +109,11 @@ class help_class(QWidget):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
-		self.back = QAction(QIcon_load("go-previous",size=32), _("Back"), self)
+		self.back = QAction(icon_get("go-previous",size=32), _("Back"), self)
 		self.back.triggered.connect(self.callback_back)
 		toolbar.addAction(self.back)
 
-		self.forward= QAction(QIcon_load("go-next",size=32), _("Next"), self)
+		self.forward= QAction(icon_get("go-next",size=32), _("Next"), self)
 		self.forward.triggered.connect(self.callback_forward)
 		toolbar.addAction(self.forward)
 
@@ -128,7 +128,7 @@ class help_class(QWidget):
 		self.undo.triggered.connect(self.on_line_help)
 		toolbar.addAction(self.undo)
 
-		self.undo = QAction(QIcon_load("close",size=32), _("Hide"), self)
+		self.undo = QAction(icon_get("close",size=32), _("Hide"), self)
 		self.undo.setStatusTip(_("Close"))
 		self.undo.triggered.connect(self.callback_close)
 		toolbar.addAction(self.undo)

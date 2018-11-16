@@ -45,6 +45,7 @@ struct fxdomain fxdomain_config;
 
 void sim_fxdomain(struct simulation *sim,struct device *in)
 {
+light_solve_and_update(sim,in,&(in->mylight),0.0);
 
 struct buffer buf;
 buffer_init(&buf);

@@ -30,6 +30,24 @@ splash_DATA = images/splash/*.png
 flagdir = $(pkgdatadir)/images/48x32
 flag_DATA = images/48x32/*.png
 
+icon16dir = $(datadir)/icons/hicolor/16x16/mimetypes
+icon16_DATA = images/icons/16x16/*.png
+icon32dir = $(datadir)/icons/hicolor/32x32/mimetypes
+icon32_DATA = images/icons/32x32/*.png
+icon48dir = $(datadir)/icons/hicolor/48x48/mimetypes
+icon48_DATA = images/icons/48x48/*.png
+icon64dir = $(datadir)/icons/hicolor/64x64/mimetypes
+icon64_DATA = images/icons/64x64/*.png
+icon128dir = $(datadir)/icons/hicolor/128x128/mimetypes
+icon128_DATA = images/icons/128x128/*.png
+icon256dir = $(datadir)/icons/hicolor/256x256/mimetypes
+icon256_DATA = images/icons/256x256/*.png
+icon512dir = $(datadir)/icons/hicolor/512x512/mimetypes
+icon512_DATA = images/icons/512x512/*.png
+
+iconsdir=$(datadir)/icons/hicolor/scalable/mimetypes
+icons_DATA=$(srcdir)/images/icons/scalable/*.svg
+
 cssdir = $(pkgdatadir)/css
 css_DATA = css/*.css
 
@@ -48,8 +66,8 @@ device_lib_maeckel_et_al_DATA=device_lib/maeckel_et_al/*.gpvdm
 endif
 
 if INCLUDE_CLUSTER
-clusterdir = $(pkgdatadir)/cluster
-cluster_DATA=cluster/*.zip
+clusterdir = $(pkgdatadir)/cluster_
+cluster_DATA=cluster_/*.zip
 endif
 
 if INCLUDE_PLOTS
@@ -65,6 +83,9 @@ python_PYTHON=gui/*.py gui/*.bat
 
 dist_doc_DATA = README
 
+docsdir = $(docdir)
+docs_DATA = docs/gpvdm.pdf
+
 if INCLUDE_MAN
 man1_MANS = man/gpvdm.1 man/gpvdm_core.1
 endif
@@ -79,13 +100,11 @@ desktop_DATA = $(srcdir)/desktop/gpvdm.desktop
 packagesdir = $(datadir)/mime/packages
 packages_DATA = $(srcdir)/desktop/gpvdm-gpvdm.xml
 
-iconsdir=$(datadir)/icons/hicolor/scalable/mimetypes
-icons_DATA=$(srcdir)/desktop/simulation-gpvdm.svg
-
 endif
 
 clean-local:
-	rm gpvdm_core *.dat *.o ./plugins/*.so ./plugins/*.dll *.log *.a  *.lib *.exe *.chk *.oplot -f
+	rm gpvdm_core *.dat *.o ./plugins/*.so ./plugins/*.dll  *.log *.a  *.lib *.exe *.chk *.oplot -f
+	rm ./gui/__pycache__/* -f
 	rm autom4te.cache -rf
 	find . -type f -name '.~lock*' -delete
 	
@@ -104,8 +123,5 @@ install-data-hook:
 uninstall-hook:
 	-rm $(DESTDIR)$(pkgdatadir) -rf
 	-rm $(DESTDIR)$(bindir)/gpvdm
-	-rm $(DESTDIR)$(datadir)/icons/hicolor/scalable/mimetypes/simulation-gpvdm.svg
-	-rm $(DESTDIR)$(datadir)/mime/packages/gpvdm-gpvdm.xml
-	-rm $(DESTDIR)$(datadir)/applications/gpvdm.desktop
 
 ACLOCAL_AMFLAGS = -I m4

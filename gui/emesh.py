@@ -24,10 +24,10 @@ import os
 from cal_path import get_exe_command
 from numpy import *
 from matplotlib.figure import Figure
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 import webbrowser
 from electrical_mesh_editor import electrical_mesh_editor
-from inp_util import inp_search_token_value
+from inp import inp_search_token_value
 from epitaxy import epitaxy_get_dos_files
 
 #inp
@@ -136,7 +136,7 @@ class tab_electrical_mesh(QWidgetSavePos):
 		QWidgetSavePos.__init__(self,"emesh")
 
 		self.setMinimumSize(1200, 600)
-		self.setWindowIcon(QIcon_load("mesh"))
+		self.setWindowIcon(icon_get("mesh"))
 
 		self.setWindowTitle(_("Electrical Mesh Editor")+" - (https://www.gpvdm.com)") 
 		
@@ -146,19 +146,19 @@ class tab_electrical_mesh(QWidgetSavePos):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
-		self.one_d = QAction(QIcon_load("1d"), _("1D simulation"), self)
+		self.one_d = QAction(icon_get("1d"), _("1D simulation"), self)
 		self.one_d.triggered.connect(self.callback_dim_1d)
 		toolbar.addAction(self.one_d)
 
-		self.two_d = QAction(QIcon_load("2d"), _("2D simulation"), self)
+		self.two_d = QAction(icon_get("2d"), _("2D simulation"), self)
 		self.two_d.triggered.connect(self.callback_dim_2d)
 		toolbar.addAction(self.two_d)
 
-		self.three_d = QAction(QIcon_load("3d"), _("3D simulation"), self)
+		self.three_d = QAction(icon_get("3d"), _("3D simulation"), self)
 		self.three_d.triggered.connect(self.callback_dim_3d)
 		toolbar.addAction(self.three_d)
 
-		configure = QAction(QIcon_load("preferences-system",size=32),  _("Configure mesh"), self)
+		configure = QAction(icon_get("preferences-system",size=32),  _("Configure mesh"), self)
 		configure.triggered.connect(self.on_configure_click)
 		toolbar.addAction(configure)
 
@@ -166,7 +166,7 @@ class tab_electrical_mesh(QWidgetSavePos):
 		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 		toolbar.addWidget(spacer)
 
-		self.undo = QAction(QIcon_load("help"), _("Help"), self)
+		self.undo = QAction(icon_get("help"), _("Help"), self)
 		self.undo.setStatusTip(_("Close"))
 		self.undo.triggered.connect(self.callback_help)
 		toolbar.addAction(self.undo)

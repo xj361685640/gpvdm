@@ -42,7 +42,7 @@ from open_save_dlg import open_as_filter
 
 mesh_articles = []
 
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 from cal_path import get_sim_path
 
 class fit_window_plot_real(QWidget):
@@ -116,7 +116,7 @@ class fit_window_plot_real(QWidget):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
-		self.tb_save = QAction(QIcon_load("document-save-as"), _("Save graph"), self)
+		self.tb_save = QAction(icon_get("document-save-as"), _("Save graph"), self)
 		self.tb_save.triggered.connect(self.callback_save)
 		toolbar.addAction(self.tb_save)
 

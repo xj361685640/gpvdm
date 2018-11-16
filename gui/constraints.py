@@ -29,7 +29,7 @@ from plot_io import plot_save_oplot_file
 from scan_io import scan_push_to_hpc
 from scan_io import scan_import_from_hpc
 from cal_path import get_exe_command
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 from scan_item import scan_items_get_file
 from scan_item import scan_items_get_token
 
@@ -231,7 +231,7 @@ class constraints(QWidget):
 		QWidget.__init__(self)
 		self.file_name=os.path.join(get_sim_path(),"constraints.inp")
 		self.setWindowTitle(_("Fit constraints window")+" - https://www.gpvdm.com")   
-		self.setWindowIcon(QIcon_load("constraints"))
+		self.setWindowIcon(icon_get("constraints"))
 		self.setFixedSize(900, 700)
 
 		self.vbox=QVBoxLayout()
@@ -240,19 +240,19 @@ class constraints(QWidget):
 		toolbar_mm=QToolBar()
 		toolbar_mm.setIconSize(QSize(32, 32))
 
-		self.tb_save = QAction(QIcon_load("list-add"), _("Add"), self)
+		self.tb_save = QAction(icon_get("list-add"), _("Add"), self)
 		self.tb_save.triggered.connect(self.callback_add_item_mm)
 		toolbar_mm.addAction(self.tb_save)
 
-		self.tb_save = QAction(QIcon_load("list-remove"), _("Minus"), self)
+		self.tb_save = QAction(icon_get("list-remove"), _("Minus"), self)
 		self.tb_save.triggered.connect(self.callback_delete_item_mm)
 		toolbar_mm.addAction(self.tb_save)
 
-		self.tb_down= QAction(QIcon_load("go-down"), _("Move down"), self)
+		self.tb_down= QAction(icon_get("go-down"), _("Move down"), self)
 		self.tb_down.triggered.connect(self.on_move_down)
 		toolbar_mm.addAction(self.tb_down)
 
-		self.tb_up= QAction(QIcon_load("go-up"), _("Move up"), self)
+		self.tb_up= QAction(icon_get("go-up"), _("Move up"), self)
 		self.tb_up.triggered.connect(self.on_move_up)
 		toolbar_mm.addAction(self.tb_up)
 
@@ -266,8 +266,7 @@ class constraints(QWidget):
 
 		self.tab_mm.cellChanged.connect(self.tab_changed)
 
-		self.select_param_window_mm=select_param()
-		self.select_param_window_mm.init(self.tab_mm)
+		self.select_param_window_mm=select_param(self.tab_mm)
 		self.select_param_window_mm.set_save_function(self.save_combo)
 		self.select_param_window_mm.file_name_tab_pos=0
 		self.select_param_window_mm.token_tab_pos=1
@@ -280,11 +279,11 @@ class constraints(QWidget):
 		toolbar_math=QToolBar()
 		toolbar_math.setIconSize(QSize(32, 32))
 
-		self.tb_save = QAction(QIcon_load("list-add"), _("Add"), self)
+		self.tb_save = QAction(icon_get("list-add"), _("Add"), self)
 		self.tb_save.triggered.connect(self.callback_add_item_math)
 		toolbar_math.addAction(self.tb_save)
 
-		self.tb_save = QAction(QIcon_load("list-remove"), _("Minus"), self)
+		self.tb_save = QAction(icon_get("list-remove"), _("Minus"), self)
 		self.tb_save.triggered.connect(self.callback_delete_item_math)
 		toolbar_math.addAction(self.tb_save)
 
@@ -298,15 +297,13 @@ class constraints(QWidget):
 
 		self.tab_math.cellChanged.connect(self.tab_changed)
 
-		self.select_param_window_math_a=select_param()
-		self.select_param_window_math_a.init(self.tab_math)
+		self.select_param_window_math_a=select_param(self.tab_math)
 		self.select_param_window_math_a.set_save_function(self.save_combo)
 		self.select_param_window_math_a.file_name_tab_pos=0
 		self.select_param_window_math_a.token_tab_pos=1
 		self.select_param_window_math_a.path_tab_pos=2
 
-		self.select_param_window_math_b=select_param()
-		self.select_param_window_math_b.init(self.tab_math)
+		self.select_param_window_math_b=select_param(self.tab_math)
 		self.select_param_window_math_b.set_save_function(self.save_combo)
 		self.select_param_window_math_b.file_name_tab_pos=4
 		self.select_param_window_math_b.token_tab_pos=5

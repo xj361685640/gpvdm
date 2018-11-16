@@ -41,7 +41,7 @@ from ribbon_simulations import ribbon_simulations
 from ribbon_configure import ribbon_configure
 from ribbon_information import ribbon_information
 from ribbon_home import ribbon_home
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 
 from about import about_dlg
 
@@ -53,36 +53,31 @@ from global_objects import global_object_get
 from server import server_get
 
 from connect_to_cluster import connect_to_cluster
+from ribbon_base import ribbon_base
+from error_dlg import error_dlg
 
-class ribbon(QTabWidget):
-	def goto_page(self,page):
-		self.blockSignals(True)
-		for i in range(0,self.count()):
-				if self.tabText(i)==page:
-					self.setCurrentIndex(i)
-					break
-		self.blockSignals(False)
-		
+class ribbon(ribbon_base):
+	
 	def file(self):
 		toolbar = QToolBar()
 		toolbar.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
 		toolbar.setIconSize(QSize(42, 42))
 		
-		self.home_new = QAction(QIcon_load("document-new"), _("New simulation").replace(" ","\n"), self)
+		self.home_new = QAction(icon_get("document-new"), _("New simulation").replace(" ","\n"), self)
 		#self.home_new.setText(_("New\nsimulation"))
 		toolbar.addAction(self.home_new)
 
-		self.home_open = QAction(QIcon_load("document-open"), _("Open\nsimulation"), self)
+		self.home_open = QAction(icon_get("document-open"), _("Open\nsimulation"), self)
 		toolbar.addAction(self.home_open)
 
-		self.home_export = QAction(QIcon_load("document-export"), _("Export\ndata"), self)
+		self.home_export = QAction(icon_get("document-export"), _("Export\ndata"), self)
 		toolbar.addAction(self.home_export)
 
 		spacer = QWidget()
 		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 		toolbar.addWidget(spacer)
 
-		self.home_help = QAction(QIcon_load("internet-web-browser"), _("Help"), self)
+		self.home_help = QAction(icon_get("internet-web-browser"), _("Help"), self)
 		toolbar.addAction(self.home_help)
 
 		return toolbar
@@ -101,7 +96,7 @@ class ribbon(QTabWidget):
 		dlg.exec_()
 
 	def __init__(self):
-		QTabWidget.__init__(self)
+		ribbon_base.__init__(self)
 		self.cluster_tab=None
 		self.setMaximumHeight(140)
 
@@ -119,7 +114,7 @@ class ribbon(QTabWidget):
 		self.about.setText(_("About"))
 		self.about.pressed.connect(self.callback_about_dialog)
 
-		self.cluster_button = QAction(QIcon_load("not_connected"), _("Connect to cluster"), self)
+		self.cluster_button = QAction(icon_get("not_connected"), _("Connect to cluster"), self)
 		self.cluster_button.triggered.connect(self.callback_cluster_connect)
 		self.toolbar.addAction(self.cluster_button)
 		
@@ -162,14 +157,20 @@ class ribbon(QTabWidget):
 		if dialog.exec_():
 			self.cluster_tab=global_object_get("cluster_tab")
 			global_object_get("notebook_goto_page")(_("Terminal"))
-			if self.myserver.connect()==False:
-				error_dlg(self,_("Can not connect to cluster."))
-
-			self.tb_cluster.update()
-			if self.myserver.cluster==True:
-				self.cluster_button.setIcon(QIcon_load("connected"))
-				status_icon_stop(True)
+			if self.myserver.cluster==False:
+				if self.myserver.connect()==False:
+					error_dlg(self,_("Can not connect to cluster."))
 			else:
-				status_icon_stop(False)
-				self.cluster_button.setIcon(QIcon_load("not_connected"))
+				self.myserver.cluster_disconnect()
+				print("Disconnected")
+
+		print(self.myserver.cluster)
+
+		self.tb_cluster.update()
+		if self.myserver.cluster==True:
+			self.cluster_button.setIcon(icon_get("connected"))
+			status_icon_stop(True)
+		else:
+			status_icon_stop(False)
+			self.cluster_button.setIcon(icon_get("not_connected"))
 

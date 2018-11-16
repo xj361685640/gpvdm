@@ -35,7 +35,7 @@ from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QTableWidget,QAbstractItemView, QMenuBar
 from PyQt5.QtGui import QPainter,QIcon
 
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 
 import i18n
 _ = i18n.language.gettext
@@ -99,7 +99,7 @@ class qe_window(QWidget):
 	def __init__(self):
 		QWidget.__init__(self)
 		self.setWindowTitle(_("Quantum Efficiency calculator")+" - (www.gpvdm.com)")
-		self.setWindowIcon(QIcon_load("qe"))
+		self.setWindowIcon(icon_get("qe"))
 
 		self.fig = Figure(figsize=(5,4), dpi=100)
 		self.ax1=None
@@ -116,11 +116,11 @@ class qe_window(QWidget):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
-		self.tb_save = QAction(QIcon_load("document-save-as"), _("Save graph"), self)
+		self.tb_save = QAction(icon_get("document-save-as"), _("Save graph"), self)
 		self.tb_save.triggered.connect(self.callback_save)
 		toolbar.addAction(self.tb_save)
 
-		self.tb_refresh = QAction(QIcon_load("media-playback-start"), _("Run"), self)
+		self.tb_refresh = QAction(icon_get("media-playback-start"), _("Run"), self)
 		self.tb_refresh .triggered.connect(self.callback_refresh)
 		toolbar.addAction(self.tb_refresh )
 

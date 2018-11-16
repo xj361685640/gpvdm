@@ -54,10 +54,10 @@ from epitaxy import epitaxy_get_name
 
 #inp
 from inp import inp_load_file
-from inp_util import inp_search_token_value
+from inp import inp_search_token_value
 from inp import inp_get_token_value
 #calpath
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 
 from open_save_dlg import save_as_filter
 from cal_path import get_sim_path
@@ -110,7 +110,7 @@ class band_graph(QWidget):
 		buf.close()
 
 	def save_image(self):
-		response=save_as_filter(self,"png (*.png);;jpg (*.jpg)")
+		response=save_as_filter(self,"png (*.png);;jpg (*.jpg);;svg (*.svg)")
 		if response != None:
 			print(response)
 			self.my_figure.savefig(response)
@@ -152,18 +152,25 @@ class band_graph(QWidget):
 			delta=float(layer_ticknes)*1e9
 			#print(epitaxy_get_electrical_layer(i))
 			lines=[]
-			material_type=inp_get_token_value(os.path.join(get_materials_path(),layer_material,'mat.inp'), "#material_type")
+			#we could have zipped the file
+			mat_file=os.path.join(get_materials_path(),layer_material,'mat.inp')
+			archive=os.path.basename(os.path.dirname(mat_file))+".zip"
+
+			material_type=inp_get_token_value(mat_file, "#material_type",archive=archive)
+
 			if epitaxy_get_electrical_layer(i).startswith("dos")==False:
 				dos_file=os.path.join(get_materials_path(),layer_material,'dos.inp')
 				if os.path.isfile(dos_file)==False:
 					dos_file=os.path.join(get_default_material_path(),"dos.inp")
 
-				lines=inp_load_file(dos_file)
+				lines=inp_load_file(dos_file,archive=archive)
+				#print("rod",lines,dos_file,material_type,os.path.join(get_materials_path(),layer_material,'mat.inp'))
 				if lines!=False:
 					lumo=-float(inp_search_token_value(lines, "#Xi"))
 					Eg=float(inp_search_token_value(lines, "#Eg"))
 			else:
 				lines=inp_load_file(os.path.join(get_sim_path(),epitaxy_get_electrical_layer(i)+".inp"))
+				#print(lines)
 				if lines!=False:
 					lumo=-float(inp_search_token_value(lines, "#Xi"))
 					Eg=float(inp_search_token_value(lines, "#Eg"))

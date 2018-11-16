@@ -31,7 +31,7 @@ from inp import inp_copy_file
 from inp import inp_remove_file
 from util import strextract_interger
 from global_objects import global_object_get
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 from global_objects import global_object_register
 import i18n
 _ = i18n.language.gettext
@@ -58,6 +58,8 @@ from css import css_apply
 from progress import progress_class
 from process_events import process_events
 
+from timedomain_ribbon import timedomain_ribbon
+ 
 class experiment(QWidgetSavePos):
 
 	changed = pyqtSignal()
@@ -123,6 +125,13 @@ class experiment(QWidgetSavePos):
 			self.notebook.setTabText(index, new_sim_name)
 			self.changed.emit()
 
+	def callback_laser_start_time(self):
+		tab = self.notebook.currentWidget()
+		tab.tmesh.callback_laser()
+
+	def callback_start_time(self):
+		tab = self.notebook.currentWidget()
+		tab.tmesh.callback_start_time()
 
 	def callback_delete_page(self):
 
@@ -173,10 +182,13 @@ class experiment(QWidgetSavePos):
 		tab=experiment_tab(index)
 		self.notebook.addTab(tab,tab.tab_name.split("@")[0])
 
-	def switch_page(self,page, page_num, user_param1):
-		pageNum = self.notebook.get_current_page()
-		tab = self.notebook.get_nth_page(pageNum)
-		self.status_bar.push(self.context_id, tab.tab_name)
+	def switch_page(self):
+		tab = self.notebook.currentWidget()
+		self.ribbon.tb_lasers.update("pulse"+str(tab.tmesh.index)+".inp")
+
+		#pageNum = self.notebook.get_current_page()
+		#tab = self.notebook.get_nth_page(pageNum)
+		#self.status_bar.push(self.context_id, tab.tab_name)
 
 	def __init__(self):
 		QWidgetSavePos.__init__(self,"experiment")
@@ -185,43 +197,36 @@ class experiment(QWidgetSavePos):
 
 		self.setMinimumSize(1200, 700)
 		self.setWindowTitle(_("Time domain experiment window")+" (https://www.gpvdm.com)") 
-		self.setWindowIcon(QIcon_load("icon"))
+		self.setWindowIcon(icon_get("icon"))
 
-		toolbar=QToolBar()
-		toolbar.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
-		toolbar.setIconSize(QSize(48, 48))
+		#toolbar=QToolBar()
+		#toolbar.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
+		#toolbar.setIconSize(QSize(48, 48))
 
-		self.new = QAction(QIcon_load("document-new"), wrap_text(_("New experiment"),2), self)
-		self.new.triggered.connect(self.callback_add_page)
-		toolbar.addAction(self.new)
+		self.ribbon=timedomain_ribbon()
 
-		self.new = QAction(QIcon_load("edit-delete"), wrap_text(_("Delete experiment"),3), self)
-		self.new.triggered.connect(self.callback_delete_page)
-		toolbar.addAction(self.new)
-
-		self.clone = QAction(QIcon_load("clone"), wrap_text(_("Clone experiment"),3), self)
-		self.clone.triggered.connect(self.callback_copy_page)
-		toolbar.addAction(self.clone)
-
-		self.clone = QAction(QIcon_load("rename"), wrap_text(_("Rename experiment"),3), self)
-		self.clone.triggered.connect(self.callback_rename_page)
-		toolbar.addAction(self.clone)
-
-		self.tb_save = QAction(QIcon_load(("document-save")), wrap_text(_("Save image"),3), self)
-		self.tb_save.triggered.connect(self.callback_save)
-		toolbar.addAction(self.tb_save)
-
-		spacer = QWidget()
-		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-		toolbar.addWidget(spacer)
+		self.ribbon.new.triggered.connect(self.callback_add_page)
+		self.ribbon.delete.triggered.connect(self.callback_delete_page)
+		self.ribbon.clone.triggered.connect(self.callback_copy_page)
+		self.ribbon.rename.triggered.connect(self.callback_rename_page)
+		self.ribbon.tb_save.triggered.connect(self.callback_save)
 
 
-		self.help = QAction(QIcon_load("help"), _("Help"), self)
-		self.help.setStatusTip(_("Close"))
-		self.help.triggered.connect(self.callback_help)
-		toolbar.addAction(self.help)
+		self.ribbon.tb_laser_start_time.triggered.connect(self.callback_laser_start_time)
 
-		self.main_vbox.addWidget(toolbar)
+		self.ribbon.tb_start.triggered.connect(self.callback_start_time)
+
+		#spacer = QWidget()
+		#spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+		#toolbar.addWidget(spacer)
+
+
+		#self.help = QAction(icon_get("help"), _("Help"), self)
+		#self.help.setStatusTip(_("Close"))
+		#self.help.triggered.connect(self.callback_help)
+		#toolbar.addAction(self.help)
+
+		self.main_vbox.addWidget(self.ribbon)
 
 
 		self.notebook = QTabWidget()
@@ -241,8 +246,7 @@ class experiment(QWidgetSavePos):
 
 
 		self.setLayout(self.main_vbox)
-
-		return
-
-
+		
+		self.notebook.currentChanged.connect(self.switch_page)
+		self.switch_page()
 

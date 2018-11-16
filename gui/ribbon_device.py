@@ -20,7 +20,7 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 import os
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 
 from dump_io import dump_io
 from tb_item_sim_mode import tb_item_sim_mode
@@ -71,28 +71,28 @@ class ribbon_device(QToolBar):
 		self.setOrientation(Qt.Vertical);
 		self.setIconSize(QSize(42, 42))
 
-		self.tb_layer_editor = QAction(QIcon_load("layers"), _("Layer\neditor"), self)
+		self.tb_layer_editor = QAction(icon_get("layers"), _("Layer\neditor"), self)
 		self.tb_layer_editor.triggered.connect(self.callback_layer_editor)
 		self.addAction(self.tb_layer_editor)
 		global_object_register("show_layer_editor",self.callback_layer_editor)
 		
-		self.contacts = QAction(QIcon_load("contact"), _("Contacts"), self)
+		self.contacts = QAction(icon_get("contact"), _("Contacts"), self)
 		self.contacts.triggered.connect(self.callback_contacts)
 		self.addAction(self.contacts)
 		
-		self.doping = QAction(QIcon_load("doping"), _("Doping"), self)
+		self.doping = QAction(icon_get("doping"), _("Doping"), self)
 		self.doping.triggered.connect(self.callback_doping)
 		self.addAction(self.doping)
 
-		self.parasitic = QAction(QIcon_load("parasitic"), _("Parasitic\n components"), self)
+		self.parasitic = QAction(icon_get("parasitic"), _("Parasitic\n components"), self)
 		self.parasitic.triggered.connect(self.callback_parasitic)
 		self.addAction(self.parasitic)
 
-		self.tb_electrical_editor = QAction(QIcon_load("electrical"), _("Electrical\nparameters"), self)
+		self.tb_electrical_editor = QAction(icon_get("electrical"), _("Electrical\nparameters"), self)
 		self.tb_electrical_editor.triggered.connect(self.callback_electrical_editor)
 		self.addAction(self.tb_electrical_editor)
 
-		self.tb_dimension_editor = QAction(QIcon_load("dimensions"), _("xz-size"), self)
+		self.tb_dimension_editor = QAction(icon_get("dimensions"), _("xz-size"), self)
 		self.tb_dimension_editor.triggered.connect(self.callback_dimension_editor)
 		self.addAction(self.tb_dimension_editor)
 

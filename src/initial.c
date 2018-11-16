@@ -213,6 +213,7 @@ if (in->lr_pcontact==LEFT)
 	in->electron_affinity_left= -in->Xi[0][0][0]-in->Eg[0][0][0]-get_top_from_p(in,charge_left,in->Te[0][0][0],in->imat[0][0][0]);
 	Ef= -(top_l+Xi+Eg);
 	left_ref_to_zero=-(Eg+top_l)-in->Xi[0][0][0];
+
 }else
 {
 	top_l= get_top_from_n(in,charge_left,in->Te[0][0][0],in->imat[0][0][0]);
@@ -256,9 +257,19 @@ printf_log(sim,"%Le %Le %Le %Le %Le\n",top_l,top_r,Eg,delta_phi,in->phi[0][0][0]
 }
 
 
-printf("%Lf %Lf %Lf %Lf\n",top_l,Xi,Eg,top_r);
+//printf("%Lf %Lf %Lf %Lf\n",top_l,Xi,Eg,top_r);
+//printf("top_l %Le \n",top_l);
+//printf("Xi %Le\n",in->Xi[0][0][0]);
+//printf("phi %Le\n",in->phi[0][0][0]);
+//printf("Eg %Le\n",Eg);
+//printf("Ef %Le\n",Ef);
+
+//printf("total %Le\n",(-in->Xi[0][0][0]-in->phi[0][0][0]-Eg)-Ef);
+
+printf(">>rod>>%Le\n",Ef-(-in->Xi[0][0][0]-in->phi[0][0][0]));
 gdouble Lp=get_p_den(in,(-in->Xi[0][0][0]-in->phi[0][0][0]-Eg)-Ef,in->Th[0][0][0],in->imat[0][0][0]);
 gdouble Ln=get_n_den(in,Ef-(-in->Xi[0][0][0]-in->phi[0][0][0]),in->Te[0][0][0],in->imat[0][0][0]);
+
 gdouble Rp=get_p_den(in,(-in->Xi[0][0][in->ymeshpoints-1]-delta_phi-Eg)-Ef,in->Th[0][0][in->ymeshpoints-1],in->imat[0][0][in->ymeshpoints-1]);
 gdouble Rn=get_n_den(in,Ef-(-in->Xi[0][0][in->ymeshpoints-1]-delta_phi),in->Te[0][0][in->ymeshpoints-1],in->imat[0][0][in->ymeshpoints-1]);
 
@@ -266,6 +277,11 @@ in->l_electrons=Ln;
 in->l_holes=Lp;
 in->r_electrons=Rn;
 in->r_holes=Rp;
+
+printf_log(sim,"Lp = %Le\n",Lp);
+printf_log(sim,"Ln = %Le\n",Ln);
+printf_log(sim,"Rp = %Le\n",Rp);
+printf_log(sim,"Rn = %Le\n",Rn);
 
 int band;
 for (z=0;z<in->zmeshpoints;z++)

@@ -121,6 +121,7 @@ char temp[PATHLEN];
 	}
 
 	join_path(2,temp,sim->exe_path,name);
+	printf("search %s",sim->exe_path);
 	if (isdir(temp)==0)
 	{
 		strcpy(out,temp);
@@ -255,7 +256,10 @@ void cal_path(struct simulation *sim)
 {
 char cwd[PATHLEN];
 char temp[PATHLEN];
+
 strcpy(cwd,"");
+strcpy(temp,"");
+
 strcpy(sim->share_path,"nopath");
 
 strcpy(sim->plugins_path,"");
@@ -263,7 +267,7 @@ strcpy(sim->lang_path,"");
 strcpy(sim->input_path,"");
 strcpy(sim->output_path,"");
 
-char buff[PATH_MAX];
+memset(temp, 0, PATHLEN * sizeof(char));
 int len = readlink("/proc/self/exe", temp, PATHLEN);
 if (len == -1)
 {

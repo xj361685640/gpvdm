@@ -30,10 +30,10 @@ from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTa
 from PyQt5.QtGui import QPainter,QIcon
 from PyQt5.QtGui import QFont
 
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 from gui_util import tab_set_value
 from error_dlg import error_dlg
-from cal_path import find_materials
+from materials_io import find_materials
 
 class materials_select(QWidget):
 	def init(self,treeview):
@@ -50,7 +50,7 @@ class materials_select(QWidget):
 		self.main_vbox=QVBoxLayout()
 		self.save_function=None
 		
-		self.setWindowIcon(QIcon_load("scan"))
+		self.setWindowIcon(icon_get("scan"))
 
 		self.setWindowTitle(_("Select material")+" (https://www.gpvdm.com)") 
 
@@ -106,9 +106,9 @@ class materials_select(QWidget):
 			if found==False:
 				pointer=QTreeWidgetItem(pointer, [text[depth]])
 				if depth==len(text)-1:
-					pointer.setIcon(0,QIcon_load("organic_material"))
+					pointer.setIcon(0,icon_get("organic_material"))
 				else:
-					pointer.setIcon(0,QIcon_load("folder"))
+					pointer.setIcon(0,icon_get("folder"))
 
 
 	def update(self):

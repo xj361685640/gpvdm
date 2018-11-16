@@ -22,7 +22,7 @@
 
 import os
 from tab import tab_class
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 
 #qt
 from PyQt5.QtCore import QSize, Qt 
@@ -201,7 +201,7 @@ class import_data(QDialog):
 		self.info_token=dat_file()
 
 		#self.setFixedSize(900, 600)
-		self.setWindowIcon(QIcon_load("import"))
+		self.setWindowIcon(icon_get("import"))
 
 		self.setWindowTitle(_("Import data")+" (https://www.gpvdm.com)") 
 

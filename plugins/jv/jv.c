@@ -39,8 +39,11 @@
 
 static int unused __attribute__((unused));
 
+
 void sim_jv(struct simulation *sim,struct device *in)
 {
+light_solve_and_update(sim,in,&(in->mylight),0.0);
+
 int lam=0;
 printf_log(sim,_("Running JV simulation\n"));
 struct buffer buf;
@@ -274,7 +277,7 @@ in->stop=FALSE;
 			dump_write_to_disk(sim,in);
 
 			inter_append(&lv,Vexternal,pl_get_light_energy()*in->mylight.extract_eff[lam]);
-
+			//printf("%Le %Le\n",pl_get_light_energy(),in->mylight.extract_eff[lam]);
 			inter_append(&lj,J,pl_get_light_energy()*in->mylight.extract_eff[lam]);
 			//printf("%Le\n",pl_get_light_energy());
 			V+=Vstep;
@@ -310,6 +313,7 @@ in->FF=gfabs(in->Pmax/(in->Jsc*in->Voc));
 
 if (get_dump_status(sim,dump_print_text)==TRUE)
 {
+	printf_log(sim,"Max possible Jsc = %Lf\n",get_max_Jsc(in));
 	printf_log(sim,"Voc= %Lf (V)\n",in->Voc);
 	printf_log(sim,"Jsc= %Lf (A/m^2)\n",in->Jsc);
 	printf_log(sim,"Pmax= %Lf (W/m^2)\n",in->Pmax);

@@ -21,7 +21,7 @@
 
 import os
 import shutil
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 from gui_util import dlg_get_text
 from util import gpvdm_delete_file
 from util import copy_scan_dir
@@ -239,6 +239,9 @@ class scan_class(QWidgetSavePos):
 		for i in range(0,len(sim_dirs)):
 			self.add_page(sim_dirs[i])
 
+		if self.notebook.count()!=0:
+			self.ribbon.goto_page(_("Simulations"))
+
 	def clear_pages(self):
 		self.notebook.clear()
 
@@ -255,7 +258,7 @@ class scan_class(QWidgetSavePos):
 		self.myserver=my_server
 		self.setMinimumSize(1000,500)
 		self.setWindowTitle(_("Parameter scan - gpvdm"))
-		self.setWindowIcon(QIcon_load("scan"))
+		self.setWindowIcon(icon_get("scan"))
 
 		self.rod=[]
 		self.sim_dir=get_sim_path()

@@ -20,7 +20,7 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 import os
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 
 from dump_io import dump_io
 from tb_item_sim_mode import tb_item_sim_mode
@@ -39,6 +39,13 @@ from PyQt5.QtWidgets import QTabWidget
 import webbrowser
 from help import help_window
 
+from inp import inp_isfile
+
+from cal_path import get_sim_path
+from util import wrap_text
+
+from ref_io import load_ref
+
 class ribbon_information(QToolBar):
 	def __init__(self):
 		QToolBar.__init__(self)
@@ -48,19 +55,19 @@ class ribbon_information(QToolBar):
 
 
 
-		self.license = QAction(QIcon_load("license"), _("License")+"\n"	, self)
+		self.license = QAction(icon_get("license"), _("License")+"\n"	, self)
 		self.license.triggered.connect(self.callback_license)
 		self.addAction(self.license)		
 
-		self.ref = QAction(QIcon_load("ref"), _("How to\ncite"), self)
+		self.ref = QAction(icon_get("ref"), _("How to\ncite"), self)
 		self.ref.triggered.connect(self.callback_ref)
 		self.addAction(self.ref)
 
-		self.hints = QAction(QIcon_load("hints.png"), _("Hints\nWindow"), self)
+		self.hints = QAction(icon_get("hints.png"), _("Hints\nWindow"), self)
 		self.hints.triggered.connect(self.callback_help)
 		self.addAction(self.hints)
 
-		#self.about = QAction(QIcon_load("help"), _("About")+"\n", self)
+		#self.about = QAction(icon_get("help"), _("About")+"\n", self)
 		#self.addAction(self.about)
 
 
@@ -68,26 +75,32 @@ class ribbon_information(QToolBar):
 		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 		self.addWidget(spacer)
 
+		self.paper = QAction(icon_get("pdf"), wrap_text(_("Assosiated paper"),8), self)
+		self.paper.triggered.connect(self.callback_paper)
+		self.addAction(self.paper)
 
-		self.twitter = QAction(QIcon_load("twitter.png"), _("twitter"), self)
+		self.twitter = QAction(icon_get("twitter.png"), _("twitter"), self)
 		self.twitter.triggered.connect(self.callback_twitter)
 		self.addAction(self.twitter)
 
-		self.fb = QAction(QIcon_load("fb.png"), _("Facebook"), self)
+		self.fb = QAction(icon_get("fb.png"), _("Facebook"), self)
 		self.fb.triggered.connect(self.callback_fb)
 		self.addAction(self.fb)
 
 		
-		self.youtube = QAction(QIcon_load("youtube.png"), _("Youtube\nchannel"), self)
+		self.youtube = QAction(icon_get("youtube.png"), _("Youtube\nchannel"), self)
 		self.youtube.triggered.connect(self.callback_youtube)
 		self.addAction(self.youtube)
 
-		self.man = QAction(QIcon_load("internet-web-browser"), _("Help")+"\n", self)
+		self.man = QAction(icon_get("internet-web-browser"), _("Help")+"\n", self)
 		self.man.triggered.connect(self.callback_on_line_help)
 		self.addAction(self.man)
 
 	def update(self):
-		print("update")
+		if inp_isfile(os.path.join(get_sim_path(),"sim.ref"))==True:
+			self.paper.setVisible(True)
+		else:
+			self.paper.setVisible(False)
 		
 	def setEnabled(self,val):
 		self.license.setEnabled(val)
@@ -104,6 +117,13 @@ class ribbon_information(QToolBar):
 
 	def callback_twitter(self):
 		webbrowser.open("https://twitter.com/gpvdm_info")
+
+	def callback_paper(self):
+		r=load_ref(os.path.join(get_sim_path(),"sim.ref"))
+		print("open,",r.website)
+		if r!=None:
+			if r.website!="":
+				webbrowser.open(r.website)#
 
 	def callback_fb(self):
 		webbrowser.open("https://www.facebook.com/gpvdminfo/")

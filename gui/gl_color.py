@@ -62,7 +62,11 @@ def set_color(r,g,b,name,alpha=-1):
 	a=color(r,g,b,alpha)
 	a.name=name
 	color_list.append(a)
-	glColor3f(r,g,b)
+
+	if alpha==-1:
+		glColor3f(r,g,b)
+	else:
+		glColor4f(r,g,b, alpha)
 
 def clear_color():
 	global color_list

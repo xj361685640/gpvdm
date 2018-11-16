@@ -20,7 +20,7 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 import os
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 
 from dump_io import dump_io
 from tb_item_sim_mode import tb_item_sim_mode
@@ -54,6 +54,7 @@ from gui_util import dlg_get_text
 from clone import clone_material
 
 from cal_path import get_base_material_path
+from error_dlg import error_dlg
 
 class ribbon_database(QToolBar):
 	def __init__(self):
@@ -62,20 +63,20 @@ class ribbon_database(QToolBar):
 		self.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
 		self.setIconSize(QSize(42, 42))
 		
-		self.materials = QAction(QIcon_load("organic_material"), _("Materials\ndatabase"), self)
+		self.materials = QAction(icon_get("organic_material"), _("Materials\ndatabase"), self)
 		self.materials.triggered.connect(self.callback_view_materials)
 		self.addAction(self.materials)
 
-		self.spectra_file = QAction(QIcon_load("spectra_file"), _("Optical\ndatabase"), self)
+		self.spectra_file = QAction(icon_get("spectra_file"), _("Optical\ndatabase"), self)
 		self.spectra_file.triggered.connect(self.callback_view_optical)
 		self.addAction(self.spectra_file)
 
 		if enable_betafeatures()==True:
-			self.tb_import_pvlighthouse = QAction(QIcon_load("sync"), _("Update materials\nfrom PVLighthouse"), self)
+			self.tb_import_pvlighthouse = QAction(icon_get("sync"), _("Update materials\nfrom PVLighthouse"), self)
 			self.tb_import_pvlighthouse.triggered.connect(self.callback_pvlighthouse)
 			self.addAction(self.tb_import_pvlighthouse)
 
-			self.tb_import_refractiveindex = QAction(QIcon_load("sync"), _("Update materials\nfrom refractiveindex.info"), self)
+			self.tb_import_refractiveindex = QAction(icon_get("sync"), _("Update materials\nfrom refractiveindex.info"), self)
 			self.tb_import_refractiveindex.triggered.connect(self.callback_refractiveindex)
 			self.addAction(self.tb_import_refractiveindex)
 
@@ -92,12 +93,14 @@ class ribbon_database(QToolBar):
 		new_sim_name=new_sim_name.ret
 		if new_sim_name!=None:
 			new_material=os.path.join(self.dialog.viewer.path,new_sim_name)
-			clone_material(new_material,os.path.join(get_base_material_path(),"generic","air"))
+			ret=clone_material(new_material,os.path.join(get_base_material_path(),"generic","air"))
+			if ret==False:
+				error_dlg(self,_("I cant write to:")+new_material+" "+_("This means either the disk is full or your system administrator has not given you write permissions to that location."))
 			self.dialog.viewer.fill_store()
 
 	def callback_view_materials(self):
 		self.dialog=gpvdm_open(get_materials_path(),big_toolbar=True)
-		self.new_materials = QAction(QIcon_load("add_material"), wrap_text(_("Add Material"),8), self)
+		self.new_materials = QAction(icon_get("add_material"), wrap_text(_("Add Material"),8), self)
 		self.new_materials.triggered.connect(self.on_new_materials_clicked)
 		self.dialog.toolbar.addAction(self.new_materials)
 

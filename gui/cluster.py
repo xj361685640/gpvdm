@@ -43,7 +43,7 @@ from cal_path import get_exe_command
 #from global_objects import global_object_get
 #from help import my_help_class
 from sim_warnings import sim_warnings
-from inp_util import inp_search_token_value
+from inp import inp_search_token_value
 from stat import *
 from encrypt import encrypt
 from encrypt import decrypt
@@ -111,14 +111,14 @@ class cluster:
 		self.socket = False
 		self.cluster=False
 		self.nodes=[]
-		self.server_ip=inp_get_token_value(os.path.join(get_sim_path(),"cluster.inp"),"#server_ip")
+		self.server_ip=inp_get_token_value(os.path.join(get_sim_path(),"cluster"),"#cluster_ip",search_active_file=True)
 
 	def connect(self):
 		if self.cluster==False:
 			encrypt_load()
 			print("conecting to:",self.server_ip)
 			self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-			port=int(inp_get_token_value(os.path.join(get_sim_path(),"cluster.inp"),"#port"))
+			port=int(inp_get_token_value(os.path.join(get_sim_path(),"cluster"),"#port",search_active_file=True))
 			try:
 				self.socket.connect((self.server_ip, port))
 			except:
@@ -138,13 +138,18 @@ class cluster:
 				self.thread.start()
 
 			print("conected to cluster")
-		else:
-			self.socket.close()
-			try:
-				self.thread.stop()
-			except:
-				print("error stopping thread",sys.exc_info()[0])
+		return True
 
+	def cluster_disconnect(self):
+
+		if self.cluster==True:
+			#try:
+			self.stop=True
+			self.thread.join()
+			#except:
+			#	print("error stopping thread",sys.exc_info()[0])
+
+			self.socket.close()
 			self.cluster=False
 			print("not conected to cluster")
 
@@ -199,7 +204,7 @@ class cluster:
 		data=tx_struct()
 		data.id="gpvdmheadexe"
 		data.dir_name="src"
-		data.command=inp_get_token_value(os.path.join(get_sim_path(),"cluster.inp"),"#make_command")
+		data.command=inp_get_token_value(os.path.join(get_sim_path(),"cluster"),"#make_command",search_active_file=True)
 		self.tx_packet(data)
 
 	def sync_dir(self,path,target):
@@ -534,7 +539,7 @@ class cluster:
 			if path==None:
 				return
 			self.sync_dir(path,"src")
-			path=inp_get_token_value(os.path.join(get_sim_path(),"cluster.inp"),"#path_to_libs")
+			path=inp_get_token_value(os.path.join(get_sim_path(),"cluster"),"#path_to_libs",search_active_file=True)
 			self.sync_dir(path,"src")
 		
 	def copy_src_to_cluster(self):
@@ -543,7 +548,7 @@ class cluster:
 			if path==None:
 				return
 			
-			banned_types=[".pdf",".png",".dll",".o",".so",".so",".a",".dat",".aprox",".ods"]
+			banned_types=[".pdf",".png",".dll",".o",".so",".so",".a",".dat",".aprox",".ods",".rpm",".deb"]
 			banned_types.extend([".xls",".xlsx",".log",".pptx",".dig",".old",".bak",".opj",".csv",".jpg",".so.3",".so.5","gpvdm_core"])
 			banned_types.extend(["so.0",".zip"])
 
@@ -553,7 +558,7 @@ class cluster:
 			files=self.gen_dir_list(path,banned_types=banned_types,banned_dirs=banned_dirs)
 			self.send_files("src",path,files)
 			
-			path=inp_get_token_value(os.path.join(get_sim_path(),"cluster.inp"),"#path_to_libs")
+			path=inp_get_token_value(os.path.join(get_sim_path(),"cluster"),"#path_to_libs",search_active_file=True)
 			self.send_dir(path,"src")
 
 
@@ -594,7 +599,7 @@ class cluster:
 		self.stop()
 
 	def cluster_run_jobs(self):
-		exe_name=inp_get_token_value(os.path.join(get_sim_path(),"cluster.inp"),"#exe_name")
+		exe_name=inp_get_token_value(os.path.join(get_sim_path(),"cluster"),"#exe_name",search_active_file=True)
 		data=tx_struct()
 		data.id="gpvdmrunjobs"
 		data.exe_name=exe_name
@@ -618,7 +623,7 @@ class cluster:
 		data=tx_struct()
 		data.id="gpvdmaddjob"
 		data.target=job_orig_path
-		data.cpus=int(inp_get_token_value(os.path.join(get_sim_path(),"cluster.inp"),"#cluster_cpus"))
+		data.cpus=int(inp_get_token_value(os.path.join(get_sim_path(),"cluster"),"#cluster_cpus",search_active_file=True))
 		if data.cpus==0:
 			data.cpus=1
 		self.tx_packet(data)
@@ -637,9 +642,11 @@ class cluster:
 	def listen(self):
 		#print("thread !!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 		self.running=True
-
+		self.stop=False
 		while(1):
 			understood=False
+			if self.stop==True:
+				break
 			data = self.recvall(512)
 			
 			if data==None:

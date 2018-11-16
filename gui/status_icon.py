@@ -31,7 +31,7 @@ if gui_get()==True:
 	from PyQt5.QtWidgets import QSystemTrayIcon,QMenu,QApplication
 	from about import about_dlg
 	import webbrowser
-	from icon_lib import QIcon_load
+	from icon_lib import icon_get
 
 from cluster import cluster
 
@@ -43,7 +43,7 @@ if gui_get()==True:
 	class tray_icon(QSystemTrayIcon):
 
 		def __init__(self,  parent=None):
-			QSystemTrayIcon.__init__(self, QIcon_load("ball_green"), parent)
+			QSystemTrayIcon.__init__(self, icon_get("ball_green"), parent)
 			menu = QMenu(parent)
 			self.menu_about = menu.addAction(_("About"))
 			self.menu_about.triggered.connect(self.callback_about)
@@ -82,17 +82,17 @@ def status_icon_run(cluster):
 	if gui_get()==True:
 		global statusicon
 		if cluster==False:
-			statusicon.setIcon(QIcon_load("ball_red"))
+			statusicon.setIcon(icon_get("ball_red"))
 		else:
-			statusicon.setIcon(QIcon_load("ball_red4"))
+			statusicon.setIcon(icon_get("ball_red4"))
 
 def status_icon_stop(cluster):
 	if gui_get()==True:
 		global statusicon
 		if cluster==False:
-			statusicon.setIcon(QIcon_load("ball_green"))
+			statusicon.setIcon(icon_get("ball_green"))
 		else:
-			statusicon.setIcon(QIcon_load("ball_green4"))
+			statusicon.setIcon(icon_get("ball_green4"))
 
 def status_icon_get():
 	if gui_get()==True:

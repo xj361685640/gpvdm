@@ -21,7 +21,7 @@
 
 
 import os
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 
 #qt
 from PyQt5.QtCore import QSize, Qt 
@@ -33,7 +33,6 @@ import webbrowser
 
 #windows
 from tab import tab_class
-from tab_lang import language_tab_class
 
 from PyQt5.QtCore import pyqtSignal
 from global_objects import global_object_run
@@ -57,30 +56,37 @@ class class_config_window(QWidgetSavePos):
 	def callback_tab_changed(self):
 		self.changed.emit()
 		global_object_run("ribbon_configure_dump_refresh")
+	
+	def __init__(self):
+		QWidgetSavePos.__init__(self,"config_window")
+		self.files=[]
+		self.description=[]
+		self.toolbar=QToolBar()
+		self.toolbar.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
+		self.toolbar.setIconSize(QSize(48, 48))
 
 	def init(self):
 		self.setFixedSize(900, 600)
-		self.setWindowIcon(QIcon_load("preferences-system"))
+		self.setWindowIcon(icon_get("preferences-system"))
 
 		self.setWindowTitle(_("Configure")+" (https://www.gpvdm.com)") 
 		
 
 		self.main_vbox = QVBoxLayout()
 
-		toolbar=QToolBar()
-		toolbar.setIconSize(QSize(48, 48))
+
 
 		spacer = QWidget()
 		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
-		toolbar.addWidget(spacer)
+		self.toolbar.addWidget(spacer)
 
 
-		self.undo = QAction(QIcon_load("help"), _("Help"), self)
+		self.undo = QAction(icon_get("help"), _("Help"), self)
 		self.undo.setStatusTip(_("Help"))
 		self.undo.triggered.connect(self.callback_help)
-		toolbar.addAction(self.undo)
+		self.toolbar.addAction(self.undo)
 
-		self.main_vbox.addWidget(toolbar)
+		self.main_vbox.addWidget(self.toolbar)
 
 		
 
@@ -90,33 +96,22 @@ class class_config_window(QWidgetSavePos):
 
 		self.main_vbox.addWidget(self.notebook)
 
-		files=["math.inp","dump.inp","thermal.inp","led.inp","config.inp","server.inp" ]
-		description=[_("Solver configuration"),_("Output files"),_("Thermal"),_("LED"),_("GUI configuration"),_("Server configuration")]
-
-		for i in range(0,len(files)):
-			file_name=os.path.join(get_sim_path(),files[i])
+		for i in range(0,len(self.files)):
+			file_name=os.path.join(get_sim_path(),self.files[i])
 			if inp_isfile(file_name)==True:
 				tab=tab_class()
-				tab.init(file_name,description[i])
-				self.notebook.addTab(tab,description[i])
+				tab.init(file_name,self.description[i])
+				self.notebook.addTab(tab,self.description[i])
 				if os.path.basename(file_name)=="dump.inp":
 					tab.changed.connect(self.callback_tab_changed)
 					
 					self.detailed_file_select=dump_select()
 					self.notebook.addTab(self.detailed_file_select,_("Detailed dump control"))
-
-		lang_tab=language_tab_class()
-		self.notebook.addTab(lang_tab,_("Language"))
-
 		
 
 		self.setLayout(self.main_vbox)
 
-		#self.connect("delete-event", self.callback_close_window) 
-
-		#self.hide()
-
-	def callback_help(self,widget):
+	def callback_help(self):
 		webbrowser.open('http://www.gpvdm.com/man/index.html')
 
 

@@ -24,7 +24,6 @@ import shutil
 from tempfile import mkstemp
 import zipfile
 from inp_util import inp_merge
-from inp_util import inp_search_token_value
 
 from cal_path import subtract_paths
 import time
@@ -68,8 +67,14 @@ def zip_lsdir(file_name,zf=None,sub_dir=None):
 
 		items=zf.namelist()
 		items.extend(my_list)
-		
+
+#		print(items)
 		my_list=list(set(items))
+
+#		print(my_list)
+		#print(my_list[0])
+		#asdsa
+
 
 		if sub_dir!=None:
 			l=[]
@@ -88,6 +93,7 @@ def zip_lsdir(file_name,zf=None,sub_dir=None):
 		if do_close==True:
 			zf.close()
 
+		my_list=sorted(my_list)
 		return my_list
 
 	return False
@@ -308,18 +314,26 @@ def archive_add_dir(archive_path,dir_name,base_dir, remove_src_dir=False,zf=None
 
 
 def read_lines_from_archive(zip_file_path,file_name,mode="l"):
-
 	file_path=os.path.join(os.path.dirname(zip_file_path),file_name)
 
 	read_lines=[]
+	found=False
 
-	if os.path.isfile(file_path):
+	if os.path.isfile(file_path):	#for /a/b/c/sim.gpvdm a.dat, check /a/b/c/a.dat
 		f=open(file_path, mode='rb')
 		read_lines = f.read()
 		f.close()
-	else:
-		found=False
+		found=True
+	
+	if found==False:					#for /a/b/c/sim.gpvdm a.dat, check /a/b/c/sim/a.dat
+		file_path=os.path.join(zip_file_path[:-4],file_name)
+		if os.path.isfile(file_path):
+			f=open(file_path, mode='rb')
+			read_lines = f.read()
+			f.close()
+			found=True
 
+	if found==False:
 		if os.path.isfile(zip_file_path):
 			zip_file_open_ok=True
 			try:
@@ -337,13 +351,14 @@ def read_lines_from_archive(zip_file_path,file_name,mode="l"):
 
 				zf.close()
 
-		if found==False:
-			return False
+	if found==False:
+		return False
+
 	#print(">",file_path,"<",read_lines)
 	if mode=="l":
 		read_lines=read_lines.decode('utf-8')#.decode("utf-8") 
 		read_lines=read_lines.split("\n")
-		
+
 		lines=[]
 
 		for i in range(0, len(read_lines)):
@@ -353,6 +368,7 @@ def read_lines_from_archive(zip_file_path,file_name,mode="l"):
 			del lines[len(lines)-1]
 	elif mode=="b":
 		lines=read_lines
+
 
 	return lines
 
@@ -435,10 +451,12 @@ def extract_dir_from_archive(dest,zip_file_path,dir_name,zf=None):
 
 			if os.path.isdir(output_dir)==False:
 				os.makedirs(output_dir)
+#			print(output_file,"'"+items[i]+"'",zip_file_path)
 
-			f=open(output_file, mode='wb')
-			lines = f.write(read_lines)
-			f.close()
+			if items[i].endswith('/')==False:	#test if it is not a dir
+				f=open(output_file, mode='wb')
+				lines = f.write(read_lines)
+				f.close()
 
 def archive_isfile(zip_file_name,file_name):
 	ret=False
@@ -487,14 +505,3 @@ def archive_merge_file(dest_archive,src_archive,file_name):
 	return True
 
 
-
-def archive_get_file_ver(archive,file_name):
-	lines=[]
-	lines=read_lines_from_archive(archive,file_name)
-
-	if lines!=False:
-		ver=inp_search_token_value(lines, "#ver")
-	else:
-		return ""
-
-	return ver

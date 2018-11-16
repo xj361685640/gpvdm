@@ -21,7 +21,7 @@
 
 import os
 from tab import tab_class
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 
 #qt
 from PyQt5.QtCore import QSize, Qt 
@@ -93,7 +93,7 @@ class materials_main(QWidgetSavePos):
 		QWidgetSavePos.__init__(self,"materials_main")
 		self.path=path
 		self.setFixedSize(900, 600)
-		self.setWindowIcon(QIcon_load("organic_material"))
+		self.setWindowIcon(icon_get("organic_material"))
 
 		self.setWindowTitle(_("Material editor")+" (https://www.gpvdm.com)"+" "+os.path.basename(self.path)) 
 		

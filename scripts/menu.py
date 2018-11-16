@@ -11,7 +11,7 @@ class Dialog():
 
 	def __init__(self,dialog="dialog"):
 		self.OK=0
-		self.cancel=1
+		self.CANCEL=1
 		return
 
 	def clear(self):
@@ -25,7 +25,7 @@ class Dialog():
 		return
 
 	def yesno(self,text):
-		self.clear()
+		#self.clear()
 		n=input(text+" (y/n)")
 		if n=="y":
 			return self.OK
@@ -37,7 +37,7 @@ class Dialog():
 		return
 
 	def menu(self,text, choices=[]):
-		self.clear()
+		#self.clear()
 		print("The python3 module Dialog is not installed")
 		print("If you are on Ubuntu/Debian system, try apt-get install python3-dialog")
 		print("If you are on Fedora/Redhat system, try yum install python3-dialog\n\n")

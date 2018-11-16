@@ -24,7 +24,7 @@
 
 import os
 from inp import inp_load_file
-from inp_util import inp_search_token_value
+from inp import inp_search_token_value
 from token_lib import tokens
 from util import pygtk_to_latex_subscript
 

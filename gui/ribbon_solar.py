@@ -35,7 +35,7 @@ from PyQt5.QtCore import QSize, Qt,QFile,QIODevice
 from PyQt5.QtWidgets import QWidget,QSizePolicy,QVBoxLayout,QHBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QMessageBox, QLineEdit, QToolButton
 from PyQt5.QtWidgets import QTabWidget
 
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 
 from about import about_dlg
 
@@ -45,24 +45,19 @@ from tb_spectrum import tb_spectrum
 
 from util import wrap_text
 
-class ribbon_solar(QTabWidget):
-	def goto_page(self,page):
-		self.blockSignals(True)
-		for i in range(0,self.count()):
-				if self.tabText(i)==page:
-					self.setCurrentIndex(i)
-					break
-		self.blockSignals(False)
+from ribbon_base import ribbon_base
+
+class ribbon_solar(ribbon_base):
 
 	def optics(self):
 		toolbar = QToolBar()
 		toolbar.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
 		toolbar.setIconSize(QSize(42, 42))
 		
-		self.run = QAction(QIcon_load("media-playback-start"), wrap_text(_("Calculate"),5), self)
+		self.run = QAction(icon_get("media-playback-start"), wrap_text(_("Calculate"),5), self)
 		toolbar.addAction(self.run)
 		
-		self.export = QAction(QIcon_load("document-export"), wrap_text(_("Export spectrum"),5), self)
+		self.export = QAction(icon_get("document-export"), wrap_text(_("Export spectrum"),5), self)
 		#self.export.triggered.connect(self.save_image)
 		toolbar.addAction(self.export)
 
@@ -71,25 +66,17 @@ class ribbon_solar(QTabWidget):
 		toolbar.addWidget(spacer)
 
 
-		self.help = QAction(QIcon_load("help"), _("Help"), self)
+		self.help = QAction(icon_get("help"), _("Help"), self)
 		toolbar.addAction(self.help)
 		return toolbar
 
-			
-	def readStyleSheet(self,fileName):
-		css=None
-		file = QFile(fileName)
-		if file.open(QIODevice.ReadOnly) :
-			css = file.readAll()
-			file.close()
-		return css
 
 	def callback_about_dialog(self):
 		dlg=about_dlg()
 		dlg.exec_()
 
 	def __init__(self):
-		QTabWidget.__init__(self)
+		ribbon_base.__init__(self)
 		self.setMaximumHeight(120)
 		#self.setStyleSheet("QWidget {	background-color:cyan; }")
 

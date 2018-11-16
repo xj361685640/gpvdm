@@ -24,7 +24,7 @@ import math
 from layer_widget import layer_widget
 import os
 from cal_path import get_materials_path
-from inp_util import inp_search_token_value
+from inp import inp_search_token_value
 from util import str2bool
 from tab_base import tab_base
 from epitaxy import epitaxy_get_layers
@@ -60,6 +60,7 @@ class tab_view(QWidget,tab_base):
 		hbox=QHBoxLayout(self)
 		mainLayout = QSplitter(Qt.Horizontal)
 		self.viewer=gpvdm_viewer(get_sim_path())
+		self.viewer.allow_navigation=True
 		self.viewer.set_directory_view(True)
 		self.viewer.set_back_arrow(True)
 		self.viewer.set_multi_select()

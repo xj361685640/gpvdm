@@ -67,7 +67,6 @@
 #define fxdomain_load 1
 
 //dump control
-#define dump_iodump 0
 #define dump_optics 1
 #define dump_newton 2
 #define dump_plot 3

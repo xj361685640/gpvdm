@@ -136,7 +136,7 @@ int get_njobs()
 	return njobs;
 }
 
-int set_njobs(int n)
+void set_njobs(int n)
 {
 	njobs=n;
 }

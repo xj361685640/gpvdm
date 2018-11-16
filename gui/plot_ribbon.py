@@ -35,13 +35,14 @@ from PyQt5.QtCore import QSize, Qt,QFile,QIODevice
 from PyQt5.QtWidgets import QWidget,QSizePolicy,QVBoxLayout,QHBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QMessageBox, QLineEdit, QToolButton
 from PyQt5.QtWidgets import QTabWidget
 
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 
 from about import about_dlg
 
 from util import wrap_text
+from ribbon_base import ribbon_base
 
-class plot_ribbon(QTabWidget):
+class plot_ribbon(ribbon_base):
 		
 	def plot(self):
 		self.plot_toolbar = QToolBar()
@@ -56,10 +57,10 @@ class plot_ribbon(QTabWidget):
 		self.file_toolbar.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
 		self.file_toolbar.setIconSize(QSize(42, 42))
 
-		self.tb_save = QAction(QIcon_load("document-save-as"), _("Save"), self)
+		self.tb_save = QAction(icon_get("document-save-as"), _("Save"), self)
 		self.file_toolbar.addAction(self.tb_save)
 
-		self.tb_save_as = QAction(QIcon_load("document-save-as"), _("Save as"), self)
+		self.tb_save_as = QAction(icon_get("document-save-as"), _("Save as"), self)
 		self.file_toolbar.addAction(self.tb_save_as)
 
 		return self.file_toolbar
@@ -69,10 +70,10 @@ class plot_ribbon(QTabWidget):
 		toolbar.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
 		toolbar.setIconSize(QSize(42, 42))
 
-		self.tb_color_black = QAction(QIcon_load("black"), _("Black"), self)
+		self.tb_color_black = QAction(icon_get("black"), _("Black"), self)
 		toolbar.addAction(self.tb_color_black)
 
-		self.tb_color_rainbow = QAction(QIcon_load("rainbow"), _("Rainbow"), self)
+		self.tb_color_rainbow = QAction(icon_get("rainbow"), _("Rainbow"), self)
 		toolbar.addAction(self.tb_color_rainbow)
 
 		return toolbar
@@ -82,13 +83,13 @@ class plot_ribbon(QTabWidget):
 		toolbar.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
 		toolbar.setIconSize(QSize(42, 42))
 
-		self.tb_scale_autoscale = QAction(QIcon_load("plot_log_x"), _("Autoscale"), self)
+		self.tb_scale_autoscale = QAction(icon_get("plot_log_x"), _("Autoscale"), self)
 		toolbar.addAction(self.tb_scale_autoscale)
 
-		self.tb_scale_log_y = QAction(QIcon_load("plot_log_x"), _("Set log scale y"), self)
+		self.tb_scale_log_y = QAction(icon_get("plot_log_x"), _("Set log scale y"), self)
 		toolbar.addAction(self.tb_scale_log_y)
 
-		self.tb_scale_log_x = QAction(QIcon_load("plot_log_x"), _("Set log scale x"), self)
+		self.tb_scale_log_x = QAction(icon_get("plot_log_x"), _("Set log scale x"), self)
 		toolbar.addAction(self.tb_scale_log_x)
 
 
@@ -99,39 +100,32 @@ class plot_ribbon(QTabWidget):
 		toolbar.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
 		toolbar.setIconSize(QSize(42, 42))
 
-		self.math_subtract_first_point = QAction(QIcon_load("plot_log_x"), _("Subtract first point"), self)
+		self.math_subtract_first_point = QAction(icon_get("plot_log_x"), _("Subtract first point"), self)
 		toolbar.addAction(self.math_subtract_first_point)
 
-		self.math_add_min_point = QAction(QIcon_load("plot_log_x"), _("Add min point"), self)
+		self.math_add_min_point = QAction(icon_get("plot_log_x"), _("Add min point"), self)
 		toolbar.addAction(self.math_add_min_point)
 
-		self.math_invert_y_axis = QAction(QIcon_load("plot_log_x"), _("Invert y-axis"), self)
+		self.math_invert_y_axis = QAction(icon_get("plot_invert_y"), _("Invert y-axis"), self)
 		toolbar.addAction(self.math_invert_y_axis)
 
-		self.math_norm_y_to_one = QAction(QIcon_load("plot_log_x"), _("Norm to 1.0 y"), self)
+		self.math_norm_y_to_one = QAction(icon_get("plot_log_x"), _("Norm to 1.0 y"), self)
 		toolbar.addAction(self.math_norm_y_to_one)
 
-		self.math_norm_to_peak_of_all_data = QAction(QIcon_load("plot_log_x"), _("Norm to peak of all data"), self)
+		self.math_norm_to_peak_of_all_data = QAction(icon_get("plot_log_x"), _("Norm to peak of all data"), self)
 		toolbar.addAction(self.math_norm_to_peak_of_all_data)
 
-		self.math_heat_map = QAction(QIcon_load("plot_log_x"), _("Heat map"), self)
+		self.math_heat_map = QAction(icon_get("plot_log_x"), _("Heat map"), self)
 		toolbar.addAction(self.math_heat_map)
 
-		self.math_heat_map_edit = QAction(QIcon_load("plot_log_x"), _("Heat map edit"), self)
+		self.math_heat_map_edit = QAction(icon_get("plot_log_x"), _("Heat map edit"), self)
 		toolbar.addAction(self.math_heat_map_edit)
 
 		return toolbar
 
-	def readStyleSheet(self,fileName):
-		css=None
-		file = QFile(fileName)
-		if file.open(QIODevice.ReadOnly) :
-			css = file.readAll()
-			file.close()
-		return css
 
 	def __init__(self):
-		QTabWidget.__init__(self)
+		ribbon_base.__init__(self)
 		self.setMaximumHeight(130)
 		#self.setStyleSheet("QWidget {	background-color:cyan; }")
 

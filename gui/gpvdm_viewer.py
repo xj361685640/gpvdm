@@ -29,12 +29,12 @@ from dat_file_class import dat_file
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSize, Qt, QTimer
 from PyQt5.uic import loadUi
-from PyQt5.QtWidgets import QMenu,QAbstractItemView,QListWidgetItem,QPushButton,QListView,QWidget,QListWidget
+from PyQt5.QtWidgets import QMenu,QAbstractItemView,QListWidgetItem,QPushButton,QListView,QWidget,QListWidget,QAction
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import pyqtSignal
 
 #cal_path
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 from cal_path import get_ui_path
 
 from help import help_window
@@ -68,8 +68,21 @@ from util_zip import read_lines_from_archive
 import webbrowser
 from info import sim_info
 
+from materials_io import is_mat_file
 
+from cal_path import get_inp_file_path
+import psutil
 
+from icon_lib import icon_get
+
+from cal_path import get_home_path
+from cal_path import get_desktop_path
+from cal_path import get_videos_path
+from cal_path import get_downloads_path
+from cal_path import get_sim_path
+
+from config_window import class_config_window
+from cluster_config_window import cluster_config_window
 
 COL_PATH = 0
 COL_PIXBUF = 1
@@ -87,6 +100,7 @@ class file_store():
 		self.display_name=""
 		self.icon=""
 		self.hidden=False
+		self.allow_navigation=False
 
 class gpvdm_viewer(QListWidget):
 
@@ -94,8 +108,37 @@ class gpvdm_viewer(QListWidget):
 	reject = pyqtSignal()
 	path_changed = pyqtSignal()
 
+	def dragEnterEvent(self, event):
+		#self.setText("<drop content>")
+	#	print("c")
+		#self.setBackgroundRole(QtGui.QPalette.Highlight)
+		event.acceptProposedAction()
+		#self.changed.emit(event.mimeData())
+
+	def dragMoveEvent(self, event):
+		#print("b")
+		event.acceptProposedAction()
+
+	def dropEvent(self, event):
+		mimeData = event.mimeData()
+
+		if mimeData.hasUrls():
+			a=[url.path() for url in mimeData.urls()]
+			print("d",a)
+
+#		self.setBackgroundRole(QtGui.QPalette.Dark)
+		event.acceptProposedAction()
+
+
+	def dropMimeData(self, data, action, row, column, parent):
+		print()
+#		print(data)
+
 	def __init__(self,path,show_inp_files=True,open_own_files=True):
 		QWidget.__init__(self)
+		self.setAcceptDrops(True)
+		self.setDragEnabled(True)
+		self.setDragDropMode(QAbstractItemView.DragDrop)
 		self.open_own_files=open_own_files
 		self.file_list=[]
 		self.menu_new_material_enabled=False
@@ -109,34 +152,13 @@ class gpvdm_viewer(QListWidget):
 
 		self.show_hidden=False
 		self.enable_menu=True
+		self.path=""
+		self.allow_navigation=False
+
 		self.set_path(path)
 		self.root_dir= self.path
 		
-		
-		self.icons={}
-		self.icons['folder']= QIcon_load("folder")
-		self.icons['dat_file'] = QIcon_load("dat_file")
-		self.icons['omat'] = QIcon_load("dat_file")
-		self.icons['text-x-generic'] = QIcon_load("text-x-generic")
-		self.icons['wps-office-xls'] = QIcon_load("wps-office-xls")
-		self.icons['info'] = self.get_icon("info")
-		self.icons['pdf'] = QIcon_load("pdf")
-		self.icons['image-x-generic'] = QIcon_load("image-x-generic")
-		self.icons['spectra'] = self.get_icon("spectra")
-		self.icons['organic_material'] = QIcon_load("organic_material")
-		self.icons['asi'] = QIcon_load("asi")
-		self.icons['cigs'] = QIcon_load("cigs")
-		self.icons['icon'] = QIcon_load("icon")
-		self.icons['ofet'] = QIcon_load("ofet")
-		self.icons['oled'] = QIcon_load("oled")
-		self.icons['perovskite'] = QIcon_load("perovskite")
-		self.icons['psi'] = QIcon_load("psi")
-		self.icons['bi-layer'] = QIcon_load("bi-layer")
-		self.icons['go-previous'] = QIcon_load("go-previous")
-		self.icons['internet-web-browser'] = QIcon_load("internet-web-browser")
-		self.icons['tandem'] = QIcon_load("tandem")
-		self.icons['tof'] = QIcon_load("tof")
-
+	
 
 		self.setIconSize(QSize(64,64))
 
@@ -234,7 +256,7 @@ class gpvdm_viewer(QListWidget):
 			if new_sim_name!=None:
 				new_name=os.path.join(self.path,new_sim_name)
 				old_name=os.path.join(self.path,old_name)
-				print(old_name, new_name)
+				#print(old_name, new_name)
 				os.rename(old_name, new_name)
 
 		self.fill_store()
@@ -243,129 +265,246 @@ class gpvdm_viewer(QListWidget):
 		self.fill_store()
 
 	def get_icon(self, name):
-		return QIcon_load(name+"_file")
+		return icon_get(name+"_file")
 
 	def get_filename(self):
 		return self.file_path
 
+
 	def set_path(self,path):
-		self.path=os.path.abspath(path)
+		self.path=path		
 		self.path_changed.emit()
 
 	def add_back_arrow(self):
 		if self.show_back_arrow==True:
-			if len(self.path.split(os.sep))>len(self.root_dir.split(os.sep)):
+			if self.path==self.root_dir and self.allow_navigation==False:
+				return
+
+			if self.path!="/gpvdmroot":
 				itm = QListWidgetItem( ".." )
-				itm.setIcon(self.icons['go-previous'])
+				itm.setIcon(icon_get('go-previous'))
 				self.addItem(itm)
 
 	def fill_store(self):
+
+
+		#partitions = 
+
+		#for p in partitions:
+		#	print(p.mountpoint, psutil.disk_usage(p.mountpoint).percent)
+		#print(expanduser("~"))
+
 		self.file_list=[]
 
-		if os.path.isdir(self.path)==False:
-			error_dlg(self,_("The directory is gone, so I can't open it.  Did you delete it?")+" "+self.path)
-			return
-
-		all_files=os.listdir(self.path)
-		#all_files.sort()
-
-		for fl in all_files:
-			file_name=os.path.join(self.path, fl)
+		#print(self.path)
+		if self.path=="/gpvdmroot":
 			itm=file_store()
-
-			#if it is a directory
-			if os.path.isdir(file_name):
-				gpvdm_file_type=inp_get_token_value(os.path.join(file_name,"mat.inp"), "#gpvdm_file_type")
-				if gpvdm_file_type=="spectra":
-					itm.file_name=fl
-					itm.icon="spectra"
-
-				elif gpvdm_file_type=="mat":
-					itm.file_name=fl
-					itm.icon="organic_material"
-
-				else:
-					show_dir=True
-
-					if os.path.isfile(os.path.join(file_name,"gpvdm_gui_config.inp"))==True:
-						show_dir=False
-
-					if show_dir==True:
-						itm.file_name=fl
-						itm.icon="folder"
-
-
-			else:
-				#append=False
-				if (file_name.endswith(".dat")==True):
-					f = open(file_name, 'rb')
-					text = f.readline()
-					f.close()
-					#text=text.encode('utf-8').strip()
-					#print(text)
-					#text=text.rstrip()
-					if len(text)>0:
-						if text[len(text)-1]==10:
-							text=text[:-1]
-
-					if text==b"#gpvdm":
-						itm.file_name=fl
-						itm.icon="dat_file"
-
-				if (file_name.endswith(".inp")==True) and self.show_inp_files==True:
-					itm.file_name=fl
-					itm.icon="text-x-generic"
-					
-				if (file_name.endswith(".omat")==True):
-					itm.file_name=fl
-					itm.icon="omat"
-
-				if file_name.endswith(".pdf")==True:
-					itm.file_name=fl
-					itm.icon="pdf"
-
-				if file_name.endswith(".jpg")==True:
-					itm.file_name=fl
-					itm.icon="image-x-generic"
-
-				if os.path.basename(file_name)=="sim_info.dat":
-					itm.file_name=fl
-					itm.icon="info"
-
-				if file_name.endswith("default.gpvdm")==False and file_name.endswith(".gpvdm"):
-					lines=[]
-					lines=inp_load_file("info.inp",archive=file_name)
-					if lines!=False:
-
-						itm.file_name=fl
-						itm.display_name=inp_get_token_value_from_list(lines, "#info_name")+" ("+fl+")"
-						icon_name=inp_get_token_value_from_list(lines, "#info_icon")
-						itm.icon=icon_name
-						itm.hidden=str2bool(inp_get_token_value_from_list(lines, "#info_hidden"))
-
-						a=zip_lsdir(file_name,sub_dir="fs/") #,zf=None,sub_dir=None
-						if len(a)!=0:
-							for fname in a:
-								lines=ret=read_lines_from_archive(file_name,"fs/"+fname)
-								if lines!=False:
-									web_link=inp_get_token_value_from_list(lines, "#web_link")
-									name=inp_get_token_value_from_list(lines, "#name")
-									sub_itm=file_store()
-									sub_itm.icon="internet-web-browser"
-									sub_itm.display_name=name
-									sub_itm.file_name=web_link
-									sub_itm.hidden=False
-									self.file_list.append(sub_itm)
-									
-			if itm.display_name=="":
-				itm.display_name=itm.file_name
-
+			itm.file_name="simulation_dir"
+			itm.icon="si"
+			itm.display_name="Simulation"
 			self.file_list.append(itm)
 
-		for i in range(0,len(self.file_list)):
-			if self.file_list[i].file_name=="p3htpcbm.gpvdm":
-				self.file_list.insert(0, self.file_list.pop(i))
-				break
+			itm=file_store()
+			itm.file_name="home_dir"
+			itm.icon="user-home"
+			itm.display_name=_("Home")
+			self.file_list.append(itm)
+
+			if get_desktop_path()!=False:
+				itm=file_store()
+				itm.file_name="desktop_dir"
+				itm.icon="desktop"
+				itm.display_name=_("Desktop")
+				self.file_list.append(itm)
+
+			if get_downloads_path()!=False:
+				itm=file_store()
+				itm.file_name="downloads_dir"
+				itm.icon="folder-download"
+				itm.display_name=_("Downloads")
+				self.file_list.append(itm)
+
+			itm=file_store()
+			itm.file_name="gpvdm_configure"
+			itm.icon="cog"
+			itm.display_name=_("Configure")
+			self.file_list.append(itm)
+
+			for p in psutil.disk_partitions():
+				name=os.path.basename(p.mountpoint)
+				if name=="":
+					name="/"
+				itm=file_store()
+				itm.file_name="mount_point:"+p.mountpoint
+				itm.icon="drive-harddisk"
+				itm.display_name=name
+				self.file_list.append(itm)
+		elif self.path=="/gpvdmroot/gpvdm_configure":
+			itm=file_store()
+			itm.file_name="gpvdm_cluster_config"
+			itm.icon="server"
+			itm.display_name=_("Cluster")
+			self.file_list.append(itm)
+
+			itm=file_store()
+			itm.file_name="gpvdm_language_config"
+			itm.icon="internet-chat"
+			itm.display_name=_("Language")
+			self.file_list.append(itm)
+
+			itm=file_store()
+			itm.file_name="gpvdm_solver_config"
+			itm.icon="accessories-calculator"
+			itm.display_name=_("Solver")
+			self.file_list.append(itm)
+
+			itm=file_store()
+			itm.file_name="gpvdm_led_config"
+			itm.icon="oled"
+			itm.display_name=_("LED")
+			self.file_list.append(itm)
+
+			itm=file_store()
+			itm.file_name="gpvdm_dump_config"
+			itm.icon="hdd_custom"
+			itm.display_name=_("Output files")
+			self.file_list.append(itm)
+
+			itm=file_store()
+			itm.file_name="gpvdm_gui_config"
+			itm.icon="applications-interfacedesign"
+			itm.display_name=_("GUI configuration")
+			self.file_list.append(itm)
+
+			itm=file_store()
+			itm.file_name="gpvdm_thermal_config"
+			itm.icon="thermal"
+			itm.display_name=_("Thermal")
+			self.file_list.append(itm)
+
+			itm=file_store()
+			itm.file_name="gpvdm_server_config"
+			itm.icon="cpu"
+			itm.display_name=_("Server")
+			self.file_list.append(itm)
+
+
+		else:
+			path=self.path
+
+			if os.path.isdir(path)==False:
+				error_dlg(self,_("The directory is gone, so I can't open it.  Did you delete it?")+" "+path)
+				return
+			else:
+				all_files=os.listdir(path)
+				all_files.sort()
+
+				for fl in all_files:
+					#print(fl)
+					file_name=os.path.join(path, fl)
+					itm=file_store()
+
+					if is_mat_file(file_name)==True:
+						if fl.endswith(".zip"):
+							fl=fl[:-4]
+						itm.file_name=fl
+						itm.icon="organic_material"
+
+					#if it is a directory
+					if os.path.isdir(file_name):
+						gpvdm_file_type=inp_get_token_value(os.path.join(file_name,"mat.inp"), "#gpvdm_file_type")
+						if gpvdm_file_type=="spectra":
+							itm.file_name=fl
+							itm.icon="spectra"
+
+						else:
+							show_dir=True
+
+							if os.path.isfile(os.path.join(file_name,"gpvdm_gui_config.inp"))==True:
+								show_dir=False
+
+							if show_dir==True:
+								itm.file_name=fl
+								itm.icon="folder"
+
+
+					else:
+						#append=False
+						ext=os.path.splitext(file_name)
+						if len(ext)>1:
+							ext=ext[1].lower()
+						else:
+							ext=""
+
+						if (ext==".dat"):
+							f = open(file_name, 'rb')
+							text = f.readline()
+							f.close()
+							#text=text.encode('utf-8').strip()
+							#print(text)
+							#text=text.rstrip()
+							if len(text)>0:
+								if text[len(text)-1]==10:
+									text=text[:-1]
+
+							if text==b"#gpvdm":
+								itm.file_name=fl
+								itm.icon="dat_file"
+
+						elif (ext==".inp") and self.show_inp_files==True:
+							itm.file_name=fl
+							itm.icon="text-x-generic"
+					
+						elif (ext==".omat"):
+							itm.file_name=fl
+							itm.icon="omat"
+
+						elif os.path.basename(file_name)=="sim_info.dat":
+							itm.file_name=fl
+							itm.icon="info"
+
+						elif file_name.endswith("default.gpvdm")==False and file_name.endswith(".gpvdm"):
+							lines=[]
+							lines=inp_load_file("info.inp",archive=file_name)
+							if lines!=False:
+
+								itm.file_name=fl
+								itm.display_name=inp_get_token_value_from_list(lines, "#info_name")+" ("+fl+")"
+								icon_name=inp_get_token_value_from_list(lines, "#info_icon")
+								itm.icon=icon_name
+								itm.hidden=str2bool(inp_get_token_value_from_list(lines, "#info_hidden"))
+
+								a=zip_lsdir(file_name,sub_dir="fs/") #,zf=None,sub_dir=None
+								if len(a)!=0:
+									for fname in a:
+										lines=ret=read_lines_from_archive(file_name,"fs/"+fname)
+										if lines!=False:
+											web_link=inp_get_token_value_from_list(lines, "#web_link")
+											name=inp_get_token_value_from_list(lines, "#name")
+											sub_itm=file_store()
+											sub_itm.icon="internet-web-browser"
+											sub_itm.display_name=name
+											sub_itm.file_name=web_link
+											sub_itm.hidden=False
+											self.file_list.append(sub_itm)
+
+						if itm.icon=="":
+							if icon_get(ext)!=False:	
+								itm.icon=ext
+								itm.file_name=fl
+							else:
+								itm.icon="misc"
+								itm.file_name=fl
+
+					if itm.display_name=="":
+						itm.display_name=itm.file_name
+
+					self.file_list.append(itm)
+
+			for i in range(0,len(self.file_list)):
+				if self.file_list[i].file_name=="p3htpcbm.gpvdm":
+					self.file_list.insert(0, self.file_list.pop(i))
+					break
 
 		self.paint()
 
@@ -384,7 +523,12 @@ class gpvdm_viewer(QListWidget):
 			
 			if draw==True:
 				itm = QListWidgetItem( self.file_list[i].display_name )
-				itm.setIcon(self.icons[self.file_list[i].icon])
+				a=icon_get(self.file_list[i].icon)
+				#print(self.file_list[i].icon)
+				itm.setIcon(a)
+
+				#if self.file_list[i].display_name=="data.xlsx":
+				#	print(itm.icon,a,self.file_list[i].icon)
 				self.addItem(itm)
 
 	def decode_name(self,text):
@@ -397,29 +541,126 @@ class gpvdm_viewer(QListWidget):
 	def on_item_activated(self,item):
 		text=item.text()
 		if text=="..":
-			self.set_path(os.path.dirname(self.path))
+			if self.path==self.root_dir:
+				self.set_path("/gpvdmroot")
+			else:
+				old_path=self.path
+				self.set_path(os.path.dirname(self.path))
+				print(self.path,old_path,os.path.dirname(self.path))
+				if old_path==self.path:
+					self.set_path("/gpvdmroot")
 			self.fill_store()
 			return
 
 		decode=self.decode_name(text)
-		if self.decode_name(text).startswith("http"):
+		if decode.startswith("http"):
 			webbrowser.open(decode)
 			return
+		elif decode=="home_dir":
+			self.set_path(get_home_path())
+			self.fill_store()
+			return
+		elif decode=="desktop_dir":
+			self.set_path(get_desktop_path())
+			self.fill_store()
+			return
+		elif decode=="gpvdm_configure":
+			self.set_path("/gpvdmroot/gpvdm_configure")
+			self.fill_store()
+			return
+
+		elif decode=="music_dir":
+			self.set_path(get_music_path())
+			self.fill_store()
+			return
+		elif decode=="downloads_dir":
+			self.set_path(get_downloads_path())
+			self.fill_store()
+			return
+		elif decode=="simulation_dir":
+			self.set_path(get_sim_path())
+			self.fill_store()
+			return			
+		elif decode.startswith("mount_point")==True:
+			point=decode.split(":")
+			self.set_path(point[1])
+			self.fill_store()
+			return
+		elif decode=="gpvdm_cluster_config":
+			self.win=cluster_config_window(self)
+			self.win.show()
+			return
+		elif decode=="gpvdm_language_config":
+			self.config_window=class_config_window()
+
+			from tab_lang import language_tab_class
+
+			self.config_window.files=[ ]
+			self.config_window.description=[]
+			self.config_window.init()
+			lang_tab=language_tab_class()
+			self.config_window.notebook.addTab(lang_tab,_("Language"))
+			self.config_window.show()
+
+			return
+		elif decode=="gpvdm_solver_config":
+			self.config_window=class_config_window()
+			self.config_window.files=["math.inp"]
+			self.config_window.description=[_("Solver configuration")]
+			self.config_window.init()
+			self.config_window.show()
+
+			return
+		elif decode=="gpvdm_led_config":
+			self.config_window=class_config_window()
+			self.config_window.files=["led.inp"]
+			self.config_window.description=[_("LED")]
+			self.config_window.init()
+			self.config_window.show()
+			return
+		elif decode=="gpvdm_dump_config":
+			self.config_window=class_config_window()
+			self.config_window.files=["dump.inp"]
+			self.config_window.description=[_("Output files")]
+			self.config_window.init()
+			self.config_window.show()
+			return
+		elif decode=="gpvdm_gui_config":
+			self.config_window=class_config_window()
+			self.config_window.files=["config.inp"]
+			self.config_window.description=[_("GUI configuration"),]
+			self.config_window.init()
+			self.config_window.show()
+			return
+		elif decode=="gpvdm_thermal_config":
+			self.config_window=class_config_window()
+			self.config_window.files=["thermal.inp"]
+			self.config_window.description=[_("Thermal")]
+			self.config_window.init()
+			self.config_window.show()
+			return
+		elif decode=="gpvdm_server_config":
+			self.config_window=class_config_window()
+			self.config_window.files=["server.inp"]
+			self.config_window.description=[_("Server configuration")]
+			self.config_window.init()
+			self.config_window.show()
+			return
+
 
 		full_path=os.path.join(self.path,decode)
+		if is_mat_file(full_path)==True:
+			print("mat file!!")
+			from materials_main import materials_main
+			self.mat_window=materials_main(full_path)
+			self.mat_window.show()
+			return
+
 
 		if os.path.isfile(full_path)==True:
 			self.file_path=full_path
 			if self.open_own_files==True:
-				if isfiletype(full_path,"xls")==True or isfiletype(full_path,"xlsx")==True or isfiletype(full_path,"pdf")==True:
-					desktop_open(full_path)
-					self.reject.emit()
-					return
-				elif isfiletype(full_path,"jpg")==True:
-					desktop_open(full_path)
-					self.reject.emit()
-					return
-				elif os.path.basename(full_path)=="sim_info.dat":
+				if os.path.basename(full_path)=="sim_info.dat":
 					self.sim_info_window=sim_info(full_path)
 					self.sim_info_window.show()
 					self.reject.emit()
@@ -428,6 +669,14 @@ class gpvdm_viewer(QListWidget):
 					plot_gen([full_path],[],"auto")
 					self.reject.emit()
 					return
+
+				else:
+					desktop_open(full_path)
+					self.reject.emit()
+					return
+
+#				else:
+#					self.accept.emit()	
 			else:
 				self.accept.emit()
 				return
@@ -440,10 +689,6 @@ class gpvdm_viewer(QListWidget):
 					from spectra_main import spectra_main
 					self.mat_window=spectra_main(full_path)
 					self.mat_window.show()
-				elif gpvdm_file_type=="mat":
-					from materials_main import materials_main
-					self.mat_window=materials_main(full_path)
-					self.mat_window.show()
 
 				self.accept.emit()
 			else:
@@ -452,6 +697,7 @@ class gpvdm_viewer(QListWidget):
 				self.fill_store()
 
 	def on_selection_changed(self):
+
 		if len(self.selectedItems())>0:
 			item=self.selectedItems()[0]
 
@@ -461,7 +707,8 @@ class gpvdm_viewer(QListWidget):
 					return
 				
 				self.file_path=os.path.join(self.path, file_name)
-			return
+	
+			full_path=self.file_path
 
 			if (file_name.endswith(".dat")==True):
 				state=dat_file()
@@ -475,13 +722,15 @@ class gpvdm_viewer(QListWidget):
 				summary="<big><b>"+_("equilibrium")+"</b></big><br><br>"+_("This contains the simulation output at 0V in the dark.")
 				help_window().help_set_help(["folder.png",summary])
 
-			if os.path.isdir(full_path)==True:
-				if os.path.isfile(os.path.join(full_path,"mat.inp")):
-					summary="<b><big>"+file_name+"</b></big><br>"
-					ref_path=os.path.join(full_path,"n.ref")
-					ref=get_ref_text(ref_path)
-					if ref!=None:
-						summary=summary+ref
-					help_window().help_set_help(["organic_material",summary])
-					#get_ref_text(file_name,html=True)
+			#if os.path.isdir(full_path)==True:
+
+			if is_mat_file(full_path)==True:
+
+				summary="<b><big>"+file_name+"</b></big><br>"
+				ref_path=os.path.join(full_path,"n.ref")
+				ref=get_ref_text(ref_path)
+				if ref!=None:
+					summary=summary+ref
+				help_window().help_set_help(["organic_material",summary])
+				#get_ref_text(file_name,html=True)
 

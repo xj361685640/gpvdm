@@ -31,7 +31,7 @@ from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtWidgets import QMenu,QAbstractItemView,QAction,QToolBar,QDialog,QVBoxLayout,QDialog,QWidget,QLineEdit
 
 #cal_path
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 from cal_path import get_ui_path
 
 from help import help_window
@@ -66,7 +66,7 @@ from util import latex_to_html
 
 class gpvdm_open(QDialog):
 
-	def __init__(self,path,show_inp_files=True,act_as_browser=True,big_toolbar=False):
+	def __init__(self,path,show_inp_files=True,act_as_browser=True,big_toolbar=False,title=_("Open file")):
 		QWidget.__init__(self)
 		self.act_as_browser=act_as_browser
 		self.menu_new_material_enabled=False
@@ -83,11 +83,11 @@ class gpvdm_open(QDialog):
 			self.toolbar.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
 		#self.toolbar.setMaximumHeight(50)
 
-		self.up = QAction(QIcon_load("go-up"), wrap_text(_("Back"),8), self)
+		self.up = QAction(icon_get("go-up"), wrap_text(_("Back"),8), self)
 		self.up.triggered.connect(self.on_up_clicked)
 		self.toolbar.addAction(self.up)
 
-		self.home = QAction(QIcon_load("user-home"), wrap_text(_("Home"),8), self)
+		self.home = QAction(icon_get("user-home"), wrap_text(_("Home"),8), self)
 		self.home.triggered.connect(self.on_home_clicked)
 		self.toolbar.addAction(self.home)
 	
@@ -99,8 +99,8 @@ class gpvdm_open(QDialog):
 
 
 
-		self.setWindowTitle(_("Open file")+" https://www.gpvdm.com")
-		self.setWindowIcon(QIcon_load("folder"))
+		self.setWindowTitle(title+" https://www.gpvdm.com")
+		self.setWindowIcon(icon_get("folder"))
 #		self.listwidget=QListWidget()
 #		self.listwidget.setSelectionMode(QAbstractItemView.ExtendedSelection)
 #		self.listwidget.setStyleSheet("margin: 0; padding: 0; ")
@@ -131,7 +131,7 @@ class gpvdm_open(QDialog):
 		self.accept()
 
 	def get_icon(self, name):
-		return QIcon_load(name+"_file")
+		return icon_get(name+"_file")
 
 
 	def get_filename(self):

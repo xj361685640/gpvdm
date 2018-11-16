@@ -46,7 +46,7 @@ from PyQt5.QtGui import QPainter,QIcon
 
 from PyQt5.QtCore import pyqtSignal
 
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 
 from gui_util import tab_add
 from gui_util import tab_remove
@@ -122,11 +122,11 @@ class equation_editor(QGroupBox):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
-		add = QAction(QIcon_load("list-add",size=16),  _("Add "+self.name+" mesh layer"), self)
+		add = QAction(icon_get("list-add",size=16),  _("Add "+self.name+" mesh layer"), self)
 		add.triggered.connect(self.add_item_clicked)
 		toolbar.addAction(add)
 
-		remove = QAction(QIcon_load("list-remove",size=16),  _("Remove "+self.name+" mesh layer"), self)
+		remove = QAction(icon_get("list-remove",size=16),  _("Remove "+self.name+" mesh layer"), self)
 		remove.triggered.connect(self.on_remove_click)
 		toolbar.addAction(remove)
 
@@ -278,7 +278,7 @@ class tab_bands(QWidget,tab_base):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 		toolbar.setOrientation(Qt.Vertical)
-		add = QAction(QIcon_load("document-save-as"),  _("Save"), self)
+		add = QAction(icon_get("document-save-as"),  _("Save"), self)
 		add.triggered.connect(self.callback_save)
 		toolbar.addAction(add)
 

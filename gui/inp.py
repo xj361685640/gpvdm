@@ -41,6 +41,7 @@ from util_zip import archive_isfile
 from util_zip import zip_lsdir
 
 from cal_path import get_sim_path
+from util import str2bool
 
 import hashlib
 
@@ -51,13 +52,26 @@ try:
 except:
 	pass
 
-def inp_issequential_file(data,search):
-	if data.startswith(search) and data.endswith("inp"):
-		cut=data[len(search):-4]
-		#print(cut)
-		return cut.isdigit()
-	else:
-		return False
+
+
+def inp_issequential_file(file_name,root):
+	if file_name.startswith(root) and file_name.endswith(".inp"):
+		number=file_name[len(root):-4]
+		if number.isdigit()==True:
+			return True
+	return False
+
+def inp_find_active_file(file_path):
+	"""if you are looking for /path/to/file/cluster0.inp it will expect /path/to/file/cluster"""
+	path=os.path.dirname(file_path)
+	root=os.path.basename(file_path)
+	files=zip_lsdir(os.path.join(path,"sim.gpvdm"))
+	for f in files:
+		if inp_issequential_file(f,root)==True:
+			ret=str2bool(inp_get_token_value(os.path.join(path,f), "#tab_enabled"))
+			if ret==True:
+				return f
+	return False
 
 
 ## List the content of an archive and directory in one list
@@ -68,12 +82,14 @@ def inp_lsdir(file_name):
 
 
 def inp_remove_file(file_name,archive="sim.gpvdm"):
+	"""Remove a file from an archive"""
 	full_name=default_to_sim_path(file_name)
 
 	archive_path=os.path.join(os.path.dirname(full_name),archive)
 	zip_remove_file(archive_path,os.path.basename(full_name))
 
 def inp_read_next_item(lines,pos):
+	"""Read the next item form an inp file"""
 	token=lines[pos]
 	pos=pos+1
 	value=lines[pos]
@@ -82,6 +98,7 @@ def inp_read_next_item(lines,pos):
 
 
 def inp_replace_token_value(lines,token,replace):
+	"""replace the value of a token in a list"""
 	if type(lines)!=list:
 		return False
 
@@ -96,6 +113,7 @@ def inp_replace_token_value(lines,token,replace):
 	return replaced
 
 def inp_replace_token_array(lines,token,replace):
+	"""replace the value of a token array in a list"""
 	new_list=[]
 	pos=0
 	for i in range(0, len(lines)):
@@ -118,11 +136,13 @@ def inp_replace_token_array(lines,token,replace):
 	return new_list
 
 def inp_is_token(lines,token):
+	"""Is the token in a file"""
 	for i in range(0, len(lines)):
 		if lines[i]==token:
 			return True
 
 	return False
+
 
 def inp_add_token(lines,token,value):
 	a=[]
@@ -169,6 +189,7 @@ def inp_update_token_value(file_path, token, replace,archive="sim.gpvdm"):
 	if ret==False:
 		return False
 
+
 	inp_save(file_path,lines,archive=archive)
 
 	return True
@@ -196,6 +217,20 @@ def default_to_sim_path(file_path):
 	else:
 		return file_path
 
+def search_zip_file(file_name,archive):
+	#Assume sim.gpvdm is in /a/b/c/ where mat.inp is in /a/b/c/mat.inp 
+	zip_file_path=os.path.join(os.path.dirname(file_name),archive)
+	if os.path.isfile(file_name)==True:
+		#we found the file there so we do not care about the arhive 
+		return zip_file_path
+
+	#now try back one level
+	#Using path /a/b/c/mat.inp look in /a/b/sim.gpvdm for the sim file
+	if os.path.isfile(zip_file_path)==False:
+		zip_file_path=os.path.join(os.path.dirname(os.path.dirname(file_name)),archive)
+
+	return zip_file_path
+
 def inp_load_file(file_path,archive="sim.gpvdm",mode="l"):
 	"""load file"""
 	if file_path==None:
@@ -203,9 +238,10 @@ def inp_load_file(file_path,archive="sim.gpvdm",mode="l"):
 
 	file_name=default_to_sim_path(file_path)
 	#print(">",file_name)
-	zip_file_path=os.path.join(os.path.dirname(file_name),archive)
+	zip_file_path=search_zip_file(file_name,archive)#os.path.join(os.path.dirname(file_name),archive)
 	#print(">>",zip_file_path)
 	file_name=os.path.basename(file_name)
+	
 	ret=read_lines_from_archive(zip_file_path,file_name,mode=mode)
 
 	return ret
@@ -306,24 +342,34 @@ def inp_check_ver(file_path, ver):
 	return False
 
 def inp_get_token_value_from_list(lines, token):
+	"""Get the value of a token from a list - don't use this one any more"""
+	for i in range(0, len(lines)):
+		if lines[i]==token:
+			return lines[i+1]
+	return None
+
+def inp_search_token_value(lines, token):
 	"""Get the value of a token from a list"""
 	for i in range(0, len(lines)):
 		if lines[i]==token:
 			return lines[i+1]
 
-	return None
+	return False
 
-def inp_get_token_value(file_path, token,archive="sim.gpvdm"):
+def inp_get_token_value(file_path, token,archive="sim.gpvdm",search_active_file=False):
 	"""Get the value of a token from a file"""
-	#print(file_path,token,archive)
+
+	if search_active_file==True:
+		file_path=inp_find_active_file(file_path)
+
 	lines=[]
 	lines=inp_load_file(file_path,archive=archive)
 	if lines==False:
 		return None
 
-	for i in range(0, len(lines)):
-		if lines[i]==token:
-			return lines[i+1]
+	ret=inp_search_token_value(lines, token)
+	if ret!=False:
+		return ret
 
 	return None
 
@@ -377,3 +423,14 @@ def inp_encrypt(file_name):
 				replace_file_in_zip_archive(file_name,ls[i],data,mode="b")
 
 		inp_update_token_value("info.inp", "#info_password","encrypted",archive=file_name)
+
+def inp_get_file_ver(archive,file_name):
+	lines=[]
+	lines=read_lines_from_archive(archive,file_name)
+
+	if lines!=False:
+		ver=inp_search_token_value(lines, "#ver")
+	else:
+		return ""
+
+	return ver

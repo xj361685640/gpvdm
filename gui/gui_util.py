@@ -36,14 +36,16 @@ if gui_get()==True:
 	from QComboBoxLang import QComboBoxLang
 	from PyQt5.QtGui import QIcon
 
+	from gpvdm_select import gpvdm_select
+	from gtkswitch import gtkswitch
+	from leftright import leftright
+
 #windows
 from cal_path import get_ui_path
 
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 
-from gpvdm_select import gpvdm_select
-from gtkswitch import gtkswitch
-from leftright import leftright
+
 from util import str2bool
 
 class dlg_get_text():
@@ -53,7 +55,7 @@ class dlg_get_text():
 		self.ui.label.setText(text)
 		self.ui.text.setText(default)
 		#pixmap = QPixmap(os.path.join(get_image_file_path(),image))
-		icon=QIcon_load(image)
+		icon=icon_get(image)
 		self.ui.setWindowIcon(icon)
 		self.ui.image.setPixmap(icon.pixmap(icon.actualSize(QSize(64, 64))))
 		ret=self.ui.exec_()

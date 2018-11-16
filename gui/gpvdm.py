@@ -46,6 +46,9 @@ calculate_paths()
 import i18n
 _ = i18n.language.gettext
 
+from cal_path import get_inp_file_path
+from token_lib import build_token_lib
+build_token_lib()
 
 from code_ctrl import enable_betafeatures
 from code_ctrl import code_ctrl_load
@@ -72,7 +75,6 @@ from inp import inp_get_token_value
 
 from scan_item import scan_items_clear
 from scan_item import scan_items_populate_from_known_tokens
-from scan_item import scan_items_populate_from_files
 
 from plot_gen import plot_gen
 from help import help_window
@@ -147,7 +149,10 @@ def do_import():
 	from PyQt5.QtGui import QIcon
 	from PyQt5.QtCore import QSize, Qt,QFile,QIODevice
 	from PyQt5.QtWidgets import QWidget,QSizePolicy,QVBoxLayout,QHBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QMessageBox, QLineEdit, QToolButton
+	
+	from icon_lib import icons_load
 
+	icons_load()
 	#windows
 	from new_simulation import new_simulation
 	from dlg_export import dlg_export
@@ -195,7 +200,6 @@ def do_import():
 	from window_list import wpos_load
 	from global_objects import global_object_run
 	from check_sim_exists import check_sim_exists
-
 
 class gpvdm_main_window(QMainWindow):
 
@@ -318,7 +322,6 @@ class gpvdm_main_window(QMainWindow):
 		scan_items_populate_from_known_tokens()
 		self.splash.inc_value()
 
-		scan_items_populate_from_files()
 		self.splash.inc_value()
 
 		set_sim_path(new_dir)

@@ -26,7 +26,7 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSize, Qt 
 from PyQt5.QtWidgets import QWidget,QSizePolicy,QHBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QMessageBox, QLineEdit
 
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 from util import str2bool
 from help import help_window
 from inp import inp_update_token_value
@@ -66,17 +66,17 @@ class dump_io(QAction):
 
 	def update_ui(self,update_help):
 		if self.dump==dump_slow:
-			self.setIcon(QIcon_load("hdd_high"))
+			self.setIcon(icon_get("hdd_high"))
 			if update_help==True:
 				help_window().help_set_help(["hdd_high.png",_("<big><b>Write all data to disk (slow)</b></big><br>"+self.help_text)])
 
 		if self.dump==dump_fast:
-			self.setIcon(QIcon_load("hdd_low"))
+			self.setIcon(icon_get("hdd_low"))
 			if update_help==True:
 				help_window().help_set_help(["hdd_low.png",_("<big><b>Write minimal data to disk (fast)</b></big><br>"+self.help_text)])
 
 		if self.dump==dump_custom:
-			self.setIcon(QIcon_load("hdd_custom"))
+			self.setIcon(icon_get("hdd_custom"))
 
 	def refresh(self):
 		self.dump=self.cal_state()
@@ -92,14 +92,14 @@ class dump_io(QAction):
 
 	def __init__(self,parent):
 		self.dump=False
-		self.tokens=["#newton_dump","#dump_dynamic","#dump_iodump","#dump_optics","#dump_optics_verbose", "#dump_1d_slices","#dump_energy_slice_switch","#dump_energy_slice_pos","#dump_pl","#dump_write_out_band_structure","#dump_equilibrium","#dump_optical_probe","#dump_optical_probe_spectrum","#dump_ray_trace_map","#dump_write_converge","#dump_first_guess","#dump_info_text"]
+		self.tokens=["#newton_dump","#dump_dynamic","#dump_optics","#dump_optics_verbose", "#dump_1d_slices","#dump_energy_slice_switch","#dump_energy_slice_pos","#dump_pl","#dump_write_out_band_structure","#dump_equilibrium","#dump_optical_probe","#dump_optical_probe_spectrum","#dump_ray_trace_map","#dump_write_converge","#dump_first_guess","#dump_info_text"]
 		self.tokens.append("#dump_workbook")
 		self.const_tokens=[]
 		self.const_tokens.append(["#dump_print_converge",True])
 		self.const_tokens.append(["#dump_print_newtonerror",False])
 
 		self.help_text=" Writing data to disk can be slow and gpvdm can produce a lot of data files during a simulation run.  To speed up the simulation use this icon to minimize simulation output.  Click it again to turn back on full output.  You can fine tune these parameters theough the Configure->Dump tab."
-		QAction.__init__(self,QIcon_load("hdd_low"), _("Data dump\ncontrol"),parent)
+		QAction.__init__(self,icon_get("hdd_low"), _("Data dump\ncontrol"),parent)
 		self.triggered.connect(self.callback_dump_io)
 
 	def callback_dump_io(self):

@@ -21,7 +21,7 @@
 
 import os
 from tab import tab_class
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 
 #qt
 from PyQt5.QtCore import QSize, Qt 
@@ -38,7 +38,7 @@ from css import css_apply
 articles = []
 mesh_articles = []
 
-class jv(QWidgetSavePos):
+class sunsvoc(QWidgetSavePos):
 
 	def changed_click(self):
 		if self.notebook.tabText(self.notebook.currentIndex()).strip()==_("JV simulation"):
@@ -54,9 +54,9 @@ class jv(QWidgetSavePos):
 		webbrowser.open('http://www.gpvdm.com/man/index.html')
 
 	def __init__(self):
-		QWidgetSavePos.__init__(self,"jv")
+		QWidgetSavePos.__init__(self,"sunsvoc")
 		self.setFixedSize(900, 600)
-		self.setWindowIcon(QIcon_load("jv"))
+		self.setWindowIcon(icon_get("sunsvoc"))
 
 		self.setWindowTitle(_("Steady state simulation")+"  (https://www.gpvdm.com)") 
 		
@@ -71,7 +71,7 @@ class jv(QWidgetSavePos):
 		toolbar.addWidget(spacer)
 
 
-		self.help = QAction(QIcon_load("help"), _("Help"), self)
+		self.help = QAction(icon_get("help"), _("Help"), self)
 		self.help.setStatusTip(_("Close"))
 		self.help.triggered.connect(self.callback_help)
 		toolbar.addAction(self.help)
@@ -86,8 +86,8 @@ class jv(QWidgetSavePos):
 		self.main_vbox.addWidget(self.notebook)
 
 
-		files=["diode_equ.inp","sun_voc.inp"]
-		description=[_("Diode equation"),_("Suns v.s. Voc")]
+		files=["sun_voc.inp"]
+		description=[_("Suns v.s. Voc")]
 
 
 		for i in range(0,len(files)):

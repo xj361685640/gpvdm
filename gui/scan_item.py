@@ -23,10 +23,16 @@
 import os
 from inp import inp_load_file
 from token_lib import tokens
-from cal_path import find_materials
+from materials_io import find_materials
 from cal_path import get_materials_path
 from util_zip import zip_lsdir
 from cal_path import get_sim_path
+from inp import inp_get_token_value
+
+from epitaxy import epitaxy_dos_file_to_layer_name
+from epitaxy import epitaxy_get_epi
+
+
 #import shutil
 
 check_list=[]
@@ -36,18 +42,18 @@ def scan_items_clear():
 	check_list=[]
 
 class scan_item:
-	name=""
+	human_label=""
 	token=""
 	filename=""
 	line=""
 
-def scan_item_add(file_name,token,text_info,line):
+def scan_item_add(file_name,token,human_label,line):
 	global check_list
 	check_list.append(scan_item())
 	listpos=len(check_list)-1
-	text_info=text_info.replace("<sub>","")
-	text_info=text_info.replace("</sub>","")
-	check_list[listpos].name=os.path.join(os.path.splitext(file_name)[0],text_info)
+	human_label=human_label.replace("<sub>","")
+	human_label=human_label.replace("</sub>","")
+	check_list[listpos].human_label=human_label
 	check_list[listpos].filename=file_name
 	check_list[listpos].token=token
 	check_list[listpos].line=line
@@ -55,8 +61,9 @@ def scan_item_add(file_name,token,text_info,line):
 def scan_items_populate_from_known_tokens():
 	my_token_lib=tokens().get_lib()
 	for i in range(0,len(my_token_lib)):
-		if my_token_lib[i].file_name!="":
-			scan_item_add(my_token_lib[i].file_name,my_token_lib[i].token,my_token_lib[i].info,1)
+		file_name=my_token_lib[i].file_name
+		if file_name!="":
+			scan_item_add(file_name,my_token_lib[i].token,os.path.join(os.path.splitext(file_name)[0],my_token_lib[i].info),1)
 
 	#mat=find_materials()
 
@@ -72,29 +79,47 @@ def scan_items_populate_from_files():
 		file_list=zip_lsdir(name)
 	
 		for i in range(0,len(file_list)):
+			print(file_list[i])
 			if file_list[i].startswith("dos")==True and file_list[i].endswith(".inp")==True:
-				scan_populate_from_file(file_list[i])
+				name=epitaxy_dos_file_to_layer_name(file_list[i])
+				if name!=False:
+					scan_populate_from_file(file_list[i],human_name=os.path.join("epitaxy",name,"dos"))
 
 			if file_list[i].startswith("jv")==True and file_list[i].endswith(".inp")==True:
-				scan_populate_from_file(file_list[i])
+				name=inp_get_token_value(os.path.join(get_sim_path(),file_list[i]),"#sim_menu_name")
+				name=name.split("@")[0]
+				scan_populate_from_file(file_list[i],human_name=os.path.join("jv",name))
+
+			if file_list[i].startswith("time_mesh_config")==True and file_list[i].endswith(".inp")==True:
+				number=file_list[i][len("time_mesh_config"):-4]
+				name=inp_get_token_value(os.path.join(get_sim_path(),"pulse"+number+".inp"),"#sim_menu_name")
+				name=name.split("@")[0]
+				scan_populate_from_file(file_list[i],human_name=os.path.join("time_domain",name))
+
 			#if my_token_lib[i].file_name!="":
 			#	scan_item_add(my_token_lib[i].file_name,my_token_lib[i].token,my_token_lib[i].info,1)
 
-		mat=find_materials()
+		#mat=find_materials()
 
-		for i in range(0,len(mat)):
-			scan_remove_file(os.path.join(get_materials_path(),mat[i]))			
-			scan_item_add(os.path.join("materials",mat[i],"fit.inp"),"#wavelength_shift_alpha","Absorption spectrum wavelength shift",1)
-			scan_item_add(os.path.join("materials",mat[i],"fit.inp"),"#n_mul","Refractive index spectrum multiplier",1)
-			scan_item_add(os.path.join("materials",mat[i],"fit.inp"),"#alpha_mul","Absorption spectrum multiplier",1)
+		#for i in range(0,len(mat)):
+		#	scan_remove_file(os.path.join(get_materials_path(),mat[i]))			
+		#	scan_item_add(os.path.join("materials",mat[i],"fit.inp"),"#wavelength_shift_alpha",os.path.join("materials",mat[i],"Absorption spectrum wavelength shift"),1)
+		#	scan_item_add(os.path.join("materials",mat[i],"fit.inp"),"#n_mul",os.path.join("materials",mat[i],"Refractive index spectrum multiplier"),1)
+		#	scan_item_add(os.path.join("materials",mat[i],"fit.inp"),"#alpha_mul",os.path.join("materials",mat[i],"Absorption spectrum multiplier"),1)
 
+		epi=epitaxy_get_epi()
+		for i in range(0,len(epi)):
+			scan_item_add("epitaxy.inp","#layer_material_file"+str(i),os.path.join("epitaxy",str(epi[i].name),_("Material type")),2)
+			scan_item_add("epitaxy.inp","#layer_width"+str(i),os.path.join("epitaxy",str(epi[i].name),_("Layer width")),1)
+
+	scan_item_save("out.dat")
 
 def scan_item_save(file_name):
 	global check_list
 	f = open(file_name,'w')
 	f.write(str(len(check_list))+"\n")
 	for i in range(0,len(check_list)):
-		f.write(check_list[i].name+"\n")
+		f.write(check_list[i].human_label+"\n")
 		f.write(check_list[i].filename+"\n")
 		f.write(check_list[i].token+"\n")
 		f.write(str(check_list[i].line)+"\n")
@@ -113,7 +138,7 @@ def scan_remove_file(file_name):
 def scan_items_get_file(item):
 	global check_list
 	for i in range(0,len(check_list)):
-		if check_list[i].name==item:
+		if check_list[i].human_label==item:
 			return check_list[i].filename
 
 	return "notknown"
@@ -121,7 +146,7 @@ def scan_items_get_file(item):
 def scan_items_get_token(item):
 	global check_list
 	for i in range(0,len(check_list)):
-		if check_list[i].name==item:
+		if check_list[i].human_label==item:
 			return check_list[i].token
 
 	return "notknown"
@@ -130,7 +155,7 @@ def scan_items_lookup_item(filename,token):
 	global check_list
 	for i in range(0,len(check_list)):
 		if check_list[i].filename==filename and check_list[i].token==token:
-			return check_list[i].name
+			return check_list[i].human_label
 
 	return "notknown"
 
@@ -141,14 +166,16 @@ def scan_items_get_list():
 def scan_items_index_item(item):
 	global check_list
 	for i in range(0,len(check_list)):
-		if check_list[i].name==item:
+		if check_list[i].human_label==item:
 			return i
 
 	return -1
 
-def scan_populate_from_file(filename):
+def scan_populate_from_file(filename,human_name=""):
 	lines=[]
 	lines=inp_load_file(filename)
+	if human_name=="":
+		human_name=filename
 
 	my_token_lib=tokens()
 
@@ -159,5 +186,6 @@ def scan_populate_from_file(filename):
 				result=my_token_lib.find(token)
 				if result!=False:
 					if scan_items_index_item(token)==-1:
-						scan_item_add(filename,token,result.info,1)
+						
+						scan_item_add(filename,token,os.path.join(human_name,result.info),1)
 

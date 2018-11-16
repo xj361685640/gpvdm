@@ -31,7 +31,7 @@ from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtWidgets import QMenu,QTabWidget,QAbstractItemView,QAction,QToolBar,QDialog,QVBoxLayout,QDialog,QWidget,QLineEdit
 
 #cal_path
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 from cal_path import get_ui_path
 
 from help import help_window

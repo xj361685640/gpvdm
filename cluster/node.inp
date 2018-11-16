@@ -1,7 +1,7 @@
 #node_name
 my_node
 #store_path
-../node_store/
+/dev/shm/node_store/
 #interface
 lo
 #port
@@ -11,4 +11,3 @@ lo
 #ver
 1.0
 #end
-

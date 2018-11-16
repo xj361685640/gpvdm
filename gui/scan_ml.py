@@ -32,6 +32,7 @@ from util import copy_scan_dir
 from server_io import server_find_simulations_to_run
 from util_zip import read_lines_from_archive
 from math import log10
+from math import isnan
 
 import i18n
 _ = i18n.language.gettext
@@ -42,7 +43,16 @@ from server import server_break
 from util_zip import zip_lsdir
 from util_zip import extract_dir_from_archive
 
+from inp import inp_get_token_value
+
 import zipfile
+import random
+import string
+import numpy as np
+
+from gui_util import yes_no_dlg
+
+from yes_no_cancel_dlg import yes_no_cancel_dlg
 
 tindex=[]
 
@@ -62,176 +72,83 @@ def tindex_dump(fname):
 		f.write(tindex[i][0]+" "+tindex[i][1]+'\n')
 	f.close()
 
-def get_vectors(path,dir_name,file_name,dolog=False,div=1.0,fabs=False,do_norm=False):
-	base=os.path.join(path,dir_name)
-
-
-	lines=read_lines_from_archive(os.path.join(base,"sim.gpvdm"),file_name)
-
-	if lines==False:
-		print("\n\nbase>>",base,"\n\n")
+def make_vector_from_file(file_name,x_values):
+	if os.path.isfile(file_name)==True:
+		f=open(file_name,'r')
+		lines = f.readlines()
+		f.close()
+	else:
 		return False
+
+	x=[]
+	y=[]
+	for i in range(0,len(lines)):
+		if lines[i].startswith("#")==False:
+
+			if lines[i].count("nan")!=0:
+				return False
+
+			if lines[i].count("inf")!=0:
+				return False
+
+			r=lines[i].split()
+			if len(r)==2:
+				try:
+					x.append(float(r[0]))
+					y.append(float(r[1]))
+				except:
+					return False
 	
-	if lines[0].count("nan")==0 and lines[0].count("inf")==0:
-		ret=lines[0].split()
 
-		if do_norm==True:
-			mi=1e6
-			for i in range(0,len(ret)):
-				if float(ret[i])<mi:
-					mi=float(ret[i])
-			div=mi
+	x, y = zip(*sorted(zip(x, y)))
 
-		n=[]
-		for i in range(0,len(ret)):
-			#print(ret[i])
-			r=float(ret[i])/div
+	r=np.interp(x_values,x,y)
+	return r
 
-			if fabs==True:
-				r=abs(r)
+def get_vectors(file_name,x_values,dolog=False,div=1.0,fabs=False,do_norm=False,mul=1.0):
 
-			if dolog==True:
-				#print(r)
-				if r!=0.0:
-					r=log10(r)
-				else:
-					r=0.0
+	data=make_vector_from_file(file_name,x_values)
 
-			n.append(r)
-		#print(n)
-
-		s=""
-		for ii in range(0,len(n)):
-			s=s+'{:e}'.format(float(n[ii]))+" "
-
-		return s
-
-def is_it_good(token,x):
-	if token=="#mueffe" and x>1e-4:
-		return True
-
-	if token=="#mueffh" and x>1e-4:
-		return True
-
-	if token=="#Etrape" and x<50e-3:
-		return True
-
-	if token=="#Etraph" and x<50e-3:
-		return True
-
-	if token=="#Ntrape" and x<1e24:
-		return True
-
-	if token=="#Ntraph" and x<1e24:
-		return True
-
-	if token=="#srhsigman_e" and x<1e-20:
-		return True
-
-	if token=="#srhsigmap_e" and x<1e-20:
-		return True
-
-	if token=="#srhsigman_h" and x<1e-20:
-		return True
-
-	if token=="#srhsigmap_h" and x<1e-20:
-		return True
-
-	if token=="#Rshunt" and x>1e5:
-		return True
-
-	if token=="#Rcontact" and x<15:
-		return True
-
-	return False
+	if type(data)==bool:
+		if data==False:
+			return False
 	
-def get_vectors_binary(path,dir_name):
-	base=os.path.join(path,dir_name)
-	lines=read_lines_from_archive(os.path.join(base,"sim.gpvdm"),"measure_output.dat")
 
-	ret=lines[0].split()
+	if do_norm==True:
+		mi=1e6
+		for i in range(0,len(data)):
+			if float(data[i])<mi:
+				mi=float(data[i])
+		div=mi
 
 	n=[]
+	for i in range(0,len(data)):
+		#print(data[i])
+		r=float(data[i])/div
 
-	names=["#mueffe","#mueffh","#Etrape","#Etraph","#Ntrape","#Ntraph","#srhsigman_e","#srhsigmap_e","#srhsigman_h","#srhsigmap_h","#Rshunt","#Rcontact","#jv_pmax_tau","#jv_pmax_mue", "#jv_pmax_muh"]
+		if fabs==True:
+			r=abs(r)
+
+		if dolog==True:
+			#print(r)
+			if r!=0.0:
+				r=log10(r)
+			else:
+				r=0.0
+
+		r=r*mul
+		n.append(r)
+	#print(n)
+
 	s=""
-	for i in range(0,len(ret)):
-		r=int(float(ret[i]))
-		s=s+names[i]+"_bin\n"
-		if r==1:
-			s=s+"1 0\n"
-		else:
-			s=s+"0 1\n"
+	for ii in range(0,len(n)):
+		s=s+'{:e}'.format(float(n[ii]))+" "
 
 	return s
 
-def scan_ml_both_good(file_name,token0,token1):
-	v0=float(inp_get_token_value(file_name, token0))
-	v1=float(inp_get_token_value(file_name, token1))
-	ret=token0+"_"+token1[1:]+"_good\n"
-	vector="0 1\n"
-	if is_it_good(token0,v0)==True and is_it_good(token1,v1)==True:
-		vector="1 0\n"
 	
-	ret=ret+vector
-	return ret
 
-def scan_ml_one_good(file_name,token0,token1):
-	v0=float(inp_get_token_value(file_name, token0))
-	v1=float(inp_get_token_value(file_name, token1))
-	ret=token0+"_"+token1[1:]+"_one_good\n"
-	vector="0 1\n"
-	if is_it_good(token0,v0)==True and is_it_good(token1,v1)==False:
-		vector="1 0\n"
-		
-	if  is_it_good(token0,v0)==False and is_it_good(token1,v1)==True:
-		vector="1 0\n"
-	
-	ret=ret+vector
-	return ret
-
-def scan_ml_both_bad(file_name,token0,token1):
-	v0=float(inp_get_token_value(file_name, token0))
-	v1=float(inp_get_token_value(file_name, token1))
-	ret=token0+"_"+token1[1:]+"_bad\n"
-	vector="0 1\n"
-	if is_it_good(token0,v0)==False and is_it_good(token1,v1)==False:
-		vector="1 0\n"
-	
-	ret=ret+vector
-	return ret
-
-def scan_ml_build_token_vector(file_name,token,vector):
-	a=float(inp_get_token_value(file_name, token))
-	v=[]
-	for i in range(0,len(vector)):
-		v.append(0.0)
-		
-	if a<=vector[0]:
-		v[0]=1.0
-	elif a>=vector[len(vector)-1]:
-		v[len(v)-1]=1.0
-	else:
-		for i in range(1,len(vector)-1):
-			if a<vector[i]:
-				v[i]=1.0
-				break
-
-	s=token+"\n"
-	for i in range(0,len(v)):
-		if v[i]==0.0:
-			s=s+"0 "
-		else:
-			s=s+"1 "
-	
-	s=s[:-1]+"\n"
-
-	
-	vectors=[]
-
-	return s
-
-def scan_ml_build_token_vectors(file_name,token0,token1,vector,min_max=""):
+def scan_ml_build_token_abs(file_name,token0,token1,min_max="",dolog=False,mul=1.0,lim=-1.0):
 
 	if token0==token1 and min_max=="min":
 		return ""
@@ -240,97 +157,137 @@ def scan_ml_build_token_vectors(file_name,token0,token1,vector,min_max=""):
 		return ""
 
 	if min_max=="":
-		val=float(inp_get_token_value(file_name, token0))
+		temp=inp_get_token_value(file_name, token0)
+		if temp==None:
+			return False
+		val=abs(float(temp))
 	elif min_max=="max":
-		v0=float(inp_get_token_value(file_name, token0))
-		v1=float(inp_get_token_value(file_name, token1))
+		temp=inp_get_token_value(file_name, token0)
+		if temp==None:
+			return False
+		v0=abs(float(temp))
+
+		temp=inp_get_token_value(file_name, token1)
+		if temp==None:
+			return False
+		v1=abs(float(temp))
+
 		val=v0
 		if v1>v0:
 			val=v1
 	elif min_max=="min":
-		v0=float(inp_get_token_value(file_name, token0))
-		v1=float(inp_get_token_value(file_name, token1))
+		temp=inp_get_token_value(file_name, token0)
+		if temp==None:
+			return False
+		v0=abs(float(temp))
+		
+		temp=inp_get_token_value(file_name, token1)
+		if temp==None:
+			return False
+		v1=abs(float(temp))
+
 		val=v0
 		if v1<v0:
 			val=v1
 	elif min_max=="avg":
-		v0=float(inp_get_token_value(file_name, token0))
-		v1=float(inp_get_token_value(file_name, token1))
+		temp=inp_get_token_value(file_name, token0)
+		if temp==None:
+			return False
+		v0=abs(float(temp))
+
+		temp=inp_get_token_value(file_name, token1)
+		if temp==None:
+			return False
+		v1=abs(float(temp))
+
 		val=(v0+v1)/2.0
 
 	v=[]
 	s=""
-	for i in range(0,len(vector)):
-		full_token=token0+"_"+min_max+"_"+str(i)
 
-		tindex_add(full_token,">"+str(vector[i]))
-		s=s+full_token+"\n"
-		if val>vector[i]:
-			s=s+"0 1\n"
+	if lim!=-1:
+		if val<lim:
+			return False
+
+	if dolog==True:
+		if val!=0.0:
+			#print("value=",val)
+			val=log10(val)
+			val=abs(val)
 		else:
-			s=s+"1 0\n"
+			val=0.0
 
-	return s
-
-
-def scan_ml_build_token_abs(file_name,token0,token1,error,min_max=""):
-
-	if token0==token1 and min_max=="min":
-		return ""
-
-	if token0==token1 and min_max=="max":
-		return ""
-
-	if min_max=="":
-		val=float(inp_get_token_value(file_name, token0))
-	elif min_max=="max":
-		v0=float(inp_get_token_value(file_name, token0))
-		v1=float(inp_get_token_value(file_name, token1))
-		val=v0
-		if v1>v0:
-			val=v1
-	elif min_max=="min":
-		v0=float(inp_get_token_value(file_name, token0))
-		v1=float(inp_get_token_value(file_name, token1))
-		val=v0
-		if v1<v0:
-			val=v1
-	elif min_max=="avg":
-		v0=float(inp_get_token_value(file_name, token0))
-		v1=float(inp_get_token_value(file_name, token1))
-		val=(v0+v1)/2.0
-
-	v=[]
-	s=""
+	val=val*mul
+	if isnan(val)==True:
+		return False
 
 	s=token0+"_"+min_max+"_abs\n"
 	s=s+str(val)+"\n"
 
 	full_token=token0+"_"+min_max+"_abs"
 
-	tindex_add(full_token,str(error))
+	tindex_add(full_token,str(-1))
 
 	return s
 
+
+
+
 def scan_ml_build_vector(sim_dir):
+	output_file=os.path.join(sim_dir,"vectors.dat")
+	if os.path.isfile(output_file)==True:
+		response=yes_no_cancel_dlg(None,"The file "+output_file+" already exists.  Continue? ")
 
+		if response!="yes":
+			sys.exit(0)
 
-	out=open(os.path.join(sim_dir,"vectors.dat"),'wb')
+	out=open(output_file,'wb')
+	progress_window=progress_class()
+	progress_window.show()
+	progress_window.start()
+
+	tot_archives=0
 	for archive_name in os.listdir(sim_dir):
 		if archive_name.startswith("archive")==True and archive_name.endswith(".zip")==True:
-			progress_window=progress_class()
-			progress_window.show()
-			progress_window.start()
+			tot_archives=tot_archives+1
+
+	done=0
+
+	errors=0
+	for archive_name in os.listdir(sim_dir):
+
+		if archive_name.startswith("archive")==True and archive_name.endswith(".zip")==True:
 
 			archive_path=os.path.join(sim_dir,archive_name)
+
+			if done==0:		#Find the measurment files and determine which ones are needed
+				found=[]
+				zf = zipfile.ZipFile(archive_path, 'r')
+				items=zf.namelist()
+				for l in items:
+					parts=l.split("/")
+					fname=parts[-1]
+					if fname.endswith("scan.inp")==True:
+						found_item=os.path.join(parts[-2],parts[-1])
+
+						a=parts[-2]
+						#measurment()
+						#a.experiment=parts[-2]
+						#a.measurement_file=parts[-1]
+						#a.token="#ml_input_"+parts[-1][8:-4]+"_"+parts[-2]
+
+						if found.count(a)==False:
+							found.append(a)
 
 			zf = zipfile.ZipFile(archive_path, 'r')
 			dirs=zip_lsdir(archive_path,zf=zf,sub_dir="/")
 
 			items=len(dirs)
-			print(items,archive_path,dirs)
 			for i in range(0,len(dirs)):
-				tmp_dir="/dev/shm/gpvdm"
+				rnd = [random.choice(string.ascii_letters + string.digits) for n in range(0,32)]
+				rnd = "".join(rnd)
+
+				tmp_dir="/dev/shm/gpvdm_"+rnd
 				if os.path.isdir(tmp_dir)==True:
 					shutil.rmtree(tmp_dir)
 
@@ -341,111 +298,155 @@ def scan_ml_build_vector(sim_dir):
 				full_name=tmp_dir
 				written=False
 				#print(dirs[i])
-				while(1):
-					v="#ml_id\n"
-					v=v+dirs[i]+"\n"
 
-					v=v+"#ml_input_jv_dark\n"
-					ret=get_vectors(full_name,"0.0","measure_jv.dat",dolog=True)
+				error=False
+				v="#ml_id\n"
+				v=v+dirs[i]+"\n"
+
+				
+				for scan_folder in found:
+					token="#ml_input_"+scan_folder
+					v=v+token+"\n"
+
+					dolog=False
+					div=1.0
+					mul=1.0
+					do_fabs=False
+
+					sim_mode=inp_get_token_value(os.path.join(full_name,scan_folder,"sim.inp"), "#simmode")
+					if sim_mode==None:
+						error=True
+						break
+					sim_mode=sim_mode.lower()
+
+					light=float(inp_get_token_value(os.path.join(full_name,scan_folder,"light.inp"), "#Psun"))
+
+					if sim_mode.endswith("jv") or sim_mode.startswith("jv"):
+						file_name="jv.dat"
+						sim_mode="jv"
+						vector=[0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0]	#np.linspace(0.2,1.0,20)#
+
+						if light>0.0:
+							div=1e2
+
+						if light==0.0:
+							dolog=True
+
+					elif sim_mode=="sun_voc":
+						file_name="suns_voc.dat"
+						vector=[0.02,0.04,0.05,0.1,0.5,0.7,1.0]
+						dolog=True
+						mul=-10.0
+
+					elif sim_mode.startswith("tpc")==True:
+						file_name="pulse_i.dat"
+						vector=[1.1e-6,2e-6,2e-5,1e-4,0.02,0.1]
+						dolog=True
+						do_fabs=True
+					elif sim_mode.startswith("celiv")==True:
+						file_name="pulse_i.dat"
+						vector=[2e-6,3e-6,4e-6,5e-6,6e-6,7e-6,8e-6]
+						do_fabs=True
+						mul=1000.0
+					elif sim_mode.startswith("tpv")==True:
+						file_name="pulse_v.dat"
+						vector=[10e-6,20e-6,30e-6,40e-6,50e-6,60e-6,80e-6]
+						do_fabs=True
+						mul=10.0
+					else:
+						print(sim_mode)
+						asdas
+					ret=get_vectors(os.path.join(full_name,scan_folder,file_name),vector,dolog=dolog,div=div,mul=mul,fabs=do_fabs)
+					#print(ret)
 					if ret==False:
-						print("ml_input_jv_dark")
+						error=True
 						break
 					v=v+ret+"\n"
 
-					v=v+"#ml_input_jv_light\n"
-					ret=get_vectors(full_name,"1.0","measure_jv.dat",div=1e2)
-					if ret==False:
-						print("ml_input_jv_ligh")
+					if sim_mode=="jv" and light>0.0:
+						ret=scan_ml_build_token_abs(os.path.join(full_name,scan_folder,"sim_info.dat"),"#jv_pmax_tau","#jv_pmax_tau",min_max="avg",dolog=True)
+						if ret==False:
+							error=True
+							break
+						v=v+ret
+
+						ret=scan_ml_build_token_abs(os.path.join(full_name,scan_folder,"sim_info.dat"),"#jv_pmax_mue","#jv_pmax_mue",min_max="avg",dolog=True)
+						if ret==False:
+							error=True
+							break
+
+						v=v+ret
+
+						ret=scan_ml_build_token_abs(os.path.join(full_name,scan_folder,"sim_info.dat"),"#pce","#pce",min_max="avg",lim=0.1)
+						if ret==False:
+							error=True
+							break
+
+						v=v+ret
+
+					#print(a.experiment,a.measurement_file,a.token)
+
+
+				for min_max in ["min","max","avg"]:
+					a=scan_ml_build_token_abs(os.path.join(full_name,"dos0.inp"),"#Etrape","#Etraph",min_max=min_max,mul=1e3)
+					if a==False:
+						error=True
 						break
-					v=v+ret+"\n"
-			
-					v=v+"#ml_input_tpc_neg\n"
-					ret=get_vectors(full_name,"TPC","measure_tpc.dat",fabs=True,dolog=True)
-					if ret==False:
-						break
-					v=v+ret+"\n"
-
-					v=v+"#ml_input_tpc\n"
-					ret=get_vectors(full_name,"TPC_0","measure_tpc.dat",fabs=True,dolog=True)
-					if ret==False:
-						break
-					v=v+ret+"\n"
-
-					v=v+"#ml_input_tpc_neg_norm\n"
-					ret=get_vectors(full_name,"TPC","measure_tpc.dat",fabs=True,dolog=True,do_norm=True)
-					if ret==False:
-						break
-					v=v+ret+"\n"
-
-					v=v+"#ml_input_tpc_norm\n"
-					ret=get_vectors(full_name,"TPC_0","measure_tpc.dat",fabs=True,dolog=True,do_norm=True)
-					if ret==False:
-						break
-					v=v+ret+"\n"
-
-					v=v+"#ml_input_tpc_ideal\n"
-					ret=get_vectors(full_name,"TPC_ideal","measure_tpc.dat",fabs=True,dolog=True)
-					if ret==False:
-						break
-					v=v+ret+"\n"
-
-					v=v+"#ml_input_tpc_ideal_norm\n"
-					ret=get_vectors(full_name,"TPC_ideal","measure_tpc.dat",fabs=True,dolog=True,do_norm=True)
-					if ret==False:
-						break
-					v=v+ret+"\n"
-
-					v=v+"#ml_input_tpv\n"
-					ret=get_vectors(full_name,"TPV","measure_tpv.dat",fabs=True)
-					if ret==False:
-						break
-					v=v+ret+"\n"
-
-					v=v+"#ml_input_celiv\n"
-					ret=get_vectors(full_name,"CELIV","measure_celiv.dat",fabs=True)
-					if ret==False:
-						break
-					v=v+ret+"\n"
-
-					v=v+get_vectors_binary(full_name,"1.0")
-					for min_max in ["min","max","avg"]:
-						a=scan_ml_build_token_vectors(os.path.join(full_name,"dos0.inp"),"#Etrape","#Etraph",[40e-3,50e-3,60e-3,70e-3,80e-3,90e-3,100e-3],min_max=min_max)
-						v=v+a
-
-						a=scan_ml_build_token_vectors(os.path.join(full_name,"dos0.inp"),"#mueffe","#mueffh",[1e-9, 1e-8, 1e-7,1e-6,1e-5,1e-4,1e-3],min_max=min_max)
-						v=v+a
-
-						a=scan_ml_build_token_vectors(os.path.join(full_name,"dos0.inp"),"#Ntraph","#Ntrape",[1e20,1e21,1e22,1e23,1e24,1e25,1e26,1e27],min_max=min_max)
-						v=v+a
-
-					a=scan_ml_build_token_vectors(os.path.join(full_name,"parasitic.inp"),"#Rshunt","#Rshunt",[1e2,1e3,1e4,1e5,1e6,1e7],min_max="avg")
 					v=v+a
 
-					#a=scan_ml_build_token_abs(os.path.join(full_name,"parasitic.inp"),"#Rshunt","#Rshunt",min_max="avg")
-					#v=v+a
-
-					a=scan_ml_build_token_vectors(os.path.join(full_name,"parasitic.inp"),"#Rcontact","#Rcontact",[5,10,15,20,25,30,35,40],min_max="avg")
+					a=scan_ml_build_token_abs(os.path.join(full_name,"dos0.inp"),"#mueffe","#mueffh",min_max=min_max,dolog=True)
+					if a==False:
+						error=True
+						break
 					v=v+a
 
-					a=scan_ml_build_token_vectors(os.path.join(full_name,"1.0","sim_info.dat"),"#jv_pmax_tau","#jv_pmax_tau",[1e-1,1e-2,1e-3,1e-4,1e-5,1e-6,1e-7],min_max="avg")
+					a=scan_ml_build_token_abs(os.path.join(full_name,"dos0.inp"),"#Ntraph","#Ntrape",min_max=min_max,dolog=True)
+					if a==False:
+						error=True
+						break
 					v=v+a
 
-					a=scan_ml_build_token_vectors(os.path.join(full_name,"1.0","sim_info.dat"),"#jv_pmax_mue","#jv_pmax_mue",[1e-9, 1e-8, 1e-7,1e-6,1e-5,1e-4,1e-3],min_max="avg")
-					v=v+a
+				a=scan_ml_build_token_abs(os.path.join(full_name,"parasitic.inp"),"#Rshunt","#Rshunt",min_max="avg",dolog=True)
+				if a==False:
+					error=True
+					break
+				v=v+a
 
+				a=scan_ml_build_token_abs(os.path.join(full_name,"parasitic.inp"),"#Rcontact","#Rcontact",min_max="avg")
+				if a==False:
+					error=True
+					break
+				v=v+a
+		
+				v=v+"#break\n"
 
+				if error==False:
 					out.write(str.encode(v))
 					written=True
-					break
+				else:
+					errors=errors+1
 
-				if written==False:
-					print("Error",dirs[i])
-				progress_window.set_fraction(float(i)/float(len(dirs)))
+				done=done+1
+
+
+				progress_window.set_fraction(float(done)/float(len(dirs)*tot_archives))
+				if written==True:
+					progress_window.set_text(dirs[i])
+				else:
+					progress_window.set_text("                         /Last error: "+dirs[i]+" tot errors="+str(errors)+" "+str(round(100.0*errors/done,1))+"%")
+
 				progress_window.set_text(dirs[i])
 
 				#if server_break()==True:
 				#	break
 				process_events()
 				#return
-			progress_window.stop()
+
+				shutil.rmtree(tmp_dir)
+
+	out.close()
+	progress_window.stop()
+
+	tindex_dump(os.path.join(sim_dir,"index.dat"))
+
 

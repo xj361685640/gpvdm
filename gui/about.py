@@ -36,9 +36,9 @@ from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import QSize
 from PyQt5.QtGui import QIcon
 
-from cal_path import find_materials
+from materials_io import find_materials
 from ref import get_ref_text
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 
 class about_dlg(QDialog):
 	def __init__(self):
@@ -48,7 +48,7 @@ class about_dlg(QDialog):
 		self.main_vbox=QVBoxLayout()
 		self.setFixedSize(650,480) 
 		self.setWindowTitle(_("About")+" (https://www.gpvdm.com)")
-		self.setWindowIcon(QIcon_load("icon"))
+		self.setWindowIcon(icon_get("icon"))
 		self.gpvdm=QLabel("<font size=40><b>gpvdm</b></font>")
 		self.image=QLabel()
 		self.written_by=QLabel(_("Written by Roderick MacKenzie 2012-2017, published under GPL v2.0"))
@@ -178,7 +178,7 @@ class about_dlg(QDialog):
 		gridsize.setHeight(40)
 
 		self.materials.setGridSize(gridsize)
-		self.mat_icon = QIcon_load("organic_material")
+		self.mat_icon = icon_get("organic_material")
 		self.fill_store()
 
 	def callback_close(self):

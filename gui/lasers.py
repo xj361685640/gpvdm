@@ -28,7 +28,7 @@ from inp import inp_isfile
 from inp import inp_copy_file
 from inp import inp_remove_file
 from util import strextract_interger
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 
 import i18n
 _ = i18n.language.gettext
@@ -48,6 +48,8 @@ from QWidgetSavePos import QWidgetSavePos
 from cal_path import get_sim_path
 
 from css import css_apply
+
+from order_widget import order_widget
 
 def laser_new_filename():
 	for i in range(0,20):
@@ -79,78 +81,18 @@ class lasers(QWidgetSavePos):
 	def callback_help(self, widget, data=None):
 		webbrowser.open('http://www.gpvdm.com/man/index.html')
 
-	def callback_add_page(self):
-		new_sim_name=dlg_get_text( _("New laser name:"), _("laser ")+str(self.notebook.count()),"document-new.png")
-		if new_sim_name.ret!=None:
-			index=laser_new_filename()
-			inp_copy_file("laser"+str(index)+".inp","laser0.inp")
-			inp_update_token_value("laser"+str(index)+".inp", "#laser_name", new_sim_name.ret)
-			self.add_page(index)
-
-
-	def callback_copy_page(self):
-		tab = self.notebook.currentWidget()
-		index=laser_new_filename()
-		new_file="laser"+str(index)+".inp"
-		new_sim_name=dlg_get_text(_("Clone the current laser to a new laser called:"), tab.tab_name+"_new","clone.png")
-
-		if new_sim_name.ret!=None:
-			dest=os.path.join(get_sim_path(),new_file)
-			if inp_copy_file(dest,tab.file_name)==False:
-				print ("Error copying file"+dest+" "+tab.file_name)
-				return
-
-			inp_update_token_value(dest, "#laser_name", new_sim_name.ret)
-			self.add_page(index)
-
-
 	def remove_invalid(self,input_name):
 		return input_name.replace (" ", "_")
 
-	def callback_rename_page(self):
-		tab = self.notebook.currentWidget()
-		new_laser_name=dlg_get_text( _("Rename the laser to be called:"), tab.tab_name ,"rename.png")
 
-		if new_laser_name.ret!=None:
-			index=self.notebook.currentIndex() 
-			self.notebook.setTabText(index, new_laser_name.ret)
-			inp_update_token_value(tab.file_name, "#laser_name", new_laser_name.ret)
+	def callback_add_page(self,new_filename):
+		self.add_page(new_filename)
 
-	def callback_delete_page(self):
-		if self.notebook.count()>1:
-			tab = self.notebook.currentWidget()
-			response=yes_no_dlg(self,_("Should I remove the laser file ")+tab.tab_name)
-
-			if response == True:
-				inp_remove_file(tab.file_name)
-				index=self.notebook.currentIndex() 
-				self.notebook.removeTab(index)
-
-
-	def load_tabs(self):
-
-		file_list=zip_lsdir(os.path.join(get_sim_path(),"sim.gpvdm"))
-		files=[]
-		for i in range(0,len(file_list)):
-			if file_list[i].startswith("laser") and file_list[i].endswith(".inp"):
-				files.append(file_list[i])
-
-		for i in range(0,len(files)):
-			value=strextract_interger(files[i])
-			if value!=-1:
-				self.add_page(value)
-
-
-	def add_page(self,index):
-		print("here:",index)
-		file_name=os.path.join(get_sim_path(),"laser"+str(index)+".inp")
-		laser_name=inp_get_token_value(file_name, "#laser_name")
+	def add_page(self,filename):
+		name=inp_get_token_value(filename, "#tab_name")
 		tab=tab_class()
-		tab.init(file_name,laser_name)
-		self.notebook.addTab(tab,laser_name)
-
-
-
+		tab.init(filename,name)
+		self.notebook.addTab(tab,name)
 
 	def switch_page(self,page, page_num, user_param1):
 		pageNum = self.notebook.get_current_page()
@@ -166,34 +108,35 @@ class lasers(QWidgetSavePos):
 
 		self.setFixedSize(900, 500)
 		self.setWindowTitle(_("Laser configuration window")+" https://www.gpvdm.com")   
-		self.setWindowIcon(QIcon_load("lasers"))
+		self.setWindowIcon(icon_get("lasers"))
 
 		toolbar=QToolBar()
 		toolbar.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
 		toolbar.setIconSize(QSize(48, 48))
 
-		self.new = QAction(QIcon_load("document-new"), wrap_text(_("New laser"),2), self)
-		self.new.triggered.connect(self.callback_add_page)
-		toolbar.addAction(self.new)
 
-		self.new = QAction(QIcon_load("edit-delete"), wrap_text(_("Delete laser"),3), self)
-		self.new.triggered.connect(self.callback_delete_page)
-		toolbar.addAction(self.new)
+		self.order_widget=order_widget()
+		self.order_widget.new_text=_("New laser")
+		self.order_widget.delete_text=_("Delete laser")
+		self.order_widget.clone_text=_("Clone laser")
+		self.order_widget.rename_text=_("Rename laser")
+		self.order_widget.new_dlg_text=_("New laser name:")
+		self.order_widget.base_file_name="laser"
+		self.order_widget.new_tab_name=_("laser ")
+		self.order_widget.clone_dlg_text=_("Clone the current laser to a new laser called:")
+		self.order_widget.rename_dlg_text=_("Rename the laser to be called:")
+		self.order_widget.delete_dlg_text=_("Should I remove the laser file ")
+		self.order_widget.init()
+		toolbar.addWidget(self.order_widget)
 
-		self.clone = QAction(QIcon_load("clone.png"), wrap_text(_("Clone laser"),3), self)
-		self.clone.triggered.connect(self.callback_copy_page)
-		toolbar.addAction(self.clone)
-
-		self.clone = QAction(QIcon_load("rename"), wrap_text(_("Rename laser"),3), self)
-		self.clone.triggered.connect(self.callback_rename_page)
-		toolbar.addAction(self.clone)
+		self.order_widget.added.connect(self.callback_add_page)
 
 		spacer = QWidget()
 		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 		toolbar.addWidget(spacer)
 
 
-		self.help = QAction(QIcon_load("help"), _("Help"), self)
+		self.help = QAction(icon_get("help"), _("Help"), self)
 		self.help.setStatusTip(_("Close"))
 		self.help.triggered.connect(self.callback_help)
 		toolbar.addAction(self.help)
@@ -205,7 +148,8 @@ class lasers(QWidgetSavePos):
 		css_apply(self.notebook,"tab_default.css")
 		self.notebook.setMovable(True)
 
-		self.load_tabs()
+		self.order_widget.notebook_pointer=self.notebook
+		self.order_widget.load_tabs()
 
 		self.main_vbox.addWidget(self.notebook)
 

@@ -19,7 +19,7 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 import os
 
 #qt
@@ -74,7 +74,7 @@ class ref_window(QWidgetSavePos):
 		resize_window_to_be_sane(self,0.5,0.5)
 		self.file_name=os.path.splitext(file_name)[0]+".ref"
 		self.gen_file()
-		self.setWindowIcon(QIcon_load("ref"))
+		self.setWindowIcon(icon_get("ref"))
 		self.setWindowTitle(_("Reference manager")+" (https://www.gpvdm.com)") 
 
 		self.vbox=QVBoxLayout()
@@ -87,7 +87,7 @@ class ref_window(QWidgetSavePos):
 		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 		self.toolbar.addWidget(spacer)
 
-		self.tb_help = QAction(QIcon_load("help"), _("Help"), self)
+		self.tb_help = QAction(icon_get("help"), _("Help"), self)
 		self.tb_help.setStatusTip(_("Help"))
 		self.tb_help.triggered.connect(self.callback_help)
 		self.toolbar.addAction(self.tb_help)

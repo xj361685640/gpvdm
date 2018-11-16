@@ -46,33 +46,35 @@ from help import help_window
 
 from global_objects import global_object_run
 from util import isfiletype
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 
 from cal_path import get_sim_path
 from util import wrap_text
 
-class ribbon_materials(QTabWidget):
+from ribbon_base import ribbon_base
+
+class ribbon_materials(ribbon_base):
 	def main_toolbar(self):
 		self.main_toolbar = QToolBar()
 		self.main_toolbar.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
 		self.main_toolbar.setIconSize(QSize(42, 42))
 
-		self.cost = QAction(QIcon_load("cost"), _("Cost"), self)
+		self.cost = QAction(icon_get("cost"), _("Cost"), self)
 		self.cost.setStatusTip(_("Cost of material"))
 		#self.cost.triggered.connect(self.callback_cost)
 		self.main_toolbar.addAction(self.cost)
 
-		self.folder_open= QAction(QIcon_load("folder"), _("Material\ndirectory"), self)
+		self.folder_open= QAction(icon_get("folder"), _("Material\ndirectory"), self)
 		#self.folder_open.triggered.connect(self.callback_dir_open)
 		self.main_toolbar.addAction(self.folder_open)
 
-		self.tb_ref= QAction(QIcon_load("ref"), wrap_text(_("Insert reference information"),8), self)
+		self.tb_ref= QAction(icon_get("ref"), wrap_text(_("Insert reference information"),8), self)
 		self.main_toolbar.addAction(self.tb_ref)
 
-		self.tb_save = QAction(QIcon_load("document-save-as"), _("Save image"), self)
+		self.tb_save = QAction(icon_get("document-save-as"), _("Save image"), self)
 		self.main_toolbar.addAction(self.tb_save)
 
-		self.import_data= QAction(QIcon_load("import"), _("Import data"), self)
+		self.import_data= QAction(icon_get("import"), _("Import data"), self)
 		self.main_toolbar.addAction(self.import_data)
 
 
@@ -80,21 +82,14 @@ class ribbon_materials(QTabWidget):
 		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 		self.main_toolbar.addWidget(spacer)
 
-		self.help = QAction(QIcon_load("internet-web-browser"), _("Help"), self)
+		self.help = QAction(icon_get("internet-web-browser"), _("Help"), self)
 		self.main_toolbar.addAction(self.help)
 
 		return self.main_toolbar
 
-	def readStyleSheet(self,fileName):
-		css=None
-		file = QFile(fileName)
-		if file.open(QIODevice.ReadOnly) :
-			css = file.readAll()
-			file.close()
-		return css
 
 	def __init__(self):
-		QToolBar.__init__(self)
+		ribbon_base.__init__(self)
 
 		w=self.main_toolbar()
 		self.addTab(w,_("File"))

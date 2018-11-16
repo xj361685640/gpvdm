@@ -120,7 +120,7 @@ void *rx_loop(void *s);
 void run_jobs(struct state *sim);
 struct job* get_jobs_array();
 int get_njobs();
-int set_njobs(int n);
+void set_njobs(int n);
 
 
 void calpath_set_store_path(char *in);

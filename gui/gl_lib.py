@@ -56,7 +56,7 @@ def gl_save_draw():
 			x=save_list[i].x
 			z=save_list[i].z
 			up=bool(split[0])
-			draw_photon(x+delta,z,up)
+			draw_photon(x+delta,2.7,z,up)
 
 def draw_stars():
 	global stars
@@ -119,43 +119,43 @@ def draw_grid():
 
 
 
-def draw_photon(x,z,up):
+def draw_photon(x,y,z,up):
 	gl_save_add("photon",x,-1.0,z,[int(up)])
 	glLineWidth(3)
 	length=0.9
 	if up==True:
-		set_color(0.0, 0.0, 1.0,"photon")
+		set_color(0.0, 0.0, 1.0,"photon",alpha=0.5)
 	else:
-		set_color(0.0, 1.0, 0.0,"photon")
+		set_color(0.0, 1.0, 0.0,"photon",alpha=0.5)
 
 
 	wx=np.arange(0, length , 0.025)
 	wy=np.sin(wx*3.14159*8)*0.2
 	
-	start_x=2.7
-	stop_x=2.7-length
+	start_y=y+length
+	stop_y=y
 
 	glBegin(GL_LINES)
 	for i in range(1,len(wx)):
-		glVertex3f(x, start_x-wx[i-1], z+wy[i-1])
-		glVertex3f(x, start_x-wx[i], z+wy[i])
+		glVertex3f(x, start_y-wx[i-1], z+wy[i-1])
+		glVertex3f(x, start_y-wx[i], z+wy[i])
 
 	glEnd()
 
 	if up==False:
 		glBegin(GL_TRIANGLES)
 
-		glVertex3f(x-0.1, stop_x,z)
-		glVertex3f(x+0.1, stop_x ,z)
-		glVertex3f(x,stop_x-0.1 ,z)
+		glVertex3f(x-0.1, stop_y,z)
+		glVertex3f(x+0.1, stop_y ,z)
+		glVertex3f(x,stop_y-0.1 ,z)
 
 		glEnd()
 	else:
 		glBegin(GL_TRIANGLES)
 
-		glVertex3f(x-0.1, start_x,z)
-		glVertex3f(x+0.1, start_x ,z)
-		glVertex3f(x,start_x+0.1 ,z)
+		glVertex3f(x-0.1, start_y,z)
+		glVertex3f(x+0.1, start_y ,z)
+		glVertex3f(x,start_y+0.1 ,z)
 
 		glEnd()
 		

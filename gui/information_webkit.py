@@ -20,7 +20,7 @@
 
 import os
 from tab_base import tab_base
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 
 #qt
 from PyQt5.QtCore import QSize, Qt, QUrl
@@ -63,11 +63,11 @@ class information(QWidget,tab_base):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
-		back = QAction(QIcon_load("go-previous.png"),  _("back"), self)
+		back = QAction(icon_get("go-previous.png"),  _("back"), self)
 		back.triggered.connect(self.html.back)
 		toolbar.addAction(back)
 
-		home = QAction(QIcon_load("user-home.png"),  _("home"), self)
+		home = QAction(icon_get("user-home.png"),  _("home"), self)
 		home.triggered.connect(self.home)
 		toolbar.addAction(home)
 

@@ -85,9 +85,20 @@ def make_m4(hpc=False, win=False,usear=False):
 		config_files.append("images/32x32")
 		config_files.append("images/48x32")
 		config_files.append("images/64x64")
+
+		config_files.append("images/icons/16x16")
+		config_files.append("images/icons/32x32")
+		config_files.append("images/icons/48x48")
+		config_files.append("images/icons/64x64")
+		config_files.append("images/icons/128x128")
+		config_files.append("images/icons/256x256")
+		config_files.append("images/icons/512x512")
+
 		config_files.append("css")
 		config_files.append("html")
-		config_files.append("cluster")
+		config_files.append("cluster_")
+		config_files.append("docs")
+		config_files.append("desktop")
 		if win==False:
 			config_files.append("man")
 
@@ -146,7 +157,7 @@ if __name__ == "__main__":
 	if args.noar:
 		usear=False
 
-	make_m4(hpc=hpc, win=win,usear=True)
+	make_m4(hpc=hpc, win=win,usear=usear)
 
 
 

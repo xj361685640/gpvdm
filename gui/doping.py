@@ -23,12 +23,12 @@
 import os
 from numpy import *
 import webbrowser
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 
 #inp
 from inp import inp_update_token_value
 from inp import inp_load_file
-from inp_util import inp_search_token_value
+from inp import inp_search_token_value
 
 import i18n
 _ = i18n.language.gettext
@@ -170,7 +170,7 @@ class doping_window(QWidgetSavePos):
 	def __init__(self):
 		QWidgetSavePos.__init__(self,"doping")
 		self.setFixedSize(900, 600)
-		self.setWindowIcon(QIcon_load("doping"))
+		self.setWindowIcon(icon_get("doping"))
 		self.setWindowTitle(_("Doping profile editor")+" (https://www.gpvdm.com)") 
 
 		self.main_vbox=QVBoxLayout()
@@ -178,7 +178,7 @@ class doping_window(QWidgetSavePos):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
-		self.save = QAction(QIcon_load("document-save-as"), _("Save"), self)
+		self.save = QAction(icon_get("document-save-as"), _("Save"), self)
 		self.save.triggered.connect(self.callback_save)
 		toolbar.addAction(self.save)
 
@@ -187,7 +187,7 @@ class doping_window(QWidgetSavePos):
 		toolbar.addWidget(spacer)
 
 
-		self.help = QAction(QIcon_load("help"), _("Help"), self)
+		self.help = QAction(icon_get("help"), _("Help"), self)
 		self.help.triggered.connect(self.callback_help)
 		toolbar.addAction(self.help)
 

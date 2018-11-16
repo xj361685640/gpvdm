@@ -1,67 +1,49 @@
 import os
 import sys
-try:
-	import pyinotify
-except:
-	print("python3-pyinotify is not installed")
-	sys.exit(0)
-
 import re
 import time
 
-class ModHandler(pyinotify.ProcessEvent):
-	def __init__(self,file_name):
-		self.fname=file_name
-		self.p=0
-		try:
-			self.f=open(self.fname,"r", encoding="latin-1")
-			sys.stdout.write(self.f.read())
-			sys.stdout.flush()
-			self.p = self.f.tell()
-			self.f.close()
-		except:
-			pass
+def tail(fname):
+	while(os.path.isfile(fname)==False):
+		print("wait for "+fname)
 
-	def process_IN_MODIFY(self, evt):
-		try:
-			self.f=open(self.fname,"r", encoding="latin-1")
-			self.f.seek(0,2)
-			size = self.f.tell()
-			if self.p>size:
-				self.p=0
-			self.f.seek(self.p)
-			r=self.f.read()
+	f=open(fname,"r", encoding="latin-1")
+	sys.stdout.write(f.read())
+	sys.stdout.flush()
+	p = f.tell()
+	f.close()
+
+	mod_time=os.stat(fname).st_mtime
+	last_mod_time=mod_time
+	while(1):
+		mod_time=os.stat(fname).st_mtime
+		if last_mod_time!=mod_time:
+			f=open(fname,"r", encoding="latin-1")
+			f.seek(0,2)
+			size = f.tell()
+			if p>size:
+				p=0
+			f.seek(p)
+			r=f.read()
 			pos=r.rfind('\n')
 			if pos!=-1:
 				r=r[:pos]
-				self.f.seek(self.p+len(r))
+				f.seek(p+len(r))
 				r=re.sub(r'[^\x00-\x7F]+',' ', r)
 				print(r, end='', flush=True)
-				#sys.stdout.write(">"+r+"<")
-				#sys.stdout.flush()
-				self.p = self.f.tell()
-			self.f.close()
-		except:
-			pass
+				p = f.tell()
+			f.close()
 
-def tail(fname):
-	handler = ModHandler(fname)
-	wm = pyinotify.WatchManager()
-	notifier = pyinotify.ThreadedNotifier(wm, handler)
-	notifier.daemon=True
-	wdd = wm.add_watch(fname, pyinotify.ALL_EVENTS)
-
-	notifier.start()
-
-	while(1):
-		time.sleep(1.0) 
+		time.sleep(0.05) 
 		if os.path.isfile(fname)==True:
-			if (time.time() - os.stat(fname).st_mtime)>2:
+			if (time.time() - mod_time)>2:
+				print("tail finished..")
 				break
 		else:
 			break
 
+		last_mod_time=mod_time
+
 #	input("Press Enter to continue...")
 	print("")
-	notifier.stop()
 

@@ -29,7 +29,7 @@ from plot_io import plot_save_oplot_file
 from scan_io import scan_push_to_hpc
 from scan_io import scan_import_from_hpc
 from cal_path import get_exe_command
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 from scan_item import scan_items_get_file
 from scan_item import scan_items_get_token
 from gui_util import tab_insert_row
@@ -213,7 +213,7 @@ class fit_vars(QWidget):
 		QWidget.__init__(self)
 
 		self.setWindowTitle(_("Fit vars window - gpvdm"))   
-		self.setWindowIcon(QIcon_load("fit"))
+		self.setWindowIcon(icon_get("fit"))
 		#self.setFixedSize(900, 700)
 
 		self.select_param_window=select_param()
@@ -226,23 +226,23 @@ class fit_vars(QWidget):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(32, 32))
 
-		self.tb_save = QAction(QIcon_load("list-add"), _("Add line"), self)
+		self.tb_save = QAction(icon_get("list-add"), _("Add line"), self)
 		self.tb_save.triggered.connect(self.callback_add_item)
 		toolbar.addAction(self.tb_save)
 
-		self.tb_save = QAction(QIcon_load("list-remove"), _("Remove line"), self)
+		self.tb_save = QAction(icon_get("list-remove"), _("Remove line"), self)
 		self.tb_save.triggered.connect(self.callback_delete_item)
 		toolbar.addAction(self.tb_save)
 
-		self.tb_down= QAction(QIcon_load("go-down"), _("Move down"), self)
+		self.tb_down= QAction(icon_get("go-down"), _("Move down"), self)
 		self.tb_down.triggered.connect(self.on_move_down)
 		toolbar.addAction(self.tb_down)
 
-		self.tb_up= QAction(QIcon_load("go-up"), _("Move up"), self)
+		self.tb_up= QAction(icon_get("go-up"), _("Move up"), self)
 		self.tb_up.triggered.connect(self.on_move_up)
 		toolbar.addAction(self.tb_up)
 
-		self.tb_open = QAction(QIcon_load("document-open"), _("Open"), self)
+		self.tb_open = QAction(icon_get("document-open"), _("Open"), self)
 		self.tb_open.triggered.connect(self.callback_open)
 		toolbar.addAction(self.tb_open)
 		

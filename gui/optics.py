@@ -23,7 +23,7 @@ import os
 from inp import inp_update_token_value
 from inp import inp_get_token_value
 from plot_gen import plot_gen
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 import zipfile
 import glob
 from scan_item import scan_item_add
@@ -69,7 +69,7 @@ class class_optical(QWidget):
 
 	def __init__(self):
 		QWidget.__init__(self)
-		self.setWindowIcon(QIcon_load("image"))
+		self.setWindowIcon(icon_get("optics"))
 
 		self.setMinimumSize(1000, 600)
 
@@ -92,7 +92,7 @@ class class_optical(QWidget):
 		self.setGeometry(300, 300, 600, 600)
 		self.setWindowTitle(_("Optical simulation editor")+" (https://www.gpvdm.com)")    
 
-		self.setWindowIcon(QIcon_load("optics"))
+		self.setWindowIcon(icon_get("optics"))
 
 		self.main_vbox=QVBoxLayout()
 
@@ -178,7 +178,13 @@ class class_optical(QWidget):
 		self.hide()
 		event.accept()
 
+	def optics_sim_finished(self):
+		inp_update_token_value("dump.inp", "#dump_optics",self.dump_optics)
+		#inp_update_token_value("dump.inp", "#dump_optics_verbose",self.dump_optics_verbose)
+		self.force_redraw()
+
 	def force_redraw(self):
+
 		self.fig_photon_density.my_figure.clf()
 		self.fig_photon_density.draw_graph()
 		self.fig_photon_density.canvas.draw()
@@ -199,11 +205,11 @@ class class_optical(QWidget):
 		
 	def callback_run(self):
 		self.my_server=server_get()
-		dump_optics=inp_get_token_value("dump.inp", "#dump_optics")
-		dump_optics_verbose=inp_get_token_value("dump.inp", "#dump_optics_verbose")
+		self.dump_optics=inp_get_token_value("dump.inp", "#dump_optics")
+		#self.dump_optics_verbose=inp_get_token_value("dump.inp", "#dump_optics_verbose")
 
 		inp_update_token_value("dump.inp", "#dump_optics","true")
-		inp_update_token_value("dump.inp", "#dump_optics_verbose","true")
+		#inp_update_token_value("dump.inp", "#dump_optics_verbose","true")
 		#pwd=os.getcwd()
 		#os.chdir(get_sim_path())
 		#cmd = get_exe_command()+' --simmode opticalmodel@optics'
@@ -212,14 +218,10 @@ class class_optical(QWidget):
 		#os.chdir(pwd)
 		self.my_server.clear_cache()
 		self.my_server.add_job(get_sim_path(),"--simmode opticalmodel@optics")
-		self.my_server.set_callback_when_done(self.force_redraw)
+		self.my_server.set_callback_when_done(self.optics_sim_finished)
 		self.my_server.start()
 
 		
-		inp_update_token_value("dump.inp", "#dump_optics",dump_optics)
-		inp_update_token_value("dump.inp", "#dump_optics_verbose",dump_optics_verbose)
-		
-
 		#inp_update_token_value("dump.inp", "#dump_optics","true")
 		#inp_update_token_value("dump.inp", "#dump_optics_verbose","true")
 		

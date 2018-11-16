@@ -630,7 +630,11 @@ BUILD_DIRS
 PKG_CONFIG
 PKG_IMAGEMAGICK
 IMAGE_CONVERT_FLAG
+IMAGE_CONVERT_512
+IMAGE_CONVERT_256
+IMAGE_CONVERT_128
 IMAGE_CONVERT_64
+IMAGE_CONVERT_48
 IMAGE_CONVERT_32
 IMAGE_CONVERT_16
 PKG_RSGV
@@ -5874,7 +5878,15 @@ fi
 
 		IMAGE_CONVERT_32="rsvg-convert -w 32 -h 32 $< > "
 
+		IMAGE_CONVERT_48="rsvg-convert -w 48 -h 48 $< > "
+
 		IMAGE_CONVERT_64="rsvg-convert -w 64 -h 64 $< > "
+
+		IMAGE_CONVERT_128="rsvg-convert -w 128 -h 128 $< > "
+
+		IMAGE_CONVERT_256="rsvg-convert -w 256 -h 256 $< > "
+
+		IMAGE_CONVERT_512="rsvg-convert -w 512 -h 512 $< > "
 
 		IMAGE_CONVERT_FLAG="rsvg-convert -w 48 -h 32 $< > "
 
@@ -6016,7 +6028,7 @@ fi
 #i?86
 #x86_64
 
-BUILD_DIRS=" lang libi librpn libmemory libdos liblight libmeasure libcontacts lib libdump libdumpctrl libserver libmesh libfit plugins/optics plugins/newton plugins/nr_d plugins/pulse plugins/fxdomain plugins/light_flat plugins/light_ray plugins/li plugins/light_full plugins/newton_2d plugins/fit_stark plugins/nr_ld plugins/photon_extraction plugins/jv plugins/light_exp plugins/qe plugins/umfpack plugins/jv_one_point plugins/jv_simple plugins/sun_voc plugins/equilibrium plugins/light_fromfile plugins/newton_norm src images/16x16 images/32x32 images/48x32 images/64x64 css html cluster man "
+BUILD_DIRS=" lang libi librpn libmemory libdos liblight libmeasure libcontacts lib libdump libdumpctrl libserver libmesh libfit plugins/optics plugins/newton plugins/nr_d plugins/pulse plugins/fxdomain plugins/light_flat plugins/light_ray plugins/li plugins/light_full plugins/newton_2d plugins/fit_stark plugins/nr_ld plugins/photon_extraction plugins/jv plugins/light_exp plugins/qe plugins/umfpack plugins/jv_one_point plugins/jv_simple plugins/sun_voc plugins/equilibrium plugins/light_fromfile plugins/newton_norm src images/16x16 images/32x32 images/48x32 images/64x64 images/icons/16x16 images/icons/32x32 images/icons/48x48 images/icons/64x64 images/icons/128x128 images/icons/256x256 images/icons/512x512 css html cluster_ docs desktop man "
 
 LOCAL_LINK=" -lgpvdm_i -lgpvdm_rpn -lgpvdm_memory -lgpvdm_dos -lgpvdm_light -lgpvdm_measure -lgpvdm_contacts -lgpvdm_lib -lgpvdm_dump -lgpvdm_dumpctrl -lgpvdm_server -lgpvdm_mesh -lgpvdm_fit"
 
@@ -6373,11 +6385,29 @@ ac_config_files="$ac_config_files images/48x32/Makefile"
 
 ac_config_files="$ac_config_files images/64x64/Makefile"
 
+ac_config_files="$ac_config_files images/icons/16x16/Makefile"
+
+ac_config_files="$ac_config_files images/icons/32x32/Makefile"
+
+ac_config_files="$ac_config_files images/icons/48x48/Makefile"
+
+ac_config_files="$ac_config_files images/icons/64x64/Makefile"
+
+ac_config_files="$ac_config_files images/icons/128x128/Makefile"
+
+ac_config_files="$ac_config_files images/icons/256x256/Makefile"
+
+ac_config_files="$ac_config_files images/icons/512x512/Makefile"
+
 ac_config_files="$ac_config_files css/Makefile"
 
 ac_config_files="$ac_config_files html/Makefile"
 
-ac_config_files="$ac_config_files cluster/Makefile"
+ac_config_files="$ac_config_files cluster_/Makefile"
+
+ac_config_files="$ac_config_files docs/Makefile"
+
+ac_config_files="$ac_config_files desktop/Makefile"
 
 ac_config_files="$ac_config_files man/Makefile"
 
@@ -7224,9 +7254,18 @@ do
     "images/32x32/Makefile") CONFIG_FILES="$CONFIG_FILES images/32x32/Makefile" ;;
     "images/48x32/Makefile") CONFIG_FILES="$CONFIG_FILES images/48x32/Makefile" ;;
     "images/64x64/Makefile") CONFIG_FILES="$CONFIG_FILES images/64x64/Makefile" ;;
+    "images/icons/16x16/Makefile") CONFIG_FILES="$CONFIG_FILES images/icons/16x16/Makefile" ;;
+    "images/icons/32x32/Makefile") CONFIG_FILES="$CONFIG_FILES images/icons/32x32/Makefile" ;;
+    "images/icons/48x48/Makefile") CONFIG_FILES="$CONFIG_FILES images/icons/48x48/Makefile" ;;
+    "images/icons/64x64/Makefile") CONFIG_FILES="$CONFIG_FILES images/icons/64x64/Makefile" ;;
+    "images/icons/128x128/Makefile") CONFIG_FILES="$CONFIG_FILES images/icons/128x128/Makefile" ;;
+    "images/icons/256x256/Makefile") CONFIG_FILES="$CONFIG_FILES images/icons/256x256/Makefile" ;;
+    "images/icons/512x512/Makefile") CONFIG_FILES="$CONFIG_FILES images/icons/512x512/Makefile" ;;
     "css/Makefile") CONFIG_FILES="$CONFIG_FILES css/Makefile" ;;
     "html/Makefile") CONFIG_FILES="$CONFIG_FILES html/Makefile" ;;
-    "cluster/Makefile") CONFIG_FILES="$CONFIG_FILES cluster/Makefile" ;;
+    "cluster_/Makefile") CONFIG_FILES="$CONFIG_FILES cluster_/Makefile" ;;
+    "docs/Makefile") CONFIG_FILES="$CONFIG_FILES docs/Makefile" ;;
+    "desktop/Makefile") CONFIG_FILES="$CONFIG_FILES desktop/Makefile" ;;
     "man/Makefile") CONFIG_FILES="$CONFIG_FILES man/Makefile" ;;
 
   *) as_fn_error $? "invalid argument: \`$ac_config_target'" "$LINENO" 5;;

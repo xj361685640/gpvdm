@@ -21,7 +21,7 @@
 
 import os
 from tab import tab_class
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 
 #qt
 from PyQt5.QtCore import QSize, Qt 
@@ -45,7 +45,7 @@ class sim_info(QWidgetSavePos):
 	def __init__(self,file_name):
 		QWidgetSavePos.__init__(self,"info")
 		self.setFixedSize(900, 600)
-		self.setWindowIcon(QIcon_load("jv"))
+		self.setWindowIcon(icon_get("jv"))
 
 		self.setWindowTitle(_("Simulation information")+" (www.gpvdm.com)") 
 		
@@ -60,7 +60,7 @@ class sim_info(QWidgetSavePos):
 		toolbar.addWidget(spacer)
 
 
-		self.help = QAction(QIcon_load("help"), _("Help"), self)
+		self.help = QAction(icon_get("help"), _("Help"), self)
 		self.help.setStatusTip(_("Close"))
 		self.help.triggered.connect(self.callback_help)
 		toolbar.addAction(self.help)

@@ -230,6 +230,8 @@ def dat_file_read(out,file_name,guess=True):
 	dim=0
 	label=""
 	labels=False
+	#print(file_name)
+	#print(lines)
 	for i in range(0, len(lines)):
 		label=""
 		temp=lines[i]

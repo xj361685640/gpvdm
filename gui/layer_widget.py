@@ -21,12 +21,11 @@
 
 
 import os
-from cal_path import find_materials
 from util import str2bool
-from inp_util import inp_search_token_value
+from inp import inp_search_token_value
 from scan_item import scan_item_add
 from scan_item import scan_remove_file
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 from gpvdm_open import gpvdm_open
 from cal_path import get_materials_path
 from global_objects import global_object_get
@@ -167,7 +166,7 @@ class layer_widget(QWidgetSavePos):
 		QWidgetSavePos.__init__(self,"layer_widget")
 
 		self.setWindowTitle(_("Layer editor")+" https://www.gpvdm.com")
-		self.setWindowIcon(QIcon_load("layers"))
+		self.setWindowIcon(icon_get("layers"))
 		self.resize(800,500)
 
 		self.cost_window=False
@@ -177,20 +176,20 @@ class layer_widget(QWidgetSavePos):
 		self.toolbar=QToolBar()
 		self.toolbar.setIconSize(QSize(32, 32))
 
-		self.tb_add = QAction(QIcon_load("list-add"), _("Add device layer"), self)
+		self.tb_add = QAction(icon_get("list-add"), _("Add device layer"), self)
 		self.tb_add.triggered.connect(self.on_add_item_clicked)
 		self.toolbar.addAction(self.tb_add)
 
-		self.tb_remove = QAction(QIcon_load("list-remove"), _("Delete device layer"), self)
+		self.tb_remove = QAction(icon_get("list-remove"), _("Delete device layer"), self)
 		self.tb_remove.triggered.connect(self.on_remove_item_clicked)
 		self.toolbar.addAction(self.tb_remove)
 
 
-		self.tb_down= QAction(QIcon_load("go-down"), _("Move device layer"), self)
+		self.tb_down= QAction(icon_get("go-down"), _("Move device layer"), self)
 		self.tb_down.triggered.connect(self.on_move_down)
 		self.toolbar.addAction(self.tb_down)
 
-		self.tb_up= QAction(QIcon_load("go-up"), _("Move device layer"), self)
+		self.tb_up= QAction(icon_get("go-up"), _("Move device layer"), self)
 		self.tb_up.triggered.connect(self.on_move_up)
 		self.toolbar.addAction(self.tb_up)
 		

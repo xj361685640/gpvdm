@@ -47,7 +47,13 @@ if (strcmp(sim->server.lock_file,"")!=0)
 {
 	char lockname[500];
 	FILE *out=fopen(sim->server.lock_file,"w");
+	if (out == NULL)
+	{
+		printf("Problem writing file!\n");
+		getchar();
+	}
 	fclose(out);
+
 }
 
 

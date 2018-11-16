@@ -29,10 +29,10 @@ from util_zip import read_lines_from_archive
 from util_zip import write_lines_to_archive
 from util_zip import archive_make_empty
 from shutil import copyfile
-from inp_util import inp_search_token_value
+from inp import inp_search_token_value
 from cal_path import get_materials_path
 from cp_gasses import copy_gasses
-from cal_path import find_materials
+from materials_io import find_materials
 from cal_path import find_light_source
 from cal_path import get_spectra_path
 
@@ -68,13 +68,17 @@ def gpvdm_clone(path,src_archive="",copy_dirs=False,dest="archive"):
 
 def clone_material(dest_material_dir,src_material_dir):
 	if os.path.isdir(dest_material_dir)==False:
-		os.makedirs(dest_material_dir)
+		try:
+			os.makedirs(dest_material_dir)
+		except:
+			return False
 
 	files=os.listdir(src_material_dir)
 	for i in range(0,len(files)):
 		src_mat_file=os.path.join(src_material_dir,files[i])
 		if os.path.isfile(src_mat_file)==True:
 			copyfile(src_mat_file,os.path.join(dest_material_dir,files[i]))
+	return True
 
 def clone_spectra(dest_spectra_dir,src_spectra_dir):
 	if os.path.isdir(dest_spectra_dir)==False:

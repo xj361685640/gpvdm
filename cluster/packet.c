@@ -150,9 +150,9 @@ while(rx_len<buf_len)
 		max_get=to_get;
 	}
 
-	printf("rx %ld %ld\n",rx_len,buf_len);
+	printf("rx %d %d\n",rx_len,buf_len);
 	ret = recv(sock, ptr, max_get, MSG_WAITALL);
-	printf("rx %ld\n",ret);
+	printf("rx %d\n",ret);
 	if (ret<=0)
 	{
 		return ret;
@@ -360,7 +360,7 @@ int tx_packet(int sock,struct tx_struct *in,char *buf)
 
 	packet=(char*)malloc(sizeof(char)*packet_size);
 	bzero(packet, packet_size);
-	char temp[200];
+	char temp[400];
 	printf("send>>>>>>>>>>>%s<\n",in->id);
 	strcpy(packet,"");
 
@@ -607,7 +607,7 @@ int rx_packet(int sock,struct tx_struct *in)
 		bzero(in->data, packet_size);
 
 		read_bytes = recv_all(sock, in->data, packet_size);
-		printf("rx bytes for %s %ld\n",in->file_name,read_bytes);
+		printf("rx bytes for %s %d\n",in->file_name,read_bytes);
 		decrypt(in->data,packet_size);
 
 		if(read_bytes != packet_size)

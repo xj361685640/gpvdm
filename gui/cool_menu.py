@@ -20,7 +20,7 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 import os
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 
 from tb_item_sim_mode import tb_item_sim_mode
 from tb_item_sun import tb_item_sun
@@ -50,22 +50,22 @@ class cool_menu(QToolBar):
 		#self.setWindowFlags(Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint|Qt.WindowStaysOnTopHint)
 		self.setIconSize(QSize(42, 42))
 
-		self.configure_configwindow = QAction(QIcon_load("help"), _("Help window"), self)
+		self.configure_configwindow = QAction(icon_get("help"), _("Help window"), self)
 		self.addAction(self.configure_configwindow)
 
-		self.configure_configwindow = QAction(QIcon_load("help"), _("Manual"), self)
+		self.configure_configwindow = QAction(icon_get("help"), _("Manual"), self)
 		self.addAction(self.configure_configwindow)
 
-		self.configure_configwindow = QAction(QIcon_load("help"), _("License"), self)
+		self.configure_configwindow = QAction(icon_get("help"), _("License"), self)
 		self.addAction(self.configure_configwindow)
 
-		self.configure_configwindow = QAction(QIcon_load("help"), _("Youtube"), self)
+		self.configure_configwindow = QAction(icon_get("help"), _("Youtube"), self)
 		self.addAction(self.configure_configwindow)
 		
-		self.configure_configwindow = QAction(QIcon_load("help"), _("Citing the model"), self)
+		self.configure_configwindow = QAction(icon_get("help"), _("Citing the model"), self)
 		self.addAction(self.configure_configwindow)
 
-		self.configure_configwindow = QAction(QIcon_load("help"), _("About"), self)
+		self.configure_configwindow = QAction(icon_get("help"), _("About"), self)
 		self.addAction(self.configure_configwindow)
 
 		l=self.layout()
@@ -84,10 +84,4 @@ class cool_menu(QToolBar):
 			
 		return False
 			
-	def readStyleSheet(self,fileName):
-		file = QFile(fileName)
-		if file.open(QIODevice.ReadOnly) :
-			css = file.readAll()
-			file.close()
-		return css
 

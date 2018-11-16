@@ -119,7 +119,7 @@ void* command_thread(void *in)
 	struct tx_struct data;
 	copy_packet(&data,(struct tx_struct *)in);
 	FILE *fp;
-	int status;
+	//int status;
 	int max_len=300;
 	char path[max_len];
 	char sim_dir[200];
@@ -136,7 +136,7 @@ void* command_thread(void *in)
 		send_message(path);
 	}
 
-	status = pclose(fp);
+	//status = pclose(fp);
 
 	//system(data.command);
 

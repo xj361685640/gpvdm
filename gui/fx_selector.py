@@ -65,7 +65,9 @@ class fx_selector(QWidget):
 	def find_modes(self,path):
 		result = []
 		lines=[]
-		path=os.path.join(get_sim_path(),"light_dump","wavelengths.dat")
+		dump_dir=os.path.join(get_sim_path(),"light_dump")
+		path=os.path.join(dump_dir,"wavelengths.dat")
+
 		if os.path.isfile(path)==True:
 
 			f = open(path, "r")
@@ -76,6 +78,15 @@ class fx_selector(QWidget):
 				txt=lines[l].rstrip()
 				if txt!="":
 					result.append(txt)
+
+		if os.path.isdir(dump_dir)==True:
+			files=os.listdir(dump_dir)
+			for f in files:
+				if f.startswith("light_ray_"):
+					f=f[:-4]
+					f=f[10:]
+					#print(f)
+					result.append(f)
 
 		return result
 
@@ -94,6 +105,7 @@ class fx_selector(QWidget):
 			self.cb.addItem("all")
 		for i in range(0, len(thefiles)):
 			path=os.path.join(self.dump_dir,self.start+str(thefiles[i])+self.end)
+			#print(path)
 			if os.path.isfile(path):
 				self.cb.addItem(str(thefiles[i])+" nm")
 		self.cb.setCurrentIndex(0)

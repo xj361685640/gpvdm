@@ -23,8 +23,8 @@
 import os
 from numpy import *
 import webbrowser
-from inp_util import inp_search_token_value
-from icon_lib import QIcon_load
+from inp import inp_search_token_value
+from icon_lib import icon_get
 
 from epitaxy import epitaxy_get_layers
 from epitaxy import epitaxy_get_dos_file
@@ -167,7 +167,7 @@ class contacts_window(QWidgetSavePos):
 		QWidgetSavePos.__init__(self,"contacts")
 		self.setFixedSize(750, 400)
 
-		self.setWindowIcon(QIcon_load("contact"))
+		self.setWindowIcon(icon_get("contact"))
 
 		self.setWindowTitle(_("Edit contacts")+" (www.gpvdm.com)") 
 		
@@ -176,11 +176,11 @@ class contacts_window(QWidgetSavePos):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
-		add = QAction(QIcon_load("list-add"),  _("Add contact"), self)
+		add = QAction(icon_get("list-add"),  _("Add contact"), self)
 		add.triggered.connect(self.on_add_clicked)
 		toolbar.addAction(add)
 
-		remove = QAction(QIcon_load("list-remove"),  _("Remove contacts"), self)
+		remove = QAction(icon_get("list-remove"),  _("Remove contacts"), self)
 		remove.triggered.connect(self.on_remove_clicked)
 		toolbar.addAction(remove)
 
@@ -189,7 +189,7 @@ class contacts_window(QWidgetSavePos):
 		toolbar.addWidget(spacer)
 
 
-		self.help = QAction(QIcon_load("help"), _("Help"), self)
+		self.help = QAction(icon_get("help"), _("Help"), self)
 		self.help.setStatusTip(_("Close"))
 		self.help.triggered.connect(self.callback_help)
 		toolbar.addAction(self.help)

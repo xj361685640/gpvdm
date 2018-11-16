@@ -29,7 +29,7 @@ from plot_io import plot_save_oplot_file
 from scan_io import scan_push_to_hpc
 from scan_io import scan_import_from_hpc
 from cal_path import get_exe_command
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 from scan_item import scan_items_get_file
 from scan_item import scan_items_get_token
 from util import str2bool
@@ -92,7 +92,7 @@ class matlab_editor(QWidget):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(48, 48))
 
-		self.tb_run = QAction(QIcon_load("media-playback-start"), _("Run"), self)
+		self.tb_run = QAction(icon_get("media-playback-start"), _("Run"), self)
 		self.tb_run.triggered.connect(self.callback_run)
 		toolbar.addAction(self.tb_run)
 

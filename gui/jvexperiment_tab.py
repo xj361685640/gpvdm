@@ -22,7 +22,7 @@
 
 import os
 from inp import inp_load_file
-from inp_util import inp_search_token_value
+from inp import inp_search_token_value
 from tmesh import tab_time_mesh
 from circuit import circuit
 from inp import inp_update_token_value
@@ -47,12 +47,12 @@ class jvexperiment_tab(QTabWidget):
 	def image_save(self):
 		self.tmesh.image_save()
 
-	def __init__(self,index):
+	def __init__(self,file_name):
 		QTabWidget.__init__(self)
 		css_apply(self,"tab_default.css")
-		self.index=index
+
 		lines=[]
-		self.file_name=os.path.join(get_sim_path(),"jv"+str(self.index)+".inp")
+		self.file_name=os.path.join(get_sim_path(),file_name)
 		lines=inp_load_file(self.file_name)
 		if lines!=False:
 			self.tab_name=inp_search_token_value(lines, "#sim_menu_name")
@@ -62,13 +62,7 @@ class jvexperiment_tab(QTabWidget):
 
 		self.setMovable(True)
 
-		#self.tmesh = tab_time_mesh(self.index)
-		#self.addTab(self.tmesh,_("time mesh"))
 
-
-		#self.circuit=circuit(self.index)
-
-		#self.addTab(self.circuit,_("Circuit"))
 
 		tab=tab_class()
 		tab.init(self.file_name,_("Configure"))

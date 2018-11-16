@@ -23,13 +23,11 @@ import os
 from inp import inp_save
 from inp import inp_load_file
 from util import isnumber
-from scan_item import scan_item_add
-from scan_item import scan_remove_file
 from cal_path import get_materials_path
 
 from inp import inp_load_file
 from inp import inp_search_token_array
-from inp_util import inp_search_token_value
+from inp import inp_search_token_value
 
 
 class epi_layer():
@@ -41,21 +39,22 @@ class epi_layer():
 		self.r=0
 		self.g=0
 		self.b=0
-		self.alpha=0
+		self.alpha=1.0
 
 epi=[]
 
-def epitaxy_update_scan():
-	global epi
-	scan_remove_file("epitaxy.inp")
-	for i in range(0,len(epi)):
-		scan_item_add("epitaxy.inp","#layer_material_file"+str(i),_("Material for ")+str(epi[i].name),2)
-		scan_item_add("epitaxy.inp","#layer_width"+str(i),_("Layer width ")+str(epi[i].name),1)
 
 def epitaxy_populate_rgb():
 	global epi
-	path=os.path.join(get_materials_path(),epi[-1].mat_file,"mat.inp")
-	mat_lines=inp_load_file(path)
+	path=os.path.join(os.path.join(get_materials_path(),epi[-1].mat_file),"mat.inp")
+	
+	zip_file=os.path.basename(epi[-1].mat_file)+".zip"
+
+	mat_lines=inp_load_file(path,archive=zip_file)
+
+	if mat_lines==False:
+		return
+
 	ret=inp_search_token_array(mat_lines, "#red_green_blue")
 
 	if ret!=False:
@@ -102,7 +101,6 @@ def epitaxy_load(path):
 			epi.append(a)
 			epitaxy_populate_rgb()
 
-	epitaxy_update_scan()
 
 def epitay_get_next_dos():
 	global epi
@@ -162,7 +160,6 @@ def epitaxy_load_from_arrays(in_name,in_width,in_material,in_dos_layer,in_pl_fil
 		epi.append(a)
 		epitaxy_populate_rgb()
 
-	epitaxy_update_scan()
 
 	return True
 
@@ -207,6 +204,17 @@ def epitaxy_save(path):
 
 	inp_save(os.path.join(path,"epitaxy.inp"),lines)
 
+def epitaxy_dos_file_to_layer_name(dos_file):
+	global epi
+	if dos_file.endswith(".inp")==True:
+		dos_file=dos_file[:-4]
+
+	for i in range(0,len(epi)):
+		if epi[i].electrical_layer==dos_file:
+			return epi[i].name
+
+	return False
+
 def epitaxy_get_dos_files():
 	global epi
 	dos_file=[]
@@ -224,7 +232,7 @@ def epitaxy_get_device_start():
 		if epi[i].electrical_layer.startswith("dos")==True:
 			return pos
 
-		pos=pos+width[i]
+		pos=pos+epi[i].width
 			
 def epitaxy_get_layers():
 	global epi

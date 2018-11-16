@@ -20,7 +20,7 @@
 
 
 import os
-from inp_util import inp_search_token_value
+from inp import inp_search_token_value
 from inp import inp_update_token_value
 from fit_patch import fit_patch
 import shutil
@@ -54,7 +54,7 @@ class fit_progress(QTabWidget):
 		for file_name in ["fitlog.dat","fitlog_time_error.dat","fitlog_time_odes.dat"]:
 			f_name=os.path.join(get_sim_path(),file_name)
 			self.plot_widgets.append(plot_widget())
-			self.plot_widgets[-1].init(menu=False)
+			self.plot_widgets[-1].init(enable_toolbar=False)
 			self.plot_widgets[-1].set_labels([f_name])
 			self.plot_widgets[-1].load_data([f_name],os.path.splitext(f_name)[0]+".oplot")
 			self.plot_widgets[-1].do_plot()

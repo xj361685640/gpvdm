@@ -46,21 +46,23 @@ from help import help_window
 
 from global_objects import global_object_run
 from util import isfiletype
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 
 from cal_path import get_sim_path
 from util import wrap_text
 
-class ribbon_import(QTabWidget):
+from ribbon_base import ribbon_base
+
+class ribbon_import(ribbon_base):
 	def main_toolbar(self):
 		toolbar = QToolBar()
 		toolbar.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
 		toolbar.setIconSize(QSize(42, 42))
 
-		self.open_data= QAction(QIcon_load("document-open"), wrap_text(_("Open data file"),4), self)
+		self.open_data= QAction(icon_get("document-open"), wrap_text(_("Open data file"),4), self)
 		toolbar.addAction(self.open_data)
 
-		self.import_data= QAction(QIcon_load("document-save-as"), wrap_text(_("Import data"),4), self)
+		self.import_data= QAction(icon_get("document-save-as"), wrap_text(_("Import data"),4), self)
 		self.import_data.setEnabled(False)
 		toolbar.addAction(self.import_data)
 
@@ -68,7 +70,7 @@ class ribbon_import(QTabWidget):
 		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 		toolbar.addWidget(spacer)
 
-		self.tb_help = QAction(QIcon_load("help"), _("Help"), self)
+		self.tb_help = QAction(icon_get("help"), _("Help"), self)
 		self.tb_help.setStatusTip(_("Help"))
 		toolbar.addAction(self.tb_help)
 
@@ -79,21 +81,14 @@ class ribbon_import(QTabWidget):
 		toolbar.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
 		toolbar.setIconSize(QSize(42, 42))
 
-		self.plot= QAction(QIcon_load("plot"), wrap_text(_("Plot"),4), self)
+		self.plot= QAction(icon_get("plot"), wrap_text(_("Plot"),4), self)
 		toolbar.addAction(self.plot)
 
 		return toolbar
 
-	def readStyleSheet(self,fileName):
-		css=None
-		file = QFile(fileName)
-		if file.open(QIODevice.ReadOnly) :
-			css = file.readAll()
-			file.close()
-		return css
 
 	def __init__(self):
-		QToolBar.__init__(self)
+		ribbon_base.__init__(self)
 		self.setMaximumHeight(140)
 		w=self.main_toolbar()
 		self.addTab(w,_("Load/Import"))

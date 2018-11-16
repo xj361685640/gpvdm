@@ -24,14 +24,14 @@ from scan_item import scan_item_add
 from gui_util import dlg_get_text
 import webbrowser
 from util import fx_with_units
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 from scan_item import scan_remove_file
 
 import i18n
 _ = i18n.language.gettext
 
 #inp
-from inp_util import inp_search_token_value
+from inp import inp_search_token_value
 from inp import inp_read_next_item
 
 #matplotlib

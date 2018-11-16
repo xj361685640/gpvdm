@@ -48,7 +48,7 @@ void* alarm_thread(void *in)
 		{
 			send_node_load(local_sim->head_sock);
 		}
-		sleep(2);
+		sleep(1);
 	}
 	return NULL;
 }
@@ -170,12 +170,9 @@ int node(struct state *sim)
 				p=0;
 			}
 		}while(sim->head_sock<0);
-		
-
 
 		cal_my_ip(sim->head_sock);
 
-		int i;
 		register_node(sim->head_sock);
 
 		send_node_load(sim->head_sock);

@@ -205,7 +205,7 @@ int nodes_html_load(char *buf)
 	struct tm tm = *localtime(&t);
 
 	int i;
-	char temp[200];
+	char temp[1024];
 
 	strcpy(buf,"HTTP/1.1 200 OK\r\nContent-Type: text/html; charset=UTF-8\r\n\r\n<!DOCTYPE html><html><head>");
 	strcat(buf,"<title>Cluster status</title>");
@@ -229,7 +229,7 @@ return 0;
 int nodes_txnodelist()
 {
 	char *buf=NULL;
-	char temp[100];
+	char temp[1014];
 	int i;
 	struct tx_struct packet;
 	struct node_struct* master=NULL;
@@ -282,7 +282,7 @@ int node_add(char *type,char *ip,int cpus, int sock,char *host_name)
 {
 printf("adding IP a %s\n",ip);
 pthread_mutex_lock( &mutex_node_add );
-printf("adding IP b %s %ld\n",ip,nnodes);
+printf("adding IP b %s %d\n",ip,nnodes);
 int found=FALSE;
 int i;
 	for (i=0;i<nnodes;i++)

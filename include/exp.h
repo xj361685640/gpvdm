@@ -89,4 +89,5 @@ gdouble get_charge_tot(struct device *in);
 gdouble get_tot_photons_abs(struct device *in);
 gdouble get_i_intergration(struct device *in);
 gdouble get_avg_J_std(struct device *in);
+gdouble get_max_Jsc(struct device *in);
 #endif

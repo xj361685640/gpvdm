@@ -26,7 +26,7 @@ from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtWidgets import QWidget,QLineEdit,QComboBox,QHBoxLayout,QPushButton,QLabel,QDialog,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTabWidget,QTableWidget,QAbstractItemView, QMenuBar,QApplication
 from PyQt5.QtGui import QPainter,QIcon,QImage
 
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 
 from PyQt5.QtCore import QSize, Qt
 
@@ -77,7 +77,7 @@ class plot_dlg_class(QDialog):
 	def __init__(self,data):
 		QWidget.__init__(self)
 		self.path=os.path.dirname(data.example_file0)
-		self.setWindowIcon(QIcon_load("jv"))
+		self.setWindowIcon(icon_get("jv"))
 		self.setWindowTitle(_("Steady state simulation (www.gpvdm.com)")) 
 		self.setWindowFlags(Qt.WindowStaysOnTopHint)
 

@@ -37,7 +37,7 @@ from util_zip import archive_copy_file
 from cal_path import get_inp_file_path
 from util_zip import archive_isfile
 from util_zip import archive_merge_file
-from util_zip import archive_get_file_ver
+from inp import inp_get_file_ver
 
 from cal_path import get_materials_path
 from cal_path import get_base_material_path
@@ -90,7 +90,7 @@ file_list.append(file_type(name="contacts.inp",dest="archive",copy_opp=file_type
 
 file_list.append(file_type(name="constraints.inp",dest="archive",copy_opp=file_type().CHECK_VER_THEN_COPY,base_file="constraints.inp"))
 file_list.append(file_type(name="duplicate.inp",dest="archive",copy_opp=file_type().CHECK_VER_THEN_COPY,base_file="duplicate.inp"))
-file_list.append(file_type(name="thermal.inp",dest="archive",copy_opp=file_type().CHECK_VER_THEN_COPY,base_file="thermal.inp"))
+file_list.append(file_type(name="thermal.inp",dest="archive",copy_opp=file_type().MERGE,base_file="thermal.inp"))
 file_list.append(file_type(name="mesh_x.inp",dest="archive",copy_opp=file_type().CHECK_VER_THEN_COPY,base_file="mesh_x.inp"))
 file_list.append(file_type(name="mesh_y.inp",dest="archive",copy_opp=file_type().CHECK_VER_THEN_COPY,base_file="mesh_y.inp"))
 file_list.append(file_type(name="mesh_z.inp",dest="archive",copy_opp=file_type().CHECK_VER_THEN_COPY,base_file="mesh_z.inp"))
@@ -107,6 +107,7 @@ file_list.append(file_type(name="laser",dest="archive",copy_opp=file_type().MERG
 file_list.append(file_type(name="jv",dest="archive",copy_opp=file_type().MERGE,base_file="jv0.inp"))
 
 file_list.append(file_type(name="ver.inp",copy_opp=file_type().MERGE))
+file_list.append(file_type(name="sim.ref",copy_opp=file_type().JUST_COPY))
 file_list.append(file_type(name="sim.inp",copy_opp=file_type().MERGE))
 file_list.append(file_type(name="device.inp",copy_opp=file_type().MERGE))
 file_list.append(file_type(name="parasitic.inp",copy_opp=file_type().MERGE))
@@ -211,8 +212,8 @@ def merge_archives(src_archive,dest_archive,only_over_write):
 				archive_copy_file(dest_archive,ls[i],src_archive,ls[i],dest=info.dest)
 
 			if info.copy_opp==file_type().CHECK_VER_THEN_COPY:
-				template_ver=archive_get_file_ver(template_archive,info.base_file)
-				src_ver=archive_get_file_ver(src_archive,ls[i])
+				template_ver=inp_get_file_ver(template_archive,info.base_file)
+				src_ver=inp_get_file_ver(src_archive,ls[i])
 
 				if template_ver!="" and src_ver!="":
 					if template_ver==src_ver:
@@ -240,9 +241,10 @@ def merge_archives(src_archive,dest_archive,only_over_write):
 			#print("Try to read",src_archive,ls[i],dest)
 			extract_file_from_archive(dest,src_archive,ls[i])
 
-	for i in range(0,len(ls)):
-		zip_dir_name=ls[i].split("/")
 		if zip_dir_name[0]=="sim":
+			extract_file_from_archive(dest_path,src_archive,ls[i])
+
+		if zip_dir_name[0]=="calibrate":
 			extract_file_from_archive(dest_path,src_archive,ls[i])
 
 	#search for scan directories

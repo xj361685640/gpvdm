@@ -48,7 +48,7 @@ from PyQt5.QtGui import QPixmap, QIcon
 from QComboBoxLang import QComboBoxLang
 from QColorPicker import QColorPicker
 
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 
 from PyQt5.QtCore import pyqtSignal
 
@@ -274,7 +274,7 @@ class tab_class(QWidget,tab_base):
 		
 		if self.icon_file!="":
 			self.image=QLabel()
-			icon=QIcon_load(self.icon_file)
+			icon=icon_get(self.icon_file)
 			self.image.setPixmap(icon.pixmap(icon.actualSize(QSize(32, 32))))
 			self.icon_widget_vbox.addWidget(self.image)
 

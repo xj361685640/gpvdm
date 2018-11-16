@@ -23,7 +23,7 @@
 import os
 from search import find_fit_log
 from search import find_fit_speed_log
-from inp_util import inp_search_token_value
+from inp import inp_search_token_value
 from status_icon import status_icon_stop
 
 

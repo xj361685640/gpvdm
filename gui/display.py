@@ -37,7 +37,7 @@ from PyQt5.QtWidgets import QWidget,QSizePolicy,QVBoxLayout,QPushButton,QDialog,
 from PyQt5.QtCore import QTimer
 from PyQt5.QtCore import pyqtSignal
 
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 
 from help import help_window
 from gl_cmp import gl_cmp
@@ -86,7 +86,7 @@ class display_widget(QWidget):
 		toolbar=QToolBar()
 		toolbar.setIconSize(QSize(42, 42))
 
-		#self.tb_layer_editor = QAction(QIcon_load("layers"), _("Layer\neditor"), self)
+		#self.tb_layer_editor = QAction(icon_get("layers"), _("Layer\neditor"), self)
 		#self.tb_layer_editor.triggered.connect(self.callback_layer_editor)
 		#toolbar.addAction(self.tb_layer_editor)
 		
@@ -96,24 +96,24 @@ class display_widget(QWidget):
 		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 		toolbar.addWidget(spacer)
 
-		self.xy = QAction(QIcon_load("xy"), _("xy"), self)
+		self.xy = QAction(icon_get("xy"), _("xy"), self)
 		self.xy.triggered.connect(self.callback_xy)
 		toolbar.addAction(self.xy)
 
-		self.yz = QAction(QIcon_load("yz"), _("yz"), self)
+		self.yz = QAction(icon_get("yz"), _("yz"), self)
 		self.yz.triggered.connect(self.callback_yz)
 		toolbar.addAction(self.yz)
 
-		self.xz = QAction(QIcon_load("xz"), _("xz"), self)
+		self.xz = QAction(icon_get("xz"), _("xz"), self)
 		self.xz.triggered.connect(self.callback_xz)
 		toolbar.addAction(self.xz)
 		
-		self.tb_rotate = QAction(QIcon_load("rotate.png"), _("Rotate"), self)
+		self.tb_rotate = QAction(icon_get("rotate.png"), _("Rotate"), self)
 		self.tb_rotate.triggered.connect(self.tb_rotate_click)
 		toolbar.addAction(self.tb_rotate)
 		self.tb_rotate.setEnabled(True)
 		
-		self.tb_config = QAction(QIcon_load("preferences-system"), _("Configuration"), self)
+		self.tb_config = QAction(icon_get("preferences-system"), _("Configuration"), self)
 		self.tb_config.triggered.connect(self.callback_configure)
 		toolbar.addAction(self.tb_config)
 

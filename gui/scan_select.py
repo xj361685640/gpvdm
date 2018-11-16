@@ -33,19 +33,18 @@ from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QSizePolicy,QAction,QTa
 from PyQt5.QtGui import QPainter,QIcon
 from PyQt5.QtGui import QFont
 
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 from gui_util import tab_set_value
 from error_dlg import error_dlg
-
+from scan_item import scan_items_populate_from_files
 class select_param(QWidget):
-	def init(self,treeview):
-		self.dest_treeview=treeview
 
 	def set_save_function(self,save_function):
 		self.save_function=save_function
 
-	def __init__(self):
+	def __init__(self,treeview):
 		QWidget.__init__(self)
+		self.dest_treeview=treeview
 		self.setFixedSize(500,700)
 		self.file_name_tab_pos=0
 		self.token_tab_pos=1
@@ -54,7 +53,7 @@ class select_param(QWidget):
 		self.main_vbox=QVBoxLayout()
 		self.save_function=None
 		
-		self.setWindowIcon(QIcon_load("scan"))
+		self.setWindowIcon(icon_get("scan"))
 
 		self.setWindowTitle(_("Select simulation parameter")+" (https://www.gpvdm.com)") 
 
@@ -115,12 +114,13 @@ class select_param(QWidget):
 
 	def update(self):
 		self.tab.clear()
+		scan_items_populate_from_files()
 		root = QTreeWidgetItem(self.tab, [_("Simulation parameters")])
 		root.setExpanded(True)
 		param_list=scan_items_get_list()
 		i=0
 		for item in range(0, len(param_list)):
-			div_str=param_list[item].name.replace("\\", "/")
+			div_str=param_list[item].human_label.replace("\\", "/")
 			div_str=div_str.split("/")
 			piter=None
 			self.make_entry(root,div_str)

@@ -24,7 +24,9 @@ import os
 #import shutil
 from win_lin import running_on_linux
 from gui_enable import gui_get
-	
+
+from os.path import expanduser
+
 if running_on_linux()==False:
 	import winreg
 
@@ -329,18 +331,32 @@ def get_exe_args():
 	else:
 		return ""
 
-def find_materials():
-	ret=[]
-	mat_path=get_materials_path()
-	for dirpath, dirnames, filenames in os.walk(mat_path):
-		for filename in [f for f in filenames if f=="mat.inp"]:
-			path=os.path.join(dirpath, filename)
-			path=os.path.dirname(path)
-			s=os.path.relpath(path, mat_path)
-			s=s.replace("\\","/")
-			ret.append(s)
+def get_home_path():
+	return expanduser("~")
 
-	return ret
+def get_desktop_path():
+	path=os.path.join(get_home_path(),"Desktop")
+	if os.path.isdir(path):
+		return path
+	return False
+
+def get_music_path():
+	path=os.path.join(get_home_path(),"Music")
+	if os.path.isdir(path):
+		return path
+	return False
+
+def get_videos_path():
+	path=os.path.join(get_home_path(),"Videos")
+	if os.path.isdir(path):
+		return path
+	return False
+
+def get_downloads_path():
+	path=os.path.join(get_home_path(),"Downloads")
+	if os.path.isdir(path):
+		return path
+	return False
 
 def find_light_source():
 	ret=[]

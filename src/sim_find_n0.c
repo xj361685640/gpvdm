@@ -97,6 +97,5 @@ light_set_sun(&(in->mylight),oldsun);
 
 contacts_update(sim,in);		//This should restore the value of the contacts
 
-light_solve_and_update(sim,in,&(in->mylight),0.0);
 printf_log(sim,"%s\n",_("Finished finding equilibrium conditions"));
 }

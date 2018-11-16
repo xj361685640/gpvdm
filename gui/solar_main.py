@@ -31,7 +31,7 @@ import os
 from solar_planet import planet
 from ribbon_solar import ribbon_solar
 
-from icon_lib import QIcon_load
+from icon_lib import icon_get
 from PyQt5.QtCore import pyqtSignal
 
 class solar_main(QWidget):
@@ -43,7 +43,7 @@ class solar_main(QWidget):
 		self.export_file_name=os.path.join(self.path,"spectra.inp")
 		super().__init__()
 		self.resize(1200,600)
-		self.setWindowIcon(QIcon_load("weather-few-clouds"))
+		self.setWindowIcon(icon_get("weather-few-clouds"))
 
 		self.vbox=QVBoxLayout()
 
