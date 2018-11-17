@@ -216,10 +216,6 @@ class fit_vars(QWidget):
 		self.setWindowIcon(icon_get("fit"))
 		#self.setFixedSize(900, 700)
 
-		self.select_param_window=select_param()
-		self.select_param_window.file_name_tab_pos=1
-		self.select_param_window.token_tab_pos=2
-		self.select_param_window.path_tab_pos=3
 
 		self.vbox=QVBoxLayout()
 
@@ -258,7 +254,11 @@ class fit_vars(QWidget):
 
 		self.vbox.addWidget(self.tab)
 
-		self.select_param_window.init(self.tab)
+		self.select_param_window=select_param(self.tab)
+		self.select_param_window.file_name_tab_pos=1
+		self.select_param_window.token_tab_pos=2
+		self.select_param_window.path_tab_pos=3
+
 		self.select_param_window.set_save_function(self.save_combo)
 
 		self.setLayout(self.vbox)

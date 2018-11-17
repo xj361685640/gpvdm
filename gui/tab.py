@@ -59,6 +59,7 @@ import functools
 from inp import inp_update_token_array
 from error_dlg import error_dlg
 from QParasitic import QParasitic
+from inp import  inp_search_token_array
 
 class QChangeLog(QTextEdit):
 	def __init__(self):
@@ -73,12 +74,18 @@ class QLabel_click(QLabel):
 	def mouseDoubleClickEvent(self, ev):
 		self.clicked.emit()
 
+class tab_line():
+	def __init__(self):
+		self.token=""
+		self.label=None
+		self.edit_box=None
+		self.units=None
+		self.widget=""
+
 class tab_class(QWidget,tab_base):
 
-	lines=[]
-	edit_list=[]
 	changed = pyqtSignal()
-		
+
 	def __init__(self):
 		self.icon_file=""
 		QWidget.__init__(self)
@@ -123,7 +130,39 @@ class tab_class(QWidget,tab_base):
 		self.ref_window=ref_window(os.path.splitext(file_name)[0]+"_"+token[1:])
 		self.ref_window.show()
 
+
+	def update(self):
+		self.lines=inp_load_file(self.file_name)
+		if self.lines==False:
+			error_dlg(self,_("File not found.")+" "+self.file_name)
+			return
+
+		for w in self.widget_list:
+			values=inp_search_token_array(self.lines, w.token)
+			w.edit_box.blockSignals(True)
+
+			if w.widget=="gtkswitch":
+				w.edit_box.set_value(str2bool(values[0]))
+			elif w.widget=="leftright":
+				w.edit_box.set_value(str2bool(values[0]))
+			elif w.widget=="gpvdm_select":
+				w.edit_box.setText(values[0])
+			elif w.widget=="QLineEdit":
+				w.edit_box.setText(values[0])
+			elif w.widget=="QColorPicker":
+				print()
+			elif w.widget=="QComboBoxLang":
+				print()
+			elif w.widget=="QParasitic":
+				w.edit_box.setValue(values[0])
+			elif w.widget=="QChangeLog":
+				w.edit_box.setText(values[0])
+				
+			w.edit_box.blockSignals(False)
+
+
 	def init(self,filename,tab_name):
+		self.widget_list=[]
 		self.scroll=QScrollArea()
 		self.main_box_widget=QWidget()
 		self.vbox=QVBoxLayout()
@@ -139,7 +178,6 @@ class tab_class(QWidget,tab_base):
 
 		scan_remove_file(filename)
 
-		self.edit_list=[]
 		self.lines=inp_load_file(filename)
 		if self.lines==False:
 			error_dlg(self,_("File not found.")+" "+filename)
@@ -202,7 +240,7 @@ class tab_class(QWidget,tab_base):
 						if self.editable==False:
 							edit_box.setReadOnly(True)
 						edit_box.setText(value)
-						#edit_box.set_text(self.lines[pos]);
+						#edit_box.set_text(lines[pos]);
 						edit_box.textChanged.connect(functools.partial(self.callback_edit,filename,token,edit_box))
 						#edit_box.show()
 					elif result.widget=="QColorPicker":
@@ -252,7 +290,14 @@ class tab_class(QWidget,tab_base):
 					unit=QLabel()
 					unit.setText(latex_to_html(units))
 
+					a=tab_line()
+					a.token=token
+					a.label=description
+					a.edit_box=edit_box
+					a.units=unit
+					a.widget=result.widget
 
+					self.widget_list.append(a)
 					self.tab.addWidget(description,widget_number,0)
 					self.tab.addWidget(edit_box,widget_number,1)
 					self.tab.addWidget(unit,widget_number,2)
@@ -287,3 +332,4 @@ class tab_class(QWidget,tab_base):
 		self.hbox.addWidget(self.scroll)
 		
 		self.setLayout(self.hbox)
+

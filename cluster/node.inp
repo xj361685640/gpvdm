@@ -7,7 +7,7 @@ lo
 #port
 8080
 #master_ip
-128.243.72.200
+localhost
 #ver
 1.0
 #end

@@ -428,6 +428,7 @@ int tx_packet(int sock,struct tx_struct *in,char *buf)
 	if (in->load2!=-1.0)
 	{
 		sprintf(temp,"#load2\n%.3lf\n",in->load2);
+		printf("%s %s\n",packet,temp);
 		strcat(packet,temp);
 	}
 
@@ -612,7 +613,7 @@ int rx_packet(int sock,struct tx_struct *in)
 
 		if(read_bytes != packet_size)
 		{
-			printf("Not got all the data: %d %d\n",read_bytes, packet_size);
+			printf("Not got all the data: %d %d %d\n",read_bytes, packet_size,in->size);
 			free(in->data);
 			in->data=NULL;
 			return -1;
@@ -620,15 +621,20 @@ int rx_packet(int sock,struct tx_struct *in)
 
 		if (in->zip==1)
 		{
-			char *uzip=(char*)malloc(sizeof(char)*in->uzipsize);
-			long unsigned int s=0;
-			s=in->uzipsize;
-			uncompress((unsigned char *)uzip, &(s), (const unsigned char *)in->data, in->size);
-			free(in->data);
-			in->data=uzip;
+			if (in->uzipsize!=0)
+			{
+				char *uzip=(char*)malloc(sizeof(char)*in->uzipsize);
+				long unsigned int s=0;
+				s=in->uzipsize;
+				uncompress((unsigned char *)uzip, &(s), (const unsigned char *)in->data, in->size);
+				free(in->data);
+				in->data=uzip;
+			}
+
 			in->size=in->uzipsize;
 		}
 	}
 
+printf("exited\n");
 return read_bytes;
 }

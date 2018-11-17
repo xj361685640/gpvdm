@@ -230,16 +230,14 @@ class duplicate(QWidget):
 
 		self.tab.cellChanged.connect(self.tab_changed)
 
-		self.select_param_window_src=select_param()
-		self.select_param_window_src.init(self.tab)
+		self.select_param_window_src=select_param(self.tab)
 		self.select_param_window_src.set_save_function(self.save_combo)
 		self.select_param_window_src.file_name_tab_pos=1
 		self.select_param_window_src.token_tab_pos=2
 		self.select_param_window_src.path_tab_pos=3
 
 
-		self.select_param_window_dest=select_param()
-		self.select_param_window_dest.init(self.tab)
+		self.select_param_window_dest=select_param(self.tab)
 		self.select_param_window_dest.set_save_function(self.save_combo)
 		self.select_param_window_dest.file_name_tab_pos=4
 		self.select_param_window_dest.token_tab_pos=5

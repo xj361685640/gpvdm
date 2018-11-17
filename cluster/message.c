@@ -48,7 +48,8 @@ int send_message(char *message)
 		struct tx_struct packet;
 		tx_struct_init(&packet);
 		tx_set_id(&packet,"gpvdm_message");
-		strcpy(packet.message,message);
+		strncpy(packet.message,message,TX_STRUCT_DATA_ITEM_SIZE);
+		packet.message[TX_STRUCT_DATA_ITEM_SIZE-1]=0;
 		tx_packet(master->sock,&packet,buf);
 
 	}else

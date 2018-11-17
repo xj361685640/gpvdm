@@ -52,16 +52,16 @@ class scan_ribbon(ribbon_base):
 		toolbar.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
 		toolbar.setIconSize(QSize(42, 42))
 
-		self.tb_new = QAction(QIcon_load("document-new"), wrap_text(_("New scan"),2), self)
+		self.tb_new = QAction(icon_get("document-new"), wrap_text(_("New scan"),2), self)
 		toolbar.addAction(self.tb_new)
 
-		self.tb_delete = QAction(QIcon_load("edit-delete"), wrap_text(_("Delete scan"),3), self)
+		self.tb_delete = QAction(icon_get("edit-delete"), wrap_text(_("Delete scan"),3), self)
 		toolbar.addAction(self.tb_delete)
 
-		self.tb_clone = QAction(QIcon_load("clone"), wrap_text(_("Clone scan"),3), self)
+		self.tb_clone = QAction(icon_get("clone"), wrap_text(_("Clone scan"),3), self)
 		toolbar.addAction(self.tb_clone)
 
-		self.tb_rename = QAction(QIcon_load("rename"), wrap_text(_("Rename scan"),3), self)
+		self.tb_rename = QAction(icon_get("rename"), wrap_text(_("Rename scan"),3), self)
 		toolbar.addAction(self.tb_rename)
 
 		spacer = QWidget()

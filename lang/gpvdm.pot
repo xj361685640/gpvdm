@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.97\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2018-11-14 11:19+0000\n"
+"POT-Creation-Date: 2018-11-17 14:07+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -894,9 +894,9 @@ msgstr ""
 #: ../gui/experiment_tab.py:75 ../gui/experiment_tab.py:76
 #: ../gui/ribbon_configure.py:56 ../gui/ribbon_configure.py:92
 #: ../gui/gpvdm_viewer.py:330 ../gui/config_window.py:72 ../gui/ribbon.py:136
-#: ../gui/fit_window.py:250 ../gui/jvexperiment_tab.py:68
+#: ../gui/fit_window.py:175 ../gui/jvexperiment_tab.py:68
 #: ../gui/jvexperiment_tab.py:69 ../gui/fxexperiment_tab.py:80
-#: ../gui/fxexperiment_tab.py:81 ../gui/cluster_config_window.py:74
+#: ../gui/fxexperiment_tab.py:81 ../gui/cluster_config_window.py:92
 msgid "Configure"
 msgstr ""
 
@@ -1023,25 +1023,25 @@ msgstr ""
 msgid "Running"
 msgstr ""
 
-#: ../gui/fit_tab.py:79 ../libfit/fit_dump.c:59 ../libfit/fit_dump.c:82
+#: ../gui/fit_tab.py:81 ../libfit/fit_dump.c:59 ../libfit/fit_dump.c:82
 #: ../libfit/fit_dump.c:105 ../libfit/fit_dump.c:128 ../libfit/fit_dump.c:152
 #: ../libfit/fit_dump.c:176
 msgid "Fit error"
 msgstr ""
 
-#: ../gui/fit_tab.py:83
+#: ../gui/fit_tab.py:85
 msgid "Configure fit"
 msgstr ""
 
-#: ../gui/fit_tab.py:86
+#: ../gui/fit_tab.py:88
 msgid "Experimental data"
 msgstr ""
 
-#: ../gui/fit_tab.py:89
+#: ../gui/fit_tab.py:91
 msgid "Fit patch"
 msgstr ""
 
-#: ../gui/fit_tab.py:92
+#: ../gui/fit_tab.py:94
 msgid "MATLAB code"
 msgstr ""
 
@@ -1058,9 +1058,9 @@ msgstr ""
 #: ../gui/ribbon_import.py:74 ../gui/ribbon_solar.py:69
 #: ../gui/ribbon_information.py:95 ../gui/ribbon.py:80 ../gui/info.py:63
 #: ../gui/timedomain_ribbon.py:77 ../gui/cost.py:89 ../gui/fxexperiment.py:207
-#: ../gui/fit_window.py:277 ../gui/ribbon_cluster.py:101
-#: ../gui/cluster_config_ribbon.py:74 ../gui/dim_editor.py:126 ../gui/ref.py:90
-#: ../gui/ref.py:91 ../gui/lasers.py:139 ../gui/scan_ribbon.py:72
+#: ../gui/fit_window.py:202 ../gui/ribbon_cluster.py:101
+#: ../gui/cluster_config_ribbon.py:79 ../gui/dim_editor.py:126 ../gui/ref.py:90
+#: ../gui/ref.py:91 ../gui/lasers.py:139 ../gui/scan_ribbon.py:71
 #: ../gui/parasitic.py:64 ../gui/spectra_main.py:79 ../gui/sunsvoc.py:74
 #: ../gui/jvexperiment.py:134 ../gui/doping.py:190
 msgid "Help"
@@ -1273,7 +1273,7 @@ msgid "Downloads"
 msgstr ""
 
 #: ../gui/gpvdm_viewer.py:346 ../gui/ribbon.py:146
-#: ../gui/cluster_config_ribbon.py:91 ../gui/tab_terminal.py:158
+#: ../gui/cluster_config_ribbon.py:96 ../gui/tab_terminal.py:158
 msgid "Cluster"
 msgstr ""
 
@@ -1358,7 +1358,7 @@ msgstr ""
 #: ../gui/optics_ribbon.py:99 ../gui/measure_ribbon.py:99
 #: ../gui/ribbon_solar.py:84 ../gui/ribbon.py:114
 #: ../gui/timedomain_ribbon.py:121 ../gui/cool_menu.py:68
-#: ../gui/scan_ribbon.py:197 ../gui/about.py:50 ../gui/about.py:82
+#: ../gui/scan_ribbon.py:196 ../gui/about.py:50 ../gui/about.py:82
 #: ../gui/status_icon.py:48
 msgid "About"
 msgstr ""
@@ -1736,7 +1736,7 @@ msgstr ""
 msgid "Clone the current experiment to a new experiment called:"
 msgstr ""
 
-#: ../gui/experiment.py:99 ../gui/experiment.py:102 ../gui/order_widget.py:203
+#: ../gui/experiment.py:99 ../gui/experiment.py:102
 msgid "Error copying file"
 msgstr ""
 
@@ -1835,7 +1835,7 @@ msgid "Next"
 msgstr ""
 
 #: ../gui/new_simulation.py:167 ../gui/dlg_get_multi_text.py:68
-#: ../gui/scan_select.py:78 ../gui/connect_to_cluster.py:78
+#: ../gui/scan_select.py:78 ../gui/connect_to_cluster.py:85
 #: ../gui/materials_select.py:75
 msgid "Cancel"
 msgstr ""
@@ -1901,7 +1901,7 @@ msgid "Heat map edit"
 msgstr ""
 
 #: ../gui/plot_ribbon.py:134 ../gui/ribbon_import.py:84
-#: ../gui/ribbon_import.py:97 ../gui/scan_ribbon.py:91
+#: ../gui/ribbon_import.py:97 ../gui/scan_ribbon.py:90
 msgid "Plot"
 msgstr ""
 
@@ -1953,7 +1953,7 @@ msgstr ""
 msgid "Measurment editor"
 msgstr ""
 
-#: ../gui/tab.py:145
+#: ../gui/tab.py:137 ../gui/tab.py:183
 msgid "File not found."
 msgstr ""
 
@@ -2422,7 +2422,7 @@ msgid "Save image"
 msgstr ""
 
 #: ../gui/ribbon_materials.py:77 ../gui/ribbon_import.py:65
-#: ../gui/fit_window.py:254 ../gui/import_data.py:206 ../gui/equation.py:340
+#: ../gui/fit_window.py:179 ../gui/import_data.py:206 ../gui/equation.py:340
 msgid "Import data"
 msgstr ""
 
@@ -2752,11 +2752,11 @@ msgid ""
 "data"
 msgstr ""
 
-#: ../gui/ribbon.py:117 ../gui/connect_to_cluster.py:63
+#: ../gui/ribbon.py:117 ../gui/connect_to_cluster.py:65
 msgid "Connect to cluster"
 msgstr ""
 
-#: ../gui/ribbon.py:133 ../gui/scan.py:243 ../gui/scan_ribbon.py:206
+#: ../gui/ribbon.py:133 ../gui/scan.py:243 ../gui/scan_ribbon.py:205
 msgid "Simulations"
 msgstr ""
 
@@ -2764,7 +2764,7 @@ msgstr ""
 msgid "Databases"
 msgstr ""
 
-#: ../gui/ribbon.py:161
+#: ../gui/ribbon.py:162
 msgid "Can not connect to cluster."
 msgstr ""
 
@@ -3000,61 +3000,61 @@ msgstr ""
 msgid "Frequency domain experiment editor"
 msgstr ""
 
-#: ../gui/fit_window.py:92
+#: ../gui/fit_window.py:87
 msgid ""
 "<big><b>The fitting variables window</b></big><br> Use this window to select "
 "the variables use to perform the fit."
 msgstr ""
 
-#: ../gui/fit_window.py:102
-msgid "New fit name:"
-msgstr ""
-
-#: ../gui/fit_window.py:102
-msgid "fit "
-msgstr ""
-
-#: ../gui/fit_window.py:120
-msgid "Clone the current fit to a new fit called:"
-msgstr ""
-
-#: ../gui/fit_window.py:138
-msgid "Rename the fit to be called:"
-msgstr ""
-
-#: ../gui/fit_window.py:154
-msgid "Should I remove the fit file "
-msgstr ""
-
-#: ../gui/fit_window.py:225
+#: ../gui/fit_window.py:146
 msgid "Fit window"
 msgstr ""
 
-#: ../gui/fit_window.py:232
+#: ../gui/fit_window.py:155
 msgid "New fit"
 msgstr ""
 
-#: ../gui/fit_window.py:236
+#: ../gui/fit_window.py:156
 msgid "Delete fit"
 msgstr ""
 
-#: ../gui/fit_window.py:240
+#: ../gui/fit_window.py:157
 msgid "Clone fit"
 msgstr ""
 
-#: ../gui/fit_window.py:244
+#: ../gui/fit_window.py:158
 msgid "Rename fit"
 msgstr ""
 
-#: ../gui/fit_window.py:260
+#: ../gui/fit_window.py:159
+msgid "New fit name:"
+msgstr ""
+
+#: ../gui/fit_window.py:161
+msgid "fit "
+msgstr ""
+
+#: ../gui/fit_window.py:162
+msgid "Clone the current fit to a new fit called:"
+msgstr ""
+
+#: ../gui/fit_window.py:163
+msgid "Rename the fit to be called:"
+msgstr ""
+
+#: ../gui/fit_window.py:164
+msgid "Should I remove the fit file "
+msgstr ""
+
+#: ../gui/fit_window.py:185
 msgid "Run a single fit"
 msgstr ""
 
-#: ../gui/fit_window.py:264
+#: ../gui/fit_window.py:189
 msgid "Start the fitting process"
 msgstr ""
 
-#: ../gui/fit_window.py:268
+#: ../gui/fit_window.py:193
 msgid "Stop the simulation"
 msgstr ""
 
@@ -3140,60 +3140,64 @@ msgstr ""
 msgid "y"
 msgstr ""
 
-#: ../gui/cluster_config_ribbon.py:54 ../gui/cluster_config_ribbon.py:55
+#: ../gui/cluster_config_ribbon.py:55 ../gui/cluster_config_ribbon.py:56
+msgid "Generate keys"
+msgstr ""
+
+#: ../gui/cluster_config_ribbon.py:59 ../gui/cluster_config_ribbon.py:60
 msgid "Install to cluster"
 msgstr ""
 
-#: ../gui/cluster_config_ribbon.py:58 ../gui/cluster_config_ribbon.py:59
+#: ../gui/cluster_config_ribbon.py:63 ../gui/cluster_config_ribbon.py:64
 msgid "Boot cluster"
 msgstr ""
 
-#: ../gui/cluster_config_ribbon.py:62 ../gui/cluster_config_ribbon.py:63
+#: ../gui/cluster_config_ribbon.py:67 ../gui/cluster_config_ribbon.py:68
 msgid "Stop cluster"
 msgstr ""
 
-#: ../gui/cluster_config_ribbon.py:66 ../gui/cluster_config_ribbon.py:67
+#: ../gui/cluster_config_ribbon.py:71 ../gui/cluster_config_ribbon.py:72
 msgid "Remove from cluster"
 msgstr ""
 
-#: ../gui/cluster_config_ribbon.py:85
+#: ../gui/cluster_config_ribbon.py:90
 msgid "New cluster configuration"
 msgstr ""
 
-#: ../gui/cluster_config_ribbon.py:86
+#: ../gui/cluster_config_ribbon.py:91
 msgid "Delete configuration"
 msgstr ""
 
-#: ../gui/cluster_config_ribbon.py:87
+#: ../gui/cluster_config_ribbon.py:92
 msgid "Clone configuration"
 msgstr ""
 
-#: ../gui/cluster_config_ribbon.py:88
+#: ../gui/cluster_config_ribbon.py:93
 msgid "Rename configuration"
 msgstr ""
 
-#: ../gui/cluster_config_ribbon.py:89
+#: ../gui/cluster_config_ribbon.py:94
 msgid "New cluster configuration:"
 msgstr ""
 
-#: ../gui/cluster_config_ribbon.py:92
+#: ../gui/cluster_config_ribbon.py:97
 msgid ""
 "Clone the current cluster configuration to a cluster configuration called:"
 msgstr ""
 
-#: ../gui/cluster_config_ribbon.py:93
+#: ../gui/cluster_config_ribbon.py:98
 msgid "Rename the cluster configuration to be called:"
 msgstr ""
 
-#: ../gui/cluster_config_ribbon.py:94
+#: ../gui/cluster_config_ribbon.py:99
 msgid "Should I remove the cluster configuration "
 msgstr ""
 
-#: ../gui/cluster_config_ribbon.py:108
+#: ../gui/cluster_config_ribbon.py:113
 msgid "SSH"
 msgstr ""
 
-#: ../gui/cluster_config_ribbon.py:111
+#: ../gui/cluster_config_ribbon.py:116
 msgid "Clusters"
 msgstr ""
 
@@ -3342,8 +3346,7 @@ msgstr ""
 msgid "CPU"
 msgstr ""
 
-#: ../gui/tab_terminal.py:166 ../gui/cluster_config_window.py:100
-#: ../gui/cluster_config_window.py:101
+#: ../gui/tab_terminal.py:166
 msgid "Nodes"
 msgstr ""
 
@@ -3428,91 +3431,91 @@ msgstr ""
 msgid "Rename scan"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:82
+#: ../gui/scan_ribbon.py:81
 msgid "Run scan"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:86 ../gui/doping.py:109
+#: ../gui/scan_ribbon.py:85 ../gui/doping.py:109
 msgid "Stop"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:94
+#: ../gui/scan_ribbon.py:93
 msgid "Time domain plot"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:108
+#: ../gui/scan_ribbon.py:107
 msgid "Build scan"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:111
+#: ../gui/scan_ribbon.py:110
 msgid "Rerun"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:114
+#: ../gui/scan_ribbon.py:113
 msgid "Archive simulations"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:118
+#: ../gui/scan_ribbon.py:117
 msgid "Clean simulation"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:121
+#: ../gui/scan_ribbon.py:120
 msgid "Run all scans"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:133
+#: ../gui/scan_ribbon.py:132
 msgid "Build nested simulation"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:143
+#: ../gui/scan_ribbon.py:142
 msgid "Plot fits"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:146
+#: ../gui/scan_ribbon.py:145
 msgid "Run simulation no generation"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:149
+#: ../gui/scan_ribbon.py:148
 msgid "Run single fit"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:152
+#: ../gui/scan_ribbon.py:151
 msgid "Clean unconverged simulation"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:155
+#: ../gui/scan_ribbon.py:154
 msgid "Clean simulation output"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:158
+#: ../gui/scan_ribbon.py:157
 msgid "Push unconverged to hpc"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:161
+#: ../gui/scan_ribbon.py:160
 msgid "Change dir"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:164
+#: ../gui/scan_ribbon.py:163
 msgid "Report"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:174
+#: ../gui/scan_ribbon.py:173
 msgid "Build vectors"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:203
+#: ../gui/scan_ribbon.py:202
 msgid "Scan"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:211
+#: ../gui/scan_ribbon.py:210
 msgid "Advanced"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:215
+#: ../gui/scan_ribbon.py:214
 msgid "Nested"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:219
+#: ../gui/scan_ribbon.py:218
 msgid "ML"
 msgstr ""
 
@@ -4944,12 +4947,12 @@ msgstr ""
 msgid "Can't open file "
 msgstr ""
 
-#: ../gui/connect_to_cluster.py:76
-msgid "Deploy to cluster"
+#: ../gui/connect_to_cluster.py:81
+msgid "Connect"
 msgstr ""
 
-#: ../gui/connect_to_cluster.py:77
-msgid "Connect"
+#: ../gui/connect_to_cluster.py:83
+msgid "Disconnect"
 msgstr ""
 
 #: ../gui/optics.py:87

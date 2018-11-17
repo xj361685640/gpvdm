@@ -52,6 +52,7 @@ from QWidgetSavePos import QWidgetSavePos
 from css import css_apply
 
 from cluster_config_ribbon import cluster_config_ribbon
+from cal_path import get_cluster_path
 
 import i18n
 _ = i18n.language.gettext
@@ -65,15 +66,16 @@ class cluster_config_window(QWidgetSavePos):
 		file_name=tab.file_name
 
 		iv = random.getrandbits(128)
-		iv="%032x" % hash
+		iv="%032x" % iv
 		inp_update_token_value(os.path.join(get_sim_path(),"cluster","crypto.inp"),"#iv",iv)
 		inp_update_token_value(os.path.join(get_sim_path(),file_name),"#iv",iv)
 
 		key = random.getrandbits(128)
-		key="%032x" % hash
+		key="%032x" % key
 		inp_update_token_value(os.path.join(get_sim_path(),"cluster","crypto.inp"),"#key",key)
-		inp_update_token_value(os.path.join(get_sim_path(),file_name),"#key",iv)
+		inp_update_token_value(os.path.join(get_sim_path(),file_name),"#key",key)
 
+		tab.update()
 
 	def __init__(self,parent):
 		QWidgetSavePos.__init__(self,"cluster_window")
@@ -137,7 +139,7 @@ class cluster_config_window(QWidgetSavePos):
 	def install_to_cluster(self):
 		self.get_config()
 		self.write_cluster_config()
-		cpy_src="rsync -avh --delete -e ssh ./cluster/ "+self.user_name+"@"+self.ip+":"+self.cluster_dir
+		cpy_src="rsync -avh --delete -e ssh "+get_cluster_path()+" "+self.user_name+"@"+self.ip+":"+self.cluster_dir
 
 		copy_to_nodes="ssh -n -f "+self.user_name+"@"+self.ip+" \"sh -c \'cd "+self.cluster_dir+"; ./install.sh\'\""
 		command=cpy_src+";"+copy_to_nodes
