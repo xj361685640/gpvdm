@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.97\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2018-11-17 14:07+0000\n"
+"POT-Creation-Date: 2018-11-18 15:10+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -896,7 +896,7 @@ msgstr ""
 #: ../gui/gpvdm_viewer.py:330 ../gui/config_window.py:72 ../gui/ribbon.py:136
 #: ../gui/fit_window.py:175 ../gui/jvexperiment_tab.py:68
 #: ../gui/jvexperiment_tab.py:69 ../gui/fxexperiment_tab.py:80
-#: ../gui/fxexperiment_tab.py:81 ../gui/cluster_config_window.py:92
+#: ../gui/fxexperiment_tab.py:81 ../gui/cluster_config_window.py:93
 msgid "Configure"
 msgstr ""
 
@@ -1176,14 +1176,14 @@ msgstr ""
 
 #: ../gui/tmesh.py:449 ../gui/fxmesh.py:314 ../gui/scan_tab.py:554
 #: ../gui/scan_tab.py:624 ../gui/scan_tab.py:628 ../gui/constraints.py:251
-#: ../gui/measure_tab.py:214 ../gui/duplicate.py:215 ../gui/fit_vars.py:237
+#: ../gui/measure_tab.py:214 ../gui/duplicate.py:215 ../gui/fit_vars.py:233
 #: ../gui/equation.py:373 ../gui/fit_patch.py:173
 msgid "Move down"
 msgstr ""
 
 #: ../gui/tmesh.py:453 ../gui/fxmesh.py:318 ../gui/scan_tab.py:558
 #: ../gui/constraints.py:255 ../gui/measure_tab.py:218 ../gui/duplicate.py:219
-#: ../gui/fit_vars.py:241 ../gui/equation.py:377 ../gui/fit_patch.py:177
+#: ../gui/fit_vars.py:237 ../gui/equation.py:377 ../gui/fit_patch.py:177
 msgid "Move up"
 msgstr ""
 
@@ -3084,15 +3084,15 @@ msgstr ""
 msgid "Fit vars window - gpvdm"
 msgstr ""
 
-#: ../gui/fit_vars.py:229
+#: ../gui/fit_vars.py:225
 msgid "Add line"
 msgstr ""
 
-#: ../gui/fit_vars.py:233
+#: ../gui/fit_vars.py:229
 msgid "Remove line"
 msgstr ""
 
-#: ../gui/fit_vars.py:245
+#: ../gui/fit_vars.py:241
 msgid "Open"
 msgstr ""
 

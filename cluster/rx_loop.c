@@ -46,7 +46,7 @@ struct tx_struct last_data;
 int sock=*((int*)s);
 char ip[100];
 get_ip_from_sock(ip,sock);
-//printf("rx loop for ip=%s\n",ip);
+printf("rx loop for ip=%s\n",ip);
 
 	while(1)
 	{

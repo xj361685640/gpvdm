@@ -313,8 +313,12 @@ void tx_set_target(struct tx_struct *in,char *target)
 int tx_packet(int sock,struct tx_struct *in,char *buf)
 {
 	char *packet=NULL;
+	char *head=NULL;
+
 	char *zbuf=NULL;
 	int packet_size=0;
+	int pos=0;
+	char temp[LENGTH];
 	printf("enter tx packet\n");
 	if (in->size>0)
 	{
@@ -352,163 +356,188 @@ int tx_packet(int sock,struct tx_struct *in,char *buf)
 
 		}
 
-		packet_size=((((int)in->size)/((int)LENGTH))+2)*LENGTH;
-	}else
-	{
-		packet_size=((((int)in->size)/((int)LENGTH))+1)*LENGTH;
 	}
 
-	packet=(char*)malloc(sizeof(char)*packet_size);
-	bzero(packet, packet_size);
-	char temp[400];
-	printf("send>>>>>>>>>>>%s<\n",in->id);
-	strcpy(packet,"");
+//	packet_size=((((int)in->size)/((int)LENGTH))+2)*LENGTH;
+	head=(char*)malloc(sizeof(char)*LENGTH);
+	bzero(head, LENGTH);
 
-	sprintf(temp,"%s\n",in->id);
-	strcat(packet,temp);
+	strcpy(head,"");
+
+	sprintf(temp,"#id\n%s\n",in->id);
+	strcat(head,temp);
 
 	if (strcmp(in->file_name,"")!=0)
 	{
 		sprintf(temp,"#file_name\n%s\n",in->file_name);
-		strcat(packet,temp);
+		strcat(head,temp);
 	}
 
 	if (in->size!=-1)
 	{
 		sprintf(temp,"#size\n%d\n",in->size);
-		strcat(packet,temp);
+		strcat(head,temp);
 	}
 
 	if (strcmp(in->target,"")!=0)
 	{
 		sprintf(temp,"#target\n%s\n",in->target);
-		strcat(packet,temp);
+		strcat(head,temp);
 	}
 
 	if (in->stat!=-1)
 	{
 		sprintf(temp,"#stat\n%d\n",in->stat);
-		strcat(packet,temp);
+		strcat(head,temp);
 	}
 
 	if (strcmp(in->target,"")!=0)
 	{
 		sprintf(temp,"#src\n%s\n",in->target);
-		strcat(packet,temp);
+		strcat(head,temp);
 	}
 
 	if (in->zip!=0)
 	{
 		sprintf(temp,"#zip\n%d\n",in->zip);
-		strcat(packet,temp);
+		strcat(head,temp);
 
 		sprintf(temp,"#uzipsize\n%d\n",in->uzipsize);
-		strcat(packet,temp);
+		strcat(head,temp);
 	}
 
 	if (strcmp(in->message,"")!=0)
 	{
 		sprintf(temp,"#message\n%s\n",in->message);
 		//printf("'%s'\n",temp);
-		strcat(packet,temp);
+		strcat(head,temp);
 	}
 
 	if (in->load0!=-1.0)
 	{
 		sprintf(temp,"#load0\n%.3lf\n",in->load0);
-		strcat(packet,temp);
+		strcat(head,temp);
 	}
 
 	if (in->load1!=-1.0)
 	{
 		sprintf(temp,"#load1\n%.3lf\n",in->load1);
-		strcat(packet,temp);
+		strcat(head,temp);
 	}
 
 	if (in->load2!=-1.0)
 	{
 		sprintf(temp,"#load2\n%.3lf\n",in->load2);
-		printf("%s %s\n",packet,temp);
-		strcat(packet,temp);
+		//printf("%s %s\n",packet,temp);
+		strcat(head,temp);
 	}
 
 	if (in->percent!=-1)
 	{
 		sprintf(temp,"#percent\n%d\n",in->percent);
-		strcat(packet,temp);
+		strcat(head,temp);
 	}
 
 	if (strcmp(in->ip,"")!=0)
 	{
 		sprintf(temp,"#ip\n%s\n",in->ip);
-		strcat(packet,temp);
+		strcat(head,temp);
 	}
 
 	if (strcmp(in->exe_name,"")!=0)
 	{
 		sprintf(temp,"#exe_name\n%s\n",in->exe_name);
-		strcat(packet,temp);
+		strcat(head,temp);
 	}
 
 	if (strcmp(in->dir_name,"")!=0)
 	{
 		sprintf(temp,"#dir_name\n%s\n",in->dir_name);
-		strcat(packet,temp);
+		strcat(head,temp);
 	}
 
 	if (in->cpus!=-1.0)
 	{
 		sprintf(temp,"#cpus\n%d\n",in->cpus);
-		strcat(packet,temp);
+		strcat(head,temp);
 	}
 
 	if (strcmp(in->command,"")!=0)
 	{
 		sprintf(temp,"#command\n%s\n",in->command);
-		strcat(packet,temp);
+		strcat(head,temp);
 	}
 
 	if (strcmp(in->job,"")!=0)
 	{
 		sprintf(temp,"#job\n%s\n",in->job);
-		strcat(packet,temp);
+		strcat(head,temp);
 	}
 
 	if (strcmp(in->host_name,"")!=0)
 	{
 		sprintf(temp,"#host_name\n%s\n",in->host_name);
-		strcat(packet,temp);
+		strcat(head,temp);
 	}
 
 	sprintf(temp,"#end");
-	strcat(packet,temp);
-	printf(">'%s'\n",packet);
+	strcat(head,temp);
 
-	
-	debug_printf("encrypting: '%s'\n",packet,LENGTH);
-	encrypt(packet,LENGTH);
-	
-	if (in->size>0)
+	int file_size=in->size;
+	if (file_size<0)
+	{
+		file_size=0;
+	}
+	int needed_len=0;
+	needed_len=32+strlen(head)+file_size;
+	packet_size=((needed_len)/16)*16;
+	if ((packet_size-needed_len)<0)
+	{
+		packet_size=packet_size+16;
+	}
+
+	packet=(char*)malloc(sizeof(char)*packet_size);
+	bzero(packet, packet_size);
+
+	char id_line[128];
+	sprintf(id_line,"gpvdm%d %ld",packet_size-32,strlen(head));
+	while(strlen(id_line)<32)
+	{
+		strcat(id_line," ");
+	}
+
+	pos=0;
+	memcpy(packet, id_line, 32);
+	pos=pos+32;
+	printf("%d %ld %d\n", packet_size, strlen(head),file_size);
+	memcpy(packet+pos, head, strlen(head));
+	pos=pos+strlen(head);
+
+	if (file_size>0)
 	{
 		if (in->zip==1)
 		{
-			memcpy((packet+LENGTH), zbuf, in->size);
+			memcpy((packet+pos), zbuf, file_size);
 			free(zbuf);
 		}else
 		{
-			memcpy((packet+LENGTH), buf, in->size);
+			memcpy((packet+pos), buf, file_size);
 		}
-		encrypt((packet+LENGTH),(packet_size-LENGTH));
 	}
+
+	printf("encrypting: ' %d %d %ld\n",packet_size,file_size,strlen(head));
+
+	encrypt(packet,32);
+
+	encrypt(packet+32,packet_size-32);
 
 	int sent=0;
 
-
-	printf("tx: id=%s ip=%s pacet_size=%d\n",in->id,in->ip,packet_size);
+//	printf("tx: id=%s ip=%s pacet_size=%d\n",in->id,in->ip,packet_size);
 	sent=send_all(sock, packet, packet_size,FALSE);
 
 	free(packet);
-
+	free(head);
     if(sent < 0)
     {
 		printf("Here is the error: %s\n", strerror(errno));
@@ -520,18 +549,21 @@ int tx_packet(int sock,struct tx_struct *in,char *buf)
 return 0;
 }
 
+
+
 int rx_packet(int sock,struct tx_struct *in)
 {
-	debug_printf("rx_packet\n");
+	printf("rx_packet\n");
 	int read_bytes=0;
-	int f_block_sz = 0;
     char buf[LENGTH];
 	char temp[200];
+	int packet_size=0;
+	char *packet;
+	int f_block_sz=0;
+
 	bzero(buf, LENGTH);
 	tx_struct_init(in);
-	f_block_sz=rx_all(buf,LENGTH,sock);
-
-	read_bytes+=LENGTH;
+	f_block_sz=rx_all(buf,32,sock);
 
 	if(f_block_sz <=0)
 	{
@@ -539,28 +571,49 @@ int rx_packet(int sock,struct tx_struct *in)
 		return -1;
 	}
 
-	if (cmpstr_min(buf,"gpvdm")==0)
+	printf("%s\n",buf);
+	int p_length=0;
+	int h_length=0;
+
+	sscanf(buf+5,"%d %d",&p_length,&h_length);
+	//printf("length=%d",length);
+
+	packet_size=(p_length/16)*16;
+	if ((packet_size-p_length)<0)
 	{
-		sscanf(buf,"%s",in->id);
+		packet_size=packet_size+16;
 	}
 
-	if (strcmp(in->id,"")==0)
+	packet=(char*)malloc(sizeof(char)*packet_size);
+	read_bytes = recv_all(sock, packet, packet_size);
+
+	if(read_bytes != packet_size)
 	{
-		char temp[200];
-		get_ip_from_sock(temp,sock);
-		printf("due to null:'%s' ip:%s %d\n",buf,temp,f_block_sz);
+		printf("Not got all the data: %d %d\n",read_bytes, packet_size);
+		free(packet);
+		packet=NULL;
+		return -1;
 	}
 
-	if (strcmp(in->id,"gpvdmload")!=0)
-	{
-		printf("rx>>>>>>>>>>>%s<\n",in->id);
-	}
+
+	decrypt(packet,packet_size);
+
+	printf("rx bytes for %s %d %d %d\n",packet,read_bytes,p_length,h_length);
+
+	char *header=(char*)malloc(sizeof(char)*(h_length+1));
+	bzero(header, (h_length+1));
+	memcpy(header, packet, h_length);
+
 
 	struct inp_file decode;
 
 	inp_init(&decode);
-	decode.data=buf;
-	decode.fsize=strlen(buf);
+	decode.data=header;
+	decode.fsize=h_length;
+
+	inp_search_string(&decode,temp,"#id");
+	strcpy(in->id,temp);
+
 	debug_printf("%s\n",in->id);
 	inp_search_string(&decode,temp,"#file_name");
 	tx_set_file_name(in,temp);
@@ -598,26 +651,13 @@ int rx_packet(int sock,struct tx_struct *in)
 
 	inp_search_int(&decode,&(in->percent),"#percent");
 
-	int packet_size=0;
-
 	if (in->size>0)
 	{
 
-		packet_size=((((int)in->size)/((int)LENGTH))+1)*LENGTH;
-		in->data=(char*)malloc(sizeof(char)*packet_size);
-		bzero(in->data, packet_size);
+		in->data=(char*)malloc(sizeof(char)*(in->size));
+		bzero(in->data, (in->size));
+		memcpy(in->data, packet+h_length, in->size);
 
-		read_bytes = recv_all(sock, in->data, packet_size);
-		printf("rx bytes for %s %d\n",in->file_name,read_bytes);
-		decrypt(in->data,packet_size);
-
-		if(read_bytes != packet_size)
-		{
-			printf("Not got all the data: %d %d %d\n",read_bytes, packet_size,in->size);
-			free(in->data);
-			in->data=NULL;
-			return -1;
-		}
 
 		if (in->zip==1)
 		{
@@ -634,6 +674,10 @@ int rx_packet(int sock,struct tx_struct *in)
 			in->size=in->uzipsize;
 		}
 	}
+
+printf(">>>>>>>>>%s %s\n",in->id,header);
+free(packet);
+free(header);
 
 printf("exited\n");
 return read_bytes;

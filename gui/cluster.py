@@ -46,6 +46,8 @@ from sim_warnings import sim_warnings
 from inp import inp_search_token_value
 from stat import *
 from encrypt import encrypt
+from encrypt import encrypt2
+
 from encrypt import decrypt
 from encrypt import encrypt_load
 import hashlib
@@ -100,6 +102,7 @@ class tx_struct:
 	zip=0
 	uzipsize=0
 	cpus=-1
+	message=""
 
 class cluster:
 	if gui_get()==True:
@@ -133,7 +136,7 @@ class cluster:
 
 			if self.running==False:
 				self.mylock=False
-				self.thread = threading.Thread(target = self.listen)
+				self.thread = threading.Thread(target = self.listen2)
 				self.thread.daemon = True
 				self.thread.start()
 
@@ -207,12 +210,11 @@ class cluster:
 		data.command=inp_get_token_value(os.path.join(get_sim_path(),"cluster"),"#make_command",search_active_file=True)
 		self.tx_packet(data)
 
-	def sync_dir(self,path,target):
+	def sync_files(self,files,target):
 		count=0
 		banned=[]
 		sums=""
 
-		files=self.gen_dir_list(path)
 		for fname in files:
 			f = open(fname, 'rb')   
 			bytes = f.read()
@@ -252,6 +254,14 @@ class cluster:
 
 		buf=encrypt(buf)
 		self.socket.sendall(buf)
+
+	def sync_dir(self,path,target):
+		count=0
+		banned=[]
+		sums=""
+
+		files=self.gen_dir_list(path)
+		self.sync_files(files,target)
 
 
 	def gen_dir_list(self,path,banned_types=None,banned_dirs=None):
@@ -302,8 +312,82 @@ class cluster:
 		files=self.gen_dir_list(src)
 		self.send_files(target,src,files)
 
-	def tx_packet(self,data):
+	def tx_packet2(self,data):
 		
+		#If the user wants to tx a string conver it into byte sfirst
+
+		data_size=len(data.data)
+
+		if type(data.data)==str:
+			dat=str.encode(data.data)
+		else:
+			dat=data.data
+
+
+		if data.zip==True:
+			data.uzipsize=len(dat)
+			dat = zlib.compress(dat)
+
+		header="gpvdm                           "
+		header=header+"#id\n"+data.id+"\n"
+
+		if data.file_name!="":
+			header=header+"#file_name\n"+data.file_name+"\n"
+
+		header=header+"#size\n"+str(len(dat))+"\n"
+
+		if data.target!="":
+			header=header+"#target\n"+data.target+"\n"
+
+		header=header+"#stat\n"+str(data.stat)+"\n"
+
+		if data.dir_name!="":
+			header=header+"#dir_name\n"+data.dir_name+"\n"
+
+		if data.exe_name!="":
+			header=header+"#exe_name\n"+data.exe_name+"\n"
+
+		if data.command!="":
+			header=header+"#command\n"+data.command+"\n"
+
+		if data.cpus!=-1:
+			header=header+"#cpus\n"+str(data.cpus)+"\n"
+
+		if data.zip==True:
+			header=header+"#zip\n"+"1"+"\n#uzipsize\n"+str(data.uzipsize)+"\n"
+
+		header=header+"#end"
+
+		tx_size=len(header)+len(dat)
+		packet_size=((int)(tx_size/16)+1)*16
+		packet=bytearray(packet_size)
+
+		for i in range(0,len(header)):
+			packet[i]=ord(header[i])
+
+		text_size=str(packet_size-32)
+		pos=5
+		for i in range(0,len(text_size)):
+			packet[pos]=ord(text_size[i])
+			pos=pos+1
+
+		pos=pos+1
+		text_size=str(len(header)-32)
+		for i in range(0,len(text_size)):
+			packet[pos]=ord(text_size[i])
+			pos=pos+1
+
+		packet[len(header):len(header)+len(dat)]=dat
+
+		#buf=buf+bytes
+		#print("I am encrypting2",len(buf),data.id,len(buf),len(dat))
+		buf=encrypt2(packet)
+		#print("I am sending",len(buf),data.id)
+		self.socket.sendall(packet)
+
+	def tx_packet(self,data):
+		self.tx_packet2(data)
+		return
 		#If the user wants to tx a string conver it into byte sfirst
 		if type(data.data)==str:
 			dat=str.encode(data.data)
@@ -411,7 +495,7 @@ class cluster:
 
 	def process_node_list(self,data):
 		self.nodes=[]
-		data = self.recvall(512)
+		data = data.data
 		data=data.decode("utf-8") 
 		data=data.split("\n")
 		for i in range(0,len(data)-1):
@@ -425,9 +509,10 @@ class cluster:
 			n.last_seen=d[6]
 			self.nodes.append(n)
 
+
 	def process_job_list(self,data):
-		ret=self.rx_packet(data)
-		lines=ret.data.decode("utf-8").split("\n") 
+		ret=data.data
+		lines=ret.decode("utf-8").split("\n") 
 		self.jobs=[]
 		for i in range(1,len(lines)):
 			act=lines[i].split()
@@ -471,6 +556,42 @@ class cluster:
 	def process_sync_packet_one(self,data):
 		print(data)
 
+	def rx_packet2(self):
+		head=self.recvall(32)
+		head=decrypt(head)
+		print("Roderick",head)
+		head=head[5:]
+		lengths=[int(s) for s in head.split() if s.isdigit()]
+		print(lengths)
+		packet_len=lengths[0]
+		head_len=lengths[1]
+
+		packet=self.recvall(packet_len)
+		if len(packet)!=packet_len:
+			print("packet len does not match size",len(packet),packet_len)
+
+		packet=decrypt(packet)
+
+		ret=tx_struct()
+
+		lines=packet[0:head_len].decode("utf-8").split("\n")
+		ret.id=inp_search_token_value(lines, "#id")
+		ret.file_name=inp_search_token_value(lines, "#file_name")
+		ret.size=int(inp_search_token_value(lines, "#size"))
+		ret.target=inp_search_token_value(lines, "#target")
+		ret.zip=int(inp_search_token_value(lines, "#zip"))
+		ret.uzipsize=int(inp_search_token_value(lines, "#uzipsize"))
+
+		#print(ret.file_name,ret.size,ret.uzipsize,len(data))
+
+		if ret.size!=0:
+			ret.data=packet[head_len:head_len+ret.size]
+			if ret.zip==1:
+				ret.data = zlib.decompress(ret.data)
+				ret.size=len(ret.data)
+
+		print(lines,ret.data)
+		return ret
 
 	def rx_packet(self,data):
 		ret=tx_struct()
@@ -481,6 +602,7 @@ class cluster:
 		ret.target=inp_search_token_value(lines, "#target")
 		ret.zip=int(inp_search_token_value(lines, "#zip"))
 		ret.uzipsize=int(inp_search_token_value(lines, "#uzipsize"))
+		ret.message=inp_search_token_value(d, "#message")
 
 		#print(ret.file_name,ret.size,ret.uzipsize,len(data))
 
@@ -498,9 +620,8 @@ class cluster:
 
 	def rx_file(self,data):
 		pwd=get_sim_path()
-		ret=self.rx_packet(data)
 
-		target=ret.target+ret.file_name
+		target=data.target+data.file_name
 
 		if target.startswith(pwd):
 			my_dir=os.path.dirname(target)
@@ -508,11 +629,11 @@ class cluster:
 			if os.path.isdir(my_dir)==False:
 				os.makedirs(my_dir)
 
-			if ret.size>0:
+			if data.size>0:
 
 				print("write:",target)
 				f = open(target, "wb")
-				f.write(ret.data[0:ret.size])
+				f.write(data.data[0:data.size])
 				f.close()
 			else:
 				f = open(target, "wb")
@@ -639,74 +760,70 @@ class cluster:
 		data.id="gpvdm_send_job_list"
 		self.tx_packet(data)
 
-	def listen(self):
-		#print("thread !!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+
+	def listen2(self):
 		self.running=True
 		self.stop=False
+
 		while(1):
 			understood=False
 			if self.stop==True:
 				break
-			data = self.recvall(512)
-			
+			data = self.rx_packet2()
+
 			if data==None:
 				break
 
-			#print("command=",data,len(data))
-			if data.startswith(str.encode("gpvdmfile")):
+			print(data.id)
+			if data.id=="gpvdmnodelist":
+				self.process_node_list(data)
+				self.load_update.emit()
+				understood=True
+
+			if data.id=="gpvdm_job_list":
+				self.process_job_list(data)
+				understood=True
+
+			if data.id=="gpvdmfinished":
+				self.stop()
+				understood=True
+
+			if data.id=="gpvdmheadquit":
+				self.stop()
+				print("Server quit!")
+				understood=True
+
+			if data.id=="gpvdm_message":
+				self.new_message.emit(data.message)
+				understood=True
+
+			if data.id=="gpvdmfile":
 				self.rx_file(data)
 				understood=True
 
-			if data.startswith(str.encode("gpvdmpercent")):
+			if data.id=="gpvdmpercent":
 				lines=data.split("\n")
 				percent=float(inp_search_token_value(lines, "#percent"))
 				self.progress_window.set_fraction(percent/100.0)
 				understood=True
 
-			if data.startswith(str.encode("gpvdmjobfinished")):
+
+			if data.id=="gpvdmjobfinished":
 				lines=data.split("\n")
 				name=inp_search_token_value(lines, "#job_name")
 				self.label.set_text(gui_print_path("Finished:  ",name,60))
 				understood=True
 
-			if data.startswith(str.encode("gpvdmfinished")):
-				self.stop()
-				understood=True
-
-			if data.startswith(str.encode("gpvdmheadquit")):
-				self.stop()
-				print("Server quit!")
-				understood=True
-
-			if data.startswith(str.encode("gpvdmnodelist")):
-				self.process_node_list(data)
-				self.load_update.emit()
-				understood=True
-
-			if data.startswith(str.encode("gpvdm_sync_packet_two")):
+			if data.id=="gpvdm_sync_packet_two":
 				self.process_sync_packet_two(data)
 				understood=True
 
-			if data.startswith(str.encode("gpvdm_sync_packet_one")):
+			if data.id=="gpvdm_sync_packet_one":
 				self.process_sync_packet_one(data)
-				understood=True
-
-			if data.startswith(str.encode("gpvdm_job_list")):
-				self.process_job_list(data)
-				understood=True
-
-			if data.startswith(str.encode("gpvdm_message")):
-				try:
-					d=data.decode('UTF-8')
-				except:
-					print(data)
-					sys.exit(0)
-				d=d.split("\n")
-				message=inp_search_token_value(d, "#message")
-				self.new_message.emit(message)
-
 				understood=True
 
 			if understood==False:
 				print("Command ",data, "not understood")
+
+
 				

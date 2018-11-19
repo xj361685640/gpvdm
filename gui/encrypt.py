@@ -62,7 +62,30 @@ def encrypt(data):
 
 	return ret
 
+def encrypt2(data):
+	return data
+	global key
+	global iv
+	global enable_crypto
+	if enable_crypto==True:
+		ret=""
+		m = hashlib.md5()
+		m.update(key.encode('utf-8'))
+		key_hash=m.digest()
 
+		m = hashlib.md5()
+		m.update(iv.encode('utf-8'))
+		iv_hash=m.digest()
+
+		encryptor = AES.new(key_hash, AES.MODE_CBC, IV=iv_hash)
+
+		ret= encryptor.encrypt(bytes(data[0:32]))
+
+		encryptor = AES.new(key_hash, AES.MODE_CBC, IV=iv_hash)
+
+		ret=ret+encryptor.encrypt(bytes(data[32:len(data)]))
+
+	return ret
 def decrypt(data):
 	return data
 	global key
