@@ -83,8 +83,10 @@ python_PYTHON=gui/*.py gui/*.bat
 
 dist_doc_DATA = README
 
+if INCLUDE_DOCS
 docsdir = $(docdir)
 docs_DATA = docs/gpvdm.pdf
+endif
 
 if INCLUDE_MAN
 man1_MANS = man/gpvdm.1 man/gpvdm_core.1

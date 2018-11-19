@@ -65,6 +65,7 @@ if gui_get()==True:
 
 from cal_path import get_sim_path
 from cal_path import get_exe_name
+from cal_path import get_cluster_libs_path
 
 from job import job
 
@@ -136,7 +137,7 @@ class cluster:
 
 			if self.running==False:
 				self.mylock=False
-				self.thread = threading.Thread(target = self.listen2)
+				self.thread = threading.Thread(target = self.listen)
 				self.thread.daemon = True
 				self.thread.start()
 
@@ -147,7 +148,7 @@ class cluster:
 
 		if self.cluster==True:
 			#try:
-			self.stop=True
+			self.stop_listening=True
 			self.thread.join()
 			#except:
 			#	print("error stopping thread",sys.exc_info()[0])
@@ -556,13 +557,16 @@ class cluster:
 	def process_sync_packet_one(self,data):
 		print(data)
 
-	def rx_packet2(self):
+	def rx_packet(self):
 		head=self.recvall(32)
+		if head==None:
+			return None
+
 		head=decrypt(head)
-		print("Roderick",head)
+		
 		head=head[5:]
 		lengths=[int(s) for s in head.split() if s.isdigit()]
-		print(lengths)
+		#print(lengths)
 		packet_len=lengths[0]
 		head_len=lengths[1]
 
@@ -581,7 +585,9 @@ class cluster:
 		ret.target=inp_search_token_value(lines, "#target")
 		ret.zip=int(inp_search_token_value(lines, "#zip"))
 		ret.uzipsize=int(inp_search_token_value(lines, "#uzipsize"))
+		ret.message=inp_search_token_value(lines, "#message")
 
+		#print(lines)
 		#print(ret.file_name,ret.size,ret.uzipsize,len(data))
 
 		if ret.size!=0:
@@ -590,56 +596,8 @@ class cluster:
 				ret.data = zlib.decompress(ret.data)
 				ret.size=len(ret.data)
 
-		print(lines,ret.data)
+		#print(lines,ret.data)
 		return ret
-
-	def rx_packet(self,data):
-		ret=tx_struct()
-
-		lines=data[0:512].decode("utf-8").split("\n")
-		ret.file_name=inp_search_token_value(lines, "#file_name")
-		ret.size=int(inp_search_token_value(lines, "#size"))
-		ret.target=inp_search_token_value(lines, "#target")
-		ret.zip=int(inp_search_token_value(lines, "#zip"))
-		ret.uzipsize=int(inp_search_token_value(lines, "#uzipsize"))
-		ret.message=inp_search_token_value(d, "#message")
-
-		#print(ret.file_name,ret.size,ret.uzipsize,len(data))
-
-		if ret.size!=0:
-			packet_len=int(int(ret.size)/int(512)+1)*512
-			ret.data = self.recvall(packet_len)
-			if len(ret.data)!=packet_len:
-				print("packet len does not match size",len(ret.data),packet_len)
-			ret.data=ret.data[0:ret.size]
-			if ret.zip==1:
-				ret.data = zlib.decompress(ret.data)
-				ret.size=len(ret.data)
-
-		return ret
-
-	def rx_file(self,data):
-		pwd=get_sim_path()
-
-		target=data.target+data.file_name
-
-		if target.startswith(pwd):
-			my_dir=os.path.dirname(target)
-
-			if os.path.isdir(my_dir)==False:
-				os.makedirs(my_dir)
-
-			if data.size>0:
-
-				print("write:",target)
-				f = open(target, "wb")
-				f.write(data.data[0:data.size])
-				f.close()
-			else:
-				f = open(target, "wb")
-				f.close()
-		else:
-			print("not writing target",pwd,target)
 
 	def set_cluster_loads(self,ip,loads):
 
@@ -668,20 +626,22 @@ class cluster:
 			path=get_src_path()
 			if path==None:
 				return
-			
+
 			banned_types=[".pdf",".png",".dll",".o",".so",".so",".a",".dat",".aprox",".ods",".rpm",".deb"]
 			banned_types.extend([".xls",".xlsx",".log",".pptx",".dig",".old",".bak",".opj",".csv",".jpg",".so.3",".so.5","gpvdm_core"])
 			banned_types.extend(["so.0",".zip"])
 
 
-			banned_dirs=["equilibrium","man_src","images","snapshots", "plot","pub","gui","debian","desktop","device_lib","sim"]
+			banned_dirs=["equilibrium","man_src","images","snapshots", "plot","pub","gui","debian","desktop","device_lib","sim", "cluster", "cluster_", "cluster_libs"]
 
 			files=self.gen_dir_list(path,banned_types=banned_types,banned_dirs=banned_dirs)
 			self.send_files("src",path,files)
-			
-			path=inp_get_token_value(os.path.join(get_sim_path(),"cluster"),"#path_to_libs",search_active_file=True)
-			self.send_dir(path,"src")
 
+			path=inp_get_token_value(os.path.join(get_sim_path(),"cluster"),"#path_to_libs",search_active_file=True)
+			if path=="autosearch":
+				path=get_cluster_libs_path()
+
+			self.send_dir(path,"src")
 
 	def cluster_get_data(self):
 		if self.cluster==True:
@@ -760,21 +720,45 @@ class cluster:
 		data.id="gpvdm_send_job_list"
 		self.tx_packet(data)
 
+	def rx_file(self,data):
+		pwd=get_sim_path()
 
-	def listen2(self):
+		print(data,data.target,data.file_name,pwd)
+		target=data.target+data.file_name
+
+		if target.startswith(pwd):
+			my_dir=os.path.dirname(target)
+
+			if os.path.isdir(my_dir)==False:
+				os.makedirs(my_dir)
+
+			if data.size>0:
+
+				print("write:",target)
+				f = open(target, "wb")
+				f.write(data.data[0:data.size])
+				f.close()
+			else:
+				f = open(target, "wb")
+				f.close()
+		else:
+			print("not writing target",pwd,target)
+
+
+	def listen(self):
 		self.running=True
-		self.stop=False
+		self.stop_listening=False
 
 		while(1):
 			understood=False
-			if self.stop==True:
+			if self.stop_listening==True:
 				break
-			data = self.rx_packet2()
+			data = self.rx_packet()
 
 			if data==None:
 				break
 
-			print(data.id)
+			#print(data.id)
 			if data.id=="gpvdmnodelist":
 				self.process_node_list(data)
 				self.load_update.emit()
@@ -798,6 +782,7 @@ class cluster:
 				understood=True
 
 			if data.id=="gpvdmfile":
+				print("from here",data.id)
 				self.rx_file(data)
 				understood=True
 
@@ -823,7 +808,7 @@ class cluster:
 				understood=True
 
 			if understood==False:
-				print("Command ",data, "not understood")
+				print("Command >",data, "<not understood")
 
 
 				

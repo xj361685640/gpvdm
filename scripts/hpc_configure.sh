@@ -35,4 +35,4 @@ autoconf
 
 flags="-I/usr/include/"
 
-./configure CPPFLAGS="$flags" --enable-hpc --enable-noimages --enable-noplots --enable-noman --enable-nodesktop --enable-nodevicelib --enable-nohtml
+./configure CPPFLAGS="$flags" --enable-hpc --enable-noimages --enable-noplots --enable-noman --enable-nodesktop --enable-nodevicelib --enable-nohtml --enable-nocluster  --enable-nodocs

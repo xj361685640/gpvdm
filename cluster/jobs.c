@@ -43,11 +43,20 @@ static int njobs=0;
 int cmp_addjob(int sock,struct tx_struct *data)
 {
 char job_name[400];
+char full_path[400];
 
 	if (cmpstr_min(data->id,"gpvdmaddjob")==0)
 	{
 		sprintf(job_name,"job%d",njobs);
 		jobs_add(job_name,data->target,data->cpus);
+
+		//join_path(3,full_path,calpath_get_store_path(),job_name);
+
+		//if (strlen(full_path)>4)		// / is not allowed!
+		//{
+		//	remove_dir(full_path);
+		//}
+
 		jobs_print();
 		return 0;
 	}

@@ -139,9 +139,13 @@ class cluster_config_window(QWidgetSavePos):
 	def install_to_cluster(self):
 		self.get_config()
 		self.write_cluster_config()
-		cpy_src="rsync -avh --delete -e ssh "+get_cluster_path()+" "+self.user_name+"@"+self.ip+":"+self.cluster_dir
 
-		copy_to_nodes="ssh -n -f "+self.user_name+"@"+self.ip+" \"sh -c \'cd "+self.cluster_dir+"; ./install.sh\'\""
+		if len(self.cluster_dir)<2:
+			return
+
+		cpy_src="rsync -avh --delete -e ssh "+get_cluster_path()+"/ "+self.user_name+"@"+self.ip+":"+self.cluster_dir+"/"
+
+		copy_to_nodes="ssh -n -f "+self.user_name+"@"+self.ip+" \"sh -c \'cd "+self.cluster_dir+"/; ./install.sh\'\""
 		command=cpy_src+";"+copy_to_nodes
 		print(command)
 

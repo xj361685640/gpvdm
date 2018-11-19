@@ -96,6 +96,7 @@ def make_m4(hpc=False, win=False,usear=False):
 
 		config_files.append("css")
 		config_files.append("html")
+		config_files.append("cluster")
 		config_files.append("cluster_")
 		config_files.append("docs")
 		config_files.append("desktop")

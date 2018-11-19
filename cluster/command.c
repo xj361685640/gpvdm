@@ -123,17 +123,26 @@ void* command_thread(void *in)
 	int max_len=300;
 	char path[max_len];
 	char sim_dir[200];
+	char temp[1024];
 	join_path(2,sim_dir,calpath_get_store_path(), data.dir_name);
 	printf("change dir to %s\n",sim_dir);
 	chdir(sim_dir);
 
 
+	sprintf(temp,"The command is %s",data.command);
+	printf("%s\n",temp);
+	send_message(temp);
+
+	getcwd(temp, 500);
+	send_message(temp);
+
 	fp = popen(data.command, "r");
 
 	while (fgets(path, max_len, fp) != NULL)
 	{
-		printf("output>>%s", path);
-		send_message(path);
+		sprintf(temp,"output>>%s", path);
+		printf("%s",temp);
+		send_message(temp);
 	}
 
 	//status = pclose(fp);
@@ -142,7 +151,6 @@ void* command_thread(void *in)
 
 	if (local_sim->state==HEAD)
 	{
-		char temp[500];
 		sprintf(temp,"I have run: %s", data.command);
 		send_message(temp);
 	}

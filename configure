@@ -712,6 +712,8 @@ INCLUDE_DESKTOP_FALSE
 INCLUDE_DESKTOP_TRUE
 INCLUDE_MAN_FALSE
 INCLUDE_MAN_TRUE
+INCLUDE_DOCS_FALSE
+INCLUDE_DOCS_TRUE
 INCLUDE_PLOTS_FALSE
 INCLUDE_PLOTS_TRUE
 INCLUDE_CLUSTER_FALSE
@@ -780,6 +782,7 @@ enable_nohtml
 enable_nodevicelib
 enable_nocluster
 enable_noplots
+enable_nodocs
 enable_noman
 enable_nodesktop
 enable_hpc
@@ -1420,6 +1423,7 @@ Optional Features:
 "used to disable the device lib"
 "used to disable the cluster"
 "used to disable plot files"
+"used to disable docs generation"
 "used to disable man page generation"
 "used to disable desktop files for free desktop intergration"
 "used to turn on HPC compatability"
@@ -2485,6 +2489,30 @@ else
 else
   INCLUDE_PLOTS_TRUE='#'
   INCLUDE_PLOTS_FALSE=
+fi
+
+
+fi
+
+
+
+# Check whether --enable-nodocs was given.
+if test "${enable_nodocs+set}" = set; then :
+  enableval=$enable_nodocs;  if false; then
+  INCLUDE_DOCS_TRUE=
+  INCLUDE_DOCS_FALSE='#'
+else
+  INCLUDE_DOCS_TRUE='#'
+  INCLUDE_DOCS_FALSE=
+fi
+
+else
+   if true; then
+  INCLUDE_DOCS_TRUE=
+  INCLUDE_DOCS_FALSE='#'
+else
+  INCLUDE_DOCS_TRUE='#'
+  INCLUDE_DOCS_FALSE=
 fi
 
 
@@ -6596,6 +6624,14 @@ Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${INCLUDE_PLOTS_TRUE}" && test -z "${INCLUDE_PLOTS_FALSE}"; then
   as_fn_error $? "conditional \"INCLUDE_PLOTS\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${INCLUDE_DOCS_TRUE}" && test -z "${INCLUDE_DOCS_FALSE}"; then
+  as_fn_error $? "conditional \"INCLUDE_DOCS\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${INCLUDE_DOCS_TRUE}" && test -z "${INCLUDE_DOCS_FALSE}"; then
+  as_fn_error $? "conditional \"INCLUDE_DOCS\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${INCLUDE_MAN_TRUE}" && test -z "${INCLUDE_MAN_FALSE}"; then

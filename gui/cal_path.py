@@ -48,6 +48,7 @@ sim_path=None
 materials_base_path=None
 html_path=None
 cluster_path=None
+cluster_libs_path=None
 
 def subtract_paths(root,b_in):
 	a=root.replace("/","\\")
@@ -216,6 +217,8 @@ def calculate_paths():
 	global materials_base_path
 	global html_path
 	global cluster_path
+	global cluster_libs_path
+
 
 	materials_path=os.path.join(get_sim_path(),"materials")
 	if os.path.isdir(materials_path)==False:
@@ -234,12 +237,17 @@ def calculate_paths():
 	ui_path=search_known_paths("ui",[""],None)
 	spectra_path=search_known_paths("spectra",[""],None)
 	cluster_path=search_known_paths("cluster",[""],None)
+	cluster_libs_path=search_known_paths("cluster_libs",[""],None)
 
 	html_path=search_known_paths("html",[""],"info0.html")
 
 def get_cluster_path():
 	global cluster_path
 	return cluster_path
+
+def get_cluster_libs_path():
+	global cluster_libs_path
+	return cluster_libs_path
 
 def get_share_path():
 	global share_path

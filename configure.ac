@@ -37,6 +37,12 @@ AC_ARG_ENABLE(noplots, "used to disable plot files",
 [AM_CONDITIONAL([INCLUDE_PLOTS],[true])]
 )
 
+
+AC_ARG_ENABLE(nodocs, "used to disable docs generation",
+[AM_CONDITIONAL([INCLUDE_DOCS],[false])],
+[AM_CONDITIONAL([INCLUDE_DOCS],[true])]
+)
+
 AC_ARG_ENABLE(noman, "used to disable man page generation",
 [AM_CONDITIONAL([INCLUDE_MAN],[false])],
 [AM_CONDITIONAL([INCLUDE_MAN],[true])]

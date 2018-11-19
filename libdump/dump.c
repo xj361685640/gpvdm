@@ -51,7 +51,7 @@ struct dirent *dir;
 		{
 			while ((dir = readdir(d)) != NULL)
 			{
-				printf("%s\n",dir->d_name);
+				//printf("%s\n",dir->d_name);
 				if ((strcmp_end(dir->d_name,".inp.chk")==0)||(strcmp_end(dir->d_name,"_dosn.dat")==0)||(strcmp_end(dir->d_name,"_dosp.dat")==0))
 				{
 					remove(dir->d_name);

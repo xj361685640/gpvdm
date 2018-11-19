@@ -509,7 +509,7 @@ int tx_packet(int sock,struct tx_struct *in,char *buf)
 	pos=0;
 	memcpy(packet, id_line, 32);
 	pos=pos+32;
-	printf("%d %ld %d\n", packet_size, strlen(head),file_size);
+	//printf("%d %ld %d\n", packet_size, strlen(head),file_size);
 	memcpy(packet+pos, head, strlen(head));
 	pos=pos+strlen(head);
 
@@ -525,7 +525,7 @@ int tx_packet(int sock,struct tx_struct *in,char *buf)
 		}
 	}
 
-	printf("encrypting: ' %d %d %ld\n",packet_size,file_size,strlen(head));
+	//printf("encrypting: ' %d %d %ld\n",packet_size,file_size,strlen(head));
 
 	encrypt(packet,32);
 
@@ -560,6 +560,8 @@ int rx_packet(int sock,struct tx_struct *in)
 	int packet_size=0;
 	char *packet;
 	int f_block_sz=0;
+	int p_length=0;
+	int h_length=0;
 
 	bzero(buf, LENGTH);
 	tx_struct_init(in);
@@ -571,9 +573,17 @@ int rx_packet(int sock,struct tx_struct *in)
 		return -1;
 	}
 
-	printf("%s\n",buf);
-	int p_length=0;
-	int h_length=0;
+	if (f_block_sz!=32)
+	{
+		printf("I did not get enough data\n");
+		return -1;		
+	}
+
+	if (cmpstr_min(buf,"gpvdm")!=0)
+	{
+		printf("I've got odd data\n");
+		return -2;
+	}
 
 	sscanf(buf+5,"%d %d",&p_length,&h_length);
 	//printf("length=%d",length);
@@ -598,7 +608,7 @@ int rx_packet(int sock,struct tx_struct *in)
 
 	decrypt(packet,packet_size);
 
-	printf("rx bytes for %s %d %d %d\n",packet,read_bytes,p_length,h_length);
+	//printf("rx bytes for %s %d %d %d\n",packet,read_bytes,p_length,h_length);
 
 	char *header=(char*)malloc(sizeof(char)*(h_length+1));
 	bzero(header, (h_length+1));
@@ -675,7 +685,7 @@ int rx_packet(int sock,struct tx_struct *in)
 		}
 	}
 
-printf(">>>>>>>>>%s %s\n",in->id,header);
+//printf(">>>>>>>>>%s %s\n",in->id,header);
 free(packet);
 free(header);
 

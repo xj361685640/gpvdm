@@ -109,7 +109,7 @@ class ribbon_cluster(QToolBar):
 
 	def callback_cluster_off(self):
 		self.myserver.cluster_quit()
-		self.cluster_gui_update()
+		self.update()
 
 	def callback_cluster_sync(self):
 		self.myserver.copy_src_to_cluster_fast()
