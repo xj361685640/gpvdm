@@ -28,6 +28,8 @@ from status_icon import status_icon_stop
 
 #qt
 from PyQt5.QtWidgets import QMainWindow, QTextEdit, QAction, QApplication
+from PyQt5.QtGui import QPainter,QFont,QColor,QPen,QPainterPath,QBrush
+from PyQt5.QtCore import QRectF,QPoint
 from PyQt5.QtGui import QIcon
 from PyQt5.QtCore import QSize, Qt 
 from PyQt5.QtWidgets import QWidget,QSizePolicy,QHBoxLayout,QPushButton,QDialog,QFileDialog,QToolBar,QVBoxLayout,QTabWidget,QLabel,QSlider,QWidgetItem
@@ -40,6 +42,16 @@ from server import server_get
 class node_indicator(QWidget):
 	def __init__(self):
 		QWidget.__init__(self)
+		self.name=""
+		self.ip=""
+		self.cpus=-1
+		self.load=-1
+		self.max_cpus=-1
+		self.last_seen=-1
+
+		self.setMinimumSize(300, 80)
+
+
 		self.hbox=QHBoxLayout()
 		
 		self.bar=progress_class()
@@ -61,14 +73,7 @@ class node_indicator(QWidget):
 		self.hbox.addWidget(self.bar)
 		self.hbox.addWidget(self.slider)
 
-		self.setLayout(self.hbox)
-
-		self.name=""
-		self.ip=""
-		self.cpus=-1
-		self.load=-1
-		self.max_cpus=-1
-		self.last_seen=-1
+		#self.setLayout(self.hbox)
 
 	def block_signals(self,val):
 		self.slider.blockSignals(val)
@@ -102,21 +107,74 @@ class node_indicator(QWidget):
 		self.last_seen=last_seen
 		
 	def update(self):
-		self.set_text(self.name)
+		self.repaint()
 
-		self.bar.set_text(self.ip+" "+str(self.load)+":"+str(self.max_cpus)+"/"+str(self.cpus)+":seen="+self.last_seen)
 
-		if float(self.cpus)!=0.0:
-			prog=float(self.load)/float(self.cpus)
-		else:
-			prog=0.0
+	def paintEvent(self, e):
+		qp = QPainter()
+		qp.begin(self)
+		qp.setRenderHint(QPainter.Antialiasing)
+		self.drawWidget(qp)
+		qp.end()
 
-		#print("setting CPUs",self.load,self.cpus,prog)
+
+	def drawWidget(self, qp):
+		self.bar_w=400
+		bar_h=20
+		self.bar_start=100
+		self.bar_end=self.bar_start+self.bar_w
 		
-		if prog>1.0:
-			prog=1.0
+		if float(self.cpus)==0:
+			bar_l=0
+		else:
+			ratio=float(self.load)/float(self.cpus)
+			if ratio>1.0:
+				ratio=1.0
 
-		self.bar.set_fraction(prog)
+			bar_l=(self.bar_w-3)*ratio
+
+		
+		qp = QPainter()
+		qp.begin(self)
+
+		color = QColor(0, 0, 0)
+		color.setNamedColor('#d4d4d4')
+		qp.setBrush(color)
+		
+		path=QPainterPath()
+		path.addRoundedRect(QRectF(self.bar_start, 0, self.bar_w, bar_h), 0, 0)
+		qp.fillPath(path,QColor(206 , 206, 206));
+
+
+		path=QPainterPath()
+		path.addRoundedRect(QRectF(self.bar_start, 3, bar_l, (bar_h-6)/2), 5, 5)
+		qp.fillPath(path,QColor(71 , 142, 216));
+
+		qp.drawText(1, 60, "IP:"+self.ip)
+
+		qp.drawText(120, 60, "Load: "+str(self.load))
+
+		qp.drawText(200, 60, "Last seen: "+str(self.last_seen))
+
+		qp.drawText(1,15,self.name)
+
+		#path=QPainterPath()
+		#path.addRoundedRect(QRectF(self.bar_start, (bar_h-8)/2+3, bar_cpus, (bar_h-6)/2), 5, 5)
+		#qp.fillPath(path,QColor(200 , 0, 0))
+
+		qp.end()
+
+
+
+
+
+	def mouseReleaseEvent(self, QMouseEvent):
+		x=QMouseEvent.x()
+		if x>self.bar_start and x<self.bar_end:
+			x=x-self.bar_start
+			print(int(self.cpus*x/self.bar_w))
+
+#		print(QMouseEvent.x(),QMouseEvent.y())
 
 class hpc_class(QWidget):
 

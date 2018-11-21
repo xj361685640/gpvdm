@@ -120,6 +120,9 @@ class scan_ribbon(ribbon_base):
 		self.tb_run_all = QAction(icon_get("forward2"), wrap_text(_("Run all scans"),3), self)
 		self.box_tb1.addAction(self.tb_run_all)
 
+		self.tb_notes = QAction(icon_get("text-x-generic"), wrap_text(_("Notes"),3), self)
+		toolbar.addAction(self.tb_notes)
+
 		toolbar.addWidget(self.box_widget)
 		
 		return toolbar

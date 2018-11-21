@@ -50,14 +50,18 @@ char full_path[400];
 		sprintf(job_name,"job%d",njobs);
 		jobs_add(job_name,data->target,data->cpus);
 
-		//join_path(3,full_path,calpath_get_store_path(),job_name);
+		printf("%s\n",calpath_get_store_path());
+		printf("%s\n",job_name);
 
-		//if (strlen(full_path)>4)		// / is not allowed!
-		//{
-		//	remove_dir(full_path);
-		//}
+		join_path(2,full_path,calpath_get_store_path(),job_name);
+
+		if (strlen(full_path)>4)		// / is not allowed!
+		{
+			remove_dir(full_path);
+		}
 
 		jobs_print();
+		tx_thing_done(sock,data);
 		return 0;
 	}
 

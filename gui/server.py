@@ -337,10 +337,11 @@ if gui_get()==True:
 		def start(self):
 			self.excel_workbook_gen_error=False
 			self.finished_jobs=[]
-			self.progress_window.show()
+			if self.interactive_cluster==True or self.cluster==False:
+				self.progress_window.show()
 
-			if self.enable_gui==True:
-				self.gui_sim_start()
+				if self.enable_gui==True:
+					self.gui_sim_start()
 
 			self.running=True
 			self.run_jobs()
@@ -372,8 +373,8 @@ if gui_get()==True:
 			self.timer.stop()
 			
 			self.progress_window.set_fraction(0.0)
-
-			self.gui_sim_stop()
+			if self.interactive_cluster==True or self.cluster==False:
+				self.gui_sim_stop()
 
 			self.jobs=[]
 			self.jobs_running=0

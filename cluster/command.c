@@ -153,7 +153,13 @@ void* command_thread(void *in)
 	{
 		sprintf(temp,"I have run: %s", data.command);
 		send_message(temp);
+
+		struct node_struct* master=NULL;
+		master=node_find_master();
+
+		tx_thing_done(master->sock,&data);
 	}
+
 	return NULL;
 }
 
@@ -178,6 +184,7 @@ local_sim=sim;
 
 		pthread_create( &sim->thread_command, NULL,command_thread,(void*)data);
 		sleep(1);		//This is super bad, but I want to give it enough time to copy the data in.
+		
 		return 0;
 	}
 

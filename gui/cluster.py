@@ -68,6 +68,7 @@ from cal_path import get_exe_name
 from cal_path import get_cluster_libs_path
 
 from job import job
+import random
 
 def strip_slash(tx_name):
 	start=0
@@ -89,21 +90,62 @@ class node:
 
 
 class tx_struct:
-	id=0
-	src=""
-	dir_name=""
-	command=""
-	file_name=""
-	size=0
-	target=""
-	stat=0
-	compressed=False
-	data=""
-	exe_name=""
-	zip=0
-	uzipsize=0
-	cpus=-1
-	message=""
+	def __init__(self):
+		self.id=0
+		self.src=""
+		self.dir_name=""
+		self.command=""
+		self.file_name=""
+		self.size=0
+		self.target=""
+		self.stat=0
+		self.compressed=False
+		self.data=""
+		self.exe_name=""
+		self.zip=0
+		self.uzipsize=0
+		self.cpus=-1
+		self.message=""
+		hash = random.getrandbits(128)
+		self.token="%032x" % hash
+
+class wait_object:
+	
+	def __init__(self):
+		self.id=""
+		self.done=False
+
+wait_list=[]
+def wait_add(tx):
+	global wait_list
+	a=wait_object()
+	a.id=tx.token
+	a.done=False
+	wait_list.append(a)
+
+def wait_wait(tx):
+	global wait_list
+	while(1):
+		for i in range(0,len(wait_list)):
+			if tx.token==wait_list[i].id:
+				if wait_list[i].done==True:
+					return
+		sleep(0.1)
+	wait_dump()
+
+def wait_dump():
+	global wait_list
+	for i in range(0,len(wait_list)):
+		print(wait_list[i].id,wait_list[i].done)
+
+def wait_update(id):
+	global wait_list
+	wait_dump()
+	for i in range(0,len(wait_list)):
+		if wait_list[i].id==id:
+			wait_list[i].done=True
+			break
+	wait_dump()
 
 class cluster:
 	if gui_get()==True:
@@ -114,6 +156,7 @@ class cluster:
 	def cluster_init(self):
 		self.socket = False
 		self.cluster=False
+		self.interactive_cluster=False
 		self.nodes=[]
 		self.server_ip=inp_get_token_value(os.path.join(get_sim_path(),"cluster"),"#cluster_ip",search_active_file=True)
 
@@ -351,6 +394,9 @@ class cluster:
 		if data.command!="":
 			header=header+"#command\n"+data.command+"\n"
 
+		hash = random.getrandbits(128)
+		header=header+"#token\n"+data.token+"\n"
+ 
 		if data.cpus!=-1:
 			header=header+"#cpus\n"+str(data.cpus)+"\n"
 
@@ -586,6 +632,7 @@ class cluster:
 		ret.zip=int(inp_search_token_value(lines, "#zip"))
 		ret.uzipsize=int(inp_search_token_value(lines, "#uzipsize"))
 		ret.message=inp_search_token_value(lines, "#message")
+		ret.token=inp_search_token_value(lines, "#token")
 
 		#print(lines)
 		#print(ret.file_name,ret.size,ret.uzipsize,len(data))
@@ -707,7 +754,9 @@ class cluster:
 		data.cpus=int(inp_get_token_value(os.path.join(get_sim_path(),"cluster"),"#cluster_cpus",search_active_file=True))
 		if data.cpus==0:
 			data.cpus=1
+		wait_add(data)
 		self.tx_packet(data)
+		wait_wait(data)
 
 	def cluster_clean(self):
 		data=tx_struct()
@@ -797,6 +846,10 @@ class cluster:
 				lines=data.split("\n")
 				name=inp_search_token_value(lines, "#job_name")
 				self.label.set_text(gui_print_path("Finished:  ",name,60))
+				understood=True
+
+			if data.id=="gpvdmthingdone":
+				wait_update(data.token)
 				understood=True
 
 			if data.id=="gpvdm_sync_packet_two":

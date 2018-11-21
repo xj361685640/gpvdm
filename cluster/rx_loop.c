@@ -53,7 +53,7 @@ printf("rx loop for ip=%s\n",ip);
 		processed=FALSE;
 		ret=rx_packet(sock,&data);
 
-		if (ret==-1)
+		if (ret<0)
 		{
 			get_ip_from_sock(ip,sock);
 			node_delete(ip);
@@ -62,133 +62,132 @@ printf("rx loop for ip=%s\n",ip);
 			break;
 		}
 
-		if (ret!=-2)
+		
+		if (cmp_rxfile(sock,&data,sim)==0)
 		{
-			
-			if (cmp_rxfile(sock,&data,sim)==0)
-			{
-				debug_printf("a\n");
-				processed=TRUE;
-			}else
-			if (cmp_addjob(sock,&data)==0)
-			{
-				debug_printf("b\n");
-				processed=TRUE;
-			}else
-			if (cmp_addnode(sock,&data)==0)
-			{
-				debug_printf("c\n");
-				processed=TRUE;
-			}else
-			if (cmp_deletenode(sock,&data)==0)
-			{
-				debug_printf("d\n");
-				processed=TRUE;
-			}else
-			if (cmp_runjobs(sim,sock,&data)==0)
-			{
-				debug_printf("e\n");
-				processed=TRUE;
-			}else
-			if (cmp_simfinished(sim,sock,&data)==0)
-			{
-				debug_printf("f\n");
-				processed=TRUE;
-			}else
-			if (cmp_register_master(sock,&data)==0)
-			{
-				debug_printf("g\n");
-				processed=TRUE;
-			}else
-			if (cmp_head_killall(sock,&data)==0)
-			{
-				debug_printf("h\n");
-				processed=TRUE;
-			}else
-			if (cmp_head_sleep(sock,&data)==0)
-			{
-				debug_printf("i\n");
-				processed=TRUE;
-			}else
-			if (cmp_head_poweroff(sock,&data)==0)
-			{
-				debug_printf("j\n");
-				processed=TRUE;
-			}else
-			if (cmp_sendnodelist(sock,&data)==0)
-			{
-				debug_printf("k\n");
-				processed=TRUE;
-			}else
-			if (cmp_get_data(sim,sock,&data)==0)
-			{
-				debug_printf("l\n");
-				processed=TRUE;
-			}else
-			if (cmp_head_exe(sim,sock,&data)==0)
-			{
-				debug_printf("m\n");
-				processed=TRUE;
-			}else
-			if (cmp_master_clean(sock,&data)==0)
-			{
-				debug_printf("n\n");
-				processed=TRUE;
-			}else
-			if (cmp_rxloadstats(sock,&data)==0)
-			{
-				debug_printf("o\n");
-				processed=TRUE;
-			}else
-			if (cmp_head_quit(sock,&data)==0)
-			{
-				debug_printf("p\n");
-				processed=TRUE;
-			}else
-			if (cmp_rxsetmaxloads(sock,&data)==0)
-			{
-				debug_printf("1\n");
-				processed=TRUE;
-			}else
-			if (cmp_sync_packet_one(sock,&data)==0)
-			{
-				debug_printf("2\n");
-				processed=TRUE;
-			}else
-			if (cmp_sync_packet_two(sim,sock,&data)==0)
-			{
-				debug_printf("3\n");
-				processed=TRUE;
-			}else
-			if (cmp_send_job_list(sock,&data)==0)
-			{
-				debug_printf("4\n");
-				processed=TRUE;
-			}else
-			if (cmp_head_stop_all_jobs(sock,&data)==0)
-			{
-				debug_printf("5\n");
-				processed=TRUE;
-			}else
-			if (cmp_delete_all_jobs(sock,&data)==0)
-			{
-				debug_printf("6\n");
-				processed=TRUE;
-			}
-			
-			if (processed==FALSE)
-			{
-				if (sim->state==HEAD)
-				{
-					char temp[500];
-					sprintf(temp,"command not understood last:%s this:%s", last_data.id, data.id);
-					send_message(temp);
-				}
-			}
-
-			jobs_save();
-			copy_packet(&last_data,&data);
+			debug_printf("a\n");
+			processed=TRUE;
+		}else
+		if (cmp_addjob(sock,&data)==0)
+		{
+			debug_printf("b\n");
+			processed=TRUE;
+		}else
+		if (cmp_addnode(sock,&data)==0)
+		{
+			debug_printf("c\n");
+			processed=TRUE;
+		}else
+		if (cmp_deletenode(sock,&data)==0)
+		{
+			debug_printf("d\n");
+			processed=TRUE;
+		}else
+		if (cmp_runjobs(sim,sock,&data)==0)
+		{
+			debug_printf("e\n");
+			processed=TRUE;
+		}else
+		if (cmp_simfinished(sim,sock,&data)==0)
+		{
+			debug_printf("f\n");
+			processed=TRUE;
+		}else
+		if (cmp_register_master(sock,&data)==0)
+		{
+			debug_printf("g\n");
+			processed=TRUE;
+		}else
+		if (cmp_head_killall(sock,&data)==0)
+		{
+			debug_printf("h\n");
+			processed=TRUE;
+		}else
+		if (cmp_head_sleep(sock,&data)==0)
+		{
+			debug_printf("i\n");
+			processed=TRUE;
+		}else
+		if (cmp_head_poweroff(sock,&data)==0)
+		{
+			debug_printf("j\n");
+			processed=TRUE;
+		}else
+		if (cmp_sendnodelist(sock,&data)==0)
+		{
+			debug_printf("k\n");
+			processed=TRUE;
+		}else
+		if (cmp_get_data(sim,sock,&data)==0)
+		{
+			debug_printf("l\n");
+			processed=TRUE;
+		}else
+		if (cmp_head_exe(sim,sock,&data)==0)
+		{
+			debug_printf("m\n");
+			processed=TRUE;
+		}else
+		if (cmp_master_clean(sock,&data)==0)
+		{
+			debug_printf("n\n");
+			processed=TRUE;
+		}else
+		if (cmp_rxloadstats(sock,&data)==0)
+		{
+			debug_printf("o\n");
+			processed=TRUE;
+		}else
+		if (cmp_head_quit(sock,&data)==0)
+		{
+			debug_printf("p\n");
+			processed=TRUE;
+		}else
+		if (cmp_rxsetmaxloads(sock,&data)==0)
+		{
+			debug_printf("1\n");
+			processed=TRUE;
+		}else
+		if (cmp_sync_packet_one(sock,&data)==0)
+		{
+			debug_printf("2\n");
+			processed=TRUE;
+		}else
+		if (cmp_sync_packet_two(sim,sock,&data)==0)
+		{
+			debug_printf("3\n");
+			processed=TRUE;
+		}else
+		if (cmp_send_job_list(sock,&data)==0)
+		{
+			debug_printf("4\n");
+			processed=TRUE;
+		}else
+		if (cmp_head_stop_all_jobs(sock,&data)==0)
+		{
+			debug_printf("5\n");
+			processed=TRUE;
+		}else
+		if (cmp_delete_all_jobs(sock,&data)==0)
+		{
+			debug_printf("6\n");
+			processed=TRUE;
 		}
+		
+		if (processed==FALSE)
+		{
+			if (sim->state==HEAD)
+			{
+				char temp[500];
+				sprintf(temp,"command not understood last:%s this:%s", last_data.id, data.id);
+				send_message(temp);
+			}
+		}
+
+		jobs_save();
+
+		copy_packet(&last_data,&data);
+
 
 	}
 

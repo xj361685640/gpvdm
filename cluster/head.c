@@ -96,6 +96,9 @@ calpath_set_store_path(file_store_path);
     /* Fill the local socket address struct */
 
 
+    int one = 1;
+	setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &one, sizeof(one));
+
     addr_local.sin_family = AF_INET; // Protocol Family
     addr_local.sin_port = htons(port); // Port number
     addr_local.sin_addr.s_addr = INADDR_ANY; // AutoFill local address

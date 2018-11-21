@@ -88,9 +88,9 @@ void packet_init_mutex()
 pthread_mutex_t mutex1=PTHREAD_MUTEX_INITIALIZER;	//PTHREAD_MUTEX_ERRORCHECK;
 int send_all(int sock, void *buffer, int length, int encode)
 {
-	printf("entering lock\n");
+	//printf("entering lock\n");
 	pthread_mutex_lock( &mutex1 );
-	printf("entering though lock\n");
+	//printf("entering though lock\n");
 
 	if (encode==TRUE)
 	{
@@ -104,17 +104,17 @@ int send_all(int sock, void *buffer, int length, int encode)
 	}
     int orig_length=length;
     char *ptr = (char*) buffer;
-	printf("here a\n");
+	//printf("here a\n");
     while (length > 0)
     {
-		printf("here d %d\n",sock);
+		//printf("here d %d\n",sock);
 
         int i = send(sock, ptr, length, MSG_NOSIGNAL);
 		printf("here b\n");
 
 		if (i < 1)
 		{
-			printf("here c\n");
+			//printf("here c\n");
 
 			pthread_mutex_unlock( &mutex1 );
 			return -1;
@@ -128,7 +128,7 @@ int send_all(int sock, void *buffer, int length, int encode)
     }
 
 	pthread_mutex_unlock( &mutex1 );
-	printf("out lock\n");
+	//printf("out lock\n");
 
     return 0;
 }
@@ -150,9 +150,9 @@ while(rx_len<buf_len)
 		max_get=to_get;
 	}
 
-	printf("rx %d %d\n",rx_len,buf_len);
+	//printf("rx %d %d\n",rx_len,buf_len);
 	ret = recv(sock, ptr, max_get, MSG_WAITALL);
-	printf("rx %d\n",ret);
+	//printf("rx %d\n",ret);
 	if (ret<=0)
 	{
 		return ret;
@@ -188,6 +188,7 @@ void copy_packet(struct tx_struct *out,struct tx_struct *in)
 	strcpy(out->command,in->command);
 	strcpy(out->job,in->job);
 	strcpy(out->host_name,in->host_name);
+	strcpy(out->token,in->token);
 	out->percent=in->percent;
 }
 
@@ -213,6 +214,7 @@ void tx_struct_init(struct tx_struct *in)
 	strcpy(in->command,"");
 	strcpy(in->job,"");
 	strcpy(in->host_name,"");
+	strcpy(in->token,"");
 	in->percent=-1;
 }
 
@@ -319,17 +321,17 @@ int tx_packet(int sock,struct tx_struct *in,char *buf)
 	int packet_size=0;
 	int pos=0;
 	char temp[LENGTH];
-	printf("enter tx packet\n");
+	//printf("enter tx packet\n");
 	if (in->size>0)
 	{
 		if (in->zip==1)
 		{
 			long unsigned int comp_size=0;
 			comp_size=(int)in->size+200;
-			printf("malloc\n");
+			//printf("malloc\n");
 			zbuf=malloc(sizeof(char)*comp_size);
 			bzero(zbuf, comp_size);
-			printf("compress start\n");
+			//printf("compress start\n");
 ////////////
 			z_stream defstream;
 			defstream.zalloc = Z_NULL;
@@ -348,11 +350,11 @@ int tx_packet(int sock,struct tx_struct *in,char *buf)
 
 ////////////
 			//int ret=compress((unsigned char *)zbuf, &comp_size, (const unsigned char *)buf, in->size);
-			printf("compress end\n");
+			//printf("compress end\n");
 			in->uzipsize=in->size;
 			in->size=(int)defstream.total_out;//comp_size;
-			printf("%d %d %s %lf\n",in->size,in->uzipsize,in->file_name,100.0*((double)in->size)/((double)in->uzipsize));
-			printf("zprint->%s\n",in->target);
+			//printf("%d %d %s %lf\n",in->size,in->uzipsize,in->file_name,100.0*((double)in->size)/((double)in->uzipsize));
+			//printf("zprint->%s\n",in->target);
 
 		}
 
@@ -480,6 +482,12 @@ int tx_packet(int sock,struct tx_struct *in,char *buf)
 		strcat(head,temp);
 	}
 
+	if (strcmp(in->token,"")!=0)
+	{
+		sprintf(temp,"#token\n%s\n",in->token);
+		strcat(head,temp);
+	}
+
 	sprintf(temp,"#end");
 	strcat(head,temp);
 
@@ -553,9 +561,10 @@ return 0;
 
 int rx_packet(int sock,struct tx_struct *in)
 {
-	printf("rx_packet\n");
+	//printf("rx_packet\n");
 	int read_bytes=0;
     char buf[LENGTH];
+	char ip[200];
 	char temp[200];
 	int packet_size=0;
 	char *packet;
@@ -581,7 +590,10 @@ int rx_packet(int sock,struct tx_struct *in)
 
 	if (cmpstr_min(buf,"gpvdm")!=0)
 	{
-		printf("I've got odd data\n");
+		get_ip_from_sock(ip,sock);
+		printf(">>>>>>>>>>>>>>>>>> I've got odd data %s\n",ip);
+		printf("Do a packet reset\n");
+
 		return -2;
 	}
 
@@ -661,6 +673,8 @@ int rx_packet(int sock,struct tx_struct *in)
 
 	inp_search_int(&decode,&(in->percent),"#percent");
 
+	inp_search_string(&decode,in->token,"#token");
+
 	if (in->size>0)
 	{
 
@@ -689,6 +703,19 @@ int rx_packet(int sock,struct tx_struct *in)
 free(packet);
 free(header);
 
-printf("exited\n");
+//printf("exited\n");
 return read_bytes;
 }
+
+
+void tx_thing_done(int sock,struct tx_struct* in_packet)
+{
+	printf(">>>>>>>>>>>>>>>>>>>>adasdasda");
+	struct tx_struct packet;
+	tx_struct_init(&packet);
+	tx_set_id(&packet,"gpvdmthingdone");
+	strcpy(packet.token,in_packet->token);
+	strcpy(packet.ip,get_my_ip());
+	tx_packet(sock,&packet,NULL);
+}
+

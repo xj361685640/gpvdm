@@ -253,6 +253,10 @@ class scan_class(QWidgetSavePos):
 		tab = self.notebook.currentWidget()
 		tab.scan_tab_ml_build_vector()
 
+	def callback_notes(self):
+		tab = self.notebook.currentWidget()
+		tab.callback_notes()
+
 	def __init__(self,my_server):
 		QWidgetSavePos.__init__(self,"scan_window")
 		self.myserver=my_server
@@ -313,6 +317,9 @@ class scan_class(QWidgetSavePos):
 		self.ribbon.tb_plot_time.triggered.connect(self.callback_examine)
 
 		self.ribbon.tb_ml_build_vectors.triggered.connect(self.callback_mb_build_vectors)
+
+		self.ribbon.tb_notes.triggered.connect(self.callback_notes)
+
 
 		spacer = QWidget()
 		spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)

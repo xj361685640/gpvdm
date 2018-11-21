@@ -102,6 +102,10 @@ from process_events import process_events
 
 from scan_io import scan_archive
 
+from win_lin import desktop_open
+
+import datetime
+
 class scan_vbox(QWidget):
 
 	def rename(self,new_name):
@@ -524,6 +528,16 @@ class scan_vbox(QWidget):
 		if ret==False:
 			error_dlg(self,_("Re-run the simulation with 'dump all slices' set to one to use this tool."))
 			return
+
+	def callback_notes(self):
+		notes_path=os.path.join(self.sim_dir,"notes.txt")
+		out = open(notes_path, 'w')
+		out.write("Notes on the simulation: "+self.sim_dir+"\n")
+		out.write("Date: "+datetime.datetime.today().strftime('%Y-%m-%d')+"\n")
+		out.write("\n")
+		out.close()
+
+		desktop_open(notes_path)
 
 	def __init__(self,myserver,status_bar,scan_root_dir,sim_name):
 		QWidget.__init__(self)
