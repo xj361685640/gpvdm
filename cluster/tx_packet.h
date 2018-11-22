@@ -47,6 +47,7 @@ char job[TX_STRUCT_DATA_ITEM_SIZE];
 char token[TX_STRUCT_DATA_ITEM_SIZE];
 int cpus;
 int percent;
+long int thread_id;
 };
 
 void tx_struct_init(struct tx_struct *in);
@@ -61,4 +62,5 @@ void tx_set_src(struct tx_struct *in,char *src);
 void tx_set_zip(struct tx_struct *in,int zip);
 void tx_set_uzipsize(struct tx_struct *in,int uzipsize);
 void tx_thing_done(int sock,struct tx_struct* in_packet);
+void tx_thread_id(pthread_t *thread,char *dir_name);
 #endif

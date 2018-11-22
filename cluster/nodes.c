@@ -413,6 +413,25 @@ printf("here xxxx\n");
 
 }
 
+int cmp_job_thread_id(struct state *sim,int sock,struct tx_struct *data)
+{
+	printf("%s\n",data->id);
+	if (cmpstr_min(data->id,"thread_id")==0)
+	{
+		printf(">>>>>>>>>>>>>>>>>>>>THREAD IDDDDDD.... %s\n",data->dir_name);
+		struct job* job=NULL;
+		job=jobs_find_job(data->dir_name);
+		if (job!=NULL)
+		{
+			printf(">>>>>>>>>thread ID %ld\n",data->thread_id);
+			job->thread_id=data->thread_id;
+		}
+		return 0;
+	}
+return -1;
+}
+
+
 int cmp_simfinished(struct state *sim,int sock,struct tx_struct *data)
 {
 	struct tx_struct packet;

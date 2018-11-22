@@ -172,6 +172,11 @@ printf("rx loop for ip=%s\n",ip);
 		{
 			debug_printf("6\n");
 			processed=TRUE;
+		}else
+		if (cmp_job_thread_id(sim,sock,&data)==0)
+		{
+			debug_printf("r\n");
+			processed=TRUE;
 		}
 		
 		if (processed==FALSE)

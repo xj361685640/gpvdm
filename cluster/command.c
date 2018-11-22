@@ -107,13 +107,25 @@ int cmp_node_runjob(struct state *sim,struct tx_struct *data)
 		printf("command>>>>>>>=%s\n",data->exe_name);
 		pthread_create( &thread1, NULL,exec_command,(void*)data);
 		sleep(1);		//This is super bad, but I want to give it enough time to copy the data in.
+		tx_thread_id(&thread1,data->dir_name);
 		return 0;
 	}
 
 return -1;
 }
 
+void tx_thread_id(pthread_t *thread,char *dir_name)
+{
+	struct tx_struct packet;
+	tx_struct_init(&packet);
+	tx_set_id(&packet,"thread_id");
+	strcpy(packet.dir_name,dir_name);
+	strcpy(packet.ip,get_my_ip());
+	packet.thread_id=(long int)(*thread);
 
+	tx_packet(local_sim->head_sock,&packet,NULL);
+	printf("TX>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>. THREAD_ID");
+}
 void* command_thread(void *in)
 {
 	struct tx_struct data;

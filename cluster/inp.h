@@ -32,6 +32,7 @@ int inp_load(struct inp_file *in,char *file);
 void inp_free(struct inp_file *in);
 int inp_search_double(struct inp_file *in,double* out,char* token);
 int inp_search_int(struct inp_file *in,int* out,char* token);
+int inp_search_longint(struct inp_file *in,long int* out,char* token);
 int inp_search_string(struct inp_file *in,char* out,char* token);
 int inp_search(char* out,struct inp_file *in,char *token);
 void inp_check(struct inp_file *in,double ver);
@@ -53,4 +54,5 @@ void inp_list_free(struct inp_list *in);
 int inp_listcmp(struct inp_list *in,char *name);
 int guess_whole_sim_name(char *ret,char *dir_name,char* search_name);
 int search_for_token(char *ret,char *dir_name,char* token,char *search_value);
+
 #endif

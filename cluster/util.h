@@ -40,6 +40,7 @@ struct job
 	int copy_state;
 	time_t t_start;
 	time_t t_stop;
+	long int thread_id;
 };
 
 
@@ -174,6 +175,7 @@ int cmp_rxsetmaxloads(int sock,struct tx_struct *data);
 int cmp_sync_packet_one(int sock_han,struct tx_struct *data);
 int cmp_sync_packet_two(struct state *sim,int sock,struct tx_struct *data);
 int cmp_delete_all_jobs(int sock,struct tx_struct *data);
+int cmp_job_thread_id(struct state *sim,int sock,struct tx_struct *data);
 
 void encrypt(char *data,int round_len);
 void decrypt(char *data,int round_len);

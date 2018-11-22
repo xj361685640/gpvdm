@@ -532,6 +532,17 @@ if (inp_search(temp,in,token)==0)
 return -1;
 }
 
+int inp_search_longint(struct inp_file *in,long int* out,char* token)
+{
+char temp[200];
+if (inp_search(temp,in,token)==0)
+{
+	sscanf(temp,"%ld",out);
+	return 0;
+}
+return -1;
+}
+
 int inp_search_string(struct inp_file *in,char* out,char* token)
 {
 if (inp_search(out,in,token)==0)

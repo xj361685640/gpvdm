@@ -110,7 +110,7 @@ int send_all(int sock, void *buffer, int length, int encode)
 		//printf("here d %d\n",sock);
 
         int i = send(sock, ptr, length, MSG_NOSIGNAL);
-		printf("here b\n");
+		//printf("here b\n");
 
 		if (i < 1)
 		{
@@ -216,6 +216,7 @@ void tx_struct_init(struct tx_struct *in)
 	strcpy(in->host_name,"");
 	strcpy(in->token,"");
 	in->percent=-1;
+	in->thread_id=-1;
 }
 
 void tx_set_id(struct tx_struct *in,char *id)
@@ -464,6 +465,12 @@ int tx_packet(int sock,struct tx_struct *in,char *buf)
 		strcat(head,temp);
 	}
 
+	if (in->thread_id!=-1.0)
+	{
+		sprintf(temp,"#thread_id\n%ld\n",in->thread_id);
+		strcat(head,temp);
+	}
+
 	if (strcmp(in->command,"")!=0)
 	{
 		sprintf(temp,"#command\n%s\n",in->command);
@@ -674,6 +681,8 @@ int rx_packet(int sock,struct tx_struct *in)
 	inp_search_int(&decode,&(in->percent),"#percent");
 
 	inp_search_string(&decode,in->token,"#token");
+
+	inp_search_longint(&decode,&(in->thread_id),"#thread_id");
 
 	if (in->size>0)
 	{

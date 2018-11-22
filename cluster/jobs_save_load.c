@@ -54,7 +54,7 @@ int jobs_load()
 	struct job *my_jobs=get_jobs_array();
 
 	char path[200];
-	join_path(2,path,calpath_get_store_path(), "saved_jobs2.dat");
+	join_path(2,path,calpath_get_store_path(), "saved_jobs3.dat");
 	fp = fopen(path, "rb");
 	if (fp == NULL)
 	{
@@ -89,7 +89,7 @@ char t_start[100];
 char t_stop[100];
 char temp[1000];
 
-	sprintf(buf,"n\tname\tdone\tstatus\ttarget\t\t\t\t\tip\tcopystate\tstart\tstop\tcpus\n");
+	sprintf(buf,"n\tname\tdone\tstatus\ttarget\t\t\t\t\tip\tcopystate\tstart\tstop\tcpus\tthread\n");
 
 	for (i=0;i<njobs;i++)
 	{
@@ -99,7 +99,7 @@ char temp[1000];
 		get_full_time(t_stop,jobs[i].t_stop);
 		//printf("%s\n",t_stop);
 
-		sprintf(temp,"%d\t%s\t%d\t%d\t%s\t%s\t%d\t%s\t%s\t%d\n",i,jobs[i].name,jobs[i].done,jobs[i].status,jobs[i].target,jobs[i].ip,jobs[i].copy_state,t_start,t_stop,jobs[i].cpus_needed);
+		sprintf(temp,"%d\t%s\t%d\t%d\t%s\t%s\t%d\t%s\t%s\t%d\t%ld\n",i,jobs[i].name,jobs[i].done,jobs[i].status,jobs[i].target,jobs[i].ip,jobs[i].copy_state,t_start,t_stop,jobs[i].cpus_needed,jobs[i].thread_id);
 		strcat(buf,temp);
 		//printf("%s\n",temp);
 	}
@@ -117,7 +117,7 @@ void jobs_save()
 {
 FILE *out=NULL;
 char path[200];
-join_path(2,path,calpath_get_store_path(), "saved_jobs2.dat");
+join_path(2,path,calpath_get_store_path(), "saved_jobs3.dat");
 out=fopen(path,"wb");
 
 int i;
