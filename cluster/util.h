@@ -40,6 +40,7 @@ struct job
 	int copy_state;
 	time_t t_start;
 	time_t t_stop;
+	time_t t_force_stop;
 	long int thread_id;
 };
 
@@ -105,7 +106,7 @@ int jobs_remaining();
 void jobs_clear_all();
 int close_all_open();
 int broadcast_to_nodes(struct tx_struct *packet);
-
+int send_packet_to_node(char *node,struct tx_struct *packet);
 int nodes_txnodelist();
 
 void remove_dir(char* dir_name);
@@ -155,6 +156,7 @@ int cmp_addjob(int sock_han,struct tx_struct *data);
 int cmp_deletenode(int sock_han,struct tx_struct *data);
 int cmp_simfinished(struct state *sim,int sock,struct tx_struct *data);
 int cmp_node_killall(int sock,struct tx_struct *data);
+int cmp_node_killjob(int sock,struct tx_struct *data);
 int cmp_head_killall(int sock,struct tx_struct *data);
 int cmp_node_sleep(int sock,struct tx_struct *data);
 int cmp_head_sleep(int sock,struct tx_struct *data);

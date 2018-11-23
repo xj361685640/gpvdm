@@ -46,6 +46,26 @@ struct node_struct *nodes_list()
 return nodes;
 }
 
+int send_packet_to_node(char *ip,struct tx_struct *packet)
+{
+printf("broadcast\n");
+int i;
+
+	for (i=0;i<nnodes;i++)
+	{
+
+		if (strcmp(nodes[i].type,"slave")==0)
+		{
+			if (strcmp(nodes[i].ip,ip)==0)
+			{
+				tx_packet(nodes[i].sock,packet,NULL);
+			}
+		}
+	}
+
+return 0;
+}
+
 int broadcast_to_nodes(struct tx_struct *packet)
 {
 printf("broadcast\n");
@@ -390,6 +410,7 @@ printf("here xxx\n");
 						send_command(nodes[i].sock,calpath_get_exe_name(),next->name,next->cpus_needed);
 						strcpy(next->ip,nodes[i].ip);
 						next->t_start=time(NULL);
+						next->t_force_stop=time(NULL)+24*60*60;
 						nodes[i].load+=next->cpus_needed;
 						next->status=1;
 						nodes_print();

@@ -234,6 +234,10 @@ int node(struct state *sim)
 			if (cmp_sync_packet_two(sim,sim->head_sock,&data)==0)
 			{
 				processed=TRUE;
+			}else
+			if (cmp_node_killjob(sim->head_sock,&data)==0)
+			{
+				processed=TRUE;
 			}
 			
 			if (processed==FALSE)

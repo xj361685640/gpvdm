@@ -34,6 +34,31 @@
 #include <net/if.h>
 #include "inp.h"
 #include "tx_packet.h"
+#include <pthread.h>
+
+int cmp_node_killjob(int sock,struct tx_struct *data)
+{
+void *res;
+int s;
+	if (cmpstr_min(data->id,"kill_job")==0)
+	{
+		pthread_t thread=(pthread_t)data->thread_id;
+		printf("Killing thread %ld\n",data->thread_id);
+		//pthread_kill(thread, SIGTERM);  
+		s = pthread_cancel(thread);
+		s = pthread_join(thread, &res);
+		if (s != 0)
+		{
+			printf("pthread_join error\n");
+		}
+
+		return 0;
+	}
+
+return -1;
+}
+
+//This should be removed
 int cmp_node_killall(int sock,struct tx_struct *data)
 {
 	if (cmpstr_min(data->id,"gpvdmnodekillall")==0)
@@ -48,13 +73,26 @@ return -1;
 
 int cmp_head_killall(int sock,struct tx_struct *data)
 {
+	int i=0;
+	struct job *jobs=NULL;
+	struct tx_struct packet;
+	int njobs=0;
 	if (cmpstr_min(data->id,"gpvdmkillall")==0)
 	{
-		//copy_dir_to_all_nodes("src");
-		struct tx_struct packet;
-		tx_struct_init(&packet);
-		tx_set_id(&packet,"gpvdmnodekillall");
-		broadcast_to_nodes(&packet);
+		jobs=get_jobs_array();
+		njobs=get_njobs();
+		for (i=0;i<njobs;i++)
+		{
+			if (jobs[i].thread_id!=-1)
+			{
+				tx_struct_init(&packet);
+				tx_set_id(&packet,"kill_job");
+				packet.thread_id=jobs[i].thread_id;
+				send_packet_to_node(jobs[i].ip,&packet);
+			}
+		}
+		
+
 		return 0;
 	}
 

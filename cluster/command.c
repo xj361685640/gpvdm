@@ -60,7 +60,10 @@ void* exec_command(void *in)
 	char sim_dir[200];
 	struct tx_struct data;
 	copy_packet(&data,(struct tx_struct *)in);
-	
+
+	pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
+	pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
+
 	join_path(2,sim_dir,calpath_get_store_path(), data.dir_name);
 	printf("change dir to %s\n",sim_dir);
 

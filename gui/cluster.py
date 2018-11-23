@@ -563,7 +563,7 @@ class cluster:
 		self.jobs=[]
 		for i in range(1,len(lines)):
 			act=lines[i].split()
-			if len(act)==10:
+			if len(act)==11:
 				j=job()
 				j.name=act[1]
 				j.path=act[4]

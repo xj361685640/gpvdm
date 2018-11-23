@@ -87,9 +87,10 @@ struct job* jobs=get_jobs_array();
 int njobs=get_njobs();
 char t_start[100];
 char t_stop[100];
+char t_force_stop[100];
 char temp[1000];
 
-	sprintf(buf,"n\tname\tdone\tstatus\ttarget\t\t\t\t\tip\tcopystate\tstart\tstop\tcpus\tthread\n");
+	sprintf(buf,"n\tname\tdone\tstatus\ttarget\t\t\t\t\tip\tcopystate\tstart\tforce_stop\tstop\tcpus\tthread\n");
 
 	for (i=0;i<njobs;i++)
 	{
@@ -99,7 +100,8 @@ char temp[1000];
 		get_full_time(t_stop,jobs[i].t_stop);
 		//printf("%s\n",t_stop);
 
-		sprintf(temp,"%d\t%s\t%d\t%d\t%s\t%s\t%d\t%s\t%s\t%d\t%ld\n",i,jobs[i].name,jobs[i].done,jobs[i].status,jobs[i].target,jobs[i].ip,jobs[i].copy_state,t_start,t_stop,jobs[i].cpus_needed,jobs[i].thread_id);
+		get_full_time(t_force_stop,jobs[i].t_force_stop);
+			sprintf(temp,"%d\t%s\t%d\t%d\t%s\t%s\t%d\t%s\t%s\t%s\t%d\t%ld\n",i,jobs[i].name,jobs[i].done,jobs[i].status,jobs[i].target,jobs[i].ip,jobs[i].copy_state,t_start,t_force_stop,t_stop,jobs[i].cpus_needed,jobs[i].thread_id);
 		strcat(buf,temp);
 		//printf("%s\n",temp);
 	}
