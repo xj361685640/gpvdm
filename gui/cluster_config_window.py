@@ -131,10 +131,11 @@ class cluster_config_window(QWidgetSavePos):
 		file_name=tab.file_name
 
 		cluster_ip=inp_get_token_value(os.path.join(get_sim_path(),file_name), "#cluster_ip")
-		inp_update_token_value(os.path.join(get_sim_path(),"cluster","node.inp"),"#master_ip",cluster_ip)
+		inp_update_token_value(os.path.join(get_cluster_path(),"node.inp"),"#master_ip",cluster_ip)
 
 		cluster_ip=inp_get_token_value(os.path.join(get_sim_path(),file_name), "#nodes")
-		inp_update_token_value(os.path.join(get_sim_path(),"cluster","node_list.inp"),"#node_list",cluster_ip)
+		print(cluster_ip)
+		inp_update_token_value(os.path.join(get_cluster_path(),"node_list.inp"),"#node_list",cluster_ip)
 
 	def install_to_cluster(self):
 		self.get_config()

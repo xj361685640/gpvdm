@@ -216,7 +216,7 @@ void tx_struct_init(struct tx_struct *in)
 	strcpy(in->host_name,"");
 	strcpy(in->token,"");
 	in->percent=-1;
-	in->thread_id=-1;
+	in->pid=-1;
 }
 
 void tx_set_id(struct tx_struct *in,char *id)
@@ -465,9 +465,9 @@ int tx_packet(int sock,struct tx_struct *in,char *buf)
 		strcat(head,temp);
 	}
 
-	if (in->thread_id!=-1.0)
+	if (in->pid!=-1.0)
 	{
-		sprintf(temp,"#thread_id\n%ld\n",in->thread_id);
+		sprintf(temp,"#thread_id\n%d\n",in->pid);
 		strcat(head,temp);
 	}
 
@@ -682,7 +682,7 @@ int rx_packet(int sock,struct tx_struct *in)
 
 	inp_search_string(&decode,in->token,"#token");
 
-	inp_search_longint(&decode,&(in->thread_id),"#thread_id");
+	inp_search_int(&decode,&(in->pid),"#thread_id");
 
 	if (in->size>0)
 	{

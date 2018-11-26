@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.97\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2018-11-20 20:00+0000\n"
+"POT-Creation-Date: 2018-11-26 11:41+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -752,7 +752,7 @@ msgstr ""
 msgid "FITNESS FOR A PARTICULAR PURPOSE.\n"
 msgstr ""
 
-#: ../src/main.c:198 ../gui/scan_tab.py:447 ../gui/constraints.py:143
+#: ../src/main.c:198 ../gui/scan_tab.py:451 ../gui/constraints.py:143
 #: ../gui/constraints.py:182 ../gui/fit_vars.py:155 ../gui/fit_patch.py:119
 msgid "Token"
 msgstr ""
@@ -1174,14 +1174,14 @@ msgstr ""
 msgid "Delete section"
 msgstr ""
 
-#: ../gui/tmesh.py:449 ../gui/fxmesh.py:314 ../gui/scan_tab.py:554
-#: ../gui/scan_tab.py:624 ../gui/scan_tab.py:628 ../gui/constraints.py:251
+#: ../gui/tmesh.py:449 ../gui/fxmesh.py:314 ../gui/scan_tab.py:575
+#: ../gui/scan_tab.py:645 ../gui/scan_tab.py:649 ../gui/constraints.py:251
 #: ../gui/measure_tab.py:214 ../gui/duplicate.py:215 ../gui/fit_vars.py:233
 #: ../gui/equation.py:373 ../gui/fit_patch.py:173
 msgid "Move down"
 msgstr ""
 
-#: ../gui/tmesh.py:453 ../gui/fxmesh.py:318 ../gui/scan_tab.py:558
+#: ../gui/tmesh.py:453 ../gui/fxmesh.py:318 ../gui/scan_tab.py:579
 #: ../gui/constraints.py:255 ../gui/measure_tab.py:218 ../gui/duplicate.py:219
 #: ../gui/fit_vars.py:237 ../gui/equation.py:377 ../gui/fit_patch.py:177
 msgid "Move up"
@@ -1358,7 +1358,7 @@ msgstr ""
 #: ../gui/optics_ribbon.py:99 ../gui/measure_ribbon.py:99
 #: ../gui/ribbon_solar.py:84 ../gui/ribbon.py:114
 #: ../gui/timedomain_ribbon.py:121 ../gui/cool_menu.py:68
-#: ../gui/scan_ribbon.py:196 ../gui/about.py:50 ../gui/about.py:82
+#: ../gui/scan_ribbon.py:199 ../gui/about.py:50 ../gui/about.py:82
 #: ../gui/status_icon.py:48
 msgid "About"
 msgstr ""
@@ -1577,7 +1577,7 @@ msgid ""
 "properly."
 msgstr ""
 
-#: ../gui/scan_tab.py:136
+#: ../gui/scan_tab.py:140
 msgid ""
 "<big><b>The scan window</b></big><br> Now using the drop down menu in the "
 "prameter to change 'column', select the device parameter you wish to vary, "
@@ -1586,26 +1586,26 @@ msgid ""
 "1e-6'.  And hit the double arrorw to run the simulation."
 msgstr ""
 
-#: ../gui/scan_tab.py:146
+#: ../gui/scan_tab.py:150
 msgid "Select parameter"
 msgstr ""
 
-#: ../gui/scan_tab.py:248
+#: ../gui/scan_tab.py:252
 msgid ""
 "I can't load flat_list.inp.  This usually means there is a problem with how "
 "you have set up your scan."
 msgstr ""
 
-#: ../gui/scan_tab.py:260
+#: ../gui/scan_tab.py:264
 msgid ""
 "You have not selected any parameters to scan through.  Use the add button."
 msgstr ""
 
-#: ../gui/scan_tab.py:265
+#: ../gui/scan_tab.py:269
 msgid "No sim dir name"
 msgstr ""
 
-#: ../gui/scan_tab.py:447 ../gui/plot_ribbon.py:137 ../gui/gpvdm.py:309
+#: ../gui/scan_tab.py:451 ../gui/plot_ribbon.py:137 ../gui/gpvdm.py:309
 #: ../gui/ribbon_materials.py:95 ../gui/constraints.py:143
 #: ../gui/constraints.py:182 ../gui/ribbon.py:127 ../gui/measure_tab.py:92
 #: ../gui/measure_tab.py:140 ../gui/snapshot_slider.py:131
@@ -1613,44 +1613,44 @@ msgstr ""
 msgid "File"
 msgstr ""
 
-#: ../gui/scan_tab.py:447
+#: ../gui/scan_tab.py:451
 msgid "Parameter to change"
 msgstr ""
 
-#: ../gui/scan_tab.py:447 ../gui/fit_patch.py:119
+#: ../gui/scan_tab.py:451 ../gui/fit_patch.py:119
 msgid "Values"
 msgstr ""
 
-#: ../gui/scan_tab.py:447
+#: ../gui/scan_tab.py:451
 msgid "Opperation"
 msgstr ""
 
-#: ../gui/scan_tab.py:525 ../gui/ribbon_home.py:189
+#: ../gui/scan_tab.py:529 ../gui/ribbon_home.py:189
 msgid ""
 "Re-run the simulation with 'dump all slices' set to one to use this tool."
 msgstr ""
 
-#: ../gui/scan_tab.py:546
+#: ../gui/scan_tab.py:567
 msgid "Add parameter to scan"
 msgstr ""
 
-#: ../gui/scan_tab.py:550 ../gui/scan_tab.py:606
+#: ../gui/scan_tab.py:571 ../gui/scan_tab.py:627
 msgid "Delete item"
 msgstr ""
 
-#: ../gui/scan_tab.py:570
+#: ../gui/scan_tab.py:591
 msgid "Insert python command"
 msgstr ""
 
-#: ../gui/scan_tab.py:610
+#: ../gui/scan_tab.py:631
 msgid "Copy"
 msgstr ""
 
-#: ../gui/scan_tab.py:614
+#: ../gui/scan_tab.py:635
 msgid "Paste"
 msgstr ""
 
-#: ../gui/scan_tab.py:620
+#: ../gui/scan_tab.py:641
 msgid "Add item"
 msgstr ""
 
@@ -2756,7 +2756,7 @@ msgstr ""
 msgid "Connect to cluster"
 msgstr ""
 
-#: ../gui/ribbon.py:133 ../gui/scan.py:243 ../gui/scan_ribbon.py:205
+#: ../gui/ribbon.py:133 ../gui/scan.py:243 ../gui/scan_ribbon.py:208
 msgid "Simulations"
 msgstr ""
 
@@ -2860,7 +2860,7 @@ msgstr ""
 msgid "Should I remove the simulation directory "
 msgstr ""
 
-#: ../gui/scan.py:260
+#: ../gui/scan.py:264
 msgid "Parameter scan - gpvdm"
 msgstr ""
 
@@ -3128,7 +3128,7 @@ msgstr ""
 msgid "Left"
 msgstr ""
 
-#: ../gui/hpc.py:179
+#: ../gui/hpc.py:237
 msgid "Cluster status (www.gpvdm.com)"
 msgstr ""
 
@@ -3222,7 +3222,7 @@ msgid ""
 "close data.xlsx to enable me to write new data to it."
 msgstr ""
 
-#: ../gui/server.py:407
+#: ../gui/server.py:408
 msgid "I did not think I was running any jobs"
 msgstr ""
 
@@ -3463,59 +3463,63 @@ msgstr ""
 msgid "Run all scans"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:132
+#: ../gui/scan_ribbon.py:123
+msgid "Notes"
+msgstr ""
+
+#: ../gui/scan_ribbon.py:135
 msgid "Build nested simulation"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:142
+#: ../gui/scan_ribbon.py:145
 msgid "Plot fits"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:145
+#: ../gui/scan_ribbon.py:148
 msgid "Run simulation no generation"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:148
+#: ../gui/scan_ribbon.py:151
 msgid "Run single fit"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:151
+#: ../gui/scan_ribbon.py:154
 msgid "Clean unconverged simulation"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:154
+#: ../gui/scan_ribbon.py:157
 msgid "Clean simulation output"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:157
+#: ../gui/scan_ribbon.py:160
 msgid "Push unconverged to hpc"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:160
+#: ../gui/scan_ribbon.py:163
 msgid "Change dir"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:163
+#: ../gui/scan_ribbon.py:166
 msgid "Report"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:173
+#: ../gui/scan_ribbon.py:176
 msgid "Build vectors"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:202
+#: ../gui/scan_ribbon.py:205
 msgid "Scan"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:210
+#: ../gui/scan_ribbon.py:213
 msgid "Advanced"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:214
+#: ../gui/scan_ribbon.py:217
 msgid "Nested"
 msgstr ""
 
-#: ../gui/scan_ribbon.py:218
+#: ../gui/scan_ribbon.py:221
 msgid "ML"
 msgstr ""
 

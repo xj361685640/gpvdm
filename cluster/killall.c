@@ -38,20 +38,13 @@
 
 int cmp_node_killjob(int sock,struct tx_struct *data)
 {
-void *res;
-int s;
+int     status;
+
 	if (cmpstr_min(data->id,"kill_job")==0)
 	{
-		pthread_t thread=(pthread_t)data->thread_id;
-		printf("Killing thread %ld\n",data->thread_id);
-		//pthread_kill(thread, SIGTERM);  
-		s = pthread_cancel(thread);
-		s = pthread_join(thread, &res);
-		if (s != 0)
-		{
-			printf("pthread_join error\n");
-		}
-
+		int pid=(int)data->pid;
+		kill_all(pid);
+		wait(&status);
 		return 0;
 	}
 
@@ -83,11 +76,11 @@ int cmp_head_killall(int sock,struct tx_struct *data)
 		njobs=get_njobs();
 		for (i=0;i<njobs;i++)
 		{
-			if (jobs[i].thread_id!=-1)
+			if (jobs[i].pid!=-1)
 			{
 				tx_struct_init(&packet);
 				tx_set_id(&packet,"kill_job");
-				packet.thread_id=jobs[i].thread_id;
+				packet.pid=jobs[i].pid;
 				send_packet_to_node(jobs[i].ip,&packet);
 			}
 		}

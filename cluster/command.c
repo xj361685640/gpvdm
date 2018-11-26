@@ -34,6 +34,7 @@
 #include <net/if.h>
 #include "tx_packet.h"
 #include <pthread.h>
+#include <sys/prctl.h>
 
 struct state *local_sim;
 struct node_struct nodes[100];
@@ -55,14 +56,17 @@ int send_command(int sock,char *command,char *dir_name,int cpus)
 return ret;
 }
 
+//look up popen2
+
 void* exec_command(void *in)
 {
+
 	char sim_dir[200];
 	struct tx_struct data;
 	copy_packet(&data,(struct tx_struct *)in);
 
-	pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
-	pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
+	//pthread_setcancelstate(PTHREAD_CANCEL_ENABLE, NULL);
+	///pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
 
 	join_path(2,sim_dir,calpath_get_store_path(), data.dir_name);
 	printf("change dir to %s\n",sim_dir);
@@ -78,8 +82,27 @@ void* exec_command(void *in)
 	join_path(2,lib_path,calpath_get_store_path(), "src");
 	sprintf(command,"export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:%s;stdbuf -i0 -o0 -e0 %s",lib_path,full_exe_path);
 	printf("full command =%s\n",command);
-	system(command);
-	
+	int pid=fork();
+	if (pid  == 0)
+	{
+		//prctl(PR_SET_PDEATHSIG, SIGKILL);
+
+		//system("ls");
+		//FILE *fp;
+		system(command);
+		exit(0);
+	}
+
+	printf("top level pid=%d\n",pid);
+	tx_pid(pid,data.dir_name);
+
+	int returnStatus;    
+    waitpid(pid, &returnStatus, 0);
+
+
+	//int status = 0;
+	//while ((wpid = wait(&status)) > 0);
+	//system(command);
 
 
 	//send_dir(sock, sim_dir, 0, sim_dir, data.dir_name);
@@ -106,28 +129,33 @@ int cmp_node_runjob(struct state *sim,struct tx_struct *data)
 
 		printf("I will run %s in a new process\n",data->exe_name);
 
-		pthread_t thread1;
+		pthread_t thread;
 		printf("command>>>>>>>=%s\n",data->exe_name);
-		pthread_create( &thread1, NULL,exec_command,(void*)data);
+		pthread_create( &thread, NULL,exec_command,(void*)data);
 		sleep(1);		//This is super bad, but I want to give it enough time to copy the data in.
-		tx_thread_id(&thread1,data->dir_name);
+		//error=pthread_cancel(thread);
+		//printf("error=%d\n",error);
+		//printf("adaddadsad\n");
+		//pthread_join(thread, &res);
+		//printf("adaddadsad\n");
+
 		return 0;
 	}
 
 return -1;
 }
 
-void tx_thread_id(pthread_t *thread,char *dir_name)
+void tx_pid(int thread,char *dir_name)
 {
 	struct tx_struct packet;
 	tx_struct_init(&packet);
 	tx_set_id(&packet,"thread_id");
 	strcpy(packet.dir_name,dir_name);
 	strcpy(packet.ip,get_my_ip());
-	packet.thread_id=(long int)(*thread);
+	packet.pid=(long int)(thread);
 
 	tx_packet(local_sim->head_sock,&packet,NULL);
-	printf("TX>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>. THREAD_ID");
+	printf("TX>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>. PID");
 }
 void* command_thread(void *in)
 {
@@ -135,10 +163,9 @@ void* command_thread(void *in)
 	copy_packet(&data,(struct tx_struct *)in);
 	FILE *fp;
 	//int status;
-	int max_len=300;
-	char path[max_len];
+	char path[1024];
 	char sim_dir[200];
-	char temp[1024];
+	char temp[2000];
 	join_path(2,sim_dir,calpath_get_store_path(), data.dir_name);
 	printf("change dir to %s\n",sim_dir);
 	chdir(sim_dir);
@@ -153,10 +180,10 @@ void* command_thread(void *in)
 
 	fp = popen(data.command, "r");
 
-	while (fgets(path, max_len, fp) != NULL)
+	while (fgets(path, 1024, fp) != NULL)
 	{
 		sprintf(temp,"output>>%s", path);
-		printf("%s",temp);
+		printf("rod>>>%s\n",temp);
 		send_message(temp);
 	}
 
@@ -199,7 +226,7 @@ local_sim=sim;
 
 		pthread_create( &sim->thread_command, NULL,command_thread,(void*)data);
 		sleep(1);		//This is super bad, but I want to give it enough time to copy the data in.
-		
+	
 		return 0;
 	}
 

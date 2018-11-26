@@ -41,7 +41,7 @@ struct job
 	time_t t_start;
 	time_t t_stop;
 	time_t t_force_stop;
-	long int thread_id;
+	int pid;
 };
 
 
@@ -177,7 +177,7 @@ int cmp_rxsetmaxloads(int sock,struct tx_struct *data);
 int cmp_sync_packet_one(int sock_han,struct tx_struct *data);
 int cmp_sync_packet_two(struct state *sim,int sock,struct tx_struct *data);
 int cmp_delete_all_jobs(int sock,struct tx_struct *data);
-int cmp_job_thread_id(struct state *sim,int sock,struct tx_struct *data);
+int cmp_job_pid(struct state *sim,int sock,struct tx_struct *data);
 
 void encrypt(char *data,int round_len);
 void decrypt(char *data,int round_len);
@@ -198,7 +198,8 @@ void jobs_save();
 int nodes_get_nnodes();
 void log_alarm_wakeup (int i);
 struct node_struct *nodes_list();
-
+int update_pids(int *list, int *list_len,int want_id);
+void kill_all(int want_id);
 //Debug
 void set_debug(int value);
 void debug_printf( const char *format, ...);

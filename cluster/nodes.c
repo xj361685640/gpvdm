@@ -434,7 +434,7 @@ printf("here xxxx\n");
 
 }
 
-int cmp_job_thread_id(struct state *sim,int sock,struct tx_struct *data)
+int cmp_job_pid(struct state *sim,int sock,struct tx_struct *data)
 {
 	printf("%s\n",data->id);
 	if (cmpstr_min(data->id,"thread_id")==0)
@@ -444,8 +444,8 @@ int cmp_job_thread_id(struct state *sim,int sock,struct tx_struct *data)
 		job=jobs_find_job(data->dir_name);
 		if (job!=NULL)
 		{
-			printf(">>>>>>>>>thread ID %ld\n",data->thread_id);
-			job->thread_id=data->thread_id;
+			printf(">>>>>>>>>thread ID %d\n",data->pid);
+			job->pid=data->pid;
 		}
 		return 0;
 	}

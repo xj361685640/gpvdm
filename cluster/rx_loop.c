@@ -47,7 +47,7 @@ int sock=*((int*)s);
 char ip[100];
 get_ip_from_sock(ip,sock);
 printf("rx loop for ip=%s\n",ip);
-
+int done=0;
 	while(1)
 	{
 		processed=FALSE;
@@ -135,7 +135,12 @@ printf("rx loop for ip=%s\n",ip);
 		}else
 		if (cmp_rxloadstats(sock,&data)==0)
 		{
-			debug_printf("o\n");
+		/*	debug_printf("o\n");
+			if (done==0)
+			{
+			send_command(sock,"gpvdm_core","",4);
+			done=1;
+			}*/
 			processed=TRUE;
 		}else
 		if (cmp_head_quit(sock,&data)==0)
@@ -173,7 +178,7 @@ printf("rx loop for ip=%s\n",ip);
 			debug_printf("6\n");
 			processed=TRUE;
 		}else
-		if (cmp_job_thread_id(sim,sock,&data)==0)
+		if (cmp_job_pid(sim,sock,&data)==0)
 		{
 			debug_printf("r\n");
 			processed=TRUE;

@@ -153,17 +153,20 @@ class cluster:
 		jobs_update = pyqtSignal()
 		new_message = pyqtSignal(str)
 
+	def load_server_ip(self):
+		self.server_ip=inp_get_token_value(os.path.join(get_sim_path(),"cluster"),"#cluster_ip",search_active_file=True)
+
 	def cluster_init(self):
 		self.socket = False
 		self.cluster=False
 		self.interactive_cluster=False
 		self.nodes=[]
-		self.server_ip=inp_get_token_value(os.path.join(get_sim_path(),"cluster"),"#cluster_ip",search_active_file=True)
+		self.load_server_ip()
 
 	def connect(self):
 		if self.cluster==False:
 			encrypt_load()
-			print("conecting to:",self.server_ip)
+			self.load_server_ip()
 			self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 			port=int(inp_get_token_value(os.path.join(get_sim_path(),"cluster"),"#port",search_active_file=True))
 			try:
@@ -563,14 +566,14 @@ class cluster:
 		self.jobs=[]
 		for i in range(1,len(lines)):
 			act=lines[i].split()
-			if len(act)==11:
+			if len(act)>1:
 				j=job()
 				j.name=act[1]
 				j.path=act[4]
 				j.ip=act[5]
 				j.start=act[7]
-				j.stop=act[8]
-				j.cpus=int(act[9])
+				j.stop=act[9]
+				j.cpus=int(act[10])
 				j.status=int(act[3])
 				self.jobs.append(j)
 				#print(act[0], act[1], act[2], act[3],act[4], act[5], act[6], act[7])

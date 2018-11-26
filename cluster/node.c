@@ -140,6 +140,12 @@ int node(struct state *sim)
 	inp_search_string(&inp,temp_path,"#store_path");
 	inp_search_string(&inp,interface,"#interface");
 	inp_search_string(&inp,master_ip,"#master_ip");
+
+	if (strcmp(master_ip,"localhost")==0)
+	{
+		strcpy(master_ip,"127.0.0.1");
+	}
+
 	inp_search_int(&inp,&port,"#port");
 	inp_free(&inp);
 
@@ -160,9 +166,10 @@ int node(struct state *sim)
 			{
 				break;
 			}
-
+			printf("a\n");
 			sleep(1);
 			text_progress(p);
+			printf("a\n");
 			fputs("\r", stdout);
 			p=p+0.1;
 			if (p>1.0)
