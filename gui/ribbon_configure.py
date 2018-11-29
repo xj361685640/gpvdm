@@ -49,7 +49,7 @@ class ribbon_configure(QToolBar):
 	def __init__(self):
 		QToolBar.__init__(self)
 		self.config_window=None
-		self.electrical_mesh=tab_electrical_mesh()
+		self.electrical_mesh=None
 		self.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
 		self.setIconSize(QSize(42, 42))
 
@@ -71,7 +71,8 @@ class ribbon_configure(QToolBar):
 			self.config_window=None
 
 		self.dump.refresh()
-		self.electrical_mesh.update()
+		if self.electrical_mesh!=None:
+			self.electrical_mesh.update()
 		
 	def setEnabled(self,val):
 		self.configwindow.setEnabled(val)
@@ -81,6 +82,9 @@ class ribbon_configure(QToolBar):
 		
 	def callback_edit_mesh(self):
 		help_window().help_set_help(["mesh.png",_("<big><b>Mesh editor</b></big>\nUse this window to setup the mesh, the window can also be used to change the dimensionality of the simulation.")])
+
+		if self.electrical_mesh==None:
+			self.electrical_mesh=tab_electrical_mesh()
 
 		if self.electrical_mesh.isVisible()==True:
 			self.electrical_mesh.hide()
