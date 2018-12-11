@@ -137,6 +137,7 @@ class display_widget(QWidget):
 			self.update_ray_file()
 
 			self.hbox.addWidget(self.display)
+
 			#self.display.setMinimumSize(800, 600)
 
 			self.timer=QTimer()

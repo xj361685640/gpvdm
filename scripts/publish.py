@@ -103,6 +103,7 @@ def publish_src(d,distro=None,publication_mode="gpl_distro"):
 	copy_lib(dest,my_dir,"libdos",mode=publication_mode)
 	copy_lib(dest,my_dir,"cluster",mode=publication_mode)
 	copy_lib(dest,my_dir,"cluster_",mode=publication_mode)
+	copy_lib(dest,my_dir,"libfdtd",mode=publication_mode)
 
 	spath=os.path.join(my_dir,"include")
 	dpath=os.path.join(dest,"include")

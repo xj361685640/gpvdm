@@ -58,6 +58,7 @@ def set_color(r,g,b,name,alpha=-1):
 		r=r/255
 		g=g/255
 		b=b/255
+		alpha=1.0
 
 	a=color(r,g,b,alpha)
 	a.name=name

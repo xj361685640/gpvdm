@@ -452,7 +452,7 @@ if open_gl_ok==True:
 			g=float(data[0][0][1])
 			b=float(data[0][0][2])
 
-			#print(x,y,r,g,b,search_color(r,g,b))
+			print(x,y,r,g,b,search_color(r,g,b))
 			set_false_color(False)
 			
 
@@ -482,13 +482,26 @@ if open_gl_ok==True:
 			self.update()
 
 		def mousePressEvent(self,event):
-			thumb_nail_gen()
-			print("whoo")
-			self.mouse_click_time=time.time()
+			#thumb_nail_gen()
+			print("test")
+			#self.mouse_click_time=time.time()
+			x = event.x()
+			y = self.height()-event.y()
+#glReadPixels(x, y, 1, 1, GL_RGB, GL_FLOAT, pixelf);
+			set_false_color(True)
+			self.render()
+			data=glReadPixelsub(x, y, 1, 1, GL_RGBA,GL_FLOAT)
 
-		def mouseReleaseEvent(self,event):
-			if (time.time() - self.mouse_click_time)<0.2:
-				self.menu(event)
+			self.swapBuffers()
+			r=float(data[0][0][0])
+			g=float(data[0][0][1])
+			b=float(data[0][0][2])
+
+			print(x,y,r,g,b,search_color(r,g,b))
+			#set_false_color(False)
+		#def mouseReleaseEvent(self,event):
+		#	if (time.time() - self.mouse_click_time)<0.2:
+		#		self.menu(event)
 
 			self.lastPos=None
 		
