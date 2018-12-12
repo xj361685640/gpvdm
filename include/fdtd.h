@@ -127,4 +127,6 @@ void fdtd_load_config(struct simulation *sim, struct fdtd_data *data);
 void opencl_init(struct simulation *sim, struct fdtd_data *data);
 size_t fdtd_load_code(struct simulation *sim,struct fdtd_data *data);
 void fdtd_kernel_init(struct simulation *sim, struct fdtd_data *data);
+void fdtd_setup_simulation(struct simulation *sim,struct fdtd_data *data);
+
 #endif

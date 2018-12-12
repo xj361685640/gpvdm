@@ -40,6 +40,7 @@
 
 void fdtd_kernel_init(struct simulation *sim, struct fdtd_data *data)
 {
+	cl_int error;
 	data->cal_E=clCreateKernel(data->prog, "cal_E", &error);
 	if (error!=CL_SUCCESS)
 	{
@@ -93,75 +94,75 @@ void fdtd_kernel_init(struct simulation *sim, struct fdtd_data *data)
 		printf_log(sim,"error!!!!!!!!!!!!!!!!!!\n");
 	}
 
-	clSetKernelArg(update_E, 0, sizeof(cl_mem), &ggEx);
-	clSetKernelArg(update_E, 1, sizeof(cl_mem), &ggEy);
-	clSetKernelArg(update_E, 2, sizeof(cl_mem), &ggEz);
+	clSetKernelArg(data->update_E, 0, sizeof(cl_mem), &(data->ggEx));
+	clSetKernelArg(data->update_E, 1, sizeof(cl_mem), &(data->ggEy));
+	clSetKernelArg(data->update_E, 2, sizeof(cl_mem), &(data->ggEz));
 
-	clSetKernelArg(update_E, 3, sizeof(cl_mem), &ggHx);
-	clSetKernelArg(update_E, 4, sizeof(cl_mem), &ggHy);
-	clSetKernelArg(update_E, 5, sizeof(cl_mem), &ggHz);
+	clSetKernelArg(data->update_E, 3, sizeof(cl_mem), &(data->ggHx));
+	clSetKernelArg(data->update_E, 4, sizeof(cl_mem), &(data->ggHy));
+	clSetKernelArg(data->update_E, 5, sizeof(cl_mem), &(data->ggHz));
 
-	clSetKernelArg(update_E, 6, sizeof(cl_mem), &ggEx_last);
-	clSetKernelArg(update_E, 7, sizeof(cl_mem), &ggEy_last);
-	clSetKernelArg(update_E, 8, sizeof(cl_mem), &ggEz_last);
+	clSetKernelArg(data->update_E, 6, sizeof(cl_mem), &(data->ggEx_last));
+	clSetKernelArg(data->update_E, 7, sizeof(cl_mem), &(data->ggEy_last));
+	clSetKernelArg(data->update_E, 8, sizeof(cl_mem), &(data->ggEz_last));
 
-	clSetKernelArg(update_E, 9, sizeof(cl_mem), &ggHx_last);
-	clSetKernelArg(update_E, 10, sizeof(cl_mem), &ggHy_last);
-	clSetKernelArg(update_E, 11, sizeof(cl_mem), &ggHz_last);
+	clSetKernelArg(data->update_E, 9, sizeof(cl_mem), &(data->ggHx_last));
+	clSetKernelArg(data->update_E, 10, sizeof(cl_mem), &(data->ggHy_last));
+	clSetKernelArg(data->update_E, 11, sizeof(cl_mem), &(data->ggHz_last));
 
-	clSetKernelArg(update_E, 12, sizeof(cl_mem), &ggepsilon_r);
-	clSetKernelArg(update_E, 13, sizeof(cl_mem), &ggy);
-	error=clSetKernelArg(update_E, 14, sizeof(cl_mem), &ggC);
-
-	if (error!=CL_SUCCESS)
-	{
-		printf_log(sim,"error!!!!!!!!!!!!!!!!!!\n");
-	}
-
-	clSetKernelArg(cal_H, 0, sizeof(cl_mem), &ggEx);
-	clSetKernelArg(cal_H, 1, sizeof(cl_mem), &ggEy);
-	clSetKernelArg(cal_H, 2, sizeof(cl_mem), &ggEz);
-
-	clSetKernelArg(cal_H, 3, sizeof(cl_mem), &ggHx);
-	clSetKernelArg(cal_H, 4, sizeof(cl_mem), &ggHy);
-	clSetKernelArg(cal_H, 5, sizeof(cl_mem), &ggHz);
-
-	clSetKernelArg(cal_H, 6, sizeof(cl_mem), &ggEx_last);
-	clSetKernelArg(cal_H, 7, sizeof(cl_mem), &ggEy_last);
-	clSetKernelArg(cal_H, 8, sizeof(cl_mem), &ggEz_last);
-
-	clSetKernelArg(cal_H, 9, sizeof(cl_mem), &ggHx_last);
-	clSetKernelArg(cal_H, 10, sizeof(cl_mem), &ggHy_last);
-	clSetKernelArg(cal_H, 11, sizeof(cl_mem), &ggHz_last);
-
-	clSetKernelArg(cal_H, 12, sizeof(cl_mem), &ggepsilon_r);
-	clSetKernelArg(cal_H, 13, sizeof(cl_mem), &ggy);
-	error=clSetKernelArg(cal_H, 14, sizeof(cl_mem), &ggC);
+	clSetKernelArg(data->update_E, 12, sizeof(cl_mem), &(data->ggepsilon_r));
+	clSetKernelArg(data->update_E, 13, sizeof(cl_mem), &(data->ggy));
+	error=clSetKernelArg(data->update_E, 14, sizeof(cl_mem), &(data->ggC));
 
 	if (error!=CL_SUCCESS)
 	{
 		printf_log(sim,"error!!!!!!!!!!!!!!!!!!\n");
 	}
 
-	clSetKernelArg(update_H, 0, sizeof(cl_mem), &ggEx);
-	clSetKernelArg(update_H, 1, sizeof(cl_mem), &ggEy);
-	clSetKernelArg(update_H, 2, sizeof(cl_mem), &ggEz);
+	clSetKernelArg(data->cal_H, 0, sizeof(cl_mem), &(data->ggEx));
+	clSetKernelArg(data->cal_H, 1, sizeof(cl_mem), &(data->ggEy));
+	clSetKernelArg(data->cal_H, 2, sizeof(cl_mem), &(data->ggEz));
 
-	clSetKernelArg(update_H, 3, sizeof(cl_mem), &ggHx);
-	clSetKernelArg(update_H, 4, sizeof(cl_mem), &ggHy);
-	clSetKernelArg(update_H, 5, sizeof(cl_mem), &ggHz);
+	clSetKernelArg(data->cal_H, 3, sizeof(cl_mem), &(data->ggHx));
+	clSetKernelArg(data->cal_H, 4, sizeof(cl_mem), &(data->ggHy));
+	clSetKernelArg(data->cal_H, 5, sizeof(cl_mem), &(data->ggHz));
 
-	clSetKernelArg(update_H, 6, sizeof(cl_mem), &ggEx_last);
-	clSetKernelArg(update_H, 7, sizeof(cl_mem), &ggEy_last);
-	clSetKernelArg(update_H, 8, sizeof(cl_mem), &ggEz_last);
+	clSetKernelArg(data->cal_H, 6, sizeof(cl_mem), &(data->ggEx_last));
+	clSetKernelArg(data->cal_H, 7, sizeof(cl_mem), &(data->ggEy_last));
+	clSetKernelArg(data->cal_H, 8, sizeof(cl_mem), &(data->ggEz_last));
 
-	clSetKernelArg(update_H, 9, sizeof(cl_mem), &ggHx_last);
-	clSetKernelArg(update_H, 10, sizeof(cl_mem), &ggHy_last);
-	clSetKernelArg(update_H, 11, sizeof(cl_mem), &ggHz_last);
+	clSetKernelArg(data->cal_H, 9, sizeof(cl_mem), &(data->ggHx_last));
+	clSetKernelArg(data->cal_H, 10, sizeof(cl_mem), &(data->ggHy_last));
+	clSetKernelArg(data->cal_H, 11, sizeof(cl_mem), &(data->ggHz_last));
 
-	clSetKernelArg(update_H, 12, sizeof(cl_mem), &ggepsilon_r);
-	clSetKernelArg(update_H, 13, sizeof(cl_mem), &ggy);
-	error=clSetKernelArg(update_H, 14, sizeof(cl_mem), &ggC);
+	clSetKernelArg(data->cal_H, 12, sizeof(cl_mem), &(data->ggepsilon_r));
+	clSetKernelArg(data->cal_H, 13, sizeof(cl_mem), &(data->ggy));
+	error=clSetKernelArg(data->cal_H, 14, sizeof(cl_mem), &(data->ggC));
+
+	if (error!=CL_SUCCESS)
+	{
+		printf_log(sim,"error!!!!!!!!!!!!!!!!!!\n");
+	}
+
+	clSetKernelArg(data->update_H, 0, sizeof(cl_mem), &(data->ggEx));
+	clSetKernelArg(data->update_H, 1, sizeof(cl_mem), &(data->ggEy));
+	clSetKernelArg(data->update_H, 2, sizeof(cl_mem), &(data->ggEz));
+
+	clSetKernelArg(data->update_H, 3, sizeof(cl_mem), &(data->ggHx));
+	clSetKernelArg(data->update_H, 4, sizeof(cl_mem), &(data->ggHy));
+	clSetKernelArg(data->update_H, 5, sizeof(cl_mem), &(data->ggHz));
+
+	clSetKernelArg(data->update_H, 6, sizeof(cl_mem), &(data->ggEx_last));
+	clSetKernelArg(data->update_H, 7, sizeof(cl_mem), &(data->ggEy_last));
+	clSetKernelArg(data->update_H, 8, sizeof(cl_mem), &(data->ggEz_last));
+
+	clSetKernelArg(data->update_H, 9, sizeof(cl_mem), &(data->ggHx_last));
+	clSetKernelArg(data->update_H, 10, sizeof(cl_mem), &(data->ggHy_last));
+	clSetKernelArg(data->update_H, 11, sizeof(cl_mem), &(data->ggHz_last));
+
+	clSetKernelArg(data->update_H, 12, sizeof(cl_mem), &(data->ggepsilon_r));
+	clSetKernelArg(data->update_H, 13, sizeof(cl_mem), &(data->ggy));
+	error=clSetKernelArg(data->update_H, 14, sizeof(cl_mem), &(data->ggC));
 
 	if (error!=CL_SUCCESS)
 	{

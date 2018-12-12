@@ -51,6 +51,65 @@ void fdtd_init(struct fdtd_data *data)
 	data->lambda=-1;
 }
 
+void fdtd_setup_simulation(struct simulation *sim,struct fdtd_data *data)
+{
+	int i;
+	int j;
+	float dx=0.0;
+	float dy=0.0;
+	float dz=0.0;
+	float zpos=dz/2.0;
+	float ypos=dy/2.0;
+
+	dx=data->xsize/((float)data->zlen);
+	dy=data->ysize/((float)data->ylen);
+	dz=data->zsize/((float)data->zlen);
+
+	for (j=0;j<data->ylen;j++)
+	{
+		zpos=0.0;
+
+		for (i=0;i<data->zlen;i++)
+		{
+			data->z[i]=zpos;
+
+			zpos+=dz;
+
+			data->Ex[i][j]=0.0;
+			data->Ey[i][j]=0.0;
+			data->Ez[i][j]=0.0;
+			data->Hx[i][j]=0.0;
+			data->Hy[i][j]=0.0;
+			data->Hz[i][j]=0.0;
+			data->Ex_last[i][j]=0.0;
+			data->Ey_last[i][j]=0.0;
+			data->Ez_last[i][j]=0.0;
+			data->Ex_last_last[i][j]=0.0;
+			data->Ey_last_last[i][j]=0.0;
+			data->Ez_last_last[i][j]=0.0;
+			data->Hx_last[i][j]=0.0;
+			data->Hy_last[i][j]=0.0;
+			data->Hz_last[i][j]=0.0;
+			data->epsilon_r[i][j]=1.0;
+			data->z_ang[i][j]=1.0;
+
+
+		}
+	data->y[j]=ypos;
+	ypos+=dy;
+	}
+
+	for (j=0;j<data->ylen;j++)
+	{
+		for (i=0;i<data->zlen;i++)
+		{
+			if (data->y[j]<data->sithick) data->epsilon_r[i][j]=14.0;
+		}
+
+	}
+
+}
+
 size_t fdtd_load_code(struct simulation *sim,struct fdtd_data *data)
 {
 	size_t srcsize;

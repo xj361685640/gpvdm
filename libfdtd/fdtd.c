@@ -78,11 +78,35 @@ float height=16e-10;
 float start=1e-10;
 float stop=16e-10;
 char temp[100];
+float xpos=0.0;
+float ypos=0.0;
+float zpos=0.0;
+
+float bEx=1.0;
+float bEy=1.0;
+float bEz=1.0;
+
+float bHx=1.0;
+float bHy=1.0;
+float bHz=1.0;
+
+float Exc=1.0;
+float Eyc=1.0;
+float Ezc=1.0;
+
+float Hxc=1.0;
+float Hyc=1.0;
+float Hzc=1.0;
+
+int step=0;
+float Exl=0.0;
+float Hyl=0.0;
 
 	fdtd_load_config(sim,&data);
 
 	opencl_init(sim,&data);
 
+	fdtd_get_mem(sim, &data);
 
 	data.cq = clCreateCommandQueue(data.context, data.device, 0, &error);
 	if ( error != CL_SUCCESS )
@@ -119,9 +143,7 @@ data.src_start=10e-9;
 data.src_stop=20e-9;
 
 data.xsize=1e-5;
-dx=data.xsize/((float)data.zlen);
-dy=data.ysize/((float)data.ylen);
-dz=data.zsize/((float)data.zlen);
+
 int far_count=0;
 //int i;	
 int j;
@@ -148,98 +170,34 @@ float omega=2.0*3.14159*f;
 	
 // get a handle and map parameters for the kernel
 fdtd_kernel_init(sim, &data);
-/*
 
-float xpos=0.0;
-float ypos=0.0;
-float zpos=0.0;
+fdtd_setup_simulation(sim,&data);
 
-float bEx=1.0;
-float bEy=1.0;
-float bEz=1.0;
-
-float bHx=1.0;
-float bHy=1.0;
-float bHz=1.0;
-
-float Exc=1.0;
-float Eyc=1.0;
-float Ezc=1.0;
-
-float Hxc=1.0;
-float Hyc=1.0;
-float Hzc=1.0;
-
-zpos=dz/2.0;
-ypos=dy/2.0;
-
-for (j=0;j<ylen;j++)
-{
-zpos=0.0;
-	for (i=0;i<zlen;i++)
-	{
-		z[i]=zpos;
-
-		zpos+=dz;
-
-		Ex[i][j]=0.0;
-		Ey[i][j]=0.0;
-		Ez[i][j]=0.0;
-		Hx[i][j]=0.0;
-		Hy[i][j]=0.0;
-		Hz[i][j]=0.0;
-		Ex_last[i][j]=0.0;
-		Ey_last[i][j]=0.0;
-		Ez_last[i][j]=0.0;
-		Ex_last_last[i][j]=0.0;
-		Ey_last_last[i][j]=0.0;
-		Ez_last_last[i][j]=0.0;
-		Hx_last[i][j]=0.0;
-		Hy_last[i][j]=0.0;
-		Hz_last[i][j]=0.0;
-		epsilon_r[i][j]=1.0;
-		z_ang[i][j]=1.0;
-
-
-	}
-y[j]=ypos;
-ypos+=dy;
-}
 
 pos=0;
-int step=0;
-float Exl=0.0;
-float Hyl=0.0;
-gnuplot = popen("gnuplot","w");
-fprintf(gnuplot, "set terminal x11 title 'Solarsim' \n");
-fflush(gnuplot);
 
-if (plot==1)
+
+data.gnuplot = popen("gnuplot","w");
+fprintf(data.gnuplot, "set terminal x11 title 'Solarsim' \n");
+fflush(data.gnuplot);
+
+if (data.plot==1)
 {
-gnuplot2 = popen("gnuplot","w");
-fprintf(gnuplot2, "set terminal x11 title 'Solarsim' \n");
-fflush(gnuplot2);
+data.gnuplot2 = popen("gnuplot","w");
+fprintf(data.gnuplot2, "set terminal x11 title 'Solarsim' \n");
+fflush(data.gnuplot2);
 }
 
 
 
-
-for (j=0;j<ylen;j++)
-{
-	for (i=0;i<zlen;i++)
-	{
-		if (y[j]<sithick) epsilon_r[i][j]=14.0;
-	}
-
-}
-
-memcpy(gy, y, sizeof(float)*ylen );
-error=clEnqueueWriteBuffer(cq, ggy, CL_FALSE, 0, ylen*sizeof(float), gy, 0, NULL, NULL);
+memcpy(data.gy, data.y, sizeof(float)*data.ylen );
+error=clEnqueueWriteBuffer(data.cq, data.ggy, CL_FALSE, 0, data.ylen*sizeof(float), data.gy, 0, NULL, NULL);
 if (error!=CL_SUCCESS)
 {
 	printf_log(sim,"error!!!!!!!!!!!!!!!!!!\n");
 }
 
+/*
 for (i=0;i<zlen;i++)
 {
 	memcpy ( &gEx[i*ylen], Ex[i], sizeof(float)*ylen );
@@ -259,6 +217,7 @@ for (i=0;i<zlen;i++)
 
 	memcpy ( &gepsilon_r[i*ylen], epsilon_r[i], sizeof(float)*ylen );
 }
+
 
 error=clEnqueueWriteBuffer(cq, ggEx, CL_FALSE, 0, zlen*ylen*sizeof(float), gEx, 0, NULL, NULL);
 error=clEnqueueWriteBuffer(cq, ggEy, CL_FALSE, 0, zlen*ylen*sizeof(float), gEy, 0, NULL, NULL);
@@ -439,9 +398,9 @@ do
 	//printf_log(sim,"%ld\n",step);
 }while(step<max_ittr);//
 
-
-free_all(sim);
 */
+fdtd_free_all(sim,&data);
+
 return 0;
 }
 
