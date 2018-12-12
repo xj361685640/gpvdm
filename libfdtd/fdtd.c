@@ -1,3 +1,22 @@
+//
+//  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
+//  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
+// 
+//  Copyright (C) 2012-2017 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
+//
+//	https://www.gpvdm.com
+//	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
+//
+//
+// This program is free software; you can redistribute it and/or modify it
+// under the terms and conditions of the GNU General Public License,
+// version 2, as published by the Free Software Foundation.
+//
+// This program is distributed in the hope it will be useful, but WITHOUT
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+// FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+// more details.
+
 #include <math.h>
 #include <strings.h>
 #include <stdio.h>
@@ -152,49 +171,49 @@ pos+=dx;
 }
 }
 
-void dump_all(float* y, float* z)
+void dump_all(struct simulation *sim,float* y, float* z)
 {
 int i;
 int j;
-printf("Dumping\n");
+printf_log(sim,"Dumping\n");
 FILE *out=fopen("./Ex_final.dat","w");
 
 for (j=0;j<ylen;j++)
 {
 	for (i=0;i<zlen;i++)
 	{
-		fprintf(out,"%le %le %le\n",z[i],y[j],Ex[i][j]);
+		printf_log(out,"%le %le %le\n",z[i],y[j],Ex[i][j]);
 	}
 
-fprintf(out,"\n");
+printf_log(out,"\n");
 }
 fclose(out);
-printf("Dumping\n");
+printf_log(sim,"Dumping\n");
 out=fopen("./Ey_final.dat","w");
 
 for (j=0;j<ylen;j++)
 {
 	for (i=0;i<zlen;i++)
 	{
-		fprintf(out,"%le %le %le\n",z[i],y[j],Ey[i][j]);
+		printf_log(out,"%le %le %le\n",z[i],y[j],Ey[i][j]);
 	}
 
-fprintf(out,"\n");
+printf_log(out,"\n");
 }
 fclose(out);
-printf("Dumping\n");
+printf_log(sim,"Dumping\n");
 out=fopen("./Ez_final.dat","w");
 for (j=0;j<ylen;j++)
 {
 	for (i=0;i<zlen;i++)
 	{
-		fprintf(out,"%le %le %le\n",z[i],y[j],Ex[i][j]);
+		printf_log(out,"%le %le %le\n",z[i],y[j],Ex[i][j]);
 	}
 
-fprintf(out,"\n");
+printf_log(out,"\n");
 }
 fclose(out);
-printf("Dumping\n");
+printf_log(sim,"Dumping\n");
 out=fopen("./epsilon_r_final.dat","w");
 
 for (j=0;j<ylen;j++)
@@ -202,15 +221,15 @@ for (j=0;j<ylen;j++)
 
 	for (i=0;i<zlen;i++)
 	{
-		fprintf(out,"%le %le %le\n",z[i],y[j],epsilon_r[i][j]);
+		printf_log(out,"%le %le %le\n",z[i],y[j],epsilon_r[i][j]);
 	}
 
-fprintf(out,"\n");
+printf_log(out,"\n");
 }
 fclose(out);
 }
 
-void free_all()
+void free_all(struct simulation *sim)
 {
 int i;
 
@@ -276,196 +295,67 @@ fflush(gnuplot2);
 pclose(gnuplot2);
 }
 
-printf("Freeingall\n");
+printf_log(sim,"Freeingall\n");
 cl_int l_success;
 l_success=clReleaseMemObject(ggEx);
-if( l_success != CL_SUCCESS) printf("Can not free\n");
+if( l_success != CL_SUCCESS) printf_log(sim,"Can not free\n");
 l_success=clReleaseMemObject(ggEy);
-if( l_success != CL_SUCCESS) printf("Can not free\n");
+if( l_success != CL_SUCCESS) printf_log(sim,"Can not free\n");
 l_success=clReleaseMemObject(ggEz);
-if( l_success != CL_SUCCESS) printf("Can not free\n");
+if( l_success != CL_SUCCESS) printf_log(sim,"Can not free\n");
 l_success=clReleaseMemObject(ggHx);
-if( l_success != CL_SUCCESS) printf("Can not free\n");
+if( l_success != CL_SUCCESS) printf_log(sim,"Can not free\n");
 l_success=clReleaseMemObject(ggHy);
-if( l_success != CL_SUCCESS) printf("Can not free\n");
+if( l_success != CL_SUCCESS) printf_log(sim,"Can not free\n");
 l_success=clReleaseMemObject(ggHz);
-if( l_success != CL_SUCCESS) printf("Can not free\n");
+if( l_success != CL_SUCCESS) printf_log(sim,"Can not free\n");
 l_success=clReleaseMemObject(ggEx_last);
-if( l_success != CL_SUCCESS) printf("Can not free\n");
+if( l_success != CL_SUCCESS) printf_log(sim,"Can not free\n");
 l_success=clReleaseMemObject(ggEy_last);
-if( l_success != CL_SUCCESS) printf("Can not free\n");
+if( l_success != CL_SUCCESS) printf_log(sim,"Can not free\n");
 l_success=clReleaseMemObject(ggEz_last);
-if( l_success != CL_SUCCESS) printf("Can not free\n");
+if( l_success != CL_SUCCESS) printf_log(sim,"Can not free\n");
 l_success=clReleaseMemObject(ggHx_last);
-if( l_success != CL_SUCCESS) printf("Can not free\n");
+if( l_success != CL_SUCCESS) printf_log(sim,"Can not free\n");
 l_success=clReleaseMemObject(ggHy_last);
-if( l_success != CL_SUCCESS) printf("Can not free\n");
+if( l_success != CL_SUCCESS) printf_log(sim,"Can not free\n");
 l_success=clReleaseMemObject(ggHz_last);
-if( l_success != CL_SUCCESS) printf("Can not free\n");
+if( l_success != CL_SUCCESS) printf_log(sim,"Can not free\n");
 l_success=clReleaseMemObject(ggepsilon_r);
-if( l_success != CL_SUCCESS) printf("Can not free\n");
+if( l_success != CL_SUCCESS) printf_log(sim,"Can not free\n");
 l_success=clReleaseMemObject(ggy);
-if( l_success != CL_SUCCESS) printf("Can not free\n");
+if( l_success != CL_SUCCESS) printf_log(sim,"Can not free\n");
 l_success=clReleaseMemObject(ggC);
 
 l_success=clReleaseProgram(prog);
-if( l_success != CL_SUCCESS) printf("Can not free\n");
+if( l_success != CL_SUCCESS) printf_log(sim,"Can not free\n");
 l_success=clReleaseKernel(cal_E);
-if( l_success != CL_SUCCESS) printf("Can not free\n");
+if( l_success != CL_SUCCESS) printf_log(sim,"Can not free\n");
 l_success=clReleaseKernel(cal_H);
-if( l_success != CL_SUCCESS) printf("Can not free\n");
+if( l_success != CL_SUCCESS) printf_log(sim,"Can not free\n");
 l_success=clReleaseKernel(update_E);
-if( l_success != CL_SUCCESS) printf("Can not free\n");
+if( l_success != CL_SUCCESS) printf_log(sim,"Can not free\n");
 l_success=clReleaseKernel(update_H);
-if( l_success != CL_SUCCESS) printf("Can not free\n");
+if( l_success != CL_SUCCESS) printf_log(sim,"Can not free\n");
 
 clReleaseCommandQueue(cq);
 clReleaseContext(context);
 }
 
-void my_handler(int s)
+/*void my_handler(int s)
 {
 free_all();
-           printf("Caught signal %d\n",s);
+           printf_log(sim,"Caught signal %d\n",s);
            exit(1); 
 
-}
+}*/
 
-void near_to_far(double *x, double *E,int len,double *y, double *E_right,int len_right)
-{
-int i;
-double dx=x[1]-x[0];
-double dy=y[1]-y[0];
-double mid=x[len/2];
-struct vec start;
-struct vec stop;
-double left=-0.1;
-double right=0.1;
-double dist=0.01;
-double pos=left;
-double *far=NULL;
-far=malloc(sizeof(double)*len_far);
-double dfar=(right-left)/((double)len_far);
-int j;
-
-if (far_avg==NULL)
-{
-far_avg=malloc(sizeof(double)*len_far);
-near_top_avg=malloc(sizeof(double)*len);
-near_right_avg=malloc(sizeof(double)*len_right);
-xfar=malloc(sizeof(double)*len_far);
-	for (j=0;j<len_far;j++)
-	{
-		far_avg[j]=0.0;
-	}
-
-	for (j=0;j<len;j++)
-	{
-		near_top_avg[j]=0.0;
-	}
-
-	for (j=0;j<len_right;j++)
-	{
-		near_right_avg[j]=0.0;
-	}
-
-}
-
-pos=left;
-double k=(2.0*pi/lambda);
-double modr;
-double complex cresult;
-double result;
-int n;
-
-//FILE *out=fopen("./near_top.dat","w");
-for (j=0;j<len;j++)
-{
-	near_top_avg[j]+=E[j];//pow(E[j],2.0);
-	//	near_right_avg[j]=0.0;fprintf(out,"%le %le\n",x[j], );
-}
-//fclose(out);
-
-//out=fopen("./near_right.dat","w");
-for (j=0;j<len_right;j++)
-{
-	near_right_avg[j]+=pow(E_right[j],2.0);
-	//fprintf(out,"%le %le\n",y[j], pow(E_right[j],2.0));
-}
-//fclose(out);
-
-double theta;
-
-struct vec dr;
-
-pos=-80;
-double dtheta=160/(double)len_far;
-for (j=0;j<len_far;j++)
-{
-xfar[j]=pos;
-pos+=dtheta;
-}
-
-for (j=0;j<len_far;j++)
-{
-result=0.0;
-	//for (n=0;n<8;n++)
-	{
-		pos=dist*tan((2*pi/360.0)*xfar[j]);
-		complex cresult=0+0*I;
-		for (i=0;i<len;i++)
-		{
-			vec_set(&start,0.0,0.0,x[i]-mid);
-			vec_set(&stop,0.0,pos,dist);
-			//vec_set(&start,0.0,x[i]-mid-((double)n)*x[len-1],0.0);
-			//vec_set(&stop,0.0,pos,dist);
-			vec_cpy(&dr,&stop);
-			vec_sub(&dr,&start);
-			modr=vec_mod(&dr);
-			cresult+=dx*E[i]*cexp(I*k*modr*-1.0)/modr;
-		}
-
-		for (i=len_right;i<len_right;i++)
-		{
-			vec_set(&start,0.0,y[i]-y[len_right-1],x[len-1]-mid);
-			vec_set(&stop,0.0,pos,dist);
-			//vec_set(&start,0.0,x[i]-mid-((double)n)*x[len-1],0.0);
-			//vec_set(&stop,0.0,pos,dist);
-			vec_cpy(&dr,&stop);
-			vec_sub(&dr,&start);
-			modr=vec_mod(&dr);
-			cresult+=dy*E_right[i]*cexp(I*k*modr*-1.0)/modr;
-		}
-
-		result=cabs(cresult);
-
-	}
-theta=(360.0/(2.0*pi))*atan(pos/dist);
-far[j]=fabs(result);
-
-}
-
-pos=left;
-
-
-//out=fopen("./far.dat","w");
-for (j=0;j<len_far;j++)
-{
-	far_avg[j]+=far[j];
-//	fprintf(out,"%lf %le\n",xfar[j], far_avg[j]/((double)far_steps));
-}
-//fclose(out);
-
-
-
-far_steps+=1.0;
-free(far);
-
-}
 
 
 int do_fdtd(struct simulation *sim)
 {
+struct fdtd_data data;
+
 int max_ittr=0;
 float height=16e-10;
 float start=1e-10;
@@ -485,46 +375,22 @@ if (inp_load_from_path(&sim,&inp,sim->input_path,"fdtd.inp")!=0)
 }
 inp_check(sim,&inp,1.0);
 inp_search_float(sim,&inp,&gap,"#gap");
+inp_search_int(sim,&inp,&gap,"#max_ittr");
+inp_search_int(sim,&inp,&gap,"#ylen");
+printf_log(sim,"ylen=%d\n",ylen);
+inp_search_int(sim,&inp,&gap,"#zlen");
+printf_log(sim,"zlen=%d\n",zlen);
+inp_search_float(sim,&inp,&ysize,"#ysize");
+printf_log(sim,"ysize=%e\n",ysize);
+inp_search_float(sim,&inp,&ysize,"#zsize");
+printf_log(sim,"zsize=%e\n",zsize);
+inp_search_int(sim,&inp,&lam_jmax,"#lam_jmax");
+printf_log(sim,"lam_jmax=%d\n",lam_jmax);
+inp_search_float(sim,&inp,&sithick,"#sithick");
+printf_log(sim,"sithick=%e\n",sithick);
+inp_search_int(sim,&inp,&plot,"#plot");
 inp_free(sim,&inp);
 
-printf("ok\n");
-exit(0);
-FILE *config=fopen("config.inp","r");
-
-
-fscanf(config,"%s",temp);
-fscanf(config,"%ld",&max_ittr);
-
-fscanf(config,"%s",temp);
-fscanf(config,"%d",&ylen);
-printf("ylen=%d\n",ylen);
-
-fscanf(config,"%s",temp);
-//fscanf(config,"%s",temp);
-fscanf(config,"%d",&zlen);
-printf("ylen=%d\n",zlen);
-
-fscanf(config,"%s",temp);
-fscanf(config,"%e",&ysize);
-printf("ysize=%e\n",ysize);
-
-fscanf(config,"%s",temp);
-fscanf(config,"%e",&zsize);
-printf("zsize=%e\n",zsize);
-
-fscanf(config,"%s",temp);
-fscanf(config,"%d",&lam_jmax);
-printf("lam_jmax=%d\n",lam_jmax);
-
-fscanf(config,"%s",temp);
-fscanf(config,"%e",&sithick);
-printf("sithick=%e\n",sithick);
-
-fscanf(config,"%s",temp);
-fscanf(config,"%d",&plot);
-printf("plot=%e\n",plot);
-
-fclose(config);
 
 int i;
 int pos=0;
@@ -540,10 +406,10 @@ cl_int l_success = clGetPlatformInfo(platform,CL_PLATFORM_VENDOR, 0, NULL, &size
 
 if( l_success != CL_SUCCESS)
 {
-	printf("Failed getting vendor name size.\n");
+	printf_log(sim,"Failed getting vendor name size.\n");
 	return -1;
 }
-  printf("l_success = %d, size = %d\n", l_success, size);
+  printf_log(sim,"l_success = %d, size = %d\n", l_success, size);
   char* vendor = NULL;
   vendor = malloc(size);
   if( vendor )
@@ -551,12 +417,12 @@ if( l_success != CL_SUCCESS)
     l_success = clGetPlatformInfo(platform,CL_PLATFORM_VENDOR, size, vendor, &size);
     if( l_success != CL_SUCCESS )
     {
-      printf("Failed getting vendor name.\n");
+      printf_log(sim,"Failed getting vendor name.\n");
       return -1;
     }
-    printf("Vendor name is '%s', length is %d\n", vendor, strlen(vendor));
+    printf_log(sim,"Vendor name is '%s', length is %d\n", vendor, strlen(vendor));
   } else {
-    printf("malloc failed.\n");
+    printf_log(sim,"malloc failed.\n");
     return -1;
   }
 
@@ -570,21 +436,21 @@ cl_ulong long_entries;
 size_t p_size;
 cl_uint entries;
 		clGetDeviceInfo(device, CL_DEVICE_NAME, 500, dname,NULL);
-		printf("Device name = %s\n", dname);
+		printf_log(sim,"Device name = %s\n", dname);
 		clGetDeviceInfo(device,CL_DRIVER_VERSION, 500, dname,NULL);
-		printf("\tDriver version = %s\n", dname);
+		printf_log(sim,"\tDriver version = %s\n", dname);
 		clGetDeviceInfo(device,CL_DEVICE_GLOBAL_MEM_SIZE,sizeof(cl_ulong),&long_entries,NULL);
-		printf("\tGlobal Memory (MB):\t%llu\n",long_entries/1024/1024);
+		printf_log(sim,"\tGlobal Memory (MB):\t%llu\n",long_entries/1024/1024);
 		clGetDeviceInfo(device,CL_DEVICE_GLOBAL_MEM_CACHE_SIZE,sizeof(cl_ulong),&long_entries,NULL);
-		printf("\tGlobal Memory Cache (MB):\t%llu\n",long_entries/1024/1024);
+		printf_log(sim,"\tGlobal Memory Cache (MB):\t%llu\n",long_entries/1024/1024);
 		clGetDeviceInfo(device,CL_DEVICE_LOCAL_MEM_SIZE,sizeof(cl_ulong),&long_entries,NULL);
-		printf("\tLocal Memory (KB):\t%llu\n",long_entries/1024);
+		printf_log(sim,"\tLocal Memory (KB):\t%llu\n",long_entries/1024);
 		clGetDeviceInfo(device,CL_DEVICE_MAX_CLOCK_FREQUENCY,sizeof(cl_ulong),&long_entries,NULL);
-		printf("\tMax clock (MHz) :\t%llu\n",long_entries);
+		printf_log(sim,"\tMax clock (MHz) :\t%llu\n",long_entries);
 		clGetDeviceInfo(device,CL_DEVICE_MAX_WORK_GROUP_SIZE,sizeof(size_t),&p_size,NULL);
-		printf("\tMax Work Group Size:\t%d\n",p_size);
+		printf_log(sim,"\tMax Work Group Size:\t%d\n",p_size);
 		clGetDeviceInfo(device,CL_DEVICE_MAX_COMPUTE_UNITS,sizeof(cl_uint),&entries,NULL);
-		printf("\tNumber of parallel compute cores:\t%d\n",entries);
+		printf_log(sim,"\tNumber of parallel compute cores:\t%d\n",entries);
 
 
 	// Note that nVidia's OpenCL requires the platform property
@@ -592,29 +458,27 @@ cl_uint entries;
 
 	cq = clCreateCommandQueue(context, device, 0, &error);
         if ( error != CL_SUCCESS ) {
-                printf( "clCreateCommandQueue error" );
-                printf("\n Error number %d", error);
+                printf_log(sim, "clCreateCommandQueue error" );
+                printf_log(sim,"\n Error number %d", error);
 		exit(0);
         }
 
-        char src[20000];
-        FILE *fil=fopen("code.cl","r");
-        srcsize=fread(src, sizeof src, 1, fil);
-        fclose(fil);
+	srcsize=fdtd_load_code(sim,&data);
 
-	const char *srcptr[]={src};
+	const char *srcptr[]={data.src_code};
 	// Submit the source code of the rot13 kernel to OpenCL
 	prog=clCreateProgramWithSource(context,1, srcptr, &srcsize, &error);
 	// and compile it (after this we could extract the compiled version)
 	error=clBuildProgram(prog, 0, NULL, "", NULL, NULL);
-        if ( error != CL_SUCCESS ) {
-		char build_c[20000];
-                printf( "Error on buildProgram " );
-                printf("\n Error number %d", error);
-                fprintf( stdout, "\nRequestingInfo\n" );
-                clGetProgramBuildInfo( prog, device, CL_PROGRAM_BUILD_LOG, 20000, build_c, NULL );
-                printf( "Build Log for %s_program:\n%s\n", "example", build_c );
-		exit(0);
+        if ( error != CL_SUCCESS )
+		{
+			char build_c[20000];
+			printf_log(sim, "Error on buildProgram " );
+			printf_log(sim,"\n Error number %d", error);
+			fprintf( stdout, "\nRequestingInfo\n" );
+			clGetProgramBuildInfo( prog, device, CL_PROGRAM_BUILD_LOG, 20000, build_c, NULL );
+			printf_log(sim, "Build Log for %s_program:\n%s\n", "example", build_c );
+			exit(0);
         }
 
 
@@ -706,7 +570,7 @@ gy=(float *)malloc(sizeof(float)*ylen);
 ggEx=clCreateBuffer(context, CL_MEM_READ_WRITE, zlen*ylen*sizeof(float), NULL, &error);
 if (error!=CL_SUCCESS)
 {
-	printf("error Ex\n");
+	printf_log(sim,"error Ex\n");
 	exit(0);
 }
 
@@ -733,9 +597,9 @@ ggC=clCreateBuffer(context, CL_MEM_READ_WRITE, 17*sizeof(float), NULL, &error);
 
 struct sigaction sigIntHandler;
 
-sigIntHandler.sa_handler = my_handler;
-sigemptyset(&sigIntHandler.sa_mask);
-sigIntHandler.sa_flags = 0;
+//sigIntHandler.sa_handler = my_handler;
+//sigemptyset(&sigIntHandler.sa_mask);
+//sigIntHandler.sa_flags = 0;
 
 sigaction(SIGINT, &sigIntHandler, NULL);
 	
@@ -743,28 +607,28 @@ sigaction(SIGINT, &sigIntHandler, NULL);
 cal_E=clCreateKernel(prog, "cal_E", &error);
 if (error!=CL_SUCCESS)
 {
-	printf("Can not make E kernel\n");
+	printf_log(sim,"Can not make E kernel\n");
 	exit(0);
 }
 
 update_E=clCreateKernel(prog, "update_E", &error);
 if (error!=CL_SUCCESS)
 {
-	printf("Can not make E kernel\n");
+	printf_log(sim,"Can not make E kernel\n");
 	exit(0);
 }
 
 cal_H=clCreateKernel(prog, "cal_H", &error);
 if (error!=CL_SUCCESS)
 {
-	printf("Can not make H kernel\n");
+	printf_log(sim,"Can not make H kernel\n");
 	exit(0);
 }
 
 update_H=clCreateKernel(prog, "update_H", &error);
 if (error!=CL_SUCCESS)
 {
-	printf("Can not make E kernel\n");
+	printf_log(sim,"Can not make E kernel\n");
 	exit(0);
 }
 
@@ -790,7 +654,7 @@ error=clSetKernelArg(cal_E, 14, sizeof(cl_mem), &ggC);
 
 if (error!=CL_SUCCESS)
 {
-	printf("error!!!!!!!!!!!!!!!!!!\n");
+	printf_log(sim,"error!!!!!!!!!!!!!!!!!!\n");
 }
 
 clSetKernelArg(update_E, 0, sizeof(cl_mem), &ggEx);
@@ -815,7 +679,7 @@ error=clSetKernelArg(update_E, 14, sizeof(cl_mem), &ggC);
 
 if (error!=CL_SUCCESS)
 {
-	printf("error!!!!!!!!!!!!!!!!!!\n");
+	printf_log(sim,"error!!!!!!!!!!!!!!!!!!\n");
 }
 
 clSetKernelArg(cal_H, 0, sizeof(cl_mem), &ggEx);
@@ -840,7 +704,7 @@ error=clSetKernelArg(cal_H, 14, sizeof(cl_mem), &ggC);
 
 if (error!=CL_SUCCESS)
 {
-	printf("error!!!!!!!!!!!!!!!!!!\n");
+	printf_log(sim,"error!!!!!!!!!!!!!!!!!!\n");
 }
 
 clSetKernelArg(update_H, 0, sizeof(cl_mem), &ggEx);
@@ -865,7 +729,7 @@ error=clSetKernelArg(update_H, 14, sizeof(cl_mem), &ggC);
 
 if (error!=CL_SUCCESS)
 {
-	printf("error!!!!!!!!!!!!!!!!!!\n");
+	printf_log(sim,"error!!!!!!!!!!!!!!!!!!\n");
 }
 
 
@@ -968,7 +832,7 @@ memcpy(gy, y, sizeof(float)*ylen );
 error=clEnqueueWriteBuffer(cq, ggy, CL_FALSE, 0, ylen*sizeof(float), gy, 0, NULL, NULL);
 if (error!=CL_SUCCESS)
 {
-	printf("error!!!!!!!!!!!!!!!!!!\n");
+	printf_log(sim,"error!!!!!!!!!!!!!!!!!!\n");
 }
 
 for (i=0;i<zlen;i++)
@@ -1057,7 +921,7 @@ do
 	error=clEnqueueNDRangeKernel(cq, cal_E, 1, NULL, &global, &local, 0, NULL, NULL);
 	if (error!=CL_SUCCESS)
 	{
-		printf("Run error in E kernel\n");
+		printf_log(sim,"Run error in E kernel\n");
 	}
 	error=clFinish(cq);
 
@@ -1066,7 +930,7 @@ do
 	error=clEnqueueNDRangeKernel(cq, update_E, 1, NULL, &global, &local, 0, NULL, NULL);
 	if (error!=CL_SUCCESS)
 	{
-		printf("Run error in E kernel\n");
+		printf_log(sim,"Run error in E kernel\n");
 	}
 	error=clFinish(cq);
 
@@ -1075,7 +939,7 @@ do
 	error=clEnqueueNDRangeKernel(cq, cal_H, 1, NULL, &global, &local, 0, NULL, NULL);
 	if (error!=CL_SUCCESS)
 	{
-		printf("Run error in H kernel\n");
+		printf_log(sim,"Run error in H kernel\n");
 	}
 	error=clFinish(cq);
 
@@ -1083,7 +947,7 @@ do
 	error=clEnqueueNDRangeKernel(cq, update_H, 1, NULL, &global, &local, 0, NULL, NULL);
 	if (error!=CL_SUCCESS)
 	{
-		printf("Run error in E kernel\n");
+		printf_log(sim,"Run error in E kernel\n");
 	}
 	error=clFinish(cq);
 
@@ -1155,7 +1019,7 @@ do
 		fclose(out);
 
 		
-		printf("plot! %ld\n",step);
+		printf_log(sim,"plot! %ld\n",step);
 
 
 		if (plot==1)
@@ -1167,11 +1031,11 @@ do
 	}
 
 	time+=dt;
-	//printf("%ld\n",step);
+	//printf_log(sim,"%ld\n",step);
 }while(step<max_ittr);//
 
 
-free_all();
+free_all(sim);
 
 return 0;
 }

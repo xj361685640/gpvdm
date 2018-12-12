@@ -23,6 +23,11 @@
 #include <complex.h>
 #include "advmath.h"
 #include <sim_struct.h>
+
+struct fdtd_data
+{
+	char *src_code;
+};
 int do_fdtd(struct simulation *sim);
 
 #endif

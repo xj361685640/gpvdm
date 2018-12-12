@@ -6,7 +6,7 @@ LINK_FLAG=@LINK_FLAG@
 
 inc=-I../include/
 
-OBJS=fdtd.o
+OBJS=fdtd.o fdtd_util.o
 
 all: $(OBJS)
 	$(AR) rcs libgpvdm_fdtd.@SLIB_EXT@ $(OBJS)
