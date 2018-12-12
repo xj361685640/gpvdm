@@ -62,11 +62,11 @@ if ((i>0)&&(i<zlen-1))
 				theta=90.0;
 
 				float shift=-2.0;
-				a=sin(theta*(2.0*M_PI_F/360.0))*cos(phi*(2.0*M_PI_F/360.0));
-				b=sin(theta*(2.0*M_PI_F/360.0))*sin(phi*(2.0*M_PI_F/360.0));
-				c=cos(theta*(2.0*M_PI_F/360.0));
+				a=sin((float)(theta*(2.0*M_PI_F/360.0)))*cos((float)(phi*(2.0*M_PI_F/360.0)));
+				b=sin((float)(theta*(2.0*M_PI_F/360.0)))*sin((float)(phi*(2.0*M_PI_F/360.0)));
+				c=cos((float)(theta*(2.0*M_PI_F/360.0)));
 
-				dot=tan(2.0*M_PI_F*(shift)/360.0)*(y[j]-start)*2.0*M_PI_F/lambda;
+				dot=tan((float)(2.0*M_PI_F*(shift)/360.0))*(y[j]-start)*2.0*M_PI_F/lambda;
 				float mod=1.0;
 				//dot=0.0;
 				Ex[gid]=mod*a*sin(dot-time*omega);
@@ -225,7 +225,10 @@ float Cmx=C[12];
 float Cmy=C[13];
 float Cmz=C[14];
 const uint gid = get_global_id(0);//*2+get_local_id(0);
-if (gid==0) C[5]+=C[11];
+if (gid==0)
+{
+C[5]+=C[11];
+}
 if (gid < ylen*zlen)
 {
 Hx_last[gid]=Hx[gid];

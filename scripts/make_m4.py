@@ -73,6 +73,11 @@ def make_m4(hpc=False, win=False,usear=False):
 			config_files.append("libfit")
 			link_libs=link_libs+" -lgpvdm_fit"
 
+
+	if os.path.isdir("libfdtd"):
+		config_files.append("libfdtd")
+		link_libs=link_libs+" -lgpvdm_fdtd -lOpenCL"
+
 	for root, dirs, files in os.walk("./plugins"):
 		for file in files:
 			if file.endswith("Makefile.am"):

@@ -725,6 +725,18 @@ if (inp_search(sim,temp,in,token)==0)
 return -1;
 }
 
+int inp_search_float(struct simulation *sim,struct inp_file *in,float* out,char* token)
+{
+char temp[200];
+if (inp_search(sim,temp,in,token)==0)
+{
+	sscanf(temp,"%le",out);
+	return 0;
+}
+return -1;
+}
+
+
 void inp_search_double_offset(struct simulation *sim,struct inp_file *in,double* out,char* token,int offset)
 {
 char temp[200];

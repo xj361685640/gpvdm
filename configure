@@ -6056,9 +6056,9 @@ fi
 #i?86
 #x86_64
 
-BUILD_DIRS=" lang libi librpn libmemory libdos liblight libmeasure libcontacts lib libdump libdumpctrl libserver libmesh libfit plugins/optics plugins/newton plugins/nr_d plugins/pulse plugins/fxdomain plugins/light_flat plugins/light_ray plugins/li plugins/light_full plugins/newton_2d plugins/fit_stark plugins/nr_ld plugins/photon_extraction plugins/jv plugins/light_exp plugins/qe plugins/umfpack plugins/jv_one_point plugins/jv_simple plugins/sun_voc plugins/equilibrium plugins/light_fromfile plugins/newton_norm src images/16x16 images/32x32 images/48x32 images/64x64 images/icons/16x16 images/icons/32x32 images/icons/48x48 images/icons/64x64 images/icons/128x128 images/icons/256x256 images/icons/512x512 css html cluster_ docs desktop man "
+BUILD_DIRS=" lang libi librpn libmemory libdos liblight libmeasure libcontacts lib libdump libdumpctrl libserver libmesh libfit libfdtd plugins/optics plugins/newton plugins/nr_d plugins/pulse plugins/fxdomain plugins/light_flat plugins/light_ray plugins/li plugins/light_full plugins/newton_2d plugins/fit_stark plugins/nr_ld plugins/photon_extraction plugins/jv plugins/light_exp plugins/qe plugins/umfpack plugins/jv_one_point plugins/jv_simple plugins/sun_voc plugins/equilibrium plugins/light_fromfile plugins/newton_norm src images/16x16 images/32x32 images/48x32 images/64x64 images/icons/16x16 images/icons/32x32 images/icons/48x48 images/icons/64x64 images/icons/128x128 images/icons/256x256 images/icons/512x512 css html docs desktop man "
 
-LOCAL_LINK=" -lgpvdm_i -lgpvdm_rpn -lgpvdm_memory -lgpvdm_dos -lgpvdm_light -lgpvdm_measure -lgpvdm_contacts -lgpvdm_lib -lgpvdm_dump -lgpvdm_dumpctrl -lgpvdm_server -lgpvdm_mesh -lgpvdm_fit"
+LOCAL_LINK=" -lgpvdm_i -lgpvdm_rpn -lgpvdm_memory -lgpvdm_dos -lgpvdm_light -lgpvdm_measure -lgpvdm_contacts -lgpvdm_lib -lgpvdm_dump -lgpvdm_dumpctrl -lgpvdm_server -lgpvdm_mesh -lgpvdm_fit -lgpvdm_fdtd -lOpenCL"
 
 
 if test -n "$ac_tool_prefix"; then
@@ -6357,6 +6357,8 @@ ac_config_files="$ac_config_files libmesh/Makefile"
 
 ac_config_files="$ac_config_files libfit/Makefile"
 
+ac_config_files="$ac_config_files libfdtd/Makefile"
+
 ac_config_files="$ac_config_files plugins/optics/Makefile"
 
 ac_config_files="$ac_config_files plugins/newton/Makefile"
@@ -6430,8 +6432,6 @@ ac_config_files="$ac_config_files images/icons/512x512/Makefile"
 ac_config_files="$ac_config_files css/Makefile"
 
 ac_config_files="$ac_config_files html/Makefile"
-
-ac_config_files="$ac_config_files cluster_/Makefile"
 
 ac_config_files="$ac_config_files docs/Makefile"
 
@@ -7262,6 +7262,7 @@ do
     "libserver/Makefile") CONFIG_FILES="$CONFIG_FILES libserver/Makefile" ;;
     "libmesh/Makefile") CONFIG_FILES="$CONFIG_FILES libmesh/Makefile" ;;
     "libfit/Makefile") CONFIG_FILES="$CONFIG_FILES libfit/Makefile" ;;
+    "libfdtd/Makefile") CONFIG_FILES="$CONFIG_FILES libfdtd/Makefile" ;;
     "plugins/optics/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/optics/Makefile" ;;
     "plugins/newton/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/newton/Makefile" ;;
     "plugins/nr_d/Makefile") CONFIG_FILES="$CONFIG_FILES plugins/nr_d/Makefile" ;;
@@ -7299,7 +7300,6 @@ do
     "images/icons/512x512/Makefile") CONFIG_FILES="$CONFIG_FILES images/icons/512x512/Makefile" ;;
     "css/Makefile") CONFIG_FILES="$CONFIG_FILES css/Makefile" ;;
     "html/Makefile") CONFIG_FILES="$CONFIG_FILES html/Makefile" ;;
-    "cluster_/Makefile") CONFIG_FILES="$CONFIG_FILES cluster_/Makefile" ;;
     "docs/Makefile") CONFIG_FILES="$CONFIG_FILES docs/Makefile" ;;
     "desktop/Makefile") CONFIG_FILES="$CONFIG_FILES desktop/Makefile" ;;
     "man/Makefile") CONFIG_FILES="$CONFIG_FILES man/Makefile" ;;

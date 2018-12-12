@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 4.97\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2018-11-26 11:41+0000\n"
+"POT-Creation-Date: 2018-12-12 11:45+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -67,7 +67,7 @@ msgstr ""
 msgid "Generation rate"
 msgstr ""
 
-#: ../liblight/light_dump.c:312 ../src/main.c:67
+#: ../liblight/light_dump.c:312 ../src/main.c:72
 msgid "Hole generation rate"
 msgstr ""
 
@@ -690,86 +690,86 @@ msgstr ""
 msgid "Direction wrong"
 msgstr ""
 
-#: ../src/main.c:123 ../src/main.c:144
+#: ../src/main.c:128 ../src/main.c:149
 msgid "Copyright (C) 2012-2017 Roderick C. I. MacKenzie, Releced under GPLv2"
 msgstr ""
 
-#: ../src/main.c:125
+#: ../src/main.c:130
 msgid "options"
 msgstr ""
 
-#: ../src/main.c:127
+#: ../src/main.c:132
 msgid "Options"
 msgstr ""
 
-#: ../src/main.c:129
+#: ../src/main.c:134
 msgid "output data path"
 msgstr ""
 
-#: ../src/main.c:130
+#: ../src/main.c:135
 msgid "sets the input path"
 msgstr ""
 
-#: ../src/main.c:131 ../gui/command_args.py:81 ../gui/command_args.py:82
+#: ../src/main.c:136 ../gui/command_args.py:81 ../gui/command_args.py:82
 msgid "displays the current version"
 msgstr ""
 
-#: ../src/main.c:132
+#: ../src/main.c:137
 msgid "zip the results"
 msgstr ""
 
-#: ../src/main.c:133
+#: ../src/main.c:138
 msgid "Forces a simulation mode."
 msgstr ""
 
-#: ../src/main.c:134
+#: ../src/main.c:139
 msgid "sets the number of CPUs"
 msgstr ""
 
-#: ../src/main.c:136
+#: ../src/main.c:141
 msgid ""
 "Additional information about gpvdm is available at https://www.gpvdm.com."
 msgstr ""
 
-#: ../src/main.c:138
+#: ../src/main.c:143
 msgid "Report bugs to: roderick.mackenzie@nottingham.ac.uk"
 msgstr ""
 
-#: ../src/main.c:143
+#: ../src/main.c:148
 #, python-format
 msgid "gpvdm_core, Version %s\n"
 msgstr ""
 
-#: ../src/main.c:145
+#: ../src/main.c:150
 msgid "This is free software; see the source code for copying conditions."
 msgstr ""
 
-#: ../src/main.c:146
+#: ../src/main.c:151
 msgid "There is ABSOLUTELY NO WARRANTY; not even for MERCHANTABILITY or\n"
 msgstr ""
 
-#: ../src/main.c:147
+#: ../src/main.c:152
 msgid "FITNESS FOR A PARTICULAR PURPOSE.\n"
 msgstr ""
 
-#: ../src/main.c:198 ../gui/scan_tab.py:451 ../gui/constraints.py:143
+#: ../src/main.c:205 ../gui/scan_tab.py:451 ../gui/constraints.py:143
 #: ../gui/constraints.py:182 ../gui/fit_vars.py:155 ../gui/fit_patch.py:119
 msgid "Token"
 msgstr ""
 
-#: ../src/main.c:200
+#: ../src/main.c:207
 msgid "General-purpose Photovoltaic Device Model (https://www.gpvdm.com)\n"
 msgstr ""
 
-#: ../src/main.c:201
+#: ../src/main.c:208
 msgid "You should have received a copy of the GNU General Public License\n"
 msgstr ""
 
-#: ../src/main.c:202
+#: ../src/main.c:209
 msgid "along with this software.  If not, see www.gnu.org/licenses/.\n"
 msgstr ""
 
-#: ../src/main.c:204
+#: ../src/main.c:211
 msgid "If you wish to collaborate in anyway please get in touch:\n"
 msgstr ""
 
@@ -892,7 +892,7 @@ msgid "Circuit"
 msgstr ""
 
 #: ../gui/experiment_tab.py:75 ../gui/experiment_tab.py:76
-#: ../gui/ribbon_configure.py:56 ../gui/ribbon_configure.py:92
+#: ../gui/ribbon_configure.py:56 ../gui/ribbon_configure.py:96
 #: ../gui/gpvdm_viewer.py:330 ../gui/config_window.py:72 ../gui/ribbon.py:136
 #: ../gui/fit_window.py:175 ../gui/jvexperiment_tab.py:68
 #: ../gui/jvexperiment_tab.py:69 ../gui/fxexperiment_tab.py:80
@@ -940,14 +940,14 @@ msgid ""
 "mesh"
 msgstr ""
 
-#: ../gui/ribbon_configure.py:83
+#: ../gui/ribbon_configure.py:84
 msgid ""
 "<big><b>Mesh editor</b></big>\n"
 "Use this window to setup the mesh, the window can also be used to change the "
 "dimensionality of the simulation."
 msgstr ""
 
-#: ../gui/ribbon_configure.py:98
+#: ../gui/ribbon_configure.py:102
 msgid ""
 "<big><b>Configuration editor</b></big><br> Use this window to control "
 "advanced simulation parameters."
@@ -1394,7 +1394,7 @@ msgid ""
 msgstr ""
 
 #: ../gui/electrical.py:71 ../gui/electrical.py:121 ../gui/materials_main.py:64
-#: ../gui/materials_main.py:146 ../gui/inp_description.py:55
+#: ../gui/materials_main.py:146 ../gui/inp_description.py:56
 msgid "Luminescence"
 msgstr ""
 
@@ -2417,7 +2417,7 @@ msgid "Insert reference information"
 msgstr ""
 
 #: ../gui/ribbon_materials.py:74 ../gui/timedomain_ribbon.py:69
-#: ../gui/fxexperiment.py:193 ../gui/equation.py:332 ../gui/gl.py:505
+#: ../gui/fxexperiment.py:193 ../gui/equation.py:332 ../gui/gl.py:518
 msgid "Save image"
 msgstr ""
 
@@ -2613,7 +2613,7 @@ msgstr ""
 msgid "Configuration"
 msgstr ""
 
-#: ../gui/display.py:187
+#: ../gui/display.py:188
 msgid ""
 "<big><b>OpenGL warning</b></big><br>It looks as if you don't have working 3D "
 "graphics acceleration on your computer.  gpvdm will therefore fallback to 2D "
@@ -2809,22 +2809,26 @@ msgid "Light Exp"
 msgstr ""
 
 #: ../gui/inp_description.py:50
-msgid "Sun Voc"
+msgid "FDTD"
 msgstr ""
 
 #: ../gui/inp_description.py:51
-msgid "TPC"
+msgid "Sun Voc"
 msgstr ""
 
 #: ../gui/inp_description.py:52
-msgid "Fit"
+msgid "TPC"
 msgstr ""
 
 #: ../gui/inp_description.py:53
-msgid "Bands"
+msgid "Fit"
 msgstr ""
 
 #: ../gui/inp_description.py:54
+msgid "Bands"
+msgstr ""
+
+#: ../gui/inp_description.py:55
 msgid "Density of States"
 msgstr ""
 
@@ -4991,7 +4995,7 @@ msgstr ""
 msgid "value"
 msgstr ""
 
-#: ../gui/gl.py:695
+#: ../gui/gl.py:708
 msgid "active"
 msgstr ""
 

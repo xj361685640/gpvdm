@@ -34,6 +34,7 @@ int inp_load(struct simulation *sim,struct inp_file *in,char *file);
 void inp_free(struct simulation *sim,struct inp_file *in);
 int inp_search_gdouble(struct simulation *sim,struct inp_file *in,gdouble* out,char* token);
 int inp_search_double(struct simulation *sim,struct inp_file *in,double* out,char* token);
+int inp_search_float(struct simulation *sim,struct inp_file *in,float* out,char* token);
 void inp_search_int(struct simulation *sim,struct inp_file *in,int* out,char* token);
 void inp_search_string(struct simulation *sim,struct inp_file *in,char* out,char* token);
 int inp_search(struct simulation *sim,char* out,struct inp_file *in,char *token);

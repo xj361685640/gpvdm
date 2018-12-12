@@ -91,6 +91,7 @@ file_list.append(file_type(name="contacts.inp",dest="archive",copy_opp=file_type
 file_list.append(file_type(name="constraints.inp",dest="archive",copy_opp=file_type().CHECK_VER_THEN_COPY,base_file="constraints.inp"))
 file_list.append(file_type(name="duplicate.inp",dest="archive",copy_opp=file_type().CHECK_VER_THEN_COPY,base_file="duplicate.inp"))
 file_list.append(file_type(name="thermal.inp",dest="archive",copy_opp=file_type().MERGE,base_file="thermal.inp"))
+file_list.append(file_type(name="fdtd.inp",dest="archive",copy_opp=file_type().MERGE,base_file="fdtd.inp"))
 file_list.append(file_type(name="mesh_x.inp",dest="archive",copy_opp=file_type().CHECK_VER_THEN_COPY,base_file="mesh_x.inp"))
 file_list.append(file_type(name="mesh_y.inp",dest="archive",copy_opp=file_type().CHECK_VER_THEN_COPY,base_file="mesh_y.inp"))
 file_list.append(file_type(name="mesh_z.inp",dest="archive",copy_opp=file_type().CHECK_VER_THEN_COPY,base_file="mesh_z.inp"))
