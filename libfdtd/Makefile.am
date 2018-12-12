@@ -6,7 +6,7 @@ LINK_FLAG=@LINK_FLAG@
 
 inc=-I../include/
 
-OBJS=fdtd.o fdtd_util.o
+OBJS=fdtd.o fdtd_config.o fdtd_mem.o fdtd_util.o opencl_init.o fdtd_kernel.o
 
 all: $(OBJS)
 	$(AR) rcs libgpvdm_fdtd.@SLIB_EXT@ $(OBJS)

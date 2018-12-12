@@ -2,7 +2,7 @@
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
 // 
-//  Copyright (C) 2012-2017 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
+//  Copyright (C) 2012-2016 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
 //	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
@@ -16,7 +16,6 @@
 // ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
-
 
 #include <math.h>
 #include <strings.h>
@@ -38,36 +37,60 @@
 
 #include "vec.h"
 
-void fdtd_init(struct fdtd_data *data)
+void dump_all(struct simulation *sim,float* y, float* z)
 {
-	data->src_code=NULL;
-	data->gnuplot=NULL;
-	data->gnuplot2=NULL;
-	data->zlen=-1;
-	data->ylen=-1;
-	data->max_ittr-1;
-	data->src_start=-1;
-	data->src_stop=-1;
-	data->lambda=-1;
-}
+int i;
+int j;
+printf_log(sim,"Dumping\n");
+FILE *out=fopen("./Ex_final.dat","w");
 
-size_t fdtd_load_code(struct simulation *sim,struct fdtd_data *data)
+for (j=0;j<ylen;j++)
 {
-	size_t srcsize;
-	int file_size=0;
-    FILE *in=fopen("./libfdtd/code.cl","r");
-	if (in==NULL)
+	for (i=0;i<zlen;i++)
 	{
-		ewe(sim,"I could not find the OpenCL code\n");
+		printf_log(out,"%le %le %le\n",z[i],y[j],Ex[i][j]);
 	}
 
-	fseek(in, 0, SEEK_END);
-	file_size = ftell(in)+10;
-	fseek(in, 0, SEEK_SET);
+printf_log(out,"\n");
+}
+fclose(out);
+printf_log(sim,"Dumping\n");
+out=fopen("./Ey_final.dat","w");
 
-	data->src_code=malloc(sizeof(char)*file_size);
+for (j=0;j<ylen;j++)
+{
+	for (i=0;i<zlen;i++)
+	{
+		printf_log(out,"%le %le %le\n",z[i],y[j],Ey[i][j]);
+	}
 
-    srcsize=fread(data->src_code, file_size, 1, in);
-    fclose(in);
-	return srcsize;
+printf_log(out,"\n");
+}
+fclose(out);
+printf_log(sim,"Dumping\n");
+out=fopen("./Ez_final.dat","w");
+for (j=0;j<ylen;j++)
+{
+	for (i=0;i<zlen;i++)
+	{
+		printf_log(out,"%le %le %le\n",z[i],y[j],Ex[i][j]);
+	}
+
+printf_log(out,"\n");
+}
+fclose(out);
+printf_log(sim,"Dumping\n");
+out=fopen("./epsilon_r_final.dat","w");
+
+for (j=0;j<ylen;j++)
+{
+
+	for (i=0;i<zlen;i++)
+	{
+		printf_log(out,"%le %le %le\n",z[i],y[j],epsilon_r[i][j]);
+	}
+
+printf_log(out,"\n");
+}
+fclose(out);
 }

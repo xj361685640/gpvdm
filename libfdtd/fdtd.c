@@ -37,59 +37,13 @@
 
 #include "vec.h"
 
-int zlen=800;
-int ylen=800;
 int dump_number=0;
-float **Ex;
-float **Ey;
-float **Ez;
-float **Hx;
-float **Hy;
-float **Hz;
-float **Ex_last;
-float **Ey_last;
-float **Ez_last;
-float **Ex_last_last;
-float **Ey_last_last;
-float **Ez_last_last;
-float **Hx_last;
-float **Hy_last;
-float **Hz_last;
-float **epsilon_r;
-float **z_ang;
-float dt=0.0;
-float dt2=0.0;
-float xsize=0;
-float zsize=0;
-float ysize=0;
 
-float *gEx;
-float *gEy;
-float *gEz;
-float *gHx;
-float *gHy;
-float *gHz;
-float *gEx_last;
-float *gEy_last;
-float *gEz_last;
-float *gHx_last;
-float *gHy_last;
-float *gHz_last;
-float *gepsilon_r;
-float *gy;
-
-int plot=0;
-
-FILE *gnuplot=NULL;
-FILE *gnuplot2=NULL;
 
 float c=3e8;
 float epsilon0f=8.85418782e-12;
 float mu0=1.25663706e-6;
 float pi=3.141592653;
-float lambda=0.0;
-float src_start=0.0;
-float src_stop=0.0;
 double *far_avg=NULL;
 double *near_right_avg=NULL;
 double *near_top_avg=NULL;
@@ -100,247 +54,7 @@ float dx=0.0;//xsize/((float)zlen);
 float dy=0.0;//ysize/((float)ylen);
 float dz=0.0;//zsize/((float)zlen);
 
-cl_mem ggEx;
-cl_mem ggEy;
-cl_mem ggEz;
 
-cl_mem ggHx;
-cl_mem ggHy;
-cl_mem ggHz;
-
-cl_mem ggEx_last;
-cl_mem ggEy_last;
-cl_mem ggEz_last;
-
-cl_mem ggHx_last;
-cl_mem ggHy_last;
-cl_mem ggHz_last;
-
-cl_mem ggepsilon_r;
-
-cl_mem ggy;
-cl_mem ggC;
-
-cl_kernel cal_E;
-cl_kernel update_E;
-cl_kernel cal_H;
-cl_kernel update_H;
-cl_program prog;
-cl_command_queue cq;
-cl_context context;
-cl_device_id device;
-
-void lam(float *y,float *z,float **epsilon_r,float ybtm,float ytop,double on_width,double off_width)
-{
-int i;
-int j;
-double dx=z[1]-z[0];
-int lcount=0;
-int on=0;
-double pos=0.0;
-if (off_width==0.0) return;
-for (i=0;i<zlen;i++)
-{
-	for (j=0;j<ylen;j++)
-	{
-		if ((on==1)&&(y[j]<ytop)&&(y[j]>ybtm))
-		{
-			epsilon_r[i][j]=14.0;
-		}
-	}
-
-	if (on==0)
-	{
-		if (pos>off_width)
-		{
-		on=1;
-		pos=0.0;
-		}
-	}
-
-	if (on==1)
-	{
-		if (pos>on_width)
-		{
-		on=0;
-		pos=0.0;
-		}
-	}
-
-pos+=dx;
-}
-}
-
-void dump_all(struct simulation *sim,float* y, float* z)
-{
-int i;
-int j;
-printf_log(sim,"Dumping\n");
-FILE *out=fopen("./Ex_final.dat","w");
-
-for (j=0;j<ylen;j++)
-{
-	for (i=0;i<zlen;i++)
-	{
-		printf_log(out,"%le %le %le\n",z[i],y[j],Ex[i][j]);
-	}
-
-printf_log(out,"\n");
-}
-fclose(out);
-printf_log(sim,"Dumping\n");
-out=fopen("./Ey_final.dat","w");
-
-for (j=0;j<ylen;j++)
-{
-	for (i=0;i<zlen;i++)
-	{
-		printf_log(out,"%le %le %le\n",z[i],y[j],Ey[i][j]);
-	}
-
-printf_log(out,"\n");
-}
-fclose(out);
-printf_log(sim,"Dumping\n");
-out=fopen("./Ez_final.dat","w");
-for (j=0;j<ylen;j++)
-{
-	for (i=0;i<zlen;i++)
-	{
-		printf_log(out,"%le %le %le\n",z[i],y[j],Ex[i][j]);
-	}
-
-printf_log(out,"\n");
-}
-fclose(out);
-printf_log(sim,"Dumping\n");
-out=fopen("./epsilon_r_final.dat","w");
-
-for (j=0;j<ylen;j++)
-{
-
-	for (i=0;i<zlen;i++)
-	{
-		printf_log(out,"%le %le %le\n",z[i],y[j],epsilon_r[i][j]);
-	}
-
-printf_log(out,"\n");
-}
-fclose(out);
-}
-
-void free_all(struct simulation *sim)
-{
-int i;
-
-
-for (i=0;i<zlen;i++)
-{
-	free(Ex[i]);
-	free(Ey[i]);
-	free(Ez[i]);
-	free(Hx[i]);
-	free(Hy[i]);
-	free(Hz[i]);
-	free(Ex_last[i]);
-	free(Ey_last[i]);
-	free(Ez_last[i]);
-	free(Hx_last[i]);
-	free(Hy_last[i]);
-	free(Hz_last[i]);
-	free(epsilon_r[i]);
-}
-
-free(Ex);
-free(Ey);
-free(Ez);
-free(Hx);
-free(Hy);
-free(Hz);
-free(Ex_last);
-free(Ey_last);
-free(Ez_last);
-free(Hx_last);
-free(Hy_last);
-free(Hz_last);
-free(epsilon_r);
-
-
-free(gEx);
-free(gEy);
-free(gEz);
-free(gHx);
-free(gHy);
-free(gHz);
-free(gEx_last);
-free(gEy_last);
-free(gEz_last);
-free(gHx_last);
-free(gHy_last);
-free(gHz_last);
-free(gepsilon_r);
-free(gy);
-
-if (gnuplot!=NULL)
-{
-fprintf(gnuplot, "exit\n");
-fflush(gnuplot);
-pclose(gnuplot);
-}
-
-if (gnuplot2!=NULL)
-{
-fprintf(gnuplot2, "exit\n");
-fflush(gnuplot2);
-pclose(gnuplot2);
-}
-
-printf_log(sim,"Freeingall\n");
-cl_int l_success;
-l_success=clReleaseMemObject(ggEx);
-if( l_success != CL_SUCCESS) printf_log(sim,"Can not free\n");
-l_success=clReleaseMemObject(ggEy);
-if( l_success != CL_SUCCESS) printf_log(sim,"Can not free\n");
-l_success=clReleaseMemObject(ggEz);
-if( l_success != CL_SUCCESS) printf_log(sim,"Can not free\n");
-l_success=clReleaseMemObject(ggHx);
-if( l_success != CL_SUCCESS) printf_log(sim,"Can not free\n");
-l_success=clReleaseMemObject(ggHy);
-if( l_success != CL_SUCCESS) printf_log(sim,"Can not free\n");
-l_success=clReleaseMemObject(ggHz);
-if( l_success != CL_SUCCESS) printf_log(sim,"Can not free\n");
-l_success=clReleaseMemObject(ggEx_last);
-if( l_success != CL_SUCCESS) printf_log(sim,"Can not free\n");
-l_success=clReleaseMemObject(ggEy_last);
-if( l_success != CL_SUCCESS) printf_log(sim,"Can not free\n");
-l_success=clReleaseMemObject(ggEz_last);
-if( l_success != CL_SUCCESS) printf_log(sim,"Can not free\n");
-l_success=clReleaseMemObject(ggHx_last);
-if( l_success != CL_SUCCESS) printf_log(sim,"Can not free\n");
-l_success=clReleaseMemObject(ggHy_last);
-if( l_success != CL_SUCCESS) printf_log(sim,"Can not free\n");
-l_success=clReleaseMemObject(ggHz_last);
-if( l_success != CL_SUCCESS) printf_log(sim,"Can not free\n");
-l_success=clReleaseMemObject(ggepsilon_r);
-if( l_success != CL_SUCCESS) printf_log(sim,"Can not free\n");
-l_success=clReleaseMemObject(ggy);
-if( l_success != CL_SUCCESS) printf_log(sim,"Can not free\n");
-l_success=clReleaseMemObject(ggC);
-
-l_success=clReleaseProgram(prog);
-if( l_success != CL_SUCCESS) printf_log(sim,"Can not free\n");
-l_success=clReleaseKernel(cal_E);
-if( l_success != CL_SUCCESS) printf_log(sim,"Can not free\n");
-l_success=clReleaseKernel(cal_H);
-if( l_success != CL_SUCCESS) printf_log(sim,"Can not free\n");
-l_success=clReleaseKernel(update_E);
-if( l_success != CL_SUCCESS) printf_log(sim,"Can not free\n");
-l_success=clReleaseKernel(update_H);
-if( l_success != CL_SUCCESS) printf_log(sim,"Can not free\n");
-
-clReleaseCommandQueue(cq);
-clReleaseContext(context);
-}
 
 /*void my_handler(int s)
 {
@@ -351,389 +65,90 @@ free_all();
 }*/
 
 
-
 int do_fdtd(struct simulation *sim)
 {
-struct fdtd_data data;
-
-int max_ittr=0;
-float height=16e-10;
-float start=1e-10;
-float stop=16e-10;
-float sithick=0.0;
-char temp[100];
-int lam_jmax;
-float gap;
-
-struct inp_file inp;
-
-inp_init(&sim,&inp);
-if (inp_load_from_path(&sim,&inp,sim->input_path,"fdtd.inp")!=0)
-{
-	printf_log(sim,"can't find file the fdtd config file",sim->input_path);
-	exit(0);
-}
-inp_check(sim,&inp,1.0);
-inp_search_float(sim,&inp,&gap,"#gap");
-inp_search_int(sim,&inp,&gap,"#max_ittr");
-inp_search_int(sim,&inp,&gap,"#ylen");
-printf_log(sim,"ylen=%d\n",ylen);
-inp_search_int(sim,&inp,&gap,"#zlen");
-printf_log(sim,"zlen=%d\n",zlen);
-inp_search_float(sim,&inp,&ysize,"#ysize");
-printf_log(sim,"ysize=%e\n",ysize);
-inp_search_float(sim,&inp,&ysize,"#zsize");
-printf_log(sim,"zsize=%e\n",zsize);
-inp_search_int(sim,&inp,&lam_jmax,"#lam_jmax");
-printf_log(sim,"lam_jmax=%d\n",lam_jmax);
-inp_search_float(sim,&inp,&sithick,"#sithick");
-printf_log(sim,"sithick=%e\n",sithick);
-inp_search_int(sim,&inp,&plot,"#plot");
-inp_free(sim,&inp);
-
-
 int i;
 int pos=0;
 size_t srcsize;
 cl_int error;
-cl_platform_id platform;
-cl_uint platforms, devices;
 
-// Fetch the Platform and Device IDs; we only want one.
-error=clGetPlatformIDs(1, &platform, &platforms);
-size_t size = 0;
-cl_int l_success = clGetPlatformInfo(platform,CL_PLATFORM_VENDOR, 0, NULL, &size);
+struct fdtd_data data;
 
-if( l_success != CL_SUCCESS)
-{
-	printf_log(sim,"Failed getting vendor name size.\n");
-	return -1;
-}
-  printf_log(sim,"l_success = %d, size = %d\n", l_success, size);
-  char* vendor = NULL;
-  vendor = malloc(size);
-  if( vendor )
-  {
-    l_success = clGetPlatformInfo(platform,CL_PLATFORM_VENDOR, size, vendor, &size);
-    if( l_success != CL_SUCCESS )
-    {
-      printf_log(sim,"Failed getting vendor name.\n");
-      return -1;
-    }
-    printf_log(sim,"Vendor name is '%s', length is %d\n", vendor, strlen(vendor));
-  } else {
-    printf_log(sim,"malloc failed.\n");
-    return -1;
-  }
+float height=16e-10;
+float start=1e-10;
+float stop=16e-10;
+char temp[100];
 
-/* query devices for information */
+	fdtd_load_config(sim,&data);
+
+	opencl_init(sim,&data);
 
 
-	error=clGetDeviceIDs(platform, CL_DEVICE_TYPE_ALL, 1, &device, &devices);
-	cl_context_properties properties[]={CL_CONTEXT_PLATFORM, (cl_context_properties)platform,0};
-char dname[500];
-cl_ulong long_entries;
-size_t p_size;
-cl_uint entries;
-		clGetDeviceInfo(device, CL_DEVICE_NAME, 500, dname,NULL);
-		printf_log(sim,"Device name = %s\n", dname);
-		clGetDeviceInfo(device,CL_DRIVER_VERSION, 500, dname,NULL);
-		printf_log(sim,"\tDriver version = %s\n", dname);
-		clGetDeviceInfo(device,CL_DEVICE_GLOBAL_MEM_SIZE,sizeof(cl_ulong),&long_entries,NULL);
-		printf_log(sim,"\tGlobal Memory (MB):\t%llu\n",long_entries/1024/1024);
-		clGetDeviceInfo(device,CL_DEVICE_GLOBAL_MEM_CACHE_SIZE,sizeof(cl_ulong),&long_entries,NULL);
-		printf_log(sim,"\tGlobal Memory Cache (MB):\t%llu\n",long_entries/1024/1024);
-		clGetDeviceInfo(device,CL_DEVICE_LOCAL_MEM_SIZE,sizeof(cl_ulong),&long_entries,NULL);
-		printf_log(sim,"\tLocal Memory (KB):\t%llu\n",long_entries/1024);
-		clGetDeviceInfo(device,CL_DEVICE_MAX_CLOCK_FREQUENCY,sizeof(cl_ulong),&long_entries,NULL);
-		printf_log(sim,"\tMax clock (MHz) :\t%llu\n",long_entries);
-		clGetDeviceInfo(device,CL_DEVICE_MAX_WORK_GROUP_SIZE,sizeof(size_t),&p_size,NULL);
-		printf_log(sim,"\tMax Work Group Size:\t%d\n",p_size);
-		clGetDeviceInfo(device,CL_DEVICE_MAX_COMPUTE_UNITS,sizeof(cl_uint),&entries,NULL);
-		printf_log(sim,"\tNumber of parallel compute cores:\t%d\n",entries);
-
-
-	// Note that nVidia's OpenCL requires the platform property
-	context=clCreateContext(properties, 1, &device, NULL, NULL, &error);
-
-	cq = clCreateCommandQueue(context, device, 0, &error);
-        if ( error != CL_SUCCESS ) {
-                printf_log(sim, "clCreateCommandQueue error" );
-                printf_log(sim,"\n Error number %d", error);
+	data.cq = clCreateCommandQueue(data.context, data.device, 0, &error);
+	if ( error != CL_SUCCESS )
+	{
+		printf_log(sim, "clCreateCommandQueue error\n" );
+		printf_log(sim,"\n Error number %d", error);
 		exit(0);
-        }
+     }
 
 	srcsize=fdtd_load_code(sim,&data);
 
 	const char *srcptr[]={data.src_code};
 	// Submit the source code of the rot13 kernel to OpenCL
-	prog=clCreateProgramWithSource(context,1, srcptr, &srcsize, &error);
+	data.prog=clCreateProgramWithSource(data.context,1, srcptr, &srcsize, &error);
 	// and compile it (after this we could extract the compiled version)
-	error=clBuildProgram(prog, 0, NULL, "", NULL, NULL);
-        if ( error != CL_SUCCESS )
-		{
-			char build_c[20000];
-			printf_log(sim, "Error on buildProgram " );
-			printf_log(sim,"\n Error number %d", error);
-			fprintf( stdout, "\nRequestingInfo\n" );
-			clGetProgramBuildInfo( prog, device, CL_PROGRAM_BUILD_LOG, 20000, build_c, NULL );
-			printf_log(sim, "Build Log for %s_program:\n%s\n", "example", build_c );
-			exit(0);
-        }
+	error=clBuildProgram(data.prog, 0, NULL, "", NULL, NULL);
+
+    if ( error != CL_SUCCESS )
+	{
+		char build_c[20000];
+		printf_log(sim, "Error on buildProgram " );
+		printf_log(sim,"\n Error number %d", error);
+		fprintf( stdout, "\nRequestingInfo\n" );
+		clGetProgramBuildInfo( data.prog, data.device, CL_PROGRAM_BUILD_LOG, 20000, build_c, NULL );
+		printf_log(sim, "Build Log for %s_program:\n%s\n", "example", build_c );
+		exit(0);
+    }
 
 
-dt=1e-15;
-dt2=dt/2.0;
-lambda=520e-9;
-src_start=10e-9;
-src_stop=20e-9;
+data.dt=1e-15;
+data.dt2=data.dt/2.0;
+data.lambda=520e-9;
+data.src_start=10e-9;
+data.src_stop=20e-9;
 
-xsize=1e-5;
-dx=xsize/((float)zlen);
-dy=ysize/((float)ylen);
-dz=zsize/((float)zlen);
+data.xsize=1e-5;
+dx=data.xsize/((float)data.zlen);
+dy=data.ysize/((float)data.ylen);
+dz=data.zsize/((float)data.zlen);
 int far_count=0;
 //int i;	
 int j;
 
-float *x=malloc(sizeof(float)*zlen);//[zlen];
-float *y=malloc(sizeof(float)*ylen);//[ylen];
-float *z=malloc(sizeof(float)*zlen);//[zlen];
 
 
 float min=1.0/(c*sqrt(pow(1.0/dy,2.0)+pow(1.0/dz,2.0)));
 //dt=min/10.0;
-printf ("dy=%lf nm, dz=%lf nm min_dt=%le dt=%le\n min_dx=%lf",dy*1e9,dz*1e9,min,dt,lambda*1e9/10.0);
+printf ("dy=%lf nm, dz=%lf nm min_dt=%le dt=%le\n min_dx=%lf",dy*1e9,dz*1e9,min,data.dt,data.lambda*1e9/10.0);
 
 //getchar();
 
 
-float f=c/lambda;
+float f=c/data.lambda;
 float omega=2.0*3.14159*f;
 
-Ex=(float **)malloc(sizeof(float*)*zlen);
-Ey=(float **)malloc(sizeof(float*)*zlen);
-Ez=(float **)malloc(sizeof(float*)*zlen);
-Hx=(float **)malloc(sizeof(float*)*zlen);
-Hy=(float **)malloc(sizeof(float*)*zlen);
-Hz=(float **)malloc(sizeof(float*)*zlen);
-Ex_last=(float **)malloc(sizeof(float*)*zlen);
-Ey_last=(float **)malloc(sizeof(float*)*zlen);
-Ez_last=(float **)malloc(sizeof(float*)*zlen);
-Ex_last_last=(float **)malloc(sizeof(float*)*zlen);
-Ey_last_last=(float **)malloc(sizeof(float*)*zlen);
-Ez_last_last=(float **)malloc(sizeof(float*)*zlen);
-Hx_last=(float **)malloc(sizeof(float*)*zlen);
-Hy_last=(float **)malloc(sizeof(float*)*zlen);
-Hz_last=(float **)malloc(sizeof(float*)*zlen);
-epsilon_r=(float **)malloc(sizeof(float*)*zlen);
-z_ang=(float **)malloc(sizeof(float*)*zlen);
-
-for (i=0;i<zlen;i++)
-{
-	Ex[i]=(float *)malloc(sizeof(float)*ylen);
-	Ey[i]=(float *)malloc(sizeof(float)*ylen);
-	Ez[i]=(float *)malloc(sizeof(float)*ylen);
-	Hx[i]=(float *)malloc(sizeof(float)*ylen);
-	Hy[i]=(float *)malloc(sizeof(float)*ylen);
-	Hz[i]=(float *)malloc(sizeof(float)*ylen);
-	Ex_last[i]=(float *)malloc(sizeof(float)*ylen);
-	Ey_last[i]=(float *)malloc(sizeof(float)*ylen);
-	Ez_last[i]=(float *)malloc(sizeof(float)*ylen);
-	Ex_last_last[i]=(float *)malloc(sizeof(float)*ylen);
-	Ey_last_last[i]=(float *)malloc(sizeof(float)*ylen);
-	Ez_last_last[i]=(float *)malloc(sizeof(float)*ylen);
-	Hx_last[i]=(float *)malloc(sizeof(float)*ylen);
-	Hy_last[i]=(float *)malloc(sizeof(float)*ylen);
-	Hz_last[i]=(float *)malloc(sizeof(float)*ylen);
-	epsilon_r[i]=(float *)malloc(sizeof(float)*ylen);
-	z_ang[i]=(float *)malloc(sizeof(float)*ylen);
-}
-
-
-gEx=(float *)malloc(sizeof(float)*zlen*ylen);
-gEy=(float *)malloc(sizeof(float)*zlen*ylen);
-gEz=(float *)malloc(sizeof(float)*zlen*ylen);
-gHx=(float *)malloc(sizeof(float)*zlen*ylen);
-gHy=(float *)malloc(sizeof(float)*zlen*ylen);
-gHz=(float *)malloc(sizeof(float)*zlen*ylen);
-gEx_last=(float *)malloc(sizeof(float)*zlen*ylen);
-gEy_last=(float *)malloc(sizeof(float)*zlen*ylen);
-gEz_last=(float *)malloc(sizeof(float)*zlen*ylen);
-gHx_last=(float *)malloc(sizeof(float)*zlen*ylen);
-gHy_last=(float *)malloc(sizeof(float)*zlen*ylen);
-gHz_last=(float *)malloc(sizeof(float)*zlen*ylen);
-gepsilon_r=(float *)malloc(sizeof(float)*zlen*ylen);
-gy=(float *)malloc(sizeof(float)*ylen);
-
-
-ggEx=clCreateBuffer(context, CL_MEM_READ_WRITE, zlen*ylen*sizeof(float), NULL, &error);
-if (error!=CL_SUCCESS)
-{
-	printf_log(sim,"error Ex\n");
-	exit(0);
-}
-
-ggEy=clCreateBuffer(context, CL_MEM_READ_WRITE, zlen*ylen*sizeof(float), NULL, &error);
-
-ggEz=clCreateBuffer(context, CL_MEM_READ_WRITE, zlen*ylen*sizeof(float), NULL, &error);
-
-ggHx=clCreateBuffer(context, CL_MEM_READ_WRITE, zlen*ylen*sizeof(float), NULL, &error);
-ggHy=clCreateBuffer(context, CL_MEM_READ_WRITE, zlen*ylen*sizeof(float), NULL, &error);
-ggHz=clCreateBuffer(context, CL_MEM_READ_WRITE, zlen*ylen*sizeof(float), NULL, &error);
-
-ggEx_last=clCreateBuffer(context, CL_MEM_READ_WRITE, zlen*ylen*sizeof(float), NULL, &error);
-ggEy_last=clCreateBuffer(context, CL_MEM_READ_WRITE, zlen*ylen*sizeof(float), NULL, &error);
-ggEz_last=clCreateBuffer(context, CL_MEM_READ_WRITE, zlen*ylen*sizeof(float), NULL, &error);
-
-ggHx_last=clCreateBuffer(context, CL_MEM_READ_WRITE, zlen*ylen*sizeof(float), NULL, &error);
-ggHy_last=clCreateBuffer(context, CL_MEM_READ_WRITE, zlen*ylen*sizeof(float), NULL, &error);
-ggHz_last=clCreateBuffer(context, CL_MEM_READ_WRITE, zlen*ylen*sizeof(float), NULL, &error);
-
-ggepsilon_r=clCreateBuffer(context, CL_MEM_READ_WRITE, zlen*ylen*sizeof(float), NULL, &error);
-
-ggy=clCreateBuffer(context, CL_MEM_READ_WRITE, ylen*sizeof(float), NULL, &error);
-ggC=clCreateBuffer(context, CL_MEM_READ_WRITE, 17*sizeof(float), NULL, &error);
-
-struct sigaction sigIntHandler;
+//struct sigaction sigIntHandler;
 
 //sigIntHandler.sa_handler = my_handler;
 //sigemptyset(&sigIntHandler.sa_mask);
 //sigIntHandler.sa_flags = 0;
 
-sigaction(SIGINT, &sigIntHandler, NULL);
+//sigaction(SIGINT, &sigIntHandler, NULL);
 	
 // get a handle and map parameters for the kernel
-cal_E=clCreateKernel(prog, "cal_E", &error);
-if (error!=CL_SUCCESS)
-{
-	printf_log(sim,"Can not make E kernel\n");
-	exit(0);
-}
-
-update_E=clCreateKernel(prog, "update_E", &error);
-if (error!=CL_SUCCESS)
-{
-	printf_log(sim,"Can not make E kernel\n");
-	exit(0);
-}
-
-cal_H=clCreateKernel(prog, "cal_H", &error);
-if (error!=CL_SUCCESS)
-{
-	printf_log(sim,"Can not make H kernel\n");
-	exit(0);
-}
-
-update_H=clCreateKernel(prog, "update_H", &error);
-if (error!=CL_SUCCESS)
-{
-	printf_log(sim,"Can not make E kernel\n");
-	exit(0);
-}
-
-clSetKernelArg(cal_E, 0, sizeof(cl_mem), &ggEx);
-clSetKernelArg(cal_E, 1, sizeof(cl_mem), &ggEy);
-clSetKernelArg(cal_E, 2, sizeof(cl_mem), &ggEz);
-
-clSetKernelArg(cal_E, 3, sizeof(cl_mem), &ggHx);
-clSetKernelArg(cal_E, 4, sizeof(cl_mem), &ggHy);
-clSetKernelArg(cal_E, 5, sizeof(cl_mem), &ggHz);
-
-clSetKernelArg(cal_E, 6, sizeof(cl_mem), &ggEx_last);
-clSetKernelArg(cal_E, 7, sizeof(cl_mem), &ggEy_last);
-clSetKernelArg(cal_E, 8, sizeof(cl_mem), &ggEz_last);
-
-clSetKernelArg(cal_E, 9, sizeof(cl_mem), &ggHx_last);
-clSetKernelArg(cal_E, 10, sizeof(cl_mem), &ggHy_last);
-clSetKernelArg(cal_E, 11, sizeof(cl_mem), &ggHz_last);
-
-clSetKernelArg(cal_E, 12, sizeof(cl_mem), &ggepsilon_r);
-clSetKernelArg(cal_E, 13, sizeof(cl_mem), &ggy);
-error=clSetKernelArg(cal_E, 14, sizeof(cl_mem), &ggC);
-
-if (error!=CL_SUCCESS)
-{
-	printf_log(sim,"error!!!!!!!!!!!!!!!!!!\n");
-}
-
-clSetKernelArg(update_E, 0, sizeof(cl_mem), &ggEx);
-clSetKernelArg(update_E, 1, sizeof(cl_mem), &ggEy);
-clSetKernelArg(update_E, 2, sizeof(cl_mem), &ggEz);
-
-clSetKernelArg(update_E, 3, sizeof(cl_mem), &ggHx);
-clSetKernelArg(update_E, 4, sizeof(cl_mem), &ggHy);
-clSetKernelArg(update_E, 5, sizeof(cl_mem), &ggHz);
-
-clSetKernelArg(update_E, 6, sizeof(cl_mem), &ggEx_last);
-clSetKernelArg(update_E, 7, sizeof(cl_mem), &ggEy_last);
-clSetKernelArg(update_E, 8, sizeof(cl_mem), &ggEz_last);
-
-clSetKernelArg(update_E, 9, sizeof(cl_mem), &ggHx_last);
-clSetKernelArg(update_E, 10, sizeof(cl_mem), &ggHy_last);
-clSetKernelArg(update_E, 11, sizeof(cl_mem), &ggHz_last);
-
-clSetKernelArg(update_E, 12, sizeof(cl_mem), &ggepsilon_r);
-clSetKernelArg(update_E, 13, sizeof(cl_mem), &ggy);
-error=clSetKernelArg(update_E, 14, sizeof(cl_mem), &ggC);
-
-if (error!=CL_SUCCESS)
-{
-	printf_log(sim,"error!!!!!!!!!!!!!!!!!!\n");
-}
-
-clSetKernelArg(cal_H, 0, sizeof(cl_mem), &ggEx);
-clSetKernelArg(cal_H, 1, sizeof(cl_mem), &ggEy);
-clSetKernelArg(cal_H, 2, sizeof(cl_mem), &ggEz);
-
-clSetKernelArg(cal_H, 3, sizeof(cl_mem), &ggHx);
-clSetKernelArg(cal_H, 4, sizeof(cl_mem), &ggHy);
-clSetKernelArg(cal_H, 5, sizeof(cl_mem), &ggHz);
-
-clSetKernelArg(cal_H, 6, sizeof(cl_mem), &ggEx_last);
-clSetKernelArg(cal_H, 7, sizeof(cl_mem), &ggEy_last);
-clSetKernelArg(cal_H, 8, sizeof(cl_mem), &ggEz_last);
-
-clSetKernelArg(cal_H, 9, sizeof(cl_mem), &ggHx_last);
-clSetKernelArg(cal_H, 10, sizeof(cl_mem), &ggHy_last);
-clSetKernelArg(cal_H, 11, sizeof(cl_mem), &ggHz_last);
-
-clSetKernelArg(cal_H, 12, sizeof(cl_mem), &ggepsilon_r);
-clSetKernelArg(cal_H, 13, sizeof(cl_mem), &ggy);
-error=clSetKernelArg(cal_H, 14, sizeof(cl_mem), &ggC);
-
-if (error!=CL_SUCCESS)
-{
-	printf_log(sim,"error!!!!!!!!!!!!!!!!!!\n");
-}
-
-clSetKernelArg(update_H, 0, sizeof(cl_mem), &ggEx);
-clSetKernelArg(update_H, 1, sizeof(cl_mem), &ggEy);
-clSetKernelArg(update_H, 2, sizeof(cl_mem), &ggEz);
-
-clSetKernelArg(update_H, 3, sizeof(cl_mem), &ggHx);
-clSetKernelArg(update_H, 4, sizeof(cl_mem), &ggHy);
-clSetKernelArg(update_H, 5, sizeof(cl_mem), &ggHz);
-
-clSetKernelArg(update_H, 6, sizeof(cl_mem), &ggEx_last);
-clSetKernelArg(update_H, 7, sizeof(cl_mem), &ggEy_last);
-clSetKernelArg(update_H, 8, sizeof(cl_mem), &ggEz_last);
-
-clSetKernelArg(update_H, 9, sizeof(cl_mem), &ggHx_last);
-clSetKernelArg(update_H, 10, sizeof(cl_mem), &ggHy_last);
-clSetKernelArg(update_H, 11, sizeof(cl_mem), &ggHz_last);
-
-clSetKernelArg(update_H, 12, sizeof(cl_mem), &ggepsilon_r);
-clSetKernelArg(update_H, 13, sizeof(cl_mem), &ggy);
-error=clSetKernelArg(update_H, 14, sizeof(cl_mem), &ggC);
-
-if (error!=CL_SUCCESS)
-{
-	printf_log(sim,"error!!!!!!!!!!!!!!!!!!\n");
-}
-
-
-
+fdtd_kernel_init(sim, &data);
+/*
 
 float xpos=0.0;
 float ypos=0.0;
@@ -805,16 +220,6 @@ gnuplot2 = popen("gnuplot","w");
 fprintf(gnuplot2, "set terminal x11 title 'Solarsim' \n");
 fflush(gnuplot2);
 }
-
-for (i=0;i<lam_jmax;i++)
-{
-	lam(y,z,epsilon_r,start,stop,2e-10,gap);
-	start+=18e-10;
-	stop+=18e-10;
-}
-start-=22e-10;
-stop-=22e-10;
-
 
 
 
@@ -1036,7 +441,7 @@ do
 
 
 free_all(sim);
-
+*/
 return 0;
 }
 
