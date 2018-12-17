@@ -28,18 +28,17 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <signal.h>
-#define CL_USE_DEPRECATED_OPENCL_1_2_APIS
-#include <CL/cl.h>
+
 #include <inp.h>
 #include <sim.h>
 #include <log.h>
 #include <fdtd.h>
-
 #include "vec.h"
 
 
 void opencl_init(struct simulation *sim, struct fdtd_data *data)
 {
+	#ifdef use_open_cl
 	int i;
 	int ii;
 	int count=0;
@@ -49,9 +48,6 @@ void opencl_init(struct simulation *sim, struct fdtd_data *data)
 	cl_int error;
 	cl_device_id* devices;
 	cl_platform_id* platforms;
-	size_t size = 0;
-	char* vendor = NULL;
-	char dname[500];
 	cl_ulong long_entries;
 	size_t p_size;
 	cl_uint entries;
@@ -132,5 +128,6 @@ void opencl_init(struct simulation *sim, struct fdtd_data *data)
      }
 
 	free(platforms);
+	#endif
 
 }

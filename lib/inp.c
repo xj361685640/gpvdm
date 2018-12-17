@@ -730,7 +730,7 @@ int inp_search_float(struct simulation *sim,struct inp_file *in,float* out,char*
 char temp[200];
 if (inp_search(sim,temp,in,token)==0)
 {
-	sscanf(temp,"%le",out);
+	sscanf(temp,"%e",out);
 	return 0;
 }
 return -1;

@@ -26,13 +26,22 @@
 #define PATHLEN	512
 #define STR_MAX	1024
 #define epsilon0 (long double)8.85418782e-12			// m-3 kg-1 s4 A2;
+#define epsilon0f (float)8.85418782e-12			// m-3 kg-1 s4 A2;
+
+#define mu0f (float)1.25663706e-6			//
+
 #define hp (long double)6.62606896e-34			//J S Wikipeda
 #define PI (long double)3.14159265358979323846
+
+#define PIf (float)3.14159265358979323846
+
 #define hbar (long double)(6.62606896e-34/(2.0*PI))	//Calculated
 #define kb (long double)1.3806504e-23			//J K-1 Wiki
 #define Q (long double)1.602176487e-19			//C Wikipeda
 #define m0 (long double)9.10938215e-31 			//Kg Wikipeda
 #define cl  (long double)2.99792458e8			//m/s Wikipieda
+#define clf  (float)2.99792458e8			//m/s Wikipieda
+
 
 //SRH constants
 #define srh_1	1

@@ -36,9 +36,8 @@
 #include "vec.h"
 
 
-void fdtd_opencl_kernel_init(struct simulation *sim, struct fdtd_data *data)
+void fdtd_kernel_init(struct simulation *sim, struct fdtd_data *data)
 {
-	#ifdef use_open_cl
 	cl_int error;
 	//cal_E********************************
 	data->cal_E=clCreateKernel(data->prog, "cal_E", &error);
@@ -237,6 +236,6 @@ void fdtd_opencl_kernel_init(struct simulation *sim, struct fdtd_data *data)
 	{
 		printf_log(sim,"error!!!!!!!!!!!!!!!!!!\n");
 	}
-	#endif
+
 
 }

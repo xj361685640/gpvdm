@@ -3,27 +3,30 @@
 # This file is distributed under the same license as the gpvdm package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 5.0\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2018-12-17 16:30+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"POT-Creation-Date: 2018-12-17 13:19+0000\n"
+"PO-Revision-Date: 2018-12-17 13:23+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: hi\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.9\n"
+"Plural-Forms: nplurals=2; plural=(n==0 || n==1);\n"
 
+# mechanical load or like inserting a sample
 #: ../liblight/light_config.c:59 ../liblight/light_config.c:110
+#, fuzzy
 msgid "load"
-msgstr ""
+msgstr "लोड / डाले /बोझ "
 
 #: ../liblight/light_dump.c:285
 msgid "Electron generation rate"
-msgstr ""
+msgstr "इलेक्ट्रॉन उत्पादन की गति "
 
 #: ../liblight/light_dump.c:287 ../liblight/light_dump.c:314
 #: ../liblight/light_dump.c:386 ../liblight/light_dump.c:420
@@ -57,7 +60,7 @@ msgstr ""
 #: ../libdump/dump_1d_slice.c:1618 ../libdump/dump_1d_slice.c:1648
 #: ../libdump/dump_1d_slice.c:1706
 msgid "Position"
-msgstr ""
+msgstr "स्तिथि "
 
 #: ../liblight/light_dump.c:288 ../liblight/light_dump.c:315
 #: ../libmeasure/probe.c:274 ../libmeasure/probe.c:299
@@ -65,35 +68,37 @@ msgstr ""
 #: ../libdump/dump_dynamic.c:428 ../libdump/dump_1d_slice.c:1293
 #: ../libdump/dump_1d_slice.c:1322
 msgid "Generation rate"
-msgstr ""
+msgstr "उत्पादन की गति "
 
 #: ../liblight/light_dump.c:312 ../src/main.c:72
 msgid "Hole generation rate"
-msgstr ""
+msgstr "होल उत्पादन की गति "
 
 #: ../liblight/light_dump.c:387
 msgid "Layer number"
-msgstr ""
+msgstr "परत की संख्या "
 
 #: ../liblight/light_dump.c:421
 msgid "|Electric field|"
-msgstr ""
+msgstr "विद्युत् छेत्र "
 
 #: ../liblight/light_dump.c:455
 msgid "Transmittance"
-msgstr ""
+msgstr "संचरण (ट्रांस्मिटेन्स )"
 
 #: ../liblight/light_dump.c:490
 msgid "Reflectance"
-msgstr ""
+msgstr "प्रतिचारण(रिफ्लेक्टेंस )"
 
+# quantity?
 #: ../liblight/light_dump.c:525
+#, fuzzy
 msgid "Photons absorbed"
-msgstr ""
+msgstr "अवशोषित फोटॉन"
 
 #: ../liblight/light_dump.c:563
 msgid "Real refractive index"
-msgstr ""
+msgstr "असल अपवर्तक सूचकांक (रिफ्रैक्टिव  इंडेक्स )"
 
 #: ../liblight/light_dump.c:599 ../gui/materials_main.py:69
 #: ../gui/materials_main.py:129 ../gui/materials_main.py:133
@@ -101,68 +106,76 @@ msgstr ""
 #: ../gui/materials_main.py:195 ../gui/import_data.py:296
 #: ../gui/import_data.py:297 ../gui/import_data.py:298 ../gui/token_lib.py:385
 msgid "Absorption"
-msgstr ""
+msgstr "अवशोषण"
 
 #: ../liblight/light_interface.c:52
 msgid "Initializing optical model"
-msgstr ""
+msgstr "प्रकाशीय मॉडल शुरु की या राहा हे"
 
+# leaving the file extension alone
 #: ../liblight/light_interface.c:92 ../lib/newton_interface.c:88
 #: ../lib/solver_interface.c:89 ../src/run_electrical_dll.c:79
+#, fuzzy
 msgid "dll not loaded"
-msgstr ""
+msgstr "dll नहीं डला"
 
 #: ../liblight/light_interface.c:98
 msgid "dll function light_dll_init not found\n"
 msgstr ""
+"light_dll_init dll फाइल नहीं मिली \n"
+"\n"
 
 #: ../liblight/light_interface.c:104
 msgid "dll function light_dll_solve_lam_slice not found\n"
-msgstr ""
+msgstr "light_dll_solve_lam_slice dll फाइल नहीं मिली \n"
 
 #: ../liblight/light_interface.c:110
 msgid "dll function light_dll_ver not found\n"
 msgstr ""
+"light_dll_ver  dll फाइल नहीं मिली \n"
+"\n"
 
 #: ../liblight/light_materials.c:46
 msgid "load: materials"
-msgstr ""
+msgstr "सामग्रीक तत्व डालें "
 
 #: ../liblight/light_materials.c:61
 msgid "Optical spectra directory not found\n"
-msgstr ""
+msgstr "ऑप्टिकल स्पेक्ट्रम की डिरेक्ट्री नहीं मिली\n"
 
 #: ../liblight/light_materials.c:83
 #, python-format
 msgid "spectrum file: I do not know what to do with %s"
-msgstr ""
+msgstr "स्पेक्ट्रम फाइल: में  नहीं जानता की %s के साथ क्या किया जाए "
 
 #: ../liblight/light_materials.c:88 ../liblight/light_materials.c:211
 #: ../liblight/light_materials.c:231 ../lib/util.c:410 ../lib/util.c:530
 #: ../lib/util.c:590 ../lib/util.c:680
 msgid "File not found"
-msgstr ""
+msgstr "फाइल नहीं मिली "
 
 #: ../liblight/light_materials.c:110
 msgid "No optical materials found\n"
-msgstr ""
+msgstr "कोई भी ऑप्टिकल सामग्री नहीं मिली \n"
 
 #: ../liblight/light_materials.c:261 ../liblight/light_materials.c:351
 #: ../liblight/light_materials.c:417
 msgid "file not found"
-msgstr ""
+msgstr "फाइल नहीं मिली "
 
+# dont know much about programming but i think patch and inter files are a type of file not the name of a specific directory or dependency
 #: ../liblight/light_materials.c:337
+#, fuzzy
 msgid "Error at end of patch file\n"
-msgstr ""
+msgstr "पैच फाइल के अंत में त्रुटि है \n"
 
 #: ../liblight/light_materials.c:397
 msgid "Error at end of inter file"
-msgstr ""
+msgstr "इंटर  फाइल के अंत में त्रुटि है "
 
 #: ../liblight/light_materials.c:444 ../liblight/light_materials.c:496
 msgid "Wavelength - Reflected light"
-msgstr ""
+msgstr "प्रतिबिंबित प्रकाश का तरंग दैर्ध्य"
 
 #: ../liblight/light_materials.c:446 ../liblight/light_materials.c:498
 #: ../libmeasure/probe.c:158 ../libmeasure/probe.c:160
@@ -171,81 +184,90 @@ msgstr ""
 #: ../gui/import_data.py:282 ../gui/import_data.py:283
 #: ../gui/import_data.py:284 ../gui/import_data.py:285 ../gui/equation.py:181
 msgid "Wavelength"
-msgstr ""
+msgstr "तरंग दैर्ध्य"
 
 #: ../liblight/light_memory.c:192
 msgid "Freeing memory from the optical model\n"
-msgstr ""
+msgstr "ऑप्टिकल मॉडल से मेमोरी छुड़वा रहा हूँ\n"
 
 #: ../liblight/light_utils.c:298
 msgid "It was dark I did not solve any slices\n"
-msgstr ""
+msgstr "अँधेरा था, मैंने कोई भी टुकड़ा नहीं सुलझाया \n"
 
 #: ../lib/util.c:182 ../lib/util.c:200
 msgid "Error writing file"
-msgstr ""
+msgstr "फाइल लिखने में त्रुटि "
 
 #: ../lib/util.c:367
 msgid "I don't understand the command"
-msgstr ""
+msgstr "मुझे आदेश नहीं समझ आया "
 
 #: ../lib/util.c:379
 msgid "Can not read file"
-msgstr ""
+msgstr "फाइल नहीं पढ़ पाया "
 
 #: ../lib/util.c:568 ../lib/util.c:628 ../lib/util.c:726
 msgid "Can not write file"
-msgstr ""
+msgstr "फाइल नहीं लिख पाया "
 
 #: ../lib/util.c:643 ../lib/util.c:651
 msgid "Can not open file"
-msgstr ""
+msgstr "फाइल नहीं खोल पाया "
 
 #: ../lib/util.c:718
 msgid "Token not found in file"
-msgstr ""
+msgstr "फाइल में टोकन नहीं मिला "
 
 #: ../lib/util.c:875
 msgid "Deleting directory"
-msgstr ""
+msgstr "डायरेक्टरी हटा रहा हूँ "
 
 #: ../lib/complex_solver.c:44
 msgid "out of memory!\n"
-msgstr ""
+msgstr "मेमरी नहीं बची !\n"
 
 #: ../lib/complex_solver.c:47
 msgid "matrix is singular!\n"
-msgstr ""
+msgstr "मैट्रिक्स सिंगुअलर है !\n"
 
+# matrix thrown away or dumped like copied?
 #: ../lib/complex_solver.c:81
+#, fuzzy
 msgid "Matrix dumped\n"
-msgstr ""
+msgstr "मैट्रिक्स फ़ेंक दिया गया \n"
 
+# is available
 #: ../lib/complex_solver.c:100
+#, fuzzy
 msgid "Complex solver free\n"
-msgstr ""
+msgstr "काम्प्लेक्स सॉल्वर उपलब्ध है \n"
 
 #: ../lib/complex_solver.c:132 ../lib/complex_solver.c:141
 #: ../lib/complex_solver.c:150 ../lib/complex_solver.c:159
 #: ../lib/complex_solver.c:168 ../lib/complex_solver.c:177
 msgid "complex_solver realloc memory error"
-msgstr ""
+msgstr "complex_solver रीललोकेशन मेमोरी त्रुटि "
 
+# need to change this if this means "solver being initalized" as a status message
 #: ../lib/newton_interface.c:49
+#, fuzzy
 msgid "Solver initialization\n"
-msgstr ""
+msgstr "सॉल्वर शुरुआत \n"
 
+# you can replace these strings with "%s dll not found" to make it easier to translate
+# I've translated these as "couldnt find x.dll file" let me know if a dll function and a dll file arent the same thing
 #: ../lib/newton_interface.c:94
+#, fuzzy
 msgid "dll function dll_solve_cur not found\n"
-msgstr ""
+msgstr "dll function light_dll_ver not found\n"
 
 #: ../lib/newton_interface.c:101
 msgid "dll function dll_solver_realloc not found\n"
-msgstr ""
+msgstr "dll_solver_realloc dll फाइल नहीं मिली \n"
 
 #: ../lib/newton_interface.c:107
 msgid "dll function dll_solver_free_memory not found\n"
-msgstr ""
+msgstr "dll_solver_free_memory dll फाइल नहीं मिली \n"
 
 #: ../lib/log.c:72
 #, python-format
@@ -254,31 +276,31 @@ msgstr ""
 
 #: ../lib/solver_interface.c:95
 msgid "dll function dll_matrix_solve not found\n"
-msgstr ""
+msgstr "dll_matrix_solve dll फाइल नहीं मिली \n"
 
 #: ../lib/solver_interface.c:101
 msgid "dll function dll_matrix_dump not found\n"
-msgstr ""
+msgstr "dll_matrix_dump dll फाइल नहीं मिली \n"
 
 #: ../lib/solver_interface.c:107 ../src/run_electrical_dll.c:85
 msgid "dll function set_interface not found\n"
-msgstr ""
+msgstr "function set_interface dll फाइल नहीं मिली \n"
 
 #: ../lib/solver_interface.c:113
 msgid "dll function dll_matrix_solver_free not found\n"
-msgstr ""
+msgstr "dll_matrix_solver_free dll फाइल नहीं मिली \n"
 
 #: ../lib/solver_interface.c:152
 msgid "Freeing memory"
-msgstr ""
+msgstr "मेमोरी छुड़वा रहा हूँ "
 
 #: ../lib/solver_interface.c:156
 msgid "Error closing dll"
-msgstr ""
+msgstr "dll बंद करने में त्रुटि "
 
 #: ../libmesh/time.c:96
 msgid "You must load the optical plugin before making the time mesh"
-msgstr ""
+msgstr "समय मेष बनाने से पहले आपको ऑप्टिकल प्लगइन लोड करना ज़रूरी है "
 
 #: ../libmeasure/probe.c:271 ../libmeasure/probe.c:273
 #: ../libmeasure/probe.c:296 ../libmeasure/probe.c:298
@@ -315,56 +337,56 @@ msgstr ""
 #: ../libdump/dump_dynamic.c:1049 ../libfit/fit_dump.c:107
 #: ../libfit/fit_dump.c:130 ../libfit/fit_dump.c:154 ../libfit/fit_dump.c:178
 msgid "Time"
-msgstr ""
+msgstr "समय "
 
 #: ../libmeasure/probe.c:271 ../libmeasure/probe.c:296
 #: ../plugins/pulse/pulse.c:332
 msgid "Photogeneration rate"
-msgstr ""
+msgstr "फोटो-उत्पादन की गति "
 
 #: ../libmeasure/probe.c:330
 msgid "Probe load configuration"
-msgstr ""
+msgstr "लोडिंग विन्यास को जांचे "
 
 #: ../libmeasure/probe.c:355
 msgid "Probe calculate modes"
-msgstr ""
+msgstr "गणना मोड़ो को जांचे "
 
 #: ../libmeasure/probe.c:403
 msgid "Probe free memory"
-msgstr ""
+msgstr "उपलब्ध मेमोरी को जांचे "
 
 #: ../libmeasure/measure.c:152
 #, python-format
 msgid "Token not found: %s"
-msgstr ""
+msgstr "%s टोकन नहीं मिला "
 
 #: ../libmeasure/measure.c:157
 #, python-format
 msgid "File not found: %s"
-msgstr ""
+msgstr "%s फाइल नहीं मिली "
 
 #: ../plugins/pulse/pulse.c:73
 msgid "no pulse config file found"
-msgstr ""
+msgstr "कोई pulse config फाइल नहीं मिली "
 
 #: ../plugins/pulse/pulse.c:127 ../plugins/pulse/pulse.c:177
 msgid "pulse mode not known\n"
-msgstr ""
+msgstr "pulse mode अनजान \n"
 
 #: ../plugins/pulse/pulse.c:184
 msgid "pulse time"
-msgstr ""
+msgstr "पल्स समय "
 
 #: ../plugins/pulse/pulse.c:184 ../plugins/fxdomain/fxdomain.c:261
 msgid "step"
-msgstr ""
+msgstr "वृद्धि "
 
 #: ../plugins/pulse/pulse.c:185 ../plugins/pulse/pulse.c:289
 #: ../plugins/fxdomain/fxdomain.c:262 ../plugins/fxdomain/fxdomain.c:357
 #: ../plugins/fxdomain/fxdomain.c:380
 msgid "current"
-msgstr ""
+msgstr "विद्युत् धरा "
 
 #: ../plugins/pulse/pulse.c:220 ../plugins/pulse/pulse.c:225
 #: ../plugins/pulse/pulse.c:241 ../plugins/pulse/pulse.c:246
@@ -373,18 +395,18 @@ msgstr ""
 #: ../plugins/jv/jv.c:482 ../gui/token_lib.py:451 ../libdump/dump_dynamic.c:398
 #: ../libdump/dump_contacts.c:72
 msgid "Current"
-msgstr ""
+msgstr "विद्युत् धरा "
 
 #: ../plugins/pulse/pulse.c:264
 msgid "current density"
-msgstr ""
+msgstr "विद्युत् धरा का घनत्व"
 
 #: ../plugins/pulse/pulse.c:269 ../plugins/jv/jv.c:421 ../plugins/jv/jv.c:424
 #: ../plugins/jv/jv.c:440 ../plugins/jv/jv.c:443 ../plugins/jv/jv.c:459
 #: ../plugins/jv/jv.c:462 ../plugins/jv/jv.c:520 ../libdump/dump_dynamic.c:231
 #: ../libdump/dump_1d_slice.c:503 ../libdump/dump_1d_slice.c:535
 msgid "Current density"
-msgstr ""
+msgstr "विद्युत् धरा का घनत्व"
 
 #: ../plugins/pulse/pulse.c:312 ../plugins/pulse/pulse.c:317
 #: ../plugins/fxdomain/fxdomain.c:405 ../plugins/fxdomain/fxdomain.c:419
@@ -395,65 +417,72 @@ msgstr ""
 #: ../gui/import_data.py:292 ../libdump/dump_dynamic.c:830
 #: ../libdump/dump_contacts.c:70
 msgid "Voltage"
-msgstr ""
+msgstr "विद्युत दाब"
 
 #: ../plugins/pulse/pulse.c:315 ../plugins/jv/jv.c:444 ../plugins/jv/jv.c:463
 #: ../plugins/jv/jv.c:483 ../gui/fxmesh.py:187
 msgid "Volts"
-msgstr ""
+msgstr "वोल्ट "
 
+# does fx domain mean frequency domain? or is it a string that should be left alone?
 #: ../plugins/fxdomain/fxdomain.c:100
+#, fuzzy
 msgid "no fxdomain config file found"
-msgstr ""
+msgstr "कोई fxdomain config फाइल नहीं मिली"
 
 #: ../plugins/fxdomain/fxdomain.c:140
 msgid "Running frequency"
-msgstr ""
+msgstr "चालक  आवृति "
 
 #: ../plugins/fxdomain/fxdomain.c:180 ../plugins/fxdomain/fxdomain.c:255
+#, fuzzy
 msgid "fxdomain mode not known"
-msgstr ""
+msgstr "fxdomain मोड अज्ञात "
 
 #: ../plugins/fxdomain/fxdomain.c:261
+#, fuzzy
 msgid "fxdomain time"
-msgstr ""
+msgstr "fxdomain समय "
 
 #: ../plugins/fxdomain/fxdomain.c:409 ../plugins/fxdomain/fxdomain.c:464
 #: ../gui/tb_item_sun.py:75
 msgid "Light intensity"
-msgstr ""
+msgstr " प्रकाशन तीव्रता "
 
 #: ../plugins/fxdomain/fxdomain.c:423 ../plugins/fxdomain/fxdomain.c:436
 #: ../plugins/fxdomain/fxdomain.c:478 ../plugins/fxdomain/fxdomain.c:491
 #: ../gui/tmesh.py:220 ../gui/tmesh.py:278 ../gui/tb_item_sun.py:75
 msgid "Suns"
-msgstr ""
+msgstr "सूर्य"
 
 #: ../plugins/fxdomain/fxdomain.c:528
 msgid "Real"
-msgstr ""
+msgstr "वास्तविक "
 
 #: ../plugins/fxdomain/fxdomain.c:528
 msgid "Imaginary"
-msgstr ""
+msgstr "काल्पनिक "
 
 #: ../plugins/fxdomain/fxdomain.c:530 ../gui/token_lib.py:149
 #: ../gui/token_lib.py:360
 msgid "Re(i)"
-msgstr ""
+msgstr "वास्तविक (i)"
 
 #: ../plugins/fxdomain/fxdomain.c:531 ../gui/token_lib.py:150
 #: ../gui/token_lib.py:361
 msgid "Im(i)"
-msgstr ""
+msgstr "काल्पनिक (i)"
 
 #: ../plugins/light_full/light.c:41
 msgid "Full transfer matrix based light model"
-msgstr ""
+msgstr "पूर्ण  ट्रांसफर मैट्रिक्स पर आधारित लाइट  मॉडल "
 
+# Hindi grammar requires the object to be placed instead of %s.
+# cant think of any way to place it at the end
 #: ../plugins/light_full/light.c:54
+#, fuzzy
 msgid "Solve optical slice at"
-msgstr ""
+msgstr "%s पर ऑप्टिकल भाग को सुलझाए "
 
 #: ../plugins/light_full/light.c:232
 msgid "I can't solve the matrix because I don't have enough equations."
@@ -1012,8 +1041,10 @@ msgid ""
 msgstr ""
 
 #: ../gui/ribbon_database.py:103
+#, fuzzy
+#| msgid "load: materials"
 msgid "Add Material"
-msgstr ""
+msgstr "सामग्रीक तत्व डालें "
 
 #: ../gui/progress.py:66 ../gui/progress.py:147
 msgid "Finish time:"
@@ -1268,9 +1299,11 @@ msgstr ""
 msgid "Desktop"
 msgstr ""
 
+# mechanical load or like inserting a sample
 #: ../gui/gpvdm_viewer.py:324
+#, fuzzy
 msgid "Downloads"
-msgstr ""
+msgstr "लोड / डाले /बोझ "
 
 #: ../gui/gpvdm_viewer.py:346 ../gui/ribbon.py:146
 #: ../gui/cluster_config_ribbon.py:96 ../gui/tab_terminal.py:158
@@ -3145,8 +3178,10 @@ msgid "y"
 msgstr ""
 
 #: ../gui/cluster_config_ribbon.py:55 ../gui/cluster_config_ribbon.py:56
+#, fuzzy
+#| msgid "Generation rate"
 msgid "Generate keys"
-msgstr ""
+msgstr "उत्पादन की गति "
 
 #: ../gui/cluster_config_ribbon.py:59 ../gui/cluster_config_ribbon.py:60
 msgid "Install to cluster"
@@ -3165,24 +3200,34 @@ msgid "Remove from cluster"
 msgstr ""
 
 #: ../gui/cluster_config_ribbon.py:90
+#, fuzzy
+#| msgid "Probe load configuration"
 msgid "New cluster configuration"
-msgstr ""
+msgstr "लोडिंग विन्यास को जांचे "
 
 #: ../gui/cluster_config_ribbon.py:91
+#, fuzzy
+#| msgid "Probe load configuration"
 msgid "Delete configuration"
-msgstr ""
+msgstr "लोडिंग विन्यास को जांचे "
 
 #: ../gui/cluster_config_ribbon.py:92
+#, fuzzy
+#| msgid "Probe load configuration"
 msgid "Clone configuration"
-msgstr ""
+msgstr "लोडिंग विन्यास को जांचे "
 
 #: ../gui/cluster_config_ribbon.py:93
+#, fuzzy
+#| msgid "Probe load configuration"
 msgid "Rename configuration"
-msgstr ""
+msgstr "लोडिंग विन्यास को जांचे "
 
 #: ../gui/cluster_config_ribbon.py:94
+#, fuzzy
+#| msgid "Probe load configuration"
 msgid "New cluster configuration:"
-msgstr ""
+msgstr "लोडिंग विन्यास को जांचे "
 
 #: ../gui/cluster_config_ribbon.py:97
 msgid ""
@@ -4114,9 +4159,11 @@ msgstr ""
 msgid "J_{sc}"
 msgstr ""
 
+# quantity?
 #: ../gui/token_lib.py:146
+#, fuzzy
 msgid "Photos absorbed in active layer"
-msgstr ""
+msgstr "अवशोषित फोटॉन"
 
 #: ../gui/token_lib.py:151 ../gui/token_lib.py:362
 msgid "Re(J)"
@@ -4203,8 +4250,10 @@ msgid "exe name"
 msgstr ""
 
 #: ../gui/token_lib.py:191
+#, fuzzy
+#| msgid "Deleting directory"
 msgid "Remote cluster directory"
-msgstr ""
+msgstr "डायरेक्टरी हटा रहा हूँ "
 
 #: ../gui/token_lib.py:192
 msgid "Remote node list"
@@ -4952,8 +5001,10 @@ msgid "Doping profile editor"
 msgstr ""
 
 #: ../gui/export_archive.py:71
+#, fuzzy
+#| msgid "Can not open file"
 msgid "Can't open file "
-msgstr ""
+msgstr "फाइल नहीं खोल पाया "
 
 #: ../gui/connect_to_cluster.py:81
 msgid "Connect"

@@ -29,8 +29,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <signal.h>
-#define CL_USE_DEPRECATED_OPENCL_1_2_APIS
-#include <CL/cl.h>
 #include <inp.h>
 #include <sim.h>
 #include <log.h>
@@ -45,35 +43,35 @@ void fdtd_init(struct fdtd_data *data)
 	data->gnuplot2=NULL;
 	data->zlen=-1;
 	data->ylen=-1;
-	data->max_ittr-1;
+	data->max_ittr=-1;
 	data->src_start=-1;
 	data->src_stop=-1;
 	data->lambda=-1;
+	data->stop=1e-6;
+	data->time=0.0;
 }
+
 
 void fdtd_setup_simulation(struct simulation *sim,struct fdtd_data *data)
 {
 	int i;
 	int j;
-	float dx=0.0;
-	float dy=0.0;
-	float dz=0.0;
-	float zpos=dz/2.0;
-	float ypos=dy/2.0;
+	//float dx=0.0;
 
-	dx=data->xsize/((float)data->zlen);
-	dy=data->ysize/((float)data->ylen);
-	dz=data->zsize/((float)data->zlen);
+	//float dz=0.0;
+	float zpos=data->dz/2.0;
+	float ypos=data->dy/2.0;
 
+	//dx=data->xsize/((float)data->zlen);
 	for (j=0;j<data->ylen;j++)
 	{
 		zpos=0.0;
 
 		for (i=0;i<data->zlen;i++)
 		{
-			data->z[i]=zpos;
+			data->z_mesh[i]=zpos;
 
-			zpos+=dz;
+			zpos+=data->dz;
 
 			data->Ex[i][j]=0.0;
 			data->Ey[i][j]=0.0;
@@ -95,38 +93,20 @@ void fdtd_setup_simulation(struct simulation *sim,struct fdtd_data *data)
 
 
 		}
-	data->y[j]=ypos;
-	ypos+=dy;
+	data->y_mesh[j]=ypos;
+	ypos+=data->dy;
 	}
 
 	for (j=0;j<data->ylen;j++)
 	{
 		for (i=0;i<data->zlen;i++)
 		{
-			if (data->y[j]<data->sithick) data->epsilon_r[i][j]=14.0;
+			if (data->y_mesh[j]<data->sithick) data->epsilon_r[i][j]=14.0;
 		}
 
 	}
 
 }
 
-size_t fdtd_load_code(struct simulation *sim,struct fdtd_data *data)
-{
-	size_t srcsize;
-	int file_size=0;
-    FILE *in=fopen("./libfdtd/code.cl","r");
-	if (in==NULL)
-	{
-		ewe(sim,"I could not find the OpenCL code\n");
-	}
 
-	fseek(in, 0, SEEK_END);
-	file_size = ftell(in)+10;
-	fseek(in, 0, SEEK_SET);
 
-	data->src_code=malloc(sizeof(char)*file_size);
-
-    srcsize=fread(data->src_code, file_size, 1, in);
-    fclose(in);
-	return srcsize;
-}

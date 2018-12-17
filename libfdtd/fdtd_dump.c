@@ -28,8 +28,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <signal.h>
-#define CL_USE_DEPRECATED_OPENCL_1_2_APIS
-#include <CL/cl.h>
 #include <inp.h>
 #include <sim.h>
 #include <log.h>
@@ -37,60 +35,22 @@
 
 #include "vec.h"
 
-void dump_all(struct simulation *sim,float* y, float* z)
+void fdtd_dump(struct simulation *sim,struct fdtd_data *data)
 {
-int i;
-int j;
-printf_log(sim,"Dumping\n");
-FILE *out=fopen("./Ex_final.dat","w");
+	int i=0;
+	int j=0;
+	FILE *out;
 
-for (j=0;j<ylen;j++)
-{
-	for (i=0;i<zlen;i++)
+	out=fopen("./Ex.dat","w");
+	for (j=data->ylen*0.5;j<data->ylen;j++)
 	{
-		printf_log(out,"%le %le %le\n",z[i],y[j],Ex[i][j]);
+		for (i=0;i<data->zlen;i++)
+		{
+			fprintf(out,"%le %le %le\n",data->z_mesh[i],data->y_mesh[j],data->Ex[i][j]);
+		}
+
+	fprintf(out,"\n");
 	}
-
-printf_log(out,"\n");
-}
-fclose(out);
-printf_log(sim,"Dumping\n");
-out=fopen("./Ey_final.dat","w");
-
-for (j=0;j<ylen;j++)
-{
-	for (i=0;i<zlen;i++)
-	{
-		printf_log(out,"%le %le %le\n",z[i],y[j],Ey[i][j]);
-	}
-
-printf_log(out,"\n");
-}
-fclose(out);
-printf_log(sim,"Dumping\n");
-out=fopen("./Ez_final.dat","w");
-for (j=0;j<ylen;j++)
-{
-	for (i=0;i<zlen;i++)
-	{
-		printf_log(out,"%le %le %le\n",z[i],y[j],Ex[i][j]);
-	}
-
-printf_log(out,"\n");
-}
-fclose(out);
-printf_log(sim,"Dumping\n");
-out=fopen("./epsilon_r_final.dat","w");
-
-for (j=0;j<ylen;j++)
-{
-
-	for (i=0;i<zlen;i++)
-	{
-		printf_log(out,"%le %le %le\n",z[i],y[j],epsilon_r[i][j]);
-	}
-
-printf_log(out,"\n");
-}
-fclose(out);
+	fclose(out);
+	
 }
