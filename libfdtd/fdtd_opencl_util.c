@@ -182,7 +182,7 @@ void fdtd_opencl_push_to_gpu(struct simulation *sim,struct fdtd_data *data)
 	int i;
 	#ifdef use_open_cl
 	cl_int error;
-	memcpy(data->gy, data->y, sizeof(float)*data->ylen );
+	memcpy(data->gy, data->y_mesh, sizeof(float)*data->ylen );
 	error=clEnqueueWriteBuffer(data->cq, data->ggy, CL_FALSE, 0, data->ylen*sizeof(float), data->gy, 0, NULL, NULL);
 
 	if (error!=CL_SUCCESS)
@@ -262,7 +262,7 @@ void fdtd_opencl_write_ctrl_data(struct simulation *sim,struct fdtd_data *data)
 	gC[13]=(float)Cmy;
 	gC[14]=(float)Cmz;
 	gC[15]=(float)data->stop;
-	gC[16]=(float)data->sithick;
+	gC[16]=(float)data->excitation_mesh_point;//data->sithick;
 
 	for (i=0;i<17;i++)
 	{
@@ -277,12 +277,11 @@ void fdtd_opencl_write_ctrl_data(struct simulation *sim,struct fdtd_data *data)
 	#endif
 }
 
-void fdtd_opencl_solve_step(struct simulation *sim,struct fdtd_data *data)
+int fdtd_opencl_solve_step(struct simulation *sim,struct fdtd_data *data)
 {
 	#ifdef use_open_cl
 	cl_int error;
 	size_t global = (size_t)data->zlen*data->ylen;
-	printf("roderick -> %d\n",global);
 	size_t local = (size_t)16;
 
 	error=clEnqueueNDRangeKernel(data->cq, data->cal_E, 1, NULL, &global, &local, 0, NULL, NULL);
@@ -314,8 +313,10 @@ void fdtd_opencl_solve_step(struct simulation *sim,struct fdtd_data *data)
 	}
 	error=clFinish(data->cq);
 
-	data->time+=data->dt;
+	return 0;
 	#endif
+
+return -1;
 
 }
 

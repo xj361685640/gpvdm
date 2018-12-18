@@ -33,6 +33,7 @@
 #include <inp.h>
 #include <sim.h>
 #include <log.h>
+#include <device.h>
 #include <fdtd.h>
 
 #include "vec.h"
@@ -48,7 +49,7 @@ free_all();
 }*/
 
 
-int do_fdtd(struct simulation *sim)
+int do_fdtd(struct simulation *sim,struct device *cell)
 {
 	int i;
 	int pos=0;
@@ -59,19 +60,25 @@ int do_fdtd(struct simulation *sim)
 	struct fdtd_data data;
 	char temp[100];
 	int step=0;
-
+	fdtd_init(&data);
 	fdtd_load_config(sim,&data);
 
-	opencl_init(sim,&data);
+	if (data.use_gpu==TRUE)
+	{
+		opencl_init(sim,&data);
+	}
 
 	fdtd_get_mem(sim, &data);
-
-	fdtd_opencl_load_code(sim,&data);
-
-	fdtd_opencl_kernel_init(sim, &data);
+	
+	if (data.use_gpu==TRUE)
+	{
+		fdtd_opencl_load_code(sim,&data);
+		fdtd_opencl_kernel_init(sim, &data);
+	}
 
 	fdtd_setup_simulation(sim,&data);
 
+	fdtd_mesh(sim,&data,cell);
 	pos=0;
 
 
@@ -86,9 +93,11 @@ int do_fdtd(struct simulation *sim)
 	fflush(data.gnuplot2);
 	}
 
-	fdtd_opencl_push_to_gpu(sim,&data);
-	fdtd_opencl_write_ctrl_data(sim,&data);
-
+	if (data.use_gpu==TRUE)
+	{
+		fdtd_opencl_push_to_gpu(sim,&data);
+		fdtd_opencl_write_ctrl_data(sim,&data);
+	}
 
 do
 {
@@ -96,9 +105,13 @@ do
 	int err;
 	fdtd_solve_step(sim,&data);
 
-	if ((step%40)==0)
+	if ((step%200)==0)
 	{
-		fdtd_opencl_pull_data(sim,&data);
+		if (data.use_gpu==TRUE)
+		{
+			fdtd_opencl_pull_data(sim,&data);
+		}
+
 		fdtd_dump(sim,&data);
 
 		printf_log(sim,"plot! %ld\n",step);

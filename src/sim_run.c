@@ -117,7 +117,7 @@ if (strcmp(sim->force_sim_mode,"")!=0)
 
 
 
-if (strcmp(cell.simmode,"opticalmodel@optics")!=0)
+if ((strcmp(cell.simmode,"opticalmodel@optics")!=0)&&(strcmp(cell.simmode,"fdtd@fdtd")!=0))
 {
 	solver_init(sim,cell.solver_name);
 	newton_init(sim,cell.newton_name);
@@ -330,7 +330,7 @@ run_electrical_dll(sim,&cell,strextract_domain(cell.simmode));
 cache_dump(sim);
 cache_free(sim);
 
-if (strcmp(cell.simmode,"opticalmodel@optics")!=0)
+if ((strcmp(cell.simmode,"opticalmodel@optics")!=0)&&(strcmp(cell.simmode,"fdtd@fdtd")!=0))
 {
 
 	device_free(sim,&cell);

@@ -12,5 +12,4 @@ $(OBJECTS) : %.png : $(SOURCEDIR)/%.svg
 	@IMAGE_CONVERT_128@ $@
 
 clean:
-	rm *.png
-
+	rm *.png -f

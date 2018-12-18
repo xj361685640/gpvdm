@@ -49,29 +49,71 @@ void fdtd_init(struct fdtd_data *data)
 	data->lambda=-1;
 	data->stop=1e-6;
 	data->time=0.0;
+	data->use_gpu=FALSE;
+	data->excitation_mesh_point=-1;
 }
 
 
-void fdtd_setup_simulation(struct simulation *sim,struct fdtd_data *data)
+void fdtd_mesh(struct simulation *sim,struct fdtd_data *data,struct device *cell)
 {
+	data->ysize=(float)epitaxy_get_optical_length(&cell->my_epitaxy);
+	
+	float device_start=(float)epitaxy_get_device_start(&(cell->my_epitaxy));
+	float device_stop=(float)epitaxy_get_device_stop(&(cell->my_epitaxy));
+
+	float start_y=device_start+(device_stop-device_start)/2.0;
+	data->excitation_mesh_point=data->ylen*(start_y/data->ysize);
+
+	data->dy=data->ysize/((float)data->ylen);
+	data->dz=data->zsize/((float)data->zlen);
+	data->dx=data->zsize/((float)data->zlen);
+
+	float min=1.0/(clf*sqrt(pow(1.0/data->dy,2.0)+pow(1.0/data->dz,2.0)));
+	data->dt=min*0.1;
+	printf ("dy=%lf nm, dz=%lf nm min_dt=%le dt=%le %le\n",data->dy*1e9,data->dz*1e9,min,data->dt,data->time);
+
 	int i;
 	int j;
-	//float dx=0.0;
+	int layer;
 
-	//float dz=0.0;
 	float zpos=data->dz/2.0;
 	float ypos=data->dy/2.0;
 
-	//dx=data->xsize/((float)data->zlen);
 	for (j=0;j<data->ylen;j++)
 	{
 		zpos=0.0;
 
 		for (i=0;i<data->zlen;i++)
 		{
+			layer=epitaxy_get_optical_material_layer(&cell->my_epitaxy,ypos)+1;
+			if (layer==-1)
+			{
+				layer=1;
+			}
+			data->epsilon_r[i][j]=layer;
 			data->z_mesh[i]=zpos;
 
 			zpos+=data->dz;
+
+		}
+	data->y_mesh[j]=ypos;
+	ypos+=data->dy;
+	}
+
+
+}
+
+void fdtd_setup_simulation(struct simulation *sim,struct fdtd_data *data)
+{
+	int i;
+	int j;
+
+	for (j=0;j<data->ylen;j++)
+	{
+
+		for (i=0;i<data->zlen;i++)
+		{
+
 
 			data->Ex[i][j]=0.0;
 			data->Ey[i][j]=0.0;
@@ -88,23 +130,13 @@ void fdtd_setup_simulation(struct simulation *sim,struct fdtd_data *data)
 			data->Hx_last[i][j]=0.0;
 			data->Hy_last[i][j]=0.0;
 			data->Hz_last[i][j]=0.0;
-			data->epsilon_r[i][j]=1.0;
 			data->z_ang[i][j]=1.0;
 
 
 		}
-	data->y_mesh[j]=ypos;
-	ypos+=data->dy;
-	}
-
-	for (j=0;j<data->ylen;j++)
-	{
-		for (i=0;i<data->zlen;i++)
-		{
-			if (data->y_mesh[j]<data->sithick) data->epsilon_r[i][j]=14.0;
-		}
 
 	}
+
 
 }
 

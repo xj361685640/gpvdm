@@ -42,11 +42,23 @@ void fdtd_dump(struct simulation *sim,struct fdtd_data *data)
 	FILE *out;
 
 	out=fopen("./Ex.dat","w");
-	for (j=data->ylen*0.5;j<data->ylen;j++)
+	for (j=0;j<data->ylen;j++)
 	{
 		for (i=0;i<data->zlen;i++)
 		{
 			fprintf(out,"%le %le %le\n",data->z_mesh[i],data->y_mesh[j],data->Ex[i][j]);
+		}
+
+	fprintf(out,"\n");
+	}
+	fclose(out);
+
+	out=fopen("./epsilonr.dat","w");
+	for (j=0;j<data->ylen;j++)
+	{
+		for (i=0;i<data->zlen;i++)
+		{
+			fprintf(out,"%le %le %le\n",data->z_mesh[i],data->y_mesh[j],data->epsilon_r[i][j]);
 		}
 
 	fprintf(out,"\n");

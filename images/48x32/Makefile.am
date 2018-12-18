@@ -12,5 +12,5 @@ $(OBJECTS) : %.png : $(SOURCEDIR)/%.svg
 	@IMAGE_CONVERT_FLAG@ $@
 
 clean:
-	rm *.png
+	rm *.png -f
 

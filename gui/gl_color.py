@@ -22,26 +22,33 @@ import sys
 from OpenGL.GL import *
 
 class color():
-	def __init__(self,r,g,b,alpha):
+	def __init__(self,r,g,b,alpha=-1,name=""):
 		self.r=r
 		self.g=g
 		self.b=b
 		self.alpha=alpha
-		self.name=""
+		self.name=name
+
+	def __str__(self):
+		return "name="+self.name+" r="+str(self.r)+" g="+str(self.g)+" b="+str(self.b)
+
+	def __eq__(self, other):
+		if other.r==self.r and other.g==self.g and other.b==self.b:
+			return True
+		return False
 
 color_list=[]
 false_color=False
 
-def search_color(r,g,b):
+def search_color(input_color):
 	global color_list
-	n=0
 	my_min=1000.0
 	for i in range(0,len(color_list)):
-		val=abs(color_list[i].r-r)+abs(color_list[i].g-g)+abs(color_list[i].b-b)
-		if val<my_min:
-			my_min=val
-			n=i
-	return color_list[n].name
+		if input_color==color_list[i]:
+			return color_list[i].name
+
+		#print("r=",r,"g=",g,"b=",b,"r=",color_list[i].r,"g=",color_list[i].g,"b=",color_list[i].b,color_list[n].name)
+	return None
 
 def set_false_color(value):
 	global false_color
@@ -50,19 +57,23 @@ def set_false_color(value):
 def set_color(r,g,b,name,alpha=-1):
 	global color_list
 	global false_color
+
 	if false_color==True:
-		rgb_int=len(color_list)
+		rgb_int=len(color_list)+1
 		r =  rgb_int & 255
 		g = (rgb_int >> 8) & 255
 		b =   (rgb_int >> 16) & 255
+		alpha=255
+
+		a=color(r,g,b,alpha=alpha,name=name)
+
+		color_list.append(a)
+
+	if type(r)==int:
 		r=r/255
 		g=g/255
 		b=b/255
-		alpha=1.0
-
-	a=color(r,g,b,alpha)
-	a.name=name
-	color_list.append(a)
+		alpha=alpha/255
 
 	if alpha==-1:
 		glColor3f(r,g,b)
@@ -73,15 +84,9 @@ def clear_color():
 	global color_list
 	color_list=[]
 
-def set_color_alpha(r,g,b,alpha,name):
-	global color_list
-	a=color(r,g,b,alpha)
-	a.name=name
-	color_list.append(a)
-	glColor4f(r,g,b, alpha)
 
 def print_color():
 	global color_list
 	for i in range(0,len(color_list)):
-		print(color_list[i].r,color_list[i].g,color_list[i].b,color_list[i].alpha,color_list[i].name)
+		print(color_list[i])
 

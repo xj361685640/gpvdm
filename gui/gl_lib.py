@@ -236,7 +236,7 @@ def box_lines(x,y,z,w,h,d):
 
 	glEnd()
 	
-def box(x,y,z,w,h,d,r,g,b,alpha):
+def box(x,y,z,w,h,d,r,g,b,alpha,name="box"):
 	gl_save_add("box",x,y,z,[w,h,d,r,g,b,alpha])
 	red=r
 	green=g
@@ -244,7 +244,7 @@ def box(x,y,z,w,h,d,r,g,b,alpha):
 
 
 	#btm
-	set_color(red,green,blue,"box_lines",alpha=alpha)
+	set_color(red,green,blue,name,alpha=alpha)
 
 	glBegin(GL_QUADS)
 	glVertex3f(x+0.0,y+0.0,z+0.0)
@@ -258,7 +258,7 @@ def box(x,y,z,w,h,d,r,g,b,alpha):
 	green=green*0.95
 	blue=blue*0.95
 
-	set_color(red,green,blue,"box_lines",alpha=alpha)
+	set_color(red,green,blue,name,alpha=alpha)
 
 	glBegin(GL_QUADS)
 	glVertex3f(x+0.0,y+h,z+0.0)
@@ -271,7 +271,7 @@ def box(x,y,z,w,h,d,r,g,b,alpha):
 	red=red*0.95
 	green=green*0.95
 	blue=blue*0.95
-	set_color(red,green,blue,"box_lines",alpha=alpha)
+	set_color(red,green,blue,name,alpha=alpha)
 
 	glBegin(GL_QUADS)
 	glVertex3f(x+w,y,z)
@@ -284,7 +284,7 @@ def box(x,y,z,w,h,d,r,g,b,alpha):
 	red=red*0.95
 	green=green*0.95
 	blue=blue*0.95
-	set_color(red,green,blue,"box_lines",alpha=alpha)
+	set_color(red,green,blue,name,alpha=alpha)
 
 	glBegin(GL_QUADS)
 	glVertex3f(x,y,z)
@@ -298,7 +298,7 @@ def box(x,y,z,w,h,d,r,g,b,alpha):
 	green=g
 	blue=b
 
-	set_color(red,green,blue,"box_lines",alpha=alpha)
+	set_color(red,green,blue,name,alpha=alpha)
 	
 	glBegin(GL_QUADS)
 	glVertex3f(x,y,z+d)
@@ -312,7 +312,7 @@ def box(x,y,z,w,h,d,r,g,b,alpha):
 	blue=blue*0.8
 
 	#top
-	set_color(red,green,blue,"box_lines",alpha=alpha)
+	set_color(red,green,blue,name,alpha=alpha)
 	glBegin(GL_QUADS)
 	glVertex3f(x,y+h,z)
 	glVertex3f(x+w,y+ h,z)

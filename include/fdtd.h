@@ -23,12 +23,13 @@
 #include <complex.h>
 #include "advmath.h"
 #include <sim_struct.h>
+#include <device.h>
 
-//#define use_open_cl
+#define use_open_cl
 
 #ifdef use_open_cl
-	#define CL_USE_DEPRECATED_OPENCL_1_2_APIS
-	#include <CL/cl.h>
+//	#define CL_USE_DEPRECATED_OPENCL_1_2_APIS
+#include <CL/cl.h>
 #endif
 
 struct fdtd_data
@@ -84,9 +85,9 @@ struct fdtd_data
 
 	float f;
 	float omega;
-
+	int excitation_mesh_point;
 	char *src_code;
-
+	int use_gpu;
 	#ifdef use_open_cl
 
 		
@@ -127,7 +128,6 @@ struct fdtd_data
 	//config
 	int lam_jmax;
 	float gap;
-	float sithick;
 	int plot;
 	FILE *gnuplot;
 	FILE *gnuplot2;
@@ -142,7 +142,7 @@ struct fdtd_data
 	float time;
 };
 
-int do_fdtd(struct simulation *sim);
+int do_fdtd(struct simulation *sim,struct device *cell);
 void fdtd_free_all(struct simulation *sim, struct fdtd_data *data);
 void fdtd_opencl_load_config(struct simulation *sim, struct fdtd_data *data);
 void opencl_init(struct simulation *sim, struct fdtd_data *data);
@@ -152,10 +152,11 @@ void fdtd_setup_simulation(struct simulation *sim,struct fdtd_data *data);
 void fdtd_opencl_push_to_gpu(struct simulation *sim,struct fdtd_data *data);
 void fdtd_opencl_write_ctrl_data(struct simulation *sim,struct fdtd_data *data);
 void fdtd_solve_step(struct simulation *sim,struct fdtd_data *data);
-void fdtd_opencl_solve_step(struct simulation *sim,struct fdtd_data *data);
+int fdtd_opencl_solve_step(struct simulation *sim,struct fdtd_data *data);
 void fdtd_opencl_pull_data(struct simulation *sim,struct fdtd_data *data);
 void fdtd_dump(struct simulation *sim,struct fdtd_data *data);
 void fdtd_opencl_get_mem(struct simulation *sim, struct fdtd_data *data);
 void fdtd_opencl_freemem(struct simulation *sim, struct fdtd_data *data);
+void fdtd_mesh(struct simulation *sim,struct fdtd_data *data,struct device *cell);
 
 #endif

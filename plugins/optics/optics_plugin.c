@@ -32,6 +32,7 @@
 #include "optics_plugin.h"
 #include <device.h>
 #include <cal_path.h>
+#include <fdtd.h>
 
 static int unused __attribute__((unused));
 

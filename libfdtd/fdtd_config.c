@@ -49,7 +49,7 @@ void fdtd_load_config(struct simulation *sim, struct fdtd_data *data)
 
 	inp_check(sim,&inp,1.0);
 	inp_search_float(sim,&inp,&(data->lambda),"#lambda");
-	inp_search_float(sim,&inp,&(data->gap),"#gap");
+	data->use_gpu=inp_search_english(sim,&inp,"#use_gpu");
 	inp_search_int(sim,&inp,&(data->max_ittr),"#max_ittr");
 	inp_search_int(sim,&inp,&(data->ylen),"#ylen");
 	printf_log(sim,"ylen=%d\n",data->ylen);
@@ -61,8 +61,6 @@ void fdtd_load_config(struct simulation *sim, struct fdtd_data *data)
 	printf_log(sim,"zsize=%e\n",data->zsize);
 	inp_search_int(sim,&inp,&(data->lam_jmax),"#lam_jmax");
 	printf_log(sim,"lam_jmax=%d\n",data->lam_jmax);
-	inp_search_float(sim,&inp,&(data->sithick),"#sithick");
-	printf_log(sim,"sithick=%e\n",data->sithick);
 	inp_search_int(sim,&inp,&(data->plot),"#plot");
 
 	inp_search_float(sim,&inp,&(data->dt),"#dt");
@@ -73,15 +71,8 @@ void fdtd_load_config(struct simulation *sim, struct fdtd_data *data)
 
 	inp_free(sim,&inp);
 
-	data->dy=data->ysize/((float)data->ylen);
-	data->dz=data->zsize/((float)data->zlen);
-	data->dx=data->zsize/((float)data->zlen);
-
 	printf("zsize=%le\n",data->zsize);
-	float min=1.0/(clf*sqrt(pow(1.0/data->dy,2.0)+pow(1.0/data->dz,2.0)));
-	data->dt=min*0.2;
 
-	data->lambda=520e-9;
 	data->src_start=10e-9;
 	data->src_stop=20e-9;
 	data->xsize=1e-5;
@@ -90,7 +81,7 @@ void fdtd_load_config(struct simulation *sim, struct fdtd_data *data)
 
 	data->omega=2.0*3.14159*data->f;
 
-	printf ("dy=%lf nm, dz=%lf nm min_dt=%le dt=%le\n",data->dy*1e9,data->dz*1e9,min,data->dt);
+
 	printf(" lambda=%f\n",data->lambda*1e9);
 
 	data->dt2=data->dt/2.0;

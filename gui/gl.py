@@ -107,7 +107,6 @@ cube_rotate_z_rate = 0.2
 
 from gl_color import set_color
 from gl_color import clear_color
-from gl_color import set_color_alpha
 from gl_color import print_color
 from gl_color import set_false_color
 from gl_color import search_color
@@ -442,19 +441,20 @@ if open_gl_ok==True:
 			self.timer.start(25)
 
 		def mouseDoubleClickEvent(self,event):
+			#thumb_nail_gen()
+			#self.mouse_click_time=time.time()
 			x = event.x()
 			y = self.height()-event.y()
-			data=glReadPixelsub(x, y, 1, 1, GL_RGBA,GL_FLOAT)
-#glReadPixels(x, y, 1, 1, GL_RGB, GL_FLOAT, pixelf);
 			set_false_color(True)
 			self.render()
-			r=float(data[0][0][0])
-			g=float(data[0][0][1])
-			b=float(data[0][0][2])
+			data=glReadPixelsub(x, y, 1, 1, GL_RGBA,GL_FLOAT)
 
-			print(x,y,r,g,b,search_color(r,g,b))
+			#self.swapBuffers()
+			c=color(int(255*data[0][0][0]),int(255*data[0][0][1]),int(255*data[0][0][2]))
+
+
+			print("you have clicked on=",search_color(c))
 			set_false_color(False)
-			
 
 		def mouseMoveEvent(self,event):
 			if 	self.timer!=None:
@@ -483,22 +483,20 @@ if open_gl_ok==True:
 
 		def mousePressEvent(self,event):
 			#thumb_nail_gen()
-			print("test")
 			#self.mouse_click_time=time.time()
 			x = event.x()
 			y = self.height()-event.y()
-#glReadPixels(x, y, 1, 1, GL_RGB, GL_FLOAT, pixelf);
 			set_false_color(True)
 			self.render()
 			data=glReadPixelsub(x, y, 1, 1, GL_RGBA,GL_FLOAT)
 
-			self.swapBuffers()
-			r=float(data[0][0][0])
-			g=float(data[0][0][1])
-			b=float(data[0][0][2])
+			#self.swapBuffers()
+			c=color(int(255*data[0][0][0]),int(255*data[0][0][1]),int(255*data[0][0][2]))
 
-			print(x,y,r,g,b,search_color(r,g,b))
-			#set_false_color(False)
+
+			print("you have clicked on=",search_color(c))
+			set_false_color(False)
+
 		#def mouseReleaseEvent(self,event):
 		#	if (time.time() - self.mouse_click_time)<0.2:
 		#		self.menu(event)
@@ -664,7 +662,7 @@ if open_gl_ok==True:
 						zshrink=1.0
 
 					if xpoints==1 and zpoints==1:
-						box(0.0,pos,0,max_gui_device_x,thick,max_gui_device_z,red,green,blue,alpha)
+						box(0.0,pos,0,max_gui_device_x,thick,max_gui_device_z,red,green,blue,alpha,name="layer"+str(l-i))
 					else:
 						for y in range(0,ypoints):
 							for x in range(0,xpoints):

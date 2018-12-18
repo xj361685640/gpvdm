@@ -216,7 +216,7 @@ def configure_menu(d):
 			build_configure()
 
 			home=str(Path.home())
-			flags="-I"+home+"/windll/libzip/libzip-0.11.2/lib/ -I"+home+"/windll/gsl-1.16/ -I"+home+"/windll/umfpack/UFconfig/ -I"+home+"/windll/umfpack/AMD/Include/ -I"+home+"/windll/umfpack/UMFPACK/Include/"
+			flags="-I"+home+"/windll/libzip/libzip-0.11.2/lib/ -I"+home+"/windll/gsl-1.16/ -I"+home+"/windll/umfpack/UFconfig/ -I"+home+"/windll/umfpack/AMD/Include/ -I"+home+"/windll/umfpack/UMFPACK/Include/ -I"+home+"/windll/OpenCL-Headers-master/"
 			os.system("./configure --host=i686-w64-mingw32 CPPFLAGS=\""+flags+"\"  --enable-noplots --enable-noman --docdir=/gpvdm/ --datadir=/ --bindir=/gpvdm/  --libdir=/ --enable-nodesktop >out.dat 2>out.dat &")
 			et=d.tailbox("out.dat", height=None, width=100)
 

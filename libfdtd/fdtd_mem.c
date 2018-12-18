@@ -36,6 +36,7 @@
 #include "vec.h"
 
 
+
 void fdtd_get_mem(struct simulation *sim, struct fdtd_data *data)
 {
 	int i;
@@ -98,7 +99,10 @@ void fdtd_get_mem(struct simulation *sim, struct fdtd_data *data)
 	data->y_mesh=malloc(sizeof(float)*data->ylen);
 	data->z_mesh=malloc(sizeof(float)*data->zlen);
 
-	fdtd_opencl_get_mem(sim,data);
+	if (data->use_gpu==TRUE)
+	{
+		fdtd_opencl_get_mem(sim,data);
+	}
 }
 
 void fdtd_free_all(struct simulation *sim, struct fdtd_data *data)
@@ -170,6 +174,8 @@ void fdtd_free_all(struct simulation *sim, struct fdtd_data *data)
 		pclose(data->gnuplot2);
 	}
 
-	fdtd_opencl_freemem(sim, data);
-
+	if (data->use_gpu==TRUE)
+	{
+		fdtd_opencl_freemem(sim, data);
+	}
 }
