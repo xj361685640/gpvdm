@@ -83,11 +83,7 @@ class ribbon_information(QToolBar):
 		self.twitter.triggered.connect(self.callback_twitter)
 		self.addAction(self.twitter)
 
-		self.fb = QAction(icon_get("fb.png"), _("Facebook"), self)
-		self.fb.triggered.connect(self.callback_fb)
-		self.addAction(self.fb)
-
-		
+	
 		self.youtube = QAction(icon_get("youtube.png"), _("Youtube\nchannel"), self)
 		self.youtube.triggered.connect(self.callback_youtube)
 		self.addAction(self.youtube)
@@ -125,8 +121,6 @@ class ribbon_information(QToolBar):
 			if r.website!="":
 				webbrowser.open(r.website)#
 
-	def callback_fb(self):
-		webbrowser.open("https://www.facebook.com/gpvdminfo/")
 
 	def callback_ref(self):
 		webbrowser.open("https://gpvdm.com/how_to_cite.html")

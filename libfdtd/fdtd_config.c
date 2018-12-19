@@ -55,8 +55,6 @@ void fdtd_load_config(struct simulation *sim, struct fdtd_data *data)
 	printf_log(sim,"ylen=%d\n",data->ylen);
 	inp_search_int(sim,&inp,&(data->zlen),"#zlen");
 	printf_log(sim,"zlen=%d\n",data->zlen);
-	inp_search_float(sim,&inp,&(data->ysize),"#ysize");
-	printf_log(sim,"ysize=%e\n",data->ysize);
 	inp_search_float(sim,&inp,&(data->zsize),"#zsize");
 	printf_log(sim,"zsize=%e\n",data->zsize);
 	inp_search_int(sim,&inp,&(data->lam_jmax),"#lam_jmax");

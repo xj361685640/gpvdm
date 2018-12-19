@@ -103,6 +103,9 @@ void fdtd_get_mem(struct simulation *sim, struct fdtd_data *data)
 	{
 		fdtd_opencl_get_mem(sim,data);
 	}
+
+	data->layer=(int *)malloc(sizeof(int)*data->ylen);
+
 }
 
 void fdtd_free_all(struct simulation *sim, struct fdtd_data *data)
@@ -178,4 +181,6 @@ void fdtd_free_all(struct simulation *sim, struct fdtd_data *data)
 	{
 		fdtd_opencl_freemem(sim, data);
 	}
+
+	free(data->layer);
 }

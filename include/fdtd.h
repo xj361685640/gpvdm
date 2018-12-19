@@ -58,6 +58,7 @@ struct fdtd_data
 	float xsize;
 	float zsize;
 	float ysize;
+	int *layer;
 
 	float *gEx;
 	float *gEy;

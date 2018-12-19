@@ -52,6 +52,7 @@ from cost import cost
 
 from jvexperiment import jvexperiment
 from util import wrap_text
+from fdtd import fdtd
 
 class ribbon_simulations(QToolBar):
 	def __init__(self):
@@ -68,7 +69,7 @@ class ribbon_simulations(QToolBar):
 		self.solar_spectrum_window=None
 		self.cost_window=None
 		self.diode_window=None
-
+		self.fdtd_window=None
 
 		self.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
 		self.setIconSize(QSize(42, 42))
@@ -112,6 +113,10 @@ class ribbon_simulations(QToolBar):
 		self.lasers = QAction(icon_get("lasers"), _("Laser\neditor"), self)
 		self.lasers.triggered.connect(self.callback_configure_lasers)
 		self.addAction(self.lasers)
+
+		self.optics = QAction(icon_get("fdtd"), _("FDTD\nSimulation"), self)
+		self.optics.triggered.connect(self.callback_fdtd)
+		self.addAction(self.optics)
 
 		self.measure = QAction(icon_get("measure"), _("Measure"), self)
 		self.measure.triggered.connect(self.callback_configure_measure)
@@ -244,6 +249,16 @@ class ribbon_simulations(QToolBar):
 		else:
 			self.diode_window.show()
 
+	def callback_fdtd(self):
+
+		if self.fdtd_window==None:
+			self.fdtd_window=fdtd()
+
+		help_window().help_set_help(["fdtd.png",_("<big><b>FDTD</b></big><br> Use this window to setup a finite difference time domain simulation.")])
+		if self.fdtd_window.isVisible()==True:
+			self.fdtd_window.hide()
+		else:
+			self.fdtd_window.show()
 			
 	def callback_optics_sim(self, widget, data=None):
 		help_window().help_set_help(["optics.png",_("<big><b>The optical simulation window</b></big><br>Use this window to perform optical simulations.  Click on the play button to run a simulation."),"media-playback-start",_("Click on the play button to run an optical simulation.  The results will be displayed in the tabs to the right.")])

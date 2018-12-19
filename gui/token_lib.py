@@ -534,6 +534,9 @@ def build_token_lib():
 	lib.append(my_data("","#fs_laser_time","s","Laser start time","e",1.0,"QLineEdit"))
 
 
+	#fdtd.inp
+	lib.append(my_data("fdtd.inp","#use_gpu","au",_("OpenCL GPU acceleration"),"e",1.0,"gtkswitch"))
+
 class tokens:
 
 	def find(self,token):
