@@ -111,6 +111,8 @@ void epitaxy_load(struct simulation *sim,struct epitaxy *in, char *file)
 	}
 
 	inp_free(sim,&inp);
+
+	epitaxy_load_materials(sim,in);
 }
 
 gdouble epitaxy_get_electrical_length(struct epitaxy *in)
@@ -272,3 +274,10 @@ for (i=0;i<in->layers;i++)
 
 return -1;
 }
+
+void epitaxy_free(struct epitaxy *in)
+{
+	epitaxy_free_materials(in);
+}
+
+

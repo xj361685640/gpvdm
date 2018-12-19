@@ -152,7 +152,6 @@ return;
 
 void save_state(struct simulation *sim,struct device *in,gdouble to)
 {
-//<clean>
 printf_log(sim,"Dumping state\n");
 int i;
 int band;
@@ -173,12 +172,10 @@ for (i=0;i<in->ymeshpoints;i++)
 
 }
 fclose(state);
-//</clean>
 }
 
 int load_state(struct simulation *sim,struct device *in,gdouble voltage)
 {
-//<clean>
 printf_log(sim,"Load state\n");
 int i;
 int band;
@@ -214,7 +211,7 @@ for (i=0;i<in->ymeshpoints;i++)
 }
 fclose(state);
 return TRUE;
-//</clean>
+
 }
 
 

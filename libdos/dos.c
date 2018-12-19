@@ -551,7 +551,7 @@ return ret;
 long double get_top_from_p(struct device *in,long double p,long double T,int mat)
 {
 long double ret=(kb*T/Q)*log((fabs(p))/in->dosp[mat].config.Nv);
-printf("ret=%Le %Le %Le %Le %Le\n",ret,kb,T,Q,p,in->dosp[mat].config.Nv);
+//printf("ret=%Le %Le %Le %Le %Le %Le\n",ret,kb,T,Q,p,in->dosp[mat].config.Nv);
 return ret;
 }
 

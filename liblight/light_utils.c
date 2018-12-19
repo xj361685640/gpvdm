@@ -28,7 +28,6 @@
 #include "inp.h"
 #include "util.h"
 #include "hard_limit.h"
-#include "epitaxy.h"
 #include "lang.h"
 #include "log.h"
 

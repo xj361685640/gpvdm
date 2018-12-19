@@ -249,6 +249,7 @@ void device_free(struct simulation *sim,struct device *in)
 	free_3d_int(in,in->imat);
 	free_3d_int(in,in->imat_epitaxy);
 
+	//Free epitaxy
 
 	//Free solvers
 	solver_free(sim);

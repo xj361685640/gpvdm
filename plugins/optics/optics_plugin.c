@@ -54,7 +54,7 @@ void sim_optics(struct simulation *sim,struct device *in)
 	struct inp_file inp;
 
 
-	light_load_config(sim,&two);
+	light_load_config(sim,&two,&in->my_epitaxy);
 
 	light_setup_dump_dir(sim,&two);
 

@@ -1202,14 +1202,14 @@ for (mat=0;mat<matnumber;mat++)
 
 	server_run_jobs(sim,&(sim->server));
 	printf_log(sim,_("Finished generating DoS....\n"));
-
+	
 	}
 
 }
 
 
 
-
+epitaxy_free(&my_epitaxy);
 }
 
 

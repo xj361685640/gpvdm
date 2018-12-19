@@ -125,7 +125,7 @@ void light_free_memory(struct simulation *sim,struct light *in)
 {
 
 	light_free_epitaxy(in);
-	light_free_materials(in);
+
 	int i;
 	free(in->H1d);
 	free(in->x);

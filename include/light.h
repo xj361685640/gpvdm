@@ -55,14 +55,12 @@ gdouble *sun_E;
 gdouble *H1d;
 int layers;
 gdouble ylen;
-struct istruct *mat;
-struct istruct *mat_n;
+
 struct istruct sun_read;
 gdouble *sun;
 gdouble *sun_norm;
 gdouble *sun_photons;
 gdouble *thick;
-char **material_dir_name;
 char suns_spectrum_file[200];
 char light_file_generation[300];
 int M;
@@ -106,7 +104,6 @@ gdouble (*fn_cal_photon_density)();
 void (*light_ver)();
 void *lib_handle;
 char mode[20];
-struct epitaxy my_epitaxy;
 gdouble electron_eff;
 gdouble hole_eff;
 int force_update;
@@ -127,6 +124,8 @@ int disable_transfer_to_electrical_mesh;
 int disable_cal_photon_density;
 long double light_file_generation_shift;
 
+//should remove this
+struct epitaxy *my_epitaxy;
 gdouble Psun0;
 };
 
@@ -134,9 +133,9 @@ void light_norm_photon_density(struct light *in);
 void light_memory(struct simulation *sim,struct light *in);
 void light_load_materials(struct simulation *sim,struct light *in);
 gdouble light_cal_photon_density(struct light *in);
-void light_load_config(struct simulation *sim,struct light *in);
+void light_load_config(struct simulation *sim,struct light *in,struct epitaxy *my_epitaxy);
 void light_load_config_file(struct simulation *sim,struct light *in);
-void light_init_mesh(struct simulation *sim,struct light *in);
+void light_init_mesh(struct simulation *sim,struct light *in,struct epitaxy *my_epitaxy);
 void light_set_sun_power(struct light *in,gdouble power, gdouble laser_eff);
 void light_free_memory(struct simulation *sim,struct light *in);
 void light_get_mode(struct istruct *mode,int lam,struct light *in);
@@ -153,9 +152,8 @@ void light_dump_verbose_1d(struct simulation *sim,struct light *in, int i,char *
 void light_dump_verbose_2d(struct simulation *sim,struct light *in);
 void light_get_mode(struct istruct *mode,int lam,struct light *in);
 void light_set_unity_laser_power(struct light *in,int lam);
-void light_free_materials(struct light *in);
 void light_free_epitaxy(struct light *in);
-void light_load_epitaxy(struct simulation *sim,struct light *in,char *epi_file);
+void light_import_epitaxy(struct simulation *sim,struct light *in,struct epitaxy *my_epitaxy);
 void light_calculate_complex_n(struct light *in);
 int light_load_laser(struct simulation *sim, struct light *in,char *name);
 gdouble light_get_sun(struct light *in);

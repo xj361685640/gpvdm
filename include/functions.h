@@ -20,5 +20,5 @@
 
 
 #ifndef hfuctions
-void light_load_config(struct simulation *sim,struct light *in);
+void light_load_config(struct simulation *sim,struct light *in,struct epitaxy *my_epitaxy);
 #endif

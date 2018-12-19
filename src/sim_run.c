@@ -208,7 +208,7 @@ if ((strcmp(cell.simmode,"opticalmodel@optics")!=0)&&(strcmp(cell.simmode,"fdtd@
 	old_Psun=light_get_sun(&cell.mylight);
 	light_init(&cell.mylight);
 	light_set_dx(&cell.mylight,cell.ymesh[1]-cell.ymesh[0]);
-	light_load_config(sim,&cell.mylight);
+	light_load_config(sim,&cell.mylight,&cell.my_epitaxy);
 
 	//printf("%d %d\n",get_dump_status(sim,dump_optics_verbose), get_dump_status(sim,dump_optics_summary));
 	//getchar();
@@ -224,7 +224,7 @@ if ((strcmp(cell.simmode,"opticalmodel@optics")!=0)&&(strcmp(cell.simmode,"fdtd@
 	}
 	
 	light_load_dlls(sim,&cell.mylight);
-	light_setup_ray(sim,&cell,&cell.mylight);
+	light_setup_ray(sim,&cell,&cell.mylight,&cell.my_epitaxy);
 
 
 	if (cell.led_on==TRUE)
@@ -297,6 +297,7 @@ if ((strcmp(cell.simmode,"opticalmodel@optics")!=0)&&(strcmp(cell.simmode,"fdtd@
 		dump_1d_slice(sim,&cell,temp);
 		cache_dump(sim);
 		cache_free(sim);
+		epitaxy_free(&cell.my_epitaxy);
 		device_free(sim,&cell);
 		device_free_traps(&cell);
 		mesh_free(sim,&cell);
@@ -329,6 +330,7 @@ run_electrical_dll(sim,&cell,strextract_domain(cell.simmode));
 
 cache_dump(sim);
 cache_free(sim);
+epitaxy_free(&cell.my_epitaxy);
 
 if ((strcmp(cell.simmode,"opticalmodel@optics")!=0)&&(strcmp(cell.simmode,"fdtd@fdtd")!=0))
 {

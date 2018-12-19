@@ -52,8 +52,8 @@ void light_update_ray_mat(struct light *in,int lam)
 			n=1.0;
 		}else
 		{
-			alpha=inter_get_noend(&(in->mat[layer]),in->l[lam]);
-			n=inter_get_noend(&(in->mat_n[layer]),in->l[lam]);
+			alpha=inter_get_noend(&(in->my_epitaxy->mat[layer]),in->l[lam]);
+			n=inter_get_noend(&(in->my_epitaxy->mat_n[layer]),in->l[lam]);
 		}
 
 		in->my_image.obj_n[i]=n;

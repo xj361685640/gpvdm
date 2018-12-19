@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 5.0\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2018-12-18 13:34+0000\n"
+"POT-Creation-Date: 2018-12-19 07:55+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: ../liblight/light_config.c:59 ../liblight/light_config.c:110
+#: ../liblight/light_config.c:89
 msgid "load"
 msgstr ""
 
@@ -67,7 +67,7 @@ msgstr ""
 msgid "Generation rate"
 msgstr ""
 
-#: ../liblight/light_dump.c:312 ../src/main.c:76
+#: ../liblight/light_dump.c:312 ../src/main.c:72
 msgid "Hole generation rate"
 msgstr ""
 
@@ -128,56 +128,26 @@ msgstr ""
 msgid "load: materials"
 msgstr ""
 
-#: ../liblight/light_materials.c:61
+#: ../liblight/light_materials.c:58
 msgid "Optical spectra directory not found\n"
 msgstr ""
 
-#: ../liblight/light_materials.c:83
+#: ../liblight/light_materials.c:80
 #, python-format
 msgid "spectrum file: I do not know what to do with %s"
 msgstr ""
 
-#: ../liblight/light_materials.c:88 ../liblight/light_materials.c:211
-#: ../liblight/light_materials.c:231 ../lib/util.c:410 ../lib/util.c:530
-#: ../lib/util.c:590 ../lib/util.c:680
+#: ../liblight/light_materials.c:85 ../lib/util.c:410 ../lib/util.c:530
+#: ../lib/util.c:590 ../lib/util.c:680 ../lib/epitaxy_materials.c:160
+#: ../lib/epitaxy_materials.c:180
 msgid "File not found"
-msgstr ""
-
-#: ../liblight/light_materials.c:110
-msgid "No optical materials found\n"
-msgstr ""
-
-#: ../liblight/light_materials.c:261 ../liblight/light_materials.c:351
-#: ../liblight/light_materials.c:417
-msgid "file not found"
-msgstr ""
-
-#: ../liblight/light_materials.c:337
-msgid "Error at end of patch file\n"
-msgstr ""
-
-#: ../liblight/light_materials.c:397
-msgid "Error at end of inter file"
-msgstr ""
-
-#: ../liblight/light_materials.c:444 ../liblight/light_materials.c:496
-msgid "Wavelength - Reflected light"
-msgstr ""
-
-#: ../liblight/light_materials.c:446 ../liblight/light_materials.c:498
-#: ../libmeasure/probe.c:158 ../libmeasure/probe.c:160
-#: ../libmeasure/probe.c:183 ../libmeasure/probe.c:185
-#: ../libmeasure/probe.c:208 ../libmeasure/probe.c:210
-#: ../gui/import_data.py:282 ../gui/import_data.py:283
-#: ../gui/import_data.py:284 ../gui/import_data.py:285 ../gui/equation.py:181
-msgid "Wavelength"
 msgstr ""
 
 #: ../liblight/light_memory.c:192
 msgid "Freeing memory from the optical model\n"
 msgstr ""
 
-#: ../liblight/light_utils.c:298
+#: ../liblight/light_utils.c:297
 msgid "It was dark I did not solve any slices\n"
 msgstr ""
 
@@ -207,6 +177,40 @@ msgstr ""
 
 #: ../lib/util.c:875
 msgid "Deleting directory"
+msgstr ""
+
+#: ../lib/epitaxy_materials.c:45
+msgid "epitaxy load: materials"
+msgstr ""
+
+#: ../lib/epitaxy_materials.c:59
+msgid "No optical materials found\n"
+msgstr ""
+
+#: ../lib/epitaxy_materials.c:210 ../lib/epitaxy_materials.c:300
+#: ../lib/epitaxy_materials.c:366
+msgid "file not found"
+msgstr ""
+
+#: ../lib/epitaxy_materials.c:286
+msgid "Error at end of patch file\n"
+msgstr ""
+
+#: ../lib/epitaxy_materials.c:346
+msgid "Error at end of inter file"
+msgstr ""
+
+#: ../lib/epitaxy_materials.c:393 ../lib/epitaxy_materials.c:445
+msgid "Wavelength - Reflected light"
+msgstr ""
+
+#: ../lib/epitaxy_materials.c:395 ../lib/epitaxy_materials.c:447
+#: ../libmeasure/probe.c:158 ../libmeasure/probe.c:160
+#: ../libmeasure/probe.c:183 ../libmeasure/probe.c:185
+#: ../libmeasure/probe.c:208 ../libmeasure/probe.c:210
+#: ../gui/import_data.py:282 ../gui/import_data.py:283
+#: ../gui/import_data.py:284 ../gui/import_data.py:285 ../gui/equation.py:181
+msgid "Wavelength"
 msgstr ""
 
 #: ../lib/complex_solver.c:44
@@ -681,95 +685,95 @@ msgstr ""
 msgid "n"
 msgstr ""
 
-#: ../src/mesh.c:78
+#: ../src/mesh.c:79
 msgid ""
 "The mesh does not match the device length and I am not alowed to remesh it"
 msgstr ""
 
-#: ../src/mesh.c:279
+#: ../src/mesh.c:280
 msgid "Direction wrong"
 msgstr ""
 
-#: ../src/main.c:132 ../src/main.c:153
+#: ../src/main.c:128 ../src/main.c:149
 msgid "Copyright (C) 2012-2017 Roderick C. I. MacKenzie, Releced under GPLv2"
 msgstr ""
 
-#: ../src/main.c:134
+#: ../src/main.c:130
 msgid "options"
 msgstr ""
 
-#: ../src/main.c:136
+#: ../src/main.c:132
 msgid "Options"
 msgstr ""
 
-#: ../src/main.c:138
+#: ../src/main.c:134
 msgid "output data path"
 msgstr ""
 
-#: ../src/main.c:139
+#: ../src/main.c:135
 msgid "sets the input path"
 msgstr ""
 
-#: ../src/main.c:140 ../gui/command_args.py:81 ../gui/command_args.py:82
+#: ../src/main.c:136 ../gui/command_args.py:81 ../gui/command_args.py:82
 msgid "displays the current version"
 msgstr ""
 
-#: ../src/main.c:141
+#: ../src/main.c:137
 msgid "zip the results"
 msgstr ""
 
-#: ../src/main.c:142
+#: ../src/main.c:138
 msgid "Forces a simulation mode."
 msgstr ""
 
-#: ../src/main.c:143
+#: ../src/main.c:139
 msgid "sets the number of CPUs"
 msgstr ""
 
-#: ../src/main.c:145
+#: ../src/main.c:141
 msgid ""
 "Additional information about gpvdm is available at https://www.gpvdm.com."
 msgstr ""
 
-#: ../src/main.c:147
+#: ../src/main.c:143
 msgid "Report bugs to: roderick.mackenzie@nottingham.ac.uk"
 msgstr ""
 
-#: ../src/main.c:152
+#: ../src/main.c:148
 #, python-format
 msgid "gpvdm_core, Version %s\n"
 msgstr ""
 
-#: ../src/main.c:154
+#: ../src/main.c:150
 msgid "This is free software; see the source code for copying conditions."
 msgstr ""
 
-#: ../src/main.c:155
+#: ../src/main.c:151
 msgid "There is ABSOLUTELY NO WARRANTY; not even for MERCHANTABILITY or\n"
 msgstr ""
 
-#: ../src/main.c:156
+#: ../src/main.c:152
 msgid "FITNESS FOR A PARTICULAR PURPOSE.\n"
 msgstr ""
 
-#: ../src/main.c:209 ../gui/scan_tab.py:451 ../gui/constraints.py:143
+#: ../src/main.c:203 ../gui/scan_tab.py:451 ../gui/constraints.py:143
 #: ../gui/constraints.py:182 ../gui/fit_vars.py:155 ../gui/fit_patch.py:119
 msgid "Token"
 msgstr ""
 
-#: ../src/main.c:211
+#: ../src/main.c:205
 msgid "General-purpose Photovoltaic Device Model (https://www.gpvdm.com)\n"
 msgstr ""
 
-#: ../src/main.c:212
+#: ../src/main.c:206
 msgid "You should have received a copy of the GNU General Public License\n"
 msgstr ""
 
-#: ../src/main.c:213
+#: ../src/main.c:207
 msgid "along with this software.  If not, see www.gnu.org/licenses/.\n"
 msgstr ""
 
-#: ../src/main.c:215
+#: ../src/main.c:209
 msgid "If you wish to collaborate in anyway please get in touch:\n"
 msgstr ""
 
@@ -5015,19 +5019,19 @@ msgstr ""
 msgid "Reporting error...."
 msgstr ""
 
-#: ../libmemory/memory.c:256
+#: ../libmemory/memory.c:257
 msgid "Solved"
 msgstr ""
 
-#: ../libmemory/memory.c:256
+#: ../libmemory/memory.c:257
 msgid "Equations"
 msgstr ""
 
-#: ../libmemory/memory.c:265
+#: ../libmemory/memory.c:266
 msgid "I can't allocate a device with less than 1 mesh point."
 msgstr ""
 
-#: ../libmemory/memory.c:270
+#: ../libmemory/memory.c:271
 msgid ""
 "You are asking me to simulate a device with more than 50000 mesh points, "
 "although I could do this I am not going to because it seems a bad idea to me."

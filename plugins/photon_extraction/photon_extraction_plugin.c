@@ -52,13 +52,13 @@ void sim_optics(struct simulation *sim,struct device *in)
 	struct inp_file inp;
 
 
-	light_load_config(sim,&two);
+	light_load_config(sim,&two,&in->my_epitaxy);
 	light_setup_dump_dir(sim,&two);
 
 	strcpy(two.mode,"ray");
 	//two.Psun=1.0;
 	light_load_dlls(sim,&two);
-	light_setup_ray(sim,in,&two);
+	light_setup_ray(sim,in,&two,&in->my_epitaxy);
 	two.my_image.theta_steps=360;
 	//light_set_dx(&cell.mylight,cell.ymesh[1]-cell.ymesh[0]);
 

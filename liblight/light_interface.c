@@ -184,13 +184,12 @@ void light_init(struct light *in)
 	in->layers=-1;
 	in->thick=NULL;
 	in->G_percent=NULL;
-	in->material_dir_name=NULL;
 	image_init(&in->my_image);
 	in->disable_cal_photon_density=FALSE;
 }
 
 
-void light_setup_ray(struct simulation *sim,struct device *cell,struct light *in)
+void light_setup_ray(struct simulation *sim,struct device *cell,struct light *in,struct epitaxy *my_epitaxy)
 {
 	struct inp_file inp;
 
@@ -205,23 +204,23 @@ void light_setup_ray(struct simulation *sim,struct device *cell,struct light *in
 
 	int i;
 	double xlen=cell->xlen;
-	double ypos=-epitaxy_get_device_start(&cell->my_epitaxy);//+in->ylen;
+	double ypos=-epitaxy_get_device_start(my_epitaxy);//+in->ylen;
 	double dx=xlen*0.01;
 	double dy=in->ylen*0.1;
-	double device_start=epitaxy_get_device_start(&(cell->my_epitaxy));
-	double device_stop=epitaxy_get_device_stop(&(cell->my_epitaxy));
+	double device_start=epitaxy_get_device_start(my_epitaxy);
+	double device_stop=epitaxy_get_device_stop(my_epitaxy);
 
 	double start_y=device_start+(device_stop-device_start)/2.0;
 
 	in->my_image.y_escape_level=ypos-dy;
 	
-	add_box(&in->my_image,0.0,-in->ylen-epitaxy_get_device_start(&cell->my_epitaxy),xlen+dx*2.0,in->ylen*2.0+dy,-1,TRUE);
+	add_box(&in->my_image,0.0,-in->ylen-epitaxy_get_device_start(my_epitaxy),xlen+dx*2.0,in->ylen*2.0+dy,-1,TRUE);
 
-	for (i=0;i<cell->my_epitaxy.layers;i++)
+	for (i=0;i<my_epitaxy->layers;i++)
 	{
-		add_box(&in->my_image,dx,ypos,xlen,fabs(cell->my_epitaxy.width[i]),i,FALSE);
+		add_box(&in->my_image,dx,ypos,xlen,fabs(my_epitaxy->width[i]),i,FALSE);
 		
-		ypos+=fabs(cell->my_epitaxy.width[i]);
+		ypos+=fabs(my_epitaxy->width[i]);
 	}
 
 
@@ -242,13 +241,13 @@ void light_setup_ray(struct simulation *sim,struct device *cell,struct light *in
 	//dump_plane(&in->my_image);
 	//dump_plane_to_file(&in->my_image);
 }
-void light_load_config(struct simulation *sim,struct light *in)
+void light_load_config(struct simulation *sim,struct light *in,struct epitaxy *my_epitaxy)
 {
 	light_load_config_file(sim,in);
-	light_load_epitaxy(sim,in,"optics_epitaxy.inp");
+	light_import_epitaxy(sim,in,my_epitaxy);
 	light_load_materials(sim,in);
 	light_memory(sim,in);
-	light_init_mesh(sim,in);
+	light_init_mesh(sim,in,my_epitaxy);
 }
 
 int light_solve_lam_slice(struct simulation *sim, struct light *in,int lam)

@@ -68,6 +68,7 @@ void mesh_remesh_y(struct simulation *sim,struct device *in)
 		mesh_free(sim,in);
 
 		join_path(2,device_file_path,get_input_path(sim),"epitaxy.inp");
+		epitaxy_free(&(in->my_epitaxy));
 		epitaxy_load(sim,&(in->my_epitaxy),device_file_path);
 
 		mesh_load(sim,in);

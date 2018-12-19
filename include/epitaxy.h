@@ -35,6 +35,9 @@ struct epitaxy
 	char dos_file[20][100];
 	char pl_file[20][100];
 	char electrical_layer[20];
+
+	struct istruct *mat;
+	struct istruct *mat_n;
 };
 
 void epitaxy_load(struct simulation *sim,struct epitaxy *in, char *file);
@@ -46,4 +49,7 @@ gdouble epitaxy_get_device_start(struct epitaxy *in);
 gdouble epitaxy_get_device_stop(struct epitaxy *in);
 gdouble epitaxy_get_device_start_i(struct epitaxy *in);
 int epitaxy_get_epitaxy_layer_using_electrical_pos(struct epitaxy *in,gdouble pos);
+void epitaxy_load_materials(struct simulation *sim,struct epitaxy *in);
+void epitaxy_free(struct epitaxy *in);
+void epitaxy_free_materials(struct epitaxy *in);
 #endif

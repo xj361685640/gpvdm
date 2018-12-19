@@ -29,14 +29,13 @@
 #include "inp.h"
 #include "util.h"
 #include "hard_limit.h"
-#include "epitaxy.h"
 #include "lang.h"
 #include "log.h"
 
 static int unused __attribute__((unused));
 
 
-void light_init_mesh(struct simulation *sim,struct light *in)
+void light_init_mesh(struct simulation *sim,struct light *in,struct epitaxy *my_epitaxy)
 {
 printf_log(sim,"init: mesh\n");
 	int i;
@@ -87,9 +86,9 @@ printf_log(sim,"init: mesh\n");
 	{
 		for (ii=0;ii<in->points;ii++)
 		{
-			in->alpha[i][ii]=inter_get_noend(&(in->mat[in->layer[ii]]),in->l[i]);
+			in->alpha[i][ii]=inter_get_noend(&(my_epitaxy->mat[in->layer[ii]]),in->l[i]);
 			in->alpha0[i][ii]=in->alpha[i][ii];
-			in->n[i][ii]=inter_get_noend(&(in->mat_n[in->layer[ii]]),in->l[i]);
+			in->n[i][ii]=inter_get_noend(&(my_epitaxy->mat_n[in->layer[ii]]),in->l[i]);
 
 		}
 	}
