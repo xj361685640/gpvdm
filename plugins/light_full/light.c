@@ -17,6 +17,10 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file light.c
+	@brief Full optical pluugin solver.
+*/
+
 
 #include <stdio.h>
 #include <stdlib.h>

@@ -4,7 +4,7 @@
 // 
 //  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 //
-//	www.rodmack.com
+//	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
@@ -17,7 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
-
+/** @file dos_an.c
+	@brief Deals with the analytical DoS.
+*/
 
 #include "dos_an.h"
 #include "const.h"

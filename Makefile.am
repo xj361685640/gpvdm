@@ -81,7 +81,7 @@ plugins_DATA=plugins/*.@DLIB_EXT@
 pythondir = $(pkgdatadir)/gui
 python_PYTHON=gui/*.py gui/*.bat
 
-dist_doc_DATA = README
+dist_doc_DATA = README.md
 
 if INCLUDE_DOCS
 docsdir = $(docdir)
@@ -108,6 +108,8 @@ clean-local:
 	rm gpvdm_core *.dat *.o ./plugins/*.so ./plugins/*.dll  *.log *.a  *.lib *.exe *.chk *.oplot -f
 	rm ./gui/__pycache__/* -f
 	rm autom4te.cache -rf
+	rm code_docs -rf
+
 	find . -type f -name '.~lock*' -delete
 	
 gpvdm_core$(EXEEXT):

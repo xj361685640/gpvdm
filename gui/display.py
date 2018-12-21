@@ -18,6 +18,9 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+## @package display
+#  The display widget, this either displays the 3D OpenGL image of the device or the fallback non OpenGL widget.
+#
 
 import os
 

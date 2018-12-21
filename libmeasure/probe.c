@@ -17,6 +17,10 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file probe.c
+	@brief Optical probes for Stark stuff.
+*/
+
 
 #include "util.h"
 #include "const.h"

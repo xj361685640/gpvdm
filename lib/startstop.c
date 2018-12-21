@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file startstop.c
+	@brief Pause the simulation if desired.
+*/
 
 
 

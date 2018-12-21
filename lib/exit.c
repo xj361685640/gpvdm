@@ -17,7 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
-
+/** @file exit.c
+	@brief Exit while sending sane data to the gui, also handle crashes while fitting.
+*/
 
 
 #include <stdarg.h>

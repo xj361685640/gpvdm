@@ -17,6 +17,10 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file solver_interface.c
+	@brief Load the sparse matrix solver .so/.dll.  If this is UMFPACK the plugin will call UMFPACK, for other custom solvers the work will be done in the plugin.
+*/
+
 
 #include <stdio.h>
 #include <stdlib.h>

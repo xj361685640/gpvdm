@@ -19,6 +19,10 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+## @package css
+#  Load css to decorate window
+#
+
 import os
 from cal_path import get_css_path
 from PyQt5.QtCore import QFile,QIODevice

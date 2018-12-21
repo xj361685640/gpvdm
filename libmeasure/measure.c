@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file measure.c
+	@brief Job management for fitting, run multiple fitting instances over multiple CPUs.
+*/
 
 #include "util.h"
 #include "const.h"

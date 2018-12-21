@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file cal_path.c
+	@brief Calculate the path of where stuff is, and if it cant find a file look harder.  Win/Linux.
+*/
 
 
 #include <stdio.h>

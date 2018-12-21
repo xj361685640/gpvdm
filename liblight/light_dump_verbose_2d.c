@@ -17,7 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
-
+/** @file light_dump_vervose_2d.c
+	@brief Dumps the optical fields in 2D.
+*/
 
 
 #include <string.h>

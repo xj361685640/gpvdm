@@ -17,6 +17,10 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file fdtd.c
+	@brief Main FDTD interface
+*/
+
 #include <math.h>
 #include <strings.h>
 #include <stdio.h>

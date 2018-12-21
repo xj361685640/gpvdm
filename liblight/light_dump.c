@@ -19,6 +19,9 @@
 
 
 
+/** @file light_dump.c
+	@brief Dumps optical fields from the light model.
+*/
 
 #include <string.h>
 #include <sys/stat.h>

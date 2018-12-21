@@ -17,8 +17,8 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
-/** @file fdtd_dump.c
-	@brief Dumps the fdtd fields.
+/** @file fdtd_power.c
+	@brief Calculate fdtd power.
 */
 
 #include <math.h>
@@ -39,34 +39,15 @@
 
 #include "vec.h"
 
-void fdtd_dump(struct simulation *sim,struct fdtd_data *data)
+
+void fdtd_power_xy(struct simulation *sim,struct fdtd_data *data,int z, int y)
 {
-	int i=0;
-	int j=0;
-	FILE *out;
+	float e_power=0.0;
+	float h_power=0.0;
 
-	out=fopen("./Ex.dat","w");
-	for (j=0;j<data->ylen;j++)
-	{
-		for (i=0;i<data->zlen;i++)
-		{
-			fprintf(out,"%le %le %le\n",data->z_mesh[i],data->y_mesh[j],data->Ex[i][j]);
-		}
+	e_power=0.5*epsilon0f*(data->Ex[z][y]*data->Ex[z][y]+data->Ey[z][y]*data->Ey[z][y]+data->Ez[z][y]*data->Ez[z][y]);
+	h_power=0.5*mu0f*(data->Hx[z][y]*data->Hx[z][y]+data->Hy[z][y]*data->Hy[z][y]+data->Hz[z][y]*data->Hz[z][y]);
 
-	fprintf(out,"\n");
-	}
-	fclose(out);
-
-	out=fopen("./epsilonr.dat","w");
-	for (j=0;j<data->ylen;j++)
-	{
-		for (i=0;i<data->zlen;i++)
-		{
-			fprintf(out,"%le %le %le\n",data->z_mesh[i],data->y_mesh[j],data->epsilon_r[i][j]);
-		}
-
-	fprintf(out,"\n");
-	}
-	fclose(out);
-	
+	return e_power+h_power;
 }
+

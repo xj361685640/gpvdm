@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file fx.c
+	@brief Frequency domain solver
+*/
 
 #include "sim.h"
 #include "inp.h"

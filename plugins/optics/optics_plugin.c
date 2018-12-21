@@ -17,7 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
-
+/** @file optics_plugin.c
+	@brief Plugin to run optics as stand alone simulation.
+*/
 
 #include <sim.h>
 #include <dump.h>

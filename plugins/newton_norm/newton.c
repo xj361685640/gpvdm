@@ -17,6 +17,10 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file newton.c
+	@brief Newton solver which uses slotboom variables.
+*/
+
 
 #include <stdlib.h>
 #include <string.h>

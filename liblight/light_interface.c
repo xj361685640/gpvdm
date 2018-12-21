@@ -17,7 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
-
+/** @file light_interface.c
+	@brief Acts as an interface between the model and the light dlls for each optical model.
+*/
 
 	#include <dlfcn.h>
 

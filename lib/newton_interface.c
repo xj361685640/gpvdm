@@ -17,6 +17,10 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file newton_interface.c
+	@brief Load and run the newton solve .dll/.so file.  They are hot swappable hence the interface.
+*/
+
 
 
 #include <stdio.h>

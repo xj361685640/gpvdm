@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file inp.c
+	@brief Input file interface, files can be in .gpvdm files or stand alone files.
+*/
 
 
 #include <stdio.h>

@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file plugin.c
+	@brief Interface for equilibrium solver.
+*/
 
 #include <solver_interface.h>
 #include <dll_export.h>

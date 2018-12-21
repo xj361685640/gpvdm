@@ -76,4 +76,12 @@ def src_to_web(d):
 			shutil.copyfile(full_path,os.path.join(web_path,item))
 			#print(item)
 
+def publish_code_docs():
+	src="./docs/gui"
+	web_path=os.path.join(expanduser("~"),"webpage/gpvdm.com/public_html/docs/gui/")
+	copytree(src, web_path)
+
+	src="./docs/core"
+	web_path=os.path.join(expanduser("~"),"webpage/gpvdm.com/public_html/docs/core/")
+	copytree(src, web_path)
 

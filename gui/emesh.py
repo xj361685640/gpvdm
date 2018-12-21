@@ -18,7 +18,9 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-
+## @package emesh
+#  The main window to edit the electrical mesh, can select between a 1D, 2D and 3D mesh.
+#
 
 import os
 from cal_path import get_exe_command

@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file complex_solver.c
+	@brief Interface to a complex (a+jb) matrix solver, currently use UMFPACK, but could be swapped out. 
+*/
 
 #include <string.h>
 #include <stdio.h>

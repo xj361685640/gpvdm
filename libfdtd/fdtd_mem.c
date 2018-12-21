@@ -17,6 +17,10 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file fdtd_mem.c
+	@brief Memory allocation for FDTD.
+*/
+
 #include <math.h>
 #include <strings.h>
 #include <stdio.h>

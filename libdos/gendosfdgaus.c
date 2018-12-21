@@ -17,7 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
-
+/** @file gendosfdgause.c
+	@brief Generates the DoS files.
+*/
 
 #include <stdio.h>
 #include <stdlib.h>

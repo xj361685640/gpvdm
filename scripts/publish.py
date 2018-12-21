@@ -77,7 +77,7 @@ def publish_src(d,distro=None,publication_mode="gpl_distro"):
 
 	spath=os.path.join(my_dir,"docs")
 	dpath=os.path.join(dest,"docs")
-	copy_files(dpath,spath,[".tex",".bib","Makefile.am",".bst"])
+	copy_files(dpath,spath,[".tex",".bib","Makefile.am",".bst",".config"])
 
 	os.mkdir(os.path.join(dest,"docs","images"))
 
@@ -109,7 +109,7 @@ def publish_src(d,distro=None,publication_mode="gpl_distro"):
 	dpath=os.path.join(dest,"include")
 	copy_files(dpath,spath,[".h"])
 
-	copy_files(dest,my_dir,["Makefile.am","configure","configure.ac","doxygen.config","README","COPYING"])
+	copy_files(dest,my_dir,["Makefile.am","configure","configure.ac","README.md","COPYING"])
 
 	cp_materials(dest,my_dir)
 	cp_spectra(dest,my_dir)

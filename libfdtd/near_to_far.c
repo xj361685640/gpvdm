@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file near_to_far.c
+	@brief Fear to far filed generator, not currently linked to.
+*/
 
 void near_to_far(double *x, double *E,int len,double *y, double *E_right,int len_right)
 {

@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file newton.c
+	@brief Full 2D newton solver.
+*/
 
 
 

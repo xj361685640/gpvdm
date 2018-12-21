@@ -17,6 +17,10 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file plugin.c
+	@brief Interface for Newton solver.
+*/
+
 
 #include "newton.h"
 #include <solver_interface.h>

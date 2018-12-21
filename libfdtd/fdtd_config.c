@@ -17,6 +17,10 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file fdtd_config.c
+	@brief Loads the fdtd config file.
+*/
+
 #include <math.h>
 #include <strings.h>
 #include <stdio.h>

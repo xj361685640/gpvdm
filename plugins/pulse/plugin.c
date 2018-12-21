@@ -4,7 +4,7 @@
 // 
 //  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 //
-//	www.rodmack.com
+//	htps://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file plugin.c
+	@brief Interface for time domain solver.
+*/
 
 #include <solver_interface.h>
 #include <dll_export.h>

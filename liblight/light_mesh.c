@@ -17,7 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
-
+/** @file light_mesh.c
+	@brief Performs meshing for the light model.
+*/
 
 #include "util.h"
 #include "const.h"

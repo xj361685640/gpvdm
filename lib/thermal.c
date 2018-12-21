@@ -17,6 +17,11 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file thermal.c
+	@brief Thermal model.
+*/
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "sim.h"

@@ -9,6 +9,7 @@ from make_m4 import make_m4
 
 from pathlib import Path
 from shutil import copyfile
+from to_web import publish_code_docs
 
 def test(d):
 	if d.yesno("Run gpvdm") == d.OK:
@@ -100,13 +101,13 @@ def configure_autodetect(d):
 		d.msgbox("Built")
 	else:
 		d.msgbox("Can't auto configure for this platform.")
-		
-def configure_menu(d):
+
+def select_distro_menu(d):
 	if os.geteuid() == 0:
 		d.msgbox("Don't do a build as root")
 		return
 	code, tag = d.menu("build for:",
-		               choices=[("(auto)", "Detect distro (x86_64/ARM)"),
+		               choices=[("(back)", "back"),
 								("(fedora)", "fedora (x86_64)"),
 								("(debian)", "debian (x86_64)"),
 								("(raspberry)", "Raspberry (ARM)"),
@@ -121,8 +122,8 @@ def configure_menu(d):
 								])
 
 	if code == d.OK:
-		if tag=="(auto)":
-			configure_autodetect(d)
+		if tag=="(back)":
+			configure_menu(d)
 
 		if tag=="(default)":
 			make_m4(hpc=False, win=False,usear=True)
@@ -227,6 +228,7 @@ def configure_menu(d):
 			d.msgbox("Built")
 
 		if tag=="(debian-i386)":
+
 			make_m4(hpc=False, win=False,usear=True)
 			#d.infobox("aclocal", width=0, height=0, title="configure")
 			build_configure()
@@ -236,6 +238,35 @@ def configure_menu(d):
 			make(d)
 
 			d.msgbox("Built")
+
+
+		
+def configure_menu(d):
+	if os.geteuid() == 0:
+		d.msgbox("Don't do a build as root")
+		return
+	code, tag = d.menu("build for:",
+		               choices=[("(auto)", "Detect distro (x86_64/ARM)"),
+								("(select)", "Select distro by hand"),
+								("(docs)", "Build code documentation")
+								])
+
+	if code == d.OK:
+		if tag=="(auto)":
+			configure_autodetect(d)
+
+		if tag=="(select)":
+			select_distro_menu(d)
+
+		if tag=="(docs)":
+			if os.path.isdir("./code_docs")==False:
+				os.mkdir("code_docs")
+
+			os.system("doxygen ./docs/doxygen_gui.config >out.dat 2>out.dat &")
+			os.system("doxygen ./docs/doxygen_core.config >out.dat 2>out.dat &")
+			ret=d.tailbox("out.dat", height=None, width=100)
+			publish_code_docs()
+			d.msgbox("Done")
 
 
 

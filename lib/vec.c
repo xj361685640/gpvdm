@@ -18,11 +18,10 @@
 // more details.
 
 
-
-
 /** @file vec.c
 	@brief Basic vector manipulation routines
 */
+
 #define _FILE_OFFSET_BITS 64
 #define _LARGEFILE_SOURCE
 #include <stdio.h>

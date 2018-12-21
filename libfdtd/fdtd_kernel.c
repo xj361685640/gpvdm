@@ -17,6 +17,10 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file fdtd_kernal.c
+	@brief Setup the OpenCL kernels.
+*/
+
 #include <math.h>
 #include <strings.h>
 #include <stdio.h>

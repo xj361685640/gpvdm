@@ -18,7 +18,9 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-
+## @package dlg_export
+#  A window to export the simulation in some form, a .gpvdm file, a .zip file or a jpg file.
+#
 
 import os
 from plot_io import get_plot_file_info

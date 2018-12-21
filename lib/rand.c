@@ -17,9 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
-
-
-
+/** @file rand.c
+	@brief Randomize input files, for restarting a simulation after a crash during fitting.
+*/
 
 #include <stdio.h>
 #include <string.h>

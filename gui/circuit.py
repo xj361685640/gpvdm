@@ -19,7 +19,9 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-
+## @package circuit
+#  Widget to draw circuit diagram
+#
 
 import os
 from cal_path import get_image_file_path

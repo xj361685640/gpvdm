@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file ntricks.c
+	@brief A collection of helper functions for the newton solver.
+*/
 
 
 #include <stdio.h>

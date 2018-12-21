@@ -17,7 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
-
+/** @file light_materials.c
+	@brief This loads in any physical spectra for the light model, not alpha/n data is stored in the epitaxy.
+*/
 
 #include <stdio.h>
 #include <string.h>

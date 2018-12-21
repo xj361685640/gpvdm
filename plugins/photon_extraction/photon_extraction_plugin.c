@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file photon_extraction_plugin.c
+	@brief Calculate probability of a photon being extracted.
+*/
 
 
 #include <sim.h>

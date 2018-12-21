@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file newton_externalv.c
+	@brief Run the newton solver for an external voltage.
+*/
 
 
 #include <exp.h>

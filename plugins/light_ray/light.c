@@ -17,7 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
-
+/** @file ligh.c
+	@brief Ray tracing plugin, calls main ray tracing libary.
+*/
 
 #include <util.h>
 #include <dump_ctrl.h>

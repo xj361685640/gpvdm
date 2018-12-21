@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file epitaxy.c
+	@brief Load the epitaxy structure.
+*/
 
 #include <string.h>
 #include "epitaxy.h"

@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file log.c
+	@brief Deal with output to the log file, can either be disk/screen or both.  UTF8 supported/HTML supported and can stream to GUI under Windows/Linux.
+*/
 
 
 

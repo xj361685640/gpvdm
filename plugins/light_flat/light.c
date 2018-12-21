@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file light.c
+	@brief Flat optical profile solver.
+*/
 
 #include <util.h>
 #include <dump_ctrl.h>

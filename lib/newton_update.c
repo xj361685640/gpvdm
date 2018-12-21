@@ -17,7 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
-
+/** @file newton_update.c
+	@brief Update the dependent variables after running the newton solver to calculate new solution parameters.
+*/
 
 #include "sim.h"
 #include "dump.h"

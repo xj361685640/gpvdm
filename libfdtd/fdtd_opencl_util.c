@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file checksum.c
+	@brief OpenCL worker function.
+*/
 
 #include <math.h>
 #include <strings.h>

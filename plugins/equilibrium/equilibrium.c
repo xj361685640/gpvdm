@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file equilibrium.c
+	@brief Plugin to calculate equilibrium conditions.
+*/
 
 #include <sim.h>
 #include <exp.h>

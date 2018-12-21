@@ -4,7 +4,7 @@
 // 
 //  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 //
-//	www.rodmack.com
+//	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
@@ -18,9 +18,10 @@
 // more details.
 
 
-/** @file i.c
-	@brief Simple functions to read in scientific data from text files and perform simple maths on the data.
+/** @file device.c
+	@brief Initialize the device structure.
 */
+
 #define _FILE_OFFSET_BITS 64
 #define _LARGEFILE_SOURCE
 #include <stdio.h>

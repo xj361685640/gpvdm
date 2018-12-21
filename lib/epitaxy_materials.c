@@ -17,7 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
-
+/** @file epitaxy_materials.c
+	@brief Load the materials into the epitaxy structure.
+*/
 
 #include <stdio.h>
 #include <string.h>
@@ -37,6 +39,7 @@
 #include "log.h"
 #include <cal_path.h>
 #include <buffer.h>
+
 
 static int unused __attribute__((unused));
 

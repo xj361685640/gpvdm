@@ -25,6 +25,10 @@
 #include <cal_path.h>
 #include <log.h>
 
+/** @file ray.c
+	@brief Ray tracing for the optical model, this should really be split out into it's own library.
+*/
+
 void image_init(struct image *in)
 {
 	in->lines=0;

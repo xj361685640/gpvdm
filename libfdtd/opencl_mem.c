@@ -17,6 +17,10 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file opencl_mem.c
+	@brief Get some GPU memory.
+*/
+
 #include <math.h>
 #include <strings.h>
 #include <stdio.h>

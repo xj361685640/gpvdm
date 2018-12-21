@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file exp.c
+	@brief Pefrorm experiments on the device, such as count charge density, calculate average position of electrons/holes etc...
+*/
 
 #include <exp.h>
 #include "sim.h"

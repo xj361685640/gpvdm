@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file newton_voc.c
+	@brief Run the newton solver to calculate Voc.
+*/
 
 #include <dump.h>
 #include <sim.h>

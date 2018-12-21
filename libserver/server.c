@@ -17,6 +17,10 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file server.c
+	@brief Job management for fitting, run multiple fitting instances over multiple CPUs.
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>

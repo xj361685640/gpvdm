@@ -18,6 +18,10 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+## @package equation
+#  An equation editor, not sure if this is needed any more.
+#
+
 import os
 import sys
 from scan_item import scan_item_add

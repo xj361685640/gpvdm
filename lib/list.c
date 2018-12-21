@@ -4,7 +4,7 @@
 // 
 //  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 //
-//	https://www.rodmack.com
+//	https://www.gpvdm.com
 //	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 //
 //
@@ -18,10 +18,10 @@
 // more details.
 
 
-
 /** @file list.c
-	@brief Algorithms to make lists
+	@brief Algorithms to make and deal with lists.
 */
+
 #define _FILE_OFFSET_BITS 64
 #define _LARGEFILE_SOURCE
 

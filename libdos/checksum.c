@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file checksum.c
+	@brief An MD5 like check sum for deciding if files have been changed.  Implemented because I do not want openssl dependencies.
+*/
 
 #include <string.h>
 #include <stdint.h>

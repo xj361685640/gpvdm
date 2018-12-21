@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file dos.c
+	@brief Reads in the DoS files but does not generate them, also deals with interpolation.
+*/
 
 #include <stdio.h>
 #include <stdlib.h>

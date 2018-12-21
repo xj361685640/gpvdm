@@ -17,6 +17,10 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file fdtd_solve.c
+	@brief Solve the FDTD field on the CPU or get the GPU to do it.
+*/
+
 #include <math.h>
 #include <strings.h>
 #include <stdio.h>

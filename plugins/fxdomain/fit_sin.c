@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file fit_sin.c
+	@brief Fit a sinusoidal function to a transient.
+*/
 
 #include <stdio.h>
 #include <gsl/gsl_multimin.h>

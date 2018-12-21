@@ -19,6 +19,10 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+## @package cpu_usage
+#  A CPU usage widget, which displays local CPU usage, local disk load, and remote CPU usage. 
+#
+
 import sys
 from PyQt5.QtWidgets import QApplication, QWidget
 

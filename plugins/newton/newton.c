@@ -17,7 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
-
+/** @file newton.c
+	@brief Standard newton solver.
+*/
 
 
 #include <string.h>

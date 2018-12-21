@@ -17,6 +17,10 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file opencl_init.c
+	@brief Bootstrap OpenCL, and pick the correct CPU/GPU unit.
+*/
+
 #include <math.h>
 #include <strings.h>
 #include <stdio.h>

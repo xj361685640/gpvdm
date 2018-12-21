@@ -17,6 +17,10 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file gui_hooks.c
+	@brief Handle GUI communcation dbus for Linux and pipes for windows.
+*/
+
 
 
 #define _DEFAULT_SOURCE

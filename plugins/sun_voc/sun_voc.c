@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file sun_voc.c
+	@brief Suns voc simulation.
+*/
 
 #include <sim.h>
 #include <dump.h>

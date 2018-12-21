@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file fdtd_util.c
+	@brief Helper functions for FDTD.
+*/
 
 #include <math.h>
 #include <strings.h>

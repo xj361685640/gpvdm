@@ -36,6 +36,9 @@
 
 static int unused __attribute__((unused));
 
+/** @file light_config.c
+	@brief Loads the light configuration files.
+*/
 
 void light_free_epitaxy(struct light *in)
 {

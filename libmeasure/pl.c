@@ -17,6 +17,10 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file pl.c
+	@brief Peform PL spectra.
+*/
+
 
 #include <stdio.h>
 #include <dump.h>

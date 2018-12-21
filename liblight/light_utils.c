@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file light_utils.c
+	@brief Miscellaneous functions for the light model.
+*/
 
 #include "util.h"
 #include "const.h"

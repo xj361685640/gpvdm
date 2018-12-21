@@ -19,6 +19,10 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+## @package cluster_config_ribbon
+#  A ribbon used to configure the cluster.
+#
+
 import os
 
 from tb_item_sim_mode import tb_item_sim_mode

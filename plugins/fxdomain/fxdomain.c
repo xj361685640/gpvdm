@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file fxdomain.c
+	@brief Fx domain solver.
+*/
 
 #include <sim.h>
 #include <dump.h>

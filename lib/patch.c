@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file patch.c
+	@brief Patch an input file from a patch file, used usually for fitting.
+*/
 
 
 #include <stdio.h>

@@ -17,7 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
-
+/** @file ligh_dump_verbose_1d.c
+	@brief Dumps 1D optical fields from light model.
+*/
 
 
 #include <string.h>

@@ -18,7 +18,9 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-
+## @package electrical_mesh_editor
+#  Window to edit the electrical mesh.
+#
 
 import os
 from code_ctrl import enable_betafeatures
