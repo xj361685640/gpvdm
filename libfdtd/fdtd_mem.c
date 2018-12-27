@@ -39,67 +39,112 @@
 
 #include "vec.h"
 
+void fdtd_set_3d_float(struct fdtd_data *in, float ***var, float value)
+{
+	int x=0;
+	int y=0;
+	int z=0;
 
+	for (z = 0; z < in->zlen; z++)
+	{
+
+		for (x = 0; x < in->xlen; x++)
+		{
+			for (y = 0; y < in->ylen; y++)
+			{
+				var[z][x][y]=value;
+			}
+		}
+	}
+
+
+}
+
+void fdtd_free_3d_float(struct fdtd_data *in, float ***var)
+{
+	int x=0;
+	int y=0;
+	int z=0;
+
+	for (z = 0; z < in->zlen; z++)
+	{
+
+		for (x = 0; x < in->xlen; x++)
+		{
+			free(var[z][x]);
+		}
+		free(var[z]);
+	}
+
+	free(var);
+
+}
+
+void fdtd_3d_malloc_float(struct fdtd_data *in, float * (***var))
+{
+	int x=0;
+	int y=0;
+	int z=0;
+
+
+	*var = (float ***) malloc(in->zlen * sizeof(float **));
+
+	for (z = 0; z < in->zlen; z++)
+	{
+		(*var)[z] = (float **) malloc(in->xlen * sizeof(float*));
+		for (x = 0; x < in->xlen; x++)
+		{
+			(*var)[z][x] = (float *) malloc(in->ylen * sizeof(float));
+			memset((*var)[z][x], 0, in->ylen * sizeof(float));
+		}
+	}
+
+}
 
 void fdtd_get_mem(struct simulation *sim, struct fdtd_data *data)
 {
-	int i;
+	fdtd_3d_malloc_float(data, &data->Ex);
+	fdtd_3d_malloc_float(data, &data->Ey);
+	fdtd_3d_malloc_float(data, &data->Ez);
 
-	data->Ex=(float **)malloc(sizeof(float*)*data->zlen);
-	data->Ey=(float **)malloc(sizeof(float*)*data->zlen);
-	data->Ez=(float **)malloc(sizeof(float*)*data->zlen);
-	data->Hx=(float **)malloc(sizeof(float*)*data->zlen);
-	data->Hy=(float **)malloc(sizeof(float*)*data->zlen);
-	data->Hz=(float **)malloc(sizeof(float*)*data->zlen);
-	data->Ex_last=(float **)malloc(sizeof(float*)*data->zlen);
-	data->Ey_last=(float **)malloc(sizeof(float*)*data->zlen);
-	data->Ez_last=(float **)malloc(sizeof(float*)*data->zlen);
-	data->Ex_last_last=(float **)malloc(sizeof(float*)*data->zlen);
-	data->Ey_last_last=(float **)malloc(sizeof(float*)*data->zlen);
-	data->Ez_last_last=(float **)malloc(sizeof(float*)*data->zlen);
-	data->Hx_last=(float **)malloc(sizeof(float*)*data->zlen);
-	data->Hy_last=(float **)malloc(sizeof(float*)*data->zlen);
-	data->Hz_last=(float **)malloc(sizeof(float*)*data->zlen);
-	data->epsilon_r=(float **)malloc(sizeof(float*)*data->zlen);
-	data->z_ang=(float **)malloc(sizeof(float*)*data->zlen);
+	fdtd_3d_malloc_float(data, &data->Hx);
+	fdtd_3d_malloc_float(data, &data->Hy);
+	fdtd_3d_malloc_float(data, &data->Hz);
 
-	for (i=0;i<data->zlen;i++)
-	{
-		data->Ex[i]=(float *)malloc(sizeof(float)*data->ylen);
-		data->Ey[i]=(float *)malloc(sizeof(float)*data->ylen);
-		data->Ez[i]=(float *)malloc(sizeof(float)*data->ylen);
-		data->Hx[i]=(float *)malloc(sizeof(float)*data->ylen);
-		data->Hy[i]=(float *)malloc(sizeof(float)*data->ylen);
-		data->Hz[i]=(float *)malloc(sizeof(float)*data->ylen);
-		data->Ex_last[i]=(float *)malloc(sizeof(float)*data->ylen);
-		data->Ey_last[i]=(float *)malloc(sizeof(float)*data->ylen);
-		data->Ez_last[i]=(float *)malloc(sizeof(float)*data->ylen);
-		data->Ex_last_last[i]=(float *)malloc(sizeof(float)*data->ylen);
-		data->Ey_last_last[i]=(float *)malloc(sizeof(float)*data->ylen);
-		data->Ez_last_last[i]=(float *)malloc(sizeof(float)*data->ylen);
-		data->Hx_last[i]=(float *)malloc(sizeof(float)*data->ylen);
-		data->Hy_last[i]=(float *)malloc(sizeof(float)*data->ylen);
-		data->Hz_last[i]=(float *)malloc(sizeof(float)*data->ylen);
-		data->epsilon_r[i]=(float *)malloc(sizeof(float)*data->ylen);
-		data->z_ang[i]=(float *)malloc(sizeof(float)*data->ylen);
-	}
+	fdtd_3d_malloc_float(data, &data->Ex_last);
+	fdtd_3d_malloc_float(data, &data->Ey_last);
+	fdtd_3d_malloc_float(data, &data->Ez_last);
 
-	data->gEx=(float *)malloc(sizeof(float)*data->zlen*data->ylen);
-	data->gEy=(float *)malloc(sizeof(float)*data->zlen*data->ylen);
-	data->gEz=(float *)malloc(sizeof(float)*data->zlen*data->ylen);
-	data->gHx=(float *)malloc(sizeof(float)*data->zlen*data->ylen);
-	data->gHy=(float *)malloc(sizeof(float)*data->zlen*data->ylen);
-	data->gHz=(float *)malloc(sizeof(float)*data->zlen*data->ylen);
-	data->gEx_last=(float *)malloc(sizeof(float)*data->zlen*data->ylen);
-	data->gEy_last=(float *)malloc(sizeof(float)*data->zlen*data->ylen);
-	data->gEz_last=(float *)malloc(sizeof(float)*data->zlen*data->ylen);
-	data->gHx_last=(float *)malloc(sizeof(float)*data->zlen*data->ylen);
-	data->gHy_last=(float *)malloc(sizeof(float)*data->zlen*data->ylen);
-	data->gHz_last=(float *)malloc(sizeof(float)*data->zlen*data->ylen);
-	data->gepsilon_r=(float *)malloc(sizeof(float)*data->zlen*data->ylen);
-	data->gy=(float *)malloc(sizeof(float)*data->ylen);
+	fdtd_3d_malloc_float(data, &data->Ex_last_last);
+	fdtd_3d_malloc_float(data, &data->Ey_last_last);
+	fdtd_3d_malloc_float(data, &data->Ez_last_last);
 
-	data->x_mesh=malloc(sizeof(float)*data->zlen);
+	fdtd_3d_malloc_float(data, &data->Hx_last);
+	fdtd_3d_malloc_float(data, &data->Hy_last);
+	fdtd_3d_malloc_float(data, &data->Hz_last);
+
+	fdtd_3d_malloc_float(data, &data->epsilon_r);
+
+	fdtd_3d_malloc_float(data, &data->z_ang);
+
+
+	data->gEx=(float *)malloc(sizeof(float)*data->zlen*data->xlen*data->ylen);
+	data->gEy=(float *)malloc(sizeof(float)*data->zlen*data->xlen*data->ylen);
+	data->gEz=(float *)malloc(sizeof(float)*data->zlen*data->xlen*data->ylen);
+	data->gHx=(float *)malloc(sizeof(float)*data->zlen*data->xlen*data->ylen);
+	data->gHy=(float *)malloc(sizeof(float)*data->zlen*data->xlen*data->ylen);
+	data->gHz=(float *)malloc(sizeof(float)*data->zlen*data->xlen*data->ylen);
+	data->gEx_last=(float *)malloc(sizeof(float)*data->zlen*data->xlen*data->ylen);
+	data->gEy_last=(float *)malloc(sizeof(float)*data->zlen*data->xlen*data->ylen);
+	data->gEz_last=(float *)malloc(sizeof(float)*data->zlen*data->xlen*data->ylen);
+	data->gHx_last=(float *)malloc(sizeof(float)*data->zlen*data->xlen*data->ylen);
+	data->gHy_last=(float *)malloc(sizeof(float)*data->zlen*data->xlen*data->ylen);
+	data->gHz_last=(float *)malloc(sizeof(float)*data->zlen*data->xlen*data->ylen);
+	data->gepsilon_r=(float *)malloc(sizeof(float)*data->zlen*data->xlen*data->ylen);
+
+	data->gy=(float *)malloc(sizeof(float)*data->ylen);	//I have no idea what this does
+
+	data->x_mesh=malloc(sizeof(float)*data->xlen);
 	data->y_mesh=malloc(sizeof(float)*data->ylen);
 	data->z_mesh=malloc(sizeof(float)*data->zlen);
 
@@ -115,38 +160,23 @@ void fdtd_get_mem(struct simulation *sim, struct fdtd_data *data)
 void fdtd_free_all(struct simulation *sim, struct fdtd_data *data)
 {
 
-	int i;
-	for (i=0;i<data->zlen;i++)
-	{
-		free(data->Ex[i]);
-		free(data->Ey[i]);
-		free(data->Ez[i]);
-		free(data->Hx[i]);
-		free(data->Hy[i]);
-		free(data->Hz[i]);
-		free(data->Ex_last[i]);
-		free(data->Ey_last[i]);
-		free(data->Ez_last[i]);
-		free(data->Hx_last[i]);
-		free(data->Hy_last[i]);
-		free(data->Hz_last[i]);
-		free(data->epsilon_r[i]);
-	}
+	fdtd_free_3d_float(data, data->Ex);
+	fdtd_free_3d_float(data, data->Ey);
+	fdtd_free_3d_float(data, data->Ez);
 
-	free(data->Ex);
-	free(data->Ey);
-	free(data->Ez);
-	free(data->Hx);
-	free(data->Hy);
-	free(data->Hz);
-	free(data->Ex_last);
-	free(data->Ey_last);
-	free(data->Ez_last);
-	free(data->Hx_last);
-	free(data->Hy_last);
-	free(data->Hz_last);
-	free(data->epsilon_r);
+	fdtd_free_3d_float(data, data->Hx);
+	fdtd_free_3d_float(data, data->Hy);
+	fdtd_free_3d_float(data, data->Hz);
 
+	fdtd_free_3d_float(data, data->Ex_last);
+	fdtd_free_3d_float(data, data->Ey_last);
+	fdtd_free_3d_float(data, data->Ez_last);
+
+	fdtd_free_3d_float(data, data->Hx_last);
+	fdtd_free_3d_float(data, data->Hy_last);
+	fdtd_free_3d_float(data, data->Hz_last);
+
+	fdtd_free_3d_float(data, data->epsilon_r);
 
 	free(data->gEx);
 	free(data->gEy);

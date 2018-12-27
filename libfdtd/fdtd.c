@@ -66,7 +66,7 @@ int do_fdtd(struct simulation *sim,struct device *cell)
 	int step=0;
 	fdtd_init(&data);
 	fdtd_load_config(sim,&data);
-
+/*
 	if (data.use_gpu==TRUE)
 	{
 		opencl_init(sim,&data);
@@ -136,6 +136,7 @@ do
 
 fdtd_free_all(sim,&data);
 printf("Exit\n");
+*/
 exit(0);
 return 0;
 

@@ -39,23 +39,6 @@
 
 #include "vec.h"
 
-void fdtd_init(struct fdtd_data *data)
-{
-	data->src_code=NULL;
-	data->gnuplot=NULL;
-	data->gnuplot2=NULL;
-	data->zlen=-1;
-	data->ylen=-1;
-	data->max_ittr=-1;
-	data->src_start=-1;
-	data->src_stop=-1;
-	data->lambda=-1;
-	data->stop=1e-6;
-	data->time=0.0;
-	data->use_gpu=FALSE;
-	data->excitation_mesh_point=-1;
-}
-
 
 void fdtd_mesh(struct simulation *sim,struct fdtd_data *data,struct device *cell)
 {
@@ -113,38 +96,27 @@ void fdtd_mesh(struct simulation *sim,struct fdtd_data *data,struct device *cell
 
 void fdtd_setup_simulation(struct simulation *sim,struct fdtd_data *data)
 {
-	int i;
-	int j;
+	fdtd_set_3d_float(data, data->Ex, 0.0);
+	fdtd_set_3d_float(data, data->Ey, 0.0);
+	fdtd_set_3d_float(data, data->Ez, 0.0);
 
-	for (j=0;j<data->ylen;j++)
-	{
+	fdtd_set_3d_float(data, data->Hx, 0.0);
+	fdtd_set_3d_float(data, data->Hy, 0.0);
+	fdtd_set_3d_float(data, data->Hz, 0.0);
 
-		for (i=0;i<data->zlen;i++)
-		{
+	fdtd_set_3d_float(data, data->Ex_last, 0.0);
+	fdtd_set_3d_float(data, data->Ey_last, 0.0);
+	fdtd_set_3d_float(data, data->Ez_last, 0.0);
 
+	fdtd_set_3d_float(data, data->Ex_last_last, 0.0);
+	fdtd_set_3d_float(data, data->Ey_last_last, 0.0);
+	fdtd_set_3d_float(data, data->Ez_last_last, 0.0);
 
-			data->Ex[i][j]=0.0;
-			data->Ey[i][j]=0.0;
-			data->Ez[i][j]=0.0;
-			data->Hx[i][j]=0.0;
-			data->Hy[i][j]=0.0;
-			data->Hz[i][j]=0.0;
-			data->Ex_last[i][j]=0.0;
-			data->Ey_last[i][j]=0.0;
-			data->Ez_last[i][j]=0.0;
-			data->Ex_last_last[i][j]=0.0;
-			data->Ey_last_last[i][j]=0.0;
-			data->Ez_last_last[i][j]=0.0;
-			data->Hx_last[i][j]=0.0;
-			data->Hy_last[i][j]=0.0;
-			data->Hz_last[i][j]=0.0;
-			data->z_ang[i][j]=1.0;
+	fdtd_set_3d_float(data, data->Hx_last, 0.0);
+	fdtd_set_3d_float(data, data->Hy_last, 0.0);
+	fdtd_set_3d_float(data, data->Hz_last, 0.0);
 
-
-		}
-
-	}
-
+	fdtd_set_3d_float(data, data->z_ang, 0.0);
 
 }
 

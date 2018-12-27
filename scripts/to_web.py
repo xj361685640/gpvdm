@@ -14,18 +14,23 @@ from os.path import expanduser
 
 from build_paths import get_package_path
 from build_paths import get_pub_path
+from shutil import rmtree
 
 def clean(dest,name):
 	shutil.rmtree(os.path.join(dest,name),ignore_errors=True)
 
 def copytree(src, dst, symlinks=False, ignore=None):
-    for item in os.listdir(src):
-        s = os.path.join(src, item)
-        d = os.path.join(dst, item)
-        if os.path.isdir(s):
-            shutil.copytree(s, d, symlinks, ignore)
-        else:
-            shutil.copy2(s, d)
+	for item in os.listdir(src):
+		s = os.path.join(src, item)
+		d = os.path.join(dst, item)
+		if os.path.isdir(s):
+			if os.path.isdir(d)==True:
+				rmtree(d)
+			shutil.copytree(s, d, symlinks, ignore)
+		else:
+			if os.path.isdir(d)==True:
+				rmtree(d)
+			shutil.copy2(s, d)
 
 def to_github(d):
 	src="./pub/build/raw_code/"

@@ -41,23 +41,23 @@ struct fdtd_data
 {
 
 
-	float **Ex;
-	float **Ey;
-	float **Ez;
-	float **Hx;
-	float **Hy;
-	float **Hz;
-	float **Ex_last;
-	float **Ey_last;
-	float **Ez_last;
-	float **Ex_last_last;
-	float **Ey_last_last;
-	float **Ez_last_last;
-	float **Hx_last;
-	float **Hy_last;
-	float **Hz_last;
-	float **epsilon_r;
-	float **z_ang;
+	float ***Ex;
+	float ***Ey;
+	float ***Ez;
+	float ***Hx;
+	float ***Hy;
+	float ***Hz;
+	float ***Ex_last;
+	float ***Ey_last;
+	float ***Ez_last;
+	float ***Ex_last_last;
+	float ***Ey_last_last;
+	float ***Ez_last_last;
+	float ***Hx_last;
+	float ***Hy_last;
+	float ***Hz_last;
+	float ***epsilon_r;
+	float ***z_ang;
 	float dt;
 	float dt2;
 	float xsize;
@@ -138,6 +138,7 @@ struct fdtd_data
 	FILE *gnuplot;
 	FILE *gnuplot2;
 	int zlen;
+	int xlen;
 	int ylen;
 	int max_ittr;
 
@@ -164,5 +165,8 @@ void fdtd_dump(struct simulation *sim,struct fdtd_data *data);
 void fdtd_opencl_get_mem(struct simulation *sim, struct fdtd_data *data);
 void fdtd_opencl_freemem(struct simulation *sim, struct fdtd_data *data);
 void fdtd_mesh(struct simulation *sim,struct fdtd_data *data,struct device *cell);
+void fdtd_set_3d_float(struct fdtd_data *in, float ***var, float value);
+void fdtd_free_3d_float(struct fdtd_data *in, float ***var);
+void fdtd_3d_malloc_float(struct fdtd_data *in, float * (***var));
 
 #endif
