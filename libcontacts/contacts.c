@@ -1,7 +1,7 @@
 //
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
-// 
+//
 //  Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
 //	https://www.gpvdm.com
@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file contacts.c
+@brief backend to handle complex contacts
+*/
 
 #include <string.h>
 #include "epitaxy.h"
@@ -68,13 +71,13 @@ void contacts_load(struct simulation *sim,struct device *in)
 	int active=FALSE;
 	for (i=0;i<in->ncontacts;i++)
 	{
-		
+
 		inp_get_string(sim,&inp);	//active contact
 		strcpy(in->contacts[i].name,inp_get_string(sim,&inp));
 
 		inp_get_string(sim,&inp);	//position
 		in->contacts[i].position=english_to_bin(sim, inp_get_string(sim,&inp));
-	
+
 		inp_get_string(sim,&inp);	//active contact
 		in->contacts[i].active=english_to_bin(sim, inp_get_string(sim,&inp));
 
@@ -130,7 +133,7 @@ int i;
 	{
 		printf_log(sim,"%Le\n",in->contacts[i].voltage);
 	}
-	
+
 }
 
 void contacts_update(struct simulation *sim,struct device *in)
@@ -191,7 +194,7 @@ for (x=0;x<in->xmeshpoints;x++)
 		in->Vapplied_r[z][x]=value;
 		in->n_contact_r[z][x]=n;
 	}
-	
+
 }
 
 //Contacts on btm
@@ -223,7 +226,7 @@ for (x=0;x<in->xmeshpoints;x++)
 		in->Vapplied_l[z][x]=value;
 		in->n_contact_l[z][x]=n;
 	}
-	
+
 }
 }
 
@@ -359,7 +362,7 @@ int i;
 		{
 			return LEFT;
 		}
-		
+
 
 		if (in->contacts[i].active==TRUE)
 		{
@@ -367,7 +370,7 @@ int i;
 		}
 
 	}
-			
+
 return -1;
 }
 
@@ -391,7 +394,7 @@ for (x=0;x<in->xmeshpoints;x++)
 					tot+=in->Jpright[z][x]+in->Jnright[z][x];
 					count=count+1.0;						//this will need updating for meshes which change
 				}
-				
+
 				if (in->n_contact_l[z][x]==n)
 				{
 					tot+=in->Jpleft[z][x]+in->Jnleft[z][x];

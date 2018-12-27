@@ -1,7 +1,7 @@
 //
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
-// 
+//
 //  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 //
 //	https://www.gpvdm.com
@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file memory_basic.c
+@brief memory functions for 3D arrays
+*/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -43,7 +46,7 @@ void free_srh_bands(struct device *in, gdouble **** var)
 		{
 			for (y = 0; y < in->ymeshpoints; y++)
 			{
-					free(var[z][x][y]);	
+					free(var[z][x][y]);
 			}
 			free(var[z][x]);
 		}
@@ -88,7 +91,7 @@ int z=0;
 			{
 				var[z][x][y]=val;
 			}
-			
+
 		}
 	}
 
@@ -109,7 +112,7 @@ int z=0;
 			{
 				var[z][x][y]-=sub[z][x][y];
 			}
-			
+
 		}
 	}
 
@@ -129,7 +132,7 @@ int z=0;
 			{
 				dst[z][x][y]=src[z][x][y];
 			}
-			
+
 		}
 	}
 
@@ -149,7 +152,7 @@ int z=0;
 			{
 				var[z][x][y]+=add[z][x][y];
 			}
-			
+
 		}
 	}
 
@@ -169,7 +172,7 @@ int z=0;
 			{
 				src[z][x][y]*=val;
 			}
-			
+
 		}
 	}
 
@@ -191,7 +194,7 @@ long double ret=0.0;
 				sum+=src[z][x][y]*in->dxmesh[x]*in->dymesh[y]*in->dzmesh[z];
 //				printf("%Le %Le %Le %Le %Le %Le\n",in->dxmesh[x],in->dymesh[y],in->dzmesh[z],in->zlen,in->xlen,in->ylen);
 			}
-			
+
 		}
 	}
 
@@ -215,7 +218,7 @@ long double ret=0.0;
 			{
 				printf("%Le\n",src[z][x][y]);
 			}
-			
+
 		}
 	}
 
@@ -237,7 +240,7 @@ long double ret=0.0;
 			{
 				sum+=fabsl(src[z][x][y])*in->dxmesh[x]*in->dymesh[y]*in->dzmesh[z];
 			}
-			
+
 		}
 	}
 
@@ -259,7 +262,7 @@ long double sum=0.0;
 			{
 				sum+=src[z][x][y]*in->dxmesh[x]*in->dymesh[y]*in->dzmesh[z];
 			}
-			
+
 		}
 	}
 
@@ -403,9 +406,9 @@ void malloc_srh_bands(struct device *in, gdouble * (****var))
 				}else
 				{
 					(*var)[z][x][y] = NULL;
-				}				
+				}
 			}
-			
+
 		}
 	}
 

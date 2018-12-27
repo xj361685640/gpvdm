@@ -1,7 +1,7 @@
 //
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
-// 
+//
 //  Copyright (C) 2012-2017 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
 //	https://www.gpvdm.com
@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file dump_1d_slice.c
+@brief dump 1 1d slice across the device.
+*/
 
 #include <stdio.h>
 #include <string.h>
@@ -1086,14 +1089,14 @@ buffer_init(&buf);
 	buf.y=in->ymeshpoints;
 	buf.z=in->zmeshpoints;
 	buffer_add_info(sim,&buf);
-	
+
 	three_d_set_gdouble(in, temp_3d, 0.0);
 	three_d_add_gdouble(in, temp_3d, in->n);
 	three_d_add_gdouble(in, temp_3d, in->nt_all);
 	three_d_sub_gdouble(in, temp_3d, in->nf_save);
 	three_d_sub_gdouble(in, temp_3d, in->nt_save);
 	buffer_add_3d_device_data(sim,&buf,in, temp_3d);
-	
+
 	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
@@ -1368,7 +1371,7 @@ buffer_init(&buf);
 	buffer_dump_path(sim,out_dir,name,&buf);
 	buffer_free(&buf);
 
-	
+
 	buffer_malloc(&buf);
 	sprintf(name,"%s","Rn_srh.dat");
 	buf.y_mul=1e9;

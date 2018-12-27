@@ -1,7 +1,7 @@
 //
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
-// 
+//
 //  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 //
 //	www.roderickmackenzie.eu
@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file ip.c
+@brief functions to figure out IP addresses
+*/
 #include <stdlib.h>
 #include <stdio.h>
 #include <errno.h>
@@ -47,21 +50,21 @@ int cal_my_ip(int sock)
 
 /*   int fd;
     struct ifreq ifr;
-     
+
     fd = socket(AF_INET, SOCK_DGRAM, 0);
- 
+
     //Type of address to retrieve - IPv4 IP address
     ifr.ifr_addr.sa_family = AF_INET;
- 
+
     //Copy the interface name in the ifreq structure
     strncpy(ifr.ifr_name , interface , IFNAMSIZ-1);
- 
+
     ioctl(fd, SIOCGIFADDR, &ifr);
- 
+
     close(fd);
- 
+
     strcpy(my_ip,inet_ntoa(( (struct sockaddr_in *)&ifr.ifr_addr )->sin_addr));
- 
+
   return 0;*/
 
 	int z;

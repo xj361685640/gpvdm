@@ -1,7 +1,7 @@
 //
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
-// 
+//
 //  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 //
 //	https://www.gpvdm.com
@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file rx_loop.c
+@brief main rx loop to listen for packets
+*/
 #include <stdlib.h>
 #include <stdio.h>
 #include <errno.h>
@@ -62,7 +65,7 @@ int done=0;
 			break;
 		}
 
-		
+
 		if (cmp_rxfile(sock,&data,sim)==0)
 		{
 			debug_printf("a\n");
@@ -183,7 +186,7 @@ int done=0;
 			debug_printf("r\n");
 			processed=TRUE;
 		}
-		
+
 		if (processed==FALSE)
 		{
 			if (sim->state==HEAD)
@@ -201,7 +204,7 @@ int done=0;
 
 	}
 
-	
+
 
 close(sock);
 printf("leavng main rx loop for %s\n",ip);

@@ -1,7 +1,7 @@
 //
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
-// 
+//
 //  Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
 //	https://www.gpvdm.com
@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file command.c
+@brief execute commands on the node or head node
+*/
 #include <stdlib.h>
 #include <stdio.h>
 #include <errno.h>
@@ -71,7 +74,7 @@ void* exec_command(void *in)
 	join_path(2,sim_dir,calpath_get_store_path(), data.dir_name);
 	printf("change dir to %s\n",sim_dir);
 
-	
+
 	chdir(sim_dir);
 
 	char full_exe_path[400];
@@ -96,7 +99,7 @@ void* exec_command(void *in)
 	printf("top level pid=%d\n",pid);
 	tx_pid(pid,data.dir_name);
 
-	int returnStatus;    
+	int returnStatus;
     waitpid(pid, &returnStatus, 0);
 
 
@@ -226,7 +229,7 @@ local_sim=sim;
 
 		pthread_create( &sim->thread_command, NULL,command_thread,(void*)data);
 		sleep(1);		//This is super bad, but I want to give it enough time to copy the data in.
-	
+
 		return 0;
 	}
 

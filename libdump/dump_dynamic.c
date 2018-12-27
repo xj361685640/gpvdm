@@ -1,7 +1,7 @@
 //
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
-// 
+//
 //  Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
 //	https://www.gpvdm.com
@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file dump_dynamic.c
+@brief setup the dynamic dump stuff, this enables things like average charge density to be stored for each simulation stip and then wrtten to disk
+*/
 
 #include <string.h>
 #include <stdlib.h>
@@ -502,7 +505,7 @@ if (get_dump_status(sim,dump_dynamic)==TRUE)
 	buffer_dump_path(sim,out_dir,"dynamic_nf_to_pt.dat",&buf);
 	buffer_free(&buf);
 
-	
+
 
 	buffer_malloc(&buf);
 	buf.y_mul=1.0;

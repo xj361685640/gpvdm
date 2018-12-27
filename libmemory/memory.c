@@ -1,7 +1,7 @@
 //
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
-// 
+//
 //  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 //
 //	www.rodmack.com
@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file memory.c
+@brief get/free memory
+*/
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -371,7 +374,7 @@ void device_get_memory(struct simulation *sim,struct device *in)
 
 	malloc_3d_gdouble(in,&(in->Gn));
 
-	malloc_3d_gdouble(in,&(in->Photon_gen));	
+	malloc_3d_gdouble(in,&(in->Photon_gen));
 
 	malloc_3d_gdouble(in,&(in->Gp));
 
@@ -392,7 +395,7 @@ void device_get_memory(struct simulation *sim,struct device *in)
 	malloc_3d_gdouble(in,&(in->Jn_x));
 
 	malloc_3d_gdouble(in,&(in->Jp_x));
-	
+
 	malloc_3d_gdouble(in,&(in->Jn_drift));
 
 	malloc_3d_gdouble(in,&(in->Jn_diffusion));

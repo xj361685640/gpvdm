@@ -1,7 +1,7 @@
 //
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
-// 
+//
 //  Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
 //	https://www.gpvdm.com
@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file tx_file.c
+@brief transmit a file.
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
@@ -163,7 +166,7 @@ if (sim->state==HEAD)
 				printf("sending now: %s\n", full_path);
 				send_file(sim,sockfd,base_name, full_path,target);
 				printf("finished sending now: %s\n", full_path);
-				
+
 			}
 		}
     }while (entry = readdir(dir));
@@ -229,7 +232,7 @@ tx_set_zip(&packet,1);
 		if (f_block_sz!=results.st_size)
 		{
 			printf("Not read enough data\n");
-			return -1;		
+			return -1;
 		}
 
 		fclose(fp);

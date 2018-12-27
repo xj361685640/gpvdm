@@ -1,7 +1,7 @@
 //
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
-// 
+//
 //  Copyright (C) 2012-2017 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
 //	https://www.gpvdm.com
@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file rpn.c
+@brief RPN main
+*/
 
 
 #define _FILE_OFFSET_BITS 64
@@ -45,8 +48,8 @@ void rpn_init(struct simulation *sim,struct rpn *in)
 	add_opp(sim,in,"/", 3, LEFT,&eval_div);
 	add_opp(sim,in,"+", 2, LEFT,&eval_add);
 	add_opp(sim,in,"-", 2, LEFT,&eval_sub);
-	add_opp(sim,in,">", 3, LEFT,&eval_bg);	
-	add_opp(sim,in,"<", 3, LEFT,&eval_sm);	
+	add_opp(sim,in,">", 3, LEFT,&eval_bg);
+	add_opp(sim,in,"<", 3, LEFT,&eval_sm);
 
 	add_function(sim,in,"sin",&eval_sin);
 	add_function(sim,in,"abs",&eval_abs);
@@ -66,7 +69,7 @@ int o2_lr=0;
 int o2_pr=0;
 
 	//printf("edge %s %d\n",buf,isnumber(buf[0]));
-	
+
 	if (rpn_is_var(sim,in,NULL,buf)==0)
 	{
 		output_push(sim,in,buf);
@@ -97,7 +100,7 @@ int o2_pr=0;
 				break;
 			}
 		}
-		
+
 		return;
 	}
 
@@ -146,12 +149,12 @@ int o2_pr=0;
 		//print_output(sim,in);
 		//getchar();
 	}
-	
+
 	if (is_function(sim,in,buf)!=-1)
 	{
 		stack_push(sim,in,buf);
 	}
-	
+
 }
 
 double evaluate(struct simulation *sim,struct rpn *in)
@@ -172,12 +175,12 @@ double evaluate(struct simulation *sim,struct rpn *in)
 		{
 			stack_push(sim,in,temp);
 		}
-		
+
 		if (isnumber(token[0])==0)
 		{
 			stack_push(sim,in,token);
 		}
-		
+
 		if (is_opp(sim,in,token)!=-1)
 		{
 			//printf(">token = %s<\n",token);
@@ -190,7 +193,7 @@ double evaluate(struct simulation *sim,struct rpn *in)
 			//printf("%s %s %s\n",left,token,right);
 			//print_stack(sim,in);
 		}
-		
+
 		if (is_function(sim,in,token)!=-1)
 		{
 			//printf(">function = %s<\n",token);
@@ -202,7 +205,7 @@ double evaluate(struct simulation *sim,struct rpn *in)
 			//printf("%s %s %s\n",left,token,right);
 			//print_stack(sim,in);
 		}
-		
+
 	}
 
 	sscanf(in->stack[0],"%le",&ret);
@@ -245,9 +248,9 @@ double rpn_evaluate(struct simulation *sim,struct rpn *in, char *string)
 		}
 
 		last=n;
-		
+
 	}
-	
+
 	n=in->stack_pos;
 	for (i=0;i<n;i++)
 	{

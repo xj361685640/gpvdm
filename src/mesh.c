@@ -1,7 +1,7 @@
 //
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
-// 
+//
 //  Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
 //	https://www.gpvdm.com
@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file mesh.c
+@brief meshing back end (physical space)
+*/
 
 #include "device.h"
 #include "mesh.h"
@@ -108,12 +111,12 @@ void mesh_save_y(struct simulation *sim,struct device *in)
 
 		sprintf(temp,"%d\n",(int)(in->meshdata_y[i].n_points));
 		strcat(buffer,temp);
-		
+
 		strcat(buffer,"#mesh_layer_mul0\n");
 
 		sprintf(temp,"%d\n",(int)(in->meshdata_y[i].mul));
 		strcat(buffer,temp);
-		
+
 		strcat(buffer,"#mesh_layer_left_right0\n");
 
 		sprintf(temp,"%d\n",(int)(in->meshdata_y[i].left_right));
@@ -332,7 +335,7 @@ void mesh_build_from_submesh(struct simulation *sim,struct device *in,char direc
 		{
 			next=(mesh[i]+mesh[i+1])/2.0;
 		}
-		
+
 		dx=next-last;
 		dmesh[i]=dx;
 		sum=sum+dx;

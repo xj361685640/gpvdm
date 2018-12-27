@@ -1,7 +1,7 @@
 //
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
-// 
+//
 //  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 //
 //	www.roderickmackenzie.eu
@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file inp.c
+@brief functions to read input files, this is a copy from gpvdm
+*/
 
 
 #include <stdio.h>
@@ -161,7 +164,7 @@ int zip_is_in_archive(char *full_file_name)
 		{
 		 	return -1;
 		}
-		
+
 		return 0;
 	}else
 	{

@@ -18,7 +18,7 @@
 // more details.
 
 /** @file interface.c
-	@brief Expoenntial light interface.
+	@brief Expoential light interface.
 */
 
 

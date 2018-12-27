@@ -1,7 +1,7 @@
 //
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
-// 
+//
 //  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 //
 //	www.roderickmackenzie.eu
@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file get_data.c
+@brief Get data from the cluster
+*/
 #include <stdlib.h>
 #include <stdio.h>
 #include <errno.h>
@@ -74,9 +77,9 @@ int cmp_get_data(struct state *sim,int sock,struct tx_struct *data)
 	{
 		printf("check getdata gpvdmgetdata\n");
 
-		
-		
-		
+
+
+
 		for (i=0;i<njobs;i++)
 		{
 			if ((jobs[i].copy_state==0)&&(jobs[i].status>0))
@@ -123,7 +126,7 @@ int cmp_get_data(struct state *sim,int sock,struct tx_struct *data)
 
 			}
 		}
-		
+
 		return 0;
 	}
 

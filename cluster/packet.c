@@ -1,7 +1,7 @@
 //
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
-// 
+//
 //  Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
 //	https://www.gpvdm.com
@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file packet.c
+@brief basic packet functions
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
@@ -95,7 +98,7 @@ int send_all(int sock, void *buffer, int length, int encode)
 	if (encode==TRUE)
 	{
 		encrypt(buffer,LENGTH);
-	
+
 
 		if (length>LENGTH)
 		{
@@ -119,7 +122,7 @@ int send_all(int sock, void *buffer, int length, int encode)
 			pthread_mutex_unlock( &mutex1 );
 			return -1;
 		}
-        ptr += i; 
+        ptr += i;
         length -= i;
         if (length!=0)
         {
@@ -228,7 +231,7 @@ void tx_set_id(struct tx_struct *in,char *id)
 	}
 	strcpy(in->id,id);
 }
-	
+
 void tx_set_src(struct tx_struct *in,char *src)
 {
 	if (strlen(src)>TX_STRUCT_DATA_ITEM_SIZE)
@@ -343,7 +346,7 @@ int tx_packet(int sock,struct tx_struct *in,char *buf)
 			defstream.next_in = (unsigned char*)buf; // input char array
 			defstream.avail_out = comp_size; // size of output
 			defstream.next_out = (unsigned char*)zbuf; // output char array
-		
+
 			// the actual compression work.
 			deflateInit(&defstream, Z_BEST_SPEED);
 			deflate(&defstream, Z_FINISH);
@@ -556,7 +559,7 @@ int tx_packet(int sock,struct tx_struct *in,char *buf)
     if(sent < 0)
     {
 		printf("Here is the error: %s\n", strerror(errno));
-		
+
 	    return -1;
     }
 
@@ -592,7 +595,7 @@ int rx_packet(int sock,struct tx_struct *in)
 	if (f_block_sz!=32)
 	{
 		printf("I did not get enough data\n");
-		return -1;		
+		return -1;
 	}
 
 	if (cmpstr_min(buf,"gpvdm")!=0)
@@ -652,7 +655,7 @@ int rx_packet(int sock,struct tx_struct *in)
 
 	inp_search_string(&decode,temp,"#src");
 	tx_set_src(in,temp);
-	
+
 	inp_search_string(&decode,temp,"#exe_name");
 	tx_set_exe_name(in,temp);
 
@@ -661,8 +664,8 @@ int rx_packet(int sock,struct tx_struct *in)
 
 	inp_search_string(&decode,temp,"#command");
 	tx_set_command(in,temp);
-	
-	
+
+
 	inp_search_string(&decode,in->host_name,"#host_name");
 
 	inp_search_int(&decode,&(in->size),"#size");

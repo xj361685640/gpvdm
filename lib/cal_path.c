@@ -18,7 +18,7 @@
 // more details.
 
 /** @file cal_path.c
-	@brief Calculate the path of where stuff is, and if it cant find a file look harder.  Win/Linux.
+	@brief Calculate the path of where stuff is, and if it can't find a file look harder.  Win/Linux.
 */
 
 

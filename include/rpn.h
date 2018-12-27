@@ -1,7 +1,7 @@
 //
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
-// 
+//
 //  Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
 //	https://www.gpvdm.com
@@ -17,13 +17,16 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file rpn.h
+@brief RPN functions which gpvdm can handle.
+*/
 
 #ifndef rpn_h
 #define rpn_h
 
 struct rpn_function_type
 {
-	char name[10];	
+	char name[10];
 	char* (*f)(char* out,char* a, char* b);
 };
 
@@ -33,7 +36,7 @@ struct rpn_opperator_type
 	int prec;
 	int right_left;
 	char* (*f)(char* out,char* a, char* b);
-	
+
 };
 
 struct rpn_vars_type
@@ -59,10 +62,10 @@ struct rpn
 
 	struct rpn_opperator_type opps[40];
 	int opp_count;
-	
+
 	int last_was_number;
 	int last_was_e;
-	
+
 };
 
 //vars

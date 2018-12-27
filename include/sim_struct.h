@@ -1,7 +1,7 @@
 //
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
-// 
+//
 //  Copyright (C) 2012-2017 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
 //	https://www.gpvdm.com
@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file sim_struct.h
+@brief define the sim structure, the sim structure is used to keep all simulation parameters which are physicaly part of the device. Such as dll locations.
+*/
 
 
 #ifndef sim_struct_h
@@ -109,7 +112,7 @@ struct simulation
 	long int bytes_written;
 	long int bytes_read;
 	long int files_read;
-	long int files_written;	
+	long int files_written;
 
 	long double T0;
 	long double D0;
@@ -118,7 +121,7 @@ struct simulation
 	int cache_len;
 	int cache_max;
 	struct cache_item *cache;
-	
+
 	//gui
 	#ifdef dbus
 		DBusConnection *connection;

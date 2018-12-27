@@ -1,7 +1,7 @@
 //
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
-// 
+//
 //  Copyright (C) 2012-2016 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
 //	https://www.gpvdm.com
@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file sim_run.c
+@brief run the simulation
+*/
 
 #include "util.h"
 #include "sim.h"
@@ -45,7 +48,7 @@ int run_simulation(struct simulation *sim)
 struct device cell;
 log_clear(sim);
 struct stat st = {0};
-	
+
 printf_log(sim,"%s\n",_("Runing simulation"));
 
 device_init(&cell);
@@ -169,8 +172,8 @@ if ((strcmp(cell.simmode,"opticalmodel@optics")!=0)&&(strcmp(cell.simmode,"fdtd@
 				percent=depth/cell.my_epitaxy.width[cell.imat_epitaxy[z][x][y]];
 				cell.Nad[z][x][y]=get_dos_doping_start(&cell,cell.imat[z][x][y])+(get_dos_doping_stop(&cell,cell.imat[z][x][y])-get_dos_doping_start(&cell,cell.imat[z][x][y]))*percent;
 			}
-		}		
-		
+		}
+
 	}
 
 
@@ -222,7 +225,7 @@ if ((strcmp(cell.simmode,"opticalmodel@optics")!=0)&&(strcmp(cell.simmode,"fdtd@
 		strcpy(old_model,cell.mylight.mode);
 		strcpy(cell.mylight.mode,"ray");
 	}
-	
+
 	light_load_dlls(sim,&cell.mylight);
 	light_setup_ray(sim,&cell,&cell.mylight,&cell.my_epitaxy);
 
@@ -235,7 +238,7 @@ if ((strcmp(cell.simmode,"opticalmodel@optics")!=0)&&(strcmp(cell.simmode,"fdtd@
 		light_set_sun_delta_at_wavelength(sim,&(cell.mylight),cell.led_wavelength);
 		//light_set_unity_power(&(cell.mylight));
 		light_solve_all(sim,&(cell.mylight));
-		
+
 		cell.mylight.force_update=FALSE;
 		strcpy(cell.mylight.mode,old_model);
 		light_set_sun(&(cell.mylight),old_Psun);

@@ -1,7 +1,7 @@
 //
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
-// 
+//
 //  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 //
 //	https://gpvdm.com
@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file head.c
+@brief main loop for the head node
+*/
 #include <stdlib.h>
 #include <stdio.h>
 #include <errno.h>
@@ -41,7 +44,7 @@ void head_ctrl_c(int s)
 {
 	close_all_open();
 	printf("Caught signal %d\n",s);
-	exit(1); 
+	exit(1);
 }
 
 void* head_alarm_wakeup(void *in)
@@ -154,17 +157,17 @@ calpath_set_store_path(file_store_path);
 		{
 			printf ("[server] server has got connect from %s.\n", inet_ntoa(addr_remote.sin_addr));
 		}
-		
-		
+
+
 		pthread_t thread1;
 		//int iret1;
 
-		//iret1 = 
+		//iret1 =
 		char ip[100];
 		get_ip_from_sock(ip,nsockfd);
 		printf("making thread for  ip=%s %d\n",ip,nsockfd);
 		pthread_create( &thread1, NULL,rx_loop,(void*)&nsockfd);
-     
+
     }
 
 printf("Exiting cluster code\n");

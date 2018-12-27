@@ -1,7 +1,7 @@
 //
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
-// 
+//
 //  Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
 //	https://www.gpvdm.com
@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file node.c
+@brief main loop for the node
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
@@ -69,7 +72,7 @@ void* alarm_thread(void *in)
 		}
 
 		setitimer(ITIMER_REAL, &tout_val,0);
-		
+
 }*/
 
 void my_handler(int s)
@@ -77,7 +80,7 @@ void my_handler(int s)
 	printf("Caught signal %d\n",s);
 	send_delete_node(local_sim->head_sock);
 	printf("quitting\n");
-	exit(1); 
+	exit(1);
 }
 
 int login(char * master_ip, int port)
@@ -86,7 +89,7 @@ int login(char * master_ip, int port)
 
     int sockfd; // Socket file descriptor
     //struct sockaddr_in addr_remote;
-    struct sockaddr_in remote_addr; 
+    struct sockaddr_in remote_addr;
     /* Get the Socket file descriptor */
 	sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if (sockfd == -1)
@@ -95,9 +98,9 @@ int login(char * master_ip, int port)
         return (0);
     }
     /* Fill the socket address struct */
-    remote_addr.sin_family = AF_INET; 
-    remote_addr.sin_port = htons(port); 
-    inet_pton(AF_INET, master_ip, &remote_addr.sin_addr); 
+    remote_addr.sin_family = AF_INET;
+    remote_addr.sin_port = htons(port);
+    inet_pton(AF_INET, master_ip, &remote_addr.sin_addr);
     bzero(&(remote_addr.sin_zero), 8);
 
     if (connect(sockfd, (struct sockaddr *)&remote_addr, sizeof(struct sockaddr)) == -1)
@@ -192,7 +195,7 @@ int node(struct state *sim)
 			ret=rx_packet(sim->head_sock,&data);
 
 			processed=FALSE;
-			
+
 			if (ret==-1)
 			{
 				break;
@@ -246,12 +249,12 @@ int node(struct state *sim)
 			{
 				processed=TRUE;
 			}
-			
+
 			if (processed==FALSE)
 			{
 				printf("Command not understood!!!!!!!!!!!!!!!!! %s\n",data.id);
 			}
-		
+
 		}
 
 		close (sim->head_sock);

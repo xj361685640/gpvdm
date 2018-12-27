@@ -1,7 +1,7 @@
 //
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
-// 
+//
 //  Copyright (C) 2012-2017 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
 //	https://www.gpvdm.com
@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file edge.c
+@brief RPN detecting edges.
+*/
 
 
 #define _FILE_OFFSET_BITS 64
@@ -55,7 +58,7 @@ int edge_detect(struct simulation *sim,struct rpn *in,char *buf,char next)
 	{
 		return -1;
 	}
-	
+
 	last--;
 
 	if ((isnumber(buf[last])==0) && (next=='e'))
@@ -133,12 +136,12 @@ int edge_detect(struct simulation *sim,struct rpn *in,char *buf,char next)
 	{
 		return 0;
 	}
-	
+
 	if ((next=='+')||strcmp(buf,"+")==0)
 	{
 		return 0;
 	}
-	
+
 	if ((next=='/')||strcmp(buf,"/")==0)
 	{
 		return 0;
