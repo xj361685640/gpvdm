@@ -41,32 +41,45 @@
 
 void fdtd_dump(struct simulation *sim,struct fdtd_data *data)
 {
-	int i=0;
-	int j=0;
+	int z=0;
+	int x=0;
+	int y=0;
 	FILE *out;
 
 	out=fopen("./Ex.dat","w");
-	for (j=0;j<data->ylen;j++)
+	for (z=0;z<data->zlen;z++)
 	{
-		for (i=0;i<data->zlen;i++)
+		for (x=0;x<data->xlen;x++)
 		{
-			fprintf(out,"%le %le %le\n",data->z_mesh[i],data->y_mesh[j],data->Ex[i][j]);
-		}
 
-	fprintf(out,"\n");
+			for (y=0;y<data->ylen;y++)
+			{
+				fprintf(out,"%le %le %le\n",data->x_mesh[x],data->y_mesh[y],data->Ex[z][x][y]);
+			}
+
+			fprintf(out,"\n");
+		}
+	
 	}
 	fclose(out);
 
 	out=fopen("./epsilonr.dat","w");
-	for (j=0;j<data->ylen;j++)
+	for (z=0;z<data->zlen;z++)
 	{
-		for (i=0;i<data->zlen;i++)
+		for (x=0;x<data->xlen;x++)
 		{
-			fprintf(out,"%le %le %le\n",data->z_mesh[i],data->y_mesh[j],data->epsilon_r[i][j]);
+
+			for (y=0;y<data->ylen;y++)
+			{
+				fprintf(out,"%le %le %le\n",data->x_mesh[x],data->y_mesh[y],data->epsilon_r[z][x][y]);
+			}
+		
+			fprintf(out,"\n");
 		}
 
-	fprintf(out,"\n");
+
 	}
+
 	fclose(out);
 	
 }

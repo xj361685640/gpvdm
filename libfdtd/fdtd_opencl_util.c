@@ -125,7 +125,7 @@ size_t fdtd_opencl_load_code(struct simulation *sim,struct fdtd_data *data)
 	#ifdef use_open_cl
 
 
-	int file_size=0;
+	size_t file_size=0;
 	size_t len;
 	char *error_msg;
 	cl_int error;
@@ -158,7 +158,7 @@ size_t fdtd_opencl_load_code(struct simulation *sim,struct fdtd_data *data)
 
 	//printf("%s\n",data->src_code);
 
-	data->prog=clCreateProgramWithSource(data->context,1, &(data->src_code), &file_size, &error);
+	data->prog=clCreateProgramWithSource(data->context,1, (const char **)&(data->src_code), &file_size, &error);
 	// and compile it (after this we could extract the compiled version)
 	error=clBuildProgram(data->prog, 0, NULL, "", NULL, NULL);
 
@@ -241,7 +241,7 @@ void fdtd_opencl_write_ctrl_data(struct simulation *sim,struct fdtd_data *data)
 	int i;
 	#ifdef use_open_cl
 	cl_int error;
-	float Cx=(data->dt2/(epsilon0f*data->dx));
+	//float Cx=(data->dt2/(epsilon0f*data->dx));
 	float Cy=(data->dt2/(epsilon0f*data->dy));
 	float Cz=(data->dt2/(epsilon0f*data->dz));
 	float Cmy=(data->dt2/(mu0f*data->dy));
@@ -330,12 +330,38 @@ void fdtd_opencl_pull_data(struct simulation *sim,struct fdtd_data *data)
 	cl_int error;
 
 	error=clEnqueueReadBuffer(data->cq, data->ggHx, CL_FALSE, 0, data->zlen*data->ylen*sizeof(float), data->gHx, 0, NULL, NULL);
+	if (error!=CL_SUCCESS)
+	{
+		printf_log(sim,"%s\n",getErrorString(error));
+	}
 	error=clEnqueueReadBuffer(data->cq, data->ggHy, CL_FALSE, 0, data->zlen*data->ylen*sizeof(float), data->gHy, 0, NULL, NULL);
+	if (error!=CL_SUCCESS)
+	{
+		printf_log(sim,"%s\n",getErrorString(error));
+	}
 	error=clEnqueueReadBuffer(data->cq, data->ggHz, CL_FALSE, 0, data->zlen*data->ylen*sizeof(float), data->gHz, 0, NULL, NULL);
+	if (error!=CL_SUCCESS)
+	{
+		printf_log(sim,"%s\n",getErrorString(error));
+	}
 
 	error=clEnqueueReadBuffer(data->cq, data->ggEx, CL_FALSE, 0, data->zlen*data->ylen*sizeof(float), data->gEx, 0, NULL, NULL);
+	if (error!=CL_SUCCESS)
+	{
+		printf_log(sim,"%s\n",getErrorString(error));
+	}
+
 	error=clEnqueueReadBuffer(data->cq, data->ggEy, CL_FALSE, 0, data->zlen*data->ylen*sizeof(float), data->gEy, 0, NULL, NULL);
+	if (error!=CL_SUCCESS)
+	{
+		printf_log(sim,"%s\n",getErrorString(error));
+	}
+
 	error=clEnqueueReadBuffer(data->cq, data->ggEz, CL_FALSE, 0, data->zlen*data->ylen*sizeof(float), data->gEz, 0, NULL, NULL);
+	if (error!=CL_SUCCESS)
+	{
+		printf_log(sim,"%s\n",getErrorString(error));
+	}
 
 	for (i=0;i<data->zlen;i++)
 	{

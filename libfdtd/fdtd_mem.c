@@ -79,9 +79,8 @@ void fdtd_set_3d_float(struct fdtd_data *in, float ***var, float value)
 
 void fdtd_free_3d_float(struct fdtd_data *in, float ***var)
 {
-	int x=0;
-	int y=0;
 	int z=0;
+	int x=0;
 
 	for (z = 0; z < in->zlen; z++)
 	{
@@ -99,9 +98,8 @@ void fdtd_free_3d_float(struct fdtd_data *in, float ***var)
 
 void fdtd_3d_malloc_float(struct fdtd_data *in, float * (***var))
 {
-	int x=0;
-	int y=0;
 	int z=0;
+	int x=0;
 
 
 	*var = (float ***) malloc(in->zlen * sizeof(float **));
