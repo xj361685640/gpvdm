@@ -18,6 +18,9 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+## @package ideal_diode_editor
+#  An editor for the ideal diode equation.
+#
 
 import os
 from tab import tab_class

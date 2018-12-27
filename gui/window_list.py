@@ -18,6 +18,11 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+## @package window_list
+#  Store/load the position of windows. 
+#
+
+
 import os
 from inp import inp_load_file
 from inp import inp_save

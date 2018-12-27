@@ -18,7 +18,9 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-
+## @package scan_item
+#  A class to handle a list of scan items.
+#
 #import sys
 import os
 from inp import inp_load_file

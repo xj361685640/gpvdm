@@ -19,7 +19,9 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-
+## @package tab_base
+#  A base class for a tab - I'm not sure this is needed.
+#
 
 class tab_base():
 	file_name=""

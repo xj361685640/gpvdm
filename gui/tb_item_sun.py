@@ -18,6 +18,10 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+## @package tb_item_sun
+#  A toolbar item to select the sun's intensity.
+#
+
 
 #inp
 import os

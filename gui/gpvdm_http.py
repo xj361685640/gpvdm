@@ -19,8 +19,9 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-#http.py
-#This is used to fetch http files from the web, mainly used for updates under windows.
+## @package http
+#  This is used to fetch http files from the web, mainly used for updates under windows.
+#
 
 #import sys
 import os

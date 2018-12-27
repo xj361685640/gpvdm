@@ -18,6 +18,9 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+## @package update
+#  Check for updates.
+#
 
 import os
 from win_lin import running_on_linux

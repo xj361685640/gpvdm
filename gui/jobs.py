@@ -39,6 +39,9 @@ from PyQt5.QtWidgets import QWidget
 from gui_util import tab_add
 from server import server_get
 
+## @package jobs
+#  A jobs viewer widget.
+#
 
 class jobs_view(QWidget):
 

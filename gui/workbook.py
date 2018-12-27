@@ -18,6 +18,11 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+## @package workbook
+#  Generate an xls workbook from the simulation
+#
+
+
 from dat_file_class import dat_file
 
 work_book_enabled=False

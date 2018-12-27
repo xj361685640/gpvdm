@@ -18,6 +18,9 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+## @package sunsvoc
+#  An editor for simple simulations
+#
 
 import os
 from tab import tab_class

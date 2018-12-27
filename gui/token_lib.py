@@ -18,6 +18,10 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+## @package token_lib
+#  A library of all tokens used in the model.
+#
+
 import i18n
 _ = i18n.language.gettext
 

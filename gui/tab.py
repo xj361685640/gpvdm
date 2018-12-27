@@ -18,7 +18,9 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-
+## @package tab
+#  The main tab class, used to display material properties.
+#
 
 import os
 

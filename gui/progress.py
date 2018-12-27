@@ -18,6 +18,11 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+## @package progress
+#  Progress bar window, when not in GUI mode it will do a text based one.
+#
+
+
 import sys
 import time
 from numpy import exp

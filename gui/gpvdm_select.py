@@ -19,7 +19,9 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-
+## @package gpvdm_select
+#  A widget for the tab widget which allows the user to select files.
+#
 
 
 import os

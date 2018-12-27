@@ -18,6 +18,10 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+## @package monitordir
+#  Multiform directory monitor - not used.
+#
+
 
 import sys
 import os
@@ -40,7 +44,7 @@ else:
 
 	FILE_LIST_DIRECTORY = 0x0001
 
-class _IdleObject(gobject.GObject):
+class IdleObject(gobject.GObject):
 
 	def __init__(self):
 		gobject.GObject.__init__(self)
@@ -48,15 +52,11 @@ class _IdleObject(gobject.GObject):
 	def emit(self, *args):
 		gobject.idle_add(gobject.GObject.emit,self,*args)
 
-class _FooThread(threading.Thread, _IdleObject):
-	__gsignals__ = {
-		"file_changed": (
-		gobject.SIGNAL_RUN_LAST, gobject.TYPE_NONE, [])
-		}
+class FooThread(threading.Thread, IdleObject):
 
 	def __init__(self, *args):
 		threading.Thread.__init__(self)
-		_IdleObject.__init__(self)
+		IdleObject.__init__(self)
 		self.notifier=False
 
 	def onChange(self,ev):

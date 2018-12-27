@@ -18,6 +18,9 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+## @package scan_select
+#  Window to select a parameter to scan.
+#
 
 import os
 from scan_item import scan_items_get_list

@@ -18,6 +18,10 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+## @package lasers
+#  Main laser editor window.
+#
+
 import os
 import webbrowser
 from inp import inp_update_token_value

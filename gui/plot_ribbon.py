@@ -19,6 +19,11 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+## @package plot_ribbon
+#  A ribbon for the plot window
+#
+
+
 import os
 
 from dump_io import dump_io

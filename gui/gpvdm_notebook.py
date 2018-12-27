@@ -18,6 +18,11 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+## @package gpvdm_notebook
+#  The main gpvdm notebook for the main window.
+#
+
+
 import os
 #from progress import progress_class
 #from process_events import process_events
@@ -27,7 +32,6 @@ from inp import inp_load_file
 from inp import inp_get_next_token_array
 from inp import inp_isfile
 from inp import inp_update_token_value
-from inp_description import inp_file_to_description
 
 #tabs
 from tab_main import tab_main

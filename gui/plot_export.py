@@ -18,6 +18,10 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+## @package plot_export
+#  Export a plot to a gnu plot file.
+#
+
 
 import os
 from util_text import gkt_title_to_gnu_plot_title

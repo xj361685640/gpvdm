@@ -28,6 +28,10 @@
 #include "const.h"
 #include <cal_path.h>
 
+/**
+ * @brief Load the epitaxy in from epitaxy.inp
+ *
+ */
 void epitaxy_load(struct simulation *sim,struct epitaxy *in, char *file)
 {
 	int i;
@@ -118,6 +122,10 @@ void epitaxy_load(struct simulation *sim,struct epitaxy *in, char *file)
 	epitaxy_load_materials(sim,in);
 }
 
+/**
+ * @brief Get the height of the layers which are electrically active.
+ *
+ */
 gdouble epitaxy_get_electrical_length(struct epitaxy *in)
 {
 int i=0;
@@ -137,6 +145,10 @@ for (i=0;i<in->layers;i++)
 return tot;
 }
 
+/**
+ * @brief Get the height of the layers which are optically active. i.e. the full height of the device. 
+ *
+ */
 gdouble epitaxy_get_optical_length(struct epitaxy *in)
 {
 int i=0;
@@ -150,6 +162,10 @@ for (i=0;i<in->layers;i++)
 return tot;
 }
 
+/**
+ * @brief Return the index of a layer in the device.
+ *
+ */
 int epitaxy_get_optical_material_layer(struct epitaxy *in,gdouble pos)
 {
 int i=0;
@@ -168,6 +184,10 @@ for (i=0;i<in->layers;i++)
 return -1;
 }
 
+/**
+ * @brief Return the index of a layer in the device, but setting the zero position at the start of the electrical layer.
+ *
+ */
 int epitaxy_get_electrical_material_layer(struct epitaxy *in,gdouble pos)
 {
 int i=0;
@@ -191,6 +211,10 @@ for (i=0;i<in->layers;i++)
 return -1;
 }
 
+/**
+ * @brief Return the index of a layer in the device, but setting the zero position at the start of the electrical layer. - Duplicate?
+ *
+ */
 int epitaxy_get_epitaxy_layer_using_electrical_pos(struct epitaxy *in,gdouble pos)
 {
 int i=0;
@@ -214,6 +238,10 @@ for (i=0;i<in->layers;i++)
 return -1;
 }
 
+/**
+ * @brief Return the position of the start of the first electrical layer in the device.
+ *
+ */
 gdouble epitaxy_get_device_start(struct epitaxy *in)
 {
 int i=0;
@@ -232,6 +260,10 @@ for (i=0;i<in->layers;i++)
 return -1;
 }
 
+/**
+ * @brief Return the position of the end of the electrical layers in the device.
+ *
+ */
 gdouble epitaxy_get_device_stop(struct epitaxy *in)
 {
 int i=0;
@@ -262,6 +294,10 @@ if (found==TRUE)
 return -1;
 }
 
+/**
+ * @brief Return the index of the layer where the device starts.
+ *
+ */
 gdouble epitaxy_get_device_start_i(struct epitaxy *in)
 {
 int i=0;
@@ -278,6 +314,10 @@ for (i=0;i<in->layers;i++)
 return -1;
 }
 
+/**
+ * @brief Free the epitaxy structure.
+ *
+ */
 void epitaxy_free(struct epitaxy *in)
 {
 	epitaxy_free_materials(in);

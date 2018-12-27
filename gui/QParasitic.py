@@ -18,6 +18,9 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+## @package QParasitic
+#  A widget to set the parasitic components.
+#
 
 import i18n
 _ = i18n.language.gettext

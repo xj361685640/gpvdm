@@ -20,6 +20,10 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+## @package solar_pref
+#  Solar model.
+#
+
 import sys
 from PyQt5.QtWidgets import QWidget,QVBoxLayout,QCheckBox,QDesktopWidget,QPushButton
 

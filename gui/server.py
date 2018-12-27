@@ -18,6 +18,9 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+## @package server
+#  The server module, used to run simulations across all CPUs, also has interface to the HPC class.
+#
 
 import sys
 import os

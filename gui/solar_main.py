@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #    General-purpose Photovoltaic Device Model - a drift diffusion base/Shockley-Read-Hall
 #    model for 1st, 2nd and 3rd generation solar cells.
@@ -21,7 +20,9 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-
+## @package solar_main
+#  Part of solar module - delete?
+#
 import sys
 from PyQt5.QtWidgets import QMenuBar, QWidget, QApplication, QAction,QDesktopWidget,QTabWidget,QVBoxLayout
 from PyQt5.QtGui import QIcon

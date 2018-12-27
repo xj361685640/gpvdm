@@ -19,6 +19,11 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
+## @package tb_lasers
+#  Toolbar item to select the type of laser a user wants.
+#
+
+
 #inp
 from inp import inp_update_token_value
 from inp import inp_get_token_value

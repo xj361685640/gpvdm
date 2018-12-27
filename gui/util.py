@@ -19,6 +19,12 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
+## @package util
+#  General helper functions.
+#
+
+
+
 import os
 import shutil
 import re

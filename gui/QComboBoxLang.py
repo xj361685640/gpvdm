@@ -18,7 +18,9 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-
+## @package QComboBoxLang
+#  A combobox which displays the native language but has an english back end.
+#
 import i18n
 _ = i18n.language.gettext
 

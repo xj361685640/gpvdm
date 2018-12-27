@@ -18,6 +18,9 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+## @package mesh_dump_ctl
+#  Sets which energy slice is dumped to disk.  Needs a rewrite.
+#
 
 
 from inp import inp_load_file

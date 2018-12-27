@@ -19,6 +19,10 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+## @package QWidgetSavePos
+#  A winndow base class which saves the window position.
+#
+
 from PyQt5.QtWidgets import QWidget
 
 from window_list import wpos_update

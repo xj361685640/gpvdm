@@ -18,6 +18,10 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+## @package information_webkit
+#  Information about gpvdm if we have webkit installed.
+#
+
 import os
 from tab_base import tab_base
 from icon_lib import icon_get

@@ -19,7 +19,9 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
-
+## @package tab_homo
+#  A tab to draw the analytical HOMO/LUMO.
+#
 
 import os
 from inp import inp_isfile

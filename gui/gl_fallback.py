@@ -19,6 +19,10 @@
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
+## @package gl_fallback
+#  If OpenGL does not work fall back to this.
+#
+
 import math
 import os
 from cal_path import get_materials_path

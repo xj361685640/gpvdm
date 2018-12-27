@@ -18,7 +18,9 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-
+## @package jvexperiment
+#  JV simulation set up, for different types of JV curves.
+#
 
 import os
 from gui_util import dlg_get_text

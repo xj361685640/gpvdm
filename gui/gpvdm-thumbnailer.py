@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+
+## @package gpvdm-thumbnailer
+#  Thumbnailer for xwindows
+#
+
 import os
 import sys
 import math

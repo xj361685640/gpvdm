@@ -19,6 +19,11 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
+## @package ribbon_solar
+#  A ribbon for the solar spectrum window.
+#
+
+
 import os
 
 from dump_io import dump_io
