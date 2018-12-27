@@ -39,6 +39,23 @@
 
 #include "vec.h"
 
+void fdtd_memcpy(struct fdtd_data *data, float ***out, float ***in)
+{
+	int z=0;
+	int x=0;
+
+	for (z = 0; z < data->zlen; z++)
+	{
+
+		for (x = 0; x < data->xlen; x++)
+		{
+			memcpy ( out[z][x], in[z][x], sizeof(float)*data->ylen );
+		}
+	}
+
+
+}
+
 void fdtd_set_3d_float(struct fdtd_data *in, float ***var, float value)
 {
 	int x=0;
@@ -144,9 +161,9 @@ void fdtd_get_mem(struct simulation *sim, struct fdtd_data *data)
 
 	data->gy=(float *)malloc(sizeof(float)*data->ylen);	//I have no idea what this does
 
+	data->z_mesh=malloc(sizeof(float)*data->zlen);
 	data->x_mesh=malloc(sizeof(float)*data->xlen);
 	data->y_mesh=malloc(sizeof(float)*data->ylen);
-	data->z_mesh=malloc(sizeof(float)*data->zlen);
 
 	if (data->use_gpu==TRUE)
 	{
@@ -193,9 +210,9 @@ void fdtd_free_all(struct simulation *sim, struct fdtd_data *data)
 	free(data->gepsilon_r);
 	free(data->gy);
 
+	free(data->z_mesh);
 	free(data->x_mesh);
 	free(data->y_mesh);
-	free(data->z_mesh);
 
 	if (data->gnuplot!=NULL)
 	{

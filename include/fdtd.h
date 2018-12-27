@@ -60,8 +60,8 @@ struct fdtd_data
 	float ***z_ang;
 	float dt;
 	float dt2;
-	float xsize;
 	float zsize;
+	float xsize;
 	float ysize;
 	int *layer;
 
@@ -81,9 +81,9 @@ struct fdtd_data
 	float *gy;
 
 	//axis
+	float *z_mesh;
 	float *x_mesh;
 	float *y_mesh;
-	float *z_mesh;
 
 	float dx;
 	float dy;
@@ -168,5 +168,6 @@ void fdtd_mesh(struct simulation *sim,struct fdtd_data *data,struct device *cell
 void fdtd_set_3d_float(struct fdtd_data *in, float ***var, float value);
 void fdtd_free_3d_float(struct fdtd_data *in, float ***var);
 void fdtd_3d_malloc_float(struct fdtd_data *in, float * (***var));
+void fdtd_memcpy(struct fdtd_data *data, float ***out, float ***in);
 
 #endif

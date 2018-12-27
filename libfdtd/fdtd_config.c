@@ -55,12 +55,24 @@ void fdtd_load_config(struct simulation *sim, struct fdtd_data *data)
 	inp_search_float(sim,&inp,&(data->lambda),"#lambda");
 	data->use_gpu=inp_search_english(sim,&inp,"#use_gpu");
 	inp_search_int(sim,&inp,&(data->max_ittr),"#max_ittr");
+
+	inp_search_int(sim,&inp,&(data->zlen),"#zlen");
+	data->zlen=1.0;
+	printf_log(sim,"zlen=%d\n",data->zlen);
+
+	inp_search_int(sim,&inp,&(data->xlen),"#xlen");
+	printf_log(sim,"xlen=%d\n",data->xlen);
+
 	inp_search_int(sim,&inp,&(data->ylen),"#ylen");
 	printf_log(sim,"ylen=%d\n",data->ylen);
-	inp_search_int(sim,&inp,&(data->zlen),"#zlen");
-	printf_log(sim,"zlen=%d\n",data->zlen);
-	inp_search_float(sim,&inp,&(data->zsize),"#zsize");
+
+	//inp_search_float(sim,&inp,&(data->zsize),"#zsize");
+	data->zsize=1.0;
 	printf_log(sim,"zsize=%e\n",data->zsize);
+
+	inp_search_float(sim,&inp,&(data->xsize),"#xsize");
+	printf_log(sim,"xsize=%e\n",data->xsize);
+
 	inp_search_int(sim,&inp,&(data->lam_jmax),"#lam_jmax");
 	printf_log(sim,"lam_jmax=%d\n",data->lam_jmax);
 	inp_search_int(sim,&inp,&(data->plot),"#plot");
@@ -73,16 +85,12 @@ void fdtd_load_config(struct simulation *sim, struct fdtd_data *data)
 
 	inp_free(sim,&inp);
 
-	printf("zsize=%le\n",data->zsize);
-
 	data->src_start=10e-9;
 	data->src_stop=20e-9;
-	data->xsize=1e-5;
 
 	data->f=clf/data->lambda;
 
 	data->omega=2.0*3.14159*data->f;
-
 
 	printf(" lambda=%f\n",data->lambda*1e9);
 

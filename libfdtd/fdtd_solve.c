@@ -43,73 +43,82 @@
 void solve_E(struct simulation *sim,struct fdtd_data *data)
 {
 	int z=0;
+	int x=0;
 	int y=0;
 	//float Cx=(data->dt2/(epsilon0f*data->dx));
 	float Cy=(data->dt2/(epsilon0f*data->dy));
-	float Cz=(data->dt2/(epsilon0f*data->dz));
+	float Cx=(data->dt2/(epsilon0f*data->dx));
 
 
-	for (y=1;y<data->ylen-1;y++)
+	for (z=0;z<data->zlen;z++)
 	{
-		for (z=1;z<(data->zlen-1);z++)
+		for (x=1;x<data->xlen-1;x++)
 		{
-			data->Ex[z][y]=data->Ex_last[z][y]+(data->Hz[z][y]-data->Hz[z][y-1])*data->epsilon_r[z][y]*Cy-(data->Hy[z][y]-data->Hy[z-1][y])*data->epsilon_r[z][y]*Cz;
-			data->Ey[z][y]=data->Ey_last[z][y]+(data->Hx[z][y]-data->Hx[z-1][y])*data->epsilon_r[z][y]*Cz;
-			data->Ez[z][y]=data->Ez_last[z][y]-(data->Hx[z][y]-data->Hx[z][y-1])*data->epsilon_r[z][y]*Cy;
+			for (y=1;y<(data->ylen-1);y++)
+			{
+				data->Ex[z][x][y]=data->Ex_last[z][x][y]+(data->Hz[z][x][y]-data->Hz[z][x][y-1])*data->epsilon_r[z][x][y]*Cy-(data->Hy[z][x][y]-data->Hy[z][x-1][y])*data->epsilon_r[z][x][y]*Cx;
+				data->Ey[z][x][y]=data->Ey_last[z][x][y]+(data->Hx[z][x][y]-data->Hx[z][x-1][y])*data->epsilon_r[z][x][y]*Cx;
+				data->Ez[z][x][y]=data->Ez_last[z][x][y]-(data->Hx[z][x][y]-data->Hx[z][x][y-1])*data->epsilon_r[z][x][y]*Cx;
 
+			}
 		}
 	}
 
-	for (y=1;y<data->ylen-1;y++)
+
+	for (z=0;z<data->zlen;z++)
 	{
-		for (z=1;z<(data->zlen-1);z++)
+
+		for (x=1;x<data->xlen-1;x++)
 		{
-			if (z==1)
+			for (y=1;y<(data->ylen-1);y++)
 			{
-				float Ex_last_l=data->Ex_last[z-1][y];
-				float Ey_last_l=data->Ey_last[z-1][y];
-				float Ez_last_l=data->Ez_last[z-1][y];
-				data->Ex[z-1][y]=data->Ex_last[z][y]+((clf*data->dt2-data->dz)/(clf*data->dt2+data->dz))*(data->Ex[z][y]-Ex_last_l);
-				data->Ey[z-1][y]=data->Ey_last[z][y]+((clf*data->dt2-data->dz)/(clf*data->dt2+data->dz))*(data->Ey[z][y]-Ey_last_l);
-				data->Ez[z-1][y]=data->Ez_last[z][y]+((clf*data->dt2-data->dz)/(clf*data->dt2+data->dz))*(data->Ez[z][y]-Ez_last_l);
+				if (x==1)
+				{
+					float Ex_last_l=data->Ex_last[z][x-1][y];
+					float Ey_last_l=data->Ey_last[z][x-1][y];
+					float Ez_last_l=data->Ez_last[z][x-1][y];
+					data->Ex[z][x-1][y]=data->Ex_last[z][x][y]+((clf*data->dt2-data->dx)/(clf*data->dt2+data->dx))*(data->Ex[z][x][y]-Ex_last_l);
+					data->Ey[z][x-1][y]=data->Ey_last[z][x][y]+((clf*data->dt2-data->dx)/(clf*data->dt2+data->dx))*(data->Ey[z][x][y]-Ey_last_l);
+					data->Ez[z][x-1][y]=data->Ez_last[z][x][y]+((clf*data->dt2-data->dz)/(clf*data->dt2+data->dx))*(data->Ez[z][x][y]-Ez_last_l);
+				}
+
+				if (x==data->xlen-2)
+				{
+					float Ex_last_r=data->Ex_last[z][x+1][y];
+					float Ey_last_r=data->Ey_last[z][x+1][y];
+					float Ez_last_r=data->Ez_last[z][x+1][y];
+					data->Ex[z][x+1][y]=data->Ex_last[z][x][y]+((clf*data->dt2-data->dx)/(clf*data->dt2+data->dx))*(data->Ex[z][x][y]-Ex_last_r);
+					data->Ey[z][x+1][y]=data->Ey_last[z][x][y]+((clf*data->dt2-data->dx)/(clf*data->dt2+data->dx))*(data->Ey[z][x][y]-Ey_last_r);
+					data->Ez[z][x+1][y]=data->Ez_last[z][x][y]+((clf*data->dt2-data->dx)/(clf*data->dt2+data->dx))*(data->Ez[z][x][y]-Ez_last_r);
+				}
+
+				if (y==1)
+				{
+					float Ex_last_d=data->Ex_last[z][x][y-1];
+					float Ey_last_d=data->Ey_last[z][x][y-1];
+					float Ez_last_d=data->Ez_last[z][x][y-1];
+					data->Ex[z][x][y-1]=data->Ex_last[z][x][y]+((clf*data->dt2-data->dy)/(clf*data->dt2+data->dy))*(data->Ex[z][x][y]-Ex_last_d);
+					data->Ey[z][x][y-1]=data->Ey_last[z][x][y]+((clf*data->dt2-data->dy)/(clf*data->dt2+data->dy))*(data->Ey[z][x][y]-Ey_last_d);
+					data->Ez[z][x][y-1]=data->Ez_last[z][x][y]+((clf*data->dt2-data->dy)/(clf*data->dt2+data->dy))*(data->Ez[z][x][y]-Ez_last_d);
+				}
+
+				if (y==(data->ylen-2))
+				{
+					float Ex_last_u=data->Ex_last[z][x][y+1];
+					float Ey_last_u=data->Ey_last[z][x][y+1];
+					float Ez_last_u=data->Ez_last[z][x][y+1];
+					//printf("%ld %le %le\n",dt2,dx,clight);
+			
+					data->Ex[z][x][y+1]=data->Ex_last[z][x][y]+((clf*data->dt2-data->dy)/(clf*data->dt2+data->dy))*(data->Ex[z][x][y]-Ex_last_u);
+					data->Ey[z][x][y+1]=data->Ey_last[z][x][y]+((clf*data->dt2-data->dy)/(clf*data->dt2+data->dy))*(data->Ey[z][x][y]-Ey_last_u);
+					data->Ez[z][x][y+1]=data->Ez_last[z][x][y]+((clf*data->dt2-data->dy)/(clf*data->dt2+data->dy))*(data->Ez[z][x][y]-Ez_last_u);
+
+				}
+
 			}
-
-			if (z==data->zlen-2)
-			{
-				float Ex_last_r=data->Ex_last[z+1][y];
-				float Ey_last_r=data->Ey_last[z+1][y];
-				float Ez_last_r=data->Ez_last[z+1][y];
-				data->Ex[z+1][y]=data->Ex_last[z][y]+((clf*data->dt2-data->dz)/(clf*data->dt2+data->dz))*(data->Ex[z][y]-Ex_last_r);
-				data->Ey[z+1][y]=data->Ey_last[z][y]+((clf*data->dt2-data->dz)/(clf*data->dt2+data->dz))*(data->Ey[z][y]-Ey_last_r);
-				data->Ez[z+1][y]=data->Ez_last[z][y]+((clf*data->dt2-data->dz)/(clf*data->dt2+data->dz))*(data->Ez[z][y]-Ez_last_r);
-			}
-
-			if (y==1)
-			{
-				float Ex_last_d=data->Ex_last[z][y-1];
-				float Ey_last_d=data->Ey_last[z][y-1];
-				float Ez_last_d=data->Ez_last[z][y-1];
-				data->Ex[z][y-1]=data->Ex_last[z][y]+((clf*data->dt2-data->dy)/(clf*data->dt2+data->dy))*(data->Ex[z][y]-Ex_last_d);
-				data->Ey[z][y-1]=data->Ey_last[z][y]+((clf*data->dt2-data->dy)/(clf*data->dt2+data->dy))*(data->Ey[z][y]-Ey_last_d);
-				data->Ez[z][y-1]=data->Ez_last[z][y]+((clf*data->dt2-data->dy)/(clf*data->dt2+data->dy))*(data->Ez[z][y]-Ez_last_d);
-			}
-
-			if (y==(data->ylen-2))
-			{
-				float Ex_last_u=data->Ex_last[z][y+1];
-				float Ey_last_u=data->Ey_last[z][y+1];
-				float Ez_last_u=data->Ez_last[z][y+1];
-				//printf("%ld %le %le\n",dt2,dx,clight);
-		
-				data->Ex[z][y+1]=data->Ex_last[z][y]+((clf*data->dt2-data->dy)/(clf*data->dt2+data->dy))*(data->Ex[z][y]-Ex_last_u);
-				data->Ey[z][y+1]=data->Ey_last[z][y]+((clf*data->dt2-data->dy)/(clf*data->dt2+data->dy))*(data->Ey[z][y]-Ey_last_u);
-				data->Ez[z][y+1]=data->Ez_last[z][y]+((clf*data->dt2-data->dy)/(clf*data->dt2+data->dy))*(data->Ez[z][y]-Ez_last_u);
-
-			}
-
 		}
-	}
 
+	}
 }
 
 
@@ -119,27 +128,33 @@ void solve_H(struct simulation *sim,struct fdtd_data *data)
 
 //int thread;
 int z;
+int x;
 int y;
 float Cy=(data->dt2/(mu0f*data->dy));
 //float Cx=(data->dt2/(mu0f*data->dx));
-float Cz=(data->dt2/(mu0f*data->dy));
+float Cx=(data->dt2/(mu0f*data->dy));
 
-for (y=0;y<(data->ylen-1);y++)
+for (z=0;z<data->zlen;z++)
 {
-	for (z=0;z<(data->zlen-1);z++)
+	for (x=0;x<(data->xlen-1);x++)
 	{
-		data->Hx[z][y]=data->Hx_last[z][y]-(data->Ez[z][y+1]-data->Ez[z][y])*Cy+(data->Ey[z+1][y]-data->Ey[z][y])*Cz;
-		data->Hy[z][y]=data->Hy_last[z][y]-(data->Ex[z+1][y]-data->Ex[z][y])*Cz;
-		data->Hz[z][y]=data->Hz_last[z][y]+(data->Ex[z][y+1]-data->Ex[z][y])*Cy;
+		for (y=0;y<(data->ylen-1);y++)
+		{
+			data->Hx[z][x][y]=data->Hx_last[z][x][y]-(data->Ez[z][x][y+1]-data->Ez[z][x][y])*Cy+(data->Ey[z][x+1][y]-data->Ey[z][x][y])*Cx;
+			data->Hy[z][x][y]=data->Hy_last[z][x][y]-(data->Ex[z][x+1][y]-data->Ex[z][x][y])*Cx;
+			data->Hz[z][x][y]=data->Hz_last[z][x][y]+(data->Ex[z][x][y+1]-data->Ex[z][x][y])*Cy;
+		}
 	}
+
 }
 
 }
 
 void fdtd_excitation(struct simulation *sim,struct fdtd_data *data)
 {
-	int j=data->excitation_mesh_point;
-	int i=data->excitation_mesh_point;
+	int z=0;
+	int x=data->excitation_mesh_point;
+	int y=data->excitation_mesh_point;
 	//for (j=0;j<data->ylen;j++)
 	{
 		//for (i=0;i<data->zlen;i++)
@@ -165,12 +180,12 @@ void fdtd_excitation(struct simulation *sim,struct fdtd_data *data)
 					b=sin(theta*(2.0*M_PI/360.0))*sin(phi*(2.0*M_PI/360.0));
 					c=cos(theta*(2.0*M_PI/360.0));
 
-					dot=tan(2.0*M_PI*(shift)/360.0)*(data->y_mesh[j]-start)*2.0*M_PI/data->lambda;
+					dot=tan(2.0*M_PI*(shift)/360.0)*(data->y_mesh[y]-start)*2.0*M_PI/data->lambda;
 					float mod=1.0;
 					//dot=0.0;
-					data->Ex[i][j]=mod*a*sin(dot-data->time*data->omega);
-					data->Ey[i][j]=mod*b*sin(dot-data->time*data->omega);
-					data->Ez[i][j]=mod*c*sin(dot-data->time*data->omega);
+					data->Ex[z][x][y]=mod*a*sin(dot-data->time*data->omega);
+					data->Ey[z][x][y]=mod*b*sin(dot-data->time*data->omega);
+					data->Ez[z][x][y]=mod*c*sin(dot-data->time*data->omega);
 				}
 			}
 		}
@@ -183,23 +198,13 @@ void fdtd_excitation(struct simulation *sim,struct fdtd_data *data)
 
 void fdtd_time_step(struct simulation *sim,struct fdtd_data *data)
 {
-int i;
+	fdtd_memcpy(data, data->Ez_last, data->Ez);
+	fdtd_memcpy(data, data->Ex_last, data->Ex);
+	fdtd_memcpy(data, data->Ey_last, data->Ey);
 
-	for (i=0;i<data->zlen;i++)
-	{
-
-		memcpy ( data->Ex_last[i], data->Ex[i], sizeof(float)*data->ylen );
-		memcpy ( data->Ey_last[i], data->Ey[i], sizeof(float)*data->ylen );
-		memcpy ( data->Ez_last[i], data->Ez[i], sizeof(float)*data->ylen );
-	}
-
-	for (i=0;i<data->zlen;i++)
-	{
-
-		memcpy ( data->Hx_last[i], data->Hx[i], sizeof(float)*data->ylen );
-		memcpy ( data->Hy_last[i], data->Hy[i], sizeof(float)*data->ylen );
-		memcpy ( data->Hz_last[i], data->Hz[i], sizeof(float)*data->ylen );
-	}
+	fdtd_memcpy(data, data->Hz_last, data->Hz);
+	fdtd_memcpy(data, data->Hx_last, data->Hx);
+	fdtd_memcpy(data, data->Hy_last, data->Hy);
 
 	data->time+=data->dt;
 }
