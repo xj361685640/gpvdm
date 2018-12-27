@@ -147,6 +147,7 @@ struct fdtd_data
 	float lambda;
 	float stop;
 	float time;
+	int step;
 };
 
 int do_fdtd(struct simulation *sim,struct device *cell);
@@ -169,5 +170,8 @@ void fdtd_set_3d_float(struct fdtd_data *in, float ***var, float value);
 void fdtd_free_3d_float(struct fdtd_data *in, float ***var);
 void fdtd_3d_malloc_float(struct fdtd_data *in, float * (***var));
 void fdtd_memcpy(struct fdtd_data *data, float ***out, float ***in);
+float fdtd_power_zxy(struct simulation *sim,struct fdtd_data *data,int z, int x, int y);
+float fdtd_power_y(struct simulation *sim,struct fdtd_data *data, int y);
+float fdtd_test_conv(struct simulation *sim,struct fdtd_data *data);
 
 #endif

@@ -39,7 +39,6 @@
 
 #include "vec.h"
 
-
 void fdtd_setup_simulation(struct simulation *sim,struct fdtd_data *data)
 {
 	fdtd_set_3d_float(data, data->Ex, 0.0);
