@@ -13,4 +13,7 @@ gpvdm.pdf: gpvdm.tex gpvdm.bib
 
 clean:
 	rm *.pdf -f
+	rm core -rf
+	rm gui -rf
+
 

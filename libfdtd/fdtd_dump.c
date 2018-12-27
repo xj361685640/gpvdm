@@ -32,6 +32,9 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <signal.h>
+#include <lang.h>
+#include <cal_path.h>
+#include <buffer.h>
 #include <inp.h>
 #include <sim.h>
 #include <log.h>
@@ -44,9 +47,34 @@ void fdtd_dump(struct simulation *sim,struct fdtd_data *data)
 	int z=0;
 	int x=0;
 	int y=0;
+	char temp[1000];
+	struct buffer buf;
 	FILE *out;
+	buffer_init(&buf);
 
-	out=fopen("./Ex.dat","w");
+	//////Ex
+	buffer_malloc(&buf);
+	buf.z_mul=1e9;
+	buf.x_mul=1e9;
+	buf.y_mul=1e9;
+	sprintf(buf.title,"%s ",_("Ex - Electric field"));
+	strcpy(buf.type,"heat");
+	strcpy(buf.x_label,_("X position"));
+	strcpy(buf.y_label,_("Y position"));
+
+	strcpy(buf.data_label,_("E-field"));
+	strcpy(buf.x_units,_("nm"));
+	strcpy(buf.y_units,_("nm"));
+
+
+	strcpy(buf.data_units,"V/m");
+	buf.logscale_x=0;
+	buf.logscale_y=0;
+	buf.x=data->xlen;
+	buf.y=data->ylen;
+	buf.z=1;
+	buffer_add_info(sim,&buf);
+
 	for (z=0;z<data->zlen;z++)
 	{
 		for (x=0;x<data->xlen;x++)
@@ -54,14 +82,106 @@ void fdtd_dump(struct simulation *sim,struct fdtd_data *data)
 
 			for (y=0;y<data->ylen;y++)
 			{
-				fprintf(out,"%le %le %le\n",data->x_mesh[x],data->y_mesh[y],data->Ex[z][x][y]);
+				sprintf(temp,"%le %le %le\n",data->x_mesh[x],data->y_mesh[y],data->Ex[z][x][y]);
+				buffer_add_string(&buf,temp);
 			}
 
-			fprintf(out,"\n");
+			buffer_add_string(&buf,"\n");
+
 		}
 	
 	}
-	fclose(out);
+
+	buffer_dump_path(sim,get_output_path(sim),"Ex.dat",&buf);
+	buffer_free(&buf);
+
+	//////Ey
+	buffer_malloc(&buf);
+	buf.z_mul=1e9;
+	buf.x_mul=1e9;
+	buf.y_mul=1e9;
+	sprintf(buf.title,"%s ",_("Ey - Electric field"));
+	strcpy(buf.type,"heat");
+	strcpy(buf.x_label,_("X position"));
+	strcpy(buf.y_label,_("Y position"));
+
+	strcpy(buf.data_label,_("E-field"));
+	strcpy(buf.x_units,_("nm"));
+	strcpy(buf.y_units,_("nm"));
+
+
+	strcpy(buf.data_units,"V/m");
+	buf.logscale_x=0;
+	buf.logscale_y=0;
+	buf.x=data->xlen;
+	buf.y=data->ylen;
+	buf.z=1;
+	buffer_add_info(sim,&buf);
+
+	for (z=0;z<data->zlen;z++)
+	{
+		for (x=0;x<data->xlen;x++)
+		{
+
+			for (y=0;y<data->ylen;y++)
+			{
+				sprintf(temp,"%le %le %le\n",data->x_mesh[x],data->y_mesh[y],data->Ey[z][x][y]);
+				buffer_add_string(&buf,temp);
+			}
+
+			buffer_add_string(&buf,"\n");
+
+		}
+	
+	}
+
+	buffer_dump_path(sim,get_output_path(sim),"Ey.dat",&buf);
+	buffer_free(&buf);
+
+
+	//////Ez
+	buffer_malloc(&buf);
+	buf.z_mul=1e9;
+	buf.x_mul=1e9;
+	buf.y_mul=1e9;
+	sprintf(buf.title,"%s ",_("Ez - Electric field"));
+	strcpy(buf.type,"heat");
+	strcpy(buf.x_label,_("X position"));
+	strcpy(buf.y_label,_("Y position"));
+
+	strcpy(buf.data_label,_("E-field"));
+	strcpy(buf.x_units,_("nm"));
+	strcpy(buf.y_units,_("nm"));
+
+
+	strcpy(buf.data_units,"V/m");
+	buf.logscale_x=0;
+	buf.logscale_y=0;
+	buf.x=data->xlen;
+	buf.y=data->ylen;
+	buf.z=1;
+	buffer_add_info(sim,&buf);
+
+	for (z=0;z<data->zlen;z++)
+	{
+		for (x=0;x<data->xlen;x++)
+		{
+
+			for (y=0;y<data->ylen;y++)
+			{
+				sprintf(temp,"%le %le %le\n",data->x_mesh[x],data->y_mesh[y],data->Ez[z][x][y]);
+				buffer_add_string(&buf,temp);
+			}
+
+			buffer_add_string(&buf,"\n");
+
+		}
+	
+	}
+
+	buffer_dump_path(sim,get_output_path(sim),"Ez.dat",&buf);
+	buffer_free(&buf);
+
 
 	out=fopen("./epsilonr.dat","w");
 	for (z=0;z<data->zlen;z++)

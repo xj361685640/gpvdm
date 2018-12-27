@@ -55,8 +55,6 @@ float fdtd_power_y(struct simulation *sim,struct fdtd_data *data, int y)
 {
 	int z;
 	int x;
-	float e_power=0.0;
-	float h_power=0.0;
 	float tot=0.0;
 	for (z=0;z<data->zlen;z++)
 	{
