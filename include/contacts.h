@@ -17,7 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
-
+/** @file contacts.h
+	@brief Header to handle complex contacts.
+*/
 
 
 #ifndef contacts_h

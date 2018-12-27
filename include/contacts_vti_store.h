@@ -17,7 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
-
+/** @file contacts_vti_store.h
+	@brief No idea what this does.
+*/
 #ifndef contacts_vti_store_h
 #define contacts_vti_store_h
 #include "i.h"

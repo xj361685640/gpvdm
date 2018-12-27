@@ -17,7 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
-
+/** @file cache.h
+	@brief A cache to prevent duming from disk during the simulation.
+*/
 
 #ifndef cache_h
 #define cache_h

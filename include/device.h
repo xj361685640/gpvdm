@@ -17,7 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
-
+/** @file device.h
+	@brief The main structure which holds information about the device.
+*/
 
 #ifndef device_h
 #define device_h

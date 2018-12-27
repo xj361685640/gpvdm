@@ -17,7 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
-
+/** @file code_ctrl.h
+	@brief Decided which code is published or run.
+*/
 
 #ifndef code_ctrl_h
 #define code_ctrl_h

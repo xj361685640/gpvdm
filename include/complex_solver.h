@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file complex_solver.h
+	@brief Complex sparse matrix solver..
+*/
 
 #ifndef h_complex_solver
 #define h_complex_solver

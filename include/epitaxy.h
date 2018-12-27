@@ -18,6 +18,9 @@
 // more details.
 
 
+/** @file epitaxy.h
+	@brief Read the epitaxy from the epitaxy.inp file.
+*/
 
 
 #ifndef epitaxy_h

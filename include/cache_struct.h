@@ -17,7 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
-
+/** @file cache.
+	@brief The structure used by the cache to store files.
+*/
 
 #ifndef cache_struct_h
 #define cache_struct_h

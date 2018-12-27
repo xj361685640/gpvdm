@@ -1,7 +1,7 @@
 //
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
-// 
+//
 //  Copyright (C) 2012 Roderick C. I. MacKenzie <r.c.i.mackenzie@googlemail.com>
 //
 //	www.rodmack.com
@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file pulse.h
+@brief header file for timedomain plugin
+*/
 
 
 #ifndef pulse_h
@@ -25,11 +28,11 @@
 
 struct pulse
 {
-	gdouble pulse_shift;
-	gdouble pulse_bias;
-	gdouble pulse_light_efficiency;
-	int pulse_sim_mode;
-	int pulse_subtract_dc;
+gdouble pulse_shift;
+gdouble pulse_bias;
+gdouble pulse_light_efficiency;
+int pulse_sim_mode;
+int pulse_subtract_dc;
 
 };
 

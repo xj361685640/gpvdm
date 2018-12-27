@@ -1,7 +1,7 @@
 //
 //  General-purpose Photovoltaic Device Model gpvdm.com- a drift diffusion
 //  base/Shockley-Read-Hall model for 1st, 2nd and 3rd generation solarcells.
-// 
+//
 //  Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 //
 //	https://www.gpvdm.com
@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file fxdomain.h
+@brief header file for the fx domain plugin
+*/
 
 
 #ifndef fxdomain_h
@@ -25,19 +28,19 @@
 
 struct fxdomain
 {
-	int fxdomain_sim_mode;
-	int fxdomain_points;
-	int fxdomain_n;
-	long double fxdomain_Vexternal;
-	long double fxdomain_voltage_modulation_max;
-	long double fxdomain_light_modulation_depth;
-	int fxdomain_do_fit;
-	char fxdomain_modulation_type[100];
-	long double fxdomain_L;
-	int periods_to_fit;
-	int fxdomain_modulation_rolloff_enable;
-	long double fxdomain_modulation_rolloff_start_fx;
-	long double fxdomain_modulation_rolloff_speed;
+int fxdomain_sim_mode;
+int fxdomain_points;
+int fxdomain_n;
+long double fxdomain_Vexternal;
+long double fxdomain_voltage_modulation_max;
+long double fxdomain_light_modulation_depth;
+int fxdomain_do_fit;
+char fxdomain_modulation_type[100];
+long double fxdomain_L;
+int periods_to_fit;
+int fxdomain_modulation_rolloff_enable;
+long double fxdomain_modulation_rolloff_start_fx;
+long double fxdomain_modulation_rolloff_speed;
 
 };
 

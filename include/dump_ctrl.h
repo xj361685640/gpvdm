@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file dump_ctrl.h
+	@brief Set/Get dump flags to decided what to dump.
+*/
 
 
 #ifndef dump_ctrl_h

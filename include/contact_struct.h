@@ -17,7 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
-
+/** @file contact_struct.h
+	@brief Definition of the contacts.
+*/
 
 
 #ifndef contact_struct_h

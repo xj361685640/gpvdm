@@ -17,6 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
+/** @file dump.h
+	@brief Fucntions to write data to disk.
+*/
 
 
 #ifndef h_dump

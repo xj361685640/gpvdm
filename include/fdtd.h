@@ -18,6 +18,11 @@
 // more details.
 
 
+/** @file fdtd.h
+	@brief Header for FDTD functions.
+*/
+
+
 #ifndef h_fdtd
 #define h_fdtd
 #include <complex.h>

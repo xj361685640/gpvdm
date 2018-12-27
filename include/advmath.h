@@ -17,7 +17,9 @@
 // FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 // more details.
 
-
+/** @file advmath.h
+	@brief Math functions which have been moved away from the main code for compiler optimization.
+*/
 #ifndef advmath_h
 #define advmath_h
 #include <math.h>
