@@ -56,4 +56,5 @@ int dumpfiles_should_dump(struct simulation* sim,char *name);
 void dumpfiles_process(struct simulation* sim,struct istruct *in,char *name);
 void dumpfiles_turn_on_dir(struct simulation* sim,char *in);
 void dump_clean_cache_files(struct simulation* sim);
+void dump_make_snapshot_dir(struct simulation *sim,char *out_dir ,long double time,long double voltage, int number);
 #endif

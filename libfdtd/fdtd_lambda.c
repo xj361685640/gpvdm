@@ -37,6 +37,8 @@
 #include <log.h>
 #include <device.h>
 #include <fdtd.h>
+#include <lang.h>
+#include <gui_hooks.h>
 
 #include "vec.h"
 void fdtd_solve_all_lambda(struct simulation *sim,struct device *cell,struct fdtd_data *data)
@@ -46,6 +48,8 @@ void fdtd_solve_all_lambda(struct simulation *sim,struct device *cell,struct fdt
 	int i=0;
 	float lambda=data->lambda_start;
 	int steps=data->lambda_points;
+	char send_data[200];
+
 	printf("%d\n",steps);
 
 	float dl=(data->lambda_stop-data->lambda_start)/((float)steps);
@@ -59,13 +63,24 @@ void fdtd_solve_all_lambda(struct simulation *sim,struct device *cell,struct fdt
 
 		lambda=lambda+dl;
 		printf("lambda= %.0f nm\n",lambda*1e9);
+
+		sprintf(send_data,"percent:%f",(float)(i)/(float)(steps));
+
+		gui_send_data(sim,send_data);
+
 	}
 
 }
 
 void fdtd_solve_lambda(struct simulation *sim,struct fdtd_data *data,struct device *cell,float lambda)
 {
+	char send_data[200];
+
 	fdtd_set_lambda(sim,data,cell,lambda);
+
+	sprintf(send_data,"text:%s %.0f nm",_("Running FDTD simulation @"),lambda*1e9);
+
+	gui_send_data(sim,send_data);
 
 	do
 	{

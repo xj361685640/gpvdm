@@ -39,6 +39,8 @@
 #include <sim.h>
 #include <log.h>
 #include <fdtd.h>
+#include <dump.h>
+
 
 #include "vec.h"
 
@@ -51,6 +53,11 @@ void fdtd_dump(struct simulation *sim,struct fdtd_data *data)
 	struct buffer buf;
 	FILE *out;
 	buffer_init(&buf);
+	char out_dir[PATH_MAX];
+
+	strcpy(out_dir,get_output_path(sim));
+
+	dump_make_snapshot_dir(sim,out_dir ,(double)data->time, 0.0, data->step);
 
 	//////Ex
 	buffer_malloc(&buf);
@@ -58,7 +65,7 @@ void fdtd_dump(struct simulation *sim,struct fdtd_data *data)
 	buf.x_mul=1e9;
 	buf.y_mul=1e9;
 	sprintf(buf.title,"%s ",_("Ex - Electric field"));
-	strcpy(buf.type,"heat");
+	strcpy(buf.type,"3d");
 	strcpy(buf.x_label,_("X position"));
 	strcpy(buf.y_label,_("Y position"));
 
@@ -92,7 +99,7 @@ void fdtd_dump(struct simulation *sim,struct fdtd_data *data)
 	
 	}
 
-	buffer_dump_path(sim,get_output_path(sim),"Ex.dat",&buf);
+	buffer_dump_path(sim,out_dir,"Ex.dat",&buf);
 	buffer_free(&buf);
 
 	//////Ey
@@ -101,7 +108,7 @@ void fdtd_dump(struct simulation *sim,struct fdtd_data *data)
 	buf.x_mul=1e9;
 	buf.y_mul=1e9;
 	sprintf(buf.title,"%s ",_("Ey - Electric field"));
-	strcpy(buf.type,"heat");
+	strcpy(buf.type,"3d");
 	strcpy(buf.x_label,_("X position"));
 	strcpy(buf.y_label,_("Y position"));
 
@@ -135,7 +142,7 @@ void fdtd_dump(struct simulation *sim,struct fdtd_data *data)
 	
 	}
 
-	buffer_dump_path(sim,get_output_path(sim),"Ey.dat",&buf);
+	buffer_dump_path(sim,out_dir,"Ey.dat",&buf);
 	buffer_free(&buf);
 
 
@@ -145,7 +152,7 @@ void fdtd_dump(struct simulation *sim,struct fdtd_data *data)
 	buf.x_mul=1e9;
 	buf.y_mul=1e9;
 	sprintf(buf.title,"%s ",_("Ez - Electric field"));
-	strcpy(buf.type,"heat");
+	strcpy(buf.type,"3d");
 	strcpy(buf.x_label,_("X position"));
 	strcpy(buf.y_label,_("Y position"));
 
@@ -179,9 +186,8 @@ void fdtd_dump(struct simulation *sim,struct fdtd_data *data)
 	
 	}
 
-	buffer_dump_path(sim,get_output_path(sim),"Ez.dat",&buf);
+	buffer_dump_path(sim,out_dir,"Ez.dat",&buf);
 	buffer_free(&buf);
-
 
 	out=fopen("./epsilonr.dat","w");
 	for (z=0;z<data->zlen;z++)

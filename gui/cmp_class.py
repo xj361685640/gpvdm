@@ -284,7 +284,7 @@ class cmp_class(QWidgetSavePos):
 		self.tb_video = QAction(icon_get("video"), _("Save video"), self)
 		self.tb_video.triggered.connect(self.callback_save)
 		self.plot.plot_ribbon.file_toolbar.addAction(self.tb_video)
-
+		self.plot.plot_ribbon.plot_toolbar.addAction(self.slider.tb_play)
 
 
 		self.main_vbox.addWidget(self.plot)

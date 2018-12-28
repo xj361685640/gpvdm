@@ -35,11 +35,33 @@ from help import help_window
 from dat_file import dat_file
 from dat_file import dat_file_read
 from dat_file_math import dat_file_max_min
-
+from PyQt5.QtCore import QTimer
+from icon_lib import icon_get
+from util import wrap_text
 
 class snapshot_slider(QWidget):
 
 	changed = pyqtSignal()
+
+	def timer_toggle(self):
+		if self.timer==None:
+			self.timer=QTimer()
+			self.timer.timeout.connect(self.slider_auto_incroment)
+			self.timer.start(1)
+			self.tb_play.setIcon(icon_get("media-playback-pause"))
+		else:
+			self.timer.stop()
+			self.timer=None
+			self.tb_play.setIcon(icon_get("media-playback-start"))
+		
+
+	def slider_auto_incroment(self):
+		val=self.slider0.value()
+		val=val+1
+		if val>self.slider0.maximum():
+			val=0
+
+		self.slider0.setValue(val)
 
 	def cal_min_max(self):
 
@@ -70,7 +92,13 @@ class snapshot_slider(QWidget):
 				if name!="." and name!= "..":
 					full_path=os.path.join(self.path, name)
 					if os.path.isdir(full_path):
-						self.dirs.append(full_path)
+						self.dirs.append(name)
+
+		self.dirs.sort(key=int)
+
+		for i in range(0,len(self.dirs)):
+			self.dirs[i]=os.path.join(self.path, self.dirs[i])
+
 		self.slider_max=len(self.dirs)-1
 		self.slider0.setMaximum(self.slider_max)
 		self.update_file_combo()
@@ -81,7 +109,7 @@ class snapshot_slider(QWidget):
 		self.changed.emit()
 
 	def get_file_name(self):
-		file_path=os.path.join(self.path,str(self.slider0.value()),self.files_combo.currentText())
+		file_path=os.path.join(self.path,self.dirs[self.slider0.value()],self.files_combo.currentText())
 		if os.path.isfile(file_path)==False:
 			file_path=None
 		return file_path
@@ -95,7 +123,11 @@ class snapshot_slider(QWidget):
 	def __init__(self):
 		QWidget.__init__(self)
 		self.path=""
-		
+		self.timer=None
+
+		self.tb_play = QAction(icon_get("media-playback-start"), wrap_text(_("Play"),2), self)
+		self.tb_play.triggered.connect(self.timer_toggle)
+
 		self.setWindowTitle(_("Snapshot slider")) 
 		
 		self.main_vbox = QVBoxLayout()
@@ -117,7 +149,7 @@ class snapshot_slider(QWidget):
 		self.label0 = QLabel()
 		self.label0.setText("")
 
-		self.slider0.setValue(20)
+		self.slider0.setValue(1)
 
 		self.slider_hbox0.addWidget(self.label0)
 
@@ -150,7 +182,8 @@ class snapshot_slider(QWidget):
 	def update_file_combo(self):
 		self.files_combo.blockSignals(True)
 		self.files_combo.clear()
-		path=os.path.join(self.path,str(self.slider0.value()))
+		path=os.path.join(self.path,self.dirs[self.slider0.value()])
+
 		if os.path.isdir(path)==True:
 			for name in os.listdir(path):
 				full_path=os.path.join(path, name)

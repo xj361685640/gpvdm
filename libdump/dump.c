@@ -278,7 +278,6 @@ buffer_init(&buf);
 
 strextract_name(sim_name,in->simmode);
 
-sprintf(snapshot_dir,"snapshots");
 
 int dumped=FALSE;
 FILE* out;
@@ -286,49 +285,7 @@ FILE* out;
 	sprintf(postfix,"%d",dump_number);
 	if ((get_dump_status(sim,dump_pl)==TRUE)||(get_dump_status(sim,dump_energy_slice_switch)==TRUE)||(get_dump_status(sim,dump_1d_slices)==TRUE)||(get_dump_status(sim,dump_optical_probe_spectrum)==TRUE))
 	{
-		join_path(2,snapshots_dir,get_output_path(sim),snapshot_dir);
-
-
-		buffer_add_dir(sim,snapshots_dir);
-
-		buffer_malloc(&buf);
-
-		sprintf(temp,"#end\n");
-		buffer_add_string(&buf,temp);
-
-		buffer_dump_path(sim,snapshots_dir,"snapshots.inp",&buf);
-		buffer_free(&buf);
-
-		join_path(2,out_dir,snapshots_dir,postfix);
-
-		buffer_add_dir(sim,out_dir);
-
-		buffer_malloc(&buf);
-
-		sprintf(temp,"#dump_voltage\n");
-		buffer_add_string(&buf,temp);
-
-		sprintf(temp,"%Lf\n",get_equiv_V(sim,in));
-		buffer_add_string(&buf,temp);
-
-		sprintf(temp,"#dump_time\n");
-		buffer_add_string(&buf,temp);
-
-		sprintf(temp,"%Lf\n",in->time);
-		buffer_add_string(&buf,temp);
-
-		sprintf(temp,"#ver\n");
-		buffer_add_string(&buf,temp);
-
-		sprintf(temp,"1.0\n");
-		buffer_add_string(&buf,temp);
-
-		sprintf(temp,"#end\n");
-		buffer_add_string(&buf,temp);
-
-		buffer_dump_path(sim,out_dir,"snapshot_info.dat",&buf);
-		buffer_free(&buf);
-
+		dump_make_snapshot_dir(sim,out_dir ,in->time, get_equiv_V(sim,in), dump_number);
 	}
 
 	if (get_dump_status(sim,dump_optical_probe_spectrum)==TRUE)

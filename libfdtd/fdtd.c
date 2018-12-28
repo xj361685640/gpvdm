@@ -122,7 +122,6 @@ int do_fdtd(struct simulation *sim,struct device *cell)
 
 	printf("Exit\n");
 
-exit(0);
 return 0;
 
 }
