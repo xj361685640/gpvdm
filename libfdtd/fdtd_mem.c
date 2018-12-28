@@ -139,8 +139,7 @@ void fdtd_get_mem(struct simulation *sim, struct fdtd_data *data)
 	fdtd_3d_malloc_float(data, &data->Hz_last);
 
 	fdtd_3d_malloc_float(data, &data->epsilon_r);
-
-	fdtd_3d_malloc_float(data, &data->z_ang);
+	fdtd_3d_malloc_float(data, &data->sigma);
 
 
 	data->gEx=(float *)malloc(sizeof(float)*data->zlen*data->xlen*data->ylen);
@@ -192,6 +191,7 @@ void fdtd_free_all(struct simulation *sim, struct fdtd_data *data)
 	fdtd_free_3d_float(data, data->Hz_last);
 
 	fdtd_free_3d_float(data, data->epsilon_r);
+	fdtd_free_3d_float(data, data->sigma);
 
 	free(data->gEx);
 	free(data->gEy);

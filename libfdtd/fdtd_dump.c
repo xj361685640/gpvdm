@@ -57,7 +57,7 @@ void fdtd_dump(struct simulation *sim,struct fdtd_data *data)
 
 	strcpy(out_dir,get_output_path(sim));
 
-	dump_make_snapshot_dir(sim,out_dir ,(double)data->time, 0.0, data->step);
+	//dump_make_snapshot_dir(sim,out_dir ,(double)data->time, 0.0, data->step);
 
 	//////Ex
 	buffer_malloc(&buf);
@@ -198,6 +198,25 @@ void fdtd_dump(struct simulation *sim,struct fdtd_data *data)
 			for (y=0;y<data->ylen;y++)
 			{
 				fprintf(out,"%le %le %le\n",data->x_mesh[x],data->y_mesh[y],data->epsilon_r[z][x][y]);
+			}
+		
+			fprintf(out,"\n");
+		}
+
+
+	}
+
+	fclose(out);
+
+	out=fopen("./sigma.dat","w");
+	for (z=0;z<data->zlen;z++)
+	{
+		for (x=0;x<data->xlen;x++)
+		{
+
+			for (y=0;y<data->ylen;y++)
+			{
+				fprintf(out,"%le %le %le\n",data->x_mesh[x],data->y_mesh[y],data->sigma[z][x][y]);
 			}
 		
 			fprintf(out,"\n");

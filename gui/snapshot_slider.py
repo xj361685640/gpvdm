@@ -149,7 +149,7 @@ class snapshot_slider(QWidget):
 		self.label0 = QLabel()
 		self.label0.setText("")
 
-		self.slider0.setValue(1)
+		self.slider0.setValue(0)
 
 		self.slider_hbox0.addWidget(self.label0)
 
@@ -180,6 +180,9 @@ class snapshot_slider(QWidget):
 		self.setLayout(self.main_vbox)
 
 	def update_file_combo(self):
+		print(self.slider0.value())
+		if self.slider0.value()>=len(self.dirs) or self.slider0.value()<0:
+			return
 		self.files_combo.blockSignals(True)
 		self.files_combo.clear()
 		path=os.path.join(self.path,self.dirs[self.slider0.value()])

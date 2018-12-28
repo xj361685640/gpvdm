@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 5.0\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2018-12-28 11:00+0000\n"
+"POT-Creation-Date: 2018-12-28 13:24+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1655,7 +1655,7 @@ msgstr ""
 #: ../gui/scan_tab.py:453 ../gui/plot_ribbon.py:142 ../gui/gpvdm.py:313
 #: ../gui/ribbon_materials.py:100 ../gui/constraints.py:146
 #: ../gui/constraints.py:185 ../gui/ribbon.py:132 ../gui/measure_tab.py:95
-#: ../gui/measure_tab.py:143 ../gui/snapshot_slider.py:139
+#: ../gui/measure_tab.py:143 ../gui/snapshot_slider.py:165
 #: ../gui/fit_vars.py:98 ../gui/fit_vars.py:157 ../gui/fit_patch.py:122
 msgid "File"
 msgstr ""
@@ -2911,7 +2911,11 @@ msgstr ""
 msgid "Simulation"
 msgstr ""
 
-#: ../gui/snapshot_slider.py:105
+#: ../gui/snapshot_slider.py:128
+msgid "Play"
+msgstr ""
+
+#: ../gui/snapshot_slider.py:131
 msgid "Snapshot slider"
 msgstr ""
 

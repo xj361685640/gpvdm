@@ -61,8 +61,6 @@ void fdtd_zero_arrays(struct simulation *sim,struct fdtd_data *data)
 	fdtd_set_3d_float(data, data->Hy_last, 0.0);
 	fdtd_set_3d_float(data, data->Hz_last, 0.0);
 
-	fdtd_set_3d_float(data, data->z_ang, 0.0);
-
 }
 
 
@@ -72,6 +70,9 @@ void fdtd_set_lambda(struct simulation *sim,struct fdtd_data *data,struct device
 	int x;
 	int y;
 	int layer;
+	float alpha;
+	float n;
+	float kappa;
 
 	fdtd_zero_arrays(sim,data);
 
@@ -106,7 +107,14 @@ void fdtd_set_lambda(struct simulation *sim,struct fdtd_data *data,struct device
 				{
 					layer=1;
 				}
-				data->epsilon_r[z][x][y]=pow(inter_get_noend(&(cell->my_epitaxy.mat_n[data->layer[y]]),data->lambda),2.0);
+
+				n=inter_get_noend(&(cell->my_epitaxy.mat_n[data->layer[y]]),data->lambda);
+				data->epsilon_r[z][x][y]=n;//pow(n,2.0);
+				alpha=inter_get_noend(&(cell->my_epitaxy.mat[data->layer[y]]),data->lambda);
+				kappa=(data->lambda*alpha)/(4.0*M_PI);
+				data->sigma[z][x][y]=2.0*n*kappa/mu0f;	//taken from "optical properties of solids" F. Wooten eq. 2.91
+				//printf("%e\n",data->sigma[z][x][y]);	
+//*epsilon0f*sqrtf(powf((1+(kappa*kappa*2)/(data->omega*data->omega*mu0f*epsilon0f)),2.0)-1.0);
 
 			}
 		}

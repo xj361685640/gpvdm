@@ -57,7 +57,7 @@ struct fdtd_data
 	float ***Hy_last;
 	float ***Hz_last;
 	float ***epsilon_r;
-	float ***z_ang;
+	float ***sigma;
 	float dt;
 	float dt2;
 	float zsize;
