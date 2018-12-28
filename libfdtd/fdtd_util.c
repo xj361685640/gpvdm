@@ -39,7 +39,7 @@
 
 #include "vec.h"
 
-void fdtd_setup_simulation(struct simulation *sim,struct fdtd_data *data)
+void fdtd_zero_arrays(struct simulation *sim,struct fdtd_data *data)
 {
 	fdtd_set_3d_float(data, data->Ex, 0.0);
 	fdtd_set_3d_float(data, data->Ey, 0.0);
@@ -66,4 +66,50 @@ void fdtd_setup_simulation(struct simulation *sim,struct fdtd_data *data)
 }
 
 
+void fdtd_set_lambda(struct simulation *sim,struct fdtd_data *data,struct device *cell,float lambda)
+{
+	int z;
+	int x;
+	int y;
+	int layer;
 
+	fdtd_zero_arrays(sim,data);
+
+	data->time=0.0;
+	data->step=0;
+	data->lambda=lambda;
+	data->f=clf/data->lambda;
+	data->omega=2.0*3.14159*data->f;
+
+	//float min=1.0/(clf*sqrt(pow(1.0/data->dz,2.0)+pow(1.0/data->dx,2.0)+pow(1.0/data->dy,2.0)));
+	//data->dt=1e-18;//min*0.1;
+	//
+
+	float min=1.0/(clf*sqrt(pow(1.0/data->dz,2.0)+pow(1.0/data->dx,2.0)+pow(1.0/data->dy,2.0)));
+	data->dt=8.359788e-19;//min*0.1;
+
+	printf("dt=%e\n",data->dt);
+
+	data->dt2=data->dt/2.0;
+	//fdtd_setup_simulation(sim,data);
+	printf(" lambda=%f\n",data->lambda*1e9);
+
+	for (z=0;z<data->zlen;z++)
+	{
+		for (x=0;x<data->xlen;x++)
+		{
+			for (y=0;y<data->ylen;y++)
+			{
+				layer=data->layer[y];
+				
+				if (layer==-1)
+				{
+					layer=1;
+				}
+				data->epsilon_r[z][x][y]=pow(inter_get_noend(&(cell->my_epitaxy.mat_n[data->layer[y]]),data->lambda),2.0);
+
+			}
+		}
+	}
+
+}

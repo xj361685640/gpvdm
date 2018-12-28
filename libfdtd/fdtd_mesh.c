@@ -55,9 +55,7 @@ void fdtd_mesh(struct simulation *sim,struct fdtd_data *data,struct device *cell
 	data->dy=data->ysize/((float)data->ylen);
 
 
-	float min=1.0/(clf*sqrt(pow(1.0/data->dz,2.0)+pow(1.0/data->dx,2.0)+pow(1.0/data->dy,2.0)));
-	data->dt=min*0.1;
-	printf ("dy=%lf nm, dz=%lf nm min_dt=%le dt=%le %le\n",data->dy*1e9,data->dz*1e9,min,data->dt,data->time);
+	printf ("dy=%lf nm, dz=%lf nm dt=%le %le\n",data->dy*1e9,data->dz*1e9,data->dt,data->time);
 
 	int z=0;
 	int x=0;
@@ -89,24 +87,6 @@ void fdtd_mesh(struct simulation *sim,struct fdtd_data *data,struct device *cell
 		ypos+=data->dy;
 	}
 
-
-	for (z=0;z<data->zlen;z++)
-	{
-		for (x=0;x<data->xlen;x++)
-		{
-			for (y=0;y<data->ylen;y++)
-			{
-				layer=data->layer[y];
-				
-				if (layer==-1)
-				{
-					layer=1;
-				}
-				data->epsilon_r[z][x][y]=pow(inter_get_noend(&(cell->my_epitaxy.mat_n[data->layer[y]]),data->lambda),2.0);
-
-			}
-		}
-	}
 
 
 }

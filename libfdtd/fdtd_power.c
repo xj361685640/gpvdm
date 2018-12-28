@@ -77,6 +77,7 @@ float top=fdtd_power_y(sim,data,  data->ylen-2);
 	if (top!=0.0)
 	{
 		ret=almost_top/src;
+		data->escape=ret;
 	}
 
 return ret;

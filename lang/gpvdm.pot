@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 5.0\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2018-12-27 22:19+0000\n"
+"POT-Creation-Date: 2018-12-28 08:19+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -851,36 +851,42 @@ msgstr ""
 msgid "Finished finding equilibrium conditions"
 msgstr ""
 
-#: ../libfdtd/fdtd_dump.c:60
+#: ../libfdtd/fdtd_dump.c:60 ../libfdtd2/fdtd_dump.c:60
 msgid "Ex - Electric field"
 msgstr ""
 
 #: ../libfdtd/fdtd_dump.c:62 ../libfdtd/fdtd_dump.c:105
-#: ../libfdtd/fdtd_dump.c:149
+#: ../libfdtd/fdtd_dump.c:149 ../libfdtd2/fdtd_dump.c:62
+#: ../libfdtd2/fdtd_dump.c:105 ../libfdtd2/fdtd_dump.c:149
 msgid "X position"
 msgstr ""
 
 #: ../libfdtd/fdtd_dump.c:63 ../libfdtd/fdtd_dump.c:106
-#: ../libfdtd/fdtd_dump.c:150
+#: ../libfdtd/fdtd_dump.c:150 ../libfdtd2/fdtd_dump.c:63
+#: ../libfdtd2/fdtd_dump.c:106 ../libfdtd2/fdtd_dump.c:150
 msgid "Y position"
 msgstr ""
 
 #: ../libfdtd/fdtd_dump.c:65 ../libfdtd/fdtd_dump.c:108
-#: ../libfdtd/fdtd_dump.c:152
+#: ../libfdtd/fdtd_dump.c:152 ../libfdtd2/fdtd_dump.c:65
+#: ../libfdtd2/fdtd_dump.c:108 ../libfdtd2/fdtd_dump.c:152
 msgid "E-field"
 msgstr ""
 
 #: ../libfdtd/fdtd_dump.c:66 ../libfdtd/fdtd_dump.c:67
 #: ../libfdtd/fdtd_dump.c:109 ../libfdtd/fdtd_dump.c:110
 #: ../libfdtd/fdtd_dump.c:153 ../libfdtd/fdtd_dump.c:154
+#: ../libfdtd2/fdtd_dump.c:66 ../libfdtd2/fdtd_dump.c:67
+#: ../libfdtd2/fdtd_dump.c:109 ../libfdtd2/fdtd_dump.c:110
+#: ../libfdtd2/fdtd_dump.c:153 ../libfdtd2/fdtd_dump.c:154
 msgid "nm"
 msgstr ""
 
-#: ../libfdtd/fdtd_dump.c:103
+#: ../libfdtd/fdtd_dump.c:103 ../libfdtd2/fdtd_dump.c:103
 msgid "Ey - Electric field"
 msgstr ""
 
-#: ../libfdtd/fdtd_dump.c:147
+#: ../libfdtd/fdtd_dump.c:147 ../libfdtd2/fdtd_dump.c:147
 msgid "Ez - Electric field"
 msgstr ""
 

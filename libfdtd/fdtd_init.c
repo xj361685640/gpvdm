@@ -56,4 +56,5 @@ void fdtd_init(struct fdtd_data *data)
 	data->use_gpu=FALSE;
 	data->excitation_mesh_point=-1;
 	data->step=0;
+	data->escape=-1;
 }

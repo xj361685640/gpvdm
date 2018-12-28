@@ -52,16 +52,18 @@ free_all();
 
 }*/
 
-
 int do_fdtd(struct simulation *sim,struct device *cell)
 {
 	printf_log(sim,"**************************\n");
 	printf_log(sim,"*       FDTD module      *\n");
 	printf_log(sim,"**************************\n");
 
-	FILE * conv;
-	conv=fopen("conv.dat","w");
-	fclose(conv);
+	FILE * f;
+	f=fopen("conv.dat","w");
+	fclose(f);
+
+	f=fopen("escape.dat","w");
+	fclose(f);
 
 	int i;
 	int pos=0;
@@ -76,6 +78,7 @@ int do_fdtd(struct simulation *sim,struct device *cell)
 
 	fdtd_load_config(sim,&data);
 
+
 	if (data.use_gpu==TRUE)
 	{
 		opencl_init(sim,&data);
@@ -89,11 +92,11 @@ int do_fdtd(struct simulation *sim,struct device *cell)
 		fdtd_opencl_kernel_init(sim, &data);
 	}
 
-
-	fdtd_setup_simulation(sim,&data);
-
 	fdtd_mesh(sim,&data,cell);
+
 	pos=0;
+
+	
 
 
 	data.gnuplot = popen("gnuplot","w");
@@ -113,45 +116,11 @@ int do_fdtd(struct simulation *sim,struct device *cell)
 		fdtd_opencl_write_ctrl_data(sim,&data);
 	}
 
-do
-{
-	pos=0;
-	int err;
-	fdtd_solve_step(sim,&data);
+	fdtd_solve_all_lambda(sim,cell,&data);
 
-	if ((data.step%200)==0)
-	{
-		if (data.use_gpu==TRUE)
-		{
-			fdtd_opencl_pull_data(sim,&data);
-		}
+	fdtd_free_all(sim,&data);
 
-		fdtd_dump(sim,&data);
-
-		printf_log(sim,"plot! %ld\n",data.step);
-
-		if (data.plot==1)
-		{
-			fprintf(data.gnuplot2, "load 'Ex.plot'\n");
-			fflush(data.gnuplot2);
-		}
-	printf_log(sim,"%ld/%ld %e s\n",data.step,data.max_ittr,data.time);
-	}
-	//exit(0);
-
-	data.step++;
-
-	if (fdtd_test_conv(sim,&data)!=0)
-	{
-		break;
-	}
-
-}while(data.step<data.max_ittr);//
-
-
-fdtd_free_all(sim,&data);
-
-printf("Exit\n");
+	printf("Exit\n");
 
 exit(0);
 return 0;

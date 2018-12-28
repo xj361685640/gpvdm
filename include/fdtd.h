@@ -145,9 +145,13 @@ struct fdtd_data
 	float src_start;
 	float src_stop;
 	float lambda;
+	float lambda_start;
+	float lambda_stop;
+	int lambda_points;
 	float stop;
 	float time;
 	int step;
+	float escape;
 };
 
 int do_fdtd(struct simulation *sim,struct device *cell);
@@ -156,7 +160,7 @@ void fdtd_opencl_load_config(struct simulation *sim, struct fdtd_data *data);
 void opencl_init(struct simulation *sim, struct fdtd_data *data);
 size_t fdtd_opencl_load_code(struct simulation *sim,struct fdtd_data *data);
 void fdtd_opencl_kernel_init(struct simulation *sim, struct fdtd_data *data);
-void fdtd_setup_simulation(struct simulation *sim,struct fdtd_data *data);
+void fdtd_zero_arrays(struct simulation *sim,struct fdtd_data *data);
 void fdtd_opencl_push_to_gpu(struct simulation *sim,struct fdtd_data *data);
 void fdtd_opencl_write_ctrl_data(struct simulation *sim,struct fdtd_data *data);
 void fdtd_solve_step(struct simulation *sim,struct fdtd_data *data);
@@ -173,5 +177,8 @@ void fdtd_memcpy(struct fdtd_data *data, float ***out, float ***in);
 float fdtd_power_zxy(struct simulation *sim,struct fdtd_data *data,int z, int x, int y);
 float fdtd_power_y(struct simulation *sim,struct fdtd_data *data, int y);
 float fdtd_test_conv(struct simulation *sim,struct fdtd_data *data);
+void fdtd_set_lambda(struct simulation *sim,struct fdtd_data *data,struct device *cell,float lambda);
+void fdtd_solve_all_lambda(struct simulation *sim,struct device *cell,struct fdtd_data *data);
+void fdtd_solve_lambda(struct simulation *sim,struct fdtd_data *data,struct device *cell,float lambda);
 
 #endif
