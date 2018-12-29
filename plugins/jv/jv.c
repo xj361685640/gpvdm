@@ -375,7 +375,7 @@ buf.x=1;
 buf.y=charge.len;
 buf.z=1;
 buffer_add_info(sim,&buf);
-buffer_add_xy_data(sim,&buf,klist.x, klist.data, charge.len);
+buffer_add_xy_data(sim,&buf,klist.x, klist.data, klist.len);
 buffer_dump_path(sim,get_output_path(sim),"k.dat",&buf);
 buffer_free(&buf);
 

@@ -62,9 +62,6 @@ int do_fdtd(struct simulation *sim,struct device *cell)
 	f=fopen("conv.dat","w");
 	fclose(f);
 
-	f=fopen("escape.dat","w");
-	fclose(f);
-
 	int i;
 	int pos=0;
 	size_t srcsize;

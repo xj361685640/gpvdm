@@ -809,6 +809,11 @@ if (len>0)
 return -1;
 }
 
+/**
+ * @brief Tests for a directory, returns 0 if found non zero if not.
+ *
+ * Detailed explanation.
+ */
 int isdir(const char *path)
 {
 	struct stat statbuf;
@@ -827,6 +832,11 @@ int isdir(const char *path)
 	}
 }
 
+/**
+ * @brief Tests for a file, returns 0 if found non zero if not.
+ *
+ * Detailed explanation.
+ */
 int isfile(char *in)
 {
 	struct stat statbuf;

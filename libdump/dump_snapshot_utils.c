@@ -36,10 +36,42 @@
 #include <fcntl.h>
 #include <dirent.h>
 #include <inp.h>
+#include <util.h>
 
 static int unused __attribute__((unused));
 
-void dump_make_snapshot_dir(struct simulation *sim,char *out_dir ,long double time,long  double voltage, int number)
+void dump_remove_snapshots(struct simulation* sim)
+{
+	char test_dir[PATH_MAX];
+	char test_file[PATH_MAX];
+
+	DIR *d;
+	struct dirent *dir;
+
+	d = opendir(get_output_path(sim));
+	if (d)
+	{
+		while ((dir = readdir(d)) != NULL)
+		{
+			join_path(2,test_dir,get_output_path(sim),dir->d_name);
+			if (isdir(test_dir)==0)
+			{
+				join_path(3,test_file,get_output_path(sim),dir->d_name,"snapshots.inp");
+				//printf("%s\n",test_file);
+				if (isfile(test_file)==0)
+				{
+					printf("delete: %s\n",test_dir);
+
+					remove_dir(sim,test_dir);
+				}
+			}
+		}
+		closedir(d);
+	}
+
+}
+
+void dump_make_snapshot_dir_with_name(struct simulation *sim,char *out_dir ,long double time,long  double voltage, int number,char *snapshot_name)
 {
 	char snapshots_dir[PATH_MAX];
 	char sub_dir[200];
@@ -49,7 +81,7 @@ void dump_make_snapshot_dir(struct simulation *sim,char *out_dir ,long double ti
 
 	sprintf(sub_dir,"%d",number);
 
-	join_path(2,snapshots_dir,get_output_path(sim),"snapshots");
+	join_path(2,snapshots_dir,get_output_path(sim),snapshot_name);
 
 
 	buffer_add_dir(sim,snapshots_dir);
@@ -92,6 +124,12 @@ void dump_make_snapshot_dir(struct simulation *sim,char *out_dir ,long double ti
 	buffer_dump_path(sim,out_dir,"snapshot_info.dat",&buf);
 	buffer_free(&buf);
 
+
+}
+
+void dump_make_snapshot_dir(struct simulation *sim,char *out_dir ,long double time,long  double voltage, int number)
+{
+	dump_make_snapshot_dir_with_name(sim,out_dir ,time,voltage, number,"snapshots");
 
 }
 

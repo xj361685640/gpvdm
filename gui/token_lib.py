@@ -540,6 +540,9 @@ def build_token_lib():
 
 	#fdtd.inp
 	lib.append(my_data("fdtd.inp","#use_gpu","au",_("OpenCL GPU acceleration"),"e",1.0,"gtkswitch"))
+	lib.append(my_data("fdtd.inp","#fdtd_lambda_start","m",_("Start wavelength"),"e",1.0,"QLineEdit"))
+	lib.append(my_data("fdtd.inp","#fdtd_lambda_stop","m",_("Stop wavelength"),"e",1.0,"QLineEdit"))
+	lib.append(my_data("fdtd.inp","#fdtd_lambda_points","m",_("Wavelength steps"),"e",1.0,"QLineEdit"))
 
 class tokens:
 

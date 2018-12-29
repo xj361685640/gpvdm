@@ -103,15 +103,21 @@ class snapshot_slider(QWidget):
 		self.update_file_combo()
 
 	def slider0_change(self):
-		print("here")
 		value = self.slider0.value()
 		self.label0.setText(str(value))
 		self.changed.emit()
 
 	def get_file_name(self):
-		file_path=os.path.join(self.path,self.dirs[self.slider0.value()],self.files_combo.currentText())
+		if self.slider_dir_exists()==False:
+			return None
+
+		file_path=None
+		val=self.slider0.value()
+
+		file_path=os.path.join(self.path,self.dirs[val],self.files_combo.currentText())
 		if os.path.isfile(file_path)==False:
 			file_path=None
+
 		return file_path
 
 	def set_path(self,path):
@@ -122,6 +128,7 @@ class snapshot_slider(QWidget):
 		
 	def __init__(self):
 		QWidget.__init__(self)
+		self.dirs=[]
 		self.path=""
 		self.timer=None
 
@@ -179,10 +186,17 @@ class snapshot_slider(QWidget):
 
 		self.setLayout(self.main_vbox)
 
+	def slider_dir_exists(self):
+		if self.slider0.value()==-1:
+			return False
+		if self.slider0.value()>=len(self.dirs):
+			return False
+		
+		return True
+
 	def update_file_combo(self):
-		print(self.slider0.value())
-		if self.slider0.value()>=len(self.dirs) or self.slider0.value()<0:
-			return
+		if self.slider_dir_exists()==False:
+			return False
 		self.files_combo.blockSignals(True)
 		self.files_combo.clear()
 		path=os.path.join(self.path,self.dirs[self.slider0.value()])
@@ -200,6 +214,7 @@ class snapshot_slider(QWidget):
 			if all_items[i] == "Jn.dat":
 				self.files_combo.setCurrentIndex(i)
 		self.files_combo.blockSignals(False)
+		return True
 
 		
 	def files_combo_changed(self):

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 5.0\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2018-12-29 14:18+0000\n"
+"POT-Creation-Date: 2018-12-29 18:08+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -175,7 +175,7 @@ msgstr ""
 msgid "Token not found in file"
 msgstr ""
 
-#: ../lib/util.c:878
+#: ../lib/util.c:888
 msgid "Deleting directory"
 msgstr ""
 
@@ -208,6 +208,7 @@ msgstr ""
 #: ../libmeasure/probe.c:162 ../libmeasure/probe.c:164
 #: ../libmeasure/probe.c:187 ../libmeasure/probe.c:189
 #: ../libmeasure/probe.c:212 ../libmeasure/probe.c:214
+#: ../libfdtd/fdtd_lambda.c:83 ../libfdtd/fdtd_lambda.c:85
 #: ../gui/import_data.py:285 ../gui/import_data.py:286
 #: ../gui/import_data.py:287 ../gui/import_data.py:288 ../gui/equation.py:185
 msgid "Wavelength"
@@ -789,11 +790,11 @@ msgstr ""
 msgid "Runing simulation"
 msgstr ""
 
-#: ../src/sim_run.c:133
+#: ../src/sim_run.c:134
 msgid "Loading DoS layers"
 msgstr ""
 
-#: ../src/sim_run.c:142
+#: ../src/sim_run.c:143
 msgid "Load DoS"
 msgstr ""
 
@@ -851,46 +852,50 @@ msgstr ""
 msgid "Finished finding equilibrium conditions"
 msgstr ""
 
-#: ../libfdtd/fdtd_dump.c:67 ../libfdtd2/fdtd_dump.c:60
+#: ../libfdtd/fdtd_dump.c:70 ../libfdtd2/fdtd_dump.c:60
 msgid "Ex - Electric field"
 msgstr ""
 
-#: ../libfdtd/fdtd_dump.c:69 ../libfdtd/fdtd_dump.c:115
-#: ../libfdtd/fdtd_dump.c:162 ../libfdtd2/fdtd_dump.c:62
+#: ../libfdtd/fdtd_dump.c:72 ../libfdtd/fdtd_dump.c:119
+#: ../libfdtd/fdtd_dump.c:167 ../libfdtd2/fdtd_dump.c:62
 #: ../libfdtd2/fdtd_dump.c:105 ../libfdtd2/fdtd_dump.c:149
 msgid "X position"
 msgstr ""
 
-#: ../libfdtd/fdtd_dump.c:70 ../libfdtd/fdtd_dump.c:116
-#: ../libfdtd/fdtd_dump.c:163 ../libfdtd2/fdtd_dump.c:63
+#: ../libfdtd/fdtd_dump.c:73 ../libfdtd/fdtd_dump.c:120
+#: ../libfdtd/fdtd_dump.c:168 ../libfdtd2/fdtd_dump.c:63
 #: ../libfdtd2/fdtd_dump.c:106 ../libfdtd2/fdtd_dump.c:150
 msgid "Y position"
 msgstr ""
 
-#: ../libfdtd/fdtd_dump.c:72 ../libfdtd/fdtd_dump.c:118
-#: ../libfdtd/fdtd_dump.c:165 ../libfdtd2/fdtd_dump.c:65
+#: ../libfdtd/fdtd_dump.c:75 ../libfdtd/fdtd_dump.c:122
+#: ../libfdtd/fdtd_dump.c:170 ../libfdtd2/fdtd_dump.c:65
 #: ../libfdtd2/fdtd_dump.c:108 ../libfdtd2/fdtd_dump.c:152
 msgid "E-field"
 msgstr ""
 
-#: ../libfdtd/fdtd_dump.c:73 ../libfdtd/fdtd_dump.c:74
-#: ../libfdtd/fdtd_dump.c:119 ../libfdtd/fdtd_dump.c:120
-#: ../libfdtd/fdtd_dump.c:166 ../libfdtd/fdtd_dump.c:167
+#: ../libfdtd/fdtd_dump.c:76 ../libfdtd/fdtd_dump.c:77
+#: ../libfdtd/fdtd_dump.c:123 ../libfdtd/fdtd_dump.c:124
+#: ../libfdtd/fdtd_dump.c:171 ../libfdtd/fdtd_dump.c:172
 #: ../libfdtd2/fdtd_dump.c:66 ../libfdtd2/fdtd_dump.c:67
 #: ../libfdtd2/fdtd_dump.c:109 ../libfdtd2/fdtd_dump.c:110
 #: ../libfdtd2/fdtd_dump.c:153 ../libfdtd2/fdtd_dump.c:154
 msgid "nm"
 msgstr ""
 
-#: ../libfdtd/fdtd_dump.c:113 ../libfdtd2/fdtd_dump.c:103
+#: ../libfdtd/fdtd_dump.c:117 ../libfdtd2/fdtd_dump.c:103
 msgid "Ey - Electric field"
 msgstr ""
 
-#: ../libfdtd/fdtd_dump.c:160 ../libfdtd2/fdtd_dump.c:147
+#: ../libfdtd/fdtd_dump.c:165 ../libfdtd2/fdtd_dump.c:147
 msgid "Ez - Electric field"
 msgstr ""
 
-#: ../libfdtd/fdtd_lambda.c:81
+#: ../libfdtd/fdtd_lambda.c:83 ../libfdtd/fdtd_lambda.c:86
+msgid "Photon escape probability"
+msgstr ""
+
+#: ../libfdtd/fdtd_lambda.c:110
 msgid "Running FDTD simulation @"
 msgstr ""
 
@@ -907,15 +912,15 @@ msgid ""
 "efficient each recombination mechanism is at producing photons."
 msgstr ""
 
-#: ../gui/cmp_class.py:259
+#: ../gui/cmp_class.py:211
 msgid "Examine simulation results in time domain"
 msgstr ""
 
-#: ../gui/cmp_class.py:284
+#: ../gui/cmp_class.py:238
 msgid "Save video"
 msgstr ""
 
-#: ../gui/cmp_class.py:299
+#: ../gui/cmp_class.py:253
 msgid ""
 "No electrical slice data has been stored in the snapshots directory.  To "
 "turn this on set Simulation->Configure->Dump->Dump 1D Slices to on.  This "
@@ -1655,7 +1660,7 @@ msgstr ""
 #: ../gui/scan_tab.py:453 ../gui/plot_ribbon.py:142 ../gui/gpvdm.py:313
 #: ../gui/ribbon_materials.py:100 ../gui/constraints.py:146
 #: ../gui/constraints.py:185 ../gui/ribbon.py:132 ../gui/measure_tab.py:95
-#: ../gui/measure_tab.py:143 ../gui/snapshot_slider.py:165
+#: ../gui/measure_tab.py:143 ../gui/snapshot_slider.py:172
 #: ../gui/fit_vars.py:98 ../gui/fit_vars.py:157 ../gui/fit_patch.py:122
 msgid "File"
 msgstr ""
@@ -2911,11 +2916,11 @@ msgstr ""
 msgid "Simulation"
 msgstr ""
 
-#: ../gui/snapshot_slider.py:128
+#: ../gui/snapshot_slider.py:135
 msgid "Play"
 msgstr ""
 
-#: ../gui/snapshot_slider.py:131
+#: ../gui/snapshot_slider.py:138
 msgid "Snapshot slider"
 msgstr ""
 
@@ -4831,6 +4836,18 @@ msgstr ""
 
 #: ../gui/token_lib.py:542
 msgid "OpenCL GPU acceleration"
+msgstr ""
+
+#: ../gui/token_lib.py:543
+msgid "Start wavelength"
+msgstr ""
+
+#: ../gui/token_lib.py:544
+msgid "Stop wavelength"
+msgstr ""
+
+#: ../gui/token_lib.py:545
+msgid "Wavelength steps"
 msgstr ""
 
 #: ../gui/spectra_main.py:68

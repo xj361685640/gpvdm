@@ -80,13 +80,13 @@ void fdtd_load_config(struct simulation *sim, struct fdtd_data *data)
 	inp_search_float(sim,&inp,&(data->dt),"#dt");
 	printf_log(sim,"dt=%e\n",data->dt);
 
-	inp_search_float(sim,&inp,&(data->lambda_start),"#lambda_start");
+	inp_search_float(sim,&inp,&(data->lambda_start),"#fdtd_lambda_start");
 	printf_log(sim,"lambda_start=%e\n",data->lambda_start);
 
-	inp_search_float(sim,&inp,&(data->lambda_stop),"#lambda_stop");
+	inp_search_float(sim,&inp,&(data->lambda_stop),"#fdtd_lambda_stop");
 	printf_log(sim,"lambda_stop=%e\n",data->lambda_stop);
 
-	inp_search_int(sim,&inp,&(data->lambda_points),"#lambda_points");
+	inp_search_int(sim,&inp,&(data->lambda_points),"#fdtd_lambda_points");
 	printf_log(sim,"lambda_points=%e\n",data->lambda_points);
 
 	inp_free(sim,&inp);

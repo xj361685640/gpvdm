@@ -274,13 +274,13 @@ if (get_dump_status(sim,dump_write_headers)==TRUE)
 	sprintf(temp,"#Vexternal %Le\n",in->Vexternal);
 	buffer_add_string(in,temp);
 
-	if (in->data_max!=NAN)
+	if (isnan(in->data_max)!=1)
 	{
 		sprintf(temp,"#data_max %Le\n",in->data_max);
 		buffer_add_string(in,temp);
 	}
 
-	if (in->data_min!=NAN)
+	if (isnan(in->data_min)!=1)
 	{
 		sprintf(temp,"#data_min %Le\n",in->data_min);
 		buffer_add_string(in,temp);

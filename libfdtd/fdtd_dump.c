@@ -54,17 +54,20 @@ void fdtd_dump(struct simulation *sim,struct fdtd_data *data)
 	FILE *out;
 	buffer_init(&buf);
 	char out_dir[PATH_MAX];
-
+	char lambda_name[20];
+	char time_str[20];
+	
+	sprintf(lambda_name,"snapshots_%.0f",data->lambda*1e9);
 	//strcpy(out_dir,get_output_path(sim));
-
-	dump_make_snapshot_dir(sim,out_dir ,(double)data->time, 0.0, data->step);
+	dump_make_snapshot_dir_with_name(sim,out_dir ,(double)data->time, 0.0, data->step,lambda_name);
 
 	//////Ex
 	buffer_malloc(&buf);
 	buf.z_mul=1e9;
 	buf.x_mul=1e9;
 	buf.y_mul=1e9;
-	sprintf(buf.title,"%s ",_("Ex - Electric field"));
+	time_with_units(time_str,data->time);
+	sprintf(buf.title,"%s (%s)",_("Ex - Electric field"),time_str);
 	strcpy(buf.type,"heat");
 	strcpy(buf.x_label,_("X position"));
 	strcpy(buf.y_label,_("Y position"));
@@ -110,7 +113,8 @@ void fdtd_dump(struct simulation *sim,struct fdtd_data *data)
 	buf.z_mul=1e9;
 	buf.x_mul=1e9;
 	buf.y_mul=1e9;
-	sprintf(buf.title,"%s ",_("Ey - Electric field"));
+	time_with_units(time_str,data->time);
+	sprintf(buf.title,"%s (%s)",_("Ey - Electric field"),time_str);
 	strcpy(buf.type,"3d");
 	strcpy(buf.x_label,_("X position"));
 	strcpy(buf.y_label,_("Y position"));
@@ -157,7 +161,8 @@ void fdtd_dump(struct simulation *sim,struct fdtd_data *data)
 	buf.z_mul=1e9;
 	buf.x_mul=1e9;
 	buf.y_mul=1e9;
-	sprintf(buf.title,"%s ",_("Ez - Electric field"));
+	time_with_units(time_str,data->time);
+	sprintf(buf.title,"%s (%s)",_("Ez - Electric field"),time_str);
 	strcpy(buf.type,"3d");
 	strcpy(buf.x_label,_("X position"));
 	strcpy(buf.y_label,_("Y position"));

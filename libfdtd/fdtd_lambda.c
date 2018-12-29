@@ -39,10 +39,18 @@
 #include <fdtd.h>
 #include <lang.h>
 #include <gui_hooks.h>
+#include <buffer.h>
+#include <cal_path.h>
 
 #include "vec.h"
+
 void fdtd_solve_all_lambda(struct simulation *sim,struct device *cell,struct fdtd_data *data)
 {
+	struct buffer buf;
+	buffer_init(&buf);
+
+	struct istruct escape;
+	inter_init(sim,&escape);
 	FILE * f;
 	printf("here\n");
 	int i=0;
@@ -57,9 +65,7 @@ void fdtd_solve_all_lambda(struct simulation *sim,struct device *cell,struct fdt
 	{
 		fdtd_solve_lambda(sim,data,cell,lambda);
 
-		f=fopen("escape.dat","a");
-		fprintf(f,"%e %le\n",lambda,data->escape);
-		fclose(f);
+		inter_append(&escape,lambda,data->escape*100.0);
 
 		lambda=lambda+dl;
 		printf("lambda= %.0f nm\n",lambda*1e9);
@@ -70,6 +76,29 @@ void fdtd_solve_all_lambda(struct simulation *sim,struct device *cell,struct fdt
 
 	}
 
+	buffer_malloc(&buf);
+	buf.y_mul=1e9;
+	buf.x_mul=1.0;
+	buf.data_mul=1.0;
+	sprintf(buf.title,"%s - %s",_("Photon escape probability"),_("Wavelength"));
+	strcpy(buf.type,"xy");
+	strcpy(buf.x_label,_("Wavelength"));
+	strcpy(buf.data_label,_("Photon escape probability"));
+	strcpy(buf.x_units,"nm");
+	strcpy(buf.data_units,"%");
+	buf.logscale_x=0;
+	buf.logscale_y=0;
+	buf.logscale_z=0;
+	buf.x=1;
+	buf.y=escape.len;
+	buf.z=1;
+	buffer_add_info(sim,&buf);
+	buffer_add_xy_data(sim,&buf,escape.x, escape.data, escape.len);
+	buffer_dump_path(sim,get_output_path(sim),"escape.dat",&buf);
+	buffer_free(&buf);
+
+
+	inter_free(&escape);
 }
 
 void fdtd_solve_lambda(struct simulation *sim,struct fdtd_data *data,struct device *cell,float lambda)

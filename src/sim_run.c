@@ -96,8 +96,9 @@ if (get_dump_status(sim,dump_newton)==TRUE)
 	}
 }
 
-join_path(2,temp,get_output_path(sim),"snapshots");
-remove_dir(sim,temp);
+//join_path(2,temp,get_output_path(sim),"snapshots");
+//remove_dir(sim,temp);
+dump_remove_snapshots(sim);
 
 join_path(2,temp,get_output_path(sim),"light_dump");
 remove_dir(sim,temp);

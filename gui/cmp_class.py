@@ -85,59 +85,11 @@ class cmp_class(QWidgetSavePos):
 
 	def update(self):
 		file_name=self.slider.get_file_name()
-		self.plot.set_labels(["data"])
-		config_file=os.path.splitext(file_name)[0]+".oplot"
-		self.plot.load_data([file_name],config_file)
-		self.plot.do_plot()
-
-		return
-		files=self.entry2.get_text().split()
-		value=int(value)
-		print("hello")
-
-		if value>self.dumps:
-			return
-
-
-		path0=self.entry0.get_active_text()
-		path1=self.entry1.get_active_text()
-		self.file_names=[]
-		labels=[]
-		zero_frame=[]
-
-		#title=self.lines[value].split()
-		#mul,unit=time_with_units(float(title[1]))
-		#self.plot.plot_title="Voltage="+title[0]+" time="+str(float(title[1])*mul)+" "+unit
-
-		for i in range(0,len(files)):
-			self.file_names.append(os.path.join(path0,str(int(value)),files[i]+".dat"))
-			zero_frame.append(os.path.join(path0,"0",files[i]+".dat"))
-			labels.append(files[i])
-
-			self.file_names.append(os.path.join(path1,str(int(value)),files[i]+".dat"))
-			zero_frame.append(os.path.join(path1,"0",files[i]+".dat"))
-			labels.append("")
-
-		plot_id=[]
-		if self.multi_plot==False:
-			for i in range(0,len(self.file_names)):
-				plot_id.append(0)
-		else:
-			for i in range(0,len(self.file_names)):
-				plot_id.append(i)
-
-		exp_files=self.entry3.get_text().split()
-		for i in range(0,len(exp_files)):
-			self.file_names.append(exp_files[i])
-			zero_frame.append("")
-			labels.append("")
-			plot_id.append(i)
-		self.plot.zero_frame_list=zero_frame
-
-		print("hi",self.file_names)
-		print(plot_id)
-
-
+		if file_name!=None:
+			self.plot.set_labels(["data"])
+			config_file=os.path.splitext(file_name)[0]+".oplot"
+			self.plot.load_data([file_name],config_file)
+			self.plot.do_plot()
 
 
 	def callback_scale(self, adj):
@@ -275,7 +227,9 @@ class cmp_class(QWidgetSavePos):
 		self.main_vbox = QVBoxLayout()
 
 		self.slider=snapshot_slider()
-		self.slider.set_path(os.path.join(get_sim_path(),"snapshots"))
+		print(self.snapshot_dirs)
+		if len(self.snapshot_dirs)!=0:
+			self.slider.set_path(os.path.join(get_sim_path(),self.snapshot_dirs[0]))
 		self.slider.changed.connect(self.update)
 		self.plot=plot_widget()
 		self.plot.init()
@@ -299,113 +253,5 @@ class cmp_class(QWidgetSavePos):
 			help_window().help_append(["warning.png",_("No electrical slice data has been stored in the snapshots directory.  To turn this on set Simulation->Configure->Dump->Dump 1D Slices to on.  This will dump a lot of data and slow down your simulations.")])
 		
 		#self.light.currentIndexChanged.connect(self.call_back_light_changed)
-
-	def init(self):
-		return False
-		self.dumps=0
-		self.plot_token=dat_file()
-
-		vbox=gtk.VBox()
-
-		self.multi_plot=False
-
-		self.log_scale_y="auto"
-
-
-		menu_items = (
-		    ( "/_Options",         None,         None, 0, "<Branch>" ),
-		    ( "/Options/_Subtract 0th frame",     None, self.callback_toggle_subtract, 0, "<ToggleItem>", "gtk-save" ),
-		    ( "/_Axis/_Multiplot",     None, self.callback_multi_plot, 0, "<ToggleItem>", "gtk-save" ),
-		    ( "/_Axis/_Set y axis to maximum",     None, self.callback_set_min_max, 0, "<ToggleItem>", "gtk-save" ),
-		    )
-
-		self.plot.item_factory.create_items(menu_items)
-
-		primary_hbox.add(self.entry0)
-		sim_vbox.add(primary_hbox)
-
-		secondary_hbox=gtk.HBox()
-
-		text=gtk.Label("Secondary dir")
-		secondary_hbox.add(text)
-
-		self.entry1 = gtk.combo_box_entry_new_text()
-		self.entry1.show()
-
-		for i in range(0,len(self.snapshot_list)):
-			self.entry1.append_text(self.snapshot_list[i])
-
-		secondary_hbox.add(self.entry1)
-		sim_vbox.add(secondary_hbox)
-
-		sim_vbox.show()
-		#hbox.set_size_request(-1, 30)
-		vbox.pack_start(sim_vbox, False, False, 0)
-
-		hbox2=gtk.HBox()
-		text=gtk.Label("Files to plot")
-		hbox2.add(text)
-		self.entry2 = gtk.Entry()
-		self.entry2.set_text("pt_map nt_map")
-		self.entry2.show()
-		hbox2.add(self.entry2)
-		hbox2.set_size_request(-1, 30)
-		vbox.pack_start(hbox2, False, False, 0)
-
-		hbox3=gtk.HBox()
-		text=gtk.Label("Exprimental data")
-		hbox3.add(text)
-		self.entry3 = gtk.Entry()
-		self.entry3.set_text("")
-		self.entry3.show()
-		hbox3.add(self.entry3)
-		hbox3.set_size_request(-1, 30)
-		vbox.pack_start(hbox3, False, False, 0)
-
-		self.update_button = gtk.Button()
-		self.update_button.set_label("Update")
-		self.update_button.show()
-		self.update_button.connect("clicked", self.callback_scale)
-		vbox.add(self.update_button)
-
-		self.config_load()
-		self.count_dumps()
-
-
-
-		if self.dumps==0:
-			md = gtk.MessageDialog(None, 0, gtk.MESSAGE_QUESTION,  gtk.BUTTONS_YES_NO, "No slice data has been written to disk.  You need to re-run the simulation with the dump_slices set to 1.  Would you like to do this now?  Note: This generates lots of files and will slow down the simulation.")
-
-			response = md.run()
-
-			if response == gtk.RESPONSE_YES:
-				inp_update_token_value("dump.inp", "#dump_1d_slices", "1")
-				os.system(get_exe_command())
-
-			md.destroy()
-
-			self.count_dumps()
-
-		self.entry0.connect("changed", self.callback_edit)
-		self.entry1.connect("changed", self.callback_edit)
-		self.entry2.connect("changed", self.callback_edit)
-		self.entry3.connect("changed", self.callback_edit)
-
-
-
-		vbox.show_all()
-		self.add(vbox)
-
-		self.update(0)
-		if self.dumps!=0:
-			self.plot.do_plot()
-			print("CONVERT!!!!!!!!!!!",type(self.plot.plot_token.key_units))
-		self.set_border_width(10)
-		self.set_title("Compare")
-		self.set_icon_from_file(os.path.join(get_image_file_path(),"image.jpg"))
-
-		self.connect('key_press_event', self.on_key_press_event)
-
-		self.show()
-
+		self.update()
 
