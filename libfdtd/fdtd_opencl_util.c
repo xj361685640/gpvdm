@@ -265,7 +265,7 @@ void fdtd_opencl_write_ctrl_data(struct simulation *sim,struct fdtd_data *data)
 	gC[13]=(float)Cmy;
 	gC[14]=(float)Cmz;
 	gC[15]=(float)data->stop;
-	gC[16]=(float)data->excitation_mesh_point;//data->sithick;
+	gC[16]=(float)data->excitation_mesh_point_y;//data->sithick;
 
 	for (i=0;i<17;i++)
 	{

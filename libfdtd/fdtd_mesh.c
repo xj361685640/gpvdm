@@ -42,13 +42,20 @@
 
 void fdtd_mesh(struct simulation *sim,struct fdtd_data *data,struct device *cell)
 {
-	data->ysize=(float)epitaxy_get_optical_length(&cell->my_epitaxy);
-	data->xsize=data->xsize*data->ysize;
+	float device_ysize=(float)epitaxy_get_optical_length(&cell->my_epitaxy);
+	data->ysize=device_ysize+400e-9;
+
+	data->xsize=data->xsize*device_ysize;
+
 	float device_start=(float)epitaxy_get_device_start(&(cell->my_epitaxy));
 	float device_stop=(float)epitaxy_get_device_stop(&(cell->my_epitaxy));
 
 	float start_y=device_start+(device_stop-device_start)/2.0;
-	data->excitation_mesh_point=data->ylen*(start_y/data->ysize);
+
+	data->excitation_mesh_point_x=data->xlen/2;
+	data->excitation_mesh_point_y=data->ylen*(start_y/data->ysize);
+
+
 
 	data->dz=data->zsize/((float)data->zlen);
 	data->dx=data->xsize/((float)data->xlen);
@@ -66,7 +73,6 @@ void fdtd_mesh(struct simulation *sim,struct fdtd_data *data,struct device *cell
 	float zpos=data->dz/2.0;
 	float xpos=data->dx/2.0;
 	float ypos=data->dy/2.0;
-
 
 	for (z=0;z<data->zlen;z++)
 	{
@@ -86,7 +92,6 @@ void fdtd_mesh(struct simulation *sim,struct fdtd_data *data,struct device *cell
 		data->layer[y]=epitaxy_get_optical_material_layer(&cell->my_epitaxy,ypos);
 		ypos+=data->dy;
 	}
-
 
 
 }

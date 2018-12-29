@@ -1158,6 +1158,42 @@ Then configure the build system:\newline
 
 Then make the binary\newline
 make\newline
+
+\newpage
+
+\section{FDTD code}
+FDTD code is a new addition to gpvdm.
+\begin{equation}
+\frac{\partial E}{\partial t}= \frac{1}{\epsilon} \nabla \times H - \frac{1}{\epsilon} (\sigma E) 
+\end{equation}
+
+
+\begin{equation}
+\frac{\partial E_x}{\partial t}= \frac{1}{\epsilon}(\frac{\partial H_z}{\partial y}-\frac{\partial H_y}{\partial z}-\sigma E_x) 
+\end{equation}
+
+\begin{equation}
+\frac{\partial E_y}{\partial t}= \frac{1}{\epsilon}(\frac{\partial H_x}{\partial z}-\frac{\partial H_z}{\partial x}-\sigma E_y) 
+\end{equation}
+
+\begin{equation}
+\frac{\partial E_z}{\partial t}= \frac{1}{\epsilon}(\frac{\partial H_y}{\partial x}-\frac{\partial H_x}{\partial y}-\sigma E_z) 
+\end{equation}
+
+Removing the z dependence because we don't care about it.
+
+\begin{equation}
+\frac{\partial E_x}{\partial t}= \frac{1}{\epsilon}(\frac{\partial H_z}{\partial y}-\sigma E_x) 
+\end{equation}
+
+\begin{equation}
+\frac{\partial E_y}{\partial t}= \frac{1}{\epsilon}(-\frac{\partial H_z}{\partial x}-\sigma E_y) 
+\end{equation}
+
+\begin{equation}
+\frac{\partial E_z}{\partial t}= \frac{1}{\epsilon}(\frac{\partial H_y}{\partial x}-\frac{\partial H_x}{\partial y}-\sigma E_z) 
+\end{equation}
+
 \bibliographystyle{gpvdm.bst}
 \bibliography{gpvdm}
 

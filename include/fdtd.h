@@ -91,7 +91,10 @@ struct fdtd_data
 
 	float f;
 	float omega;
-	int excitation_mesh_point;
+
+	int excitation_mesh_point_x;
+	int excitation_mesh_point_y;
+
 	char *src_code;
 	int use_gpu;
 	#ifdef use_open_cl

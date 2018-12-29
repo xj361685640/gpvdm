@@ -45,10 +45,23 @@ void solve_E(struct simulation *sim,struct fdtd_data *data)
 	int z=0;
 	int x=0;
 	int y=0;
-	//float Cx=(data->dt2/(epsilon0f*data->dx));
-	float Cy=(data->dt2/(epsilon0f*data->dy));
-	float Cx=(data->dt2/(epsilon0f*data->dx));
 
+	float C=0.0;
+
+	float dHzdy=0.0;
+	float dHydz=0.0;
+
+	float dHxdz=0.0;
+	float dHzdx=0.0;
+
+	float dHydx=0.0;
+	float dHxdy=0.0;
+
+	float Ez_last=0.0;
+	float Ex_last=0.0;
+	float Ey_last=0.0;
+
+	float sigma=0.0;
 
 	for (z=0;z<data->zlen;z++)
 	{
@@ -56,9 +69,45 @@ void solve_E(struct simulation *sim,struct fdtd_data *data)
 		{
 			for (y=1;y<(data->ylen-1);y++)
 			{
-				data->Ex[z][x][y]=data->Ex_last[z][x][y]+(data->Hz[z][x][y]-data->Hz[z][x][y-1])*data->epsilon_r[z][x][y]*Cy-(data->Hy[z][x][y]-data->Hy[z][x-1][y])*data->epsilon_r[z][x][y]*Cx;
-				data->Ey[z][x][y]=data->Ey_last[z][x][y]+(data->Hx[z][x][y]-data->Hx[z][x-1][y])*data->epsilon_r[z][x][y]*Cx;
-				data->Ez[z][x][y]=data->Ez_last[z][x][y]-(data->Hx[z][x][y]-data->Hx[z][x][y-1])*data->epsilon_r[z][x][y]*Cx;
+				C=data->dt2/(epsilon0f*data->epsilon_r[z][x][y]);
+				sigma=data->sigma[z][x][y];
+				float damp=1e4;
+				if (x<5)
+				{
+					sigma=damp;
+				}
+
+				if (x>data->xlen-5)
+				{
+					sigma=damp;
+				}
+
+				if (y<5)
+				{
+					sigma=damp;
+				}
+
+				if (y>data->ylen-5)
+				{
+					sigma=damp;
+				}
+
+				dHzdy=(data->Hz[z][x][y]-data->Hz[z][x][y-1])/data->dy;
+				dHydz=0.0;
+
+				dHxdz=0.0;
+				dHzdx=(data->Hz[z][x][y]-data->Hz[z][x-1][y])/data->dx;
+
+				dHydx=(data->Hy[z][x][y]-data->Hy[z][x-1][y])/data->dx;
+				dHxdy=(data->Hx[z][x][y]-data->Hx[z][x][y-1])/data->dy;
+
+				Ez_last=data->Ez_last[z][x][y];
+				Ex_last=data->Ex_last[z][x][y];
+				Ey_last=data->Ey_last[z][x][y];
+
+				data->Ex[z][x][y]=C*(dHzdy-dHydz)-Ex_last*(sigma*C-1.0);
+				data->Ey[z][x][y]=C*(dHxdz-dHzdx)-Ey_last*(sigma*C-1.0);
+				data->Ez[z][x][y]=C*(dHydx-dHxdy)-Ez_last*(sigma*C-1.0);
 
 			}
 		}
@@ -127,14 +176,23 @@ void solve_E(struct simulation *sim,struct fdtd_data *data)
 
 void solve_H(struct simulation *sim,struct fdtd_data *data)
 {
-
-//int thread;
 int z;
 int x;
 int y;
-float Cy=(data->dt2/(mu0f*data->dy));
-//float Cx=(data->dt2/(mu0f*data->dx));
-float Cx=(data->dt2/(mu0f*data->dx));
+
+float C=0.0;
+float dEydz=0.0;
+float dEzdy=0.0;
+
+float dEzdx=0.0;
+float dExdz=0.0;
+
+float dExdy=0.0;
+float dEydx=0.0;
+
+float Hz_last=0.0;
+float Hx_last=0.0;
+float Hy_last=0.0;
 
 for (z=0;z<data->zlen;z++)
 {
@@ -142,9 +200,26 @@ for (z=0;z<data->zlen;z++)
 	{
 		for (y=0;y<(data->ylen-1);y++)
 		{
-			data->Hx[z][x][y]=data->Hx_last[z][x][y]-(data->Ez[z][x][y+1]-data->Ez[z][x][y])*Cy+(data->Ey[z][x+1][y]-data->Ey[z][x][y])*Cx;
-			data->Hy[z][x][y]=data->Hy_last[z][x][y]-(data->Ex[z][x+1][y]-data->Ex[z][x][y])*Cx;
-			data->Hz[z][x][y]=data->Hz_last[z][x][y]+(data->Ex[z][x][y+1]-data->Ex[z][x][y])*Cy;
+
+			C=data->dt2/mu0f;
+
+			dEydz=0.0;
+			dEzdy=(data->Ez[z][x][y+1]-data->Ez[z][x][y])/data->dy;
+
+			dEzdx=(data->Ez[z][x+1][y]-data->Ez[z][x][y])/data->dx;
+			dExdz=0.0;
+
+			dExdy=(data->Ex[z][x][y+1]-data->Ex[z][x][y])/data->dy;
+			dEydx=(data->Ey[z][x+1][y]-data->Ey[z][x][y])/data->dx;
+
+			Hz_last=data->Hz_last[z][x][y];
+			Hx_last=data->Hx_last[z][x][y];
+			Hy_last=data->Hy_last[z][x][y];
+
+			data->Hx[z][x][y]=(dEydz-dEzdy)*C+Hx_last;
+			data->Hy[z][x][y]=(dEzdx-dExdz)*C+Hy_last;
+			data->Hz[z][x][y]=(dExdy-dEydx)*C+Hz_last;
+
 
 			if ((isnan(data->Hz[z][x][y])!=0)||(isnan(data->Hx[z][x][y])!=0)||(isnan(data->Hy[z][x][y])!=0))
 			{
@@ -155,7 +230,7 @@ for (z=0;z<data->zlen;z++)
 			if ((isinf(data->Hz[z][x][y])!=0)||(isinf(data->Hx[z][x][y])!=0)||(isinf(data->Hy[z][x][y])!=0))
 			{
 				printf("inf detected %f %f %f\n",data->Hz[z][x][y],data->Hx[z][x][y],data->Hy[z][x][y]);
-				printf("%e %e %e %e %e %e %e\n", data->Hx_last[z][x][y],data->Ez[z][x][y+1],data->Ez[z][x][y],Cy,data->Ey[z][x+1][y],data->Ey[z][x][y],Cx);
+				printf("%e %e %e %e %e\n", data->Hx_last[z][x][y],data->Ez[z][x][y+1],data->Ez[z][x][y],data->Ey[z][x+1][y],data->Ey[z][x][y]);
 				exit(0);
 			}
 		}
@@ -168,8 +243,8 @@ for (z=0;z<data->zlen;z++)
 void fdtd_excitation(struct simulation *sim,struct fdtd_data *data)
 {
 	int z=0;
-	int x=data->excitation_mesh_point;
-	int y=data->excitation_mesh_point;
+	int x=data->excitation_mesh_point_x;
+	int y=data->excitation_mesh_point_y;
 	//for (j=0;j<data->ylen;j++)
 	{
 		//for (i=0;i<data->zlen;i++)
@@ -240,7 +315,7 @@ void fdtd_solve_step(struct simulation *sim,struct fdtd_data *data)
 		fdtd_excitation(sim,data);
 		//printf("power %e\n",fdtd_power_zxy(sim,data,0, data->excitation_mesh_point, data->excitation_mesh_point));
 		conv=fopen("conv.dat","a");
-		fprintf(conv," %d %e %e %e\n",data->step,fdtd_power_zxy(sim,data,0, data->excitation_mesh_point, data->excitation_mesh_point),fdtd_power_y(sim,data,  data->ylen-data->ylen/4),fdtd_test_conv(sim,data));
+		fprintf(conv," %d %e %e %e\n",data->step,fdtd_power_zxy(sim,data,0, data->excitation_mesh_point_x, data->excitation_mesh_point_y),fdtd_power_y(sim,data,  data->ylen-data->ylen/4),fdtd_test_conv(sim,data));
 		fclose(conv);
 
 		solve_H(sim,data);

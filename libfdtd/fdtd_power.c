@@ -70,7 +70,7 @@ float fdtd_power_y(struct simulation *sim,struct fdtd_data *data, int y)
 float fdtd_test_conv(struct simulation *sim,struct fdtd_data *data)
 {
 float ret=0.0;
-float src=fdtd_power_zxy(sim,data,0, data->excitation_mesh_point, data->excitation_mesh_point);
+float src=fdtd_power_zxy(sim,data,0, data->excitation_mesh_point_x, data->excitation_mesh_point_y);
 float almost_top=fdtd_power_y(sim,data,  data->ylen-data->ylen/4);
 float top=fdtd_power_y(sim,data,  data->ylen-2);
 

@@ -87,7 +87,7 @@ void fdtd_set_lambda(struct simulation *sim,struct fdtd_data *data,struct device
 	//
 
 	float min=1.0/(clf*sqrt(pow(1.0/data->dz,2.0)+pow(1.0/data->dx,2.0)+pow(1.0/data->dy,2.0)));
-	data->dt=8.359788e-19;//min*0.1;
+	data->dt=min*0.1;
 
 	printf("dt=%e\n",data->dt);
 
@@ -103,18 +103,22 @@ void fdtd_set_lambda(struct simulation *sim,struct fdtd_data *data,struct device
 			{
 				layer=data->layer[y];
 				
-				if (layer==-1)
+				if (layer!=-1)
 				{
-					layer=1;
+					n=inter_get_noend(&(cell->my_epitaxy.mat_n[layer]),data->lambda);
+					data->epsilon_r[z][x][y]=n;//pow(n,2.0);
+					alpha=inter_get_noend(&(cell->my_epitaxy.mat[layer]),data->lambda);
+					kappa=(data->lambda*alpha)/(4.0*M_PI);
+					data->sigma[z][x][y]=(2.0*n*kappa/mu0f)/(3e8/4/M_PI);	//taken from "optical properties of solids" F. Wooten eq. 2.91
+					//printf("%e\n",data->sigma[z][x][y]);	
+	//*epsilon0f*sqrtf(powf((1+(kappa*kappa*2)/(data->omega*data->omega*mu0f*epsilon0f)),2.0)-1.0);
+				}else
+				{
+					data->epsilon_r[z][x][y]=1.0;
+					data->sigma[z][x][y]=0.0;
 				}
 
-				n=inter_get_noend(&(cell->my_epitaxy.mat_n[data->layer[y]]),data->lambda);
-				data->epsilon_r[z][x][y]=n;//pow(n,2.0);
-				alpha=inter_get_noend(&(cell->my_epitaxy.mat[data->layer[y]]),data->lambda);
-				kappa=(data->lambda*alpha)/(4.0*M_PI);
-				data->sigma[z][x][y]=2.0*n*kappa/mu0f;	//taken from "optical properties of solids" F. Wooten eq. 2.91
-				//printf("%e\n",data->sigma[z][x][y]);	
-//*epsilon0f*sqrtf(powf((1+(kappa*kappa*2)/(data->omega*data->omega*mu0f*epsilon0f)),2.0)-1.0);
+
 
 			}
 		}
