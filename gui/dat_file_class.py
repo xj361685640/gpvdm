@@ -83,6 +83,9 @@ class dat_file():
 	y_len=0
 	z_len=0
 	
+	data_max=None
+	data_min=None
+
 	x_scale=[]
 	y_scale=[]
 	z_scale=[]

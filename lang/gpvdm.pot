@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 5.0\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2018-12-29 12:43+0000\n"
+"POT-Creation-Date: 2018-12-29 14:18+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -855,38 +855,38 @@ msgstr ""
 msgid "Ex - Electric field"
 msgstr ""
 
-#: ../libfdtd/fdtd_dump.c:69 ../libfdtd/fdtd_dump.c:112
-#: ../libfdtd/fdtd_dump.c:156 ../libfdtd2/fdtd_dump.c:62
+#: ../libfdtd/fdtd_dump.c:69 ../libfdtd/fdtd_dump.c:115
+#: ../libfdtd/fdtd_dump.c:162 ../libfdtd2/fdtd_dump.c:62
 #: ../libfdtd2/fdtd_dump.c:105 ../libfdtd2/fdtd_dump.c:149
 msgid "X position"
 msgstr ""
 
-#: ../libfdtd/fdtd_dump.c:70 ../libfdtd/fdtd_dump.c:113
-#: ../libfdtd/fdtd_dump.c:157 ../libfdtd2/fdtd_dump.c:63
+#: ../libfdtd/fdtd_dump.c:70 ../libfdtd/fdtd_dump.c:116
+#: ../libfdtd/fdtd_dump.c:163 ../libfdtd2/fdtd_dump.c:63
 #: ../libfdtd2/fdtd_dump.c:106 ../libfdtd2/fdtd_dump.c:150
 msgid "Y position"
 msgstr ""
 
-#: ../libfdtd/fdtd_dump.c:72 ../libfdtd/fdtd_dump.c:115
-#: ../libfdtd/fdtd_dump.c:159 ../libfdtd2/fdtd_dump.c:65
+#: ../libfdtd/fdtd_dump.c:72 ../libfdtd/fdtd_dump.c:118
+#: ../libfdtd/fdtd_dump.c:165 ../libfdtd2/fdtd_dump.c:65
 #: ../libfdtd2/fdtd_dump.c:108 ../libfdtd2/fdtd_dump.c:152
 msgid "E-field"
 msgstr ""
 
 #: ../libfdtd/fdtd_dump.c:73 ../libfdtd/fdtd_dump.c:74
-#: ../libfdtd/fdtd_dump.c:116 ../libfdtd/fdtd_dump.c:117
-#: ../libfdtd/fdtd_dump.c:160 ../libfdtd/fdtd_dump.c:161
+#: ../libfdtd/fdtd_dump.c:119 ../libfdtd/fdtd_dump.c:120
+#: ../libfdtd/fdtd_dump.c:166 ../libfdtd/fdtd_dump.c:167
 #: ../libfdtd2/fdtd_dump.c:66 ../libfdtd2/fdtd_dump.c:67
 #: ../libfdtd2/fdtd_dump.c:109 ../libfdtd2/fdtd_dump.c:110
 #: ../libfdtd2/fdtd_dump.c:153 ../libfdtd2/fdtd_dump.c:154
 msgid "nm"
 msgstr ""
 
-#: ../libfdtd/fdtd_dump.c:110 ../libfdtd2/fdtd_dump.c:103
+#: ../libfdtd/fdtd_dump.c:113 ../libfdtd2/fdtd_dump.c:103
 msgid "Ey - Electric field"
 msgstr ""
 
-#: ../libfdtd/fdtd_dump.c:154 ../libfdtd2/fdtd_dump.c:147
+#: ../libfdtd/fdtd_dump.c:160 ../libfdtd2/fdtd_dump.c:147
 msgid "Ez - Electric field"
 msgstr ""
 
@@ -4911,11 +4911,11 @@ msgstr ""
 msgid "time"
 msgstr ""
 
-#: ../gui/plot_widget.py:330
+#: ../gui/plot_widget.py:331
 msgid "No files were given to load"
 msgstr ""
 
-#: ../gui/plot_widget.py:586
+#: ../gui/plot_widget.py:587
 msgid "Refresh graph"
 msgstr ""
 

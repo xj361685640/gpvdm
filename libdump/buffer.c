@@ -45,6 +45,8 @@ void buffer_init(struct buffer *in)
 in->write_to_zip=FALSE;
 in->norm_x_axis=FALSE;
 in->norm_y_axis=FALSE;
+in->data_max=NAN;
+in->data_min=NAN;
 }
 
 void buffer_malloc(struct buffer *in)
@@ -271,6 +273,18 @@ if (get_dump_status(sim,dump_write_headers)==TRUE)
 
 	sprintf(temp,"#Vexternal %Le\n",in->Vexternal);
 	buffer_add_string(in,temp);
+
+	if (in->data_max!=NAN)
+	{
+		sprintf(temp,"#data_max %Le\n",in->data_max);
+		buffer_add_string(in,temp);
+	}
+
+	if (in->data_min!=NAN)
+	{
+		sprintf(temp,"#data_min %Le\n",in->data_min);
+		buffer_add_string(in,temp);
+	}
 
 	if (in->x!=0)
 	{

@@ -52,6 +52,8 @@ int logscale_data;
 int write_to_zip;
 int norm_x_axis;
 int norm_y_axis;
+long double data_max;
+long double data_min;
 int x;
 int y;
 int z;

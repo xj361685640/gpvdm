@@ -226,7 +226,6 @@ class plot_widget(QWidget):
 		files=[]
 		my_max=1.0
 
-			
 		if dim=="linegraph":		#This is for the 1D graph case
 			self.ax[0].set_xlabel(self.data[0].x_label+" ("+str(self.data[0].x_units)+")")
 			self.ax[0].set_ylabel(self.data[0].data_label+" ("+self.data[0].data_units+")")
@@ -248,7 +247,7 @@ class plot_widget(QWidget):
 		elif dim=="wireframe":
 			self.ax[0].set_xlabel(self.data[0].x_label+" ("+self.data[0].x_units+")")
 			self.ax[0].set_ylabel(self.data[0].y_label+" ("+self.data[0].y_units+")")
-
+			my_max,my_min=dat_file_max_min(self.data[0])
 			for i in range(0,len(self.input_files)):
 
 				#new_data=[[float for y in range(self.data[0].y_len)] for x in range(self.data[0].x_len)]
@@ -265,16 +264,17 @@ class plot_widget(QWidget):
 				Z = self.data[i].data[0]
 
 				# Plot the surface
+				self.ax[i].set_zlim(my_min, my_max)
 				im=self.ax[i].plot_wireframe( Y,X, Z)
 
 				#pcolor
 		elif dim=="heat":
 			self.ax[0].set_xlabel(self.data[0].x_label+" ("+self.data[0].x_units+")")
 			self.ax[0].set_ylabel(self.data[0].y_label+" ("+self.data[0].y_units+")")
-
+			my_max,my_min=dat_file_max_min(self.data[0])
 			for i in range(0,len(self.input_files)):
 
-				im=self.ax[0].pcolor(self.data[i].y_scale,self.data[i].x_scale,self.data[i].data[0])
+				im=self.ax[0].pcolor(self.data[i].y_scale,self.data[i].x_scale,self.data[i].data[0], vmin=my_min, vmax=my_max,cmap="gnuplot")
 				self.fig.colorbar(im)
 
 				#pcolor
@@ -295,6 +295,7 @@ class plot_widget(QWidget):
 				for x in range(0,self.data[i].x_len):
 					for y in range(0,self.data[i].y_len):
 						new_data[x][y]=self.data[i].z_scale[ii]+self.data[i].data[ii][x][y]
+				print("max=",my_max)
 				self.ax[i].contourf(X, Y, new_data, zdir='z')#
 
 				self.ax[i].set_xlim3d(0, self.data[i].x_scale[-1])

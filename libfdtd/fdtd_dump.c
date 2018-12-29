@@ -55,9 +55,9 @@ void fdtd_dump(struct simulation *sim,struct fdtd_data *data)
 	buffer_init(&buf);
 	char out_dir[PATH_MAX];
 
-	strcpy(out_dir,get_output_path(sim));
+	//strcpy(out_dir,get_output_path(sim));
 
-	//dump_make_snapshot_dir(sim,out_dir ,(double)data->time, 0.0, data->step);
+	dump_make_snapshot_dir(sim,out_dir ,(double)data->time, 0.0, data->step);
 
 	//////Ex
 	buffer_malloc(&buf);
@@ -65,7 +65,7 @@ void fdtd_dump(struct simulation *sim,struct fdtd_data *data)
 	buf.x_mul=1e9;
 	buf.y_mul=1e9;
 	sprintf(buf.title,"%s ",_("Ex - Electric field"));
-	strcpy(buf.type,"3d");
+	strcpy(buf.type,"heat");
 	strcpy(buf.x_label,_("X position"));
 	strcpy(buf.y_label,_("Y position"));
 
@@ -79,6 +79,8 @@ void fdtd_dump(struct simulation *sim,struct fdtd_data *data)
 	buf.logscale_y=0;
 	buf.x=data->xlen;
 	buf.y=data->ylen;
+	buf.data_max=1.0;
+	buf.data_min=-1.0;
 	buf.z=1;
 	buffer_add_info(sim,&buf);
 
@@ -99,6 +101,7 @@ void fdtd_dump(struct simulation *sim,struct fdtd_data *data)
 	
 	}
 
+	buffer_dump_path(sim,get_output_path(sim),"Ex.dat",&buf);
 	buffer_dump_path(sim,out_dir,"Ex.dat",&buf);
 	buffer_free(&buf);
 
@@ -122,6 +125,8 @@ void fdtd_dump(struct simulation *sim,struct fdtd_data *data)
 	buf.logscale_y=0;
 	buf.x=data->xlen;
 	buf.y=data->ylen;
+	buf.data_max=1.0;
+	buf.data_min=-1.0;
 	buf.z=1;
 	buffer_add_info(sim,&buf);
 
@@ -142,6 +147,7 @@ void fdtd_dump(struct simulation *sim,struct fdtd_data *data)
 	
 	}
 
+	buffer_dump_path(sim,get_output_path(sim),"Ey.dat",&buf);
 	buffer_dump_path(sim,out_dir,"Ey.dat",&buf);
 	buffer_free(&buf);
 
@@ -166,6 +172,8 @@ void fdtd_dump(struct simulation *sim,struct fdtd_data *data)
 	buf.logscale_y=0;
 	buf.x=data->xlen;
 	buf.y=data->ylen;
+	buf.data_max=1.0;
+	buf.data_min=-1.0;
 	buf.z=1;
 	buffer_add_info(sim,&buf);
 
@@ -186,6 +194,7 @@ void fdtd_dump(struct simulation *sim,struct fdtd_data *data)
 	
 	}
 
+	buffer_dump_path(sim,get_output_path(sim),"Ez.dat",&buf);
 	buffer_dump_path(sim,out_dir,"Ez.dat",&buf);
 	buffer_free(&buf);
 

@@ -90,6 +90,10 @@ def dat_file_load_info(output,lines):
 							output.time=float(command[1])
 						if (command[0]=="#Vexternal"):
 							output.Vexternal=float(command[1])
+						if (command[0]=="#data_max"):
+							output.data_max=float(command[1])
+						if (command[0]=="#data_min"):
+							output.data_min=float(command[1])
 						if (command[0]=="#x"):
 							output.x_len=int(command[1])
 							found_xyz=True

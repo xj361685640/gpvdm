@@ -32,6 +32,9 @@ def dat_file_max_min(my_data):
 	my_max=False
 	my_min=False
 	
+	if my_data.data_max!=None and my_data.data_min!=None:
+		return [my_data.data_max,my_data.data_min]
+
 	if my_data.x_len>0 and my_data.y_len>0 and my_data.z_len>0:
 		my_max=my_data.data[0][0][0]
 		my_min=my_data.data[0][0][0]

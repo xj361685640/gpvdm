@@ -60,7 +60,6 @@ class snapshot_slider(QWidget):
 		val=val+1
 		if val>self.slider0.maximum():
 			val=0
-
 		self.slider0.setValue(val)
 
 	def cal_min_max(self):
@@ -104,6 +103,7 @@ class snapshot_slider(QWidget):
 		self.update_file_combo()
 
 	def slider0_change(self):
+		print("here")
 		value = self.slider0.value()
 		self.label0.setText(str(value))
 		self.changed.emit()
@@ -136,7 +136,7 @@ class snapshot_slider(QWidget):
 		self.slider_max=30
 		
 		self.slider0 = QSlider(Qt.Horizontal)
-		self.slider0.setMinimum(10)
+		self.slider0.setMinimum(0)
 		self.slider0.setMaximum(self.slider_max)
 
 		self.slider0.setTickPosition(QSlider.TicksBelow)
@@ -149,7 +149,7 @@ class snapshot_slider(QWidget):
 		self.label0 = QLabel()
 		self.label0.setText("")
 
-		self.slider0.setValue(0)
+		self.slider0.setValue(1)
 
 		self.slider_hbox0.addWidget(self.label0)
 
