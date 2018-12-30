@@ -86,6 +86,7 @@ from cal_path import get_sim_path
 
 from config_window import class_config_window
 from cluster_config_window import cluster_config_window
+from win_lin import running_on_linux
 
 COL_PATH = 0
 COL_PIXBUF = 1
@@ -304,7 +305,7 @@ class gpvdm_viewer(QListWidget):
 			itm=file_store()
 			itm.file_name="simulation_dir"
 			itm.icon="si"
-			itm.display_name="Simulation"
+			itm.display_name=_("Simulation")
 			self.file_list.append(itm)
 
 			itm=file_store()
@@ -334,11 +335,14 @@ class gpvdm_viewer(QListWidget):
 			self.file_list.append(itm)
 
 			for p in psutil.disk_partitions():
-				name=os.path.basename(p.mountpoint)
+				name=p.mountpoint
+				if running_on_linux()==True:
+					name=os.path.basename(name)
+
 				if name=="":
 					name="/"
 				itm=file_store()
-				itm.file_name="mount_point:"+p.mountpoint
+				itm.file_name="mount_point::::"+p.mountpoint
 				itm.icon="drive-harddisk"
 				itm.display_name=name
 				self.file_list.append(itm)
@@ -440,19 +444,23 @@ class gpvdm_viewer(QListWidget):
 							ext=""
 
 						if (ext==".dat"):
-							f = open(file_name, 'rb')
-							text = f.readline()
-							f.close()
-							#text=text.encode('utf-8').strip()
-							#print(text)
-							#text=text.rstrip()
-							if len(text)>0:
-								if text[len(text)-1]==10:
-									text=text[:-1]
+							read_ok=False
+							try:
+								f = open(file_name, 'rb')
+								text = f.readline()
+								f.close()
+								read_ok=True
+							except:
+								pass
 
-							if text==b"#gpvdm":
-								itm.file_name=fl
-								itm.icon="dat_file"
+							if read_ok==True:
+								if len(text)>0:
+									if text[len(text)-1]==10:
+										text=text[:-1]
+
+								if text==b"#gpvdm":
+									itm.file_name=fl
+									itm.icon="dat_file"
 
 						elif (ext==".inp") and self.show_inp_files==True:
 							itm.file_name=fl
@@ -501,8 +509,8 @@ class gpvdm_viewer(QListWidget):
 
 					if itm.display_name=="":
 						itm.display_name=itm.file_name
-
-					self.file_list.append(itm)
+					if file_name.endswith("sim.gpvdm")==False:
+						self.file_list.append(itm)
 
 			for i in range(0,len(self.file_list)):
 				if self.file_list[i].file_name=="p3htpcbm.gpvdm":
@@ -585,7 +593,7 @@ class gpvdm_viewer(QListWidget):
 			self.fill_store()
 			return			
 		elif decode.startswith("mount_point")==True:
-			point=decode.split(":")
+			point=decode.split("::::")
 			self.set_path(point[1])
 			self.fill_store()
 			return

@@ -127,9 +127,10 @@ void fdtd_solve_lambda(struct simulation *sim,struct fdtd_data *data,struct devi
 
 			if (data->plot==1)
 			{
-				fprintf(data->gnuplot2, "load 'Ex.plot'\n");
-				fflush(data->gnuplot2);
+				fprintf(data->gnuplot, "load 'Ex.plot'\n");
+				fflush(data->gnuplot);
 			}
+
 		printf_log(sim,"%ld/%ld %e s\n",data->step,data->max_ittr,data->time);
 		}
 		//exit(0);

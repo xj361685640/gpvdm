@@ -219,12 +219,7 @@ void fdtd_free_all(struct simulation *sim, struct fdtd_data *data)
 		pclose(data->gnuplot);
 	}
 
-	if (data->gnuplot2!=NULL)
-	{
-		fprintf(data->gnuplot2, "exit\n");
-		fflush(data->gnuplot2);
-		pclose(data->gnuplot2);
-	}
+
 
 	if (data->use_gpu==TRUE)
 	{

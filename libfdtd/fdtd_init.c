@@ -43,7 +43,6 @@ void fdtd_init(struct fdtd_data *data)
 {
 	data->src_code=NULL;
 	data->gnuplot=NULL;
-	data->gnuplot2=NULL;
 	data->zlen=-1;
 	data->xlen=-1;
 	data->ylen=-1;

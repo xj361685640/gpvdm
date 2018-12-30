@@ -82,17 +82,13 @@ int do_fdtd(struct simulation *sim,struct device *cell)
 
 	fdtd_mesh(sim,&data,cell);
 
-
-	data.gnuplot = popen("gnuplot","w");
-	fprintf(data.gnuplot, "set terminal x11 title 'Solarsim' \n");
-	fflush(data.gnuplot);
-
 	if (data.plot==1)
 	{
-	data.gnuplot2 = popen("gnuplot","w");
-	fprintf(data.gnuplot2, "set terminal x11 title 'Solarsim' \n");
-	fflush(data.gnuplot2);
+		data.gnuplot = popen("gnuplot","w");
+		fprintf(data.gnuplot, "set terminal x11 title 'Solarsim' \n");
+		fflush(data.gnuplot);
 	}
+
 
 	if (data.use_gpu==TRUE)
 	{

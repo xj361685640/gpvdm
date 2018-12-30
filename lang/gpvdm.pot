@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 5.0\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2018-12-30 11:42+0000\n"
+"POT-Creation-Date: 2018-12-30 14:50+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -67,7 +67,7 @@ msgstr ""
 msgid "Generation rate"
 msgstr ""
 
-#: ../liblight/light_dump.c:315 ../src/main.c:75
+#: ../liblight/light_dump.c:315 ../src/main.c:80
 msgid "Hole generation rate"
 msgstr ""
 
@@ -695,86 +695,86 @@ msgstr ""
 msgid "Direction wrong"
 msgstr ""
 
-#: ../src/main.c:131 ../src/main.c:152
+#: ../src/main.c:136 ../src/main.c:157
 msgid "Copyright (C) 2012-2017 Roderick C. I. MacKenzie, Releced under GPLv2"
 msgstr ""
 
-#: ../src/main.c:133
+#: ../src/main.c:138
 msgid "options"
 msgstr ""
 
-#: ../src/main.c:135
+#: ../src/main.c:140
 msgid "Options"
 msgstr ""
 
-#: ../src/main.c:137
+#: ../src/main.c:142
 msgid "output data path"
 msgstr ""
 
-#: ../src/main.c:138
+#: ../src/main.c:143
 msgid "sets the input path"
 msgstr ""
 
-#: ../src/main.c:139 ../gui/command_args.py:83 ../gui/command_args.py:84
+#: ../src/main.c:144 ../gui/command_args.py:83 ../gui/command_args.py:84
 msgid "displays the current version"
 msgstr ""
 
-#: ../src/main.c:140
+#: ../src/main.c:145
 msgid "zip the results"
 msgstr ""
 
-#: ../src/main.c:141
+#: ../src/main.c:146
 msgid "Forces a simulation mode."
 msgstr ""
 
-#: ../src/main.c:142
+#: ../src/main.c:147
 msgid "sets the number of CPUs"
 msgstr ""
 
-#: ../src/main.c:144
+#: ../src/main.c:149
 msgid ""
 "Additional information about gpvdm is available at https://www.gpvdm.com."
 msgstr ""
 
-#: ../src/main.c:146
+#: ../src/main.c:151
 msgid "Report bugs to: roderick.mackenzie@nottingham.ac.uk"
 msgstr ""
 
-#: ../src/main.c:151
+#: ../src/main.c:156
 #, python-format
 msgid "gpvdm_core, Version %s\n"
 msgstr ""
 
-#: ../src/main.c:153
+#: ../src/main.c:158
 msgid "This is free software; see the source code for copying conditions."
 msgstr ""
 
-#: ../src/main.c:154
+#: ../src/main.c:159
 msgid "There is ABSOLUTELY NO WARRANTY; not even for MERCHANTABILITY or\n"
 msgstr ""
 
-#: ../src/main.c:155
+#: ../src/main.c:160
 msgid "FITNESS FOR A PARTICULAR PURPOSE.\n"
 msgstr ""
 
-#: ../src/main.c:206 ../gui/scan_tab.py:453 ../gui/constraints.py:146
+#: ../src/main.c:211 ../gui/scan_tab.py:453 ../gui/constraints.py:146
 #: ../gui/constraints.py:185 ../gui/fit_vars.py:157 ../gui/fit_patch.py:122
 msgid "Token"
 msgstr ""
 
-#: ../src/main.c:208
+#: ../src/main.c:213
 msgid "General-purpose Photovoltaic Device Model (https://www.gpvdm.com)\n"
 msgstr ""
 
-#: ../src/main.c:209
+#: ../src/main.c:214
 msgid "You should have received a copy of the GNU General Public License\n"
 msgstr ""
 
-#: ../src/main.c:210
+#: ../src/main.c:215
 msgid "along with this software.  If not, see www.gnu.org/licenses/.\n"
 msgstr ""
 
-#: ../src/main.c:212
+#: ../src/main.c:217
 msgid "If you wish to collaborate in anyway please get in touch:\n"
 msgstr ""
 
@@ -1311,6 +1311,10 @@ msgstr ""
 
 #: ../gui/gpvdm_viewer.py:256
 msgid "Rename:"
+msgstr ""
+
+#: ../gui/gpvdm_viewer.py:307 ../gui/timedomain_ribbon.py:137
+msgid "Simulation"
 msgstr ""
 
 #: ../gui/gpvdm_viewer.py:313 ../gui/gpvdm.py:304 ../gui/ribbon.py:135
@@ -2912,10 +2916,6 @@ msgstr ""
 msgid "Experiment"
 msgstr ""
 
-#: ../gui/timedomain_ribbon.py:137
-msgid "Simulation"
-msgstr ""
-
 #: ../gui/snapshot_slider.py:135
 msgid "Play"
 msgstr ""
@@ -3617,10 +3617,6 @@ msgstr ""
 
 #: ../gui/about.py:142
 msgid "Translations"
-msgstr ""
-
-#: ../gui/about.py:145 ../gui/materials_select.py:119
-msgid "Materials"
 msgstr ""
 
 #: ../gui/scan_select.py:61
@@ -5017,6 +5013,10 @@ msgstr ""
 
 #: ../gui/materials_select.py:58
 msgid "Select material"
+msgstr ""
+
+#: ../gui/materials_select.py:119
+msgid "Materials"
 msgstr ""
 
 #: ../gui/materials_select.py:154

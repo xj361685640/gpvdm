@@ -136,8 +136,9 @@ struct fdtd_data
 	int lam_jmax;
 	float gap;
 	int plot;
+	#ifndef windows
 	FILE *gnuplot;
-	FILE *gnuplot2;
+	#endif
 	int zlen;
 	int xlen;
 	int ylen;

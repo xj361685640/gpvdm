@@ -25,10 +25,9 @@
 import sys
 import os
 #import shutil
+from pathlib import Path
 from win_lin import running_on_linux
 from gui_enable import gui_get
-
-from os.path import expanduser
 
 if running_on_linux()==False:
 	import winreg
@@ -350,7 +349,10 @@ def get_exe_args():
 		return ""
 
 def get_home_path():
-	return expanduser("~")
+	path=str(Path.home())
+	if path.endswith("NTUSER.DAT")==True:
+		path=os.path.dirname(path)
+	return path
 
 def get_desktop_path():
 	path=os.path.join(get_home_path(),"Desktop")

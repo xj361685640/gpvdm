@@ -141,8 +141,8 @@ class about_dlg(QDialog):
 		self.translations.setText(text)
 		self.right.addTab(self.translations,_("Translations"))
 
-		self.materials=QListWidget()
-		self.right.addTab(self.materials,_("Materials"))
+		#self.materials=QListWidget()
+		#self.right.addTab(self.materials,_("Materials"))
 
 		self.main_hbox.addWidget(self.left)
 		self.main_hbox.addWidget(self.right)
@@ -168,17 +168,17 @@ class about_dlg(QDialog):
 
 		#QDialog.__init__(self)
 
-		self.materials.setIconSize(QSize(32,32))
-		self.materials.setViewMode(QListView.ListMode)
-		self.materials.setSpacing(8)
-		self.materials.setWordWrap(True)
-		gridsize=self.materials.size()
+		#self.materials.setIconSize(QSize(32,32))
+		#self.materials.setViewMode(QListView.ListMode)
+		#self.materials.setSpacing(8)
+		#self.materials.setWordWrap(True)
+		#gridsize=self.materials.size()
 		#gridsize.setWidth(80)
-		gridsize.setHeight(40)
+		#gridsize.setHeight(40)
 
-		self.materials.setGridSize(gridsize)
+		#self.materials.setGridSize(gridsize)
 		self.mat_icon = icon_get("organic_material")
-		self.fill_store()
+		#self.fill_store()
 
 	def callback_close(self):
 		self.close()
