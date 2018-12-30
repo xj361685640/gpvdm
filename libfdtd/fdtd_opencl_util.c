@@ -41,6 +41,7 @@
 
 const char *getErrorString(int error)
 {
+#ifdef use_open_cl
 switch(error){
     // run-time and JIT compiler errors
     case 0: return "CL_SUCCESS";
@@ -114,6 +115,8 @@ switch(error){
     case -1005: return "CL_D3D10_RESOURCE_NOT_ACQUIRED_KHR";
     default: return "Unknown OpenCL error";
     }
+#endif
+return "No OpenCL installed";
 }
 
 
@@ -182,8 +185,8 @@ size_t fdtd_opencl_load_code(struct simulation *sim,struct fdtd_data *data)
 
 void fdtd_opencl_push_to_gpu(struct simulation *sim,struct fdtd_data *data)
 {
-	int i;
 	#ifdef use_open_cl
+	int i;
 	cl_int error;
 	memcpy(data->gy, data->y_mesh, sizeof(float)*data->ylen );
 	error=clEnqueueWriteBuffer(data->cq, data->ggy, CL_FALSE, 0, data->ylen*sizeof(float), data->gy, 0, NULL, NULL);
@@ -238,8 +241,8 @@ void fdtd_opencl_push_to_gpu(struct simulation *sim,struct fdtd_data *data)
 
 void fdtd_opencl_write_ctrl_data(struct simulation *sim,struct fdtd_data *data)
 {
-	int i;
 	#ifdef use_open_cl
+	int i;
 	cl_int error;
 	//float Cx=(data->dt2/(epsilon0f*data->dx));
 	float Cy=(data->dt2/(epsilon0f*data->dy));
@@ -325,8 +328,8 @@ return -1;
 
 void fdtd_opencl_pull_data(struct simulation *sim,struct fdtd_data *data)
 {
-	int i;
 	#ifdef use_open_cl
+	int i;
 	cl_int error;
 
 	error=clEnqueueReadBuffer(data->cq, data->ggHx, CL_FALSE, 0, data->zlen*data->ylen*sizeof(float), data->gHx, 0, NULL, NULL);

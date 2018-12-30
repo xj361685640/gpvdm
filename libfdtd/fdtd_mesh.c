@@ -68,8 +68,6 @@ void fdtd_mesh(struct simulation *sim,struct fdtd_data *data,struct device *cell
 	int x=0;
 	int y=0;
 
-	int layer=0;
-
 	float zpos=data->dz/2.0;
 	float xpos=data->dx/2.0;
 	float ypos=data->dy/2.0;

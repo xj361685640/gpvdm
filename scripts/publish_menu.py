@@ -12,7 +12,7 @@ def publish_menu(d):
 	code, tag = d.menu("publish for:",
 		               choices=[("(windows)", "Publish for windows"),
 		                        ("(linux)", "Publish for linux"),
-								("(github)", "Publish for github"),
+								("(github)", "Publish to github"),
 								])
 	if code == d.OK:
 		if tag=="(windows)":

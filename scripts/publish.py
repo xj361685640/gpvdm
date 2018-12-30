@@ -22,6 +22,7 @@ from build_io import copy_files
 from build_io import copy_lib
 from build_io import copy_plugin
 
+from build_log import log
 def publish_src(d,distro=None,publication_mode="gpl_distro"):
 
 	data_out=""
@@ -130,11 +131,14 @@ def publish_src(d,distro=None,publication_mode="gpl_distro"):
 
 	os.chdir(build_dir)
 
-	if distro=="debian":
-		os.system("tar -zcf ./gpvdm_"+ver+".orig.tar.gz ./gpvdm-"+ver+"/")
-	else:
-		os.system("tar -zcf ./gpvdm-"+ver+".tar.gz ./gpvdm-"+ver+"/")
-		os.system("tar -cf ./gpvdm-"+ver+".tar ./gpvdm-"+ver+"/")
+	#build zip files if needed
+	if publication_mode!="windows":
+		log("zipping")
+		if distro=="debian":
+			os.system("tar -zcf ./gpvdm_"+ver+".orig.tar.gz ./gpvdm-"+ver+"/")
+		else:
+			os.system("tar -zcf ./gpvdm-"+ver+".tar.gz ./gpvdm-"+ver+"/")
+			os.system("tar -cf ./gpvdm-"+ver+".tar ./gpvdm-"+ver+"/")
 
 	os.chdir(my_dir)
 

@@ -53,6 +53,17 @@ AC_ARG_ENABLE(nodesktop, "used to disable desktop files for free desktop intergr
 [AM_CONDITIONAL([INCLUDE_DESKTOP],[true])]
 )
 
+AC_ARG_ENABLE(useopencl, "Use this to enable OpenCL for the FDTD code",
+[
+AC_SUBST(OPEN_CL_LINK, "-lOpenCL")
+AC_SUBST(OPEN_CL_COMPILE, "-D use_open_cl")
+],
+[
+AC_SUBST(OPEN_CL_LINK, "")
+AC_SUBST(OPEN_CL_COMPILE, "")
+]
+)
+
 AC_SUBST(WIN_ICON, "" )
 AC_SUBST(WIN_RES_FILE, "" )
 

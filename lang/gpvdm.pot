@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 5.0\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2018-12-29 18:08+0000\n"
+"POT-Creation-Date: 2018-12-30 11:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -208,7 +208,7 @@ msgstr ""
 #: ../libmeasure/probe.c:162 ../libmeasure/probe.c:164
 #: ../libmeasure/probe.c:187 ../libmeasure/probe.c:189
 #: ../libmeasure/probe.c:212 ../libmeasure/probe.c:214
-#: ../libfdtd/fdtd_lambda.c:83 ../libfdtd/fdtd_lambda.c:85
+#: ../libfdtd/fdtd_lambda.c:82 ../libfdtd/fdtd_lambda.c:84
 #: ../gui/import_data.py:285 ../gui/import_data.py:286
 #: ../gui/import_data.py:287 ../gui/import_data.py:288 ../gui/equation.py:185
 msgid "Wavelength"
@@ -891,11 +891,11 @@ msgstr ""
 msgid "Ez - Electric field"
 msgstr ""
 
-#: ../libfdtd/fdtd_lambda.c:83 ../libfdtd/fdtd_lambda.c:86
+#: ../libfdtd/fdtd_lambda.c:82 ../libfdtd/fdtd_lambda.c:85
 msgid "Photon escape probability"
 msgstr ""
 
-#: ../libfdtd/fdtd_lambda.c:110
+#: ../libfdtd/fdtd_lambda.c:109
 msgid "Running FDTD simulation @"
 msgstr ""
 

@@ -708,6 +708,8 @@ LINK_FLAG
 GPVDM_DIR
 WIN_RES_FILE
 WIN_ICON
+OPEN_CL_COMPILE
+OPEN_CL_LINK
 INCLUDE_DESKTOP_FALSE
 INCLUDE_DESKTOP_TRUE
 INCLUDE_MAN_FALSE
@@ -785,6 +787,7 @@ enable_noplots
 enable_nodocs
 enable_noman
 enable_nodesktop
+enable_useopencl
 enable_hpc
 enable_dependency_tracking
 enable_silent_rules
@@ -1426,6 +1429,7 @@ Optional Features:
 "used to disable docs generation"
 "used to disable man page generation"
 "used to disable desktop files for free desktop intergration"
+"Use this to enable OpenCL for the FDTD code"
 "used to turn on HPC compatability"
   --enable-dependency-tracking
                           do not reject slow dependency extractors
@@ -2560,6 +2564,25 @@ else
   INCLUDE_DESKTOP_TRUE='#'
   INCLUDE_DESKTOP_FALSE=
 fi
+
+
+fi
+
+
+# Check whether --enable-useopencl was given.
+if test "${enable_useopencl+set}" = set; then :
+  enableval=$enable_useopencl;
+OPEN_CL_LINK="-lOpenCL"
+
+OPEN_CL_COMPILE="-D use_open_cl"
+
+
+else
+
+OPEN_CL_LINK=""
+
+OPEN_CL_COMPILE=""
+
 
 
 fi
@@ -6058,7 +6081,7 @@ fi
 
 BUILD_DIRS=" lang libi librpn libmemory libdos liblight libmeasure libcontacts lib libdump libdumpctrl libserver libmesh libfit libfdtd plugins/optics plugins/newton plugins/fdtd plugins/nr_d plugins/pulse plugins/fxdomain plugins/light_flat plugins/light_ray plugins/li plugins/light_full plugins/newton_2d plugins/fit_stark plugins/nr_ld plugins/photon_extraction plugins/jv plugins/light_exp plugins/qe plugins/umfpack plugins/jv_one_point plugins/jv_simple plugins/sun_voc plugins/equilibrium plugins/light_fromfile plugins/newton_norm src images/16x16 images/32x32 images/48x32 images/64x64 images/icons/16x16 images/icons/32x32 images/icons/48x48 images/icons/64x64 images/icons/128x128 images/icons/256x256 images/icons/512x512 css html docs desktop man "
 
-LOCAL_LINK=" -lgpvdm_i -lgpvdm_rpn -lgpvdm_memory -lgpvdm_dos -lgpvdm_light -lgpvdm_measure -lgpvdm_contacts -lgpvdm_lib -lgpvdm_dump -lgpvdm_dumpctrl -lgpvdm_server -lgpvdm_mesh -lgpvdm_fit -lgpvdm_fdtd -lOpenCL"
+LOCAL_LINK=" -lgpvdm_i -lgpvdm_rpn -lgpvdm_memory -lgpvdm_dos -lgpvdm_light -lgpvdm_measure -lgpvdm_contacts -lgpvdm_lib -lgpvdm_dump -lgpvdm_dumpctrl -lgpvdm_server -lgpvdm_mesh -lgpvdm_fit -lgpvdm_fdtd"
 
 
 if test -n "$ac_tool_prefix"; then

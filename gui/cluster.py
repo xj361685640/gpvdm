@@ -163,7 +163,6 @@ class cluster:
 		self.cluster=False
 		self.interactive_cluster=False
 		self.nodes=[]
-		self.load_server_ip()
 
 	def connect(self):
 		if self.cluster==False:

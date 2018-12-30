@@ -101,8 +101,7 @@ def QIcon_load(name,size=-1,save=True):
 	return ret
 
 def icons_load():
-
-	lines=inp_load_file(os.path.join(get_inp_file_path(),"icons.inp"))
+	lines=inp_load_file(os.path.join(get_inp_file_path(),"icons.inp"),archive="base.gpvdm")
 	pos=0
 	global icon_db
 	while(1):

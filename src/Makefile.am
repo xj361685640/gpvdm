@@ -6,7 +6,7 @@ inc=-I../include/ -L../
 
 all: main.c $(OBJS)
 	@WIN_ICON@
-	$(CC) main.c $(OBJS) -o ../gpvdm_core@EXE_EXT@ @WIN_RES_FILE@ $(inc) @COMPILE_FLAG@ -Wl,--whole-archive @LOCAL_LINK@ -Wl,--no-whole-archive @LDFLAGS@ @LIBS@
+	$(CC) main.c $(OBJS) -o ../gpvdm_core@EXE_EXT@ @WIN_RES_FILE@ $(inc) @COMPILE_FLAG@ -Wl,--whole-archive @LOCAL_LINK@ -Wl,--no-whole-archive @LDFLAGS@ @LIBS@ @OPEN_CL_LINK@
 	ln -s -f gpvdm_core ../go.o
 	ln -s -f ./gui/gpvdm.py ../gpvdm
 	cp ../sim.gpvdm ../base.gpvdm -f

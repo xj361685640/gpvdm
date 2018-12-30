@@ -76,7 +76,7 @@ def make_m4(hpc=False, win=False,usear=False):
 
 	if os.path.isdir("libfdtd"):
 		config_files.append("libfdtd")
-		link_libs=link_libs+" -lgpvdm_fdtd -lOpenCL"
+		link_libs=link_libs+" -lgpvdm_fdtd"
 
 	for root, dirs, files in os.walk("./plugins"):
 		for file in files:
@@ -102,7 +102,7 @@ def make_m4(hpc=False, win=False,usear=False):
 		config_files.append("css")
 		config_files.append("html")
 		#config_files.append("cluster")
-		#config_files.append("cluster_")
+		config_files.append("cluster_")
 		config_files.append("docs")
 		config_files.append("desktop")
 		if win==False:

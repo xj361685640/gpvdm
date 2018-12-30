@@ -30,8 +30,6 @@
 #include <sim_struct.h>
 #include <device.h>
 
-#define use_open_cl
-
 #ifdef use_open_cl
 	#define CL_USE_DEPRECATED_OPENCL_1_2_APIS
 #include <CL/cl.h>
@@ -157,7 +155,9 @@ struct fdtd_data
 	float escape;
 };
 
+void fdtd_init(struct fdtd_data *data);
 int do_fdtd(struct simulation *sim,struct device *cell);
+void fdtd_get_mem(struct simulation *sim, struct fdtd_data *data);
 void fdtd_free_all(struct simulation *sim, struct fdtd_data *data);
 void fdtd_opencl_load_config(struct simulation *sim, struct fdtd_data *data);
 void opencl_init(struct simulation *sim, struct fdtd_data *data);
@@ -183,5 +183,6 @@ float fdtd_test_conv(struct simulation *sim,struct fdtd_data *data);
 void fdtd_set_lambda(struct simulation *sim,struct fdtd_data *data,struct device *cell,float lambda);
 void fdtd_solve_all_lambda(struct simulation *sim,struct device *cell,struct fdtd_data *data);
 void fdtd_solve_lambda(struct simulation *sim,struct fdtd_data *data,struct device *cell,float lambda);
+void fdtd_load_config(struct simulation *sim, struct fdtd_data *data);
 
 #endif

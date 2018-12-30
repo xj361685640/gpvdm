@@ -19,45 +19,50 @@
 #    with this program; if not, write to the Free Software Foundation, Inc.,
 #    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-
+## @package thumb
+#  XWindows thumbnail generator
+#
 
 import os
 import math
-import cairo
+
 from util_zip import archive_add_file
 from cal_path import get_sim_path
+from win_lin import running_on_linux
+if running_on_linux()==True:
+	import cairo
 
 def gen_icon(path,icon_size):
+	if running_on_linux()==True:
+		#surface = cairo.SVGSurface('example1.svg', icon_size, icon_size)
+		surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, icon_size, icon_size)
+		ctx = cairo.Context(surface)
 
-	#surface = cairo.SVGSurface('example1.svg', icon_size, icon_size)
-	surface = cairo.ImageSurface(cairo.FORMAT_ARGB32, icon_size, icon_size)
-	ctx = cairo.Context(surface)
+		ctx.scale(icon_size, icon_size)  # Normalizing the canvas
 
-	ctx.scale(icon_size, icon_size)  # Normalizing the canvas
+		pat = cairo.LinearGradient(0.0, 0.0, 0.0, 1.0)
+		pat.add_color_stop_rgba(1, 0.7, 0, 0, 0.5)  # First stop, 50% opacity
+		pat.add_color_stop_rgba(0, 0.9, 0.7, 0.2, 1)  # Last stop, 100% opacity
 
-	pat = cairo.LinearGradient(0.0, 0.0, 0.0, 1.0)
-	pat.add_color_stop_rgba(1, 0.7, 0, 0, 0.5)  # First stop, 50% opacity
-	pat.add_color_stop_rgba(0, 0.9, 0.7, 0.2, 1)  # Last stop, 100% opacity
+		ctx.rectangle(0.25, 0.25, 0.5, 0.5)  # Rectangle(x0, y0, x1, y1)
+		ctx.set_source(pat)
+		ctx.fill()
 
-	ctx.rectangle(0.25, 0.25, 0.5, 0.5)  # Rectangle(x0, y0, x1, y1)
-	ctx.set_source(pat)
-	ctx.fill()
+		ctx.translate(0.1, 0.1)  # Changing the current transformation matrix
 
-	ctx.translate(0.1, 0.1)  # Changing the current transformation matrix
-
-	surface.write_to_png(path)  # Output to PNG
-	surface.finish()
+		surface.write_to_png(path)  # Output to PNG
+		surface.finish()
 
 def thumb_nail_gen():
+	if running_on_linux()==True:
+		thumb_dir=os.path.join(get_sim_path(),"thumb")
+		if os.path.isdir(thumb_dir)==False:
+			os.mkdir(thumb_dir)
 
-	thumb_dir=os.path.join(get_sim_path(),"thumb")
-	if os.path.isdir(thumb_dir)==False:
-		os.mkdir(thumb_dir)
-
-	for i in [16,32,48,64,128]:
-		icon_path=os.path.join(thumb_dir,str(i)+"x"+str(i)+".png")
-		gen_icon(icon_path,i)
-		archive_add_file(os.path.join(get_sim_path(),"sim.gpvdm"),icon_path,thumb_dir)
+		for i in [16,32,48,64,128]:
+			icon_path=os.path.join(thumb_dir,str(i)+"x"+str(i)+".png")
+			gen_icon(icon_path,i)
+			archive_add_file(os.path.join(get_sim_path(),"sim.gpvdm"),icon_path,thumb_dir)
 
 if __name__ == '__main__':
 	gen_icon("hello.png",128)

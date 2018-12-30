@@ -55,8 +55,9 @@
 #include <assert.h>
 #include <rpn.h>
 
-#include <sys/prctl.h>
-#include <sys/types.h>
+	#include <sys/prctl.h>
+	#include <sys/types.h>
+
 #include <signal.h>
 
 static int unused __attribute__((unused));
@@ -64,7 +65,7 @@ static int unused __attribute__((unused));
 
 int main (int argc, char *argv[])
 {
-prctl(PR_SET_PDEATHSIG, SIGKILL);
+	prctl(PR_SET_PDEATHSIG, SIGKILL);
 //setlocale(LC_ALL,"");
 //bindtextdomain("gpvdm","./lang/");
 //textdomain("gpvdm");

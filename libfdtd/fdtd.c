@@ -32,8 +32,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <signal.h>
-#define CL_USE_DEPRECATED_OPENCL_1_2_APIS
-#include <CL/cl.h>
 #include <inp.h>
 #include <sim.h>
 #include <log.h>
@@ -62,14 +60,7 @@ int do_fdtd(struct simulation *sim,struct device *cell)
 	f=fopen("conv.dat","w");
 	fclose(f);
 
-	int i;
-	int pos=0;
-	size_t srcsize;
-	cl_int error;
-	int far_count=0;
-	int j;
 	struct fdtd_data data;
-	char temp[100];
 
 	fdtd_init(&data);
 
@@ -90,10 +81,6 @@ int do_fdtd(struct simulation *sim,struct device *cell)
 	}
 
 	fdtd_mesh(sim,&data,cell);
-
-	pos=0;
-
-	
 
 
 	data.gnuplot = popen("gnuplot","w");

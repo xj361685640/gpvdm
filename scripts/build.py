@@ -25,7 +25,7 @@ import platform
 from package_menu import package_menu
 from configure_menu import configure_menu
 from publish_menu import publish_menu
-from distributable import distributable
+from buildpackage import buildpackage_menu
 from to_web import rpm_to_web
 from to_web import package_to_lib
 from publish import publish_src
@@ -78,11 +78,11 @@ d.set_background_title("https://www.gpvdm.com build configure, Roderick MacKenzi
 while(1):
 	menu=[]
 	if args.adv:
-		menu.append(("(publish)", "Publish"))
+		menu.append(("(publish)", "Strip source code and publish"))
 	menu.append(("(packages)", "Install packages needed by gpvdm"))
 	menu.append(("(build)", "Build gpvdm"))
 	menu.append(("(install)", "Install/Remove"))
-	menu.append(("(distributable)", "Build rpm"))
+	menu.append(("(buildpackage)", "Build package"))
 	menu.append(("(about)", "About"))
 
 	menu.append(("(exit)", "Exit"))
@@ -102,8 +102,8 @@ while(1):
 			install_menu(d)
 
 
-		if tag=="(distributable)":
-			distributable(d)
+		if tag=="(buildpackage)":
+			buildpackage_menu(d)
 
 		if tag=="(about)":
 			d.msgbox("This is the gpvdm build system, use it to configure the build system, make, and install gpvdm. Copyright Roderick MacKenzie 2018.  Released under the GPL v2 license.")

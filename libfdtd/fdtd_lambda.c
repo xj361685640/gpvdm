@@ -51,8 +51,7 @@ void fdtd_solve_all_lambda(struct simulation *sim,struct device *cell,struct fdt
 
 	struct istruct escape;
 	inter_init(sim,&escape);
-	FILE * f;
-	printf("here\n");
+
 	int i=0;
 	float lambda=data->lambda_start;
 	int steps=data->lambda_points;
@@ -113,7 +112,6 @@ void fdtd_solve_lambda(struct simulation *sim,struct fdtd_data *data,struct devi
 
 	do
 	{
-		int err;
 		fdtd_solve_step(sim,data);
 
 		if ((data->step%200)==0)
