@@ -2,7 +2,7 @@
 #    model for 1st, 2nd and 3rd generation solar cells.
 #    Copyright (C) 2012 Roderick C. I. MacKenzie r.c.i.mackenzie at googlemail.com
 #
-#	www.gpvdm.com
+#	https://www.gpvdm.com
 #	Room B86 Coates, University Park, Nottingham, NG7 2RD, UK
 #
 #    This program is free software; you can redistribute it and/or modify
@@ -30,7 +30,9 @@ from inp_util import inp_merge
 
 from cal_path import subtract_paths
 import time
+import glob
 
+## Copy a file from one archive to another.
 def archive_copy_file(dest_archive,dest_file_name,src_archive,file_name,dest="archive"):
 	lines=read_lines_from_archive(src_archive,file_name)
 	if lines==False:
@@ -41,13 +43,12 @@ def archive_copy_file(dest_archive,dest_file_name,src_archive,file_name,dest="ar
 
 
 
-
+## Make an empty archive
 def archive_make_empty(archive_path):
 		zf = zipfile.ZipFile(archive_path, 'w',zipfile.ZIP_DEFLATED)
-
-		#zf.writestr("gpvdm.txt", "")
 		zf.close()
 
+## List the content of an archive 
 def zip_lsdir(file_name,zf=None,sub_dir=None):
 	"""Input: path to a .gpvdm file"""
 	my_list=[]
@@ -101,6 +102,7 @@ def zip_lsdir(file_name,zf=None,sub_dir=None):
 
 	return False
 
+## Read liens from a file in an archive
 def zip_get_data_file(file_name):
 	found=False
 	lines=[]
@@ -130,21 +132,7 @@ def zip_get_data_file(file_name):
 		
 	return [found,lines]
 
-def check_is_config_file(name):
-	found="none"
-	if os.path.isfile(name)==True:
-		found=True
-		return "file"
-	if os.path.isfile("sim.gpvdm"):
-		zf = zipfile.ZipFile('sim.gpvdm', 'r')
-		items=zf.namelist()
-		if items.count(name)>0:
-			found="archive"
-		zf.close()
-
-	return found
-
-
+## Replace a file in an archive.
 def replace_file_in_zip_archive(zip_file_name,target,lines,mode="l",delete_first=True):
 	if os.path.isfile(zip_file_name)==True:
 		if delete_first==True:
@@ -175,7 +163,7 @@ def zip_search_file(source,target):
 
 
 
-
+## Remove a file from an archive
 def zip_remove_file(zip_file_name,target):
 	file_path=os.path.join(os.path.dirname(zip_file_name),target)
 	#if has_handle(zip_file_name)==True:
@@ -223,6 +211,7 @@ def zip_remove_file(zip_file_name,target):
 			shutil.move(abs_path, zip_file_name)
 			return
 
+## Write lines to an archive file.
 def write_lines_to_archive(archive_path,file_name,lines,mode="l",dest="archive"):
 
 	file_path=os.path.join(os.path.dirname(archive_path),file_name)
@@ -246,6 +235,7 @@ def write_lines_to_archive(archive_path,file_name,lines,mode="l",dest="archive")
 	else:
 		return replace_file_in_zip_archive(archive_path,file_name,lines,mode=mode)
 
+## Move all .inp files into an archive, and remove them from the simulation directory.
 def archive_compress(archive_path):
 	if os.path.isfile(archive_path)==False:
 		archive_make_empty(archive_path)
@@ -260,14 +250,15 @@ def archive_compress(archive_path):
 				os.remove(full_name)
 				replace_file_in_zip_archive(archive_path,file_name,lines,delete_first=False)
 
-
+## Move a file to an archive.
 def archiv_move_file_to_archive(archive_path,file_name,base_dir,dont_delete=False):
 	archive_add_file(archive_path,file_name,base_dir,dont_delete)
 	os.remove(file_name)
 
+## Add a file to an archive.
 def archive_add_file(archive_path,file_name,base_dir,dont_delete=False):
 		lines=[]
-		name_of_file_in_archive=subtract_paths(base_dir,file_name)#file_name[len(base_dir):]
+		name_of_file_in_archive=subtract_paths(base_dir,file_name)
 
 		if dont_delete==False:
 			zip_remove_file(archive_path,name_of_file_in_archive)
@@ -285,6 +276,7 @@ def archive_add_file(archive_path,file_name,base_dir,dont_delete=False):
 		zf.close()
 		return True
 
+## Add a directory to an archive.
 def archive_add_dir(archive_path,dir_name,base_dir, remove_src_dir=False,zf=None):
 
 	close_file=False
@@ -315,7 +307,7 @@ def archive_add_dir(archive_path,dir_name,base_dir, remove_src_dir=False,zf=None
 
 		shutil.rmtree(dir_name)
 
-
+## Read liens from an archive.
 def read_lines_from_archive(zip_file_path,file_name,mode="l"):
 	file_path=os.path.join(os.path.dirname(zip_file_path),file_name)
 
@@ -401,6 +393,7 @@ def archive_decompress(zip_file_path):
 
 	return
 
+## This will extract a file from an archive and write it to disk.
 def extract_file_from_archive(dest,zip_file_path,file_name):
 
 	file_path=os.path.join(os.path.dirname(zip_file_path),file_name)
@@ -443,7 +436,7 @@ def extract_file_from_archive(dest,zip_file_path,file_name):
 
 	return True
 
-
+## Extract a directory from an archive.
 def extract_dir_from_archive(dest,zip_file_path,dir_name,zf=None):
 	items=zf.namelist()
 	for i in range(0,len(items)):
@@ -461,6 +454,7 @@ def extract_dir_from_archive(dest,zip_file_path,dir_name,zf=None):
 				lines = f.write(read_lines)
 				f.close()
 
+## Does the file exist in an archive.
 def archive_isfile(zip_file_name,file_name):
 	ret=False
 
@@ -479,6 +473,7 @@ def archive_isfile(zip_file_name,file_name):
 
 	return ret
 
+## Merge a file into an archive.
 def archive_merge_file(dest_archive,src_archive,file_name):
 	if dest_archive==src_archive:
 		print("I can't opperate on the same .gpvdm file")
@@ -507,4 +502,33 @@ def archive_merge_file(dest_archive,src_archive,file_name):
 
 	return True
 
+## Zip up an entire directory.
+def archive_zip_dir(path,extentions=[]):
+	print("zipping: ",path)
+	all_files=[]
+	for root, dirs, files in os.walk(path):
+		for name in files:
+			file_name=os.path.join(root, name)
+			if len(extentions)==0:
+				all_files.append(file_name)
+			else:
+				ext=os.path.splitext(file_name)
+				if len(ext)>1:
+					if ext[1] in extentions:
+						all_files.append(file_name)
 
+	archive_path=path+".zip"
+	if os.path.isfile(archive_path)==True:
+		os.remove(archive_path)
+
+	zf = zipfile.ZipFile(archive_path, 'a',zipfile.ZIP_DEFLATED)
+	for file_name in all_files:
+		f=open(file_name, mode='rb')
+		lines = f.read()
+		f.close()
+
+		name_of_file_in_archive=subtract_paths(path,file_name)
+
+		zf.writestr(name_of_file_in_archive, lines)
+
+	zf.close()

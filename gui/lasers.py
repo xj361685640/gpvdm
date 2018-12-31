@@ -93,7 +93,7 @@ class lasers(QWidgetSavePos):
 		self.add_page(new_filename)
 
 	def add_page(self,filename):
-		name=inp_get_token_value(filename, "#tab_name")
+		name=inp_get_token_value(filename, "#laser_name")
 		tab=tab_class()
 		tab.init(filename,name)
 		self.notebook.addTab(tab,name)
@@ -130,6 +130,7 @@ class lasers(QWidgetSavePos):
 		self.order_widget.clone_dlg_text=_("Clone the current laser to a new laser called:")
 		self.order_widget.rename_dlg_text=_("Rename the laser to be called:")
 		self.order_widget.delete_dlg_text=_("Should I remove the laser file ")
+		self.order_widget.name_token="#laser_name"
 		self.order_widget.init()
 		toolbar.addWidget(self.order_widget)
 

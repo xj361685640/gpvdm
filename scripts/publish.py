@@ -23,6 +23,9 @@ from build_io import copy_lib
 from build_io import copy_plugin
 
 from build_log import log
+sys.path.append('./gui/')
+from util_zip import archive_zip_dir
+
 def publish_src(d,distro=None,publication_mode="gpl_distro"):
 
 	data_out=""
@@ -142,4 +145,18 @@ def publish_src(d,distro=None,publication_mode="gpl_distro"):
 
 	os.chdir(my_dir)
 
+def publish_materials_to_web(d):
+	web_path="/home/rod/webpage/gpvdm.com/public_html/materials"
+	materials_dir="./materials/"
+	if os.path.isdir(web_path)==False:
+		os.mkdir(web_path)
+
+	for f in ["refractiveindex.info","pvlighthouse.com.au"]:
+		dest=os.path.join(web_path,f+".zip")
+		src=os.path.join(materials_dir,f+".zip")
+		print(dest,src)
+		archive_zip_dir(os.path.join(materials_dir,f),extentions=[".omat",".ref",".inp"])
+		if os.path.isfile(dest)==True:
+			os.remove(dest)
+		os.rename(src,dest)
 

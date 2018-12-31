@@ -8,11 +8,14 @@ except:
 from to_web import to_github
 from to_web import src_to_web
 from publish import publish_src
+from publish import publish_materials_to_web
+
 def publish_menu(d):
 	code, tag = d.menu("publish for:",
 		               choices=[("(windows)", "Publish for windows"),
 		                        ("(linux)", "Publish for linux"),
 								("(github)", "Publish to github"),
+								("(materials)", "Publish to the materials"),
 								])
 	if code == d.OK:
 		if tag=="(windows)":
@@ -32,5 +35,7 @@ def publish_menu(d):
 			ret=d.tailbox("out.dat", height=None, width=100)
 			to_github(d)
 			src_to_web(d)
+		if tag=="(materials)":
+			publish_materials_to_web(d)
 
 		print(tag)

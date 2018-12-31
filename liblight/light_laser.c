@@ -49,7 +49,7 @@ int light_load_laser(struct simulation *sim, struct light *in,char *name)
 		ewe(sim,"IO error\n");
 	}
 
-	ret=search_for_token(sim,file_name,pwd,"#tab_name",name);
+	ret=search_for_token(sim,file_name,pwd,"#laser_name",name);
 
 	if (ret==0)
 	{

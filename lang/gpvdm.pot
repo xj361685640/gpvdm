@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 5.0\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2018-12-30 14:50+0000\n"
+"POT-Creation-Date: 2018-12-31 15:51+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -945,7 +945,7 @@ msgstr ""
 
 #: ../gui/experiment_tab.py:78 ../gui/experiment_tab.py:79
 #: ../gui/ribbon_configure.py:61 ../gui/ribbon_configure.py:101
-#: ../gui/gpvdm_viewer.py:333 ../gui/config_window.py:74 ../gui/ribbon.py:141
+#: ../gui/gpvdm_viewer.py:334 ../gui/config_window.py:74 ../gui/ribbon.py:141
 #: ../gui/fit_window.py:177 ../gui/jvexperiment_tab.py:70
 #: ../gui/jvexperiment_tab.py:71 ../gui/fxexperiment_tab.py:82
 #: ../gui/fxexperiment_tab.py:83 ../gui/cluster_config_window.py:95
@@ -1045,11 +1045,11 @@ msgid ""
 "from refractiveindex.info"
 msgstr ""
 
-#: ../gui/ribbon_database.py:97 ../gui/gpvdm_viewer.py:234
+#: ../gui/ribbon_database.py:97 ../gui/gpvdm_viewer.py:235
 msgid "New material name:"
 msgstr ""
 
-#: ../gui/ribbon_database.py:97 ../gui/gpvdm_viewer.py:234
+#: ../gui/ribbon_database.py:97 ../gui/gpvdm_viewer.py:235
 msgid "New material name"
 msgstr ""
 
@@ -1113,7 +1113,7 @@ msgstr ""
 #: ../gui/cost.py:92 ../gui/fxexperiment.py:209 ../gui/fit_window.py:204
 #: ../gui/ribbon_cluster.py:106 ../gui/cluster_config_ribbon.py:83
 #: ../gui/dim_editor.py:128 ../gui/ref.py:94 ../gui/ref.py:95
-#: ../gui/lasers.py:143 ../gui/scan_ribbon.py:75 ../gui/parasitic.py:68
+#: ../gui/lasers.py:144 ../gui/scan_ribbon.py:75 ../gui/parasitic.py:68
 #: ../gui/spectra_main.py:82 ../gui/sunsvoc.py:77 ../gui/jvexperiment.py:136
 #: ../gui/doping.py:192
 msgid "Help"
@@ -1122,7 +1122,7 @@ msgstr ""
 #: ../gui/fit_configure_window.py:77 ../gui/ideal_diode_editor.py:68
 #: ../gui/contacts.py:195 ../gui/mesh_configure.py:69 ../gui/emesh.py:172
 #: ../gui/fdtd.py:68 ../gui/info.py:68 ../gui/fxexperiment.py:210
-#: ../gui/ref.py:114 ../gui/lasers.py:144 ../gui/about.py:155
+#: ../gui/ref.py:114 ../gui/lasers.py:145 ../gui/about.py:155
 #: ../gui/help.py:137 ../gui/parasitic.py:69 ../gui/sunsvoc.py:78
 #: ../gui/jvexperiment.py:137
 msgid "Close"
@@ -1273,130 +1273,130 @@ msgstr ""
 msgid "Excel file"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:207 ../gui/gpvdm_viewer.py:227
+#: ../gui/gpvdm_viewer.py:208 ../gui/gpvdm_viewer.py:228
 msgid "New directory"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:209
+#: ../gui/gpvdm_viewer.py:210
 msgid "New material"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:212
+#: ../gui/gpvdm_viewer.py:213
 msgid "New spectra"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:214
+#: ../gui/gpvdm_viewer.py:215
 msgid "Delete file"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:215
+#: ../gui/gpvdm_viewer.py:216
 msgid "Rename"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:227
+#: ../gui/gpvdm_viewer.py:228
 msgid "New directory name:"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:240
+#: ../gui/gpvdm_viewer.py:241
 msgid "New spectra name:"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:240
+#: ../gui/gpvdm_viewer.py:241
 msgid "New spectra name"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:249
+#: ../gui/gpvdm_viewer.py:250
 msgid "Are you sure you want to delete the files ?"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:256
+#: ../gui/gpvdm_viewer.py:257
 msgid "Rename:"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:307 ../gui/timedomain_ribbon.py:137
+#: ../gui/gpvdm_viewer.py:308 ../gui/timedomain_ribbon.py:137
 msgid "Simulation"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:313 ../gui/gpvdm.py:304 ../gui/ribbon.py:135
+#: ../gui/gpvdm_viewer.py:314 ../gui/gpvdm.py:304 ../gui/ribbon.py:135
 #: ../gui/gpvdm_open.py:92
 msgid "Home"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:320
+#: ../gui/gpvdm_viewer.py:321
 msgid "Desktop"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:327
+#: ../gui/gpvdm_viewer.py:328
 msgid "Downloads"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:349 ../gui/ribbon.py:151
+#: ../gui/gpvdm_viewer.py:353 ../gui/ribbon.py:151
 #: ../gui/cluster_config_ribbon.py:100 ../gui/tab_terminal.py:161
 msgid "Cluster"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:355 ../gui/gpvdm_viewer.py:605
+#: ../gui/gpvdm_viewer.py:359 ../gui/gpvdm_viewer.py:613
 msgid "Language"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:361
+#: ../gui/gpvdm_viewer.py:365
 msgid "Solver"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:367 ../gui/gpvdm_viewer.py:620
+#: ../gui/gpvdm_viewer.py:371 ../gui/gpvdm_viewer.py:628
 msgid "LED"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:373 ../gui/gpvdm_viewer.py:627
+#: ../gui/gpvdm_viewer.py:377 ../gui/gpvdm_viewer.py:635
 #: ../gui/dump_select.py:346
 msgid "Output files"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:379 ../gui/gpvdm_viewer.py:634
+#: ../gui/gpvdm_viewer.py:383 ../gui/gpvdm_viewer.py:642
 msgid "GUI configuration"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:385 ../gui/gpvdm_viewer.py:641
+#: ../gui/gpvdm_viewer.py:389 ../gui/gpvdm_viewer.py:649
 msgid "Thermal"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:391
+#: ../gui/gpvdm_viewer.py:395
 msgid "Server"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:399
+#: ../gui/gpvdm_viewer.py:403
 msgid "The directory is gone, so I can't open it.  Did you delete it?"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:612
+#: ../gui/gpvdm_viewer.py:620
 msgid "Solver configuration"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:648
+#: ../gui/gpvdm_viewer.py:656
 msgid "Server configuration"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:719
+#: ../gui/gpvdm_viewer.py:727
 msgid "title"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:719
+#: ../gui/gpvdm_viewer.py:727
 msgid "x axis"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:719
+#: ../gui/gpvdm_viewer.py:727
 msgid "y axis"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:719
+#: ../gui/gpvdm_viewer.py:727
 msgid "Double click to open"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:725
+#: ../gui/gpvdm_viewer.py:733
 msgid "equilibrium"
 msgstr ""
 
-#: ../gui/gpvdm_viewer.py:725
+#: ../gui/gpvdm_viewer.py:733
 msgid "This contains the simulation output at 0V in the dark."
 msgstr ""
 

@@ -65,13 +65,13 @@ void solve_E(struct simulation *sim,struct fdtd_data *data)
 
 	for (z=0;z<data->zlen;z++)
 	{
-		for (x=1;x<data->xlen-1;x++)
+		for (x=1;x<data->xlen;x++)
 		{
-			for (y=1;y<(data->ylen-1);y++)
+			for (y=0;y<data->ylen;y++)
 			{
 				C=data->dt2/(epsilon0f*data->epsilon_r[z][x][y]);
 				sigma=data->sigma[z][x][y];
-				float damp=1e4;
+			/*	float damp=1e4;
 				if (x<5)
 				{
 					sigma=damp;
@@ -90,16 +90,31 @@ void solve_E(struct simulation *sim,struct fdtd_data *data)
 				if (y>data->ylen-5)
 				{
 					sigma=damp;
+				}*/
+
+				if (y!=0)
+				{
+					dHzdy=(data->Hz[z][x][y]-data->Hz[z][x][y-1])/data->dy;
+					dHxdy=(data->Hx[z][x][y]-data->Hx[z][x][y-1])/data->dy;
+				}else
+				{
+					dHzdy=(data->Hz[z][x][y+1]-data->Hz[z][x][y])/data->dy;
+					dHxdy=(data->Hx[z][x][y+1]-data->Hx[z][x][y])/data->dy;
 				}
 
-				dHzdy=(data->Hz[z][x][y]-data->Hz[z][x][y-1])/data->dy;
+				if (x!=0)
+				{
+					dHzdx=(data->Hz[z][x][y]-data->Hz[z][x-1][y])/data->dx;
+					dHydx=(data->Hy[z][x][y]-data->Hy[z][x-1][y])/data->dx;
+				}else
+				{
+					dHzdx=(data->Hz[z][x+1][y]-data->Hz[z][x][y])/data->dx;
+					dHydx=(data->Hy[z][x+1][y]-data->Hy[z][x][y])/data->dx;
+				}
 				dHydz=0.0;
 
 				dHxdz=0.0;
-				dHzdx=(data->Hz[z][x][y]-data->Hz[z][x-1][y])/data->dx;
 
-				dHydx=(data->Hy[z][x][y]-data->Hy[z][x-1][y])/data->dx;
-				dHxdy=(data->Hx[z][x][y]-data->Hx[z][x][y-1])/data->dy;
 
 				Ez_last=data->Ez_last[z][x][y];
 				Ex_last=data->Ex_last[z][x][y];
@@ -196,21 +211,36 @@ float Hy_last=0.0;
 
 for (z=0;z<data->zlen;z++)
 {
-	for (x=0;x<(data->xlen-1);x++)
+	for (x=0;x<data->xlen;x++)
 	{
-		for (y=0;y<(data->ylen-1);y++)
+		for (y=0;y<data->ylen-1;y++)
 		{
 
 			C=data->dt2/mu0f;
 
 			dEydz=0.0;
-			dEzdy=(data->Ez[z][x][y+1]-data->Ez[z][x][y])/data->dy;
+			if (y!=data->ylen-1)
+			{
+				dEzdy=(data->Ez[z][x][y+1]-data->Ez[z][x][y])/data->dy;
+				dExdy=(data->Ex[z][x][y+1]-data->Ex[z][x][y])/data->dy;
 
-			dEzdx=(data->Ez[z][x+1][y]-data->Ez[z][x][y])/data->dx;
+			}else
+			{
+				dEzdy=(data->Ez[z][x][y]-data->Ez[z][x][y-1])/data->dy;
+				dExdy=(data->Ex[z][x][y]-data->Ex[z][x][y-1])/data->dy;
+			}
+
+			if (x!=data->xlen-1)
+			{
+				dEzdx=(data->Ez[z][x+1][y]-data->Ez[z][x][y])/data->dx;
+				dEydx=(data->Ey[z][x+1][y]-data->Ey[z][x][y])/data->dx;
+			}else
+			{
+				dEzdx=(data->Ez[z][x][y]-data->Ez[z][x-1][y])/data->dx;
+				dEydx=(data->Ey[z][x][y]-data->Ey[z][x-1][y])/data->dx;
+
+			}
 			dExdz=0.0;
-
-			dExdy=(data->Ex[z][x][y+1]-data->Ex[z][x][y])/data->dy;
-			dEydx=(data->Ey[z][x+1][y]-data->Ey[z][x][y])/data->dx;
 
 			Hz_last=data->Hz_last[z][x][y];
 			Hx_last=data->Hx_last[z][x][y];

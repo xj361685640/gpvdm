@@ -225,7 +225,6 @@ def calculate_paths():
 	materials_path=os.path.join(get_sim_path(),"materials")
 	if os.path.isdir(materials_path)==False:
 		materials_path=search_known_paths("materials",[""],None)
-
 	materials_base_path=search_known_paths("materials",[""],None)
 	device_lib_path=search_known_paths("device_lib",[""],None)
 	plugins_path=search_known_paths("plugins",[""],None)
@@ -262,6 +261,15 @@ def get_src_path():
 def get_spectra_path():
 	global spectra_path
 	return spectra_path
+
+def get_web_cache_path(sub_dir):
+	if running_on_linux()==False:
+		ret=os.path.join(os.dirname(materials_base_path),"web_cache",sub_dir)
+	else:
+		ret=os.path.join(get_home_path(),"web_cache",sub_dir)
+	if os.path.isdir(ret)==False:
+		os.makedirs(ret)
+	return ret
 
 def get_html_path():
 	global html_path
