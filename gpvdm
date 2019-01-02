@@ -431,6 +431,7 @@ class gpvdm_main_window(QMainWindow):
 
 	def __init__(self):
 		super(gpvdm_main_window,self).__init__()
+
 		self.splash=splash_window()
 		self.splash.inc_value()
 		process_events()
@@ -564,6 +565,10 @@ class gpvdm_main_window(QMainWindow):
 		self.splash.inc_value()
 		self.show()
 		help_window().show()
+
+		from update import update_window
+		self.a=update_window()
+		self.a.show()
 
 	def dragEnterEvent(self, event):
 		if event.mimeData().hasUrls:

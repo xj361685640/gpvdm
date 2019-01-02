@@ -31,6 +31,7 @@ from inp_util import inp_merge
 from cal_path import subtract_paths
 import time
 import glob
+import hashlib
 
 ## Copy a file from one archive to another.
 def archive_copy_file(dest_archive,dest_file_name,src_archive,file_name,dest="archive"):
@@ -530,5 +531,48 @@ def archive_zip_dir(path,extentions=[]):
 		name_of_file_in_archive=subtract_paths(path,file_name)
 
 		zf.writestr(name_of_file_in_archive, lines)
+
+	zf.close()
+
+def archive_build_index_file(path):
+	data=[]
+	for f in os.listdir(path):
+		file_name=os.path.join(path,f)
+		if os.path.isfile(file_name) and f!="info.dat":
+			hash_md5 = hashlib.md5()
+			file_han=open(file_name, "rb")
+			for chunk in iter(lambda: file_han.read(4096), b""):
+				hash_md5.update(chunk)
+			file_han.close()
+			
+			data.append("#"+f)
+			data.append("Materials database update")
+			data.append(str(os.path.getsize(file_name)))
+			data.append(hash_md5.hexdigest())
+
+	f=open(os.path.join(path,"info.dat"), mode='w')
+	for item in data:
+		f.write(item+"\n")
+
+	f.write("#ver\n")
+	f.write("1.0\n")
+	f.write("#end\n")
+
+	f.close()
+
+def archive_extract(dest_path,archive_path):
+	zf = zipfile.ZipFile(archive_path, 'r')
+	items=zf.namelist()
+	for f in items:
+		out_path=os.path.join(dest_path,f)
+		dir_name=os.path.dirname(out_path)
+		if os.path.isdir(dir_name)==False:
+			os.makedirs(dir_name)
+
+		data = zf.read(f)
+
+		f=open(out_path, mode='wb')
+		lines = f.write(data)
+		f.close()
 
 	zf.close()

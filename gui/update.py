@@ -42,7 +42,7 @@ from ver import ver
 #qt
 from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QWidget
+from PyQt5.QtWidgets import QWidget,QVBoxLayout,QToolBar,QAction,QTableWidget,QAbstractItemView,QTableWidgetItem,QStatusBar
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import pyqtSignal
 from PyQt5.QtWidgets import QWidget
@@ -57,11 +57,122 @@ from uid_gen import uid_get
 from bugs import bugs_to_url
 
 from disk_speed import get_disk_speed
+from icon_lib import icon_get
+
+from update_io import update_cache
+
+from cal_path import get_materials_path
 
 #Under windows, this class will connect to gpvdm.com and look for updates, a user prompt will be displayed if any are found.  It can also download updates if the user asks it to.  It's not called under linux because linux has it's own package management system.
 
 checked_web=False
 
+class update_window(QWidget):
+	got_updates = pyqtSignal()
+
+	def __init__(self):
+		QWidget.__init__(self)
+		self.setMinimumWidth(1000)
+		self.vbox=QVBoxLayout()
+
+		self.setWindowTitle("Download updates (https://www.gpvdm.com)")
+
+		toolbar=QToolBar()
+
+		toolbar.setToolButtonStyle( Qt.ToolButtonTextUnderIcon)
+		toolbar.setIconSize(QSize(42, 42))
+
+		self.tb_update = QAction(icon_get("update"), _("Download updates"), self)
+		self.tb_update.triggered.connect(self.download_updates)
+		toolbar.addAction(self.tb_update)
+	
+		self.vbox.addWidget(toolbar)
+
+		self.tab = QTableWidget()
+		self.tab.resizeColumnsToContents()
+
+		self.tab.verticalHeader().setVisible(False)
+
+
+		
+		self.tab.setColumnCount(5)
+		self.tab.setSelectionBehavior(QAbstractItemView.SelectRows)
+		#self.tab.setColumnWidth(3, 200)
+
+		self.tab.verticalHeader().setVisible(False)
+		
+		#self.select_param_window=select_param(self.tab)
+		#self.select_param_window.set_save_function(self.save_combo)
+
+		#self.create_model()
+
+		#self.tab.cellChanged.connect(self.tab_changed)
+
+		self.vbox.addWidget(self.tab)
+
+		self.status_bar=QStatusBar()
+		self.vbox.addWidget(self.status_bar)		
+
+		self.setLayout(self.vbox)
+		self.update=update_cache("materials")
+		self.show_updates()
+
+		self.got_updates.connect(self.show_updates)
+		self.update_check()
+
+	def show_updates(self):
+		self.tab.blockSignals(True)
+		self.tab.clear()
+		self.tab.setRowCount(0)
+		self.tab.setColumnWidth(0, 300)
+		self.tab.setColumnWidth(1, 300)
+		self.tab.setHorizontalHeaderLabels([_("File"),_("Description"), _("Size"), _("md5"), _("status")])
+
+		for i in range(0,len(self.update.file_list)):
+			pos = self.tab.rowCount()
+			self.tab.insertRow(pos)
+			self.tab.setItem(pos,0,QTableWidgetItem(self.update.file_list[i].file_name))
+			self.tab.setItem(pos,1,QTableWidgetItem(str(self.update.file_list[i].description)))
+			self.tab.setItem(pos,2,QTableWidgetItem(str(self.update.file_list[i].size)))
+			self.tab.setItem(pos,3,QTableWidgetItem(str(self.update.file_list[i].md5)))
+			self.tab.setItem(pos,4,QTableWidgetItem(str(self.update.file_list[i].status)))
+
+
+		self.tab.blockSignals(False)
+
+	def thread_get_updates(self):
+		self.status_bar.showMessage("Checking for updates.....")
+		self.update.updates_get()
+		self.status_bar.showMessage("Done..")
+		self.got_updates.emit()
+
+	def thread_download_updates(self):
+		self.status_bar.showMessage("Downloading updates.....")
+		self.update.updates_get()
+		self.update.updates_download()
+		self.update.updates_install(get_materials_path())
+		self.status_bar.showMessage("Done..")
+		self.got_updates.emit()
+
+
+	def update_check(self):
+		p = Thread(target=self.thread_get_updates)
+		p.daemon = True
+		p.start()
+
+	def download_updates(self):
+		p = Thread(target=self.thread_download_updates)
+		p.daemon = True
+		p.start()
+
+	#def callback_download(self):
+	#	self.update.updates_download()
+		#updates_download(self.update)
+		#updates_install(self.update)
+		#self.show_updates()
+
+
+		#adsad
 def sp(value):
 	return value.split(os.sep)
 

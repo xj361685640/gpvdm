@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gpvdm 5.0\n"
 "Report-Msgid-Bugs-To: roderick.mackenzie@nottingham.ac.uk\n"
-"POT-Creation-Date: 2018-12-31 15:51+0000\n"
+"POT-Creation-Date: 2019-01-02 16:47+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1665,7 +1665,8 @@ msgstr ""
 #: ../gui/ribbon_materials.py:100 ../gui/constraints.py:146
 #: ../gui/constraints.py:185 ../gui/ribbon.py:132 ../gui/measure_tab.py:95
 #: ../gui/measure_tab.py:143 ../gui/snapshot_slider.py:172
-#: ../gui/fit_vars.py:98 ../gui/fit_vars.py:157 ../gui/fit_patch.py:122
+#: ../gui/fit_vars.py:98 ../gui/fit_vars.py:157 ../gui/update.py:129
+#: ../gui/fit_patch.py:122
 msgid "File"
 msgstr ""
 
@@ -2305,7 +2306,7 @@ msgstr ""
 msgid "The simulation directory has been deleted."
 msgstr ""
 
-#: ../gui/gpvdm.py:447
+#: ../gui/gpvdm.py:448
 msgid "I can't run from inside a zip file!"
 msgstr ""
 
@@ -3274,7 +3275,7 @@ msgstr ""
 msgid "Device type"
 msgstr ""
 
-#: ../gui/device_lib.py:55
+#: ../gui/device_lib.py:55 ../gui/update.py:129
 msgid "Description"
 msgstr ""
 
@@ -4874,7 +4875,7 @@ msgstr ""
 msgid "CPUs"
 msgstr ""
 
-#: ../gui/jobs.py:75
+#: ../gui/jobs.py:75 ../gui/update.py:129
 msgid "status"
 msgstr ""
 
@@ -4940,7 +4941,19 @@ msgstr ""
 msgid "Quit"
 msgstr ""
 
-#: ../gui/update.py:128
+#: ../gui/update.py:85
+msgid "Download updates"
+msgstr ""
+
+#: ../gui/update.py:129
+msgid "Size"
+msgstr ""
+
+#: ../gui/update.py:129
+msgid "md5"
+msgstr ""
+
+#: ../gui/update.py:228
 msgid ""
 "This feature is sill under development.  It searches the gpvdm web page for "
 "updates then uses them to update gpvdm.  Use it at your own risk - I take no "

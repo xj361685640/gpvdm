@@ -25,6 +25,7 @@ from build_io import copy_plugin
 from build_log import log
 sys.path.append('./gui/')
 from util_zip import archive_zip_dir
+from util_zip import archive_build_index_file
 
 def publish_src(d,distro=None,publication_mode="gpl_distro"):
 
@@ -159,4 +160,5 @@ def publish_materials_to_web(d):
 		if os.path.isfile(dest)==True:
 			os.remove(dest)
 		os.rename(src,dest)
+		archive_build_index_file(web_path)
 
